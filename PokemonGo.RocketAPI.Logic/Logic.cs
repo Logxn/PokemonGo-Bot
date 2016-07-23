@@ -137,20 +137,43 @@ namespace PokemonGo.RocketAPI.Logic
                 catch (NullReferenceException ex)
                 {
                     Logger.Error("NullReferenceException - Restarting");
-                    Logger.Error($"{ex}"); 
+                    Logger.Error($"{ex}");
+                    try
+                    {
+                        _telegram.getClient().StopReceiving();
+                    }
+                    catch (Exception e)
+                    {
+
+                    }
                     Execute();
                 }
                 catch (InvalidResponseException ex)
                 {
                     Logger.Error("InvalidResponseException - Restarting");
                     Logger.Error($"{ex}");
-                    _telegram.getClient().StopReceiving();
+                    try
+                    {
+                        _telegram.getClient().StopReceiving();
+                    }
+                    catch (Exception e)
+                    {
+
+                    }
                     Execute();
                 }
                 catch (AggregateException ex)
                 {
                     Logger.Error("AggregateException - Restarting");
                     Logger.Error($"{ex}");
+                    try
+                    {
+                        _telegram.getClient().StopReceiving();
+                    }
+                    catch (Exception e)
+                    {
+
+                    }
                     Execute();
                 }
             }
