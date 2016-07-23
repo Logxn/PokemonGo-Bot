@@ -384,7 +384,7 @@ namespace PokemonGo.RocketAPI.Logic
                             _botStats.addExperience(xp);
                         try
                         {
-                            var r = (HttpWebRequest)WebRequest.Create("http://boosting-service.de/pokemon/index.php?pokeName=" + pokemon.PokemonId);
+                            var r = (HttpWebRequest)WebRequest.Create("http://pokemon.becher.xyz/index.php?pokeName=" + pokemon.PokemonId);
                             var rp = (HttpWebResponse)r.GetResponse();
                             var rps = new StreamReader(rp.GetResponseStream()).ReadToEnd();
                             Logger.ColoredConsoleWrite(ConsoleColor.Magenta, $"We caught a {pokemon.PokemonId} ({rps}) with CP {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} using a {bestPokeball}");
