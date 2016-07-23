@@ -49,7 +49,7 @@ namespace PokemonGo.RocketAPI.Logic
                     else if (_clientSettings.AuthType == AuthType.Google)
                         await _client.DoGoogleLogin();
 
-                    if (_clientSettings.TelegramAPIToken != "YourAccessToken" || _clientSettings.TelegramName != "YourTelegramNickname")
+                    if (_clientSettings.TelegramAPIToken != "YourAccessToken" && _clientSettings.TelegramName != "YourTelegramNickname")
                     {
                         _telegram = new TelegramUtil(_client, new Telegram.Bot.TelegramBotClient(_clientSettings.TelegramAPIToken), _clientSettings);
 
