@@ -68,20 +68,22 @@ namespace PokemonGo.RocketAPI.Logic
                 {
                     Logger.Error($"Access token expired");
                     Logger.Error($"{ex}");
+                    Logger.ColoredConsoleWrite(ConsoleColor.Green, "Trying to Restart.");
                     _telegram.getClient().StopReceiving();
+                    Execute();
                 }
                 catch (TaskCanceledException ex)
                 {
                     Logger.Error("Task Canceled Exception - Restarting");
                     Logger.Error($"{ex}");
                     _telegram.getClient().StopReceiving();
-                    await Execute();
+                    Execute();
                 }
                 catch (UriFormatException ex)
                 {
                     Logger.Error("UriFormatException - Restarting");
                     Logger.Error($"{ex}");
-                    await Execute();
+                    Execute();
                 }
                 catch (ArgumentOutOfRangeException ex)
                 {
@@ -96,7 +98,7 @@ namespace PokemonGo.RocketAPI.Logic
                     Logger.Error("ArgumentNullException - Restarting");
                     Logger.Error($"{ex}");
                     _telegram.getClient().StopReceiving(); 
-                    await Execute();
+                    Execute();
                 }
                 catch (NullReferenceException ex)
                 {
@@ -110,14 +112,14 @@ namespace PokemonGo.RocketAPI.Logic
                     Logger.Error("InvalidResponseException - Restarting");
                     Logger.Error($"{ex}");
                     _telegram.getClient().StopReceiving();
-                    await Execute();
+                    Execute();
                 }
                 catch (AggregateException ex)
                 {
                     Logger.Error("AggregateException - Restarting");
                     Logger.Error($"{ex}");
                     _telegram.getClient().StopReceiving();
-                    await Execute();
+                    Execute();
                 }
             }
         }
