@@ -60,7 +60,16 @@ namespace PokemonGo.RocketAPI.Console
             get
             {
                 List<PokemonId> pokemonsToEvolve = new List<PokemonId>();
-                pokemonsToEvolve.Add(PokemonId.Pidgey); // We want to evolve only Pidgeys
+                pokemonsToEvolve.Add(PokemonId.Pidgey);
+                pokemonsToEvolve.Add(PokemonId.Caterpie);
+                pokemonsToEvolve.Add(PokemonId.Weedle);
+                pokemonsToEvolve.Add(PokemonId.Metapod);
+                pokemonsToEvolve.Add(PokemonId.Kakuna);
+                pokemonsToEvolve.Add(PokemonId.Spearow);
+                pokemonsToEvolve.Add(PokemonId.Pidgeotto);
+                pokemonsToEvolve.Add(PokemonId.Rattata);
+                pokemonsToEvolve.Add(PokemonId.Zubat); 
+                pokemonsToEvolve.Add(PokemonId.Oddish); 
                 return pokemonsToEvolve;
             }
             set
