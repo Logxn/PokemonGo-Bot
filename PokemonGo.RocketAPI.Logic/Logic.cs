@@ -171,7 +171,7 @@ namespace PokemonGo.RocketAPI.Logic
                         _telegram.getClient().StopReceiving();
                     }
                     catch (Exception e)
-                    {
+                    { 
 
                     }
                     await Execute();
