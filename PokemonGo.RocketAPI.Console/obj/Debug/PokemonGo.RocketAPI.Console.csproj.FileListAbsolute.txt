@@ -1,0 +1,21 @@
+C:\Users\Ari\Desktop\Pokemon Go Tut\PokemonGo.RocketAPI.Console\bin\Debug\PokemonGo.RocketAPI.Console.exe.config
+C:\Users\Ari\Desktop\Pokemon Go Tut\PokemonGo.RocketAPI.Console\bin\Debug\PokemonGo.RocketAPI.Console.exe
+C:\Users\Ari\Desktop\Pokemon Go Tut\PokemonGo.RocketAPI.Console\bin\Debug\PokemonGo.RocketAPI.Console.pdb
+C:\Users\Ari\Desktop\Pokemon Go Tut\PokemonGo.RocketAPI.Console\bin\Debug\Google.Protobuf.dll
+C:\Users\Ari\Desktop\Pokemon Go Tut\PokemonGo.RocketAPI.Console\bin\Debug\Pokemon Go Rocket API.dll
+C:\Users\Ari\Desktop\Pokemon Go Tut\PokemonGo.RocketAPI.Console\bin\Debug\PokemonGo.RocketAPI.Logic.dll
+C:\Users\Ari\Desktop\Pokemon Go Tut\PokemonGo.RocketAPI.Console\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Ari\Desktop\Pokemon Go Tut\PokemonGo.RocketAPI.Console\bin\Debug\S2Geometry.dll
+C:\Users\Ari\Desktop\Pokemon Go Tut\PokemonGo.RocketAPI.Console\bin\Debug\System.VarintBitConverter.dll
+C:\Users\Ari\Desktop\Pokemon Go Tut\PokemonGo.RocketAPI.Console\bin\Debug\System.Net.Http.Formatting.dll
+C:\Users\Ari\Desktop\Pokemon Go Tut\PokemonGo.RocketAPI.Console\bin\Debug\C5.dll
+C:\Users\Ari\Desktop\Pokemon Go Tut\PokemonGo.RocketAPI.Console\bin\Debug\PokemonGo.RocketAPI.Logic.pdb
+C:\Users\Ari\Desktop\Pokemon Go Tut\PokemonGo.RocketAPI.Console\bin\Debug\Pokemon Go Rocket API.pdb
+C:\Users\Ari\Desktop\Pokemon Go Tut\PokemonGo.RocketAPI.Console\bin\Debug\Google.Protobuf.xml
+C:\Users\Ari\Desktop\Pokemon Go Tut\PokemonGo.RocketAPI.Console\bin\Debug\Newtonsoft.Json.xml
+C:\Users\Ari\Desktop\Pokemon Go Tut\PokemonGo.RocketAPI.Console\bin\Debug\S2Geometry.xml
+C:\Users\Ari\Desktop\Pokemon Go Tut\PokemonGo.RocketAPI.Console\bin\Debug\System.Net.Http.Formatting.xml
+C:\Users\Ari\Desktop\Pokemon Go Tut\PokemonGo.RocketAPI.Console\bin\Debug\C5.xml
+C:\Users\Ari\Desktop\Pokemon Go Tut\PokemonGo.RocketAPI.Console\obj\Debug\PokemonGo.RocketAPI.Console.csprojResolveAssemblyReference.cache
+C:\Users\Ari\Desktop\Pokemon Go Tut\PokemonGo.RocketAPI.Console\obj\Debug\PokemonGo.RocketAPI.Console.exe
+C:\Users\Ari\Desktop\Pokemon Go Tut\PokemonGo.RocketAPI.Console\obj\Debug\PokemonGo.RocketAPI.Console.pdb
