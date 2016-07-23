@@ -390,7 +390,7 @@ namespace PokemonGo.RocketAPI.Logic
                     if (!_clientSettings.pokemonsToHold.Contains(duplicatePokemon.PokemonId))
                     {
 
-                        if (duplicatePokemon.Cp > 999)
+                        if (duplicatePokemon.Cp > _clientSettings.DontTransferWithCPOver)
                         {
                             continue;
                         }

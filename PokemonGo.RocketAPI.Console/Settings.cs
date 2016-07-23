@@ -15,7 +15,7 @@ namespace PokemonGo.RocketAPI.Console
         {
             get
             {
-                return Enums.AuthType.Google;
+                return Enums.AuthType.Ptc;
             }
         }
 
@@ -28,12 +28,13 @@ namespace PokemonGo.RocketAPI.Console
         public double WalkingSpeedInKilometerPerHour => UserSettings.Default.WalkingSpeedInKilometerPerHour;
 
         public bool TransferDoublePokemons => UserSettings.Default.TransferDoublePokemons;
+        public int DontTransferWithCPOver => UserSettings.Default.DontTransferWithCPOver;
+
         public bool EvolvePokemonsIfEnoughCandy => UserSettings.Default.EvolvePokemonsIfEnoughCandy;
 
         public string TelegramAPIToken => UserSettings.Default.TelegramAPIToken;
         public string TelegramName => UserSettings.Default.TelegramName;
-
-        public double StepDistance => UserSettings.Default.StepDistance;
+        
 
         List<PokemonId> ISettings.pokemonsToHold
         {

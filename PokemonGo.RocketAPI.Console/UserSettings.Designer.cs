@@ -178,5 +178,17 @@ namespace PokemonGo.RocketAPI.Console {
                 this["DefaultAltitude"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("999")]
+        public int DontTransferWithCPOver {
+            get {
+                return ((int)(this["DontTransferWithCPOver"]));
+            }
+            set {
+                this["DontTransferWithCPOver"] = value;
+            }
+        }
     }
 }

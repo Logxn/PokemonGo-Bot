@@ -20,10 +20,10 @@ namespace PokemonGo.RocketAPI
         bool EvolvePokemonsIfEnoughCandy { get; }
         bool TransferDoublePokemons { get; }
 
+        int DontTransferWithCPOver { get; }
+
         string TelegramAPIToken { get; }
         string TelegramName { get; }
-
-        double StepDistance { get; }
 
         ICollection<KeyValuePair<AllEnum.ItemId, int>> itemRecycleFilter { get; set; }
 

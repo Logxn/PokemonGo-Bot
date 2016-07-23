@@ -2,7 +2,7 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="PokemonGo.RocketAPI.Console" GeneratedClassName="UserSettings">
   <Profiles />
   <Settings>
-    <Setting Name="AuthType" Type="System.String" Scope="User">
+ <Setting Name="AuthType" Type="System.String" Scope="User">
       <Value Profile="(Default)">Google</Value>
     </Setting>
     <Setting Name="PtcUsername" Type="System.String" Scope="User">
@@ -19,7 +19,7 @@
     </Setting>
     <Setting Name="DefaultLongitude" Type="System.Double" Scope="User">
       <Value Profile="(Default)">6.629078</Value>
-    </Setting>
+    </Setting> 
     <Setting Name="StepDistance" Type="System.Double" Scope="User">
       <Value Profile="(Default)">9.5E-05</Value>
     </Setting>
@@ -40,6 +40,9 @@
     </Setting>
     <Setting Name="DefaultAltitude" Type="System.Double" Scope="User">
       <Value Profile="(Default)">10</Value>
+    </Setting>
+    <Setting Name="DontTransferWithCPOver" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">999</Value>
     </Setting>
   </Settings>
 </SettingsFile>
