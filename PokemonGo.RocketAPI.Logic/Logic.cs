@@ -68,44 +68,77 @@ namespace PokemonGo.RocketAPI.Logic
                 {
                     Logger.Error($"Access token expired");
                     Logger.Error($"{ex}");
-                    Logger.ColoredConsoleWrite(ConsoleColor.Green, "Trying to Restart.");
-                    _telegram.getClient().StopReceiving();
+                    Logger.ColoredConsoleWrite(ConsoleColor.Green, "Trying to Restart."); 
+                    try
+                    {
+                        _telegram.getClient().StopReceiving();
+                    } catch(Exception e)
+                    {
+
+                    } 
                     Execute();
                 }
                 catch (TaskCanceledException ex)
                 {
                     Logger.Error("Task Canceled Exception - Restarting");
                     Logger.Error($"{ex}");
-                    _telegram.getClient().StopReceiving();
+                    try
+                    {
+                        _telegram.getClient().StopReceiving();
+                    }
+                    catch (Exception e)
+                    {
+
+                    }
                     Execute();
                 }
                 catch (UriFormatException ex)
                 {
                     Logger.Error("UriFormatException - Restarting");
                     Logger.Error($"{ex}");
+                    try
+                    {
+                        _telegram.getClient().StopReceiving();
+                    }
+                    catch (Exception e)
+                    {
+
+                    }
                     Execute();
                 }
                 catch (ArgumentOutOfRangeException ex)
                 {
                     Logger.Error("ArgumentOutOfRangeException - Restarting");
                     Logger.Error($"{ex}");
-                    _telegram.getClient().StopReceiving();
+                    try
+                    {
+                        _telegram.getClient().StopReceiving();
+                    }
+                    catch (Exception e)
+                    {
 
-                    await Execute();
+                    }
+                    Execute();
                 }
                 catch (ArgumentNullException ex)
                 {
                     Logger.Error("ArgumentNullException - Restarting");
                     Logger.Error($"{ex}");
-                    _telegram.getClient().StopReceiving(); 
+                    try
+                    {
+                        _telegram.getClient().StopReceiving();
+                    }
+                    catch (Exception e)
+                    {
+
+                    }
                     Execute();
                 }
                 catch (NullReferenceException ex)
                 {
                     Logger.Error("NullReferenceException - Restarting");
                     Logger.Error($"{ex}"); 
-                    _telegram.getClient().StopReceiving();
-                    await Execute();
+                    Execute();
                 }
                 catch (InvalidResponseException ex)
                 {
@@ -118,7 +151,6 @@ namespace PokemonGo.RocketAPI.Logic
                 {
                     Logger.Error("AggregateException - Restarting");
                     Logger.Error($"{ex}");
-                    _telegram.getClient().StopReceiving();
                     Execute();
                 }
             }
