@@ -319,12 +319,17 @@ namespace PokemonGo.RocketAPI.Logic
                     {
                         foreach (int xp in caughtPokemonResponse.Scores.Xp)
                             _botStats.addExperience(xp);
-
-                        var r = (HttpWebRequest)WebRequest.Create("http://boosting-service.de/pokemon/index.php?pokeName=" + pokemon.PokemonId);
-                        var rp = (HttpWebResponse)r.GetResponse();
-                        var rps = new StreamReader(rp.GetResponseStream()).ReadToEnd();
-
-                        Logger.ColoredConsoleWrite(ConsoleColor.Magenta, $"We caught a {pokemon.PokemonId} ({rps}) with CP {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} using a {bestPokeball}");
+                        try
+                        {
+                            var r = (HttpWebRequest)WebRequest.Create("http://boosting-service.de/pokemon/index.php?pokeName=" + pokemon.PokemonId);
+                            var rp = (HttpWebResponse)r.GetResponse();
+                            var rps = new StreamReader(rp.GetResponseStream()).ReadToEnd();
+                            Logger.ColoredConsoleWrite(ConsoleColor.Magenta, $"We caught a {pokemon.PokemonId} ({rps}) with CP {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} using a {bestPokeball}");
+                        } catch (Exception e)
+                        {
+                            Logger.ColoredConsoleWrite(ConsoleColor.Magenta, $"We caught a {pokemon.PokemonId} (Language Server Offline) with CP {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} using a {bestPokeball}");
+                        }
+                       
                         _botStats.addPokemon(1);
                     }
                     else
