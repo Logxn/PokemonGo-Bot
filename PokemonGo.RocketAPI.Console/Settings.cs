@@ -15,7 +15,7 @@ namespace PokemonGo.RocketAPI.Console
         {
             get
             {
-                return Enums.AuthType.Ptc;
+                return Enums.AuthType.Google;
             }
         }
 
