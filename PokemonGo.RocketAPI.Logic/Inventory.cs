@@ -89,7 +89,7 @@ namespace PokemonGo.RocketAPI.Logic
         {
             var myPokemon = await GetPokemons();
 
-            var pokemonList = myPokemon.Where(p => p.DeployedFortId == 0).ToList(); //Don't evolve pokemon in gyms
+            var pokemonList = myPokemon.Where(p => p.DeployedFortId == 0 && p.Favorite == 0).ToList();
             if (keepPokemonsThatCanEvolve)
             {
                 var results = new List<PokemonData>();
@@ -126,7 +126,7 @@ namespace PokemonGo.RocketAPI.Logic
             return pokemonList
                 .GroupBy(p => p.PokemonId)
                 .Where(x => x.Count() > 1)
-                .SelectMany(p => p.Where(x => x.Favorite == 0 && x.DeployedFortId == 0).OrderByDescending(x => x.Cp).ThenBy(n => n.StaminaMax).Skip(3).ToList());
+                .SelectMany(p => p.Where(x => x.Favorite == 0).OrderByDescending(x => x.Cp).ThenBy(n => n.StaminaMax).Skip(3).ToList());
         }
 
         public async Task<IEnumerable<Item>> GetItems()

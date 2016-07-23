@@ -253,3 +253,5 @@ paket-files/
 # JetBrains Rider
 .idea/
 *.sln.iml
+PokemonGo.RocketAPI.Console/App.config
+PokemonGo.RocketAPI.Console/UserSettings.settings
