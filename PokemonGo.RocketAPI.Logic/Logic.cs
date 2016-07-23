@@ -76,7 +76,6 @@ namespace PokemonGo.RocketAPI.Logic
                     {
 
                     }
-                    await Execute();
                 }
                 catch (TaskCanceledException ex)
                 {
@@ -90,7 +89,6 @@ namespace PokemonGo.RocketAPI.Logic
                     {
 
                     }
-                    await Execute();
                 }
                 catch (UriFormatException ex)
                 {
@@ -102,9 +100,7 @@ namespace PokemonGo.RocketAPI.Logic
                     }
                     catch (Exception e)
                     {
-
                     }
-                    await Execute();
                 }
                 catch (ArgumentOutOfRangeException ex)
                 {
@@ -118,7 +114,6 @@ namespace PokemonGo.RocketAPI.Logic
                     {
 
                     }
-                    await Execute();
                 }
                 catch (ArgumentNullException ex)
                 {
@@ -132,7 +127,6 @@ namespace PokemonGo.RocketAPI.Logic
                     {
 
                     }
-                    await Execute();
                 }
                 catch (NullReferenceException ex)
                 {
@@ -146,7 +140,6 @@ namespace PokemonGo.RocketAPI.Logic
                     {
 
                     }
-                    await Execute();
                 }
                 catch (InvalidResponseException ex)
                 {
@@ -160,7 +153,6 @@ namespace PokemonGo.RocketAPI.Logic
                     {
 
                     }
-                    await Execute();
                 }
                 catch (AggregateException ex)
                 {
@@ -174,8 +166,10 @@ namespace PokemonGo.RocketAPI.Logic
                     { 
 
                     }
-                    await Execute();
                 }
+
+                Logger.ColoredConsoleWrite(ConsoleColor.Red, "Restarting in 10 Seconds.");
+                await Task.Delay(10000);
             }
         }
 
@@ -242,11 +236,7 @@ namespace PokemonGo.RocketAPI.Logic
                     System.Console.Title = profil.Profile.Username + " Level " + c.Level + " - (" + ((c.Experience - c.PrevLevelXp) - StringUtils.getExpDiff(c.Level)) + " / " + ((c.NextLevelXp - c.PrevLevelXp) - StringUtils.getExpDiff(c.Level)) + ") | Stardust: " + profil.Profile.Currency.ToArray()[1].Amount + " | " + _botStats.ToString();
                      
                 }
-            }
-
-           
-
-
+            } 
         }
 
 
