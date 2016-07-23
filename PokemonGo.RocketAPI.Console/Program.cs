@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
 using PokemonGo.RocketAPI.Exceptions;
+using System.Reflection;
+using System.Net;
+using System.Text.RegularExpressions;
 
 namespace PokemonGo.RocketAPI.Console
 {
@@ -9,6 +12,8 @@ namespace PokemonGo.RocketAPI.Console
         static void Main(string[] args)
         {
             Logger.SetLogger(new Logging.ConsoleLogger(LogLevel.Info));
+
+            CheckVersion();
 
             Task.Run(() =>
             {
@@ -26,6 +31,49 @@ namespace PokemonGo.RocketAPI.Console
                 }
             });
              System.Console.ReadLine();
+        }
+
+        public static void CheckVersion()
+        {
+            try
+            {
+                var match =
+                    new Regex(
+                        @"\[assembly\: AssemblyVersion\(""(\d{1,})\.(\d{1,})\.(\d{1,})\.(\d{1,})""\)\]")
+                        .Match(DownloadServerVersion());
+
+                if (!match.Success) return;
+                var gitVersion =
+                    new Version(
+                        string.Format(
+                            "{0}.{1}.{2}.{3}",
+                            match.Groups[1],
+                            match.Groups[2],
+                            match.Groups[3],
+                            match.Groups[4]));
+                if (gitVersion <= Assembly.GetExecutingAssembly().GetName().Version)
+                {
+                    //ColoredConsoleWrite(ConsoleColor.Yellow, "Awesome! You have already got the newest version! " + Assembly.GetExecutingAssembly().GetName().Version);
+                    return;
+                }
+
+                Logger.ColoredConsoleWrite(ConsoleColor.Red, "There is a new Version available: " + gitVersion);
+                Logger.ColoredConsoleWrite(ConsoleColor.Red, "Its recommended to use the newest Version.");
+                Logger.ColoredConsoleWrite(ConsoleColor.Red, "Starting in 10 Seconds.");
+                Task.Delay(10000);
+            }
+            catch (Exception)
+            {
+                Logger.ColoredConsoleWrite(ConsoleColor.White, "Unable to check for updates now...");
+            }
+        }
+
+        private static string DownloadServerVersion()
+        {
+            using (var wC = new WebClient())
+                return
+                    wC.DownloadString(
+                        "https://raw.githubusercontent.com/Ar1i/PokemonGo-Bot/master/PokemonGo.RocketAPI/Properties/AssemblyInfo.cs");
         }
     }
 }
