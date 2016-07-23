@@ -51,16 +51,22 @@ namespace PokemonGo.RocketAPI.Logic
 
                     if (_clientSettings.TelegramAPIToken != "YourAccessToken" && _clientSettings.TelegramName != "YourTelegramNickname")
                     {
-                        _telegram = new TelegramUtil(_client, new Telegram.Bot.TelegramBotClient(_clientSettings.TelegramAPIToken), _clientSettings);
+                        try
+                        {
+                            _telegram = new TelegramUtil(_client, new Telegram.Bot.TelegramBotClient(_clientSettings.TelegramAPIToken), _clientSettings);
 
-                        Logger.ColoredConsoleWrite(ConsoleColor.Green, "To Activate Informations with Telegram, write the Bot a message for more Informations");
-                        var me = await _telegram.getClient().GetMeAsync();
-                        _telegram.getClient().OnCallbackQuery += _telegram.BotOnCallbackQueryReceived;
-                        _telegram.getClient().OnMessage += _telegram.BotOnMessageReceived;
-                        _telegram.getClient().OnMessageEdited += _telegram.BotOnMessageReceived;
-                        Logger.ColoredConsoleWrite(ConsoleColor.Green, "Telegram Name: " + me.Username);
-                        _telegram.getClient().StartReceiving();
-                    }
+                            Logger.ColoredConsoleWrite(ConsoleColor.Green, "To Activate Informations with Telegram, write the Bot a message for more Informations");
+                            var me = await _telegram.getClient().GetMeAsync();
+                            _telegram.getClient().OnCallbackQuery += _telegram.BotOnCallbackQueryReceived;
+                            _telegram.getClient().OnMessage += _telegram.BotOnMessageReceived;
+                            _telegram.getClient().OnMessageEdited += _telegram.BotOnMessageReceived;
+                            Logger.ColoredConsoleWrite(ConsoleColor.Green, "Telegram Name: " + me.Username);
+                            _telegram.getClient().StartReceiving();
+                        } catch (Exception)
+                        {
+
+                        }
+                     }
 
                     await PostLoginExecute();
                 }
@@ -72,7 +78,7 @@ namespace PokemonGo.RocketAPI.Logic
                     try
                     {
                         _telegram.getClient().StopReceiving();
-                    } catch(Exception e)
+                    } catch(Exception)
                     {
 
                     }
@@ -85,7 +91,7 @@ namespace PokemonGo.RocketAPI.Logic
                     {
                         _telegram.getClient().StopReceiving();
                     }
-                    catch (Exception e)
+                    catch (Exception)
                     {
 
                     }
@@ -98,7 +104,7 @@ namespace PokemonGo.RocketAPI.Logic
                     {
                         _telegram.getClient().StopReceiving();
                     }
-                    catch (Exception e)
+                    catch (Exception)
                     {
                     }
                 }
@@ -110,7 +116,7 @@ namespace PokemonGo.RocketAPI.Logic
                     {
                         _telegram.getClient().StopReceiving();
                     }
-                    catch (Exception e)
+                    catch (Exception)
                     {
 
                     }
@@ -123,7 +129,7 @@ namespace PokemonGo.RocketAPI.Logic
                     {
                         _telegram.getClient().StopReceiving();
                     }
-                    catch (Exception e)
+                    catch (Exception)
                     {
 
                     }
@@ -136,7 +142,7 @@ namespace PokemonGo.RocketAPI.Logic
                     {
                         _telegram.getClient().StopReceiving();
                     }
-                    catch (Exception e)
+                    catch (Exception)
                     {
 
                     }
@@ -149,7 +155,7 @@ namespace PokemonGo.RocketAPI.Logic
                     {
                         _telegram.getClient().StopReceiving();
                     }
-                    catch (Exception e)
+                    catch (Exception)
                     {
 
                     }
@@ -162,7 +168,7 @@ namespace PokemonGo.RocketAPI.Logic
                     {
                         _telegram.getClient().StopReceiving();
                     }
-                    catch (Exception e)
+                    catch (Exception)
                     { 
 
                     }
@@ -378,7 +384,7 @@ namespace PokemonGo.RocketAPI.Logic
                             var rp = (HttpWebResponse)r.GetResponse();
                             var rps = new StreamReader(rp.GetResponseStream()).ReadToEnd();
                             Logger.ColoredConsoleWrite(ConsoleColor.Magenta, $"We caught a {pokemon.PokemonId} ({rps}) with CP {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} using a {bestPokeball}");
-                        } catch (Exception e)
+                        } catch (Exception)
                         {
                             Logger.ColoredConsoleWrite(ConsoleColor.Magenta, $"We caught a {pokemon.PokemonId} (Language Server Offline) with CP {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} using a {bestPokeball}");
                         }
