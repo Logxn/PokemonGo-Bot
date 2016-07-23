@@ -18,6 +18,14 @@ namespace PokemonGo.RocketAPI.Console
                 return Enums.AuthType.Google;
             }
         }
+         
+        public bool UseLastCords
+        {
+            get
+            {
+                return true; // Only disable this if your sure what your doing!
+            }
+        }
 
         public string PtcUsername => UserSettings.Default.PtcUsername;
         public string PtcPassword => UserSettings.Default.PtcPassword;

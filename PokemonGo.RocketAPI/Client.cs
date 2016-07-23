@@ -31,26 +31,32 @@ namespace PokemonGo.RocketAPI
         public Client(ISettings settings)
         {
             _settings = settings;
-
-            string path = Directory.GetCurrentDirectory() + "\\Configs\\";
-            if (!Directory.Exists(path))
+            if (_settings.UseLastCords)
             {
-                DirectoryInfo di = Directory.CreateDirectory(path);
-            }
-            string filename = "LastCoords.txt";
-            if (File.Exists(path + filename) && File.ReadAllText(path + filename).Contains(":"))
-            {
-                var latlngFromFile = File.ReadAllText(path + filename);
-                var latlng = latlngFromFile.Split(':');
-                double latitude, longitude;
-                if ((latlng[0].Length > 0 && double.TryParse(latlng[0], out latitude) && latitude >= -90.0 && latitude <= 90.0) && (latlng[1].Length > 0 && double.TryParse(latlng[1], out longitude) && longitude >= -180.0 && longitude <= 180.0))
+                string path = Directory.GetCurrentDirectory() + "\\Configs\\";
+                if (!Directory.Exists(path))
                 {
-                    try
+                    DirectoryInfo di = Directory.CreateDirectory(path);
+                }
+                string filename = "LastCoords.txt";
+                if (File.Exists(path + filename) && File.ReadAllText(path + filename).Contains(":"))
+                {
+                    var latlngFromFile = File.ReadAllText(path + filename);
+                    var latlng = latlngFromFile.Split(':');
+                    double latitude, longitude;
+                    if ((latlng[0].Length > 0 && double.TryParse(latlng[0], out latitude) && latitude >= -90.0 && latitude <= 90.0) && (latlng[1].Length > 0 && double.TryParse(latlng[1], out longitude) && longitude >= -180.0 && longitude <= 180.0))
                     {
-                        SetCoordinates(latitude, longitude, _settings.DefaultAltitude);
+                        try
+                        {
+                            SetCoordinates(latitude, longitude, _settings.DefaultAltitude);
+                        }
+                        catch (Exception)
+                        {
+                            SetCoordinates(_settings.DefaultLatitude, _settings.DefaultLongitude, _settings.DefaultAltitude);
+                        }
                     }
-                    catch (FormatException)
-                    { 
+                    else
+                    {
                         SetCoordinates(_settings.DefaultLatitude, _settings.DefaultLongitude, _settings.DefaultAltitude);
                     }
                 }
@@ -58,12 +64,10 @@ namespace PokemonGo.RocketAPI
                 {
                     SetCoordinates(_settings.DefaultLatitude, _settings.DefaultLongitude, _settings.DefaultAltitude);
                 }
-            }
-            else
+            } else
             {
                 SetCoordinates(_settings.DefaultLatitude, _settings.DefaultLongitude, _settings.DefaultAltitude);
             }
-
 
             //Setup HttpClient and create default headers
             HttpClientHandler handler = new HttpClientHandler()
@@ -91,7 +95,10 @@ namespace PokemonGo.RocketAPI
             CurrentLat = lat;
             CurrentLng = lng;
             CurrentAltitude = altitude;
-            SaveLatLng(lat, lng);
+            if (_settings.UseLastCords)
+            {
+                SaveLatLng(lat, lng);
+            }
         }
 
         public void SaveLatLng(double lat, double lng)

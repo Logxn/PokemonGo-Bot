@@ -15,6 +15,8 @@ namespace PokemonGo.RocketAPI
         string PtcPassword { get; }
         string PtcUsername { get; }
 
+        bool UseLastCords { get; }
+
         double WalkingSpeedInKilometerPerHour { get; }
 
         bool EvolvePokemonsIfEnoughCandy { get; }
