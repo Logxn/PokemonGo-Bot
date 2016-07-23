@@ -75,8 +75,8 @@ namespace PokemonGo.RocketAPI.Logic
                     } catch(Exception e)
                     {
 
-                    } 
-                    Execute();
+                    }
+                    await Execute();
                 }
                 catch (TaskCanceledException ex)
                 {
@@ -90,7 +90,7 @@ namespace PokemonGo.RocketAPI.Logic
                     {
 
                     }
-                    Execute();
+                    await Execute();
                 }
                 catch (UriFormatException ex)
                 {
@@ -104,7 +104,7 @@ namespace PokemonGo.RocketAPI.Logic
                     {
 
                     }
-                    Execute();
+                    await Execute();
                 }
                 catch (ArgumentOutOfRangeException ex)
                 {
@@ -118,7 +118,7 @@ namespace PokemonGo.RocketAPI.Logic
                     {
 
                     }
-                    Execute();
+                    await Execute();
                 }
                 catch (ArgumentNullException ex)
                 {
@@ -132,7 +132,7 @@ namespace PokemonGo.RocketAPI.Logic
                     {
 
                     }
-                    Execute();
+                    await Execute();
                 }
                 catch (NullReferenceException ex)
                 {
@@ -146,7 +146,7 @@ namespace PokemonGo.RocketAPI.Logic
                     {
 
                     }
-                    Execute();
+                    await Execute();
                 }
                 catch (InvalidResponseException ex)
                 {
@@ -160,7 +160,7 @@ namespace PokemonGo.RocketAPI.Logic
                     {
 
                     }
-                    Execute();
+                    await Execute();
                 }
                 catch (AggregateException ex)
                 {
@@ -174,7 +174,7 @@ namespace PokemonGo.RocketAPI.Logic
                     {
 
                     }
-                    Execute();
+                    await Execute();
                 }
             }
         }
