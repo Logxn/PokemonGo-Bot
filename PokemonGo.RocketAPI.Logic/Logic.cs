@@ -53,7 +53,7 @@ namespace PokemonGo.RocketAPI.Logic
                     {
                         try
                         {
-                            _telegram = new TelegramUtil(_client, new Telegram.Bot.TelegramBotClient(_clientSettings.TelegramAPIToken), _clientSettings);
+                            _telegram = new TelegramUtil(_client, new Telegram.Bot.TelegramBotClient(_clientSettings.TelegramAPIToken), _clientSettings, _inventory);
 
                             Logger.ColoredConsoleWrite(ConsoleColor.Green, "To Activate Informations with Telegram, write the Bot a message for more Informations");
                             var me = await _telegram.getClient().GetMeAsync();

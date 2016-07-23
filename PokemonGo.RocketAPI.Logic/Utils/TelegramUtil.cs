@@ -25,6 +25,7 @@ namespace PokemonGo.RocketAPI.Logic.Utils
     {
 
         private Client _client;
+        private Inventory _inventory;
 
         private Telegram.Bot.TelegramBotClient _telegram;
 
@@ -35,11 +36,12 @@ namespace PokemonGo.RocketAPI.Logic.Utils
 
         private bool informations = false;
 
-        public TelegramUtil(Client client, Telegram.Bot.TelegramBotClient telegram, ISettings settings)
+        public TelegramUtil(Client client, Telegram.Bot.TelegramBotClient telegram, ISettings settings, Inventory inv)
         {
             _client = client;
             _telegram = telegram;
             _clientSettings = settings;
+            _inventory = inv;
             DoLiveStats();
             DoInformation();
         }
@@ -196,6 +198,42 @@ namespace PokemonGo.RocketAPI.Logic.Utils
                 
                 await _telegram.SendTextMessageAsync(message.Chat.Id, usage,
                    replyMarkup: new ReplyKeyboardHide());
+            } else if (message.Text.StartsWith("/top"))
+            {
+                int shows;
+                try
+                {
+                    shows = int.Parse(message.Text.Replace("/top", "").Replace(" ", ""));
+                } catch (Exception)
+                {
+                    var usage = "Error! This is not a Number: " + message.Text.Replace("/top", "").Replace(" ", "") + "!";
+
+                    await _telegram.SendTextMessageAsync(message.Chat.Id, usage,
+                       replyMarkup: new ReplyKeyboardHide());
+                    return;
+                }
+
+                await _telegram.SendTextMessageAsync(message.Chat.Id, "Showing " + shows + " Pokemons...\nSorting..." ,
+                       replyMarkup: new ReplyKeyboardHide());
+                
+                var myPokemons = await _inventory.GetPokemons();
+                myPokemons = myPokemons.OrderByDescending(x => x.Cp);
+                 
+
+                var u = "Top " + shows + " Pokemons!";
+
+                int count = 0;
+                foreach (var pokemon in myPokemons)
+                {
+                    if (count == shows)
+                        break;
+
+                    u = u + "\n" + pokemon.PokemonId + " CP: " + pokemon.Cp;
+                    count++;
+                }
+
+                await _telegram.SendTextMessageAsync(message.Chat.Id, u, replyMarkup: new ReplyKeyboardHide());
+
             }
             else
             {
@@ -203,7 +241,7 @@ namespace PokemonGo.RocketAPI.Logic.Utils
                     /stats   - Get Current Stats
                     /livestats - Enable/Disable Live Stats
                     /informations - Enable/Disable Informations
-                    ";
+                    /top <HowMany?> - Outputs Top (?) Pokemons";
 
                 await _telegram.SendTextMessageAsync(message.Chat.Id, usage,
                     replyMarkup: new ReplyKeyboardHide());
