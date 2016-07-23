@@ -433,7 +433,7 @@ namespace PokemonGo.RocketAPI.Logic
                     Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Failed to evolve {pokemon.PokemonId}. EvolvePokemonOutProto.Result was {evolvePokemonOutProto.Result}, stopping evolving {pokemon.PokemonId}", LogLevel.Info);
                 }
 
-                await Task.Delay(1000);
+                await RandomHelper.RandomDelay(1000, 2000);
             }
         }
 
@@ -457,7 +457,7 @@ namespace PokemonGo.RocketAPI.Logic
 
                         var transfer = await _client.TransferPokemon(duplicatePokemon.Id);
                         Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Transfer {duplicatePokemon.PokemonId} with {duplicatePokemon.Cp} CP (Best: {bestPokemonOfType} CP)", LogLevel.Info);
-                        await Task.Delay(500);
+                        await RandomHelper.RandomDelay(500, 700);
                     }
                 }
             }
@@ -471,7 +471,7 @@ namespace PokemonGo.RocketAPI.Logic
             {
                 var transfer = await _client.RecycleItem((AllEnum.ItemId)item.Item_, item.Count);
                 Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Recycled {item.Count}x {(AllEnum.ItemId)item.Item_}", LogLevel.Info);
-                await Task.Delay(500);
+                await RandomHelper.RandomDelay(500, 700);
             }
         }
 
