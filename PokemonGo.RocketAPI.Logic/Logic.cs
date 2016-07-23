@@ -290,6 +290,10 @@ namespace PokemonGo.RocketAPI.Logic
                 {
                     count = 0;
                     await StatsLog(client);
+                    if (_clientSettings.EvolvePokemonsIfEnoughCandy)
+                    {
+                        await EvolveAllPokemonWithEnoughCandy();
+                    }
                     await TransferDuplicatePokemon(true);
                     await RecycleItems();
                 }
@@ -334,6 +338,10 @@ namespace PokemonGo.RocketAPI.Logic
                 {
                     count = 0;
                     await StatsLog(client);
+                    if (_clientSettings.EvolvePokemonsIfEnoughCandy)
+                    {
+                        await EvolveAllPokemonWithEnoughCandy();
+                    }
                     await TransferDuplicatePokemon(true);
                     await RecycleItems();
                 }
@@ -426,9 +434,14 @@ namespace PokemonGo.RocketAPI.Logic
                 var evolvePokemonOutProto = await _client.EvolvePokemon((ulong)pokemon.Id);
 
                 if (evolvePokemonOutProto.Result == EvolvePokemonOut.Types.EvolvePokemonStatus.PokemonEvolvedSuccess)
+                {
                     Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Evolved {pokemon.PokemonId} successfully for {evolvePokemonOutProto.ExpAwarded}xp", LogLevel.Info);
+                    _botStats.addExperience(evolvePokemonOutProto.ExpAwarded);
+                }
                 else
+                {
                     Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Failed to evolve {pokemon.PokemonId}. EvolvePokemonOutProto.Result was {evolvePokemonOutProto.Result}, stopping evolving {pokemon.PokemonId}", LogLevel.Info);
+                }
 
                 await Task.Delay(1000);
             }
