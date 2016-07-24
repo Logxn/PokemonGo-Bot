@@ -258,3 +258,4 @@ paket-files/
 *.sln.iml
 PokemonGo.RocketAPI.Console/App.config
 PokemonGo.RocketAPI.Console/UserSettings.settings
+PokemonGo.RocketAPI.Console/App.config

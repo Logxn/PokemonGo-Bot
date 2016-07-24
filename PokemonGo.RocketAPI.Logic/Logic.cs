@@ -237,9 +237,9 @@ namespace PokemonGo.RocketAPI.Logic
                     Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "PokeStops visited: " + c.PokeStopVisits);
                     Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Stardust: " + profil.Profile.Currency.ToArray()[1].Amount);
                     Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "_____________________________");
-
-
-                    System.Console.Title = profil.Profile.Username + " Level " + c.Level + " - (" + ((c.Experience - c.PrevLevelXp) - StringUtils.getExpDiff(c.Level)) + " / " + ((c.NextLevelXp - c.PrevLevelXp) - StringUtils.getExpDiff(c.Level)) + ") | Stardust: " + profil.Profile.Currency.ToArray()[1].Amount + " | " + _botStats.ToString();
+                    
+                    System.Console.Title = profil.Profile.Username + " Level " + c.Level + " - (" + ((c.Experience - c.PrevLevelXp) - 
+                        StringUtils.getExpDiff(c.Level)) + " / " + ((c.NextLevelXp - c.PrevLevelXp) - StringUtils.getExpDiff(c.Level)) + ") | Stardust: " + profil.Profile.Currency.ToArray()[1].Amount + " | " + _botStats.ToString();
                      
                 }
             } 
@@ -378,16 +378,19 @@ namespace PokemonGo.RocketAPI.Logic
                     {
                         foreach (int xp in caughtPokemonResponse.Scores.Xp)
                             _botStats.addExperience(xp);
-                        try
-                        {
-                            var r = (HttpWebRequest)WebRequest.Create("http://pokemon.becher.xyz/index.php?pokeName=" + pokemon.PokemonId);
-                            var rp = (HttpWebResponse)r.GetResponse();
-                            var rps = new StreamReader(rp.GetResponseStream()).ReadToEnd();
-                            Logger.ColoredConsoleWrite(ConsoleColor.Magenta, $"We caught a {pokemon.PokemonId} ({rps}) with CP {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} using a {bestPokeball}");
-                        } catch (Exception)
-                        {
-                            Logger.ColoredConsoleWrite(ConsoleColor.Magenta, $"We caught a {pokemon.PokemonId} (Language Server Offline) with CP {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} using a {bestPokeball}");
-                        }
+
+                        Logger.ColoredConsoleWrite(ConsoleColor.Magenta, $"We caught a {pokemon.PokemonId} ({StringUtils.getPokemonNameGer(pokemon.PokemonId)}) with CP {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} using a {bestPokeball}");
+
+                        //try
+                        //{
+                        //    var r = (HttpWebRequest)WebRequest.Create("http://pokemon.becher.xyz/index.php?pokeName=" + pokemon.PokemonId);
+                        //    var rp = (HttpWebResponse)r.GetResponse();
+                        //    var rps = new StreamReader(rp.GetResponseStream()).ReadToEnd();
+                        //    Logger.ColoredConsoleWrite(ConsoleColor.Magenta, $"We caught a {pokemon.PokemonId} ({rps}) with CP {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} using a {bestPokeball}");
+                        //} catch (Exception)
+                        //{
+                        //    Logger.ColoredConsoleWrite(ConsoleColor.Magenta, $"We caught a {pokemon.PokemonId} (Language Server Offline) with CP {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} using a {bestPokeball}");
+                        //}
                        
                         _botStats.addPokemon(1);
                     }
