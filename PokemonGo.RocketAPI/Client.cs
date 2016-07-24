@@ -38,7 +38,7 @@ namespace PokemonGo.RocketAPI
                 {
                     DirectoryInfo di = Directory.CreateDirectory(path);
                 } 
-                string filename = "LastCoords-" + getNickname() + ".txt";
+                string filename = "LastCoords.txt";
                 if (File.Exists(path + filename) && File.ReadAllText(path + filename).Contains(":"))
                 {
                     var latlngFromFile = File.ReadAllText(path + filename);
@@ -104,7 +104,7 @@ namespace PokemonGo.RocketAPI
         public void SaveLatLng(double lat, double lng)
         {
             string latlng = lat.ToString() + ":" + lng.ToString();
-        File.WriteAllText(Directory.GetCurrentDirectory() + "\\Configs\\LastCoords-" + getNickname() + ".txt", latlng);
+        File.WriteAllText(Directory.GetCurrentDirectory() + "\\Configs\\LastCoords.txt", latlng);
         }
 
         public async Task DoGoogleLogin()
