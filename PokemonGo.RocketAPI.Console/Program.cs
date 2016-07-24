@@ -4,6 +4,7 @@ using PokemonGo.RocketAPI.Exceptions;
 using System.Reflection;
 using System.Net;
 using System.Text.RegularExpressions;
+using System.Threading;
 
 namespace PokemonGo.RocketAPI.Console
 {
@@ -61,7 +62,7 @@ namespace PokemonGo.RocketAPI.Console
                 Logger.ColoredConsoleWrite(ConsoleColor.Red, "There is a new Version available: " + gitVersion);
                 Logger.ColoredConsoleWrite(ConsoleColor.Red, "Its recommended to use the newest Version.");
                 Logger.ColoredConsoleWrite(ConsoleColor.Red, "Starting in 10 Seconds.");
-                Task.Delay(10000);
+                Thread.Sleep(10000);
             }
             catch (Exception)
             {

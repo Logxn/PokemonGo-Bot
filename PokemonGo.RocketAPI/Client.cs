@@ -12,6 +12,8 @@ using static PokemonGo.RocketAPI.GeneratedCode.Response.Types;
 using System.Device.Location;
 using PokemonGo.RocketAPI.Exceptions;
 using System.IO;
+using System.Diagnostics;
+using System.Threading;
 
 namespace PokemonGo.RocketAPI
 {
@@ -46,6 +48,19 @@ namespace PokemonGo.RocketAPI
                     double latitude, longitude;
                     if ((latlng[0].Length > 0 && double.TryParse(latlng[0], out latitude) && latitude >= -90.0 && latitude <= 90.0) && (latlng[1].Length > 0 && double.TryParse(latlng[1], out longitude) && longitude >= -180.0 && longitude <= 180.0))
                     {
+
+                        double dif1 = latitude - _settings.DefaultLatitude;
+                        double dif2 = longitude - _settings.DefaultLongitude;
+                        if (dif1 > 3 || dif1 < -3 || dif2 > 3 || dif2 < -3)
+                        {
+                            Logger.ColoredConsoleWrite(ConsoleColor.Red, "There is a difference of your Last Location File.\n" + path);
+                            Logger.ColoredConsoleWrite(ConsoleColor.Red, "Latidude difference: " + dif1 + " Longitude difference :" + dif2);
+                            Logger.ColoredConsoleWrite(ConsoleColor.Red, "Sleeping 10 Seconds.");
+                            Thread.Sleep(10000);
+                            Logger.ColoredConsoleWrite(ConsoleColor.Red, "I warned you. Starting..");
+                            
+                        }
+
                         try
                         {
                             SetCoordinates(latitude, longitude, _settings.DefaultAltitude);
