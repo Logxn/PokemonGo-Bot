@@ -37,6 +37,8 @@ namespace PokemonGo.RocketAPI.Console
         public int MaxWalkingRadiusInMeters => UserSettings.Default.MaxWalkingRadiusInMeters;
 
         public int HoldMaxDoublePokemons => UserSettings.Default.HoldMaxDoublePokemons;
+        public int TelegramLiveStatsDelay => UserSettings.Default.TelegramLiveStatsDelay;
+
 
         public double WalkingSpeedInKilometerPerHour => UserSettings.Default.WalkingSpeedInKilometerPerHour;
 

@@ -181,13 +181,25 @@ namespace PokemonGo.RocketAPI.Console {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        [global::System.Configuration.DefaultSettingValueAttribute("2000")]
         public int MaxWalkingRadiusInMeters {
             get {
                 return ((int)(this["MaxWalkingRadiusInMeters"]));
             }
             set {
                 this["MaxWalkingRadiusInMeters"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("5000")]
+        public int TelegramLiveStatsDelay {
+            get {
+                return ((int)(this["TelegramLiveStatsDelay"]));
+            }
+            set {
+                this["TelegramLiveStatsDelay"] = value;
             }
         }
         

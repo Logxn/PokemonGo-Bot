@@ -42,7 +42,10 @@
       <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="MaxWalkingRadiusInMeters" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">0</Value>
+      <Value Profile="(Default)">2000</Value>
+    </Setting>
+    <Setting Name="TelegramLiveStatsDelay" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">5000</Value>
     </Setting>
     <Setting Name="HoldMaxDoublePokemons" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">3</Value>

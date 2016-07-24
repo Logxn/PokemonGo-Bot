@@ -21,6 +21,8 @@ namespace PokemonGo.RocketAPI
         int MaxWalkingRadiusInMeters { get; }
         int HoldMaxDoublePokemons { get; }
 
+        int TelegramLiveStatsDelay { get; }
+
         double WalkingSpeedInKilometerPerHour { get; }
 
         bool EvolvePokemonsIfEnoughCandy { get; }
