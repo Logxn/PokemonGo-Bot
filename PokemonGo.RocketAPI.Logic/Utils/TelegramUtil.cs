@@ -18,6 +18,7 @@ using PokemonGo.RocketAPI.GeneratedCode;
 using PokemonGo.RocketAPI.Logic.Utils;
 using PokemonGo.RocketAPI.Exceptions;
 using PokemonGo.RocketAPI.Logic;
+using PokemonGo.RocketAPI.Helpers;
 
 namespace PokemonGo.RocketAPI.Logic.Utils
 {
@@ -234,6 +235,33 @@ namespace PokemonGo.RocketAPI.Logic.Utils
 
                 await _telegram.SendTextMessageAsync(message.Chat.Id, u, replyMarkup: new ReplyKeyboardHide());
 
+            } else if (message.Text.StartsWith("/forceevolve"))
+            {
+                var pokemonToEvolve = await _inventory.GetPokemonToEvolve(null);
+                if (pokemonToEvolve.Count() > 30)
+                {
+                    // Use EGG - need to add this shit
+                }
+                foreach (var pokemon in pokemonToEvolve)
+                {
+
+                    if (!_clientSettings.pokemonsToEvolve.Contains(pokemon.PokemonId))
+                    {
+                        continue;
+                    }
+                    var evolvePokemonOutProto = await _client.EvolvePokemon((ulong)pokemon.Id);
+
+                    if (evolvePokemonOutProto.Result == EvolvePokemonOut.Types.EvolvePokemonStatus.PokemonEvolvedSuccess)
+                    {
+                        await _telegram.SendTextMessageAsync(message.Chat.Id, $"Evolved {pokemon.PokemonId} successfully for {evolvePokemonOutProto.ExpAwarded}xp", replyMarkup: new ReplyKeyboardHide());
+                    }
+                    else
+                    {
+                        await _telegram.SendTextMessageAsync(message.Chat.Id, $"Failed to evolve {pokemon.PokemonId}. EvolvePokemonOutProto.Result was {evolvePokemonOutProto.Result}, stopping evolving {pokemon.PokemonId}", replyMarkup: new ReplyKeyboardHide());
+                    }
+                    await RandomHelper.RandomDelay(1000, 2000);
+                }
+                await _telegram.SendTextMessageAsync(message.Chat.Id, "Done.", replyMarkup: new ReplyKeyboardHide());
             }
             else
             {
@@ -241,7 +269,8 @@ namespace PokemonGo.RocketAPI.Logic.Utils
                     /stats   - Get Current Stats
                     /livestats - Enable/Disable Live Stats
                     /informations - Enable/Disable Informations
-                    /top <HowMany?> - Outputs Top (?) Pokemons";
+                    /top <HowMany?> - Outputs Top (?) Pokemons
+                    /forceevolve - Forces Evolve";
 
                 await _telegram.SendTextMessageAsync(message.Chat.Id, usage,
                     replyMarkup: new ReplyKeyboardHide());
