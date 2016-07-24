@@ -61,7 +61,7 @@ namespace PokemonGo.RocketAPI.Console {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("51.450682")]
+        [global::System.Configuration.DefaultSettingValueAttribute("40.764861")]
         public double DefaultLatitude {
             get {
                 return ((double)(this["DefaultLatitude"]));
@@ -73,25 +73,13 @@ namespace PokemonGo.RocketAPI.Console {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("6.629078")]
+        [global::System.Configuration.DefaultSettingValueAttribute("-73.972824")]
         public double DefaultLongitude {
             get {
                 return ((double)(this["DefaultLongitude"]));
             }
             set {
                 this["DefaultLongitude"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("9.5E-05")]
-        public double StepDistance {
-            get {
-                return ((double)(this["StepDistance"]));
-            }
-            set {
-                this["StepDistance"] = value;
             }
         }
         
@@ -181,13 +169,25 @@ namespace PokemonGo.RocketAPI.Console {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool WalkBackToDefaultLocation {
             get {
                 return ((bool)(this["WalkBackToDefaultLocation"]));
             }
             set {
                 this["WalkBackToDefaultLocation"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("2000")]
+        public int MaxWalkingRadiusInMeters {
+            get {
+                return ((int)(this["MaxWalkingRadiusInMeters"]));
+            }
+            set {
+                this["MaxWalkingRadiusInMeters"] = value;
             }
         }
     }

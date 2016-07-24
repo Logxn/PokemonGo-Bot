@@ -34,6 +34,7 @@ namespace PokemonGo.RocketAPI.Console
         public double DefaultAltitude => UserSettings.Default.DefaultAltitude;
 
         public bool WalkBackToDefaultLocation => UserSettings.Default.WalkBackToDefaultLocation;
+        public int MaxWalkingRadiusInMeters => UserSettings.Default.MaxWalkingRadiusInMeters;
 
         public double WalkingSpeedInKilometerPerHour => UserSettings.Default.WalkingSpeedInKilometerPerHour;
 

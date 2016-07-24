@@ -12,13 +12,10 @@
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="DefaultLatitude" Type="System.Double" Scope="User">
-      <Value Profile="(Default)">51.450682</Value>
+      <Value Profile="(Default)">40.764861</Value>
     </Setting>
     <Setting Name="DefaultLongitude" Type="System.Double" Scope="User">
-      <Value Profile="(Default)">6.629078</Value>
-    </Setting>
-    <Setting Name="StepDistance" Type="System.Double" Scope="User">
-      <Value Profile="(Default)">9.5E-05</Value>
+      <Value Profile="(Default)">-73.972824</Value>
     </Setting>
     <Setting Name="TransferDoublePokemons" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
@@ -42,7 +39,10 @@
       <Value Profile="(Default)">999</Value>
     </Setting>
     <Setting Name="WalkBackToDefaultLocation" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="MaxWalkingRadiusInMeters" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">2000</Value>
     </Setting>
   </Settings>
 </SettingsFile>
