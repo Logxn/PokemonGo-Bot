@@ -15,7 +15,7 @@ namespace PokemonGo.RocketAPI.Console
         {
             get
             {
-                return Enums.AuthType.Google;
+                return Enums.AuthType.Ptc;
             }
         }
          
@@ -45,7 +45,8 @@ namespace PokemonGo.RocketAPI.Console
 
         public string TelegramAPIToken => UserSettings.Default.TelegramAPIToken;
         public string TelegramName => UserSettings.Default.TelegramName;
-        
+
+        public int TelegramLiveStatsDelay => UserSettings.Default.TelegramLiveStatsDelay;
 
         List<PokemonId> ISettings.pokemonsToHold
         {

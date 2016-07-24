@@ -227,17 +227,21 @@ namespace PokemonGo.RocketAPI.Logic
                 if (c != null)
                 {
                     int l = c.Level;
-                  
+
+                    var expneeded = ((c.NextLevelXp - c.PrevLevelXp) - StringUtils.getExpDiff(c.Level));
+                    var curexp = ((c.Experience - c.PrevLevelXp) - StringUtils.getExpDiff(c.Level));
+                    var curexppercent = (Convert.ToDouble(curexp) / Convert.ToDouble(expneeded)) * 100;
+
                     Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "_____________________________");
                     Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Level: " + c.Level);
-                    Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "EXP Needed: " + ((c.NextLevelXp - c.PrevLevelXp) - StringUtils.getExpDiff(c.Level)));
-                    Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Current EXP: " + ((c.Experience - c.PrevLevelXp) - StringUtils.getExpDiff(c.Level)));
+                    Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "EXP Needed: " + expneeded);
+                    Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Current EXP: {curexp} ({curexppercent}%)");
                     Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "EXP to Level up: " + ((c.NextLevelXp) - (c.Experience)));
                     Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "KM Walked: " + c.KmWalked);
                     Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "PokeStops visited: " + c.PokeStopVisits);
                     Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Stardust: " + profil.Profile.Currency.ToArray()[1].Amount);
                     Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "_____________________________");
-                    
+
                     System.Console.Title = profil.Profile.Username + " Level " + c.Level + " - (" + ((c.Experience - c.PrevLevelXp) - 
                         StringUtils.getExpDiff(c.Level)) + " / " + ((c.NextLevelXp - c.PrevLevelXp) - StringUtils.getExpDiff(c.Level)) + ") | Stardust: " + profil.Profile.Currency.ToArray()[1].Amount + " | " + _botStats.ToString();
                      
@@ -394,7 +398,7 @@ namespace PokemonGo.RocketAPI.Logic
                         foreach (int xp in caughtPokemonResponse.Scores.Xp)
                             _botStats.addExperience(xp);
 
-                        Logger.ColoredConsoleWrite(ConsoleColor.Magenta, $"We caught a {pokemon.PokemonId} ({StringUtils.getPokemonNameGer(pokemon.PokemonId)}) with CP {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} using a {bestPokeball}");
+                        Logger.ColoredConsoleWrite(ConsoleColor.White, $"We caught a {pokemon.PokemonId} ({StringUtils.getPokemonNameGer(pokemon.PokemonId)}) with CP {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} using a {bestPokeball}");
 
                         //try
                         //{

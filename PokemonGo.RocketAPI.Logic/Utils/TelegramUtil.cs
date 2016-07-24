@@ -43,7 +43,7 @@ namespace PokemonGo.RocketAPI.Logic.Utils
             _telegram = telegram;
             _clientSettings = settings;
             _inventory = inv;
-            DoLiveStats();
+            DoLiveStats(settings);
             DoInformation();
         }
 
@@ -52,7 +52,7 @@ namespace PokemonGo.RocketAPI.Logic.Utils
             return _telegram;
         }
 
-        public async void DoLiveStats()
+        public async void DoLiveStats(ISettings settings)
         {
             if (chatid != -1 && livestats)
             {
@@ -66,10 +66,14 @@ namespace PokemonGo.RocketAPI.Logic.Utils
                     {
                         int l = c.Level;
 
+                        var expneeded = ((c.NextLevelXp - c.PrevLevelXp) - StringUtils.getExpDiff(c.Level));
+                        var curexp = ((c.Experience - c.PrevLevelXp) - StringUtils.getExpDiff(c.Level));
+                        var curexppercent = (Convert.ToDouble(curexp) / Convert.ToDouble(expneeded)) * 100;
+
                         usage += "\nNickname: " + profil.Profile.Username +
                             "\nLevel: " + c.Level
                             + "\nEXP Needed: " + ((c.NextLevelXp - c.PrevLevelXp) - StringUtils.getExpDiff(c.Level))
-                            + "\nCurrent EXP: " + ((c.Experience - c.PrevLevelXp) - StringUtils.getExpDiff(c.Level))
+                            + $"\nCurrent EXP: {curexp} ({curexppercent}%)"
                             + "\nEXP to Level up: " + ((c.NextLevelXp) - (c.Experience))
                             + "\nKM walked: " + c.KmWalked
                             + "\nPokeStops visited: " + c.PokeStopVisits
@@ -80,8 +84,8 @@ namespace PokemonGo.RocketAPI.Logic.Utils
                 await _telegram.SendTextMessageAsync(chatid, usage,
                     replyMarkup: new ReplyKeyboardHide());
             }
-            await Task.Delay(5000);
-            DoLiveStats();
+            await Task.Delay(settings.TelegramLiveStatsDelay);
+            DoLiveStats(settings);
         }
 
          int level;
@@ -145,10 +149,14 @@ namespace PokemonGo.RocketAPI.Logic.Utils
                     {
                         int l = c.Level;
 
+                        var expneeded = ((c.NextLevelXp - c.PrevLevelXp) - StringUtils.getExpDiff(c.Level));
+                        var curexp = ((c.Experience - c.PrevLevelXp) - StringUtils.getExpDiff(c.Level));
+                        var curexppercent = (Convert.ToDouble(curexp) / Convert.ToDouble(expneeded)) * 100;
+
                         usage += "\nNickname: " + profil.Profile.Username + 
                             "\nLevel: " + c.Level
                             + "\nEXP Needed: " + ((c.NextLevelXp - c.PrevLevelXp) - StringUtils.getExpDiff(c.Level))
-                            + "\nCurrent EXP: " + ((c.Experience - c.PrevLevelXp) - StringUtils.getExpDiff(c.Level))
+                            + $"\nCurrent EXP: {curexp} ({curexppercent}%)"
                             + "\nEXP to Level up: " + ((c.NextLevelXp) - (c.Experience))
                             + "\nKM walked: " + c.KmWalked
                             + "\nPokeStops visited: " + c.PokeStopVisits
