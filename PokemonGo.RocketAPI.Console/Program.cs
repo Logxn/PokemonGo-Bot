@@ -12,11 +12,12 @@ namespace PokemonGo.RocketAPI.Console
         static void Main(string[] args)
         {
             Logger.SetLogger(new Logging.ConsoleLogger(LogLevel.Info));
-
-            CheckVersion();
-
+            
             Task.Run(() =>
             {
+
+                CheckVersion();
+                
                 try
                 {
                     new Logic.Logic(new Settings()).Execute().Wait();
