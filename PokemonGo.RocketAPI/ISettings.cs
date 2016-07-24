@@ -37,6 +37,8 @@ namespace PokemonGo.RocketAPI
 
         List<PokemonId> pokemonsToHold { get; set; }
         List<PokemonId> pokemonsToEvolve { get; set; }
-        
+        List<PokemonId> catchPokemonSkipList { get; }
+
+
     }
 }

@@ -49,7 +49,16 @@ namespace PokemonGo.RocketAPI.Console
 
         public string TelegramAPIToken => UserSettings.Default.TelegramAPIToken;
         public string TelegramName => UserSettings.Default.TelegramName;
-        
+
+        List<PokemonId> ISettings.catchPokemonSkipList
+        {
+            get
+            {
+                List<PokemonId> catchPokemonSkipList = new List<PokemonId>();
+                //catchPokemonSkipList.Add(PokemonId.Rattata); // Example so we wont catch any Rattata anymore.
+                return catchPokemonSkipList;
+            }
+        }
 
         List<PokemonId> ISettings.pokemonsToHold
         {
