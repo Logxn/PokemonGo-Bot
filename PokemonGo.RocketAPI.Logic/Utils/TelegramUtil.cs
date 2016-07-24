@@ -183,18 +183,18 @@ namespace PokemonGo.RocketAPI.Logic.Utils
                 await _telegram.SendTextMessageAsync(message.Chat.Id, usage,
                     replyMarkup: new ReplyKeyboardHide());
             }
-            else if (message.Text.StartsWith("/informations")) // send custom keyboard
+            else if (message.Text.StartsWith("/information")) // send custom keyboard
             {
                 var usage = "";
                 if (livestats)
                 {
-                    usage = "Disabled Informations.";
+                    usage = "Disabled Information.";
                     informations = false;
                     chatid = -1;
                 }
                 else
                 {
-                    usage = "Enabled Informations.";
+                    usage = "Enabled Information.";
                     informations = true;
                     chatid = message.Chat.Id;
                 }
@@ -276,7 +276,7 @@ namespace PokemonGo.RocketAPI.Logic.Utils
                 var usage = @"Usage:
                     /stats   - Get Current Stats
                     /livestats - Enable/Disable Live Stats
-                    /informations - Enable/Disable Informations
+                    /information - Enable/Disable Informations
                     /top <HowMany?> - Outputs Top (?) Pokemons
                     /forceevolve - Forces Evolve";
 

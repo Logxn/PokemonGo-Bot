@@ -176,20 +176,28 @@ namespace PokemonGo.RocketAPI.Logic
 
             Resources.OutPutWalking = true;
             var mapObjects = await client.GetMapObjects();
-
+            
             //var pokeStops = mapObjects.MapCells.SelectMany(i => i.Forts).Where(i => i.Type == FortType.Checkpoint && i.CooldownCompleteTimestampMs < DateTime.UtcNow.ToUnixTime());
 
             var pokeStops =
-              Navigation.pathByNearestNeighbour(
-              mapObjects.MapCells.SelectMany(i => i.Forts)
-              .Where(
-                  i =>
-                  i.Type == FortType.Checkpoint &&
-                  i.CooldownCompleteTimestampMs < DateTime.UtcNow.ToUnixTime())
-                  .OrderBy(
-                  i =>
-                  LocationUtils.CalculateDistanceInMeters(_client.CurrentLat, _client.CurrentLng, i.Latitude, i.Longitude)).ToArray());
+            Navigation.pathByNearestNeighbour(
+            mapObjects.MapCells.SelectMany(i => i.Forts)
+            .Where(
+                i =>
+                i.Type == FortType.Checkpoint &&
+                i.CooldownCompleteTimestampMs < DateTime.UtcNow.ToUnixTime())
+                .OrderBy(
+                i =>
+                LocationUtils.CalculateDistanceInMeters(_client.CurrentLat, _client.CurrentLng, i.Latitude, i.Longitude)).ToArray());
+         
 
+            if (_clientSettings.MaxWalkingRadiusInMeters != 0)
+            {
+                pokeStops = pokeStops.Where( i => LocationUtils.CalculateDistanceInMeters(_client.CurrentLat, _client.CurrentLng, i.Latitude, i.Longitude) <= _clientSettings.MaxWalkingRadiusInMeters).ToArray();
+                Logger.ColoredConsoleWrite(ConsoleColor.Red, "We cant find any PokeStops in a range of " + _clientSettings.MaxWalkingRadiusInMeters + "m!");
+            }
+
+           
             if (pokeStops.Count() == 0)
             {
                 Logger.ColoredConsoleWrite(ConsoleColor.Red, "We cant find any PokeStops, which are unused! Probably Server unstable, or you visted them all. Retrying..");
