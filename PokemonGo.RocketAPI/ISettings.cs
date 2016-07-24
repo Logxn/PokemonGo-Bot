@@ -19,6 +19,7 @@ namespace PokemonGo.RocketAPI
 
         bool WalkBackToDefaultLocation { get; }
         int MaxWalkingRadiusInMeters { get; }
+        int HoldMaxDoublePokemons { get; }
 
         double WalkingSpeedInKilometerPerHour { get; }
 

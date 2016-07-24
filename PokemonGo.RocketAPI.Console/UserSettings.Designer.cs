@@ -181,13 +181,25 @@ namespace PokemonGo.RocketAPI.Console {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("2000")]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
         public int MaxWalkingRadiusInMeters {
             get {
                 return ((int)(this["MaxWalkingRadiusInMeters"]));
             }
             set {
                 this["MaxWalkingRadiusInMeters"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("3")]
+        public int HoldMaxDoublePokemons {
+            get {
+                return ((int)(this["HoldMaxDoublePokemons"]));
+            }
+            set {
+                this["HoldMaxDoublePokemons"] = value;
             }
         }
     }

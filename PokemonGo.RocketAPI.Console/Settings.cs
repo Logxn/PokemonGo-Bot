@@ -36,6 +36,8 @@ namespace PokemonGo.RocketAPI.Console
         public bool WalkBackToDefaultLocation => UserSettings.Default.WalkBackToDefaultLocation;
         public int MaxWalkingRadiusInMeters => UserSettings.Default.MaxWalkingRadiusInMeters;
 
+        public int HoldMaxDoublePokemons => UserSettings.Default.HoldMaxDoublePokemons;
+
         public double WalkingSpeedInKilometerPerHour => UserSettings.Default.WalkingSpeedInKilometerPerHour;
 
         public bool TransferDoublePokemons => UserSettings.Default.TransferDoublePokemons;

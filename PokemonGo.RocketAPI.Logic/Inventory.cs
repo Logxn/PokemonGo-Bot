@@ -126,7 +126,7 @@ namespace PokemonGo.RocketAPI.Logic
             return pokemonList
                 .GroupBy(p => p.PokemonId)
                 .Where(x => x.Count() > 1)
-                .SelectMany(p => p.Where(x => x.Favorite == 0).OrderByDescending(x => x.Cp).ThenBy(n => n.StaminaMax).Skip(3).ToList());
+                .SelectMany(p => p.Where(x => x.Favorite == 0).OrderByDescending(x => x.Cp).ThenBy(n => n.StaminaMax).Skip(_client.getSettingHandle().HoldMaxDoublePokemons).ToList());
         }
 
         public async Task<IEnumerable<Item>> GetItems()
