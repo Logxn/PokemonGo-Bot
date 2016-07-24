@@ -43,7 +43,7 @@ namespace PokemonGo.RocketAPI.Logic.Utils
             _telegram = telegram;
             _clientSettings = settings;
             _inventory = inv;
-            DoLiveStats();
+            DoLiveStats(settings);
             DoInformation();
         }
 
@@ -52,7 +52,7 @@ namespace PokemonGo.RocketAPI.Logic.Utils
             return _telegram;
         }
 
-        public async void DoLiveStats()
+        public async void DoLiveStats(ISettings settings)
         {
             if (chatid != -1 && livestats)
             {
@@ -84,8 +84,8 @@ namespace PokemonGo.RocketAPI.Logic.Utils
                 await _telegram.SendTextMessageAsync(chatid, usage,
                     replyMarkup: new ReplyKeyboardHide());
             }
-            await Task.Delay(5000);
-            DoLiveStats();
+            await Task.Delay(settings.TelegramLiveStatsDelay);
+            DoLiveStats(settings);
         }
 
          int level;

@@ -30,6 +30,8 @@ namespace PokemonGo.RocketAPI
         string TelegramAPIToken { get; }
         string TelegramName { get; }
 
+        int TelegramLiveStatsDelay { get; }
+
         ICollection<KeyValuePair<AllEnum.ItemId, int>> itemRecycleFilter { get; set; }
 
         List<PokemonId> pokemonsToHold { get; set; }
