@@ -2,9 +2,6 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="PokemonGo.RocketAPI.Console" GeneratedClassName="UserSettings">
   <Profiles />
   <Settings>
-    <Setting Name="AuthType" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Google</Value>
-    </Setting>
     <Setting Name="PtcUsername" Type="System.String" Scope="User">
       <Value Profile="(Default)">username</Value>
     </Setting>
@@ -27,7 +24,7 @@
       <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="EvolvePokemonsIfEnoughCandy" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
+      <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="TelegramAPIToken" Type="System.String" Scope="User">
       <Value Profile="(Default)">YourAccessToken</Value>
@@ -43,6 +40,9 @@
     </Setting>
     <Setting Name="DontTransferWithCPOver" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">999</Value>
+    </Setting>
+    <Setting Name="WalkBackToDefaultLocation" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
     </Setting>
   </Settings>
 </SettingsFile>

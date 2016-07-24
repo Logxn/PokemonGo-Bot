@@ -272,7 +272,8 @@ namespace PokemonGo.RocketAPI.Logic
                 Logger.ColoredConsoleWrite(ConsoleColor.Red, "We cant find any PokeStops, which are unused! Probably Server unstable, or you visted them all. Retrying..");
                 await ExecuteCatchAllNearbyPokemons();
 
-            } else
+            }
+            else
             {
                 Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "We found " + pokeStops.Count() + " PokeStops near.");
             }
@@ -309,6 +310,11 @@ namespace PokemonGo.RocketAPI.Logic
                 }
 
                 await RandomHelper.RandomDelay(50, 200);
+            }
+            if (_clientSettings.WalkBackToDefaultLocation)
+            {
+                Logger.ColoredConsoleWrite(ConsoleColor.Green, "Walking back to Default Location.");
+                await _navigation.HumanLikeWalking(new GeoCoordinate(_clientSettings.DefaultLatitude, _clientSettings.DefaultLongitude), _clientSettings.WalkingSpeedInKilometerPerHour, ExecuteCatchAllNearbyPokemons);
             }
         }
 

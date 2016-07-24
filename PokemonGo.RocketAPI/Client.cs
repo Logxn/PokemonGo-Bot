@@ -37,8 +37,8 @@ namespace PokemonGo.RocketAPI
                 if (!Directory.Exists(path))
                 {
                     DirectoryInfo di = Directory.CreateDirectory(path);
-                }
-                string filename = "LastCoords.txt";
+                } 
+                string filename = "LastCoords-" + getNickname() + ".txt";
                 if (File.Exists(path + filename) && File.ReadAllText(path + filename).Contains(":"))
                 {
                     var latlngFromFile = File.ReadAllText(path + filename);
@@ -104,10 +104,10 @@ namespace PokemonGo.RocketAPI
         public void SaveLatLng(double lat, double lng)
         {
             string latlng = lat.ToString() + ":" + lng.ToString();
-        File.WriteAllText(Directory.GetCurrentDirectory() + "\\Configs\\LastCoords.txt", latlng);
+        File.WriteAllText(Directory.GetCurrentDirectory() + "\\Configs\\LastCoords-" + getNickname() + ".txt", latlng);
         }
 
-    public async Task DoGoogleLogin()
+        public async Task DoGoogleLogin()
         {
             _authType = AuthType.Google;
 
@@ -186,6 +186,12 @@ namespace PokemonGo.RocketAPI
             var profileRequest = RequestBuilder.GetInitialRequest(AccessToken, _authType, CurrentLat, CurrentLng, 10,
                 new Request.Types.Requests() { Type = (int)RequestType.GET_PLAYER });
             return await _httpClient.PostProtoPayload<Request, GetPlayerResponse>($"https://{_apiUrl}/rpc", profileRequest);
+        }
+
+        public async Task<string> getNickname()
+        {
+            var profil = await GetProfile();
+            return profil.Profile.Username;
         }
 
         public async Task<DownloadSettingsResponse> GetSettings()

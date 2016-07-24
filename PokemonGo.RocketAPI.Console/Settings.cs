@@ -33,6 +33,8 @@ namespace PokemonGo.RocketAPI.Console
         public double DefaultLongitude => UserSettings.Default.DefaultLongitude;
         public double DefaultAltitude => UserSettings.Default.DefaultAltitude;
 
+        public bool WalkBackToDefaultLocation => UserSettings.Default.WalkBackToDefaultLocation;
+
         public double WalkingSpeedInKilometerPerHour => UserSettings.Default.WalkingSpeedInKilometerPerHour;
 
         public bool TransferDoublePokemons => UserSettings.Default.TransferDoublePokemons;

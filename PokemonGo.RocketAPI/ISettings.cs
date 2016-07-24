@@ -17,6 +17,8 @@ namespace PokemonGo.RocketAPI
 
         bool UseLastCords { get; }
 
+        bool WalkBackToDefaultLocation { get; }
+
         double WalkingSpeedInKilometerPerHour { get; }
 
         bool EvolvePokemonsIfEnoughCandy { get; }

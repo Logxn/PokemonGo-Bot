@@ -25,18 +25,6 @@ namespace PokemonGo.RocketAPI.Console {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Google")]
-        public string AuthType {
-            get {
-                return ((string)(this["AuthType"]));
-            }
-            set {
-                this["AuthType"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("username")]
         public string PtcUsername {
             get {
@@ -121,7 +109,7 @@ namespace PokemonGo.RocketAPI.Console {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool EvolvePokemonsIfEnoughCandy {
             get {
                 return ((bool)(this["EvolvePokemonsIfEnoughCandy"]));
@@ -188,6 +176,18 @@ namespace PokemonGo.RocketAPI.Console {
             }
             set {
                 this["DontTransferWithCPOver"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool WalkBackToDefaultLocation {
+            get {
+                return ((bool)(this["WalkBackToDefaultLocation"]));
+            }
+            set {
+                this["WalkBackToDefaultLocation"] = value;
             }
         }
     }
