@@ -70,9 +70,9 @@ namespace PokemonGo.RocketAPI.Logic
 
                     await PostLoginExecute();
                 }
-                catch (AccessTokenExpiredException ex)
+                catch (Exception ex)
                 {
-                    Logger.Error($"Access token expired");
+                    Logger.Error($"Exception: " + ex.Source);
                     Logger.Error($"{ex}");
                     Logger.ColoredConsoleWrite(ConsoleColor.Green, "Trying to Restart."); 
                     try
@@ -83,97 +83,6 @@ namespace PokemonGo.RocketAPI.Logic
 
                     }
                 }
-                catch (TaskCanceledException ex)
-                {
-                    Logger.Error("Task Canceled Exception - Restarting");
-                    Logger.Error($"{ex}");
-                    try
-                    {
-                        _telegram.getClient().StopReceiving();
-                    }
-                    catch (Exception)
-                    {
-
-                    }
-                }
-                catch (UriFormatException ex)
-                {
-                    Logger.Error("UriFormatException - Restarting");
-                    Logger.Error($"{ex}");
-                    try
-                    {
-                        _telegram.getClient().StopReceiving();
-                    }
-                    catch (Exception)
-                    {
-                    }
-                }
-                catch (ArgumentOutOfRangeException ex)
-                {
-                    Logger.Error("ArgumentOutOfRangeException - Restarting");
-                    Logger.Error($"{ex}");
-                    try
-                    {
-                        _telegram.getClient().StopReceiving();
-                    }
-                    catch (Exception)
-                    {
-
-                    }
-                }
-                catch (ArgumentNullException ex)
-                {
-                    Logger.Error("ArgumentNullException - Restarting");
-                    Logger.Error($"{ex}");
-                    try
-                    {
-                        _telegram.getClient().StopReceiving();
-                    }
-                    catch (Exception)
-                    {
-
-                    }
-                }
-                catch (NullReferenceException ex)
-                {
-                    Logger.Error("NullReferenceException - Restarting");
-                    Logger.Error($"{ex}");
-                    try
-                    {
-                        _telegram.getClient().StopReceiving();
-                    }
-                    catch (Exception)
-                    {
-
-                    }
-                }
-                catch (InvalidResponseException ex)
-                {
-                    Logger.Error("InvalidResponseException - Restarting");
-                    Logger.Error($"{ex}");
-                    try
-                    {
-                        _telegram.getClient().StopReceiving();
-                    }
-                    catch (Exception)
-                    {
-
-                    }
-                }
-                catch (AggregateException ex)
-                {
-                    Logger.Error("AggregateException - Restarting");
-                    Logger.Error($"{ex}");
-                    try
-                    {
-                        _telegram.getClient().StopReceiving();
-                    }
-                    catch (Exception)
-                    { 
-
-                    }
-                }
-
                 Logger.ColoredConsoleWrite(ConsoleColor.Red, "Restarting in 10 Seconds.");
                 await Task.Delay(10000);
             }
@@ -432,10 +341,10 @@ namespace PokemonGo.RocketAPI.Logic
             foreach (var pokemon in pokemonToEvolve)
             {
 
-                if (!_clientSettings.pokemonsToEvolve.Contains(pokemon.PokemonId))
-                {
-                    continue;
-                }
+                //if (!_clientSettings.pokemonsToEvolve.Contains(pokemon.PokemonId))
+                //{
+                //    continue;
+                //}
 
                 count++;
                 if (count == 6)
