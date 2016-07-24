@@ -228,7 +228,7 @@ namespace PokemonGo.RocketAPI.Logic.Utils
                     if (count == shows)
                         break;
 
-                    u = u + "\n" + pokemon.PokemonId + " CP: " + pokemon.Cp;
+                    u = u + "\n" + pokemon.PokemonId + " (" + StringUtils.getPokemonNameGer(pokemon.PokemonId) + ")  |  CP: " + pokemon.Cp;
                     count++;
                 }
 
