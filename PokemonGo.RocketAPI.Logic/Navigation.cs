@@ -211,108 +211,108 @@ namespace PokemonGo.RocketAPI.Logic
         }
         public FortData[] pathByNearestNeighbour(FortData[] pokeStops, double walkingSpeedInKilometersPerHour)
         {
-            //Start Gen. alg.
-            if (pokeStops.Length > 15)
-            {
-                //Config
-                int ITERATIONS = 100000;
-                int POPSIZE = pokeStops.Length * 60;
-                double CROSSPROP = 99;
-                double MUTPROP = 20;
+            ////Start Gen. alg.
+            //if (pokeStops.Length > 15)
+            //{
+            //    //Config
+            //    int ITERATIONS = 100000;
+            //    int POPSIZE = pokeStops.Length * 60;
+            //    double CROSSPROP = 99;
+            //    double MUTPROP = 20;
 
 
-                List<List<int>> population = new List<List<int>>();
-                Random rnd = new Random();
-                //Create Population
-                for (var i = POPSIZE; i > 0; --i)
-                {
-                    List<int> tempChromosome = new List<int>();
-                    int items = rnd.Next(2, pokeStops.Length * 3 / 4);
-                    do
-                    {
-                        int tempIndex = rnd.Next(0, pokeStops.Length - 1);
-                        //Add only if new Index
-                        while (tempChromosome.Exists(x => x == tempIndex))
-                        {
-                            tempIndex = rnd.Next(0, pokeStops.Length - 1);
-                        }
-                        tempChromosome.Add(tempIndex);
-                    } while (--items > 0);
+            //    List<List<int>> population = new List<List<int>>();
+            //    Random rnd = new Random();
+            //    //Create Population
+            //    for (var i = POPSIZE; i > 0; --i)
+            //    {
+            //        List<int> tempChromosome = new List<int>();
+            //        int items = rnd.Next(2, pokeStops.Length * 3 / 4);
+            //        do
+            //        {
+            //            int tempIndex = rnd.Next(0, pokeStops.Length - 1);
+            //            //Add only if new Index
+            //            while (tempChromosome.Exists(x => x == tempIndex))
+            //            {
+            //                tempIndex = rnd.Next(0, pokeStops.Length - 1);
+            //            }
+            //            tempChromosome.Add(tempIndex);
+            //        } while (--items > 0);
 
-                    if (calcFitness(ref pokeStops, tempChromosome, walkingSpeedInKilometersPerHour) > 0.0)
-                    {
-                        tempChromosome.Add(tempChromosome[0]);
-                        population.Add(tempChromosome);
-                    }
-                }
+            //        if (calcFitness(ref pokeStops, tempChromosome, walkingSpeedInKilometersPerHour) > 0.0)
+            //        {
+            //            tempChromosome.Add(tempChromosome[0]);
+            //            population.Add(tempChromosome);
+            //        }
+            //    }
 
-                if (population.Count > 10)
-                {
-                    for (int i = 0; i < ITERATIONS; ++i)
-                    {
-                        //Selection
-                        var parents = selection(pokeStops, population, walkingSpeedInKilometersPerHour);
-                        List<int> child1 = parents[0], child2 = parents[1];
-                        //Crossing
-                        if (rnd.Next(0, 100) < CROSSPROP)
-                        {
-                            child1 = calcCrossing(parents[0], parents[1]);
-                            child2 = calcCrossing(parents[1], parents[0]);
-                        }
-                        //Mutation
-                        if (rnd.Next(0, 100) < MUTPROP)
-                        {
-                            mutate(ref child1);
-                        }
-                        if (rnd.Next(0, 100) < MUTPROP)
-                        {
-                            mutate(ref child2);
-                        }
+            //    if (population.Count > 10)
+            //    {
+            //        for (int i = 0; i < ITERATIONS; ++i)
+            //        {
+            //            //Selection
+            //            var parents = selection(pokeStops, population, walkingSpeedInKilometersPerHour);
+            //            List<int> child1 = parents[0], child2 = parents[1];
+            //            //Crossing
+            //            if (rnd.Next(0, 100) < CROSSPROP)
+            //            {
+            //                child1 = calcCrossing(parents[0], parents[1]);
+            //                child2 = calcCrossing(parents[1], parents[0]);
+            //            }
+            //            //Mutation
+            //            if (rnd.Next(0, 100) < MUTPROP)
+            //            {
+            //                mutate(ref child1);
+            //            }
+            //            if (rnd.Next(0, 100) < MUTPROP)
+            //            {
+            //                mutate(ref child2);
+            //            }
 
-                        //Replace
-                        List<int> fittnes = new List<int>();
-                        int sumPop = 0;
-                        for (int c = 0; c < population.Count; ++c)
-                        {
-                            var temp = calcFitness(ref pokeStops, population[c], walkingSpeedInKilometersPerHour);
-                            sumPop += temp;
-                            fittnes.Add(temp);
-                        }
-                        List<int> fittnesSorted = new List<int>(fittnes);
-                        fittnesSorted.Sort();
+            //            //Replace
+            //            List<int> fittnes = new List<int>();
+            //            int sumPop = 0;
+            //            for (int c = 0; c < population.Count; ++c)
+            //            {
+            //                var temp = calcFitness(ref pokeStops, population[c], walkingSpeedInKilometersPerHour);
+            //                sumPop += temp;
+            //                fittnes.Add(temp);
+            //            }
+            //            List<int> fittnesSorted = new List<int>(fittnes);
+            //            fittnesSorted.Sort();
 
-                        if (fittnesSorted[0] <= calcFitness(ref pokeStops, child1, walkingSpeedInKilometersPerHour))
-                        {
-                            var tempSelcetedChr = fittnes.FindIndex(x => x == fittnesSorted[0]);
-                            population[tempSelcetedChr] = child1;
-                        }
-                        if (fittnesSorted[1] <= calcFitness(ref pokeStops, child2, walkingSpeedInKilometersPerHour))
-                        {
-                            var tempSelcetedChr = fittnes.FindIndex(x => x == fittnesSorted[1]);
-                            population[tempSelcetedChr] = child2;
-                        }
+            //            if (fittnesSorted[0] <= calcFitness(ref pokeStops, child1, walkingSpeedInKilometersPerHour))
+            //            {
+            //                var tempSelcetedChr = fittnes.FindIndex(x => x == fittnesSorted[0]);
+            //                population[tempSelcetedChr] = child1;
+            //            }
+            //            if (fittnesSorted[1] <= calcFitness(ref pokeStops, child2, walkingSpeedInKilometersPerHour))
+            //            {
+            //                var tempSelcetedChr = fittnes.FindIndex(x => x == fittnesSorted[1]);
+            //                population[tempSelcetedChr] = child2;
+            //            }
 
-                        //get best Generation
-                        List<int> fittnes2 = new List<int>();
-                        for (int c = 0; c < population.Count; ++c)
-                        {
-                            var temp = calcFitness(ref pokeStops, population[c], walkingSpeedInKilometersPerHour);
-                            fittnes2.Add(temp);
-                        }
-                        List<int> fittnesSorted2 = new List<int>(fittnes2);
-                        fittnesSorted2.Sort();
-                        var tempSelcetedChr2 = fittnes2.FindIndex(x => x == fittnesSorted2[fittnesSorted2.Count - 1]);
+            //            //get best Generation
+            //            List<int> fittnes2 = new List<int>();
+            //            for (int c = 0; c < population.Count; ++c)
+            //            {
+            //                var temp = calcFitness(ref pokeStops, population[c], walkingSpeedInKilometersPerHour);
+            //                fittnes2.Add(temp);
+            //            }
+            //            List<int> fittnesSorted2 = new List<int>(fittnes2);
+            //            fittnesSorted2.Sort();
+            //            var tempSelcetedChr2 = fittnes2.FindIndex(x => x == fittnesSorted2[fittnesSorted2.Count - 1]);
 
-                        List<FortData> newPokeStops = new List<FortData>();
-                        foreach (var element in population[tempSelcetedChr2])
-                        {
-                            newPokeStops.Add(pokeStops[element]);
-                        }
-                        Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"{Math.Round(newPokeStops.Count * 3600 / calcTime(ref pokeStops, population[tempSelcetedChr2], walkingSpeedInKilometersPerHour))} PokeStops per Hour.");
-                        return newPokeStops.ToArray();
-                    }
-                }
-            }
+            //            List<FortData> newPokeStops = new List<FortData>();
+            //            foreach (var element in population[tempSelcetedChr2])
+            //            {
+            //                newPokeStops.Add(pokeStops[element]);
+            //            }
+            //            Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"{Math.Round(newPokeStops.Count * 3600 / calcTime(ref pokeStops, population[tempSelcetedChr2], walkingSpeedInKilometersPerHour))} PokeStops per Hour.");
+            //            return newPokeStops.ToArray();
+            //        }
+            //    }
+            //}
             //End gen. alg
 
             //Normal calculation
