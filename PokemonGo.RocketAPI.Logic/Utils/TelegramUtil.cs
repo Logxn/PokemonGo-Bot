@@ -246,8 +246,8 @@ namespace PokemonGo.RocketAPI.Logic.Utils
                     var myPokemons = await _inventory.GetPokemons();
                     myPokemons = myPokemons.OrderByDescending(x => x.Cp);
 
-
-                    var u = "Top " + shows + " Pokemons!";
+                    var profil = await _client.GetProfile();
+                    var u = $"Top {shows} Pokemons of {profil.Profile.Username}!";
 
                     int count = 0;
                     foreach (var pokemon in myPokemons)
