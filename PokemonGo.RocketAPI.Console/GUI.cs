@@ -146,6 +146,9 @@ namespace PokemonGo.RocketAPI.Console
                     } else if (i == 23)
                     {
                         i = 21;
+                    } else if (i == 22)
+                    {
+                        i = 23;
                     }
                     TextBox temp = (TextBox)this.Controls.Find("textBox" + i, true).FirstOrDefault();
                     temp.Text = line;
@@ -404,8 +407,18 @@ namespace PokemonGo.RocketAPI.Console
                 textBox22.BackColor = Color.Red;
             } else
             {
-
+                Globals.masterball = int.Parse(textBox22.Text);
             }
+
+            if (textBox23.Text == "")
+            {
+                textBox23.BackColor = Color.Red;
+            }
+            else
+            {
+                Globals.toprevive = int.Parse(textBox23.Text);
+            }
+
 
             foreach (PokemonId pokemon in checkedListBox1.CheckedItems)
                 Globals.noTransfer.Add(pokemon);
