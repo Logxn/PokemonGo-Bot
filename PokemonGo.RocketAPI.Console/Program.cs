@@ -161,7 +161,7 @@ namespace PokemonGo.RocketAPI.Console
         public static int revive;
         public static int potion;
         public static int superpotion;
-        public static int hyperpoiton;
+        public static int hyperpotion;
         public static int toppotion;
         public static int toprevive;
         public static int berry;

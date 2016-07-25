@@ -392,7 +392,7 @@ namespace PokemonGo.RocketAPI.Console
                 return;
             }
             else
-                Globals.hyperpoiton = int.Parse(textBox16.Text);
+                Globals.hyperpotion = int.Parse(textBox16.Text);
 
             if (textBox17.Text == "")
             {
@@ -477,7 +477,7 @@ namespace PokemonGo.RocketAPI.Console
                     Globals.revive.ToString(),
                     Globals.potion.ToString(),
                     Globals.superpotion.ToString(),
-                    Globals.hyperpoiton.ToString(),
+                    Globals.hyperpotion.ToString(),
                     Globals.berry.ToString(),
                     Globals.masterball.ToString(),
                     Globals.toppotion.ToString(),
