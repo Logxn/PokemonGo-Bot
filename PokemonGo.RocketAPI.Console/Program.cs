@@ -26,7 +26,7 @@ namespace PokemonGo.RocketAPI.Console
             {
 
                 CheckVersion();
-                
+
                 try
                 {
                     new Logic.Logic(new Settings()).Execute().Wait();
@@ -34,7 +34,14 @@ namespace PokemonGo.RocketAPI.Console
                 catch (PtcOfflineException)
                 {
                     Logger.ColoredConsoleWrite(ConsoleColor.Red, "PTC Servers are probably down OR your credentials are wrong. Try google", LogLevel.Error);
+                } 
+                catch (AccountNotVerifiedException)
+                {
+                    Logger.ColoredConsoleWrite(ConsoleColor.Red, "Your PTC Account is not activated. Exiting in 10 Seconds.");
+                    Thread.Sleep(10000);
+                    Environment.Exit(0);
                 }
+                
                 catch (Exception ex)
                 {
                     Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Unhandled exception: {ex}", LogLevel.Error);
