@@ -33,7 +33,7 @@ namespace PokemonGo.RocketAPI.Console
         public int MaxWalkingRadiusInMeters => Globals.radius;//UserSettings.Default.MaxWalkingRadiusInMeters;
 
         public int HoldMaxDoublePokemons => Globals.duplicate;//UserSettings.Default.HoldMaxDoublePokemons;
-        public int TelegramLiveStatsDelay => UserSettings.Default.TelegramLiveStatsDelay;
+        public int TelegramLiveStatsDelay => Globals.telDelay;//UserSettings.Default.TelegramLiveStatsDelay;
 
 
         public double WalkingSpeedInKilometerPerHour => Globals.speed;//UserSettings.Default.WalkingSpeedInKilometerPerHour;
@@ -43,8 +43,8 @@ namespace PokemonGo.RocketAPI.Console
 
         public bool EvolvePokemonsIfEnoughCandy => Globals.evolve;//UserSettings.Default.EvolvePokemonsIfEnoughCandy;
 
-        public string TelegramAPIToken => UserSettings.Default.TelegramAPIToken;
-        public string TelegramName => UserSettings.Default.TelegramName;
+        public string TelegramAPIToken => Globals.telAPI;//UserSettings.Default.TelegramAPIToken;
+        public string TelegramName => Globals.telName;//UserSettings.Default.TelegramName;
 
         List<PokemonId> ISettings.catchPokemonSkipList
         {

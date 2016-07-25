@@ -40,7 +40,7 @@ namespace PokemonGo.RocketAPI.Console
                     Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Unhandled exception: {ex}", LogLevel.Error);
                 }
             });
-             System.Console.ReadLine();
+            System.Console.ReadLine();
         }
 
         public static void CheckVersion()
@@ -112,5 +112,8 @@ namespace PokemonGo.RocketAPI.Console
         public static List<PokemonId> noTransfer = new List<PokemonId>();
         public static List<PokemonId> noCatch = new List<PokemonId>();
         public static List<PokemonId> doEvolve = new List<PokemonId>();
+        public static string telAPI = "empty";
+        public static string telName = "empty";
+        public static int telDelay;
     }
 }
