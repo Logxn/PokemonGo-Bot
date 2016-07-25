@@ -385,7 +385,10 @@ namespace PokemonGo.RocketAPI.Logic
             var pokemonToEvolve = await _inventory.GetPokemonToEvolve(filter);
             if (pokemonToEvolve.Count() != 0)
             {
-                await UseLuckyEgg(_client);
+                if(_clientSettings.UseLuckyEgg)
+                {
+                    await UseLuckyEgg(_client);
+                }
             }
             foreach (var pokemon in pokemonToEvolve)
             {

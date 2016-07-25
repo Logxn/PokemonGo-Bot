@@ -48,6 +48,8 @@ namespace PokemonGo.RocketAPI.Console
 
         public int navigation_option => Globals.navigation_option;
 
+        public bool UseLuckyEgg => Globals.useluckyegg;//UserSettings.Default.UseLuckyEgg;
+
         List<PokemonId> ISettings.catchPokemonSkipList
         {
             get

@@ -33,7 +33,9 @@ namespace PokemonGo.RocketAPI
         string TelegramName { get; }
 
         int navigation_option { get; }
-        
+
+        bool UseLuckyEgg { get; }
+
         ICollection<KeyValuePair<ItemId, int>> itemRecycleFilter { get; set; }
 
         List<PokemonId> pokemonsToHold { get; set; }
