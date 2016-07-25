@@ -1,7 +1,7 @@
 ﻿using PokemonGo.RocketAPI.Enums;
 using System;
 using System.Collections.Generic;
-using AllEnum;
+using PokemonGo.RocketAPI.GeneratedCode;
 
 namespace PokemonGo.RocketAPI.Console
 {
@@ -51,7 +51,7 @@ namespace PokemonGo.RocketAPI.Console
             get
             {
                 List<PokemonId> catchPokemonSkipList = new List<PokemonId>();
-                foreach (AllEnum.PokemonId pokemon in Globals.noCatch)
+                foreach (PokemonId pokemon in Globals.noCatch)
                     catchPokemonSkipList.Add(pokemon);
 
                 return catchPokemonSkipList;
@@ -65,7 +65,7 @@ namespace PokemonGo.RocketAPI.Console
                 //Type and amount to keep
                 List<PokemonId> pokemonsToHold = new List<PokemonId>();
 
-                foreach (AllEnum.PokemonId pokemon in Globals.noTransfer)
+                foreach (PokemonId pokemon in Globals.noTransfer)
                     pokemonsToHold.Add(pokemon);
 
                 return pokemonsToHold;
@@ -82,7 +82,7 @@ namespace PokemonGo.RocketAPI.Console
             get
             {
                 List<PokemonId> pokemonsToEvolve = new List<PokemonId>();
-                foreach (AllEnum.PokemonId pokemon in Globals.doEvolve)
+                foreach (PokemonId pokemon in Globals.doEvolve)
                     pokemonsToEvolve.Add(pokemon);
 
                 return pokemonsToEvolve;

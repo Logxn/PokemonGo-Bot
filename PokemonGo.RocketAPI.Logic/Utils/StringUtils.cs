@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using PokemonGo.RocketAPI.GeneratedCode;
-using AllEnum;
 
 namespace PokemonGo.RocketAPI.Logic.Utils
 {
@@ -27,7 +26,7 @@ namespace PokemonGo.RocketAPI.Logic.Utils
                 case PokemonId.Venusaur:
                     GerName = "Bisaflor";
                     break;
-                case PokemonId.Charmender:
+                case PokemonId.Charmander:
                     GerName = "Glumanda";
                     break;
                 case PokemonId.Charmeleon:
@@ -99,7 +98,7 @@ namespace PokemonGo.RocketAPI.Logic.Utils
                 case PokemonId.Sandshrew:
                     GerName = "Sandan";
                     break;
-                case PokemonId.Sandlash:
+                case PokemonId.Sandslash:
                     GerName = "Sandlash";
                     break;
                 case PokemonId.NidoranFemale:
@@ -120,7 +119,7 @@ namespace PokemonGo.RocketAPI.Logic.Utils
                 case PokemonId.Nidoking:
                     GerName = "Nidoking";
                     break;
-                case PokemonId.Clefary:
+                case PokemonId.Clefairy:
                     GerName = "Piepi";
                     break;
                 case PokemonId.Clefable:
@@ -210,7 +209,7 @@ namespace PokemonGo.RocketAPI.Logic.Utils
                 case PokemonId.Kadabra:
                     GerName = "Kadabra";
                     break;
-                case PokemonId.Alakhazam:
+                case PokemonId.Alakazam:
                     GerName = "Alakhazam";
                     break;
                 case PokemonId.Machop:
@@ -228,7 +227,7 @@ namespace PokemonGo.RocketAPI.Logic.Utils
                 case PokemonId.Weepinbell:
                     GerName = "Ultrigaria";
                     break;
-                case PokemonId.Victreebell:
+                case PokemonId.Victreebel:
                     GerName = "Victreebell";
                     break;
                 case PokemonId.Tentacool:
@@ -237,7 +236,7 @@ namespace PokemonGo.RocketAPI.Logic.Utils
                 case PokemonId.Tentacruel:
                     GerName = "Tentoxa";
                     break;
-                case PokemonId.Geoduge:
+                case PokemonId.Geodude:
                     GerName = "Geoduge";
                     break;
                 case PokemonId.Graveler:
