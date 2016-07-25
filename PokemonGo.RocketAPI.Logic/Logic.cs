@@ -540,11 +540,16 @@ namespace PokemonGo.RocketAPI.Logic
 
         public async Task UseLuckyEgg(Client client)
         {
+            if (lastegguse == null)
+            {
+                lastegguse = DateTime.Now;
+            }
+
             var inventory = await _inventory.GetItems();
             var luckyEggs = inventory.Where(p => (ItemId)p.Item_ == ItemId.ItemLuckyEgg);
             var luckyEgg = luckyEggs.FirstOrDefault();
 
-            if (lastegguse > DateTime.Now)
+            if (lastegguse > DateTime.Now.AddSeconds(5))
             {
                 return;
             }
