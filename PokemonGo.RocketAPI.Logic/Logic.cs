@@ -215,7 +215,7 @@ namespace PokemonGo.RocketAPI.Logic
                 i.CooldownCompleteTimestampMs < DateTime.UtcNow.ToUnixTime())
                 .OrderBy(
                 i =>
-                LocationUtils.CalculateDistanceInMeters(_client.CurrentLat, _client.CurrentLng, i.Latitude, i.Longitude)).ToArray());
+                LocationUtils.CalculateDistanceInMeters(_client.CurrentLat, _client.CurrentLng, i.Latitude, i.Longitude)).ToArray(), _clientSettings.WalkingSpeedInKilometerPerHour);
 
 
             if (_clientSettings.MaxWalkingRadiusInMeters != 0)
