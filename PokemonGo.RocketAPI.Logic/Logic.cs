@@ -352,7 +352,7 @@ namespace PokemonGo.RocketAPI.Logic
                         foreach (int xp in caughtPokemonResponse.Scores.Xp)
                             _botStats.addExperience(xp);
 
-                        Logger.ColoredConsoleWrite(ConsoleColor.Magenta, $"We caught a {pokemon.PokemonId} ({StringUtils.getPokemonNameGer(pokemon.PokemonId)}) with CP {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} using a {bestPokeball}");
+                        Logger.ColoredConsoleWrite(ConsoleColor.Magenta, $"We caught a {pokemon.PokemonId} ({StringUtils.getPokemonNameGer(pokemon.PokemonId)}) with CP {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} ({PokemonInfo.CalculatePokemonPerfection(encounterPokemonResponse?.WildPokemon.PokemonData)}% perfect) using a {bestPokeball}");
 
                         //try
                         //{
@@ -369,7 +369,7 @@ namespace PokemonGo.RocketAPI.Logic
                     }
                     else
                     {
-                        Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, $"{pokemon.PokemonId} with CP {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} got away while using a {bestPokeball}..");
+                        Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, $"{pokemon.PokemonId} with CP {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} ({PokemonInfo.CalculatePokemonPerfection(encounterPokemonResponse?.WildPokemon.PokemonData)} % perfect) got away while using a {bestPokeball}..");
                     }
                 }
                 else
@@ -407,7 +407,7 @@ namespace PokemonGo.RocketAPI.Logic
 
                 if (evolvePokemonOutProto.Result == EvolvePokemonOut.Types.EvolvePokemonStatus.PokemonEvolvedSuccess)
                 {
-                    Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Evolved {pokemon.PokemonId} successfully for {evolvePokemonOutProto.ExpAwarded}xp", LogLevel.Info);
+                    Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Evolved {pokemon.PokemonId} with {pokemon.Cp} CP ({PokemonInfo.CalculatePokemonPerfection(pokemon)} % perfect) successfully for {evolvePokemonOutProto.ExpAwarded}xp", LogLevel.Info);
                     _botStats.addExperience(evolvePokemonOutProto.ExpAwarded);
                 }
                 else
@@ -438,7 +438,7 @@ namespace PokemonGo.RocketAPI.Logic
                         var bestPokemonOfType = await _inventory.GetHighestCPofType(duplicatePokemon);
 
                         var transfer = await _client.TransferPokemon(duplicatePokemon.Id);
-                        Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Transfer {duplicatePokemon.PokemonId} with {duplicatePokemon.Cp} CP (Best: {bestPokemonOfType} CP)", LogLevel.Info);
+                        Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Transfer {duplicatePokemon.PokemonId} with {duplicatePokemon.Cp} CP ({PokemonInfo.CalculatePokemonPerfection(duplicatePokemon)} % perfect) (Best: {bestPokemonOfType} CP)", LogLevel.Info);
                         await RandomHelper.RandomDelay(500, 700);
                     }
                 }
