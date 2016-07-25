@@ -141,8 +141,9 @@ namespace PokemonGo.RocketAPI.Logic.Utils
                 if (message == null || message.Type != MessageType.TextMessage) return;
 
                 Logger.ColoredConsoleWrite(ConsoleColor.Red, "[TelegramAPI]Got Request from " + messageEventArgs.Message.From.Username + " | " + message.Text);
+                var usernames = _clientSettings.TelegramName.Split(new char[] { ';' });
 
-                if (messageEventArgs.Message.From.Username != _clientSettings.TelegramName)
+                if (!usernames.Contains(messageEventArgs.Message.From.Username))
                 {
                     var usage = "I dont hear at you!";
                     await _telegram.SendTextMessageAsync(message.Chat.Id, usage,
