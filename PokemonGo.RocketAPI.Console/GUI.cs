@@ -1,10 +1,12 @@
 ﻿using PokemonGo.RocketAPI.GeneratedCode;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Windows.Forms;
 
 namespace PokemonGo.RocketAPI.Console
@@ -48,6 +50,12 @@ namespace PokemonGo.RocketAPI.Console
 
         private void GUI_Load(object sender, EventArgs e)
         {
+            // Version Infoooo
+            label28.Text = "Your Version: " + Assembly.GetExecutingAssembly().GetName().Version + " | Newest: " + Program.getNewestVersion();
+            if (Program.getNewestVersion() > Assembly.GetExecutingAssembly().GetName().Version)
+            {
+                MessageBox.Show("There is an Update on Github. Bottom left is a Github Link Label.");
+            }
             comboBox1.DisplayMember = "Text";
             var types = new[] {
                 new { Text = "Google"},
@@ -563,6 +571,16 @@ namespace PokemonGo.RocketAPI.Console
         private void GUI_FormClosing(object sender, FormClosingEventArgs e)
         {
             Environment.Exit(0);
+        }
+
+        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Process.Start("https://github.com/Ar1i/PokemonGo-Bot");
+        }
+
+        private void linkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Process.Start("https://high-minded.net/threads/pokemon-go-c-bot-safer-better.50731/");
         }
     }
 }

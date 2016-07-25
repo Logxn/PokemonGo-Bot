@@ -19,7 +19,7 @@ namespace PokemonGo.RocketAPI.Console
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new GUI());
-
+            
             Logger.SetLogger(new Logging.ConsoleLogger(LogLevel.Info));
             
             Task.Run(() =>
@@ -88,12 +88,41 @@ namespace PokemonGo.RocketAPI.Console
             }
         }
 
-        private static string DownloadServerVersion()
+        public static Version getNewestVersion()
+        {
+            try
+            {
+                var match =
+                    new Regex(
+                        @"\[assembly\: AssemblyVersion\(""(\d{1,})\.(\d{1,})\.(\d{1,})\.(\d{1,})""\)\]")
+                        .Match(DownloadServerVersion());
+
+                if (!match.Success) return Assembly.GetExecutingAssembly().GetName().Version;
+                var gitVersion =
+                    new Version(
+                        string.Format(
+                            "{0}.{1}.{2}.{3}",
+                            match.Groups[1],
+                            match.Groups[2],
+                            match.Groups[3],
+                            match.Groups[4]));
+
+                return gitVersion;
+
+            }
+            catch (Exception)
+            {
+                return Assembly.GetExecutingAssembly().GetName().Version;
+            }
+        }
+
+
+        public static string DownloadServerVersion()
         {
             using (var wC = new WebClient())
                 return
                     wC.DownloadString(
-                        "https://raw.githubusercontent.com/Ar1i/PokemonGo-Bot/master/PokemonGo.RocketAPI/Properties/AssemblyInfo.cs");
+                        "https://raw.githubusercontent.com/Ar1i/PokemonGo-Bot/master/PokemonGo.RocketAPI.Console/Properties/AssemblyInfo.cs");
         }
     }
     public static class Globals
