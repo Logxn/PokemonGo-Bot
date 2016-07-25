@@ -68,7 +68,9 @@ namespace PokemonGo.RocketAPI.Logic.Utils
 
                         var expneeded = ((c.NextLevelXp - c.PrevLevelXp) - StringUtils.getExpDiff(c.Level));
                         var curexp = ((c.Experience - c.PrevLevelXp) - StringUtils.getExpDiff(c.Level));
-                        var curexppercent = (Convert.ToDouble(curexp) / Convert.ToDouble(expneeded)) * 100;
+                        var curexppercent = Math.Round((Convert.ToDouble(curexp) / Convert.ToDouble(expneeded)) * 100, 2);
+
+                        var pokemonToEvolve = (await _inventory.GetPokemonToEvolve(null)).Count();
 
                         usage += "\nNickname: " + profil.Profile.Username +
                             "\nLevel: " + c.Level
@@ -77,7 +79,9 @@ namespace PokemonGo.RocketAPI.Logic.Utils
                             + "\nEXP to Level up: " + ((c.NextLevelXp) - (c.Experience))
                             + "\nKM walked: " + c.KmWalked
                             + "\nPokeStops visited: " + c.PokeStopVisits
-                            + "\nStardust: " + profil.Profile.Currency.ToArray()[1].Amount;
+                            + "\nStardust: " + profil.Profile.Currency.ToArray()[1].Amount
+                            + "\nPokemon to envolve: " + pokemonToEvolve
+                            ;
                     }
                 }
                 
@@ -129,7 +133,8 @@ namespace PokemonGo.RocketAPI.Logic.Utils
             Logger.ColoredConsoleWrite(ConsoleColor.Red, "[TelegramAPI]Got Request from " + messageEventArgs.Message.From.Username + " | " + message.Text);
 
             if (messageEventArgs.Message.From.Username != _clientSettings.TelegramName)
-            {
+            {                var pokemonToEvolve = await _inventory.GetPokemonToEvolve(null);
+
                 var usage = "I dont hear at you!";
                 await _telegram.SendTextMessageAsync(message.Chat.Id, usage,
                    replyMarkup: new ReplyKeyboardHide());
@@ -151,16 +156,20 @@ namespace PokemonGo.RocketAPI.Logic.Utils
 
                         var expneeded = ((c.NextLevelXp - c.PrevLevelXp) - StringUtils.getExpDiff(c.Level));
                         var curexp = ((c.Experience - c.PrevLevelXp) - StringUtils.getExpDiff(c.Level));
-                        var curexppercent = (Convert.ToDouble(curexp) / Convert.ToDouble(expneeded)) * 100;
+                        var curexppercent = Math.Round( (Convert.ToDouble(curexp) / Convert.ToDouble(expneeded)) * 100, 2);
 
-                        usage += "\nNickname: " + profil.Profile.Username + 
+                        var pokemonToEvolve = (await _inventory.GetPokemonToEvolve(null)).Count();
+
+                        usage += "\nNickname: " + profil.Profile.Username +
                             "\nLevel: " + c.Level
                             + "\nEXP Needed: " + ((c.NextLevelXp - c.PrevLevelXp) - StringUtils.getExpDiff(c.Level))
                             + $"\nCurrent EXP: {curexp} ({curexppercent}%)"
                             + "\nEXP to Level up: " + ((c.NextLevelXp) - (c.Experience))
                             + "\nKM walked: " + c.KmWalked
                             + "\nPokeStops visited: " + c.PokeStopVisits
-                            + "\nStardust: " + profil.Profile.Currency.ToArray()[1].Amount;
+                            + "\nStardust: " + profil.Profile.Currency.ToArray()[1].Amount
+                            + "\nPokemon to envolve: " + pokemonToEvolve
+                            ;
                     }
                 }
                 await _telegram.SendTextMessageAsync(message.Chat.Id, usage,
