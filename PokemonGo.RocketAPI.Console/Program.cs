@@ -20,7 +20,7 @@ namespace PokemonGo.RocketAPI.Console
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
                 Application.Run(new GUI());
-            } else if (args[1].Contains("-nogui"))
+            } else if (args[0].Contains("-nogui"))
             {
                 Logger.ColoredConsoleWrite(ConsoleColor.Red, "You added -nogui! If you didnt setup correctly with the GUI. It wont work.");
             } else
