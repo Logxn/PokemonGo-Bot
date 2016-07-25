@@ -69,6 +69,19 @@ namespace PokemonGo.RocketAPI.Logic
 
                     await PostLoginExecute();
                 }
+                catch (PtcOfflineException)
+                {
+                    Logger.Error("PTC Server Offline. Trying to Restart in 20 Seconds...");
+                    try
+                    {
+                        _telegram.getClient().StopReceiving();
+                    }
+                    catch (Exception)
+                    {
+
+                    }
+                    await Task.Delay(10000);
+                }
                 catch (Exception ex)
                 {
                     Logger.Error($"Error: " + ex.Source);
