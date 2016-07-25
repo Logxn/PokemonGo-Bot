@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AllEnum;
 using PokemonGo.RocketAPI.Enums;
 using PokemonGo.RocketAPI.Extensions;
 using PokemonGo.RocketAPI.GeneratedCode;
@@ -308,7 +307,7 @@ namespace PokemonGo.RocketAPI.Logic
                         var probability = encounterPokemonResponse?.CaptureProbability?.CaptureProbability_?.FirstOrDefault();
                         var bestBerry = await GetBestBerry(encounterPokemonResponse?.WildPokemon);
                         var berries = inventoryBerries.Where(p => (ItemId)p.Item_ == bestBerry).FirstOrDefault();
-                        if (bestBerry != AllEnum.ItemId.ItemUnknown && probability.HasValue && probability.Value < 0.35)
+                        if (bestBerry != ItemId.ItemUnknown && probability.HasValue && probability.Value < 0.35)
                         {
                             //Throw berry is we can
                             var useRaspberry = await _client.UseCaptureItem(pokemon.EncounterId, bestBerry, pokemon.SpawnpointId);
@@ -356,9 +355,9 @@ namespace PokemonGo.RocketAPI.Logic
         private async Task EvolveAllPokemonWithEnoughCandy(IEnumerable<PokemonId> filter = null)
         {
             var pokemonToEvolve = await _inventory.GetPokemonToEvolve(filter);
-            if (pokemonToEvolve.Count() > 30)
+            if (pokemonToEvolve.Count() != 0)
             {
-                // Use EGG - need to add this shit
+                await UseLuckyEgg(_client);
             }
             foreach (var pokemon in pokemonToEvolve)
             {
@@ -424,8 +423,8 @@ namespace PokemonGo.RocketAPI.Logic
 
             foreach (var item in items)
             {
-                var transfer = await _client.RecycleItem((AllEnum.ItemId)item.Item_, item.Count);
-                Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Recycled {item.Count}x {(AllEnum.ItemId)item.Item_}", LogLevel.Info);
+                var transfer = await _client.RecycleItem((ItemId)item.Item_, item.Count);
+                Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Recycled {item.Count}x {(ItemId)item.Item_}", LogLevel.Info);
                 await RandomHelper.RandomDelay(500, 700);
             }
         }
@@ -464,17 +463,17 @@ namespace PokemonGo.RocketAPI.Logic
             return balls.OrderBy(g => g.Key).First().Key;
         }
 
-        private async Task<AllEnum.ItemId> GetBestBerry(WildPokemon pokemon)
+        private async Task<ItemId> GetBestBerry(WildPokemon pokemon)
         {
             var pokemonCp = pokemon?.PokemonData?.Cp;
 
             var items = await _inventory.GetItems();
-            var berries = items.Where(i => (AllEnum.ItemId)i.Item_ == AllEnum.ItemId.ItemRazzBerry
-                                        || (AllEnum.ItemId)i.Item_ == AllEnum.ItemId.ItemBlukBerry
-                                        || (AllEnum.ItemId)i.Item_ == AllEnum.ItemId.ItemNanabBerry
-                                        || (AllEnum.ItemId)i.Item_ == AllEnum.ItemId.ItemWeparBerry
-                                        || (AllEnum.ItemId)i.Item_ == AllEnum.ItemId.ItemPinapBerry).GroupBy(i => ((AllEnum.ItemId)i.Item_)).ToList();
-            if (berries.Count == 0 || pokemonCp <= 350) return AllEnum.ItemId.ItemUnknown;
+            var berries = items.Where(i => (ItemId)i.Item_ == ItemId.ItemRazzBerry
+                                        || (ItemId)i.Item_ == ItemId.ItemBlukBerry
+                                        || (ItemId)i.Item_ == ItemId.ItemNanabBerry
+                                        || (ItemId)i.Item_ == ItemId.ItemWeparBerry
+                                        || (ItemId)i.Item_ == ItemId.ItemPinapBerry).GroupBy(i => ((ItemId)i.Item_)).ToList();
+            if (berries.Count == 0 || pokemonCp <= 350) return ItemId.ItemUnknown;
 
             var razzBerryCount = await _inventory.GetItemAmountByType(MiscEnums.Item.ITEM_RAZZ_BERRY);
             var blukBerryCount = await _inventory.GetItemAmountByType(MiscEnums.Item.ITEM_BLUK_BERRY);
@@ -483,32 +482,45 @@ namespace PokemonGo.RocketAPI.Logic
             var pinapBerryCount = await _inventory.GetItemAmountByType(MiscEnums.Item.ITEM_PINAP_BERRY);
 
             if (pinapBerryCount > 0 && pokemonCp >= 2000)
-                return AllEnum.ItemId.ItemPinapBerry;
+                return ItemId.ItemPinapBerry;
             else if (weparBerryCount > 0 && pokemonCp >= 2000)
-                return AllEnum.ItemId.ItemWeparBerry;
+                return ItemId.ItemWeparBerry;
             else if (nanabBerryCount > 0 && pokemonCp >= 2000)
-                return AllEnum.ItemId.ItemNanabBerry;
+                return ItemId.ItemNanabBerry;
             else if (nanabBerryCount > 0 && pokemonCp >= 2000)
-                return AllEnum.ItemId.ItemBlukBerry;
+                return ItemId.ItemBlukBerry;
 
             if (weparBerryCount > 0 && pokemonCp >= 1500)
-                return AllEnum.ItemId.ItemWeparBerry;
+                return ItemId.ItemWeparBerry;
             else if (nanabBerryCount > 0 && pokemonCp >= 1500)
-                return AllEnum.ItemId.ItemNanabBerry;
+                return ItemId.ItemNanabBerry;
             else if (blukBerryCount > 0 && pokemonCp >= 1500)
-                return AllEnum.ItemId.ItemBlukBerry;
+                return ItemId.ItemBlukBerry;
 
             if (nanabBerryCount > 0 && pokemonCp >= 1000)
-                return AllEnum.ItemId.ItemNanabBerry;
+                return ItemId.ItemNanabBerry;
             else if (blukBerryCount > 0 && pokemonCp >= 1000)
-                return AllEnum.ItemId.ItemBlukBerry;
+                return ItemId.ItemBlukBerry;
 
             if (blukBerryCount > 0 && pokemonCp >= 500)
-                return AllEnum.ItemId.ItemBlukBerry;
+                return ItemId.ItemBlukBerry;
 
             return berries.OrderBy(g => g.Key).First().Key;
         }
 
+        public async Task UseLuckyEgg(Client client)
+        {
+            var inventory = await _inventory.GetItems();
+            var luckyEggs = inventory.Where(p => (ItemId)p.Item_ == ItemId.ItemLuckyEgg);
+            var luckyEgg = luckyEggs.FirstOrDefault();
+
+            if (luckyEgg == null || luckyEgg.Count <= 0)
+                return;
+
+            await _client.UseItemXpBoost(ItemId.ItemLuckyEgg);
+            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Used Lucky Egg, remaining: {luckyEgg.Count - 1}");
+            await Task.Delay(3000);
+        }
 
         private double _distance(double Lat1, double Lng1, double Lat2, double Lng2)
         {

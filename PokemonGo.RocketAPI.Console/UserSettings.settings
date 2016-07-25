@@ -36,10 +36,10 @@
       <Value Profile="(Default)">10</Value>
     </Setting>
     <Setting Name="DontTransferWithCPOver" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">999</Value>
+      <Value Profile="(Default)">1700</Value>
     </Setting>
     <Setting Name="WalkBackToDefaultLocation" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">True</Value>
+      <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="MaxWalkingRadiusInMeters" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">5000</Value>
@@ -48,7 +48,7 @@
       <Value Profile="(Default)">5000</Value>
     </Setting>
     <Setting Name="HoldMaxDoublePokemons" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">3</Value>
+      <Value Profile="(Default)">1</Value>
     </Setting>
   </Settings>
 </SettingsFile>

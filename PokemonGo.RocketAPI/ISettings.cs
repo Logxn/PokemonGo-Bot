@@ -1,5 +1,4 @@
-﻿using AllEnum;
-using PokemonGo.RocketAPI.Enums;
+﻿using PokemonGo.RocketAPI.Enums;
 using PokemonGo.RocketAPI.GeneratedCode;
 using System.Collections.Generic;
 
@@ -33,7 +32,7 @@ namespace PokemonGo.RocketAPI
         string TelegramAPIToken { get; }
         string TelegramName { get; }
 
-        ICollection<KeyValuePair<AllEnum.ItemId, int>> itemRecycleFilter { get; set; }
+        ICollection<KeyValuePair<ItemId, int>> itemRecycleFilter { get; set; }
 
         List<PokemonId> pokemonsToHold { get; set; }
         List<PokemonId> pokemonsToEvolve { get; set; }
