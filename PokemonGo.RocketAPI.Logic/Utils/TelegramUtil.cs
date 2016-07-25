@@ -75,7 +75,7 @@ namespace PokemonGo.RocketAPI.Logic.Utils
                             usage += "\nNickname: " + profil.Profile.Username +
                                 "\nLevel: " + c.Level
                                 + "\nEXP Needed: " + ((c.NextLevelXp - c.PrevLevelXp) - StringUtils.getExpDiff(c.Level))
-                                + $"\nCurrent EXP: {curexp} ({curexppercent}%)"
+                                + $"\nCurrent EXP: {curexp} ({Math.Round(curexppercent)}%)"
                                 + "\nEXP to Level up: " + ((c.NextLevelXp) - (c.Experience))
                                 + "\nKM walked: " + c.KmWalked
                                 + "\nPokeStops visited: " + c.PokeStopVisits
@@ -170,7 +170,7 @@ namespace PokemonGo.RocketAPI.Logic.Utils
                             usage += "\nNickname: " + profil.Profile.Username +
                                 "\nLevel: " + c.Level
                                 + "\nEXP Needed: " + ((c.NextLevelXp - c.PrevLevelXp) - StringUtils.getExpDiff(c.Level))
-                                + $"\nCurrent EXP: {curexp} ({curexppercent}%)"
+                                + $"\nCurrent EXP: {curexp} ({Math.Round(curexppercent)}%)"
                                 + "\nEXP to Level up: " + ((c.NextLevelXp) - (c.Experience))
                                 + "\nKM walked: " + c.KmWalked
                                 + "\nPokeStops visited: " + c.PokeStopVisits
