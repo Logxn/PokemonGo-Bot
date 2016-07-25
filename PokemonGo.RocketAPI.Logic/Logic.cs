@@ -395,7 +395,7 @@ namespace PokemonGo.RocketAPI.Logic
 
                 if (evolvePokemonOutProto.Result == EvolvePokemonOut.Types.EvolvePokemonStatus.PokemonEvolvedSuccess)
                 {
-                    Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Evolved {pokemon.PokemonId} successfully for {evolvePokemonOutProto.ExpAwarded}xp", LogLevel.Info);
+                    Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Evolved {pokemon.PokemonId} ({StringUtils.getPokemonNameGer(pokemon.PokemonId)}) ({pokemon.Cp} CP) successfully to {evolvePokemonOutProto.EvolvedPokemon.PokemonType.ToString()} ({StringUtils.getPokemonNameGer(evolvePokemonOutProto.EvolvedPokemon.PokemonType)}) ({evolvePokemonOutProto.EvolvedPokemon.Cp} CP) for {evolvePokemonOutProto.ExpAwarded}xp", LogLevel.Info);
                     _botStats.addExperience(evolvePokemonOutProto.ExpAwarded);
                 }
                 else
