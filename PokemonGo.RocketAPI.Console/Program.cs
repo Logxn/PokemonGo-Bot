@@ -173,5 +173,6 @@ namespace PokemonGo.RocketAPI.Console
         public static int telDelay;
 
         public static int navigation_option = 1;
+        public static bool useluckyegg = true;
     }
 }
