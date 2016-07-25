@@ -141,16 +141,15 @@ namespace PokemonGo.RocketAPI.Logic.Utils
                 if (message == null || message.Type != MessageType.TextMessage) return;
 
                 Logger.ColoredConsoleWrite(ConsoleColor.Red, "[TelegramAPI]Got Request from " + messageEventArgs.Message.From.Username + " | " + message.Text);
-                var usernames = messageEventArgs.Message.From.Username.Split(new char[] { ';' });
 
-                if (!usernames.Contains(messageEventArgs.Message.From.Username))
+                if (messageEventArgs.Message.From.Username != _clientSettings.TelegramName)
                 {
                     var usage = "I dont hear at you!";
                     await _telegram.SendTextMessageAsync(message.Chat.Id, usage,
                        replyMarkup: new ReplyKeyboardHide());
                     return;
                 }
-
+                 
                 if (message.Text.StartsWith("/stats")) // send inline keyboard
                 {
 
@@ -267,7 +266,6 @@ namespace PokemonGo.RocketAPI.Logic.Utils
                     var pokemonToEvolve = await _inventory.GetPokemonToEvolve(null);
                     if (pokemonToEvolve.Count() > 30)
                     {
-                        //await Logic.UseLuckyEgg(_client);
                         // Use EGG - need to add this shit
                     }
                     foreach (var pokemon in pokemonToEvolve)
