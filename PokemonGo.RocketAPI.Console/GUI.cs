@@ -175,6 +175,7 @@ namespace PokemonGo.RocketAPI.Console
                 textBox17.Text = "75";
                 textBox22.Text = "200";
                 textBox21.Text = "100";
+                textBox23.Text = "20";
             }
 
             if (File.Exists(keep))
@@ -465,7 +466,8 @@ namespace PokemonGo.RocketAPI.Console
                     Globals.hyperpoiton.ToString(),
                     Globals.berry.ToString(),
                     Globals.masterball.ToString(),
-                    Globals.toppotion.ToString()
+                    Globals.toppotion.ToString(),
+                    Globals.toprevive.ToString()
             };
             System.IO.File.WriteAllLines(@items, itemsFile);
 
