@@ -163,7 +163,7 @@ namespace PokemonGo.RocketAPI.Logic
                     Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "KM Walked: " + c.KmWalked);
                     Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "PokeStops visited: " + c.PokeStopVisits);
                     Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Stardust: " + profil.Profile.Currency.ToArray()[1].Amount);
-                    Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Pokemon to envolve: " + pokemonToEvolve);
+                    Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Pokemon to evolve: " + pokemonToEvolve);
 
                     Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "_____________________________");
 
