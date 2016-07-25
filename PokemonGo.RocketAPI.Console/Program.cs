@@ -16,10 +16,16 @@ namespace PokemonGo.RocketAPI.Console
         [STAThread]
         static void Main(string[] args)
         {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new GUI());
+            if (!args[0].Contains("-nogui")) {
+                Application.EnableVisualStyles();
+                Application.SetCompatibleTextRenderingDefault(false);
+                Application.Run(new GUI());
+            } else
+            {
+                Logger.ColoredConsoleWrite(ConsoleColor.Red, "You added -nogui! If you didnt setup correctly with the GUI. It wont work.");
+            }
             
+
             Logger.SetLogger(new Logging.ConsoleLogger(LogLevel.Info));
             
             Task.Run(() =>
