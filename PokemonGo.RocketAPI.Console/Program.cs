@@ -5,13 +5,21 @@ using System.Reflection;
 using System.Net;
 using System.Text.RegularExpressions;
 using System.Threading;
+using System.Windows.Forms;
+using System.Collections.Generic;
+using AllEnum;
 
 namespace PokemonGo.RocketAPI.Console
 {
     class Program
     {
+        [STAThread]
         static void Main(string[] args)
         {
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+            Application.Run(new GUI());
+
             Logger.SetLogger(new Logging.ConsoleLogger(LogLevel.Info));
             
             Task.Run(() =>
@@ -77,5 +85,32 @@ namespace PokemonGo.RocketAPI.Console
                     wC.DownloadString(
                         "https://raw.githubusercontent.com/Ar1i/PokemonGo-Bot/master/PokemonGo.RocketAPI/Properties/AssemblyInfo.cs");
         }
+    }
+    public static class Globals
+    {
+        public static Enums.AuthType acc = Enums.AuthType.Ptc;
+        public static bool defLoc = true;
+        public static string username = "empty";
+        public static string password = "empty";
+        public static double latitute;
+        public static double longitude;
+        public static double altitude;
+        public static double speed;
+        public static int radius;
+        public static bool transfer;
+        public static int duplicate;
+        public static bool evolve;
+        public static int maxCp;
+        public static int pokeball;
+        public static int greatball;
+        public static int ultraball;
+        public static int revive;
+        public static int potion;
+        public static int superpotion;
+        public static int hyperpoiton;
+        public static int berry;
+        public static List<PokemonId> noTransfer = new List<PokemonId>();
+        public static List<PokemonId> noCatch = new List<PokemonId>();
+        public static List<PokemonId> doEvolve = new List<PokemonId>();
     }
 }
