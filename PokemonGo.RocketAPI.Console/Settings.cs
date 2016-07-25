@@ -103,12 +103,13 @@ namespace PokemonGo.RocketAPI.Console
                     new KeyValuePair<ItemId, int>(ItemId.ItemPokeBall, Globals.pokeball),
                     new KeyValuePair<ItemId, int>(ItemId.ItemGreatBall, Globals.greatball),
                     new KeyValuePair<ItemId, int>(ItemId.ItemUltraBall, Globals.ultraball),
-                    new KeyValuePair<ItemId, int>(ItemId.ItemMasterBall, 200),
+                    new KeyValuePair<ItemId, int>(ItemId.ItemMasterBall, Globals.masterball),
                     new KeyValuePair<ItemId, int>(ItemId.ItemRevive, Globals.revive),
                     new KeyValuePair<ItemId, int>(ItemId.ItemPotion, Globals.potion),
                     new KeyValuePair<ItemId, int>(ItemId.ItemSuperPotion, Globals.superpotion),
                     new KeyValuePair<ItemId, int>(ItemId.ItemHyperPotion, Globals.hyperpoiton),
-                    new KeyValuePair<ItemId, int>(ItemId.ItemRazzBerry, Globals.berry)
+                    new KeyValuePair<ItemId, int>(ItemId.ItemRazzBerry, Globals.berry),
+                    new KeyValuePair<ItemId, int>(ItemId.ItemMaxPotion, Globals.toppotion)
                 };
             }
 

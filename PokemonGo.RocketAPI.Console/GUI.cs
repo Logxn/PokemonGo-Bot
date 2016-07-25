@@ -140,6 +140,13 @@ namespace PokemonGo.RocketAPI.Console
                 i = 10;
                 foreach (string line in lines)
                 {
+                    if (i == 18)
+                    {
+                        i = 22;
+                    } else if (i == 23)
+                    {
+                        i = 21;
+                    }
                     TextBox temp = (TextBox)this.Controls.Find("textBox" + i, true).FirstOrDefault();
                     temp.Text = line;
                     i++;
@@ -155,6 +162,8 @@ namespace PokemonGo.RocketAPI.Console
                 textBox15.Text = "0";
                 textBox16.Text = "50";
                 textBox17.Text = "75";
+                textBox22.Text = "200";
+                textBox21.Text = "100";
             }
 
             if (File.Exists(keep))
@@ -382,6 +391,22 @@ namespace PokemonGo.RocketAPI.Console
             else
                 Globals.telDelay = int.Parse(textBox20.Text);
 
+            if (textBox21.Text == "")
+            {
+                textBox21.BackColor = Color.Red;
+            } else
+            {
+                Globals.toppotion = int.Parse(textBox21.Text);
+            }
+
+            if (textBox22.Text == "")
+            {
+                textBox22.BackColor = Color.Red;
+            } else
+            {
+
+            }
+
             foreach (PokemonId pokemon in checkedListBox1.CheckedItems)
                 Globals.noTransfer.Add(pokemon);
             foreach (PokemonId pokemon in checkedListBox2.CheckedItems)
@@ -417,7 +442,9 @@ namespace PokemonGo.RocketAPI.Console
                     Globals.potion.ToString(),
                     Globals.superpotion.ToString(),
                     Globals.hyperpoiton.ToString(),
-                    Globals.berry.ToString()
+                    Globals.berry.ToString(),
+                    Globals.masterball.ToString(),
+                    Globals.toppotion.ToString()
             };
             System.IO.File.WriteAllLines(@items, itemsFile);
 

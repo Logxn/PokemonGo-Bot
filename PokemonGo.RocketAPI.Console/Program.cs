@@ -104,10 +104,12 @@ namespace PokemonGo.RocketAPI.Console
         public static int pokeball;
         public static int greatball;
         public static int ultraball;
+        public static int masterball;
         public static int revive;
         public static int potion;
         public static int superpotion;
         public static int hyperpoiton;
+        public static int toppotion;
         public static int berry;
         public static List<PokemonId> noTransfer = new List<PokemonId>();
         public static List<PokemonId> noCatch = new List<PokemonId>();
