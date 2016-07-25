@@ -536,17 +536,25 @@ namespace PokemonGo.RocketAPI.Logic
             return berries.OrderBy(g => g.Key).First().Key;
         }
 
+        DateTime lastegguse;
+
         public async Task UseLuckyEgg(Client client)
         {
             var inventory = await _inventory.GetItems();
             var luckyEggs = inventory.Where(p => (ItemId)p.Item_ == ItemId.ItemLuckyEgg);
             var luckyEgg = luckyEggs.FirstOrDefault();
 
+            if (lastegguse > DateTime.Now)
+            {
+                return;
+            }
+
             if (luckyEgg == null || luckyEgg.Count <= 0)
                 return;
 
             await _client.UseItemXpBoost(ItemId.ItemLuckyEgg);
             Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Used Lucky Egg, remaining: {luckyEgg.Count - 1}");
+            lastegguse = DateTime.Now.AddMinutes(30);
             await Task.Delay(3000);
         }
 
