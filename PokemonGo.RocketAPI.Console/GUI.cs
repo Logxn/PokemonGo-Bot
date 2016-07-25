@@ -123,6 +123,19 @@ namespace PokemonGo.RocketAPI.Console
                         case 16:
                             textBox20.Text = line;
                             break;
+                        case 17:
+                            if (line == "1")
+                            {
+                                Globals.navigation_option = 1;
+                                checkBox8.Checked = true;
+                                checkBox7.Checked = false;
+                            } else
+                            {
+                                Globals.navigation_option = 2;
+                                checkBox7.Checked = true;
+                                checkBox8.Checked = false;
+                            }
+                            break;
                         default:
                             TextBox temp = (TextBox)this.Controls.Find("textBox" + tb, true).FirstOrDefault();
                             temp.Text = line;
@@ -452,7 +465,8 @@ namespace PokemonGo.RocketAPI.Console
                     Globals.maxCp.ToString(),
                     Globals.telAPI,
                     Globals.telName,
-                    Globals.telDelay.ToString()
+                    Globals.telDelay.ToString(),
+                    Globals.navigation_option.ToString()
             };
             System.IO.File.WriteAllLines(@account, accFile);
 
@@ -583,6 +597,30 @@ namespace PokemonGo.RocketAPI.Console
         private void linkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             Process.Start("https://high-minded.net/threads/pokemon-go-c-bot-safer-better.50731/");
+        }
+
+        private void checkBox8_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBox7.Checked)
+            {
+                if (checkBox8.Checked)
+                {
+                    checkBox7.Checked = false;
+                    Globals.navigation_option = 1;
+                } 
+            }
+        }
+
+        private void checkBox7_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBox8.Checked)
+            {
+                if (checkBox7.Checked)
+                {
+                    checkBox8.Checked = false;
+                    Globals.navigation_option = 2;
+                }
+            }
         }
     }
 }

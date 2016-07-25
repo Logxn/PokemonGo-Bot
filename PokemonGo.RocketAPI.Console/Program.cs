@@ -172,5 +172,7 @@ namespace PokemonGo.RocketAPI.Console
         public static string telAPI = "empty";
         public static string telName = "empty";
         public static int telDelay;
+
+        public static int navigation_option = 1;
     }
 }

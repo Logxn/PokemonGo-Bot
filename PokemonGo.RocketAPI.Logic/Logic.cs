@@ -207,7 +207,7 @@ namespace PokemonGo.RocketAPI.Logic
             //var pokeStops = mapObjects.MapCells.SelectMany(i => i.Forts).Where(i => i.Type == FortType.Checkpoint && i.CooldownCompleteTimestampMs < DateTime.UtcNow.ToUnixTime());
 
             var pokeStops =
-            Navigation.pathByNearestNeighbour(
+            _navigation.pathByNearestNeighbour(
             mapObjects.MapCells.SelectMany(i => i.Forts)
             .Where(
                 i =>

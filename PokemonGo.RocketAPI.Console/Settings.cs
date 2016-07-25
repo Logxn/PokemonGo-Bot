@@ -46,6 +46,8 @@ namespace PokemonGo.RocketAPI.Console
         public string TelegramAPIToken => Globals.telAPI;//UserSettings.Default.TelegramAPIToken;
         public string TelegramName => Globals.telName;//UserSettings.Default.TelegramName;
 
+        public int navigation_option => Globals.navigation_option;
+
         List<PokemonId> ISettings.catchPokemonSkipList
         {
             get

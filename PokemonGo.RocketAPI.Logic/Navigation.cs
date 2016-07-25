@@ -86,7 +86,7 @@ namespace PokemonGo.RocketAPI.Logic
             return result;
         }
 
-        private static double calcTime(ref FortData[] pokeStops, List<int> _chromosome, double walkingSpeedInKilometersPerHour)
+        private double calcTime(ref FortData[] pokeStops, List<int> _chromosome, double walkingSpeedInKilometersPerHour)
         {
             double time = 0.0;
             for (int i = 0; i < _chromosome.Count - 1; ++i)
@@ -103,7 +103,7 @@ namespace PokemonGo.RocketAPI.Logic
             }
             return time;
         }
-        private static int calcFitness(ref FortData[] pokeStops, List<int> _chromosome, double walkingSpeedInKilometersPerHour)
+        private int calcFitness(ref FortData[] pokeStops, List<int> _chromosome, double walkingSpeedInKilometersPerHour)
         {
             if (_chromosome.Count <= 2) return 0;
 
@@ -125,12 +125,15 @@ namespace PokemonGo.RocketAPI.Logic
 
             if (time <= 380 || !(time > 0.0)) return 0;
 
-            return  Convert.ToInt32((_chromosome.Count * 10000) / time);
-            //return Convert.ToInt32(_chromosome.Count * length / time); //ToDo:choose route with greater length  (Pokestops per hour decreases. More Pokemons with greater distance?)
-
-
+            if (_client.getSettingHandle().navigation_option == 1)
+            {
+                return Convert.ToInt32((_chromosome.Count * 10000) / time);
+            } else
+            {
+                return Convert.ToInt32(_chromosome.Count * length / time);
+            }
         }
-        private static List<int> calcCrossing(List<int> _chromosome1, List<int> _chromosome2)
+        private List<int> calcCrossing(List<int> _chromosome1, List<int> _chromosome2)
         {
             List<int> child = new List<int>(_chromosome1);
 
@@ -153,7 +156,7 @@ namespace PokemonGo.RocketAPI.Logic
 
             return child;
         }
-        private static void mutate(ref List<int> _chromosome)
+        private void mutate(ref List<int> _chromosome)
         {
             Random rnd = new Random();
             int i1 = rnd.Next(1, _chromosome.Count - 2), i2 = rnd.Next(1, _chromosome.Count - 2);
@@ -162,7 +165,7 @@ namespace PokemonGo.RocketAPI.Logic
             _chromosome[i2] = temp;
         }
 
-        private static List<List<int>> selection(FortData[] pokeStops, List<List<int>> population, double walkingSpeedInKilometersPerHour)
+        private List<List<int>> selection(FortData[] pokeStops, List<List<int>> population, double walkingSpeedInKilometersPerHour)
         {
             List<List<int>> listSelection = new List<List<int>>();
             int sumPop = 0;
@@ -206,7 +209,7 @@ namespace PokemonGo.RocketAPI.Logic
 
             return listSelection;
         }
-        public static FortData[] pathByNearestNeighbour(FortData[] pokeStops, double walkingSpeedInKilometersPerHour)
+        public FortData[] pathByNearestNeighbour(FortData[] pokeStops, double walkingSpeedInKilometersPerHour)
         {
             //Start Gen. alg.
             if (pokeStops.Length > 15)
