@@ -99,7 +99,7 @@ namespace PokemonGo.RocketAPI.Logic.Utils
                     GerName = "Sandan";
                     break;
                 case PokemonId.Sandslash:
-                    GerName = "Sandlash";
+                    GerName = "Sandamer";
                     break;
                 case PokemonId.NidoranFemale:
                     GerName = "Weibliches Nidoran";
@@ -210,7 +210,7 @@ namespace PokemonGo.RocketAPI.Logic.Utils
                     GerName = "Kadabra";
                     break;
                 case PokemonId.Alakazam:
-                    GerName = "Alakhazam";
+                    GerName = "Simsala";
                     break;
                 case PokemonId.Machop:
                     GerName = "Machollo";
@@ -228,7 +228,7 @@ namespace PokemonGo.RocketAPI.Logic.Utils
                     GerName = "Ultrigaria";
                     break;
                 case PokemonId.Victreebel:
-                    GerName = "Victreebell";
+                    GerName = "Sarzenia";
                     break;
                 case PokemonId.Tentacool:
                     GerName = "Tentacha";
@@ -237,7 +237,7 @@ namespace PokemonGo.RocketAPI.Logic.Utils
                     GerName = "Tentoxa";
                     break;
                 case PokemonId.Geodude:
-                    GerName = "Geoduge";
+                    GerName = "Kleinstein";
                     break;
                 case PokemonId.Graveler:
                     GerName = "Georok";
@@ -264,7 +264,7 @@ namespace PokemonGo.RocketAPI.Logic.Utils
                     GerName = "Magneton";
                     break;
                 case PokemonId.Farfetchd:
-                    GerName = "Farfetchd";
+                    GerName = "Porenta";
                     break;
                 case PokemonId.Doduo:
                     GerName = "Dodu";
@@ -381,7 +381,7 @@ namespace PokemonGo.RocketAPI.Logic.Utils
                     GerName = "Starmie";
                     break;
                 case PokemonId.MrMime:
-                    GerName = "MrMime";
+                    GerName = "Pantimos";
                     break;
                 case PokemonId.Scyther:
                     GerName = "Sichlor";
