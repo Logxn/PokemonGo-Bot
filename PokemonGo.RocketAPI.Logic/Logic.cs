@@ -165,6 +165,7 @@ namespace PokemonGo.RocketAPI.Logic
                     var expneeded = ((c.NextLevelXp - c.PrevLevelXp) - StringUtils.getExpDiff(c.Level));
                     var curexp = ((c.Experience - c.PrevLevelXp) - StringUtils.getExpDiff(c.Level));
                     var curexppercent = (Convert.ToDouble(curexp) / Convert.ToDouble(expneeded)) * 100;
+                    var pokemonToEvolve = (await _inventory.GetPokemonToEvolve(null)).Count();
 
                     Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "_____________________________");
                     Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Level: " + c.Level);
@@ -174,6 +175,8 @@ namespace PokemonGo.RocketAPI.Logic
                     Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "KM Walked: " + c.KmWalked);
                     Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "PokeStops visited: " + c.PokeStopVisits);
                     Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Stardust: " + profil.Profile.Currency.ToArray()[1].Amount);
+                    Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Pokemon to evolve: " + pokemonToEvolve);
+
                     Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "_____________________________");
 
                     System.Console.Title = profil.Profile.Username + " Level " + c.Level + " - (" + ((c.Experience - c.PrevLevelXp) - 
