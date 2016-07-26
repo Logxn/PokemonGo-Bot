@@ -174,5 +174,6 @@ namespace PokemonGo.RocketAPI.Console
 
         public static int navigation_option = 1;
         public static bool useluckyegg = true;
+        public static string language = "English";
     }
 }

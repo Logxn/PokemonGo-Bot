@@ -478,6 +478,22 @@ namespace PokemonGo.RocketAPI.Logic.Utils
             return GerName;
         }
 
+        public static string getPokemonNameByLanguage(ISettings clientSettings, PokemonId b)
+        {
+            switch (clientSettings.Language)
+            {
+                case "German":
+                    {
+                        return getPokemonNameGer(b);
+                        
+                    }
+                default:
+                    {
+                        return b.ToString();
+                    }
+            }
+        }
+
         public static int getExpDiff(int level)
         {
             switch (level)
