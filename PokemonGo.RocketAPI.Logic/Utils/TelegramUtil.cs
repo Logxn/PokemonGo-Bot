@@ -153,7 +153,6 @@ namespace PokemonGo.RocketAPI.Logic.Utils
                  
                 if (message.Text.StartsWith("/stats")) // send inline keyboard
                 {
-
                     var usage = "";
                     var inventory = await _client.GetInventory();
                     var profil = await _client.GetProfile();
@@ -167,6 +166,12 @@ namespace PokemonGo.RocketAPI.Logic.Utils
                             var expneeded = ((c.NextLevelXp - c.PrevLevelXp) - StringUtils.getExpDiff(c.Level));
                             var curexp = ((c.Experience - c.PrevLevelXp) - StringUtils.getExpDiff(c.Level));
                             var curexppercent = (Convert.ToDouble(curexp) / Convert.ToDouble(expneeded)) * 100;
+                            string curloc = _client.CurrentLat + "%20" + _client.CurrentLng;
+                            curloc = curloc.Replace(",", ".");
+                            string curlochtml = "https://www.google.de/maps/search/" + curloc + "/";
+                            string pokevis = _client.CurrentLat + ";" + _client.CurrentLng;
+                            pokevis = pokevis.Replace(",", ".").Replace(";", ",");
+                            string pokevishtml = "https://pokevision.com/#/@" + pokevis;
 
                             usage += "\nNickname: " + profil.Profile.Username +
                                 "\nLevel: " + c.Level
@@ -175,7 +180,9 @@ namespace PokemonGo.RocketAPI.Logic.Utils
                                 + "\nEXP to Level up: " + ((c.NextLevelXp) - (c.Experience))
                                 + "\nKM walked: " + c.KmWalked
                                 + "\nPokeStops visited: " + c.PokeStopVisits
-                                + "\nStardust: " + profil.Profile.Currency.ToArray()[1].Amount;
+                                + "\nStardust: " + profil.Profile.Currency.ToArray()[1].Amount
+                                + "\nCurentLocation: " + curlochtml
+                                + "\nPokevision: " + pokevishtml;
                         }
                     }
                     await _telegram.SendTextMessageAsync(message.Chat.Id, usage,
