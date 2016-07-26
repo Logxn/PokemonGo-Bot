@@ -8,7 +8,6 @@ using System.Threading;
 using System.Windows.Forms;
 using System.Collections.Generic;
 using PokemonGo.RocketAPI.GeneratedCode;
-using System.Drawing;
 
 namespace PokemonGo.RocketAPI.Console
 {
@@ -23,19 +22,21 @@ namespace PokemonGo.RocketAPI.Console
                 Application.Run(new GUI());
             } else if (args[0].Contains("-nogui"))
             {
-                Logger.Write(Color.Red, "You added -nogui! If you didnt setup correctly with the GUI. It wont work.");
+                Logger.ColoredConsoleWrite(ConsoleColor.Red, "You added -nogui! If you didnt setup correctly with the GUI. It wont work.");
             } else
             {
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
                 Application.Run(new GUI());
             }
+            
 
-            Application.Run(new Display());
-            //Logger.SetLogger(new Logging.ConsoleLogger(LogLevel.Info));
-
+            Logger.SetLogger(new Logging.ConsoleLogger(LogLevel.Info));
+            
             Task.Run(() =>
             {
+
+                CheckVersion();
 
                 try
                 {
@@ -43,27 +44,99 @@ namespace PokemonGo.RocketAPI.Console
                 }
                 catch (PtcOfflineException)
                 {
-                    Logger.Write(Color.Red, "PTC Servers are probably down OR you credentials are wrong.", LogLevel.Error);
-                    Logger.Write(Color.Red, "Trying again in 20 seconds...");
+                    Logger.ColoredConsoleWrite(ConsoleColor.Red, "PTC Servers are probably down OR you credentials are wrong.", LogLevel.Error);
+                    Logger.ColoredConsoleWrite(ConsoleColor.Red, "Trying again in 20 seconds...");
                     Thread.Sleep(20000);
                     new Logic.Logic(new Settings()).Execute().Wait();
                 }
                 catch (AccountNotVerifiedException)
                 {
-                    Logger.Write(Color.Red, "Your PTC Account is not activated. Exiting in 10 Seconds.");
+                    Logger.ColoredConsoleWrite(ConsoleColor.Red, "Your PTC Account is not activated. Exiting in 10 Seconds.");
                     Thread.Sleep(10000);
                     Environment.Exit(0);
                 }
                 
                 catch (Exception ex)
                 {
-                    Logger.Write(Color.Red, $"Unhandled exception: {ex}", LogLevel.Error);
+                    Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Unhandled exception: {ex}", LogLevel.Error);
                     Logger.Error("Restarting in 20 Seconds.");
                     Thread.Sleep(200000);
                     new Logic.Logic(new Settings()).Execute().Wait();
                 }
             });
             System.Console.ReadLine();
+        }
+
+        public static void CheckVersion()
+        {
+            try
+            {
+                var match =
+                    new Regex(
+                        @"\[assembly\: AssemblyVersion\(""(\d{1,})\.(\d{1,})\.(\d{1,})\.(\d{1,})""\)\]")
+                        .Match(DownloadServerVersion());
+
+                if (!match.Success) return;
+                var gitVersion =
+                    new Version(
+                        string.Format(
+                            "{0}.{1}.{2}.{3}",
+                            match.Groups[1],
+                            match.Groups[2],
+                            match.Groups[3],
+                            match.Groups[4]));
+                if (gitVersion <= Assembly.GetExecutingAssembly().GetName().Version)
+                {
+                    //ColoredConsoleWrite(ConsoleColor.Yellow, "Awesome! You have already got the newest version! " + Assembly.GetExecutingAssembly().GetName().Version);
+                    return;
+                }
+
+                Logger.ColoredConsoleWrite(ConsoleColor.Red, "There is a new Version available: " + gitVersion);
+                Logger.ColoredConsoleWrite(ConsoleColor.Red, "Its recommended to use the newest Version.");
+                Logger.ColoredConsoleWrite(ConsoleColor.Red, "Starting in 10 Seconds.");
+                Thread.Sleep(10000);
+            }
+            catch (Exception)
+            {
+                Logger.ColoredConsoleWrite(ConsoleColor.White, "Unable to check for updates now...");
+            }
+        }
+
+        public static Version getNewestVersion()
+        {
+            try
+            {
+                var match =
+                    new Regex(
+                        @"\[assembly\: AssemblyVersion\(""(\d{1,})\.(\d{1,})\.(\d{1,})\.(\d{1,})""\)\]")
+                        .Match(DownloadServerVersion());
+
+                if (!match.Success) return Assembly.GetExecutingAssembly().GetName().Version;
+                var gitVersion =
+                    new Version(
+                        string.Format(
+                            "{0}.{1}.{2}.{3}",
+                            match.Groups[1],
+                            match.Groups[2],
+                            match.Groups[3],
+                            match.Groups[4]));
+
+                return gitVersion;
+
+            }
+            catch (Exception)
+            {
+                return Assembly.GetExecutingAssembly().GetName().Version;
+            }
+        }
+
+
+        public static string DownloadServerVersion()
+        {
+            using (var wC = new WebClient())
+                return
+                    wC.DownloadString(
+                        "https://raw.githubusercontent.com/Ar1i/PokemonGo-Bot/master/PokemonGo.RocketAPI.Console/Properties/AssemblyInfo.cs");
         }
     }
     public static class Globals

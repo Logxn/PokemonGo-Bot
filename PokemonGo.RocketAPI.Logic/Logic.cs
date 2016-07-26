@@ -12,7 +12,6 @@ using System.Net;
 using System.IO;
 using System.Device.Location;
 using PokemonGo.RocketAPI.Helpers;
-using System.Drawing;
 
 namespace PokemonGo.RocketAPI.Logic
 {
@@ -38,7 +37,7 @@ namespace PokemonGo.RocketAPI.Logic
 
         public async Task Execute()
         {
-            Logger.Write(Color.Green, $"Starting Execute on login server: {_clientSettings.AuthType}", LogLevel.Info);
+            Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Starting Execute on login server: {_clientSettings.AuthType}", LogLevel.Info);
 
             while (true)
             {
@@ -55,12 +54,12 @@ namespace PokemonGo.RocketAPI.Logic
                         {
                             _telegram = new TelegramUtil(_client, new Telegram.Bot.TelegramBotClient(_clientSettings.TelegramAPIToken), _clientSettings, _inventory);
 
-                            Logger.Write(Color.Green, "To Activate Informations with Telegram, write the Bot a message for more Informations");
+                            Logger.ColoredConsoleWrite(ConsoleColor.Green, "To Activate Informations with Telegram, write the Bot a message for more Informations");
                             var me = await _telegram.getClient().GetMeAsync();
                             _telegram.getClient().OnCallbackQuery += _telegram.BotOnCallbackQueryReceived;
                             _telegram.getClient().OnMessage += _telegram.BotOnMessageReceived;
                             _telegram.getClient().OnMessageEdited += _telegram.BotOnMessageReceived;
-                            Logger.Write(Color.Green, "Telegram Name: " + me.Username);
+                            Logger.ColoredConsoleWrite(ConsoleColor.Green, "Telegram Name: " + me.Username);
                             _telegram.getClient().StartReceiving();
                         } catch (Exception)
                         {
@@ -99,7 +98,7 @@ namespace PokemonGo.RocketAPI.Logic
                 {
                     Logger.Error($"Error: " + ex.Source);
                     Logger.Error($"{ex}");
-                    Logger.Write(Color.Green, "Trying to Restart."); 
+                    Logger.ColoredConsoleWrite(ConsoleColor.Green, "Trying to Restart."); 
                     try
                     {
                         _telegram.getClient().StopReceiving();
@@ -109,7 +108,7 @@ namespace PokemonGo.RocketAPI.Logic
                     }
                 }
 
-                Logger.Write(Color.Red, "Restarting in 10 Seconds.");
+                Logger.ColoredConsoleWrite(ConsoleColor.Red, "Restarting in 10 Seconds.");
                 await Task.Delay(10000);
             }
         }
@@ -139,9 +138,9 @@ namespace PokemonGo.RocketAPI.Logic
                 }
                 catch (Exception ex)
                 {
-                    Logger.Write(Color.Red, $"Exception: {ex}", LogLevel.Error);
+                    Logger.Write($"Exception: {ex}", LogLevel.Error);
                 }
-                Logger.Write(Color.Green, "Starting again.. But waiting 10 Seconds..");
+                Logger.ColoredConsoleWrite(ConsoleColor.Green, "Starting again.. But waiting 10 Seconds..");
                 await Task.Delay(10000);
             }
         }
@@ -168,17 +167,17 @@ namespace PokemonGo.RocketAPI.Logic
                     var curexppercent = (Convert.ToDouble(curexp) / Convert.ToDouble(expneeded)) * 100;
                     var pokemonToEvolve = (await _inventory.GetPokemonToEvolve(null)).Count();
 
-                    Logger.Write(Color.Cyan, "_____________________________");
-                    Logger.Write(Color.Cyan, "Level: " + c.Level);
-                    Logger.Write(Color.Cyan, "EXP Needed: " + expneeded);
-                    Logger.Write(Color.Cyan, $"Current EXP: {curexp} ({Math.Round(curexppercent)}%)");
-                    Logger.Write(Color.Cyan, "EXP to Level up: " + ((c.NextLevelXp) - (c.Experience)));
-                    Logger.Write(Color.Cyan, "KM Walked: " + c.KmWalked);
-                    Logger.Write(Color.Cyan, "PokeStops visited: " + c.PokeStopVisits);
-                    Logger.Write(Color.Cyan, "Stardust: " + profil.Profile.Currency.ToArray()[1].Amount);
-                    Logger.Write(Color.Cyan, "Pokemon to evolve: " + pokemonToEvolve);
+                    Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "_____________________________");
+                    Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Level: " + c.Level);
+                    Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "EXP Needed: " + expneeded);
+                    Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Current EXP: {curexp} ({Math.Round(curexppercent)}%)");
+                    Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "EXP to Level up: " + ((c.NextLevelXp) - (c.Experience)));
+                    Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "KM Walked: " + c.KmWalked);
+                    Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "PokeStops visited: " + c.PokeStopVisits);
+                    Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Stardust: " + profil.Profile.Currency.ToArray()[1].Amount);
+                    Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Pokemon to evolve: " + pokemonToEvolve);
 
-                    Logger.Write(Color.Cyan, "_____________________________");
+                    Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "_____________________________");
 
                     System.Console.Title = profil.Profile.Username + " Level " + c.Level + " - (" + ((c.Experience - c.PrevLevelXp) - 
                         StringUtils.getExpDiff(c.Level)) + " / " + ((c.NextLevelXp - c.PrevLevelXp) - StringUtils.getExpDiff(c.Level)) + " | " + Math.Round(curexppercent) + "%)   | Stardust: " + profil.Profile.Currency.ToArray()[1].Amount + " | " + _botStats.ToString();
@@ -197,7 +196,7 @@ namespace PokemonGo.RocketAPI.Logic
 
             if (_clientSettings.MaxWalkingRadiusInMeters != 0 && distanceFromStart > _clientSettings.MaxWalkingRadiusInMeters)
             {
-                Logger.Write(Color.Green, "Youre outside of the defined Max Walking Radius. Walking back!");
+                Logger.ColoredConsoleWrite(ConsoleColor.Green, "Youre outside of the defined Max Walking Radius. Walking back!");
                 var update = await _navigation.HumanLikeWalking(new GeoCoordinate(_clientSettings.DefaultLatitude, _clientSettings.DefaultLongitude), _clientSettings.WalkingSpeedInKilometerPerHour, null);
                 var start = await _navigation.HumanLikeWalking(new GeoCoordinate(_clientSettings.DefaultLatitude, _clientSettings.DefaultLongitude), _clientSettings.WalkingSpeedInKilometerPerHour, ExecuteCatchAllNearbyPokemons);
             }
@@ -224,20 +223,20 @@ namespace PokemonGo.RocketAPI.Logic
                 pokeStops = pokeStops.Where(i => LocationUtils.CalculateDistanceInMeters(_client.CurrentLat, _client.CurrentLng, i.Latitude, i.Longitude) <= _clientSettings.MaxWalkingRadiusInMeters).ToArray();
                 if (pokeStops.Count() == 0)
                 {
-                    Logger.Write(Color.Red, "We cant find any PokeStops in a range of " + _clientSettings.MaxWalkingRadiusInMeters + "m!");
+                    Logger.ColoredConsoleWrite(ConsoleColor.Red, "We cant find any PokeStops in a range of " + _clientSettings.MaxWalkingRadiusInMeters + "m!");
                 }
             }
 
            
             if (pokeStops.Count() == 0)
             {
-                Logger.Write(Color.Red, "We cant find any PokeStops, which are unused! Probably Server unstable, or you visted them all. Retrying..");
+                Logger.ColoredConsoleWrite(ConsoleColor.Red, "We cant find any PokeStops, which are unused! Probably Server unstable, or you visted them all. Retrying..");
                 await ExecuteCatchAllNearbyPokemons();
 
             }
             else
             {
-                Logger.Write(Color.Yellow, "We found " + pokeStops.Count() + " PokeStops near.");
+                Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "We found " + pokeStops.Count() + " PokeStops near.");
             }
 
             foreach (var pokeStop in pokeStops)
@@ -259,7 +258,7 @@ namespace PokemonGo.RocketAPI.Logic
 
                 var distance = LocationUtils.CalculateDistanceInMeters(_client.CurrentLat, _client.CurrentLng, pokeStop.Latitude, pokeStop.Longitude);
                 var fortInfo = await client.GetFort(pokeStop.Id, pokeStop.Latitude, pokeStop.Longitude);
-                Logger.Write(Color.Green, $"Next Pokestop: {fortInfo.Name} in {distance:0.##}m distance.");
+                Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Next Pokestop: {fortInfo.Name} in {distance:0.##}m distance.");
                 var update = await _navigation.HumanLikeWalking(new GeoCoordinate(pokeStop.Latitude, pokeStop.Longitude), _clientSettings.WalkingSpeedInKilometerPerHour, ExecuteCatchAllNearbyPokemons);
 
                 ////var fortInfo = await client.GetFort(pokeStop.Id, pokeStop.Latitude, pokeStop.Longitude);
@@ -268,14 +267,14 @@ namespace PokemonGo.RocketAPI.Logic
                 if (fortSearch.ExperienceAwarded > 0)
                 {
                     _botStats.addExperience(fortSearch.ExperienceAwarded);
-                    Logger.Write(Color.Green, $"Farmed XP: {fortSearch.ExperienceAwarded}, Gems: { fortSearch.GemsAwarded}, Eggs: {fortSearch.PokemonDataEgg} Items: {StringUtils.GetSummedFriendlyNameOfItemAwardList(fortSearch.ItemsAwarded)}", LogLevel.Info);
+                    Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Farmed XP: {fortSearch.ExperienceAwarded}, Gems: { fortSearch.GemsAwarded}, Eggs: {fortSearch.PokemonDataEgg} Items: {StringUtils.GetSummedFriendlyNameOfItemAwardList(fortSearch.ItemsAwarded)}", LogLevel.Info);
                 }
 
                 await RandomHelper.RandomDelay(50, 200);
             }
             if (_clientSettings.WalkBackToDefaultLocation)
             {
-                Logger.Write(Color.Green, "Walking back to Default Location.");
+                Logger.ColoredConsoleWrite(ConsoleColor.Green, "Walking back to Default Location.");
                 await _navigation.HumanLikeWalking(new GeoCoordinate(_clientSettings.DefaultLatitude, _clientSettings.DefaultLongitude), _clientSettings.WalkingSpeedInKilometerPerHour, ExecuteCatchAllNearbyPokemons);
             }
         }
@@ -293,7 +292,7 @@ namespace PokemonGo.RocketAPI.Logic
                    LocationUtils.CalculateDistanceInMeters(_client.CurrentLat, _client.CurrentLng, i.Latitude, i.Longitude));
 
             if (pokemons != null && pokemons.Any())
-                Logger.Write(Color.Magenta, $"Found {pokemons.Count()} catchable Pokemon(s).");
+                Logger.ColoredConsoleWrite(ConsoleColor.Magenta, $"Found {pokemons.Count()} catchable Pokemon(s).");
 
             foreach (var pokemon in pokemons)
             {
@@ -312,7 +311,7 @@ namespace PokemonGo.RocketAPI.Logic
 
                 if (_clientSettings.catchPokemonSkipList.Contains(pokemon.PokemonId))
                 {
-                    Logger.Write(Color.Green, "Skipped Pokemon: " + pokemon.PokemonId);
+                    Logger.ColoredConsoleWrite(ConsoleColor.Green, "Skipped Pokemon: " + pokemon.PokemonId);
                     continue;
                 }
 
@@ -325,7 +324,7 @@ namespace PokemonGo.RocketAPI.Logic
                     var bestPokeball = await GetBestBall(encounterPokemonResponse?.WildPokemon);
                     if (bestPokeball == MiscEnums.Item.ITEM_UNKNOWN)
                     {
-                        Logger.Write(Color.Red, $"We dont own Pokeballs! - We missed a {pokemon.PokemonId} with CP {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp}");
+                        Logger.ColoredConsoleWrite(ConsoleColor.Red, $"We dont own Pokeballs! - We missed a {pokemon.PokemonId} with CP {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp}");
                         return;
                     }
                     CatchPokemonResponse caughtPokemonResponse;
@@ -340,7 +339,7 @@ namespace PokemonGo.RocketAPI.Logic
                         {
                             //Throw berry is we can
                             var useRaspberry = await _client.UseCaptureItem(pokemon.EncounterId, bestBerry, pokemon.SpawnpointId);
-                            Logger.Write(Color.Green, $"Used {bestBerry}. Remaining: {berries.Count}.", LogLevel.Info);
+                            Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Used {bestBerry}. Remaining: {berries.Count}.", LogLevel.Info);
                             await RandomHelper.RandomDelay(50, 200);
                         }
 
@@ -353,29 +352,29 @@ namespace PokemonGo.RocketAPI.Logic
                         foreach (int xp in caughtPokemonResponse.Scores.Xp)
                             _botStats.addExperience(xp);
 
-                        Logger.Write(Color.Magenta, $"We caught a {StringUtils.getPokemonNameByLanguage(_clientSettings, pokemon.PokemonId)} with CP {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} ({PokemonInfo.CalculatePokemonPerfection(encounterPokemonResponse?.WildPokemon.PokemonData)}% perfect) using a {bestPokeball}");
+                        Logger.ColoredConsoleWrite(ConsoleColor.Magenta, $"We caught a {StringUtils.getPokemonNameByLanguage(_clientSettings, pokemon.PokemonId)} with CP {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} ({PokemonInfo.CalculatePokemonPerfection(encounterPokemonResponse?.WildPokemon.PokemonData)}% perfect) using a {bestPokeball}");
 
                         //try
                         //{
                         //    var r = (HttpWebRequest)WebRequest.Create("http://pokemon.becher.xyz/index.php?pokeName=" + pokemon.PokemonId);
                         //    var rp = (HttpWebResponse)r.GetResponse();
                         //    var rps = new StreamReader(rp.GetResponseStream()).ReadToEnd();
-                        //    Logger.Write(Color.Magenta, $"We caught a {pokemon.PokemonId} ({rps}) with CP {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} using a {bestPokeball}");
+                        //    Logger.ColoredConsoleWrite(ConsoleColor.Magenta, $"We caught a {pokemon.PokemonId} ({rps}) with CP {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} using a {bestPokeball}");
                         //} catch (Exception)
                         //{
-                        //    Logger.Write(Color.Magenta, $"We caught a {pokemon.PokemonId} (Language Server Offline) with CP {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} using a {bestPokeball}");
+                        //    Logger.ColoredConsoleWrite(ConsoleColor.Magenta, $"We caught a {pokemon.PokemonId} (Language Server Offline) with CP {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} using a {bestPokeball}");
                         //}
                        
                         _botStats.addPokemon(1);
                     }
                     else
                     {
-                        Logger.Write(Color.Yellow, $"{StringUtils.getPokemonNameByLanguage(_clientSettings, pokemon.PokemonId)} with CP {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} ({PokemonInfo.CalculatePokemonPerfection(encounterPokemonResponse?.WildPokemon.PokemonData)} % perfect) got away while using a {bestPokeball}..");
+                        Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, $"{StringUtils.getPokemonNameByLanguage(_clientSettings, pokemon.PokemonId)} with CP {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} ({PokemonInfo.CalculatePokemonPerfection(encounterPokemonResponse?.WildPokemon.PokemonData)} % perfect) got away while using a {bestPokeball}..");
                     }
                 }
                 else
                 {
-                    Logger.Write(Color.Red, $"Error Catching Pokemon: {encounterPokemonResponse?.Status}");
+                    Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Error Catching Pokemon: {encounterPokemonResponse?.Status}");
                 }
                 await RandomHelper.RandomDelay(50, 200);
             }
@@ -411,12 +410,12 @@ namespace PokemonGo.RocketAPI.Logic
 
                 if (evolvePokemonOutProto.Result == EvolvePokemonOut.Types.EvolvePokemonStatus.PokemonEvolvedSuccess)
                 {
-                    Logger.Write(Color.Green, $"Evolved {StringUtils.getPokemonNameByLanguage(_clientSettings,pokemon.PokemonId)} with {pokemon.Cp} CP ({PokemonInfo.CalculatePokemonPerfection(pokemon)} % perfect) successfully to {StringUtils.getPokemonNameByLanguage(_clientSettings, evolvePokemonOutProto.EvolvedPokemon.PokemonType)} with {evolvePokemonOutProto.EvolvedPokemon.Cp} CP ({PokemonInfo.CalculatePokemonPerfection(evolvePokemonOutProto.EvolvedPokemon)} % perfect) for {evolvePokemonOutProto.ExpAwarded}xp", LogLevel.Info);
+                    Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Evolved {StringUtils.getPokemonNameByLanguage(_clientSettings,pokemon.PokemonId)} with {pokemon.Cp} CP ({PokemonInfo.CalculatePokemonPerfection(pokemon)} % perfect) successfully to {StringUtils.getPokemonNameByLanguage(_clientSettings, evolvePokemonOutProto.EvolvedPokemon.PokemonType)} with {evolvePokemonOutProto.EvolvedPokemon.Cp} CP ({PokemonInfo.CalculatePokemonPerfection(evolvePokemonOutProto.EvolvedPokemon)} % perfect) for {evolvePokemonOutProto.ExpAwarded}xp", LogLevel.Info);
                     _botStats.addExperience(evolvePokemonOutProto.ExpAwarded);
                 }
                 else
                 {
-                    Logger.Write(Color.Red, $"Failed to evolve {pokemon.PokemonId}. EvolvePokemonOutProto.Result was {evolvePokemonOutProto.Result}, stopping evolving {pokemon.PokemonId}", LogLevel.Info);
+                    Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Failed to evolve {pokemon.PokemonId}. EvolvePokemonOutProto.Result was {evolvePokemonOutProto.Result}, stopping evolving {pokemon.PokemonId}", LogLevel.Info);
                 }
 
                 await RandomHelper.RandomDelay(1000, 2000);
@@ -442,7 +441,7 @@ namespace PokemonGo.RocketAPI.Logic
                         var bestPokemonOfType = await _inventory.GetHighestCPofType(duplicatePokemon);
 
                         var transfer = await _client.TransferPokemon(duplicatePokemon.Id);
-                        Logger.Write(Color.Yellow, $"Transfer {StringUtils.getPokemonNameByLanguage(_clientSettings, duplicatePokemon.PokemonId)} with {duplicatePokemon.Cp} CP ({PokemonInfo.CalculatePokemonPerfection(duplicatePokemon)} % perfect) (Best: {bestPokemonOfType} CP)", LogLevel.Info);
+                        Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Transfer {StringUtils.getPokemonNameByLanguage(_clientSettings, duplicatePokemon.PokemonId)} with {duplicatePokemon.Cp} CP ({PokemonInfo.CalculatePokemonPerfection(duplicatePokemon)} % perfect) (Best: {bestPokemonOfType} CP)", LogLevel.Info);
                         await RandomHelper.RandomDelay(500, 700);
                     }
                 }
@@ -456,7 +455,7 @@ namespace PokemonGo.RocketAPI.Logic
             foreach (var item in items)
             {
                 var transfer = await _client.RecycleItem((ItemId)item.Item_, item.Count);
-                Logger.Write(Color.Yellow, $"Recycled {item.Count}x {(ItemId)item.Item_}", LogLevel.Info);
+                Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Recycled {item.Count}x {(ItemId)item.Item_}", LogLevel.Info);
                 await RandomHelper.RandomDelay(500, 700);
             }
         }
@@ -562,7 +561,7 @@ namespace PokemonGo.RocketAPI.Logic
                 return;
 
             await _client.UseItemXpBoost(ItemId.ItemLuckyEgg);
-            Logger.Write(Color.Cyan, $"Used Lucky Egg, remaining: {luckyEgg.Count - 1}");
+            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Used Lucky Egg, remaining: {luckyEgg.Count - 1}");
             lastegguse = DateTime.Now.AddMinutes(30);
             await Task.Delay(3000);
         }

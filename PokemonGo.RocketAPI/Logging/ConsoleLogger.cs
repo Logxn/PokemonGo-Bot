@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Drawing;
 
 namespace PokemonGo.RocketAPI.Logging
 {
@@ -25,7 +24,7 @@ namespace PokemonGo.RocketAPI.Logging
 		/// </summary>
 		/// <param name="message">The message to log. The current time will be prepended.</param>
 		/// <param name="level">Optional. Default <see cref="LogLevel.Info"/>.</param>
-		public void Write(string message, LogLevel level, Color color)
+		public void Write(string message, LogLevel level = LogLevel.Info)
 		{
 			if (level > maxLogLevel)
 				return;

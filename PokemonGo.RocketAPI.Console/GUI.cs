@@ -54,6 +54,11 @@ namespace PokemonGo.RocketAPI.Console
         private void GUI_Load(object sender, EventArgs e)
         {
             // Version Infoooo
+            groupBox9.Text = "Your Version: " + Assembly.GetExecutingAssembly().GetName().Version + " | Newest: " + Program.getNewestVersion();
+            if (Program.getNewestVersion() > Assembly.GetExecutingAssembly().GetName().Version)
+            {
+                MessageBox.Show("There is an Update on Github. Bottom left is a Github Link Label.");
+            }
 
             comboBox1.DisplayMember = "Text";
             var types = new[] {
