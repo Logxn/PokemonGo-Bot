@@ -480,17 +480,14 @@ namespace PokemonGo.RocketAPI.Logic.Utils
 
         public static string getPokemonNameByLanguage(ISettings clientSettings, PokemonId b)
         {
-            switch (clientSettings.Language)
+            if (clientSettings.Language)
             {
-                case "German":
-                    {
-                        return getPokemonNameGer(b);
+                return getPokemonNameGer(b);
                         
-                    }
-                default:
-                    {
-                        return b.ToString();
-                    }
+            }
+            else
+            {
+                return b.ToString();
             }
         }
 
