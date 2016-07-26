@@ -157,7 +157,7 @@ namespace PokemonGo.RocketAPI.Console {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("999")]
+        [global::System.Configuration.DefaultSettingValueAttribute("1700")]
         public int DontTransferWithCPOver {
             get {
                 return ((int)(this["DontTransferWithCPOver"]));
@@ -169,7 +169,7 @@ namespace PokemonGo.RocketAPI.Console {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
         public bool WalkBackToDefaultLocation {
             get {
                 return ((bool)(this["WalkBackToDefaultLocation"]));
@@ -205,7 +205,7 @@ namespace PokemonGo.RocketAPI.Console {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("3")]
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
         public int HoldMaxDoublePokemons {
             get {
                 return ((int)(this["HoldMaxDoublePokemons"]));

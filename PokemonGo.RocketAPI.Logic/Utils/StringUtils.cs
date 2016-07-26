@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using PokemonGo.RocketAPI.GeneratedCode;
-using AllEnum;
 
 namespace PokemonGo.RocketAPI.Logic.Utils
 {
@@ -27,7 +26,7 @@ namespace PokemonGo.RocketAPI.Logic.Utils
                 case PokemonId.Venusaur:
                     GerName = "Bisaflor";
                     break;
-                case PokemonId.Charmender:
+                case PokemonId.Charmander:
                     GerName = "Glumanda";
                     break;
                 case PokemonId.Charmeleon:
@@ -99,8 +98,8 @@ namespace PokemonGo.RocketAPI.Logic.Utils
                 case PokemonId.Sandshrew:
                     GerName = "Sandan";
                     break;
-                case PokemonId.Sandlash:
-                    GerName = "Sandlash";
+                case PokemonId.Sandslash:
+                    GerName = "Sandamer";
                     break;
                 case PokemonId.NidoranFemale:
                     GerName = "Weibliches Nidoran";
@@ -120,7 +119,7 @@ namespace PokemonGo.RocketAPI.Logic.Utils
                 case PokemonId.Nidoking:
                     GerName = "Nidoking";
                     break;
-                case PokemonId.Clefary:
+                case PokemonId.Clefairy:
                     GerName = "Piepi";
                     break;
                 case PokemonId.Clefable:
@@ -210,8 +209,8 @@ namespace PokemonGo.RocketAPI.Logic.Utils
                 case PokemonId.Kadabra:
                     GerName = "Kadabra";
                     break;
-                case PokemonId.Alakhazam:
-                    GerName = "Alakhazam";
+                case PokemonId.Alakazam:
+                    GerName = "Simsala";
                     break;
                 case PokemonId.Machop:
                     GerName = "Machollo";
@@ -228,8 +227,8 @@ namespace PokemonGo.RocketAPI.Logic.Utils
                 case PokemonId.Weepinbell:
                     GerName = "Ultrigaria";
                     break;
-                case PokemonId.Victreebell:
-                    GerName = "Victreebell";
+                case PokemonId.Victreebel:
+                    GerName = "Sarzenia";
                     break;
                 case PokemonId.Tentacool:
                     GerName = "Tentacha";
@@ -237,8 +236,8 @@ namespace PokemonGo.RocketAPI.Logic.Utils
                 case PokemonId.Tentacruel:
                     GerName = "Tentoxa";
                     break;
-                case PokemonId.Geoduge:
-                    GerName = "Geoduge";
+                case PokemonId.Geodude:
+                    GerName = "Kleinstein";
                     break;
                 case PokemonId.Graveler:
                     GerName = "Georok";
@@ -265,7 +264,7 @@ namespace PokemonGo.RocketAPI.Logic.Utils
                     GerName = "Magneton";
                     break;
                 case PokemonId.Farfetchd:
-                    GerName = "Farfetchd";
+                    GerName = "Porenta";
                     break;
                 case PokemonId.Doduo:
                     GerName = "Dodu";
@@ -382,7 +381,7 @@ namespace PokemonGo.RocketAPI.Logic.Utils
                     GerName = "Starmie";
                     break;
                 case PokemonId.MrMime:
-                    GerName = "MrMime";
+                    GerName = "Pantimos";
                     break;
                 case PokemonId.Scyther:
                     GerName = "Sichlor";
@@ -477,6 +476,22 @@ namespace PokemonGo.RocketAPI.Logic.Utils
 
             }
             return GerName;
+        }
+
+        public static string getPokemonNameByLanguage(ISettings clientSettings, PokemonId b)
+        {
+            switch (clientSettings.Language)
+            {
+                case "German":
+                    {
+                        return getPokemonNameGer(b);
+                        
+                    }
+                default:
+                    {
+                        return b.ToString();
+                    }
+            }
         }
 
         public static int getExpDiff(int level)

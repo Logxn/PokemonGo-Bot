@@ -1,7 +1,7 @@
 ﻿using PokemonGo.RocketAPI.Enums;
 using System;
 using System.Collections.Generic;
-using AllEnum;
+using PokemonGo.RocketAPI.GeneratedCode;
 
 namespace PokemonGo.RocketAPI.Console
 {
@@ -46,12 +46,18 @@ namespace PokemonGo.RocketAPI.Console
         public string TelegramAPIToken => Globals.telAPI;//UserSettings.Default.TelegramAPIToken;
         public string TelegramName => Globals.telName;//UserSettings.Default.TelegramName;
 
+        public int navigation_option => Globals.navigation_option;
+
+        public bool UseLuckyEgg => Globals.useluckyegg;//UserSettings.Default.UseLuckyEgg;
+
+        public string Language => Globals.language;//UserSettings.Default.Language;
+
         List<PokemonId> ISettings.catchPokemonSkipList
         {
             get
             {
                 List<PokemonId> catchPokemonSkipList = new List<PokemonId>();
-                foreach (AllEnum.PokemonId pokemon in Globals.noCatch)
+                foreach (PokemonId pokemon in Globals.noCatch)
                     catchPokemonSkipList.Add(pokemon);
 
                 return catchPokemonSkipList;
@@ -65,7 +71,7 @@ namespace PokemonGo.RocketAPI.Console
                 //Type and amount to keep
                 List<PokemonId> pokemonsToHold = new List<PokemonId>();
 
-                foreach (AllEnum.PokemonId pokemon in Globals.noTransfer)
+                foreach (PokemonId pokemon in Globals.noTransfer)
                     pokemonsToHold.Add(pokemon);
 
                 return pokemonsToHold;
@@ -82,7 +88,7 @@ namespace PokemonGo.RocketAPI.Console
             get
             {
                 List<PokemonId> pokemonsToEvolve = new List<PokemonId>();
-                foreach (AllEnum.PokemonId pokemon in Globals.doEvolve)
+                foreach (PokemonId pokemon in Globals.doEvolve)
                     pokemonsToEvolve.Add(pokemon);
 
                 return pokemonsToEvolve;
@@ -103,12 +109,15 @@ namespace PokemonGo.RocketAPI.Console
                     new KeyValuePair<ItemId, int>(ItemId.ItemPokeBall, Globals.pokeball),
                     new KeyValuePair<ItemId, int>(ItemId.ItemGreatBall, Globals.greatball),
                     new KeyValuePair<ItemId, int>(ItemId.ItemUltraBall, Globals.ultraball),
-                    new KeyValuePair<ItemId, int>(ItemId.ItemMasterBall, 200),
+                    new KeyValuePair<ItemId, int>(ItemId.ItemMasterBall, Globals.masterball),
                     new KeyValuePair<ItemId, int>(ItemId.ItemRevive, Globals.revive),
                     new KeyValuePair<ItemId, int>(ItemId.ItemPotion, Globals.potion),
                     new KeyValuePair<ItemId, int>(ItemId.ItemSuperPotion, Globals.superpotion),
-                    new KeyValuePair<ItemId, int>(ItemId.ItemHyperPotion, Globals.hyperpoiton),
-                    new KeyValuePair<ItemId, int>(ItemId.ItemRazzBerry, Globals.berry)
+                    new KeyValuePair<ItemId, int>(ItemId.ItemHyperPotion, Globals.hyperpotion),
+                    new KeyValuePair<ItemId, int>(ItemId.ItemRazzBerry, Globals.berry),
+                    new KeyValuePair<ItemId, int>(ItemId.ItemMaxPotion, Globals.toppotion),
+                    new KeyValuePair<ItemId, int>(ItemId.ItemMaxRevive, Globals.toprevive)
+
                 };
             }
 

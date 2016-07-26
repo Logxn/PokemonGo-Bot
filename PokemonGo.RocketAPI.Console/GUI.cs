@@ -1,10 +1,12 @@
-﻿using AllEnum;
+﻿using PokemonGo.RocketAPI.GeneratedCode;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Windows.Forms;
 
 namespace PokemonGo.RocketAPI.Console
@@ -30,6 +32,7 @@ namespace PokemonGo.RocketAPI.Console
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             Globals.acc = comboBox1.SelectedIndex == 0 ? Enums.AuthType.Google : Enums.AuthType.Ptc;
+            
             if (comboBox1.SelectedIndex == 0)
             {
                 textBox1.Hide();
@@ -48,6 +51,23 @@ namespace PokemonGo.RocketAPI.Console
 
         private void GUI_Load(object sender, EventArgs e)
         {
+            // Version Infoooo
+            label28.Text = "Your Version: " + Assembly.GetExecutingAssembly().GetName().Version + " | Newest: " + Program.getNewestVersion();
+            if (Program.getNewestVersion() > Assembly.GetExecutingAssembly().GetName().Version)
+            {
+                MessageBox.Show("There is an Update on Github. Bottom left is a Github Link Label.");
+            }
+
+            
+  
+            cbLanguage.DisplayMember = "Text";
+            var languages = new[] {
+                new { Text = "English"},
+                new { Text = "German"},
+            };
+            cbLanguage.DataSource = languages;
+            cbLanguage.SelectedIndex = 0; //Set Language to English by default
+
             comboBox1.DisplayMember = "Text";
             var types = new[] {
                 new { Text = "Google"},
@@ -115,6 +135,25 @@ namespace PokemonGo.RocketAPI.Console
                         case 16:
                             textBox20.Text = line;
                             break;
+                        case 17:
+                            //if (line == "1")
+                            //{
+                            //    Globals.navigation_option = 1;
+                            //    checkBox8.Checked = true;
+                            //    checkBox7.Checked = false;
+                            //} else
+                            //{
+                            //    Globals.navigation_option = 2;
+                            //    checkBox7.Checked = true;
+                            //    checkBox8.Checked = false;
+                            //}
+                            break;
+                        case 18:
+                            checkBox7.Checked = bool.Parse(line);
+                            break;
+                        case 19:
+                                cbLanguage.Text = line;
+                            break;
                         default:
                             TextBox temp = (TextBox)this.Controls.Find("textBox" + tb, true).FirstOrDefault();
                             temp.Text = line;
@@ -140,6 +179,16 @@ namespace PokemonGo.RocketAPI.Console
                 i = 10;
                 foreach (string line in lines)
                 {
+                    if (i == 18)
+                    {
+                        i = 22;
+                    } else if (i == 23)
+                    {
+                        i = 21;
+                    } else if (i == 22)
+                    {
+                        i = 23;
+                    }
                     TextBox temp = (TextBox)this.Controls.Find("textBox" + i, true).FirstOrDefault();
                     temp.Text = line;
                     i++;
@@ -155,6 +204,9 @@ namespace PokemonGo.RocketAPI.Console
                 textBox15.Text = "0";
                 textBox16.Text = "50";
                 textBox17.Text = "75";
+                textBox22.Text = "200";
+                textBox21.Text = "100";
+                textBox23.Text = "20";
             }
 
             if (File.Exists(keep))
@@ -358,7 +410,7 @@ namespace PokemonGo.RocketAPI.Console
                 return;
             }
             else
-                Globals.hyperpoiton = int.Parse(textBox16.Text);
+                Globals.hyperpotion = int.Parse(textBox16.Text);
 
             if (textBox17.Text == "")
             {
@@ -381,6 +433,33 @@ namespace PokemonGo.RocketAPI.Console
             }
             else
                 Globals.telDelay = int.Parse(textBox20.Text);
+
+            if (textBox21.Text == "")
+            {
+                textBox21.BackColor = Color.Red;
+            } else
+            {
+                Globals.toppotion = int.Parse(textBox21.Text);
+            }
+
+            if (textBox22.Text == "")
+            {
+                textBox22.BackColor = Color.Red;
+            } else
+            {
+                Globals.masterball = int.Parse(textBox22.Text);
+            }
+
+            if (textBox23.Text == "")
+            {
+                textBox23.BackColor = Color.Red;
+            }
+            else
+            {
+                Globals.toprevive = int.Parse(textBox23.Text);
+            }
+
+            Globals.language = cbLanguage.Text;
 
             foreach (PokemonId pokemon in checkedListBox1.CheckedItems)
                 Globals.noTransfer.Add(pokemon);
@@ -405,7 +484,10 @@ namespace PokemonGo.RocketAPI.Console
                     Globals.maxCp.ToString(),
                     Globals.telAPI,
                     Globals.telName,
-                    Globals.telDelay.ToString()
+                    Globals.telDelay.ToString(),
+                    Globals.navigation_option.ToString(),
+                    Globals.useluckyegg.ToString(),
+                    Globals.language.ToString()
             };
             System.IO.File.WriteAllLines(@account, accFile);
 
@@ -416,8 +498,11 @@ namespace PokemonGo.RocketAPI.Console
                     Globals.revive.ToString(),
                     Globals.potion.ToString(),
                     Globals.superpotion.ToString(),
-                    Globals.hyperpoiton.ToString(),
-                    Globals.berry.ToString()
+                    Globals.hyperpotion.ToString(),
+                    Globals.berry.ToString(),
+                    Globals.masterball.ToString(),
+                    Globals.toppotion.ToString(),
+                    Globals.toprevive.ToString()
             };
             System.IO.File.WriteAllLines(@items, itemsFile);
 
@@ -523,6 +608,27 @@ namespace PokemonGo.RocketAPI.Console
         private void GUI_FormClosing(object sender, FormClosingEventArgs e)
         {
             Environment.Exit(0);
+        }
+
+        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Process.Start("https://github.com/Ar1i/PokemonGo-Bot");
+        }
+
+        private void linkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Process.Start("https://high-minded.net/threads/pokemon-go-c-bot-safer-better.50731/");
+        }
+
+        private void checkBox7_CheckedChanged_1(object sender, EventArgs e)
+        {
+            if (checkBox7.Checked)
+            {
+                Globals.useluckyegg = true;
+            } else
+            {
+                Globals.useluckyegg = false;
+            }
         }
     }
 }
