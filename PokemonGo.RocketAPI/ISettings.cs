@@ -36,6 +36,8 @@ namespace PokemonGo.RocketAPI
 
         bool UseLuckyEgg { get; }
 
+        string Language { get; }
+
         ICollection<KeyValuePair<ItemId, int>> itemRecycleFilter { get; set; }
 
         List<PokemonId> pokemonsToHold { get; set; }

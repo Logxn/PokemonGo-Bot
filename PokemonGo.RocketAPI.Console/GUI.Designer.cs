@@ -13,7 +13,7 @@
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
-            if (disposing && (components != null))
+            if (disposing && (components !=null))
             {
                 components.Dispose();
             }
@@ -51,6 +51,7 @@
             this.textBox3 = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.checkBox7 = new System.Windows.Forms.CheckBox();
             this.textBox9 = new System.Windows.Forms.TextBox();
             this.label12 = new System.Windows.Forms.Label();
             this.textBox8 = new System.Windows.Forms.TextBox();
@@ -101,7 +102,8 @@
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.linkLabel2 = new System.Windows.Forms.LinkLabel();
             this.label28 = new System.Windows.Forms.Label();
-            this.checkBox7 = new System.Windows.Forms.CheckBox();
+            this.cbLanguage = new System.Windows.Forms.ComboBox();
+            this.label29 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -316,6 +318,8 @@
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.label29);
+            this.groupBox3.Controls.Add(this.cbLanguage);
             this.groupBox3.Controls.Add(this.checkBox7);
             this.groupBox3.Controls.Add(this.textBox9);
             this.groupBox3.Controls.Add(this.label12);
@@ -325,10 +329,23 @@
             this.groupBox3.Controls.Add(this.checkBox2);
             this.groupBox3.Location = new System.Drawing.Point(12, 295);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(252, 141);
+            this.groupBox3.Size = new System.Drawing.Size(252, 165);
             this.groupBox3.TabIndex = 8;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Bot Settings";
+            // 
+            // checkBox7
+            // 
+            this.checkBox7.AutoSize = true;
+            this.checkBox7.Checked = true;
+            this.checkBox7.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox7.Location = new System.Drawing.Point(7, 113);
+            this.checkBox7.Name = "checkBox7";
+            this.checkBox7.Size = new System.Drawing.Size(144, 17);
+            this.checkBox7.TabIndex = 6;
+            this.checkBox7.Text = "Use LuckyEgg at Evolve";
+            this.checkBox7.UseVisualStyleBackColor = true;
+            this.checkBox7.CheckedChanged += new System.EventHandler(this.checkBox7_CheckedChanged_1);
             // 
             // textBox9
             // 
@@ -718,7 +735,7 @@
             this.groupBox8.Controls.Add(this.label22);
             this.groupBox8.Controls.Add(this.textBox18);
             this.groupBox8.Controls.Add(this.label21);
-            this.groupBox8.Location = new System.Drawing.Point(12, 442);
+            this.groupBox8.Location = new System.Drawing.Point(12, 466);
             this.groupBox8.Name = "groupBox8";
             this.groupBox8.Size = new System.Drawing.Size(252, 93);
             this.groupBox8.TabIndex = 14;
@@ -786,7 +803,7 @@
             // linkLabel1
             // 
             this.linkLabel1.AutoSize = true;
-            this.linkLabel1.Location = new System.Drawing.Point(39, 554);
+            this.linkLabel1.Location = new System.Drawing.Point(39, 578);
             this.linkLabel1.Name = "linkLabel1";
             this.linkLabel1.Size = new System.Drawing.Size(38, 13);
             this.linkLabel1.TabIndex = 15;
@@ -797,7 +814,7 @@
             // linkLabel2
             // 
             this.linkLabel2.AutoSize = true;
-            this.linkLabel2.Location = new System.Drawing.Point(89, 554);
+            this.linkLabel2.Location = new System.Drawing.Point(89, 578);
             this.linkLabel2.Name = "linkLabel2";
             this.linkLabel2.Size = new System.Drawing.Size(110, 13);
             this.linkLabel2.TabIndex = 16;
@@ -808,30 +825,34 @@
             // label28
             // 
             this.label28.AutoSize = true;
-            this.label28.Location = new System.Drawing.Point(13, 538);
+            this.label28.Location = new System.Drawing.Point(13, 562);
             this.label28.Name = "label28";
             this.label28.Size = new System.Drawing.Size(63, 13);
             this.label28.TabIndex = 17;
             this.label28.Text = "Version Info";
             // 
-            // checkBox7
+            // cbLanguage
             // 
-            this.checkBox7.AutoSize = true;
-            this.checkBox7.Checked = true;
-            this.checkBox7.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox7.Location = new System.Drawing.Point(7, 113);
-            this.checkBox7.Name = "checkBox7";
-            this.checkBox7.Size = new System.Drawing.Size(144, 17);
-            this.checkBox7.TabIndex = 6;
-            this.checkBox7.Text = "Use LuckyEgg at Evolve";
-            this.checkBox7.UseVisualStyleBackColor = true;
-            this.checkBox7.CheckedChanged += new System.EventHandler(this.checkBox7_CheckedChanged_1);
+            this.cbLanguage.FormattingEnabled = true;
+            this.cbLanguage.Location = new System.Drawing.Point(68, 136);
+            this.cbLanguage.Name = "cbLanguage";
+            this.cbLanguage.Size = new System.Drawing.Size(173, 21);
+            this.cbLanguage.TabIndex = 7;
+            // 
+            // label29
+            // 
+            this.label29.AutoSize = true;
+            this.label29.Location = new System.Drawing.Point(7, 139);
+            this.label29.Name = "label29";
+            this.label29.Size = new System.Drawing.Size(55, 13);
+            this.label29.TabIndex = 8;
+            this.label29.Text = "Language";
             // 
             // GUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(626, 570);
+            this.ClientSize = new System.Drawing.Size(626, 620);
             this.Controls.Add(this.label28);
             this.Controls.Add(this.linkLabel2);
             this.Controls.Add(this.linkLabel1);
@@ -947,6 +968,8 @@
         private System.Windows.Forms.LinkLabel linkLabel2;
         private System.Windows.Forms.Label label28;
         private System.Windows.Forms.CheckBox checkBox7;
+        private System.Windows.Forms.Label label29;
+        private System.Windows.Forms.ComboBox cbLanguage;
     }
 }
 

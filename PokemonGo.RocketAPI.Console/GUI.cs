@@ -32,6 +32,7 @@ namespace PokemonGo.RocketAPI.Console
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             Globals.acc = comboBox1.SelectedIndex == 0 ? Enums.AuthType.Google : Enums.AuthType.Ptc;
+            
             if (comboBox1.SelectedIndex == 0)
             {
                 textBox1.Hide();
@@ -56,6 +57,17 @@ namespace PokemonGo.RocketAPI.Console
             {
                 MessageBox.Show("There is an Update on Github. Bottom left is a Github Link Label.");
             }
+
+            
+  
+            cbLanguage.DisplayMember = "Text";
+            var languages = new[] {
+                new { Text = "English"},
+                new { Text = "German"},
+            };
+            cbLanguage.DataSource = languages;
+            cbLanguage.SelectedIndex = 0; //Set Language to English by default
+
             comboBox1.DisplayMember = "Text";
             var types = new[] {
                 new { Text = "Google"},
@@ -138,6 +150,9 @@ namespace PokemonGo.RocketAPI.Console
                             break;
                         case 18:
                             checkBox7.Checked = bool.Parse(line);
+                            break;
+                        case 19:
+                                cbLanguage.Text = line;
                             break;
                         default:
                             TextBox temp = (TextBox)this.Controls.Find("textBox" + tb, true).FirstOrDefault();
@@ -444,6 +459,7 @@ namespace PokemonGo.RocketAPI.Console
                 Globals.toprevive = int.Parse(textBox23.Text);
             }
 
+            Globals.language = cbLanguage.Text;
 
             foreach (PokemonId pokemon in checkedListBox1.CheckedItems)
                 Globals.noTransfer.Add(pokemon);
@@ -470,7 +486,8 @@ namespace PokemonGo.RocketAPI.Console
                     Globals.telName,
                     Globals.telDelay.ToString(),
                     Globals.navigation_option.ToString(),
-                    Globals.useluckyegg.ToString()
+                    Globals.useluckyegg.ToString(),
+                    Globals.language.ToString()
             };
             System.IO.File.WriteAllLines(@account, accFile);
 
