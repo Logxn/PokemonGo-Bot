@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 using PokemonGo.RocketAPI.Enums;
 using PokemonGo.RocketAPI.Helpers;
+using System.Drawing;
 
 namespace PokemonGo.RocketAPI.Login
 {
@@ -38,7 +39,7 @@ namespace PokemonGo.RocketAPI.Login
                 new KeyValuePair<string, string>("client_id", ClientId),
                 new KeyValuePair<string, string>("scope", "openid email https://www.googleapis.com/auth/userinfo.email"));
 
-            Logger.Write($"Please visit {deviceCode.verification_url} and enter {deviceCode.user_code}", LogLevel.None);
+            Logger.Write(Color.Red,$"Please visit {deviceCode.verification_url} and enter {deviceCode.user_code}", LogLevel.None);
             return deviceCode;
         }
 

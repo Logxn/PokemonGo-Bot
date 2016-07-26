@@ -8,6 +8,7 @@ using Google.Protobuf;
 using PokemonGo.RocketAPI;
 using PokemonGo.RocketAPI.Exceptions;
 using PokemonGo.RocketAPI.GeneratedCode;
+using System.Drawing;
 
 namespace PokemonGo.RocketAPI.Extensions
 {
@@ -15,7 +16,7 @@ namespace PokemonGo.RocketAPI.Extensions
     {
         public static async Task<TResponsePayload> PostProtoPayload<TRequest, TResponsePayload>(this HttpClient client, string url, TRequest request) where TRequest : IMessage<TRequest> where TResponsePayload : IMessage<TResponsePayload>, new()
         {
-            Logger.Write($"Requesting {typeof(TResponsePayload).Name}", LogLevel.Debug);
+            Logger.Write(Color.Red, $"Requesting {typeof(TResponsePayload).Name}", LogLevel.Debug);
             var response = await PostProto<TRequest>(client, url, request);
 
             if (response.Payload.Count == 0)

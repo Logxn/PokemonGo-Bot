@@ -1,5 +1,6 @@
 ﻿using PokemonGo.RocketAPI.Logging;
 using System;
+using System.Drawing;
 
 namespace PokemonGo.RocketAPI
 {
@@ -25,11 +26,11 @@ namespace PokemonGo.RocketAPI
 		/// </summary>
 		/// <param name="message">The message to log.</param>
 		/// <param name="level">Optional level to log. Default <see cref="LogLevel.Info"/>.</param>
-		public static void Write(string message, LogLevel level = LogLevel.Info)
+		public static void Write(Color color, string message, LogLevel level = LogLevel.Info)
 		{
 			if (logger == null)
 				return;
-			logger.Write(message, level);
+			logger.Write(message, level, color);
 		}
 
         public static void ColoredConsoleWrite(ConsoleColor color, string text, LogLevel level = LogLevel.Info)
