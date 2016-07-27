@@ -242,7 +242,11 @@ namespace PokemonGo.RocketAPI.Logic
 
             foreach (var pokeStop in pokeStops)
             {
-
+                // replace this true with settings variable!!
+                if (true)
+                {
+                    await UseIncense();
+                }
                 await ExecuteCatchAllNearbyPokemons();
                 count++;
                 if (count >= 3)
@@ -642,6 +646,7 @@ namespace PokemonGo.RocketAPI.Logic
                         _client.UpdatePlayerLocation(waypoint.Latitude, waypoint.Longitude,
                             _client.getSettingHandle().DefaultAltitude);
                 await Task.Delay(Math.Min((int)(distanceToTarget / speedInMetersPerSecond * 1000), 3000));
+                // replace this true with settings variable!!
                 if (true)
                 {
                     await ExecuteCatchAllNearbyPokemons();
