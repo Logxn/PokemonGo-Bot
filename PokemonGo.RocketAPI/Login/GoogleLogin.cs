@@ -39,32 +39,8 @@ namespace PokemonGo.RocketAPI.Login
                 new KeyValuePair<string, string>("scope", "openid email https://www.googleapis.com/auth/userinfo.email"));
 
             Logger.Write($"Please visit {deviceCode.verification_url} and enter {deviceCode.user_code}", LogLevel.None);
-
-            RunAsSTAThread(
-             () =>
-             {
-                 System.Windows.Forms.Clipboard.SetText(deviceCode.user_code.ToString());
-             });
-            System.Diagnostics.Process.Start(deviceCode.verification_url);
-            
-
             return deviceCode;
         }
-
-        static void RunAsSTAThread(Action goForIt)
-        {
-            AutoResetEvent @event = new AutoResetEvent(false);
-            Thread thread = new Thread(
-                () =>
-                {
-                    goForIt();
-                    @event.Set();
-                });
-            thread.SetApartmentState(ApartmentState.STA);
-            thread.Start();
-            @event.WaitOne();
-        }
-
 
         private static async Task<TokenResponseModel> PollSubmittedToken(string deviceCode)
         {
