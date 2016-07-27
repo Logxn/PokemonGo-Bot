@@ -29,6 +29,7 @@ namespace PokemonGo.RocketAPI.Console
                 Application.SetCompatibleTextRenderingDefault(false);
                 Application.Run(new GUI());
             }
+            
 
             Logger.SetLogger(new Logging.ConsoleLogger(LogLevel.Info));
             
@@ -144,9 +145,9 @@ namespace PokemonGo.RocketAPI.Console
         public static bool defLoc = true;
         public static string username = "empty";
         public static string password = "empty";
-        public static double latitute = 40.764883;
-        public static double longitude = -73.972967;
-        public static double altitude = 15.173855;
+        public static double latitute;
+        public static double longitude;
+        public static double altitude;
         public static double speed;
         public static int radius;
         public static bool transfer;
