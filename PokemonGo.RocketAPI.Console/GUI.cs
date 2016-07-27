@@ -1,4 +1,7 @@
-﻿using PokemonGo.RocketAPI.GeneratedCode;
+﻿using GMap.NET;
+using GMap.NET.WindowsForms;
+using GMap.NET.WindowsForms.Markers;
+using PokemonGo.RocketAPI.GeneratedCode;
 using PokemonGo.RocketAPI.Logic.Utils;
 using System;
 using System.Collections.Generic;
@@ -253,6 +256,7 @@ namespace PokemonGo.RocketAPI.Console
                             checkedListBox3.SetItemChecked(evolveIDS[line] - 1, true);
                 }
             }
+            updateMap();
 
         }
 
@@ -566,6 +570,7 @@ namespace PokemonGo.RocketAPI.Console
             string[] EvolveFile = temp.Where(x => !String.IsNullOrEmpty(x)).ToArray();
             System.IO.File.WriteAllLines(@evolve, EvolveFile);
 
+
             ActiveForm.Dispose();
         }
 
@@ -699,6 +704,48 @@ namespace PokemonGo.RocketAPI.Console
                     i++;
                 }
             }
+        }
+
+        private void gmap_Load(object sender, EventArgs e)
+        {
+            gmap.MapProvider = GMap.NET.MapProviders.OpenStreetMapProvider.Instance;
+            GMap.NET.GMaps.Instance.Mode = GMap.NET.AccessMode.ServerOnly;
+
+            
+
+        }
+
+        private void textBox3_TextChanged(object sender, EventArgs e)
+        {
+            updateMap();
+        }
+
+        private void textBox4_TextChanged(object sender, EventArgs e)
+        {
+            updateMap();
+        }
+
+        private void updateMap()
+        {
+            if (string.IsNullOrWhiteSpace(textBox3.Text) || string.IsNullOrWhiteSpace(textBox4.Text))
+            {
+                return;
+            }
+
+            double x = double.Parse(textBox3.Text.Replace(',', '.'), cords, System.Globalization.NumberFormatInfo.InvariantInfo);
+            double y = double.Parse(textBox4.Text.Replace(',', '.'), cords, System.Globalization.NumberFormatInfo.InvariantInfo);
+
+            gmap.Overlays.Clear();
+
+
+            gmap.Position = new PointLatLng(x, y);
+            gmap.Zoom = 15;
+
+            GMapOverlay markersOverlay = new GMapOverlay("markers");
+            GMarkerGoogle marker = new GMarkerGoogle(new PointLatLng(x, y), GMarkerGoogleType.green);
+            markersOverlay.Markers.Add(marker);
+            gmap.Overlays.Add(markersOverlay);
+
         }
     }
 }
