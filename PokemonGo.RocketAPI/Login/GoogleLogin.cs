@@ -39,14 +39,14 @@ namespace PokemonGo.RocketAPI.Login
                 new KeyValuePair<string, string>("scope", "openid email https://www.googleapis.com/auth/userinfo.email"));
 
             Logger.Write($"Please visit {deviceCode.verification_url} and enter {deviceCode.user_code}", LogLevel.None);
-            RunAsSTAThread(
-            () =>
-            {
-                System.Windows.Forms.Clipboard.SetText(deviceCode.user_code.ToString());
-            });
-            Logger.Write("Copied User Code to Clipboard. Opening Google Site in 2 Seconds.");
-            Thread.Sleep(2000);
-            System.Diagnostics.Process.Start(deviceCode.verification_url);
+            //RunAsSTAThread(
+            //() =>
+            //{
+            //    System.Windows.Forms.Clipboard.SetText(deviceCode.user_code.ToString());
+            //});
+            //Logger.Write("Copied User Code to Clipboard. Opening Google Site in 2 Seconds.");
+            //Thread.Sleep(2000);
+            //System.Diagnostics.Process.Start(deviceCode.verification_url);
 
             return deviceCode;
         }
