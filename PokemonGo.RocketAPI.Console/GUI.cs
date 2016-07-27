@@ -34,26 +34,6 @@ namespace PokemonGo.RocketAPI.Console
             InitializeComponent();
         }
 
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            Globals.acc = comboBox1.SelectedIndex == 0 ? Enums.AuthType.Google : Enums.AuthType.Ptc;
-            
-            if (comboBox1.SelectedIndex == 0)
-            {
-                textBox1.Hide();
-                label2.Hide();
-                textBox2.Hide();
-                label3.Hide();
-            }
-            else
-            {
-                textBox1.Show();
-                label2.Show();
-                textBox2.Show();
-                label3.Show();
-            }
-        }
-
         private void GUI_Load(object sender, EventArgs e)
         {
             // Version Infoooo
@@ -747,5 +727,28 @@ namespace PokemonGo.RocketAPI.Console
             gmap.Overlays.Add(markersOverlay);
 
         }
+
+        private void comboBox1_SelectedIndexChanged_1(object sender, EventArgs e)
+        {
+            {
+                Globals.acc = comboBox1.SelectedIndex == 0 ? Enums.AuthType.Google : Enums.AuthType.Ptc;
+
+                if (comboBox1.SelectedIndex == 0)
+                {
+                    textBox1.Hide();
+                    label2.Hide();
+                    textBox2.Hide();
+                    label3.Hide();
+                }
+                else
+                {
+                    textBox1.Show();
+                    label2.Show();
+                    textBox2.Show();
+                    label3.Show();
+                }
+            }
+        }
+
     }
 }

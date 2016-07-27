@@ -218,6 +218,7 @@
             this.checkBox8.TabIndex = 7;
             this.checkBox8.Text = "German Pokemon names";
             this.checkBox8.UseVisualStyleBackColor = true;
+            this.checkBox8.CheckedChanged += new System.EventHandler(this.checkBox8_CheckedChanged);
             // 
             // checkBox7
             // 
@@ -342,6 +343,7 @@
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(147, 21);
             this.comboBox1.TabIndex = 1;
+            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged_1);
             // 
             // label3
             // 
@@ -644,6 +646,7 @@
             this.checkBox6.TabIndex = 1;
             this.checkBox6.Text = "Select all";
             this.checkBox6.UseVisualStyleBackColor = true;
+            this.checkBox6.CheckedChanged += new System.EventHandler(this.checkBox6_CheckedChanged);
             // 
             // checkedListBox3
             // 
@@ -675,6 +678,7 @@
             this.checkBox5.TabIndex = 1;
             this.checkBox5.Text = "Select all";
             this.checkBox5.UseVisualStyleBackColor = true;
+            this.checkBox5.CheckedChanged += new System.EventHandler(this.checkBox5_CheckedChanged);
             // 
             // checkedListBox2
             // 
@@ -706,6 +710,7 @@
             this.checkBox4.TabIndex = 1;
             this.checkBox4.Text = "Select all";
             this.checkBox4.UseVisualStyleBackColor = true;
+            this.checkBox4.CheckedChanged += new System.EventHandler(this.checkBox4_CheckedChanged);
             // 
             // checkedListBox1
             // 
