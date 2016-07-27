@@ -547,6 +547,7 @@ namespace PokemonGo.RocketAPI.Console
             System.IO.File.WriteAllLines(@keep, noTransFile);
 
             i = 0;
+            Array.Clear(temp, 0, temp.Length);
             foreach (PokemonId pokemon in Globals.noCatch)
             {
                 temp.SetValue(pokemon.ToString(), i);
@@ -555,6 +556,7 @@ namespace PokemonGo.RocketAPI.Console
             string[] noCatchFile = temp.Where(x => !String.IsNullOrEmpty(x)).ToArray();
             System.IO.File.WriteAllLines(@ignore, noCatchFile);
 
+            Array.Clear(temp, 0, temp.Length);
             i = 0;
             foreach (PokemonId pokemon in Globals.doEvolve)
             {
