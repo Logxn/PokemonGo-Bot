@@ -8,6 +8,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace PokemonGo.RocketAPI.Console
@@ -20,7 +21,7 @@ namespace PokemonGo.RocketAPI.Console
         public static string keep = path + "\\noTransfer.txt";
         public static string ignore = path + "\\noCatch.txt";
         public static string evolve = path + "\\Evolve.txt";
-        public NumberStyles cords = NumberStyles.AllowDecimalPoint | NumberStyles.AllowLeadingSign;
+        public static NumberStyles cords = NumberStyles.AllowDecimalPoint | NumberStyles.AllowLeadingSign;
         public static int[] evolveBlacklist = {
             3, 6, 9, 12, 15, 18, 20, 22, 24, 26, 28, 31, 34, 36, 38, 40, 42, 45, 47, 49, 51, 53, 55, 57, 59, 62, 65, 68, 71, 73, 76, 78, 80, 82, 83, 85, 87, 89, 91, 94, 95, 97, 99, 101, 103, 105, 106, 107, 108, 110, 112, 113, 114, 115, 117, 119, 121, 122, 123, 124, 125, 126, 127, 128, 130, 131, 132, 134, 135, 136, 137, 139, 141, 142, 143, 144, 145, 146, 149, 150, 151
         };
@@ -699,6 +700,28 @@ namespace PokemonGo.RocketAPI.Console
                     i++;
                 }
             }
+        }
+
+        private async void button2_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                await displayLocationSelector();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                Logger.Write(ex.Message);
+            }
+        }
+
+        private async Task displayLocationSelector()
+        {
+            LocationSelect locationSelector = new LocationSelect();
+            locationSelector.ShowDialog();
+            textBox3.Text = Globals.latitute.ToString();
+            textBox4.Text = Globals.longitude.ToString();
+            textBox5.Text = Globals.altitude.ToString();
         }
     }
 }
