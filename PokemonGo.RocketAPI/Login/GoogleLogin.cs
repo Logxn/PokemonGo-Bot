@@ -11,6 +11,7 @@ using PokemonGo.RocketAPI.Enums;
 using PokemonGo.RocketAPI.Helpers;
 using System.Diagnostics;
 using System.Windows.Forms;
+using System.Runtime.InteropServices;
 
 namespace PokemonGo.RocketAPI.Login
 {
@@ -41,20 +42,22 @@ namespace PokemonGo.RocketAPI.Login
                 new KeyValuePair<string, string>("scope", "openid email https://www.googleapis.com/auth/userinfo.email"));
 
             Logger.Write($"Please visit {deviceCode.verification_url} and enter {deviceCode.user_code}", LogLevel.None);
-            return deviceCode;
 
             await Task.Delay(2000);
+            Process.Start(@"http://www.google.com/device");
             try
             {
-                Process.Start(@"http://www.google.com/device");
                 var thread = new Thread(() => Clipboard.SetText(deviceCode.user_code)); //Copy device code
                 thread.SetApartmentState(ApartmentState.STA); //Set the thread to STA
                 thread.Start();
                 thread.Join();
             }
-            catch (Exception)
+            catch (ExternalException)
             {
                 Logger.Write("Couldnt copy to clipboard, do it manually", LogLevel.Error);
+            }
+            finally
+            {
                 Logger.Write($"Goto: http://www.google.com/device & enter {deviceCode.user_code}", LogLevel.Error);
             }
 
