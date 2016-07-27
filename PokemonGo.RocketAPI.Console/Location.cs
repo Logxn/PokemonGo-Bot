@@ -119,12 +119,12 @@ namespace PokemonGo.RocketAPI.Console
 
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
-            if (textBox1.Text.Length > 0)
+            if (textBox1.Text.Length > 0 && textBox1.Text != "-")
             {
                 try
                 {
                     double lat = double.Parse(textBox1.Text.Replace(',', '.'), GUI.cords, System.Globalization.NumberFormatInfo.InvariantInfo);
-                    if (lat > 180 || lat < -180)
+                    if (lat > 90.0 || lat < -90.0)
                         throw new System.ArgumentException("Value has to be between 180 and -180!");
                     map.Position = new GMap.NET.PointLatLng(lat, map.Position.Lng);
                 }
@@ -138,12 +138,12 @@ namespace PokemonGo.RocketAPI.Console
 
         private void textBox2_TextChanged(object sender, EventArgs e)
         {
-            if (textBox2.Text.Length > 0)
+            if (textBox2.Text.Length > 0 && textBox2.Text != "-")
             {
                 try
                 {
                     double lng = double.Parse(textBox2.Text.Replace(',', '.'), GUI.cords, System.Globalization.NumberFormatInfo.InvariantInfo);
-                    if (lng > 90 || lng < -90)
+                    if (lng > 180.0 || lng < -180.0)
                         throw new System.ArgumentException("Value has to be between 90 and -90!");
                     map.Position = new GMap.NET.PointLatLng(map.Position.Lat, lng);
                 }
