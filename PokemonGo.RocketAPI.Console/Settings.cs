@@ -50,7 +50,7 @@ namespace PokemonGo.RocketAPI.Console
 
         public bool UseLuckyEgg => Globals.useluckyegg;//UserSettings.Default.UseLuckyEgg;
 
-        public string Language => Globals.language;//UserSettings.Default.Language;
+        public bool Language => Globals.gerNames;//UserSettings.Default.Language;
 
         List<PokemonId> ISettings.catchPokemonSkipList
         {
