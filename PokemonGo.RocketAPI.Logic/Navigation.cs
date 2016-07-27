@@ -13,7 +13,7 @@ namespace PokemonGo.RocketAPI.Logic
 {
     public class Navigation
     {
-        /*public static double DistanceBetween2Coordinates(double Lat1, double Lng1, double Lat2, double Lng2)
+        public static double DistanceBetween2Coordinates(double Lat1, double Lng1, double Lat2, double Lng2)
         {
             double r_earth = 6378137;
             double d_lat = (Lat2 - Lat1) * Math.PI / 180;
@@ -335,7 +335,7 @@ namespace PokemonGo.RocketAPI.Logic
                 pokeStops[i + 1] = tmpPok;
             }
             return pokeStops;
-        }*/
+        }
     }
 
 }
