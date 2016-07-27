@@ -541,29 +541,43 @@ namespace PokemonGo.RocketAPI.Logic
         }
 
         DateTime lastegguse;
-
         public async Task UseLuckyEgg(Client client)
         {
-            if (lastegguse == null)
-            {
-                lastegguse = DateTime.Now;
-            }
-
             var inventory = await _inventory.GetItems();
-            var luckyEggs = inventory.Where(p => (ItemId)p.Item_ == ItemId.ItemLuckyEgg);
-            var luckyEgg = luckyEggs.FirstOrDefault();
+            var luckyEgg = inventory.Where(p => (ItemId)p.Item_ == ItemId.ItemLuckyEgg).FirstOrDefault();
 
             if (lastegguse > DateTime.Now.AddSeconds(5))
             {
+                TimeSpan duration = lastegguse - DateTime.Now;
+                Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Lucky Egg still running: {duration.Minutes}m{duration.Seconds}s");
                 return;
             }
 
-            if (luckyEgg == null || luckyEgg.Count <= 0)
-                return;
+            if (luckyEgg == null || luckyEgg.Count <= 0) { return; }
 
             await _client.UseItemXpBoost(ItemId.ItemLuckyEgg);
             Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Used Lucky Egg, remaining: {luckyEgg.Count - 1}");
             lastegguse = DateTime.Now.AddMinutes(30);
+            await Task.Delay(3000);
+        }
+
+        DateTime lastincenseuse;
+        public async Task UseIncense()
+        {
+            var inventory = await _inventory.GetItems();
+            var incsense = inventory.Where(p => (ItemId)p.Item_ == ItemId.ItemIncenseOrdinary).FirstOrDefault();
+
+            if (lastincenseuse > DateTime.Now.AddSeconds(5))
+            {
+                TimeSpan duration = lastincenseuse - DateTime.Now;
+                Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Incense still running: {duration.Minutes}m{duration.Seconds}s");
+                return;
+            }
+            if (incsense == null || incsense.Count <= 0) { return; }
+
+            await _client.UseItemIncense(ItemId.ItemIncenseOrdinary);
+            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Used Incsense, remaining: {incsense.Count - 1}");
+            lastincenseuse = DateTime.Now.AddMinutes(30);
             await Task.Delay(3000);
         }
 
