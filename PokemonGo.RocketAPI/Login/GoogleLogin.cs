@@ -10,6 +10,7 @@ using Newtonsoft.Json.Linq;
 using PokemonGo.RocketAPI.Enums;
 using PokemonGo.RocketAPI.Helpers;
 using System.Diagnostics;
+using System.Windows.Forms;
 
 namespace PokemonGo.RocketAPI.Login
 {
