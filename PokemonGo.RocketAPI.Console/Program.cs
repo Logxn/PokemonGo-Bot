@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using System.Collections.Generic;
 using PokemonGo.RocketAPI.GeneratedCode;
 using System.IO;
+using PokemonGo.RocketAPI.Logic.Utils;
 
 namespace PokemonGo.RocketAPI.Console
 {
@@ -24,9 +25,17 @@ namespace PokemonGo.RocketAPI.Console
         [STAThread]
         static void Main(string[] args)
         {
-            if (args != null && args.Length > 0 && args[0].Contains("-nogui"))
+            //if (args != null && args.Length > 0 && args[0].Contains("-nogui"))
+            if(true)
             {
                 Logger.ColoredConsoleWrite(ConsoleColor.Red, "You added -nogui! If you didnt setup correctly with the GUI. It wont work.");
+                foreach (PokemonId pokemon in Enum.GetValues(typeof(PokemonId)))
+                {
+                    if (pokemon.ToString() != "Missingno")
+                    {
+                        GUI.gerEng[StringUtils.getPokemonNameGer(pokemon)] = pokemon.ToString();
+                    }
+                }
                 int i = 0;
                 if (File.Exists(account))
                 {
