@@ -542,7 +542,10 @@ namespace PokemonGo.RocketAPI.Console
             int i = 0;
             foreach (PokemonId pokemon in Globals.noTransfer)
             {
-                temp.SetValue(pokemon.ToString(), i);
+                if (checkBox8.Checked)
+                    temp.SetValue(StringUtils.getPokemonNameGer(pokemon), i);
+                else
+                    temp.SetValue(pokemon.ToString(), i);
                 i++;
             }
             string[] noTransFile = temp.Where(x => !String.IsNullOrEmpty(x)).ToArray();
@@ -552,7 +555,10 @@ namespace PokemonGo.RocketAPI.Console
             Array.Clear(temp, 0, temp.Length);
             foreach (PokemonId pokemon in Globals.noCatch)
             {
-                temp.SetValue(pokemon.ToString(), i);
+                if (checkBox8.Checked)
+                    temp.SetValue(StringUtils.getPokemonNameGer(pokemon), i);
+                else
+                    temp.SetValue(pokemon.ToString(), i);
                 i++;
             }
             string[] noCatchFile = temp.Where(x => !String.IsNullOrEmpty(x)).ToArray();
@@ -562,7 +568,10 @@ namespace PokemonGo.RocketAPI.Console
             i = 0;
             foreach (PokemonId pokemon in Globals.doEvolve)
             {
-                temp.SetValue(pokemon.ToString(), i);
+                if (checkBox8.Checked)
+                    temp.SetValue(StringUtils.getPokemonNameGer(pokemon), i);   
+                else
+                    temp.SetValue(pokemon.ToString(), i);
                 i++;
             }
             string[] EvolveFile = temp.Where(x => !String.IsNullOrEmpty(x)).ToArray();
