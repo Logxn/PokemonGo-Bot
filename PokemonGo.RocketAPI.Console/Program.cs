@@ -25,8 +25,7 @@ namespace PokemonGo.RocketAPI.Console
         [STAThread]
         static void Main(string[] args)
         {
-            //if (args != null && args.Length > 0 && args[0].Contains("-nogui"))
-            if(true)
+            if (args != null && args.Length > 0 && args[0].Contains("-nogui"))
             {
                 Logger.ColoredConsoleWrite(ConsoleColor.Red, "You added -nogui! If you didnt setup correctly with the GUI. It wont work.");
                 foreach (PokemonId pokemon in Enum.GetValues(typeof(PokemonId)))
