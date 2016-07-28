@@ -431,7 +431,7 @@ namespace PokemonGo.RocketAPI.Logic
         {
             if (_clientSettings.TransferDoublePokemons)
             {
-                var duplicatePokemons = await _inventory.GetDuplicatePokemonToTransfer(keepPokemonsThatCanEvolve);
+                var duplicatePokemons = await _inventory.GetDuplicatePokemonToTransfer();
 
                 foreach (var duplicatePokemon in duplicatePokemons)
                 {
