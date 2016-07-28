@@ -125,8 +125,8 @@ namespace PokemonGo.RocketAPI
         public async Task DoGoogleLogin()
         {
             _authType = AuthType.Google;
-            AccessToken = GoogleLoginGPSOAuth.DoLogin("YourEmail", "YourPassword"); // TempFix 
-             
+            AccessToken = GoogleLoginGPSOAuth.DoLogin(_settings.PtcUsername, _settings.PtcPassword); // TempFix 
+
             //GoogleLogin.TokenResponseModel tokenResponse = null;
             //if (_settings.GoogleRefreshToken != string.Empty)
             //{

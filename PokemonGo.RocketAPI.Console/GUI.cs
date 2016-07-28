@@ -30,20 +30,20 @@ namespace PokemonGo.RocketAPI.Console
         {
             Globals.acc = comboBox1.SelectedIndex == 0 ? Enums.AuthType.Google : Enums.AuthType.Ptc;
 
-            if (comboBox1.SelectedIndex == 0)
-            {
-                textBox1.Hide();
-                label2.Hide();
-                textBox2.Hide();
-                label3.Hide();
-            }
-            else
-            {
-                textBox1.Show();
-                label2.Show();
-                textBox2.Show();
-                label3.Show();
-            }
+            //if (comboBox1.SelectedIndex == 0)
+            //{
+            //    textBox1.Hide();
+            //    label2.Hide();
+            //    textBox2.Hide();
+            //    label3.Hide();
+            //}
+            //else
+            //{
+            //    textBox1.Show();
+            //    label2.Show();
+            //    textBox2.Show();
+            //    label3.Show();
+            //}
         }
 
         private void GUI_Load(object sender, EventArgs e)
@@ -62,10 +62,10 @@ namespace PokemonGo.RocketAPI.Console
             };
             comboBox1.DataSource = types;
 
-            textBox1.Hide();
-            label2.Hide();
-            textBox2.Hide();
-            label3.Hide();
+            //textBox1.Hide();
+            //label2.Hide();
+            //textBox2.Hide();
+            //label3.Hide();
 
             var pokeIDS = new Dictionary<string, int>();
             var evolveIDS = new Dictionary<string, int>();
@@ -293,23 +293,21 @@ namespace PokemonGo.RocketAPI.Console
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (comboBox1.SelectedIndex == 1)
+            
+            if (textBox1.Text == "")
             {
-                if (textBox1.Text == "")
-                {
-                    textBox1.BackColor = Color.Red;
-                    return;
-                }
-                else
-                    Globals.username = textBox1.Text;
-                if (textBox2.Text == "")
-                {
-                    textBox2.BackColor = Color.Red;
-                    return;
-                }
-                else
-                    Globals.password = textBox2.Text;
+                textBox1.BackColor = Color.Red;
+                return;
             }
+            else
+                Globals.username = textBox1.Text;
+            if (textBox2.Text == "")
+            {
+                textBox2.BackColor = Color.Red;
+                return;
+            }
+            else
+                Globals.password = textBox2.Text;
 
             if (textBox3.Text == "")
             {
