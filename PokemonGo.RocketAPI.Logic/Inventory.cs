@@ -2,12 +2,16 @@
 using System.Linq;
 using System.Threading.Tasks;
 using PokemonGo.RocketAPI.GeneratedCode;
+using System;
+using System.Threading;
 
 namespace PokemonGo.RocketAPI.Logic
 {
     public class Inventory
     {
         private readonly Client _client;
+        public static DateTime _lastRefresh;
+        public static GetInventoryResponse _cachedInventory;
 
         public Inventory(Client client)
         {
@@ -26,7 +30,7 @@ namespace PokemonGo.RocketAPI.Logic
 
         public async Task<IEnumerable<PokemonData>> GetPokemons()
         {
-            var inventory = await _client.GetInventory();
+            var inventory = await getCachedInventory(_client);
             return
                 inventory.InventoryDelta.InventoryItems.Select(i => i.InventoryItemData?.Pokemon)
                     .Where(p => p != null && p?.PokemonId > 0);
@@ -34,7 +38,7 @@ namespace PokemonGo.RocketAPI.Logic
         
         public async Task<IEnumerable<PokemonFamily>> GetPokemonFamilies()
         {
-            var inventory = await _client.GetInventory();
+            var inventory = await getCachedInventory(_client);
             return
                 inventory.InventoryDelta.InventoryItems.Select(i => i.InventoryItemData?.PokemonFamily)
                     .Where(p => p != null && p?.FamilyId != PokemonFamilyId.FamilyUnset);
@@ -46,6 +50,14 @@ namespace PokemonGo.RocketAPI.Logic
             return
                 templates.ItemTemplates.Select(i => i.PokemonSettings)
                     .Where(p => p != null && p?.FamilyId != PokemonFamilyId.FamilyUnset);
+        }
+
+        public async Task<IEnumerable<PlayerStats>> GetPlayerStats()
+        {
+            var inventory = await getCachedInventory(_client);
+            return inventory.InventoryDelta.InventoryItems
+                .Select(i => i.InventoryItemData?.PlayerStats)
+                .Where(p => p != null);
         }
 
         public async Task<IEnumerable<PokemonData>> GetPokemonToEvolve(IEnumerable<PokemonId> filter = null)
@@ -130,7 +142,7 @@ namespace PokemonGo.RocketAPI.Logic
 
         public async Task<IEnumerable<Item>> GetItems()
         {
-            var inventory = await _client.GetInventory();
+            var inventory = await getCachedInventory(_client);
             return inventory.InventoryDelta.InventoryItems
                 .Select(i => i.InventoryItemData?.Item)
                 .Where(p => p != null);
@@ -150,5 +162,36 @@ namespace PokemonGo.RocketAPI.Logic
                 .Where(x => settings.itemRecycleFilter.Any(f => f.Key == ((ItemId)x.Item_) && x.Count > f.Value))
                 .Select(x => new Item { Item_ = x.Item_, Count = x.Count - settings.itemRecycleFilter.Single(f => f.Key == (ItemId)x.Item_).Value, Unseen = x.Unseen });
         }
+
+        public static async Task<GetInventoryResponse> getCachedInventory(Client _client, bool request = false)
+        {
+            var now = DateTime.UtcNow;
+            var ss = new SemaphoreSlim(10);
+
+            if (_lastRefresh.AddSeconds(30).Ticks > now.Ticks && request == false)
+            {
+                return _cachedInventory;
+            }
+            await ss.WaitAsync();
+            try
+            {
+                _lastRefresh = now;  
+                try
+                {
+                    _cachedInventory = await _client.GetInventory();
+                }
+                catch
+                {
+                }
+
+                return _cachedInventory;
+            }
+            finally
+            {
+                ss.Release();
+            }
+        }
+
+
     }
 }

@@ -204,6 +204,38 @@ namespace PokemonGo.RocketAPI
             }
         }
 
+        public static DateTime _lastRefresh;
+        public static GetPlayerResponse _cachedProfile;
+
+        public async Task<GetPlayerResponse> GetCachedProfile(bool request = false)
+        {
+            var now = DateTime.Now;
+            var ss = new SemaphoreSlim(10);
+
+            if (_lastRefresh.AddSeconds(30).Ticks > now.Ticks && request == false)
+            {
+                return _cachedProfile;
+            }
+
+            await ss.WaitAsync();
+
+            try
+            {
+                _lastRefresh = now;
+                try
+                {
+                    _cachedProfile = await GetProfile();
+                } catch
+                {
+
+                }
+            } finally
+            {
+                ss.Release();
+            }
+            return _cachedProfile;
+        }
+
         public async Task<GetPlayerResponse> GetProfile()
         {
             var profileRequest = RequestBuilder.GetInitialRequest(AccessToken, _authType, CurrentLat, CurrentLng, 10,
