@@ -105,6 +105,7 @@
             this.groupBox9 = new System.Windows.Forms.GroupBox();
             this.groupBox10 = new System.Windows.Forms.GroupBox();
             this.checkBox8 = new System.Windows.Forms.CheckBox();
+            this.checkBox9 = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -852,6 +853,7 @@
             // 
             // groupBox10
             // 
+            this.groupBox10.Controls.Add(this.checkBox9);
             this.groupBox10.Controls.Add(this.checkBox8);
             this.groupBox10.Controls.Add(this.checkBox7);
             this.groupBox10.Location = new System.Drawing.Point(270, 319);
@@ -871,6 +873,18 @@
             this.checkBox8.Text = "German Pokemon names";
             this.checkBox8.UseVisualStyleBackColor = true;
             this.checkBox8.CheckedChanged += new System.EventHandler(this.checkBox8_CheckedChanged);
+            // 
+            // checkBox9
+            // 
+            this.checkBox9.AutoSize = true;
+            this.checkBox9.Checked = true;
+            this.checkBox9.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox9.Location = new System.Drawing.Point(6, 64);
+            this.checkBox9.Name = "checkBox9";
+            this.checkBox9.Size = new System.Drawing.Size(146, 17);
+            this.checkBox9.TabIndex = 8;
+            this.checkBox9.Text = "Use Incense every 30min";
+            this.checkBox9.UseVisualStyleBackColor = true;
             // 
             // GUI
             // 
@@ -997,6 +1011,7 @@
         private System.Windows.Forms.GroupBox groupBox10;
         private System.Windows.Forms.CheckBox checkBox8;
         private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.CheckBox checkBox9;
     }
 }
 

@@ -104,6 +104,9 @@ namespace PokemonGo.RocketAPI.Console
                             case 18:
                                 Globals.gerNames = bool.Parse(line);
                                 break;
+                            case 19:
+                                Globals.useincense = bool.Parse(line);
+                                break;
                         }
                         i++;
                     }
@@ -346,6 +349,7 @@ namespace PokemonGo.RocketAPI.Console
 
         public static int navigation_option = 1;
         public static bool useluckyegg = true;
+        public static bool useincense = true;
         public static bool gerNames = false;
     }
 }

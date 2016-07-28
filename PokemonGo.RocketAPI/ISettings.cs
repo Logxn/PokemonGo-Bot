@@ -35,6 +35,7 @@ namespace PokemonGo.RocketAPI
         int navigation_option { get; }
 
         bool UseLuckyEgg { get; }
+        bool UserIncense { get; }
 
         bool Language { get; }
 

@@ -569,21 +569,23 @@ namespace PokemonGo.RocketAPI.Logic
         DateTime lastincenseuse;
         public async Task UseIncense()
         {
-            var inventory = await _inventory.GetItems();
-            var incsense = inventory.Where(p => (ItemId)p.Item_ == ItemId.ItemIncenseOrdinary).FirstOrDefault();
-
-            if (lastincenseuse > DateTime.Now.AddSeconds(5))
             {
-                TimeSpan duration = lastincenseuse - DateTime.Now;
-                Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Incense still running: {duration.Minutes}m{duration.Seconds}s");
-                return;
-            }
-            if (incsense == null || incsense.Count <= 0) { return; }
+                var inventory = await _inventory.GetItems();
+                var incsense = inventory.Where(p => (ItemId)p.Item_ == ItemId.ItemIncenseOrdinary).FirstOrDefault();
 
-            await _client.UseItemIncense(ItemId.ItemIncenseOrdinary);
-            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Used Incsense, remaining: {incsense.Count - 1}");
-            lastincenseuse = DateTime.Now.AddMinutes(30);
-            await Task.Delay(3000);
+                if (lastincenseuse > DateTime.Now.AddSeconds(5))
+                {
+                    TimeSpan duration = lastincenseuse - DateTime.Now;
+                    Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Incense still running: {duration.Minutes}m{duration.Seconds}s");
+                    return;
+                }
+                if (incsense == null || incsense.Count <= 0) { return; }
+
+                await _client.UseItemIncense(ItemId.ItemIncenseOrdinary);
+                Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Used Incsense, remaining: {incsense.Count - 1}");
+                lastincenseuse = DateTime.Now.AddMinutes(30);
+                await Task.Delay(3000);
+            }
         }
 
         private double _distance(double Lat1, double Lng1, double Lat2, double Lng2)
