@@ -24,6 +24,7 @@ namespace PokemonGo.RocketAPI.Logic
         public TelegramUtil _telegram;
         public BotStats _botStats;
         private readonly Navigation _navigation;
+        public const double SpeedDownTo = 10 / 3.6;
 
 
         public Logic(ISettings clientSettings)
@@ -197,8 +198,8 @@ namespace PokemonGo.RocketAPI.Logic
             if (_clientSettings.MaxWalkingRadiusInMeters != 0 && distanceFromStart > _clientSettings.MaxWalkingRadiusInMeters)
             {
                 Logger.ColoredConsoleWrite(ConsoleColor.Green, "Youre outside of the defined Max Walking Radius. Walking back!");
-                var update = await _navigation.HumanLikeWalking(new GeoCoordinate(_clientSettings.DefaultLatitude, _clientSettings.DefaultLongitude), _clientSettings.WalkingSpeedInKilometerPerHour, null);
-                var start = await _navigation.HumanLikeWalking(new GeoCoordinate(_clientSettings.DefaultLatitude, _clientSettings.DefaultLongitude), _clientSettings.WalkingSpeedInKilometerPerHour, ExecuteCatchAllNearbyPokemons);
+                var update = await HumanLikeWalking(new GeoCoordinate(_clientSettings.DefaultLatitude, _clientSettings.DefaultLongitude), _clientSettings.WalkingSpeedInKilometerPerHour, null);
+                var start = await HumanLikeWalking(new GeoCoordinate(_clientSettings.DefaultLatitude, _clientSettings.DefaultLongitude), _clientSettings.WalkingSpeedInKilometerPerHour, ExecuteCatchAllNearbyPokemons);
             }
 
             Resources.OutPutWalking = true;
@@ -241,7 +242,11 @@ namespace PokemonGo.RocketAPI.Logic
 
             foreach (var pokeStop in pokeStops)
             {
-
+                // replace this true with settings variable!!
+                if (true)
+                {
+                    await UseIncense();
+                }
                 await ExecuteCatchAllNearbyPokemons();
                 count++;
                 if (count >= 3)
@@ -259,7 +264,7 @@ namespace PokemonGo.RocketAPI.Logic
                 var distance = LocationUtils.CalculateDistanceInMeters(_client.CurrentLat, _client.CurrentLng, pokeStop.Latitude, pokeStop.Longitude);
                 var fortInfo = await client.GetFort(pokeStop.Id, pokeStop.Latitude, pokeStop.Longitude);
                 Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Next Pokestop: {fortInfo.Name} in {distance:0.##}m distance.");
-                var update = await _navigation.HumanLikeWalking(new GeoCoordinate(pokeStop.Latitude, pokeStop.Longitude), _clientSettings.WalkingSpeedInKilometerPerHour, ExecuteCatchAllNearbyPokemons);
+                var update = await HumanLikeWalking(new GeoCoordinate(pokeStop.Latitude, pokeStop.Longitude), _clientSettings.WalkingSpeedInKilometerPerHour, ExecuteCatchAllNearbyPokemons);
 
                 ////var fortInfo = await client.GetFort(pokeStop.Id, pokeStop.Latitude, pokeStop.Longitude);
                 var fortSearch = await client.SearchFort(pokeStop.Id, pokeStop.Latitude, pokeStop.Longitude);
@@ -275,7 +280,7 @@ namespace PokemonGo.RocketAPI.Logic
             if (_clientSettings.WalkBackToDefaultLocation)
             {
                 Logger.ColoredConsoleWrite(ConsoleColor.Green, "Walking back to Default Location.");
-                await _navigation.HumanLikeWalking(new GeoCoordinate(_clientSettings.DefaultLatitude, _clientSettings.DefaultLongitude), _clientSettings.WalkingSpeedInKilometerPerHour, ExecuteCatchAllNearbyPokemons);
+                await HumanLikeWalking(new GeoCoordinate(_clientSettings.DefaultLatitude, _clientSettings.DefaultLongitude), _clientSettings.WalkingSpeedInKilometerPerHour, ExecuteCatchAllNearbyPokemons);
             }
         }
 
@@ -540,29 +545,43 @@ namespace PokemonGo.RocketAPI.Logic
         }
 
         DateTime lastegguse;
-
         public async Task UseLuckyEgg(Client client)
         {
-            if (lastegguse == null)
-            {
-                lastegguse = DateTime.Now;
-            }
-
             var inventory = await _inventory.GetItems();
-            var luckyEggs = inventory.Where(p => (ItemId)p.Item_ == ItemId.ItemLuckyEgg);
-            var luckyEgg = luckyEggs.FirstOrDefault();
+            var luckyEgg = inventory.Where(p => (ItemId)p.Item_ == ItemId.ItemLuckyEgg).FirstOrDefault();
 
             if (lastegguse > DateTime.Now.AddSeconds(5))
             {
+                TimeSpan duration = lastegguse - DateTime.Now;
+                Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Lucky Egg still running: {duration.Minutes}m{duration.Seconds}s");
                 return;
             }
 
-            if (luckyEgg == null || luckyEgg.Count <= 0)
-                return;
+            if (luckyEgg == null || luckyEgg.Count <= 0) { return; }
 
             await _client.UseItemXpBoost(ItemId.ItemLuckyEgg);
             Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Used Lucky Egg, remaining: {luckyEgg.Count - 1}");
             lastegguse = DateTime.Now.AddMinutes(30);
+            await Task.Delay(3000);
+        }
+
+        DateTime lastincenseuse;
+        public async Task UseIncense()
+        {
+            var inventory = await _inventory.GetItems();
+            var incsense = inventory.Where(p => (ItemId)p.Item_ == ItemId.ItemIncenseOrdinary).FirstOrDefault();
+
+            if (lastincenseuse > DateTime.Now.AddSeconds(5))
+            {
+                TimeSpan duration = lastincenseuse - DateTime.Now;
+                Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Incense still running: {duration.Minutes}m{duration.Seconds}s");
+                return;
+            }
+            if (incsense == null || incsense.Count <= 0) { return; }
+
+            await _client.UseItemIncense(ItemId.ItemIncenseOrdinary);
+            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Used Incsense, remaining: {incsense.Count - 1}");
+            lastincenseuse = DateTime.Now.AddMinutes(30);
             await Task.Delay(3000);
         }
 
@@ -576,6 +595,65 @@ namespace PokemonGo.RocketAPI.Logic
                 * Math.Sin(d_lon / 2) * Math.Sin(d_lon / 2);
             double d = 2 * r_earth * Math.Atan2(Math.Sqrt(alpha), Math.Sqrt(1 - alpha));
             return d;
-        } 
+        }
+
+        public async Task<PlayerUpdateResponse> HumanLikeWalking(GeoCoordinate targetLocation,
+            double walkingSpeedInKilometersPerHour, Func<Task> functionExecutedWhileWalking)
+        {
+            var speedInMetersPerSecond = walkingSpeedInKilometersPerHour / 3.6;
+
+            var sourceLocation = new GeoCoordinate(_client.CurrentLat, _client.CurrentLng);
+            var distanceToTarget = LocationUtils.CalculateDistanceInMeters(sourceLocation, targetLocation);
+            Logger.ColoredConsoleWrite(ConsoleColor.DarkCyan, $"Distance to target location: {distanceToTarget:0.##} meters. Will take {distanceToTarget / speedInMetersPerSecond:0.##} seconds!");
+
+            var nextWaypointBearing = LocationUtils.DegreeBearing(sourceLocation, targetLocation);
+            var nextWaypointDistance = speedInMetersPerSecond;
+            var waypoint = LocationUtils.CreateWaypoint(sourceLocation, nextWaypointDistance, nextWaypointBearing);
+
+            //Initial walking
+            var requestSendDateTime = DateTime.Now;
+            var result =
+                await
+                    _client.UpdatePlayerLocation(waypoint.Latitude, waypoint.Longitude, _client.getSettingHandle().DefaultAltitude);
+
+            if (functionExecutedWhileWalking != null)
+                await functionExecutedWhileWalking();
+            do
+            {
+                var millisecondsUntilGetUpdatePlayerLocationResponse =
+                    (DateTime.Now - requestSendDateTime).TotalMilliseconds;
+
+                sourceLocation = new GeoCoordinate(_client.CurrentLat, _client.CurrentLng);
+                var currentDistanceToTarget = LocationUtils.CalculateDistanceInMeters(sourceLocation, targetLocation);
+
+                if (currentDistanceToTarget < 40)
+                {
+                    if (speedInMetersPerSecond > SpeedDownTo)
+                    {
+                        Logger.ColoredConsoleWrite(ConsoleColor.DarkCyan, $"We are within 40 meters of the target. Speeding down to 10 km/h to not pass the target.");
+                        speedInMetersPerSecond = SpeedDownTo;
+                    }
+                }
+
+                nextWaypointDistance = Math.Min(currentDistanceToTarget,
+                    millisecondsUntilGetUpdatePlayerLocationResponse / 1000 * speedInMetersPerSecond);
+                nextWaypointBearing = LocationUtils.DegreeBearing(sourceLocation, targetLocation);
+                waypoint = LocationUtils.CreateWaypoint(sourceLocation, nextWaypointDistance, nextWaypointBearing);
+
+                requestSendDateTime = DateTime.Now;
+                result =
+                    await
+                        _client.UpdatePlayerLocation(waypoint.Latitude, waypoint.Longitude,
+                            _client.getSettingHandle().DefaultAltitude);
+                await Task.Delay(Math.Min((int)(distanceToTarget / speedInMetersPerSecond * 1000), 3000));
+                // replace this true with settings variable!!
+                if (true)
+                {
+                    await ExecuteCatchAllNearbyPokemons();
+                }
+            } while (LocationUtils.CalculateDistanceInMeters(sourceLocation, targetLocation) >= 30);
+
+            return result;
+        }
     }
 }
