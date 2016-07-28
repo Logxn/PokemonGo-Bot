@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 using PokemonGo.RocketAPI.Enums;
 using PokemonGo.RocketAPI.Helpers;
+using System.IO;
 
 namespace PokemonGo.RocketAPI.Login
 {
@@ -16,7 +17,7 @@ namespace PokemonGo.RocketAPI.Login
     {
         private const string OauthTokenEndpoint = "https://www.googleapis.com/oauth2/v4/token";
         private const string OauthEndpoint = "https://accounts.google.com/o/oauth2/device/code";
-        private const string ClientId = "848232511240-73ri3t7plvk96pj4f85uj8otdat2alem.apps.googleusercontent.com";
+        private const string ClientId = "848232511240-7so421jotr2609rmqakceuu1luuq0ptb.apps.googleusercontent.com";
         private const string ClientSecret = "NCjF1TLi2CcY6t5mt0ZveuL7";
 
         public static async Task<TokenResponseModel> GetAccessToken(DeviceCodeModel deviceCode)
@@ -39,17 +40,6 @@ namespace PokemonGo.RocketAPI.Login
                 new KeyValuePair<string, string>("scope", "openid email https://www.googleapis.com/auth/userinfo.email"));
 
             Logger.Write($"Please visit {deviceCode.verification_url} and enter {deviceCode.user_code}", LogLevel.None);
-            try
-            {
-                System.Windows.Forms.Clipboard.SetText(deviceCode.user_code.ToString());
-                Logger.Write("Copied User Code to Clipboard. Opening Google Site in 2 Seconds.");
-                Thread.Sleep(2000);
-                System.Diagnostics.Process.Start(deviceCode.verification_url);
-            } catch (Exception)
-            {
-                Logger.Error("PokemonGo Servers probably Offline?");
-                Logger.Error("Cause we cant get a Device Code.");
-            }
             return deviceCode;
         }
          
