@@ -1,5 +1,8 @@
 ﻿namespace PokemonGo.RocketAPI.Login
 {
+    using System.Diagnostics;
+    using System.Threading;
+
     using DankMemes.GPSOAuthSharp;
 
     using PokemonGo.RocketAPI.Exceptions;
@@ -14,7 +17,18 @@
             if (response.ContainsKey("Error"))
                 throw new GoogleException(response["Error"]);
 
-            // Todo: captcha/2fa implementation
+            if (response.ContainsValue("NeedsBrowser"))
+            {
+                Logger.Error("Your Google Account uses 2FA. Create a Password for the Application here:");
+                Logger.Error("https://security.google.com/settings/security/apppasswords");
+                Logger.Error("And use that for Login with Google.");
+                Logger.Error("Opening the Site in 5 Seconds.");
+                Thread.Sleep(5000);
+                Process.Start("https://security.google.com/settings/security/apppasswords");
+                Logger.Error("The Program is now freezed.");
+                Thread.Sleep(Timeout.Infinite);
+            }
+
             if (!response.ContainsKey("Auth"))
                 throw new GoogleOfflineException();
 
