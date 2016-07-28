@@ -569,6 +569,7 @@ namespace PokemonGo.RocketAPI.Logic
         DateTime lastincenseuse;
         public async Task UseIncense()
         {
+            if (_clientSettings.UserIncense)
             {
                 var inventory = await _inventory.GetItems();
                 var incsense = inventory.Where(p => (ItemId)p.Item_ == ItemId.ItemIncenseOrdinary).FirstOrDefault();
