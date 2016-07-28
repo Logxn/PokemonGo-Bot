@@ -27,6 +27,7 @@ namespace PokemonGo.RocketAPI.Logic
         
         private readonly Client _client;
         private const double SpeedDownTo = 10 / 3.6;
+        private PlayerUpdateResponse result;
 
         public Navigation(Client client)
         {
@@ -48,9 +49,9 @@ namespace PokemonGo.RocketAPI.Logic
 
             //Initial walking
             var requestSendDateTime = DateTime.Now;
-            var result =
-                await
-                    _client.UpdatePlayerLocation(waypoint.Latitude, waypoint.Longitude, _client.getSettingHandle().DefaultAltitude);
+            //var result =
+            //    await
+            //        _client.UpdatePlayerLocation(waypoint.Latitude, waypoint.Longitude, _client.getSettingHandle().DefaultAltitude);
 
             if (functionExecutedWhileWalking != null)
                 await functionExecutedWhileWalking();
