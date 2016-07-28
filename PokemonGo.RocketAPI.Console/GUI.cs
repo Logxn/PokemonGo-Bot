@@ -8,19 +8,14 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace PokemonGo.RocketAPI.Console
 {
     public partial class GUI : Form
     {
-        public static string path = Directory.GetCurrentDirectory();
-        public static string account = path + "\\Config.txt";
-        public static string items = path + "\\Items.txt";
-        public static string keep = path + "\\noTransfer.txt";
-        public static string ignore = path + "\\noCatch.txt";
-        public static string evolve = path + "\\Evolve.txt";
-        public NumberStyles cords = NumberStyles.AllowDecimalPoint | NumberStyles.AllowLeadingSign;
+        public static NumberStyles cords = NumberStyles.AllowDecimalPoint | NumberStyles.AllowLeadingSign;
         public static int[] evolveBlacklist = {
             3, 6, 9, 12, 15, 18, 20, 22, 24, 26, 28, 31, 34, 36, 38, 40, 42, 45, 47, 49, 51, 53, 55, 57, 59, 62, 65, 68, 71, 73, 76, 78, 80, 82, 83, 85, 87, 89, 91, 94, 95, 97, 99, 101, 103, 105, 106, 107, 108, 110, 112, 113, 114, 115, 117, 119, 121, 122, 123, 124, 125, 126, 127, 128, 130, 131, 132, 134, 135, 136, 137, 139, 141, 142, 143, 144, 145, 146, 149, 150, 151
         };
@@ -34,7 +29,7 @@ namespace PokemonGo.RocketAPI.Console
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             Globals.acc = comboBox1.SelectedIndex == 0 ? Enums.AuthType.Google : Enums.AuthType.Ptc;
-            
+
             if (comboBox1.SelectedIndex == 0)
             {
                 textBox1.Hide();
@@ -108,9 +103,9 @@ namespace PokemonGo.RocketAPI.Console
                 }
             }
 
-            if (File.Exists(account))
+            if (File.Exists(Program.account))
             {
-                string[] lines = System.IO.File.ReadAllLines(@account);
+                string[] lines = System.IO.File.ReadAllLines(@Program.account);
                 i = 1;
                 int tb = 1;
                 foreach (string line in lines)
@@ -169,7 +164,8 @@ namespace PokemonGo.RocketAPI.Console
                     i++;
                 }
             }
-            else {
+            else
+            {
                 textBox3.Text = "40,764883";
                 textBox4.Text = "-73,972967";
                 textBox5.Text = "10";
@@ -180,18 +176,21 @@ namespace PokemonGo.RocketAPI.Console
                 textBox20.Text = "5000";
             }
 
-            if (File.Exists(items)) {
-                string[] lines = System.IO.File.ReadAllLines(@items);
+            if (File.Exists(Program.items))
+            {
+                string[] lines = System.IO.File.ReadAllLines(@Program.items);
                 i = 10;
                 foreach (string line in lines)
                 {
                     if (i == 18)
                     {
                         i = 22;
-                    } else if (i == 23)
+                    }
+                    else if (i == 23)
                     {
                         i = 21;
-                    } else if (i == 22)
+                    }
+                    else if (i == 22)
                     {
                         i = 23;
                     }
@@ -215,9 +214,9 @@ namespace PokemonGo.RocketAPI.Console
                 textBox23.Text = "20";
             }
 
-            if (File.Exists(keep))
+            if (File.Exists(Program.keep))
             {
-                string[] lines = System.IO.File.ReadAllLines(@keep);
+                string[] lines = System.IO.File.ReadAllLines(@Program.keep);
                 foreach (string line in lines)
                 {
                     if (line != "")
@@ -228,9 +227,9 @@ namespace PokemonGo.RocketAPI.Console
                 }
             }
 
-            if (File.Exists(ignore))
+            if (File.Exists(Program.ignore))
             {
-                string[] lines = System.IO.File.ReadAllLines(@ignore);
+                string[] lines = System.IO.File.ReadAllLines(@Program.ignore);
                 foreach (string line in lines)
                 {
                     if (line != "")
@@ -241,9 +240,9 @@ namespace PokemonGo.RocketAPI.Console
                 }
             }
 
-            if (File.Exists(evolve))
+            if (File.Exists(Program.evolve))
             {
-                string[] lines = System.IO.File.ReadAllLines(@evolve);
+                string[] lines = System.IO.File.ReadAllLines(@Program.evolve);
                 foreach (string line in lines)
                 {
                     if (line != "")
@@ -296,11 +295,12 @@ namespace PokemonGo.RocketAPI.Console
         {
             if (comboBox1.SelectedIndex == 1)
             {
-                if(textBox1.Text == "")
+                if (textBox1.Text == "")
                 {
                     textBox1.BackColor = Color.Red;
                     return;
-                }else
+                }
+                else
                     Globals.username = textBox1.Text;
                 if (textBox2.Text == "")
                 {
@@ -452,7 +452,8 @@ namespace PokemonGo.RocketAPI.Console
             if (textBox21.Text == "")
             {
                 textBox21.BackColor = Color.Red;
-            } else
+            }
+            else
             {
                 Globals.toppotion = int.Parse(textBox21.Text);
             }
@@ -460,7 +461,8 @@ namespace PokemonGo.RocketAPI.Console
             if (textBox22.Text == "")
             {
                 textBox22.BackColor = Color.Red;
-            } else
+            }
+            else
             {
                 Globals.masterball = int.Parse(textBox22.Text);
             }
@@ -519,7 +521,7 @@ namespace PokemonGo.RocketAPI.Console
                     Globals.useluckyegg.ToString(),
                     Globals.gerNames.ToString()
             };
-            System.IO.File.WriteAllLines(@account, accFile);
+            System.IO.File.WriteAllLines(@Program.account, accFile);
 
             string[] itemsFile = {
                     Globals.pokeball.ToString(),
@@ -534,7 +536,7 @@ namespace PokemonGo.RocketAPI.Console
                     Globals.toppotion.ToString(),
                     Globals.toprevive.ToString()
             };
-            System.IO.File.WriteAllLines(@items, itemsFile);
+            System.IO.File.WriteAllLines(@Program.items, itemsFile);
 
             string[] temp = new string[200];
             int i = 0;
@@ -544,7 +546,7 @@ namespace PokemonGo.RocketAPI.Console
                 i++;
             }
             string[] noTransFile = temp.Where(x => !String.IsNullOrEmpty(x)).ToArray();
-            System.IO.File.WriteAllLines(@keep, noTransFile);
+            System.IO.File.WriteAllLines(Program.@keep, noTransFile);
 
             i = 0;
             Array.Clear(temp, 0, temp.Length);
@@ -554,7 +556,7 @@ namespace PokemonGo.RocketAPI.Console
                 i++;
             }
             string[] noCatchFile = temp.Where(x => !String.IsNullOrEmpty(x)).ToArray();
-            System.IO.File.WriteAllLines(@ignore, noCatchFile);
+            System.IO.File.WriteAllLines(@Program.ignore, noCatchFile);
 
             Array.Clear(temp, 0, temp.Length);
             i = 0;
@@ -564,7 +566,7 @@ namespace PokemonGo.RocketAPI.Console
                 i++;
             }
             string[] EvolveFile = temp.Where(x => !String.IsNullOrEmpty(x)).ToArray();
-            System.IO.File.WriteAllLines(@evolve, EvolveFile);
+            File.WriteAllLines(@Program.evolve, EvolveFile);
 
             ActiveForm.Dispose();
         }
@@ -579,7 +581,7 @@ namespace PokemonGo.RocketAPI.Console
                     checkedListBox1.SetItemChecked(i, true);
                     i++;
                 }
-                
+
             }
             else
             {
@@ -658,7 +660,8 @@ namespace PokemonGo.RocketAPI.Console
             if (checkBox7.Checked)
             {
                 Globals.useluckyegg = true;
-            } else
+            }
+            else
             {
                 Globals.useluckyegg = false;
             }
@@ -699,6 +702,28 @@ namespace PokemonGo.RocketAPI.Console
                     i++;
                 }
             }
+        }
+
+        private async void button2_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                await displayLocationSelector();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                Logger.Write(ex.Message);
+            }
+        }
+
+        private async Task displayLocationSelector()
+        {
+            LocationSelect locationSelector = new LocationSelect();
+            locationSelector.ShowDialog();
+            textBox3.Text = Globals.latitute.ToString();
+            textBox4.Text = Globals.longitude.ToString();
+            textBox5.Text = Globals.altitude.ToString();
         }
     }
 }
