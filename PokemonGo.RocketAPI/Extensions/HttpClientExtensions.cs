@@ -19,9 +19,9 @@ namespace PokemonGo.RocketAPI.Extensions
             Logger.Write($"Requesting {typeof(TResponsePayload).Name}", LogLevel.Debug);
             await RandomHelper.RandomDelay(150, 500);
             var response = await PostProto<TRequest>(client, url, request);
-             
+
             if (response.Payload.Count == 0)
-                throw new InvalidResponseException();
+                Logger.Error("HttpClientExtensions Error - Probably sending to much Requests.");
 
             //Decode payload
             //todo: multi-payload support
