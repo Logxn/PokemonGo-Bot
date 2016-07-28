@@ -9,9 +9,6 @@ using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 using PokemonGo.RocketAPI.Enums;
 using PokemonGo.RocketAPI.Helpers;
-using System.Diagnostics;
-using System.Windows.Forms;
-using System.Runtime.InteropServices;
 
 namespace PokemonGo.RocketAPI.Login
 {
@@ -28,7 +25,7 @@ namespace PokemonGo.RocketAPI.Login
             TokenResponseModel tokenResponse;
             do
             {
-                await Task.Delay(2000);
+                await Task.Delay(2000); 
                 tokenResponse = await PollSubmittedToken(deviceCode.device_code);
             } while (tokenResponse.access_token == null || tokenResponse.refresh_token == null);
 
@@ -42,26 +39,30 @@ namespace PokemonGo.RocketAPI.Login
                 new KeyValuePair<string, string>("scope", "openid email https://www.googleapis.com/auth/userinfo.email"));
 
             Logger.Write($"Please visit {deviceCode.verification_url} and enter {deviceCode.user_code}", LogLevel.None);
-
-            await Task.Delay(2000);
-            Process.Start(@"http://www.google.com/device");
-            try
-            {
-                var thread = new Thread(() => Clipboard.SetText(deviceCode.user_code)); //Copy device code
-                thread.SetApartmentState(ApartmentState.STA); //Set the thread to STA
-                thread.Start();
-                thread.Join();
-            }
-            catch (ExternalException)
-            {
-                Logger.Write("Couldnt copy to clipboard, do it manually", LogLevel.Error);
-            }
-            finally
-            {
-                Logger.Write($"Goto: http://www.google.com/device & enter {deviceCode.user_code}", LogLevel.Error);
-            }
+            //RunAsSTAThread(
+            //() =>
+            //{
+            //    System.Windows.Forms.Clipboard.SetText(deviceCode.user_code.ToString());
+            //});
+            //Logger.Write("Copied User Code to Clipboard. Opening Google Site in 2 Seconds.");
+            //Thread.Sleep(2000);
+            //System.Diagnostics.Process.Start(deviceCode.verification_url);
 
             return deviceCode;
+        }
+
+        static void RunAsSTAThread(Action goForIt)
+        {
+            AutoResetEvent @event = new AutoResetEvent(false);
+            Thread thread = new Thread(
+                () =>
+                {
+                    goForIt();
+                    @event.Set();
+                });
+            thread.SetApartmentState(ApartmentState.STA);
+            thread.Start();
+            @event.WaitOne();
         }
 
         private static async Task<TokenResponseModel> PollSubmittedToken(string deviceCode)
