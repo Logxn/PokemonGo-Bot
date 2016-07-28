@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace PokemonGo.RocketAPI.Extensions
+﻿namespace PokemonGo.RocketAPI.Extensions
 {
+    using System;
+
     public static class DateTimeExtensions
     {
         public static long ToUnixTime(this DateTime date)

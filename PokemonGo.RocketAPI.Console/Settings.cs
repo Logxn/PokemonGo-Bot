@@ -1,20 +1,50 @@
-﻿using PokemonGo.RocketAPI.Enums;
-using System;
-using System.Collections.Generic;
-using PokemonGo.RocketAPI.GeneratedCode;
-
-namespace PokemonGo.RocketAPI.Console
+﻿namespace PokemonGo.RocketAPI.Console
 {
+    using System;
+    using System.Collections.Generic;
+
+    using PokemonGo.RocketAPI.Enums;
+    using PokemonGo.RocketAPI.GeneratedCode;
+
     public class Settings : ISettings
     {
-        AuthType ISettings.AuthType
+        public double DefaultAltitude => Globals.altitude; // UserSettings.Default.DefaultAltitude;
+        public double DefaultLatitude => Globals.latitute; // UserSettings.Default.DefaultLatitude;
+        public double DefaultLongitude => Globals.longitude; // UserSettings.Default.DefaultLongitude;
+        public int DontTransferWithCPOver => Globals.maxCp; // UserSettings.Default.DontTransferWithCPOver;
+
+        public bool EvolvePokemonsIfEnoughCandy => Globals.evolve; // UserSettings.Default.EvolvePokemonsIfEnoughCandy;
+
+        public string GoogleRefreshToken
         {
             get
             {
-                return Globals.acc;
+                return UserSettings.Default.GoogleRefreshToken;
+            }
+
+            set
+            {
+                UserSettings.Default.GoogleRefreshToken = value;
+                UserSettings.Default.Save();
             }
         }
-         
+
+        public int HoldMaxDoublePokemons => Globals.duplicate; // UserSettings.Default.HoldMaxDoublePokemons;
+
+        public bool Language => Globals.gerNames; // UserSettings.Default.Language;
+        public int MaxWalkingRadiusInMeters => Globals.radius; // UserSettings.Default.MaxWalkingRadiusInMeters;
+
+        public int navigation_option => Globals.navigation_option;
+        public string PtcPassword => Globals.password; // UserSettings.Default.PtcPassword;
+
+        public string PtcUsername => Globals.username; // UserSettings.Default.PtcUsername;
+
+        public string TelegramAPIToken => Globals.telAPI; // UserSettings.Default.TelegramAPIToken;
+        public int TelegramLiveStatsDelay => Globals.telDelay; // UserSettings.Default.TelegramLiveStatsDelay;
+        public string TelegramName => Globals.telName; // UserSettings.Default.TelegramName;
+
+        public bool TransferDoublePokemons => Globals.transfer; // UserSettings.Default.TransferDoublePokemons;
+
         public bool UseLastCords
         {
             get
@@ -23,59 +53,42 @@ namespace PokemonGo.RocketAPI.Console
             }
         }
 
-        public string PtcUsername => Globals.username;//UserSettings.Default.PtcUsername;
-        public string PtcPassword => Globals.password;//UserSettings.Default.PtcPassword;
-        public double DefaultLatitude => Globals.latitute;//UserSettings.Default.DefaultLatitude;
-        public double DefaultLongitude => Globals.longitude;//UserSettings.Default.DefaultLongitude;
-        public double DefaultAltitude => Globals.altitude;//UserSettings.Default.DefaultAltitude;
-
-        public bool WalkBackToDefaultLocation => Globals.defLoc;//UserSettings.Default.WalkBackToDefaultLocation;
-        public int MaxWalkingRadiusInMeters => Globals.radius;//UserSettings.Default.MaxWalkingRadiusInMeters;
-
-        public int HoldMaxDoublePokemons => Globals.duplicate;//UserSettings.Default.HoldMaxDoublePokemons;
-        public int TelegramLiveStatsDelay => Globals.telDelay;//UserSettings.Default.TelegramLiveStatsDelay;
-
-
-        public double WalkingSpeedInKilometerPerHour => Globals.speed;//UserSettings.Default.WalkingSpeedInKilometerPerHour;
-
-        public bool TransferDoublePokemons => Globals.transfer;//UserSettings.Default.TransferDoublePokemons;
-        public int DontTransferWithCPOver => Globals.maxCp;//UserSettings.Default.DontTransferWithCPOver;
-
-        public bool EvolvePokemonsIfEnoughCandy => Globals.evolve;//UserSettings.Default.EvolvePokemonsIfEnoughCandy;
-
-        public string TelegramAPIToken => Globals.telAPI;//UserSettings.Default.TelegramAPIToken;
-        public string TelegramName => Globals.telName;//UserSettings.Default.TelegramName;
-
-        public int navigation_option => Globals.navigation_option;
-
-        public bool UseLuckyEgg => Globals.useluckyegg;//UserSettings.Default.UseLuckyEgg;
+        public bool UseLuckyEgg => Globals.useluckyegg; // UserSettings.Default.UseLuckyEgg;
         public bool UserIncense => Globals.useincense;
 
-        public bool Language => Globals.gerNames;//UserSettings.Default.Language;
+        public bool WalkBackToDefaultLocation => Globals.defLoc; // UserSettings.Default.WalkBackToDefaultLocation;
+
+        public double WalkingSpeedInKilometerPerHour => Globals.speed; // UserSettings.Default.WalkingSpeedInKilometerPerHour;
+
+        AuthType ISettings.AuthType
+        {
+            get
+            {
+                return Globals.acc;
+            }
+        }
 
         List<PokemonId> ISettings.catchPokemonSkipList
         {
             get
             {
-                List<PokemonId> catchPokemonSkipList = new List<PokemonId>();
-                foreach (PokemonId pokemon in Globals.noCatch)
+                var catchPokemonSkipList = new List<PokemonId>();
+                foreach (var pokemon in Globals.noCatch)
                     catchPokemonSkipList.Add(pokemon);
 
                 return catchPokemonSkipList;
             }
         }
 
-        List<PokemonId> ISettings.pokemonsToHold
+        ICollection<KeyValuePair<ItemId, int>> ISettings.itemRecycleFilter
         {
             get
             {
-                //Type and amount to keep
-                List<PokemonId> pokemonsToHold = new List<PokemonId>();
-
-                foreach (PokemonId pokemon in Globals.noTransfer)
-                    pokemonsToHold.Add(pokemon);
-
-                return pokemonsToHold;
+                // Type and amount to keep
+                return new[]
+                       {
+                           new KeyValuePair<ItemId, int>(ItemId.ItemPokeBall, Globals.pokeball), new KeyValuePair<ItemId, int>(ItemId.ItemGreatBall, Globals.greatball), new KeyValuePair<ItemId, int>(ItemId.ItemUltraBall, Globals.ultraball), new KeyValuePair<ItemId, int>(ItemId.ItemMasterBall, Globals.masterball), new KeyValuePair<ItemId, int>(ItemId.ItemRevive, Globals.revive), new KeyValuePair<ItemId, int>(ItemId.ItemPotion, Globals.potion), new KeyValuePair<ItemId, int>(ItemId.ItemSuperPotion, Globals.superpotion), new KeyValuePair<ItemId, int>(ItemId.ItemHyperPotion, Globals.hyperpotion), new KeyValuePair<ItemId, int>(ItemId.ItemRazzBerry, Globals.berry), new KeyValuePair<ItemId, int>(ItemId.ItemMaxPotion, Globals.toppotion), new KeyValuePair<ItemId, int>(ItemId.ItemMaxRevive, Globals.toprevive)
+                       };
             }
 
             set
@@ -88,53 +101,35 @@ namespace PokemonGo.RocketAPI.Console
         {
             get
             {
-                List<PokemonId> pokemonsToEvolve = new List<PokemonId>();
-                foreach (PokemonId pokemon in Globals.doEvolve)
+                var pokemonsToEvolve = new List<PokemonId>();
+                foreach (var pokemon in Globals.doEvolve)
                     pokemonsToEvolve.Add(pokemon);
 
                 return pokemonsToEvolve;
             }
+
             set
             {
                 throw new NotImplementedException();
             }
         }
 
-        ICollection<KeyValuePair<ItemId, int>> ISettings.itemRecycleFilter
+        List<PokemonId> ISettings.pokemonsToHold
         {
             get
             {
-                //Type and amount to keep
-                return new[]
-                {
-                    new KeyValuePair<ItemId, int>(ItemId.ItemPokeBall, Globals.pokeball),
-                    new KeyValuePair<ItemId, int>(ItemId.ItemGreatBall, Globals.greatball),
-                    new KeyValuePair<ItemId, int>(ItemId.ItemUltraBall, Globals.ultraball),
-                    new KeyValuePair<ItemId, int>(ItemId.ItemMasterBall, Globals.masterball),
-                    new KeyValuePair<ItemId, int>(ItemId.ItemRevive, Globals.revive),
-                    new KeyValuePair<ItemId, int>(ItemId.ItemPotion, Globals.potion),
-                    new KeyValuePair<ItemId, int>(ItemId.ItemSuperPotion, Globals.superpotion),
-                    new KeyValuePair<ItemId, int>(ItemId.ItemHyperPotion, Globals.hyperpotion),
-                    new KeyValuePair<ItemId, int>(ItemId.ItemRazzBerry, Globals.berry),
-                    new KeyValuePair<ItemId, int>(ItemId.ItemMaxPotion, Globals.toppotion),
-                    new KeyValuePair<ItemId, int>(ItemId.ItemMaxRevive, Globals.toprevive)
+                // Type and amount to keep
+                var pokemonsToHold = new List<PokemonId>();
 
-                };
+                foreach (var pokemon in Globals.noTransfer)
+                    pokemonsToHold.Add(pokemon);
+
+                return pokemonsToHold;
             }
 
             set
             {
                 throw new NotImplementedException();
-            }
-        }
-
-        public string GoogleRefreshToken
-        {
-            get { return UserSettings.Default.GoogleRefreshToken; }
-            set
-            {
-                UserSettings.Default.GoogleRefreshToken = value;
-                UserSettings.Default.Save();
             }
         }
     }

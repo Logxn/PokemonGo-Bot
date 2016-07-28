@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace PokemonGo.RocketAPI.Exceptions
+﻿namespace PokemonGo.RocketAPI.Exceptions
 {
+    using System;
+
     public class GoogleException : Exception
     {
-        public GoogleException(string message) : base(message)
+        public GoogleException(string message)
+            : base(message)
         {
-
         }
     }
 }
