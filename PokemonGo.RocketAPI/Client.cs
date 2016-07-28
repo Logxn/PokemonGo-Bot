@@ -125,21 +125,22 @@ namespace PokemonGo.RocketAPI
         public async Task DoGoogleLogin()
         {
             _authType = AuthType.Google;
+            AccessToken = GoogleLoginGPSOAuth.DoLogin("YourEmail", "YourPassword"); // TempFix 
+             
+            //GoogleLogin.TokenResponseModel tokenResponse = null;
+            //if (_settings.GoogleRefreshToken != string.Empty)
+            //{
+            //    tokenResponse = await GoogleLogin.GetAccessToken(_settings.GoogleRefreshToken);
+            //    AccessToken = tokenResponse?.id_token;
+            //}
 
-            GoogleLogin.TokenResponseModel tokenResponse = null;
-            if (_settings.GoogleRefreshToken != string.Empty)
-            {
-                tokenResponse = await GoogleLogin.GetAccessToken(_settings.GoogleRefreshToken);
-                AccessToken = tokenResponse?.id_token;
-            }
-
-            if (AccessToken == null)
-            {
-                var deviceCode = await GoogleLogin.GetDeviceCode();
-                tokenResponse = await GoogleLogin.GetAccessToken(deviceCode);
-                _settings.GoogleRefreshToken = tokenResponse?.refresh_token;
-                AccessToken = tokenResponse?.id_token;
-            }
+            //if (AccessToken == null)
+            //{
+            //    var deviceCode = await GoogleLogin.GetDeviceCode();
+            //    tokenResponse = await GoogleLogin.GetAccessToken(deviceCode);
+            //    _settings.GoogleRefreshToken = tokenResponse?.refresh_token;
+            //    AccessToken = tokenResponse?.id_token;
+            //}
         }
 
         public GeoCoordinate GetLocation()

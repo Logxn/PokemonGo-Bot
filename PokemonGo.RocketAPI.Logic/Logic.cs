@@ -85,7 +85,7 @@ namespace PokemonGo.RocketAPI.Logic
                 }
                 catch (AccessTokenExpiredException)
                 {
-                    Logger.Error("PTC Server Offline, or Access Token expired. Restarting.");
+                    Logger.Error("Server Offline, or Access Token expired. Restarting in 20 Seconds.");
                     try
                     {
                         _telegram.getClient().StopReceiving();
@@ -94,6 +94,7 @@ namespace PokemonGo.RocketAPI.Logic
                     {
 
                     }
+                    await Task.Delay(10000);
                 }
                 catch (Exception ex)
                 {
