@@ -194,6 +194,13 @@ namespace PokemonGo.RocketAPI
             };
 
             _apiUrl = serverResponse.ApiUrl;
+            if (_apiUrl != "")
+            { 
+                Logger.ColoredConsoleWrite(ConsoleColor.Green, "We got the API Url: " + _apiUrl);
+            } else
+            {
+                Logger.Error("PokemonGo Servers are probably Offline.");
+            }
         }
 
         public async Task<GetPlayerResponse> GetProfile()
