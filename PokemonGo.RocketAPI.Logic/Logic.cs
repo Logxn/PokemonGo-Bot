@@ -175,8 +175,8 @@ namespace PokemonGo.RocketAPI.Logic
             Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "PokeStops visited: " + c.PokeStopVisits);
             Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Stardust: " + profil.Profile.Currency.ToArray()[1].Amount);
             Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Pokemon to evolve: " + pokemonToEvolve);
-            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Pokemons: " + _inventory.getPokemonCount() + "/" + profil.Profile.PokeStorage);
-            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Items: " + _inventory.getInventoryCount() + "/" + profil.Profile.ItemStorage);
+            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Pokemons: " + await _inventory.getPokemonCount() + "/" + profil.Profile.PokeStorage);
+            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Items: " + await _inventory.getInventoryCount() + "/" + profil.Profile.ItemStorage);
             Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "_____________________________");
 
             System.Console.Title = profil.Profile.Username + " Level " + c.Level + " - (" + ((c.Experience - c.PrevLevelXp) - 
