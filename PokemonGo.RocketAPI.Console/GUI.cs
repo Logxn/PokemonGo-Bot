@@ -51,8 +51,16 @@ namespace PokemonGo.RocketAPI.Console
             // Version Infoooo
             groupBox9.Text = "Your Version: " + Assembly.GetExecutingAssembly().GetName().Version + " | Newest: " + Program.getNewestVersion();
             if (Program.getNewestVersion() > Assembly.GetExecutingAssembly().GetName().Version)
-            {
-                MessageBox.Show("There is an Update on Github. Bottom left is a Github Link Label.");
+            { 
+                DialogResult dialogResult = MessageBox.Show("There is an Update on Github. do you want to open it ?", "Newest Version: " + Program.getNewestVersion(), MessageBoxButtons.YesNo);
+                if (dialogResult == DialogResult.Yes)
+                {
+                    Process.Start("https://github.com/Ar1i/PokemonGo-Bot");
+                }
+                else if (dialogResult == DialogResult.No)
+                {
+                    //nothing   
+                } 
             }
 
             comboBox1.DisplayMember = "Text";
