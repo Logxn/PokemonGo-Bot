@@ -106,8 +106,11 @@ namespace PokemonGo.RocketAPI.Console
                                 break;
                             case 19:
                                 Globals.useincense = bool.Parse(line);
-                                break;
-                            case 20:
+                                break; 
+                            case 21:
+                                Globals.ivmaxpercent = int.Parse(line);
+                                break; 
+                            case 23:
                                 Globals.keepPokemonsThatCanEvolve = bool.Parse(line);
                                 break;
                         }

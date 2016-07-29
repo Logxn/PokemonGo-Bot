@@ -110,6 +110,7 @@
             this.checkBox10 = new System.Windows.Forms.CheckBox();
             this.checkBox9 = new System.Windows.Forms.CheckBox();
             this.checkBox8 = new System.Windows.Forms.CheckBox();
+            this.checkBox11 = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -885,6 +886,7 @@
             // 
             // groupBox10
             // 
+            this.groupBox10.Controls.Add(this.checkBox11);
             this.groupBox10.Controls.Add(this.checkBox10);
             this.groupBox10.Controls.Add(this.checkBox9);
             this.groupBox10.Controls.Add(this.checkBox8);
@@ -931,6 +933,19 @@
             this.checkBox8.Text = "German Pokemon names";
             this.checkBox8.UseVisualStyleBackColor = true;
             this.checkBox8.CheckedChanged += new System.EventHandler(this.checkBox8_CheckedChanged);
+            // 
+            // checkBox11
+            // 
+            this.checkBox11.AutoSize = true;
+            this.checkBox11.Checked = true;
+            this.checkBox11.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox11.Location = new System.Drawing.Point(6, 146);
+            this.checkBox11.Name = "checkBox11";
+            this.checkBox11.Size = new System.Drawing.Size(156, 30);
+            this.checkBox11.TabIndex = 10;
+            this.checkBox11.Text = "Keep Pokemons which can\r\nbe evolved";
+            this.checkBox11.UseVisualStyleBackColor = true;
+            this.checkBox11.CheckedChanged += new System.EventHandler(this.checkBox11_CheckedChanged);
             // 
             // GUI
             // 
@@ -1062,6 +1077,7 @@
         private System.Windows.Forms.TextBox textBox24;
         private System.Windows.Forms.Label label28;
         private System.Windows.Forms.CheckBox checkBox10;
+        private System.Windows.Forms.CheckBox checkBox11;
     }
 }
 

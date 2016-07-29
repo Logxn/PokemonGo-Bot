@@ -177,6 +177,9 @@ namespace PokemonGo.RocketAPI.Console
                         case 22:
                             checkBox10.Checked = bool.Parse(line);
                             break;
+                        case 23:
+                            checkBox11.Checked = bool.Parse(line);
+                            break;
                         default:
                             TextBox temp = (TextBox)this.Controls.Find("textBox" + tb, true).FirstOrDefault();
                             temp.Text = line;
@@ -779,6 +782,6 @@ namespace PokemonGo.RocketAPI.Console
             {
                 Globals.keepPokemonsThatCanEvolve = false;
             }
-        }
+        } 
     }
 }

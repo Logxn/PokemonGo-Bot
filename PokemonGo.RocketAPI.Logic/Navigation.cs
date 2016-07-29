@@ -86,7 +86,7 @@ namespace PokemonGo.RocketAPI.Logic
 
                 // Look for pokemon's nearby while walking to destination.
                 var millisecondsSinceLocatePokemonWhileWalking = (DateTime.Now - locatePokemonWhileWalkingDateTime).TotalMilliseconds;
-                if (functionExecutedWhileWalking != null && (millisecondsSinceLocatePokemonWhileWalking >= 5000))
+                if (functionExecutedWhileWalking != null && (millisecondsSinceLocatePokemonWhileWalking >= 500))
                 {
                     //var timeInSeconds = millisecondsSinceLocatePokemonWhileWalking / 1000;
                     //Logger.ColoredConsoleWrite(ConsoleColor.White, $"Searched for pokemons! Last request was done {timeInSeconds} seconds ago");
