@@ -129,7 +129,7 @@ namespace PokemonGo.RocketAPI.Logic
             {
                 var results = new List<PokemonData>();
                 var pokemonsThatCanBeTransfered = pokemonList.GroupBy(p => p.PokemonId)
-                    .Where(x => x.Count() > 1).ToList();
+                    .ToList();
 
                 var myPokemonSettings = await GetPokemonSettings();
                 var pokemonSettings = myPokemonSettings as IList<PokemonSettings> ?? myPokemonSettings.ToList();
