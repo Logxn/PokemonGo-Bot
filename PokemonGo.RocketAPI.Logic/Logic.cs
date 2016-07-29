@@ -124,6 +124,8 @@ namespace PokemonGo.RocketAPI.Logic
                 {
 
                     await _client.SetServer();
+                    var profil = await _client.GetProfile();
+                    await _inventory.ExportPokemonToCSV(profil.Profile);
                     await StatsLog(_client);
                     if (_clientSettings.EvolvePokemonsIfEnoughCandy)
                     {

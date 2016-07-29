@@ -50,27 +50,7 @@ namespace PokemonGo.RocketAPI.Console
         {
 
             // Create missing Files
-            System.IO.Directory.CreateDirectory(Program.path);
-            if (!File.Exists(Program.account))
-            {
-                File.Create(Program.account).Dispose();
-            }
-            if (!File.Exists(Program.items))
-            {
-                File.Create(Program.items).Dispose();
-            }
-            if (!File.Exists(Program.keep))
-            {
-                File.Create(Program.keep).Dispose();
-            }
-            if (!File.Exists(Program.ignore))
-            {
-                File.Create(Program.ignore).Dispose();
-            }
-            if (!File.Exists(Program.evolve))
-            {
-                File.Create(Program.evolve).Dispose();
-            }
+            System.IO.Directory.CreateDirectory(Program.path); 
 
             // Version Infoooo
             groupBox9.Text = "Your Version: " + Assembly.GetExecutingAssembly().GetName().Version + " | Newest: " + Program.getNewestVersion();
