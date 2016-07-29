@@ -14,6 +14,8 @@ namespace PokemonGo.RocketAPI.Extensions
 {
     public static class HttpClientExtensions
     {
+        static int err = 0;
+
         public static async Task<TResponsePayload> PostProtoPayload<TRequest, TResponsePayload>(this HttpClient client, string url, TRequest request) where TRequest : IMessage<TRequest> where TResponsePayload : IMessage<TResponsePayload>, new()
         {
             Logger.Write($"Requesting {typeof(TResponsePayload).Name}", LogLevel.Debug);
@@ -22,8 +24,22 @@ namespace PokemonGo.RocketAPI.Extensions
 
             while (response.Payload.Count == 0) // WE WANT A FUCKING ANWSER POKEMON
             {
+                if (err >= 3)
+                {
+                    err = 0;
+                    throw new InvalidResponseException();
+                }
                 await RandomHelper.RandomDelay(150, 300);
                 response = await PostProto<TRequest>(client, url, request);
+                if (response.Payload.Count == 0)
+                {
+                    err++;
+                    Logger.Error($"Error at Request PostProtoPayload {typeof(TResponsePayload).Name} retrying {err}/3");
+                } else
+                {
+                    err = 0;
+                    break;
+                }
             }
 
             //Decode payload

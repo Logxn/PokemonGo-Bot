@@ -49,7 +49,7 @@ namespace PokemonGo.RocketAPI.Logic
                     else if (_clientSettings.AuthType == AuthType.Google)
                         await _client.DoGoogleLogin();
 
-                    if (_clientSettings.TelegramAPIToken != "YourAccessToken" && _clientSettings.TelegramName != "YourTelegramNickname")
+                    if (!string.IsNullOrEmpty(_clientSettings.TelegramAPIToken) && !string.IsNullOrEmpty(_clientSettings.TelegramName))
                     {
                         try
                         {
@@ -284,7 +284,7 @@ namespace PokemonGo.RocketAPI.Logic
                     }
 
                     var i = "";
-                    if (StringUtils.GetSummedFriendlyNameOfItemAwardList(fortSearch.ItemsAwarded) != null)
+                    if (StringUtils.GetSummedFriendlyNameOfItemAwardList(fortSearch.ItemsAwarded) != "")
                     {
                         i = StringUtils.GetSummedFriendlyNameOfItemAwardList(fortSearch.ItemsAwarded);
                     } else
@@ -293,10 +293,10 @@ namespace PokemonGo.RocketAPI.Logic
                     }
 
                     Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Farmed XP: {fortSearch.ExperienceAwarded}, Gems: { fortSearch.GemsAwarded}, Eggs: {egg} Items: {i}", LogLevel.Info);
-                } else
-                {
+                } else if (fortInfo.Name != null) {
                     failed_softban++;
-                    if (failed_softban == 6)
+
+                    if (failed_softban >= 6)
                     {
                         Logger.Error("Detected a Softban. Trying to use our Special 1337 Unban Methode.");
                         for (int i = 0; i < 60; i++)
@@ -307,6 +307,7 @@ namespace PokemonGo.RocketAPI.Logic
                                 break;
                             }
                         }
+                        failed_softban = 0;
                         Logger.ColoredConsoleWrite(ConsoleColor.Green, "Probably unbanned you.");
                     }
                 }

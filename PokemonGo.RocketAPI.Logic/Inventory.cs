@@ -41,7 +41,7 @@ namespace PokemonGo.RocketAPI.Logic
         {
             int i = 0;
             var p = await GetItems();
-            i = p.Count();
+            i = p.Where(n => n != null).Sum(f => f.Count); 
             return i;
         }
 
@@ -129,7 +129,7 @@ namespace PokemonGo.RocketAPI.Logic
             {
                 var results = new List<PokemonData>();
                 var pokemonsThatCanBeTransfered = pokemonList.GroupBy(p => p.PokemonId)
-                    .Where(x => x.Count() > 1).ToList();
+                    .ToList();
 
                 var myPokemonSettings = await GetPokemonSettings();
                 var pokemonSettings = myPokemonSettings as IList<PokemonSettings> ?? myPokemonSettings.ToList();
@@ -141,13 +141,19 @@ namespace PokemonGo.RocketAPI.Logic
                 {
                     var settings = pokemonSettings.Single(x => x.PokemonId == pokemon.Key);
                     var familyCandy = pokemonFamilies.Single(x => settings.FamilyId == x.FamilyId);
+                    var amountToSkip = 0;
 
-                    if (settings.CandyToEvolve == 0)
-                        continue;
+                    if (settings.CandyToEvolve != 0)
+                    {
+                        amountToSkip = familyCandy.Candy / settings.CandyToEvolve;
+                    }
 
-                    var amountToSkip = (familyCandy.Candy + settings.CandyToEvolve - 1)/settings.CandyToEvolve;
+                    if (_client.getSettingHandle().HoldMaxDoublePokemons > amountToSkip)
+                    {
+                        amountToSkip = _client.getSettingHandle().HoldMaxDoublePokemons;
+                    }
 
-                    results.AddRange(pokemonList.Where(x => x.PokemonId == pokemon.Key && x.Favorite == 0)
+                    results.AddRange(pokemonList.Where(x => x.PokemonId == pokemon.Key && PokemonInfo.CalculatePokemonPerfection(x) <= _client.getSettingHandle().ivmaxpercent)
                         .OrderByDescending(x => x.Cp)
                         .ThenBy(n => n.StaminaMax)
                         .Skip(amountToSkip)
@@ -161,7 +167,11 @@ namespace PokemonGo.RocketAPI.Logic
             return pokemonList
                 .GroupBy(p => p.PokemonId)
                 .Where(x => x.Count() > 1)
-                .SelectMany(p => p.Where(x => x.Favorite == 0 && PokemonInfo.CalculatePokemonPerfection(x) <= _client.getSettingHandle().ivmaxpercent).OrderByDescending(x => x.Cp).ThenBy(n => n.StaminaMax).Skip(_client.getSettingHandle().HoldMaxDoublePokemons).ToList());
+                .SelectMany(p => p.Where(x => x.Favorite == 0 && PokemonInfo.CalculatePokemonPerfection(x) <= _client.getSettingHandle().ivmaxpercent)
+                .OrderByDescending(x => x.Cp)
+                .ThenBy(n => n.StaminaMax)
+                .Skip(_client.getSettingHandle().HoldMaxDoublePokemons)
+                .ToList());
         }
 
         public async Task ExportPokemonToCSV(Profile player, string filename = "PokemonList.csv")
@@ -224,7 +234,7 @@ namespace PokemonGo.RocketAPI.Logic
                         }
                         w.Close();
                     }
-                    Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Export Player Infos and all Pokemon to \"\\Export\\{filename}\"", LogLevel.Info);
+                    Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Export Player Infos and all Pokemon to \"\\Config\\{filename}\"", LogLevel.Info);
                 }
                 catch
                 {

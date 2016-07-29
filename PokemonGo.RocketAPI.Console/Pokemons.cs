@@ -7,6 +7,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -86,7 +87,8 @@ namespace PokemonGo.RocketAPI.Console
 
                 var myPokemonFamilies = inventory.InventoryDelta.InventoryItems.Select(i => i.InventoryItemData?.PokemonFamily).Where(p => p != null && p?.FamilyId != PokemonFamilyId.FamilyUnset);
                 var pokemonFamilies = myPokemonFamilies.ToArray();
-                  
+
+                listView1.DoubleBuffered(true);
                 foreach (var pokemon in pokemons)
                 {
                     Bitmap pokemonImage = null;
@@ -485,6 +487,14 @@ namespace PokemonGo.RocketAPI.Console
             {
                 e.Handled = true;
             }
+        }
+    }
+    public static class ControlExtensions
+    {
+        public static void DoubleBuffered(this Control control, bool enable)
+        {
+            var doubleBufferPropertyInfo = control.GetType().GetProperty("DoubleBuffered", BindingFlags.Instance | BindingFlags.NonPublic);
+            doubleBufferPropertyInfo.SetValue(control, enable, null);
         }
     }
 }
