@@ -1,14 +1,10 @@
-﻿#region
-
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web;
 using PokemonGo.RocketAPI.Exceptions;
 using PokemonGo.RocketAPI.Helpers;
-
-#endregion
 
 namespace PokemonGo.RocketAPI.Login
 {
@@ -22,16 +18,14 @@ namespace PokemonGo.RocketAPI.Login
                 AllowAutoRedirect = false
             };
 
-            using (var tempHttpClient = new HttpClient(handler))
+            using (var tempHttpClient = new System.Net.Http.HttpClient(new RetryHandler(handler)))
             {
                 //Get session cookie
                 var sessionResp = await tempHttpClient.GetAsync(Resources.PtcLoginUrl);
-                var data = await sessionResp.Content.ReadAsStringAsync();
-                if (data == null) throw new PtcOfflineException();
-
                 if (sessionResp.StatusCode == HttpStatusCode.InternalServerError)
                     throw new PtcOfflineException();
 
+                var data = await sessionResp.Content.ReadAsStringAsync();
                 var lt = JsonHelper.GetValue(data, "lt");
                 var executionId = JsonHelper.GetValue(data, "execution");
 
@@ -47,15 +41,17 @@ namespace PokemonGo.RocketAPI.Login
                             new KeyValuePair<string, string>("password", password)
                         }));
 
+                var content = await loginResp.Content.ReadAsStringAsync();
+
                 if (loginResp.Headers.Location == null)
                 {
                     //This should be sufficient for catching AccountNotVerified exceptions
+                    var errors = JsonHelper.GetValue(content, "errors");
                     if (loginResp.StatusCode == HttpStatusCode.OK && !loginResp.Headers.Contains("Set-Cookies"))
-                        throw new AccountNotVerifiedException();
+                        throw new AccountNotVerifiedException(errors);
 
                     throw new PtcOfflineException();
                 }
-
 
                 var ticketId = HttpUtility.ParseQueryString(loginResp.Headers.Location.Query)["ticket"];
                 if (ticketId == null)

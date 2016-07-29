@@ -214,5 +214,17 @@ namespace PokemonGo.RocketAPI.Console {
                 this["HoldMaxDoublePokemons"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool UseIncense {
+            get {
+                return ((bool)(this["UseIncense"]));
+            }
+            set {
+                this["UseIncense"] = value;
+            }
+        }
     }
 }

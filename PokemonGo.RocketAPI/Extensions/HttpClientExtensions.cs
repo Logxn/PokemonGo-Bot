@@ -8,6 +8,7 @@ using Google.Protobuf;
 using PokemonGo.RocketAPI;
 using PokemonGo.RocketAPI.Exceptions;
 using PokemonGo.RocketAPI.GeneratedCode;
+using PokemonGo.RocketAPI.Helpers;
 
 namespace PokemonGo.RocketAPI.Extensions
 {
@@ -16,10 +17,14 @@ namespace PokemonGo.RocketAPI.Extensions
         public static async Task<TResponsePayload> PostProtoPayload<TRequest, TResponsePayload>(this HttpClient client, string url, TRequest request) where TRequest : IMessage<TRequest> where TResponsePayload : IMessage<TResponsePayload>, new()
         {
             Logger.Write($"Requesting {typeof(TResponsePayload).Name}", LogLevel.Debug);
+            await RandomHelper.RandomDelay(150, 300);
             var response = await PostProto<TRequest>(client, url, request);
 
-            if (response.Payload.Count == 0)
-                throw new InvalidResponseException();
+            while (response.Payload.Count == 0) // WE WANT A FUCKING ANWSER POKEMON
+            {
+                await RandomHelper.RandomDelay(150, 300);
+                response = await PostProto<TRequest>(client, url, request);
+            }
 
             //Decode payload
             //todo: multi-payload support
@@ -34,8 +39,7 @@ namespace PokemonGo.RocketAPI.Extensions
         {
             //Encode payload and put in envelop, then send
             var data = request.ToByteString();
-            var result = await client.PostAsync(url, new ByteArrayContent(data.ToByteArray()));
-
+            var result  = await client.PostAsync(url, new ByteArrayContent(data.ToByteArray())); 
             //Decode message
             var responseData = await result.Content.ReadAsByteArrayAsync();
             var codedStream = new CodedInputStream(responseData);

@@ -28,6 +28,7 @@ namespace PokemonGo.RocketAPI
         bool TransferDoublePokemons { get; }
 
         int DontTransferWithCPOver { get; }
+        int ivmaxpercent { get; }
 
         string TelegramAPIToken { get; }
         string TelegramName { get; }
@@ -35,6 +36,7 @@ namespace PokemonGo.RocketAPI
         int navigation_option { get; }
 
         bool UseLuckyEgg { get; }
+        bool UserIncense { get; }
 
         bool Language { get; }
 
