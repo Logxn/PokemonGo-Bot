@@ -293,9 +293,8 @@ namespace PokemonGo.RocketAPI.Logic
                     }
 
                     Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Farmed XP: {fortSearch.ExperienceAwarded}, Gems: { fortSearch.GemsAwarded}, Eggs: {egg} Items: {i}", LogLevel.Info);
-                } else if (fortInfo.Name != null) {
-                    failed_softban++;
-
+                } else {
+                    failed_softban++; 
                     if (failed_softban >= 6)
                     {
                         Logger.Error("Detected a Softban. Trying to use our Special 1337 Unban Methode.");
