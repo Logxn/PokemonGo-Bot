@@ -326,25 +326,28 @@ namespace PokemonGo.RocketAPI
 
         public async Task<FortDetailsResponse> GetFort(string fortId, double fortLat, double fortLng)
         {
-            var customRequest = new Request.Types.FortDetailsRequest()
+            var customRequest = new Request.Types.FortDetailsRequest
             {
                 Id = ByteString.CopyFromUtf8(fortId),
                 Latitude = Utils.FloatAsUlong(fortLat),
-                Longitude = Utils.FloatAsUlong(fortLng),
+                Longitude = Utils.FloatAsUlong(fortLng)
             };
 
-            var fortDetailRequest = RequestBuilder.GetRequest(_unknownAuth, CurrentLat, CurrentLng, 10,
-                new Request.Types.Requests()
+            var fortDetailRequest = RequestBuilder.GetRequest(_unknownAuth, CurrentLat, CurrentLng, CurrentAltitude,
+                new Request.Types.Requests
                 {
                     Type = (int)RequestType.FORT_DETAILS,
                     Message = customRequest.ToByteString()
                 });
-            return await _httpClient.PostProtoPayload<Request, FortDetailsResponse>($"https://{_apiUrl}/rpc", fortDetailRequest);
+            return
+                await
+                    _httpClient.PostProtoPayload<Request, FortDetailsResponse>($"https://{_apiUrl}/rpc",
+                        fortDetailRequest);
         }
 
         public async Task<FortSearchResponse> SearchFort(string fortId, double fortLat, double fortLng)
         {
-            var customRequest = new Request.Types.FortSearchRequest()
+            var customRequest = new Request.Types.FortSearchRequest
             {
                 Id = ByteString.CopyFromUtf8(fortId),
                 FortLatDegrees = Utils.FloatAsUlong(fortLat),
@@ -353,13 +356,16 @@ namespace PokemonGo.RocketAPI
                 PlayerLngDegrees = Utils.FloatAsUlong(CurrentLng)
             };
 
-            var fortDetailRequest = RequestBuilder.GetRequest(_unknownAuth, CurrentLat, CurrentLng, 30,
-                new Request.Types.Requests()
+            var fortDetailRequest = RequestBuilder.GetRequest(_unknownAuth, CurrentLat, CurrentLng, CurrentAltitude,
+                new Request.Types.Requests
                 {
                     Type = (int)RequestType.FORT_SEARCH,
                     Message = customRequest.ToByteString()
                 });
-            return await _httpClient.PostProtoPayload<Request, FortSearchResponse>($"https://{_apiUrl}/rpc", fortDetailRequest);
+            return
+                await
+                    _httpClient.PostProtoPayload<Request, FortSearchResponse>($"https://{_apiUrl}/rpc",
+                        fortDetailRequest);
         }
 
         public async Task<EncounterResponse> EncounterPokemon(ulong encounterId, string spawnPointGuid)
