@@ -24,8 +24,10 @@ namespace PokemonGo.RocketAPI.Logic
             double d = 2 * r_earth * Math.Atan2(Math.Sqrt(alpha), Math.Sqrt(1 - alpha));
             return d;
         }
-        private const double SpeedDownTo = 10 / 3.6;
+        
         private readonly Client _client;
+        private const double SpeedDownTo = 10 / 3.6;
+        private PlayerUpdateResponse result;
 
         public Navigation(Client client)
         {
@@ -33,7 +35,7 @@ namespace PokemonGo.RocketAPI.Logic
         }
 
         public async Task<PlayerUpdateResponse> HumanLikeWalking(GeoCoordinate targetLocation,
-            double walkingSpeedInKilometersPerHour, Func<Task> functionExecutedWhileWalking)
+        double walkingSpeedInKilometersPerHour, Func<Task> functionExecutedWhileWalking)
         {
             var speedInMetersPerSecond = walkingSpeedInKilometersPerHour / 3.6;
 
@@ -47,9 +49,9 @@ namespace PokemonGo.RocketAPI.Logic
 
             //Initial walking
             var requestSendDateTime = DateTime.Now;
-            var result =
-                await
-                    _client.UpdatePlayerLocation(waypoint.Latitude, waypoint.Longitude, _client.getSettingHandle().DefaultAltitude);
+            //var result =
+            //    await
+            //        _client.UpdatePlayerLocation(waypoint.Latitude, waypoint.Longitude, _client.getSettingHandle().DefaultAltitude);
 
             if (functionExecutedWhileWalking != null)
                 await functionExecutedWhileWalking();
@@ -94,7 +96,7 @@ namespace PokemonGo.RocketAPI.Logic
                 double distance = DistanceBetween2Coordinates(pokeStops[_chromosome[i]].Latitude, pokeStops[_chromosome[i]].Longitude, pokeStops[_chromosome[i + 1]].Latitude, pokeStops[_chromosome[i + 1]].Longitude);
                 if (distance <= 40)
                 {
-                    time += distance / SpeedDownTo;
+                    time += distance / Logic.SpeedDownTo;
                 }
                 else
                 {
@@ -114,7 +116,7 @@ namespace PokemonGo.RocketAPI.Logic
                 double distance = DistanceBetween2Coordinates(pokeStops[_chromosome[i]].Latitude, pokeStops[_chromosome[i]].Longitude, pokeStops[_chromosome[i + 1]].Latitude, pokeStops[_chromosome[i + 1]].Longitude);
                 if (distance <= 40)
                 {
-                    time += distance / SpeedDownTo;
+                    time += distance / Logic.SpeedDownTo;
                 }
                 else
                 {
@@ -209,6 +211,8 @@ namespace PokemonGo.RocketAPI.Logic
 
             return listSelection;
         }
+        
+
         public FortData[] pathByNearestNeighbour(FortData[] pokeStops, double walkingSpeedInKilometersPerHour)
         {
             ////Start Gen. alg.
@@ -337,5 +341,4 @@ namespace PokemonGo.RocketAPI.Logic
             return pokeStops;
         }
     }
-
 }

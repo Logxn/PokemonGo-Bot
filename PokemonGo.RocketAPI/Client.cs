@@ -125,21 +125,22 @@ namespace PokemonGo.RocketAPI
         public async Task DoGoogleLogin()
         {
             _authType = AuthType.Google;
+            AccessToken = GoogleLoginGPSOAuth.DoLogin(_settings.PtcUsername, _settings.PtcPassword); // TempFix 
 
-            GoogleLogin.TokenResponseModel tokenResponse = null;
-            if (_settings.GoogleRefreshToken != string.Empty)
-            {
-                tokenResponse = await GoogleLogin.GetAccessToken(_settings.GoogleRefreshToken);
-                AccessToken = tokenResponse?.id_token;
-            }
+            //GoogleLogin.TokenResponseModel tokenResponse = null;
+            //if (_settings.GoogleRefreshToken != string.Empty)
+            //{
+            //    tokenResponse = await GoogleLogin.GetAccessToken(_settings.GoogleRefreshToken);
+            //    AccessToken = tokenResponse?.id_token;
+            //}
 
-            if (AccessToken == null)
-            {
-                var deviceCode = await GoogleLogin.GetDeviceCode();
-                tokenResponse = await GoogleLogin.GetAccessToken(deviceCode);
-                _settings.GoogleRefreshToken = tokenResponse?.refresh_token;
-                AccessToken = tokenResponse?.id_token;
-            }
+            //if (AccessToken == null)
+            //{
+            //    var deviceCode = await GoogleLogin.GetDeviceCode();
+            //    tokenResponse = await GoogleLogin.GetAccessToken(deviceCode);
+            //    _settings.GoogleRefreshToken = tokenResponse?.refresh_token;
+            //    AccessToken = tokenResponse?.id_token;
+            //}
         }
 
         public GeoCoordinate GetLocation()
@@ -194,6 +195,45 @@ namespace PokemonGo.RocketAPI
             };
 
             _apiUrl = serverResponse.ApiUrl;
+            if (_apiUrl != "")
+            { 
+                Logger.ColoredConsoleWrite(ConsoleColor.Green, "We got the API Url: " + _apiUrl);
+            } else
+            {
+                Logger.Error("PokemonGo Servers are probably Offline.");
+            }
+        }
+
+        public static DateTime _lastRefresh;
+        public static GetPlayerResponse _cachedProfile;
+
+        public async Task<GetPlayerResponse> GetCachedProfile(bool request = false)
+        {
+            var now = DateTime.Now;
+            var ss = new SemaphoreSlim(10);
+
+            if (_lastRefresh.AddSeconds(30).Ticks > now.Ticks && request == false)
+            {
+                return _cachedProfile;
+            }
+
+            await ss.WaitAsync();
+
+            try
+            {
+                _lastRefresh = now;
+                try
+                {
+                    _cachedProfile = await GetProfile();
+                } catch
+                {
+
+                }
+            } finally
+            {
+                ss.Release();
+            }
+            return _cachedProfile;
         }
 
         public async Task<GetPlayerResponse> GetProfile()
@@ -378,6 +418,25 @@ namespace PokemonGo.RocketAPI
                 new Request.Types.Requests
                 {
                     Type = (int)RequestType.USE_ITEM_XP_BOOST,
+                    Message = customRequest.ToByteString()
+                });
+            return
+                await
+                    _httpClient.PostProtoPayload<Request, UseItemRequest>($"https://{_apiUrl}/rpc",
+                        useItemRequest);
+        }
+
+        public async Task<UseItemRequest> UseItemIncense(ItemId itemId) //changed from UseItem to UseItemXpBoost because of the RequestType
+        {
+            var customRequest = new UseItemRequest
+            {
+                ItemId = itemId,
+            };
+
+            var useItemRequest = RequestBuilder.GetRequest(_unknownAuth, CurrentLat, CurrentLng, CurrentAltitude,
+                new Request.Types.Requests
+                {
+                    Type = (int)RequestType.USE_INCENSE,
                     Message = customRequest.ToByteString()
                 });
             return

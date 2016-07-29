@@ -24,6 +24,7 @@ namespace PokemonGo.RocketAPI.Logic
         public TelegramUtil _telegram;
         public BotStats _botStats;
         private readonly Navigation _navigation;
+        public const double SpeedDownTo = 10 / 3.6;
 
 
         public Logic(ISettings clientSettings)
@@ -84,7 +85,7 @@ namespace PokemonGo.RocketAPI.Logic
                 }
                 catch (AccessTokenExpiredException)
                 {
-                    Logger.Error("PTC Server Offline, or Access Token expired. Restarting.");
+                    Logger.Error("Server Offline, or Access Token expired. Restarting in 20 Seconds.");
                     try
                     {
                         _telegram.getClient().StopReceiving();
@@ -93,6 +94,7 @@ namespace PokemonGo.RocketAPI.Logic
                     {
 
                     }
+                    await Task.Delay(10000);
                 }
                 catch (Exception ex)
                 {
@@ -153,41 +155,38 @@ namespace PokemonGo.RocketAPI.Logic
 
         private async Task StatsLog(Client client)
         {
-            var inventory = await client.GetInventory();
-            var profil = await client.GetProfile();
-            var stats = inventory.InventoryDelta.InventoryItems.Select(i => i.InventoryItemData.PlayerStats).ToArray();
-            foreach (var c in stats)
-            {
-                if (c != null)
-                {
-                    int l = c.Level;
+            var profil = await _client.GetCachedProfile();
+            var stats = await _inventory.GetPlayerStats();
+            var c = stats.FirstOrDefault();
 
-                    var expneeded = ((c.NextLevelXp - c.PrevLevelXp) - StringUtils.getExpDiff(c.Level));
-                    var curexp = ((c.Experience - c.PrevLevelXp) - StringUtils.getExpDiff(c.Level));
-                    var curexppercent = (Convert.ToDouble(curexp) / Convert.ToDouble(expneeded)) * 100;
-                    var pokemonToEvolve = (await _inventory.GetPokemonToEvolve(null)).Count();
+            int l = c.Level;
 
-                    Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "_____________________________");
-                    Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Level: " + c.Level);
-                    Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "EXP Needed: " + expneeded);
-                    Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Current EXP: {curexp} ({Math.Round(curexppercent)}%)");
-                    Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "EXP to Level up: " + ((c.NextLevelXp) - (c.Experience)));
-                    Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "KM Walked: " + c.KmWalked);
-                    Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "PokeStops visited: " + c.PokeStopVisits);
-                    Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Stardust: " + profil.Profile.Currency.ToArray()[1].Amount);
-                    Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Pokemon to evolve: " + pokemonToEvolve);
+            var expneeded = ((c.NextLevelXp - c.PrevLevelXp) - StringUtils.getExpDiff(c.Level));
+            var curexp = ((c.Experience - c.PrevLevelXp) - StringUtils.getExpDiff(c.Level));
+            var curexppercent = (Convert.ToDouble(curexp) / Convert.ToDouble(expneeded)) * 100;
+            var pokemonToEvolve = (await _inventory.GetPokemonToEvolve(null)).Count();
 
-                    Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "_____________________________");
+            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "_____________________________");
+            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Level: " + c.Level);
+            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "EXP Needed: " + expneeded);
+            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Current EXP: {curexp} ({Math.Round(curexppercent)}%)");
+            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "EXP to Level up: " + ((c.NextLevelXp) - (c.Experience)));
+            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "KM Walked: " + c.KmWalked);
+            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "PokeStops visited: " + c.PokeStopVisits);
+            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Stardust: " + profil.Profile.Currency.ToArray()[1].Amount);
+            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Pokemon to evolve: " + pokemonToEvolve);
 
-                    System.Console.Title = profil.Profile.Username + " Level " + c.Level + " - (" + ((c.Experience - c.PrevLevelXp) - 
-                        StringUtils.getExpDiff(c.Level)) + " / " + ((c.NextLevelXp - c.PrevLevelXp) - StringUtils.getExpDiff(c.Level)) + " | " + Math.Round(curexppercent) + "%)   | Stardust: " + profil.Profile.Currency.ToArray()[1].Amount + " | " + _botStats.ToString();
-                     
-                }
-            } 
+            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "_____________________________");
+
+            System.Console.Title = profil.Profile.Username + " Level " + c.Level + " - (" + ((c.Experience - c.PrevLevelXp) - 
+                StringUtils.getExpDiff(c.Level)) + " / " + ((c.NextLevelXp - c.PrevLevelXp) - StringUtils.getExpDiff(c.Level)) + " | " + Math.Round(curexppercent) + "%)   | Stardust: " + profil.Profile.Currency.ToArray()[1].Amount + " | " + _botStats.ToString();
+
         }
 
 
         private int count = 0;
+
+        private int failed_softban = 0;
 
         private async Task ExecuteFarmingPokestopsAndPokemons(Client client)
         {
@@ -197,7 +196,7 @@ namespace PokemonGo.RocketAPI.Logic
             if (_clientSettings.MaxWalkingRadiusInMeters != 0 && distanceFromStart > _clientSettings.MaxWalkingRadiusInMeters)
             {
                 Logger.ColoredConsoleWrite(ConsoleColor.Green, "Youre outside of the defined Max Walking Radius. Walking back!");
-                var update = await _navigation.HumanLikeWalking(new GeoCoordinate(_clientSettings.DefaultLatitude, _clientSettings.DefaultLongitude), _clientSettings.WalkingSpeedInKilometerPerHour, null);
+                var update = await _navigation.HumanLikeWalking(new GeoCoordinate(_clientSettings.DefaultLatitude, _clientSettings.DefaultLongitude), _clientSettings.WalkingSpeedInKilometerPerHour, ExecuteCatchAllNearbyPokemons);
                 var start = await _navigation.HumanLikeWalking(new GeoCoordinate(_clientSettings.DefaultLatitude, _clientSettings.DefaultLongitude), _clientSettings.WalkingSpeedInKilometerPerHour, ExecuteCatchAllNearbyPokemons);
             }
 
@@ -241,7 +240,11 @@ namespace PokemonGo.RocketAPI.Logic
 
             foreach (var pokeStop in pokeStops)
             {
-
+                // replace this true with settings variable!!
+                if (true)
+                {
+                    await UseIncense();
+                }
                 await ExecuteCatchAllNearbyPokemons();
                 count++;
                 if (count >= 3)
@@ -266,8 +269,25 @@ namespace PokemonGo.RocketAPI.Logic
 
                 if (fortSearch.ExperienceAwarded > 0)
                 {
+                    failed_softban = 0;
                     _botStats.addExperience(fortSearch.ExperienceAwarded);
                     Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Farmed XP: {fortSearch.ExperienceAwarded}, Gems: { fortSearch.GemsAwarded}, Eggs: {fortSearch.PokemonDataEgg} Items: {StringUtils.GetSummedFriendlyNameOfItemAwardList(fortSearch.ItemsAwarded)}", LogLevel.Info);
+                } else
+                {
+                    failed_softban++;
+                    if (failed_softban == 6)
+                    {
+                        Logger.Error("Detected a Softban. Trying to use our Special 1337 Unban Methode.");
+                        for (int i = 0; i < 60; i++)
+                        {
+                            var unban = await client.SearchFort(pokeStop.Id, pokeStop.Latitude, pokeStop.Longitude);
+                            if (unban.ExperienceAwarded > 0)
+                            {
+                                break;
+                            }
+                        }
+                        Logger.ColoredConsoleWrite(ConsoleColor.Green, "Probably unbanned you.");
+                    }
                 }
 
                 await RandomHelper.RandomDelay(50, 200);
@@ -540,30 +560,47 @@ namespace PokemonGo.RocketAPI.Logic
         }
 
         DateTime lastegguse;
-
         public async Task UseLuckyEgg(Client client)
         {
-            if (lastegguse == null)
-            {
-                lastegguse = DateTime.Now;
-            }
-
             var inventory = await _inventory.GetItems();
-            var luckyEggs = inventory.Where(p => (ItemId)p.Item_ == ItemId.ItemLuckyEgg);
-            var luckyEgg = luckyEggs.FirstOrDefault();
+            var luckyEgg = inventory.Where(p => (ItemId)p.Item_ == ItemId.ItemLuckyEgg).FirstOrDefault();
 
             if (lastegguse > DateTime.Now.AddSeconds(5))
             {
+                TimeSpan duration = lastegguse - DateTime.Now;
+                Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Lucky Egg still running: {duration.Minutes}m{duration.Seconds}s");
                 return;
             }
 
-            if (luckyEgg == null || luckyEgg.Count <= 0)
-                return;
+            if (luckyEgg == null || luckyEgg.Count <= 0) { return; }
 
             await _client.UseItemXpBoost(ItemId.ItemLuckyEgg);
             Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Used Lucky Egg, remaining: {luckyEgg.Count - 1}");
             lastegguse = DateTime.Now.AddMinutes(30);
             await Task.Delay(3000);
+        }
+
+        DateTime lastincenseuse;
+        public async Task UseIncense()
+        {
+            if (_clientSettings.UserIncense)
+            {
+                var inventory = await _inventory.GetItems();
+                var incsense = inventory.Where(p => (ItemId)p.Item_ == ItemId.ItemIncenseOrdinary).FirstOrDefault();
+
+                if (lastincenseuse > DateTime.Now.AddSeconds(5))
+                {
+                    TimeSpan duration = lastincenseuse - DateTime.Now;
+                    Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Incense still running: {duration.Minutes}m{duration.Seconds}s");
+                    return;
+                }
+                if (incsense == null || incsense.Count <= 0) { return; }
+
+                await _client.UseItemIncense(ItemId.ItemIncenseOrdinary);
+                Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Used Incsense, remaining: {incsense.Count - 1}");
+                lastincenseuse = DateTime.Now.AddMinutes(30);
+                await Task.Delay(3000);
+            }
         }
 
         private double _distance(double Lat1, double Lng1, double Lat2, double Lng2)
@@ -576,6 +613,6 @@ namespace PokemonGo.RocketAPI.Logic
                 * Math.Sin(d_lon / 2) * Math.Sin(d_lon / 2);
             double d = 2 * r_earth * Math.Atan2(Math.Sqrt(alpha), Math.Sqrt(1 - alpha));
             return d;
-        } 
+        }
     }
 }
