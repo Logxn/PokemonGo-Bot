@@ -4,14 +4,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using PokemonGo.RocketAPI.Enums;
-using PokemonGo.RocketAPI.Extensions;
-using PokemonGo.RocketAPI.GeneratedCode;
+using PokemonGo.RocketAPI.Extensions; 
 using PokemonGo.RocketAPI.Logic.Utils;
 using PokemonGo.RocketAPI.Exceptions;
 using System.Net;
 using System.IO;
 using System.Device.Location;
 using PokemonGo.RocketAPI.Helpers;
+using PokemonGo.RocketAPI.Rpc;
+using POGOProtos.Enums;
+using POGOProtos.Inventory.Item;
+using POGOProtos.Networking.Requests;
+using POGOProtos.Networking.Requests.Messages;
+using POGOProtos.Networking.Responses;
 
 namespace PokemonGo.RocketAPI.Logic
 {
@@ -19,19 +24,18 @@ namespace PokemonGo.RocketAPI.Logic
     public class Logic
     {
         public readonly Client _client;
+        public GetInventoryResponse _inventory;
+
         public readonly ISettings _clientSettings;
-        public readonly Inventory _inventory;
+
         public TelegramUtil _telegram;
         public BotStats _botStats;
         private readonly Navigation _navigation;
-        public const double SpeedDownTo = 10 / 3.6;
-
 
         public Logic(ISettings clientSettings)
         {
             _clientSettings = clientSettings;
-            _client = new Client(_clientSettings);
-            _inventory = new Inventory(_client);
+            _client = new Client(_clientSettings); 
             _botStats = new BotStats();
             _navigation = new Navigation(_client);
         }
@@ -45,11 +49,11 @@ namespace PokemonGo.RocketAPI.Logic
                 try
                 {
                     if (_clientSettings.AuthType == AuthType.Ptc)
-                        await _client.DoPtcLogin(_clientSettings.PtcUsername, _clientSettings.PtcPassword);
+                        await _client.Login.DoPtcLogin(_clientSettings.PtcUsername, _clientSettings.PtcPassword);
                     else if (_clientSettings.AuthType == AuthType.Google)
-                        await _client.DoGoogleLogin();
+                        await _client.Login.DoGoogleLogin(_clientSettings.PtcUsername, _clientSettings.PtcPassword);
 
-                    if (!string.IsNullOrEmpty(_clientSettings.TelegramAPIToken) && !string.IsNullOrEmpty(_clientSettings.TelegramName))
+                    if (!string.IsNullOrEmpty(_client.Settings.TelegramAPIToken) && !string.IsNullOrEmpty(_clientSettings.TelegramName))
                     {
                         try
                         {
@@ -69,33 +73,7 @@ namespace PokemonGo.RocketAPI.Logic
                     }
 
                     await PostLoginExecute();
-                }
-                catch (PtcOfflineException)
-                {
-                    Logger.Error("PTC Server Offline. Trying to Restart in 20 Seconds...");
-                    try
-                    {
-                        _telegram.getClient().StopReceiving();
-                    }
-                    catch (Exception)
-                    {
-
-                    }
-                    await Task.Delay(10000);
-                }
-                catch (AccessTokenExpiredException)
-                {
-                    Logger.Error("Server Offline, or Access Token expired. Restarting in 20 Seconds.");
-                    try
-                    {
-                        _telegram.getClient().StopReceiving();
-                    }
-                    catch (Exception)
-                    {
-
-                    }
-                    await Task.Delay(10000);
-                }
+                } 
                 catch (Exception ex)
                 {
                     Logger.Error($"Error: " + ex.Source);
@@ -108,8 +86,7 @@ namespace PokemonGo.RocketAPI.Logic
                     {
 
                     }
-                }
-
+                } 
                 Logger.ColoredConsoleWrite(ConsoleColor.Red, "Restarting in 10 Seconds.");
                 await Task.Delay(10000);
             }
@@ -123,8 +100,22 @@ namespace PokemonGo.RocketAPI.Logic
                 try
                 {
 
-                    await _client.SetServer();
-                    var profil = await _client.GetProfile();
+                    _inventory = await _client.Inventory.GetInventory(); 
+                    var profile = await _client.Player.GetPlayer(); 
+                    var settings = await _client.Download.GetSettings();
+                    var mapObjects = await _client.Map.GetMapObjects();
+                    var updateLocation = await _client.Player.UpdatePlayerLocation();
+                    var encounter = await _client.Encounter.EncounterPokemon(encId, spawnId);
+                    var catchPokemon = await _client.Encounter.CatchPokemon(pokemon.EncounterId, pokemon.SpawnPointId, pokeball);
+                    var evolvePokemon = await _client.Inventory.EvolvePokemon(pokemonId);
+                    var transfer = await _client.Inventory.TransferPokemon(pokemonId);
+                    var recycle = await _client.Inventory.RecycleItem(item.ItemId, item.Count);
+                    var useBerry = await _client.Encounter.UseCaptureItem(encounterId, ItemId.ItemRazzBerry, spawnPointId);
+                    var fortInfo = await _client.Fort.GetFort(pokeStopId, pokeStopLatitude, pokeStopLongitude);
+                    var fortSearch = await _client.Fort.SearchFort(pokeStopId, pokeStopLatitude, pokeStopLongitude);
+
+
+                    var profil = await _client.Player.GetPlayer();
                     await _inventory.ExportPokemonToCSV(profil.Profile);
                     await StatsLog(_client);
                     if (_clientSettings.EvolvePokemonsIfEnoughCandy)
@@ -157,8 +148,8 @@ namespace PokemonGo.RocketAPI.Logic
 
         private async Task StatsLog(Client client)
         {
-            var profil = await _client.GetCachedProfile();
-            var stats = await _inventory.GetPlayerStats();
+            var profil = await _client.Player.GetPlayer();
+            var stats = ;
             var c = stats.FirstOrDefault();
 
             int l = c.Level;
