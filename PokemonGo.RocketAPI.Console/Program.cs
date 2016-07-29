@@ -204,7 +204,7 @@ namespace PokemonGo.RocketAPI.Console
                 Application.SetCompatibleTextRenderingDefault(false);
                 Application.Run(new GUI());
 
-                /*
+                
                 if (Globals.pokeList)
                 {
                     Task.Run(() =>
@@ -214,10 +214,10 @@ namespace PokemonGo.RocketAPI.Console
                         //Application.Run(new Pokemons());
                     });
                 }
-                */
+                
             }
 
-            Application.Run(new Pokemons());
+            //Application.Run(new Pokemons());
 
             Logger.SetLogger(new Logging.ConsoleLogger(LogLevel.Info));
             
