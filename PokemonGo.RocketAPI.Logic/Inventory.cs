@@ -41,7 +41,7 @@ namespace PokemonGo.RocketAPI.Logic
         {
             int i = 0;
             var p = await GetItems();
-            i = p.Count();
+            i = p.Where(n => n != null).Sum(f => f.Count);
             return i;
         }
 
