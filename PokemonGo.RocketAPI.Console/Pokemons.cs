@@ -420,6 +420,7 @@ namespace PokemonGo.RocketAPI.Console
             }
             if (resp.Status)
             {
+                listView1.Clear();
                 Execute();
             }
             else
@@ -441,6 +442,7 @@ namespace PokemonGo.RocketAPI.Console
             }
             if (resp.Status)
             {
+                listView1.Clear();
                 Execute();
             }
             else
