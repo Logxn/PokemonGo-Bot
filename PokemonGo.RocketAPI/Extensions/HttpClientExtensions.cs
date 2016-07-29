@@ -24,7 +24,7 @@ namespace PokemonGo.RocketAPI.Extensions
 
             while (response.Payload.Count == 0) // WE WANT A FUCKING ANWSER POKEMON
             {
-                if (err == 4)
+                if (err == 3)
                 {
                     throw new InvalidResponseException();
                 }

@@ -296,7 +296,7 @@ namespace PokemonGo.RocketAPI.Logic
                 } else
                 {
                     failed_softban++;
-                    if (failed_softban => 6)
+                    if (failed_softban >= 6)
                     {
                         Logger.Error("Detected a Softban. Trying to use our Special 1337 Unban Methode.");
                         for (int i = 0; i < 60; i++)
