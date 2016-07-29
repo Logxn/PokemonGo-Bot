@@ -35,7 +35,7 @@ namespace PokemonGo.RocketAPI.Console
             {
                 map.DragButton = MouseButtons.Left;
                 map.MapProvider = GMapProviders.BingMap;
-                map.Position = new GMap.NET.PointLatLng(40.764883, -73.972967);
+                map.Position = new GMap.NET.PointLatLng(Globals.latitute, Globals.longitude);
                 map.MinZoom = 0;
                 map.MaxZoom = 20;
                 map.Zoom = 16;

@@ -52,12 +52,15 @@
             this.textBox3 = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.label29 = new System.Windows.Forms.Label();
+            this.textBox24 = new System.Windows.Forms.TextBox();
+            this.label28 = new System.Windows.Forms.Label();
             this.textBox9 = new System.Windows.Forms.TextBox();
             this.label12 = new System.Windows.Forms.Label();
             this.textBox8 = new System.Windows.Forms.TextBox();
             this.label11 = new System.Windows.Forms.Label();
-            this.checkBox3 = new System.Windows.Forms.CheckBox();
             this.checkBox2 = new System.Windows.Forms.CheckBox();
+            this.checkBox3 = new System.Windows.Forms.CheckBox();
             this.checkBox7 = new System.Windows.Forms.CheckBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.label27 = new System.Windows.Forms.Label();
@@ -106,9 +109,6 @@
             this.groupBox10 = new System.Windows.Forms.GroupBox();
             this.checkBox9 = new System.Windows.Forms.CheckBox();
             this.checkBox8 = new System.Windows.Forms.CheckBox();
-            this.textBox24 = new System.Windows.Forms.TextBox();
-            this.label28 = new System.Windows.Forms.Label();
-            this.label29 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -356,6 +356,32 @@
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Bot Settings";
             // 
+            // label29
+            // 
+            this.label29.AutoSize = true;
+            this.label29.Location = new System.Drawing.Point(176, 99);
+            this.label29.Name = "label29";
+            this.label29.Size = new System.Drawing.Size(15, 13);
+            this.label29.TabIndex = 8;
+            this.label29.Text = "%";
+            // 
+            // textBox24
+            // 
+            this.textBox24.Location = new System.Drawing.Point(122, 95);
+            this.textBox24.Name = "textBox24";
+            this.textBox24.Size = new System.Drawing.Size(53, 20);
+            this.textBox24.TabIndex = 7;
+            this.textBox24.Text = "90";
+            // 
+            // label28
+            // 
+            this.label28.AutoSize = true;
+            this.label28.Location = new System.Drawing.Point(7, 98);
+            this.label28.Name = "label28";
+            this.label28.Size = new System.Drawing.Size(115, 13);
+            this.label28.TabIndex = 6;
+            this.label28.Text = "Max IV to transfer in %:";
+            // 
             // textBox9
             // 
             this.textBox9.Location = new System.Drawing.Point(110, 69);
@@ -390,18 +416,6 @@
             this.label11.TabIndex = 2;
             this.label11.Text = "Max duplicate Pokemons:";
             // 
-            // checkBox3
-            // 
-            this.checkBox3.AutoSize = true;
-            this.checkBox3.Checked = true;
-            this.checkBox3.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox3.Location = new System.Drawing.Point(6, 87);
-            this.checkBox3.Name = "checkBox3";
-            this.checkBox3.Size = new System.Drawing.Size(159, 30);
-            this.checkBox3.TabIndex = 1;
-            this.checkBox3.Text = "Evolve Pokemons if enough\r\ncandy\r\n";
-            this.checkBox3.UseVisualStyleBackColor = true;
-            // 
             // checkBox2
             // 
             this.checkBox2.AutoSize = true;
@@ -413,6 +427,18 @@
             this.checkBox2.TabIndex = 0;
             this.checkBox2.Text = "Auto transfer double Pokemons";
             this.checkBox2.UseVisualStyleBackColor = true;
+            // 
+            // checkBox3
+            // 
+            this.checkBox3.AutoSize = true;
+            this.checkBox3.Checked = true;
+            this.checkBox3.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox3.Location = new System.Drawing.Point(6, 87);
+            this.checkBox3.Name = "checkBox3";
+            this.checkBox3.Size = new System.Drawing.Size(159, 30);
+            this.checkBox3.TabIndex = 1;
+            this.checkBox3.Text = "Evolve Pokemons if enough\r\ncandy\r\n";
+            this.checkBox3.UseVisualStyleBackColor = true;
             // 
             // checkBox7
             // 
@@ -672,6 +698,7 @@
             this.checkedListBox1.Name = "checkedListBox1";
             this.checkedListBox1.ScrollAlwaysVisible = true;
             this.checkedListBox1.Size = new System.Drawing.Size(150, 124);
+            this.checkedListBox1.Sorted = true;
             this.checkedListBox1.TabIndex = 0;
             // 
             // groupBox6
@@ -704,6 +731,7 @@
             this.checkedListBox2.Name = "checkedListBox2";
             this.checkedListBox2.ScrollAlwaysVisible = true;
             this.checkedListBox2.Size = new System.Drawing.Size(154, 124);
+            this.checkedListBox2.Sorted = true;
             this.checkedListBox2.TabIndex = 0;
             // 
             // groupBox7
@@ -736,6 +764,7 @@
             this.checkedListBox3.Name = "checkedListBox3";
             this.checkedListBox3.ScrollAlwaysVisible = true;
             this.checkedListBox3.Size = new System.Drawing.Size(153, 124);
+            this.checkedListBox3.Sorted = true;
             this.checkedListBox3.TabIndex = 0;
             // 
             // button1
@@ -891,32 +920,6 @@
             this.checkBox8.Text = "German Pokemon names";
             this.checkBox8.UseVisualStyleBackColor = true;
             this.checkBox8.CheckedChanged += new System.EventHandler(this.checkBox8_CheckedChanged);
-            // 
-            // textBox24
-            // 
-            this.textBox24.Location = new System.Drawing.Point(122, 95);
-            this.textBox24.Name = "textBox24";
-            this.textBox24.Size = new System.Drawing.Size(53, 20);
-            this.textBox24.TabIndex = 7;
-            this.textBox24.Text = "90";
-            // 
-            // label28
-            // 
-            this.label28.AutoSize = true;
-            this.label28.Location = new System.Drawing.Point(7, 98);
-            this.label28.Name = "label28";
-            this.label28.Size = new System.Drawing.Size(115, 13);
-            this.label28.TabIndex = 6;
-            this.label28.Text = "Max IV to transfer in %:";
-            // 
-            // label29
-            // 
-            this.label29.AutoSize = true;
-            this.label29.Location = new System.Drawing.Point(176, 99);
-            this.label29.Name = "label29";
-            this.label29.Size = new System.Drawing.Size(15, 13);
-            this.label29.TabIndex = 8;
-            this.label29.Text = "%";
             // 
             // GUI
             // 

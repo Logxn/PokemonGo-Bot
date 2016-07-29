@@ -55,6 +55,8 @@ namespace PokemonGo.RocketAPI.Logic
 
             if (functionExecutedWhileWalking != null)
                 await functionExecutedWhileWalking();
+
+            var locatePokemonWhileWalkingDateTime = DateTime.Now;
             do
             {
                 var millisecondsUntilGetUpdatePlayerLocationResponse =
@@ -82,6 +84,17 @@ namespace PokemonGo.RocketAPI.Logic
                     await
                         _client.UpdatePlayerLocation(waypoint.Latitude, waypoint.Longitude,
                             _client.getSettingHandle().DefaultAltitude);
+
+                // Look for pokemon's nearby while walking to destination.
+                var millisecondsSinceLocatePokemonWhileWalking = (DateTime.Now - locatePokemonWhileWalkingDateTime).TotalMilliseconds;
+                if (functionExecutedWhileWalking != null && (millisecondsSinceLocatePokemonWhileWalking >= 30000))
+                {
+                    //var timeInSeconds = millisecondsSinceLocatePokemonWhileWalking / 1000;
+                    //Logger.ColoredConsoleWrite(ConsoleColor.White, $"Searched for pokemons! Last request was done {timeInSeconds} seconds ago");
+                    locatePokemonWhileWalkingDateTime = DateTime.Now;
+                    await functionExecutedWhileWalking();
+                }
+
                 await Task.Delay(Math.Min((int)(distanceToTarget / speedInMetersPerSecond * 1000), 3000));
             } while (LocationUtils.CalculateDistanceInMeters(sourceLocation, targetLocation) >= 30);
 
