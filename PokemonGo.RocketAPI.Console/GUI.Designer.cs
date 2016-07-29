@@ -898,6 +898,7 @@
             this.textBox24.Name = "textBox24";
             this.textBox24.Size = new System.Drawing.Size(53, 20);
             this.textBox24.TabIndex = 7;
+            this.textBox24.Text = "90";
             // 
             // label28
             // 
