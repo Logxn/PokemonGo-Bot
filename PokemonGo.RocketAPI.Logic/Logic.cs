@@ -272,7 +272,25 @@ namespace PokemonGo.RocketAPI.Logic
                 {
                     failed_softban = 0;
                     _botStats.addExperience(fortSearch.ExperienceAwarded);
-                    Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Farmed XP: {fortSearch.ExperienceAwarded}, Gems: { fortSearch.GemsAwarded}, Eggs: {fortSearch.PokemonDataEgg} Items: {StringUtils.GetSummedFriendlyNameOfItemAwardList(fortSearch.ItemsAwarded)}", LogLevel.Info);
+                    var egg = "";
+                    if (fortSearch.PokemonDataEgg != null)
+                    {
+                        egg = "Egg " + fortSearch.PokemonDataEgg.EggKmWalkedTarget;
+                    } else
+                    {
+                        egg = "/";
+                    }
+
+                    var i = "";
+                    if (StringUtils.GetSummedFriendlyNameOfItemAwardList(fortSearch.ItemsAwarded) != null)
+                    {
+                        i = StringUtils.GetSummedFriendlyNameOfItemAwardList(fortSearch.ItemsAwarded);
+                    } else
+                    {
+                        i = "/";
+                    }
+
+                    Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Farmed XP: {fortSearch.ExperienceAwarded}, Gems: { fortSearch.GemsAwarded}, Eggs: {egg} Items: {i}", LogLevel.Info);
                 } else
                 {
                     failed_softban++;
