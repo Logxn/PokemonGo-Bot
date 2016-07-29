@@ -174,6 +174,9 @@ namespace PokemonGo.RocketAPI.Console
                         case 21:
                             textBox24.Text = line;
                             break;
+                        case 22:
+                            checkBox10.Checked = bool.Parse(line);
+                            break;
                         default:
                             TextBox temp = (TextBox)this.Controls.Find("textBox" + tb, true).FirstOrDefault();
                             temp.Text = line;
@@ -503,6 +506,7 @@ namespace PokemonGo.RocketAPI.Console
 
             Globals.gerNames = checkBox8.Checked;
             Globals.useincense = checkBox9.Checked;
+            Globals.pokeList = checkBox10.Checked;
 
             foreach (string pokemon in checkedListBox1.CheckedItems)
             {
@@ -547,7 +551,8 @@ namespace PokemonGo.RocketAPI.Console
                     Globals.useluckyegg.ToString(),
                     Globals.gerNames.ToString(),
                     Globals.useincense.ToString(),
-                    Globals.ivmaxpercent.ToString()
+                    Globals.ivmaxpercent.ToString(),
+                    Globals.pokeList.ToString()
             };
             System.IO.File.WriteAllLines(@Program.account, accFile);
 
