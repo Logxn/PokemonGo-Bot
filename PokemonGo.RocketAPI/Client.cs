@@ -35,15 +35,15 @@ namespace PokemonGo.RocketAPI
             _settings = settings;
             if (_settings.UseLastCords)
             {
-                string path = Directory.GetCurrentDirectory() + "\\Configs\\";
+                string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Configs");
                 if (!Directory.Exists(path))
                 {
                     DirectoryInfo di = Directory.CreateDirectory(path);
                 } 
-                string filename = "LastCoords.txt";
-                if (File.Exists(path + filename) && File.ReadAllText(path + filename).Contains(":"))
+                string fullPath = Path.Combine(path, "LastCoords.txt");
+                if (File.Exists(fullPath) && File.ReadAllText(fullPath).Contains(":"))
                 {
-                    var latlngFromFile = File.ReadAllText(path + filename);
+                    var latlngFromFile = File.ReadAllText(fullPath);
                     var latlng = latlngFromFile.Split(':');
                     double latitude, longitude;
                     if ((latlng[0].Length > 0 && double.TryParse(latlng[0], out latitude) && latitude >= -90.0 && latitude <= 90.0) && (latlng[1].Length > 0 && double.TryParse(latlng[1], out longitude) && longitude >= -180.0 && longitude <= 180.0))
