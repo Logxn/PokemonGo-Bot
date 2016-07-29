@@ -284,7 +284,7 @@ namespace PokemonGo.RocketAPI.Logic
                     }
 
                     var i = "";
-                    if (StringUtils.GetSummedFriendlyNameOfItemAwardList(fortSearch.ItemsAwarded) != null)
+                    if (StringUtils.GetSummedFriendlyNameOfItemAwardList(fortSearch.ItemsAwarded) != "")
                     {
                         i = StringUtils.GetSummedFriendlyNameOfItemAwardList(fortSearch.ItemsAwarded);
                     } else
@@ -295,20 +295,23 @@ namespace PokemonGo.RocketAPI.Logic
                     Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Farmed XP: {fortSearch.ExperienceAwarded}, Gems: { fortSearch.GemsAwarded}, Eggs: {egg} Items: {i}", LogLevel.Info);
                 } else
                 {
-                    failed_softban++;
-                    if (failed_softban >= 6)
+                    if (fortSearch.CooldownCompleteTimestampMs != 0)
                     {
-                        Logger.Error("Detected a Softban. Trying to use our Special 1337 Unban Methode.");
-                        for (int i = 0; i < 60; i++)
+                        failed_softban++;
+                        if (failed_softban >= 6)
                         {
-                            var unban = await client.SearchFort(pokeStop.Id, pokeStop.Latitude, pokeStop.Longitude);
-                            if (unban.ExperienceAwarded > 0)
+                            Logger.Error("Detected a Softban. Trying to use our Special 1337 Unban Methode.");
+                            for (int i = 0; i < 60; i++)
                             {
-                                break;
+                                var unban = await client.SearchFort(pokeStop.Id, pokeStop.Latitude, pokeStop.Longitude);
+                                if (unban.ExperienceAwarded > 0)
+                                {
+                                    break;
+                                }
                             }
+                            failed_softban = 0;
+                            Logger.ColoredConsoleWrite(ConsoleColor.Green, "Probably unbanned you.");
                         }
-                        failed_softban = 0;
-                        Logger.ColoredConsoleWrite(ConsoleColor.Green, "Probably unbanned you.");
                     }
                 }
 

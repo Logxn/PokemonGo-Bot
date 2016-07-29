@@ -64,11 +64,11 @@ namespace PokemonGo.RocketAPI.Logic
                 sourceLocation = new GeoCoordinate(_client.CurrentLat, _client.CurrentLng);
                 var currentDistanceToTarget = LocationUtils.CalculateDistanceInMeters(sourceLocation, targetLocation);
 
-                if (currentDistanceToTarget < 35)
+                if (currentDistanceToTarget < 30)
                 {
                     if (speedInMetersPerSecond > SpeedDownTo)
                     {
-                        Logger.ColoredConsoleWrite(ConsoleColor.DarkCyan, $"We are within 35 meters of the target. Speeding down to ~10 km/h to not pass the target.");
+                        Logger.ColoredConsoleWrite(ConsoleColor.DarkCyan, $"We are within 30 meters of the target. Speeding down to ~10 km/h to not pass the target.");
                         speedInMetersPerSecond = SpeedDownTo;
                     }
                 }
@@ -86,7 +86,7 @@ namespace PokemonGo.RocketAPI.Logic
 
                 // Look for pokemon's nearby while walking to destination.
                 var millisecondsSinceLocatePokemonWhileWalking = (DateTime.Now - locatePokemonWhileWalkingDateTime).TotalMilliseconds;
-                if (functionExecutedWhileWalking != null && (millisecondsSinceLocatePokemonWhileWalking >= 30000))
+                if (functionExecutedWhileWalking != null && (millisecondsSinceLocatePokemonWhileWalking >= 5000))
                 {
                     //var timeInSeconds = millisecondsSinceLocatePokemonWhileWalking / 1000;
                     //Logger.ColoredConsoleWrite(ConsoleColor.White, $"Searched for pokemons! Last request was done {timeInSeconds} seconds ago");

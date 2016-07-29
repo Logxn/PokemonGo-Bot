@@ -24,8 +24,9 @@ namespace PokemonGo.RocketAPI.Extensions
 
             while (response.Payload.Count == 0) // WE WANT A FUCKING ANWSER POKEMON
             {
-                if (err == 3)
+                if (err >= 3)
                 {
+                    err = 0;
                     throw new InvalidResponseException();
                 }
                 await RandomHelper.RandomDelay(150, 300);
@@ -33,10 +34,11 @@ namespace PokemonGo.RocketAPI.Extensions
                 if (response.Payload.Count == 0)
                 {
                     err++;
-                    Logger.Error($"Error at Request PostProtoPayload {typeof(TResponsePayload).Name} try {err}/3");
+                    Logger.Error($"Error at Request PostProtoPayload {typeof(TResponsePayload).Name} retrying {err}/3");
                 } else
                 {
                     err = 0;
+                    break;
                 }
             }
 
