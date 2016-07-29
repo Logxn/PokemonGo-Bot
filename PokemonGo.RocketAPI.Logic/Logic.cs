@@ -204,7 +204,7 @@ namespace PokemonGo.RocketAPI.Logic
             }
 
             Resources.OutPutWalking = true;
-            var mapObjects = await client.GetMapObjects();
+            var mapObjects = await _client.GetMapObjects();
             
             //var pokeStops = mapObjects.MapCells.SelectMany(i => i.Forts).Where(i => i.Type == FortType.Checkpoint && i.CooldownCompleteTimestampMs < DateTime.UtcNow.ToUnixTime());
 
@@ -226,6 +226,7 @@ namespace PokemonGo.RocketAPI.Logic
                 if (pokeStops.Count() == 0)
                 {
                     Logger.ColoredConsoleWrite(ConsoleColor.Red, "We cant find any PokeStops in a range of " + _clientSettings.MaxWalkingRadiusInMeters + "m!");
+                    await ExecuteCatchAllNearbyPokemons();
                 }
             }
 
@@ -244,12 +245,11 @@ namespace PokemonGo.RocketAPI.Logic
             foreach (var pokeStop in pokeStops)
             {
                 // replace this true with settings variable!!
-                if (true)
-                {
-                    await UseIncense();
-                }
+                await UseIncense();
+
                 await ExecuteCatchAllNearbyPokemons();
-                count++;
+
+                
                 if (count >= 3)
                 {
                     count = 0;
@@ -263,12 +263,18 @@ namespace PokemonGo.RocketAPI.Logic
                 }
 
                 var distance = LocationUtils.CalculateDistanceInMeters(_client.CurrentLat, _client.CurrentLng, pokeStop.Latitude, pokeStop.Longitude);
-                var fortInfo = await client.GetFort(pokeStop.Id, pokeStop.Latitude, pokeStop.Longitude);
+                var fortInfo = await _client.GetFort(pokeStop.Id, pokeStop.Latitude, pokeStop.Longitude);
+                if (fortInfo == null)
+                {
+                    continue;
+                }
                 Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Next Pokestop: {fortInfo.Name} in {distance:0.##}m distance.");
                 var update = await _navigation.HumanLikeWalking(new GeoCoordinate(pokeStop.Latitude, pokeStop.Longitude), _clientSettings.WalkingSpeedInKilometerPerHour, ExecuteCatchAllNearbyPokemons);
 
                 ////var fortInfo = await client.GetFort(pokeStop.Id, pokeStop.Latitude, pokeStop.Longitude);
-                var fortSearch = await client.SearchFort(pokeStop.Id, pokeStop.Latitude, pokeStop.Longitude);
+                var fortSearch = await _client.SearchFort(pokeStop.Id, pokeStop.Latitude, pokeStop.Longitude);
+
+                count++;
 
                 if (fortSearch.ExperienceAwarded > 0)
                 {
