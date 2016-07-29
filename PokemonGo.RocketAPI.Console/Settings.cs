@@ -40,6 +40,7 @@ namespace PokemonGo.RocketAPI.Console
 
         public bool TransferDoublePokemons => Globals.transfer;//UserSettings.Default.TransferDoublePokemons;
         public int DontTransferWithCPOver => Globals.maxCp;//UserSettings.Default.DontTransferWithCPOver;
+        public int ivmaxpercent => Globals.ivmaxpercent;
 
         public bool EvolvePokemonsIfEnoughCandy => Globals.evolve;//UserSettings.Default.EvolvePokemonsIfEnoughCandy;
 

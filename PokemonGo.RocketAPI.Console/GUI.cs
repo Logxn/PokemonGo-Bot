@@ -190,6 +190,9 @@ namespace PokemonGo.RocketAPI.Console
                         case 20:
                             checkBox9.Checked = bool.Parse(line);
                             break;
+                        case 21:
+                            textBox24.Text = line;
+                            break;
                         default:
                             TextBox temp = (TextBox)this.Controls.Find("textBox" + tb, true).FirstOrDefault();
                             temp.Text = line;
@@ -247,6 +250,7 @@ namespace PokemonGo.RocketAPI.Console
                 textBox22.Text = "200";
                 textBox21.Text = "100";
                 textBox23.Text = "20";
+                textBox24.Text = "90";
             }
 
             if (File.Exists(Program.keep))
@@ -508,6 +512,14 @@ namespace PokemonGo.RocketAPI.Console
                 Globals.toprevive = int.Parse(textBox23.Text);
             }
 
+            if (textBox24.Text == "")
+            {
+                textBox24.BackColor = Color.Red;
+            } else
+            {
+                Globals.ivmaxpercent = int.Parse(textBox24.Text);
+            }
+
             Globals.gerNames = checkBox8.Checked;
             Globals.useincense = checkBox9.Checked;
 
@@ -553,7 +565,8 @@ namespace PokemonGo.RocketAPI.Console
                     Globals.navigation_option.ToString(),
                     Globals.useluckyegg.ToString(),
                     Globals.gerNames.ToString(),
-                    Globals.useincense.ToString()
+                    Globals.useincense.ToString(),
+                    Globals.ivmaxpercent.ToString()
             };
             System.IO.File.WriteAllLines(@Program.account, accFile);
 

@@ -340,6 +340,7 @@ namespace PokemonGo.RocketAPI.Console
         public static int toppotion = 100;
         public static int toprevive = 50;
         public static int berry = 50;
+        public static int ivmaxpercent = 0;
         public static List<PokemonId> noTransfer = new List<PokemonId>();
         public static List<PokemonId> noCatch = new List<PokemonId>();
         public static List<PokemonId> doEvolve = new List<PokemonId>();

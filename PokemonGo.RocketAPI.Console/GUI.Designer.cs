@@ -104,8 +104,11 @@
             this.linkLabel2 = new System.Windows.Forms.LinkLabel();
             this.groupBox9 = new System.Windows.Forms.GroupBox();
             this.groupBox10 = new System.Windows.Forms.GroupBox();
-            this.checkBox8 = new System.Windows.Forms.CheckBox();
             this.checkBox9 = new System.Windows.Forms.CheckBox();
+            this.checkBox8 = new System.Windows.Forms.CheckBox();
+            this.textBox24 = new System.Windows.Forms.TextBox();
+            this.label28 = new System.Windows.Forms.Label();
+            this.label29 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -338,11 +341,13 @@
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.label29);
+            this.groupBox3.Controls.Add(this.textBox24);
+            this.groupBox3.Controls.Add(this.label28);
             this.groupBox3.Controls.Add(this.textBox9);
             this.groupBox3.Controls.Add(this.label12);
             this.groupBox3.Controls.Add(this.textBox8);
             this.groupBox3.Controls.Add(this.label11);
-            this.groupBox3.Controls.Add(this.checkBox3);
             this.groupBox3.Controls.Add(this.checkBox2);
             this.groupBox3.Location = new System.Drawing.Point(12, 295);
             this.groupBox3.Name = "groupBox3";
@@ -353,7 +358,7 @@
             // 
             // textBox9
             // 
-            this.textBox9.Location = new System.Drawing.Point(110, 88);
+            this.textBox9.Location = new System.Drawing.Point(110, 69);
             this.textBox9.Name = "textBox9";
             this.textBox9.Size = new System.Drawing.Size(71, 20);
             this.textBox9.TabIndex = 5;
@@ -362,7 +367,7 @@
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(7, 91);
+            this.label12.Location = new System.Drawing.Point(7, 72);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(97, 13);
             this.label12.TabIndex = 4;
@@ -390,11 +395,11 @@
             this.checkBox3.AutoSize = true;
             this.checkBox3.Checked = true;
             this.checkBox3.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox3.Location = new System.Drawing.Point(7, 67);
+            this.checkBox3.Location = new System.Drawing.Point(6, 87);
             this.checkBox3.Name = "checkBox3";
-            this.checkBox3.Size = new System.Drawing.Size(191, 17);
+            this.checkBox3.Size = new System.Drawing.Size(159, 30);
             this.checkBox3.TabIndex = 1;
-            this.checkBox3.Text = "Evolve Pokemons if enough candy";
+            this.checkBox3.Text = "Evolve Pokemons if enough\r\ncandy\r\n";
             this.checkBox3.UseVisualStyleBackColor = true;
             // 
             // checkBox2
@@ -856,23 +861,13 @@
             this.groupBox10.Controls.Add(this.checkBox9);
             this.groupBox10.Controls.Add(this.checkBox8);
             this.groupBox10.Controls.Add(this.checkBox7);
+            this.groupBox10.Controls.Add(this.checkBox3);
             this.groupBox10.Location = new System.Drawing.Point(270, 319);
             this.groupBox10.Name = "groupBox10";
             this.groupBox10.Size = new System.Drawing.Size(172, 213);
             this.groupBox10.TabIndex = 19;
             this.groupBox10.TabStop = false;
             this.groupBox10.Text = "Other Settings";
-            // 
-            // checkBox8
-            // 
-            this.checkBox8.AutoSize = true;
-            this.checkBox8.Location = new System.Drawing.Point(6, 43);
-            this.checkBox8.Name = "checkBox8";
-            this.checkBox8.Size = new System.Drawing.Size(145, 17);
-            this.checkBox8.TabIndex = 7;
-            this.checkBox8.Text = "German Pokemon names";
-            this.checkBox8.UseVisualStyleBackColor = true;
-            this.checkBox8.CheckedChanged += new System.EventHandler(this.checkBox8_CheckedChanged);
             // 
             // checkBox9
             // 
@@ -885,6 +880,42 @@
             this.checkBox9.TabIndex = 8;
             this.checkBox9.Text = "Use Incense every 30min";
             this.checkBox9.UseVisualStyleBackColor = true;
+            // 
+            // checkBox8
+            // 
+            this.checkBox8.AutoSize = true;
+            this.checkBox8.Location = new System.Drawing.Point(6, 43);
+            this.checkBox8.Name = "checkBox8";
+            this.checkBox8.Size = new System.Drawing.Size(145, 17);
+            this.checkBox8.TabIndex = 7;
+            this.checkBox8.Text = "German Pokemon names";
+            this.checkBox8.UseVisualStyleBackColor = true;
+            this.checkBox8.CheckedChanged += new System.EventHandler(this.checkBox8_CheckedChanged);
+            // 
+            // textBox24
+            // 
+            this.textBox24.Location = new System.Drawing.Point(122, 95);
+            this.textBox24.Name = "textBox24";
+            this.textBox24.Size = new System.Drawing.Size(53, 20);
+            this.textBox24.TabIndex = 7;
+            // 
+            // label28
+            // 
+            this.label28.AutoSize = true;
+            this.label28.Location = new System.Drawing.Point(7, 98);
+            this.label28.Name = "label28";
+            this.label28.Size = new System.Drawing.Size(115, 13);
+            this.label28.TabIndex = 6;
+            this.label28.Text = "Max IV to transfer in %:";
+            // 
+            // label29
+            // 
+            this.label29.AutoSize = true;
+            this.label29.Location = new System.Drawing.Point(176, 99);
+            this.label29.Name = "label29";
+            this.label29.Size = new System.Drawing.Size(15, 13);
+            this.label29.TabIndex = 8;
+            this.label29.Text = "%";
             // 
             // GUI
             // 
@@ -1012,6 +1043,9 @@
         private System.Windows.Forms.CheckBox checkBox8;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.CheckBox checkBox9;
+        private System.Windows.Forms.Label label29;
+        private System.Windows.Forms.TextBox textBox24;
+        private System.Windows.Forms.Label label28;
     }
 }
 
