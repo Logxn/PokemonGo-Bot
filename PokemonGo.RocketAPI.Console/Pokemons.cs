@@ -15,6 +15,9 @@ namespace PokemonGo.RocketAPI.Console
     public partial class Pokemons : Form
     {
         private static Client client;
+        private static GetPlayerResponse profile;
+        private static GetInventoryResponse inventory;
+        private static IOrderedEnumerable<PokemonData> pokemons;
         public class taskResponse
         {
             public bool Status { get; set; }
@@ -36,12 +39,14 @@ namespace PokemonGo.RocketAPI.Console
 
         private void Pokemons_Load(object sender, EventArgs e)
         {
+            textBox2.Text = "60";
             Execute();
         }
 
         private async void Execute()
         {
             EnabledButton(false);
+            textBox1.Text = "Reloading Pokemon list.";
 
             client = new Client(ClientSettings);
 
@@ -58,9 +63,9 @@ namespace PokemonGo.RocketAPI.Console
                 }
 
                 await client.SetServer();
-                var profile = await client.GetProfile();
-                var inventory = await client.GetInventory();
-                var pokemons =
+                profile = await client.GetProfile();
+                inventory = await client.GetInventory();
+                pokemons =
                     inventory.InventoryDelta.InventoryItems
                     .Select(i => i.InventoryItemData?.Pokemon)
                         .Where(p => p != null && p?.PokemonId > 0)
@@ -75,6 +80,13 @@ namespace PokemonGo.RocketAPI.Console
                 var imageList = new ImageList { ImageSize = new Size(imageSize, imageSize) };
                 listView1.ShowItemToolTips = true;
 
+                var templates = await client.GetItemTemplates();
+                var myPokemonSettings =  templates.ItemTemplates.Select(i => i.PokemonSettings).Where(p => p != null && p?.FamilyId != PokemonFamilyId.FamilyUnset);
+                var pokemonSettings = myPokemonSettings.ToList();
+
+                var myPokemonFamilies = inventory.InventoryDelta.InventoryItems.Select(i => i.InventoryItemData?.PokemonFamily).Where(p => p != null && p?.FamilyId != PokemonFamilyId.FamilyUnset);
+                var pokemonFamilies = myPokemonFamilies.ToArray();
+                  
                 foreach (var pokemon in pokemons)
                 {
                     Bitmap pokemonImage = null;
@@ -103,14 +115,18 @@ namespace PokemonGo.RocketAPI.Console
                     listViewItem.Text = string.Format("{0}\n{1} CP", pokemon.PokemonId, pokemon.Cp);
                     listViewItem.ToolTipText = currentCandy + " Candy\n" + currIv + "% IV";
 
+                    var settings = pokemonSettings.Single(x => x.PokemonId == pokemon.PokemonId);
+                    var familyCandy = pokemonFamilies.Single(x => settings.FamilyId == x.FamilyId);
 
-                    this.listView1.Items.Add(listViewItem);
+                    if (settings.EvolutionIds.Count > 0 && familyCandy.Candy > settings.CandyToEvolve)
+                        listViewItem.Checked = true;
 
+                    listView1.Items.Add(listViewItem);
                 }
-                this.Text = "Pokemon List | User: " + profile.Profile.Username + " | Pokemons: " + pokemons.Count() + "/" + profile.Profile.PokeStorage;
+                Text = "Pokemon List | User: " + profile.Profile.Username + " | Pokemons: " + pokemons.Count() + "/" + profile.Profile.PokeStorage;
                 EnabledButton(true);
 
-
+                textBox1.Text = string.Empty;
             }
             catch (TaskCanceledException e) {
                 textBox1.Text = e.Message;
@@ -144,6 +160,8 @@ namespace PokemonGo.RocketAPI.Console
             button2.Enabled = enabled;
             button3.Enabled = enabled;
             btnUpgrade.Enabled = enabled;
+            checkBox1.Enabled = enabled;
+            textBox2.Enabled = enabled;
         }
 
         private static Bitmap GetPokemonImage(int pokemonId)
@@ -180,6 +198,11 @@ namespace PokemonGo.RocketAPI.Console
             {
                 if (listView1.FocusedItem.Bounds.Contains(e.Location) == true)
                 {
+                    if (listView1.SelectedItems.Count > 1)
+                    {
+                        MessageBox.Show("You can only select 1 item for quick action!", "Selection to large", MessageBoxButtons.OK);
+                        return;
+                    }
                     contextMenuStrip1.Show(Cursor.Position);
                 }
             }
@@ -188,13 +211,23 @@ namespace PokemonGo.RocketAPI.Console
         private async void toolStripMenuItem1_Click(object sender, EventArgs e)
         {
             var pokemon = (PokemonData)listView1.SelectedItems[0].Tag;
-
+            taskResponse resp = new taskResponse(false, string.Empty);
 
             if (MessageBox.Show(this, pokemon.PokemonId + " with " + pokemon.Cp + " CP thats " + Math.Round(Perfect(pokemon)) + "% perfect", "Are you sure you want to transfer?", MessageBoxButtons.OKCancel) == DialogResult.OK)
             {
-                var transfer = await client.TransferPokemon(pokemon.Id);
+                resp = await transferPokemon(pokemon);
             }
-            listView1.Items.Remove(listView1.SelectedItems[0]);
+            else
+            {
+                return;
+            }
+            if (resp.Status)
+            {
+                listView1.Items.Remove(listView1.SelectedItems[0]);
+                Text = "Pokemon List | User: " + profile.Profile.Username + " | Pokemons: " + listView1.Items.Count + "/" + profile.Profile.PokeStorage;
+            }
+            else
+                MessageBox.Show(resp.Message +" transfer failed!", "Transfer Status", MessageBoxButtons.OK);
         }
 
         private async void button2_Click(object sender, EventArgs e)
@@ -236,9 +269,12 @@ namespace PokemonGo.RocketAPI.Console
             {
                 resp = await transferPokemon((PokemonData)selectedItem.Tag);
                 if (resp.Status)
+                {
+                    listView1.Items.Remove(selectedItem);
                     transfered++;
+                }
                 else
-                    failed += resp.Message+" ";
+                    failed += resp.Message + " ";
 
             }
 
@@ -246,8 +282,10 @@ namespace PokemonGo.RocketAPI.Console
                 MessageBox.Show("Succesfully transfered " + transfered + "/" + total + " Pokemons. Failed: " + failed, "Transfer status", MessageBoxButtons.OK, MessageBoxIcon.Information);
             else
                 MessageBox.Show("Succesfully transfered " + transfered + "/" + total + " Pokemons.", "Transfer status", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            listView1.Clear();
-            Execute();
+            Text = "Pokemon List | User: " + profile.Profile.Username + " | Pokemons: " + listView1.Items.Count + "/" + profile.Profile.PokeStorage;
+            EnabledButton(true);
+            //listView1.Clear();
+            //Execute();
         }
 
         private async void btnUpgrade_Click(object sender, EventArgs e)
@@ -352,6 +390,101 @@ namespace PokemonGo.RocketAPI.Console
             catch (NullReferenceException) { await PowerUp(pokemon); }
             catch (Exception ex) { await PowerUp(pokemon); }
             return resp;
+        }
+
+        private void contextMenuStrip1_Opening(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (listView1.SelectedItems[0].Checked)
+                contextMenuStrip1.Items[2].Visible = true;
+        }
+
+        private void contextMenuStrip1_Closing(object sender, ToolStripDropDownClosingEventArgs e)
+        {
+            contextMenuStrip1.Items[2].Visible = false;
+        }
+
+        private async void evolveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var pokemon = (PokemonData)listView1.SelectedItems[0].Tag;
+            taskResponse resp = new taskResponse(false, string.Empty);
+
+            if (MessageBox.Show(this, pokemon.PokemonId + " with " + pokemon.Cp + " CP thats " + Math.Round(Perfect(pokemon)) + "% perfect", "Are you sure you want to evolve?", MessageBoxButtons.OKCancel) == DialogResult.OK)
+            {
+                resp = await evolvePokemon(pokemon);
+            }
+            else
+            {
+                return;
+            }
+            if (resp.Status)
+            {
+                Execute();
+            }
+            else
+                MessageBox.Show(resp.Message + " evolving failed!", "Evolve Status", MessageBoxButtons.OK);
+        }
+
+        private async void powerUpToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var pokemon = (PokemonData)listView1.SelectedItems[0].Tag;
+            taskResponse resp = new taskResponse(false, string.Empty);
+
+            if (MessageBox.Show(this, pokemon.PokemonId + " with " + pokemon.Cp + " CP thats " + Math.Round(Perfect(pokemon)) + "% perfect", "Are you sure you want to power it up?", MessageBoxButtons.OKCancel) == DialogResult.OK)
+            {
+                resp = await PowerUp(pokemon);
+            }
+            else
+            {
+                return;
+            }
+            if (resp.Status)
+            {
+                Execute();
+            }
+            else
+                MessageBox.Show(resp.Message + " powering up failed!", "PowerUp Status", MessageBoxButtons.OK);
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBox1.Checked)
+            {
+                int def = 0;
+                int interval;
+                if(int.TryParse(textBox2.Text, out interval))
+                {
+                    def = interval;
+                }
+                if (def < 30 || def > 3600)
+                {
+                    MessageBox.Show("Interval has to be between 30 and 3600 seconds!");
+                    textBox2.Text = "60";
+                    checkBox1.Checked = false;
+                }
+                else
+                {
+                    timer1.Interval = def * 1000;
+                    timer1.Start();
+                }
+            }
+            else
+            {
+                timer1.Stop();
+            }
+
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            Execute();
+        }
+
+        private void textBox2_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
+            }
         }
     }
 }

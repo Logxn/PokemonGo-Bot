@@ -131,7 +131,7 @@ namespace PokemonGo.RocketAPI.Logic
                     {
                         await EvolveAllPokemonWithEnoughCandy();
                     }
-                    await TransferDuplicatePokemon(true);
+                    await TransferDuplicatePokemon(false);
                     await RecycleItems();
                     await ExecuteFarmingPokestopsAndPokemons(_client);
 
@@ -258,7 +258,7 @@ namespace PokemonGo.RocketAPI.Logic
                     {
                         await EvolveAllPokemonWithEnoughCandy();
                     }
-                    await TransferDuplicatePokemon(true);
+                    await TransferDuplicatePokemon(false);
                     await RecycleItems();
                 }
 
@@ -346,7 +346,7 @@ namespace PokemonGo.RocketAPI.Logic
                     {
                         await EvolveAllPokemonWithEnoughCandy();
                     }
-                    await TransferDuplicatePokemon(true);
+                    await TransferDuplicatePokemon(false);
                     await RecycleItems();
                 }
 
@@ -468,7 +468,7 @@ namespace PokemonGo.RocketAPI.Logic
         {
             if (_clientSettings.TransferDoublePokemons)
             {
-                var duplicatePokemons = await _inventory.GetDuplicatePokemonToTransfer();
+                var duplicatePokemons = await _inventory.GetDuplicatePokemonToTransfer(keepPokemonsThatCanEvolve);
 
                 foreach (var duplicatePokemon in duplicatePokemons)
                 {

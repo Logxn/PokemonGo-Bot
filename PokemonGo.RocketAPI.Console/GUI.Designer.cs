@@ -107,9 +107,9 @@
             this.linkLabel2 = new System.Windows.Forms.LinkLabel();
             this.groupBox9 = new System.Windows.Forms.GroupBox();
             this.groupBox10 = new System.Windows.Forms.GroupBox();
+            this.checkBox10 = new System.Windows.Forms.CheckBox();
             this.checkBox9 = new System.Windows.Forms.CheckBox();
             this.checkBox8 = new System.Windows.Forms.CheckBox();
-            this.checkBox10 = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -360,7 +360,6 @@
             // label29
             // 
             this.label29.AutoSize = true;
-            this.label29.Location = new System.Drawing.Point(176, 99);
             this.label29.Location = new System.Drawing.Point(169, 98);
             this.label29.Name = "label29";
             this.label29.Size = new System.Drawing.Size(15, 13);
@@ -369,24 +368,17 @@
             // 
             // textBox24
             // 
-            this.textBox24.Location = new System.Drawing.Point(122, 95);
-            this.textBox24.Name = "textBox24";
-            this.textBox24.Size = new System.Drawing.Size(53, 20);
-            this.textBox24.TabIndex = 7;
-            this.textBox24.Text = "90";
             this.textBox24.Location = new System.Drawing.Point(110, 95);
             this.textBox24.Name = "textBox24";
             this.textBox24.Size = new System.Drawing.Size(53, 20);
             this.textBox24.TabIndex = 7;
+            this.textBox24.Text = "90";
             // 
             // label28
             // 
             this.label28.AutoSize = true;
             this.label28.Location = new System.Drawing.Point(7, 98);
             this.label28.Name = "label28";
-            this.label28.Size = new System.Drawing.Size(115, 13);
-            this.label28.TabIndex = 6;
-            this.label28.Text = "Max IV to transfer in %:";
             this.label28.Size = new System.Drawing.Size(93, 13);
             this.label28.TabIndex = 6;
             this.label28.Text = "Max IV to transfer:";
@@ -707,7 +699,6 @@
             this.checkedListBox1.Name = "checkedListBox1";
             this.checkedListBox1.ScrollAlwaysVisible = true;
             this.checkedListBox1.Size = new System.Drawing.Size(150, 124);
-            this.checkedListBox1.Sorted = true;
             this.checkedListBox1.TabIndex = 0;
             // 
             // groupBox6
@@ -740,7 +731,6 @@
             this.checkedListBox2.Name = "checkedListBox2";
             this.checkedListBox2.ScrollAlwaysVisible = true;
             this.checkedListBox2.Size = new System.Drawing.Size(154, 124);
-            this.checkedListBox2.Sorted = true;
             this.checkedListBox2.TabIndex = 0;
             // 
             // groupBox7
@@ -773,7 +763,6 @@
             this.checkedListBox3.Name = "checkedListBox3";
             this.checkedListBox3.ScrollAlwaysVisible = true;
             this.checkedListBox3.Size = new System.Drawing.Size(153, 124);
-            this.checkedListBox3.Sorted = true;
             this.checkedListBox3.TabIndex = 0;
             // 
             // button1
@@ -908,6 +897,18 @@
             this.groupBox10.TabStop = false;
             this.groupBox10.Text = "Other Settings";
             // 
+            // checkBox10
+            // 
+            this.checkBox10.AutoSize = true;
+            this.checkBox10.Checked = true;
+            this.checkBox10.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox10.Location = new System.Drawing.Point(6, 123);
+            this.checkBox10.Name = "checkBox10";
+            this.checkBox10.Size = new System.Drawing.Size(144, 17);
+            this.checkBox10.TabIndex = 9;
+            this.checkBox10.Text = "Enable Pokemon list GUI";
+            this.checkBox10.UseVisualStyleBackColor = true;
+            // 
             // checkBox9
             // 
             this.checkBox9.AutoSize = true;
@@ -930,18 +931,6 @@
             this.checkBox8.Text = "German Pokemon names";
             this.checkBox8.UseVisualStyleBackColor = true;
             this.checkBox8.CheckedChanged += new System.EventHandler(this.checkBox8_CheckedChanged);
-            // 
-            // checkBox10
-            // 
-            this.checkBox10.AutoSize = true;
-            this.checkBox10.Checked = true;
-            this.checkBox10.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox10.Location = new System.Drawing.Point(6, 123);
-            this.checkBox10.Name = "checkBox10";
-            this.checkBox10.Size = new System.Drawing.Size(144, 17);
-            this.checkBox10.TabIndex = 9;
-            this.checkBox10.Text = "Enable Pokemon list GUI";
-            this.checkBox10.UseVisualStyleBackColor = true;
             // 
             // GUI
             // 
