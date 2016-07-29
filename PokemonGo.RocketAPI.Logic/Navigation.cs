@@ -7,7 +7,7 @@ using System.Device.Location;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using PokemonGo.RocketAPI.Helpers;
 
 namespace PokemonGo.RocketAPI.Logic
 {
@@ -39,6 +39,8 @@ namespace PokemonGo.RocketAPI.Logic
         {
             var speedInMetersPerSecond = walkingSpeedInKilometersPerHour / 3.6;
 
+            speedInMetersPerSecond = speedInMetersPerSecond - RandomHelper.RandomNumber(0, 5);
+
             var sourceLocation = new GeoCoordinate(_client.CurrentLat, _client.CurrentLng);
             var distanceToTarget = LocationUtils.CalculateDistanceInMeters(sourceLocation, targetLocation);
             Logger.ColoredConsoleWrite(ConsoleColor.DarkCyan, $"Distance to target location: {distanceToTarget:0.##} meters. Will take {distanceToTarget / speedInMetersPerSecond:0.##} seconds!");
@@ -69,8 +71,8 @@ namespace PokemonGo.RocketAPI.Logic
                 {
                     if (speedInMetersPerSecond > SpeedDownTo)
                     {
-                        Logger.ColoredConsoleWrite(ConsoleColor.DarkCyan, $"We are within 40 meters of the target. Speeding down to 10 km/h to not pass the target.");
-                        speedInMetersPerSecond = SpeedDownTo;
+                        Logger.ColoredConsoleWrite(ConsoleColor.DarkCyan, $"We are within 40 meters of the target. Speeding down to ~10 km/h to not pass the target.");
+                        speedInMetersPerSecond = SpeedDownTo - RandomHelper.RandomNumber(0, 3);
                     }
                 }
 
