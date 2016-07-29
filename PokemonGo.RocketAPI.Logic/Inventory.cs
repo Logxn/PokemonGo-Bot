@@ -129,7 +129,7 @@ namespace PokemonGo.RocketAPI.Logic
             {
                 var results = new List<PokemonData>();
                 var pokemonsThatCanBeTransfered = pokemonList.GroupBy(p => p.PokemonId)
-                    .Where(x => x.Count() > 1).ToList();
+                    .ToList();
 
                 var myPokemonSettings = await GetPokemonSettings();
                 var pokemonSettings = myPokemonSettings as IList<PokemonSettings> ?? myPokemonSettings.ToList();
@@ -147,7 +147,7 @@ namespace PokemonGo.RocketAPI.Logic
 
                     var amountToSkip = (familyCandy.Candy + settings.CandyToEvolve - 1) / settings.CandyToEvolve;
 
-                    results.AddRange(pokemonList.Where(x => x.PokemonId == pokemon.Key && x.Favorite == 0)
+                    results.AddRange(pokemonList.Where(x => x.PokemonId == pokemon.Key)
                         .OrderByDescending(x => x.Cp)
                         .ThenBy(n => n.StaminaMax)
                         .Skip(amountToSkip)
