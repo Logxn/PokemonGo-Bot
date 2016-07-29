@@ -209,7 +209,7 @@ namespace PokemonGo.RocketAPI.Logic.Utils
                 else if (message.Text.StartsWith("/information")) // send custom keyboard
                 {
                     var usage = "";
-                    if (livestats)
+                    if (informations)
                     {
                         usage = "Disabled Information.";
                         informations = false;
