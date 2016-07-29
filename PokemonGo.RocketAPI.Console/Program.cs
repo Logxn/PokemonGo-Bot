@@ -355,8 +355,8 @@ namespace PokemonGo.RocketAPI.Console
         public static List<PokemonId> noTransfer = new List<PokemonId>();
         public static List<PokemonId> noCatch = new List<PokemonId>();
         public static List<PokemonId> doEvolve = new List<PokemonId>();
-        public static string telAPI = "empty";
-        public static string telName = "empty";
+        public static string telAPI = string.Empty;
+        public static string telName = string.Empty;
         public static int telDelay = 5000;
 
         public static int navigation_option = 1;
