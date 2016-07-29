@@ -15,12 +15,12 @@ namespace PokemonGo.RocketAPI.Console
 {
     class Program
     {
-        public static string path = Directory.GetCurrentDirectory();
-        public static string account = path + "\\Config.txt";
-        public static string items = path + "\\Items.txt";
-        public static string keep = path + "\\noTransfer.txt";
-        public static string ignore = path + "\\noCatch.txt";
-        public static string evolve = path + "\\Evolve.txt";
+        public static string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Configs");
+        public static string account = Path.Combine(path, "Config.txt");
+        public static string items = Path.Combine(path, "Items.txt");
+        public static string keep = Path.Combine(path, "noTransfer.txt");
+        public static string ignore = Path.Combine(path, "noCatch.txt");
+        public static string evolve = Path.Combine(path, "Evolve.txt");
 
         [STAThread]
         static void Main(string[] args)
