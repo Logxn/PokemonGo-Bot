@@ -28,6 +28,22 @@ namespace PokemonGo.RocketAPI.Logic
 
         }
 
+        public async Task<int> getPokemonCount()
+        {
+            int i = 0;
+            var p = await GetPokemons();
+            i = p.Count();
+            return i;
+        }
+
+        public async Task<int> getInventoryCount()
+        {
+            int i = 0;
+            var p = await GetItems();
+            i = p.Count();
+            return i;
+        }
+
         public async Task<IEnumerable<PokemonData>> GetPokemons()
         {
             var inventory = await getCachedInventory(_client);
