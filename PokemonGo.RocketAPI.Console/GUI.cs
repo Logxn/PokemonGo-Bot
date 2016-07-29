@@ -48,6 +48,30 @@ namespace PokemonGo.RocketAPI.Console
 
         private void GUI_Load(object sender, EventArgs e)
         {
+
+            // Create missing Files
+            System.IO.Directory.CreateDirectory(Program.path);
+            if (!File.Exists(Program.account))
+            {
+                File.Create(Program.account).Dispose();
+            }
+            if (!File.Exists(Program.items))
+            {
+                File.Create(Program.items).Dispose();
+            }
+            if (!File.Exists(Program.keep))
+            {
+                File.Create(Program.keep).Dispose();
+            }
+            if (!File.Exists(Program.ignore))
+            {
+                File.Create(Program.ignore).Dispose();
+            }
+            if (!File.Exists(Program.evolve))
+            {
+                File.Create(Program.evolve).Dispose();
+            }
+
             // Version Infoooo
             groupBox9.Text = "Your Version: " + Assembly.GetExecutingAssembly().GetName().Version + " | Newest: " + Program.getNewestVersion();
             if (Program.getNewestVersion() > Assembly.GetExecutingAssembly().GetName().Version)
@@ -304,7 +328,6 @@ namespace PokemonGo.RocketAPI.Console
 
         private void button1_Click(object sender, EventArgs e)
         {
-            
             if (textBox1.Text == "")
             {
                 textBox1.BackColor = Color.Red;
