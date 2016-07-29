@@ -17,11 +17,14 @@ namespace PokemonGo.RocketAPI.Extensions
         public static async Task<TResponsePayload> PostProtoPayload<TRequest, TResponsePayload>(this HttpClient client, string url, TRequest request) where TRequest : IMessage<TRequest> where TResponsePayload : IMessage<TResponsePayload>, new()
         {
             Logger.Write($"Requesting {typeof(TResponsePayload).Name}", LogLevel.Debug);
-            await RandomHelper.RandomDelay(150, 500);
+            await RandomHelper.RandomDelay(150, 300);
             var response = await PostProto<TRequest>(client, url, request);
 
-            if (response.Payload.Count == 0)
-                Logger.Error("HttpClientExtensions Error - Probably sending to much Requests.");
+            while (response.Payload.Count == 0) // WE WANT A FUCKING ANWSER POKEMON
+            {
+                await RandomHelper.RandomDelay(150, 300);
+                response = await PostProto<TRequest>(client, url, request);
+            }
 
             //Decode payload
             //todo: multi-payload support
