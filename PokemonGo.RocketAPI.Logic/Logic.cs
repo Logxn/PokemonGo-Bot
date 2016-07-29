@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -131,7 +131,7 @@ namespace PokemonGo.RocketAPI.Logic
                     {
                         await EvolveAllPokemonWithEnoughCandy();
                     }
-                    await TransferDuplicatePokemon(false);
+                    await TransferDuplicatePokemon(_clientSettings.keepPokemonsThatCanEvolve);
                     await RecycleItems();
                     await ExecuteFarmingPokestopsAndPokemons(_client);
 
@@ -258,7 +258,7 @@ namespace PokemonGo.RocketAPI.Logic
                     {
                         await EvolveAllPokemonWithEnoughCandy();
                     }
-                    await TransferDuplicatePokemon(false);
+                    await TransferDuplicatePokemon(_clientSettings.keepPokemonsThatCanEvolve);
                     await RecycleItems();
                 }
 
@@ -352,7 +352,7 @@ namespace PokemonGo.RocketAPI.Logic
                     {
                         await EvolveAllPokemonWithEnoughCandy();
                     }
-                    await TransferDuplicatePokemon(false);
+                    await TransferDuplicatePokemon(_clientSettings.keepPokemonsThatCanEvolve);
                     await RecycleItems();
                 }
 

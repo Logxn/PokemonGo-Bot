@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Threading.Tasks;
 using PokemonGo.RocketAPI.Exceptions;
 using System.Reflection;
@@ -106,6 +106,9 @@ namespace PokemonGo.RocketAPI.Console
                                 break;
                             case 19:
                                 Globals.useincense = bool.Parse(line);
+                                break;
+                            case 20:
+                                Globals.keepPokemonsThatCanEvolve = bool.Parse(line);
                                 break;
                         }
                         i++;
@@ -364,5 +367,6 @@ namespace PokemonGo.RocketAPI.Console
         public static bool useincense = true;
         public static bool gerNames = false;
         public static bool pokeList = true;
+        public static bool keepPokemonsThatCanEvolve = true;
     }
 }
