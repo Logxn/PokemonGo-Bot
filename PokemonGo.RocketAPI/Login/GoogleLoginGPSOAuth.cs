@@ -27,7 +27,7 @@ namespace PokemonGo.RocketAPI.Login
                 Thread.Sleep(5000);
                 Process.Start("https://security.google.com/settings/security/apppasswords");
                 Logger.Error("The Program is now freezed.");
-                Thread.Sleep(50000000);
+                Thread.Sleep(Timeout.Infinite);
             }
 
             if (response.ContainsKey("Error"))
