@@ -203,8 +203,19 @@ namespace PokemonGo.RocketAPI.Console
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
                 Application.Run(new GUI());
+
+                if (Globals.pokeList)
+                {
+                    Task.Run(() =>
+                    {
+                        Pokemons pokemonList = new Pokemons();
+                        pokemonList.ShowDialog();
+                        //Application.Run(new Pokemons());
+                    });
+                }
             }
-            
+
+            //Application.Run(new Pokemons());
 
             Logger.SetLogger(new Logging.ConsoleLogger(LogLevel.Info));
             
@@ -352,5 +363,6 @@ namespace PokemonGo.RocketAPI.Console
         public static bool useluckyegg = true;
         public static bool useincense = true;
         public static bool gerNames = false;
+        public static bool pokeList = true;
     }
 }
