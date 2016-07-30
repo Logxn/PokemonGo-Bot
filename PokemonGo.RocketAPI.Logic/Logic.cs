@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using PokemonGo.RocketAPI.Enums;
 using PokemonGo.RocketAPI.Extensions;
-using PokemonGo.RocketAPI.GeneratedCode;
 using PokemonGo.RocketAPI.Logic.Utils;
 using PokemonGo.RocketAPI.Exceptions;
 using System.Net;
@@ -46,9 +45,9 @@ namespace PokemonGo.RocketAPI.Logic
                 try
                 {
                     if (_clientSettings.AuthType == AuthType.Ptc)
-                        await _client.DoPtcLogin(_clientSettings.PtcUsername, _clientSettings.PtcPassword);
+                        await _client.Login.DoPtcLogin(_clientSettings.PtcUsername, _clientSettings.PtcPassword);
                     else if (_clientSettings.AuthType == AuthType.Google)
-                        await _client.DoGoogleLogin();
+                        await _client.Login.DoGoogleLogin(_clientSettings.PtcUsername, _clientSettings.PtcPassword);
 
                     if (!string.IsNullOrEmpty(_clientSettings.TelegramAPIToken) && !string.IsNullOrEmpty(_clientSettings.TelegramName))
                     {
@@ -70,33 +69,7 @@ namespace PokemonGo.RocketAPI.Logic
                     }
 
                     await PostLoginExecute();
-                }
-                catch (PtcOfflineException)
-                {
-                    Logger.Error("PTC Server Offline. Trying to Restart in 20 Seconds...");
-                    try
-                    {
-                        _telegram.getClient().StopReceiving();
-                    }
-                    catch (Exception)
-                    {
-
-                    }
-                    await Task.Delay(10000);
-                }
-                catch (AccessTokenExpiredException)
-                {
-                    Logger.Error("Server Offline, or Access Token expired. Restarting in 20 Seconds.");
-                    try
-                    {
-                        _telegram.getClient().StopReceiving();
-                    }
-                    catch (Exception)
-                    {
-
-                    }
-                    await Task.Delay(10000);
-                }
+                } 
                 catch (Exception ex)
                 {
                     Logger.Error($"Error: " + ex.Source);
@@ -123,9 +96,7 @@ namespace PokemonGo.RocketAPI.Logic
             {
                 try
                 {
-
-                    await _client.SetServer();
-                    var profil = await _client.GetProfile();
+                    var profil = await _client.Player.GetPlayer();
                     await _inventory.ExportPokemonToCSV(profil.Profile);
                     await StatsLog(_client);
                     if (_clientSettings.EvolvePokemonsIfEnoughCandy)
@@ -136,11 +107,7 @@ namespace PokemonGo.RocketAPI.Logic
                     await RecycleItems();
                     await ExecuteFarmingPokestopsAndPokemons(_client);
 
-                }
-                catch (AccessTokenExpiredException)
-                {
-                    throw;
-                }
+                } 
                 catch (Exception ex)
                 {
                     Logger.Write($"Exception: {ex}", LogLevel.Error);
