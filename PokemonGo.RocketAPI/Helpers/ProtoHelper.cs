@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Google.Protobuf;
-
-namespace PokemonGo.RocketAPI.Helpers
+﻿namespace PokemonGo.RocketAPI.Helpers
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+
     public class ProtoHelper
     {
         public static byte[] EncodeUlongList(List<ulong> integers)

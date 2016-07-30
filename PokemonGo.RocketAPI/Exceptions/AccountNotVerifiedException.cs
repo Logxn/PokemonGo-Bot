@@ -1,12 +1,12 @@
-﻿using System;
-
-namespace PokemonGo.RocketAPI.Exceptions
+﻿namespace PokemonGo.RocketAPI.Exceptions
 {
+    using System;
+
     public class AccountNotVerifiedException : Exception
     {
-        public AccountNotVerifiedException(string message) : base(message)
+        public AccountNotVerifiedException(string message)
+            : base(message)
         {
-
         }
     }
 }

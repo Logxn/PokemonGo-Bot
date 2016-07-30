@@ -1,92 +1,95 @@
-﻿using System;
-using System.Windows.Forms;
-using GMap.NET.MapProviders;
-using System.Net;
-using GoogleMapsApi.Entities.Elevation.Request;
-using GoogleMapsApi.Entities.Elevation.Response;
-using GoogleMapsApi.Entities.Common;
-using GoogleMapsApi;
-using GMap.NET.WindowsForms;
-using GMap.NET.WindowsForms.Markers;
-using GMap.NET;
-using System.Threading.Tasks;
-
-namespace PokemonGo.RocketAPI.Console
+﻿namespace PokemonGo.RocketAPI.Console
 {
+    using System;
+    using System.Net;
+    using System.Threading.Tasks;
+    using System.Windows.Forms;
+
+    using GMap.NET;
+    using GMap.NET.MapProviders;
+    using GMap.NET.WindowsForms;
+
+    using GoogleMapsApi;
+    using GoogleMapsApi.Entities.Common;
+    using GoogleMapsApi.Entities.Elevation.Request;
+    using GoogleMapsApi.Entities.Elevation.Response;
+
     public partial class LocationSelect : Form
     {
-        public GMapOverlay markersOverlay = new GMapOverlay("markers");
         public double alt;
         public bool close = true;
+        public GMapOverlay markersOverlay = new GMapOverlay("markers");
+
+        private delegate void SetTextCallback(double cord);
 
         public LocationSelect()
         {
-            InitializeComponent();
+            this.InitializeComponent();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            Globals.latitute = this.map.Position.Lat;
+            Globals.longitude = this.map.Position.Lng;
+            Globals.altitude = this.alt;
+            this.close = false;
+            ActiveForm.Dispose();
+        }
+
+        private void LocationSelect_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (this.close)
+            {
+                var result = MessageBox.Show("You didn't set start location! Are you sure you want to exit this window?", "Location selector", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (result == DialogResult.No || result == DialogResult.Abort)
+                {
+                    e.Cancel = true;
+                }
+            }
         }
 
         private void map_Load(object sender, EventArgs e)
         {
-            showMap();
-        }
-
-        private void showMap()
-        {
-            try
-            {
-                map.DragButton = MouseButtons.Left;
-                map.MapProvider = GMapProviders.BingMap;
-                map.Position = new GMap.NET.PointLatLng(Globals.latitute, Globals.longitude);
-                map.MinZoom = 0;
-                map.MaxZoom = 20;
-                map.Zoom = 16;
-
-                textBox1.Text = Globals.latitute.ToString();
-                textBox2.Text = Globals.longitude.ToString();
-                textBox3.Text = Globals.altitude.ToString();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            this.showMap();
         }
 
         private void map_OnMapDrag()
         {
             Task.Run(() =>
             {
-                WebClient request = new WebClient();
-                ElevationRequest elevationRequest = new ElevationRequest()
-                {
-                    Locations = new Location[] { new Location(map.Position.Lat, map.Position.Lng) },
-                };
+                var request = new WebClient();
+                var elevationRequest = new ElevationRequest
+                                       {
+                                           Locations = new[]
+                                                       {
+                                                           new Location(this.map.Position.Lat, this.map.Position.Lng)
+                                                       }
+                                       };
                 try
                 {
-                    ElevationResponse elevation = GoogleMaps.Elevation.Query(elevationRequest);
+                    var elevation = GoogleMaps.Elevation.Query(elevationRequest);
                     if (elevation.Status == Status.OK)
                     {
-                        foreach (Result result in elevation.Results)
+                        foreach (var result in elevation.Results)
                         {
-                            SetText(result.Elevation);
+                            this.SetText(result.Elevation);
                         }
                     }
                 }
                 catch (Exception ex)
                 {
-
                 }
             });
-            textBox1.Text = map.Position.Lat.ToString();
-            textBox2.Text = map.Position.Lng.ToString();
+            this.textBox1.Text = this.map.Position.Lat.ToString();
+            this.textBox2.Text = this.map.Position.Lng.ToString();
         }
-
-        delegate void SetTextCallback(double cord);
 
         private void SetText(double cord)
         {
             if (this.textBox3.InvokeRequired)
             {
-                SetTextCallback d = new SetTextCallback(SetText);
-                this.Invoke(d, new object[] { cord });
+                SetTextCallback d = this.SetText;
+                this.Invoke(d, cord);
             }
             else
             {
@@ -95,62 +98,61 @@ namespace PokemonGo.RocketAPI.Console
             }
         }
 
-        private void LocationSelect_FormClosing(object sender, FormClosingEventArgs e)
+        private void showMap()
         {
-            if (close)
+            try
             {
-                var result = MessageBox.Show("You didn't set start location! Are you sure you want to exit this window?", "Location selector", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                if (result == DialogResult.No || result == DialogResult.Abort)
-                {
-                    e.Cancel = true;
-                    return;
-                }
-            }
-        }
+                this.map.DragButton = MouseButtons.Left;
+                this.map.MapProvider = GMapProviders.BingMap;
+                this.map.Position = new PointLatLng(Globals.latitute, Globals.longitude);
+                this.map.MinZoom = 0;
+                this.map.MaxZoom = 20;
+                this.map.Zoom = 16;
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            Globals.latitute = map.Position.Lat;
-            Globals.longitude = map.Position.Lng;
-            Globals.altitude = alt;
-            close = false;
-            ActiveForm.Dispose();
+                this.textBox1.Text = Globals.latitute.ToString();
+                this.textBox2.Text = Globals.longitude.ToString();
+                this.textBox3.Text = Globals.altitude.ToString();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
-            if (textBox1.Text.Length > 0 && textBox1.Text != "-")
+            if (this.textBox1.Text.Length > 0 && this.textBox1.Text != "-")
             {
                 try
                 {
-                    double lat = double.Parse(textBox1.Text.Replace(',', '.'), GUI.cords, System.Globalization.NumberFormatInfo.InvariantInfo);
+                    var lat = double.Parse(this.textBox1.Text.Replace(',', '.'), GUI.cords, System.Globalization.NumberFormatInfo.InvariantInfo);
                     if (lat > 90.0 || lat < -90.0)
-                        throw new System.ArgumentException("Value has to be between 180 and -180!");
-                    map.Position = new GMap.NET.PointLatLng(lat, map.Position.Lng);
+                        throw new ArgumentException("Value has to be between 180 and -180!");
+                    this.map.Position = new PointLatLng(lat, this.map.Position.Lng);
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message);
-                    textBox1.Text = "";
+                    this.textBox1.Text = string.Empty;
                 }
             }
         }
 
         private void textBox2_TextChanged(object sender, EventArgs e)
         {
-            if (textBox2.Text.Length > 0 && textBox2.Text != "-")
+            if (this.textBox2.Text.Length > 0 && this.textBox2.Text != "-")
             {
                 try
                 {
-                    double lng = double.Parse(textBox2.Text.Replace(',', '.'), GUI.cords, System.Globalization.NumberFormatInfo.InvariantInfo);
+                    var lng = double.Parse(this.textBox2.Text.Replace(',', '.'), GUI.cords, System.Globalization.NumberFormatInfo.InvariantInfo);
                     if (lng > 180.0 || lng < -180.0)
-                        throw new System.ArgumentException("Value has to be between 90 and -90!");
-                    map.Position = new GMap.NET.PointLatLng(map.Position.Lat, lng);
+                        throw new ArgumentException("Value has to be between 90 and -90!");
+                    this.map.Position = new PointLatLng(this.map.Position.Lat, lng);
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message);
-                    textBox2.Text = "";
+                    this.textBox2.Text = string.Empty;
                 }
             }
         }

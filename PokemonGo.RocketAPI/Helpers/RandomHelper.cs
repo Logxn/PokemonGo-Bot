@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace PokemonGo.RocketAPI.Helpers
+﻿namespace PokemonGo.RocketAPI.Helpers
 {
+    using System;
+    using System.Threading.Tasks;
+
     public static class RandomHelper
     {
         private static readonly Random _random = new Random();
@@ -13,16 +10,16 @@ namespace PokemonGo.RocketAPI.Helpers
 
         public static long GetLongRandom(long min, long max)
         {
-            byte[] buf = new byte[8];
+            var buf = new byte[8];
             _random.NextBytes(buf);
             var longRand = BitConverter.ToInt64(buf, 0);
 
-            return (Math.Abs(longRand % (max - min)) + min);
+            return Math.Abs(longRand % (max - min)) + min;
         }
 
         public static async Task RandomDelay(int maxDelay = 5000)
         {
-            await Task.Delay(_rng.Next((maxDelay > 500) ? 500 : 0, maxDelay));
+            await Task.Delay(_rng.Next(maxDelay > 500 ? 500 : 0, maxDelay));
         }
 
         public static async Task RandomDelay(int min, int max)
@@ -32,7 +29,7 @@ namespace PokemonGo.RocketAPI.Helpers
 
         public static int RandomNumber(int min, int max)
         {
-            Random random = new Random();
+            var random = new Random();
             return random.Next(min, max);
         }
     }
