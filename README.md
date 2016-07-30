@@ -3,7 +3,6 @@
 # PokemonGo Bot - Edit from the Fork of Ar1i
 
 PokeVision Plugin
-
 v0.1
  - BETA: The Plugin catches all Poke near 150 meters of a Pokestop where are spotted by PokeVision
  
