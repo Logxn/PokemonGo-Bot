@@ -514,6 +514,7 @@ namespace PokemonGo.RocketAPI.Logic
                         foreach (int xp in caughtPokemonResponse.Scores.Xp)
                             _botStats.addExperience(xp);
 
+                        _pokevision.addCaughtPoke(pokemon);
                         Logger.ColoredConsoleWrite(ConsoleColor.Magenta, $"We caught a {StringUtils.getPokemonNameByLanguage(_clientSettings, pokemon.PokemonId)} with CP {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} ({PokemonInfo.CalculatePokemonPerfection(encounterPokemonResponse?.WildPokemon.PokemonData)}% perfect) using a {bestPokeball} and we got {caughtPokemonResponse.Scores.Xp.Sum()} XP.");
 
                         //try
@@ -531,6 +532,7 @@ namespace PokemonGo.RocketAPI.Logic
                     }
                     else
                     {
+                        _pokevision.addCaughtPoke(pokemon);
                         Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, $"{StringUtils.getPokemonNameByLanguage(_clientSettings, pokemon.PokemonId)} with CP {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} ({PokemonInfo.CalculatePokemonPerfection(encounterPokemonResponse?.WildPokemon.PokemonData)} % perfect) got away while using a {bestPokeball}..");
                         failed_softban++; 
                     }
