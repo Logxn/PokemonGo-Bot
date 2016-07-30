@@ -50,6 +50,9 @@
             // 
             // listView1
             // 
+            this.listView1.AllowColumnReorder = true;
+            this.listView1.FullRowSelect = true;
+            this.listView1.GridLines = true;
             this.listView1.Location = new System.Drawing.Point(12, 12);
             this.listView1.Name = "listView1";
             this.listView1.Size = new System.Drawing.Size(687, 387);
@@ -197,6 +200,7 @@
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.listView1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "Pokemons";

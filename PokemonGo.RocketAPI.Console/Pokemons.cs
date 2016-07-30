@@ -101,13 +101,25 @@ namespace PokemonGo.RocketAPI.Console
                 columnheader.Text = "CP";
                 listView1.Columns.Add(columnheader);
                 columnheader = new ColumnHeader();
-                columnheader.Text = "IV";
+                columnheader.Text = "IV A-D-S";
                 listView1.Columns.Add(columnheader);
                 columnheader = new ColumnHeader();
                 columnheader.Text = "Candy";
                 listView1.Columns.Add(columnheader);
                 columnheader = new ColumnHeader();
                 columnheader.Text = "Evolvable?";
+                listView1.Columns.Add(columnheader);
+                columnheader = new ColumnHeader();
+                columnheader.Text = "Height";
+                listView1.Columns.Add(columnheader);
+                columnheader = new ColumnHeader();
+                columnheader.Text = "Weight";
+                listView1.Columns.Add(columnheader);
+                columnheader = new ColumnHeader();
+                columnheader.Text = "Attack";
+                listView1.Columns.Add(columnheader);
+                columnheader = new ColumnHeader();
+                columnheader.Text = "SpecialAttack";
                 listView1.Columns.Add(columnheader);
 
                 foreach (var pokemon in pokemons)
@@ -131,7 +143,7 @@ namespace PokemonGo.RocketAPI.Console
                         .First();
                     var currIv = Math.Round(Perfect(pokemon));
                     listViewItem.SubItems.Add(string.Format("{0}", pokemon.Cp));
-                    listViewItem.SubItems.Add(string.Format("{0}", currIv));
+                    listViewItem.SubItems.Add(string.Format("{0}% {3}-{2}-{3}", currIv, pokemon.IndividualAttack, pokemon.IndividualDefense, pokemon.IndividualStamina));
                     listViewItem.SubItems.Add(string.Format("{0}", currentCandy));
                     listViewItem.ImageKey = pokemon.PokemonId.ToString();
 
@@ -139,20 +151,27 @@ namespace PokemonGo.RocketAPI.Console
                     var pokemonName = pokemon.Id;
 
                     listViewItem.Text = string.Format("{0}", pokemon.PokemonId);
-                    listViewItem.ToolTipText = pokemon.Cp + " CP\n" + currentCandy + " Candy\n" + currIv + "% IV";
+                    listViewItem.ToolTipText = "Favorite: " + pokemon.Favorite + "\nNickname: " + pokemon.Nickname;
 
                     var settings = pokemonSettings.Single(x => x.PokemonId == pokemon.PokemonId);
                     var familyCandy = pokemonFamilies.Single(x => settings.FamilyId == x.FamilyId);
 
                     if (settings.EvolutionIds.Count > 0 && familyCandy.Candy > settings.CandyToEvolve)
                     {
-                        listViewItem.SubItems.Add("Y");
+                        listViewItem.SubItems.Add("Y ("+ settings.CandyToEvolve+")");
                         listViewItem.Checked = true;
                     }
                     else
                     {
-                        listViewItem.SubItems.Add("N");
+                        if (settings.EvolutionIds.Count > 0)
+                            listViewItem.SubItems.Add("N (" + familyCandy.Candy + "/" + settings.CandyToEvolve + ")");
+                        else
+                            listViewItem.SubItems.Add("N (Max)");
                     }
+                    listViewItem.SubItems.Add(string.Format("{0}", Math.Round(pokemon.HeightM, 2)));
+                    listViewItem.SubItems.Add(string.Format("{0}", Math.Round(pokemon.WeightKg,2)));
+                    listViewItem.SubItems.Add(string.Format("{0}", pokemon.Move1));
+                    listViewItem.SubItems.Add(string.Format("{0}", pokemon.Move2));
 
                     listView1.Items.Add(listViewItem);
                 }
