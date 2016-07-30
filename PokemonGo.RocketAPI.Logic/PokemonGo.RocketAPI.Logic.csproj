@@ -69,6 +69,7 @@
     <Compile Include="Utils\BotStats.cs" />
     <Compile Include="Utils\GeoUtils.cs" />
     <Compile Include="Utils\LocationUtils.cs" />
+    <Compile Include="Utils\PokeVisionUtil.cs" />
     <Compile Include="Utils\StringUtils.cs" />
     <Compile Include="Utils\TelegramUtil.cs" />
   </ItemGroup>

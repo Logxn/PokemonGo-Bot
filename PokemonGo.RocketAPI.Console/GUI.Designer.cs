@@ -107,10 +107,11 @@
             this.linkLabel2 = new System.Windows.Forms.LinkLabel();
             this.groupBox9 = new System.Windows.Forms.GroupBox();
             this.groupBox10 = new System.Windows.Forms.GroupBox();
+            this.checkBox11 = new System.Windows.Forms.CheckBox();
             this.checkBox10 = new System.Windows.Forms.CheckBox();
             this.checkBox9 = new System.Windows.Forms.CheckBox();
             this.checkBox8 = new System.Windows.Forms.CheckBox();
-            this.checkBox11 = new System.Windows.Forms.CheckBox();
+            this.checkBox12 = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -886,6 +887,7 @@
             // 
             // groupBox10
             // 
+            this.groupBox10.Controls.Add(this.checkBox12);
             this.groupBox10.Controls.Add(this.checkBox11);
             this.groupBox10.Controls.Add(this.checkBox10);
             this.groupBox10.Controls.Add(this.checkBox9);
@@ -898,6 +900,19 @@
             this.groupBox10.TabIndex = 19;
             this.groupBox10.TabStop = false;
             this.groupBox10.Text = "Other Settings";
+            // 
+            // checkBox11
+            // 
+            this.checkBox11.AutoSize = true;
+            this.checkBox11.Checked = true;
+            this.checkBox11.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox11.Location = new System.Drawing.Point(6, 146);
+            this.checkBox11.Name = "checkBox11";
+            this.checkBox11.Size = new System.Drawing.Size(156, 30);
+            this.checkBox11.TabIndex = 10;
+            this.checkBox11.Text = "Keep Pokemons which can\r\nbe evolved";
+            this.checkBox11.UseVisualStyleBackColor = true;
+            this.checkBox11.CheckedChanged += new System.EventHandler(this.checkBox11_CheckedChanged);
             // 
             // checkBox10
             // 
@@ -934,18 +949,18 @@
             this.checkBox8.UseVisualStyleBackColor = true;
             this.checkBox8.CheckedChanged += new System.EventHandler(this.checkBox8_CheckedChanged);
             // 
-            // checkBox11
+            // checkBox12
             // 
-            this.checkBox11.AutoSize = true;
-            this.checkBox11.Checked = true;
-            this.checkBox11.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox11.Location = new System.Drawing.Point(6, 146);
-            this.checkBox11.Name = "checkBox11";
-            this.checkBox11.Size = new System.Drawing.Size(156, 30);
-            this.checkBox11.TabIndex = 10;
-            this.checkBox11.Text = "Keep Pokemons which can\r\nbe evolved";
-            this.checkBox11.UseVisualStyleBackColor = true;
-            this.checkBox11.CheckedChanged += new System.EventHandler(this.checkBox11_CheckedChanged);
+            this.checkBox12.AutoSize = true;
+            this.checkBox12.Checked = true;
+            this.checkBox12.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox12.Location = new System.Drawing.Point(4, 179);
+            this.checkBox12.Name = "checkBox12";
+            this.checkBox12.Size = new System.Drawing.Size(101, 17);
+            this.checkBox12.TabIndex = 11;
+            this.checkBox12.Text = "Use PokeVision";
+            this.checkBox12.UseVisualStyleBackColor = true;
+            this.checkBox12.CheckedChanged += new System.EventHandler(this.checkBox12_CheckedChanged);
             // 
             // GUI
             // 
@@ -1078,6 +1093,7 @@
         private System.Windows.Forms.Label label28;
         private System.Windows.Forms.CheckBox checkBox10;
         private System.Windows.Forms.CheckBox checkBox11;
+        private System.Windows.Forms.CheckBox checkBox12;
     }
 }
 

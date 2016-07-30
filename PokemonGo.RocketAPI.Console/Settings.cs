@@ -52,6 +52,8 @@ namespace PokemonGo.RocketAPI.Console
         public bool UseLuckyEgg => Globals.useluckyegg;//UserSettings.Default.UseLuckyEgg;
         public bool keepPokemonsThatCanEvolve => Globals.keepPokemonsThatCanEvolve;//UserSettings.Default.keepPokemonsThatCanEvolve;
 
+        public bool pokevision => Globals.pokevision;
+
         public bool UserIncense => Globals.useincense;
 
         public bool Language => Globals.gerNames;//UserSettings.Default.Language;

@@ -180,6 +180,9 @@ namespace PokemonGo.RocketAPI.Console
                         case 23:
                             checkBox11.Checked = bool.Parse(line);
                             break;
+                        case 24:
+                            checkBox12.Checked = bool.Parse(line);
+                            break;
                         default:
                             TextBox temp = (TextBox)this.Controls.Find("textBox" + tb, true).FirstOrDefault();
                             temp.Text = line;
@@ -556,7 +559,8 @@ namespace PokemonGo.RocketAPI.Console
                     Globals.useincense.ToString(),
                     Globals.ivmaxpercent.ToString(),
                     Globals.pokeList.ToString(),
-                    Globals.keepPokemonsThatCanEvolve.ToString()
+                    Globals.keepPokemonsThatCanEvolve.ToString(),
+                    Globals.pokevision.ToString()
             };
             System.IO.File.WriteAllLines(@Program.account, accFile);
 
@@ -782,6 +786,18 @@ namespace PokemonGo.RocketAPI.Console
             {
                 Globals.keepPokemonsThatCanEvolve = false;
             }
-        } 
+        }
+
+        private void checkBox12_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBox11.Checked)
+            {
+                Globals.pokevision = true;
+            }
+            else
+            {
+                Globals.pokevision = false;
+            }
+        }
     }
 }
