@@ -45,6 +45,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.checkBox2 = new System.Windows.Forms.CheckBox();
+            this.btnFullPowerUp = new System.Windows.Forms.Button();
             this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -82,7 +83,7 @@
             // 
             // btnUpgrade
             // 
-            this.btnUpgrade.Location = new System.Drawing.Point(299, 434);
+            this.btnUpgrade.Location = new System.Drawing.Point(155, 434);
             this.btnUpgrade.Name = "btnUpgrade";
             this.btnUpgrade.Size = new System.Drawing.Size(135, 23);
             this.btnUpgrade.TabIndex = 3;
@@ -92,7 +93,7 @@
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(158, 434);
+            this.button3.Location = new System.Drawing.Point(299, 434);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(135, 23);
             this.button3.TabIndex = 4;
@@ -144,7 +145,7 @@
             // checkBox1
             // 
             this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(158, 409);
+            this.checkBox1.Location = new System.Drawing.Point(299, 409);
             this.checkBox1.Name = "checkBox1";
             this.checkBox1.Size = new System.Drawing.Size(89, 17);
             this.checkBox1.TabIndex = 6;
@@ -154,7 +155,7 @@
             // 
             // textBox2
             // 
-            this.textBox2.Location = new System.Drawing.Point(242, 407);
+            this.textBox2.Location = new System.Drawing.Point(383, 407);
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(37, 20);
             this.textBox2.TabIndex = 7;
@@ -163,7 +164,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(285, 413);
+            this.label2.Location = new System.Drawing.Point(426, 413);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(12, 13);
             this.label2.TabIndex = 9;
@@ -185,11 +186,22 @@
             this.checkBox2.UseVisualStyleBackColor = true;
             this.checkBox2.CheckedChanged += new System.EventHandler(this.checkBox2_CheckedChanged);
             // 
+            // btnFullPowerUp
+            // 
+            this.btnFullPowerUp.Location = new System.Drawing.Point(155, 405);
+            this.btnFullPowerUp.Name = "btnFullPowerUp";
+            this.btnFullPowerUp.Size = new System.Drawing.Size(135, 23);
+            this.btnFullPowerUp.TabIndex = 11;
+            this.btnFullPowerUp.Text = "FullPowerUp selected";
+            this.btnFullPowerUp.UseVisualStyleBackColor = true;
+            this.btnFullPowerUp.Click += new System.EventHandler(this.btnFullPowerUp_Click);
+            // 
             // Pokemons
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(711, 488);
+            this.Controls.Add(this.btnFullPowerUp);
             this.Controls.Add(this.checkBox2);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.textBox2);
@@ -229,5 +241,6 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.CheckBox checkBox2;
+        private System.Windows.Forms.Button btnFullPowerUp;
     }
 }
