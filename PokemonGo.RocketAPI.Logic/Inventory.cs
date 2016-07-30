@@ -21,11 +21,17 @@ namespace PokemonGo.RocketAPI.Logic
 
         public async Task<int> GetHighestCPofType(PokemonData pokemon)
         {
-            var myPokemon = await GetPokemons();
-            var pokemons = myPokemon.ToList();
-            return pokemons.Where(x => x.PokemonId == pokemon.PokemonId)
-                            .OrderByDescending(x => x.Cp)
-                            .First().Cp;
+            try
+            {
+                var myPokemon = await GetPokemons();
+                var pokemons = myPokemon.ToList();
+                return pokemons.Where(x => x.PokemonId == pokemon.PokemonId)
+                                .OrderByDescending(x => x.Cp)
+                                .First().Cp;
+            } catch (Exception)
+            {
+                return 0;
+            }
 
         }
 

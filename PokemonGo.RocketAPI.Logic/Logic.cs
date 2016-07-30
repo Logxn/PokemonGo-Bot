@@ -216,27 +216,66 @@ namespace PokemonGo.RocketAPI.Logic
 
                 if (data != null)
                 {
+                    Logger.ColoredConsoleWrite(ConsoleColor.White, "");
                     Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "PokemonGO Server Status:");
                     if (data.go_online)
                     {
-                        Logger.ColoredConsoleWrite(ConsoleColor.Green, "Online since ~" + data.go_idle + "min.");
+                        if (data.go_idle > 60)
+                        {
+                            int gohour = Convert.ToInt32(data.go_idle / 60);
+
+                            if (gohour > 24)
+                            {
+                                int goday = gohour / 24;
+
+                                Logger.ColoredConsoleWrite(ConsoleColor.Green, "Online since ~" + goday + " day(s).");
+                            }
+                            else
+                            {
+                                Logger.ColoredConsoleWrite(ConsoleColor.Green, "Online since ~" + gohour + "h.");
+                            }
+                        }
+                        else
+                        {
+                            Logger.ColoredConsoleWrite(ConsoleColor.Green, "Online since ~" + data.go_idle + " min.");
+                        }
+
                         Logger.ColoredConsoleWrite(ConsoleColor.Green, "Server anwsers in ~" + data.go_response + " seconds.");
                     }
                     else
                     {
-                        Logger.ColoredConsoleWrite(ConsoleColor.Red, "Offline.");
+                        Logger.ColoredConsoleWrite(ConsoleColor.Red, "Pokemon GO Servers: Offline.");
                     }
                     Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Pokemon Trainer Club Server Status:");
                     if (data.ptc_online)
                     {
-                        Logger.ColoredConsoleWrite(ConsoleColor.Green, "Online since ~" + data.ptc_idle + "min.");
+                        if (data.ptc_idle > 60)
+                        {
+                            int ptchour = Convert.ToInt32(data.ptc_idle / 60);
+
+                            if (ptchour > 24)
+                            {
+                                int ptcday = ptchour / 24;
+                                Logger.ColoredConsoleWrite(ConsoleColor.Green, "Online since ~" + ptcday + " day(s).");
+
+                            }
+                            else
+                            {
+                                Logger.ColoredConsoleWrite(ConsoleColor.Green, "Online since ~" + ptchour + "h.");
+                            }
+                        }
+                        else
+                        {
+                            Logger.ColoredConsoleWrite(ConsoleColor.Green, "Online since ~" + data.ptc_idle + " min.");
+                        }
+
                         Logger.ColoredConsoleWrite(ConsoleColor.Green, "Server anwsers in ~" + data.ptc_response + " seconds.");
                     }
                     else
                     {
-                        Logger.ColoredConsoleWrite(ConsoleColor.Red, "Offline.");
+                        Logger.ColoredConsoleWrite(ConsoleColor.Red, "Pokemon Trainer Club: Offline.");
                     }
-                }
+                } 
                 else
                 {
                     Logger.ColoredConsoleWrite(ConsoleColor.Red, "Cant get Server Status from https://go.jooas.com/status");

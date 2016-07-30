@@ -116,10 +116,10 @@ namespace PokemonGo.RocketAPI.Console
                 columnheader.Text = "Weight";
                 listView1.Columns.Add(columnheader);
                 columnheader = new ColumnHeader();
-                columnheader.Text = "Move1";
+                columnheader.Text = "Attack";
                 listView1.Columns.Add(columnheader);
                 columnheader = new ColumnHeader();
-                columnheader.Text = "Move2";
+                columnheader.Text = "SpecialAttack";
                 listView1.Columns.Add(columnheader);
 
                 foreach (var pokemon in pokemons)
