@@ -18,6 +18,7 @@ using POGOProtos.Networking.Responses;
 
 namespace PokemonGo.RocketAPI
 {
+
     public class Client
     {
         public Rpc.Login Login;
