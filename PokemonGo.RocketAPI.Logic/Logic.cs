@@ -216,21 +216,21 @@ namespace PokemonGo.RocketAPI.Logic
 
                 if (data != null)
                 {
-                    Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, "PokemonGO Server Status:");
+                    Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "PokemonGO Server Status:");
                     if (data.go_online)
                     {
-                        Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, "Online since ~" + data.go_idle + "min.");
-                        Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, "Server anwsers in ~" + data.go_response + " seconds.");
+                        Logger.ColoredConsoleWrite(ConsoleColor.Green, "Online since ~" + data.go_idle + "min.");
+                        Logger.ColoredConsoleWrite(ConsoleColor.Green, "Server anwsers in ~" + data.go_response + " seconds.");
                     }
                     else
                     {
                         Logger.ColoredConsoleWrite(ConsoleColor.Red, "Offline.");
                     }
-                    Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, "Pokemon Trainer Club Server Status:");
+                    Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Pokemon Trainer Club Server Status:");
                     if (data.ptc_online)
                     {
-                        Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, "Online since ~" + data.ptc_idle + "min.");
-                        Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, "Server anwsers in ~" + data.ptc_response + " seconds.");
+                        Logger.ColoredConsoleWrite(ConsoleColor.Green, "Online since ~" + data.ptc_idle + "min.");
+                        Logger.ColoredConsoleWrite(ConsoleColor.Green, "Server anwsers in ~" + data.ptc_response + " seconds.");
                     }
                     else
                     {
@@ -531,12 +531,15 @@ namespace PokemonGo.RocketAPI.Logic
 
                 if (evolvePokemonOutProto.Result == EvolvePokemonOut.Types.EvolvePokemonStatus.PokemonEvolvedSuccess)
                 {
-                    Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Evolved {StringUtils.getPokemonNameByLanguage(_clientSettings,pokemon.PokemonId)} with {pokemon.Cp} CP ({PokemonInfo.CalculatePokemonPerfection(pokemon)} % perfect) successfully to {StringUtils.getPokemonNameByLanguage(_clientSettings, evolvePokemonOutProto.EvolvedPokemon.PokemonType)} with {evolvePokemonOutProto.EvolvedPokemon.Cp} CP ({PokemonInfo.CalculatePokemonPerfection(evolvePokemonOutProto.EvolvedPokemon)} % perfect) for {evolvePokemonOutProto.ExpAwarded}xp", LogLevel.Info);
+                    Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Evolved {StringUtils.getPokemonNameByLanguage(_clientSettings, pokemon.PokemonId)} with {pokemon.Cp} CP ({PokemonInfo.CalculatePokemonPerfection(pokemon)} % perfect) successfully to {StringUtils.getPokemonNameByLanguage(_clientSettings, evolvePokemonOutProto.EvolvedPokemon.PokemonType)} with {evolvePokemonOutProto.EvolvedPokemon.Cp} CP ({PokemonInfo.CalculatePokemonPerfection(evolvePokemonOutProto.EvolvedPokemon)} % perfect) for {evolvePokemonOutProto.ExpAwarded}xp", LogLevel.Info);
                     _botStats.addExperience(evolvePokemonOutProto.ExpAwarded);
                 }
                 else
                 {
-                    Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Failed to evolve {pokemon.PokemonId}. EvolvePokemonOutProto.Result was {evolvePokemonOutProto.Result}, stopping evolving {pokemon.PokemonId}", LogLevel.Info);
+                    if (evolvePokemonOutProto.Result != EvolvePokemonOut.Types.EvolvePokemonStatus.FailedPokemonMissing)
+                    {
+                        Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Failed to evolve {pokemon.PokemonId}. EvolvePokemonOutProto.Result was {evolvePokemonOutProto.Result}, stopping evolving {pokemon.PokemonId}", LogLevel.Info);
+                    }
                 }
 
                 await RandomHelper.RandomDelay(1000, 2000);
