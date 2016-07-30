@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json.Linq;
-
-namespace PokemonGo.RocketAPI.Helpers
+﻿namespace PokemonGo.RocketAPI.Helpers
 {
+    using Newtonsoft.Json.Linq;
+
     public class JsonHelper
     {
         public static string GetValue(string json, string key)

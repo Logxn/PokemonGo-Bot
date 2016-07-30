@@ -1,52 +1,154 @@
-using PokemonGo.RocketAPI.Enums;
-using PokemonGo.RocketAPI.GeneratedCode;
-using System.Collections.Generic;
-
 namespace PokemonGo.RocketAPI
 {
+    using System.Collections.Generic;
+
+    using PokemonGo.RocketAPI.Enums;
+    using PokemonGo.RocketAPI.GeneratedCode;
+
     public interface ISettings
     {
-        AuthType AuthType { get; }
-        double DefaultLatitude { get; }
-        double DefaultLongitude { get; }
-        double DefaultAltitude { get; }
-        string GoogleRefreshToken { get; set; }
-        string PtcPassword { get; }
-        string PtcUsername { get; }
+        AuthType AuthType
+        {
+            get;
+        }
 
-        bool UseLastCords { get; }
+        List<PokemonId> catchPokemonSkipList
+        {
+            get;
+        }
 
-        bool WalkBackToDefaultLocation { get; }
-        int MaxWalkingRadiusInMeters { get; }
-        int HoldMaxDoublePokemons { get; }
+        double DefaultAltitude
+        {
+            get;
+        }
 
-        int TelegramLiveStatsDelay { get; }
+        double DefaultLatitude
+        {
+            get;
+        }
 
-        double WalkingSpeedInKilometerPerHour { get; }
+        double DefaultLongitude
+        {
+            get;
+        }
 
-        bool EvolvePokemonsIfEnoughCandy { get; }
-        bool TransferDoublePokemons { get; }
+        int DontTransferWithCPOver
+        {
+            get;
+        }
 
-        int DontTransferWithCPOver { get; }
-        int ivmaxpercent { get; }
+        bool EvolvePokemonsIfEnoughCandy
+        {
+            get;
+        }
 
-        string TelegramAPIToken { get; }
-        string TelegramName { get; }
+        string GoogleRefreshToken
+        {
+            get;
+            set;
+        }
 
-        int navigation_option { get; }
+        int HoldMaxDoublePokemons
+        {
+            get;
+        }
 
-        bool UseLuckyEgg { get; }
-        bool keepPokemonsThatCanEvolve { get; }
-        bool UserIncense { get; }
+        ICollection<KeyValuePair<ItemId, int>> itemRecycleFilter
+        {
+            get;
+            set;
+        }
 
-        bool Language { get; }
+        int ivmaxpercent
+        {
+            get;
+        }
 
-        ICollection<KeyValuePair<ItemId, int>> itemRecycleFilter { get; set; }
+        bool keepPokemonsThatCanEvolve
+        {
+            get;
+        }
 
-        List<PokemonId> pokemonsToHold { get; set; }
-        List<PokemonId> pokemonsToEvolve { get; set; }
-        List<PokemonId> catchPokemonSkipList { get; }
+        bool Language
+        {
+            get;
+        }
 
+        int MaxWalkingRadiusInMeters
+        {
+            get;
+        }
 
+        int navigation_option
+        {
+            get;
+        }
+
+        List<PokemonId> pokemonsToEvolve
+        {
+            get;
+            set;
+        }
+
+        List<PokemonId> pokemonsToHold
+        {
+            get;
+            set;
+        }
+
+        string PtcPassword
+        {
+            get;
+        }
+
+        string PtcUsername
+        {
+            get;
+        }
+
+        string TelegramAPIToken
+        {
+            get;
+        }
+
+        int TelegramLiveStatsDelay
+        {
+            get;
+        }
+
+        string TelegramName
+        {
+            get;
+        }
+
+        bool TransferDoublePokemons
+        {
+            get;
+        }
+
+        bool UseLastCords
+        {
+            get;
+        }
+
+        bool UseLuckyEgg
+        {
+            get;
+        }
+
+        bool UserIncense
+        {
+            get;
+        }
+
+        bool WalkBackToDefaultLocation
+        {
+            get;
+        }
+
+        double WalkingSpeedInKilometerPerHour
+        {
+            get;
+        }
     }
 }

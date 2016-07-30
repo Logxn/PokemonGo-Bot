@@ -1,136 +1,47 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Telegram.Bot.Args;
-using Telegram.Bot.Types;
-using Telegram.Bot.Types.Enums;
-using Telegram.Bot.Types.InlineQueryResults;
-using Telegram.Bot.Types.InputMessageContents;
-using Telegram.Bot.Types.ReplyMarkups;
-
-using PokemonGo.RocketAPI.Enums;
-using PokemonGo.RocketAPI.Extensions;
-using PokemonGo.RocketAPI.GeneratedCode;
-using PokemonGo.RocketAPI.Logic.Utils;
-using PokemonGo.RocketAPI.Exceptions;
-using PokemonGo.RocketAPI.Logic;
-using PokemonGo.RocketAPI.Helpers;
-
-namespace PokemonGo.RocketAPI.Logic.Utils
+﻿namespace PokemonGo.RocketAPI.Logic.Utils
 {
+    using System;
+    using System.Linq;
+    using System.Threading.Tasks;
+
+    using PokemonGo.RocketAPI.GeneratedCode;
+    using PokemonGo.RocketAPI.Helpers;
+
+    using Telegram.Bot;
+    using Telegram.Bot.Args;
+    using Telegram.Bot.Types.Enums;
+    using Telegram.Bot.Types.ReplyMarkups;
+
     public class TelegramUtil
     {
-
-        private Client _client;
-        private Inventory _inventory;
-
-        private Telegram.Bot.TelegramBotClient _telegram;
-
         private readonly ISettings _clientSettings;
 
+        private readonly Client _client;
+        private readonly Inventory _inventory;
+
+        private readonly TelegramBotClient _telegram;
+
         private long chatid = -1;
-        private bool livestats = false;
 
-        private bool informations = false;
+        private bool informations;
 
-        public TelegramUtil(Client client, Telegram.Bot.TelegramBotClient telegram, ISettings settings, Inventory inv)
+        private int level;
+        private bool livestats;
+
+        public TelegramUtil(Client client, TelegramBotClient telegram, ISettings settings, Inventory inv)
         {
-            _client = client;
-            _telegram = telegram;
-            _clientSettings = settings;
-            _inventory = inv;
-            DoLiveStats(settings);
-            DoInformation();
+            this._client = client;
+            this._telegram = telegram;
+            this._clientSettings = settings;
+            this._inventory = inv;
+            this.DoLiveStats(settings);
+            this.DoInformation();
         }
 
-        public Telegram.Bot.TelegramBotClient getClient()
+        public async void BotOnCallbackQueryReceived(object sender, CallbackQueryEventArgs callbackQueryEventArgs)
         {
-            return _telegram;
+            await this._telegram.AnswerCallbackQueryAsync(callbackQueryEventArgs.CallbackQuery.Id, $"Received {callbackQueryEventArgs.CallbackQuery.Data}");
         }
-
-        public async void DoLiveStats(ISettings settings)
-        {
-            try
-            {
-
-                if (chatid != -1 && livestats)
-                {
-                    var usage = "";
-                    var inventory = await _client.GetInventory();
-                    var profil = await _client.GetProfile();
-                    var stats = inventory.InventoryDelta.InventoryItems.Select(i => i.InventoryItemData.PlayerStats).ToArray();
-                    foreach (var c in stats)
-                    {
-                        if (c != null)
-                        {
-                            int l = c.Level;
-
-                            var expneeded = ((c.NextLevelXp - c.PrevLevelXp) - StringUtils.getExpDiff(c.Level));
-                            var curexp = ((c.Experience - c.PrevLevelXp) - StringUtils.getExpDiff(c.Level));
-                            var curexppercent = (Convert.ToDouble(curexp) / Convert.ToDouble(expneeded)) * 100;
-
-                            usage += "\nNickname: " + profil.Profile.Username +
-                                "\nLevel: " + c.Level
-                                + "\nEXP Needed: " + ((c.NextLevelXp - c.PrevLevelXp) - StringUtils.getExpDiff(c.Level))
-                                + $"\nCurrent EXP: {curexp} ({Math.Round(curexppercent)}%)"
-                                + "\nEXP to Level up: " + ((c.NextLevelXp) - (c.Experience))
-                                + "\nKM walked: " + c.KmWalked
-                                + "\nPokeStops visited: " + c.PokeStopVisits
-                                + "\nStardust: " + profil.Profile.Currency.ToArray()[1].Amount;
-                        }
-                    }
-
-                    await _telegram.SendTextMessageAsync(chatid, usage,
-                        replyMarkup: new ReplyKeyboardHide());
-                }
-                await Task.Delay(settings.TelegramLiveStatsDelay);
-                DoLiveStats(settings);
-            } catch (Exception)
-            {
-
-            }
-        }
-
-         int level;
-        
-        public async void DoInformation()
-        {
-            try
-            {
-                if (chatid != -1 && informations)
-                {
-                    int current = 0;
-                    var usage = "";
-                    var inventory = await _client.GetInventory();
-                    var profil = await _client.GetProfile();
-                    var stats = inventory.InventoryDelta.InventoryItems.Select(i => i.InventoryItemData.PlayerStats).ToArray();
-                    foreach (var c in stats)
-                    {
-                        if (c != null)
-                        {
-                            current = c.Level;
-                        }
-                    }
-
-                    if (current != level)
-                    {
-                        level = current;
-                        usage = "You got Level Up! Your new Level is now " + level + "!";
-                        await _telegram.SendTextMessageAsync(chatid, usage,
-                       replyMarkup: new ReplyKeyboardHide());
-                    }
-                }
-                await Task.Delay(5000);
-                DoInformation();
-            } catch (Exception)
-            {
-
-            }
-        }
-
 
         public async void BotOnMessageReceived(object sender, MessageEventArgs messageEventArgs)
         {
@@ -138,164 +49,157 @@ namespace PokemonGo.RocketAPI.Logic.Utils
             {
                 var message = messageEventArgs.Message;
 
-                if (message == null || message.Type != MessageType.TextMessage) return;
+                if (message == null || message.Type != MessageType.TextMessage)
+                    return;
 
                 Logger.ColoredConsoleWrite(ConsoleColor.Red, "[TelegramAPI]Got Request from " + messageEventArgs.Message.From.Username + " | " + message.Text);
-                var usernames = _clientSettings.TelegramName.Split(new char[] { ';' });
+                var usernames = this._clientSettings.TelegramName.Split(';');
 
                 if (!usernames.Contains(messageEventArgs.Message.From.Username))
                 {
                     var usage = "I dont hear at you!";
-                    await _telegram.SendTextMessageAsync(message.Chat.Id, usage,
-                       replyMarkup: new ReplyKeyboardHide());
+                    await this._telegram.SendTextMessageAsync(message.Chat.Id, usage, replyMarkup: new ReplyKeyboardHide());
                     return;
                 }
-                 
-                if (message.Text.StartsWith("/stats")) // send inline keyboard
+
+                if (message.Text.StartsWith("/stats"))
                 {
-                    var usage = "";
-                    var inventory = await _client.GetInventory();
-                    var profil = await _client.GetProfile();
+                    // send inline keyboard
+                    var usage = string.Empty;
+                    var inventory = await this._client.GetInventory();
+                    var profil = await this._client.GetProfile();
                     var stats = inventory.InventoryDelta.InventoryItems.Select(i => i.InventoryItemData.PlayerStats).ToArray();
                     foreach (var c in stats)
                     {
                         if (c != null)
                         {
-                            int l = c.Level;
+                            var l = c.Level;
 
-                            var expneeded = ((c.NextLevelXp - c.PrevLevelXp) - StringUtils.getExpDiff(c.Level));
-                            var curexp = ((c.Experience - c.PrevLevelXp) - StringUtils.getExpDiff(c.Level));
-                            var curexppercent = (Convert.ToDouble(curexp) / Convert.ToDouble(expneeded)) * 100;
-                            string curloc = _client.CurrentLat + "%20" + _client.CurrentLng;
+                            var expneeded = c.NextLevelXp - c.PrevLevelXp - StringUtils.getExpDiff(c.Level);
+                            var curexp = c.Experience - c.PrevLevelXp - StringUtils.getExpDiff(c.Level);
+                            var curexppercent = Convert.ToDouble(curexp) / Convert.ToDouble(expneeded) * 100;
+                            var curloc = this._client.CurrentLat + "%20" + this._client.CurrentLng;
                             curloc = curloc.Replace(",", ".");
-                            string curlochtml = "https://www.google.de/maps/search/" + curloc + "/";
-                            string pokevis = _client.CurrentLat + ";" + _client.CurrentLng;
+                            var curlochtml = "https://www.google.de/maps/search/" + curloc + "/";
+                            var pokevis = this._client.CurrentLat + ";" + this._client.CurrentLng;
                             pokevis = pokevis.Replace(",", ".").Replace(";", ",");
-                            string pokevishtml = "https://pokevision.com/#/@" + pokevis;
+                            var pokevishtml = "https://pokevision.com/#/@" + pokevis;
 
-                            usage += "\nNickname: " + profil.Profile.Username +
-                                "\nLevel: " + c.Level
-                                + "\nEXP Needed: " + ((c.NextLevelXp - c.PrevLevelXp) - StringUtils.getExpDiff(c.Level))
-                                + $"\nCurrent EXP: {curexp} ({Math.Round(curexppercent)}%)"
-                                + "\nEXP to Level up: " + ((c.NextLevelXp) - (c.Experience))
-                                + "\nKM walked: " + c.KmWalked
-                                + "\nPokeStops visited: " + c.PokeStopVisits
-                                + "\nStardust: " + profil.Profile.Currency.ToArray()[1].Amount
-                                + "\nCurentLocation: " + curlochtml
-                                + "\nPokevision: " + pokevishtml;
+                            usage += "\nNickname: " + profil.Profile.Username + "\nLevel: " + c.Level + "\nEXP Needed: " + (c.NextLevelXp - c.PrevLevelXp - StringUtils.getExpDiff(c.Level)) + $"\nCurrent EXP: {curexp} ({Math.Round(curexppercent)}%)" + "\nEXP to Level up: " + (c.NextLevelXp - c.Experience) + "\nKM walked: " + c.KmWalked + "\nPokeStops visited: " + c.PokeStopVisits + "\nStardust: " + profil.Profile.Currency.ToArray()[1].Amount + "\nCurentLocation: " + curlochtml + "\nPokevision: " + pokevishtml;
                         }
                     }
-                    await _telegram.SendTextMessageAsync(message.Chat.Id, usage,
-                        replyMarkup: new ReplyKeyboardHide());
+
+                    await this._telegram.SendTextMessageAsync(message.Chat.Id, usage, replyMarkup: new ReplyKeyboardHide());
                 }
-                else if (message.Text.StartsWith("/livestats")) // send custom keyboard
+                else if (message.Text.StartsWith("/livestats"))
                 {
-                    var usage = "";
-                    if (livestats)
+                    // send custom keyboard
+                    var usage = string.Empty;
+                    if (this.livestats)
                     {
                         usage = "Disabled Live Stats.";
-                        livestats = false;
-                        chatid = -1;
+                        this.livestats = false;
+                        this.chatid = -1;
                     }
                     else
                     {
                         usage = "Enabled Live Stats.";
-                        livestats = true;
-                        chatid = message.Chat.Id;
+                        this.livestats = true;
+                        this.chatid = message.Chat.Id;
                     }
-                    await _telegram.SendTextMessageAsync(message.Chat.Id, usage,
-                        replyMarkup: new ReplyKeyboardHide());
+
+                    await this._telegram.SendTextMessageAsync(message.Chat.Id, usage, replyMarkup: new ReplyKeyboardHide());
                 }
-                else if (message.Text.StartsWith("/information")) // send custom keyboard
+                else if (message.Text.StartsWith("/information"))
                 {
-                    var usage = "";
-                    if (informations)
+                    // send custom keyboard
+                    var usage = string.Empty;
+                    if (this.informations)
                     {
                         usage = "Disabled Information.";
-                        informations = false;
-                        chatid = -1;
+                        this.informations = false;
+                        this.chatid = -1;
                     }
                     else
                     {
                         usage = "Enabled Information.";
-                        informations = true;
-                        chatid = message.Chat.Id;
+                        this.informations = true;
+                        this.chatid = message.Chat.Id;
                     }
-                    await _telegram.SendTextMessageAsync(message.Chat.Id, usage,
-                        replyMarkup: new ReplyKeyboardHide());
+
+                    await this._telegram.SendTextMessageAsync(message.Chat.Id, usage, replyMarkup: new ReplyKeyboardHide());
                 }
                 else if (message.Text.StartsWith("/evolve"))
                 {
                     var usage = "Evolving the shit out!";
 
-                    await _telegram.SendTextMessageAsync(message.Chat.Id, usage,
-                       replyMarkup: new ReplyKeyboardHide());
+                    await this._telegram.SendTextMessageAsync(message.Chat.Id, usage, replyMarkup: new ReplyKeyboardHide());
                 }
                 else if (message.Text.StartsWith("/top"))
                 {
                     int shows;
                     try
                     {
-                        shows = int.Parse(message.Text.Replace("/top", "").Replace(" ", ""));
+                        shows = int.Parse(message.Text.Replace("/top", string.Empty).Replace(" ", string.Empty));
                     }
                     catch (Exception)
                     {
-                        var usage = "Error! This is not a Number: " + message.Text.Replace("/top", "").Replace(" ", "") + "!";
+                        var usage = "Error! This is not a Number: " + message.Text.Replace("/top", string.Empty).Replace(" ", string.Empty) + "!";
 
-                        await _telegram.SendTextMessageAsync(message.Chat.Id, usage,
-                           replyMarkup: new ReplyKeyboardHide());
+                        await this._telegram.SendTextMessageAsync(message.Chat.Id, usage, replyMarkup: new ReplyKeyboardHide());
                         return;
                     }
 
-                    await _telegram.SendTextMessageAsync(message.Chat.Id, "Showing " + shows + " Pokemons...\nSorting...",
-                           replyMarkup: new ReplyKeyboardHide());
+                    await this._telegram.SendTextMessageAsync(message.Chat.Id, "Showing " + shows + " Pokemons...\nSorting...", replyMarkup: new ReplyKeyboardHide());
 
-                    var myPokemons = await _inventory.GetPokemons();
+                    var myPokemons = await this._inventory.GetPokemons();
                     myPokemons = myPokemons.OrderByDescending(x => x.Cp);
 
-                    var profil = await _client.GetProfile();
+                    var profil = await this._client.GetProfile();
                     var u = $"Top {shows} Pokemons of {profil.Profile.Username}!";
 
-                    int count = 0;
+                    var count = 0;
                     foreach (var pokemon in myPokemons)
                     {
                         if (count == shows)
                             break;
 
-                        u = u + "\n" + pokemon.PokemonId + " (" + StringUtils.getPokemonNameGer(pokemon.PokemonId) + ")  |  CP: " + pokemon.Cp + " (" + PokemonInfo.CalculatePokemonPerfection(pokemon) +  "% perfect)";
+                        u = u + "\n" + pokemon.PokemonId + " (" + StringUtils.getPokemonNameGer(pokemon.PokemonId) + ")  |  CP: " + pokemon.Cp + " (" + PokemonInfo.CalculatePokemonPerfection(pokemon) + "% perfect)";
                         count++;
                     }
 
-                    await _telegram.SendTextMessageAsync(message.Chat.Id, u, replyMarkup: new ReplyKeyboardHide());
-
+                    await this._telegram.SendTextMessageAsync(message.Chat.Id, u, replyMarkup: new ReplyKeyboardHide());
                 }
                 else if (message.Text.StartsWith("/forceevolve"))
                 {
-                    var pokemonToEvolve = await _inventory.GetPokemonToEvolve(null);
+                    var pokemonToEvolve = await this._inventory.GetPokemonToEvolve(null);
                     if (pokemonToEvolve.Count() > 30)
                     {
                         // Use EGG - need to add this shit
                     }
+
                     foreach (var pokemon in pokemonToEvolve)
                     {
-
-                        if (!_clientSettings.pokemonsToEvolve.Contains(pokemon.PokemonId))
+                        if (!this._clientSettings.pokemonsToEvolve.Contains(pokemon.PokemonId))
                         {
                             continue;
                         }
-                        var evolvePokemonOutProto = await _client.EvolvePokemon((ulong)pokemon.Id);
+
+                        var evolvePokemonOutProto = await this._client.EvolvePokemon(pokemon.Id);
 
                         if (evolvePokemonOutProto.Result == EvolvePokemonOut.Types.EvolvePokemonStatus.PokemonEvolvedSuccess)
                         {
-                            await _telegram.SendTextMessageAsync(message.Chat.Id, $"Evolved {pokemon.PokemonId} successfully for {evolvePokemonOutProto.ExpAwarded}xp", replyMarkup: new ReplyKeyboardHide());
+                            await this._telegram.SendTextMessageAsync(message.Chat.Id, $"Evolved {pokemon.PokemonId} successfully for {evolvePokemonOutProto.ExpAwarded}xp", replyMarkup: new ReplyKeyboardHide());
                         }
                         else
                         {
-                            await _telegram.SendTextMessageAsync(message.Chat.Id, $"Failed to evolve {pokemon.PokemonId}. EvolvePokemonOutProto.Result was {evolvePokemonOutProto.Result}, stopping evolving {pokemon.PokemonId}", replyMarkup: new ReplyKeyboardHide());
+                            await this._telegram.SendTextMessageAsync(message.Chat.Id, $"Failed to evolve {pokemon.PokemonId}. EvolvePokemonOutProto.Result was {evolvePokemonOutProto.Result}, stopping evolving {pokemon.PokemonId}", replyMarkup: new ReplyKeyboardHide());
                         }
+
                         await RandomHelper.RandomDelay(1000, 2000);
                     }
-                    await _telegram.SendTextMessageAsync(message.Chat.Id, "Done.", replyMarkup: new ReplyKeyboardHide());
+
+                    await this._telegram.SendTextMessageAsync(message.Chat.Id, "Done.", replyMarkup: new ReplyKeyboardHide());
                 }
                 else
                 {
@@ -306,20 +210,87 @@ namespace PokemonGo.RocketAPI.Logic.Utils
                     /top <HowMany?> - Outputs Top (?) Pokemons
                     /forceevolve - Forces Evolve";
 
-                    await _telegram.SendTextMessageAsync(message.Chat.Id, usage,
-                        replyMarkup: new ReplyKeyboardHide());
+                    await this._telegram.SendTextMessageAsync(message.Chat.Id, usage, replyMarkup: new ReplyKeyboardHide());
                 }
-            } catch (Exception)
+            }
+            catch (Exception)
             {
-
             }
         }
 
-
-        public async void BotOnCallbackQueryReceived(object sender, CallbackQueryEventArgs callbackQueryEventArgs)
+        public async void DoInformation()
         {
-            await _telegram.AnswerCallbackQueryAsync(callbackQueryEventArgs.CallbackQuery.Id,
-                $"Received {callbackQueryEventArgs.CallbackQuery.Data}");
+            try
+            {
+                if (this.chatid != -1 && this.informations)
+                {
+                    var current = 0;
+                    var usage = string.Empty;
+                    var inventory = await this._client.GetInventory();
+                    var profil = await this._client.GetProfile();
+                    var stats = inventory.InventoryDelta.InventoryItems.Select(i => i.InventoryItemData.PlayerStats).ToArray();
+                    foreach (var c in stats)
+                    {
+                        if (c != null)
+                        {
+                            current = c.Level;
+                        }
+                    }
+
+                    if (current != this.level)
+                    {
+                        this.level = current;
+                        usage = "You got Level Up! Your new Level is now " + this.level + "!";
+                        await this._telegram.SendTextMessageAsync(this.chatid, usage, replyMarkup: new ReplyKeyboardHide());
+                    }
+                }
+
+                await Task.Delay(5000);
+                this.DoInformation();
+            }
+            catch (Exception)
+            {
+            }
+        }
+
+        public async void DoLiveStats(ISettings settings)
+        {
+            try
+            {
+                if (this.chatid != -1 && this.livestats)
+                {
+                    var usage = string.Empty;
+                    var inventory = await this._client.GetInventory();
+                    var profil = await this._client.GetProfile();
+                    var stats = inventory.InventoryDelta.InventoryItems.Select(i => i.InventoryItemData.PlayerStats).ToArray();
+                    foreach (var c in stats)
+                    {
+                        if (c != null)
+                        {
+                            var l = c.Level;
+
+                            var expneeded = c.NextLevelXp - c.PrevLevelXp - StringUtils.getExpDiff(c.Level);
+                            var curexp = c.Experience - c.PrevLevelXp - StringUtils.getExpDiff(c.Level);
+                            var curexppercent = Convert.ToDouble(curexp) / Convert.ToDouble(expneeded) * 100;
+
+                            usage += "\nNickname: " + profil.Profile.Username + "\nLevel: " + c.Level + "\nEXP Needed: " + (c.NextLevelXp - c.PrevLevelXp - StringUtils.getExpDiff(c.Level)) + $"\nCurrent EXP: {curexp} ({Math.Round(curexppercent)}%)" + "\nEXP to Level up: " + (c.NextLevelXp - c.Experience) + "\nKM walked: " + c.KmWalked + "\nPokeStops visited: " + c.PokeStopVisits + "\nStardust: " + profil.Profile.Currency.ToArray()[1].Amount;
+                        }
+                    }
+
+                    await this._telegram.SendTextMessageAsync(this.chatid, usage, replyMarkup: new ReplyKeyboardHide());
+                }
+
+                await Task.Delay(settings.TelegramLiveStatsDelay);
+                this.DoLiveStats(settings);
+            }
+            catch (Exception)
+            {
+            }
+        }
+
+        public TelegramBotClient getClient()
+        {
+            return this._telegram;
         }
     }
 }
