@@ -35,7 +35,7 @@ namespace PokemonGo.RocketAPI.Logic
             _inventory = new Inventory(_client);
             _botStats = new BotStats();
             _navigation = new Navigation(_client);
-            _pokevision = new PokeVisionUtil();
+            _pokevision = new PokeVisionUtil(_clientSettings);
         }
 
         public async Task Execute()
@@ -172,21 +172,10 @@ namespace PokemonGo.RocketAPI.Logic
             public double ptc_uptime_day; //Prozent von PTC uptime letzten tag
         }
 
+        int dontspam = 3;
         private async Task StatsLog(Client client)
         {
-            PokeService data = null;
-            try
-            {
-                var clientx = new WebClient();
-                clientx.Headers.Add("user-agent", "#Random");
-                var jsonString = clientx.DownloadString("https://go.jooas.com/status");
-                data = new JavaScriptSerializer().Deserialize<PokeService>(jsonString);
-            }
-            catch (Exception)
-            {
-
-            }
-
+            dontspam++;
             var profil = await _client.GetCachedProfile();
             var stats = await _inventory.GetPlayerStats();
             var c = stats.FirstOrDefault();
@@ -208,28 +197,90 @@ namespace PokemonGo.RocketAPI.Logic
             Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Stardust: " + profil.Profile.Currency.ToArray()[1].Amount);
             Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Pokemon to evolve: " + pokemonToEvolve);
             Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Pokemons: " + await _inventory.getPokemonCount() + "/" + profil.Profile.PokeStorage);
-            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Items: " + await _inventory.getInventoryCount() + "/" + profil.Profile.ItemStorage);
-            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "");
-            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "PokemonGO Server Status:");
-            if (data.go_online)
+            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Items: " + await _inventory.getInventoryCount() + "/" + profil.Profile.ItemStorage); 
+            if (dontspam >= 3)
             {
-                Logger.ColoredConsoleWrite(ConsoleColor.Green, "Online since ~" + data.go_idle + "min.");
-                Logger.ColoredConsoleWrite(ConsoleColor.Green, "Server anwsers in ~" + data.go_response + " ms.");
-            } else
-            {
-                Logger.ColoredConsoleWrite(ConsoleColor.Red, "Offline.");
+                dontspam = 0;
+                PokeService data = null;
+                try
+                {
+                    var clientx = new WebClient();
+                    clientx.Headers.Add("user-agent", "PokegoBot-Ar1i-Github");
+                    var jsonString = clientx.DownloadString("https://go.jooas.com/status");
+                    data = new JavaScriptSerializer().Deserialize<PokeService>(jsonString);
+                }
+                catch (Exception)
+                {
+
+                }
+
+                if (data != null)
+                {
+                    Logger.ColoredConsoleWrite(ConsoleColor.White, "");
+                    Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "PokemonGO Server Status:");
+                    if (data.go_online)
+                    {
+                        if (data.go_idle > 60)
+                        {
+                            int gohour = Convert.ToInt32(data.go_idle / 60);
+
+                            if (gohour > 24)
+                            {
+                                int goday = gohour / 24;
+
+                                Logger.ColoredConsoleWrite(ConsoleColor.Green, "Online since ~" + goday + " day(s).");
+                            }
+                            else
+                            {
+                                Logger.ColoredConsoleWrite(ConsoleColor.Green, "Online since ~" + gohour + "h.");
+                            }
+                        }
+                        else
+                        {
+                            Logger.ColoredConsoleWrite(ConsoleColor.Green, "Online since ~" + data.go_idle + " min.");
+                        }
+
+                        Logger.ColoredConsoleWrite(ConsoleColor.Green, "Server anwsers in ~" + data.go_response + " seconds.");
+                    }
+                    else
+                    {
+                        Logger.ColoredConsoleWrite(ConsoleColor.Red, "Pokemon GO Servers: Offline.");
+                    }
+                    Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Pokemon Trainer Club Server Status:");
+                    if (data.ptc_online)
+                    {
+                        if (data.ptc_idle > 60)
+                        {
+                            int ptchour = Convert.ToInt32(data.ptc_idle / 60);
+
+                            if (ptchour > 24)
+                            {
+                                int ptcday = ptchour / 24;
+                                Logger.ColoredConsoleWrite(ConsoleColor.Green, "Online since ~" + ptcday + " day(s).");
+
+                            }
+                            else
+                            {
+                                Logger.ColoredConsoleWrite(ConsoleColor.Green, "Online since ~" + ptchour + "h.");
+                            }
+                        }
+                        else
+                        {
+                            Logger.ColoredConsoleWrite(ConsoleColor.Green, "Online since ~" + data.ptc_idle + " min.");
+                        }
+
+                        Logger.ColoredConsoleWrite(ConsoleColor.Green, "Server anwsers in ~" + data.ptc_response + " seconds.");
+                    }
+                    else
+                    {
+                        Logger.ColoredConsoleWrite(ConsoleColor.Red, "Pokemon Trainer Club: Offline.");
+                    }
+                } 
+                else
+                {
+                    Logger.ColoredConsoleWrite(ConsoleColor.Red, "Cant get Server Status from https://go.jooas.com/status");
+                }
             }
-            Console.WriteLine("");
-            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Pokemon Trainer Club Server Status:");
-            if (data.ptc_online)
-            {
-                Logger.ColoredConsoleWrite(ConsoleColor.Green, "Online since ~" + data.ptc_idle + "min.");
-                Logger.ColoredConsoleWrite(ConsoleColor.Green, "Server anwsers in ~" + data.ptc_response + " ms.");
-            }
-            else
-            {
-                Logger.ColoredConsoleWrite(ConsoleColor.Red, "Offline.");
-            } 
             Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "_____________________________");
             
 
@@ -317,9 +368,12 @@ namespace PokemonGo.RocketAPI.Logic
                 {
                     foreach (spottedPoke p in await _pokevision.GetNearPokemons(_client.CurrentLat, _client.CurrentLng))
                     {
-                        var dist = LocationUtils.CalculateDistanceInMeters(_client.CurrentLat, _client.CurrentLng, p._lat, p._lng);
-                        Logger.ColoredConsoleWrite(ConsoleColor.Magenta, $"PokeVision: A {StringUtils.getPokemonNameByLanguage(_clientSettings, p._pokeId)} in {dist:0.##}m distance. Trying to catch.");
-                        var upd = await _navigation.HumanLikeWalking(new GeoCoordinate(p._lat, p._lng), _clientSettings.WalkingSpeedInKilometerPerHour, ExecuteCatchAllNearbyPokemons);
+                        if (!_pokevision.AlreadyCaught(p._pokeId, p._expTime, p._lat, p._lng))
+                        {
+                            var dist = LocationUtils.CalculateDistanceInMeters(_client.CurrentLat, _client.CurrentLng, p._lat, p._lng);
+                            Logger.ColoredConsoleWrite(ConsoleColor.Magenta, $"PokeVision: {StringUtils.getPokemonNameByLanguage(_clientSettings, p._pokeId)} in {dist:0.##}m distance. Trying to catch.");
+                            var upd = await _navigation.HumanLikeWalking(new GeoCoordinate(p._lat, p._lng), _clientSettings.WalkingSpeedInKilometerPerHour, ExecuteCatchAllNearbyPokemons);
+                        }
                     }
                 }
 
@@ -460,6 +514,7 @@ namespace PokemonGo.RocketAPI.Logic
                         foreach (int xp in caughtPokemonResponse.Scores.Xp)
                             _botStats.addExperience(xp);
 
+                        _pokevision.addCaughtPoke(pokemon);
                         Logger.ColoredConsoleWrite(ConsoleColor.Magenta, $"We caught a {StringUtils.getPokemonNameByLanguage(_clientSettings, pokemon.PokemonId)} with CP {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} ({PokemonInfo.CalculatePokemonPerfection(encounterPokemonResponse?.WildPokemon.PokemonData)}% perfect) using a {bestPokeball} and we got {caughtPokemonResponse.Scores.Xp.Sum()} XP.");
 
                         //try
@@ -477,6 +532,7 @@ namespace PokemonGo.RocketAPI.Logic
                     }
                     else
                     {
+                        _pokevision.addCaughtPoke(pokemon);
                         Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, $"{StringUtils.getPokemonNameByLanguage(_clientSettings, pokemon.PokemonId)} with CP {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} ({PokemonInfo.CalculatePokemonPerfection(encounterPokemonResponse?.WildPokemon.PokemonData)} % perfect) got away while using a {bestPokeball}..");
                         failed_softban++; 
                     }
@@ -519,12 +575,15 @@ namespace PokemonGo.RocketAPI.Logic
 
                 if (evolvePokemonOutProto.Result == EvolvePokemonOut.Types.EvolvePokemonStatus.PokemonEvolvedSuccess)
                 {
-                    Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Evolved {StringUtils.getPokemonNameByLanguage(_clientSettings,pokemon.PokemonId)} with {pokemon.Cp} CP ({PokemonInfo.CalculatePokemonPerfection(pokemon)} % perfect) successfully to {StringUtils.getPokemonNameByLanguage(_clientSettings, evolvePokemonOutProto.EvolvedPokemon.PokemonType)} with {evolvePokemonOutProto.EvolvedPokemon.Cp} CP ({PokemonInfo.CalculatePokemonPerfection(evolvePokemonOutProto.EvolvedPokemon)} % perfect) for {evolvePokemonOutProto.ExpAwarded}xp", LogLevel.Info);
+                    Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Evolved {StringUtils.getPokemonNameByLanguage(_clientSettings, pokemon.PokemonId)} with {pokemon.Cp} CP ({PokemonInfo.CalculatePokemonPerfection(pokemon)} % perfect) successfully to {StringUtils.getPokemonNameByLanguage(_clientSettings, evolvePokemonOutProto.EvolvedPokemon.PokemonType)} with {evolvePokemonOutProto.EvolvedPokemon.Cp} CP ({PokemonInfo.CalculatePokemonPerfection(evolvePokemonOutProto.EvolvedPokemon)} % perfect) for {evolvePokemonOutProto.ExpAwarded}xp", LogLevel.Info);
                     _botStats.addExperience(evolvePokemonOutProto.ExpAwarded);
                 }
                 else
                 {
-                    Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Failed to evolve {pokemon.PokemonId}. EvolvePokemonOutProto.Result was {evolvePokemonOutProto.Result}, stopping evolving {pokemon.PokemonId}", LogLevel.Info);
+                    if (evolvePokemonOutProto.Result != EvolvePokemonOut.Types.EvolvePokemonStatus.FailedPokemonMissing)
+                    {
+                        Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Failed to evolve {pokemon.PokemonId}. EvolvePokemonOutProto.Result was {evolvePokemonOutProto.Result}, stopping evolving {pokemon.PokemonId}", LogLevel.Info);
+                    }
                 }
 
                 await RandomHelper.RandomDelay(1000, 2000);
@@ -573,7 +632,7 @@ namespace PokemonGo.RocketAPI.Logic
         {
             var pokemonCp = pokemon?.PokemonData?.Cp;
 
-            var items = await _inventory.GetItems();
+            var items = await _inventory.GetItemsNonCache();
             var balls = items.Where(i => ((MiscEnums.Item)i.Item_ == MiscEnums.Item.ITEM_POKE_BALL
                                       || (MiscEnums.Item)i.Item_ == MiscEnums.Item.ITEM_GREAT_BALL
                                       || (MiscEnums.Item)i.Item_ == MiscEnums.Item.ITEM_ULTRA_BALL

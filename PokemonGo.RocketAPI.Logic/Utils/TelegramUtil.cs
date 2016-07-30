@@ -118,7 +118,8 @@ namespace PokemonGo.RocketAPI.Logic.Utils
                     if (current != level)
                     {
                         level = current;
-                        usage = "You got Level Up! Your new Level is now " + level + "!";
+                        var nick = await _client.getNickname();
+                        usage = "You (" + nick + ") got Level Up! Your new Level is now " + level + "!";
                         await _telegram.SendTextMessageAsync(chatid, usage,
                        replyMarkup: new ReplyKeyboardHide());
                     }

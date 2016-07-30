@@ -21,11 +21,17 @@ namespace PokemonGo.RocketAPI.Logic
 
         public async Task<int> GetHighestCPofType(PokemonData pokemon)
         {
-            var myPokemon = await GetPokemons();
-            var pokemons = myPokemon.ToList();
-            return pokemons.Where(x => x.PokemonId == pokemon.PokemonId)
-                            .OrderByDescending(x => x.Cp)
-                            .First().Cp;
+            try
+            {
+                var myPokemon = await GetPokemons();
+                var pokemons = myPokemon.ToList();
+                return pokemons.Where(x => x.PokemonId == pokemon.PokemonId)
+                                .OrderByDescending(x => x.Cp)
+                                .First().Cp;
+            } catch (Exception)
+            {
+                return 0;
+            }
 
         }
 
@@ -247,6 +253,14 @@ namespace PokemonGo.RocketAPI.Logic
         public async Task<IEnumerable<Item>> GetItems()
         {
             var inventory = await getCachedInventory(_client);
+            return inventory.InventoryDelta.InventoryItems
+                .Select(i => i.InventoryItemData?.Item)
+                .Where(p => p != null);
+        }
+
+        public async Task<IEnumerable<Item>> GetItemsNonCache()
+        {
+            var inventory = await getCachedInventory(_client, true);
             return inventory.InventoryDelta.InventoryItems
                 .Select(i => i.InventoryItemData?.Item)
                 .Where(p => p != null);
