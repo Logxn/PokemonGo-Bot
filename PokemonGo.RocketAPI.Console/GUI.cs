@@ -513,6 +513,8 @@ namespace PokemonGo.RocketAPI.Console
             Globals.gerNames = checkBox8.Checked;
             Globals.useincense = checkBox9.Checked;
             Globals.pokeList = checkBox10.Checked;
+            Globals.keepPokemonsThatCanEvolve = checkBox11.Checked;
+            Globals.pokevision = checkBox12.Checked;
 
             foreach (string pokemon in checkedListBox1.CheckedItems)
             {

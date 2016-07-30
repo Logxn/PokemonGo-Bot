@@ -954,7 +954,7 @@
             this.checkBox12.AutoSize = true;
             this.checkBox12.Checked = true;
             this.checkBox12.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox12.Location = new System.Drawing.Point(4, 179);
+            this.checkBox12.Location = new System.Drawing.Point(6, 178);
             this.checkBox12.Name = "checkBox12";
             this.checkBox12.Size = new System.Drawing.Size(101, 17);
             this.checkBox12.TabIndex = 11;
