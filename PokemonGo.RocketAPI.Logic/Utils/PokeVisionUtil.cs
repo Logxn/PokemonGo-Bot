@@ -50,8 +50,7 @@ namespace PokemonGo.RocketAPI.Logic.Utils
                     }
                 }
                 catch (Exception e)
-                {
-
+                { 
                 }
             }
             return _newSpotted;

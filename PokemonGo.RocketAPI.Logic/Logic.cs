@@ -267,7 +267,7 @@ namespace PokemonGo.RocketAPI.Logic
                     foreach (spottedPoke p in await _pokevision.GetNearPokemons(_client.CurrentLat, _client.CurrentLng))
                     {
                         var dist = LocationUtils.CalculateDistanceInMeters(_client.CurrentLat, _client.CurrentLng, p._lat, p._lng);
-                        Logger.ColoredConsoleWrite(ConsoleColor.White, $"PokeVision: A {StringUtils.getPokemonNameByLanguage(_clientSettings, p._pokeId)} in {dist:0.##}m distance.");
+                        Logger.ColoredConsoleWrite(ConsoleColor.Magenta, $"PokeVision: A {StringUtils.getPokemonNameByLanguage(_clientSettings, p._pokeId)} in {dist:0.##}m distance. Trying to catch.");
                         var upd = await _navigation.HumanLikeWalking(new GeoCoordinate(p._lat, p._lng), _clientSettings.WalkingSpeedInKilometerPerHour, ExecuteCatchAllNearbyPokemons);
                     }
                 }
