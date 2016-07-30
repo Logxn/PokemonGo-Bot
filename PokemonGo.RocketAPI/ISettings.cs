@@ -39,6 +39,8 @@ namespace PokemonGo.RocketAPI
         bool keepPokemonsThatCanEvolve { get; }
         bool UserIncense { get; }
 
+        bool pokevision { get; }
+
         bool Language { get; }
 
         ICollection<KeyValuePair<ItemId, int>> itemRecycleFilter { get; set; }

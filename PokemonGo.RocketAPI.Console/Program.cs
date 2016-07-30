@@ -113,6 +113,9 @@ namespace PokemonGo.RocketAPI.Console
                             case 23:
                                 Globals.keepPokemonsThatCanEvolve = bool.Parse(line);
                                 break;
+                            case 24:
+                                Globals.pokevision = bool.Parse(line);
+                                break;
                         }
                         i++;
                     }
@@ -371,5 +374,6 @@ namespace PokemonGo.RocketAPI.Console
         public static bool gerNames = false;
         public static bool pokeList = true;
         public static bool keepPokemonsThatCanEvolve = true;
+        public static bool pokevision = false;
     }
 }
