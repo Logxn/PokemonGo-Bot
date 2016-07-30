@@ -17,6 +17,7 @@ using System.Threading;
 
 namespace PokemonGo.RocketAPI
 {
+
     public class Client
     {
         private readonly ISettings _settings;

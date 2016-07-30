@@ -12,6 +12,7 @@ using System.Net;
 using System.IO;
 using System.Device.Location;
 using PokemonGo.RocketAPI.Helpers;
+using System.Web.Script.Serialization;
 
 namespace PokemonGo.RocketAPI.Logic
 {
@@ -156,8 +157,36 @@ namespace PokemonGo.RocketAPI.Logic
                 await action();
         }
 
+        class PokeService
+        {
+            public bool go_online; //Online oder nicht?
+            public double go_response; //Wie lange der Server zum Responden braucht
+            public double go_idle; //Wie lange die go server online sind (in minuten)
+            public double go_uptime_hour; //Uptime in Prozent die letzte Stunde
+            public double go_uptime_day; //Uptime in Prozent die letzten 24h
+
+            public bool ptc_online; //Online oder nicht?
+            public double ptc_response; //Wie lange PTC zum responden braucht
+            public double ptc_idle; //Wie lange ptc schon läuft
+            public double ptc_uptime_hour; //Prozent von PTC uptime letzte stunde
+            public double ptc_uptime_day; //Prozent von PTC uptime letzten tag
+        }
+
         private async Task StatsLog(Client client)
         {
+            PokeService data = null;
+            try
+            {
+                var clientx = new WebClient();
+                clientx.Headers.Add("user-agent", "#Random");
+                var jsonString = clientx.DownloadString("https://go.jooas.com/status");
+                data = new JavaScriptSerializer().Deserialize<PokeService>(jsonString);
+            }
+            catch (Exception)
+            {
+
+            }
+
             var profil = await _client.GetCachedProfile();
             var stats = await _inventory.GetPlayerStats();
             var c = stats.FirstOrDefault();
@@ -180,7 +209,29 @@ namespace PokemonGo.RocketAPI.Logic
             Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Pokemon to evolve: " + pokemonToEvolve);
             Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Pokemons: " + await _inventory.getPokemonCount() + "/" + profil.Profile.PokeStorage);
             Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Items: " + await _inventory.getInventoryCount() + "/" + profil.Profile.ItemStorage);
+            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "");
+            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "PokemonGO Server Status:");
+            if (data.go_online)
+            {
+                Logger.ColoredConsoleWrite(ConsoleColor.Green, "Online since ~" + data.go_idle + "min.");
+                Logger.ColoredConsoleWrite(ConsoleColor.Green, "Server anwsers in ~" + data.go_response + " ms.");
+            } else
+            {
+                Logger.ColoredConsoleWrite(ConsoleColor.Red, "Offline.");
+            }
+            Console.WriteLine("");
+            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Pokemon Trainer Club Server Status:");
+            if (data.ptc_online)
+            {
+                Logger.ColoredConsoleWrite(ConsoleColor.Green, "Online since ~" + data.ptc_idle + "min.");
+                Logger.ColoredConsoleWrite(ConsoleColor.Green, "Server anwsers in ~" + data.ptc_response + " ms.");
+            }
+            else
+            {
+                Logger.ColoredConsoleWrite(ConsoleColor.Red, "Offline.");
+            } 
             Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "_____________________________");
+            
 
             System.Console.Title = profil.Profile.Username + " Level " + c.Level + " - (" + ((c.Experience - c.PrevLevelXp) - 
                 StringUtils.getExpDiff(c.Level)) + " / " + ((c.NextLevelXp - c.PrevLevelXp) - StringUtils.getExpDiff(c.Level)) + " | " + Math.Round(curexppercent) + "%)   | Stardust: " + profil.Profile.Currency.ToArray()[1].Amount + " | " + _botStats.ToString();
