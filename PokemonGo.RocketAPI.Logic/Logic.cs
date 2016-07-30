@@ -198,7 +198,6 @@ namespace PokemonGo.RocketAPI.Logic
             Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Pokemon to evolve: " + pokemonToEvolve);
             Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Pokemons: " + await _inventory.getPokemonCount() + "/" + profil.Profile.PokeStorage);
             Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Items: " + await _inventory.getInventoryCount() + "/" + profil.Profile.ItemStorage); 
-            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "PokemonGO Server Status:");
             if (dontspam >= 3)
             {
                 dontspam = 0;
@@ -217,20 +216,21 @@ namespace PokemonGo.RocketAPI.Logic
 
                 if (data != null)
                 {
+                    Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, "PokemonGO Server Status:");
                     if (data.go_online)
                     {
-                        Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Online since ~" + data.go_idle + "min.");
-                        Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Server anwsers in ~" + data.go_response + " seconds.");
+                        Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, "Online since ~" + data.go_idle + "min.");
+                        Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, "Server anwsers in ~" + data.go_response + " seconds.");
                     }
                     else
                     {
                         Logger.ColoredConsoleWrite(ConsoleColor.Red, "Offline.");
                     }
-                    Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Pokemon Trainer Club Server Status:");
+                    Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, "Pokemon Trainer Club Server Status:");
                     if (data.ptc_online)
                     {
-                        Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Online since ~" + data.ptc_idle + "min.");
-                        Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Server anwsers in ~" + data.ptc_response + " seconds.");
+                        Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, "Online since ~" + data.ptc_idle + "min.");
+                        Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, "Server anwsers in ~" + data.ptc_response + " seconds.");
                     }
                     else
                     {
