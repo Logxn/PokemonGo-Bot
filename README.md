@@ -1,3 +1,9 @@
+# HELP NEEDED
+  - So there is a guy, which copys 1:1 my source and put it online.
+  - Help me to get his Site + copyd Bot removed. 
+  - His site is: https://www.pokecrot.com/
+  - Until that is done, i only publis builds. No Source.
+
 # Donate
   - Every Donation will help the Project!
   - 
