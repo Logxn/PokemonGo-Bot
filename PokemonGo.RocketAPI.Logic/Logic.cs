@@ -172,21 +172,10 @@ namespace PokemonGo.RocketAPI.Logic
             public double ptc_uptime_day; //Prozent von PTC uptime letzten tag
         }
 
+        int dontspam = 3;
         private async Task StatsLog(Client client)
         {
-            PokeService data = null;
-            try
-            {
-                var clientx = new WebClient();
-                clientx.Headers.Add("user-agent", "#Random");
-                var jsonString = clientx.DownloadString("https://go.jooas.com/status");
-                data = new JavaScriptSerializer().Deserialize<PokeService>(jsonString);
-            }
-            catch (Exception)
-            {
-
-            }
-
+            dontspam++;
             var profil = await _client.GetCachedProfile();
             var stats = await _inventory.GetPlayerStats();
             var c = stats.FirstOrDefault();
@@ -208,28 +197,51 @@ namespace PokemonGo.RocketAPI.Logic
             Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Stardust: " + profil.Profile.Currency.ToArray()[1].Amount);
             Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Pokemon to evolve: " + pokemonToEvolve);
             Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Pokemons: " + await _inventory.getPokemonCount() + "/" + profil.Profile.PokeStorage);
-            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Items: " + await _inventory.getInventoryCount() + "/" + profil.Profile.ItemStorage);
-            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "");
+            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Items: " + await _inventory.getInventoryCount() + "/" + profil.Profile.ItemStorage); 
             Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "PokemonGO Server Status:");
-            if (data.go_online)
+            if (dontspam >= 3)
             {
-                Logger.ColoredConsoleWrite(ConsoleColor.Green, "Online since ~" + data.go_idle + "min.");
-                Logger.ColoredConsoleWrite(ConsoleColor.Green, "Server anwsers in ~" + data.go_response + " ms.");
-            } else
-            {
-                Logger.ColoredConsoleWrite(ConsoleColor.Red, "Offline.");
+                dontspam = 0;
+                PokeService data = null;
+                try
+                {
+                    var clientx = new WebClient();
+                    clientx.Headers.Add("user-agent", "PokegoBot-Ar1i-Github");
+                    var jsonString = clientx.DownloadString("https://go.jooas.com/status");
+                    data = new JavaScriptSerializer().Deserialize<PokeService>(jsonString);
+                }
+                catch (Exception)
+                {
+
+                }
+
+                if (data != null)
+                {
+                    if (data.go_online)
+                    {
+                        Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Online since ~" + data.go_idle + "min.");
+                        Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Server anwsers in ~" + data.go_response + " seconds.");
+                    }
+                    else
+                    {
+                        Logger.ColoredConsoleWrite(ConsoleColor.Red, "Offline.");
+                    }
+                    Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Pokemon Trainer Club Server Status:");
+                    if (data.ptc_online)
+                    {
+                        Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Online since ~" + data.ptc_idle + "min.");
+                        Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Server anwsers in ~" + data.ptc_response + " seconds.");
+                    }
+                    else
+                    {
+                        Logger.ColoredConsoleWrite(ConsoleColor.Red, "Offline.");
+                    }
+                }
+                else
+                {
+                    Logger.ColoredConsoleWrite(ConsoleColor.Red, "Cant get Server Status from https://go.jooas.com/status");
+                }
             }
-            Console.WriteLine("");
-            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Pokemon Trainer Club Server Status:");
-            if (data.ptc_online)
-            {
-                Logger.ColoredConsoleWrite(ConsoleColor.Green, "Online since ~" + data.ptc_idle + "min.");
-                Logger.ColoredConsoleWrite(ConsoleColor.Green, "Server anwsers in ~" + data.ptc_response + " ms.");
-            }
-            else
-            {
-                Logger.ColoredConsoleWrite(ConsoleColor.Red, "Offline.");
-            } 
             Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "_____________________________");
             
 
