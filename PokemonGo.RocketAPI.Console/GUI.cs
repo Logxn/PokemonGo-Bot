@@ -801,5 +801,26 @@ namespace PokemonGo.RocketAPI.Console
                 Globals.pokevision = false;
             }
         }
+
+        private void TextBoxes_Items_TextChanged(object sender, EventArgs e)
+        {
+            int item_summe = 0;
+
+            if (textBox10.Text != "" && textBox11.Text != "" && textBox12.Text != "" && textBox13.Text != "" && textBox14.Text != "" && textBox15.Text != "" && textBox16.Text != "" && textBox17.Text != "" && textBox22.Text != "" && textBox21.Text != "" && textBox23.Text != "")
+            {
+                item_summe = Convert.ToInt16(textBox10.Text) +
+                            Convert.ToInt16(textBox11.Text) +
+                            Convert.ToInt16(textBox12.Text) +
+                            Convert.ToInt16(textBox13.Text) +
+                            Convert.ToInt16(textBox14.Text) +
+                            Convert.ToInt16(textBox15.Text) +
+                            Convert.ToInt16(textBox16.Text) +
+                            Convert.ToInt16(textBox17.Text) +
+                            Convert.ToInt16(textBox22.Text) +
+                            Convert.ToInt16(textBox23.Text) +
+                            Convert.ToInt16(textBox21.Text);         
+            }
+            textBox25.Text = Convert.ToString(item_summe);
+        }
     }
 }
