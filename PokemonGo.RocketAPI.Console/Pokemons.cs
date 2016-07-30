@@ -104,6 +104,9 @@ namespace PokemonGo.RocketAPI.Console
                 columnheader.Text = "IV A-D-S";
                 listView1.Columns.Add(columnheader);
                 columnheader = new ColumnHeader();
+                columnheader.Text = "LVL";
+                listView1.Columns.Add(columnheader);
+                columnheader = new ColumnHeader();
                 columnheader.Text = "Candy";
                 listView1.Columns.Add(columnheader);
                 columnheader = new ColumnHeader();
@@ -144,6 +147,7 @@ namespace PokemonGo.RocketAPI.Console
                     var currIv = Math.Round(Perfect(pokemon));
                     listViewItem.SubItems.Add(string.Format("{0}", pokemon.Cp));
                     listViewItem.SubItems.Add(string.Format("{0}% {3}-{2}-{3}", currIv, pokemon.IndividualAttack, pokemon.IndividualDefense, pokemon.IndividualStamina));
+                    listViewItem.SubItems.Add(string.Format("{0}", PokemonInfo.GetLevel(pokemon)));
                     listViewItem.SubItems.Add(string.Format("{0}", currentCandy));
                     listViewItem.ImageKey = pokemon.PokemonId.ToString();
 
