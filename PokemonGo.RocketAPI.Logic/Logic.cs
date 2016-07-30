@@ -25,7 +25,7 @@ namespace PokemonGo.RocketAPI.Logic
         public BotStats _botStats;
         private readonly Navigation _navigation;
         public const double SpeedDownTo = 10 / 3.6;
-
+        private readonly PokeVisionUtil _pokevision;
 
         public Logic(ISettings clientSettings)
         {
@@ -34,6 +34,7 @@ namespace PokemonGo.RocketAPI.Logic
             _inventory = new Inventory(_client);
             _botStats = new BotStats();
             _navigation = new Navigation(_client);
+            _pokevision = new PokeVisionUtil();
         }
 
         public async Task Execute()
@@ -260,6 +261,13 @@ namespace PokemonGo.RocketAPI.Logic
                     }
                     await TransferDuplicatePokemon(_clientSettings.keepPokemonsThatCanEvolve);
                     await RecycleItems();
+                }
+
+                foreach (spottedPoke p in await _pokevision.GetNearPokemons(_client.CurrentLat, _client.CurrentLng))
+                {
+                    var dist = LocationUtils.CalculateDistanceInMeters(_client.CurrentLat, _client.CurrentLng, p._lat, p._lng);
+                    Logger.ColoredConsoleWrite(ConsoleColor.White, $"PokeVision: A {StringUtils.getPokemonNameByLanguage(_clientSettings, p._pokeId)} in {dist:0.##}m distance.");
+                    var upd = await _navigation.HumanLikeWalking(new GeoCoordinate(p._lat, p._lng), _clientSettings.WalkingSpeedInKilometerPerHour, ExecuteCatchAllNearbyPokemons);
                 }
 
                 var distance = LocationUtils.CalculateDistanceInMeters(_client.CurrentLat, _client.CurrentLng, pokeStop.Latitude, pokeStop.Longitude);
