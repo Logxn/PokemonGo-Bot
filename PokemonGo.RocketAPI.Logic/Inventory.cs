@@ -252,6 +252,14 @@ namespace PokemonGo.RocketAPI.Logic
                 .Where(p => p != null);
         }
 
+        public async Task<IEnumerable<Item>> GetItemsNonCache()
+        {
+            var inventory = await getCachedInventory(_client, true);
+            return inventory.InventoryDelta.InventoryItems
+                .Select(i => i.InventoryItemData?.Item)
+                .Where(p => p != null);
+        }
+
         public async Task<int> GetItemAmountByType(MiscEnums.Item type)
         {
             var pokeballs = await GetItems();
