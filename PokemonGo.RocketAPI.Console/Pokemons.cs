@@ -165,6 +165,7 @@ namespace PokemonGo.RocketAPI.Console
             btnUpgrade.Enabled = enabled;
             checkBox1.Enabled = enabled;
             textBox2.Enabled = enabled;
+            checkBox2.Enabled = enabled;
         }
 
         private static Bitmap GetPokemonImage(int pokemonId)
@@ -490,6 +491,24 @@ namespace PokemonGo.RocketAPI.Console
             {
                 e.Handled = true;
             }
+        }
+
+        private void checkBox2_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBox2.Checked)
+            {
+                foreach(ListViewItem item in listView1.Items)
+                {
+                    if (!item.Checked)
+                        item.Remove();
+                }
+            }else
+            {
+                checkBox2.Checked = false;
+                listView1.Clear();
+                Execute();
+            }
+            
         }
     }
     public static class ControlExtensions
