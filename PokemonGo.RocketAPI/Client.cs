@@ -522,5 +522,6 @@ namespace PokemonGo.RocketAPI
                     _httpClient.PostProtoPayload<Request, EvolvePokemonOut>($"https://{_apiUrl}/rpc",
                         releasePokemonRequest);
         }
+
     }
 }

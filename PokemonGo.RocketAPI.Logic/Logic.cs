@@ -547,7 +547,7 @@ namespace PokemonGo.RocketAPI.Logic
             {
                 if(_clientSettings.UseLuckyEgg)
                 {
-                    await UseLuckyEgg(_client);
+                    await _inventory.UseLuckyEgg(_client);
                 }
             }
             foreach (var pokemon in pokemonToEvolve)
@@ -700,29 +700,8 @@ namespace PokemonGo.RocketAPI.Logic
                 return ItemId.ItemBlukBerry;
 
             return berries.OrderBy(g => g.Key).First().Key;
-        }
-
-        DateTime lastegguse;
-        public async Task UseLuckyEgg(Client client)
-        {
-            var inventory = await _inventory.GetItems();
-            var luckyEgg = inventory.Where(p => (ItemId)p.Item_ == ItemId.ItemLuckyEgg).FirstOrDefault();
-
-            if (lastegguse > DateTime.Now.AddSeconds(5))
-            {
-                TimeSpan duration = lastegguse - DateTime.Now;
-                Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Lucky Egg still running: {duration.Minutes}m{duration.Seconds}s");
-                return;
-            }
-
-            if (luckyEgg == null || luckyEgg.Count <= 0) { return; }
-
-            await _client.UseItemXpBoost(ItemId.ItemLuckyEgg);
-            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Used Lucky Egg, remaining: {luckyEgg.Count - 1}");
-            lastegguse = DateTime.Now.AddMinutes(30);
-            await Task.Delay(3000);
-        }
-
+       } 
+        
         DateTime lastincenseuse;
         public async Task UseIncense()
         {
