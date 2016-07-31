@@ -180,9 +180,9 @@ namespace PokemonGo.RocketAPI.Console
                         case 23:
                             checkBox11.Checked = bool.Parse(line);
                             break;
-                        case 24:
-                            checkBox12.Checked = bool.Parse(line);
-                            break;
+                        //case 24:
+                        //    checkBox12.Checked = bool.Parse(line);
+                        //    break;
                         default:
                             TextBox temp = (TextBox)this.Controls.Find("textBox" + tb, true).FirstOrDefault();
                             temp.Text = line;
@@ -531,7 +531,7 @@ namespace PokemonGo.RocketAPI.Console
             Globals.useincense = checkBox9.Checked;
             Globals.pokeList = checkBox10.Checked;
             Globals.keepPokemonsThatCanEvolve = checkBox11.Checked;
-            Globals.pokevision = checkBox12.Checked;
+            //Globals.pokevision = checkBox12.Checked;
 
             foreach (string pokemon in checkedListBox1.CheckedItems)
             {
