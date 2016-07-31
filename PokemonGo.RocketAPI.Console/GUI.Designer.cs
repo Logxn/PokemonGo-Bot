@@ -115,7 +115,6 @@
             this.checkBox9 = new System.Windows.Forms.CheckBox();
             this.checkBox8 = new System.Windows.Forms.CheckBox();
             this.label32 = new System.Windows.Forms.Label();
-            this.system_banner = new System.Windows.Forms.PictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -127,7 +126,6 @@
             this.groupBox8.SuspendLayout();
             this.groupBox9.SuspendLayout();
             this.groupBox10.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.system_banner)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -190,7 +188,7 @@
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.textBox1);
-            this.groupBox1.Location = new System.Drawing.Point(12, 152);
+            this.groupBox1.Location = new System.Drawing.Point(9, 13);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(252, 97);
             this.groupBox1.TabIndex = 6;
@@ -213,7 +211,7 @@
             this.groupBox2.Controls.Add(this.label5);
             this.groupBox2.Controls.Add(this.textBox3);
             this.groupBox2.Controls.Add(this.label4);
-            this.groupBox2.Location = new System.Drawing.Point(12, 255);
+            this.groupBox2.Location = new System.Drawing.Point(9, 116);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(252, 173);
             this.groupBox2.TabIndex = 7;
@@ -359,7 +357,7 @@
             this.groupBox3.Controls.Add(this.textBox8);
             this.groupBox3.Controls.Add(this.label11);
             this.groupBox3.Controls.Add(this.checkBox2);
-            this.groupBox3.Location = new System.Drawing.Point(12, 434);
+            this.groupBox3.Location = new System.Drawing.Point(9, 295);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(252, 120);
             this.groupBox3.TabIndex = 8;
@@ -489,7 +487,7 @@
             this.groupBox4.Controls.Add(this.label14);
             this.groupBox4.Controls.Add(this.textBox10);
             this.groupBox4.Controls.Add(this.label13);
-            this.groupBox4.Location = new System.Drawing.Point(270, 151);
+            this.groupBox4.Location = new System.Drawing.Point(267, 12);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(172, 325);
             this.groupBox4.TabIndex = 9;
@@ -713,7 +711,7 @@
             // 
             this.label30.AutoSize = true;
             this.label30.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label30.Location = new System.Drawing.Point(77, 716);
+            this.label30.Location = new System.Drawing.Point(74, 577);
             this.label30.Name = "label30";
             this.label30.Size = new System.Drawing.Size(535, 16);
             this.label30.TabIndex = 9;
@@ -724,7 +722,7 @@
             // 
             this.groupBox5.Controls.Add(this.checkBox4);
             this.groupBox5.Controls.Add(this.checkedListBox1);
-            this.groupBox5.Location = new System.Drawing.Point(448, 151);
+            this.groupBox5.Location = new System.Drawing.Point(445, 12);
             this.groupBox5.Name = "groupBox5";
             this.groupBox5.Size = new System.Drawing.Size(172, 170);
             this.groupBox5.TabIndex = 10;
@@ -756,7 +754,7 @@
             // 
             this.groupBox6.Controls.Add(this.checkBox5);
             this.groupBox6.Controls.Add(this.checkedListBox2);
-            this.groupBox6.Location = new System.Drawing.Point(448, 327);
+            this.groupBox6.Location = new System.Drawing.Point(445, 188);
             this.groupBox6.Name = "groupBox6";
             this.groupBox6.Size = new System.Drawing.Size(172, 177);
             this.groupBox6.TabIndex = 11;
@@ -788,7 +786,7 @@
             // 
             this.groupBox7.Controls.Add(this.checkBox6);
             this.groupBox7.Controls.Add(this.checkedListBox3);
-            this.groupBox7.Location = new System.Drawing.Point(448, 510);
+            this.groupBox7.Location = new System.Drawing.Point(445, 371);
             this.groupBox7.Name = "groupBox7";
             this.groupBox7.Size = new System.Drawing.Size(171, 171);
             this.groupBox7.TabIndex = 12;
@@ -819,7 +817,7 @@
             // button1
             // 
             this.button1.BackColor = System.Drawing.Color.MediumAquamarine;
-            this.button1.Location = new System.Drawing.Point(270, 687);
+            this.button1.Location = new System.Drawing.Point(267, 548);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(350, 23);
             this.button1.TabIndex = 13;
@@ -836,7 +834,7 @@
             this.groupBox8.Controls.Add(this.label22);
             this.groupBox8.Controls.Add(this.textBox18);
             this.groupBox8.Controls.Add(this.label21);
-            this.groupBox8.Location = new System.Drawing.Point(16, 560);
+            this.groupBox8.Location = new System.Drawing.Point(13, 421);
             this.groupBox8.Name = "groupBox8";
             this.groupBox8.Size = new System.Drawing.Size(252, 93);
             this.groupBox8.TabIndex = 14;
@@ -927,7 +925,7 @@
             // 
             this.groupBox9.Controls.Add(this.linkLabel1);
             this.groupBox9.Controls.Add(this.linkLabel2);
-            this.groupBox9.Location = new System.Drawing.Point(12, 659);
+            this.groupBox9.Location = new System.Drawing.Point(9, 520);
             this.groupBox9.Name = "groupBox9";
             this.groupBox9.Size = new System.Drawing.Size(252, 51);
             this.groupBox9.TabIndex = 18;
@@ -942,7 +940,7 @@
             this.groupBox10.Controls.Add(this.checkBox8);
             this.groupBox10.Controls.Add(this.checkBox7);
             this.groupBox10.Controls.Add(this.checkBox3);
-            this.groupBox10.Location = new System.Drawing.Point(270, 482);
+            this.groupBox10.Location = new System.Drawing.Point(267, 343);
             this.groupBox10.Name = "groupBox10";
             this.groupBox10.Size = new System.Drawing.Size(172, 199);
             this.groupBox10.TabIndex = 19;
@@ -1001,29 +999,17 @@
             // 
             this.label32.AutoSize = true;
             this.label32.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label32.Location = new System.Drawing.Point(77, 734);
+            this.label32.Location = new System.Drawing.Point(74, 595);
             this.label32.Name = "label32";
             this.label32.Size = new System.Drawing.Size(549, 15);
             this.label32.TabIndex = 20;
             this.label32.Text = "Whenever you encounter something related to \"Pokecrop\", tell them the Bot is stol" +
     "en!";
             // 
-            // system_banner
-            // 
-            this.system_banner.BackgroundImage = global::PokemonGo.RocketAPI.Console.Properties.Resources.img_banner;
-            this.system_banner.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.system_banner.InitialImage = null;
-            this.system_banner.Location = new System.Drawing.Point(12, 12);
-            this.system_banner.Name = "system_banner";
-            this.system_banner.Size = new System.Drawing.Size(602, 134);
-            this.system_banner.TabIndex = 22;
-            this.system_banner.TabStop = false;
-            this.system_banner.Click += new System.EventHandler(this.system_banner_Click);
-            // 
             // pictureBox1
             // 
             this.pictureBox1.Image = global::PokemonGo.RocketAPI.Console.Properties.Resources.donate;
-            this.pictureBox1.Location = new System.Drawing.Point(12, 716);
+            this.pictureBox1.Location = new System.Drawing.Point(9, 577);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(64, 33);
             this.pictureBox1.TabIndex = 21;
@@ -1035,8 +1021,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
-            this.ClientSize = new System.Drawing.Size(626, 761);
-            this.Controls.Add(this.system_banner);
+            this.ClientSize = new System.Drawing.Size(626, 620);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.label32);
             this.Controls.Add(this.label30);
@@ -1054,7 +1039,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "GUI";
-            this.Text = "PokeGoBot GUI Edition | Gui by IceQ1337 |";
+            this.Text = "PokeGoBot GUI Edition | Gui by GreenGold | Edit by IceQ1337 |";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.GUI_FormClosing);
             this.Load += new System.EventHandler(this.GUI_Load);
             this.groupBox1.ResumeLayout(false);
@@ -1077,7 +1062,6 @@
             this.groupBox9.PerformLayout();
             this.groupBox10.ResumeLayout(false);
             this.groupBox10.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.system_banner)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -1173,7 +1157,6 @@
         private System.Windows.Forms.Label label31;
         private System.Windows.Forms.Label label32;
         private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.PictureBox system_banner;
     }
 }
 
