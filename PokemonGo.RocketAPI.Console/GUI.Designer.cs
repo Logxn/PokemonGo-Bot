@@ -32,13 +32,13 @@
             this.label1 = new System.Windows.Forms.Label();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.tbUsername = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.tbPassword = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.button2 = new System.Windows.Forms.Button();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.cbWlkFromDefLoc = new System.Windows.Forms.CheckBox();
             this.label10 = new System.Windows.Forms.Label();
             this.tbWalkDistance = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
@@ -59,11 +59,11 @@
             this.label12 = new System.Windows.Forms.Label();
             this.tbKeepDupes = new System.Windows.Forms.TextBox();
             this.label11 = new System.Windows.Forms.Label();
-            this.checkBox2 = new System.Windows.Forms.CheckBox();
-            this.checkBox3 = new System.Windows.Forms.CheckBox();
-            this.checkBox7 = new System.Windows.Forms.CheckBox();
+            this.cbTransferDupes = new System.Windows.Forms.CheckBox();
+            this.cbEvolveIfCandy = new System.Windows.Forms.CheckBox();
+            this.cbUseLuckyEgg = new System.Windows.Forms.CheckBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.textBox25 = new System.Windows.Forms.TextBox();
+            this.tbItemCount = new System.Windows.Forms.TextBox();
             this.label31 = new System.Windows.Forms.Label();
             this.label27 = new System.Windows.Forms.Label();
             this.label26 = new System.Windows.Forms.Label();
@@ -110,11 +110,11 @@
             this.linkLabel2 = new System.Windows.Forms.LinkLabel();
             this.groupBox9 = new System.Windows.Forms.GroupBox();
             this.groupBox10 = new System.Windows.Forms.GroupBox();
-            this.checkBox12 = new System.Windows.Forms.CheckBox();
-            this.checkBox11 = new System.Windows.Forms.CheckBox();
-            this.checkBox10 = new System.Windows.Forms.CheckBox();
-            this.checkBox9 = new System.Windows.Forms.CheckBox();
-            this.checkBox8 = new System.Windows.Forms.CheckBox();
+            this.cbUsePokeVision = new System.Windows.Forms.CheckBox();
+            this.cbKeepEvolvingPokemons = new System.Windows.Forms.CheckBox();
+            this.cbUsePokeListGUI = new System.Windows.Forms.CheckBox();
+            this.cbUseIncense = new System.Windows.Forms.CheckBox();
+            this.cbGermanNames = new System.Windows.Forms.CheckBox();
             this.label32 = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.groupBox1.SuspendLayout();
@@ -157,12 +157,12 @@
             this.label2.TabIndex = 2;
             this.label2.Text = "E-mail:";
             // 
-            // textBox1
+            // tbUsername
             // 
-            this.textBox1.Location = new System.Drawing.Point(94, 40);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(147, 20);
-            this.textBox1.TabIndex = 3;
+            this.tbUsername.Location = new System.Drawing.Point(94, 40);
+            this.tbUsername.Name = "tbUsername";
+            this.tbUsername.Size = new System.Drawing.Size(147, 20);
+            this.tbUsername.TabIndex = 3;
             // 
             // label3
             // 
@@ -173,22 +173,22 @@
             this.label3.TabIndex = 4;
             this.label3.Text = "Password";
             // 
-            // textBox2
+            // tbPassword
             // 
-            this.textBox2.Location = new System.Drawing.Point(94, 66);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.PasswordChar = '*';
-            this.textBox2.Size = new System.Drawing.Size(147, 20);
-            this.textBox2.TabIndex = 5;
+            this.tbPassword.Location = new System.Drawing.Point(94, 66);
+            this.tbPassword.Name = "tbPassword";
+            this.tbPassword.PasswordChar = '*';
+            this.tbPassword.Size = new System.Drawing.Size(147, 20);
+            this.tbPassword.TabIndex = 5;
             // 
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Controls.Add(this.textBox2);
+            this.groupBox1.Controls.Add(this.tbPassword);
             this.groupBox1.Controls.Add(this.comboBox1);
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.label2);
-            this.groupBox1.Controls.Add(this.textBox1);
+            this.groupBox1.Controls.Add(this.tbUsername);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(252, 97);
@@ -199,7 +199,7 @@
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.button2);
-            this.groupBox2.Controls.Add(this.checkBox1);
+            this.groupBox2.Controls.Add(this.cbWlkFromDefLoc);
             this.groupBox2.Controls.Add(this.label10);
             this.groupBox2.Controls.Add(this.tbWalkDistance);
             this.groupBox2.Controls.Add(this.label9);
@@ -230,17 +230,17 @@
             this.button2.UseVisualStyleBackColor = false;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
-            // checkBox1
+            // cbWlkFromDefLoc
             // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Checked = true;
-            this.checkBox1.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox1.Location = new System.Drawing.Point(4, 148);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(171, 17);
-            this.checkBox1.TabIndex = 14;
-            this.checkBox1.Text = "Start walk from default location";
-            this.checkBox1.UseVisualStyleBackColor = true;
+            this.cbWlkFromDefLoc.AutoSize = true;
+            this.cbWlkFromDefLoc.Checked = true;
+            this.cbWlkFromDefLoc.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cbWlkFromDefLoc.Location = new System.Drawing.Point(4, 148);
+            this.cbWlkFromDefLoc.Name = "cbWlkFromDefLoc";
+            this.cbWlkFromDefLoc.Size = new System.Drawing.Size(171, 17);
+            this.cbWlkFromDefLoc.TabIndex = 14;
+            this.cbWlkFromDefLoc.Text = "Start walk from default location";
+            this.cbWlkFromDefLoc.UseVisualStyleBackColor = true;
             // 
             // label10
             // 
@@ -357,7 +357,7 @@
             this.groupBox3.Controls.Add(this.label12);
             this.groupBox3.Controls.Add(this.tbKeepDupes);
             this.groupBox3.Controls.Add(this.label11);
-            this.groupBox3.Controls.Add(this.checkBox2);
+            this.groupBox3.Controls.Add(this.cbTransferDupes);
             this.groupBox3.Location = new System.Drawing.Point(12, 295);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(252, 120);
@@ -425,46 +425,46 @@
             this.label11.TabIndex = 2;
             this.label11.Text = "Max duplicate Pokemons:";
             // 
-            // checkBox2
+            // cbTransferDupes
             // 
-            this.checkBox2.AutoSize = true;
-            this.checkBox2.Checked = true;
-            this.checkBox2.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox2.Location = new System.Drawing.Point(7, 20);
-            this.checkBox2.Name = "checkBox2";
-            this.checkBox2.Size = new System.Drawing.Size(174, 17);
-            this.checkBox2.TabIndex = 0;
-            this.checkBox2.Text = "Auto transfer double Pokemons";
-            this.checkBox2.UseVisualStyleBackColor = true;
+            this.cbTransferDupes.AutoSize = true;
+            this.cbTransferDupes.Checked = true;
+            this.cbTransferDupes.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cbTransferDupes.Location = new System.Drawing.Point(7, 20);
+            this.cbTransferDupes.Name = "cbTransferDupes";
+            this.cbTransferDupes.Size = new System.Drawing.Size(174, 17);
+            this.cbTransferDupes.TabIndex = 0;
+            this.cbTransferDupes.Text = "Auto transfer double Pokemons";
+            this.cbTransferDupes.UseVisualStyleBackColor = true;
             // 
-            // checkBox3
+            // cbEvolveIfCandy
             // 
-            this.checkBox3.AutoSize = true;
-            this.checkBox3.Checked = true;
-            this.checkBox3.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox3.Location = new System.Drawing.Point(6, 87);
-            this.checkBox3.Name = "checkBox3";
-            this.checkBox3.Size = new System.Drawing.Size(159, 30);
-            this.checkBox3.TabIndex = 1;
-            this.checkBox3.Text = "Evolve Pokemons if enough\r\ncandy\r\n";
-            this.checkBox3.UseVisualStyleBackColor = true;
+            this.cbEvolveIfCandy.AutoSize = true;
+            this.cbEvolveIfCandy.Checked = true;
+            this.cbEvolveIfCandy.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cbEvolveIfCandy.Location = new System.Drawing.Point(6, 87);
+            this.cbEvolveIfCandy.Name = "cbEvolveIfCandy";
+            this.cbEvolveIfCandy.Size = new System.Drawing.Size(159, 30);
+            this.cbEvolveIfCandy.TabIndex = 4;
+            this.cbEvolveIfCandy.Text = "Evolve Pokemons if enough\r\ncandy\r\n";
+            this.cbEvolveIfCandy.UseVisualStyleBackColor = true;
             // 
-            // checkBox7
+            // cbUseLuckyEgg
             // 
-            this.checkBox7.AutoSize = true;
-            this.checkBox7.Checked = true;
-            this.checkBox7.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox7.Location = new System.Drawing.Point(6, 19);
-            this.checkBox7.Name = "checkBox7";
-            this.checkBox7.Size = new System.Drawing.Size(144, 17);
-            this.checkBox7.TabIndex = 6;
-            this.checkBox7.Text = "Use LuckyEgg at Evolve";
-            this.checkBox7.UseVisualStyleBackColor = true;
-            this.checkBox7.CheckedChanged += new System.EventHandler(this.checkBox7_CheckedChanged_1);
+            this.cbUseLuckyEgg.AutoSize = true;
+            this.cbUseLuckyEgg.Checked = true;
+            this.cbUseLuckyEgg.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cbUseLuckyEgg.Location = new System.Drawing.Point(6, 19);
+            this.cbUseLuckyEgg.Name = "cbUseLuckyEgg";
+            this.cbUseLuckyEgg.Size = new System.Drawing.Size(144, 17);
+            this.cbUseLuckyEgg.TabIndex = 1;
+            this.cbUseLuckyEgg.Text = "Use LuckyEgg at Evolve";
+            this.cbUseLuckyEgg.UseVisualStyleBackColor = true;
+            this.cbUseLuckyEgg.CheckedChanged += new System.EventHandler(this.cbUseLuckyEgg_CheckedChanged_1);
             // 
             // groupBox4
             // 
-            this.groupBox4.Controls.Add(this.textBox25);
+            this.groupBox4.Controls.Add(this.tbItemCount);
             this.groupBox4.Controls.Add(this.label31);
             this.groupBox4.Controls.Add(this.label27);
             this.groupBox4.Controls.Add(this.label26);
@@ -495,14 +495,14 @@
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Pokemon Items";
             // 
-            // textBox25
+            // tbItemCount
             // 
-            this.textBox25.Location = new System.Drawing.Point(109, 301);
-            this.textBox25.Name = "textBox25";
-            this.textBox25.ReadOnly = true;
-            this.textBox25.Size = new System.Drawing.Size(51, 20);
-            this.textBox25.TabIndex = 23;
-            this.textBox25.TabStop = false;
+            this.tbItemCount.Location = new System.Drawing.Point(109, 301);
+            this.tbItemCount.Name = "tbItemCount";
+            this.tbItemCount.ReadOnly = true;
+            this.tbItemCount.Size = new System.Drawing.Size(51, 20);
+            this.tbItemCount.TabIndex = 23;
+            this.tbItemCount.TabStop = false;
             // 
             // label31
             // 
@@ -545,7 +545,7 @@
             this.tbKeepTRevive.Location = new System.Drawing.Point(109, 142);
             this.tbKeepTRevive.Name = "tbKeepTRevive";
             this.tbKeepTRevive.Size = new System.Drawing.Size(51, 20);
-            this.tbKeepTRevive.TabIndex = 20;
+            this.tbKeepTRevive.TabIndex = 8;
             this.tbKeepTRevive.TextChanged += new System.EventHandler(this.TextBoxes_Items_TextChanged);
             // 
             // tbKeepTPotion
@@ -553,7 +553,7 @@
             this.tbKeepTPotion.Location = new System.Drawing.Point(109, 248);
             this.tbKeepTPotion.Name = "tbKeepTPotion";
             this.tbKeepTPotion.Size = new System.Drawing.Size(51, 20);
-            this.tbKeepTPotion.TabIndex = 16;
+            this.tbKeepTPotion.TabIndex = 12;
             this.tbKeepTPotion.TextChanged += new System.EventHandler(this.TextBoxes_Items_TextChanged);
             // 
             // tbKeepMBall
@@ -561,7 +561,7 @@
             this.tbKeepMBall.Location = new System.Drawing.Point(109, 90);
             this.tbKeepMBall.Name = "tbKeepMBall";
             this.tbKeepMBall.Size = new System.Drawing.Size(51, 20);
-            this.tbKeepMBall.TabIndex = 18;
+            this.tbKeepMBall.TabIndex = 6;
             this.tbKeepMBall.TextChanged += new System.EventHandler(this.TextBoxes_Items_TextChanged);
             // 
             // label20
@@ -570,7 +570,7 @@
             this.label20.Location = new System.Drawing.Point(7, 279);
             this.label20.Name = "label20";
             this.label20.Size = new System.Drawing.Size(86, 13);
-            this.label20.TabIndex = 15;
+            this.label20.TabIndex = 13;
             this.label20.Text = "Max RazzBerrys:";
             // 
             // label19
@@ -606,7 +606,7 @@
             this.label16.Location = new System.Drawing.Point(7, 119);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(72, 13);
-            this.label16.TabIndex = 11;
+            this.label16.TabIndex = 110;
             this.label16.Text = "Max Revives:";
             // 
             // tbKeepBerry
@@ -614,7 +614,7 @@
             this.tbKeepBerry.Location = new System.Drawing.Point(109, 275);
             this.tbKeepBerry.Name = "tbKeepBerry";
             this.tbKeepBerry.Size = new System.Drawing.Size(51, 20);
-            this.tbKeepBerry.TabIndex = 10;
+            this.tbKeepBerry.TabIndex = 13;
             this.tbKeepBerry.TextChanged += new System.EventHandler(this.TextBoxes_Items_TextChanged);
             this.tbKeepBerry.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tbWalkDistance_KeyPress);
             // 
@@ -623,7 +623,7 @@
             this.tbKeepHPotion.Location = new System.Drawing.Point(109, 221);
             this.tbKeepHPotion.Name = "tbKeepHPotion";
             this.tbKeepHPotion.Size = new System.Drawing.Size(51, 20);
-            this.tbKeepHPotion.TabIndex = 9;
+            this.tbKeepHPotion.TabIndex = 11;
             this.tbKeepHPotion.TextChanged += new System.EventHandler(this.TextBoxes_Items_TextChanged);
             this.tbKeepHPotion.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tbWalkDistance_KeyPress);
             // 
@@ -632,7 +632,7 @@
             this.tbKeepSPotion.Location = new System.Drawing.Point(109, 195);
             this.tbKeepSPotion.Name = "tbKeepSPotion";
             this.tbKeepSPotion.Size = new System.Drawing.Size(51, 20);
-            this.tbKeepSPotion.TabIndex = 8;
+            this.tbKeepSPotion.TabIndex = 10;
             this.tbKeepSPotion.TextChanged += new System.EventHandler(this.TextBoxes_Items_TextChanged);
             this.tbKeepSPotion.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tbWalkDistance_KeyPress);
             // 
@@ -641,7 +641,7 @@
             this.tbKeepNPotion.Location = new System.Drawing.Point(109, 169);
             this.tbKeepNPotion.Name = "tbKeepNPotion";
             this.tbKeepNPotion.Size = new System.Drawing.Size(51, 20);
-            this.tbKeepNPotion.TabIndex = 7;
+            this.tbKeepNPotion.TabIndex = 9;
             this.tbKeepNPotion.TextChanged += new System.EventHandler(this.TextBoxes_Items_TextChanged);
             this.tbKeepNPotion.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tbWalkDistance_KeyPress);
             // 
@@ -650,7 +650,7 @@
             this.tbKeepNRevive.Location = new System.Drawing.Point(109, 116);
             this.tbKeepNRevive.Name = "tbKeepNRevive";
             this.tbKeepNRevive.Size = new System.Drawing.Size(51, 20);
-            this.tbKeepNRevive.TabIndex = 6;
+            this.tbKeepNRevive.TabIndex = 7;
             this.tbKeepNRevive.TextChanged += new System.EventHandler(this.TextBoxes_Items_TextChanged);
             this.tbKeepNRevive.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tbWalkDistance_KeyPress);
             // 
@@ -934,13 +934,13 @@
             // 
             // groupBox10
             // 
-            this.groupBox10.Controls.Add(this.checkBox12);
-            this.groupBox10.Controls.Add(this.checkBox11);
-            this.groupBox10.Controls.Add(this.checkBox10);
-            this.groupBox10.Controls.Add(this.checkBox9);
-            this.groupBox10.Controls.Add(this.checkBox8);
-            this.groupBox10.Controls.Add(this.checkBox7);
-            this.groupBox10.Controls.Add(this.checkBox3);
+            this.groupBox10.Controls.Add(this.cbUsePokeVision);
+            this.groupBox10.Controls.Add(this.cbKeepEvolvingPokemons);
+            this.groupBox10.Controls.Add(this.cbUsePokeListGUI);
+            this.groupBox10.Controls.Add(this.cbUseIncense);
+            this.groupBox10.Controls.Add(this.cbGermanNames);
+            this.groupBox10.Controls.Add(this.cbUseLuckyEgg);
+            this.groupBox10.Controls.Add(this.cbEvolveIfCandy);
             this.groupBox10.Location = new System.Drawing.Point(270, 343);
             this.groupBox10.Name = "groupBox10";
             this.groupBox10.Size = new System.Drawing.Size(172, 199);
@@ -948,66 +948,66 @@
             this.groupBox10.TabStop = false;
             this.groupBox10.Text = "Other Settings";
             // 
-            // checkBox12
+            // cbUsePokeVision
             // 
-            this.checkBox12.AutoSize = true;
-            this.checkBox12.Checked = true;
-            this.checkBox12.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox12.Location = new System.Drawing.Point(6, 178);
-            this.checkBox12.Name = "checkBox12";
-            this.checkBox12.Size = new System.Drawing.Size(101, 17);
-            this.checkBox12.TabIndex = 11;
-            this.checkBox12.Text = "Use PokeVision";
-            this.checkBox12.UseVisualStyleBackColor = true;
-            this.checkBox12.CheckedChanged += new System.EventHandler(this.checkBox12_CheckedChanged);
+            this.cbUsePokeVision.AutoSize = true;
+            this.cbUsePokeVision.Checked = true;
+            this.cbUsePokeVision.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cbUsePokeVision.Location = new System.Drawing.Point(6, 178);
+            this.cbUsePokeVision.Name = "cbUsePokeVision";
+            this.cbUsePokeVision.Size = new System.Drawing.Size(101, 17);
+            this.cbUsePokeVision.TabIndex = 7;
+            this.cbUsePokeVision.Text = "Use PokeVision";
+            this.cbUsePokeVision.UseVisualStyleBackColor = true;
+            this.cbUsePokeVision.CheckedChanged += new System.EventHandler(this.cbUsePokeVision_CheckedChanged);
             // 
-            // checkBox11
+            // cbKeepEvolvingPokemons
             // 
-            this.checkBox11.AutoSize = true;
-            this.checkBox11.Checked = true;
-            this.checkBox11.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox11.Location = new System.Drawing.Point(6, 146);
-            this.checkBox11.Name = "checkBox11";
-            this.checkBox11.Size = new System.Drawing.Size(156, 30);
-            this.checkBox11.TabIndex = 10;
-            this.checkBox11.Text = "Keep Pokemons which can\r\nbe evolved";
-            this.checkBox11.UseVisualStyleBackColor = true;
-            this.checkBox11.CheckedChanged += new System.EventHandler(this.checkBox11_CheckedChanged);
+            this.cbKeepEvolvingPokemons.AutoSize = true;
+            this.cbKeepEvolvingPokemons.Checked = true;
+            this.cbKeepEvolvingPokemons.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cbKeepEvolvingPokemons.Location = new System.Drawing.Point(6, 146);
+            this.cbKeepEvolvingPokemons.Name = "cbKeepEvolvingPokemons";
+            this.cbKeepEvolvingPokemons.Size = new System.Drawing.Size(156, 30);
+            this.cbKeepEvolvingPokemons.TabIndex = 6;
+            this.cbKeepEvolvingPokemons.Text = "Keep Pokemons which can\r\nbe evolved";
+            this.cbKeepEvolvingPokemons.UseVisualStyleBackColor = true;
+            this.cbKeepEvolvingPokemons.CheckedChanged += new System.EventHandler(this.cbKeepEvolvingPokemons_CheckedChanged);
             // 
-            // checkBox10
+            // cbUsePokeListGUI
             // 
-            this.checkBox10.AutoSize = true;
-            this.checkBox10.Checked = true;
-            this.checkBox10.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox10.Location = new System.Drawing.Point(6, 123);
-            this.checkBox10.Name = "checkBox10";
-            this.checkBox10.Size = new System.Drawing.Size(144, 17);
-            this.checkBox10.TabIndex = 9;
-            this.checkBox10.Text = "Enable Pokemon list GUI";
-            this.checkBox10.UseVisualStyleBackColor = true;
+            this.cbUsePokeListGUI.AutoSize = true;
+            this.cbUsePokeListGUI.Checked = true;
+            this.cbUsePokeListGUI.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cbUsePokeListGUI.Location = new System.Drawing.Point(6, 123);
+            this.cbUsePokeListGUI.Name = "cbUsePokeListGUI";
+            this.cbUsePokeListGUI.Size = new System.Drawing.Size(144, 17);
+            this.cbUsePokeListGUI.TabIndex = 5;
+            this.cbUsePokeListGUI.Text = "Enable Pokemon list GUI";
+            this.cbUsePokeListGUI.UseVisualStyleBackColor = true;
             // 
-            // checkBox9
+            // cbUseIncense
             // 
-            this.checkBox9.AutoSize = true;
-            this.checkBox9.Checked = true;
-            this.checkBox9.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox9.Location = new System.Drawing.Point(6, 64);
-            this.checkBox9.Name = "checkBox9";
-            this.checkBox9.Size = new System.Drawing.Size(146, 17);
-            this.checkBox9.TabIndex = 8;
-            this.checkBox9.Text = "Use Incense every 30min";
-            this.checkBox9.UseVisualStyleBackColor = true;
+            this.cbUseIncense.AutoSize = true;
+            this.cbUseIncense.Checked = true;
+            this.cbUseIncense.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cbUseIncense.Location = new System.Drawing.Point(6, 64);
+            this.cbUseIncense.Name = "cbUseIncense";
+            this.cbUseIncense.Size = new System.Drawing.Size(146, 17);
+            this.cbUseIncense.TabIndex = 3;
+            this.cbUseIncense.Text = "Use Incense every 30min";
+            this.cbUseIncense.UseVisualStyleBackColor = true;
             // 
-            // checkBox8
+            // cbGermanNames
             // 
-            this.checkBox8.AutoSize = true;
-            this.checkBox8.Location = new System.Drawing.Point(6, 43);
-            this.checkBox8.Name = "checkBox8";
-            this.checkBox8.Size = new System.Drawing.Size(145, 17);
-            this.checkBox8.TabIndex = 7;
-            this.checkBox8.Text = "German Pokemon names";
-            this.checkBox8.UseVisualStyleBackColor = true;
-            this.checkBox8.CheckedChanged += new System.EventHandler(this.checkBox8_CheckedChanged);
+            this.cbGermanNames.AutoSize = true;
+            this.cbGermanNames.Location = new System.Drawing.Point(6, 43);
+            this.cbGermanNames.Name = "cbGermanNames";
+            this.cbGermanNames.Size = new System.Drawing.Size(145, 17);
+            this.cbGermanNames.TabIndex = 2;
+            this.cbGermanNames.Text = "German Pokemon names";
+            this.cbGermanNames.UseVisualStyleBackColor = true;
+            this.cbGermanNames.CheckedChanged += new System.EventHandler(this.cbGermanNames_CheckedChanged);
             // 
             // label32
             // 
@@ -1086,9 +1086,9 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox tbUsername;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.TextBox tbPassword;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Label label4;
@@ -1104,9 +1104,9 @@
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.TextBox tbWalkDistance;
         private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.CheckBox checkBox1;
-        private System.Windows.Forms.CheckBox checkBox3;
-        private System.Windows.Forms.CheckBox checkBox2;
+        private System.Windows.Forms.CheckBox cbWlkFromDefLoc;
+        private System.Windows.Forms.CheckBox cbEvolveIfCandy;
+        private System.Windows.Forms.CheckBox cbTransferDupes;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.TextBox tbKeepDupes;
         private System.Windows.Forms.Label label12;
@@ -1154,20 +1154,20 @@
         private System.Windows.Forms.TextBox tbKeepTRevive;
         private System.Windows.Forms.LinkLabel linkLabel1;
         private System.Windows.Forms.LinkLabel linkLabel2;
-        private System.Windows.Forms.CheckBox checkBox7;
+        private System.Windows.Forms.CheckBox cbUseLuckyEgg;
         private System.Windows.Forms.GroupBox groupBox9;
         private System.Windows.Forms.GroupBox groupBox10;
-        private System.Windows.Forms.CheckBox checkBox8;
+        private System.Windows.Forms.CheckBox cbGermanNames;
         private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.CheckBox checkBox9;
+        private System.Windows.Forms.CheckBox cbUseIncense;
         private System.Windows.Forms.Label label29;
         private System.Windows.Forms.TextBox tbIVMaxPcntTransfer;
         private System.Windows.Forms.Label label28;
-        private System.Windows.Forms.CheckBox checkBox10;
-        private System.Windows.Forms.CheckBox checkBox11;
-        private System.Windows.Forms.CheckBox checkBox12;
+        private System.Windows.Forms.CheckBox cbUsePokeListGUI;
+        private System.Windows.Forms.CheckBox cbKeepEvolvingPokemons;
+        private System.Windows.Forms.CheckBox cbUsePokeVision;
         private System.Windows.Forms.Label label30;
-        private System.Windows.Forms.TextBox textBox25;
+        private System.Windows.Forms.TextBox tbItemCount;
         private System.Windows.Forms.Label label31;
         private System.Windows.Forms.Label label32;
         private System.Windows.Forms.PictureBox pictureBox1;

@@ -97,7 +97,8 @@ namespace PokemonGo.RocketAPI.Console
                                 Globals.telDelay = int.Parse(line);
                                 break;
                             case 16:
-                                Globals.telDelay = int.Parse(line);
+                                //Globals.telDelay = int.Parse(line);
+								// NavigationOption...
                                 break;
                             case 17:
                                 Globals.useluckyegg = bool.Parse(line);
@@ -108,13 +109,16 @@ namespace PokemonGo.RocketAPI.Console
                             case 19:
                                 Globals.useincense = bool.Parse(line);
                                 break; 
+							case 20:
+								Globals.ivmaxpercent = int.Parse(line);
+								break;
                             case 21:
-                                Globals.ivmaxpercent = int.Parse(line);
+                                Globals.pokeList = bool.Parse(line);
                                 break; 
+							case 22:
+								Globals.keepPokemonsThatCanEvolve = bool.Parse(line);
+								break;
                             case 23:
-                                Globals.keepPokemonsThatCanEvolve = bool.Parse(line);
-                                break;
-                            case 24:
                                 Globals.pokevision = bool.Parse(line);
                                 break;
                         }
@@ -140,28 +144,28 @@ namespace PokemonGo.RocketAPI.Console
                                 Globals.ultraball = int.Parse(line);
                                 break;
                             case 3:
-                                Globals.revive = int.Parse(line);
+                                Globals.masterball = int.Parse(line);
                                 break;
                             case 4:
-                                Globals.potion = int.Parse(line);
+                                Globals.revive = int.Parse(line);
                                 break;
                             case 5:
-                                Globals.superpotion = int.Parse(line);
+                                Globals.toprevive = int.Parse(line);
                                 break;
                             case 6:
-                                Globals.hyperpotion = int.Parse(line);
+                                Globals.potion = int.Parse(line);
                                 break;
                             case 7:
-                                Globals.berry = int.Parse(line);
+                                Globals.superpotion = int.Parse(line);
                                 break;
                             case 8:
-                                Globals.masterball = int.Parse(line);
+                                Globals.hyperpotion = int.Parse(line);
                                 break;
                             case 9:
                                 Globals.toppotion = int.Parse(line);
                                 break;
                             case 10:
-                                Globals.toprevive = int.Parse(line);
+                                Globals.berry = int.Parse(line);
                                 break;
                         }
                         i++;
