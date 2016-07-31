@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -225,10 +225,11 @@ namespace PokemonGo.RocketAPI.Logic.Utils
                             string curloc = _client.CurrentLat + "%20" + _client.CurrentLng;
                             curloc = curloc.Replace(",", ".");
                             string curlochtml = "https://www.google.de/maps/search/" + curloc + "/";
-                            string pokevis = _client.CurrentLat + ";" + _client.CurrentLng;
-                            pokevis = pokevis.Replace(",", ".").Replace(";", ",");
-                            string pokevishtml = "https://pokevision.com/#/@" + pokevis;
-
+                            double shortenLng = Math.Round(_client.CurrentLng, 3);
+                            double shortenLat = Math.Round(_client.CurrentLat, 3);
+                            string pokemap = shortenLat + ";" + shortenLng;
+                            pokemap = pokemap.Replace(",", ".").Replace(";", ",");
+                            string pokevishtml = "https://skiplagged.com/pokemon/#" + pokemap +",14";
                             telegramAnswer +=
                                 "\nNickname: " + profil.Profile.Username 
                                 + "\nLevel: " + ps.Level
@@ -277,9 +278,9 @@ namespace PokemonGo.RocketAPI.Logic.Utils
                         break;
                     case TelegramUtilTask.RUN_FORCEEVOLVE:
                         IEnumerable<PokemonData> pokemonToEvolve = await _inventory.GetPokemonToEvolve(null);
-                        if (pokemonToEvolve.Count() > 30)
+                        if (pokemonToEvolve.Count() > 3)
                         {
-                            //TODO: Use EGG - need to add this shit
+                            await _inventory.UseLuckyEgg(_client);
                         }
                         foreach (PokemonData pokemon in pokemonToEvolve)
                         {
