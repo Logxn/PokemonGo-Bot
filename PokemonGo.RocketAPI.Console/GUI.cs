@@ -844,5 +844,15 @@ namespace PokemonGo.RocketAPI.Console
         {
             Process.Start("https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=RUNUBQEANCAGQ");
         }
+
+        private void system_banner_Click(object sender, EventArgs e)
+        {
+            Process.Start("https://high-minded.net/threads/pokemon-go-c-bot-safer-better.50731/");
+        }
+
+        private void label30_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
