@@ -269,6 +269,23 @@ namespace PokemonGo.RocketAPI.Console
                 }
             }
 
+            if (File.Exists(Program.lastcords))
+            {
+                try
+                {
+                    var latlngFromFile = File.ReadAllText(Program.lastcords);
+                    var latlng = latlngFromFile.Split(':');
+                    double latitude, longitude;
+                    double.TryParse(latlng[0], out latitude);
+                    double.TryParse(latlng[1], out longitude);
+                    Globals.latitute = latitude;
+                    Globals.longitude = longitude;
+                } catch
+                {
+
+                }
+            }
+
             if (File.Exists(Program.evolve))
             {
                 string[] lines = System.IO.File.ReadAllLines(@Program.evolve);
@@ -818,7 +835,7 @@ namespace PokemonGo.RocketAPI.Console
                             Convert.ToInt16(textBox17.Text) +
                             Convert.ToInt16(textBox22.Text) +
                             Convert.ToInt16(textBox23.Text) +
-                            Convert.ToInt16(textBox21.Text);         
+                            Convert.ToInt16(textBox21.Text);
             }
             textBox25.Text = Convert.ToString(item_summe);
         }

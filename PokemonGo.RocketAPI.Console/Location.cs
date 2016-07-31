@@ -154,5 +154,10 @@ namespace PokemonGo.RocketAPI.Console
                 }
             }
         }
+
+        private void LocationSelect_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

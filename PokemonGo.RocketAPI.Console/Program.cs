@@ -21,6 +21,7 @@ namespace PokemonGo.RocketAPI.Console
         public static string keep = Path.Combine(path, "noTransfer.txt");
         public static string ignore = Path.Combine(path, "noCatch.txt");
         public static string evolve = Path.Combine(path, "Evolve.txt");
+        public static string lastcords = Path.Combine(path, "LastCords.txt");
 
         [STAThread]
         static void Main(string[] args)

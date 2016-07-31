@@ -104,6 +104,9 @@ namespace PokemonGo.RocketAPI.Console
                 columnheader.Text = "IV A-D-S";
                 listView1.Columns.Add(columnheader);
                 columnheader = new ColumnHeader();
+                columnheader.Text = "LVL";
+                listView1.Columns.Add(columnheader);
+                columnheader = new ColumnHeader();
                 columnheader.Text = "Candy";
                 listView1.Columns.Add(columnheader);
                 columnheader = new ColumnHeader();
@@ -143,7 +146,8 @@ namespace PokemonGo.RocketAPI.Console
                         .First();
                     var currIv = Math.Round(Perfect(pokemon));
                     listViewItem.SubItems.Add(string.Format("{0}", pokemon.Cp));
-                    listViewItem.SubItems.Add(string.Format("{0}% {3}-{2}-{3}", currIv, pokemon.IndividualAttack, pokemon.IndividualDefense, pokemon.IndividualStamina));
+                    listViewItem.SubItems.Add(string.Format("{0}% {1}-{2}-{3}", currIv, pokemon.IndividualAttack, pokemon.IndividualDefense, pokemon.IndividualStamina));
+                    listViewItem.SubItems.Add(string.Format("{0}", PokemonInfo.GetLevel(pokemon)));
                     listViewItem.SubItems.Add(string.Format("{0}", currentCandy));
                     listViewItem.ImageKey = pokemon.PokemonId.ToString();
 
@@ -158,7 +162,7 @@ namespace PokemonGo.RocketAPI.Console
 
                     if (settings.EvolutionIds.Count > 0 && familyCandy.Candy > settings.CandyToEvolve)
                     {
-                        listViewItem.SubItems.Add("Y ("+ settings.CandyToEvolve+")");
+                        listViewItem.SubItems.Add("Y (" + settings.CandyToEvolve + ")");
                         listViewItem.Checked = true;
                     }
                     else
@@ -169,7 +173,7 @@ namespace PokemonGo.RocketAPI.Console
                             listViewItem.SubItems.Add("N (Max)");
                     }
                     listViewItem.SubItems.Add(string.Format("{0}", Math.Round(pokemon.HeightM, 2)));
-                    listViewItem.SubItems.Add(string.Format("{0}", Math.Round(pokemon.WeightKg,2)));
+                    listViewItem.SubItems.Add(string.Format("{0}", Math.Round(pokemon.WeightKg, 2)));
                     listViewItem.SubItems.Add(string.Format("{0}", pokemon.Move1));
                     listViewItem.SubItems.Add(string.Format("{0}", pokemon.Move2));
 
@@ -219,6 +223,7 @@ namespace PokemonGo.RocketAPI.Console
             button2.Enabled = enabled;
             button3.Enabled = enabled;
             btnUpgrade.Enabled = enabled;
+            btnFullPowerUp.Enabled = enabled;
             checkBox1.Enabled = enabled;
             textBox2.Enabled = enabled;
             listView1.Enabled = enabled;
@@ -610,6 +615,7 @@ namespace PokemonGo.RocketAPI.Console
 
         private void timer1_Tick(object sender, EventArgs e)
         {
+            listView1.Clear();
             Execute();
         }
 
@@ -618,6 +624,60 @@ namespace PokemonGo.RocketAPI.Console
             if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
             {
                 e.Handled = true;
+            }
+        }
+
+        private async void btnFullPowerUp_Click(object sender, EventArgs e)
+        {
+            EnabledButton(false);
+            DialogResult result = MessageBox.Show("This process may take some time.", "Transfer status", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
+            if (result == DialogResult.OK)
+            {
+                var selectedItems = listView1.SelectedItems;
+                int powerdup = 0;
+                int total = selectedItems.Count;
+                string failed = string.Empty;
+
+                taskResponse resp = new taskResponse(false, string.Empty);
+                int i = 0;
+                int powerUps = 0;
+                while (i == 0)
+                {
+                    foreach (ListViewItem selectedItem in selectedItems)
+                    {
+                        resp = await PowerUp((PokemonData)selectedItem.Tag);
+                        if (resp.Status)
+                            powerdup++;
+                        else
+                            failed += resp.Message + " ";
+                    }
+                    if (failed != string.Empty)
+                    {
+                        if (powerUps > 0)
+                        {
+                            MessageBox.Show("Pokemon succesfully powered " + powerUps + " times up.", "Transfer status", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+                        else
+                        {
+                            MessageBox.Show("Pokemon not powered up. Not enough Stardust or Candy.", "Transfer status", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+                        i = 1;
+                        EnabledButton(true);
+                    }
+                    else
+                    {
+                        powerUps++;
+                    }
+                }
+                if (powerdup > 0 && i == 1)
+                {
+                    listView1.Clear();
+                    Execute();
+                }
+            }
+            else
+            {
+                EnabledButton(true);
             }
         }
     }

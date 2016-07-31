@@ -144,6 +144,7 @@
             this.Name = "LocationSelect";
             this.Text = "Location";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.LocationSelect_FormClosing);
+            this.Load += new System.EventHandler(this.LocationSelect_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

@@ -64,8 +64,7 @@ namespace PokemonGo.RocketAPI.Logic
             return
                 inventory.InventoryDelta.InventoryItems.Select(i => i.InventoryItemData?.Pokemon)
                     .Where(p => p != null && p?.PokemonId > 0);
-        }
-        
+        } 
         public async Task<IEnumerable<PokemonFamily>> GetPokemonFamilies()
         {
             var inventory = await getCachedInventory(_client);

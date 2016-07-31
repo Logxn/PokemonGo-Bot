@@ -63,6 +63,8 @@
             this.checkBox3 = new System.Windows.Forms.CheckBox();
             this.checkBox7 = new System.Windows.Forms.CheckBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.textBox25 = new System.Windows.Forms.TextBox();
+            this.label31 = new System.Windows.Forms.Label();
             this.label27 = new System.Windows.Forms.Label();
             this.label26 = new System.Windows.Forms.Label();
             this.label25 = new System.Windows.Forms.Label();
@@ -85,6 +87,7 @@
             this.label14 = new System.Windows.Forms.Label();
             this.textBox10 = new System.Windows.Forms.TextBox();
             this.label13 = new System.Windows.Forms.Label();
+            this.label30 = new System.Windows.Forms.Label();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.checkBox4 = new System.Windows.Forms.CheckBox();
             this.checkedListBox1 = new System.Windows.Forms.CheckedListBox();
@@ -112,8 +115,6 @@
             this.checkBox10 = new System.Windows.Forms.CheckBox();
             this.checkBox9 = new System.Windows.Forms.CheckBox();
             this.checkBox8 = new System.Windows.Forms.CheckBox();
-            this.label30 = new System.Windows.Forms.Label();
-            this.textBox25 = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -461,7 +462,7 @@
             // groupBox4
             // 
             this.groupBox4.Controls.Add(this.textBox25);
-            this.groupBox4.Controls.Add(this.label30);
+            this.groupBox4.Controls.Add(this.label31);
             this.groupBox4.Controls.Add(this.label27);
             this.groupBox4.Controls.Add(this.label26);
             this.groupBox4.Controls.Add(this.label25);
@@ -490,6 +491,24 @@
             this.groupBox4.TabIndex = 9;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Pokemon Items";
+            // 
+            // textBox25
+            // 
+            this.textBox25.Location = new System.Drawing.Point(109, 301);
+            this.textBox25.Name = "textBox25";
+            this.textBox25.ReadOnly = true;
+            this.textBox25.Size = new System.Drawing.Size(51, 20);
+            this.textBox25.TabIndex = 23;
+            this.textBox25.TabStop = false;
+            // 
+            // label31
+            // 
+            this.label31.AutoSize = true;
+            this.label31.Location = new System.Drawing.Point(7, 304);
+            this.label31.Name = "label31";
+            this.label31.Size = new System.Drawing.Size(30, 13);
+            this.label31.TabIndex = 22;
+            this.label31.Text = "total:";
             // 
             // label27
             // 
@@ -685,6 +704,16 @@
             this.label13.Size = new System.Drawing.Size(79, 13);
             this.label13.TabIndex = 0;
             this.label13.Text = "Max Pokeballs:";
+            // 
+            // label30
+            // 
+            this.label30.AutoSize = true;
+            this.label30.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F);
+            this.label30.Location = new System.Drawing.Point(88, 585);
+            this.label30.Name = "label30";
+            this.label30.Size = new System.Drawing.Size(418, 25);
+            this.label30.TabIndex = 9;
+            this.label30.Text = "This is Freeware, if you paid for it, Chargeback!";
             // 
             // groupBox5
             // 
@@ -977,29 +1006,12 @@
             this.checkBox8.UseVisualStyleBackColor = true;
             this.checkBox8.CheckedChanged += new System.EventHandler(this.checkBox8_CheckedChanged);
             // 
-            // label30
-            // 
-            this.label30.AutoSize = true;
-            this.label30.Location = new System.Drawing.Point(7, 303);
-            this.label30.Name = "label30";
-            this.label30.Size = new System.Drawing.Size(34, 13);
-            this.label30.TabIndex = 22;
-            this.label30.Text = "Total:";
-            // 
-            // textBox25
-            // 
-            this.textBox25.Location = new System.Drawing.Point(109, 300);
-            this.textBox25.Name = "textBox25";
-            this.textBox25.ReadOnly = true;
-            this.textBox25.Size = new System.Drawing.Size(51, 20);
-            this.textBox25.TabIndex = 23;
-            this.textBox25.TabStop = false;
-            // 
             // GUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(626, 583);
+            this.ClientSize = new System.Drawing.Size(626, 619);
+            this.Controls.Add(this.label30);
             this.Controls.Add(this.groupBox10);
             this.Controls.Add(this.groupBox9);
             this.Controls.Add(this.groupBox6);
@@ -1039,6 +1051,7 @@
             this.groupBox10.ResumeLayout(false);
             this.groupBox10.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -1127,8 +1140,9 @@
         private System.Windows.Forms.CheckBox checkBox10;
         private System.Windows.Forms.CheckBox checkBox11;
         private System.Windows.Forms.CheckBox checkBox12;
-        private System.Windows.Forms.TextBox textBox25;
         private System.Windows.Forms.Label label30;
+        private System.Windows.Forms.TextBox textBox25;
+        private System.Windows.Forms.Label label31;
     }
 }
 

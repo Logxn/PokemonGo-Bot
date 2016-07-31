@@ -157,20 +157,20 @@ namespace PokemonGo.RocketAPI.Logic
                 await action();
         }
 
-        class PokeService
-        {
-            public bool go_online; //Online oder nicht?
-            public double go_response; //Wie lange der Server zum Responden braucht
-            public double go_idle; //Wie lange die go server online sind (in minuten)
-            public double go_uptime_hour; //Uptime in Prozent die letzte Stunde
-            public double go_uptime_day; //Uptime in Prozent die letzten 24h
+        //class PokeService
+        //{
+        //    public bool go_online; //Online oder nicht?
+        //    public double go_response; //Wie lange der Server zum Responden braucht
+        //    public double go_idle; //Wie lange die go server online sind (in minuten)
+        //    public double go_uptime_hour; //Uptime in Prozent die letzte Stunde
+        //    public double go_uptime_day; //Uptime in Prozent die letzten 24h
 
-            public bool ptc_online; //Online oder nicht?
-            public double ptc_response; //Wie lange PTC zum responden braucht
-            public double ptc_idle; //Wie lange ptc schon läuft
-            public double ptc_uptime_hour; //Prozent von PTC uptime letzte stunde
-            public double ptc_uptime_day; //Prozent von PTC uptime letzten tag
-        }
+        //    public bool ptc_online; //Online oder nicht?
+        //    public double ptc_response; //Wie lange PTC zum responden braucht
+        //    public double ptc_idle; //Wie lange ptc schon läuft
+        //    public double ptc_uptime_hour; //Prozent von PTC uptime letzte stunde
+        //    public double ptc_uptime_day; //Prozent von PTC uptime letzten tag
+        //}
 
         int dontspam = 3;
         private async Task StatsLog(Client client)
@@ -198,94 +198,94 @@ namespace PokemonGo.RocketAPI.Logic
             Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Pokemon to evolve: " + pokemonToEvolve);
             Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Pokemons: " + await _inventory.getPokemonCount() + "/" + profil.Profile.PokeStorage);
             Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Items: " + await _inventory.getInventoryCount() + "/" + profil.Profile.ItemStorage); 
-            if (dontspam >= 3)
-            {
-                dontspam = 0;
-                PokeService data = null;
-                try
-                {
-                    var clientx = new WebClient();
-                    clientx.Headers.Add("user-agent", "PokegoBot-Ar1i-Github");
-                    var jsonString = clientx.DownloadString("https://go.jooas.com/status");
-                    data = new JavaScriptSerializer().Deserialize<PokeService>(jsonString);
-                }
-                catch (Exception)
-                {
+            //if (dontspam >= 3)
+            //{
+            //    dontspam = 0;
+            //    PokeService data = null;
+            //    try
+            //    {
+            //        var clientx = new WebClient();
+            //        clientx.Headers.Add("user-agent", "PokegoBot-Ar1i-Github");
+            //        var jsonString = clientx.DownloadString("https://go.jooas.com/status");
+            //        data = new JavaScriptSerializer().Deserialize<PokeService>(jsonString);
+            //    }
+            //    catch (Exception)
+            //    {
 
-                }
+            //    }
 
-                if (data != null)
-                {
-                    Logger.ColoredConsoleWrite(ConsoleColor.White, "");
-                    Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "PokemonGO Server Status:");
-                    if (data.go_online)
-                    {
-                        if (data.go_idle > 60)
-                        {
-                            int gohour = Convert.ToInt32(data.go_idle / 60);
+            //    if (data != null)
+            //    {
+            //        Logger.ColoredConsoleWrite(ConsoleColor.White, "");
+            //        Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "PokemonGO Server Status:");
+            //        if (data.go_online)
+            //        {
+            //            if (data.go_idle > 60)
+            //            {
+            //                int gohour = Convert.ToInt32(data.go_idle / 60);
 
-                            if (gohour > 24)
-                            {
-                                int goday = gohour / 24;
+            //                if (gohour > 24)
+            //                {
+            //                    int goday = gohour / 24;
 
-                                Logger.ColoredConsoleWrite(ConsoleColor.Green, "Online since ~" + goday + " day(s).");
-                            }
-                            else
-                            {
-                                Logger.ColoredConsoleWrite(ConsoleColor.Green, "Online since ~" + gohour + "h.");
-                            }
-                        }
-                        else
-                        {
-                            Logger.ColoredConsoleWrite(ConsoleColor.Green, "Online since ~" + data.go_idle + " min.");
-                        }
+            //                    Logger.ColoredConsoleWrite(ConsoleColor.Green, "Online since ~" + goday + " day(s).");
+            //                }
+            //                else
+            //                {
+            //                    Logger.ColoredConsoleWrite(ConsoleColor.Green, "Online since ~" + gohour + "h.");
+            //                }
+            //            }
+            //            else
+            //            {
+            //                Logger.ColoredConsoleWrite(ConsoleColor.Green, "Online since ~" + data.go_idle + " min.");
+            //            }
 
-                        Logger.ColoredConsoleWrite(ConsoleColor.Green, "Server anwsers in ~" + data.go_response + " seconds.");
-                    }
-                    else
-                    {
-                        Logger.ColoredConsoleWrite(ConsoleColor.Red, "Pokemon GO Servers: Offline.");
-                    }
-                    Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Pokemon Trainer Club Server Status:");
-                    if (data.ptc_online)
-                    {
-                        if (data.ptc_idle > 60)
-                        {
-                            int ptchour = Convert.ToInt32(data.ptc_idle / 60);
+            //            Logger.ColoredConsoleWrite(ConsoleColor.Green, "Server anwsers in ~" + data.go_response + " seconds.");
+            //        }
+            //        else
+            //        {
+            //            Logger.ColoredConsoleWrite(ConsoleColor.Red, "Pokemon GO Servers: Offline.");
+            //        }
+            //        Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Pokemon Trainer Club Server Status:");
+            //        if (data.ptc_online)
+            //        {
+            //            if (data.ptc_idle > 60)
+            //            {
+            //                int ptchour = Convert.ToInt32(data.ptc_idle / 60);
 
-                            if (ptchour > 24)
-                            {
-                                int ptcday = ptchour / 24;
-                                Logger.ColoredConsoleWrite(ConsoleColor.Green, "Online since ~" + ptcday + " day(s).");
+            //                if (ptchour > 24)
+            //                {
+            //                    int ptcday = ptchour / 24;
+            //                    Logger.ColoredConsoleWrite(ConsoleColor.Green, "Online since ~" + ptcday + " day(s).");
 
-                            }
-                            else
-                            {
-                                Logger.ColoredConsoleWrite(ConsoleColor.Green, "Online since ~" + ptchour + "h.");
-                            }
-                        }
-                        else
-                        {
-                            Logger.ColoredConsoleWrite(ConsoleColor.Green, "Online since ~" + data.ptc_idle + " min.");
-                        }
+            //                }
+            //                else
+            //                {
+            //                    Logger.ColoredConsoleWrite(ConsoleColor.Green, "Online since ~" + ptchour + "h.");
+            //                }
+            //            }
+            //            else
+            //            {
+            //                Logger.ColoredConsoleWrite(ConsoleColor.Green, "Online since ~" + data.ptc_idle + " min.");
+            //            }
 
-                        Logger.ColoredConsoleWrite(ConsoleColor.Green, "Server anwsers in ~" + data.ptc_response + " seconds.");
-                    }
-                    else
-                    {
-                        Logger.ColoredConsoleWrite(ConsoleColor.Red, "Pokemon Trainer Club: Offline.");
-                    }
-                } 
-                else
-                {
-                    Logger.ColoredConsoleWrite(ConsoleColor.Red, "Cant get Server Status from https://go.jooas.com/status");
-                }
-            }
+            //            Logger.ColoredConsoleWrite(ConsoleColor.Green, "Server anwsers in ~" + data.ptc_response + " seconds.");
+            //        }
+            //        else
+            //        {
+            //            Logger.ColoredConsoleWrite(ConsoleColor.Red, "Pokemon Trainer Club: Offline.");
+            //        }
+            //    } 
+            //    else
+            //    {
+            //        Logger.ColoredConsoleWrite(ConsoleColor.Red, "Cant get Server Status from https://go.jooas.com/status");
+            //    }
+            //}
             Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "_____________________________");
             
 
-            System.Console.Title = profil.Profile.Username + " Level " + c.Level + " - (" + ((c.Experience - c.PrevLevelXp) - 
-                StringUtils.getExpDiff(c.Level)) + " / " + ((c.NextLevelXp - c.PrevLevelXp) - StringUtils.getExpDiff(c.Level)) + " | " + Math.Round(curexppercent) + "%)   | Stardust: " + profil.Profile.Currency.ToArray()[1].Amount + " | " + _botStats.ToString();
+            System.Console.Title = profil.Profile.Username + " lvl" + c.Level + "-(" + ((c.Experience - c.PrevLevelXp) - 
+                StringUtils.getExpDiff(c.Level)) + "/" + ((c.NextLevelXp - c.PrevLevelXp) - StringUtils.getExpDiff(c.Level)) + "|" + Math.Round(curexppercent) + "%)| Stardust: " + profil.Profile.Currency.ToArray()[1].Amount + "| " + _botStats.ToString();
 
         }
 
