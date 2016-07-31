@@ -47,8 +47,7 @@ namespace PokemonGo.RocketAPI.Console
 
         private async void Execute()
         {
-            EnabledButton(false);
-            textBox1.Text = "Reloading Pokemon list.";
+            EnabledButton(false, "Reloading Pokemon list.");
 
             client = new Client(ClientSettings);
 
@@ -116,6 +115,9 @@ namespace PokemonGo.RocketAPI.Console
                 columnheader.Text = "Weight";
                 listView1.Columns.Add(columnheader);
                 columnheader = new ColumnHeader();
+                columnheader.Text = "HP";
+                listView1.Columns.Add(columnheader);
+                columnheader = new ColumnHeader();
                 columnheader.Text = "Attack";
                 listView1.Columns.Add(columnheader);
                 columnheader = new ColumnHeader();
@@ -141,24 +143,23 @@ namespace PokemonGo.RocketAPI.Console
                         .Where(i => (int)i.FamilyId <= (int)pokemon.PokemonId)
                         .Select(f => f.Candy)
                         .First();
-                    var currIv = Math.Round(Perfect(pokemon));
                     listViewItem.SubItems.Add(string.Format("{0}", pokemon.Cp));
-                    listViewItem.SubItems.Add(string.Format("{0}% {1}-{2}-{3}", currIv, pokemon.IndividualAttack, pokemon.IndividualDefense, pokemon.IndividualStamina));
+                    listViewItem.SubItems.Add(string.Format("{0}% {1}-{2}-{3}", Math.Round(pokemon.CalculateIV()), pokemon.IndividualAttack, pokemon.IndividualDefense, pokemon.IndividualStamina));
                     listViewItem.SubItems.Add(string.Format("{0}", PokemonInfo.GetLevel(pokemon)));
                     listViewItem.ImageKey = pokemon.PokemonId.ToString();
+                    
+                    listViewItem.Text = string.Format((pokemon.Favorite == 1)? "{0} ★" : "{0}", pokemon.PokemonId);
 
-                    var pokemonId2 = pokemon.PokemonId;
-                    var pokemonName = pokemon.Id;
-
-                    listViewItem.Text = string.Format("{0}", pokemon.PokemonId);
-                    listViewItem.ToolTipText = "Favorite: " + pokemon.Favorite + "\nNickname: " + pokemon.Nickname;
+                    listViewItem.ToolTipText = new DateTime((long)pokemon.CreationTimeMs * 10000).ToString("dd/MM/yy HH:mm:ss");
+                    if (pokemon.Nickname!="")
+                        listViewItem.ToolTipText += "\nNickname: " + pokemon.Nickname;
 
                     var settings = pokemonSettings.Single(x => x.PokemonId == pokemon.PokemonId);
                     var familyCandy = pokemonFamilies.Single(x => settings.FamilyId == x.FamilyId);
 
                     if (settings.EvolutionIds.Count > 0 && familyCandy.Candy >= settings.CandyToEvolve)
                     {
-                        listViewItem.SubItems.Add("Y (" + settings.CandyToEvolve + ")");
+                        listViewItem.SubItems.Add("Y (" + familyCandy.Candy + "/" + settings.CandyToEvolve + ")");
                         listViewItem.Checked = true;
                     }
                     else
@@ -170,6 +171,7 @@ namespace PokemonGo.RocketAPI.Console
                     }
                     listViewItem.SubItems.Add(string.Format("{0}", Math.Round(pokemon.HeightM, 2)));
                     listViewItem.SubItems.Add(string.Format("{0}", Math.Round(pokemon.WeightKg, 2)));
+                    listViewItem.SubItems.Add(string.Format("{0}/{1}", pokemon.Stamina, pokemon.StaminaMax));
                     listViewItem.SubItems.Add(string.Format("{0}", pokemon.Move1));
                     listViewItem.SubItems.Add(string.Format("{0}", pokemon.Move2));
 
@@ -213,8 +215,9 @@ namespace PokemonGo.RocketAPI.Console
             }
         }
 
-        private void EnabledButton(bool enabled)
+        private void EnabledButton(bool enabled, string reason="")
         {
+            textBox1.Text = reason;
             button1.Enabled = enabled;
             button2.Enabled = enabled;
             button3.Enabled = enabled;
@@ -248,11 +251,6 @@ namespace PokemonGo.RocketAPI.Console
             Execute();
         }
 
-        public static float Perfect(PokemonData poke)
-        {
-            return ((float)(poke.IndividualAttack + poke.IndividualDefense + poke.IndividualStamina) / (3.0f * 15.0f)) * 100.0f;
-        }
-
         private void listView1_MouseClick(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Right)
@@ -274,7 +272,7 @@ namespace PokemonGo.RocketAPI.Console
             var pokemon = (PokemonData)listView1.SelectedItems[0].Tag;
             taskResponse resp = new taskResponse(false, string.Empty);
 
-            if (MessageBox.Show(this, pokemon.PokemonId + " with " + pokemon.Cp + " CP thats " + Math.Round(Perfect(pokemon)) + "% perfect", "Are you sure you want to transfer?", MessageBoxButtons.OKCancel) == DialogResult.OK)
+            if (MessageBox.Show(this, pokemon.PokemonId + " with " + pokemon.Cp + " CP thats " + Math.Round(pokemon.CalculateIV()) + "% perfect", "Are you sure you want to transfer?", MessageBoxButtons.OKCancel) == DialogResult.OK)
             {
                 resp = await transferPokemon(pokemon);
             }
@@ -427,25 +425,6 @@ namespace PokemonGo.RocketAPI.Console
             }
         }
 
-        private void checkBox2_CheckedChanged(object sender, EventArgs e)
-        {
-            if (checkBox2.Checked)
-            {
-                foreach (ListViewItem item in listView1.Items)
-                {
-                    if (!item.Checked)
-                        item.Remove();
-                }
-            }
-            else
-            {
-                checkBox2.Checked = false;
-                listView1.Clear();
-                Execute();
-            }
-
-        }
-
         private static async Task<taskResponse> evolvePokemon(PokemonData pokemon)
         {
             taskResponse resp = new taskResponse(false, string.Empty);
@@ -541,7 +520,7 @@ namespace PokemonGo.RocketAPI.Console
             var pokemon = (PokemonData)listView1.SelectedItems[0].Tag;
             taskResponse resp = new taskResponse(false, string.Empty);
 
-            if (MessageBox.Show(this, pokemon.PokemonId + " with " + pokemon.Cp + " CP thats " + Math.Round(Perfect(pokemon)) + "% perfect", "Are you sure you want to evolve?", MessageBoxButtons.OKCancel) == DialogResult.OK)
+            if (MessageBox.Show(this, pokemon.PokemonId + " with " + pokemon.Cp + " CP thats " + Math.Round(pokemon.CalculateIV()) + "% perfect", "Are you sure you want to evolve?", MessageBoxButtons.OKCancel) == DialogResult.OK)
             {
                 resp = await evolvePokemon(pokemon);
             }
@@ -563,7 +542,7 @@ namespace PokemonGo.RocketAPI.Console
             var pokemon = (PokemonData)listView1.SelectedItems[0].Tag;
             taskResponse resp = new taskResponse(false, string.Empty);
 
-            if (MessageBox.Show(this, pokemon.PokemonId + " with " + pokemon.Cp + " CP thats " + Math.Round(Perfect(pokemon)) + "% perfect", "Are you sure you want to power it up?", MessageBoxButtons.OKCancel) == DialogResult.OK)
+            if (MessageBox.Show(this, pokemon.PokemonId + " with " + pokemon.Cp + " CP thats " + Math.Round(pokemon.CalculateIV()) + "% perfect", "Are you sure you want to power it up?", MessageBoxButtons.OKCancel) == DialogResult.OK)
             {
                 resp = await PowerUp(pokemon);
             }
@@ -625,8 +604,8 @@ namespace PokemonGo.RocketAPI.Console
 
         private async void btnFullPowerUp_Click(object sender, EventArgs e)
         {
-            EnabledButton(false);
-            DialogResult result = MessageBox.Show("This process may take some time.", "Transfer status", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
+            EnabledButton(false, "Powering up...");
+            DialogResult result = MessageBox.Show("This process may take some time.", "FullPowerUp status", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
             if (result == DialogResult.OK)
             {
                 var selectedItems = listView1.SelectedItems;
@@ -643,7 +622,9 @@ namespace PokemonGo.RocketAPI.Console
                     {
                         resp = await PowerUp((PokemonData)selectedItem.Tag);
                         if (resp.Status)
+                        {
                             powerdup++;
+                        }
                         else
                             failed += resp.Message + " ";
                     }
@@ -651,11 +632,11 @@ namespace PokemonGo.RocketAPI.Console
                     {
                         if (powerUps > 0)
                         {
-                            MessageBox.Show("Pokemon succesfully powered " + powerUps + " times up.", "Transfer status", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            MessageBox.Show("Pokemon succesfully powered " + powerUps + " times up.", "FullPowerUp status", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         }
                         else
                         {
-                            MessageBox.Show("Pokemon not powered up. Not enough Stardust or Candy.", "Transfer status", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            MessageBox.Show("Pokemon not powered up. Not enough Stardust or Candy.", "FullPowerUp status", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         }
                         i = 1;
                         EnabledButton(true);
@@ -663,6 +644,7 @@ namespace PokemonGo.RocketAPI.Console
                     else
                     {
                         powerUps++;
+                        textBox1.Text = "Powering up..." + powerUps;
                     }
                 }
                 if (powerdup > 0 && i == 1)
@@ -675,11 +657,6 @@ namespace PokemonGo.RocketAPI.Console
             {
                 EnabledButton(true);
             }
-        }
-
-        private void listView1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
         }
     }
     public static class ControlExtensions
@@ -696,8 +673,7 @@ namespace PokemonGo.RocketAPI.Console
         private int ColumnNumber;
         private SortOrder SortOrder;
 
-        public ListViewComparer(int column_number,
-            SortOrder sort_order)
+        public ListViewComparer(int column_number, SortOrder sort_order)
         {
             ColumnNumber = column_number;
             SortOrder = sort_order;

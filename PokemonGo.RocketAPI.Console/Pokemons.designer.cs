@@ -44,7 +44,6 @@
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.checkBox2 = new System.Windows.Forms.CheckBox();
             this.btnFullPowerUp = new System.Windows.Forms.Button();
             this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -59,7 +58,6 @@
             this.listView1.Size = new System.Drawing.Size(687, 387);
             this.listView1.TabIndex = 0;
             this.listView1.UseCompatibleStateImageBehavior = false;
-            this.listView1.SelectedIndexChanged += new System.EventHandler(this.listView1_SelectedIndexChanged);
             this.listView1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.listView1_MouseClick);
             // 
             // button1
@@ -94,7 +92,7 @@
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(299, 434);
+            this.button3.Location = new System.Drawing.Point(437, 434);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(135, 23);
             this.button3.TabIndex = 4;
@@ -146,7 +144,7 @@
             // checkBox1
             // 
             this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(299, 409);
+            this.checkBox1.Location = new System.Drawing.Point(166, 411);
             this.checkBox1.Name = "checkBox1";
             this.checkBox1.Size = new System.Drawing.Size(89, 17);
             this.checkBox1.TabIndex = 6;
@@ -156,7 +154,7 @@
             // 
             // textBox2
             // 
-            this.textBox2.Location = new System.Drawing.Point(383, 407);
+            this.textBox2.Location = new System.Drawing.Point(250, 409);
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(37, 20);
             this.textBox2.TabIndex = 7;
@@ -165,7 +163,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(426, 413);
+            this.label2.Location = new System.Drawing.Point(293, 415);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(12, 13);
             this.label2.TabIndex = 9;
@@ -176,24 +174,13 @@
             this.timer1.Interval = 1000;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
-            // checkBox2
-            // 
-            this.checkBox2.AutoSize = true;
-            this.checkBox2.Location = new System.Drawing.Point(494, 434);
-            this.checkBox2.Name = "checkBox2";
-            this.checkBox2.Size = new System.Drawing.Size(205, 17);
-            this.checkBox2.TabIndex = 10;
-            this.checkBox2.Text = "Show only Pokemons that can evolve";
-            this.checkBox2.UseVisualStyleBackColor = true;
-            this.checkBox2.CheckedChanged += new System.EventHandler(this.checkBox2_CheckedChanged);
-            // 
             // btnFullPowerUp
             // 
-            this.btnFullPowerUp.Location = new System.Drawing.Point(155, 405);
+            this.btnFullPowerUp.Location = new System.Drawing.Point(296, 434);
             this.btnFullPowerUp.Name = "btnFullPowerUp";
             this.btnFullPowerUp.Size = new System.Drawing.Size(135, 23);
             this.btnFullPowerUp.TabIndex = 11;
-            this.btnFullPowerUp.Text = "FullPowerUp selected";
+            this.btnFullPowerUp.Text = "FULL-PowerUp selected";
             this.btnFullPowerUp.UseVisualStyleBackColor = true;
             this.btnFullPowerUp.Click += new System.EventHandler(this.btnFullPowerUp_Click);
             // 
@@ -203,7 +190,6 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(711, 488);
             this.Controls.Add(this.btnFullPowerUp);
-            this.Controls.Add(this.checkBox2);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.textBox2);
             this.Controls.Add(this.checkBox1);
@@ -241,7 +227,6 @@
         private System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Timer timer1;
-        private System.Windows.Forms.CheckBox checkBox2;
         private System.Windows.Forms.Button btnFullPowerUp;
     }
 }
