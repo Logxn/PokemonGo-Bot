@@ -40,24 +40,24 @@
             this.button2 = new System.Windows.Forms.Button();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.label10 = new System.Windows.Forms.Label();
-            this.textBox7 = new System.Windows.Forms.TextBox();
+            this.tbWalkDistance = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
-            this.textBox6 = new System.Windows.Forms.TextBox();
+            this.tbWalkSpeed = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
-            this.textBox5 = new System.Windows.Forms.TextBox();
-            this.textBox4 = new System.Windows.Forms.TextBox();
+            this.tbAltitude = new System.Windows.Forms.TextBox();
+            this.tbLongitude = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
-            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.tbLatitude = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.label29 = new System.Windows.Forms.Label();
-            this.textBox24 = new System.Windows.Forms.TextBox();
+            this.tbIVMaxPcntTransfer = new System.Windows.Forms.TextBox();
             this.label28 = new System.Windows.Forms.Label();
-            this.textBox9 = new System.Windows.Forms.TextBox();
+            this.tbTransThreshCP = new System.Windows.Forms.TextBox();
             this.label12 = new System.Windows.Forms.Label();
-            this.textBox8 = new System.Windows.Forms.TextBox();
+            this.tbKeepDupes = new System.Windows.Forms.TextBox();
             this.label11 = new System.Windows.Forms.Label();
             this.checkBox2 = new System.Windows.Forms.CheckBox();
             this.checkBox3 = new System.Windows.Forms.CheckBox();
@@ -68,24 +68,24 @@
             this.label27 = new System.Windows.Forms.Label();
             this.label26 = new System.Windows.Forms.Label();
             this.label25 = new System.Windows.Forms.Label();
-            this.textBox23 = new System.Windows.Forms.TextBox();
-            this.textBox21 = new System.Windows.Forms.TextBox();
-            this.textBox22 = new System.Windows.Forms.TextBox();
+            this.tbKeepTRevive = new System.Windows.Forms.TextBox();
+            this.tbKeepTPotion = new System.Windows.Forms.TextBox();
+            this.tbKeepMBall = new System.Windows.Forms.TextBox();
             this.label20 = new System.Windows.Forms.Label();
             this.label19 = new System.Windows.Forms.Label();
             this.label18 = new System.Windows.Forms.Label();
             this.label17 = new System.Windows.Forms.Label();
             this.label16 = new System.Windows.Forms.Label();
-            this.textBox17 = new System.Windows.Forms.TextBox();
-            this.textBox16 = new System.Windows.Forms.TextBox();
-            this.textBox15 = new System.Windows.Forms.TextBox();
-            this.textBox14 = new System.Windows.Forms.TextBox();
-            this.textBox13 = new System.Windows.Forms.TextBox();
+            this.tbKeepBerry = new System.Windows.Forms.TextBox();
+            this.tbKeepHPotion = new System.Windows.Forms.TextBox();
+            this.tbKeepSPotion = new System.Windows.Forms.TextBox();
+            this.tbKeepNPotion = new System.Windows.Forms.TextBox();
+            this.tbKeepNRevive = new System.Windows.Forms.TextBox();
             this.label15 = new System.Windows.Forms.Label();
-            this.textBox12 = new System.Windows.Forms.TextBox();
-            this.textBox11 = new System.Windows.Forms.TextBox();
+            this.tbKeepHBall = new System.Windows.Forms.TextBox();
+            this.tbKeepSBall = new System.Windows.Forms.TextBox();
             this.label14 = new System.Windows.Forms.Label();
-            this.textBox10 = new System.Windows.Forms.TextBox();
+            this.tbKeepNBall = new System.Windows.Forms.TextBox();
             this.label13 = new System.Windows.Forms.Label();
             this.label30 = new System.Windows.Forms.Label();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
@@ -101,10 +101,10 @@
             this.groupBox8 = new System.Windows.Forms.GroupBox();
             this.label24 = new System.Windows.Forms.Label();
             this.label23 = new System.Windows.Forms.Label();
-            this.textBox20 = new System.Windows.Forms.TextBox();
-            this.textBox19 = new System.Windows.Forms.TextBox();
+            this.tbTelDelay = new System.Windows.Forms.TextBox();
+            this.tbTelName = new System.Windows.Forms.TextBox();
             this.label22 = new System.Windows.Forms.Label();
-            this.textBox18 = new System.Windows.Forms.TextBox();
+            this.tbTelAPI = new System.Windows.Forms.TextBox();
             this.label21 = new System.Windows.Forms.Label();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.linkLabel2 = new System.Windows.Forms.LinkLabel();
@@ -201,16 +201,16 @@
             this.groupBox2.Controls.Add(this.button2);
             this.groupBox2.Controls.Add(this.checkBox1);
             this.groupBox2.Controls.Add(this.label10);
-            this.groupBox2.Controls.Add(this.textBox7);
+            this.groupBox2.Controls.Add(this.tbWalkDistance);
             this.groupBox2.Controls.Add(this.label9);
             this.groupBox2.Controls.Add(this.label8);
             this.groupBox2.Controls.Add(this.label7);
-            this.groupBox2.Controls.Add(this.textBox6);
+            this.groupBox2.Controls.Add(this.tbWalkSpeed);
             this.groupBox2.Controls.Add(this.label6);
-            this.groupBox2.Controls.Add(this.textBox5);
-            this.groupBox2.Controls.Add(this.textBox4);
+            this.groupBox2.Controls.Add(this.tbAltitude);
+            this.groupBox2.Controls.Add(this.tbLongitude);
             this.groupBox2.Controls.Add(this.label5);
-            this.groupBox2.Controls.Add(this.textBox3);
+            this.groupBox2.Controls.Add(this.tbLatitude);
             this.groupBox2.Controls.Add(this.label4);
             this.groupBox2.Location = new System.Drawing.Point(12, 116);
             this.groupBox2.Name = "groupBox2";
@@ -251,13 +251,13 @@
             this.label10.TabIndex = 11;
             this.label10.Text = "meters";
             // 
-            // textBox7
+            // tbWalkDistance
             // 
-            this.textBox7.Location = new System.Drawing.Point(81, 121);
-            this.textBox7.Name = "textBox7";
-            this.textBox7.Size = new System.Drawing.Size(100, 20);
-            this.textBox7.TabIndex = 10;
-            this.textBox7.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox7_KeyPress);
+            this.tbWalkDistance.Location = new System.Drawing.Point(81, 121);
+            this.tbWalkDistance.Name = "tbWalkDistance";
+            this.tbWalkDistance.Size = new System.Drawing.Size(100, 20);
+            this.tbWalkDistance.TabIndex = 10;
+            this.tbWalkDistance.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tbWalkDistance_KeyPress);
             // 
             // label9
             // 
@@ -286,13 +286,13 @@
             this.label7.TabIndex = 7;
             this.label7.Text = "Speed:";
             // 
-            // textBox6
+            // tbWalkSpeed
             // 
-            this.textBox6.Location = new System.Drawing.Point(81, 95);
-            this.textBox6.Name = "textBox6";
-            this.textBox6.Size = new System.Drawing.Size(100, 20);
-            this.textBox6.TabIndex = 6;
-            this.textBox6.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox7_KeyPress);
+            this.tbWalkSpeed.Location = new System.Drawing.Point(81, 95);
+            this.tbWalkSpeed.Name = "tbWalkSpeed";
+            this.tbWalkSpeed.Size = new System.Drawing.Size(100, 20);
+            this.tbWalkSpeed.TabIndex = 6;
+            this.tbWalkSpeed.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tbWalkDistance_KeyPress);
             // 
             // label6
             // 
@@ -303,23 +303,23 @@
             this.label6.TabIndex = 5;
             this.label6.Text = "Altitude:";
             // 
-            // textBox5
+            // tbAltitude
             // 
-            this.textBox5.Enabled = false;
-            this.textBox5.Location = new System.Drawing.Point(81, 69);
-            this.textBox5.Name = "textBox5";
-            this.textBox5.Size = new System.Drawing.Size(100, 20);
-            this.textBox5.TabIndex = 4;
-            this.textBox5.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox5_KeyPress);
+            this.tbAltitude.Enabled = false;
+            this.tbAltitude.Location = new System.Drawing.Point(81, 69);
+            this.tbAltitude.Name = "tbAltitude";
+            this.tbAltitude.Size = new System.Drawing.Size(100, 20);
+            this.tbAltitude.TabIndex = 4;
+            this.tbAltitude.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tbAltitude_KeyPress);
             // 
-            // textBox4
+            // tbLongitude
             // 
-            this.textBox4.Enabled = false;
-            this.textBox4.Location = new System.Drawing.Point(81, 43);
-            this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(100, 20);
-            this.textBox4.TabIndex = 3;
-            this.textBox4.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox3_KeyPress);
+            this.tbLongitude.Enabled = false;
+            this.tbLongitude.Location = new System.Drawing.Point(81, 43);
+            this.tbLongitude.Name = "tbLongitude";
+            this.tbLongitude.Size = new System.Drawing.Size(100, 20);
+            this.tbLongitude.TabIndex = 3;
+            this.tbLongitude.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tbLatitude_KeyPress);
             // 
             // label5
             // 
@@ -330,14 +330,14 @@
             this.label5.TabIndex = 2;
             this.label5.Text = "Longitude:";
             // 
-            // textBox3
+            // tbLatitude
             // 
-            this.textBox3.Enabled = false;
-            this.textBox3.Location = new System.Drawing.Point(81, 17);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(100, 20);
-            this.textBox3.TabIndex = 1;
-            this.textBox3.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox3_KeyPress);
+            this.tbLatitude.Enabled = false;
+            this.tbLatitude.Location = new System.Drawing.Point(81, 17);
+            this.tbLatitude.Name = "tbLatitude";
+            this.tbLatitude.Size = new System.Drawing.Size(100, 20);
+            this.tbLatitude.TabIndex = 1;
+            this.tbLatitude.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tbLatitude_KeyPress);
             // 
             // label4
             // 
@@ -351,11 +351,11 @@
             // groupBox3
             // 
             this.groupBox3.Controls.Add(this.label29);
-            this.groupBox3.Controls.Add(this.textBox24);
+            this.groupBox3.Controls.Add(this.tbIVMaxPcntTransfer);
             this.groupBox3.Controls.Add(this.label28);
-            this.groupBox3.Controls.Add(this.textBox9);
+            this.groupBox3.Controls.Add(this.tbTransThreshCP);
             this.groupBox3.Controls.Add(this.label12);
-            this.groupBox3.Controls.Add(this.textBox8);
+            this.groupBox3.Controls.Add(this.tbKeepDupes);
             this.groupBox3.Controls.Add(this.label11);
             this.groupBox3.Controls.Add(this.checkBox2);
             this.groupBox3.Location = new System.Drawing.Point(12, 295);
@@ -374,13 +374,13 @@
             this.label29.TabIndex = 8;
             this.label29.Text = "%";
             // 
-            // textBox24
+            // tbIVMaxPcntTransfer
             // 
-            this.textBox24.Location = new System.Drawing.Point(110, 95);
-            this.textBox24.Name = "textBox24";
-            this.textBox24.Size = new System.Drawing.Size(53, 20);
-            this.textBox24.TabIndex = 7;
-            this.textBox24.Text = "90";
+            this.tbIVMaxPcntTransfer.Location = new System.Drawing.Point(110, 95);
+            this.tbIVMaxPcntTransfer.Name = "tbIVMaxPcntTransfer";
+            this.tbIVMaxPcntTransfer.Size = new System.Drawing.Size(53, 20);
+            this.tbIVMaxPcntTransfer.TabIndex = 7;
+            this.tbIVMaxPcntTransfer.Text = "90";
             // 
             // label28
             // 
@@ -391,13 +391,13 @@
             this.label28.TabIndex = 6;
             this.label28.Text = "Max IV to transfer:";
             // 
-            // textBox9
+            // tbTransThreshCP
             // 
-            this.textBox9.Location = new System.Drawing.Point(110, 69);
-            this.textBox9.Name = "textBox9";
-            this.textBox9.Size = new System.Drawing.Size(71, 20);
-            this.textBox9.TabIndex = 5;
-            this.textBox9.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox7_KeyPress);
+            this.tbTransThreshCP.Location = new System.Drawing.Point(110, 69);
+            this.tbTransThreshCP.Name = "tbTransThreshCP";
+            this.tbTransThreshCP.Size = new System.Drawing.Size(71, 20);
+            this.tbTransThreshCP.TabIndex = 5;
+            this.tbTransThreshCP.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tbWalkDistance_KeyPress);
             // 
             // label12
             // 
@@ -408,13 +408,13 @@
             this.label12.TabIndex = 4;
             this.label12.Text = "Max CP to transfer:";
             // 
-            // textBox8
+            // tbKeepDupes
             // 
-            this.textBox8.Location = new System.Drawing.Point(141, 41);
-            this.textBox8.Name = "textBox8";
-            this.textBox8.Size = new System.Drawing.Size(40, 20);
-            this.textBox8.TabIndex = 3;
-            this.textBox8.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox7_KeyPress);
+            this.tbKeepDupes.Location = new System.Drawing.Point(141, 41);
+            this.tbKeepDupes.Name = "tbKeepDupes";
+            this.tbKeepDupes.Size = new System.Drawing.Size(40, 20);
+            this.tbKeepDupes.TabIndex = 3;
+            this.tbKeepDupes.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tbWalkDistance_KeyPress);
             // 
             // label11
             // 
@@ -469,24 +469,24 @@
             this.groupBox4.Controls.Add(this.label27);
             this.groupBox4.Controls.Add(this.label26);
             this.groupBox4.Controls.Add(this.label25);
-            this.groupBox4.Controls.Add(this.textBox23);
-            this.groupBox4.Controls.Add(this.textBox21);
-            this.groupBox4.Controls.Add(this.textBox22);
+            this.groupBox4.Controls.Add(this.tbKeepTRevive);
+            this.groupBox4.Controls.Add(this.tbKeepTPotion);
+            this.groupBox4.Controls.Add(this.tbKeepMBall);
             this.groupBox4.Controls.Add(this.label20);
             this.groupBox4.Controls.Add(this.label19);
             this.groupBox4.Controls.Add(this.label18);
             this.groupBox4.Controls.Add(this.label17);
             this.groupBox4.Controls.Add(this.label16);
-            this.groupBox4.Controls.Add(this.textBox17);
-            this.groupBox4.Controls.Add(this.textBox16);
-            this.groupBox4.Controls.Add(this.textBox15);
-            this.groupBox4.Controls.Add(this.textBox14);
-            this.groupBox4.Controls.Add(this.textBox13);
+            this.groupBox4.Controls.Add(this.tbKeepBerry);
+            this.groupBox4.Controls.Add(this.tbKeepHPotion);
+            this.groupBox4.Controls.Add(this.tbKeepSPotion);
+            this.groupBox4.Controls.Add(this.tbKeepNPotion);
+            this.groupBox4.Controls.Add(this.tbKeepNRevive);
             this.groupBox4.Controls.Add(this.label15);
-            this.groupBox4.Controls.Add(this.textBox12);
-            this.groupBox4.Controls.Add(this.textBox11);
+            this.groupBox4.Controls.Add(this.tbKeepHBall);
+            this.groupBox4.Controls.Add(this.tbKeepSBall);
             this.groupBox4.Controls.Add(this.label14);
-            this.groupBox4.Controls.Add(this.textBox10);
+            this.groupBox4.Controls.Add(this.tbKeepNBall);
             this.groupBox4.Controls.Add(this.label13);
             this.groupBox4.Location = new System.Drawing.Point(270, 12);
             this.groupBox4.Name = "groupBox4";
@@ -540,29 +540,29 @@
             this.label25.TabIndex = 17;
             this.label25.Text = "Max TopPotions:";
             // 
-            // textBox23
+            // tbKeepTRevive
             // 
-            this.textBox23.Location = new System.Drawing.Point(109, 142);
-            this.textBox23.Name = "textBox23";
-            this.textBox23.Size = new System.Drawing.Size(51, 20);
-            this.textBox23.TabIndex = 20;
-            this.textBox23.TextChanged += new System.EventHandler(this.TextBoxes_Items_TextChanged);
+            this.tbKeepTRevive.Location = new System.Drawing.Point(109, 142);
+            this.tbKeepTRevive.Name = "tbKeepTRevive";
+            this.tbKeepTRevive.Size = new System.Drawing.Size(51, 20);
+            this.tbKeepTRevive.TabIndex = 20;
+            this.tbKeepTRevive.TextChanged += new System.EventHandler(this.TextBoxes_Items_TextChanged);
             // 
-            // textBox21
+            // tbKeepTPotion
             // 
-            this.textBox21.Location = new System.Drawing.Point(109, 248);
-            this.textBox21.Name = "textBox21";
-            this.textBox21.Size = new System.Drawing.Size(51, 20);
-            this.textBox21.TabIndex = 16;
-            this.textBox21.TextChanged += new System.EventHandler(this.TextBoxes_Items_TextChanged);
+            this.tbKeepTPotion.Location = new System.Drawing.Point(109, 248);
+            this.tbKeepTPotion.Name = "tbKeepTPotion";
+            this.tbKeepTPotion.Size = new System.Drawing.Size(51, 20);
+            this.tbKeepTPotion.TabIndex = 16;
+            this.tbKeepTPotion.TextChanged += new System.EventHandler(this.TextBoxes_Items_TextChanged);
             // 
-            // textBox22
+            // tbKeepMBall
             // 
-            this.textBox22.Location = new System.Drawing.Point(109, 90);
-            this.textBox22.Name = "textBox22";
-            this.textBox22.Size = new System.Drawing.Size(51, 20);
-            this.textBox22.TabIndex = 18;
-            this.textBox22.TextChanged += new System.EventHandler(this.TextBoxes_Items_TextChanged);
+            this.tbKeepMBall.Location = new System.Drawing.Point(109, 90);
+            this.tbKeepMBall.Name = "tbKeepMBall";
+            this.tbKeepMBall.Size = new System.Drawing.Size(51, 20);
+            this.tbKeepMBall.TabIndex = 18;
+            this.tbKeepMBall.TextChanged += new System.EventHandler(this.TextBoxes_Items_TextChanged);
             // 
             // label20
             // 
@@ -609,50 +609,50 @@
             this.label16.TabIndex = 11;
             this.label16.Text = "Max Revives:";
             // 
-            // textBox17
+            // tbKeepBerry
             // 
-            this.textBox17.Location = new System.Drawing.Point(109, 275);
-            this.textBox17.Name = "textBox17";
-            this.textBox17.Size = new System.Drawing.Size(51, 20);
-            this.textBox17.TabIndex = 10;
-            this.textBox17.TextChanged += new System.EventHandler(this.TextBoxes_Items_TextChanged);
-            this.textBox17.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox7_KeyPress);
+            this.tbKeepBerry.Location = new System.Drawing.Point(109, 275);
+            this.tbKeepBerry.Name = "tbKeepBerry";
+            this.tbKeepBerry.Size = new System.Drawing.Size(51, 20);
+            this.tbKeepBerry.TabIndex = 10;
+            this.tbKeepBerry.TextChanged += new System.EventHandler(this.TextBoxes_Items_TextChanged);
+            this.tbKeepBerry.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tbWalkDistance_KeyPress);
             // 
-            // textBox16
+            // tbKeepHPotion
             // 
-            this.textBox16.Location = new System.Drawing.Point(109, 221);
-            this.textBox16.Name = "textBox16";
-            this.textBox16.Size = new System.Drawing.Size(51, 20);
-            this.textBox16.TabIndex = 9;
-            this.textBox16.TextChanged += new System.EventHandler(this.TextBoxes_Items_TextChanged);
-            this.textBox16.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox7_KeyPress);
+            this.tbKeepHPotion.Location = new System.Drawing.Point(109, 221);
+            this.tbKeepHPotion.Name = "tbKeepHPotion";
+            this.tbKeepHPotion.Size = new System.Drawing.Size(51, 20);
+            this.tbKeepHPotion.TabIndex = 9;
+            this.tbKeepHPotion.TextChanged += new System.EventHandler(this.TextBoxes_Items_TextChanged);
+            this.tbKeepHPotion.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tbWalkDistance_KeyPress);
             // 
-            // textBox15
+            // tbKeepSPotion
             // 
-            this.textBox15.Location = new System.Drawing.Point(109, 195);
-            this.textBox15.Name = "textBox15";
-            this.textBox15.Size = new System.Drawing.Size(51, 20);
-            this.textBox15.TabIndex = 8;
-            this.textBox15.TextChanged += new System.EventHandler(this.TextBoxes_Items_TextChanged);
-            this.textBox15.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox7_KeyPress);
+            this.tbKeepSPotion.Location = new System.Drawing.Point(109, 195);
+            this.tbKeepSPotion.Name = "tbKeepSPotion";
+            this.tbKeepSPotion.Size = new System.Drawing.Size(51, 20);
+            this.tbKeepSPotion.TabIndex = 8;
+            this.tbKeepSPotion.TextChanged += new System.EventHandler(this.TextBoxes_Items_TextChanged);
+            this.tbKeepSPotion.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tbWalkDistance_KeyPress);
             // 
-            // textBox14
+            // tbKeepNPotion
             // 
-            this.textBox14.Location = new System.Drawing.Point(109, 169);
-            this.textBox14.Name = "textBox14";
-            this.textBox14.Size = new System.Drawing.Size(51, 20);
-            this.textBox14.TabIndex = 7;
-            this.textBox14.TextChanged += new System.EventHandler(this.TextBoxes_Items_TextChanged);
-            this.textBox14.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox7_KeyPress);
+            this.tbKeepNPotion.Location = new System.Drawing.Point(109, 169);
+            this.tbKeepNPotion.Name = "tbKeepNPotion";
+            this.tbKeepNPotion.Size = new System.Drawing.Size(51, 20);
+            this.tbKeepNPotion.TabIndex = 7;
+            this.tbKeepNPotion.TextChanged += new System.EventHandler(this.TextBoxes_Items_TextChanged);
+            this.tbKeepNPotion.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tbWalkDistance_KeyPress);
             // 
-            // textBox13
+            // tbKeepNRevive
             // 
-            this.textBox13.Location = new System.Drawing.Point(109, 116);
-            this.textBox13.Name = "textBox13";
-            this.textBox13.Size = new System.Drawing.Size(51, 20);
-            this.textBox13.TabIndex = 6;
-            this.textBox13.TextChanged += new System.EventHandler(this.TextBoxes_Items_TextChanged);
-            this.textBox13.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox7_KeyPress);
+            this.tbKeepNRevive.Location = new System.Drawing.Point(109, 116);
+            this.tbKeepNRevive.Name = "tbKeepNRevive";
+            this.tbKeepNRevive.Size = new System.Drawing.Size(51, 20);
+            this.tbKeepNRevive.TabIndex = 6;
+            this.tbKeepNRevive.TextChanged += new System.EventHandler(this.TextBoxes_Items_TextChanged);
+            this.tbKeepNRevive.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tbWalkDistance_KeyPress);
             // 
             // label15
             // 
@@ -663,23 +663,23 @@
             this.label15.TabIndex = 5;
             this.label15.Text = "Max UltraBalls:";
             // 
-            // textBox12
+            // tbKeepHBall
             // 
-            this.textBox12.Location = new System.Drawing.Point(109, 64);
-            this.textBox12.Name = "textBox12";
-            this.textBox12.Size = new System.Drawing.Size(51, 20);
-            this.textBox12.TabIndex = 4;
-            this.textBox12.TextChanged += new System.EventHandler(this.TextBoxes_Items_TextChanged);
-            this.textBox12.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox7_KeyPress);
+            this.tbKeepHBall.Location = new System.Drawing.Point(109, 64);
+            this.tbKeepHBall.Name = "tbKeepHBall";
+            this.tbKeepHBall.Size = new System.Drawing.Size(51, 20);
+            this.tbKeepHBall.TabIndex = 4;
+            this.tbKeepHBall.TextChanged += new System.EventHandler(this.TextBoxes_Items_TextChanged);
+            this.tbKeepHBall.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tbWalkDistance_KeyPress);
             // 
-            // textBox11
+            // tbKeepSBall
             // 
-            this.textBox11.Location = new System.Drawing.Point(109, 38);
-            this.textBox11.Name = "textBox11";
-            this.textBox11.Size = new System.Drawing.Size(51, 20);
-            this.textBox11.TabIndex = 3;
-            this.textBox11.TextChanged += new System.EventHandler(this.TextBoxes_Items_TextChanged);
-            this.textBox11.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox7_KeyPress);
+            this.tbKeepSBall.Location = new System.Drawing.Point(109, 38);
+            this.tbKeepSBall.Name = "tbKeepSBall";
+            this.tbKeepSBall.Size = new System.Drawing.Size(51, 20);
+            this.tbKeepSBall.TabIndex = 3;
+            this.tbKeepSBall.TextChanged += new System.EventHandler(this.TextBoxes_Items_TextChanged);
+            this.tbKeepSBall.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tbWalkDistance_KeyPress);
             // 
             // label14
             // 
@@ -690,14 +690,14 @@
             this.label14.TabIndex = 2;
             this.label14.Text = "Max GreatBalls:";
             // 
-            // textBox10
+            // tbKeepNBall
             // 
-            this.textBox10.Location = new System.Drawing.Point(109, 12);
-            this.textBox10.Name = "textBox10";
-            this.textBox10.Size = new System.Drawing.Size(51, 20);
-            this.textBox10.TabIndex = 1;
-            this.textBox10.TextChanged += new System.EventHandler(this.TextBoxes_Items_TextChanged);
-            this.textBox10.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox7_KeyPress);
+            this.tbKeepNBall.Location = new System.Drawing.Point(109, 12);
+            this.tbKeepNBall.Name = "tbKeepNBall";
+            this.tbKeepNBall.Size = new System.Drawing.Size(51, 20);
+            this.tbKeepNBall.TabIndex = 1;
+            this.tbKeepNBall.TextChanged += new System.EventHandler(this.TextBoxes_Items_TextChanged);
+            this.tbKeepNBall.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tbWalkDistance_KeyPress);
             // 
             // label13
             // 
@@ -829,10 +829,10 @@
             // 
             this.groupBox8.Controls.Add(this.label24);
             this.groupBox8.Controls.Add(this.label23);
-            this.groupBox8.Controls.Add(this.textBox20);
-            this.groupBox8.Controls.Add(this.textBox19);
+            this.groupBox8.Controls.Add(this.tbTelDelay);
+            this.groupBox8.Controls.Add(this.tbTelName);
             this.groupBox8.Controls.Add(this.label22);
-            this.groupBox8.Controls.Add(this.textBox18);
+            this.groupBox8.Controls.Add(this.tbTelAPI);
             this.groupBox8.Controls.Add(this.label21);
             this.groupBox8.Location = new System.Drawing.Point(13, 421);
             this.groupBox8.Name = "groupBox8";
@@ -859,20 +859,20 @@
             this.label23.TabIndex = 5;
             this.label23.Text = "Live stats delay";
             // 
-            // textBox20
+            // tbTelDelay
             // 
-            this.textBox20.Location = new System.Drawing.Point(110, 65);
-            this.textBox20.Name = "textBox20";
-            this.textBox20.Size = new System.Drawing.Size(71, 20);
-            this.textBox20.TabIndex = 4;
-            this.textBox20.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox7_KeyPress);
+            this.tbTelDelay.Location = new System.Drawing.Point(110, 65);
+            this.tbTelDelay.Name = "tbTelDelay";
+            this.tbTelDelay.Size = new System.Drawing.Size(71, 20);
+            this.tbTelDelay.TabIndex = 4;
+            this.tbTelDelay.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tbWalkDistance_KeyPress);
             // 
-            // textBox19
+            // tbTelName
             // 
-            this.textBox19.Location = new System.Drawing.Point(67, 39);
-            this.textBox19.Name = "textBox19";
-            this.textBox19.Size = new System.Drawing.Size(174, 20);
-            this.textBox19.TabIndex = 3;
+            this.tbTelName.Location = new System.Drawing.Point(67, 39);
+            this.tbTelName.Name = "tbTelName";
+            this.tbTelName.Size = new System.Drawing.Size(174, 20);
+            this.tbTelName.TabIndex = 3;
             // 
             // label22
             // 
@@ -883,12 +883,12 @@
             this.label22.TabIndex = 2;
             this.label22.Text = "Name";
             // 
-            // textBox18
+            // tbTelAPI
             // 
-            this.textBox18.Location = new System.Drawing.Point(67, 13);
-            this.textBox18.Name = "textBox18";
-            this.textBox18.Size = new System.Drawing.Size(174, 20);
-            this.textBox18.TabIndex = 1;
+            this.tbTelAPI.Location = new System.Drawing.Point(67, 13);
+            this.tbTelAPI.Name = "tbTelAPI";
+            this.tbTelAPI.Size = new System.Drawing.Size(174, 20);
+            this.tbTelAPI.TabIndex = 1;
             // 
             // label21
             // 
@@ -1092,38 +1092,38 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.TextBox textBox3;
-        private System.Windows.Forms.TextBox textBox4;
+        private System.Windows.Forms.TextBox tbLatitude;
+        private System.Windows.Forms.TextBox tbLongitude;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.TextBox textBox5;
+        private System.Windows.Forms.TextBox tbAltitude;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.TextBox textBox6;
+        private System.Windows.Forms.TextBox tbWalkSpeed;
         private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.TextBox textBox7;
+        private System.Windows.Forms.TextBox tbWalkDistance;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.CheckBox checkBox1;
         private System.Windows.Forms.CheckBox checkBox3;
         private System.Windows.Forms.CheckBox checkBox2;
         private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.TextBox textBox8;
+        private System.Windows.Forms.TextBox tbKeepDupes;
         private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.TextBox textBox9;
+        private System.Windows.Forms.TextBox tbTransThreshCP;
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.Label label15;
-        private System.Windows.Forms.TextBox textBox12;
-        private System.Windows.Forms.TextBox textBox11;
+        private System.Windows.Forms.TextBox tbKeepHBall;
+        private System.Windows.Forms.TextBox tbKeepSBall;
         private System.Windows.Forms.Label label14;
-        private System.Windows.Forms.TextBox textBox10;
+        private System.Windows.Forms.TextBox tbKeepNBall;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Label label16;
-        private System.Windows.Forms.TextBox textBox17;
-        private System.Windows.Forms.TextBox textBox16;
-        private System.Windows.Forms.TextBox textBox15;
-        private System.Windows.Forms.TextBox textBox14;
-        private System.Windows.Forms.TextBox textBox13;
+        private System.Windows.Forms.TextBox tbKeepBerry;
+        private System.Windows.Forms.TextBox tbKeepHPotion;
+        private System.Windows.Forms.TextBox tbKeepSPotion;
+        private System.Windows.Forms.TextBox tbKeepNPotion;
+        private System.Windows.Forms.TextBox tbKeepNRevive;
         private System.Windows.Forms.Label label17;
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.Label label19;
@@ -1140,18 +1140,18 @@
         private System.Windows.Forms.CheckBox checkBox6;
         private System.Windows.Forms.GroupBox groupBox8;
         private System.Windows.Forms.Label label21;
-        private System.Windows.Forms.TextBox textBox19;
+        private System.Windows.Forms.TextBox tbTelName;
         private System.Windows.Forms.Label label22;
-        private System.Windows.Forms.TextBox textBox18;
+        private System.Windows.Forms.TextBox tbTelAPI;
         private System.Windows.Forms.Label label23;
-        private System.Windows.Forms.TextBox textBox20;
+        private System.Windows.Forms.TextBox tbTelDelay;
         private System.Windows.Forms.Label label24;
         private System.Windows.Forms.Label label25;
-        private System.Windows.Forms.TextBox textBox21;
+        private System.Windows.Forms.TextBox tbKeepTPotion;
         private System.Windows.Forms.Label label26;
-        private System.Windows.Forms.TextBox textBox22;
+        private System.Windows.Forms.TextBox tbKeepMBall;
         private System.Windows.Forms.Label label27;
-        private System.Windows.Forms.TextBox textBox23;
+        private System.Windows.Forms.TextBox tbKeepTRevive;
         private System.Windows.Forms.LinkLabel linkLabel1;
         private System.Windows.Forms.LinkLabel linkLabel2;
         private System.Windows.Forms.CheckBox checkBox7;
@@ -1161,7 +1161,7 @@
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.CheckBox checkBox9;
         private System.Windows.Forms.Label label29;
-        private System.Windows.Forms.TextBox textBox24;
+        private System.Windows.Forms.TextBox tbIVMaxPcntTransfer;
         private System.Windows.Forms.Label label28;
         private System.Windows.Forms.CheckBox checkBox10;
         private System.Windows.Forms.CheckBox checkBox11;

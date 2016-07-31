@@ -141,13 +141,13 @@ namespace PokemonGo.RocketAPI.Console
                             checkBox3.Checked = bool.Parse(line);
                             break;
                         case 14:
-                            textBox18.Text = line;
+                            tbTelAPI.Text = line;
                             break;
                         case 15:
-                            textBox19.Text = line;
+                            tbTelName.Text = line;
                             break;
                         case 16:
-                            textBox20.Text = line;
+                            tbTelDelay.Text = line;
                             break;
                         case 17:
                             //if (line == "1")
@@ -172,7 +172,7 @@ namespace PokemonGo.RocketAPI.Console
                             checkBox9.Checked = bool.Parse(line);
                             break;
                         case 21:
-                            textBox24.Text = line;
+                            tbIVMaxPcntTransfer.Text = line;
                             break;
                         case 22:
                             checkBox10.Checked = bool.Parse(line);
@@ -184,9 +184,9 @@ namespace PokemonGo.RocketAPI.Console
                             checkBox12.Checked = bool.Parse(line);
                             break;
                         default:
-                            TextBox temp = (TextBox)this.Controls.Find("textBox" + tb, true).FirstOrDefault();
-                            temp.Text = line;
-                            tb++;
+                            //TextBox temp = (TextBox)this.Controls.Find("textBox" + tb, true).FirstOrDefault();
+                            //temp.Text = line;
+                            //tb++;
                             break;
                     }
                     i++;
@@ -194,14 +194,14 @@ namespace PokemonGo.RocketAPI.Console
             }
             else
             {
-                textBox3.Text = "40,764883";
-                textBox4.Text = "-73,972967";
-                textBox5.Text = "10";
-                textBox6.Text = "50";
-                textBox7.Text = "5000";
-                textBox8.Text = "3";
-                textBox9.Text = "999";
-                textBox20.Text = "5000";
+                tbLatitude.Text = "40,764883";
+                tbLongitude.Text = "-73,972967";
+                tbAltitude.Text = "10";
+                tbWalkSpeed.Text = "50";
+                tbWalkDistance.Text = "5000";
+                tbKeepDupes.Text = "3";
+                tbTransThreshCP.Text = "999";
+                tbTelDelay.Text = "5000";
             }
 
             if (File.Exists(Program.items))
@@ -222,25 +222,27 @@ namespace PokemonGo.RocketAPI.Console
                     {
                         i = 23;
                     }
-                    TextBox temp = (TextBox)this.Controls.Find("textBox" + i, true).FirstOrDefault();
-                    temp.Text = line;
+					if(this.Controls.Find("textBox" + i, true).Length > 0) {
+						TextBox temp = (TextBox)this.Controls.Find("textBox" + i, true).FirstOrDefault();
+						temp.Text = line;
+					}
                     i++;
                 }
             }
             else
             {
-                textBox10.Text = "20";
-                textBox11.Text = "50";
-                textBox12.Text = "100";
-                textBox13.Text = "20";
-                textBox14.Text = "0";
-                textBox15.Text = "0";
-                textBox16.Text = "50";
-                textBox17.Text = "75";
-                textBox22.Text = "200";
-                textBox21.Text = "100";
-                textBox23.Text = "20";
-                textBox24.Text = "90";
+                tbKeepNBall.Text = "20";
+                tbKeepSBall.Text = "50";
+                tbKeepHBall.Text = "100";
+                tbKeepNRevive.Text = "20";
+                tbKeepNPotion.Text = "0";
+                tbKeepSPotion.Text = "0";
+                tbKeepHPotion.Text = "50";
+                tbKeepBerry.Text = "75";
+                tbKeepMBall.Text = "200";
+                tbKeepTPotion.Text = "100";
+                tbKeepTRevive.Text = "20";
+                tbIVMaxPcntTransfer.Text = "90";
             }
 
             if (File.Exists(Program.keep))
@@ -301,7 +303,7 @@ namespace PokemonGo.RocketAPI.Console
 
         }
 
-        private void textBox3_KeyPress(object sender, KeyPressEventArgs e)
+        private void tbLatitude_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && (e.KeyChar != '.') && (e.KeyChar != '-'))
             {
@@ -317,7 +319,7 @@ namespace PokemonGo.RocketAPI.Console
             }
         }
 
-        private void textBox5_KeyPress(object sender, KeyPressEventArgs e)
+        private void tbAltitude_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && (e.KeyChar != '.'))
             {
@@ -329,7 +331,7 @@ namespace PokemonGo.RocketAPI.Console
             }
         }
 
-        private void textBox7_KeyPress(object sender, KeyPressEventArgs e)
+        private void tbWalkDistance_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
             {
@@ -354,177 +356,177 @@ namespace PokemonGo.RocketAPI.Console
             else
                 Globals.password = textBox2.Text;
 
-            if (textBox3.Text == "")
+            if (tbLatitude.Text == "")
             {
-                textBox3.BackColor = Color.Red;
+                tbLatitude.BackColor = Color.Red;
                 return;
             }
             else
-                Globals.latitute = double.Parse(textBox3.Text.Replace(',', '.'), cords, System.Globalization.NumberFormatInfo.InvariantInfo);
+                Globals.latitute = double.Parse(tbLatitude.Text.Replace(',', '.'), cords, System.Globalization.NumberFormatInfo.InvariantInfo);
 
-            if (textBox4.Text == "")
+            if (tbLongitude.Text == "")
             {
-                textBox4.BackColor = Color.Red;
+                tbLongitude.BackColor = Color.Red;
                 return;
             }
             else
-                Globals.longitude = double.Parse(textBox4.Text.Replace(',', '.'), cords, System.Globalization.NumberFormatInfo.InvariantInfo);
+                Globals.longitude = double.Parse(tbLongitude.Text.Replace(',', '.'), cords, System.Globalization.NumberFormatInfo.InvariantInfo);
 
-            if (textBox5.Text == "")
+            if (tbAltitude.Text == "")
             {
-                textBox5.BackColor = Color.Red;
+                tbAltitude.BackColor = Color.Red;
                 return;
             }
             else
-                Globals.altitude = double.Parse(textBox5.Text.Replace(',', '.'), cords, System.Globalization.NumberFormatInfo.InvariantInfo);
+                Globals.altitude = double.Parse(tbAltitude.Text.Replace(',', '.'), cords, System.Globalization.NumberFormatInfo.InvariantInfo);
 
-            if (textBox6.Text == "")
+            if (tbWalkSpeed.Text == "")
             {
-                textBox6.BackColor = Color.Red;
+                tbWalkSpeed.BackColor = Color.Red;
                 return;
             }
             else
-                Globals.speed = double.Parse(textBox6.Text.Replace(',', '.'), cords, System.Globalization.NumberFormatInfo.InvariantInfo);
+                Globals.speed = double.Parse(tbWalkSpeed.Text.Replace(',', '.'), cords, System.Globalization.NumberFormatInfo.InvariantInfo);
 
-            if (textBox7.Text == "")
+            if (tbWalkDistance.Text == "")
             {
-                textBox7.BackColor = Color.Red;
+                tbWalkDistance.BackColor = Color.Red;
                 return;
             }
             else
-                Globals.radius = int.Parse(textBox7.Text);
+                Globals.radius = int.Parse(tbWalkDistance.Text);
 
-            if (textBox8.Text == "")
+            if (tbKeepDupes.Text == "")
             {
-                textBox8.BackColor = Color.Red;
+                tbKeepDupes.BackColor = Color.Red;
                 return;
             }
             else
-                Globals.duplicate = int.Parse(textBox8.Text);
+                Globals.duplicate = int.Parse(tbKeepDupes.Text);
 
-            if (textBox9.Text == "")
+            if (tbTransThreshCP.Text == "")
             {
-                textBox9.BackColor = Color.Red;
+                tbTransThreshCP.BackColor = Color.Red;
                 return;
             }
             else
-                Globals.maxCp = int.Parse(textBox9.Text);
+                Globals.maxCp = int.Parse(tbTransThreshCP.Text);
 
             Globals.transfer = checkBox2.Checked;
             Globals.defLoc = checkBox1.Checked;
             Globals.evolve = checkBox3.Checked;
 
-            if (textBox10.Text == "")
+            if (tbKeepNBall.Text == "")
             {
-                textBox10.BackColor = Color.Red;
+                tbKeepNBall.BackColor = Color.Red;
                 return;
             }
             else
-                Globals.pokeball = int.Parse(textBox10.Text);
+                Globals.pokeball = int.Parse(tbKeepNBall.Text);
 
-            if (textBox11.Text == "")
+            if (tbKeepSBall.Text == "")
             {
-                textBox11.BackColor = Color.Red;
+                tbKeepSBall.BackColor = Color.Red;
                 return;
             }
             else
-                Globals.greatball = int.Parse(textBox11.Text);
+                Globals.greatball = int.Parse(tbKeepSBall.Text);
 
-            if (textBox12.Text == "")
+            if (tbKeepHBall.Text == "")
             {
-                textBox12.BackColor = Color.Red;
+                tbKeepHBall.BackColor = Color.Red;
                 return;
             }
             else
-                Globals.ultraball = int.Parse(textBox12.Text);
+                Globals.ultraball = int.Parse(tbKeepHBall.Text);
 
-            if (textBox13.Text == "")
+            if (tbKeepNRevive.Text == "")
             {
-                textBox13.BackColor = Color.Red;
+                tbKeepNRevive.BackColor = Color.Red;
                 return;
             }
             else
-                Globals.revive = int.Parse(textBox13.Text);
+                Globals.revive = int.Parse(tbKeepNRevive.Text);
 
-            if (textBox14.Text == "")
+            if (tbKeepNPotion.Text == "")
             {
-                textBox14.BackColor = Color.Red;
+                tbKeepNPotion.BackColor = Color.Red;
                 return;
             }
             else
-                Globals.potion = int.Parse(textBox14.Text);
+                Globals.potion = int.Parse(tbKeepNPotion.Text);
 
-            if (textBox15.Text == "")
+            if (tbKeepSPotion.Text == "")
             {
-                textBox15.BackColor = Color.Red;
+                tbKeepSPotion.BackColor = Color.Red;
                 return;
             }
             else
-                Globals.superpotion = int.Parse(textBox15.Text);
+                Globals.superpotion = int.Parse(tbKeepSPotion.Text);
 
-            if (textBox16.Text == "")
+            if (tbKeepHPotion.Text == "")
             {
-                textBox16.BackColor = Color.Red;
+                tbKeepHPotion.BackColor = Color.Red;
                 return;
             }
             else
-                Globals.hyperpotion = int.Parse(textBox16.Text);
+                Globals.hyperpotion = int.Parse(tbKeepHPotion.Text);
 
-            if (textBox17.Text == "")
+            if (tbKeepBerry.Text == "")
             {
-                textBox17.BackColor = Color.Red;
+                tbKeepBerry.BackColor = Color.Red;
                 return;
             }
             else
-                Globals.berry = int.Parse(textBox17.Text);
+                Globals.berry = int.Parse(tbKeepBerry.Text);
 
-            if (textBox18.Text != "")
-                Globals.telAPI = textBox18.Text;
+            if (tbTelAPI.Text != "")
+                Globals.telAPI = tbTelAPI.Text;
 
-            if (textBox19.Text != "")
-                Globals.telName = textBox19.Text;
+            if (tbTelName.Text != "")
+                Globals.telName = tbTelName.Text;
 
-            if (textBox20.Text == "")
+            if (tbTelDelay.Text == "")
             {
-                textBox20.BackColor = Color.Red;
+                tbTelDelay.BackColor = Color.Red;
                 return;
             }
             else
-                Globals.telDelay = int.Parse(textBox20.Text);
+                Globals.telDelay = int.Parse(tbTelDelay.Text);
 
-            if (textBox21.Text == "")
+            if (tbKeepTPotion.Text == "")
             {
-                textBox21.BackColor = Color.Red;
+                tbKeepTPotion.BackColor = Color.Red;
             }
             else
             {
-                Globals.toppotion = int.Parse(textBox21.Text);
+                Globals.toppotion = int.Parse(tbKeepTPotion.Text);
             }
 
-            if (textBox22.Text == "")
+            if (tbKeepMBall.Text == "")
             {
-                textBox22.BackColor = Color.Red;
+                tbKeepMBall.BackColor = Color.Red;
             }
             else
             {
-                Globals.masterball = int.Parse(textBox22.Text);
+                Globals.masterball = int.Parse(tbKeepMBall.Text);
             }
 
-            if (textBox23.Text == "")
+            if (tbKeepTRevive.Text == "")
             {
-                textBox23.BackColor = Color.Red;
+                tbKeepTRevive.BackColor = Color.Red;
             }
             else
             {
-                Globals.toprevive = int.Parse(textBox23.Text);
+                Globals.toprevive = int.Parse(tbKeepTRevive.Text);
             }
 
-            if (textBox24.Text == "")
+            if (tbIVMaxPcntTransfer.Text == "")
             {
-                textBox24.BackColor = Color.Red;
+                tbIVMaxPcntTransfer.BackColor = Color.Red;
             } else
             {
-                Globals.ivmaxpercent = int.Parse(textBox24.Text);
+                Globals.ivmaxpercent = int.Parse(tbIVMaxPcntTransfer.Text);
             }
 
             Globals.gerNames = checkBox8.Checked;
@@ -790,9 +792,9 @@ namespace PokemonGo.RocketAPI.Console
         {
             LocationSelect locationSelector = new LocationSelect();
             locationSelector.ShowDialog();
-            textBox3.Text = Globals.latitute.ToString();
-            textBox4.Text = Globals.longitude.ToString();
-            textBox5.Text = Globals.altitude.ToString();
+            tbLatitude.Text = Globals.latitute.ToString();
+            tbLongitude.Text = Globals.longitude.ToString();
+            tbAltitude.Text = Globals.altitude.ToString();
         }
 
         private void checkBox11_CheckedChanged(object sender, EventArgs e)
@@ -823,19 +825,19 @@ namespace PokemonGo.RocketAPI.Console
         {
             int item_summe = 0;
 
-            if (textBox10.Text != "" && textBox11.Text != "" && textBox12.Text != "" && textBox13.Text != "" && textBox14.Text != "" && textBox15.Text != "" && textBox16.Text != "" && textBox17.Text != "" && textBox22.Text != "" && textBox21.Text != "" && textBox23.Text != "")
+            if (tbKeepNBall.Text != "" && tbKeepSBall.Text != "" && tbKeepHBall.Text != "" && tbKeepNRevive.Text != "" && tbKeepNPotion.Text != "" && tbKeepSPotion.Text != "" && tbKeepHPotion.Text != "" && tbKeepBerry.Text != "" && tbKeepMBall.Text != "" && tbKeepTPotion.Text != "" && tbKeepTRevive.Text != "")
             {
-                item_summe = Convert.ToInt16(textBox10.Text) +
-                            Convert.ToInt16(textBox11.Text) +
-                            Convert.ToInt16(textBox12.Text) +
-                            Convert.ToInt16(textBox13.Text) +
-                            Convert.ToInt16(textBox14.Text) +
-                            Convert.ToInt16(textBox15.Text) +
-                            Convert.ToInt16(textBox16.Text) +
-                            Convert.ToInt16(textBox17.Text) +
-                            Convert.ToInt16(textBox22.Text) +
-                            Convert.ToInt16(textBox23.Text) +
-                            Convert.ToInt16(textBox21.Text);
+                item_summe = Convert.ToInt16(tbKeepNBall.Text) +
+                            Convert.ToInt16(tbKeepSBall.Text) +
+                            Convert.ToInt16(tbKeepHBall.Text) +
+                            Convert.ToInt16(tbKeepNRevive.Text) +
+                            Convert.ToInt16(tbKeepNPotion.Text) +
+                            Convert.ToInt16(tbKeepSPotion.Text) +
+                            Convert.ToInt16(tbKeepHPotion.Text) +
+                            Convert.ToInt16(tbKeepBerry.Text) +
+                            Convert.ToInt16(tbKeepMBall.Text) +
+                            Convert.ToInt16(tbKeepTRevive.Text) +
+                            Convert.ToInt16(tbKeepTPotion.Text);
             }
             textBox25.Text = Convert.ToString(item_summe);
         }
