@@ -107,9 +107,6 @@ namespace PokemonGo.RocketAPI.Console
                 columnheader.Text = "LVL";
                 listView1.Columns.Add(columnheader);
                 columnheader = new ColumnHeader();
-                columnheader.Text = "Candy";
-                listView1.Columns.Add(columnheader);
-                columnheader = new ColumnHeader();
                 columnheader.Text = "Evolvable?";
                 listView1.Columns.Add(columnheader);
                 columnheader = new ColumnHeader();
@@ -148,7 +145,6 @@ namespace PokemonGo.RocketAPI.Console
                     listViewItem.SubItems.Add(string.Format("{0}", pokemon.Cp));
                     listViewItem.SubItems.Add(string.Format("{0}% {1}-{2}-{3}", currIv, pokemon.IndividualAttack, pokemon.IndividualDefense, pokemon.IndividualStamina));
                     listViewItem.SubItems.Add(string.Format("{0}", PokemonInfo.GetLevel(pokemon)));
-                    listViewItem.SubItems.Add(string.Format("{0}", currentCandy));
                     listViewItem.ImageKey = pokemon.PokemonId.ToString();
 
                     var pokemonId2 = pokemon.PokemonId;
@@ -160,7 +156,7 @@ namespace PokemonGo.RocketAPI.Console
                     var settings = pokemonSettings.Single(x => x.PokemonId == pokemon.PokemonId);
                     var familyCandy = pokemonFamilies.Single(x => settings.FamilyId == x.FamilyId);
 
-                    if (settings.EvolutionIds.Count > 0 && familyCandy.Candy > settings.CandyToEvolve)
+                    if (settings.EvolutionIds.Count > 0 && familyCandy.Candy >= settings.CandyToEvolve)
                     {
                         listViewItem.SubItems.Add("Y (" + settings.CandyToEvolve + ")");
                         listViewItem.Checked = true;
@@ -170,7 +166,7 @@ namespace PokemonGo.RocketAPI.Console
                         if (settings.EvolutionIds.Count > 0)
                             listViewItem.SubItems.Add("N (" + familyCandy.Candy + "/" + settings.CandyToEvolve + ")");
                         else
-                            listViewItem.SubItems.Add("N (Max)");
+                            listViewItem.SubItems.Add("N (" + familyCandy.Candy + "/Max)");
                     }
                     listViewItem.SubItems.Add(string.Format("{0}", Math.Round(pokemon.HeightM, 2)));
                     listViewItem.SubItems.Add(string.Format("{0}", Math.Round(pokemon.WeightKg, 2)));
@@ -679,6 +675,11 @@ namespace PokemonGo.RocketAPI.Console
             {
                 EnabledButton(true);
             }
+        }
+
+        private void listView1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
     }
     public static class ControlExtensions
