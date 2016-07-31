@@ -115,6 +115,8 @@
             this.checkBox10 = new System.Windows.Forms.CheckBox();
             this.checkBox9 = new System.Windows.Forms.CheckBox();
             this.checkBox8 = new System.Windows.Forms.CheckBox();
+            this.label32 = new System.Windows.Forms.Label();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -125,6 +127,7 @@
             this.groupBox8.SuspendLayout();
             this.groupBox9.SuspendLayout();
             this.groupBox10.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -709,7 +712,7 @@
             // 
             this.label30.AutoSize = true;
             this.label30.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F);
-            this.label30.Location = new System.Drawing.Point(88, 585);
+            this.label30.Location = new System.Drawing.Point(88, 581);
             this.label30.Name = "label30";
             this.label30.Size = new System.Drawing.Size(418, 25);
             this.label30.TabIndex = 9;
@@ -1006,11 +1009,33 @@
             this.checkBox8.UseVisualStyleBackColor = true;
             this.checkBox8.CheckedChanged += new System.EventHandler(this.checkBox8_CheckedChanged);
             // 
+            // label32
+            // 
+            this.label32.AutoSize = true;
+            this.label32.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F);
+            this.label32.Location = new System.Drawing.Point(34, 613);
+            this.label32.Name = "label32";
+            this.label32.Size = new System.Drawing.Size(553, 25);
+            this.label32.TabIndex = 20;
+            this.label32.Text = "If you see a Video of Pokecrop its our Bot! Its stolen! Tell them!";
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = global::PokemonGo.RocketAPI.Console.Properties.Resources.donate;
+            this.pictureBox1.Location = new System.Drawing.Point(13, 577);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(64, 33);
+            this.pictureBox1.TabIndex = 21;
+            this.pictureBox1.TabStop = false;
+            this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
+            // 
             // GUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(626, 619);
+            this.ClientSize = new System.Drawing.Size(626, 613);
+            this.Controls.Add(this.pictureBox1);
+            this.Controls.Add(this.label32);
             this.Controls.Add(this.label30);
             this.Controls.Add(this.groupBox10);
             this.Controls.Add(this.groupBox9);
@@ -1050,6 +1075,7 @@
             this.groupBox9.PerformLayout();
             this.groupBox10.ResumeLayout(false);
             this.groupBox10.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1143,6 +1169,8 @@
         private System.Windows.Forms.Label label30;
         private System.Windows.Forms.TextBox textBox25;
         private System.Windows.Forms.Label label31;
+        private System.Windows.Forms.Label label32;
+        private System.Windows.Forms.PictureBox pictureBox1;
     }
 }
 
