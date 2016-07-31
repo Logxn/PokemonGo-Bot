@@ -27,6 +27,7 @@ namespace PokemonGo.RocketAPI.Logic
         private readonly Navigation _navigation;
         public const double SpeedDownTo = 10 / 3.6;
         private readonly PokeVisionUtil _pokevision;
+		private bool initialUnbanHappened = false;
 
         public Logic(ISettings clientSettings)
         {
@@ -349,8 +350,10 @@ namespace PokemonGo.RocketAPI.Logic
             {
                 // replace this true with settings variable!!
                 await UseIncense();
-
-                await ExecuteCatchAllNearbyPokemons();
+				
+				if(initialUnbanHappened == true) { // needed for sniping: do not even try to catch pokemons before unbanned!
+					await ExecuteCatchAllNearbyPokemons();
+				}
 
                 
                 if (count >= 3)
@@ -388,7 +391,7 @@ namespace PokemonGo.RocketAPI.Logic
 
                 count++;
 
-                if (fortSearch.ExperienceAwarded > 0)
+                if (initialUnbanHappened && fortSearch.ExperienceAwarded > 0)
                 {
                     failed_softban = 0;
                     _botStats.addExperience(fortSearch.ExperienceAwarded);
@@ -413,9 +416,13 @@ namespace PokemonGo.RocketAPI.Logic
                     Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Farmed XP: {fortSearch.ExperienceAwarded}, Gems: { fortSearch.GemsAwarded}, Eggs: {egg} Items: {i}", LogLevel.Info);
                 } else {
                     failed_softban++; 
-                    if (failed_softban >= 6)
+                    if (failed_softban >= 6 || !initialUnbanHappened)
                     {
-                        Logger.Error("Detected a Softban. Trying to use our Special 1337 Unban Methode.");
+						if (initialUnbanHappened)
+							Logger.Error("Detected a Softban. Trying to use our Special 1337 Unban Methode.");
+						else
+							Logger.Error("Executing initial unban with our Special 1337 Unban Methode.");
+                        initialUnbanHappened = true;
                         for (int i = 0; i < 60; i++)
                         {
                             var unban = await client.SearchFort(pokeStop.Id, pokeStop.Latitude, pokeStop.Longitude);
@@ -440,6 +447,10 @@ namespace PokemonGo.RocketAPI.Logic
 
         private async Task ExecuteCatchAllNearbyPokemons()
         {
+			if(!initialUnbanHappened) {
+				Logger.Error("Initial unban not executed yet, will not try to catch any Pokemons!");
+				return;
+			}
             var client = _client;
             var mapObjects = await client.GetMapObjects();
 
