@@ -40,6 +40,8 @@ namespace PokemonGo.RocketAPI.Logic
 
         public async Task Execute()
         {
+            Logger.ColoredConsoleWrite(ConsoleColor.Red, "This bot is absolutely free and open-source!");
+            Logger.ColoredConsoleWrite(ConsoleColor.Red, "If you've paid for it. Request a chargeback immediately!");
             Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Starting Execute on login server: {_clientSettings.AuthType}", LogLevel.Info);
 
             while (true)
@@ -364,15 +366,15 @@ namespace PokemonGo.RocketAPI.Logic
                     await TransferDuplicatePokemon(_clientSettings.keepPokemonsThatCanEvolve);
                     await RecycleItems();
                 }
-                if (_clientSettings.pokevision)
-                {
-                    foreach (spottedPoke p in await _pokevision.GetNearPokemons(_client.CurrentLat, _client.CurrentLng))
-                    {
-                        var dist = LocationUtils.CalculateDistanceInMeters(_client.CurrentLat, _client.CurrentLng, p._lat, p._lng);
-                        Logger.ColoredConsoleWrite(ConsoleColor.Magenta, $"PokeVision: A {StringUtils.getPokemonNameByLanguage(_clientSettings, p._pokeId)} in {dist:0.##}m distance. Trying to catch.");
-                        var upd = await _navigation.HumanLikeWalking(new GeoCoordinate(p._lat, p._lng), _clientSettings.WalkingSpeedInKilometerPerHour, ExecuteCatchAllNearbyPokemons);
-                    }
-                }
+                //if (_clientSettings.pokevision)
+                //{
+                //    foreach (spottedPoke p in await _pokevision.GetNearPokemons(_client.CurrentLat, _client.CurrentLng))
+                //    {
+                //        var dist = LocationUtils.CalculateDistanceInMeters(_client.CurrentLat, _client.CurrentLng, p._lat, p._lng);
+                //        Logger.ColoredConsoleWrite(ConsoleColor.Magenta, $"PokeVision: A {StringUtils.getPokemonNameByLanguage(_clientSettings, p._pokeId)} in {dist:0.##}m distance. Trying to catch.");
+                //        var upd = await _navigation.HumanLikeWalking(new GeoCoordinate(p._lat, p._lng), _clientSettings.WalkingSpeedInKilometerPerHour, ExecuteCatchAllNearbyPokemons);
+                //    }
+                //}
 
                 var distance = LocationUtils.CalculateDistanceInMeters(_client.CurrentLat, _client.CurrentLng, pokeStop.Latitude, pokeStop.Longitude);
                 var fortInfo = await _client.GetFort(pokeStop.Id, pokeStop.Latitude, pokeStop.Longitude);

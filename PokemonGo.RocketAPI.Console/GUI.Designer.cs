@@ -110,7 +110,6 @@
             this.linkLabel2 = new System.Windows.Forms.LinkLabel();
             this.groupBox9 = new System.Windows.Forms.GroupBox();
             this.groupBox10 = new System.Windows.Forms.GroupBox();
-            this.checkBox12 = new System.Windows.Forms.CheckBox();
             this.checkBox11 = new System.Windows.Forms.CheckBox();
             this.checkBox10 = new System.Windows.Forms.CheckBox();
             this.checkBox9 = new System.Windows.Forms.CheckBox();
@@ -189,7 +188,7 @@
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.textBox1);
-            this.groupBox1.Location = new System.Drawing.Point(12, 12);
+            this.groupBox1.Location = new System.Drawing.Point(9, 13);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(252, 97);
             this.groupBox1.TabIndex = 6;
@@ -212,7 +211,7 @@
             this.groupBox2.Controls.Add(this.label5);
             this.groupBox2.Controls.Add(this.textBox3);
             this.groupBox2.Controls.Add(this.label4);
-            this.groupBox2.Location = new System.Drawing.Point(12, 116);
+            this.groupBox2.Location = new System.Drawing.Point(9, 116);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(252, 173);
             this.groupBox2.TabIndex = 7;
@@ -358,7 +357,7 @@
             this.groupBox3.Controls.Add(this.textBox8);
             this.groupBox3.Controls.Add(this.label11);
             this.groupBox3.Controls.Add(this.checkBox2);
-            this.groupBox3.Location = new System.Drawing.Point(12, 295);
+            this.groupBox3.Location = new System.Drawing.Point(9, 295);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(252, 120);
             this.groupBox3.TabIndex = 8;
@@ -488,7 +487,7 @@
             this.groupBox4.Controls.Add(this.label14);
             this.groupBox4.Controls.Add(this.textBox10);
             this.groupBox4.Controls.Add(this.label13);
-            this.groupBox4.Location = new System.Drawing.Point(270, 12);
+            this.groupBox4.Location = new System.Drawing.Point(267, 12);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(172, 325);
             this.groupBox4.TabIndex = 9;
@@ -711,18 +710,19 @@
             // label30
             // 
             this.label30.AutoSize = true;
-            this.label30.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F);
-            this.label30.Location = new System.Drawing.Point(88, 581);
+            this.label30.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label30.Location = new System.Drawing.Point(74, 577);
             this.label30.Name = "label30";
-            this.label30.Size = new System.Drawing.Size(418, 25);
+            this.label30.Size = new System.Drawing.Size(535, 16);
             this.label30.TabIndex = 9;
-            this.label30.Text = "This is Freeware, if you paid for it, Chargeback!";
+            this.label30.Text = "This Bot is absolutely free and open source! Chargeback if you\'ve paid for it!";
+            this.label30.Click += new System.EventHandler(this.label30_Click);
             // 
             // groupBox5
             // 
             this.groupBox5.Controls.Add(this.checkBox4);
             this.groupBox5.Controls.Add(this.checkedListBox1);
-            this.groupBox5.Location = new System.Drawing.Point(448, 12);
+            this.groupBox5.Location = new System.Drawing.Point(445, 12);
             this.groupBox5.Name = "groupBox5";
             this.groupBox5.Size = new System.Drawing.Size(172, 170);
             this.groupBox5.TabIndex = 10;
@@ -754,7 +754,7 @@
             // 
             this.groupBox6.Controls.Add(this.checkBox5);
             this.groupBox6.Controls.Add(this.checkedListBox2);
-            this.groupBox6.Location = new System.Drawing.Point(448, 188);
+            this.groupBox6.Location = new System.Drawing.Point(445, 188);
             this.groupBox6.Name = "groupBox6";
             this.groupBox6.Size = new System.Drawing.Size(172, 177);
             this.groupBox6.TabIndex = 11;
@@ -786,7 +786,7 @@
             // 
             this.groupBox7.Controls.Add(this.checkBox6);
             this.groupBox7.Controls.Add(this.checkedListBox3);
-            this.groupBox7.Location = new System.Drawing.Point(449, 371);
+            this.groupBox7.Location = new System.Drawing.Point(445, 371);
             this.groupBox7.Name = "groupBox7";
             this.groupBox7.Size = new System.Drawing.Size(171, 171);
             this.groupBox7.TabIndex = 12;
@@ -817,9 +817,9 @@
             // button1
             // 
             this.button1.BackColor = System.Drawing.Color.MediumAquamarine;
-            this.button1.Location = new System.Drawing.Point(270, 548);
+            this.button1.Location = new System.Drawing.Point(267, 548);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(349, 23);
+            this.button1.Size = new System.Drawing.Size(350, 23);
             this.button1.TabIndex = 13;
             this.button1.Text = "Save Configuration";
             this.button1.UseVisualStyleBackColor = false;
@@ -925,7 +925,7 @@
             // 
             this.groupBox9.Controls.Add(this.linkLabel1);
             this.groupBox9.Controls.Add(this.linkLabel2);
-            this.groupBox9.Location = new System.Drawing.Point(13, 520);
+            this.groupBox9.Location = new System.Drawing.Point(9, 520);
             this.groupBox9.Name = "groupBox9";
             this.groupBox9.Size = new System.Drawing.Size(252, 51);
             this.groupBox9.TabIndex = 18;
@@ -934,32 +934,18 @@
             // 
             // groupBox10
             // 
-            this.groupBox10.Controls.Add(this.checkBox12);
             this.groupBox10.Controls.Add(this.checkBox11);
             this.groupBox10.Controls.Add(this.checkBox10);
             this.groupBox10.Controls.Add(this.checkBox9);
             this.groupBox10.Controls.Add(this.checkBox8);
             this.groupBox10.Controls.Add(this.checkBox7);
             this.groupBox10.Controls.Add(this.checkBox3);
-            this.groupBox10.Location = new System.Drawing.Point(270, 343);
+            this.groupBox10.Location = new System.Drawing.Point(267, 343);
             this.groupBox10.Name = "groupBox10";
             this.groupBox10.Size = new System.Drawing.Size(172, 199);
             this.groupBox10.TabIndex = 19;
             this.groupBox10.TabStop = false;
             this.groupBox10.Text = "Other Settings";
-            // 
-            // checkBox12
-            // 
-            this.checkBox12.AutoSize = true;
-            this.checkBox12.Checked = true;
-            this.checkBox12.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox12.Location = new System.Drawing.Point(6, 178);
-            this.checkBox12.Name = "checkBox12";
-            this.checkBox12.Size = new System.Drawing.Size(101, 17);
-            this.checkBox12.TabIndex = 11;
-            this.checkBox12.Text = "Use PokeVision";
-            this.checkBox12.UseVisualStyleBackColor = true;
-            this.checkBox12.CheckedChanged += new System.EventHandler(this.checkBox12_CheckedChanged);
             // 
             // checkBox11
             // 
@@ -1012,17 +998,18 @@
             // label32
             // 
             this.label32.AutoSize = true;
-            this.label32.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F);
-            this.label32.Location = new System.Drawing.Point(34, 613);
+            this.label32.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label32.Location = new System.Drawing.Point(74, 595);
             this.label32.Name = "label32";
-            this.label32.Size = new System.Drawing.Size(553, 25);
+            this.label32.Size = new System.Drawing.Size(549, 15);
             this.label32.TabIndex = 20;
-            this.label32.Text = "If you see a Video of Pokecrop its our Bot! Its stolen! Tell them!";
+            this.label32.Text = "Whenever you encounter something related to \"Pokecrop\", tell them the Bot is stol" +
+    "en!";
             // 
             // pictureBox1
             // 
             this.pictureBox1.Image = global::PokemonGo.RocketAPI.Console.Properties.Resources.donate;
-            this.pictureBox1.Location = new System.Drawing.Point(13, 577);
+            this.pictureBox1.Location = new System.Drawing.Point(9, 577);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(64, 33);
             this.pictureBox1.TabIndex = 21;
@@ -1033,7 +1020,8 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(626, 613);
+            this.AutoScroll = true;
+            this.ClientSize = new System.Drawing.Size(626, 620);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.label32);
             this.Controls.Add(this.label30);
@@ -1048,11 +1036,10 @@
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "GUI";
-            this.Text = "PokeGoBot GUI Edition | Gui by GreenGold |";
+            this.Text = "PokeGoBot GUI Edition | Gui by GreenGold | Edit by IceQ1337 |";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.GUI_FormClosing);
             this.Load += new System.EventHandler(this.GUI_Load);
             this.groupBox1.ResumeLayout(false);
@@ -1165,7 +1152,6 @@
         private System.Windows.Forms.Label label28;
         private System.Windows.Forms.CheckBox checkBox10;
         private System.Windows.Forms.CheckBox checkBox11;
-        private System.Windows.Forms.CheckBox checkBox12;
         private System.Windows.Forms.Label label30;
         private System.Windows.Forms.TextBox textBox25;
         private System.Windows.Forms.Label label31;
