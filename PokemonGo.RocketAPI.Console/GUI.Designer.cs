@@ -960,7 +960,7 @@
             this.checkBox12.Name = "checkBox12";
             this.checkBox12.Size = new System.Drawing.Size(101, 17);
             this.checkBox12.TabIndex = 11;
-            this.checkBox12.Text = "Use Skiplagged";
+            this.checkBox12.Text = "Use PokeVision";
             this.checkBox12.UseVisualStyleBackColor = true;
             this.checkBox12.CheckedChanged += new System.EventHandler(this.checkBox12_CheckedChanged);
             // 
