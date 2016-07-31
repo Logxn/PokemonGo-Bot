@@ -22,6 +22,7 @@ namespace PokemonGo.RocketAPI.Console
         public static string ignore = Path.Combine(path, "noCatch.txt");
         public static string evolve = Path.Combine(path, "Evolve.txt");
         public static string lastcords = Path.Combine(path, "LastCoords.txt");
+		public static string huntstats = Path.Combine(path, "HuntStats.txt");
 		public static string cmdCoords = "";
 
         [STAThread]
@@ -274,14 +275,14 @@ namespace PokemonGo.RocketAPI.Console
 
                 try
                 {
-                    new Logic.Logic(new Settings()).Execute().Wait();
+                    new Logic.Logic(new Settings(), huntstats).Execute().Wait();
                 }
                 catch (PtcOfflineException)
                 {
                     Logger.ColoredConsoleWrite(ConsoleColor.Red, "PTC Servers are probably down OR you credentials are wrong.", LogLevel.Error);
                     Logger.ColoredConsoleWrite(ConsoleColor.Red, "Trying again in 20 seconds...");
                     Thread.Sleep(20000);
-                    new Logic.Logic(new Settings()).Execute().Wait();
+                    new Logic.Logic(new Settings(), huntstats).Execute().Wait();
                 }
                 catch (AccountNotVerifiedException)
                 {
@@ -295,7 +296,7 @@ namespace PokemonGo.RocketAPI.Console
                     Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Unhandled exception: {ex}", LogLevel.Error);
                     Logger.Error("Restarting in 20 Seconds.");
                     Thread.Sleep(200000);
-                    new Logic.Logic(new Settings()).Execute().Wait();
+                    new Logic.Logic(new Settings(), huntstats).Execute().Wait();
                 }
             });
             System.Console.ReadLine();
