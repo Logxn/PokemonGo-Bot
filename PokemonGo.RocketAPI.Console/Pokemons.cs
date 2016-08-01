@@ -306,8 +306,7 @@ namespace PokemonGo.RocketAPI.Console
             }
 
             // Create a comparer.
-            PokemonListView.ListViewItemSorter =
-                new ListViewComparer(e.Column, sort_order);
+            PokemonListView.ListViewItemSorter = new ListViewComparer(e.Column, sort_order);
 
             // Sort.
             PokemonListView.Sort();
@@ -682,6 +681,18 @@ namespace PokemonGo.RocketAPI.Console
             else
             {
                 string_y = item_y.SubItems[ColumnNumber].Text;
+            }
+
+            if (ColumnNumber == 2) //IV
+            {
+                string_x = string_x.Substring(0, string_x.IndexOf("%"));
+                string_y = string_y.Substring(0, string_y.IndexOf("%"));
+
+            }
+            else if(ColumnNumber == 7) //HP
+            {
+                string_x = string_x.Substring(0, string_x.IndexOf("/"));
+                string_y = string_y.Substring(0, string_y.IndexOf("/"));
             }
 
             // Compare them.
