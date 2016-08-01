@@ -905,6 +905,13 @@ namespace PokemonGo.RocketAPI.Console
             groupBox7.Text = "Pokemons - To envolve";
             checkBox6.Text = "Select all";
             button1.Text = "Save Configuration / Start Bot";
+            groupBox10.Text = "Other Settings";
+            checkBox7.Text = "Use LuckyEgg at Evolve";
+            checkBox8.Text = "German Pokemon names";
+            checkBox9.Text = "Use Incense every 30min";
+            checkBox3.Text = "Evolve Pokemons if enough candy";
+            checkBox10.Text = "Enable Pokemon List GUI";
+            checkBox11.Text = "Keep Pokemons which can be evolved";
         }
 
         private void language_de_btn_Click(object sender, EventArgs e)
@@ -949,6 +956,13 @@ namespace PokemonGo.RocketAPI.Console
             groupBox7.Text = "Pokemons - Zu entwickeln";
             checkBox6.Text = "Alle auswählen";
             button1.Text = "Konfiguration Speichern / Bot starten";
+            groupBox10.Text = "Sonstige Einstellungen";
+            checkBox7.Text = "LuckyEgg bei Entwicklung";
+            checkBox8.Text = "Deutsche Pokemon Namen";
+            checkBox9.Text = "Verwende Rauch alle 30min";
+            checkBox3.Text = "Pokemon entwickeln";
+            checkBox10.Text = "Pokemon List GUI anzeigen";
+            checkBox11.Text = "Behalte entwickelbare Pokemon";
         }
     }
 }
