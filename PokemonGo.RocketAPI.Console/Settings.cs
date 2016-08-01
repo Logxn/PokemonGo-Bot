@@ -54,9 +54,7 @@ namespace PokemonGo.RocketAPI.Console
 
         public bool pokevision => Globals.pokevision;
 
-        public int alwaisCatchOverCP => Globals.alwaisCatchOverCP;
-
-        public bool UseIncense => Globals.useincense;
+        public bool UserIncense => Globals.useincense;
 
         public bool Language => Globals.gerNames;//UserSettings.Default.Language;
 
