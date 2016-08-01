@@ -9,7 +9,6 @@ using PokemonGo.RocketAPI.GeneratedCode;
 using PokemonGo.RocketAPI.Logic.Utils;
 using PokemonGo.RocketAPI.Exceptions;
 using System.Net;
-using System.IO;
 using System.Device.Location;
 using PokemonGo.RocketAPI.Helpers;
 using System.Web.Script.Serialization;
@@ -27,10 +26,10 @@ namespace PokemonGo.RocketAPI.Logic
         private readonly Navigation _navigation;
         public const double SpeedDownTo = 10 / 3.6;
         private readonly PokeVisionUtil _pokevision; 
- 		private string huntstats;
+ 		private LogicInfoObservable _infoObservable;
 
 
-        public Logic(ISettings clientSettings, string hs)
+        public Logic(ISettings clientSettings, LogicInfoObservable infoObservable)
         {
             _clientSettings = clientSettings;
             _client = new Client(_clientSettings);
@@ -38,7 +37,7 @@ namespace PokemonGo.RocketAPI.Logic
             _botStats = new BotStats();
             _navigation = new Navigation(_client);
             _pokevision = new PokeVisionUtil();
-            huntstats = hs;
+            _infoObservable = infoObservable;
         }
 
         public async Task Execute()
@@ -379,6 +378,8 @@ namespace PokemonGo.RocketAPI.Logic
                 //    }
                 //}
 
+                _infoObservable.PushNewGeoLocations(new GeoCoordinate(_client.CurrentLat, _client.CurrentLng));
+
                 var distance = LocationUtils.CalculateDistanceInMeters(_client.CurrentLat, _client.CurrentLng, pokeStop.Latitude, pokeStop.Longitude);
                 var fortInfo = await _client.GetFort(pokeStop.Id, pokeStop.Latitude, pokeStop.Longitude);
                 if (fortInfo == null)
@@ -517,7 +518,7 @@ namespace PokemonGo.RocketAPI.Logic
                             _botStats.addExperience(xp);
 
                         DateTime curDate = DateTime.Now;
-                        File.AppendAllText(huntstats, String.Format("{0}/{1};{2};{3};{4}", pokemon.Latitude, pokemon.Longitude, pokemon.PokemonId, curDate.Ticks, curDate.ToString()) + Environment.NewLine);
+                        _infoObservable.PushNewHuntStats(String.Format("{0}/{1};{2};{3};{4}", pokemon.Latitude, pokemon.Longitude, pokemon.PokemonId, curDate.Ticks, curDate.ToString()) + Environment.NewLine);
                         Logger.ColoredConsoleWrite(ConsoleColor.Magenta, $"We caught a {StringUtils.getPokemonNameByLanguage(_clientSettings, pokemon.PokemonId)} with CP {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} ({PokemonInfo.CalculatePokemonPerfection(encounterPokemonResponse?.WildPokemon.PokemonData)}% perfect) using a {bestPokeball} and we got {caughtPokemonResponse.Scores.Xp.Sum()} XP.");
 
                         //try
