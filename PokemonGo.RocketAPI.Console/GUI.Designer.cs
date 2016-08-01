@@ -238,15 +238,12 @@
             this.checkBox1.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBox1.Location = new System.Drawing.Point(4, 148);
             this.checkBox1.Name = "checkBox1";
-<<<<<<< HEAD
             this.checkBox1.Size = new System.Drawing.Size(146, 17);
             this.checkBox1.TabIndex = 14;
             this.checkBox1.Text = "Start from default location";
-=======
             this.checkBox1.Size = new System.Drawing.Size(171, 17);
             this.checkBox1.TabIndex = 7;
             this.checkBox1.Text = "Start walk from default location";
->>>>>>> refs/remotes/Ar1i/master
             this.checkBox1.UseVisualStyleBackColor = true;
             // 
             // label10
@@ -828,13 +825,10 @@
             this.button1.Location = new System.Drawing.Point(267, 566);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(350, 23);
-<<<<<<< HEAD
             this.button1.TabIndex = 13;
             this.button1.Text = "Save Configuration / Start Bot";
-=======
             this.button1.TabIndex = 35;
             this.button1.Text = "Save Configuration";
->>>>>>> refs/remotes/Ar1i/master
             this.button1.UseVisualStyleBackColor = false;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
