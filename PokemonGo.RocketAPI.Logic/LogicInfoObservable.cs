@@ -17,7 +17,7 @@ namespace PokemonGo.RocketAPI.Logic
         /// </summary>
         public delegate void GeoLocationHandler(GeoCoordinate value);
         public event GeoLocationHandler HandleNewGeoLocations = delegate { };
-        public void PushGeoLocations(GeoCoordinate newValue)
+        public void PushNewGeoLocations(GeoCoordinate newValue)
         {
             HandleNewGeoLocations(newValue);
         }
@@ -27,7 +27,7 @@ namespace PokemonGo.RocketAPI.Logic
         /// </summary>
         public delegate void HuntStatsHandler(string value);
         public event HuntStatsHandler HandleNewHuntStats = delegate { };
-        public void PushHuntStats(string newValue)
+        public void PushNewHuntStats(string newValue)
         {
             HandleNewHuntStats(newValue);
         }

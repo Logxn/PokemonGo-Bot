@@ -788,7 +788,7 @@ namespace PokemonGo.RocketAPI.Console
 
         private async Task displayLocationSelector()
         {
-            LocationSelect locationSelector = new LocationSelect();
+            LocationSelect locationSelector = new LocationSelect(false);
             locationSelector.ShowDialog();
             textBox3.Text = Globals.latitute.ToString();
             textBox4.Text = Globals.longitude.ToString();

@@ -35,7 +35,7 @@ namespace PokemonGo.RocketAPI.Console
             InitializeComponent();
             ClientSettings = new Settings();
         }
-
+        
         public static ISettings ClientSettings;
 
         private void Pokemons_Load(object sender, EventArgs e)
@@ -198,6 +198,7 @@ namespace PokemonGo.RocketAPI.Console
             btnTransfer.Enabled = enabled;
             btnUpgrade.Enabled = enabled;
             btnFullPowerUp.Enabled = enabled;
+            btnShowMap.Enabled = enabled;
             checkBoxreload.Enabled = enabled;
             reloadsecondstextbox.Enabled = enabled;
             PokemonListView.Enabled = enabled;
@@ -633,6 +634,11 @@ namespace PokemonGo.RocketAPI.Console
             {
                 EnabledButton(true);
             }
+        }
+
+        private void btnShowMap_Click(object sender, EventArgs e)
+        {
+            new LocationSelect(true).Show();
         }
     }
     public static class ControlExtensions

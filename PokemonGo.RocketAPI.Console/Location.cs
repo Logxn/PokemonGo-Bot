@@ -10,6 +10,7 @@ using GMap.NET.WindowsForms;
 using GMap.NET.WindowsForms.Markers;
 using GMap.NET;
 using System.Threading.Tasks;
+using System.Device.Location;
 
 namespace PokemonGo.RocketAPI.Console
 {
@@ -19,9 +20,44 @@ namespace PokemonGo.RocketAPI.Console
         public double alt;
         public bool close = true;
 
-        public LocationSelect()
+        public LocationSelect(bool asViewOnly)
         {
             InitializeComponent();
+            map.Manager.Mode = AccessMode.ServerOnly;
+
+            if (asViewOnly)
+                initViewOnly();
+        }
+        
+        private void initViewOnly()
+        {
+            //first hide all controls
+            foreach (Control c in Controls)
+                c.Visible = false;
+            //show map
+            map.Visible = true;
+            map.Dock = DockStyle.Fill;
+            //show geodata controls
+            label1.Visible = true;
+            label2.Visible = true;
+            textBox1.Visible = true;
+            textBox2.Visible = true;
+            //don't ask at closing
+            close = false;
+            //add & remove live data handler after form loaded
+            Globals.infoObservable.HandleNewGeoLocations += handleLiveGeoLocations;
+            this.FormClosing += (object s, FormClosingEventArgs e) =>
+            {
+                Globals.infoObservable.HandleNewGeoLocations -= handleLiveGeoLocations;
+            };
+        }
+
+        private void handleLiveGeoLocations(GeoCoordinate coords)
+        {
+            this.Invoke(new MethodInvoker(() =>
+            {
+                map.Position = new GMap.NET.PointLatLng(coords.Latitude, coords.Longitude);
+            }));
         }
 
         private void map_Load(object sender, EventArgs e)
@@ -153,11 +189,6 @@ namespace PokemonGo.RocketAPI.Console
                     textBox2.Text = "";
                 }
             }
-        }
-
-        private void LocationSelect_Load(object sender, EventArgs e)
-        {
-
         }
     }
 }
