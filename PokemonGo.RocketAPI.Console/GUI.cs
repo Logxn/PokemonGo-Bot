@@ -905,8 +905,6 @@ namespace PokemonGo.RocketAPI.Console
             groupBox7.Text = "Pokemons - To envolve";
             checkBox6.Text = "Select all";
             button1.Text = "Save Configuration / Start Bot";
-
-            // Pokemon List
         }
 
         private void language_de_btn_Click(object sender, EventArgs e)
@@ -951,8 +949,6 @@ namespace PokemonGo.RocketAPI.Console
             groupBox7.Text = "Pokemons - Zu entwickeln";
             checkBox6.Text = "Alle auswählen";
             button1.Text = "Konfiguration Speichern / Bot starten";
-
-            // Pokemon List
         }
     }
 }
