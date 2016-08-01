@@ -146,7 +146,7 @@ namespace PokemonGo.RocketAPI.Console
                         .First();
                     listViewItem.SubItems.Add(string.Format("{0}", pokemon.Cp));
                     listViewItem.SubItems.Add(string.Format("{0}% {1}-{2}-{3}", Math.Round(pokemon.CalculateIV()), pokemon.IndividualAttack, pokemon.IndividualDefense, pokemon.IndividualStamina));
-                    listViewItem.SubItems.Add(string.Format("{0}", PokemonInfo.GetLevel(pokemon)));
+                    listViewItem.SubItems.Add(string.Format("{0}", Math.Round(PokemonInfo.GetLevel(pokemon), 1)));
                     listViewItem.ImageKey = pokemon.PokemonId.ToString();
                     
                     listViewItem.Text = string.Format((pokemon.Favorite == 1)? "{0} ★" : "{0}", pokemon.PokemonId);
