@@ -340,7 +340,7 @@ namespace PokemonGo.RocketAPI.Console
 
         private async void button2_Click(object sender, EventArgs e)
         {
-            EnabledButton(false);
+            EnabledButton(false, "Evolving...");
             var selectedItems = listView1.SelectedItems;
             int evolved = 0;
             int total = selectedItems.Count;
@@ -351,25 +351,29 @@ namespace PokemonGo.RocketAPI.Console
             {
                 resp = await evolvePokemon((PokemonData)selectedItem.Tag);
                 if (resp.Status)
+                {
                     evolved++;
+                    textBox1.Text = "Evolving..." + evolved;
+                }
                 else
                     failed += resp.Message + " ";
             }
 
             if (failed != string.Empty)
-                MessageBox.Show("Succesfully evolved " + evolved + "/" + total + " Pokemons. Failed: " + failed, "Transfer status", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Succesfully evolved " + evolved + "/" + total + " Pokemons. Failed: " + failed, "Evolve status", MessageBoxButtons.OK, MessageBoxIcon.Information);
             else
-                MessageBox.Show("Succesfully evolved " + evolved + "/" + total + " Pokemons.", "Transfer status", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Succesfully evolved " + evolved + "/" + total + " Pokemons.", "Evolve status", MessageBoxButtons.OK, MessageBoxIcon.Information);
             if (evolved > 0)
             {
                 listView1.Clear();
                 Execute();
-            }
+            } else
+            EnabledButton(true);
         }
 
         private async void button3_Click(object sender, EventArgs e)
         {
-            EnabledButton(false);
+            EnabledButton(false, "Transfering...");
             var selectedItems = listView1.SelectedItems;
             int transfered = 0;
             int total = selectedItems.Count;
@@ -383,6 +387,7 @@ namespace PokemonGo.RocketAPI.Console
                 {
                     listView1.Items.Remove(selectedItem);
                     transfered++;
+                    textBox1.Text = "Transfering..." + transfered;
                 }
                 else
                     failed += resp.Message + " ";
@@ -422,7 +427,8 @@ namespace PokemonGo.RocketAPI.Console
             {
                 listView1.Clear();
                 Execute();
-            }
+            } else
+                EnabledButton(true);
         }
 
         private static async Task<taskResponse> evolvePokemon(PokemonData pokemon)
