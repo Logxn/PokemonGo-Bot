@@ -424,17 +424,21 @@ namespace PokemonGo.RocketAPI.Logic
 							Logger.Error("Detected a Softban. Trying to use our Special 1337 Unban Methode.");
 						else
 							Logger.Error("Executing initial unban with our Special 1337 Unban Methode.");
-                        initialUnbanHappened = true;
                         for (int i = 0; i < 60; i++)
                         {
                             var unban = await client.SearchFort(pokeStop.Id, pokeStop.Latitude, pokeStop.Longitude);
                             if (unban.ExperienceAwarded > 0)
                             {
+								failed_softban = 0;
+								Logger.ColoredConsoleWrite(ConsoleColor.Green, String.Format("Probably unbanned you, {0} attempts.", i));
                                 break;
                             }
                         }
-                        failed_softban = 0;
-                        Logger.ColoredConsoleWrite(ConsoleColor.Green, "Probably unbanned you.");
+						if(!initialUnbanHappened) {
+							initialUnbanHappened = true;
+							Logger.ColoredConsoleWrite(ConsoleColor.Green, String.Format("Walking to start position ({0}/{1}", _clientSettings.DefaultLatitude, _clientSettings.DefaultLongitude));
+							var upd = await _navigation.HumanLikeWalking(new GeoCoordinate(_clientSettings.DefaultLatitude, _clientSettings.DefaultLongitude), _clientSettings.WalkingSpeedInKilometerPerHour, ExecuteCatchAllNearbyPokemons);
+						}
                     }
                 }
 
