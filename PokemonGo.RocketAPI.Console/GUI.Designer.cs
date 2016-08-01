@@ -1099,7 +1099,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "GUI";
-            this.Text = "PokeGoBot GUI Edition | Gui by GreenGold | Edit by IceQ1337 |";
+            this.Text = "PokeGoBot GUI Edition | Gui by GreenGold | Edit by IceQ1337 & gatno |";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.GUI_FormClosing);
             this.Load += new System.EventHandler(this.GUI_Load);
             this.groupBox1.ResumeLayout(false);
