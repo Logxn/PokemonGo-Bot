@@ -15,6 +15,7 @@ namespace PokemonGo.RocketAPI.Console
 {
     public partial class GUI : Form
     {
+        public static string languagestr;
         public static NumberStyles cords = NumberStyles.AllowDecimalPoint | NumberStyles.AllowLeadingSign;
         public static int[] evolveBlacklist = {
             3, 6, 9, 12, 15, 18, 20, 22, 24, 26, 28, 31, 34, 36, 38, 40, 42, 45, 47, 49, 51, 53, 55, 57, 59, 62, 65, 68, 71, 73, 76, 78, 80, 82, 83, 85, 87, 89, 91, 94, 95, 97, 99, 101, 103, 105, 106, 107, 108, 110, 112, 113, 114, 115, 117, 119, 121, 122, 123, 124, 125, 126, 127, 128, 130, 131, 132, 134, 135, 136, 137, 139, 141, 142, 143, 144, 145, 146, 149, 150, 151
@@ -31,15 +32,22 @@ namespace PokemonGo.RocketAPI.Console
             Globals.acc = comboBox1.SelectedIndex == 0 ? Enums.AuthType.Google : Enums.AuthType.Ptc;
             if (comboBox1.SelectedIndex == 0)
             {
-                label2.Text = "E-mail:";
-            //    textBox1.Hide();
-            //    label2.Hide();
-            //    textBox2.Hide();
-            //    label3.Hide();
+                label2.Text = "E-Mail:";
+                //    textBox1.Hide();
+                //    label2.Hide();
+                //    textBox2.Hide();
+                //    label3.Hide();
             }
             else
             {
-                label2.Text = "Username:";
+                if (languagestr == null)
+                { 
+                    label2.Text = "Username:";
+                }
+                else if (languagestr == "de")
+                {
+                    label2.Text = "Benutzername:";
+                }
             //    textBox1.Show();
             //    label2.Show();
             //    textBox2.Show();
@@ -853,6 +861,108 @@ namespace PokemonGo.RocketAPI.Console
         private void label30_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void language_en_btn_Click(object sender, EventArgs e)
+        {
+            language_de_btn.Enabled = true;
+            language_en_btn.Enabled = false;
+            languagestr = null;
+
+            // Main GUI
+            label1.Text = "Account Type:";
+            label2.Text = "Username:";
+            label3.Text = "Password:";
+            groupBox2.Text = "Location Settings";
+            label7.Text = "Speed:";
+            label9.Text = "Move Radius:";
+            label10.Text = "meters";
+            checkBox1.Text = "Start from default location";
+            groupBox3.Text = "Bot Settings";
+            checkBox2.Text = "Auto transfer double Pokemons";
+            label11.Text = "Max. duplicate Pokemons";
+            label12.Text = "Max. CP to transfer:";
+            label28.Text = "Max. IV to transfer:";
+            groupBox8.Text = "Telegram Settings";
+            label30.Text = "This Bot is absolutely free and open source! Chargeback if you've paid for it!";
+            label32.Text = "Whenever you encounter something related to 'Pokecrot', tell them the Bot is stolen!";
+            label13.Text = "Max. Pokeballs:";
+            label14.Text = "Max. GreatBalls:";
+            label15.Text = "Max. UltraBalls:";
+            label26.Text = "Max. MasterBalls:";
+            label16.Text = "Max. Revives:";
+            label27.Text = "Max. TopRevives:";
+            label17.Text = "Max. Potions:";
+            label18.Text = "Max. SuperPotions:";
+            label19.Text = "Max. HyperPotions:";
+            label25.Text = "Max. TopPotions:";
+            label20.Text = "Max. RazzBerrys:";
+            label31.Text = "Total Count:";
+            groupBox5.Text = "Pokemons - Not to transfer";
+            checkBox4.Text = "Select all";
+            groupBox6.Text = "Pokemons - Not to catch";
+            checkBox5.Text = "Select all";
+            groupBox7.Text = "Pokemons - To envolve";
+            checkBox6.Text = "Select all";
+            button1.Text = "Save Configuration / Start Bot";
+            groupBox10.Text = "Other Settings";
+            checkBox7.Text = "Use LuckyEgg at Evolve";
+            checkBox8.Text = "German Pokemon names";
+            checkBox9.Text = "Use Incense every 30min";
+            checkBox3.Text = "Evolve Pokemons if enough candy";
+            checkBox10.Text = "Enable Pokemon List GUI";
+            checkBox11.Text = "Keep Pokemons which can be evolved";
+        }
+
+        private void language_de_btn_Click(object sender, EventArgs e)
+        {
+            language_en_btn.Enabled = true;
+            language_de_btn.Enabled = false;
+            languagestr = "de";
+
+            // Main GUI
+            label1.Text = "Account Typ:";
+            label2.Text = "Benutzername:";
+            label3.Text = "Passwort:";
+            groupBox2.Text = "Standort Einstellungen";
+            label7.Text = "Speed:";
+            label9.Text = "Radius:";
+            label10.Text = "Meter";
+            checkBox1.Text = "Starte von Standardposition";
+            groupBox3.Text = "Bot Einstellungen";
+            checkBox2.Text = "Doppelte Pokemon automatisch wegschicken";
+            label11.Text = "Max. doppelte Pokemon";
+            label12.Text = "Max. CP zu senden:";
+            label28.Text = "Max. IV zu senden:";
+            groupBox8.Text = "Telegram Einstellungen";
+            label30.Text = "Dieser Bot ist kostenlos und Open-Source! Fordere ggf. Geld zurück!";
+            label32.Text = "Wenn du den Namen 'Pokecrot' siehst, teile allen mit, dass dieser gestohlen ist.";
+            label13.Text = "Max. Pokebälle:";
+            label14.Text = "Max. Superbälle:";
+            label15.Text = "Max. Ultrabälle:";
+            label26.Text = "Max. Meisterbälles:";
+            label16.Text = "Max. Beleber:";
+            label27.Text = "Max. Top-Beleber:";
+            label17.Text = "Max. Tränke:";
+            label18.Text = "Max. Supertränke:";
+            label19.Text = "Max. Hypertränke:";
+            label25.Text = "Max. Top-Tränke:";
+            label20.Text = "Max. Himmihbeeren:";
+            label31.Text = "Gesamtzahl:";
+            groupBox5.Text = "Pokemon - Nicht zu Versenden";
+            checkBox4.Text = "Alle auswählen";
+            groupBox6.Text = "Pokemons - Nicht zu Fangen";
+            checkBox5.Text = "Alle auswählen";
+            groupBox7.Text = "Pokemons - Zu entwickeln";
+            checkBox6.Text = "Alle auswählen";
+            button1.Text = "Konfiguration Speichern / Bot starten";
+            groupBox10.Text = "Sonstige Einstellungen";
+            checkBox7.Text = "LuckyEgg bei Entwicklung";
+            checkBox8.Text = "Deutsche Pokemon Namen";
+            checkBox9.Text = "Verwende Rauch alle 30min";
+            checkBox3.Text = "Pokemon entwickeln";
+            checkBox10.Text = "Pokemon List GUI anzeigen";
+            checkBox11.Text = "Behalte entwickelbare Pokemon";
         }
     }
 }
