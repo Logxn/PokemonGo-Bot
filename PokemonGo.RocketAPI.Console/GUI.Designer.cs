@@ -508,9 +508,9 @@
             this.label31.AutoSize = true;
             this.label31.Location = new System.Drawing.Point(7, 304);
             this.label31.Name = "label31";
-            this.label31.Size = new System.Drawing.Size(30, 13);
+            this.label31.Size = new System.Drawing.Size(65, 13);
             this.label31.TabIndex = 22;
-            this.label31.Text = "total:";
+            this.label31.Text = "Total Count:";
             // 
             // label27
             // 

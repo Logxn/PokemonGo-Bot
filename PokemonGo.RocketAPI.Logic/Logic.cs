@@ -26,9 +26,11 @@ namespace PokemonGo.RocketAPI.Logic
         public BotStats _botStats;
         private readonly Navigation _navigation;
         public const double SpeedDownTo = 10 / 3.6;
-        private readonly PokeVisionUtil _pokevision;
+        private readonly PokeVisionUtil _pokevision; 
+ 		private string huntstats;
 
-        public Logic(ISettings clientSettings)
+
+        public Logic(ISettings clientSettings, string hs)
         {
             _clientSettings = clientSettings;
             _client = new Client(_clientSettings);
@@ -36,6 +38,7 @@ namespace PokemonGo.RocketAPI.Logic
             _botStats = new BotStats();
             _navigation = new Navigation(_client);
             _pokevision = new PokeVisionUtil();
+            huntstats = hs;
         }
 
         public async Task Execute()
@@ -513,6 +516,8 @@ namespace PokemonGo.RocketAPI.Logic
                         foreach (int xp in caughtPokemonResponse.Scores.Xp)
                             _botStats.addExperience(xp);
 
+                        DateTime curDate = DateTime.Now;
+                        File.AppendAllText(huntstats, String.Format("{0}/{1};{2};{3};{4}", pokemon.Latitude, pokemon.Longitude, pokemon.PokemonId, curDate.Ticks, curDate.ToString()) + Environment.NewLine);
                         Logger.ColoredConsoleWrite(ConsoleColor.Magenta, $"We caught a {StringUtils.getPokemonNameByLanguage(_clientSettings, pokemon.PokemonId)} with CP {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} ({PokemonInfo.CalculatePokemonPerfection(encounterPokemonResponse?.WildPokemon.PokemonData)}% perfect) using a {bestPokeball} and we got {caughtPokemonResponse.Scores.Xp.Sum()} XP.");
 
                         //try
