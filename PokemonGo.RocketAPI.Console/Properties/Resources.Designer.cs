@@ -73,9 +73,9 @@ namespace PokemonGo.RocketAPI.Console.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap img_banner {
+        internal static System.Drawing.Bitmap image {
             get {
-                object obj = ResourceManager.GetObject("img_banner", resourceCulture);
+                object obj = ResourceManager.GetObject("image", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
