@@ -158,7 +158,7 @@ namespace PokemonGo.RocketAPI.Logic
                         amountToSkip = _client.getSettingHandle().HoldMaxDoublePokemons;
                     }
 
-                    results.AddRange(pokemonList.Where(x => x.PokemonId == pokemon.Key && PokemonInfo.CalculatePokemonPerfection(x) <= _client.getSettingHandle().ivmaxpercent)
+                    results.AddRange(pokemonList.Where(x => x.PokemonId == pokemon.Key || PokemonInfo.CalculatePokemonPerfection(x) <= _client.getSettingHandle().ivmaxpercent)
                         .OrderByDescending(x => x.Cp)
                         .ThenBy(n => n.StaminaMax)
                         .Skip(amountToSkip)
