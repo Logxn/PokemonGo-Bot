@@ -850,9 +850,5 @@ namespace PokemonGo.RocketAPI.Console
             Process.Start("https://high-minded.net/threads/pokemon-go-c-bot-safer-better.50731/");
         }
 
-        private void label30_Click(object sender, EventArgs e)
-        {
-
-        }
     }
 }

@@ -115,6 +115,11 @@
             this.checkBox9 = new System.Windows.Forms.CheckBox();
             this.checkBox8 = new System.Windows.Forms.CheckBox();
             this.label32 = new System.Windows.Forms.Label();
+            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tabGeneral = new System.Windows.Forms.TabPage();
+            this.tabPokemon = new System.Windows.Forms.TabPage();
+            this.tabItems = new System.Windows.Forms.TabPage();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -126,6 +131,11 @@
             this.groupBox8.SuspendLayout();
             this.groupBox9.SuspendLayout();
             this.groupBox10.SuspendLayout();
+            this.tabControl1.SuspendLayout();
+            this.tabGeneral.SuspendLayout();
+            this.tabPokemon.SuspendLayout();
+            this.tabItems.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -188,7 +198,7 @@
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.textBox1);
-            this.groupBox1.Location = new System.Drawing.Point(9, 13);
+            this.groupBox1.Location = new System.Drawing.Point(6, 6);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(252, 97);
             this.groupBox1.TabIndex = 1;
@@ -211,7 +221,7 @@
             this.groupBox2.Controls.Add(this.label5);
             this.groupBox2.Controls.Add(this.textBox3);
             this.groupBox2.Controls.Add(this.label4);
-            this.groupBox2.Location = new System.Drawing.Point(9, 116);
+            this.groupBox2.Location = new System.Drawing.Point(6, 109);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(252, 173);
             this.groupBox2.TabIndex = 2;
@@ -357,9 +367,9 @@
             this.groupBox3.Controls.Add(this.textBox8);
             this.groupBox3.Controls.Add(this.label11);
             this.groupBox3.Controls.Add(this.checkBox2);
-            this.groupBox3.Location = new System.Drawing.Point(9, 295);
+            this.groupBox3.Location = new System.Drawing.Point(6, 319);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(252, 120);
+            this.groupBox3.Size = new System.Drawing.Size(527, 70);
             this.groupBox3.TabIndex = 3;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Bot Settings";
@@ -367,7 +377,7 @@
             // label29
             // 
             this.label29.AutoSize = true;
-            this.label29.Location = new System.Drawing.Point(169, 98);
+            this.label29.Location = new System.Drawing.Point(400, 44);
             this.label29.Name = "label29";
             this.label29.Size = new System.Drawing.Size(15, 13);
             this.label29.TabIndex = 8;
@@ -375,7 +385,7 @@
             // 
             // textBox24
             // 
-            this.textBox24.Location = new System.Drawing.Point(110, 95);
+            this.textBox24.Location = new System.Drawing.Point(344, 41);
             this.textBox24.Name = "textBox24";
             this.textBox24.Size = new System.Drawing.Size(53, 20);
             this.textBox24.TabIndex = 11;
@@ -384,7 +394,7 @@
             // label28
             // 
             this.label28.AutoSize = true;
-            this.label28.Location = new System.Drawing.Point(7, 98);
+            this.label28.Location = new System.Drawing.Point(241, 44);
             this.label28.Name = "label28";
             this.label28.Size = new System.Drawing.Size(93, 13);
             this.label28.TabIndex = 6;
@@ -392,7 +402,7 @@
             // 
             // textBox9
             // 
-            this.textBox9.Location = new System.Drawing.Point(110, 69);
+            this.textBox9.Location = new System.Drawing.Point(344, 17);
             this.textBox9.Name = "textBox9";
             this.textBox9.Size = new System.Drawing.Size(71, 20);
             this.textBox9.TabIndex = 10;
@@ -401,7 +411,7 @@
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(7, 72);
+            this.label12.Location = new System.Drawing.Point(241, 21);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(97, 13);
             this.label12.TabIndex = 4;
@@ -443,9 +453,9 @@
             this.checkBox3.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBox3.Location = new System.Drawing.Point(6, 87);
             this.checkBox3.Name = "checkBox3";
-            this.checkBox3.Size = new System.Drawing.Size(159, 30);
+            this.checkBox3.Size = new System.Drawing.Size(191, 17);
             this.checkBox3.TabIndex = 29;
-            this.checkBox3.Text = "Evolve Pokemons if enough\r\ncandy\r\n";
+            this.checkBox3.Text = "Evolve Pokemons if enough candy\r\n";
             this.checkBox3.UseVisualStyleBackColor = true;
             // 
             // checkBox7
@@ -487,7 +497,7 @@
             this.groupBox4.Controls.Add(this.label14);
             this.groupBox4.Controls.Add(this.textBox10);
             this.groupBox4.Controls.Add(this.label13);
-            this.groupBox4.Location = new System.Drawing.Point(267, 12);
+            this.groupBox4.Location = new System.Drawing.Point(3, 3);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(172, 325);
             this.groupBox4.TabIndex = 5;
@@ -710,21 +720,20 @@
             // label30
             // 
             this.label30.AutoSize = true;
-            this.label30.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label30.Location = new System.Drawing.Point(74, 577);
+            this.label30.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label30.Location = new System.Drawing.Point(79, 559);
             this.label30.Name = "label30";
-            this.label30.Size = new System.Drawing.Size(535, 16);
+            this.label30.Size = new System.Drawing.Size(492, 15);
             this.label30.TabIndex = 9;
             this.label30.Text = "This Bot is absolutely free and open source! Chargeback if you\'ve paid for it!";
-            this.label30.Click += new System.EventHandler(this.label30_Click);
             // 
             // groupBox5
             // 
             this.groupBox5.Controls.Add(this.checkBox4);
             this.groupBox5.Controls.Add(this.checkedListBox1);
-            this.groupBox5.Location = new System.Drawing.Point(445, 12);
+            this.groupBox5.Location = new System.Drawing.Point(6, 6);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(172, 170);
+            this.groupBox5.Size = new System.Drawing.Size(172, 307);
             this.groupBox5.TabIndex = 7;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Pokemons to not transfer";
@@ -732,7 +741,7 @@
             // checkBox4
             // 
             this.checkBox4.AutoSize = true;
-            this.checkBox4.Location = new System.Drawing.Point(10, 149);
+            this.checkBox4.Location = new System.Drawing.Point(10, 281);
             this.checkBox4.Name = "checkBox4";
             this.checkBox4.Size = new System.Drawing.Size(69, 17);
             this.checkBox4.TabIndex = 32;
@@ -744,19 +753,19 @@
             // 
             this.checkedListBox1.CheckOnClick = true;
             this.checkedListBox1.FormattingEnabled = true;
-            this.checkedListBox1.Location = new System.Drawing.Point(10, 19);
+            this.checkedListBox1.Location = new System.Drawing.Point(10, 16);
             this.checkedListBox1.Name = "checkedListBox1";
             this.checkedListBox1.ScrollAlwaysVisible = true;
-            this.checkedListBox1.Size = new System.Drawing.Size(150, 124);
+            this.checkedListBox1.Size = new System.Drawing.Size(150, 259);
             this.checkedListBox1.TabIndex = 0;
             // 
             // groupBox6
             // 
             this.groupBox6.Controls.Add(this.checkBox5);
             this.groupBox6.Controls.Add(this.checkedListBox2);
-            this.groupBox6.Location = new System.Drawing.Point(445, 188);
+            this.groupBox6.Location = new System.Drawing.Point(184, 3);
             this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(172, 177);
+            this.groupBox6.Size = new System.Drawing.Size(172, 310);
             this.groupBox6.TabIndex = 8;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "Pokemons to not catch";
@@ -764,7 +773,7 @@
             // checkBox5
             // 
             this.checkBox5.AutoSize = true;
-            this.checkBox5.Location = new System.Drawing.Point(6, 154);
+            this.checkBox5.Location = new System.Drawing.Point(6, 284);
             this.checkBox5.Name = "checkBox5";
             this.checkBox5.Size = new System.Drawing.Size(69, 17);
             this.checkBox5.TabIndex = 33;
@@ -779,16 +788,16 @@
             this.checkedListBox2.Location = new System.Drawing.Point(6, 19);
             this.checkedListBox2.Name = "checkedListBox2";
             this.checkedListBox2.ScrollAlwaysVisible = true;
-            this.checkedListBox2.Size = new System.Drawing.Size(154, 124);
+            this.checkedListBox2.Size = new System.Drawing.Size(154, 259);
             this.checkedListBox2.TabIndex = 0;
             // 
             // groupBox7
             // 
             this.groupBox7.Controls.Add(this.checkBox6);
             this.groupBox7.Controls.Add(this.checkedListBox3);
-            this.groupBox7.Location = new System.Drawing.Point(445, 371);
+            this.groupBox7.Location = new System.Drawing.Point(362, 6);
             this.groupBox7.Name = "groupBox7";
-            this.groupBox7.Size = new System.Drawing.Size(171, 171);
+            this.groupBox7.Size = new System.Drawing.Size(171, 307);
             this.groupBox7.TabIndex = 9;
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "Pokemons to evolve";
@@ -796,7 +805,7 @@
             // checkBox6
             // 
             this.checkBox6.AutoSize = true;
-            this.checkBox6.Location = new System.Drawing.Point(6, 147);
+            this.checkBox6.Location = new System.Drawing.Point(6, 282);
             this.checkBox6.Name = "checkBox6";
             this.checkBox6.Size = new System.Drawing.Size(69, 17);
             this.checkBox6.TabIndex = 34;
@@ -811,15 +820,15 @@
             this.checkedListBox3.Location = new System.Drawing.Point(6, 17);
             this.checkedListBox3.Name = "checkedListBox3";
             this.checkedListBox3.ScrollAlwaysVisible = true;
-            this.checkedListBox3.Size = new System.Drawing.Size(153, 124);
+            this.checkedListBox3.Size = new System.Drawing.Size(153, 259);
             this.checkedListBox3.TabIndex = 0;
             // 
             // button1
             // 
             this.button1.BackColor = System.Drawing.Color.MediumAquamarine;
-            this.button1.Location = new System.Drawing.Point(267, 548);
+            this.button1.Location = new System.Drawing.Point(12, 530);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(350, 23);
+            this.button1.Size = new System.Drawing.Size(549, 23);
             this.button1.TabIndex = 35;
             this.button1.Text = "Save Configuration";
             this.button1.UseVisualStyleBackColor = false;
@@ -834,7 +843,7 @@
             this.groupBox8.Controls.Add(this.label22);
             this.groupBox8.Controls.Add(this.textBox18);
             this.groupBox8.Controls.Add(this.label21);
-            this.groupBox8.Location = new System.Drawing.Point(13, 421);
+            this.groupBox8.Location = new System.Drawing.Point(6, 288);
             this.groupBox8.Name = "groupBox8";
             this.groupBox8.Size = new System.Drawing.Size(252, 93);
             this.groupBox8.TabIndex = 4;
@@ -913,7 +922,7 @@
             // linkLabel2
             // 
             this.linkLabel2.AutoSize = true;
-            this.linkLabel2.Location = new System.Drawing.Point(90, 21);
+            this.linkLabel2.Location = new System.Drawing.Point(55, 21);
             this.linkLabel2.Name = "linkLabel2";
             this.linkLabel2.Size = new System.Drawing.Size(110, 13);
             this.linkLabel2.TabIndex = 37;
@@ -925,9 +934,9 @@
             // 
             this.groupBox9.Controls.Add(this.linkLabel1);
             this.groupBox9.Controls.Add(this.linkLabel2);
-            this.groupBox9.Location = new System.Drawing.Point(9, 520);
+            this.groupBox9.Location = new System.Drawing.Point(264, 174);
             this.groupBox9.Name = "groupBox9";
-            this.groupBox9.Size = new System.Drawing.Size(252, 51);
+            this.groupBox9.Size = new System.Drawing.Size(271, 46);
             this.groupBox9.TabIndex = 18;
             this.groupBox9.TabStop = false;
             this.groupBox9.Text = "Version Info";
@@ -940,9 +949,9 @@
             this.groupBox10.Controls.Add(this.checkBox8);
             this.groupBox10.Controls.Add(this.checkBox7);
             this.groupBox10.Controls.Add(this.checkBox3);
-            this.groupBox10.Location = new System.Drawing.Point(267, 343);
+            this.groupBox10.Location = new System.Drawing.Point(264, 6);
             this.groupBox10.Name = "groupBox10";
-            this.groupBox10.Size = new System.Drawing.Size(172, 199);
+            this.groupBox10.Size = new System.Drawing.Size(271, 162);
             this.groupBox10.TabIndex = 6;
             this.groupBox10.TabStop = false;
             this.groupBox10.Text = "Other Settings";
@@ -952,11 +961,11 @@
             this.checkBox11.AutoSize = true;
             this.checkBox11.Checked = true;
             this.checkBox11.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox11.Location = new System.Drawing.Point(6, 146);
+            this.checkBox11.Location = new System.Drawing.Point(6, 133);
             this.checkBox11.Name = "checkBox11";
-            this.checkBox11.Size = new System.Drawing.Size(156, 30);
+            this.checkBox11.Size = new System.Drawing.Size(212, 17);
             this.checkBox11.TabIndex = 31;
-            this.checkBox11.Text = "Keep Pokemons which can\r\nbe evolved";
+            this.checkBox11.Text = "Keep Pokemons which can be evolved";
             this.checkBox11.UseVisualStyleBackColor = true;
             this.checkBox11.CheckedChanged += new System.EventHandler(this.checkBox11_CheckedChanged);
             // 
@@ -965,7 +974,7 @@
             this.checkBox10.AutoSize = true;
             this.checkBox10.Checked = true;
             this.checkBox10.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox10.Location = new System.Drawing.Point(6, 123);
+            this.checkBox10.Location = new System.Drawing.Point(6, 110);
             this.checkBox10.Name = "checkBox10";
             this.checkBox10.Size = new System.Drawing.Size(144, 17);
             this.checkBox10.TabIndex = 30;
@@ -998,18 +1007,77 @@
             // label32
             // 
             this.label32.AutoSize = true;
-            this.label32.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label32.Location = new System.Drawing.Point(74, 595);
+            this.label32.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label32.Location = new System.Drawing.Point(79, 579);
             this.label32.Name = "label32";
-            this.label32.Size = new System.Drawing.Size(545, 15);
+            this.label32.Size = new System.Drawing.Size(492, 13);
             this.label32.TabIndex = 20;
             this.label32.Text = "Whenever you encounter something related to \"Pokecrot\", tell them the Bot is stol" +
     "en!";
             // 
+            // tabControl1
+            // 
+            this.tabControl1.Controls.Add(this.tabGeneral);
+            this.tabControl1.Controls.Add(this.tabPokemon);
+            this.tabControl1.Controls.Add(this.tabItems);
+            this.tabControl1.Location = new System.Drawing.Point(12, 100);
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(550, 422);
+            this.tabControl1.TabIndex = 36;
+            // 
+            // tabGeneral
+            // 
+            this.tabGeneral.Controls.Add(this.groupBox1);
+            this.tabGeneral.Controls.Add(this.groupBox2);
+            this.tabGeneral.Controls.Add(this.groupBox8);
+            this.tabGeneral.Controls.Add(this.groupBox9);
+            this.tabGeneral.Controls.Add(this.groupBox10);
+            this.tabGeneral.Location = new System.Drawing.Point(4, 22);
+            this.tabGeneral.Name = "tabGeneral";
+            this.tabGeneral.Padding = new System.Windows.Forms.Padding(3);
+            this.tabGeneral.Size = new System.Drawing.Size(542, 396);
+            this.tabGeneral.TabIndex = 0;
+            this.tabGeneral.Text = "General";
+            this.tabGeneral.UseVisualStyleBackColor = true;
+            // 
+            // tabPokemon
+            // 
+            this.tabPokemon.Controls.Add(this.groupBox3);
+            this.tabPokemon.Controls.Add(this.groupBox5);
+            this.tabPokemon.Controls.Add(this.groupBox6);
+            this.tabPokemon.Controls.Add(this.groupBox7);
+            this.tabPokemon.Location = new System.Drawing.Point(4, 22);
+            this.tabPokemon.Name = "tabPokemon";
+            this.tabPokemon.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPokemon.Size = new System.Drawing.Size(542, 396);
+            this.tabPokemon.TabIndex = 1;
+            this.tabPokemon.Text = "Pokemon";
+            this.tabPokemon.UseVisualStyleBackColor = true;
+            // 
+            // tabItems
+            // 
+            this.tabItems.Controls.Add(this.groupBox4);
+            this.tabItems.Location = new System.Drawing.Point(4, 22);
+            this.tabItems.Name = "tabItems";
+            this.tabItems.Size = new System.Drawing.Size(542, 396);
+            this.tabItems.TabIndex = 2;
+            this.tabItems.Text = "Items";
+            this.tabItems.UseVisualStyleBackColor = true;
+            // 
+            // pictureBox2
+            // 
+            this.pictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox2.Image")));
+            this.pictureBox2.Location = new System.Drawing.Point(12, 3);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(550, 91);
+            this.pictureBox2.TabIndex = 37;
+            this.pictureBox2.TabStop = false;
+            // 
             // pictureBox1
             // 
             this.pictureBox1.Image = global::PokemonGo.RocketAPI.Console.Properties.Resources.donate;
-            this.pictureBox1.Location = new System.Drawing.Point(9, 577);
+            this.pictureBox1.Location = new System.Drawing.Point(12, 559);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(64, 33);
             this.pictureBox1.TabIndex = 21;
@@ -1021,21 +1089,13 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
-            this.ClientSize = new System.Drawing.Size(626, 620);
+            this.ClientSize = new System.Drawing.Size(576, 605);
+            this.Controls.Add(this.pictureBox2);
+            this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.label32);
             this.Controls.Add(this.label30);
-            this.Controls.Add(this.groupBox10);
-            this.Controls.Add(this.groupBox9);
-            this.Controls.Add(this.groupBox6);
-            this.Controls.Add(this.groupBox8);
             this.Controls.Add(this.button1);
-            this.Controls.Add(this.groupBox7);
-            this.Controls.Add(this.groupBox5);
-            this.Controls.Add(this.groupBox4);
-            this.Controls.Add(this.groupBox3);
-            this.Controls.Add(this.groupBox2);
-            this.Controls.Add(this.groupBox1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "GUI";
@@ -1062,6 +1122,11 @@
             this.groupBox9.PerformLayout();
             this.groupBox10.ResumeLayout(false);
             this.groupBox10.PerformLayout();
+            this.tabControl1.ResumeLayout(false);
+            this.tabGeneral.ResumeLayout(false);
+            this.tabPokemon.ResumeLayout(false);
+            this.tabItems.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -1151,12 +1216,17 @@
         private System.Windows.Forms.TextBox textBox24;
         private System.Windows.Forms.Label label28;
         private System.Windows.Forms.CheckBox checkBox10;
-        private System.Windows.Forms.CheckBox checkBox11;
         private System.Windows.Forms.Label label30;
         private System.Windows.Forms.TextBox textBox25;
         private System.Windows.Forms.Label label31;
         private System.Windows.Forms.Label label32;
         private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabPage tabGeneral;
+        private System.Windows.Forms.TabPage tabPokemon;
+        private System.Windows.Forms.TabPage tabItems;
+        private System.Windows.Forms.CheckBox checkBox11;
+        private System.Windows.Forms.PictureBox pictureBox2;
     }
 }
 
