@@ -269,15 +269,14 @@ namespace PokemonGo.RocketAPI.Console
                     {
                         Pokemons pokemonList = new Pokemons();
                         pokemonList.ShowDialog();
-                        //Application.Run(new Pokemons());
                     });
                 }
             }
 
-            //Application.Run(new Pokemons());
-
             Logger.SetLogger(new Logging.ConsoleLogger(LogLevel.Info));
-
+            
+            Globals.infoObservable.HandleNewHuntStats += SaveHuntStats;
+            
             Task.Run(() =>
             {
 
@@ -285,14 +284,14 @@ namespace PokemonGo.RocketAPI.Console
 
                 try
                 {
-                    new Logic.Logic(new Settings(), huntstats).Execute().Wait();
+                    new Logic.Logic(new Settings(), Globals.infoObservable).Execute().Wait();
                 }
                 catch (PtcOfflineException)
                 {
                     Logger.ColoredConsoleWrite(ConsoleColor.Red, "PTC Servers are probably down OR you credentials are wrong.", LogLevel.Error);
                     Logger.ColoredConsoleWrite(ConsoleColor.Red, "Trying again in 20 seconds...");
                     Thread.Sleep(20000);
-                    new Logic.Logic(new Settings(), huntstats).Execute().Wait();
+                    new Logic.Logic(new Settings(), Globals.infoObservable).Execute().Wait();
                 }
                 catch (AccountNotVerifiedException)
                 {
@@ -300,16 +299,20 @@ namespace PokemonGo.RocketAPI.Console
                     Thread.Sleep(10000);
                     Environment.Exit(0);
                 }
-
                 catch (Exception ex)
                 {
                     Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Unhandled exception: {ex}", LogLevel.Error);
                     Logger.Error("Restarting in 20 Seconds.");
                     Thread.Sleep(200000);
-                    new Logic.Logic(new Settings(), huntstats).Execute().Wait();
+                    new Logic.Logic(new Settings(), Globals.infoObservable).Execute().Wait();
                 }
             });
             System.Console.ReadLine();
+        }
+
+        private static void SaveHuntStats(string newHuntStat)
+        {
+            File.AppendAllText(huntstats, newHuntStat);
         }
 
         public static void CheckVersion()
@@ -432,5 +435,7 @@ namespace PokemonGo.RocketAPI.Console
         public static bool pokeList = true;
         public static bool keepPokemonsThatCanEvolve = true;
         public static bool pokevision = false;
+
+        public static Logic.LogicInfoObservable infoObservable = new Logic.LogicInfoObservable();
     }
 }
