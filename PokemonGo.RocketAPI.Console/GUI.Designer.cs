@@ -161,7 +161,7 @@
             this.textBox1.Location = new System.Drawing.Point(94, 40);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(147, 20);
-            this.textBox1.TabIndex = 3;
+            this.textBox1.TabIndex = 2;
             // 
             // label3
             // 
@@ -178,7 +178,7 @@
             this.textBox2.Name = "textBox2";
             this.textBox2.PasswordChar = '*';
             this.textBox2.Size = new System.Drawing.Size(147, 20);
-            this.textBox2.TabIndex = 5;
+            this.textBox2.TabIndex = 3;
             // 
             // groupBox1
             // 
@@ -191,7 +191,7 @@
             this.groupBox1.Location = new System.Drawing.Point(9, 13);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(252, 97);
-            this.groupBox1.TabIndex = 6;
+            this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Account Info";
             // 
@@ -214,7 +214,7 @@
             this.groupBox2.Location = new System.Drawing.Point(9, 116);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(252, 173);
-            this.groupBox2.TabIndex = 7;
+            this.groupBox2.TabIndex = 2;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Location Settings";
             // 
@@ -224,7 +224,7 @@
             this.button2.Location = new System.Drawing.Point(184, 15);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(62, 74);
-            this.button2.TabIndex = 15;
+            this.button2.TabIndex = 4;
             this.button2.Text = "Set Location";
             this.button2.UseVisualStyleBackColor = false;
             this.button2.Click += new System.EventHandler(this.button2_Click);
@@ -237,7 +237,7 @@
             this.checkBox1.Location = new System.Drawing.Point(4, 148);
             this.checkBox1.Name = "checkBox1";
             this.checkBox1.Size = new System.Drawing.Size(171, 17);
-            this.checkBox1.TabIndex = 14;
+            this.checkBox1.TabIndex = 7;
             this.checkBox1.Text = "Start walk from default location";
             this.checkBox1.UseVisualStyleBackColor = true;
             // 
@@ -255,7 +255,7 @@
             this.textBox7.Location = new System.Drawing.Point(81, 121);
             this.textBox7.Name = "textBox7";
             this.textBox7.Size = new System.Drawing.Size(100, 20);
-            this.textBox7.TabIndex = 10;
+            this.textBox7.TabIndex = 6;
             this.textBox7.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox7_KeyPress);
             // 
             // label9
@@ -290,7 +290,7 @@
             this.textBox6.Location = new System.Drawing.Point(81, 95);
             this.textBox6.Name = "textBox6";
             this.textBox6.Size = new System.Drawing.Size(100, 20);
-            this.textBox6.TabIndex = 6;
+            this.textBox6.TabIndex = 5;
             this.textBox6.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox7_KeyPress);
             // 
             // label6
@@ -360,7 +360,7 @@
             this.groupBox3.Location = new System.Drawing.Point(9, 295);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(252, 120);
-            this.groupBox3.TabIndex = 8;
+            this.groupBox3.TabIndex = 3;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Bot Settings";
             // 
@@ -378,7 +378,7 @@
             this.textBox24.Location = new System.Drawing.Point(110, 95);
             this.textBox24.Name = "textBox24";
             this.textBox24.Size = new System.Drawing.Size(53, 20);
-            this.textBox24.TabIndex = 7;
+            this.textBox24.TabIndex = 11;
             this.textBox24.Text = "90";
             // 
             // label28
@@ -395,7 +395,7 @@
             this.textBox9.Location = new System.Drawing.Point(110, 69);
             this.textBox9.Name = "textBox9";
             this.textBox9.Size = new System.Drawing.Size(71, 20);
-            this.textBox9.TabIndex = 5;
+            this.textBox9.TabIndex = 10;
             this.textBox9.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox7_KeyPress);
             // 
             // label12
@@ -412,7 +412,7 @@
             this.textBox8.Location = new System.Drawing.Point(141, 41);
             this.textBox8.Name = "textBox8";
             this.textBox8.Size = new System.Drawing.Size(40, 20);
-            this.textBox8.TabIndex = 3;
+            this.textBox8.TabIndex = 9;
             this.textBox8.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox7_KeyPress);
             // 
             // label11
@@ -432,7 +432,7 @@
             this.checkBox2.Location = new System.Drawing.Point(7, 20);
             this.checkBox2.Name = "checkBox2";
             this.checkBox2.Size = new System.Drawing.Size(174, 17);
-            this.checkBox2.TabIndex = 0;
+            this.checkBox2.TabIndex = 8;
             this.checkBox2.Text = "Auto transfer double Pokemons";
             this.checkBox2.UseVisualStyleBackColor = true;
             // 
@@ -444,7 +444,7 @@
             this.checkBox3.Location = new System.Drawing.Point(6, 87);
             this.checkBox3.Name = "checkBox3";
             this.checkBox3.Size = new System.Drawing.Size(159, 30);
-            this.checkBox3.TabIndex = 1;
+            this.checkBox3.TabIndex = 29;
             this.checkBox3.Text = "Evolve Pokemons if enough\r\ncandy\r\n";
             this.checkBox3.UseVisualStyleBackColor = true;
             // 
@@ -456,7 +456,7 @@
             this.checkBox7.Location = new System.Drawing.Point(6, 19);
             this.checkBox7.Name = "checkBox7";
             this.checkBox7.Size = new System.Drawing.Size(144, 17);
-            this.checkBox7.TabIndex = 6;
+            this.checkBox7.TabIndex = 26;
             this.checkBox7.Text = "Use LuckyEgg at Evolve";
             this.checkBox7.UseVisualStyleBackColor = true;
             this.checkBox7.CheckedChanged += new System.EventHandler(this.checkBox7_CheckedChanged_1);
@@ -490,7 +490,7 @@
             this.groupBox4.Location = new System.Drawing.Point(267, 12);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(172, 325);
-            this.groupBox4.TabIndex = 9;
+            this.groupBox4.TabIndex = 5;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Pokemon Items";
             // 
@@ -552,7 +552,7 @@
             this.textBox21.Location = new System.Drawing.Point(109, 248);
             this.textBox21.Name = "textBox21";
             this.textBox21.Size = new System.Drawing.Size(51, 20);
-            this.textBox21.TabIndex = 16;
+            this.textBox21.TabIndex = 24;
             this.textBox21.TextChanged += new System.EventHandler(this.TextBoxes_Items_TextChanged);
             // 
             // textBox22
@@ -613,7 +613,7 @@
             this.textBox17.Location = new System.Drawing.Point(109, 275);
             this.textBox17.Name = "textBox17";
             this.textBox17.Size = new System.Drawing.Size(51, 20);
-            this.textBox17.TabIndex = 10;
+            this.textBox17.TabIndex = 25;
             this.textBox17.TextChanged += new System.EventHandler(this.TextBoxes_Items_TextChanged);
             this.textBox17.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox7_KeyPress);
             // 
@@ -622,7 +622,7 @@
             this.textBox16.Location = new System.Drawing.Point(109, 221);
             this.textBox16.Name = "textBox16";
             this.textBox16.Size = new System.Drawing.Size(51, 20);
-            this.textBox16.TabIndex = 9;
+            this.textBox16.TabIndex = 23;
             this.textBox16.TextChanged += new System.EventHandler(this.TextBoxes_Items_TextChanged);
             this.textBox16.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox7_KeyPress);
             // 
@@ -631,7 +631,7 @@
             this.textBox15.Location = new System.Drawing.Point(109, 195);
             this.textBox15.Name = "textBox15";
             this.textBox15.Size = new System.Drawing.Size(51, 20);
-            this.textBox15.TabIndex = 8;
+            this.textBox15.TabIndex = 22;
             this.textBox15.TextChanged += new System.EventHandler(this.TextBoxes_Items_TextChanged);
             this.textBox15.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox7_KeyPress);
             // 
@@ -640,7 +640,7 @@
             this.textBox14.Location = new System.Drawing.Point(109, 169);
             this.textBox14.Name = "textBox14";
             this.textBox14.Size = new System.Drawing.Size(51, 20);
-            this.textBox14.TabIndex = 7;
+            this.textBox14.TabIndex = 21;
             this.textBox14.TextChanged += new System.EventHandler(this.TextBoxes_Items_TextChanged);
             this.textBox14.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox7_KeyPress);
             // 
@@ -649,7 +649,7 @@
             this.textBox13.Location = new System.Drawing.Point(109, 116);
             this.textBox13.Name = "textBox13";
             this.textBox13.Size = new System.Drawing.Size(51, 20);
-            this.textBox13.TabIndex = 6;
+            this.textBox13.TabIndex = 19;
             this.textBox13.TextChanged += new System.EventHandler(this.TextBoxes_Items_TextChanged);
             this.textBox13.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox7_KeyPress);
             // 
@@ -667,7 +667,7 @@
             this.textBox12.Location = new System.Drawing.Point(109, 64);
             this.textBox12.Name = "textBox12";
             this.textBox12.Size = new System.Drawing.Size(51, 20);
-            this.textBox12.TabIndex = 4;
+            this.textBox12.TabIndex = 17;
             this.textBox12.TextChanged += new System.EventHandler(this.TextBoxes_Items_TextChanged);
             this.textBox12.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox7_KeyPress);
             // 
@@ -676,7 +676,7 @@
             this.textBox11.Location = new System.Drawing.Point(109, 38);
             this.textBox11.Name = "textBox11";
             this.textBox11.Size = new System.Drawing.Size(51, 20);
-            this.textBox11.TabIndex = 3;
+            this.textBox11.TabIndex = 16;
             this.textBox11.TextChanged += new System.EventHandler(this.TextBoxes_Items_TextChanged);
             this.textBox11.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox7_KeyPress);
             // 
@@ -694,7 +694,7 @@
             this.textBox10.Location = new System.Drawing.Point(109, 12);
             this.textBox10.Name = "textBox10";
             this.textBox10.Size = new System.Drawing.Size(51, 20);
-            this.textBox10.TabIndex = 1;
+            this.textBox10.TabIndex = 15;
             this.textBox10.TextChanged += new System.EventHandler(this.TextBoxes_Items_TextChanged);
             this.textBox10.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox7_KeyPress);
             // 
@@ -725,7 +725,7 @@
             this.groupBox5.Location = new System.Drawing.Point(445, 12);
             this.groupBox5.Name = "groupBox5";
             this.groupBox5.Size = new System.Drawing.Size(172, 170);
-            this.groupBox5.TabIndex = 10;
+            this.groupBox5.TabIndex = 7;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Pokemons to not transfer";
             // 
@@ -735,7 +735,7 @@
             this.checkBox4.Location = new System.Drawing.Point(10, 149);
             this.checkBox4.Name = "checkBox4";
             this.checkBox4.Size = new System.Drawing.Size(69, 17);
-            this.checkBox4.TabIndex = 1;
+            this.checkBox4.TabIndex = 32;
             this.checkBox4.Text = "Select all";
             this.checkBox4.UseVisualStyleBackColor = true;
             this.checkBox4.CheckedChanged += new System.EventHandler(this.checkBox4_CheckedChanged);
@@ -757,7 +757,7 @@
             this.groupBox6.Location = new System.Drawing.Point(445, 188);
             this.groupBox6.Name = "groupBox6";
             this.groupBox6.Size = new System.Drawing.Size(172, 177);
-            this.groupBox6.TabIndex = 11;
+            this.groupBox6.TabIndex = 8;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "Pokemons to not catch";
             // 
@@ -767,7 +767,7 @@
             this.checkBox5.Location = new System.Drawing.Point(6, 154);
             this.checkBox5.Name = "checkBox5";
             this.checkBox5.Size = new System.Drawing.Size(69, 17);
-            this.checkBox5.TabIndex = 1;
+            this.checkBox5.TabIndex = 33;
             this.checkBox5.Text = "Select all";
             this.checkBox5.UseVisualStyleBackColor = true;
             this.checkBox5.CheckedChanged += new System.EventHandler(this.checkBox5_CheckedChanged);
@@ -789,7 +789,7 @@
             this.groupBox7.Location = new System.Drawing.Point(445, 371);
             this.groupBox7.Name = "groupBox7";
             this.groupBox7.Size = new System.Drawing.Size(171, 171);
-            this.groupBox7.TabIndex = 12;
+            this.groupBox7.TabIndex = 9;
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "Pokemons to evolve";
             // 
@@ -799,7 +799,7 @@
             this.checkBox6.Location = new System.Drawing.Point(6, 147);
             this.checkBox6.Name = "checkBox6";
             this.checkBox6.Size = new System.Drawing.Size(69, 17);
-            this.checkBox6.TabIndex = 1;
+            this.checkBox6.TabIndex = 34;
             this.checkBox6.Text = "Select all";
             this.checkBox6.UseVisualStyleBackColor = true;
             this.checkBox6.CheckedChanged += new System.EventHandler(this.checkBox6_CheckedChanged);
@@ -820,7 +820,7 @@
             this.button1.Location = new System.Drawing.Point(267, 548);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(350, 23);
-            this.button1.TabIndex = 13;
+            this.button1.TabIndex = 35;
             this.button1.Text = "Save Configuration";
             this.button1.UseVisualStyleBackColor = false;
             this.button1.Click += new System.EventHandler(this.button1_Click);
@@ -837,7 +837,7 @@
             this.groupBox8.Location = new System.Drawing.Point(13, 421);
             this.groupBox8.Name = "groupBox8";
             this.groupBox8.Size = new System.Drawing.Size(252, 93);
-            this.groupBox8.TabIndex = 14;
+            this.groupBox8.TabIndex = 4;
             this.groupBox8.TabStop = false;
             this.groupBox8.Text = "Telegram Settings";
             // 
@@ -864,7 +864,7 @@
             this.textBox20.Location = new System.Drawing.Point(110, 65);
             this.textBox20.Name = "textBox20";
             this.textBox20.Size = new System.Drawing.Size(71, 20);
-            this.textBox20.TabIndex = 4;
+            this.textBox20.TabIndex = 14;
             this.textBox20.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox7_KeyPress);
             // 
             // textBox19
@@ -872,7 +872,7 @@
             this.textBox19.Location = new System.Drawing.Point(67, 39);
             this.textBox19.Name = "textBox19";
             this.textBox19.Size = new System.Drawing.Size(174, 20);
-            this.textBox19.TabIndex = 3;
+            this.textBox19.TabIndex = 13;
             // 
             // label22
             // 
@@ -888,7 +888,7 @@
             this.textBox18.Location = new System.Drawing.Point(67, 13);
             this.textBox18.Name = "textBox18";
             this.textBox18.Size = new System.Drawing.Size(174, 20);
-            this.textBox18.TabIndex = 1;
+            this.textBox18.TabIndex = 12;
             // 
             // label21
             // 
@@ -905,7 +905,7 @@
             this.linkLabel1.Location = new System.Drawing.Point(6, 21);
             this.linkLabel1.Name = "linkLabel1";
             this.linkLabel1.Size = new System.Drawing.Size(38, 13);
-            this.linkLabel1.TabIndex = 15;
+            this.linkLabel1.TabIndex = 36;
             this.linkLabel1.TabStop = true;
             this.linkLabel1.Text = "Github";
             this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
@@ -916,7 +916,7 @@
             this.linkLabel2.Location = new System.Drawing.Point(90, 21);
             this.linkLabel2.Name = "linkLabel2";
             this.linkLabel2.Size = new System.Drawing.Size(110, 13);
-            this.linkLabel2.TabIndex = 16;
+            this.linkLabel2.TabIndex = 37;
             this.linkLabel2.TabStop = true;
             this.linkLabel2.Text = "HighMinded (Support)";
             this.linkLabel2.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel2_LinkClicked);
@@ -943,7 +943,7 @@
             this.groupBox10.Location = new System.Drawing.Point(267, 343);
             this.groupBox10.Name = "groupBox10";
             this.groupBox10.Size = new System.Drawing.Size(172, 199);
-            this.groupBox10.TabIndex = 19;
+            this.groupBox10.TabIndex = 6;
             this.groupBox10.TabStop = false;
             this.groupBox10.Text = "Other Settings";
             // 
@@ -955,7 +955,7 @@
             this.checkBox11.Location = new System.Drawing.Point(6, 146);
             this.checkBox11.Name = "checkBox11";
             this.checkBox11.Size = new System.Drawing.Size(156, 30);
-            this.checkBox11.TabIndex = 10;
+            this.checkBox11.TabIndex = 31;
             this.checkBox11.Text = "Keep Pokemons which can\r\nbe evolved";
             this.checkBox11.UseVisualStyleBackColor = true;
             this.checkBox11.CheckedChanged += new System.EventHandler(this.checkBox11_CheckedChanged);
@@ -968,7 +968,7 @@
             this.checkBox10.Location = new System.Drawing.Point(6, 123);
             this.checkBox10.Name = "checkBox10";
             this.checkBox10.Size = new System.Drawing.Size(144, 17);
-            this.checkBox10.TabIndex = 9;
+            this.checkBox10.TabIndex = 30;
             this.checkBox10.Text = "Enable Pokemon list GUI";
             this.checkBox10.UseVisualStyleBackColor = true;
             // 
@@ -980,7 +980,7 @@
             this.checkBox9.Location = new System.Drawing.Point(6, 64);
             this.checkBox9.Name = "checkBox9";
             this.checkBox9.Size = new System.Drawing.Size(146, 17);
-            this.checkBox9.TabIndex = 8;
+            this.checkBox9.TabIndex = 28;
             this.checkBox9.Text = "Use Incense every 30min";
             this.checkBox9.UseVisualStyleBackColor = true;
             // 
@@ -990,7 +990,7 @@
             this.checkBox8.Location = new System.Drawing.Point(6, 43);
             this.checkBox8.Name = "checkBox8";
             this.checkBox8.Size = new System.Drawing.Size(145, 17);
-            this.checkBox8.TabIndex = 7;
+            this.checkBox8.TabIndex = 27;
             this.checkBox8.Text = "German Pokemon names";
             this.checkBox8.UseVisualStyleBackColor = true;
             this.checkBox8.CheckedChanged += new System.EventHandler(this.checkBox8_CheckedChanged);
