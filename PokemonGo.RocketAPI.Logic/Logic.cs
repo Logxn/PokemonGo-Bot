@@ -470,16 +470,17 @@ namespace PokemonGo.RocketAPI.Logic
                     await RecycleItems();
                 }
 
-                if (_clientSettings.catchPokemonSkipList.Contains(pokemon.PokemonId))
+                var distance = LocationUtils.CalculateDistanceInMeters(_client.CurrentLat, _client.CurrentLng, pokemon.Latitude, pokemon.Longitude);
+                await Task.Delay(distance > 100 ? 1000 : 100);
+                var encounterPokemonResponse = await _client.EncounterPokemon(pokemon.EncounterId, pokemon.SpawnpointId);
+                
+                // skip pokemon only if it is contains in the skiplist or if its CP are lower than the lower bound
+                if (_clientSettings.catchPokemonSkipList.Contains(pokemon.PokemonId) && encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp < _clientSettings.alwaisCatchOverCP)
                 {
                     Logger.ColoredConsoleWrite(ConsoleColor.Green, "Skipped Pokemon: " + pokemon.PokemonId);
                     continue;
                 }
 
-                var distance = LocationUtils.CalculateDistanceInMeters(_client.CurrentLat, _client.CurrentLng, pokemon.Latitude, pokemon.Longitude);
-                await Task.Delay(distance > 100 ? 1000 : 100);
-                var encounterPokemonResponse = await _client.EncounterPokemon(pokemon.EncounterId, pokemon.SpawnpointId);
-                
                 if (encounterPokemonResponse.Status == EncounterResponse.Types.Status.EncounterSuccess)
                 {
                     var bestPokeball = await GetBestBall(encounterPokemonResponse?.WildPokemon);
@@ -707,7 +708,7 @@ namespace PokemonGo.RocketAPI.Logic
         DateTime lastincenseuse;
         public async Task UseIncense()
         {
-            if (_clientSettings.UserIncense)
+            if (_clientSettings.UseIncense)
             {
                 var inventory = await _inventory.GetItems();
                 var incsense = inventory.Where(p => (ItemId)p.Item_ == ItemId.ItemIncenseOrdinary).FirstOrDefault();

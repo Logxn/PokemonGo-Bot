@@ -99,23 +99,28 @@ namespace PokemonGo.RocketAPI.Console
                             case 16:
                                 Globals.telDelay = int.Parse(line);
                                 break;
-                            case 17:
-                                Globals.useluckyegg = bool.Parse(line);
+                            case 17: // reserved to Globals.navigation_option
                                 break;
                             case 18:
-                                Globals.gerNames = bool.Parse(line);
+                                Globals.useluckyegg = bool.Parse(line);
                                 break;
                             case 19:
+                                Globals.gerNames = bool.Parse(line);
+                                break;
+                            case 20:
                                 Globals.useincense = bool.Parse(line);
                                 break; 
                             case 21:
                                 Globals.ivmaxpercent = int.Parse(line);
                                 break; 
-                            case 23:
+                            case 22:
                                 Globals.keepPokemonsThatCanEvolve = bool.Parse(line);
                                 break;
-                            case 24:
+                            case 23:
                                 Globals.pokevision = bool.Parse(line);
+                                break;
+                            case 24:
+                                Globals.alwaisCatchOverCP = int.Parse(line);
                                 break;
                         }
                         i++;
@@ -362,6 +367,7 @@ namespace PokemonGo.RocketAPI.Console
         public static int toprevive = 50;
         public static int berry = 50;
         public static int ivmaxpercent = 0;
+        public static int alwaisCatchOverCP = 1500;
         public static List<PokemonId> noTransfer = new List<PokemonId>();
         public static List<PokemonId> noCatch = new List<PokemonId>();
         public static List<PokemonId> doEvolve = new List<PokemonId>();

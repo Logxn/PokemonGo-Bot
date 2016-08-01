@@ -37,9 +37,11 @@ namespace PokemonGo.RocketAPI
 
         bool UseLuckyEgg { get; }
         bool keepPokemonsThatCanEvolve { get; }
-        bool UserIncense { get; }
+        bool UseIncense { get; }
 
         bool pokevision { get; }
+
+        int alwaisCatchOverCP { get; }
 
         bool Language { get; }
 
