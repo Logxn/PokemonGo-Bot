@@ -30,94 +30,92 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GUI));
             this.label1 = new System.Windows.Forms.Label();
-            this.accountTypeComboBox = new System.Windows.Forms.ComboBox();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.emailTBox = new System.Windows.Forms.TextBox();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.pswdTBox = new System.Windows.Forms.TextBox();
+            this.textBox2 = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.setLocationButton = new System.Windows.Forms.Button();
-            this.startFromDefaultLocCheckBox = new System.Windows.Forms.CheckBox();
+            this.button2 = new System.Windows.Forms.Button();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.label10 = new System.Windows.Forms.Label();
-            this.radiusTBox = new System.Windows.Forms.TextBox();
+            this.textBox7 = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
-            this.speedTBox = new System.Windows.Forms.TextBox();
+            this.textBox6 = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
-            this.altitudeTBox = new System.Windows.Forms.TextBox();
-            this.longitudeTBox = new System.Windows.Forms.TextBox();
+            this.textBox5 = new System.Windows.Forms.TextBox();
+            this.textBox4 = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
-            this.latitudeTBox = new System.Windows.Forms.TextBox();
+            this.textBox3 = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.label29 = new System.Windows.Forms.Label();
-            this.maxIVToTransfTBox = new System.Windows.Forms.TextBox();
+            this.textBox24 = new System.Windows.Forms.TextBox();
             this.label28 = new System.Windows.Forms.Label();
-            this.maxCPToTransfTBox = new System.Windows.Forms.TextBox();
+            this.textBox9 = new System.Windows.Forms.TextBox();
             this.label12 = new System.Windows.Forms.Label();
-            this.maxDuplicatePkTBox = new System.Windows.Forms.TextBox();
+            this.textBox8 = new System.Windows.Forms.TextBox();
             this.label11 = new System.Windows.Forms.Label();
-            this.autoTransfDoublePkCheckBox = new System.Windows.Forms.CheckBox();
-            this.evolvePkIfCandyCheckBox = new System.Windows.Forms.CheckBox();
-            this.useLuckyEggEvolveCheckBox = new System.Windows.Forms.CheckBox();
+            this.checkBox2 = new System.Windows.Forms.CheckBox();
+            this.checkBox3 = new System.Windows.Forms.CheckBox();
+            this.checkBox7 = new System.Windows.Forms.CheckBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.totalCountInventoryTBox = new System.Windows.Forms.TextBox();
+            this.textBox25 = new System.Windows.Forms.TextBox();
             this.label31 = new System.Windows.Forms.Label();
             this.label27 = new System.Windows.Forms.Label();
             this.label26 = new System.Windows.Forms.Label();
             this.label25 = new System.Windows.Forms.Label();
-            this.maxTopReviveTBox = new System.Windows.Forms.TextBox();
-            this.maxTopPotTBox = new System.Windows.Forms.TextBox();
-            this.maxMasterBallsTBox = new System.Windows.Forms.TextBox();
+            this.textBox23 = new System.Windows.Forms.TextBox();
+            this.textBox21 = new System.Windows.Forms.TextBox();
+            this.textBox22 = new System.Windows.Forms.TextBox();
             this.label20 = new System.Windows.Forms.Label();
             this.label19 = new System.Windows.Forms.Label();
             this.label18 = new System.Windows.Forms.Label();
             this.label17 = new System.Windows.Forms.Label();
             this.label16 = new System.Windows.Forms.Label();
-            this.maxRazzBerrysTBox = new System.Windows.Forms.TextBox();
-            this.maxHyperPotTBox = new System.Windows.Forms.TextBox();
-            this.maxSuperPotTBox = new System.Windows.Forms.TextBox();
-            this.maxPotTBox = new System.Windows.Forms.TextBox();
-            this.maxReviveTBox = new System.Windows.Forms.TextBox();
+            this.textBox17 = new System.Windows.Forms.TextBox();
+            this.textBox16 = new System.Windows.Forms.TextBox();
+            this.textBox15 = new System.Windows.Forms.TextBox();
+            this.textBox14 = new System.Windows.Forms.TextBox();
+            this.textBox13 = new System.Windows.Forms.TextBox();
             this.label15 = new System.Windows.Forms.Label();
-            this.maxUltraBallsTBox = new System.Windows.Forms.TextBox();
-            this.maxGreatBallsTBox = new System.Windows.Forms.TextBox();
+            this.textBox12 = new System.Windows.Forms.TextBox();
+            this.textBox11 = new System.Windows.Forms.TextBox();
             this.label14 = new System.Windows.Forms.Label();
-            this.maxPokeBallsTBox = new System.Windows.Forms.TextBox();
+            this.textBox10 = new System.Windows.Forms.TextBox();
             this.label13 = new System.Windows.Forms.Label();
             this.label30 = new System.Windows.Forms.Label();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
-            this.selectAllPkToNotTransferCheckBox = new System.Windows.Forms.CheckBox();
-            this.pkToNotTransferCListBox = new System.Windows.Forms.CheckedListBox();
+            this.checkBox4 = new System.Windows.Forms.CheckBox();
+            this.checkedListBox1 = new System.Windows.Forms.CheckedListBox();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
-            this.selectAllPkToNotCatchCheckBox = new System.Windows.Forms.CheckBox();
-            this.pkToNotCatchCListBox = new System.Windows.Forms.CheckedListBox();
+            this.checkBox5 = new System.Windows.Forms.CheckBox();
+            this.checkedListBox2 = new System.Windows.Forms.CheckedListBox();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
-            this.selectAllPkToEvolveCheckBox = new System.Windows.Forms.CheckBox();
-            this.pkToEvolveCListBox = new System.Windows.Forms.CheckedListBox();
-            this.saveConfigurationButton = new System.Windows.Forms.Button();
+            this.checkBox6 = new System.Windows.Forms.CheckBox();
+            this.checkedListBox3 = new System.Windows.Forms.CheckedListBox();
+            this.button1 = new System.Windows.Forms.Button();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
             this.label24 = new System.Windows.Forms.Label();
             this.label23 = new System.Windows.Forms.Label();
-            this.tgLiveStatsDelayTBox = new System.Windows.Forms.TextBox();
-            this.tgUsernameTBox = new System.Windows.Forms.TextBox();
+            this.textBox20 = new System.Windows.Forms.TextBox();
+            this.textBox19 = new System.Windows.Forms.TextBox();
             this.label22 = new System.Windows.Forms.Label();
-            this.tgApiTokenTBox = new System.Windows.Forms.TextBox();
+            this.textBox18 = new System.Windows.Forms.TextBox();
             this.label21 = new System.Windows.Forms.Label();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.linkLabel2 = new System.Windows.Forms.LinkLabel();
             this.groupBox9 = new System.Windows.Forms.GroupBox();
             this.groupBox10 = new System.Windows.Forms.GroupBox();
-            this.keepEvolvablePkCheckBox = new System.Windows.Forms.CheckBox();
-            this.enablePkGUICheckBox = new System.Windows.Forms.CheckBox();
-            this.useIncense30MinsCheckBox = new System.Windows.Forms.CheckBox();
-            this.gerPkNamesCheckBox = new System.Windows.Forms.CheckBox();
+            this.checkBox11 = new System.Windows.Forms.CheckBox();
+            this.checkBox10 = new System.Windows.Forms.CheckBox();
+            this.checkBox9 = new System.Windows.Forms.CheckBox();
+            this.checkBox8 = new System.Windows.Forms.CheckBox();
             this.label32 = new System.Windows.Forms.Label();
-            this.donatePicBox = new System.Windows.Forms.PictureBox();
-            this.label33 = new System.Windows.Forms.Label();
-            this.alwaysCatchOverCPTBox = new System.Windows.Forms.TextBox();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -128,7 +126,7 @@
             this.groupBox8.SuspendLayout();
             this.groupBox9.SuspendLayout();
             this.groupBox10.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.donatePicBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -140,14 +138,14 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "Account type:";
             // 
-            // accountTypeComboBox
+            // comboBox1
             // 
-            this.accountTypeComboBox.FormattingEnabled = true;
-            this.accountTypeComboBox.Location = new System.Drawing.Point(94, 13);
-            this.accountTypeComboBox.Name = "accountTypeComboBox";
-            this.accountTypeComboBox.Size = new System.Drawing.Size(147, 21);
-            this.accountTypeComboBox.TabIndex = 1;
-            this.accountTypeComboBox.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Location = new System.Drawing.Point(94, 13);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(147, 21);
+            this.comboBox1.TabIndex = 1;
+            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
             // label2
             // 
@@ -158,12 +156,12 @@
             this.label2.TabIndex = 2;
             this.label2.Text = "E-mail:";
             // 
-            // emailTBox
+            // textBox1
             // 
-            this.emailTBox.Location = new System.Drawing.Point(94, 40);
-            this.emailTBox.Name = "emailTBox";
-            this.emailTBox.Size = new System.Drawing.Size(147, 20);
-            this.emailTBox.TabIndex = 3;
+            this.textBox1.Location = new System.Drawing.Point(94, 40);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(147, 20);
+            this.textBox1.TabIndex = 3;
             // 
             // label3
             // 
@@ -174,22 +172,22 @@
             this.label3.TabIndex = 4;
             this.label3.Text = "Password";
             // 
-            // pswdTBox
+            // textBox2
             // 
-            this.pswdTBox.Location = new System.Drawing.Point(94, 66);
-            this.pswdTBox.Name = "pswdTBox";
-            this.pswdTBox.PasswordChar = '*';
-            this.pswdTBox.Size = new System.Drawing.Size(147, 20);
-            this.pswdTBox.TabIndex = 5;
+            this.textBox2.Location = new System.Drawing.Point(94, 66);
+            this.textBox2.Name = "textBox2";
+            this.textBox2.PasswordChar = '*';
+            this.textBox2.Size = new System.Drawing.Size(147, 20);
+            this.textBox2.TabIndex = 5;
             // 
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Controls.Add(this.pswdTBox);
-            this.groupBox1.Controls.Add(this.accountTypeComboBox);
+            this.groupBox1.Controls.Add(this.textBox2);
+            this.groupBox1.Controls.Add(this.comboBox1);
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.label2);
-            this.groupBox1.Controls.Add(this.emailTBox);
+            this.groupBox1.Controls.Add(this.textBox1);
             this.groupBox1.Location = new System.Drawing.Point(9, 13);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(252, 97);
@@ -199,19 +197,19 @@
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.setLocationButton);
-            this.groupBox2.Controls.Add(this.startFromDefaultLocCheckBox);
+            this.groupBox2.Controls.Add(this.button2);
+            this.groupBox2.Controls.Add(this.checkBox1);
             this.groupBox2.Controls.Add(this.label10);
-            this.groupBox2.Controls.Add(this.radiusTBox);
+            this.groupBox2.Controls.Add(this.textBox7);
             this.groupBox2.Controls.Add(this.label9);
             this.groupBox2.Controls.Add(this.label8);
             this.groupBox2.Controls.Add(this.label7);
-            this.groupBox2.Controls.Add(this.speedTBox);
+            this.groupBox2.Controls.Add(this.textBox6);
             this.groupBox2.Controls.Add(this.label6);
-            this.groupBox2.Controls.Add(this.altitudeTBox);
-            this.groupBox2.Controls.Add(this.longitudeTBox);
+            this.groupBox2.Controls.Add(this.textBox5);
+            this.groupBox2.Controls.Add(this.textBox4);
             this.groupBox2.Controls.Add(this.label5);
-            this.groupBox2.Controls.Add(this.latitudeTBox);
+            this.groupBox2.Controls.Add(this.textBox3);
             this.groupBox2.Controls.Add(this.label4);
             this.groupBox2.Location = new System.Drawing.Point(9, 116);
             this.groupBox2.Name = "groupBox2";
@@ -220,28 +218,28 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Location Settings";
             // 
-            // setLocationButton
+            // button2
             // 
-            this.setLocationButton.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            this.setLocationButton.Location = new System.Drawing.Point(184, 15);
-            this.setLocationButton.Name = "setLocationButton";
-            this.setLocationButton.Size = new System.Drawing.Size(62, 74);
-            this.setLocationButton.TabIndex = 15;
-            this.setLocationButton.Text = "Set Location";
-            this.setLocationButton.UseVisualStyleBackColor = false;
-            this.setLocationButton.Click += new System.EventHandler(this.button2_Click);
+            this.button2.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            this.button2.Location = new System.Drawing.Point(184, 15);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(62, 74);
+            this.button2.TabIndex = 15;
+            this.button2.Text = "Set Location";
+            this.button2.UseVisualStyleBackColor = false;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
-            // startFromDefaultLocCheckBox
+            // checkBox1
             // 
-            this.startFromDefaultLocCheckBox.AutoSize = true;
-            this.startFromDefaultLocCheckBox.Checked = true;
-            this.startFromDefaultLocCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.startFromDefaultLocCheckBox.Location = new System.Drawing.Point(4, 148);
-            this.startFromDefaultLocCheckBox.Name = "startFromDefaultLocCheckBox";
-            this.startFromDefaultLocCheckBox.Size = new System.Drawing.Size(171, 17);
-            this.startFromDefaultLocCheckBox.TabIndex = 14;
-            this.startFromDefaultLocCheckBox.Text = "Start walk from default location";
-            this.startFromDefaultLocCheckBox.UseVisualStyleBackColor = true;
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Checked = true;
+            this.checkBox1.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox1.Location = new System.Drawing.Point(4, 148);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(171, 17);
+            this.checkBox1.TabIndex = 14;
+            this.checkBox1.Text = "Start walk from default location";
+            this.checkBox1.UseVisualStyleBackColor = true;
             // 
             // label10
             // 
@@ -252,13 +250,13 @@
             this.label10.TabIndex = 11;
             this.label10.Text = "meters";
             // 
-            // radiusTBox
+            // textBox7
             // 
-            this.radiusTBox.Location = new System.Drawing.Point(81, 121);
-            this.radiusTBox.Name = "radiusTBox";
-            this.radiusTBox.Size = new System.Drawing.Size(100, 20);
-            this.radiusTBox.TabIndex = 10;
-            this.radiusTBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxes_OnlyDigit_KeyPress);
+            this.textBox7.Location = new System.Drawing.Point(81, 121);
+            this.textBox7.Name = "textBox7";
+            this.textBox7.Size = new System.Drawing.Size(100, 20);
+            this.textBox7.TabIndex = 10;
+            this.textBox7.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox7_KeyPress);
             // 
             // label9
             // 
@@ -287,13 +285,13 @@
             this.label7.TabIndex = 7;
             this.label7.Text = "Speed:";
             // 
-            // speedTBox
+            // textBox6
             // 
-            this.speedTBox.Location = new System.Drawing.Point(81, 95);
-            this.speedTBox.Name = "speedTBox";
-            this.speedTBox.Size = new System.Drawing.Size(100, 20);
-            this.speedTBox.TabIndex = 6;
-            this.speedTBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxes_OnlyDigit_KeyPress);
+            this.textBox6.Location = new System.Drawing.Point(81, 95);
+            this.textBox6.Name = "textBox6";
+            this.textBox6.Size = new System.Drawing.Size(100, 20);
+            this.textBox6.TabIndex = 6;
+            this.textBox6.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox7_KeyPress);
             // 
             // label6
             // 
@@ -304,23 +302,23 @@
             this.label6.TabIndex = 5;
             this.label6.Text = "Altitude:";
             // 
-            // altitudeTBox
+            // textBox5
             // 
-            this.altitudeTBox.Enabled = false;
-            this.altitudeTBox.Location = new System.Drawing.Point(81, 69);
-            this.altitudeTBox.Name = "altitudeTBox";
-            this.altitudeTBox.Size = new System.Drawing.Size(100, 20);
-            this.altitudeTBox.TabIndex = 4;
-            this.altitudeTBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox5_KeyPress);
+            this.textBox5.Enabled = false;
+            this.textBox5.Location = new System.Drawing.Point(81, 69);
+            this.textBox5.Name = "textBox5";
+            this.textBox5.Size = new System.Drawing.Size(100, 20);
+            this.textBox5.TabIndex = 4;
+            this.textBox5.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox5_KeyPress);
             // 
-            // longitudeTBox
+            // textBox4
             // 
-            this.longitudeTBox.Enabled = false;
-            this.longitudeTBox.Location = new System.Drawing.Point(81, 43);
-            this.longitudeTBox.Name = "longitudeTBox";
-            this.longitudeTBox.Size = new System.Drawing.Size(100, 20);
-            this.longitudeTBox.TabIndex = 3;
-            this.longitudeTBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox3_KeyPress);
+            this.textBox4.Enabled = false;
+            this.textBox4.Location = new System.Drawing.Point(81, 43);
+            this.textBox4.Name = "textBox4";
+            this.textBox4.Size = new System.Drawing.Size(100, 20);
+            this.textBox4.TabIndex = 3;
+            this.textBox4.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox3_KeyPress);
             // 
             // label5
             // 
@@ -331,14 +329,14 @@
             this.label5.TabIndex = 2;
             this.label5.Text = "Longitude:";
             // 
-            // latitudeTBox
+            // textBox3
             // 
-            this.latitudeTBox.Enabled = false;
-            this.latitudeTBox.Location = new System.Drawing.Point(81, 17);
-            this.latitudeTBox.Name = "latitudeTBox";
-            this.latitudeTBox.Size = new System.Drawing.Size(100, 20);
-            this.latitudeTBox.TabIndex = 1;
-            this.latitudeTBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox3_KeyPress);
+            this.textBox3.Enabled = false;
+            this.textBox3.Location = new System.Drawing.Point(81, 17);
+            this.textBox3.Name = "textBox3";
+            this.textBox3.Size = new System.Drawing.Size(100, 20);
+            this.textBox3.TabIndex = 1;
+            this.textBox3.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox3_KeyPress);
             // 
             // label4
             // 
@@ -352,13 +350,13 @@
             // groupBox3
             // 
             this.groupBox3.Controls.Add(this.label29);
-            this.groupBox3.Controls.Add(this.maxIVToTransfTBox);
+            this.groupBox3.Controls.Add(this.textBox24);
             this.groupBox3.Controls.Add(this.label28);
-            this.groupBox3.Controls.Add(this.maxCPToTransfTBox);
+            this.groupBox3.Controls.Add(this.textBox9);
             this.groupBox3.Controls.Add(this.label12);
-            this.groupBox3.Controls.Add(this.maxDuplicatePkTBox);
+            this.groupBox3.Controls.Add(this.textBox8);
             this.groupBox3.Controls.Add(this.label11);
-            this.groupBox3.Controls.Add(this.autoTransfDoublePkCheckBox);
+            this.groupBox3.Controls.Add(this.checkBox2);
             this.groupBox3.Location = new System.Drawing.Point(9, 295);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(252, 120);
@@ -375,13 +373,13 @@
             this.label29.TabIndex = 8;
             this.label29.Text = "%";
             // 
-            // maxIVToTransfTBox
+            // textBox24
             // 
-            this.maxIVToTransfTBox.Location = new System.Drawing.Point(110, 95);
-            this.maxIVToTransfTBox.Name = "maxIVToTransfTBox";
-            this.maxIVToTransfTBox.Size = new System.Drawing.Size(53, 20);
-            this.maxIVToTransfTBox.TabIndex = 7;
-            this.maxIVToTransfTBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxes_OnlyDigit_KeyPress);
+            this.textBox24.Location = new System.Drawing.Point(110, 95);
+            this.textBox24.Name = "textBox24";
+            this.textBox24.Size = new System.Drawing.Size(53, 20);
+            this.textBox24.TabIndex = 7;
+            this.textBox24.Text = "90";
             // 
             // label28
             // 
@@ -392,13 +390,13 @@
             this.label28.TabIndex = 6;
             this.label28.Text = "Max IV to transfer:";
             // 
-            // maxCPToTransfTBox
+            // textBox9
             // 
-            this.maxCPToTransfTBox.Location = new System.Drawing.Point(110, 69);
-            this.maxCPToTransfTBox.Name = "maxCPToTransfTBox";
-            this.maxCPToTransfTBox.Size = new System.Drawing.Size(71, 20);
-            this.maxCPToTransfTBox.TabIndex = 5;
-            this.maxCPToTransfTBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxes_OnlyDigit_KeyPress);
+            this.textBox9.Location = new System.Drawing.Point(110, 69);
+            this.textBox9.Name = "textBox9";
+            this.textBox9.Size = new System.Drawing.Size(71, 20);
+            this.textBox9.TabIndex = 5;
+            this.textBox9.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox7_KeyPress);
             // 
             // label12
             // 
@@ -409,13 +407,13 @@
             this.label12.TabIndex = 4;
             this.label12.Text = "Max CP to transfer:";
             // 
-            // maxDuplicatePkTBox
+            // textBox8
             // 
-            this.maxDuplicatePkTBox.Location = new System.Drawing.Point(141, 41);
-            this.maxDuplicatePkTBox.Name = "maxDuplicatePkTBox";
-            this.maxDuplicatePkTBox.Size = new System.Drawing.Size(40, 20);
-            this.maxDuplicatePkTBox.TabIndex = 3;
-            this.maxDuplicatePkTBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxes_OnlyDigit_KeyPress);
+            this.textBox8.Location = new System.Drawing.Point(141, 41);
+            this.textBox8.Name = "textBox8";
+            this.textBox8.Size = new System.Drawing.Size(40, 20);
+            this.textBox8.TabIndex = 3;
+            this.textBox8.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox7_KeyPress);
             // 
             // label11
             // 
@@ -426,83 +424,84 @@
             this.label11.TabIndex = 2;
             this.label11.Text = "Max duplicate Pokemons:";
             // 
-            // autoTransfDoublePkCheckBox
+            // checkBox2
             // 
-            this.autoTransfDoublePkCheckBox.AutoSize = true;
-            this.autoTransfDoublePkCheckBox.Checked = true;
-            this.autoTransfDoublePkCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.autoTransfDoublePkCheckBox.Location = new System.Drawing.Point(7, 20);
-            this.autoTransfDoublePkCheckBox.Name = "autoTransfDoublePkCheckBox";
-            this.autoTransfDoublePkCheckBox.Size = new System.Drawing.Size(174, 17);
-            this.autoTransfDoublePkCheckBox.TabIndex = 0;
-            this.autoTransfDoublePkCheckBox.Text = "Auto transfer double Pokemons";
-            this.autoTransfDoublePkCheckBox.UseVisualStyleBackColor = true;
+            this.checkBox2.AutoSize = true;
+            this.checkBox2.Checked = true;
+            this.checkBox2.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox2.Location = new System.Drawing.Point(7, 20);
+            this.checkBox2.Name = "checkBox2";
+            this.checkBox2.Size = new System.Drawing.Size(174, 17);
+            this.checkBox2.TabIndex = 0;
+            this.checkBox2.Text = "Auto transfer double Pokemons";
+            this.checkBox2.UseVisualStyleBackColor = true;
             // 
-            // evolvePkIfCandyCheckBox
+            // checkBox3
             // 
-            this.evolvePkIfCandyCheckBox.Checked = true;
-            this.evolvePkIfCandyCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.evolvePkIfCandyCheckBox.Location = new System.Drawing.Point(6, 87);
-            this.evolvePkIfCandyCheckBox.Name = "evolvePkIfCandyCheckBox";
-            this.evolvePkIfCandyCheckBox.Size = new System.Drawing.Size(132, 30);
-            this.evolvePkIfCandyCheckBox.TabIndex = 1;
-            this.evolvePkIfCandyCheckBox.Text = "Evolve Pokemons if enough candy\r\n";
-            this.evolvePkIfCandyCheckBox.UseVisualStyleBackColor = true;
+            this.checkBox3.AutoSize = true;
+            this.checkBox3.Checked = true;
+            this.checkBox3.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox3.Location = new System.Drawing.Point(6, 87);
+            this.checkBox3.Name = "checkBox3";
+            this.checkBox3.Size = new System.Drawing.Size(159, 30);
+            this.checkBox3.TabIndex = 1;
+            this.checkBox3.Text = "Evolve Pokemons if enough\r\ncandy\r\n";
+            this.checkBox3.UseVisualStyleBackColor = true;
             // 
-            // useLuckyEggEvolveCheckBox
+            // checkBox7
             // 
-            this.useLuckyEggEvolveCheckBox.AutoSize = true;
-            this.useLuckyEggEvolveCheckBox.Checked = true;
-            this.useLuckyEggEvolveCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.useLuckyEggEvolveCheckBox.Location = new System.Drawing.Point(6, 19);
-            this.useLuckyEggEvolveCheckBox.Name = "useLuckyEggEvolveCheckBox";
-            this.useLuckyEggEvolveCheckBox.Size = new System.Drawing.Size(144, 17);
-            this.useLuckyEggEvolveCheckBox.TabIndex = 6;
-            this.useLuckyEggEvolveCheckBox.Text = "Use LuckyEgg at Evolve";
-            this.useLuckyEggEvolveCheckBox.UseVisualStyleBackColor = true;
-            this.useLuckyEggEvolveCheckBox.CheckedChanged += new System.EventHandler(this.checkBox7_CheckedChanged_1);
+            this.checkBox7.AutoSize = true;
+            this.checkBox7.Checked = true;
+            this.checkBox7.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox7.Location = new System.Drawing.Point(6, 19);
+            this.checkBox7.Name = "checkBox7";
+            this.checkBox7.Size = new System.Drawing.Size(144, 17);
+            this.checkBox7.TabIndex = 6;
+            this.checkBox7.Text = "Use LuckyEgg at Evolve";
+            this.checkBox7.UseVisualStyleBackColor = true;
+            this.checkBox7.CheckedChanged += new System.EventHandler(this.checkBox7_CheckedChanged_1);
             // 
             // groupBox4
             // 
-            this.groupBox4.Controls.Add(this.totalCountInventoryTBox);
+            this.groupBox4.Controls.Add(this.textBox25);
             this.groupBox4.Controls.Add(this.label31);
             this.groupBox4.Controls.Add(this.label27);
             this.groupBox4.Controls.Add(this.label26);
             this.groupBox4.Controls.Add(this.label25);
-            this.groupBox4.Controls.Add(this.maxTopReviveTBox);
-            this.groupBox4.Controls.Add(this.maxTopPotTBox);
-            this.groupBox4.Controls.Add(this.maxMasterBallsTBox);
+            this.groupBox4.Controls.Add(this.textBox23);
+            this.groupBox4.Controls.Add(this.textBox21);
+            this.groupBox4.Controls.Add(this.textBox22);
             this.groupBox4.Controls.Add(this.label20);
             this.groupBox4.Controls.Add(this.label19);
             this.groupBox4.Controls.Add(this.label18);
             this.groupBox4.Controls.Add(this.label17);
             this.groupBox4.Controls.Add(this.label16);
-            this.groupBox4.Controls.Add(this.maxRazzBerrysTBox);
-            this.groupBox4.Controls.Add(this.maxHyperPotTBox);
-            this.groupBox4.Controls.Add(this.maxSuperPotTBox);
-            this.groupBox4.Controls.Add(this.maxPotTBox);
-            this.groupBox4.Controls.Add(this.maxReviveTBox);
+            this.groupBox4.Controls.Add(this.textBox17);
+            this.groupBox4.Controls.Add(this.textBox16);
+            this.groupBox4.Controls.Add(this.textBox15);
+            this.groupBox4.Controls.Add(this.textBox14);
+            this.groupBox4.Controls.Add(this.textBox13);
             this.groupBox4.Controls.Add(this.label15);
-            this.groupBox4.Controls.Add(this.maxUltraBallsTBox);
-            this.groupBox4.Controls.Add(this.maxGreatBallsTBox);
+            this.groupBox4.Controls.Add(this.textBox12);
+            this.groupBox4.Controls.Add(this.textBox11);
             this.groupBox4.Controls.Add(this.label14);
-            this.groupBox4.Controls.Add(this.maxPokeBallsTBox);
+            this.groupBox4.Controls.Add(this.textBox10);
             this.groupBox4.Controls.Add(this.label13);
-            this.groupBox4.Location = new System.Drawing.Point(270, 12);
+            this.groupBox4.Location = new System.Drawing.Point(267, 12);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(162, 325);
+            this.groupBox4.Size = new System.Drawing.Size(172, 325);
             this.groupBox4.TabIndex = 9;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Pokemon Items";
             // 
-            // totalCountInventoryTBox
+            // textBox25
             // 
-            this.totalCountInventoryTBox.Location = new System.Drawing.Point(117, 301);
-            this.totalCountInventoryTBox.Name = "totalCountInventoryTBox";
-            this.totalCountInventoryTBox.ReadOnly = true;
-            this.totalCountInventoryTBox.Size = new System.Drawing.Size(35, 20);
-            this.totalCountInventoryTBox.TabIndex = 23;
-            this.totalCountInventoryTBox.TabStop = false;
+            this.textBox25.Location = new System.Drawing.Point(109, 301);
+            this.textBox25.Name = "textBox25";
+            this.textBox25.ReadOnly = true;
+            this.textBox25.Size = new System.Drawing.Size(51, 20);
+            this.textBox25.TabIndex = 23;
+            this.textBox25.TabStop = false;
             // 
             // label31
             // 
@@ -540,32 +539,29 @@
             this.label25.TabIndex = 17;
             this.label25.Text = "Max TopPotions:";
             // 
-            // maxTopReviveTBox
+            // textBox23
             // 
-            this.maxTopReviveTBox.Location = new System.Drawing.Point(117, 142);
-            this.maxTopReviveTBox.Name = "maxTopReviveTBox";
-            this.maxTopReviveTBox.Size = new System.Drawing.Size(35, 20);
-            this.maxTopReviveTBox.TabIndex = 20;
-            this.maxTopReviveTBox.TextChanged += new System.EventHandler(this.TextBoxes_Items_TextChanged);
-            this.maxTopReviveTBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxes_OnlyDigit_KeyPress);
+            this.textBox23.Location = new System.Drawing.Point(109, 142);
+            this.textBox23.Name = "textBox23";
+            this.textBox23.Size = new System.Drawing.Size(51, 20);
+            this.textBox23.TabIndex = 20;
+            this.textBox23.TextChanged += new System.EventHandler(this.TextBoxes_Items_TextChanged);
             // 
-            // maxTopPotTBox
+            // textBox21
             // 
-            this.maxTopPotTBox.Location = new System.Drawing.Point(117, 248);
-            this.maxTopPotTBox.Name = "maxTopPotTBox";
-            this.maxTopPotTBox.Size = new System.Drawing.Size(35, 20);
-            this.maxTopPotTBox.TabIndex = 16;
-            this.maxTopPotTBox.TextChanged += new System.EventHandler(this.TextBoxes_Items_TextChanged);
-            this.maxTopPotTBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxes_OnlyDigit_KeyPress);
+            this.textBox21.Location = new System.Drawing.Point(109, 248);
+            this.textBox21.Name = "textBox21";
+            this.textBox21.Size = new System.Drawing.Size(51, 20);
+            this.textBox21.TabIndex = 16;
+            this.textBox21.TextChanged += new System.EventHandler(this.TextBoxes_Items_TextChanged);
             // 
-            // maxMasterBallsTBox
+            // textBox22
             // 
-            this.maxMasterBallsTBox.Location = new System.Drawing.Point(117, 90);
-            this.maxMasterBallsTBox.Name = "maxMasterBallsTBox";
-            this.maxMasterBallsTBox.Size = new System.Drawing.Size(35, 20);
-            this.maxMasterBallsTBox.TabIndex = 18;
-            this.maxMasterBallsTBox.TextChanged += new System.EventHandler(this.TextBoxes_Items_TextChanged);
-            this.maxMasterBallsTBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxes_OnlyDigit_KeyPress);
+            this.textBox22.Location = new System.Drawing.Point(109, 90);
+            this.textBox22.Name = "textBox22";
+            this.textBox22.Size = new System.Drawing.Size(51, 20);
+            this.textBox22.TabIndex = 18;
+            this.textBox22.TextChanged += new System.EventHandler(this.TextBoxes_Items_TextChanged);
             // 
             // label20
             // 
@@ -612,50 +608,50 @@
             this.label16.TabIndex = 11;
             this.label16.Text = "Max Revives:";
             // 
-            // maxRazzBerrysTBox
+            // textBox17
             // 
-            this.maxRazzBerrysTBox.Location = new System.Drawing.Point(117, 275);
-            this.maxRazzBerrysTBox.Name = "maxRazzBerrysTBox";
-            this.maxRazzBerrysTBox.Size = new System.Drawing.Size(35, 20);
-            this.maxRazzBerrysTBox.TabIndex = 10;
-            this.maxRazzBerrysTBox.TextChanged += new System.EventHandler(this.TextBoxes_Items_TextChanged);
-            this.maxRazzBerrysTBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxes_OnlyDigit_KeyPress);
+            this.textBox17.Location = new System.Drawing.Point(109, 275);
+            this.textBox17.Name = "textBox17";
+            this.textBox17.Size = new System.Drawing.Size(51, 20);
+            this.textBox17.TabIndex = 10;
+            this.textBox17.TextChanged += new System.EventHandler(this.TextBoxes_Items_TextChanged);
+            this.textBox17.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox7_KeyPress);
             // 
-            // maxHyperPotTBox
+            // textBox16
             // 
-            this.maxHyperPotTBox.Location = new System.Drawing.Point(117, 221);
-            this.maxHyperPotTBox.Name = "maxHyperPotTBox";
-            this.maxHyperPotTBox.Size = new System.Drawing.Size(35, 20);
-            this.maxHyperPotTBox.TabIndex = 9;
-            this.maxHyperPotTBox.TextChanged += new System.EventHandler(this.TextBoxes_Items_TextChanged);
-            this.maxHyperPotTBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxes_OnlyDigit_KeyPress);
+            this.textBox16.Location = new System.Drawing.Point(109, 221);
+            this.textBox16.Name = "textBox16";
+            this.textBox16.Size = new System.Drawing.Size(51, 20);
+            this.textBox16.TabIndex = 9;
+            this.textBox16.TextChanged += new System.EventHandler(this.TextBoxes_Items_TextChanged);
+            this.textBox16.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox7_KeyPress);
             // 
-            // maxSuperPotTBox
+            // textBox15
             // 
-            this.maxSuperPotTBox.Location = new System.Drawing.Point(117, 195);
-            this.maxSuperPotTBox.Name = "maxSuperPotTBox";
-            this.maxSuperPotTBox.Size = new System.Drawing.Size(35, 20);
-            this.maxSuperPotTBox.TabIndex = 8;
-            this.maxSuperPotTBox.TextChanged += new System.EventHandler(this.TextBoxes_Items_TextChanged);
-            this.maxSuperPotTBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxes_OnlyDigit_KeyPress);
+            this.textBox15.Location = new System.Drawing.Point(109, 195);
+            this.textBox15.Name = "textBox15";
+            this.textBox15.Size = new System.Drawing.Size(51, 20);
+            this.textBox15.TabIndex = 8;
+            this.textBox15.TextChanged += new System.EventHandler(this.TextBoxes_Items_TextChanged);
+            this.textBox15.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox7_KeyPress);
             // 
-            // maxPotTBox
+            // textBox14
             // 
-            this.maxPotTBox.Location = new System.Drawing.Point(117, 169);
-            this.maxPotTBox.Name = "maxPotTBox";
-            this.maxPotTBox.Size = new System.Drawing.Size(35, 20);
-            this.maxPotTBox.TabIndex = 7;
-            this.maxPotTBox.TextChanged += new System.EventHandler(this.TextBoxes_Items_TextChanged);
-            this.maxPotTBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxes_OnlyDigit_KeyPress);
+            this.textBox14.Location = new System.Drawing.Point(109, 169);
+            this.textBox14.Name = "textBox14";
+            this.textBox14.Size = new System.Drawing.Size(51, 20);
+            this.textBox14.TabIndex = 7;
+            this.textBox14.TextChanged += new System.EventHandler(this.TextBoxes_Items_TextChanged);
+            this.textBox14.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox7_KeyPress);
             // 
-            // maxReviveTBox
+            // textBox13
             // 
-            this.maxReviveTBox.Location = new System.Drawing.Point(117, 116);
-            this.maxReviveTBox.Name = "maxReviveTBox";
-            this.maxReviveTBox.Size = new System.Drawing.Size(35, 20);
-            this.maxReviveTBox.TabIndex = 6;
-            this.maxReviveTBox.TextChanged += new System.EventHandler(this.TextBoxes_Items_TextChanged);
-            this.maxReviveTBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxes_OnlyDigit_KeyPress);
+            this.textBox13.Location = new System.Drawing.Point(109, 116);
+            this.textBox13.Name = "textBox13";
+            this.textBox13.Size = new System.Drawing.Size(51, 20);
+            this.textBox13.TabIndex = 6;
+            this.textBox13.TextChanged += new System.EventHandler(this.TextBoxes_Items_TextChanged);
+            this.textBox13.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox7_KeyPress);
             // 
             // label15
             // 
@@ -666,23 +662,23 @@
             this.label15.TabIndex = 5;
             this.label15.Text = "Max UltraBalls:";
             // 
-            // maxUltraBallsTBox
+            // textBox12
             // 
-            this.maxUltraBallsTBox.Location = new System.Drawing.Point(117, 64);
-            this.maxUltraBallsTBox.Name = "maxUltraBallsTBox";
-            this.maxUltraBallsTBox.Size = new System.Drawing.Size(35, 20);
-            this.maxUltraBallsTBox.TabIndex = 4;
-            this.maxUltraBallsTBox.TextChanged += new System.EventHandler(this.TextBoxes_Items_TextChanged);
-            this.maxUltraBallsTBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxes_OnlyDigit_KeyPress);
+            this.textBox12.Location = new System.Drawing.Point(109, 64);
+            this.textBox12.Name = "textBox12";
+            this.textBox12.Size = new System.Drawing.Size(51, 20);
+            this.textBox12.TabIndex = 4;
+            this.textBox12.TextChanged += new System.EventHandler(this.TextBoxes_Items_TextChanged);
+            this.textBox12.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox7_KeyPress);
             // 
-            // maxGreatBallsTBox
+            // textBox11
             // 
-            this.maxGreatBallsTBox.Location = new System.Drawing.Point(117, 38);
-            this.maxGreatBallsTBox.Name = "maxGreatBallsTBox";
-            this.maxGreatBallsTBox.Size = new System.Drawing.Size(35, 20);
-            this.maxGreatBallsTBox.TabIndex = 3;
-            this.maxGreatBallsTBox.TextChanged += new System.EventHandler(this.TextBoxes_Items_TextChanged);
-            this.maxGreatBallsTBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxes_OnlyDigit_KeyPress);
+            this.textBox11.Location = new System.Drawing.Point(109, 38);
+            this.textBox11.Name = "textBox11";
+            this.textBox11.Size = new System.Drawing.Size(51, 20);
+            this.textBox11.TabIndex = 3;
+            this.textBox11.TextChanged += new System.EventHandler(this.TextBoxes_Items_TextChanged);
+            this.textBox11.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox7_KeyPress);
             // 
             // label14
             // 
@@ -693,151 +689,150 @@
             this.label14.TabIndex = 2;
             this.label14.Text = "Max GreatBalls:";
             // 
-            // maxPokeBallsTBox
+            // textBox10
             // 
-            this.maxPokeBallsTBox.Location = new System.Drawing.Point(117, 12);
-            this.maxPokeBallsTBox.Name = "maxPokeBallsTBox";
-            this.maxPokeBallsTBox.Size = new System.Drawing.Size(35, 20);
-            this.maxPokeBallsTBox.TabIndex = 1;
-            this.maxPokeBallsTBox.TextChanged += new System.EventHandler(this.TextBoxes_Items_TextChanged);
-            this.maxPokeBallsTBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxes_OnlyDigit_KeyPress);
+            this.textBox10.Location = new System.Drawing.Point(109, 12);
+            this.textBox10.Name = "textBox10";
+            this.textBox10.Size = new System.Drawing.Size(51, 20);
+            this.textBox10.TabIndex = 1;
+            this.textBox10.TextChanged += new System.EventHandler(this.TextBoxes_Items_TextChanged);
+            this.textBox10.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox7_KeyPress);
             // 
             // label13
             // 
             this.label13.AutoSize = true;
             this.label13.Location = new System.Drawing.Point(7, 15);
             this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(80, 13);
+            this.label13.Size = new System.Drawing.Size(79, 13);
             this.label13.TabIndex = 0;
-            this.label13.Text = "Max PokeBalls:";
+            this.label13.Text = "Max Pokeballs:";
             // 
             // label30
             // 
             this.label30.AutoSize = true;
             this.label30.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label30.Location = new System.Drawing.Point(73, 577);
+            this.label30.Location = new System.Drawing.Point(74, 577);
             this.label30.Name = "label30";
             this.label30.Size = new System.Drawing.Size(535, 16);
             this.label30.TabIndex = 9;
             this.label30.Text = "This Bot is absolutely free and open source! Chargeback if you\'ve paid for it!";
+            this.label30.Click += new System.EventHandler(this.label30_Click);
             // 
             // groupBox5
             // 
-            this.groupBox5.Controls.Add(this.selectAllPkToNotTransferCheckBox);
-            this.groupBox5.Controls.Add(this.pkToNotTransferCListBox);
-            this.groupBox5.Location = new System.Drawing.Point(440, 12);
+            this.groupBox5.Controls.Add(this.checkBox4);
+            this.groupBox5.Controls.Add(this.checkedListBox1);
+            this.groupBox5.Location = new System.Drawing.Point(445, 12);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(172, 162);
+            this.groupBox5.Size = new System.Drawing.Size(172, 170);
             this.groupBox5.TabIndex = 10;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Pokemons to not transfer";
             // 
-            // selectAllPkToNotTransferCheckBox
+            // checkBox4
             // 
-            this.selectAllPkToNotTransferCheckBox.AutoSize = true;
-            this.selectAllPkToNotTransferCheckBox.Location = new System.Drawing.Point(12, 143);
-            this.selectAllPkToNotTransferCheckBox.Name = "selectAllPkToNotTransferCheckBox";
-            this.selectAllPkToNotTransferCheckBox.Size = new System.Drawing.Size(69, 17);
-            this.selectAllPkToNotTransferCheckBox.TabIndex = 1;
-            this.selectAllPkToNotTransferCheckBox.Text = "Select all";
-            this.selectAllPkToNotTransferCheckBox.UseVisualStyleBackColor = true;
-            this.selectAllPkToNotTransferCheckBox.CheckedChanged += new System.EventHandler(this.checkBox4_CheckedChanged);
+            this.checkBox4.AutoSize = true;
+            this.checkBox4.Location = new System.Drawing.Point(10, 149);
+            this.checkBox4.Name = "checkBox4";
+            this.checkBox4.Size = new System.Drawing.Size(69, 17);
+            this.checkBox4.TabIndex = 1;
+            this.checkBox4.Text = "Select all";
+            this.checkBox4.UseVisualStyleBackColor = true;
+            this.checkBox4.CheckedChanged += new System.EventHandler(this.checkBox4_CheckedChanged);
             // 
-            // pkToNotTransferCListBox
+            // checkedListBox1
             // 
-            this.pkToNotTransferCListBox.CheckOnClick = true;
-            this.pkToNotTransferCListBox.FormattingEnabled = true;
-            this.pkToNotTransferCListBox.Location = new System.Drawing.Point(9, 17);
-            this.pkToNotTransferCListBox.Name = "pkToNotTransferCListBox";
-            this.pkToNotTransferCListBox.ScrollAlwaysVisible = true;
-            this.pkToNotTransferCListBox.Size = new System.Drawing.Size(150, 124);
-            this.pkToNotTransferCListBox.TabIndex = 0;
+            this.checkedListBox1.CheckOnClick = true;
+            this.checkedListBox1.FormattingEnabled = true;
+            this.checkedListBox1.Location = new System.Drawing.Point(10, 19);
+            this.checkedListBox1.Name = "checkedListBox1";
+            this.checkedListBox1.ScrollAlwaysVisible = true;
+            this.checkedListBox1.Size = new System.Drawing.Size(150, 124);
+            this.checkedListBox1.TabIndex = 0;
             // 
             // groupBox6
             // 
-            this.groupBox6.Controls.Add(this.alwaysCatchOverCPTBox);
-            this.groupBox6.Controls.Add(this.label33);
-            this.groupBox6.Controls.Add(this.selectAllPkToNotCatchCheckBox);
-            this.groupBox6.Controls.Add(this.pkToNotCatchCListBox);
-            this.groupBox6.Location = new System.Drawing.Point(440, 178);
+            this.groupBox6.Controls.Add(this.checkBox5);
+            this.groupBox6.Controls.Add(this.checkedListBox2);
+            this.groupBox6.Location = new System.Drawing.Point(445, 188);
             this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(172, 201);
+            this.groupBox6.Size = new System.Drawing.Size(172, 177);
             this.groupBox6.TabIndex = 11;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "Pokemons to not catch";
             // 
-            // selectAllPkToNotCatchCheckBox
+            // checkBox5
             // 
-            this.selectAllPkToNotCatchCheckBox.AutoSize = true;
-            this.selectAllPkToNotCatchCheckBox.Location = new System.Drawing.Point(12, 143);
-            this.selectAllPkToNotCatchCheckBox.Name = "selectAllPkToNotCatchCheckBox";
-            this.selectAllPkToNotCatchCheckBox.Size = new System.Drawing.Size(69, 17);
-            this.selectAllPkToNotCatchCheckBox.TabIndex = 1;
-            this.selectAllPkToNotCatchCheckBox.Text = "Select all";
-            this.selectAllPkToNotCatchCheckBox.UseVisualStyleBackColor = true;
-            this.selectAllPkToNotCatchCheckBox.CheckedChanged += new System.EventHandler(this.checkBox5_CheckedChanged);
+            this.checkBox5.AutoSize = true;
+            this.checkBox5.Location = new System.Drawing.Point(6, 154);
+            this.checkBox5.Name = "checkBox5";
+            this.checkBox5.Size = new System.Drawing.Size(69, 17);
+            this.checkBox5.TabIndex = 1;
+            this.checkBox5.Text = "Select all";
+            this.checkBox5.UseVisualStyleBackColor = true;
+            this.checkBox5.CheckedChanged += new System.EventHandler(this.checkBox5_CheckedChanged);
             // 
-            // pkToNotCatchCListBox
+            // checkedListBox2
             // 
-            this.pkToNotCatchCListBox.CheckOnClick = true;
-            this.pkToNotCatchCListBox.FormattingEnabled = true;
-            this.pkToNotCatchCListBox.Location = new System.Drawing.Point(9, 17);
-            this.pkToNotCatchCListBox.Name = "pkToNotCatchCListBox";
-            this.pkToNotCatchCListBox.ScrollAlwaysVisible = true;
-            this.pkToNotCatchCListBox.Size = new System.Drawing.Size(150, 124);
-            this.pkToNotCatchCListBox.TabIndex = 0;
+            this.checkedListBox2.CheckOnClick = true;
+            this.checkedListBox2.FormattingEnabled = true;
+            this.checkedListBox2.Location = new System.Drawing.Point(6, 19);
+            this.checkedListBox2.Name = "checkedListBox2";
+            this.checkedListBox2.ScrollAlwaysVisible = true;
+            this.checkedListBox2.Size = new System.Drawing.Size(154, 124);
+            this.checkedListBox2.TabIndex = 0;
             // 
             // groupBox7
             // 
-            this.groupBox7.Controls.Add(this.selectAllPkToEvolveCheckBox);
-            this.groupBox7.Controls.Add(this.pkToEvolveCListBox);
-            this.groupBox7.Location = new System.Drawing.Point(440, 380);
+            this.groupBox7.Controls.Add(this.checkBox6);
+            this.groupBox7.Controls.Add(this.checkedListBox3);
+            this.groupBox7.Location = new System.Drawing.Point(445, 371);
             this.groupBox7.Name = "groupBox7";
-            this.groupBox7.Size = new System.Drawing.Size(171, 162);
+            this.groupBox7.Size = new System.Drawing.Size(171, 171);
             this.groupBox7.TabIndex = 12;
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "Pokemons to evolve";
             // 
-            // selectAllPkToEvolveCheckBox
+            // checkBox6
             // 
-            this.selectAllPkToEvolveCheckBox.AutoSize = true;
-            this.selectAllPkToEvolveCheckBox.Location = new System.Drawing.Point(12, 143);
-            this.selectAllPkToEvolveCheckBox.Name = "selectAllPkToEvolveCheckBox";
-            this.selectAllPkToEvolveCheckBox.Size = new System.Drawing.Size(69, 17);
-            this.selectAllPkToEvolveCheckBox.TabIndex = 1;
-            this.selectAllPkToEvolveCheckBox.Text = "Select all";
-            this.selectAllPkToEvolveCheckBox.UseVisualStyleBackColor = true;
-            this.selectAllPkToEvolveCheckBox.CheckedChanged += new System.EventHandler(this.checkBox6_CheckedChanged);
+            this.checkBox6.AutoSize = true;
+            this.checkBox6.Location = new System.Drawing.Point(6, 147);
+            this.checkBox6.Name = "checkBox6";
+            this.checkBox6.Size = new System.Drawing.Size(69, 17);
+            this.checkBox6.TabIndex = 1;
+            this.checkBox6.Text = "Select all";
+            this.checkBox6.UseVisualStyleBackColor = true;
+            this.checkBox6.CheckedChanged += new System.EventHandler(this.checkBox6_CheckedChanged);
             // 
-            // pkToEvolveCListBox
+            // checkedListBox3
             // 
-            this.pkToEvolveCListBox.CheckOnClick = true;
-            this.pkToEvolveCListBox.FormattingEnabled = true;
-            this.pkToEvolveCListBox.Location = new System.Drawing.Point(9, 17);
-            this.pkToEvolveCListBox.Name = "pkToEvolveCListBox";
-            this.pkToEvolveCListBox.ScrollAlwaysVisible = true;
-            this.pkToEvolveCListBox.Size = new System.Drawing.Size(150, 124);
-            this.pkToEvolveCListBox.TabIndex = 0;
+            this.checkedListBox3.CheckOnClick = true;
+            this.checkedListBox3.FormattingEnabled = true;
+            this.checkedListBox3.Location = new System.Drawing.Point(6, 17);
+            this.checkedListBox3.Name = "checkedListBox3";
+            this.checkedListBox3.ScrollAlwaysVisible = true;
+            this.checkedListBox3.Size = new System.Drawing.Size(153, 124);
+            this.checkedListBox3.TabIndex = 0;
             // 
-            // saveConfigurationButton
+            // button1
             // 
-            this.saveConfigurationButton.BackColor = System.Drawing.Color.MediumAquamarine;
-            this.saveConfigurationButton.Location = new System.Drawing.Point(267, 548);
-            this.saveConfigurationButton.Name = "saveConfigurationButton";
-            this.saveConfigurationButton.Size = new System.Drawing.Size(350, 23);
-            this.saveConfigurationButton.TabIndex = 13;
-            this.saveConfigurationButton.Text = "Save Configuration";
-            this.saveConfigurationButton.UseVisualStyleBackColor = false;
-            this.saveConfigurationButton.Click += new System.EventHandler(this.button1_Click);
+            this.button1.BackColor = System.Drawing.Color.MediumAquamarine;
+            this.button1.Location = new System.Drawing.Point(267, 548);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(350, 23);
+            this.button1.TabIndex = 13;
+            this.button1.Text = "Save Configuration";
+            this.button1.UseVisualStyleBackColor = false;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // groupBox8
             // 
             this.groupBox8.Controls.Add(this.label24);
             this.groupBox8.Controls.Add(this.label23);
-            this.groupBox8.Controls.Add(this.tgLiveStatsDelayTBox);
-            this.groupBox8.Controls.Add(this.tgUsernameTBox);
+            this.groupBox8.Controls.Add(this.textBox20);
+            this.groupBox8.Controls.Add(this.textBox19);
             this.groupBox8.Controls.Add(this.label22);
-            this.groupBox8.Controls.Add(this.tgApiTokenTBox);
+            this.groupBox8.Controls.Add(this.textBox18);
             this.groupBox8.Controls.Add(this.label21);
             this.groupBox8.Location = new System.Drawing.Point(13, 421);
             this.groupBox8.Name = "groupBox8";
@@ -851,9 +846,9 @@
             this.label24.AutoSize = true;
             this.label24.Location = new System.Drawing.Point(187, 68);
             this.label24.Name = "label24";
-            this.label24.Size = new System.Drawing.Size(42, 13);
+            this.label24.Size = new System.Drawing.Size(40, 13);
             this.label24.TabIndex = 6;
-            this.label24.Text = "milliSec";
+            this.label24.Text = "miliSec";
             // 
             // label23
             // 
@@ -864,20 +859,20 @@
             this.label23.TabIndex = 5;
             this.label23.Text = "Live stats delay";
             // 
-            // tgLiveStatsDelayTBox
+            // textBox20
             // 
-            this.tgLiveStatsDelayTBox.Location = new System.Drawing.Point(110, 65);
-            this.tgLiveStatsDelayTBox.Name = "tgLiveStatsDelayTBox";
-            this.tgLiveStatsDelayTBox.Size = new System.Drawing.Size(71, 20);
-            this.tgLiveStatsDelayTBox.TabIndex = 4;
-            this.tgLiveStatsDelayTBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxes_OnlyDigit_KeyPress);
+            this.textBox20.Location = new System.Drawing.Point(110, 65);
+            this.textBox20.Name = "textBox20";
+            this.textBox20.Size = new System.Drawing.Size(71, 20);
+            this.textBox20.TabIndex = 4;
+            this.textBox20.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox7_KeyPress);
             // 
-            // tgUsernameTBox
+            // textBox19
             // 
-            this.tgUsernameTBox.Location = new System.Drawing.Point(67, 39);
-            this.tgUsernameTBox.Name = "tgUsernameTBox";
-            this.tgUsernameTBox.Size = new System.Drawing.Size(174, 20);
-            this.tgUsernameTBox.TabIndex = 3;
+            this.textBox19.Location = new System.Drawing.Point(67, 39);
+            this.textBox19.Name = "textBox19";
+            this.textBox19.Size = new System.Drawing.Size(174, 20);
+            this.textBox19.TabIndex = 3;
             // 
             // label22
             // 
@@ -888,12 +883,12 @@
             this.label22.TabIndex = 2;
             this.label22.Text = "Name";
             // 
-            // tgApiTokenTBox
+            // textBox18
             // 
-            this.tgApiTokenTBox.Location = new System.Drawing.Point(67, 13);
-            this.tgApiTokenTBox.Name = "tgApiTokenTBox";
-            this.tgApiTokenTBox.Size = new System.Drawing.Size(174, 20);
-            this.tgApiTokenTBox.TabIndex = 1;
+            this.textBox18.Location = new System.Drawing.Point(67, 13);
+            this.textBox18.Name = "textBox18";
+            this.textBox18.Size = new System.Drawing.Size(174, 20);
+            this.textBox18.TabIndex = 1;
             // 
             // label21
             // 
@@ -939,117 +934,102 @@
             // 
             // groupBox10
             // 
-            this.groupBox10.Controls.Add(this.keepEvolvablePkCheckBox);
-            this.groupBox10.Controls.Add(this.enablePkGUICheckBox);
-            this.groupBox10.Controls.Add(this.useIncense30MinsCheckBox);
-            this.groupBox10.Controls.Add(this.gerPkNamesCheckBox);
-            this.groupBox10.Controls.Add(this.useLuckyEggEvolveCheckBox);
-            this.groupBox10.Controls.Add(this.evolvePkIfCandyCheckBox);
-            this.groupBox10.Location = new System.Drawing.Point(270, 343);
+            this.groupBox10.Controls.Add(this.checkBox11);
+            this.groupBox10.Controls.Add(this.checkBox10);
+            this.groupBox10.Controls.Add(this.checkBox9);
+            this.groupBox10.Controls.Add(this.checkBox8);
+            this.groupBox10.Controls.Add(this.checkBox7);
+            this.groupBox10.Controls.Add(this.checkBox3);
+            this.groupBox10.Location = new System.Drawing.Point(267, 343);
             this.groupBox10.Name = "groupBox10";
-            this.groupBox10.Size = new System.Drawing.Size(162, 199);
+            this.groupBox10.Size = new System.Drawing.Size(172, 199);
             this.groupBox10.TabIndex = 19;
             this.groupBox10.TabStop = false;
             this.groupBox10.Text = "Other Settings";
             // 
-            // keepEvolvablePkCheckBox
+            // checkBox11
             // 
-            this.keepEvolvablePkCheckBox.Checked = true;
-            this.keepEvolvablePkCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.keepEvolvablePkCheckBox.Location = new System.Drawing.Point(6, 146);
-            this.keepEvolvablePkCheckBox.Name = "keepEvolvablePkCheckBox";
-            this.keepEvolvablePkCheckBox.Size = new System.Drawing.Size(150, 30);
-            this.keepEvolvablePkCheckBox.TabIndex = 10;
-            this.keepEvolvablePkCheckBox.Text = "Keep Pokemons which can be evolved";
-            this.keepEvolvablePkCheckBox.UseVisualStyleBackColor = true;
-            this.keepEvolvablePkCheckBox.CheckedChanged += new System.EventHandler(this.checkBox11_CheckedChanged);
+            this.checkBox11.AutoSize = true;
+            this.checkBox11.Checked = true;
+            this.checkBox11.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox11.Location = new System.Drawing.Point(6, 146);
+            this.checkBox11.Name = "checkBox11";
+            this.checkBox11.Size = new System.Drawing.Size(156, 30);
+            this.checkBox11.TabIndex = 10;
+            this.checkBox11.Text = "Keep Pokemons which can\r\nbe evolved";
+            this.checkBox11.UseVisualStyleBackColor = true;
+            this.checkBox11.CheckedChanged += new System.EventHandler(this.checkBox11_CheckedChanged);
             // 
-            // enablePkGUICheckBox
+            // checkBox10
             // 
-            this.enablePkGUICheckBox.AutoSize = true;
-            this.enablePkGUICheckBox.Checked = true;
-            this.enablePkGUICheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.enablePkGUICheckBox.Location = new System.Drawing.Point(6, 123);
-            this.enablePkGUICheckBox.Name = "enablePkGUICheckBox";
-            this.enablePkGUICheckBox.Size = new System.Drawing.Size(144, 17);
-            this.enablePkGUICheckBox.TabIndex = 9;
-            this.enablePkGUICheckBox.Text = "Enable Pokemon list GUI";
-            this.enablePkGUICheckBox.UseVisualStyleBackColor = true;
+            this.checkBox10.AutoSize = true;
+            this.checkBox10.Checked = true;
+            this.checkBox10.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox10.Location = new System.Drawing.Point(6, 123);
+            this.checkBox10.Name = "checkBox10";
+            this.checkBox10.Size = new System.Drawing.Size(144, 17);
+            this.checkBox10.TabIndex = 9;
+            this.checkBox10.Text = "Enable Pokemon list GUI";
+            this.checkBox10.UseVisualStyleBackColor = true;
             // 
-            // useIncense30MinsCheckBox
+            // checkBox9
             // 
-            this.useIncense30MinsCheckBox.AutoSize = true;
-            this.useIncense30MinsCheckBox.Checked = true;
-            this.useIncense30MinsCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.useIncense30MinsCheckBox.Location = new System.Drawing.Point(6, 64);
-            this.useIncense30MinsCheckBox.Name = "useIncense30MinsCheckBox";
-            this.useIncense30MinsCheckBox.Size = new System.Drawing.Size(146, 17);
-            this.useIncense30MinsCheckBox.TabIndex = 8;
-            this.useIncense30MinsCheckBox.Text = "Use Incense every 30min";
-            this.useIncense30MinsCheckBox.UseVisualStyleBackColor = true;
+            this.checkBox9.AutoSize = true;
+            this.checkBox9.Checked = true;
+            this.checkBox9.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox9.Location = new System.Drawing.Point(6, 64);
+            this.checkBox9.Name = "checkBox9";
+            this.checkBox9.Size = new System.Drawing.Size(146, 17);
+            this.checkBox9.TabIndex = 8;
+            this.checkBox9.Text = "Use Incense every 30min";
+            this.checkBox9.UseVisualStyleBackColor = true;
             // 
-            // gerPkNamesCheckBox
+            // checkBox8
             // 
-            this.gerPkNamesCheckBox.AutoSize = true;
-            this.gerPkNamesCheckBox.Location = new System.Drawing.Point(6, 43);
-            this.gerPkNamesCheckBox.Name = "gerPkNamesCheckBox";
-            this.gerPkNamesCheckBox.Size = new System.Drawing.Size(145, 17);
-            this.gerPkNamesCheckBox.TabIndex = 7;
-            this.gerPkNamesCheckBox.Text = "German Pokemon names";
-            this.gerPkNamesCheckBox.UseVisualStyleBackColor = true;
-            this.gerPkNamesCheckBox.CheckedChanged += new System.EventHandler(this.checkBox8_CheckedChanged);
+            this.checkBox8.AutoSize = true;
+            this.checkBox8.Location = new System.Drawing.Point(6, 43);
+            this.checkBox8.Name = "checkBox8";
+            this.checkBox8.Size = new System.Drawing.Size(145, 17);
+            this.checkBox8.TabIndex = 7;
+            this.checkBox8.Text = "German Pokemon names";
+            this.checkBox8.UseVisualStyleBackColor = true;
+            this.checkBox8.CheckedChanged += new System.EventHandler(this.checkBox8_CheckedChanged);
             // 
             // label32
             // 
             this.label32.AutoSize = true;
             this.label32.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label32.Location = new System.Drawing.Point(73, 595);
+            this.label32.Location = new System.Drawing.Point(74, 595);
             this.label32.Name = "label32";
             this.label32.Size = new System.Drawing.Size(549, 15);
             this.label32.TabIndex = 20;
             this.label32.Text = "Whenever you encounter something related to \"Pokecrop\", tell them the Bot is stol" +
     "en!";
             // 
-            // donatePicBox
+            // pictureBox1
             // 
-            this.donatePicBox.Image = global::PokemonGo.RocketAPI.Console.Properties.Resources.donate;
-            this.donatePicBox.Location = new System.Drawing.Point(9, 577);
-            this.donatePicBox.Name = "donatePicBox";
-            this.donatePicBox.Size = new System.Drawing.Size(64, 33);
-            this.donatePicBox.TabIndex = 21;
-            this.donatePicBox.TabStop = false;
-            this.donatePicBox.Click += new System.EventHandler(this.pictureBox1_Click);
-            // 
-            // label33
-            // 
-            this.label33.Location = new System.Drawing.Point(12, 167);
-            this.label33.Name = "label33";
-            this.label33.Size = new System.Drawing.Size(89, 31);
-            this.label33.TabIndex = 7;
-            this.label33.Text = "Or catch it if its CP is grater than:";
-            // 
-            // alwaysCatchOverCPTBox
-            // 
-            this.alwaysCatchOverCPTBox.Location = new System.Drawing.Point(103, 170);
-            this.alwaysCatchOverCPTBox.Name = "alwaysCatchOverCPTBox";
-            this.alwaysCatchOverCPTBox.Size = new System.Drawing.Size(48, 20);
-            this.alwaysCatchOverCPTBox.TabIndex = 8;
-            this.alwaysCatchOverCPTBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxes_OnlyDigit_KeyPress);
+            this.pictureBox1.Image = global::PokemonGo.RocketAPI.Console.Properties.Resources.donate;
+            this.pictureBox1.Location = new System.Drawing.Point(9, 577);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(64, 33);
+            this.pictureBox1.TabIndex = 21;
+            this.pictureBox1.TabStop = false;
+            this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
             // 
             // GUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
-            this.ClientSize = new System.Drawing.Size(622, 620);
-            this.Controls.Add(this.donatePicBox);
+            this.ClientSize = new System.Drawing.Size(626, 620);
+            this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.label32);
             this.Controls.Add(this.label30);
             this.Controls.Add(this.groupBox10);
             this.Controls.Add(this.groupBox9);
             this.Controls.Add(this.groupBox6);
             this.Controls.Add(this.groupBox8);
-            this.Controls.Add(this.saveConfigurationButton);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.groupBox7);
             this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.groupBox4);
@@ -1082,7 +1062,7 @@
             this.groupBox9.PerformLayout();
             this.groupBox10.ResumeLayout(false);
             this.groupBox10.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.donatePicBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1091,94 +1071,92 @@
         #endregion
 
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.ComboBox accountTypeComboBox;
+        private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox emailTBox;
+        private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox pswdTBox;
+        private System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.TextBox latitudeTBox;
-        private System.Windows.Forms.TextBox longitudeTBox;
+        private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.TextBox textBox4;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.TextBox altitudeTBox;
+        private System.Windows.Forms.TextBox textBox5;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.TextBox speedTBox;
+        private System.Windows.Forms.TextBox textBox6;
         private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.TextBox radiusTBox;
+        private System.Windows.Forms.TextBox textBox7;
         private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.CheckBox startFromDefaultLocCheckBox;
-        private System.Windows.Forms.CheckBox evolvePkIfCandyCheckBox;
-        private System.Windows.Forms.CheckBox autoTransfDoublePkCheckBox;
+        private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.CheckBox checkBox3;
+        private System.Windows.Forms.CheckBox checkBox2;
         private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.TextBox maxDuplicatePkTBox;
+        private System.Windows.Forms.TextBox textBox8;
         private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.TextBox maxCPToTransfTBox;
+        private System.Windows.Forms.TextBox textBox9;
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.Label label15;
-        private System.Windows.Forms.TextBox maxUltraBallsTBox;
-        private System.Windows.Forms.TextBox maxGreatBallsTBox;
+        private System.Windows.Forms.TextBox textBox12;
+        private System.Windows.Forms.TextBox textBox11;
         private System.Windows.Forms.Label label14;
-        private System.Windows.Forms.TextBox maxPokeBallsTBox;
+        private System.Windows.Forms.TextBox textBox10;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Label label16;
-        private System.Windows.Forms.TextBox maxRazzBerrysTBox;
-        private System.Windows.Forms.TextBox maxHyperPotTBox;
-        private System.Windows.Forms.TextBox maxSuperPotTBox;
-        private System.Windows.Forms.TextBox maxPotTBox;
-        private System.Windows.Forms.TextBox maxReviveTBox;
+        private System.Windows.Forms.TextBox textBox17;
+        private System.Windows.Forms.TextBox textBox16;
+        private System.Windows.Forms.TextBox textBox15;
+        private System.Windows.Forms.TextBox textBox14;
+        private System.Windows.Forms.TextBox textBox13;
         private System.Windows.Forms.Label label17;
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.Label label19;
         private System.Windows.Forms.Label label20;
         private System.Windows.Forms.GroupBox groupBox5;
-        private System.Windows.Forms.CheckedListBox pkToNotTransferCListBox;
+        private System.Windows.Forms.CheckedListBox checkedListBox1;
         private System.Windows.Forms.GroupBox groupBox6;
-        private System.Windows.Forms.CheckedListBox pkToNotCatchCListBox;
+        private System.Windows.Forms.CheckedListBox checkedListBox2;
         private System.Windows.Forms.GroupBox groupBox7;
-        private System.Windows.Forms.CheckedListBox pkToEvolveCListBox;
-        private System.Windows.Forms.Button saveConfigurationButton;
-        private System.Windows.Forms.CheckBox selectAllPkToNotTransferCheckBox;
-        private System.Windows.Forms.CheckBox selectAllPkToNotCatchCheckBox;
-        private System.Windows.Forms.CheckBox selectAllPkToEvolveCheckBox;
+        private System.Windows.Forms.CheckedListBox checkedListBox3;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.CheckBox checkBox4;
+        private System.Windows.Forms.CheckBox checkBox5;
+        private System.Windows.Forms.CheckBox checkBox6;
         private System.Windows.Forms.GroupBox groupBox8;
         private System.Windows.Forms.Label label21;
-        private System.Windows.Forms.TextBox tgUsernameTBox;
+        private System.Windows.Forms.TextBox textBox19;
         private System.Windows.Forms.Label label22;
-        private System.Windows.Forms.TextBox tgApiTokenTBox;
+        private System.Windows.Forms.TextBox textBox18;
         private System.Windows.Forms.Label label23;
-        private System.Windows.Forms.TextBox tgLiveStatsDelayTBox;
+        private System.Windows.Forms.TextBox textBox20;
         private System.Windows.Forms.Label label24;
         private System.Windows.Forms.Label label25;
-        private System.Windows.Forms.TextBox maxTopPotTBox;
+        private System.Windows.Forms.TextBox textBox21;
         private System.Windows.Forms.Label label26;
-        private System.Windows.Forms.TextBox maxMasterBallsTBox;
+        private System.Windows.Forms.TextBox textBox22;
         private System.Windows.Forms.Label label27;
-        private System.Windows.Forms.TextBox maxTopReviveTBox;
+        private System.Windows.Forms.TextBox textBox23;
         private System.Windows.Forms.LinkLabel linkLabel1;
         private System.Windows.Forms.LinkLabel linkLabel2;
-        private System.Windows.Forms.CheckBox useLuckyEggEvolveCheckBox;
+        private System.Windows.Forms.CheckBox checkBox7;
         private System.Windows.Forms.GroupBox groupBox9;
         private System.Windows.Forms.GroupBox groupBox10;
-        private System.Windows.Forms.CheckBox gerPkNamesCheckBox;
-        private System.Windows.Forms.Button setLocationButton;
-        private System.Windows.Forms.CheckBox useIncense30MinsCheckBox;
+        private System.Windows.Forms.CheckBox checkBox8;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.CheckBox checkBox9;
         private System.Windows.Forms.Label label29;
-        private System.Windows.Forms.TextBox maxIVToTransfTBox;
+        private System.Windows.Forms.TextBox textBox24;
         private System.Windows.Forms.Label label28;
-        private System.Windows.Forms.CheckBox enablePkGUICheckBox;
-        private System.Windows.Forms.CheckBox keepEvolvablePkCheckBox;
+        private System.Windows.Forms.CheckBox checkBox10;
+        private System.Windows.Forms.CheckBox checkBox11;
         private System.Windows.Forms.Label label30;
-        private System.Windows.Forms.TextBox totalCountInventoryTBox;
+        private System.Windows.Forms.TextBox textBox25;
         private System.Windows.Forms.Label label31;
         private System.Windows.Forms.Label label32;
-        private System.Windows.Forms.PictureBox donatePicBox;
-        private System.Windows.Forms.TextBox alwaysCatchOverCPTBox;
-        private System.Windows.Forms.Label label33;
+        private System.Windows.Forms.PictureBox pictureBox1;
     }
 }
 

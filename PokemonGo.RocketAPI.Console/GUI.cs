@@ -28,8 +28,8 @@ namespace PokemonGo.RocketAPI.Console
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            Globals.acc = accountTypeComboBox.SelectedIndex == 0 ? Enums.AuthType.Google : Enums.AuthType.Ptc;
-            if (accountTypeComboBox.SelectedIndex == 0)
+            Globals.acc = comboBox1.SelectedIndex == 0 ? Enums.AuthType.Google : Enums.AuthType.Ptc;
+            if (comboBox1.SelectedIndex == 0)
             {
                 label2.Text = "E-mail:";
             //    textBox1.Hide();
@@ -68,12 +68,12 @@ namespace PokemonGo.RocketAPI.Console
                 } 
             }
 
-            accountTypeComboBox.DisplayMember = "Text";
+            comboBox1.DisplayMember = "Text";
             var types = new[] {
                 new { Text = "Google"},
                 new { Text = "Pokemon Trainer Club"},
             };
-            accountTypeComboBox.DataSource = types;
+            comboBox1.DataSource = types;
 
             //textBox1.Hide();
             //label2.Hide();
@@ -90,24 +90,24 @@ namespace PokemonGo.RocketAPI.Console
                 {
                     pokeIDS[pokemon.ToString()] = i;
                     gerEng[StringUtils.getPokemonNameGer(pokemon)] = pokemon.ToString();
-                    if (gerPkNamesCheckBox.Checked)
+                    if (checkBox8.Checked)
                     {
-                        pkToNotTransferCListBox.Items.Add(StringUtils.getPokemonNameGer(pokemon));
-                        pkToNotCatchCListBox.Items.Add(StringUtils.getPokemonNameGer(pokemon));
+                        checkedListBox1.Items.Add(StringUtils.getPokemonNameGer(pokemon));
+                        checkedListBox2.Items.Add(StringUtils.getPokemonNameGer(pokemon));
                         if (!(evolveBlacklist.Contains(i)))
                         {
-                            pkToEvolveCListBox.Items.Add(StringUtils.getPokemonNameGer(pokemon));
+                            checkedListBox3.Items.Add(StringUtils.getPokemonNameGer(pokemon));
                             evolveIDS[pokemon.ToString()] = ev;
                             ev++;
                         }
                     }
                     else
                     {
-                        pkToNotTransferCListBox.Items.Add(pokemon.ToString());
-                        pkToNotCatchCListBox.Items.Add(pokemon.ToString());
+                        checkedListBox1.Items.Add(pokemon.ToString());
+                        checkedListBox2.Items.Add(pokemon.ToString());
                         if (!(evolveBlacklist.Contains(i)))
                         {
-                            pkToEvolveCListBox.Items.Add(pokemon.ToString());
+                            checkedListBox3.Items.Add(pokemon.ToString());
                             evolveIDS[pokemon.ToString()] = ev;
                             ev++;
                         }
@@ -120,43 +120,34 @@ namespace PokemonGo.RocketAPI.Console
             {
                 string[] lines = System.IO.File.ReadAllLines(@Program.account);
                 i = 1;
-                int tb = 0;
-
-                TextBox[] tboxes = {
-                    emailTBox,
-                    pswdTBox,
-                    latitudeTBox,
-                    longitudeTBox,
-                    altitudeTBox,
-                    speedTBox,
-                    radiusTBox,
-                    maxDuplicatePkTBox,
-                    maxCPToTransfTBox,
-                    tgApiTokenTBox,
-                    tgUsernameTBox,
-                    tgLiveStatsDelayTBox,
-                    maxIVToTransfTBox,
-                    alwaysCatchOverCPTBox           
-                };
-
+                int tb = 1;
                 foreach (string line in lines)
                 {
                     switch (i)
                     {
                         case 1:
                             if (line == "Google")
-                                accountTypeComboBox.SelectedIndex = 0;
+                                comboBox1.SelectedIndex = 0;
                             else
-                                accountTypeComboBox.SelectedIndex = 1;
+                                comboBox1.SelectedIndex = 1;
                             break;
                         case 9:
-                            startFromDefaultLocCheckBox.Checked = bool.Parse(line);
+                            checkBox1.Checked = bool.Parse(line);
                             break;
                         case 10:
-                            autoTransfDoublePkCheckBox.Checked = bool.Parse(line);
+                            checkBox2.Checked = bool.Parse(line);
                             break;
                         case 12:
-                            evolvePkIfCandyCheckBox.Checked = bool.Parse(line);
+                            checkBox3.Checked = bool.Parse(line);
+                            break;
+                        case 14:
+                            textBox18.Text = line;
+                            break;
+                        case 15:
+                            textBox19.Text = line;
+                            break;
+                        case 16:
+                            textBox20.Text = line;
                             break;
                         case 17:
                             //if (line == "1")
@@ -172,28 +163,30 @@ namespace PokemonGo.RocketAPI.Console
                             //}
                             break;
                         case 18:
-                            useLuckyEggEvolveCheckBox.Checked = bool.Parse(line);
+                            checkBox7.Checked = bool.Parse(line);
                             break;
                         case 19:
-                            gerPkNamesCheckBox.Checked = bool.Parse(line);
+                            checkBox8.Checked = bool.Parse(line);
                             break;
                         case 20:
-                            useIncense30MinsCheckBox.Checked = bool.Parse(line);
+                            checkBox9.Checked = bool.Parse(line);
+                            break;
+                        case 21:
+                            textBox24.Text = line;
                             break;
                         case 22:
-                            enablePkGUICheckBox.Checked = bool.Parse(line);
+                            checkBox10.Checked = bool.Parse(line);
                             break;
                         case 23:
-                            keepEvolvablePkCheckBox.Checked = bool.Parse(line);
+                            checkBox11.Checked = bool.Parse(line);
                             break;
-                        case 24: // reserved for Pokevision
-                            //checkBox12.Checked = bool.Parse(line);
-                            break;
+                        //case 24:
+                        //    checkBox12.Checked = bool.Parse(line);
+                        //    break;
                         default:
-                            if (tb < tboxes.Count()) { 
-                                tboxes[tb].Text = line;
-                                tb++;
-                            }
+                            TextBox temp = (TextBox)this.Controls.Find("textBox" + tb, true).FirstOrDefault();
+                            temp.Text = line;
+                            tb++;
                             break;
                     }
                     i++;
@@ -201,59 +194,53 @@ namespace PokemonGo.RocketAPI.Console
             }
             else
             {
-                latitudeTBox.Text = "40,764883";
-                longitudeTBox.Text = "-73,972967";
-                altitudeTBox.Text = "10";
-                speedTBox.Text = "50";
-                radiusTBox.Text = "5000";
-                maxDuplicatePkTBox.Text = "3";
-                maxCPToTransfTBox.Text = "999";
-                maxIVToTransfTBox.Text = "90";
-                tgLiveStatsDelayTBox.Text = "5000";
-                alwaysCatchOverCPTBox.Text = "1500";
+                textBox3.Text = "40,764883";
+                textBox4.Text = "-73,972967";
+                textBox5.Text = "10";
+                textBox6.Text = "50";
+                textBox7.Text = "5000";
+                textBox8.Text = "3";
+                textBox9.Text = "999";
+                textBox20.Text = "5000";
             }
 
             if (File.Exists(Program.items))
             {
-                TextBox[] tboxes = {
-                    maxPokeBallsTBox,
-                    maxGreatBallsTBox,
-                    maxUltraBallsTBox,
-                    maxReviveTBox,
-                    maxPotTBox,
-                    maxSuperPotTBox,
-                    maxHyperPotTBox,
-                    maxRazzBerrysTBox,
-                    maxMasterBallsTBox,
-                    maxTopPotTBox,
-                    maxTopReviveTBox
-                };
-
                 string[] lines = System.IO.File.ReadAllLines(@Program.items);
-                i = 0;
+                i = 10;
                 foreach (string line in lines)
                 {
-                    if (i < tboxes.Count())
+                    if (i == 18)
                     {
-                        tboxes[i].Text = line;
-                        i++;
+                        i = 22;
                     }
+                    else if (i == 23)
+                    {
+                        i = 21;
+                    }
+                    else if (i == 22)
+                    {
+                        i = 23;
+                    }
+                    TextBox temp = (TextBox)this.Controls.Find("textBox" + i, true).FirstOrDefault();
+                    temp.Text = line;
+                    i++;
                 }
             }
             else
             {
-                maxPokeBallsTBox.Text = "20";
-                maxGreatBallsTBox.Text = "50";
-                maxUltraBallsTBox.Text = "100";
-                maxReviveTBox.Text = "20";
-                maxPotTBox.Text = "0";
-                maxSuperPotTBox.Text = "0";
-                maxHyperPotTBox.Text = "50";
-                maxRazzBerrysTBox.Text = "75";
-                maxMasterBallsTBox.Text = "200";
-                maxTopPotTBox.Text = "100";
-                maxTopReviveTBox.Text = "20";
-                maxIVToTransfTBox.Text = "90";
+                textBox10.Text = "20";
+                textBox11.Text = "50";
+                textBox12.Text = "100";
+                textBox13.Text = "20";
+                textBox14.Text = "0";
+                textBox15.Text = "0";
+                textBox16.Text = "50";
+                textBox17.Text = "75";
+                textBox22.Text = "200";
+                textBox21.Text = "100";
+                textBox23.Text = "20";
+                textBox24.Text = "90";
             }
 
             if (File.Exists(Program.keep))
@@ -262,10 +249,10 @@ namespace PokemonGo.RocketAPI.Console
                 foreach (string line in lines)
                 {
                     if (line != "")
-                        if (gerPkNamesCheckBox.Checked)
-                            pkToNotTransferCListBox.SetItemChecked(pokeIDS[gerEng[line]] - 1, true);
+                        if (checkBox8.Checked)
+                            checkedListBox1.SetItemChecked(pokeIDS[gerEng[line]] - 1, true);
                         else
-                            pkToNotTransferCListBox.SetItemChecked(pokeIDS[line] - 1, true);
+                            checkedListBox1.SetItemChecked(pokeIDS[line] - 1, true);
                 }
             }
 
@@ -275,10 +262,10 @@ namespace PokemonGo.RocketAPI.Console
                 foreach (string line in lines)
                 {
                     if (line != "")
-                        if (gerPkNamesCheckBox.Checked)
-                            pkToNotCatchCListBox.SetItemChecked(pokeIDS[gerEng[line]] - 1, true);
+                        if (checkBox8.Checked)
+                            checkedListBox2.SetItemChecked(pokeIDS[gerEng[line]] - 1, true);
                         else
-                            pkToNotCatchCListBox.SetItemChecked(pokeIDS[line] - 1, true);
+                            checkedListBox2.SetItemChecked(pokeIDS[line] - 1, true);
                 }
             }
 
@@ -305,10 +292,10 @@ namespace PokemonGo.RocketAPI.Console
                 foreach (string line in lines)
                 {
                     if (line != "")
-                        if (gerPkNamesCheckBox.Checked)
-                            pkToEvolveCListBox.SetItemChecked(evolveIDS[gerEng[line]] - 1, true);
+                        if (checkBox8.Checked)
+                            checkedListBox3.SetItemChecked(evolveIDS[gerEng[line]] - 1, true);
                         else
-                            pkToEvolveCListBox.SetItemChecked(evolveIDS[line] - 1, true);
+                            checkedListBox3.SetItemChecked(evolveIDS[line] - 1, true);
                 }
             }
 
@@ -342,7 +329,7 @@ namespace PokemonGo.RocketAPI.Console
             }
         }
 
-        private void textBoxes_OnlyDigit_KeyPress(object sender, KeyPressEventArgs e)
+        private void textBox7_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
             {
@@ -352,232 +339,217 @@ namespace PokemonGo.RocketAPI.Console
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (emailTBox.Text == "")
+            if (textBox1.Text == "")
             {
-                emailTBox.BackColor = Color.Red;
+                textBox1.BackColor = Color.Red;
                 return;
             }
             else
-                Globals.username = emailTBox.Text;
-            if (pswdTBox.Text == "")
+                Globals.username = textBox1.Text;
+            if (textBox2.Text == "")
             {
-                pswdTBox.BackColor = Color.Red;
+                textBox2.BackColor = Color.Red;
                 return;
             }
             else
-                Globals.password = pswdTBox.Text;
+                Globals.password = textBox2.Text;
 
-            if (latitudeTBox.Text == "")
+            if (textBox3.Text == "")
             {
-                latitudeTBox.BackColor = Color.Red;
+                textBox3.BackColor = Color.Red;
                 return;
             }
             else
-                Globals.latitute = double.Parse(latitudeTBox.Text.Replace(',', '.'), cords, System.Globalization.NumberFormatInfo.InvariantInfo);
+                Globals.latitute = double.Parse(textBox3.Text.Replace(',', '.'), cords, System.Globalization.NumberFormatInfo.InvariantInfo);
 
-            if (longitudeTBox.Text == "")
+            if (textBox4.Text == "")
             {
-                longitudeTBox.BackColor = Color.Red;
+                textBox4.BackColor = Color.Red;
                 return;
             }
             else
-                Globals.longitude = double.Parse(longitudeTBox.Text.Replace(',', '.'), cords, System.Globalization.NumberFormatInfo.InvariantInfo);
+                Globals.longitude = double.Parse(textBox4.Text.Replace(',', '.'), cords, System.Globalization.NumberFormatInfo.InvariantInfo);
 
-            if (altitudeTBox.Text == "")
+            if (textBox5.Text == "")
             {
-                altitudeTBox.BackColor = Color.Red;
+                textBox5.BackColor = Color.Red;
                 return;
             }
             else
-                Globals.altitude = double.Parse(altitudeTBox.Text.Replace(',', '.'), cords, System.Globalization.NumberFormatInfo.InvariantInfo);
+                Globals.altitude = double.Parse(textBox5.Text.Replace(',', '.'), cords, System.Globalization.NumberFormatInfo.InvariantInfo);
 
-            if (speedTBox.Text == "")
+            if (textBox6.Text == "")
             {
-                speedTBox.BackColor = Color.Red;
+                textBox6.BackColor = Color.Red;
                 return;
             }
             else
-                Globals.speed = double.Parse(speedTBox.Text.Replace(',', '.'), cords, System.Globalization.NumberFormatInfo.InvariantInfo);
+                Globals.speed = double.Parse(textBox6.Text.Replace(',', '.'), cords, System.Globalization.NumberFormatInfo.InvariantInfo);
 
-            if (radiusTBox.Text == "")
+            if (textBox7.Text == "")
             {
-                radiusTBox.BackColor = Color.Red;
+                textBox7.BackColor = Color.Red;
                 return;
             }
             else
-                Globals.radius = int.Parse(radiusTBox.Text);
+                Globals.radius = int.Parse(textBox7.Text);
 
-            if (maxDuplicatePkTBox.Text == "")
+            if (textBox8.Text == "")
             {
-                maxDuplicatePkTBox.BackColor = Color.Red;
+                textBox8.BackColor = Color.Red;
                 return;
             }
             else
-                Globals.duplicate = int.Parse(maxDuplicatePkTBox.Text);
+                Globals.duplicate = int.Parse(textBox8.Text);
 
-            if (maxCPToTransfTBox.Text == "")
+            if (textBox9.Text == "")
             {
-                maxCPToTransfTBox.BackColor = Color.Red;
+                textBox9.BackColor = Color.Red;
                 return;
             }
             else
-                Globals.maxCp = int.Parse(maxCPToTransfTBox.Text);
+                Globals.maxCp = int.Parse(textBox9.Text);
 
-            Globals.transfer = autoTransfDoublePkCheckBox.Checked;
-            Globals.defLoc = startFromDefaultLocCheckBox.Checked;
-            Globals.evolve = evolvePkIfCandyCheckBox.Checked;
+            Globals.transfer = checkBox2.Checked;
+            Globals.defLoc = checkBox1.Checked;
+            Globals.evolve = checkBox3.Checked;
 
-            if (maxPokeBallsTBox.Text == "")
+            if (textBox10.Text == "")
             {
-                maxPokeBallsTBox.BackColor = Color.Red;
+                textBox10.BackColor = Color.Red;
                 return;
             }
             else
-                Globals.pokeball = int.Parse(maxPokeBallsTBox.Text);
+                Globals.pokeball = int.Parse(textBox10.Text);
 
-            if (maxGreatBallsTBox.Text == "")
+            if (textBox11.Text == "")
             {
-                maxGreatBallsTBox.BackColor = Color.Red;
+                textBox11.BackColor = Color.Red;
                 return;
             }
             else
-                Globals.greatball = int.Parse(maxGreatBallsTBox.Text);
+                Globals.greatball = int.Parse(textBox11.Text);
 
-            if (maxUltraBallsTBox.Text == "")
+            if (textBox12.Text == "")
             {
-                maxUltraBallsTBox.BackColor = Color.Red;
+                textBox12.BackColor = Color.Red;
                 return;
             }
             else
-                Globals.ultraball = int.Parse(maxUltraBallsTBox.Text);
+                Globals.ultraball = int.Parse(textBox12.Text);
 
-            if (maxReviveTBox.Text == "")
+            if (textBox13.Text == "")
             {
-                maxReviveTBox.BackColor = Color.Red;
+                textBox13.BackColor = Color.Red;
                 return;
             }
             else
-                Globals.revive = int.Parse(maxReviveTBox.Text);
+                Globals.revive = int.Parse(textBox13.Text);
 
-            if (maxPotTBox.Text == "")
+            if (textBox14.Text == "")
             {
-                maxPotTBox.BackColor = Color.Red;
+                textBox14.BackColor = Color.Red;
                 return;
             }
             else
-                Globals.potion = int.Parse(maxPotTBox.Text);
+                Globals.potion = int.Parse(textBox14.Text);
 
-            if (maxSuperPotTBox.Text == "")
+            if (textBox15.Text == "")
             {
-                maxSuperPotTBox.BackColor = Color.Red;
+                textBox15.BackColor = Color.Red;
                 return;
             }
             else
-                Globals.superpotion = int.Parse(maxSuperPotTBox.Text);
+                Globals.superpotion = int.Parse(textBox15.Text);
 
-            if (maxHyperPotTBox.Text == "")
+            if (textBox16.Text == "")
             {
-                maxHyperPotTBox.BackColor = Color.Red;
+                textBox16.BackColor = Color.Red;
                 return;
             }
             else
-                Globals.hyperpotion = int.Parse(maxHyperPotTBox.Text);
+                Globals.hyperpotion = int.Parse(textBox16.Text);
 
-            if (maxRazzBerrysTBox.Text == "")
+            if (textBox17.Text == "")
             {
-                maxRazzBerrysTBox.BackColor = Color.Red;
+                textBox17.BackColor = Color.Red;
                 return;
             }
             else
-                Globals.berry = int.Parse(maxRazzBerrysTBox.Text);
+                Globals.berry = int.Parse(textBox17.Text);
 
-            if (tgApiTokenTBox.Text != "")
-                Globals.telAPI = tgApiTokenTBox.Text;
+            if (textBox18.Text != "")
+                Globals.telAPI = textBox18.Text;
 
-            if (tgUsernameTBox.Text != "")
-                Globals.telName = tgUsernameTBox.Text;
+            if (textBox19.Text != "")
+                Globals.telName = textBox19.Text;
 
-            if (tgLiveStatsDelayTBox.Text == "")
+            if (textBox20.Text == "")
             {
-                tgLiveStatsDelayTBox.BackColor = Color.Red;
+                textBox20.BackColor = Color.Red;
                 return;
             }
             else
-                Globals.telDelay = int.Parse(tgLiveStatsDelayTBox.Text);
+                Globals.telDelay = int.Parse(textBox20.Text);
 
-            if (maxTopPotTBox.Text == "")
+            if (textBox21.Text == "")
             {
-                maxTopPotTBox.BackColor = Color.Red;
-                return;
+                textBox21.BackColor = Color.Red;
             }
             else
             {
-                Globals.toppotion = int.Parse(maxTopPotTBox.Text);
+                Globals.toppotion = int.Parse(textBox21.Text);
             }
 
-            if (maxMasterBallsTBox.Text == "")
+            if (textBox22.Text == "")
             {
-                maxMasterBallsTBox.BackColor = Color.Red;
-                return;
+                textBox22.BackColor = Color.Red;
             }
             else
             {
-                Globals.masterball = int.Parse(maxMasterBallsTBox.Text);
+                Globals.masterball = int.Parse(textBox22.Text);
             }
 
-            if (maxTopReviveTBox.Text == "")
+            if (textBox23.Text == "")
             {
-                maxTopReviveTBox.BackColor = Color.Red;
-                return;
+                textBox23.BackColor = Color.Red;
             }
             else
             {
-                Globals.toprevive = int.Parse(maxTopReviveTBox.Text);
+                Globals.toprevive = int.Parse(textBox23.Text);
             }
 
-            if (maxIVToTransfTBox.Text == "")
+            if (textBox24.Text == "")
             {
-                maxIVToTransfTBox.BackColor = Color.Red;
-                return;
-            }
-            else
+                textBox24.BackColor = Color.Red;
+            } else
             {
-                Globals.ivmaxpercent = int.Parse(maxIVToTransfTBox.Text);
+                Globals.ivmaxpercent = int.Parse(textBox24.Text);
             }
 
-            if (alwaysCatchOverCPTBox.Text == "")
-            {
-                alwaysCatchOverCPTBox.BackColor = Color.Red;
-                return;
-            }
-            else
-            {
-                Globals.alwaisCatchOverCP = int.Parse(alwaysCatchOverCPTBox.Text);
-            }
-
-            Globals.gerNames = gerPkNamesCheckBox.Checked;
-            Globals.useincense = useIncense30MinsCheckBox.Checked;
-            Globals.pokeList = enablePkGUICheckBox.Checked;
-            Globals.keepPokemonsThatCanEvolve = keepEvolvablePkCheckBox.Checked;
+            Globals.gerNames = checkBox8.Checked;
+            Globals.useincense = checkBox9.Checked;
+            Globals.pokeList = checkBox10.Checked;
+            Globals.keepPokemonsThatCanEvolve = checkBox11.Checked;
             //Globals.pokevision = checkBox12.Checked;
 
-            foreach (string pokemon in pkToNotTransferCListBox.CheckedItems)
+            foreach (string pokemon in checkedListBox1.CheckedItems)
             {
-                if (gerPkNamesCheckBox.Checked)
+                if (checkBox8.Checked)
                     Globals.noTransfer.Add((PokemonId)Enum.Parse(typeof(PokemonId), gerEng[pokemon]));
                 else
                     Globals.noTransfer.Add((PokemonId)Enum.Parse(typeof(PokemonId), pokemon));
             }
-            foreach (string pokemon in pkToNotCatchCListBox.CheckedItems)
+            foreach (string pokemon in checkedListBox2.CheckedItems)
             {
-                if (gerPkNamesCheckBox.Checked)
+                if (checkBox8.Checked)
                     Globals.noCatch.Add((PokemonId)Enum.Parse(typeof(PokemonId), gerEng[pokemon]));
                 else
                     Globals.noCatch.Add((PokemonId)Enum.Parse(typeof(PokemonId), pokemon));
             }
-            foreach (string pokemon in pkToEvolveCListBox.CheckedItems)
+            foreach (string pokemon in checkedListBox3.CheckedItems)
             {
-                if (gerPkNamesCheckBox.Checked)
+                if (checkBox8.Checked)
                     Globals.doEvolve.Add((PokemonId)Enum.Parse(typeof(PokemonId), gerEng[pokemon]));
                 else
                     Globals.doEvolve.Add((PokemonId)Enum.Parse(typeof(PokemonId), pokemon));
@@ -607,8 +579,7 @@ namespace PokemonGo.RocketAPI.Console
                     Globals.ivmaxpercent.ToString(),
                     Globals.pokeList.ToString(),
                     Globals.keepPokemonsThatCanEvolve.ToString(),
-                    Globals.pokevision.ToString(),
-                    Globals.alwaisCatchOverCP.ToString()
+                    Globals.pokevision.ToString()
             };
             System.IO.File.WriteAllLines(@Program.account, accFile);
 
@@ -631,7 +602,7 @@ namespace PokemonGo.RocketAPI.Console
             int i = 0;
             foreach (PokemonId pokemon in Globals.noTransfer)
             {
-                if (gerPkNamesCheckBox.Checked)
+                if (checkBox8.Checked)
                     temp.SetValue(StringUtils.getPokemonNameGer(pokemon), i);
                 else
                     temp.SetValue(pokemon.ToString(), i);
@@ -644,7 +615,7 @@ namespace PokemonGo.RocketAPI.Console
             Array.Clear(temp, 0, temp.Length);
             foreach (PokemonId pokemon in Globals.noCatch)
             {
-                if (gerPkNamesCheckBox.Checked)
+                if (checkBox8.Checked)
                     temp.SetValue(StringUtils.getPokemonNameGer(pokemon), i);
                 else
                     temp.SetValue(pokemon.ToString(), i);
@@ -657,7 +628,7 @@ namespace PokemonGo.RocketAPI.Console
             i = 0;
             foreach (PokemonId pokemon in Globals.doEvolve)
             {
-                if (gerPkNamesCheckBox.Checked)
+                if (checkBox8.Checked)
                     temp.SetValue(StringUtils.getPokemonNameGer(pokemon), i);   
                 else
                     temp.SetValue(pokemon.ToString(), i);
@@ -671,12 +642,12 @@ namespace PokemonGo.RocketAPI.Console
 
         private void checkBox4_CheckedChanged(object sender, EventArgs e)
         {
-            if (selectAllPkToNotTransferCheckBox.Checked)
+            if (checkBox4.Checked)
             {
                 int i = 0;
-                while (i < pkToNotTransferCListBox.Items.Count)
+                while (i < checkedListBox1.Items.Count)
                 {
-                    pkToNotTransferCListBox.SetItemChecked(i, true);
+                    checkedListBox1.SetItemChecked(i, true);
                     i++;
                 }
 
@@ -684,9 +655,9 @@ namespace PokemonGo.RocketAPI.Console
             else
             {
                 int i = 0;
-                while (i < pkToNotTransferCListBox.Items.Count)
+                while (i < checkedListBox1.Items.Count)
                 {
-                    pkToNotTransferCListBox.SetItemChecked(i, false);
+                    checkedListBox1.SetItemChecked(i, false);
                     i++;
                 }
             }
@@ -694,12 +665,12 @@ namespace PokemonGo.RocketAPI.Console
 
         private void checkBox5_CheckedChanged(object sender, EventArgs e)
         {
-            if (selectAllPkToNotCatchCheckBox.Checked)
+            if (checkBox5.Checked)
             {
                 int i = 0;
-                while (i < pkToNotCatchCListBox.Items.Count)
+                while (i < checkedListBox2.Items.Count)
                 {
-                    pkToNotCatchCListBox.SetItemChecked(i, true);
+                    checkedListBox2.SetItemChecked(i, true);
                     i++;
                 }
 
@@ -707,9 +678,9 @@ namespace PokemonGo.RocketAPI.Console
             else
             {
                 int i = 0;
-                while (i < pkToNotCatchCListBox.Items.Count)
+                while (i < checkedListBox2.Items.Count)
                 {
-                    pkToNotCatchCListBox.SetItemChecked(i, false);
+                    checkedListBox2.SetItemChecked(i, false);
                     i++;
                 }
             }
@@ -717,12 +688,12 @@ namespace PokemonGo.RocketAPI.Console
 
         private void checkBox6_CheckedChanged(object sender, EventArgs e)
         {
-            if (selectAllPkToEvolveCheckBox.Checked)
+            if (checkBox6.Checked)
             {
                 int i = 0;
-                while (i < pkToEvolveCListBox.Items.Count)
+                while (i < checkedListBox3.Items.Count)
                 {
-                    pkToEvolveCListBox.SetItemChecked(i, true);
+                    checkedListBox3.SetItemChecked(i, true);
                     i++;
                 }
 
@@ -730,9 +701,9 @@ namespace PokemonGo.RocketAPI.Console
             else
             {
                 int i = 0;
-                while (i < pkToEvolveCListBox.Items.Count)
+                while (i < checkedListBox3.Items.Count)
                 {
-                    pkToEvolveCListBox.SetItemChecked(i, false);
+                    checkedListBox3.SetItemChecked(i, false);
                     i++;
                 }
             }
@@ -755,7 +726,7 @@ namespace PokemonGo.RocketAPI.Console
 
         private void checkBox7_CheckedChanged_1(object sender, EventArgs e)
         {
-            if (useLuckyEggEvolveCheckBox.Checked)
+            if (checkBox7.Checked)
             {
                 Globals.useluckyegg = true;
             }
@@ -767,34 +738,34 @@ namespace PokemonGo.RocketAPI.Console
 
         private void checkBox8_CheckedChanged(object sender, EventArgs e)
         {
-            while (pkToNotTransferCListBox.Items.Count > 0)
+            while (checkedListBox1.Items.Count > 0)
             {
-                pkToNotTransferCListBox.Items.RemoveAt(0);
-                pkToNotCatchCListBox.Items.RemoveAt(0);
-                if (pkToEvolveCListBox.Items.Count > 0)
-                    pkToEvolveCListBox.Items.RemoveAt(0);
+                checkedListBox1.Items.RemoveAt(0);
+                checkedListBox2.Items.RemoveAt(0);
+                if (checkedListBox3.Items.Count > 0)
+                    checkedListBox3.Items.RemoveAt(0);
             }
             int i = 1;
             foreach (PokemonId pokemon in Enum.GetValues(typeof(PokemonId)))
             {
                 if (pokemon.ToString() != "Missingno")
                 {
-                    if (gerPkNamesCheckBox.Checked)
+                    if (checkBox8.Checked)
                     {
-                        pkToNotTransferCListBox.Items.Add(StringUtils.getPokemonNameGer(pokemon));
-                        pkToNotCatchCListBox.Items.Add(StringUtils.getPokemonNameGer(pokemon));
+                        checkedListBox1.Items.Add(StringUtils.getPokemonNameGer(pokemon));
+                        checkedListBox2.Items.Add(StringUtils.getPokemonNameGer(pokemon));
                         if (!(evolveBlacklist.Contains(i)))
                         {
-                            pkToEvolveCListBox.Items.Add(StringUtils.getPokemonNameGer(pokemon));
+                            checkedListBox3.Items.Add(StringUtils.getPokemonNameGer(pokemon));
                         }
                     }
                     else
                     {
-                        pkToNotTransferCListBox.Items.Add(pokemon.ToString());
-                        pkToNotCatchCListBox.Items.Add(pokemon.ToString());
+                        checkedListBox1.Items.Add(pokemon.ToString());
+                        checkedListBox2.Items.Add(pokemon.ToString());
                         if (!(evolveBlacklist.Contains(i)))
                         {
-                            pkToEvolveCListBox.Items.Add(pokemon.ToString());
+                            checkedListBox3.Items.Add(pokemon.ToString());
                         }
                     }
                     i++;
@@ -819,14 +790,14 @@ namespace PokemonGo.RocketAPI.Console
         {
             LocationSelect locationSelector = new LocationSelect();
             locationSelector.ShowDialog();
-            latitudeTBox.Text = Globals.latitute.ToString();
-            longitudeTBox.Text = Globals.longitude.ToString();
-            altitudeTBox.Text = Globals.altitude.ToString();
+            textBox3.Text = Globals.latitute.ToString();
+            textBox4.Text = Globals.longitude.ToString();
+            textBox5.Text = Globals.altitude.ToString();
         }
 
         private void checkBox11_CheckedChanged(object sender, EventArgs e)
         {
-            if (keepEvolvablePkCheckBox.Checked)
+            if (checkBox11.Checked)
             {
                 Globals.keepPokemonsThatCanEvolve = true;
             }
@@ -838,7 +809,7 @@ namespace PokemonGo.RocketAPI.Console
 
         private void checkBox12_CheckedChanged(object sender, EventArgs e)
         {
-            if (keepEvolvablePkCheckBox.Checked)
+            if (checkBox11.Checked)
             {
                 Globals.pokevision = true;
             }
@@ -852,21 +823,21 @@ namespace PokemonGo.RocketAPI.Console
         {
             int item_summe = 0;
 
-            if (maxPokeBallsTBox.Text != "" && maxGreatBallsTBox.Text != "" && maxUltraBallsTBox.Text != "" && maxReviveTBox.Text != "" && maxPotTBox.Text != "" && maxSuperPotTBox.Text != "" && maxHyperPotTBox.Text != "" && maxRazzBerrysTBox.Text != "" && maxMasterBallsTBox.Text != "" && maxTopPotTBox.Text != "" && maxTopReviveTBox.Text != "")
+            if (textBox10.Text != "" && textBox11.Text != "" && textBox12.Text != "" && textBox13.Text != "" && textBox14.Text != "" && textBox15.Text != "" && textBox16.Text != "" && textBox17.Text != "" && textBox22.Text != "" && textBox21.Text != "" && textBox23.Text != "")
             {
-                item_summe = Convert.ToInt16(maxPokeBallsTBox.Text) +
-                            Convert.ToInt16(maxGreatBallsTBox.Text) +
-                            Convert.ToInt16(maxUltraBallsTBox.Text) +
-                            Convert.ToInt16(maxReviveTBox.Text) +
-                            Convert.ToInt16(maxPotTBox.Text) +
-                            Convert.ToInt16(maxSuperPotTBox.Text) +
-                            Convert.ToInt16(maxHyperPotTBox.Text) +
-                            Convert.ToInt16(maxRazzBerrysTBox.Text) +
-                            Convert.ToInt16(maxMasterBallsTBox.Text) +
-                            Convert.ToInt16(maxTopReviveTBox.Text) +
-                            Convert.ToInt16(maxTopPotTBox.Text);
+                item_summe = Convert.ToInt16(textBox10.Text) +
+                            Convert.ToInt16(textBox11.Text) +
+                            Convert.ToInt16(textBox12.Text) +
+                            Convert.ToInt16(textBox13.Text) +
+                            Convert.ToInt16(textBox14.Text) +
+                            Convert.ToInt16(textBox15.Text) +
+                            Convert.ToInt16(textBox16.Text) +
+                            Convert.ToInt16(textBox17.Text) +
+                            Convert.ToInt16(textBox22.Text) +
+                            Convert.ToInt16(textBox23.Text) +
+                            Convert.ToInt16(textBox21.Text);
             }
-            totalCountInventoryTBox.Text = Convert.ToString(item_summe);
+            textBox25.Text = Convert.ToString(item_summe);
         }
 
         private void pictureBox1_Click(object sender, EventArgs e)
@@ -878,6 +849,10 @@ namespace PokemonGo.RocketAPI.Console
         {
             Process.Start("https://high-minded.net/threads/pokemon-go-c-bot-safer-better.50731/");
         }
-        
+
+        private void label30_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
