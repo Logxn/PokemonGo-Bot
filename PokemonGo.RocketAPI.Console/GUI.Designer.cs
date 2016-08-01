@@ -1001,9 +1001,9 @@
             this.label32.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label32.Location = new System.Drawing.Point(74, 595);
             this.label32.Name = "label32";
-            this.label32.Size = new System.Drawing.Size(549, 15);
+            this.label32.Size = new System.Drawing.Size(545, 15);
             this.label32.TabIndex = 20;
-            this.label32.Text = "Whenever you encounter something related to \"Pokecrop\", tell them the Bot is stol" +
+            this.label32.Text = "Whenever you encounter something related to \"Pokecrot\", tell them the Bot is stol" +
     "en!";
             // 
             // pictureBox1
