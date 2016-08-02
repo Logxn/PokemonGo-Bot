@@ -24,4 +24,5 @@
   - German: https://github.com/IceQ1337/
   - Portuguese: https://github.com/m-a-r-c-e-l-o
   - Turkish: https://github.com/HaydarOzturk
+  - Russian: https://github.com/MrFallen
   - Spanish: max783
