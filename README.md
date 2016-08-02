@@ -3,6 +3,8 @@
   - Help me to get his Site + copied Bot removed. 
   - His site is: https://www.pokecrot.com/
   - Until that is done, i only publish builds. No Source.
+  - Join the Discord community for live help and bunch of other goodies;) 
+  - https://discord.gg/XsXuRJY
 
 # Donate
   - Every Donation will help the Project!
