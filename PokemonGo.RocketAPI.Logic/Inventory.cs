@@ -139,9 +139,7 @@ namespace PokemonGo.RocketAPI.Logic
             return pokemonToEvolve;
         }
 
-
-
-        public async Task<IEnumerable<PokemonData>> GetDuplicatePokemonToTransfer(bool keepPokemonsThatCanEvolve = false)
+        public async Task<IEnumerable<PokemonData>> GetDuplicatePokemonToTransfer(bool keepPokemonsThatCanEvolve = false, bool orderByIV = false)
         {
             var myPokemon = await GetPokemons();
 
@@ -173,17 +171,54 @@ namespace PokemonGo.RocketAPI.Logic
                     {
                         amountToSkip = _client.getSettingHandle().HoldMaxDoublePokemons;
                     }
+                    if (orderByIV)
+                    {
+                        results.AddRange(pokemonList.Where(x => x.PokemonId == pokemon.Key && PokemonInfo.CalculatePokemonPerfection(x) <= _client.getSettingHandle().ivmaxpercent)
+                            .OrderByDescending(x => PokemonInfo.CalculatePokemonPerfection(x))
+                            .ThenBy(n => n.StaminaMax)
+                            .Skip(amountToSkip)
+                            .ToList());
 
-                    results.AddRange(pokemonList.Where(x => x.PokemonId == pokemon.Key && PokemonInfo.CalculatePokemonPerfection(x) <= _client.getSettingHandle().ivmaxpercent)
-                        .OrderByDescending(x => x.Cp)
-                        .ThenBy(n => n.StaminaMax)
-                        .Skip(amountToSkip)
-                        .ToList());
+                    }
+                    else
+                    {
+                        results.AddRange(pokemonList.Where(x => x.PokemonId == pokemon.Key && PokemonInfo.CalculatePokemonPerfection(x) <= _client.getSettingHandle().ivmaxpercent)
+                            .OrderByDescending(x => x.Cp)
+                            .ThenBy(n => n.StaminaMax)
+                            .Skip(amountToSkip)
+                            .ToList());
+                    }
 
                 }
 
                 return results;
             }
+
+            if (orderByIV)
+            {
+                return pokemonList
+                    .GroupBy(p => p.PokemonId)
+                    .Where(x => x.Count() > 1)
+                    .SelectMany(p => p.Where(x => x.Favorite == 0 && PokemonInfo.CalculatePokemonPerfection(x) <= _client.getSettingHandle().ivmaxpercent)
+                    .OrderByDescending(x => PokemonInfo.CalculatePokemonPerfection(x))
+                    .ThenBy(n => n.StaminaMax)
+                    .Skip(_client.getSettingHandle().HoldMaxDoublePokemons)
+                    .ToList());
+
+            }
+            else
+            {
+                return pokemonList
+                    .GroupBy(p => p.PokemonId)
+                    .Where(x => x.Count() > 1)
+                    .SelectMany(p => p.Where(x => x.Favorite == 0 && PokemonInfo.CalculatePokemonPerfection(x) <= _client.getSettingHandle().ivmaxpercent)
+                    .OrderByDescending(x => x.Cp)
+                    .ThenBy(n => n.StaminaMax)
+                    .Skip(_client.getSettingHandle().HoldMaxDoublePokemons)
+                    .ToList());
+            }
+
+        }
             
             return pokemonList
                 .GroupBy(p => p.PokemonId)
