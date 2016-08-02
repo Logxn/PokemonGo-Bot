@@ -187,6 +187,7 @@ namespace PokemonGo.RocketAPI.Console
             catch (Exception e)
             {
                 Logger.ColoredConsoleWrite(ConsoleColor.Red, "Error reloading Pokemon list: " + e.Message);
+                await Task.Delay(500); // Lets the API make a little pause, so we dont get blocked
                 Execute();
             }
         }
