@@ -48,10 +48,6 @@ namespace PokemonGo.RocketAPI.Console
                 {
                     label2.Text = "Benutzername:";
                 }
-                else if (languagestr == "spain")
-                {
-                    label2.Text = "Usuario:";
-                }
             //    textBox1.Show();
             //    label2.Show();
             //    textBox2.Show();
@@ -61,8 +57,8 @@ namespace PokemonGo.RocketAPI.Console
 
         private void GUI_Load(object sender, EventArgs e)
         {
-            Program.ParseConfig();
-            
+			Program.ParseConfig();
+			
             // Create missing Files
             System.IO.Directory.CreateDirectory(Program.path); 
 
@@ -129,33 +125,33 @@ namespace PokemonGo.RocketAPI.Console
                 }
             }
 
-            if(Globals.acc == Enums.AuthType.Google)
-                comboBox1.SelectedIndex = 0;
-            else
-                comboBox1.SelectedIndex = 1;
-            Logger.Error(Globals.password);
-            textBox1.Text = Globals.username;
-            textBox2.Text = Globals.password;
-            checkBox1.Checked = Globals.defLoc;
-            checkBox2.Checked = Globals.transfer;
-            checkBox3.Checked = Globals.evolve;
-            textBox18.Text = Globals.telAPI;
-            textBox19.Text = Globals.telName;
-            textBox20.Text = Globals.telDelay.ToString();
-            checkBox7.Checked = Globals.useluckyegg;
-            checkBox8.Checked = Globals.gerNames;
-            checkBox9.Checked = Globals.useincense;
-            textBox24.Text = Globals.ivmaxpercent.ToString();
-            checkBox10.Checked = Globals.pokeList;
-            checkBox11.Checked = Globals.keepPokemonsThatCanEvolve;
-            textBox3.Text = Globals.latitute.ToString();
-            textBox4.Text = Globals.longitude.ToString();
-            textBox5.Text = Globals.altitude.ToString();
-            textBox6.Text = Globals.speed.ToString();
-            textBox7.Text = Globals.radius.ToString();
-            textBox8.Text = Globals.duplicate.ToString();
-            textBox9.Text = Globals.maxCp.ToString();
-            
+			if(Globals.acc == Enums.AuthType.Google)
+				comboBox1.SelectedIndex = 0;
+			else
+				comboBox1.SelectedIndex = 1;
+			Logger.Error(Globals.password);
+			textBox1.Text = Globals.username;
+			textBox2.Text = Globals.password;
+			checkBox1.Checked = Globals.defLoc;
+			checkBox2.Checked = Globals.transfer;
+			checkBox3.Checked = Globals.evolve;
+			textBox18.Text = Globals.telAPI;
+			textBox19.Text = Globals.telName;
+			textBox20.Text = Globals.telDelay.ToString();
+			checkBox7.Checked = Globals.useluckyegg;
+			checkBox8.Checked = Globals.gerNames;
+			checkBox9.Checked = Globals.useincense;
+			textBox24.Text = Globals.ivmaxpercent.ToString();
+			checkBox10.Checked = Globals.pokeList;
+			checkBox11.Checked = Globals.keepPokemonsThatCanEvolve;
+			textBox3.Text = Globals.latitute.ToString();
+			textBox4.Text = Globals.longitude.ToString();
+			textBox5.Text = Globals.altitude.ToString();
+			textBox6.Text = Globals.speed.ToString();
+			textBox7.Text = Globals.radius.ToString();
+			textBox8.Text = Globals.duplicate.ToString();
+			textBox9.Text = Globals.maxCp.ToString();
+			
             if (File.Exists(Program.items))
             {
                 string[] lines = System.IO.File.ReadAllLines(@Program.items);
@@ -804,7 +800,6 @@ namespace PokemonGo.RocketAPI.Console
         {
             lang_de_btn.Enabled = true;
             lang_en_btn.Enabled = false;
-            lang_spain_btn.Enabled = true;
             languagestr = null;
 
             // Main GUI
@@ -856,7 +851,6 @@ namespace PokemonGo.RocketAPI.Console
         {
             lang_en_btn.Enabled = true;
             lang_de_btn.Enabled = false;
-            lang_spain_btn.Enabled = true;
             languagestr = "de";
             
             // Main GUI
@@ -903,57 +897,5 @@ namespace PokemonGo.RocketAPI.Console
             checkBox10.Text = "Pokemon List GUI anzeigen";
             checkBox11.Text = "Behalte entwickelbare Pokemon";
         }
-        
-        private void lang_spain_btn_Click(object sender, EventArgs e)
-        {
-            lang_en_btn.Enabled = true;
-            lang_de_btn.Enabled = true;
-            lang_spain_btn.Enabled = false;
-            languagestr = "spain";
-
-            // Main GUI
-            label1.Text = "Tipo de cuenta:";
-            label2.Text = "Usuario:";
-            label3.Text = "Clave:";
-            groupBox2.Text = "Configuración de Ubicación";
-            label7.Text = "Velocidad:";
-            label9.Text = "Radio:";
-            label10.Text = "metros";
-            checkBox1.Text = "Empezar en la ubicación predeterminada";
-            groupBox3.Text = "Opciones del Bot";
-            checkBox2.Text = "Auto transferir Pokemones duplicados";
-            label11.Text = "Max. Pokemones duplicados";
-            label12.Text = "Max. CP para enviar:";
-            label28.Text = "Max. IV para enviar:";
-            groupBox8.Text = "Opciones de Telegram";
-            label30.Text = "Este Bot es absolutamente GRATIS y código abierto!";
-            label32.Text = "Si encontrás algo relacionado a 'Pokecrot', avisá que el bot es ROBADO!!";
-            label13.Text = "Max. Pokebolas:";
-            label14.Text = "Max. Superbolas:";
-            label15.Text = "Max. UltraBolas:";
-            label26.Text = "Max. MasterBolas:";
-            label16.Text = "Max. Revivir:";
-            label27.Text = "Max. Revivir total:";
-            label17.Text = "Max. Pociones:";
-            label18.Text = "Max. Super Pociones:";
-            label19.Text = "Max. Hiper Pociones:";
-            label25.Text = "Max. Pociones totales";
-            label20.Text = "Max. Frutas:";
-            label31.Text = "Suma Total:";
-            groupBox5.Text = "Pokemons - No transferir";
-            checkBox4.Text = "Seleccionar todo";
-            groupBox6.Text = "Pokemons - No atrapar";
-            checkBox5.Text = "Seleccionar todo";
-            groupBox7.Text = "Pokemons - Evolucionar";
-            checkBox6.Text = "Seleccionar todo";
-            button1.Text = "Guardar configuración / Iniciar BOT";
-            groupBox10.Text = "Otras opciones";
-            checkBox7.Text = "Usar Huevo de la Suerte al evolucionar";
-            checkBox8.Text = "Nombres alemanes de Pokemones";
-            checkBox9.Text = "Usar Incienso cada 30min";
-            checkBox3.Text = "Evolucionar Pokemones si es posible";
-            checkBox10.Text = "Habilitar Lista de Opciones Pokemon";
-            checkBox11.Text = "Mantener Pokemon evolucionables";
-        }    
     }
 }
