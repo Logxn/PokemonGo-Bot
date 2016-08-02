@@ -25,8 +25,8 @@ namespace PokemonGo.RocketAPI.Logic
         public BotStats _botStats;
         private readonly Navigation _navigation;
         public const double SpeedDownTo = 10 / 3.6;
-        private readonly PokeVisionUtil _pokevision;
         private LogicInfoObservable _infoObservable;
+        private readonly PokeVisionUtil _pokevision;
 
 
         public Logic(ISettings clientSettings, LogicInfoObservable infoObservable)
@@ -68,8 +68,7 @@ namespace PokemonGo.RocketAPI.Logic
                             _telegram.getClient().OnMessageEdited += _telegram.BotOnMessageReceived;
                             Logger.ColoredConsoleWrite(ConsoleColor.Green, "Telegram Name: " + me.Username);
                             _telegram.getClient().StartReceiving();
-                        }
-                        catch (Exception)
+                        } catch (Exception)
                         {
 
                         }
@@ -107,12 +106,11 @@ namespace PokemonGo.RocketAPI.Logic
                 {
                     Logger.Error($"Error: " + ex.Source);
                     Logger.Error($"{ex}");
-                    Logger.ColoredConsoleWrite(ConsoleColor.Green, "Trying to Restart.");
+                    Logger.ColoredConsoleWrite(ConsoleColor.Green, "Trying to Restart."); 
                     try
                     {
                         _telegram.getClient().StopReceiving();
-                    }
-                    catch (Exception)
+                    } catch (Exception)
                     {
 
                     }
@@ -288,7 +286,6 @@ namespace PokemonGo.RocketAPI.Logic
             //    }
             //}
             Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "_____________________________");
-
 
             System.Console.Title = profil.Profile.Username + " lvl" + c.Level + "-(" + ((c.Experience - c.PrevLevelXp) -
                 StringUtils.getExpDiff(c.Level)) + "/" + ((c.NextLevelXp - c.PrevLevelXp) - StringUtils.getExpDiff(c.Level)) + "|" + Math.Round(curexppercent, 2) + "%)| Stardust: " + profil.Profile.Currency.ToArray()[1].Amount + "| " + _botStats.ToString();
@@ -579,7 +576,7 @@ namespace PokemonGo.RocketAPI.Logic
             var pokemonToEvolve = await _inventory.GetPokemonToEvolve(filter);
             if (pokemonToEvolve.Count() != 0)
             {
-                if (_clientSettings.UseLuckyEgg)
+                if(_clientSettings.UseLuckyEgg)
                 {
                     await _inventory.UseLuckyEgg(_client);
                 }
