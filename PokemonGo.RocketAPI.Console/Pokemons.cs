@@ -686,7 +686,7 @@ namespace PokemonGo.RocketAPI.Console
 
             // Pokemon List GUI
             btnreload.Text = "Actualizar";
-            btnEvolve.Text = "Evolvucionar";
+            btnEvolve.Text = "Evolucionar";
             checkBoxreload.Text = "Actualizar cada";
             btnUpgrade.Text = "Dar más poder";
             btnFullPowerUp.Text = "Dar más poder [TOTAL]";
