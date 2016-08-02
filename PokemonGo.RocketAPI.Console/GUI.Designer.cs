@@ -764,6 +764,7 @@
             this.checkedListBox1.Name = "checkedListBox1";
             this.checkedListBox1.ScrollAlwaysVisible = true;
             this.checkedListBox1.Size = new System.Drawing.Size(150, 259);
+            this.checkedListBox1.Sorted = true;
             this.checkedListBox1.TabIndex = 0;
             // 
             // groupBox6
@@ -796,6 +797,7 @@
             this.checkedListBox2.Name = "checkedListBox2";
             this.checkedListBox2.ScrollAlwaysVisible = true;
             this.checkedListBox2.Size = new System.Drawing.Size(154, 259);
+            this.checkedListBox2.Sorted = true;
             this.checkedListBox2.TabIndex = 0;
             // 
             // groupBox7
@@ -828,6 +830,7 @@
             this.checkedListBox3.Name = "checkedListBox3";
             this.checkedListBox3.ScrollAlwaysVisible = true;
             this.checkedListBox3.Size = new System.Drawing.Size(153, 259);
+            this.checkedListBox3.Sorted = true;
             this.checkedListBox3.TabIndex = 0;
             // 
             // button1
