@@ -123,6 +123,7 @@
             this.lang_en_btn = new System.Windows.Forms.Button();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.lang_spain_btn = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -379,7 +380,7 @@
             // label29
             // 
             this.label29.AutoSize = true;
-            this.label29.Location = new System.Drawing.Point(400, 44);
+            this.label29.Location = new System.Drawing.Point(415, 44);
             this.label29.Name = "label29";
             this.label29.Size = new System.Drawing.Size(15, 13);
             this.label29.TabIndex = 8;
@@ -387,7 +388,7 @@
             // 
             // textBox24
             // 
-            this.textBox24.Location = new System.Drawing.Point(344, 41);
+            this.textBox24.Location = new System.Drawing.Point(356, 41);
             this.textBox24.Name = "textBox24";
             this.textBox24.Size = new System.Drawing.Size(53, 20);
             this.textBox24.TabIndex = 11;
@@ -404,7 +405,7 @@
             // 
             // textBox9
             // 
-            this.textBox9.Location = new System.Drawing.Point(344, 17);
+            this.textBox9.Location = new System.Drawing.Point(356, 17);
             this.textBox9.Name = "textBox9";
             this.textBox9.Size = new System.Drawing.Size(71, 20);
             this.textBox9.TabIndex = 10;
@@ -501,14 +502,14 @@
             this.groupBox4.Controls.Add(this.label13);
             this.groupBox4.Location = new System.Drawing.Point(3, 3);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(172, 325);
+            this.groupBox4.Size = new System.Drawing.Size(190, 325);
             this.groupBox4.TabIndex = 5;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Pokemon Items";
             // 
             // textBox25
             // 
-            this.textBox25.Location = new System.Drawing.Point(109, 301);
+            this.textBox25.Location = new System.Drawing.Point(133, 299);
             this.textBox25.Name = "textBox25";
             this.textBox25.ReadOnly = true;
             this.textBox25.Size = new System.Drawing.Size(51, 20);
@@ -553,7 +554,7 @@
             // 
             // textBox23
             // 
-            this.textBox23.Location = new System.Drawing.Point(109, 142);
+            this.textBox23.Location = new System.Drawing.Point(133, 143);
             this.textBox23.Name = "textBox23";
             this.textBox23.Size = new System.Drawing.Size(51, 20);
             this.textBox23.TabIndex = 20;
@@ -561,7 +562,7 @@
             // 
             // textBox21
             // 
-            this.textBox21.Location = new System.Drawing.Point(109, 248);
+            this.textBox21.Location = new System.Drawing.Point(133, 247);
             this.textBox21.Name = "textBox21";
             this.textBox21.Size = new System.Drawing.Size(51, 20);
             this.textBox21.TabIndex = 24;
@@ -569,7 +570,7 @@
             // 
             // textBox22
             // 
-            this.textBox22.Location = new System.Drawing.Point(109, 90);
+            this.textBox22.Location = new System.Drawing.Point(133, 91);
             this.textBox22.Name = "textBox22";
             this.textBox22.Size = new System.Drawing.Size(51, 20);
             this.textBox22.TabIndex = 18;
@@ -622,7 +623,7 @@
             // 
             // textBox17
             // 
-            this.textBox17.Location = new System.Drawing.Point(109, 275);
+            this.textBox17.Location = new System.Drawing.Point(133, 273);
             this.textBox17.Name = "textBox17";
             this.textBox17.Size = new System.Drawing.Size(51, 20);
             this.textBox17.TabIndex = 25;
@@ -631,7 +632,7 @@
             // 
             // textBox16
             // 
-            this.textBox16.Location = new System.Drawing.Point(109, 221);
+            this.textBox16.Location = new System.Drawing.Point(133, 221);
             this.textBox16.Name = "textBox16";
             this.textBox16.Size = new System.Drawing.Size(51, 20);
             this.textBox16.TabIndex = 23;
@@ -640,7 +641,7 @@
             // 
             // textBox15
             // 
-            this.textBox15.Location = new System.Drawing.Point(109, 195);
+            this.textBox15.Location = new System.Drawing.Point(133, 195);
             this.textBox15.Name = "textBox15";
             this.textBox15.Size = new System.Drawing.Size(51, 20);
             this.textBox15.TabIndex = 22;
@@ -649,7 +650,7 @@
             // 
             // textBox14
             // 
-            this.textBox14.Location = new System.Drawing.Point(109, 169);
+            this.textBox14.Location = new System.Drawing.Point(133, 169);
             this.textBox14.Name = "textBox14";
             this.textBox14.Size = new System.Drawing.Size(51, 20);
             this.textBox14.TabIndex = 21;
@@ -658,7 +659,7 @@
             // 
             // textBox13
             // 
-            this.textBox13.Location = new System.Drawing.Point(109, 116);
+            this.textBox13.Location = new System.Drawing.Point(133, 117);
             this.textBox13.Name = "textBox13";
             this.textBox13.Size = new System.Drawing.Size(51, 20);
             this.textBox13.TabIndex = 19;
@@ -676,7 +677,7 @@
             // 
             // textBox12
             // 
-            this.textBox12.Location = new System.Drawing.Point(109, 64);
+            this.textBox12.Location = new System.Drawing.Point(133, 64);
             this.textBox12.Name = "textBox12";
             this.textBox12.Size = new System.Drawing.Size(51, 20);
             this.textBox12.TabIndex = 17;
@@ -685,7 +686,7 @@
             // 
             // textBox11
             // 
-            this.textBox11.Location = new System.Drawing.Point(109, 38);
+            this.textBox11.Location = new System.Drawing.Point(133, 38);
             this.textBox11.Name = "textBox11";
             this.textBox11.Size = new System.Drawing.Size(51, 20);
             this.textBox11.TabIndex = 16;
@@ -703,7 +704,7 @@
             // 
             // textBox10
             // 
-            this.textBox10.Location = new System.Drawing.Point(109, 12);
+            this.textBox10.Location = new System.Drawing.Point(133, 12);
             this.textBox10.Name = "textBox10";
             this.textBox10.Size = new System.Drawing.Size(51, 20);
             this.textBox10.TabIndex = 15;
@@ -1114,12 +1115,26 @@
             this.pictureBox1.TabStop = false;
             this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
             // 
+            // lang_spain_btn
+            // 
+            this.lang_spain_btn.BackgroundImage = global::PokemonGo.RocketAPI.Console.Properties.Resources.spain;
+            this.lang_spain_btn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.lang_spain_btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.lang_spain_btn.Location = new System.Drawing.Point(73, 79);
+            this.lang_spain_btn.Name = "lang_spain_btn";
+            this.lang_spain_btn.Size = new System.Drawing.Size(24, 15);
+            this.lang_spain_btn.TabIndex = 40;
+            this.lang_spain_btn.Text = "button3";
+            this.lang_spain_btn.UseVisualStyleBackColor = true;
+            this.lang_spain_btn.Click += new System.EventHandler(this.lang_spain_btn_Click);
+            // 
             // GUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
             this.ClientSize = new System.Drawing.Size(576, 605);
+            this.Controls.Add(this.lang_spain_btn);
             this.Controls.Add(this.lang_de_btn);
             this.Controls.Add(this.lang_en_btn);
             this.Controls.Add(this.pictureBox2);
@@ -1261,6 +1276,7 @@
         private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.Button lang_en_btn;
         private System.Windows.Forms.Button lang_de_btn;
+        private System.Windows.Forms.Button lang_spain_btn;
     }
 }
 
