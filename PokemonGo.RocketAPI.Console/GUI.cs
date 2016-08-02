@@ -78,8 +78,7 @@ namespace PokemonGo.RocketAPI.Console
 
             // Load Languages Files always UP2Date
    
-            WebClient client = new WebClient();
-            client.Headers.Add("user-agent", "ar1i");
+            WebClient client = new WebClient(); 
             string translations = client.DownloadString("http://pokemon-go.ar1i.xyz/lang/get.php");
             string[] transArray = translations.Replace("\r", "").Split('\n');
             for (int ijik = 0; ijik < transArray.Count(); ijik++)

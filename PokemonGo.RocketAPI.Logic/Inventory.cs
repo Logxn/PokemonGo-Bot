@@ -300,9 +300,9 @@ namespace PokemonGo.RocketAPI.Logic
         }
 
 
-        public async Task<IEnumerable<Item>> GetItems()
+        public async Task<IEnumerable<Item>> GetItems(bool refresh = false)
         {
-            var inventory = await getCachedInventory(_client);
+            var inventory = await getCachedInventory(_client, refresh);
             return inventory.InventoryDelta.InventoryItems
                 .Select(i => i.InventoryItemData?.Item)
                 .Where(p => p != null);
@@ -322,9 +322,9 @@ namespace PokemonGo.RocketAPI.Logic
             return pokeballs.FirstOrDefault(i => (MiscEnums.Item)i.Item_ == type)?.Count ?? 0;
         }
 
-        public async Task<IEnumerable<Item>> GetItemsToRecycle(ISettings settings)
+        public async Task<IEnumerable<Item>> GetItemsToRecycle(ISettings settings, bool refresh = false)
         {
-            var myItems = await GetItems();
+            var myItems = await GetItems(refresh);
 
             return myItems
                 .Where(x => settings.itemRecycleFilter.Any(f => f.Key == ((ItemId)x.Item_) && x.Count > f.Value))
