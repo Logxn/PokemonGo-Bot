@@ -22,3 +22,4 @@
 # Translations
   - English: https://github.com/Ar1i/ & Greengold
   - German: https://github.com/IceQ1337/
+  - Turkish : HaydarOzturk
