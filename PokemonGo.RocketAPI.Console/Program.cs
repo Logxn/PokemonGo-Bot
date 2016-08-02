@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using PokemonGo.RocketAPI.GeneratedCode;
 using System.IO;
 using PokemonGo.RocketAPI.Logic.Utils;
+using System.ComponentModel;
 
 namespace PokemonGo.RocketAPI.Console
 {
@@ -28,6 +29,7 @@ namespace PokemonGo.RocketAPI.Console
         [STAThread]
         static void Main(string[] args)
         {
+			ParseConfig();
             if (args != null && args.Length > 0)
             {
                 foreach (string arg in args)
@@ -45,6 +47,7 @@ namespace PokemonGo.RocketAPI.Console
                     }
                 }
             }
+			
 
 
             if (args != null && args.Length > 0 && args[0].Contains("-nogui"))
@@ -315,6 +318,42 @@ namespace PokemonGo.RocketAPI.Console
             File.AppendAllText(huntstats, newHuntStat);
         }
 
+		private static void ParseConfig() {
+			string[] lines = System.IO.File.ReadAllLines(account);
+
+			Type _globals = typeof(Globals);
+			foreach(string line in lines) {
+				if(line.StartsWith(";") || !line.Contains("="))
+					continue;
+				string[] cv = line.Split('=');
+				// special cases...
+				switch(cv[0]) {
+					case "password":
+						cv[1] = line.Substring(9);
+						break;
+					case "accType":
+						if(cv[1] == "Google")
+							Globals.acc = Enums.AuthType.Google;
+						else
+							Globals.acc = Enums.AuthType.Ptc;
+						continue;
+				}
+				if(_globals.GetProperty(cv[0]) != null) {
+					
+					PropertyInfo _pi = _globals.GetProperty(cv[0]);
+					try {
+						var p = TypeDescriptor.GetConverter(_globals.GetProperty(cv[0]).GetType()).ConvertFromString(cv[1]);
+						_pi.SetValue(null, p, null);
+					}
+					catch(Exception e) {
+						throw e;
+					}
+						
+				}
+			}
+		}
+
+		
         public static void CheckVersion()
         {
             try
