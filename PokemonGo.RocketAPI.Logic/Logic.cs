@@ -417,6 +417,12 @@ namespace PokemonGo.RocketAPI.Logic
                     }
 
                     Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Farmed XP: {fortSearch.ExperienceAwarded}{gems}{egg}, Items: {items}", LogLevel.Info);
+                    int eggs = 0;
+                    if(fortSearch.PokemonDataEgg != null)
+                    {
+                        eggs = fortSearch.PokemonDataEgg.EggKmWalkedTarget;
+                    }
+                    TelegramUtil.getInstance().sendInformationText(TelegramUtil.TelegramUtilInformationTopics.Pokestop, fortInfo.Name, fortSearch.ExperienceAwarded, eggs, fortSearch.GemsAwarded, items);
                 }
                 else
                 {
@@ -535,6 +541,8 @@ namespace PokemonGo.RocketAPI.Logic
                         _infoObservable.PushNewHuntStats(String.Format("{0}/{1};{2};{3};{4}", pokemon.Latitude, pokemon.Longitude, pokemon.PokemonId, curDate.Ticks, curDate.ToString()) + Environment.NewLine);
                         Logger.ColoredConsoleWrite(ConsoleColor.Magenta, $"Caught {StringUtils.getPokemonNameByLanguage(_clientSettings, pokemon.PokemonId)} CP {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} IV {Math.Round(encounterPokemonResponse.WildPokemon.PokemonData.CalculateIV())}% using {bestPokeball} got {caughtPokemonResponse.Scores.Xp.Sum()} XP.");
 
+                        TelegramUtil.getInstance().sendInformationText(TelegramUtil.TelegramUtilInformationTopics.Catch, StringUtils.getPokemonNameByLanguage(_clientSettings, pokemon.PokemonId), encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp, Math.Round(encounterPokemonResponse.WildPokemon.PokemonData.CalculateIV()), bestPokeball, caughtPokemonResponse.Scores.Xp.Sum());
+
                         //try
                         //{
                         //    var r = (HttpWebRequest)WebRequest.Create("http://pokemon.becher.xyz/index.php?pokeName=" + pokemon.PokemonId);
@@ -587,13 +595,14 @@ namespace PokemonGo.RocketAPI.Logic
                     await StatsLog(_client);
                 }
 
-
                 var evolvePokemonOutProto = await _client.EvolvePokemon((ulong)pokemon.Id);
 
                 if (evolvePokemonOutProto.Result == EvolvePokemonOut.Types.EvolvePokemonStatus.PokemonEvolvedSuccess)
                 {
                     Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Evolved {StringUtils.getPokemonNameByLanguage(_clientSettings, pokemon.PokemonId)} CP {pokemon.Cp} {Math.Round(pokemon.CalculateIV())}%  to {StringUtils.getPokemonNameByLanguage(_clientSettings, evolvePokemonOutProto.EvolvedPokemon.PokemonType)} CP: {evolvePokemonOutProto.EvolvedPokemon.Cp} for {evolvePokemonOutProto.ExpAwarded.ToString("N0")}xp", LogLevel.Info);
                     _botStats.addExperience(evolvePokemonOutProto.ExpAwarded);
+
+                    TelegramUtil.getInstance().sendInformationText(TelegramUtil.TelegramUtilInformationTopics.Evolve, StringUtils.getPokemonNameByLanguage(_clientSettings, pokemon.PokemonId), pokemon.Cp, Math.Round(pokemon.CalculateIV()), StringUtils.getPokemonNameByLanguage(_clientSettings, evolvePokemonOutProto.EvolvedPokemon.PokemonType), evolvePokemonOutProto.EvolvedPokemon.Cp, evolvePokemonOutProto.ExpAwarded.ToString("N0"));
                 }
                 else
                 {
@@ -627,6 +636,9 @@ namespace PokemonGo.RocketAPI.Logic
 
                         var transfer = await _client.TransferPokemon(duplicatePokemon.Id);
                         Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Transfer {StringUtils.getPokemonNameByLanguage(_clientSettings, duplicatePokemon.PokemonId)} CP {duplicatePokemon.Cp} IV {Math.Round(duplicatePokemon.CalculateIV())}% (Best: {bestPokemonOfType} CP)", LogLevel.Info);
+
+                        TelegramUtil.getInstance().sendInformationText(TelegramUtil.TelegramUtilInformationTopics.Transfer, StringUtils.getPokemonNameByLanguage(_clientSettings, duplicatePokemon.PokemonId), duplicatePokemon.Cp, Math.Round(duplicatePokemon.CalculateIV()), bestPokemonOfType);
+
                         await RandomHelper.RandomDelay(500, 700);
                     }
                 }
