@@ -133,9 +133,9 @@ namespace PokemonGo.RocketAPI.Console.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap ru {
+        internal static System.Drawing.Bitmap ru1 {
             get {
-                object obj = ResourceManager.GetObject("ru", resourceCulture);
+                object obj = ResourceManager.GetObject("ru1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -153,9 +153,9 @@ namespace PokemonGo.RocketAPI.Console.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap tr {
+        internal static System.Drawing.Bitmap tr1 {
             get {
-                object obj = ResourceManager.GetObject("tr", resourceCulture);
+                object obj = ResourceManager.GetObject("tr1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
