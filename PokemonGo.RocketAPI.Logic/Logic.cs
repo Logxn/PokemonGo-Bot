@@ -9,7 +9,6 @@ using PokemonGo.RocketAPI.GeneratedCode;
 using PokemonGo.RocketAPI.Logic.Utils;
 using PokemonGo.RocketAPI.Exceptions;
 using System.Net;
-using System.IO;
 using System.Device.Location;
 using PokemonGo.RocketAPI.Helpers;
 using System.Web.Script.Serialization;
@@ -27,10 +26,10 @@ namespace PokemonGo.RocketAPI.Logic
         private readonly Navigation _navigation;
         public const double SpeedDownTo = 10 / 3.6;
         private readonly PokeVisionUtil _pokevision;
-        private string huntstats;
+        private LogicInfoObservable _infoObservable;
 
 
-        public Logic(ISettings clientSettings, string hs)
+        public Logic(ISettings clientSettings, LogicInfoObservable infoObservable)
         {
             _clientSettings = clientSettings;
             _client = new Client(_clientSettings);
@@ -38,7 +37,7 @@ namespace PokemonGo.RocketAPI.Logic
             _botStats = new BotStats();
             _navigation = new Navigation(_client);
             _pokevision = new PokeVisionUtil();
-            huntstats = hs;
+            _infoObservable = infoObservable;
         }
 
         public async Task Execute()
@@ -197,7 +196,7 @@ namespace PokemonGo.RocketAPI.Logic
             Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "_____________________________");
             Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Level: " + c.Level);
             Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "EXP Needed: " + expneeded);
-            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Current EXP: {curexp} ({Math.Round(curexppercent)}%)");
+            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Current EXP: {curexp} ({Math.Round(curexppercent, 2)}%)");
             Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "EXP to Level up: " + ((c.NextLevelXp) - (c.Experience)));
             Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "KM Walked: " + c.KmWalked);
             Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "PokeStops visited: " + c.PokeStopVisits);
@@ -629,12 +628,12 @@ namespace PokemonGo.RocketAPI.Logic
                     if (!_clientSettings.pokemonsToHold.Contains(duplicatePokemon.PokemonId))
                     {
 
-                        var bestPokemonOfType = await _inventory.GetHighestCPofType(duplicatePokemon);
-
                         if (duplicatePokemon.Cp > _clientSettings.DontTransferWithCPOver)
                         {
                             continue;
                         }
+
+                        var bestPokemonOfType = await _inventory.GetHighestCPofType(duplicatePokemon);
 
                         var transfer = await _client.TransferPokemon(duplicatePokemon.Id);
                         Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Transfer {StringUtils.getPokemonNameByLanguage(_clientSettings, duplicatePokemon.PokemonId)} with {duplicatePokemon.Cp} CP ({PokemonInfo.CalculatePokemonPerfection(duplicatePokemon)} % perfect) (Best: {bestPokemonOfType} CP)", LogLevel.Info);
