@@ -704,11 +704,11 @@ namespace PokemonGo.RocketAPI.Console
 
             // Pokemon List GUI
             btnreload.Text = "Recarregar";
-            btnEvolve.Text = "Evoluir (selecionados)";
+            btnEvolve.Text = "Evoluir";
             checkBoxreload.Text = "Recarregar a cada";
-            btnUpgrade.Text = "PowerUp (selecionados)";
-            btnFullPowerUp.Text = "FULL-PowerUp (selecionados)";
-            btnTransfer.Text = "Transferir (selecionados)";
+            btnUpgrade.Text = "PowerUp";
+            btnFullPowerUp.Text = "FULL-PowerUp";
+            btnTransfer.Text = "Transferir";
 
         }
     }
