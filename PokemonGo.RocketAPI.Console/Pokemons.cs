@@ -15,6 +15,7 @@ namespace PokemonGo.RocketAPI.Console
 {
     public partial class Pokemons : Form
     {
+        public static string languagestr2;
         private static Client client;
         private static GetPlayerResponse profile;
         private static GetInventoryResponse inventory;
@@ -35,7 +36,7 @@ namespace PokemonGo.RocketAPI.Console
             InitializeComponent();
             ClientSettings = new Settings();
         }
-
+        
         public static ISettings ClientSettings;
 
         private void Pokemons_Load(object sender, EventArgs e)
@@ -198,6 +199,7 @@ namespace PokemonGo.RocketAPI.Console
             btnTransfer.Enabled = enabled;
             btnUpgrade.Enabled = enabled;
             btnFullPowerUp.Enabled = enabled;
+            btnShowMap.Enabled = enabled;
             checkBoxreload.Enabled = enabled;
             reloadsecondstextbox.Enabled = enabled;
             PokemonListView.Enabled = enabled;
@@ -634,6 +636,60 @@ namespace PokemonGo.RocketAPI.Console
                 EnabledButton(true);
             }
         }
+
+        private void btnShowMap_Click(object sender, EventArgs e)
+        {
+            new LocationSelect(true).Show();
+        }
+
+        private void lang_en_btn2_Click(object sender, EventArgs e)
+        {
+            lang_de_btn_2.Enabled = true;
+            lang_spain_btn2.Enabled = true;
+            lang_en_btn2.Enabled = false;
+            languagestr2 = null;
+
+            // Pokemon List GUI
+            btnreload.Text = "Reload";
+            btnEvolve.Text = "Evolve";
+            checkBoxreload.Text = "Reload every";
+            btnUpgrade.Text = "PowerUp";
+            btnFullPowerUp.Text = "FULL-PowerUp";
+            btnTransfer.Text = "Transfer";
+        }
+
+        private void lang_de_btn_2_Click(object sender, EventArgs e)
+        {
+            lang_en_btn2.Enabled = true;
+            lang_spain_btn2.Enabled = true;
+            lang_de_btn_2.Enabled = false;
+            languagestr2 = "de";
+
+            // Pokemon List GUI
+            btnreload.Text = "Aktualisieren";
+            btnEvolve.Text = "Entwickeln";
+            checkBoxreload.Text = "Aktualisiere alle";
+            btnUpgrade.Text = "PowerUp";
+            btnFullPowerUp.Text = "FULL-PowerUp";
+            btnTransfer.Text = "Versenden";
+        }
+
+        private void lang_spain_btn2_Click(object sender, EventArgs e)
+        {
+            lang_en_btn2.Enabled = true;
+            lang_de_btn_2.Enabled = true;
+            lang_spain_btn2.Enabled = false;
+            languagestr2 = "spain";
+
+            // Pokemon List GUI
+            btnreload.Text = "Actualizar";
+            btnEvolve.Text = "Evolvucionar";
+            checkBoxreload.Text = "Actualizar cada";
+            btnUpgrade.Text = "Dar más poder";
+            btnFullPowerUp.Text = "Dar más poder [TOTAL]";
+            btnTransfer.Text = "Transferir";
+        }
+
     }
     public static class ControlExtensions
     {

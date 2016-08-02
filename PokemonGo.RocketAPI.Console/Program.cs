@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using PokemonGo.RocketAPI.GeneratedCode;
 using System.IO;
 using PokemonGo.RocketAPI.Logic.Utils;
+using System.ComponentModel;
 
 namespace PokemonGo.RocketAPI.Console
 {
@@ -28,6 +29,7 @@ namespace PokemonGo.RocketAPI.Console
         [STAThread]
         static void Main(string[] args)
         {
+			ParseConfig();
             if (args != null && args.Length > 0)
             {
                 foreach (string arg in args)
@@ -45,6 +47,7 @@ namespace PokemonGo.RocketAPI.Console
                     }
                 }
             }
+			
 
 
             if (args != null && args.Length > 0 && args[0].Contains("-nogui"))
@@ -269,15 +272,14 @@ namespace PokemonGo.RocketAPI.Console
                     {
                         Pokemons pokemonList = new Pokemons();
                         pokemonList.ShowDialog();
-                        //Application.Run(new Pokemons());
                     });
                 }
             }
 
-            //Application.Run(new Pokemons());
-
             Logger.SetLogger(new Logging.ConsoleLogger(LogLevel.Info));
-
+            
+            Globals.infoObservable.HandleNewHuntStats += SaveHuntStats;
+            
             Task.Run(() =>
             {
 
@@ -285,14 +287,14 @@ namespace PokemonGo.RocketAPI.Console
 
                 try
                 {
-                    new Logic.Logic(new Settings(), huntstats).Execute().Wait();
+                    new Logic.Logic(new Settings(), Globals.infoObservable).Execute().Wait();
                 }
                 catch (PtcOfflineException)
                 {
                     Logger.ColoredConsoleWrite(ConsoleColor.Red, "PTC Servers are probably down OR you credentials are wrong.", LogLevel.Error);
                     Logger.ColoredConsoleWrite(ConsoleColor.Red, "Trying again in 20 seconds...");
                     Thread.Sleep(20000);
-                    new Logic.Logic(new Settings(), huntstats).Execute().Wait();
+                    new Logic.Logic(new Settings(), Globals.infoObservable).Execute().Wait();
                 }
                 catch (AccountNotVerifiedException)
                 {
@@ -300,18 +302,58 @@ namespace PokemonGo.RocketAPI.Console
                     Thread.Sleep(10000);
                     Environment.Exit(0);
                 }
-
                 catch (Exception ex)
                 {
                     Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Unhandled exception: {ex}", LogLevel.Error);
                     Logger.Error("Restarting in 20 Seconds.");
                     Thread.Sleep(200000);
-                    new Logic.Logic(new Settings(), huntstats).Execute().Wait();
+                    new Logic.Logic(new Settings(), Globals.infoObservable).Execute().Wait();
                 }
             });
             System.Console.ReadLine();
         }
 
+        private static void SaveHuntStats(string newHuntStat)
+        {
+            File.AppendAllText(huntstats, newHuntStat);
+        }
+
+		private static void ParseConfig() {
+			string[] lines = System.IO.File.ReadAllLines(account);
+
+			Type _globals = typeof(Globals);
+			foreach(string line in lines) {
+				if(line.StartsWith(";") || !line.Contains("="))
+					continue;
+				string[] cv = line.Split('=');
+				// special cases...
+				switch(cv[0]) {
+					case "password":
+						cv[1] = line.Substring(9);
+						break;
+					case "accType":
+						if(cv[1] == "Google")
+							Globals.acc = Enums.AuthType.Google;
+						else
+							Globals.acc = Enums.AuthType.Ptc;
+						continue;
+				}
+				if(_globals.GetProperty(cv[0]) != null) {
+					
+					PropertyInfo _pi = _globals.GetProperty(cv[0]);
+					try {
+						var p = TypeDescriptor.GetConverter(_globals.GetProperty(cv[0]).GetType()).ConvertFromString(cv[1]);
+						_pi.SetValue(null, p, null);
+					}
+					catch(Exception e) {
+						throw e;
+					}
+						
+				}
+			}
+		}
+
+		
         public static void CheckVersion()
         {
             try
@@ -432,5 +474,7 @@ namespace PokemonGo.RocketAPI.Console
         public static bool pokeList = true;
         public static bool keepPokemonsThatCanEvolve = true;
         public static bool pokevision = false;
+
+        public static Logic.LogicInfoObservable infoObservable = new Logic.LogicInfoObservable();
     }
 }
