@@ -255,3 +255,4 @@ PokemonGo.RocketAPI.Console/App.config
 PokemonGo.RocketAPI.Console/UserSettings.settings
 PokemonGo.RocketAPI.Console/App.config
 .vs/Pokemon Go Rocket API/v14/.suo
+*.suo
