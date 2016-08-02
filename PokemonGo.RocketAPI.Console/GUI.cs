@@ -870,7 +870,7 @@ namespace PokemonGo.RocketAPI.Console
         {
             lang_de_btn.Enabled = true;
             lang_en_btn.Enabled = false;
-            lang_tr_btn.Enabled = false;
+            lang_tr_btn.Enabled = true;
             languagestr = null;
 
             // Main GUI
@@ -922,7 +922,7 @@ namespace PokemonGo.RocketAPI.Console
         {
             lang_en_btn.Enabled = true;
             lang_de_btn.Enabled = false;
-            lang_tr_btn.Enabled = false;
+            lang_tr_btn.Enabled = true;
             languagestr = "de";
             
             // Main GUI
@@ -971,9 +971,9 @@ namespace PokemonGo.RocketAPI.Console
         }
         private void lang_tr_btn_Click(object sender, EventArgs e)
         {
-            lang_en_btn.Enabled = false;
-            lang_de_btn.Enabled = false;
-            lang_tr_btn.Enabled = true;
+            lang_en_btn.Enabled = true;
+            lang_de_btn.Enabled = true;
+            lang_tr_btn.Enabled = false;
             languagestr = "tr";
 
             // Main GUI
