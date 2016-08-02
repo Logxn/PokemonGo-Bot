@@ -200,7 +200,7 @@ namespace PokemonGo.RocketAPI.Logic
             Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "PokeStops visited: " + c.PokeStopVisits);
             Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Stardust: " + profil.Profile.Currency.ToArray()[1].Amount);
             Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Pokemon to evolve: " + pokemonToEvolve);
-            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Pokemon: " + await _inventory.getPokemonCount() + "/" + profil.Profile.PokeStorage);
+            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Pokemon: " + await _inventory.getPokemonCount() + " + " + await _inventory.getEggsCount() + " Eggs /" + profil.Profile.PokeStorage);
             Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Items: " + await _inventory.getInventoryCount() + "/" + profil.Profile.ItemStorage);
             //if (dontspam >= 3)
             //{
