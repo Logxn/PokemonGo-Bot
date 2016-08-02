@@ -189,6 +189,12 @@
   <ItemGroup>
     <None Include="Resources\flagge-frankreich-flagge-rechteckig-40x60_2602.gif" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\tr.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ru.gif" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
