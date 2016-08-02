@@ -291,7 +291,7 @@ namespace PokemonGo.RocketAPI.Logic
 
 
             System.Console.Title = profil.Profile.Username + " lvl" + c.Level + "-(" + ((c.Experience - c.PrevLevelXp) -
-                StringUtils.getExpDiff(c.Level)) + "/" + ((c.NextLevelXp - c.PrevLevelXp) - StringUtils.getExpDiff(c.Level)) + "|" + Math.Round(curexppercent) + "%)| Stardust: " + profil.Profile.Currency.ToArray()[1].Amount + "| " + _botStats.ToString();
+                StringUtils.getExpDiff(c.Level)) + "/" + ((c.NextLevelXp - c.PrevLevelXp) - StringUtils.getExpDiff(c.Level)) + "|" + Math.Round(curexppercent, 2) + "%)| Stardust: " + profil.Profile.Currency.ToArray()[1].Amount + "| " + _botStats.ToString();
 
         }
 
@@ -379,6 +379,8 @@ namespace PokemonGo.RocketAPI.Logic
                 //        var upd = await _navigation.HumanLikeWalking(new GeoCoordinate(p._lat, p._lng), _clientSettings.WalkingSpeedInKilometerPerHour, ExecuteCatchAllNearbyPokemons);
                 //    }
                 //}
+
+                _infoObservable.PushNewGeoLocations(new GeoCoordinate(_client.CurrentLat, _client.CurrentLng));
 
                 var distance = LocationUtils.CalculateDistanceInMeters(_client.CurrentLat, _client.CurrentLng, pokeStop.Latitude, pokeStop.Longitude);
                 var fortInfo = await _client.GetFort(pokeStop.Id, pokeStop.Latitude, pokeStop.Longitude);
