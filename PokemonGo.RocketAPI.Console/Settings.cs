@@ -50,6 +50,7 @@ namespace PokemonGo.RocketAPI.Console
         public int navigation_option => Globals.navigation_option;
 
         public bool UseLuckyEgg => Globals.useluckyegg;//UserSettings.Default.UseLuckyEgg;
+
         public bool keepPokemonsThatCanEvolve => Globals.keepPokemonsThatCanEvolve;//UserSettings.Default.keepPokemonsThatCanEvolve;
 
         public bool pokevision => Globals.pokevision;
@@ -57,6 +58,8 @@ namespace PokemonGo.RocketAPI.Console
         public bool UserIncense => Globals.useincense;
 
         public bool Language => Globals.gerNames;//UserSettings.Default.Language;
+
+        public bool UseLuckyEggIfNotRunning => Globals.useLuckyEggIfNotRunning;
 
         List<PokemonId> ISettings.catchPokemonSkipList
         {

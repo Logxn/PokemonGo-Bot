@@ -483,6 +483,11 @@ namespace PokemonGo.RocketAPI.Logic
                     continue;
                 }
 
+                if(_clientSettings.UseLuckyEggIfNotRunning)
+                {
+                   await _inventory.UseLuckyEgg(_client);
+                }
+
                 var distance = LocationUtils.CalculateDistanceInMeters(_client.CurrentLat, _client.CurrentLng, pokemon.Latitude, pokemon.Longitude);
                 await Task.Delay(distance > 100 ? 1000 : 100);
                 var encounterPokemonResponse = await _client.EncounterPokemon(pokemon.EncounterId, pokemon.SpawnpointId);

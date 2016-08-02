@@ -437,6 +437,8 @@ namespace PokemonGo.RocketAPI.Console
         public static bool keepPokemonsThatCanEvolve = true;
         public static bool pokevision = false;
 
+        public static bool useLuckyEggIfNotRunning = false;
+
         public static Logic.LogicInfoObservable infoObservable = new Logic.LogicInfoObservable();
     }
 }
