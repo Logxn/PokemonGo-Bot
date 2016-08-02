@@ -46,6 +46,8 @@
             this.reloadtimer = new System.Windows.Forms.Timer(this.components);
             this.btnFullPowerUp = new System.Windows.Forms.Button();
             this.btnShowMap = new System.Windows.Forms.Button();
+            this.lang_en_btn2 = new System.Windows.Forms.Button();
+            this.lang_de_btn_2 = new System.Windows.Forms.Button();
             this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -54,7 +56,7 @@
             this.PokemonListView.AllowColumnReorder = true;
             this.PokemonListView.FullRowSelect = true;
             this.PokemonListView.GridLines = true;
-            this.PokemonListView.Location = new System.Drawing.Point(12, 12);
+            this.PokemonListView.Location = new System.Drawing.Point(12, 26);
             this.PokemonListView.Name = "PokemonListView";
             this.PokemonListView.Size = new System.Drawing.Size(687, 387);
             this.PokemonListView.TabIndex = 0;
@@ -63,7 +65,7 @@
             // 
             // btnreload
             // 
-            this.btnreload.Location = new System.Drawing.Point(12, 405);
+            this.btnreload.Location = new System.Drawing.Point(12, 419);
             this.btnreload.Name = "btnreload";
             this.btnreload.Size = new System.Drawing.Size(136, 23);
             this.btnreload.TabIndex = 1;
@@ -73,31 +75,31 @@
             // 
             // btnEvolve
             // 
-            this.btnEvolve.Location = new System.Drawing.Point(13, 434);
+            this.btnEvolve.Location = new System.Drawing.Point(13, 448);
             this.btnEvolve.Name = "btnEvolve";
             this.btnEvolve.Size = new System.Drawing.Size(135, 23);
             this.btnEvolve.TabIndex = 2;
-            this.btnEvolve.Text = "Evolve selected";
+            this.btnEvolve.Text = "Evolve (selected)";
             this.btnEvolve.UseVisualStyleBackColor = true;
             this.btnEvolve.Click += new System.EventHandler(this.btnEvolve_Click);
             // 
             // btnUpgrade
             // 
-            this.btnUpgrade.Location = new System.Drawing.Point(155, 434);
+            this.btnUpgrade.Location = new System.Drawing.Point(154, 448);
             this.btnUpgrade.Name = "btnUpgrade";
             this.btnUpgrade.Size = new System.Drawing.Size(135, 23);
             this.btnUpgrade.TabIndex = 3;
-            this.btnUpgrade.Text = "PowerUp selected";
+            this.btnUpgrade.Text = "PowerUp (selected)";
             this.btnUpgrade.UseVisualStyleBackColor = true;
             this.btnUpgrade.Click += new System.EventHandler(this.btnUpgrade_Click);
             // 
             // btnTransfer
             // 
-            this.btnTransfer.Location = new System.Drawing.Point(437, 434);
+            this.btnTransfer.Location = new System.Drawing.Point(462, 448);
             this.btnTransfer.Name = "btnTransfer";
             this.btnTransfer.Size = new System.Drawing.Size(135, 23);
             this.btnTransfer.TabIndex = 4;
-            this.btnTransfer.Text = "Transfer selected";
+            this.btnTransfer.Text = "Transfer (selected)";
             this.btnTransfer.UseVisualStyleBackColor = true;
             this.btnTransfer.Click += new System.EventHandler(this.btnTransfer_Click);
             // 
@@ -137,7 +139,7 @@
             // statusTexbox
             // 
             this.statusTexbox.Enabled = false;
-            this.statusTexbox.Location = new System.Drawing.Point(13, 463);
+            this.statusTexbox.Location = new System.Drawing.Point(12, 477);
             this.statusTexbox.Name = "statusTexbox";
             this.statusTexbox.Size = new System.Drawing.Size(686, 20);
             this.statusTexbox.TabIndex = 5;
@@ -145,7 +147,7 @@
             // checkBoxreload
             // 
             this.checkBoxreload.AutoSize = true;
-            this.checkBoxreload.Location = new System.Drawing.Point(166, 411);
+            this.checkBoxreload.Location = new System.Drawing.Point(155, 425);
             this.checkBoxreload.Name = "checkBoxreload";
             this.checkBoxreload.Size = new System.Drawing.Size(89, 17);
             this.checkBoxreload.TabIndex = 6;
@@ -155,7 +157,7 @@
             // 
             // reloadsecondstextbox
             // 
-            this.reloadsecondstextbox.Location = new System.Drawing.Point(250, 409);
+            this.reloadsecondstextbox.Location = new System.Drawing.Point(252, 422);
             this.reloadsecondstextbox.Name = "reloadsecondstextbox";
             this.reloadsecondstextbox.Size = new System.Drawing.Size(37, 20);
             this.reloadsecondstextbox.TabIndex = 7;
@@ -164,7 +166,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(293, 415);
+            this.label2.Location = new System.Drawing.Point(292, 429);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(12, 13);
             this.label2.TabIndex = 9;
@@ -177,29 +179,56 @@
             // 
             // btnFullPowerUp
             // 
-            this.btnFullPowerUp.Location = new System.Drawing.Point(296, 434);
+            this.btnFullPowerUp.Location = new System.Drawing.Point(295, 448);
             this.btnFullPowerUp.Name = "btnFullPowerUp";
-            this.btnFullPowerUp.Size = new System.Drawing.Size(135, 23);
+            this.btnFullPowerUp.Size = new System.Drawing.Size(161, 23);
             this.btnFullPowerUp.TabIndex = 11;
-            this.btnFullPowerUp.Text = "FULL-PowerUp selected";
+            this.btnFullPowerUp.Text = "FULL-PowerUp (selected)";
             this.btnFullPowerUp.UseVisualStyleBackColor = true;
             this.btnFullPowerUp.Click += new System.EventHandler(this.btnFullPowerUp_Click);
             // 
             // btnShowMap
             // 
             this.btnShowMap.Image = global::PokemonGo.RocketAPI.Console.Properties.Resources.map;
-            this.btnShowMap.Location = new System.Drawing.Point(641, 405);
+            this.btnShowMap.Location = new System.Drawing.Point(641, 419);
             this.btnShowMap.Name = "btnShowMap";
             this.btnShowMap.Size = new System.Drawing.Size(58, 52);
             this.btnShowMap.TabIndex = 12;
             this.btnShowMap.UseVisualStyleBackColor = true;
             this.btnShowMap.Click += new System.EventHandler(this.btnShowMap_Click);
             // 
+            // lang_en_btn2
+            // 
+            this.lang_en_btn2.BackgroundImage = global::PokemonGo.RocketAPI.Console.Properties.Resources.en;
+            this.lang_en_btn2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.lang_en_btn2.Enabled = false;
+            this.lang_en_btn2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.lang_en_btn2.Location = new System.Drawing.Point(13, 5);
+            this.lang_en_btn2.Name = "lang_en_btn2";
+            this.lang_en_btn2.Size = new System.Drawing.Size(24, 15);
+            this.lang_en_btn2.TabIndex = 13;
+            this.lang_en_btn2.UseVisualStyleBackColor = true;
+            this.lang_en_btn2.Click += new System.EventHandler(this.lang_en_btn2_Click);
+            // 
+            // lang_de_btn_2
+            // 
+            this.lang_de_btn_2.BackgroundImage = global::PokemonGo.RocketAPI.Console.Properties.Resources.de;
+            this.lang_de_btn_2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.lang_de_btn_2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.lang_de_btn_2.Location = new System.Drawing.Point(43, 5);
+            this.lang_de_btn_2.Name = "lang_de_btn_2";
+            this.lang_de_btn_2.Size = new System.Drawing.Size(24, 15);
+            this.lang_de_btn_2.TabIndex = 14;
+            this.lang_de_btn_2.UseVisualStyleBackColor = true;
+            this.lang_de_btn_2.Click += new System.EventHandler(this.lang_de_btn_2_Click);
+            // 
             // Pokemons
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(711, 488);
+            this.ClientSize = new System.Drawing.Size(711, 509);
+            this.Controls.Add(this.lang_de_btn_2);
+            this.Controls.Add(this.lang_en_btn2);
             this.Controls.Add(this.btnShowMap);
             this.Controls.Add(this.btnFullPowerUp);
             this.Controls.Add(this.label2);
@@ -241,5 +270,7 @@
         private System.Windows.Forms.Timer reloadtimer;
         private System.Windows.Forms.Button btnFullPowerUp;
         private System.Windows.Forms.Button btnShowMap;
+        private System.Windows.Forms.Button lang_en_btn2;
+        private System.Windows.Forms.Button lang_de_btn_2;
     }
 }

@@ -15,6 +15,7 @@ namespace PokemonGo.RocketAPI.Console
 {
     public partial class Pokemons : Form
     {
+        public static string languagestr2;
         private static Client client;
         private static GetPlayerResponse profile;
         private static GetInventoryResponse inventory;
@@ -639,6 +640,36 @@ namespace PokemonGo.RocketAPI.Console
         private void btnShowMap_Click(object sender, EventArgs e)
         {
             new LocationSelect(true).Show();
+        }
+
+        private void lang_en_btn2_Click(object sender, EventArgs e)
+        {
+            lang_de_btn_2.Enabled = true;
+            lang_en_btn2.Enabled = false;
+            languagestr2 = null;
+
+            // Pokemon List GUI
+            btnreload.Text = "Reload";
+            btnEvolve.Text = "Evolve (selected)";
+            checkBoxreload.Text = "Reload every";
+            btnUpgrade.Text = "PowerUp (selected)";
+            btnFullPowerUp.Text = "FULL-PowerUp (selected)";
+            btnTransfer.Text = "Transfer (selected)";
+        }
+
+        private void lang_de_btn_2_Click(object sender, EventArgs e)
+        {
+            lang_en_btn2.Enabled = true;
+            lang_de_btn_2.Enabled = false;
+            languagestr2 = "de";
+
+            // Pokemon List GUI
+            btnreload.Text = "Aktualisieren";
+            btnEvolve.Text = "Entwickeln (gewählte)";
+            checkBoxreload.Text = "Aktualisiere alle";
+            btnUpgrade.Text = "PowerUp (gewählte)";
+            btnFullPowerUp.Text = "FULL-PowerUp (gewählte)";
+            btnTransfer.Text = "Versenden (gewählte)";
         }
     }
     public static class ControlExtensions
