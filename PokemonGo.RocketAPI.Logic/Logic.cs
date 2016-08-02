@@ -210,7 +210,7 @@ namespace PokemonGo.RocketAPI.Logic
 
             //    if (data != null)
             //    {
-            //        Logger.ColoredConsoleWrite(ConsoleColor.White, "");
+            //        Logger.ColoredConsoleWrite(ConsoleColor.White, string.Empty);
             //        Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "PokemonGO Server Status:");
             //        if (data.go_online)
             //        {
@@ -334,16 +334,14 @@ namespace PokemonGo.RocketAPI.Logic
             }
             else
             {
-                Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "We found " + pokeStops.Count() + " PokeStops near.");
+                Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "We found " + pokeStops.Length + " PokeStops near.");
             }
 
             foreach (var pokeStop in pokeStops)
             {
-                // replace this true with settings variable!!
                 await UseIncense();
 
                 await ExecuteCatchAllNearbyPokemons();
-
 
                 if (count >= 3)
                 {
@@ -386,27 +384,29 @@ namespace PokemonGo.RocketAPI.Logic
                 {
                     failed_softban = 0;
                     _botStats.AddExperience(fortSearch.ExperienceAwarded);
-                    var egg = "";
+
+                    string egg;
                     if (fortSearch.PokemonDataEgg != null)
                     {
                         egg = ", Egg " + fortSearch.PokemonDataEgg.EggKmWalkedTarget;
                     }
                     else
                     {
-                        egg = "";
+                        egg = string.Empty;
                     }
-                    var gems = "";
+
+                    string gems;
                     if (fortSearch.GemsAwarded > 0)
                     {
                         gems = ", Gems:" + fortSearch.GemsAwarded;
                     }
                     else
                     {
-                        gems = "";
+                        gems = string.Empty;
                     }
 
-                    var items = "";
-                    if (StringUtils.GetSummedFriendlyNameOfItemAwardList(fortSearch.ItemsAwarded) != "")
+                    string items;
+                    if (StringUtils.GetSummedFriendlyNameOfItemAwardList(fortSearch.ItemsAwarded) != string.Empty)
                     {
                         items = StringUtils.GetSummedFriendlyNameOfItemAwardList(fortSearch.ItemsAwarded);
                     }
@@ -494,21 +494,21 @@ namespace PokemonGo.RocketAPI.Logic
                         Logger.ColoredConsoleWrite(ConsoleColor.Red, $"No Pokeballs! - missed {pokemon.PokemonId} CP {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} IV {Math.Round(encounterPokemonResponse.WildPokemon.PokemonData.CalculateIV())}%");
                         return;
                     }
-                    var inventoryBerries = await _inventory.GetItems();
+                    var inventoryBerries = (await _inventory.GetItems()).ToList();
                     var probability = encounterPokemonResponse?.CaptureProbability?.CaptureProbability_?.FirstOrDefault();
                     CatchPokemonResponse caughtPokemonResponse;
                     Logger.ColoredConsoleWrite(ConsoleColor.Magenta, $"Encountered {StringUtils.getPokemonNameByLanguage(_clientSettings, pokemon.PokemonId)} CP {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp}  IV {Math.Round(encounterPokemonResponse.WildPokemon.PokemonData.CalculateIV())}% Probability {Math.Round(probability.Value * 100)}%");
                     do
                     {
-                        if (probability.HasValue && probability.Value < 0.35)
+                        if (probability.Value < 0.35)
                         {
                             var bestBerry = await GetBestBerry(encounterPokemonResponse?.WildPokemon);
-                            var berries = inventoryBerries.Where(p => (ItemId)p.Item_ == bestBerry).FirstOrDefault();
+                            var berries = inventoryBerries.FirstOrDefault(p => (ItemId)p.Item_ == bestBerry);
                             if (bestBerry != ItemId.ItemUnknown)
                             {
                                 //Throw berry if we can
                                 var useRaspberry = await _client.UseCaptureItem(pokemon.EncounterId, bestBerry, pokemon.SpawnpointId);
-                                Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Thrown {bestBerry}. Remaining: {berries.Count}.", LogLevel.Info);
+                                Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Thrown {bestBerry}. Remaining: {berries?.Count}.", LogLevel.Info);
                                 await RandomHelper.RandomDelay(50, 200);
                             }
                         }
