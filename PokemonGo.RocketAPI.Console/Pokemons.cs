@@ -187,6 +187,7 @@ namespace PokemonGo.RocketAPI.Console
             catch (Exception e)
             {
                 Logger.ColoredConsoleWrite(ConsoleColor.Red, "Error reloading Pokemon list: " + e.Message);
+                await Task.Delay(500); // Lets the API make a little pause, so we dont get blocked
                 Execute();
             }
         }
@@ -647,6 +648,7 @@ namespace PokemonGo.RocketAPI.Console
             lang_de_btn_2.Enabled = true;
             lang_spain_btn2.Enabled = true;
             lang_en_btn2.Enabled = false;
+            lang_ptBR_btn2.Enabled = true;
             languagestr2 = null;
 
             // Pokemon List GUI
@@ -663,6 +665,7 @@ namespace PokemonGo.RocketAPI.Console
             lang_en_btn2.Enabled = true;
             lang_spain_btn2.Enabled = true;
             lang_de_btn_2.Enabled = false;
+            lang_ptBR_btn2.Enabled = true;
             languagestr2 = "de";
 
             // Pokemon List GUI
@@ -679,17 +682,35 @@ namespace PokemonGo.RocketAPI.Console
             lang_en_btn2.Enabled = true;
             lang_de_btn_2.Enabled = true;
             lang_spain_btn2.Enabled = false;
+            lang_ptBR_btn2.Enabled = true;
             languagestr2 = "spain";
 
             // Pokemon List GUI
             btnreload.Text = "Actualizar";
-            btnEvolve.Text = "Evolvucionar";
+            btnEvolve.Text = "Evolucionar";
             checkBoxreload.Text = "Actualizar cada";
             btnUpgrade.Text = "Dar más poder";
             btnFullPowerUp.Text = "Dar más poder [TOTAL]";
             btnTransfer.Text = "Transferir";
         }
 
+        private void lang_ptBR_btn2_Click(object sender, EventArgs e)
+        {
+            lang_en_btn2.Enabled = true;
+            lang_de_btn_2.Enabled = true;
+            lang_spain_btn2.Enabled = true;
+            lang_ptBR_btn2.Enabled = false;
+            languagestr2 = "ptBR";
+
+            // Pokemon List GUI
+            btnreload.Text = "Recarregar";
+            btnEvolve.Text = "Evoluir (selecionados)";
+            checkBoxreload.Text = "Recarregar a cada";
+            btnUpgrade.Text = "PowerUp (selecionados)";
+            btnFullPowerUp.Text = "FULL-PowerUp (selecionados)";
+            btnTransfer.Text = "Transferir (selecionados)";
+
+        }
     }
     public static class ControlExtensions
     {
