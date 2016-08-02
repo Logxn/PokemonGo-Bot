@@ -15,7 +15,7 @@ namespace PokemonGo.RocketAPI.Console
 {
     public partial class GUI : Form
     {
-        public static string languagestr;
+        //public static string languagestr;
         public static NumberStyles cords = NumberStyles.AllowDecimalPoint | NumberStyles.AllowLeadingSign;
         public static int[] evolveBlacklist = {
             3, 6, 9, 12, 15, 18, 20, 22, 24, 26, 28, 31, 34, 36, 38, 40, 42, 45, 47, 49, 51, 53, 55, 57, 59, 62, 65, 68, 71, 73, 76, 78, 80, 82, 83, 85, 87, 89, 91, 94, 95, 97, 99, 101, 103, 105, 106, 107, 108, 110, 112, 113, 114, 115, 117, 119, 121, 122, 123, 124, 125, 126, 127, 128, 130, 131, 132, 134, 135, 136, 137, 139, 141, 142, 143, 144, 145, 146, 149, 150, 151
@@ -936,7 +936,7 @@ namespace PokemonGo.RocketAPI.Console
             lang_en_btn.Enabled = false;
             lang_ptBR_btn.Enabled = true;
             lang_tr_btn.Enabled = true;
-            languagestr = null;
+            //languagestr = null;
 
             Translation.TranslationHandler.selectLangauge(null);
 
@@ -1203,6 +1203,19 @@ namespace PokemonGo.RocketAPI.Console
             checkBox3.Text = "Pokemonlari sekeri yetiyorsa evolve et";
             checkBox10.Text = "Pokemon listesini aktif et";
             checkBox11.Text = "Evolve edilebilen pokemonlari tut";*/
+            load_lang();
+        }
+
+        private void lang_ru_btn_Click(object sender, EventArgs e)
+        {
+            lang_de_btn.Enabled = true;
+            lang_en_btn.Enabled = true;
+            lang_spain_btn.Enabled = true;
+            lang_ptBR_btn.Enabled = true;
+            lang_tr_btn.Enabled = true;
+            lang_ru_btn.Enabled = false;
+            Translation.TranslationHandler.selectLangauge("ru");
+
             load_lang();
         }
     }

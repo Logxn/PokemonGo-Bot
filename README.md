@@ -25,3 +25,4 @@
   - Portuguese: https://github.com/m-a-r-c-e-l-o
   - Turkish: https://github.com/HaydarOzturk
   - Spanish: max783
+  - Russian: Nedovik

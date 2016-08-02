@@ -119,6 +119,7 @@
             this.tabGeneral = new System.Windows.Forms.TabPage();
             this.tabPokemon = new System.Windows.Forms.TabPage();
             this.tabItems = new System.Windows.Forms.TabPage();
+            this.lang_ru_btn = new System.Windows.Forms.Button();
             this.lang_tr_btn = new System.Windows.Forms.Button();
             this.lang_ptBR_btn = new System.Windows.Forms.Button();
             this.lang_spain_btn = new System.Windows.Forms.Button();
@@ -382,7 +383,7 @@
             // label29
             // 
             this.label29.AutoSize = true;
-            this.label29.Location = new System.Drawing.Point(415, 44);
+            this.label29.Location = new System.Drawing.Point(500, 44);
             this.label29.Name = "label29";
             this.label29.Size = new System.Drawing.Size(15, 13);
             this.label29.TabIndex = 8;
@@ -390,7 +391,7 @@
             // 
             // textBox24
             // 
-            this.textBox24.Location = new System.Drawing.Point(356, 41);
+            this.textBox24.Location = new System.Drawing.Point(444, 41);
             this.textBox24.Name = "textBox24";
             this.textBox24.Size = new System.Drawing.Size(53, 20);
             this.textBox24.TabIndex = 11;
@@ -399,7 +400,7 @@
             // label28
             // 
             this.label28.AutoSize = true;
-            this.label28.Location = new System.Drawing.Point(241, 44);
+            this.label28.Location = new System.Drawing.Point(254, 44);
             this.label28.Name = "label28";
             this.label28.Size = new System.Drawing.Size(96, 13);
             this.label28.TabIndex = 6;
@@ -407,7 +408,7 @@
             // 
             // textBox9
             // 
-            this.textBox9.Location = new System.Drawing.Point(356, 17);
+            this.textBox9.Location = new System.Drawing.Point(444, 18);
             this.textBox9.Name = "textBox9";
             this.textBox9.Size = new System.Drawing.Size(71, 20);
             this.textBox9.TabIndex = 10;
@@ -416,7 +417,7 @@
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(241, 21);
+            this.label12.Location = new System.Drawing.Point(254, 21);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(100, 13);
             this.label12.TabIndex = 4;
@@ -1070,6 +1071,18 @@
             this.tabItems.Text = "Items";
             this.tabItems.UseVisualStyleBackColor = true;
             // 
+            // lang_ru_btn
+            // 
+            this.lang_ru_btn.BackgroundImage = global::PokemonGo.RocketAPI.Console.Properties.Resources.ru;
+            this.lang_ru_btn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.lang_ru_btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.lang_ru_btn.Location = new System.Drawing.Point(162, 79);
+            this.lang_ru_btn.Name = "lang_ru_btn";
+            this.lang_ru_btn.Size = new System.Drawing.Size(24, 15);
+            this.lang_ru_btn.TabIndex = 43;
+            this.lang_ru_btn.UseVisualStyleBackColor = true;
+            this.lang_ru_btn.Click += new System.EventHandler(this.lang_ru_btn_Click);
+            // 
             // lang_tr_btn
             // 
             this.lang_tr_btn.BackgroundImage = global::PokemonGo.RocketAPI.Console.Properties.Resources.tr;
@@ -1159,6 +1172,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
             this.ClientSize = new System.Drawing.Size(576, 605);
+            this.Controls.Add(this.lang_ru_btn);
             this.Controls.Add(this.lang_tr_btn);
             this.Controls.Add(this.lang_ptBR_btn);
             this.Controls.Add(this.lang_spain_btn);
@@ -1306,6 +1320,7 @@
         private System.Windows.Forms.Button lang_spain_btn;
         private System.Windows.Forms.Button lang_ptBR_btn;
         private System.Windows.Forms.Button lang_tr_btn;
+        private System.Windows.Forms.Button lang_ru_btn;
     }
 }
 
