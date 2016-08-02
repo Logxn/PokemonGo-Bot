@@ -64,37 +64,29 @@ namespace PokemonGo.RocketAPI.Logic
                 sourceLocation = new GeoCoordinate(_client.CurrentLat, _client.CurrentLng);
                 var currentDistanceToTarget = LocationUtils.CalculateDistanceInMeters(sourceLocation, targetLocation);
 
-                if (currentDistanceToTarget < 30)
+                if (currentDistanceToTarget < 40)
                 {
                     if (speedInMetersPerSecond > SpeedDownTo)
                     {
-                        Logger.ColoredConsoleWrite(ConsoleColor.DarkCyan, $"We are within 30 meters of the target. Speeding down to ~10 km/h to not pass the target.");
+                        Logger.ColoredConsoleWrite(ConsoleColor.DarkCyan, $"We are within 40 meters of the target. Speeding down to ~10 km/h to not pass the target.");
                         speedInMetersPerSecond = SpeedDownTo;
                     }
                 }
 
-                nextWaypointDistance = Math.Min(currentDistanceToTarget,
-                    millisecondsUntilGetUpdatePlayerLocationResponse / 1000 * speedInMetersPerSecond);
+                nextWaypointDistance = Math.Min(currentDistanceToTarget, millisecondsUntilGetUpdatePlayerLocationResponse / 1000 * speedInMetersPerSecond);
                 nextWaypointBearing = LocationUtils.DegreeBearing(sourceLocation, targetLocation);
                 waypoint = LocationUtils.CreateWaypoint(sourceLocation, nextWaypointDistance, nextWaypointBearing);
 
                 requestSendDateTime = DateTime.Now;
+
                 result =
                     await
                         _client.UpdatePlayerLocation(waypoint.Latitude, waypoint.Longitude,
                             _client.getSettingHandle().DefaultAltitude);
+                if (functionExecutedWhileWalking != null)
+                    await functionExecutedWhileWalking();// look for pokemon 
 
-                // Look for pokemon's nearby while walking to destination.
-                var millisecondsSinceLocatePokemonWhileWalking = (DateTime.Now - locatePokemonWhileWalkingDateTime).TotalMilliseconds;
-                if (functionExecutedWhileWalking != null && (millisecondsSinceLocatePokemonWhileWalking >= 500))
-                {
-                    //var timeInSeconds = millisecondsSinceLocatePokemonWhileWalking / 1000;
-                    //Logger.ColoredConsoleWrite(ConsoleColor.White, $"Searched for pokemons! Last request was done {timeInSeconds} seconds ago");
-                    locatePokemonWhileWalkingDateTime = DateTime.Now;
-                    await functionExecutedWhileWalking();
-                }
-
-                await Task.Delay(Math.Min((int)(distanceToTarget / speedInMetersPerSecond * 1000), 3000));
+                await RandomHelper.RandomDelay(500, 600);
             } while (LocationUtils.CalculateDistanceInMeters(sourceLocation, targetLocation) >= 30);
             return result;
         }
