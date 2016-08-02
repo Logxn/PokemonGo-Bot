@@ -642,9 +642,9 @@ namespace PokemonGo.RocketAPI.Logic
             }
         }
 
-        private async Task RecycleItems()
+        private async Task RecycleItems(bool forcerefresh = false)
         {
-            var items = await _inventory.GetItemsToRecycle(_clientSettings);
+            var items = await _inventory.GetItemsToRecycle(_clientSettings, forcerefresh);
 
             foreach (var item in items)
             {
@@ -658,7 +658,10 @@ namespace PokemonGo.RocketAPI.Logic
         {
             var pokemonCp = pokemon?.PokemonData?.Cp;
 
+
+            await RecycleItems(true);
             var items = await _inventory.GetItemsNonCache();
+
             var balls = items.Where(i => ((MiscEnums.Item)i.Item_ == MiscEnums.Item.ITEM_POKE_BALL
                                       || (MiscEnums.Item)i.Item_ == MiscEnums.Item.ITEM_GREAT_BALL
                                       || (MiscEnums.Item)i.Item_ == MiscEnums.Item.ITEM_ULTRA_BALL

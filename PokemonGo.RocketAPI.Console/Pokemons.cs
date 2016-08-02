@@ -214,8 +214,7 @@ namespace PokemonGo.RocketAPI.Console
                 Directory.CreateDirectory(Sprites);
             if (!File.Exists(location))
             {
-                WebClient wc = new WebClient();
-                wc.Headers.Add("user-agent", "ar1i");
+                WebClient wc = new WebClient(); 
                 wc.DownloadFile("http://pokemon-go.ar1i.xyz/img/pokemons/" + pokemonId + ".png", @location);
             }
             PictureBox picbox = new PictureBox();
