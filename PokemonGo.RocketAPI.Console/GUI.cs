@@ -7,6 +7,7 @@ using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -25,7 +26,6 @@ namespace PokemonGo.RocketAPI.Console
         public GUI()
         {
             InitializeComponent();
-            Translation.TranslationHandler.init();
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
@@ -72,7 +72,24 @@ namespace PokemonGo.RocketAPI.Console
         private void GUI_Load(object sender, EventArgs e)
         {
             // Create missing Files
-            System.IO.Directory.CreateDirectory(Program.path); 
+            System.IO.Directory.CreateDirectory(Program.path);
+            System.IO.Directory.CreateDirectory(Program.path_translation);
+
+
+            // Load Languages Files always UP2Date
+   
+            WebClient client = new WebClient();
+            client.Headers.Add("user-agent", "ar1i");
+            string translations = client.DownloadString("http://pokemon-go.ar1i.xyz/lang/get.php");
+            string[] transArray = translations.Replace("\r", "").Split('\n');
+            for (int ijik = 0; ijik < transArray.Count(); ijik++)
+            {
+                client.DownloadFile("http://pokemon-go.ar1i.xyz/lang/" + transArray[ijik], Program.path_translation + "\\" + transArray[ijik]);
+            }
+
+
+
+            Translation.TranslationHandler.init();
 
             // Version Infoooo
             groupBox9.Text = "Your Version: " + Assembly.GetExecutingAssembly().GetName().Version + " | Newest: " + Program.getNewestVersion();
@@ -936,53 +953,9 @@ namespace PokemonGo.RocketAPI.Console
             lang_en_btn.Enabled = false;
             lang_ptBR_btn.Enabled = true;
             lang_tr_btn.Enabled = true;
+            lang_ru_btn.Enabled = true;
             languagestr = null;
-
             Translation.TranslationHandler.selectLangauge(null);
-
-            // Main GUI
-            /*label1.Text = "Account Type:";
-            label2.Text = "Username:";
-            label3.Text = "Password:";
-            groupBox2.Text = "Location Settings";
-            label7.Text = "Speed:";
-            label9.Text = "Move Radius:";
-            label10.Text = "meters";
-            checkBox1.Text = "Start from default location";
-            groupBox3.Text = "Bot Settings";
-            checkBox2.Text = "Auto transfer double Pokemons";
-            label11.Text = "Max. duplicate Pokemons";
-            label12.Text = "Max. CP to transfer:";
-            label28.Text = "Max. IV to transfer:";
-            groupBox8.Text = "Telegram Settings";
-            label30.Text = "This Bot is absolutely free and open source! Chargeback if you've paid for it!";
-            label32.Text = "Whenever you encounter something related to 'Pokecrot', tell them the Bot is stolen!";
-            label13.Text = "Max. Pokeballs:";
-            label14.Text = "Max. GreatBalls:";
-            label15.Text = "Max. UltraBalls:";
-            label26.Text = "Max. MasterBalls:";
-            label16.Text = "Max. Revives:";
-            label27.Text = "Max. TopRevives:";
-            label17.Text = "Max. Potions:";
-            label18.Text = "Max. SuperPotions:";
-            label19.Text = "Max. HyperPotions:";
-            label25.Text = "Max. TopPotions:";
-            label20.Text = "Max. RazzBerrys:";
-            label31.Text = "Total Count:";
-            groupBox5.Text = "Pokemons - Not to transfer";
-            checkBox4.Text = "Select all";
-            groupBox6.Text = "Pokemons - Not to catch";
-            checkBox5.Text = "Select all";
-            groupBox7.Text = "Pokemons - To envolve";
-            checkBox6.Text = "Select all";
-            button1.Text = "Save Configuration / Start Bot";
-            groupBox10.Text = "Other Settings";
-            checkBox7.Text = "Use LuckyEgg at Evolve";
-            checkBox8.Text = "German Pokemon names";
-            checkBox9.Text = "Use Incense every 30min";
-            checkBox3.Text = "Evolve Pokemons if enough candy";
-            checkBox10.Text = "Enable Pokemon List GUI";
-            checkBox11.Text = "Keep Pokemons which can be evolved";*/
             load_lang();
         }
 
@@ -993,51 +966,8 @@ namespace PokemonGo.RocketAPI.Console
             lang_de_btn.Enabled = false;
             lang_ptBR_btn.Enabled = true;
             lang_tr_btn.Enabled = true;
+            lang_ru_btn.Enabled = true;
             Translation.TranslationHandler.selectLangauge("de");
-
-            // Main GUI
-            /*label1.Text = "Account Typ:";
-            label2.Text = "Benutzername:";
-            label3.Text = "Passwort:";
-            groupBox2.Text = "Standort Einstellungen";
-            label7.Text = "Speed:";
-            label9.Text = "Radius:";
-            label10.Text = "Meter";
-            checkBox1.Text = "Starte von Standardposition";
-            groupBox3.Text = "Bot Einstellungen";
-            checkBox2.Text = "Doppelte Pokemon automatisch wegschicken";
-            label11.Text = "Max. doppelte Pokemon";
-            label12.Text = "Max. CP zu senden:";
-            label28.Text = "Max. IV zu senden:";
-            groupBox8.Text = "Telegram Einstellungen";
-            label30.Text = "Dieser Bot ist kostenlos und Open-Source! Fordere ggf. Geld zurück!";
-            label32.Text = "Wenn du den Namen 'Pokecrot' siehst, teile allen mit, dass dieser gestohlen ist.";
-            label13.Text = "Max. Pokebälle:";
-            label14.Text = "Max. Superbälle:";
-            label15.Text = "Max. Ultrabälle:";
-            label26.Text = "Max. Meisterbälles:";
-            label16.Text = "Max. Beleber:";
-            label27.Text = "Max. Top-Beleber:";
-            label17.Text = "Max. Tränke:";
-            label18.Text = "Max. Supertränke:";
-            label19.Text = "Max. Hypertränke:";
-            label25.Text = "Max. Top-Tränke:";
-            label20.Text = "Max. Beeren:";
-            label31.Text = "Gesamtzahl:";
-            groupBox5.Text = "Pokemon - Nicht zu Versenden";
-            checkBox4.Text = "Alle auswählen";
-            groupBox6.Text = "Pokemons - Nicht zu Fangen";
-            checkBox5.Text = "Alle auswählen";
-            groupBox7.Text = "Pokemons - Zu entwickeln";
-            checkBox6.Text = "Alle auswählen";
-            button1.Text = "Konfiguration Speichern / Bot starten";
-            groupBox10.Text = "Sonstige Einstellungen";
-            checkBox7.Text = "LuckyEgg bei Entwicklung";
-            checkBox8.Text = "Deutsche Pokemon Namen";
-            checkBox9.Text = "Verwende Rauch alle 30min";
-            checkBox3.Text = "Pokemon entwickeln wenn möglich";
-            checkBox10.Text = "Pokemon List GUI anzeigen";
-            checkBox11.Text = "Behalte entwickelbare Pokemon";*/
             load_lang();
         }
 
@@ -1048,51 +978,9 @@ namespace PokemonGo.RocketAPI.Console
             lang_spain_btn.Enabled = false;
             lang_ptBR_btn.Enabled = true;
             lang_tr_btn.Enabled = true;
+            lang_ru_btn.Enabled = true;
             Translation.TranslationHandler.selectLangauge("spain");
-
-            // Main GUI
-            /*label1.Text = "Tipo de cuenta:";
-            label2.Text = "Usuario:";
-            label3.Text = "Clave:";
-            groupBox2.Text = "Configuración de Ubicación";
-            label7.Text = "Velocidad:";
-            label9.Text = "Radio:";
-            label10.Text = "metros";
-            checkBox1.Text = "Empezar en la ubicación predeterminada";
-            groupBox3.Text = "Opciones del Bot";
-            checkBox2.Text = "Auto transferir Pokemones duplicados";
-            label11.Text = "Max. Pokemones duplicados";
-            label12.Text = "Max. CP para enviar:";
-            label28.Text = "Max. IV para enviar:";
-            groupBox8.Text = "Opciones de Telegram";
-            label30.Text = "Este Bot es absolutamente GRATIS y código abierto!";
-            label32.Text = "Si encontrás algo relacionado a 'Pokecrot', avisá que el bot es ROBADO!!";
-            label13.Text = "Max. Pokebolas:";
-            label14.Text = "Max. Superbolas:";
-            label15.Text = "Max. UltraBolas:";
-            label26.Text = "Max. MasterBolas:";
-            label16.Text = "Max. Revivir:";
-            label27.Text = "Max. Revivir total:";
-            label17.Text = "Max. Pociones:";
-            label18.Text = "Max. Super Pociones:";
-            label19.Text = "Max. Hiper Pociones:";
-            label25.Text = "Max. Pociones totales";
-            label20.Text = "Max. Frutas:";
-            label31.Text = "Suma Total:";
-            groupBox5.Text = "Pokemons - No transferir";
-            checkBox4.Text = "Seleccionar todo";
-            groupBox6.Text = "Pokemons - No atrapar";
-            checkBox5.Text = "Seleccionar todo";
-            groupBox7.Text = "Pokemons - Evolucionar";
-            checkBox6.Text = "Seleccionar todo";
-            button1.Text = "Guardar configuración / Iniciar BOT";
-            groupBox10.Text = "Otras opciones";
-            checkBox7.Text = "Usar Huevo de la Suerte al evolucionar";
-            checkBox8.Text = "Nombres alemanes de Pokemones";
-            checkBox9.Text = "Usar Incienso cada 30min";
-            checkBox3.Text = "Evolucionar Pokemones si es posible";
-            checkBox10.Text = "Habilitar Lista de Opciones Pokemon";
-            checkBox11.Text = "Mantener Pokemon evolucionables";*/
+            
             load_lang();
         }
 
@@ -1103,51 +991,8 @@ namespace PokemonGo.RocketAPI.Console
             lang_spain_btn.Enabled = true;
             lang_ptBR_btn.Enabled = false;
             lang_tr_btn.Enabled = true;
+            lang_ru_btn.Enabled = true;
             Translation.TranslationHandler.selectLangauge("ptBR");
-
-            // Main GUI
-            /*label1.Text = "Tipo de Conta:";
-            label2.Text = "Usuário:";
-            label3.Text = "Senha:";
-            groupBox2.Text = "Configurações de Localização";
-            label7.Text = "Velocidade:";
-            label9.Text = "Radius:";
-            label10.Text = "metros";
-            checkBox1.Text = "Iniciar pela localização padrão";
-            groupBox3.Text = "Configurações do Bot";
-            checkBox2.Text = "Transferir Pokémons duplicados";
-            label11.Text = "Max. Pokémons duplicados";
-            label12.Text = "Max. CP para transferir:";
-            label28.Text = "Max. IV para transferir:";
-            groupBox8.Text = "Configurações Telegram";
-            label30.Text = "Este Bot é gratuito e open source! Peça reembolso caso tenha pago por ele!";
-            label32.Text = "Sempre que você encontrar algo relacionado a 'Pokecrot', diga que é um plágio!";
-            label13.Text = "Max. PokéBolas:";
-            label14.Text = "Max. GreatBalls:";
-            label15.Text = "Max. UltraBalls:";
-            label26.Text = "Max. MasterBalls:";
-            label16.Text = "Max. Revives:";
-            label27.Text = "Max. TopRevives:";
-            label17.Text = "Max. Potions:";
-            label18.Text = "Max. SuperPotions:";
-            label19.Text = "Max. HyperPotions:";
-            label25.Text = "Max. TopPotions:";
-            label20.Text = "Max. RazzBerrys:";
-            label31.Text = "Contagem Total:";
-            groupBox5.Text = "Pokémons - Não transferir";
-            checkBox4.Text = "Selecionar todos";
-            groupBox6.Text = "Pokémons - Não capturar";
-            checkBox5.Text = "Selecionar todos";
-            groupBox7.Text = "Pokémons - Para Evoluir";
-            checkBox6.Text = "Selecionar todos";
-            button1.Text = "Salvar configurações / Iniciar Bot";
-            groupBox10.Text = "Outras Configurações";
-            checkBox7.Text = "Usar LuckyEgg para Evoluir";
-            checkBox8.Text = "Nomes alemães dos Pokémons";
-            checkBox9.Text = "Usar Incenso a cada 30min";
-            checkBox3.Text = "Evoluir Pokémons se tiver doces suficientes";
-            checkBox10.Text = "Habilitar Lista de Pokémons";
-            checkBox11.Text = "Mantenha Pokémons que podem ser evoluidos";*/
             load_lang();
         }
 
@@ -1158,51 +1003,20 @@ namespace PokemonGo.RocketAPI.Console
             lang_spain_btn.Enabled = true;
             lang_ptBR_btn.Enabled = true;
             lang_tr_btn.Enabled = false;
+            lang_ru_btn.Enabled = true;
             Translation.TranslationHandler.selectLangauge("tr");
+            load_lang();
+        }
 
-            // Main GUI
-            /*label1.Text = "Hesap turu:";
-            label2.Text = "KullaniciAdi:";
-            label3.Text = "Sifre:";
-            groupBox2.Text = "Konum Ayarlari";
-            label7.Text = "Hiz:";
-            label9.Text = "Yurume Alani:";
-            label10.Text = "Metre";
-            checkBox1.Text = "Ana konumdan basla";
-            groupBox3.Text = "Bot Ayarlari";
-            checkBox2.Text = "Ayni pokemonu otomatik transfer";
-            label11.Text = "Max. Ayni Pokemon";
-            label12.Text = "Transfer icin Max CP:";
-            label28.Text = "Transfer icin Max IV:";
-            groupBox8.Text = "Telegram Ayarlari";
-            label30.Text = "Bu bot acik kaynakli ve tamamen ucretsizdir. Ucret odediysen parani geri al!";
-            label32.Text = "Pokecrot ile baglantili birseyle karsilasirsan, onlara botun calindigini soyle! ";
-            label13.Text = "Max. Pokeball:";
-            label14.Text = "Max. Superball:";
-            label15.Text = "Max. Ultraball:";
-            label26.Text = "Max. Masterball:";
-            label16.Text = "Max. Revives:";
-            label27.Text = "Max. TopRevives:";
-            label17.Text = "Max. Potions:";
-            label18.Text = "Max. SuperPotions:";
-            label19.Text = "Max. HyperPotions:";
-            label25.Text = "Max. TopPotions:";
-            label20.Text = "Max. RazzBerrys:";
-            label31.Text = "Toplam Sayisi:";
-            groupBox5.Text = "Transfer edilmeyecek";
-            checkBox4.Text = "Hepsini Sec";
-            groupBox6.Text = "Yakalanmasini istemedigimiz";
-            checkBox5.Text = "Hepsini Sec";
-            groupBox7.Text = "Evolve edilecekler";
-            checkBox6.Text = "Hepsini Sec";
-            button1.Text = "Ayarlari Kaydet / Botu Baslat";
-            groupBox10.Text = "Diger Ayarlar";
-            checkBox7.Text = "Evolve ederken LuckyEgg Bas";
-            checkBox8.Text = "Almanca Pokemon Isimleri";
-            checkBox9.Text = "30 Dakikada bir Incense kullan";
-            checkBox3.Text = "Pokemonlari sekeri yetiyorsa evolve et";
-            checkBox10.Text = "Pokemon listesini aktif et";
-            checkBox11.Text = "Evolve edilebilen pokemonlari tut";*/
+        private void btn_ru_Click(object sender, EventArgs e)
+        {
+            lang_en_btn.Enabled = true;
+            lang_spain_btn.Enabled = true;
+            lang_de_btn.Enabled = true;
+            lang_ptBR_btn.Enabled = true;
+            lang_tr_btn.Enabled = true;
+            lang_ru_btn.Enabled = false;
+            Translation.TranslationHandler.selectLangauge("ru");
             load_lang();
         }
     }

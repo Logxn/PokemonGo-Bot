@@ -35,6 +35,14 @@ namespace PokemonGo.RocketAPI.Logic
 
         }
 
+        public async Task<int> getEggsCount()
+        {
+            int i = 0;
+            var p = await GetEggs();
+            i = p.Count();
+            return i;
+        }
+
         public async Task<int> getPokemonCount()
         {
             int i = 0;
@@ -56,6 +64,14 @@ namespace PokemonGo.RocketAPI.Logic
             var myPokemon = await GetPokemons();
             var pokemons = myPokemon.ToList();
             return pokemons.OrderByDescending(PokemonInfo.CalculatePokemonPerfection).Take(limit);
+        }
+
+        public async Task<IEnumerable<PokemonData>> GetEggs()
+        {
+            var inventory = await getCachedInventory(_client);
+            return
+                inventory.InventoryDelta.InventoryItems.Select(i => i.InventoryItemData?.Pokemon)
+                    .Where(p => p != null && p.IsEgg);
         }
 
         public async Task<IEnumerable<PokemonData>> GetPokemons()
