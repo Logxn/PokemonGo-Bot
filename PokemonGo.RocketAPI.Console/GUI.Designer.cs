@@ -119,11 +119,13 @@
             this.tabGeneral = new System.Windows.Forms.TabPage();
             this.tabPokemon = new System.Windows.Forms.TabPage();
             this.tabItems = new System.Windows.Forms.TabPage();
+            this.lang_tr_btn = new System.Windows.Forms.Button();
+            this.lang_ptBR_btn = new System.Windows.Forms.Button();
+            this.lang_spain_btn = new System.Windows.Forms.Button();
             this.lang_de_btn = new System.Windows.Forms.Button();
             this.lang_en_btn = new System.Windows.Forms.Button();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.lang_spain_btn = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -1068,6 +1070,43 @@
             this.tabItems.Text = "Items";
             this.tabItems.UseVisualStyleBackColor = true;
             // 
+            // lang_tr_btn
+            // 
+            this.lang_tr_btn.BackgroundImage = global::PokemonGo.RocketAPI.Console.Properties.Resources.tr;
+            this.lang_tr_btn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.lang_tr_btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.lang_tr_btn.Location = new System.Drawing.Point(132, 79);
+            this.lang_tr_btn.Name = "lang_tr_btn";
+            this.lang_tr_btn.Size = new System.Drawing.Size(24, 15);
+            this.lang_tr_btn.TabIndex = 42;
+            this.lang_tr_btn.UseVisualStyleBackColor = true;
+            this.lang_tr_btn.Click += new System.EventHandler(this.lang_tr_btn_Click);
+            // 
+            // lang_ptBR_btn
+            // 
+            this.lang_ptBR_btn.BackgroundImage = global::PokemonGo.RocketAPI.Console.Properties.Resources.ptBR;
+            this.lang_ptBR_btn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.lang_ptBR_btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.lang_ptBR_btn.Location = new System.Drawing.Point(102, 79);
+            this.lang_ptBR_btn.Name = "lang_ptBR_btn";
+            this.lang_ptBR_btn.Size = new System.Drawing.Size(24, 15);
+            this.lang_ptBR_btn.TabIndex = 41;
+            this.lang_ptBR_btn.UseVisualStyleBackColor = true;
+            this.lang_ptBR_btn.Click += new System.EventHandler(this.lang_ptBR_btn_Click);
+            // 
+            // lang_spain_btn
+            // 
+            this.lang_spain_btn.BackgroundImage = global::PokemonGo.RocketAPI.Console.Properties.Resources.spain;
+            this.lang_spain_btn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.lang_spain_btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.lang_spain_btn.Location = new System.Drawing.Point(72, 79);
+            this.lang_spain_btn.Name = "lang_spain_btn";
+            this.lang_spain_btn.Size = new System.Drawing.Size(24, 15);
+            this.lang_spain_btn.TabIndex = 40;
+            this.lang_spain_btn.Text = "button3";
+            this.lang_spain_btn.UseVisualStyleBackColor = true;
+            this.lang_spain_btn.Click += new System.EventHandler(this.lang_spain_btn_Click);
+            // 
             // lang_de_btn
             // 
             this.lang_de_btn.BackgroundImage = global::PokemonGo.RocketAPI.Console.Properties.Resources.de;
@@ -1077,7 +1116,6 @@
             this.lang_de_btn.Name = "lang_de_btn";
             this.lang_de_btn.Size = new System.Drawing.Size(24, 15);
             this.lang_de_btn.TabIndex = 39;
-            this.lang_de_btn.Text = "lang_de_btn";
             this.lang_de_btn.UseVisualStyleBackColor = true;
             this.lang_de_btn.Click += new System.EventHandler(this.lang_de_btn_Click);
             // 
@@ -1115,25 +1153,14 @@
             this.pictureBox1.TabStop = false;
             this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
             // 
-            // lang_spain_btn
-            // 
-            this.lang_spain_btn.BackgroundImage = global::PokemonGo.RocketAPI.Console.Properties.Resources.spain;
-            this.lang_spain_btn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.lang_spain_btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.lang_spain_btn.Location = new System.Drawing.Point(73, 79);
-            this.lang_spain_btn.Name = "lang_spain_btn";
-            this.lang_spain_btn.Size = new System.Drawing.Size(24, 15);
-            this.lang_spain_btn.TabIndex = 40;
-            this.lang_spain_btn.Text = "button3";
-            this.lang_spain_btn.UseVisualStyleBackColor = true;
-            this.lang_spain_btn.Click += new System.EventHandler(this.lang_spain_btn_Click);
-            // 
             // GUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
             this.ClientSize = new System.Drawing.Size(576, 605);
+            this.Controls.Add(this.lang_tr_btn);
+            this.Controls.Add(this.lang_ptBR_btn);
             this.Controls.Add(this.lang_spain_btn);
             this.Controls.Add(this.lang_de_btn);
             this.Controls.Add(this.lang_en_btn);
@@ -1277,6 +1304,8 @@
         private System.Windows.Forms.Button lang_en_btn;
         private System.Windows.Forms.Button lang_de_btn;
         private System.Windows.Forms.Button lang_spain_btn;
+        private System.Windows.Forms.Button lang_ptBR_btn;
+        private System.Windows.Forms.Button lang_tr_btn;
     }
 }
 
