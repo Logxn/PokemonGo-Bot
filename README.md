@@ -26,3 +26,5 @@
   - Turkish: https://github.com/HaydarOzturk
   - Russian: https://github.com/MrFallen
   - Spanish: max783
+  - Italian: https://github.com/Mancuz & https://github.com/AcolyteIT
+  - Romanian: https://github.com/AcolyteIT
