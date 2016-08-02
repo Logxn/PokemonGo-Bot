@@ -19,20 +19,24 @@ namespace PokemonGo.RocketAPI.Logic
             _client = client;
         }
 
-        public async Task<int> GetHighestCPofType(PokemonData pokemon)
+        public async Task<IEnumerable<PokemonData>> GetHighestCPofType(PokemonData pokemon)
         {
-            try
-            {
-                var myPokemon = await GetPokemons();
-                var pokemons = myPokemon.ToList();
-                return pokemons.Where(x => x.PokemonId == pokemon.PokemonId)
-                                .OrderByDescending(x => x.Cp)
-                                .First().Cp;
-            } catch (Exception)
-            {
-                return 0;
-            }
+            var myPokemon = await GetPokemons();
+            var pokemons = myPokemon.ToList();
+            return pokemons.Where(x => x.PokemonId == pokemon.PokemonId)
+                    .OrderByDescending(x => x.Cp)
+                    .ThenBy(x => PokemonInfo.CalculatePokemonPerfection(x))
+                    .ToList();
+        }
 
+        public async Task<IEnumerable<PokemonData>> GetHighestIVofType(PokemonData pokemon)
+        {
+            var myPokemon = await GetPokemons();
+            var pokemons = myPokemon.ToList();
+            return pokemons.Where(x => x.PokemonId == pokemon.PokemonId)
+                    .OrderByDescending(x => PokemonInfo.CalculatePokemonPerfection(x))
+                    .ThenBy(x => x.Cp)
+                    .ToList();
         }
 
         public async Task<int> getEggsCount()
