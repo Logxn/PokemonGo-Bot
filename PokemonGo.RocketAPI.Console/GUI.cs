@@ -1032,7 +1032,7 @@ namespace PokemonGo.RocketAPI.Console
             lang_tr_btn.Enabled = true;
             lang_ru_btn.Enabled = true;
             lang_france_btn.Enabled = false;
-            TranslationHandler.selectLangauge("fr");
+            TranslationHandler.selectLangauge("france");
             load_lang();
         }
     }
