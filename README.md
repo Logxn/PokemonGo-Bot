@@ -27,3 +27,4 @@
   - Russian: https://github.com/MrFallen
   - Spanish: max783
   - Italian: https://github.com/Mancuz
+  - Romanian: https://github.com/AcolyteIT
