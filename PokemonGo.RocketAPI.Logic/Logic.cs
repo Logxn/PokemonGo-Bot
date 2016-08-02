@@ -12,7 +12,6 @@ using PokemonGo.RocketAPI.Helpers;
 
 namespace PokemonGo.RocketAPI.Logic
 {
-
     public class Logic
     {
         public readonly Client _client;
@@ -22,9 +21,8 @@ namespace PokemonGo.RocketAPI.Logic
         public BotStats _botStats;
         private readonly Navigation _navigation;
         public const double SpeedDownTo = 10 / 3.6;
-        private LogicInfoObservable _infoObservable;
+        private readonly LogicInfoObservable _infoObservable;
         private readonly PokeVisionUtil _pokevision;
-
 
         public Logic(ISettings clientSettings, LogicInfoObservable infoObservable)
         {
@@ -65,9 +63,9 @@ namespace PokemonGo.RocketAPI.Logic
                             _telegram.getClient().OnMessageEdited += _telegram.BotOnMessageReceived;
                             Logger.ColoredConsoleWrite(ConsoleColor.Green, "Telegram Name: " + me.Username);
                             _telegram.getClient().StartReceiving();
-                        } catch (Exception)
+                        }
+                        catch (Exception)
                         {
-
                         }
                     }
 
@@ -103,11 +101,12 @@ namespace PokemonGo.RocketAPI.Logic
                 {
                     Logger.Error($"Error: " + ex.Source);
                     Logger.Error($"{ex}");
-                    Logger.ColoredConsoleWrite(ConsoleColor.Green, "Trying to Restart."); 
+                    Logger.ColoredConsoleWrite(ConsoleColor.Green, "Trying to Restart.");
                     try
                     {
                         _telegram.getClient().StopReceiving();
-                    } catch (Exception)
+                    }
+                    catch (Exception)
                     {
 
                     }
@@ -183,15 +182,15 @@ namespace PokemonGo.RocketAPI.Logic
 
             int l = c.Level;
 
-            var expneeded = ((c.NextLevelXp - c.PrevLevelXp) - StringUtils.getExpDiff(c.Level));
-            var curexp = ((c.Experience - c.PrevLevelXp) - StringUtils.getExpDiff(c.Level));
-            var curexppercent = (Convert.ToDouble(curexp) / Convert.ToDouble(expneeded)) * 100;
+            var expneeded = c.NextLevelXp - c.PrevLevelXp - StringUtils.getExpDiff(c.Level);
+            var curexp = c.Experience - c.PrevLevelXp - StringUtils.getExpDiff(c.Level);
+            var curexppercent = Convert.ToDouble(curexp) / Convert.ToDouble(expneeded) * 100;
             var pokemonToEvolve = (await _inventory.GetPokemonToEvolve(null)).Count();
 
             Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "-----------------------[PLAYER STATS UPDATE]-----------------------");
-            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Level/EXP: {c.Level} {curexp.ToString("N0")}/{expneeded.ToString("N0")} ({Math.Round(curexppercent, 2)}%) EXP to Level up: " + ((c.NextLevelXp) - (c.Experience)));
-            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "PokeStops visited: " + c.PokeStopVisits + "KM Walked: " + c.KmWalked);
-            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Pokemon: " + await _inventory.getPokemonCount() + " + " + await _inventory.getEggsCount() + " Eggs /" + profil.Profile.PokeStorage + " (" + pokemonToEvolve + " Evolvable)");
+            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Level/EXP: {c.Level} {curexp.ToString("N0")}/{expneeded.ToString("N0")} ({Math.Round(curexppercent, 2)}%) EXP to Level up: " + (c.NextLevelXp - c.Experience).ToString("N0"));
+            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "PokeStops visited: " + c.PokeStopVisits.ToString("N0") + "KM walked: " + c.KmWalked);
+            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Pokemon: " + await _inventory.getPokemonCount() + " + " + await _inventory.getEggsCount() + " Eggs /" + profil.Profile.PokeStorage + " (" + pokemonToEvolve + " evolvable)");
             Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Items: " + await _inventory.getInventoryCount() + "/" + profil.Profile.ItemStorage + " Stardust: " + profil.Profile.Currency.ToArray()[1].Amount.ToString("N0"));
             //if (dontspam >= 3)
             //{
@@ -277,8 +276,8 @@ namespace PokemonGo.RocketAPI.Logic
             //    }
             //}
 
-            System.Console.Title = profil.Profile.Username + " lvl" + c.Level + "-(" + ((c.Experience - c.PrevLevelXp) -
-                StringUtils.getExpDiff(c.Level)).ToString("N0") + "/" + ((c.NextLevelXp - c.PrevLevelXp) - StringUtils.getExpDiff(c.Level)).ToString("N0") + "|" + Math.Round(curexppercent, 2) + "%)| Stardust: " + profil.Profile.Currency.ToArray()[1].Amount + "| " + _botStats.ToString();
+            Console.Title = profil.Profile.Username + " lvl" + c.Level + "-(" + (c.Experience - c.PrevLevelXp -
+                StringUtils.getExpDiff(c.Level)).ToString("N0") + "/" + (c.NextLevelXp - c.PrevLevelXp - StringUtils.getExpDiff(c.Level)).ToString("N0") + "|" + Math.Round(curexppercent, 2) + "%)| Stardust: " + profil.Profile.Currency.ToArray()[1].Amount.ToString("N0") + "| " + _botStats;
 
         }
 
@@ -386,7 +385,7 @@ namespace PokemonGo.RocketAPI.Logic
                 if (fortSearch.ExperienceAwarded > 0)
                 {
                     failed_softban = 0;
-                    _botStats.addExperience(fortSearch.ExperienceAwarded);
+                    _botStats.AddExperience(fortSearch.ExperienceAwarded);
                     var egg = "";
                     if (fortSearch.PokemonDataEgg != null)
                     {
@@ -529,7 +528,7 @@ namespace PokemonGo.RocketAPI.Logic
                     if (caughtPokemonResponse.Status == CatchPokemonResponse.Types.CatchStatus.CatchSuccess)
                     {
                         foreach (int xp in caughtPokemonResponse.Scores.Xp)
-                            _botStats.addExperience(xp);
+                            _botStats.AddExperience(xp);
 
                         DateTime curDate = DateTime.Now;
                         _infoObservable.PushNewHuntStats(String.Format("{0}/{1};{2};{3};{4}", pokemon.Latitude, pokemon.Longitude, pokemon.PokemonId, curDate.Ticks, curDate.ToString()) + Environment.NewLine);
@@ -546,7 +545,7 @@ namespace PokemonGo.RocketAPI.Logic
                         //    Logger.ColoredConsoleWrite(ConsoleColor.Magenta, $"We caught a {pokemon.PokemonId} (Language Server Offline) with CP {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} using a {bestPokeball}");
                         //}
 
-                        _botStats.addPokemon(1);
+                        _botStats.AddPokemon(1);
                     }
                     else
                     {
@@ -567,7 +566,7 @@ namespace PokemonGo.RocketAPI.Logic
             var pokemonToEvolve = await _inventory.GetPokemonToEvolve(filter);
             if (pokemonToEvolve.Count() != 0)
             {
-                if(_clientSettings.UseLuckyEgg)
+                if (_clientSettings.UseLuckyEgg)
                 {
                     await _inventory.UseLuckyEgg(_client);
                 }
@@ -593,7 +592,7 @@ namespace PokemonGo.RocketAPI.Logic
                 if (evolvePokemonOutProto.Result == EvolvePokemonOut.Types.EvolvePokemonStatus.PokemonEvolvedSuccess)
                 {
                     Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Evolved {StringUtils.getPokemonNameByLanguage(_clientSettings, pokemon.PokemonId)} CP {pokemon.Cp} {Math.Round(pokemon.CalculateIV())}%  to {StringUtils.getPokemonNameByLanguage(_clientSettings, evolvePokemonOutProto.EvolvedPokemon.PokemonType)} CP: {evolvePokemonOutProto.EvolvedPokemon.Cp} for {evolvePokemonOutProto.ExpAwarded.ToString("N0")}xp", LogLevel.Info);
-                    _botStats.addExperience(evolvePokemonOutProto.ExpAwarded);
+                    _botStats.AddExperience(evolvePokemonOutProto.ExpAwarded);
                 }
                 else
                 {
@@ -656,7 +655,7 @@ namespace PokemonGo.RocketAPI.Logic
             var balls = items.Where(i => ((MiscEnums.Item)i.Item_ == MiscEnums.Item.ITEM_POKE_BALL
                                       || (MiscEnums.Item)i.Item_ == MiscEnums.Item.ITEM_GREAT_BALL
                                       || (MiscEnums.Item)i.Item_ == MiscEnums.Item.ITEM_ULTRA_BALL
-                                      || (MiscEnums.Item)i.Item_ == MiscEnums.Item.ITEM_MASTER_BALL) && i.Count > 0).GroupBy(i => ((MiscEnums.Item)i.Item_)).ToList();
+                                      || (MiscEnums.Item)i.Item_ == MiscEnums.Item.ITEM_MASTER_BALL) && i.Count > 0).GroupBy(i => (MiscEnums.Item)i.Item_).ToList();
             if (balls.Count == 0) return MiscEnums.Item.ITEM_UNKNOWN;
 
             var pokeBalls = balls.Any(g => g.Key == MiscEnums.Item.ITEM_POKE_BALL);
@@ -691,7 +690,7 @@ namespace PokemonGo.RocketAPI.Logic
                                         || (ItemId)i.Item_ == ItemId.ItemBlukBerry
                                         || (ItemId)i.Item_ == ItemId.ItemNanabBerry
                                         || (ItemId)i.Item_ == ItemId.ItemWeparBerry
-                                        || (ItemId)i.Item_ == ItemId.ItemPinapBerry).GroupBy(i => ((ItemId)i.Item_)).ToList();
+                                        || (ItemId)i.Item_ == ItemId.ItemPinapBerry).GroupBy(i => (ItemId)i.Item_).ToList();
             if (berries.Count == 0)
             {
                 Logger.ColoredConsoleWrite(ConsoleColor.Red, $"No Berrys to select!", LogLevel.Info);
