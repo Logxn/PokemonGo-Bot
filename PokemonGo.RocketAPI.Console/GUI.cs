@@ -953,6 +953,7 @@ namespace PokemonGo.RocketAPI.Console
             lang_ptBR_btn.Enabled = true;
             lang_tr_btn.Enabled = true;
             lang_ru_btn.Enabled = true;
+            lang_france_btn.Enabled = true;
             languagestr = null;
             Translation.TranslationHandler.selectLangauge(null);
             load_lang();
@@ -966,6 +967,7 @@ namespace PokemonGo.RocketAPI.Console
             lang_ptBR_btn.Enabled = true;
             lang_tr_btn.Enabled = true;
             lang_ru_btn.Enabled = true;
+            lang_france_btn.Enabled = true;
             Translation.TranslationHandler.selectLangauge("de");
             load_lang();
         }
@@ -978,6 +980,7 @@ namespace PokemonGo.RocketAPI.Console
             lang_ptBR_btn.Enabled = true;
             lang_tr_btn.Enabled = true;
             lang_ru_btn.Enabled = true;
+            lang_france_btn.Enabled = true;
             Translation.TranslationHandler.selectLangauge("spain");
             
             load_lang();
@@ -991,6 +994,7 @@ namespace PokemonGo.RocketAPI.Console
             lang_ptBR_btn.Enabled = false;
             lang_tr_btn.Enabled = true;
             lang_ru_btn.Enabled = true;
+            lang_france_btn.Enabled = true;
             Translation.TranslationHandler.selectLangauge("ptBR");
             load_lang();
         }
@@ -1003,6 +1007,7 @@ namespace PokemonGo.RocketAPI.Console
             lang_ptBR_btn.Enabled = true;
             lang_tr_btn.Enabled = false;
             lang_ru_btn.Enabled = true;
+            lang_france_btn.Enabled = true;
             Translation.TranslationHandler.selectLangauge("tr");
             load_lang();
         }
@@ -1015,7 +1020,21 @@ namespace PokemonGo.RocketAPI.Console
             lang_ptBR_btn.Enabled = true;
             lang_tr_btn.Enabled = true;
             lang_ru_btn.Enabled = false;
+            lang_france_btn.Enabled = true;
             Translation.TranslationHandler.selectLangauge("ru");
+            load_lang();
+        }
+
+        private void lang_france_btn_Click(object sender, EventArgs e)
+        {
+            lang_en_btn.Enabled = true;
+            lang_spain_btn.Enabled = true;
+            lang_de_btn.Enabled = true;
+            lang_ptBR_btn.Enabled = true;
+            lang_tr_btn.Enabled = true;
+            lang_ru_btn.Enabled = true;
+            lang_france_btn.Enabled = false;
+            Translation.TranslationHandler.selectLangauge("france");
             load_lang();
         }
     }
