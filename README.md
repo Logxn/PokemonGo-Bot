@@ -22,3 +22,4 @@
 # Translations
   - English: https://github.com/Ar1i/ & Greengold
   - German: https://github.com/IceQ1337/
+  - Portuguese https://github.com/m-a-r-c-e-l-o/
