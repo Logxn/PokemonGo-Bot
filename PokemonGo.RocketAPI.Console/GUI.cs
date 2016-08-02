@@ -25,6 +25,7 @@ namespace PokemonGo.RocketAPI.Console
         public GUI()
         {
             InitializeComponent();
+            Translation.TranslationHandler.init();
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
@@ -40,7 +41,8 @@ namespace PokemonGo.RocketAPI.Console
             }
             else
             {
-                if (languagestr == null)
+                label2.Text = Translation.TranslationHandler.getString("username", "Username :");
+                /*if (languagestr == null)
                 {
                     label2.Text = "Username:";
                 }
@@ -59,7 +61,7 @@ namespace PokemonGo.RocketAPI.Console
                 else if (languagestr == "tr")
                 {
                     label2.Text = "KullaniciAdi:";
-                }
+                }*/
                 //    textBox1.Show();
                 //    label2.Show();
                 //    textBox2.Show();
@@ -69,7 +71,6 @@ namespace PokemonGo.RocketAPI.Console
 
         private void GUI_Load(object sender, EventArgs e)
         {
-
             // Create missing Files
             System.IO.Directory.CreateDirectory(Program.path); 
 
@@ -870,6 +871,64 @@ namespace PokemonGo.RocketAPI.Console
             Process.Start("https://high-minded.net/threads/pokemon-go-c-bot-safer-better.50731/");
         }
 
+        private void load_lang()
+        {
+            //Translation.TranslationHandler.getString("username", "Username :");
+
+            Globals.acc = comboBox1.SelectedIndex == 0 ? Enums.AuthType.Google : Enums.AuthType.Ptc;
+            if (comboBox1.SelectedIndex == 0)
+            {
+                label2.Text = "E-Mail:";
+            }
+            else
+            {
+                label2.Text = Translation.TranslationHandler.getString("username", "Username :");
+            }
+
+            label1.Text = Translation.TranslationHandler.getString("accountType", "Account Type:");
+            //label2.Text = Translation.TranslationHandler.getString("username", "Username:");
+            label3.Text = Translation.TranslationHandler.getString("password", "Password:");
+            groupBox2.Text = Translation.TranslationHandler.getString("locationSettings", "Location Settings");
+            label7.Text = Translation.TranslationHandler.getString("speed", "Speed:");
+            label9.Text = Translation.TranslationHandler.getString("moveRadius", "Move Radius:");
+            label10.Text = Translation.TranslationHandler.getString("meters", "meters");
+            checkBox1.Text = Translation.TranslationHandler.getString("startFromDefaultLocation", "Start from default location");
+            groupBox3.Text = Translation.TranslationHandler.getString("botSettings", "Bot Settings");
+            checkBox2.Text = Translation.TranslationHandler.getString("autoTransferDoublePokemon", "Auto transfer double Pokemons");
+            label11.Text = Translation.TranslationHandler.getString("maxDupPokemon", "Max. duplicate Pokemons");
+            label12.Text = Translation.TranslationHandler.getString("maxCPtransfer", "Max. CP to transfer:");
+            label28.Text = Translation.TranslationHandler.getString("maxIVtransfer", "Max. IV to transfer:");
+            groupBox8.Text = Translation.TranslationHandler.getString("telegramSettings", "Telegram Settings");
+            label30.Text = Translation.TranslationHandler.getString("infoline1", "This Bot is absolutely free and open source! Chargeback if you've paid for it!");
+            label32.Text = Translation.TranslationHandler.getString("infoline2", "Whenever you encounter something related to 'Pokecrot', tell them the Bot is stolen!");
+            label13.Text = Translation.TranslationHandler.getString("maxPokeballs", "Max. Pokeballs:");
+            label14.Text = Translation.TranslationHandler.getString("maxGreatballs", "Max. GreatBalls:");
+            label15.Text = Translation.TranslationHandler.getString("maxUltraballs", "Max. UltraBalls:");
+            label26.Text = Translation.TranslationHandler.getString("maxMasterballs", "Max. MasterBalls:");
+            label16.Text = Translation.TranslationHandler.getString("maxRevives", "Max. Revives:");
+            label27.Text = Translation.TranslationHandler.getString("maxTopRevives", "Max. TopRevives:");
+            label17.Text = Translation.TranslationHandler.getString("maxPotions", "Max. Potions:");
+            label18.Text = Translation.TranslationHandler.getString("maxSuperpotions", "Max. SuperPotions:");
+            label19.Text = Translation.TranslationHandler.getString("maxHyperpotions", "Max. HyperPotions:");
+            label25.Text = Translation.TranslationHandler.getString("maxToppotions", "Max. TopPotions:");
+            label20.Text = Translation.TranslationHandler.getString("maxRazzberrys", "Max. RazzBerrys:");
+            label31.Text = Translation.TranslationHandler.getString("totalCount", "Total Count:");
+            groupBox5.Text = Translation.TranslationHandler.getString("pokemonNotToTransfer", "Pokemons - Not to transfer");
+            checkBox4.Text = Translation.TranslationHandler.getString("selectAll", "Select all");
+            groupBox6.Text = Translation.TranslationHandler.getString("pokemonNotToCatch", "Pokemons - Not to catch");
+            checkBox5.Text = Translation.TranslationHandler.getString("selectAll", "Select all");
+            groupBox7.Text = Translation.TranslationHandler.getString("pokemonNotToEvolve", "Pokemons - To envolve");
+            checkBox6.Text = Translation.TranslationHandler.getString("selectAll", "Select all");
+            button1.Text = Translation.TranslationHandler.getString("saveConfig", "Save Configuration / Start Bot");
+            groupBox10.Text = Translation.TranslationHandler.getString("otherSettings", "Other Settings");
+            checkBox7.Text = Translation.TranslationHandler.getString("useLuckyeggAtEvolve", "Use LuckyEgg at Evolve");
+            checkBox8.Text = Translation.TranslationHandler.getString("germanPokemonNames", "German Pokemon names");
+            checkBox9.Text = Translation.TranslationHandler.getString("useIncese", "Use Incense every 30min");
+            checkBox3.Text = Translation.TranslationHandler.getString("evolvePokemonIfEnoughCandy", "Evolve Pokemons if enough candy");
+            checkBox10.Text = Translation.TranslationHandler.getString("enablePokemonListGUI", "Enable Pokemon List GUI");
+            checkBox11.Text = Translation.TranslationHandler.getString("keepPokemonWhichCanBeEvolved", "Keep Pokemons which can be evolved");
+        }
+
         private void lang_en_btn_Click(object sender, EventArgs e)
         {
             lang_de_btn.Enabled = true;
@@ -879,8 +938,10 @@ namespace PokemonGo.RocketAPI.Console
             lang_tr_btn.Enabled = true;
             languagestr = null;
 
+            Translation.TranslationHandler.selectLangauge(null);
+
             // Main GUI
-            label1.Text = "Account Type:";
+            /*label1.Text = "Account Type:";
             label2.Text = "Username:";
             label3.Text = "Password:";
             groupBox2.Text = "Location Settings";
@@ -921,7 +982,8 @@ namespace PokemonGo.RocketAPI.Console
             checkBox9.Text = "Use Incense every 30min";
             checkBox3.Text = "Evolve Pokemons if enough candy";
             checkBox10.Text = "Enable Pokemon List GUI";
-            checkBox11.Text = "Keep Pokemons which can be evolved";
+            checkBox11.Text = "Keep Pokemons which can be evolved";*/
+            load_lang();
         }
 
         private void lang_de_btn_Click(object sender, EventArgs e)
@@ -931,10 +993,10 @@ namespace PokemonGo.RocketAPI.Console
             lang_de_btn.Enabled = false;
             lang_ptBR_btn.Enabled = true;
             lang_tr_btn.Enabled = true;
-            languagestr = "de";
-            
+            Translation.TranslationHandler.selectLangauge("de");
+
             // Main GUI
-            label1.Text = "Account Typ:";
+            /*label1.Text = "Account Typ:";
             label2.Text = "Benutzername:";
             label3.Text = "Passwort:";
             groupBox2.Text = "Standort Einstellungen";
@@ -975,7 +1037,8 @@ namespace PokemonGo.RocketAPI.Console
             checkBox9.Text = "Verwende Rauch alle 30min";
             checkBox3.Text = "Pokemon entwickeln wenn möglich";
             checkBox10.Text = "Pokemon List GUI anzeigen";
-            checkBox11.Text = "Behalte entwickelbare Pokemon";
+            checkBox11.Text = "Behalte entwickelbare Pokemon";*/
+            load_lang();
         }
 
         private void lang_spain_btn_Click(object sender, EventArgs e)
@@ -985,10 +1048,10 @@ namespace PokemonGo.RocketAPI.Console
             lang_spain_btn.Enabled = false;
             lang_ptBR_btn.Enabled = true;
             lang_tr_btn.Enabled = true;
-            languagestr = "spain";
+            Translation.TranslationHandler.selectLangauge("spain");
 
             // Main GUI
-            label1.Text = "Tipo de cuenta:";
+            /*label1.Text = "Tipo de cuenta:";
             label2.Text = "Usuario:";
             label3.Text = "Clave:";
             groupBox2.Text = "Configuración de Ubicación";
@@ -1029,7 +1092,8 @@ namespace PokemonGo.RocketAPI.Console
             checkBox9.Text = "Usar Incienso cada 30min";
             checkBox3.Text = "Evolucionar Pokemones si es posible";
             checkBox10.Text = "Habilitar Lista de Opciones Pokemon";
-            checkBox11.Text = "Mantener Pokemon evolucionables";
+            checkBox11.Text = "Mantener Pokemon evolucionables";*/
+            load_lang();
         }
 
         private void lang_ptBR_btn_Click(object sender, EventArgs e)
@@ -1039,10 +1103,10 @@ namespace PokemonGo.RocketAPI.Console
             lang_spain_btn.Enabled = true;
             lang_ptBR_btn.Enabled = false;
             lang_tr_btn.Enabled = true;
-            languagestr = "ptBR";
+            Translation.TranslationHandler.selectLangauge("ptBR");
 
             // Main GUI
-            label1.Text = "Tipo de Conta:";
+            /*label1.Text = "Tipo de Conta:";
             label2.Text = "Usuário:";
             label3.Text = "Senha:";
             groupBox2.Text = "Configurações de Localização";
@@ -1083,7 +1147,8 @@ namespace PokemonGo.RocketAPI.Console
             checkBox9.Text = "Usar Incenso a cada 30min";
             checkBox3.Text = "Evoluir Pokémons se tiver doces suficientes";
             checkBox10.Text = "Habilitar Lista de Pokémons";
-            checkBox11.Text = "Mantenha Pokémons que podem ser evoluidos";
+            checkBox11.Text = "Mantenha Pokémons que podem ser evoluidos";*/
+            load_lang();
         }
 
         private void lang_tr_btn_Click(object sender, EventArgs e)
@@ -1093,10 +1158,10 @@ namespace PokemonGo.RocketAPI.Console
             lang_spain_btn.Enabled = true;
             lang_ptBR_btn.Enabled = true;
             lang_tr_btn.Enabled = false;
-            languagestr = "tr";
+            Translation.TranslationHandler.selectLangauge("tr");
 
             // Main GUI
-            label1.Text = "Hesap turu:";
+            /*label1.Text = "Hesap turu:";
             label2.Text = "KullaniciAdi:";
             label3.Text = "Sifre:";
             groupBox2.Text = "Konum Ayarlari";
@@ -1137,7 +1202,8 @@ namespace PokemonGo.RocketAPI.Console
             checkBox9.Text = "30 Dakikada bir Incense kullan";
             checkBox3.Text = "Pokemonlari sekeri yetiyorsa evolve et";
             checkBox10.Text = "Pokemon listesini aktif et";
-            checkBox11.Text = "Evolve edilebilen pokemonlari tut";
+            checkBox11.Text = "Evolve edilebilen pokemonlari tut";*/
+            load_lang();
         }
     }
 }
