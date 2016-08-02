@@ -48,10 +48,6 @@ namespace PokemonGo.RocketAPI.Console
                 {
                     label2.Text = "Benutzername:";
                 }
-                else if (languagestr == "spain")
-                {
-                    label2.Text = "Usuario:";
-                }
             //    textBox1.Show();
             //    label2.Show();
             //    textBox2.Show();
@@ -61,7 +57,8 @@ namespace PokemonGo.RocketAPI.Console
 
         private void GUI_Load(object sender, EventArgs e)
         {
-
+			Program.ParseConfig();
+			
             // Create missing Files
             System.IO.Directory.CreateDirectory(Program.path); 
 
@@ -128,94 +125,33 @@ namespace PokemonGo.RocketAPI.Console
                 }
             }
 
-            if (File.Exists(Program.account))
-            {
-                string[] lines = System.IO.File.ReadAllLines(@Program.account);
-                i = 1;
-                int tb = 1;
-                foreach (string line in lines)
-                {
-                    switch (i)
-                    {
-                        case 1:
-                            if (line == "Google")
-                                comboBox1.SelectedIndex = 0;
-                            else
-                                comboBox1.SelectedIndex = 1;
-                            break;
-                        case 9:
-                            checkBox1.Checked = bool.Parse(line);
-                            break;
-                        case 10:
-                            checkBox2.Checked = bool.Parse(line);
-                            break;
-                        case 12:
-                            checkBox3.Checked = bool.Parse(line);
-                            break;
-                        case 14:
-                            textBox18.Text = line;
-                            break;
-                        case 15:
-                            textBox19.Text = line;
-                            break;
-                        case 16:
-                            textBox20.Text = line;
-                            break;
-                        case 17:
-                            //if (line == "1")
-                            //{
-                            //    Globals.navigation_option = 1;
-                            //    checkBox8.Checked = true;
-                            //    checkBox7.Checked = false;
-                            //} else
-                            //{
-                            //    Globals.navigation_option = 2;
-                            //    checkBox7.Checked = true;
-                            //    checkBox8.Checked = false;
-                            //}
-                            break;
-                        case 18:
-                            checkBox7.Checked = bool.Parse(line);
-                            break;
-                        case 19:
-                            checkBox8.Checked = bool.Parse(line);
-                            break;
-                        case 20:
-                            checkBox9.Checked = bool.Parse(line);
-                            break;
-                        case 21:
-                            textBox24.Text = line;
-                            break;
-                        case 22:
-                            checkBox10.Checked = bool.Parse(line);
-                            break;
-                        case 23:
-                            checkBox11.Checked = bool.Parse(line);
-                            break;
-                        //case 24:
-                        //    checkBox12.Checked = bool.Parse(line);
-                        //    break;
-                        default:
-                            TextBox temp = (TextBox)this.Controls.Find("textBox" + tb, true).FirstOrDefault();
-                            temp.Text = line;
-                            tb++;
-                            break;
-                    }
-                    i++;
-                }
-            }
-            else
-            {
-                textBox3.Text = "40,764883";
-                textBox4.Text = "-73,972967";
-                textBox5.Text = "10";
-                textBox6.Text = "50";
-                textBox7.Text = "5000";
-                textBox8.Text = "3";
-                textBox9.Text = "999";
-                textBox20.Text = "5000";
-            }
-
+			if(Globals.acc == Enums.AuthType.Google)
+				comboBox1.SelectedIndex = 0;
+			else
+				comboBox1.SelectedIndex = 1;
+			Logger.Error(Globals.password);
+			textBox1.Text = Globals.username;
+			textBox2.Text = Globals.password;
+			checkBox1.Checked = Globals.defLoc;
+			checkBox2.Checked = Globals.transfer;
+			checkBox3.Checked = Globals.evolve;
+			textBox18.Text = Globals.telAPI;
+			textBox19.Text = Globals.telName;
+			textBox20.Text = Globals.telDelay.ToString();
+			checkBox7.Checked = Globals.useluckyegg;
+			checkBox8.Checked = Globals.gerNames;
+			checkBox9.Checked = Globals.useincense;
+			textBox24.Text = Globals.ivmaxpercent.ToString();
+			checkBox10.Checked = Globals.pokeList;
+			checkBox11.Checked = Globals.keepPokemonsThatCanEvolve;
+			textBox3.Text = Globals.latitute.ToString();
+			textBox4.Text = Globals.longitude.ToString();
+			textBox5.Text = Globals.altitude.ToString();
+			textBox6.Text = Globals.speed.ToString();
+			textBox7.Text = Globals.radius.ToString();
+			textBox8.Text = Globals.duplicate.ToString();
+			textBox9.Text = Globals.maxCp.ToString();
+			
             if (File.Exists(Program.items))
             {
                 string[] lines = System.IO.File.ReadAllLines(@Program.items);
@@ -568,30 +504,28 @@ namespace PokemonGo.RocketAPI.Console
             }
 
             string[] accFile = {
-                    Globals.acc.ToString(),
-                    Globals.username,
-                    Globals.password,
-                    Globals.latitute.ToString(),
-                    Globals.longitude.ToString(),
-                    Globals.altitude.ToString(),
-                    Globals.speed.ToString(),
-                    Globals.radius.ToString(),
-                    Globals.defLoc.ToString(),
-                    Globals.transfer.ToString(),
-                    Globals.duplicate.ToString(),
-                    Globals.evolve.ToString(),
-                    Globals.maxCp.ToString(),
-                    Globals.telAPI,
-                    Globals.telName,
-                    Globals.telDelay.ToString(),
-                    Globals.navigation_option.ToString(),
-                    Globals.useluckyegg.ToString(),
-                    Globals.gerNames.ToString(),
-                    Globals.useincense.ToString(),
-                    Globals.ivmaxpercent.ToString(),
-                    Globals.pokeList.ToString(),
-                    Globals.keepPokemonsThatCanEvolve.ToString(),
-                    Globals.pokevision.ToString()
+                    "accType="+Globals.acc.ToString(),
+                    "username="+Globals.username,
+                    "password="+Globals.password,
+                    "coords="+Globals.latitute.ToString()+","+Globals.longitude.ToString()+","+Globals.altitude.ToString(),
+                    "speed="+Globals.speed.ToString(),
+                    "radius="+Globals.radius.ToString(),
+                    "defLoc="+Globals.defLoc.ToString(),
+                    "transfer="+Globals.transfer.ToString(),
+                    "duplicate="+Globals.duplicate.ToString(),
+                    "evolve="+Globals.evolve.ToString(),
+                    "maxCp="+Globals.maxCp.ToString(),
+                    "telAPI="+Globals.telAPI,
+                    "telName="+Globals.telName,
+                    "telDelay="+Globals.telDelay.ToString(),
+                    "navigation_option="+Globals.navigation_option.ToString(),
+                    "useluckyegg="+Globals.useluckyegg.ToString(),
+                    "gerNames="+Globals.gerNames.ToString(),
+                    "useincense="+Globals.useincense.ToString(),
+                    "ivmaxpercent="+Globals.ivmaxpercent.ToString(),
+                    "pokeList="+Globals.pokeList.ToString(),
+                    "keepPokemonsThatCanEvolve="+Globals.keepPokemonsThatCanEvolve.ToString(),
+                    "pokevision="+Globals.pokevision.ToString()
             };
             System.IO.File.WriteAllLines(@Program.account, accFile);
 
@@ -865,7 +799,6 @@ namespace PokemonGo.RocketAPI.Console
         private void lang_en_btn_Click(object sender, EventArgs e)
         {
             lang_de_btn.Enabled = true;
-            lang_spain_btn.Enabled = true;
             lang_en_btn.Enabled = false;
             languagestr = null;
 
@@ -917,7 +850,6 @@ namespace PokemonGo.RocketAPI.Console
         private void lang_de_btn_Click(object sender, EventArgs e)
         {
             lang_en_btn.Enabled = true;
-            lang_spain_btn.Enabled = true;
             lang_de_btn.Enabled = false;
             languagestr = "de";
             
@@ -964,58 +896,6 @@ namespace PokemonGo.RocketAPI.Console
             checkBox3.Text = "Pokemon entwickeln wenn möglich";
             checkBox10.Text = "Pokemon List GUI anzeigen";
             checkBox11.Text = "Behalte entwickelbare Pokemon";
-        }
-
-        private void lang_spain_btn_Click(object sender, EventArgs e)
-        {
-            lang_en_btn.Enabled = true;
-            lang_de_btn.Enabled = true;
-            lang_spain_btn.Enabled = false;
-            languagestr = "spain";
-
-            // Main GUI
-            label1.Text = "Tipo de cuenta:";
-            label2.Text = "Usuario:";
-            label3.Text = "Clave:";
-            groupBox2.Text = "Configuración de Ubicación";
-            label7.Text = "Velocidad:";
-            label9.Text = "Radio:";
-            label10.Text = "metros";
-            checkBox1.Text = "Empezar en la ubicación predeterminada";
-            groupBox3.Text = "Opciones del Bot";
-            checkBox2.Text = "Auto transferir Pokemones duplicados";
-            label11.Text = "Max. Pokemones duplicados";
-            label12.Text = "Max. CP para enviar:";
-            label28.Text = "Max. IV para enviar:";
-            groupBox8.Text = "Opciones de Telegram";
-            label30.Text = "Este Bot es absolutamente GRATIS y código abierto!";
-            label32.Text = "Si encontrás algo relacionado a 'Pokecrot', avisá que el bot es ROBADO!!";
-            label13.Text = "Max. Pokebolas:";
-            label14.Text = "Max. Superbolas:";
-            label15.Text = "Max. UltraBolas:";
-            label26.Text = "Max. MasterBolas:";
-            label16.Text = "Max. Revivir:";
-            label27.Text = "Max. Revivir total:";
-            label17.Text = "Max. Pociones:";
-            label18.Text = "Max. Super Pociones:";
-            label19.Text = "Max. Hiper Pociones:";
-            label25.Text = "Max. Pociones totales";
-            label20.Text = "Max. Frutas:";
-            label31.Text = "Suma Total:";
-            groupBox5.Text = "Pokemons - No transferir";
-            checkBox4.Text = "Seleccionar todo";
-            groupBox6.Text = "Pokemons - No atrapar";
-            checkBox5.Text = "Seleccionar todo";
-            groupBox7.Text = "Pokemons - Evolucionar";
-            checkBox6.Text = "Seleccionar todo";
-            button1.Text = "Guardar configuración / Iniciar BOT";
-            groupBox10.Text = "Otras opciones";
-            checkBox7.Text = "Usar Huevo de la Suerte al evolucionar";
-            checkBox8.Text = "Nombres alemanes de Pokemones";
-            checkBox9.Text = "Usar Incienso cada 30min";
-            checkBox3.Text = "Evolucionar Pokemones si es posible";
-            checkBox10.Text = "Habilitar Lista de Opciones Pokemon";
-            checkBox11.Text = "Mantener Pokemon evolucionables";
         }
     }
 }
