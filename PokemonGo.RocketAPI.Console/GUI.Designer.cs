@@ -119,6 +119,7 @@
             this.tabGeneral = new System.Windows.Forms.TabPage();
             this.tabPokemon = new System.Windows.Forms.TabPage();
             this.tabItems = new System.Windows.Forms.TabPage();
+            this.lang_it_btn = new System.Windows.Forms.Button();
             this.lang_france_btn = new System.Windows.Forms.Button();
             this.lang_ru_btn = new System.Windows.Forms.Button();
             this.lang_tr_btn = new System.Windows.Forms.Button();
@@ -1075,6 +1076,18 @@
             this.tabItems.Text = "Items";
             this.tabItems.UseVisualStyleBackColor = true;
             // 
+            // lang_it_btn
+            // 
+            this.lang_it_btn.BackgroundImage = global::PokemonGo.RocketAPI.Console.Properties.Resources.it;
+            this.lang_it_btn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.lang_it_btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.lang_it_btn.Location = new System.Drawing.Point(222, 79);
+            this.lang_it_btn.Name = "lang_it_btn";
+            this.lang_it_btn.Size = new System.Drawing.Size(24, 15);
+            this.lang_it_btn.TabIndex = 45;
+            this.lang_it_btn.UseVisualStyleBackColor = true;
+            this.lang_it_btn.Click += new System.EventHandler(this.lang_it_btn_Click);
+            // 
             // lang_france_btn
             // 
             this.lang_france_btn.BackgroundImage = global::PokemonGo.RocketAPI.Console.Properties.Resources.france;
@@ -1188,6 +1201,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
             this.ClientSize = new System.Drawing.Size(576, 605);
+            this.Controls.Add(this.lang_it_btn);
             this.Controls.Add(this.lang_france_btn);
             this.Controls.Add(this.lang_ru_btn);
             this.Controls.Add(this.lang_tr_btn);
@@ -1339,6 +1353,7 @@
         private System.Windows.Forms.Button lang_tr_btn;
         private System.Windows.Forms.Button lang_ru_btn;
         private System.Windows.Forms.Button lang_france_btn;
+        private System.Windows.Forms.Button lang_it_btn;
     }
 }
 
