@@ -168,7 +168,7 @@ namespace PokemonGo.RocketAPI.Logic
 
         //    public bool ptc_online; //Online oder nicht?
         //    public double ptc_response; //Wie lange PTC zum responden braucht
-        //    public double ptc_idle; //Wie lange ptc schon l‰uft
+        //    public double ptc_idle; //Wie lange ptc schon l√§uft
         //    public double ptc_uptime_hour; //Prozent von PTC uptime letzte stunde
         //    public double ptc_uptime_day; //Prozent von PTC uptime letzten tag
         //}
@@ -623,10 +623,11 @@ namespace PokemonGo.RocketAPI.Logic
                             continue;
                         }
 
-                        var bestPokemonOfType = await _inventory.GetHighestCPofType(duplicatePokemon);
+                        var bestPokemonsCPOfType = await _inventory.GetHighestCPofType(duplicatePokemon);
+                        var bestPokemonsIVOfType = await _inventory.GetHighestIVofType(duplicatePokemon);
 
                         var transfer = await _client.TransferPokemon(duplicatePokemon.Id);
-                        Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Transfer {StringUtils.getPokemonNameByLanguage(_clientSettings, duplicatePokemon.PokemonId)} CP {duplicatePokemon.Cp} IV {Math.Round(duplicatePokemon.CalculateIV())}% (Best: {bestPokemonOfType} CP)", LogLevel.Info);
+                        Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Transfer {StringUtils.getPokemonNameByLanguage(_clientSettings, duplicatePokemon.PokemonId)} CP {duplicatePokemon.Cp} IV {Math.Round(duplicatePokemon.CalculateIV())}% (Best: {bestPokemonsCPOfType.First().Cp} CP, IV {Math.Round(bestPokemonsIVOfType.First().CalculateIV())}%)", LogLevel.Info);
                         await RandomHelper.RandomDelay(500, 700);
                     }
                 }
