@@ -35,10 +35,10 @@ namespace PokemonGo.RocketAPI.Console.Translation
         {
             this.countryCode = languageCode;
 
-            if(System.IO.File.Exists("translations/" + this.countryCode + ".json")) { 
+            if(System.IO.File.Exists("Translations/" + this.countryCode + ".json")) { 
 
                 if(countryCode != null) { 
-                    lookup = JsonConvert.DeserializeObject<Dictionary<String, String>>(System.IO.File.ReadAllText("translations/" + this.countryCode + ".json"));
+                    lookup = JsonConvert.DeserializeObject<Dictionary<String, String>>(System.IO.File.ReadAllText("Translations/" + this.countryCode + ".json"));
                 }
             }
             else
@@ -49,7 +49,7 @@ namespace PokemonGo.RocketAPI.Console.Translation
 
         public void save()
         {
-            System.IO.File.WriteAllText("translations/" + this.countryCode + ".json", JsonConvert.SerializeObject(lookup).Replace("\",", "\",\n").Replace("{", "{\n").Replace("}", "\n}"));
+            System.IO.File.WriteAllText("Translations/" + this.countryCode + ".json", JsonConvert.SerializeObject(lookup).Replace("\",", "\",\n").Replace("{", "{\n").Replace("}", "\n}"));
         }
 
     }

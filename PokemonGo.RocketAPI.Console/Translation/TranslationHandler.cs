@@ -18,7 +18,7 @@ namespace PokemonGo.RocketAPI.Console.Translation
 
         public static void init()
         {
-            foreach(String file in System.IO.Directory.GetFiles("translations"))
+            foreach(String file in System.IO.Directory.GetFiles("Translations"))
             {
                 if (file.EndsWith(".json"))
                 {
