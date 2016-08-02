@@ -121,8 +121,10 @@
             this.tabItems = new System.Windows.Forms.TabPage();
             this.lang_de_btn = new System.Windows.Forms.Button();
             this.lang_en_btn = new System.Windows.Forms.Button();
+            this.lang_tr_btn = new System.Windows.Forms.Button();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -139,6 +141,7 @@
             this.tabItems.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -1091,7 +1094,18 @@
             this.lang_en_btn.Size = new System.Drawing.Size(24, 15);
             this.lang_en_btn.TabIndex = 38;
             this.lang_en_btn.UseVisualStyleBackColor = true;
-            this.lang_en_btn.Click += new System.EventHandler(this.lang_en_btn_Click);
+            this.lang_en_btn.Click += new System.EventHandler(this.lang_tr_btn_Click);
+            // 
+            // lang_tr_btn
+            // 
+            this.lang_tr_btn.BackgroundImage = global::PokemonGo.RocketAPI.Console.Properties.Resources.tr;
+            this.lang_tr_btn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.lang_tr_btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.lang_tr_btn.Location = new System.Drawing.Point(70, 79);
+            this.lang_tr_btn.Name = "lang_tr_btn";
+            this.lang_tr_btn.Size = new System.Drawing.Size(24, 15);
+            this.lang_tr_btn.TabIndex = 40;
+            this.lang_tr_btn.Click += new System.EventHandler(this.lang_tr_btn_Click);
             // 
             // pictureBox2
             // 
@@ -1114,6 +1128,17 @@
             this.pictureBox1.TabStop = false;
             this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
             // 
+            // pictureBox3
+            // 
+            this.pictureBox3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pictureBox3.Image = global::PokemonGo.RocketAPI.Console.Properties.Resources.tr;
+            this.pictureBox3.Location = new System.Drawing.Point(70, 79);
+            this.pictureBox3.Name = "pictureBox3";
+            this.pictureBox3.Size = new System.Drawing.Size(24, 15);
+            this.pictureBox3.TabIndex = 40;
+            this.pictureBox3.TabStop = false;
+            this.pictureBox3.Click += new System.EventHandler(this.pictureBox3_Click);
+            // 
             // GUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1122,16 +1147,18 @@
             this.ClientSize = new System.Drawing.Size(576, 605);
             this.Controls.Add(this.lang_de_btn);
             this.Controls.Add(this.lang_en_btn);
+            this.Controls.Add(this.lang_tr_btn);
             this.Controls.Add(this.pictureBox2);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.pictureBox1);
+            this.Controls.Add(this.pictureBox3);
             this.Controls.Add(this.label32);
             this.Controls.Add(this.label30);
             this.Controls.Add(this.button1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "GUI";
-            this.Text = "PokeGoBot GUI Edition | Gui by GreenGold | Edit by IceQ1337 & gatno |";
+            this.Text = "PokeGoBot GUI Edition | Gui by GreenGold | Edit by IceQ1337 & gatno | Edit by HaydarOzturk |";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.GUI_FormClosing);
             this.Load += new System.EventHandler(this.GUI_Load);
             this.groupBox1.ResumeLayout(false);
@@ -1160,6 +1187,7 @@
             this.tabItems.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1261,6 +1289,8 @@
         private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.Button lang_en_btn;
         private System.Windows.Forms.Button lang_de_btn;
+        private System.Windows.Forms.Button lang_tr_btn;
+        private System.Windows.Forms.PictureBox pictureBox3;
     }
 }
 
