@@ -645,6 +645,7 @@ namespace PokemonGo.RocketAPI.Console
         private void lang_en_btn2_Click(object sender, EventArgs e)
         {
             lang_de_btn_2.Enabled = true;
+            lang_ptBR_btn2.Enabled = true;
             lang_en_btn2.Enabled = false;
             languagestr2 = null;
 
@@ -660,6 +661,7 @@ namespace PokemonGo.RocketAPI.Console
         private void lang_de_btn_2_Click(object sender, EventArgs e)
         {
             lang_en_btn2.Enabled = true;
+            lang_ptBR_btn2.Enabled = true;
             lang_de_btn_2.Enabled = false;
             languagestr2 = "de";
 
@@ -670,6 +672,21 @@ namespace PokemonGo.RocketAPI.Console
             btnUpgrade.Text = "PowerUp (gewählte)";
             btnFullPowerUp.Text = "FULL-PowerUp (gewählte)";
             btnTransfer.Text = "Versenden (gewählte)";
+        }
+        private void lang_ptBR_btn2_Click(object sender, EventArgs e)
+        {
+            lang_en_btn2.Enabled = true;
+            lang_de_btn_2.Enabled = true;
+			lang_ptBR_btn2.Enabled = false;
+            languagestr2 = "ptBR";
+
+            // Pokemon List GUI
+            btnreload.Text = "Recarregar";
+            btnEvolve.Text = "Evoluir (selecionados)";
+            checkBoxreload.Text = "Recarregar a cada";
+            btnUpgrade.Text = "PowerUp (selecionados)";
+            btnFullPowerUp.Text = "FULL-PowerUp (selecionados)";
+            btnTransfer.Text = "Transferir (selecionados)";
         }
     }
     public static class ControlExtensions
