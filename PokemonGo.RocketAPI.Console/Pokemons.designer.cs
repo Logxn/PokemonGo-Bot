@@ -48,6 +48,7 @@
             this.btnShowMap = new System.Windows.Forms.Button();
             this.lang_en_btn2 = new System.Windows.Forms.Button();
             this.lang_de_btn_2 = new System.Windows.Forms.Button();
+            this.lang_tr_btn_3 = new System.Windows.Forms.Button();
             this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -222,6 +223,18 @@
             this.lang_de_btn_2.UseVisualStyleBackColor = true;
             this.lang_de_btn_2.Click += new System.EventHandler(this.lang_de_btn_2_Click);
             // 
+            // lang_tr_btn_3
+            // 
+            this.lang_tr_btn_3.BackgroundImage = global::PokemonGo.RocketAPI.Console.Properties.Resources.tr;
+            this.lang_tr_btn_3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.lang_tr_btn_3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.lang_tr_btn_3.Location = new System.Drawing.Point(73, 5);
+            this.lang_tr_btn_3.Name = "lang_tr_btn_3";
+            this.lang_tr_btn_3.Size = new System.Drawing.Size(24, 15);
+            this.lang_tr_btn_3.TabIndex = 15;
+            this.lang_tr_btn_3.UseVisualStyleBackColor = true;
+            this.lang_tr_btn_3.Click += new System.EventHandler(this.lang_tr_btn_3_Click);
+            // 
             // Pokemons
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -229,6 +242,7 @@
             this.ClientSize = new System.Drawing.Size(711, 509);
             this.Controls.Add(this.lang_de_btn_2);
             this.Controls.Add(this.lang_en_btn2);
+            this.Controls.Add(this.lang_tr_btn_3);
             this.Controls.Add(this.btnShowMap);
             this.Controls.Add(this.btnFullPowerUp);
             this.Controls.Add(this.label2);
@@ -272,5 +286,6 @@
         private System.Windows.Forms.Button btnShowMap;
         private System.Windows.Forms.Button lang_en_btn2;
         private System.Windows.Forms.Button lang_de_btn_2;
+        private System.Windows.Forms.Button lang_tr_btn_3;
     }
 }
