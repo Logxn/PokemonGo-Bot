@@ -123,7 +123,7 @@ namespace PokemonGo.RocketAPI
         File.WriteAllText(Directory.GetCurrentDirectory() + "\\Configs\\LastCoords.txt", latlng);
         }
 
-        public async Task DoGoogleLogin()
+        public void DoGoogleLogin()
         {
             _authType = AuthType.Google;
             AccessToken = GoogleLoginGPSOAuth.DoLogin(_settings.PtcUsername, _settings.PtcPassword); // TempFix 

@@ -110,6 +110,8 @@
             this.linkLabel2 = new System.Windows.Forms.LinkLabel();
             this.groupBox9 = new System.Windows.Forms.GroupBox();
             this.groupBox10 = new System.Windows.Forms.GroupBox();
+            this.chkUsePaidIncubators = new System.Windows.Forms.CheckBox();
+            this.chkAutoIncubate = new System.Windows.Forms.CheckBox();
             this.checkBox12 = new System.Windows.Forms.CheckBox();
             this.checkBox11 = new System.Windows.Forms.CheckBox();
             this.checkBox10 = new System.Windows.Forms.CheckBox();
@@ -477,7 +479,7 @@
             this.checkBox7.TabIndex = 26;
             this.checkBox7.Text = "Use LuckyEgg at Evolve";
             this.checkBox7.UseVisualStyleBackColor = true;
-            this.checkBox7.CheckedChanged += new System.EventHandler(this.checkBox7_CheckedChanged_1);
+            this.checkBox7.CheckedChanged += new System.EventHandler(this.checkBox7_CheckedChanged);
             // 
             // groupBox4
             // 
@@ -954,6 +956,8 @@
             // 
             // groupBox10
             // 
+            this.groupBox10.Controls.Add(this.chkUsePaidIncubators);
+            this.groupBox10.Controls.Add(this.chkAutoIncubate);
             this.groupBox10.Controls.Add(this.checkBox12);
             this.groupBox10.Controls.Add(this.checkBox11);
             this.groupBox10.Controls.Add(this.checkBox10);
@@ -963,10 +967,34 @@
             this.groupBox10.Controls.Add(this.checkBox3);
             this.groupBox10.Location = new System.Drawing.Point(264, 6);
             this.groupBox10.Name = "groupBox10";
-            this.groupBox10.Size = new System.Drawing.Size(271, 188);
+            this.groupBox10.Size = new System.Drawing.Size(271, 240);
             this.groupBox10.TabIndex = 6;
             this.groupBox10.TabStop = false;
             this.groupBox10.Text = "Other Settings";
+            // 
+            // chkUsePaidIncubators
+            // 
+            this.chkUsePaidIncubators.AutoSize = true;
+            this.chkUsePaidIncubators.Location = new System.Drawing.Point(24, 200);
+            this.chkUsePaidIncubators.Name = "chkUsePaidIncubators";
+            this.chkUsePaidIncubators.Size = new System.Drawing.Size(120, 17);
+            this.chkUsePaidIncubators.TabIndex = 34;
+            this.chkUsePaidIncubators.Text = "Use paid incubators";
+            this.chkUsePaidIncubators.UseVisualStyleBackColor = true;
+            this.chkUsePaidIncubators.CheckedChanged += new System.EventHandler(this.chkUsePaidIncubators_CheckedChanged);
+            // 
+            // chkAutoIncubate
+            // 
+            this.chkAutoIncubate.AutoSize = true;
+            this.chkAutoIncubate.Checked = true;
+            this.chkAutoIncubate.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkAutoIncubate.Location = new System.Drawing.Point(6, 179);
+            this.chkAutoIncubate.Name = "chkAutoIncubate";
+            this.chkAutoIncubate.Size = new System.Drawing.Size(92, 17);
+            this.chkAutoIncubate.TabIndex = 33;
+            this.chkAutoIncubate.Text = "Auto incubate";
+            this.chkAutoIncubate.UseVisualStyleBackColor = true;
+            this.chkAutoIncubate.CheckedChanged += new System.EventHandler(this.chkAutoIncubate_CheckedChanged);
             // 
             // checkBox12
             // 
@@ -977,7 +1005,7 @@
             this.checkBox12.TabIndex = 32;
             this.checkBox12.Text = "Use LuckyEgg if not running";
             this.checkBox12.UseVisualStyleBackColor = true;
-            this.checkBox12.CheckedChanged += new System.EventHandler(this.checkBox12_CheckedChanged_1);
+            this.checkBox12.CheckedChanged += new System.EventHandler(this.checkBox12_CheckedChanged);
             // 
             // checkBox11
             // 
@@ -1360,6 +1388,8 @@
         private System.Windows.Forms.Button lang_ru_btn;
         private System.Windows.Forms.Button lang_france_btn;
         private System.Windows.Forms.CheckBox checkBox12;
+        private System.Windows.Forms.CheckBox chkUsePaidIncubators;
+        private System.Windows.Forms.CheckBox chkAutoIncubate;
     }
 }
 

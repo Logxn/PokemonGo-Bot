@@ -60,7 +60,7 @@ namespace PokemonGo.RocketAPI.Console
                         await client.DoPtcLogin(ClientSettings.PtcUsername, ClientSettings.PtcPassword);
                         break;
                     case AuthType.Google:
-                        await client.DoGoogleLogin();
+                        client.DoGoogleLogin();
                         break;
                 }
 

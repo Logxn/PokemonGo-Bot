@@ -12,7 +12,6 @@ using PokemonGo.RocketAPI.Helpers;
 
 namespace PokemonGo.RocketAPI.Logic
 {
-
     public class Logic
     {
         public readonly Client _client;
@@ -48,9 +47,13 @@ namespace PokemonGo.RocketAPI.Logic
                 try
                 {
                     if (_clientSettings.AuthType == AuthType.Ptc)
+                    {
                         await _client.DoPtcLogin(_clientSettings.PtcUsername, _clientSettings.PtcPassword);
+                    }
                     else if (_clientSettings.AuthType == AuthType.Google)
-                        await _client.DoGoogleLogin();
+                    {
+                        _client.DoGoogleLogin();
+                    }
 
                     if (!string.IsNullOrEmpty(_clientSettings.TelegramAPIToken) && !string.IsNullOrEmpty(_clientSettings.TelegramName))
                     {
@@ -65,7 +68,8 @@ namespace PokemonGo.RocketAPI.Logic
                             _telegram.getClient().OnMessageEdited += _telegram.BotOnMessageReceived;
                             Logger.ColoredConsoleWrite(ConsoleColor.Green, "Telegram Name: " + me.Username);
                             _telegram.getClient().StartReceiving();
-                        } catch (Exception)
+                        }
+                        catch (Exception)
                         {
 
                         }
@@ -103,11 +107,12 @@ namespace PokemonGo.RocketAPI.Logic
                 {
                     Logger.Error($"Error: " + ex.Source);
                     Logger.Error($"{ex}");
-                    Logger.ColoredConsoleWrite(ConsoleColor.Green, "Trying to Restart."); 
+                    Logger.ColoredConsoleWrite(ConsoleColor.Green, "Trying to Restart.");
                     try
                     {
                         _telegram.getClient().StopReceiving();
-                    } catch (Exception)
+                    }
+                    catch (Exception)
                     {
 
                     }
@@ -128,12 +133,19 @@ namespace PokemonGo.RocketAPI.Logic
 
                     await _client.SetServer();
                     var profil = await _client.GetProfile();
-                    await _inventory.ExportPokemonToCSV(profil.Profile);
+                    await _inventory.ExportPokemonToCsv(profil.Profile);
                     await StatsLog(_client);
+
                     if (_clientSettings.EvolvePokemonsIfEnoughCandy)
                     {
                         await EvolveAllPokemonWithEnoughCandy();
                     }
+
+                    if (_clientSettings.AutoIncubate)
+                    {
+                        await StartIncubation();
+                    }
+
                     await TransferDuplicatePokemon(_clientSettings.keepPokemonsThatCanEvolve);
                     await RecycleItems();
                     await ExecuteFarmingPokestopsAndPokemons(_client);
@@ -155,7 +167,9 @@ namespace PokemonGo.RocketAPI.Logic
         public async Task RepeatAction(int repeat, Func<Task> action)
         {
             for (int i = 0; i < repeat; i++)
+            {
                 await action();
+            }
         }
 
         //class PokeService
@@ -191,8 +205,8 @@ namespace PokemonGo.RocketAPI.Logic
             Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "-----------------------[PLAYER STATS UPDATE]-----------------------");
             Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Level/EXP: {c.Level} {curexp.ToString("N0")}/{expneeded.ToString("N0")} ({Math.Round(curexppercent, 2)}%) EXP to Level up: " + ((c.NextLevelXp) - (c.Experience)));
             Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "PokeStops visited: " + c.PokeStopVisits + " KM Walked: " + c.KmWalked);
-            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Pokemon: " + await _inventory.getPokemonCount() + " + " + await _inventory.getEggsCount() + " Eggs /" + profil.Profile.PokeStorage + " (" + pokemonToEvolve + " Evolvable)");
-            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Items: " + await _inventory.getInventoryCount() + "/" + profil.Profile.ItemStorage + " Stardust: " + profil.Profile.Currency.ToArray()[1].Amount.ToString("N0"));
+            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Pokemon: " + await _inventory.GetPokemonCount() + " + " + await _inventory.GetEggsCount() + " Eggs /" + profil.Profile.PokeStorage + " (" + pokemonToEvolve + " Evolvable)");
+            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Items: " + await _inventory.GetInventoryCount() + "/" + profil.Profile.ItemStorage + " Stardust: " + profil.Profile.Currency.ToArray()[1].Amount.ToString("N0"));
             //if (dontspam >= 3)
             //{
             //    dontspam = 0;
@@ -340,20 +354,25 @@ namespace PokemonGo.RocketAPI.Logic
 
             foreach (var pokeStop in pokeStops)
             {
-                // replace this true with settings variable!!
                 await UseIncense();
 
                 await ExecuteCatchAllNearbyPokemons();
-
 
                 if (count >= 3)
                 {
                     count = 0;
                     await StatsLog(client);
+
                     if (_clientSettings.EvolvePokemonsIfEnoughCandy)
                     {
                         await EvolveAllPokemonWithEnoughCandy();
                     }
+                    
+                    if (_clientSettings.AutoIncubate)
+                    {
+                        await StartIncubation();
+                    }
+
                     await TransferDuplicatePokemon(_clientSettings.keepPokemonsThatCanEvolve);
                     await RecycleItems();
 
@@ -428,9 +447,12 @@ namespace PokemonGo.RocketAPI.Logic
                     {
                         eggs = fortSearch.PokemonDataEgg.EggKmWalkedTarget;
                     }
-                    try {
+                    try
+                    {
                         TelegramUtil.getInstance().sendInformationText(TelegramUtil.TelegramUtilInformationTopics.Pokestop, fortInfo.Name, fortSearch.ExperienceAwarded, eggs, fortSearch.GemsAwarded, items);
-                    } catch (Exception) { 
+                    }
+                    catch (Exception)
+                    {
                     }
                 }
                 else
@@ -484,10 +506,17 @@ namespace PokemonGo.RocketAPI.Logic
                 {
                     count = 0;
                     await StatsLog(client);
+
                     if (_clientSettings.EvolvePokemonsIfEnoughCandy)
                     {
                         await EvolveAllPokemonWithEnoughCandy();
                     }
+
+                    if (_clientSettings.AutoIncubate)
+                    {
+                        await StartIncubation();
+                    }
+
                     await TransferDuplicatePokemon(_clientSettings.keepPokemonsThatCanEvolve);
                     await RecycleItems();
                 }
@@ -553,7 +582,8 @@ namespace PokemonGo.RocketAPI.Logic
                         try
                         {
                             TelegramUtil.getInstance().sendInformationText(TelegramUtil.TelegramUtilInformationTopics.Catch, StringUtils.getPokemonNameByLanguage(_clientSettings, pokemon.PokemonId), encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp, Math.Round(encounterPokemonResponse.WildPokemon.PokemonData.CalculateIV()), bestPokeball, caughtPokemonResponse.Scores.Xp.Sum());
-                        } catch (Exception)
+                        }
+                        catch (Exception)
                         {
 
                         }
@@ -589,7 +619,7 @@ namespace PokemonGo.RocketAPI.Logic
             var pokemonToEvolve = await _inventory.GetPokemonToEvolve(filter);
             if (pokemonToEvolve.Count() != 0)
             {
-                if(_clientSettings.UseLuckyEgg)
+                if (_clientSettings.UseLuckyEgg)
                 {
                     await _inventory.UseLuckyEgg(_client);
                 }
@@ -619,7 +649,8 @@ namespace PokemonGo.RocketAPI.Logic
                     try
                     {
                         TelegramUtil.getInstance().sendInformationText(TelegramUtil.TelegramUtilInformationTopics.Evolve, StringUtils.getPokemonNameByLanguage(_clientSettings, pokemon.PokemonId), pokemon.Cp, Math.Round(pokemon.CalculateIV()), StringUtils.getPokemonNameByLanguage(_clientSettings, evolvePokemonOutProto.EvolvedPokemon.PokemonType), evolvePokemonOutProto.EvolvedPokemon.Cp, evolvePokemonOutProto.ExpAwarded.ToString("N0"));
-                    } catch (Exception) { }
+                    }
+                    catch (Exception) { }
                 }
                 else
                 {
@@ -631,6 +662,12 @@ namespace PokemonGo.RocketAPI.Logic
 
                 await RandomHelper.RandomDelay(1000, 2000);
             }
+        }
+
+        private async Task StartIncubation()
+        {
+            await Task.Delay(0);
+            // I'M GONNA IMPLEMENT THIS!
         }
 
         private async Task TransferDuplicatePokemon(bool keepPokemonsThatCanEvolve = false)
@@ -651,7 +688,7 @@ namespace PokemonGo.RocketAPI.Logic
 
                         var bestPokemonOfType = await _inventory.GetHighestCPofType(duplicatePokemon);
                         var bestPokemonsCPOfType = await _inventory.GetHighestCPofType2(duplicatePokemon);
-                        var bestPokemonsIVOfType = await _inventory.GetHighestIVofType(duplicatePokemon); 
+                        var bestPokemonsIVOfType = await _inventory.GetHighestIVofType(duplicatePokemon);
 
                         var transfer = await _client.TransferPokemon(duplicatePokemon.Id);
                         Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Transfer {StringUtils.getPokemonNameByLanguage(_clientSettings, duplicatePokemon.PokemonId)} CP {duplicatePokemon.Cp} IV {Math.Round(duplicatePokemon.CalculateIV())}% (Best: {bestPokemonsCPOfType.First().Cp} CP, IV {Math.Round(bestPokemonsIVOfType.First().CalculateIV())}%)", LogLevel.Info);
@@ -660,7 +697,8 @@ namespace PokemonGo.RocketAPI.Logic
                         try
                         {
                             TelegramUtil.getInstance().sendInformationText(TelegramUtil.TelegramUtilInformationTopics.Transfer, StringUtils.getPokemonNameByLanguage(_clientSettings, duplicatePokemon.PokemonId), duplicatePokemon.Cp, Math.Round(duplicatePokemon.CalculateIV()), bestPokemonOfType);
-                        } catch (Exception)
+                        }
+                        catch (Exception)
                         {
 
                         }

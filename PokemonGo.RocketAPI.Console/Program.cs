@@ -442,6 +442,9 @@ namespace PokemonGo.RocketAPI.Console
 
         public static bool useLuckyEggIfNotRunning = false;
 
+        public static bool autoIncubate = true;
+        public static bool usePaidIncubators = false;
+
         public static Logic.LogicInfoObservable infoObservable = new Logic.LogicInfoObservable();
     }
 }

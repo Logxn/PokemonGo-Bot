@@ -40,6 +40,9 @@ namespace PokemonGo.RocketAPI
         bool keepPokemonsThatCanEvolve { get; }
         bool UseIncense { get; }
 
+        bool AutoIncubate { get; }
+        bool UsePaidIncubators { get; }
+
         bool pokevision { get; }
 
         bool Language { get; }

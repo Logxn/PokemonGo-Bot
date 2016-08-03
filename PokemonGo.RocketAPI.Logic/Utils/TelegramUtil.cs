@@ -81,7 +81,7 @@ namespace PokemonGo.RocketAPI.Logic.Utils
         {
             if(_information.ContainsKey(topic) && _information[topic] == true && _informationTopicDefaultTexts.ContainsKey(topic) && _informationTopicDefaultTextIDs.ContainsKey(topic))
             {
-                String unformatted = TranslationHandler.getString(_informationTopicDefaultTextIDs[topic], _informationTopicDefaultTexts[topic]);
+                String unformatted = TranslationHandler.GetString(_informationTopicDefaultTextIDs[topic], _informationTopicDefaultTexts[topic]);
                 String formatted = string.Format(unformatted, args);
                 sendMessage(formatted);
             }
@@ -158,7 +158,7 @@ namespace PokemonGo.RocketAPI.Logic.Utils
             Array values = Enum.GetValues(typeof(TelegramUtilInformationTopics));
             foreach (TelegramUtilInformationTopics topic in values)
             {
-                _informationDescription[topic] = TranslationHandler.getString(_informationDescriptionIDs[topic], _informationDescriptionDefault[topic]);
+                _informationDescription[topic] = TranslationHandler.GetString(_informationDescriptionIDs[topic], _informationDescriptionDefault[topic]);
                 _information[topic] = false;
             }
 
@@ -318,8 +318,8 @@ namespace PokemonGo.RocketAPI.Logic.Utils
                                 + "\nKM walked: " + ps.KmWalked
                                 + "\nPokeStops visited: " + ps.PokeStopVisits
                                 + "\nStardust: " + profil.Profile.Currency.ToArray()[1].Amount
-                                + "\nPokemons: " + await _inventory.getPokemonCount() + "/" + profil.Profile.PokeStorage
-                                + "\nItems: " + await _inventory.getInventoryCount() + " / " + profil.Profile.ItemStorage
+                                + "\nPokemons: " + await _inventory.GetPokemonCount() + "/" + profil.Profile.PokeStorage
+                                + "\nItems: " + await _inventory.GetInventoryCount() + " / " + profil.Profile.ItemStorage
                                 + "\nCurentLocation:\n" + curlochtml
                                 + "\nPokevision:\n" + pokevishtml;
                         }
@@ -399,11 +399,11 @@ namespace PokemonGo.RocketAPI.Logic.Utils
                             }
 
                             telegramAnswer += " - all-disable\n";
-                            telegramAnswer += " -     " + TranslationHandler.getString("telegram-disable-all", "Disable all topics") + "\n";
+                            telegramAnswer += " -     " + TranslationHandler.GetString("telegram-disable-all", "Disable all topics") + "\n";
                             telegramAnswer += "\n";
 
                             telegramAnswer += " - all-enable\n";
-                            telegramAnswer += " -     " + TranslationHandler.getString("telegram-enable-all", "Enable all topics") + "\n";
+                            telegramAnswer += " -     " + TranslationHandler.GetString("telegram-enable-all", "Enable all topics") + "\n";
                             telegramAnswer += "\n";
                             break;
                         }
