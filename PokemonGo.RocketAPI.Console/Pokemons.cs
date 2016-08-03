@@ -222,6 +222,7 @@ namespace PokemonGo.RocketAPI.Console
                 } catch (Exception)
                 {
                     // User fail picture
+                    err = true;
                 }
             }
             if (err)
