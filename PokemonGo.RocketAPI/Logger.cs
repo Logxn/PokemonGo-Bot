@@ -39,28 +39,28 @@ namespace PokemonGo.RocketAPI
 
         public static void ColoredConsoleWrite(ConsoleColor color, string text, LogLevel level = LogLevel.Info)
         {
-            ConsoleColor originalColor = System.Console.ForegroundColor;
-            System.Console.ForegroundColor = color;
-            System.Console.WriteLine($"[{DateTime.Now.ToString("HH:mm:ss")}] "+ text);
-            System.Console.ForegroundColor = originalColor;
+            ConsoleColor originalColor = Console.ForegroundColor;
+            Console.ForegroundColor = color;
+            Console.WriteLine($"[{DateTime.Now.ToString("HH:mm:ss")}] "+ text);
+            Console.ForegroundColor = originalColor;
             AddLog(text);
         }
 
         public static void ColoredConsoleWrite(ConsoleColor color, string text)
         {
-            ConsoleColor originalColor = System.Console.ForegroundColor;
-            System.Console.ForegroundColor = color;
-            System.Console.WriteLine($"[{DateTime.Now.ToString("HH:mm:ss")}] " + text);
-            System.Console.ForegroundColor = originalColor;
+            ConsoleColor originalColor = Console.ForegroundColor;
+            Console.ForegroundColor = color;
+            Console.WriteLine($"[{DateTime.Now.ToString("HH:mm:ss")}] " + text);
+            Console.ForegroundColor = originalColor;
             AddLog(text);
         }
 
         public static void Error(string text)
         {
-            ConsoleColor originalColor = System.Console.ForegroundColor;
-            System.Console.ForegroundColor = ConsoleColor.Red;
-            System.Console.WriteLine($"[{DateTime.Now.ToString("HH:mm:ss")}] " + text);
-            System.Console.ForegroundColor = originalColor;
+            ConsoleColor originalColor = Console.ForegroundColor;
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine($"[{DateTime.Now.ToString("HH:mm:ss")}] " + text);
+            Console.ForegroundColor = originalColor;
             AddLog(text);
         }
 

@@ -663,13 +663,22 @@ namespace PokemonGo.RocketAPI.Logic
 
         private async Task StartIncubation()
         {
-            var incubators = (await _inventory.GetEggIncubators(_clientSettings.UseBasicIncubators)).ToList();
-            var unusedEggs = (await _inventory.GetEggs()).OrderBy(x => x.EggKmWalkedTarget - x.EggKmWalkedStart).ToList();
+            try
+            {
+                var incubators = (await _inventory.GetEggIncubators(_clientSettings.UseBasicIncubators)).ToList();
+                var unusedEggs = (await _inventory.GetEggs()).OrderBy(x => x.EggKmWalkedTarget - x.EggKmWalkedStart).ToList();
+                var pokemons = (await _inventory.GetPokemons()).ToList();
 
-            var playerStats = await _inventory.GetPlayerStats();
-            var stats = playerStats.First();
+                var playerStats = await _inventory.GetPlayerStats();
+                var stats = playerStats.First();
 
-            await _client.Incubate(stats.KmWalked, incubators, unusedEggs);
+                Logger.ColoredConsoleWrite(ConsoleColor.DarkGray, "Incubation is still WIP");
+                await _client.Incubate(stats.KmWalked, incubators, unusedEggs, pokemons);
+            }
+            catch (Exception)
+            {
+                // ignored
+            }
         }
 
         private async Task TransferDuplicatePokemon(bool keepPokemonsThatCanEvolve = false)

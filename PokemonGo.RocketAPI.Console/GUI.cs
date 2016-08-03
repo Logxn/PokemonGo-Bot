@@ -81,7 +81,7 @@ namespace PokemonGo.RocketAPI.Console
             {
                 ExtendedWebClient client = new ExtendedWebClient();
                 string translations = client.DownloadString("http://pokemon-go.ar1i.xyz/lang/get.php");
-                string[] transArray = translations.Replace("\r", "").Split('\n');
+                string[] transArray = translations.Replace("\r", string.Empty).Split('\n');
                 for (int ijik = 0; ijik < transArray.Count(); ijik++)
                 {
                     client.DownloadFile("http://pokemon-go.ar1i.xyz/lang/" + transArray[ijik], Program.path_translation + "\\" + transArray[ijik]);
@@ -238,6 +238,7 @@ namespace PokemonGo.RocketAPI.Console
                             break;
                         case 25:
                             chkAutoIncubate.Checked = bool.Parse(line);
+                            chkAutoIncubate_CheckedChanged(null, EventArgs.Empty);
                             break;
                         case 26:
                             chkUseBasicIncubators.Checked = bool.Parse(line);
@@ -307,7 +308,7 @@ namespace PokemonGo.RocketAPI.Console
                 string[] lines = File.ReadAllLines(@Program.keep);
                 foreach (string line in lines)
                 {
-                    if (line != "")
+                    if (line != string.Empty)
                         if (checkBox8.Checked)
                             checkedListBox1.SetItemChecked(pokeIDS[gerEng[line]] - 1, true);
                         else
@@ -320,7 +321,7 @@ namespace PokemonGo.RocketAPI.Console
                 string[] lines = File.ReadAllLines(@Program.ignore);
                 foreach (string line in lines)
                 {
-                    if (line != "")
+                    if (line != string.Empty)
                         if (checkBox8.Checked)
                             checkedListBox2.SetItemChecked(pokeIDS[gerEng[line]] - 1, true);
                         else
@@ -351,7 +352,7 @@ namespace PokemonGo.RocketAPI.Console
                 string[] lines = File.ReadAllLines(@Program.evolve);
                 foreach (string line in lines)
                 {
-                    if (line != "")
+                    if (line != string.Empty)
                         if (checkBox8.Checked)
                             checkedListBox3.SetItemChecked(evolveIDS[gerEng[line]] - 1, true);
                         else
@@ -399,14 +400,14 @@ namespace PokemonGo.RocketAPI.Console
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (textBox1.Text == "")
+            if (textBox1.Text == string.Empty)
             {
                 textBox1.BackColor = Color.Red;
                 return;
             }
             else
                 Globals.username = textBox1.Text;
-            if (textBox2.Text == "")
+            if (textBox2.Text == string.Empty)
             {
                 textBox2.BackColor = Color.Red;
                 return;
@@ -414,7 +415,7 @@ namespace PokemonGo.RocketAPI.Console
             else
                 Globals.password = textBox2.Text;
 
-            if (textBox3.Text == "")
+            if (textBox3.Text == string.Empty)
             {
                 textBox3.BackColor = Color.Red;
                 return;
@@ -422,7 +423,7 @@ namespace PokemonGo.RocketAPI.Console
             else
                 Globals.latitute = double.Parse(textBox3.Text.Replace(',', '.'), cords, NumberFormatInfo.InvariantInfo);
 
-            if (textBox4.Text == "")
+            if (textBox4.Text == string.Empty)
             {
                 textBox4.BackColor = Color.Red;
                 return;
@@ -430,7 +431,7 @@ namespace PokemonGo.RocketAPI.Console
             else
                 Globals.longitude = double.Parse(textBox4.Text.Replace(',', '.'), cords, NumberFormatInfo.InvariantInfo);
 
-            if (textBox5.Text == "")
+            if (textBox5.Text == string.Empty)
             {
                 textBox5.BackColor = Color.Red;
                 return;
@@ -438,7 +439,7 @@ namespace PokemonGo.RocketAPI.Console
             else
                 Globals.altitude = double.Parse(textBox5.Text.Replace(',', '.'), cords, NumberFormatInfo.InvariantInfo);
 
-            if (textBox6.Text == "")
+            if (textBox6.Text == string.Empty)
             {
                 textBox6.BackColor = Color.Red;
                 return;
@@ -446,7 +447,7 @@ namespace PokemonGo.RocketAPI.Console
             else
                 Globals.speed = double.Parse(textBox6.Text.Replace(',', '.'), cords, NumberFormatInfo.InvariantInfo);
 
-            if (textBox7.Text == "")
+            if (textBox7.Text == string.Empty)
             {
                 textBox7.BackColor = Color.Red;
                 return;
@@ -454,7 +455,7 @@ namespace PokemonGo.RocketAPI.Console
             else
                 Globals.radius = int.Parse(textBox7.Text);
 
-            if (textBox8.Text == "")
+            if (textBox8.Text == string.Empty)
             {
                 textBox8.BackColor = Color.Red;
                 return;
@@ -462,7 +463,7 @@ namespace PokemonGo.RocketAPI.Console
             else
                 Globals.duplicate = int.Parse(textBox8.Text);
 
-            if (textBox9.Text == "")
+            if (textBox9.Text == string.Empty)
             {
                 textBox9.BackColor = Color.Red;
                 return;
@@ -474,7 +475,7 @@ namespace PokemonGo.RocketAPI.Console
             Globals.defLoc = checkBox1.Checked;
             Globals.evolve = checkBox3.Checked;
 
-            if (textBox10.Text == "")
+            if (textBox10.Text == string.Empty)
             {
                 textBox10.BackColor = Color.Red;
                 return;
@@ -482,7 +483,7 @@ namespace PokemonGo.RocketAPI.Console
             else
                 Globals.pokeball = int.Parse(textBox10.Text);
 
-            if (textBox11.Text == "")
+            if (textBox11.Text == string.Empty)
             {
                 textBox11.BackColor = Color.Red;
                 return;
@@ -490,7 +491,7 @@ namespace PokemonGo.RocketAPI.Console
             else
                 Globals.greatball = int.Parse(textBox11.Text);
 
-            if (textBox12.Text == "")
+            if (textBox12.Text == string.Empty)
             {
                 textBox12.BackColor = Color.Red;
                 return;
@@ -498,7 +499,7 @@ namespace PokemonGo.RocketAPI.Console
             else
                 Globals.ultraball = int.Parse(textBox12.Text);
 
-            if (textBox13.Text == "")
+            if (textBox13.Text == string.Empty)
             {
                 textBox13.BackColor = Color.Red;
                 return;
@@ -506,7 +507,7 @@ namespace PokemonGo.RocketAPI.Console
             else
                 Globals.revive = int.Parse(textBox13.Text);
 
-            if (textBox14.Text == "")
+            if (textBox14.Text == string.Empty)
             {
                 textBox14.BackColor = Color.Red;
                 return;
@@ -514,7 +515,7 @@ namespace PokemonGo.RocketAPI.Console
             else
                 Globals.potion = int.Parse(textBox14.Text);
 
-            if (textBox15.Text == "")
+            if (textBox15.Text == string.Empty)
             {
                 textBox15.BackColor = Color.Red;
                 return;
@@ -522,7 +523,7 @@ namespace PokemonGo.RocketAPI.Console
             else
                 Globals.superpotion = int.Parse(textBox15.Text);
 
-            if (textBox16.Text == "")
+            if (textBox16.Text == string.Empty)
             {
                 textBox16.BackColor = Color.Red;
                 return;
@@ -530,7 +531,7 @@ namespace PokemonGo.RocketAPI.Console
             else
                 Globals.hyperpotion = int.Parse(textBox16.Text);
 
-            if (textBox17.Text == "")
+            if (textBox17.Text == string.Empty)
             {
                 textBox17.BackColor = Color.Red;
                 return;
@@ -538,13 +539,13 @@ namespace PokemonGo.RocketAPI.Console
             else
                 Globals.berry = int.Parse(textBox17.Text);
 
-            if (textBox18.Text != "")
+            if (textBox18.Text != string.Empty)
                 Globals.telAPI = textBox18.Text;
 
-            if (textBox19.Text != "")
+            if (textBox19.Text != string.Empty)
                 Globals.telName = textBox19.Text;
 
-            if (textBox20.Text == "")
+            if (textBox20.Text == string.Empty)
             {
                 textBox20.BackColor = Color.Red;
                 return;
@@ -552,7 +553,7 @@ namespace PokemonGo.RocketAPI.Console
             else
                 Globals.telDelay = int.Parse(textBox20.Text);
 
-            if (textBox21.Text == "")
+            if (textBox21.Text == string.Empty)
             {
                 textBox21.BackColor = Color.Red;
             }
@@ -561,7 +562,7 @@ namespace PokemonGo.RocketAPI.Console
                 Globals.toppotion = int.Parse(textBox21.Text);
             }
 
-            if (textBox22.Text == "")
+            if (textBox22.Text == string.Empty)
             {
                 textBox22.BackColor = Color.Red;
             }
@@ -570,7 +571,7 @@ namespace PokemonGo.RocketAPI.Console
                 Globals.masterball = int.Parse(textBox22.Text);
             }
 
-            if (textBox23.Text == "")
+            if (textBox23.Text == string.Empty)
             {
                 textBox23.BackColor = Color.Red;
             }
@@ -579,7 +580,7 @@ namespace PokemonGo.RocketAPI.Console
                 Globals.toprevive = int.Parse(textBox23.Text);
             }
 
-            if (textBox24.Text == "")
+            if (textBox24.Text == string.Empty)
             {
                 textBox24.BackColor = Color.Red;
             }
@@ -793,6 +794,7 @@ namespace PokemonGo.RocketAPI.Console
         private void chkAutoIncubate_CheckedChanged(object sender, EventArgs e)
         {
             Globals.autoIncubate = chkAutoIncubate.Checked;
+            chkUseBasicIncubators.Enabled = chkAutoIncubate.Checked;
         }
 
         private void chkUseBasicIncubators_CheckedChanged(object sender, EventArgs e)
@@ -817,11 +819,11 @@ namespace PokemonGo.RocketAPI.Console
             Process.Start("https://high-minded.net/threads/pokemon-go-c-bot-safer-better.50731/");
         }
 
-        private async void button2_Click(object sender, EventArgs e)
+        private void button2_Click(object sender, EventArgs e)
         {
             try
             {
-                await displayLocationSelector();
+                DisplayLocationSelector();
             }
             catch (Exception ex)
             {
@@ -830,22 +832,22 @@ namespace PokemonGo.RocketAPI.Console
             }
         }
 
-        private async Task displayLocationSelector()
+        private void DisplayLocationSelector()
         {
             LocationSelect locationSelector = new LocationSelect(false);
             locationSelector.ShowDialog();
-            textBox3.Text = Globals.latitute.ToString();
-            textBox4.Text = Globals.longitude.ToString();
-            textBox5.Text = Globals.altitude.ToString();
+            textBox3.Text = Globals.latitute.ToString(CultureInfo.InvariantCulture);
+            textBox4.Text = Globals.longitude.ToString(CultureInfo.InvariantCulture);
+            textBox5.Text = Globals.altitude.ToString(CultureInfo.InvariantCulture);
         }
 
         private void TextBoxes_Items_TextChanged(object sender, EventArgs e)
         {
-            int item_summe = 0;
+            int itemSumme = 0;
 
-            if (textBox10.Text != "" && textBox11.Text != "" && textBox12.Text != "" && textBox13.Text != "" && textBox14.Text != "" && textBox15.Text != "" && textBox16.Text != "" && textBox17.Text != "" && textBox22.Text != "" && textBox21.Text != "" && textBox23.Text != "")
+            if (textBox10.Text != string.Empty && textBox11.Text != string.Empty && textBox12.Text != string.Empty && textBox13.Text != string.Empty && textBox14.Text != string.Empty && textBox15.Text != string.Empty && textBox16.Text != string.Empty && textBox17.Text != string.Empty && textBox22.Text != string.Empty && textBox21.Text != string.Empty && textBox23.Text != string.Empty)
             {
-                item_summe = Convert.ToInt16(textBox10.Text) +
+                itemSumme = Convert.ToInt16(textBox10.Text) +
                             Convert.ToInt16(textBox11.Text) +
                             Convert.ToInt16(textBox12.Text) +
                             Convert.ToInt16(textBox13.Text) +
@@ -857,7 +859,8 @@ namespace PokemonGo.RocketAPI.Console
                             Convert.ToInt16(textBox23.Text) +
                             Convert.ToInt16(textBox21.Text);
             }
-            textBox25.Text = Convert.ToString(item_summe);
+
+            textBox25.Text = Convert.ToString(itemSumme);
         }
 
         private void pictureBox1_Click(object sender, EventArgs e)
@@ -930,7 +933,6 @@ namespace PokemonGo.RocketAPI.Console
             chkUseBasicIncubators.Text = TranslationHandler.GetString("useBasicIncubators", "Use basic incubators");
         }
 
-
         private void languages_btn_Click(object sender, EventArgs e)
         {
             var clicked = (Button)sender;
@@ -950,10 +952,13 @@ namespace PokemonGo.RocketAPI.Console
             {
                 // I have used the tag field of the button to save the language key
                 string langSelected = (string)clicked.Tag;
-                if (langSelected != null && langSelected != "")
+                if (!string.IsNullOrWhiteSpace(langSelected))
                 {
                     foreach (Button curr in languageButtons)
+                    {
                         curr.Enabled = true;
+                    }
+
                     clicked.Enabled = false;
                     TranslationHandler.SelectLangauge(langSelected);
                     load_lang();
@@ -971,7 +976,7 @@ namespace PokemonGo.RocketAPI.Console
 
             //Logger.ColoredConsoleWrite(ConsoleColor.Red, ass.GetName().ToString());
 
-            using (var s = ass.GetManifestResourceStream(nameSpace + "." + (internalFilePath == "" ? "" : internalFilePath + ".") + resourceName))
+            using (var s = ass.GetManifestResourceStream(nameSpace + "." + (internalFilePath == string.Empty ? string.Empty : internalFilePath + ".") + resourceName))
             using (BinaryReader r = new BinaryReader(s))
             using (FileStream fs = new FileStream(outDir + "\\" + resourceName, FileMode.OpenOrCreate))
             using (BinaryWriter w = new BinaryWriter(fs))

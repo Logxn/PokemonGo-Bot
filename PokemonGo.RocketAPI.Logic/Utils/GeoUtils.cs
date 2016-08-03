@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Device.Location;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PokemonGo.RocketAPI.Logic.Utils
 {
-    class GeoUtils
+    internal class GeoUtils
     {
         public static GeoCoordinate GetNextPoint(GeoCoordinate current, double bearing, double range)
         {
@@ -34,16 +30,16 @@ namespace PokemonGo.RocketAPI.Logic.Utils
         }
 
 
-        static double DegreeBearing(
-     double lat1, double lon1,
-     double lat2, double lon2)
+        static double DegreeBearing(double lat1, double lon1, double lat2, double lon2)
         {
-            const double R = 6371; //earth’s radius (mean radius = 6,371km)
+            //const double r = 6371; //earth’s radius (mean radius = 6,371km)
             var dLon = ToRad(lon2 - lon1);
-            var dPhi = Math.Log(
-                Math.Tan(ToRad(lat2) / 2 + Math.PI / 4) / Math.Tan(ToRad(lat1) / 2 + Math.PI / 4));
+            var dPhi = Math.Log(Math.Tan(ToRad(lat2) / 2 + Math.PI / 4) / Math.Tan(ToRad(lat1) / 2 + Math.PI / 4));
             if (Math.Abs(dLon) > Math.PI)
+            {
                 dLon = dLon > 0 ? -(2 * Math.PI - dLon) : (2 * Math.PI + dLon);
+            }
+
             return ToBearing(Math.Atan2(dLon, dPhi));
         }
 
@@ -63,13 +59,11 @@ namespace PokemonGo.RocketAPI.Logic.Utils
             return (ToDegrees(radians) + 360) % 360;
         }
 
-        private const double EARTH_RADIUS_IN_MILES = 3964.037911746;
-        private const double EARTH_RADIUS_IN_METERS = 6378137.0;
+        //private const double EARTH_RADIUS_IN_MILES = 3964.037911746;
+        //private const double EARTH_RADIUS_IN_METERS = 6378137.0;
         private const double EarthRadius = 6378137.0;
         private const double TwoPi = Math.PI * 2;
         private const double DegreesToRadians = 0.0174532925;
         private const double RadiansToDegrees = 57.2957795;
-
-
     }
 }

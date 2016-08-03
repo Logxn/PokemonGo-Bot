@@ -11,6 +11,7 @@ using GMap.NET.WindowsForms.Markers;
 using GMap.NET;
 using System.Threading.Tasks;
 using System.Device.Location;
+using System.Globalization;
 
 namespace PokemonGo.RocketAPI.Console
 {
@@ -28,7 +29,7 @@ namespace PokemonGo.RocketAPI.Console
             if (asViewOnly)
                 initViewOnly();
         }
-        
+
         private void initViewOnly()
         {
             GMapOverlay markersOverlay = new GMapOverlay("markers");
@@ -97,10 +98,9 @@ namespace PokemonGo.RocketAPI.Console
         {
             Task.Run(() =>
             {
-                WebClient request = new WebClient();
-                ElevationRequest elevationRequest = new ElevationRequest()
+                var elevationRequest = new ElevationRequest()
                 {
-                    Locations = new Location[] { new Location(map.Position.Lat, map.Position.Lng) },
+                    Locations = new[] { new Location(map.Position.Lat, map.Position.Lng) },
                 };
                 try
                 {
@@ -113,13 +113,14 @@ namespace PokemonGo.RocketAPI.Console
                         }
                     }
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
-
+                    // ignored
                 }
             });
-            textBox1.Text = map.Position.Lat.ToString();
-            textBox2.Text = map.Position.Lng.ToString();
+
+            textBox1.Text = map.Position.Lat.ToString(CultureInfo.InvariantCulture);
+            textBox2.Text = map.Position.Lng.ToString(CultureInfo.InvariantCulture);
         }
 
         delegate void SetTextCallback(double cord);
@@ -128,12 +129,12 @@ namespace PokemonGo.RocketAPI.Console
         {
             if (this.textBox3.InvokeRequired)
             {
-                SetTextCallback d = new SetTextCallback(SetText);
-                this.Invoke(d, new object[] { cord });
+                SetTextCallback d = SetText;
+                this.Invoke(d, cord);
             }
             else
             {
-                this.textBox3.Text = cord.ToString();
+                this.textBox3.Text = cord.ToString(CultureInfo.InvariantCulture);
                 this.alt = cord;
             }
         }
