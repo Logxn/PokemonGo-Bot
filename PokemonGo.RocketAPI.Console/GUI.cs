@@ -56,7 +56,7 @@ namespace PokemonGo.RocketAPI.Console
                 }
                 else if (languagestr == "ptBR")
                 {
-                    label2.Text = "Usu·rio:";
+                    label2.Text = "Usu√°rio:";
                 }
                 else if (languagestr == "tr")
                 {
@@ -957,7 +957,7 @@ namespace PokemonGo.RocketAPI.Console
                 lang_ru_btn,
                 lang_france_btn
 
-                // add here the new languages button
+                // add here the new language buttons
             };
             if (clicked != null) {
                 // I have used the tag field of the button to save the language key
@@ -971,7 +971,7 @@ namespace PokemonGo.RocketAPI.Console
                     load_lang();
                 }
                 else {
-                    throw new MissingFieldException("Every languages button needs to have as Tag field the language key");
+                    throw new MissingFieldException("Every language buttons needs to have as Tag field the language key");
                 }
             }
         }
