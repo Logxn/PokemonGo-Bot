@@ -11,12 +11,14 @@ using GMap.NET.WindowsForms.Markers;
 using GMap.NET;
 using System.Threading.Tasks;
 using System.Device.Location;
+using System.Collections.Generic;
 
 namespace PokemonGo.RocketAPI.Console
 {
     public partial class LocationSelect : Form
     {
-        public GMapOverlay markersOverlay = new GMapOverlay("markers");
+        private GMarkerGoogle _botMarker = new GMarkerGoogle(new PointLatLng(), GMarkerGoogleType.red);
+        private GMapRoute _botRoute = new GMapRoute("BotRoute");
         public double alt;
         public bool close = true;
 
@@ -31,13 +33,17 @@ namespace PokemonGo.RocketAPI.Console
         
         private void initViewOnly()
         {
-            GMapOverlay markersOverlay = new GMapOverlay("markers");
             //first hide all controls
             foreach (Control c in Controls)
                 c.Visible = false;
             //show map
             map.Visible = true;
             map.Dock = DockStyle.Fill;
+            map.ShowCenter = false;
+            GMapOverlay routeOverlay = new GMapOverlay();
+            routeOverlay.Routes.Add(_botRoute);
+            routeOverlay.Markers.Add(_botMarker);
+            map.Overlays.Add(routeOverlay);
             //show geodata controls
             label1.Visible = true;
             label2.Visible = true;
@@ -57,13 +63,12 @@ namespace PokemonGo.RocketAPI.Console
         {
             this.Invoke(new MethodInvoker(() =>
             {
-                double lat = Convert.ToDouble(textBox1.Text);
-                double lon = Convert.ToDouble(textBox2.Text);
-                markersOverlay.Markers.Clear();
-                GMarkerGoogle marker = new GMarkerGoogle(new GMap.NET.PointLatLng(lat, lon), GMarkerGoogleType.red);
-                markersOverlay.Markers.Add(marker);
-                map.Overlays.Add(markersOverlay);
-                map.Position = new GMap.NET.PointLatLng(coords.Latitude, coords.Longitude);
+                textBox1.Text = coords.Latitude.ToString();
+                textBox2.Text = coords.Longitude.ToString();
+                PointLatLng newPosition = new PointLatLng(coords.Latitude, coords.Longitude);
+                _botMarker.Position = newPosition;
+                _botRoute.Points.Add(newPosition);
+                map.Position = newPosition;
             }));
         }
 
