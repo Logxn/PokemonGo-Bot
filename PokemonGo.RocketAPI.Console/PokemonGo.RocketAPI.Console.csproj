@@ -143,6 +143,13 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="app.manifest" />
+    <EmbeddedResource Include="Lang\de.json" />
+    <EmbeddedResource Include="Lang\france.json" />
+    <EmbeddedResource Include="Lang\italian.json" />
+    <EmbeddedResource Include="Lang\ptBR.json" />
+    <EmbeddedResource Include="Lang\ru.json" />
+    <EmbeddedResource Include="Lang\spain.json" />
+    <EmbeddedResource Include="Lang\tr.json" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -221,6 +228,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\ru.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="bin\Release\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

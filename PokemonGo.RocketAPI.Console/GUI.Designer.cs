@@ -110,6 +110,7 @@
             this.linkLabel2 = new System.Windows.Forms.LinkLabel();
             this.groupBox9 = new System.Windows.Forms.GroupBox();
             this.groupBox10 = new System.Windows.Forms.GroupBox();
+            this.checkBox12 = new System.Windows.Forms.CheckBox();
             this.checkBox11 = new System.Windows.Forms.CheckBox();
             this.checkBox10 = new System.Windows.Forms.CheckBox();
             this.checkBox9 = new System.Windows.Forms.CheckBox();
@@ -128,7 +129,6 @@
             this.lang_en_btn = new System.Windows.Forms.Button();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.checkBox12 = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -968,6 +968,17 @@
             this.groupBox10.TabStop = false;
             this.groupBox10.Text = "Other Settings";
             // 
+            // checkBox12
+            // 
+            this.checkBox12.AutoSize = true;
+            this.checkBox12.Location = new System.Drawing.Point(6, 156);
+            this.checkBox12.Name = "checkBox12";
+            this.checkBox12.Size = new System.Drawing.Size(160, 17);
+            this.checkBox12.TabIndex = 32;
+            this.checkBox12.Text = "Use LuckyEgg if not running";
+            this.checkBox12.UseVisualStyleBackColor = true;
+            this.checkBox12.CheckedChanged += new System.EventHandler(this.checkBox12_CheckedChanged_1);
+            // 
             // checkBox11
             // 
             this.checkBox11.AutoSize = true;
@@ -1086,8 +1097,9 @@
             this.lang_france_btn.Name = "lang_france_btn";
             this.lang_france_btn.Size = new System.Drawing.Size(24, 15);
             this.lang_france_btn.TabIndex = 44;
+            this.lang_france_btn.Tag = "france";
             this.lang_france_btn.UseVisualStyleBackColor = true;
-            this.lang_france_btn.Click += new System.EventHandler(this.lang_france_btn_Click);
+            this.lang_france_btn.Click += new System.EventHandler(this.languages_btn_Click);
             // 
             // lang_ru_btn
             // 
@@ -1098,8 +1110,9 @@
             this.lang_ru_btn.Name = "lang_ru_btn";
             this.lang_ru_btn.Size = new System.Drawing.Size(24, 15);
             this.lang_ru_btn.TabIndex = 43;
+            this.lang_ru_btn.Tag = "ru";
             this.lang_ru_btn.UseVisualStyleBackColor = true;
-            this.lang_ru_btn.Click += new System.EventHandler(this.btn_ru_Click);
+            this.lang_ru_btn.Click += new System.EventHandler(this.languages_btn_Click);
             // 
             // lang_tr_btn
             // 
@@ -1110,8 +1123,9 @@
             this.lang_tr_btn.Name = "lang_tr_btn";
             this.lang_tr_btn.Size = new System.Drawing.Size(24, 15);
             this.lang_tr_btn.TabIndex = 42;
+            this.lang_tr_btn.Tag = "tr";
             this.lang_tr_btn.UseVisualStyleBackColor = true;
-            this.lang_tr_btn.Click += new System.EventHandler(this.lang_tr_btn_Click);
+            this.lang_tr_btn.Click += new System.EventHandler(this.languages_btn_Click);
             // 
             // lang_ptBR_btn
             // 
@@ -1122,8 +1136,9 @@
             this.lang_ptBR_btn.Name = "lang_ptBR_btn";
             this.lang_ptBR_btn.Size = new System.Drawing.Size(24, 15);
             this.lang_ptBR_btn.TabIndex = 41;
+            this.lang_ptBR_btn.Tag = "ptBR";
             this.lang_ptBR_btn.UseVisualStyleBackColor = true;
-            this.lang_ptBR_btn.Click += new System.EventHandler(this.lang_ptBR_btn_Click);
+            this.lang_ptBR_btn.Click += new System.EventHandler(this.languages_btn_Click);
             // 
             // lang_spain_btn
             // 
@@ -1134,9 +1149,10 @@
             this.lang_spain_btn.Name = "lang_spain_btn";
             this.lang_spain_btn.Size = new System.Drawing.Size(24, 15);
             this.lang_spain_btn.TabIndex = 40;
+            this.lang_spain_btn.Tag = "spain";
             this.lang_spain_btn.Text = "button3";
             this.lang_spain_btn.UseVisualStyleBackColor = true;
-            this.lang_spain_btn.Click += new System.EventHandler(this.lang_spain_btn_Click);
+            this.lang_spain_btn.Click += new System.EventHandler(this.languages_btn_Click);
             // 
             // lang_de_btn
             // 
@@ -1147,8 +1163,9 @@
             this.lang_de_btn.Name = "lang_de_btn";
             this.lang_de_btn.Size = new System.Drawing.Size(24, 15);
             this.lang_de_btn.TabIndex = 39;
+            this.lang_de_btn.Tag = "de";
             this.lang_de_btn.UseVisualStyleBackColor = true;
-            this.lang_de_btn.Click += new System.EventHandler(this.lang_de_btn_Click);
+            this.lang_de_btn.Click += new System.EventHandler(this.languages_btn_Click);
             // 
             // lang_en_btn
             // 
@@ -1160,8 +1177,9 @@
             this.lang_en_btn.Name = "lang_en_btn";
             this.lang_en_btn.Size = new System.Drawing.Size(24, 15);
             this.lang_en_btn.TabIndex = 38;
+            this.lang_en_btn.Tag = "en";
             this.lang_en_btn.UseVisualStyleBackColor = true;
-            this.lang_en_btn.Click += new System.EventHandler(this.lang_en_btn_Click);
+            this.lang_en_btn.Click += new System.EventHandler(this.languages_btn_Click);
             // 
             // pictureBox2
             // 
@@ -1183,17 +1201,6 @@
             this.pictureBox1.TabIndex = 21;
             this.pictureBox1.TabStop = false;
             this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
-            // 
-            // checkBox12
-            // 
-            this.checkBox12.AutoSize = true;
-            this.checkBox12.Location = new System.Drawing.Point(6, 156);
-            this.checkBox12.Name = "checkBox12";
-            this.checkBox12.Size = new System.Drawing.Size(160, 17);
-            this.checkBox12.TabIndex = 32;
-            this.checkBox12.Text = "Use LuckyEgg if not running";
-            this.checkBox12.UseVisualStyleBackColor = true;
-            this.checkBox12.CheckedChanged += new System.EventHandler(this.checkBox12_CheckedChanged_1);
             // 
             // GUI
             // 
