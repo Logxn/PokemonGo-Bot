@@ -199,11 +199,15 @@ namespace PokemonGo.RocketAPI.Logic
             var curexppercent = Convert.ToDouble(curexp) / Convert.ToDouble(expneeded) * 100;
             var pokemonToEvolve = (await _inventory.GetPokemonToEvolve()).Count();
 
-            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "-----------------------[PLAYER STATS UPDATE]-----------------------");
-            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Level/EXP: {stats.Level} {curexp.ToString("N0")}/{expneeded.ToString("N0")} ({Math.Round(curexppercent, 2)}%) EXP to Level up: " + (stats.NextLevelXp - stats.Experience));
-            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "PokeStops visited: " + stats.PokeStopVisits + " KM Walked: " + stats.KmWalked);
+            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "-----------------------[PLAYER-STATS]-----------------------");
+            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Level/XP: {stats.Level} {curexp.ToString("N0")}/{expneeded.ToString("N0")} ({Math.Round(curexppercent, 2)}%)");
+            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "XP To Level Up: " + (stats.NextLevelXp - stats.Experience));
+            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "KM walked: " + stats.KmWalked);
+            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "PokeStops visited: " + stats.PokeStopVisits);
             Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Pokemon: " + await _inventory.GetPokemonCount() + " + " + await _inventory.GetEggsCount() + " Eggs /" + profile.Profile.PokeStorage + " (" + pokemonToEvolve + " Evolvable)");
-            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Items: " + await _inventory.GetInventoryCount() + "/" + profile.Profile.ItemStorage + " Stardust: " + profile.Profile.Currency.ToArray()[1].Amount.ToString("N0"));
+            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Items: " + await _inventory.GetInventoryCount() + "/" + profile.Profile.ItemStorage);
+            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Stardust: " + profile.Profile.Currency.ToArray()[1].Amount.ToString("N0"));
+            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "------------------------------------------------------------");
             //if (dontspam >= 3)
             //{
             //    dontspam = 0;
