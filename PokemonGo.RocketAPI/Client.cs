@@ -336,7 +336,7 @@ namespace PokemonGo.RocketAPI
                     Message =
                         new Request.Types.SettingsGuid
                         {
-                            Guid = ByteString.CopyFromUtf8("4a2e9bc330dae60e7b74fc85b98868ab4700802e")
+                            Guid = ByteString.CopyFromUtf8("b1f2bf509a025b7cd76e1c484e2a24411c50f061")
                         }.ToByteString()
                 });
 
