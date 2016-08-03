@@ -105,7 +105,7 @@ namespace PokemonGo.RocketAPI.Logic
                 .Where(p => p != null);
         }
 
-        public async Task<IEnumerable<PokemonData>> GetPokemonToEvolve(IEnumerable<PokemonId> filter = null)
+        public async Task<IEnumerable<PokemonData>> GetPokemonToEvolve(IEnumerable<PokemonId> filter = null, bool orderByIV = false)
         {
             var myPokemons = await GetPokemons();
             myPokemons = myPokemons.Where(p => p.DeployedFortId == 0).OrderByDescending(p => p.Cp); //Don't evolve pokemon in gyms
@@ -135,8 +135,14 @@ namespace PokemonGo.RocketAPI.Logic
                 if (familyCandy.Candy - pokemonCandyNeededAlready > settings.CandyToEvolve)
                     pokemonToEvolve.Add(pokemon);
             }
-
-            return pokemonToEvolve;
+            if (orderByIV)
+            {
+                return pokemonToEvolve.OrderByDescending(x => PokemonInfo.CalculatePokemonPerfection(x));
+            }
+            else
+            {
+                return pokemonToEvolve.OrderByDescending(x => x.Cp);
+            }
         }
 
         public async Task<IEnumerable<PokemonData>> GetDuplicatePokemonToTransfer(bool keepPokemonsThatCanEvolve = false, bool orderByIV = false)

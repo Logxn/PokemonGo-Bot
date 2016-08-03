@@ -75,6 +75,8 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Translation\Translation.cs" />
+    <Compile Include="Translation\TranslationHandler.cs" />
     <Compile Include="Utils\BotStats.cs" />
     <Compile Include="Utils\GeoUtils.cs" />
     <Compile Include="Utils\LocationUtils.cs" />
