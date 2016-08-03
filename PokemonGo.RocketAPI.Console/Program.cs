@@ -165,7 +165,7 @@ namespace PokemonGo.RocketAPI.Console
                                     break;
                             }
                         }
-                        catch (Exception e)
+                        catch (Exception)
                         {
                             Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Problem with value: {line} (line #{i})");
                             throw;

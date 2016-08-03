@@ -13,6 +13,7 @@ using static PokemonGo.RocketAPI.GeneratedCode.Response.Types;
 using System.Device.Location;
 using PokemonGo.RocketAPI.Exceptions;
 using System.IO;
+using System.Linq;
 using System.Threading;
 
 namespace PokemonGo.RocketAPI
@@ -41,6 +42,7 @@ namespace PokemonGo.RocketAPI
                 {
                     DirectoryInfo di = Directory.CreateDirectory(path);
                 }
+
                 string fullPath = Path.Combine(path, "LastCoords.txt");
                 if (File.Exists(fullPath) && File.ReadAllText(fullPath).Contains(":"))
                 {
@@ -560,33 +562,34 @@ namespace PokemonGo.RocketAPI
                         releasePokemonRequest);
         }
 
-        public async Task Incubate(float kmWalked, List<EggIncubator> incubators, List<PokemonData> unusedEggs)
+        public async Task Incubate(float kmWalked, List<EggIncubator> incubators, List<PokemonData> unusedEggs, List<PokemonData> pokemons)
         {
-            throw new NotImplementedException();
-            //for (int i = 0; i < incubators.Count; i++)
-            //{
-            //    if (i >= unusedEggs.Count)
-            //    {
-            //        break;
-            //    }
-            //
-            //    var incubator = incubators[i];
-            //    var customRequest = new UseItemRequest
-            //    {
-            //        ItemId = incubator.ItemId == ItemId.ItemIncubatorBasic.ToString() ? ItemId.ItemIncubatorBasic : ItemId.ItemIncubatorBasicUnlimited
-            //
-            //    };
-            //
-            //    var useItemRequest = RequestBuilder.GetRequest(_unknownAuth, CurrentLat, CurrentLng, CurrentAltitude,
-            //        new Request.Types.Requests
-            //        {
-            //            Type = (int)RequestType.USE_ITEM_EGG_INCUBATOR,
-            //            Message = customRequest.ToByteString()
-            //        });
-            //
-            //
-            //    await _httpClient.PostProtoPayload<Request, UseItemRequest>($"https://{_apiUrl}/rpc", useItemRequest);
-            //}
+            await Task.Delay(0);
+            foreach (var incubator in incubators)
+            {
+                if (incubator.PokemonId == 0)
+                {
+                    // Unlimited incubators prefer short eggs, limited incubators prefer long eggs
+                    var egg = incubator.ItemId == ItemId.ItemIncubatorBasicUnlimited.ToString()
+                        ? unusedEggs.FirstOrDefault()
+                        : unusedEggs.LastOrDefault();
+
+                    if (egg == null)
+                    {
+                        continue;
+                    }
+
+                    //TODO: Use incubator.Id with egg.Id
+                    unusedEggs.Remove(egg);
+                }
+                else
+                {
+                    // Wird gerade gebrütet
+                    var kmToWalk = incubator.TargetKmWalked - incubator.StartKmWalked;
+                    var kmRemaining = incubator.TargetKmWalked - kmWalked;
+                    Logger.ColoredConsoleWrite(ConsoleColor.DarkGray, $"Incubator {incubator.ItemId} needs {kmRemaining.ToString("N2")}km/{kmToWalk.ToString("N2")}km to hatch.");
+                }
+            }
         }
     }
 }
