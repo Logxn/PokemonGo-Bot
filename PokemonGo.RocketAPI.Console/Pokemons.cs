@@ -10,6 +10,7 @@ using System.Net;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static PokemonGo.RocketAPI.Console.GUI;
 
 namespace PokemonGo.RocketAPI.Console
 {
@@ -217,7 +218,7 @@ namespace PokemonGo.RocketAPI.Console
             if (!File.Exists(location))
             {
                 try {
-                    WebClient wc = new WebClient();
+                    ExtendedWebClient wc = new ExtendedWebClient();
                     wc.DownloadFile("http://pokemon-go.ar1i.xyz/img/pokemons/" + pokemonId + ".png", @location);
                 } catch (Exception)
                 {

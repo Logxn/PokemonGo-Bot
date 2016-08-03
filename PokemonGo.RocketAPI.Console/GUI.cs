@@ -79,7 +79,7 @@ namespace PokemonGo.RocketAPI.Console
             // Load Languages Files always UP2Date
             try
             {
-                WebClient client = new WebClient();
+                ExtendedWebClient client = new ExtendedWebClient();
                 string translations = client.DownloadString("http://pokemon-go.ar1i.xyz/lang/get.php");
                 string[] transArray = translations.Replace("\r", "").Split('\n');
                 for (int ijik = 0; ijik < transArray.Count(); ijik++)
@@ -100,7 +100,6 @@ namespace PokemonGo.RocketAPI.Console
 
                 foreach (var l in b)
                 {
-                    Logger.ColoredConsoleWrite(ConsoleColor.Red, l);
                     Extract("PokemonGo.RocketAPI.Console", Program.path_translation, "Lang", l);
                 }
             }
@@ -1008,11 +1007,39 @@ namespace PokemonGo.RocketAPI.Console
             Assembly ass = Assembly.GetCallingAssembly();
 
             Logger.ColoredConsoleWrite(ConsoleColor.Red, ass.GetName().ToString());
+
             using (Stream s = ass.GetManifestResourceStream(nameSpace + "." + (internalFilePath == "" ? "" : internalFilePath + ".") + resourceName))
             using (BinaryReader r = new BinaryReader(s))
             using (FileStream fs = new FileStream(outDir + "\\" + resourceName, FileMode.OpenOrCreate))
             using (BinaryWriter w = new BinaryWriter(fs))
                 w.Write(r.ReadBytes((int)s.Length));
+        }
+        // Code cleanup we can do later
+        public class ExtendedWebClient : WebClient
+        {
+
+            private int timeout;
+            public int Timeout
+            {
+                get
+                {
+                    return timeout;
+                }
+                set
+                {
+                    timeout = value;
+                }
+            }
+            public ExtendedWebClient()
+            {
+                this.timeout = 2000;//In Milli seconds 
+            }
+            protected override WebRequest GetWebRequest(Uri address)
+            {
+                var objWebRequest = base.GetWebRequest(address);
+                objWebRequest.Timeout = this.timeout;
+                return objWebRequest;
+            }
         }
     }
 }
