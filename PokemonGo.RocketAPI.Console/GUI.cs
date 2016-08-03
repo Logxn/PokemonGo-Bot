@@ -13,6 +13,9 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 using PokemonGo.RocketAPI.Logic.Translation;
+using PokemonGo.RocketAPI.Helpers;
+using System.Collections;
+using System.Resources;
 
 namespace PokemonGo.RocketAPI.Console
 {
@@ -78,13 +81,32 @@ namespace PokemonGo.RocketAPI.Console
             System.IO.Directory.CreateDirectory(Program.path_translation);
 
             // Load Languages Files always UP2Date
-   
-            WebClient client = new WebClient(); 
-            string translations = client.DownloadString("http://pokemon-go.ar1i.xyz/lang/get.php");
-            string[] transArray = translations.Replace("\r", "").Split('\n');
-            for (int ijik = 0; ijik < transArray.Count(); ijik++)
+            try
             {
-                client.DownloadFile("http://pokemon-go.ar1i.xyz/lang/" + transArray[ijik], Program.path_translation + "\\" + transArray[ijik]);
+                WebClient client = new WebClient();
+                string translations = client.DownloadString("http://pokemon-go.ar1i.xyz/lang/get.php");
+                string[] transArray = translations.Replace("\r", "").Split('\n');
+                for (int ijik = 0; ijik < transArray.Count(); ijik++)
+                {
+                    client.DownloadFile("http://pokemon-go.ar1i.xyz/lang/" + transArray[ijik], Program.path_translation + "\\" + transArray[ijik]);
+                }
+            }
+            catch (Exception)
+            {
+                List<string> b = new List<string>();
+                b.Add("de.json");
+                b.Add("france.json");
+                b.Add("italian.json");
+                b.Add("ptBR.json");
+                b.Add("ru.json");
+                b.Add("spain.json");
+                b.Add("tr.json");
+            
+                foreach (var l in b)
+                {
+                    Logger.ColoredConsoleWrite(ConsoleColor.Red, l);
+                    Extract("PokemonGo.RocketAPI.Console", Program.path_translation, "Lang", l);
+                }
             }
 
             TranslationHandler.init();
@@ -948,96 +970,38 @@ namespace PokemonGo.RocketAPI.Console
             checkBox11.Text = TranslationHandler.getString("keepPokemonWhichCanBeEvolved", "Keep Pokemons which can be evolved");
         }
 
-        private void lang_en_btn_Click(object sender, EventArgs e)
-        {
-            lang_de_btn.Enabled = true;
-            lang_spain_btn.Enabled = true;
-            lang_en_btn.Enabled = false;
-            lang_ptBR_btn.Enabled = true;
-            lang_tr_btn.Enabled = true;
-            lang_ru_btn.Enabled = true;
-            lang_france_btn.Enabled = true;
-            TranslationHandler.selectLangauge(null);
-            load_lang();
-        }
 
-        private void lang_de_btn_Click(object sender, EventArgs e)
+        private void languages_btn_Click(object sender, EventArgs e)
         {
-            lang_en_btn.Enabled = true;
-            lang_spain_btn.Enabled = true;
-            lang_de_btn.Enabled = false;
-            lang_ptBR_btn.Enabled = true;
-            lang_tr_btn.Enabled = true;
-            lang_ru_btn.Enabled = true;
-            lang_france_btn.Enabled = true;
-            TranslationHandler.selectLangauge("de");
-            load_lang();
-        }
+            Button clicked = (Button)sender;
+            Button[] languageButtons = {
+                lang_en_btn,
+                lang_spain_btn,
+                lang_de_btn,
+                lang_ptBR_btn,
+                lang_tr_btn,
+                lang_ru_btn,
+                lang_france_btn
 
-        private void lang_spain_btn_Click(object sender, EventArgs e)
-        {
-            lang_en_btn.Enabled = true;
-            lang_de_btn.Enabled = true;
-            lang_spain_btn.Enabled = false;
-            lang_ptBR_btn.Enabled = true;
-            lang_tr_btn.Enabled = true;
-            lang_ru_btn.Enabled = true;
-            lang_france_btn.Enabled = true;
-            TranslationHandler.selectLangauge("spain");
-      
-            load_lang();
-        }
-
-        private void lang_ptBR_btn_Click(object sender, EventArgs e)
-        {
-            lang_de_btn.Enabled = true;
-            lang_en_btn.Enabled = true;
-            lang_spain_btn.Enabled = true;
-            lang_ptBR_btn.Enabled = false;
-            lang_tr_btn.Enabled = true;
-            lang_ru_btn.Enabled = true;
-            lang_france_btn.Enabled = true;
-            TranslationHandler.selectLangauge("ptBR");
-            load_lang();
-        }
-
-        private void lang_tr_btn_Click(object sender, EventArgs e)
-        {
-            lang_de_btn.Enabled = true;
-            lang_en_btn.Enabled = true;
-            lang_spain_btn.Enabled = true;
-            lang_ptBR_btn.Enabled = true;
-            lang_tr_btn.Enabled = false;
-            lang_ru_btn.Enabled = true;
-            lang_france_btn.Enabled = true;
-            TranslationHandler.selectLangauge("tr");
-            load_lang();
-        }
-
-        private void btn_ru_Click(object sender, EventArgs e)
-        {
-            lang_en_btn.Enabled = true;
-            lang_spain_btn.Enabled = true;
-            lang_de_btn.Enabled = true;
-            lang_ptBR_btn.Enabled = true;
-            lang_tr_btn.Enabled = true;
-            lang_ru_btn.Enabled = false;
-            lang_france_btn.Enabled = true;
-            TranslationHandler.selectLangauge("ru");
-            load_lang();
-        }
-
-        private void lang_france_btn_Click(object sender, EventArgs e)
-        {
-            lang_en_btn.Enabled = true;
-            lang_spain_btn.Enabled = true;
-            lang_de_btn.Enabled = true;
-            lang_ptBR_btn.Enabled = true;
-            lang_tr_btn.Enabled = true;
-            lang_ru_btn.Enabled = true;
-            lang_france_btn.Enabled = false;
-            TranslationHandler.selectLangauge("france");
-            load_lang();
+                // add here the new languages button
+            };
+            if (clicked != null)
+            {
+                // I have used the tag field of the button to save the language key
+                string langSelected = (string)clicked.Tag;
+                if (langSelected != null && langSelected != "")
+                {
+                    foreach (Button curr in languageButtons)
+                        curr.Enabled = true;
+                    clicked.Enabled = false;
+                    TranslationHandler.selectLangauge(langSelected);
+                    load_lang();
+                }
+                else
+                {
+                    throw new MissingFieldException("Every language buttons needs to have as Tag field the language key");
+                }
+            }
         }
 
         private void checkBox12_CheckedChanged_1(object sender, EventArgs e)
@@ -1049,6 +1013,17 @@ namespace PokemonGo.RocketAPI.Console
             {
                 Globals.useLuckyEggIfNotRunning = false;
             }
+        }
+        public static void Extract(string nameSpace, string outDir, string internalFilePath, string resourceName)
+        {
+            Assembly ass = Assembly.GetCallingAssembly();
+
+            Logger.ColoredConsoleWrite(ConsoleColor.Red, ass.GetName().ToString()); 
+            using (Stream s = ass.GetManifestResourceStream(nameSpace + "." + (internalFilePath == "" ? "" : internalFilePath + ".") + resourceName))
+            using (BinaryReader r = new BinaryReader(s))
+            using (FileStream fs = new FileStream(outDir + "\\" + resourceName, FileMode.OpenOrCreate))
+            using (BinaryWriter w = new BinaryWriter(fs))
+                w.Write(r.ReadBytes((int)s.Length));
         }
     }
 }
