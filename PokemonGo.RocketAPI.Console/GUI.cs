@@ -399,202 +399,97 @@ namespace PokemonGo.RocketAPI.Console
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (textBox1.Text == "")
-            {
-                textBox1.BackColor = Color.Red;
-                return;
-            }
-            else
-                Globals.username = textBox1.Text;
-            if (textBox2.Text == "")
-            {
-                textBox2.BackColor = Color.Red;
-                return;
-            }
-            else
-                Globals.password = textBox2.Text;
+            TextBox[] textBoxes = {
+                textBox1,
+                textBox2,
+                textBox3,
+                textBox4,
+                textBox5,
+                textBox6,
+                textBox7,
+                textBox8,
+                textBox9,
+                textBox10,
+                textBox11,
+                textBox12,
+                textBox13,
+                textBox14,
+                textBox15,
+                textBox16,
+                textBox17,
+                //textBox18, // Telegram API
+                //textBox19, // Telegram Username
+                textBox20,
+                textBox21,
+                textBox22,
+                textBox23,
+                textBox24,
+            };
 
-            if (textBox3.Text == "")
+            foreach (TextBox tb in textBoxes)
             {
-                textBox3.BackColor = Color.Red;
-                return;
+                if (tb.Text == "")
+                {
+                    tb.BackColor = Color.Red;
+                    return;
+                }
             }
-            else
-                Globals.latitute = double.Parse(textBox3.Text.Replace(',', '.'), cords, NumberFormatInfo.InvariantInfo);
 
-            if (textBox4.Text == "")
-            {
-                textBox4.BackColor = Color.Red;
-                return;
-            }
-            else
-                Globals.longitude = double.Parse(textBox4.Text.Replace(',', '.'), cords, NumberFormatInfo.InvariantInfo);
 
-            if (textBox5.Text == "")
-            {
-                textBox5.BackColor = Color.Red;
-                return;
-            }
-            else
-                Globals.altitude = double.Parse(textBox5.Text.Replace(',', '.'), cords, NumberFormatInfo.InvariantInfo);
+            // Account info
+            Globals.username = textBox1.Text;
+            Globals.password = textBox2.Text;
 
-            if (textBox6.Text == "")
-            {
-                textBox6.BackColor = Color.Red;
-                return;
-            }
-            else
-                Globals.speed = double.Parse(textBox6.Text.Replace(',', '.'), cords, NumberFormatInfo.InvariantInfo);
-
-            if (textBox7.Text == "")
-            {
-                textBox7.BackColor = Color.Red;
-                return;
-            }
-            else
-                Globals.radius = int.Parse(textBox7.Text);
-
-            if (textBox8.Text == "")
-            {
-                textBox8.BackColor = Color.Red;
-                return;
-            }
-            else
-                Globals.duplicate = int.Parse(textBox8.Text);
-
-            if (textBox9.Text == "")
-            {
-                textBox9.BackColor = Color.Red;
-                return;
-            }
-            else
-                Globals.maxCp = int.Parse(textBox9.Text);
-
+            // Location settings
+            Globals.latitute = double.Parse(textBox3.Text.Replace(',', '.'), cords, System.Globalization.NumberFormatInfo.InvariantInfo);
+            Globals.longitude = double.Parse(textBox4.Text.Replace(',', '.'), cords, System.Globalization.NumberFormatInfo.InvariantInfo);
+            Globals.altitude = double.Parse(textBox5.Text.Replace(',', '.'), cords, System.Globalization.NumberFormatInfo.InvariantInfo);
+            Globals.speed = double.Parse(textBox6.Text.Replace(',', '.'), cords, System.Globalization.NumberFormatInfo.InvariantInfo);
+            Globals.radius = int.Parse(textBox7.Text);
             Globals.transfer = checkBox2.Checked;
             Globals.defLoc = checkBox1.Checked;
-            Globals.evolve = checkBox3.Checked;
 
-            if (textBox10.Text == "")
-            {
-                textBox10.BackColor = Color.Red;
-                return;
-            }
-            else
-                Globals.pokeball = int.Parse(textBox10.Text);
-
-            if (textBox11.Text == "")
-            {
-                textBox11.BackColor = Color.Red;
-                return;
-            }
-            else
-                Globals.greatball = int.Parse(textBox11.Text);
-
-            if (textBox12.Text == "")
-            {
-                textBox12.BackColor = Color.Red;
-                return;
-            }
-            else
-                Globals.ultraball = int.Parse(textBox12.Text);
-
-            if (textBox13.Text == "")
-            {
-                textBox13.BackColor = Color.Red;
-                return;
-            }
-            else
-                Globals.revive = int.Parse(textBox13.Text);
-
-            if (textBox14.Text == "")
-            {
-                textBox14.BackColor = Color.Red;
-                return;
-            }
-            else
-                Globals.potion = int.Parse(textBox14.Text);
-
-            if (textBox15.Text == "")
-            {
-                textBox15.BackColor = Color.Red;
-                return;
-            }
-            else
-                Globals.superpotion = int.Parse(textBox15.Text);
-
-            if (textBox16.Text == "")
-            {
-                textBox16.BackColor = Color.Red;
-                return;
-            }
-            else
-                Globals.hyperpotion = int.Parse(textBox16.Text);
-
-            if (textBox17.Text == "")
-            {
-                textBox17.BackColor = Color.Red;
-                return;
-            }
-            else
-                Globals.berry = int.Parse(textBox17.Text);
-
+            // Telegram settings
             if (textBox18.Text != "")
                 Globals.telAPI = textBox18.Text;
 
             if (textBox19.Text != "")
                 Globals.telName = textBox19.Text;
 
-            if (textBox20.Text == "")
-            {
-                textBox20.BackColor = Color.Red;
-                return;
-            }
-            else
-                Globals.telDelay = int.Parse(textBox20.Text);
+            Globals.telDelay = int.Parse(textBox20.Text);
 
-            if (textBox21.Text == "")
-            {
-                textBox21.BackColor = Color.Red;
-            }
-            else
-            {
-                Globals.toppotion = int.Parse(textBox21.Text);
-            }
-
-            if (textBox22.Text == "")
-            {
-                textBox22.BackColor = Color.Red;
-            }
-            else
-            {
-                Globals.masterball = int.Parse(textBox22.Text);
-            }
-
-            if (textBox23.Text == "")
-            {
-                textBox23.BackColor = Color.Red;
-            }
-            else
-            {
-                Globals.toprevive = int.Parse(textBox23.Text);
-            }
-
-            if (textBox24.Text == "")
-            {
-                textBox24.BackColor = Color.Red;
-            }
-            else
-            {
-                Globals.ivmaxpercent = int.Parse(textBox24.Text);
-            }
-
+            // Other settings
+            Globals.useluckyegg = checkBox7.Checked;
             Globals.gerNames = checkBox8.Checked;
             Globals.useincense = checkBox9.Checked;
+            Globals.evolve = checkBox3.Checked;
             Globals.pokeList = checkBox10.Checked;
             Globals.keepPokemonsThatCanEvolve = checkBox11.Checked;
-            //Globals.pokevision = checkBox12.Checked;
             Globals.useLuckyEggIfNotRunning = checkBox12.Checked;
+            Globals.autoIncubate = chkAutoIncubate.Checked;
+            Globals.useBasicIncubators = chkUseBasicIncubators.Checked;
+            //Globals.pokevision = checkBox12.Checked;
 
+            // Pokemon tab
+            Globals.duplicate = int.Parse(textBox8.Text);
+            Globals.maxCp = int.Parse(textBox9.Text);
+            Globals.ivmaxpercent = int.Parse(textBox24.Text);
+
+            // Items tab
+            Globals.pokeball = int.Parse(textBox10.Text);
+            Globals.greatball = int.Parse(textBox11.Text);
+            Globals.ultraball = int.Parse(textBox12.Text);
+            Globals.masterball = int.Parse(textBox22.Text);
+            Globals.revive = int.Parse(textBox13.Text);
+            Globals.toprevive = int.Parse(textBox23.Text);
+            Globals.potion = int.Parse(textBox14.Text);
+            Globals.superpotion = int.Parse(textBox15.Text);
+            Globals.hyperpotion = int.Parse(textBox16.Text);
+            Globals.toppotion = int.Parse(textBox21.Text);
+            Globals.berry = int.Parse(textBox17.Text);
+
+            
+            
             foreach (string pokemon in checkedListBox1.CheckedItems)
             {
                 if (checkBox8.Checked)
@@ -708,38 +603,22 @@ namespace PokemonGo.RocketAPI.Console
 
         private void checkBox4_CheckedChanged(object sender, EventArgs e)
         {
-            int i = 0;
-            while (i < checkedListBox1.Items.Count)
-            {
+            for (int i = 0; i < checkedListBox1.Items.Count; i++)
                 checkedListBox1.SetItemChecked(i, checkBox4.Checked);
-                i++;
-            }
         }
 
         private void checkBox5_CheckedChanged(object sender, EventArgs e)
         {
-            int i = 0;
-            while (i < checkedListBox2.Items.Count)
-            {
+            for (int i = 0; i < checkedListBox2.Items.Count; i++)
                 checkedListBox2.SetItemChecked(i, checkBox5.Checked);
-                i++;
-            }
         }
 
         private void checkBox6_CheckedChanged(object sender, EventArgs e)
         {
-            int i = 0;
-            while (i < checkedListBox3.Items.Count)
-            {
+            for (int i = 0; i < checkedListBox3.Items.Count; i++)
                 checkedListBox3.SetItemChecked(i, checkBox6.Checked);
-                i++;
-            }
         }
-
-        private void checkBox7_CheckedChanged(object sender, EventArgs e)
-        {
-            Globals.useluckyegg = checkBox7.Checked;
-        }
+        
 
         private void checkBox8_CheckedChanged(object sender, EventArgs e)
         {
@@ -778,26 +657,6 @@ namespace PokemonGo.RocketAPI.Console
                     i++;
                 }
             }
-        }
-
-        private void checkBox11_CheckedChanged(object sender, EventArgs e)
-        {
-            Globals.keepPokemonsThatCanEvolve = checkBox11.Checked;
-        }
-
-        private void checkBox12_CheckedChanged(object sender, EventArgs e)
-        {
-            Globals.useLuckyEggIfNotRunning = checkBox12.Checked;
-        }
-
-        private void chkAutoIncubate_CheckedChanged(object sender, EventArgs e)
-        {
-            Globals.autoIncubate = chkAutoIncubate.Checked;
-        }
-
-        private void chkUseBasicIncubators_CheckedChanged(object sender, EventArgs e)
-        {
-            Globals.useBasicIncubators = chkUseBasicIncubators.Checked;
         }
 
         #endregion CheckedChanged Events

@@ -479,7 +479,6 @@
             this.checkBox7.TabIndex = 26;
             this.checkBox7.Text = "Use LuckyEgg at Evolve";
             this.checkBox7.UseVisualStyleBackColor = true;
-            this.checkBox7.CheckedChanged += new System.EventHandler(this.checkBox7_CheckedChanged);
             // 
             // groupBox4
             // 
@@ -979,7 +978,6 @@
             this.chkUseBasicIncubators.TabIndex = 34;
             this.chkUseBasicIncubators.Text = "Use basic incubators";
             this.chkUseBasicIncubators.UseVisualStyleBackColor = true;
-            this.chkUseBasicIncubators.CheckedChanged += new System.EventHandler(this.chkUseBasicIncubators_CheckedChanged);
             // 
             // chkAutoIncubate
             // 
@@ -991,7 +989,6 @@
             this.chkAutoIncubate.TabIndex = 33;
             this.chkAutoIncubate.Text = "Auto incubate";
             this.chkAutoIncubate.UseVisualStyleBackColor = true;
-            this.chkAutoIncubate.CheckedChanged += new System.EventHandler(this.chkAutoIncubate_CheckedChanged);
             // 
             // checkBox12
             // 
@@ -1002,7 +999,6 @@
             this.checkBox12.TabIndex = 32;
             this.checkBox12.Text = "Use LuckyEgg if not running";
             this.checkBox12.UseVisualStyleBackColor = true;
-            this.checkBox12.CheckedChanged += new System.EventHandler(this.checkBox12_CheckedChanged);
             // 
             // checkBox11
             // 
@@ -1015,7 +1011,6 @@
             this.checkBox11.TabIndex = 31;
             this.checkBox11.Text = "Keep Pokemons which can be evolved";
             this.checkBox11.UseVisualStyleBackColor = true;
-            this.checkBox11.CheckedChanged += new System.EventHandler(this.checkBox11_CheckedChanged);
             // 
             // checkBox10
             // 
@@ -1390,4 +1385,3 @@
         private System.Windows.Forms.CheckBox chkAutoIncubate;
     }
 }
-
