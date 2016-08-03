@@ -110,7 +110,7 @@
             this.linkLabel2 = new System.Windows.Forms.LinkLabel();
             this.groupBox9 = new System.Windows.Forms.GroupBox();
             this.groupBox10 = new System.Windows.Forms.GroupBox();
-            this.chkUsePaidIncubators = new System.Windows.Forms.CheckBox();
+            this.chkUseBasicIncubators = new System.Windows.Forms.CheckBox();
             this.chkAutoIncubate = new System.Windows.Forms.CheckBox();
             this.checkBox12 = new System.Windows.Forms.CheckBox();
             this.checkBox11 = new System.Windows.Forms.CheckBox();
@@ -956,7 +956,7 @@
             // 
             // groupBox10
             // 
-            this.groupBox10.Controls.Add(this.chkUsePaidIncubators);
+            this.groupBox10.Controls.Add(this.chkUseBasicIncubators);
             this.groupBox10.Controls.Add(this.chkAutoIncubate);
             this.groupBox10.Controls.Add(this.checkBox12);
             this.groupBox10.Controls.Add(this.checkBox11);
@@ -972,16 +972,16 @@
             this.groupBox10.TabStop = false;
             this.groupBox10.Text = "Other Settings";
             // 
-            // chkUsePaidIncubators
+            // chkUseBasicIncubators
             // 
-            this.chkUsePaidIncubators.AutoSize = true;
-            this.chkUsePaidIncubators.Location = new System.Drawing.Point(24, 200);
-            this.chkUsePaidIncubators.Name = "chkUsePaidIncubators";
-            this.chkUsePaidIncubators.Size = new System.Drawing.Size(120, 17);
-            this.chkUsePaidIncubators.TabIndex = 34;
-            this.chkUsePaidIncubators.Text = "Use paid incubators";
-            this.chkUsePaidIncubators.UseVisualStyleBackColor = true;
-            this.chkUsePaidIncubators.CheckedChanged += new System.EventHandler(this.chkUsePaidIncubators_CheckedChanged);
+            this.chkUseBasicIncubators.AutoSize = true;
+            this.chkUseBasicIncubators.Location = new System.Drawing.Point(24, 200);
+            this.chkUseBasicIncubators.Name = "chkUseBasicIncubators";
+            this.chkUseBasicIncubators.Size = new System.Drawing.Size(120, 17);
+            this.chkUseBasicIncubators.TabIndex = 34;
+            this.chkUseBasicIncubators.Text = "Use basic incubators";
+            this.chkUseBasicIncubators.UseVisualStyleBackColor = true;
+            this.chkUseBasicIncubators.CheckedChanged += new System.EventHandler(this.chkUseBasicIncubators_CheckedChanged);
             // 
             // chkAutoIncubate
             // 
@@ -1388,7 +1388,7 @@
         private System.Windows.Forms.Button lang_ru_btn;
         private System.Windows.Forms.Button lang_france_btn;
         private System.Windows.Forms.CheckBox checkBox12;
-        private System.Windows.Forms.CheckBox chkUsePaidIncubators;
+        private System.Windows.Forms.CheckBox chkUseBasicIncubators;
         private System.Windows.Forms.CheckBox chkAutoIncubate;
     }
 }

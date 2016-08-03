@@ -13,7 +13,7 @@ using PokemonGo.RocketAPI.Logic.Utils;
 
 namespace PokemonGo.RocketAPI.Console
 {
-    class Program
+    internal class Program
     {
         public static string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Configs");
         public static string path_translation = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Translations");
@@ -24,7 +24,7 @@ namespace PokemonGo.RocketAPI.Console
         public static string evolve = Path.Combine(path, "Evolve.txt");
         public static string lastcords = Path.Combine(path, "LastCoords.txt");
         public static string huntstats = Path.Combine(path, "HuntStats.txt");
-        public static string cmdCoords = "";
+        public static string cmdCoords = string.Empty;
 
         [STAThread]
         static void Main(string[] args)
@@ -35,7 +35,7 @@ namespace PokemonGo.RocketAPI.Console
                 {
                     if (arg.Contains(","))
                     {
-                        Logger.ColoredConsoleWrite(ConsoleColor.Green, String.Format("Found coordinates in command line: {0}", arg));
+                        Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Found coordinates in command line: {arg}");
                         if (File.Exists(lastcords))
                         {
                             Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "Last coords file exists, trying to delete it");
@@ -157,22 +157,28 @@ namespace PokemonGo.RocketAPI.Console
                                 case 24:
                                     Globals.useluckyegg = bool.Parse(line);
                                     break;
+                                case 25:
+                                    Globals.autoIncubate = bool.Parse(line);
+                                    break;
+                                case 26:
+                                    Globals.useBasicIncubators = bool.Parse(line);
+                                    break;
                             }
                         }
                         catch (Exception e)
                         {
-                            Logger.ColoredConsoleWrite(ConsoleColor.Red, String.Format("Problem with value: {0} (line #{1})", line, i));
-                            throw e;
+                            Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Problem with value: {line} (line #{i})");
+                            throw;
                         }
                         i++;
                     }
-                    if (cmdCoords != "")
+                    if (cmdCoords != string.Empty)
                     {
                         string[] crdParts = cmdCoords.Split(',');
                         Globals.latitute = double.Parse(crdParts[0].Replace(',', '.'), GUI.cords, System.Globalization.NumberFormatInfo.InvariantInfo);
                         Globals.longitude = double.Parse(crdParts[1].Replace(',', '.'), GUI.cords, System.Globalization.NumberFormatInfo.InvariantInfo);
                     }
-                    Logger.ColoredConsoleWrite(ConsoleColor.Yellow, String.Format("Starting at: {0},{1}", Globals.latitute, Globals.longitude));
+                    Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Starting at: {Globals.latitute},{Globals.longitude}");
                 }
 
                 if (File.Exists(items))
@@ -226,7 +232,7 @@ namespace PokemonGo.RocketAPI.Console
                     string[] lines = System.IO.File.ReadAllLines(@keep);
                     foreach (string line in lines)
                     {
-                        if (line != "")
+                        if (line != string.Empty)
                             if (Globals.gerNames)
                                 Globals.noTransfer.Add((PokemonId)Enum.Parse(typeof(PokemonId), GUI.gerEng[line]));
                             else
@@ -239,7 +245,7 @@ namespace PokemonGo.RocketAPI.Console
                     string[] lines = System.IO.File.ReadAllLines(@ignore);
                     foreach (string line in lines)
                     {
-                        if (line != "")
+                        if (line != string.Empty)
                             if (Globals.gerNames)
                                 Globals.noCatch.Add((PokemonId)Enum.Parse(typeof(PokemonId), GUI.gerEng[line]));
                             else
@@ -252,7 +258,7 @@ namespace PokemonGo.RocketAPI.Console
                     string[] lines = System.IO.File.ReadAllLines(@evolve);
                     foreach (string line in lines)
                     {
-                        if (line != "")
+                        if (line != string.Empty)
                             if (Globals.gerNames)
                                 Globals.doEvolve.Add((PokemonId)Enum.Parse(typeof(PokemonId), GUI.gerEng[line]));
                             else
@@ -325,18 +331,13 @@ namespace PokemonGo.RocketAPI.Console
             {
                 var match =
                     new Regex(
-                        @"\[assembly\: AssemblyVersion\(""(\d{1,})\.(\d{1,})\.(\d{1,})\.(\d{1,})""\)\]")
+                        @"\[assembly\: AssemblyVersion\(string.Empty(\d{1,})\.(\d{1,})\.(\d{1,})\.(\d{1,})string.Empty\)\]")
                         .Match(DownloadServerVersion());
 
                 if (!match.Success) return;
                 var gitVersion =
                     new Version(
-                        string.Format(
-                            "{0}.{1}.{2}.{3}",
-                            match.Groups[1],
-                            match.Groups[2],
-                            match.Groups[3],
-                            match.Groups[4]));
+                        $"{match.Groups[1]}.{match.Groups[2]}.{match.Groups[3]}.{match.Groups[4]}");
                 if (gitVersion <= Assembly.GetExecutingAssembly().GetName().Version)
                 {
                     //ColoredConsoleWrite(ConsoleColor.Yellow, "Awesome! You have already got the newest version! " + Assembly.GetExecutingAssembly().GetName().Version);
@@ -345,7 +346,7 @@ namespace PokemonGo.RocketAPI.Console
 
                 Logger.ColoredConsoleWrite(ConsoleColor.Red, "There is a new Version available: " + gitVersion);
                 Logger.ColoredConsoleWrite(ConsoleColor.Red, "Its recommended to use the newest Version.");
-                if (cmdCoords == "")
+                if (cmdCoords == string.Empty)
                 {
                     Logger.ColoredConsoleWrite(ConsoleColor.Red, "Starting in 10 Seconds.");
                     Thread.Sleep(10000);
@@ -367,18 +368,13 @@ namespace PokemonGo.RocketAPI.Console
             {
                 var match =
                     new Regex(
-                        @"\[assembly\: AssemblyVersion\(""(\d{1,})\.(\d{1,})\.(\d{1,})\.(\d{1,})""\)\]")
+                        @"\[assembly\: AssemblyVersion\(string.Empty(\d{1,})\.(\d{1,})\.(\d{1,})\.(\d{1,})string.Empty\)\]")
                         .Match(DownloadServerVersion());
 
                 if (!match.Success) return Assembly.GetExecutingAssembly().GetName().Version;
                 var gitVersion =
                     new Version(
-                        string.Format(
-                            "{0}.{1}.{2}.{3}",
-                            match.Groups[1],
-                            match.Groups[2],
-                            match.Groups[3],
-                            match.Groups[4]));
+                        $"{match.Groups[1]}.{match.Groups[2]}.{match.Groups[3]}.{match.Groups[4]}");
 
                 return gitVersion;
 
@@ -443,7 +439,7 @@ namespace PokemonGo.RocketAPI.Console
         public static bool useLuckyEggIfNotRunning = false;
 
         public static bool autoIncubate = true;
-        public static bool usePaidIncubators = false;
+        public static bool useBasicIncubators = false;
 
         public static Logic.LogicInfoObservable infoObservable = new Logic.LogicInfoObservable();
     }

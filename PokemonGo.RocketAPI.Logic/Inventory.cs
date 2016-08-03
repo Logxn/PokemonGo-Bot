@@ -389,12 +389,16 @@ namespace PokemonGo.RocketAPI.Logic
             await Task.Delay(3000);
         }
 
-        public async Task<IEnumerable<EggIncubator>> GetEggIncubators()
+        public async Task<IEnumerable<EggIncubator>> GetEggIncubators(bool getBasicIncubators)
         {
             var inventory = await GetCachedInventory(_client);
-            return inventory.InventoryDelta.InventoryItems.Where(x => x.InventoryItemData.EggIncubators != null)
+            var availableIncubators = inventory.InventoryDelta.InventoryItems.Where(x => x.InventoryItemData.EggIncubators != null)
                                                           .Select(i => i.InventoryItemData.EggIncubators.EggIncubator)
                                                           .Where(i => i != null);
+
+            var incubators = !getBasicIncubators ? availableIncubators.Where(x => x.ItemId == ItemId.ItemIncubatorBasicUnlimited.ToString()) :
+                                                   availableIncubators.Where(x => x.UsesRemaining > 0 || x.ItemId == ItemId.ItemIncubatorBasicUnlimited.ToString());
+            return incubators;
         }
     }
 }

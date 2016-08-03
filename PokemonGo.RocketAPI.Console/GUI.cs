@@ -73,8 +73,8 @@ namespace PokemonGo.RocketAPI.Console
         private void GUI_Load(object sender, EventArgs e)
         {
             // Create missing Files
-            System.IO.Directory.CreateDirectory(Program.path);
-            System.IO.Directory.CreateDirectory(Program.path_translation);
+            Directory.CreateDirectory(Program.path);
+            Directory.CreateDirectory(Program.path_translation);
 
             // Load Languages Files always UP2Date
             try
@@ -172,7 +172,7 @@ namespace PokemonGo.RocketAPI.Console
 
             if (File.Exists(Program.account))
             {
-                string[] lines = System.IO.File.ReadAllLines(@Program.account);
+                string[] lines = File.ReadAllLines(@Program.account);
                 i = 1;
                 int tb = 1;
                 foreach (string line in lines)
@@ -241,10 +241,10 @@ namespace PokemonGo.RocketAPI.Console
                             chkAutoIncubate.Checked = bool.Parse(line);
                             break;
                         case 26:
-                            chkUsePaidIncubators.Checked = bool.Parse(line);
+                            chkUseBasicIncubators.Checked = bool.Parse(line);
                             break;
                         default:
-                            TextBox temp = (TextBox)this.Controls.Find("textBox" + tb, true).FirstOrDefault();
+                            TextBox temp = (TextBox)Controls.Find("textBox" + tb, true).FirstOrDefault();
                             temp.Text = line;
                             tb++;
                             break;
@@ -266,7 +266,7 @@ namespace PokemonGo.RocketAPI.Console
 
             if (File.Exists(Program.items))
             {
-                string[] lines = System.IO.File.ReadAllLines(@Program.items);
+                string[] lines = File.ReadAllLines(@Program.items);
                 i = 10;
                 foreach (string line in lines)
                 {
@@ -282,7 +282,7 @@ namespace PokemonGo.RocketAPI.Console
                     {
                         i = 23;
                     }
-                    TextBox temp = (TextBox)this.Controls.Find("textBox" + i, true).FirstOrDefault();
+                    TextBox temp = (TextBox)Controls.Find("textBox" + i, true).FirstOrDefault();
                     temp.Text = line;
                     i++;
                 }
@@ -305,7 +305,7 @@ namespace PokemonGo.RocketAPI.Console
 
             if (File.Exists(Program.keep))
             {
-                string[] lines = System.IO.File.ReadAllLines(@Program.keep);
+                string[] lines = File.ReadAllLines(@Program.keep);
                 foreach (string line in lines)
                 {
                     if (line != "")
@@ -318,7 +318,7 @@ namespace PokemonGo.RocketAPI.Console
 
             if (File.Exists(Program.ignore))
             {
-                string[] lines = System.IO.File.ReadAllLines(@Program.ignore);
+                string[] lines = File.ReadAllLines(@Program.ignore);
                 foreach (string line in lines)
                 {
                     if (line != "")
@@ -349,7 +349,7 @@ namespace PokemonGo.RocketAPI.Console
 
             if (File.Exists(Program.evolve))
             {
-                string[] lines = System.IO.File.ReadAllLines(@Program.evolve);
+                string[] lines = File.ReadAllLines(@Program.evolve);
                 foreach (string line in lines)
                 {
                     if (line != "")
@@ -421,7 +421,7 @@ namespace PokemonGo.RocketAPI.Console
                 return;
             }
             else
-                Globals.latitute = double.Parse(textBox3.Text.Replace(',', '.'), cords, System.Globalization.NumberFormatInfo.InvariantInfo);
+                Globals.latitute = double.Parse(textBox3.Text.Replace(',', '.'), cords, NumberFormatInfo.InvariantInfo);
 
             if (textBox4.Text == "")
             {
@@ -429,7 +429,7 @@ namespace PokemonGo.RocketAPI.Console
                 return;
             }
             else
-                Globals.longitude = double.Parse(textBox4.Text.Replace(',', '.'), cords, System.Globalization.NumberFormatInfo.InvariantInfo);
+                Globals.longitude = double.Parse(textBox4.Text.Replace(',', '.'), cords, NumberFormatInfo.InvariantInfo);
 
             if (textBox5.Text == "")
             {
@@ -437,7 +437,7 @@ namespace PokemonGo.RocketAPI.Console
                 return;
             }
             else
-                Globals.altitude = double.Parse(textBox5.Text.Replace(',', '.'), cords, System.Globalization.NumberFormatInfo.InvariantInfo);
+                Globals.altitude = double.Parse(textBox5.Text.Replace(',', '.'), cords, NumberFormatInfo.InvariantInfo);
 
             if (textBox6.Text == "")
             {
@@ -445,7 +445,7 @@ namespace PokemonGo.RocketAPI.Console
                 return;
             }
             else
-                Globals.speed = double.Parse(textBox6.Text.Replace(',', '.'), cords, System.Globalization.NumberFormatInfo.InvariantInfo);
+                Globals.speed = double.Parse(textBox6.Text.Replace(',', '.'), cords, NumberFormatInfo.InvariantInfo);
 
             if (textBox7.Text == "")
             {
@@ -642,9 +642,11 @@ namespace PokemonGo.RocketAPI.Console
                     Globals.ivmaxpercent.ToString(),
                     Globals.pokeList.ToString(),
                     Globals.keepPokemonsThatCanEvolve.ToString(),
-                    Globals.useLuckyEggIfNotRunning.ToString()
+                    Globals.useLuckyEggIfNotRunning.ToString(),
+                    Globals.autoIncubate.ToString(),
+                    Globals.useBasicIncubators.ToString()
             };
-            System.IO.File.WriteAllLines(@Program.account, accFile);
+            File.WriteAllLines(@Program.account, accFile);
 
             string[] itemsFile = {
                     Globals.pokeball.ToString(),
@@ -659,7 +661,7 @@ namespace PokemonGo.RocketAPI.Console
                     Globals.toppotion.ToString(),
                     Globals.toprevive.ToString()
             };
-            System.IO.File.WriteAllLines(@Program.items, itemsFile);
+            File.WriteAllLines(@Program.items, itemsFile);
 
             string[] temp = new string[200];
             int i = 0;
@@ -672,7 +674,7 @@ namespace PokemonGo.RocketAPI.Console
                 i++;
             }
             string[] noTransFile = temp.Where(x => !String.IsNullOrEmpty(x)).ToArray();
-            System.IO.File.WriteAllLines(Program.@keep, noTransFile);
+            File.WriteAllLines(Program.@keep, noTransFile);
 
             i = 0;
             Array.Clear(temp, 0, temp.Length);
@@ -685,7 +687,7 @@ namespace PokemonGo.RocketAPI.Console
                 i++;
             }
             string[] noCatchFile = temp.Where(x => !String.IsNullOrEmpty(x)).ToArray();
-            System.IO.File.WriteAllLines(@Program.ignore, noCatchFile);
+            File.WriteAllLines(@Program.ignore, noCatchFile);
 
             Array.Clear(temp, 0, temp.Length);
             i = 0;
@@ -831,9 +833,9 @@ namespace PokemonGo.RocketAPI.Console
             Globals.autoIncubate = chkAutoIncubate.Checked;
         }
 
-        private void chkUsePaidIncubators_CheckedChanged(object sender, EventArgs e)
+        private void chkUseBasicIncubators_CheckedChanged(object sender, EventArgs e)
         {
-            Globals.usePaidIncubators = chkUsePaidIncubators.Checked;
+            Globals.useBasicIncubators = chkUseBasicIncubators.Checked;
         }
 
         #endregion CheckedChanged Events
@@ -963,7 +965,7 @@ namespace PokemonGo.RocketAPI.Console
             checkBox10.Text = TranslationHandler.GetString("enablePokemonListGUI", "Enable Pokemon List GUI");
             checkBox11.Text = TranslationHandler.GetString("keepPokemonWhichCanBeEvolved", "Keep Pokemons which can be evolved");
             chkAutoIncubate.Text = TranslationHandler.GetString("autoIncubate", "Auto incubate");
-            chkUsePaidIncubators.Text = TranslationHandler.GetString("usePaidIncubators", "Use paid incubators");
+            chkUseBasicIncubators.Text = TranslationHandler.GetString("useBasicIncubators", "Use basic incubators");
         }
 
 
@@ -979,8 +981,9 @@ namespace PokemonGo.RocketAPI.Console
                 lang_ru_btn,
                 lang_france_btn
 
-                // add here the new languages button
+                // add the new languages' buttons here
             };
+
             if (clicked != null)
             {
                 // I have used the tag field of the button to save the language key

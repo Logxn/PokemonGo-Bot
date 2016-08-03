@@ -41,7 +41,7 @@ namespace PokemonGo.RocketAPI
         bool UseIncense { get; }
 
         bool AutoIncubate { get; }
-        bool UsePaidIncubators { get; }
+        bool UseBasicIncubators { get; }
 
         bool pokevision { get; }
 
