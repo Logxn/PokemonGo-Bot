@@ -56,18 +56,22 @@
             // PokemonListView
             // 
             this.PokemonListView.AllowColumnReorder = true;
+            this.PokemonListView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.PokemonListView.FullRowSelect = true;
             this.PokemonListView.GridLines = true;
             this.PokemonListView.Location = new System.Drawing.Point(12, 26);
             this.PokemonListView.Name = "PokemonListView";
-            this.PokemonListView.Size = new System.Drawing.Size(687, 387);
+            this.PokemonListView.Size = new System.Drawing.Size(630, 339);
             this.PokemonListView.TabIndex = 0;
             this.PokemonListView.UseCompatibleStateImageBehavior = false;
             this.PokemonListView.MouseClick += new System.Windows.Forms.MouseEventHandler(this.listView1_MouseClick);
             // 
             // btnreload
             // 
-            this.btnreload.Location = new System.Drawing.Point(12, 419);
+            this.btnreload.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnreload.Location = new System.Drawing.Point(12, 371);
             this.btnreload.Name = "btnreload";
             this.btnreload.Size = new System.Drawing.Size(136, 23);
             this.btnreload.TabIndex = 1;
@@ -77,7 +81,8 @@
             // 
             // btnEvolve
             // 
-            this.btnEvolve.Location = new System.Drawing.Point(13, 448);
+            this.btnEvolve.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnEvolve.Location = new System.Drawing.Point(13, 400);
             this.btnEvolve.Name = "btnEvolve";
             this.btnEvolve.Size = new System.Drawing.Size(135, 23);
             this.btnEvolve.TabIndex = 2;
@@ -87,7 +92,8 @@
             // 
             // btnUpgrade
             // 
-            this.btnUpgrade.Location = new System.Drawing.Point(155, 448);
+            this.btnUpgrade.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnUpgrade.Location = new System.Drawing.Point(155, 400);
             this.btnUpgrade.Name = "btnUpgrade";
             this.btnUpgrade.Size = new System.Drawing.Size(135, 23);
             this.btnUpgrade.TabIndex = 3;
@@ -97,7 +103,8 @@
             // 
             // btnTransfer
             // 
-            this.btnTransfer.Location = new System.Drawing.Point(437, 448);
+            this.btnTransfer.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnTransfer.Location = new System.Drawing.Point(437, 400);
             this.btnTransfer.Name = "btnTransfer";
             this.btnTransfer.Size = new System.Drawing.Size(135, 23);
             this.btnTransfer.TabIndex = 4;
@@ -140,16 +147,19 @@
             // 
             // statusTexbox
             // 
+            this.statusTexbox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.statusTexbox.Enabled = false;
-            this.statusTexbox.Location = new System.Drawing.Point(12, 477);
+            this.statusTexbox.Location = new System.Drawing.Point(12, 429);
             this.statusTexbox.Name = "statusTexbox";
-            this.statusTexbox.Size = new System.Drawing.Size(686, 20);
+            this.statusTexbox.Size = new System.Drawing.Size(629, 20);
             this.statusTexbox.TabIndex = 5;
             // 
             // checkBoxreload
             // 
+            this.checkBoxreload.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.checkBoxreload.AutoSize = true;
-            this.checkBoxreload.Location = new System.Drawing.Point(155, 425);
+            this.checkBoxreload.Location = new System.Drawing.Point(155, 377);
             this.checkBoxreload.Name = "checkBoxreload";
             this.checkBoxreload.Size = new System.Drawing.Size(89, 17);
             this.checkBoxreload.TabIndex = 6;
@@ -159,7 +169,8 @@
             // 
             // reloadsecondstextbox
             // 
-            this.reloadsecondstextbox.Location = new System.Drawing.Point(252, 422);
+            this.reloadsecondstextbox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.reloadsecondstextbox.Location = new System.Drawing.Point(252, 374);
             this.reloadsecondstextbox.Name = "reloadsecondstextbox";
             this.reloadsecondstextbox.Size = new System.Drawing.Size(37, 20);
             this.reloadsecondstextbox.TabIndex = 7;
@@ -167,8 +178,9 @@
             // 
             // label2
             // 
+            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(292, 429);
+            this.label2.Location = new System.Drawing.Point(292, 381);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(12, 13);
             this.label2.TabIndex = 9;
@@ -181,7 +193,8 @@
             // 
             // btnFullPowerUp
             // 
-            this.btnFullPowerUp.Location = new System.Drawing.Point(296, 448);
+            this.btnFullPowerUp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnFullPowerUp.Location = new System.Drawing.Point(296, 400);
             this.btnFullPowerUp.Name = "btnFullPowerUp";
             this.btnFullPowerUp.Size = new System.Drawing.Size(135, 23);
             this.btnFullPowerUp.TabIndex = 11;
@@ -228,8 +241,9 @@
             // 
             // btnShowMap
             // 
+            this.btnShowMap.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnShowMap.Image = global::PokemonGo.RocketAPI.Console.Properties.Resources.map;
-            this.btnShowMap.Location = new System.Drawing.Point(641, 419);
+            this.btnShowMap.Location = new System.Drawing.Point(584, 371);
             this.btnShowMap.Name = "btnShowMap";
             this.btnShowMap.Size = new System.Drawing.Size(58, 52);
             this.btnShowMap.TabIndex = 12;
@@ -252,7 +266,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(711, 509);
+            this.ClientSize = new System.Drawing.Size(654, 461);
             this.Controls.Add(this.lang_ptBR_btn2);
             this.Controls.Add(this.lang_spain_btn2);
             this.Controls.Add(this.lang_de_btn_2);
@@ -268,9 +282,8 @@
             this.Controls.Add(this.btnEvolve);
             this.Controls.Add(this.btnreload);
             this.Controls.Add(this.PokemonListView);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MaximizeBox = false;
+            this.MinimumSize = new System.Drawing.Size(670, 500);
             this.Name = "Pokemons";
             this.Text = "Pokemon List";
             this.Load += new System.EventHandler(this.Pokemons_Load);

@@ -110,6 +110,9 @@
             this.linkLabel2 = new System.Windows.Forms.LinkLabel();
             this.groupBox9 = new System.Windows.Forms.GroupBox();
             this.groupBox10 = new System.Windows.Forms.GroupBox();
+            this.chkUseBasicIncubators = new System.Windows.Forms.CheckBox();
+            this.chkAutoIncubate = new System.Windows.Forms.CheckBox();
+            this.checkBox12 = new System.Windows.Forms.CheckBox();
             this.checkBox11 = new System.Windows.Forms.CheckBox();
             this.checkBox10 = new System.Windows.Forms.CheckBox();
             this.checkBox9 = new System.Windows.Forms.CheckBox();
@@ -476,7 +479,7 @@
             this.checkBox7.TabIndex = 26;
             this.checkBox7.Text = "Use LuckyEgg at Evolve";
             this.checkBox7.UseVisualStyleBackColor = true;
-            this.checkBox7.CheckedChanged += new System.EventHandler(this.checkBox7_CheckedChanged_1);
+            this.checkBox7.CheckedChanged += new System.EventHandler(this.checkBox7_CheckedChanged);
             // 
             // groupBox4
             // 
@@ -764,7 +767,6 @@
             this.checkedListBox1.Name = "checkedListBox1";
             this.checkedListBox1.ScrollAlwaysVisible = true;
             this.checkedListBox1.Size = new System.Drawing.Size(150, 259);
-            this.checkedListBox1.Sorted = true;
             this.checkedListBox1.TabIndex = 0;
             // 
             // groupBox6
@@ -797,7 +799,6 @@
             this.checkedListBox2.Name = "checkedListBox2";
             this.checkedListBox2.ScrollAlwaysVisible = true;
             this.checkedListBox2.Size = new System.Drawing.Size(154, 259);
-            this.checkedListBox2.Sorted = true;
             this.checkedListBox2.TabIndex = 0;
             // 
             // groupBox7
@@ -830,7 +831,6 @@
             this.checkedListBox3.Name = "checkedListBox3";
             this.checkedListBox3.ScrollAlwaysVisible = true;
             this.checkedListBox3.Size = new System.Drawing.Size(153, 259);
-            this.checkedListBox3.Sorted = true;
             this.checkedListBox3.TabIndex = 0;
             // 
             // button1
@@ -944,7 +944,7 @@
             // 
             this.groupBox9.Controls.Add(this.linkLabel1);
             this.groupBox9.Controls.Add(this.linkLabel2);
-            this.groupBox9.Location = new System.Drawing.Point(264, 174);
+            this.groupBox9.Location = new System.Drawing.Point(264, 246);
             this.groupBox9.Name = "groupBox9";
             this.groupBox9.Size = new System.Drawing.Size(271, 46);
             this.groupBox9.TabIndex = 18;
@@ -953,6 +953,9 @@
             // 
             // groupBox10
             // 
+            this.groupBox10.Controls.Add(this.chkUseBasicIncubators);
+            this.groupBox10.Controls.Add(this.chkAutoIncubate);
+            this.groupBox10.Controls.Add(this.checkBox12);
             this.groupBox10.Controls.Add(this.checkBox11);
             this.groupBox10.Controls.Add(this.checkBox10);
             this.groupBox10.Controls.Add(this.checkBox9);
@@ -961,10 +964,45 @@
             this.groupBox10.Controls.Add(this.checkBox3);
             this.groupBox10.Location = new System.Drawing.Point(264, 6);
             this.groupBox10.Name = "groupBox10";
-            this.groupBox10.Size = new System.Drawing.Size(271, 162);
+            this.groupBox10.Size = new System.Drawing.Size(271, 240);
             this.groupBox10.TabIndex = 6;
             this.groupBox10.TabStop = false;
             this.groupBox10.Text = "Other Settings";
+            // 
+            // chkUseBasicIncubators
+            // 
+            this.chkUseBasicIncubators.AutoSize = true;
+            this.chkUseBasicIncubators.Enabled = false;
+            this.chkUseBasicIncubators.Location = new System.Drawing.Point(24, 200);
+            this.chkUseBasicIncubators.Name = "chkUseBasicIncubators";
+            this.chkUseBasicIncubators.Size = new System.Drawing.Size(125, 17);
+            this.chkUseBasicIncubators.TabIndex = 34;
+            this.chkUseBasicIncubators.Text = "Use basic incubators";
+            this.chkUseBasicIncubators.UseVisualStyleBackColor = true;
+            this.chkUseBasicIncubators.CheckedChanged += new System.EventHandler(this.chkUseBasicIncubators_CheckedChanged);
+            // 
+            // chkAutoIncubate
+            // 
+            this.chkAutoIncubate.AutoSize = true;
+            this.chkAutoIncubate.Enabled = false;
+            this.chkAutoIncubate.Location = new System.Drawing.Point(6, 179);
+            this.chkAutoIncubate.Name = "chkAutoIncubate";
+            this.chkAutoIncubate.Size = new System.Drawing.Size(92, 17);
+            this.chkAutoIncubate.TabIndex = 33;
+            this.chkAutoIncubate.Text = "Auto incubate";
+            this.chkAutoIncubate.UseVisualStyleBackColor = true;
+            this.chkAutoIncubate.CheckedChanged += new System.EventHandler(this.chkAutoIncubate_CheckedChanged);
+            // 
+            // checkBox12
+            // 
+            this.checkBox12.AutoSize = true;
+            this.checkBox12.Location = new System.Drawing.Point(6, 156);
+            this.checkBox12.Name = "checkBox12";
+            this.checkBox12.Size = new System.Drawing.Size(160, 17);
+            this.checkBox12.TabIndex = 32;
+            this.checkBox12.Text = "Use LuckyEgg if not running";
+            this.checkBox12.UseVisualStyleBackColor = true;
+            this.checkBox12.CheckedChanged += new System.EventHandler(this.checkBox12_CheckedChanged);
             // 
             // checkBox11
             // 
@@ -1084,8 +1122,9 @@
             this.lang_france_btn.Name = "lang_france_btn";
             this.lang_france_btn.Size = new System.Drawing.Size(24, 15);
             this.lang_france_btn.TabIndex = 44;
+            this.lang_france_btn.Tag = "france";
             this.lang_france_btn.UseVisualStyleBackColor = true;
-            this.lang_france_btn.Click += new System.EventHandler(this.lang_france_btn_Click);
+            this.lang_france_btn.Click += new System.EventHandler(this.languages_btn_Click);
             // 
             // lang_ru_btn
             // 
@@ -1096,8 +1135,9 @@
             this.lang_ru_btn.Name = "lang_ru_btn";
             this.lang_ru_btn.Size = new System.Drawing.Size(24, 15);
             this.lang_ru_btn.TabIndex = 43;
+            this.lang_ru_btn.Tag = "ru";
             this.lang_ru_btn.UseVisualStyleBackColor = true;
-            this.lang_ru_btn.Click += new System.EventHandler(this.btn_ru_Click);
+            this.lang_ru_btn.Click += new System.EventHandler(this.languages_btn_Click);
             // 
             // lang_tr_btn
             // 
@@ -1108,8 +1148,9 @@
             this.lang_tr_btn.Name = "lang_tr_btn";
             this.lang_tr_btn.Size = new System.Drawing.Size(24, 15);
             this.lang_tr_btn.TabIndex = 42;
+            this.lang_tr_btn.Tag = "tr";
             this.lang_tr_btn.UseVisualStyleBackColor = true;
-            this.lang_tr_btn.Click += new System.EventHandler(this.lang_tr_btn_Click);
+            this.lang_tr_btn.Click += new System.EventHandler(this.languages_btn_Click);
             // 
             // lang_ptBR_btn
             // 
@@ -1120,8 +1161,9 @@
             this.lang_ptBR_btn.Name = "lang_ptBR_btn";
             this.lang_ptBR_btn.Size = new System.Drawing.Size(24, 15);
             this.lang_ptBR_btn.TabIndex = 41;
+            this.lang_ptBR_btn.Tag = "ptBR";
             this.lang_ptBR_btn.UseVisualStyleBackColor = true;
-            this.lang_ptBR_btn.Click += new System.EventHandler(this.lang_ptBR_btn_Click);
+            this.lang_ptBR_btn.Click += new System.EventHandler(this.languages_btn_Click);
             // 
             // lang_spain_btn
             // 
@@ -1132,9 +1174,10 @@
             this.lang_spain_btn.Name = "lang_spain_btn";
             this.lang_spain_btn.Size = new System.Drawing.Size(24, 15);
             this.lang_spain_btn.TabIndex = 40;
+            this.lang_spain_btn.Tag = "spain";
             this.lang_spain_btn.Text = "button3";
             this.lang_spain_btn.UseVisualStyleBackColor = true;
-            this.lang_spain_btn.Click += new System.EventHandler(this.lang_spain_btn_Click);
+            this.lang_spain_btn.Click += new System.EventHandler(this.languages_btn_Click);
             // 
             // lang_de_btn
             // 
@@ -1145,8 +1188,9 @@
             this.lang_de_btn.Name = "lang_de_btn";
             this.lang_de_btn.Size = new System.Drawing.Size(24, 15);
             this.lang_de_btn.TabIndex = 39;
+            this.lang_de_btn.Tag = "de";
             this.lang_de_btn.UseVisualStyleBackColor = true;
-            this.lang_de_btn.Click += new System.EventHandler(this.lang_de_btn_Click);
+            this.lang_de_btn.Click += new System.EventHandler(this.languages_btn_Click);
             // 
             // lang_en_btn
             // 
@@ -1158,8 +1202,9 @@
             this.lang_en_btn.Name = "lang_en_btn";
             this.lang_en_btn.Size = new System.Drawing.Size(24, 15);
             this.lang_en_btn.TabIndex = 38;
+            this.lang_en_btn.Tag = "en";
             this.lang_en_btn.UseVisualStyleBackColor = true;
-            this.lang_en_btn.Click += new System.EventHandler(this.lang_en_btn_Click);
+            this.lang_en_btn.Click += new System.EventHandler(this.languages_btn_Click);
             // 
             // pictureBox2
             // 
@@ -1204,6 +1249,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "GUI";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "PokeGoBot GUI Edition | Gui by GreenGold | Edit by IceQ1337 & gatno |";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.GUI_FormClosing);
             this.Load += new System.EventHandler(this.GUI_Load);
@@ -1339,6 +1385,9 @@
         private System.Windows.Forms.Button lang_tr_btn;
         private System.Windows.Forms.Button lang_ru_btn;
         private System.Windows.Forms.Button lang_france_btn;
+        private System.Windows.Forms.CheckBox checkBox12;
+        private System.Windows.Forms.CheckBox chkUseBasicIncubators;
+        private System.Windows.Forms.CheckBox chkAutoIncubate;
     }
 }
 

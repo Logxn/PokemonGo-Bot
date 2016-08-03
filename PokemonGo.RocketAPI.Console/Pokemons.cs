@@ -10,6 +10,7 @@ using System.Net;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static PokemonGo.RocketAPI.Console.GUI;
 
 namespace PokemonGo.RocketAPI.Console
 {
@@ -60,7 +61,7 @@ namespace PokemonGo.RocketAPI.Console
                         await client.DoPtcLogin(ClientSettings.PtcUsername, ClientSettings.PtcPassword);
                         break;
                     case AuthType.Google:
-                        await client.DoGoogleLogin();
+                        client.DoGoogleLogin();
                         break;
                 }
 
@@ -212,14 +213,31 @@ namespace PokemonGo.RocketAPI.Console
             string location = Sprites + pokemonId + ".png";
             if (!Directory.Exists(Sprites))
                 Directory.CreateDirectory(Sprites);
+            bool err = false;
+            Bitmap bitmapRemote = null;
             if (!File.Exists(location))
             {
-                WebClient wc = new WebClient(); 
-                wc.DownloadFile("http://pokemon-go.ar1i.xyz/img/pokemons/" + pokemonId + ".png", @location);
+                try {
+                    ExtendedWebClient wc = new ExtendedWebClient();
+                    wc.DownloadFile("http://pokemon-go.ar1i.xyz/img/pokemons/" + pokemonId + ".png", @location);
+                } catch (Exception)
+                {
+                    // User fail picture
+                    err = true;
+                }
             }
-            PictureBox picbox = new PictureBox();
-            picbox.Image = Image.FromFile(location);
-            Bitmap bitmapRemote = (Bitmap)picbox.Image;
+            if (err)
+            {
+                PictureBox picbox = new PictureBox();
+                picbox.Image = PokemonGo.RocketAPI.Console.Properties.Resources.error_sprite;
+                bitmapRemote = (Bitmap)picbox.Image;
+            }
+            else
+            {
+                PictureBox picbox = new PictureBox();
+                picbox.Image = Image.FromFile(location);
+                bitmapRemote = (Bitmap)picbox.Image;
+            }
             return bitmapRemote;
         }
 

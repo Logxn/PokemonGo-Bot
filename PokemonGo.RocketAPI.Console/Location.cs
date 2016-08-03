@@ -31,6 +31,7 @@ namespace PokemonGo.RocketAPI.Console
         
         private void initViewOnly()
         {
+            GMapOverlay markersOverlay = new GMapOverlay("markers");
             //first hide all controls
             foreach (Control c in Controls)
                 c.Visible = false;
@@ -56,6 +57,12 @@ namespace PokemonGo.RocketAPI.Console
         {
             this.Invoke(new MethodInvoker(() =>
             {
+                double lat = Convert.ToDouble(textBox1.Text);
+                double lon = Convert.ToDouble(textBox2.Text);
+                markersOverlay.Markers.Clear();
+                GMarkerGoogle marker = new GMarkerGoogle(new GMap.NET.PointLatLng(lat, lon), GMarkerGoogleType.red);
+                markersOverlay.Markers.Add(marker);
+                map.Overlays.Add(markersOverlay);
                 map.Position = new GMap.NET.PointLatLng(coords.Latitude, coords.Longitude);
             }));
         }
@@ -189,6 +196,11 @@ namespace PokemonGo.RocketAPI.Console
                     textBox2.Text = "";
                 }
             }
+        }
+
+        private void LocationSelect_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

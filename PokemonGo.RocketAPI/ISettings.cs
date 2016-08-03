@@ -36,8 +36,12 @@ namespace PokemonGo.RocketAPI
         int navigation_option { get; }
 
         bool UseLuckyEgg { get; }
+        bool UseLuckyEggIfNotRunning { get; }
         bool keepPokemonsThatCanEvolve { get; }
-        bool UserIncense { get; }
+        bool UseIncense { get; }
+
+        bool AutoIncubate { get; }
+        bool UseBasicIncubators { get; }
 
         bool pokevision { get; }
 
