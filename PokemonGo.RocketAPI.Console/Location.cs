@@ -33,13 +33,13 @@ namespace PokemonGo.RocketAPI.Console
         
         private void initViewOnly()
         {
-            GMapOverlay markersOverlay = new GMapOverlay("markers");
             //first hide all controls
             foreach (Control c in Controls)
                 c.Visible = false;
             //show map
             map.Visible = true;
             map.Dock = DockStyle.Fill;
+            map.ShowCenter = false;
             GMapOverlay routeOverlay = new GMapOverlay();
             routeOverlay.Routes.Add(_botRoute);
             routeOverlay.Markers.Add(_botMarker);
@@ -63,6 +63,8 @@ namespace PokemonGo.RocketAPI.Console
         {
             this.Invoke(new MethodInvoker(() =>
             {
+                textBox1.Text = coords.Latitude.ToString();
+                textBox2.Text = coords.Longitude.ToString();
                 PointLatLng newPosition = new PointLatLng(coords.Latitude, coords.Longitude);
                 _botMarker.Position = newPosition;
                 _botRoute.Points.Add(newPosition);
