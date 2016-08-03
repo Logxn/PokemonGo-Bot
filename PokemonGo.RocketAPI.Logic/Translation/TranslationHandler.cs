@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 /**
     Written by DeltaCore (https://github.com/DeltaCore)
@@ -13,45 +10,44 @@ namespace PokemonGo.RocketAPI.Logic.Translation
     public class TranslationHandler
     {
 
-        private static Dictionary<String, Translation> translations = new Dictionary<string, Translation>();
-        private static String selectedLanguage = null;
+        private static readonly Dictionary<string, Translation> Translations = new Dictionary<string, Translation>();
+        private static string _selectedLanguage;
 
-        public static void init()
+        public static void Init()
         {
-            foreach(String file in System.IO.Directory.GetFiles("Translations"))
+            foreach (string file in System.IO.Directory.GetFiles("Translations"))
             {
                 if (file.EndsWith(".json"))
                 {
-                    String code = file.Substring(file.LastIndexOf(@"\") + 1);
-                    code = code.Substring(0, code.LastIndexOf("."));
+                    string code = file.Substring(file.LastIndexOf(@"\", StringComparison.Ordinal) + 1);
+                    code = code.Substring(0, code.LastIndexOf(".", StringComparison.Ordinal));
 
-                    if (!translations.ContainsKey(code))
+                    if (!Translations.ContainsKey(code))
                     {
-                        translations[code] = new Translation(code);
+                        Translations[code] = new Translation(code);
                     }
                 }
             }
         }
 
-        public static void selectLangauge(String key)
+        public static void SelectLangauge(string key)
         {
-            selectedLanguage = key;
+            _selectedLanguage = key;
         }
 
-        public static String getString(String messageKey, String defaultVal)
+        public static string GetString(string messageKey, string defaultVal)
         {
-
-            if(selectedLanguage == null) {
-                return defaultVal;
-            }
-
-            if (!translations.ContainsKey(selectedLanguage))
+            if (_selectedLanguage == null)
             {
                 return defaultVal;
             }
 
-            return (translations[selectedLanguage].getString(messageKey) == null ? defaultVal : translations[selectedLanguage].getString(messageKey));
-        }
+            if (!Translations.ContainsKey(_selectedLanguage))
+            {
+                return defaultVal;
+            }
 
+            return Translations[_selectedLanguage].getString(messageKey) ?? defaultVal;
+        }
     }
 }

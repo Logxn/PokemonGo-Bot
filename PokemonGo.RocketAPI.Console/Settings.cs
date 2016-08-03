@@ -7,65 +7,57 @@ namespace PokemonGo.RocketAPI.Console
 {
     public class Settings : ISettings
     {
-        AuthType ISettings.AuthType
-        {
-            get
-            {
-                return Globals.acc;
-            }
-        }
-         
-        public bool UseLastCords
-        {
-            get
-            {
-                return true; // Only disable this if your sure what your doing!
-            }
-        }
+        public bool UseLastCords => true; // Only disable this if your sure what you're doing!
 
-        public string PtcUsername => Globals.username;//UserSettings.Default.PtcUsername;
-        public string PtcPassword => Globals.password;//UserSettings.Default.PtcPassword;
-        public double DefaultLatitude => Globals.latitute;//UserSettings.Default.DefaultLatitude;
-        public double DefaultLongitude => Globals.longitude;//UserSettings.Default.DefaultLongitude;
-        public double DefaultAltitude => Globals.altitude;//UserSettings.Default.DefaultAltitude;
+        AuthType ISettings.AuthType => Globals.acc;
 
-        public bool WalkBackToDefaultLocation => Globals.defLoc;//UserSettings.Default.WalkBackToDefaultLocation;
-        public int MaxWalkingRadiusInMeters => Globals.radius;//UserSettings.Default.MaxWalkingRadiusInMeters;
+        public string PtcUsername => Globals.username;
+        public string PtcPassword => Globals.password;
+        public double DefaultLatitude => Globals.latitute;
+        public double DefaultLongitude => Globals.longitude;
+        public double DefaultAltitude => Globals.altitude;
 
-        public int HoldMaxDoublePokemons => Globals.duplicate;//UserSettings.Default.HoldMaxDoublePokemons;
-        public int TelegramLiveStatsDelay => Globals.telDelay;//UserSettings.Default.TelegramLiveStatsDelay;
+        public bool WalkBackToDefaultLocation => Globals.defLoc;
+        public int MaxWalkingRadiusInMeters => Globals.radius;
+
+        public int HoldMaxDoublePokemons => Globals.duplicate;
+        public int TelegramLiveStatsDelay => Globals.telDelay;
 
 
-        public double WalkingSpeedInKilometerPerHour => Globals.speed;//UserSettings.Default.WalkingSpeedInKilometerPerHour;
+        public double WalkingSpeedInKilometerPerHour => Globals.speed;
 
-        public bool TransferDoublePokemons => Globals.transfer;//UserSettings.Default.TransferDoublePokemons;
-        public int DontTransferWithCPOver => Globals.maxCp;//UserSettings.Default.DontTransferWithCPOver;
+        public bool TransferDoublePokemons => Globals.transfer;
+        public int DontTransferWithCPOver => Globals.maxCp;
         public int ivmaxpercent => Globals.ivmaxpercent;
 
-        public bool EvolvePokemonsIfEnoughCandy => Globals.evolve;//UserSettings.Default.EvolvePokemonsIfEnoughCandy;
+        public bool EvolvePokemonsIfEnoughCandy => Globals.evolve;
 
-        public string TelegramAPIToken => Globals.telAPI;//UserSettings.Default.TelegramAPIToken;
-        public string TelegramName => Globals.telName;//UserSettings.Default.TelegramName;
+        public string TelegramAPIToken => Globals.telAPI;
+        public string TelegramName => Globals.telName;
 
         public int navigation_option => Globals.navigation_option;
 
-        public bool UseLuckyEgg => Globals.useluckyegg;//UserSettings.Default.UseLuckyEgg;
-        public bool keepPokemonsThatCanEvolve => Globals.keepPokemonsThatCanEvolve;//UserSettings.Default.keepPokemonsThatCanEvolve;
+        public bool UseLuckyEgg => Globals.useluckyegg;
+        public bool keepPokemonsThatCanEvolve => Globals.keepPokemonsThatCanEvolve;
 
+        public bool UseBasicIncubators => Globals.useBasicIncubators;
         public bool pokevision => Globals.pokevision;
 
         public bool UseIncense => Globals.useincense;
+        public bool AutoIncubate => Globals.autoIncubate;
         public bool UseLuckyEggIfNotRunning => Globals.useLuckyEggIfNotRunning;
 
-        public bool Language => Globals.gerNames;//UserSettings.Default.Language;
+        public bool Language => Globals.gerNames;
 
         List<PokemonId> ISettings.catchPokemonSkipList
         {
             get
             {
-                List<PokemonId> catchPokemonSkipList = new List<PokemonId>();
+                var catchPokemonSkipList = new List<PokemonId>();
                 foreach (PokemonId pokemon in Globals.noCatch)
+                {
                     catchPokemonSkipList.Add(pokemon);
+                }
 
                 return catchPokemonSkipList;
             }
@@ -79,14 +71,16 @@ namespace PokemonGo.RocketAPI.Console
                 List<PokemonId> pokemonsToHold = new List<PokemonId>();
 
                 foreach (PokemonId pokemon in Globals.noTransfer)
+                {
                     pokemonsToHold.Add(pokemon);
+                }
 
                 return pokemonsToHold;
             }
 
             set
             {
-                throw new NotImplementedException();
+                throw new NotSupportedException();
             }
         }
 
@@ -96,13 +90,15 @@ namespace PokemonGo.RocketAPI.Console
             {
                 List<PokemonId> pokemonsToEvolve = new List<PokemonId>();
                 foreach (PokemonId pokemon in Globals.doEvolve)
+                {
                     pokemonsToEvolve.Add(pokemon);
+                }
 
                 return pokemonsToEvolve;
             }
             set
             {
-                throw new NotImplementedException();
+                throw new NotSupportedException();
             }
         }
 
@@ -130,7 +126,7 @@ namespace PokemonGo.RocketAPI.Console
 
             set
             {
-                throw new NotImplementedException();
+                throw new NotSupportedException();
             }
         }
 

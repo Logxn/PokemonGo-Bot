@@ -66,8 +66,12 @@ namespace PokemonGo.RocketAPI
 
         public static void AddLog(string line)
         {
+            return; // Ffs, this is buggy as fuck
             if (!File.Exists(log))
+            {
                 File.Create(log);
+            }
+
             try
             {
                 // here you know that the file exists

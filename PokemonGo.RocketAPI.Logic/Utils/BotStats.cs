@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PokemonGo.RocketAPI.Logic.Utils
 {
@@ -10,26 +6,26 @@ namespace PokemonGo.RocketAPI.Logic.Utils
     {
         private int _totalExperience;
         private int _totalPokemons;
-        private DateTime _initialSessionDateTime = DateTime.Now;
+        private readonly DateTime _initialSessionDateTime = DateTime.Now;
 
         private double _getBottingSessionTime()
         {
-            return ((DateTime.Now - _initialSessionDateTime).TotalSeconds) / 3600;
+            return (DateTime.Now - _initialSessionDateTime).TotalSeconds / 3600;
         }
 
-        public void addExperience(int exp)
+        public void AddExperience(int exp)
         {
             _totalExperience += exp;
         }
 
-        public void addPokemon(int count)
+        public void AddPokemon(int count)
         {
             _totalPokemons += count;
         }
 
         public override string ToString()
         {
-            return "xp/h: " + Math.Round((_totalExperience / _getBottingSessionTime())).ToString("N0") + "| pokemon/h: " + Math.Round((_totalPokemons / _getBottingSessionTime())).ToString("N0") + "";
+            return "xp/h: " + Math.Round(_totalExperience / _getBottingSessionTime()).ToString("N0") + "| pokemon/h: " + Math.Round(_totalPokemons / _getBottingSessionTime()).ToString("N0") + "";
         }
     }
 }

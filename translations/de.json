@@ -38,5 +38,7 @@
 "useIncese":"Verwende Rauch alle 30min",
 "evolvePokemonIfEnoughCandy":"Pokemon entwickeln wenn möglich",
 "enablePokemonListGUI":"Pokemon List GUI anzeigen",
-"keepPokemonWhichCanBeEvolved":"Behalte entwickelbare Pokemon"
+"keepPokemonWhichCanBeEvolved":"Behalte entwickelbare Pokemon",
+"autoIncubate":"Automatisch brüten",
+"useBasicIncubators":"Bezahlte Brutkästen nutzen"
 }
