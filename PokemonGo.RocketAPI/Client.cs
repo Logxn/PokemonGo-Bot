@@ -569,7 +569,7 @@ namespace PokemonGo.RocketAPI
                 if (incubator.PokemonId == 0)
                 {
                     // Unlimited incubators prefer short eggs, limited incubators prefer long eggs
-                    var egg = incubator.ItemId == ItemId.ItemIncubatorBasicUnlimited.ToString()
+                    var egg = incubator.IncubatorType == EggIncubatorType.IncubatorUnset
                         ? unusedEggs.FirstOrDefault()
                         : unusedEggs.LastOrDefault();
 
@@ -578,10 +578,10 @@ namespace PokemonGo.RocketAPI
                         continue;
                     }
 
-                    var customRequest = new POGOProtos.Networking.Requests.Messages.UseItemEggIncubatorMessage()
+                    var customRequest = new POGOProtos.Networking.Requests.Messages.UseItemEggIncubatorMessage
                     {
                         ItemId = incubator.ItemId,
-                        PokemonId = (ulong)incubator.PokemonId
+                        PokemonId = egg.Id
                     };
 
                     var useItemRequest = RequestBuilder.GetRequest(_unknownAuth, CurrentLat, CurrentLng, CurrentAltitude,
@@ -599,7 +599,7 @@ namespace PokemonGo.RocketAPI
                     // Wird gerade gebrütet
                     var kmToWalk = incubator.TargetKmWalked - incubator.StartKmWalked;
                     var kmRemaining = incubator.TargetKmWalked - kmWalked;
-                    Logger.ColoredConsoleWrite(ConsoleColor.DarkGray, $"Incubator {incubator.ItemId} needs {kmRemaining.ToString("N2")}km/{kmToWalk.ToString("N2")}km to hatch.");
+                    Logger.ColoredConsoleWrite(ConsoleColor.DarkGray, $"Incubator needs {kmRemaining.ToString("N2")}km/{kmToWalk.ToString("N2")}km to hatch.");
                 }
             }
         }
