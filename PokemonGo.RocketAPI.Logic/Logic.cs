@@ -22,7 +22,7 @@ namespace PokemonGo.RocketAPI.Logic
         public BotStats _botStats;
         private readonly Navigation _navigation;
         public const double SpeedDownTo = 10 / 3.6;
-        private LogicInfoObservable _infoObservable;
+        private readonly LogicInfoObservable _infoObservable;
         private readonly PokeVisionUtil _pokevision;
 
 
@@ -356,6 +356,12 @@ namespace PokemonGo.RocketAPI.Logic
                     }
                     await TransferDuplicatePokemon(_clientSettings.keepPokemonsThatCanEvolve);
                     await RecycleItems();
+
+                    ////
+                    if (_clientSettings.UseLuckyEggIfNotRunning)
+                    {
+                        await _inventory.UseLuckyEgg(_client);
+                    }
                 }
                 //if (_clientSettings.pokevision)
                 //{
@@ -633,9 +639,11 @@ namespace PokemonGo.RocketAPI.Logic
                         }
 
                         var bestPokemonOfType = await _inventory.GetHighestCPofType(duplicatePokemon);
+                        var bestPokemonsCPOfType = await _inventory.GetHighestCPofType2(duplicatePokemon);
+                        var bestPokemonsIVOfType = await _inventory.GetHighestIVofType(duplicatePokemon); 
 
                         var transfer = await _client.TransferPokemon(duplicatePokemon.Id);
-                        Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Transfer {StringUtils.getPokemonNameByLanguage(_clientSettings, duplicatePokemon.PokemonId)} CP {duplicatePokemon.Cp} IV {Math.Round(duplicatePokemon.CalculateIV())}% (Best: {bestPokemonOfType} CP)", LogLevel.Info);
+                        Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Transfer {StringUtils.getPokemonNameByLanguage(_clientSettings, duplicatePokemon.PokemonId)} CP {duplicatePokemon.Cp} IV {Math.Round(duplicatePokemon.CalculateIV())}% (Best: {bestPokemonsCPOfType.First().Cp} CP, IV {Math.Round(bestPokemonsIVOfType.First().CalculateIV())}%)", LogLevel.Info);
 
                         TelegramUtil.getInstance().sendInformationText(TelegramUtil.TelegramUtilInformationTopics.Transfer, StringUtils.getPokemonNameByLanguage(_clientSettings, duplicatePokemon.PokemonId), duplicatePokemon.Cp, Math.Round(duplicatePokemon.CalculateIV()), bestPokemonOfType);
 
@@ -746,7 +754,7 @@ namespace PokemonGo.RocketAPI.Logic
         DateTime lastincenseuse;
         public async Task UseIncense()
         {
-            if (_clientSettings.UserIncense)
+            if (_clientSettings.UseIncense)
             {
                 var inventory = await _inventory.GetItems();
                 var incsense = inventory.Where(p => (ItemId)p.Item_ == ItemId.ItemIncenseOrdinary).FirstOrDefault();

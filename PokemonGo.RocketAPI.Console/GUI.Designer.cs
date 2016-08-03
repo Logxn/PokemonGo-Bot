@@ -128,6 +128,7 @@
             this.lang_en_btn = new System.Windows.Forms.Button();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.checkBox12 = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -944,7 +945,7 @@
             // 
             this.groupBox9.Controls.Add(this.linkLabel1);
             this.groupBox9.Controls.Add(this.linkLabel2);
-            this.groupBox9.Location = new System.Drawing.Point(264, 174);
+            this.groupBox9.Location = new System.Drawing.Point(264, 246);
             this.groupBox9.Name = "groupBox9";
             this.groupBox9.Size = new System.Drawing.Size(271, 46);
             this.groupBox9.TabIndex = 18;
@@ -953,6 +954,7 @@
             // 
             // groupBox10
             // 
+            this.groupBox10.Controls.Add(this.checkBox12);
             this.groupBox10.Controls.Add(this.checkBox11);
             this.groupBox10.Controls.Add(this.checkBox10);
             this.groupBox10.Controls.Add(this.checkBox9);
@@ -961,7 +963,7 @@
             this.groupBox10.Controls.Add(this.checkBox3);
             this.groupBox10.Location = new System.Drawing.Point(264, 6);
             this.groupBox10.Name = "groupBox10";
-            this.groupBox10.Size = new System.Drawing.Size(271, 162);
+            this.groupBox10.Size = new System.Drawing.Size(271, 188);
             this.groupBox10.TabIndex = 6;
             this.groupBox10.TabStop = false;
             this.groupBox10.Text = "Other Settings";
@@ -1182,6 +1184,17 @@
             this.pictureBox1.TabStop = false;
             this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
             // 
+            // checkBox12
+            // 
+            this.checkBox12.AutoSize = true;
+            this.checkBox12.Location = new System.Drawing.Point(6, 156);
+            this.checkBox12.Name = "checkBox12";
+            this.checkBox12.Size = new System.Drawing.Size(160, 17);
+            this.checkBox12.TabIndex = 32;
+            this.checkBox12.Text = "Use LuckyEgg if not running";
+            this.checkBox12.UseVisualStyleBackColor = true;
+            this.checkBox12.CheckedChanged += new System.EventHandler(this.checkBox12_CheckedChanged_1);
+            // 
             // GUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1339,6 +1352,7 @@
         private System.Windows.Forms.Button lang_tr_btn;
         private System.Windows.Forms.Button lang_ru_btn;
         private System.Windows.Forms.Button lang_france_btn;
+        private System.Windows.Forms.CheckBox checkBox12;
     }
 }
 

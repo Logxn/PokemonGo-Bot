@@ -154,6 +154,9 @@ namespace PokemonGo.RocketAPI.Console
                                 case 23:
                                     Globals.pokevision = bool.Parse(line);
                                     break;
+                                case 24:
+                                    Globals.useluckyegg = bool.Parse(line);
+                                    break;
                             }
                         }
                         catch (Exception e)
@@ -436,6 +439,8 @@ namespace PokemonGo.RocketAPI.Console
         public static bool pokeList = true;
         public static bool keepPokemonsThatCanEvolve = true;
         public static bool pokevision = false;
+
+        public static bool useLuckyEggIfNotRunning = false;
 
         public static Logic.LogicInfoObservable infoObservable = new Logic.LogicInfoObservable();
     }

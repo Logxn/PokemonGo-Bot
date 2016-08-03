@@ -216,6 +216,9 @@ namespace PokemonGo.RocketAPI.Console
                         case 23:
                             checkBox11.Checked = bool.Parse(line);
                             break;
+                        case 24:
+                            checkBox12.Checked = bool.Parse(line);
+                            break;
                         //case 24:
                         //    checkBox12.Checked = bool.Parse(line);
                         //    break;
@@ -568,6 +571,7 @@ namespace PokemonGo.RocketAPI.Console
             Globals.pokeList = checkBox10.Checked;
             Globals.keepPokemonsThatCanEvolve = checkBox11.Checked;
             //Globals.pokevision = checkBox12.Checked;
+            Globals.useLuckyEggIfNotRunning = checkBox12.Checked;
 
             foreach (string pokemon in checkedListBox1.CheckedItems)
             {
@@ -615,7 +619,7 @@ namespace PokemonGo.RocketAPI.Console
                     Globals.ivmaxpercent.ToString(),
                     Globals.pokeList.ToString(),
                     Globals.keepPokemonsThatCanEvolve.ToString(),
-                    Globals.pokevision.ToString()
+                    Globals.useLuckyEggIfNotRunning.ToString()
             };
             System.IO.File.WriteAllLines(@Program.account, accFile);
 
@@ -1034,6 +1038,17 @@ namespace PokemonGo.RocketAPI.Console
             lang_france_btn.Enabled = false;
             TranslationHandler.selectLangauge("france");
             load_lang();
+        }
+
+        private void checkBox12_CheckedChanged_1(object sender, EventArgs e)
+        {
+            if (checkBox12.Checked)
+            {
+                Globals.useLuckyEggIfNotRunning = true;
+            } else
+            {
+                Globals.useLuckyEggIfNotRunning = false;
+            }
         }
     }
 }
