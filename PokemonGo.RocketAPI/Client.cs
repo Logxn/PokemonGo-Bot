@@ -564,7 +564,6 @@ namespace PokemonGo.RocketAPI
 
         public async Task Incubate(float kmWalked, List<EggIncubator> incubators, List<PokemonData> unusedEggs, List<PokemonData> pokemons)
         {
-            await Task.Delay(0);
             foreach (var incubator in incubators)
             {
                 if (incubator.PokemonId == 0)
@@ -579,7 +578,21 @@ namespace PokemonGo.RocketAPI
                         continue;
                     }
 
-                    //TODO: Use incubator.Id with egg.Id
+                    var customRequest = new POGOProtos.Networking.Requests.Messages.UseItemEggIncubatorMessage()
+                    {
+                        ItemId = incubator.ItemId,
+                        PokemonId = (ulong)incubator.PokemonId
+                    };
+
+                    var useItemRequest = RequestBuilder.GetRequest(_unknownAuth, CurrentLat, CurrentLng, CurrentAltitude,
+                        new Request.Types.Requests
+                        {
+                            Type = (int)RequestType.USE_ITEM_EGG_INCUBATOR,
+                            Message = customRequest.ToByteString()
+                        });
+
+                    await _httpClient.PostProtoPayload<Request, UseItemRequest>($"https://{_apiUrl}/rpc", useItemRequest);
+
                     unusedEggs.Remove(egg);
                 }
                 else

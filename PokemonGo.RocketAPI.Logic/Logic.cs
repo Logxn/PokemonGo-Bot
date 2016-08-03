@@ -671,8 +671,7 @@ namespace PokemonGo.RocketAPI.Logic
 
                 var playerStats = await _inventory.GetPlayerStats();
                 var stats = playerStats.First();
-
-                Logger.ColoredConsoleWrite(ConsoleColor.DarkGray, "Incubation is still WIP");
+                
                 await _client.Incubate(stats.KmWalked, incubators, unusedEggs, pokemons);
             }
             catch (Exception)
