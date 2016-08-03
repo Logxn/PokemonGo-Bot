@@ -52,9 +52,11 @@ namespace PokemonGo.RocketAPI.Console
         public bool UseLuckyEgg => Globals.useluckyegg;//UserSettings.Default.UseLuckyEgg;
         public bool keepPokemonsThatCanEvolve => Globals.keepPokemonsThatCanEvolve;//UserSettings.Default.keepPokemonsThatCanEvolve;
 
+        public bool UsePaidIncubators => Globals.usePaidIncubators;
         public bool pokevision => Globals.pokevision;
 
         public bool UseIncense => Globals.useincense;
+        public bool AutoIncubate => Globals.autoIncubate;
         public bool UseLuckyEggIfNotRunning => Globals.useLuckyEggIfNotRunning;
 
         public bool Language => Globals.gerNames;//UserSettings.Default.Language;
