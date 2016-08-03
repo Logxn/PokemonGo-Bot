@@ -285,11 +285,7 @@ namespace PokemonGo.RocketAPI.Console
                 string[] lines = System.IO.File.ReadAllLines(@Program.keep);
                 foreach (string line in lines)
                 {
-                    if (line != "")
-                        if (checkBox8.Checked)
-                            checkedListBox1.SetItemChecked(pokeIDS[gerEng[line]] - 1, true);
-                        else
-                            checkedListBox1.SetItemChecked(pokeIDS[line] - 1, true);
+                    SetCheckboxChecked(checkedListBox1, line, true);
                 }
             }
 
@@ -298,11 +294,7 @@ namespace PokemonGo.RocketAPI.Console
                 string[] lines = System.IO.File.ReadAllLines(@Program.ignore);
                 foreach (string line in lines)
                 {
-                    if (line != "")
-                        if (checkBox8.Checked)
-                            checkedListBox2.SetItemChecked(pokeIDS[gerEng[line]] - 1, true);
-                        else
-                            checkedListBox2.SetItemChecked(pokeIDS[line] - 1, true);
+                    SetCheckboxChecked(checkedListBox2, line, true);
                 }
             }
 
@@ -328,14 +320,22 @@ namespace PokemonGo.RocketAPI.Console
                 string[] lines = System.IO.File.ReadAllLines(@Program.evolve);
                 foreach (string line in lines)
                 {
-                    if (line != "")
-                        if (checkBox8.Checked)
-                            checkedListBox3.SetItemChecked(evolveIDS[gerEng[line]] - 1, true);
-                        else
-                            checkedListBox3.SetItemChecked(evolveIDS[line] - 1, true);
+                    SetCheckboxChecked(checkedListBox3, line, true);
                 }
             }
 
+        }
+
+        private static void SetCheckboxChecked(CheckedListBox listBox, string value, bool checkState)
+        {
+            if (!string.IsNullOrEmpty(value))
+            {
+                int index = listBox.Items.IndexOf(value);
+                if (index > -1)
+                {
+                    listBox.SetItemChecked(index, checkState);
+                }
+            }         
         }
 
         private void textBox3_KeyPress(object sender, KeyPressEventArgs e)
