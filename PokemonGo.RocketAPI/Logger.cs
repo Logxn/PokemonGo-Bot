@@ -7,6 +7,9 @@ namespace PokemonGo.RocketAPI
 	/// Generic logger which can be used across the projects.
 	/// Logger should be set to properly log.
 	/// </summary>
+	public static string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Configs");
+	public static string log = Path.Combine(path, "log.txt");
+	
 	public static class Logger
 	{
 		private static ILogger logger;
@@ -30,6 +33,19 @@ namespace PokemonGo.RocketAPI
 			if (logger == null)
 				return;
 			logger.Write(message, level);
+			if (!File.Exists(log))
+			{
+				File.Create(log);
+    				TextWriter tw = new StreamWriter(log);
+    				tw.WriteLine(message);
+    				tw.Close();
+			}
+			else if (File.Exists(log))
+			{
+    				TextWriter tw = new StreamWriter(log);
+				tw.WriteLine(message);
+    				tw.Close(); 
+			}
 		}
 
         public static void ColoredConsoleWrite(ConsoleColor color, string text, LogLevel level = LogLevel.Info)
@@ -38,6 +54,19 @@ namespace PokemonGo.RocketAPI
             System.Console.ForegroundColor = color;
             System.Console.WriteLine($"[{DateTime.Now.ToString("HH:mm:ss")}] "+ text);
             System.Console.ForegroundColor = originalColor;
+	    	if (!File.Exists(log))
+	    	{
+	    		File.Create(log);
+    			TextWriter tw = new StreamWriter(log);
+    			tw.WriteLine($"[{DateTime.Now.ToString("HH:mm:ss")}] "+ text);
+    			tw.Close();
+		}
+		else if (File.Exists(log))
+		{
+    			TextWriter tw = new StreamWriter(log);
+			tw.WriteLine($"[{DateTime.Now.ToString("HH:mm:ss")}] "+ text);
+    			tw.Close(); 
+		}
         }
 
         public static void ColoredConsoleWrite(ConsoleColor color, string text)
@@ -46,6 +75,19 @@ namespace PokemonGo.RocketAPI
             System.Console.ForegroundColor = color;
             System.Console.WriteLine($"[{DateTime.Now.ToString("HH:mm:ss")}] " + text);
             System.Console.ForegroundColor = originalColor;
+	    	if (!File.Exists(log))
+	    	{
+	    		File.Create(log);
+    			TextWriter tw = new StreamWriter(log);
+    			tw.WriteLine($"[{DateTime.Now.ToString("HH:mm:ss")}] "+ text);
+    			tw.Close();
+		}
+		else if (File.Exists(log))
+		{
+    			TextWriter tw = new StreamWriter(log);
+			tw.WriteLine($"[{DateTime.Now.ToString("HH:mm:ss")}] "+ text);
+    			tw.Close(); 
+		}
         }
 
         public static void Error(string text)
@@ -54,6 +96,19 @@ namespace PokemonGo.RocketAPI
             System.Console.ForegroundColor = ConsoleColor.Red;
             System.Console.WriteLine($"[{DateTime.Now.ToString("HH:mm:ss")}] " + text);
             System.Console.ForegroundColor = originalColor;
+	    	if (!File.Exists(log))
+	    	{
+	    		File.Create(log);
+    			TextWriter tw = new StreamWriter(log);
+    			tw.WriteLine($"[{DateTime.Now.ToString("HH:mm:ss")}] "+ text);
+    			tw.Close();
+		}
+		else if (File.Exists(log))
+		{
+    			TextWriter tw = new StreamWriter(log);
+			tw.WriteLine($"[{DateTime.Now.ToString("HH:mm:ss")}] "+ text);
+    			tw.Close(); 
+		}
         }
 
 
