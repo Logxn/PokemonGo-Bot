@@ -530,7 +530,6 @@ namespace PokemonGo.RocketAPI
 
         public async Task Incubate(float kmWalked, List<EggIncubator> incubators, List<PokemonData> unusedEggs)
         {
-            return;
             for (int i = 0; i < incubators.Count; i++)
             {
                 if (i >= unusedEggs.Count)
@@ -541,7 +540,7 @@ namespace PokemonGo.RocketAPI
                 var incubator = incubators[i];
                 var customRequest = new UseItemRequest
                 {
-                    ItemId = incubator.UsesRemaining <= 3 ? ItemId.ItemIncubatorBasic : ItemId.ItemIncubatorBasicUnlimited,
+                    ItemId = incubator.UsesRemaining <= 3 ? ItemId.ItemIncubatorBasic : ItemId.ItemIncubatorBasicUnlimited
                 };
 
                 var useItemRequest = RequestBuilder.GetRequest(_unknownAuth, CurrentLat, CurrentLng, CurrentAltitude,

@@ -708,70 +708,31 @@ namespace PokemonGo.RocketAPI.Console
 
         private void checkBox4_CheckedChanged(object sender, EventArgs e)
         {
-            if (checkBox4.Checked)
+            int i = 0;
+            while (i < checkedListBox1.Items.Count)
             {
-                int i = 0;
-                while (i < checkedListBox1.Items.Count)
-                {
-                    checkedListBox1.SetItemChecked(i, true);
-                    i++;
-                }
-
-            }
-            else
-            {
-                int i = 0;
-                while (i < checkedListBox1.Items.Count)
-                {
-                    checkedListBox1.SetItemChecked(i, false);
-                    i++;
-                }
+                checkedListBox1.SetItemChecked(i, checkBox4.Checked);
+                i++;
             }
         }
 
         private void checkBox5_CheckedChanged(object sender, EventArgs e)
         {
-            if (checkBox5.Checked)
+            int i = 0;
+            while (i < checkedListBox2.Items.Count)
             {
-                int i = 0;
-                while (i < checkedListBox2.Items.Count)
-                {
-                    checkedListBox2.SetItemChecked(i, true);
-                    i++;
-                }
-
-            }
-            else
-            {
-                int i = 0;
-                while (i < checkedListBox2.Items.Count)
-                {
-                    checkedListBox2.SetItemChecked(i, false);
-                    i++;
-                }
+                checkedListBox2.SetItemChecked(i, checkBox5.Checked);
+                i++;
             }
         }
 
         private void checkBox6_CheckedChanged(object sender, EventArgs e)
         {
-            if (checkBox6.Checked)
+            int i = 0;
+            while (i < checkedListBox3.Items.Count)
             {
-                int i = 0;
-                while (i < checkedListBox3.Items.Count)
-                {
-                    checkedListBox3.SetItemChecked(i, true);
-                    i++;
-                }
-
-            }
-            else
-            {
-                int i = 0;
-                while (i < checkedListBox3.Items.Count)
-                {
-                    checkedListBox3.SetItemChecked(i, false);
-                    i++;
-                }
+                checkedListBox3.SetItemChecked(i, checkBox6.Checked);
+                i++;
             }
         }
 
@@ -787,7 +748,9 @@ namespace PokemonGo.RocketAPI.Console
                 checkedListBox1.Items.RemoveAt(0);
                 checkedListBox2.Items.RemoveAt(0);
                 if (checkedListBox3.Items.Count > 0)
+                {
                     checkedListBox3.Items.RemoveAt(0);
+                }
             }
             int i = 1;
             foreach (PokemonId pokemon in Enum.GetValues(typeof(PokemonId)))
