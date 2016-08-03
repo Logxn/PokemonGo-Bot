@@ -972,6 +972,7 @@
             // chkUseBasicIncubators
             // 
             this.chkUseBasicIncubators.AutoSize = true;
+            this.chkUseBasicIncubators.Enabled = false;
             this.chkUseBasicIncubators.Location = new System.Drawing.Point(24, 200);
             this.chkUseBasicIncubators.Name = "chkUseBasicIncubators";
             this.chkUseBasicIncubators.Size = new System.Drawing.Size(125, 17);
@@ -983,8 +984,7 @@
             // chkAutoIncubate
             // 
             this.chkAutoIncubate.AutoSize = true;
-            this.chkAutoIncubate.Checked = true;
-            this.chkAutoIncubate.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkAutoIncubate.Enabled = false;
             this.chkAutoIncubate.Location = new System.Drawing.Point(6, 179);
             this.chkAutoIncubate.Name = "chkAutoIncubate";
             this.chkAutoIncubate.Size = new System.Drawing.Size(92, 17);

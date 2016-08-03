@@ -13,8 +13,6 @@ using static PokemonGo.RocketAPI.GeneratedCode.Response.Types;
 using System.Device.Location;
 using PokemonGo.RocketAPI.Exceptions;
 using System.IO;
-using System.Diagnostics;
-using System.Linq;
 using System.Threading;
 
 namespace PokemonGo.RocketAPI
@@ -49,15 +47,20 @@ namespace PokemonGo.RocketAPI
                     var latlngFromFile = File.ReadAllText(fullPath);
                     var latlng = latlngFromFile.Split(':');
                     double latitude, longitude;
-                    if ((latlng[0].Length > 0 && double.TryParse(latlng[0], out latitude) && latitude >= -90.0 && latitude <= 90.0) && (latlng[1].Length > 0 && double.TryParse(latlng[1], out longitude) && longitude >= -180.0 && longitude <= 180.0))
+                    if ((latlng[0].Length > 0 && double.TryParse(latlng[0], out latitude) && latitude >= -90.0 &&
+                         latitude <= 90.0) &&
+                        (latlng[1].Length > 0 && double.TryParse(latlng[1], out longitude) && longitude >= -180.0 &&
+                         longitude <= 180.0))
                     {
 
                         double dif1 = latitude - _settings.DefaultLatitude;
                         double dif2 = longitude - _settings.DefaultLongitude;
                         if (dif1 > 3 || dif1 < -3 || dif2 > 3 || dif2 < -3)
                         {
-                            Logger.ColoredConsoleWrite(ConsoleColor.Red, "There is a difference of your Last Location File.\n" + path);
-                            Logger.ColoredConsoleWrite(ConsoleColor.Red, "Latidude difference: " + dif1 + " Longitude difference :" + dif2);
+                            Logger.ColoredConsoleWrite(ConsoleColor.Red,
+                                "There is a difference of your Last Location File.\n" + path);
+                            Logger.ColoredConsoleWrite(ConsoleColor.Red,
+                                "Latidude difference: " + dif1 + " Longitude difference :" + dif2);
                             Logger.ColoredConsoleWrite(ConsoleColor.Red, "Sleeping 10 Seconds.");
                             Thread.Sleep(10000);
                             Logger.ColoredConsoleWrite(ConsoleColor.Red, "I warned you. Starting..");
@@ -70,7 +73,8 @@ namespace PokemonGo.RocketAPI
                         }
                         catch (Exception)
                         {
-                            SetCoordinates(_settings.DefaultLatitude, _settings.DefaultLongitude, _settings.DefaultAltitude);
+                            SetCoordinates(_settings.DefaultLatitude, _settings.DefaultLongitude,
+                                _settings.DefaultAltitude);
                         }
                     }
                     else
@@ -247,7 +251,8 @@ namespace PokemonGo.RocketAPI
         {
             var profileRequest = RequestBuilder.GetInitialRequest(AccessToken, _authType, CurrentLat, CurrentLng, 10,
                 new Request.Types.Requests { Type = (int)RequestType.GET_PLAYER });
-            return await _httpClient.PostProtoPayload<Request, GetPlayerResponse>($"https://{_apiUrl}/rpc", profileRequest);
+            return
+                await _httpClient.PostProtoPayload<Request, GetPlayerResponse>($"https://{_apiUrl}/rpc", profileRequest);
         }
 
         public async Task<string> getNickname()
@@ -260,7 +265,10 @@ namespace PokemonGo.RocketAPI
         {
             var settingsRequest = RequestBuilder.GetRequest(_unknownAuth, CurrentLat, CurrentLng, 10,
                 RequestType.DOWNLOAD_SETTINGS);
-            return await _httpClient.PostProtoPayload<Request, DownloadSettingsResponse>($"https://{_apiUrl}/rpc", settingsRequest);
+            return
+                await
+                    _httpClient.PostProtoPayload<Request, DownloadSettingsResponse>($"https://{_apiUrl}/rpc",
+                        settingsRequest);
         }
 
         public async Task<DownloadItemTemplatesResponse> GetItemTemplates()
@@ -288,7 +296,10 @@ namespace PokemonGo.RocketAPI
                     Type = (int)RequestType.USE_ITEM_CAPTURE,
                     Message = customRequest.ToByteString()
                 });
-            return await _httpClient.PostProtoPayload<Request, UseItemCaptureRequest>($"https://{_apiUrl}/rpc", useItemRequest);
+            return
+                await
+                    _httpClient.PostProtoPayload<Request, UseItemCaptureRequest>($"https://{_apiUrl}/rpc",
+                        useItemRequest);
         }
 
         public async Task<GetMapObjectsResponse> GetMapObjects()
@@ -327,7 +338,8 @@ namespace PokemonGo.RocketAPI
                         }.ToByteString()
                 });
 
-            return await _httpClient.PostProtoPayload<Request, GetMapObjectsResponse>($"https://{_apiUrl}/rpc", mapRequest);
+            return
+                await _httpClient.PostProtoPayload<Request, GetMapObjectsResponse>($"https://{_apiUrl}/rpc", mapRequest);
         }
 
         public async Task<FortDetailsResponse> GetFort(string fortId, double fortLat, double fortLng)
@@ -368,7 +380,10 @@ namespace PokemonGo.RocketAPI
                     Type = (int)RequestType.FORT_SEARCH,
                     Message = customRequest.ToByteString()
                 });
-            return await _httpClient.PostProtoPayload<Request, FortSearchResponse>($"https://{_apiUrl}/rpc", fortDetailRequest);
+            return
+                await
+                    _httpClient.PostProtoPayload<Request, FortSearchResponse>($"https://{_apiUrl}/rpc",
+                        fortDetailRequest);
         }
 
         public async Task<EncounterResponse> EncounterPokemon(ulong encounterId, string spawnPointGuid)
@@ -387,7 +402,9 @@ namespace PokemonGo.RocketAPI
                     Type = (int)RequestType.ENCOUNTER,
                     Message = customRequest.ToByteString()
                 });
-            return await _httpClient.PostProtoPayload<Request, EncounterResponse>($"https://{_apiUrl}/rpc", encounterResponse);
+            return
+                await
+                    _httpClient.PostProtoPayload<Request, EncounterResponse>($"https://{_apiUrl}/rpc", encounterResponse);
         }
 
         public async Task<CatchPokemonResponse> CatchPokemon(ulong encounterId, string spawnPointGuid, double pokemonLat,
@@ -411,7 +428,10 @@ namespace PokemonGo.RocketAPI
                     Type = (int)RequestType.CATCH_POKEMON,
                     Message = customRequest.ToByteString()
                 });
-            return await _httpClient.PostProtoPayload<Request, CatchPokemonResponse>($"https://{_apiUrl}/rpc", catchPokemonRequest);
+            return
+                await
+                    _httpClient.PostProtoPayload<Request, CatchPokemonResponse>($"https://{_apiUrl}/rpc",
+                        catchPokemonRequest);
         }
 
         public async Task<UseItemRequest> UseItemXpBoost(ItemId itemId)
@@ -433,7 +453,8 @@ namespace PokemonGo.RocketAPI
                         useItemRequest);
         }
 
-        public async Task<UseItemRequest> UseItemIncense(ItemId itemId) //changed from UseItem to UseItemXpBoost because of the RequestType
+        public async Task<UseItemRequest> UseItemIncense(ItemId itemId)
+        //changed from UseItem to UseItemXpBoost because of the RequestType
         {
             var customRequest = new UseItemRequest
             {
@@ -465,7 +486,10 @@ namespace PokemonGo.RocketAPI
                     Type = (int)RequestType.RELEASE_POKEMON,
                     Message = customRequest.ToByteString()
                 });
-            return await _httpClient.PostProtoPayload<Request, TransferPokemonOut>($"https://{_apiUrl}/rpc", releasePokemonRequest);
+            return
+                await
+                    _httpClient.PostProtoPayload<Request, TransferPokemonOut>($"https://{_apiUrl}/rpc",
+                        releasePokemonRequest);
         }
 
         public async Task<EvolvePokemonOut> EvolvePokemon(ulong pokemonId)
@@ -483,13 +507,18 @@ namespace PokemonGo.RocketAPI
                 });
             return
                 await
-                    _httpClient.PostProtoPayload<Request, EvolvePokemonOut>($"https://{_apiUrl}/rpc", releasePokemonRequest);
+                    _httpClient.PostProtoPayload<Request, EvolvePokemonOut>($"https://{_apiUrl}/rpc",
+                        releasePokemonRequest);
         }
 
         public async Task<GetInventoryResponse> GetInventory()
         {
-            var inventoryRequest = RequestBuilder.GetRequest(_unknownAuth, CurrentLat, CurrentLng, CurrentAltitude, RequestType.GET_INVENTORY);
-            return await _httpClient.PostProtoPayload<Request, GetInventoryResponse>($"https://{_apiUrl}/rpc", inventoryRequest);
+            var inventoryRequest = RequestBuilder.GetRequest(_unknownAuth, CurrentLat, CurrentLng, CurrentAltitude,
+                RequestType.GET_INVENTORY);
+            return
+                await
+                    _httpClient.PostProtoPayload<Request, GetInventoryResponse>($"https://{_apiUrl}/rpc",
+                        inventoryRequest);
         }
 
         public async Task<RecycleInventoryItemResponse> RecycleItem(ItemId itemId, int amount)
@@ -506,7 +535,10 @@ namespace PokemonGo.RocketAPI
                     Type = (int)RequestType.RECYCLE_INVENTORY_ITEM,
                     Message = customRequest.ToByteString()
                 });
-            return await _httpClient.PostProtoPayload<Request, RecycleInventoryItemResponse>($"https://{_apiUrl}/rpc", releasePokemonRequest);
+            return
+                await
+                    _httpClient.PostProtoPayload<Request, RecycleInventoryItemResponse>($"https://{_apiUrl}/rpc",
+                        releasePokemonRequest);
         }
 
         public async Task<EvolvePokemonOut> PowerUp(ulong pokemonId)
@@ -541,7 +573,8 @@ namespace PokemonGo.RocketAPI
             //    var incubator = incubators[i];
             //    var customRequest = new UseItemRequest
             //    {
-            //        ItemId = incubator.UsesRemaining <= 3 ? ItemId.ItemIncubatorBasic : ItemId.ItemIncubatorBasicUnlimited
+            //        ItemId = incubator.ItemId == ItemId.ItemIncubatorBasic.ToString() ? ItemId.ItemIncubatorBasic : ItemId.ItemIncubatorBasicUnlimited
+            //
             //    };
             //
             //    var useItemRequest = RequestBuilder.GetRequest(_unknownAuth, CurrentLat, CurrentLng, CurrentAltitude,
