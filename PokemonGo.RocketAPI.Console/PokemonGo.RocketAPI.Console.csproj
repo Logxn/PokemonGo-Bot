@@ -132,8 +132,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="Settings.cs" />
-    <Compile Include="Translation\Translation.cs" />
-    <Compile Include="Translation\TranslationHandler.cs" />
     <Compile Include="UserSettings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
@@ -217,7 +215,7 @@
   <ItemGroup>
     <None Include="Resources\flagge-frankreich-flagge-rechteckig-40x60_2602.gif" />
   </ItemGroup>
-  <ItemGroup> 
+  <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5">
       <Visible>False</Visible>
       <ProductName>Microsoft .NET Framework 4.5 %28x86 and x64%29</ProductName>
@@ -227,11 +225,11 @@
       <Visible>False</Visible>
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
-    </BootstrapperPackage> 
+    </BootstrapperPackage>
     <None Include="Resources\tr.gif" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\ru.gif" /> 
+    <None Include="Resources\ru.gif" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

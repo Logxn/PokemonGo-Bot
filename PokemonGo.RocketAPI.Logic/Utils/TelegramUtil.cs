@@ -20,10 +20,81 @@ using PokemonGo.RocketAPI.Exceptions;
 using PokemonGo.RocketAPI.Logic;
 using PokemonGo.RocketAPI.Helpers;
 
+using PokemonGo.RocketAPI.Logic.Translation;
+
 namespace PokemonGo.RocketAPI.Logic.Utils
 {
     public class TelegramUtil
     {
+
+        private static TelegramUtil instance;
+
+        public static TelegramUtil getInstance()
+        {
+            return instance;
+        }
+
+        public enum TelegramUtilInformationTopics
+        {
+            Pokestop,
+            Catch,
+            Evolve,
+            Transfer,
+            Levelup
+        }
+        private Dictionary<TelegramUtilInformationTopics, Boolean> _information = new Dictionary<TelegramUtilInformationTopics, Boolean>();
+        private Dictionary<TelegramUtilInformationTopics, String> _informationDescription = new Dictionary<TelegramUtilInformationTopics, String>();
+
+        private Dictionary<TelegramUtilInformationTopics, String> _informationDescriptionDefault = new Dictionary<TelegramUtilInformationTopics, String>() {
+            { TelegramUtilInformationTopics.Pokestop, @"Notifies you when a pokestop was visited" },
+            { TelegramUtilInformationTopics.Catch, @"Notifies you when a pokemon is caught" },
+            { TelegramUtilInformationTopics.Evolve, @"Notifies you when a pokemon was evolved" },
+            { TelegramUtilInformationTopics.Transfer, @"Notifies you when a pokemon is transfered" },
+            { TelegramUtilInformationTopics.Levelup, @"Notifies you when you got a level up" },
+        };
+        private Dictionary<TelegramUtilInformationTopics, String> _informationDescriptionIDs = new Dictionary<TelegramUtilInformationTopics, String>() {
+            { TelegramUtilInformationTopics.Pokestop, @"telegram_pokestop_description" },
+            { TelegramUtilInformationTopics.Catch, @"telegram_catch_description" },
+            { TelegramUtilInformationTopics.Evolve, @"telegram_evolve_description" },
+            { TelegramUtilInformationTopics.Transfer, @"telegram_transfer_description" },
+            { TelegramUtilInformationTopics.Levelup, @"telegram_levelup_description" },
+        };
+
+
+        public Dictionary<TelegramUtilInformationTopics, String> _informationTopicDefaultTexts = new Dictionary<TelegramUtilInformationTopics, String>() {
+            { TelegramUtilInformationTopics.Pokestop, "Visited a pokestop {0}\nXP: {1}, Eggs: {2}, Gems:{3}, Items: {4}" },
+            { TelegramUtilInformationTopics.Catch, "Caught {0} CP {1} IV {2}% using {3} got {4} XP." },
+            { TelegramUtilInformationTopics.Evolve, "Evolved {0} CP {1} {2}%  to {3} CP: {4} for {5}xp" },
+            { TelegramUtilInformationTopics.Transfer, "Transfer {0} CP {1} IV {2}% (Best: {4} CP)" },
+            { TelegramUtilInformationTopics.Levelup, "You ({0}) got Level Up! Your new Level is now {1}!" },
+        };
+
+        public Dictionary<TelegramUtilInformationTopics, String> _informationTopicDefaultTextIDs = new Dictionary<TelegramUtilInformationTopics, String>() {
+            { TelegramUtilInformationTopics.Pokestop, @"telegram_pokestop" },
+            { TelegramUtilInformationTopics.Catch, @"telegram_catch" },
+            { TelegramUtilInformationTopics.Evolve, @"telegram_evolve" },
+            { TelegramUtilInformationTopics.Transfer, @"telegram_transfer" },
+            { TelegramUtilInformationTopics.Levelup, @"telegram_levelup" },
+        };
+
+        public void sendInformationText(TelegramUtilInformationTopics topic, params object[] args)
+        {
+            if(_information.ContainsKey(topic) && _information[topic] == true && _informationTopicDefaultTexts.ContainsKey(topic) && _informationTopicDefaultTextIDs.ContainsKey(topic))
+            {
+                String unformatted = TranslationHandler.getString(_informationTopicDefaultTextIDs[topic], _informationTopicDefaultTexts[topic]);
+                String formatted = string.Format(unformatted, args);
+                sendMessage(formatted);
+            }
+        }
+
+        public void sendMessage(String msg)
+        {
+            if(_chatid != -1)
+            {
+                _telegram.SendTextMessageAsync(_chatid, msg, replyMarkup: new ReplyKeyboardHide());
+            }
+        }
+
         #region private properties
         private Client _client;
         private Inventory _inventory;
@@ -78,10 +149,19 @@ namespace PokemonGo.RocketAPI.Logic.Utils
 
         public TelegramUtil(Client client, Telegram.Bot.TelegramBotClient telegram, ISettings settings, Inventory inv)
         {
+            instance = this;
             _client = client;
             _telegram = telegram;
             _clientSettings = settings;
             _inventory = inv;
+
+            Array values = Enum.GetValues(typeof(TelegramUtilInformationTopics));
+            foreach (TelegramUtilInformationTopics topic in values)
+            {
+                _informationDescription[topic] = TranslationHandler.getString(_informationDescriptionIDs[topic], _informationDescriptionDefault[topic]);
+                _information[topic] = false;
+            }
+
             DoLiveStats(settings);
             DoInformation();
         }
@@ -142,7 +222,6 @@ namespace PokemonGo.RocketAPI.Logic.Utils
                 if (_chatid != -1 && _informations)
                 {
                     int current = 0;
-                    var usage = "";
                     var inventory = await _client.GetInventory();
                     var profil = await _client.GetProfile();
                     IEnumerable<PlayerStats> stats = inventory.InventoryDelta.InventoryItems
@@ -160,8 +239,9 @@ namespace PokemonGo.RocketAPI.Logic.Utils
                     {
                         level = current;
                         string nick = await _client.getNickname();
-                        usage = $"You ({nick}) got Level Up! Your new Level is now {level}!";
-                        await _telegram.SendTextMessageAsync(_chatid, usage, replyMarkup: new ReplyKeyboardHide());
+
+                        sendInformationText(TelegramUtilInformationTopics.Levelup, nick, level);
+
                     }
                 }
                 await System.Threading.Tasks.Task.Delay(5000);
@@ -171,8 +251,7 @@ namespace PokemonGo.RocketAPI.Logic.Utils
 
             }
         }
-
-
+        
         public async void BotOnMessageReceived(object sender, MessageEventArgs messageEventArgs)
         {
             Message message = messageEventArgs.Message;
@@ -205,7 +284,7 @@ namespace PokemonGo.RocketAPI.Logic.Utils
                         telegramAnswer = string.Format("Usage:\r\n{0}\r\n{1}\r\n{2}\r\n{3}\r\n{4}",
                             @"/stats - Get Current Stats",
                             @"/livestats - Enable/Disable Live Stats",
-                            @"/information - Enable/Disable Informations",
+                            @"/information <topic> - Enable/Disable Information topics",
                             @"/top <HowMany?> - Outputs Top (?) Pokemons",
                             @"/forceevolve - Forces Evolve");
                         break;
@@ -274,7 +353,61 @@ namespace PokemonGo.RocketAPI.Logic.Utils
                         _livestats = SwitchAndGetAnswer(_livestats, out telegramAnswer, "Live Stats");
                         break;
                     case TelegramUtilTask.SWITCH_INFORMATION:
-                        _informations = SwitchAndGetAnswer(_informations, out telegramAnswer, "Information");
+                        //_informations = SwitchAndGetAnswer(_informations, out telegramAnswer, "Information");
+                        Array topics = Enum.GetValues(typeof(TelegramUtilInformationTopics));
+                        if (textCMD.Length > 1)
+                        {
+                            if(textCMD[1] == "all-enable")
+                            {
+                                foreach (TelegramUtilInformationTopics topic in topics)
+                                {
+                                    String niceName = topic.ToString().Substring(0, 1).ToUpper() + topic.ToString().Substring(1).ToLower();
+                                    telegramAnswer += "Enabled information topic " + niceName + "\n";
+                                    _information[topic] = true;
+                                }
+                                break;
+                            }
+                            else if(textCMD[1] == "all-disable")
+                            {
+                                foreach (TelegramUtilInformationTopics topic in topics)
+                                {
+                                    String niceName = topic.ToString().Substring(0, 1).ToUpper() + topic.ToString().Substring(1).ToLower();
+                                    telegramAnswer += "Disabled information topic " + niceName + "\n";
+                                    _information[topic] = false;
+                                }
+                                break;
+                            }
+                            else { 
+                                foreach (TelegramUtilInformationTopics topic in topics)
+                                {
+                                    String niceName = topic.ToString().Substring(0, 1).ToUpper() + topic.ToString().Substring(1).ToLower();
+                                    telegramAnswer = (_information[topic] ? "Dis" : "En") + "abled information topic " + niceName + "\n";
+                                    _information[topic] = !_information[topic];
+                                    break;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            foreach (TelegramUtilInformationTopics topic in topics)
+                            {
+                                String niceName = topic.ToString().Substring(0, 1).ToUpper() + topic.ToString().Substring(1).ToLower();
+                                telegramAnswer += " - " + niceName + "\n";
+                                telegramAnswer += " -     " + _informationDescription[topic] + "\n";
+                                telegramAnswer += " -     Currently " + (_information[topic] ? "enabled" : "disabled") + "\n";
+                                telegramAnswer += "\n";
+                            }
+
+                            telegramAnswer += " - all-disable\n";
+                            telegramAnswer += " -     " + TranslationHandler.getString("telegram-disable-all", "Disable all topics") + "\n";
+                            telegramAnswer += "\n";
+
+                            telegramAnswer += " - all-enable\n";
+                            telegramAnswer += " -     " + TranslationHandler.getString("telegram-enable-all", "Enable all topics") + "\n";
+                            telegramAnswer += "\n";
+                            break;
+                        }
+
                         break;
                     case TelegramUtilTask.RUN_FORCEEVOLVE:
                         IEnumerable<PokemonData> pokemonToEvolve = await _inventory.GetPokemonToEvolve(null);
