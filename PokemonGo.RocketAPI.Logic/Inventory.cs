@@ -222,7 +222,7 @@ namespace PokemonGo.RocketAPI.Logic
             {
                 return pokemonList
                     .GroupBy(p => p.PokemonId)
-                    .Where(x => x.Count() > 1)
+                    .Where(x => x.Count() > 0)
                     .SelectMany(p => p.Where(x => x.Favorite == 0)
                     .OrderByDescending(PokemonInfo.CalculatePokemonPerfection)
                     .ThenBy(n => n.StaminaMax)
@@ -234,7 +234,7 @@ namespace PokemonGo.RocketAPI.Logic
             {
                 return pokemonList
                     .GroupBy(p => p.PokemonId)
-                    .Where(x => x.Count() > 1)
+                    .Where(x => x.Count() > 0)
                     .SelectMany(p => p.Where(x => x.Favorite == 0)
                     .OrderByDescending(x => x.Cp)
                     .ThenBy(n => n.StaminaMax)
