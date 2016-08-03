@@ -530,30 +530,30 @@ namespace PokemonGo.RocketAPI
 
         public async Task Incubate(float kmWalked, List<EggIncubator> incubators, List<PokemonData> unusedEggs)
         {
-            for (int i = 0; i < incubators.Count; i++)
-            {
-                if (i >= unusedEggs.Count)
-                {
-                    break;
-                }
-
-                var incubator = incubators[i];
-                var customRequest = new UseItemRequest
-                {
-                    ItemId = incubator.UsesRemaining <= 3 ? ItemId.ItemIncubatorBasic : ItemId.ItemIncubatorBasicUnlimited
-                };
-
-                var useItemRequest = RequestBuilder.GetRequest(_unknownAuth, CurrentLat, CurrentLng, CurrentAltitude,
-                    new Request.Types.Requests
-                    {
-                        Type = (int)RequestType.USE_ITEM_EGG_INCUBATOR,
-                        Message = customRequest.ToByteString()
-                    });
-
-
-                await _httpClient.PostProtoPayload<Request, UseItemRequest>($"https://{_apiUrl}/rpc", useItemRequest);
-            }
-
+            throw new NotImplementedException();
+            //for (int i = 0; i < incubators.Count; i++)
+            //{
+            //    if (i >= unusedEggs.Count)
+            //    {
+            //        break;
+            //    }
+            //
+            //    var incubator = incubators[i];
+            //    var customRequest = new UseItemRequest
+            //    {
+            //        ItemId = incubator.UsesRemaining <= 3 ? ItemId.ItemIncubatorBasic : ItemId.ItemIncubatorBasicUnlimited
+            //    };
+            //
+            //    var useItemRequest = RequestBuilder.GetRequest(_unknownAuth, CurrentLat, CurrentLng, CurrentAltitude,
+            //        new Request.Types.Requests
+            //        {
+            //            Type = (int)RequestType.USE_ITEM_EGG_INCUBATOR,
+            //            Message = customRequest.ToByteString()
+            //        });
+            //
+            //
+            //    await _httpClient.PostProtoPayload<Request, UseItemRequest>($"https://{_apiUrl}/rpc", useItemRequest);
+            //}
         }
     }
 }
