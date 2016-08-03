@@ -435,6 +435,7 @@ namespace PokemonGo.RocketAPI.Console
                 }
             }
 
+
             // Account info
             Globals.username = textBox1.Text;
             Globals.password = textBox2.Text;
@@ -447,7 +448,7 @@ namespace PokemonGo.RocketAPI.Console
             Globals.radius = int.Parse(textBox7.Text);
             Globals.transfer = checkBox2.Checked;
             Globals.defLoc = checkBox1.Checked;
-            
+
             // Telegram settings
             if (textBox18.Text != "")
                 Globals.telAPI = textBox18.Text;
@@ -489,7 +490,6 @@ namespace PokemonGo.RocketAPI.Console
 
             
             
-
             foreach (string pokemon in checkedListBox1.CheckedItems)
             {
                 if (checkBox8.Checked)
@@ -618,6 +618,7 @@ namespace PokemonGo.RocketAPI.Console
             for (int i = 0; i < checkedListBox3.Items.Count; i++)
                 checkedListBox3.SetItemChecked(i, checkBox6.Checked);
         }
+        
 
         private void checkBox8_CheckedChanged(object sender, EventArgs e)
         {

@@ -1385,4 +1385,3 @@
         private System.Windows.Forms.CheckBox chkAutoIncubate;
     }
 }
-
