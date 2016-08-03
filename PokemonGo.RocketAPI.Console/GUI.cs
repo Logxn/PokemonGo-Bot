@@ -1006,9 +1006,9 @@ namespace PokemonGo.RocketAPI.Console
         {
             Assembly ass = Assembly.GetCallingAssembly();
 
-            Logger.ColoredConsoleWrite(ConsoleColor.Red, ass.GetName().ToString());
+            //Logger.ColoredConsoleWrite(ConsoleColor.Red, ass.GetName().ToString());
 
-            using (Stream s = ass.GetManifestResourceStream(nameSpace + "." + (internalFilePath == "" ? "" : internalFilePath + ".") + resourceName))
+            using (var s = ass.GetManifestResourceStream(nameSpace + "." + (internalFilePath == "" ? "" : internalFilePath + ".") + resourceName))
             using (BinaryReader r = new BinaryReader(s))
             using (FileStream fs = new FileStream(outDir + "\\" + resourceName, FileMode.OpenOrCreate))
             using (BinaryWriter w = new BinaryWriter(fs))
