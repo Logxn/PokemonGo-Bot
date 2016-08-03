@@ -974,7 +974,7 @@
             this.chkUseBasicIncubators.AutoSize = true;
             this.chkUseBasicIncubators.Location = new System.Drawing.Point(24, 200);
             this.chkUseBasicIncubators.Name = "chkUseBasicIncubators";
-            this.chkUseBasicIncubators.Size = new System.Drawing.Size(120, 17);
+            this.chkUseBasicIncubators.Size = new System.Drawing.Size(125, 17);
             this.chkUseBasicIncubators.TabIndex = 34;
             this.chkUseBasicIncubators.Text = "Use basic incubators";
             this.chkUseBasicIncubators.UseVisualStyleBackColor = true;
@@ -1249,6 +1249,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "GUI";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "PokeGoBot GUI Edition | Gui by GreenGold | Edit by IceQ1337 & gatno |";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.GUI_FormClosing);
             this.Load += new System.EventHandler(this.GUI_Load);
