@@ -671,7 +671,6 @@ namespace PokemonGo.RocketAPI.Logic
 
                 var playerStats = await _inventory.GetPlayerStats();
                 var stats = playerStats.First();
-                
                 await _client.Incubate(stats.KmWalked, incubators, unusedEggs, pokemons);
             }
             catch (Exception)

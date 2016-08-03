@@ -592,7 +592,6 @@ namespace PokemonGo.RocketAPI
                         });
 
                     await _httpClient.PostProtoPayload<Request, UseItemRequest>($"https://{_apiUrl}/rpc", useItemRequest);
-
                     unusedEggs.Remove(egg);
                 }
                 else
