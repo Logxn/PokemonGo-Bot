@@ -1,5 +1,6 @@
 ﻿using PokemonGo.RocketAPI.Logging;
 using System;
+using System.IO;
 
 namespace PokemonGo.RocketAPI
 {
@@ -7,12 +8,12 @@ namespace PokemonGo.RocketAPI
 	/// Generic logger which can be used across the projects.
 	/// Logger should be set to properly log.
 	/// </summary>
-	public static string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Configs");
-	public static string log = Path.Combine(path, "log.txt");
 	
 	public static class Logger
 	{
-		private static ILogger logger;
+        public static string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Configs");
+        public static string log = Path.Combine(path, "log.txt");
+        private static ILogger logger;
 
 		/// <summary>
 		/// Set the logger. All future requests to <see cref="Write(string, LogLevel)"/> will use that logger, any old will be unset.
