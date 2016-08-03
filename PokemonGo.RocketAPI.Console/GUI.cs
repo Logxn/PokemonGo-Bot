@@ -103,8 +103,7 @@ namespace PokemonGo.RocketAPI.Console
                 b.Add("tr.json");
             
                 foreach (var l in b)
-                {
-                    Logger.ColoredConsoleWrite(ConsoleColor.Red, l);
+                { 
                     Extract("PokemonGo.RocketAPI.Console", Program.path_translation, "Lang", l);
                 }
             }
@@ -1017,8 +1016,7 @@ namespace PokemonGo.RocketAPI.Console
         public static void Extract(string nameSpace, string outDir, string internalFilePath, string resourceName)
         {
             Assembly ass = Assembly.GetCallingAssembly();
-
-            Logger.ColoredConsoleWrite(ConsoleColor.Red, ass.GetName().ToString()); 
+             
             using (Stream s = ass.GetManifestResourceStream(nameSpace + "." + (internalFilePath == "" ? "" : internalFilePath + ".") + resourceName))
             using (BinaryReader r = new BinaryReader(s))
             using (FileStream fs = new FileStream(outDir + "\\" + resourceName, FileMode.OpenOrCreate))
