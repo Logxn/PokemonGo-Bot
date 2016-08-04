@@ -131,6 +131,9 @@
             this.lang_en_btn = new System.Windows.Forms.Button();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.checkedlist1_sort_btn = new System.Windows.Forms.Button();
+            this.checkedlist2_sort_btn = new System.Windows.Forms.Button();
+            this.checkedlist3_sort_btn = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -739,6 +742,7 @@
             // 
             // groupBox5
             // 
+            this.groupBox5.Controls.Add(this.checkedlist1_sort_btn);
             this.groupBox5.Controls.Add(this.checkBox4);
             this.groupBox5.Controls.Add(this.checkedListBox1);
             this.groupBox5.Location = new System.Drawing.Point(6, 6);
@@ -751,7 +755,7 @@
             // checkBox4
             // 
             this.checkBox4.AutoSize = true;
-            this.checkBox4.Location = new System.Drawing.Point(10, 281);
+            this.checkBox4.Location = new System.Drawing.Point(10, 284);
             this.checkBox4.Name = "checkBox4";
             this.checkBox4.Size = new System.Drawing.Size(69, 17);
             this.checkBox4.TabIndex = 32;
@@ -771,6 +775,7 @@
             // 
             // groupBox6
             // 
+            this.groupBox6.Controls.Add(this.checkedlist2_sort_btn);
             this.groupBox6.Controls.Add(this.checkBox5);
             this.groupBox6.Controls.Add(this.checkedListBox2);
             this.groupBox6.Location = new System.Drawing.Point(184, 3);
@@ -783,7 +788,7 @@
             // checkBox5
             // 
             this.checkBox5.AutoSize = true;
-            this.checkBox5.Location = new System.Drawing.Point(6, 284);
+            this.checkBox5.Location = new System.Drawing.Point(6, 287);
             this.checkBox5.Name = "checkBox5";
             this.checkBox5.Size = new System.Drawing.Size(69, 17);
             this.checkBox5.TabIndex = 33;
@@ -803,6 +808,7 @@
             // 
             // groupBox7
             // 
+            this.groupBox7.Controls.Add(this.checkedlist3_sort_btn);
             this.groupBox7.Controls.Add(this.checkBox6);
             this.groupBox7.Controls.Add(this.checkedListBox3);
             this.groupBox7.Location = new System.Drawing.Point(362, 6);
@@ -815,7 +821,7 @@
             // checkBox6
             // 
             this.checkBox6.AutoSize = true;
-            this.checkBox6.Location = new System.Drawing.Point(6, 282);
+            this.checkBox6.Location = new System.Drawing.Point(6, 284);
             this.checkBox6.Name = "checkBox6";
             this.checkBox6.Size = new System.Drawing.Size(69, 17);
             this.checkBox6.TabIndex = 34;
@@ -1227,6 +1233,36 @@
             this.pictureBox1.TabStop = false;
             this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
             // 
+            // checkedlist1_sort_btn
+            // 
+            this.checkedlist1_sort_btn.Location = new System.Drawing.Point(127, 280);
+            this.checkedlist1_sort_btn.Name = "checkedlist1_sort_btn";
+            this.checkedlist1_sort_btn.Size = new System.Drawing.Size(33, 23);
+            this.checkedlist1_sort_btn.TabIndex = 33;
+            this.checkedlist1_sort_btn.Text = "A-Z";
+            this.checkedlist1_sort_btn.UseVisualStyleBackColor = true;
+            this.checkedlist1_sort_btn.Click += new System.EventHandler(this.checkedlist1_sort_btn_Click);
+            // 
+            // checkedlist2_sort_btn
+            // 
+            this.checkedlist2_sort_btn.Location = new System.Drawing.Point(127, 283);
+            this.checkedlist2_sort_btn.Name = "checkedlist2_sort_btn";
+            this.checkedlist2_sort_btn.Size = new System.Drawing.Size(33, 23);
+            this.checkedlist2_sort_btn.TabIndex = 34;
+            this.checkedlist2_sort_btn.Text = "A-Z";
+            this.checkedlist2_sort_btn.UseVisualStyleBackColor = true;
+            this.checkedlist2_sort_btn.Click += new System.EventHandler(this.checkedlist2_sort_btn_Click);
+            // 
+            // checkedlist3_sort_btn
+            // 
+            this.checkedlist3_sort_btn.Location = new System.Drawing.Point(126, 280);
+            this.checkedlist3_sort_btn.Name = "checkedlist3_sort_btn";
+            this.checkedlist3_sort_btn.Size = new System.Drawing.Size(33, 23);
+            this.checkedlist3_sort_btn.TabIndex = 35;
+            this.checkedlist3_sort_btn.Text = "A-Z";
+            this.checkedlist3_sort_btn.UseVisualStyleBackColor = true;
+            this.checkedlist3_sort_btn.Click += new System.EventHandler(this.checkedlist3_sort_btn_Click);
+            // 
             // GUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1388,6 +1424,9 @@
         private System.Windows.Forms.CheckBox checkBox12;
         private System.Windows.Forms.CheckBox chkUseBasicIncubators;
         private System.Windows.Forms.CheckBox chkAutoIncubate;
+        private System.Windows.Forms.Button checkedlist1_sort_btn;
+        private System.Windows.Forms.Button checkedlist2_sort_btn;
+        private System.Windows.Forms.Button checkedlist3_sort_btn;
     }
 }
 
