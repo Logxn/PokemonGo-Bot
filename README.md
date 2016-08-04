@@ -2,6 +2,7 @@
   - Every Donation will help the Project!
   - 
 [![PayPal Donation](https://www.paypalobjects.com/en_US/DE/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=RUNUBQEANCAGQ)
+  - Bitcoin: 1PdQK9hhdLy83UKVQVop8bjnkSw17hj5z4
 
 # Credits to:
   - https://github.com/FeroxRev/Pokemon-Go-Rocket-API
