@@ -35,38 +35,10 @@ namespace PokemonGo.RocketAPI.Console
             if (comboBox1.SelectedIndex == 0)
             {
                 label2.Text = "E-Mail:";
-                //    textBox1.Hide();
-                //    label2.Hide();
-                //    textBox2.Hide();
-                //    label3.Hide();
             }
             else
             {
                 label2.Text = TranslationHandler.GetString("username", "Username :");
-                /*if (languagestr == null)
-                {
-                    label2.Text = "Username:";
-                }
-                else if (languagestr == "de")
-                {
-                    label2.Text = "Benutzername:";
-                }
-                else if (languagestr == "spain")
-                {
-                    label2.Text = "Usuario:";
-                }
-                else if (languagestr == "ptBR")
-                {
-                    label2.Text = "Usuário:";
-                }
-                else if (languagestr == "tr")
-                {
-                    label2.Text = "KullaniciAdi:";
-                }*/
-                //    textBox1.Show();
-                //    label2.Show();
-                //    textBox2.Show();
-                //    label3.Show();
             }
         }
 
@@ -1008,6 +980,21 @@ namespace PokemonGo.RocketAPI.Console
                 objWebRequest.Timeout = this.timeout;
                 return objWebRequest;
             }
+        }
+
+        private void sortlist1_btn_Click(object sender, EventArgs e)
+        {
+            checkedListBox1.Sorted = true;
+        }
+
+        private void sortlist2_btn_Click(object sender, EventArgs e)
+        {
+            checkedListBox2.Sorted = true;
+        }
+
+        private void sortlist3_btn_Click(object sender, EventArgs e)
+        {
+            checkedListBox3.Sorted = true;
         }
     }
 }
