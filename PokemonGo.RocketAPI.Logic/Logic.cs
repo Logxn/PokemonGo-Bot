@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using PokemonGo.RocketAPI.Enums;
 using PokemonGo.RocketAPI.Extensions;
-using PokemonGo.RocketAPI.GeneratedCode;
 using PokemonGo.RocketAPI.Logic.Utils;
 using PokemonGo.RocketAPI.Exceptions;
 using System.Device.Location;
@@ -28,8 +27,7 @@ namespace PokemonGo.RocketAPI.Logic
         public Logic(ISettings clientSettings, LogicInfoObservable infoObservable)
         {
             _clientSettings = clientSettings;
-            _client = new Client(_clientSettings);
-            _inventory = new Inventory(_client);
+            _client = new Client(_clientSettings);  
             _botStats = new BotStats();
             _navigation = new Navigation(_client);
             _pokevision = new PokeVisionUtil();
@@ -48,11 +46,11 @@ namespace PokemonGo.RocketAPI.Logic
                 {
                     if (_clientSettings.AuthType == AuthType.Ptc)
                     {
-                        await _client.DoPtcLogin(_clientSettings.PtcUsername, _clientSettings.PtcPassword);
+                        await _client.Login.DoPtcLogin(_clientSettings.PtcUsername, _clientSettings.PtcPassword);
                     }
                     else if (_clientSettings.AuthType == AuthType.Google)
                     {
-                        _client.DoGoogleLogin();
+                        await _client.Login.DoGoogleLogin(_clientSettings.PtcUsername, _clientSettings.PtcPassword);
                     }
 
                     if (!string.IsNullOrEmpty(_clientSettings.TelegramAPIToken) && !string.IsNullOrEmpty(_clientSettings.TelegramName))
@@ -76,33 +74,7 @@ namespace PokemonGo.RocketAPI.Logic
                     }
 
                     await PostLoginExecute();
-                }
-                catch (PtcOfflineException)
-                {
-                    Logger.Error("PTC Server Offline. Trying to Restart in 20 Seconds...");
-                    try
-                    {
-                        _telegram.getClient().StopReceiving();
-                    }
-                    catch (Exception)
-                    {
-
-                    }
-                    await Task.Delay(10000);
-                }
-                catch (AccessTokenExpiredException)
-                {
-                    Logger.Error("Server Offline, or Access Token expired. Restarting in 20 Seconds.");
-                    try
-                    {
-                        _telegram.getClient().StopReceiving();
-                    }
-                    catch (Exception)
-                    {
-
-                    }
-                    await Task.Delay(10000);
-                }
+                } 
                 catch (Exception ex)
                 {
                     Logger.Error($"Error: " + ex.Source);
@@ -129,8 +101,6 @@ namespace PokemonGo.RocketAPI.Logic
             {
                 try
                 {
-
-                    await _client.SetServer();
                     var profil = await _client.GetProfile();
                     await _inventory.ExportPokemonToCsv(profil.Profile);
                     await StatsLog(_client);

@@ -18,30 +18,51 @@ namespace PokemonGo.RocketAPI.Rpc
     public class Login : BaseRpc
     {
         //public event GoogleDeviceCodeDelegate GoogleDeviceCodeEvent;
-        private ILoginType login;
 
         public Login(Client client) : base(client)
         {
-            login = SetLoginType(client.Settings);
         }
 
-        private static ILoginType SetLoginType(ISettings settings)
+        public async Task DoGoogleLogin(string username, string password)
         {
-            switch (settings.AuthType)
+            _client.AuthType = AuthType.Google;
+
+            _client.AuthToken = GoogleLoginGPSOAuth.DoLogin(username, password);
+            await SetServer();
+
+            /*
+            * This is our old authentication method
+            * Keeping this around in case we might need it later on
+            *
+            GoogleLogin.TokenResponseModel tokenResponse = null;
+            if (_client.Settings.GoogleRefreshToken != string.Empty)
             {
-                case AuthType.Google:
-                    return new GoogleLogin(settings.GoogleUsername, settings.GooglePassword);
-                case AuthType.Ptc:
-                    return new PtcLogin(settings.PtcUsername, settings.PtcPassword);
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(settings.AuthType), "Unknown AuthType");
+                tokenResponse = await GoogleLogin.GetAccessToken(_client.Settings.GoogleRefreshToken);
+                _client.AuthToken = tokenResponse?.id_token;
             }
+
+            if (_client.AuthToken == null)
+            {
+                var deviceCode = await GoogleLogin.GetDeviceCode();
+                if(deviceCode?.user_code == null || deviceCode?.verification_url == null)
+                    throw new GoogleOfflineException();
+
+                GoogleDeviceCodeEvent?.Invoke(deviceCode.user_code, deviceCode.verification_url);
+                tokenResponse = await GoogleLogin.GetAccessToken(deviceCode);
+                _client.Settings.GoogleRefreshToken = tokenResponse?.refresh_token;
+                _client.AuthToken = tokenResponse?.id_token;
+            }
+
+            await SetServer();
+            */
         }
 
-        public async Task DoLogin()
+        public async Task DoPtcLogin(string username, string password)
         {
-            _client.AuthToken = await login.GetAccessToken().ConfigureAwait(false);
-            await SetServer().ConfigureAwait(false);
+            _client.AuthToken = await PtcLogin.GetAccessToken(username, password);
+            _client.AuthType = AuthType.Ptc;
+
+            await SetServer();
         }
 
         private async Task SetServer()
