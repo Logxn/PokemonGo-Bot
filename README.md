@@ -1,5 +1,5 @@
 # Donate
-  - Every Donation will help the Project!
+  - Every Donation Helps To Improve The Project!
   - 
 [![PayPal Donation](https://www.paypalobjects.com/en_US/DE/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=RUNUBQEANCAGQ)
   - Bitcoin: 1PdQK9hhdLy83UKVQVop8bjnkSw17hj5z4
@@ -12,7 +12,6 @@
 
 # Special thanks:
   - To FeroxRev, for this AMAZING work!
-  
 
 # Translations
   - English: https://github.com/Ar1i/ & Greengold
