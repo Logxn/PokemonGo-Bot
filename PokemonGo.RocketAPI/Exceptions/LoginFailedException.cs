@@ -2,7 +2,7 @@
 
 namespace PokemonGo.RocketAPI.Exceptions
 {
-    public class PtcOfflineException : Exception
+    public class LoginFailedException : Exception
     {
     }
 }
