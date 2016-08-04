@@ -38,5 +38,7 @@
 "useIncese":"Usar Incenso a cada 30min",
 "evolvePokemonIfEnoughCandy":"Evoluir Pokémons se tiver doces suficientes",
 "enablePokemonListGUI":"Habilitar Lista de Pokémons",
-"keepPokemonWhichCanBeEvolved":"Mantenha Pokémons que podem ser evoluidos"
+"keepPokemonWhichCanBeEvolved":"Mantenha Pokémons que podem ser evoluidos",
+"autoIncubate":"Auto Incubar",
+"useBasicIncubators":"Usar Incubadoras básicas"
 }
