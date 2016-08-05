@@ -1,3 +1,7 @@
+<!-- title -->
+<h1>THE BOT IS NOT WORKING AT THE MOMENT <br> WE ARE WORKING ON THIS</h1>
+
+
 # Donate
   - Every Donation will help the Project!
   - 
