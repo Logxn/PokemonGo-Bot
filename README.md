@@ -1,3 +1,4 @@
+<!-- title -->
 <h1>THE BOT IS NOT WORKING AT THE MOMENT <br> WE ARE WORKING ON THIS</h1>
 
 # Donate
@@ -14,7 +15,7 @@
 
 # Special thanks:
   - To FeroxRev, for this AMAZING work!
-
+  
 # Translations
   - English: https://github.com/Ar1i/ & Greengold
   - German: https://github.com/IceQ1337/
