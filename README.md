@@ -1,10 +1,6 @@
 <!-- title -->
 <h1>THE BOT IS NOT WORKING AT THE MOMENT <br> WE ARE WORKING ON THIS</h1>
 
-<<<<<<< HEAD
-=======
-
->>>>>>> refs/remotes/Ar1i/master
 # Donate
   - Every Donation Helps To Improve The Project!
   - 
