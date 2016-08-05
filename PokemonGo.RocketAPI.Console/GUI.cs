@@ -86,6 +86,7 @@ namespace PokemonGo.RocketAPI.Console
                 if (dialogResult == DialogResult.Yes)
                 {
                     Process.Start("https://github.com/Ar1i/PokemonGo-Bot");
+                    Environment.Exit(1);
                 }
                 else if (dialogResult == DialogResult.No)
                 {
