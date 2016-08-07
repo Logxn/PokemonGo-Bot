@@ -131,6 +131,9 @@
             this.lang_en_btn = new System.Windows.Forms.Button();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.sortlist1_btn = new System.Windows.Forms.Button();
+            this.sortlist2_btn = new System.Windows.Forms.Button();
+            this.sortlist3_btn = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -739,6 +742,7 @@
             // 
             // groupBox5
             // 
+            this.groupBox5.Controls.Add(this.sortlist1_btn);
             this.groupBox5.Controls.Add(this.checkBox4);
             this.groupBox5.Controls.Add(this.checkedListBox1);
             this.groupBox5.Location = new System.Drawing.Point(6, 6);
@@ -751,7 +755,7 @@
             // checkBox4
             // 
             this.checkBox4.AutoSize = true;
-            this.checkBox4.Location = new System.Drawing.Point(10, 281);
+            this.checkBox4.Location = new System.Drawing.Point(10, 284);
             this.checkBox4.Name = "checkBox4";
             this.checkBox4.Size = new System.Drawing.Size(69, 17);
             this.checkBox4.TabIndex = 32;
@@ -771,6 +775,7 @@
             // 
             // groupBox6
             // 
+            this.groupBox6.Controls.Add(this.sortlist2_btn);
             this.groupBox6.Controls.Add(this.checkBox5);
             this.groupBox6.Controls.Add(this.checkedListBox2);
             this.groupBox6.Location = new System.Drawing.Point(184, 3);
@@ -783,7 +788,7 @@
             // checkBox5
             // 
             this.checkBox5.AutoSize = true;
-            this.checkBox5.Location = new System.Drawing.Point(6, 284);
+            this.checkBox5.Location = new System.Drawing.Point(6, 287);
             this.checkBox5.Name = "checkBox5";
             this.checkBox5.Size = new System.Drawing.Size(69, 17);
             this.checkBox5.TabIndex = 33;
@@ -803,6 +808,7 @@
             // 
             // groupBox7
             // 
+            this.groupBox7.Controls.Add(this.sortlist3_btn);
             this.groupBox7.Controls.Add(this.checkBox6);
             this.groupBox7.Controls.Add(this.checkedListBox3);
             this.groupBox7.Location = new System.Drawing.Point(362, 6);
@@ -815,7 +821,7 @@
             // checkBox6
             // 
             this.checkBox6.AutoSize = true;
-            this.checkBox6.Location = new System.Drawing.Point(6, 282);
+            this.checkBox6.Location = new System.Drawing.Point(6, 284);
             this.checkBox6.Name = "checkBox6";
             this.checkBox6.Size = new System.Drawing.Size(69, 17);
             this.checkBox6.TabIndex = 34;
@@ -1227,6 +1233,36 @@
             this.pictureBox1.TabStop = false;
             this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
             // 
+            // sortlist1_btn
+            // 
+            this.sortlist1_btn.Location = new System.Drawing.Point(127, 280);
+            this.sortlist1_btn.Name = "sortlist1_btn";
+            this.sortlist1_btn.Size = new System.Drawing.Size(33, 23);
+            this.sortlist1_btn.TabIndex = 33;
+            this.sortlist1_btn.Text = "A-Z";
+            this.sortlist1_btn.UseVisualStyleBackColor = true;
+            this.sortlist1_btn.Click += new System.EventHandler(this.sortlist1_btn_Click);
+            // 
+            // sortlist2_btn
+            // 
+            this.sortlist2_btn.Location = new System.Drawing.Point(127, 283);
+            this.sortlist2_btn.Name = "sortlist2_btn";
+            this.sortlist2_btn.Size = new System.Drawing.Size(33, 23);
+            this.sortlist2_btn.TabIndex = 34;
+            this.sortlist2_btn.Text = "A-Z";
+            this.sortlist2_btn.UseVisualStyleBackColor = true;
+            this.sortlist2_btn.Click += new System.EventHandler(this.sortlist2_btn_Click);
+            // 
+            // sortlist3_btn
+            // 
+            this.sortlist3_btn.Location = new System.Drawing.Point(126, 280);
+            this.sortlist3_btn.Name = "sortlist3_btn";
+            this.sortlist3_btn.Size = new System.Drawing.Size(33, 23);
+            this.sortlist3_btn.TabIndex = 35;
+            this.sortlist3_btn.Text = "A-Z";
+            this.sortlist3_btn.UseVisualStyleBackColor = true;
+            this.sortlist3_btn.Click += new System.EventHandler(this.sortlist3_btn_Click);
+            // 
             // GUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1388,6 +1424,9 @@
         private System.Windows.Forms.CheckBox checkBox12;
         private System.Windows.Forms.CheckBox chkUseBasicIncubators;
         private System.Windows.Forms.CheckBox chkAutoIncubate;
+        private System.Windows.Forms.Button sortlist1_btn;
+        private System.Windows.Forms.Button sortlist2_btn;
+        private System.Windows.Forms.Button sortlist3_btn;
     }
 }
 
