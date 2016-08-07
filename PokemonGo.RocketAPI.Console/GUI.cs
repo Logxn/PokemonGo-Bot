@@ -57,7 +57,7 @@ namespace PokemonGo.RocketAPI.Console
                 }
                 else if (languagestr == "ptBR")
                 {
-                    label2.Text = "Usu·rio:";
+                    label2.Text = "Usu√°rio:";
                 }
                 else if (languagestr == "tr")
                 {
@@ -114,6 +114,7 @@ namespace PokemonGo.RocketAPI.Console
                 if (dialogResult == DialogResult.Yes)
                 {
                     Process.Start("https://github.com/Ar1i/PokemonGo-Bot");
+                    Environment.Exit(1);
                 }
                 else if (dialogResult == DialogResult.No)
                 {
