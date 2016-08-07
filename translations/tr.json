@@ -39,4 +39,6 @@
 "evolvePokemonIfEnoughCandy":"Pokemonlari sekeri yetiyorsa evolve et",
 "enablePokemonListGUI":"Pokemon listesini aktif et",
 "keepPokemonWhichCanBeEvolved":"Evolve edilebilen pokemonlari tut"
+"autoIncubate":"Otomatik Yumurta Kirici"
+"useBasicIncubators":"Temel Yumurta kiriciyi kullan"
 }
