@@ -181,7 +181,7 @@ namespace PokemonGo.RocketAPI.Logic
 
         //    public bool ptc_online; //Online oder nicht?
         //    public double ptc_response; //Wie lange PTC zum responden braucht
-        //    public double ptc_idle; //Wie lange ptc schon läuft
+        //    public double ptc_idle; //Wie lange ptc schon lÃ¤uft
         //    public double ptc_uptime_hour; //Prozent von PTC uptime letzte stunde
         //    public double ptc_uptime_day; //Prozent von PTC uptime letzten tag
         //}
@@ -689,7 +689,7 @@ namespace PokemonGo.RocketAPI.Logic
                 {
                     if (!_clientSettings.pokemonsToHold.Contains(duplicatePokemon.PokemonId))
                     {
-                        if (duplicatePokemon.Cp > _clientSettings.DontTransferWithCPOver)
+                        if (duplicatePokemon.Cp >= _clientSettings.DontTransferWithCPOver || duplicatePokemon.CalculateIV() >= _client.getSettingHandle().ivmaxpercent)
                         {
                             continue;
                         }
