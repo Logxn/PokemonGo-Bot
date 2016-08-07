@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using PokemonGo.RocketAPI.GeneratedCode;
@@ -197,7 +197,7 @@ namespace PokemonGo.RocketAPI.Logic
                     }
                     if (orderByIv)
                     {
-                        results.AddRange(pokemonList.Where(x => x.PokemonId == pokemon.Key && PokemonInfo.CalculatePokemonPerfection(x) <= _client.getSettingHandle().ivmaxpercent)
+                        results.AddRange(pokemonList.Where(x => x.PokemonId == pokemon.Key)
                             .OrderByDescending(PokemonInfo.CalculatePokemonPerfection)
                             .ThenBy(n => n.StaminaMax)
                             .Skip(amountToSkip)
@@ -206,7 +206,7 @@ namespace PokemonGo.RocketAPI.Logic
                     }
                     else
                     {
-                        results.AddRange(pokemonList.Where(x => x.PokemonId == pokemon.Key && PokemonInfo.CalculatePokemonPerfection(x) <= _client.getSettingHandle().ivmaxpercent)
+                        results.AddRange(pokemonList.Where(x => x.PokemonId == pokemon.Key)
                             .OrderByDescending(x => x.Cp)
                             .ThenBy(n => n.StaminaMax)
                             .Skip(amountToSkip)
@@ -222,8 +222,8 @@ namespace PokemonGo.RocketAPI.Logic
             {
                 return pokemonList
                     .GroupBy(p => p.PokemonId)
-                    .Where(x => x.Count() > 1)
-                    .SelectMany(p => p.Where(x => x.Favorite == 0 && PokemonInfo.CalculatePokemonPerfection(x) <= _client.getSettingHandle().ivmaxpercent)
+                    .Where(x => x.Count() > 0)
+                    .SelectMany(p => p.Where(x => x.Favorite == 0)
                     .OrderByDescending(PokemonInfo.CalculatePokemonPerfection)
                     .ThenBy(n => n.StaminaMax)
                     .Skip(_client.getSettingHandle().HoldMaxDoublePokemons)
@@ -234,8 +234,8 @@ namespace PokemonGo.RocketAPI.Logic
             {
                 return pokemonList
                     .GroupBy(p => p.PokemonId)
-                    .Where(x => x.Count() > 1)
-                    .SelectMany(p => p.Where(x => x.Favorite == 0 && PokemonInfo.CalculatePokemonPerfection(x) <= _client.getSettingHandle().ivmaxpercent)
+                    .Where(x => x.Count() > 0)
+                    .SelectMany(p => p.Where(x => x.Favorite == 0)
                     .OrderByDescending(x => x.Cp)
                     .ThenBy(n => n.StaminaMax)
                     .Skip(_client.getSettingHandle().HoldMaxDoublePokemons)
