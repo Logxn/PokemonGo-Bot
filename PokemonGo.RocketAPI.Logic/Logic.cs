@@ -148,7 +148,6 @@ namespace PokemonGo.RocketAPI.Logic
                     await TransferDuplicatePokemon(_clientSettings.keepPokemonsThatCanEvolve);
                     await RecycleItems();
                     await ExecuteFarmingPokestopsAndPokemons(_client);
-
                 }
                 catch (AccessTokenExpiredException)
                 {
@@ -158,6 +157,7 @@ namespace PokemonGo.RocketAPI.Logic
                 {
                     Logger.Write($"Exception: {ex}", LogLevel.Error);
                 }
+
                 Logger.ColoredConsoleWrite(ConsoleColor.Green, "Starting again.. But waiting 10 Seconds..");
                 await Task.Delay(10000);
             }
@@ -200,8 +200,8 @@ namespace PokemonGo.RocketAPI.Logic
             var pokemonToEvolve = (await _inventory.GetPokemonToEvolve()).Count();
 
             Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "-----------------------[PLAYER STATS UPDATE]-----------------------");
-            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Level/EXP: {stats.Level} {curexp.ToString("N0")}/{expneeded.ToString("N0")} ({Math.Round(curexppercent, 2)}%) EXP to Level up: " + (stats.NextLevelXp - stats.Experience));
-            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "PokeStops visited: " + stats.PokeStopVisits + " KM Walked: " + stats.KmWalked);
+            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Level/EXP: {stats.Level} {curexp.ToString("N0")}/{expneeded.ToString("N0")} ({Math.Round(curexppercent, 2)}%) EXP to Level up: " + (stats.NextLevelXp - stats.Experience).ToString("N0"));
+            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "PokeStops visited: " + stats.PokeStopVisits.ToString("N0") + " KM walked: " + stats.KmWalked.ToString("N0"));
             Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Pokemon: " + await _inventory.GetPokemonCount() + " + " + await _inventory.GetEggsCount() + " Eggs /" + profile.Profile.PokeStorage + " (" + pokemonToEvolve + " Evolvable)");
             Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Items: " + await _inventory.GetInventoryCount() + "/" + profile.Profile.ItemStorage + " Stardust: " + profile.Profile.Currency.ToArray()[1].Amount.ToString("N0"));
             //if (dontspam >= 3)
@@ -671,8 +671,6 @@ namespace PokemonGo.RocketAPI.Logic
 
                 var playerStats = await _inventory.GetPlayerStats();
                 var stats = playerStats.First();
-
-                Logger.ColoredConsoleWrite(ConsoleColor.DarkGray, "Incubation is still WIP");
                 await _client.Incubate(stats.KmWalked, incubators, unusedEggs, pokemons);
             }
             catch (Exception)
