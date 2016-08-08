@@ -10,7 +10,7 @@ namespace PokemonGo.RocketAPI.Exceptions
     {
         public GoogleException(string message) : base(message)
         {
-
+            
         }
     }
 }
