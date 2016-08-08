@@ -968,6 +968,13 @@
             this.linkLabel3.Text = "Twitter Ar1i";
             this.linkLabel3.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel3_LinkClicked);
             // 
+            // label33
+            // 
+            this.label33.Location = new System.Drawing.Point(0, 0);
+            this.label33.Name = "label33";
+            this.label33.Size = new System.Drawing.Size(100, 23);
+            this.label33.TabIndex = 40;
+            // 
             // groupBox10
             // 
             this.groupBox10.Controls.Add(this.chkUseBasicIncubators);
@@ -1239,9 +1246,9 @@
             this.label30.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F);
             this.label30.Location = new System.Drawing.Point(90, 564);
             this.label30.Name = "label30";
-            this.label30.Size = new System.Drawing.Size(461, 24);
+            this.label30.Size = new System.Drawing.Size(460, 24);
             this.label30.TabIndex = 45;
-            this.label30.Text = "If you run more then 3 Instances, you get Soft Banned.";
+            this.label30.Text = "If you run more than 3 Instances, you get Soft Banned.";
             // 
             // GUI
             // 
