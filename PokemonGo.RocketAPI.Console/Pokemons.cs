@@ -232,10 +232,12 @@ namespace PokemonGo.RocketAPI.Console
                 try
                 {
                     PictureBox picbox = new PictureBox();
-                    picbox.Image = Image.FromStream(new FileStream(location, FileMode.Open));
+                    FileStream m = new FileStream(location, FileMode.Open);
+                    picbox.Image = Image.FromStream(m);
                     bitmapRemote = (Bitmap)picbox.Image;
-                } catch (Exception)
-                {
+                    m.Close();
+                } catch (Exception e)
+                { 
                     PictureBox picbox = new PictureBox();
                     picbox.Image = PokemonGo.RocketAPI.Console.Properties.Resources.error_sprite;
                     bitmapRemote = (Bitmap)picbox.Image;
