@@ -5,6 +5,9 @@
   - Bitcoin: 1PdQK9hhdLy83UKVQVop8bjnkSw17hj5z4
 
 # Credits to:
+  - https://github.com/NECROBOTIO/NecroBot <- Without him this bot wont be alive, so please share some love! His Bot is awesome too!
+  - https://github.com/Linewalker/POGOProtos-0.31.0
+  - https://github.com/AeonLucid/POGOProtos
   - https://github.com/FeroxRev/Pokemon-Go-Rocket-API
   - https://github.com/UntilSunrise/Pokemon-Go-Rocket-API
   - https://github.com/martin-podlubny
@@ -12,6 +15,7 @@
 
 # Special thanks:
   - To FeroxRev, for this AMAZING work!
+  - To Necrobot, for this awesome API fix, where we used some pieces of.
   
 
 # Translations
