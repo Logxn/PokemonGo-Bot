@@ -1027,6 +1027,73 @@ namespace PokemonGo.RocketAPI.Console
         {
             Process.Start("https://twitter.com/LoganPunkt");
         }
-         
+
+        private void checkBox13_CheckedChanged(object sender, EventArgs e)
+        {
+            button1.Enabled = false;
+            prxyIP.Enabled = true;
+            prxyPort.Enabled = true;
+        }
+
+        private void checkBox14_CheckedChanged(object sender, EventArgs e)
+        {
+            prxyUser.Enabled = true;
+            prxyPass.Enabled = true;
+        }
+
+        public readonly ISettings _clientSettings;
+        private void checkPrxy_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(prxyIP.Text) || string.IsNullOrWhiteSpace(prxyPort.Text) || string.IsNullOrWhiteSpace(prxyUser.Text) || string.IsNullOrWhiteSpace(prxyPass.Text))
+                return;
+
+            string proxyip = prxyIP.Text;
+            int port = Convert.ToInt32(prxyPort.Text);
+
+            HttpWebRequest proxyrequest = (HttpWebRequest)WebRequest.Create("http://google.de");
+            WebProxy myProxy = new WebProxy(proxyip, 80);
+
+            if (checkBox14.Checked)
+            {
+                myProxy.Credentials = new NetworkCredential(prxyUser.Text, prxyUser.Text);
+            }
+
+            prxyStatus.Text = "Setting proxy status....";
+            myProxy.BypassProxyOnLocal = false;
+            proxyrequest.Proxy = myProxy;
+            proxyrequest.Method = "GET";
+
+            try
+            {
+                HttpWebResponse response = (HttpWebResponse)proxyrequest.GetResponse();
+
+                if (response.StatusCode.ToString() == "OK")
+                {
+                    prxyStatus.Text = "Proxy working :)";
+                    _clientSettings.UseProxyVerified = true;
+                    _clientSettings.UseProxyHost = prxyIP.Text;
+                    _clientSettings.UseProxyPort = port;
+                    if (checkBox14.Checked)
+                    {
+                        _clientSettings.UseProxyUsername = prxyUser.Text;
+                        _clientSettings.UseProxyPassword = prxyPass.Text;
+                    }
+                    button1.Enabled = true;
+                    return;
+                }
+
+            }
+            catch (WebException)
+            {
+                prxyStatus.Text = "Failed to resolve proxy....";
+                return;
+            }
+            catch (Exception ex)
+            {
+                prxyStatus.Text = "Proxy not working...";
+                MessageBox.Show("Please show this to Devs: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+        }
     }
 }

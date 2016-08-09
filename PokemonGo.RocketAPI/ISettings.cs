@@ -50,6 +50,16 @@ namespace PokemonGo.RocketAPI
 
         bool Language { get; }
 
+
+        //Proxies
+        string UseProxyHost { get; set; }
+        int UseProxyPort { get; set; }
+        string UseProxyUsername { get; set; }
+        string UseProxyPassword { get; set; }
+
+        bool UseProxyVerified { get; set; }
+        bool UseProxyAuthentication { get; set; }
+
         ICollection<KeyValuePair<ItemId, int>> itemRecycleFilter { get; set; }
 
         List<PokemonId> pokemonsToHold { get; set; }
