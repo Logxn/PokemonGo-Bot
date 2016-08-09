@@ -1257,9 +1257,9 @@
             this.label32.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
             this.label32.Location = new System.Drawing.Point(99, 580);
             this.label32.Name = "label32";
-            this.label32.Size = new System.Drawing.Size(429, 20);
+            this.label32.Size = new System.Drawing.Size(441, 20);
             this.label32.TabIndex = 46;
-            this.label32.Text = "If your Softbanned, and unban is not working. Get a new IP.\r\n";
+            this.label32.Text = "If you\'re Softbanned, and unban is not working. Get a new IP.\r\n";
             // 
             // GUI
             // 
