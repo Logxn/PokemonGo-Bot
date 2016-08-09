@@ -226,5 +226,77 @@ namespace PokemonGo.RocketAPI.Console {
                 this["UseIncense"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string UseProxyHost {
+            get {
+                return ((string)(this["UseProxyHost"]));
+            }
+            set {
+                this["UseProxyHost"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int UseProxyPort {
+            get {
+                return ((int)(this["UseProxyPort"]));
+            }
+            set {
+                this["UseProxyPort"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string UseProxyUsername {
+            get {
+                return ((string)(this["UseProxyUsername"]));
+            }
+            set {
+                this["UseProxyUsername"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string UseProxyPassword {
+            get {
+                return ((string)(this["UseProxyPassword"]));
+            }
+            set {
+                this["UseProxyPassword"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool UseProxyVerified {
+            get {
+                return ((bool)(this["UseProxyVerified"]));
+            }
+            set {
+                this["UseProxyVerified"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool UseProxyAuthentication {
+            get {
+                return ((bool)(this["UseProxyAuthentication"]));
+            }
+            set {
+                this["UseProxyAuthentication"] = value;
+            }
+        }
     }
 }

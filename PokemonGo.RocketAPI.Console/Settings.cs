@@ -55,6 +55,98 @@ namespace PokemonGo.RocketAPI.Console
         public bool UseLuckyEggIfNotRunning => Globals.useLuckyEggIfNotRunning;
 
         public bool Language => Globals.gerNames;
+        /*
+         string UseProxyHost { get; set; }
+        int UseProxyPort { get; set; }
+        string UseProxyUsername { get; set; }
+        string UseProxyPassword { get; set; }
+
+        bool UseProxyVerified { get; set; }
+        bool UseProxyAuthentication { get; set; }
+        */
+        public string UseProxyHost
+        {
+            get
+            {
+                return UserSettings.Default.UseProxyHost;
+            }
+
+            set
+            {
+                UserSettings.Default.UseProxyHost = value;
+                UserSettings.Default.Save();
+            }
+        }
+
+        public int UseProxyPort
+        {
+            get
+            {
+                return UserSettings.Default.UseProxyPort;
+            }
+
+            set
+            {
+                UserSettings.Default.UseProxyPort = value;
+                UserSettings.Default.Save();
+            }
+        }
+
+        public string UseProxyUsername
+        {
+            get
+            {
+                return UserSettings.Default.UseProxyUsername;
+            }
+
+            set
+            {
+                UserSettings.Default.UseProxyUsername = value;
+                UserSettings.Default.Save();
+            }
+        }
+
+        public string UseProxyPassword
+        {
+            get
+            {
+                return UserSettings.Default.UseProxyPassword;
+            }
+
+            set
+            {
+                UserSettings.Default.UseProxyPassword = value;
+                UserSettings.Default.Save();
+            }
+        }
+
+        public bool UseProxyVerified
+        {
+            get
+            {
+                return UserSettings.Default.UseProxyVerified;
+            }
+
+            set
+            {
+                UserSettings.Default.UseProxyVerified = value;
+                UserSettings.Default.Save();
+            }
+        }
+
+        public bool UseProxyAuthentication
+        {
+            get
+            {
+                return UserSettings.Default.UseProxyAuthentication;
+            }
+
+            set
+            {
+                UserSettings.Default.UseProxyAuthentication = value;
+                UserSettings.Default.Save();
+            }
+        }
 
         List<PokemonId> ISettings.catchPokemonSkipList
         {
