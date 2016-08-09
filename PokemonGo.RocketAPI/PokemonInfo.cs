@@ -48,16 +48,43 @@ namespace PokemonGo.RocketAPI
     {
         public static double CalculatePokemonPerfection(PokemonData poke)
         {
-            if (poke.CpMultiplier + poke.AdditionalCpMultiplier == 0)
-                return (poke.IndividualAttack + poke.IndividualDefense + poke.IndividualStamina) / (45.0) * 100.0;
+            if (Math.Abs(poke.CpMultiplier + poke.AdditionalCpMultiplier) <= 0)
+                return (poke.IndividualAttack + poke.IndividualDefense + poke.IndividualStamina) / 45.0 * 100.0;
+             
+            var maxCp = CalculateMaxCpMultiplier(poke.PokemonId);
+            var minCp = CalculateMinCpMultiplier(poke);
+            var curCp = CalculateCpMultiplier(poke);
 
-            BaseStats baseStats = GetBaseStats(poke.PokemonId);
-            var max_cp = CalculateMaxCPMultiplier(poke);
-            var min_cp = CalculateMinCPMultiplier(poke);
-            var cur_cp = CalculateCPMultiplier(poke);
-
-            return Math.Round(((cur_cp - min_cp) / (max_cp - min_cp)) * 100.0);
+            return (curCp - minCp) / (maxCp - minCp) * 100.0;
         }
+
+        public static double CalculateMinCpMultiplier(PokemonData poke)
+        {
+            var baseStats = GetBaseStats(poke.PokemonId);
+            return baseStats.BaseAttack * Math.Sqrt(baseStats.BaseDefense) * Math.Sqrt(baseStats.BaseStamina);
+        }
+
+        public static double CalculateCpMultiplier(PokemonData poke)
+        {
+            var baseStats = GetBaseStats(poke.PokemonId);
+            return (baseStats.BaseAttack + poke.IndividualAttack) *
+                   Math.Sqrt(baseStats.BaseDefense + poke.IndividualDefense) *
+                   Math.Sqrt(baseStats.BaseStamina + poke.IndividualStamina);
+        }
+
+        public static int CalculateMaxCp(PokemonData poke)
+        {
+            return
+                Math.Max((int)Math.Floor(0.1 * CalculateMaxCpMultiplier(poke.PokemonId) * Math.Pow(poke.CpMultiplier + poke.AdditionalCpMultiplier, 2)), 10);
+        }
+
+        public static double CalculateMaxCpMultiplier(PokemonId pokemonId)
+        {
+            var baseStats = GetBaseStats(pokemonId);
+            return (baseStats.BaseAttack + 15) * Math.Sqrt(baseStats.BaseDefense + 15) *
+                   Math.Sqrt(baseStats.BaseStamina + 15);
+        }
+
         public static double CalculateMaxCPMultiplier(PokemonData poke)
         {
             BaseStats baseStats = GetBaseStats(poke.PokemonId);

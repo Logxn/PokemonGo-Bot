@@ -141,7 +141,7 @@ namespace PokemonGo.RocketAPI.Console
                         .Select(f => f.Candy_)
                         .First();
                     listViewItem.SubItems.Add(string.Format("{0}", pokemon.Cp));
-                    listViewItem.SubItems.Add(string.Format("{0}% {1}-{2}-{3}", Math.Round(PokemonInfo.CalculatePokemonPerfection(pokemon)), pokemon.IndividualAttack, pokemon.IndividualDefense, pokemon.IndividualStamina));
+                    listViewItem.SubItems.Add(string.Format("{0}% {1}-{2}-{3}", PokemonInfo.CalculatePokemonPerfection(pokemon).ToString("0.00"), pokemon.IndividualAttack, pokemon.IndividualDefense, pokemon.IndividualStamina));
                     listViewItem.SubItems.Add(string.Format("{0}", PokemonInfo.GetLevel(pokemon)));
                     listViewItem.ImageKey = pokemon.PokemonId.ToString();
                     
