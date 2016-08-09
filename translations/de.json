@@ -1,7 +1,7 @@
 {
 "accountType":"Account Typ:",
 "username":"Benutzername:",
-"password":"Password:",
+"password":"Passwort:",
 "locationSettings":"Standort Einstellungen",
 "speed":"Geschw.:",
 "moveRadius":"Radius:",
@@ -30,7 +30,7 @@
 "pokemonNotToTransfer":"Pokemon - Nicht zu Versenden",
 "selectAll":"Alle auswählen",
 "pokemonNotToCatch":"Pokemons - Nicht zu Fangen",
-"pokemonNotToEvolve":"Pokemons - Zu entwickeln",
+"pokemonNotToEvolve":"Pokemons - Nicht zu entwickeln",
 "saveConfig":"Konfiguration Speichern / Bot starten",
 "otherSettings":"Sonstige Einstellungen",
 "useLuckyeggAtEvolve":"LuckyEgg bei Entwicklung",
