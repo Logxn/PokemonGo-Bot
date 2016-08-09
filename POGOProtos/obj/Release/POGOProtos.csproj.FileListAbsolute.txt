@@ -1,6 +1,0 @@
-C:\Users\Ari\Desktop\PokemonGo Bot\Github - New API\PokemonGoBot-NewAPI\POGOProtos\bin\Release\POGOProtos.dll
-C:\Users\Ari\Desktop\PokemonGo Bot\Github - New API\PokemonGoBot-NewAPI\POGOProtos\bin\Release\POGOProtos.pdb
-C:\Users\Ari\Desktop\PokemonGo Bot\Github - New API\PokemonGoBot-NewAPI\POGOProtos\bin\Release\Google.Protobuf.dll
-C:\Users\Ari\Desktop\PokemonGo Bot\Github - New API\PokemonGoBot-NewAPI\POGOProtos\bin\Release\Google.Protobuf.xml
-C:\Users\Ari\Desktop\PokemonGo Bot\Github - New API\PokemonGoBot-NewAPI\POGOProtos\obj\Release\POGOProtos.dll
-C:\Users\Ari\Desktop\PokemonGo Bot\Github - New API\PokemonGoBot-NewAPI\POGOProtos\obj\Release\POGOProtos.pdb

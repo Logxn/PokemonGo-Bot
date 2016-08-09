@@ -76,6 +76,14 @@ namespace PokemonGo.RocketAPI.Console
             Directory.CreateDirectory(Program.path);
             Directory.CreateDirectory(Program.path_translation);
 
+            try
+            {
+                Extract("PokemonGo.RocketAPI.Console", AppDomain.CurrentDomain.BaseDirectory, "Resources", "encrypt.dll"); // unpack our encrypt dll
+            } catch (Exception)
+            {
+
+            }
+
             // Load Languages Files always UP2Date
             try
             {

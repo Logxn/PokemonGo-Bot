@@ -252,6 +252,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="1470603236_Pokeball.ico" />
+    <EmbeddedResource Include="Resources\encrypt.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

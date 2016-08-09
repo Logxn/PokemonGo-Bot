@@ -133,6 +133,7 @@
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.label30 = new System.Windows.Forms.Label();
+            this.label32 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -1244,18 +1245,29 @@
             // 
             this.label30.AutoSize = true;
             this.label30.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F);
-            this.label30.Location = new System.Drawing.Point(90, 564);
+            this.label30.Location = new System.Drawing.Point(91, 556);
             this.label30.Name = "label30";
             this.label30.Size = new System.Drawing.Size(460, 24);
             this.label30.TabIndex = 45;
             this.label30.Text = "If you run more than 3 Instances, you get Soft Banned.";
+            // 
+            // label32
+            // 
+            this.label32.AutoSize = true;
+            this.label32.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.label32.Location = new System.Drawing.Point(99, 580);
+            this.label32.Name = "label32";
+            this.label32.Size = new System.Drawing.Size(429, 20);
+            this.label32.TabIndex = 46;
+            this.label32.Text = "If your Softbanned, and unban is not working. Get a new IP.\r\n";
             // 
             // GUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
-            this.ClientSize = new System.Drawing.Size(576, 605);
+            this.ClientSize = new System.Drawing.Size(572, 604);
+            this.Controls.Add(this.label32);
             this.Controls.Add(this.label30);
             this.Controls.Add(this.lang_france_btn);
             this.Controls.Add(this.lang_ru_btn);
@@ -1412,6 +1424,7 @@
         private System.Windows.Forms.LinkLabel linkLabel4;
         private System.Windows.Forms.LinkLabel linkLabel3;
         private System.Windows.Forms.Label label30;
+        private System.Windows.Forms.Label label32;
     }
 }
 
