@@ -3,13 +3,35 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using PokemonGo.RocketAPI.GeneratedCode;
+using PokemonGo.RocketAPI.Enums;
+using PokemonGo.RocketAPI;
+using POGOProtos;
+using POGOProtos.Data;
+using POGOProtos.Enums;
+using POGOProtos.Inventory;
+using POGOProtos.Inventory.Item;
+using POGOProtos.Map;
+using POGOProtos.Map.Fort;
+using POGOProtos.Map.Pokemon;
+using POGOProtos.Networking;
+using POGOProtos.Networking.Envelopes;
+using POGOProtos.Networking.Requests;
+using POGOProtos.Networking.Requests.Messages;
+using POGOProtos.Networking.Responses;
+using POGOProtos.Settings;
+using POGOProtos.Settings.Master;
+using POGOProtos.Settings.Master.Item;
+using POGOProtos.Settings.Master.Pokemon;
 
 namespace PokemonGo.RocketAPI
 {
     public struct BaseStats
     {
         public int BaseAttack, BaseDefense, BaseStamina;
+
+
+
+
         public BaseStats(int baseStamina, int baseAttack, int baseDefense)
         {
             this.BaseAttack = baseAttack;
@@ -27,60 +49,30 @@ namespace PokemonGo.RocketAPI
         public static double CalculatePokemonPerfection(PokemonData poke)
         {
             if (poke.CpMultiplier + poke.AdditionalCpMultiplier == 0)
-                return (poke.IndividualAttack + poke.IndividualDefense + poke.IndividualStamina) / (45.0) * 100.0;
+                return (poke.IndividualAttack * 2 + poke.IndividualDefense + poke.IndividualStamina) / (4.0 * 15.0) * 100.0;
 
             BaseStats baseStats = GetBaseStats(poke.PokemonId);
-            var max_cp = CalculateMaxCPMultiplier(poke);
-            var min_cp = CalculateMinCPMultiplier(poke);
-            var cur_cp = CalculateCPMultiplier(poke);
-
-            return Math.Round( ((cur_cp - min_cp) / (max_cp - min_cp)) * 100.0 );
-        }
-
-        public static double CalculatePokemonPerfection(Pokemon poke)
-        {
-            if (poke.CpMultiplier + poke.AdditionalCpMultiplier == 0)
-                return (poke.IndividualAttack + poke.IndividualDefense + poke.IndividualStamina) / (45.0) * 100.0;
-
-            BaseStats baseStats = GetBaseStats(poke.PokemonType);
             var max_cp = CalculateMaxCPMultiplier(poke);
             var min_cp = CalculateMinCPMultiplier(poke);
             var cur_cp = CalculateCPMultiplier(poke);
 
             return Math.Round(((cur_cp - min_cp) / (max_cp - min_cp)) * 100.0);
         }
-
         public static double CalculateMaxCPMultiplier(PokemonData poke)
         {
             BaseStats baseStats = GetBaseStats(poke.PokemonId);
             return (baseStats.BaseAttack + 15) * Math.Sqrt(baseStats.BaseDefense + 15) * Math.Sqrt(baseStats.BaseStamina + 15);
         }
 
-        public static double CalculateMaxCPMultiplier(Pokemon poke)
-        {
-            BaseStats baseStats = GetBaseStats(poke.PokemonType);
-            return (baseStats.BaseAttack + 15) * Math.Sqrt(baseStats.BaseDefense + 15) * Math.Sqrt(baseStats.BaseStamina + 15);
-        }
         public static double CalculateMinCPMultiplier(PokemonData poke)
         {
             BaseStats baseStats = GetBaseStats(poke.PokemonId);
             return (baseStats.BaseAttack) * Math.Sqrt(baseStats.BaseDefense) * Math.Sqrt(baseStats.BaseStamina);
         }
 
-        public static double CalculateMinCPMultiplier(Pokemon poke)
-        {
-            BaseStats baseStats = GetBaseStats(poke.PokemonType);
-            return (baseStats.BaseAttack) * Math.Sqrt(baseStats.BaseDefense) * Math.Sqrt(baseStats.BaseStamina);
-        }
         public static double CalculateCPMultiplier(PokemonData poke)
         {
             BaseStats baseStats = GetBaseStats(poke.PokemonId);
-            return (baseStats.BaseAttack + poke.IndividualAttack) * Math.Sqrt(baseStats.BaseDefense + poke.IndividualDefense) * Math.Sqrt(baseStats.BaseStamina + poke.IndividualStamina);
-        }
-
-        public static double CalculateCPMultiplier(Pokemon poke)
-        {
-            BaseStats baseStats = GetBaseStats(poke.PokemonType);
             return (baseStats.BaseAttack + poke.IndividualAttack) * Math.Sqrt(baseStats.BaseDefense + poke.IndividualDefense) * Math.Sqrt(baseStats.BaseStamina + poke.IndividualStamina);
         }
 

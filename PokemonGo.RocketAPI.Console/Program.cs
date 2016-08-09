@@ -6,10 +6,10 @@ using System.Net;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
-using System.Collections.Generic;
-using PokemonGo.RocketAPI.GeneratedCode;
+using System.Collections.Generic; 
 using System.IO;
 using PokemonGo.RocketAPI.Logic.Utils;
+using POGOProtos.Enums;
 
 namespace PokemonGo.RocketAPI.Console
 {
@@ -366,15 +366,9 @@ namespace PokemonGo.RocketAPI.Console
         {
             try
             {
-                var match =
-                    new Regex(
-                        @"\[assembly\: AssemblyVersion\(string.Empty(\d{1,})\.(\d{1,})\.(\d{1,})\.(\d{1,})string.Empty\)\]")
-                        .Match(DownloadServerVersion());
+                var match = DownloadServerVersion();
 
-                if (!match.Success) return Assembly.GetExecutingAssembly().GetName().Version;
-                var gitVersion =
-                    new Version(
-                        $"{match.Groups[1]}.{match.Groups[2]}.{match.Groups[3]}.{match.Groups[4]}");
+                var gitVersion = new Version(match);
 
                 return gitVersion;
 
@@ -391,7 +385,7 @@ namespace PokemonGo.RocketAPI.Console
             using (var wC = new WebClient())
                 return
                     wC.DownloadString(
-                        "https://raw.githubusercontent.com/Ar1i/PokemonGo-Bot/master/PokemonGo.RocketAPI.Console/Properties/AssemblyInfo.cs");
+                        "https://raw.githubusercontent.com/Ar1i/PokemonGo-Bot/master/ver.md");
         }
     }
     public static class Globals

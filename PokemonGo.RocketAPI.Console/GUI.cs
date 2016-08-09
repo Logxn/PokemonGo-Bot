@@ -1,4 +1,3 @@
-using PokemonGo.RocketAPI.GeneratedCode;
 using PokemonGo.RocketAPI.Logic.Utils;
 using System;
 using System.Collections.Generic;
@@ -13,6 +12,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 using PokemonGo.RocketAPI.Logic.Translation;
+using POGOProtos.Enums;
 
 namespace PokemonGo.RocketAPI.Console
 {
@@ -901,8 +901,8 @@ namespace PokemonGo.RocketAPI.Console
             label12.Text = TranslationHandler.GetString("maxCPtransfer", "Max. CP to transfer:");
             label28.Text = TranslationHandler.GetString("maxIVtransfer", "Max. IV to transfer:");
             groupBox8.Text = TranslationHandler.GetString("telegramSettings", "Telegram Settings");
-            label30.Text = TranslationHandler.GetString("infoline1", "This Bot is absolutely free and open source! Chargeback if you've paid for it!");
-            label32.Text = TranslationHandler.GetString("infoline2", "Whenever you encounter something related to 'Pokecrot', tell them the Bot is stolen!");
+            //label30.Text = TranslationHandler.GetString("infoline1", "This Bot is absolutely free and open source! Chargeback if you've paid for it!");
+            //label32.Text = TranslationHandler.GetString("infoline2", "Whenever you encounter something related to 'Pokecrot', tell them the Bot is stolen!");
             label13.Text = TranslationHandler.GetString("maxPokeballs", "Max. Pokeballs:");
             label14.Text = TranslationHandler.GetString("maxGreatballs", "Max. GreatBalls:");
             label15.Text = TranslationHandler.GetString("maxUltraballs", "Max. UltraBalls:");
@@ -1009,5 +1009,16 @@ namespace PokemonGo.RocketAPI.Console
                 return objWebRequest;
             }
         }
+
+        private void linkLabel3_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Process.Start("https://twitter.com/Ar1iDev");
+        }
+
+        private void linkLabel4_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Process.Start("https://twitter.com/LoganPunkt");
+        }
+         
     }
 }

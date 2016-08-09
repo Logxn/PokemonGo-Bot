@@ -1,13 +1,21 @@
+using POGOProtos.Enums;
+using POGOProtos.Inventory.Item;
 using PokemonGo.RocketAPI.Enums;
 using System;
 using System.Collections.Generic;
-using PokemonGo.RocketAPI.GeneratedCode;
 
 namespace PokemonGo.RocketAPI.Console
 {
     public class Settings : ISettings
     {
         public bool UseLastCords => true; // Only disable this if your sure what you're doing!
+
+
+        public string GoogleUsername => Globals.username;
+
+        public string GooglePassword => Globals.password;
+
+        public bool UseIncense => Globals.useincense;
 
         AuthType ISettings.AuthType => Globals.acc;
 
@@ -42,8 +50,7 @@ namespace PokemonGo.RocketAPI.Console
 
         public bool UseBasicIncubators => Globals.useBasicIncubators;
         public bool pokevision => Globals.pokevision;
-
-        public bool UseIncense => Globals.useincense;
+         
         public bool AutoIncubate => Globals.autoIncubate;
         public bool UseLuckyEggIfNotRunning => Globals.useLuckyEggIfNotRunning;
 
