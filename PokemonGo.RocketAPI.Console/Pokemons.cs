@@ -741,7 +741,7 @@ namespace PokemonGo.RocketAPI.Console
             Logic.Logic.failed_softban = 6;
             btnForceUnban.Enabled = false;
 
-            Logger.ColoredConsoleWrite(ConsoleColor.Magenta, "Unbaning you at next Pokestop.");
+            Logger.ColoredConsoleWrite(ConsoleColor.Magenta, "Unbanning you at next Pokestop.");
             freezedenshit.Start();
         }
 

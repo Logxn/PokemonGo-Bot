@@ -59,7 +59,7 @@ namespace PokemonGo.RocketAPI
 
         bool UseProxyVerified { get; set; }
         bool UseProxyAuthentication { get; set; }
-
+        
         ICollection<KeyValuePair<ItemId, int>> itemRecycleFilter { get; set; }
 
         List<PokemonId> pokemonsToHold { get; set; }
