@@ -49,7 +49,7 @@ namespace PokemonGo.RocketAPI
         public static double CalculatePokemonPerfection(PokemonData poke)
         {
             if (poke.CpMultiplier + poke.AdditionalCpMultiplier == 0)
-                return (poke.IndividualAttack * 2 + poke.IndividualDefense + poke.IndividualStamina) / (4.0 * 15.0) * 100.0;
+                return (poke.IndividualAttack + poke.IndividualDefense + poke.IndividualStamina) / (45.0) * 100.0;
 
             BaseStats baseStats = GetBaseStats(poke.PokemonId);
             var max_cp = CalculateMaxCPMultiplier(poke);
