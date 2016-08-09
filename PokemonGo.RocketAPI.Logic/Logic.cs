@@ -759,6 +759,9 @@ namespace PokemonGo.RocketAPI.Logic
                                       || (ItemId)i.ItemId == ItemId.ItemMasterBall) && i.ItemId > 0).GroupBy(i => ((ItemId)i.ItemId)).ToList();
             if (balls.Count() == 0) return ItemId.ItemUnknown;
 
+
+
+
             var pokeBalls = balls.Any(g => g.Key == ItemId.ItemPokeBall);
             var greatBalls = balls.Any(g => g.Key == ItemId.ItemGreatBall);
             var ultraBalls = balls.Any(g => g.Key == ItemId.ItemUltraBall);
@@ -779,7 +782,7 @@ namespace PokemonGo.RocketAPI.Logic
             if (greatBalls && pokemonCp >= 500)
                 return ItemId.ItemGreatBall;
 
-            return balls.OrderBy(g => g.Key).First().Key;
+            return balls.OrderBy(c => c.Key).First().Key;
         }
 
         private async Task<ItemId> GetBestBerry(WildPokemon pokemon)
