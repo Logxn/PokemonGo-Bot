@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
 using GMap.NET.MapProviders;
-using System.Net;
 using GoogleMapsApi.Entities.Elevation.Request;
 using GoogleMapsApi.Entities.Elevation.Response;
 using GoogleMapsApi.Entities.Common;
@@ -12,6 +11,7 @@ using GMap.NET;
 using System.Threading.Tasks;
 using System.Device.Location;
 using System.Globalization;
+using System.Linq;
 using System.Collections.Generic;
 
 namespace PokemonGo.RocketAPI.Console
@@ -59,9 +59,11 @@ namespace PokemonGo.RocketAPI.Console
             close = false;
             //add & remove live data handler after form loaded
             Globals.infoObservable.HandleNewGeoLocations += handleLiveGeoLocations;
+            Globals.infoObservable.HandleNewPokeStopsLocations += handleNewPokeStopsLocations;
             this.FormClosing += (object s, FormClosingEventArgs e) =>
             {
                 Globals.infoObservable.HandleNewGeoLocations -= handleLiveGeoLocations;
+                Globals.infoObservable.HandleNewPokeStopsLocations -= handleNewPokeStopsLocations;
             };
         }
 
@@ -81,6 +83,19 @@ namespace PokemonGo.RocketAPI.Console
             circle.Stroke = System.Drawing.Pens.Black;
             circle.Fill = System.Drawing.Brushes.Transparent;
             return circle;
+        }
+
+        private void handleNewPokeStopsLocations(GeoCoordinate value)
+        {
+            this.Invoke(new MethodInvoker(() =>
+            {
+                if (!markersOverlay.Markers.Any(m => m.Position.Lat.Equals(value.Latitude) && m.Position.Lng.Equals(value.Longitude)))
+                {
+                    GMarkerGoogle marker = new GMarkerGoogle(new GMap.NET.PointLatLng(value.Latitude, value.Longitude), GMarkerGoogleType.blue);
+                    markersOverlay.Markers.Add(marker);
+                    map.Overlays.Add(markersOverlay);
+                }
+            }));
         }
 
         private void handleLiveGeoLocations(GeoCoordinate coords)

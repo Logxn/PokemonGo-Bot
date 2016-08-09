@@ -412,6 +412,7 @@ namespace PokemonGo.RocketAPI.Logic
                     continue;
                 }
                 Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Next Pokestop: {fortInfo.Name} in {distance:0.##}m distance.");
+                _infoObservable.PushNewPokeStopsLocations(new GeoCoordinate(pokeStop.Latitude, pokeStop.Longitude));
                 var update = await _navigation.HumanLikeWalking(new GeoCoordinate(pokeStop.Latitude, pokeStop.Longitude), _clientSettings.WalkingSpeedInKilometerPerHour, ExecuteCatchAllNearbyPokemons);
 
                 ////var fortInfo = await client.GetFort(pokeStop.Id, pokeStop.Latitude, pokeStop.Longitude);

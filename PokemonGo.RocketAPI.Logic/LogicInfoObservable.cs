@@ -23,6 +23,16 @@ namespace PokemonGo.RocketAPI.Logic
         }
 
         /// <summary>
+        /// PokeStops
+        /// </summary>
+        public delegate void PokeStopGeoLocationHandler(GeoCoordinate value);
+        public event PokeStopGeoLocationHandler HandleNewPokeStopsLocations = delegate { };
+        public void PushNewPokeStopsLocations(GeoCoordinate newValue)
+        {
+            HandleNewPokeStopsLocations(newValue);
+        }
+
+        /// <summary>
         /// Hunting stats
         /// </summary>
         public delegate void HuntStatsHandler(string value);
