@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
 using GMap.NET.MapProviders;
-using System.Net;
 using GoogleMapsApi.Entities.Elevation.Request;
 using GoogleMapsApi.Entities.Elevation.Response;
 using GoogleMapsApi.Entities.Common;
@@ -12,6 +11,7 @@ using GMap.NET;
 using System.Threading.Tasks;
 using System.Device.Location;
 using System.Globalization;
+using System.Linq;
 
 namespace PokemonGo.RocketAPI.Console
 {
@@ -32,7 +32,6 @@ namespace PokemonGo.RocketAPI.Console
 
         private void initViewOnly()
         {
-            GMapOverlay markersOverlay = new GMapOverlay("markers");
             //first hide all controls
             foreach (Control c in Controls)
                 c.Visible = false;
@@ -48,10 +47,25 @@ namespace PokemonGo.RocketAPI.Console
             close = false;
             //add & remove live data handler after form loaded
             Globals.infoObservable.HandleNewGeoLocations += handleLiveGeoLocations;
+            Globals.infoObservable.HandleNewPokeStopsLocations += handleNewPokeStopsLocations;
             this.FormClosing += (object s, FormClosingEventArgs e) =>
             {
                 Globals.infoObservable.HandleNewGeoLocations -= handleLiveGeoLocations;
+                Globals.infoObservable.HandleNewPokeStopsLocations -= handleNewPokeStopsLocations;
             };
+        }
+
+        private void handleNewPokeStopsLocations(GeoCoordinate value)
+        {
+            this.Invoke(new MethodInvoker(() =>
+            {
+                if (!markersOverlay.Markers.Any(m => m.Position.Lat.Equals(value.Latitude) && m.Position.Lng.Equals(value.Longitude)))
+                {
+                    GMarkerGoogle marker = new GMarkerGoogle(new GMap.NET.PointLatLng(value.Latitude, value.Longitude), GMarkerGoogleType.blue);
+                    markersOverlay.Markers.Add(marker);
+                    map.Overlays.Add(markersOverlay);
+                }
+            }));
         }
 
         private void handleLiveGeoLocations(GeoCoordinate coords)
@@ -60,7 +74,6 @@ namespace PokemonGo.RocketAPI.Console
             {
                 double lat = Convert.ToDouble(textBox1.Text);
                 double lon = Convert.ToDouble(textBox2.Text);
-                markersOverlay.Markers.Clear();
                 GMarkerGoogle marker = new GMarkerGoogle(new GMap.NET.PointLatLng(lat, lon), GMarkerGoogleType.red);
                 markersOverlay.Markers.Add(marker);
                 map.Overlays.Add(markersOverlay);
