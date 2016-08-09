@@ -14,18 +14,29 @@ namespace PokemonGo.RocketAPI.Logic.Utils
     {
         public static double getAltidude(double lat, double lon)
         {
-            var point = new GeoCoordinate(lat, lon);
-            var request = (HttpWebRequest)WebRequest.Create(string.Format("https://maps.googleapis.com/maps/api/elevation/json?locations=" + point.Latitude.ToString().Replace(",", ".") + "," + point.Longitude.ToString().Replace(",", ".")));
-            var response = (HttpWebResponse)request.GetResponse();
-            var sr = new StreamReader(response.GetResponseStream() ?? new MemoryStream()).ReadToEnd();
-
-            var json = JObject.Parse(sr);
-
-            if (json.SelectToken("results[0].elevation") != null)
+            try
             {
-                return (double)json.SelectToken("results[0].elevation");
-            }
-            else // if google not working
+                var point = new GeoCoordinate(lat, lon);
+                var request = (HttpWebRequest)WebRequest.Create(string.Format("https://maps.googleapis.com/maps/api/elevation/json?locations=" + point.Latitude.ToString().Replace(",", ".") + "," + point.Longitude.ToString().Replace(",", ".")));
+                var response = (HttpWebResponse)request.GetResponse();
+                var sr = new StreamReader(response.GetResponseStream() ?? new MemoryStream()).ReadToEnd();
+
+                var json = JObject.Parse(sr);
+
+                if (json.SelectToken("results[0].elevation") != null)
+                {
+                    return (double)json.SelectToken("results[0].elevation");
+                }
+                else // if google not working
+                {
+                    Random random = new Random();
+                    double maximum = 11.0f;
+                    double minimum = 8.6f;
+                    double return1 = random.NextDouble() * (maximum - minimum) + minimum;
+
+                    return return1;
+                }
+            } catch (Exception)
             {
                 Random random = new Random();
                 double maximum = 11.0f;
