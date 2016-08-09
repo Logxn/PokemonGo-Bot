@@ -79,6 +79,9 @@ namespace PokemonGo.RocketAPI.Logic
             {
                 Logger.Error("Invalid Response, retrying in 5 seconds.");
                 await Task.Delay(5000);
+            } catch (NullReferenceException e)
+            {
+                Logger.Error("Method which calls that: " + e.TargetSite + " Source: " + e.Source + " Data: " + e.Data);
             }
             catch (GoogleException)
             {
