@@ -65,18 +65,16 @@ namespace PokemonGo.RocketAPI
         }
 
         public static void AddLog(string line)
-        {
-            return; // Ffs, this is buggy as fuck
+        { 
             if (!File.Exists(log))
             {
                 File.Create(log);
-            }
-
+            } 
             try
             {
                 // here you know that the file exists
-                TextWriter tw = new StreamWriter(log);
-                tw.WriteLine($"[{DateTime.Now.ToString("HH:mm:ss")}] " + line);
+                TextWriter tw = new StreamWriter(log, true); //  we need to add a new line (aka. i am the brain)
+                tw.WriteLine($"[{DateTime.Now.ToString("HH:mm:ss")}] " + line); 
                 tw.Close();
             } catch (Exception)
             {

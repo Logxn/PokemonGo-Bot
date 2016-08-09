@@ -1,4 +1,3 @@
-using PokemonGo.RocketAPI.GeneratedCode;
 using PokemonGo.RocketAPI.Logic.Utils;
 using System;
 using System.Collections.Generic;
@@ -13,6 +12,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 using PokemonGo.RocketAPI.Logic.Translation;
+using POGOProtos.Enums;
 
 namespace PokemonGo.RocketAPI.Console
 {
@@ -75,6 +75,14 @@ namespace PokemonGo.RocketAPI.Console
             // Create missing Files
             Directory.CreateDirectory(Program.path);
             Directory.CreateDirectory(Program.path_translation);
+
+            try
+            {
+                Extract("PokemonGo.RocketAPI.Console", AppDomain.CurrentDomain.BaseDirectory, "Resources", "encrypt.dll"); // unpack our encrypt dll
+            } catch (Exception)
+            {
+
+            }
 
             // Load Languages Files always UP2Date
             try
@@ -901,8 +909,8 @@ namespace PokemonGo.RocketAPI.Console
             label12.Text = TranslationHandler.GetString("maxCPtransfer", "Max. CP to transfer:");
             label28.Text = TranslationHandler.GetString("maxIVtransfer", "Max. IV to transfer:");
             groupBox8.Text = TranslationHandler.GetString("telegramSettings", "Telegram Settings");
-            label30.Text = TranslationHandler.GetString("infoline1", "This Bot is absolutely free and open source! Chargeback if you've paid for it!");
-            label32.Text = TranslationHandler.GetString("infoline2", "Whenever you encounter something related to 'Pokecrot', tell them the Bot is stolen!");
+            //label30.Text = TranslationHandler.GetString("infoline1", "This Bot is absolutely free and open source! Chargeback if you've paid for it!");
+            //label32.Text = TranslationHandler.GetString("infoline2", "Whenever you encounter something related to 'Pokecrot', tell them the Bot is stolen!");
             label13.Text = TranslationHandler.GetString("maxPokeballs", "Max. Pokeballs:");
             label14.Text = TranslationHandler.GetString("maxGreatballs", "Max. GreatBalls:");
             label15.Text = TranslationHandler.GetString("maxUltraballs", "Max. UltraBalls:");
@@ -1007,6 +1015,84 @@ namespace PokemonGo.RocketAPI.Console
                 var objWebRequest = base.GetWebRequest(address);
                 objWebRequest.Timeout = this.timeout;
                 return objWebRequest;
+            }
+        }
+
+        private void linkLabel3_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Process.Start("https://twitter.com/Ar1iDev");
+        }
+
+        private void linkLabel4_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Process.Start("https://twitter.com/LoganPunkt");
+        }
+
+        private void checkBox13_CheckedChanged(object sender, EventArgs e)
+        {
+            button1.Enabled = false;
+            prxyIP.Enabled = true;
+            prxyPort.Enabled = true;
+        }
+
+        private void checkBox14_CheckedChanged(object sender, EventArgs e)
+        {
+            prxyUser.Enabled = true;
+            prxyPass.Enabled = true;
+        }
+
+        public readonly ISettings _clientSettings;
+        private void checkPrxy_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(prxyIP.Text) || string.IsNullOrWhiteSpace(prxyPort.Text) || string.IsNullOrWhiteSpace(prxyUser.Text) || string.IsNullOrWhiteSpace(prxyPass.Text))
+                return;
+
+            string proxyip = prxyIP.Text;
+            int port = Convert.ToInt32(prxyPort.Text);
+
+            HttpWebRequest proxyrequest = (HttpWebRequest)WebRequest.Create("http://google.de");
+            WebProxy myProxy = new WebProxy(proxyip, 80);
+
+            if (checkBox14.Checked)
+            {
+                myProxy.Credentials = new NetworkCredential(prxyUser.Text, prxyUser.Text);
+            }
+
+            prxyStatus.Text = "Setting proxy status....";
+            myProxy.BypassProxyOnLocal = false;
+            proxyrequest.Proxy = myProxy;
+            proxyrequest.Method = "GET";
+
+            try
+            {
+                HttpWebResponse response = (HttpWebResponse)proxyrequest.GetResponse();
+
+                if (response.StatusCode.ToString() == "OK")
+                {
+                    prxyStatus.Text = "Proxy working :)";
+                    _clientSettings.UseProxyVerified = true;
+                    _clientSettings.UseProxyHost = prxyIP.Text;
+                    _clientSettings.UseProxyPort = port;
+                    if (checkBox14.Checked)
+                    {
+                        _clientSettings.UseProxyUsername = prxyUser.Text;
+                        _clientSettings.UseProxyPassword = prxyPass.Text;
+                    }
+                    button1.Enabled = true;
+                    return;
+                }
+
+            }
+            catch (WebException)
+            {
+                prxyStatus.Text = "Failed to resolve proxy....";
+                return;
+            }
+            catch (Exception ex)
+            {
+                prxyStatus.Text = "Proxy not working...";
+                MessageBox.Show("Please show this to Devs: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
             }
         }
     }

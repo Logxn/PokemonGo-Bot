@@ -1,7 +1,10 @@
 ﻿#region
 
+using Newtonsoft.Json.Linq;
 using System;
 using System.Device.Location;
+using System.IO;
+using System.Net;
 
 #endregion
 
@@ -9,6 +12,41 @@ namespace PokemonGo.RocketAPI.Logic.Utils
 {
     public static class LocationUtils
     {
+        public static double getAltidude(double lat, double lon)
+        {
+            try
+            {
+                var point = new GeoCoordinate(lat, lon);
+                var request = (HttpWebRequest)WebRequest.Create(string.Format("https://maps.googleapis.com/maps/api/elevation/json?locations=" + point.Latitude.ToString().Replace(",", ".") + "," + point.Longitude.ToString().Replace(",", ".")));
+                var response = (HttpWebResponse)request.GetResponse();
+                var sr = new StreamReader(response.GetResponseStream() ?? new MemoryStream()).ReadToEnd();
+
+                var json = JObject.Parse(sr);
+
+                if (json.SelectToken("results[0].elevation") != null)
+                {
+                    return (double)json.SelectToken("results[0].elevation");
+                }
+                else // if google not working
+                {
+                    Random random = new Random();
+                    double maximum = 11.0f;
+                    double minimum = 8.6f;
+                    double return1 = random.NextDouble() * (maximum - minimum) + minimum;
+
+                    return return1;
+                }
+            } catch (Exception)
+            {
+                Random random = new Random();
+                double maximum = 11.0f;
+                double minimum = 8.6f;
+                double return1 = random.NextDouble() * (maximum - minimum) + minimum;
+
+                return return1;
+            }
+         }
+
         public static double CalculateDistanceInMeters(double sourceLat, double sourceLng, double destLat, double destLng)
         // from http://stackoverflow.com/questions/6366408/calculating-distance-between-two-latitude-and-longitude-geocoordinates
         {
@@ -45,9 +83,9 @@ namespace PokemonGo.RocketAPI.Logic.Utils
                 - Math.Sin(sourceLatitudeRadians) * Math.Sin(targetLatitudeRadians));
 
             // adjust toLonRadians to be in the range -180 to +180...
-            targetLongitudeRadians = (targetLongitudeRadians + 3 * Math.PI) % (2 * Math.PI) - Math.PI;
+            targetLongitudeRadians = (targetLongitudeRadians + 3 * Math.PI) % (2 * Math.PI) - Math.PI; 
 
-            return new GeoCoordinate(ToDegrees(targetLatitudeRadians), ToDegrees(targetLongitudeRadians));
+            return new GeoCoordinate(ToDegrees(targetLatitudeRadians), ToDegrees(targetLongitudeRadians), getAltidude((ToDegrees(targetLatitudeRadians)), ToDegrees(targetLongitudeRadians)));
         }
 
         public static double DegreeBearing(GeoCoordinate sourceLocation, GeoCoordinate targetLocation)

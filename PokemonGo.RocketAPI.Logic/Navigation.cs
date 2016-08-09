@@ -1,5 +1,4 @@
-﻿using PokemonGo.RocketAPI.GeneratedCode;
-using PokemonGo.RocketAPI.Logic.Utils;
+﻿using PokemonGo.RocketAPI.Logic.Utils;
 using System;
 using System.IO;
 using System.Collections.Generic;
@@ -8,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using PokemonGo.RocketAPI.Helpers;
+using POGOProtos.Networking.Responses;
+using POGOProtos.Map.Fort;
 
 namespace PokemonGo.RocketAPI.Logic
 {
@@ -38,19 +39,19 @@ namespace PokemonGo.RocketAPI.Logic
         {
             var speedInMetersPerSecond = walkingSpeedInKilometersPerHour / 3.6;
         
-            var sourceLocation = new GeoCoordinate(_client.CurrentLat, _client.CurrentLng);
+            var sourceLocation = new GeoCoordinate(_client.CurrentLatitude, _client.CurrentLongitude);
             var distanceToTarget = LocationUtils.CalculateDistanceInMeters(sourceLocation, targetLocation);
             Logger.ColoredConsoleWrite(ConsoleColor.DarkCyan, $"Distance to target location: {distanceToTarget:0.##} meters. Will take {distanceToTarget / speedInMetersPerSecond:0.##} seconds!");
 
             var nextWaypointBearing = LocationUtils.DegreeBearing(sourceLocation, targetLocation);
             var nextWaypointDistance = speedInMetersPerSecond;
             var waypoint = LocationUtils.CreateWaypoint(sourceLocation, nextWaypointDistance, nextWaypointBearing);
-
+             
             //Initial walking
             var requestSendDateTime = DateTime.Now;
             var result =
                 await
-                    _client.UpdatePlayerLocation(waypoint.Latitude, waypoint.Longitude, _client.getSettingHandle().DefaultAltitude);
+                    _client.Player.UpdatePlayerLocation(waypoint.Latitude, waypoint.Longitude, waypoint.Altitude);
 
             if (functionExecutedWhileWalking != null)
                 await functionExecutedWhileWalking();
@@ -61,7 +62,7 @@ namespace PokemonGo.RocketAPI.Logic
                 var millisecondsUntilGetUpdatePlayerLocationResponse =
                     (DateTime.Now - requestSendDateTime).TotalMilliseconds;
 
-                sourceLocation = new GeoCoordinate(_client.CurrentLat, _client.CurrentLng);
+                sourceLocation = new GeoCoordinate(_client.CurrentLatitude, _client.CurrentLongitude);
                 var currentDistanceToTarget = LocationUtils.CalculateDistanceInMeters(sourceLocation, targetLocation);
 
                 if (currentDistanceToTarget < 40)
@@ -76,13 +77,13 @@ namespace PokemonGo.RocketAPI.Logic
                 nextWaypointDistance = Math.Min(currentDistanceToTarget, millisecondsUntilGetUpdatePlayerLocationResponse / 1000 * speedInMetersPerSecond);
                 nextWaypointBearing = LocationUtils.DegreeBearing(sourceLocation, targetLocation);
                 waypoint = LocationUtils.CreateWaypoint(sourceLocation, nextWaypointDistance, nextWaypointBearing);
-
+   
                 requestSendDateTime = DateTime.Now;
 
                 result =
                     await
-                        _client.UpdatePlayerLocation(waypoint.Latitude, waypoint.Longitude,
-                            _client.getSettingHandle().DefaultAltitude);
+                        _client.Player.UpdatePlayerLocation(waypoint.Latitude, waypoint.Longitude,
+                            waypoint.Altitude);
                 if (functionExecutedWhileWalking != null)
                     await functionExecutedWhileWalking();// look for pokemon 
 
@@ -130,7 +131,7 @@ namespace PokemonGo.RocketAPI.Logic
 
             if (time <= 380 || !(time > 0.0)) return 0;
 
-            if (_client.getSettingHandle().navigation_option == 1)
+            if (_client.Settings.navigation_option == 1)
             {
                 return Convert.ToInt32((_chromosome.Count * 10000) / time);
             } else

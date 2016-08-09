@@ -14,13 +14,14 @@ using Telegram.Bot.Types.ReplyMarkups;
 
 using PokemonGo.RocketAPI.Enums;
 using PokemonGo.RocketAPI.Extensions;
-using PokemonGo.RocketAPI.GeneratedCode;
 using PokemonGo.RocketAPI.Logic.Utils;
 using PokemonGo.RocketAPI.Exceptions;
 using PokemonGo.RocketAPI.Logic;
 using PokemonGo.RocketAPI.Helpers;
 
 using PokemonGo.RocketAPI.Logic.Translation;
+using PokemonGo.RocketAPI.Rpc;
+using POGOProtos.Data;
 
 namespace PokemonGo.RocketAPI.Logic.Utils
 {
@@ -179,8 +180,8 @@ namespace PokemonGo.RocketAPI.Logic.Utils
                 if (_chatid != -1 && _livestats)
                 {
                     var usage = "";
-                    var inventory = await _client.GetInventory();
-                    var profil = await _client.GetProfile();
+                    var inventory = await _client.Inventory.GetInventory();
+                    var profil = await _client.Player.GetPlayer();
                     var stats = inventory.InventoryDelta.InventoryItems.Select(i => i.InventoryItemData.PlayerStats).ToArray();
                     foreach (var c in stats)
                     {
@@ -192,14 +193,14 @@ namespace PokemonGo.RocketAPI.Logic.Utils
                             var curexp = ((c.Experience - c.PrevLevelXp) - StringUtils.getExpDiff(c.Level));
                             var curexppercent = (Convert.ToDouble(curexp) / Convert.ToDouble(expneeded)) * 100;
 
-                            usage += "\nNickname: " + profil.Profile.Username +
+                            usage += "\nNickname: " + profil.PlayerData.Username +
                                 "\nLevel: " + c.Level
                                 + "\nEXP Needed: " + ((c.NextLevelXp - c.PrevLevelXp) - StringUtils.getExpDiff(c.Level))
                                 + $"\nCurrent EXP: {curexp} ({Math.Round(curexppercent)}%)"
                                 + "\nEXP to Level up: " + ((c.NextLevelXp) - (c.Experience))
                                 + "\nKM walked: " + c.KmWalked
                                 + "\nPokeStops visited: " + c.PokeStopVisits
-                                + "\nStardust: " + profil.Profile.Currency.ToArray()[1].Amount;
+                                + "\nStardust: " + profil.PlayerData.Currencies.ToArray()[1].Amount;
                         }
                     }
 
@@ -222,23 +223,16 @@ namespace PokemonGo.RocketAPI.Logic.Utils
                 if (_chatid != -1 && _informations)
                 {
                     int current = 0;
-                    var inventory = await _client.GetInventory();
-                    var profil = await _client.GetProfile();
-                    IEnumerable<PlayerStats> stats = inventory.InventoryDelta.InventoryItems
-                                                                                .Select(i => i.InventoryItemData.PlayerStats)
-                                                                                .Where(e => e != null);
-                    foreach (PlayerStats s in stats)
-                    {
-                        if (s != null)
-                        {
-                            current = s.Level;
-                        }
-                    }
+                    var inventory = await _client.Inventory.GetInventory();
+                    var profil = await _client.Player.GetPlayer();
+                    var stats = await _client.Inventory.GetPlayerStats();
 
+                    current = stats.First().Level;
+                    
                     if (current != level)
                     {
                         level = current;
-                        string nick = await _client.getNickname();
+                        string nick = profil.PlayerData.Username;
 
                         sendInformationText(TelegramUtilInformationTopics.Levelup, nick, level);
 
@@ -289,40 +283,35 @@ namespace PokemonGo.RocketAPI.Logic.Utils
                             @"/forceevolve - Forces Evolve");
                         break;
                     case TelegramUtilTask.GET_STATS:
-                        var inventory = await _client.GetInventory();
-                        var profil = await _client.GetProfile();
-                        IEnumerable<PlayerStats> stats = inventory.InventoryDelta.InventoryItems
-                                                                                        .Select(i => i.InventoryItemData.PlayerStats)
-                                                                                        .Where(i => i != null);
-                        foreach (PlayerStats ps in stats)
-                        {
-                            int l = ps.Level;
+                        var inventory = await _client.Inventory.GetInventory();
+                        var profil = await _client.Player.GetPlayer();
+                        var ps = await _client.Inventory.GetPlayerStats(); 
 
-                            long expneeded = ((ps.NextLevelXp - ps.PrevLevelXp) - StringUtils.getExpDiff(ps.Level));
-                            long curexp = ((ps.Experience - ps.PrevLevelXp) - StringUtils.getExpDiff(ps.Level));
-                            double curexppercent = (Convert.ToDouble(curexp) / Convert.ToDouble(expneeded)) * 100;
-                            string curloc = _client.CurrentLat + "%20" + _client.CurrentLng;
-                            curloc = curloc.Replace(",", ".");
-                            string curlochtml = "https://www.google.de/maps/search/" + curloc + "/";
-                            double shortenLng = Math.Round(_client.CurrentLng, 3);
-                            double shortenLat = Math.Round(_client.CurrentLat, 3);
-                            string pokemap = shortenLat + ";" + shortenLng;
-                            pokemap = pokemap.Replace(",", ".").Replace(";", ",");
-                            string pokevishtml = "https://skiplagged.com/pokemon/#" + pokemap +",14";
-                            telegramAnswer +=
-                                "\nNickname: " + profil.Profile.Username 
-                                + "\nLevel: " + ps.Level
-                                + "\nEXP Needed: " + ((ps.NextLevelXp - ps.PrevLevelXp) - StringUtils.getExpDiff(ps.Level))
-                                + $"\nCurrent EXP: {curexp} ({Math.Round(curexppercent)}%)"
-                                + "\nEXP to Level up: " + ((ps.NextLevelXp) - (ps.Experience))
-                                + "\nKM walked: " + ps.KmWalked
-                                + "\nPokeStops visited: " + ps.PokeStopVisits
-                                + "\nStardust: " + profil.Profile.Currency.ToArray()[1].Amount
-                                + "\nPokemons: " + await _inventory.GetPokemonCount() + "/" + profil.Profile.PokeStorage
-                                + "\nItems: " + await _inventory.GetInventoryCount() + " / " + profil.Profile.ItemStorage
-                                + "\nCurentLocation:\n" + curlochtml
-                                + "\nPokevision:\n" + pokevishtml;
-                        }
+                        int l = ps.First().Level; 
+                        long expneeded = ((ps.First().NextLevelXp - ps.First().PrevLevelXp) - StringUtils.getExpDiff(ps.First().Level));
+                        long curexp = ((ps.First().Experience - ps.First().PrevLevelXp) - StringUtils.getExpDiff(ps.First().Level));
+                        double curexppercent = (Convert.ToDouble(curexp) / Convert.ToDouble(expneeded)) * 100;
+                        string curloc = _client.CurrentLatitude + "%20" + _client.CurrentLongitude;
+                        curloc = curloc.Replace(",", ".");
+                        string curlochtml = "https://www.google.de/maps/search/" + curloc + "/";
+                        double shortenLng = Math.Round(_client.CurrentLongitude, 3);
+                        double shortenLat = Math.Round(_client.CurrentLatitude, 3);
+                        string pokemap = shortenLat + ";" + shortenLng;
+                        pokemap = pokemap.Replace(",", ".").Replace(";", ",");
+                        string pokevishtml = "https://skiplagged.com/pokemon/#" + pokemap +",14";
+                        telegramAnswer +=
+                            "\nNickname: " + profil.PlayerData.Username 
+                            + "\nLevel: " + ps.First().Level
+                            + "\nEXP Needed: " + ((ps.First().NextLevelXp - ps.First().PrevLevelXp) - StringUtils.getExpDiff(ps.First().Level))
+                            + $"\nCurrent EXP: {curexp} ({Math.Round(curexppercent)}%)"
+                            + "\nEXP to Level up: " + ((ps.First().NextLevelXp) - (ps.First().Experience))
+                            + "\nKM walked: " + ps.First().KmWalked
+                            + "\nPokeStops visited: " + ps.First().PokeStopVisits
+                            + "\nStardust: " + profil.PlayerData.Currencies.ToArray()[1].Amount
+                            + "\nPokemons: " + await _client.Inventory.getPokemonCount() + "/" + profil.PlayerData.MaxPokemonStorage
+                            + "\nItems: " + await _client.Inventory.getInventoryCount() + " / " + profil.PlayerData.MaxItemStorage
+                            + "\nCurentLocation:\n" + curlochtml
+                            + "\nPokevision:\n" + pokevishtml; 
                         break;
                     case TelegramUtilTask.GET_TOPLIST:
                         int shows = 10;
@@ -336,8 +325,8 @@ namespace PokemonGo.RocketAPI.Logic.Utils
 
                         var myPokemons = await _inventory.GetPokemons();
                         myPokemons = myPokemons.OrderByDescending(x => x.Cp);
-                        var profile = await _client.GetProfile();
-                        telegramAnswer = $"Top {shows} Pokemons of {profile.Profile.Username}:";
+                        var profile = await _client.Player.GetPlayer();
+                        telegramAnswer = $"Top {shows} Pokemons of {profile.PlayerData.Username}:";
 
                         IEnumerable<PokemonData> topPokemon = myPokemons.Take(shows);
                         foreach (PokemonData pokemon in topPokemon)
@@ -419,10 +408,10 @@ namespace PokemonGo.RocketAPI.Logic.Utils
                         {
                             if (_clientSettings.pokemonsToEvolve.Contains(pokemon.PokemonId))
                             {
-                                var evolvePokemonOutProto = await _client.EvolvePokemon((ulong)pokemon.Id);
-                                if (evolvePokemonOutProto.Result == EvolvePokemonOut.Types.EvolvePokemonStatus.PokemonEvolvedSuccess)
+                                var evolvePokemonOutProto = await _client.Inventory.EvolvePokemon((ulong)pokemon.Id);
+                                if (evolvePokemonOutProto.Result == POGOProtos.Networking.Responses.EvolvePokemonResponse.Types.Result.Success)
                                 {
-                                    await _telegram.SendTextMessageAsync(_chatid, $"Evolved {pokemon.PokemonId} successfully for {evolvePokemonOutProto.ExpAwarded}xp", replyMarkup: new ReplyKeyboardHide());
+                                    await _telegram.SendTextMessageAsync(_chatid, $"Evolved {pokemon.PokemonId} successfully for {evolvePokemonOutProto.ExperienceAwarded}xp", replyMarkup: new ReplyKeyboardHide());
                                 }
                                 else
                                 {
