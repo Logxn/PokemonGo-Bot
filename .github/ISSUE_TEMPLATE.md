@@ -17,4 +17,6 @@ Add a screenshot!
 
 Choose a good title!
 
+Dont forget to delete this template!
+
 Post.
