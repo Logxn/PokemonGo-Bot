@@ -143,6 +143,7 @@
             this.label30 = new System.Windows.Forms.Label();
             this.label32 = new System.Windows.Forms.Label();
             this.checkBox15 = new System.Windows.Forms.CheckBox();
+            this.button3 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -1141,6 +1142,7 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.button3);
             this.tabPage1.Controls.Add(this.checkPrxy);
             this.tabPage1.Controls.Add(this.checkBox14);
             this.tabPage1.Controls.Add(this.prxyUser);
@@ -1158,7 +1160,7 @@
             // 
             // checkPrxy
             // 
-            this.checkPrxy.Location = new System.Drawing.Point(0, 80);
+            this.checkPrxy.Location = new System.Drawing.Point(2, 81);
             this.checkPrxy.Margin = new System.Windows.Forms.Padding(2);
             this.checkPrxy.Name = "checkPrxy";
             this.checkPrxy.Size = new System.Drawing.Size(488, 24);
@@ -1373,6 +1375,16 @@
             this.checkBox15.Text = "TransferFirstLowIV";
             this.checkBox15.UseVisualStyleBackColor = true;
             // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(4, 111);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(485, 23);
+            this.button3.TabIndex = 7;
+            this.button3.Text = "Disable Proxy";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
+            // 
             // GUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1548,6 +1560,7 @@
         private System.Windows.Forms.TextBox prxyIP;
         private System.Windows.Forms.CheckBox checkBox13;
         private System.Windows.Forms.CheckBox checkBox15;
+        private System.Windows.Forms.Button button3;
     }
 }
 

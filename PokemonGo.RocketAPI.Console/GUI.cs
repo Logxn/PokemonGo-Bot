@@ -374,7 +374,16 @@ namespace PokemonGo.RocketAPI.Console
                             checkedListBox3.SetItemChecked(evolveIDS[line] - 1, true);
                 }
             }
+            // Load Proxy Settings
+            prxyIP.Text = _clientSettings.UseProxyHost;
+            prxyPort.Text = "" + _clientSettings.UseProxyPort;
+            prxyUser.Text = _clientSettings.UseProxyUsername;
+            prxyPort.Text = "" + _clientSettings.UseProxyPort;
 
+            if (prxyIP.Text != string.Empty)
+                _clientSettings.UseProxyVerified = true;
+            if (prxyUser.Text != string.Empty)
+                _clientSettings.UseProxyAuthentication = true;
         }
 
         private void textBox3_KeyPress(object sender, KeyPressEventArgs e)
@@ -1149,6 +1158,15 @@ namespace PokemonGo.RocketAPI.Console
             }
             _clientSettings.UseProxyVerified = true;
             button1.Enabled = true;
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            _clientSettings.UseProxyHost = string.Empty;
+            _clientSettings.UseProxyPort = 0;
+            _clientSettings.UseProxyUsername = string.Empty;
+            _clientSettings.UseProxyVerified = false;
+            _clientSettings.UseProxyAuthentication = false;
         }
     }
 }
