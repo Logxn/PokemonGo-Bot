@@ -192,11 +192,11 @@ namespace PokemonGo.RocketAPI.Rpc
             return await PostProtoPayload<Request, UseItemXpBoostResponse>(RequestType.UseItemXpBoost, message);
         }
 
-        public async Task<UseItemEggIncubatorResponse> UseItemEggIncubator(ItemId itemId, ulong pokemonId)
+        public async Task<UseItemEggIncubatorResponse> UseItemEggIncubator(string itemId, ulong pokemonId)
         {
             var message = new UseItemEggIncubatorMessage()
             {
-                ItemId = itemId.ToString(),
+                ItemId = itemId,
                 PokemonId = pokemonId
             };
 
@@ -414,17 +414,14 @@ namespace PokemonGo.RocketAPI.Rpc
         }
 
 
-        public async Task<IEnumerable<EggIncubator>> GetEggIncubators(bool includeBasicIncubators)
+        public async Task<IEnumerable<EggIncubator>> GetEggIncubators()
         {
-            //var inventory = await GetInventory();
-            //var availableIncubators = inventory.InventoryDelta.InventoryItems.Where(x => x.InventoryItemData.EggIncubators != null)
-            //                                              .Select(i => i.InventoryItemData.EggIncubators.EggIncubator)
-            //                                              .Where(i => i != null);
-
-            //var incubators = !includeBasicIncubators ? availableIncubators.Where(x => x.itemid == ItemId.ItemIncubatorBasicUnlimited.ToString()) :
-            //                                           availableIncubators.Where(x => x.UsesRemaining > 0 || x.ItemId == ItemId.ItemIncubatorBasicUnlimited.ToString());
-            //return incubators;
-            return null;
+            var inventory = await GetInventory();
+            return
+                inventory.InventoryDelta.InventoryItems
+                    .Where(x => x.InventoryItemData.EggIncubators != null)
+                    .SelectMany(i => i.InventoryItemData.EggIncubators.EggIncubator)
+                    .Where(i => i != null);
         }
 
         public async Task<IEnumerable<PokemonData>> GetDuplicatePokemonToTransfer(bool keepPokemonsThatCanEvolve = false, bool orderByIv = false)
@@ -465,10 +462,10 @@ namespace PokemonGo.RocketAPI.Rpc
                     if (orderByIv)
                     {
                         results.AddRange(pokemonList.Where(x => x.PokemonId == pokemon.Key)
-                                                    .OrderByDescending(PokemonInfo.CalculatePokemonPerfection)
+                                                    .OrderBy(PokemonInfo.CalculatePokemonPerfection)
                                                     .ThenBy(n => n.StaminaMax)
                                                     .Skip(amountToSkip)
-                                                    .ToList());  
+                                                    .ToList());
                     }
                     else
                     {
@@ -490,7 +487,7 @@ namespace PokemonGo.RocketAPI.Rpc
                     .GroupBy(p => p.PokemonId)
                     .Where(x => x.Count() > 0)
                     .SelectMany(p => p.Where(x => x.Favorite == 0)
-                    .OrderByDescending(PokemonInfo.CalculatePokemonPerfection)
+                    .OrderBy(PokemonInfo.CalculatePokemonPerfection)
                     .ThenBy(n => n.StaminaMax)
                     .Skip(_client.Settings.HoldMaxDoublePokemons)
                     .ToList());

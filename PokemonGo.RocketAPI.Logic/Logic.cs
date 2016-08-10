@@ -20,6 +20,7 @@ using POGOProtos.Map.Fort;
 using POGOProtos.Data;
 using System.Threading;
 using POGOProtos.Inventory;
+using Newtonsoft.Json;
 
 namespace PokemonGo.RocketAPI.Logic
 {
@@ -129,7 +130,7 @@ namespace PokemonGo.RocketAPI.Logic
                     }
 
                     if (_clientSettings.AutoIncubate)
-                    {
+                    { 
                         await StartIncubation();
                     }
 
@@ -683,50 +684,61 @@ namespace PokemonGo.RocketAPI.Logic
         {
             try
             {
-                var incubators = (await _client.Inventory.GetEggIncubators(_clientSettings.UseBasicIncubators)).ToList();
-                var unusedEggs = (await _client.Inventory.GetEggs()).OrderBy(x => x.EggKmWalkedTarget - x.EggKmWalkedStart).ToList();
-                var pokemons = (await _client.Inventory.GetPokemons()).ToList();
+                //await _client.Inventory.RefreshCachedInventory(); // REFRESH
+                //var incubators = (await _client.Inventory.GetEggIncubators()).ToList();
+                //var unusedEggs = (await _client.Inventory.GetEggs()).Where(x => string.IsNullOrEmpty(x.EggIncubatorId)).OrderBy(x => x.EggKmWalkedTarget - x.EggKmWalkedStart).ToList();
+                //var pokemons = (await _client.Inventory.GetPokemons()).ToList();
                 
-                var playerStats = await _client.Inventory.GetPlayerStats();
-                var stats = playerStats.First();
+                //var playerStats = await _client.Inventory.GetPlayerStats();
+                //var stats = playerStats.First();
+                
+                //var kmWalked = stats.KmWalked;
 
-                Logger.ColoredConsoleWrite(ConsoleColor.DarkGray, "Incubation is still WIP");
-                 await Incubate(stats.KmWalked, incubators, unusedEggs, pokemons);
+                //var rememberedIncubatorsFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory + "\\Configs", "incubators.json");
+                //var rememberedIncubators = GetRememberedIncubators(rememberedIncubatorsFilePath);
+                //var newRememberedIncubators = new List<IncubatorUsage>();
+
+                //foreach (var incubator in incubators)
+                //{
+                //    if (incubator.PokemonId == 0)
+                //    {
+                //        // Unlimited incubators prefer short eggs, limited incubators prefer long eggs
+                //        // Special case: If only one incubator is available at all, it will prefer long eggs
+                //        var egg = (incubator.ItemId == ItemId.ItemIncubatorBasicUnlimited && incubators.Count > 1)
+                //            ? unusedEggs.FirstOrDefault()
+                //            : unusedEggs.LastOrDefault();
+
+                //        if (egg == null)
+                //            continue;
+                         
+                //        if (egg.EggKmWalkedTarget < 5 && incubator.ItemId != ItemId.ItemIncubatorBasicUnlimited)
+                //            continue;
+
+                //        var response = await _client.Inventory.UseItemEggIncubator(incubator.Id, egg.Id);
+                //        unusedEggs.Remove(egg);
+
+                //        newRememberedIncubators.Add(new IncubatorUsage { IncubatorId = incubator.Id, PokemonId = egg.Id });
+
+                //        Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, "Added Egg which needs " + egg.EggKmWalkedTarget + "km");
+                //    }
+                //    else
+                //    {
+                //        newRememberedIncubators.Add(new IncubatorUsage
+                //        {
+                //            IncubatorId = incubator.Id,
+                //            PokemonId = incubator.PokemonId
+                //        });
+
+                //        Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, "Egg (" + (incubator.TargetKmWalked - incubator.StartKmWalked) + "km) need to walk " + (incubator.TargetKmWalked - kmWalked) + "km.");
+                //    }
+                //}
+
+                //if (!newRememberedIncubators.SequenceEqual(rememberedIncubators))
+                //    SaveRememberedIncubators(newRememberedIncubators, rememberedIncubatorsFilePath); 
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                // ignored
-            }
-        }
-
-        public async Task Incubate(float kmWalked, List<EggIncubator> incubators, List<PokemonData> unusedEggs, List<PokemonData> pokemons)
-        {
-            foreach (var incubator in incubators)
-            {
-                if (incubator.PokemonId == 0)
-                {
-                    // Unlimited incubators prefer short eggs, limited incubators prefer long eggs
-                    var egg = incubator.IncubatorType == EggIncubatorType.IncubatorUnset
-                        ? unusedEggs.FirstOrDefault()
-                        : unusedEggs.LastOrDefault();
-
-                    if (egg == null)
-                    {
-                        continue;
-                    }
-
-                    await _client.Inventory.UseItemEggIncubator(incubator.ItemId, egg.Id);
-
-                    //TODO: Use incubator.Id with egg.Id
-                    unusedEggs.Remove(egg);
-                }
-                else
-                {
-                    // Wird gerade gebrütet
-                    var kmToWalk = incubator.TargetKmWalked - incubator.StartKmWalked;
-                    var kmRemaining = incubator.TargetKmWalked - kmWalked;
-                    Logger.ColoredConsoleWrite(ConsoleColor.DarkGray, $"Incubator {incubator.ItemId} needs {kmRemaining.ToString("N2")}km/{kmToWalk.ToString("N2")}km to hatch.");
-                }
+                Logger.Error(e.StackTrace.ToString()); 
             }
         }
 
@@ -906,6 +918,33 @@ namespace PokemonGo.RocketAPI.Logic
                 * Math.Sin(d_lon / 2) * Math.Sin(d_lon / 2);
             double d = 2 * r_earth * Math.Atan2(Math.Sqrt(alpha), Math.Sqrt(1 - alpha));
             return d;
+        }
+        private static List<IncubatorUsage> GetRememberedIncubators(string filePath)
+        {
+            Directory.CreateDirectory(Path.GetDirectoryName(filePath));
+
+            if (File.Exists(filePath))
+                return JsonConvert.DeserializeObject<List<IncubatorUsage>>(File.ReadAllText(filePath, Encoding.UTF8));
+
+            return new List<IncubatorUsage>(0);
+        }
+
+        private static void SaveRememberedIncubators(List<IncubatorUsage> incubators, string filePath)
+        {
+            Directory.CreateDirectory(Path.GetDirectoryName(filePath));
+
+            File.WriteAllText(filePath, JsonConvert.SerializeObject(incubators), Encoding.UTF8);
+        }
+
+        private class IncubatorUsage : IEquatable<IncubatorUsage>
+        {
+            public string IncubatorId;
+            public ulong PokemonId;
+
+            public bool Equals(IncubatorUsage other)
+            {
+                return other != null && other.IncubatorId == IncubatorId && other.PokemonId == PokemonId;
+            }
         }
     }
 }
