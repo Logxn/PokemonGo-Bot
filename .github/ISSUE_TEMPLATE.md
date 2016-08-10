@@ -9,6 +9,7 @@
 -> DONT OPEN A NEW ISSUE IF YOU DONT USE THE NEWEST VERSION!
 
 If you do not respect the them, your issue get closed without any comment
+
 #########################################################################
 
 Describe your problem!
