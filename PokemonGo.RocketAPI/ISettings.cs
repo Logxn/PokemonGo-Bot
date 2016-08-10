@@ -68,5 +68,7 @@ namespace PokemonGo.RocketAPI
         List<PokemonId> catchPokemonSkipList { get; }
 
 
+        string SelectedLanguage { get; }
+
     }
 }
