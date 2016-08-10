@@ -163,6 +163,9 @@ namespace PokemonGo.RocketAPI.Console
                                 case 26:
                                     Globals.useBasicIncubators = bool.Parse(line);
                                     break;
+                                case 27:
+                                    Globals.TransferFirstLowIV = bool.Parse(line);
+                                    break;
                             }
                         }
                         catch (Exception)
@@ -428,6 +431,7 @@ namespace PokemonGo.RocketAPI.Console
         public static bool gerNames = false;
         public static bool pokeList = true;
         public static bool keepPokemonsThatCanEvolve = true;
+        public static bool TransferFirstLowIV = true;
         public static bool pokevision = false;
 
         public static bool useLuckyEggIfNotRunning = false;

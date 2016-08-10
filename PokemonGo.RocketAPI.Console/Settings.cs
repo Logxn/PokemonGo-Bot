@@ -47,7 +47,8 @@ namespace PokemonGo.RocketAPI.Console
 
         public bool UseLuckyEgg => Globals.useluckyegg;
         public bool keepPokemonsThatCanEvolve => Globals.keepPokemonsThatCanEvolve;
-
+        public bool TransferFirstLowIV => Globals.TransferFirstLowIV;
+ 
         public bool UseBasicIncubators => Globals.useBasicIncubators;
         public bool pokevision => Globals.pokevision;
          
