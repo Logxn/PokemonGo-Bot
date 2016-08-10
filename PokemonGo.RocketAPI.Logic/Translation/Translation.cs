@@ -33,7 +33,7 @@ namespace PokemonGo.RocketAPI.Logic.Translation
             if(System.IO.File.Exists("Translations/" + this.countryCode + ".json")) { 
 
                 if(countryCode != null) { 
-                    lookup = JsonConvert.DeserializeObject<Dictionary<String, String>>(System.IO.File.ReadAllText("translations/" + this.countryCode + ".json"));
+                    lookup = JsonConvert.DeserializeObject<Dictionary<String, String>>(System.IO.File.ReadAllText("translations/" + this.countryCode + ".json", Encoding.Default));
                 }
             }
             else
