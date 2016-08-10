@@ -517,7 +517,7 @@ namespace PokemonGo.RocketAPI.Logic
             foreach (var pokemon in pokemons)
             {
                 count++;
-                if (count >= 3)
+                if (count >= 6)
                 {
                     count = 0;
                     await StatsLog(client);

@@ -310,9 +310,9 @@ namespace PokemonGo.RocketAPI.Rpc
                 .Select(x => new ItemData { ItemId = x.ItemId, Count = x.Count - settings.itemRecycleFilter.Single(f => f.Key == (ItemId)x.ItemId).Value, Unseen = x.Unseen });
         }
 
-        public async Task<IEnumerable<PokemonData>> GetPokemons()
+        public async Task<IEnumerable<PokemonData>> GetPokemons(bool clearcache = false)
         {
-            var inventory = await GetInventory();
+            var inventory = await GetInventory(clearcache);
             return
                 inventory.InventoryDelta.InventoryItems.Select(i => i.InventoryItemData?.PokemonData)
                     .Where(p => p != null && p?.PokemonId > 0);
@@ -426,7 +426,7 @@ namespace PokemonGo.RocketAPI.Rpc
 
         public async Task<IEnumerable<PokemonData>> GetDuplicatePokemonToTransfer(bool keepPokemonsThatCanEvolve = false, bool orderByIv = false)
         {
-            var myPokemon = await GetPokemons();
+            var myPokemon = await GetPokemons(true);
 
             var myPokemonList = myPokemon.ToList();
 
