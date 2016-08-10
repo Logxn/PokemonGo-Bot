@@ -465,7 +465,7 @@ namespace PokemonGo.RocketAPI.Rpc
                     if (orderByIv)
                     {
                         results.AddRange(pokemonList.Where(x => x.PokemonId == pokemon.Key)
-                                                    .OrderByDescending(PokemonInfo.CalculatePokemonPerfection)
+                                                    .OrderBy(PokemonInfo.CalculatePokemonPerfection)
                                                     .ThenBy(n => n.StaminaMax)
                                                     .Skip(amountToSkip)
                                                     .ToList());  
@@ -490,7 +490,7 @@ namespace PokemonGo.RocketAPI.Rpc
                     .GroupBy(p => p.PokemonId)
                     .Where(x => x.Count() > 0)
                     .SelectMany(p => p.Where(x => x.Favorite == 0)
-                    .OrderByDescending(PokemonInfo.CalculatePokemonPerfection)
+                    .OrderBy(PokemonInfo.CalculatePokemonPerfection)
                     .ThenBy(n => n.StaminaMax)
                     .Skip(_client.Settings.HoldMaxDoublePokemons)
                     .ToList());
