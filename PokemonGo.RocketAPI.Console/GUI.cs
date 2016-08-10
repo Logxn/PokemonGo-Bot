@@ -375,15 +375,28 @@ namespace PokemonGo.RocketAPI.Console
                 }
             }
             // Load Proxy Settings
+            if (_clientSettings.UseProxyHost != string.Empty) 
             prxyIP.Text = _clientSettings.UseProxyHost;
+
+            if (_clientSettings.UseProxyPort != 0)
             prxyPort.Text = "" + _clientSettings.UseProxyPort;
+    
+            if (_clientSettings.UseProxyUsername != string.Empty)
             prxyUser.Text = _clientSettings.UseProxyUsername;
-            prxyPort.Text = "" + _clientSettings.UseProxyPort;
+
+            if (_clientSettings.UseProxyPassword != string.Empty)
+            prxyPass.Text = "" + _clientSettings.UseProxyPassword;
 
             if (prxyIP.Text != string.Empty)
                 _clientSettings.UseProxyVerified = true;
             if (prxyUser.Text != string.Empty)
                 _clientSettings.UseProxyAuthentication = true;
+
+            // Placeholder event add
+            prxyIP.GotFocus += new EventHandler(prxy_GotFocus);
+            prxyPort.GotFocus += new EventHandler(prxy_GotFocus);
+            prxyUser.GotFocus += new EventHandler(prxy_GotFocus);
+            prxyPass.GotFocus += new EventHandler(prxy_GotFocus); 
         }
 
         private void textBox3_KeyPress(object sender, KeyPressEventArgs e)
@@ -1058,12 +1071,14 @@ namespace PokemonGo.RocketAPI.Console
                 button1.Enabled = false;
                 prxyIP.Enabled = true;
                 prxyPort.Enabled = true;
+                UserSettings.Default.UseProxyVerified = true;
             }
             else
             {
                 button1.Enabled = true;
                 prxyIP.Enabled = false;
                 prxyPort.Enabled = false;
+                UserSettings.Default.UseProxyVerified = false;
             }
 
         }
@@ -1167,6 +1182,29 @@ namespace PokemonGo.RocketAPI.Console
             _clientSettings.UseProxyUsername = string.Empty;
             _clientSettings.UseProxyVerified = false;
             _clientSettings.UseProxyAuthentication = false;
+        }
+
+        private void prxy_GotFocus(object sender, EventArgs e)
+        {
+            TextBox tb = (TextBox)sender;
+            if (tb.Text == "HTTPS Proxy IP")
+            {
+                tb.Text = "";
+            } else if (tb.Text == "HTTPS Proxy Port")
+            {
+                tb.Text = "";
+            } else if (tb.Text == "Proxy Username")
+            {
+                tb.Text = "";
+            } else if (tb.Text == "Proxy Password")
+            {
+                tb.Text = "";
+            }
+        }
+
+        private void linkLabel5_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Process.Start("http://proxylist.hidemyass.com/search-1297445#listable");
         }
     }
 }

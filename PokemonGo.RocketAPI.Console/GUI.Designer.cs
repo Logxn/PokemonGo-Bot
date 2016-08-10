@@ -52,6 +52,7 @@
             this.textBox3 = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.checkBox15 = new System.Windows.Forms.CheckBox();
             this.label29 = new System.Windows.Forms.Label();
             this.textBox24 = new System.Windows.Forms.TextBox();
             this.label28 = new System.Windows.Forms.Label();
@@ -124,6 +125,7 @@
             this.tabPokemon = new System.Windows.Forms.TabPage();
             this.tabItems = new System.Windows.Forms.TabPage();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.button3 = new System.Windows.Forms.Button();
             this.checkPrxy = new System.Windows.Forms.Button();
             this.checkBox14 = new System.Windows.Forms.CheckBox();
             this.prxyUser = new System.Windows.Forms.TextBox();
@@ -142,8 +144,11 @@
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.label30 = new System.Windows.Forms.Label();
             this.label32 = new System.Windows.Forms.Label();
-            this.checkBox15 = new System.Windows.Forms.CheckBox();
-            this.button3 = new System.Windows.Forms.Button();
+            this.label34 = new System.Windows.Forms.Label();
+            this.label35 = new System.Windows.Forms.Label();
+            this.label36 = new System.Windows.Forms.Label();
+            this.label37 = new System.Windows.Forms.Label();
+            this.linkLabel5 = new System.Windows.Forms.LinkLabel();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -398,6 +403,18 @@
             this.groupBox3.TabIndex = 3;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Bot Settings";
+            // 
+            // checkBox15
+            // 
+            this.checkBox15.AutoSize = true;
+            this.checkBox15.Checked = true;
+            this.checkBox15.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox15.Location = new System.Drawing.Point(184, 18);
+            this.checkBox15.Name = "checkBox15";
+            this.checkBox15.Size = new System.Drawing.Size(114, 17);
+            this.checkBox15.TabIndex = 12;
+            this.checkBox15.Text = "TransferFirstLowIV";
+            this.checkBox15.UseVisualStyleBackColor = true;
             // 
             // label29
             // 
@@ -1142,6 +1159,11 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.linkLabel5);
+            this.tabPage1.Controls.Add(this.label37);
+            this.tabPage1.Controls.Add(this.label36);
+            this.tabPage1.Controls.Add(this.label35);
+            this.tabPage1.Controls.Add(this.label34);
             this.tabPage1.Controls.Add(this.button3);
             this.tabPage1.Controls.Add(this.checkPrxy);
             this.tabPage1.Controls.Add(this.checkBox14);
@@ -1158,9 +1180,19 @@
             this.tabPage1.Text = "Proxies";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(26, 114);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(487, 23);
+            this.button3.TabIndex = 7;
+            this.button3.Text = "Disable Proxy";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
+            // 
             // checkPrxy
             // 
-            this.checkPrxy.Location = new System.Drawing.Point(2, 81);
+            this.checkPrxy.Location = new System.Drawing.Point(26, 84);
             this.checkPrxy.Margin = new System.Windows.Forms.Padding(2);
             this.checkPrxy.Name = "checkPrxy";
             this.checkPrxy.Size = new System.Drawing.Size(488, 24);
@@ -1172,7 +1204,7 @@
             // checkBox14
             // 
             this.checkBox14.AutoSize = true;
-            this.checkBox14.Location = new System.Drawing.Point(250, 12);
+            this.checkBox14.Location = new System.Drawing.Point(274, 15);
             this.checkBox14.Margin = new System.Windows.Forms.Padding(2);
             this.checkBox14.Name = "checkBox14";
             this.checkBox14.Size = new System.Drawing.Size(116, 17);
@@ -1184,43 +1216,47 @@
             // prxyUser
             // 
             this.prxyUser.Enabled = false;
-            this.prxyUser.Location = new System.Drawing.Point(250, 34);
+            this.prxyUser.Location = new System.Drawing.Point(274, 37);
             this.prxyUser.Margin = new System.Windows.Forms.Padding(2);
             this.prxyUser.Name = "prxyUser";
             this.prxyUser.Size = new System.Drawing.Size(239, 20);
             this.prxyUser.TabIndex = 4;
+            this.prxyUser.Text = "Proxy Username";
             // 
             // prxyPort
             // 
             this.prxyPort.Enabled = false;
-            this.prxyPort.Location = new System.Drawing.Point(2, 57);
+            this.prxyPort.Location = new System.Drawing.Point(26, 60);
             this.prxyPort.Margin = new System.Windows.Forms.Padding(2);
             this.prxyPort.Name = "prxyPort";
             this.prxyPort.Size = new System.Drawing.Size(225, 20);
             this.prxyPort.TabIndex = 3;
+            this.prxyPort.Text = "HTTPS Proxy Port";
             // 
             // prxyPass
             // 
             this.prxyPass.Enabled = false;
-            this.prxyPass.Location = new System.Drawing.Point(250, 57);
+            this.prxyPass.Location = new System.Drawing.Point(274, 60);
             this.prxyPass.Margin = new System.Windows.Forms.Padding(2);
             this.prxyPass.Name = "prxyPass";
             this.prxyPass.Size = new System.Drawing.Size(239, 20);
             this.prxyPass.TabIndex = 2;
+            this.prxyPass.Text = "Proxy Password";
             // 
             // prxyIP
             // 
             this.prxyIP.Enabled = false;
-            this.prxyIP.Location = new System.Drawing.Point(2, 34);
+            this.prxyIP.Location = new System.Drawing.Point(26, 37);
             this.prxyIP.Margin = new System.Windows.Forms.Padding(2);
             this.prxyIP.Name = "prxyIP";
             this.prxyIP.Size = new System.Drawing.Size(225, 20);
             this.prxyIP.TabIndex = 1;
+            this.prxyIP.Text = "HTTPS Proxy IP";
             // 
             // checkBox13
             // 
             this.checkBox13.AutoSize = true;
-            this.checkBox13.Location = new System.Drawing.Point(2, 12);
+            this.checkBox13.Location = new System.Drawing.Point(26, 15);
             this.checkBox13.Margin = new System.Windows.Forms.Padding(2);
             this.checkBox13.Name = "checkBox13";
             this.checkBox13.Size = new System.Drawing.Size(82, 17);
@@ -1363,27 +1399,56 @@
             this.label32.TabIndex = 46;
             this.label32.Text = "If you\'re Softbanned, and unban is not working. Get a new IP.\r\n";
             // 
-            // checkBox15
+            // label34
             // 
-            this.checkBox15.AutoSize = true;
-            this.checkBox15.Checked = true;
-            this.checkBox15.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox15.Location = new System.Drawing.Point(184, 18);
-            this.checkBox15.Name = "checkBox15";
-            this.checkBox15.Size = new System.Drawing.Size(114, 17);
-            this.checkBox15.TabIndex = 12;
-            this.checkBox15.Text = "TransferFirstLowIV";
-            this.checkBox15.UseVisualStyleBackColor = true;
+            this.label34.AutoSize = true;
+            this.label34.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F);
+            this.label34.Location = new System.Drawing.Point(21, 165);
+            this.label34.Name = "label34";
+            this.label34.Size = new System.Drawing.Size(168, 25);
+            this.label34.TabIndex = 8;
+            this.label34.Text = "How Proxy works:";
             // 
-            // button3
+            // label35
             // 
-            this.button3.Location = new System.Drawing.Point(4, 111);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(485, 23);
-            this.button3.TabIndex = 7;
-            this.button3.Text = "Disable Proxy";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
+            this.label35.AutoSize = true;
+            this.label35.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F);
+            this.label35.Location = new System.Drawing.Point(51, 207);
+            this.label35.Name = "label35";
+            this.label35.Size = new System.Drawing.Size(199, 24);
+            this.label35.TabIndex = 9;
+            this.label35.Text = "1. Get a HTTPS Proxy.";
+            // 
+            // label36
+            // 
+            this.label36.AutoSize = true;
+            this.label36.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F);
+            this.label36.Location = new System.Drawing.Point(52, 243);
+            this.label36.Name = "label36";
+            this.label36.Size = new System.Drawing.Size(155, 24);
+            this.label36.TabIndex = 10;
+            this.label36.Text = "2. Put in the Data.";
+            // 
+            // label37
+            // 
+            this.label37.AutoSize = true;
+            this.label37.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F);
+            this.label37.Location = new System.Drawing.Point(52, 277);
+            this.label37.Name = "label37";
+            this.label37.Size = new System.Drawing.Size(130, 24);
+            this.label37.TabIndex = 11;
+            this.label37.Text = "3. Save Proxy.";
+            // 
+            // linkLabel5
+            // 
+            this.linkLabel5.AutoSize = true;
+            this.linkLabel5.Location = new System.Drawing.Point(23, 370);
+            this.linkLabel5.Name = "linkLabel5";
+            this.linkLabel5.Size = new System.Drawing.Size(103, 13);
+            this.linkLabel5.TabIndex = 12;
+            this.linkLabel5.TabStop = true;
+            this.linkLabel5.Text = "Https Proxy List Link";
+            this.linkLabel5.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel5_LinkClicked);
             // 
             // GUI
             // 
@@ -1561,6 +1626,11 @@
         private System.Windows.Forms.CheckBox checkBox13;
         private System.Windows.Forms.CheckBox checkBox15;
         private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Label label35;
+        private System.Windows.Forms.Label label34;
+        private System.Windows.Forms.Label label36;
+        private System.Windows.Forms.Label label37;
+        private System.Windows.Forms.LinkLabel linkLabel5;
     }
 }
 

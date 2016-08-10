@@ -11,6 +11,7 @@ using POGOProtos.Enums;
 using POGOProtos.Networking.Requests;
 using POGOProtos.Networking.Requests.Messages;
 using POGOProtos.Networking.Responses;
+using System.IO;
 
 namespace PokemonGo.RocketAPI.Rpc
 {
