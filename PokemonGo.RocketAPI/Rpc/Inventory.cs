@@ -196,7 +196,7 @@ namespace PokemonGo.RocketAPI.Rpc
         {
             var message = new UseItemEggIncubatorMessage()
             {
-                ItemId = itemId,
+                ItemId = itemId.ToString(),
                 PokemonId = pokemonId
             };
 
