@@ -748,9 +748,9 @@ namespace PokemonGo.RocketAPI.Console
         {
             lang_de_btn_2.Enabled = true;
             lang_spain_btn2.Enabled = true;
-            lang_en_btn2.Enabled = false;
+            lang_en_btn2.Enabled = true;
             lang_ptBR_btn2.Enabled = true;
-            lang_tr_btn2.Enabled = true;
+            lang_tr_btn2.Enabled = false;
             languagestr2 = "tr";
 
             // Pokemon List GUI
