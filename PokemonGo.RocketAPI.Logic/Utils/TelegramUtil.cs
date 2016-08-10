@@ -369,10 +369,12 @@ namespace PokemonGo.RocketAPI.Logic.Utils
                             else { 
                                 foreach (TelegramUtilInformationTopics topic in topics)
                                 {
-                                    String niceName = topic.ToString().Substring(0, 1).ToUpper() + topic.ToString().Substring(1).ToLower();
-                                    telegramAnswer = (_information[topic] ? "Dis" : "En") + "abled information topic " + niceName + "\n";
-                                    _information[topic] = !_information[topic];
-                                    break;
+                                    if (textCMD[1].ToLower() == topic.ToString().ToLower()) {
+                                        String niceName = topic.ToString().Substring(0, 1).ToUpper() + topic.ToString().Substring(1).ToLower();
+                                        _information[topic] = !_information[topic];
+                                        telegramAnswer = (_information[topic] ? "Dis" : "En") + "abled information topic " + niceName + "\n";
+                                        break;
+                                    }
                                 }
                             }
                         }
