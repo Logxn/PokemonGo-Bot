@@ -1,23 +1,23 @@
 ######################## RULES. READ BEFORE POSTING! ########################
 
--> DONT OPEN A NEW ISSUE IF YOU DIDNT SEARCH YOUR PROBLEM IN THE ISSUES!
+-> SEARCH BEFORE YOU OPEN A NEW ISSUE!
 
--> DONT OPEN A NEW ISSUE IF YOUR ISSUE GOT ANSWERED PERVIOUSLY!
+-> DON'T CREATE AN NEW ISSUE IF YOUR ISSUE WAS ANSWERED PERVIOUSLY!
 
--> DONT OPEN A NEW ISSUE IF YOUR "ISSUE" IS A QUESTION/SUGGESTION!
+-> DON'T CREATE AN NEW ISSUE IF YOUR ISSUE IS A QUESTION/SUGGESTION!
 
--> DONT OPEN A NEW ISSUE IF YOU DONT USE THE NEWEST VERSION!
+-> CHECK IF YOU ARE USING THE LATEST VERSION BEFORE YOU CREATE AN NEW ISSUE!
 
-If you do not respect the them, your issue get closed without any comment
+If you don't follow them, your issue will be closed without any comment.
 
 #########################################################################
 
-Describe your problem!
+1. Delete this template
 
-Add a screenshot!
+2. Describe your problem
 
-Choose a good title!
+3. Add a screenshot
 
-Dont forget to delete this template!
+4. Choose a good title
 
-Post.
+5. Post
