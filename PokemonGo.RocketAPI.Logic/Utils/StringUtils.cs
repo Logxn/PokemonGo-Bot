@@ -574,7 +574,7 @@ namespace PokemonGo.RocketAPI.Logic.Utils
                 case 38:
                     return 2500000;
                 case 39:
-                    return 1000000;
+                    return 5000000;
                 case 40:
                     return 1000000;
             }
