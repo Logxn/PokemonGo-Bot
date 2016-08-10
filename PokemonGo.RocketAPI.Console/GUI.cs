@@ -18,6 +18,7 @@ namespace PokemonGo.RocketAPI.Console
 {
     public partial class GUI : Form
     {
+        
         public static NumberStyles cords = NumberStyles.AllowDecimalPoint | NumberStyles.AllowLeadingSign;
         public static int[] evolveBlacklist = {
             3, 6, 9, 12, 15, 18, 20, 22, 24, 26, 28, 31, 34, 36, 38, 40, 42, 45, 47, 49, 51, 53, 55, 57, 59, 62, 65, 68, 71, 73, 76, 78, 80, 82, 83, 85, 87, 89, 91, 94, 95, 97, 99, 101, 103, 105, 106, 107, 108, 110, 112, 113, 114, 115, 117, 119, 121, 122, 123, 124, 125, 126, 127, 128, 130, 131, 132, 134, 135, 136, 137, 139, 141, 142, 143, 144, 145, 146, 149, 150, 151
@@ -70,8 +71,11 @@ namespace PokemonGo.RocketAPI.Console
             }
         }
 
+        public static ISettings _clientSettings;
+
         private void GUI_Load(object sender, EventArgs e)
         {
+            _clientSettings = new Settings();
             // Create missing Files
             Directory.CreateDirectory(Program.path);
             Directory.CreateDirectory(Program.path_translation);
@@ -1059,8 +1063,7 @@ namespace PokemonGo.RocketAPI.Console
             }
 
         }
-
-        public readonly ISettings _clientSettings;
+        
         public bool AcceptAllCertifications(object sender, System.Security.Cryptography.X509Certificates.X509Certificate certification, System.Security.Cryptography.X509Certificates.X509Chain chain, System.Net.Security.SslPolicyErrors sslPolicyErrors)
         {
             return true;
@@ -1134,7 +1137,6 @@ namespace PokemonGo.RocketAPI.Console
                 _clientSettings.UseProxyPassword = prxyPass.Text;
                 _clientSettings.UseProxyAuthentication = true;
             }
-
         }
     }
 }
