@@ -192,7 +192,7 @@ namespace PokemonGo.RocketAPI.Rpc
             return await PostProtoPayload<Request, UseItemXpBoostResponse>(RequestType.UseItemXpBoost, message);
         }
 
-        public async Task<UseItemEggIncubatorResponse> UseItemEggIncubator(string itemId, ulong pokemonId)
+        public async Task<UseItemEggIncubatorResponse> UseItemEggIncubator(ItemId itemId, ulong pokemonId)
         {
             var message = new UseItemEggIncubatorMessage()
             {

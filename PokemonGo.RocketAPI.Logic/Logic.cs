@@ -19,6 +19,7 @@ using POGOProtos.Networking.Responses;
 using POGOProtos.Map.Fort;
 using POGOProtos.Data;
 using System.Threading;
+using POGOProtos.Inventory;
 
 namespace PokemonGo.RocketAPI.Logic
 {
@@ -690,7 +691,7 @@ namespace PokemonGo.RocketAPI.Logic
                 var stats = playerStats.First();
 
                 Logger.ColoredConsoleWrite(ConsoleColor.DarkGray, "Incubation is still WIP");
-               // await _client.Inventory.UseItemEggIncubator(stats.KmWalked, incubators, unusedEggs, pokemons);
+                 await Incubate(stats.KmWalked, incubators, unusedEggs, pokemons);
             }
             catch (Exception)
             {
@@ -698,6 +699,36 @@ namespace PokemonGo.RocketAPI.Logic
             }
         }
 
+        public async Task Incubate(float kmWalked, List<EggIncubator> incubators, List<PokemonData> unusedEggs, List<PokemonData> pokemons)
+        {
+            foreach (var incubator in incubators)
+            {
+                if (incubator.PokemonId == 0)
+                {
+                    // Unlimited incubators prefer short eggs, limited incubators prefer long eggs
+                    var egg = incubator.IncubatorType == EggIncubatorType.IncubatorUnset
+                        ? unusedEggs.FirstOrDefault()
+                        : unusedEggs.LastOrDefault();
+
+                    if (egg == null)
+                    {
+                        continue;
+                    }
+
+                    await _client.Inventory.UseItemEggIncubator(incubator.ItemId, egg.Id);
+
+                    //TODO: Use incubator.Id with egg.Id
+                    unusedEggs.Remove(egg);
+                }
+                else
+                {
+                    // Wird gerade gebrütet
+                    var kmToWalk = incubator.TargetKmWalked - incubator.StartKmWalked;
+                    var kmRemaining = incubator.TargetKmWalked - kmWalked;
+                    Logger.ColoredConsoleWrite(ConsoleColor.DarkGray, $"Incubator {incubator.ItemId} needs {kmRemaining.ToString("N2")}km/{kmToWalk.ToString("N2")}km to hatch.");
+                }
+            }
+        }
 
         private async Task TransferDuplicatePokemon(bool keepPokemonsThatCanEvolve = false, bool TransferFirstLowIV = false)
         {
