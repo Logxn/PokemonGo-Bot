@@ -823,7 +823,7 @@ namespace PokemonGo.RocketAPI.Logic
             var pokemonCp = pokemon?.PokemonData?.Cp;
 
 
-            await RecycleItems(true);
+            //await RecycleItems(true);
             var items = await _client.Inventory.GetItems();
             
             var balls = items.Where(i => ((ItemId)i.ItemId == ItemId.ItemPokeBall
