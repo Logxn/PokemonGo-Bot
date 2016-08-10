@@ -1440,7 +1440,7 @@
             this.label30.Name = "label30";
             this.label30.Size = new System.Drawing.Size(466, 20);
             this.label30.TabIndex = 45;
-            this.label30.Text = "If you run more than 1 instace, with the same IP, you get banned.";
+            this.label30.Text = "If you run more than 1 instance with the same IP, you\'ll get banned.";
             // 
             // label32
             // 
