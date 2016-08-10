@@ -259,7 +259,7 @@ namespace PokemonGo.RocketAPI.Console
                             checkBox15.Checked = bool.Parse(line);
                             break;
                         case 28:
-                            langSelected = line;
+                            //langSelected = line;
                             break;
                         default:
                             TextBox temp = (TextBox)Controls.Find("textBox" + tb, true).FirstOrDefault();
@@ -927,6 +927,7 @@ namespace PokemonGo.RocketAPI.Console
             Process.Start("https://high-minded.net/threads/pokemon-go-c-bot-safer-better.50731/");
         }
 
+        private string langSelected = "en";
         private void load_lang()
         {
             //TranslationHandler.getString("username", "Username :");
@@ -986,8 +987,7 @@ namespace PokemonGo.RocketAPI.Console
             chkAutoIncubate.Text = TranslationHandler.GetString("autoIncubate", "Auto incubate");
             chkUseBasicIncubators.Text = TranslationHandler.GetString("useBasicIncubators", "Use basic incubators");
         }
-
-        private string langSelected = "en";
+         
         private void languages_btn_Click(object sender, EventArgs e)
         {
             var clicked = (Button)sender;
