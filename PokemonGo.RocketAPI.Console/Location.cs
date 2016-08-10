@@ -50,6 +50,8 @@ namespace PokemonGo.RocketAPI.Console
             GMapPolygon circle = CreateCircle(new PointLatLng(Globals.latitute, Globals.longitude), Globals.radius, 100);
             routeOverlay.Polygons.Add(circle);
             map.Overlays.Add(routeOverlay);
+            GMapOverlay pokeStopOverlay = new GMapOverlay("PokeStopOverlay");
+            map.Overlays.Add(pokeStopOverlay);
             //show geodata controls
             label1.Visible = true;
             label2.Visible = true;
@@ -89,11 +91,11 @@ namespace PokemonGo.RocketAPI.Console
         {
             this.Invoke(new MethodInvoker(() =>
             {
-                if (!markersOverlay.Markers.Any(m => m.Position.Lat.Equals(value.Latitude) && m.Position.Lng.Equals(value.Longitude)))
+                var pokeStopOverLay = map.Overlays.FirstOrDefault(m => m.Id == "PokeStopOverlay");
+                if (pokeStopOverLay != null && !pokeStopOverLay.Markers.Any(m => m.Position.Lat.Equals(value.Latitude) && m.Position.Lng.Equals(value.Longitude)))
                 {
                     GMarkerGoogle marker = new GMarkerGoogle(new GMap.NET.PointLatLng(value.Latitude, value.Longitude), GMarkerGoogleType.blue);
-                    markersOverlay.Markers.Add(marker);
-                    map.Overlays.Add(markersOverlay);
+                    pokeStopOverLay.Markers.Add(marker);
                 }
             }));
         }
