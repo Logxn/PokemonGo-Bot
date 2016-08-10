@@ -1042,9 +1042,9 @@
             this.chkAutoIncubate.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkAutoIncubate.Location = new System.Drawing.Point(6, 179);
             this.chkAutoIncubate.Name = "chkAutoIncubate";
-            this.chkAutoIncubate.Size = new System.Drawing.Size(92, 17);
+            this.chkAutoIncubate.Size = new System.Drawing.Size(226, 17);
             this.chkAutoIncubate.TabIndex = 33;
-            this.chkAutoIncubate.Text = "Auto incubate";
+            this.chkAutoIncubate.Text = "Auto incubate (No guarantee that it works)";
             this.chkAutoIncubate.UseVisualStyleBackColor = true;
             this.chkAutoIncubate.CheckedChanged += new System.EventHandler(this.chkAutoIncubate_CheckedChanged);
             // 

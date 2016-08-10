@@ -694,57 +694,57 @@ namespace PokemonGo.RocketAPI.Logic
         {
             try
             {
-                //await _client.Inventory.RefreshCachedInventory(); // REFRESH
-                //var incubators = (await _client.Inventory.GetEggIncubators()).ToList();
-                //var unusedEggs = (await _client.Inventory.GetEggs()).Where(x => string.IsNullOrEmpty(x.EggIncubatorId)).OrderBy(x => x.EggKmWalkedTarget - x.EggKmWalkedStart).ToList();
-                //var pokemons = (await _client.Inventory.GetPokemons()).ToList();
-                
-                //var playerStats = await _client.Inventory.GetPlayerStats();
-                //var stats = playerStats.First();
-                
-                //var kmWalked = stats.KmWalked;
+                await _client.Inventory.RefreshCachedInventory(); // REFRESH
+                var incubators = (await _client.Inventory.GetEggIncubators()).ToList();
+                var unusedEggs = (await _client.Inventory.GetEggs()).Where(x => string.IsNullOrEmpty(x.EggIncubatorId)).OrderBy(x => x.EggKmWalkedTarget - x.EggKmWalkedStart).ToList();
+                var pokemons = (await _client.Inventory.GetPokemons()).ToList();
 
-                //var rememberedIncubatorsFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory + "\\Configs", "incubators.json");
-                //var rememberedIncubators = GetRememberedIncubators(rememberedIncubatorsFilePath);
-                //var newRememberedIncubators = new List<IncubatorUsage>();
+                var playerStats = await _client.Inventory.GetPlayerStats();
+                var stats = playerStats.First();
 
-                //foreach (var incubator in incubators)
-                //{
-                //    if (incubator.PokemonId == 0)
-                //    {
-                //        // Unlimited incubators prefer short eggs, limited incubators prefer long eggs
-                //        // Special case: If only one incubator is available at all, it will prefer long eggs
-                //        var egg = (incubator.ItemId == ItemId.ItemIncubatorBasicUnlimited && incubators.Count > 1)
-                //            ? unusedEggs.FirstOrDefault()
-                //            : unusedEggs.LastOrDefault();
+                var kmWalked = stats.KmWalked;
 
-                //        if (egg == null)
-                //            continue;
-                         
-                //        if (egg.EggKmWalkedTarget < 5 && incubator.ItemId != ItemId.ItemIncubatorBasicUnlimited)
-                //            continue;
+                var rememberedIncubatorsFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory + "\\Configs", "incubators.json");
+                var rememberedIncubators = GetRememberedIncubators(rememberedIncubatorsFilePath);
+                var newRememberedIncubators = new List<IncubatorUsage>();
 
-                //        var response = await _client.Inventory.UseItemEggIncubator(incubator.Id, egg.Id);
-                //        unusedEggs.Remove(egg);
+                foreach (var incubator in incubators)
+                {
+                    if (incubator.PokemonId == 0)
+                    {
+                        // Unlimited incubators prefer short eggs, limited incubators prefer long eggs
+                        // Special case: If only one incubator is available at all, it will prefer long eggs
+                        var egg = (incubator.ItemId == ItemId.ItemIncubatorBasicUnlimited && incubators.Count > 1)
+                            ? unusedEggs.FirstOrDefault()
+                            : unusedEggs.LastOrDefault();
 
-                //        newRememberedIncubators.Add(new IncubatorUsage { IncubatorId = incubator.Id, PokemonId = egg.Id });
+                        if (egg == null)
+                            continue;
 
-                //        Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, "Added Egg which needs " + egg.EggKmWalkedTarget + "km");
-                //    }
-                //    else
-                //    {
-                //        newRememberedIncubators.Add(new IncubatorUsage
-                //        {
-                //            IncubatorId = incubator.Id,
-                //            PokemonId = incubator.PokemonId
-                //        });
+                        if (egg.EggKmWalkedTarget < 5 && incubator.ItemId != ItemId.ItemIncubatorBasicUnlimited)
+                            continue;
 
-                //        Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, "Egg (" + (incubator.TargetKmWalked - incubator.StartKmWalked) + "km) need to walk " + (incubator.TargetKmWalked - kmWalked) + "km.");
-                //    }
-                //}
+                        var response = await _client.Inventory.UseItemEggIncubator(incubator.Id, egg.Id);
+                        unusedEggs.Remove(egg);
 
-                //if (!newRememberedIncubators.SequenceEqual(rememberedIncubators))
-                //    SaveRememberedIncubators(newRememberedIncubators, rememberedIncubatorsFilePath); 
+                        newRememberedIncubators.Add(new IncubatorUsage { IncubatorId = incubator.Id, PokemonId = egg.Id });
+
+                        Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, "Added Egg which needs " + egg.EggKmWalkedTarget + "km");
+                    }
+                    else
+                    {
+                        newRememberedIncubators.Add(new IncubatorUsage
+                        {
+                            IncubatorId = incubator.Id,
+                            PokemonId = incubator.PokemonId
+                        });
+
+                        Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, "Egg (" + (incubator.TargetKmWalked - incubator.StartKmWalked) + "km) need to walk " + (incubator.TargetKmWalked - kmWalked) + "km.");
+                    }
+                }
+
+                if (!newRememberedIncubators.SequenceEqual(rememberedIncubators))
+                    SaveRememberedIncubators(newRememberedIncubators, rememberedIncubatorsFilePath);
             }
             catch (Exception e)
             {
