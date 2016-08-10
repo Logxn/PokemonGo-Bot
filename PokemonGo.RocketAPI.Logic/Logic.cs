@@ -386,7 +386,7 @@ namespace PokemonGo.RocketAPI.Logic
                     }
 
                     await TransferDuplicatePokemon(_clientSettings.keepPokemonsThatCanEvolve, _clientSettings.TransferFirstLowIV);
-                    await RecycleItems();
+                    //await RecycleItems();
 
                     ////
                     if (_clientSettings.UseLuckyEggIfNotRunning)
@@ -451,6 +451,7 @@ namespace PokemonGo.RocketAPI.Logic
                     else
                     {
                         items = "Nothing (Inventory Full?)";
+                        await RecycleItems();
                     }
 
                     Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Farmed XP: {fortSearch.ExperienceAwarded}{gems}{egg}, Items: {items}", LogLevel.Info);
@@ -533,7 +534,7 @@ namespace PokemonGo.RocketAPI.Logic
                     }
 
                     await TransferDuplicatePokemon(_clientSettings.keepPokemonsThatCanEvolve, _clientSettings.TransferFirstLowIV);
-                    await RecycleItems();
+                    //await RecycleItems();
                 }
 
                 if (_clientSettings.catchPokemonSkipList.Contains(pokemon.PokemonId))
