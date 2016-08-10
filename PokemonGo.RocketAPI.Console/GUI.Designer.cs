@@ -125,6 +125,11 @@
             this.tabPokemon = new System.Windows.Forms.TabPage();
             this.tabItems = new System.Windows.Forms.TabPage();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.linkLabel5 = new System.Windows.Forms.LinkLabel();
+            this.label37 = new System.Windows.Forms.Label();
+            this.label36 = new System.Windows.Forms.Label();
+            this.label35 = new System.Windows.Forms.Label();
+            this.label34 = new System.Windows.Forms.Label();
             this.button3 = new System.Windows.Forms.Button();
             this.checkPrxy = new System.Windows.Forms.Button();
             this.checkBox14 = new System.Windows.Forms.CheckBox();
@@ -144,11 +149,7 @@
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.label30 = new System.Windows.Forms.Label();
             this.label32 = new System.Windows.Forms.Label();
-            this.label34 = new System.Windows.Forms.Label();
-            this.label35 = new System.Windows.Forms.Label();
-            this.label36 = new System.Windows.Forms.Label();
-            this.label37 = new System.Windows.Forms.Label();
-            this.linkLabel5 = new System.Windows.Forms.LinkLabel();
+            this.label38 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -1149,6 +1150,7 @@
             // 
             // tabItems
             // 
+            this.tabItems.Controls.Add(this.label38);
             this.tabItems.Controls.Add(this.groupBox4);
             this.tabItems.Location = new System.Drawing.Point(4, 22);
             this.tabItems.Name = "tabItems";
@@ -1179,6 +1181,57 @@
             this.tabPage1.TabIndex = 3;
             this.tabPage1.Text = "Proxies";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // linkLabel5
+            // 
+            this.linkLabel5.AutoSize = true;
+            this.linkLabel5.Location = new System.Drawing.Point(23, 370);
+            this.linkLabel5.Name = "linkLabel5";
+            this.linkLabel5.Size = new System.Drawing.Size(103, 13);
+            this.linkLabel5.TabIndex = 12;
+            this.linkLabel5.TabStop = true;
+            this.linkLabel5.Text = "Https Proxy List Link";
+            this.linkLabel5.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel5_LinkClicked);
+            // 
+            // label37
+            // 
+            this.label37.AutoSize = true;
+            this.label37.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F);
+            this.label37.Location = new System.Drawing.Point(52, 277);
+            this.label37.Name = "label37";
+            this.label37.Size = new System.Drawing.Size(130, 24);
+            this.label37.TabIndex = 11;
+            this.label37.Text = "3. Save Proxy.";
+            // 
+            // label36
+            // 
+            this.label36.AutoSize = true;
+            this.label36.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F);
+            this.label36.Location = new System.Drawing.Point(52, 243);
+            this.label36.Name = "label36";
+            this.label36.Size = new System.Drawing.Size(155, 24);
+            this.label36.TabIndex = 10;
+            this.label36.Text = "2. Put in the Data.";
+            // 
+            // label35
+            // 
+            this.label35.AutoSize = true;
+            this.label35.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F);
+            this.label35.Location = new System.Drawing.Point(51, 207);
+            this.label35.Name = "label35";
+            this.label35.Size = new System.Drawing.Size(199, 24);
+            this.label35.TabIndex = 9;
+            this.label35.Text = "1. Get a HTTPS Proxy.";
+            // 
+            // label34
+            // 
+            this.label34.AutoSize = true;
+            this.label34.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F);
+            this.label34.Location = new System.Drawing.Point(21, 165);
+            this.label34.Name = "label34";
+            this.label34.Size = new System.Drawing.Size(168, 25);
+            this.label34.TabIndex = 8;
+            this.label34.Text = "How Proxy works:";
             // 
             // button3
             // 
@@ -1399,56 +1452,14 @@
             this.label32.TabIndex = 46;
             this.label32.Text = "If you\'re Softbanned, and unban is not working. Get a new IP.\r\n";
             // 
-            // label34
+            // label38
             // 
-            this.label34.AutoSize = true;
-            this.label34.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F);
-            this.label34.Location = new System.Drawing.Point(21, 165);
-            this.label34.Name = "label34";
-            this.label34.Size = new System.Drawing.Size(168, 25);
-            this.label34.TabIndex = 8;
-            this.label34.Text = "How Proxy works:";
-            // 
-            // label35
-            // 
-            this.label35.AutoSize = true;
-            this.label35.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F);
-            this.label35.Location = new System.Drawing.Point(51, 207);
-            this.label35.Name = "label35";
-            this.label35.Size = new System.Drawing.Size(199, 24);
-            this.label35.TabIndex = 9;
-            this.label35.Text = "1. Get a HTTPS Proxy.";
-            // 
-            // label36
-            // 
-            this.label36.AutoSize = true;
-            this.label36.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F);
-            this.label36.Location = new System.Drawing.Point(52, 243);
-            this.label36.Name = "label36";
-            this.label36.Size = new System.Drawing.Size(155, 24);
-            this.label36.TabIndex = 10;
-            this.label36.Text = "2. Put in the Data.";
-            // 
-            // label37
-            // 
-            this.label37.AutoSize = true;
-            this.label37.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F);
-            this.label37.Location = new System.Drawing.Point(52, 277);
-            this.label37.Name = "label37";
-            this.label37.Size = new System.Drawing.Size(130, 24);
-            this.label37.TabIndex = 11;
-            this.label37.Text = "3. Save Proxy.";
-            // 
-            // linkLabel5
-            // 
-            this.linkLabel5.AutoSize = true;
-            this.linkLabel5.Location = new System.Drawing.Point(23, 370);
-            this.linkLabel5.Name = "linkLabel5";
-            this.linkLabel5.Size = new System.Drawing.Size(103, 13);
-            this.linkLabel5.TabIndex = 12;
-            this.linkLabel5.TabStop = true;
-            this.linkLabel5.Text = "Https Proxy List Link";
-            this.linkLabel5.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel5_LinkClicked);
+            this.label38.AutoSize = true;
+            this.label38.Location = new System.Drawing.Point(195, 15);
+            this.label38.Name = "label38";
+            this.label38.Size = new System.Drawing.Size(347, 13);
+            this.label38.TabIndex = 6;
+            this.label38.Text = "Warning: Dont set Pokeballs to 0, the Bot will auto choose the best one.";
             // 
             // GUI
             // 
@@ -1500,6 +1511,7 @@
             this.tabGeneral.ResumeLayout(false);
             this.tabPokemon.ResumeLayout(false);
             this.tabItems.ResumeLayout(false);
+            this.tabItems.PerformLayout();
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
@@ -1631,6 +1643,7 @@
         private System.Windows.Forms.Label label36;
         private System.Windows.Forms.Label label37;
         private System.Windows.Forms.LinkLabel linkLabel5;
+        private System.Windows.Forms.Label label38;
     }
 }
 
