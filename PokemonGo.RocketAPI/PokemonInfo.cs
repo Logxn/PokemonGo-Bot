@@ -48,14 +48,15 @@ namespace PokemonGo.RocketAPI
     {
         public static double CalculatePokemonPerfection(PokemonData poke)
         {
-            if (Math.Abs(poke.CpMultiplier + poke.AdditionalCpMultiplier) <= 0)
+        // fix #2540
+        //   if (Math.Abs(poke.CpMultiplier + poke.AdditionalCpMultiplier) <= 0)
                 return (poke.IndividualAttack + poke.IndividualDefense + poke.IndividualStamina) / 45.0 * 100.0;
              
-            var maxCp = CalculateMaxCpMultiplier(poke.PokemonId);
-            var minCp = CalculateMinCpMultiplier(poke);
-            var curCp = CalculateCpMultiplier(poke);
+        //   var maxCp = CalculateMaxCpMultiplier(poke.PokemonId);
+        //   var minCp = CalculateMinCpMultiplier(poke);
+        //   var curCp = CalculateCpMultiplier(poke);
 
-            return (curCp - minCp) / (maxCp - minCp) * 100.0;
+        //   return (curCp - minCp) / (maxCp - minCp) * 100.0;
         }
 
         public static double CalculateMinCpMultiplier(PokemonData poke)
