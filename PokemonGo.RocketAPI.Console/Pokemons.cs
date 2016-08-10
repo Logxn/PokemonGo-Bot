@@ -673,6 +673,7 @@ namespace PokemonGo.RocketAPI.Console
             lang_spain_btn2.Enabled = true;
             lang_en_btn2.Enabled = false;
             lang_ptBR_btn2.Enabled = true;
+            lang_tr_btn2.Enabled = true;
             languagestr2 = null;
 
             // Pokemon List GUI
@@ -681,6 +682,7 @@ namespace PokemonGo.RocketAPI.Console
             checkBoxreload.Text = "Reload every";
             btnUpgrade.Text = "PowerUp";
             btnFullPowerUp.Text = "FULL-PowerUp";
+            btnForceUnban.Text = "Force Unban";
             btnTransfer.Text = "Transfer";
         }
 
@@ -690,6 +692,7 @@ namespace PokemonGo.RocketAPI.Console
             lang_spain_btn2.Enabled = true;
             lang_de_btn_2.Enabled = false;
             lang_ptBR_btn2.Enabled = true;
+            lang_tr_btn2.Enabled = true;
             languagestr2 = "de";
 
             // Pokemon List GUI
@@ -698,6 +701,7 @@ namespace PokemonGo.RocketAPI.Console
             checkBoxreload.Text = "Aktualisiere alle";
             btnUpgrade.Text = "PowerUp";
             btnFullPowerUp.Text = "FULL-PowerUp";
+            btnForceUnban.Text = "Force Unban";
             btnTransfer.Text = "Versenden";
         }
 
@@ -707,6 +711,7 @@ namespace PokemonGo.RocketAPI.Console
             lang_de_btn_2.Enabled = true;
             lang_spain_btn2.Enabled = false;
             lang_ptBR_btn2.Enabled = true;
+            lang_tr_btn2.Enabled = true;
             languagestr2 = "spain";
 
             // Pokemon List GUI
@@ -715,6 +720,7 @@ namespace PokemonGo.RocketAPI.Console
             checkBoxreload.Text = "Actualizar cada";
             btnUpgrade.Text = "Dar más poder";
             btnFullPowerUp.Text = "Dar más poder [TOTAL]";
+            btnForceUnban.Text = "Force Unban";
             btnTransfer.Text = "Transferir";
         }
 
@@ -724,6 +730,7 @@ namespace PokemonGo.RocketAPI.Console
             lang_de_btn_2.Enabled = true;
             lang_spain_btn2.Enabled = true;
             lang_ptBR_btn2.Enabled = false;
+            lang_tr_btn2.Enabled = true;
             languagestr2 = "ptBR";
 
             // Pokemon List GUI
@@ -732,8 +739,28 @@ namespace PokemonGo.RocketAPI.Console
             checkBoxreload.Text = "Recarregar a cada";
             btnUpgrade.Text = "PowerUp (selecionados)";
             btnFullPowerUp.Text = "FULL-PowerUp (selecionados)";
+            btnForceUnban.Text = "Force Unban";
             btnTransfer.Text = "Transferir (selecionados)";
 
+        }
+
+        private void lang_tr_btn2_Click(object sender, EventArgs e)
+        {
+            lang_de_btn_2.Enabled = true;
+            lang_spain_btn2.Enabled = true;
+            lang_en_btn2.Enabled = false;
+            lang_ptBR_btn2.Enabled = true;
+            lang_tr_btn2.Enabled = true;
+            languagestr2 = "tr";
+
+            // Pokemon List GUI
+            btnreload.Text = "Yenile";
+            btnEvolve.Text = "Geliştir";
+            checkBoxreload.Text = "Yenile her";
+            btnUpgrade.Text = "Güçlendir";
+            btnFullPowerUp.Text = "TAM-Güçlendir";
+            btnForceUnban.Text = "Banı Kaldırmaya Zorla";
+            btnTransfer.Text = "Transfer";
         }
 
         private void btnForceUnban_Click(object sender, EventArgs e)    
