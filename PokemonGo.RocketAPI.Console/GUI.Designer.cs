@@ -115,7 +115,7 @@
             this.chkUseBasicIncubators = new System.Windows.Forms.CheckBox();
             this.chkAutoIncubate = new System.Windows.Forms.CheckBox();
             this.checkBox12 = new System.Windows.Forms.CheckBox();
-            this.checkBox11 = new System.Windows.Forms.CheckBox(); 
+            this.checkBox11 = new System.Windows.Forms.CheckBox();
             this.checkBox10 = new System.Windows.Forms.CheckBox();
             this.checkBox9 = new System.Windows.Forms.CheckBox();
             this.checkBox8 = new System.Windows.Forms.CheckBox();
@@ -142,6 +142,7 @@
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.label30 = new System.Windows.Forms.Label();
             this.label32 = new System.Windows.Forms.Label();
+            this.checkBox15 = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -381,6 +382,7 @@
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.checkBox15);
             this.groupBox3.Controls.Add(this.label29);
             this.groupBox3.Controls.Add(this.textBox24);
             this.groupBox3.Controls.Add(this.label28);
@@ -399,7 +401,7 @@
             // label29
             // 
             this.label29.AutoSize = true;
-            this.label29.Location = new System.Drawing.Point(415, 44);
+            this.label29.Location = new System.Drawing.Point(339, 46);
             this.label29.Name = "label29";
             this.label29.Size = new System.Drawing.Size(15, 13);
             this.label29.TabIndex = 8;
@@ -407,7 +409,7 @@
             // 
             // textBox24
             // 
-            this.textBox24.Location = new System.Drawing.Point(356, 41);
+            this.textBox24.Location = new System.Drawing.Point(285, 41);
             this.textBox24.Name = "textBox24";
             this.textBox24.Size = new System.Drawing.Size(53, 20);
             this.textBox24.TabIndex = 11;
@@ -416,7 +418,7 @@
             // label28
             // 
             this.label28.AutoSize = true;
-            this.label28.Location = new System.Drawing.Point(241, 44);
+            this.label28.Location = new System.Drawing.Point(187, 44);
             this.label28.Name = "label28";
             this.label28.Size = new System.Drawing.Size(96, 13);
             this.label28.TabIndex = 6;
@@ -424,16 +426,16 @@
             // 
             // textBox9
             // 
-            this.textBox9.Location = new System.Drawing.Point(356, 17);
+            this.textBox9.Location = new System.Drawing.Point(456, 40);
             this.textBox9.Name = "textBox9";
-            this.textBox9.Size = new System.Drawing.Size(71, 20);
+            this.textBox9.Size = new System.Drawing.Size(59, 20);
             this.textBox9.TabIndex = 10;
             this.textBox9.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox7_KeyPress);
             // 
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(241, 21);
+            this.label12.Location = new System.Drawing.Point(356, 44);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(100, 13);
             this.label12.TabIndex = 4;
@@ -989,7 +991,7 @@
             // 
             this.groupBox10.Controls.Add(this.chkUseBasicIncubators);
             this.groupBox10.Controls.Add(this.chkAutoIncubate);
-            this.groupBox10.Controls.Add(this.checkBox12); 
+            this.groupBox10.Controls.Add(this.checkBox12);
             this.groupBox10.Controls.Add(this.checkBox11);
             this.groupBox10.Controls.Add(this.checkBox10);
             this.groupBox10.Controls.Add(this.checkBox9);
@@ -1049,7 +1051,7 @@
             this.checkBox11.TabIndex = 31;
             this.checkBox11.Text = "Keep Pokemons which can be evolved";
             this.checkBox11.UseVisualStyleBackColor = true;
-            this.checkBox11.CheckedChanged += new System.EventHandler(this.checkBox11_CheckedChanged); 
+            this.checkBox11.CheckedChanged += new System.EventHandler(this.checkBox11_CheckedChanged);
             // 
             // checkBox10
             // 
@@ -1107,7 +1109,7 @@
             this.tabGeneral.Controls.Add(this.groupBox10);
             this.tabGeneral.Location = new System.Drawing.Point(4, 22);
             this.tabGeneral.Name = "tabGeneral";
-            this.tabGeneral.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tabGeneral.Padding = new System.Windows.Forms.Padding(3);
             this.tabGeneral.Size = new System.Drawing.Size(542, 396);
             this.tabGeneral.TabIndex = 0;
             this.tabGeneral.Text = "General";
@@ -1121,7 +1123,7 @@
             this.tabPokemon.Controls.Add(this.groupBox7);
             this.tabPokemon.Location = new System.Drawing.Point(4, 22);
             this.tabPokemon.Name = "tabPokemon";
-            this.tabPokemon.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tabPokemon.Padding = new System.Windows.Forms.Padding(3);
             this.tabPokemon.Size = new System.Drawing.Size(542, 396);
             this.tabPokemon.TabIndex = 1;
             this.tabPokemon.Text = "Pokemon";
@@ -1147,7 +1149,7 @@
             this.tabPage1.Controls.Add(this.prxyIP);
             this.tabPage1.Controls.Add(this.checkBox13);
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
-            this.tabPage1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tabPage1.Margin = new System.Windows.Forms.Padding(2);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Size = new System.Drawing.Size(542, 396);
             this.tabPage1.TabIndex = 3;
@@ -1157,7 +1159,7 @@
             // checkPrxy
             // 
             this.checkPrxy.Location = new System.Drawing.Point(0, 80);
-            this.checkPrxy.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.checkPrxy.Margin = new System.Windows.Forms.Padding(2);
             this.checkPrxy.Name = "checkPrxy";
             this.checkPrxy.Size = new System.Drawing.Size(488, 24);
             this.checkPrxy.TabIndex = 6;
@@ -1169,7 +1171,7 @@
             // 
             this.checkBox14.AutoSize = true;
             this.checkBox14.Location = new System.Drawing.Point(250, 12);
-            this.checkBox14.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.checkBox14.Margin = new System.Windows.Forms.Padding(2);
             this.checkBox14.Name = "checkBox14";
             this.checkBox14.Size = new System.Drawing.Size(116, 17);
             this.checkBox14.TabIndex = 5;
@@ -1181,7 +1183,7 @@
             // 
             this.prxyUser.Enabled = false;
             this.prxyUser.Location = new System.Drawing.Point(250, 34);
-            this.prxyUser.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.prxyUser.Margin = new System.Windows.Forms.Padding(2);
             this.prxyUser.Name = "prxyUser";
             this.prxyUser.Size = new System.Drawing.Size(239, 20);
             this.prxyUser.TabIndex = 4;
@@ -1190,7 +1192,7 @@
             // 
             this.prxyPort.Enabled = false;
             this.prxyPort.Location = new System.Drawing.Point(2, 57);
-            this.prxyPort.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.prxyPort.Margin = new System.Windows.Forms.Padding(2);
             this.prxyPort.Name = "prxyPort";
             this.prxyPort.Size = new System.Drawing.Size(225, 20);
             this.prxyPort.TabIndex = 3;
@@ -1199,7 +1201,7 @@
             // 
             this.prxyPass.Enabled = false;
             this.prxyPass.Location = new System.Drawing.Point(250, 57);
-            this.prxyPass.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.prxyPass.Margin = new System.Windows.Forms.Padding(2);
             this.prxyPass.Name = "prxyPass";
             this.prxyPass.Size = new System.Drawing.Size(239, 20);
             this.prxyPass.TabIndex = 2;
@@ -1208,7 +1210,7 @@
             // 
             this.prxyIP.Enabled = false;
             this.prxyIP.Location = new System.Drawing.Point(2, 34);
-            this.prxyIP.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.prxyIP.Margin = new System.Windows.Forms.Padding(2);
             this.prxyIP.Name = "prxyIP";
             this.prxyIP.Size = new System.Drawing.Size(225, 20);
             this.prxyIP.TabIndex = 1;
@@ -1217,7 +1219,7 @@
             // 
             this.checkBox13.AutoSize = true;
             this.checkBox13.Location = new System.Drawing.Point(2, 12);
-            this.checkBox13.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.checkBox13.Margin = new System.Windows.Forms.Padding(2);
             this.checkBox13.Name = "checkBox13";
             this.checkBox13.Size = new System.Drawing.Size(82, 17);
             this.checkBox13.TabIndex = 0;
@@ -1358,6 +1360,18 @@
             this.label32.Size = new System.Drawing.Size(441, 20);
             this.label32.TabIndex = 46;
             this.label32.Text = "If you\'re Softbanned, and unban is not working. Get a new IP.\r\n";
+            // 
+            // checkBox15
+            // 
+            this.checkBox15.AutoSize = true;
+            this.checkBox15.Checked = true;
+            this.checkBox15.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox15.Location = new System.Drawing.Point(184, 18);
+            this.checkBox15.Name = "checkBox15";
+            this.checkBox15.Size = new System.Drawing.Size(114, 17);
+            this.checkBox15.TabIndex = 12;
+            this.checkBox15.Text = "TransferFirstLowIV";
+            this.checkBox15.UseVisualStyleBackColor = true;
             // 
             // GUI
             // 
@@ -1533,6 +1547,7 @@
         private System.Windows.Forms.TextBox prxyPass;
         private System.Windows.Forms.TextBox prxyIP;
         private System.Windows.Forms.CheckBox checkBox13;
+        private System.Windows.Forms.CheckBox checkBox15;
     }
 }
 
