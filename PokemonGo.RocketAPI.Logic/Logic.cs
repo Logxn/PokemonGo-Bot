@@ -813,7 +813,7 @@ namespace PokemonGo.RocketAPI.Logic
 
             await RecycleItems(true);
             var items = await _client.Inventory.GetItems();
-
+            
             var balls = items.Where(i => ((ItemId)i.ItemId == ItemId.ItemPokeBall
                                       || (ItemId)i.ItemId == ItemId.ItemGreatBall
                                       || (ItemId)i.ItemId == ItemId.ItemUltraBall
@@ -827,6 +827,24 @@ namespace PokemonGo.RocketAPI.Logic
             var greatBalls = balls.Any(g => g.Key == ItemId.ItemGreatBall);
             var ultraBalls = balls.Any(g => g.Key == ItemId.ItemUltraBall);
             var masterBalls = balls.Any(g => g.Key == ItemId.ItemMasterBall);
+
+            var coll = _clientSettings.itemRecycleFilter;
+            foreach (KeyValuePair<ItemId, int> v in coll )
+            {
+                if (v.Key == ItemId.ItemPokeBall && v.Value == 0)
+                {
+                    pokeBalls = false;
+                } else if (v.Key == ItemId.ItemGreatBall && v.Value == 0)
+                {
+                    greatBalls = false;
+                } else if (v.Key == ItemId.ItemUltraBall && v.Value == 0)
+                {
+                    ultraBalls = false;
+                } else if (v.Key == ItemId.ItemMasterBall && v.Value == 0)
+                {
+                    masterBalls = false;
+                }
+            }
 
             if (masterBalls && pokemonCp >= 2000)
                 return ItemId.ItemMasterBall;
@@ -842,6 +860,18 @@ namespace PokemonGo.RocketAPI.Logic
 
             if (greatBalls && pokemonCp >= 500)
                 return ItemId.ItemGreatBall;
+
+            if (pokeBalls)
+                return ItemId.ItemPokeBall;
+
+            if (greatBalls)
+                return ItemId.ItemGreatBall;
+
+            if (ultraBalls)
+                return ItemId.ItemUltraBall;
+
+            if (masterBalls)
+                return ItemId.ItemMasterBall;
 
             return balls.OrderBy(c => c.Key).First().Key;
         }
