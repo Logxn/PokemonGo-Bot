@@ -57,7 +57,7 @@ namespace PokemonGo.RocketAPI.Console
                 }
                 else if (languagestr == "ptBR")
                 {
-                    label2.Text = "Usu·rio:";
+                    label2.Text = "Usu√°rio:";
                 }
                 else if (languagestr == "tr")
                 {
@@ -603,6 +603,7 @@ namespace PokemonGo.RocketAPI.Console
             Globals.keepPokemonsThatCanEvolve = checkBox11.Checked;
             //Globals.pokevision = checkBox12.Checked;
             Globals.useLuckyEggIfNotRunning = checkBox12.Checked;
+            Globals.TransferFirstLowIV = true;
 
             foreach (string pokemon in checkedListBox1.CheckedItems)
             {
