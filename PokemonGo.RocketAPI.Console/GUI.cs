@@ -387,10 +387,15 @@ namespace PokemonGo.RocketAPI.Console
             if (_clientSettings.UseProxyPassword != string.Empty)
             prxyPass.Text = "" + _clientSettings.UseProxyPassword;
 
-            if (prxyIP.Text != string.Empty)
+            if (prxyIP.Text != "HTTPS Proxy IP")
                 _clientSettings.UseProxyVerified = true;
-            if (prxyUser.Text != string.Empty)
+            else
+                _clientSettings.UseProxyVerified = false;
+
+            if (prxyUser.Text != "Proxy Username")
                 _clientSettings.UseProxyAuthentication = true;
+            else
+                _clientSettings.UseProxyAuthentication = false;
 
             // Placeholder event add
             prxyIP.GotFocus += new EventHandler(prxy_GotFocus);
