@@ -8,7 +8,7 @@
 
 -> DONT OPEN A NEW ISSUE IF YOU DONT USE THE NEWEST VERSION!
 
-If you do not respect the development team, your issue gets closed without any comment
+If you do not respect them, your issue gets closed without any comment
 
 #########################################################################
 
