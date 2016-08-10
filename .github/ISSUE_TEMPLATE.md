@@ -1,12 +1,14 @@
-############# Check-list. read before posting! #############
-I SEARCHED MY PROBLEM IN THE ISSUES
-
-MY ISSUE DIDNT GET ANSWERD PREVIOUSLY
-
-MY ISSUE IS AN ISSUE AND NOT A QUESTION/SUGGESTION
-
-I USE THE NEWEST VERSION
-#####################################################
+###################### RULES. READ BEFORE POSTING! ######################
+#
+#-> DONT OPEN A NEW ISSUE IF YOU DIDNT SEARCH YOUR PROBLEM IN THE ISSUES!
+#
+#-> DONT OPEN A NEW ISSUE IF YOUR ISSUE GOT ANSWERED PERVIOUSLY!
+#
+#-> DONT OPEN A NEW ISSUE IF YOUR "ISSUE" IS A QUESTION/SUGGESTION!
+#
+#-> DONT OPEN A NEW ISSUE IF YOU DONT USE THE NEWEST VERSION!
+#
+#########################################################################
 
 Describe your problem!
 
