@@ -258,6 +258,11 @@ namespace PokemonGo.RocketAPI.Console
                         case 27:
                             checkBox15.Checked = bool.Parse(line);
                             break;
+                        case 28:
+                            langSelected = line;
+                            TranslationHandler.SelectLangauge(langSelected);
+                            load_lang();
+                            break;
                         default:
                             TextBox temp = (TextBox)Controls.Find("textBox" + tb, true).FirstOrDefault();
                             temp.Text = line;
@@ -620,6 +625,7 @@ namespace PokemonGo.RocketAPI.Console
             //Globals.pokevision = checkBox12.Checked;
             Globals.useLuckyEggIfNotRunning = checkBox12.Checked;
             Globals.TransferFirstLowIV = checkBox15.Checked;
+            Globals.settingsLanguage = langSelected;
 
             foreach (string pokemon in checkedListBox1.CheckedItems)
             {
@@ -670,7 +676,8 @@ namespace PokemonGo.RocketAPI.Console
                     Globals.TransferFirstLowIV.ToString(),
                     Globals.useLuckyEggIfNotRunning.ToString(),
                     Globals.autoIncubate.ToString(),
-                    Globals.useBasicIncubators.ToString()
+                    Globals.useBasicIncubators.ToString(),
+                    Globals.settingsLanguage
             };
             File.WriteAllLines(@Program.account, accFile);
 
@@ -964,6 +971,7 @@ namespace PokemonGo.RocketAPI.Console
             chkUseBasicIncubators.Text = TranslationHandler.GetString("useBasicIncubators", "Use basic incubators");
         }
 
+        private string langSelected = "en";
         private void languages_btn_Click(object sender, EventArgs e)
         {
             var clicked = (Button)sender;
@@ -982,15 +990,9 @@ namespace PokemonGo.RocketAPI.Console
             if (clicked != null)
             {
                 // I have used the tag field of the button to save the language key
-                string langSelected = (string)clicked.Tag;
+                langSelected = (string)clicked.Tag;
                 if (!string.IsNullOrWhiteSpace(langSelected))
                 {
-                    foreach (Button curr in languageButtons)
-                    {
-                        curr.Enabled = true;
-                    }
-
-                    clicked.Enabled = false;
                     TranslationHandler.SelectLangauge(langSelected);
                     load_lang();
                 }

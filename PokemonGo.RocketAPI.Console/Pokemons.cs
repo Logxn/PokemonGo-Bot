@@ -13,6 +13,7 @@ using System.Net;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using PokemonGo.RocketAPI.Logic.Utils;
 using static PokemonGo.RocketAPI.Console.GUI;
 
 namespace PokemonGo.RocketAPI.Console
@@ -144,8 +145,8 @@ namespace PokemonGo.RocketAPI.Console
                     listViewItem.SubItems.Add(string.Format("{0}% {1}-{2}-{3}", PokemonInfo.CalculatePokemonPerfection(pokemon).ToString("0.00"), pokemon.IndividualAttack, pokemon.IndividualDefense, pokemon.IndividualStamina));
                     listViewItem.SubItems.Add(string.Format("{0}", PokemonInfo.GetLevel(pokemon)));
                     listViewItem.ImageKey = pokemon.PokemonId.ToString();
-                    
-                    listViewItem.Text = string.Format((pokemon.Favorite == 1)? "{0} ★" : "{0}", pokemon.PokemonId);
+
+                    listViewItem.Text = string.Format((pokemon.Favorite == 1) ? "{0} ★" : "{0}", StringUtils.getPokemonNameByLanguage(ClientSettings, (PokemonId)pokemon.PokemonId));
 
                     listViewItem.ToolTipText = new DateTime((long)pokemon.CreationTimeMs * 10000).AddYears(1970).ToString("dd/MM/yyyy HH:mm:ss");
                     if (pokemon.Nickname!="")

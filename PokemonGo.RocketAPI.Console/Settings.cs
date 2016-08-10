@@ -56,15 +56,17 @@ namespace PokemonGo.RocketAPI.Console
         public bool UseLuckyEggIfNotRunning => Globals.useLuckyEggIfNotRunning;
 
         public bool Language => Globals.gerNames;
-        /*
-         string UseProxyHost { get; set; }
-        int UseProxyPort { get; set; }
-        string UseProxyUsername { get; set; }
-        string UseProxyPassword { get; set; }
 
-        bool UseProxyVerified { get; set; }
-        bool UseProxyAuthentication { get; set; }
-        */
+        public string SelectedLanguage => Globals.settingsLanguage;
+        /*
+                 string UseProxyHost { get; set; }
+                int UseProxyPort { get; set; }
+                string UseProxyUsername { get; set; }
+                string UseProxyPassword { get; set; }
+
+                bool UseProxyVerified { get; set; }
+                bool UseProxyAuthentication { get; set; }
+                */
         public string UseProxyHost
         {
             get
