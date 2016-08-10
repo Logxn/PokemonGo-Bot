@@ -689,10 +689,10 @@ namespace PokemonGo.RocketAPI.Console
                     Globals.ivmaxpercent.ToString(),
                     Globals.pokeList.ToString(),
                     Globals.keepPokemonsThatCanEvolve.ToString(),
-                    Globals.TransferFirstLowIV.ToString(),
                     Globals.useLuckyEggIfNotRunning.ToString(),
                     Globals.autoIncubate.ToString(),
                     Globals.useBasicIncubators.ToString(),
+                    Globals.TransferFirstLowIV.ToString(),
                     Globals.settingsLanguage
             };
             File.WriteAllLines(@Program.account, accFile);
