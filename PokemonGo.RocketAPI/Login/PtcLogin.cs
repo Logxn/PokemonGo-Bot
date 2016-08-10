@@ -48,7 +48,9 @@ namespace PokemonGo.RocketAPI.Login
                     var ticketId = await GetLoginTicket(username, password, tempHttpClient, sessionData).ConfigureAwait(false);
 
                     //Get tokenvar
-                    return await GetToken(tempHttpClient, ticketId).ConfigureAwait(false);
+                    var authToken = await GetToken(tempHttpClient, ticketId).ConfigureAwait(false);
+                    if (authToken == null) throw new PtcOfflineException();
+                    return authToken;
                 }
             }
             else

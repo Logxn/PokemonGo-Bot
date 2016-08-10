@@ -55,6 +55,14 @@ namespace PokemonGo.RocketAPI.Logic
             _client.CurrentLongitude = _client.Settings.DefaultLongitude;
             _client.CurrentLatitude = _client.Settings.DefaultLatitude;
 
+            if (_clientSettings.UseProxyVerified)
+            {
+                Logger.Error("===============================================");
+                Logger.Error("Proxy enabled.");
+                Logger.Error("ProxyIP: " + _clientSettings.UseProxyHost + ":" + _clientSettings.UseProxyPort);
+                Logger.Error("===============================================");
+            } 
+
             while (true)
             {
                 try
