@@ -31,8 +31,8 @@ namespace PokemonGo.RocketAPI.Login
 
                 HttpClientHandler handler = new HttpClientHandler
                 {
-                    Proxy = _proxy,
                     UseProxy = _settings.UseProxyVerified,
+                    Proxy = _proxy,
                     AutomaticDecompression = DecompressionMethods.GZip,
                     AllowAutoRedirect = false
                 };

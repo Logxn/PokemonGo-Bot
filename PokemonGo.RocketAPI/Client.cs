@@ -43,7 +43,7 @@ namespace PokemonGo.RocketAPI
         internal readonly PokemonHttpClient PokemonHttpClient;
         internal AuthTicket AuthTicket { get; set; }
 
-        internal static WebProxy proxy;
+        public static WebProxy proxy;
 
         public void setFailure(IApiFailureStrategy fail)
         {
