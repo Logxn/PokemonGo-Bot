@@ -260,8 +260,6 @@ namespace PokemonGo.RocketAPI.Console
                             break;
                         case 28:
                             langSelected = line;
-                            TranslationHandler.SelectLangauge(langSelected);
-                            load_lang();
                             break;
                         default:
                             TextBox temp = (TextBox)Controls.Find("textBox" + tb, true).FirstOrDefault();
