@@ -13,7 +13,9 @@ namespace PokemonGo.RocketAPI.Helpers
             var handler = new HttpClientHandler
             {
                 AutomaticDecompression = DecompressionMethods.GZip,
-                AllowAutoRedirect = false
+                AllowAutoRedirect = false,
+                UseProxy = Client.proxy != null,
+                Proxy = Client.proxy
             };
 
             using (var tempHttpClient = new System.Net.Http.HttpClient(handler))
