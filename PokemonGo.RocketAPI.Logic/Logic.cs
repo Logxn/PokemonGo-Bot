@@ -124,7 +124,7 @@ namespace PokemonGo.RocketAPI.Logic
                         await StartIncubation();
                     }
 
-                    await TransferDuplicatePokemon(_clientSettings.keepPokemonsThatCanEvolve);
+                    await TransferDuplicatePokemon(_clientSettings.keepPokemonsThatCanEvolve, _clientSettings.TransferFirstLowIV);
                     await RecycleItems();
                     await ExecuteFarmingPokestopsAndPokemons(_client);
 
@@ -160,7 +160,7 @@ namespace PokemonGo.RocketAPI.Logic
 
         //    public bool ptc_online; //Online oder nicht?
         //    public double ptc_response; //Wie lange PTC zum responden braucht
-        //    public double ptc_idle; //Wie lange ptc schon l‰uft
+        //    public double ptc_idle; //Wie lange ptc schon l√§uft
         //    public double ptc_uptime_hour; //Prozent von PTC uptime letzte stunde
         //    public double ptc_uptime_day; //Prozent von PTC uptime letzten tag
         //}
@@ -375,7 +375,7 @@ namespace PokemonGo.RocketAPI.Logic
                         await StartIncubation();
                     }
 
-                    await TransferDuplicatePokemon(_clientSettings.keepPokemonsThatCanEvolve);
+                    await TransferDuplicatePokemon(_clientSettings.keepPokemonsThatCanEvolve, _clientSettings.TransferFirstLowIV);
                     await RecycleItems();
 
                     ////
@@ -522,7 +522,7 @@ namespace PokemonGo.RocketAPI.Logic
                         await StartIncubation();
                     }
 
-                    await TransferDuplicatePokemon(_clientSettings.keepPokemonsThatCanEvolve);
+                    await TransferDuplicatePokemon(_clientSettings.keepPokemonsThatCanEvolve, _clientSettings.TransferFirstLowIV);
                     await RecycleItems();
                 }
 
@@ -691,11 +691,11 @@ namespace PokemonGo.RocketAPI.Logic
         }
 
 
-        private async Task TransferDuplicatePokemon(bool keepPokemonsThatCanEvolve = false)
+        private async Task TransferDuplicatePokemon(bool keepPokemonsThatCanEvolve = false, bool TransferFirstLowIV = false)
         {
             if (_clientSettings.TransferDoublePokemons)
             { 
-                var duplicatePokemons = await _client.Inventory.GetDuplicatePokemonToTransfer(keepPokemonsThatCanEvolve); 
+                var duplicatePokemons = await _client.Inventory.GetDuplicatePokemonToTransfer(keepPokemonsThatCanEvolve, TransferFirstLowIV); 
                 //var duplicatePokemons = await _client.Inventory.GetDuplicatePokemonToTransfer(keepPokemonsThatCanEvolve); Is doch retarded
  
 

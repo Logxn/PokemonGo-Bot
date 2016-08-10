@@ -58,7 +58,7 @@ namespace PokemonGo.RocketAPI.Console
                 }
                 else if (languagestr == "ptBR")
                 {
-                    label2.Text = "Usu·rio:";
+                    label2.Text = "Usu√°rio:";
                 }
                 else if (languagestr == "tr")
                 {
@@ -254,6 +254,9 @@ namespace PokemonGo.RocketAPI.Console
                             break;
                         case 26:
                             chkUseBasicIncubators.Checked = bool.Parse(line);
+                            break;
+                        case 27:
+                            checkBox15.Checked = bool.Parse(line);
                             break;
                         default:
                             TextBox temp = (TextBox)Controls.Find("textBox" + tb, true).FirstOrDefault();
@@ -607,6 +610,7 @@ namespace PokemonGo.RocketAPI.Console
             Globals.keepPokemonsThatCanEvolve = checkBox11.Checked;
             //Globals.pokevision = checkBox12.Checked;
             Globals.useLuckyEggIfNotRunning = checkBox12.Checked;
+            Globals.TransferFirstLowIV = checkBox15.Checked;
 
             foreach (string pokemon in checkedListBox1.CheckedItems)
             {
@@ -654,6 +658,7 @@ namespace PokemonGo.RocketAPI.Console
                     Globals.ivmaxpercent.ToString(),
                     Globals.pokeList.ToString(),
                     Globals.keepPokemonsThatCanEvolve.ToString(),
+                    Globals.TransferFirstLowIV.ToString(),
                     Globals.useLuckyEggIfNotRunning.ToString(),
                     Globals.autoIncubate.ToString(),
                     Globals.useBasicIncubators.ToString()
@@ -791,6 +796,11 @@ namespace PokemonGo.RocketAPI.Console
                     i++;
                 }
             }
+        }
+
+        private void checkBox15_CheckedChanged(object sender, EventArgs e)
+        {
+            Globals.TransferFirstLowIV = checkBox15.Checked;
         }
 
         private void checkBox11_CheckedChanged(object sender, EventArgs e)

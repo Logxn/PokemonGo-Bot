@@ -41,6 +41,7 @@ namespace PokemonGo.RocketAPI
         bool UseLuckyEgg { get; }
         bool UseLuckyEggIfNotRunning { get; }
         bool keepPokemonsThatCanEvolve { get; }
+        bool TransferFirstLowIV { get; }
         bool UseIncense { get; }
 
         bool AutoIncubate { get; }
