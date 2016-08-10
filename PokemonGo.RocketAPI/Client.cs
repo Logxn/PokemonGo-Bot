@@ -39,9 +39,11 @@ namespace PokemonGo.RocketAPI
 
         public AuthType AuthType => Settings.AuthType;
 
-        internal readonly PokemonHttpClient PokemonHttpClient = new PokemonHttpClient();
         internal string ApiUrl { get; set; }
+        internal readonly PokemonHttpClient PokemonHttpClient;
         internal AuthTicket AuthTicket { get; set; }
+
+        internal static WebProxy proxy;
 
         public void setFailure(IApiFailureStrategy fail)
         {
@@ -50,8 +52,12 @@ namespace PokemonGo.RocketAPI
 
         public Client(ISettings settings)
         {
-            Settings = settings; 
 
+
+            
+            Settings = settings;
+            LaunchProxy(settings);
+            PokemonHttpClient = new PokemonHttpClient();
             Login = new Rpc.Login(this);
             Player = new Rpc.Player(this);
             Download = new Rpc.Download(this);
@@ -61,7 +67,19 @@ namespace PokemonGo.RocketAPI
             Encounter = new Rpc.Encounter(this);
             Misc = new Rpc.Misc(this);
 
-            Player.SetCoordinates(Settings.DefaultLatitude, Settings.DefaultLongitude, Settings.DefaultAltitude);
+            Player.SetCoordinates(settings.DefaultLatitude, settings.DefaultLongitude, settings.DefaultAltitude);
         }
-    }
+
+        private void LaunchProxy(ISettings settings)
+        {
+            int port;
+            if (!settings.UseProxyVerified || string.IsNullOrWhiteSpace(settings.UseProxyHost) || string.IsNullOrWhiteSpace(settings.UseProxyPort.ToString()) || int.TryParse(settings.UseProxyPort.ToString(), out port)) return;
+            var proxyString = settings.UseProxyHost.Contains("http://") ? $"{settings.UseProxyHost}:{settings.UseProxyPort}" : $"http://{settings.UseProxyHost}:{settings.UseProxyPort}";
+            proxy = new WebProxy(proxyString);
+
+            if (settings.UseProxyAuthentication && !string.IsNullOrWhiteSpace(settings.UseProxyUsername) && !string.IsNullOrWhiteSpace(settings.UseProxyPassword))
+              proxy.Credentials = new NetworkCredential(settings.UseProxyUsername, settings.UseProxyPassword);
+
+       }
+}
 }

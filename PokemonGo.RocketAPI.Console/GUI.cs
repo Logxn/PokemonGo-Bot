@@ -1147,6 +1147,8 @@ namespace PokemonGo.RocketAPI.Console
                 _clientSettings.UseProxyPassword = prxyPass.Text;
                 _clientSettings.UseProxyAuthentication = true;
             }
+            _clientSettings.UseProxyVerified = true;
+            button1.Enabled = true;
         }
     }
 }
