@@ -1,4 +1,3 @@
-using PokemonGo.RocketAPI.GeneratedCode;
 using PokemonGo.RocketAPI.Logic.Utils;
 using System;
 using System.Collections.Generic;
@@ -13,11 +12,13 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 using PokemonGo.RocketAPI.Logic.Translation;
+using POGOProtos.Enums;
 
 namespace PokemonGo.RocketAPI.Console
 {
     public partial class GUI : Form
     {
+        
         public static NumberStyles cords = NumberStyles.AllowDecimalPoint | NumberStyles.AllowLeadingSign;
         public static int[] evolveBlacklist = {
             3, 6, 9, 12, 15, 18, 20, 22, 24, 26, 28, 31, 34, 36, 38, 40, 42, 45, 47, 49, 51, 53, 55, 57, 59, 62, 65, 68, 71, 73, 76, 78, 80, 82, 83, 85, 87, 89, 91, 94, 95, 97, 99, 101, 103, 105, 106, 107, 108, 110, 112, 113, 114, 115, 117, 119, 121, 122, 123, 124, 125, 126, 127, 128, 130, 131, 132, 134, 135, 136, 137, 139, 141, 142, 143, 144, 145, 146, 149, 150, 151
@@ -57,7 +58,7 @@ namespace PokemonGo.RocketAPI.Console
                 }
                 else if (languagestr == "ptBR")
                 {
-                    label2.Text = "Usu·rio:";
+                    label2.Text = "Usu√°rio:";
                 }
                 else if (languagestr == "tr")
                 {
@@ -70,11 +71,22 @@ namespace PokemonGo.RocketAPI.Console
             }
         }
 
+        public static ISettings _clientSettings;
+
         private void GUI_Load(object sender, EventArgs e)
         {
+            _clientSettings = new Settings();
             // Create missing Files
             Directory.CreateDirectory(Program.path);
             Directory.CreateDirectory(Program.path_translation);
+
+            try
+            {
+                Extract("PokemonGo.RocketAPI.Console", AppDomain.CurrentDomain.BaseDirectory, "Resources", "encrypt.dll"); // unpack our encrypt dll
+            } catch (Exception)
+            {
+
+            }
 
             // Load Languages Files always UP2Date
             try
@@ -243,6 +255,9 @@ namespace PokemonGo.RocketAPI.Console
                         case 26:
                             chkUseBasicIncubators.Checked = bool.Parse(line);
                             break;
+                        case 27:
+                            checkBox15.Checked = bool.Parse(line);
+                            break;
                         default:
                             TextBox temp = (TextBox)Controls.Find("textBox" + tb, true).FirstOrDefault();
                             temp.Text = line;
@@ -359,7 +374,16 @@ namespace PokemonGo.RocketAPI.Console
                             checkedListBox3.SetItemChecked(evolveIDS[line] - 1, true);
                 }
             }
+            // Load Proxy Settings
+            prxyIP.Text = _clientSettings.UseProxyHost;
+            prxyPort.Text = "" + _clientSettings.UseProxyPort;
+            prxyUser.Text = _clientSettings.UseProxyUsername;
+            prxyPort.Text = "" + _clientSettings.UseProxyPort;
 
+            if (prxyIP.Text != string.Empty)
+                _clientSettings.UseProxyVerified = true;
+            if (prxyUser.Text != string.Empty)
+                _clientSettings.UseProxyAuthentication = true;
         }
 
         private void textBox3_KeyPress(object sender, KeyPressEventArgs e)
@@ -595,6 +619,7 @@ namespace PokemonGo.RocketAPI.Console
             Globals.keepPokemonsThatCanEvolve = checkBox11.Checked;
             //Globals.pokevision = checkBox12.Checked;
             Globals.useLuckyEggIfNotRunning = checkBox12.Checked;
+            Globals.TransferFirstLowIV = checkBox15.Checked;
 
             foreach (string pokemon in checkedListBox1.CheckedItems)
             {
@@ -642,6 +667,7 @@ namespace PokemonGo.RocketAPI.Console
                     Globals.ivmaxpercent.ToString(),
                     Globals.pokeList.ToString(),
                     Globals.keepPokemonsThatCanEvolve.ToString(),
+                    Globals.TransferFirstLowIV.ToString(),
                     Globals.useLuckyEggIfNotRunning.ToString(),
                     Globals.autoIncubate.ToString(),
                     Globals.useBasicIncubators.ToString()
@@ -781,6 +807,11 @@ namespace PokemonGo.RocketAPI.Console
             }
         }
 
+        private void checkBox15_CheckedChanged(object sender, EventArgs e)
+        {
+            Globals.TransferFirstLowIV = checkBox15.Checked;
+        }
+
         private void checkBox11_CheckedChanged(object sender, EventArgs e)
         {
             Globals.keepPokemonsThatCanEvolve = checkBox11.Checked;
@@ -901,8 +932,8 @@ namespace PokemonGo.RocketAPI.Console
             label12.Text = TranslationHandler.GetString("maxCPtransfer", "Max. CP to transfer:");
             label28.Text = TranslationHandler.GetString("maxIVtransfer", "Max. IV to transfer:");
             groupBox8.Text = TranslationHandler.GetString("telegramSettings", "Telegram Settings");
-            label30.Text = TranslationHandler.GetString("infoline1", "This Bot is absolutely free and open source! Chargeback if you've paid for it!");
-            label32.Text = TranslationHandler.GetString("infoline2", "Whenever you encounter something related to 'Pokecrot', tell them the Bot is stolen!");
+            //label30.Text = TranslationHandler.GetString("infoline1", "This Bot is absolutely free and open source! Chargeback if you've paid for it!");
+            //label32.Text = TranslationHandler.GetString("infoline2", "Whenever you encounter something related to 'Pokecrot', tell them the Bot is stolen!");
             label13.Text = TranslationHandler.GetString("maxPokeballs", "Max. Pokeballs:");
             label14.Text = TranslationHandler.GetString("maxGreatballs", "Max. GreatBalls:");
             label15.Text = TranslationHandler.GetString("maxUltraballs", "Max. UltraBalls:");
@@ -1008,6 +1039,134 @@ namespace PokemonGo.RocketAPI.Console
                 objWebRequest.Timeout = this.timeout;
                 return objWebRequest;
             }
+        }
+
+        private void linkLabel3_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Process.Start("https://twitter.com/Ar1iDev");
+        }
+
+        private void linkLabel4_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Process.Start("https://twitter.com/LoganPunkt");
+        }
+
+        private void checkBox13_CheckedChanged(object sender, EventArgs e)
+        {
+            if(checkBox13.Checked)
+            {
+                button1.Enabled = false;
+                prxyIP.Enabled = true;
+                prxyPort.Enabled = true;
+            }
+            else
+            {
+                button1.Enabled = true;
+                prxyIP.Enabled = false;
+                prxyPort.Enabled = false;
+            }
+
+        }
+
+        private void checkBox14_CheckedChanged(object sender, EventArgs e)
+        {
+            if(checkBox14.Checked)
+            {
+                prxyUser.Enabled = true;
+                prxyPass.Enabled = true;
+            }
+            else
+            {
+                prxyUser.Enabled = false;
+                prxyPass.Enabled = false;
+            }
+
+        }
+        
+        public bool AcceptAllCertifications(object sender, System.Security.Cryptography.X509Certificates.X509Certificate certification, System.Security.Cryptography.X509Certificates.X509Chain chain, System.Net.Security.SslPolicyErrors sslPolicyErrors)
+        {
+            return true;
+        }
+
+        private void checkPrxy_Click(object sender, EventArgs e)
+        {
+            string proxyip = prxyIP.Text;
+            int port = Convert.ToInt32(prxyPort.Text);
+            /*//if (string.IsNullOrWhiteSpace(prxyIP.Text) || string.IsNullOrWhiteSpace(prxyPort.Text) || string.IsNullOrWhiteSpace(prxyUser.Text) || string.IsNullOrWhiteSpace(prxyPass.Text))
+               // return;
+
+            
+            ServicePointManager.ServerCertificateValidationCallback = new System.Net.Security.RemoteCertificateValidationCallback(AcceptAllCertifications);
+            HttpWebRequest proxyrequest = (HttpWebRequest)WebRequest.Create("https://www.nianticlabs.com/pokemongo/error");
+            WebProxy myProxy = new WebProxy(proxyip, 80);
+            
+            if (checkBox14.Checked)
+            {
+                myProxy.Credentials = new NetworkCredential(prxyUser.Text, prxyUser.Text);
+            }
+
+            prxyStatus.Text = "Verifiying proxy status....";
+            myProxy.BypassProxyOnLocal = false;
+            proxyrequest.Proxy = myProxy;
+            proxyrequest.Method = "GET";
+
+            try
+            {
+                HttpWebResponse response = (HttpWebResponse)proxyrequest.GetResponse();
+
+                MessageBox.Show("Status du opfa: " + response.StatusCode.ToString());
+
+                /*if (response.StatusCode.ToString() == "OK")
+                {
+                    prxyStatus.Text = "Proxy working :)";
+                    _clientSettings.UseProxyVerified = true;
+                    _clientSettings.UseProxyHost = prxyIP.Text;
+                    _clientSettings.UseProxyPort = port;
+                    if (checkBox14.Checked)
+                    {
+                        _clientSettings.UseProxyUsername = prxyUser.Text;
+                        _clientSettings.UseProxyPassword = prxyPass.Text;
+                    }
+                    button1.Enabled = true;
+                    return;
+                }
+
+
+
+            }
+            catch (WebException ex)
+            {
+                prxyStatus.Text = "Failed to resolve proxy....";
+                MessageBox.Show("WebException: " + ex.Message);
+                return;
+            }
+            catch (Exception ex)
+            {
+                prxyStatus.Text = "Proxy not working...";
+                //MessageBox.Show("Please show this to Devs: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }*/
+
+            _clientSettings.UseProxyHost = prxyIP.Text;
+            _clientSettings.UseProxyPort = port;
+            
+            if(checkBox14.Checked)
+            {
+                _clientSettings.UseProxyUsername = prxyUser.Text;
+                _clientSettings.UseProxyPassword = prxyPass.Text;
+                _clientSettings.UseProxyAuthentication = true;
+            }
+            _clientSettings.UseProxyVerified = true;
+            button1.Enabled = true;
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            _clientSettings.UseProxyHost = string.Empty;
+            _clientSettings.UseProxyPort = 0;
+            _clientSettings.UseProxyUsername = string.Empty;
+            _clientSettings.UseProxyVerified = false;
+            _clientSettings.UseProxyAuthentication = false;
         }
     }
 }

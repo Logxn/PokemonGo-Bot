@@ -1,13 +1,21 @@
+using POGOProtos.Enums;
+using POGOProtos.Inventory.Item;
 using PokemonGo.RocketAPI.Enums;
 using System;
 using System.Collections.Generic;
-using PokemonGo.RocketAPI.GeneratedCode;
 
 namespace PokemonGo.RocketAPI.Console
 {
     public class Settings : ISettings
     {
         public bool UseLastCords => true; // Only disable this if your sure what you're doing!
+
+
+        public string GoogleUsername => Globals.username;
+
+        public string GooglePassword => Globals.password;
+
+        public bool UseIncense => Globals.useincense;
 
         AuthType ISettings.AuthType => Globals.acc;
 
@@ -39,15 +47,107 @@ namespace PokemonGo.RocketAPI.Console
 
         public bool UseLuckyEgg => Globals.useluckyegg;
         public bool keepPokemonsThatCanEvolve => Globals.keepPokemonsThatCanEvolve;
-
+        public bool TransferFirstLowIV => Globals.TransferFirstLowIV;
+ 
         public bool UseBasicIncubators => Globals.useBasicIncubators;
         public bool pokevision => Globals.pokevision;
-
-        public bool UseIncense => Globals.useincense;
+         
         public bool AutoIncubate => Globals.autoIncubate;
         public bool UseLuckyEggIfNotRunning => Globals.useLuckyEggIfNotRunning;
 
         public bool Language => Globals.gerNames;
+        /*
+         string UseProxyHost { get; set; }
+        int UseProxyPort { get; set; }
+        string UseProxyUsername { get; set; }
+        string UseProxyPassword { get; set; }
+
+        bool UseProxyVerified { get; set; }
+        bool UseProxyAuthentication { get; set; }
+        */
+        public string UseProxyHost
+        {
+            get
+            {
+                return UserSettings.Default.UseProxyHost;
+            }
+
+            set
+            {
+                UserSettings.Default.UseProxyHost = value;
+                UserSettings.Default.Save();
+            }
+        }
+
+        public int UseProxyPort
+        {
+            get
+            {
+                return UserSettings.Default.UseProxyPort;
+            }
+
+            set
+            {
+                UserSettings.Default.UseProxyPort = value;
+                UserSettings.Default.Save();
+            }
+        }
+
+        public string UseProxyUsername
+        {
+            get
+            {
+                return UserSettings.Default.UseProxyUsername;
+            }
+
+            set
+            {
+                UserSettings.Default.UseProxyUsername = value;
+                UserSettings.Default.Save();
+            }
+        }
+
+        public string UseProxyPassword
+        {
+            get
+            {
+                return UserSettings.Default.UseProxyPassword;
+            }
+
+            set
+            {
+                UserSettings.Default.UseProxyPassword = value;
+                UserSettings.Default.Save();
+            }
+        }
+
+        public bool UseProxyVerified
+        {
+            get
+            {
+                return UserSettings.Default.UseProxyVerified;
+            }
+
+            set
+            {
+                UserSettings.Default.UseProxyVerified = value;
+                UserSettings.Default.Save();
+            }
+        }
+
+        public bool UseProxyAuthentication
+        {
+            get
+            {
+                return UserSettings.Default.UseProxyAuthentication;
+            }
+
+            set
+            {
+                UserSettings.Default.UseProxyAuthentication = value;
+                UserSettings.Default.Save();
+            }
+        }
 
         List<PokemonId> ISettings.catchPokemonSkipList
         {

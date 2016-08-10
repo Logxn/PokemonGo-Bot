@@ -50,6 +50,9 @@
             this.lang_en_btn2 = new System.Windows.Forms.Button();
             this.btnShowMap = new System.Windows.Forms.Button();
             this.lang_ptBR_btn2 = new System.Windows.Forms.Button();
+            this.btnForceUnban = new System.Windows.Forms.Button();
+            this.freezedenshit = new System.Windows.Forms.Timer(this.components);
+            this.lang_tr_btn2 = new System.Windows.Forms.Button();
             this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -114,6 +117,7 @@
             // 
             // contextMenuStrip1
             // 
+            this.contextMenuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.transferToolStripMenuItem,
             this.powerUpToolStripMenuItem,
@@ -262,11 +266,41 @@
             this.lang_ptBR_btn2.UseVisualStyleBackColor = true;
             this.lang_ptBR_btn2.Click += new System.EventHandler(this.lang_ptBR_btn2_Click);
             // 
+            // btnForceUnban
+            // 
+            this.btnForceUnban.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnForceUnban.Location = new System.Drawing.Point(437, 372);
+            this.btnForceUnban.Name = "btnForceUnban";
+            this.btnForceUnban.Size = new System.Drawing.Size(135, 23);
+            this.btnForceUnban.TabIndex = 43;
+            this.btnForceUnban.Text = "Force Unban";
+            this.btnForceUnban.UseVisualStyleBackColor = true;
+            this.btnForceUnban.Click += new System.EventHandler(this.btnForceUnban_Click);
+            // 
+            // freezedenshit
+            // 
+            this.freezedenshit.Interval = 5000;
+            this.freezedenshit.Tick += new System.EventHandler(this.freezedenshit_Tick);
+            // 
+            // lang_tr_btn2
+            // 
+            this.lang_tr_btn2.BackgroundImage = global::PokemonGo.RocketAPI.Console.Properties.Resources.tr1;
+            this.lang_tr_btn2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.lang_tr_btn2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.lang_tr_btn2.Location = new System.Drawing.Point(133, 5);
+            this.lang_tr_btn2.Name = "lang_tr_btn2";
+            this.lang_tr_btn2.Size = new System.Drawing.Size(24, 15);
+            this.lang_tr_btn2.TabIndex = 42;
+            this.lang_tr_btn2.UseVisualStyleBackColor = true;
+            this.lang_tr_btn2.Click += new System.EventHandler(this.lang_tr_btn2_Click);
+            // 
             // Pokemons
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(654, 461);
+            this.Controls.Add(this.btnForceUnban);
+            this.Controls.Add(this.lang_tr_btn2);
             this.Controls.Add(this.lang_ptBR_btn2);
             this.Controls.Add(this.lang_spain_btn2);
             this.Controls.Add(this.lang_de_btn_2);
@@ -283,7 +317,7 @@
             this.Controls.Add(this.btnreload);
             this.Controls.Add(this.PokemonListView);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MinimumSize = new System.Drawing.Size(670, 500);
+            this.MinimumSize = new System.Drawing.Size(669, 499);
             this.Name = "Pokemons";
             this.Text = "Pokemon List";
             this.Load += new System.EventHandler(this.Pokemons_Load);
@@ -315,5 +349,8 @@
         private System.Windows.Forms.Button lang_de_btn_2;
         private System.Windows.Forms.Button lang_spain_btn2;
         private System.Windows.Forms.Button lang_ptBR_btn2;
+        private System.Windows.Forms.Button btnForceUnban;
+        private System.Windows.Forms.Timer freezedenshit;
+        private System.Windows.Forms.Button lang_tr_btn2;
     }
 }

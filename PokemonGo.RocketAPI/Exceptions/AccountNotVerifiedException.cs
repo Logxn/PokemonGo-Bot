@@ -6,7 +6,7 @@ namespace PokemonGo.RocketAPI.Exceptions
     {
         public AccountNotVerifiedException(string message) : base(message)
         {
-
+            
         }
     }
 }

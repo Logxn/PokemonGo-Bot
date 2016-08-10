@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Net.Http;
 using Newtonsoft.Json;
-using PokemonGo.RocketAPI.GeneratedCode;
+using POGOProtos.Enums;
 
 namespace PokemonGo.RocketAPI.Logic.Utils
 {
@@ -12,13 +12,13 @@ namespace PokemonGo.RocketAPI.Logic.Utils
 
         private List<spottedPoke> _newSpotted;
         private List<spottedPoke> _alreadySpotted;
-        HttpClient _httpClient;
+        HttpClient.PokemonHttpClient _httpClient;
 
         public PokeVisionUtil()
         {
             _newSpotted = new List<spottedPoke>();
             _alreadySpotted = new List<spottedPoke>();
-            _httpClient = new HttpClient();
+            _httpClient = new HttpClient.PokemonHttpClient();
         }
 
 
