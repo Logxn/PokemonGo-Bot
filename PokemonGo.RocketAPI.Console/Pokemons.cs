@@ -148,7 +148,7 @@ namespace PokemonGo.RocketAPI.Console
 
                     listViewItem.Text = string.Format((pokemon.Favorite == 1) ? "{0} ★" : "{0}", StringUtils.getPokemonNameByLanguage(ClientSettings, (PokemonId)pokemon.PokemonId));
 
-                    listViewItem.ToolTipText = new DateTime((long)pokemon.CreationTimeMs * 10000).AddYears(1970).ToString("dd/MM/yyyy HH:mm:ss");
+                    listViewItem.ToolTipText = new DateTime((long)pokemon.CreationTimeMs * 10000).AddYears(1769).ToString("dd/MM/yyyy HH:mm:ss");
                     if (pokemon.Nickname!="")
                         listViewItem.ToolTipText += "\nNickname: " + pokemon.Nickname;
 

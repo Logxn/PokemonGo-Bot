@@ -335,7 +335,7 @@ namespace PokemonGo.RocketAPI.Logic.Utils
                                 pokemon.PokemonId,
                                 StringUtils.getPokemonNameGer(pokemon.PokemonId),
                                 pokemon.Cp,
-                                PokemonInfo.CalculatePokemonPerfection(pokemon));
+                                Math.Round(PokemonInfo.CalculatePokemonPerfection(pokemon), 2));
                         }
                         break;
                     case TelegramUtilTask.SWITCH_LIVESTATS:
