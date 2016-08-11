@@ -166,9 +166,9 @@ namespace PokemonGo.RocketAPI.Console
                                 case 27:
                                     Globals.TransferFirstLowIV = bool.Parse(line);
                                     break;
-                                case 28:
-                                    Globals.userazzberry = bool.Parse(line);
-                                    break;
+                                //case 28:
+                                //    Globals.userazzberry = bool.Parse(line);
+                                //    break;
                             }
                         }
                         catch (Exception)
