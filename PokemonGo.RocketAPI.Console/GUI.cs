@@ -596,7 +596,7 @@ namespace PokemonGo.RocketAPI.Console
                 return;
             }
             else
-                Globals.telDelay = int.Parse(textBox20.Text);
+                Globals.telDelay = int.Parse(textBox20.Text) * 1000;
 
             if (textBox21.Text == string.Empty)
             {
