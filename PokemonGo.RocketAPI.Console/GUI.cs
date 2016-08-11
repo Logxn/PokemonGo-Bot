@@ -13,6 +13,7 @@ using System.Windows.Forms;
 
 using PokemonGo.RocketAPI.Logic.Translation;
 using POGOProtos.Enums;
+using System.Threading;
 
 namespace PokemonGo.RocketAPI.Console
 {
@@ -73,12 +74,35 @@ namespace PokemonGo.RocketAPI.Console
 
         public static ISettings _clientSettings;
 
+        static string devicePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Device");
+        static string deviceinfo = Path.Combine(devicePath, "DeviceInfo.txt");
+
         private void GUI_Load(object sender, EventArgs e)
         {
             _clientSettings = new Settings();
             // Create missing Files
             Directory.CreateDirectory(Program.path);
             Directory.CreateDirectory(Program.path_translation);
+            Directory.CreateDirectory(devicePath);
+
+            if (!File.Exists(deviceinfo))
+            {
+                var f = File.Create(deviceinfo);
+                f.Close();
+                File.WriteAllLines(deviceinfo, new string[] { "galaxy6", " " });
+            } else
+            {
+                // Try to read the device name
+                string[] arrLine = File.ReadAllLines(deviceinfo);
+                try
+                {
+                    if (arrLine[0] != null)
+                    {
+                        comboBox2.Text = arrLine[0];
+                    }
+                } catch (Exception) { 
+                }
+            }
 
             try
             {
@@ -88,32 +112,18 @@ namespace PokemonGo.RocketAPI.Console
 
             }
 
-            // Load Languages Files always UP2Date
-            try
-            {
-                ExtendedWebClient client = new ExtendedWebClient();
-                string translations = client.DownloadString("http://pokemon-go.ar1i.xyz/lang/get.php");
-                string[] transArray = translations.Replace("\r", string.Empty).Split('\n');
-                for (int ijik = 0; ijik < transArray.Count(); ijik++)
-                {
-                    client.DownloadFile("http://pokemon-go.ar1i.xyz/lang/" + transArray[ijik], Program.path_translation + "\\" + transArray[ijik]);
-                }
-            }
-            catch (Exception)
-            {
-                List<string> b = new List<string>();
-                b.Add("de.json");
-                b.Add("france.json");
-                b.Add("italian.json");
-                b.Add("ptBR.json");
-                b.Add("ru.json");
-                b.Add("spain.json");
-                b.Add("tr.json");
+            List<string> b = new List<string>();
+            b.Add("de.json");
+            b.Add("france.json");
+            b.Add("italian.json");
+            b.Add("ptBR.json");
+            b.Add("ru.json");
+            b.Add("spain.json");
+            b.Add("tr.json");
 
-                foreach (var l in b)
-                {
-                    Extract("PokemonGo.RocketAPI.Console", Program.path_translation, "Lang", l);
-                }
+            foreach (var l in b)
+            {
+                Extract("PokemonGo.RocketAPI.Console", Program.path_translation, "Lang", l); 
             }
 
             TranslationHandler.Init();
@@ -260,6 +270,12 @@ namespace PokemonGo.RocketAPI.Console
                             break;
                         case 28:
                             //langSelected = line;
+                            break;
+                        case 29:
+                            checkBox16.Checked = bool.Parse(line);
+                            break;
+                        case 30:
+                            textBox26.Text = line;
                             break;
                         default:
                             TextBox temp = (TextBox)Controls.Find("textBox" + tb, true).FirstOrDefault();
@@ -634,12 +650,22 @@ namespace PokemonGo.RocketAPI.Console
                 Globals.ivmaxpercent = int.Parse(textBox24.Text);
             }
 
+            if (textBox26.Text == string.Empty)
+            {
+                textBox26.BackColor = Color.Red;
+            } else {
+                int x = int.Parse(textBox26.Text);
+                decimal c = ((decimal)x / 100);
+                Globals.razzberry_chance = Convert.ToDouble(c);
+            }
+
             Globals.gerNames = checkBox8.Checked;
             Globals.useincense = checkBox9.Checked;
             Globals.pokeList = checkBox10.Checked;
             Globals.keepPokemonsThatCanEvolve = checkBox11.Checked;
             //Globals.pokevision = checkBox12.Checked;
             Globals.useLuckyEggIfNotRunning = checkBox12.Checked;
+            Globals.userazzberry = checkBox16.Checked;
             Globals.TransferFirstLowIV = checkBox15.Checked;
             Globals.settingsLanguage = langSelected;
 
@@ -664,7 +690,7 @@ namespace PokemonGo.RocketAPI.Console
                 else
                     Globals.doEvolve.Add((PokemonId)Enum.Parse(typeof(PokemonId), pokemon));
             }
-
+            
             string[] accFile = {
                     Globals.acc.ToString(),
                     Globals.username,
@@ -693,7 +719,9 @@ namespace PokemonGo.RocketAPI.Console
                     Globals.autoIncubate.ToString(),
                     Globals.useBasicIncubators.ToString(),
                     Globals.TransferFirstLowIV.ToString(),
-                    Globals.settingsLanguage
+                    Globals.settingsLanguage,
+                    Globals.userazzberry.ToString(),
+                    Convert.ToInt16(Globals.razzberry_chance * 100).ToString()
             };
             File.WriteAllLines(@Program.account, accFile);
 
@@ -789,6 +817,11 @@ namespace PokemonGo.RocketAPI.Console
         private void checkBox7_CheckedChanged(object sender, EventArgs e)
         {
             Globals.useluckyegg = checkBox7.Checked;
+        }
+
+        private void checkBox16_CheckedChanged(object sender, EventArgs e)
+        {
+            Globals.userazzberry = checkBox16.Checked;
         }
 
         private void checkBox8_CheckedChanged(object sender, EventArgs e)
@@ -979,6 +1012,7 @@ namespace PokemonGo.RocketAPI.Console
             button1.Text = TranslationHandler.GetString("saveConfig", "Save Configuration / Start Bot");
             groupBox10.Text = TranslationHandler.GetString("otherSettings", "Other Settings");
             checkBox7.Text = TranslationHandler.GetString("useLuckyeggAtEvolve", "Use LuckyEgg at Evolve");
+            checkBox16.Text = TranslationHandler.GetString("useRazzBerry", "Use RazzBerry");
             checkBox8.Text = TranslationHandler.GetString("germanPokemonNames", "German Pokemon names");
             checkBox9.Text = TranslationHandler.GetString("useIncese", "Use Incense every 30min");
             checkBox3.Text = TranslationHandler.GetString("evolvePokemonIfEnoughCandy", "Evolve Pokemons if enough candy");
@@ -1006,10 +1040,17 @@ namespace PokemonGo.RocketAPI.Console
             if (clicked != null)
             {
                 // I have used the tag field of the button to save the language key
-                langSelected = (string)clicked.Tag;
+                langSelected = (string)clicked.Tag; 
                 if (!string.IsNullOrWhiteSpace(langSelected))
                 {
-                    TranslationHandler.SelectLangauge(langSelected);
+                    if (langSelected == "en")
+                    {
+                        TranslationHandler.SelectLangauge(null);
+                    }
+                    else
+                    {
+                        TranslationHandler.SelectLangauge(langSelected);
+                    }
                     load_lang();
                 }
                 else
@@ -1210,6 +1251,18 @@ namespace PokemonGo.RocketAPI.Console
         private void linkLabel5_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             Process.Start("http://proxylist.hidemyass.com/search-1297445#listable");
+        }
+
+        private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            try {
+                string[] arrLine = File.ReadAllLines(deviceinfo);
+                arrLine[0] = comboBox2.SelectedItem.ToString();
+                File.WriteAllLines(deviceinfo, arrLine);
+            } catch (IndexOutOfRangeException)
+            {
+                File.WriteAllLines(deviceinfo, new string[] { comboBox2.SelectedItem.ToString(), " " });
+            }
         }
     }
 }

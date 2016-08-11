@@ -119,7 +119,7 @@ namespace PokemonGo.RocketAPI.Console
                 columnheader.Text = "Attack";
                 PokemonListView.Columns.Add(columnheader);
                 columnheader = new ColumnHeader();
-                columnheader.Text = "SpecialAttack";
+                columnheader.Text = "SpecialAttack (DPS)";
                 PokemonListView.Columns.Add(columnheader);
 
                 foreach (var pokemon in pokemons)
@@ -171,7 +171,7 @@ namespace PokemonGo.RocketAPI.Console
                     listViewItem.SubItems.Add(string.Format("{0}", Math.Round(pokemon.WeightKg, 2)));
                     listViewItem.SubItems.Add(string.Format("{0}/{1}", pokemon.Stamina, pokemon.StaminaMax));
                     listViewItem.SubItems.Add(string.Format("{0}", pokemon.Move1));
-                    listViewItem.SubItems.Add(string.Format("{0}", pokemon.Move2));
+                    listViewItem.SubItems.Add(string.Format("{0} ({1})", pokemon.Move2, PokemonInfo.GetAttack(pokemon.Move2)));
 
                     PokemonListView.Items.Add(listViewItem);
                 }

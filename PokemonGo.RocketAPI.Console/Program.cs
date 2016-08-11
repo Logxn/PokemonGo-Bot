@@ -166,6 +166,9 @@ namespace PokemonGo.RocketAPI.Console
                                 case 27:
                                     Globals.TransferFirstLowIV = bool.Parse(line);
                                     break;
+                                //case 28:
+                                //    Globals.userazzberry = bool.Parse(line);
+                                //    break;
                             }
                         }
                         catch (Exception)
@@ -428,6 +431,8 @@ namespace PokemonGo.RocketAPI.Console
         public static int navigation_option = 1;
         public static bool useluckyegg = true;
         public static bool useincense = true;
+        public static bool userazzberry = true;
+        public static double razzberry_chance = 0.35;
         public static bool gerNames = false;
         public static bool pokeList = true;
         public static bool keepPokemonsThatCanEvolve = true;

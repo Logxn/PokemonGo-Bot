@@ -184,7 +184,7 @@ namespace PokemonGo.RocketAPI.Logic
             var playerStats = await _client.Inventory.GetPlayerStats();
             var stats = playerStats.First();
 
-            
+
             var expneeded = stats.NextLevelXp - stats.PrevLevelXp - StringUtils.getExpDiff(stats.Level);
             var curexp = stats.Experience - stats.PrevLevelXp - StringUtils.getExpDiff(stats.Level);
             var curexppercent = Convert.ToDouble(curexp) / Convert.ToDouble(expneeded) * 100;
@@ -193,9 +193,9 @@ namespace PokemonGo.RocketAPI.Logic
             var pokedexpercent = Math.Floor(pokedexpercentraw);
 
             Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "-----------------------[PLAYER STATS UPDATE]-----------------------");
-            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Level/EXP: {stats.Level} | {curexp.ToString("N0")}/{expneeded.ToString("N0")} [{Math.Round(curexppercent, 2)}%] | EXP to Level up: " + (stats.NextLevelXp - stats.Experience));
-            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "PokeStops visited: " + stats.PokeStopVisits + " | KM Walked: " + {Math.Round(stats.KmWalked, 2)});
-            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Pokemon: " + await _client.Inventory.getPokemonCount() + " + " + await _client.Inventory.GetEggsCount() + " Eggs /" + profile.PlayerData.MaxPokemonStorage + " [" + pokemonToEvolve + " Evolvable]");
+            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Level/EXP: {stats.Level} | {curexp.ToString("N0")}/{expneeded.ToString("N0")} ({Math.Round(curexppercent, 2)}%) | EXP to Level up: " + (stats.NextLevelXp - stats.Experience));
+            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "PokeStops visited: " + stats.PokeStopVisits + " | KM Walked: " + Math.Round(stats.KmWalked, 2));
+            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Pokemon: " + await _client.Inventory.getPokemonCount() + " + " + await _client.Inventory.GetEggsCount() + " Eggs /" + profile.PlayerData.MaxPokemonStorage + " (" + pokemonToEvolve + " Evolvable)");
             Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Pokedex Completion: " + stats.UniquePokedexEntries + "/150 " + "[" + pokedexpercent + "%]");
             Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Items: " + await _client.Inventory.getInventoryCount() + "/" + profile.PlayerData.MaxItemStorage + " | Stardust: " + profile.PlayerData.Currencies.ToArray()[1].Amount.ToString("N0"));
 
@@ -562,7 +562,7 @@ namespace PokemonGo.RocketAPI.Logic
                     Logger.ColoredConsoleWrite(ConsoleColor.Magenta, $"Encountered {StringUtils.getPokemonNameByLanguage(_clientSettings, pokemon.PokemonId)} CP {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp}  IV {PokemonInfo.CalculatePokemonPerfection(encounterPokemonResponse.WildPokemon.PokemonData).ToString("0.00")}% Probability {Math.Round(probability.Value * 100)}%");
                     do
                     {
-                        if (probability.HasValue && probability.Value < 0.35)
+                        if (probability.HasValue && probability.Value < _clientSettings.razzberry_chance && _clientSettings.UseRazzBerry)
                         { 
                             var bestBerry = await GetBestBerry(encounterPokemonResponse?.WildPokemon);
                             var berries = inventoryBerries.Where(p => (ItemId)p.ItemId == bestBerry).FirstOrDefault();
@@ -597,7 +597,7 @@ namespace PokemonGo.RocketAPI.Logic
 
                         if (caughtPokemonResponse.CaptureAward.Xp.Sum() >= 500)
                         {
-                            Logger.ColoredConsoleWrite(ConsoleColor.Red,
+                            Logger.ColoredConsoleWrite(ConsoleColor.DarkMagenta,
                                 $"Caught New {StringUtils.getPokemonNameByLanguage(_clientSettings, pokemon.PokemonId)} CP {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} IV {PokemonInfo.CalculatePokemonPerfection(encounterPokemonResponse.WildPokemon.PokemonData).ToString("0.00")}% using {bestPokeball} got {caughtPokemonResponse.CaptureAward.Xp.Sum()} XP.");
                         }
                         else
