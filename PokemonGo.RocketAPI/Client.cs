@@ -15,6 +15,7 @@ using POGOProtos.Networking.Envelopes;
 using POGOProtos.Networking.Requests;
 using POGOProtos.Networking.Requests.Messages;
 using POGOProtos.Networking.Responses;
+using System.Threading;
 
 namespace PokemonGo.RocketAPI
 {
@@ -69,14 +70,23 @@ namespace PokemonGo.RocketAPI
 
         private WebProxy InitProxy()
         {
-            if (!Settings.UseProxyVerified)
+            try
+            {
+                if (!Settings.UseProxyVerified)
+                    return null;
+
+                WebProxy p = new WebProxy(new System.Uri($"http://{Settings.UseProxyHost}:{Settings.UseProxyPort}"), false, null);
+
+                if (Settings.UseProxyAuthentication)
+                    p.Credentials = new NetworkCredential(Settings.UseProxyUsername, Settings.UseProxyPassword);
+                return p;
+            } catch (Exception)
+            {
+                Logger.Error("Something in your Proxy Settings is wrong! Exiting in 5 seconds.");
+                Thread.Sleep(5000);
+                Environment.Exit(0);
                 return null;
-
-            WebProxy p = new WebProxy(new System.Uri($"http://{Settings.UseProxyHost}:{Settings.UseProxyPort}"), false, null);
-
-            if (Settings.UseProxyAuthentication)
-                p.Credentials = new NetworkCredential(Settings.UseProxyUsername, Settings.UseProxyPassword);
-            return p;
+            }
         }
     }
 }
