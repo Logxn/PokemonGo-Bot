@@ -124,6 +124,7 @@
             this.tabGeneral = new System.Windows.Forms.TabPage();
             this.tabPokemon = new System.Windows.Forms.TabPage();
             this.tabItems = new System.Windows.Forms.TabPage();
+            this.label38 = new System.Windows.Forms.Label();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.linkLabel5 = new System.Windows.Forms.LinkLabel();
             this.label37 = new System.Windows.Forms.Label();
@@ -149,7 +150,6 @@
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.label30 = new System.Windows.Forms.Label();
             this.label32 = new System.Windows.Forms.Label();
-            this.label38 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -408,8 +408,6 @@
             // checkBox15
             // 
             this.checkBox15.AutoSize = true;
-            this.checkBox15.Checked = true;
-            this.checkBox15.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBox15.Location = new System.Drawing.Point(184, 18);
             this.checkBox15.Name = "checkBox15";
             this.checkBox15.Size = new System.Drawing.Size(114, 17);
@@ -1159,6 +1157,15 @@
             this.tabItems.Text = "Items";
             this.tabItems.UseVisualStyleBackColor = true;
             // 
+            // label38
+            // 
+            this.label38.AutoSize = true;
+            this.label38.Location = new System.Drawing.Point(195, 15);
+            this.label38.Name = "label38";
+            this.label38.Size = new System.Drawing.Size(347, 13);
+            this.label38.TabIndex = 6;
+            this.label38.Text = "Warning: Dont set Pokeballs to 0, the Bot will auto choose the best one.";
+            // 
             // tabPage1
             // 
             this.tabPage1.Controls.Add(this.linkLabel5);
@@ -1438,7 +1445,7 @@
             this.label30.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
             this.label30.Location = new System.Drawing.Point(91, 556);
             this.label30.Name = "label30";
-            this.label30.Size = new System.Drawing.Size(466, 20);
+            this.label30.Size = new System.Drawing.Size(480, 20);
             this.label30.TabIndex = 45;
             this.label30.Text = "If you run more than 1 instance with the same IP, you\'ll get banned.";
             // 
@@ -1451,15 +1458,6 @@
             this.label32.Size = new System.Drawing.Size(441, 20);
             this.label32.TabIndex = 46;
             this.label32.Text = "If you\'re Softbanned, and unban is not working. Get a new IP.\r\n";
-            // 
-            // label38
-            // 
-            this.label38.AutoSize = true;
-            this.label38.Location = new System.Drawing.Point(195, 15);
-            this.label38.Name = "label38";
-            this.label38.Size = new System.Drawing.Size(347, 13);
-            this.label38.TabIndex = 6;
-            this.label38.Text = "Warning: Dont set Pokeballs to 0, the Bot will auto choose the best one.";
             // 
             // GUI
             // 
