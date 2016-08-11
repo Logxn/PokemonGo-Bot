@@ -44,6 +44,23 @@ namespace PokemonGo.RocketAPI
         }
     }
 
+    public struct BaseAttack
+    {
+        public double AttackDps;
+
+
+
+
+        public BaseAttack(double attackDps)
+        {
+            this.AttackDps = attackDps;
+        }
+        public override string ToString()
+        {
+            return AttackDps.ToString();
+        }
+    }
+
     public static class PokemonInfo
     {
         public static double CalculatePokemonPerfection(PokemonData poke)
@@ -365,6 +382,196 @@ namespace PokemonGo.RocketAPI
                 case 787: return 39.5;
                 case 790: return 40;
                 default: return 0;
+            }
+        }
+
+        public static BaseAttack GetAttack(PokemonMove id)
+        {
+            switch ((int)id)
+            {
+                //Empty = Normal Attacks
+                case 0: return new BaseAttack();
+                case 1: return new BaseAttack();
+                case 2: return new BaseAttack();
+                case 3: return new BaseAttack();
+                case 4: return new BaseAttack();
+                case 5: return new BaseAttack();
+                case 6: return new BaseAttack();
+                case 7: return new BaseAttack();
+                case 8: return new BaseAttack();
+                case 9: return new BaseAttack();
+                case 10: return new BaseAttack();
+                case 11: return new BaseAttack();
+                case 12: return new BaseAttack();
+                case 13: return new BaseAttack(6.25);
+                case 14: return new BaseAttack(24);
+                case 15: return new BaseAttack();
+                case 16: return new BaseAttack(12.89);
+                case 17: return new BaseAttack();
+                case 18: return new BaseAttack(11.54);
+                case 19: return new BaseAttack();
+                case 20: return new BaseAttack(11.9);
+                case 21: return new BaseAttack(8.7);
+                case 22: return new BaseAttack(25);
+                case 23: return new BaseAttack();
+                case 24: return new BaseAttack(18.97);
+                case 25: return new BaseAttack();
+                case 26: return new BaseAttack(12.07);
+                case 27: return new BaseAttack();
+                case 28: return new BaseAttack(30);
+                case 29: return new BaseAttack();
+                case 30: return new BaseAttack(10.53);
+                case 31: return new BaseAttack(23.81);
+                case 32: return new BaseAttack(25.81);
+                case 33: return new BaseAttack(12.86);
+                case 34: return new BaseAttack(9.8);
+                case 35: return new BaseAttack(14);
+                case 36: return new BaseAttack(15.38);
+                case 37: return new BaseAttack();
+                case 38: return new BaseAttack(14.81);
+                case 39: return new BaseAttack(17.81);
+                case 40: return new BaseAttack(25.64);
+                case 41: return new BaseAttack();
+                case 42: return new BaseAttack(21.05);
+                case 43: return new BaseAttack();
+                case 44: return new BaseAttack();
+                case 45: return new BaseAttack(10.34);
+                case 46: return new BaseAttack(14.71);
+                case 47: return new BaseAttack(20.31);
+                case 48: return new BaseAttack(7.81);
+                case 49: return new BaseAttack(17.65);
+                case 50: return new BaseAttack(10.42);
+                case 51: return new BaseAttack(11.11);
+                case 52: return new BaseAttack();
+                case 53: return new BaseAttack(10.34);
+                case 54: return new BaseAttack(14.29);
+                case 55: return new BaseAttack();
+                case 56: return new BaseAttack(13.33);
+                case 57: return new BaseAttack(11.64);
+                case 58: return new BaseAttack(19.15);
+                case 59: return new BaseAttack(16.67);
+                case 60: return new BaseAttack(14.81);
+                case 61: return new BaseAttack();
+                case 62: return new BaseAttack(9.72);
+                case 63: return new BaseAttack(8.82);
+                case 64: return new BaseAttack(15.63);
+                case 65: return new BaseAttack(13.79);
+                case 66: return new BaseAttack(8.06);
+                case 67: return new BaseAttack(11.9);
+                case 68: return new BaseAttack();
+                case 69: return new BaseAttack(9.68);
+                case 70: return new BaseAttack(14.61);
+                case 71: return new BaseAttack();
+                case 72: return new BaseAttack(10.71);
+                case 73: return new BaseAttack();
+                case 74: return new BaseAttack(15);
+                case 75: return new BaseAttack(11.9);
+                case 76: return new BaseAttack();
+                case 77: return new BaseAttack(16.67);
+                case 78: return new BaseAttack();
+                case 79: return new BaseAttack(20.37);
+                case 80: return new BaseAttack(9.26);
+                case 81: return new BaseAttack();
+                case 82: return new BaseAttack(18.06);
+                case 83: return new BaseAttack(23.33);
+                case 84: return new BaseAttack(6.41);
+                case 85: return new BaseAttack(8.93);
+                case 86: return new BaseAttack(13.1);
+                case 87: return new BaseAttack(20.73);
+                case 88: return new BaseAttack(18.97);
+                case 89: return new BaseAttack(16.67);
+                case 90: return new BaseAttack(21.15);
+                case 91: return new BaseAttack(20.59);
+                case 92: return new BaseAttack(21.67);
+                case 93: return new BaseAttack();
+                case 94: return new BaseAttack(15.63);
+                case 95: return new BaseAttack(10.29);
+                case 96: return new BaseAttack(11.54);
+                case 97: return new BaseAttack();
+                case 98: return new BaseAttack();
+                case 99: return new BaseAttack(14.52);
+                case 100: return new BaseAttack(16.67);
+                case 101: return new BaseAttack(8.06);
+                case 102: return new BaseAttack(14.29);
+                case 103: return new BaseAttack(24.39);
+                case 104: return new BaseAttack(10.42);
+                case 105: return new BaseAttack(10.61);
+                case 106: return new BaseAttack(13.75);
+                case 107: return new BaseAttack(23.68);
+                case 108: return new BaseAttack(19.64);
+                case 109: return new BaseAttack(19.61);
+                case 110: return new BaseAttack();
+                case 111: return new BaseAttack(6.58);
+                case 112: return new BaseAttack();
+                case 113: return new BaseAttack();
+                case 114: return new BaseAttack(13.89);
+                case 115: return new BaseAttack(14.29);
+                case 116: return new BaseAttack(24.49);
+                case 117: return new BaseAttack(19.64);
+                case 118: return new BaseAttack(25);
+                case 119: return new BaseAttack();
+                case 120: return new BaseAttack();
+                case 121: return new BaseAttack(9.09);
+                case 122: return new BaseAttack(25);
+                case 123: return new BaseAttack(18.75);
+                case 124: return new BaseAttack();
+                case 125: return new BaseAttack(10);
+                case 126: return new BaseAttack(11.36);
+                case 127: return new BaseAttack(14.29);
+                case 128: return new BaseAttack();
+                case 129: return new BaseAttack(16.67);
+                case 130: return new BaseAttack();
+                case 131: return new BaseAttack(25.64);
+                case 132: return new BaseAttack(16.13);
+                case 133: return new BaseAttack(8.85);
+                case 134: return new BaseAttack(12.5);
+                case 135: return new BaseAttack(23.68);
+                case 136: return new BaseAttack(6.76);
+                case 137: return new BaseAttack(6.76);
+                case 200: return new BaseAttack();
+                case 201: return new BaseAttack();
+                case 202: return new BaseAttack();
+                case 203: return new BaseAttack();
+                case 204: return new BaseAttack();
+                case 205: return new BaseAttack(23.26);
+                case 206: return new BaseAttack();
+                case 207: return new BaseAttack();
+                case 208: return new BaseAttack();
+                case 209: return new BaseAttack();
+                case 210: return new BaseAttack();
+                case 211: return new BaseAttack();
+                case 212: return new BaseAttack();
+                case 213: return new BaseAttack();
+                case 214: return new BaseAttack();
+                case 215: return new BaseAttack();
+                case 216: return new BaseAttack();
+                case 217: return new BaseAttack();
+                case 218: return new BaseAttack();
+                case 219: return new BaseAttack();
+                case 220: return new BaseAttack();
+                case 221: return new BaseAttack();
+                case 222: return new BaseAttack();
+                case 223: return new BaseAttack();
+                case 224: return new BaseAttack();
+                case 225: return new BaseAttack();
+                case 226: return new BaseAttack();
+                case 227: return new BaseAttack();
+                case 228: return new BaseAttack();
+                case 229: return new BaseAttack();
+                case 230: return new BaseAttack();
+                case 231: return new BaseAttack();
+                case 232: return new BaseAttack();
+                case 233: return new BaseAttack();
+                case 234: return new BaseAttack();
+                case 235: return new BaseAttack();
+                case 236: return new BaseAttack();
+                case 237: return new BaseAttack();
+                case 238: return new BaseAttack();
+                case 239: return new BaseAttack();
+                case 240: return new BaseAttack();
+                case 241: return new BaseAttack();
+
+                default: return new BaseAttack();
             }
         }
     }
