@@ -594,7 +594,7 @@ namespace PokemonGo.RocketAPI.Logic
                         DateTime curDate = DateTime.Now;
                         _infoObservable.PushNewHuntStats(String.Format("{0}/{1};{2};{3};{4}", pokemon.Latitude, pokemon.Longitude, pokemon.PokemonId, curDate.Ticks, curDate.ToString()) + Environment.NewLine);
 
-                        if (caughtPokemonResponse.CaptureAward.Xp.Sum() > 300)
+                        if (caughtPokemonResponse.CaptureAward.Xp.Sum() >= 500)
                         {
                             Logger.ColoredConsoleWrite(ConsoleColor.Red,
                                 $"Caught New {StringUtils.getPokemonNameByLanguage(_clientSettings, pokemon.PokemonId)} CP {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} IV {PokemonInfo.CalculatePokemonPerfection(encounterPokemonResponse.WildPokemon.PokemonData).ToString("0.00")}% using {bestPokeball} got {caughtPokemonResponse.CaptureAward.Xp.Sum()} XP.");
