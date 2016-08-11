@@ -43,7 +43,7 @@ namespace PokemonGo.RocketAPI
         internal readonly PokemonHttpClient PokemonHttpClient;
         internal AuthTicket AuthTicket { get; set; }
 
-        internal static WebProxy proxy;
+        public static WebProxy proxy;
 
         public void setFailure(IApiFailureStrategy fail)
         {
@@ -52,11 +52,8 @@ namespace PokemonGo.RocketAPI
 
         public Client(ISettings settings)
         {
-
-
-            
             Settings = settings;
-            LaunchProxy(settings);
+            proxy = InitProxy();
             PokemonHttpClient = new PokemonHttpClient();
             Login = new Rpc.Login(this);
             Player = new Rpc.Player(this);
@@ -70,16 +67,16 @@ namespace PokemonGo.RocketAPI
             Player.SetCoordinates(settings.DefaultLatitude, settings.DefaultLongitude, settings.DefaultAltitude);
         }
 
-        private void LaunchProxy(ISettings settings)
+        private WebProxy InitProxy()
         {
-            int port;
-            if (!settings.UseProxyVerified || string.IsNullOrWhiteSpace(settings.UseProxyHost) || string.IsNullOrWhiteSpace(settings.UseProxyPort.ToString()) || int.TryParse(settings.UseProxyPort.ToString(), out port)) return;
-            var proxyString = settings.UseProxyHost.Contains("http://") ? $"{settings.UseProxyHost}:{settings.UseProxyPort}" : $"http://{settings.UseProxyHost}:{settings.UseProxyPort}";
-            proxy = new WebProxy(proxyString);
+            if (!Settings.UseProxyVerified)
+                return null;
 
-            if (settings.UseProxyAuthentication && !string.IsNullOrWhiteSpace(settings.UseProxyUsername) && !string.IsNullOrWhiteSpace(settings.UseProxyPassword))
-              proxy.Credentials = new NetworkCredential(settings.UseProxyUsername, settings.UseProxyPassword);
+            WebProxy p = new WebProxy(new System.Uri($"http://{Settings.UseProxyHost}:{Settings.UseProxyPort}"), false, null);
 
-       }
-}
+            if (Settings.UseProxyAuthentication)
+                p.Credentials = new NetworkCredential(Settings.UseProxyUsername, Settings.UseProxyPassword);
+            return p;
+        }
+    }
 }

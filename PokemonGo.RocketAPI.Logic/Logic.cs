@@ -517,7 +517,7 @@ namespace PokemonGo.RocketAPI.Logic
             foreach (var pokemon in pokemons)
             {
                 count++;
-                if (count >= 3)
+                if (count >= 6)
                 {
                     count = 0;
                     await StatsLog(client);
@@ -551,14 +551,14 @@ namespace PokemonGo.RocketAPI.Logic
                     var bestPokeball = await GetBestBall(encounterPokemonResponse?.WildPokemon);
                     if (bestPokeball == ItemId.ItemUnknown)
                     { 
-                        Logger.ColoredConsoleWrite(ConsoleColor.Red, $"No Pokeballs! - missed {pokemon.PokemonId} CP {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} IV {Math.Round(PokemonInfo.CalculatePokemonPerfection(encounterPokemonResponse.WildPokemon.PokemonData))}%");
+                        Logger.ColoredConsoleWrite(ConsoleColor.Red, $"No Pokeballs! - missed {pokemon.PokemonId} CP {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} IV {PokemonInfo.CalculatePokemonPerfection(encounterPokemonResponse.WildPokemon.PokemonData).ToString("0.00")}%");
   
                         return;
                     }
                     var inventoryBerries = await _client.Inventory.GetItems();
                     var probability = encounterPokemonResponse?.CaptureProbability?.CaptureProbability_?.FirstOrDefault();
                     CatchPokemonResponse caughtPokemonResponse;
-                    Logger.ColoredConsoleWrite(ConsoleColor.Magenta, $"Encountered {StringUtils.getPokemonNameByLanguage(_clientSettings, pokemon.PokemonId)} CP {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp}  IV {Math.Round(PokemonInfo.CalculatePokemonPerfection(encounterPokemonResponse.WildPokemon.PokemonData))}% Probability {Math.Round(probability.Value * 100)}%");
+                    Logger.ColoredConsoleWrite(ConsoleColor.Magenta, $"Encountered {StringUtils.getPokemonNameByLanguage(_clientSettings, pokemon.PokemonId)} CP {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp}  IV {PokemonInfo.CalculatePokemonPerfection(encounterPokemonResponse.WildPokemon.PokemonData).ToString("0.00")}% Probability {Math.Round(probability.Value * 100)}%");
                     do
                     {
                         if (probability.HasValue && probability.Value < 0.35)
@@ -597,17 +597,17 @@ namespace PokemonGo.RocketAPI.Logic
                         if (caughtPokemonResponse.CaptureAward.Xp.Sum() > 300)
                         {
                             Logger.ColoredConsoleWrite(ConsoleColor.Red,
-                                $"Caught New {StringUtils.getPokemonNameByLanguage(_clientSettings, pokemon.PokemonId)} CP {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} IV {Math.Round(PokemonInfo.CalculatePokemonPerfection(encounterPokemonResponse.WildPokemon.PokemonData))}% using {bestPokeball} got {caughtPokemonResponse.CaptureAward.Xp.Sum()} XP.");
+                                $"Caught New {StringUtils.getPokemonNameByLanguage(_clientSettings, pokemon.PokemonId)} CP {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} IV {PokemonInfo.CalculatePokemonPerfection(encounterPokemonResponse.WildPokemon.PokemonData).ToString("0.00")}% using {bestPokeball} got {caughtPokemonResponse.CaptureAward.Xp.Sum()} XP.");
                         }
                         else
                         {
                             Logger.ColoredConsoleWrite(ConsoleColor.Magenta,
-                                $"Caught {StringUtils.getPokemonNameByLanguage(_clientSettings, pokemon.PokemonId)} CP {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} IV {Math.Round(PokemonInfo.CalculatePokemonPerfection(encounterPokemonResponse.WildPokemon.PokemonData))}% using {bestPokeball} got {caughtPokemonResponse.CaptureAward.Xp.Sum()} XP.");
+                                $"Caught {StringUtils.getPokemonNameByLanguage(_clientSettings, pokemon.PokemonId)} CP {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} IV {PokemonInfo.CalculatePokemonPerfection(encounterPokemonResponse.WildPokemon.PokemonData).ToString("0.00")}% using {bestPokeball} got {caughtPokemonResponse.CaptureAward.Xp.Sum()} XP.");
                         }
 
                         try
                         {
-                            TelegramUtil.getInstance().sendInformationText(TelegramUtil.TelegramUtilInformationTopics.Catch, StringUtils.getPokemonNameByLanguage(_clientSettings, pokemon.PokemonId), encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp, Math.Round(PokemonInfo.CalculatePokemonPerfection(encounterPokemonResponse.WildPokemon.PokemonData)), bestPokeball, caughtPokemonResponse.CaptureAward.Xp.Sum());
+                            TelegramUtil.getInstance().sendInformationText(TelegramUtil.TelegramUtilInformationTopics.Catch, StringUtils.getPokemonNameByLanguage(_clientSettings, pokemon.PokemonId), encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp, PokemonInfo.CalculatePokemonPerfection(encounterPokemonResponse.WildPokemon.PokemonData).ToString("0.00"), bestPokeball, caughtPokemonResponse.CaptureAward.Xp.Sum());
                         }
                         catch (Exception)
                         {
@@ -628,7 +628,7 @@ namespace PokemonGo.RocketAPI.Logic
                     }
                     else
                     {
-                        Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, $"{StringUtils.getPokemonNameByLanguage(_clientSettings, pokemon.PokemonId)} CP {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} IV {Math.Round(PokemonInfo.CalculatePokemonPerfection(encounterPokemonResponse.WildPokemon.PokemonData))}% got away while using {bestPokeball}..");
+                        Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, $"{StringUtils.getPokemonNameByLanguage(_clientSettings, pokemon.PokemonId)} CP {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} IV {PokemonInfo.CalculatePokemonPerfection(encounterPokemonResponse.WildPokemon.PokemonData).ToString("0.00")}% got away while using {bestPokeball}..");
                         failed_softban++;
                     }
                 }
@@ -668,13 +668,13 @@ namespace PokemonGo.RocketAPI.Logic
                 var evolvePokemonOutProto = await _client.Inventory.EvolvePokemon((ulong)pokemon.Id);
                 
                 if (evolvePokemonOutProto.Result == EvolvePokemonResponse.Types.Result.Success)
-                {
-                    Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Evolved {StringUtils.getPokemonNameByLanguage(_clientSettings, pokemon.PokemonId)} CP {pokemon.Cp} {Math.Round(PokemonInfo.CalculatePokemonPerfection(pokemon))}%  to {StringUtils.getPokemonNameByLanguage(_clientSettings, evolvePokemonOutProto.EvolvedPokemonData.PokemonId)} CP: {evolvePokemonOutProto.EvolvedPokemonData.Cp} for {evolvePokemonOutProto.ExperienceAwarded.ToString("N0")}xp", LogLevel.Info);
+                { 
+                    Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Evolved {StringUtils.getPokemonNameByLanguage(_clientSettings, pokemon.PokemonId)} CP {pokemon.Cp} {PokemonInfo.CalculatePokemonPerfection(pokemon).ToString("0.00")}%  to {StringUtils.getPokemonNameByLanguage(_clientSettings, evolvePokemonOutProto.EvolvedPokemonData.PokemonId)} CP: {evolvePokemonOutProto.EvolvedPokemonData.Cp} for {evolvePokemonOutProto.ExperienceAwarded.ToString("N0")}xp", LogLevel.Info);
                     _botStats.AddExperience(evolvePokemonOutProto.ExperienceAwarded);
 
                     try
                     {
-                        TelegramUtil.getInstance().sendInformationText(TelegramUtil.TelegramUtilInformationTopics.Evolve, StringUtils.getPokemonNameByLanguage(_clientSettings, pokemon.PokemonId), pokemon.Cp, Math.Round(PokemonInfo.CalculatePokemonPerfection(pokemon)), StringUtils.getPokemonNameByLanguage(_clientSettings, evolvePokemonOutProto.EvolvedPokemonData.PokemonId), evolvePokemonOutProto.EvolvedPokemonData.Cp, evolvePokemonOutProto.ExperienceAwarded.ToString("N0"));
+                        TelegramUtil.getInstance().sendInformationText(TelegramUtil.TelegramUtilInformationTopics.Evolve, StringUtils.getPokemonNameByLanguage(_clientSettings, pokemon.PokemonId), pokemon.Cp, PokemonInfo.CalculatePokemonPerfection(pokemon).ToString("0.00"), StringUtils.getPokemonNameByLanguage(_clientSettings, evolvePokemonOutProto.EvolvedPokemonData.PokemonId), evolvePokemonOutProto.EvolvedPokemonData.Cp, evolvePokemonOutProto.ExperienceAwarded.ToString("N0"));
                     }
                     catch (Exception) { }
                 }
@@ -694,57 +694,68 @@ namespace PokemonGo.RocketAPI.Logic
         {
             try
             {
-                //await _client.Inventory.RefreshCachedInventory(); // REFRESH
-                //var incubators = (await _client.Inventory.GetEggIncubators()).ToList();
-                //var unusedEggs = (await _client.Inventory.GetEggs()).Where(x => string.IsNullOrEmpty(x.EggIncubatorId)).OrderBy(x => x.EggKmWalkedTarget - x.EggKmWalkedStart).ToList();
-                //var pokemons = (await _client.Inventory.GetPokemons()).ToList();
-                
-                //var playerStats = await _client.Inventory.GetPlayerStats();
-                //var stats = playerStats.First();
-                
-                //var kmWalked = stats.KmWalked;
+                await _client.Inventory.RefreshCachedInventory(); // REFRESH
+                var incubators = (await _client.Inventory.GetEggIncubators()).ToList();
+                var unusedEggs = (await _client.Inventory.GetEggs()).Where(x => string.IsNullOrEmpty(x.EggIncubatorId)).OrderBy(x => x.EggKmWalkedTarget - x.EggKmWalkedStart).ToList();
+                var pokemons = (await _client.Inventory.GetPokemons()).ToList();
 
-                //var rememberedIncubatorsFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory + "\\Configs", "incubators.json");
-                //var rememberedIncubators = GetRememberedIncubators(rememberedIncubatorsFilePath);
-                //var newRememberedIncubators = new List<IncubatorUsage>();
+                var playerStats = await _client.Inventory.GetPlayerStats();
+                var stats = playerStats.First();
 
-                //foreach (var incubator in incubators)
-                //{
-                //    if (incubator.PokemonId == 0)
-                //    {
-                //        // Unlimited incubators prefer short eggs, limited incubators prefer long eggs
-                //        // Special case: If only one incubator is available at all, it will prefer long eggs
-                //        var egg = (incubator.ItemId == ItemId.ItemIncubatorBasicUnlimited && incubators.Count > 1)
-                //            ? unusedEggs.FirstOrDefault()
-                //            : unusedEggs.LastOrDefault();
+                var kmWalked = stats.KmWalked;
 
-                //        if (egg == null)
-                //            continue;
-                         
-                //        if (egg.EggKmWalkedTarget < 5 && incubator.ItemId != ItemId.ItemIncubatorBasicUnlimited)
-                //            continue;
+                var rememberedIncubatorsFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory + "\\Configs", "incubators.json");
+                var rememberedIncubators = GetRememberedIncubators(rememberedIncubatorsFilePath);
 
-                //        var response = await _client.Inventory.UseItemEggIncubator(incubator.Id, egg.Id);
-                //        unusedEggs.Remove(egg);
+                foreach (var incubator in rememberedIncubators)
+                {
+                    var hatched = pokemons.FirstOrDefault(x => !x.IsEgg && x.Id == incubator.PokemonId);
+                    if (hatched == null) continue;
 
-                //        newRememberedIncubators.Add(new IncubatorUsage { IncubatorId = incubator.Id, PokemonId = egg.Id });
+                    Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, "Egg hatched and we got a " + hatched.PokemonId + " CP: " + hatched.Cp + " MaxCP: " + PokemonInfo.CalculateMaxCP(hatched) + " Level: " + PokemonInfo.GetLevel(hatched) + " IV: " + PokemonInfo.CalculatePokemonPerfection(hatched).ToString("0.00"));
+                }
 
-                //        Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, "Added Egg which needs " + egg.EggKmWalkedTarget + "km");
-                //    }
-                //    else
-                //    {
-                //        newRememberedIncubators.Add(new IncubatorUsage
-                //        {
-                //            IncubatorId = incubator.Id,
-                //            PokemonId = incubator.PokemonId
-                //        });
+                var newRememberedIncubators = new List<IncubatorUsage>();
 
-                //        Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, "Egg (" + (incubator.TargetKmWalked - incubator.StartKmWalked) + "km) need to walk " + (incubator.TargetKmWalked - kmWalked) + "km.");
-                //    }
-                //}
+                foreach (var incubator in incubators)
+                {
+                    if (incubator.PokemonId == 0)
+                    {
+                        // Unlimited incubators prefer short eggs, limited incubators prefer long eggs
+                        // Special case: If only one incubator is available at all, it will prefer long eggs
+                        var egg = (incubator.ItemId == ItemId.ItemIncubatorBasicUnlimited && incubators.Count > 1)
+                            ? unusedEggs.FirstOrDefault()
+                            : unusedEggs.LastOrDefault();
 
-                //if (!newRememberedIncubators.SequenceEqual(rememberedIncubators))
-                //    SaveRememberedIncubators(newRememberedIncubators, rememberedIncubatorsFilePath); 
+                        if (egg == null)
+                            continue;
+
+                        if (egg.EggKmWalkedTarget < 5 && incubator.ItemId != ItemId.ItemIncubatorBasicUnlimited)
+                            continue;
+
+                        var response = await _client.Inventory.UseItemEggIncubator(incubator.Id, egg.Id);
+                        unusedEggs.Remove(egg);
+
+                        newRememberedIncubators.Add(new IncubatorUsage { IncubatorId = incubator.Id, PokemonId = egg.Id });
+
+                        Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, "Added Egg which needs " + egg.EggKmWalkedTarget + "km");
+                        // We need some sleep here or this shit explodes
+                        await RandomHelper.RandomDelay(100, 200);
+                    }
+                    else
+                    {
+                        newRememberedIncubators.Add(new IncubatorUsage
+                        {
+                            IncubatorId = incubator.Id,
+                            PokemonId = incubator.PokemonId
+                        });
+
+                        Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, "Egg (" + (incubator.TargetKmWalked - incubator.StartKmWalked) + "km) need to walk " + (incubator.TargetKmWalked - kmWalked) + "km.");
+                    }
+                }
+
+                if (!newRememberedIncubators.SequenceEqual(rememberedIncubators))
+                    SaveRememberedIncubators(newRememberedIncubators, rememberedIncubatorsFilePath);
             }
             catch (Exception e)
             {
@@ -774,14 +785,14 @@ namespace PokemonGo.RocketAPI.Logic
                         var bestPokemonsIVOfType = await _client.Inventory.GetHighestIVofType(duplicatePokemon);
 
                         var transfer = await _client.Inventory.TransferPokemon(duplicatePokemon.Id);
-                        Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Transfer {StringUtils.getPokemonNameByLanguage(_clientSettings, duplicatePokemon.PokemonId)} CP {duplicatePokemon.Cp} IV {Math.Round(PokemonInfo.CalculatePokemonPerfection(duplicatePokemon))}% (Best: {bestPokemonsCPOfType.First().Cp} CP, IV {Math.Round(PokemonInfo.CalculatePokemonPerfection(bestPokemonsIVOfType.First()))}%)", LogLevel.Info);
+                        Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Transfer {StringUtils.getPokemonNameByLanguage(_clientSettings, duplicatePokemon.PokemonId)} CP {duplicatePokemon.Cp} IV {PokemonInfo.CalculatePokemonPerfection(duplicatePokemon).ToString("0.00")}% (Best: {bestPokemonsCPOfType.First().Cp} CP, IV {PokemonInfo.CalculatePokemonPerfection(bestPokemonsIVOfType.First()).ToString("0.00")}%)", LogLevel.Info);
                         //Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Transfer {StringUtils.getPokemonNameByLanguage(_clientSettings, duplicatePokemon.PokemonId)} CP {duplicatePokemon.Cp} IV {Math.Round(duplicatePokemon.CalculateIV())}% (Best: {bestPokemonOfType} CP)", LogLevel.Info);
 
                         try
                         {
                             TelegramUtil.getInstance().sendInformationText(TelegramUtil.TelegramUtilInformationTopics.Transfer, 
                                 StringUtils.getPokemonNameByLanguage(_clientSettings, duplicatePokemon.PokemonId), duplicatePokemon.Cp, 
-                                Math.Round(PokemonInfo.CalculatePokemonPerfection(duplicatePokemon)), bestPokemonOfType);
+                                PokemonInfo.CalculatePokemonPerfection(duplicatePokemon).ToString("0.00"), bestPokemonOfType);
                         }
                         catch (Exception)
                         {
@@ -813,7 +824,7 @@ namespace PokemonGo.RocketAPI.Logic
 
             await RecycleItems(true);
             var items = await _client.Inventory.GetItems();
-
+            
             var balls = items.Where(i => ((ItemId)i.ItemId == ItemId.ItemPokeBall
                                       || (ItemId)i.ItemId == ItemId.ItemGreatBall
                                       || (ItemId)i.ItemId == ItemId.ItemUltraBall
@@ -827,6 +838,24 @@ namespace PokemonGo.RocketAPI.Logic
             var greatBalls = balls.Any(g => g.Key == ItemId.ItemGreatBall);
             var ultraBalls = balls.Any(g => g.Key == ItemId.ItemUltraBall);
             var masterBalls = balls.Any(g => g.Key == ItemId.ItemMasterBall);
+
+            var coll = _clientSettings.itemRecycleFilter;
+            foreach (KeyValuePair<ItemId, int> v in coll )
+            {
+                if (v.Key == ItemId.ItemPokeBall && v.Value == 0)
+                {
+                    pokeBalls = false;
+                } else if (v.Key == ItemId.ItemGreatBall && v.Value == 0)
+                {
+                    greatBalls = false;
+                } else if (v.Key == ItemId.ItemUltraBall && v.Value == 0)
+                {
+                    ultraBalls = false;
+                } else if (v.Key == ItemId.ItemMasterBall && v.Value == 0)
+                {
+                    masterBalls = false;
+                }
+            }
 
             if (masterBalls && pokemonCp >= 2000)
                 return ItemId.ItemMasterBall;
@@ -842,6 +871,18 @@ namespace PokemonGo.RocketAPI.Logic
 
             if (greatBalls && pokemonCp >= 500)
                 return ItemId.ItemGreatBall;
+
+            if (pokeBalls)
+                return ItemId.ItemPokeBall;
+
+            if (greatBalls)
+                return ItemId.ItemGreatBall;
+
+            if (ultraBalls)
+                return ItemId.ItemUltraBall;
+
+            if (masterBalls)
+                return ItemId.ItemMasterBall;
 
             return balls.OrderBy(c => c.Key).First().Key;
         }

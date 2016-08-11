@@ -11,6 +11,7 @@ using POGOProtos.Enums;
 using POGOProtos.Networking.Requests;
 using POGOProtos.Networking.Requests.Messages;
 using POGOProtos.Networking.Responses;
+using System.IO;
 
 namespace PokemonGo.RocketAPI.Rpc
 {
@@ -45,8 +46,20 @@ namespace PokemonGo.RocketAPI.Rpc
             _client.CurrentLatitude = lat;
             _client.CurrentLongitude = lng;
             _client.CurrentAltitude = altitude;
+            SaveLatLng(lat, lng);
         }
 
+        public void SaveLatLng(double lat, double lng)
+        {
+            try {
+                string latlng = lat.ToString() + ":" + lng.ToString();
+                File.WriteAllText(Directory.GetCurrentDirectory() + "\\Configs\\LastCoords.txt", latlng);
+            } catch (Exception)
+            {
+
+            }
+         }
+        
         public async Task<GetPlayerResponse> GetPlayer()
         {
             return await PostProtoPayload<Request, GetPlayerResponse>(RequestType.GetPlayer, new GetPlayerMessage());
