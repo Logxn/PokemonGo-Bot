@@ -111,7 +111,6 @@
             this.groupBox9 = new System.Windows.Forms.GroupBox();
             this.linkLabel4 = new System.Windows.Forms.LinkLabel();
             this.linkLabel3 = new System.Windows.Forms.LinkLabel();
-            this.label33 = new System.Windows.Forms.Label();
             this.groupBox10 = new System.Windows.Forms.GroupBox();
             this.chkUseBasicIncubators = new System.Windows.Forms.CheckBox();
             this.chkAutoIncubate = new System.Windows.Forms.CheckBox();
@@ -150,6 +149,7 @@
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.label30 = new System.Windows.Forms.Label();
             this.label32 = new System.Windows.Forms.Label();
+            this.checkBox16 = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -965,10 +965,9 @@
             // 
             this.groupBox9.Controls.Add(this.linkLabel4);
             this.groupBox9.Controls.Add(this.linkLabel3);
-            this.groupBox9.Controls.Add(this.label33);
             this.groupBox9.Controls.Add(this.linkLabel1);
             this.groupBox9.Controls.Add(this.linkLabel2);
-            this.groupBox9.Location = new System.Drawing.Point(264, 246);
+            this.groupBox9.Location = new System.Drawing.Point(264, 265);
             this.groupBox9.Name = "groupBox9";
             this.groupBox9.Size = new System.Drawing.Size(271, 71);
             this.groupBox9.TabIndex = 18;
@@ -997,15 +996,9 @@
             this.linkLabel3.Text = "Twitter Ar1i";
             this.linkLabel3.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel3_LinkClicked);
             // 
-            // label33
-            // 
-            this.label33.Location = new System.Drawing.Point(0, 0);
-            this.label33.Name = "label33";
-            this.label33.Size = new System.Drawing.Size(100, 23);
-            this.label33.TabIndex = 40;
-            // 
             // groupBox10
             // 
+            this.groupBox10.Controls.Add(this.checkBox16);
             this.groupBox10.Controls.Add(this.chkUseBasicIncubators);
             this.groupBox10.Controls.Add(this.chkAutoIncubate);
             this.groupBox10.Controls.Add(this.checkBox12);
@@ -1017,7 +1010,7 @@
             this.groupBox10.Controls.Add(this.checkBox3);
             this.groupBox10.Location = new System.Drawing.Point(264, 6);
             this.groupBox10.Name = "groupBox10";
-            this.groupBox10.Size = new System.Drawing.Size(271, 240);
+            this.groupBox10.Size = new System.Drawing.Size(271, 244);
             this.groupBox10.TabIndex = 6;
             this.groupBox10.TabStop = false;
             this.groupBox10.Text = "Other Settings";
@@ -1025,7 +1018,7 @@
             // chkUseBasicIncubators
             // 
             this.chkUseBasicIncubators.AutoSize = true;
-            this.chkUseBasicIncubators.Location = new System.Drawing.Point(24, 200);
+            this.chkUseBasicIncubators.Location = new System.Drawing.Point(24, 220);
             this.chkUseBasicIncubators.Name = "chkUseBasicIncubators";
             this.chkUseBasicIncubators.Size = new System.Drawing.Size(125, 17);
             this.chkUseBasicIncubators.TabIndex = 34;
@@ -1038,7 +1031,7 @@
             this.chkAutoIncubate.AutoSize = true;
             this.chkAutoIncubate.Checked = true;
             this.chkAutoIncubate.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkAutoIncubate.Location = new System.Drawing.Point(6, 179);
+            this.chkAutoIncubate.Location = new System.Drawing.Point(6, 199);
             this.chkAutoIncubate.Name = "chkAutoIncubate";
             this.chkAutoIncubate.Size = new System.Drawing.Size(226, 17);
             this.chkAutoIncubate.TabIndex = 33;
@@ -1459,6 +1452,17 @@
             this.label32.TabIndex = 46;
             this.label32.Text = "If you\'re Softbanned, and unban is not working. Get a new IP.\r\n";
             // 
+            // checkBox16
+            // 
+            this.checkBox16.AutoSize = true;
+            this.checkBox16.Location = new System.Drawing.Point(6, 176);
+            this.checkBox16.Name = "checkBox16";
+            this.checkBox16.Size = new System.Drawing.Size(96, 17);
+            this.checkBox16.TabIndex = 35;
+            this.checkBox16.Text = "Use RazzBerry";
+            this.checkBox16.UseVisualStyleBackColor = true;
+            this.checkBox16.CheckedChanged += new System.EventHandler(this.checkBox16_CheckedChanged);
+            // 
             // GUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1622,7 +1626,6 @@
         private System.Windows.Forms.CheckBox checkBox12;
         private System.Windows.Forms.CheckBox chkUseBasicIncubators;
         private System.Windows.Forms.CheckBox chkAutoIncubate;
-        private System.Windows.Forms.Label label33;
         private System.Windows.Forms.LinkLabel linkLabel4;
         private System.Windows.Forms.LinkLabel linkLabel3;
         private System.Windows.Forms.Label label30;
@@ -1643,6 +1646,7 @@
         private System.Windows.Forms.Label label37;
         private System.Windows.Forms.LinkLabel linkLabel5;
         private System.Windows.Forms.Label label38;
+        private System.Windows.Forms.CheckBox checkBox16;
     }
 }
 

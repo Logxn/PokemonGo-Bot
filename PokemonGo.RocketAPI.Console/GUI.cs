@@ -640,6 +640,7 @@ namespace PokemonGo.RocketAPI.Console
             Globals.keepPokemonsThatCanEvolve = checkBox11.Checked;
             //Globals.pokevision = checkBox12.Checked;
             Globals.useLuckyEggIfNotRunning = checkBox12.Checked;
+            Globals.userazzberry = checkBox16.Checked;
             Globals.TransferFirstLowIV = checkBox15.Checked;
             Globals.settingsLanguage = langSelected;
 
@@ -690,6 +691,7 @@ namespace PokemonGo.RocketAPI.Console
                     Globals.pokeList.ToString(),
                     Globals.keepPokemonsThatCanEvolve.ToString(),
                     Globals.useLuckyEggIfNotRunning.ToString(),
+                    Globals.userazzberry.ToString(),
                     Globals.autoIncubate.ToString(),
                     Globals.useBasicIncubators.ToString(),
                     Globals.TransferFirstLowIV.ToString(),
@@ -789,6 +791,11 @@ namespace PokemonGo.RocketAPI.Console
         private void checkBox7_CheckedChanged(object sender, EventArgs e)
         {
             Globals.useluckyegg = checkBox7.Checked;
+        }
+
+        private void checkBox16_CheckedChanged(object sender, EventArgs e)
+        {
+            Globals.userazzberry = checkBox16.Checked;
         }
 
         private void checkBox8_CheckedChanged(object sender, EventArgs e)
@@ -979,6 +986,7 @@ namespace PokemonGo.RocketAPI.Console
             button1.Text = TranslationHandler.GetString("saveConfig", "Save Configuration / Start Bot");
             groupBox10.Text = TranslationHandler.GetString("otherSettings", "Other Settings");
             checkBox7.Text = TranslationHandler.GetString("useLuckyeggAtEvolve", "Use LuckyEgg at Evolve");
+            checkBox16.Text = TranslationHandler.GetString("useRazzBerry", "Use RazzBerry");
             checkBox8.Text = TranslationHandler.GetString("germanPokemonNames", "German Pokemon names");
             checkBox9.Text = TranslationHandler.GetString("useIncese", "Use Incense every 30min");
             checkBox3.Text = TranslationHandler.GetString("evolvePokemonIfEnoughCandy", "Evolve Pokemons if enough candy");
