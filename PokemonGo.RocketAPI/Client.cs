@@ -82,7 +82,7 @@ namespace PokemonGo.RocketAPI
                 return p;
             } catch (Exception)
             {
-                Logger.Error("Something in your Proxy Settings is wrong! Exiting in 5 seconds.");
+                Logger.Error("Something in your Proxy Settings is wrong, or the Proxy is down! Exiting in 5 seconds.");
                 Thread.Sleep(5000);
                 Environment.Exit(0);
                 return null;
