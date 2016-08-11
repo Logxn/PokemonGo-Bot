@@ -646,7 +646,6 @@ namespace PokemonGo.RocketAPI.Console
             } else {
                 int x = int.Parse(textBox26.Text);
                 decimal c = ((decimal)x / 100);
-                MessageBox.Show(Convert.ToDouble(c).ToString());
                 Globals.razzberry_chance = Convert.ToDouble(c);
             }
 
