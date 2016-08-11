@@ -432,6 +432,7 @@ namespace PokemonGo.RocketAPI.Console
         public static bool useluckyegg = true;
         public static bool useincense = true;
         public static bool userazzberry = true;
+        public static double razzberry_chance = 0.35;
         public static bool gerNames = false;
         public static bool pokeList = true;
         public static bool keepPokemonsThatCanEvolve = true;

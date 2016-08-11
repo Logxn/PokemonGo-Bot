@@ -40,6 +40,7 @@ namespace PokemonGo.RocketAPI
 
         bool UseLuckyEgg { get; }
         bool UseRazzBerry { get; }
+        double razzberry_chance { get; }
         bool UseLuckyEggIfNotRunning { get; }
         bool keepPokemonsThatCanEvolve { get; }
         bool TransferFirstLowIV { get; }

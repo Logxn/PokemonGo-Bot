@@ -562,7 +562,7 @@ namespace PokemonGo.RocketAPI.Logic
                     Logger.ColoredConsoleWrite(ConsoleColor.Magenta, $"Encountered {StringUtils.getPokemonNameByLanguage(_clientSettings, pokemon.PokemonId)} CP {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp}  IV {PokemonInfo.CalculatePokemonPerfection(encounterPokemonResponse.WildPokemon.PokemonData).ToString("0.00")}% Probability {Math.Round(probability.Value * 100)}%");
                     do
                     {
-                        if (probability.HasValue && probability.Value < 0.35 && _clientSettings.UseRazzBerry)
+                        if (probability.HasValue && probability.Value < _clientSettings.razzberry_chance && _clientSettings.UseRazzBerry)
                         { 
                             var bestBerry = await GetBestBerry(encounterPokemonResponse?.WildPokemon);
                             var berries = inventoryBerries.Where(p => (ItemId)p.ItemId == bestBerry).FirstOrDefault();
