@@ -293,7 +293,7 @@ namespace PokemonGo.RocketAPI.Logic.Utils
                         double curexppercent = (Convert.ToDouble(curexp) / Convert.ToDouble(expneeded)) * 100;
                         string curloc = _client.CurrentLatitude + "%20" + _client.CurrentLongitude;
                         curloc = curloc.Replace(",", ".");
-                        string curlochtml = "https://www.google.de/maps/search/" + curloc + "/";
+                        string curlochtml = "https://www.google.com/maps/search/" + curloc + "/";
                         double shortenLng = Math.Round(_client.CurrentLongitude, 3);
                         double shortenLat = Math.Round(_client.CurrentLatitude, 3);
                         string pokemap = shortenLat + ";" + shortenLng;
