@@ -1017,10 +1017,17 @@ namespace PokemonGo.RocketAPI.Console
             if (clicked != null)
             {
                 // I have used the tag field of the button to save the language key
-                langSelected = (string)clicked.Tag;
+                langSelected = (string)clicked.Tag; 
                 if (!string.IsNullOrWhiteSpace(langSelected))
                 {
-                    TranslationHandler.SelectLangauge(langSelected);
+                    if (langSelected == "en")
+                    {
+                        TranslationHandler.SelectLangauge(null);
+                    }
+                    else
+                    {
+                        TranslationHandler.SelectLangauge(langSelected);
+                    }
                     load_lang();
                 }
                 else

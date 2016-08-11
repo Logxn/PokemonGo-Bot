@@ -112,6 +112,7 @@
             this.linkLabel4 = new System.Windows.Forms.LinkLabel();
             this.linkLabel3 = new System.Windows.Forms.LinkLabel();
             this.groupBox10 = new System.Windows.Forms.GroupBox();
+            this.checkBox16 = new System.Windows.Forms.CheckBox();
             this.chkUseBasicIncubators = new System.Windows.Forms.CheckBox();
             this.chkAutoIncubate = new System.Windows.Forms.CheckBox();
             this.checkBox12 = new System.Windows.Forms.CheckBox();
@@ -149,7 +150,6 @@
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.label30 = new System.Windows.Forms.Label();
             this.label32 = new System.Windows.Forms.Label();
-            this.checkBox16 = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -1015,6 +1015,17 @@
             this.groupBox10.TabStop = false;
             this.groupBox10.Text = "Other Settings";
             // 
+            // checkBox16
+            // 
+            this.checkBox16.AutoSize = true;
+            this.checkBox16.Location = new System.Drawing.Point(6, 176);
+            this.checkBox16.Name = "checkBox16";
+            this.checkBox16.Size = new System.Drawing.Size(96, 17);
+            this.checkBox16.TabIndex = 35;
+            this.checkBox16.Text = "Use RazzBerry";
+            this.checkBox16.UseVisualStyleBackColor = true;
+            this.checkBox16.CheckedChanged += new System.EventHandler(this.checkBox16_CheckedChanged);
+            // 
             // chkUseBasicIncubators
             // 
             this.chkUseBasicIncubators.AutoSize = true;
@@ -1401,7 +1412,6 @@
             // 
             this.lang_en_btn.BackgroundImage = global::PokemonGo.RocketAPI.Console.Properties.Resources.en;
             this.lang_en_btn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.lang_en_btn.Enabled = false;
             this.lang_en_btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.lang_en_btn.Location = new System.Drawing.Point(12, 79);
             this.lang_en_btn.Name = "lang_en_btn";
@@ -1451,17 +1461,6 @@
             this.label32.Size = new System.Drawing.Size(441, 20);
             this.label32.TabIndex = 46;
             this.label32.Text = "If you\'re Softbanned, and unban is not working. Get a new IP.\r\n";
-            // 
-            // checkBox16
-            // 
-            this.checkBox16.AutoSize = true;
-            this.checkBox16.Location = new System.Drawing.Point(6, 176);
-            this.checkBox16.Name = "checkBox16";
-            this.checkBox16.Size = new System.Drawing.Size(96, 17);
-            this.checkBox16.TabIndex = 35;
-            this.checkBox16.Text = "Use RazzBerry";
-            this.checkBox16.UseVisualStyleBackColor = true;
-            this.checkBox16.CheckedChanged += new System.EventHandler(this.checkBox16_CheckedChanged);
             // 
             // GUI
             // 
