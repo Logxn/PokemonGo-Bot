@@ -261,6 +261,9 @@ namespace PokemonGo.RocketAPI.Console
                         case 28:
                             //langSelected = line;
                             break;
+                        case 29:
+                            checkBox16.Checked = bool.Parse(line);
+                            break;
                         default:
                             TextBox temp = (TextBox)Controls.Find("textBox" + tb, true).FirstOrDefault();
                             temp.Text = line;
@@ -691,11 +694,11 @@ namespace PokemonGo.RocketAPI.Console
                     Globals.pokeList.ToString(),
                     Globals.keepPokemonsThatCanEvolve.ToString(),
                     Globals.useLuckyEggIfNotRunning.ToString(),
-                    Globals.userazzberry.ToString(),
                     Globals.autoIncubate.ToString(),
                     Globals.useBasicIncubators.ToString(),
                     Globals.TransferFirstLowIV.ToString(),
-                    Globals.settingsLanguage
+                    Globals.settingsLanguage,
+                    Globals.userazzberry.ToString()
             };
             File.WriteAllLines(@Program.account, accFile);
 
