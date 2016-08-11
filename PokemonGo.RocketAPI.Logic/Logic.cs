@@ -751,7 +751,7 @@ namespace PokemonGo.RocketAPI.Logic
                             PokemonId = incubator.PokemonId
                         });
 
-                        Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, "Egg (" + (incubator.TargetKmWalked - incubator.StartKmWalked) + "km) need to walk " + (incubator.TargetKmWalked - kmWalked) + "km.");
+                        Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, "Egg (" + (incubator.TargetKmWalked - incubator.StartKmWalked) + "km) need to walk " + Math.Round(incubator.TargetKmWalked - kmWalked, 2) + " km.");
                     }
                 }
 
