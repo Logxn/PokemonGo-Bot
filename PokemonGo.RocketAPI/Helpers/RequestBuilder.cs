@@ -9,6 +9,9 @@ using System.Diagnostics;
 using System.Collections.Generic;
 using System.Linq;
 using PokemonGo.RocketAPI.Extensions;
+using System.Security.Cryptography;
+using System.IO;
+using System.Windows.Forms;
 
 namespace PokemonGo.RocketAPI.Helpers
 {
@@ -22,9 +25,74 @@ namespace PokemonGo.RocketAPI.Helpers
         private readonly AuthTicket _authTicket;
         static private readonly Stopwatch _internalWatch = new Stopwatch();
 
+        /// Device Shit
+        public static string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Device"); 
+        public static string deviceinfo = Path.Combine(path, "DeviceInfo.txt");
+
+        public string DeviceId;
+        public string AndroidBoardName;
+        public string AndroidBootloader;
+        public string DeviceBrand;
+        public string DeviceModel;
+        public string DeviceModelIdentifier;
+        public string DeviceModelBoot;
+        public string HardwareManufacturer;
+        public string HardwareModel;
+        public string FirmwareBrand;
+        public string FirmwareTags;
+        public string FirmwareType;
+        public string FirmwareFingerprint;
+
+        public bool setupdevicedone = false;
+
+        public void setUpDevice()
+        { 
+            string[] arrLine = File.ReadAllLines(deviceinfo); 
+
+            string DevicePackageName = arrLine[0].ToString(); 
+            // Read DeviceID of File
+            if (arrLine[1].ToString() != " ")
+            {
+                DeviceId = arrLine[1].ToString();
+            } else
+            {
+                DeviceId = RandomString(16, "0123456789abcdef");
+                // Save to file
+                string[] b = new string[] { DevicePackageName, DeviceId };
+
+                File.WriteAllLines(deviceinfo, b);
+            }
+            // If zero
+
+
+            // Setuprest
+            AndroidBoardName = DeviceInfoHelper.DeviceInfoSets[DevicePackageName]["AndroidBoardName"];
+            AndroidBootloader = DeviceInfoHelper.DeviceInfoSets[DevicePackageName]["AndroidBootloader"];
+            DeviceBrand = DeviceInfoHelper.DeviceInfoSets[DevicePackageName]["DeviceBrand"];
+            DeviceId = DeviceInfoHelper.DeviceInfoSets[DevicePackageName]["DeviceId"];
+            DeviceModel = DeviceInfoHelper.DeviceInfoSets[DevicePackageName]["DeviceModel"];
+            DeviceModelBoot = DeviceInfoHelper.DeviceInfoSets[DevicePackageName]["DeviceModelBoot"];
+            DeviceModelIdentifier = DeviceInfoHelper.DeviceInfoSets[DevicePackageName]["DeviceModelIdentifier"];
+            FirmwareBrand = DeviceInfoHelper.DeviceInfoSets[DevicePackageName]["FirmwareBrand"];
+            FirmwareFingerprint = DeviceInfoHelper.DeviceInfoSets[DevicePackageName]["FirmwareFingerprint"];
+            FirmwareTags = DeviceInfoHelper.DeviceInfoSets[DevicePackageName]["FirmwareTags"];
+            FirmwareType = DeviceInfoHelper.DeviceInfoSets[DevicePackageName]["FirmwareType"];
+            HardwareManufacturer = DeviceInfoHelper.DeviceInfoSets[DevicePackageName]["HardwareManufacturer"];
+            HardwareModel = DeviceInfoHelper.DeviceInfoSets[DevicePackageName]["HardwareModel"];
+        
+            setupdevicedone = true;
+        }
+
+
         public RequestBuilder(string authToken, AuthType authType, double latitude, double longitude, double altitude,
             AuthTicket authTicket = null)
         {
+
+            if (!setupdevicedone)
+            {
+                setUpDevice();
+            }
+
             _authToken = authToken;
             _authType = authType;
             _latitude = latitude;
@@ -62,19 +130,19 @@ namespace PokemonGo.RocketAPI.Helpers
             };
             sig.DeviceInfo = new POGOProtos.Networking.Signature.Types.DeviceInfo()
             {
-                DeviceId = GetDeviceId(),
-                AndroidBoardName = "msm8994", // might al
-                AndroidBootloader = "unknown",
-                DeviceBrand = "OnePlus",
-                DeviceModel = "OnePlus2", // might als
-                DeviceModelIdentifier = "ONE A2003_24_160604",
-                DeviceModelBoot = "qcom",
-                HardwareManufacturer = "OnePlus",
-                HardwareModel = "ONE A2003",
-                FirmwareBrand = "OnePlus2",
-                FirmwareTags = "dev-keys",
-                FirmwareType = "user",
-                FirmwareFingerprint = "OnePlus/OnePlus2/OnePlus2:6.0.1/MMB29M/1447840820:user/release-keys"
+                DeviceId = this.DeviceId,
+                AndroidBoardName = this.AndroidBoardName, // might al
+                AndroidBootloader = this.AndroidBootloader,
+                DeviceBrand = this.DeviceBrand,
+                DeviceModel = this.DeviceModel, // might als
+                DeviceModelIdentifier = this.DeviceModelIdentifier,
+                DeviceModelBoot = this.DeviceModelBoot,
+                HardwareManufacturer = this.HardwareManufacturer,
+                HardwareModel = this.HardwareModel,
+                FirmwareBrand = this.FirmwareBrand,
+                FirmwareTags = this.FirmwareTags,
+                FirmwareType = this.FirmwareType,
+                FirmwareFingerprint = this.FirmwareFingerprint
             };
             sig.LocationFix.Add(new POGOProtos.Networking.Signature.Types.LocationFix()
             {
@@ -216,12 +284,28 @@ namespace PokemonGo.RocketAPI.Helpers
             return randomizedDelay; ;
         }
 
-        public static string GetDeviceId()
+        private string RandomString(int length, string alphabet = "abcdefghijklmnopqrstuvwxyz0123456789")
         {
-           byte[] DeviceUUID = new byte[8];
-            Random random = new Random();
-           random.NextBytes(DeviceUUID);
-            return BitConverter.ToString(DeviceUUID).Replace("-", "");
+            var outOfRange = Byte.MaxValue + 1 - (Byte.MaxValue + 1) % alphabet.Length;
+
+            return string.Concat(
+                Enumerable
+                    .Repeat(0, Int32.MaxValue)
+                    .Select(e => this.RandomByte())
+                    .Where(randomByte => randomByte < outOfRange)
+                    .Take(length)
+                    .Select(randomByte => alphabet[randomByte % alphabet.Length])
+            );
+        }
+
+        private byte RandomByte()
+        {
+            using (var randomizationProvider = new RNGCryptoServiceProvider())
+            {
+                var randomBytes = new byte[1];
+                randomizationProvider.GetBytes(randomBytes);
+                return randomBytes.Single();
+            }
         }
     }
 }

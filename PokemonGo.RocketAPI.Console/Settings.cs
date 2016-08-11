@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 
 namespace PokemonGo.RocketAPI.Console
-{
+{ 
     public class Settings : ISettings
     {
         public bool UseLastCords => true; // Only disable this if your sure what you're doing!

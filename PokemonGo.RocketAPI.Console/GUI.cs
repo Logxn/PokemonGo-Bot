@@ -13,6 +13,7 @@ using System.Windows.Forms;
 
 using PokemonGo.RocketAPI.Logic.Translation;
 using POGOProtos.Enums;
+using System.Threading;
 
 namespace PokemonGo.RocketAPI.Console
 {
@@ -73,12 +74,35 @@ namespace PokemonGo.RocketAPI.Console
 
         public static ISettings _clientSettings;
 
+        static string devicePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Device");
+        static string deviceinfo = Path.Combine(devicePath, "DeviceInfo.txt");
+
         private void GUI_Load(object sender, EventArgs e)
         {
             _clientSettings = new Settings();
             // Create missing Files
             Directory.CreateDirectory(Program.path);
             Directory.CreateDirectory(Program.path_translation);
+            Directory.CreateDirectory(devicePath);
+
+            if (!File.Exists(deviceinfo))
+            {
+                var f = File.Create(deviceinfo);
+                f.Close();
+                File.WriteAllLines(deviceinfo, new string[] { "galaxy6", " " });
+            } else
+            {
+                // Try to read the device name
+                string[] arrLine = File.ReadAllLines(deviceinfo);
+                try
+                {
+                    if (arrLine[0] != null)
+                    {
+                        comboBox2.Text = arrLine[0];
+                    }
+                } catch (Exception) { 
+                }
+            }
 
             try
             {
@@ -1241,6 +1265,18 @@ namespace PokemonGo.RocketAPI.Console
         private void linkLabel5_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             Process.Start("http://proxylist.hidemyass.com/search-1297445#listable");
+        }
+
+        private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            try {
+                string[] arrLine = File.ReadAllLines(deviceinfo);
+                arrLine[0] = comboBox2.SelectedItem.ToString();
+                File.WriteAllLines(deviceinfo, arrLine);
+            } catch (IndexOutOfRangeException)
+            {
+                File.WriteAllLines(deviceinfo, new string[] { comboBox2.SelectedItem.ToString(), " " });
+            }
         }
     }
 }
