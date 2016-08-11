@@ -450,7 +450,7 @@ namespace PokemonGo.RocketAPI.Logic
                     }
                     else
                     {
-                        items = "Nothing (Inventory Full?)";
+                        items = "None (Inventory full?)";
                         await RecycleItems();
                     }
 
