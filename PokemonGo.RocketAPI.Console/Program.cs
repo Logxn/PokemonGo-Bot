@@ -316,7 +316,7 @@ namespace PokemonGo.RocketAPI.Console
                 {
                     Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Unhandled exception: {ex}", LogLevel.Error);
                     Logger.Error("Restarting in 20 Seconds.");
-                    Thread.Sleep(200000);
+                    Thread.Sleep(20000);
                     new Logic.Logic(new Settings(), Globals.infoObservable).Execute().Wait();
                 }
             });
