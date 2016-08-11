@@ -112,32 +112,18 @@ namespace PokemonGo.RocketAPI.Console
 
             }
 
-            // Load Languages Files always UP2Date
-            try
-            {
-                ExtendedWebClient client = new ExtendedWebClient();
-                string translations = client.DownloadString("http://pokemon-go.ar1i.xyz/lang/get.php");
-                string[] transArray = translations.Replace("\r", string.Empty).Split('\n');
-                for (int ijik = 0; ijik < transArray.Count(); ijik++)
-                {
-                    client.DownloadFile("http://pokemon-go.ar1i.xyz/lang/" + transArray[ijik], Program.path_translation + "\\" + transArray[ijik]);
-                }
-            }
-            catch (Exception)
-            {
-                List<string> b = new List<string>();
-                b.Add("de.json");
-                b.Add("france.json");
-                b.Add("italian.json");
-                b.Add("ptBR.json");
-                b.Add("ru.json");
-                b.Add("spain.json");
-                b.Add("tr.json");
+            List<string> b = new List<string>();
+            b.Add("de.json");
+            b.Add("france.json");
+            b.Add("italian.json");
+            b.Add("ptBR.json");
+            b.Add("ru.json");
+            b.Add("spain.json");
+            b.Add("tr.json");
 
-                foreach (var l in b)
-                {
-                    Extract("PokemonGo.RocketAPI.Console", Program.path_translation, "Lang", l);
-                }
+            foreach (var l in b)
+            {
+                Extract("PokemonGo.RocketAPI.Console", Program.path_translation, "Lang", l); 
             }
 
             TranslationHandler.Init();
