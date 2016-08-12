@@ -39,4 +39,7 @@
     "evolvePokemonIfEnoughCandy": "Evolucionar Pokémon si es posible",
     "enablePokemonListGUI": "Habilitar Lista de opciones Pokémon",
     "keepPokemonWhichCanBeEvolved": "Mantener Pokémon evolucionables"
+    "useRazzBerry":"Usar Baya Frambu",
+    "autoIncubate":"Incubar automáticamente",
+    "useBasicIncubators":"Usar la incubadora base"
 }
