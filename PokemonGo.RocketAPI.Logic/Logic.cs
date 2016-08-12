@@ -57,6 +57,12 @@ namespace PokemonGo.RocketAPI.Logic
             _client.CurrentLongitude = _client.Settings.DefaultLongitude;
             _client.CurrentLatitude = _client.Settings.DefaultLatitude;
 
+            if (_client.CurrentAltitude == 0)
+            {
+                _client.CurrentAltitude = LocationUtils.getAltidude(_client.CurrentLatitude, _client.CurrentLongitude); 
+                Logger.Error("Altidude was 0, resolved that. New Altidude is now: " + _client.CurrentAltitude);
+            }
+
             if (_clientSettings.UseProxyVerified)
             {
                 Logger.Error("===============================================");
