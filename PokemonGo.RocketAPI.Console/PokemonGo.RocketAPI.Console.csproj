@@ -164,6 +164,7 @@
     <EmbeddedResource Include="Lang\ru.json" />
     <EmbeddedResource Include="Lang\spain.json" />
     <EmbeddedResource Include="Lang\tr.json" />
+    <None Include="Lang\tagalog.json" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
