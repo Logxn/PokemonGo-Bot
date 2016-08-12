@@ -139,6 +139,7 @@
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.linkLabel2 = new System.Windows.Forms.LinkLabel();
             this.groupBox10 = new System.Windows.Forms.GroupBox();
+            this.checkBox17 = new System.Windows.Forms.CheckBox();
             this.label39 = new System.Windows.Forms.Label();
             this.comboBox2 = new System.Windows.Forms.ComboBox();
             this.label33 = new System.Windows.Forms.Label();
@@ -154,7 +155,6 @@
             this.checkBox7 = new System.Windows.Forms.CheckBox();
             this.checkBox3 = new System.Windows.Forms.CheckBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.checkBox17 = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.tabPage1.SuspendLayout();
@@ -312,7 +312,7 @@
             // 
             this.label32.AutoSize = true;
             this.label32.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.label32.Location = new System.Drawing.Point(99, 580);
+            this.label32.Location = new System.Drawing.Point(91, 576);
             this.label32.Name = "label32";
             this.label32.Size = new System.Drawing.Size(441, 20);
             this.label32.TabIndex = 46;
@@ -1341,6 +1341,19 @@
             this.groupBox10.TabStop = false;
             this.groupBox10.Text = "Other Settings";
             // 
+            // checkBox17
+            // 
+            this.checkBox17.AutoSize = true;
+            this.checkBox17.Checked = true;
+            this.checkBox17.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox17.Location = new System.Drawing.Point(7, 249);
+            this.checkBox17.Name = "checkBox17";
+            this.checkBox17.Size = new System.Drawing.Size(213, 17);
+            this.checkBox17.TabIndex = 40;
+            this.checkBox17.Text = "Random Sleep @Catching 1-3 seconds";
+            this.checkBox17.UseVisualStyleBackColor = true;
+            this.checkBox17.CheckedChanged += new System.EventHandler(this.checkBox17_CheckedChanged);
+            // 
             // label39
             // 
             this.label39.AutoSize = true;
@@ -1534,19 +1547,6 @@
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(550, 422);
             this.tabControl1.TabIndex = 36;
-            // 
-            // checkBox17
-            // 
-            this.checkBox17.AutoSize = true;
-            this.checkBox17.Checked = true;
-            this.checkBox17.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox17.Location = new System.Drawing.Point(7, 249);
-            this.checkBox17.Name = "checkBox17";
-            this.checkBox17.Size = new System.Drawing.Size(213, 17);
-            this.checkBox17.TabIndex = 40;
-            this.checkBox17.Text = "Random Sleep @Catching 1-3 seconds";
-            this.checkBox17.UseVisualStyleBackColor = true;
-            this.checkBox17.CheckedChanged += new System.EventHandler(this.checkBox17_CheckedChanged);
             // 
             // GUI
             // 
