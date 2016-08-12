@@ -79,6 +79,7 @@ namespace PokemonGo.RocketAPI.Console
 
         private void GUI_Load(object sender, EventArgs e)
         {
+            MessageBox.Show("Use at your own risk, Niantic is banning these days!");
             _clientSettings = new Settings();
             // Create missing Files
             Directory.CreateDirectory(Program.path);
