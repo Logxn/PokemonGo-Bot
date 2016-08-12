@@ -377,6 +377,8 @@ namespace PokemonGo.RocketAPI.Logic
                 Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "We found " + pokeStops.Count() + " usable PokeStops near your current location.");
             }
 
+            _infoObservable.PushPokeStopLocations(pokeStops);
+
             foreach (var pokeStop in pokeStops)
             {
                 await UseIncense();
