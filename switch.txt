@@ -1,2 +1,2 @@
 enabled=false;
-The bot is disabled, until we found out why Bans are happening.
+The bot is disabled, until we found out why Bans are happening. Follow my Twitter for more information https://twitter.com/Ar1iDev
