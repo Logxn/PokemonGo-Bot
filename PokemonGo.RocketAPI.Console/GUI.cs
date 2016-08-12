@@ -102,15 +102,7 @@ namespace PokemonGo.RocketAPI.Console
                     }
                 } catch (Exception) { 
                 }
-            }
-
-            try
-            {
-                Extract("PokemonGo.RocketAPI.Console", AppDomain.CurrentDomain.BaseDirectory, "Resources", "encrypt.dll"); // unpack our encrypt dll
-            } catch (Exception)
-            {
-
-            }
+            } 
 
             List<string> b = new List<string>();
             b.Add("de.json");
