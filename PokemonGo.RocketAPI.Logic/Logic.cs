@@ -650,6 +650,10 @@ namespace PokemonGo.RocketAPI.Logic
                 {
                     Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Error catching Pokemon: {encounterPokemonResponse?.Status}");
                 }
+                if (_clientSettings.sleepatpokemons)
+                {
+                    await RandomHelper.RandomDelay(1000, 3000);
+                }
                 await RandomHelper.RandomDelay(200, 300);
             }
         }
