@@ -598,38 +598,38 @@ namespace PokemonGo.RocketAPI.Logic.Utils
 
         public static bool CheckKillSwitch()
         {
-            //using (var wc = new WebClient())
-            //{
-            //    try
-            //    {
-            //        string strResponse = wc.DownloadString("https://raw.githubusercontent.com/Ar1i/PokemonGo-Bot/master/switch.txt");
+            using (var wc = new WebClient())
+            {
+                try
+                {
+                    string strResponse = wc.DownloadString("https://raw.githubusercontent.com/Ar1i/PokemonGo-Bot/master/switch.txt");
 
-            //        if (strResponse == null)
-            //            return false;
+                    if (strResponse == null)
+                        return false;
 
-            //        string[] strSplit = strResponse.Split(';');
+                    string[] strSplit = strResponse.Split(';');
 
-            //        if (strSplit.Length > 1)
-            //        {
-            //            string strStatus = strSplit[0];
-            //            string strReason = strSplit[1];
+                    if (strSplit.Length > 1)
+                    {
+                        string strStatus = strSplit[0];
+                        string strReason = strSplit[1];
 
-            //            if (strStatus.ToLower().Contains("false"))
-            //            {
-            //                Logger.Error(strReason + "\n");
+                        if (strStatus.ToLower().Contains("false"))
+                        {
+                            Logger.Error(strReason + "\n");
 
-            //                Logger.Error("The bot will now close, please press enter to continue");
-            //                Console.ReadLine();
-            //                return true;
-            //            }
-            //        }
-            //        else
-            //            return false;
-            //    }
-            //    catch (WebException)
-            //    {
-            //    }
-            //}
+                            Logger.Error("The bot will now close, please press enter to continue");
+                            Console.ReadLine();
+                            return true;
+                        }
+                    }
+                    else
+                        return false;
+                }
+                catch (WebException)
+                {
+                }
+            }
 
             return false;
         }
