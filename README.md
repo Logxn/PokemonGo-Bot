@@ -1,5 +1,5 @@
 # Mail
-  - If you´re from Niantic. You can contact us here to close admin@ar1i.xyz (No Support!)
+  - If you´re from Niantic. You can contact us here admin@ar1i.xyz (No Support!)
 
 # Donate
   - Every Donation will help the Project!
