@@ -28,6 +28,7 @@ namespace PokemonGo.RocketAPI.Logic
         
         private readonly Client _client;
         private const double SpeedDownTo = 10 / 3.6;
+        private static readonly Random RandomDevice = new Random();
 
         public Navigation(Client client)
         {
@@ -36,7 +37,13 @@ namespace PokemonGo.RocketAPI.Logic
 
         public async Task<PlayerUpdateResponse> HumanLikeWalking(GeoCoordinate targetLocation,
         double walkingSpeedInKilometersPerHour, Func<Task> functionExecutedWhileWalking)
-        {
+        { 
+            var randomFactor = 0.5f;
+            var randomMin = (int)(walkingSpeedInKilometersPerHour * (1 - randomFactor));
+            var randomMax = (int)(walkingSpeedInKilometersPerHour * (1 + randomFactor));
+            var RandomWalkSpeed = RandomDevice.Next(randomMin, randomMax);
+            walkingSpeedInKilometersPerHour = RandomWalkSpeed;
+
             var speedInMetersPerSecond = walkingSpeedInKilometersPerHour / 3.6;
         
             var sourceLocation = new GeoCoordinate(_client.CurrentLatitude, _client.CurrentLongitude);
