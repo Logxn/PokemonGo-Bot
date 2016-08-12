@@ -1,0 +1,2 @@
+enabled=false;
+The bot is disabled, until we found out why Bans are happening.
