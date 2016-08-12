@@ -33,12 +33,16 @@ namespace PokemonGo.RocketAPI
         int DontTransferWithCPOver { get; }
         int ivmaxpercent { get; }
 
+        bool sleepatpokemons { get; }
+
         string TelegramAPIToken { get; }
         string TelegramName { get; }
 
         int navigation_option { get; }
 
         bool UseLuckyEgg { get; }
+        bool UseRazzBerry { get; }
+        double razzberry_chance { get; }
         bool UseLuckyEggIfNotRunning { get; }
         bool keepPokemonsThatCanEvolve { get; }
         bool TransferFirstLowIV { get; }

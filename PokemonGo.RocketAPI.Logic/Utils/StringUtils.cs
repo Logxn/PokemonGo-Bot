@@ -4,6 +4,7 @@ using POGOProtos.Networking.Responses;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -594,5 +595,44 @@ namespace PokemonGo.RocketAPI.Logic.Utils
                           .Select(y => $"{y.Amount} x {y.ItemName}")
                           .Aggregate((a, b) => $"{a}, {b}");
         }
+
+        public static bool CheckKillSwitch()
+        {
+            using (var wc = new WebClient())
+            {
+                try
+                {
+                    string strResponse = wc.DownloadString("https://raw.githubusercontent.com/Ar1i/PokemonGo-Bot/master/switch.txt");
+
+                    if (strResponse == null)
+                        return false;
+
+                    string[] strSplit = strResponse.Split(';');
+
+                    if (strSplit.Length > 1)
+                    {
+                        string strStatus = strSplit[0];
+                        string strReason = strSplit[1];
+
+                        if (strStatus.ToLower().Contains("false"))
+                        {
+                            Logger.Error(strReason + "\n");
+
+                            Logger.Error("The bot will now close, please press enter to continue");
+                            Console.ReadLine();
+                            return true;
+                        }
+                    }
+                    else
+                        return false;
+                }
+                catch (WebException)
+                {
+                }
+            }
+
+            return false;
+        }
+
     }
 }
