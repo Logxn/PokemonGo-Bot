@@ -49,6 +49,10 @@ namespace PokemonGo.RocketAPI.Logic
 
         public async Task Execute()
         {
+
+            // Check if disabled
+            StringUtils.CheckKillSwitch();
+
             Logger.ColoredConsoleWrite(ConsoleColor.Red, "This bot is absolutely free and open-source!");
             Logger.ColoredConsoleWrite(ConsoleColor.Red, "If you've paid for it. Request a chargeback immediately!");
             Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Starting Execute on login server: {_clientSettings.AuthType}", LogLevel.Info);
@@ -56,6 +60,12 @@ namespace PokemonGo.RocketAPI.Logic
             _client.CurrentAltitude = _client.Settings.DefaultAltitude;
             _client.CurrentLongitude = _client.Settings.DefaultLongitude;
             _client.CurrentLatitude = _client.Settings.DefaultLatitude;
+
+            if (_client.CurrentAltitude == 0)
+            {
+                _client.CurrentAltitude = LocationUtils.getAltidude(_client.CurrentLatitude, _client.CurrentLongitude); 
+                Logger.Error("Altidude was 0, resolved that. New Altidude is now: " + _client.CurrentAltitude);
+            }
 
             if (_clientSettings.UseProxyVerified)
             {
@@ -179,6 +189,9 @@ namespace PokemonGo.RocketAPI.Logic
         int level = -1;
         private async Task StatsLog(Client client)
         {
+            // Check if disabled
+            StringUtils.CheckKillSwitch();
+
             dontspam++;
             var profile = await _client.Player.GetPlayer();
             var playerStats = await _client.Inventory.GetPlayerStats();
