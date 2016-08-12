@@ -20,6 +20,7 @@ namespace PokemonGo.RocketAPI.Console
     {
         private GMarkerGoogle _botMarker = new GMarkerGoogle(new PointLatLng(), GMarkerGoogleType.red_small);
         private GMapRoute _botRoute = new GMapRoute("BotRoute");
+        private GMapOverlay _pokeStopsOverlay = new GMapOverlay("PokeStops");
         public double alt;
         public bool close = true;
 
@@ -50,19 +51,32 @@ namespace PokemonGo.RocketAPI.Console
             GMapPolygon circle = CreateCircle(new PointLatLng(Globals.latitute, Globals.longitude), Globals.radius, 100);
             routeOverlay.Polygons.Add(circle);
             map.Overlays.Add(routeOverlay);
+            map.Overlays.Add(_pokeStopsOverlay);
             //show geodata controls
             label1.Visible = true;
             label2.Visible = true;
             textBox1.Visible = true;
             textBox2.Visible = true;
+            cbShowPokeStops.Visible = true;
             //don't ask at closing
             close = false;
             //add & remove live data handler after form loaded
             Globals.infoObservable.HandleNewGeoLocations += handleLiveGeoLocations;
+            Globals.infoObservable.HandlePokeStop += InfoObservable_HandlePokeStop; ;
+
             this.FormClosing += (object s, FormClosingEventArgs e) =>
-            {
+            {                
                 Globals.infoObservable.HandleNewGeoLocations -= handleLiveGeoLocations;
             };
+        }
+
+        private void InfoObservable_HandlePokeStop(POGOProtos.Map.Fort.FortData[] pokeStops)
+        {
+            _pokeStopsOverlay.Markers.Clear();
+            foreach (var pokeStop in pokeStops) {
+                GMarkerGoogle pokeStopMaker = new GMarkerGoogle(new PointLatLng(pokeStop.Latitude, pokeStop.Longitude), GMarkerGoogleType.purple_small);
+                _pokeStopsOverlay.Markers.Add(pokeStopMaker);
+            }
         }
 
         private GMapPolygon CreateCircle(PointLatLng point, double radius, int segments)
@@ -230,6 +244,12 @@ namespace PokemonGo.RocketAPI.Console
         private void LocationSelect_Load(object sender, EventArgs e)
         {
 
+        }
+
+        private void cbShowPokeStops_CheckedChanged(object sender, EventArgs e)
+        {
+            _pokeStopsOverlay.IsVisibile = cbShowPokeStops.Checked;
+            map.Update();
         }
     }
 }
