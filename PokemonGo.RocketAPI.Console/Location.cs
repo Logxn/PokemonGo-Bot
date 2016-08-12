@@ -120,7 +120,7 @@ namespace PokemonGo.RocketAPI.Console
             try
             {
                 map.DragButton = MouseButtons.Left;
-                map.MapProvider = GMapProviders.BingMap;
+                map.MapProvider = GMapProviders.GoogleMap;
                 map.Position = new GMap.NET.PointLatLng(Globals.latitute, Globals.longitude);
                 map.MinZoom = 0;
                 map.MaxZoom = 20;
