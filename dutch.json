@@ -1,0 +1,59 @@
+{
+"accountType":"Accounttype:",
+"username":"gebruikersnaam:",
+"password":"wachtwoord:",
+"locationSettings":"Locatie instellingen",
+"speed":"Snelheid.:",
+"moveRadius":"Radius:",
+"meters":"Meter",
+"startFromDefaultLocation":"Start vanaf standaard locatie",
+"botSettings":"Bot instellingen",
+"autoTransferDoublePokemon":"Transfer dubbele Pokemons",
+"maxDupPokemon":"Max. dubbele Pokemons",
+"maxCPtransfer":"Max. CP om te transferen:",
+"maxIVtransfer":"Max. IV om te transferen:",
+"telegramSettings":"Telegram instellingen",
+"infoline1":"Deze Bot is kostenloos en Open-Source! Vraag je geld terug als je ervoor betaald hebt!",
+"infoline2":"Als je de naam 'Pokecrot' ziet, deel iedereen mee dat deze gestolen is.",
+"maxPokeballs":"Max. Pokeballs:",
+"maxGreatballs":"Max. Greatballs:",
+"maxUltraballs":"Max. Ultraballs:",
+"maxMasterballs":"Max. Masterballs:",
+"maxRevives":"Max. Revives:",
+"maxTopRevives":"Max. Top-Revives:",
+"maxPotions":"Max. Potions:",
+"maxSuperpotions":"Max. Superpotions:",
+"maxHyperpotions":"Max. Superpotions:",
+"maxToppotions":"Max. Top-Potions:",
+"maxRazzberrys":"Max. Razzberrys:",
+"totalCount":"Totale Ruimte:",
+"pokemonNotToTransfer":"Pokemon - niet transferen",
+"selectAll":"Alles selecteren",
+"pokemonNotToCatch":"Pokemons - niet vangen",
+"pokemonNotToEvolve":"Pokemons - niet evolueren",
+"saveConfig":"Configuratie opslaan / Bot starten",
+"otherSettings":"Andere instellingen",
+"useLuckyeggAtEvolve":"Lucky Egg gebruiken bij evolueren",
+"germanPokemonNames":"Duitse Pokemon namen",
+"useIncese":"Gebruik elke 30min Incense",
+"evolvePokemonIfEnoughCandy":"Pokemon evolueren indien genoeg candy",
+"enablePokemonListGUI":"activeer Pokemon GUI lijst",
+"keepPokemonWhichCanBeEvolved":"Bewaar evolueerbare Pokemons",
+"autoIncubate":"Incubeer Eieren automatisch(geen garantie)",
+"useBasicIncubators":"Gebruik standaard incubator"
+}
+
+WARNING translations:
+1.General -   t: Algemeen (rest of tabs are correct)
+2.Altitude -  t: Hoogte
+"If you run more than one instance .... "
+              t: Meer dan 1 keer dit programma draaien vanaf het zelfde IP, resulteerd in een BAN.
+                Als je gesoftbanned bent, en unban werkt niet, regel een nieuw IP.
+Random sleep @..t: Willekeurige pauze met vangen 1-3 sec.
+Use proxies -   t: Gebruik proxies
+use auth. -     t: gebruik authenticatie
+Save proxy. -   t: sla proxy op
+Disable proxy - t: Proxy uitzetten
+
+Your version. -t: Huidige versie
+Newest.       -t: Nieuwste
