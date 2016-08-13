@@ -55,7 +55,7 @@ namespace PokemonGo.RocketAPI.Logic
 
             Logger.ColoredConsoleWrite(ConsoleColor.Red, "This bot is absolutely free and open-source!");
             Logger.ColoredConsoleWrite(ConsoleColor.Red, "If you've paid for it. Request a chargeback immediately!");
-            Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Starting Execute on login server: {_clientSettings.AuthType}", LogLevel.Info);
+            Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Logging in: {_clientSettings.AuthType}", LogLevel.Info);
 
             _client.CurrentAltitude = _client.Settings.DefaultAltitude;
             _client.CurrentLongitude = _client.Settings.DefaultLongitude;
@@ -207,7 +207,7 @@ namespace PokemonGo.RocketAPI.Logic
 
             Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "-----------------------[PLAYER STATS]-----------------------");
             Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Level/EXP: {stats.Level} | {curexp.ToString("N0")}/{expneeded.ToString("N0")} ({Math.Round(curexppercent, 2)}%)");
-            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "EXP to Level up: " + (stats.NextLevelXp - stats.Experience)); ;
+            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "EXP till Level up: " + (stats.NextLevelXp - stats.Experience)); ;
             Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "PokeStops visited: " + stats.PokeStopVisits);
             Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "KM Walked: " + Math.Round(stats.KmWalked, 2));
             Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Pokemon: " + await _client.Inventory.getPokemonCount() + " + " + await _client.Inventory.GetEggsCount() + " Eggs /" + profile.PlayerData.MaxPokemonStorage + " (" + pokemonToEvolve + " Evolvable)");
