@@ -21,6 +21,8 @@ namespace PokemonGo.RocketAPI.Console
         private GMarkerGoogle _botMarker = new GMarkerGoogle(new PointLatLng(), GMarkerGoogleType.red_small);
         private GMapRoute _botRoute = new GMapRoute("BotRoute");
         private GMapOverlay _pokeStopsOverlay = new GMapOverlay("PokeStops");
+        private Dictionary<string, GMarkerGoogle> _pokeStopsMarks = new Dictionary<string, GMarkerGoogle>();
+
         public double alt;
         public bool close = true;
 
@@ -62,7 +64,8 @@ namespace PokemonGo.RocketAPI.Console
             close = false;
             //add & remove live data handler after form loaded
             Globals.infoObservable.HandleNewGeoLocations += handleLiveGeoLocations;
-            Globals.infoObservable.HandlePokeStop += InfoObservable_HandlePokeStop; ;
+            Globals.infoObservable.HandleAvailablePokeStop += InfoObservable_HandlePokeStop;
+            Globals.infoObservable.HandlePokeStopInfoUpdate += InfoObservable_HandlePokeStopInfoUpdate;
 
             this.FormClosing += (object s, FormClosingEventArgs e) =>
             {                
@@ -70,11 +73,28 @@ namespace PokemonGo.RocketAPI.Console
             };
         }
 
+        private void InfoObservable_HandlePokeStopInfoUpdate(string pokeStopId, string info)
+        {
+            if (_pokeStopsMarks.ContainsKey(pokeStopId)) {
+                //changeType
+                var newMark = new GMarkerGoogle(_pokeStopsMarks[pokeStopId].Position, GMarkerGoogleType.blue_small);
+                newMark.ToolTipText = info;
+                newMark.ToolTip.Font = new System.Drawing.Font("Arial", 12, System.Drawing.GraphicsUnit.Pixel);
+                
+                _pokeStopsOverlay.Markers[_pokeStopsOverlay.Markers.IndexOf(_pokeStopsMarks[pokeStopId])] = newMark;
+                _pokeStopsMarks[pokeStopId] = newMark;
+            }
+        }
+
         private void InfoObservable_HandlePokeStop(POGOProtos.Map.Fort.FortData[] pokeStops)
         {
             _pokeStopsOverlay.Markers.Clear();
+            _pokeStopsMarks.Clear();
+
             foreach (var pokeStop in pokeStops) {
-                GMarkerGoogle pokeStopMaker = new GMarkerGoogle(new PointLatLng(pokeStop.Latitude, pokeStop.Longitude), GMarkerGoogleType.purple_small);
+                GMarkerGoogle pokeStopMaker = new GMarkerGoogle(new PointLatLng(pokeStop.Latitude, pokeStop.Longitude), GMarkerGoogleType.purple_small);                
+                pokeStopMaker.ToolTipMode = MarkerTooltipMode.OnMouseOver;
+                _pokeStopsMarks.Add(pokeStop.Id, pokeStopMaker);
                 _pokeStopsOverlay.Markers.Add(pokeStopMaker);
             }
         }
@@ -120,7 +140,7 @@ namespace PokemonGo.RocketAPI.Console
             try
             {
                 map.DragButton = MouseButtons.Left;
-                map.MapProvider = GMapProviders.GoogleMap;
+                map.MapProvider = GMapProviders.BingMap;
                 map.Position = new GMap.NET.PointLatLng(Globals.latitute, Globals.longitude);
                 map.MinZoom = 0;
                 map.MaxZoom = 20;

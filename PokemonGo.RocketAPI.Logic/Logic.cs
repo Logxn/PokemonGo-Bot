@@ -381,7 +381,7 @@ namespace PokemonGo.RocketAPI.Logic
                 Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "We found " + pokeStops.Count() + " usable PokeStops near your current location.");
             }
 
-            _infoObservable.PushPokeStopLocations(pokeStops);
+            _infoObservable.PushAvailablePokeStopLocations(pokeStops);
 
             foreach (var pokeStop in pokeStops)
             {
@@ -429,9 +429,10 @@ namespace PokemonGo.RocketAPI.Logic
                 var fortInfo = await _client.Fort.GetFort(pokeStop.Id, pokeStop.Latitude, pokeStop.Longitude);
                 if (fortInfo == null)
                 {
+                    _infoObservable.PushPokeStopInfoUpdate(pokeStop.Id, "!!Can't Get PokeStop Information!!");
                     continue;
                 }
-                Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Next Pokestop: {fortInfo.Name} in {distance:0.##}m distance.");
+                Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Next Pokestop: {fortInfo.Name} in {distance:0.##}m distance.");                                
                 var update = await _navigation.HumanLikeWalking(new GeoCoordinate(pokeStop.Latitude, pokeStop.Longitude), _clientSettings.WalkingSpeedInKilometerPerHour, ExecuteCatchAllNearbyPokemons);
 
                 ////var fortInfo = await client.GetFort(pokeStop.Id, pokeStop.Latitude, pokeStop.Longitude);
@@ -439,6 +440,7 @@ namespace PokemonGo.RocketAPI.Logic
 
                 count++;
 
+                var pokeStopInfo = $"{fortInfo.Name}{Environment.NewLine}Visited:{DateTime.Now.ToString("HH:mm:ss")}{Environment.NewLine}";
                 if (fortSearch.ExperienceAwarded > 0)
                 {
                     failed_softban = 0;
@@ -474,8 +476,8 @@ namespace PokemonGo.RocketAPI.Logic
                     }
 
                     Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Farmed XP: {fortSearch.ExperienceAwarded}{gems}{egg}, Items: {items}", LogLevel.Info);
-                    
 
+                    pokeStopInfo += $"{fortSearch.ExperienceAwarded} XP{Environment.NewLine}{gems}{Environment.NewLine}{egg}{Environment.NewLine}{items.Replace(",", Environment.NewLine)}";
 
                     double eggs = 0;
                     if (fortSearch.PokemonDataEgg != null)
@@ -507,7 +509,10 @@ namespace PokemonGo.RocketAPI.Logic
                         failed_softban = 0;
                         Logger.ColoredConsoleWrite(ConsoleColor.Green, "Probably unbanned now.");
                     }
+                    pokeStopInfo += "0 XP.";
                 }
+
+                _infoObservable.PushPokeStopInfoUpdate(pokeStop.Id, pokeStopInfo);
 
                 await RandomHelper.RandomDelay(50, 200);
             }
