@@ -1,6 +1,19 @@
-<h1>We are closing.</h1>
-<h4>It was a nice time with you, but our current life state doesn´t allow us to put more time into this project.<br>
-I hope you guys can understand that.<br>
-Thanks for your awesome support! Love you, it was great! Never expected something so big!<br>
-If you still want to follow us, you can do it on Twitter:<br>
-https://twitter.com/Loganpunkt | https://twitter.com/Ar1iDev
+# Pokemon Go Bot
+
+# Credits to:
+  - https://github.com/FeroxRev/Pokemon-Go-Rocket-API
+  - https://github.com/UntilSunrise/Pokemon-Go-Rocket-API
+  - https://github.com/martin-podlubny
+  - https://github.com/Spegeli/Pokemon-Go-Rocket-API
+
+# Special thanks:
+  - To FeroxRev, for this AMAZING work!
+  
+
+# Translations
+  - English: https://github.com/Ar1i/ & Greengold
+  - German: https://github.com/IceQ1337/
+  - Portuguese: https://github.com/m-a-r-c-e-l-o
+  - Turkish: https://github.com/HaydarOzturk
+  - Russian: https://github.com/MrFallen
+  - Spanish: max783
