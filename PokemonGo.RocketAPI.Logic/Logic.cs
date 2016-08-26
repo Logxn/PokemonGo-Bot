@@ -431,7 +431,7 @@ namespace PokemonGo.RocketAPI.Logic
                 
                 if (encounterPokemonResponse.Status == EncounterResponse.Types.Status.EncounterSuccess)
                 {
-                    var bestPokeball = await GetBestBall(encounterPokemonResponse?.WildPokemon);
+                    var bestPokeball = await GetBestBall(encounterPokemonResponse?.WildPokemon, false);
                     if (bestPokeball == ItemId.ItemUnknown)
                     { 
                         Logger.ColoredConsoleWrite(ConsoleColor.Red, $"No Pokeballs! - missed {pokemon.PokemonId} CP {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} IV {PokemonInfo.CalculatePokemonPerfection(encounterPokemonResponse.WildPokemon.PokemonData).ToString("0.00")}%");
@@ -441,24 +441,35 @@ namespace PokemonGo.RocketAPI.Logic
                     var inventoryBerries = await _client.Inventory.GetItems();
                     var probability = encounterPokemonResponse?.CaptureProbability?.CaptureProbability_?.FirstOrDefault();
                     CatchPokemonResponse caughtPokemonResponse;
+                    bool escaped = false;
+                    bool berryThrown = false;
+                    bool berryOutOfStock = false;
                     Logger.ColoredConsoleWrite(ConsoleColor.Magenta, $"Encountered {StringUtils.getPokemonNameByLanguage(_clientSettings, pokemon.PokemonId)} CP {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} IV {PokemonInfo.CalculatePokemonPerfection(encounterPokemonResponse.WildPokemon.PokemonData).ToString("0.00")}% Probability {Math.Round(probability.Value * 100)}%");
                     bool used = false;
                     do
                     {
-                        if (probability.HasValue && probability.Value < _clientSettings.razzberry_chance && _clientSettings.UseRazzBerry && !used)
+                        if (((probability.HasValue && probability.Value < _clientSettings.razzberry_chance) || escaped) && _clientSettings.UseRazzBerry && !used)
                         { 
                             var bestBerry = await GetBestBerry(encounterPokemonResponse?.WildPokemon);
                             var berries = inventoryBerries.Where(p => (ItemId)p.ItemId == bestBerry).FirstOrDefault();
+                            if (berries.Count <= 0) berryOutOfStock = true; 
                             if (bestBerry != ItemId.ItemUnknown)
                             {
-                                //Throw berry if we can
-                                var useRaspberry = await _client.Encounter.UseCaptureItem(pokemon.EncounterId, bestBerry, pokemon.SpawnPointId);
-                                Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Thrown {bestBerry}. Remaining: {berries.Count}.", LogLevel.Info);
-                                used = true;
-                                await RandomHelper.RandomDelay(150, 200);
+                                if (!berryOutOfStock)
+                                {
+                                    //Throw berry
+                                    var useRaspberry = await _client.Encounter.UseCaptureItem(pokemon.EncounterId, bestBerry, pokemon.SpawnPointId);
+                                    berryThrown = true;
+                                    used = true;
+                                    Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Thrown {bestBerry}. Remaining: {berries.Count}.", LogLevel.Info);
+                                    await RandomHelper.RandomDelay(50, 200);
+                                } else {
+                                    berryThrown = true;
+                                    escaped = true;
+                                    used = true;
+                                }
                             } 
                         }
-
                         caughtPokemonResponse = await _client.Encounter.CatchPokemon(pokemon.EncounterId, pokemon.SpawnPointId, bestPokeball);
                         if (caughtPokemonResponse.Status == CatchPokemonResponse.Types.CatchStatus.CatchMissed)
                         {
@@ -468,6 +479,8 @@ namespace PokemonGo.RocketAPI.Logic
                         else if (caughtPokemonResponse.Status == CatchPokemonResponse.Types.CatchStatus.CatchEscape)
                         {
                             Logger.ColoredConsoleWrite(ConsoleColor.Magenta, $"{StringUtils.getPokemonNameByLanguage(_clientSettings, pokemon.PokemonId)} escaped while using {bestPokeball}");
+                            escaped = true;
+                            if (berryThrown) bestPokeball = await GetBestBall(encounterPokemonResponse?.WildPokemon, true);
                         }
                     }
                     while (caughtPokemonResponse.Status == CatchPokemonResponse.Types.CatchStatus.CatchMissed || caughtPokemonResponse.Status == CatchPokemonResponse.Types.CatchStatus.CatchEscape || caughtPokemonResponse.Status == CatchPokemonResponse.Types.CatchStatus.CatchFlee);
@@ -686,74 +699,91 @@ namespace PokemonGo.RocketAPI.Logic
             }
         }
 
-        private async Task<ItemId> GetBestBall(WildPokemon pokemon)
+        private async Task<ItemId> GetBestBall(WildPokemon pokemon, bool escaped)
         {
             var pokemonCp = pokemon?.PokemonData?.Cp;
-
-
             //await RecycleItems(true);
             var items = await _client.Inventory.GetItems();
-            
             var balls = items.Where(i => ((ItemId)i.ItemId == ItemId.ItemPokeBall
                                       || (ItemId)i.ItemId == ItemId.ItemGreatBall
                                       || (ItemId)i.ItemId == ItemId.ItemUltraBall
                                       || (ItemId)i.ItemId == ItemId.ItemMasterBall) && i.ItemId > 0).GroupBy(i => ((ItemId)i.ItemId)).ToList();
             if (balls.Count() == 0) return ItemId.ItemUnknown;
-
-
-
-
             var pokeBalls = balls.Any(g => g.Key == ItemId.ItemPokeBall);
             var greatBalls = balls.Any(g => g.Key == ItemId.ItemGreatBall);
             var ultraBalls = balls.Any(g => g.Key == ItemId.ItemUltraBall);
             var masterBalls = balls.Any(g => g.Key == ItemId.ItemMasterBall);
 
-            var coll = _clientSettings.itemRecycleFilter;
-            foreach (KeyValuePair<ItemId, int> v in coll )
+            var _lowestAppropriateBall = ItemId.ItemUnknown;
+            var getMyLowestAppropriateBall = new Dictionary<Func<int?, bool>, Action>
             {
-                if (v.Key == ItemId.ItemPokeBall && v.Value == 0)
+                { x => x < 500  ,() => _lowestAppropriateBall = ItemId.ItemPokeBall   },
+                { x => x < 1000 ,() => _lowestAppropriateBall = ItemId.ItemGreatBall  },
+                { x => x < 2000 ,() => _lowestAppropriateBall = ItemId.ItemUltraBall  },
+                { x => x >= 2000,() => _lowestAppropriateBall = ItemId.ItemMasterBall  }
+            };
+            getMyLowestAppropriateBall.First(sw => sw.Key(pokemonCp)).Value();
+            if (escaped)
+            {
+                switch (_lowestAppropriateBall)
+            {
+                    case ItemId.ItemGreatBall:
                 {
-                    pokeBalls = false;
-                } else if (v.Key == ItemId.ItemGreatBall && v.Value == 0)
+                            _lowestAppropriateBall = ItemId.ItemUltraBall;
+                            break;
+                        }
+                    case ItemId.ItemUltraBall:
                 {
-                    greatBalls = false;
-                } else if (v.Key == ItemId.ItemUltraBall && v.Value == 0)
+                            _lowestAppropriateBall = ItemId.ItemMasterBall;
+                            break;
+                        }
+                    case ItemId.ItemMasterBall:
                 {
-                    ultraBalls = false;
-                } else if (v.Key == ItemId.ItemMasterBall && v.Value == 0)
+                            _lowestAppropriateBall = ItemId.ItemMasterBall;
+                            break;
+                        }
+                    default:
                 {
-                    masterBalls = false;
+                            _lowestAppropriateBall = ItemId.ItemGreatBall;
+                            break;
+                        }
                 }
             }
-
-            if (masterBalls && pokemonCp >= 2000)
-                return ItemId.ItemMasterBall;
-            else if (ultraBalls && pokemonCp >= 2000)
-                return ItemId.ItemUltraBall;
-            else if (greatBalls && pokemonCp >= 2000)
-                return ItemId.ItemGreatBall;
-
-            if (ultraBalls && pokemonCp >= 1000)
-                return ItemId.ItemUltraBall;
-            else if (greatBalls && pokemonCp >= 1000)
-                return ItemId.ItemGreatBall;
-
-            if (greatBalls && pokemonCp >= 500)
-                return ItemId.ItemGreatBall;
-
-            if (pokeBalls)
-                return ItemId.ItemPokeBall;
-
-            if (greatBalls)
-                return ItemId.ItemGreatBall;
-
-            if (ultraBalls)
-                return ItemId.ItemUltraBall;
-
-            if (masterBalls)
-                return ItemId.ItemMasterBall;
-
-            return balls.OrderBy(c => c.Key).First().Key;
+            switch (_lowestAppropriateBall)
+            {
+                case ItemId.ItemGreatBall:
+                {
+                        if (greatBalls) return ItemId.ItemGreatBall;
+                        else if (ultraBalls) return ItemId.ItemUltraBall;
+                        else if (masterBalls) return ItemId.ItemMasterBall;
+                        else if (pokeBalls) return ItemId.ItemPokeBall;
+                        else return ItemId.ItemUnknown;                        
+                    }
+                case ItemId.ItemUltraBall:
+                {
+                        if (ultraBalls) return ItemId.ItemUltraBall;
+                        else if (masterBalls) return ItemId.ItemMasterBall;
+                        else if (greatBalls) return ItemId.ItemGreatBall;
+                        else if (pokeBalls) return ItemId.ItemPokeBall;
+                        else return ItemId.ItemUnknown;
+                    }
+                case ItemId.ItemMasterBall:
+                {
+                        if (masterBalls) return ItemId.ItemMasterBall;
+                        else if (ultraBalls) return ItemId.ItemUltraBall;
+                        else if (greatBalls) return ItemId.ItemGreatBall;
+                        else if (pokeBalls) return ItemId.ItemPokeBall;
+                        else return ItemId.ItemUnknown;
+                    }
+                default:
+                {
+                        if (pokeBalls) return ItemId.ItemPokeBall;
+                        else if (greatBalls) return ItemId.ItemGreatBall;
+                        else if (ultraBalls) return ItemId.ItemUltraBall;
+                        else if (pokeBalls) return ItemId.ItemMasterBall;
+                        else return ItemId.ItemUnknown;
+                }
+            }
         }
 
         private async Task<ItemId> GetBestBerry(WildPokemon pokemon)
