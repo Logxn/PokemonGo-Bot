@@ -709,10 +709,34 @@ namespace PokemonGo.RocketAPI.Logic
                                       || (ItemId)i.ItemId == ItemId.ItemUltraBall
                                       || (ItemId)i.ItemId == ItemId.ItemMasterBall) && i.ItemId > 0).GroupBy(i => ((ItemId)i.ItemId)).ToList();
             if (balls.Count() == 0) return ItemId.ItemUnknown;
-            var pokeBalls = balls.Any(g => g.Key == ItemId.ItemPokeBall);
-            var greatBalls = balls.Any(g => g.Key == ItemId.ItemGreatBall);
-            var ultraBalls = balls.Any(g => g.Key == ItemId.ItemUltraBall);
-            var masterBalls = balls.Any(g => g.Key == ItemId.ItemMasterBall);
+            
+            var pokeBalls = false;
+            if (balls.Any(g => g.Key == ItemId.ItemPokeBall))
+                if (balls.First(g => g.Key == ItemId.ItemPokeBall).First().Count > 0)
+                    pokeBalls = true;
+            else
+                    Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"FYI - PokeBall Count is Zero", LogLevel.Info);
+            
+            var greatBalls = false;
+            if (balls.Any(g => g.Key == ItemId.ItemGreatBall))
+                if (balls.First(g => g.Key == ItemId.ItemGreatBall).First().Count > 0)
+                    greatBalls = true;
+                else
+                    Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"FYI - GreatBall Count is Zero", LogLevel.Info);
+            
+            var ultraBalls = false;
+            if (balls.Any(g => g.Key == ItemId.ItemUltraBall))
+                if (balls.First(g => g.Key == ItemId.ItemUltraBall).First().Count > 0)
+                    ultraBalls = true;
+                else
+                    Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"FYI - UltraBall Count is Zero", LogLevel.Info);
+            
+            var masterBalls = false;
+            if (balls.Any(g => g.Key == ItemId.ItemMasterBall))
+                if (balls.First(g => g.Key == ItemId.ItemMasterBall).First().Count > 0)
+                    masterBalls = true;
+                else
+                    Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"FYI - MasterBall Count is Zero", LogLevel.Info);
 
             var _lowestAppropriateBall = ItemId.ItemUnknown;
             var getMyLowestAppropriateBall = new Dictionary<Func<int?, bool>, Action>
