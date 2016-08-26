@@ -113,6 +113,7 @@ namespace PokemonGo.RocketAPI.Console
             b.Add("ru.json");
             b.Add("spain.json");
             b.Add("tr.json");
+            b.Add("arabic.json");
 
             foreach (var l in b)
             {
