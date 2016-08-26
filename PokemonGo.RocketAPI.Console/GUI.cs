@@ -113,6 +113,7 @@ namespace PokemonGo.RocketAPI.Console
             b.Add("ru.json");
             b.Add("spain.json");
             b.Add("tr.json");
+            b.Add("arabic.json");
 
             foreach (var l in b)
             {
@@ -1062,6 +1063,10 @@ namespace PokemonGo.RocketAPI.Console
         {
             Assembly ass = Assembly.GetCallingAssembly();
 
+            if (File.Exists(outDir + "\\" + resourceName))
+            {
+                File.Delete(outDir + "\\" + resourceName);
+            }
             //Logger.ColoredConsoleWrite(ConsoleColor.Red, ass.GetName().ToString());
 
             using (var s = ass.GetManifestResourceStream(nameSpace + "." + (internalFilePath == string.Empty ? string.Empty : internalFilePath + ".") + resourceName))
