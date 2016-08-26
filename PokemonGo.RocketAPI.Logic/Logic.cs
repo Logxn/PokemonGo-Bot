@@ -332,7 +332,6 @@ namespace PokemonGo.RocketAPI.Logic
                     _infoObservable.PushPokeStopInfoUpdate(pokeStop.Id, "!!Can't Get PokeStop Information!!");
                     continue;
                 }
-                Logger.Error(fortInfo.ToString());
                 Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Next Pokestop: {fortInfo.Name} in {distance:0.##}m distance.");                                
                 var update = await _navigation.HumanLikeWalking(new GeoCoordinate(pokeStop.Latitude, pokeStop.Longitude), _clientSettings.WalkingSpeedInKilometerPerHour, ExecuteCatchAllNearbyPokemons);
 
@@ -357,7 +356,7 @@ namespace PokemonGo.RocketAPI.Logic
                     failed_softban = 0;
                     _botStats.AddExperience(fortSearch.ExperienceAwarded);
                     
-                    Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Farmed XP: {fortSearch.ExperienceAwarded}{fortSearch.GemsAwarded}{", Egg: " + egg}, Items: {items}", LogLevel.Info);
+                    Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Farmed XP: {fortSearch.ExperienceAwarded}, Gems: {fortSearch.GemsAwarded}{", Egg: " + egg}, Items: {items}", LogLevel.Info);
 
                     pokeStopInfo += $"{fortSearch.ExperienceAwarded} XP{Environment.NewLine}{fortSearch.GemsAwarded}{Environment.NewLine}{egg}{Environment.NewLine}{items.Replace(",", Environment.NewLine)}";
                     
@@ -373,7 +372,7 @@ namespace PokemonGo.RocketAPI.Logic
 
                 _infoObservable.PushPokeStopInfoUpdate(pokeStop.Id, pokeStopInfo);
 
-                await RandomHelper.RandomDelay(50, 200);
+                await RandomHelper.RandomDelay(50, 2000); // Lets wait longer
             }
             if (_clientSettings.WalkBackToDefaultLocation)
             {
@@ -446,9 +445,10 @@ namespace PokemonGo.RocketAPI.Logic
                     bool berryThrown = false;
                     bool berryOutOfStock = false;
                     Logger.ColoredConsoleWrite(ConsoleColor.Magenta, $"Encountered {StringUtils.getPokemonNameByLanguage(_clientSettings, pokemon.PokemonId)} CP {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} IV {PokemonInfo.CalculatePokemonPerfection(encounterPokemonResponse.WildPokemon.PokemonData).ToString("0.00")}% Probability {Math.Round(probability.Value * 100)}%");
+                    bool used = false;
                     do
                     {
-                        if (((probability.HasValue && probability.Value < _clientSettings.razzberry_chance) || escaped) && _clientSettings.UseRazzBerry)
+                        if (((probability.HasValue && probability.Value < _clientSettings.razzberry_chance) || escaped) && _clientSettings.UseRazzBerry && !used)
                         { 
                             var bestBerry = await GetBestBerry(encounterPokemonResponse?.WildPokemon);
                             var berries = inventoryBerries.Where(p => (ItemId)p.ItemId == bestBerry).FirstOrDefault();
@@ -458,12 +458,16 @@ namespace PokemonGo.RocketAPI.Logic
                                 if (!berryOutOfStock)
                                 {
                                     //Throw berry
-                                var useRaspberry = await _client.Encounter.UseCaptureItem(pokemon.EncounterId, bestBerry, pokemon.SpawnPointId);
+                                    var useRaspberry = await _client.Encounter.UseCaptureItem(pokemon.EncounterId, bestBerry, pokemon.SpawnPointId);
                                     berryThrown = true;
-                                Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Thrown {bestBerry}. Remaining: {berries.Count}.", LogLevel.Info);
-                                await RandomHelper.RandomDelay(50, 200);
-                            } 
-                                else { berryThrown = true;  escaped = true; }
+                                    used = true;
+                                    Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Thrown {bestBerry}. Remaining: {berries.Count}.", LogLevel.Info);
+                                    await RandomHelper.RandomDelay(50, 200);
+                                } else {
+                                    berryThrown = true;
+                                    escaped = true;
+                                    used = true;
+                                }
                             } 
                         }
                         caughtPokemonResponse = await _client.Encounter.CatchPokemon(pokemon.EncounterId, pokemon.SpawnPointId, bestPokeball);
@@ -504,6 +508,7 @@ namespace PokemonGo.RocketAPI.Logic
                             _telegram.sendInformationText(TelegramUtil.TelegramUtilInformationTopics.Catch, StringUtils.getPokemonNameByLanguage(_clientSettings, pokemon.PokemonId), encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp, PokemonInfo.CalculatePokemonPerfection(encounterPokemonResponse.WildPokemon.PokemonData).ToString("0.00"), bestPokeball, caughtPokemonResponse.CaptureAward.Xp.Sum());
                        
                         _botStats.AddPokemon(1);
+                        await RandomHelper.RandomDelay(800, 1500);
                     }
                     else
                     {
@@ -514,10 +519,6 @@ namespace PokemonGo.RocketAPI.Logic
                 else
                 {
                     Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Error catching Pokemon: {encounterPokemonResponse?.Status}");
-                }
-                if (_clientSettings.sleepatpokemons)
-                {
-                    await RandomHelper.RandomDelay(1000, 3000);
                 }
                 await RandomHelper.RandomDelay(200, 300);
             }

@@ -164,6 +164,7 @@
     <EmbeddedResource Include="Lang\ru.json" />
     <EmbeddedResource Include="Lang\spain.json" />
     <EmbeddedResource Include="Lang\tr.json" />
+    <EmbeddedResource Include="Lang\arabic.json" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -255,6 +256,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="1470603236_Pokeball.ico" />
+    <None Include="Resources\arabic.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
