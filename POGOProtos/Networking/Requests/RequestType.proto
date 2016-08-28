@@ -1,6 +1,8 @@
 syntax = "proto3";
-
 package POGOProtos.Networking.Requests;
+
+// R = Response
+// M = Message
 
 enum RequestType {
 	METHOD_UNSET = 0;                     // No implementation required
@@ -79,4 +81,3 @@ enum RequestType {
 	SFIDA_DOWSER = 805;                   // Not yet released.
 	SFIDA_CAPTURE = 806;                  // Not yet released.
 }
-

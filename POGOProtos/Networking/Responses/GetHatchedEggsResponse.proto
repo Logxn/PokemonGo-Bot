@@ -1,5 +1,4 @@
 syntax = "proto3";
-
 package POGOProtos.Networking.Responses;
 
 message GetHatchedEggsResponse {
@@ -9,4 +8,3 @@ message GetHatchedEggsResponse {
 	repeated int32 candy_awarded = 4;
 	repeated int32 stardust_awarded = 5;
 }
-

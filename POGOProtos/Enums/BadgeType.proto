@@ -1,5 +1,4 @@
 syntax = "proto3";
-
 package POGOProtos.Enums;
 
 enum BadgeType {
@@ -42,4 +41,3 @@ enum BadgeType {
 	BADGE_SMALL_RATTATA = 36;
 	BADGE_PIKACHU = 37;
 }
-

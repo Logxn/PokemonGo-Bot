@@ -1,5 +1,4 @@
 syntax = "proto3";
-
 package POGOProtos.Inventory.Item;
 
 enum ItemType {
@@ -17,4 +16,3 @@ enum ItemType {
 	ITEM_TYPE_XP_BOOST = 11;
 	ITEM_TYPE_INVENTORY_UPGRADE = 12;
 }
-

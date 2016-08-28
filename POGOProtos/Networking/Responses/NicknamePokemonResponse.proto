@@ -1,9 +1,9 @@
 syntax = "proto3";
-
 package POGOProtos.Networking.Responses;
 
 message NicknamePokemonResponse {
-	POGOProtos.Networking.Responses.NicknamePokemonResponse.Result result = 1;
+	.POGOProtos.Networking.Responses.NicknamePokemonResponse.Result result = 1;
+
 	enum Result {
 		UNSET = 0;
 		SUCCESS = 1;
@@ -12,4 +12,3 @@ message NicknamePokemonResponse {
 		ERROR_POKEMON_IS_EGG = 4;
 	}
 }
-

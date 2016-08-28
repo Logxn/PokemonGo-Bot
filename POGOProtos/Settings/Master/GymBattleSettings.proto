@@ -1,5 +1,4 @@
 syntax = "proto3";
-
 package POGOProtos.Settings.Master;
 
 message GymBattleSettings {
@@ -19,4 +18,3 @@ message GymBattleSettings {
 	int32 swap_duration_ms = 14;
 	float dodge_damage_reduction_percent = 15;
 }
-

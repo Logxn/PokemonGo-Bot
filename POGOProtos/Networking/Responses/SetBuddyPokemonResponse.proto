@@ -1,13 +1,13 @@
 syntax = "proto3";
-
 package POGOProtos.Networking.Responses;
 
 import "POGOProtos/Data/BuddyPokemon.proto";
 
 message SetBuddyPokemonResponse
 {
-	POGOProtos.Networking.Responses.SetBuddyPokemonResponse.Result result = 1;
-	POGOProtos.Data.BuddyPokemon updated_buddy = 2;
+	.POGOProtos.Networking.Responses.SetBuddyPokemonResponse.Result result = 1;
+	.POGOProtos.Data.BuddyPokemon updated_buddy = 2;
+
 	enum Result {
 		UNEST = 0;
 		SUCCESS = 1;
@@ -16,4 +16,3 @@ message SetBuddyPokemonResponse
 		ERROR_POKEMON_IS_EGG = 4;
 	}
 }
-

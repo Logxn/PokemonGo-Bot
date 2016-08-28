@@ -1,5 +1,4 @@
 syntax = "proto3";
-
 package POGOProtos.Map;
 
 enum MapObjectsStatus {
@@ -7,4 +6,3 @@ enum MapObjectsStatus {
 	SUCCESS = 1;
 	LOCATION_UNSET = 2;
 }
-

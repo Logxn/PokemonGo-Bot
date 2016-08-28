@@ -1,5 +1,4 @@
 syntax = "proto3";
-
 package POGOProtos.Settings.Master;
 
 message EncounterSettings {
@@ -9,4 +8,3 @@ message EncounterSettings {
 	float nice_throw_threshold = 4;
 	int32 milestone_threshold = 5;
 }
-

@@ -1,5 +1,4 @@
 syntax = "proto3";
-
 package POGOProtos.Data.Battle;
 
 enum BattleActionType {
@@ -15,4 +14,3 @@ enum BattleActionType {
 	ACTION_DEFEAT = 9;
 	ACTION_TIMED_OUT = 10;
 }
-

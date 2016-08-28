@@ -1,5 +1,4 @@
 syntax = "proto3";
-
 package POGOProtos.Data;
 
 message AssetDigestEntry {
@@ -10,4 +9,3 @@ message AssetDigestEntry {
 	int32 size = 5;
 	bytes key = 6;
 }
-

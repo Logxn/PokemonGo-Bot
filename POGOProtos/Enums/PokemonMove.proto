@@ -1,5 +1,4 @@
 syntax = "proto3";
-
 package POGOProtos.Enums;
 
 enum PokemonMove {
@@ -184,4 +183,3 @@ enum PokemonMove {
 	FIRE_FANG_FAST = 240;
 	ROCK_SMASH_FAST = 241;
 }
-

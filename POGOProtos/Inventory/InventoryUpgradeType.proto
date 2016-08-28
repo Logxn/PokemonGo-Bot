@@ -1,5 +1,4 @@
 syntax = "proto3";
-
 package POGOProtos.Inventory;
 
 enum InventoryUpgradeType {
@@ -7,4 +6,3 @@ enum InventoryUpgradeType {
 	INCREASE_ITEM_STORAGE = 1;
 	INCREASE_POKEMON_STORAGE = 2;
 }
-

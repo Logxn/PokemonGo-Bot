@@ -1,5 +1,4 @@
 syntax = "proto3";
-
 package POGOProtos.Enums;
 
 enum PokemonFamilyId {
@@ -85,4 +84,3 @@ enum PokemonFamilyId {
 	FAMILY_MEWTWO = 150;
 	FAMILY_MEW = 151;
 }
-

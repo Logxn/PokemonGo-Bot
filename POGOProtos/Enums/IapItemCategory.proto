@@ -1,5 +1,4 @@
 syntax = "proto3";
-
 package POGOProtos.Enums;
 
 enum HoloIapItemCategory {
@@ -9,4 +8,3 @@ enum HoloIapItemCategory {
 	IAP_CATEGORY_UPGRADES = 3;
 	IAP_CATEGORY_POKECOINS = 4;
 }
-

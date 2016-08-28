@@ -1,12 +1,12 @@
 syntax = "proto3";
-
 package POGOProtos.Networking.Responses;
 
 import "POGOProtos/Networking/Responses/FortDetailsResponse.proto";
 
 message AddFortModifierResponse {
-	POGOProtos.Networking.Responses.AddFortModifierResponse.Result result = 1;
-	POGOProtos.Networking.Responses.FortDetailsResponse fort_details = 2;
+	.POGOProtos.Networking.Responses.AddFortModifierResponse.Result result = 1;
+	.POGOProtos.Networking.Responses.FortDetailsResponse fort_details = 2;
+
 	enum Result {
 		NO_RESULT_SET = 0;
 		SUCCESS = 1;
@@ -15,4 +15,3 @@ message AddFortModifierResponse {
 		NO_ITEM_IN_INVENTORY = 4;
 	}
 }
-

@@ -1,17 +1,17 @@
 syntax = "proto3";
-
 package POGOProtos.Networking.Responses;
 
 import "POGOProtos/Data/Battle/BattleLog.proto";
 import "POGOProtos/Data/Battle/BattleParticipant.proto";
 
 message StartGymBattleResponse {
-	POGOProtos.Networking.Responses.StartGymBattleResponse.Result result = 1;
+	.POGOProtos.Networking.Responses.StartGymBattleResponse.Result result = 1;
 	int64 battle_start_timestamp_ms = 2;
 	int64 battle_end_timestamp_ms = 3;
 	string battle_id = 4;
-	POGOProtos.Data.Battle.BattleParticipant defender = 5;
-	POGOProtos.Data.Battle.BattleLog battle_log = 6;
+	.POGOProtos.Data.Battle.BattleParticipant defender = 5;
+	.POGOProtos.Data.Battle.BattleLog battle_log = 6;
+
 	enum Result {
 		UNSET = 0;
 		SUCCESS = 1;
@@ -29,4 +29,3 @@ message StartGymBattleResponse {
 		ERROR_NOT_IN_RANGE = 13;
 	}
 }
-

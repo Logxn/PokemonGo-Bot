@@ -1,5 +1,4 @@
 syntax = "proto3";
-
 package POGOProtos.Settings;
 
 message InventorySettings {
@@ -9,4 +8,3 @@ message InventorySettings {
 	int32 base_bag_items = 4;
 	int32 base_eggs = 5;
 }
-

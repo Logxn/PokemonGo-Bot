@@ -1,5 +1,4 @@
 syntax = "proto3";
-
 package POGOProtos.Networking.Responses;
 
 message UseItemCaptureResponse {
@@ -11,4 +10,3 @@ message UseItemCaptureResponse {
 	bool target_max = 6;
 	bool target_slow = 7;
 }
-

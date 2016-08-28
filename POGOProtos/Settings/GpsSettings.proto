@@ -1,5 +1,4 @@
 syntax = "proto3";
-
 package POGOProtos.Settings;
 
 message GpsSettings {
@@ -8,4 +7,3 @@ message GpsSettings {
 	float driving_speed_sample_interval_seconds = 3;
 	int32 driving_speed_sample_count = 4;
 }
-

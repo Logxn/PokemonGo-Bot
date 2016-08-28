@@ -1,5 +1,4 @@
 syntax = "proto3";
-
 package POGOProtos.Enums;
 
 enum TutorialState {
@@ -14,4 +13,3 @@ enum TutorialState {
 	POKESTOP_TUTORIAL = 8;
 	GYM_TUTORIAL = 9;
 }
-

@@ -1,5 +1,4 @@
 syntax = "proto3";
-
 package POGOProtos.Enums;
 
 enum PokemonType {
@@ -23,4 +22,3 @@ enum PokemonType {
 	POKEMON_TYPE_DARK = 17;
 	POKEMON_TYPE_FAIRY = 18;
 }
-

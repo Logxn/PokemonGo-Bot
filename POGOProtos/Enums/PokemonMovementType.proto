@@ -1,5 +1,4 @@
 syntax = "proto3";
-
 package POGOProtos.Enums;
 
 enum PokemonMovementType {
@@ -11,4 +10,3 @@ enum PokemonMovementType {
 	MOVEMENT_FLYING = 5;
 	MOVEMENT_HOVERING = 6;
 }
-

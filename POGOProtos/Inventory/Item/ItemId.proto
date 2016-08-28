@@ -1,5 +1,4 @@
 syntax = "proto3";
-
 package POGOProtos.Inventory.Item;
 
 enum ItemId {
@@ -34,4 +33,3 @@ enum ItemId {
 	ITEM_POKEMON_STORAGE_UPGRADE = 1001;
 	ITEM_ITEM_STORAGE_UPGRADE = 1002;
 }
-

@@ -152,6 +152,7 @@ namespace PokemonGo.RocketAPI.Helpers
                 TimestampSnapshot = (ulong)_internalWatch.ElapsedMilliseconds - 200,
                 Latitude = (float)_latitude,
                 Longitude = (float)_longitude,
+                
                 HorizontalAccuracy = accuracy,        // Genauigkeit von GPS undso
                 ProviderStatus = 3,
                 Floor = 3,
@@ -177,7 +178,7 @@ namespace PokemonGo.RocketAPI.Helpers
 
             foreach (var req in requests)
                 sig.RequestHash.Add(BitConverter.ToUInt64(x.ComputeHash(req.ToByteArray()), 0));
-             
+           
 
             // OLD
             //static for now

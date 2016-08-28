@@ -1,5 +1,4 @@
 syntax = "proto3";
-
 package POGOProtos.Settings;
 
 message MapSettings {
@@ -11,4 +10,3 @@ message MapSettings {
 	float get_map_objects_min_distance_meters = 6;
 	string google_maps_api_key = 7;
 }
-

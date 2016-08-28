@@ -1,9 +1,9 @@
 syntax = "proto3";
-
 package POGOProtos.Networking.Responses;
 
 message CollectDailyBonusResponse {
-	POGOProtos.Networking.Responses.CollectDailyBonusResponse.Result result = 1;
+	.POGOProtos.Networking.Responses.CollectDailyBonusResponse.Result result = 1;
+
 	enum Result {
 		UNSET = 0;
 		SUCCESS = 1;
@@ -11,4 +11,3 @@ message CollectDailyBonusResponse {
 		TOO_SOON = 3;
 	}
 }
-

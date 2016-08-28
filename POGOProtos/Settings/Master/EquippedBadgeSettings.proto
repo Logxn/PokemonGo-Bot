@@ -1,5 +1,4 @@
 syntax = "proto3";
-
 package POGOProtos.Settings.Master;
 
 message EquippedBadgeSettings {
@@ -7,4 +6,3 @@ message EquippedBadgeSettings {
 	repeated float catch_probability_bonus = 2;
 	repeated float flee_probability_bonus = 3;
 }
-

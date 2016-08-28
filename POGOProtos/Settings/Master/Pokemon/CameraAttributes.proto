@@ -1,5 +1,4 @@
 syntax = "proto3";
-
 package POGOProtos.Settings.Master.Pokemon;
 
 message CameraAttributes {
@@ -9,4 +8,3 @@ message CameraAttributes {
 	float cylinder_ground_m = 4;
 	float shoulder_mode_scale = 5;
 }
-

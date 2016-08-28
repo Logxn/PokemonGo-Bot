@@ -1,5 +1,4 @@
 syntax = "proto3";
-
 package POGOProtos.Settings.Master;
 
 message GymLevelSettings {
@@ -8,4 +7,3 @@ message GymLevelSettings {
 	repeated int32 trainer_slots = 3;
 	repeated int32 search_roll_bonus = 4;
 }
-

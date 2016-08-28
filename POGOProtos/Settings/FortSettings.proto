@@ -1,5 +1,4 @@
 syntax = "proto3";
-
 package POGOProtos.Settings;
 
 message FortSettings {
@@ -10,4 +9,3 @@ message FortSettings {
 	double deploy_attack_multiplier = 5;
 	double far_interaction_range_meters = 6;
 }
-

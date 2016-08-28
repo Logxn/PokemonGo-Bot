@@ -1,5 +1,4 @@
 syntax = "proto3";
-
 package POGOProtos.Enums;
 
 enum CameraInterpolation {
@@ -9,4 +8,3 @@ enum CameraInterpolation {
 	CAM_INTERP_SMOOTH_ROT_LINEAR_MOVE = 3;
 	CAM_INTERP_DEPENDS = 4;
 }
-

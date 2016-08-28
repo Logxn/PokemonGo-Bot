@@ -1,5 +1,4 @@
 syntax = "proto3";
-
 package POGOProtos.Map.Fort;
 
 message FortSummary {
@@ -8,4 +7,3 @@ message FortSummary {
 	double latitude = 3;
 	double longitude = 4;
 }
-

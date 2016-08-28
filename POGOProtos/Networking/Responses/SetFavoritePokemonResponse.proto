@@ -1,9 +1,9 @@
 syntax = "proto3";
-
 package POGOProtos.Networking.Responses;
 
 message SetFavoritePokemonResponse {
-	POGOProtos.Networking.Responses.SetFavoritePokemonResponse.Result result = 1;
+	.POGOProtos.Networking.Responses.SetFavoritePokemonResponse.Result result = 1;
+
 	enum Result {
 		UNSET = 0;
 		SUCCESS = 1;
@@ -11,4 +11,3 @@ message SetFavoritePokemonResponse {
 		ERROR_POKEMON_IS_EGG = 3;
 	}
 }
-

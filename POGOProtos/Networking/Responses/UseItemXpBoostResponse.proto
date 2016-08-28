@@ -1,12 +1,12 @@
 syntax = "proto3";
-
 package POGOProtos.Networking.Responses;
 
 import "POGOProtos/Inventory/AppliedItems.proto";
 
 message UseItemXpBoostResponse {
-	POGOProtos.Networking.Responses.UseItemXpBoostResponse.Result result = 1;
-	POGOProtos.Inventory.AppliedItems applied_items = 2;
+	.POGOProtos.Networking.Responses.UseItemXpBoostResponse.Result result = 1;
+	.POGOProtos.Inventory.AppliedItems applied_items = 2;
+
 	enum Result {
 		UNSET = 0;
 		SUCCESS = 1;
@@ -16,4 +16,3 @@ message UseItemXpBoostResponse {
 		ERROR_LOCATION_UNSET = 5;
 	}
 }
-

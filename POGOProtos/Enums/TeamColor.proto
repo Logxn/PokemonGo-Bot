@@ -1,5 +1,4 @@
 syntax = "proto3";
-
 package POGOProtos.Enums;
 
 enum TeamColor {
@@ -8,4 +7,3 @@ enum TeamColor {
 	RED = 2;
 	YELLOW = 3;
 }
-

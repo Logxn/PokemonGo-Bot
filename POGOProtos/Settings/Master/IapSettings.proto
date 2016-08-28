@@ -1,5 +1,4 @@
 syntax = "proto3";
-
 package POGOProtos.Settings.Master;
 
 message IapSettings {
@@ -11,4 +10,3 @@ message IapSettings {
 	bool daily_bonus_enabled = 6;
 	bool daily_defender_bonus_enabled = 7;
 }
-

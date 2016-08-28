@@ -1,12 +1,12 @@
 syntax = "proto3";
-
 package POGOProtos.Networking.Responses;
 
 import "POGOProtos/Data/PokemonData.proto";
 
 message UpgradePokemonResponse {
-	POGOProtos.Networking.Responses.UpgradePokemonResponse.Result result = 1;
-	POGOProtos.Data.PokemonData upgraded_pokemon = 2;
+	.POGOProtos.Networking.Responses.UpgradePokemonResponse.Result result = 1;
+	.POGOProtos.Data.PokemonData upgraded_pokemon = 2;
+
 	enum Result {
 		UNSET = 0;
 		SUCCESS = 1;
@@ -16,4 +16,3 @@ message UpgradePokemonResponse {
 		ERROR_POKEMON_IS_DEPLOYED = 5;
 	}
 }
-
