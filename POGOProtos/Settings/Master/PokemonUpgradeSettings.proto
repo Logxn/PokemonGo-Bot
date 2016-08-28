@@ -1,4 +1,5 @@
 syntax = "proto3";
+
 package POGOProtos.Settings.Master;
 
 message PokemonUpgradeSettings {
@@ -7,3 +8,4 @@ message PokemonUpgradeSettings {
 	repeated int32 candy_cost = 3;
 	repeated int32 stardust_cost = 4;
 }
+

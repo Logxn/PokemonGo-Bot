@@ -1,4 +1,5 @@
 syntax = "proto3";
+
 package POGOProtos.Networking.Requests.Messages;
 
 message GetMapObjectsMessage {
@@ -7,3 +8,4 @@ message GetMapObjectsMessage {
 	double latitude = 3;
 	double longitude = 4;
 }
+

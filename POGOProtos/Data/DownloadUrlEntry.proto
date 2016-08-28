@@ -1,4 +1,5 @@
 syntax = "proto3";
+
 package POGOProtos.Data;
 
 message DownloadUrlEntry {
@@ -7,3 +8,4 @@ message DownloadUrlEntry {
 	int32 size = 3;
 	fixed32 checksum = 4;
 }
+

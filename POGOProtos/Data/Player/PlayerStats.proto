@@ -1,4 +1,5 @@
 syntax = "proto3";
+
 package POGOProtos.Data.Player;
 
 message PlayerStats {
@@ -26,3 +27,4 @@ message PlayerStats {
 	repeated int32 pokemon_caught_by_type = 22;
 	int32 small_rattata_caught = 23;
 }
+

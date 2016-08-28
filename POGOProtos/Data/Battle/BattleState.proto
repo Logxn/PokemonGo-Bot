@@ -1,4 +1,5 @@
 syntax = "proto3";
+
 package POGOProtos.Data.Battle;
 
 enum BattleState {
@@ -8,3 +9,4 @@ enum BattleState {
 	DEFEATED = 3;
 	TIMED_OUT = 4;
 }
+

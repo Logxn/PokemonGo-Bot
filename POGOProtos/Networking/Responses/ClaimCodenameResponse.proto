@@ -1,4 +1,5 @@
 syntax = "proto3";
+
 package POGOProtos.Networking.Responses;
 
 import "POGOProtos/Data/PlayerData.proto";
@@ -7,9 +8,8 @@ message ClaimCodenameResponse {
 	string codename = 1;
 	string user_message = 2;
 	bool is_assignable = 3;
-	.POGOProtos.Networking.Responses.ClaimCodenameResponse.Status status = 4;
-	.POGOProtos.Data.PlayerData updated_player = 5;
-
+	POGOProtos.Networking.Responses.ClaimCodenameResponse.Status status = 4;
+	POGOProtos.Data.PlayerData updated_player = 5;
 	enum Status {
 		UNSET = 0;
 		SUCCESS = 1;
@@ -19,3 +19,4 @@ message ClaimCodenameResponse {
 		CODENAME_CHANGE_NOT_ALLOWED = 5;
 	}
 }
+

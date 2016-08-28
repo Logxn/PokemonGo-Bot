@@ -1,4 +1,5 @@
 syntax = "proto3";
+
 package POGOProtos.Networking.Requests.Messages;
 
 message FortRecallPokemonMessage {
@@ -7,3 +8,4 @@ message FortRecallPokemonMessage {
 	double player_latitude = 3;
 	double player_longitude = 4;
 }
+

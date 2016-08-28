@@ -1,4 +1,5 @@
 syntax = "proto3";
+
 package POGOProtos.Enums;
 
 enum Platform {
@@ -8,3 +9,4 @@ enum Platform {
 	OSX = 3;
 	WINDOWS = 4;
 }
+

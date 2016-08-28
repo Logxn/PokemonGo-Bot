@@ -23,7 +23,7 @@ namespace POGOProtos.Networking.Envelopes {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "Ci9QT0dPUHJvdG9zL05ldHdvcmtpbmcvRW52ZWxvcGVzL1NpZ25hdHVyZS5w",
-            "cm90bxIfUE9HT1Byb3Rvcy5OZXR3b3JraW5nLkVudmVsb3BlcyKuDwoJU2ln",
+            "cm90bxIfUE9HT1Byb3Rvcy5OZXR3b3JraW5nLkVudmVsb3BlcyLSDwoJU2ln",
             "bmF0dXJlEh0KFXRpbWVzdGFtcF9zaW5jZV9zdGFydBgCIAEoBBJMCgxsb2Nh",
             "dGlvbl9maXgYBCADKAsyNi5QT0dPUHJvdG9zLk5ldHdvcmtpbmcuRW52ZWxv",
             "cGVzLlNpZ25hdHVyZS5Mb2NhdGlvbkZpeBJLCghncHNfaW5mbxgFIAEoCzI5",
@@ -34,46 +34,47 @@ namespace POGOProtos.Networking.Envelopes {
             "bnZlbG9wZXMuU2lnbmF0dXJlLkRldmljZUluZm8SUgoPYWN0aXZpdHlfc3Rh",
             "dHVzGAkgASgLMjkuUE9HT1Byb3Rvcy5OZXR3b3JraW5nLkVudmVsb3Blcy5T",
             "aWduYXR1cmUuQWN0aXZpdHlTdGF0dXMSFgoObG9jYXRpb25faGFzaDEYCiAB",
-            "KAQSFgoObG9jYXRpb25faGFzaDIYFCABKAQSFAoMc2Vzc2lvbl9oYXNoGBYg",
+            "KA0SFgoObG9jYXRpb25faGFzaDIYFCABKA0SFAoMc2Vzc2lvbl9oYXNoGBYg",
             "ASgMEhEKCXRpbWVzdGFtcBgXIAEoBBIUCgxyZXF1ZXN0X2hhc2gYGCADKAQS",
-            "EQoJdW5rbm93bjI1GBkgASgDGuoBCgtMb2NhdGlvbkZpeBIQCghwcm92aWRl",
-            "chgBIAEoCRIaChJ0aW1lc3RhbXBfc25hcHNob3QYAiABKAQSEAoIbGF0aXR1",
-            "ZGUYDSABKAISEQoJbG9uZ2l0dWRlGA4gASgCEhEKCXVua25vd24yMBgUIAEo",
-            "AhIbChNob3Jpem9udGFsX2FjY3VyYWN5GBUgASgCEhkKEXZlcnRpY2FsX2Fj",
-            "Y3VyYWN5GBYgASgCEhcKD3Byb3ZpZGVyX3N0YXR1cxgaIAEoBBINCgVmbG9v",
-            "chgbIAEoDRIVCg1sb2NhdGlvbl90eXBlGBwgASgEGq8BCg5BbmRyb2lkR3Bz",
-            "SW5mbxITCgt0aW1lX3RvX2ZpeBgBIAEoBBIWCg5zYXRlbGxpdGVzX3BybhgC",
-            "IAMoBRIPCgdhemltdXRoGAMgAygCEhEKCWVsZXZhdGlvbhgEIAMoAhILCgNz",
-            "bnIYBSADKAISEwoLaGFzX2FsbWFuYWMYBiADKAgSFQoNaGFzX2VwaGVtZXJp",
-            "cxgHIAMoCBITCgt1c2VkX2luX2ZpeBgIIAMoCBq+AwoKU2Vuc29ySW5mbxIa",
-            "ChJ0aW1lc3RhbXBfc25hcHNob3QYASABKAQSFgoObWFnbmV0b21ldGVyX3gY",
-            "AyABKAESFgoObWFnbmV0b21ldGVyX3kYBCABKAESFgoObWFnbmV0b21ldGVy",
-            "X3oYBSABKAESGgoSYW5nbGVfbm9ybWFsaXplZF94GAYgASgBEhoKEmFuZ2xl",
-            "X25vcm1hbGl6ZWRfeRgHIAEoARIaChJhbmdsZV9ub3JtYWxpemVkX3oYCCAB",
-            "KAESEwoLYWNjZWxfcmF3X3gYCiABKAESEwoLYWNjZWxfcmF3X3kYCyABKAES",
-            "EwoLYWNjZWxfcmF3X3oYDCABKAESFwoPZ3lyb3Njb3BlX3Jhd194GA0gASgB",
-            "EhcKD2d5cm9zY29wZV9yYXdfeRgOIAEoARIXCg9neXJvc2NvcGVfcmF3X3oY",
-            "DyABKAESGgoSYWNjZWxfbm9ybWFsaXplZF94GBAgASgBEhoKEmFjY2VsX25v",
-            "cm1hbGl6ZWRfeRgRIAEoARIaChJhY2NlbF9ub3JtYWxpemVkX3oYEiABKAES",
-            "GgoSYWNjZWxlcm9tZXRlcl9heGVzGBMgASgEGtoCCgpEZXZpY2VJbmZvEhEK",
-            "CWRldmljZV9pZBgBIAEoCRIaChJhbmRyb2lkX2JvYXJkX25hbWUYAiABKAkS",
-            "GgoSYW5kcm9pZF9ib290bG9hZGVyGAMgASgJEhQKDGRldmljZV9icmFuZBgE",
-            "IAEoCRIUCgxkZXZpY2VfbW9kZWwYBSABKAkSHwoXZGV2aWNlX21vZGVsX2lk",
-            "ZW50aWZpZXIYBiABKAkSGQoRZGV2aWNlX21vZGVsX2Jvb3QYByABKAkSHQoV",
-            "aGFyZHdhcmVfbWFudWZhY3R1cmVyGAggASgJEhYKDmhhcmR3YXJlX21vZGVs",
-            "GAkgASgJEhYKDmZpcm13YXJlX2JyYW5kGAogASgJEhUKDWZpcm13YXJlX3Rh",
-            "Z3MYDCABKAkSFQoNZmlybXdhcmVfdHlwZRgNIAEoCRIcChRmaXJtd2FyZV9m",
-            "aW5nZXJwcmludBgOIAEoCRq7AQoOQWN0aXZpdHlTdGF0dXMSFQoNc3RhcnRf",
-            "dGltZV9tcxgBIAEoBBIWCg51bmtub3duX3N0YXR1cxgCIAEoCBIPCgd3YWxr",
-            "aW5nGAMgASgIEg8KB3J1bm5pbmcYBCABKAgSEgoKc3RhdGlvbmFyeRgFIAEo",
-            "CBISCgphdXRvbW90aXZlGAYgASgIEg8KB3RpbHRpbmcYByABKAgSDwoHY3lj",
-            "bGluZxgIIAEoCBIOCgZzdGF0dXMYCSABKAxiBnByb3RvMw=="));
+            "EQoJdW5rbm93bjI1GBkgASgDGogCCgtMb2NhdGlvbkZpeBIQCghwcm92aWRl",
+            "chgBIAEoCRIaChJ0aW1lc3RhbXBfc25hcHNob3QYAiABKAQSEAoIYWx0aXR1",
+            "ZGUYBCABKAISEAoIbGF0aXR1ZGUYDSABKAISEQoJbG9uZ2l0dWRlGA4gASgC",
+            "Eg0KBXNwZWVkGBIgASgCEg4KBmNvdXJzZRgUIAEoAhIbChNob3Jpem9udGFs",
+            "X2FjY3VyYWN5GBUgASgCEhkKEXZlcnRpY2FsX2FjY3VyYWN5GBYgASgCEhcK",
+            "D3Byb3ZpZGVyX3N0YXR1cxgaIAEoBBINCgVmbG9vchgbIAEoDRIVCg1sb2Nh",
+            "dGlvbl90eXBlGBwgASgEGq8BCg5BbmRyb2lkR3BzSW5mbxITCgt0aW1lX3Rv",
+            "X2ZpeBgBIAEoBBIWCg5zYXRlbGxpdGVzX3BybhgCIAMoBRIPCgdhemltdXRo",
+            "GAMgAygCEhEKCWVsZXZhdGlvbhgEIAMoAhILCgNzbnIYBSADKAISEwoLaGFz",
+            "X2FsbWFuYWMYBiADKAgSFQoNaGFzX2VwaGVtZXJpcxgHIAMoCBITCgt1c2Vk",
+            "X2luX2ZpeBgIIAMoCBrEAwoKU2Vuc29ySW5mbxIaChJ0aW1lc3RhbXBfc25h",
+            "cHNob3QYASABKAQSHQoVbGluZWFyX2FjY2VsZXJhdGlvbl94GAMgASgBEh0K",
+            "FWxpbmVhcl9hY2NlbGVyYXRpb25feRgEIAEoARIdChVsaW5lYXJfYWNjZWxl",
+            "cmF0aW9uX3oYBSABKAESGAoQbWFnbmV0aWNfZmllbGRfeBgGIAEoARIYChBt",
+            "YWduZXRpY19maWVsZF95GAcgASgBEhgKEG1hZ25ldGljX2ZpZWxkX3oYCCAB",
+            "KAESGQoRcm90YXRpb25fdmVjdG9yX3gYCiABKAESGQoRcm90YXRpb25fdmVj",
+            "dG9yX3kYCyABKAESGQoRcm90YXRpb25fdmVjdG9yX3oYDCABKAESFwoPZ3ly",
+            "b3Njb3BlX3Jhd194GA0gASgBEhcKD2d5cm9zY29wZV9yYXdfeRgOIAEoARIX",
+            "Cg9neXJvc2NvcGVfcmF3X3oYDyABKAESEQoJZ3Jhdml0eV94GBAgASgBEhEK",
+            "CWdyYXZpdHlfeRgRIAEoARIRCglncmF2aXR5X3oYEiABKAESGgoSYWNjZWxl",
+            "cm9tZXRlcl9heGVzGBMgASgEGtoCCgpEZXZpY2VJbmZvEhEKCWRldmljZV9p",
+            "ZBgBIAEoCRIaChJhbmRyb2lkX2JvYXJkX25hbWUYAiABKAkSGgoSYW5kcm9p",
+            "ZF9ib290bG9hZGVyGAMgASgJEhQKDGRldmljZV9icmFuZBgEIAEoCRIUCgxk",
+            "ZXZpY2VfbW9kZWwYBSABKAkSHwoXZGV2aWNlX21vZGVsX2lkZW50aWZpZXIY",
+            "BiABKAkSGQoRZGV2aWNlX21vZGVsX2Jvb3QYByABKAkSHQoVaGFyZHdhcmVf",
+            "bWFudWZhY3R1cmVyGAggASgJEhYKDmhhcmR3YXJlX21vZGVsGAkgASgJEhYK",
+            "DmZpcm13YXJlX2JyYW5kGAogASgJEhUKDWZpcm13YXJlX3RhZ3MYDCABKAkS",
+            "FQoNZmlybXdhcmVfdHlwZRgNIAEoCRIcChRmaXJtd2FyZV9maW5nZXJwcmlu",
+            "dBgOIAEoCRq7AQoOQWN0aXZpdHlTdGF0dXMSFQoNc3RhcnRfdGltZV9tcxgB",
+            "IAEoBBIWCg51bmtub3duX3N0YXR1cxgCIAEoCBIPCgd3YWxraW5nGAMgASgI",
+            "Eg8KB3J1bm5pbmcYBCABKAgSEgoKc3RhdGlvbmFyeRgFIAEoCBISCgphdXRv",
+            "bW90aXZlGAYgASgIEg8KB3RpbHRpbmcYByABKAgSDwoHY3ljbGluZxgIIAEo",
+            "CBIOCgZzdGF0dXMYCSABKAxiBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::POGOProtos.Networking.Envelopes.Signature), global::POGOProtos.Networking.Envelopes.Signature.Parser, new[]{ "TimestampSinceStart", "LocationFix", "GpsInfo", "SensorInfo", "DeviceInfo", "ActivityStatus", "LocationHash1", "LocationHash2", "SessionHash", "Timestamp", "RequestHash", "Unknown25" }, null, null, new pbr::GeneratedClrTypeInfo[] { new pbr::GeneratedClrTypeInfo(typeof(global::POGOProtos.Networking.Envelopes.Signature.Types.LocationFix), global::POGOProtos.Networking.Envelopes.Signature.Types.LocationFix.Parser, new[]{ "Provider", "TimestampSnapshot", "Latitude", "Longitude", "Unknown20", "HorizontalAccuracy", "VerticalAccuracy", "ProviderStatus", "Floor", "LocationType" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::POGOProtos.Networking.Envelopes.Signature), global::POGOProtos.Networking.Envelopes.Signature.Parser, new[]{ "TimestampSinceStart", "LocationFix", "GpsInfo", "SensorInfo", "DeviceInfo", "ActivityStatus", "LocationHash1", "LocationHash2", "SessionHash", "Timestamp", "RequestHash", "Unknown25" }, null, null, new pbr::GeneratedClrTypeInfo[] { new pbr::GeneratedClrTypeInfo(typeof(global::POGOProtos.Networking.Envelopes.Signature.Types.LocationFix), global::POGOProtos.Networking.Envelopes.Signature.Types.LocationFix.Parser, new[]{ "Provider", "TimestampSnapshot", "Altitude", "Latitude", "Longitude", "Speed", "Course", "HorizontalAccuracy", "VerticalAccuracy", "ProviderStatus", "Floor", "LocationType" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::POGOProtos.Networking.Envelopes.Signature.Types.AndroidGpsInfo), global::POGOProtos.Networking.Envelopes.Signature.Types.AndroidGpsInfo.Parser, new[]{ "TimeToFix", "SatellitesPrn", "Azimuth", "Elevation", "Snr", "HasAlmanac", "HasEphemeris", "UsedInFix" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::POGOProtos.Networking.Envelopes.Signature.Types.SensorInfo), global::POGOProtos.Networking.Envelopes.Signature.Types.SensorInfo.Parser, new[]{ "TimestampSnapshot", "MagnetometerX", "MagnetometerY", "MagnetometerZ", "AngleNormalizedX", "AngleNormalizedY", "AngleNormalizedZ", "AccelRawX", "AccelRawY", "AccelRawZ", "GyroscopeRawX", "GyroscopeRawY", "GyroscopeRawZ", "AccelNormalizedX", "AccelNormalizedY", "AccelNormalizedZ", "AccelerometerAxes" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::POGOProtos.Networking.Envelopes.Signature.Types.SensorInfo), global::POGOProtos.Networking.Envelopes.Signature.Types.SensorInfo.Parser, new[]{ "TimestampSnapshot", "LinearAccelerationX", "LinearAccelerationY", "LinearAccelerationZ", "MagneticFieldX", "MagneticFieldY", "MagneticFieldZ", "RotationVectorX", "RotationVectorY", "RotationVectorZ", "GyroscopeRawX", "GyroscopeRawY", "GyroscopeRawZ", "GravityX", "GravityY", "GravityZ", "AccelerometerAxes" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::POGOProtos.Networking.Envelopes.Signature.Types.DeviceInfo), global::POGOProtos.Networking.Envelopes.Signature.Types.DeviceInfo.Parser, new[]{ "DeviceId", "AndroidBoardName", "AndroidBootloader", "DeviceBrand", "DeviceModel", "DeviceModelIdentifier", "DeviceModelBoot", "HardwareManufacturer", "HardwareModel", "FirmwareBrand", "FirmwareTags", "FirmwareType", "FirmwareFingerprint" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::POGOProtos.Networking.Envelopes.Signature.Types.ActivityStatus), global::POGOProtos.Networking.Envelopes.Signature.Types.ActivityStatus.Parser, new[]{ "StartTimeMs", "UnknownStatus", "Walking", "Running", "Stationary", "Automotive", "Tilting", "Cycling", "Status" }, null, null, null)})
           }));
@@ -195,12 +196,12 @@ namespace POGOProtos.Networking.Envelopes {
 
     /// <summary>Field number for the "location_hash1" field.</summary>
     public const int LocationHash1FieldNumber = 10;
-    private ulong locationHash1_;
+    private uint locationHash1_;
     /// <summary>
     ///  Location1 hashed signed based on the auth_token or auth_info - xxHash32
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public ulong LocationHash1 {
+    public uint LocationHash1 {
       get { return locationHash1_; }
       set {
         locationHash1_ = value;
@@ -209,12 +210,12 @@ namespace POGOProtos.Networking.Envelopes {
 
     /// <summary>Field number for the "location_hash2" field.</summary>
     public const int LocationHash2FieldNumber = 20;
-    private ulong locationHash2_;
+    private uint locationHash2_;
     /// <summary>
     ///  Location2 hashed (unsigned) - xxHash32
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public ulong LocationHash2 {
+    public uint LocationHash2 {
       get { return locationHash2_; }
       set {
         locationHash2_ = value;
@@ -313,8 +314,8 @@ namespace POGOProtos.Networking.Envelopes {
       if (sensorInfo_ != null) hash ^= SensorInfo.GetHashCode();
       if (deviceInfo_ != null) hash ^= DeviceInfo.GetHashCode();
       if (activityStatus_ != null) hash ^= ActivityStatus.GetHashCode();
-      if (LocationHash1 != 0UL) hash ^= LocationHash1.GetHashCode();
-      if (LocationHash2 != 0UL) hash ^= LocationHash2.GetHashCode();
+      if (LocationHash1 != 0) hash ^= LocationHash1.GetHashCode();
+      if (LocationHash2 != 0) hash ^= LocationHash2.GetHashCode();
       if (SessionHash.Length != 0) hash ^= SessionHash.GetHashCode();
       if (Timestamp != 0UL) hash ^= Timestamp.GetHashCode();
       hash ^= requestHash_.GetHashCode();
@@ -350,13 +351,13 @@ namespace POGOProtos.Networking.Envelopes {
         output.WriteRawTag(74);
         output.WriteMessage(ActivityStatus);
       }
-      if (LocationHash1 != 0UL) {
+      if (LocationHash1 != 0) {
         output.WriteRawTag(80);
-        output.WriteUInt64(LocationHash1);
+        output.WriteUInt32(LocationHash1);
       }
-      if (LocationHash2 != 0UL) {
+      if (LocationHash2 != 0) {
         output.WriteRawTag(160, 1);
-        output.WriteUInt64(LocationHash2);
+        output.WriteUInt32(LocationHash2);
       }
       if (SessionHash.Length != 0) {
         output.WriteRawTag(178, 1);
@@ -392,11 +393,11 @@ namespace POGOProtos.Networking.Envelopes {
       if (activityStatus_ != null) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(ActivityStatus);
       }
-      if (LocationHash1 != 0UL) {
-        size += 1 + pb::CodedOutputStream.ComputeUInt64Size(LocationHash1);
+      if (LocationHash1 != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeUInt32Size(LocationHash1);
       }
-      if (LocationHash2 != 0UL) {
-        size += 2 + pb::CodedOutputStream.ComputeUInt64Size(LocationHash2);
+      if (LocationHash2 != 0) {
+        size += 2 + pb::CodedOutputStream.ComputeUInt32Size(LocationHash2);
       }
       if (SessionHash.Length != 0) {
         size += 2 + pb::CodedOutputStream.ComputeBytesSize(SessionHash);
@@ -444,10 +445,10 @@ namespace POGOProtos.Networking.Envelopes {
         }
         ActivityStatus.MergeFrom(other.ActivityStatus);
       }
-      if (other.LocationHash1 != 0UL) {
+      if (other.LocationHash1 != 0) {
         LocationHash1 = other.LocationHash1;
       }
-      if (other.LocationHash2 != 0UL) {
+      if (other.LocationHash2 != 0) {
         LocationHash2 = other.LocationHash2;
       }
       if (other.SessionHash.Length != 0) {
@@ -507,11 +508,11 @@ namespace POGOProtos.Networking.Envelopes {
             break;
           }
           case 80: {
-            LocationHash1 = input.ReadUInt64();
+            LocationHash1 = input.ReadUInt32();
             break;
           }
           case 160: {
-            LocationHash2 = input.ReadUInt64();
+            LocationHash2 = input.ReadUInt32();
             break;
           }
           case 178: {
@@ -565,9 +566,11 @@ namespace POGOProtos.Networking.Envelopes {
         public LocationFix(LocationFix other) : this() {
           provider_ = other.provider_;
           timestampSnapshot_ = other.timestampSnapshot_;
+          altitude_ = other.altitude_;
           latitude_ = other.latitude_;
           longitude_ = other.longitude_;
-          unknown20_ = other.unknown20_;
+          speed_ = other.speed_;
+          course_ = other.course_;
           horizontalAccuracy_ = other.horizontalAccuracy_;
           verticalAccuracy_ = other.verticalAccuracy_;
           providerStatus_ = other.providerStatus_;
@@ -608,6 +611,20 @@ namespace POGOProtos.Networking.Envelopes {
           }
         }
 
+        /// <summary>Field number for the "altitude" field.</summary>
+        public const int AltitudeFieldNumber = 4;
+        private float altitude_;
+        /// <summary>
+        ///  Confirmed on android/ios
+        /// </summary>
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public float Altitude {
+          get { return altitude_; }
+          set {
+            altitude_ = value;
+          }
+        }
+
         /// <summary>Field number for the "latitude" field.</summary>
         public const int LatitudeFieldNumber = 13;
         private float latitude_;
@@ -630,19 +647,31 @@ namespace POGOProtos.Networking.Envelopes {
           }
         }
 
-        /// <summary>Field number for the "unknown20" field.</summary>
-        public const int Unknown20FieldNumber = 20;
-        private float unknown20_;
+        /// <summary>Field number for the "speed" field.</summary>
+        public const int SpeedFieldNumber = 18;
+        private float speed_;
         /// <summary>
-        ///  ??? shows up in struct, dunno where these go
-        ///  float device_speed;
-        ///  float device_course;
+        ///  iOS only (-1 for no reading available, speed in m/s)
         /// </summary>
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public float Unknown20 {
-          get { return unknown20_; }
+        public float Speed {
+          get { return speed_; }
           set {
-            unknown20_ = value;
+            speed_ = value;
+          }
+        }
+
+        /// <summary>Field number for the "course" field.</summary>
+        public const int CourseFieldNumber = 20;
+        private float course_;
+        /// <summary>
+        ///  iOS only (range seems to be -1 for not reading, and 0 to 360 for reading) confirmed by @marcel
+        /// </summary>
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public float Course {
+          get { return course_; }
+          set {
+            course_ = value;
           }
         }
 
@@ -664,7 +693,7 @@ namespace POGOProtos.Networking.Envelopes {
         public const int VerticalAccuracyFieldNumber = 22;
         private float verticalAccuracy_;
         /// <summary>
-        ///  iOS only? (range seems to be ~10-12)
+        ///  iOS only
         /// </summary>
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         public float VerticalAccuracy {
@@ -731,9 +760,11 @@ namespace POGOProtos.Networking.Envelopes {
           }
           if (Provider != other.Provider) return false;
           if (TimestampSnapshot != other.TimestampSnapshot) return false;
+          if (Altitude != other.Altitude) return false;
           if (Latitude != other.Latitude) return false;
           if (Longitude != other.Longitude) return false;
-          if (Unknown20 != other.Unknown20) return false;
+          if (Speed != other.Speed) return false;
+          if (Course != other.Course) return false;
           if (HorizontalAccuracy != other.HorizontalAccuracy) return false;
           if (VerticalAccuracy != other.VerticalAccuracy) return false;
           if (ProviderStatus != other.ProviderStatus) return false;
@@ -747,9 +778,11 @@ namespace POGOProtos.Networking.Envelopes {
           int hash = 1;
           if (Provider.Length != 0) hash ^= Provider.GetHashCode();
           if (TimestampSnapshot != 0UL) hash ^= TimestampSnapshot.GetHashCode();
+          if (Altitude != 0F) hash ^= Altitude.GetHashCode();
           if (Latitude != 0F) hash ^= Latitude.GetHashCode();
           if (Longitude != 0F) hash ^= Longitude.GetHashCode();
-          if (Unknown20 != 0F) hash ^= Unknown20.GetHashCode();
+          if (Speed != 0F) hash ^= Speed.GetHashCode();
+          if (Course != 0F) hash ^= Course.GetHashCode();
           if (HorizontalAccuracy != 0F) hash ^= HorizontalAccuracy.GetHashCode();
           if (VerticalAccuracy != 0F) hash ^= VerticalAccuracy.GetHashCode();
           if (ProviderStatus != 0UL) hash ^= ProviderStatus.GetHashCode();
@@ -773,6 +806,10 @@ namespace POGOProtos.Networking.Envelopes {
             output.WriteRawTag(16);
             output.WriteUInt64(TimestampSnapshot);
           }
+          if (Altitude != 0F) {
+            output.WriteRawTag(37);
+            output.WriteFloat(Altitude);
+          }
           if (Latitude != 0F) {
             output.WriteRawTag(109);
             output.WriteFloat(Latitude);
@@ -781,9 +818,13 @@ namespace POGOProtos.Networking.Envelopes {
             output.WriteRawTag(117);
             output.WriteFloat(Longitude);
           }
-          if (Unknown20 != 0F) {
+          if (Speed != 0F) {
+            output.WriteRawTag(149, 1);
+            output.WriteFloat(Speed);
+          }
+          if (Course != 0F) {
             output.WriteRawTag(165, 1);
-            output.WriteFloat(Unknown20);
+            output.WriteFloat(Course);
           }
           if (HorizontalAccuracy != 0F) {
             output.WriteRawTag(173, 1);
@@ -816,13 +857,19 @@ namespace POGOProtos.Networking.Envelopes {
           if (TimestampSnapshot != 0UL) {
             size += 1 + pb::CodedOutputStream.ComputeUInt64Size(TimestampSnapshot);
           }
+          if (Altitude != 0F) {
+            size += 1 + 4;
+          }
           if (Latitude != 0F) {
             size += 1 + 4;
           }
           if (Longitude != 0F) {
             size += 1 + 4;
           }
-          if (Unknown20 != 0F) {
+          if (Speed != 0F) {
+            size += 2 + 4;
+          }
+          if (Course != 0F) {
             size += 2 + 4;
           }
           if (HorizontalAccuracy != 0F) {
@@ -854,14 +901,20 @@ namespace POGOProtos.Networking.Envelopes {
           if (other.TimestampSnapshot != 0UL) {
             TimestampSnapshot = other.TimestampSnapshot;
           }
+          if (other.Altitude != 0F) {
+            Altitude = other.Altitude;
+          }
           if (other.Latitude != 0F) {
             Latitude = other.Latitude;
           }
           if (other.Longitude != 0F) {
             Longitude = other.Longitude;
           }
-          if (other.Unknown20 != 0F) {
-            Unknown20 = other.Unknown20;
+          if (other.Speed != 0F) {
+            Speed = other.Speed;
+          }
+          if (other.Course != 0F) {
+            Course = other.Course;
           }
           if (other.HorizontalAccuracy != 0F) {
             HorizontalAccuracy = other.HorizontalAccuracy;
@@ -896,6 +949,10 @@ namespace POGOProtos.Networking.Envelopes {
                 TimestampSnapshot = input.ReadUInt64();
                 break;
               }
+              case 37: {
+                Altitude = input.ReadFloat();
+                break;
+              }
               case 109: {
                 Latitude = input.ReadFloat();
                 break;
@@ -904,8 +961,12 @@ namespace POGOProtos.Networking.Envelopes {
                 Longitude = input.ReadFloat();
                 break;
               }
+              case 149: {
+                Speed = input.ReadFloat();
+                break;
+              }
               case 165: {
-                Unknown20 = input.ReadFloat();
+                Course = input.ReadFloat();
                 break;
               }
               case 173: {
@@ -1226,21 +1287,21 @@ namespace POGOProtos.Networking.Envelopes {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         public SensorInfo(SensorInfo other) : this() {
           timestampSnapshot_ = other.timestampSnapshot_;
-          magnetometerX_ = other.magnetometerX_;
-          magnetometerY_ = other.magnetometerY_;
-          magnetometerZ_ = other.magnetometerZ_;
-          angleNormalizedX_ = other.angleNormalizedX_;
-          angleNormalizedY_ = other.angleNormalizedY_;
-          angleNormalizedZ_ = other.angleNormalizedZ_;
-          accelRawX_ = other.accelRawX_;
-          accelRawY_ = other.accelRawY_;
-          accelRawZ_ = other.accelRawZ_;
+          linearAccelerationX_ = other.linearAccelerationX_;
+          linearAccelerationY_ = other.linearAccelerationY_;
+          linearAccelerationZ_ = other.linearAccelerationZ_;
+          magneticFieldX_ = other.magneticFieldX_;
+          magneticFieldY_ = other.magneticFieldY_;
+          magneticFieldZ_ = other.magneticFieldZ_;
+          rotationVectorX_ = other.rotationVectorX_;
+          rotationVectorY_ = other.rotationVectorY_;
+          rotationVectorZ_ = other.rotationVectorZ_;
           gyroscopeRawX_ = other.gyroscopeRawX_;
           gyroscopeRawY_ = other.gyroscopeRawY_;
           gyroscopeRawZ_ = other.gyroscopeRawZ_;
-          accelNormalizedX_ = other.accelNormalizedX_;
-          accelNormalizedY_ = other.accelNormalizedY_;
-          accelNormalizedZ_ = other.accelNormalizedZ_;
+          gravityX_ = other.gravityX_;
+          gravityY_ = other.gravityY_;
+          gravityZ_ = other.gravityZ_;
           accelerometerAxes_ = other.accelerometerAxes_;
         }
 
@@ -1263,102 +1324,102 @@ namespace POGOProtos.Networking.Envelopes {
           }
         }
 
-        /// <summary>Field number for the "magnetometer_x" field.</summary>
-        public const int MagnetometerXFieldNumber = 3;
-        private double magnetometerX_;
+        /// <summary>Field number for the "linear_acceleration_x" field.</summary>
+        public const int LinearAccelerationXFieldNumber = 3;
+        private double linearAccelerationX_;
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public double MagnetometerX {
-          get { return magnetometerX_; }
+        public double LinearAccelerationX {
+          get { return linearAccelerationX_; }
           set {
-            magnetometerX_ = value;
+            linearAccelerationX_ = value;
           }
         }
 
-        /// <summary>Field number for the "magnetometer_y" field.</summary>
-        public const int MagnetometerYFieldNumber = 4;
-        private double magnetometerY_;
+        /// <summary>Field number for the "linear_acceleration_y" field.</summary>
+        public const int LinearAccelerationYFieldNumber = 4;
+        private double linearAccelerationY_;
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public double MagnetometerY {
-          get { return magnetometerY_; }
+        public double LinearAccelerationY {
+          get { return linearAccelerationY_; }
           set {
-            magnetometerY_ = value;
+            linearAccelerationY_ = value;
           }
         }
 
-        /// <summary>Field number for the "magnetometer_z" field.</summary>
-        public const int MagnetometerZFieldNumber = 5;
-        private double magnetometerZ_;
+        /// <summary>Field number for the "linear_acceleration_z" field.</summary>
+        public const int LinearAccelerationZFieldNumber = 5;
+        private double linearAccelerationZ_;
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public double MagnetometerZ {
-          get { return magnetometerZ_; }
+        public double LinearAccelerationZ {
+          get { return linearAccelerationZ_; }
           set {
-            magnetometerZ_ = value;
+            linearAccelerationZ_ = value;
           }
         }
 
-        /// <summary>Field number for the "angle_normalized_x" field.</summary>
-        public const int AngleNormalizedXFieldNumber = 6;
-        private double angleNormalizedX_;
+        /// <summary>Field number for the "magnetic_field_x" field.</summary>
+        public const int MagneticFieldXFieldNumber = 6;
+        private double magneticFieldX_;
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public double AngleNormalizedX {
-          get { return angleNormalizedX_; }
+        public double MagneticFieldX {
+          get { return magneticFieldX_; }
           set {
-            angleNormalizedX_ = value;
+            magneticFieldX_ = value;
           }
         }
 
-        /// <summary>Field number for the "angle_normalized_y" field.</summary>
-        public const int AngleNormalizedYFieldNumber = 7;
-        private double angleNormalizedY_;
+        /// <summary>Field number for the "magnetic_field_y" field.</summary>
+        public const int MagneticFieldYFieldNumber = 7;
+        private double magneticFieldY_;
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public double AngleNormalizedY {
-          get { return angleNormalizedY_; }
+        public double MagneticFieldY {
+          get { return magneticFieldY_; }
           set {
-            angleNormalizedY_ = value;
+            magneticFieldY_ = value;
           }
         }
 
-        /// <summary>Field number for the "angle_normalized_z" field.</summary>
-        public const int AngleNormalizedZFieldNumber = 8;
-        private double angleNormalizedZ_;
+        /// <summary>Field number for the "magnetic_field_z" field.</summary>
+        public const int MagneticFieldZFieldNumber = 8;
+        private double magneticFieldZ_;
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public double AngleNormalizedZ {
-          get { return angleNormalizedZ_; }
+        public double MagneticFieldZ {
+          get { return magneticFieldZ_; }
           set {
-            angleNormalizedZ_ = value;
+            magneticFieldZ_ = value;
           }
         }
 
-        /// <summary>Field number for the "accel_raw_x" field.</summary>
-        public const int AccelRawXFieldNumber = 10;
-        private double accelRawX_;
+        /// <summary>Field number for the "rotation_vector_x" field.</summary>
+        public const int RotationVectorXFieldNumber = 10;
+        private double rotationVectorX_;
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public double AccelRawX {
-          get { return accelRawX_; }
+        public double RotationVectorX {
+          get { return rotationVectorX_; }
           set {
-            accelRawX_ = value;
+            rotationVectorX_ = value;
           }
         }
 
-        /// <summary>Field number for the "accel_raw_y" field.</summary>
-        public const int AccelRawYFieldNumber = 11;
-        private double accelRawY_;
+        /// <summary>Field number for the "rotation_vector_y" field.</summary>
+        public const int RotationVectorYFieldNumber = 11;
+        private double rotationVectorY_;
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public double AccelRawY {
-          get { return accelRawY_; }
+        public double RotationVectorY {
+          get { return rotationVectorY_; }
           set {
-            accelRawY_ = value;
+            rotationVectorY_ = value;
           }
         }
 
-        /// <summary>Field number for the "accel_raw_z" field.</summary>
-        public const int AccelRawZFieldNumber = 12;
-        private double accelRawZ_;
+        /// <summary>Field number for the "rotation_vector_z" field.</summary>
+        public const int RotationVectorZFieldNumber = 12;
+        private double rotationVectorZ_;
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public double AccelRawZ {
-          get { return accelRawZ_; }
+        public double RotationVectorZ {
+          get { return rotationVectorZ_; }
           set {
-            accelRawZ_ = value;
+            rotationVectorZ_ = value;
           }
         }
 
@@ -1395,36 +1456,36 @@ namespace POGOProtos.Networking.Envelopes {
           }
         }
 
-        /// <summary>Field number for the "accel_normalized_x" field.</summary>
-        public const int AccelNormalizedXFieldNumber = 16;
-        private double accelNormalizedX_;
+        /// <summary>Field number for the "gravity_x" field.</summary>
+        public const int GravityXFieldNumber = 16;
+        private double gravityX_;
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public double AccelNormalizedX {
-          get { return accelNormalizedX_; }
+        public double GravityX {
+          get { return gravityX_; }
           set {
-            accelNormalizedX_ = value;
+            gravityX_ = value;
           }
         }
 
-        /// <summary>Field number for the "accel_normalized_y" field.</summary>
-        public const int AccelNormalizedYFieldNumber = 17;
-        private double accelNormalizedY_;
+        /// <summary>Field number for the "gravity_y" field.</summary>
+        public const int GravityYFieldNumber = 17;
+        private double gravityY_;
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public double AccelNormalizedY {
-          get { return accelNormalizedY_; }
+        public double GravityY {
+          get { return gravityY_; }
           set {
-            accelNormalizedY_ = value;
+            gravityY_ = value;
           }
         }
 
-        /// <summary>Field number for the "accel_normalized_z" field.</summary>
-        public const int AccelNormalizedZFieldNumber = 18;
-        private double accelNormalizedZ_;
+        /// <summary>Field number for the "gravity_z" field.</summary>
+        public const int GravityZFieldNumber = 18;
+        private double gravityZ_;
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public double AccelNormalizedZ {
-          get { return accelNormalizedZ_; }
+        public double GravityZ {
+          get { return gravityZ_; }
           set {
-            accelNormalizedZ_ = value;
+            gravityZ_ = value;
           }
         }
 
@@ -1456,21 +1517,21 @@ namespace POGOProtos.Networking.Envelopes {
             return true;
           }
           if (TimestampSnapshot != other.TimestampSnapshot) return false;
-          if (MagnetometerX != other.MagnetometerX) return false;
-          if (MagnetometerY != other.MagnetometerY) return false;
-          if (MagnetometerZ != other.MagnetometerZ) return false;
-          if (AngleNormalizedX != other.AngleNormalizedX) return false;
-          if (AngleNormalizedY != other.AngleNormalizedY) return false;
-          if (AngleNormalizedZ != other.AngleNormalizedZ) return false;
-          if (AccelRawX != other.AccelRawX) return false;
-          if (AccelRawY != other.AccelRawY) return false;
-          if (AccelRawZ != other.AccelRawZ) return false;
+          if (LinearAccelerationX != other.LinearAccelerationX) return false;
+          if (LinearAccelerationY != other.LinearAccelerationY) return false;
+          if (LinearAccelerationZ != other.LinearAccelerationZ) return false;
+          if (MagneticFieldX != other.MagneticFieldX) return false;
+          if (MagneticFieldY != other.MagneticFieldY) return false;
+          if (MagneticFieldZ != other.MagneticFieldZ) return false;
+          if (RotationVectorX != other.RotationVectorX) return false;
+          if (RotationVectorY != other.RotationVectorY) return false;
+          if (RotationVectorZ != other.RotationVectorZ) return false;
           if (GyroscopeRawX != other.GyroscopeRawX) return false;
           if (GyroscopeRawY != other.GyroscopeRawY) return false;
           if (GyroscopeRawZ != other.GyroscopeRawZ) return false;
-          if (AccelNormalizedX != other.AccelNormalizedX) return false;
-          if (AccelNormalizedY != other.AccelNormalizedY) return false;
-          if (AccelNormalizedZ != other.AccelNormalizedZ) return false;
+          if (GravityX != other.GravityX) return false;
+          if (GravityY != other.GravityY) return false;
+          if (GravityZ != other.GravityZ) return false;
           if (AccelerometerAxes != other.AccelerometerAxes) return false;
           return true;
         }
@@ -1479,21 +1540,21 @@ namespace POGOProtos.Networking.Envelopes {
         public override int GetHashCode() {
           int hash = 1;
           if (TimestampSnapshot != 0UL) hash ^= TimestampSnapshot.GetHashCode();
-          if (MagnetometerX != 0D) hash ^= MagnetometerX.GetHashCode();
-          if (MagnetometerY != 0D) hash ^= MagnetometerY.GetHashCode();
-          if (MagnetometerZ != 0D) hash ^= MagnetometerZ.GetHashCode();
-          if (AngleNormalizedX != 0D) hash ^= AngleNormalizedX.GetHashCode();
-          if (AngleNormalizedY != 0D) hash ^= AngleNormalizedY.GetHashCode();
-          if (AngleNormalizedZ != 0D) hash ^= AngleNormalizedZ.GetHashCode();
-          if (AccelRawX != 0D) hash ^= AccelRawX.GetHashCode();
-          if (AccelRawY != 0D) hash ^= AccelRawY.GetHashCode();
-          if (AccelRawZ != 0D) hash ^= AccelRawZ.GetHashCode();
+          if (LinearAccelerationX != 0D) hash ^= LinearAccelerationX.GetHashCode();
+          if (LinearAccelerationY != 0D) hash ^= LinearAccelerationY.GetHashCode();
+          if (LinearAccelerationZ != 0D) hash ^= LinearAccelerationZ.GetHashCode();
+          if (MagneticFieldX != 0D) hash ^= MagneticFieldX.GetHashCode();
+          if (MagneticFieldY != 0D) hash ^= MagneticFieldY.GetHashCode();
+          if (MagneticFieldZ != 0D) hash ^= MagneticFieldZ.GetHashCode();
+          if (RotationVectorX != 0D) hash ^= RotationVectorX.GetHashCode();
+          if (RotationVectorY != 0D) hash ^= RotationVectorY.GetHashCode();
+          if (RotationVectorZ != 0D) hash ^= RotationVectorZ.GetHashCode();
           if (GyroscopeRawX != 0D) hash ^= GyroscopeRawX.GetHashCode();
           if (GyroscopeRawY != 0D) hash ^= GyroscopeRawY.GetHashCode();
           if (GyroscopeRawZ != 0D) hash ^= GyroscopeRawZ.GetHashCode();
-          if (AccelNormalizedX != 0D) hash ^= AccelNormalizedX.GetHashCode();
-          if (AccelNormalizedY != 0D) hash ^= AccelNormalizedY.GetHashCode();
-          if (AccelNormalizedZ != 0D) hash ^= AccelNormalizedZ.GetHashCode();
+          if (GravityX != 0D) hash ^= GravityX.GetHashCode();
+          if (GravityY != 0D) hash ^= GravityY.GetHashCode();
+          if (GravityZ != 0D) hash ^= GravityZ.GetHashCode();
           if (AccelerometerAxes != 0UL) hash ^= AccelerometerAxes.GetHashCode();
           return hash;
         }
@@ -1509,41 +1570,41 @@ namespace POGOProtos.Networking.Envelopes {
             output.WriteRawTag(8);
             output.WriteUInt64(TimestampSnapshot);
           }
-          if (MagnetometerX != 0D) {
+          if (LinearAccelerationX != 0D) {
             output.WriteRawTag(25);
-            output.WriteDouble(MagnetometerX);
+            output.WriteDouble(LinearAccelerationX);
           }
-          if (MagnetometerY != 0D) {
+          if (LinearAccelerationY != 0D) {
             output.WriteRawTag(33);
-            output.WriteDouble(MagnetometerY);
+            output.WriteDouble(LinearAccelerationY);
           }
-          if (MagnetometerZ != 0D) {
+          if (LinearAccelerationZ != 0D) {
             output.WriteRawTag(41);
-            output.WriteDouble(MagnetometerZ);
+            output.WriteDouble(LinearAccelerationZ);
           }
-          if (AngleNormalizedX != 0D) {
+          if (MagneticFieldX != 0D) {
             output.WriteRawTag(49);
-            output.WriteDouble(AngleNormalizedX);
+            output.WriteDouble(MagneticFieldX);
           }
-          if (AngleNormalizedY != 0D) {
+          if (MagneticFieldY != 0D) {
             output.WriteRawTag(57);
-            output.WriteDouble(AngleNormalizedY);
+            output.WriteDouble(MagneticFieldY);
           }
-          if (AngleNormalizedZ != 0D) {
+          if (MagneticFieldZ != 0D) {
             output.WriteRawTag(65);
-            output.WriteDouble(AngleNormalizedZ);
+            output.WriteDouble(MagneticFieldZ);
           }
-          if (AccelRawX != 0D) {
+          if (RotationVectorX != 0D) {
             output.WriteRawTag(81);
-            output.WriteDouble(AccelRawX);
+            output.WriteDouble(RotationVectorX);
           }
-          if (AccelRawY != 0D) {
+          if (RotationVectorY != 0D) {
             output.WriteRawTag(89);
-            output.WriteDouble(AccelRawY);
+            output.WriteDouble(RotationVectorY);
           }
-          if (AccelRawZ != 0D) {
+          if (RotationVectorZ != 0D) {
             output.WriteRawTag(97);
-            output.WriteDouble(AccelRawZ);
+            output.WriteDouble(RotationVectorZ);
           }
           if (GyroscopeRawX != 0D) {
             output.WriteRawTag(105);
@@ -1557,17 +1618,17 @@ namespace POGOProtos.Networking.Envelopes {
             output.WriteRawTag(121);
             output.WriteDouble(GyroscopeRawZ);
           }
-          if (AccelNormalizedX != 0D) {
+          if (GravityX != 0D) {
             output.WriteRawTag(129, 1);
-            output.WriteDouble(AccelNormalizedX);
+            output.WriteDouble(GravityX);
           }
-          if (AccelNormalizedY != 0D) {
+          if (GravityY != 0D) {
             output.WriteRawTag(137, 1);
-            output.WriteDouble(AccelNormalizedY);
+            output.WriteDouble(GravityY);
           }
-          if (AccelNormalizedZ != 0D) {
+          if (GravityZ != 0D) {
             output.WriteRawTag(145, 1);
-            output.WriteDouble(AccelNormalizedZ);
+            output.WriteDouble(GravityZ);
           }
           if (AccelerometerAxes != 0UL) {
             output.WriteRawTag(152, 1);
@@ -1581,31 +1642,31 @@ namespace POGOProtos.Networking.Envelopes {
           if (TimestampSnapshot != 0UL) {
             size += 1 + pb::CodedOutputStream.ComputeUInt64Size(TimestampSnapshot);
           }
-          if (MagnetometerX != 0D) {
+          if (LinearAccelerationX != 0D) {
             size += 1 + 8;
           }
-          if (MagnetometerY != 0D) {
+          if (LinearAccelerationY != 0D) {
             size += 1 + 8;
           }
-          if (MagnetometerZ != 0D) {
+          if (LinearAccelerationZ != 0D) {
             size += 1 + 8;
           }
-          if (AngleNormalizedX != 0D) {
+          if (MagneticFieldX != 0D) {
             size += 1 + 8;
           }
-          if (AngleNormalizedY != 0D) {
+          if (MagneticFieldY != 0D) {
             size += 1 + 8;
           }
-          if (AngleNormalizedZ != 0D) {
+          if (MagneticFieldZ != 0D) {
             size += 1 + 8;
           }
-          if (AccelRawX != 0D) {
+          if (RotationVectorX != 0D) {
             size += 1 + 8;
           }
-          if (AccelRawY != 0D) {
+          if (RotationVectorY != 0D) {
             size += 1 + 8;
           }
-          if (AccelRawZ != 0D) {
+          if (RotationVectorZ != 0D) {
             size += 1 + 8;
           }
           if (GyroscopeRawX != 0D) {
@@ -1617,13 +1678,13 @@ namespace POGOProtos.Networking.Envelopes {
           if (GyroscopeRawZ != 0D) {
             size += 1 + 8;
           }
-          if (AccelNormalizedX != 0D) {
+          if (GravityX != 0D) {
             size += 2 + 8;
           }
-          if (AccelNormalizedY != 0D) {
+          if (GravityY != 0D) {
             size += 2 + 8;
           }
-          if (AccelNormalizedZ != 0D) {
+          if (GravityZ != 0D) {
             size += 2 + 8;
           }
           if (AccelerometerAxes != 0UL) {
@@ -1640,32 +1701,32 @@ namespace POGOProtos.Networking.Envelopes {
           if (other.TimestampSnapshot != 0UL) {
             TimestampSnapshot = other.TimestampSnapshot;
           }
-          if (other.MagnetometerX != 0D) {
-            MagnetometerX = other.MagnetometerX;
+          if (other.LinearAccelerationX != 0D) {
+            LinearAccelerationX = other.LinearAccelerationX;
           }
-          if (other.MagnetometerY != 0D) {
-            MagnetometerY = other.MagnetometerY;
+          if (other.LinearAccelerationY != 0D) {
+            LinearAccelerationY = other.LinearAccelerationY;
           }
-          if (other.MagnetometerZ != 0D) {
-            MagnetometerZ = other.MagnetometerZ;
+          if (other.LinearAccelerationZ != 0D) {
+            LinearAccelerationZ = other.LinearAccelerationZ;
           }
-          if (other.AngleNormalizedX != 0D) {
-            AngleNormalizedX = other.AngleNormalizedX;
+          if (other.MagneticFieldX != 0D) {
+            MagneticFieldX = other.MagneticFieldX;
           }
-          if (other.AngleNormalizedY != 0D) {
-            AngleNormalizedY = other.AngleNormalizedY;
+          if (other.MagneticFieldY != 0D) {
+            MagneticFieldY = other.MagneticFieldY;
           }
-          if (other.AngleNormalizedZ != 0D) {
-            AngleNormalizedZ = other.AngleNormalizedZ;
+          if (other.MagneticFieldZ != 0D) {
+            MagneticFieldZ = other.MagneticFieldZ;
           }
-          if (other.AccelRawX != 0D) {
-            AccelRawX = other.AccelRawX;
+          if (other.RotationVectorX != 0D) {
+            RotationVectorX = other.RotationVectorX;
           }
-          if (other.AccelRawY != 0D) {
-            AccelRawY = other.AccelRawY;
+          if (other.RotationVectorY != 0D) {
+            RotationVectorY = other.RotationVectorY;
           }
-          if (other.AccelRawZ != 0D) {
-            AccelRawZ = other.AccelRawZ;
+          if (other.RotationVectorZ != 0D) {
+            RotationVectorZ = other.RotationVectorZ;
           }
           if (other.GyroscopeRawX != 0D) {
             GyroscopeRawX = other.GyroscopeRawX;
@@ -1676,14 +1737,14 @@ namespace POGOProtos.Networking.Envelopes {
           if (other.GyroscopeRawZ != 0D) {
             GyroscopeRawZ = other.GyroscopeRawZ;
           }
-          if (other.AccelNormalizedX != 0D) {
-            AccelNormalizedX = other.AccelNormalizedX;
+          if (other.GravityX != 0D) {
+            GravityX = other.GravityX;
           }
-          if (other.AccelNormalizedY != 0D) {
-            AccelNormalizedY = other.AccelNormalizedY;
+          if (other.GravityY != 0D) {
+            GravityY = other.GravityY;
           }
-          if (other.AccelNormalizedZ != 0D) {
-            AccelNormalizedZ = other.AccelNormalizedZ;
+          if (other.GravityZ != 0D) {
+            GravityZ = other.GravityZ;
           }
           if (other.AccelerometerAxes != 0UL) {
             AccelerometerAxes = other.AccelerometerAxes;
@@ -1703,39 +1764,39 @@ namespace POGOProtos.Networking.Envelopes {
                 break;
               }
               case 25: {
-                MagnetometerX = input.ReadDouble();
+                LinearAccelerationX = input.ReadDouble();
                 break;
               }
               case 33: {
-                MagnetometerY = input.ReadDouble();
+                LinearAccelerationY = input.ReadDouble();
                 break;
               }
               case 41: {
-                MagnetometerZ = input.ReadDouble();
+                LinearAccelerationZ = input.ReadDouble();
                 break;
               }
               case 49: {
-                AngleNormalizedX = input.ReadDouble();
+                MagneticFieldX = input.ReadDouble();
                 break;
               }
               case 57: {
-                AngleNormalizedY = input.ReadDouble();
+                MagneticFieldY = input.ReadDouble();
                 break;
               }
               case 65: {
-                AngleNormalizedZ = input.ReadDouble();
+                MagneticFieldZ = input.ReadDouble();
                 break;
               }
               case 81: {
-                AccelRawX = input.ReadDouble();
+                RotationVectorX = input.ReadDouble();
                 break;
               }
               case 89: {
-                AccelRawY = input.ReadDouble();
+                RotationVectorY = input.ReadDouble();
                 break;
               }
               case 97: {
-                AccelRawZ = input.ReadDouble();
+                RotationVectorZ = input.ReadDouble();
                 break;
               }
               case 105: {
@@ -1751,15 +1812,15 @@ namespace POGOProtos.Networking.Envelopes {
                 break;
               }
               case 129: {
-                AccelNormalizedX = input.ReadDouble();
+                GravityX = input.ReadDouble();
                 break;
               }
               case 137: {
-                AccelNormalizedY = input.ReadDouble();
+                GravityY = input.ReadDouble();
                 break;
               }
               case 145: {
-                AccelNormalizedZ = input.ReadDouble();
+                GravityZ = input.ReadDouble();
                 break;
               }
               case 152: {

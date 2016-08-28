@@ -1,12 +1,12 @@
 syntax = "proto3";
+
 package POGOProtos.Networking.Responses;
 
 import "POGOProtos/Networking/Responses/FortDetailsResponse.proto";
 
 message FortRecallPokemonResponse {
-	.POGOProtos.Networking.Responses.FortRecallPokemonResponse.Result result = 1;
-	.POGOProtos.Networking.Responses.FortDetailsResponse fort_details = 2;
-
+	POGOProtos.Networking.Responses.FortRecallPokemonResponse.Result result = 1;
+	POGOProtos.Networking.Responses.FortDetailsResponse fort_details = 2;
 	enum Result {
 		NO_RESULT_SET = 0;
 		SUCCESS = 1;
@@ -15,3 +15,4 @@ message FortRecallPokemonResponse {
 		ERROR_NO_PLAYER = 4;
 	}
 }
+

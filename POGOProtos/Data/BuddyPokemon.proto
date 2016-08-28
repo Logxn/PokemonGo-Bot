@@ -1,4 +1,5 @@
 syntax = "proto3";
+
 package POGOProtos.Data;
 
 message BuddyPokemon {
@@ -6,3 +7,4 @@ message BuddyPokemon {
 	double start_km_walked = 2;
 	double last_km_awarded = 3;
 }
+

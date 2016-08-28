@@ -1,4 +1,5 @@
 syntax = "proto3";
+
 package POGOProtos.Settings.Master;
 
 message PlayerLevelSettings {
@@ -8,3 +9,4 @@ message PlayerLevelSettings {
 	int32 max_egg_player_level = 4;
 	int32 max_encounter_player_level = 5;
 }
+

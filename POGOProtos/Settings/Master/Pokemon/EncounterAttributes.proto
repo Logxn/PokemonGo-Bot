@@ -1,4 +1,5 @@
 syntax = "proto3";
+
 package POGOProtos.Settings.Master.Pokemon;
 
 import "POGOProtos/Enums/PokemonMovementType.proto";
@@ -9,8 +10,9 @@ message EncounterAttributes {
 	float collision_radius_m = 3;
 	float collision_height_m = 4;
 	float collision_head_radius_m = 5;
-	.POGOProtos.Enums.PokemonMovementType movement_type = 6;
+	POGOProtos.Enums.PokemonMovementType movement_type = 6;
 	float movement_timer_s = 7;
 	float jump_time_s = 8;
 	float attack_timer_s = 9;
 }
+
