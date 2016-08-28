@@ -12,7 +12,7 @@ Features
 
 Credits
 -------------------
-Most thanks to, without them this wouldn't be possible.
+Most thanks to FeroxRev and AeonLucid, without them this wouldn't be possible.<br>
 FeroxRev - https://github.com/FeroxRev/Pokemon-Go-Rocket-API<br>
 AeonLucid - https://github.com/AeonLucid/POGOProtos<br>
 
