@@ -1,19 +1,16 @@
-# Pokemon Go Bot
+![headerimg](http://i.imgur.com/tyoivkz.png)
+Features
+-------------
+> - Auto Farming Pokestops/Pokemon.
+> - Transfer/Evolve Pokemons.
+> - Simple Gui
+> - Incubate Eggs
+> - Pokemon Gui with stats of the Pokemon.
+> - Livemap with Pokestop information on it.
+> - Navigation Logic
+> - Open Source
 
-# Credits to:
-  - https://github.com/FeroxRev/Pokemon-Go-Rocket-API
-  - https://github.com/UntilSunrise/Pokemon-Go-Rocket-API
-  - https://github.com/martin-podlubny
-  - https://github.com/Spegeli/Pokemon-Go-Rocket-API
-
-# Special thanks:
-  - To FeroxRev, for this AMAZING work!
-  
-
-# Translations
-  - English: https://github.com/Ar1i/ & Greengold
-  - German: https://github.com/IceQ1337/
-  - Portuguese: https://github.com/m-a-r-c-e-l-o
-  - Turkish: https://github.com/HaydarOzturk
-  - Russian: https://github.com/MrFallen
-  - Spanish: max783
+Credits
+-------------------
+FeroxRev - https://github.com/FeroxRev/Pokemon-Go-Rocket-API<br>
+AeonLucid - https://github.com/AeonLucid/POGOProtos
