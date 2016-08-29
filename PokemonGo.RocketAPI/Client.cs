@@ -45,7 +45,7 @@ namespace PokemonGo.RocketAPI
         internal AuthTicket AuthTicket { get; set; }
 
         public static WebProxy proxy;
-        public bool readyToUse = false;
+        public bool readyToUse = false;        
 
         public void setFailure(IApiFailureStrategy fail)
         {

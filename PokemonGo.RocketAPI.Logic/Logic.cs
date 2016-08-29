@@ -27,7 +27,7 @@ namespace PokemonGo.RocketAPI.Logic
     public class Logic
     {
         public static Client _client;
-        public readonly ISettings _clientSettings; 
+        public readonly ISettings _clientSettings;
         public TelegramUtil _telegram;
         public BotStats _botStats;
         private readonly Navigation _navigation;
@@ -35,7 +35,7 @@ namespace PokemonGo.RocketAPI.Logic
         private readonly LogicInfoObservable _infoObservable;
         private readonly PokeVisionUtil _pokevision;
         private int pokemonCatchCount;
-        private int pokeStopFarmedCount; 
+        private int pokeStopFarmedCount;
 
 
         public Logic(ISettings clientSettings, LogicInfoObservable infoObservable)
@@ -68,7 +68,7 @@ namespace PokemonGo.RocketAPI.Logic
 
             if (_client.CurrentAltitude == 0)
             {
-                _client.CurrentAltitude = LocationUtils.getAltidude(_client.CurrentLatitude, _client.CurrentLongitude); 
+                _client.CurrentAltitude = LocationUtils.getAltidude(_client.CurrentLatitude, _client.CurrentLongitude);
                 Logger.Error("Altidude was 0, resolved that. New Altidude is now: " + _client.CurrentAltitude);
             }
 
@@ -78,14 +78,14 @@ namespace PokemonGo.RocketAPI.Logic
                 Logger.Error("Proxy enabled.");
                 Logger.Error("ProxyIP: " + _clientSettings.UseProxyHost + ":" + _clientSettings.UseProxyPort);
                 Logger.Error("===============================================");
-            } 
+            }
 
             while (true)
             {
                 try
                 {
                     await _client.Login.DoLogin();
-                    
+
                     if (!string.IsNullOrEmpty(_clientSettings.TelegramAPIToken) && !string.IsNullOrEmpty(_clientSettings.TelegramName))
                     {
                         try
@@ -107,12 +107,12 @@ namespace PokemonGo.RocketAPI.Logic
                     }
 
                     await PostLoginExecute();
-                } 
+                }
                 catch (Exception ex)
                 {
                     Logger.Error($"Error: " + ex.Source);
-                    Logger.Error($"{ex}"); 
-                    Logger.ColoredConsoleWrite(ConsoleColor.Green, "Trying to Restart."); 
+                    Logger.Error($"{ex}");
+                    Logger.ColoredConsoleWrite(ConsoleColor.Green, "Trying to Restart.");
                     try
                     {
                         _telegram.getClient().StopReceiving();
@@ -120,10 +120,10 @@ namespace PokemonGo.RocketAPI.Logic
                     catch (Exception)
                     {
 
-                    } 
+                    }
                 }
 
-                Logger.ColoredConsoleWrite(ConsoleColor.Red, "Restarting in 10 Seconds."); 
+                Logger.ColoredConsoleWrite(ConsoleColor.Red, "Restarting in 10 Seconds.");
                 await Task.Delay(10000);
             }
         }
@@ -144,7 +144,7 @@ namespace PokemonGo.RocketAPI.Logic
                     }
 
                     if (_clientSettings.AutoIncubate)
-                    { 
+                    {
                         await StartIncubation();
                     }
 
@@ -189,14 +189,12 @@ namespace PokemonGo.RocketAPI.Logic
             var playerStats = await _client.Inventory.GetPlayerStats();
             var stats = playerStats.First();
 
-
             var expneeded = stats.NextLevelXp - stats.PrevLevelXp - StringUtils.getExpDiff(stats.Level);
             var curexp = stats.Experience - stats.PrevLevelXp - StringUtils.getExpDiff(stats.Level);
             var curexppercent = Convert.ToDouble(curexp) / Convert.ToDouble(expneeded) * 100;
             var pokemonToEvolve = (await _client.Inventory.GetPokemonToEvolve()).Count();
             var pokedexpercentraw = Convert.ToDouble(stats.UniquePokedexEntries) / Convert.ToDouble(150) * 100;
             var pokedexpercent = Math.Floor(pokedexpercentraw);
-
 
             if (curexp == 0 && expneeded == 1000)
             {
@@ -218,14 +216,15 @@ namespace PokemonGo.RocketAPI.Logic
             Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Pokemon Catch Count this session: " + pokemonCatchCount);
             Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "PokeStop Farmed Count this session: " + pokeStopFarmedCount);
             foreach (KeyValuePair<string, int> pokeballtype in pokeBallCollection)
-                {
-                    Logger.ColoredConsoleWrite(ConsoleColor.Cyan, pokeballtype.Key + " Qty: " + pokeballtype.Value.ToString());
-                }
+            {
+                Logger.ColoredConsoleWrite(ConsoleColor.Cyan, pokeballtype.Key + " Qty: " + pokeballtype.Value.ToString());
+            }
             Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "------------------------------------------------------------");
             if (level == -1)
             {
                 level = stats.Level;
-            } else if (stats.Level > level)
+            }
+            else if (stats.Level > level)
             {
                 level = stats.Level;
                 Logger.ColoredConsoleWrite(ConsoleColor.Magenta, "Got the level up reward from your level up.");
@@ -244,26 +243,19 @@ namespace PokemonGo.RocketAPI.Logic
 
             Console.Title = profile.PlayerData.Username + " lvl" + stats.Level + "-(" + (stats.Experience - stats.PrevLevelXp -
                 StringUtils.getExpDiff(stats.Level)).ToString("N0") + "/" + (stats.NextLevelXp - stats.PrevLevelXp - StringUtils.getExpDiff(stats.Level)).ToString("N0") + "|" + Math.Round(curexppercent, 2) + "%)| Stardust: " + profile.PlayerData.Currencies.ToArray()[1].Amount + "| " + _botStats.ToString();
-            
         }
-
-
         private int count = 0;
-
         public static int failed_softban = 0;
-
         private async Task ExecuteFarmingPokestopsAndPokemons(Client client)
         {
-
             var distanceFromStart = LocationUtils.CalculateDistanceInMeters(_clientSettings.DefaultLatitude, _clientSettings.DefaultLongitude, _client.CurrentLatitude, _client.CurrentLongitude);
-            
+
             if (_clientSettings.MaxWalkingRadiusInMeters != 0 && distanceFromStart > _clientSettings.MaxWalkingRadiusInMeters)
             {
                 Logger.ColoredConsoleWrite(ConsoleColor.Green, "You're outside of the defined max. walking radius. Walking back!");
                 var update = await _navigation.HumanLikeWalking(new GeoCoordinate(_clientSettings.DefaultLatitude, _clientSettings.DefaultLongitude), _clientSettings.WalkingSpeedInKilometerPerHour, ExecuteCatchAllNearbyPokemons);
                 var start = await _navigation.HumanLikeWalking(new GeoCoordinate(_clientSettings.DefaultLatitude, _clientSettings.DefaultLongitude), _clientSettings.WalkingSpeedInKilometerPerHour, ExecuteCatchAllNearbyPokemons);
             }
-
             //Resources.OutPutWalking = true;
             var mapObjects = await _client.Map.GetMapObjects();
 
@@ -274,7 +266,7 @@ namespace PokemonGo.RocketAPI.Logic
             .Where(
                 i =>
                 i.Type == FortType.Checkpoint &&
-                i.CooldownCompleteTimestampMs < DateTime.UtcNow.ToUnixTime())
+                i.CooldownCompleteTimestampMs < (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds)
                 .OrderBy(
                 i =>
                 LocationUtils.CalculateDistanceInMeters(_client.CurrentLatitude, _client.CurrentLongitude, i.Latitude, i.Longitude)).ToArray(), _clientSettings.WalkingSpeedInKilometerPerHour);
@@ -307,33 +299,7 @@ namespace PokemonGo.RocketAPI.Logic
             foreach (var pokeStop in pokeStops)
             {
                 await UseIncense();
-
                 await ExecuteCatchAllNearbyPokemons();
-
-                if (count >= 9)
-                {
-                    count = 0;
-                    await StatsLog(client);
-
-                    if (_clientSettings.EvolvePokemonsIfEnoughCandy)
-                    {
-                        await EvolveAllPokemonWithEnoughCandy();
-                    }
-
-                    if (_clientSettings.AutoIncubate)
-                    {
-                        await StartIncubation();
-                    }
-
-                    await TransferDuplicatePokemon(_clientSettings.keepPokemonsThatCanEvolve, _clientSettings.TransferFirstLowIV);
-                    //await RecycleItems();
-
-                    ////
-                    if (_clientSettings.UseLuckyEggIfNotRunning)
-                    {
-                        await _client.Inventory.UseLuckyEgg(_client);
-                    }
-                } 
 
                 _infoObservable.PushNewGeoLocations(new GeoCoordinate(_client.CurrentLatitude, _client.CurrentLongitude));
 
@@ -344,10 +310,60 @@ namespace PokemonGo.RocketAPI.Logic
                     _infoObservable.PushPokeStopInfoUpdate(pokeStop.Id, "!!Can't Get PokeStop Information!!");
                     continue;
                 }
-                Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Next Pokestop: {fortInfo.Name} in {distance:0.##}m distance.");                                
+                Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Next Pokestop: {fortInfo.Name} in {distance:0.##}m distance.");
                 var update = await _navigation.HumanLikeWalking(new GeoCoordinate(pokeStop.Latitude, pokeStop.Longitude), _clientSettings.WalkingSpeedInKilometerPerHour, ExecuteCatchAllNearbyPokemons);
+                if (!_clientSettings.pauseAtPokeStop)
+                {
+                    await CheckAndFarmNearbyPokeStop(pokeStop, _client, fortInfo);
+                }
+                do
+                {
+                    await UseIncense();
+                    await ExecuteCatchAllNearbyPokemons();
+                    var farmed = await CheckAndFarmNearbyPokeStop(pokeStop, _client, fortInfo);
+                    if (farmed) { pokeStop.CooldownCompleteTimestampMs = (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds + 300500; }
+                    await RandomHelper.RandomDelay(60000, 100000); // wait for a bit before repeating farm cycle
+                }
+                while (_clientSettings.pauseAtPokeStop);
 
-                ////var fortInfo = await client.GetFort(pokeStop.Id, pokeStop.Latitude, pokeStop.Longitude);
+                await RandomHelper.RandomDelay(50, 2000); // Lets wait longer
+            }
+
+            if (_clientSettings.WalkBackToDefaultLocation)
+            {
+                Logger.ColoredConsoleWrite(ConsoleColor.Green, "Walking back to default location.");
+                await _navigation.HumanLikeWalking(new GeoCoordinate(_clientSettings.DefaultLatitude, _clientSettings.DefaultLongitude), _clientSettings.WalkingSpeedInKilometerPerHour, ExecuteCatchAllNearbyPokemons);
+            }
+        }
+
+        private async Task<bool> CheckAndFarmNearbyPokeStop(FortData pokeStop, Client _client, FortDetailsResponse fortInfo)
+        {
+            if (count >= 9)
+            {
+                count = 0;
+                await StatsLog(_client);
+
+                if (_clientSettings.EvolvePokemonsIfEnoughCandy)
+                {
+                    await EvolveAllPokemonWithEnoughCandy();
+                }
+
+                if (_clientSettings.AutoIncubate)
+                {
+                    await StartIncubation();
+                }
+
+                await TransferDuplicatePokemon(_clientSettings.keepPokemonsThatCanEvolve, _clientSettings.TransferFirstLowIV);
+                //await RecycleItems();
+
+                ////
+                if (_clientSettings.UseLuckyEggIfNotRunning)
+                {
+                    await _client.Inventory.UseLuckyEgg(_client);
+                }
+            }
+            if (pokeStop.CooldownCompleteTimestampMs < (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds)
+            {
                 var fortSearch = await _client.Fort.SearchFort(pokeStop.Id, pokeStop.Latitude, pokeStop.Longitude);
                 count++;
                 var pokeStopInfo = $"{fortInfo.Name}{Environment.NewLine}Visited:{DateTime.Now.ToString("HH:mm:ss")}{Environment.NewLine}";
@@ -371,7 +387,7 @@ namespace PokemonGo.RocketAPI.Logic
                     Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Farmed XP: {fortSearch.ExperienceAwarded}, Gems: {fortSearch.GemsAwarded}{", Egg: " + egg}, Items: {items}", LogLevel.Info);
 
                     pokeStopInfo += $"{fortSearch.ExperienceAwarded} XP{Environment.NewLine}{fortSearch.GemsAwarded}{Environment.NewLine}{egg}{Environment.NewLine}{items.Replace(",", Environment.NewLine)}";
-                    
+
                     double eggs = 0;
                     if (fortSearch.PokemonDataEgg != null)
                     {
@@ -381,18 +397,15 @@ namespace PokemonGo.RocketAPI.Logic
                     if (_telegram != null)
                         _telegram.sendInformationText(TelegramUtil.TelegramUtilInformationTopics.Pokestop, fortInfo.Name, fortSearch.ExperienceAwarded, eggs, fortSearch.GemsAwarded, StringUtils.GetSummedFriendlyNameOfItemAwardList(fortSearch.ItemsAwarded));
                 }
-
                 _infoObservable.PushPokeStopInfoUpdate(pokeStop.Id, pokeStopInfo);
-
-                await RandomHelper.RandomDelay(50, 2000); // Lets wait longer
+                return true;
             }
-            if (_clientSettings.WalkBackToDefaultLocation)
+            else
             {
-                Logger.ColoredConsoleWrite(ConsoleColor.Green, "Walking back to default location.");
-                await _navigation.HumanLikeWalking(new GeoCoordinate(_clientSettings.DefaultLatitude, _clientSettings.DefaultLongitude), _clientSettings.WalkingSpeedInKilometerPerHour, ExecuteCatchAllNearbyPokemons);
+                Logger.ColoredConsoleWrite(ConsoleColor.Green, "Pokestop not ready to farm again, skipping and only looking for pokemon");
+                return false;
             }
         }
-
         private async Task ExecuteCatchAllNearbyPokemons()
         {
             _infoObservable.PushNewGeoLocations(new GeoCoordinate(_client.CurrentLatitude, _client.CurrentLongitude));
@@ -440,14 +453,14 @@ namespace PokemonGo.RocketAPI.Logic
                 var distance = LocationUtils.CalculateDistanceInMeters(_client.CurrentLatitude, _client.CurrentLongitude, pokemon.Latitude, pokemon.Longitude);
                 await Task.Delay(distance > 100 ? 1000 : 100);
                 var encounterPokemonResponse = await _client.Encounter.EncounterPokemon(pokemon.EncounterId, pokemon.SpawnPointId);
-                
+
                 if (encounterPokemonResponse.Status == EncounterResponse.Types.Status.EncounterSuccess)
                 {
                     var bestPokeball = await GetBestBall(encounterPokemonResponse?.WildPokemon, false);
                     if (bestPokeball == ItemId.ItemUnknown)
-                    { 
+                    {
                         Logger.ColoredConsoleWrite(ConsoleColor.Red, $"No Pokeballs! - missed {pokemon.PokemonId} CP {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} IV {PokemonInfo.CalculatePokemonPerfection(encounterPokemonResponse.WildPokemon.PokemonData).ToString("0.00")}%");
-                    
+
                         return;
                     }
                     var inventoryBerries = await _client.Inventory.GetItems();
@@ -461,10 +474,10 @@ namespace PokemonGo.RocketAPI.Logic
                     do
                     {
                         if (((probability.HasValue && probability.Value < _clientSettings.razzberry_chance) || escaped) && _clientSettings.UseRazzBerry && !used)
-                        { 
+                        {
                             var bestBerry = await GetBestBerry(encounterPokemonResponse?.WildPokemon);
                             var berries = inventoryBerries.Where(p => (ItemId)p.ItemId == bestBerry).FirstOrDefault();
-                            if (berries.Count <= 0) berryOutOfStock = true; 
+                            if (berries.Count <= 0) berryOutOfStock = true;
                             if (bestBerry != ItemId.ItemUnknown)
                             {
                                 if (!berryOutOfStock)
@@ -475,12 +488,14 @@ namespace PokemonGo.RocketAPI.Logic
                                     used = true;
                                     Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Thrown {bestBerry}. Remaining: {berries.Count}.", LogLevel.Info);
                                     await RandomHelper.RandomDelay(50, 200);
-                                } else {
+                                }
+                                else
+                                {
                                     berryThrown = true;
                                     escaped = true;
                                     used = true;
                                 }
-                            } 
+                            }
                         }
                         caughtPokemonResponse = await _client.Encounter.CatchPokemon(pokemon.EncounterId, pokemon.SpawnPointId, bestPokeball);
                         if (caughtPokemonResponse.Status == CatchPokemonResponse.Types.CatchStatus.CatchMissed)
@@ -520,7 +535,7 @@ namespace PokemonGo.RocketAPI.Logic
 
                         if (_telegram != null)
                             _telegram.sendInformationText(TelegramUtil.TelegramUtilInformationTopics.Catch, StringUtils.getPokemonNameByLanguage(_clientSettings, pokemon.PokemonId), encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp, PokemonInfo.CalculatePokemonPerfection(encounterPokemonResponse.WildPokemon.PokemonData).ToString("0.00"), bestPokeball, caughtPokemonResponse.CaptureAward.Xp.Sum());
-                       
+
                         _botStats.AddPokemon(1);
                         await RandomHelper.RandomDelay(800, 1500);
                     }
@@ -564,15 +579,15 @@ namespace PokemonGo.RocketAPI.Logic
                 }
 
                 var evolvePokemonOutProto = await _client.Inventory.EvolvePokemon((ulong)pokemon.Id);
-                
+
                 if (evolvePokemonOutProto.Result == EvolvePokemonResponse.Types.Result.Success)
-                { 
+                {
                     Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Evolved {StringUtils.getPokemonNameByLanguage(_clientSettings, pokemon.PokemonId)} CP {pokemon.Cp} {PokemonInfo.CalculatePokemonPerfection(pokemon).ToString("0.00")}%  to {StringUtils.getPokemonNameByLanguage(_clientSettings, evolvePokemonOutProto.EvolvedPokemonData.PokemonId)} CP: {evolvePokemonOutProto.EvolvedPokemonData.Cp} for {evolvePokemonOutProto.ExperienceAwarded.ToString("N0")}xp", LogLevel.Info);
                     _botStats.AddExperience(evolvePokemonOutProto.ExperienceAwarded);
 
                     if (_telegram != null)
                         _telegram.sendInformationText(TelegramUtil.TelegramUtilInformationTopics.Evolve, StringUtils.getPokemonNameByLanguage(_clientSettings, pokemon.PokemonId), pokemon.Cp, PokemonInfo.CalculatePokemonPerfection(pokemon).ToString("0.00"), StringUtils.getPokemonNameByLanguage(_clientSettings, evolvePokemonOutProto.EvolvedPokemonData.PokemonId), evolvePokemonOutProto.EvolvedPokemonData.Cp, evolvePokemonOutProto.ExperienceAwarded.ToString("N0"));
-                   
+
                 }
                 else
                 {
@@ -585,7 +600,7 @@ namespace PokemonGo.RocketAPI.Logic
                 await RandomHelper.RandomDelay(1500, 2500);
             }
         }
-       
+
         private async Task StartIncubation()
         {
             try
@@ -655,17 +670,17 @@ namespace PokemonGo.RocketAPI.Logic
             }
             catch (Exception e)
             {
-                Logger.Error(e.StackTrace.ToString()); 
+                Logger.Error(e.StackTrace.ToString());
             }
         }
 
         private async Task TransferDuplicatePokemon(bool keepPokemonsThatCanEvolve = false, bool TransferFirstLowIV = false)
         {
             if (_clientSettings.TransferDoublePokemons)
-            { 
-                var duplicatePokemons = await _client.Inventory.GetDuplicatePokemonToTransfer(keepPokemonsThatCanEvolve, TransferFirstLowIV); 
+            {
+                var duplicatePokemons = await _client.Inventory.GetDuplicatePokemonToTransfer(keepPokemonsThatCanEvolve, TransferFirstLowIV);
                 //var duplicatePokemons = await _client.Inventory.GetDuplicatePokemonToTransfer(keepPokemonsThatCanEvolve); Is doch retarded
- 
+
 
                 foreach (var duplicatePokemon in duplicatePokemons)
                 {
@@ -691,10 +706,10 @@ namespace PokemonGo.RocketAPI.Logic
                         }
 
                         if (_telegram != null)
-                            _telegram.sendInformationText(TelegramUtil.TelegramUtilInformationTopics.Transfer, 
-                            StringUtils.getPokemonNameByLanguage(_clientSettings, duplicatePokemon.PokemonId), duplicatePokemon.Cp, 
+                            _telegram.sendInformationText(TelegramUtil.TelegramUtilInformationTopics.Transfer,
+                            StringUtils.getPokemonNameByLanguage(_clientSettings, duplicatePokemon.PokemonId), duplicatePokemon.Cp,
                             PokemonInfo.CalculatePokemonPerfection(duplicatePokemon).ToString("0.00"), bestPokemonOfType);
-                       
+
                         await RandomHelper.RandomDelay(500, 700);
                     }
                 }
@@ -706,9 +721,9 @@ namespace PokemonGo.RocketAPI.Logic
             var items = await _client.Inventory.GetItemsToRecycle(_clientSettings);
 
             foreach (var item in items)
-            {  
+            {
                 var transfer = await _client.Inventory.RecycleItem((ItemId)item.ItemId, item.Count);
-                Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Recycled {item.Count}x {(ItemId)item.ItemId}", LogLevel.Info); 
+                Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Recycled {item.Count}x {(ItemId)item.ItemId}", LogLevel.Info);
                 await RandomHelper.RandomDelay(500, 700);
             }
         }
@@ -780,24 +795,24 @@ namespace PokemonGo.RocketAPI.Logic
             if (escaped)
             {
                 switch (_lowestAppropriateBall)
-            {
-                    case ItemId.ItemGreatBall:
                 {
+                    case ItemId.ItemGreatBall:
+                        {
                             _lowestAppropriateBall = ItemId.ItemUltraBall;
                             break;
                         }
                     case ItemId.ItemUltraBall:
-                {
+                        {
                             _lowestAppropriateBall = ItemId.ItemMasterBall;
                             break;
                         }
                     case ItemId.ItemMasterBall:
-                {
+                        {
                             _lowestAppropriateBall = ItemId.ItemMasterBall;
                             break;
                         }
                     default:
-                {
+                        {
                             _lowestAppropriateBall = ItemId.ItemGreatBall;
                             break;
                         }
@@ -806,15 +821,15 @@ namespace PokemonGo.RocketAPI.Logic
             switch (_lowestAppropriateBall)
             {
                 case ItemId.ItemGreatBall:
-                {
+                    {
                         if (greatBalls) return ItemId.ItemGreatBall;
                         else if (ultraBalls) return ItemId.ItemUltraBall;
                         else if (masterBalls) return ItemId.ItemMasterBall;
                         else if (pokeBalls) return ItemId.ItemPokeBall;
-                        else return ItemId.ItemUnknown;                        
+                        else return ItemId.ItemUnknown;
                     }
                 case ItemId.ItemUltraBall:
-                {
+                    {
                         if (ultraBalls) return ItemId.ItemUltraBall;
                         else if (masterBalls) return ItemId.ItemMasterBall;
                         else if (greatBalls) return ItemId.ItemGreatBall;
@@ -822,7 +837,7 @@ namespace PokemonGo.RocketAPI.Logic
                         else return ItemId.ItemUnknown;
                     }
                 case ItemId.ItemMasterBall:
-                {
+                    {
                         if (masterBalls) return ItemId.ItemMasterBall;
                         else if (ultraBalls) return ItemId.ItemUltraBall;
                         else if (greatBalls) return ItemId.ItemGreatBall;
@@ -830,13 +845,13 @@ namespace PokemonGo.RocketAPI.Logic
                         else return ItemId.ItemUnknown;
                     }
                 default:
-                {
+                    {
                         if (pokeBalls) return ItemId.ItemPokeBall;
                         else if (greatBalls) return ItemId.ItemGreatBall;
                         else if (ultraBalls) return ItemId.ItemUltraBall;
                         else if (pokeBalls) return ItemId.ItemMasterBall;
                         else return ItemId.ItemUnknown;
-                }
+                    }
             }
         }
 

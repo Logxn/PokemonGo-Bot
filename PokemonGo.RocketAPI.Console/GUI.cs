@@ -502,8 +502,20 @@ namespace PokemonGo.RocketAPI.Console
                 textBox6.BackColor = Color.Red;
                 return;
             }
-            else
+            else                
                 Globals.speed = double.Parse(textBox6.Text.Replace(',', '.'), cords, NumberFormatInfo.InvariantInfo);
+            if (Globals.speed > 15)
+            {
+                DialogResult dialogResult = MessageBox.Show("The risk of being banned is significantly greater when using higher than human jogging speeds (e.g. > 15km/hr) Click 'No' to use ~10km/hr instead", "Are you sure you wish to set your speed to " + Globals.speed + "?", MessageBoxButtons.YesNo);
+                if (dialogResult == DialogResult.Yes)
+                {
+                    //user acknowledges speed risk; do nothing.
+                }
+                else if (dialogResult == DialogResult.No)
+                {
+                    Globals.speed = double.Parse("9.5", cords, NumberFormatInfo.InvariantInfo);
+                }
+            }
 
             if (textBox7.Text == string.Empty)
             {
