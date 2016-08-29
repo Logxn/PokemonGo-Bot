@@ -312,16 +312,22 @@ namespace PokemonGo.RocketAPI.Logic
                 Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Next Pokestop: {fortInfo.Name} in {distance:0.##}m distance.");
                 var update = await _navigation.HumanLikeWalking(new GeoCoordinate(pokeStop.Latitude, pokeStop.Longitude), _clientSettings.WalkingSpeedInKilometerPerHour, ExecuteCatchAllNearbyPokemons);
 
-                do
+                if (_clientSettings.pauseAtPokeStop)
                 {
-                    await UseIncense();
-                    await ExecuteCatchAllNearbyPokemons();
+                    do
+                    {
+                        await UseIncense();
+                        await ExecuteCatchAllNearbyPokemons();
+                        var farmed = await CheckAndFarmNearbyPokeStop(pokeStop, _client, fortInfo);
+                        if (farmed) { pokeStop.CooldownCompleteTimestampMs = (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds + 300500; }
+                        await RandomHelper.RandomDelay(60000, 100000); // wait for a bit before repeating farm cycle
+                    }
+                    while (_clientSettings.pauseAtPokeStop);
+                } else
+                {
                     var farmed = await CheckAndFarmNearbyPokeStop(pokeStop, _client, fortInfo);
                     if (farmed) { pokeStop.CooldownCompleteTimestampMs = (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds + 300500; }
-                    await RandomHelper.RandomDelay(60000, 100000); // wait for a bit before repeating farm cycle
                 }
-                while (_clientSettings.pauseAtPokeStop);
-
                 await RandomHelper.RandomDelay(50, 2000); // Lets wait longer
             }
 
