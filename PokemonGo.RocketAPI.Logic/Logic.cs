@@ -324,7 +324,7 @@ namespace PokemonGo.RocketAPI.Logic
                             Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Next Pokestop: {FortInfo.Name} to check cooldown and/or farm.");
                             var farmed = await CheckAndFarmNearbyPokeStop(Pokestop, _client, FortInfo);
                             if (farmed) { Pokestop.CooldownCompleteTimestampMs = (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds + 300500; }
-                            await RandomHelper.RandomDelay(50, 2000); // wait for a bit before repeating farm cycle
+                            await RandomHelper.RandomDelay(60000, 120000); // wait for a bit before repeating farm cycle
                         }
                     }
                     while (_clientSettings.pauseAtPokeStop);
