@@ -397,30 +397,34 @@ namespace PokemonGo.RocketAPI.Console
             int transfered = 0;
             int total = selectedItems.Count;
             string failed = string.Empty;
-            taskResponse resp = new taskResponse(false, string.Empty);
 
-            foreach (ListViewItem selectedItem in selectedItems)
+            DialogResult dialogResult = MessageBox.Show("You clicked transfer. This can not be undone.", "Are you Sure?", MessageBoxButtons.YesNo);
+            if (dialogResult == DialogResult.Yes)
             {
-                resp = await transferPokemon((PokemonData)selectedItem.Tag);
-                if (resp.Status)
+                taskResponse resp = new taskResponse(false, string.Empty);
+
+                foreach (ListViewItem selectedItem in selectedItems)
                 {
-                    PokemonListView.Items.Remove(selectedItem);
-                    transfered++;
-                    statusTexbox.Text = "Transfering..." + transfered;
+                    resp = await transferPokemon((PokemonData)selectedItem.Tag);
+                    if (resp.Status)
+                    {
+                        PokemonListView.Items.Remove(selectedItem);
+                        transfered++;
+                        statusTexbox.Text = "Transfering..." + transfered;
+                    }
+                    else
+                        failed += resp.Message + " ";
+
                 }
+
+                if (failed != string.Empty)
+                    MessageBox.Show("Succesfully transfered " + transfered + "/" + total + " Pokemons. Failed: " + failed, "Transfer status", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 else
-                    failed += resp.Message + " ";
-
+                    MessageBox.Show("Succesfully transfered " + transfered + "/" + total + " Pokemons.", "Transfer status", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                Text = "Pokemon List | User: " + profile.PlayerData.Username + " | Pokemons: " + PokemonListView.Items.Count + "/" + profile.PlayerData.MaxPokemonStorage;
+                EnabledButton(true);
             }
-
-            if (failed != string.Empty)
-                MessageBox.Show("Succesfully transfered " + transfered + "/" + total + " Pokemons. Failed: " + failed, "Transfer status", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            else
-                MessageBox.Show("Succesfully transfered " + transfered + "/" + total + " Pokemons.", "Transfer status", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            Text = "Pokemon List | User: " + profile.PlayerData.Username + " | Pokemons: " + PokemonListView.Items.Count + "/" + profile.PlayerData.MaxPokemonStorage;
-            EnabledButton(true);
         }
-
         private async void btnUpgrade_Click(object sender, EventArgs e)
         {
             EnabledButton(false);
