@@ -312,10 +312,7 @@ namespace PokemonGo.RocketAPI.Logic
                 }
                 Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Next Pokestop: {fortInfo.Name} in {distance:0.##}m distance.");
                 var update = await _navigation.HumanLikeWalking(new GeoCoordinate(pokeStop.Latitude, pokeStop.Longitude), _clientSettings.WalkingSpeedInKilometerPerHour, ExecuteCatchAllNearbyPokemons);
-                if (!_clientSettings.pauseAtPokeStop)
-                {
-                    await CheckAndFarmNearbyPokeStop(pokeStop, _client, fortInfo);
-                }
+
                 do
                 {
                     await UseIncense();
