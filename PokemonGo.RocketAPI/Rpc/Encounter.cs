@@ -40,7 +40,7 @@ namespace PokemonGo.RocketAPI.Rpc
             return await PostProtoPayload<Request, UseItemCaptureResponse>(RequestType.UseItemCapture, message);
         }
 
-        public async Task<CatchPokemonResponse> CatchPokemon(ulong encounterId, string spawnPointGuid, ItemId pokeballItemId, double normalizedRecticleSize = 1.950, double spinModifier = 1, double normalizedHitPos = 1)
+        public async Task<CatchPokemonResponse> CatchPokemon(ulong encounterId, string spawnPointGuid, ItemId pokeballItemId, bool forceHit, double normalizedRecticleSize = 1.950, double spinModifier = 1, double normalizedHitPos = 1)
         {
 
             // HitChance let make it 1/2
@@ -52,7 +52,11 @@ namespace PokemonGo.RocketAPI.Rpc
                 // lets hit
                 hit = true;
             }
-
+            if (forceHit)
+            {
+                // limit number of balls wasted by misses by ball type
+                hit = true;
+            }
             var message = new CatchPokemonMessage   // We need to make this here more random, that we sometimes dont hit orso
             {
                 EncounterId = encounterId,

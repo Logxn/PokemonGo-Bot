@@ -282,7 +282,6 @@ namespace PokemonGo.RocketAPI.Logic
                 }
             }
 
-
             if (pokeStops.Count() == 0)
             {
                 Logger.ColoredConsoleWrite(ConsoleColor.Red, "We can't find any PokeStops, which are unused! Probably the server are unstable, or you visted them all. Retrying..");
@@ -333,31 +332,35 @@ namespace PokemonGo.RocketAPI.Logic
             }
         }
 
+        private async Task LogStatsEtc()
+        {
+            count = 0;
+
+            if (_clientSettings.UseLuckyEggIfNotRunning)
+            {
+                await _client.Inventory.UseLuckyEgg(_client);
+            }
+
+            if (_clientSettings.EvolvePokemonsIfEnoughCandy)
+            {
+                await EvolveAllPokemonWithEnoughCandy();
+            }
+
+            if (_clientSettings.AutoIncubate)
+            {
+                await StartIncubation();
+            }
+
+            await TransferDuplicatePokemon(_clientSettings.keepPokemonsThatCanEvolve, _clientSettings.TransferFirstLowIV);
+            //await RecycleItems();               
+            await StatsLog(_client);
+        }    
+
         private async Task<bool> CheckAndFarmNearbyPokeStop(FortData pokeStop, Client _client, FortDetailsResponse fortInfo)
         {
             if (count >= 9)
             {
-                count = 0;
-                await StatsLog(_client);
-
-                if (_clientSettings.EvolvePokemonsIfEnoughCandy)
-                {
-                    await EvolveAllPokemonWithEnoughCandy();
-                }
-
-                if (_clientSettings.AutoIncubate)
-                {
-                    await StartIncubation();
-                }
-
-                await TransferDuplicatePokemon(_clientSettings.keepPokemonsThatCanEvolve, _clientSettings.TransferFirstLowIV);
-                //await RecycleItems();
-
-                ////
-                if (_clientSettings.UseLuckyEggIfNotRunning)
-                {
-                    await _client.Inventory.UseLuckyEgg(_client);
-                }
+                await LogStatsEtc();
             }
             if (pokeStop.CooldownCompleteTimestampMs < (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds)
             {
@@ -422,23 +425,11 @@ namespace PokemonGo.RocketAPI.Logic
             foreach (var pokemon in pokemons)
             {
                 count++;
+                var missCount = 0;
+                var forceHit = false;
                 if (count >= 9)
                 {
-                    count = 0;
-                    await StatsLog(client);
-
-                    if (_clientSettings.EvolvePokemonsIfEnoughCandy)
-                    {
-                        await EvolveAllPokemonWithEnoughCandy();
-                    }
-
-                    if (_clientSettings.AutoIncubate)
-                    {
-                        await StartIncubation();
-                    }
-
-                    await TransferDuplicatePokemon(_clientSettings.keepPokemonsThatCanEvolve, _clientSettings.TransferFirstLowIV);
-                    //await RecycleItems();
+                    await LogStatsEtc();
                 }
 
                 if (_clientSettings.catchPokemonSkipList.Contains(pokemon.PokemonId))
@@ -449,6 +440,7 @@ namespace PokemonGo.RocketAPI.Logic
 
                 var distance = LocationUtils.CalculateDistanceInMeters(_client.CurrentLatitude, _client.CurrentLongitude, pokemon.Latitude, pokemon.Longitude);
                 await Task.Delay(distance > 100 ? 1000 : 100);
+
                 var encounterPokemonResponse = await _client.Encounter.EncounterPokemon(pokemon.EncounterId, pokemon.SpawnPointId);
 
                 if (encounterPokemonResponse.Status == EncounterResponse.Types.Status.EncounterSuccess)
@@ -494,16 +486,56 @@ namespace PokemonGo.RocketAPI.Logic
                                 }
                             }
                         }
-                        caughtPokemonResponse = await _client.Encounter.CatchPokemon(pokemon.EncounterId, pokemon.SpawnPointId, bestPokeball);
+                        // limit number of balls wasted by misses and log for UX because fools be whining
+                        //TODO eventually make the max miss count client configurable;
+                        switch (missCount)
+                        {
+                            case 0:
+                                if (bestPokeball == ItemId.ItemMasterBall)
+                                {
+                                    Logger.ColoredConsoleWrite(ConsoleColor.Magenta, $"No messing around with your Master Balls! Forcing a hit on target.");
+                                    forceHit = true;
+                                }
+                                break;
+                            case 1:
+                                if (bestPokeball == ItemId.ItemUltraBall)
+                                {
+                                    Logger.ColoredConsoleWrite(ConsoleColor.Magenta, $"Not wasting more of your Ultra Balls! Forcing a hit on target.");
+                                    forceHit = true;
+                                }
+                                break;
+                            case 2:
+                                if (missCount > 0)
+                                {
+                                    //adding another chance of forcing hit here to improve overall odds after 2 misses
+                                    Random r = new Random();
+                                    int rInt = r.Next(0, 2);
+                                    if (rInt == 1)
+                                    {
+                                        // lets hit
+                                        forceHit = true;
+                                    }
+                                }
+                                break;
+                            default:
+                                // default to force hit after 3 wasted balls of any kind.
+                                Logger.ColoredConsoleWrite(ConsoleColor.Magenta, $"Enough misses! Forcing a hit on target.");
+                                forceHit = true;
+                                break;
+                        }                        
+                        caughtPokemonResponse = await _client.Encounter.CatchPokemon(pokemon.EncounterId, pokemon.SpawnPointId, bestPokeball, forceHit);
                         if (caughtPokemonResponse.Status == CatchPokemonResponse.Types.CatchStatus.CatchMissed)
                         {
                             Logger.ColoredConsoleWrite(ConsoleColor.Magenta, $"Missed {StringUtils.getPokemonNameByLanguage(_clientSettings, pokemon.PokemonId)} while using {bestPokeball}");
+                            missCount++;
                             await RandomHelper.RandomDelay(1500);
                         }
                         else if (caughtPokemonResponse.Status == CatchPokemonResponse.Types.CatchStatus.CatchEscape)
                         {
                             Logger.ColoredConsoleWrite(ConsoleColor.Magenta, $"{StringUtils.getPokemonNameByLanguage(_clientSettings, pokemon.PokemonId)} escaped while using {bestPokeball}");
                             escaped = true;
+                            //reset forceHit in case we randomly triggered on last throw.
+                            forceHit = false;
                             if (berryThrown) bestPokeball = await GetBestBall(encounterPokemonResponse?.WildPokemon, true);
                         }
                     }
