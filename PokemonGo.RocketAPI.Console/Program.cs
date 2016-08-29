@@ -427,7 +427,7 @@ namespace PokemonGo.RocketAPI.Console
         public static string telAPI = string.Empty;
         public static string telName = string.Empty;
         public static int telDelay = 5000;
-
+        public static bool pauseAtPokeStop = false;
         public static int navigation_option = 1;
         public static bool useluckyegg = true;
         public static bool useincense = true;

@@ -244,5 +244,10 @@ namespace PokemonGo.RocketAPI.Console
                 UserSettings.Default.Save();
             }
         }
+        public bool pauseAtPokeStop
+        {
+            get { return Globals.pauseAtPokeStop; }
+            set { Globals.pauseAtPokeStop = value; }            
+        }
     }
 }

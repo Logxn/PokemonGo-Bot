@@ -41,12 +41,14 @@ namespace PokemonGo.RocketAPI.Console
             InitializeComponent();
             ClientSettings = new Settings();
         }
-        
+
         public static ISettings ClientSettings;
 
         private void Pokemons_Load(object sender, EventArgs e)
         {
             reloadsecondstextbox.Text = "60";
+            Globals.pauseAtPokeStop = false;
+            btnForceUnban.Text = "Pause Walking";
             Execute();
             this.PokemonListView.ColumnClick += new ColumnClickEventHandler(PokemonListView_ColumnClick);
         }
@@ -58,12 +60,12 @@ namespace PokemonGo.RocketAPI.Console
                 try
                 {
                     if (Logic.Logic._client != null && Logic.Logic._client.readyToUse != false)
-                    { 
+                    {
                         break;
                     }
                 }
                 catch (Exception) { }
-            } 
+            }
         }
 
         private async void Execute()
@@ -207,7 +209,7 @@ namespace PokemonGo.RocketAPI.Console
             }
         }
 
-        private void EnabledButton(bool enabled, string reason="")
+        private void EnabledButton(bool enabled, string reason = "")
         {
             statusTexbox.Text = reason;
             btnreload.Enabled = enabled;
@@ -231,10 +233,12 @@ namespace PokemonGo.RocketAPI.Console
             Bitmap bitmapRemote = null;
             if (!File.Exists(location))
             {
-                try {
+                try
+                {
                     ExtendedWebClient wc = new ExtendedWebClient();
                     wc.DownloadFile("http://pokemon-go.ar1i.xyz/img/pokemons/" + pokemonId + ".png", @location);
-                } catch (Exception)
+                }
+                catch (Exception)
                 {
                     // User fail picture
                     err = true;
@@ -255,8 +259,9 @@ namespace PokemonGo.RocketAPI.Console
                     picbox.Image = Image.FromStream(m);
                     bitmapRemote = (Bitmap)picbox.Image;
                     m.Close();
-                } catch (Exception e)
-                { 
+                }
+                catch (Exception e)
+                {
                     PictureBox picbox = new PictureBox();
                     picbox.Image = PokemonGo.RocketAPI.Console.Properties.Resources.error_sprite;
                     bitmapRemote = (Bitmap)picbox.Image;
@@ -386,8 +391,9 @@ namespace PokemonGo.RocketAPI.Console
             {
                 PokemonListView.Clear();
                 Execute();
-            } else
-            EnabledButton(true);
+            }
+            else
+                EnabledButton(true);
         }
 
         private async void btnTransfer_Click(object sender, EventArgs e)
@@ -446,7 +452,8 @@ namespace PokemonGo.RocketAPI.Console
             {
                 PokemonListView.Clear();
                 Execute();
-            } else
+            }
+            else
                 EnabledButton(true);
         }
 
@@ -471,7 +478,8 @@ namespace PokemonGo.RocketAPI.Console
             catch (Exception e)
             {
                 Logger.ColoredConsoleWrite(ConsoleColor.Red, "Error evolvePokemon: " + e.Message);
-                await evolvePokemon(pokemon); }
+                await evolvePokemon(pokemon);
+            }
             return resp;
         }
 
@@ -782,13 +790,25 @@ namespace PokemonGo.RocketAPI.Console
             btnTransfer.Text = "Transfer";
         }
 
-        private void btnForceUnban_Click(object sender, EventArgs e)    
+        private void btnForceUnban_Click(object sender, EventArgs e)
         {
-            Logic.Logic.failed_softban = 6;
-            btnForceUnban.Enabled = false;
+            // **MTK4355 Repurposed force unban button since force-unban feature is no longer working**
+            //Logic.Logic.failed_softban = 6;
+            //btnForceUnban.Enabled = false;
+            //freezedenshit.Start();
+            if (btnForceUnban.Text.Equals("Pause Walking"))
+            {
+                Globals.pauseAtPokeStop = true;
+                Logger.ColoredConsoleWrite(ConsoleColor.Magenta, "Pausing at next Pokestop. (will continue catching pokemon and farming pokestop when available)");
+                btnForceUnban.Text = "Resume Walking";
+            }
+            else
+            {
+                Globals.pauseAtPokeStop = false;
+                Logger.ColoredConsoleWrite(ConsoleColor.Magenta, "Resume walking between Pokestops.");
+                btnForceUnban.Text = "Pause Walking";
+            }
 
-            Logger.ColoredConsoleWrite(ConsoleColor.Magenta, "Unbanning you at next Pokestop.");
-            freezedenshit.Start();
         }
 
         private void freezedenshit_Tick(object sender, EventArgs e)
@@ -851,7 +871,7 @@ namespace PokemonGo.RocketAPI.Console
                 string_y = string_y.Substring(0, string_y.IndexOf("%"));
 
             }
-            else if(ColumnNumber == 7) //HP
+            else if (ColumnNumber == 7) //HP
             {
                 string_x = string_x.Substring(0, string_x.IndexOf("/"));
                 string_y = string_y.Substring(0, string_y.IndexOf("/"));
