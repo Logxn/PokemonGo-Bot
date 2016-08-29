@@ -34,6 +34,8 @@ namespace PokemonGo.RocketAPI.Logic
         public const double SpeedDownTo = 10 / 3.6;
         private readonly LogicInfoObservable _infoObservable;
         private readonly PokeVisionUtil _pokevision;
+        private int pokemonCatchCount;
+        private int pokeStopFarmedCount; 
 
 
         public Logic(ISettings clientSettings, LogicInfoObservable infoObservable)
@@ -56,7 +58,10 @@ namespace PokemonGo.RocketAPI.Logic
             Logger.ColoredConsoleWrite(ConsoleColor.Red, "This bot is absolutely free and open-source!");
             Logger.ColoredConsoleWrite(ConsoleColor.Red, "If you've paid for it. Request a chargeback immediately!");
             Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Starting Execute on login server: {_clientSettings.AuthType}", LogLevel.Info);
-
+            Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Setting Pokemon Catch Count: to 0 for this session", LogLevel.Info);
+            pokemonCatchCount = 0;
+            Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Setting Pokestop Farmed Count to 0 for this session", LogLevel.Info);
+            pokeStopFarmedCount = 0;
             _client.CurrentAltitude = _client.Settings.DefaultAltitude;
             _client.CurrentLongitude = _client.Settings.DefaultLongitude;
             _client.CurrentLatitude = _client.Settings.DefaultLatitude;
@@ -198,6 +203,7 @@ namespace PokemonGo.RocketAPI.Logic
                 // Do Tutorial
                 await _client.Misc.MarkTutorialComplete();
             }
+            var pokeBallCollection = await GetPokeballQty();
 
             Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "-----------------------[PLAYER STATS]-----------------------");
             Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Level/EXP: {stats.Level} | {curexp.ToString("N0")}/{expneeded.ToString("N0")} ({Math.Round(curexppercent, 2)}%)");
@@ -209,7 +215,13 @@ namespace PokemonGo.RocketAPI.Logic
             Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Items: " + await _client.Inventory.getInventoryCount() + "/" + profile.PlayerData.MaxItemStorage);
             Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Stardust: " + profile.PlayerData.Currencies.ToArray()[1].Amount.ToString("N0"));
             Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "------------------------------------------------------------");
-
+            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Pokemon Catch Count this session: " + pokemonCatchCount);
+            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "PokeStop Farmed Count this session: " + pokeStopFarmedCount);
+            foreach (KeyValuePair<string, int> pokeballtype in pokeBallCollection)
+                {
+                    Logger.ColoredConsoleWrite(ConsoleColor.Cyan, pokeballtype.Key + " Qty: " + pokeballtype.Value.ToString());
+                }
+            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "------------------------------------------------------------");
             if (level == -1)
             {
                 level = stats.Level;
@@ -355,7 +367,7 @@ namespace PokemonGo.RocketAPI.Logic
 
                     failed_softban = 0;
                     _botStats.AddExperience(fortSearch.ExperienceAwarded);
-                    
+                    pokeStopFarmedCount++;
                     Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Farmed XP: {fortSearch.ExperienceAwarded}, Gems: {fortSearch.GemsAwarded}{", Egg: " + egg}, Items: {items}", LogLevel.Info);
 
                     pokeStopInfo += $"{fortSearch.ExperienceAwarded} XP{Environment.NewLine}{fortSearch.GemsAwarded}{Environment.NewLine}{egg}{Environment.NewLine}{items.Replace(",", Environment.NewLine)}";
@@ -497,11 +509,13 @@ namespace PokemonGo.RocketAPI.Logic
                         {
                             Logger.ColoredConsoleWrite(ConsoleColor.DarkMagenta,
                                 $"Caught New {StringUtils.getPokemonNameByLanguage(_clientSettings, pokemon.PokemonId)} CP {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} IV {PokemonInfo.CalculatePokemonPerfection(encounterPokemonResponse.WildPokemon.PokemonData).ToString("0.00")}% using {bestPokeball} got {caughtPokemonResponse.CaptureAward.Xp.Sum()} XP.");
+                            pokemonCatchCount++;
                         }
                         else
                         {
                             Logger.ColoredConsoleWrite(ConsoleColor.Magenta,
                                 $"Caught {StringUtils.getPokemonNameByLanguage(_clientSettings, pokemon.PokemonId)} CP {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} IV {PokemonInfo.CalculatePokemonPerfection(encounterPokemonResponse.WildPokemon.PokemonData).ToString("0.00")}% using {bestPokeball} got {caughtPokemonResponse.CaptureAward.Xp.Sum()} XP.");
+                            pokemonCatchCount++;
                         }
 
                         if (_telegram != null)
@@ -699,44 +713,60 @@ namespace PokemonGo.RocketAPI.Logic
             }
         }
 
-        private async Task<ItemId> GetBestBall(WildPokemon pokemon, bool escaped)
+        private async Task<Dictionary<string, int>> GetPokeballQty()
         {
-            var pokemonCp = pokemon?.PokemonData?.Cp;
-            //await RecycleItems(true);
+            Dictionary<string, int> pokeBallCollection = new Dictionary<string, int>();
             var items = await _client.Inventory.GetItems();
             var balls = items.Where(i => ((ItemId)i.ItemId == ItemId.ItemPokeBall
                                       || (ItemId)i.ItemId == ItemId.ItemGreatBall
                                       || (ItemId)i.ItemId == ItemId.ItemUltraBall
                                       || (ItemId)i.ItemId == ItemId.ItemMasterBall) && i.ItemId > 0).GroupBy(i => ((ItemId)i.ItemId)).ToList();
-            if (balls.Count() == 0) return ItemId.ItemUnknown;
-            
-            var pokeBalls = false;
             if (balls.Any(g => g.Key == ItemId.ItemPokeBall))
                 if (balls.First(g => g.Key == ItemId.ItemPokeBall).First().Count > 0)
-                    pokeBalls = true;
-            else
+                    pokeBallCollection.Add("pokeBalls", balls.First(g => g.Key == ItemId.ItemPokeBall).First().Count);
+                else
                     Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"FYI - PokeBall Count is Zero", LogLevel.Info);
-            
-            var greatBalls = false;
+
             if (balls.Any(g => g.Key == ItemId.ItemGreatBall))
                 if (balls.First(g => g.Key == ItemId.ItemGreatBall).First().Count > 0)
-                    greatBalls = true;
+                    pokeBallCollection.Add("greatBalls", balls.First(g => g.Key == ItemId.ItemGreatBall).First().Count);
                 else
                     Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"FYI - GreatBall Count is Zero", LogLevel.Info);
-            
-            var ultraBalls = false;
+
             if (balls.Any(g => g.Key == ItemId.ItemUltraBall))
                 if (balls.First(g => g.Key == ItemId.ItemUltraBall).First().Count > 0)
-                    ultraBalls = true;
+                    pokeBallCollection.Add("ultraBalls", balls.First(g => g.Key == ItemId.ItemUltraBall).First().Count);
                 else
                     Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"FYI - UltraBall Count is Zero", LogLevel.Info);
-            
-            var masterBalls = false;
+
             if (balls.Any(g => g.Key == ItemId.ItemMasterBall))
                 if (balls.First(g => g.Key == ItemId.ItemMasterBall).First().Count > 0)
-                    masterBalls = true;
+                    pokeBallCollection.Add("masterBalls", balls.First(g => g.Key == ItemId.ItemMasterBall).First().Count);
                 else
                     Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"FYI - MasterBall Count is Zero", LogLevel.Info);
+
+            return pokeBallCollection;
+        }
+
+        private async Task<ItemId> GetBestBall(WildPokemon pokemon, bool escaped)
+        {
+            var pokemonCp = pokemon?.PokemonData?.Cp;
+            //await RecycleItems(true);
+            var pokeballCollection = await GetPokeballQty();
+
+            var pokeBalls = false;
+            var greatBalls = false;
+            var ultraBalls = false;
+            var masterBalls = false;
+
+            if (pokeballCollection.ContainsKey("pokeBalls"))
+                pokeBalls = true;
+            if (pokeballCollection.ContainsKey("greatBalls"))
+                greatBalls = true;
+            if (pokeballCollection.ContainsKey("ultraBalls"))
+                ultraBalls = true;
+            if (pokeballCollection.ContainsKey("masterBalls"))
+                masterBalls = true;
 
             var _lowestAppropriateBall = ItemId.ItemUnknown;
             var getMyLowestAppropriateBall = new Dictionary<Func<int?, bool>, Action>
