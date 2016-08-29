@@ -42,7 +42,6 @@ namespace PokemonGo.RocketAPI.Rpc
 
         public async Task<CatchPokemonResponse> CatchPokemon(ulong encounterId, string spawnPointGuid, ItemId pokeballItemId, bool forceHit, double normalizedRecticleSize = 1.950, double spinModifier = 1, double normalizedHitPos = 1)
         {
-
             // HitChance let make it 1/2
             Random r = new Random();
             int rInt = r.Next(0, 2);

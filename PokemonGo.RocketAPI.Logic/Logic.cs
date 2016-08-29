@@ -188,7 +188,6 @@ namespace PokemonGo.RocketAPI.Logic
             var profile = await _client.Player.GetPlayer();
             var playerStats = await _client.Inventory.GetPlayerStats();
             var stats = playerStats.First();
-
             var expneeded = stats.NextLevelXp - stats.PrevLevelXp - StringUtils.getExpDiff(stats.Level);
             var curexp = stats.Experience - stats.PrevLevelXp - StringUtils.getExpDiff(stats.Level);
             var curexppercent = Convert.ToDouble(curexp) / Convert.ToDouble(expneeded) * 100;
@@ -311,18 +310,32 @@ namespace PokemonGo.RocketAPI.Logic
                 }
                 Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Next Pokestop: {fortInfo.Name} in {distance:0.##}m distance.");
                 var update = await _navigation.HumanLikeWalking(new GeoCoordinate(pokeStop.Latitude, pokeStop.Longitude), _clientSettings.WalkingSpeedInKilometerPerHour, ExecuteCatchAllNearbyPokemons);
-
-                do
+                if (_clientSettings.pauseAtPokeStop)
+                {
+                    var pokestopsWithinRangeStanding = pokeStops.Where(i => (LocationUtils.CalculateDistanceInMeters(_client.CurrentLatitude, _client.CurrentLongitude, i.Latitude, i.Longitude)) < 40);
+                    Logger.ColoredConsoleWrite(ConsoleColor.Green, $"{pokestopsWithinRangeStanding.Count().ToString()} Pokestops within range of where you are standing.");
+                    do
+                    {
+                        foreach (var Pokestop in pokestopsWithinRangeStanding)
+                        {
+                            await UseIncense();
+                            await ExecuteCatchAllNearbyPokemons();
+                            var FortInfo = await _client.Fort.GetFort(Pokestop.Id, Pokestop.Latitude, Pokestop.Longitude);
+                            Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Next Pokestop: {FortInfo.Name} to check cooldown and/or farm.");
+                            var farmed = await CheckAndFarmNearbyPokeStop(Pokestop, _client, FortInfo);
+                            if (farmed) { Pokestop.CooldownCompleteTimestampMs = (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds + 300500; }
+                            await RandomHelper.RandomDelay(50, 2000); // wait for a bit before repeating farm cycle
+                        }
+                    }
+                    while (_clientSettings.pauseAtPokeStop);
+                }
+                else
                 {
                     await UseIncense();
                     await ExecuteCatchAllNearbyPokemons();
                     var farmed = await CheckAndFarmNearbyPokeStop(pokeStop, _client, fortInfo);
-                    if (farmed) { pokeStop.CooldownCompleteTimestampMs = (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds + 300500; }
-                    await RandomHelper.RandomDelay(60000, 100000); // wait for a bit before repeating farm cycle
+                    await RandomHelper.RandomDelay(50, 2000); // wait to start moving again
                 }
-                while (_clientSettings.pauseAtPokeStop);
-
-                await RandomHelper.RandomDelay(50, 2000); // Lets wait longer
             }
 
             if (_clientSettings.WalkBackToDefaultLocation)
@@ -354,7 +367,7 @@ namespace PokemonGo.RocketAPI.Logic
             await TransferDuplicatePokemon(_clientSettings.keepPokemonsThatCanEvolve, _clientSettings.TransferFirstLowIV);
             //await RecycleItems();               
             await StatsLog(_client);
-        }    
+        }
 
         private async Task<bool> CheckAndFarmNearbyPokeStop(FortData pokeStop, Client _client, FortDetailsResponse fortInfo)
         {
@@ -505,16 +518,13 @@ namespace PokemonGo.RocketAPI.Logic
                                 }
                                 break;
                             case 2:
-                                if (missCount > 0)
+                                //adding another chance of forcing hit here to improve overall odds after 2 misses
+                                Random r = new Random();
+                                int rInt = r.Next(0, 2);
+                                if (rInt == 1)
                                 {
-                                    //adding another chance of forcing hit here to improve overall odds after 2 misses
-                                    Random r = new Random();
-                                    int rInt = r.Next(0, 2);
-                                    if (rInt == 1)
-                                    {
-                                        // lets hit
-                                        forceHit = true;
-                                    }
+                                    // lets hit
+                                    forceHit = true;
                                 }
                                 break;
                             default:
@@ -522,7 +532,18 @@ namespace PokemonGo.RocketAPI.Logic
                                 Logger.ColoredConsoleWrite(ConsoleColor.Magenta, $"Enough misses! Forcing a hit on target.");
                                 forceHit = true;
                                 break;
-                        }                        
+                        }
+                        if (missCount > 0)
+                        {
+                            //adding another chance of forcing hit here to improve overall odds after 1st miss
+                            Random r = new Random();
+                            int rInt = r.Next(0, 3);
+                            if (rInt == 1)
+                            {
+                                // lets hit
+                                forceHit = true;
+                            }
+                        }
                         caughtPokemonResponse = await _client.Encounter.CatchPokemon(pokemon.EncounterId, pokemon.SpawnPointId, bestPokeball, forceHit);
                         if (caughtPokemonResponse.Status == CatchPokemonResponse.Types.CatchStatus.CatchMissed)
                         {
