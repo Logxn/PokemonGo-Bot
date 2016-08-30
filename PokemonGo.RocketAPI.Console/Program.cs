@@ -428,6 +428,7 @@ namespace PokemonGo.RocketAPI.Console
         public static string telName = string.Empty;
         public static int telDelay = 5000;
         public static bool pauseAtPokeStop = false;
+        public static bool farmPokestops = true;
         public static int navigation_option = 1;
         public static bool useluckyegg = true;
         public static bool useincense = true;
@@ -448,6 +449,6 @@ namespace PokemonGo.RocketAPI.Console
 
         public static string settingsLanguage = "en";
 
-        public static Logic.LogicInfoObservable infoObservable = new Logic.LogicInfoObservable();
+        public static Logic.LogicInfoObservable infoObservable = new Logic.LogicInfoObservable();        
     }
 }
