@@ -563,7 +563,7 @@ namespace PokemonGo.RocketAPI.Logic
                         {
                             Logger.ColoredConsoleWrite(ConsoleColor.Magenta, $"Missed {StringUtils.getPokemonNameByLanguage(_clientSettings, pokemon.PokemonId)} while using {bestPokeball}");
                             missCount++;
-                            await RandomHelper.RandomDelay(1500);
+                            await RandomHelper.RandomDelay(1500, 2000);
                         }
                         else if (caughtPokemonResponse.Status == CatchPokemonResponse.Types.CatchStatus.CatchEscape)
                         {
@@ -572,6 +572,7 @@ namespace PokemonGo.RocketAPI.Logic
                             //reset forceHit in case we randomly triggered on last throw.
                             forceHit = false;
                             if (berryThrown) bestPokeball = await GetBestBall(encounterPokemonResponse?.WildPokemon, true);
+                            await RandomHelper.RandomDelay(1500, 2000);
                         }
                     }
                     while (caughtPokemonResponse.Status == CatchPokemonResponse.Types.CatchStatus.CatchMissed || caughtPokemonResponse.Status == CatchPokemonResponse.Types.CatchStatus.CatchEscape);
@@ -658,7 +659,8 @@ namespace PokemonGo.RocketAPI.Logic
                         break;
                     }
             }
-            if (rInt == 0)
+            int rIntSpin = r.Next(0, 2);
+            if (rIntSpin == 0)
             {
                 spinModifier = 0.0;
                 spinTxt = "Straight";
@@ -718,7 +720,7 @@ namespace PokemonGo.RocketAPI.Logic
                     }
                 }
 
-                await RandomHelper.RandomDelay(1500, 2500);
+                await RandomHelper.RandomDelay(30000, 35000);
             }
         }
 
@@ -831,7 +833,7 @@ namespace PokemonGo.RocketAPI.Logic
                             StringUtils.getPokemonNameByLanguage(_clientSettings, duplicatePokemon.PokemonId), duplicatePokemon.Cp,
                             PokemonInfo.CalculatePokemonPerfection(duplicatePokemon).ToString("0.00"), bestPokemonOfType);
 
-                        await RandomHelper.RandomDelay(500, 700);
+                        await RandomHelper.RandomDelay(5000, 6000);
                     }
                 }
             }
@@ -845,7 +847,7 @@ namespace PokemonGo.RocketAPI.Logic
             {
                 var transfer = await _client.Inventory.RecycleItem((ItemId)item.ItemId, item.Count);
                 Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Recycled {item.Count}x {(ItemId)item.ItemId}", LogLevel.Info);
-                await RandomHelper.RandomDelay(500, 700);
+                await RandomHelper.RandomDelay(1000, 5000);
             }
         }
 
