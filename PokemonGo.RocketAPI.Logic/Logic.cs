@@ -225,7 +225,7 @@ namespace PokemonGo.RocketAPI.Logic
             {
                 Logger.ColoredConsoleWrite(ConsoleColor.Cyan, item.ItemId + " Qty: " + item.Count);
                 totalitems += item.Count;
-           }
+            }
             Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Items: " + totalitems + "/" + profile.PlayerData.MaxItemStorage);
             Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "------------------------------------------------------------");
             if (level == -1)
@@ -379,7 +379,7 @@ namespace PokemonGo.RocketAPI.Logic
             {
                 await LogStatsEtc();
             }
-            if (pokeStop.CooldownCompleteTimestampMs < (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds)
+            if (pokeStop.CooldownCompleteTimestampMs < (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds && _clientSettings.FarmPokestops)
             {
                 var fortSearch = await _client.Fort.SearchFort(pokeStop.Id, pokeStop.Latitude, pokeStop.Longitude);
                 count++;
@@ -416,6 +416,11 @@ namespace PokemonGo.RocketAPI.Logic
                 }
                 _infoObservable.PushPokeStopInfoUpdate(pokeStop.Id, pokeStopInfo);
                 return true;
+            }
+            else if (!_clientSettings.FarmPokestops)
+            {
+                Logger.ColoredConsoleWrite(ConsoleColor.Green, "Farm Pokestop option unchecked, skipping and only looking for pokemon");
+                return false;
             }
             else
             {
