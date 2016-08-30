@@ -1284,5 +1284,10 @@ namespace PokemonGo.RocketAPI.Console
         {
             Globals.sleepatpokemons = checkBox17.Checked;
         }
+
+        private void checkBox18_CheckedChanged(object sender, EventArgs e)
+        {
+            Globals.farmPokestops = checkBox18.Checked;
+        }
     }
 }
