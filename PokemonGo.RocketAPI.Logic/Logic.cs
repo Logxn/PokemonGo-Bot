@@ -510,6 +510,7 @@ namespace PokemonGo.RocketAPI.Logic
                         }
                         // limit number of balls wasted by misses and log for UX because fools be tripin
                         //TODO eventually make the max miss count client configurable;
+                        Random r = new Random();
                         switch (missCount)
                         {
                             case 0:
@@ -527,8 +528,7 @@ namespace PokemonGo.RocketAPI.Logic
                                 }
                                 break;
                             case 2:
-                                //adding another chance of forcing hit here to improve overall odds after 2 misses
-                                Random r = new Random();
+                                //adding another chance of forcing hit here to improve overall odds after 2 misses                                
                                 int rInt = r.Next(0, 2);
                                 if (rInt == 1)
                                 {
@@ -544,8 +544,7 @@ namespace PokemonGo.RocketAPI.Logic
                         }
                         if (missCount > 0)
                         {
-                            //adding another chance of forcing hit here to improve overall odds after 1st miss
-                            Random r = new Random();
+                            //adding another chance of forcing hit here to improve overall odds after 1st miss                            
                             int rInt = r.Next(0, 3);
                             if (rInt == 1)
                             {
@@ -553,7 +552,7 @@ namespace PokemonGo.RocketAPI.Logic
                                 forceHit = true;
                             }
                         }
-                        caughtPokemonResponse = await _client.Encounter.CatchPokemon(pokemon.EncounterId, pokemon.SpawnPointId, bestPokeball, forceHit);
+                        caughtPokemonResponse = await CatchPokemonWithRandomVariables(pokemon, bestPokeball, forceHit);
                         if (caughtPokemonResponse.Status == CatchPokemonResponse.Types.CatchStatus.CatchMissed)
                         {
                             Logger.ColoredConsoleWrite(ConsoleColor.Magenta, $"Missed {StringUtils.getPokemonNameByLanguage(_clientSettings, pokemon.PokemonId)} while using {bestPokeball}");
@@ -610,6 +609,63 @@ namespace PokemonGo.RocketAPI.Logic
                 }
                 await RandomHelper.RandomDelay(200, 300);
             }
+        }
+
+        private async Task<CatchPokemonResponse> CatchPokemonWithRandomVariables(MapPokemon pokemon, ItemId bestPokeball, bool forceHit)
+        {
+            double normalizedRecticleSize = 1.95;
+            var hitTxt = "Default Perfect";
+            var spinModifier = 1.0;
+            var spinTxt = "Curve";
+            var r = new Random();
+            int rInt = r.Next(0, 5);
+            switch (rInt)
+            {
+                case 0:
+                    {
+                        normalizedRecticleSize = r.NextDouble() * (1.95 - 1.7) + 1.7;
+                        hitTxt = "Excellent";
+                        break;
+                    }
+                case 1:
+                    {
+                        normalizedRecticleSize = r.NextDouble() * (1.95 - 1.3) + 1.3;
+                        hitTxt = "Great";
+                        break;
+                    }
+                case 2:
+                    {
+                        normalizedRecticleSize = r.NextDouble() * (1 - 0.1) + 0.1;
+                        hitTxt = "Ordinary";
+                        break;
+                    }
+                case 3:
+                    {
+                        normalizedRecticleSize = r.NextDouble() * (1.3 - 1) + 1;
+                        hitTxt = "Nice";
+                        break;
+                    }
+                default:
+                    {
+                        normalizedRecticleSize = r.NextDouble() * (1.7 - 1.3) + 1.3;
+                        hitTxt = "Great";
+                        break;
+                    }
+            }
+            if (rInt == 0)
+            {
+                spinModifier = 0.0;
+                spinTxt = "Straight";
+            }
+            int rIntHit = r.Next(0, 2);
+            if (rIntHit == 0)
+            {
+                forceHit = true;
+            } 
+            //round to 2 decimals  
+            normalizedRecticleSize = Math.Round(normalizedRecticleSize, 2);
+            if (forceHit) { Logger.ColoredConsoleWrite(ConsoleColor.DarkMagenta, $"{hitTxt} throw as {spinTxt} ball."); }
+            return await _client.Encounter.CatchPokemon(pokemon.EncounterId, pokemon.SpawnPointId, bestPokeball, forceHit, normalizedRecticleSize, spinModifier);
         }
 
         private async Task EvolveAllPokemonWithEnoughCandy(IEnumerable<PokemonId> filter = null)
