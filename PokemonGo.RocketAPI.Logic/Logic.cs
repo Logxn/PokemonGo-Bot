@@ -580,13 +580,13 @@ namespace PokemonGo.RocketAPI.Logic
 
                         if (caughtPokemonResponse.CaptureAward.Xp.Sum() >= 500)
                         {
-                            Logger.ColoredConsoleWrite(ConsoleColor.DarkMagenta,
+                            Logger.ColoredConsoleWrite(ConsoleColor.White,
                                 $"Caught New {StringUtils.getPokemonNameByLanguage(_clientSettings, pokemon.PokemonId)} CP {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} IV {PokemonInfo.CalculatePokemonPerfection(encounterPokemonResponse.WildPokemon.PokemonData).ToString("0.00")}% using {bestPokeball} got {caughtPokemonResponse.CaptureAward.Xp.Sum()} XP.");
                             pokemonCatchCount++;
                         }
                         else
                         {
-                            Logger.ColoredConsoleWrite(ConsoleColor.Magenta,
+                            Logger.ColoredConsoleWrite(ConsoleColor.Gray,
                                 $"Caught {StringUtils.getPokemonNameByLanguage(_clientSettings, pokemon.PokemonId)} CP {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} IV {PokemonInfo.CalculatePokemonPerfection(encounterPokemonResponse.WildPokemon.PokemonData).ToString("0.00")}% using {bestPokeball} got {caughtPokemonResponse.CaptureAward.Xp.Sum()} XP.");
                             pokemonCatchCount++;
                         }
