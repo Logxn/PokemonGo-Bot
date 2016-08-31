@@ -1317,7 +1317,7 @@ namespace PokemonGo.RocketAPI.Console
 
         private void checkBox21_CheckedChanged(object sender, EventArgs e)
         {
-
+            Globals.UseLureAtBreak = checkBox21.Checked;
         }
 
         private void label46_Click(object sender, EventArgs e)
@@ -1333,6 +1333,46 @@ namespace PokemonGo.RocketAPI.Console
         private void textBox31_TextChanged(object sender, EventArgs e)
         {
             int.TryParse(textBox31.Text, out Globals.PokestopFarmLimit);
+        }
+
+        private void textBox32_TextChanged(object sender, EventArgs e)
+        {
+            int.TryParse(textBox31.Text, out Globals.XPFarmedLimit);
+        }
+
+        private void textBox28_TextChanged(object sender, EventArgs e)
+        {
+            int.TryParse(textBox31.Text, out Globals.BreakInterval);
+        }
+
+        private void textBox29_TextChanged(object sender, EventArgs e)
+        {
+            int.TryParse(textBox31.Text, out Globals.BreakLength);
+        }
+
+        private void textBox34_TextChanged(object sender, EventArgs e)
+        {
+            int.TryParse(textBox31.Text, out Globals.MinWalkSpeed);
+        }
+
+        private void checkBox18_CheckedChanged_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void checkBox19_CheckedChanged(object sender, EventArgs e)
+        {
+            Globals.CatchPokemon = checkBox19.Checked;
+        }
+
+        private void checkBox20_CheckedChanged(object sender, EventArgs e)
+        {
+            Globals.BreakAtLure = checkBox20.Checked;
+        }
+
+        private void checkBox23_CheckedChanged(object sender, EventArgs e)
+        {
+            Globals.RandomReduceSpeed = checkBox20.Checked;
         }
     }
 }
