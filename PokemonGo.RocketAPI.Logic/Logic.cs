@@ -532,10 +532,10 @@ namespace PokemonGo.RocketAPI.Logic
                         if (((probability.HasValue && probability.Value < _clientSettings.razzberry_chance) || escaped) && _clientSettings.UseRazzBerry && !used)
                         {
                             var bestBerry = await GetBestBerry(encounterPokemonResponse?.WildPokemon);
-                            var berries = inventoryBerries.Where(p => (ItemId)p.ItemId == bestBerry).FirstOrDefault();
-                            if (berries.Count <= 0) berryOutOfStock = true;
                             if (bestBerry != ItemId.ItemUnknown)
                             {
+                                var berries = inventoryBerries.Where(p => (ItemId)p.ItemId == bestBerry).FirstOrDefault();
+                                if (berries.Count <= 0) berryOutOfStock = true;
                                 if (!berryOutOfStock)
                                 {
                                     //Throw berry
