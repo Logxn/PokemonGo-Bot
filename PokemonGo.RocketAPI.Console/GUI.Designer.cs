@@ -1394,7 +1394,6 @@
             this.comboBox2.Name = "comboBox2";
             this.comboBox2.Size = new System.Drawing.Size(244, 24);
             this.comboBox2.TabIndex = 38;
-            this.comboBox2.Text = "galaxy6";
             this.comboBox2.SelectedIndexChanged += new System.EventHandler(this.comboBox2_SelectedIndexChanged);
             // 
             // label33
@@ -1620,7 +1619,7 @@
             this.groupBox13.Size = new System.Drawing.Size(295, 115);
             this.groupBox13.TabIndex = 60;
             this.groupBox13.TabStop = false;
-            this.groupBox13.Text = "Routing Settings";
+            this.groupBox13.Text = "Routing Settings (not finished)";
             // 
             // linkLabel6
             // 
