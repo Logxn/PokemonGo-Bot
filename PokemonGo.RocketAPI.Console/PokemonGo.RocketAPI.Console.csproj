@@ -121,6 +121,7 @@
     <Compile Include="GUI.Designer.cs">
       <DependentUpon>GUI.cs</DependentUpon>
     </Compile>
+    <Compile Include="Helper\SleepHelper.cs" />
     <Compile Include="Location.cs">
       <SubType>Form</SubType>
     </Compile>
