@@ -429,8 +429,8 @@ namespace PokemonGo.RocketAPI.Console
                 else
                     MessageBox.Show("Succesfully transfered " + transfered + "/" + total + " Pokemons.", "Transfer status", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 Text = "Pokemon List | User: " + profile.PlayerData.Username + " | Pokemons: " + PokemonListView.Items.Count + "/" + profile.PlayerData.MaxPokemonStorage;
-                EnabledButton(true);
             }
+            EnabledButton(true);
         }
         private async void btnUpgrade_Click(object sender, EventArgs e)
         {

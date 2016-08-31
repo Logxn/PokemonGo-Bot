@@ -13,8 +13,8 @@
 	"maxCPtransfer":"Max. CP för att överföra:",
 	"maxIVtransfer":"Max. IV för att överföra:",
 	"telegramSettings":"Telegraminställningar",
-	"infoline1":"Dieser Bot ist kostenlos und Open-Source! Fordere ggf. Geld zurück!",
-	"infoline2":"Wenn du den Namen 'Pokecrot' siehst, teile allen mit, dass dieser gestohlen ist.",
+	"infoline1":"Denna Bot är helt gratis och open-source!",
+	"infoline2":"Om du har betalat för den, begär om pengarna tillbaka omedelbart!",
 	"maxPokeballs":"Max. PokéBollar:",
 	"maxGreatballs":"Max. GreatBollar:",
 	"maxUltraballs":"Max. UltraBollar:",
@@ -46,31 +46,31 @@
 
 WARNING other translations:
  
- General			t: Allmänt
- Account Info		t: Kontoinformation
- Latitude			t: Latitud
- Longitude			t: Longitud
- Altitude	 		t: Altitud
- Km/h				t: Km/tim
- Name				t: Namn
- Live-Stats delay	t: Live-Status fördröjning
- miliSec			t: Milisekunder
- Random sleep @...	t: Slumpmässig sömn @Fångst 1-3 sekunder
+ General				t: Allmänt
+ Account Info				t: Kontoinformation
+ Latitude				t: Latitud
+ Longitude				t: Longitud
+ Altitude	 			t: Altitud
+ Km/h					t: Km/tim
+ Name					t: Namn
+ Live-Stats delay			t: Live-Status fördröjning
+ miliSec				t: Milisekunder
+ Random sleep @...			t: Slumpmässig sömn @Fångst 1-3 sekunder
  Device				t: Enhet
- Your Version		t: Din Version
+ Your Version				t: Din Version
  Newest				t: Nyaste
  
- TransferFirstLowIV	t: Överför första låga IV
+ TransferFirstLowIV			t: Överför första låga IV
  
- Items				t: Föremål
+ Items					t: Föremål
  Warning: Dont set Pokeballs to...
  					t: Varning: Ange inte 0 i rutan för PokéBollar.
  					   Programmet kommer automatiskt välja den bästa.
  
- Use Proxies		t: Använd Proxies
- Use Authentication	t: Använd Autentisering
- Save Proxy			t: Spara Proxy
- Disable Proxy		t: Inaktivera Proxy
+ Use Proxies				t: Använd Proxies
+ Use Authentication			t: Använd Autentisering
+ Save Proxy				t: Spara Proxy
+ Disable Proxy				t: Inaktivera Proxy
  
  If you run more than one instance...
 					t: Om du kör mer än en instans med samma IP kommer du att bli bannad.

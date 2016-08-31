@@ -8,6 +8,8 @@ Features
 > - Pokemon Gui with stats of the Pokemon.
 > - Livemap with Pokestop information on it.
 > - Navigation Logic
+> - Random Throws (Curved, nice..)
+> - Real Animation waiting time
 > - Open Source
 > - Security
 
