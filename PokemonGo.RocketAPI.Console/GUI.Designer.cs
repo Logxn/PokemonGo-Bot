@@ -1599,6 +1599,7 @@
             // checkBox22
             // 
             this.checkBox22.AutoSize = true;
+            this.checkBox22.Enabled = false;
             this.checkBox22.Location = new System.Drawing.Point(41, 258);
             this.checkBox22.Margin = new System.Windows.Forms.Padding(4);
             this.checkBox22.Name = "checkBox22";
@@ -1622,6 +1623,7 @@
             // linkLabel6
             // 
             this.linkLabel6.AutoSize = true;
+            this.linkLabel6.Enabled = false;
             this.linkLabel6.Location = new System.Drawing.Point(37, 82);
             this.linkLabel6.Name = "linkLabel6";
             this.linkLabel6.Size = new System.Drawing.Size(207, 17);
@@ -1632,6 +1634,7 @@
             // 
             // textBox33
             // 
+            this.textBox33.Enabled = false;
             this.textBox33.Location = new System.Drawing.Point(78, 53);
             this.textBox33.Margin = new System.Windows.Forms.Padding(4);
             this.textBox33.Name = "textBox33";
@@ -1745,7 +1748,6 @@
             this.textBox32.Name = "textBox32";
             this.textBox32.Size = new System.Drawing.Size(132, 22);
             this.textBox32.TabIndex = 54;
-            this.textBox32.Text = "150000";
             this.textBox32.TextChanged += new System.EventHandler(this.textBox32_TextChanged);
             // 
             // label43
@@ -1766,7 +1768,6 @@
             this.textBox31.Name = "textBox31";
             this.textBox31.Size = new System.Drawing.Size(132, 22);
             this.textBox31.TabIndex = 52;
-            this.textBox31.Text = "2000";
             this.textBox31.TextChanged += new System.EventHandler(this.textBox31_TextChanged);
             // 
             // label42
@@ -1787,7 +1788,6 @@
             this.textBox30.Name = "textBox30";
             this.textBox30.Size = new System.Drawing.Size(132, 22);
             this.textBox30.TabIndex = 50;
-            this.textBox30.Text = "1000";
             this.textBox30.TextChanged += new System.EventHandler(this.textBox30_TextChanged);
             // 
             // label40
@@ -1808,7 +1808,6 @@
             this.textBox27.Name = "textBox27";
             this.textBox27.Size = new System.Drawing.Size(132, 22);
             this.textBox27.TabIndex = 42;
-            this.textBox27.Text = "480";
             this.textBox27.TextChanged += new System.EventHandler(this.textBox27_TextChanged_1);
             // 
             // groupBox12
@@ -1845,7 +1844,6 @@
             this.textBox34.Name = "textBox34";
             this.textBox34.Size = new System.Drawing.Size(132, 22);
             this.textBox34.TabIndex = 68;
-            this.textBox34.Text = "3";
             this.textBox34.TextChanged += new System.EventHandler(this.textBox34_TextChanged);
             // 
             // label41
@@ -1866,7 +1864,6 @@
             this.textBox28.Name = "textBox28";
             this.textBox28.Size = new System.Drawing.Size(132, 22);
             this.textBox28.TabIndex = 64;
-            this.textBox28.Text = "50";
             this.textBox28.TextChanged += new System.EventHandler(this.textBox28_TextChanged);
             // 
             // textBox29
@@ -1876,7 +1873,6 @@
             this.textBox29.Name = "textBox29";
             this.textBox29.Size = new System.Drawing.Size(132, 22);
             this.textBox29.TabIndex = 66;
-            this.textBox29.Text = "10";
             this.textBox29.TextChanged += new System.EventHandler(this.textBox29_TextChanged);
             // 
             // label32
