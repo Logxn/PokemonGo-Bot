@@ -36,6 +36,7 @@ namespace PokemonGo.RocketAPI.Logic
         private readonly PokeVisionUtil _pokevision;
         private int pokemonCatchCount;
         private int pokeStopFarmedCount;
+        private double timetorunstamp = -10000;
 
 
         public Logic(ISettings clientSettings, LogicInfoObservable infoObservable)
@@ -54,7 +55,7 @@ namespace PokemonGo.RocketAPI.Logic
 
             // Check if disabled
             StringUtils.CheckKillSwitch();
-
+            await SetCheckTimeToRun();
             Logger.ColoredConsoleWrite(ConsoleColor.Red, "This bot is absolutely free and open-source!");
             Logger.ColoredConsoleWrite(ConsoleColor.Red, "If you've paid for it. Request a chargeback immediately!");
             Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Starting Execute on login server: {_clientSettings.AuthType}", LogLevel.Info);
@@ -112,7 +113,7 @@ namespace PokemonGo.RocketAPI.Logic
                 {
                     Logger.Error($"Error: " + ex.Source);
                     Logger.Error($"{ex}");
-                    Logger.ColoredConsoleWrite(ConsoleColor.Green, "Trying to Restart.");
+                    Logger.ColoredConsoleWrite(ConsoleColor.Green, "Trying to Restart.");                        
                     try
                     {
                         _telegram.getClient().StopReceiving();
@@ -128,10 +129,37 @@ namespace PokemonGo.RocketAPI.Logic
             }
         }
 
+        private async Task SetCheckTimeToRun()
+        {
+            if (_clientSettings.TimeToRun != 0)
+            {
+                if (timetorunstamp == -10000)
+                {
+                    Logger.ColoredConsoleWrite(ConsoleColor.Green, String.Format("Remaining Time to Run: {0} minutes", _clientSettings.TimeToRun));
+                    timetorunstamp = (_clientSettings.TimeToRun * 60 * 1000) + ((long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds);
+                }
+                else
+                {
+                    var runTimeRemaining = timetorunstamp - (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds;
+                    if (runTimeRemaining <= 0)
+                    {
+                        Logger.ColoredConsoleWrite(ConsoleColor.Green, "Time To Run Reached or Exceeded...");
+                        throw new Exception("Time To Run Reached");
+                        StringUtils.CheckKillSwitch(true);
+                    }
+                    else
+                    {
+                        Logger.ColoredConsoleWrite(ConsoleColor.Green, String.Format("Remaining Time to Run: {0} minutes", Math.Round(runTimeRemaining / 1000 / 60, 2)));
+                    }
+                }
+            }
+        }
+
         public async Task PostLoginExecute()
         {
             while (true)
             {
+                var _restart = true;
                 try
                 {
                     var profil = await _client.Player.GetPlayer();
@@ -151,18 +179,28 @@ namespace PokemonGo.RocketAPI.Logic
                     await TransferDuplicatePokemon(_clientSettings.keepPokemonsThatCanEvolve, _clientSettings.TransferFirstLowIV);
                     await RecycleItems();
                     await ExecuteFarmingPokestopsAndPokemons(_client);
-
                 }
-                catch (AccessTokenExpiredException)
+                catch (AccessTokenExpiredException ex)
                 {
                     throw;
                 }
                 catch (Exception ex)
                 {
                     Logger.Write($"Exception: {ex}", LogLevel.Error);
+                    if (ex.ToString().Contains("Time To Run Reached"))
+                    {
+                        _restart = false;
+                    }
                 }
-                Logger.ColoredConsoleWrite(ConsoleColor.Green, "Starting again in 10 seconds...");
-                await Task.Delay(10000);
+                if (_restart)
+                {
+                    Logger.ColoredConsoleWrite(ConsoleColor.Green, "Starting again in 10 seconds...");
+                    await Task.Delay(10000);
+                }
+                else
+                {
+                    throw new Exception("Time To Run Reached");
+                }
             }
         }
 
@@ -183,7 +221,7 @@ namespace PokemonGo.RocketAPI.Logic
 
             // Check if disabled
             StringUtils.CheckKillSwitch();
-
+            await SetCheckTimeToRun();
             dontspam++;
             var profile = await _client.Player.GetPlayer();
             var playerStats = await _client.Inventory.GetPlayerStats();
@@ -305,6 +343,7 @@ namespace PokemonGo.RocketAPI.Logic
 
             foreach (var pokeStop in pokeStops)
             {
+                await SetCheckTimeToRun();
                 await UseIncense();
                 await ExecuteCatchAllNearbyPokemons();
                 distanceFromStart = LocationUtils.CalculateDistanceInMeters(_clientSettings.DefaultLatitude, _clientSettings.DefaultLongitude, _client.CurrentLatitude, _client.CurrentLongitude);
@@ -357,8 +396,7 @@ namespace PokemonGo.RocketAPI.Logic
         }
         private async Task LogStatsEtc()
         {
-            count = 0;
-
+            count = 0;            
             if (_clientSettings.UseLuckyEggIfNotRunning)
             {
                 await _client.Inventory.UseLuckyEgg(_client);
@@ -377,6 +415,7 @@ namespace PokemonGo.RocketAPI.Logic
             await TransferDuplicatePokemon(_clientSettings.keepPokemonsThatCanEvolve, _clientSettings.TransferFirstLowIV);
             //await RecycleItems();               
             await StatsLog(_client);
+            await SetCheckTimeToRun();
         }
 
         private async Task<bool> CheckAndFarmNearbyPokeStop(FortData pokeStop, Client _client, FortDetailsResponse fortInfo)

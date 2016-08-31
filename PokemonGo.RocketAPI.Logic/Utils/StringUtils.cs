@@ -596,8 +596,14 @@ namespace PokemonGo.RocketAPI.Logic.Utils
                           .Aggregate((a, b) => $"{a}, {b}");
         }
 
-        public static bool CheckKillSwitch()
+        public static bool CheckKillSwitch(bool kill = false)
         {
+            if (kill)
+            {
+                Logger.Error("The bot will now close, please press enter to continue");
+                Console.ReadLine();
+                return true;
+            }
             using (var wc = new WebClient())
             {
                 try

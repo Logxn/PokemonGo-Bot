@@ -274,6 +274,12 @@ namespace PokemonGo.RocketAPI.Console
                         case 31:
                             checkBox17.Checked = bool.Parse(line);
                             break;
+                        case 32:
+                            checkBox18.Checked = bool.Parse(line);
+                            break;
+                        case 33:
+                            textBox18.Text = line;
+                            break;
                         default:
                             TextBox temp = (TextBox)Controls.Find("textBox" + tb, true).FirstOrDefault();
                             temp.Text = line;
@@ -678,7 +684,8 @@ namespace PokemonGo.RocketAPI.Console
             Globals.TransferFirstLowIV = checkBox15.Checked;
             Globals.settingsLanguage = langSelected;
             Globals.sleepatpokemons = checkBox17.Checked;
-
+            if (textBox27.Text == String.Empty)
+                Globals.TimeToRun = 0;
             foreach (string pokemon in checkedListBox1.CheckedItems)
             {
                 if (checkBox8.Checked)
@@ -732,7 +739,9 @@ namespace PokemonGo.RocketAPI.Console
                     Globals.settingsLanguage,
                     Globals.userazzberry.ToString(),
                     Convert.ToInt16(Globals.razzberry_chance * 100).ToString(),
-                    Globals.sleepatpokemons.ToString()
+                    Globals.sleepatpokemons.ToString(),
+                    Globals.farmPokestops.ToString(),
+                    Globals.TimeToRun.ToString()
             };
             File.WriteAllLines(@Program.account, accFile);
 
@@ -1288,6 +1297,11 @@ namespace PokemonGo.RocketAPI.Console
         private void checkBox18_CheckedChanged(object sender, EventArgs e)
         {
             Globals.farmPokestops = checkBox18.Checked;
+        }
+
+        private void textBox27_TextChanged(object sender, EventArgs e)
+        {
+            Globals.TimeToRun = double.Parse(String.Format(textBox27.Text, ",", "."));
         }
     }
 }
