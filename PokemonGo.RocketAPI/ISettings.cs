@@ -76,5 +76,7 @@ namespace PokemonGo.RocketAPI
         bool pauseAtPokeStop { get; set; }
         bool FarmPokestops { get; set; }
         double TimeToRun { get; set; }
+        int PokemonCatchLimit { get; set; }
+        int PokestopFarmLimit { get; set; }
     }
 }

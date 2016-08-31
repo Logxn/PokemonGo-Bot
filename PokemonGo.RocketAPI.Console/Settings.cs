@@ -259,5 +259,15 @@ namespace PokemonGo.RocketAPI.Console
             get { return Globals.TimeToRun; }
             set { Globals.TimeToRun = value; }
         }
+        public int PokemonCatchLimit
+        {
+            get { return Globals.PokemonCatchLimit; }
+            set { Globals.PokemonCatchLimit = value; }
+        }
+        public int PokestopFarmLimit
+        {
+            get { return Globals.PokestopFarmLimit; }
+            set { Globals.PokestopFarmLimit = value; }
+        }
     }
 }

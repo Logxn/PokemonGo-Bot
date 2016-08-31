@@ -430,6 +430,8 @@ namespace PokemonGo.RocketAPI.Console
         public static bool pauseAtPokeStop = false;
         public static bool farmPokestops = true;
         public static double TimeToRun;
+        public static int PokemonCatchLimit = 1000;
+        public static int PokestopFarmLimit = 2000;
         public static int navigation_option = 1;
         public static bool useluckyegg = true;
         public static bool useincense = true;
