@@ -65,7 +65,7 @@
             this.PokemonListView.FullRowSelect = true;
             this.PokemonListView.GridLines = true;
             this.PokemonListView.Location = new System.Drawing.Point(16, 32);
-            this.PokemonListView.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.PokemonListView.Margin = new System.Windows.Forms.Padding(4);
             this.PokemonListView.Name = "PokemonListView";
             this.PokemonListView.Size = new System.Drawing.Size(839, 416);
             this.PokemonListView.TabIndex = 0;
@@ -76,7 +76,7 @@
             // 
             this.btnreload.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnreload.Location = new System.Drawing.Point(16, 457);
-            this.btnreload.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnreload.Margin = new System.Windows.Forms.Padding(4);
             this.btnreload.Name = "btnreload";
             this.btnreload.Size = new System.Drawing.Size(181, 28);
             this.btnreload.TabIndex = 1;
@@ -88,7 +88,7 @@
             // 
             this.btnEvolve.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnEvolve.Location = new System.Drawing.Point(17, 492);
-            this.btnEvolve.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnEvolve.Margin = new System.Windows.Forms.Padding(4);
             this.btnEvolve.Name = "btnEvolve";
             this.btnEvolve.Size = new System.Drawing.Size(180, 28);
             this.btnEvolve.TabIndex = 2;
@@ -100,7 +100,7 @@
             // 
             this.btnUpgrade.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnUpgrade.Location = new System.Drawing.Point(207, 492);
-            this.btnUpgrade.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnUpgrade.Margin = new System.Windows.Forms.Padding(4);
             this.btnUpgrade.Name = "btnUpgrade";
             this.btnUpgrade.Size = new System.Drawing.Size(180, 28);
             this.btnUpgrade.TabIndex = 3;
@@ -112,7 +112,7 @@
             // 
             this.btnTransfer.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnTransfer.Location = new System.Drawing.Point(583, 492);
-            this.btnTransfer.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnTransfer.Margin = new System.Windows.Forms.Padding(4);
             this.btnTransfer.Name = "btnTransfer";
             this.btnTransfer.Size = new System.Drawing.Size(180, 28);
             this.btnTransfer.TabIndex = 4;
@@ -128,28 +128,28 @@
             this.powerUpToolStripMenuItem,
             this.evolveToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(144, 82);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(138, 76);
             this.contextMenuStrip1.Closing += new System.Windows.Forms.ToolStripDropDownClosingEventHandler(this.contextMenuStrip1_Closing);
             this.contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
             // 
             // transferToolStripMenuItem
             // 
             this.transferToolStripMenuItem.Name = "transferToolStripMenuItem";
-            this.transferToolStripMenuItem.Size = new System.Drawing.Size(143, 26);
+            this.transferToolStripMenuItem.Size = new System.Drawing.Size(137, 24);
             this.transferToolStripMenuItem.Text = "Transfer";
             this.transferToolStripMenuItem.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
             // 
             // powerUpToolStripMenuItem
             // 
             this.powerUpToolStripMenuItem.Name = "powerUpToolStripMenuItem";
-            this.powerUpToolStripMenuItem.Size = new System.Drawing.Size(143, 26);
+            this.powerUpToolStripMenuItem.Size = new System.Drawing.Size(137, 24);
             this.powerUpToolStripMenuItem.Text = "PowerUp";
             this.powerUpToolStripMenuItem.Click += new System.EventHandler(this.powerUpToolStripMenuItem_Click);
             // 
             // evolveToolStripMenuItem
             // 
             this.evolveToolStripMenuItem.Name = "evolveToolStripMenuItem";
-            this.evolveToolStripMenuItem.Size = new System.Drawing.Size(143, 26);
+            this.evolveToolStripMenuItem.Size = new System.Drawing.Size(137, 24);
             this.evolveToolStripMenuItem.Text = "Evolve";
             this.evolveToolStripMenuItem.Visible = false;
             this.evolveToolStripMenuItem.Click += new System.EventHandler(this.evolveToolStripMenuItem_Click);
@@ -160,7 +160,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.statusTexbox.Enabled = false;
             this.statusTexbox.Location = new System.Drawing.Point(16, 528);
-            this.statusTexbox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.statusTexbox.Margin = new System.Windows.Forms.Padding(4);
             this.statusTexbox.Name = "statusTexbox";
             this.statusTexbox.Size = new System.Drawing.Size(837, 22);
             this.statusTexbox.TabIndex = 5;
@@ -170,7 +170,7 @@
             this.checkBoxreload.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.checkBoxreload.AutoSize = true;
             this.checkBoxreload.Location = new System.Drawing.Point(207, 464);
-            this.checkBoxreload.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.checkBoxreload.Margin = new System.Windows.Forms.Padding(4);
             this.checkBoxreload.Name = "checkBoxreload";
             this.checkBoxreload.Size = new System.Drawing.Size(114, 21);
             this.checkBoxreload.TabIndex = 6;
@@ -182,7 +182,7 @@
             // 
             this.reloadsecondstextbox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.reloadsecondstextbox.Location = new System.Drawing.Point(336, 460);
-            this.reloadsecondstextbox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.reloadsecondstextbox.Margin = new System.Windows.Forms.Padding(4);
             this.reloadsecondstextbox.Name = "reloadsecondstextbox";
             this.reloadsecondstextbox.Size = new System.Drawing.Size(48, 22);
             this.reloadsecondstextbox.TabIndex = 7;
@@ -208,7 +208,7 @@
             // 
             this.btnFullPowerUp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnFullPowerUp.Location = new System.Drawing.Point(395, 492);
-            this.btnFullPowerUp.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnFullPowerUp.Margin = new System.Windows.Forms.Padding(4);
             this.btnFullPowerUp.Name = "btnFullPowerUp";
             this.btnFullPowerUp.Size = new System.Drawing.Size(180, 28);
             this.btnFullPowerUp.TabIndex = 11;
@@ -222,7 +222,7 @@
             this.lang_spain_btn2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.lang_spain_btn2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.lang_spain_btn2.Location = new System.Drawing.Point(97, 6);
-            this.lang_spain_btn2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.lang_spain_btn2.Margin = new System.Windows.Forms.Padding(4);
             this.lang_spain_btn2.Name = "lang_spain_btn2";
             this.lang_spain_btn2.Size = new System.Drawing.Size(32, 18);
             this.lang_spain_btn2.TabIndex = 15;
@@ -235,7 +235,7 @@
             this.lang_de_btn_2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.lang_de_btn_2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.lang_de_btn_2.Location = new System.Drawing.Point(57, 6);
-            this.lang_de_btn_2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.lang_de_btn_2.Margin = new System.Windows.Forms.Padding(4);
             this.lang_de_btn_2.Name = "lang_de_btn_2";
             this.lang_de_btn_2.Size = new System.Drawing.Size(32, 18);
             this.lang_de_btn_2.TabIndex = 14;
@@ -249,7 +249,7 @@
             this.lang_en_btn2.Enabled = false;
             this.lang_en_btn2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.lang_en_btn2.Location = new System.Drawing.Point(17, 6);
-            this.lang_en_btn2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.lang_en_btn2.Margin = new System.Windows.Forms.Padding(4);
             this.lang_en_btn2.Name = "lang_en_btn2";
             this.lang_en_btn2.Size = new System.Drawing.Size(32, 18);
             this.lang_en_btn2.TabIndex = 13;
@@ -261,7 +261,7 @@
             this.btnShowMap.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnShowMap.Image = global::PokemonGo.RocketAPI.Console.Properties.Resources.map;
             this.btnShowMap.Location = new System.Drawing.Point(779, 457);
-            this.btnShowMap.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnShowMap.Margin = new System.Windows.Forms.Padding(4);
             this.btnShowMap.Name = "btnShowMap";
             this.btnShowMap.Size = new System.Drawing.Size(77, 64);
             this.btnShowMap.TabIndex = 12;
@@ -274,7 +274,7 @@
             this.lang_ptBR_btn2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.lang_ptBR_btn2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.lang_ptBR_btn2.Location = new System.Drawing.Point(137, 6);
-            this.lang_ptBR_btn2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.lang_ptBR_btn2.Margin = new System.Windows.Forms.Padding(4);
             this.lang_ptBR_btn2.Name = "lang_ptBR_btn2";
             this.lang_ptBR_btn2.Size = new System.Drawing.Size(32, 18);
             this.lang_ptBR_btn2.TabIndex = 42;
@@ -292,7 +292,7 @@
             this.lang_tr_btn2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.lang_tr_btn2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.lang_tr_btn2.Location = new System.Drawing.Point(177, 6);
-            this.lang_tr_btn2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.lang_tr_btn2.Margin = new System.Windows.Forms.Padding(4);
             this.lang_tr_btn2.Name = "lang_tr_btn2";
             this.lang_tr_btn2.Size = new System.Drawing.Size(32, 18);
             this.lang_tr_btn2.TabIndex = 42;
@@ -307,7 +307,7 @@
             this.btnForceUnban.Name = "btnForceUnban";
             this.btnForceUnban.Size = new System.Drawing.Size(180, 28);
             this.btnForceUnban.TabIndex = 43;
-            this.btnForceUnban.Text = "Force Unban";
+            this.btnForceUnban.Text = "Pause Walking";
             this.btnForceUnban.UseVisualStyleBackColor = true;
             this.btnForceUnban.Click += new System.EventHandler(this.btnForceUnban_Click);
             // 
@@ -334,7 +334,7 @@
             this.Controls.Add(this.btnreload);
             this.Controls.Add(this.PokemonListView);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.MinimumSize = new System.Drawing.Size(886, 603);
             this.Name = "Pokemons";
             this.Text = "Pokemon List";

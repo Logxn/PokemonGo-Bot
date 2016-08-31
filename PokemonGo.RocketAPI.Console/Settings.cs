@@ -254,5 +254,10 @@ namespace PokemonGo.RocketAPI.Console
             get { return Globals.farmPokestops; }
             set { Globals.farmPokestops = value; }
         }
+        public double TimeToRun
+        {
+            get { return Globals.TimeToRun; }
+            set { Globals.TimeToRun = value; }
+        }
     }
 }

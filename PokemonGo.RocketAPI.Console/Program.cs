@@ -429,6 +429,7 @@ namespace PokemonGo.RocketAPI.Console
         public static int telDelay = 5000;
         public static bool pauseAtPokeStop = false;
         public static bool farmPokestops = true;
+        public static double TimeToRun;
         public static int navigation_option = 1;
         public static bool useluckyegg = true;
         public static bool useincense = true;
