@@ -274,6 +274,12 @@ namespace PokemonGo.RocketAPI.Console
                         case 31:
                             checkBox17.Checked = bool.Parse(line);
                             break;
+                        case 32:
+                            checkBox18.Checked = bool.Parse(line);
+                            break;
+                        case 33:
+                            textBox18.Text = line;
+                            break;
                         default:
                             TextBox temp = (TextBox)Controls.Find("textBox" + tb, true).FirstOrDefault();
                             temp.Text = line;
@@ -678,7 +684,8 @@ namespace PokemonGo.RocketAPI.Console
             Globals.TransferFirstLowIV = checkBox15.Checked;
             Globals.settingsLanguage = langSelected;
             Globals.sleepatpokemons = checkBox17.Checked;
-
+            if (textBox27.Text == String.Empty)
+                Globals.TimeToRun = 0;
             foreach (string pokemon in checkedListBox1.CheckedItems)
             {
                 if (checkBox8.Checked)
@@ -732,7 +739,9 @@ namespace PokemonGo.RocketAPI.Console
                     Globals.settingsLanguage,
                     Globals.userazzberry.ToString(),
                     Convert.ToInt16(Globals.razzberry_chance * 100).ToString(),
-                    Globals.sleepatpokemons.ToString()
+                    Globals.sleepatpokemons.ToString(),
+                    Globals.farmPokestops.ToString(),
+                    Globals.TimeToRun.ToString()
             };
             File.WriteAllLines(@Program.account, accFile);
 
@@ -1283,6 +1292,87 @@ namespace PokemonGo.RocketAPI.Console
         private void checkBox17_CheckedChanged(object sender, EventArgs e)
         {
             Globals.sleepatpokemons = checkBox17.Checked;
+        }
+
+        private void checkBox18_CheckedChanged(object sender, EventArgs e)
+        {
+            Globals.farmPokestops = checkBox18.Checked;
+        }
+
+        private void textBox27_TextChanged_1(object sender, EventArgs e)
+        {
+            double.TryParse(textBox27.Text, out Globals.TimeToRun);
+        }
+
+        private void checkBox22_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void linkLabel6_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            ProcessStartInfo sInfo = new ProcessStartInfo("https://developers.google.com/maps/documentation/directions/start#get-a-key/");
+            Process.Start(sInfo);
+        }
+
+        private void checkBox21_CheckedChanged(object sender, EventArgs e)
+        {
+            Globals.UseLureAtBreak = checkBox21.Checked;
+        }
+
+        private void label46_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox30_TextChanged(object sender, EventArgs e)
+        {
+            int.TryParse(textBox30.Text, out Globals.PokemonCatchLimit);
+        }
+
+        private void textBox31_TextChanged(object sender, EventArgs e)
+        {
+            int.TryParse(textBox31.Text, out Globals.PokestopFarmLimit);
+        }
+
+        private void textBox32_TextChanged(object sender, EventArgs e)
+        {
+            int.TryParse(textBox32.Text, out Globals.XPFarmedLimit);
+        }
+
+        private void textBox28_TextChanged(object sender, EventArgs e)
+        {
+            int.TryParse(textBox28.Text, out Globals.BreakInterval);
+        }
+
+        private void textBox29_TextChanged(object sender, EventArgs e)
+        {
+            int.TryParse(textBox29.Text, out Globals.BreakLength);
+        }
+
+        private void textBox34_TextChanged(object sender, EventArgs e)
+        {
+            int.TryParse(textBox34.Text, out Globals.MinWalkSpeed);
+        }
+
+        private void checkBox18_CheckedChanged_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void checkBox19_CheckedChanged(object sender, EventArgs e)
+        {
+            Globals.CatchPokemon = checkBox19.Checked;
+        }
+
+        private void checkBox20_CheckedChanged(object sender, EventArgs e)
+        {
+            Globals.BreakAtLure = checkBox20.Checked;
+        }
+
+        private void checkBox23_CheckedChanged(object sender, EventArgs e)
+        {
+            Globals.RandomReduceSpeed = checkBox23.Checked;
         }
     }
 }
