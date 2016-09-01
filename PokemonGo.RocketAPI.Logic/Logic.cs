@@ -158,7 +158,7 @@ namespace PokemonGo.RocketAPI.Logic
                 }
                 if (pausetimestamp == -10000 && _clientSettings.BreakInterval > 0)
                 {
-                    pausetimestamp = (DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds + _clientSettings.BreakInterval * 60 * 1000;
+                    pausetimestamp = (DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds + _clientSettings.BreakInterval * 60 * 1000;                       
                 }
                 //Add logic to set pause time here for now
                 if (resumetimestamp != -10000 && (DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds >= resumetimestamp)
@@ -176,7 +176,10 @@ namespace PokemonGo.RocketAPI.Logic
                 {
                     _clientSettings.pauseAtPokeStop = true;
                     if (_clientSettings.BreakLength > 0)
+                    {
                         resumetimestamp = (DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds + _clientSettings.BreakLength;
+                        Logger.ColoredConsoleWrite(ConsoleColor.Green, "Break interval reached, pausing at next pokestop for " + (resumetimestamp - (DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds) + " minutes!");
+                    }
                     else
                     {
                         resumetimestamp = (DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds + 10 * 60 * 1000;
