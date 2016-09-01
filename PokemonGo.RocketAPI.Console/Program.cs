@@ -8,6 +8,7 @@ using System.Threading;
 using System.Windows.Forms;
 using System.Collections.Generic;
 using System.IO;
+using PokemonGo.RocketAPI.Console.Helper;
 using PokemonGo.RocketAPI.Logic.Utils;
 using POGOProtos.Enums;
 
@@ -29,6 +30,7 @@ namespace PokemonGo.RocketAPI.Console
         [STAThread]
         static void Main(string[] args)
         {
+            SleepHelper.PreventSleep();
             if (args != null && args.Length > 0)
             {
                 foreach (string arg in args)
@@ -324,6 +326,7 @@ namespace PokemonGo.RocketAPI.Console
                 }
             });
             System.Console.ReadLine();
+            SleepHelper.AllowSleep();
         }
 
         private static void SaveHuntStats(string newHuntStat)
