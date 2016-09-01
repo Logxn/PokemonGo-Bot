@@ -180,6 +180,7 @@
             this.lang_de_btn = new System.Windows.Forms.Button();
             this.lang_en_btn = new System.Windows.Forms.Button();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.label47 = new System.Windows.Forms.Label();
             this.tabPage1.SuspendLayout();
             this.tabItems.SuspendLayout();
             this.groupBox4.SuspendLayout();
@@ -972,6 +973,7 @@
             // 
             // comboBox1
             // 
+            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox1.FormattingEnabled = true;
             this.comboBox1.Location = new System.Drawing.Point(125, 16);
             this.comboBox1.Margin = new System.Windows.Forms.Padding(4);
@@ -1359,6 +1361,7 @@
             // 
             // comboBox2
             // 
+            this.comboBox2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox2.FormattingEnabled = true;
             this.comboBox2.Items.AddRange(new object[] {
             "lg-optimus-g",
@@ -1392,7 +1395,6 @@
             this.comboBox2.Name = "comboBox2";
             this.comboBox2.Size = new System.Drawing.Size(244, 24);
             this.comboBox2.TabIndex = 38;
-            this.comboBox2.Text = "galaxy6";
             this.comboBox2.SelectedIndexChanged += new System.EventHandler(this.comboBox2_SelectedIndexChanged);
             // 
             // label33
@@ -1588,7 +1590,7 @@
             // label45
             // 
             this.label45.AutoSize = true;
-            this.label45.Location = new System.Drawing.Point(37, 287);
+            this.label45.Location = new System.Drawing.Point(33, 309);
             this.label45.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label45.Name = "label45";
             this.label45.Size = new System.Drawing.Size(61, 17);
@@ -1600,7 +1602,7 @@
             // 
             this.checkBox22.AutoSize = true;
             this.checkBox22.Enabled = false;
-            this.checkBox22.Location = new System.Drawing.Point(41, 258);
+            this.checkBox22.Location = new System.Drawing.Point(37, 280);
             this.checkBox22.Margin = new System.Windows.Forms.Padding(4);
             this.checkBox22.Name = "checkBox22";
             this.checkBox22.Size = new System.Drawing.Size(196, 21);
@@ -1613,12 +1615,12 @@
             // 
             this.groupBox13.Controls.Add(this.linkLabel6);
             this.groupBox13.Controls.Add(this.textBox33);
-            this.groupBox13.Location = new System.Drawing.Point(28, 231);
+            this.groupBox13.Location = new System.Drawing.Point(24, 253);
             this.groupBox13.Name = "groupBox13";
             this.groupBox13.Size = new System.Drawing.Size(295, 115);
             this.groupBox13.TabIndex = 60;
             this.groupBox13.TabStop = false;
-            this.groupBox13.Text = "Routing Settings";
+            this.groupBox13.Text = "Routing Settings (not finished)";
             // 
             // linkLabel6
             // 
@@ -1710,10 +1712,11 @@
             // 
             // groupBox11
             // 
+            this.groupBox11.Controls.Add(this.label47);
             this.groupBox11.Controls.Add(this.checkBox23);
             this.groupBox11.Location = new System.Drawing.Point(28, 27);
             this.groupBox11.Name = "groupBox11";
-            this.groupBox11.Size = new System.Drawing.Size(295, 194);
+            this.groupBox11.Size = new System.Drawing.Size(295, 212);
             this.groupBox11.TabIndex = 59;
             this.groupBox11.TabStop = false;
             this.groupBox11.Text = "Walk Options";
@@ -1997,6 +2000,17 @@
             this.pictureBox2.TabStop = false;
             this.pictureBox2.Click += new System.EventHandler(this.pictureBox2_Click);
             // 
+            // label47
+            // 
+            this.label47.AutoSize = true;
+            this.label47.Location = new System.Drawing.Point(40, 183);
+            this.label47.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label47.Name = "label47";
+            this.label47.Size = new System.Drawing.Size(241, 17);
+            this.label47.TabIndex = 70;
+            this.label47.Text = "(requires a value in Min Walk Speed)";
+            this.label47.UseMnemonic = false;
+            // 
             // GUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -2216,6 +2230,7 @@
         private System.Windows.Forms.TextBox textBox28;
         private System.Windows.Forms.TextBox textBox29;
         private System.Windows.Forms.Label label32;
+        private System.Windows.Forms.Label label47;
     }
 }
 
