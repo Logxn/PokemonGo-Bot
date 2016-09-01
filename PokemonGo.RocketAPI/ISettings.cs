@@ -49,7 +49,7 @@ namespace PokemonGo.RocketAPI
         bool UseIncense { get; }
 
         bool AutoIncubate { get; }
-        bool UseBasicIncubators { get; } 
+        bool UseBasicIncubators { get; }
 
         bool pokevision { get; }
 
@@ -64,7 +64,7 @@ namespace PokemonGo.RocketAPI
 
         bool UseProxyVerified { get; set; }
         bool UseProxyAuthentication { get; set; }
-        
+
         ICollection<KeyValuePair<ItemId, int>> itemRecycleFilter { get; set; }
 
         List<PokemonId> pokemonsToHold { get; set; }
@@ -75,6 +75,16 @@ namespace PokemonGo.RocketAPI
         string SelectedLanguage { get; }
         bool pauseAtPokeStop { get; set; }
         bool FarmPokestops { get; set; }
+        bool CatchPokemon { get; set; }
+        bool BreakAtLure { get; set; }
+        bool UseLureAtBreak { get; set; }
+        bool RandomReduceSpeed { get; set; }
         double TimeToRun { get; set; }
+        int PokemonCatchLimit { get; set; }
+        int PokestopFarmLimit { get; set; }
+        int XPFarmedLimit { get; set; }
+        int BreakInterval { get; set; }
+        int BreakLength { get; set; }
+        int MinWalkSpeed { get; set; }
     }
 }

@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 
 namespace PokemonGo.RocketAPI.Console
-{ 
+{
     public class Settings : ISettings
     {
         public bool UseLastCords => true; // Only disable this if your sure what you're doing!
@@ -51,10 +51,10 @@ namespace PokemonGo.RocketAPI.Console
         public double razzberry_chance => Globals.razzberry_chance;
         public bool keepPokemonsThatCanEvolve => Globals.keepPokemonsThatCanEvolve;
         public bool TransferFirstLowIV => Globals.TransferFirstLowIV;
- 
+
         public bool UseBasicIncubators => Globals.useBasicIncubators;
         public bool pokevision => Globals.pokevision;
-         
+
         public bool AutoIncubate => Globals.autoIncubate;
         public bool UseLuckyEggIfNotRunning => Globals.useLuckyEggIfNotRunning;
 
@@ -247,17 +247,67 @@ namespace PokemonGo.RocketAPI.Console
         public bool pauseAtPokeStop
         {
             get { return Globals.pauseAtPokeStop; }
-            set { Globals.pauseAtPokeStop = value; }            
+            set { Globals.pauseAtPokeStop = value; }
         }
         public bool FarmPokestops
         {
             get { return Globals.farmPokestops; }
             set { Globals.farmPokestops = value; }
         }
+        public bool CatchPokemon
+        {
+            get { return Globals.CatchPokemon; }
+            set { Globals.CatchPokemon = value; }
+        }
+        public bool BreakAtLure
+        {
+            get { return Globals.BreakAtLure; }
+            set { Globals.BreakAtLure = value; }
+        }
+        public bool UseLureAtBreak
+        {
+            get { return Globals.UseLureAtBreak; }
+            set { Globals.UseLureAtBreak = value; }
+        }
+        public bool RandomReduceSpeed
+        {
+            get { return Globals.RandomReduceSpeed; }
+            set { Globals.RandomReduceSpeed = value; }
+        }
         public double TimeToRun
         {
             get { return Globals.TimeToRun; }
             set { Globals.TimeToRun = value; }
+        }
+        public int PokemonCatchLimit
+        {
+            get { return Globals.PokemonCatchLimit; }
+            set { Globals.PokemonCatchLimit = value; }
+        }
+        public int PokestopFarmLimit
+        {
+            get { return Globals.PokestopFarmLimit; }
+            set { Globals.PokestopFarmLimit = value; }
+        }
+        public int XPFarmedLimit
+        {
+            get { return Globals.XPFarmedLimit; }
+            set { Globals.XPFarmedLimit = value; }
+        }
+        public int BreakInterval
+        {
+            get { return Globals.BreakInterval; }
+            set { Globals.BreakInterval = value; }
+        }
+        public int BreakLength
+        {
+            get { return Globals.BreakLength; }
+            set { Globals.BreakLength = value; }
+        }
+        public int MinWalkSpeed
+        {
+            get { return Globals.MinWalkSpeed; }
+            set { Globals.MinWalkSpeed = value; }
         }
     }
 }

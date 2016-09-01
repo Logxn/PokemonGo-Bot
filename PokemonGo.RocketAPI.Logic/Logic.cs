@@ -37,7 +37,12 @@ namespace PokemonGo.RocketAPI.Logic
         private int pokemonCatchCount;
         private int pokeStopFarmedCount;
         private double timetorunstamp = -10000;
-
+        private double pausetimestamp = -10000;
+        private double resumetimestamp = -10000;
+        private double startingXP = -10000;
+        private double currentxp = -10000;
+        private bool havelures = false;
+        private bool pokeballoutofstock = false;
 
         public Logic(ISettings clientSettings, LogicInfoObservable infoObservable)
         {
@@ -113,7 +118,7 @@ namespace PokemonGo.RocketAPI.Logic
                 {
                     Logger.Error($"Error: " + ex.Source);
                     Logger.Error($"{ex}");
-                    Logger.ColoredConsoleWrite(ConsoleColor.Green, "Trying to Restart.");                        
+                    Logger.ColoredConsoleWrite(ConsoleColor.Green, "Trying to Restart.");
                     try
                     {
                         _telegram.getClient().StopReceiving();
@@ -135,7 +140,7 @@ namespace PokemonGo.RocketAPI.Logic
             {
                 if (timetorunstamp == -10000)
                 {
-                    Logger.ColoredConsoleWrite(ConsoleColor.Green, String.Format("Remaining Time to Run: {0} minutes", _clientSettings.TimeToRun));
+                    Logger.ColoredConsoleWrite(ConsoleColor.Blue, String.Format("Remaining Time to Run: {0} minutes", _clientSettings.TimeToRun));
                     timetorunstamp = (_clientSettings.TimeToRun * 60 * 1000) + ((long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds);
                 }
                 else
@@ -144,13 +149,72 @@ namespace PokemonGo.RocketAPI.Logic
                     if (runTimeRemaining <= 0)
                     {
                         Logger.ColoredConsoleWrite(ConsoleColor.Green, "Time To Run Reached or Exceeded...");
-                        throw new Exception("Time To Run Reached");
                         StringUtils.CheckKillSwitch(true);
                     }
                     else
                     {
-                        Logger.ColoredConsoleWrite(ConsoleColor.Green, String.Format("Remaining Time to Run: {0} minutes", Math.Round(runTimeRemaining / 1000 / 60, 2)));
+                        Logger.ColoredConsoleWrite(ConsoleColor.Blue, String.Format("Remaining Time to Run: {0} minutes", Math.Round(runTimeRemaining / 1000 / 60, 2)));
                     }
+                }
+                if (pausetimestamp == -10000 && _clientSettings.BreakInterval > 0)
+                {
+                    pausetimestamp = (DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds + _clientSettings.BreakInterval * 60 * 1000;
+                }
+                //Add logic to set pause time here for now
+                if (resumetimestamp != -10000 && (DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds >= resumetimestamp)
+                {
+                    _clientSettings.pauseAtPokeStop = false;
+                    Logger.ColoredConsoleWrite(ConsoleColor.Green, "Break over, back to walking!");
+                    if (_clientSettings.BreakInterval > 0)
+                    {
+                        pausetimestamp = (DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds + _clientSettings.BreakInterval * 60 * 1000;
+                    }
+                    else { pausetimestamp = -10000; }
+                    resumetimestamp = -10000;
+                }
+                if (pausetimestamp != -10000 && (DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds >= pausetimestamp)
+                {
+                    _clientSettings.pauseAtPokeStop = true;
+                    if (_clientSettings.BreakLength > 0)
+                        resumetimestamp = (DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds + _clientSettings.BreakLength;
+                    else
+                    {
+                        resumetimestamp = (DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds + 10 * 60 * 1000;
+                        Logger.ColoredConsoleWrite(ConsoleColor.Green, "Break interval reached, pausing at next pokestop for " + (resumetimestamp - (DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds) + " minutes!");
+                    }
+                }
+
+                //Add logic to kill on pokemon pokestop or xp limits here for now
+                if (pokemonCatchCount >= _clientSettings.PokemonCatchLimit)
+                {
+                    if (_clientSettings.FarmPokestops)
+                    {
+                        Logger.ColoredConsoleWrite(ConsoleColor.Green, "Pokemon Catch Limit Reached - Bot will only farm pokestops");
+                        _clientSettings.CatchPokemon = false;
+                    }
+                    else
+                    {
+                        Logger.ColoredConsoleWrite(ConsoleColor.Green, "Pokemon Catch Limit Reached and not farming pokestops - Bot will stop");
+                        StringUtils.CheckKillSwitch(true);
+                    }
+                }
+                if (pokeStopFarmedCount >= _clientSettings.PokestopFarmLimit)
+                {
+                    if (_clientSettings.CatchPokemon)
+                    {
+                        Logger.ColoredConsoleWrite(ConsoleColor.Green, "Pokestop Farmed Limit Reached - Bot will only catch pokemon");
+                        _clientSettings.FarmPokestops = false;
+                    }
+                    else
+                    {
+                        Logger.ColoredConsoleWrite(ConsoleColor.Green, "Pokestop Farmed Limit Reached and not catching pokemon - Bot will stop");
+                        StringUtils.CheckKillSwitch(true);
+                    }
+                }
+                if (startingXP != -10000 && currentxp != -10000 && (currentxp = -startingXP) >= _clientSettings.XPFarmedLimit)
+                {
+                    Logger.ColoredConsoleWrite(ConsoleColor.Green, "XP Farmed Limit Reached - Bot will stop");
+                    StringUtils.CheckKillSwitch(true);
                 }
             }
         }
@@ -230,6 +294,8 @@ namespace PokemonGo.RocketAPI.Logic
             var expneeded = stats.NextLevelXp - stats.PrevLevelXp - StringUtils.getExpDiff(stats.Level);
             var curexp = stats.Experience - stats.PrevLevelXp - StringUtils.getExpDiff(stats.Level);
             var curexppercent = Convert.ToDouble(curexp) / Convert.ToDouble(expneeded) * 100;
+            if (startingXP == -10000) startingXP = stats.Experience;
+            currentxp = stats.Experience;
             var pokemonToEvolve = (await _client.Inventory.GetPokemonToEvolve()).Count();
             var pokedexpercentraw = Convert.ToDouble(stats.UniquePokedexEntries) / Convert.ToDouble(150) * 100;
             var pokedexpercent = Math.Floor(pokedexpercentraw);
@@ -263,6 +329,10 @@ namespace PokemonGo.RocketAPI.Logic
             {
                 Logger.ColoredConsoleWrite(ConsoleColor.Cyan, item.ItemId + " Qty: " + item.Count);
                 totalitems += item.Count;
+                if (item.ItemId == ItemId.ItemTroyDisk && item.Count > 0)
+                {
+                    havelures = true;
+                }
             }
             Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Items: " + totalitems + "/" + profile.PlayerData.MaxItemStorage);
             Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "------------------------------------------------------------");
@@ -332,7 +402,6 @@ namespace PokemonGo.RocketAPI.Logic
             {
                 Logger.ColoredConsoleWrite(ConsoleColor.Red, "We can't find any PokeStops, which are unused! Probably the server are unstable, or you visted them all. Retrying..");
                 await ExecuteCatchAllNearbyPokemons();
-
             }
             else
             {
@@ -362,13 +431,34 @@ namespace PokemonGo.RocketAPI.Logic
                     _infoObservable.PushPokeStopInfoUpdate(pokeStop.Id, "!!Can't Get PokeStop Information!!");
                     continue;
                 }
-                Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Next Pokestop: {fortInfo.Name} in {distance:0.##}m distance.");
-                var update = await _navigation.HumanLikeWalking(new GeoCoordinate(pokeStop.Latitude, pokeStop.Longitude), _clientSettings.WalkingSpeedInKilometerPerHour, ExecuteCatchAllNearbyPokemons);
 
+                if (_clientSettings.BreakAtLure && fortInfo.Modifiers.Any())
+                {
+                    resumetimestamp = fortInfo.Modifiers.First().ExpirationTimestampMs;
+                    var timeRemaining = resumetimestamp - (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds;
+                    Logger.ColoredConsoleWrite(ConsoleColor.Magenta, "Active Lure at next Pokestop - Pausing walk for " + Math.Round(timeRemaining / 60 / 1000, 2) + " Minutes");
+                    _clientSettings.pauseAtPokeStop = true;
+                }
+
+                Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Next Pokestop: {fortInfo.Name} in {distance:0.##}m distance.");
+                var walkspeed = _clientSettings.WalkingSpeedInKilometerPerHour;
+                if (_clientSettings.RandomReduceSpeed)
+                {
+                    Random r = new Random();
+                    var rInt = r.Next(0, 5);
+                    if (rInt == 0)
+                    {
+                        Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Random Lower Walk Speed Enabled and randomly triggered - Setting Walk speed for this leg to " + _clientSettings.MinWalkSpeed + "km/h");
+                        walkspeed = _clientSettings.MinWalkSpeed;
+                    }
+                }
+                var update = await _navigation.HumanLikeWalking(new GeoCoordinate(pokeStop.Latitude, pokeStop.Longitude), walkspeed, ExecuteCatchAllNearbyPokemons);
+                var addedlure = false;
                 if (_clientSettings.pauseAtPokeStop)
                 {
                     var pokestopsWithinRangeStanding = pokeStops.Where(i => (LocationUtils.CalculateDistanceInMeters(_client.CurrentLatitude, _client.CurrentLongitude, i.Latitude, i.Longitude)) < 40);
                     Logger.ColoredConsoleWrite(ConsoleColor.Green, $"{pokestopsWithinRangeStanding.Count().ToString()} Pokestops within range of where you are standing.");
+
                     do
                     {
                         foreach (var Pokestop in pokestopsWithinRangeStanding)
@@ -376,7 +466,13 @@ namespace PokemonGo.RocketAPI.Logic
                             await UseIncense();
                             await ExecuteCatchAllNearbyPokemons();
                             var FortInfo = await _client.Fort.GetFort(Pokestop.Id, Pokestop.Latitude, Pokestop.Longitude);
-
+                            if (_clientSettings.UseLureAtBreak && havelures && !pokeStop.ActiveFortModifier.Any() && !addedlure)
+                            {
+                                Logger.ColoredConsoleWrite(ConsoleColor.Magenta, $"Use Lure at break enabled - Adding lure and setting resume walking to 30 minutes");
+                                await client.Fort.AddFortModifier(FortInfo.FortId, ItemId.ItemTroyDisk);
+                                resumetimestamp = (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds + 30000;
+                                addedlure = true;
+                            }
                             Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Next Pokestop: {FortInfo.Name} to check cooldown and/or farm.");
                             var farmed = await CheckAndFarmNearbyPokeStop(Pokestop, _client, FortInfo);
                             if (farmed) { Pokestop.CooldownCompleteTimestampMs = (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds + 300500; }
@@ -396,7 +492,7 @@ namespace PokemonGo.RocketAPI.Logic
         }
         private async Task LogStatsEtc()
         {
-            count = 0;            
+            count = 0;
             if (_clientSettings.UseLuckyEggIfNotRunning)
             {
                 await _client.Inventory.UseLuckyEgg(_client);
@@ -420,6 +516,7 @@ namespace PokemonGo.RocketAPI.Logic
 
         private async Task<bool> CheckAndFarmNearbyPokeStop(FortData pokeStop, Client _client, FortDetailsResponse fortInfo)
         {
+
             if (count >= 9)
             {
                 await LogStatsEtc();
@@ -477,183 +574,191 @@ namespace PokemonGo.RocketAPI.Logic
         {
             _infoObservable.PushNewGeoLocations(new GeoCoordinate(_client.CurrentLatitude, _client.CurrentLongitude));
             var client = _client;
-            var mapObjects = await client.Map.GetMapObjects();
-
-            //var pokemons = mapObjects.MapCells.SelectMany(i => i.CatchablePokemons);
-            var pokemons =
-               mapObjects.Item1.MapCells.SelectMany(i => i.CatchablePokemons)
-               .OrderBy(
-                   i =>
-                   LocationUtils.CalculateDistanceInMeters(_client.CurrentLatitude, _client.CurrentLongitude, i.Latitude, i.Longitude));
-
-            if (pokemons != null && pokemons.Any())
-                Logger.ColoredConsoleWrite(ConsoleColor.Magenta, $"Found {pokemons.Count()} catchable Pokemon(s).");
-
-            foreach (var pokemon in pokemons)
+            if (_clientSettings.CatchPokemon)
             {
-                count++;
-                var missCount = 0;
-                var forceHit = false;
-                if (count >= 9)
+                var mapObjects = await client.Map.GetMapObjects();
+                //var pokemons = mapObjects.MapCells.SelectMany(i => i.CatchablePokemons);
+                var pokemons =
+                   mapObjects.Item1.MapCells.SelectMany(i => i.CatchablePokemons)
+                   .OrderBy(
+                       i =>
+                       LocationUtils.CalculateDistanceInMeters(_client.CurrentLatitude, _client.CurrentLongitude, i.Latitude, i.Longitude));
+
+                if (pokemons != null && pokemons.Any())
+                    Logger.ColoredConsoleWrite(ConsoleColor.Magenta, $"Found {pokemons.Count()} catchable Pokemon(s).");
+
+                foreach (var pokemon in pokemons)
                 {
-                    await LogStatsEtc();
-                }
-
-                if (_clientSettings.catchPokemonSkipList.Contains(pokemon.PokemonId))
-                {
-                    Logger.ColoredConsoleWrite(ConsoleColor.Green, "Skipped Pokemon: " + pokemon.PokemonId);
-                    continue;
-                }
-
-                var distance = LocationUtils.CalculateDistanceInMeters(_client.CurrentLatitude, _client.CurrentLongitude, pokemon.Latitude, pokemon.Longitude);
-                await Task.Delay(distance > 100 ? 1000 : 100);
-
-                var encounterPokemonResponse = await _client.Encounter.EncounterPokemon(pokemon.EncounterId, pokemon.SpawnPointId);
-
-                if (encounterPokemonResponse.Status == EncounterResponse.Types.Status.EncounterSuccess)
-                {
-                    var bestPokeball = await GetBestBall(encounterPokemonResponse?.WildPokemon, false);
-                    if (bestPokeball == ItemId.ItemUnknown)
+                    count++;
+                    var missCount = 0;
+                    var forceHit = false;
+                    if (count >= 9)
                     {
-                        Logger.ColoredConsoleWrite(ConsoleColor.Red, $"No Pokeballs! - missed {pokemon.PokemonId} CP {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} IV {PokemonInfo.CalculatePokemonPerfection(encounterPokemonResponse.WildPokemon.PokemonData).ToString("0.00")}%");
-
-                        return;
+                        await LogStatsEtc();
                     }
-                    var inventoryBerries = await _client.Inventory.GetItems();
-                    var probability = encounterPokemonResponse?.CaptureProbability?.CaptureProbability_?.FirstOrDefault();
-                    CatchPokemonResponse caughtPokemonResponse;
-                    bool escaped = false;
-                    bool berryThrown = false;
-                    bool berryOutOfStock = false;
-                    Logger.ColoredConsoleWrite(ConsoleColor.Magenta, $"Encountered {StringUtils.getPokemonNameByLanguage(_clientSettings, pokemon.PokemonId)} CP {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} IV {PokemonInfo.CalculatePokemonPerfection(encounterPokemonResponse.WildPokemon.PokemonData).ToString("0.00")}% Probability {Math.Round(probability.Value * 100)}%");
-                    bool used = false;
-                    do
+
+                    if (_clientSettings.catchPokemonSkipList.Contains(pokemon.PokemonId))
                     {
-                        if (((probability.HasValue && probability.Value < _clientSettings.razzberry_chance) || escaped) && _clientSettings.UseRazzBerry && !used)
+                        Logger.ColoredConsoleWrite(ConsoleColor.Green, "Skipped Pokemon: " + pokemon.PokemonId);
+                        continue;
+                    }
+
+                    var distance = LocationUtils.CalculateDistanceInMeters(_client.CurrentLatitude, _client.CurrentLongitude, pokemon.Latitude, pokemon.Longitude);
+                    await Task.Delay(distance > 100 ? 1000 : 100);
+
+                    var encounterPokemonResponse = await _client.Encounter.EncounterPokemon(pokemon.EncounterId, pokemon.SpawnPointId);
+
+                    if (encounterPokemonResponse.Status == EncounterResponse.Types.Status.EncounterSuccess)
+                    {
+                        var bestPokeball = await GetBestBall(encounterPokemonResponse?.WildPokemon, false);
+                        if (bestPokeball == ItemId.ItemUnknown)
                         {
-                            var bestBerry = await GetBestBerry(encounterPokemonResponse?.WildPokemon);
-                            if (bestBerry != ItemId.ItemUnknown)
+                            Logger.ColoredConsoleWrite(ConsoleColor.Red, $"No Pokeballs! - missed {pokemon.PokemonId} CP {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} IV {PokemonInfo.CalculatePokemonPerfection(encounterPokemonResponse.WildPokemon.PokemonData).ToString("0.00")}%");
+                            Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Detected all balls out of stock - disabling pokemon catch until recycle limit of at least 1 ball type is reached");
+                            pokeballoutofstock = true;
+                            _clientSettings.CatchPokemon = false;
+                            return;
+                        }
+                        var inventoryBerries = await _client.Inventory.GetItems();
+                        var probability = encounterPokemonResponse?.CaptureProbability?.CaptureProbability_?.FirstOrDefault();
+                        CatchPokemonResponse caughtPokemonResponse;
+                        bool escaped = false;
+                        bool berryThrown = false;
+                        bool berryOutOfStock = false;
+                        Logger.ColoredConsoleWrite(ConsoleColor.Magenta, $"Encountered {StringUtils.getPokemonNameByLanguage(_clientSettings, pokemon.PokemonId)} CP {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} IV {PokemonInfo.CalculatePokemonPerfection(encounterPokemonResponse.WildPokemon.PokemonData).ToString("0.00")}% Probability {Math.Round(probability.Value * 100)}%");
+                        bool used = false;
+                        do
+                        {
+                            if (((probability.HasValue && probability.Value < _clientSettings.razzberry_chance) || escaped) && _clientSettings.UseRazzBerry && !used)
                             {
+                                var bestBerry = await GetBestBerry(encounterPokemonResponse?.WildPokemon);
                                 var berries = inventoryBerries.Where(p => (ItemId)p.ItemId == bestBerry).FirstOrDefault();
                                 if (berries.Count <= 0) berryOutOfStock = true;
-                                if (!berryOutOfStock)
+                                if (bestBerry != ItemId.ItemUnknown)
                                 {
-                                    //Throw berry
-                                    var useRaspberry = await _client.Encounter.UseCaptureItem(pokemon.EncounterId, bestBerry, pokemon.SpawnPointId);
-                                    berryThrown = true;
-                                    used = true;
-                                    Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Thrown {bestBerry}. Remaining: {berries.Count}.", LogLevel.Info);
-                                    await RandomHelper.RandomDelay(50, 200);
-                                }
-                                else
-                                {
-                                    berryThrown = true;
-                                    escaped = true;
-                                    used = true;
+                                    if (!berryOutOfStock)
+                                    {
+                                        //Throw berry
+                                        var useRaspberry = await _client.Encounter.UseCaptureItem(pokemon.EncounterId, bestBerry, pokemon.SpawnPointId);
+                                        berryThrown = true;
+                                        used = true;
+                                        Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Thrown {bestBerry}. Remaining: {berries.Count}.", LogLevel.Info);
+                                        await RandomHelper.RandomDelay(50, 200);
+                                    }
+                                    else
+                                    {
+                                        berryThrown = true;
+                                        escaped = true;
+                                        used = true;
+                                    }
                                 }
                             }
-                        }
-                        // limit number of balls wasted by misses and log for UX because fools be tripin
-                        //TODO eventually make the max miss count client configurable;
-                        Random r = new Random();
-                        switch (missCount)
-                        {
-                            case 0:
-                                if (bestPokeball == ItemId.ItemMasterBall)
-                                {
-                                    Logger.ColoredConsoleWrite(ConsoleColor.Magenta, $"No messing around with your Master Balls! Forcing a hit on target.");
+                            // limit number of balls wasted by misses and log for UX because fools be tripin
+                            //TODO eventually make the max miss count client configurable;
+                            Random r = new Random();
+                            switch (missCount)
+                            {
+                                case 0:
+                                    if (bestPokeball == ItemId.ItemMasterBall)
+                                    {
+                                        Logger.ColoredConsoleWrite(ConsoleColor.Magenta, $"No messing around with your Master Balls! Forcing a hit on target.");
+                                        forceHit = true;
+                                    }
+                                    break;
+                                case 1:
+                                    if (bestPokeball == ItemId.ItemUltraBall)
+                                    {
+                                        Logger.ColoredConsoleWrite(ConsoleColor.Magenta, $"Not wasting more of your Ultra Balls! Forcing a hit on target.");
+                                        forceHit = true;
+                                    }
+                                    break;
+                                case 2:
+                                    //adding another chance of forcing hit here to improve overall odds after 2 misses                                
+                                    int rInt = r.Next(0, 2);
+                                    if (rInt == 1)
+                                    {
+                                        // lets hit
+                                        forceHit = true;
+                                    }
+                                    break;
+                                default:
+                                    // default to force hit after 3 wasted balls of any kind.
+                                    Logger.ColoredConsoleWrite(ConsoleColor.Magenta, $"Enough misses! Forcing a hit on target.");
                                     forceHit = true;
-                                }
-                                break;
-                            case 1:
-                                if (bestPokeball == ItemId.ItemUltraBall)
-                                {
-                                    Logger.ColoredConsoleWrite(ConsoleColor.Magenta, $"Not wasting more of your Ultra Balls! Forcing a hit on target.");
-                                    forceHit = true;
-                                }
-                                break;
-                            case 2:
-                                //adding another chance of forcing hit here to improve overall odds after 2 misses                                
-                                int rInt = r.Next(0, 2);
+                                    break;
+                            }
+                            if (missCount > 0)
+                            {
+                                //adding another chance of forcing hit here to improve overall odds after 1st miss                            
+                                int rInt = r.Next(0, 3);
                                 if (rInt == 1)
                                 {
                                     // lets hit
                                     forceHit = true;
                                 }
-                                break;
-                            default:
-                                // default to force hit after 3 wasted balls of any kind.
-                                Logger.ColoredConsoleWrite(ConsoleColor.Magenta, $"Enough misses! Forcing a hit on target.");
-                                forceHit = true;
-                                break;
-                        }
-                        if (missCount > 0)
-                        {
-                            //adding another chance of forcing hit here to improve overall odds after 1st miss                            
-                            int rInt = r.Next(0, 3);
-                            if (rInt == 1)
+                            }
+                            caughtPokemonResponse = await CatchPokemonWithRandomVariables(pokemon, bestPokeball, forceHit);
+                            if (caughtPokemonResponse.Status == CatchPokemonResponse.Types.CatchStatus.CatchMissed)
                             {
-                                // lets hit
-                                forceHit = true;
+                                Logger.ColoredConsoleWrite(ConsoleColor.Magenta, $"Missed {StringUtils.getPokemonNameByLanguage(_clientSettings, pokemon.PokemonId)} while using {bestPokeball}");
+                                missCount++;
+                                await RandomHelper.RandomDelay(1500, 2000);
+                            }
+                            else if (caughtPokemonResponse.Status == CatchPokemonResponse.Types.CatchStatus.CatchEscape)
+                            {
+                                Logger.ColoredConsoleWrite(ConsoleColor.Magenta, $"{StringUtils.getPokemonNameByLanguage(_clientSettings, pokemon.PokemonId)} escaped while using {bestPokeball}");
+                                escaped = true;
+                                //reset forceHit in case we randomly triggered on last throw.
+                                forceHit = false;
+                                if (berryThrown) bestPokeball = await GetBestBall(encounterPokemonResponse?.WildPokemon, true);
+                                await RandomHelper.RandomDelay(1500, 2000);
                             }
                         }
-                        caughtPokemonResponse = await CatchPokemonWithRandomVariables(pokemon, bestPokeball, forceHit);
-                        if (caughtPokemonResponse.Status == CatchPokemonResponse.Types.CatchStatus.CatchMissed)
-                        {
-                            Logger.ColoredConsoleWrite(ConsoleColor.Magenta, $"Missed {StringUtils.getPokemonNameByLanguage(_clientSettings, pokemon.PokemonId)} while using {bestPokeball}");
-                            missCount++;
-                            await RandomHelper.RandomDelay(1500, 2000);
-                        }
-                        else if (caughtPokemonResponse.Status == CatchPokemonResponse.Types.CatchStatus.CatchEscape)
-                        {
-                            Logger.ColoredConsoleWrite(ConsoleColor.Magenta, $"{StringUtils.getPokemonNameByLanguage(_clientSettings, pokemon.PokemonId)} escaped while using {bestPokeball}");
-                            escaped = true;
-                            //reset forceHit in case we randomly triggered on last throw.
-                            forceHit = false;
-                            if (berryThrown) bestPokeball = await GetBestBall(encounterPokemonResponse?.WildPokemon, true);
-                            await RandomHelper.RandomDelay(1500, 2000);
-                        }
-                    }
-                    while (caughtPokemonResponse.Status == CatchPokemonResponse.Types.CatchStatus.CatchMissed || caughtPokemonResponse.Status == CatchPokemonResponse.Types.CatchStatus.CatchEscape);
+                        while (caughtPokemonResponse.Status == CatchPokemonResponse.Types.CatchStatus.CatchMissed || caughtPokemonResponse.Status == CatchPokemonResponse.Types.CatchStatus.CatchEscape);
 
-                    if (caughtPokemonResponse.Status == CatchPokemonResponse.Types.CatchStatus.CatchSuccess)
-                    {
-                        foreach (int xp in caughtPokemonResponse.CaptureAward.Xp)
-                            _botStats.AddExperience(xp);
-
-                        DateTime curDate = DateTime.Now;
-                        _infoObservable.PushNewHuntStats(String.Format("{0}/{1};{2};{3};{4}", pokemon.Latitude, pokemon.Longitude, pokemon.PokemonId, curDate.Ticks, curDate.ToString()) + Environment.NewLine);
-
-                        if (caughtPokemonResponse.CaptureAward.Xp.Sum() >= 500)
+                        if (caughtPokemonResponse.Status == CatchPokemonResponse.Types.CatchStatus.CatchSuccess)
                         {
-                            Logger.ColoredConsoleWrite(ConsoleColor.White,
-                                $"Caught New {StringUtils.getPokemonNameByLanguage(_clientSettings, pokemon.PokemonId)} CP {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} IV {PokemonInfo.CalculatePokemonPerfection(encounterPokemonResponse.WildPokemon.PokemonData).ToString("0.00")}% using {bestPokeball} got {caughtPokemonResponse.CaptureAward.Xp.Sum()} XP.");
-                            pokemonCatchCount++;
+                            foreach (int xp in caughtPokemonResponse.CaptureAward.Xp)
+                                _botStats.AddExperience(xp);
+
+                            DateTime curDate = DateTime.Now;
+                            _infoObservable.PushNewHuntStats(String.Format("{0}/{1};{2};{3};{4}", pokemon.Latitude, pokemon.Longitude, pokemon.PokemonId, curDate.Ticks, curDate.ToString()) + Environment.NewLine);
+
+                            if (caughtPokemonResponse.CaptureAward.Xp.Sum() >= 500)
+                            {
+                                Logger.ColoredConsoleWrite(ConsoleColor.White,
+                                    $"Caught New {StringUtils.getPokemonNameByLanguage(_clientSettings, pokemon.PokemonId)} CP {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} IV {PokemonInfo.CalculatePokemonPerfection(encounterPokemonResponse.WildPokemon.PokemonData).ToString("0.00")}% using {bestPokeball} got {caughtPokemonResponse.CaptureAward.Xp.Sum()} XP.");
+                                pokemonCatchCount++;
+                            }
+                            else
+                            {
+                                Logger.ColoredConsoleWrite(ConsoleColor.Gray,
+                                    $"Caught {StringUtils.getPokemonNameByLanguage(_clientSettings, pokemon.PokemonId)} CP {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} IV {PokemonInfo.CalculatePokemonPerfection(encounterPokemonResponse.WildPokemon.PokemonData).ToString("0.00")}% using {bestPokeball} got {caughtPokemonResponse.CaptureAward.Xp.Sum()} XP.");
+                                pokemonCatchCount++;
+                            }
+
+                            if (_telegram != null)
+                                _telegram.sendInformationText(TelegramUtil.TelegramUtilInformationTopics.Catch, StringUtils.getPokemonNameByLanguage(_clientSettings, pokemon.PokemonId), encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp, PokemonInfo.CalculatePokemonPerfection(encounterPokemonResponse.WildPokemon.PokemonData).ToString("0.00"), bestPokeball, caughtPokemonResponse.CaptureAward.Xp.Sum());
+
+                            _botStats.AddPokemon(1);
+                            await RandomHelper.RandomDelay(800, 1500);
                         }
                         else
                         {
-                            Logger.ColoredConsoleWrite(ConsoleColor.Gray,
-                                $"Caught {StringUtils.getPokemonNameByLanguage(_clientSettings, pokemon.PokemonId)} CP {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} IV {PokemonInfo.CalculatePokemonPerfection(encounterPokemonResponse.WildPokemon.PokemonData).ToString("0.00")}% using {bestPokeball} got {caughtPokemonResponse.CaptureAward.Xp.Sum()} XP.");
-                            pokemonCatchCount++;
+                            Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, $"{StringUtils.getPokemonNameByLanguage(_clientSettings, pokemon.PokemonId)} CP {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} IV {PokemonInfo.CalculatePokemonPerfection(encounterPokemonResponse.WildPokemon.PokemonData).ToString("0.00")}% got away while using {bestPokeball}..");
+                            failed_softban++;
                         }
-
-                        if (_telegram != null)
-                            _telegram.sendInformationText(TelegramUtil.TelegramUtilInformationTopics.Catch, StringUtils.getPokemonNameByLanguage(_clientSettings, pokemon.PokemonId), encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp, PokemonInfo.CalculatePokemonPerfection(encounterPokemonResponse.WildPokemon.PokemonData).ToString("0.00"), bestPokeball, caughtPokemonResponse.CaptureAward.Xp.Sum());
-
-                        _botStats.AddPokemon(1);
-                        await RandomHelper.RandomDelay(800, 1500);
                     }
                     else
                     {
-                        Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, $"{StringUtils.getPokemonNameByLanguage(_clientSettings, pokemon.PokemonId)} CP {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} IV {PokemonInfo.CalculatePokemonPerfection(encounterPokemonResponse.WildPokemon.PokemonData).ToString("0.00")}% got away while using {bestPokeball}..");
-                        failed_softban++;
+                        Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Error catching Pokemon: {encounterPokemonResponse?.Status}");
                     }
+                    await RandomHelper.RandomDelay(200, 300);
                 }
-                else
-                {
-                    Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Error catching Pokemon: {encounterPokemonResponse?.Status}");
-                }
-                await RandomHelper.RandomDelay(200, 300);
+            }
+            else
+            {
+                Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Catching Pokemon Disabled in Client Settings - Skipping all pokemon");
             }
         }
 
@@ -884,6 +989,12 @@ namespace PokemonGo.RocketAPI.Logic
 
             foreach (var item in items)
             {
+                if ((item.ItemId == ItemId.ItemPokeBall || item.ItemId == ItemId.ItemGreatBall || item.ItemId == ItemId.ItemUltraBall || item.ItemId == ItemId.ItemMasterBall) && pokeballoutofstock)
+                {
+                    Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Detected Pokeball Restock - Enabling Catch Pokemon");
+                    _clientSettings.CatchPokemon = true;
+                    pokeballoutofstock = false;
+                }
                 var transfer = await _client.Inventory.RecycleItem((ItemId)item.ItemId, item.Count);
                 Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Recycled {item.Count}x {(ItemId)item.ItemId}", LogLevel.Info);
                 await RandomHelper.RandomDelay(1000, 5000);

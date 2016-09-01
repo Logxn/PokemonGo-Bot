@@ -6,7 +6,7 @@ using System.Net;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
-using System.Collections.Generic; 
+using System.Collections.Generic;
 using System.IO;
 using PokemonGo.RocketAPI.Logic.Utils;
 using POGOProtos.Enums;
@@ -166,9 +166,9 @@ namespace PokemonGo.RocketAPI.Console
                                 case 27:
                                     Globals.TransferFirstLowIV = bool.Parse(line);
                                     break;
-                                //case 28:
-                                //    Globals.userazzberry = bool.Parse(line);
-                                //    break;
+                                    //case 28:
+                                    //    Globals.userazzberry = bool.Parse(line);
+                                    //    break;
                             }
                         }
                         catch (Exception)
@@ -429,7 +429,17 @@ namespace PokemonGo.RocketAPI.Console
         public static int telDelay = 5000;
         public static bool pauseAtPokeStop = false;
         public static bool farmPokestops = true;
+        public static bool CatchPokemon = true;
+        public static bool BreakAtLure = true;
+        public static bool UseLureAtBreak = true;
+        public static bool RandomReduceSpeed = true;
         public static double TimeToRun;
+        public static int PokemonCatchLimit = 1000;
+        public static int PokestopFarmLimit = 2000;
+        public static int XPFarmedLimit = 150000;
+        public static int BreakInterval = 50;
+        public static int BreakLength = 10;
+        public static int MinWalkSpeed = 3;
         public static int navigation_option = 1;
         public static bool useluckyegg = true;
         public static bool useincense = true;
@@ -450,6 +460,6 @@ namespace PokemonGo.RocketAPI.Console
 
         public static string settingsLanguage = "en";
 
-        public static Logic.LogicInfoObservable infoObservable = new Logic.LogicInfoObservable();        
+        public static Logic.LogicInfoObservable infoObservable = new Logic.LogicInfoObservable();
     }
 }
