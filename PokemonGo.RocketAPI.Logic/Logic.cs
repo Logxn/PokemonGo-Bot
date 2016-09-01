@@ -186,7 +186,6 @@ namespace PokemonGo.RocketAPI.Logic
                         Logger.ColoredConsoleWrite(ConsoleColor.Green, "Break interval reached, pausing at next pokestop for " + (resumetimestamp - (DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds) + " minutes!");
                     }
                 }
-
                 //Add logic to kill on pokemon pokestop or xp limits here for now
                 if (pokemonCatchCount >= _clientSettings.PokemonCatchLimit)
                 {
@@ -310,7 +309,6 @@ namespace PokemonGo.RocketAPI.Logic
             }
             var items = await _client.Inventory.GetItems();
             var pokeBallCollection = await GetPokeballQty();
-
             Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "-----------------------[PLAYER STATS]-----------------------");
             Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Level/EXP: {stats.Level} | {curexp.ToString("N0")}/{expneeded.ToString("N0")} ({Math.Round(curexppercent, 2)}%)");
             Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "EXP to Level up: " + (stats.NextLevelXp - stats.Experience)); ;
