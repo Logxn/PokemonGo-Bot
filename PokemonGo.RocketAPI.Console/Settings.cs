@@ -244,5 +244,20 @@ namespace PokemonGo.RocketAPI.Console
                 UserSettings.Default.Save();
             }
         }
+        public bool pauseAtPokeStop
+        {
+            get { return Globals.pauseAtPokeStop; }
+            set { Globals.pauseAtPokeStop = value; }            
+        }
+        public bool FarmPokestops
+        {
+            get { return Globals.farmPokestops; }
+            set { Globals.farmPokestops = value; }
+        }
+        public double TimeToRun
+        {
+            get { return Globals.TimeToRun; }
+            set { Globals.TimeToRun = value; }
+        }
     }
 }

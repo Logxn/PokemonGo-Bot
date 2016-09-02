@@ -73,6 +73,8 @@ namespace PokemonGo.RocketAPI
 
 
         string SelectedLanguage { get; }
-
+        bool pauseAtPokeStop { get; set; }
+        bool FarmPokestops { get; set; }
+        double TimeToRun { get; set; }
     }
 }
