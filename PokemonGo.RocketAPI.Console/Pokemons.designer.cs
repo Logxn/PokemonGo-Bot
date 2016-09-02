@@ -53,6 +53,8 @@
             this.freezedenshit = new System.Windows.Forms.Timer(this.components);
             this.lang_tr_btn2 = new System.Windows.Forms.Button();
             this.btnForceUnban = new System.Windows.Forms.Button();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -128,28 +130,28 @@
             this.powerUpToolStripMenuItem,
             this.evolveToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(138, 76);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(144, 82);
             this.contextMenuStrip1.Closing += new System.Windows.Forms.ToolStripDropDownClosingEventHandler(this.contextMenuStrip1_Closing);
             this.contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
             // 
             // transferToolStripMenuItem
             // 
             this.transferToolStripMenuItem.Name = "transferToolStripMenuItem";
-            this.transferToolStripMenuItem.Size = new System.Drawing.Size(137, 24);
+            this.transferToolStripMenuItem.Size = new System.Drawing.Size(143, 26);
             this.transferToolStripMenuItem.Text = "Transfer";
             this.transferToolStripMenuItem.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
             // 
             // powerUpToolStripMenuItem
             // 
             this.powerUpToolStripMenuItem.Name = "powerUpToolStripMenuItem";
-            this.powerUpToolStripMenuItem.Size = new System.Drawing.Size(137, 24);
+            this.powerUpToolStripMenuItem.Size = new System.Drawing.Size(143, 26);
             this.powerUpToolStripMenuItem.Text = "PowerUp";
             this.powerUpToolStripMenuItem.Click += new System.EventHandler(this.powerUpToolStripMenuItem_Click);
             // 
             // evolveToolStripMenuItem
             // 
             this.evolveToolStripMenuItem.Name = "evolveToolStripMenuItem";
-            this.evolveToolStripMenuItem.Size = new System.Drawing.Size(137, 24);
+            this.evolveToolStripMenuItem.Size = new System.Drawing.Size(143, 26);
             this.evolveToolStripMenuItem.Text = "Evolve";
             this.evolveToolStripMenuItem.Visible = false;
             this.evolveToolStripMenuItem.Click += new System.EventHandler(this.evolveToolStripMenuItem_Click);
@@ -181,7 +183,7 @@
             // reloadsecondstextbox
             // 
             this.reloadsecondstextbox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.reloadsecondstextbox.Location = new System.Drawing.Point(336, 460);
+            this.reloadsecondstextbox.Location = new System.Drawing.Point(325, 462);
             this.reloadsecondstextbox.Margin = new System.Windows.Forms.Padding(4);
             this.reloadsecondstextbox.Name = "reloadsecondstextbox";
             this.reloadsecondstextbox.Size = new System.Drawing.Size(48, 22);
@@ -192,7 +194,7 @@
             // 
             this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(389, 469);
+            this.label2.Location = new System.Drawing.Point(374, 467);
             this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(15, 17);
@@ -311,11 +313,32 @@
             this.btnForceUnban.UseVisualStyleBackColor = true;
             this.btnForceUnban.Click += new System.EventHandler(this.btnForceUnban_Click);
             // 
+            // textBox1
+            // 
+            this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.textBox1.Location = new System.Drawing.Point(527, 460);
+            this.textBox1.Margin = new System.Windows.Forms.Padding(4);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(48, 22);
+            this.textBox1.TabIndex = 44;
+            // 
+            // label1
+            // 
+            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(402, 463);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(123, 17);
+            this.label1.TabIndex = 9;
+            this.label1.Text = "Full Power Up limit";
+            // 
             // Pokemons
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(872, 567);
+            this.Controls.Add(this.textBox1);
             this.Controls.Add(this.btnForceUnban);
             this.Controls.Add(this.lang_tr_btn2);
             this.Controls.Add(this.lang_ptBR_btn2);
@@ -324,6 +347,7 @@
             this.Controls.Add(this.lang_en_btn2);
             this.Controls.Add(this.btnShowMap);
             this.Controls.Add(this.btnFullPowerUp);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.reloadsecondstextbox);
             this.Controls.Add(this.checkBoxreload);
@@ -370,5 +394,7 @@
         private System.Windows.Forms.Timer freezedenshit;
         private System.Windows.Forms.Button lang_tr_btn2;
         private System.Windows.Forms.Button btnForceUnban;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.Label label1;
     }
 }

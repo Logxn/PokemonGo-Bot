@@ -652,7 +652,7 @@ namespace PokemonGo.RocketAPI.Console
             if (result == DialogResult.OK)
             {
                 var selectedItems = PokemonListView.SelectedItems;
-                int powerdup = 0;
+                int poweredup = 0;
                 int total = selectedItems.Count;
                 string failed = string.Empty;
 
@@ -661,21 +661,28 @@ namespace PokemonGo.RocketAPI.Console
                 int powerUps = 0;
                 while (i == 0)
                 {
+                    var poweruplimit = 0;
+                    int.TryParse(textBox1.Text, out poweruplimit);
                     foreach (ListViewItem selectedItem in selectedItems)
                     {
-                        resp = await PowerUp((PokemonData)selectedItem.Tag);
-                        if (resp.Status)
+                        if (poweruplimit > 0 && poweredup < poweruplimit)
                         {
-                            powerdup++;
+                            resp = await PowerUp((PokemonData)selectedItem.Tag);
+                            if (resp.Status)
+                            {
+                                poweredup++;
+                            }
+                            else
+                                failed += resp.Message + " ";
                         }
                         else
-                            failed += resp.Message + " ";
+                            failed += " Power Up Limit Reached ";
                     }
                     if (failed != string.Empty)
                     {
                         if (powerUps > 0)
                         {
-                            MessageBox.Show("Pokemon succesfully powered " + powerUps + " times up.", "FullPowerUp status", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            MessageBox.Show("Pokemon succesfully powered " + powerUps + " times.", "FullPowerUp status", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         }
                         else
                         {
@@ -688,9 +695,10 @@ namespace PokemonGo.RocketAPI.Console
                     {
                         powerUps++;
                         statusTexbox.Text = "Powering up..." + powerUps;
+                        await RandomHelper.RandomDelay(1200, 1500);
                     }
                 }
-                if (powerdup > 0 && i == 1)
+                if (poweredup > 0 && i == 1)
                 {
                     PokemonListView.Clear();
                     Execute();

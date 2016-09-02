@@ -448,8 +448,9 @@ namespace PokemonGo.RocketAPI.Logic
                     var rInt = r.Next(0, 5);
                     if (rInt == 0)
                     {
-                        Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Random Lower Walk Speed Enabled and randomly triggered - Setting Walk speed for this leg to " + _clientSettings.MinWalkSpeed + "km/h");
-                        walkspeed = _clientSettings.MinWalkSpeed;
+                        var rintwalk = r.Next(_clientSettings.MinWalkSpeed, (int)_clientSettings.WalkingSpeedInKilometerPerHour);
+                        Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Random Lower Walk Speed Enabled and randomly triggered - Setting Walk speed for this leg to " + rintwalk + "km/h");
+                        walkspeed = rintwalk;
                     }
                 }
                 var update = await _navigation.HumanLikeWalking(new GeoCoordinate(pokeStop.Latitude, pokeStop.Longitude), walkspeed, ExecuteCatchAllNearbyPokemons);

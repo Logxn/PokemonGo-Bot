@@ -1467,8 +1467,6 @@
             // checkBox20
             // 
             this.checkBox20.AutoSize = true;
-            this.checkBox20.Checked = true;
-            this.checkBox20.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBox20.Location = new System.Drawing.Point(41, 134);
             this.checkBox20.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.checkBox20.Name = "checkBox20";
