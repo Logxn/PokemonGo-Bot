@@ -176,7 +176,10 @@ namespace PokemonGo.RocketAPI.Logic
                 {
                     _clientSettings.pauseAtPokeStop = true;
                     if (_clientSettings.BreakLength > 0)
-                        resumetimestamp = (DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds + _clientSettings.BreakLength;
+                    {
+                        resumetimestamp = (DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds + _clientSettings.BreakLength * 60 * 1000;
+                        pausetimestamp = -10000;
+                    }
                     else
                     {
                         resumetimestamp = (DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds + 10 * 60 * 1000;
@@ -390,7 +393,7 @@ namespace PokemonGo.RocketAPI.Logic
 
             if (_clientSettings.MaxWalkingRadiusInMeters != 0)
             {
-                pokeStops = pokeStops.Where(i => LocationUtils.CalculateDistanceInMeters(_client.CurrentLatitude, _client.CurrentLongitude, i.Latitude, i.Longitude) <= _clientSettings.MaxWalkingRadiusInMeters).ToArray();
+                pokeStops = pokeStops.Where(i => LocationUtils.CalculateDistanceInMeters(_clientSettings.DefaultLatitude, _clientSettings.DefaultLongitude, i.Latitude, i.Longitude) <= _clientSettings.MaxWalkingRadiusInMeters).ToArray();
                 if (pokeStops.Count() == 0)
                 {
                     Logger.ColoredConsoleWrite(ConsoleColor.Red, "We can't find any PokeStops in a range of " + _clientSettings.MaxWalkingRadiusInMeters + "m!");
@@ -448,8 +451,9 @@ namespace PokemonGo.RocketAPI.Logic
                     var rInt = r.Next(0, 5);
                     if (rInt == 0)
                     {
-                        Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Random Lower Walk Speed Enabled and randomly triggered - Setting Walk speed for this leg to " + _clientSettings.MinWalkSpeed + "km/h");
-                        walkspeed = _clientSettings.MinWalkSpeed;
+                        var rintwalk = r.Next(_clientSettings.MinWalkSpeed, (int)_clientSettings.WalkingSpeedInKilometerPerHour);
+                        Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Random Lower Walk Speed Enabled and randomly triggered - Setting Walk speed for this leg to " + rintwalk + "km/h");
+                        walkspeed = rintwalk;
                     }
                 }
                 var update = await _navigation.HumanLikeWalking(new GeoCoordinate(pokeStop.Latitude, pokeStop.Longitude), walkspeed, ExecuteCatchAllNearbyPokemons);
@@ -631,11 +635,11 @@ namespace PokemonGo.RocketAPI.Logic
                         {
                             if (((probability.HasValue && probability.Value < _clientSettings.razzberry_chance) || escaped) && _clientSettings.UseRazzBerry && !used)
                             {
-                                var bestBerry = await GetBestBerry(encounterPokemonResponse?.WildPokemon);
-                                var berries = inventoryBerries.Where(p => (ItemId)p.ItemId == bestBerry).FirstOrDefault();
-                                if (berries.Count <= 0) berryOutOfStock = true;
+                                var bestBerry = await GetBestBerry(encounterPokemonResponse?.WildPokemon);                                
                                 if (bestBerry != ItemId.ItemUnknown)
                                 {
+                                    var berries = inventoryBerries.Where(p => (ItemId)p.ItemId == bestBerry).FirstOrDefault();
+                                    if (berries.Count <= 0) berryOutOfStock = true;
                                     if (!berryOutOfStock)
                                     {
                                         //Throw berry
@@ -652,6 +656,11 @@ namespace PokemonGo.RocketAPI.Logic
                                         used = true;
                                     }
                                 }
+                                else {
+                                    berryThrown = true;
+                                    escaped = true;
+                                    used = true;
+                                }                                
                             }
                             // limit number of balls wasted by misses and log for UX because fools be tripin
                             //TODO eventually make the max miss count client configurable;
@@ -741,7 +750,7 @@ namespace PokemonGo.RocketAPI.Logic
                                 _telegram.sendInformationText(TelegramUtil.TelegramUtilInformationTopics.Catch, StringUtils.getPokemonNameByLanguage(_clientSettings, pokemon.PokemonId), encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp, PokemonInfo.CalculatePokemonPerfection(encounterPokemonResponse.WildPokemon.PokemonData).ToString("0.00"), bestPokeball, caughtPokemonResponse.CaptureAward.Xp.Sum());
 
                             _botStats.AddPokemon(1);
-                            await RandomHelper.RandomDelay(800, 1500);
+                            await RandomHelper.RandomDelay(1500, 2000);
                         }
                         else
                         {
@@ -753,7 +762,7 @@ namespace PokemonGo.RocketAPI.Logic
                     {
                         Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Error catching Pokemon: {encounterPokemonResponse?.Status}");
                     }
-                    await RandomHelper.RandomDelay(200, 300);
+                    await RandomHelper.RandomDelay(1500, 2000);
                 }
             }
             else
@@ -863,8 +872,14 @@ namespace PokemonGo.RocketAPI.Logic
                         Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Failed to evolve {pokemon.PokemonId}. EvolvePokemonOutProto.Result was {evolvePokemonOutProto.Result}", LogLevel.Info);
                     }
                 }
-
-                await RandomHelper.RandomDelay(30000, 35000);
+                if (_clientSettings.UseAnimationTimes)
+                {
+                    await RandomHelper.RandomDelay(30000, 35000);
+                }
+                else
+                {
+                    await RandomHelper.RandomDelay(500, 600);
+                }
             }
         }
 
@@ -1140,7 +1155,7 @@ namespace PokemonGo.RocketAPI.Logic
                                         || (ItemId)i.ItemId == ItemId.ItemPinapBerry).GroupBy(i => (ItemId)i.ItemId).ToList();
             if (berries.Count() == 0)
             {
-                Logger.ColoredConsoleWrite(ConsoleColor.Red, $"No Berrys to select!", LogLevel.Info);
+                Logger.ColoredConsoleWrite(ConsoleColor.Red, $"No Berrys to select! - Using next best ball instead", LogLevel.Info);
                 return ItemId.ItemUnknown;
             }
 
