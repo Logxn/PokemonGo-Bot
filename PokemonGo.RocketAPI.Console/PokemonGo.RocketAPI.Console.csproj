@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>PokemonGo.RocketAPI.Console</RootNamespace>
     <AssemblyName>PokemonGo.RocketAPI.Console</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
@@ -26,6 +26,7 @@
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -121,6 +122,12 @@
     <Compile Include="GUI.Designer.cs">
       <DependentUpon>GUI.cs</DependentUpon>
     </Compile>
+    <Compile Include="inventory.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="inventory.Designer.cs">
+      <DependentUpon>inventory.cs</DependentUpon>
+    </Compile>
     <Compile Include="Location.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -157,6 +164,9 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="app.manifest" />
+    <EmbeddedResource Include="inventory.resx">
+      <DependentUpon>inventory.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Lang\de.json" />
     <EmbeddedResource Include="Lang\france.json" />
     <EmbeddedResource Include="Lang\italian.json" />
