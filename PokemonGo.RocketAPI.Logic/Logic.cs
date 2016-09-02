@@ -656,6 +656,11 @@ namespace PokemonGo.RocketAPI.Logic
                                         used = true;
                                     }
                                 }
+                                else {
+                                    berryThrown = true;
+                                    escaped = true;
+                                    used = true;
+                                }                                
                             }
                             // limit number of balls wasted by misses and log for UX because fools be tripin
                             //TODO eventually make the max miss count client configurable;
@@ -1150,7 +1155,7 @@ namespace PokemonGo.RocketAPI.Logic
                                         || (ItemId)i.ItemId == ItemId.ItemPinapBerry).GroupBy(i => (ItemId)i.ItemId).ToList();
             if (berries.Count() == 0)
             {
-                Logger.ColoredConsoleWrite(ConsoleColor.Red, $"No Berrys to select!", LogLevel.Info);
+                Logger.ColoredConsoleWrite(ConsoleColor.Red, $"No Berrys to select! - Using next best ball instead", LogLevel.Info);
                 return ItemId.ItemUnknown;
             }
 
