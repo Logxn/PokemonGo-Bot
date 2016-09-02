@@ -436,8 +436,8 @@ namespace PokemonGo.RocketAPI.Console
         public static bool BreakAtLure = false;
         public static bool UseAnimationTimes = true;
         public static bool UseLureAtBreak = false;
-        public static bool UseGoogleMapsAPI = true;
-        public static string GoogleMapsAPIKey = "AIzaSyDkhbMEdFaOJOF9jgPbd77vHNt_RqnONnM";
+        public static bool UseGoogleMapsAPI = false;
+        public static string GoogleMapsAPIKey;
         public static bool RandomReduceSpeed = false;
         public static double TimeToRun;
         public static int PokemonCatchLimit = 1000;
