@@ -19,7 +19,7 @@ namespace PokemonGo.RocketAPI.Console
 {
     public partial class GUI : Form
     {
-        
+
         public static NumberStyles cords = NumberStyles.AllowDecimalPoint | NumberStyles.AllowLeadingSign;
         public static int[] evolveBlacklist = {
             3, 6, 9, 12, 15, 18, 20, 22, 24, 26, 28, 31, 34, 36, 38, 40, 42, 45, 47, 49, 51, 53, 55, 57, 59, 62, 65, 68, 71, 73, 76, 78, 80, 82, 83, 85, 87, 89, 91, 94, 95, 97, 99, 101, 103, 105, 106, 107, 108, 110, 112, 113, 114, 115, 117, 119, 121, 122, 123, 124, 125, 126, 127, 128, 130, 131, 132, 134, 135, 136, 137, 139, 141, 142, 143, 144, 145, 146, 149, 150, 151
@@ -91,7 +91,8 @@ namespace PokemonGo.RocketAPI.Console
                 var f = File.Create(deviceinfo);
                 f.Close();
                 File.WriteAllLines(deviceinfo, new string[] { "galaxy6", " " });
-            } else
+            }
+            else
             {
                 // Try to read the device name
                 string[] arrLine = File.ReadAllLines(deviceinfo);
@@ -101,9 +102,11 @@ namespace PokemonGo.RocketAPI.Console
                     {
                         comboBox2.Text = arrLine[0];
                     }
-                } catch (Exception) { 
                 }
-            } 
+                catch (Exception)
+                {
+                }
+            }
 
             List<string> b = new List<string>();
             b.Add("de.json");
@@ -117,7 +120,7 @@ namespace PokemonGo.RocketAPI.Console
 
             foreach (var l in b)
             {
-                Extract("PokemonGo.RocketAPI.Console", Program.path_translation, "Lang", l); 
+                Extract("PokemonGo.RocketAPI.Console", Program.path_translation, "Lang", l);
             }
 
             TranslationHandler.Init();
@@ -397,17 +400,17 @@ namespace PokemonGo.RocketAPI.Console
                 }
             }
             // Load Proxy Settings
-            if (_clientSettings.UseProxyHost != string.Empty) 
-            prxyIP.Text = _clientSettings.UseProxyHost;
+            if (_clientSettings.UseProxyHost != string.Empty)
+                prxyIP.Text = _clientSettings.UseProxyHost;
 
             if (_clientSettings.UseProxyPort != 0)
-            prxyPort.Text = "" + _clientSettings.UseProxyPort;
-    
+                prxyPort.Text = "" + _clientSettings.UseProxyPort;
+
             if (_clientSettings.UseProxyUsername != string.Empty)
-            prxyUser.Text = _clientSettings.UseProxyUsername;
+                prxyUser.Text = _clientSettings.UseProxyUsername;
 
             if (_clientSettings.UseProxyPassword != string.Empty)
-            prxyPass.Text = "" + _clientSettings.UseProxyPassword;
+                prxyPass.Text = "" + _clientSettings.UseProxyPassword;
 
             if (prxyIP.Text != "HTTPS Proxy IP")
                 _clientSettings.UseProxyVerified = true;
@@ -423,7 +426,7 @@ namespace PokemonGo.RocketAPI.Console
             prxyIP.GotFocus += new EventHandler(prxy_GotFocus);
             prxyPort.GotFocus += new EventHandler(prxy_GotFocus);
             prxyUser.GotFocus += new EventHandler(prxy_GotFocus);
-            prxyPass.GotFocus += new EventHandler(prxy_GotFocus); 
+            prxyPass.GotFocus += new EventHandler(prxy_GotFocus);
         }
 
         private void textBox3_KeyPress(object sender, KeyPressEventArgs e)
@@ -508,7 +511,7 @@ namespace PokemonGo.RocketAPI.Console
                 textBox6.BackColor = Color.Red;
                 return;
             }
-            else                
+            else
                 Globals.speed = double.Parse(textBox6.Text.Replace(',', '.'), cords, NumberFormatInfo.InvariantInfo);
             if (Globals.speed > 15)
             {
@@ -522,7 +525,18 @@ namespace PokemonGo.RocketAPI.Console
                     Globals.speed = double.Parse("9.5", cords, NumberFormatInfo.InvariantInfo);
                 }
             }
-
+            if (!Globals.UseAnimationTimes)
+            {
+                DialogResult dialogResult = MessageBox.Show("The risk of being banned is significantly greater when when API calls are not timed the same as the Pokemon Go App. Click no to use the application delay at evolve", "Are you sure you wish to disable Animation delay?", MessageBoxButtons.YesNo);
+                if (dialogResult == DialogResult.Yes)
+                {
+                    //user acknowledges speed risk; do nothing.
+                }
+                else if (dialogResult == DialogResult.No)
+                {
+                    Globals.UseAnimationTimes = true;
+                }
+            }
             if (textBox7.Text == string.Empty)
             {
                 textBox7.BackColor = Color.Red;
@@ -668,7 +682,9 @@ namespace PokemonGo.RocketAPI.Console
             if (textBox26.Text == string.Empty)
             {
                 textBox26.BackColor = Color.Red;
-            } else {
+            }
+            else
+            {
                 int x = int.Parse(textBox26.Text);
                 decimal c = ((decimal)x / 100);
                 Globals.razzberry_chance = Convert.ToDouble(c);
@@ -707,7 +723,7 @@ namespace PokemonGo.RocketAPI.Console
                 else
                     Globals.doEvolve.Add((PokemonId)Enum.Parse(typeof(PokemonId), pokemon));
             }
-            
+
             string[] accFile = {
                     Globals.acc.ToString(),
                     Globals.username,
@@ -1041,7 +1057,7 @@ namespace PokemonGo.RocketAPI.Console
             chkAutoIncubate.Text = TranslationHandler.GetString("autoIncubate", "Auto incubate");
             chkUseBasicIncubators.Text = TranslationHandler.GetString("useBasicIncubators", "Use basic incubators");
         }
-         
+
         private void languages_btn_Click(object sender, EventArgs e)
         {
             var clicked = (Button)sender;
@@ -1060,7 +1076,7 @@ namespace PokemonGo.RocketAPI.Console
             if (clicked != null)
             {
                 // I have used the tag field of the button to save the language key
-                langSelected = (string)clicked.Tag; 
+                langSelected = (string)clicked.Tag;
                 if (!string.IsNullOrWhiteSpace(langSelected))
                 {
                     if (langSelected == "en")
@@ -1136,7 +1152,7 @@ namespace PokemonGo.RocketAPI.Console
 
         private void checkBox13_CheckedChanged(object sender, EventArgs e)
         {
-            if(checkBox13.Checked)
+            if (checkBox13.Checked)
             {
                 button1.Enabled = false;
                 prxyIP.Enabled = true;
@@ -1155,7 +1171,7 @@ namespace PokemonGo.RocketAPI.Console
 
         private void checkBox14_CheckedChanged(object sender, EventArgs e)
         {
-            if(checkBox14.Checked)
+            if (checkBox14.Checked)
             {
                 prxyUser.Enabled = true;
                 prxyPass.Enabled = true;
@@ -1167,7 +1183,7 @@ namespace PokemonGo.RocketAPI.Console
             }
 
         }
-        
+
         public bool AcceptAllCertifications(object sender, System.Security.Cryptography.X509Certificates.X509Certificate certification, System.Security.Cryptography.X509Certificates.X509Chain chain, System.Net.Security.SslPolicyErrors sslPolicyErrors)
         {
             return true;
@@ -1234,8 +1250,8 @@ namespace PokemonGo.RocketAPI.Console
 
             _clientSettings.UseProxyHost = prxyIP.Text;
             _clientSettings.UseProxyPort = port;
-            
-            if(checkBox14.Checked)
+
+            if (checkBox14.Checked)
             {
                 _clientSettings.UseProxyUsername = prxyUser.Text;
                 _clientSettings.UseProxyPassword = prxyPass.Text;
@@ -1260,13 +1276,16 @@ namespace PokemonGo.RocketAPI.Console
             if (tb.Text == "HTTPS Proxy IP")
             {
                 tb.Text = "";
-            } else if (tb.Text == "HTTPS Proxy Port")
+            }
+            else if (tb.Text == "HTTPS Proxy Port")
             {
                 tb.Text = "";
-            } else if (tb.Text == "Proxy Username")
+            }
+            else if (tb.Text == "Proxy Username")
             {
                 tb.Text = "";
-            } else if (tb.Text == "Proxy Password")
+            }
+            else if (tb.Text == "Proxy Password")
             {
                 tb.Text = "";
             }
@@ -1279,11 +1298,13 @@ namespace PokemonGo.RocketAPI.Console
 
         private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
         {
-            try {
+            try
+            {
                 string[] arrLine = File.ReadAllLines(deviceinfo);
                 arrLine[0] = comboBox2.SelectedItem.ToString();
                 File.WriteAllLines(deviceinfo, arrLine);
-            } catch (IndexOutOfRangeException)
+            }
+            catch (IndexOutOfRangeException)
             {
                 File.WriteAllLines(deviceinfo, new string[] { comboBox2.SelectedItem.ToString(), " " });
             }
@@ -1368,6 +1389,11 @@ namespace PokemonGo.RocketAPI.Console
         private void checkBox20_CheckedChanged(object sender, EventArgs e)
         {
             Globals.BreakAtLure = checkBox20.Checked;
+        }
+
+        private void checkBox24_CheckedChanged(object sender, EventArgs e)
+        {
+
         }
 
         private void checkBox23_CheckedChanged(object sender, EventArgs e)

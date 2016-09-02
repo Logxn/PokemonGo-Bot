@@ -78,6 +78,7 @@ namespace PokemonGo.RocketAPI
         bool CatchPokemon { get; set; }
         bool BreakAtLure { get; set; }
         bool UseLureAtBreak { get; set; }
+        bool UseAnimationTimes { get; set; }
         bool RandomReduceSpeed { get; set; }
         double TimeToRun { get; set; }
         int PokemonCatchLimit { get; set; }

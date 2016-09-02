@@ -863,8 +863,14 @@ namespace PokemonGo.RocketAPI.Logic
                         Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Failed to evolve {pokemon.PokemonId}. EvolvePokemonOutProto.Result was {evolvePokemonOutProto.Result}", LogLevel.Info);
                     }
                 }
-
-                await RandomHelper.RandomDelay(30000, 35000);
+                if (_clientSettings.UseAnimationTimes)
+                {
+                    await RandomHelper.RandomDelay(30000, 35000);
+                }
+                else
+                {
+                    await RandomHelper.RandomDelay(500, 600);
+                }
             }
         }
 
