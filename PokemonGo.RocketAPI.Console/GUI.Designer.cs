@@ -1408,6 +1408,8 @@
             // checkBox22
             // 
             this.checkBox22.AutoSize = true;
+            this.checkBox22.Checked = true;
+            this.checkBox22.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBox22.Enabled = false;
             this.checkBox22.Location = new System.Drawing.Point(37, 281);
             this.checkBox22.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
@@ -1451,6 +1453,8 @@
             this.textBox33.Name = "textBox33";
             this.textBox33.Size = new System.Drawing.Size(204, 22);
             this.textBox33.TabIndex = 62;
+            this.textBox33.Text = "AIzaSyDkhbMEdFaOJOF9jgPbd77vHNt_RqnONnM";
+            this.textBox33.TextChanged += new System.EventHandler(this.textBox33_TextChanged);
             // 
             // checkBox21
             // 
