@@ -742,7 +742,7 @@ namespace PokemonGo.RocketAPI.Logic
                                 _telegram.sendInformationText(TelegramUtil.TelegramUtilInformationTopics.Catch, StringUtils.getPokemonNameByLanguage(_clientSettings, pokemon.PokemonId), encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp, PokemonInfo.CalculatePokemonPerfection(encounterPokemonResponse.WildPokemon.PokemonData).ToString("0.00"), bestPokeball, caughtPokemonResponse.CaptureAward.Xp.Sum());
 
                             _botStats.AddPokemon(1);
-                            await RandomHelper.RandomDelay(800, 1500);
+                            await RandomHelper.RandomDelay(1500, 2000);
                         }
                         else
                         {
@@ -754,7 +754,7 @@ namespace PokemonGo.RocketAPI.Logic
                     {
                         Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Error catching Pokemon: {encounterPokemonResponse?.Status}");
                     }
-                    await RandomHelper.RandomDelay(200, 300);
+                    await RandomHelper.RandomDelay(1500, 2000);
                 }
             }
             else
