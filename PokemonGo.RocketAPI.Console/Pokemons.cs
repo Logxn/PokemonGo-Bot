@@ -410,25 +410,26 @@ namespace PokemonGo.RocketAPI.Console
             {
                 taskResponse resp = new taskResponse(false, string.Empty);
 
-            foreach (ListViewItem selectedItem in selectedItems)
-            {
-                resp = await transferPokemon((PokemonData)selectedItem.Tag);
-                if (resp.Status)
+                foreach (ListViewItem selectedItem in selectedItems)
                 {
-                    PokemonListView.Items.Remove(selectedItem);
-                    transfered++;
-                    statusTexbox.Text = "Transfering..." + transfered;
+                    resp = await transferPokemon((PokemonData)selectedItem.Tag);
+                    if (resp.Status)
+                    {
+                        PokemonListView.Items.Remove(selectedItem);
+                        transfered++;
+                        statusTexbox.Text = "Transfering..." + transfered;
+                    }
+                    else
+                        failed += resp.Message + " ";
+
                 }
+
+                if (failed != string.Empty)
+                    MessageBox.Show("Succesfully transfered " + transfered + "/" + total + " Pokemons. Failed: " + failed, "Transfer status", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 else
-                    failed += resp.Message + " ";
-
+                    MessageBox.Show("Succesfully transfered " + transfered + "/" + total + " Pokemons.", "Transfer status", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                Text = "Pokemon List | User: " + profile.PlayerData.Username + " | Pokemons: " + PokemonListView.Items.Count + "/" + profile.PlayerData.MaxPokemonStorage;
             }
-
-            if (failed != string.Empty)
-                MessageBox.Show("Succesfully transfered " + transfered + "/" + total + " Pokemons. Failed: " + failed, "Transfer status", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            else
-                MessageBox.Show("Succesfully transfered " + transfered + "/" + total + " Pokemons.", "Transfer status", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            Text = "Pokemon List | User: " + profile.PlayerData.Username + " | Pokemons: " + PokemonListView.Items.Count + "/" + profile.PlayerData.MaxPokemonStorage;
             EnabledButton(true);
         }
 
