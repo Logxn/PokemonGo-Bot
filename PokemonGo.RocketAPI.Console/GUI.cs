@@ -1327,7 +1327,7 @@ namespace PokemonGo.RocketAPI.Console
 
         private void checkBox22_CheckedChanged(object sender, EventArgs e)
         {
-
+            Globals.UseGoogleMapsAPI = checkBox22.Checked;
         }
 
         private void linkLabel6_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -1399,6 +1399,11 @@ namespace PokemonGo.RocketAPI.Console
         private void checkBox23_CheckedChanged(object sender, EventArgs e)
         {
             Globals.RandomReduceSpeed = checkBox23.Checked;
+        }
+
+        private void textBox33_TextChanged(object sender, EventArgs e)
+        {
+            Globals.GoogleMapsAPIKey = textBox33.Text;
         }
     }
 }
