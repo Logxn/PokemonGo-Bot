@@ -279,7 +279,7 @@ namespace PokemonGo.RocketAPI.Console
             get { return Globals.UseGoogleMapsAPI; }
             set { Globals.UseGoogleMapsAPI = value; }
         }
-        public bool GoogleMapsAPIKey
+        public string GoogleMapsAPIKey
         {
             get { return Globals.GoogleMapsAPIKey; }
             set { Globals.GoogleMapsAPIKey = value; }
