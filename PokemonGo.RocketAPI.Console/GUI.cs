@@ -1393,7 +1393,7 @@ namespace PokemonGo.RocketAPI.Console
 
         private void checkBox24_CheckedChanged(object sender, EventArgs e)
         {
-
+            Globals.UseAnimationTimes = checkBox24.Checked;
         }
 
         private void checkBox23_CheckedChanged(object sender, EventArgs e)
