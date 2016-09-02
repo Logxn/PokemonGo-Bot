@@ -1434,7 +1434,6 @@
             // linkLabel6
             // 
             this.linkLabel6.AutoSize = true;
-            this.linkLabel6.Enabled = false;
             this.linkLabel6.Location = new System.Drawing.Point(37, 82);
             this.linkLabel6.Name = "linkLabel6";
             this.linkLabel6.Size = new System.Drawing.Size(207, 17);
