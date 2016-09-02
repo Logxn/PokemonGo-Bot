@@ -176,7 +176,10 @@ namespace PokemonGo.RocketAPI.Logic
                 {
                     _clientSettings.pauseAtPokeStop = true;
                     if (_clientSettings.BreakLength > 0)
+                    {
                         resumetimestamp = (DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds + _clientSettings.BreakLength * 60 * 1000;
+                        pausetimestamp = -10000;
+                    }
                     else
                     {
                         resumetimestamp = (DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds + 10 * 60 * 1000;
