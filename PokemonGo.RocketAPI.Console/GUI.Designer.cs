@@ -1648,7 +1648,7 @@
             this.groupBox12.Size = new System.Drawing.Size(337, 252);
             this.groupBox12.TabIndex = 60;
             this.groupBox12.TabStop = false;
-            this.groupBox12.Text = "l";
+            this.groupBox12.Text = "Walk Variables";
             // 
             // label46
             // 
