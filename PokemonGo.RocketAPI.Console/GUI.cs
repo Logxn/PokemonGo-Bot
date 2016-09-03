@@ -29,48 +29,7 @@ namespace PokemonGo.RocketAPI.Console
         public GUI()
         {
             InitializeComponent();
-        }
-
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            Globals.acc = comboBox1.SelectedIndex == 0 ? Enums.AuthType.Google : Enums.AuthType.Ptc;
-            if (comboBox1.SelectedIndex == 0)
-            {
-                label2.Text = "E-Mail:";
-                //    textBox1.Hide();
-                //    label2.Hide();
-                //    textBox2.Hide();
-                //    label3.Hide();
-            }
-            else
-            {
-                label2.Text = TranslationHandler.GetString("username", "Username :");
-                /*if (languagestr == null)
-                {
-                    label2.Text = "Username:";
-                }
-                else if (languagestr == "de")
-                {
-                    label2.Text = "Benutzername:";
-                }
-                else if (languagestr == "spain")
-                {
-                    label2.Text = "Usuario:";
-                }
-                else if (languagestr == "ptBR")
-                {
-                    label2.Text = "Usuário:";
-                }
-                else if (languagestr == "tr")
-                {
-                    label2.Text = "KullaniciAdi:";
-                }*/
-                //    textBox1.Show();
-                //    label2.Show();
-                //    textBox2.Show();
-                //    label3.Show();
-            }
-        }
+        }       
 
         public static ISettings _clientSettings;
 
@@ -428,7 +387,48 @@ namespace PokemonGo.RocketAPI.Console
             prxyUser.GotFocus += new EventHandler(prxy_GotFocus);
             prxyPass.GotFocus += new EventHandler(prxy_GotFocus);
         }
-
+        //Account Type Changed Event
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Globals.acc = comboBox1.SelectedIndex == 0 ? Enums.AuthType.Google : Enums.AuthType.Ptc;
+            if (comboBox1.SelectedIndex == 0)
+            {
+                label2.Text = "E-Mail:";
+                //    textBox1.Hide();
+                //    label2.Hide();
+                //    textBox2.Hide();
+                //    label3.Hide();
+            }
+            else
+            {
+                label2.Text = TranslationHandler.GetString("username", "Username :");
+                /*if (languagestr == null)
+                {
+                    label2.Text = "Username:";
+                }
+                else if (languagestr == "de")
+                {
+                    label2.Text = "Benutzername:";
+                }
+                else if (languagestr == "spain")
+                {
+                    label2.Text = "Usuario:";
+                }
+                else if (languagestr == "ptBR")
+                {
+                    label2.Text = "Usuário:";
+                }
+                else if (languagestr == "tr")
+                {
+                    label2.Text = "KullaniciAdi:";
+                }*/
+                //    textBox1.Show();
+                //    label2.Show();
+                //    textBox2.Show();
+                //    label3.Show();
+            }
+        }
+        //Password KeyPress Event
         private void textBox3_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && (e.KeyChar != '.') && (e.KeyChar != '-'))
@@ -1182,84 +1182,7 @@ namespace PokemonGo.RocketAPI.Console
                 prxyPass.Enabled = false;
             }
 
-        }
-
-        public bool AcceptAllCertifications(object sender, System.Security.Cryptography.X509Certificates.X509Certificate certification, System.Security.Cryptography.X509Certificates.X509Chain chain, System.Net.Security.SslPolicyErrors sslPolicyErrors)
-        {
-            return true;
-        }
-
-        private void checkPrxy_Click(object sender, EventArgs e)
-        {
-            string proxyip = prxyIP.Text;
-            int port = Convert.ToInt32(prxyPort.Text);
-            /*//if (string.IsNullOrWhiteSpace(prxyIP.Text) || string.IsNullOrWhiteSpace(prxyPort.Text) || string.IsNullOrWhiteSpace(prxyUser.Text) || string.IsNullOrWhiteSpace(prxyPass.Text))
-               // return;
-
-            
-            ServicePointManager.ServerCertificateValidationCallback = new System.Net.Security.RemoteCertificateValidationCallback(AcceptAllCertifications);
-            HttpWebRequest proxyrequest = (HttpWebRequest)WebRequest.Create("https://www.nianticlabs.com/pokemongo/error");
-            WebProxy myProxy = new WebProxy(proxyip, 80);
-            
-            if (checkBox14.Checked)
-            {
-                myProxy.Credentials = new NetworkCredential(prxyUser.Text, prxyUser.Text);
-            }
-
-            prxyStatus.Text = "Verifiying proxy status....";
-            myProxy.BypassProxyOnLocal = false;
-            proxyrequest.Proxy = myProxy;
-            proxyrequest.Method = "GET";
-
-            try
-            {
-                HttpWebResponse response = (HttpWebResponse)proxyrequest.GetResponse();
-
-                MessageBox.Show("Status du opfa: " + response.StatusCode.ToString());
-
-                /*if (response.StatusCode.ToString() == "OK")
-                {
-                    prxyStatus.Text = "Proxy working :)";
-                    _clientSettings.UseProxyVerified = true;
-                    _clientSettings.UseProxyHost = prxyIP.Text;
-                    _clientSettings.UseProxyPort = port;
-                    if (checkBox14.Checked)
-                    {
-                        _clientSettings.UseProxyUsername = prxyUser.Text;
-                        _clientSettings.UseProxyPassword = prxyPass.Text;
-                    }
-                    button1.Enabled = true;
-                    return;
-                }
-
-
-
-            }
-            catch (WebException ex)
-            {
-                prxyStatus.Text = "Failed to resolve proxy....";
-                MessageBox.Show("WebException: " + ex.Message);
-                return;
-            }
-            catch (Exception ex)
-            {
-                prxyStatus.Text = "Proxy not working...";
-                //MessageBox.Show("Please show this to Devs: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }*/
-
-            _clientSettings.UseProxyHost = prxyIP.Text;
-            _clientSettings.UseProxyPort = port;
-
-            if (checkBox14.Checked)
-            {
-                _clientSettings.UseProxyUsername = prxyUser.Text;
-                _clientSettings.UseProxyPassword = prxyPass.Text;
-                _clientSettings.UseProxyAuthentication = true;
-            }
-            _clientSettings.UseProxyVerified = true;
-            button1.Enabled = true;
-        }
+        }       
 
         private void button3_Click(object sender, EventArgs e)
         {
@@ -1404,6 +1327,87 @@ namespace PokemonGo.RocketAPI.Console
         private void textBox33_TextChanged(object sender, EventArgs e)
         {
             Globals.GoogleMapsAPIKey = textBox33.Text;
+        }
+        public bool AcceptAllCertifications(object sender, System.Security.Cryptography.X509Certificates.X509Certificate certification, System.Security.Cryptography.X509Certificates.X509Chain chain, System.Net.Security.SslPolicyErrors sslPolicyErrors)
+        {
+            return true;
+        }
+
+        private void checkPrxy_Click(object sender, EventArgs e)
+        {
+            string proxyip = prxyIP.Text;
+            int port = Convert.ToInt32(prxyPort.Text);
+            /*//if (string.IsNullOrWhiteSpace(prxyIP.Text) || string.IsNullOrWhiteSpace(prxyPort.Text) || string.IsNullOrWhiteSpace(prxyUser.Text) || string.IsNullOrWhiteSpace(prxyPass.Text))
+               // return;
+
+            
+            ServicePointManager.ServerCertificateValidationCallback = new System.Net.Security.RemoteCertificateValidationCallback(AcceptAllCertifications);
+            HttpWebRequest proxyrequest = (HttpWebRequest)WebRequest.Create("https://www.nianticlabs.com/pokemongo/error");
+            WebProxy myProxy = new WebProxy(proxyip, 80);
+            
+            if (checkBox14.Checked)
+            {
+                myProxy.Credentials = new NetworkCredential(prxyUser.Text, prxyUser.Text);
+            }
+
+            prxyStatus.Text = "Verifiying proxy status....";
+            myProxy.BypassProxyOnLocal = false;
+            proxyrequest.Proxy = myProxy;
+            proxyrequest.Method = "GET";
+
+            try
+            {
+                HttpWebResponse response = (HttpWebResponse)proxyrequest.GetResponse();
+
+                MessageBox.Show("Status du opfa: " + response.StatusCode.ToString());
+
+                /*if (response.StatusCode.ToString() == "OK")
+                {
+                    prxyStatus.Text = "Proxy working :)";
+                    _clientSettings.UseProxyVerified = true;
+                    _clientSettings.UseProxyHost = prxyIP.Text;
+                    _clientSettings.UseProxyPort = port;
+                    if (checkBox14.Checked)
+                    {
+                        _clientSettings.UseProxyUsername = prxyUser.Text;
+                        _clientSettings.UseProxyPassword = prxyPass.Text;
+                    }
+                    button1.Enabled = true;
+                    return;
+                }
+
+
+
+            }
+            catch (WebException ex)
+            {
+                prxyStatus.Text = "Failed to resolve proxy....";
+                MessageBox.Show("WebException: " + ex.Message);
+                return;
+            }
+            catch (Exception ex)
+            {
+                prxyStatus.Text = "Proxy not working...";
+                //MessageBox.Show("Please show this to Devs: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }*/
+
+            _clientSettings.UseProxyHost = prxyIP.Text;
+            _clientSettings.UseProxyPort = port;
+
+            if (checkBox14.Checked)
+            {
+                _clientSettings.UseProxyUsername = prxyUser.Text;
+                _clientSettings.UseProxyPassword = prxyPass.Text;
+                _clientSettings.UseProxyAuthentication = true;
+            }
+            _clientSettings.UseProxyVerified = true;
+            button1.Enabled = true;
+        }
+
+        private void checkBox3_CheckedChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }
