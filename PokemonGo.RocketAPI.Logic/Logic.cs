@@ -489,8 +489,15 @@ namespace PokemonGo.RocketAPI.Logic
                                 stepcount++;
                                 if (stepcount == steps.Count())
                                 {
+                                    //Make sure we actually made it to the pokestop! 
+                                    var remainingdistancetostop = LocationUtils.CalculateDistanceInMeters(_client.CurrentLatitude, _client.CurrentLongitude, pokeStop.Latitude, pokeStop.Longitude);
+                                    if (remainingdistancetostop > 40)
+                                    {
+                                        Logger.ColoredConsoleWrite(ConsoleColor.Green, "As close as google can take us, going off-road");
+                                        update = await _navigation.HumanLikeWalking(new GeoCoordinate(step.EndLocation.Latitude, step.EndLocation.Longitude), walkspeed, ExecuteCatchAllNearbyPokemons);
+                                    }
                                     Logger.ColoredConsoleWrite(ConsoleColor.Green, "Destination Reached!");
-                                }
+                                }                                
                             }
                         }
                         else if (directions.Status == DirectionsStatusCodes.REQUEST_DENIED)
