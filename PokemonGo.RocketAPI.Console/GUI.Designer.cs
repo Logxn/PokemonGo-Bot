@@ -1508,9 +1508,9 @@
             this.checkBox8.Location = new System.Drawing.Point(28, 108);
             this.checkBox8.Margin = new System.Windows.Forms.Padding(4);
             this.checkBox8.Name = "checkBox8";
-            this.checkBox8.Size = new System.Drawing.Size(190, 21);
+            this.checkBox8.Size = new System.Drawing.Size(265, 21);
             this.checkBox8.TabIndex = 42;
-            this.checkBox8.Text = "German Pokemon names";
+            this.checkBox8.Text = "German Pokemon names (BROKEN!)";
             this.checkBox8.UseVisualStyleBackColor = true;
             // 
             // checkBox24
