@@ -164,69 +164,73 @@ namespace PokemonGo.RocketAPI.Logic
                         Logger.ColoredConsoleWrite(ConsoleColor.Blue, String.Format("Remaining Time to Run: {0} minutes", Math.Round(runTimeRemaining / 1000 / 60, 2)));
                     }
                 }
-                if (pausetimestamp == -10000 && _clientSettings.BreakInterval > 0)
+            }
+            if (pausetimestamp == -10000 && _clientSettings.BreakInterval > 0)
+            {
+                pausetimestamp = (DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds + _clientSettings.BreakInterval * 60 * 1000;
+            }
+            //Add logic to set pause time here for now
+            if (resumetimestamp != -10000 && (DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds >= resumetimestamp)
+            {
+                _clientSettings.pauseAtPokeStop = false;
+                Logger.ColoredConsoleWrite(ConsoleColor.Green, "Break over, back to walking!");
+                if (_clientSettings.BreakInterval > 0)
                 {
                     pausetimestamp = (DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds + _clientSettings.BreakInterval * 60 * 1000;
                 }
-                //Add logic to set pause time here for now
-                if (resumetimestamp != -10000 && (DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds >= resumetimestamp)
+                else { pausetimestamp = -10000; }
+                resumetimestamp = -10000;
+            }
+            if (pausetimestamp != -10000 && (DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds >= pausetimestamp)
+            {
+                _clientSettings.pauseAtPokeStop = true;
+                if (_clientSettings.BreakLength > 0)
                 {
-                    _clientSettings.pauseAtPokeStop = false;
-                    Logger.ColoredConsoleWrite(ConsoleColor.Green, "Break over, back to walking!");
-                    if (_clientSettings.BreakInterval > 0)
-                    {
-                        pausetimestamp = (DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds + _clientSettings.BreakInterval * 60 * 1000;
-                    }
-                    else { pausetimestamp = -10000; }
-                    resumetimestamp = -10000;
+                    resumetimestamp = (DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds + _clientSettings.BreakLength * 60 * 1000;
+                    pausetimestamp = -10000;
                 }
-                if (pausetimestamp != -10000 && (DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds >= pausetimestamp)
+                else
                 {
-                    _clientSettings.pauseAtPokeStop = true;
-                    if (_clientSettings.BreakLength > 0)
-                    {
-                        resumetimestamp = (DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds + _clientSettings.BreakLength * 60 * 1000;
-                        pausetimestamp = -10000;
-                    }
-                    else
-                    {
-                        resumetimestamp = (DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds + 10 * 60 * 1000;
-                        Logger.ColoredConsoleWrite(ConsoleColor.Green, "Break interval reached, pausing at next pokestop for " + (resumetimestamp - (DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds) + " minutes!");
-                    }
+                    resumetimestamp = (DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds + 10 * 60 * 1000;
+                    Logger.ColoredConsoleWrite(ConsoleColor.Green, "Break interval reached, pausing at next pokestop for " + (resumetimestamp - (DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds) + " minutes!");
                 }
-
-                //Add logic to kill on pokemon pokestop or xp limits here for now
-                if (pokemonCatchCount >= _clientSettings.PokemonCatchLimit)
+            }
+            //add logging for pokemon catch disabled here for now to prevent spamming
+            if (!_clientSettings.CatchPokemon)
+            {
+                Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Catching Pokemon Disabled in Client Settings - Skipping all pokemon");
+            }
+            //Add logic to kill on pokemon pokestop or xp limits here for now
+            if (pokemonCatchCount >= _clientSettings.PokemonCatchLimit)
+            {
+                if (_clientSettings.FarmPokestops)
                 {
-                    if (_clientSettings.FarmPokestops)
-                    {
-                        Logger.ColoredConsoleWrite(ConsoleColor.Green, "Pokemon Catch Limit Reached - Bot will only farm pokestops");
-                        _clientSettings.CatchPokemon = false;
-                    }
-                    else
-                    {
-                        Logger.ColoredConsoleWrite(ConsoleColor.Green, "Pokemon Catch Limit Reached and not farming pokestops - Bot will stop");
-                        StringUtils.CheckKillSwitch(true);
-                    }
+                    Logger.ColoredConsoleWrite(ConsoleColor.Green, "Pokemon Catch Limit Reached - Bot will only farm pokestops");
+                    _clientSettings.CatchPokemon = false;
                 }
-                if (pokeStopFarmedCount >= _clientSettings.PokestopFarmLimit)
+                else
                 {
-                    if (_clientSettings.CatchPokemon)
-                    {
-                        Logger.ColoredConsoleWrite(ConsoleColor.Green, "Pokestop Farmed Limit Reached - Bot will only catch pokemon");
-                        _clientSettings.FarmPokestops = false;
-                    }
-                    else
-                    {
-                        Logger.ColoredConsoleWrite(ConsoleColor.Green, "Pokestop Farmed Limit Reached and not catching pokemon - Bot will stop");
-                        StringUtils.CheckKillSwitch(true);
-                    }
-                }
-                if (startingXP != -10000 && currentxp != -10000 && (currentxp = -startingXP) >= _clientSettings.XPFarmedLimit)
-                {
-                    Logger.ColoredConsoleWrite(ConsoleColor.Green, "XP Farmed Limit Reached - Bot will stop");
+                    Logger.ColoredConsoleWrite(ConsoleColor.Green, "Pokemon Catch Limit Reached and not farming pokestops - Bot will stop");
                     StringUtils.CheckKillSwitch(true);
                 }
+            }
+            if (pokeStopFarmedCount >= _clientSettings.PokestopFarmLimit)
+            {
+                if (_clientSettings.CatchPokemon)
+                {
+                    Logger.ColoredConsoleWrite(ConsoleColor.Green, "Pokestop Farmed Limit Reached - Bot will only catch pokemon");
+                    _clientSettings.FarmPokestops = false;
+                }
+                else
+                {
+                    Logger.ColoredConsoleWrite(ConsoleColor.Green, "Pokestop Farmed Limit Reached and not catching pokemon - Bot will stop");
+                    StringUtils.CheckKillSwitch(true);
+                }
+            }
+            if (startingXP != -10000 && currentxp != -10000 && (currentxp = -startingXP) >= _clientSettings.XPFarmedLimit)
+            {
+                Logger.ColoredConsoleWrite(ConsoleColor.Green, "XP Farmed Limit Reached - Bot will stop");
+                StringUtils.CheckKillSwitch(true);
             }
         }
 
@@ -419,10 +423,11 @@ namespace PokemonGo.RocketAPI.Logic
                 Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "We found " + pokeStops.Count() + " usable PokeStops near your current location.");
             }
 
-            _infoObservable.PushAvailablePokeStopLocations(pokeStops);
-
             foreach (var pokeStop in pokeStops)
             {
+                //moved this inside loop to reduce delay in drawing pokestops if map opened after first load.
+                _infoObservable.PushAvailablePokeStopLocations(pokeStops);
+
                 await SetCheckTimeToRun();
                 await UseIncense();
                 await ExecuteCatchAllNearbyPokemons();
@@ -480,7 +485,7 @@ namespace PokemonGo.RocketAPI.Logic
                         if (directions.Status == DirectionsStatusCodes.OK)
                         {
                             var steps = directions.Routes.First().Legs.First().Steps;
-                            var stepcount = 0;                           
+                            var stepcount = 0;
                             foreach (var step in steps)
                             {
                                 var directiontext = Helpers.Utils.HtmlRemoval.StripTagsRegexCompiled(step.HtmlInstructions);
@@ -497,7 +502,7 @@ namespace PokemonGo.RocketAPI.Logic
                                         update = await _navigation.HumanLikeWalking(new GeoCoordinate(step.EndLocation.Latitude, step.EndLocation.Longitude), walkspeed, ExecuteCatchAllNearbyPokemons);
                                     }
                                     Logger.ColoredConsoleWrite(ConsoleColor.Green, "Destination Reached!");
-                                }                                
+                                }
                             }
                         }
                         else if (directions.Status == DirectionsStatusCodes.REQUEST_DENIED)
@@ -836,7 +841,7 @@ namespace PokemonGo.RocketAPI.Logic
             }
             else
             {
-                Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Catching Pokemon Disabled in Client Settings - Skipping all pokemon");
+
             }
         }
 
@@ -1322,5 +1327,6 @@ namespace PokemonGo.RocketAPI.Logic
                 return other != null && other.IncubatorId == IncubatorId && other.PokemonId == PokemonId;
             }
         }
+
     }
 }
