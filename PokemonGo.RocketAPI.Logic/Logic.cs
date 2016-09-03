@@ -148,8 +148,17 @@ namespace PokemonGo.RocketAPI.Logic
             {
                 if (timetorunstamp == -10000)
                 {
-                    Logger.ColoredConsoleWrite(ConsoleColor.Blue, String.Format("Remaining Time to Run: {0} minutes", _clientSettings.TimeToRun));
                     timetorunstamp = (_clientSettings.TimeToRun * 60 * 1000) + ((long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds);
+                }
+                if (pausetimestamp != -10000)
+                {
+                    var runTimeRemaining = pausetimestamp - (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds;
+                    Logger.ColoredConsoleWrite(ConsoleColor.Blue, String.Format("Remaining Time until break: {0} minutes", Math.Round(runTimeRemaining / 1000 / 60, 2)));
+                }
+                if (resumetimestamp != -10000)
+                {
+                    var runTimeRemaining = resumetimestamp - (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds;
+                    Logger.ColoredConsoleWrite(ConsoleColor.Blue, String.Format("Remaining Time until resume walking: {0} minutes", Math.Round(runTimeRemaining / 1000 / 60, 2)));
                 }
                 else
                 {
@@ -168,7 +177,7 @@ namespace PokemonGo.RocketAPI.Logic
             if (pausetimestamp == -10000 && _clientSettings.BreakInterval > 0)
             {
                 pausetimestamp = (DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds + _clientSettings.BreakInterval * 60 * 1000;
-            }
+            }            
             //Add logic to set pause time here for now
             if (resumetimestamp != -10000 && (DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds >= resumetimestamp)
             {
