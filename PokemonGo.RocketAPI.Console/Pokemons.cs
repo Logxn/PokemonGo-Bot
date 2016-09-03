@@ -665,7 +665,22 @@ namespace PokemonGo.RocketAPI.Console
                     int.TryParse(textBox1.Text, out poweruplimit);
                     foreach (ListViewItem selectedItem in selectedItems)
                     {
-                        if (poweruplimit > 0 && poweredup < poweruplimit)
+                        if (textBox1.Text != string.Empty)
+                        {
+                            if (poweruplimit > 0 && poweredup < poweruplimit)
+                            {
+                                resp = await PowerUp((PokemonData)selectedItem.Tag);
+                                if (resp.Status)
+                                {
+                                    poweredup++;
+                                }
+                                else
+                                    failed += resp.Message + " ";
+                            }
+                            else
+                                failed += " Power Up Limit Reached ";
+                        }
+                        else
                         {
                             resp = await PowerUp((PokemonData)selectedItem.Tag);
                             if (resp.Status)
@@ -675,8 +690,6 @@ namespace PokemonGo.RocketAPI.Console
                             else
                                 failed += resp.Message + " ";
                         }
-                        else
-                            failed += " Power Up Limit Reached ";
                     }
                     if (failed != string.Empty)
                     {
