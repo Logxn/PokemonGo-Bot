@@ -302,6 +302,78 @@ namespace PokemonGo.RocketAPI.Console
                 textBox24.Text = "90";
             }
 
+            if (File.Exists(Program.walkSetting))
+            {
+
+                string[] lines = File.ReadAllLines(@Program.walkSetting);
+                i = 1;
+                foreach (string line in lines)
+                {
+                    /*
+                     *               
+                Globals.farmPokestops.ToString(),
+                Globals.CatchPokemon.ToString(),
+                Globals.BreakAtLure.ToString(),
+                Globals.UseLureAtBreak.ToString(),
+                Globals.RandomReduceSpeed.ToString(),
+                Globals.UseGoogleMapsAPI.ToString(),
+                textBox33.Text,
+                textBox30.Text,
+                textBox31.Text,
+                textBox32.Text,
+                textBox28.Text,
+                textBox29.Text,
+                textBox34.Text
+                     */
+                    switch (i)
+                    {
+                        case 1:
+                            checkBox18.Checked = bool.Parse(line);
+                            break;
+                        case 2:
+                            checkBox19.Checked = bool.Parse(line);
+                            break;
+                        case 3:
+                            checkBox20.Checked = bool.Parse(line);
+                            break;
+                        case 4:
+                            checkBox21.Checked = bool.Parse(line);
+                            break;
+                        case 5:
+                            checkBox23.Checked = bool.Parse(line);
+                            break;
+                        case 6:
+                            checkBox22.Checked = bool.Parse(line);
+                            break;
+                        case 7:
+                            textBox33.Text = line;
+                            break;
+                        case 8:
+                            textBox30.Text = line;
+                            break;
+                        case 9:
+                            textBox31.Text = line;
+                            break;
+                        case 10:
+                            textBox32.Text = line;
+                            break;
+                        case 11:
+                            textBox28.Text = line;
+                            break;
+                        case 12:
+                            textBox29.Text = line;
+                            break;
+                        case 13:
+                            textBox34.Text = line;
+                            break;
+                        case 14:
+                            textBox27.Text = line;
+                            break;
+                    }
+                    i++;
+                }
+            }
+
             if (File.Exists(Program.keep))
             {
                 string[] lines = File.ReadAllLines(@Program.keep);
@@ -422,12 +494,12 @@ namespace PokemonGo.RocketAPI.Console
                 {
                     label2.Text = "KullaniciAdi:";
                 }*/
-                //    textBox1.Show();
-                //    label2.Show();
-                //    textBox2.Show();
-                //    label3.Show();
-            }
-        }
+                            //    textBox1.Show();
+                            //    label2.Show();
+                            //    textBox2.Show();
+                            //    label3.Show();
+                    }
+                }
         //Password KeyPress Event
         private void textBox3_KeyPress(object sender, KeyPressEventArgs e)
         {
@@ -757,7 +829,6 @@ namespace PokemonGo.RocketAPI.Console
                     Convert.ToInt16(Globals.razzberry_chance * 100).ToString(),
                     Globals.sleepatpokemons.ToString(),
                     Globals.farmPokestops.ToString(),
-                    Globals.TimeToRun.ToString()
             };
             File.WriteAllLines(@Program.account, accFile);
 
@@ -775,6 +846,25 @@ namespace PokemonGo.RocketAPI.Console
                     Globals.toprevive.ToString()
             };
             File.WriteAllLines(@Program.items, itemsFile);
+
+            string[] walkSettingsFile =
+            {
+                Globals.farmPokestops.ToString(),
+                Globals.CatchPokemon.ToString(),
+                Globals.BreakAtLure.ToString(),
+                Globals.UseLureAtBreak.ToString(),
+                Globals.RandomReduceSpeed.ToString(),
+                Globals.UseGoogleMapsAPI.ToString(),
+                textBox33.Text,
+                textBox30.Text,
+                textBox31.Text,
+                textBox32.Text,
+                textBox28.Text,
+                textBox29.Text,
+                textBox34.Text,
+                textBox27.Text
+            };
+            File.WriteAllLines(@Program.walkSetting, walkSettingsFile);
 
             string[] temp = new string[200];
             int i = 0;

@@ -20,6 +20,7 @@ namespace PokemonGo.RocketAPI.Console
         public static string path_translation = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Translations");
         public static string account = Path.Combine(path, "Config.txt");
         public static string items = Path.Combine(path, "Items.txt");
+        public static string walkSetting = Path.Combine(path, "walk.txt");
         public static string keep = Path.Combine(path, "noTransfer.txt");
         public static string ignore = Path.Combine(path, "noCatch.txt");
         public static string evolve = Path.Combine(path, "Evolve.txt");
