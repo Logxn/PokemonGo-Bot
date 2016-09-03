@@ -108,17 +108,17 @@ namespace PokemonGo.RocketAPI.Console
                 }
             }
 
-            List<string> b = new List<string>();
-            b.Add("de.json");
-            b.Add("france.json");
-            b.Add("italian.json");
-            b.Add("ptBR.json");
-            b.Add("ru.json");
-            b.Add("spain.json");
-            b.Add("tr.json");
-            b.Add("arabic.json");
+            List<string> translateFiles = new List<string>();
+            translateFiles.Add("de.json");
+            translateFiles.Add("france.json");
+            translateFiles.Add("italian.json");
+            translateFiles.Add("ptBR.json");
+            translateFiles.Add("ru.json");
+            translateFiles.Add("spain.json");
+            translateFiles.Add("tr.json");
+            translateFiles.Add("arabic.json");
 
-            foreach (var l in b)
+            foreach (var l in translateFiles)
             {
                 Extract("PokemonGo.RocketAPI.Console", Program.path_translation, "Lang", l);
             }
@@ -693,6 +693,7 @@ namespace PokemonGo.RocketAPI.Console
             Globals.gerNames = checkBox8.Checked;
             Globals.useincense = checkBox9.Checked;
             Globals.pokeList = checkBox10.Checked;
+            Globals.pokeIdColumn = checkBox25.Checked;
             Globals.keepPokemonsThatCanEvolve = checkBox11.Checked;
             //Globals.pokevision = checkBox12.Checked;
             Globals.useLuckyEggIfNotRunning = checkBox12.Checked;
@@ -757,7 +758,8 @@ namespace PokemonGo.RocketAPI.Console
                     Convert.ToInt16(Globals.razzberry_chance * 100).ToString(),
                     Globals.sleepatpokemons.ToString(),
                     Globals.farmPokestops.ToString(),
-                    Globals.TimeToRun.ToString()
+                    Globals.TimeToRun.ToString(),
+                    Globals.pokeIdColumn.ToString()
             };
             File.WriteAllLines(@Program.account, accFile);
 
@@ -1399,6 +1401,11 @@ namespace PokemonGo.RocketAPI.Console
         private void checkBox23_CheckedChanged(object sender, EventArgs e)
         {
             Globals.RandomReduceSpeed = checkBox23.Checked;
+        }
+
+        private void checkBox25_CheckedChanged(object sender, EventArgs e)
+        {
+            Globals.pokeIdColumn = checkBox25.Checked;
         }
     }
 }

@@ -108,37 +108,20 @@ namespace PokemonGo.RocketAPI.Console
                     PokemonListView.DoubleBuffered(true);
                     PokemonListView.View = View.Details;
 
-                    ColumnHeader columnheader;
-                    columnheader = new ColumnHeader();
-                    columnheader.Text = "Name";
-                    PokemonListView.Columns.Add(columnheader);
-                    columnheader = new ColumnHeader();
-                    columnheader.Text = "CP";
-                    PokemonListView.Columns.Add(columnheader);
-                    columnheader = new ColumnHeader();
-                    columnheader.Text = "IV A-D-S";
-                    PokemonListView.Columns.Add(columnheader);
-                    columnheader = new ColumnHeader();
-                    columnheader.Text = "LVL";
-                    PokemonListView.Columns.Add(columnheader);
-                    columnheader = new ColumnHeader();
-                    columnheader.Text = "Evolvable?";
-                    PokemonListView.Columns.Add(columnheader);
-                    columnheader = new ColumnHeader();
-                    columnheader.Text = "Height";
-                    PokemonListView.Columns.Add(columnheader);
-                    columnheader = new ColumnHeader();
-                    columnheader.Text = "Weight";
-                    PokemonListView.Columns.Add(columnheader);
-                    columnheader = new ColumnHeader();
-                    columnheader.Text = "HP";
-                    PokemonListView.Columns.Add(columnheader);
-                    columnheader = new ColumnHeader();
-                    columnheader.Text = "Attack";
-                    PokemonListView.Columns.Add(columnheader);
-                    columnheader = new ColumnHeader();
-                    columnheader.Text = "SpecialAttack (DPS)";
-                    PokemonListView.Columns.Add(columnheader);
+                    PokemonListView.Columns.Add(PokemonListViewColumns.Name.ToString(), "Name");
+
+                    if (Globals.pokeIdColumn)
+                        PokemonListView.Columns.Add(PokemonListViewColumns.Id.ToString(), "#Id");
+
+                    PokemonListView.Columns.Add(PokemonListViewColumns.CP.ToString(), "CP");
+                    PokemonListView.Columns.Add(PokemonListViewColumns.IV_ADS.ToString(), "IV A-D-S");
+                    PokemonListView.Columns.Add(PokemonListViewColumns.LVL.ToString(), "LVL");
+                    PokemonListView.Columns.Add(PokemonListViewColumns.Evolvable.ToString(), "Evolvable?");
+                    PokemonListView.Columns.Add(PokemonListViewColumns.Height.ToString(), "Height");
+                    PokemonListView.Columns.Add(PokemonListViewColumns.Weight.ToString(), "Weight");
+                    PokemonListView.Columns.Add(PokemonListViewColumns.HP.ToString(), "HP");
+                    PokemonListView.Columns.Add(PokemonListViewColumns.Attack.ToString(), "Attack");
+                    PokemonListView.Columns.Add(PokemonListViewColumns.SpecialAttack.ToString(), "SpecialAttack (DPS)");
 
                     foreach (var pokemon in pokemons)
                     {
@@ -153,13 +136,16 @@ namespace PokemonGo.RocketAPI.Console
                         var listViewItem = new ListViewItem();
                         listViewItem.Tag = pokemon;
 
-
-
                         var currentCandy = families
                             .Where(i => (int)i.FamilyId <= (int)pokemon.PokemonId)
                             .Select(f => f.Candy_)
                             .First();
+
+                        if (Globals.pokeIdColumn)
+                            listViewItem.SubItems.Add(string.Format("{0}", ((int)pokemon.PokemonId).ToString()));
+
                         listViewItem.SubItems.Add(string.Format("{0}", pokemon.Cp));
+
                         listViewItem.SubItems.Add(string.Format("{0}% {1}-{2}-{3}", PokemonInfo.CalculatePokemonPerfection(pokemon).ToString("0.00"), pokemon.IndividualAttack, pokemon.IndividualDefense, pokemon.IndividualStamina));
                         listViewItem.SubItems.Add(string.Format("{0}", PokemonInfo.GetLevel(pokemon)));
                         listViewItem.ImageKey = pokemon.PokemonId.ToString();
@@ -356,7 +342,11 @@ namespace PokemonGo.RocketAPI.Console
             }
 
             // Create a comparer.
-            PokemonListView.ListViewItemSorter = new ListViewComparer(e.Column, sort_order);
+            var comparer = new ListViewComparer(e.Column, sort_order);
+            comparer.IVColumnIndex = PokemonListView.Columns.IndexOfKey(PokemonListViewColumns.IV_ADS.ToString());
+            comparer.HPColumnIndex = PokemonListView.Columns.IndexOfKey(PokemonListViewColumns.HP.ToString());
+
+            PokemonListView.ListViewItemSorter = comparer;
 
             // Sort.
             PokemonListView.Sort();
@@ -851,11 +841,16 @@ namespace PokemonGo.RocketAPI.Console
     {
         private int ColumnNumber;
         private SortOrder SortOrder;
+        public int IVColumnIndex { get; set; }
+        public int HPColumnIndex { get; set; }
 
         public ListViewComparer(int column_number, SortOrder sort_order)
         {
             ColumnNumber = column_number;
             SortOrder = sort_order;
+
+            IVColumnIndex = 2;
+            HPColumnIndex = 7;
         }
 
         // Compare two ListViewItems.
@@ -886,13 +881,13 @@ namespace PokemonGo.RocketAPI.Console
                 string_y = item_y.SubItems[ColumnNumber].Text;
             }
 
-            if (ColumnNumber == 2) //IV
+            if (ColumnNumber == IVColumnIndex) //IV
             {
                 string_x = string_x.Substring(0, string_x.IndexOf("%"));
                 string_y = string_y.Substring(0, string_y.IndexOf("%"));
 
             }
-            else if (ColumnNumber == 7) //HP
+            else if (ColumnNumber == HPColumnIndex) //HP
             {
                 string_x = string_x.Substring(0, string_x.IndexOf("/"));
                 string_y = string_y.Substring(0, string_y.IndexOf("/"));
@@ -934,5 +929,20 @@ namespace PokemonGo.RocketAPI.Console
                 return -result;
             }
         }
+    }
+
+    public enum PokemonListViewColumns
+    {
+        Name,
+        CP,
+        Id,
+        IV_ADS,
+        LVL,
+        Evolvable,
+        Height,
+        Weight,
+        HP,
+        Attack,
+        SpecialAttack
     }
 }
