@@ -168,6 +168,9 @@ namespace PokemonGo.RocketAPI.Console
                                 case 27:
                                     Globals.TransferFirstLowIV = bool.Parse(line);
                                     break;
+                                case 28:
+                                    Globals.pokeIdColumn = bool.Parse(line);
+                                    break;
                                     //case 28:
                                     //    Globals.userazzberry = bool.Parse(line);
                                     //    break;
@@ -451,6 +454,7 @@ namespace PokemonGo.RocketAPI.Console
         public static double razzberry_chance = 0.35;
         public static bool gerNames = false;
         public static bool pokeList = true;
+        public static bool pokeIdColumn = false;
         public static bool keepPokemonsThatCanEvolve = true;
         public static bool TransferFirstLowIV = true;
         public static bool pokevision = false;

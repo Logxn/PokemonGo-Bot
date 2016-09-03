@@ -22,7 +22,7 @@ namespace PokemonGo.RocketAPI.Console
 
         public static NumberStyles cords = NumberStyles.AllowDecimalPoint | NumberStyles.AllowLeadingSign;
         public static int[] evolveBlacklist = {
-            3, 6, 9, 12, 15, 18, 20, 22, 24, 26, 28, 31, 34, 36, 38, 40, 42, 45, 47, 49, 51, 53, 55, 57, 59, 62, 65, 68, 71, 73, 76, 78, 80, 82, 83, 85, 87, 89, 91, 94, 95, 97, 99, 101, 103, 105, 106, 107, 108, 110, 112, 113, 114, 115, 117, 119, 121, 122, 123, 124, 125, 126, 127, 128, 130, 131, 132, 134, 135, 136, 137, 139, 141, 142, 143, 144, 145, 146, 149, 150, 151
+            (int)PokemonId.Venusaur, 6, 9, 12, 15, 18, 20, 22, 24, 26, 28, 31, 34, 36, 38, 40, 42, 45, 47, 49, 51, 53, 55, 57, 59, 62, 65, 68, 71, 73, 76, 78, 80, 82, 83, 85, 87, 89, 91, 94, 95, 97, 99, 101, 103, 105, 106, 107, 108, 110, 112, 113, 114, 115, 117, 119, 121, 122, 123, 124, 125, 126, 127, 128, 130, 131, 132, 134, 135, 136, 137, 139, 141, 142, 143, 144, 145, 146, 149, 150, 151
         };
         public static Dictionary<string, string> gerEng = new Dictionary<string, string>();
 
@@ -108,17 +108,17 @@ namespace PokemonGo.RocketAPI.Console
                 }
             }
 
-            List<string> b = new List<string>();
-            b.Add("de.json");
-            b.Add("france.json");
-            b.Add("italian.json");
-            b.Add("ptBR.json");
-            b.Add("ru.json");
-            b.Add("spain.json");
-            b.Add("tr.json");
-            b.Add("arabic.json");
+            List<string> translateFiles = new List<string>();
+            translateFiles.Add("de.json");
+            translateFiles.Add("france.json");
+            translateFiles.Add("italian.json");
+            translateFiles.Add("ptBR.json");
+            translateFiles.Add("ru.json");
+            translateFiles.Add("spain.json");
+            translateFiles.Add("tr.json");
+            translateFiles.Add("arabic.json");
 
-            foreach (var l in b)
+            foreach (var l in translateFiles)
             {
                 Extract("PokemonGo.RocketAPI.Console", Program.path_translation, "Lang", l);
             }
@@ -693,6 +693,7 @@ namespace PokemonGo.RocketAPI.Console
             Globals.gerNames = checkBox8.Checked;
             Globals.useincense = checkBox9.Checked;
             Globals.pokeList = checkBox10.Checked;
+            Globals.pokeIdColumn = checkBox25.Checked;
             Globals.keepPokemonsThatCanEvolve = checkBox11.Checked;
             //Globals.pokevision = checkBox12.Checked;
             Globals.useLuckyEggIfNotRunning = checkBox12.Checked;
@@ -757,7 +758,8 @@ namespace PokemonGo.RocketAPI.Console
                     Convert.ToInt16(Globals.razzberry_chance * 100).ToString(),
                     Globals.sleepatpokemons.ToString(),
                     Globals.farmPokestops.ToString(),
-                    Globals.TimeToRun.ToString()
+                    Globals.TimeToRun.ToString(),
+                    Globals.pokeIdColumn.ToString()
             };
             File.WriteAllLines(@Program.account, accFile);
 
@@ -1399,6 +1401,11 @@ namespace PokemonGo.RocketAPI.Console
         private void checkBox23_CheckedChanged(object sender, EventArgs e)
         {
             Globals.RandomReduceSpeed = checkBox23.Checked;
+        }
+
+        private void checkBox25_CheckedChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }
