@@ -21,6 +21,14 @@ using POGOProtos.Data;
 using System.Threading;
 using POGOProtos.Inventory;
 using Newtonsoft.Json;
+using GoogleMapsApi;
+using GoogleMapsApi.Entities.Common;
+using GoogleMapsApi.Entities.Directions.Request;
+using GoogleMapsApi.Entities.Directions.Response;
+using GoogleMapsApi.Entities.Geocoding.Request;
+using GoogleMapsApi.Entities.Geocoding.Response;
+using GoogleMapsApi.StaticMaps;
+using GoogleMapsApi.StaticMaps.Entities;
 
 namespace PokemonGo.RocketAPI.Logic
 {
@@ -456,7 +464,60 @@ namespace PokemonGo.RocketAPI.Logic
                         walkspeed = rintwalk;
                     }
                 }
-                var update = await _navigation.HumanLikeWalking(new GeoCoordinate(pokeStop.Latitude, pokeStop.Longitude), walkspeed, ExecuteCatchAllNearbyPokemons);
+                if (_clientSettings.UseGoogleMapsAPI)
+                {
+                    Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Getting Google Maps Routing");
+                    if (_clientSettings.GoogleMapsAPIKey != null)
+                    {
+                        DirectionsRequest directionsRequest = new DirectionsRequest();
+                        directionsRequest.ApiKey = _clientSettings.GoogleMapsAPIKey;
+                        directionsRequest.TravelMode = TravelMode.Walking;
+                        directionsRequest.Origin = _client.CurrentLatitude + "," + _client.CurrentLongitude;
+                        directionsRequest.Destination = pokeStop.Latitude + "," + pokeStop.Longitude;
+
+                        DirectionsResponse directions = GoogleMaps.Directions.Query(directionsRequest);
+
+                        if (directions.Status == DirectionsStatusCodes.OK)
+                        {
+                            var steps = directions.Routes.First().Legs.First().Steps;
+                            var stepcount = 0;                           
+                            foreach (var step in steps)
+                            {
+                                var directiontext = Helpers.Utils.HtmlRemoval.StripTagsRegexCompiled(step.HtmlInstructions);
+                                Logger.ColoredConsoleWrite(ConsoleColor.Green, directiontext);
+                                var update = await _navigation.HumanLikeWalking(new GeoCoordinate(step.EndLocation.Latitude, step.EndLocation.Longitude), walkspeed, ExecuteCatchAllNearbyPokemons);
+                                stepcount++;
+                                if (stepcount == steps.Count())
+                                {
+                                    Logger.ColoredConsoleWrite(ConsoleColor.Green, "Destination Reached!");
+                                }
+                            }
+                        }
+                        else if (directions.Status == DirectionsStatusCodes.REQUEST_DENIED)
+                        {
+                            Logger.ColoredConsoleWrite(ConsoleColor.Green, "Request Failed! Bad API key?");
+                            var update = await _navigation.HumanLikeWalking(new GeoCoordinate(pokeStop.Latitude, pokeStop.Longitude), walkspeed, ExecuteCatchAllNearbyPokemons);
+                        }
+                        else if (directions.Status == DirectionsStatusCodes.OVER_QUERY_LIMIT)
+                        {
+                            Logger.ColoredConsoleWrite(ConsoleColor.Green, "Over 2500 queries today! Are you botting unsafely? :)");
+                            var update = await _navigation.HumanLikeWalking(new GeoCoordinate(pokeStop.Latitude, pokeStop.Longitude), walkspeed, ExecuteCatchAllNearbyPokemons);
+                        }
+                        else
+                        {
+                            var update = await _navigation.HumanLikeWalking(new GeoCoordinate(pokeStop.Latitude, pokeStop.Longitude), walkspeed, ExecuteCatchAllNearbyPokemons);
+                        }
+                    }
+                    else
+                    {
+                        Logger.ColoredConsoleWrite(ConsoleColor.Red, $"API Key not found in Client Settings! Using default method instead.");
+                        var update = await _navigation.HumanLikeWalking(new GeoCoordinate(pokeStop.Latitude, pokeStop.Longitude), walkspeed, ExecuteCatchAllNearbyPokemons);
+                    }
+                }
+                else
+                {
+                    var update = await _navigation.HumanLikeWalking(new GeoCoordinate(pokeStop.Latitude, pokeStop.Longitude), walkspeed, ExecuteCatchAllNearbyPokemons);
+                }
                 var addedlure = false;
                 if (_clientSettings.pauseAtPokeStop)
                 {
@@ -635,7 +696,7 @@ namespace PokemonGo.RocketAPI.Logic
                         {
                             if (((probability.HasValue && probability.Value < _clientSettings.razzberry_chance) || escaped) && _clientSettings.UseRazzBerry && !used)
                             {
-                                var bestBerry = await GetBestBerry(encounterPokemonResponse?.WildPokemon);                                
+                                var bestBerry = await GetBestBerry(encounterPokemonResponse?.WildPokemon);
                                 if (bestBerry != ItemId.ItemUnknown)
                                 {
                                     var berries = inventoryBerries.Where(p => (ItemId)p.ItemId == bestBerry).FirstOrDefault();
@@ -656,11 +717,12 @@ namespace PokemonGo.RocketAPI.Logic
                                         used = true;
                                     }
                                 }
-                                else {
+                                else
+                                {
                                     berryThrown = true;
                                     escaped = true;
                                     used = true;
-                                }                                
+                                }
                             }
                             // limit number of balls wasted by misses and log for UX because fools be tripin
                             //TODO eventually make the max miss count client configurable;
@@ -897,7 +959,7 @@ namespace PokemonGo.RocketAPI.Logic
 
                 var kmWalked = stats.KmWalked;
 
-                var rememberedIncubatorsFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory + "\\Configs", "incubators.json");
+                var rememberedIncubatorsFilePath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory + "\\Configs", "incubators.json");
                 var rememberedIncubators = GetRememberedIncubators(rememberedIncubatorsFilePath);
 
                 foreach (var incubator in rememberedIncubators)
@@ -1228,7 +1290,7 @@ namespace PokemonGo.RocketAPI.Logic
         }
         private static List<IncubatorUsage> GetRememberedIncubators(string filePath)
         {
-            Directory.CreateDirectory(Path.GetDirectoryName(filePath));
+            Directory.CreateDirectory(System.IO.Path.GetDirectoryName(filePath));
 
             if (File.Exists(filePath))
                 return JsonConvert.DeserializeObject<List<IncubatorUsage>>(File.ReadAllText(filePath, Encoding.UTF8));
@@ -1238,7 +1300,7 @@ namespace PokemonGo.RocketAPI.Logic
 
         private static void SaveRememberedIncubators(List<IncubatorUsage> incubators, string filePath)
         {
-            Directory.CreateDirectory(Path.GetDirectoryName(filePath));
+            Directory.CreateDirectory(System.IO.Path.GetDirectoryName(filePath));
 
             File.WriteAllText(filePath, JsonConvert.SerializeObject(incubators), Encoding.UTF8);
         }

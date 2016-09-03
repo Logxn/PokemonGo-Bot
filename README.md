@@ -1,4 +1,10 @@
 ![headerimg](http://i.imgur.com/tyoivkz.png)
+
+Donate
+-------------
+> - You can Donate with BitCoins. 
+> - 19draCqKutHzoZoYzp8ui3txLejd6ZUsLo
+
 Features
 -------------
 > - Auto Farming Pokestops/Pokemon.
@@ -12,6 +18,10 @@ Features
 > - Real Animation waiting time
 > - Open Source
 > - Security
+> - Google Routing
+> - PowerUp/Evolve Pokemons in the Gui
+> - Manage Items to hold
+> - and much more!
 
 Credits
 -------------------
