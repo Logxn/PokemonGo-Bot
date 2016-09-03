@@ -1508,9 +1508,9 @@
             this.checkBox8.Location = new System.Drawing.Point(28, 108);
             this.checkBox8.Margin = new System.Windows.Forms.Padding(4);
             this.checkBox8.Name = "checkBox8";
-            this.checkBox8.Size = new System.Drawing.Size(190, 21);
+            this.checkBox8.Size = new System.Drawing.Size(265, 21);
             this.checkBox8.TabIndex = 42;
-            this.checkBox8.Text = "German Pokemon names";
+            this.checkBox8.Text = "German Pokemon names (BROKEN!)";
             this.checkBox8.UseVisualStyleBackColor = true;
             // 
             // checkBox24
@@ -1525,6 +1525,7 @@
             this.checkBox24.TabIndex = 40;
             this.checkBox24.Text = "Simulate Animation Times at Evolve";
             this.checkBox24.UseVisualStyleBackColor = true;
+            this.checkBox24.CheckedChanged += new System.EventHandler(this.checkBox24_CheckedChanged);
             // 
             // checkBox7
             // 
@@ -1538,6 +1539,7 @@
             this.checkBox7.TabIndex = 41;
             this.checkBox7.Text = "Use LuckyEgg at Evolve";
             this.checkBox7.UseVisualStyleBackColor = true;
+            this.checkBox7.CheckedChanged += new System.EventHandler(this.checkBox7_CheckedChanged);
             // 
             // checkBox3
             // 
@@ -1551,6 +1553,7 @@
             this.checkBox3.TabIndex = 44;
             this.checkBox3.Text = "Evolve Pokemons if enough candy\r\n";
             this.checkBox3.UseVisualStyleBackColor = true;
+            this.checkBox3.CheckedChanged += new System.EventHandler(this.checkBox3_CheckedChanged);
             // 
             // tabControl1
             // 
@@ -1701,7 +1704,7 @@
             this.checkBox18.TabIndex = 45;
             this.checkBox18.Text = "Farm Pokestops";
             this.checkBox18.UseVisualStyleBackColor = true;
-            this.checkBox18.CheckedChanged += new System.EventHandler(this.checkBox18_CheckedChanged_1);
+            this.checkBox18.CheckedChanged += new System.EventHandler(this.checkBox18_CheckedChanged);
             // 
             // checkBox17
             // 
