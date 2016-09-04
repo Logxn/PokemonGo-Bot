@@ -1,10 +1,5 @@
 ![headerimg](http://i.imgur.com/tyoivkz.png)
 
-Donate
--------------
-> - You can Donate with BitCoins. 
-> - 19draCqKutHzoZoYzp8ui3txLejd6ZUsLo
-
 Features
 -------------
 > - Auto Farming Pokestops/Pokemon.
@@ -21,6 +16,7 @@ Features
 > - Google Routing
 > - PowerUp/Evolve Pokemons in the Gui
 > - Manage Items to hold
+> - Archimedean spiral (https://en.wikipedia.org/wiki/Archimedean_spiral)
 > - and much more!
 
 Credits
@@ -29,6 +25,6 @@ Most thanks to FeroxRev and AeonLucid, without them this wouldn't be possible.<b
 FeroxRev - https://github.com/FeroxRev/Pokemon-Go-Rocket-API<br>
 AeonLucid - https://github.com/AeonLucid/POGOProtos<br>
 MTK4355 - Doing a really really good job!<br>
-
+Cicklow - Mods!
 
 https://github.com/NecronomiconCoding/NecroBot<br>

@@ -60,6 +60,8 @@ namespace PokemonGo.RocketAPI.Console
 
         public bool Language => Globals.gerNames;
 
+        public bool Espiral => Globals.Espiral;
+
         public string SelectedLanguage => Globals.settingsLanguage;
         /*
                  string UseProxyHost { get; set; }
@@ -323,6 +325,19 @@ namespace PokemonGo.RocketAPI.Console
         {
             get { return Globals.MinWalkSpeed; }
             set { Globals.MinWalkSpeed = value; }
+        }
+
+        bool ISettings.Espiral
+        {
+            get
+            {
+                return Globals.Espiral;
+            }
+
+            set
+            {
+                Globals.Espiral = value;
+            }
         }
     }
 }

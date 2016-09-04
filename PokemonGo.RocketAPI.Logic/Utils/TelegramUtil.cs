@@ -66,7 +66,7 @@ namespace PokemonGo.RocketAPI.Logic.Utils
             { TelegramUtilInformationTopics.Pokestop, "Visited a pokestop {0}\nXP: {1}, Eggs: {2}, Gems:{3}, Items: {4}" },
             { TelegramUtilInformationTopics.Catch, "Caught {0} CP {1} IV {2}% using {3} got {4} XP." },
             { TelegramUtilInformationTopics.Evolve, "Evolved {0} CP {1} {2}%  to {3} CP: {4} for {5}xp" },
-            { TelegramUtilInformationTopics.Transfer, "Transfer {0} CP {1} IV {2}% (Best: {4} CP)" },
+            { TelegramUtilInformationTopics.Transfer, "Transfer {0} CP {1} IV {2}% (Best: {3} CP)" },
             { TelegramUtilInformationTopics.Levelup, "You ({0}) got Level Up! Your new Level is now {1}!" },
         };
 
@@ -375,7 +375,7 @@ namespace PokemonGo.RocketAPI.Logic.Utils
                                     if (textCMD[1].ToLower() == topic.ToString().ToLower()) {
                                         String niceName = topic.ToString().Substring(0, 1).ToUpper() + topic.ToString().Substring(1).ToLower();
                                         _information[topic] = !_information[topic];
-                                        telegramAnswer = (_information[topic] ? "Dis" : "En") + "abled information topic " + niceName + "\n";
+                                        telegramAnswer = (_information[topic] ? "En" : "Dis") + "abled information topic " + niceName + "\n";
                                         break;
                                     }
                                 }
