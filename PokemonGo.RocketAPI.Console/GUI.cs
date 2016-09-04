@@ -1508,7 +1508,7 @@ namespace PokemonGo.RocketAPI.Console
 
         private void button4_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Walk spiral getting Pokemon and only pokestops who are within 30 meters of the course.");
+            MessageBox.Show("This will capture pokemons while walking spiral, and will use pokestops which are within 30 meters of the path projected.");
         }
 
         private void checkBox25_CheckedChanged(object sender, EventArgs e)
