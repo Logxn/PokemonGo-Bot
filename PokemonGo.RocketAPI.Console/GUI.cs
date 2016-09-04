@@ -19,11 +19,8 @@ namespace PokemonGo.RocketAPI.Console
 {
     public partial class GUI : Form
     {
-
         public static NumberStyles cords = NumberStyles.AllowDecimalPoint | NumberStyles.AllowLeadingSign;
-        public static int[] evolveBlacklist = {
-            3, 6, 9, 12, 15, 18, 20, 22, 24, 26, 28, 31, 34, 36, 38, 40, 42, 45, 47, 49, 51, 53, 55, 57, 59, 62, 65, 68, 71, 73, 76, 78, 80, 82, 83, 85, 87, 89, 91, 94, 95, 97, 99, 101, 103, 105, 106, 107, 108, 110, 112, 113, 114, 115, 117, 119, 121, 122, 123, 124, 125, 126, 127, 128, 130, 131, 132, 134, 135, 136, 137, 139, 141, 142, 143, 144, 145, 146, 149, 150, 151
-        };
+        public static int[] evolveBlacklist = PokemonEvolvable.NotEvolvables.Select(h => (int)h).ToArray();
         public static Dictionary<string, string> gerEng = new Dictionary<string, string>();
 
         public GUI()
@@ -37,38 +34,11 @@ namespace PokemonGo.RocketAPI.Console
             if (comboBox1.SelectedIndex == 0)
             {
                 label2.Text = "E-Mail:";
-                //    textBox1.Hide();
-                //    label2.Hide();
-                //    textBox2.Hide();
-                //    label3.Hide();
             }
             else
             {
                 label2.Text = TranslationHandler.GetString("username", "Username :");
-                /*if (languagestr == null)
-                {
-                    label2.Text = "Username:";
-                }
-                else if (languagestr == "de")
-                {
-                    label2.Text = "Benutzername:";
-                }
-                else if (languagestr == "spain")
-                {
-                    label2.Text = "Usuario:";
-                }
-                else if (languagestr == "ptBR")
-                {
-                    label2.Text = "Usuário:";
-                }
-                else if (languagestr == "tr")
-                {
-                    label2.Text = "KullaniciAdi:";
-                }*/
-                //    textBox1.Show();
-                //    label2.Show();
-                //    textBox2.Show();
-                //    label3.Show();
+
             }
         }
 
@@ -1406,6 +1376,114 @@ namespace PokemonGo.RocketAPI.Console
         private void checkBox25_CheckedChanged(object sender, EventArgs e)
         {
             Globals.pokeIdColumn = checkBox25.Checked;
+        }
+    }
+
+    public static class PokemonEvolvable
+    {
+        public static List<PokemonId> Evolvables
+        {
+            get
+            {
+                var response = new List<PokemonId>();
+
+                foreach (PokemonId value in Enum.GetValues(typeof(PokemonId)))
+                    if (!NotEvolvables.Contains(value))
+                        response.Add(value);
+
+                return response;
+            }
+        }
+
+        public static List<PokemonId> NotEvolvables
+        {
+            get
+            {
+                return new List<PokemonId>
+                {
+                    PokemonId.Venusaur,
+                    PokemonId.Charizard,
+                    PokemonId.Blastoise,
+                    PokemonId.Butterfree,
+                    PokemonId.Beedrill,
+                    PokemonId.Pidgeot,
+                    PokemonId.Raticate,
+                    PokemonId.Fearow,
+                    PokemonId.Arbok,
+                    PokemonId.Raichu,
+                    PokemonId.Sandslash,
+                    PokemonId.Nidoqueen,
+                    PokemonId.Nidoking,
+                    PokemonId.Clefable,
+                    PokemonId.Ninetales,
+                    PokemonId.Wigglytuff,
+                    PokemonId.Golbat,
+                    PokemonId.Vileplume,
+                    PokemonId.Parasect,
+                    PokemonId.Venomoth,
+                    PokemonId.Dugtrio,
+                    PokemonId.Persian,
+                    PokemonId.Golduck,
+                    PokemonId.Primeape,
+                    PokemonId.Arcanine,
+                    PokemonId.Poliwrath,
+                    PokemonId.Alakazam,
+                    PokemonId.Machamp,
+                    PokemonId.Victreebel,
+                    PokemonId.Tentacruel,
+                    PokemonId.Golem,
+                    PokemonId.Rapidash,
+                    PokemonId.Slowbro,
+                    PokemonId.Magneton,
+                    PokemonId.Farfetchd,
+                    PokemonId.Dodrio,
+                    PokemonId.Dewgong,
+                    PokemonId.Muk,
+                    PokemonId.Cloyster,
+                    PokemonId.Gengar,
+                    PokemonId.Onix,
+                    PokemonId.Hypno,
+                    PokemonId.Kingler,
+                    PokemonId.Electrode,
+                    PokemonId.Exeggutor,
+                    PokemonId.Marowak,
+                    PokemonId.Hitmonlee,
+                    PokemonId.Hitmonchan,
+                    PokemonId.Lickitung,
+                    PokemonId.Weezing,
+                    PokemonId.Rhydon,
+                    PokemonId.Chansey,
+                    PokemonId.Tangela,
+                    PokemonId.Kangaskhan,
+                    PokemonId.Seadra,
+                    PokemonId.Seaking,
+                    PokemonId.Starmie,
+                    PokemonId.MrMime,
+                    PokemonId.Scyther,
+                    PokemonId.Jynx,
+                    PokemonId.Electabuzz,
+                    PokemonId.Magmar,
+                    PokemonId.Pinsir,
+                    PokemonId.Tauros,
+                    PokemonId.Gyarados,
+                    PokemonId.Lapras,
+                    PokemonId.Ditto,
+                    PokemonId.Vaporeon,
+                    PokemonId.Jolteon,
+                    PokemonId.Flareon,
+                    PokemonId.Porygon,
+                    PokemonId.Omastar,
+                    PokemonId.Kabutops,
+                    PokemonId.Aerodactyl,
+                    PokemonId.Snorlax,
+                    PokemonId.Articuno,
+                    PokemonId.Zapdos,
+                    PokemonId.Moltres,
+                    PokemonId.Dragonite,
+                    PokemonId.Mewtwo,
+                    PokemonId.Mew
+                };
+            }
         }
     }
 }
