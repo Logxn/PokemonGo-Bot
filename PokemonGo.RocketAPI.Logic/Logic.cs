@@ -459,8 +459,10 @@ namespace PokemonGo.RocketAPI.Logic
                 .OrderBy(
                 i =>
                 LocationUtils.CalculateDistanceInMeters(_client.CurrentLatitude, _client.CurrentLongitude, i.Latitude, i.Longitude)).ToArray(), _clientSettings.WalkingSpeedInKilometerPerHour);
-
-
+            if (pokeStops.Any())
+            {
+                _infoObservable.PushAvailablePokeStopLocations(pokeStops);
+            }
             if (_clientSettings.MaxWalkingRadiusInMeters != 0)
             {
                 pokeStops = pokeStops.Where(i => LocationUtils.CalculateDistanceInMeters(_clientSettings.DefaultLatitude, _clientSettings.DefaultLongitude, i.Latitude, i.Longitude) <= _clientSettings.MaxWalkingRadiusInMeters).ToArray();
@@ -495,9 +497,10 @@ namespace PokemonGo.RocketAPI.Logic
             var distanceFromStart = LocationUtils.CalculateDistanceInMeters(_clientSettings.DefaultLatitude, _clientSettings.DefaultLongitude, _client.CurrentLatitude, _client.CurrentLongitude);
             foreach (var pokeStop in pokeStops)
             {
-                //moved this inside loop to reduce delay in drawing pokestops if map opened after first load.
-                _infoObservable.PushAvailablePokeStopLocations(pokeStops);
-
+                if (!_clientSettings.MapLoaded && pokeStops.Any())
+                {
+                    _infoObservable.PushAvailablePokeStopLocations(pokeStops);
+                }
                 if (metros30)
                 {
                     var distance1 = LocationUtils.CalculateDistanceInMeters(_client.CurrentLatitude, _client.CurrentLongitude, pokeStop.Latitude, pokeStop.Longitude);

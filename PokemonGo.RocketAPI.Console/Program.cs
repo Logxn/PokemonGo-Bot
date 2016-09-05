@@ -468,6 +468,9 @@ namespace PokemonGo.RocketAPI.Console
         public static string settingsLanguage = "en";
 
         public static Logic.LogicInfoObservable infoObservable = new Logic.LogicInfoObservable();
+
         public static bool Espiral = false;
+
+        public static bool MapLoaded = false;
     }
 }
