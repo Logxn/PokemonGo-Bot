@@ -132,6 +132,7 @@ namespace PokemonGo.RocketAPI.Console
 
         private void map_Load(object sender, EventArgs e)
         {
+            Globals.MapLoaded = true;
             showMap();
         }
 
