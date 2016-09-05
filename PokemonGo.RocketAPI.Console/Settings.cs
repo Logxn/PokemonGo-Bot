@@ -339,5 +339,7 @@ namespace PokemonGo.RocketAPI.Console
                 Globals.Espiral = value;
             }
         }
+
+        public int MinPokemonToEvolve => Globals.MinPokemonToEvolve;
     }
 }
