@@ -145,27 +145,17 @@ namespace PokemonGo.RocketAPI.Logic
         private async Task SetCheckTimeToRun()
         {
             if (_clientSettings.TimeToRun != 0)
-            {
+            {                  
                 if (timetorunstamp == -10000)
                 {
                     timetorunstamp = (_clientSettings.TimeToRun * 60 * 1000) + ((long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds);
-                }
-                if (pausetimestamp != -10000)
-                {
-                    var runTimeRemaining = pausetimestamp - (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds;
-                    Logger.ColoredConsoleWrite(ConsoleColor.Blue, String.Format("Remaining Time until break: {0} minutes", Math.Round(runTimeRemaining / 1000 / 60, 2)));
-                }
-                if (resumetimestamp != -10000)
-                {
-                    var runTimeRemaining = resumetimestamp - (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds;
-                    Logger.ColoredConsoleWrite(ConsoleColor.Blue, String.Format("Remaining Time until resume walking: {0} minutes", Math.Round(runTimeRemaining / 1000 / 60, 2)));
                 }
                 else
                 {
                     var runTimeRemaining = timetorunstamp - (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds;
                     if (runTimeRemaining <= 0)
                     {
-                        Logger.ColoredConsoleWrite(ConsoleColor.Green, "Time To Run Reached or Exceeded...");
+                        Logger.ColoredConsoleWrite(ConsoleColor.Red, "Time To Run Reached or Exceeded...");
                         StringUtils.CheckKillSwitch(true);
                     }
                     else
@@ -174,36 +164,40 @@ namespace PokemonGo.RocketAPI.Logic
                     }
                 }
             }
-            if (pausetimestamp == -10000 && _clientSettings.BreakInterval > 0)
+            if (pausetimestamp > -10000)
             {
-                pausetimestamp = (DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds + _clientSettings.BreakInterval * 60 * 1000;
-            }            
-            //Add logic to set pause time here for now
-            if (resumetimestamp != -10000 && (DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds >= resumetimestamp)
-            {
-                _clientSettings.pauseAtPokeStop = false;
-                Logger.ColoredConsoleWrite(ConsoleColor.Green, "Break over, back to walking!");
-                if (_clientSettings.BreakInterval > 0)
+                var walkTimeRemaining = pausetimestamp - (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds;
+                if (walkTimeRemaining <= 0)
                 {
-                    pausetimestamp = (DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds + _clientSettings.BreakInterval * 60 * 1000;
-                }
-                else { pausetimestamp = -10000; }
-                resumetimestamp = -10000;
-            }
-            if (pausetimestamp != -10000 && (DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds >= pausetimestamp)
-            {
-                _clientSettings.pauseAtPokeStop = true;
-                if (_clientSettings.BreakLength > 0)
-                {
-                    resumetimestamp = (DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds + _clientSettings.BreakLength * 60 * 1000;
                     pausetimestamp = -10000;
+                    _clientSettings.pauseAtPokeStop = true;
+                    resumetimestamp = (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds + _clientSettings.BreakLength * 60 * 1000;
+                    Logger.ColoredConsoleWrite(ConsoleColor.Blue, String.Format("Break Time! Pause walking for {0} minutes", _clientSettings.BreakLength));
                 }
                 else
                 {
-                    resumetimestamp = (DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds + 10 * 60 * 1000;
-                    Logger.ColoredConsoleWrite(ConsoleColor.Green, "Break interval reached, pausing at next pokestop for " + (resumetimestamp - (DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds) + " minutes!");
+                    Logger.ColoredConsoleWrite(ConsoleColor.Blue, String.Format("Remaining Time until break: {0} minutes", Math.Round(walkTimeRemaining / 1000 / 60, 2)));
                 }
             }
+            else if (resumetimestamp == -10000)
+            {
+                pausetimestamp = (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds + _clientSettings.BreakInterval * 60 * 1000;
+                Logger.ColoredConsoleWrite(ConsoleColor.Blue, String.Format("Remaining Time until break: {0} minutes", _clientSettings.BreakInterval));
+            }
+            if (resumetimestamp > -10000)
+            {
+                var breakTimeRemaining = resumetimestamp - (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds;
+                if (breakTimeRemaining <=0)
+                {
+                    resumetimestamp = -10000;
+                    _clientSettings.pauseAtPokeStop = false;
+                    Logger.ColoredConsoleWrite(ConsoleColor.Green, "Break over, back to walking!");                    
+                }
+                else
+                {
+                    Logger.ColoredConsoleWrite(ConsoleColor.Blue, String.Format("Remaining Time until resume walking: {0} minutes", Math.Round(breakTimeRemaining / 1000 / 60, 2)));
+                }
+            }        
             //add logging for pokemon catch disabled here for now to prevent spamming
             if (!_clientSettings.CatchPokemon)
             {
@@ -384,6 +378,61 @@ namespace PokemonGo.RocketAPI.Logic
             Console.Title = profile.PlayerData.Username + " lvl" + stats.Level + "-(" + (stats.Experience - stats.PrevLevelXp -
                 StringUtils.getExpDiff(stats.Level)).ToString("N0") + "/" + (stats.NextLevelXp - stats.PrevLevelXp - StringUtils.getExpDiff(stats.Level)).ToString("N0") + "|" + Math.Round(curexppercent, 2) + "%)| Stardust: " + profile.PlayerData.Currencies.ToArray()[1].Amount + "| " + _botStats.ToString();
         }
+
+        private async Task Espiral(Client client, FortData[] pokeStops)
+        {
+            //Intento de pajarera 1...
+            await ExecuteCatchAllNearbyPokemons();
+            Logger.ColoredConsoleWrite(ConsoleColor.Blue, "Starting Archimedean spiral");
+            int i2 = 0;
+            double angle;
+            double centerx;
+            double centery;
+            double xx;
+            double yy;
+            Boolean salir = true;
+            double distancia;
+            double cantidadvar = 0.0001;
+            double recorrido = _client.Settings.MaxWalkingRadiusInMeters;
+
+            pokeStops = pokeStops.Where(i => LocationUtils.CalculateDistanceInMeters(_client.CurrentLatitude, _client.CurrentLongitude, i.Latitude, i.Longitude) <= _clientSettings.MaxWalkingRadiusInMeters).ToArray();
+
+            centerx = _client.CurrentLatitude;
+            centery = _client.CurrentLongitude;
+
+            if (recorrido <= 100) cantidadvar = 0.00008;
+            if (recorrido > 100 && recorrido <= 500) cantidadvar = 0.00009;
+            if (recorrido > 500 && recorrido <= 1000) cantidadvar = 0.0001;
+            if (recorrido > 1000) cantidadvar = 0.0002;
+
+            while (salir)
+            {
+                angle = 0.3 * i2;
+                xx = centerx + (cantidadvar * angle) * Math.Cos(angle);
+                yy = centery + (cantidadvar * angle) * Math.Sin(angle);
+
+                distancia = Navigation.DistanceBetween2Coordinates(centerx, centery, xx, yy);
+
+                if (distancia > recorrido)
+                {
+                    salir = false;
+                    Logger.ColoredConsoleWrite(ConsoleColor.Green, "Returning to the starting point...");
+                    var update = await _navigation.HumanLikeWalking(new GeoCoordinate(_clientSettings.DefaultLatitude, _clientSettings.DefaultLongitude), _clientSettings.WalkingSpeedInKilometerPerHour, ExecuteCatchAllNearbyPokemons);
+                    var start = await _navigation.HumanLikeWalking(new GeoCoordinate(_clientSettings.DefaultLatitude, _clientSettings.DefaultLongitude), _clientSettings.WalkingSpeedInKilometerPerHour, ExecuteCatchAllNearbyPokemons);
+                    break;
+                }
+                if (i2 % 10 == 0) Logger.ColoredConsoleWrite(ConsoleColor.Blue, "Distance from starting point: " + distancia.ToString() + " metros...");
+
+                await _navigation.HumanLikeWalking(new GeoCoordinate(xx, yy), _clientSettings.WalkingSpeedInKilometerPerHour, ExecuteCatchAllNearbyPokemons);
+
+                //_infoObservable.PushAvailablePokeStopLocations(pokeStops);
+                Logger.ColoredConsoleWrite(ConsoleColor.Blue, "Looking PokeStops who are less than 30 meters...");
+
+                await fncPokeStop(_client, pokeStops, true);
+                i2++;
+            }
+        }
+
         private int count = 0;
         public static int failed_softban = 0;
         private async Task ExecuteFarmingPokestopsAndPokemons(Client client)
@@ -432,10 +481,32 @@ namespace PokemonGo.RocketAPI.Logic
                 Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "We found " + pokeStops.Count() + " usable PokeStops near your current location.");
             }
 
+            if (_clientSettings.Espiral)
+            {
+                await Espiral(client, pokeStops);
+                return;
+            }
+            //Aca capturar poke!
+            await fncPokeStop(_client, pokeStops, false);
+        }
+
+        private async Task fncPokeStop(Client client, FortData[] pokeStops, bool metros30)
+        {
+            var distanceFromStart = LocationUtils.CalculateDistanceInMeters(_clientSettings.DefaultLatitude, _clientSettings.DefaultLongitude, _client.CurrentLatitude, _client.CurrentLongitude);
             foreach (var pokeStop in pokeStops)
             {
                 //moved this inside loop to reduce delay in drawing pokestops if map opened after first load.
                 _infoObservable.PushAvailablePokeStopLocations(pokeStops);
+
+                if (metros30)
+                {
+                    var distance1 = LocationUtils.CalculateDistanceInMeters(_client.CurrentLatitude, _client.CurrentLongitude, pokeStop.Latitude, pokeStop.Longitude);
+                    if (distance1 > 31 && failed_softban < 2)
+                    {
+                        //Logger.ColoredConsoleWrite(ConsoleColor.Green, "Pokestop mas: " + distance.ToString());
+                        continue; //solo agarrar los pokestop que esten a menos de 20 metros
+                    }
+                }
 
                 await SetCheckTimeToRun();
                 await UseIncense();
@@ -576,6 +647,7 @@ namespace PokemonGo.RocketAPI.Logic
                 }
             }
         }
+
         private async Task LogStatsEtc()
         {
             count = 0;

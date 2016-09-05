@@ -369,6 +369,9 @@ namespace PokemonGo.RocketAPI.Console
                         case 14:
                             textBox27.Text = line;
                             break;
+                        case 15:
+                            checkBox25.Checked = bool.Parse(line);
+                            break;
                     }
                     i++;
                 }
@@ -772,6 +775,8 @@ namespace PokemonGo.RocketAPI.Console
             Globals.TransferFirstLowIV = checkBox15.Checked;
             Globals.settingsLanguage = langSelected;
             Globals.sleepatpokemons = checkBox17.Checked;
+            Globals.Espiral = checkBox25.Checked;
+
             if (textBox27.Text == String.Empty)
                 Globals.TimeToRun = 0;
             foreach (string pokemon in checkedListBox1.CheckedItems)
@@ -862,7 +867,8 @@ namespace PokemonGo.RocketAPI.Console
                 textBox28.Text,
                 textBox29.Text,
                 textBox34.Text,
-                textBox27.Text
+                textBox27.Text,
+                Globals.Espiral.ToString(),
             };
             File.WriteAllLines(@Program.walkSetting, walkSettingsFile);
 
@@ -1498,6 +1504,16 @@ namespace PokemonGo.RocketAPI.Console
         private void checkBox3_CheckedChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("This will capture pokemons while walking spiral, and will use pokestops which are within 30 meters of the path projected.");
+        }
+
+        private void checkBox25_CheckedChanged(object sender, EventArgs e)
+        {
+            Globals.Espiral = checkBox25.Checked;
         }
     }
 }
