@@ -992,13 +992,15 @@ namespace PokemonGo.RocketAPI.Logic
         private async Task EvolveAllPokemonWithEnoughCandy(IEnumerable<PokemonId> filter = null)
         {
             var pokemonToEvolve = await _client.Inventory.GetPokemonToEvolve(filter);
-            if (pokemonToEvolve.Count() != 0)
+
+            if (pokemonToEvolve.Count() < _clientSettings.MinPokemonToEvolve)
+                return;
+
+            if (_clientSettings.UseLuckyEgg)
             {
-                if (_clientSettings.UseLuckyEgg)
-                {
-                    await _client.Inventory.UseLuckyEgg(_client);
-                }
+                await _client.Inventory.UseLuckyEgg(_client);
             }
+
             foreach (var pokemon in pokemonToEvolve)
             {
 
@@ -1078,7 +1080,7 @@ namespace PokemonGo.RocketAPI.Logic
                         // Special case: If only one incubator is available at all, it will prefer long eggs
                         var egg = (incubator.ItemId == ItemId.ItemIncubatorBasicUnlimited && incubators.Count > 1)
                             ? unusedEggs.FirstOrDefault()
-                            : unusedEggs.LastOrDefault();
+                            : unusedEggs.Where(x => x.EggKmWalkedTarget == 10).FirstOrDefault();
 
                         if (egg == null)
                             continue;

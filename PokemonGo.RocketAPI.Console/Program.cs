@@ -469,5 +469,7 @@ namespace PokemonGo.RocketAPI.Console
 
         public static Logic.LogicInfoObservable infoObservable = new Logic.LogicInfoObservable();
         public static bool Espiral = false;
+
+        public static int MinPokemonToEvolve = 60;
     }
 }
