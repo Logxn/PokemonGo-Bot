@@ -154,9 +154,6 @@ namespace PokemonGo.RocketAPI.Console
                                 case 22:
                                     Globals.keepPokemonsThatCanEvolve = bool.Parse(line);
                                     break;
-                                case 23:
-                                    Globals.pokevision = bool.Parse(line);
-                                    break;
                                 case 24:
                                     Globals.useluckyegg = bool.Parse(line);
                                     break;
@@ -169,9 +166,12 @@ namespace PokemonGo.RocketAPI.Console
                                 case 27:
                                     Globals.TransferFirstLowIV = bool.Parse(line);
                                     break;
-                                    //case 28:
-                                    //    Globals.userazzberry = bool.Parse(line);
-                                    //    break;
+                                //case 28:
+                                //    Globals.userazzberry = bool.Parse(line);
+                                //    break;
+                                case 33:
+                                    Globals.pokevision = bool.Parse(line);
+                                    break;
                             }
                         }
                         catch (Exception)

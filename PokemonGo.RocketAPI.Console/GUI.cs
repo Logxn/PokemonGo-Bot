@@ -38,7 +38,7 @@ namespace PokemonGo.RocketAPI.Console
 
         private void GUI_Load(object sender, EventArgs e)
         {
-            MessageBox.Show("The Bot isn't done! Be aware that you can get banned!");
+            //MessageBox.Show("The Bot isn't done! Be aware that you can get banned!");
             _clientSettings = new Settings();
             // Create missing Files
             Directory.CreateDirectory(Program.path);
@@ -240,8 +240,8 @@ namespace PokemonGo.RocketAPI.Console
                             checkBox18.Checked = bool.Parse(line);
                             break;
                         case 33:
-                            textBox18.Text = line;
-                            break;
+                            checkBox26.Checked = bool.Parse(line);
+                            break;                        
                         default:
                             TextBox temp = (TextBox)Controls.Find("textBox" + tb, true).FirstOrDefault();
                             temp.Text = line;
@@ -769,7 +769,7 @@ namespace PokemonGo.RocketAPI.Console
             Globals.useincense = checkBox9.Checked;
             Globals.pokeList = checkBox10.Checked;
             Globals.keepPokemonsThatCanEvolve = checkBox11.Checked;
-            //Globals.pokevision = checkBox12.Checked;
+            Globals.pokevision = checkBox26.Checked;
             Globals.useLuckyEggIfNotRunning = checkBox12.Checked;
             Globals.userazzberry = checkBox16.Checked;
             Globals.TransferFirstLowIV = checkBox15.Checked;
@@ -834,6 +834,7 @@ namespace PokemonGo.RocketAPI.Console
                     Convert.ToInt16(Globals.razzberry_chance * 100).ToString(),
                     Globals.sleepatpokemons.ToString(),
                     Globals.farmPokestops.ToString(),
+                    Globals.pokevision.ToString(),                
             };
             File.WriteAllLines(@Program.account, accFile);
 
@@ -1514,6 +1515,16 @@ namespace PokemonGo.RocketAPI.Console
         private void checkBox25_CheckedChanged(object sender, EventArgs e)
         {
             Globals.Espiral = checkBox25.Checked;
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Use api skiplagged.com to capture pokemon. Only if you are less than 125 meters.");
+        }
+
+        private void checkBox26_CheckedChanged(object sender, EventArgs e)
+        {
+            Globals.pokevision = checkBox26.Checked;
         }
     }
 }

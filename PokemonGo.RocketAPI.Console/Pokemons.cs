@@ -850,6 +850,11 @@ namespace PokemonGo.RocketAPI.Console
             btnForceUnban.Enabled = true;
             freezedenshit.Stop();
         }
+
+        private void PokemonListView_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
     }
     public static class ControlExtensions
     {
