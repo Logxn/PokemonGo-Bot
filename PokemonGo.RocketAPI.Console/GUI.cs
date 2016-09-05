@@ -911,6 +911,30 @@ namespace PokemonGo.RocketAPI.Console
             string[] EvolveFile = temp.Where(x => !String.IsNullOrEmpty(x)).ToArray();
             File.WriteAllLines(@Program.evolve, EvolveFile);
 
+            if (textBox10.Text == "0" || string.IsNullOrWhiteSpace(textBox10.Text))
+            {
+                MessageBox.Show("Do not set Pokeballs to 0!\nIt will auto-select the best Balls!", "Error.", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            if (textBox11.Text == "0" || string.IsNullOrWhiteSpace(textBox11.Text))
+            {
+                MessageBox.Show("Do not set Greatballs to 0!\nIt will auto-select the best Balls!", "Error.", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            if (textBox12.Text == "0" || string.IsNullOrWhiteSpace(textBox12.Text))
+            {
+                MessageBox.Show("Do not set Ultraballs to 0!\nIt will auto-select the best Balls!", "Error.", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            if (textBox22.Text == "0" || string.IsNullOrWhiteSpace(textBox22.Text))
+            {
+                MessageBox.Show("Do not set Masterballs to 0!\nIt will auto-select the best Balls!", "Error.", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
             ActiveForm.Dispose();
         }
 
