@@ -51,6 +51,7 @@ namespace PokemonGo.RocketAPI.Logic
         private double currentxp = -10000;
         private bool havelures = false;
         private bool pokeballoutofstock = false;
+        private bool stopsloaded = false;
 
         public Logic(ISettings clientSettings, LogicInfoObservable infoObservable)
         {
@@ -60,7 +61,7 @@ namespace PokemonGo.RocketAPI.Logic
             _botStats = new BotStats();
             _navigation = new Navigation(_client);
             _pokevision = new PokeVisionUtil();
-            _infoObservable = infoObservable;
+            _infoObservable = infoObservable;            
         }
 
         public async Task Execute()
@@ -447,7 +448,7 @@ namespace PokemonGo.RocketAPI.Logic
             }
             //Resources.OutPutWalking = true;
             var mapObjects = await _client.Map.GetMapObjects();
-
+            stopsloaded = false;
             //var pokeStops = mapObjects.MapCells.SelectMany(i => i.Forts).Where(i => i.Type == FortType.Checkpoint && i.CooldownCompleteTimestampMs < DateTime.UtcNow.ToUnixTime());
             var pokeStops =
             _navigation.pathByNearestNeighbour(
@@ -459,9 +460,10 @@ namespace PokemonGo.RocketAPI.Logic
                 .OrderBy(
                 i =>
                 LocationUtils.CalculateDistanceInMeters(_client.CurrentLatitude, _client.CurrentLongitude, i.Latitude, i.Longitude)).ToArray(), _clientSettings.WalkingSpeedInKilometerPerHour);
-            if (pokeStops.Any())
+            if (pokeStops.Any() && _clientSettings.MapLoaded)
             {
                 _infoObservable.PushAvailablePokeStopLocations(pokeStops);
+                stopsloaded = true;
             }
             if (_clientSettings.MaxWalkingRadiusInMeters != 0)
             {
@@ -497,9 +499,10 @@ namespace PokemonGo.RocketAPI.Logic
             var distanceFromStart = LocationUtils.CalculateDistanceInMeters(_clientSettings.DefaultLatitude, _clientSettings.DefaultLongitude, _client.CurrentLatitude, _client.CurrentLongitude);
             foreach (var pokeStop in pokeStops)
             {
-                if (!_clientSettings.MapLoaded && pokeStops.Any())
+                if (pokeStops.Any() &&_clientSettings.MapLoaded && !stopsloaded)
                 {
                     _infoObservable.PushAvailablePokeStopLocations(pokeStops);
+                    stopsloaded = true;
                 }
                 if (metros30)
                 {
