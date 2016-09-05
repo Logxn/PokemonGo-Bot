@@ -440,12 +440,13 @@ namespace PokemonGo.RocketAPI.Console
         public static bool UseGoogleMapsAPI = false;
         public static string GoogleMapsAPIKey;
         public static bool RandomReduceSpeed = false;
+        public static bool UseBreakFields = false;
         public static double TimeToRun;
         public static int PokemonCatchLimit = 1000;
         public static int PokestopFarmLimit = 2000;
         public static int XPFarmedLimit = 150000;
-        public static int BreakInterval = 50;
-        public static int BreakLength = 10;
+        public static int BreakInterval = 0;
+        public static int BreakLength = 0;
         public static int MinWalkSpeed = 3;
         public static int navigation_option = 1;
         public static bool useluckyegg = true;
