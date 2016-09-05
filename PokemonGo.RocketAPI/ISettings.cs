@@ -90,5 +90,6 @@ namespace PokemonGo.RocketAPI
         int BreakLength { get; set; }
         int MinWalkSpeed { get; set; }
         bool Espiral { get;  set; }
+        bool MapLoaded { get; set; }
     }
 }
