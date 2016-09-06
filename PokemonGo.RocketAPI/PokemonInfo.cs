@@ -77,8 +77,8 @@ namespace PokemonGo.RocketAPI
 
         public static double CalculatePokemonPerfectionIV(PokemonData poke)
         {
-                return (poke.IndividualAttack + poke.IndividualDefense + poke.IndividualStamina) / 45.0 * 100.0;
-        }
+                 return (poke.IndividualAttack + poke.IndividualDefense + poke.IndividualStamina) / 45.0 * 100.0;
+        } 
 
         public static double CalculateMinCpMultiplier(PokemonData poke)
         {
