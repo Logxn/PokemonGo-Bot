@@ -119,10 +119,7 @@ namespace PokemonGo.RocketAPI.Logic
                             Logger.ColoredConsoleWrite(ConsoleColor.Green, "Telegram Name: " + me.Username);
                             _telegram.getClient().StartReceiving();
                         }
-                        catch (Exception)
-                        {
-
-                        }
+                        catch (Exception) { }
                     }
 
                     await PostLoginExecute();
@@ -136,10 +133,7 @@ namespace PokemonGo.RocketAPI.Logic
                     {
                         _telegram.getClient().StopReceiving();
                     }
-                    catch (Exception)
-                    {
-
-                    }
+                    catch (Exception) { }
                 }
 
                 Logger.ColoredConsoleWrite(ConsoleColor.Red, "Restarting in 10 Seconds.");
@@ -270,9 +264,9 @@ namespace PokemonGo.RocketAPI.Logic
                     await RecycleItems();
                     await ExecuteFarmingPokestopsAndPokemons(_client);
                 }
-                catch (AccessTokenExpiredException ex)
+                catch (AccessTokenExpiredException)
                 {
-                    throw;
+                    throw new AccessTokenExpiredException();
                 }
                 catch (Exception ex)
                 {
@@ -301,8 +295,7 @@ namespace PokemonGo.RocketAPI.Logic
                 await action();
             }
         }
-
-        int dontspam = 3;
+        
         int level = -1;
         private async Task StatsLog(Client client)
         {
@@ -312,7 +305,6 @@ namespace PokemonGo.RocketAPI.Logic
             // Check if disabled
             StringUtils.CheckKillSwitch();
             await SetCheckTimeToRun();
-            dontspam++;
             var profile = await _client.Player.GetPlayer();
             var playerStats = await _client.Inventory.GetPlayerStats();
             var stats = playerStats.First();
