@@ -871,7 +871,7 @@ namespace PokemonGo.RocketAPI.Logic
                             {
                                 Logger.ColoredConsoleWrite(ConsoleColor.Magenta, $"Missed {StringUtils.getPokemonNameByLanguage(_clientSettings, pokemon.PokemonId)} while using {bestPokeball}");
                                 missCount++;
-                                await RandomHelper.RandomDelay(1500, 2000);
+                                await RandomHelper.RandomDelay(1500, 6000);
                             }
                             else if (caughtPokemonResponse.Status == CatchPokemonResponse.Types.CatchStatus.CatchEscape)
                             {
@@ -880,7 +880,7 @@ namespace PokemonGo.RocketAPI.Logic
                                 //reset forceHit in case we randomly triggered on last throw.
                                 forceHit = false;
                                 if (berryThrown) bestPokeball = await GetBestBall(encounterPokemonResponse?.WildPokemon, true);
-                                await RandomHelper.RandomDelay(1500, 2000);
+                                await RandomHelper.RandomDelay(1500, 6000);
                             }
                         }
                         while (caughtPokemonResponse.Status == CatchPokemonResponse.Types.CatchStatus.CatchMissed || caughtPokemonResponse.Status == CatchPokemonResponse.Types.CatchStatus.CatchEscape);
