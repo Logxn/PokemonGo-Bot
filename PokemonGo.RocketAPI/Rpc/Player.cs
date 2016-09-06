@@ -46,13 +46,13 @@ namespace PokemonGo.RocketAPI.Rpc
             _client.CurrentLatitude = lat;
             _client.CurrentLongitude = lng;
             _client.CurrentAltitude = altitude;
-            SaveLatLng(lat, lng);
+            SaveLatLngAlt(lat, lng,altitude);
         }
 
-        public void SaveLatLng(double lat, double lng)
+        public void SaveLatLngAlt(double lat, double lng, double alt)
         {
             try {
-                string latlng = lat.ToString() + ":" + lng.ToString();
+                string latlng = lat.ToString() + ":" + lng.ToString()+ ":" + alt.ToString();
                 File.WriteAllText(Directory.GetCurrentDirectory() + "\\Configs\\LastCoords.txt", latlng);
             } catch (Exception)
             {
