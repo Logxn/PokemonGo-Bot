@@ -140,6 +140,7 @@ namespace PokemonGo.RocketAPI.Console
                     columnheader.Text = "SpecialAttack (DPS)";
                     PokemonListView.Columns.Add(columnheader);
 
+                    PokemonListView.BeginUpdate();
                     foreach (var pokemon in pokemons)
                     {
                         Bitmap pokemonImage = null;
@@ -193,6 +194,7 @@ namespace PokemonGo.RocketAPI.Console
 
                         PokemonListView.Items.Add(listViewItem);
                     }
+                    PokemonListView.EndUpdate();
                     PokemonListView.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
                     Text = "Pokemon List | User: " + profile.PlayerData.Username + " | Pokemons: " + pokemons.Count() + "/" + profile.PlayerData.MaxPokemonStorage;
                     EnabledButton(true);
