@@ -52,10 +52,7 @@ namespace PokemonGo.RocketAPI
         bool UseBasicIncubators { get; }
 
         bool pokevision { get; }
-
-        bool Language { get; }
-
-
+          
         //Proxies
         string UseProxyHost { get; set; }
         int UseProxyPort { get; set; }

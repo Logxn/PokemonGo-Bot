@@ -61,7 +61,7 @@ namespace PokemonGo.RocketAPI.Logic
             _botStats = new BotStats();
             _navigation = new Navigation(_client);
             _pokevision = new PokeVisionUtil();
-            _infoObservable = infoObservable;            
+            _infoObservable = infoObservable;
         }
 
         public async Task Execute()
@@ -150,7 +150,7 @@ namespace PokemonGo.RocketAPI.Logic
         private async Task SetCheckTimeToRun()
         {
             if (_clientSettings.TimeToRun != 0)
-            {                  
+            {
                 if (timetorunstamp == -10000)
                 {
                     timetorunstamp = (_clientSettings.TimeToRun * 60 * 1000) + ((long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds);
@@ -205,7 +205,7 @@ namespace PokemonGo.RocketAPI.Logic
                         Logger.ColoredConsoleWrite(ConsoleColor.Blue, String.Format("Remaining Time until resume walking: {0} minutes", Math.Round(breakTimeRemaining / 1000 / 60, 2)));
                     }
                 }
-            }   
+            }
             //add logging for pokemon catch disabled here for now to prevent spamming
             if (!_clientSettings.CatchPokemon)
             {
@@ -506,7 +506,7 @@ namespace PokemonGo.RocketAPI.Logic
             var distanceFromStart = LocationUtils.CalculateDistanceInMeters(_clientSettings.DefaultLatitude, _clientSettings.DefaultLongitude, _client.CurrentLatitude, _client.CurrentLongitude);
             foreach (var pokeStop in pokeStops)
             {
-                if (pokeStops.Any() &&_clientSettings.MapLoaded && !stopsloaded)
+                if (pokeStops.Any() && _clientSettings.MapLoaded && !stopsloaded)
                 {
                     _infoObservable.PushAvailablePokeStopLocations(pokeStops);
                     stopsloaded = true;
@@ -918,12 +918,12 @@ namespace PokemonGo.RocketAPI.Logic
                             {
                                 if (_clientSettings.logPokemons == true)
                                 {
-                                    File.AppendAllText(logs, $"[{date}] Caught {StringUtils.getPokemonNameByLanguage(_clientSettings, pokemon.PokemonId)} (CP: {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} | IV: {PokemonInfo.CalculatePokemonPerfection(encounterPokemonResponse.WildPokemon.PokemonData).ToString("0.00")}% | Pokeball used: {bestPokeball} | XP: {caughtPokemonResponse.CaptureAward.Xp.Sum()}) " + Environment.NewLine);
+                                    File.AppendAllText(logs, $"[{date}] Caught new {StringUtils.getPokemonNameByLanguage(_clientSettings, pokemon.PokemonId)} (CP: {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} | IV: {PokemonInfo.CalculatePokemonPerfection(encounterPokemonResponse.WildPokemon.PokemonData).ToString("0.00")}% | Pokeball used: {bestPokeball} | XP: {caughtPokemonResponse.CaptureAward.Xp.Sum()}) " + Environment.NewLine);
                                 }
                                 Logger.ColoredConsoleWrite(ConsoleColor.Gray,
                                     $"Caught {StringUtils.getPokemonNameByLanguage(_clientSettings, pokemon.PokemonId)} CP {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} IV {PokemonInfo.CalculatePokemonPerfection(encounterPokemonResponse.WildPokemon.PokemonData).ToString("0.00")}% using {bestPokeball} got {caughtPokemonResponse.CaptureAward.Xp.Sum()} XP.");
-                                    pokemonCatchCount++;
-                               
+                                pokemonCatchCount++;
+
 
                                 if (_telegram != null)
                                     _telegram.sendInformationText(TelegramUtil.TelegramUtilInformationTopics.Catch, StringUtils.getPokemonNameByLanguage(_clientSettings, pokemon.PokemonId), encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp, PokemonInfo.CalculatePokemonPerfection(encounterPokemonResponse.WildPokemon.PokemonData).ToString("0.00"), bestPokeball, caughtPokemonResponse.CaptureAward.Xp.Sum());

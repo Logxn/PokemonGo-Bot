@@ -24,7 +24,6 @@ namespace PokemonGo.RocketAPI.Console
         public static int[] evolveBlacklist = {
             3, 6, 9, 12, 15, 18, 20, 22, 24, 26, 28, 31, 34, 36, 38, 40, 42, 45, 47, 49, 51, 53, 55, 57, 59, 62, 65, 68, 71, 73, 76, 78, 80, 82, 83, 85, 87, 89, 91, 94, 95, 97, 99, 101, 103, 105, 106, 107, 108, 110, 112, 113, 114, 115, 117, 119, 121, 122, 123, 124, 125, 126, 127, 128, 130, 131, 132, 134, 135, 136, 137, 139, 141, 142, 143, 144, 145, 146, 149, 150, 151
         };
-        public static Dictionary<string, string> gerEng = new Dictionary<string, string>();
 
         public GUI()
         {
@@ -123,28 +122,13 @@ namespace PokemonGo.RocketAPI.Console
                 if (pokemon.ToString() != "Missingno")
                 {
                     pokeIDS[pokemon.ToString()] = i;
-                    gerEng[StringUtils.getPokemonNameGer(pokemon)] = pokemon.ToString();
-                    if (checkBox8.Checked)
+                    checkedListBox1.Items.Add(pokemon.ToString());
+                    checkedListBox2.Items.Add(pokemon.ToString());
+                    if (!(evolveBlacklist.Contains(i)))
                     {
-                        checkedListBox1.Items.Add(StringUtils.getPokemonNameGer(pokemon));
-                        checkedListBox2.Items.Add(StringUtils.getPokemonNameGer(pokemon));
-                        if (!(evolveBlacklist.Contains(i)))
-                        {
-                            checkedListBox3.Items.Add(StringUtils.getPokemonNameGer(pokemon));
-                            evolveIDS[pokemon.ToString()] = ev;
-                            ev++;
-                        }
-                    }
-                    else
-                    {
-                        checkedListBox1.Items.Add(pokemon.ToString());
-                        checkedListBox2.Items.Add(pokemon.ToString());
-                        if (!(evolveBlacklist.Contains(i)))
-                        {
-                            checkedListBox3.Items.Add(pokemon.ToString());
-                            evolveIDS[pokemon.ToString()] = ev;
-                            ev++;
-                        }
+                        checkedListBox3.Items.Add(pokemon.ToString());
+                        evolveIDS[pokemon.ToString()] = ev;
+                        ev++;
                     }
                     i++;
                 }
@@ -200,7 +184,6 @@ namespace PokemonGo.RocketAPI.Console
                             checkBox7.Checked = bool.Parse(line);
                             break;
                         case 19:
-                            checkBox8.Checked = bool.Parse(line);
                             break;
                         case 20:
                             checkBox9.Checked = bool.Parse(line);
@@ -387,10 +370,7 @@ namespace PokemonGo.RocketAPI.Console
                 foreach (string line in lines)
                 {
                     if (line != string.Empty)
-                        if (checkBox8.Checked)
-                            checkedListBox1.SetItemChecked(pokeIDS[gerEng[line]] - 1, true);
-                        else
-                            checkedListBox1.SetItemChecked(pokeIDS[line] - 1, true);
+                        checkedListBox1.SetItemChecked(pokeIDS[line] - 1, true);
                 }
             }
 
@@ -400,10 +380,7 @@ namespace PokemonGo.RocketAPI.Console
                 foreach (string line in lines)
                 {
                     if (line != string.Empty)
-                        if (checkBox8.Checked)
-                            checkedListBox2.SetItemChecked(pokeIDS[gerEng[line]] - 1, true);
-                        else
-                            checkedListBox2.SetItemChecked(pokeIDS[line] - 1, true);
+                        checkedListBox2.SetItemChecked(pokeIDS[line] - 1, true);
                 }
             }
 
@@ -431,10 +408,7 @@ namespace PokemonGo.RocketAPI.Console
                 foreach (string line in lines)
                 {
                     if (line != string.Empty)
-                        if (checkBox8.Checked)
-                            checkedListBox3.SetItemChecked(evolveIDS[gerEng[line]] - 1, true);
-                        else
-                            checkedListBox3.SetItemChecked(evolveIDS[line] - 1, true);
+                        checkedListBox3.SetItemChecked(evolveIDS[line] - 1, true);
                 }
             }
 
@@ -789,8 +763,7 @@ namespace PokemonGo.RocketAPI.Console
             {
                 Globals.logPokemons = true;
             }
-
-            Globals.gerNames = checkBox8.Checked;
+             
             Globals.useincense = checkBox9.Checked;
             Globals.pokeList = checkBox10.Checked;
             Globals.keepPokemonsThatCanEvolve = checkBox11.Checked;
@@ -806,24 +779,15 @@ namespace PokemonGo.RocketAPI.Console
                 Globals.TimeToRun = 0;
             foreach (string pokemon in checkedListBox1.CheckedItems)
             {
-                if (checkBox8.Checked)
-                    Globals.noTransfer.Add((PokemonId)Enum.Parse(typeof(PokemonId), gerEng[pokemon]));
-                else
-                    Globals.noTransfer.Add((PokemonId)Enum.Parse(typeof(PokemonId), pokemon));
+                Globals.noTransfer.Add((PokemonId)Enum.Parse(typeof(PokemonId), pokemon));
             }
             foreach (string pokemon in checkedListBox2.CheckedItems)
             {
-                if (checkBox8.Checked)
-                    Globals.noCatch.Add((PokemonId)Enum.Parse(typeof(PokemonId), gerEng[pokemon]));
-                else
-                    Globals.noCatch.Add((PokemonId)Enum.Parse(typeof(PokemonId), pokemon));
+                Globals.noCatch.Add((PokemonId)Enum.Parse(typeof(PokemonId), pokemon));
             }
             foreach (string pokemon in checkedListBox3.CheckedItems)
             {
-                if (checkBox8.Checked)
-                    Globals.doEvolve.Add((PokemonId)Enum.Parse(typeof(PokemonId), gerEng[pokemon]));
-                else
-                    Globals.doEvolve.Add((PokemonId)Enum.Parse(typeof(PokemonId), pokemon));
+                Globals.doEvolve.Add((PokemonId)Enum.Parse(typeof(PokemonId), pokemon));
             }
 
             string[] accFile = {
@@ -844,8 +808,8 @@ namespace PokemonGo.RocketAPI.Console
                     Globals.telName,
                     Globals.telDelay.ToString(),
                     Globals.navigation_option.ToString(),
-                    Globals.useluckyegg.ToString(),
-                    Globals.gerNames.ToString(),
+                    "NotUsed",
+                    Globals.useluckyegg.ToString(), 
                     Globals.useincense.ToString(),
                     Globals.ivmaxpercent.ToString(),
                     Globals.pokeList.ToString(),
@@ -908,10 +872,7 @@ namespace PokemonGo.RocketAPI.Console
             int i = 0;
             foreach (PokemonId pokemon in Globals.noTransfer)
             {
-                if (checkBox8.Checked)
-                    temp.SetValue(StringUtils.getPokemonNameGer(pokemon), i);
-                else
-                    temp.SetValue(pokemon.ToString(), i);
+                temp.SetValue(pokemon.ToString(), i);
                 i++;
             }
             string[] noTransFile = temp.Where(x => !String.IsNullOrEmpty(x)).ToArray();
@@ -921,10 +882,7 @@ namespace PokemonGo.RocketAPI.Console
             Array.Clear(temp, 0, temp.Length);
             foreach (PokemonId pokemon in Globals.noCatch)
             {
-                if (checkBox8.Checked)
-                    temp.SetValue(StringUtils.getPokemonNameGer(pokemon), i);
-                else
-                    temp.SetValue(pokemon.ToString(), i);
+                temp.SetValue(pokemon.ToString(), i);
                 i++;
             }
             string[] noCatchFile = temp.Where(x => !String.IsNullOrEmpty(x)).ToArray();
@@ -934,10 +892,7 @@ namespace PokemonGo.RocketAPI.Console
             i = 0;
             foreach (PokemonId pokemon in Globals.doEvolve)
             {
-                if (checkBox8.Checked)
-                    temp.SetValue(StringUtils.getPokemonNameGer(pokemon), i);
-                else
-                    temp.SetValue(pokemon.ToString(), i);
+                temp.SetValue(pokemon.ToString(), i);
                 i++;
             }
             string[] EvolveFile = temp.Where(x => !String.IsNullOrEmpty(x)).ToArray();
@@ -1004,24 +959,12 @@ namespace PokemonGo.RocketAPI.Console
             {
                 if (pokemon.ToString() != "Missingno")
                 {
-                    if (checkBox8.Checked)
+                    checkedListBox1.Items.Add(pokemon.ToString());
+                    checkedListBox2.Items.Add(pokemon.ToString());
+                    if (!(evolveBlacklist.Contains(i)))
                     {
-                        checkedListBox1.Items.Add(StringUtils.getPokemonNameGer(pokemon));
-                        checkedListBox2.Items.Add(StringUtils.getPokemonNameGer(pokemon));
-                        if (!(evolveBlacklist.Contains(i)))
-                        {
-                            checkedListBox3.Items.Add(StringUtils.getPokemonNameGer(pokemon));
-                        }
-                    }
-                    else
-                    {
-                        checkedListBox1.Items.Add(pokemon.ToString());
-                        checkedListBox2.Items.Add(pokemon.ToString());
-                        if (!(evolveBlacklist.Contains(i)))
-                        {
-                            checkedListBox3.Items.Add(pokemon.ToString());
-                        }
-                    }
+                        checkedListBox3.Items.Add(pokemon.ToString());
+                    } 
                     i++;
                 }
             }
@@ -1176,8 +1119,7 @@ namespace PokemonGo.RocketAPI.Console
             button1.Text = TranslationHandler.GetString("saveConfig", "Save Configuration / Start Bot");
             groupBox10.Text = TranslationHandler.GetString("otherSettings", "Other Settings");
             checkBox7.Text = TranslationHandler.GetString("useLuckyeggAtEvolve", "Use LuckyEgg at Evolve");
-            checkBox16.Text = TranslationHandler.GetString("useRazzBerry", "Use RazzBerry");
-            checkBox8.Text = TranslationHandler.GetString("germanPokemonNames", "German Pokemon names");
+            checkBox16.Text = TranslationHandler.GetString("useRazzBerry", "Use RazzBerry"); 
             checkBox9.Text = TranslationHandler.GetString("useIncese", "Use Incense every 30min");
             checkBox3.Text = TranslationHandler.GetString("evolvePokemonIfEnoughCandy", "Evolve Pokemons if enough candy");
             checkBox10.Text = TranslationHandler.GetString("enablePokemonListGUI", "Enable Pokemon List GUI");

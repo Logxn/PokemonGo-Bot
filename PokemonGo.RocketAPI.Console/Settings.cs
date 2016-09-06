@@ -57,9 +57,7 @@ namespace PokemonGo.RocketAPI.Console
 
         public bool AutoIncubate => Globals.autoIncubate;
         public bool UseLuckyEggIfNotRunning => Globals.useLuckyEggIfNotRunning;
-
-        public bool Language => Globals.gerNames;
-
+        
         public bool Espiral => Globals.Espiral;
         public bool MapLoaded => Globals.MapLoaded;
 
