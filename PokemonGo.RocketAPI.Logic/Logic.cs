@@ -524,6 +524,18 @@ namespace PokemonGo.RocketAPI.Logic
                     Logger.ColoredConsoleWrite(ConsoleColor.Green, "You're outside of the defined max. walking radius. Walking back!");
                     var walkHome = await _navigation.HumanLikeWalking(new GeoCoordinate(_clientSettings.DefaultLatitude, _clientSettings.DefaultLongitude), _clientSettings.WalkingSpeedInKilometerPerHour, ExecuteCatchAllNearbyPokemons);
                 }
+
+                //SkipLagged!
+                if (_clientSettings.pokevision)
+                {
+                    foreach (spottedPoke p in await _pokevision.GetNearPokemons(_client.CurrentLatitude, _client.CurrentLongitude))
+                    {
+                        var dist = LocationUtils.CalculateDistanceInMeters(_client.CurrentLatitude, _client.CurrentLongitude, p._lat, p._lng);
+                        Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Skiplagged: There is a {StringUtils.getPokemonNameByLanguage(_clientSettings, p._pokeId)} to {dist:0.##} meters. Trying to Capture...");
+                        var upd = await _navigation.HumanLikeWalking(new GeoCoordinate(p._lat, p._lng), _clientSettings.WalkingSpeedInKilometerPerHour, ExecuteCatchAllNearbyPokemons);
+                    }
+                }
+
                 _infoObservable.PushNewGeoLocations(new GeoCoordinate(_client.CurrentLatitude, _client.CurrentLongitude));
 
                 var distance = LocationUtils.CalculateDistanceInMeters(_client.CurrentLatitude, _client.CurrentLongitude, pokeStop.Latitude, pokeStop.Longitude);

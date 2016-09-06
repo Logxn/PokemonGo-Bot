@@ -146,6 +146,9 @@
             this.checkBox3 = new System.Windows.Forms.CheckBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.button4 = new System.Windows.Forms.Button();
+            this.checkBox25 = new System.Windows.Forms.CheckBox();
             this.label45 = new System.Windows.Forms.Label();
             this.checkBox22 = new System.Windows.Forms.CheckBox();
             this.groupBox13 = new System.Windows.Forms.GroupBox();
@@ -182,9 +185,8 @@
             this.lang_de_btn = new System.Windows.Forms.Button();
             this.lang_en_btn = new System.Windows.Forms.Button();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
-            this.checkBox25 = new System.Windows.Forms.CheckBox();
-            this.button4 = new System.Windows.Forms.Button();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.checkBox26 = new System.Windows.Forms.CheckBox();
+            this.button5 = new System.Windows.Forms.Button();
             this.tabPage1.SuspendLayout();
             this.tabItems.SuspendLayout();
             this.groupBox4.SuspendLayout();
@@ -201,11 +203,11 @@
             this.groupBox10.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.groupBox13.SuspendLayout();
             this.groupBox11.SuspendLayout();
             this.groupBox12.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // button1
@@ -245,7 +247,7 @@
             this.tabPage1.Controls.Add(this.prxyIP);
             this.tabPage1.Controls.Add(this.checkBox13);
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
-            this.tabPage1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tabPage1.Margin = new System.Windows.Forms.Padding(2);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Size = new System.Drawing.Size(542, 396);
             this.tabPage1.TabIndex = 3;
@@ -316,7 +318,7 @@
             // checkPrxy
             // 
             this.checkPrxy.Location = new System.Drawing.Point(26, 84);
-            this.checkPrxy.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.checkPrxy.Margin = new System.Windows.Forms.Padding(2);
             this.checkPrxy.Name = "checkPrxy";
             this.checkPrxy.Size = new System.Drawing.Size(488, 24);
             this.checkPrxy.TabIndex = 6;
@@ -328,7 +330,7 @@
             // 
             this.checkBox14.AutoSize = true;
             this.checkBox14.Location = new System.Drawing.Point(274, 15);
-            this.checkBox14.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.checkBox14.Margin = new System.Windows.Forms.Padding(2);
             this.checkBox14.Name = "checkBox14";
             this.checkBox14.Size = new System.Drawing.Size(116, 17);
             this.checkBox14.TabIndex = 5;
@@ -340,7 +342,7 @@
             // 
             this.prxyUser.Enabled = false;
             this.prxyUser.Location = new System.Drawing.Point(274, 37);
-            this.prxyUser.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.prxyUser.Margin = new System.Windows.Forms.Padding(2);
             this.prxyUser.Name = "prxyUser";
             this.prxyUser.Size = new System.Drawing.Size(239, 20);
             this.prxyUser.TabIndex = 4;
@@ -350,7 +352,7 @@
             // 
             this.prxyPort.Enabled = false;
             this.prxyPort.Location = new System.Drawing.Point(26, 60);
-            this.prxyPort.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.prxyPort.Margin = new System.Windows.Forms.Padding(2);
             this.prxyPort.Name = "prxyPort";
             this.prxyPort.Size = new System.Drawing.Size(225, 20);
             this.prxyPort.TabIndex = 3;
@@ -360,7 +362,7 @@
             // 
             this.prxyPass.Enabled = false;
             this.prxyPass.Location = new System.Drawing.Point(274, 60);
-            this.prxyPass.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.prxyPass.Margin = new System.Windows.Forms.Padding(2);
             this.prxyPass.Name = "prxyPass";
             this.prxyPass.Size = new System.Drawing.Size(239, 20);
             this.prxyPass.TabIndex = 2;
@@ -370,7 +372,7 @@
             // 
             this.prxyIP.Enabled = false;
             this.prxyIP.Location = new System.Drawing.Point(26, 37);
-            this.prxyIP.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.prxyIP.Margin = new System.Windows.Forms.Padding(2);
             this.prxyIP.Name = "prxyIP";
             this.prxyIP.Size = new System.Drawing.Size(225, 20);
             this.prxyIP.TabIndex = 1;
@@ -380,7 +382,7 @@
             // 
             this.checkBox13.AutoSize = true;
             this.checkBox13.Location = new System.Drawing.Point(26, 15);
-            this.checkBox13.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.checkBox13.Margin = new System.Windows.Forms.Padding(2);
             this.checkBox13.Name = "checkBox13";
             this.checkBox13.Size = new System.Drawing.Size(82, 17);
             this.checkBox13.TabIndex = 0;
@@ -662,7 +664,7 @@
             this.tabPokemon.Controls.Add(this.groupBox7);
             this.tabPokemon.Location = new System.Drawing.Point(4, 22);
             this.tabPokemon.Name = "tabPokemon";
-            this.tabPokemon.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tabPokemon.Padding = new System.Windows.Forms.Padding(3);
             this.tabPokemon.Size = new System.Drawing.Size(542, 396);
             this.tabPokemon.TabIndex = 1;
             this.tabPokemon.Text = "Pokemon";
@@ -873,7 +875,7 @@
             this.tabGeneral.Controls.Add(this.groupBox10);
             this.tabGeneral.Location = new System.Drawing.Point(4, 22);
             this.tabGeneral.Name = "tabGeneral";
-            this.tabGeneral.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tabGeneral.Padding = new System.Windows.Forms.Padding(3);
             this.tabGeneral.Size = new System.Drawing.Size(542, 396);
             this.tabGeneral.TabIndex = 0;
             this.tabGeneral.Text = "General";
@@ -1457,6 +1459,8 @@
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.button5);
+            this.tabPage2.Controls.Add(this.checkBox26);
             this.tabPage2.Controls.Add(this.pictureBox1);
             this.tabPage2.Controls.Add(this.button4);
             this.tabPage2.Controls.Add(this.checkBox25);
@@ -1479,13 +1483,44 @@
             this.tabPage2.Controls.Add(this.textBox27);
             this.tabPage2.Controls.Add(this.groupBox12);
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
-            this.tabPage2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tabPage2.Margin = new System.Windows.Forms.Padding(2);
             this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(2);
             this.tabPage2.Size = new System.Drawing.Size(542, 396);
             this.tabPage2.TabIndex = 4;
             this.tabPage2.Text = "Walk Settings";
             this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
+            this.pictureBox1.Location = new System.Drawing.Point(415, 232);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(17, 17);
+            this.pictureBox1.TabIndex = 66;
+            this.pictureBox1.TabStop = false;
+            // 
+            // button4
+            // 
+            this.button4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button4.Location = new System.Drawing.Point(435, 230);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(21, 22);
+            this.button4.TabIndex = 65;
+            this.button4.Text = "?";
+            this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
+            // 
+            // checkBox25
+            // 
+            this.checkBox25.AutoSize = true;
+            this.checkBox25.Location = new System.Drawing.Point(265, 233);
+            this.checkBox25.Name = "checkBox25";
+            this.checkBox25.Size = new System.Drawing.Size(156, 17);
+            this.checkBox25.TabIndex = 64;
+            this.checkBox25.Text = "Walk in Archimedean Spiral";
+            this.checkBox25.UseVisualStyleBackColor = true;
+            this.checkBox25.CheckedChanged += new System.EventHandler(this.checkBox25_CheckedChanged);
             // 
             // label45
             // 
@@ -1513,9 +1548,9 @@
             this.groupBox13.Controls.Add(this.linkLabel6);
             this.groupBox13.Controls.Add(this.textBox33);
             this.groupBox13.Location = new System.Drawing.Point(18, 206);
-            this.groupBox13.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox13.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox13.Name = "groupBox13";
-            this.groupBox13.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox13.Padding = new System.Windows.Forms.Padding(2);
             this.groupBox13.Size = new System.Drawing.Size(221, 93);
             this.groupBox13.TabIndex = 60;
             this.groupBox13.TabStop = false;
@@ -1606,9 +1641,9 @@
             this.groupBox11.Controls.Add(this.label47);
             this.groupBox11.Controls.Add(this.checkBox23);
             this.groupBox11.Location = new System.Drawing.Point(21, 22);
-            this.groupBox11.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox11.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox11.Name = "groupBox11";
-            this.groupBox11.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox11.Padding = new System.Windows.Forms.Padding(2);
             this.groupBox11.Size = new System.Drawing.Size(221, 172);
             this.groupBox11.TabIndex = 59;
             this.groupBox11.TabStop = false;
@@ -1716,9 +1751,9 @@
             this.groupBox12.Controls.Add(this.textBox29);
             this.groupBox12.Controls.Add(this.label32);
             this.groupBox12.Location = new System.Drawing.Point(265, 22);
-            this.groupBox12.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox12.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox12.Name = "groupBox12";
-            this.groupBox12.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox12.Padding = new System.Windows.Forms.Padding(2);
             this.groupBox12.Size = new System.Drawing.Size(253, 205);
             this.groupBox12.TabIndex = 60;
             this.groupBox12.TabStop = false;
@@ -1882,36 +1917,26 @@
             this.pictureBox2.TabStop = false;
             this.pictureBox2.Click += new System.EventHandler(this.pictureBox2_Click);
             // 
-            // checkBox25
+            // checkBox26
             // 
-            this.checkBox25.AutoSize = true;
-            this.checkBox25.Location = new System.Drawing.Point(265, 233);
-            this.checkBox25.Name = "checkBox25";
-            this.checkBox25.Size = new System.Drawing.Size(156, 17);
-            this.checkBox25.TabIndex = 64;
-            this.checkBox25.Text = "Walk in Archimedean Spiral";
-            this.checkBox25.UseVisualStyleBackColor = true;
-            this.checkBox25.CheckedChanged += new System.EventHandler(this.checkBox25_CheckedChanged);
+            this.checkBox26.AutoSize = true;
+            this.checkBox26.Location = new System.Drawing.Point(265, 259);
+            this.checkBox26.Name = "checkBox26";
+            this.checkBox26.Size = new System.Drawing.Size(146, 17);
+            this.checkBox26.TabIndex = 67;
+            this.checkBox26.Text = "Use SkipLagged.com Api";
+            this.checkBox26.UseVisualStyleBackColor = true;
+            this.checkBox26.CheckedChanged += new System.EventHandler(this.checkBox26_CheckedChanged);
             // 
-            // button4
+            // button5
             // 
-            this.button4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button4.Location = new System.Drawing.Point(435, 230);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(21, 22);
-            this.button4.TabIndex = 65;
-            this.button4.Text = "?";
-            this.button4.UseVisualStyleBackColor = true;
-            this.button4.Click += new System.EventHandler(this.button4_Click);
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(415, 232);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(17, 17);
-            this.pictureBox1.TabIndex = 66;
-            this.pictureBox1.TabStop = false;
+            this.button5.Location = new System.Drawing.Point(435, 259);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(21, 22);
+            this.button5.TabIndex = 68;
+            this.button5.Text = "?";
+            this.button5.UseVisualStyleBackColor = true;
+            this.button5.Click += new System.EventHandler(this.button5_Click);
             // 
             // GUI
             // 
@@ -1967,6 +1992,7 @@
             this.tabControl1.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.groupBox13.ResumeLayout(false);
             this.groupBox13.PerformLayout();
             this.groupBox11.ResumeLayout(false);
@@ -1974,7 +2000,6 @@
             this.groupBox12.ResumeLayout(false);
             this.groupBox12.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -2137,6 +2162,8 @@
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.CheckBox checkBox25;
         private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.CheckBox checkBox26;
+        private System.Windows.Forms.Button button5;
     }
 }
 

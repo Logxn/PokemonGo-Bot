@@ -75,6 +75,11 @@ namespace PokemonGo.RocketAPI
             return (curCp - minCp) / (maxCp - minCp) * 100.0;
         }
 
+        public static int DameID(PokemonData poke)
+        {
+            return (int)poke.PokemonId;
+        }
+
         public static double CalculateMinCpMultiplier(PokemonData poke)
         {
             var baseStats = GetBaseStats(poke.PokemonId);
