@@ -134,121 +134,124 @@ namespace PokemonGo.RocketAPI.Console
                 }
             }
 
-            if (File.Exists(Program.account))
+            try
             {
-                string[] lines = File.ReadAllLines(@Program.account);
-                i = 1;
-                int tb = 1;
-                foreach (string line in lines)
+                if (File.Exists(Program.account))
                 {
-                    switch (i)
+                    string[] lines = File.ReadAllLines(@Program.account);
+                    i = 1;
+                    int tb = 1;
+                    foreach (string line in lines)
                     {
-                        case 1:
-                            if (line == "Google")
-                                comboBox1.SelectedIndex = 0;
-                            else
-                                comboBox1.SelectedIndex = 1;
-                            break;
-                        case 9:
-                            checkBox1.Checked = bool.Parse(line);
-                            break;
-                        case 10:
-                            checkBox2.Checked = bool.Parse(line);
-                            break;
-                        case 12:
-                            checkBox3.Checked = bool.Parse(line);
-                            break;
-                        case 14:
-                            textBox18.Text = line;
-                            break;
-                        case 15:
-                            textBox19.Text = line;
-                            break;
-                        case 16:
-                            textBox20.Text = line;
-                            break;
-                        case 17:
-                            //if (line == "1")
-                            //{
-                            //    Globals.navigation_option = 1;
-                            //    checkBox8.Checked = true;
-                            //    checkBox7.Checked = false;
-                            //} else
-                            //{
-                            //    Globals.navigation_option = 2;
-                            //    checkBox7.Checked = true;
-                            //    checkBox8.Checked = false;
-                            //}
-                            break;
-                        case 18:
-                            checkBox7.Checked = bool.Parse(line);
-                            break;
-                        case 19:
-                            break;
-                        case 20:
-                            checkBox9.Checked = bool.Parse(line);
-                            break;
-                        case 21:
-                            textBox24.Text = line;
-                            break;
-                        case 22:
-                            checkBox10.Checked = bool.Parse(line);
-                            break;
-                        case 23:
-                            checkBox11.Checked = bool.Parse(line);
-                            break;
-                        case 24:
-                            checkBox12.Checked = bool.Parse(line);
-                            break;
-                        case 25:
-                            chkAutoIncubate.Checked = bool.Parse(line);
-                            chkAutoIncubate_CheckedChanged(null, EventArgs.Empty);
-                            break;
-                        case 26:
-                            chkUseBasicIncubators.Checked = bool.Parse(line);
-                            break;
-                        case 27:
-                            checkBox15.Checked = bool.Parse(line);
-                            break;
-                        case 28:
-                            //langSelected = line;
-                            break;
-                        case 29:
-                            checkBox16.Checked = bool.Parse(line);
-                            break;
-                        case 30:
-                            textBox26.Text = line;
-                            break;
-                        case 31:
-                            checkBox17.Checked = bool.Parse(line);
-                            break;
-                        case 32:
-                            checkBox18.Checked = bool.Parse(line);
-                            break;
-                        case 33:
-                            textBox18.Text = line;
-                            break;
-                        default:
-                            TextBox temp = (TextBox)Controls.Find("textBox" + tb, true).FirstOrDefault();
-                            temp.Text = line;
-                            tb++;
-                            break;
+                        switch (i)
+                        {
+                            case 1:
+                                if (line == "Google")
+                                    comboBox1.SelectedIndex = 0;
+                                else
+                                    comboBox1.SelectedIndex = 1;
+                                break;
+                            case 9:
+                                checkBox1.Checked = bool.Parse(line);
+                                break;
+                            case 10:
+                                checkBox2.Checked = bool.Parse(line);
+                                break;
+                            case 12:
+                                checkBox3.Checked = bool.Parse(line);
+                                break;
+                            case 14:
+                                textBox18.Text = line;
+                                break;
+                            case 15:
+                                textBox19.Text = line;
+                                break;
+                            case 16:
+                                textBox20.Text = line;
+                                break;
+                            case 17:
+                                //if (line == "1")
+                                //{
+                                //    Globals.navigation_option = 1;
+                                //    checkBox8.Checked = true;
+                                //    checkBox7.Checked = false;
+                                //} else
+                                //{
+                                //    Globals.navigation_option = 2;
+                                //    checkBox7.Checked = true;
+                                //    checkBox8.Checked = false;
+                                //}
+                                break;
+                            case 18:
+                                checkBox7.Checked = bool.Parse(line);
+                                break;
+                            case 19:
+                                checkBox9.Checked = bool.Parse(line);
+                                break;
+                            case 20:
+                                textBox24.Text = line;
+                                break;
+                            case 21:
+                                checkBox10.Checked = bool.Parse(line);
+                                break;
+                            case 22:
+                                checkBox11.Checked = bool.Parse(line);
+                                break;
+                            case 23:
+                                checkBox12.Checked = bool.Parse(line);
+                                break;
+                            case 24:
+                                chkAutoIncubate.Checked = bool.Parse(line);
+                                chkAutoIncubate_CheckedChanged(null, EventArgs.Empty);
+                                break;
+                            case 25:
+                                chkUseBasicIncubators.Checked = bool.Parse(line);
+                                break;
+                            case 26:
+                                checkBox15.Checked = bool.Parse(line);
+                                break;
+                            case 27:
+                                //langSelected = line;
+                                break;
+                            case 28:
+                                checkBox16.Checked = bool.Parse(line);
+                                break;
+                            case 29:
+                                textBox26.Text = line;
+                                break;
+                            case 30:
+                                checkBox17.Checked = bool.Parse(line);
+                                break;
+                            case 31:
+                                checkBox18.Checked = bool.Parse(line);
+                                break;
+                            case 32:
+                                textBox18.Text = line;
+                                break;
+                            default:
+                                TextBox temp = (TextBox)Controls.Find("textBox" + tb, true).FirstOrDefault();
+                                temp.Text = line;
+                                tb++;
+                                break;
+                        }
+                        i++;
                     }
-                    i++;
                 }
-            }
-            else
+                else
+                {
+                    textBox3.Text = "40,764883";
+                    textBox4.Text = "-73,972967";
+                    textBox5.Text = "10";
+                    textBox6.Text = "50";
+                    textBox7.Text = "5000";
+                    textBox8.Text = "3";
+                    textBox9.Text = "999";
+                    textBox20.Text = "5000";
+                }
+            } catch (Exception)
             {
-                textBox3.Text = "40,764883";
-                textBox4.Text = "-73,972967";
-                textBox5.Text = "10";
-                textBox6.Text = "50";
-                textBox7.Text = "5000";
-                textBox8.Text = "3";
-                textBox9.Text = "999";
-                textBox20.Text = "5000";
+                MessageBox.Show("Your Config is broken, check if every setting is right!");
             }
-
 
             if (File.Exists(Program.items))
             {
@@ -463,40 +466,12 @@ namespace PokemonGo.RocketAPI.Console
             if (comboBox1.SelectedIndex == 0)
             {
                 label2.Text = "E-Mail:";
-                //    textBox1.Hide();
-                //    label2.Hide();
-                //    textBox2.Hide();
-                //    label3.Hide();
             }
             else
             {
                 label2.Text = TranslationHandler.GetString("username", "Username :");
-                /*if (languagestr == null)
-                {
-                    label2.Text = "Username:";
-                }
-                else if (languagestr == "de")
-                {
-                    label2.Text = "Benutzername:";
-                }
-                else if (languagestr == "spain")
-                {
-                    label2.Text = "Usuario:";
-                }
-                else if (languagestr == "ptBR")
-                {
-                    label2.Text = "Usuário:";
-                }
-                else if (languagestr == "tr")
-                {
-                    label2.Text = "KullaniciAdi:";
-                }*/
-                            //    textBox1.Show();
-                            //    label2.Show();
-                            //    textBox2.Show();
-                            //    label3.Show();
-                    }
-                }
+            }
+        }
         //Password KeyPress Event
         private void textBox3_KeyPress(object sender, KeyPressEventArgs e)
         {
@@ -808,7 +783,6 @@ namespace PokemonGo.RocketAPI.Console
                     Globals.telName,
                     Globals.telDelay.ToString(),
                     Globals.navigation_option.ToString(),
-                    "NotUsed",
                     Globals.useluckyegg.ToString(), 
                     Globals.useincense.ToString(),
                     Globals.ivmaxpercent.ToString(),

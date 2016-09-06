@@ -53,6 +53,12 @@ namespace PokemonGo.RocketAPI.Console
             this.PokemonListView.ColumnClick += new ColumnClickEventHandler(PokemonListView_ColumnClick);
         }
 
+        private void Pokemons_Close(object sender, FormClosingEventArgs e)
+        {
+            e.Cancel = true;
+            this.WindowState = FormWindowState.Minimized;
+        }
+
         public async Task check()
         {
             while (true)
