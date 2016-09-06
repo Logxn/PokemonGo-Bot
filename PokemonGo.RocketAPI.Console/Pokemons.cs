@@ -119,7 +119,7 @@ namespace PokemonGo.RocketAPI.Console
                     columnheader.Text = "CP";
                     PokemonListView.Columns.Add(columnheader);
                     columnheader = new ColumnHeader();
-                    columnheader.Text = "CP% A-D-S";
+                    columnheader.Text = "IV A-D-S";
                     PokemonListView.Columns.Add(columnheader);
                     columnheader = new ColumnHeader();
                     columnheader.Text = "LVL";
