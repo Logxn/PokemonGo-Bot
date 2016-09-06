@@ -226,7 +226,7 @@ namespace PokemonGo.RocketAPI.Console
         {
             Globals.latitute = map.Position.Lat;
             Globals.longitude = map.Position.Lng;
-            Globals.altitude = alt;
+            Globals.altitude = double.Parse(this.textBox3.Text);
             close = false;
             ActiveForm.Dispose();
         }
