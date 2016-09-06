@@ -26,6 +26,7 @@ namespace PokemonGo.RocketAPI.Console
         public static string evolve = Path.Combine(path, "Evolve.txt");
         public static string lastcords = Path.Combine(path, "LastCoords.txt");
         public static string huntstats = Path.Combine(path, "HuntStats.txt");
+        public static string miscSettings = Path.Combine(path, "misc.txt");
         public static string cmdCoords = string.Empty;
 
         [STAThread]
@@ -472,5 +473,7 @@ namespace PokemonGo.RocketAPI.Console
         public static bool Espiral = false;
 
         public static bool MapLoaded = false;
+
+        public static bool logPokemons = false;
     }
 }

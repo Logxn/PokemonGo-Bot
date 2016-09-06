@@ -63,6 +63,7 @@ namespace PokemonGo.RocketAPI.Console
         public bool Espiral => Globals.Espiral;
         public bool MapLoaded => Globals.MapLoaded;
 
+        public bool logPokemons => Globals.logPokemons;
         public string SelectedLanguage => Globals.settingsLanguage;
         /*
                  string UseProxyHost { get; set; }
@@ -342,6 +343,19 @@ namespace PokemonGo.RocketAPI.Console
             set
             {
                 Globals.Espiral = value;
+            }
+        }
+
+        bool ISettings.logPokemons
+        {
+            get
+            {
+                return Globals.logPokemons;
+            }
+
+            set
+            {
+                Globals.logPokemons = value;
             }
         }
     }

@@ -36,6 +36,9 @@ namespace PokemonGo.RocketAPI.Console
         static string devicePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Device");
         static string deviceinfo = Path.Combine(devicePath, "DeviceInfo.txt");
 
+        static string logPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Logs");
+        static string logs = Path.Combine(logPath, "pokelog.txt");
+
         private void GUI_Load(object sender, EventArgs e)
         {
             MessageBox.Show("The Bot isn't done! Be aware that you can get banned!");
@@ -44,7 +47,7 @@ namespace PokemonGo.RocketAPI.Console
             Directory.CreateDirectory(Program.path);
             Directory.CreateDirectory(Program.path_translation);
             Directory.CreateDirectory(devicePath);
-
+     
             if (!File.Exists(deviceinfo))
             {
                 var f = File.Create(deviceinfo);
@@ -433,6 +436,22 @@ namespace PokemonGo.RocketAPI.Console
                             checkedListBox3.SetItemChecked(evolveIDS[line] - 1, true);
                 }
             }
+
+            if (File.Exists(Program.miscSettings))
+            {
+                string[] lines = File.ReadAllLines(Program.miscSettings);
+                i = 1;
+
+                foreach(string line in lines)
+                {
+                    switch(i)
+                    {
+                        case 1:
+                            logPokemon.Checked = bool.Parse(line);
+                        break;
+                    }
+                }
+            }
             // Load Proxy Settings
             if (_clientSettings.UseProxyHost != string.Empty)
                 prxyIP.Text = _clientSettings.UseProxyHost;
@@ -801,6 +820,11 @@ namespace PokemonGo.RocketAPI.Console
                     Globals.doEvolve.Add((PokemonId)Enum.Parse(typeof(PokemonId), pokemon));
             }
 
+            if(logPokemon.Checked)
+            {
+                Globals.logPokemons = true;
+            }
+
             string[] accFile = {
                     Globals.acc.ToString(),
                     Globals.username,
@@ -871,6 +895,12 @@ namespace PokemonGo.RocketAPI.Console
                 Globals.Espiral.ToString(),
             };
             File.WriteAllLines(@Program.walkSetting, walkSettingsFile);
+
+            string[] miscSettingsFile =
+            {
+                Globals.logPokemons.ToString(),
+            };
+            File.WriteAllLines(Program.miscSettings, miscSettingsFile);
 
             string[] temp = new string[200];
             int i = 0;

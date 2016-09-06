@@ -72,6 +72,10 @@ namespace PokemonGo.RocketAPI.Logic
             await SetCheckTimeToRun();
             Logger.ColoredConsoleWrite(ConsoleColor.Red, "This bot is absolutely free and open-source!");
             Logger.ColoredConsoleWrite(ConsoleColor.Red, "If you've paid for it. Request a chargeback immediately!");
+            if(_clientSettings.logPokemons)
+            {
+                Logger.ColoredConsoleWrite(ConsoleColor.Green, "You enabled Pokemonlogging. It will be saved to \"\\Logs\\pokelog.txt\"");
+            }
             Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Starting Execute on login server: {_clientSettings.AuthType}", LogLevel.Info);
             Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Setting Pokemon Catch Count: to 0 for this session", LogLevel.Info);
             pokemonCatchCount = 0;
@@ -736,6 +740,8 @@ namespace PokemonGo.RocketAPI.Logic
         }
         private async Task ExecuteCatchAllNearbyPokemons()
         {
+             string logPath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Logs");
+             string logs = System.IO.Path.Combine(logPath, "pokelog.txt");
             _infoObservable.PushNewGeoLocations(new GeoCoordinate(_client.CurrentLatitude, _client.CurrentLongitude));
             var client = _client;
             if (_clientSettings.CatchPokemon)
@@ -894,14 +900,43 @@ namespace PokemonGo.RocketAPI.Logic
                             DateTime curDate = DateTime.Now;
                             _infoObservable.PushNewHuntStats(String.Format("{0}/{1};{2};{3};{4}", pokemon.Latitude, pokemon.Longitude, pokemon.PokemonId, curDate.Ticks, curDate.ToString()) + Environment.NewLine);
 
+
+
+                            var date = DateTime.Now;
                             if (caughtPokemonResponse.CaptureAward.Xp.Sum() >= 500)
                             {
+                                if (_clientSettings.logPokemons == true)
+                                {
+                                    if (!Directory.Exists(logPath))
+                                    {
+                                        Directory.CreateDirectory(logPath);
+
+                                    }
+                                    if (!File.Exists(logs))
+                                    {
+                                        //var f = File.Create(logs);
+                                    }
+                                    File.AppendAllText(logs, $"[{date}] Caught new {StringUtils.getPokemonNameByLanguage(_clientSettings, pokemon.PokemonId)} (CP: {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} | IV: {PokemonInfo.CalculatePokemonPerfection(encounterPokemonResponse.WildPokemon.PokemonData).ToString("0.00")}% | Pokeball used: {bestPokeball} | XP: {caughtPokemonResponse.CaptureAward.Xp.Sum()}) " + Environment.NewLine);
+                                }
                                 Logger.ColoredConsoleWrite(ConsoleColor.White,
                                     $"Caught New {StringUtils.getPokemonNameByLanguage(_clientSettings, pokemon.PokemonId)} CP {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} IV {PokemonInfo.CalculatePokemonPerfection(encounterPokemonResponse.WildPokemon.PokemonData).ToString("0.00")}% using {bestPokeball} got {caughtPokemonResponse.CaptureAward.Xp.Sum()} XP.");
                                 pokemonCatchCount++;
                             }
                             else
                             {
+                                if (_clientSettings.logPokemons == true)
+                                {
+                                    if(!Directory.Exists(logPath))
+                                    {
+                                       Directory.CreateDirectory(logPath);
+                                        
+                                    }
+                                    if (!File.Exists(logs))
+                                    {
+                                        //var f = File.Create(logs);
+                                    }
+                                    File.AppendAllText(logs, $"[{date}] Caught new {StringUtils.getPokemonNameByLanguage(_clientSettings, pokemon.PokemonId)} (CP: {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} | IV: {PokemonInfo.CalculatePokemonPerfection(encounterPokemonResponse.WildPokemon.PokemonData).ToString("0.00")}% | Pokeball used: {bestPokeball} | XP: {caughtPokemonResponse.CaptureAward.Xp.Sum()}) " + Environment.NewLine);
+                                }
                                 Logger.ColoredConsoleWrite(ConsoleColor.Gray,
                                     $"Caught {StringUtils.getPokemonNameByLanguage(_clientSettings, pokemon.PokemonId)} CP {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} IV {PokemonInfo.CalculatePokemonPerfection(encounterPokemonResponse.WildPokemon.PokemonData).ToString("0.00")}% using {bestPokeball} got {caughtPokemonResponse.CaptureAward.Xp.Sum()} XP.");
                                 pokemonCatchCount++;

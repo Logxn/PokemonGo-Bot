@@ -286,7 +286,9 @@ namespace PokemonGo.RocketAPI.Console {
                 this["UseProxyVerified"] = value;
             }
         }
-        
+
+
+
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("False")]
