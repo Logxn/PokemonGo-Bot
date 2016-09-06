@@ -82,6 +82,7 @@ namespace PokemonGo.RocketAPI
         bool UseGoogleMapsAPI { get; set; }
         bool UseAnimationTimes { get; set; }
         bool RandomReduceSpeed { get; set; }
+        bool UseBreakFields { get; set; }
         double TimeToRun { get; set; }
         int PokemonCatchLimit { get; set; }
         int PokestopFarmLimit { get; set; }
@@ -91,5 +92,8 @@ namespace PokemonGo.RocketAPI
         int MinWalkSpeed { get; set; }
         bool Espiral { get;  set; }
         bool MapLoaded { get; set; }
+
+        bool logPokemons { get; set; }
+
     }
 }

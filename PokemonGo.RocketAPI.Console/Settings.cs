@@ -332,6 +332,11 @@ namespace PokemonGo.RocketAPI.Console
             get { return Globals.MapLoaded; }
             set { Globals.MapLoaded = value; }
         }
+        bool ISettings.UseBreakFields
+        {
+            get { return Globals.UseBreakFields; }
+            set { Globals.UseBreakFields = value; }
+        }
         bool ISettings.Espiral
         {
             get
@@ -342,6 +347,19 @@ namespace PokemonGo.RocketAPI.Console
             set
             {
                 Globals.Espiral = value;
+            }
+        }
+
+        bool ISettings.logPokemons
+        {
+            get
+            {
+                return Globals.logPokemons;
+            }
+
+            set
+            {
+                Globals.logPokemons = value;
             }
         }
     }

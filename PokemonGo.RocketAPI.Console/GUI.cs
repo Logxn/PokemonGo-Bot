@@ -36,6 +36,9 @@ namespace PokemonGo.RocketAPI.Console
         static string devicePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Device");
         static string deviceinfo = Path.Combine(devicePath, "DeviceInfo.txt");
 
+        static string logPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Logs");
+        static string logs = Path.Combine(logPath, "pokelog.txt");
+
         private void GUI_Load(object sender, EventArgs e)
         {
             MessageBox.Show("The Bot isn't done! Be aware that you can get banned!");
@@ -263,6 +266,7 @@ namespace PokemonGo.RocketAPI.Console
                 textBox20.Text = "5000";
             }
 
+
             if (File.Exists(Program.items))
             {
                 string[] lines = File.ReadAllLines(@Program.items);
@@ -431,6 +435,22 @@ namespace PokemonGo.RocketAPI.Console
                             checkedListBox3.SetItemChecked(evolveIDS[gerEng[line]] - 1, true);
                         else
                             checkedListBox3.SetItemChecked(evolveIDS[line] - 1, true);
+                }
+            }
+
+            if (File.Exists(Program.miscSettings))
+            {
+                string[] lines = File.ReadAllLines(Program.miscSettings);
+                i = 1;
+
+                foreach (string line in lines)
+                {
+                    switch (i)
+                    {
+                        case 1:
+                            logPokemon.Checked = bool.Parse(line);
+                            break;
+                    }
                 }
             }
             // Load Proxy Settings
@@ -765,6 +785,11 @@ namespace PokemonGo.RocketAPI.Console
                 Globals.razzberry_chance = Convert.ToDouble(c);
             }
 
+            if (logPokemon.Checked)
+            {
+                Globals.logPokemons = true;
+            }
+
             Globals.gerNames = checkBox8.Checked;
             Globals.useincense = checkBox9.Checked;
             Globals.pokeList = checkBox10.Checked;
@@ -852,6 +877,12 @@ namespace PokemonGo.RocketAPI.Console
             };
             File.WriteAllLines(@Program.items, itemsFile);
 
+            string[] miscFile =
+            {
+                Globals.logPokemons.ToString(),
+            };
+            File.WriteAllLines(Program.miscSettings, miscFile);
+
             string[] walkSettingsFile =
             {
                 Globals.farmPokestops.ToString(),
@@ -869,6 +900,7 @@ namespace PokemonGo.RocketAPI.Console
                 textBox34.Text,
                 textBox27.Text,
                 Globals.Espiral.ToString(),
+                Globals.UseBreakFields.ToString(),
             };
             File.WriteAllLines(@Program.walkSetting, walkSettingsFile);
 
@@ -1514,6 +1546,11 @@ namespace PokemonGo.RocketAPI.Console
         private void checkBox25_CheckedChanged(object sender, EventArgs e)
         {
             Globals.Espiral = checkBox25.Checked;
+        }
+
+        private void checkBox26_CheckedChanged(object sender, EventArgs e)
+        {
+            Globals.UseBreakFields = checkBox26.Checked;
         }
     }
 }
