@@ -349,5 +349,18 @@ namespace PokemonGo.RocketAPI.Console
                 Globals.Espiral = value;
             }
         }
+
+        bool ISettings.logPokemons
+        {
+            get
+            {
+                return Globals.logPokemons;
+            }
+
+            set
+            {
+                Globals.logPokemons = value;
+            }
+        }
     }
 }
