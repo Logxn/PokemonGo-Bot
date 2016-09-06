@@ -916,6 +916,7 @@ namespace PokemonGo.RocketAPI.Logic
                                     if (!File.Exists(logs))
                                     {
                                         var f = File.Create(logs);
+                                        f.Close();
                                     }
                                     File.AppendAllText(logs, $"[{date}] Caught new {StringUtils.getPokemonNameByLanguage(_clientSettings, pokemon.PokemonId)} (CP: {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} | IV: {PokemonInfo.CalculatePokemonPerfection(encounterPokemonResponse.WildPokemon.PokemonData).ToString("0.00")}% | Pokeball used: {bestPokeball} | XP: {caughtPokemonResponse.CaptureAward.Xp.Sum()}) " + Environment.NewLine);
                                 }
@@ -935,6 +936,7 @@ namespace PokemonGo.RocketAPI.Logic
                                     if (!File.Exists(logs))
                                     {
                                         var f = File.Create(logs);
+                                        f.Close();
                                     }
                                     File.AppendAllText(logs, $"[{date}] Caught new {StringUtils.getPokemonNameByLanguage(_clientSettings, pokemon.PokemonId)} (CP: {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} | IV: {PokemonInfo.CalculatePokemonPerfection(encounterPokemonResponse.WildPokemon.PokemonData).ToString("0.00")}% | Pokeball used: {bestPokeball} | XP: {caughtPokemonResponse.CaptureAward.Xp.Sum()}) " + Environment.NewLine);
                                 }
