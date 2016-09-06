@@ -869,6 +869,7 @@ namespace PokemonGo.RocketAPI.Console
                 textBox34.Text,
                 textBox27.Text,
                 Globals.Espiral.ToString(),
+                Globals.UseBreakFields.ToString(),
             };
             File.WriteAllLines(@Program.walkSetting, walkSettingsFile);
 
@@ -1514,6 +1515,11 @@ namespace PokemonGo.RocketAPI.Console
         private void checkBox25_CheckedChanged(object sender, EventArgs e)
         {
             Globals.Espiral = checkBox25.Checked;
+        }
+
+        private void checkBox26_CheckedChanged(object sender, EventArgs e)
+        {
+            Globals.UseBreakFields = checkBox26.Checked;
         }
     }
 }

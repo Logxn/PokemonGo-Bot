@@ -165,40 +165,43 @@ namespace PokemonGo.RocketAPI.Logic
                     }
                 }
             }
-            if (pausetimestamp > -10000)
+            if (_clientSettings.UseBreakFields)
             {
-                var walkTimeRemaining = pausetimestamp - (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds;
-                if (walkTimeRemaining <= 0)
+                if (pausetimestamp > -10000)
                 {
-                    pausetimestamp = -10000;
-                    _clientSettings.pauseAtPokeStop = true;
-                    resumetimestamp = (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds + _clientSettings.BreakLength * 60 * 1000;
-                    Logger.ColoredConsoleWrite(ConsoleColor.Blue, String.Format("Break Time! Pause walking for {0} minutes", _clientSettings.BreakLength));
+                    var walkTimeRemaining = pausetimestamp - (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds;
+                    if (walkTimeRemaining <= 0)
+                    {
+                        pausetimestamp = -10000;
+                        _clientSettings.pauseAtPokeStop = true;
+                        resumetimestamp = (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds + _clientSettings.BreakLength * 60 * 1000;
+                        Logger.ColoredConsoleWrite(ConsoleColor.Blue, String.Format("Break Time! Pause walking for {0} minutes", _clientSettings.BreakLength));
+                    }
+                    else
+                    {
+                        Logger.ColoredConsoleWrite(ConsoleColor.Blue, String.Format("Remaining Time until break: {0} minutes", Math.Round(walkTimeRemaining / 1000 / 60, 2)));
+                    }
                 }
-                else
+                else if (resumetimestamp == -10000)
                 {
-                    Logger.ColoredConsoleWrite(ConsoleColor.Blue, String.Format("Remaining Time until break: {0} minutes", Math.Round(walkTimeRemaining / 1000 / 60, 2)));
+                    pausetimestamp = (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds + _clientSettings.BreakInterval * 60 * 1000;
+                    Logger.ColoredConsoleWrite(ConsoleColor.Blue, String.Format("Remaining Time until break: {0} minutes", _clientSettings.BreakInterval));
                 }
-            }
-            else if (resumetimestamp == -10000)
-            {
-                pausetimestamp = (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds + _clientSettings.BreakInterval * 60 * 1000;
-                Logger.ColoredConsoleWrite(ConsoleColor.Blue, String.Format("Remaining Time until break: {0} minutes", _clientSettings.BreakInterval));
-            }
-            if (resumetimestamp > -10000)
-            {
-                var breakTimeRemaining = resumetimestamp - (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds;
-                if (breakTimeRemaining <=0)
+                if (resumetimestamp > -10000)
                 {
-                    resumetimestamp = -10000;
-                    _clientSettings.pauseAtPokeStop = false;
-                    Logger.ColoredConsoleWrite(ConsoleColor.Green, "Break over, back to walking!");                    
+                    var breakTimeRemaining = resumetimestamp - (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds;
+                    if (breakTimeRemaining <= 0)
+                    {
+                        resumetimestamp = -10000;
+                        _clientSettings.pauseAtPokeStop = false;
+                        Logger.ColoredConsoleWrite(ConsoleColor.Green, "Break over, back to walking!");
+                    }
+                    else
+                    {
+                        Logger.ColoredConsoleWrite(ConsoleColor.Blue, String.Format("Remaining Time until resume walking: {0} minutes", Math.Round(breakTimeRemaining / 1000 / 60, 2)));
+                    }
                 }
-                else
-                {
-                    Logger.ColoredConsoleWrite(ConsoleColor.Blue, String.Format("Remaining Time until resume walking: {0} minutes", Math.Round(breakTimeRemaining / 1000 / 60, 2)));
-                }
-            }        
+            }   
             //add logging for pokemon catch disabled here for now to prevent spamming
             if (!_clientSettings.CatchPokemon)
             {
