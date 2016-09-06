@@ -29,6 +29,9 @@ namespace PokemonGo.RocketAPI.Console
         public static string miscSettings = Path.Combine(path, "misc.txt");
         public static string cmdCoords = string.Empty;
 
+        static string logPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Logs");
+        static string logs = Path.Combine(logPath, "pokelog.txt");
+
         [STAThread]
         static void Main(string[] args)
         {
@@ -51,6 +54,17 @@ namespace PokemonGo.RocketAPI.Console
                 }
             }
 
+            if (!File.Exists(miscSettings))
+            {
+                var f = File.Create(miscSettings);
+                f.Close();
+            }
+
+            if (!Directory.Exists(logPath))
+            {
+                Directory.CreateDirectory(logPath);
+
+            }
 
             if (args != null && args.Length > 0 && args[0].Contains("-nogui"))
             {
@@ -293,11 +307,6 @@ namespace PokemonGo.RocketAPI.Console
                 }
             }
 
-            if(!File.Exists(miscSettings))
-            {
-                var f = File.Create(miscSettings);
-                f.Close();
-            }
 
             Logger.SetLogger(new Logging.ConsoleLogger(LogLevel.Info));
 
