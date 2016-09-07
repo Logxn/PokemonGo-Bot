@@ -386,6 +386,7 @@ namespace PokemonGo.RocketAPI.Console
             {
                 Globals.bLogEvolve = value;
             }
+        }
         public GeoCoordinate NextDestinationOverride
         {
             get { return Globals.NextDestinationOverride; }
