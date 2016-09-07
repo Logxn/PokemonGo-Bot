@@ -2,6 +2,7 @@ using POGOProtos.Enums;
 using POGOProtos.Inventory.Item;
 using PokemonGo.RocketAPI.Enums;
 using System.Collections.Generic;
+using System.Device.Location;
 
 namespace PokemonGo.RocketAPI
 {
@@ -89,8 +90,10 @@ namespace PokemonGo.RocketAPI
         int MinWalkSpeed { get; set; }
         bool Espiral { get;  set; }
         bool MapLoaded { get; set; }
-
+        GeoCoordinate NextDestinationOverride { get; set; }
         bool logPokemons { get; set; }
+        bool logManualTransfer { get; set; }
+        bool bLogEvolve { get; set; }
 
     }
 }

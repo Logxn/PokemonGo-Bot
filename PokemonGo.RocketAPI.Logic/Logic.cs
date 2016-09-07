@@ -75,7 +75,15 @@ namespace PokemonGo.RocketAPI.Logic
             Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Starting Execute on login server: {_clientSettings.AuthType}", LogLevel.Info);
             if (_clientSettings.logPokemons)
             {
-                Logger.ColoredConsoleWrite(ConsoleColor.Green, "You enabled Pokemonlogging. It will be saved to \"\\Logs\\pokelog.txt\"");
+                Logger.ColoredConsoleWrite(ConsoleColor.Green, "You enabled Pokemonlogging. It will be saved to \"\\Logs\\PokeLog.txt\"");
+            }
+            if (_clientSettings.logManualTransfer)
+            {
+                Logger.ColoredConsoleWrite(ConsoleColor.Green, "You enabled manual transfer logging. It will be saved to \"\\Logs\\TransferLog.txt\"");
+            }
+            if (_clientSettings.bLogEvolve)
+            {
+                Logger.ColoredConsoleWrite(ConsoleColor.Green, "You enabled Evolution Logging. It will be saved to \"\\Logs\\EvolutionLog.txt\"");
             }
             Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Setting Pokemon Catch Count: to 0 for this session", LogLevel.Info);
             pokemonCatchCount = 0;
@@ -593,6 +601,30 @@ namespace PokemonGo.RocketAPI.Logic
                         walkspeed = rintwalk;
                     }
                 }
+                if (_clientSettings.NextDestinationOverride != null)
+                {
+                    FortData targetPokeStop = null;
+                    do
+                    {
+                        targetPokeStop = pokeStops.Where(i =>
+                    i.Latitude == _clientSettings.NextDestinationOverride.Latitude &&
+                    i.Longitude == _clientSettings.NextDestinationOverride.Longitude
+                    ).FirstOrDefault();
+                        Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Path Override detected! Rerouting to user-selected pokeStop...");
+                        if (_clientSettings.UseGoogleMapsAPI)
+                        {
+                            await WalkWithRouting(_clientSettings.NextDestinationOverride.Latitude, _clientSettings.NextDestinationOverride.Longitude, walkspeed);
+                        }
+                        else
+                        {
+                            var update = await _navigation.HumanLikeWalking(new GeoCoordinate(targetPokeStop.Latitude, targetPokeStop.Longitude), walkspeed, ExecuteCatchAllNearbyPokemons);
+                        }
+                        var FortInfo = await _client.Fort.GetFort(targetPokeStop.Id, targetPokeStop.Latitude, targetPokeStop.Longitude);
+                        await CheckAndFarmNearbyPokeStop(targetPokeStop, _client, FortInfo);
+                    }
+                    while (targetPokeStop == null || (_clientSettings.NextDestinationOverride.Latitude != targetPokeStop.Latitude && _clientSettings.NextDestinationOverride.Longitude != targetPokeStop.Longitude));
+                    _clientSettings.NextDestinationOverride = null; 
+                }
                 if (_clientSettings.UseGoogleMapsAPI)
                 {
                     await WalkWithRouting(pokeStop, walkspeed);
@@ -639,65 +671,7 @@ namespace PokemonGo.RocketAPI.Logic
             }
         }
 
-        private async Task WalkWithRouting(FortData pokeStop, double walkspeed)
-        {
-            Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Getting Google Maps Routing");
-            if (_clientSettings.GoogleMapsAPIKey != null)
-            {
-                DirectionsRequest directionsRequest = new DirectionsRequest();
-                directionsRequest.ApiKey = _clientSettings.GoogleMapsAPIKey;
-                directionsRequest.TravelMode = TravelMode.Walking;
-                directionsRequest.Origin = _client.CurrentLatitude + "," + _client.CurrentLongitude;
-                directionsRequest.Destination = pokeStop.Latitude + "," + pokeStop.Longitude;
-
-                DirectionsResponse directions = GoogleMaps.Directions.Query(directionsRequest);
-
-                if (directions.Status == DirectionsStatusCodes.OK)
-                {
-                    var steps = directions.Routes.First().Legs.First().Steps;
-                    var stepcount = 0;
-                    foreach (var step in steps)
-                    {
-                        var directiontext = Helpers.Utils.HtmlRemoval.StripTagsRegexCompiled(step.HtmlInstructions);
-                        Logger.ColoredConsoleWrite(ConsoleColor.Green, directiontext);
-                        var update = await _navigation.HumanLikeWalking(new GeoCoordinate(step.EndLocation.Latitude, step.EndLocation.Longitude), walkspeed, ExecuteCatchAllNearbyPokemons);
-                        stepcount++;
-                        if (stepcount == steps.Count())
-                        {
-                            //Make sure we actually made it to the pokestop! 
-                            var remainingdistancetostop = LocationUtils.CalculateDistanceInMeters(_client.CurrentLatitude, _client.CurrentLongitude, pokeStop.Latitude, pokeStop.Longitude);
-                            if (remainingdistancetostop > 40)
-                            {
-                                Logger.ColoredConsoleWrite(ConsoleColor.Green, "As close as google can take us, going off-road");
-                                update = await _navigation.HumanLikeWalking(new GeoCoordinate(pokeStop.Latitude, pokeStop.Longitude), walkspeed, ExecuteCatchAllNearbyPokemons);
-                            }
-                            Logger.ColoredConsoleWrite(ConsoleColor.Green, "Destination Reached!");
-                        }
-                    }
-                }
-                else if (directions.Status == DirectionsStatusCodes.REQUEST_DENIED)
-                {
-                    Logger.ColoredConsoleWrite(ConsoleColor.Green, "Request Failed! Bad API key?");
-                    var update = await _navigation.HumanLikeWalking(new GeoCoordinate(pokeStop.Latitude, pokeStop.Longitude), walkspeed, ExecuteCatchAllNearbyPokemons);
-                }
-                else if (directions.Status == DirectionsStatusCodes.OVER_QUERY_LIMIT)
-                {
-                    Logger.ColoredConsoleWrite(ConsoleColor.Green, "Over 2500 queries today! Are you botting unsafely? :)");
-                    var update = await _navigation.HumanLikeWalking(new GeoCoordinate(pokeStop.Latitude, pokeStop.Longitude), walkspeed, ExecuteCatchAllNearbyPokemons);
-                }
-                else
-                {
-                    var update = await _navigation.HumanLikeWalking(new GeoCoordinate(pokeStop.Latitude, pokeStop.Longitude), walkspeed, ExecuteCatchAllNearbyPokemons);
-                }
-            }
-            else
-            {
-                Logger.ColoredConsoleWrite(ConsoleColor.Red, $"API Key not found in Client Settings! Using default method instead.");
-                var update = await _navigation.HumanLikeWalking(new GeoCoordinate(pokeStop.Latitude, pokeStop.Longitude), walkspeed, ExecuteCatchAllNearbyPokemons);
-            }
-        }
-
-        private async Task WalkWithRouting(double latitude, double longitude, double walkspeed)
+        private async Task DoRouteWalking(double latitude, double longitude, double walkspeed)
         {
             Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Getting Google Maps Routing");
             if (_clientSettings.GoogleMapsAPIKey != null)
@@ -745,6 +719,7 @@ namespace PokemonGo.RocketAPI.Logic
                 }
                 else
                 {
+                    Logger.ColoredConsoleWrite(ConsoleColor.Green, "Unhandled Error occurred when getting route[ STATUS:" + directions.StatusStr + " ERROR MESSAGE:" + directions.ErrorMessage + "] Using default walk method instead.");
                     var update = await _navigation.HumanLikeWalking(new GeoCoordinate(latitude, longitude), walkspeed, ExecuteCatchAllNearbyPokemons);
                 }
             }
@@ -753,6 +728,15 @@ namespace PokemonGo.RocketAPI.Logic
                 Logger.ColoredConsoleWrite(ConsoleColor.Red, $"API Key not found in Client Settings! Using default method instead.");
                 var update = await _navigation.HumanLikeWalking(new GeoCoordinate(latitude, longitude), walkspeed, ExecuteCatchAllNearbyPokemons);
             }
+        }
+        private async Task WalkWithRouting(FortData pokeStop, double walkspeed)
+        {
+            await DoRouteWalking(pokeStop.Latitude, pokeStop.Longitude, walkspeed);
+        }
+
+        private async Task WalkWithRouting(double latitude, double longitude, double walkspeed)
+        {
+            await DoRouteWalking(latitude, longitude, walkspeed);
         }
 
         private async Task LogStatsEtc()
@@ -996,7 +980,7 @@ namespace PokemonGo.RocketAPI.Logic
                             _infoObservable.PushNewHuntStats(String.Format("{0}/{1};{2};{3};{4}", pokemon.Latitude, pokemon.Longitude, pokemon.PokemonId, curDate.Ticks, curDate.ToString()) + Environment.NewLine);
 
                             string logPath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Logs");
-                            string logs = System.IO.Path.Combine(logPath, "pokelog.txt");
+                            string logs = System.IO.Path.Combine(logPath, "PokeLog.txt");
                             var date = DateTime.Now;
                             if (caughtPokemonResponse.CaptureAward.Xp.Sum() >= 500)
                             {
@@ -1134,9 +1118,16 @@ namespace PokemonGo.RocketAPI.Logic
                 }
 
                 var evolvePokemonOutProto = await _client.Inventory.EvolvePokemon((ulong)pokemon.Id);
+                var date = DateTime.Now.ToString();
+                string logPath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Logs");
+                string evolvelog = System.IO.Path.Combine(logPath, "EvolveLog.txt");
 
                 if (evolvePokemonOutProto.Result == EvolvePokemonResponse.Types.Result.Success)
                 {
+                    if(_clientSettings.bLogEvolve)
+                    {
+                        File.AppendAllText(evolvelog, $"[{date}] - Evolved {StringUtils.getPokemonNameByLanguage(_clientSettings, pokemon.PokemonId)} CP {pokemon.Cp} {PokemonInfo.CalculatePokemonPerfection(pokemon).ToString("0.00")}%  to {StringUtils.getPokemonNameByLanguage(_clientSettings, evolvePokemonOutProto.EvolvedPokemonData.PokemonId)} CP: {evolvePokemonOutProto.EvolvedPokemonData.Cp} for {evolvePokemonOutProto.ExperienceAwarded.ToString("N0")}xp");
+                    }
                     Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Evolved {StringUtils.getPokemonNameByLanguage(_clientSettings, pokemon.PokemonId)} CP {pokemon.Cp} {PokemonInfo.CalculatePokemonPerfection(pokemon).ToString("0.00")}%  to {StringUtils.getPokemonNameByLanguage(_clientSettings, evolvePokemonOutProto.EvolvedPokemonData.PokemonId)} CP: {evolvePokemonOutProto.EvolvedPokemonData.Cp} for {evolvePokemonOutProto.ExperienceAwarded.ToString("N0")}xp", LogLevel.Info);
                     _botStats.AddExperience(evolvePokemonOutProto.ExperienceAwarded);
 
@@ -1148,6 +1139,10 @@ namespace PokemonGo.RocketAPI.Logic
                 {
                     if (evolvePokemonOutProto.Result != EvolvePokemonResponse.Types.Result.Success)
                     {
+                        if(_clientSettings.bLogEvolve)
+                        {
+                            File.AppendAllText(evolvelog, $"[{date}] - Failed to evolve {pokemon.PokemonId}. EvolvePokemonOutProto.Result was {evolvePokemonOutProto.Result}");
+                        }
                         Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Failed to evolve {pokemon.PokemonId}. EvolvePokemonOutProto.Result was {evolvePokemonOutProto.Result}", LogLevel.Info);
                     }
                 }
@@ -1257,12 +1252,25 @@ namespace PokemonGo.RocketAPI.Logic
                         var bestPokemonsIVOfType = await _client.Inventory.GetHighestIVofType(duplicatePokemon);
 
                         var transfer = await _client.Inventory.TransferPokemon(duplicatePokemon.Id);
+
+                        string logPath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Logs");
+                        string logs = System.IO.Path.Combine(logPath, "TransferLog.txt");
+                        string date = DateTime.Now.ToString();
+
                         if (TransferFirstLowIV)
                         {
+                            if(_clientSettings.logManualTransfer)
+                            {
+                                File.AppendAllText(logs, $"[{date}] - Transfer {StringUtils.getPokemonNameByLanguage(_clientSettings, duplicatePokemon.PokemonId)} CP {duplicatePokemon.Cp} IV {PokemonInfo.CalculatePokemonPerfection(duplicatePokemon).ToString("0.00")} % (Best IV: {PokemonInfo.CalculatePokemonPerfection(bestPokemonsIVOfType.First()).ToString("0.00")} %)" + Environment.NewLine);
+                            }
                             Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Transfer {StringUtils.getPokemonNameByLanguage(_clientSettings, duplicatePokemon.PokemonId)} CP {duplicatePokemon.Cp} IV {PokemonInfo.CalculatePokemonPerfection(duplicatePokemon).ToString("0.00")} % (Best IV: {PokemonInfo.CalculatePokemonPerfection(bestPokemonsIVOfType.First()).ToString("0.00")} %)", LogLevel.Info);
                         }
                         else
                         {
+                            if(_clientSettings.logManualTransfer)
+                            {
+                                File.AppendAllText(logs, $"[{date}] - Transfer {StringUtils.getPokemonNameByLanguage(_clientSettings, duplicatePokemon.PokemonId)} CP {duplicatePokemon.Cp} IV {PokemonInfo.CalculatePokemonPerfection(duplicatePokemon).ToString("0.00")} % (Best: {bestPokemonsCPOfType.First().Cp} CP)" + Environment.NewLine);
+                            }
                             Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Transfer {StringUtils.getPokemonNameByLanguage(_clientSettings, duplicatePokemon.PokemonId)} CP {duplicatePokemon.Cp} IV {PokemonInfo.CalculatePokemonPerfection(duplicatePokemon).ToString("0.00")} % (Best: {bestPokemonsCPOfType.First().Cp} CP)", LogLevel.Info);
                         }
 

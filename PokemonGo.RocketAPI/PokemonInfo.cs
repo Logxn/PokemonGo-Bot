@@ -28,10 +28,7 @@ namespace PokemonGo.RocketAPI
     public struct BaseStats
     {
         public int BaseAttack, BaseDefense, BaseStamina;
-
-
-
-
+        
         public BaseStats(int baseStamina, int baseAttack, int baseDefense)
         {
             this.BaseAttack = baseAttack;
@@ -47,10 +44,7 @@ namespace PokemonGo.RocketAPI
     public struct BaseAttack
     {
         public double AttackDps;
-
-
-
-
+        
         public BaseAttack(double attackDps)
         {
             this.AttackDps = attackDps;
@@ -63,7 +57,7 @@ namespace PokemonGo.RocketAPI
 
     public static class PokemonInfo
     {
-        public static double CalculatePokemonPerfection(PokemonData poke)
+        public static double CalculatePokemonPerfectionCP(PokemonData poke)
         {
             if (Math.Abs(poke.CpMultiplier + poke.AdditionalCpMultiplier) <= 0)
                 return (poke.IndividualAttack + poke.IndividualDefense + poke.IndividualStamina) / 45.0 * 100.0;
@@ -75,7 +69,7 @@ namespace PokemonGo.RocketAPI
             return (curCp - minCp) / (maxCp - minCp) * 100.0;
         }
 
-        public static double CalculatePokemonPerfectionIV(PokemonData poke)
+        public static double CalculatePokemonPerfection(PokemonData poke)
         {
                  return (poke.IndividualAttack + poke.IndividualDefense + poke.IndividualStamina) / 45.0 * 100.0;
         } 

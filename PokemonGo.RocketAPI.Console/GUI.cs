@@ -36,7 +36,8 @@ namespace PokemonGo.RocketAPI.Console
         static string deviceinfo = Path.Combine(devicePath, "DeviceInfo.txt");
 
         static string logPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Logs");
-        static string logs = Path.Combine(logPath, "pokelog.txt");
+        static string logs = Path.Combine(logPath, "PokeLog.txt");
+        static string logmanualtransfer = Path.Combine(logPath, "TransferLog.txt");
 
         private void GUI_Load(object sender, EventArgs e)
         {
@@ -292,6 +293,29 @@ namespace PokemonGo.RocketAPI.Console
                 textBox24.Text = "90";
             }
 
+            if (File.Exists(Program.miscSettings))
+            {
+                string[] lines = File.ReadAllLines(Program.miscSettings);
+                i = 1;
+
+                foreach (string line in lines)
+                {
+                    switch (i)
+                    {
+                        case 1:
+                            logPokemon.Checked = bool.Parse(line);
+                            break;
+                        case 2:
+                            logManuelTransfer.Checked = bool.Parse(line);
+                        break;
+                        case 3:
+                            logEvolution.Checked = bool.Parse(line);
+                        break;
+                    }
+                    i++;
+                }
+            }
+
             if (File.Exists(Program.walkSetting))
             {
 
@@ -415,21 +439,7 @@ namespace PokemonGo.RocketAPI.Console
                 }
             }
 
-            if (File.Exists(Program.miscSettings))
-            {
-                string[] lines = File.ReadAllLines(Program.miscSettings);
-                i = 1;
 
-                foreach (string line in lines)
-                {
-                    switch (i)
-                    {
-                        case 1:
-                            logPokemon.Checked = bool.Parse(line);
-                            break;
-                    }
-                }
-            }
             // Load Proxy Settings
             if (_clientSettings.UseProxyHost != string.Empty)
                 prxyIP.Text = _clientSettings.UseProxyHost;
@@ -510,6 +520,13 @@ namespace PokemonGo.RocketAPI.Console
         }
 
         private void button1_Click(object sender, EventArgs e)
+        {
+            Save();
+            
+            ActiveForm.Dispose();
+        }
+
+        private void Save()
         {
             if (textBox1.Text == string.Empty)
             {
@@ -738,7 +755,17 @@ namespace PokemonGo.RocketAPI.Console
             {
                 Globals.logPokemons = true;
             }
-             
+
+            if (logManuelTransfer.Checked)
+            {
+                Globals.logManualTransfer = true;
+            }
+
+            if (logEvolution.Checked)
+            {
+                Globals.bLogEvolve = true;
+            }
+
             Globals.useincense = checkBox9.Checked;
             Globals.pokeList = checkBox10.Checked;
             Globals.keepPokemonsThatCanEvolve = checkBox11.Checked;
@@ -783,7 +810,7 @@ namespace PokemonGo.RocketAPI.Console
                     Globals.telName,
                     Globals.telDelay.ToString(),
                     Globals.navigation_option.ToString(),
-                    Globals.useluckyegg.ToString(), 
+                    Globals.useluckyegg.ToString(),
                     Globals.useincense.ToString(),
                     Globals.ivmaxpercent.ToString(),
                     Globals.pokeList.ToString(),
@@ -818,8 +845,10 @@ namespace PokemonGo.RocketAPI.Console
             string[] miscFile =
             {
                 Globals.logPokemons.ToString(),
+                Globals.logManualTransfer.ToString(),
+                Globals.bLogEvolve.ToString(),
             };
-            File.WriteAllLines(Program.miscSettings, miscFile);
+            File.WriteAllLines(@Program.miscSettings, miscFile);
 
             string[] walkSettingsFile =
             {
@@ -872,7 +901,12 @@ namespace PokemonGo.RocketAPI.Console
             string[] EvolveFile = temp.Where(x => !String.IsNullOrEmpty(x)).ToArray();
             File.WriteAllLines(@Program.evolve, EvolveFile);
 
-            ActiveForm.Dispose();
+            string[] deviceFile =
+            {
+                comboBox2.SelectedItem.ToString(),
+                "61a3560dce161844",
+            };
+            File.WriteAllLines(@Program.deviceSettings, deviceFile);
         }
 
         #region CheckedChanged Events
@@ -1468,5 +1502,7 @@ namespace PokemonGo.RocketAPI.Console
         {
             Globals.UseBreakFields = checkBox26.Checked;
         }
+
+
     }
 }

@@ -1,5 +1,11 @@
 ![headerimg](http://i.imgur.com/tyoivkz.png)
 
+Donate
+------------
+> If you want to donate for the Team, you can do it with BitCoins.<br>
+> Our Wallet: 1N9ZF9TYWRDi1Ecjro536j9swF5tzXRURs<br>
+> We appreciate every donation!<br>
+
 Features
 -------------
 > - Auto Farming Pokestops/Pokemon.
