@@ -28,10 +28,7 @@ namespace PokemonGo.RocketAPI
     public struct BaseStats
     {
         public int BaseAttack, BaseDefense, BaseStamina;
-
-
-
-
+        
         public BaseStats(int baseStamina, int baseAttack, int baseDefense)
         {
             this.BaseAttack = baseAttack;
@@ -47,10 +44,7 @@ namespace PokemonGo.RocketAPI
     public struct BaseAttack
     {
         public double AttackDps;
-
-
-
-
+        
         public BaseAttack(double attackDps)
         {
             this.AttackDps = attackDps;
