@@ -19,6 +19,12 @@ Features
 > - Archimedean spiral (https://en.wikipedia.org/wiki/Archimedean_spiral)
 > - and much more!
 
+Discord
+-------------------
+Join us and talk with other members and devs.
+Help us make the bot better! :) 
+https://discord.gg/phu3GNN
+
 Credits
 -------------------
 Most thanks to FeroxRev and AeonLucid, without them this wouldn't be possible.<br>
