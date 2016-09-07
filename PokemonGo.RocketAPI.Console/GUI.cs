@@ -40,7 +40,7 @@ namespace PokemonGo.RocketAPI.Console
 
         private void GUI_Load(object sender, EventArgs e)
         {
-            //MessageBox.Show("The Bot isn't done! Be aware that you can get banned!");
+            MessageBox.Show("The Bot isn't done! Be aware that you can get banned!");
             _clientSettings = new Settings();
             // Create missing Files
             Directory.CreateDirectory(Program.path);
@@ -143,7 +143,6 @@ namespace PokemonGo.RocketAPI.Console
                     int tb = 1;
                     foreach (string line in lines)
                     {
-
                         switch (i)
                         {
                             case 1:
@@ -743,7 +742,7 @@ namespace PokemonGo.RocketAPI.Console
             Globals.useincense = checkBox9.Checked;
             Globals.pokeList = checkBox10.Checked;
             Globals.keepPokemonsThatCanEvolve = checkBox11.Checked;
-            Globals.pokevision = checkBox26.Checked;
+            //Globals.pokevision = checkBox12.Checked;
             Globals.useLuckyEggIfNotRunning = checkBox12.Checked;
             Globals.userazzberry = checkBox16.Checked;
             Globals.TransferFirstLowIV = checkBox15.Checked;
@@ -798,7 +797,6 @@ namespace PokemonGo.RocketAPI.Console
                     Convert.ToInt16(Globals.razzberry_chance * 100).ToString(),
                     Globals.sleepatpokemons.ToString(),
                     Globals.farmPokestops.ToString(),
-                    Globals.pokevision.ToString(),
             };
             File.WriteAllLines(@Program.account, accFile);
 
@@ -1472,15 +1470,9 @@ namespace PokemonGo.RocketAPI.Console
         {
             Globals.Espiral = checkBox25.Checked;
         }
-        
-        private void button5_Click(object sender, EventArgs e)
-        {
-            MessageBox.Show("SkipLagged.com api is used to search pokemon that are less than 125 meters");
-        }
 
         private void checkBox26_CheckedChanged(object sender, EventArgs e)
         {
-            Globals.pokevision = checkBox26.Checked;
             Globals.UseBreakFields = checkBox26.Checked;
         }
     }
