@@ -173,6 +173,7 @@ namespace PokemonGo.RocketAPI.Console
                             .Select(f => f.Candy_)
                             .First();
                         listViewItem.SubItems.Add(string.Format("{0}", pokemon.Cp));
+                        //< listViewItem.SubItems.Add(string.Format("{0}% {1}{2}{3} ({4})", PokemonInfo.CalculatePokemonPerfection(pokemon).ToString("0"), pokemon.IndividualAttack.ToString("X"), pokemon.IndividualDefense.ToString("X"), pokemon.IndividualStamina.ToString("X"), (45 - pokemon.IndividualAttack- pokemon.IndividualDefense- pokemon.IndividualStamina) ));
                         listViewItem.SubItems.Add(string.Format("{0}% {1}-{2}-{3}", PokemonInfo.CalculatePokemonPerfection(pokemon).ToString("0"), pokemon.IndividualAttack, pokemon.IndividualDefense, pokemon.IndividualStamina));
                         listViewItem.SubItems.Add(string.Format("{0}", PokemonInfo.GetLevel(pokemon)));
                         listViewItem.ImageKey = pokemon.PokemonId.ToString();
@@ -236,6 +237,7 @@ namespace PokemonGo.RocketAPI.Console
             checkBoxreload.Enabled = enabled;
             reloadsecondstextbox.Enabled = enabled;
             PokemonListView.Enabled = enabled;
+            btnIVToNick.Enabled = enabled;
         }
 
         private static Bitmap GetPokemonImage(int pokemonId)
@@ -603,9 +605,8 @@ namespace PokemonGo.RocketAPI.Console
         private static string IVsToNickname(PokemonData pokemon){
                 string croppedName = StringUtils.getPokemonNameByLanguage(ClientSettings, (PokemonId)pokemon.PokemonId) + " ";
                 string nickname;
+               	//< nickname = string.Format("{0}{1}{2}{3}", pokemon.IndividualAttack.ToString("X"), pokemon.IndividualDefense.ToString("X"), pokemon.IndividualStamina.ToString("X"),(45 - pokemon.IndividualAttack- pokemon.IndividualDefense- pokemon.IndividualStamina));
                	nickname = string.Format("{0}.{1}.{2}.{3}", PokemonInfo.CalculatePokemonPerfection(pokemon).ToString("0"), pokemon.IndividualAttack, pokemon.IndividualDefense, pokemon.IndividualStamina);
-                //int IVdiff =  45 - pokemon.IndividualAttack- pokemon.IndividualDefense- pokemon.IndividualStamina;
-        	    //nickname = string.Format("{0}{1}{2}{3}", pokemon.IndividualAttack.ToString("X"), pokemon.IndividualDefense.ToString("X"), pokemon.IndividualStamina.ToString("X"),IVdiff);	  
                 int  lenDiff = 12 - nickname.Length;
                 if (croppedName.Length > lenDiff )
                 	croppedName = croppedName.Substring(0, lenDiff);
