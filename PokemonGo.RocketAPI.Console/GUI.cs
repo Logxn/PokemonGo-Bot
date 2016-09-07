@@ -143,7 +143,6 @@ namespace PokemonGo.RocketAPI.Console
                     int tb = 1;
                     foreach (string line in lines)
                     {
-<<<<<<< HEAD
                         case 1:
                             if (line == "Google")
                                 comboBox1.SelectedIndex = 0;
@@ -235,7 +234,6 @@ namespace PokemonGo.RocketAPI.Console
                             temp.Text = line;
                             tb++;
                             break;
-=======
                         switch (i)
                         {
                             case 1:
@@ -328,7 +326,6 @@ namespace PokemonGo.RocketAPI.Console
                                 break;
                         }
                         i++;
->>>>>>> refs/remotes/Ar1i/master
                     }
                 }
                 else
@@ -1566,7 +1563,6 @@ namespace PokemonGo.RocketAPI.Console
             Globals.Espiral = checkBox25.Checked;
         }
 
-<<<<<<< HEAD
         private void button5_Click(object sender, EventArgs e)
         {
             MessageBox.Show("SkipLagged.com api is used to search pokemon that are less than 125 meters");
@@ -1575,11 +1571,9 @@ namespace PokemonGo.RocketAPI.Console
         private void checkBox26_CheckedChanged(object sender, EventArgs e)
         {
             Globals.pokevision = checkBox26.Checked;
-=======
         private void checkBox26_CheckedChanged(object sender, EventArgs e)
         {
             Globals.UseBreakFields = checkBox26.Checked;
->>>>>>> refs/remotes/Ar1i/master
         }
     }
 }
