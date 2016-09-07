@@ -187,11 +187,8 @@
             this.lang_de_btn = new System.Windows.Forms.Button();
             this.lang_en_btn = new System.Windows.Forms.Button();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
-<<<<<<< HEAD
             this.checkBox26 = new System.Windows.Forms.CheckBox();
             this.button5 = new System.Windows.Forms.Button();
-=======
->>>>>>> refs/remotes/Ar1i/master
             this.tabPage1.SuspendLayout();
             this.tabItems.SuspendLayout();
             this.groupBox4.SuspendLayout();
@@ -1543,13 +1540,10 @@
             // 
             this.groupBox13.Controls.Add(this.linkLabel6);
             this.groupBox13.Controls.Add(this.textBox33);
-<<<<<<< HEAD
             this.groupBox13.Location = new System.Drawing.Point(18, 206);
             this.groupBox13.Margin = new System.Windows.Forms.Padding(2);
-=======
             this.groupBox13.Location = new System.Drawing.Point(18, 230);
             this.groupBox13.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
->>>>>>> refs/remotes/Ar1i/master
             this.groupBox13.Name = "groupBox13";
             this.groupBox13.Padding = new System.Windows.Forms.Padding(2);
             this.groupBox13.Size = new System.Drawing.Size(221, 93);
@@ -1645,13 +1639,10 @@
             this.groupBox11.Location = new System.Drawing.Point(21, 22);
             this.groupBox11.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox11.Name = "groupBox11";
-<<<<<<< HEAD
             this.groupBox11.Padding = new System.Windows.Forms.Padding(2);
             this.groupBox11.Size = new System.Drawing.Size(221, 172);
-=======
             this.groupBox11.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.groupBox11.Size = new System.Drawing.Size(221, 205);
->>>>>>> refs/remotes/Ar1i/master
             this.groupBox11.TabIndex = 59;
             this.groupBox11.TabStop = false;
             this.groupBox11.Text = "Walk Options";
@@ -1958,7 +1949,6 @@
             this.pictureBox2.TabStop = false;
             this.pictureBox2.Click += new System.EventHandler(this.pictureBox2_Click);
             // 
-<<<<<<< HEAD
             // checkBox26
             // 
             this.checkBox26.AutoSize = true;
@@ -1980,8 +1970,7 @@
             this.button5.UseVisualStyleBackColor = true;
             this.button5.Click += new System.EventHandler(this.button5_Click);
             // 
-=======
->>>>>>> refs/remotes/Ar1i/master
+
             // GUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2208,12 +2197,9 @@
         private System.Windows.Forms.CheckBox checkBox25;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.CheckBox checkBox26;
-<<<<<<< HEAD
         private System.Windows.Forms.Button button5;
-=======
         private System.Windows.Forms.TabPage tabPage3;
         private System.Windows.Forms.CheckBox logPokemon;
->>>>>>> refs/remotes/Ar1i/master
     }
 }
 
