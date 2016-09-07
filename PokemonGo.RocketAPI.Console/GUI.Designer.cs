@@ -187,11 +187,6 @@
             this.lang_de_btn = new System.Windows.Forms.Button();
             this.lang_en_btn = new System.Windows.Forms.Button();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
-<<<<<<< HEAD
-            this.checkBox26 = new System.Windows.Forms.CheckBox();
-            this.button5 = new System.Windows.Forms.Button();
-=======
->>>>>>> refs/remotes/Ar1i/master
             this.tabPage1.SuspendLayout();
             this.tabItems.SuspendLayout();
             this.groupBox4.SuspendLayout();
@@ -1455,8 +1450,6 @@
             // 
             // tabPage2
             // 
-            this.tabPage2.Controls.Add(this.button5);
-            this.tabPage2.Controls.Add(this.checkBox26);
             this.tabPage2.Controls.Add(this.pictureBox1);
             this.tabPage2.Controls.Add(this.button4);
             this.tabPage2.Controls.Add(this.checkBox25);
@@ -1543,16 +1536,11 @@
             // 
             this.groupBox13.Controls.Add(this.linkLabel6);
             this.groupBox13.Controls.Add(this.textBox33);
-<<<<<<< HEAD
-            this.groupBox13.Location = new System.Drawing.Point(18, 206);
-            this.groupBox13.Margin = new System.Windows.Forms.Padding(2);
-=======
             this.groupBox13.Location = new System.Drawing.Point(18, 230);
-            this.groupBox13.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
->>>>>>> refs/remotes/Ar1i/master
+            this.groupBox13.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox13.Name = "groupBox13";
             this.groupBox13.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBox13.Size = new System.Drawing.Size(221, 93);
+            this.groupBox13.Size = new System.Drawing.Size(242, 93);
             this.groupBox13.TabIndex = 60;
             this.groupBox13.TabStop = false;
             this.groupBox13.Text = "Routing Settings (beta)";
@@ -1573,7 +1561,7 @@
             // 
             this.textBox33.Location = new System.Drawing.Point(58, 43);
             this.textBox33.Name = "textBox33";
-            this.textBox33.Size = new System.Drawing.Size(154, 20);
+            this.textBox33.Size = new System.Drawing.Size(179, 20);
             this.textBox33.TabIndex = 62;
             this.textBox33.TextChanged += new System.EventHandler(this.textBox33_TextChanged);
             // 
@@ -1645,13 +1633,8 @@
             this.groupBox11.Location = new System.Drawing.Point(21, 22);
             this.groupBox11.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox11.Name = "groupBox11";
-<<<<<<< HEAD
             this.groupBox11.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBox11.Size = new System.Drawing.Size(221, 172);
-=======
-            this.groupBox11.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.groupBox11.Size = new System.Drawing.Size(221, 205);
->>>>>>> refs/remotes/Ar1i/master
+            this.groupBox11.Size = new System.Drawing.Size(240, 205);
             this.groupBox11.TabIndex = 59;
             this.groupBox11.TabStop = false;
             this.groupBox11.Text = "Walk Options";
@@ -1659,11 +1642,11 @@
             // checkBox26
             // 
             this.checkBox26.AutoSize = true;
-            this.checkBox26.Location = new System.Drawing.Point(10, 171);
+            this.checkBox26.Location = new System.Drawing.Point(265, 259);
             this.checkBox26.Name = "checkBox26";
-            this.checkBox26.Size = new System.Drawing.Size(171, 17);
-            this.checkBox26.TabIndex = 71;
-            this.checkBox26.Text = "Use Break Interval and Length";
+            this.checkBox26.Size = new System.Drawing.Size(146, 17);
+            this.checkBox26.TabIndex = 67;
+            this.checkBox26.Text = "Use SkipLagged.com Api";
             this.checkBox26.UseVisualStyleBackColor = true;
             this.checkBox26.CheckedChanged += new System.EventHandler(this.checkBox26_CheckedChanged);
             // 
@@ -1836,9 +1819,9 @@
             // 
             this.tabPage3.Controls.Add(this.logPokemon);
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
-            this.tabPage3.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tabPage3.Margin = new System.Windows.Forms.Padding(2);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tabPage3.Padding = new System.Windows.Forms.Padding(2);
             this.tabPage3.Size = new System.Drawing.Size(542, 396);
             this.tabPage3.TabIndex = 5;
             this.tabPage3.Text = "Misc";
@@ -1848,7 +1831,7 @@
             // 
             this.logPokemon.AutoSize = true;
             this.logPokemon.Location = new System.Drawing.Point(2, 5);
-            this.logPokemon.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.logPokemon.Margin = new System.Windows.Forms.Padding(2);
             this.logPokemon.Name = "logPokemon";
             this.logPokemon.Size = new System.Drawing.Size(128, 17);
             this.logPokemon.TabIndex = 0;
@@ -1958,30 +1941,6 @@
             this.pictureBox2.TabStop = false;
             this.pictureBox2.Click += new System.EventHandler(this.pictureBox2_Click);
             // 
-<<<<<<< HEAD
-            // checkBox26
-            // 
-            this.checkBox26.AutoSize = true;
-            this.checkBox26.Location = new System.Drawing.Point(265, 259);
-            this.checkBox26.Name = "checkBox26";
-            this.checkBox26.Size = new System.Drawing.Size(146, 17);
-            this.checkBox26.TabIndex = 67;
-            this.checkBox26.Text = "Use SkipLagged.com Api";
-            this.checkBox26.UseVisualStyleBackColor = true;
-            this.checkBox26.CheckedChanged += new System.EventHandler(this.checkBox26_CheckedChanged);
-            // 
-            // button5
-            // 
-            this.button5.Location = new System.Drawing.Point(435, 259);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(21, 22);
-            this.button5.TabIndex = 68;
-            this.button5.Text = "?";
-            this.button5.UseVisualStyleBackColor = true;
-            this.button5.Click += new System.EventHandler(this.button5_Click);
-            // 
-=======
->>>>>>> refs/remotes/Ar1i/master
             // GUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2208,12 +2167,8 @@
         private System.Windows.Forms.CheckBox checkBox25;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.CheckBox checkBox26;
-<<<<<<< HEAD
-        private System.Windows.Forms.Button button5;
-=======
         private System.Windows.Forms.TabPage tabPage3;
         private System.Windows.Forms.CheckBox logPokemon;
->>>>>>> refs/remotes/Ar1i/master
     }
 }
 

@@ -143,99 +143,7 @@ namespace PokemonGo.RocketAPI.Console
                     int tb = 1;
                     foreach (string line in lines)
                     {
-<<<<<<< HEAD
-                        case 1:
-                            if (line == "Google")
-                                comboBox1.SelectedIndex = 0;
-                            else
-                                comboBox1.SelectedIndex = 1;
-                            break;
-                        case 9:
-                            checkBox1.Checked = bool.Parse(line);
-                            break;
-                        case 10:
-                            checkBox2.Checked = bool.Parse(line);
-                            break;
-                        case 12:
-                            checkBox3.Checked = bool.Parse(line);
-                            break;
-                        case 14:
-                            textBox18.Text = line;
-                            break;
-                        case 15:
-                            textBox19.Text = line;
-                            break;
-                        case 16:
-                            textBox20.Text = line;
-                            break;
-                        case 17:
-                            //if (line == "1")
-                            //{
-                            //    Globals.navigation_option = 1;
-                            //    checkBox8.Checked = true;
-                            //    checkBox7.Checked = false;
-                            //} else
-                            //{
-                            //    Globals.navigation_option = 2;
-                            //    checkBox7.Checked = true;
-                            //    checkBox8.Checked = false;
-                            //}
-                            break;
-                        case 18:
-                            checkBox7.Checked = bool.Parse(line);
-                            break;
-                        case 19:
-                            checkBox8.Checked = bool.Parse(line);
-                            break;
-                        case 20:
-                            checkBox9.Checked = bool.Parse(line);
-                            break;
-                        case 21:
-                            textBox24.Text = line;
-                            break;
-                        case 22:
-                            checkBox10.Checked = bool.Parse(line);
-                            break;
-                        case 23:
-                            checkBox11.Checked = bool.Parse(line);
-                            break;
-                        case 24:
-                            checkBox12.Checked = bool.Parse(line);
-                            break;
-                        case 25:
-                            chkAutoIncubate.Checked = bool.Parse(line);
-                            chkAutoIncubate_CheckedChanged(null, EventArgs.Empty);
-                            break;
-                        case 26:
-                            chkUseBasicIncubators.Checked = bool.Parse(line);
-                            break;
-                        case 27:
-                            checkBox15.Checked = bool.Parse(line);
-                            break;
-                        case 28:
-                            //langSelected = line;
-                            break;
-                        case 29:
-                            checkBox16.Checked = bool.Parse(line);
-                            break;
-                        case 30:
-                            textBox26.Text = line;
-                            break;
-                        case 31:
-                            checkBox17.Checked = bool.Parse(line);
-                            break;
-                        case 32:
-                            checkBox18.Checked = bool.Parse(line);
-                            break;
-                        case 33:
-                            checkBox26.Checked = bool.Parse(line); //SkipLagged!
-                            break;
-                        default:
-                            TextBox temp = (TextBox)Controls.Find("textBox" + tb, true).FirstOrDefault();
-                            temp.Text = line;
-                            tb++;
-                            break;
-=======
+
                         switch (i)
                         {
                             case 1:
@@ -328,7 +236,6 @@ namespace PokemonGo.RocketAPI.Console
                                 break;
                         }
                         i++;
->>>>>>> refs/remotes/Ar1i/master
                     }
                 }
                 else
@@ -1565,8 +1472,7 @@ namespace PokemonGo.RocketAPI.Console
         {
             Globals.Espiral = checkBox25.Checked;
         }
-
-<<<<<<< HEAD
+        
         private void button5_Click(object sender, EventArgs e)
         {
             MessageBox.Show("SkipLagged.com api is used to search pokemon that are less than 125 meters");
@@ -1575,11 +1481,7 @@ namespace PokemonGo.RocketAPI.Console
         private void checkBox26_CheckedChanged(object sender, EventArgs e)
         {
             Globals.pokevision = checkBox26.Checked;
-=======
-        private void checkBox26_CheckedChanged(object sender, EventArgs e)
-        {
             Globals.UseBreakFields = checkBox26.Checked;
->>>>>>> refs/remotes/Ar1i/master
         }
     }
 }
