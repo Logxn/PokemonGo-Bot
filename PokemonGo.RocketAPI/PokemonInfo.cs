@@ -28,10 +28,7 @@ namespace PokemonGo.RocketAPI
     public struct BaseStats
     {
         public int BaseAttack, BaseDefense, BaseStamina;
-
-
-
-
+        
         public BaseStats(int baseStamina, int baseAttack, int baseDefense)
         {
             this.BaseAttack = baseAttack;
@@ -47,10 +44,7 @@ namespace PokemonGo.RocketAPI
     public struct BaseAttack
     {
         public double AttackDps;
-
-
-
-
+        
         public BaseAttack(double attackDps)
         {
             this.AttackDps = attackDps;
@@ -75,17 +69,10 @@ namespace PokemonGo.RocketAPI
             return (curCp - minCp) / (maxCp - minCp) * 100.0;
         }
 
-
-        public static int DameID(PokemonData poke)
-        {
-            return (int)poke.PokemonId;
-        }
-
         public static double CalculatePokemonPerfectionIV(PokemonData poke)
         {
                  return (poke.IndividualAttack + poke.IndividualDefense + poke.IndividualStamina) / 45.0 * 100.0;
         } 
-
 
         public static double CalculateMinCpMultiplier(PokemonData poke)
         {
