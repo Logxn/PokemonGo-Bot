@@ -386,11 +386,21 @@ namespace PokemonGo.RocketAPI.Console
             int evolved = 0;
             int total = selectedItems.Count;
             string failed = string.Empty;
+            var date = DateTime.Now.ToString();
+            string logPath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Logs");
+            string evolvelog = System.IO.Path.Combine(logPath, "EvolveLog.txt");
+
             taskResponse resp = new taskResponse(false, string.Empty);
 
             foreach (ListViewItem selectedItem in selectedItems)
             {
                 resp = await evolvePokemon((PokemonData)selectedItem.Tag);
+
+                var pokemoninfo = (PokemonData)selectedItem.Tag;
+                var name = pokemoninfo.PokemonId;
+
+                File.AppendAllText(evolvelog, $"[{date}] - MANUAL - Trying to evole Pokemon: {name}" + Environment.NewLine);
+
                 if (resp.Status)
                 {
                     evolved++;
@@ -408,10 +418,25 @@ namespace PokemonGo.RocketAPI.Console
                 }
             }
 
+
             if (failed != string.Empty)
+            {
+                if(_clientSettings.bLogEvolve)
+                {
+                    File.AppendAllText(evolvelog, $"[{date}] - MANUAL - Sucessfully evolved {evolved}/{total} Pokemons. Failed: {failed}" + Environment.NewLine);
+                }
                 MessageBox.Show("Succesfully evolved " + evolved + "/" + total + " Pokemons. Failed: " + failed, "Evolve status", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+                
             else
+            {
+                if(_clientSettings.bLogEvolve)
+                {
+                    File.AppendAllText(evolvelog, $"[{date}] - MANUAL - Sucessfully evolved {evolved}/{total} Pokemons." + Environment.NewLine);
+                }
                 MessageBox.Show("Succesfully evolved " + evolved + "/" + total + " Pokemons.", "Evolve status", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+               
             if (evolved > 0)
             {
                 PokemonListView.Clear();
@@ -430,7 +455,7 @@ namespace PokemonGo.RocketAPI.Console
             string failed = string.Empty;
 
             string logPath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Logs");
-            string logs = System.IO.Path.Combine(logPath, "manualTransferLog.txt");
+            string logs = System.IO.Path.Combine(logPath, "TransferLog.txt");
             string date = DateTime.Now.ToString();
             PokemonData pokeData = new PokemonData();
             
@@ -448,7 +473,7 @@ namespace PokemonGo.RocketAPI.Console
                         var PokemonInfo = (PokemonData)selectedItem.Tag;
                         var name = PokemonInfo.PokemonId;
 
-                        File.AppendAllText(logs, $"[{date}] - Trying to transfer pokemon: {name}" + Environment.NewLine);
+                        File.AppendAllText(logs, $"[{date}] - MANUAL - Trying to transfer pokemon: {name}" + Environment.NewLine);
 
                         PokemonListView.Items.Remove(selectedItem);
                         transfered++;
@@ -466,7 +491,7 @@ namespace PokemonGo.RocketAPI.Console
                 {
                     if(_clientSettings.logManualTransfer)
                     {
-                        File.AppendAllText(logs, $"[{date}] - Sucessfully transfered {transfered}/{total} Pokemons. Failed: {failed}" + Environment.NewLine);
+                        File.AppendAllText(logs, $"[{date}] - MANUAL - Sucessfully transfered {transfered}/{total} Pokemons. Failed: {failed}" + Environment.NewLine);
                     }
                     MessageBox.Show("Succesfully transfered " + transfered + "/" + total + " Pokemons. Failed: " + failed, "Transfer status", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }  
@@ -474,7 +499,7 @@ namespace PokemonGo.RocketAPI.Console
                 {
                     if(_clientSettings.logManualTransfer)
                     {
-                        File.AppendAllText(logs, $"[{date}] - Sucessfully transfered {transfered}/{total} Pokemons." + Environment.NewLine);
+                        File.AppendAllText(logs, $"[{date}] - MANUAL - Sucessfully transfered {transfered}/{total} Pokemons." + Environment.NewLine);
                     }
                     MessageBox.Show("Succesfully transfered " + transfered + "/" + total + " Pokemons.", "Transfer status", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }

@@ -92,6 +92,7 @@ namespace PokemonGo.RocketAPI
 
         bool logPokemons { get; set; }
         bool logManualTransfer { get; set; }
+        bool bLogEvolve { get; set; }
 
     }
 }
