@@ -37,6 +37,7 @@ namespace PokemonGo.RocketAPI.Console
 
         static string logPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Logs");
         static string logs = Path.Combine(logPath, "pokelog.txt");
+        static string logmanualtransfer = Path.Combine(logPath, "manualTransferLog.txt");
 
         private void GUI_Load(object sender, EventArgs e)
         {
@@ -292,6 +293,26 @@ namespace PokemonGo.RocketAPI.Console
                 textBox24.Text = "90";
             }
 
+            if (File.Exists(Program.miscSettings))
+            {
+                string[] lines = File.ReadAllLines(Program.miscSettings);
+                i = 1;
+
+                foreach (string line in lines)
+                {
+                    switch (i)
+                    {
+                        case 1:
+                            logPokemon.Checked = bool.Parse(line);
+                            break;
+                        case 2:
+                            logManuelTransfer.Checked = bool.Parse(line);
+                        break;
+                    }
+                    i++;
+                }
+            }
+
             if (File.Exists(Program.walkSetting))
             {
 
@@ -415,21 +436,7 @@ namespace PokemonGo.RocketAPI.Console
                 }
             }
 
-            if (File.Exists(Program.miscSettings))
-            {
-                string[] lines = File.ReadAllLines(Program.miscSettings);
-                i = 1;
 
-                foreach (string line in lines)
-                {
-                    switch (i)
-                    {
-                        case 1:
-                            logPokemon.Checked = bool.Parse(line);
-                            break;
-                    }
-                }
-            }
             // Load Proxy Settings
             if (_clientSettings.UseProxyHost != string.Empty)
                 prxyIP.Text = _clientSettings.UseProxyHost;
@@ -738,6 +745,11 @@ namespace PokemonGo.RocketAPI.Console
             {
                 Globals.logPokemons = true;
             }
+
+            if(logManuelTransfer.Checked)
+            {
+                Globals.logManualTransfer = true;
+            }
              
             Globals.useincense = checkBox9.Checked;
             Globals.pokeList = checkBox10.Checked;
@@ -818,8 +830,9 @@ namespace PokemonGo.RocketAPI.Console
             string[] miscFile =
             {
                 Globals.logPokemons.ToString(),
+                Globals.logManualTransfer.ToString(),
             };
-            File.WriteAllLines(Program.miscSettings, miscFile);
+            File.WriteAllLines(@Program.miscSettings, miscFile);
 
             string[] walkSettingsFile =
             {
@@ -1475,5 +1488,7 @@ namespace PokemonGo.RocketAPI.Console
         {
             Globals.UseBreakFields = checkBox26.Checked;
         }
+
+
     }
 }

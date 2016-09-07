@@ -427,6 +427,12 @@ namespace PokemonGo.RocketAPI.Console
             int total = selectedItems.Count;
             string failed = string.Empty;
 
+            string logPath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Logs");
+            string logs = System.IO.Path.Combine(logPath, "manualTransferLog.txt");
+            string date = DateTime.Now.ToString();
+            PokemonData pokeData = new PokemonData();
+            
+
             DialogResult dialogResult = MessageBox.Show("You clicked transfer. This can not be undone.", "Are you Sure?", MessageBoxButtons.YesNo);
             if (dialogResult == DialogResult.Yes)
             {
@@ -437,19 +443,40 @@ namespace PokemonGo.RocketAPI.Console
                     resp = await transferPokemon((PokemonData)selectedItem.Tag);
                     if (resp.Status)
                     {
+                        var PokemonInfo = (PokemonData)selectedItem.Tag;
+                        var name = PokemonInfo.PokemonId;
+
+                        File.AppendAllText(logs, $"[{date}] - Trying to transfer pokemon: {name}" + Environment.NewLine);
+
                         PokemonListView.Items.Remove(selectedItem);
                         transfered++;
                         statusTexbox.Text = "Transfering..." + transfered;
+
                     }
                     else
                         failed += resp.Message + " ";
                     await RandomHelper.RandomDelay(5000, 6000);
                 }
 
+ 
+
                 if (failed != string.Empty)
+                {
+                    if(_clientSettings.logManualTransfer)
+                    {
+                        File.AppendAllText(logs, $"[{date}] - Sucessfully transfered {transfered}/{total} Pokemons. Failed: {failed}" + Environment.NewLine);
+                    }
                     MessageBox.Show("Succesfully transfered " + transfered + "/" + total + " Pokemons. Failed: " + failed, "Transfer status", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }  
                 else
+                {
+                    if(_clientSettings.logManualTransfer)
+                    {
+                        File.AppendAllText(logs, $"[{date}] - Sucessfully transfered {transfered}/{total} Pokemons." + Environment.NewLine);
+                    }
                     MessageBox.Show("Succesfully transfered " + transfered + "/" + total + " Pokemons.", "Transfer status", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                    
                 Text = "Pokemon List | User: " + profile.PlayerData.Username + " | Pokemons: " + PokemonListView.Items.Count + "/" + profile.PlayerData.MaxPokemonStorage;
             }
             EnabledButton(true);
