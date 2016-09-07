@@ -36,7 +36,7 @@ namespace PokemonGo.RocketAPI.Logic
         }
 
         public async Task<PlayerUpdateResponse> HumanLikeWalking(GeoCoordinate targetLocation,
-        double walkingSpeedInKilometersPerHour, Func<Task> functionExecutedWhileWalking)
+        double walkingSpeedInKilometersPerHour, Func<Task> functionExecutedWhileWalking, bool fromgoogle = false)
         { 
             var randomFactor = 0.5f;
             var randomMin = (int)(walkingSpeedInKilometersPerHour * (1 - randomFactor));
@@ -95,7 +95,9 @@ namespace PokemonGo.RocketAPI.Logic
                     await functionExecutedWhileWalking();// look for pokemon 
 
                 await RandomHelper.RandomDelay(500, 600);
-            } while (LocationUtils.CalculateDistanceInMeters(sourceLocation, targetLocation) >= 30);
+            }
+            
+            while ((LocationUtils.CalculateDistanceInMeters(sourceLocation, targetLocation) >= 30 && !fromgoogle) || LocationUtils.CalculateDistanceInMeters(sourceLocation, targetLocation) >= 2);
             return result;
         }
 

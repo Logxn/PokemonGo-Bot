@@ -639,65 +639,7 @@ namespace PokemonGo.RocketAPI.Logic
             }
         }
 
-        private async Task WalkWithRouting(FortData pokeStop, double walkspeed)
-        {
-            Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Getting Google Maps Routing");
-            if (_clientSettings.GoogleMapsAPIKey != null)
-            {
-                DirectionsRequest directionsRequest = new DirectionsRequest();
-                directionsRequest.ApiKey = _clientSettings.GoogleMapsAPIKey;
-                directionsRequest.TravelMode = TravelMode.Walking;
-                directionsRequest.Origin = _client.CurrentLatitude + "," + _client.CurrentLongitude;
-                directionsRequest.Destination = pokeStop.Latitude + "," + pokeStop.Longitude;
-
-                DirectionsResponse directions = GoogleMaps.Directions.Query(directionsRequest);
-
-                if (directions.Status == DirectionsStatusCodes.OK)
-                {
-                    var steps = directions.Routes.First().Legs.First().Steps;
-                    var stepcount = 0;
-                    foreach (var step in steps)
-                    {
-                        var directiontext = Helpers.Utils.HtmlRemoval.StripTagsRegexCompiled(step.HtmlInstructions);
-                        Logger.ColoredConsoleWrite(ConsoleColor.Green, directiontext);
-                        var update = await _navigation.HumanLikeWalking(new GeoCoordinate(step.EndLocation.Latitude, step.EndLocation.Longitude), walkspeed, ExecuteCatchAllNearbyPokemons);
-                        stepcount++;
-                        if (stepcount == steps.Count())
-                        {
-                            //Make sure we actually made it to the pokestop! 
-                            var remainingdistancetostop = LocationUtils.CalculateDistanceInMeters(_client.CurrentLatitude, _client.CurrentLongitude, pokeStop.Latitude, pokeStop.Longitude);
-                            if (remainingdistancetostop > 40)
-                            {
-                                Logger.ColoredConsoleWrite(ConsoleColor.Green, "As close as google can take us, going off-road");
-                                update = await _navigation.HumanLikeWalking(new GeoCoordinate(pokeStop.Latitude, pokeStop.Longitude), walkspeed, ExecuteCatchAllNearbyPokemons);
-                            }
-                            Logger.ColoredConsoleWrite(ConsoleColor.Green, "Destination Reached!");
-                        }
-                    }
-                }
-                else if (directions.Status == DirectionsStatusCodes.REQUEST_DENIED)
-                {
-                    Logger.ColoredConsoleWrite(ConsoleColor.Green, "Request Failed! Bad API key?");
-                    var update = await _navigation.HumanLikeWalking(new GeoCoordinate(pokeStop.Latitude, pokeStop.Longitude), walkspeed, ExecuteCatchAllNearbyPokemons);
-                }
-                else if (directions.Status == DirectionsStatusCodes.OVER_QUERY_LIMIT)
-                {
-                    Logger.ColoredConsoleWrite(ConsoleColor.Green, "Over 2500 queries today! Are you botting unsafely? :)");
-                    var update = await _navigation.HumanLikeWalking(new GeoCoordinate(pokeStop.Latitude, pokeStop.Longitude), walkspeed, ExecuteCatchAllNearbyPokemons);
-                }
-                else
-                {
-                    var update = await _navigation.HumanLikeWalking(new GeoCoordinate(pokeStop.Latitude, pokeStop.Longitude), walkspeed, ExecuteCatchAllNearbyPokemons);
-                }
-            }
-            else
-            {
-                Logger.ColoredConsoleWrite(ConsoleColor.Red, $"API Key not found in Client Settings! Using default method instead.");
-                var update = await _navigation.HumanLikeWalking(new GeoCoordinate(pokeStop.Latitude, pokeStop.Longitude), walkspeed, ExecuteCatchAllNearbyPokemons);
-            }
-        }
-
-        private async Task WalkWithRouting(double latitude, double longitude, double walkspeed)
+        private async Task DoRouteWalking(double latitude, double longitude, double walkspeed)
         {
             Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Getting Google Maps Routing");
             if (_clientSettings.GoogleMapsAPIKey != null)
@@ -745,6 +687,7 @@ namespace PokemonGo.RocketAPI.Logic
                 }
                 else
                 {
+                    Logger.ColoredConsoleWrite(ConsoleColor.Green, "Unhandled Error occurred when getting route[ STATUS:" + directions.StatusStr + " ERROR MESSAGE:" + directions.ErrorMessage + "] Using default walk method instead.");
                     var update = await _navigation.HumanLikeWalking(new GeoCoordinate(latitude, longitude), walkspeed, ExecuteCatchAllNearbyPokemons);
                 }
             }
@@ -753,6 +696,15 @@ namespace PokemonGo.RocketAPI.Logic
                 Logger.ColoredConsoleWrite(ConsoleColor.Red, $"API Key not found in Client Settings! Using default method instead.");
                 var update = await _navigation.HumanLikeWalking(new GeoCoordinate(latitude, longitude), walkspeed, ExecuteCatchAllNearbyPokemons);
             }
+        }
+        private async Task WalkWithRouting(FortData pokeStop, double walkspeed)
+        {
+            await DoRouteWalking(pokeStop.Latitude, pokeStop.Longitude, walkspeed);
+        }
+
+        private async Task WalkWithRouting(double latitude, double longitude, double walkspeed)
+        {
+            await DoRouteWalking(latitude, longitude, walkspeed);
         }
 
         private async Task LogStatsEtc()
