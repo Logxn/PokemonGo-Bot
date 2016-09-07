@@ -1,4 +1,4 @@
-﻿namespace PokemonGo.RocketAPI.Console
+namespace PokemonGo.RocketAPI.Console
 {
     partial class Pokemons
     {
@@ -36,10 +36,12 @@
             this.btnEvolve = new System.Windows.Forms.Button();
             this.btnUpgrade = new System.Windows.Forms.Button();
             this.btnTransfer = new System.Windows.Forms.Button();
+            this.btnIVToNick = new System.Windows.Forms.Button();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.transferToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.powerUpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.evolveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.iVsToNicknameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();            
             this.statusTexbox = new System.Windows.Forms.TextBox();
             this.checkBoxreload = new System.Windows.Forms.CheckBox();
             this.reloadsecondstextbox = new System.Windows.Forms.TextBox();
@@ -114,14 +116,25 @@
             // btnTransfer
             // 
             this.btnTransfer.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnTransfer.Location = new System.Drawing.Point(583, 492);
+            this.btnTransfer.Location = new System.Drawing.Point(526, 492);
             this.btnTransfer.Margin = new System.Windows.Forms.Padding(4);
             this.btnTransfer.Name = "btnTransfer";
-            this.btnTransfer.Size = new System.Drawing.Size(180, 28);
+            this.btnTransfer.Size = new System.Drawing.Size(115, 28);
             this.btnTransfer.TabIndex = 4;
             this.btnTransfer.Text = "Transfer";
             this.btnTransfer.UseVisualStyleBackColor = true;
             this.btnTransfer.Click += new System.EventHandler(this.btnTransfer_Click);
+            // 
+            // btnIVToNick
+            // 
+            this.btnIVToNick.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnIVToNick.Location = new System.Drawing.Point(648, 492);
+            this.btnIVToNick.Name = "btnIVToNick";
+            this.btnIVToNick.Size = new System.Drawing.Size(115, 28);
+            this.btnIVToNick.TabIndex = 45;
+            this.btnIVToNick.Text = "IV to Nick";
+            this.btnIVToNick.UseVisualStyleBackColor = true;
+            this.btnIVToNick.Click += new System.EventHandler(this.BtnIVToNickClick);            
             // 
             // contextMenuStrip1
             // 
@@ -129,7 +142,8 @@
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.transferToolStripMenuItem,
             this.powerUpToolStripMenuItem,
-            this.evolveToolStripMenuItem});
+            this.evolveToolStripMenuItem,
+            this.iVsToNicknameToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
             this.contextMenuStrip1.Size = new System.Drawing.Size(144, 82);
             this.contextMenuStrip1.Closing += new System.Windows.Forms.ToolStripDropDownClosingEventHandler(this.contextMenuStrip1_Closing);
@@ -156,6 +170,14 @@
             this.evolveToolStripMenuItem.Text = "Evolve";
             this.evolveToolStripMenuItem.Visible = false;
             this.evolveToolStripMenuItem.Click += new System.EventHandler(this.evolveToolStripMenuItem_Click);
+
+            // 
+            // iVsToNicknameToolStripMenuItem
+            // 
+            this.iVsToNicknameToolStripMenuItem.Name = "iVsToNicknameToolStripMenuItem";
+            this.iVsToNicknameToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
+            this.iVsToNicknameToolStripMenuItem.Text = "IVs to Nickname";
+            this.iVsToNicknameToolStripMenuItem.Click += new System.EventHandler(this.IVsToNicknameToolStripMenuItemClick);            
             // 
             // statusTexbox
             // 
@@ -213,7 +235,7 @@
             this.btnFullPowerUp.Location = new System.Drawing.Point(395, 492);
             this.btnFullPowerUp.Margin = new System.Windows.Forms.Padding(4);
             this.btnFullPowerUp.Name = "btnFullPowerUp";
-            this.btnFullPowerUp.Size = new System.Drawing.Size(180, 28);
+            this.btnFullPowerUp.Size = new System.Drawing.Size(120, 28);
             this.btnFullPowerUp.TabIndex = 11;
             this.btnFullPowerUp.Text = "FULL-PowerUp";
             this.btnFullPowerUp.UseVisualStyleBackColor = true;
@@ -356,6 +378,7 @@
             this.Controls.Add(this.btnTransfer);
             this.Controls.Add(this.btnUpgrade);
             this.Controls.Add(this.btnEvolve);
+            this.Controls.Add(this.btnIVToNick);
             this.Controls.Add(this.btnreload);
             this.Controls.Add(this.PokemonListView);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -377,11 +400,13 @@
         private System.Windows.Forms.Button btnEvolve;
         private System.Windows.Forms.Button btnUpgrade;
         private System.Windows.Forms.Button btnTransfer;
+        private System.Windows.Forms.Button btnIVToNick;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ToolStripMenuItem transferToolStripMenuItem;
         private System.Windows.Forms.TextBox statusTexbox;
         private System.Windows.Forms.ToolStripMenuItem powerUpToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem evolveToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem iVsToNicknameToolStripMenuItem;
         private System.Windows.Forms.CheckBox checkBoxreload;
         private System.Windows.Forms.TextBox reloadsecondstextbox;
         private System.Windows.Forms.Label label2;
