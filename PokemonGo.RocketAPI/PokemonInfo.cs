@@ -75,10 +75,17 @@ namespace PokemonGo.RocketAPI
             return (curCp - minCp) / (maxCp - minCp) * 100.0;
         }
 
+<<<<<<< HEAD
+        public static int DameID(PokemonData poke)
+        {
+            return (int)poke.PokemonId;
+        }
+=======
         public static double CalculatePokemonPerfectionIV(PokemonData poke)
         {
                  return (poke.IndividualAttack + poke.IndividualDefense + poke.IndividualStamina) / 45.0 * 100.0;
         } 
+>>>>>>> refs/remotes/Ar1i/master
 
         public static double CalculateMinCpMultiplier(PokemonData poke)
         {
