@@ -33,6 +33,7 @@ namespace PokemonGo.RocketAPI.Console
 
         static string logPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Logs");
         public static string pokelog = Path.Combine(logPath, "pokelog.txt");
+        public static string manualTransferLog = Path.Combine(logPath, "manualTransferLog.txt");
 
         [STAThread]
         static void Main(string[] args)
@@ -65,6 +66,11 @@ namespace PokemonGo.RocketAPI.Console
             if (!File.Exists(pokelog))
             {
                 File.Create(pokelog).Close();
+            }
+
+            if(!File.Exists(manualTransferLog))
+            {
+                File.Create(manualTransferLog).Close();
             }
 
             if (args != null && args.Length > 0 && args[0].Contains("-nogui"))
@@ -475,5 +481,6 @@ namespace PokemonGo.RocketAPI.Console
         public static bool MapLoaded = false;
 
         public static bool logPokemons = false;
+        public static bool logManualTransfer = false;
     }
 }
