@@ -36,8 +36,8 @@ namespace PokemonGo.RocketAPI.Console
         static string deviceinfo = Path.Combine(devicePath, "DeviceInfo.txt");
 
         static string logPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Logs");
-        static string logs = Path.Combine(logPath, "pokelog.txt");
-        static string logmanualtransfer = Path.Combine(logPath, "manualTransferLog.txt");
+        static string logs = Path.Combine(logPath, "PokeLog.txt");
+        static string logmanualtransfer = Path.Combine(logPath, "TransferLog.txt");
 
         private void GUI_Load(object sender, EventArgs e)
         {
@@ -308,6 +308,9 @@ namespace PokemonGo.RocketAPI.Console
                         case 2:
                             logManuelTransfer.Checked = bool.Parse(line);
                         break;
+                        case 3:
+                            logEvolution.Checked = bool.Parse(line);
+                        break;
                     }
                     i++;
                 }
@@ -517,6 +520,13 @@ namespace PokemonGo.RocketAPI.Console
         }
 
         private void button1_Click(object sender, EventArgs e)
+        {
+            Save();
+            
+            ActiveForm.Dispose();
+        }
+
+        private void Save()
         {
             if (textBox1.Text == string.Empty)
             {
@@ -746,11 +756,16 @@ namespace PokemonGo.RocketAPI.Console
                 Globals.logPokemons = true;
             }
 
-            if(logManuelTransfer.Checked)
+            if (logManuelTransfer.Checked)
             {
                 Globals.logManualTransfer = true;
             }
-             
+
+            if (logEvolution.Checked)
+            {
+                Globals.bLogEvolve = true;
+            }
+
             Globals.useincense = checkBox9.Checked;
             Globals.pokeList = checkBox10.Checked;
             Globals.keepPokemonsThatCanEvolve = checkBox11.Checked;
@@ -795,7 +810,7 @@ namespace PokemonGo.RocketAPI.Console
                     Globals.telName,
                     Globals.telDelay.ToString(),
                     Globals.navigation_option.ToString(),
-                    Globals.useluckyegg.ToString(), 
+                    Globals.useluckyegg.ToString(),
                     Globals.useincense.ToString(),
                     Globals.ivmaxpercent.ToString(),
                     Globals.pokeList.ToString(),
@@ -831,6 +846,7 @@ namespace PokemonGo.RocketAPI.Console
             {
                 Globals.logPokemons.ToString(),
                 Globals.logManualTransfer.ToString(),
+                Globals.bLogEvolve.ToString(),
             };
             File.WriteAllLines(@Program.miscSettings, miscFile);
 
@@ -891,8 +907,6 @@ namespace PokemonGo.RocketAPI.Console
                 "61a3560dce161844",
             };
             File.WriteAllLines(@Program.deviceSettings, deviceFile);
-            
-            ActiveForm.Dispose();
         }
 
         #region CheckedChanged Events

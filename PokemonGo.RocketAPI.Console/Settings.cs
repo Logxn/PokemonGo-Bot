@@ -3,6 +3,7 @@ using POGOProtos.Inventory.Item;
 using PokemonGo.RocketAPI.Enums;
 using System;
 using System.Collections.Generic;
+using System.Device.Location;
 
 namespace PokemonGo.RocketAPI.Console
 {
@@ -372,6 +373,24 @@ namespace PokemonGo.RocketAPI.Console
             {
                 Globals.logManualTransfer = value;
             }
+        }
+
+        bool ISettings.bLogEvolve
+        {
+            get
+            {
+                return Globals.bLogEvolve;
+            }
+
+            set
+            {
+                Globals.bLogEvolve = value;
+            }
+        }
+        public GeoCoordinate NextDestinationOverride
+        {
+            get { return Globals.NextDestinationOverride; }
+            set { Globals.NextDestinationOverride = value; }
         }
     }
 }
