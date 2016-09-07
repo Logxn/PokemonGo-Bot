@@ -601,6 +601,30 @@ namespace PokemonGo.RocketAPI.Logic
                         walkspeed = rintwalk;
                     }
                 }
+                if (_clientSettings.NextDestinationOverride != null)
+                {
+                    FortData targetPokeStop = null;
+                    do
+                    {
+                        targetPokeStop = pokeStops.Where(i =>
+                    i.Latitude == _clientSettings.NextDestinationOverride.Latitude &&
+                    i.Longitude == _clientSettings.NextDestinationOverride.Longitude
+                    ).FirstOrDefault();
+                        Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Path Override detected! Rerouting to user-selected pokeStop...");
+                        if (_clientSettings.UseGoogleMapsAPI)
+                        {
+                            await WalkWithRouting(_clientSettings.NextDestinationOverride.Latitude, _clientSettings.NextDestinationOverride.Longitude, walkspeed);
+                        }
+                        else
+                        {
+                            var update = await _navigation.HumanLikeWalking(new GeoCoordinate(targetPokeStop.Latitude, targetPokeStop.Longitude), walkspeed, ExecuteCatchAllNearbyPokemons);
+                        }
+                        var FortInfo = await _client.Fort.GetFort(targetPokeStop.Id, targetPokeStop.Latitude, targetPokeStop.Longitude);
+                        await CheckAndFarmNearbyPokeStop(targetPokeStop, _client, FortInfo);
+                    }
+                    while (targetPokeStop == null || (_clientSettings.NextDestinationOverride.Latitude != targetPokeStop.Latitude && _clientSettings.NextDestinationOverride.Longitude != targetPokeStop.Longitude));
+                    _clientSettings.NextDestinationOverride = null; 
+                }
                 if (_clientSettings.UseGoogleMapsAPI)
                 {
                     await WalkWithRouting(pokeStop, walkspeed);
