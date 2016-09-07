@@ -52,6 +52,27 @@ namespace PokemonGo.RocketAPI.Logic
         private bool havelures = false;
         private bool pokeballoutofstock = false;
         private bool stopsloaded = false;
+        public static Logic _instance;
+        private bool _pauseWalking = false;
+        public bool pauseWalking
+        {
+            get
+            {
+                if(_navigation != null)
+                {
+                    _pauseWalking = _navigation.pauseWalking;
+                }
+                return _pauseWalking;
+            }
+            set
+            {
+                if(_navigation != null)
+                {
+                    _navigation.pauseWalking = value;
+                    _pauseWalking = value;
+                }
+            }
+        }
 
         public Logic(ISettings clientSettings, LogicInfoObservable infoObservable)
         {
@@ -62,6 +83,7 @@ namespace PokemonGo.RocketAPI.Logic
             _navigation = new Navigation(_client);
             _pokevision = new PokeVisionUtil();
             _infoObservable = infoObservable;
+            _instance = this;
         }
 
         public async Task Execute()

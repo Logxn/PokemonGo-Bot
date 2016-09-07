@@ -887,12 +887,14 @@ namespace PokemonGo.RocketAPI.Console
             if (btnForceUnban.Text.Equals("Pause Walking"))
             {
                 Globals.pauseAtPokeStop = true;
+                Globals.pauseAtWalking = true;
                 Logger.ColoredConsoleWrite(ConsoleColor.Magenta, "Pausing at next Pokestop. (will continue catching pokemon and farming pokestop when available)");
                 btnForceUnban.Text = "Resume Walking";
             }
             else
             {
                 Globals.pauseAtPokeStop = false;
+                Globals.pauseAtWalking = false;
                 Logger.ColoredConsoleWrite(ConsoleColor.Magenta, "Resume walking between Pokestops.");
                 btnForceUnban.Text = "Pause Walking";
             }
