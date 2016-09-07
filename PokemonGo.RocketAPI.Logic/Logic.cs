@@ -317,7 +317,7 @@ namespace PokemonGo.RocketAPI.Logic
                     }
                 }
                 if (_restart)
-                {
+                {                	
                     Logger.ColoredConsoleWrite(ConsoleColor.Green, "Starting again in 10 seconds...");
                     await Task.Delay(10000);
                 }
@@ -785,9 +785,16 @@ namespace PokemonGo.RocketAPI.Logic
 
                     string items = "";
                     if (fortSearch.ItemsAwarded != null)
-                    {
+                    {                    	 
                         items = StringUtils.GetSummedFriendlyNameOfItemAwardList(fortSearch.ItemsAwarded);
                     }
+                    
+                    if (pokeballoutofstock && (items.IndexOf("PokeBall") > -1 )){
+                        Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Detected at least one Pokeball - Enabling Catch Pokemon");
+                    	pokeballoutofstock = false;
+                    	_clientSettings.CatchPokemon = true;                    	
+                    }
+                    
 
                     failed_softban = 0;
                     _botStats.AddExperience(fortSearch.ExperienceAwarded);
@@ -833,8 +840,14 @@ namespace PokemonGo.RocketAPI.Logic
                        i =>
                        LocationUtils.CalculateDistanceInMeters(_client.CurrentLatitude, _client.CurrentLongitude, i.Latitude, i.Longitude));
 
-                if (pokemons != null && pokemons.Any())
-                    Logger.ColoredConsoleWrite(ConsoleColor.Magenta, $"Found {pokemons.Count()} catchable Pokemon(s).");
+                if (pokemons != null && pokemons.Any()){
+                    string strNames ="";
+                    foreach (var pokemon in pokemons){
+                    	strNames +=StringUtils.getPokemonNameByLanguage(_clientSettings, pokemon.PokemonId)+ ", ";
+                    }
+                    strNames = strNames.Substring(0,strNames.Length -2 );
+                    Logger.ColoredConsoleWrite(ConsoleColor.Magenta, $"Found {pokemons.Count()} catchable Pokemon(s): " +strNames);
+                }
 
                 foreach (var pokemon in pokemons)
                 {
