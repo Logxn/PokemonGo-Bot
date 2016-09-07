@@ -18,6 +18,7 @@ namespace PokemonGo.RocketAPI.Console
     {
         public static string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Configs");
         public static string path_translation = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Translations");
+        public static string path_device = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Device");
         public static string account = Path.Combine(path, "Config.txt");
         public static string items = Path.Combine(path, "Items.txt");
         public static string walkSetting = Path.Combine(path, "walk.txt");
@@ -27,6 +28,7 @@ namespace PokemonGo.RocketAPI.Console
         public static string lastcords = Path.Combine(path, "LastCoords.txt");
         public static string huntstats = Path.Combine(path, "HuntStats.txt");
         public static string miscSettings = Path.Combine(path, "misc.txt");
+        public static string deviceSettings = Path.Combine(path_device, "DeviceInfo.txt");
         public static string cmdCoords = string.Empty;
 
         static string logPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Logs");
