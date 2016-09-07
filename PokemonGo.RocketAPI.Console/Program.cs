@@ -478,5 +478,7 @@ namespace PokemonGo.RocketAPI.Console
         public static bool logPokemons = false;
 
         public static GeoCoordinate NextDestinationOverride = null;
+
+        public static bool logManualTransfer = false;
     }
 }
