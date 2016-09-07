@@ -11,6 +11,7 @@ using System.IO;
 using PokemonGo.RocketAPI.Console.Helper;
 using PokemonGo.RocketAPI.Logic.Utils;
 using POGOProtos.Enums;
+using System.Device.Location;
 
 namespace PokemonGo.RocketAPI.Console
 {
@@ -475,5 +476,7 @@ namespace PokemonGo.RocketAPI.Console
         public static bool MapLoaded = false;
 
         public static bool logPokemons = false;
+
+        public static GeoCoordinate NextDestinationOverride = null;
     }
 }
