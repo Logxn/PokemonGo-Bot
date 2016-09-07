@@ -57,9 +57,7 @@ namespace PokemonGo.RocketAPI.Console
 
         public bool AutoIncubate => Globals.autoIncubate;
         public bool UseLuckyEggIfNotRunning => Globals.useLuckyEggIfNotRunning;
-
-        public bool Language => Globals.gerNames;
-
+        
         public bool Espiral => Globals.Espiral;
         public bool MapLoaded => Globals.MapLoaded;
 
@@ -332,6 +330,11 @@ namespace PokemonGo.RocketAPI.Console
             get { return Globals.MapLoaded; }
             set { Globals.MapLoaded = value; }
         }
+        bool ISettings.UseBreakFields
+        {
+            get { return Globals.UseBreakFields; }
+            set { Globals.UseBreakFields = value; }
+        }
         bool ISettings.Espiral
         {
             get
@@ -342,6 +345,19 @@ namespace PokemonGo.RocketAPI.Console
             set
             {
                 Globals.Espiral = value;
+            }
+        }
+
+        bool ISettings.logPokemons
+        {
+            get
+            {
+                return Globals.logPokemons;
+            }
+
+            set
+            {
+                Globals.logPokemons = value;
             }
         }
     }

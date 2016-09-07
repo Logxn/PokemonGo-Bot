@@ -483,15 +483,7 @@ namespace PokemonGo.RocketAPI.Logic.Utils
 
         public static string getPokemonNameByLanguage(ISettings clientSettings, PokemonId b)
         {
-            if (clientSettings.Language)
-            {
-                return getPokemonNameGer(b);
-                        
-            }
-            else
-            {
-                return b.ToString();
-            }
+            return b.ToString();
         }
 
         public static int getExpDiff(int level)

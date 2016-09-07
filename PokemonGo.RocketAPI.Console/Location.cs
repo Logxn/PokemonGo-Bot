@@ -81,7 +81,14 @@ namespace PokemonGo.RocketAPI.Console
                 newMark.ToolTipText = info;
                 newMark.ToolTip.Font = new System.Drawing.Font("Arial", 12, System.Drawing.GraphicsUnit.Pixel);
                 
-                _pokeStopsOverlay.Markers[_pokeStopsOverlay.Markers.IndexOf(_pokeStopsMarks[pokeStopId])] = newMark;
+                try
+                {
+                    _pokeStopsOverlay.Markers[_pokeStopsOverlay.Markers.IndexOf(_pokeStopsMarks[pokeStopId])] = newMark;
+                }
+                catch(Exception e)
+                {
+                    Logger.ColoredConsoleWrite(ConsoleColor.Red, "[Debug] - Supressed error msg (Location.cs - Line 86 - Index is -1");
+                }
                 _pokeStopsMarks[pokeStopId] = newMark;
             }
         }

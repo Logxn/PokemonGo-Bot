@@ -140,7 +140,6 @@
             this.checkBox11 = new System.Windows.Forms.CheckBox();
             this.checkBox10 = new System.Windows.Forms.CheckBox();
             this.checkBox9 = new System.Windows.Forms.CheckBox();
-            this.checkBox8 = new System.Windows.Forms.CheckBox();
             this.checkBox24 = new System.Windows.Forms.CheckBox();
             this.checkBox7 = new System.Windows.Forms.CheckBox();
             this.checkBox3 = new System.Windows.Forms.CheckBox();
@@ -160,6 +159,7 @@
             this.checkBox18 = new System.Windows.Forms.CheckBox();
             this.checkBox17 = new System.Windows.Forms.CheckBox();
             this.groupBox11 = new System.Windows.Forms.GroupBox();
+            this.checkBox26 = new System.Windows.Forms.CheckBox();
             this.label47 = new System.Windows.Forms.Label();
             this.checkBox23 = new System.Windows.Forms.CheckBox();
             this.label44 = new System.Windows.Forms.Label();
@@ -177,6 +177,8 @@
             this.textBox28 = new System.Windows.Forms.TextBox();
             this.textBox29 = new System.Windows.Forms.TextBox();
             this.label32 = new System.Windows.Forms.Label();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.logPokemon = new System.Windows.Forms.CheckBox();
             this.lang_france_btn = new System.Windows.Forms.Button();
             this.lang_ru_btn = new System.Windows.Forms.Button();
             this.lang_tr_btn = new System.Windows.Forms.Button();
@@ -185,8 +187,11 @@
             this.lang_de_btn = new System.Windows.Forms.Button();
             this.lang_en_btn = new System.Windows.Forms.Button();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
+<<<<<<< HEAD
             this.checkBox26 = new System.Windows.Forms.CheckBox();
             this.button5 = new System.Windows.Forms.Button();
+=======
+>>>>>>> refs/remotes/Ar1i/master
             this.tabPage1.SuspendLayout();
             this.tabItems.SuspendLayout();
             this.groupBox4.SuspendLayout();
@@ -207,6 +212,7 @@
             this.groupBox13.SuspendLayout();
             this.groupBox11.SuspendLayout();
             this.groupBox12.SuspendLayout();
+            this.tabPage3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.SuspendLayout();
             // 
@@ -799,7 +805,7 @@
             this.checkedListBox1.Location = new System.Drawing.Point(10, 16);
             this.checkedListBox1.Name = "checkedListBox1";
             this.checkedListBox1.ScrollAlwaysVisible = true;
-            this.checkedListBox1.Size = new System.Drawing.Size(150, 214);
+            this.checkedListBox1.Size = new System.Drawing.Size(150, 259);
             this.checkedListBox1.TabIndex = 0;
             // 
             // groupBox6
@@ -831,7 +837,7 @@
             this.checkedListBox2.Location = new System.Drawing.Point(6, 19);
             this.checkedListBox2.Name = "checkedListBox2";
             this.checkedListBox2.ScrollAlwaysVisible = true;
-            this.checkedListBox2.Size = new System.Drawing.Size(154, 214);
+            this.checkedListBox2.Size = new System.Drawing.Size(154, 259);
             this.checkedListBox2.TabIndex = 0;
             // 
             // groupBox7
@@ -863,7 +869,7 @@
             this.checkedListBox3.Location = new System.Drawing.Point(6, 17);
             this.checkedListBox3.Name = "checkedListBox3";
             this.checkedListBox3.ScrollAlwaysVisible = true;
-            this.checkedListBox3.Size = new System.Drawing.Size(153, 214);
+            this.checkedListBox3.Size = new System.Drawing.Size(153, 259);
             this.checkedListBox3.TabIndex = 0;
             // 
             // tabGeneral
@@ -1244,7 +1250,6 @@
             this.groupBox10.Controls.Add(this.checkBox11);
             this.groupBox10.Controls.Add(this.checkBox10);
             this.groupBox10.Controls.Add(this.checkBox9);
-            this.groupBox10.Controls.Add(this.checkBox8);
             this.groupBox10.Controls.Add(this.checkBox24);
             this.groupBox10.Controls.Add(this.checkBox7);
             this.groupBox10.Controls.Add(this.checkBox3);
@@ -1395,16 +1400,6 @@
             this.checkBox9.Text = "Use Incense every 30min";
             this.checkBox9.UseVisualStyleBackColor = true;
             // 
-            // checkBox8
-            // 
-            this.checkBox8.AutoSize = true;
-            this.checkBox8.Location = new System.Drawing.Point(21, 88);
-            this.checkBox8.Name = "checkBox8";
-            this.checkBox8.Size = new System.Drawing.Size(202, 17);
-            this.checkBox8.TabIndex = 42;
-            this.checkBox8.Text = "German Pokemon names (BROKEN!)";
-            this.checkBox8.UseVisualStyleBackColor = true;
-            // 
             // checkBox24
             // 
             this.checkBox24.AutoSize = true;
@@ -1451,6 +1446,7 @@
             this.tabControl1.Controls.Add(this.tabItems);
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Controls.Add(this.tabPage3);
             this.tabControl1.Location = new System.Drawing.Point(12, 100);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
@@ -1525,7 +1521,7 @@
             // label45
             // 
             this.label45.AutoSize = true;
-            this.label45.Location = new System.Drawing.Point(25, 251);
+            this.label45.Location = new System.Drawing.Point(25, 275);
             this.label45.Name = "label45";
             this.label45.Size = new System.Drawing.Size(48, 13);
             this.label45.TabIndex = 63;
@@ -1535,7 +1531,7 @@
             // checkBox22
             // 
             this.checkBox22.AutoSize = true;
-            this.checkBox22.Location = new System.Drawing.Point(28, 228);
+            this.checkBox22.Location = new System.Drawing.Point(28, 252);
             this.checkBox22.Name = "checkBox22";
             this.checkBox22.Size = new System.Drawing.Size(151, 17);
             this.checkBox22.TabIndex = 61;
@@ -1547,8 +1543,13 @@
             // 
             this.groupBox13.Controls.Add(this.linkLabel6);
             this.groupBox13.Controls.Add(this.textBox33);
+<<<<<<< HEAD
             this.groupBox13.Location = new System.Drawing.Point(18, 206);
             this.groupBox13.Margin = new System.Windows.Forms.Padding(2);
+=======
+            this.groupBox13.Location = new System.Drawing.Point(18, 230);
+            this.groupBox13.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+>>>>>>> refs/remotes/Ar1i/master
             this.groupBox13.Name = "groupBox13";
             this.groupBox13.Padding = new System.Windows.Forms.Padding(2);
             this.groupBox13.Size = new System.Drawing.Size(221, 93);
@@ -1638,16 +1639,33 @@
             // 
             // groupBox11
             // 
+            this.groupBox11.Controls.Add(this.checkBox26);
             this.groupBox11.Controls.Add(this.label47);
             this.groupBox11.Controls.Add(this.checkBox23);
             this.groupBox11.Location = new System.Drawing.Point(21, 22);
             this.groupBox11.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox11.Name = "groupBox11";
+<<<<<<< HEAD
             this.groupBox11.Padding = new System.Windows.Forms.Padding(2);
             this.groupBox11.Size = new System.Drawing.Size(221, 172);
+=======
+            this.groupBox11.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox11.Size = new System.Drawing.Size(221, 205);
+>>>>>>> refs/remotes/Ar1i/master
             this.groupBox11.TabIndex = 59;
             this.groupBox11.TabStop = false;
             this.groupBox11.Text = "Walk Options";
+            // 
+            // checkBox26
+            // 
+            this.checkBox26.AutoSize = true;
+            this.checkBox26.Location = new System.Drawing.Point(10, 171);
+            this.checkBox26.Name = "checkBox26";
+            this.checkBox26.Size = new System.Drawing.Size(171, 17);
+            this.checkBox26.TabIndex = 71;
+            this.checkBox26.Text = "Use Break Interval and Length";
+            this.checkBox26.UseVisualStyleBackColor = true;
+            this.checkBox26.CheckedChanged += new System.EventHandler(this.checkBox26_CheckedChanged);
             // 
             // label47
             // 
@@ -1814,6 +1832,29 @@
             this.label32.Text = "Break Interval (in minutes):";
             this.label32.UseMnemonic = false;
             // 
+            // tabPage3
+            // 
+            this.tabPage3.Controls.Add(this.logPokemon);
+            this.tabPage3.Location = new System.Drawing.Point(4, 22);
+            this.tabPage3.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.tabPage3.Size = new System.Drawing.Size(542, 396);
+            this.tabPage3.TabIndex = 5;
+            this.tabPage3.Text = "Misc";
+            this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // logPokemon
+            // 
+            this.logPokemon.AutoSize = true;
+            this.logPokemon.Location = new System.Drawing.Point(2, 5);
+            this.logPokemon.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.logPokemon.Name = "logPokemon";
+            this.logPokemon.Size = new System.Drawing.Size(128, 17);
+            this.logPokemon.TabIndex = 0;
+            this.logPokemon.Text = "Log caught Pokemon";
+            this.logPokemon.UseVisualStyleBackColor = true;
+            // 
             // lang_france_btn
             // 
             this.lang_france_btn.BackgroundImage = global::PokemonGo.RocketAPI.Console.Properties.Resources.france;
@@ -1917,6 +1958,7 @@
             this.pictureBox2.TabStop = false;
             this.pictureBox2.Click += new System.EventHandler(this.pictureBox2_Click);
             // 
+<<<<<<< HEAD
             // checkBox26
             // 
             this.checkBox26.AutoSize = true;
@@ -1938,6 +1980,8 @@
             this.button5.UseVisualStyleBackColor = true;
             this.button5.Click += new System.EventHandler(this.button5_Click);
             // 
+=======
+>>>>>>> refs/remotes/Ar1i/master
             // GUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1999,6 +2043,8 @@
             this.groupBox11.PerformLayout();
             this.groupBox12.ResumeLayout(false);
             this.groupBox12.PerformLayout();
+            this.tabPage3.ResumeLayout(false);
+            this.tabPage3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -2155,7 +2201,6 @@
         private System.Windows.Forms.CheckBox checkBox11;
         private System.Windows.Forms.CheckBox checkBox10;
         private System.Windows.Forms.CheckBox checkBox9;
-        private System.Windows.Forms.CheckBox checkBox8;
         private System.Windows.Forms.CheckBox checkBox24;
         private System.Windows.Forms.CheckBox checkBox7;
         private System.Windows.Forms.CheckBox checkBox3;
@@ -2163,7 +2208,12 @@
         private System.Windows.Forms.CheckBox checkBox25;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.CheckBox checkBox26;
+<<<<<<< HEAD
         private System.Windows.Forms.Button button5;
+=======
+        private System.Windows.Forms.TabPage tabPage3;
+        private System.Windows.Forms.CheckBox logPokemon;
+>>>>>>> refs/remotes/Ar1i/master
     }
 }
 
