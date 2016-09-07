@@ -92,6 +92,7 @@ namespace PokemonGo.RocketAPI
         bool MapLoaded { get; set; }
         GeoCoordinate NextDestinationOverride { get; set; }
         bool logPokemons { get; set; }
-        
+        bool logManualTransfer { get; set; }
+
     }
 }
