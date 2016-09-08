@@ -1064,7 +1064,6 @@ namespace PokemonGo.RocketAPI.Console
             if (btnForceUnban.Text.Equals("Pause Walking"))
             {
                 Globals.pauseAtPokeStop = true;
-                Globals.pauseAtWalking = true;
                 Logger.ColoredConsoleWrite(ConsoleColor.Magenta, "Pausing at next Pokestop. (will continue catching pokemon and farming pokestop when available)");
                 if (Globals.RouteToRepeat.Count > 0)
                 {
@@ -1079,7 +1078,6 @@ namespace PokemonGo.RocketAPI.Console
             else
             {
                 Globals.pauseAtPokeStop = false;
-                Globals.pauseAtWalking = false;
                 Logger.ColoredConsoleWrite(ConsoleColor.Magenta, "Resume walking between Pokestops.");
                 if (Globals.RouteToRepeat.Count > 0)
                 {
