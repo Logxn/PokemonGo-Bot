@@ -697,11 +697,27 @@ namespace PokemonGo.RocketAPI.Logic
             Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Getting Google Maps Routing");
             if (_clientSettings.GoogleMapsAPIKey != null)
             {
+                //I am sure there is a more elegant way to handle this but STFU I'll fix later.
+                double cultureresistantlat = latitude;
+                double cultureresistantlong = longitude;
+                double cultureresistantsourcelat = _client.CurrentLatitude;
+                double cultureresistantsourcelong = _client.CurrentLongitude;
+
+                var longstring = longitude.ToString().Replace(",", ".");
+                var latstring = latitude.ToString().Replace(",", ".");
+                var sourcelongstring = _client.CurrentLatitude.ToString().Replace(",", ".");
+                var sourcelatstring = _client.CurrentLongitude.ToString().Replace(",", ".");
+
+                double.TryParse(latstring, out cultureresistantlat);
+                double.TryParse(longstring, out cultureresistantlong);
+                double.TryParse(sourcelatstring, out cultureresistantsourcelat);
+                double.TryParse(sourcelongstring, out cultureresistantsourcelong);
+
                 DirectionsRequest directionsRequest = new DirectionsRequest();
                 directionsRequest.ApiKey = _clientSettings.GoogleMapsAPIKey;
                 directionsRequest.TravelMode = TravelMode.Walking;
-                directionsRequest.Origin = _client.CurrentLatitude + "," + _client.CurrentLongitude;
-                directionsRequest.Destination = latitude + "," + longitude;
+                directionsRequest.Origin = cultureresistantsourcelat + "," + cultureresistantsourcelong;
+                directionsRequest.Destination = cultureresistantlat + "," + cultureresistantlong;
 
                 DirectionsResponse directions = GoogleMaps.Directions.Query(directionsRequest);
 
