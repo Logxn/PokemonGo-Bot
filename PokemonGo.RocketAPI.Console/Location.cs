@@ -76,8 +76,8 @@ namespace PokemonGo.RocketAPI.Console
         private void InfoObservable_HandlePokeStopInfoUpdate(string pokeStopId, string info)
         {
             if (_pokeStopsMarks.ContainsKey(pokeStopId)) {
-                //changeType
-                var newMark = new GMarkerGoogle(_pokeStopsMarks[pokeStopId].Position, GMarkerGoogleType.blue_small);
+                //changeType               
+                var newMark = new GMarkerGoogle(_pokeStopsMarks[pokeStopId].Position, GMarkerGoogleType.purple_small);
                 newMark.ToolTipText = info;
                 newMark.ToolTip.Font = new System.Drawing.Font("Arial", 12, System.Drawing.GraphicsUnit.Pixel);
                 
@@ -99,7 +99,13 @@ namespace PokemonGo.RocketAPI.Console
             _pokeStopsMarks.Clear();
 
             foreach (var pokeStop in pokeStops) {
-                GMarkerGoogle pokeStopMaker = new GMarkerGoogle(new PointLatLng(pokeStop.Latitude, pokeStop.Longitude), GMarkerGoogleType.purple_small);                
+                GMarkerGoogle pokeStopMaker = new GMarkerGoogle(new PointLatLng(pokeStop.Latitude, pokeStop.Longitude), GMarkerGoogleType.blue_small);
+                if (pokeStop.ActiveFortModifier.Count > 0)
+                {
+                    pokeStopMaker = new GMarkerGoogle(new PointLatLng(pokeStop.Latitude, pokeStop.Longitude), GMarkerGoogleType.yellow_small);
+                }
+                pokeStopMaker.ToolTipText = pokeStop.Latitude + ", " + pokeStop.Longitude;
+                pokeStopMaker.ToolTip.Font = new System.Drawing.Font("Arial", 12, System.Drawing.GraphicsUnit.Pixel);
                 pokeStopMaker.ToolTipMode = MarkerTooltipMode.OnMouseOver;
                 _pokeStopsMarks.Add(pokeStop.Id, pokeStopMaker);
                 _pokeStopsOverlay.Markers.Add(pokeStopMaker);
@@ -148,7 +154,7 @@ namespace PokemonGo.RocketAPI.Console
             try
             {
                 map.DragButton = MouseButtons.Left;
-                map.MapProvider = GMapProviders.BingMap;
+                map.MapProvider = GMapProviders.GoogleMap;
                 map.Position = new GMap.NET.PointLatLng(Globals.latitute, Globals.longitude);
                 map.MinZoom = 0;
                 map.MaxZoom = 20;
@@ -273,6 +279,12 @@ namespace PokemonGo.RocketAPI.Console
         {
             _pokeStopsOverlay.IsVisibile = cbShowPokeStops.Checked;
             map.Update();
+        }
+
+        private void map_OnMarkerClick(GMapMarker item, MouseEventArgs e)
+        {
+            Globals.NextDestinationOverride = new GeoCoordinate(item.Position.Lat, item.Position.Lng);
+            item.ToolTipText = "Next Destination Marked";        
         }
     }
 }
