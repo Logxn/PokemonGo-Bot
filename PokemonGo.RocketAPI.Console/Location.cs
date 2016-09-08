@@ -18,7 +18,8 @@ namespace PokemonGo.RocketAPI.Console
 {
     public partial class LocationSelect : Form
     {
-        private GMarkerGoogle _botMarker = new GMarkerGoogle(new PointLatLng(), GMarkerGoogleType.red_small);
+        //private GMarkerGoogle _botMarker = new GMarkerGoogle(new PointLatLng(), GMarkerGoogleType.red_small);
+        private GMarkerGoogle _botMarker = new GMarkerGoogle(new PointLatLng(),  Properties.red_small);
         private GMapRoute _botRoute = new GMapRoute("BotRoute");
         private GMapOverlay _pokeStopsOverlay = new GMapOverlay("PokeStops");
         private Dictionary<string, GMarkerGoogle> _pokeStopsMarks = new Dictionary<string, GMarkerGoogle>();
@@ -75,7 +76,9 @@ namespace PokemonGo.RocketAPI.Console
         {
             if (_pokeStopsMarks.ContainsKey(pokeStopId)) {
                 //changeType               
+                
                 var newMark = new GMarkerGoogle(_pokeStopsMarks[pokeStopId].Position, GMarkerGoogleType.purple_small);
+                
                 newMark.ToolTipText = info;
                 newMark.ToolTip.Font = new System.Drawing.Font("Arial", 12, System.Drawing.GraphicsUnit.Pixel);
                 
