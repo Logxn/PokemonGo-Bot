@@ -37,6 +37,8 @@ namespace PokemonGo.RocketAPI.Console
         public static string manualTransferLog = Path.Combine(logPath, "TransferLog.txt");
         public static string EvolveLog = Path.Combine(logPath, "EvolveLog.txt");
 
+        public static string path_pokedata = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "PokeData");
+
         [STAThread]
         static void Main(string[] args)
         {
@@ -439,6 +441,23 @@ namespace PokemonGo.RocketAPI.Console
         public static int toprevive = 50;
         public static int berry = 50;
         public static int ivmaxpercent = 0;
+        private static bool _pauseAtWalking = false;
+        public static bool pauseAtWalking
+        {
+            get
+            {
+                return _pauseAtWalking;
+            }
+            set
+            {
+                if(Logic.Logic._instance != null)
+                {
+                    Logic.Logic._instance.pauseWalking = value;
+                    _pauseAtWalking = value;
+                }
+            }
+        }
+
         public static List<PokemonId> noTransfer = new List<PokemonId>();
         public static List<PokemonId> noCatch = new List<PokemonId>();
         public static List<PokemonId> doEvolve = new List<PokemonId>();
@@ -489,9 +508,20 @@ namespace PokemonGo.RocketAPI.Console
 
         public static bool logPokemons = false;
 
-        public static GeoCoordinate NextDestinationOverride = null;
+        public static Queue<GeoCoordinate> NextDestinationOverride = new Queue<GeoCoordinate>();
+
+        public static Queue<GeoCoordinate> RouteToRepeat = new Queue<GeoCoordinate>();
+
+        public static bool RepeatUserRoute = false;
 
         public static bool logManualTransfer = false;
+
+
+        public static bool UseLureGUIClick = false;
+
+        public static bool UseLuckyEggGUIClick = false;
+
+        public static bool UseIncenseGUIClick = false;
         public static bool bLogEvolve = false;
     }
 }

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 2013
+VisualStudioVersion = 12.0.40629.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PokemonGo.RocketAPI", "PokemonGo.RocketAPI\PokemonGo.RocketAPI.csproj", "{05D2DA44-1B8E-4CF7-94ED-4D52451CD095}"
 EndProject
@@ -10,6 +10,16 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PokemonGo.RocketAPI.Console", "PokemonGo.RocketAPI.Console\PokemonGo.RocketAPI.Console.csproj", "{1FEA147E-F704-497B-A538-00B053B5F672}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "POGOProtos", "POGOProtos\POGOProtos.csproj", "{A03A7BB2-4F0B-467B-84B2-9A76E6AAE6FB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{0D637212-D12E-428E-9C8D-E8D082D059F3}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+		.nuget\packages.config = .nuget\packages.config
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PokemonGo.RocketApi.PokeMap", "PokemonGo.RocketApi.PokeMap\PokemonGo.RocketApi.PokeMap.csproj", "{D476DDDA-B56E-4826-9DF8-97BFECA186E7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -52,6 +62,12 @@ Global
 		{A03A7BB2-4F0B-467B-84B2-9A76E6AAE6FB}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A03A7BB2-4F0B-467B-84B2-9A76E6AAE6FB}.Release|x86.ActiveCfg = Release|x86
 		{A03A7BB2-4F0B-467B-84B2-9A76E6AAE6FB}.Release|x86.Build.0 = Release|x86
+		{D476DDDA-B56E-4826-9DF8-97BFECA186E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D476DDDA-B56E-4826-9DF8-97BFECA186E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D476DDDA-B56E-4826-9DF8-97BFECA186E7}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{D476DDDA-B56E-4826-9DF8-97BFECA186E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D476DDDA-B56E-4826-9DF8-97BFECA186E7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D476DDDA-B56E-4826-9DF8-97BFECA186E7}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
