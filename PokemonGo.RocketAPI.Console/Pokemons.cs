@@ -1,6 +1,7 @@
 ﻿using POGOProtos.Data;
 using POGOProtos.Enums;
 using POGOProtos.Networking.Responses;
+using PokemonGo.RocketAPI.Console.PokeData;
 using PokemonGo.RocketAPI.Enums;
 using PokemonGo.RocketAPI.Helpers;
 using System;
@@ -14,6 +15,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using PokemonGo.RocketAPI.Logic.Utils;
+using System.Collections.Generic;
 using static PokemonGo.RocketAPI.Console.GUI;
 
 namespace PokemonGo.RocketAPI.Console
@@ -25,6 +27,22 @@ namespace PokemonGo.RocketAPI.Console
         private static GetPlayerResponse profile;
         private static GetInventoryResponse inventory;
         private static IOrderedEnumerable<PokemonData> pokemons;
+        private static List<AdditionalPokeData> additionalPokeData = new List<AdditionalPokeData>();
+
+        private void loadAdditionalPokeData()
+        {
+            try
+            {
+                var path = "PokeData\\AdditionalPokeData.json";
+                var jsonData = File.ReadAllText(path);
+                additionalPokeData = Newtonsoft.Json.JsonConvert.DeserializeObject<List<AdditionalPokeData>>(jsonData);
+            }
+            catch(Exception e)
+            {
+                Logger.ColoredConsoleWrite(ConsoleColor.Red, "Could not load additional PokeData", LogLevel.Error);
+            }
+        }
+
         public class taskResponse
         {
             public bool Status { get; set; }
@@ -46,6 +64,7 @@ namespace PokemonGo.RocketAPI.Console
 
         private void Pokemons_Load(object sender, EventArgs e)
         {
+            loadAdditionalPokeData();
             reloadsecondstextbox.Text = "60";
             Globals.pauseAtPokeStop = false;
             btnForceUnban.Text = "Pause Walking";
@@ -151,6 +170,12 @@ namespace PokemonGo.RocketAPI.Console
                     columnheader = new ColumnHeader();
                     columnheader.Text = "% CP";
                     PokemonListView.Columns.Add(columnheader);
+                    columnheader = new ColumnHeader();
+                    columnheader.Text = "Type";
+                    PokemonListView.Columns.Add(columnheader);
+                    columnheader = new ColumnHeader();
+                    columnheader.Text = "Type 2";
+                    PokemonListView.Columns.Add(columnheader);
 
                     PokemonListView.BeginUpdate();
                     foreach (var pokemon in pokemons)
@@ -206,6 +231,20 @@ namespace PokemonGo.RocketAPI.Console
                         listViewItem.SubItems.Add(string.Format("{0} ({1})", pokemon.Move2, PokemonInfo.GetAttack(pokemon.Move2)));
                         listViewItem.SubItems.Add(string.Format("{0}", (int)pokemon.PokemonId));
                         listViewItem.SubItems.Add(string.Format("{0}", PokemonInfo.CalculatePokemonPerfectionCP(pokemon).ToString("0.00")));
+                        
+                        AdditionalPokeData addData = additionalPokeData.FirstOrDefault(x => x.PokedexNumber == (int)pokemon.PokemonId);
+                        if(addData != null)
+                        {
+                            listViewItem.SubItems.Add(addData.Type1);
+                            listViewItem.SubItems.Add(addData.Type2);
+                        }
+                        else
+                        {
+                            listViewItem.SubItems.Add("");   
+                            listViewItem.SubItems.Add("");
+                        }
+                        
+                        
                         PokemonListView.Items.Add(listViewItem);
                     }
                     PokemonListView.EndUpdate();

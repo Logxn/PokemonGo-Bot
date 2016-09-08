@@ -13,6 +13,10 @@ using System.Threading.Tasks;
 using System.Device.Location;
 using System.Globalization;
 using System.Collections.Generic;
+using POGOProtos.Enums;
+using PokemonGo.RocketAPI.Logic.Utils;
+using PokemonGo.RocketApi.PokeMap;
+using System.Linq;
 
 namespace PokemonGo.RocketAPI.Console
 {
@@ -20,12 +24,13 @@ namespace PokemonGo.RocketAPI.Console
     {
 
         //private GMarkerGoogle _botMarker = new GMarkerGoogle(new PointLatLng(), GMarkerGoogleType.red_small);
-
         private GMarkerGoogle _botMarker = new GMarkerGoogle(new PointLatLng(),  Properties.Resources.player);
 
         private GMapRoute _botRoute = new GMapRoute("BotRoute");
         private GMapOverlay _pokeStopsOverlay = new GMapOverlay("PokeStops");
+        private GMapOverlay _pokemonOverlay = new GMapOverlay("Pokemon");
         private Dictionary<string, GMarkerGoogle> _pokeStopsMarks = new Dictionary<string, GMarkerGoogle>();
+        private Dictionary<string, GMarkerGoogle> _pokemonMarks = new Dictionary<string, GMarkerGoogle>();
         public double alt;
         public bool close = true;
 
@@ -55,24 +60,65 @@ namespace PokemonGo.RocketAPI.Console
             routeOverlay.Markers.Add(_botStartMarker);
             GMapPolygon circle = CreateCircle(new PointLatLng(Globals.latitute, Globals.longitude), Globals.radius, 100);
             routeOverlay.Polygons.Add(circle);
+            
             map.Overlays.Add(routeOverlay);
             map.Overlays.Add(_pokeStopsOverlay);
+            map.Overlays.Add(_pokemonOverlay);
             //show geodata controls
             label1.Visible = true;
             label2.Visible = true;
             textBox1.Visible = true;
             textBox2.Visible = true;
-            cbShowPokeStops.Visible = true;            
+            buttonRefreshPokemon.Visible = true;
+            cbShowPokeStops.Visible = true;           
+            cbShowPokemon.Visible = true;
+            _pokemonOverlay.IsVisibile = true;
+            if(cbShowPokemon.Checked)
+            {
+                Logic.Logic._instance.CheckAvailablePokemons(Logic.Logic._client);
+            }
+            
             //don't ask at closing
             close = false;
             //add & remove live data handler after form loaded
             Globals.infoObservable.HandleNewGeoLocations += handleLiveGeoLocations;
             Globals.infoObservable.HandleAvailablePokeStop += InfoObservable_HandlePokeStop;
             Globals.infoObservable.HandlePokeStopInfoUpdate += InfoObservable_HandlePokeStopInfoUpdate;
+            Globals.infoObservable.HandleClearPokemon += infoObservable_HandleClearPokemon;
+            Globals.infoObservable.HandleNewPokemonLocations += infoObservable_HandleNewPokemonLocations;
             this.FormClosing += (object s, FormClosingEventArgs e) =>
             {                
                 Globals.infoObservable.HandleNewGeoLocations -= handleLiveGeoLocations;
             };
+        }
+
+        void infoObservable_HandleClearPokemon()
+        {
+            _pokemonMarks.Clear();
+            _pokemonOverlay.Markers.Clear();
+        }
+
+        void infoObservable_HandleNewPokemonLocations(List<DataCollector.PokemonMapData> mapData)
+        {
+            _pokemonMarks.Clear();
+            _pokemonOverlay.Markers.Clear();   
+
+            foreach(var pokeData in mapData)
+            {
+                 GMarkerGoogle pokemonMarker = new GMarkerGoogle(new PointLatLng(pokeData.Coordinates.Latitude.Value, pokeData.Coordinates.Longitude.Value), GMarkerGoogleType.green_small);
+                if (pokeData.Type == DataCollector.PokemonMapDataType.Nearby)
+                {
+                    pokemonMarker = new GMarkerGoogle(new PointLatLng(pokeData.Coordinates.Latitude.Value, pokeData.Coordinates.Longitude.Value), GMarkerGoogleType.black_small);
+                }
+                pokemonMarker.ToolTipText = StringUtils.getPokemonNameByLanguage(null, (PokemonId)pokeData.PokemonId) + ", " + pokeData.ExpiresAt.ToString()  +", "+  pokeData.Coordinates.Latitude.Value.ToString() + ", " + pokeData.Coordinates.Longitude.Value.ToString();
+                pokemonMarker.ToolTip.Font = new System.Drawing.Font("Arial", 12, System.Drawing.GraphicsUnit.Pixel);
+                pokemonMarker.ToolTipMode = MarkerTooltipMode.OnMouseOver;
+                _pokemonMarks.Add(pokeData.Id, pokemonMarker);
+                _pokemonOverlay.Markers.Add(pokemonMarker);
+                
+            }
+
+            _pokemonOverlay.IsVisibile = cbShowPokemon.Checked;
         }
 
         private void InfoObservable_HandlePokeStopInfoUpdate(string pokeStopId, string info)
@@ -299,9 +345,20 @@ namespace PokemonGo.RocketAPI.Console
             }
         }
 
-        private void LocationSelect_Load(object sender, EventArgs e)
+        private void buttonRefreshPokemon_Click_1(object sender, EventArgs e)
+        {
+            Logic.Logic._instance.CheckAvailablePokemons(Logic.Logic._client);
+        }
+        
+                private void LocationSelect_Load(object sender, EventArgs e)
         {
 
+        }
+
+        private void cbShowPokemon_CheckedChanged(object sender, EventArgs e)
+        {
+            _pokemonOverlay.IsVisibile = cbShowPokemon.Checked;
+            map.Update();
         }
     }
 }

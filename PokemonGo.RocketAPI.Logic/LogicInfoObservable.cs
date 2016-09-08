@@ -23,6 +23,24 @@ namespace PokemonGo.RocketAPI.Logic
             HandleNewGeoLocations(newValue);
         }
 
+                /// <summary>
+        /// GeoLocations
+        /// </summary>
+        public delegate void NewPokemonLocationHandler(List<PokemonGo.RocketApi.PokeMap.DataCollector.PokemonMapData> mapData);
+        public event NewPokemonLocationHandler HandleNewPokemonLocations = delegate { };
+        public void PushNewPokemonLocations(List<PokemonGo.RocketApi.PokeMap.DataCollector.PokemonMapData> mapData)
+        {
+            HandleNewPokemonLocations(mapData);
+        }
+
+        public delegate void ClearPokemonsHandler();
+        public event ClearPokemonsHandler HandleClearPokemon = delegate { };
+        public void PushClearPokemons()
+        {
+ 
+                HandleClearPokemon();
+        }
+
         public delegate void AvailablePokeStopHandler(FortData[] pokeStops);
         public event AvailablePokeStopHandler HandleAvailablePokeStop = delegate { };
         public void PushAvailablePokeStopLocations(FortData[] pokeStop)
