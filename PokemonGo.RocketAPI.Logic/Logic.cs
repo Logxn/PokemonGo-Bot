@@ -513,7 +513,6 @@ namespace PokemonGo.RocketAPI.Logic
                     await ExecuteCatchAllNearbyPokemons();
                 }
             }
-
             if (pokeStops.Count() == 0)
             {
                 Logger.ColoredConsoleWrite(ConsoleColor.Red, "We can't find any PokeStops, which are unused! Probably the server are unstable, or you visted them all. Retrying..");
@@ -523,7 +522,6 @@ namespace PokemonGo.RocketAPI.Logic
             {
                 Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "We found " + pokeStops.Count() + " usable PokeStops near your current location.");
             }
-
             if (_clientSettings.Espiral)
             {
                 await Espiral(client, pokeStops);
@@ -552,7 +550,6 @@ namespace PokemonGo.RocketAPI.Logic
                         continue; //solo agarrar los pokestop que esten a menos de 20 metros
                     }
                 }
-
                 await SetCheckTimeToRun();
                 await UseIncense();
                 await ExecuteCatchAllNearbyPokemons();
@@ -592,38 +589,19 @@ namespace PokemonGo.RocketAPI.Logic
                 var walkspeed = _clientSettings.WalkingSpeedInKilometerPerHour;
                 if (_clientSettings.RandomReduceSpeed)
                 {
-                    Random r = new Random();
-                    var rInt = r.Next(0, 5);
-                    if (rInt == 0)
-                    {
-                        var rintwalk = r.Next(_clientSettings.MinWalkSpeed, (int)_clientSettings.WalkingSpeedInKilometerPerHour);
-                        Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Random Lower Walk Speed Enabled and randomly triggered - Setting Walk speed for this leg to " + rintwalk + "km/h");
-                        walkspeed = rintwalk;
-                    }
+                    walkspeed = GetRandomWalkspeed();
                 }
-                if (_clientSettings.NextDestinationOverride != null)
+                if (_clientSettings.NextDestinationOverride.Count > 0)
                 {
-                    FortData targetPokeStop = null;
                     do
                     {
-                        targetPokeStop = pokeStops.Where(i =>
-                    i.Latitude == _clientSettings.NextDestinationOverride.Latitude &&
-                    i.Longitude == _clientSettings.NextDestinationOverride.Longitude
-                    ).FirstOrDefault();
-                        Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Path Override detected! Rerouting to user-selected pokeStop...");
-                        if (_clientSettings.UseGoogleMapsAPI)
+                        await WalkUserRoute(pokeStops);
+                        if (_clientSettings.RepeatUserRoute)
                         {
-                            await WalkWithRouting(_clientSettings.NextDestinationOverride.Latitude, _clientSettings.NextDestinationOverride.Longitude, walkspeed);
+                            _clientSettings.NextDestinationOverride = _clientSettings.RouteToRepeat;
                         }
-                        else
-                        {
-                            var update = await _navigation.HumanLikeWalking(new GeoCoordinate(targetPokeStop.Latitude, targetPokeStop.Longitude), walkspeed, ExecuteCatchAllNearbyPokemons);
-                        }
-                        var FortInfo = await _client.Fort.GetFort(targetPokeStop.Id, targetPokeStop.Latitude, targetPokeStop.Longitude);
-                        await CheckAndFarmNearbyPokeStop(targetPokeStop, _client, FortInfo);
                     }
-                    while (targetPokeStop == null || (_clientSettings.NextDestinationOverride.Latitude != targetPokeStop.Latitude && _clientSettings.NextDestinationOverride.Longitude != targetPokeStop.Longitude));
-                    _clientSettings.NextDestinationOverride = null; 
+                    while (_clientSettings.RepeatUserRoute);
                 }
                 if (_clientSettings.UseGoogleMapsAPI)
                 {
@@ -638,7 +616,6 @@ namespace PokemonGo.RocketAPI.Logic
                 {
                     var pokestopsWithinRangeStanding = pokeStops.Where(i => (LocationUtils.CalculateDistanceInMeters(_client.CurrentLatitude, _client.CurrentLongitude, i.Latitude, i.Longitude)) < 40);
                     Logger.ColoredConsoleWrite(ConsoleColor.Green, $"{pokestopsWithinRangeStanding.Count().ToString()} Pokestops within range of where you are standing.");
-
                     do
                     {
                         foreach (var Pokestop in pokestopsWithinRangeStanding)
@@ -646,8 +623,9 @@ namespace PokemonGo.RocketAPI.Logic
                             await UseIncense();
                             await ExecuteCatchAllNearbyPokemons();
                             var FortInfo = await _client.Fort.GetFort(Pokestop.Id, Pokestop.Latitude, Pokestop.Longitude);
-                            if (_clientSettings.UseLureAtBreak && havelures && !pokeStop.ActiveFortModifier.Any() && !addedlure)
+                            if ((_clientSettings.UseLureAtBreak || _clientSettings.UseLureGUIClick) && havelures && !pokeStop.ActiveFortModifier.Any() && !addedlure)
                             {
+                                _clientSettings.UseLureGUIClick = false;
                                 Logger.ColoredConsoleWrite(ConsoleColor.Magenta, $"Use Lure at break enabled - Adding lure and setting resume walking to 30 minutes");
                                 await client.Fort.AddFortModifier(FortInfo.FortId, ItemId.ItemTroyDisk);
                                 resumetimestamp = (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds + 30000;
@@ -669,6 +647,49 @@ namespace PokemonGo.RocketAPI.Logic
                     await RandomHelper.RandomDelay(50, 2000); // wait to start moving again 
                 }
             }
+        }
+        private int GetRandomWalkspeed()
+        {
+            Random r = new Random();
+            var rintwalk = r.Next(_clientSettings.MinWalkSpeed, (int)_clientSettings.WalkingSpeedInKilometerPerHour);
+            Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Setting Walk speed for this leg to " + rintwalk + "km/h");
+            return rintwalk;
+        }
+        private async Task WalkUserRoute(FortData[] pokeStops)
+        {
+            do
+            {
+                try
+                {
+                    var walkspeed = _clientSettings.WalkingSpeedInKilometerPerHour;
+                    if (_clientSettings.RandomReduceSpeed)
+                    {
+                        walkspeed = GetRandomWalkspeed();
+                    }
+                    var pokestopCoords = _clientSettings.NextDestinationOverride.Dequeue();
+                    FortData targetPokeStop = null;
+                    targetPokeStop = pokeStops.Where(i =>
+                i.Latitude == pokestopCoords.Latitude &&
+                i.Longitude == pokestopCoords.Longitude
+                ).FirstOrDefault();
+                    Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Path Override detected! Rerouting to user-selected pokeStop...");
+                    if (_clientSettings.UseGoogleMapsAPI)
+                    {
+                        await WalkWithRouting(targetPokeStop.Latitude, targetPokeStop.Longitude, walkspeed);
+                    }
+                    else
+                    {
+                        var update = await _navigation.HumanLikeWalking(new GeoCoordinate(targetPokeStop.Latitude, targetPokeStop.Longitude), walkspeed, ExecuteCatchAllNearbyPokemons);
+                    }
+                    var FortInfo = await _client.Fort.GetFort(targetPokeStop.Id, targetPokeStop.Latitude, targetPokeStop.Longitude);
+                    await CheckAndFarmNearbyPokeStop(targetPokeStop, _client, FortInfo);
+                }
+                catch
+                {
+                    //do nothing for now. Just handle to prevent blowing up.
+                }
+            }
+            while (_clientSettings.NextDestinationOverride.Count > 0);
         }
 
         private async Task DoRouteWalking(double latitude, double longitude, double walkspeed)
@@ -709,17 +730,22 @@ namespace PokemonGo.RocketAPI.Logic
                 }
                 else if (directions.Status == DirectionsStatusCodes.REQUEST_DENIED)
                 {
-                    Logger.ColoredConsoleWrite(ConsoleColor.Green, "Request Failed! Bad API key?");
+                    Logger.ColoredConsoleWrite(ConsoleColor.Red, "Request Failed! Bad API key?");
                     var update = await _navigation.HumanLikeWalking(new GeoCoordinate(latitude, longitude), walkspeed, ExecuteCatchAllNearbyPokemons);
                 }
                 else if (directions.Status == DirectionsStatusCodes.OVER_QUERY_LIMIT)
                 {
-                    Logger.ColoredConsoleWrite(ConsoleColor.Green, "Over 2500 queries today! Are you botting unsafely? :)");
+                    Logger.ColoredConsoleWrite(ConsoleColor.Red, "Over 2500 queries today! Are you botting unsafely? :)");
+                    var update = await _navigation.HumanLikeWalking(new GeoCoordinate(latitude, longitude), walkspeed, ExecuteCatchAllNearbyPokemons);
+                }
+                else if (directions.Status == DirectionsStatusCodes.NOT_FOUND)
+                {
+                    Logger.ColoredConsoleWrite(ConsoleColor.Red, "Geocoding coords failed! Waypoint: " + latitude + "," + longitude + " Bot Location: " + _client.CurrentLatitude + "," + _client.CurrentLongitude);
                     var update = await _navigation.HumanLikeWalking(new GeoCoordinate(latitude, longitude), walkspeed, ExecuteCatchAllNearbyPokemons);
                 }
                 else
                 {
-                    Logger.ColoredConsoleWrite(ConsoleColor.Green, "Unhandled Error occurred when getting route[ STATUS:" + directions.StatusStr + " ERROR MESSAGE:" + directions.ErrorMessage + "] Using default walk method instead.");
+                    Logger.ColoredConsoleWrite(ConsoleColor.Red, "Unhandled Error occurred when getting route[ STATUS:" + directions.StatusStr + " ERROR MESSAGE:" + directions.ErrorMessage + "] Using default walk method instead.");
                     var update = await _navigation.HumanLikeWalking(new GeoCoordinate(latitude, longitude), walkspeed, ExecuteCatchAllNearbyPokemons);
                 }
             }
@@ -742,8 +768,9 @@ namespace PokemonGo.RocketAPI.Logic
         private async Task LogStatsEtc()
         {
             count = 0;
-            if (_clientSettings.UseLuckyEggIfNotRunning)
+            if (_clientSettings.UseLuckyEggIfNotRunning || _clientSettings.UseLuckyEggGUIClick)
             {
+                _clientSettings.UseLuckyEggGUIClick = false;
                 await _client.Inventory.UseLuckyEgg(_client);
             }
 
@@ -1482,8 +1509,9 @@ namespace PokemonGo.RocketAPI.Logic
         DateTime lastincenseuse;
         public async Task UseIncense()
         {
-            if (_clientSettings.UseIncense)
+            if (_clientSettings.UseIncense || _clientSettings.UseIncenseGUIClick)
             {
+                _clientSettings.UseIncenseGUIClick = false;
                 var inventory = await _client.Inventory.GetItems();
                 var incsense = inventory.Where(p => (ItemId)p.ItemId == ItemId.ItemIncenseOrdinary).FirstOrDefault();
 
