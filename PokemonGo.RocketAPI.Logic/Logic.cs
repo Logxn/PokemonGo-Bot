@@ -29,6 +29,7 @@ using GoogleMapsApi.Entities.Geocoding.Request;
 using GoogleMapsApi.Entities.Geocoding.Response;
 using GoogleMapsApi.StaticMaps;
 using GoogleMapsApi.StaticMaps.Entities;
+using PokemonGo.RocketApi.PokeMap;
 
 namespace PokemonGo.RocketAPI.Logic
 {
@@ -52,6 +53,27 @@ namespace PokemonGo.RocketAPI.Logic
         private bool havelures = false;
         private bool pokeballoutofstock = false;
         private bool stopsloaded = false;
+        public static Logic _instance;
+        private bool _pauseWalking = false;
+        public bool pauseWalking
+        {
+            get
+            {
+                if(_navigation != null)
+                {
+                    _pauseWalking = _navigation.pauseWalking;
+                }
+                return _pauseWalking;
+            }
+            set
+            {
+                if(_navigation != null)
+                {
+                    _navigation.pauseWalking = value;
+                    _pauseWalking = value;
+                }
+            }
+        }
 
         public Logic(ISettings clientSettings, LogicInfoObservable infoObservable)
         {
@@ -62,6 +84,7 @@ namespace PokemonGo.RocketAPI.Logic
             _navigation = new Navigation(_client);
             _pokevision = new PokeVisionUtil();
             _infoObservable = infoObservable;
+            _instance = this;
         }
 
         public async Task Execute()
@@ -683,6 +706,8 @@ namespace PokemonGo.RocketAPI.Logic
                     }
                     var FortInfo = await _client.Fort.GetFort(targetPokeStop.Id, targetPokeStop.Latitude, targetPokeStop.Longitude);
                     await CheckAndFarmNearbyPokeStop(targetPokeStop, _client, FortInfo);
+
+
                 }
                 catch
                 {
@@ -804,6 +829,26 @@ namespace PokemonGo.RocketAPI.Logic
             //await RecycleItems();               
             await StatsLog(_client);
             await SetCheckTimeToRun();
+        }
+
+        public async Task<bool> CheckAvailablePokemons(Client _client)
+        {
+            _infoObservable.PushClearPokemons();
+            var pokeData = await DataCollector.GetFastPokeMapData(_client.CurrentLatitude, _client.CurrentLongitude);
+            var toShow = new List<DataCollector.PokemonMapData>();
+            foreach(var poke in pokeData)
+            {
+                if (poke.Coordinates.Latitude.HasValue && poke.Coordinates.Longitude.HasValue)
+                {
+                    toShow.Add(poke);
+                }
+            }
+            if(toShow.Count > 0)
+            {
+                _infoObservable.PushNewPokemonLocations(toShow);
+            }
+
+             return true;
         }
 
         private async Task<bool> CheckAndFarmNearbyPokeStop(FortData pokeStop, Client _client, FortDetailsResponse fortInfo)

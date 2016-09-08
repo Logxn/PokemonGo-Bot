@@ -439,6 +439,23 @@ namespace PokemonGo.RocketAPI.Console
         public static int toprevive = 50;
         public static int berry = 50;
         public static int ivmaxpercent = 0;
+        private static bool _pauseAtWalking = false;
+        public static bool pauseAtWalking
+        {
+            get
+            {
+                return _pauseAtWalking;
+            }
+            set
+            {
+                if(Logic.Logic._instance != null)
+                {
+                    Logic.Logic._instance.pauseWalking = value;
+                    _pauseAtWalking = value;
+                }
+            }
+        }
+
         public static List<PokemonId> noTransfer = new List<PokemonId>();
         public static List<PokemonId> noCatch = new List<PokemonId>();
         public static List<PokemonId> doEvolve = new List<PokemonId>();
