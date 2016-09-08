@@ -388,9 +388,38 @@ namespace PokemonGo.RocketAPI.Console
             }
         }
         public GeoCoordinate NextDestinationOverride
+
+        
+        public Queue<GeoCoordinate> NextDestinationOverride
+
         {
             get { return Globals.NextDestinationOverride; }
             set { Globals.NextDestinationOverride = value; }
+        }
+        public Queue<GeoCoordinate> RouteToRepeat
+        {
+            get { return Globals.RouteToRepeat; }
+            set { Globals.RouteToRepeat = value; }
+        }
+        public bool RepeatUserRoute
+        {
+            get { return Globals.RepeatUserRoute; }
+            set { Globals.RepeatUserRoute = value; }
+        }
+        public bool UseLureGUIClick
+        {
+            get { return Globals.UseLureGUIClick; }
+            set { Globals.UseLureGUIClick = value; }
+        }
+        public bool UseLuckyEggGUIClick
+        {
+            get { return Globals.UseLuckyEggGUIClick; }
+            set { Globals.UseLuckyEggGUIClick = value; }
+        }
+        public bool UseIncenseGUIClick
+        {
+            get { return Globals.UseIncenseGUIClick; }
+            set { Globals.UseIncenseGUIClick = value; }
         }
     }
 }
