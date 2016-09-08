@@ -723,22 +723,22 @@ namespace PokemonGo.RocketAPI.Logic
             if (_clientSettings.GoogleMapsAPIKey != null)
             {
                 //I am sure there is a more elegant way to handle this but STFU I'll fix later.
-                Logger.ColoredConsoleWrite(ConsoleColor.Green, "=============Begin Directions Debug Info================");
+                /*Logger.ColoredConsoleWrite(ConsoleColor.Green, "=============Begin Directions Debug Info================");
                 Logger.ColoredConsoleWrite(ConsoleColor.Green, "Latitude in: " + latitude.ToString());
                 Logger.ColoredConsoleWrite(ConsoleColor.Green, "Longitude in: " + longitude.ToString());
                 Logger.ColoredConsoleWrite(ConsoleColor.Green, "Client Latitude in: " + _client.CurrentLatitude.ToString());
-                Logger.ColoredConsoleWrite(ConsoleColor.Green, "Client Longitude in: " + _client.CurrentLongitude.ToString());
+                Logger.ColoredConsoleWrite(ConsoleColor.Green, "Client Longitude in: " + _client.CurrentLongitude.ToString());*/
                 
                 var longstring = longitude.ToString().Replace(",", ".");
                 var latstring = latitude.ToString().Replace(",", ".");
                 var sourcelongstring = _client.CurrentLongitude.ToString().Replace(",", ".");
                 var sourcelatstring = _client.CurrentLatitude.ToString().Replace(",", ".");
 
-                Logger.ColoredConsoleWrite(ConsoleColor.Green, "Latitude string modified: " + longstring);
+                /*Logger.ColoredConsoleWrite(ConsoleColor.Green, "Latitude string modified: " + longstring);
                 Logger.ColoredConsoleWrite(ConsoleColor.Green, "Longitude string modified: " + latstring);
                 Logger.ColoredConsoleWrite(ConsoleColor.Green, "Client Latitude sting modified: " + sourcelongstring);
                 Logger.ColoredConsoleWrite(ConsoleColor.Green, "Client Longitude string modified: " + sourcelatstring);
-                Logger.ColoredConsoleWrite(ConsoleColor.Green, "=============End Directions Debug Info================");
+                Logger.ColoredConsoleWrite(ConsoleColor.Green, "=============End Directions Debug Info================");*/
                 
                 DirectionsRequest directionsRequest = new DirectionsRequest();
                 directionsRequest.ApiKey = _clientSettings.GoogleMapsAPIKey;
