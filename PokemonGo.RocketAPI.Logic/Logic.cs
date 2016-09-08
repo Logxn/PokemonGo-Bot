@@ -705,8 +705,8 @@ namespace PokemonGo.RocketAPI.Logic
 
                 var longstring = longitude.ToString().Replace(",", ".");
                 var latstring = latitude.ToString().Replace(",", ".");
-                var sourcelongstring = _client.CurrentLatitude.ToString().Replace(",", ".");
-                var sourcelatstring = _client.CurrentLongitude.ToString().Replace(",", ".");
+                var sourcelongstring = _client.CurrentLongitude.ToString().Replace(",", ".");
+                var sourcelatstring = _client.CurrentLatitude.ToString().Replace(",", ".");
 
                 double.TryParse(latstring, out cultureresistantlat);
                 double.TryParse(longstring, out cultureresistantlong);
