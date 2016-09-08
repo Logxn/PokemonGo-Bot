@@ -18,7 +18,8 @@ namespace PokemonGo.RocketAPI.Console
 {
     public partial class LocationSelect : Form
     {
-        private GMarkerGoogle _botMarker = new GMarkerGoogle(new PointLatLng(), GMarkerGoogleType.red_small);
+        //private GMarkerGoogle _botMarker = new GMarkerGoogle(new PointLatLng(), GMarkerGoogleType.red_small);
+        private GMarkerGoogle _botMarker = new GMarkerGoogle(new PointLatLng(),  Properties.Resources.player);
         private GMapRoute _botRoute = new GMapRoute("BotRoute");
         private GMapOverlay _pokeStopsOverlay = new GMapOverlay("PokeStops");
         private Dictionary<string, GMarkerGoogle> _pokeStopsMarks = new Dictionary<string, GMarkerGoogle>();
@@ -77,7 +78,9 @@ namespace PokemonGo.RocketAPI.Console
         {
             if (_pokeStopsMarks.ContainsKey(pokeStopId)) {
                 //changeType               
-                var newMark = new GMarkerGoogle(_pokeStopsMarks[pokeStopId].Position, GMarkerGoogleType.purple_small);
+                
+                var newMark = new GMarkerGoogle(_pokeStopsMarks[pokeStopId].Position, Properties.Resources.visited_pokestop);
+                
                 newMark.ToolTipText = info;
                 newMark.ToolTip.Font = new System.Drawing.Font("Arial", 12, System.Drawing.GraphicsUnit.Pixel);
                 
@@ -99,10 +102,10 @@ namespace PokemonGo.RocketAPI.Console
             _pokeStopsMarks.Clear();
 
             foreach (var pokeStop in pokeStops) {
-                GMarkerGoogle pokeStopMaker = new GMarkerGoogle(new PointLatLng(pokeStop.Latitude, pokeStop.Longitude), GMarkerGoogleType.blue_small);
+                GMarkerGoogle pokeStopMaker = new GMarkerGoogle(new PointLatLng(pokeStop.Latitude, pokeStop.Longitude), Properties.Resources.pokestop);
                 if (pokeStop.ActiveFortModifier.Count > 0)
                 {
-                    pokeStopMaker = new GMarkerGoogle(new PointLatLng(pokeStop.Latitude, pokeStop.Longitude), GMarkerGoogleType.yellow_small);
+                    pokeStopMaker = new GMarkerGoogle(new PointLatLng(pokeStop.Latitude, pokeStop.Longitude), Properties.Resources.lured_pokestop);
                 }
                 pokeStopMaker.ToolTipText = pokeStop.Latitude + ", " + pokeStop.Longitude;
                 pokeStopMaker.ToolTip.Font = new System.Drawing.Font("Arial", 12, System.Drawing.GraphicsUnit.Pixel);
