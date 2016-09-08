@@ -389,6 +389,7 @@ namespace PokemonGo.RocketAPI.Console
         }
         
         public Queue<GeoCoordinate> NextDestinationOverride
+
         {
             get { return Globals.NextDestinationOverride; }
             set { Globals.NextDestinationOverride = value; }
