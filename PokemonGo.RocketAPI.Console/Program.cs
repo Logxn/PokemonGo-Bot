@@ -483,8 +483,18 @@ namespace PokemonGo.RocketAPI.Console
 
         public static bool logPokemons = false;
 
-        public static GeoCoordinate NextDestinationOverride = null;
+        public static Queue<GeoCoordinate> NextDestinationOverride = new Queue<GeoCoordinate>();
+
+        public static Queue<GeoCoordinate> RouteToRepeat = new Queue<GeoCoordinate>();
+
+        public static bool RepeatUserRoute = false;
 
         public static bool logManualTransfer = false;
+
+        public static bool UseLureGUIClick = false;
+
+        public static bool UseLuckyEggGUIClick = false;
+
+        public static bool UseIncenseGUIClick = false;
     }
 }

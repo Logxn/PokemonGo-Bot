@@ -212,7 +212,8 @@ namespace PokemonGo.RocketAPI.Console
                     PokemonListView.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
                     Text = "Pokemon List | User: " + profile.PlayerData.Username + " | Pokemons: " + pokemons.Count() + "/" + profile.PlayerData.MaxPokemonStorage;
                     EnabledButton(true);
-
+                    button2.Enabled = false;
+                    checkBox1.Enabled = false;
                     statusTexbox.Text = string.Empty;
                 }
             }
@@ -238,6 +239,8 @@ namespace PokemonGo.RocketAPI.Console
             reloadsecondstextbox.Enabled = enabled;
             PokemonListView.Enabled = enabled;
             btnIVToNick.Enabled = enabled;
+            button1.Enabled = enabled;
+            button3.Enabled = enabled;
         }
 
         private static Bitmap GetPokemonImage(int pokemonId)
@@ -381,6 +384,12 @@ namespace PokemonGo.RocketAPI.Console
 
         private async void btnEvolve_Click(object sender, EventArgs e)
         {
+            //if (Globals.UseAnimationTimes)
+            //{
+            //    MessageBox.Show("Staged selected Pokemon for Evolution", "Evolve status", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            //}
+            //else
+            //{
             EnabledButton(false, "Evolving...");
             var selectedItems = PokemonListView.SelectedItems;
             int evolved = 0;
@@ -419,10 +428,17 @@ namespace PokemonGo.RocketAPI.Console
             }
             else
                 EnabledButton(true);
+            //}
         }
 
         private async void btnTransfer_Click(object sender, EventArgs e)
         {
+            //if (Globals.UseAnimationTimes)
+            //{
+            //    MessageBox.Show("Staged selected Pokemon for Transfer", "Evolve status", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            //}
+            //else
+            //{
             EnabledButton(false, "Transfering...");
             var selectedItems = PokemonListView.SelectedItems;
             int transfered = 0;
@@ -433,7 +449,7 @@ namespace PokemonGo.RocketAPI.Console
             string logs = System.IO.Path.Combine(logPath, "manualTransferLog.txt");
             string date = DateTime.Now.ToString();
             PokemonData pokeData = new PokemonData();
-            
+
 
             DialogResult dialogResult = MessageBox.Show("You clicked transfer. This can not be undone.", "Are you Sure?", MessageBoxButtons.YesNo);
             if (dialogResult == DialogResult.Yes)
@@ -460,30 +476,31 @@ namespace PokemonGo.RocketAPI.Console
                     await RandomHelper.RandomDelay(5000, 6000);
                 }
 
- 
+
 
                 if (failed != string.Empty)
                 {
-                    if(_clientSettings.logManualTransfer)
+                    if (_clientSettings.logManualTransfer)
                     {
                         File.AppendAllText(logs, $"[{date}] - Sucessfully transfered {transfered}/{total} Pokemons. Failed: {failed}" + Environment.NewLine);
                     }
                     MessageBox.Show("Succesfully transfered " + transfered + "/" + total + " Pokemons. Failed: " + failed, "Transfer status", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }  
+                }
                 else
                 {
-                    if(_clientSettings.logManualTransfer)
+                    if (_clientSettings.logManualTransfer)
                     {
                         File.AppendAllText(logs, $"[{date}] - Sucessfully transfered {transfered}/{total} Pokemons." + Environment.NewLine);
                     }
                     MessageBox.Show("Succesfully transfered " + transfered + "/" + total + " Pokemons.", "Transfer status", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
-                    
+
                 Text = "Pokemon List | User: " + profile.PlayerData.Username + " | Pokemons: " + PokemonListView.Items.Count + "/" + profile.PlayerData.MaxPokemonStorage;
             }
             EnabledButton(true);
+            //}
         }
-        
+
         private async void btnUpgrade_Click(object sender, EventArgs e)
         {
             EnabledButton(false);
@@ -514,10 +531,10 @@ namespace PokemonGo.RocketAPI.Console
             else
                 EnabledButton(true);
         }
-        
+
         private async void BtnIVToNickClick(object sender, EventArgs e)
-		{
-			EnabledButton(false, "Renaming...");
+        {
+            EnabledButton(false, "Renaming...");
             var selectedItems = PokemonListView.SelectedItems;
             int renamed = 0;
             int total = selectedItems.Count;
@@ -530,13 +547,13 @@ namespace PokemonGo.RocketAPI.Console
 
                 foreach (ListViewItem selectedItem in selectedItems)
                 {
-                	PokemonData pokemon = (PokemonData) selectedItem.Tag;
-                	pokemon.Nickname = IVsToNickname(pokemon);
+                    PokemonData pokemon = (PokemonData)selectedItem.Tag;
+                    pokemon.Nickname = IVsToNickname(pokemon);
                     resp = await changePokemonNickname(pokemon);
                     if (resp.Status)
                     {
-	            	selectedItem.ToolTipText = new DateTime((long)pokemon.CreationTimeMs * 10000).AddYears(1769).ToString("dd/MM/yyyy HH:mm:ss");
-	            	selectedItem.ToolTipText += "\nNickname: " + pokemon.Nickname;                
+                        selectedItem.ToolTipText = new DateTime((long)pokemon.CreationTimeMs * 10000).AddYears(1769).ToString("dd/MM/yyyy HH:mm:ss");
+                        selectedItem.ToolTipText += "\nNickname: " + pokemon.Nickname;
                         renamed++;
                         statusTexbox.Text = "Renamig..." + renamed;
                     }
@@ -551,7 +568,7 @@ namespace PokemonGo.RocketAPI.Console
                     MessageBox.Show("Succesfully renamed " + renamed + "/" + total + " Pokemons.", "Rename status", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             EnabledButton(true);
-	    }
+        }
 
         private static async Task<taskResponse> evolvePokemon(PokemonData pokemon)
         {
@@ -628,26 +645,25 @@ namespace PokemonGo.RocketAPI.Console
             }
             return resp;
         }
-        
-        private static string IVsToNickname(PokemonData pokemon){
-                string croppedName = StringUtils.getPokemonNameByLanguage(ClientSettings, (PokemonId)pokemon.PokemonId) + " ";
-                string nickname;
-               	//< nickname = string.Format("{0}{1}{2}{3}", pokemon.IndividualAttack.ToString("X"), pokemon.IndividualDefense.ToString("X"), pokemon.IndividualStamina.ToString("X"),(45 - pokemon.IndividualAttack- pokemon.IndividualDefense- pokemon.IndividualStamina));
-               	nickname = string.Format("{0}.{1}.{2}.{3}", PokemonInfo.CalculatePokemonPerfection(pokemon).ToString("0"), pokemon.IndividualAttack, pokemon.IndividualDefense, pokemon.IndividualStamina);
-                int  lenDiff = 12 - nickname.Length;
-                if (croppedName.Length > lenDiff )
-                	croppedName = croppedName.Substring(0, lenDiff);
-                return croppedName + nickname;
-		}
-        
+
+        private static string IVsToNickname(PokemonData pokemon)
+        {
+            string croppedName = StringUtils.getPokemonNameByLanguage(ClientSettings, (PokemonId)pokemon.PokemonId) + " ";
+            string nickname;
+            //< nickname = string.Format("{0}{1}{2}{3}", pokemon.IndividualAttack.ToString("X"), pokemon.IndividualDefense.ToString("X"), pokemon.IndividualStamina.ToString("X"),(45 - pokemon.IndividualAttack- pokemon.IndividualDefense- pokemon.IndividualStamina));
+            nickname = string.Format("{0}.{1}.{2}.{3}", PokemonInfo.CalculatePokemonPerfection(pokemon).ToString("0"), pokemon.IndividualAttack, pokemon.IndividualDefense, pokemon.IndividualStamina);
+            int lenDiff = 12 - nickname.Length;
+            if (croppedName.Length > lenDiff)
+                croppedName = croppedName.Substring(0, lenDiff);
+            return croppedName + nickname;
+        }
+
         private static async Task<taskResponse> changePokemonNickname(PokemonData pokemon)
         {
             taskResponse resp = new taskResponse(false, string.Empty);
             try
             {
-                	
-
-                var nicknamePokemonResponse1 = await client.Inventory.ChangePokemonNickname(pokemon.Id,pokemon.Nickname);
+                var nicknamePokemonResponse1 = await client.Inventory.ChangePokemonNickname(pokemon.Id, pokemon.Nickname);
 
                 if (nicknamePokemonResponse1.Result == NicknamePokemonResponse.Types.Result.Success)
                 {
@@ -720,18 +736,17 @@ namespace PokemonGo.RocketAPI.Console
             else
                 MessageBox.Show(resp.Message + " powering up failed!", "PowerUp Status", MessageBoxButtons.OK);
         }
-        
+
         private async void IVsToNicknameToolStripMenuItemClick(object sender, EventArgs e)
         {
             var pokemon = (PokemonData)PokemonListView.SelectedItems[0].Tag;
             taskResponse resp = new taskResponse(false, string.Empty);
 
-                        
             string promptValue = Prompt.ShowDialog(IVsToNickname(pokemon), "Confirm Nickname");
-            
-            if (promptValue !="")
-            {            	
-            	pokemon.Nickname = promptValue;
+
+            if (promptValue != "")
+            {
+                pokemon.Nickname = promptValue;
                 resp = await changePokemonNickname(pokemon);
             }
             else
@@ -740,14 +755,12 @@ namespace PokemonGo.RocketAPI.Console
             }
             if (resp.Status)
             {
-            	PokemonListView.SelectedItems[0].ToolTipText = new DateTime((long)pokemon.CreationTimeMs * 10000).AddYears(1769).ToString("dd/MM/yyyy HH:mm:ss");
-            	PokemonListView.SelectedItems[0].ToolTipText += "\nNickname: " + pokemon.Nickname;                
+                PokemonListView.SelectedItems[0].ToolTipText = new DateTime((long)pokemon.CreationTimeMs * 10000).AddYears(1769).ToString("dd/MM/yyyy HH:mm:ss");
+                PokemonListView.SelectedItems[0].ToolTipText += "\nNickname: " + pokemon.Nickname;
             }
             else
                 MessageBox.Show(resp.Message + " rename failed!", "Rename Status", MessageBoxButtons.OK);
-		}
-		
-		
+        }
 
         private void checkboxReload_CheckedChanged(object sender, EventArgs e)
         {
@@ -794,6 +807,12 @@ namespace PokemonGo.RocketAPI.Console
 
         private async void btnFullPowerUp_Click(object sender, EventArgs e)
         {
+            //if (Globals.UseAnimationTimes)
+            //{
+
+            //}
+            //else
+            //{
             EnabledButton(false, "Powering up...");
             DialogResult result = MessageBox.Show("This process may take some time.", "FullPowerUp status", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
             if (result == DialogResult.OK)
@@ -868,6 +887,7 @@ namespace PokemonGo.RocketAPI.Console
             {
                 EnabledButton(true);
             }
+            //}
         }
 
         private void btnShowMap_Click(object sender, EventArgs e)
@@ -981,13 +1001,28 @@ namespace PokemonGo.RocketAPI.Console
             {
                 Globals.pauseAtPokeStop = true;
                 Logger.ColoredConsoleWrite(ConsoleColor.Magenta, "Pausing at next Pokestop. (will continue catching pokemon and farming pokestop when available)");
+                if (Globals.RouteToRepeat.Count > 0)
+                {
+                    Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "User Defined Route Cleared!");
+                    Globals.RouteToRepeat.Clear();
+                }
+
                 btnForceUnban.Text = "Resume Walking";
+                button2.Enabled = true;
+                checkBox1.Enabled = true;
             }
             else
             {
                 Globals.pauseAtPokeStop = false;
                 Logger.ColoredConsoleWrite(ConsoleColor.Magenta, "Resume walking between Pokestops.");
+                if (Globals.RouteToRepeat.Count > 0)
+                {
+                    Globals.NextDestinationOverride = Globals.RouteToRepeat;
+                    Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "User Defined Route Captured! Beginning Route Momentarily.");
+                }
                 btnForceUnban.Text = "Pause Walking";
+                button2.Enabled = false;
+                checkBox1.Enabled = false;
             }
 
         }
@@ -997,8 +1032,26 @@ namespace PokemonGo.RocketAPI.Console
             btnForceUnban.Enabled = true;
             freezedenshit.Stop();
         }
-        
-        
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            Globals.UseLureGUIClick = true;
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            Globals.UseLuckyEggGUIClick = true;
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            Globals.UseIncenseGUIClick = true;
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            Globals.RepeatUserRoute = checkBox1.Checked;
+        }
     }
     public static class ControlExtensions
     {
@@ -1097,31 +1150,31 @@ namespace PokemonGo.RocketAPI.Console
             }
         }
     }
-    
-     
+
+
     public static class Prompt
-	{
-	    public static string ShowDialog(string text, string caption)
-	    {
-	        Form prompt = new Form()
-	        {
-	            Width = 500,
-	            Height = 150,
-	            FormBorderStyle = FormBorderStyle.FixedDialog,
-	            Text = caption,
-	            StartPosition = FormStartPosition.CenterScreen
-	        };
-	        Label textLabel = new Label() { Left = 50, Top=20, Text="Nickname:" };
-	        TextBox textBox = new TextBox() { Left = 50, Top=50, Width=400, Text=text, MaxLength=12 };
-	        Button confirmation = new Button() { Text = "Ok", Left=350, Width=100, Top=70, DialogResult = DialogResult.OK };
-	        confirmation.Click += (sender, e) => { prompt.Close(); };
-	        prompt.Controls.Add(textBox);
-	        prompt.Controls.Add(confirmation);
-	        prompt.Controls.Add(textLabel);
-	        prompt.AcceptButton = confirmation;
-	
-	        return prompt.ShowDialog() == DialogResult.OK ? textBox.Text : "";
-	    }
-	}
-    
+    {
+        public static string ShowDialog(string text, string caption)
+        {
+            Form prompt = new Form()
+            {
+                Width = 500,
+                Height = 150,
+                FormBorderStyle = FormBorderStyle.FixedDialog,
+                Text = caption,
+                StartPosition = FormStartPosition.CenterScreen
+            };
+            Label textLabel = new Label() { Left = 50, Top = 20, Text = "Nickname:" };
+            TextBox textBox = new TextBox() { Left = 50, Top = 50, Width = 400, Text = text, MaxLength = 12 };
+            Button confirmation = new Button() { Text = "Ok", Left = 350, Width = 100, Top = 70, DialogResult = DialogResult.OK };
+            confirmation.Click += (sender, e) => { prompt.Close(); };
+            prompt.Controls.Add(textBox);
+            prompt.Controls.Add(confirmation);
+            prompt.Controls.Add(textLabel);
+            prompt.AcceptButton = confirmation;
+
+            return prompt.ShowDialog() == DialogResult.OK ? textBox.Text : "";
+        }
+    }
+
 }

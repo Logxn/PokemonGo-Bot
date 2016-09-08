@@ -28,7 +28,6 @@ namespace PokemonGo.RocketAPI.Console
         /// </summary>
         private void InitializeComponent()
         {
-            this.FormClosing += this.Pokemons_Close;
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Pokemons));
             this.PokemonListView = new System.Windows.Forms.ListView();
@@ -41,7 +40,7 @@ namespace PokemonGo.RocketAPI.Console
             this.transferToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.powerUpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.evolveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.iVsToNicknameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();            
+            this.iVsToNicknameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusTexbox = new System.Windows.Forms.TextBox();
             this.checkBoxreload = new System.Windows.Forms.CheckBox();
             this.reloadsecondstextbox = new System.Windows.Forms.TextBox();
@@ -58,6 +57,10 @@ namespace PokemonGo.RocketAPI.Console
             this.btnForceUnban = new System.Windows.Forms.Button();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.button1 = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
+            this.button3 = new System.Windows.Forms.Button();
             this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -81,9 +84,9 @@ namespace PokemonGo.RocketAPI.Console
             // 
             this.btnreload.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnreload.Location = new System.Drawing.Point(16, 457);
-            this.btnreload.Margin = new System.Windows.Forms.Padding(4);
+            this.btnreload.Margin = new System.Windows.Forms.Padding(2);
             this.btnreload.Name = "btnreload";
-            this.btnreload.Size = new System.Drawing.Size(181, 28);
+            this.btnreload.Size = new System.Drawing.Size(73, 28);
             this.btnreload.TabIndex = 1;
             this.btnreload.Text = "Reload";
             this.btnreload.UseVisualStyleBackColor = true;
@@ -92,10 +95,10 @@ namespace PokemonGo.RocketAPI.Console
             // btnEvolve
             // 
             this.btnEvolve.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnEvolve.Location = new System.Drawing.Point(17, 492);
-            this.btnEvolve.Margin = new System.Windows.Forms.Padding(4);
+            this.btnEvolve.Location = new System.Drawing.Point(108, 494);
+            this.btnEvolve.Margin = new System.Windows.Forms.Padding(2);
             this.btnEvolve.Name = "btnEvolve";
-            this.btnEvolve.Size = new System.Drawing.Size(180, 28);
+            this.btnEvolve.Size = new System.Drawing.Size(61, 28);
             this.btnEvolve.TabIndex = 2;
             this.btnEvolve.Text = "Evolve";
             this.btnEvolve.UseVisualStyleBackColor = true;
@@ -104,10 +107,10 @@ namespace PokemonGo.RocketAPI.Console
             // btnUpgrade
             // 
             this.btnUpgrade.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnUpgrade.Location = new System.Drawing.Point(207, 492);
-            this.btnUpgrade.Margin = new System.Windows.Forms.Padding(4);
+            this.btnUpgrade.Location = new System.Drawing.Point(177, 494);
+            this.btnUpgrade.Margin = new System.Windows.Forms.Padding(2);
             this.btnUpgrade.Name = "btnUpgrade";
-            this.btnUpgrade.Size = new System.Drawing.Size(180, 28);
+            this.btnUpgrade.Size = new System.Drawing.Size(98, 28);
             this.btnUpgrade.TabIndex = 3;
             this.btnUpgrade.Text = "PowerUp";
             this.btnUpgrade.UseVisualStyleBackColor = true;
@@ -116,8 +119,8 @@ namespace PokemonGo.RocketAPI.Console
             // btnTransfer
             // 
             this.btnTransfer.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnTransfer.Location = new System.Drawing.Point(526, 492);
-            this.btnTransfer.Margin = new System.Windows.Forms.Padding(4);
+            this.btnTransfer.Location = new System.Drawing.Point(419, 494);
+            this.btnTransfer.Margin = new System.Windows.Forms.Padding(2);
             this.btnTransfer.Name = "btnTransfer";
             this.btnTransfer.Size = new System.Drawing.Size(115, 28);
             this.btnTransfer.TabIndex = 4;
@@ -128,13 +131,14 @@ namespace PokemonGo.RocketAPI.Console
             // btnIVToNick
             // 
             this.btnIVToNick.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnIVToNick.Location = new System.Drawing.Point(648, 492);
+            this.btnIVToNick.Location = new System.Drawing.Point(17, 494);
+            this.btnIVToNick.Margin = new System.Windows.Forms.Padding(2);
             this.btnIVToNick.Name = "btnIVToNick";
-            this.btnIVToNick.Size = new System.Drawing.Size(115, 28);
+            this.btnIVToNick.Size = new System.Drawing.Size(84, 28);
             this.btnIVToNick.TabIndex = 45;
-            this.btnIVToNick.Text = "IV to Nick";
+            this.btnIVToNick.Text = "Nickname";
             this.btnIVToNick.UseVisualStyleBackColor = true;
-            this.btnIVToNick.Click += new System.EventHandler(this.BtnIVToNickClick);            
+            this.btnIVToNick.Click += new System.EventHandler(this.BtnIVToNickClick);
             // 
             // contextMenuStrip1
             // 
@@ -145,39 +149,38 @@ namespace PokemonGo.RocketAPI.Console
             this.evolveToolStripMenuItem,
             this.iVsToNicknameToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(144, 82);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(192, 108);
             this.contextMenuStrip1.Closing += new System.Windows.Forms.ToolStripDropDownClosingEventHandler(this.contextMenuStrip1_Closing);
             this.contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
             // 
             // transferToolStripMenuItem
             // 
             this.transferToolStripMenuItem.Name = "transferToolStripMenuItem";
-            this.transferToolStripMenuItem.Size = new System.Drawing.Size(143, 26);
+            this.transferToolStripMenuItem.Size = new System.Drawing.Size(191, 26);
             this.transferToolStripMenuItem.Text = "Transfer";
             this.transferToolStripMenuItem.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
             // 
             // powerUpToolStripMenuItem
             // 
             this.powerUpToolStripMenuItem.Name = "powerUpToolStripMenuItem";
-            this.powerUpToolStripMenuItem.Size = new System.Drawing.Size(143, 26);
+            this.powerUpToolStripMenuItem.Size = new System.Drawing.Size(191, 26);
             this.powerUpToolStripMenuItem.Text = "PowerUp";
             this.powerUpToolStripMenuItem.Click += new System.EventHandler(this.powerUpToolStripMenuItem_Click);
             // 
             // evolveToolStripMenuItem
             // 
             this.evolveToolStripMenuItem.Name = "evolveToolStripMenuItem";
-            this.evolveToolStripMenuItem.Size = new System.Drawing.Size(143, 26);
+            this.evolveToolStripMenuItem.Size = new System.Drawing.Size(191, 26);
             this.evolveToolStripMenuItem.Text = "Evolve";
             this.evolveToolStripMenuItem.Visible = false;
             this.evolveToolStripMenuItem.Click += new System.EventHandler(this.evolveToolStripMenuItem_Click);
-
             // 
             // iVsToNicknameToolStripMenuItem
             // 
             this.iVsToNicknameToolStripMenuItem.Name = "iVsToNicknameToolStripMenuItem";
-            this.iVsToNicknameToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
+            this.iVsToNicknameToolStripMenuItem.Size = new System.Drawing.Size(191, 26);
             this.iVsToNicknameToolStripMenuItem.Text = "IVs to Nickname";
-            this.iVsToNicknameToolStripMenuItem.Click += new System.EventHandler(this.IVsToNicknameToolStripMenuItemClick);            
+            this.iVsToNicknameToolStripMenuItem.Click += new System.EventHandler(this.IVsToNicknameToolStripMenuItemClick);
             // 
             // statusTexbox
             // 
@@ -194,7 +197,7 @@ namespace PokemonGo.RocketAPI.Console
             // 
             this.checkBoxreload.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.checkBoxreload.AutoSize = true;
-            this.checkBoxreload.Location = new System.Drawing.Point(207, 464);
+            this.checkBoxreload.Location = new System.Drawing.Point(98, 463);
             this.checkBoxreload.Margin = new System.Windows.Forms.Padding(4);
             this.checkBoxreload.Name = "checkBoxreload";
             this.checkBoxreload.Size = new System.Drawing.Size(114, 21);
@@ -206,10 +209,10 @@ namespace PokemonGo.RocketAPI.Console
             // reloadsecondstextbox
             // 
             this.reloadsecondstextbox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.reloadsecondstextbox.Location = new System.Drawing.Point(325, 462);
+            this.reloadsecondstextbox.Location = new System.Drawing.Point(209, 463);
             this.reloadsecondstextbox.Margin = new System.Windows.Forms.Padding(4);
             this.reloadsecondstextbox.Name = "reloadsecondstextbox";
-            this.reloadsecondstextbox.Size = new System.Drawing.Size(48, 22);
+            this.reloadsecondstextbox.Size = new System.Drawing.Size(31, 22);
             this.reloadsecondstextbox.TabIndex = 7;
             this.reloadsecondstextbox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.reloadsecondstextbox_KeyPress);
             // 
@@ -217,12 +220,11 @@ namespace PokemonGo.RocketAPI.Console
             // 
             this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(374, 467);
+            this.label2.Location = new System.Drawing.Point(372, 467);
             this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(15, 17);
+            this.label2.Size = new System.Drawing.Size(0, 17);
             this.label2.TabIndex = 9;
-            this.label2.Text = "s";
             // 
             // reloadtimer
             // 
@@ -232,10 +234,10 @@ namespace PokemonGo.RocketAPI.Console
             // btnFullPowerUp
             // 
             this.btnFullPowerUp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnFullPowerUp.Location = new System.Drawing.Point(395, 492);
-            this.btnFullPowerUp.Margin = new System.Windows.Forms.Padding(4);
+            this.btnFullPowerUp.Location = new System.Drawing.Point(281, 494);
+            this.btnFullPowerUp.Margin = new System.Windows.Forms.Padding(2);
             this.btnFullPowerUp.Name = "btnFullPowerUp";
-            this.btnFullPowerUp.Size = new System.Drawing.Size(120, 28);
+            this.btnFullPowerUp.Size = new System.Drawing.Size(134, 28);
             this.btnFullPowerUp.TabIndex = 11;
             this.btnFullPowerUp.Text = "FULL-PowerUp";
             this.btnFullPowerUp.UseVisualStyleBackColor = true;
@@ -327,10 +329,10 @@ namespace PokemonGo.RocketAPI.Console
             // btnForceUnban
             // 
             this.btnForceUnban.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnForceUnban.Location = new System.Drawing.Point(583, 458);
-            this.btnForceUnban.Margin = new System.Windows.Forms.Padding(4);
+            this.btnForceUnban.Location = new System.Drawing.Point(648, 459);
+            this.btnForceUnban.Margin = new System.Windows.Forms.Padding(2);
             this.btnForceUnban.Name = "btnForceUnban";
-            this.btnForceUnban.Size = new System.Drawing.Size(180, 28);
+            this.btnForceUnban.Size = new System.Drawing.Size(127, 28);
             this.btnForceUnban.TabIndex = 43;
             this.btnForceUnban.Text = "Pause Walking";
             this.btnForceUnban.UseVisualStyleBackColor = true;
@@ -339,22 +341,71 @@ namespace PokemonGo.RocketAPI.Console
             // textBox1
             // 
             this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.textBox1.Location = new System.Drawing.Point(527, 460);
+            this.textBox1.Location = new System.Drawing.Point(369, 461);
             this.textBox1.Margin = new System.Windows.Forms.Padding(4);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(48, 22);
+            this.textBox1.Size = new System.Drawing.Size(36, 22);
             this.textBox1.TabIndex = 44;
             // 
             // label1
             // 
             this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(402, 463);
+            this.label1.Location = new System.Drawing.Point(243, 464);
             this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(123, 17);
+            this.label1.Size = new System.Drawing.Size(125, 17);
             this.label1.TabIndex = 9;
-            this.label1.Text = "Full Power Up limit";
+            this.label1.Text = "s    Power Up Limit";
+            // 
+            // checkBox1
+            // 
+            this.checkBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Location = new System.Drawing.Point(657, 495);
+            this.checkBox1.Margin = new System.Windows.Forms.Padding(4);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(118, 21);
+            this.checkBox1.TabIndex = 6;
+            this.checkBox1.Text = "Repeat Route";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
+            // 
+            // button1
+            // 
+            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.button1.Location = new System.Drawing.Point(538, 493);
+            this.button1.Margin = new System.Windows.Forms.Padding(2);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(106, 28);
+            this.button1.TabIndex = 43;
+            this.button1.Text = "Use Incense";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // button2
+            // 
+            this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.button2.Location = new System.Drawing.Point(538, 459);
+            this.button2.Margin = new System.Windows.Forms.Padding(2);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(106, 28);
+            this.button2.TabIndex = 43;
+            this.button2.Text = "Use Lure";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
+            // button3
+            // 
+            this.button3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.button3.Location = new System.Drawing.Point(413, 459);
+            this.button3.Margin = new System.Windows.Forms.Padding(2);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(121, 28);
+            this.button3.TabIndex = 43;
+            this.button3.Text = "Use Lucky Egg";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
             // Pokemons
             // 
@@ -362,6 +413,9 @@ namespace PokemonGo.RocketAPI.Console
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(872, 567);
             this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.button3);
+            this.Controls.Add(this.button2);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.btnForceUnban);
             this.Controls.Add(this.lang_tr_btn2);
             this.Controls.Add(this.lang_ptBR_btn2);
@@ -373,6 +427,7 @@ namespace PokemonGo.RocketAPI.Console
             this.Controls.Add(this.label1);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.reloadsecondstextbox);
+            this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.checkBoxreload);
             this.Controls.Add(this.statusTexbox);
             this.Controls.Add(this.btnTransfer);
@@ -422,5 +477,9 @@ namespace PokemonGo.RocketAPI.Console
         private System.Windows.Forms.Button btnForceUnban;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button button3;
     }
 }
