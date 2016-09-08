@@ -374,6 +374,19 @@ namespace PokemonGo.RocketAPI.Console
                 Globals.logManualTransfer = value;
             }
         }
+
+        bool ISettings.bLogEvolve
+        {
+            get
+            {
+                return Globals.bLogEvolve;
+            }
+
+            set
+            {
+                Globals.bLogEvolve = value;
+            }
+        }
         public GeoCoordinate NextDestinationOverride
         {
             get { return Globals.NextDestinationOverride; }

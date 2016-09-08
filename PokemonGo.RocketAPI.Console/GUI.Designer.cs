@@ -189,6 +189,7 @@
             this.lang_de_btn = new System.Windows.Forms.Button();
             this.lang_en_btn = new System.Windows.Forms.Button();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.logEvolution = new System.Windows.Forms.CheckBox();
             this.tabPage1.SuspendLayout();
             this.tabItems.SuspendLayout();
             this.groupBox4.SuspendLayout();
@@ -1976,6 +1977,7 @@
             // 
             // groupBox14
             // 
+            this.groupBox14.Controls.Add(this.logEvolution);
             this.groupBox14.Controls.Add(this.logManuelTransfer);
             this.groupBox14.Controls.Add(this.logPokemon);
             this.groupBox14.Location = new System.Drawing.Point(6, 5);
@@ -1991,9 +1993,9 @@
             this.logManuelTransfer.Location = new System.Drawing.Point(6, 45);
             this.logManuelTransfer.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.logManuelTransfer.Name = "logManuelTransfer";
-            this.logManuelTransfer.Size = new System.Drawing.Size(162, 21);
+            this.logManuelTransfer.Size = new System.Drawing.Size(112, 21);
             this.logManuelTransfer.TabIndex = 1;
-            this.logManuelTransfer.Text = "Log manual Transfer";
+            this.logManuelTransfer.Text = "Log Transfer";
             this.logManuelTransfer.UseVisualStyleBackColor = true;
             // 
             // logPokemon
@@ -2117,6 +2119,16 @@
             this.pictureBox2.TabIndex = 37;
             this.pictureBox2.TabStop = false;
             this.pictureBox2.Click += new System.EventHandler(this.pictureBox2_Click);
+            // 
+            // logEvolution
+            // 
+            this.logEvolution.AutoSize = true;
+            this.logEvolution.Location = new System.Drawing.Point(6, 71);
+            this.logEvolution.Name = "logEvolution";
+            this.logEvolution.Size = new System.Drawing.Size(116, 21);
+            this.logEvolution.TabIndex = 2;
+            this.logEvolution.Text = "Log Evolution";
+            this.logEvolution.UseVisualStyleBackColor = true;
             // 
             // GUI
             // 
@@ -2350,6 +2362,7 @@
         private System.Windows.Forms.CheckBox logPokemon;
         private System.Windows.Forms.GroupBox groupBox14;
         private System.Windows.Forms.CheckBox logManuelTransfer;
+        private System.Windows.Forms.CheckBox logEvolution;
     }
 }
 
