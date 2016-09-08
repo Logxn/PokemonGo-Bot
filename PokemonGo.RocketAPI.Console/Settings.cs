@@ -387,8 +387,6 @@ namespace PokemonGo.RocketAPI.Console
                 Globals.bLogEvolve = value;
             }
         }
-        public GeoCoordinate NextDestinationOverride
-
         
         public Queue<GeoCoordinate> NextDestinationOverride
 
