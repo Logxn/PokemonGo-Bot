@@ -723,30 +723,32 @@ namespace PokemonGo.RocketAPI.Logic
             if (_clientSettings.GoogleMapsAPIKey != null)
             {
                 //I am sure there is a more elegant way to handle this but STFU I'll fix later.
-                double cultureresistantlat = latitude;
-                double cultureresistantlong = longitude;
-                double cultureresistantsourcelat = _client.CurrentLatitude;
-                double cultureresistantsourcelong = _client.CurrentLongitude;
-
+                /*Logger.ColoredConsoleWrite(ConsoleColor.Green, "=============Begin Directions Debug Info================");
+                Logger.ColoredConsoleWrite(ConsoleColor.Green, "Latitude in: " + latitude.ToString());
+                Logger.ColoredConsoleWrite(ConsoleColor.Green, "Longitude in: " + longitude.ToString());
+                Logger.ColoredConsoleWrite(ConsoleColor.Green, "Client Latitude in: " + _client.CurrentLatitude.ToString());
+                Logger.ColoredConsoleWrite(ConsoleColor.Green, "Client Longitude in: " + _client.CurrentLongitude.ToString());*/
+                
                 var longstring = longitude.ToString().Replace(",", ".");
                 var latstring = latitude.ToString().Replace(",", ".");
                 var sourcelongstring = _client.CurrentLongitude.ToString().Replace(",", ".");
                 var sourcelatstring = _client.CurrentLatitude.ToString().Replace(",", ".");
 
-                double.TryParse(latstring, out cultureresistantlat);
-                double.TryParse(longstring, out cultureresistantlong);
-                double.TryParse(sourcelatstring, out cultureresistantsourcelat);
-                double.TryParse(sourcelongstring, out cultureresistantsourcelong);
-
+                /*Logger.ColoredConsoleWrite(ConsoleColor.Green, "Latitude string modified: " + longstring);
+                Logger.ColoredConsoleWrite(ConsoleColor.Green, "Longitude string modified: " + latstring);
+                Logger.ColoredConsoleWrite(ConsoleColor.Green, "Client Latitude sting modified: " + sourcelongstring);
+                Logger.ColoredConsoleWrite(ConsoleColor.Green, "Client Longitude string modified: " + sourcelatstring);
+                Logger.ColoredConsoleWrite(ConsoleColor.Green, "=============End Directions Debug Info================");*/
+                
                 DirectionsRequest directionsRequest = new DirectionsRequest();
                 directionsRequest.ApiKey = _clientSettings.GoogleMapsAPIKey;
                 directionsRequest.TravelMode = TravelMode.Walking;
-                directionsRequest.Origin = cultureresistantsourcelat + "," + cultureresistantsourcelong;
-                directionsRequest.Destination = cultureresistantlat + "," + cultureresistantlong;
-                if ((cultureresistantlat > 46 && cultureresistantlat < 55) && (cultureresistantlong > 5 && cultureresistantlong < 16))
-                {
-                    directionsRequest.Region = ".de";
-                }
+                directionsRequest.Origin = sourcelatstring + "," + sourcelongstring;
+                directionsRequest.Destination = latstring + "," + longstring;
+                //if ((cultureresistantlat > 46 && cultureresistantlat < 55) && (cultureresistantlong > 5 && cultureresistantlong < 16))
+                //{
+                //    directionsRequest.Region = ".de";
+                //}
                 DirectionsResponse directions = GoogleMaps.Directions.Query(directionsRequest);
 
                 if (directions.Status == DirectionsStatusCodes.OK)

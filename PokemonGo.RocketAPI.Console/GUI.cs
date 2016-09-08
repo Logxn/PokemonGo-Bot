@@ -35,6 +35,8 @@ namespace PokemonGo.RocketAPI.Console
         static string devicePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Device");
         static string deviceinfo = Path.Combine(devicePath, "DeviceInfo.txt");
 
+        static string PokeDataPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "PokeData");
+
         static string logPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Logs");
         static string logs = Path.Combine(logPath, "PokeLog.txt");
         static string logmanualtransfer = Path.Combine(logPath, "TransferLog.txt");
@@ -48,6 +50,7 @@ namespace PokemonGo.RocketAPI.Console
             Directory.CreateDirectory(Program.path_translation);
             Directory.CreateDirectory(Program.path_pokedata);
             Directory.CreateDirectory(devicePath);
+            Directory.CreateDirectory(PokeDataPath);
 
             if (!File.Exists(deviceinfo))
             {
