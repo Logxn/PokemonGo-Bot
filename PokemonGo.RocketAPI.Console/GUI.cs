@@ -48,6 +48,7 @@ namespace PokemonGo.RocketAPI.Console
             // Create missing Files
             Directory.CreateDirectory(Program.path);
             Directory.CreateDirectory(Program.path_translation);
+            Directory.CreateDirectory(Program.path_pokedata);
             Directory.CreateDirectory(devicePath);
             Directory.CreateDirectory(PokeDataPath);
 
@@ -86,6 +87,17 @@ namespace PokemonGo.RocketAPI.Console
             foreach (var l in b)
             {
                 Extract("PokemonGo.RocketAPI.Console", Program.path_translation, "Lang", l);
+            }
+
+
+
+
+            List<string> pokeData = new List<string>();
+            pokeData.Add("AdditionalPokeData.json");
+
+            foreach(var extract in pokeData)
+            {
+                Extract("PokemonGo.RocketAPI.Console", Program.path_pokedata, "PokeData", extract);
             }
 
             TranslationHandler.Init();
