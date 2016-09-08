@@ -743,7 +743,10 @@ namespace PokemonGo.RocketAPI.Logic
                 directionsRequest.TravelMode = TravelMode.Walking;
                 directionsRequest.Origin = cultureresistantsourcelat + "," + cultureresistantsourcelong;
                 directionsRequest.Destination = cultureresistantlat + "," + cultureresistantlong;
-
+                if ((cultureresistantlat > 46 && cultureresistantlat < 55) && (cultureresistantlong > 5 && cultureresistantlong < 16))
+                {
+                    directionsRequest.Region = ".de";
+                }
                 DirectionsResponse directions = GoogleMaps.Directions.Query(directionsRequest);
 
                 if (directions.Status == DirectionsStatusCodes.OK)
