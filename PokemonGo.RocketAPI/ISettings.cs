@@ -94,10 +94,12 @@ namespace PokemonGo.RocketAPI
         Queue<GeoCoordinate> RouteToRepeat { get; set; }
         bool logPokemons { get; set; }
         bool logManualTransfer { get; set; }
+
         bool UseLureGUIClick { get; set; }
         bool UseIncenseGUIClick { get; set; }
         bool UseLuckyEggGUIClick { get; set; }
         bool RepeatUserRoute { get; set; }
+
         bool bLogEvolve { get; set; }
 
     }

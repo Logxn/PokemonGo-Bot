@@ -52,7 +52,7 @@
             this.map.HelperLineOption = GMap.NET.WindowsForms.HelperLineOptions.DontShow;
             this.map.LevelsKeepInMemmory = 5;
             this.map.Location = new System.Drawing.Point(16, 15);
-            this.map.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.map.Margin = new System.Windows.Forms.Padding(4);
             this.map.MarkersEnabled = true;
             this.map.MaxZoom = 2;
             this.map.MinZoom = 2;
@@ -76,7 +76,7 @@
             // 
             this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.textBox1.Location = new System.Drawing.Point(88, 599);
-            this.textBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBox1.Margin = new System.Windows.Forms.Padding(4);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(165, 22);
             this.textBox1.TabIndex = 1;
@@ -86,7 +86,7 @@
             // 
             this.textBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.textBox2.Location = new System.Drawing.Point(347, 599);
-            this.textBox2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBox2.Margin = new System.Windows.Forms.Padding(4);
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(165, 22);
             this.textBox2.TabIndex = 2;
@@ -96,7 +96,7 @@
             // 
             this.textBox3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.textBox3.Location = new System.Drawing.Point(589, 599);
-            this.textBox3.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBox3.Margin = new System.Windows.Forms.Padding(4);
             this.textBox3.Name = "textBox3";
             this.textBox3.Size = new System.Drawing.Size(165, 22);
             this.textBox3.TabIndex = 3;
@@ -138,7 +138,7 @@
             // 
             this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.button1.Location = new System.Drawing.Point(785, 595);
-            this.button1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.button1.Margin = new System.Windows.Forms.Padding(4);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(177, 28);
             this.button1.TabIndex = 7;
@@ -153,7 +153,7 @@
             this.cbShowPokeStops.Checked = true;
             this.cbShowPokeStops.CheckState = System.Windows.Forms.CheckState.Checked;
             this.cbShowPokeStops.Location = new System.Drawing.Point(19, 576);
-            this.cbShowPokeStops.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cbShowPokeStops.Margin = new System.Windows.Forms.Padding(4);
             this.cbShowPokeStops.Name = "cbShowPokeStops";
             this.cbShowPokeStops.Size = new System.Drawing.Size(129, 21);
             this.cbShowPokeStops.TabIndex = 8;
@@ -177,11 +177,12 @@
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.map);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.MaximizeBox = false;
             this.Name = "LocationSelect";
             this.Text = "Location";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.LocationSelect_FormClosing);
+            this.Load += new System.EventHandler(this.LocationSelect_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
