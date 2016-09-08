@@ -28,10 +28,10 @@ Features
 Notes
 -------------
 If you have troubles (exceptions) at start and you come from older version try that:
-> Create new empty folder
-> go to builds only , https://github.com/Ar1i/PokemonGo-Bot/tree/master/Builds-Only
-> Download and unzip there.
-> Try to execute now.
+> - Create new empty folder. 
+> - go to builds only, https://github.com/Ar1i/PokemonGo-Bot/tree/master/Builds-Only
+> - Download and unzip there.
+> - Try to execute now.
 
 Credits
 -------------------
