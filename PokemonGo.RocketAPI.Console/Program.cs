@@ -514,6 +514,7 @@ namespace PokemonGo.RocketAPI.Console
 
         public static bool logManualTransfer = false;
 
+
         public static bool UseLureGUIClick = false;
 
         public static bool UseLuckyEggGUIClick = false;

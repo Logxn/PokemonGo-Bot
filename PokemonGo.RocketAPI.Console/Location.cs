@@ -22,8 +22,10 @@ namespace PokemonGo.RocketAPI.Console
 {
     public partial class LocationSelect : Form
     {
+
         //private GMarkerGoogle _botMarker = new GMarkerGoogle(new PointLatLng(), GMarkerGoogleType.red_small);
-        private GMarkerGoogle _botMarker = new GMarkerGoogle(new PointLatLng(),  GMarkerGoogleType.red_small);
+        private GMarkerGoogle _botMarker = new GMarkerGoogle(new PointLatLng(),  Properties.Resources.player);
+
         private GMapRoute _botRoute = new GMapRoute("BotRoute");
         private GMapOverlay _pokeStopsOverlay = new GMapOverlay("PokeStops");
         private GMapOverlay _pokemonOverlay = new GMapOverlay("Pokemon");
@@ -133,9 +135,10 @@ namespace PokemonGo.RocketAPI.Console
                 {
                     _pokeStopsOverlay.Markers[_pokeStopsOverlay.Markers.IndexOf(_pokeStopsMarks[pokeStopId])] = newMark;
                 }
-                catch(Exception e)
+                catch(Exception)
                 {
-                    Logger.ColoredConsoleWrite(ConsoleColor.Red, "[Debug] - Supressed error msg (Location.cs - Line 86 - Index is -1");
+                    //Logger.ColoredConsoleWrite(ConsoleColor.Red, "[Debug] - Supressed error msg (Location.cs - Line 86 - Index is -1");
+                    // Doing this so the bot wont crash and or restart! - Logxn
                 }
                 _pokeStopsMarks[pokeStopId] = newMark;
             }
@@ -345,6 +348,11 @@ namespace PokemonGo.RocketAPI.Console
         private void buttonRefreshPokemon_Click_1(object sender, EventArgs e)
         {
             Logic.Logic._instance.CheckAvailablePokemons(Logic.Logic._client);
+        }
+        
+                private void LocationSelect_Load(object sender, EventArgs e)
+        {
+
         }
 
         private void cbShowPokemon_CheckedChanged(object sender, EventArgs e)
