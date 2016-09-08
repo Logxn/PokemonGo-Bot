@@ -27,10 +27,10 @@ Features
 
 Notes
 -------------
-If you have troubles (exceptions) at start and you come from older version try that:
+If you have troubles (exceptions) when starting and/or you come from an older version try that:
 > - Create new empty folder. 
 > - go to builds only, https://github.com/Ar1i/PokemonGo-Bot/tree/master/Builds-Only
-> - Download and unzip there.
+> - Download and unzip in the new folder
 > - Try to execute now.
 
 Credits
