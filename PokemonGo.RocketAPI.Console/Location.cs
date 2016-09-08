@@ -23,10 +23,6 @@ namespace PokemonGo.RocketAPI.Console
 
         private GMarkerGoogle _botMarker = new GMarkerGoogle(new PointLatLng(),  Properties.Resources.player);
 
-
-        private GMarkerGoogle _botMarker = new GMarkerGoogle(new PointLatLng(), GMarkerGoogleType.red_small);
-        //private GMarkerGoogle _botMarker = new GMarkerGoogle(new PointLatLng(),  Properties.red_small);
-
         private GMapRoute _botRoute = new GMapRoute("BotRoute");
         private GMapOverlay _pokeStopsOverlay = new GMapOverlay("PokeStops");
         private Dictionary<string, GMarkerGoogle> _pokeStopsMarks = new Dictionary<string, GMarkerGoogle>();
