@@ -37,6 +37,8 @@ namespace PokemonGo.RocketAPI.Console
         public static string manualTransferLog = Path.Combine(logPath, "TransferLog.txt");
         public static string EvolveLog = Path.Combine(logPath, "EvolveLog.txt");
 
+        public static string path_pokedata = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "PokeData");
+
         [STAThread]
         static void Main(string[] args)
         {
