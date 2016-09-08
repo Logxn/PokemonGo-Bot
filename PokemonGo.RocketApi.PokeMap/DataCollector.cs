@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
+using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using POGOProtos.Enums;
 using PokemonGo.RocketApi.PokeMap.DataModel;
@@ -18,7 +20,7 @@ namespace PokemonGo.RocketApi.PokeMap
         public static string HeaderAuthority = "api.fastpokemap.se";
         public static string HeaderOriginUrl = "https://fastpokemap.se";
         public static string HeaderUserAgent = "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/49.0.2623.0 Safari/537.36";
-        public static int MaxRetryCount = 5;
+        public static int MaxRetryCount = 10;
 
         public static string ParameterKey = "allow-all";
         public static string ParameterTs = "0";
@@ -86,8 +88,9 @@ namespace PokemonGo.RocketApi.PokeMap
                 {
                     retVal = new List<PokemonMapData>();
                 }
-                foreach (var nearby in nearbys)
+                foreach (var nearby in nearbys.Where(x => x.PokemonId != null))
                 {
+                    
                     retVal.Add(new PokemonMapData()
                     {
                         Id = nearby.Id,
@@ -169,6 +172,7 @@ namespace PokemonGo.RocketApi.PokeMap
                     }
                 }
                 counter++;
+                Thread.Sleep(TimeoutBetweenRetries);
             }
             while (returnValue == null && counter < MaxRetryCount);
             return returnValue;

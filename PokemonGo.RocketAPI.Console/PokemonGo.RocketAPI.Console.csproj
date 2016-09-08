@@ -217,9 +217,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="PokeData\AdditionalPokeData.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    <EmbeddedResource Include="PokeData\AdditionalPokeData.json" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\images_system_x_click_but04 %281%29.jpg" />

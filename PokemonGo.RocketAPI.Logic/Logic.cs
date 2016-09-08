@@ -841,19 +841,26 @@ namespace PokemonGo.RocketAPI.Logic
             _infoObservable.PushClearPokemons();
             var pokeData = await DataCollector.GetFastPokeMapData(_client.CurrentLatitude, _client.CurrentLongitude);
             var toShow = new List<DataCollector.PokemonMapData>();
-            foreach(var poke in pokeData)
+            if (pokeData != null)
             {
-                if (poke.Coordinates.Latitude.HasValue && poke.Coordinates.Longitude.HasValue)
+                foreach (var poke in pokeData)
                 {
-                    toShow.Add(poke);
+                    if (poke.Coordinates.Latitude.HasValue && poke.Coordinates.Longitude.HasValue)
+                    {
+                        toShow.Add(poke);
+                    }
                 }
-            }
-            if(toShow.Count > 0)
-            {
-                _infoObservable.PushNewPokemonLocations(toShow);
-            }
+                if (toShow.Count > 0)
+                {
+                    _infoObservable.PushNewPokemonLocations(toShow);
+                }
 
-             return true;
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         private async Task<bool> CheckAndFarmNearbyPokeStop(FortData pokeStop, Client _client, FortDetailsResponse fortInfo)

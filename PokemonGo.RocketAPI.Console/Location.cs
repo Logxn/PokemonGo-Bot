@@ -1,4 +1,6 @@
 ﻿using System;
+using System.ComponentModel;
+using System.Threading;
 using System.Windows.Forms;
 using GMap.NET.MapProviders;
 using System.Net;
@@ -39,6 +41,9 @@ namespace PokemonGo.RocketAPI.Console
             InitializeComponent();
             map.Manager.Mode = AccessMode.ServerOnly;
 
+            buttonRefreshPokemon.Visible = false;
+            buttonRefreshPokemon.Enabled = false;
+
             if (asViewOnly)
                 initViewOnly();
         }
@@ -70,12 +75,28 @@ namespace PokemonGo.RocketAPI.Console
             textBox1.Visible = true;
             textBox2.Visible = true;
             buttonRefreshPokemon.Visible = true;
+            buttonRefreshPokemon.Enabled = true;
             cbShowPokeStops.Visible = true;           
             cbShowPokemon.Visible = true;
             _pokemonOverlay.IsVisibile = true;
             if(cbShowPokemon.Checked)
             {
+                BackgroundWorker bw = new BackgroundWorker();
+                bw.WorkerSupportsCancellation = true;
+bw.WorkerReportsProgress = true;
+                bw.DoWork += 
+    new DoWorkEventHandler(bw_DoWork);
+bw.RunWorkerCompleted += 
+    new RunWorkerCompletedEventHandler(bw_RunWorkerCompleted);
+
+
+                buttonRefreshPokemon.Enabled = false;
+                bw.RunWorkerAsync();
                 Logic.Logic._instance.CheckAvailablePokemons(Logic.Logic._client);
+
+                
+
+
             }
             
             //don't ask at closing
@@ -91,6 +112,21 @@ namespace PokemonGo.RocketAPI.Console
                 Globals.infoObservable.HandleNewGeoLocations -= handleLiveGeoLocations;
             };
         }
+ 
+        /// <summary>
+        /// Handles the RunWorkerCompleted event of the bw control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="System.ComponentModel.RunWorkerCompletedEventArgs" /> instance containing the event data.</param>
+        private void bw_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            buttonRefreshPokemon.Enabled = true;
+        }
+
+        private void bw_DoWork(object sender, DoWorkEventArgs e)
+{
+            Thread.Sleep(DataCollector.MaxRetryCount * DataCollector.TimeoutBetweenRetries + 5000);
+}
 
         void infoObservable_HandleClearPokemon()
         {
@@ -103,7 +139,7 @@ namespace PokemonGo.RocketAPI.Console
             _pokemonMarks.Clear();
             _pokemonOverlay.Markers.Clear();   
 
-            foreach(var pokeData in mapData)
+            foreach(var pokeData in mapData.Where(x => x.Id != null))
             {
                  GMarkerGoogle pokemonMarker = new GMarkerGoogle(new PointLatLng(pokeData.Coordinates.Latitude.Value, pokeData.Coordinates.Longitude.Value), GMarkerGoogleType.green_small);
                 if (pokeData.Type == DataCollector.PokemonMapDataType.Nearby)
@@ -149,7 +185,7 @@ namespace PokemonGo.RocketAPI.Console
             _pokeStopsOverlay.Markers.Clear();
             _pokeStopsMarks.Clear();
 
-            foreach (var pokeStop in pokeStops) {
+            foreach (var pokeStop in pokeStops.Where(x => x.Id != null)) {
                 GMarkerGoogle pokeStopMaker = new GMarkerGoogle(new PointLatLng(pokeStop.Latitude, pokeStop.Longitude), GMarkerGoogleType.blue_small);
                 if (pokeStop.ActiveFortModifier.Count > 0)
                 {
@@ -345,9 +381,18 @@ namespace PokemonGo.RocketAPI.Console
             }
         }
 
-        private void buttonRefreshPokemon_Click_1(object sender, EventArgs e)
+        private async void buttonRefreshPokemon_Click_1(object sender, EventArgs e)
         {
-            Logic.Logic._instance.CheckAvailablePokemons(Logic.Logic._client);
+            buttonRefreshPokemon.Enabled = false;
+            if (await Logic.Logic._instance.CheckAvailablePokemons(Logic.Logic._client))
+            {
+                Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Could not get PokemonData. Service is overloaded.", LogLevel.Error);
+            }
+            else
+            {
+                Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Could not get PokemonData. Service is overloaded.", LogLevel.Warning);
+            }
+            buttonRefreshPokemon.Enabled = true;
         }
         
                 private void LocationSelect_Load(object sender, EventArgs e)
