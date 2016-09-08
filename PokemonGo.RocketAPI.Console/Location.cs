@@ -23,7 +23,6 @@ namespace PokemonGo.RocketAPI.Console
         private GMapRoute _botRoute = new GMapRoute("BotRoute");
         private GMapOverlay _pokeStopsOverlay = new GMapOverlay("PokeStops");
         private Dictionary<string, GMarkerGoogle> _pokeStopsMarks = new Dictionary<string, GMarkerGoogle>();
-
         public double alt;
         public bool close = true;
 
@@ -60,14 +59,13 @@ namespace PokemonGo.RocketAPI.Console
             label2.Visible = true;
             textBox1.Visible = true;
             textBox2.Visible = true;
-            cbShowPokeStops.Visible = true;
+            cbShowPokeStops.Visible = true;            
             //don't ask at closing
             close = false;
             //add & remove live data handler after form loaded
             Globals.infoObservable.HandleNewGeoLocations += handleLiveGeoLocations;
             Globals.infoObservable.HandleAvailablePokeStop += InfoObservable_HandlePokeStop;
             Globals.infoObservable.HandlePokeStopInfoUpdate += InfoObservable_HandlePokeStopInfoUpdate;
-
             this.FormClosing += (object s, FormClosingEventArgs e) =>
             {                
                 Globals.infoObservable.HandleNewGeoLocations -= handleLiveGeoLocations;
@@ -286,8 +284,15 @@ namespace PokemonGo.RocketAPI.Console
 
         private void map_OnMarkerClick(GMapMarker item, MouseEventArgs e)
         {
-            Globals.NextDestinationOverride = new GeoCoordinate(item.Position.Lat, item.Position.Lng);
-            item.ToolTipText = "Next Destination Marked";        
+            if (Globals.pauseAtPokeStop)
+            {                
+                Globals.RouteToRepeat.Enqueue(new GeoCoordinate(item.Position.Lat, item.Position.Lng));
+                item.ToolTipText = "Stop " + Globals.RouteToRepeat.Count + " Queued";
+            }  
+            else
+            {
+                MessageBox.Show("Please Pause Walking from Pokemon GUI before defining Route!");
+            }
         }
     }
 }
