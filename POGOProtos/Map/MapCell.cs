@@ -50,6 +50,9 @@ namespace POGOProtos.Map {
 
   }
   #region Messages
+  /// <summary>
+  ///  A cell is a geographical "zone" containing objects like pokemon, gyms, and pokestops.
+  /// </summary>
   public sealed partial class MapCell : pb::IMessage<MapCell> {
     private static readonly pb::MessageParser<MapCell> _parser = new pb::MessageParser<MapCell>(() => new MapCell());
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]

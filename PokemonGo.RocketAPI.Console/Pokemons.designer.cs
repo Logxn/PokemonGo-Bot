@@ -338,12 +338,12 @@ namespace PokemonGo.RocketAPI.Console
             this.btnForceUnban.UseVisualStyleBackColor = true;
             this.btnForceUnban.Click += new System.EventHandler(this.btnForceUnban_Click);
             // 
-            // textBox1
+            // text_EMail
             // 
             this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.textBox1.Location = new System.Drawing.Point(369, 461);
             this.textBox1.Margin = new System.Windows.Forms.Padding(4);
-            this.textBox1.Name = "textBox1";
+            this.textBox1.Name = "text_EMail";
             this.textBox1.Size = new System.Drawing.Size(36, 22);
             this.textBox1.TabIndex = 44;
             // 
@@ -358,13 +358,13 @@ namespace PokemonGo.RocketAPI.Console
             this.label1.TabIndex = 9;
             this.label1.Text = "s    Power Up Limit";
             // 
-            // checkBox1
+            // checkBox_Start_Walk_from_default_location
             // 
             this.checkBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.checkBox1.AutoSize = true;
             this.checkBox1.Location = new System.Drawing.Point(697, 495);
             this.checkBox1.Margin = new System.Windows.Forms.Padding(4);
-            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Name = "checkBox_Start_Walk_from_default_location";
             this.checkBox1.Size = new System.Drawing.Size(118, 21);
             this.checkBox1.TabIndex = 6;
             this.checkBox1.Text = "Repeat Route";
@@ -383,12 +383,12 @@ namespace PokemonGo.RocketAPI.Console
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
-            // button2
+            // button_SetLocation
             // 
             this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.button2.Location = new System.Drawing.Point(538, 459);
             this.button2.Margin = new System.Windows.Forms.Padding(2);
-            this.button2.Name = "button2";
+            this.button2.Name = "button_SetLocation";
             this.button2.Size = new System.Drawing.Size(106, 28);
             this.button2.TabIndex = 43;
             this.button2.Text = "Use Lure";
