@@ -32,6 +32,8 @@ namespace PokemonGo.RocketAPI.Console
 
         public static ISettings _clientSettings;
 
+        static string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
+
         static string devicePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Device");
         static string deviceinfo = Path.Combine(devicePath, "DeviceInfo.txt");
 
@@ -51,6 +53,12 @@ namespace PokemonGo.RocketAPI.Console
             Directory.CreateDirectory(Program.path_pokedata);
             Directory.CreateDirectory(devicePath);
             Directory.CreateDirectory(PokeDataPath);
+
+
+            if(File.Exists($@"{baseDirectory}\update.bat"))
+            {
+                File.Delete($@"{baseDirectory}\update.bat");
+            }
 
             if (!File.Exists(deviceinfo))
             {
@@ -102,20 +110,7 @@ namespace PokemonGo.RocketAPI.Console
 
             TranslationHandler.Init();
 
-            // Version Infoooo
-            groupBox9.Text = "Your Version: " + Assembly.GetExecutingAssembly().GetName().Version + " | Newest: " + Program.getNewestVersion();
-            if (Program.getNewestVersion() > Assembly.GetExecutingAssembly().GetName().Version)
-            {
-                DialogResult dialogResult = MessageBox.Show("There is an Update on Github. do you want to open it ?", "Newest Version: " + Program.getNewestVersion(), MessageBoxButtons.YesNo);
-                if (dialogResult == DialogResult.Yes)
-                {
-                    Process.Start("https://github.com/Ar1i/PokemonGo-Bot");
-                }
-                else if (dialogResult == DialogResult.No)
-                {
-                    //nothing   
-                }
-            }
+          
 
             comboBox_AccountType.DisplayMember = "Text";
             var types = new[] {
@@ -494,6 +489,46 @@ namespace PokemonGo.RocketAPI.Console
                 }
             }
 
+            if(File.Exists(Program.updateSettings))
+            {
+                string[] lines = File.ReadAllLines(Program.updateSettings);
+                i = 1;
+                foreach(string line in lines)
+                {
+                    switch(i)
+                    {
+                        case 1:
+                            checkbox_AutoUpdate.Checked = bool.Parse(line);
+                        break;
+                    }
+                }
+            }
+
+            // Version Infoooo
+            groupBox9.Text = "Your Version: " + Assembly.GetExecutingAssembly().GetName().Version + " | Newest: " + Program.getNewestVersion();
+
+            if (Program.getNewestVersion() > Assembly.GetExecutingAssembly().GetName().Version)
+            {
+                if (checkbox_AutoUpdate.Checked)
+                {
+                    Form update = new Update();
+                    update.ShowDialog();
+                }
+                else
+                {
+                    DialogResult dialogResult = MessageBox.Show("There is an Update on Github. do you want to open it ?", "Newest Version: " + Program.getNewestVersion(), MessageBoxButtons.YesNo);
+                    if (dialogResult == DialogResult.Yes)
+                    {
+                        Process.Start("https://github.com/Ar1i/PokemonGo-Bot");
+                    }
+                    else if (dialogResult == DialogResult.No)
+                    {
+                        //nothing   
+                    }
+                }
+
+            }
+
             if (File.Exists(Program.evolve))
             {
                 string[] lines = File.ReadAllLines(@Program.evolve);
@@ -837,6 +872,11 @@ namespace PokemonGo.RocketAPI.Console
                 Globals.pauseAtEvolve2 = true;
             }
 
+            if(checkbox_AutoUpdate.Checked)
+            {
+                Globals.AutoUpdate = true;
+            }
+
             Globals.useincense = checkBox_UseIncenseEvery30min.Checked;
             Globals.pokeList = checkBox_EnablePokemonListGui.Checked;
             Globals.keepPokemonsThatCanEvolve = checkBox_KeepPokemonWhichCanBeEvolved.Checked;
@@ -914,6 +954,12 @@ namespace PokemonGo.RocketAPI.Console
                     Globals.toprevive.ToString()
             };
             File.WriteAllLines(@Program.items, itemsFile);
+
+            string[] updateFile =
+            {
+                checkbox_AutoUpdate.Checked.ToString(),
+            };
+            File.WriteAllLines(@Program.updateSettings, updateFile);
 
             string[] miscFile =
             {
@@ -1567,6 +1613,13 @@ namespace PokemonGo.RocketAPI.Console
         private void checkBox26_CheckedChanged(object sender, EventArgs e)
         {
             Globals.UseBreakFields = checkBox_UseBreakIntervalAndLength.Checked;
+        }
+
+        private void button2_Click_1(object sender, EventArgs e)
+        {
+            Form update = new Update();
+            this.Hide();
+            update.Show();
         }
     }
 }
