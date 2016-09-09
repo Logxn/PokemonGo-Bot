@@ -68,6 +68,7 @@
             this.text_MaxPotions = new System.Windows.Forms.TextBox();
             this.text_MaxRevives = new System.Windows.Forms.TextBox();
             this.label15 = new System.Windows.Forms.Label();
+            this.text_MaxUltraBalls = new System.Windows.Forms.TextBox();
             this.text_MaxGreatBalls = new System.Windows.Forms.TextBox();
             this.label14 = new System.Windows.Forms.Label();
             this.text_MaxPokeballs = new System.Windows.Forms.TextBox();
@@ -224,6 +225,7 @@
             this.checkBox_RandomlyReduceSpeed.TabIndex = 64;
             this.checkBox_RandomlyReduceSpeed.Text = "Randomly reduce speed";
             this.checkBox_RandomlyReduceSpeed.UseVisualStyleBackColor = true;
+            this.checkBox_RandomlyReduceSpeed.CheckedChanged += new System.EventHandler(this.checkBox_RandomlyReduceSpeed_CheckedChanged);
             // 
             // button1
             // 
@@ -446,6 +448,7 @@
             this.groupBox4.Controls.Add(this.text_MaxPotions);
             this.groupBox4.Controls.Add(this.text_MaxRevives);
             this.groupBox4.Controls.Add(this.label15);
+            this.groupBox4.Controls.Add(this.text_MaxUltraBalls);
             this.groupBox4.Controls.Add(this.text_MaxGreatBalls);
             this.groupBox4.Controls.Add(this.label14);
             this.groupBox4.Controls.Add(this.text_MaxPokeballs);
@@ -625,7 +628,14 @@
             this.label15.TabIndex = 5;
             this.label15.Text = "Max. UltraBalls:";
             // 
+            // text_MaxUltraBalls
             // 
+            this.text_MaxUltraBalls.Location = new System.Drawing.Point(133, 64);
+            this.text_MaxUltraBalls.Name = "text_MaxUltraBalls";
+            this.text_MaxUltraBalls.Size = new System.Drawing.Size(51, 20);
+            this.text_MaxUltraBalls.TabIndex = 17;
+            this.text_MaxUltraBalls.TextChanged += new System.EventHandler(this.TextBoxes_Items_TextChanged);
+            this.text_MaxUltraBalls.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox7_KeyPress);
             // 
             // text_MaxGreatBalls
             // 
@@ -2101,6 +2111,7 @@
         private System.Windows.Forms.TextBox text_MaxPotions;
         private System.Windows.Forms.TextBox text_MaxRevives;
         private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.TextBox text_MaxUltraBalls;
         private System.Windows.Forms.TextBox text_MaxGreatBalls;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.TextBox text_MaxPokeballs;
