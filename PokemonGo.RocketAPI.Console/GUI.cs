@@ -244,6 +244,9 @@ namespace PokemonGo.RocketAPI.Console
                             case 32:
                                 textBox18.Text = line;
                                 break;
+                            case 33:
+                                chPauseAtEvolve.Checked = bool.Parse(line);
+                            break;
                             default:
                                 TextBox temp = (TextBox)Controls.Find("textBox" + tb, true).FirstOrDefault();
                                 temp.Text = line;
@@ -781,6 +784,12 @@ namespace PokemonGo.RocketAPI.Console
                 Globals.bLogEvolve = true;
             }
 
+            if(chPauseAtEvolve.Checked)
+            {
+                Globals.pauseAtEvolve = true;
+                Globals.pauseAtEvolve2 = true;
+            }
+
             Globals.useincense = checkBox9.Checked;
             Globals.pokeList = checkBox10.Checked;
             Globals.keepPokemonsThatCanEvolve = checkBox11.Checked;
@@ -839,6 +848,8 @@ namespace PokemonGo.RocketAPI.Console
                     Convert.ToInt16(Globals.razzberry_chance * 100).ToString(),
                     Globals.sleepatpokemons.ToString(),
                     Globals.farmPokestops.ToString(),
+                    Globals.telAPI.ToString(),
+                    Globals.pauseAtEvolve.ToString(),
             };
             File.WriteAllLines(@Program.account, accFile);
 

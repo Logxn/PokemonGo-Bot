@@ -179,6 +179,7 @@
             this.label32 = new System.Windows.Forms.Label();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.groupBox14 = new System.Windows.Forms.GroupBox();
+            this.logEvolution = new System.Windows.Forms.CheckBox();
             this.logManuelTransfer = new System.Windows.Forms.CheckBox();
             this.logPokemon = new System.Windows.Forms.CheckBox();
             this.lang_france_btn = new System.Windows.Forms.Button();
@@ -189,7 +190,7 @@
             this.lang_de_btn = new System.Windows.Forms.Button();
             this.lang_en_btn = new System.Windows.Forms.Button();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
-            this.logEvolution = new System.Windows.Forms.CheckBox();
+            this.chPauseAtEvolve = new System.Windows.Forms.CheckBox();
             this.tabPage1.SuspendLayout();
             this.tabItems.SuspendLayout();
             this.groupBox4.SuspendLayout();
@@ -1338,6 +1339,7 @@
             // 
             // groupBox10
             // 
+            this.groupBox10.Controls.Add(this.chPauseAtEvolve);
             this.groupBox10.Controls.Add(this.label39);
             this.groupBox10.Controls.Add(this.comboBox2);
             this.groupBox10.Controls.Add(this.label33);
@@ -1364,7 +1366,7 @@
             // label39
             // 
             this.label39.AutoSize = true;
-            this.label39.Location = new System.Drawing.Point(25, 324);
+            this.label39.Location = new System.Drawing.Point(25, 342);
             this.label39.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label39.Name = "label39";
             this.label39.Size = new System.Drawing.Size(55, 17);
@@ -1402,7 +1404,7 @@
             "yureka",
             "note3",
             "galaxy-tab-s84"});
-            this.comboBox2.Location = new System.Drawing.Point(91, 321);
+            this.comboBox2.Location = new System.Drawing.Point(91, 339);
             this.comboBox2.Margin = new System.Windows.Forms.Padding(4);
             this.comboBox2.Name = "comboBox2";
             this.comboBox2.Size = new System.Drawing.Size(244, 24);
@@ -1411,7 +1413,7 @@
             // label33
             // 
             this.label33.AutoSize = true;
-            this.label33.Location = new System.Drawing.Point(299, 240);
+            this.label33.Location = new System.Drawing.Point(299, 258);
             this.label33.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label33.Name = "label33";
             this.label33.Size = new System.Drawing.Size(20, 17);
@@ -1420,7 +1422,7 @@
             // 
             // textBox26
             // 
-            this.textBox26.Location = new System.Drawing.Point(257, 238);
+            this.textBox26.Location = new System.Drawing.Point(257, 256);
             this.textBox26.Margin = new System.Windows.Forms.Padding(4);
             this.textBox26.Name = "textBox26";
             this.textBox26.Size = new System.Drawing.Size(40, 22);
@@ -1430,7 +1432,7 @@
             // checkBox16
             // 
             this.checkBox16.AutoSize = true;
-            this.checkBox16.Location = new System.Drawing.Point(28, 240);
+            this.checkBox16.Location = new System.Drawing.Point(28, 258);
             this.checkBox16.Margin = new System.Windows.Forms.Padding(4);
             this.checkBox16.Name = "checkBox16";
             this.checkBox16.Size = new System.Drawing.Size(227, 21);
@@ -1441,7 +1443,7 @@
             // chkUseBasicIncubators
             // 
             this.chkUseBasicIncubators.AutoSize = true;
-            this.chkUseBasicIncubators.Location = new System.Drawing.Point(52, 288);
+            this.chkUseBasicIncubators.Location = new System.Drawing.Point(52, 306);
             this.chkUseBasicIncubators.Margin = new System.Windows.Forms.Padding(4);
             this.chkUseBasicIncubators.Name = "chkUseBasicIncubators";
             this.chkUseBasicIncubators.Size = new System.Drawing.Size(162, 21);
@@ -1454,7 +1456,7 @@
             this.chkAutoIncubate.AutoSize = true;
             this.chkAutoIncubate.Checked = true;
             this.chkAutoIncubate.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkAutoIncubate.Location = new System.Drawing.Point(28, 265);
+            this.chkAutoIncubate.Location = new System.Drawing.Point(28, 283);
             this.chkAutoIncubate.Margin = new System.Windows.Forms.Padding(4);
             this.chkAutoIncubate.Name = "chkAutoIncubate";
             this.chkAutoIncubate.Size = new System.Drawing.Size(297, 21);
@@ -1465,7 +1467,7 @@
             // checkBox12
             // 
             this.checkBox12.AutoSize = true;
-            this.checkBox12.Location = new System.Drawing.Point(28, 212);
+            this.checkBox12.Location = new System.Drawing.Point(28, 230);
             this.checkBox12.Margin = new System.Windows.Forms.Padding(4);
             this.checkBox12.Name = "checkBox12";
             this.checkBox12.Size = new System.Drawing.Size(208, 21);
@@ -1478,7 +1480,7 @@
             this.checkBox11.AutoSize = true;
             this.checkBox11.Checked = true;
             this.checkBox11.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox11.Location = new System.Drawing.Point(28, 187);
+            this.checkBox11.Location = new System.Drawing.Point(28, 205);
             this.checkBox11.Margin = new System.Windows.Forms.Padding(4);
             this.checkBox11.Name = "checkBox11";
             this.checkBox11.Size = new System.Drawing.Size(272, 21);
@@ -1491,7 +1493,7 @@
             this.checkBox10.AutoSize = true;
             this.checkBox10.Checked = true;
             this.checkBox10.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox10.Location = new System.Drawing.Point(28, 161);
+            this.checkBox10.Location = new System.Drawing.Point(28, 179);
             this.checkBox10.Margin = new System.Windows.Forms.Padding(4);
             this.checkBox10.Name = "checkBox10";
             this.checkBox10.Size = new System.Drawing.Size(186, 21);
@@ -1504,7 +1506,7 @@
             this.checkBox9.AutoSize = true;
             this.checkBox9.Checked = true;
             this.checkBox9.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox9.Location = new System.Drawing.Point(28, 134);
+            this.checkBox9.Location = new System.Drawing.Point(28, 152);
             this.checkBox9.Margin = new System.Windows.Forms.Padding(4);
             this.checkBox9.Name = "checkBox9";
             this.checkBox9.Size = new System.Drawing.Size(189, 21);
@@ -1987,6 +1989,16 @@
             this.groupBox14.TabStop = false;
             this.groupBox14.Text = "Manual Logging";
             // 
+            // logEvolution
+            // 
+            this.logEvolution.AutoSize = true;
+            this.logEvolution.Location = new System.Drawing.Point(6, 71);
+            this.logEvolution.Name = "logEvolution";
+            this.logEvolution.Size = new System.Drawing.Size(116, 21);
+            this.logEvolution.TabIndex = 2;
+            this.logEvolution.Text = "Log Evolution";
+            this.logEvolution.UseVisualStyleBackColor = true;
+            // 
             // logManuelTransfer
             // 
             this.logManuelTransfer.AutoSize = true;
@@ -2120,15 +2132,15 @@
             this.pictureBox2.TabStop = false;
             this.pictureBox2.Click += new System.EventHandler(this.pictureBox2_Click);
             // 
-            // logEvolution
+            // chPauseAtEvolve
             // 
-            this.logEvolution.AutoSize = true;
-            this.logEvolution.Location = new System.Drawing.Point(6, 71);
-            this.logEvolution.Name = "logEvolution";
-            this.logEvolution.Size = new System.Drawing.Size(116, 21);
-            this.logEvolution.TabIndex = 2;
-            this.logEvolution.Text = "Log Evolution";
-            this.logEvolution.UseVisualStyleBackColor = true;
+            this.chPauseAtEvolve.AutoSize = true;
+            this.chPauseAtEvolve.Location = new System.Drawing.Point(28, 109);
+            this.chPauseAtEvolve.Name = "chPauseAtEvolve";
+            this.chPauseAtEvolve.Size = new System.Drawing.Size(207, 21);
+            this.chPauseAtEvolve.TabIndex = 55;
+            this.chPauseAtEvolve.Text = "Stop Walking when Evolving";
+            this.chPauseAtEvolve.UseVisualStyleBackColor = true;
             // 
             // GUI
             // 
@@ -2363,6 +2375,7 @@
         private System.Windows.Forms.GroupBox groupBox14;
         private System.Windows.Forms.CheckBox logManuelTransfer;
         private System.Windows.Forms.CheckBox logEvolution;
+        private System.Windows.Forms.CheckBox chPauseAtEvolve;
     }
 }
 
