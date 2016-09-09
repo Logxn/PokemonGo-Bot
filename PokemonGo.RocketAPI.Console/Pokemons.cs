@@ -1150,7 +1150,10 @@ namespace PokemonGo.RocketAPI.Console
                 Logger.ColoredConsoleWrite(ConsoleColor.Magenta, "Resume walking between Pokestops.");
                 if (Globals.RouteToRepeat.Count > 0)
                 {
-                    Globals.NextDestinationOverride = Globals.RouteToRepeat;
+                    foreach (var geocoord in Globals.RouteToRepeat)
+                    {
+                        Globals.NextDestinationOverride.AddLast(geocoord);
+                    }                    
                     Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "User Defined Route Captured! Beginning Route Momentarily.");
                 }
                 btnForceUnban.Text = "Pause Walking";
@@ -1283,8 +1286,6 @@ namespace PokemonGo.RocketAPI.Console
             }
         }
     }
-
-
     public static class Prompt
     {
         public static string ShowDialog(string text, string caption)

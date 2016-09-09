@@ -387,12 +387,14 @@ namespace PokemonGo.RocketAPI.Console
         {
             if (Globals.pauseAtPokeStop)
             { 
-                Globals.RouteToRepeat.Enqueue(new GeoCoordinate(item.Position.Lat, item.Position.Lng));
+                Globals.RouteToRepeat.AddLast(new GeoCoordinate(item.Position.Lat, item.Position.Lng));
                 item.ToolTipText = string.Format("Stop {0} Queued", Globals.RouteToRepeat.Count);
             }
             else
             {
-                MessageBox.Show("Please Pause Walking from Pokemon GUI before defining Route!");
+                //MessageBox.Show("Please Pause Walking from Pokemon GUI before defining Route!");
+                Globals.NextDestinationOverride.AddFirst(new GeoCoordinate(item.Position.Lat, item.Position.Lng));
+                item.ToolTipText = "Next Destination Marked";
             }
         }
 
