@@ -632,7 +632,14 @@ namespace PokemonGo.RocketAPI.Logic
                 }
                 else
                 {
-                    var update = await _navigation.HumanLikeWalking(new GeoCoordinate(pokeStop.Latitude, pokeStop.Longitude), walkspeed, ExecuteCatchAllNearbyPokemons);
+                    try
+                    {
+                        var update = await _navigation.HumanLikeWalking(new GeoCoordinate(pokeStop.Latitude, pokeStop.Longitude), walkspeed, ExecuteCatchAllNearbyPokemons);
+                    }
+                    catch (Exception e)
+                    {
+                        Logger.ColoredConsoleWrite(ConsoleColor.DarkRed, "ignore this: Error in fncPokeStop: " + e.ToString());
+                    }
                 }
                 var addedlure = false;
                 if (_clientSettings.pauseAtPokeStop)
@@ -1104,12 +1111,13 @@ namespace PokemonGo.RocketAPI.Logic
                                 Logger.ColoredConsoleWrite(ConsoleColor.White,
                                     $"Caught New {StringUtils.getPokemonNameByLanguage(_clientSettings, pokemon.PokemonId)} CP {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} IV {PokemonInfo.CalculatePokemonPerfection(encounterPokemonResponse.WildPokemon.PokemonData).ToString("0.00")}% using {bestPokeball} got {caughtPokemonResponse.CaptureAward.Xp.Sum()} XP.");
                                 pokemonCatchCount++;
+
                             }
                             else
                             {
                                 if (_clientSettings.logPokemons == true)
                                 {
-                                    File.AppendAllText(logs, $"[{date}] Caught new {StringUtils.getPokemonNameByLanguage(_clientSettings, pokemon.PokemonId)} (CP: {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} | IV: {PokemonInfo.CalculatePokemonPerfection(encounterPokemonResponse.WildPokemon.PokemonData).ToString("0.00")}% | Pokeball used: {bestPokeball} | XP: {caughtPokemonResponse.CaptureAward.Xp.Sum()}) " + Environment.NewLine);
+                                    File.AppendAllText(logs, $"[{date}] Caught {StringUtils.getPokemonNameByLanguage(_clientSettings, pokemon.PokemonId)} (CP: {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} | IV: {PokemonInfo.CalculatePokemonPerfection(encounterPokemonResponse.WildPokemon.PokemonData).ToString("0.00")}% | Pokeball used: {bestPokeball} | XP: {caughtPokemonResponse.CaptureAward.Xp.Sum()}) " + Environment.NewLine);
                                 }
                                 Logger.ColoredConsoleWrite(ConsoleColor.Gray,
                                     $"Caught {StringUtils.getPokemonNameByLanguage(_clientSettings, pokemon.PokemonId)} CP {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} IV {PokemonInfo.CalculatePokemonPerfection(encounterPokemonResponse.WildPokemon.PokemonData).ToString("0.00")}% using {bestPokeball} got {caughtPokemonResponse.CaptureAward.Xp.Sum()} XP.");
@@ -1205,6 +1213,8 @@ namespace PokemonGo.RocketAPI.Logic
             return await _client.Encounter.CatchPokemon(pokemon.EncounterId, pokemon.SpawnPointId, bestPokeball, forceHit, normalizedRecticleSize, spinModifier);
         }
 
+        
+
         private async Task EvolveAllPokemonWithEnoughCandy(IEnumerable<PokemonId> filter = null)
         {
             var pokemonToEvolve = await _client.Inventory.GetPokemonToEvolve(filter);
@@ -1215,6 +1225,13 @@ namespace PokemonGo.RocketAPI.Logic
                     await _client.Inventory.UseLuckyEgg(_client);
                 }
             }
+
+            if(_clientSettings.pauseAtEvolve2)
+            {
+                Logger.ColoredConsoleWrite(ConsoleColor.Green, "Stoping to evolve some Pokemons.");
+                _clientSettings.pauseTheWalking = true;
+            }
+
             foreach (var pokemon in pokemonToEvolve)
             {
 
@@ -1267,6 +1284,11 @@ namespace PokemonGo.RocketAPI.Logic
                 {
                     await RandomHelper.RandomDelay(500, 600);
                 }
+            }
+            if (_clientSettings.pauseAtEvolve2)
+            {
+                Logger.ColoredConsoleWrite(ConsoleColor.Green, "Pokemons evolved. Time to continue our journey!");
+                _clientSettings.pauseTheWalking = false;
             }
         }
 

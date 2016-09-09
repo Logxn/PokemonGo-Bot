@@ -56,9 +56,9 @@ WARNING other translations:
  Live-Stats delay			t: Live-Status fördröjning
  miliSec				t: Milisekunder
  Random sleep @...			t: Slumpmässig sömn @Fångst 1-3 sekunder
- Device				t: Enhet
+ Device					t: Enhet
  Your Version				t: Din Version
- Newest				t: Nyaste
+ Newest					t: Nyaste
  
  TransferFirstLowIV			t: Överför första låga IV
  
