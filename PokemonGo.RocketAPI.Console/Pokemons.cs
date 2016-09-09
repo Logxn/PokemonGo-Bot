@@ -495,6 +495,13 @@ namespace PokemonGo.RocketAPI.Console
 
             taskResponse resp = new taskResponse(false, string.Empty);
 
+            if(Globals.pauseAtEvolve)
+            {
+                Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Taking a break to evolve some pokemons!");
+                Globals.pauseAtWalking = true;
+            }
+
+
             foreach (ListViewItem selectedItem in selectedItems)
             {
                 resp = await evolvePokemon((PokemonData)selectedItem.Tag);
@@ -503,6 +510,7 @@ namespace PokemonGo.RocketAPI.Console
                 var name = pokemoninfo.PokemonId;
 
                 File.AppendAllText(evolvelog, $"[{date}] - MANUAL - Trying to evole Pokemon: {name}" + Environment.NewLine);
+                Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Trying to Evolve {name}");
 
                 if (resp.Status)
                 {
@@ -547,6 +555,12 @@ namespace PokemonGo.RocketAPI.Console
             }
             else
                 EnabledButton(true);
+
+            if(Globals.pauseAtEvolve)
+            {
+                Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Evolved everything. Time to continue our journey!");
+                Globals.pauseAtWalking = false;
+            }
             //}
         }
 

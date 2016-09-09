@@ -63,6 +63,10 @@ namespace PokemonGo.RocketAPI.Console
         public bool MapLoaded => Globals.MapLoaded;
 
         public string SelectedLanguage => Globals.settingsLanguage;
+
+        
+
+       // public bool _pauseTheWalking => Globals._pauseTheWalking;
         /*
                  string UseProxyHost { get; set; }
                 int UseProxyPort { get; set; }
@@ -336,6 +340,12 @@ namespace PokemonGo.RocketAPI.Console
             get { return Globals.UseBreakFields; }
             set { Globals.UseBreakFields = value; }
         }
+
+        bool ISettings.pauseAtEvolve2
+        {
+            get { return Globals.pauseAtEvolve2; }
+            set { Globals.pauseAtEvolve2 = value; }
+        }
         bool ISettings.Espiral
         {
             get
@@ -418,6 +428,29 @@ namespace PokemonGo.RocketAPI.Console
         {
             get { return Globals.UseIncenseGUIClick; }
             set { Globals.UseIncenseGUIClick = value; }
+        }
+
+        /*bool ISettings._pauseTheWalking
+        {
+            get { return Globals._pauseTheWalking; }
+            set { Globals._pauseTheWalking = value; }
+        }*/
+            
+
+        bool ISettings.pauseTheWalking
+        {
+            get
+            {
+                return  Globals._pauseTheWalking;
+            }
+            set
+            {
+                if (Logic.Logic._instance != null)
+                {
+                    Logic.Logic._instance.pauseWalking = value;
+                    Globals._pauseTheWalking = value;
+                }
+            }
         }
     }
 }

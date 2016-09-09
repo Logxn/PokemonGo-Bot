@@ -63,14 +63,16 @@ namespace PokemonGo.RocketAPI.Console
         private async void buttonRefreshPokemon_Click_1(object sender, EventArgs e)
         {
             buttonRefreshPokemon.Enabled = false;
-            if (await Logic.Logic._instance.CheckAvailablePokemons(Logic.Logic._client))
+            if ((await Logic.Logic._instance.CheckAvailablePokemons(Logic.Logic._client)))
             {
-                Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Could not get PokemonData. Service is overloaded.", LogLevel.Error);
+                Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Updated PokemonData.", LogLevel.Info);
             }
             else
             {
                 Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Could not get PokemonData. Service is overloaded.", LogLevel.Warning);
             }
+
+            //await Logic.Logic._instance.CheckAvailablePokemons(Logic.Logic._client);
             buttonRefreshPokemon.Enabled = true;
         }
         

@@ -444,6 +444,7 @@ namespace PokemonGo.RocketAPI.Console
         public static int toprevive = 50;
         public static int berry = 50;
         public static int ivmaxpercent = 0;
+        public static bool _pauseTheWalking = false;
         private static bool _pauseAtWalking = false;
         public static bool pauseAtWalking
         {
@@ -526,5 +527,8 @@ namespace PokemonGo.RocketAPI.Console
 
         public static bool UseIncenseGUIClick = false;
         public static bool bLogEvolve = false;
+
+        public static bool pauseAtEvolve = false;
+        public static bool pauseAtEvolve2 = false;
     }
 }
