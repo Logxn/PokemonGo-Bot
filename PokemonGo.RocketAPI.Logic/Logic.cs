@@ -878,6 +878,7 @@ namespace PokemonGo.RocketAPI.Logic
             if (count >= 9)
             {
                 await LogStatsEtc();
+                await RecycleItems();
             }
             if (pokeStop.CooldownCompleteTimestampMs < (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds && _clientSettings.FarmPokestops)
             {
