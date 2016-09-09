@@ -170,7 +170,6 @@ namespace POGOProtos.Map.Fort {
     public const int OwnedByTeamFieldNumber = 5;
     private global::POGOProtos.Enums.TeamColor ownedByTeam_ = 0;
     /// <summary>
-    /// // Fields related to gyms only
     ///  Team that owns the gym
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
