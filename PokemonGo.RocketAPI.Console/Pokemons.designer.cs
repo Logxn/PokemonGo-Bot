@@ -41,6 +41,7 @@ namespace PokemonGo.RocketAPI.Console
             this.powerUpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.evolveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.iVsToNicknameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.changeFavouritesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusTexbox = new System.Windows.Forms.TextBox();
             this.checkBoxreload = new System.Windows.Forms.CheckBox();
             this.reloadsecondstextbox = new System.Windows.Forms.TextBox();
@@ -147,7 +148,8 @@ namespace PokemonGo.RocketAPI.Console
             this.transferToolStripMenuItem,
             this.powerUpToolStripMenuItem,
             this.evolveToolStripMenuItem,
-            this.iVsToNicknameToolStripMenuItem});
+            this.iVsToNicknameToolStripMenuItem,
+            this.changeFavouritesToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
             this.contextMenuStrip1.Size = new System.Drawing.Size(186, 100);
             this.contextMenuStrip1.Closing += new System.Windows.Forms.ToolStripDropDownClosingEventHandler(this.contextMenuStrip1_Closing);
@@ -181,6 +183,14 @@ namespace PokemonGo.RocketAPI.Console
             this.iVsToNicknameToolStripMenuItem.Size = new System.Drawing.Size(185, 24);
             this.iVsToNicknameToolStripMenuItem.Text = "IVs to Nickname";
             this.iVsToNicknameToolStripMenuItem.Click += new System.EventHandler(this.IVsToNicknameToolStripMenuItemClick);
+            // 
+            // changeFavouritesToolStripMenuItem
+            // 
+            this.changeFavouritesToolStripMenuItem.Name = "changeFavouritesToolStripMenuItem";
+            this.changeFavouritesToolStripMenuItem.Size = new System.Drawing.Size(185, 24);
+            this.changeFavouritesToolStripMenuItem.Text = "Change Favourites";
+            this.changeFavouritesToolStripMenuItem.Click += new System.EventHandler(this.changeFavouritesToolStripMenuItemClick);
+
             // 
             // statusTexbox
             // 
@@ -462,6 +472,7 @@ namespace PokemonGo.RocketAPI.Console
         private System.Windows.Forms.ToolStripMenuItem powerUpToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem evolveToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem iVsToNicknameToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem changeFavouritesToolStripMenuItem;
         private System.Windows.Forms.CheckBox checkBoxreload;
         private System.Windows.Forms.TextBox reloadsecondstextbox;
         private System.Windows.Forms.Label label2;
