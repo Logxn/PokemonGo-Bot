@@ -136,45 +136,59 @@ namespace PokemonGo.RocketAPI.Console
 
                     ColumnHeader columnheader;
                     columnheader = new ColumnHeader();
+                    columnheader.Name = "Name";
                     columnheader.Text = "Name";
                     PokemonListView.Columns.Add(columnheader);
                     columnheader = new ColumnHeader();
+                    columnheader.Name = "CP";
                     columnheader.Text = "CP";
                     PokemonListView.Columns.Add(columnheader);
                     columnheader = new ColumnHeader();
+                    columnheader.Name = "IV A-D-S";
                     columnheader.Text = "IV A-D-S";
                     PokemonListView.Columns.Add(columnheader);
                     columnheader = new ColumnHeader();
+                    columnheader.Name = "LVL";
                     columnheader.Text = "LVL";
                     PokemonListView.Columns.Add(columnheader);
                     columnheader = new ColumnHeader();
+                    columnheader.Name = "Evolvable?";
                     columnheader.Text = "Evolvable?";
                     PokemonListView.Columns.Add(columnheader);
                     columnheader = new ColumnHeader();
+                    columnheader.Name = "Height";
                     columnheader.Text = "Height";
                     PokemonListView.Columns.Add(columnheader);
                     columnheader = new ColumnHeader();
+                    columnheader.Name = "Weight";
                     columnheader.Text = "Weight";
                     PokemonListView.Columns.Add(columnheader);
                     columnheader = new ColumnHeader();
+                    columnheader.Name = "HP";
                     columnheader.Text = "HP";
                     PokemonListView.Columns.Add(columnheader);
                     columnheader = new ColumnHeader();
+                    columnheader.Name = "Attack";
                     columnheader.Text = "Attack";
                     PokemonListView.Columns.Add(columnheader);
                     columnheader = new ColumnHeader();
+                    columnheader.Name = "SpecialAttack (DPS)";
                     columnheader.Text = "SpecialAttack (DPS)";
                     PokemonListView.Columns.Add(columnheader);
                     columnheader = new ColumnHeader();
+                    columnheader.Name = "#";
                     columnheader.Text = "#";
                     PokemonListView.Columns.Add(columnheader);
                     columnheader = new ColumnHeader();
+                    columnheader.Name = "% CP";
                     columnheader.Text = "% CP";
                     PokemonListView.Columns.Add(columnheader);
                     columnheader = new ColumnHeader();
+                    columnheader.Name = "Type";
                     columnheader.Text = "Type";
                     PokemonListView.Columns.Add(columnheader);
                     columnheader = new ColumnHeader();
+                    columnheader.Name = "Type 2";
                     columnheader.Text = "Type 2";
                     PokemonListView.Columns.Add(columnheader);
 
@@ -244,6 +258,9 @@ namespace PokemonGo.RocketAPI.Console
                             listViewItem.SubItems.Add("");   
                             listViewItem.SubItems.Add("");
                         }
+
+                        PokemonListView.Columns["#"].DisplayIndex = 0;
+
                         
                         
                         PokemonListView.Items.Add(listViewItem);
