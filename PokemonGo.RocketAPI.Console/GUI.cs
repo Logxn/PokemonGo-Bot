@@ -401,6 +401,9 @@ namespace PokemonGo.RocketAPI.Console
                         case 15:
                             checkBox25.Checked = bool.Parse(line);
                             break;
+                        case 17:
+                            checkBox8.Checked = bool.Parse(line);
+                            break;
                     }
                     i++;
                 }
@@ -784,13 +787,14 @@ namespace PokemonGo.RocketAPI.Console
             Globals.useincense = checkBox9.Checked;
             Globals.pokeList = checkBox10.Checked;
             Globals.keepPokemonsThatCanEvolve = checkBox11.Checked;
-            //Globals.pokevision = checkBox12.Checked;
+            Globals.pokevision = checkBox8.Checked;
             Globals.useLuckyEggIfNotRunning = checkBox12.Checked;
             Globals.userazzberry = checkBox16.Checked;
             Globals.TransferFirstLowIV = checkBox15.Checked;
             Globals.settingsLanguage = langSelected;
             Globals.sleepatpokemons = checkBox17.Checked;
             Globals.Espiral = checkBox25.Checked;
+            Globals.pokevision = checkBox8.Checked;
 
             if (textBox27.Text == String.Empty)
                 Globals.TimeToRun = 0;
@@ -883,6 +887,7 @@ namespace PokemonGo.RocketAPI.Console
                 textBox27.Text,
                 Globals.Espiral.ToString(),
                 Globals.UseBreakFields.ToString(),
+                Globals.pokevision.ToString(),
             };
             File.WriteAllLines(@Program.walkSetting, walkSettingsFile);
 
@@ -1518,6 +1523,9 @@ namespace PokemonGo.RocketAPI.Console
             Globals.UseBreakFields = checkBox26.Checked;
         }
 
-
+        private void checkBox8_CheckedChanged_1(object sender, EventArgs e)
+        {
+            Globals.pokevision = checkBox8.Checked;
+        }
     }
 }
