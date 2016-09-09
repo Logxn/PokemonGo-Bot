@@ -166,6 +166,8 @@
             // 
             // buttonRefreshPokemon
             // 
+            this.buttonRefreshPokemon.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.buttonRefreshPokemon.AutoSize = true;
             this.buttonRefreshPokemon.Location = new System.Drawing.Point(346, 583);
             this.buttonRefreshPokemon.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.buttonRefreshPokemon.Name = "buttonRefreshPokemon";
@@ -173,6 +175,7 @@
             this.buttonRefreshPokemon.TabIndex = 10;
             this.buttonRefreshPokemon.Text = "Refresh Pokemon";
             this.buttonRefreshPokemon.UseVisualStyleBackColor = true;
+            this.buttonRefreshPokemon.Visible = false;            
             this.buttonRefreshPokemon.Click += new System.EventHandler(this.buttonRefreshPokemon_Click_1);
             // 
             // cbShowPokemon
