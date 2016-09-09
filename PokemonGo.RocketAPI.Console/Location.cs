@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Drawing;
 using System.Threading;
+using System.Threading;
 using System.Windows.Forms;
 using GMap.NET.MapProviders;
 using System.Net;
