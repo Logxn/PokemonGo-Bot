@@ -1,4 +1,5 @@
-﻿using POGOProtos.Data;
+﻿using System.Globalization;
+using POGOProtos.Data;
 using POGOProtos.Enums;
 using POGOProtos.Networking.Responses;
 using PokemonGo.RocketAPI.Console.PokeData;
@@ -135,45 +136,59 @@ namespace PokemonGo.RocketAPI.Console
 
                     ColumnHeader columnheader;
                     columnheader = new ColumnHeader();
+                    columnheader.Name = "Name";
                     columnheader.Text = "Name";
                     PokemonListView.Columns.Add(columnheader);
                     columnheader = new ColumnHeader();
+                    columnheader.Name = "CP";
                     columnheader.Text = "CP";
                     PokemonListView.Columns.Add(columnheader);
                     columnheader = new ColumnHeader();
+                    columnheader.Name = "IV A-D-S";
                     columnheader.Text = "IV A-D-S";
                     PokemonListView.Columns.Add(columnheader);
                     columnheader = new ColumnHeader();
+                    columnheader.Name = "LVL";
                     columnheader.Text = "LVL";
                     PokemonListView.Columns.Add(columnheader);
                     columnheader = new ColumnHeader();
+                    columnheader.Name = "Evolvable?";
                     columnheader.Text = "Evolvable?";
                     PokemonListView.Columns.Add(columnheader);
                     columnheader = new ColumnHeader();
+                    columnheader.Name = "Height";
                     columnheader.Text = "Height";
                     PokemonListView.Columns.Add(columnheader);
                     columnheader = new ColumnHeader();
+                    columnheader.Name = "Weight";
                     columnheader.Text = "Weight";
                     PokemonListView.Columns.Add(columnheader);
                     columnheader = new ColumnHeader();
+                    columnheader.Name = "HP";
                     columnheader.Text = "HP";
                     PokemonListView.Columns.Add(columnheader);
                     columnheader = new ColumnHeader();
+                    columnheader.Name = "Attack";
                     columnheader.Text = "Attack";
                     PokemonListView.Columns.Add(columnheader);
                     columnheader = new ColumnHeader();
+                    columnheader.Name = "SpecialAttack (DPS)";
                     columnheader.Text = "SpecialAttack (DPS)";
                     PokemonListView.Columns.Add(columnheader);
                     columnheader = new ColumnHeader();
+                    columnheader.Name = "#";
                     columnheader.Text = "#";
                     PokemonListView.Columns.Add(columnheader);
                     columnheader = new ColumnHeader();
+                    columnheader.Name = "% CP";
                     columnheader.Text = "% CP";
                     PokemonListView.Columns.Add(columnheader);
                     columnheader = new ColumnHeader();
+                    columnheader.Name = "Type";
                     columnheader.Text = "Type";
                     PokemonListView.Columns.Add(columnheader);
                     columnheader = new ColumnHeader();
+                    columnheader.Name = "Type 2";
                     columnheader.Text = "Type 2";
                     PokemonListView.Columns.Add(columnheader);
 
@@ -183,7 +198,7 @@ namespace PokemonGo.RocketAPI.Console
                         Bitmap pokemonImage = null;
                         await Task.Run(() =>
                         {
-                            pokemonImage = GetPokemonImage((int)pokemon.PokemonId);
+                            pokemonImage = GetPokemonLargeImage(pokemon.PokemonId);
                         });
                         imageList.Images.Add(pokemon.PokemonId.ToString(), pokemonImage);
 
@@ -243,6 +258,9 @@ namespace PokemonGo.RocketAPI.Console
                             listViewItem.SubItems.Add("");   
                             listViewItem.SubItems.Add("");
                         }
+
+                        PokemonListView.Columns["#"].DisplayIndex = 0;
+
                         
                         
                         PokemonListView.Items.Add(listViewItem);
@@ -282,52 +300,89 @@ namespace PokemonGo.RocketAPI.Console
             button3.Enabled = enabled;
         }
 
-        private static Bitmap GetPokemonImage(int pokemonId)
+        public static Bitmap GetPokemonSmallImage(PokemonId pokemon)
         {
-            var Sprites = AppDomain.CurrentDomain.BaseDirectory + "Sprites\\";
-            string location = Sprites + pokemonId + ".png";
-            if (!Directory.Exists(Sprites))
-                Directory.CreateDirectory(Sprites);
-            bool err = false;
-            Bitmap bitmapRemote = null;
-            if (!File.Exists(location))
+            return getPokemonImagefromResource(pokemon, "20");
+        }
+
+        public static Bitmap GetPokemonMediumImage(PokemonId pokemon)
+        {
+            return getPokemonImagefromResource(pokemon, "35");
+        }
+
+        public static Bitmap GetPokemonLargeImage(PokemonId pokemon)
+        {
+            return getPokemonImagefromResource(pokemon, "50");
+        }
+
+         public static Bitmap GetPokemonVeryLargeImage(PokemonId pokemon)
+        {
+            return getPokemonImagefromResource(pokemon, "200");
+        }
+ 
+        /// <summary>
+        /// Gets the pokemon imagefrom resource.
+        /// </summary>
+        /// <param name="pokemon">The pokemon.</param>
+        /// <param name="size">The size.</param>
+        /// <returns></returns>
+        private static Bitmap getPokemonImagefromResource(PokemonId pokemon, string size)
+        {
+             var resource = PokemonGo.RocketAPI.Console.Properties.Resources.ResourceManager.GetObject("_"+(int)pokemon+"_"+size, CultureInfo.CurrentCulture);
+            if (resource != null && resource is Bitmap)
             {
-                try
-                {
-                    ExtendedWebClient wc = new ExtendedWebClient();
-                    wc.DownloadFile("http://pokemon-go.ar1i.xyz/img/pokemons/" + pokemonId + ".png", @location);
-                }
-                catch (Exception)
-                {
-                    // User fail picture
-                    err = true;
-                }
-            }
-            if (err)
-            {
-                PictureBox picbox = new PictureBox();
-                picbox.Image = PokemonGo.RocketAPI.Console.Properties.Resources.error_sprite;
-                bitmapRemote = (Bitmap)picbox.Image;
+                return new Bitmap(resource as Bitmap);
             }
             else
-            {
-                try
-                {
-                    PictureBox picbox = new PictureBox();
-                    FileStream m = new FileStream(location, FileMode.Open);
-                    picbox.Image = Image.FromStream(m);
-                    bitmapRemote = (Bitmap)picbox.Image;
-                    m.Close();
-                }
-                catch (Exception e)
-                {
-                    PictureBox picbox = new PictureBox();
-                    picbox.Image = PokemonGo.RocketAPI.Console.Properties.Resources.error_sprite;
-                    bitmapRemote = (Bitmap)picbox.Image;
-                }
-            }
-            return bitmapRemote;
+                return null;
         }
+
+        //private static Bitmap GetPokemonImage(int pokemonId)
+        //{
+        //    var Sprites = AppDomain.CurrentDomain.BaseDirectory + "Sprites\\";
+        //    string location = Sprites + pokemonId + ".png";
+        //    if (!Directory.Exists(Sprites))
+        //        Directory.CreateDirectory(Sprites);
+        //    bool err = false;
+        //    Bitmap bitmapRemote = null;
+        //    if (!File.Exists(location))
+        //    {
+        //        try
+        //        {
+        //            ExtendedWebClient wc = new ExtendedWebClient();
+        //            wc.DownloadFile("http://pokemon-go.ar1i.xyz/img/pokemons/" + pokemonId + ".png", @location);
+        //        }
+        //        catch (Exception)
+        //        {
+        //            // User fail picture
+        //            err = true;
+        //        }
+        //    }
+        //    if (err)
+        //    {
+        //        PictureBox picbox = new PictureBox();
+        //        picbox.Image = PokemonGo.RocketAPI.Console.Properties.Resources.error_sprite;
+        //        bitmapRemote = (Bitmap)picbox.Image;
+        //    }
+        //    else
+        //    {
+        //        try
+        //        {
+        //            PictureBox picbox = new PictureBox();
+        //            FileStream m = new FileStream(location, FileMode.Open);
+        //            picbox.Image = Image.FromStream(m);
+        //            bitmapRemote = (Bitmap)picbox.Image;
+        //            m.Close();
+        //        }
+        //        catch (Exception e)
+        //        {
+        //            PictureBox picbox = new PictureBox();
+        //            picbox.Image = PokemonGo.RocketAPI.Console.Properties.Resources.error_sprite;
+        //            bitmapRemote = (Bitmap)picbox.Image;
+        //        }
+        //    }
+        //    return bitmapRemote;
+        //}
 
         private void btnReload_Click(object sender, EventArgs e)
         {
@@ -440,6 +495,13 @@ namespace PokemonGo.RocketAPI.Console
 
             taskResponse resp = new taskResponse(false, string.Empty);
 
+            if(Globals.pauseAtEvolve)
+            {
+                Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Taking a break to evolve some pokemons!");
+                Globals.pauseAtWalking = true;
+            }
+
+
             foreach (ListViewItem selectedItem in selectedItems)
             {
                 resp = await evolvePokemon((PokemonData)selectedItem.Tag);
@@ -448,6 +510,7 @@ namespace PokemonGo.RocketAPI.Console
                 var name = pokemoninfo.PokemonId;
 
                 File.AppendAllText(evolvelog, $"[{date}] - MANUAL - Trying to evole Pokemon: {name}" + Environment.NewLine);
+                Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Trying to Evolve {name}");
 
                 if (resp.Status)
                 {
@@ -492,6 +555,12 @@ namespace PokemonGo.RocketAPI.Console
             }
             else
                 EnabledButton(true);
+
+            if(Globals.pauseAtEvolve)
+            {
+                Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Evolved everything. Time to continue our journey!");
+                Globals.pauseAtWalking = false;
+            }
             //}
         }
 

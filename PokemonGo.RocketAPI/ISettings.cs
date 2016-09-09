@@ -102,5 +102,8 @@ namespace PokemonGo.RocketAPI
 
         bool bLogEvolve { get; set; }
 
+        bool pauseTheWalking { get; set; }
+
+        bool pauseAtEvolve2 { get; set; }
     }
 }
