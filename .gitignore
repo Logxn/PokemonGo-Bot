@@ -253,3 +253,4 @@ paket-files/
 *.sln.iml
 /.gitattributes
 TestApplication/
+PokemonGo.RocketAPI.Console/Location.cs

@@ -331,7 +331,7 @@ namespace PokemonGo.RocketAPI.Console
              var resource = PokemonGo.RocketAPI.Console.Properties.Resources.ResourceManager.GetObject("_"+(int)pokemon+"_"+size, CultureInfo.CurrentCulture);
             if (resource != null && resource is Bitmap)
             {
-                return resource as Bitmap;
+                return new Bitmap(resource as Bitmap);
             }
             else
                 return null;

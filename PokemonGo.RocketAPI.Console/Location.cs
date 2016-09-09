@@ -65,11 +65,13 @@ namespace PokemonGo.RocketAPI.Console
             buttonRefreshPokemon.Enabled = false;
             if ((await Logic.Logic._instance.CheckAvailablePokemons(Logic.Logic._client)))
             {
+
                 Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Updated PokemonData.", LogLevel.Info);
+
             }
             else
             {
-                Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Could not get PokemonData. Service is overloaded.", LogLevel.Warning);
+                Logger.ColoredConsoleWrite(ConsoleColor.DarkRed, $"Could not get PokemonData. Service is overloaded.", LogLevel.Warning);
             }
 
             //await Logic.Logic._instance.CheckAvailablePokemons(Logic.Logic._client);
@@ -78,7 +80,7 @@ namespace PokemonGo.RocketAPI.Console
         
         private void bw_DoWork(object sender, DoWorkEventArgs e)
         {
-            Thread.Sleep(DataCollector.MaxRetryCount * DataCollector.TimeoutBetweenRetries + 5000);
+            Thread.Sleep(DataCollector.MaxRetryCount * DataCollector.TimeoutBetweenRetries + 10000);
         }
 
         /// <summary>
@@ -136,45 +138,66 @@ namespace PokemonGo.RocketAPI.Console
 
         void infoObservable_HandleClearPokemon()
         {
-            _pokemonMarks.Clear();
-            _pokemonOverlay.Markers.Clear();
+            try
+            {
+                if (pokemonLock.WaitOne(5000))
+                {
+                    _pokemonMarks.Clear();
+                    _pokemonOverlay.Markers.Clear();
+                }
+            }
+            catch (Exception e)
+            {
+                Logger.ColoredConsoleWrite(ConsoleColor.DarkRed, string.Format("Ignore this: Error in HandleClearPokemon: {0}", e.ToString()));
+            }
         }
+
+
+        Semaphore pokemonLock = new Semaphore(0,1);
 
         void infoObservable_HandleNewPokemonLocations(List<DataCollector.PokemonMapData> mapData)
         {
             try
             {
-                if (mapData.Count > 0)
+                if (pokemonLock.WaitOne(5000))
                 {
-                    _pokemonMarks.Clear();
-                    _pokemonOverlay.Markers.Clear();   
-                
-                    foreach (var pokeData in mapData.Where(x => x.Id != null))
+                    if (mapData.Count > 0)
                     {
-                        GMarkerGoogle pokemonMarker;
-                        Bitmap pokebitMap = Pokemons.GetPokemonMediumImage(pokeData.PokemonId);
-                        if (pokebitMap != null)
+                        _pokemonMarks.Clear();
+                        _pokemonOverlay.Markers.Clear();   
+                
+                    int prevCount = mapData.Count;
+                    mapData.Where(x => x.Id == null && x.PokemonId != null && x.Coordinates.Latitude.HasValue && x.Coordinates.Longitude.HasValue).ToList().ForEach(x => x.Id = x.PokemonId.ToString() + x.Coordinates.Longitude.Value + + x.Coordinates.Latitude.Value);
+                    mapData = mapData.Where(x => x.Id != null).ToList();
+                    
+                    Logger.ColoredConsoleWrite(ConsoleColor.White, string.Format("Got new Pokemon Count: {0}, unfiltered: {1}", mapData.Count,prevCount));
+                    foreach (var pokeData in mapData)
                         {
-                            var ImageSize = new System.Drawing.Size(pokebitMap.Width, pokebitMap.Height);
-                            pokemonMarker = new GMarkerGoogle(new PointLatLng(pokeData.Coordinates.Latitude.Value, pokeData.Coordinates.Longitude.Value), pokebitMap) { Offset = new System.Drawing.Point(-ImageSize.Width / 2, -ImageSize.Height / 2) };
-                        }
-                        else
-                        {
-                            pokemonMarker = new GMarkerGoogle(new PointLatLng(pokeData.Coordinates.Latitude.Value, pokeData.Coordinates.Longitude.Value), GMarkerGoogleType.green_small);
-                        }
+                            GMarkerGoogle pokemonMarker;
+                            Bitmap pokebitMap = Pokemons.GetPokemonMediumImage(pokeData.PokemonId);
+                            if (pokebitMap != null)
+                            {
+                                var ImageSize = new System.Drawing.Size(pokebitMap.Width, pokebitMap.Height);
+                                pokemonMarker = new GMarkerGoogle(new PointLatLng(pokeData.Coordinates.Latitude.Value, pokeData.Coordinates.Longitude.Value), pokebitMap) { Offset = new System.Drawing.Point(-ImageSize.Width / 2, -ImageSize.Height / 2) };
+                            }
+                            else
+                            {
+                                pokemonMarker = new GMarkerGoogle(new PointLatLng(pokeData.Coordinates.Latitude.Value, pokeData.Coordinates.Longitude.Value), GMarkerGoogleType.green_small);
+                            }
                      
-                        if (pokeData.Type == DataCollector.PokemonMapDataType.Nearby)
-                        {
-                            pokemonMarker = new GMarkerGoogle(new PointLatLng(pokeData.Coordinates.Latitude.Value, pokeData.Coordinates.Longitude.Value), GMarkerGoogleType.black_small);
+                            if (pokeData.Type == DataCollector.PokemonMapDataType.Nearby)
+                            {
+                                pokemonMarker = new GMarkerGoogle(new PointLatLng(pokeData.Coordinates.Latitude.Value, pokeData.Coordinates.Longitude.Value), GMarkerGoogleType.black_small);
+                            }
+                            pokemonMarker.ToolTipText = string.Format("{0}, {1}, {2}, {3}", StringUtils.getPokemonNameByLanguage(null, pokeData.PokemonId), pokeData.ExpiresAt.ToString(), pokeData.Coordinates.Latitude.Value.ToString(), pokeData.Coordinates.Longitude.Value.ToString());
+                            pokemonMarker.ToolTip.Font = new System.Drawing.Font("Arial", 12, System.Drawing.GraphicsUnit.Pixel);
+                            pokemonMarker.ToolTipMode = MarkerTooltipMode.OnMouseOver;
+                            _pokemonMarks.Add(pokeData.Id, pokemonMarker);
+                            _pokemonOverlay.Markers.Add(pokemonMarker);
                         }
-                        pokemonMarker.ToolTipText = string.Format("{0}, {1}, {2}, {3}", StringUtils.getPokemonNameByLanguage(null, pokeData.PokemonId), pokeData.ExpiresAt.ToString(), pokeData.Coordinates.Latitude.Value.ToString(), pokeData.Coordinates.Longitude.Value.ToString());
-                        pokemonMarker.ToolTip.Font = new System.Drawing.Font("Arial", 12, System.Drawing.GraphicsUnit.Pixel);
-                        pokemonMarker.ToolTipMode = MarkerTooltipMode.OnMouseOver;
-                        _pokemonMarks.Add(pokeData.Id, pokemonMarker);
-                        _pokemonOverlay.Markers.Add(pokemonMarker);
                     }
+                    _pokemonOverlay.IsVisibile = cbShowPokemon.Checked;
                 }
-                _pokemonOverlay.IsVisibile = cbShowPokemon.Checked;
             }
             catch (Exception e)
             {
@@ -190,13 +213,17 @@ namespace PokemonGo.RocketAPI.Console
                 {
                     _pokeStopsOverlay.Markers.Clear();
                     _pokeStopsMarks.Clear();
-
-                    foreach (var pokeStop in pokeStops.Where(x => x.Id != null))
+                    int prevCount = pokeStops.Length;
+                    List<POGOProtos.Map.Fort.FortData> pokeStopstoHandle = pokeStops.ToList().Where(x => x.Id != null).ToList();
+                    Logger.ColoredConsoleWrite(ConsoleColor.White, string.Format("Got new Pokestop Count: {0}, unfiltered: {1}", pokeStops.Length, prevCount));
+                    foreach (var pokeStop in pokeStopstoHandle)
                     {
-                        GMarkerGoogle pokeStopMaker = new GMarkerGoogle(new PointLatLng(pokeStop.Latitude, pokeStop.Longitude), Properties.Resources.pokestop);
+                        //GMarkerGoogle pokeStopMaker = new GMarkerGoogle(new PointLatLng(pokeStop.Latitude, pokeStop.Longitude), Properties.Resources.pokestop);
+                        GMarkerGoogle pokeStopMaker = new GMarkerGoogle(new PointLatLng(pokeStop.Latitude, pokeStop.Longitude),new Bitmap(Properties.Resources.pokestop));
                         if (pokeStop.ActiveFortModifier.Count > 0)
                         {
-                            pokeStopMaker = new GMarkerGoogle(new PointLatLng(pokeStop.Latitude, pokeStop.Longitude), Properties.Resources.lured_pokestop);
+                            //Properties.Resources.lured_pokestop
+                            pokeStopMaker = new GMarkerGoogle(new PointLatLng(pokeStop.Latitude, pokeStop.Longitude), new Bitmap(Properties.Resources.lured_pokestop));
                         }
                         pokeStopMaker.ToolTipText = string.Format("{0}, {1}", pokeStop.Latitude, pokeStop.Longitude);
                         pokeStopMaker.ToolTip.Font = new System.Drawing.Font("Arial", 12, System.Drawing.GraphicsUnit.Pixel);
@@ -287,7 +314,7 @@ namespace PokemonGo.RocketAPI.Console
 
                 buttonRefreshPokemon.Enabled = false;
                 bw.RunWorkerAsync();
-                Logic.Logic._instance.CheckAvailablePokemons(Logic.Logic._client);
+                //Logic.Logic._instance.CheckAvailablePokemons(Logic.Logic._client);
             }
             
             //don't ask at closing
