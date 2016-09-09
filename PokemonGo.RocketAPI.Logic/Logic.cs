@@ -621,7 +621,10 @@ namespace PokemonGo.RocketAPI.Logic
                         await WalkUserRoute(pokeStops);
                         if (_clientSettings.RepeatUserRoute)
                         {
-                            _clientSettings.NextDestinationOverride = _clientSettings.RouteToRepeat;
+                            foreach (var geocoord in _clientSettings.RouteToRepeat)
+                            {
+                                _clientSettings.NextDestinationOverride.AddLast(geocoord);
+                            }                            
                         }
                     }
                     while (_clientSettings.RepeatUserRoute);
@@ -696,12 +699,13 @@ namespace PokemonGo.RocketAPI.Logic
                     {
                         walkspeed = GetRandomWalkspeed();
                     }
-                    var pokestopCoords = _clientSettings.NextDestinationOverride.Dequeue();
+                    var pokestopCoords = _clientSettings.NextDestinationOverride.First();
                     FortData targetPokeStop = null;
                     targetPokeStop = pokeStops.Where(i =>
                 i.Latitude == pokestopCoords.Latitude &&
                 i.Longitude == pokestopCoords.Longitude
                 ).FirstOrDefault();
+                    _clientSettings.NextDestinationOverride.RemoveFirst();
                     Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Path Override detected! Rerouting to user-selected pokeStop...");
                     if (_clientSettings.UseGoogleMapsAPI)
                     {
@@ -713,8 +717,6 @@ namespace PokemonGo.RocketAPI.Logic
                     }
                     var FortInfo = await _client.Fort.GetFort(targetPokeStop.Id, targetPokeStop.Latitude, targetPokeStop.Longitude);
                     await CheckAndFarmNearbyPokeStop(targetPokeStop, _client, FortInfo);
-
-
                 }
                 catch
                 {
@@ -876,6 +878,7 @@ namespace PokemonGo.RocketAPI.Logic
             if (count >= 9)
             {
                 await LogStatsEtc();
+                await RecycleItems();
             }
             if (pokeStop.CooldownCompleteTimestampMs < (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds && _clientSettings.FarmPokestops)
             {

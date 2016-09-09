@@ -973,13 +973,6 @@ namespace PokemonGo.RocketAPI.Console
             }
             string[] EvolveFile = temp.Where(x => !String.IsNullOrEmpty(x)).ToArray();
             File.WriteAllLines(@Program.evolve, EvolveFile);
-
-            string[] deviceFile =
-            {
-                comboBox_Device.SelectedItem.ToString(),
-                "61a3560dce161844",
-            };
-            File.WriteAllLines(@Program.deviceSettings, deviceFile);
         }
 
         #region CheckedChanged Events

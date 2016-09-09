@@ -512,9 +512,9 @@ namespace PokemonGo.RocketAPI.Console
 
         public static bool logPokemons = false;
 
-        public static Queue<GeoCoordinate> NextDestinationOverride = new Queue<GeoCoordinate>();
+        public static LinkedList<GeoCoordinate> NextDestinationOverride = new LinkedList<GeoCoordinate>();
 
-        public static Queue<GeoCoordinate> RouteToRepeat = new Queue<GeoCoordinate>();
+        public static LinkedList<GeoCoordinate> RouteToRepeat = new LinkedList<GeoCoordinate>();
 
         public static bool RepeatUserRoute = false;
 
