@@ -23,10 +23,11 @@ using System.Linq;
 namespace PokemonGo.RocketAPI.Console
 {
     public partial class LocationSelect : Form
-    {
+    {    	
+    	// Change this to true to use old markers style.
+    	public static bool useBasicMarkers = false; 
 
-        //private GMarkerGoogle _botMarker = new GMarkerGoogle(new PointLatLng(), GMarkerGoogleType.red_small);
-        private GMarkerGoogle _botMarker = new GMarkerGoogle(new PointLatLng(),  Properties.Resources.player);
+        private GMarkerGoogle _botMarker = getMarker(new PointLatLng(),  "player", useBasicMarkers);
 
         private GMapRoute _botRoute = new GMapRoute("BotRoute");
         private GMapOverlay _pokeStopsOverlay = new GMapOverlay("PokeStops");
@@ -60,7 +61,7 @@ namespace PokemonGo.RocketAPI.Console
             GMapOverlay routeOverlay = new GMapOverlay();
             routeOverlay.Routes.Add(_botRoute);
             routeOverlay.Markers.Add(_botMarker);
-            GMarkerGoogle _botStartMarker = new GMarkerGoogle(new PointLatLng(), GMarkerGoogleType.blue_dot);
+            GMarkerGoogle _botStartMarker = getMarker(new PointLatLng(), "start_point", useBasicMarkers);
             _botStartMarker.Position = new PointLatLng(Globals.latitute, Globals.longitude);
             routeOverlay.Markers.Add(_botStartMarker);
             GMapPolygon circle = CreateCircle(new PointLatLng(Globals.latitute, Globals.longitude), Globals.radius, 100);
@@ -136,66 +137,75 @@ bw.RunWorkerCompleted +=
 
         void infoObservable_HandleNewPokemonLocations(List<DataCollector.PokemonMapData> mapData)
         {
-            _pokemonMarks.Clear();
-            _pokemonOverlay.Markers.Clear();   
-
-            foreach(var pokeData in mapData.Where(x => x.Id != null))
-            {
-                 GMarkerGoogle pokemonMarker = new GMarkerGoogle(new PointLatLng(pokeData.Coordinates.Latitude.Value, pokeData.Coordinates.Longitude.Value), GMarkerGoogleType.green_small);
-                if (pokeData.Type == DataCollector.PokemonMapDataType.Nearby)
-                {
-                    pokemonMarker = new GMarkerGoogle(new PointLatLng(pokeData.Coordinates.Latitude.Value, pokeData.Coordinates.Longitude.Value), GMarkerGoogleType.black_small);
-                }
-                pokemonMarker.ToolTipText = StringUtils.getPokemonNameByLanguage(null, (PokemonId)pokeData.PokemonId) + ", " + pokeData.ExpiresAt.ToString()  +", "+  pokeData.Coordinates.Latitude.Value.ToString() + ", " + pokeData.Coordinates.Longitude.Value.ToString();
-                pokemonMarker.ToolTip.Font = new System.Drawing.Font("Arial", 12, System.Drawing.GraphicsUnit.Pixel);
-                pokemonMarker.ToolTipMode = MarkerTooltipMode.OnMouseOver;
-                _pokemonMarks.Add(pokeData.Id, pokemonMarker);
-                _pokemonOverlay.Markers.Add(pokemonMarker);
-                
-            }
-
-            _pokemonOverlay.IsVisibile = cbShowPokemon.Checked;
+        	try{
+	        	_pokemonMarks.Clear();
+	            _pokemonOverlay.Markers.Clear();   
+	        	if (mapData.Count > 0){
+		            foreach(var pokeData in mapData.Where(x => x.Id != null))
+		            {
+		            	GMarkerGoogle pokemonMarker;
+		            	if (useBasicMarkers)
+		                	 pokemonMarker= new GMarkerGoogle(new PointLatLng(pokeData.Coordinates.Latitude.Value, pokeData.Coordinates.Longitude.Value), GMarkerGoogleType.green_small);
+		            	else{
+		                	System.Drawing.Bitmap bmp = Pokemons.GetPokemonImage((int)pokeData.PokemonId);
+		                	System.Drawing.Bitmap bmpSmall = new System.Drawing.Bitmap(bmp,bmp.Width/4,bmp.Height/4);
+		                	pokemonMarker = new GMarkerGoogle(new PointLatLng(pokeData.Coordinates.Latitude.Value, pokeData.Coordinates.Longitude.Value), bmpSmall );
+		            	}
+		            		
+		                if (pokeData.Type == DataCollector.PokemonMapDataType.Nearby)
+		                {
+		                    pokemonMarker = new GMarkerGoogle(new PointLatLng(pokeData.Coordinates.Latitude.Value, pokeData.Coordinates.Longitude.Value), GMarkerGoogleType.black_small);
+		                }
+		                pokemonMarker.ToolTipText = StringUtils.getPokemonNameByLanguage(null, (PokemonId)pokeData.PokemonId) + ", " + pokeData.ExpiresAt.ToString()  +", "+  pokeData.Coordinates.Latitude.Value.ToString() + ", " + pokeData.Coordinates.Longitude.Value.ToString();
+		                pokemonMarker.ToolTip.Font = new System.Drawing.Font("Arial", 12, System.Drawing.GraphicsUnit.Pixel);
+		                pokemonMarker.ToolTipMode = MarkerTooltipMode.OnMouseOver;
+		                _pokemonMarks.Add(pokeData.Id, pokemonMarker);
+		                _pokemonOverlay.Markers.Add(pokemonMarker);
+		                
+		            }		
+		            _pokemonOverlay.IsVisibile = cbShowPokemon.Checked;
+        		}
+            }catch(Exception e){
+        		Logger.ColoredConsoleWrite(ConsoleColor.DarkRed, "Ignore this:" + e.ToString());
+            }	            
         }
 
         private void InfoObservable_HandlePokeStopInfoUpdate(string pokeStopId, string info)
         {
-            if (_pokeStopsMarks.ContainsKey(pokeStopId)) {
-                //changeType               
-                
-                var newMark = new GMarkerGoogle(_pokeStopsMarks[pokeStopId].Position, GMarkerGoogleType.purple_small);
-                
-                newMark.ToolTipText = info;
-                newMark.ToolTip.Font = new System.Drawing.Font("Arial", 12, System.Drawing.GraphicsUnit.Pixel);
-                
-                try
-                {
-                    _pokeStopsOverlay.Markers[_pokeStopsOverlay.Markers.IndexOf(_pokeStopsMarks[pokeStopId])] = newMark;
-                }
-                catch(Exception)
-                {
-                    //Logger.ColoredConsoleWrite(ConsoleColor.Red, "[Debug] - Supressed error msg (Location.cs - Line 86 - Index is -1");
-                    // Doing this so the bot wont crash and or restart! - Logxn
-                }
-                _pokeStopsMarks[pokeStopId] = newMark;
+            try{
+	            if (_pokeStopsMarks.ContainsKey(pokeStopId)) {
+					var newMark = getMarker(_pokeStopsMarks[pokeStopId].Position, "visited_pokestop", useBasicMarkers);
+					newMark.ToolTipText = info;
+					newMark.ToolTip.Font = new System.Drawing.Font("Arial", 12, System.Drawing.GraphicsUnit.Pixel);
+					//changeType               
+					_pokeStopsOverlay.Markers[_pokeStopsOverlay.Markers.IndexOf(_pokeStopsMarks[pokeStopId])] = newMark;                
+					_pokeStopsMarks[pokeStopId] = newMark;
+	            }
+            }catch(Exception e){
+        		Logger.ColoredConsoleWrite(ConsoleColor.DarkRed, "Ignore this:" + e.ToString());
             }
         }
 
         private void InfoObservable_HandlePokeStop(POGOProtos.Map.Fort.FortData[] pokeStops)
         {
-            _pokeStopsOverlay.Markers.Clear();
-            _pokeStopsMarks.Clear();
-
-            foreach (var pokeStop in pokeStops.Where(x => x.Id != null)) {
-                GMarkerGoogle pokeStopMaker = new GMarkerGoogle(new PointLatLng(pokeStop.Latitude, pokeStop.Longitude), GMarkerGoogleType.blue_small);
-                if (pokeStop.ActiveFortModifier.Count > 0)
-                {
-                    pokeStopMaker = new GMarkerGoogle(new PointLatLng(pokeStop.Latitude, pokeStop.Longitude), GMarkerGoogleType.yellow_small);
-                }
-                pokeStopMaker.ToolTipText = pokeStop.Latitude + ", " + pokeStop.Longitude;
-                pokeStopMaker.ToolTip.Font = new System.Drawing.Font("Arial", 12, System.Drawing.GraphicsUnit.Pixel);
-                pokeStopMaker.ToolTipMode = MarkerTooltipMode.OnMouseOver;
-                _pokeStopsMarks.Add(pokeStop.Id, pokeStopMaker);
-                _pokeStopsOverlay.Markers.Add(pokeStopMaker);
+            try{        	
+	            _pokeStopsMarks.Clear();
+	            _pokeStopsOverlay.Markers.Clear();
+	        	if (pokeStops.Length > 0 ){	
+		            foreach (var pokeStop in pokeStops.Where(x => x.Id != null)) {
+		                GMarkerGoogle pokeStopMaker = getMarker(new PointLatLng(pokeStop.Latitude, pokeStop.Longitude),"pokestop", useBasicMarkers);
+		                if (pokeStop.ActiveFortModifier.Count > 0){
+		                    pokeStopMaker = getMarker(new PointLatLng(pokeStop.Latitude, pokeStop.Longitude), "lured_pokestop", useBasicMarkers);
+		                }
+		                pokeStopMaker.ToolTipText = pokeStop.Latitude + ", " + pokeStop.Longitude;
+		                pokeStopMaker.ToolTip.Font = new System.Drawing.Font("Arial", 12, System.Drawing.GraphicsUnit.Pixel);
+		                pokeStopMaker.ToolTipMode = MarkerTooltipMode.OnMouseOver;
+		                _pokeStopsMarks.Add(pokeStop.Id, pokeStopMaker);
+		                _pokeStopsOverlay.Markers.Add(pokeStopMaker);
+		            }
+	        	}
+            }catch(Exception e){
+        		Logger.ColoredConsoleWrite(ConsoleColor.DarkRed, "Ignore this:" + e.ToString());
             }
         }
 
@@ -405,5 +415,37 @@ bw.RunWorkerCompleted +=
             _pokemonOverlay.IsVisibile = cbShowPokemon.Checked;
             map.Update();
         }
+        
+        // to control easily kind of marker
+        private static GMarkerGoogle getMarker(PointLatLng p, string name, bool basic){
+    		if (basic){
+    			switch (name) {
+    				case "player":
+    					return new GMarkerGoogle(p, GMarkerGoogleType.red_small);
+    				case "start_point":
+    					return new GMarkerGoogle(p, GMarkerGoogleType.blue_dot);
+    				case "pokestop":
+    					return new GMarkerGoogle(p, GMarkerGoogleType.blue_small);
+    				case "lured_pokestop":
+    					return new GMarkerGoogle(p, GMarkerGoogleType.purple_small);
+    				case "visited_pokestop":
+    					return new GMarkerGoogle(p, GMarkerGoogleType.yellow_small);
+    			}    		
+    		}else{
+    			switch (name) {
+    				case "player":
+    					return new GMarkerGoogle(p, Properties.Resources.player);
+    				case "start_point":
+    					return new GMarkerGoogle(p, Properties.Resources.start_point);
+    				case "pokestop":
+    					return new GMarkerGoogle(p, Properties.Resources.pokestop);
+    				case "lured_pokestop":
+    					return new GMarkerGoogle(p, Properties.Resources.lured_pokestop);
+    				case "visited_pokestop":
+    					return new GMarkerGoogle(p, Properties.Resources.visited_pokestop);
+    			}    		
+    		}
+    		return null;
+    	}        
     }
 }
