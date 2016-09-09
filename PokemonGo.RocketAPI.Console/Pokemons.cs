@@ -282,7 +282,7 @@ namespace PokemonGo.RocketAPI.Console
             button3.Enabled = enabled;
         }
 
-        private static Bitmap GetPokemonImage(int pokemonId)
+        public static Bitmap GetPokemonImage(int pokemonId)
         {
             var Sprites = AppDomain.CurrentDomain.BaseDirectory + "Sprites\\";
             string location = Sprites + pokemonId + ".png";

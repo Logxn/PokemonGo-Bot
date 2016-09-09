@@ -630,9 +630,12 @@ namespace PokemonGo.RocketAPI.Logic
                 {
                     await WalkWithRouting(pokeStop, walkspeed);
                 }
-                else
-                {
-                    var update = await _navigation.HumanLikeWalking(new GeoCoordinate(pokeStop.Latitude, pokeStop.Longitude), walkspeed, ExecuteCatchAllNearbyPokemons);
+                else{
+                	try{
+                    	var update = await _navigation.HumanLikeWalking(new GeoCoordinate(pokeStop.Latitude, pokeStop.Longitude), walkspeed, ExecuteCatchAllNearbyPokemons);
+                	}catch ( Exception e){
+                		Logger.ColoredConsoleWrite(ConsoleColor.DarkRed, "ignore this:" + e.ToString());
+                	}
                 }
                 var addedlure = false;
                 if (_clientSettings.pauseAtPokeStop)
