@@ -183,6 +183,8 @@
             this.logEvolution = new System.Windows.Forms.CheckBox();
             this.logManuelTransfer = new System.Windows.Forms.CheckBox();
             this.logPokemon = new System.Windows.Forms.CheckBox();
+            this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.checkbox_AutoUpdate = new System.Windows.Forms.CheckBox();
             this.lang_france_btn = new System.Windows.Forms.Button();
             this.lang_ru_btn = new System.Windows.Forms.Button();
             this.lang_tr_btn = new System.Windows.Forms.Button();
@@ -213,6 +215,7 @@
             this.groupBox12.SuspendLayout();
             this.tabPage3.SuspendLayout();
             this.groupBox14.SuspendLayout();
+            this.tabPage4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.SuspendLayout();
             // 
@@ -1470,6 +1473,7 @@
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Controls.Add(this.tabPage3);
+            this.tabControl1.Controls.Add(this.tabPage4);
             this.tabControl1.Location = new System.Drawing.Point(12, 100);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
@@ -1891,6 +1895,27 @@
             this.logPokemon.Text = "Log caught Pokemon";
             this.logPokemon.UseVisualStyleBackColor = true;
             // 
+            // tabPage4
+            // 
+            this.tabPage4.Controls.Add(this.checkbox_AutoUpdate);
+            this.tabPage4.Location = new System.Drawing.Point(4, 22);
+            this.tabPage4.Name = "tabPage4";
+            this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage4.Size = new System.Drawing.Size(542, 396);
+            this.tabPage4.TabIndex = 6;
+            this.tabPage4.Text = "Updates";
+            this.tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // checkbox_AutoUpdate
+            // 
+            this.checkbox_AutoUpdate.AutoSize = true;
+            this.checkbox_AutoUpdate.Location = new System.Drawing.Point(3, 6);
+            this.checkbox_AutoUpdate.Name = "checkbox_AutoUpdate";
+            this.checkbox_AutoUpdate.Size = new System.Drawing.Size(86, 17);
+            this.checkbox_AutoUpdate.TabIndex = 0;
+            this.checkbox_AutoUpdate.Text = "Auto Update";
+            this.checkbox_AutoUpdate.UseVisualStyleBackColor = true;
+            // 
             // lang_france_btn
             // 
             this.lang_france_btn.BackgroundImage = global::PokemonGo.RocketAPI.Console.Properties.Resources.france;
@@ -2058,6 +2083,8 @@
             this.tabPage3.ResumeLayout(false);
             this.groupBox14.ResumeLayout(false);
             this.groupBox14.PerformLayout();
+            this.tabPage4.ResumeLayout(false);
+            this.tabPage4.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -2227,6 +2254,8 @@
         private System.Windows.Forms.CheckBox checkBox_StopWalkingWhenEvolving;
         private System.Windows.Forms.CheckBox checkBox_RandomlyReduceSpeed;
         private System.Windows.Forms.Button button_ArchimedeanSpiralHelp;
+        private System.Windows.Forms.TabPage tabPage4;
+        private System.Windows.Forms.CheckBox checkbox_AutoUpdate;
     }
 }
 

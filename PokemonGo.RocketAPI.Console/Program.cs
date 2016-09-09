@@ -30,6 +30,7 @@ namespace PokemonGo.RocketAPI.Console
         public static string huntstats = Path.Combine(path, "HuntStats.txt");
         public static string miscSettings = Path.Combine(path, "misc.txt");
         public static string deviceSettings = Path.Combine(path_device, "DeviceInfo.txt");
+        public static string updateSettings = Path.Combine(path, "updateSettings");
         public static string cmdCoords = string.Empty;
 
         static string logPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Logs");
@@ -298,6 +299,7 @@ namespace PokemonGo.RocketAPI.Console
             {
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
+
                 Application.Run(new GUI());
 
                 if (Globals.pokeList)
@@ -414,7 +416,8 @@ namespace PokemonGo.RocketAPI.Console
             using (var wC = new WebClient())
                 return
                     wC.DownloadString(
-                        "https://raw.githubusercontent.com/Ar1i/PokemonGo-Bot/master/ver.md");
+                        //"https://raw.githubusercontent.com/Ar1i/PokemonGo-Bot/master/ver.md");
+                        "https://raw.githubusercontent.com/Logxn/PokemonGo-Bot/master/ver.md");
         }
     }
     public static class Globals
@@ -530,5 +533,7 @@ namespace PokemonGo.RocketAPI.Console
 
         public static bool pauseAtEvolve = false;
         public static bool pauseAtEvolve2 = false;
+
+        public static bool AutoUpdate = false;
     }
 }
