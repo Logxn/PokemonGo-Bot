@@ -220,7 +220,7 @@ namespace PokemonGo.RocketAPI.Console
 
                         listViewItem.Text = string.Format((pokemon.Favorite == 1) ? "{0} ★" : "{0}", StringUtils.getPokemonNameByLanguage(ClientSettings, (PokemonId)pokemon.PokemonId));
 
-                        listViewItem.ToolTipText = new DateTime((long)pokemon.CreationTimeMs * 10000).AddYears(1769).ToString("dd/MM/yyyy HH:mm:ss");
+                        listViewItem.ToolTipText = new DateTime((long)pokemon.CreationTimeMs * 10000).AddYears(1969).ToString("dd/MM/yyyy HH:mm:ss");
                         if (pokemon.Nickname != "")
                             listViewItem.ToolTipText += "\nNickname: " + pokemon.Nickname;
 
@@ -685,7 +685,7 @@ namespace PokemonGo.RocketAPI.Console
                     resp = await changePokemonNickname(pokemon);
                     if (resp.Status)
                     {
-                        selectedItem.ToolTipText = new DateTime((long)pokemon.CreationTimeMs * 10000).AddYears(1769).ToString("dd/MM/yyyy HH:mm:ss");
+                        selectedItem.ToolTipText = new DateTime((long)pokemon.CreationTimeMs * 10000).AddYears(1969).ToString("dd/MM/yyyy HH:mm:ss");
                         selectedItem.ToolTipText += "\nNickname: " + pokemon.Nickname;
                         renamed++;
                         statusTexbox.Text = "Renamig..." + renamed;
@@ -888,7 +888,7 @@ namespace PokemonGo.RocketAPI.Console
             }
             if (resp.Status)
             {
-                PokemonListView.SelectedItems[0].ToolTipText = new DateTime((long)pokemon.CreationTimeMs * 10000).AddYears(1769).ToString("dd/MM/yyyy HH:mm:ss");
+                PokemonListView.SelectedItems[0].ToolTipText = new DateTime((long)pokemon.CreationTimeMs * 10000).AddYears(1969).ToString("dd/MM/yyyy HH:mm:ss");
                 PokemonListView.SelectedItems[0].ToolTipText += "\nNickname: " + pokemon.Nickname;
             }
             else
@@ -1150,7 +1150,10 @@ namespace PokemonGo.RocketAPI.Console
                 Logger.ColoredConsoleWrite(ConsoleColor.Magenta, "Resume walking between Pokestops.");
                 if (Globals.RouteToRepeat.Count > 0)
                 {
-                    Globals.NextDestinationOverride = Globals.RouteToRepeat;
+                    foreach (var geocoord in Globals.RouteToRepeat)
+                    {
+                        Globals.NextDestinationOverride.AddLast(geocoord);
+                    }                    
                     Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "User Defined Route Captured! Beginning Route Momentarily.");
                 }
                 btnForceUnban.Text = "Pause Walking";
@@ -1283,8 +1286,6 @@ namespace PokemonGo.RocketAPI.Console
             }
         }
     }
-
-
     public static class Prompt
     {
         public static string ShowDialog(string text, string caption)

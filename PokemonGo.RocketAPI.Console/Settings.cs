@@ -398,13 +398,13 @@ namespace PokemonGo.RocketAPI.Console
             }
         }
         
-        public Queue<GeoCoordinate> NextDestinationOverride
+        public LinkedList<GeoCoordinate> NextDestinationOverride
 
         {
             get { return Globals.NextDestinationOverride; }
             set { Globals.NextDestinationOverride = value; }
         }
-        public Queue<GeoCoordinate> RouteToRepeat
+        public LinkedList<GeoCoordinate> RouteToRepeat
         {
             get { return Globals.RouteToRepeat; }
             set { Globals.RouteToRepeat = value; }

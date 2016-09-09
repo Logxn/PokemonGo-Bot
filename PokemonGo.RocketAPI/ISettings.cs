@@ -90,8 +90,8 @@ namespace PokemonGo.RocketAPI
         int MinWalkSpeed { get; set; }
         bool Espiral { get;  set; }
         bool MapLoaded { get; set; }
-        Queue<GeoCoordinate> NextDestinationOverride { get; set; }
-        Queue<GeoCoordinate> RouteToRepeat { get; set; }
+        LinkedList<GeoCoordinate> NextDestinationOverride { get; set; }
+        LinkedList<GeoCoordinate> RouteToRepeat { get; set; }
         bool logPokemons { get; set; }
         bool logManualTransfer { get; set; }
 

@@ -233,7 +233,7 @@
             // button1
             // 
             this.button1.BackColor = System.Drawing.Color.MediumAquamarine;
-            this.button1.Location = new System.Drawing.Point(12, 550);
+            this.button1.Location = new System.Drawing.Point(11, 529);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(549, 23);
             this.button1.TabIndex = 35;
@@ -245,7 +245,7 @@
             // 
             this.label30.AutoSize = true;
             this.label30.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.label30.Location = new System.Drawing.Point(53, 576);
+            this.label30.Location = new System.Drawing.Point(52, 555);
             this.label30.Name = "label30";
             this.label30.Size = new System.Drawing.Size(480, 20);
             this.label30.TabIndex = 45;
@@ -2024,7 +2024,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
-            this.ClientSize = new System.Drawing.Size(572, 602);
+            this.ClientSize = new System.Drawing.Size(572, 581);
             this.Controls.Add(this.label30);
             this.Controls.Add(this.lang_france_btn);
             this.Controls.Add(this.lang_ru_btn);

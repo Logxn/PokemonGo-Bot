@@ -89,6 +89,19 @@ namespace PokemonGo.RocketAPI.Login
                 loginResp = await tempHttpClient.PostAsync(Resources.PtcLoginUrl, formUrlEncodedContent).ConfigureAwait(false);
             }
 
+            var r = await loginResp.Content.ReadAsStringAsync();
+
+            if (r == null)
+                throw new PtcOfflineException();
+
+            if (loginResp.StatusCode == HttpStatusCode.InternalServerError)
+                throw new PtcOfflineException();
+
+            if (r.Contains("Account is not yet active"))
+            {
+                throw new AccountNotVerifiedException("Your Account is not verified.");
+            }
+          
             var ticketId = ExtractTicketFromResponse(loginResp);
             return ticketId;
         }
