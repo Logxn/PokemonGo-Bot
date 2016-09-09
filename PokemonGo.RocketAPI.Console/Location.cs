@@ -76,7 +76,7 @@ namespace PokemonGo.RocketAPI.Console
         
         private void bw_DoWork(object sender, DoWorkEventArgs e)
         {
-            Thread.Sleep(DataCollector.MaxRetryCount * DataCollector.TimeoutBetweenRetries + 5000);
+            Thread.Sleep(DataCollector.MaxRetryCount * DataCollector.TimeoutBetweenRetries + 10000);
         }
 
         /// <summary>
@@ -134,45 +134,61 @@ namespace PokemonGo.RocketAPI.Console
 
         void infoObservable_HandleClearPokemon()
         {
-            _pokemonMarks.Clear();
-            _pokemonOverlay.Markers.Clear();
+            try
+            {
+                if (pokemonLock.WaitOne(5000))
+                {
+                    _pokemonMarks.Clear();
+                    _pokemonOverlay.Markers.Clear();
+                }
+            }
+            catch (Exception e)
+            {
+                Logger.ColoredConsoleWrite(ConsoleColor.DarkRed, string.Format("Ignore this: Error in HandleClearPokemon: {0}", e.ToString()));
+            }
         }
+
+
+        Semaphore pokemonLock = new Semaphore(0,1);
 
         void infoObservable_HandleNewPokemonLocations(List<DataCollector.PokemonMapData> mapData)
         {
             try
             {
-                if (mapData.Count > 0)
+                if (pokemonLock.WaitOne(5000))
                 {
-                    _pokemonMarks.Clear();
-                    _pokemonOverlay.Markers.Clear();   
-                
-                    foreach (var pokeData in mapData.Where(x => x.Id != null))
+                    if (mapData.Count > 0)
                     {
-                        GMarkerGoogle pokemonMarker;
-                        Bitmap pokebitMap = Pokemons.GetPokemonMediumImage(pokeData.PokemonId);
-                        if (pokebitMap != null)
+                        _pokemonMarks.Clear();
+                        _pokemonOverlay.Markers.Clear();   
+                
+                        foreach (var pokeData in mapData.Where(x => x.Id != null))
                         {
-                            var ImageSize = new System.Drawing.Size(pokebitMap.Width, pokebitMap.Height);
-                            pokemonMarker = new GMarkerGoogle(new PointLatLng(pokeData.Coordinates.Latitude.Value, pokeData.Coordinates.Longitude.Value), pokebitMap) { Offset = new System.Drawing.Point(-ImageSize.Width / 2, -ImageSize.Height / 2) };
-                        }
-                        else
-                        {
-                            pokemonMarker = new GMarkerGoogle(new PointLatLng(pokeData.Coordinates.Latitude.Value, pokeData.Coordinates.Longitude.Value), GMarkerGoogleType.green_small);
-                        }
+                            GMarkerGoogle pokemonMarker;
+                            Bitmap pokebitMap = Pokemons.GetPokemonMediumImage(pokeData.PokemonId);
+                            if (pokebitMap != null)
+                            {
+                                var ImageSize = new System.Drawing.Size(pokebitMap.Width, pokebitMap.Height);
+                                pokemonMarker = new GMarkerGoogle(new PointLatLng(pokeData.Coordinates.Latitude.Value, pokeData.Coordinates.Longitude.Value), pokebitMap) { Offset = new System.Drawing.Point(-ImageSize.Width / 2, -ImageSize.Height / 2) };
+                            }
+                            else
+                            {
+                                pokemonMarker = new GMarkerGoogle(new PointLatLng(pokeData.Coordinates.Latitude.Value, pokeData.Coordinates.Longitude.Value), GMarkerGoogleType.green_small);
+                            }
                      
-                        if (pokeData.Type == DataCollector.PokemonMapDataType.Nearby)
-                        {
-                            pokemonMarker = new GMarkerGoogle(new PointLatLng(pokeData.Coordinates.Latitude.Value, pokeData.Coordinates.Longitude.Value), GMarkerGoogleType.black_small);
+                            if (pokeData.Type == DataCollector.PokemonMapDataType.Nearby)
+                            {
+                                pokemonMarker = new GMarkerGoogle(new PointLatLng(pokeData.Coordinates.Latitude.Value, pokeData.Coordinates.Longitude.Value), GMarkerGoogleType.black_small);
+                            }
+                            pokemonMarker.ToolTipText = string.Format("{0}, {1}, {2}, {3}", StringUtils.getPokemonNameByLanguage(null, pokeData.PokemonId), pokeData.ExpiresAt.ToString(), pokeData.Coordinates.Latitude.Value.ToString(), pokeData.Coordinates.Longitude.Value.ToString());
+                            pokemonMarker.ToolTip.Font = new System.Drawing.Font("Arial", 12, System.Drawing.GraphicsUnit.Pixel);
+                            pokemonMarker.ToolTipMode = MarkerTooltipMode.OnMouseOver;
+                            _pokemonMarks.Add(pokeData.Id, pokemonMarker);
+                            _pokemonOverlay.Markers.Add(pokemonMarker);
                         }
-                        pokemonMarker.ToolTipText = string.Format("{0}, {1}, {2}, {3}", StringUtils.getPokemonNameByLanguage(null, pokeData.PokemonId), pokeData.ExpiresAt.ToString(), pokeData.Coordinates.Latitude.Value.ToString(), pokeData.Coordinates.Longitude.Value.ToString());
-                        pokemonMarker.ToolTip.Font = new System.Drawing.Font("Arial", 12, System.Drawing.GraphicsUnit.Pixel);
-                        pokemonMarker.ToolTipMode = MarkerTooltipMode.OnMouseOver;
-                        _pokemonMarks.Add(pokeData.Id, pokemonMarker);
-                        _pokemonOverlay.Markers.Add(pokemonMarker);
                     }
+                    _pokemonOverlay.IsVisibile = cbShowPokemon.Checked;
                 }
-                _pokemonOverlay.IsVisibile = cbShowPokemon.Checked;
             }
             catch (Exception e)
             {
@@ -285,7 +301,7 @@ namespace PokemonGo.RocketAPI.Console
 
                 buttonRefreshPokemon.Enabled = false;
                 bw.RunWorkerAsync();
-                Logic.Logic._instance.CheckAvailablePokemons(Logic.Logic._client);
+                //Logic.Logic._instance.CheckAvailablePokemons(Logic.Logic._client);
             }
             
             //don't ask at closing
