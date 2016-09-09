@@ -632,7 +632,14 @@ namespace PokemonGo.RocketAPI.Logic
                 }
                 else
                 {
-                    var update = await _navigation.HumanLikeWalking(new GeoCoordinate(pokeStop.Latitude, pokeStop.Longitude), walkspeed, ExecuteCatchAllNearbyPokemons);
+                    try
+                    {
+                        var update = await _navigation.HumanLikeWalking(new GeoCoordinate(pokeStop.Latitude, pokeStop.Longitude), walkspeed, ExecuteCatchAllNearbyPokemons);
+                    }
+                    catch (Exception e)
+                    {
+                        Logger.ColoredConsoleWrite(ConsoleColor.DarkRed, "ignore this: Error in fncPokeStop: " + e.ToString());
+                    }
                 }
                 var addedlure = false;
                 if (_clientSettings.pauseAtPokeStop)
