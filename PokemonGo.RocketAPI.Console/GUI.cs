@@ -32,6 +32,8 @@ namespace PokemonGo.RocketAPI.Console
 
         public static ISettings _clientSettings;
 
+        static string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
+
         static string devicePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Device");
         static string deviceinfo = Path.Combine(devicePath, "DeviceInfo.txt");
 
@@ -51,6 +53,12 @@ namespace PokemonGo.RocketAPI.Console
             Directory.CreateDirectory(Program.path_pokedata);
             Directory.CreateDirectory(devicePath);
             Directory.CreateDirectory(PokeDataPath);
+
+
+            if(File.Exists($@"{baseDirectory}\update.bat"))
+            {
+                File.Delete($@"{baseDirectory}\update.bat");
+            }
 
             if (!File.Exists(deviceinfo))
             {
