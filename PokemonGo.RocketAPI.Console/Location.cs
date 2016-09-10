@@ -167,27 +167,32 @@ namespace PokemonGo.RocketAPI.Console
                         _pokemonOverlay.Markers.Clear();   
                 
                     int prevCount = mapData.Count;
-                    mapData.Where(x => x.Id == null && x.PokemonId != null && x.Coordinates.Latitude.HasValue && x.Coordinates.Longitude.HasValue).ToList().ForEach(x => x.Id = x.PokemonId.ToString() + x.Coordinates.Longitude.Value + + x.Coordinates.Latitude.Value);
+                    mapData.Where(x => x.Id == null && x.Coordinates.Latitude.HasValue && x.Coordinates.Longitude.HasValue).ToList().ForEach(x => x.Id = x.PokemonId.ToString() + x.Coordinates.Longitude.Value + + x.Coordinates.Latitude.Value);
                     mapData = mapData.Where(x => x.Id != null).ToList();
                     
                     Logger.ColoredConsoleWrite(ConsoleColor.White, string.Format("Got new Pokemon Count: {0}, unfiltered: {1}", mapData.Count,prevCount));
-                    foreach (var pokeData in mapData)
+                    
+                        for (int i = mapData.Count - 1; i >= 0; i--)
                         {
+                            var pokeData = mapData[i];
                             GMarkerGoogle pokemonMarker;
-                            Bitmap pokebitMap = Pokemons.GetPokemonMediumImage(pokeData.PokemonId);
-                            if (pokebitMap != null)
-                            {
-                                var ImageSize = new System.Drawing.Size(pokebitMap.Width, pokebitMap.Height);
-                                pokemonMarker = new GMarkerGoogle(new PointLatLng(pokeData.Coordinates.Latitude.Value, pokeData.Coordinates.Longitude.Value), pokebitMap) { Offset = new System.Drawing.Point(-ImageSize.Width / 2, -ImageSize.Height / 2) };
-                            }
-                            else
-                            {
-                                pokemonMarker = new GMarkerGoogle(new PointLatLng(pokeData.Coordinates.Latitude.Value, pokeData.Coordinates.Longitude.Value), GMarkerGoogleType.green_small);
-                            }
-                     
                             if (pokeData.Type == DataCollector.PokemonMapDataType.Nearby)
                             {
                                 pokemonMarker = new GMarkerGoogle(new PointLatLng(pokeData.Coordinates.Latitude.Value, pokeData.Coordinates.Longitude.Value), GMarkerGoogleType.black_small);
+                            }
+                            else
+                            {
+                                Bitmap pokebitMap = Pokemons.GetPokemonMediumImage(pokeData.PokemonId);
+                                if (pokebitMap != null)
+                                {
+                                    var ImageSize = new System.Drawing.Size(pokebitMap.Width, pokebitMap.Height);
+                                    pokemonMarker = new GMarkerGoogle(new PointLatLng(pokeData.Coordinates.Latitude.Value, pokeData.Coordinates.Longitude.Value), pokebitMap) { Offset = new System.Drawing.Point(-ImageSize.Width / 2, -ImageSize.Height / 2) };
+                                }
+                                else
+                                {
+                                    pokemonMarker = new GMarkerGoogle(new PointLatLng(pokeData.Coordinates.Latitude.Value, pokeData.Coordinates.Longitude.Value), GMarkerGoogleType.green_small);
+                                }
+
                             }
                             pokemonMarker.ToolTipText = string.Format("{0}, {1}, {2}, {3}", StringUtils.getPokemonNameByLanguage(null, pokeData.PokemonId), pokeData.ExpiresAt.ToString(), pokeData.Coordinates.Latitude.Value.ToString(), pokeData.Coordinates.Longitude.Value.ToString());
                             pokemonMarker.ToolTip.Font = new System.Drawing.Font("Arial", 12, System.Drawing.GraphicsUnit.Pixel);
@@ -209,27 +214,29 @@ namespace PokemonGo.RocketAPI.Console
         {
             try
             {
-                if (pokeStops.Count() > 0)
+                if (pokeStops.Length > 0)
                 {
                     _pokeStopsOverlay.Markers.Clear();
                     _pokeStopsMarks.Clear();
                     int prevCount = pokeStops.Length;
                     List<POGOProtos.Map.Fort.FortData> pokeStopstoHandle = pokeStops.ToList().Where(x => x.Id != null).ToList();
                     Logger.ColoredConsoleWrite(ConsoleColor.White, string.Format("Got new Pokestop Count: {0}, unfiltered: {1}", pokeStops.Length, prevCount));
-                    foreach (var pokeStop in pokeStopstoHandle)
+                    for (int i = pokeStopstoHandle.Count - 1; i >= 0; i--)
                     {
-                        //GMarkerGoogle pokeStopMaker = new GMarkerGoogle(new PointLatLng(pokeStop.Latitude, pokeStop.Longitude), Properties.Resources.pokestop);
-                        GMarkerGoogle pokeStopMaker = new GMarkerGoogle(new PointLatLng(pokeStop.Latitude, pokeStop.Longitude),new Bitmap(Properties.Resources.pokestop));
-                        if (pokeStop.ActiveFortModifier.Count > 0)
+                        var pokeStop = pokeStopstoHandle[i];
+                        if (pokeStop.Id != null)
                         {
-                            //Properties.Resources.lured_pokestop
-                            pokeStopMaker = new GMarkerGoogle(new PointLatLng(pokeStop.Latitude, pokeStop.Longitude), new Bitmap(Properties.Resources.lured_pokestop));
+                            var pokeStopMaker = new GMarkerGoogle(new PointLatLng(pokeStop.Latitude, pokeStop.Longitude), new Bitmap(Properties.Resources.pokestop));
+                            if (pokeStop.ActiveFortModifier.Count > 0)
+                            {
+                                pokeStopMaker = new GMarkerGoogle(new PointLatLng(pokeStop.Latitude, pokeStop.Longitude), new Bitmap(Properties.Resources.lured_pokestop));
+                            }
+                            pokeStopMaker.ToolTipText = string.Format("{0}, {1}", pokeStop.Latitude, pokeStop.Longitude);
+                            pokeStopMaker.ToolTip.Font = new System.Drawing.Font("Arial", 12, System.Drawing.GraphicsUnit.Pixel);
+                            pokeStopMaker.ToolTipMode = MarkerTooltipMode.OnMouseOver;
+                            _pokeStopsMarks.Add(pokeStop.Id, pokeStopMaker);
+                            _pokeStopsOverlay.Markers.Add(pokeStopMaker);
                         }
-                        pokeStopMaker.ToolTipText = string.Format("{0}, {1}", pokeStop.Latitude, pokeStop.Longitude);
-                        pokeStopMaker.ToolTip.Font = new System.Drawing.Font("Arial", 12, System.Drawing.GraphicsUnit.Pixel);
-                        pokeStopMaker.ToolTipMode = MarkerTooltipMode.OnMouseOver;
-                        _pokeStopsMarks.Add(pokeStop.Id, pokeStopMaker);
-                        _pokeStopsOverlay.Markers.Add(pokeStopMaker);
                     }
                 }
             }
