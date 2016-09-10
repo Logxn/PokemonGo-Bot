@@ -446,6 +446,9 @@ namespace PokemonGo.RocketAPI.Console
                         case 15:
                             checkBox_WalkInArchimedeanSpiral.Checked = bool.Parse(line);
                             break;
+                        case 17:
+                            checkBox1.Checked = bool.Parse(line);
+                            break;
                     }
                     i++;
                 }
@@ -880,7 +883,7 @@ namespace PokemonGo.RocketAPI.Console
             Globals.useincense = checkBox_UseIncenseEvery30min.Checked;
             Globals.pokeList = checkBox_EnablePokemonListGui.Checked;
             Globals.keepPokemonsThatCanEvolve = checkBox_KeepPokemonWhichCanBeEvolved.Checked;
-            //Globals.pokevision = checkBox_UseLuckyEggIfNotRunning.Checked;
+            Globals.pokevision = checkBox1.Checked;
             Globals.useLuckyEggIfNotRunning = checkBox_UseLuckyEggIfNotRunning.Checked;
             Globals.userazzberry = checkBox_UseRazzberryIfChanceUnder.Checked;
             Globals.TransferFirstLowIV = checkBox_TransferFirstLowIV.Checked;
@@ -986,7 +989,8 @@ namespace PokemonGo.RocketAPI.Console
                 text_MinWalkSpeed.Text,
                 text_TimeToRun.Text,
                 Globals.Espiral.ToString(),
-                Globals.UseBreakFields.ToString()
+                Globals.UseBreakFields.ToString(),
+                Globals.pokevision.ToString(),
             };
             File.WriteAllLines(@Program.walkSetting, walkSettingsFile);
 
@@ -1620,6 +1624,11 @@ namespace PokemonGo.RocketAPI.Console
             Form update = new Update();
             this.Hide();
             update.Show();
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            Globals.pokevision = checkBox1.Checked;
         }
     }
 }
