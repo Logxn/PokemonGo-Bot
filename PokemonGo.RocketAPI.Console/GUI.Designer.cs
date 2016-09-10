@@ -206,6 +206,7 @@
             this.lang_en_btn = new System.Windows.Forms.Button();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.button2 = new System.Windows.Forms.Button();
             this.tabPage1.SuspendLayout();
             this.tabItems.SuspendLayout();
             this.groupBox4.SuspendLayout();
@@ -1285,7 +1286,7 @@
             this.groupBox10.Controls.Add(this.checkBox_UseLuckyEggAtEvolve);
             this.groupBox10.Controls.Add(this.checkBox_EvolvePokemonIfEnoughCandy);
             this.groupBox10.Controls.Add(this.checkbox_PWDEncryption);
-            
+
             this.groupBox10.Location = new System.Drawing.Point(264, 6);
             this.groupBox10.Name = "groupBox10";
             this.groupBox10.Size = new System.Drawing.Size(271, 328);
@@ -1348,17 +1349,17 @@
             this.comboBox_Device.Name = "comboBox_Device";
             this.comboBox_Device.Size = new System.Drawing.Size(184, 21);
             this.comboBox_Device.TabIndex = 53;
-        	// 
-        	// checkbox_PWDEncryption
-        	// 
-        	this.checkbox_PWDEncryption.AutoSize = true;
-        	this.checkbox_PWDEncryption.Location = new System.Drawing.Point(21, 302);
-        	this.checkbox_PWDEncryption.Name = "checkbox_PWDEncryption";
-        	this.checkbox_PWDEncryption.Size = new System.Drawing.Size(173, 17);
-        	this.checkbox_PWDEncryption.TabIndex = 56;
-        	this.checkbox_PWDEncryption.Text = "Encrypt password on config file";
-        	this.checkbox_PWDEncryption.UseVisualStyleBackColor = true;
-        	this.checkbox_PWDEncryption.CheckedChanged += new System.EventHandler(this.chkPWDEncryption_CheckedChanged);
+            //            
+            // checkbox_PWDEncryption
+            // 
+            this.checkbox_PWDEncryption.AutoSize = true;
+            this.checkbox_PWDEncryption.Location = new System.Drawing.Point(21, 302);
+            this.checkbox_PWDEncryption.Name = "checkbox_PWDEncryption";
+            this.checkbox_PWDEncryption.Size = new System.Drawing.Size(173, 17);
+            this.checkbox_PWDEncryption.TabIndex = 56;
+            this.checkbox_PWDEncryption.Text = "Encrypt password on config file";
+            this.checkbox_PWDEncryption.UseVisualStyleBackColor = true;
+            this.checkbox_PWDEncryption.CheckedChanged += new System.EventHandler(this.chkPWDEncryption_CheckedChanged);
             // 
             // label33
             // 
@@ -1512,6 +1513,7 @@
             // 
             // tabThrows
             // 
+            this.tabThrows.Controls.Add(this.button2);
             this.tabThrows.Controls.Add(this.groupBox16);
             this.tabThrows.Location = new System.Drawing.Point(4, 22);
             this.tabThrows.Name = "tabThrows";
@@ -1535,7 +1537,7 @@
             this.groupBox16.Size = new System.Drawing.Size(190, 118);
             this.groupBox16.TabIndex = 0;
             this.groupBox16.TabStop = false;
-            this.groupBox16.Text = "Throw probabilities";
+            this.groupBox16.Text = "Throw probabilities in %";
             // 
             // text_Pb_Ordinary
             // 
@@ -2166,6 +2168,17 @@
             this.checkBox1.UseVisualStyleBackColor = true;
             this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
             // 
+            // button2
+            // 
+            this.button2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button2.Location = new System.Drawing.Point(199, 9);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(21, 22);
+            this.button2.TabIndex = 66;
+            this.button2.Text = "?";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click_2);
+            // 
             // GUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2419,7 +2432,8 @@
         private System.Windows.Forms.TextBox text_Pb_Great;
         private System.Windows.Forms.TextBox text_Pb_Excellent;
         private System.Windows.Forms.CheckBox checkBox1;
-        private System.Windows.Forms.CheckBox checkbox_PWDEncryption;        
+        private System.Windows.Forms.CheckBox checkbox_PWDEncryption;
+        private System.Windows.Forms.Button button2;
     }
 }
 
