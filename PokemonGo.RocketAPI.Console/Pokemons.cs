@@ -1188,6 +1188,48 @@ namespace PokemonGo.RocketAPI.Console
         {
             Globals.RepeatUserRoute = checkBox1.Checked;
         }
+
+        private static async Task<taskResponse> Favoritos(PokemonData pokemon)
+        {
+            taskResponse resp = new taskResponse(false, string.Empty);
+            try
+            {
+                bool valor = (pokemon.Favorite != 1) ? true : false;
+                var FavoritePokemonResponse = await client.Inventory.SetFavoritePokemon((long)pokemon.Id, valor);
+
+                if (FavoritePokemonResponse.Result == SetFavoritePokemonResponse.Types.Result.Success)
+                {
+                    resp.Status = true;
+                }
+                else
+                {
+                    resp.Message = pokemon.PokemonId.ToString();
+                }
+
+                await RandomHelper.RandomDelay(1000, 2000);
+            }
+            catch (Exception e)
+            {
+                Logger.ColoredConsoleWrite(ConsoleColor.Red, "Error FavoritePokemon: " + e.Message);
+                await Favoritos(pokemon);
+            }
+            return resp;
+        }
+
+        private async void favoriteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var pokemon = (PokemonData)PokemonListView.SelectedItems[0].Tag;
+            taskResponse resp = new taskResponse(false, string.Empty);
+
+            resp = await Favoritos(pokemon);
+            if (resp.Status)
+            {
+                PokemonListView.SelectedItems[0].ToolTipText = new DateTime((long)pokemon.CreationTimeMs * 10000).AddYears(1769).ToString("dd/MM/yyyy HH:mm:ss");
+                PokemonListView.SelectedItems[0].ToolTipText += "\nFavorite: " + pokemon.Nickname;
+            }
+            else
+                MessageBox.Show(resp.Message + " favorite failed!", "Favorite Status", MessageBoxButtons.OK);
+        }
     }
     public static class ControlExtensions
     {
