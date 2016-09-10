@@ -183,7 +183,7 @@ namespace PokemonGo.RocketAPI.Console
                                     Globals.keepPokemonsThatCanEvolve = bool.Parse(line);
                                     break;
                                 case 23:
-                                    Globals.pokevision = bool.Parse(line);
+                                    //Globals.pokevision = bool.Parse(line);
                                     break;
                                 case 24:
                                     Globals.useluckyegg = bool.Parse(line);
