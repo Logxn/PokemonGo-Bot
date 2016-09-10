@@ -570,7 +570,7 @@ namespace PokemonGo.RocketAPI.Logic
                     if (distance1 > 31 && failed_softban < 2)
                     {
                         //Logger.ColoredConsoleWrite(ConsoleColor.Green, "Pokestop mas: " + distance.ToString());
-                        continue; //solo agarrar los pokestop que esten a menos de 20 metros
+                        continue; //solo agarrar los pokestop que esten a menos de 30 metros
                     }
                 }
                 await SetCheckTimeToRun();
@@ -590,6 +590,19 @@ namespace PokemonGo.RocketAPI.Logic
                         var walkHome = await _navigation.HumanLikeWalking(new GeoCoordinate(_clientSettings.DefaultLatitude, _clientSettings.DefaultLongitude), _clientSettings.WalkingSpeedInKilometerPerHour, ExecuteCatchAllNearbyPokemons);
                     }
                 }
+
+                //SkipLagged API
+                if (_clientSettings.pokevision)
+                {
+                    Logger.ColoredConsoleWrite(ConsoleColor.DarkGreen, "SkipLagged API...");
+                    foreach (spottedPoke p in await _pokevision.GetNearPokemons(_client.CurrentLatitude, _client.CurrentLongitude))
+                    {
+                        var dist = LocationUtils.CalculateDistanceInMeters(_client.CurrentLatitude, _client.CurrentLongitude, p._lat, p._lng);
+                        Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"SkipLagged: There is a {StringUtils.getPokemonNameByLanguage(_clientSettings, p._pokeId)} to {dist:0.##} meters. Trying to Capture...");
+                        var upd = await _navigation.HumanLikeWalking(new GeoCoordinate(p._lat, p._lng), _clientSettings.WalkingSpeedInKilometerPerHour, ExecuteCatchAllNearbyPokemons);
+                    }
+                }
+
                 _infoObservable.PushNewGeoLocations(new GeoCoordinate(_client.CurrentLatitude, _client.CurrentLongitude));
 
                 var distance = LocationUtils.CalculateDistanceInMeters(_client.CurrentLatitude, _client.CurrentLongitude, pokeStop.Latitude, pokeStop.Longitude);

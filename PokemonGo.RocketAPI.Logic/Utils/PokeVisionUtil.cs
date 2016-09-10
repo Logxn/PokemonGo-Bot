@@ -26,33 +26,33 @@ namespace PokemonGo.RocketAPI.Logic.Utils
         {
             _newSpotted.Clear();
             ClearAlreadySpottedByTime();
+            //https://skiplagged.com/api/pokemon.php?bounds=22.229977,114.068312,22.334655,114.299883
+            double Lat10 = lat + 0.10;
+            double Lon10 = lng + 0.10;
 
-            HttpResponseMessage response = await _httpClient.GetAsync("https://pokevision.com/map/data/" + lat.ToString().Replace(",", ".") + "/" + lng.ToString().Replace(",", "."));
+            HttpResponseMessage response = await _httpClient.GetAsync("https://skiplagged.com/api/pokemon.php?bounds=" + lat.ToString().Replace(",", ".") + "," + lng.ToString().Replace(",", ".") + "," + Lat10.ToString().Replace(",", ".") + "," + Lon10.ToString().Replace(",", "."));
             HttpContent content = response.Content;
             string result = await content.ReadAsStringAsync();
 
             dynamic stuff = JsonConvert.DeserializeObject(result);
-            if (stuff.status == "success")
+            try
             {
-                try
+                for (int i = 0; stuff.pokemons[i].pokemon_id > 0; i++)
                 {
-                    for (int i = 0; stuff.pokemon[i].id > 0; i++)
+                    if (CatchThisPokemon((Int32)stuff.pokemons[i].pokemon_id) &&
+                        inRange(lat, lng, (Double)(stuff.pokemons[i].latitude), (Double)(stuff.pokemons[i].longitude)) &&
+                        !AlreadyCatched((Int32)(stuff.pokemons[i].pokemon_id)))
                     {
-                        if (CatchThisPokemon((Int32)stuff.pokemon[i].id) &&
-                            inRange(lat, lng, (Double)(stuff.pokemon[i].latitude), (Double)(stuff.pokemon[i].longitude)) &&
-                            !AlreadyCatched((Int32)(stuff.pokemon[i].id)))
-                        {
-                            _newSpotted.Add(new spottedPoke((Int32)stuff.pokemon[i].pokemonId, (Double)stuff.pokemon[i].latitude, (Double)stuff.pokemon[i].longitude, (Int32)stuff.pokemon[i].expiration_time, (Int32)stuff.pokemon[i].id));
-                            _alreadySpotted.Add(new spottedPoke((Int32)stuff.pokemon[i].pokemonId, (Double)stuff.pokemon[i].latitude, (Double)stuff.pokemon[i].longitude, (Int32)stuff.pokemon[i].expiration_time, (Int32)stuff.pokemon[i].id));
-
-                        }
+                        _newSpotted.Add(new spottedPoke((Int32)stuff.pokemons[i].pokemon_id, (Double)stuff.pokemons[i].latitude, (Double)stuff.pokemons[i].longitude, (Int32)stuff.pokemons[i].expires, (Int32)stuff.pokemons[i].pokemon_id));
+                        _alreadySpotted.Add(new spottedPoke((Int32)stuff.pokemons[i].pokemon_id, (Double)stuff.pokemons[i].latitude, (Double)stuff.pokemons[i].longitude, (Int32)stuff.pokemons[i].expires, (Int32)stuff.pokemons[i].pokemon_id));
 
                     }
+
                 }
-                catch (Exception)
-                {
-                    // ignored
-                }
+            }
+            catch (Exception)
+            {
+                // ignored
             }
 
             return _newSpotted;
