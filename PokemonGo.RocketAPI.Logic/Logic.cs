@@ -594,10 +594,11 @@ namespace PokemonGo.RocketAPI.Logic
                 //SkipLagged API
                 if (_clientSettings.pokevision)
                 {
+                    Logger.ColoredConsoleWrite(ConsoleColor.DarkGreen, "SkipLagged API");
                     foreach (spottedPoke p in await _pokevision.GetNearPokemons(_client.CurrentLatitude, _client.CurrentLongitude))
                     {
                         var dist = LocationUtils.CalculateDistanceInMeters(_client.CurrentLatitude, _client.CurrentLongitude, p._lat, p._lng);
-                        Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Skiplagged: There is a {StringUtils.getPokemonNameByLanguage(_clientSettings, p._pokeId)} to {dist:0.##} meters. Trying to Capture...");
+                        Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"SkipLagged: There is a {StringUtils.getPokemonNameByLanguage(_clientSettings, p._pokeId)} to {dist:0.##} meters. Trying to Capture...");
                         var upd = await _navigation.HumanLikeWalking(new GeoCoordinate(p._lat, p._lng), _clientSettings.WalkingSpeedInKilometerPerHour, ExecuteCatchAllNearbyPokemons);
                     }
                 }
