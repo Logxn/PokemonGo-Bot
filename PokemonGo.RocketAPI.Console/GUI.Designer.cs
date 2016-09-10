@@ -133,6 +133,7 @@
             this.checkBox_StopWalkingWhenEvolving = new System.Windows.Forms.CheckBox();
             this.label39 = new System.Windows.Forms.Label();
             this.comboBox_Device = new System.Windows.Forms.ComboBox();
+            this.checkbox_PWDEncryption = new System.Windows.Forms.CheckBox();
             this.label33 = new System.Windows.Forms.Label();
             this.text_UseRazzberryChance = new System.Windows.Forms.TextBox();
             this.checkBox_UseRazzberryIfChanceUnder = new System.Windows.Forms.CheckBox();
@@ -1283,6 +1284,8 @@
             this.groupBox10.Controls.Add(this.checkBox_SimulateAnimationTimeAtEvolve);
             this.groupBox10.Controls.Add(this.checkBox_UseLuckyEggAtEvolve);
             this.groupBox10.Controls.Add(this.checkBox_EvolvePokemonIfEnoughCandy);
+            this.groupBox10.Controls.Add(this.checkbox_PWDEncryption);
+            
             this.groupBox10.Location = new System.Drawing.Point(264, 6);
             this.groupBox10.Name = "groupBox10";
             this.groupBox10.Size = new System.Drawing.Size(271, 328);
@@ -1345,6 +1348,17 @@
             this.comboBox_Device.Name = "comboBox_Device";
             this.comboBox_Device.Size = new System.Drawing.Size(184, 21);
             this.comboBox_Device.TabIndex = 53;
+        	// 
+        	// checkbox_PWDEncryption
+        	// 
+        	this.checkbox_PWDEncryption.AutoSize = true;
+        	this.checkbox_PWDEncryption.Location = new System.Drawing.Point(21, 302);
+        	this.checkbox_PWDEncryption.Name = "checkbox_PWDEncryption";
+        	this.checkbox_PWDEncryption.Size = new System.Drawing.Size(173, 17);
+        	this.checkbox_PWDEncryption.TabIndex = 56;
+        	this.checkbox_PWDEncryption.Text = "Encrypt password on config file";
+        	this.checkbox_PWDEncryption.UseVisualStyleBackColor = true;
+        	this.checkbox_PWDEncryption.CheckedChanged += new System.EventHandler(this.chkPWDEncryption_CheckedChanged);
             // 
             // label33
             // 
@@ -2405,6 +2419,7 @@
         private System.Windows.Forms.TextBox text_Pb_Great;
         private System.Windows.Forms.TextBox text_Pb_Excellent;
         private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.CheckBox checkbox_PWDEncryption;        
     }
 }
 
