@@ -680,6 +680,7 @@ namespace PokemonGo.RocketAPI.Logic
                             Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Next Pokestop: {FortInfo.Name} to check cooldown and/or farm.");
                             var farmed = await CheckAndFarmNearbyPokeStop(Pokestop, _client, FortInfo);
                             if (farmed) { Pokestop.CooldownCompleteTimestampMs = (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds + 300500; }
+                            await SetCheckTimeToRun();
                             await RandomHelper.RandomDelay(60000, 120000); // wait for a bit before repeating farm cycle 
                         }
                     }
@@ -1177,41 +1178,38 @@ namespace PokemonGo.RocketAPI.Logic
             var hitTxt = "Default Perfect";
             var spinModifier = 1.0;
             var spinTxt = "Curve";
+            int Pb_Excellent = _clientSettings.Pb_Excellent;
+            int Pb_Great = _clientSettings.Pb_Excellent;
+            int Pb_Nice = _clientSettings.Pb_Nice;
+            int Pb_Ordinary = _clientSettings.Pb_Ordinary;
             var r = new Random();
-            int rInt = r.Next(0, 5);
-            switch (rInt)
+            int rInt = r.Next(0, 99);
+            if (rInt >= 0 && rInt < Pb_Excellent)
             {
-                case 0:
-                    {
-                        normalizedRecticleSize = r.NextDouble() * (1.95 - 1.7) + 1.7;
-                        hitTxt = "Excellent";
-                        break;
-                    }
-                case 1:
-                    {
-                        normalizedRecticleSize = r.NextDouble() * (1.95 - 1.3) + 1.3;
-                        hitTxt = "Great";
-                        break;
-                    }
-                case 2:
-                    {
-                        normalizedRecticleSize = r.NextDouble() * (1 - 0.1) + 0.1;
-                        hitTxt = "Ordinary";
-                        break;
-                    }
-                case 3:
-                    {
-                        normalizedRecticleSize = r.NextDouble() * (1.3 - 1) + 1;
-                        hitTxt = "Nice";
-                        break;
-                    }
-                default:
-                    {
-                        normalizedRecticleSize = r.NextDouble() * (1.7 - 1.3) + 1.3;
-                        hitTxt = "Great";
-                        break;
-                    }
+                normalizedRecticleSize = r.NextDouble() * (1.95 - 1.7) + 1.7;
+                hitTxt = "Excellent";
             }
+            else if (rInt >= Pb_Excellent && rInt < Pb_Excellent + Pb_Great)
+            {
+                normalizedRecticleSize = r.NextDouble() * (1.95 - 1.3) + 1.3;
+                hitTxt = "Great";
+            }
+            else if (rInt >= Pb_Excellent + Pb_Great && rInt < Pb_Excellent + Pb_Great + Pb_Nice)
+            {
+                normalizedRecticleSize = r.NextDouble() * (1.3 - 1) + 1;
+                hitTxt = "Nice";
+            }
+            else if (rInt >= Pb_Excellent + Pb_Great + Pb_Nice && rInt < Pb_Excellent + Pb_Great + Pb_Nice + Pb_Ordinary)
+            {
+                normalizedRecticleSize = r.NextDouble() * (1 - 0.1) + 0.1;
+                hitTxt = "Ordinary";
+            }
+            else
+            {
+                normalizedRecticleSize = r.NextDouble() * (1 - 0.1) + 0.1;
+                hitTxt = "Ordinary";
+            }
+
             int rIntSpin = r.Next(0, 2);
             if (rIntSpin == 0)
             {
