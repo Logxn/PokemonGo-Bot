@@ -1717,7 +1717,7 @@ namespace PokemonGo.RocketAPI.Console
 
         private void checkBox3_CheckedChanged(object sender, EventArgs e)
         {
-
+          
         }
 
         private void button4_Click(object sender, EventArgs e)
@@ -1740,6 +1740,36 @@ namespace PokemonGo.RocketAPI.Console
             Form update = new Update();
             this.Hide();
             update.Show();
+        }
+
+        private void checkBox_StopWalkingWhenEvolving_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void checkBox_UseIncenseEvery30min_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void checkBox_KeepPokemonWhichCanBeEvolved_CheckedChanged(object sender, EventArgs e)
+        {            
+  
+        }
+
+        private void checkBox_UseLuckyEggIfNotRunning_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void checkBox_UseRazzberryIfChanceUnder_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void checkBox_RandomSleepAtCatching_CheckedChanged(object sender, EventArgs e)
+        {
+
         }
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
