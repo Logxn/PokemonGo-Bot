@@ -1510,6 +1510,156 @@ namespace PokemonGo.RocketAPI.Console
         {
             Globals.GoogleMapsAPIKey = text_GoogleMapsAPIKey.Text;
         }
+
+        private void statusTexbox_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void PokemonListView_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tabPage1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void reloadsecondstextbox_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Options_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tabPage2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void groupBox10_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label3_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void groupBox4_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void text_TotalItemCount_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label31_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label27_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label26_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label25_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label20_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label19_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label18_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label17_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label16_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label15_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label14_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label13_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void groupBox11_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label47_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label45_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void groupBox13_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void linkLabel6_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+
+        }
     }
     public static class ControlExtensions
     {
