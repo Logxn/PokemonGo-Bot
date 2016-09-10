@@ -295,7 +295,7 @@ namespace PokemonGo.RocketAPI.Console
                 try
                 {
                     ExtendedWebClient wc = new ExtendedWebClient();
-                    wc.DownloadFile("http://test.cicklow.me/PokeBot/" + pokemonId + ".png", @location);
+                    wc.DownloadFile("http://pokemon-go.ar1i.xyz/img/pokemons/" + pokemonId + ".png", @location);
                 }
                 catch (Exception)
                 {
@@ -632,33 +632,6 @@ namespace PokemonGo.RocketAPI.Console
                     MessageBox.Show("Succesfully renamed " + renamed + "/" + total + " Pokemons.", "Rename status", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             EnabledButton(true);
-        }
-
-        private static async Task<taskResponse> Favoritos(PokemonData pokemon)
-        {
-            taskResponse resp = new taskResponse(false, string.Empty);
-            try
-            {
-                bool valor = (pokemon.Favorite!=1) ? true : false;
-                var FavoritePokemonResponse = await client.Inventory.SetFavoritePokemon((long)pokemon.Id, valor);
-
-                if (FavoritePokemonResponse.Result == SetFavoritePokemonResponse.Types.Result.Success)
-                {
-                    resp.Status = true;
-                }
-                else
-                {
-                    resp.Message = pokemon.PokemonId.ToString();
-                }
-
-                await RandomHelper.RandomDelay(1000, 2000);
-            }
-            catch (Exception e)
-            {
-                Logger.ColoredConsoleWrite(ConsoleColor.Red, "Error FavoritePokemon: " + e.Message);
-                await Favoritos(pokemon);
-            }
-            return resp;
         }
 
         private static async Task<taskResponse> evolvePokemon(PokemonData pokemon)
@@ -1142,21 +1115,6 @@ namespace PokemonGo.RocketAPI.Console
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
             Globals.RepeatUserRoute = checkBox1.Checked;
-        }
-
-        private async void favoriteToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            var pokemon = (PokemonData)PokemonListView.SelectedItems[0].Tag;
-            taskResponse resp = new taskResponse(false, string.Empty);
-
-            resp = await Favoritos(pokemon);
-            if (resp.Status)
-            {
-                PokemonListView.SelectedItems[0].ToolTipText = new DateTime((long)pokemon.CreationTimeMs * 10000).AddYears(1769).ToString("dd/MM/yyyy HH:mm:ss");
-                PokemonListView.SelectedItems[0].ToolTipText += "\nFavorite: " + pokemon.Nickname;
-            }
-            else
-                MessageBox.Show(resp.Message + " favorite failed!", "Favorite Status", MessageBoxButtons.OK);
         }
     }
     public static class ControlExtensions
