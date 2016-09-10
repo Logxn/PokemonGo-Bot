@@ -266,14 +266,19 @@ namespace PokemonGo.RocketAPI.Console
                             case 32:
                                 text_Telegram_Token.Text = line;
                                 break;
-                            case 33:
-                                checkBox_StopWalkingWhenEvolving.Checked = bool.Parse(line);
+                            case 34:
+                                checkbox_PWDEncryption.Checked = bool.Parse(line);
                             break;
                             default:
                                 break;
                         }
                         i++;
                     }
+		            if (checkbox_PWDEncryption.Checked)
+		            {
+		            	text_Password.Text = Encryption.Decrypt(text_Password.Text);
+		            }
+                    
                 }
                 else
                 {
@@ -917,7 +922,7 @@ namespace PokemonGo.RocketAPI.Console
                     Globals.radius.ToString(),
                     Globals.defLoc.ToString(),
                     Globals.transfer.ToString(),
-                    Globals.duplicate.ToString(),
+                    Globals.duplicate.ToString(),  // 10
                     Globals.evolve.ToString(),
                     Globals.maxCp.ToString(),
                     Globals.telAPI,
@@ -927,7 +932,7 @@ namespace PokemonGo.RocketAPI.Console
                     Globals.useluckyegg.ToString(),
                     Globals.useincense.ToString(),
                     Globals.ivmaxpercent.ToString(),
-                    Globals.pokeList.ToString(),
+                    Globals.pokeList.ToString(),  // 20
                     Globals.keepPokemonsThatCanEvolve.ToString(),
                     Globals.useLuckyEggIfNotRunning.ToString(),
                     Globals.autoIncubate.ToString(),
@@ -937,10 +942,15 @@ namespace PokemonGo.RocketAPI.Console
                     Globals.userazzberry.ToString(),
                     Convert.ToInt16(Globals.razzberry_chance * 100).ToString(),
                     Globals.sleepatpokemons.ToString(),
-                    Globals.farmPokestops.ToString(),
+                    Globals.farmPokestops.ToString(),  //30
                     Globals.telAPI.ToString(),
-                    Globals.pauseAtEvolve.ToString()
+                    Globals.pauseAtEvolve.ToString(),
+                    Globals.usePwdEncryption.ToString()
             };
+            if (Globals.usePwdEncryption)
+            {
+            	accFile[2] = Encryption.Encrypt(accFile[2]);
+            }            
             File.WriteAllLines(@Program.account, accFile);
 
             string[] itemsFile = {
@@ -1114,6 +1124,12 @@ namespace PokemonGo.RocketAPI.Console
             Globals.autoIncubate = checkBox_AutoIncubate.Checked;
             checkBox_UseBasicIncubators.Enabled = checkBox_AutoIncubate.Checked;
         }
+        
+        private void chkPWDEncryption_CheckedChanged(object sender, EventArgs e)
+        {
+            Globals.usePwdEncryption = checkbox_PWDEncryption.Checked;
+            
+        }
 
         private void chkUseBasicIncubators_CheckedChanged(object sender, EventArgs e)
         {
@@ -1250,6 +1266,7 @@ namespace PokemonGo.RocketAPI.Console
             checkBox_KeepPokemonWhichCanBeEvolved.Text = TranslationHandler.GetString("keepPokemonWhichCanBeEvolved", "Keep Pokemons which can be evolved");
             checkBox_AutoIncubate.Text = TranslationHandler.GetString("autoIncubate", "Auto incubate");
             checkBox_UseBasicIncubators.Text = TranslationHandler.GetString("useBasicIncubators", "Use basic incubators");
+            checkbox_PWDEncryption.Text = TranslationHandler.GetString("pwdEncryption", "Encrypt password on config file");
         }
 
         private void languages_btn_Click(object sender, EventArgs e)
