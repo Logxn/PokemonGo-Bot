@@ -22,6 +22,7 @@ namespace PokemonGo.RocketAPI.Console
         public static string path_device = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Device");
         public static string account = Path.Combine(path, "Config.txt");
         public static string items = Path.Combine(path, "Items.txt");
+        public static string throws = Path.Combine(path, "Throws.txt");
         public static string walkSetting = Path.Combine(path, "walk.txt");
         public static string keep = Path.Combine(path, "noTransfer.txt");
         public static string ignore = Path.Combine(path, "noCatch.txt");
@@ -264,6 +265,33 @@ namespace PokemonGo.RocketAPI.Console
                     }
                 }
 
+                if (File.Exists(Program.throws))
+                {
+                    string[] lines = File.ReadAllLines(@Program.throws);
+                    i = 1;
+                    foreach (string line in lines)
+                    {
+                        switch (i)
+                        {
+                            case 1:
+                                Globals.excellentthrow = int.Parse(line);
+                                break;
+                            case 2:
+                                Globals.greatthrow = int.Parse(line);
+                                break;
+                            case 3:
+                                Globals.nicethrow = int.Parse(line);
+                                break;
+                            case 4:
+                                Globals.ordinarythrow = int.Parse(line);
+                                break;
+                            default:
+                                break;
+                        }
+                        i++;
+                    }
+                }
+
                 if (File.Exists(keep))
                 {
                     string[] lines = System.IO.File.ReadAllLines(@keep);
@@ -433,6 +461,10 @@ namespace PokemonGo.RocketAPI.Console
         public static int duplicate = 3;
         public static bool evolve = true;
         public static int maxCp = 999;
+        public static int excellentthrow = 25;
+        public static int greatthrow = 25;
+        public static int nicethrow = 25;
+        public static int ordinarythrow = 25;
         public static int pokeball = 20;
         public static int greatball = 50;
         public static int ultraball = 100;
