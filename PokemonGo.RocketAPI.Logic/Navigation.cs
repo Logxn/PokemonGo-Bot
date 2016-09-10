@@ -43,7 +43,7 @@ namespace PokemonGo.RocketAPI.Logic
             var randomMin = (int)(walkingSpeedInKilometersPerHour * (1 - randomFactor));
             var randomMax = (int)(walkingSpeedInKilometersPerHour * (1 + randomFactor));
             var RandomWalkSpeed = RandomDevice.Next(randomMin, randomMax);
-            walkingSpeedInKilometersPerHour = RandomWalkSpeed;
+            walkingSpeedInKilometersPerHour = RandomWalkSpeed + RandomDevice.NextDouble();
 
             var speedInMetersPerSecond = walkingSpeedInKilometersPerHour / 3.6;
         
