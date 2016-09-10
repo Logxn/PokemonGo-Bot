@@ -570,7 +570,7 @@ namespace PokemonGo.RocketAPI.Logic
                     if (distance1 > 31 && failed_softban < 2)
                     {
                         //Logger.ColoredConsoleWrite(ConsoleColor.Green, "Pokestop mas: " + distance.ToString());
-                        continue; //solo agarrar los pokestop que esten a menos de 20 metros
+                        continue; //solo agarrar los pokestop que esten a menos de 30 metros
                     }
                 }
                 await SetCheckTimeToRun();
@@ -590,6 +590,19 @@ namespace PokemonGo.RocketAPI.Logic
                         var walkHome = await _navigation.HumanLikeWalking(new GeoCoordinate(_clientSettings.DefaultLatitude, _clientSettings.DefaultLongitude), _clientSettings.WalkingSpeedInKilometerPerHour, ExecuteCatchAllNearbyPokemons);
                     }
                 }
+
+                //SkipLagged API
+                if (_clientSettings.pokevision)
+                {
+                    Logger.ColoredConsoleWrite(ConsoleColor.DarkGreen, "SkipLagged API...");
+                    foreach (spottedPoke p in await _pokevision.GetNearPokemons(_client.CurrentLatitude, _client.CurrentLongitude))
+                    {
+                        var dist = LocationUtils.CalculateDistanceInMeters(_client.CurrentLatitude, _client.CurrentLongitude, p._lat, p._lng);
+                        Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"SkipLagged: There is a {StringUtils.getPokemonNameByLanguage(_clientSettings, p._pokeId)} to {dist:0.##} meters. Trying to Capture...");
+                        var upd = await _navigation.HumanLikeWalking(new GeoCoordinate(p._lat, p._lng), _clientSettings.WalkingSpeedInKilometerPerHour, ExecuteCatchAllNearbyPokemons);
+                    }
+                }
+
                 _infoObservable.PushNewGeoLocations(new GeoCoordinate(_client.CurrentLatitude, _client.CurrentLongitude));
 
                 var distance = LocationUtils.CalculateDistanceInMeters(_client.CurrentLatitude, _client.CurrentLongitude, pokeStop.Latitude, pokeStop.Longitude);
@@ -667,6 +680,7 @@ namespace PokemonGo.RocketAPI.Logic
                             Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Next Pokestop: {FortInfo.Name} to check cooldown and/or farm.");
                             var farmed = await CheckAndFarmNearbyPokeStop(Pokestop, _client, FortInfo);
                             if (farmed) { Pokestop.CooldownCompleteTimestampMs = (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds + 300500; }
+                            await SetCheckTimeToRun();
                             await RandomHelper.RandomDelay(60000, 120000); // wait for a bit before repeating farm cycle 
                         }
                     }
@@ -1164,41 +1178,38 @@ namespace PokemonGo.RocketAPI.Logic
             var hitTxt = "Default Perfect";
             var spinModifier = 1.0;
             var spinTxt = "Curve";
+            int Pb_Excellent = _clientSettings.Pb_Excellent;
+            int Pb_Great = _clientSettings.Pb_Excellent;
+            int Pb_Nice = _clientSettings.Pb_Nice;
+            int Pb_Ordinary = _clientSettings.Pb_Ordinary;
             var r = new Random();
-            int rInt = r.Next(0, 5);
-            switch (rInt)
+            int rInt = r.Next(0, 99);
+            if (rInt >= 0 && rInt < Pb_Excellent)
             {
-                case 0:
-                    {
-                        normalizedRecticleSize = r.NextDouble() * (1.95 - 1.7) + 1.7;
-                        hitTxt = "Excellent";
-                        break;
-                    }
-                case 1:
-                    {
-                        normalizedRecticleSize = r.NextDouble() * (1.95 - 1.3) + 1.3;
-                        hitTxt = "Great";
-                        break;
-                    }
-                case 2:
-                    {
-                        normalizedRecticleSize = r.NextDouble() * (1 - 0.1) + 0.1;
-                        hitTxt = "Ordinary";
-                        break;
-                    }
-                case 3:
-                    {
-                        normalizedRecticleSize = r.NextDouble() * (1.3 - 1) + 1;
-                        hitTxt = "Nice";
-                        break;
-                    }
-                default:
-                    {
-                        normalizedRecticleSize = r.NextDouble() * (1.7 - 1.3) + 1.3;
-                        hitTxt = "Great";
-                        break;
-                    }
+                normalizedRecticleSize = r.NextDouble() * (1.95 - 1.7) + 1.7;
+                hitTxt = "Excellent";
             }
+            else if (rInt >= Pb_Excellent && rInt < Pb_Excellent + Pb_Great)
+            {
+                normalizedRecticleSize = r.NextDouble() * (1.95 - 1.3) + 1.3;
+                hitTxt = "Great";
+            }
+            else if (rInt >= Pb_Excellent + Pb_Great && rInt < Pb_Excellent + Pb_Great + Pb_Nice)
+            {
+                normalizedRecticleSize = r.NextDouble() * (1.3 - 1) + 1;
+                hitTxt = "Nice";
+            }
+            else if (rInt >= Pb_Excellent + Pb_Great + Pb_Nice && rInt < Pb_Excellent + Pb_Great + Pb_Nice + Pb_Ordinary)
+            {
+                normalizedRecticleSize = r.NextDouble() * (1 - 0.1) + 0.1;
+                hitTxt = "Ordinary";
+            }
+            else
+            {
+                normalizedRecticleSize = r.NextDouble() * (1 - 0.1) + 0.1;
+                hitTxt = "Ordinary";
+            }
+
             int rIntSpin = r.Next(0, 2);
             if (rIntSpin == 0)
             {

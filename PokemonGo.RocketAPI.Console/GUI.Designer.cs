@@ -132,6 +132,7 @@
             this.checkBox_StopWalkingWhenEvolving = new System.Windows.Forms.CheckBox();
             this.label39 = new System.Windows.Forms.Label();
             this.comboBox_Device = new System.Windows.Forms.ComboBox();
+            this.checkbox_PWDEncryption = new System.Windows.Forms.CheckBox();
             this.label33 = new System.Windows.Forms.Label();
             this.text_UseRazzberryChance = new System.Windows.Forms.TextBox();
             this.checkBox_UseRazzberryIfChanceUnder = new System.Windows.Forms.CheckBox();
@@ -145,6 +146,16 @@
             this.checkBox_UseLuckyEggAtEvolve = new System.Windows.Forms.CheckBox();
             this.checkBox_EvolvePokemonIfEnoughCandy = new System.Windows.Forms.CheckBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tabThrows = new System.Windows.Forms.TabPage();
+            this.groupBox16 = new System.Windows.Forms.GroupBox();
+            this.text_Pb_Ordinary = new System.Windows.Forms.TextBox();
+            this.text_Pb_Nice = new System.Windows.Forms.TextBox();
+            this.text_Pb_Great = new System.Windows.Forms.TextBox();
+            this.text_Pb_Excellent = new System.Windows.Forms.TextBox();
+            this.label51 = new System.Windows.Forms.Label();
+            this.label50 = new System.Windows.Forms.Label();
+            this.label49 = new System.Windows.Forms.Label();
+            this.label48 = new System.Windows.Forms.Label();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.groupBox14 = new System.Windows.Forms.GroupBox();
@@ -194,6 +205,7 @@
             this.checkBox_RandomlyReduceSpeed = new System.Windows.Forms.CheckBox();
             this.label47 = new System.Windows.Forms.Label();
             this.linkLabel6 = new System.Windows.Forms.LinkLabel();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.tabPage1.SuspendLayout();
             this.tabItems.SuspendLayout();
             this.groupBox4.SuspendLayout();
@@ -209,6 +221,8 @@
             this.groupBox9.SuspendLayout();
             this.groupBox10.SuspendLayout();
             this.tabControl1.SuspendLayout();
+            this.tabThrows.SuspendLayout();
+            this.groupBox16.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.tabPage3.SuspendLayout();
             this.groupBox14.SuspendLayout();
@@ -219,6 +233,7 @@
             this.groupBox11.SuspendLayout();
             this.groupBox13.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.SuspendLayout();
             // 
             // button1
@@ -1358,9 +1373,11 @@
             this.groupBox10.Controls.Add(this.checkBox_UseIncenseEvery30min);
             this.groupBox10.Controls.Add(this.checkBox_SimulateAnimationTimeAtEvolve);
             this.groupBox10.Controls.Add(this.checkBox_UseLuckyEggAtEvolve);
-            this.groupBox10.Controls.Add(this.checkBox_EvolvePokemonIfEnoughCandy);
-            this.groupBox10.Location = new System.Drawing.Point(352, 7);
+            this.groupBox10.Controls.Add(this.checkBox_EvolvePokemonIfEnoughCandy);            
             this.groupBox10.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox10.Controls.Add(this.checkbox_PWDEncryption);
+            
+            this.groupBox10.Location = new System.Drawing.Point(264, 6);
             this.groupBox10.Name = "groupBox10";
             this.groupBox10.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.groupBox10.Size = new System.Drawing.Size(361, 404);
@@ -1426,6 +1443,17 @@
             this.comboBox_Device.Name = "comboBox_Device";
             this.comboBox_Device.Size = new System.Drawing.Size(244, 24);
             this.comboBox_Device.TabIndex = 53;
+        	// 
+        	// checkbox_PWDEncryption
+        	// 
+        	this.checkbox_PWDEncryption.AutoSize = true;
+        	this.checkbox_PWDEncryption.Location = new System.Drawing.Point(21, 302);
+        	this.checkbox_PWDEncryption.Name = "checkbox_PWDEncryption";
+        	this.checkbox_PWDEncryption.Size = new System.Drawing.Size(173, 17);
+        	this.checkbox_PWDEncryption.TabIndex = 56;
+        	this.checkbox_PWDEncryption.Text = "Encrypt password on config file";
+        	this.checkbox_PWDEncryption.UseVisualStyleBackColor = true;
+        	this.checkbox_PWDEncryption.CheckedChanged += new System.EventHandler(this.chkPWDEncryption_CheckedChanged);
             // 
             // label33
             // 
@@ -1581,6 +1609,7 @@
             // 
             this.tabControl1.Controls.Add(this.tabGeneral);
             this.tabControl1.Controls.Add(this.tabPokemon);
+            this.tabControl1.Controls.Add(this.tabThrows);
             this.tabControl1.Controls.Add(this.tabItems);
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
@@ -1593,8 +1622,104 @@
             this.tabControl1.Size = new System.Drawing.Size(733, 519);
             this.tabControl1.TabIndex = 36;
             // 
+            // tabThrows
+            // 
+            this.tabThrows.Controls.Add(this.groupBox16);
+            this.tabThrows.Location = new System.Drawing.Point(4, 22);
+            this.tabThrows.Name = "tabThrows";
+            this.tabThrows.Size = new System.Drawing.Size(542, 396);
+            this.tabThrows.TabIndex = 7;
+            this.tabThrows.Text = "Throws";
+            this.tabThrows.UseVisualStyleBackColor = true;
+            // 
+            // groupBox16
+            // 
+            this.groupBox16.Controls.Add(this.text_Pb_Ordinary);
+            this.groupBox16.Controls.Add(this.text_Pb_Nice);
+            this.groupBox16.Controls.Add(this.text_Pb_Great);
+            this.groupBox16.Controls.Add(this.text_Pb_Excellent);
+            this.groupBox16.Controls.Add(this.label51);
+            this.groupBox16.Controls.Add(this.label50);
+            this.groupBox16.Controls.Add(this.label49);
+            this.groupBox16.Controls.Add(this.label48);
+            this.groupBox16.Location = new System.Drawing.Point(3, 3);
+            this.groupBox16.Name = "groupBox16";
+            this.groupBox16.Size = new System.Drawing.Size(190, 118);
+            this.groupBox16.TabIndex = 0;
+            this.groupBox16.TabStop = false;
+            this.groupBox16.Text = "Throw probabilities";
+            // 
+            // text_Pb_Ordinary
+            // 
+            this.text_Pb_Ordinary.Location = new System.Drawing.Point(129, 91);
+            this.text_Pb_Ordinary.Name = "text_Pb_Ordinary";
+            this.text_Pb_Ordinary.Size = new System.Drawing.Size(51, 20);
+            this.text_Pb_Ordinary.TabIndex = 4;
+            this.text_Pb_Ordinary.TextChanged += new System.EventHandler(this.TextBoxes_Throws_TextChanged);
+            // 
+            // text_Pb_Nice
+            // 
+            this.text_Pb_Nice.Location = new System.Drawing.Point(129, 64);
+            this.text_Pb_Nice.Name = "text_Pb_Nice";
+            this.text_Pb_Nice.Size = new System.Drawing.Size(51, 20);
+            this.text_Pb_Nice.TabIndex = 4;
+            this.text_Pb_Nice.TextChanged += new System.EventHandler(this.TextBoxes_Throws_TextChanged);
+            // 
+            // text_Pb_Great
+            // 
+            this.text_Pb_Great.Location = new System.Drawing.Point(129, 38);
+            this.text_Pb_Great.Name = "text_Pb_Great";
+            this.text_Pb_Great.Size = new System.Drawing.Size(51, 20);
+            this.text_Pb_Great.TabIndex = 4;
+            this.text_Pb_Great.TextChanged += new System.EventHandler(this.TextBoxes_Throws_TextChanged);
+            // 
+            // text_Pb_Excellent
+            // 
+            this.text_Pb_Excellent.Location = new System.Drawing.Point(129, 12);
+            this.text_Pb_Excellent.Name = "text_Pb_Excellent";
+            this.text_Pb_Excellent.Size = new System.Drawing.Size(51, 20);
+            this.text_Pb_Excellent.TabIndex = 4;
+            this.text_Pb_Excellent.TextChanged += new System.EventHandler(this.TextBoxes_Throws_TextChanged);
+            // 
+            // label51
+            // 
+            this.label51.AutoSize = true;
+            this.label51.Location = new System.Drawing.Point(7, 93);
+            this.label51.Name = "label51";
+            this.label51.Size = new System.Drawing.Size(88, 13);
+            this.label51.TabIndex = 3;
+            this.label51.Text = "Ordinary chance:";
+            // 
+            // label50
+            // 
+            this.label50.AutoSize = true;
+            this.label50.Location = new System.Drawing.Point(7, 67);
+            this.label50.Name = "label50";
+            this.label50.Size = new System.Drawing.Size(71, 13);
+            this.label50.TabIndex = 2;
+            this.label50.Text = "Nice chance:";
+            // 
+            // label49
+            // 
+            this.label49.AutoSize = true;
+            this.label49.Location = new System.Drawing.Point(7, 41);
+            this.label49.Name = "label49";
+            this.label49.Size = new System.Drawing.Size(75, 13);
+            this.label49.TabIndex = 1;
+            this.label49.Text = "Great chance:";
+            // 
+            // label48
+            // 
+            this.label48.AutoSize = true;
+            this.label48.Location = new System.Drawing.Point(7, 15);
+            this.label48.Name = "label48";
+            this.label48.Size = new System.Drawing.Size(92, 13);
+            this.label48.TabIndex = 0;
+            this.label48.Text = "Excellent chance:";
+            // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.checkBox1);
             this.tabPage2.Controls.Add(this.pictureBox1);
             this.tabPage2.Controls.Add(this.button_ArchimedeanSpiralHelp);
             this.tabPage2.Controls.Add(this.checkBox_WalkInArchimedeanSpiral);
@@ -2192,6 +2317,14 @@
             this.linkLabel6.TabStop = true;
             this.linkLabel6.Text = "Get Google Maps API Key Here";
             this.linkLabel6.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel6_LinkClicked);
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Location = new System.Drawing.Point(265, 252);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(243, 17);
+            this.checkBox1.TabIndex = 67;
+            this.checkBox1.Text = "Use SkipLagged.com api to capture pokemon";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
             // 
             // GUI
             // 
@@ -2246,6 +2379,9 @@
             this.groupBox10.ResumeLayout(false);
             this.groupBox10.PerformLayout();
             this.tabControl1.ResumeLayout(false);
+            this.tabThrows.ResumeLayout(false);
+            this.groupBox16.ResumeLayout(false);
+            this.groupBox16.PerformLayout();
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
             this.tabPage3.ResumeLayout(false);
@@ -2262,6 +2398,7 @@
             this.groupBox13.ResumeLayout(false);
             this.groupBox13.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -2433,6 +2570,18 @@
         private System.Windows.Forms.TextBox text_BreakInterval;
         private System.Windows.Forms.TextBox text_BreakLength;
         private System.Windows.Forms.Label label32;
+        private System.Windows.Forms.TabPage tabThrows;
+        private System.Windows.Forms.GroupBox groupBox16;
+        private System.Windows.Forms.Label label51;
+        private System.Windows.Forms.Label label50;
+        private System.Windows.Forms.Label label49;
+        private System.Windows.Forms.Label label48;
+        private System.Windows.Forms.TextBox text_Pb_Ordinary;
+        private System.Windows.Forms.TextBox text_Pb_Nice;
+        private System.Windows.Forms.TextBox text_Pb_Great;
+        private System.Windows.Forms.TextBox text_Pb_Excellent;
+        private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.CheckBox checkbox_PWDEncryption;        
     }
 }
 

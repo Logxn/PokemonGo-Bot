@@ -266,14 +266,19 @@ namespace PokemonGo.RocketAPI.Console
                             case 32:
                                 text_Telegram_Token.Text = line;
                                 break;
-                            case 33:
-                                checkBox_StopWalkingWhenEvolving.Checked = bool.Parse(line);
+                            case 34:
+                                checkbox_PWDEncryption.Checked = bool.Parse(line);
                             break;
                             default:
                                 break;
                         }
                         i++;
                     }
+		            if (checkbox_PWDEncryption.Checked)
+		            {
+		            	text_Password.Text = Encryption.Decrypt(text_Password.Text);
+		            }
+                    
                 }
                 else
                 {
@@ -289,6 +294,40 @@ namespace PokemonGo.RocketAPI.Console
             } catch (Exception)
             {
                 MessageBox.Show("Your Config is broken, check if every setting is right!");
+            }
+
+            if (File.Exists(Program.throws))
+            {
+                string[] lines = File.ReadAllLines(@Program.throws);
+                i = 1;
+                foreach (string line in lines)
+                {
+                    switch (i)
+                    {
+                        case 1:
+                            text_Pb_Excellent.Text = line;
+                            break;
+                        case 2:
+                            text_Pb_Great.Text = line;
+                            break;
+                        case 3:
+                            text_Pb_Nice.Text = line;
+                            break;
+                        case 4:
+                            text_Pb_Ordinary.Text = line;
+                            break;
+                        default:
+                            break;
+                    }
+                    i++;
+                }
+            }
+            else
+            {
+                text_Pb_Excellent.Text = "25";
+                text_Pb_Great.Text = "25";
+                text_Pb_Nice.Text = "25";
+                text_Pb_Ordinary.Text = "25";
             }
 
             if (File.Exists(Program.items))
@@ -445,6 +484,9 @@ namespace PokemonGo.RocketAPI.Console
                             break;
                         case 15:
                             checkBox_WalkInArchimedeanSpiral.Checked = bool.Parse(line);
+                            break;
+                        case 17:
+                            checkBox1.Checked = bool.Parse(line);
                             break;
                     }
                     i++;
@@ -726,6 +768,38 @@ namespace PokemonGo.RocketAPI.Console
             Globals.defLoc = checkBox_Start_Walk_from_default_location.Checked;
             Globals.evolve = checkBox_EvolvePokemonIfEnoughCandy.Checked;
 
+            if (text_Pb_Excellent.Text == string.Empty)
+            {
+                text_Pb_Excellent.BackColor = Color.Red;
+                return;
+            }
+            else
+                Globals.excellentthrow = int.Parse(text_Pb_Excellent.Text);
+
+            if (text_Pb_Great.Text == string.Empty)
+            {
+                text_Pb_Great.BackColor = Color.Red;
+                return;
+            }
+            else
+                Globals.greatthrow = int.Parse(text_Pb_Great.Text);
+
+            if (text_Pb_Nice.Text == string.Empty)
+            {
+                text_Pb_Nice.BackColor = Color.Red;
+                return;
+            }
+            else
+                Globals.nicethrow = int.Parse(text_Pb_Nice.Text);
+
+            if (text_Pb_Ordinary.Text == string.Empty)
+            {
+                text_Pb_Ordinary.BackColor = Color.Red;
+                return;
+            }
+            else
+                Globals.ordinarythrow = int.Parse(text_Pb_Ordinary.Text);
+
             if (text_MaxPokeballs.Text == string.Empty)
             {
                 text_MaxPokeballs.BackColor = Color.Red;
@@ -880,7 +954,7 @@ namespace PokemonGo.RocketAPI.Console
             Globals.useincense = checkBox_UseIncenseEvery30min.Checked;
             Globals.pokeList = checkBox_EnablePokemonListGui.Checked;
             Globals.keepPokemonsThatCanEvolve = checkBox_KeepPokemonWhichCanBeEvolved.Checked;
-            //Globals.pokevision = checkBox_UseLuckyEggIfNotRunning.Checked;
+            Globals.pokevision = checkBox1.Checked;
             Globals.useLuckyEggIfNotRunning = checkBox_UseLuckyEggIfNotRunning.Checked;
             Globals.userazzberry = checkBox_UseRazzberryIfChanceUnder.Checked;
             Globals.TransferFirstLowIV = checkBox_TransferFirstLowIV.Checked;
@@ -914,7 +988,7 @@ namespace PokemonGo.RocketAPI.Console
                     Globals.radius.ToString(),
                     Globals.defLoc.ToString(),
                     Globals.transfer.ToString(),
-                    Globals.duplicate.ToString(),
+                    Globals.duplicate.ToString(),  // 10
                     Globals.evolve.ToString(),
                     Globals.maxCp.ToString(),
                     Globals.telAPI,
@@ -924,7 +998,7 @@ namespace PokemonGo.RocketAPI.Console
                     Globals.useluckyegg.ToString(),
                     Globals.useincense.ToString(),
                     Globals.ivmaxpercent.ToString(),
-                    Globals.pokeList.ToString(),
+                    Globals.pokeList.ToString(),  // 20
                     Globals.keepPokemonsThatCanEvolve.ToString(),
                     Globals.useLuckyEggIfNotRunning.ToString(),
                     Globals.autoIncubate.ToString(),
@@ -934,11 +1008,24 @@ namespace PokemonGo.RocketAPI.Console
                     Globals.userazzberry.ToString(),
                     Convert.ToInt16(Globals.razzberry_chance * 100).ToString(),
                     Globals.sleepatpokemons.ToString(),
-                    Globals.farmPokestops.ToString(),
+                    Globals.farmPokestops.ToString(),  //30
                     Globals.telAPI.ToString(),
-                    Globals.pauseAtEvolve.ToString()
+                    Globals.pauseAtEvolve.ToString(),
+                    Globals.usePwdEncryption.ToString()
             };
+            if (Globals.usePwdEncryption)
+            {
+            	accFile[2] = Encryption.Encrypt(accFile[2]);
+            }            
             File.WriteAllLines(@Program.account, accFile);
+
+            string[] throwsFile = {
+                Globals.excellentthrow.ToString(),
+                Globals.greatthrow.ToString(),
+                Globals.nicethrow.ToString(),
+                Globals.ordinarythrow.ToString()
+            };
+            File.WriteAllLines(Program.throws, throwsFile);
 
             string[] itemsFile = {
                     Globals.pokeball.ToString(),
@@ -986,7 +1073,8 @@ namespace PokemonGo.RocketAPI.Console
                 text_MinWalkSpeed.Text,
                 text_TimeToRun.Text,
                 Globals.Espiral.ToString(),
-                Globals.UseBreakFields.ToString()
+                Globals.UseBreakFields.ToString(),
+                Globals.pokevision.ToString(),
             };
             File.WriteAllLines(@Program.walkSetting, walkSettingsFile);
 
@@ -1110,6 +1198,12 @@ namespace PokemonGo.RocketAPI.Console
             Globals.autoIncubate = checkBox_AutoIncubate.Checked;
             checkBox_UseBasicIncubators.Enabled = checkBox_AutoIncubate.Checked;
         }
+        
+        private void chkPWDEncryption_CheckedChanged(object sender, EventArgs e)
+        {
+            Globals.usePwdEncryption = checkbox_PWDEncryption.Checked;
+            
+        }
 
         private void chkUseBasicIncubators_CheckedChanged(object sender, EventArgs e)
         {
@@ -1177,6 +1271,27 @@ namespace PokemonGo.RocketAPI.Console
             text_TotalItemCount.Text = Convert.ToString(itemSumme);
         }
 
+        private void TextBoxes_Throws_TextChanged(object sender, EventArgs e)
+        {
+            int throwsChanceSum = 0;
+
+            if (text_Pb_Excellent.Text != string.Empty && text_Pb_Great.Text != string.Empty && text_Pb_Nice.Text != string.Empty && text_Pb_Ordinary.Text != string.Empty)
+            {
+                throwsChanceSum = Convert.ToInt16(text_Pb_Excellent.Text) +
+                                  Convert.ToInt16(text_Pb_Great.Text) +
+                                  Convert.ToInt16(text_Pb_Nice.Text) +
+                                  Convert.ToInt16(text_Pb_Ordinary.Text);
+            }
+            if (throwsChanceSum > 100)
+            {
+                MessageBox.Show("You can not have a total throw chance greater than 100%.\nResetting all throw chances to 25%!");
+                text_Pb_Excellent.Text = "25";
+                text_Pb_Great.Text = "25";
+                text_Pb_Nice.Text = "25";
+                text_Pb_Ordinary.Text = "25";
+            }
+        }
+
         private void pictureBox1_Click(object sender, EventArgs e)
         {
             Process.Start("https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=RUNUBQEANCAGQ");
@@ -1230,6 +1345,10 @@ namespace PokemonGo.RocketAPI.Console
             label25.Text = TranslationHandler.GetString("maxToppotions", "Max. TopPotions:");
             label20.Text = TranslationHandler.GetString("maxRazzberrys", "Max. RazzBerrys:");
             label31.Text = TranslationHandler.GetString("totalCount", "Total Count:");
+            label48.Text = TranslationHandler.GetString("excellentChance", "Excellent chance:");
+            label49.Text = TranslationHandler.GetString("greatChance", "Great chance:");
+            label50.Text = TranslationHandler.GetString("niceChance", "Nice chance:");
+            label51.Text = TranslationHandler.GetString("ordinaryChance", "Ordinary chance:");
             groupBox5.Text = TranslationHandler.GetString("pokemonNotToTransfer", "Pokemons - Not to transfer");
             checkBox4.Text = TranslationHandler.GetString("selectAll", "Select all");
             groupBox6.Text = TranslationHandler.GetString("pokemonNotToCatch", "Pokemons - Not to catch");
@@ -1246,6 +1365,7 @@ namespace PokemonGo.RocketAPI.Console
             checkBox_KeepPokemonWhichCanBeEvolved.Text = TranslationHandler.GetString("keepPokemonWhichCanBeEvolved", "Keep Pokemons which can be evolved");
             checkBox_AutoIncubate.Text = TranslationHandler.GetString("autoIncubate", "Auto incubate");
             checkBox_UseBasicIncubators.Text = TranslationHandler.GetString("useBasicIncubators", "Use basic incubators");
+            checkbox_PWDEncryption.Text = TranslationHandler.GetString("pwdEncryption", "Encrypt password on config file");
         }
 
         private void languages_btn_Click(object sender, EventArgs e)
@@ -1650,6 +1770,11 @@ namespace PokemonGo.RocketAPI.Console
         private void checkBox_RandomSleepAtCatching_CheckedChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            Globals.pokevision = checkBox1.Checked;
         }
     }
 }

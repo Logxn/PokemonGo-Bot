@@ -359,6 +359,30 @@ namespace PokemonGo.RocketAPI.Console
             }
         }
 
+        public int Pb_Excellent
+        {
+            get { return Globals.excellentthrow; }
+            set { Globals.excellentthrow = value; }
+        }
+
+        public int Pb_Great
+        {
+            get { return Globals.greatthrow; }
+            set { Globals.greatthrow = value; }
+        }
+
+        public int Pb_Nice
+        {
+            get { return Globals.nicethrow; }
+            set { Globals.nicethrow = value; }
+        }
+
+        public int Pb_Ordinary
+        {
+            get { return Globals.ordinarythrow; }
+            set { Globals.ordinarythrow = value; }
+        }
+
         bool ISettings.logPokemons
         {
             get

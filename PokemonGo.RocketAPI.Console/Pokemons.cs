@@ -712,7 +712,7 @@ namespace PokemonGo.RocketAPI.Console
             int total = selectedItems.Count;
             string failed = string.Empty;
 
-            DialogResult dialogResult = MessageBox.Show("You clicked IV To Nick. This can not be undone.", "Are you Sure?", MessageBoxButtons.YesNo);
+            DialogResult dialogResult = MessageBox.Show("You clicked to change nickame using IVs.\nAre you Sure?","Confirm Dialog" , MessageBoxButtons.YesNo);
             if (dialogResult == DialogResult.Yes)
             {
                 taskResponse resp = new taskResponse(false, string.Empty);
@@ -835,7 +835,7 @@ namespace PokemonGo.RocketAPI.Console
             taskResponse resp = new taskResponse(false, string.Empty);
             try
             {
-                var nicknamePokemonResponse1 = await client.Inventory.ChangePokemonNickname(pokemon.Id, pokemon.Nickname);
+                var nicknamePokemonResponse1 = await client.Inventory.NicknamePokemon(pokemon.Id, pokemon.Nickname);
 
                 if (nicknamePokemonResponse1.Result == NicknamePokemonResponse.Types.Result.Success)
                 {
@@ -853,6 +853,30 @@ namespace PokemonGo.RocketAPI.Console
             }
             return resp;
         }
+
+ 		private static async Task<taskResponse> changeFavourites(PokemonData pokemon)
+        {
+            taskResponse resp = new taskResponse(false, string.Empty);
+            try
+            {
+            	var response = await client.Inventory.SetFavoritePokemon( (long) pokemon.Id, (pokemon.Favorite == 1));
+
+                if (response.Result == SetFavoritePokemonResponse.Types.Result.Success)
+                {
+                    resp.Status = true;
+                }
+                else
+                {
+                    resp.Message = pokemon.PokemonId.ToString();
+                }
+            }
+            catch (Exception e)
+            {
+                Logger.ColoredConsoleWrite(ConsoleColor.Red, "Error ChangeFavourites: " + e.Message);
+                await changeFavourites(pokemon);
+            }
+            return resp;
+        }                
 
         private void contextMenuStrip1_Opening(object sender, System.ComponentModel.CancelEventArgs e)
         {
@@ -933,6 +957,29 @@ namespace PokemonGo.RocketAPI.Console
             else
                 MessageBox.Show(resp.Message + " rename failed!", "Rename Status", MessageBoxButtons.OK);
         }
+        
+        private async void changeFavouritesToolStripMenuItemClick(object sender, EventArgs e)
+        {
+            var pokemon = (PokemonData)PokemonListView.SelectedItems[0].Tag;
+            taskResponse resp = new taskResponse(false, string.Empty);
+
+			string poname = StringUtils.getPokemonNameByLanguage(ClientSettings, (PokemonId)pokemon.PokemonId);
+			if (MessageBox.Show(this, poname + " will be " +((pokemon.Favorite == 1)?"deleted from":"added to") + " your favourites." +"\nAre you sure you want?", "Confirmation Message", MessageBoxButtons.OKCancel) == DialogResult.OK)
+            {
+            	pokemon.Favorite =  (pokemon.Favorite == 1)?0:1 ;
+                resp = await changeFavourites(pokemon);
+            }
+            else
+            {
+                return;
+            }
+            if (resp.Status)
+            {
+            	PokemonListView.SelectedItems[0].Text = string.Format((pokemon.Favorite == 1) ? "{0} ★" : "{0}", StringUtils.getPokemonNameByLanguage(ClientSettings, (PokemonId)pokemon.PokemonId));
+            }
+            else
+                MessageBox.Show(resp.Message + " rename failed!", "Rename Status", MessageBoxButtons.OK);
+        }        
 
         private void checkboxReload_CheckedChanged(object sender, EventArgs e)
         {
