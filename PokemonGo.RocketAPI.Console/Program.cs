@@ -43,9 +43,6 @@ namespace PokemonGo.RocketAPI.Console
         [STAThread]
         static void Main(string[] args)
         {
-
-
-
             SleepHelper.PreventSleep();
             if (args != null && args.Length > 0)
             {
@@ -109,7 +106,7 @@ namespace PokemonGo.RocketAPI.Console
                                     Globals.username = line;
                                     break;
                                 case 2:
-                                    Globals.password = line;
+                                    Globals.password = Encryption.Decrypt(line);
                                     break;
                                 case 3:
                                     if (line.Split('.').Length - 1 > 1)

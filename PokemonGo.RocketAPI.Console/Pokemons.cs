@@ -814,6 +814,30 @@ namespace PokemonGo.RocketAPI.Console
             }
             return resp;
         }
+        
+        private static async Task<taskResponse> changeFavourites(PokemonData pokemon)
+        {
+            taskResponse resp = new taskResponse(false, string.Empty);
+            try
+            {
+            	var response = await client.Inventory.ChangeFavourites(pokemon.Id, (pokemon.Favorite == 1));
+
+                if (response.Result == SetFavoritePokemonResponse.Types.Result.Success)
+                {
+                    resp.Status = true;
+                }
+                else
+                {
+                    resp.Message = pokemon.PokemonId.ToString();
+                }
+            }
+            catch (Exception e)
+            {
+                Logger.ColoredConsoleWrite(ConsoleColor.Red, "Error ChangeFavourites: " + e.Message);
+                await changeFavourites(pokemon);
+            }
+            return resp;
+        }        
 
         private void contextMenuStrip1_Opening(object sender, System.ComponentModel.CancelEventArgs e)
         {
@@ -890,6 +914,29 @@ namespace PokemonGo.RocketAPI.Console
             {
                 PokemonListView.SelectedItems[0].ToolTipText = new DateTime((long)pokemon.CreationTimeMs * 10000).AddYears(1969).ToString("dd/MM/yyyy HH:mm:ss");
                 PokemonListView.SelectedItems[0].ToolTipText += "\nNickname: " + pokemon.Nickname;
+            }
+            else
+                MessageBox.Show(resp.Message + " rename failed!", "Rename Status", MessageBoxButtons.OK);
+        }
+        
+        private async void changeFavouritesToolStripMenuItemClick(object sender, EventArgs e)
+        {
+            var pokemon = (PokemonData)PokemonListView.SelectedItems[0].Tag;
+            taskResponse resp = new taskResponse(false, string.Empty);
+
+			string poname = StringUtils.getPokemonNameByLanguage(ClientSettings, (PokemonId)pokemon.PokemonId);
+			if (MessageBox.Show(this, poname + " will be " +((pokemon.Favorite == 1)?"deleted from":"added to") + " your favourites." +"\nAre you sure you want?", "Confirmation Message", MessageBoxButtons.OKCancel) == DialogResult.OK)
+            {
+            	pokemon.Favorite =  (pokemon.Favorite == 1)?0:1 ;
+                resp = await changeFavourites(pokemon);
+            }
+            else
+            {
+                return;
+            }
+            if (resp.Status)
+            {
+            	PokemonListView.SelectedItems[0].Text = string.Format((pokemon.Favorite == 1) ? "{0} ★" : "{0}", StringUtils.getPokemonNameByLanguage(ClientSettings, (PokemonId)pokemon.PokemonId));
             }
             else
                 MessageBox.Show(resp.Message + " rename failed!", "Rename Status", MessageBoxButtons.OK);

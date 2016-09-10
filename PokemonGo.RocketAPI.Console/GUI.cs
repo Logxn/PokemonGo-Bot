@@ -166,7 +166,7 @@ namespace PokemonGo.RocketAPI.Console
                                 text_EMail.Text = line;
                                 break;
                             case 3:
-                                text_Password.Text = line;
+                                text_Password.Text = Encryption.Decrypt(line);
                                 break;
                             case 4:
                                 text_Latidude.Text = line;
@@ -906,7 +906,7 @@ namespace PokemonGo.RocketAPI.Console
             string[] accFile = {
                     Globals.acc.ToString(),
                     Globals.username,
-                    Globals.password,
+                    Encryption.Encrypt(Globals.password),
                     Globals.latitute.ToString(),
                     Globals.longitude.ToString(),
                     Globals.altitude.ToString(),
