@@ -41,6 +41,7 @@ namespace PokemonGo.RocketAPI.Console
             this.powerUpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.evolveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.iVsToNicknameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.changeFavouritesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();            
             this.statusTexbox = new System.Windows.Forms.TextBox();
             this.checkBoxreload = new System.Windows.Forms.CheckBox();
             this.reloadsecondstextbox = new System.Windows.Forms.TextBox();
@@ -61,7 +62,6 @@ namespace PokemonGo.RocketAPI.Console
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
-            this.favoriteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -148,7 +148,7 @@ namespace PokemonGo.RocketAPI.Console
             this.powerUpToolStripMenuItem,
             this.evolveToolStripMenuItem,
             this.iVsToNicknameToolStripMenuItem,
-            this.favoriteToolStripMenuItem});
+            this.changeFavouritesToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
             this.contextMenuStrip1.Size = new System.Drawing.Size(161, 136);
             this.contextMenuStrip1.Closing += new System.Windows.Forms.ToolStripDropDownClosingEventHandler(this.contextMenuStrip1_Closing);
@@ -182,6 +182,14 @@ namespace PokemonGo.RocketAPI.Console
             this.iVsToNicknameToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
             this.iVsToNicknameToolStripMenuItem.Text = "IVs to Nickname";
             this.iVsToNicknameToolStripMenuItem.Click += new System.EventHandler(this.IVsToNicknameToolStripMenuItemClick);
+            // 
+            // changeFavouritesToolStripMenuItem
+            // 
+            this.changeFavouritesToolStripMenuItem.Name = "changeFavouritesToolStripMenuItem";
+            this.changeFavouritesToolStripMenuItem.Size = new System.Drawing.Size(185, 24);
+            this.changeFavouritesToolStripMenuItem.Text = "Change Favourites";
+            this.changeFavouritesToolStripMenuItem.Click += new System.EventHandler(this.changeFavouritesToolStripMenuItemClick);
+            
             // 
             // statusTexbox
             // 
@@ -395,13 +403,6 @@ namespace PokemonGo.RocketAPI.Console
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
-            // favoriteToolStripMenuItem
-            // 
-            this.favoriteToolStripMenuItem.Name = "favoriteToolStripMenuItem";
-            this.favoriteToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
-            this.favoriteToolStripMenuItem.Text = "Favorite";
-            this.favoriteToolStripMenuItem.Click += new System.EventHandler(this.favoriteToolStripMenuItem_Click);
-            // 
             // Pokemons
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -456,6 +457,7 @@ namespace PokemonGo.RocketAPI.Console
         private System.Windows.Forms.ToolStripMenuItem powerUpToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem evolveToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem iVsToNicknameToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem changeFavouritesToolStripMenuItem;        
         private System.Windows.Forms.CheckBox checkBoxreload;
         private System.Windows.Forms.TextBox reloadsecondstextbox;
         private System.Windows.Forms.Label label2;
@@ -475,6 +477,5 @@ namespace PokemonGo.RocketAPI.Console
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.ToolStripMenuItem favoriteToolStripMenuItem;
     }
 }
