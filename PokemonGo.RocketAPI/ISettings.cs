@@ -105,5 +105,10 @@ namespace PokemonGo.RocketAPI
         bool pauseTheWalking { get; set; }
 
         bool pauseAtEvolve2 { get; set; }
+
+        int Pb_Excellent { get; set; }
+        int Pb_Great { get; set; }
+        int Pb_Nice { get; set; }
+        int Pb_Ordinary { get; set; }
     }
 }
