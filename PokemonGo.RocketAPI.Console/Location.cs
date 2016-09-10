@@ -221,7 +221,7 @@ namespace PokemonGo.RocketAPI.Console
                     Logger.ColoredConsoleWrite(ConsoleColor.White, string.Format("Got new Pokestop Count: {0}, unfiltered: {1}", pokeStops.Length, prevCount));
                     foreach (var pokeStop in pokeStopstoHandle)
                     {
-                    	if (pokeStops.id !=null)
+                    	if (pokeStop.id !=null)
                     	{
 	                        var pokeStopMaker = new GMarkerGoogle(new PointLatLng(pokeStop.Latitude, pokeStop.Longitude),new Bitmap(Properties.Resources.pokestop));
 	                        if (pokeStop.ActiveFortModifier.Count > 0)
