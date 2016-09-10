@@ -201,6 +201,9 @@ namespace PokemonGo.RocketAPI.Console
                                     //case 28:
                                     //    Globals.userazzberry = bool.Parse(line);
                                     //    break;
+                                case 33:
+                                    Globals.usePwdEncryption = bool.Parse(line);
+                                    break;
                             }
                         }
                         catch (Exception)
@@ -210,6 +213,11 @@ namespace PokemonGo.RocketAPI.Console
                         }
                         i++;
                     }
+		            if (Globals.usePwdEncryption)
+		            {
+		            	Globals.password = Encryption.Decrypt(Globals.password);
+		            }
+                    
                     if (cmdCoords != string.Empty)
                     {
                         string[] crdParts = cmdCoords.Split(',');
@@ -565,5 +573,6 @@ namespace PokemonGo.RocketAPI.Console
         public static bool pauseAtEvolve2 = false;
 
         public static bool AutoUpdate = false;
+        public static bool usePwdEncryption = false;
     }
 }
