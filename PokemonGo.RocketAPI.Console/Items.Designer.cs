@@ -49,6 +49,7 @@ namespace PokemonGo.RocketAPI.Console
 		/// </summary>
 		private void InitializeComponent()
 		{
+            this.FormClosing += this.Form_StopClose;
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Items));
 			this.ItemsListView = new System.Windows.Forms.ListView();

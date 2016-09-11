@@ -268,10 +268,13 @@ namespace PokemonGo.RocketAPI.Console
                                 break;
                             case 34:
                                 checkbox_PWDEncryption.Checked = bool.Parse(line);
-                            break;
+                                break;
                             case 35:
                                 checkBox_EnableItemsListGui.Checked = bool.Parse(line);
-                            break;
+                                break;
+                            case 36:
+                                checkBox_CatchLurePokemons.Checked = bool.Parse(line);
+                                break;
                             default:
                                 break;
                         }
@@ -1016,7 +1019,8 @@ namespace PokemonGo.RocketAPI.Console
                     Globals.telAPI.ToString(),
                     Globals.pauseAtEvolve.ToString(),
                     Globals.usePwdEncryption.ToString(),
-                    Globals.itemsList.ToString()
+                    Globals.itemsList.ToString(),
+                    Globals.CatchLurePokemons.ToString()
             };
             if (Globals.usePwdEncryption)
             {
@@ -1750,6 +1754,11 @@ namespace PokemonGo.RocketAPI.Console
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
             Globals.pokevision = checkBox1.Checked;
+        }
+
+        private void checkBox_CatchLurePokemons_CheckedChanged(object sender, EventArgs e)
+        {
+            Globals.CatchLurePokemons = checkBox_CatchLurePokemons.Checked;
         }
     }
 }

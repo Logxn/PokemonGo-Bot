@@ -49,8 +49,13 @@ namespace PokemonGo.RocketAPI.Console
             Execute();
         }
 
-		
-		private async void Execute()
+        private void Form_StopClose(object sender, FormClosingEventArgs e)
+        {
+            e.Cancel = true;
+            this.WindowState = FormWindowState.Minimized;
+        }
+         
+        private async void Execute()
         {
 			await check();
 			

@@ -546,6 +546,8 @@ namespace PokemonGo.RocketAPI.Console
         public static bool TransferFirstLowIV = true;
         public static bool pokevision = false;
 
+        public static bool CatchLurePokemons = false;
+
         public static bool useLuckyEggIfNotRunning = false;
 
         public static bool autoIncubate = true;
