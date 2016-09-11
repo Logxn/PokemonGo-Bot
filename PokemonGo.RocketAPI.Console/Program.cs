@@ -568,11 +568,14 @@ namespace PokemonGo.RocketAPI.Console
 
         public static bool UseIncenseGUIClick = false;
         public static bool bLogEvolve = false;
+        public static bool LogEggs = false;
 
         public static bool pauseAtEvolve = false;
         public static bool pauseAtEvolve2 = false;
 
         public static bool AutoUpdate = false;
         public static bool usePwdEncryption = false;
+
+        public static bool CheckWhileRunning = false;
     }
 }
