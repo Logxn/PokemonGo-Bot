@@ -23,7 +23,7 @@ namespace PokemonGo.RocketAPI.Console
 {
     public partial class LocationSelect : Form
     {
-        public LocationSelect(bool asViewOnly)
+        public LocationSelect(bool asViewOnly, int team = 0)
         {
             InitializeComponent();
             map.Manager.Mode = AccessMode.ServerOnly;
@@ -33,21 +33,23 @@ namespace PokemonGo.RocketAPI.Console
 
             if (asViewOnly)
             {
-                initViewOnly();
+                initViewOnly(team);
             }
         }
 
         public double alt;
         public bool close = true;
 
-        //private GMarkerGoogle _botMarker = new GMarkerGoogle(new PointLatLng(), GMarkerGoogleType.red_small);
-        private GMarkerGoogle _botMarker = new GMarkerGoogle(new PointLatLng(), Properties.Resources.player);
+        
+        private GMarkerGoogle _botMarker;
 
         private GMapRoute _botRoute = new GMapRoute("BotRoute");
         private Dictionary<string, GMarkerGoogle> _pokemonMarks = new Dictionary<string, GMarkerGoogle>();
         private GMapOverlay _pokemonOverlay = new GMapOverlay("Pokemon");
         private Dictionary<string, GMarkerGoogle> _pokeStopsMarks = new Dictionary<string, GMarkerGoogle>();
         private GMapOverlay _pokeStopsOverlay = new GMapOverlay("PokeStops");
+        private Dictionary<string, GMarkerGoogle> _pokeGymsMarks = new Dictionary<string, GMarkerGoogle>();
+        private GMapOverlay _pokeGymsOverlay = new GMapOverlay("PokeGyms");
 
         delegate void SetTextCallback(double cord);
 
@@ -216,28 +218,37 @@ namespace PokemonGo.RocketAPI.Console
             {
                 if (pokeStops.Length > 0)
                 {
+                	_pokeStopsOverlay.IsVisibile =false;
                     _pokeStopsOverlay.Markers.Clear();
                     _pokeStopsMarks.Clear();
                     int prevCount = pokeStops.Length;
-                    List<POGOProtos.Map.Fort.FortData> pokeStopstoHandle = pokeStops.ToList().Where(x => x.Id != null).ToList();
-                    Logger.ColoredConsoleWrite(ConsoleColor.White, string.Format("Got new Pokestop Count: {0}, unfiltered: {1}", pokeStops.Length, prevCount));
-                    for (int i = pokeStopstoHandle.Count - 1; i >= 0; i--)
+                    
+                    var filteredPokeStops  = pokeStops.Where(i => LocationUtils.CalculateDistanceInMeters(Logic.Logic._instance._clientSettings.DefaultLatitude, Logic.Logic._instance._clientSettings.DefaultLongitude, i.Latitude, i.Longitude) <= Logic.Logic._instance._clientSettings.MaxWalkingRadiusInMeters).ToArray();
+                    Logger.ColoredConsoleWrite(ConsoleColor.White, string.Format("Got new Pokestop Count: {0}, unfiltered: {1}", filteredPokeStops.Length, pokeStops.Length));
+                    
+                    for (int i = filteredPokeStops.Length - 1; i >= 0; i--)
                     {
-                        var pokeStop = pokeStopstoHandle[i];
+                        var pokeStop = filteredPokeStops[i];
                         if (pokeStop.Id != null)
                         {
-                            var pokeStopMaker = new GMarkerGoogle(new PointLatLng(pokeStop.Latitude, pokeStop.Longitude), new Bitmap(Properties.Resources.pokestop));
+                            var pokeStopMaker = new GMarkerGoogle(new PointLatLng(pokeStop.Latitude, pokeStop.Longitude), Properties.Resources.pokestop);
                             if (pokeStop.ActiveFortModifier.Count > 0)
                             {
-                                pokeStopMaker = new GMarkerGoogle(new PointLatLng(pokeStop.Latitude, pokeStop.Longitude), new Bitmap(Properties.Resources.lured_pokestop));
+                                pokeStopMaker = new GMarkerGoogle(new PointLatLng(pokeStop.Latitude, pokeStop.Longitude), Properties.Resources.lured_pokestop);
                             }
                             pokeStopMaker.ToolTipText = string.Format("{0}, {1}", pokeStop.Latitude, pokeStop.Longitude);
                             pokeStopMaker.ToolTip.Font = new System.Drawing.Font("Arial", 12, System.Drawing.GraphicsUnit.Pixel);
                             pokeStopMaker.ToolTipMode = MarkerTooltipMode.OnMouseOver;
                             _pokeStopsMarks.Add(pokeStop.Id, pokeStopMaker);
                             _pokeStopsOverlay.Markers.Add(pokeStopMaker);
+                        }else{
+                        	Logger.ColoredConsoleWrite(ConsoleColor.DarkRed, string.Format("Ignore this: pokeStop.Id is null."));
                         }
                     }
+                    
+                    _pokeStopsOverlay.IsVisibile =true;
+                }else{
+                	Logger.ColoredConsoleWrite(ConsoleColor.DarkRed, string.Format("Ignore this: pokeStops length is 0."));
                 }
             }
             catch (Exception e)
@@ -246,6 +257,60 @@ namespace PokemonGo.RocketAPI.Console
             }
         }
 
+        private void InfoObservable_HandlePokeGym(POGOProtos.Map.Fort.FortData[] forts)
+        {
+            try
+            {
+                if (forts.Length > 0)
+                {
+                	_pokeGymsOverlay.IsVisibile =false;
+                    _pokeGymsOverlay.Markers.Clear();
+                    _pokeGymsMarks.Clear();
+                    int prevCount = forts.Length;
+                    
+                    var filteredForts  = forts.Where(i => LocationUtils.CalculateDistanceInMeters(Logic.Logic._instance._clientSettings.DefaultLatitude, Logic.Logic._instance._clientSettings.DefaultLongitude, i.Latitude, i.Longitude) <= Logic.Logic._instance._clientSettings.MaxWalkingRadiusInMeters).ToArray();
+                    Logger.ColoredConsoleWrite(ConsoleColor.White, string.Format("Got new Gym Count: {0}, unfiltered: {1}", filteredForts.Length, forts.Length));
+                    
+                    for (int i = filteredForts.Length - 1; i >= 0; i--)
+                    {
+                        var pokeGym = filteredForts[i];
+                        if (pokeGym.Id != null)
+                        {
+                        	var bitmap = Properties.Resources.pokegym;
+                        	switch (pokeGym.OwnedByTeam) {
+                        		case POGOProtos.Enums.TeamColor.Blue:
+                        			bitmap = Properties.Resources.pokegym_blue;
+                        			break;
+                        		case POGOProtos.Enums.TeamColor.Red:
+                        			bitmap = Properties.Resources.pokegym_red;
+                        			break;
+                        		case POGOProtos.Enums.TeamColor.Yellow:
+                        			bitmap = Properties.Resources.pokegym_yellow;
+                        			break;
+                        	};
+                        	
+                            var pokeGymMaker = new GMarkerGoogle(new PointLatLng(pokeGym.Latitude, pokeGym.Longitude),bitmap);
+                            pokeGymMaker.ToolTipText = string.Format("{0}, {1}", pokeGym.Latitude, pokeGym.Longitude);
+                            pokeGymMaker.ToolTip.Font = new System.Drawing.Font("Arial", 12, System.Drawing.GraphicsUnit.Pixel);
+                            pokeGymMaker.ToolTipMode = MarkerTooltipMode.OnMouseOver;
+                            _pokeGymsMarks.Add(pokeGym.Id, pokeGymMaker);
+                            _pokeGymsOverlay.Markers.Add(pokeGymMaker);
+                        }else{
+                        	Logger.ColoredConsoleWrite(ConsoleColor.DarkRed, string.Format("Ignore this: pokeGym.Id is null."));
+                        }
+                    }
+                    
+                    _pokeGymsOverlay.IsVisibile =true;
+                }else{
+                	Logger.ColoredConsoleWrite(ConsoleColor.DarkRed, string.Format("Ignore this: pokeGym length is 0."));
+                }
+            }
+            catch (Exception e)
+            {
+                Logger.ColoredConsoleWrite(ConsoleColor.DarkRed, string.Format("Ignore this: Error in HandlePokeStop: {0}", e.ToString()));
+            }
+        }
+        
         private void InfoObservable_HandlePokeStopInfoUpdate(string pokeStopId, string info)
         {
             try
@@ -276,13 +341,30 @@ namespace PokemonGo.RocketAPI.Console
             }
         }
 
-        private void initViewOnly()
+        private void initViewOnly(int team)
         {
             //first hide all controls
             foreach (Control c in Controls)
             {
                 c.Visible = false;
             }
+            
+            Bitmap bmp = Properties.Resources.player;
+            switch (team) {
+            	case 1:
+            		bmp = Properties.Resources.player_blue;
+            	break;
+            	case 2:
+            		bmp = Properties.Resources.player_red;
+            	break;
+            	case 3:
+            		bmp = Properties.Resources.player_yellow;
+            	break;            		
+            		
+            }
+            
+            _botMarker =  new GMarkerGoogle(new PointLatLng(), bmp);
+            
             //show map
             map.Visible = true;
             map.Dock = DockStyle.Fill;
@@ -299,6 +381,7 @@ namespace PokemonGo.RocketAPI.Console
             map.Overlays.Add(routeOverlay);
             map.Overlays.Add(_pokeStopsOverlay);
             map.Overlays.Add(_pokemonOverlay);
+            map.Overlays.Add(_pokeGymsOverlay);
             //show geodata controls
             label1.Visible = true;
             label2.Visible = true;
@@ -329,6 +412,7 @@ namespace PokemonGo.RocketAPI.Console
             //add & remove live data handler after form loaded
             Globals.infoObservable.HandleNewGeoLocations += handleLiveGeoLocations;
             Globals.infoObservable.HandleAvailablePokeStop += InfoObservable_HandlePokeStop;
+            Globals.infoObservable.HandleAvailablePokeGym += InfoObservable_HandlePokeGym;
             Globals.infoObservable.HandlePokeStopInfoUpdate += InfoObservable_HandlePokeStopInfoUpdate;
             Globals.infoObservable.HandleClearPokemon += infoObservable_HandleClearPokemon;
             Globals.infoObservable.HandleNewPokemonLocations += infoObservable_HandleNewPokemonLocations;
