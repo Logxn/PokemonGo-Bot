@@ -1,4 +1,4 @@
-﻿using POGOProtos.Map.Fort;
+using POGOProtos.Map.Fort;
 using System;
 using System.Collections.Generic;
 using System.Device.Location;
