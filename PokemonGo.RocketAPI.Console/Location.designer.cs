@@ -180,7 +180,7 @@
             // 
             // cbShowPokemon
             // 
-            this.cbShowPokemon.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.cbShowPokemon.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.cbShowPokemon.AutoSize = true;
             this.cbShowPokemon.Checked = true;
             this.cbShowPokemon.CheckState = System.Windows.Forms.CheckState.Checked;
