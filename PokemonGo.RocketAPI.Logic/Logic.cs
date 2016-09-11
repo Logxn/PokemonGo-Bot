@@ -1072,9 +1072,6 @@ namespace PokemonGo.RocketAPI.Logic
             //bypass catching pokemon if disabled
             if (_clientSettings.CatchPokemon)
             {
-                //MTK Moved use incense here so we don't use if not catching pokemon
-                await UseIncense();
-
                 #region Find and catch nearby pokemon
                 // identify nearby pokemon
                 var mapObjects = await client.Map.GetMapObjects();
@@ -1102,6 +1099,9 @@ namespace PokemonGo.RocketAPI.Logic
                     if (count >= 9)
                     {
                         await LogStatsEtc();
+                        //MTK Moved use incense here so we don't use if not catching pokemon 
+                        //MTK Moved it again to avoid spamming logs
+                        await UseIncense();
                     }
                     #endregion
 
