@@ -311,28 +311,29 @@ namespace PokemonGo.RocketAPI.Console
             }
         }
         
-        private void InfoObservable_HandlePokeStopInfoUpdate(string pokeStopId, string info)
+        private void InfoObservable_HandlePokeStopInfoUpdate(POGOProtos.Map.Fort.FortData pokeStop, string info)
         {
             try
             {
-                if (_pokeStopsMarks.ContainsKey(pokeStopId))
+                if (_pokeStopsMarks.ContainsKey(pokeStop.Id))
                 {
-                    //changeType               
-                    var newMark = new GMarkerGoogle(_pokeStopsMarks[pokeStopId].Position, Properties.Resources.visited_pokestop);
+                    //changeType
+                    var bmp  = Properties.Resources.visited_pokestop;
+                    if (pokeStop.ActiveFortModifier.Count > 0)
+						bmp = Properties.Resources.visited_lured_pokestop;
+                    var newMark = new GMarkerGoogle(_pokeStopsMarks[pokeStop.Id].Position, bmp);                                                
                 
                     newMark.ToolTipText = info;
                     newMark.ToolTip.Font = new System.Drawing.Font("Arial", 12, System.Drawing.GraphicsUnit.Pixel);
-                
                     try
                     {
-                        _pokeStopsOverlay.Markers[_pokeStopsOverlay.Markers.IndexOf(_pokeStopsMarks[pokeStopId])] = newMark;
+                        _pokeStopsOverlay.Markers[_pokeStopsOverlay.Markers.IndexOf(_pokeStopsMarks[pokeStop.Id])] = newMark;
                     }
-                    catch (Exception)
+                    catch (Exception e)
                     {
-                        //Logger.ColoredConsoleWrite(ConsoleColor.Red, "[Debug] - Supressed error msg (Location.cs - Line 86 - Index is -1");
-                        // Doing this so the bot wont crash and or restart! - Logxn
+                       Logger.ColoredConsoleWrite(ConsoleColor.DarkRed, string.Format("Ignore this: Error in HandlePokeStopInfoUpdate: {0}", e.ToString())); 
                     }
-                    _pokeStopsMarks[pokeStopId] = newMark;
+                	_pokeStopsMarks[pokeStop.Id] = newMark;                    
                 }
             }
             catch (Exception e)
