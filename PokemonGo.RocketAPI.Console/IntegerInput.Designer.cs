@@ -71,7 +71,7 @@ namespace PokemonGo.RocketAPI.Console
 			this.ClientSize = new System.Drawing.Size(179, 52);
 			this.Controls.Add(this.amount);
 			this.Controls.Add(this.confirmation);
-			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
 			this.Name = "IntegerInput";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "IntegerInput";
