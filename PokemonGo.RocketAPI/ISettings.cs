@@ -101,10 +101,15 @@ namespace PokemonGo.RocketAPI
         bool RepeatUserRoute { get; set; }
 
         bool bLogEvolve { get; set; }
+        bool logEggs { get; set; }
 
         bool pauseTheWalking { get; set; }
 
         bool pauseAtEvolve2 { get; set; }
+
+        bool CheckWhileRunning { get; set; }
+
+        bool autoUpdate { get; set; }
 
         int Pb_Excellent { get; set; }
         int Pb_Great { get; set; }

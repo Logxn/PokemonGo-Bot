@@ -421,6 +421,42 @@ namespace PokemonGo.RocketAPI.Console
                 Globals.bLogEvolve = value;
             }
         }
+
+        bool ISettings.CheckWhileRunning
+        {
+            get
+            {
+                return Globals.CheckWhileRunning;
+            }
+            set
+            {
+                Globals.CheckWhileRunning = value;
+            }
+        }
+
+        bool ISettings.autoUpdate
+        {
+            get
+            {
+                return Globals.AutoUpdate;
+            }
+            set
+            {
+                Globals.AutoUpdate = value;
+            }
+        }
+
+        bool ISettings.logEggs
+        {
+            get
+            {
+                return Globals.LogEggs;
+            }
+            set
+            {
+                Globals.LogEggs = value;
+            }
+        }
         
         public LinkedList<GeoCoordinate> NextDestinationOverride
 

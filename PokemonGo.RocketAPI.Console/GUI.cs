@@ -403,12 +403,15 @@ namespace PokemonGo.RocketAPI.Console
                     {
                         case 1:
                             logPokemon.Checked = bool.Parse(line);
-                            break;
+                        break;
                         case 2:
                             logManuelTransfer.Checked = bool.Parse(line);
                         break;
                         case 3:
                             logEvolution.Checked = bool.Parse(line);
+                        break;
+                        case 4:
+                            checkbox_LogEggs.Checked = bool.Parse(line);
                         break;
                     }
                     i++;
@@ -542,7 +545,11 @@ namespace PokemonGo.RocketAPI.Console
                         case 1:
                             checkbox_AutoUpdate.Checked = bool.Parse(line);
                         break;
+                        case 2:
+                            checkbox_checkWhileRunning.Checked = bool.Parse(line);
+                        break;
                     }
+                    i++;   
                 }
             }
 
@@ -951,6 +958,16 @@ namespace PokemonGo.RocketAPI.Console
                 Globals.AutoUpdate = true;
             }
 
+            if(checkbox_checkWhileRunning.Checked)
+            {
+                Globals.CheckWhileRunning = true;
+            }
+
+            if(checkbox_LogEggs.Checked)
+            {
+                Globals.LogEggs = true;
+            }
+
             Globals.useincense = checkBox_UseIncenseEvery30min.Checked;
             Globals.pokeList = checkBox_EnablePokemonListGui.Checked;
             Globals.keepPokemonsThatCanEvolve = checkBox_KeepPokemonWhichCanBeEvolved.Checked;
@@ -1045,6 +1062,7 @@ namespace PokemonGo.RocketAPI.Console
             string[] updateFile =
             {
                 checkbox_AutoUpdate.Checked.ToString(),
+                checkbox_checkWhileRunning.Checked.ToString(),
             };
             File.WriteAllLines(@Program.updateSettings, updateFile);
 
@@ -1053,6 +1071,8 @@ namespace PokemonGo.RocketAPI.Console
                 Globals.logPokemons.ToString(),
                 Globals.logManualTransfer.ToString(),
                 Globals.bLogEvolve.ToString(),
+                Globals.LogEggs.ToString(),
+
             };
             File.WriteAllLines(@Program.miscSettings, miscFile);
 

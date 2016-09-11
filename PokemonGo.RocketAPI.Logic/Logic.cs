@@ -30,6 +30,9 @@ using GoogleMapsApi.Entities.Geocoding.Response;
 using GoogleMapsApi.StaticMaps;
 using GoogleMapsApi.StaticMaps.Entities;
 using PokemonGo.RocketApi.PokeMap;
+using System.Reflection;
+using System.Windows.Forms;
+using System.Diagnostics;
 
 namespace PokemonGo.RocketAPI.Logic
 {
@@ -440,6 +443,56 @@ namespace PokemonGo.RocketAPI.Logic
 
             Console.Title = profile.PlayerData.Username + " lvl" + stats.Level + "-(" + (stats.Experience - stats.PrevLevelXp -
                 StringUtils.getExpDiff(stats.Level)).ToString("N0") + "/" + (stats.NextLevelXp - stats.PrevLevelXp - StringUtils.getExpDiff(stats.Level)).ToString("N0") + "|" + Math.Round(curexppercent, 2) + "%)| Stardust: " + profile.PlayerData.Currencies.ToArray()[1].Amount + "| " + _botStats.ToString();
+            if(_clientSettings.CheckWhileRunning)
+            {
+                if(getNewestVersion() > Assembly.GetExecutingAssembly().GetName().Version)
+                {
+                    if (_clientSettings.autoUpdate)
+                    {
+                        
+                        Form update = new Update();
+                        
+                        update.ShowDialog();
+                    }
+                    else
+                    {
+                        DialogResult dialogResult = MessageBox.Show("There is an Update on Github. do you want to open it ?", "Newest Version: " + getNewestVersion(), MessageBoxButtons.YesNo);
+                        if (dialogResult == DialogResult.Yes)
+                        {
+                            Process.Start("https://github.com/Ar1i/PokemonGo-Bot");
+                        }
+                        else if (dialogResult == DialogResult.No)
+                        {
+                            //nothing   
+                        }
+                    }
+                }
+            }
+        }
+
+        public static Version getNewestVersion()
+        {
+            try
+            {
+                var match = DownloadServerVersion();
+
+                var gitVersion = new Version(match);
+
+                return gitVersion;
+
+            }
+            catch (Exception)
+            {
+                return Assembly.GetExecutingAssembly().GetName().Version;
+            }
+        }
+
+        public static string DownloadServerVersion()
+        {
+            using (var wC = new WebClient())
+                return
+                    wC.DownloadString(
+                        "https://raw.githubusercontent.com/Ar1i/PokemonGo-Bot/master/ver.md");
         }
 
         private async Task Espiral(Client client, FortData[] pokeStops)
@@ -1323,11 +1376,20 @@ namespace PokemonGo.RocketAPI.Logic
                 var rememberedIncubatorsFilePath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory + "\\Configs", "incubators.json");
                 var rememberedIncubators = GetRememberedIncubators(rememberedIncubatorsFilePath);
 
+                string logPath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Logs");
+                string logs = System.IO.Path.Combine(logPath, "EggLog.txt");
+                string date = DateTime.Now.ToString();
+
                 foreach (var incubator in rememberedIncubators)
                 {
                     var hatched = pokemons.FirstOrDefault(x => !x.IsEgg && x.Id == incubator.PokemonId);
                     if (hatched == null) continue;
 
+                    //Hier diggi
+                    if(_clientSettings.logEggs)
+                    {
+                        File.AppendAllText(logs, $"[{date}] - Egg hatched and we got a {hatched.PokemonId} (CP: {hatched.Cp} | MaxCP: {PokemonInfo.CalculateMaxCP(hatched)} | Level: {PokemonInfo.GetLevel(hatched)} | IV: {PokemonInfo.CalculatePokemonPerfection(hatched).ToString("0.00")}% )" + Environment.NewLine);
+                    }
                     Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, "Egg hatched and we got a " + hatched.PokemonId + " CP: " + hatched.Cp + " MaxCP: " + PokemonInfo.CalculateMaxCP(hatched) + " Level: " + PokemonInfo.GetLevel(hatched) + " IV: " + PokemonInfo.CalculatePokemonPerfection(hatched).ToString("0.00") + "%");
                 }
 
