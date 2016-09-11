@@ -1293,7 +1293,6 @@
             this.checkBox_StopWalkingWhenEvolving.TabIndex = 55;
             this.checkBox_StopWalkingWhenEvolving.Text = "Stop Walking when Evolving";
             this.checkBox_StopWalkingWhenEvolving.UseVisualStyleBackColor = true;
-            this.checkBox_StopWalkingWhenEvolving.CheckedChanged += new System.EventHandler(this.checkBox_StopWalkingWhenEvolving_CheckedChanged);
             // 
             // label39
             // 
@@ -1366,7 +1365,6 @@
             this.checkBox_UseRazzberryIfChanceUnder.TabIndex = 50;
             this.checkBox_UseRazzberryIfChanceUnder.Text = "Use RazzBerry if chance under";
             this.checkBox_UseRazzberryIfChanceUnder.UseVisualStyleBackColor = true;
-            this.checkBox_UseRazzberryIfChanceUnder.CheckedChanged += new System.EventHandler(this.checkBox_UseRazzberryIfChanceUnder_CheckedChanged);
             // 
             // checkBox_UseBasicIncubators
             // 
@@ -1399,7 +1397,6 @@
             this.checkBox_UseLuckyEggIfNotRunning.TabIndex = 47;
             this.checkBox_UseLuckyEggIfNotRunning.Text = "Use LuckyEgg if not running";
             this.checkBox_UseLuckyEggIfNotRunning.UseVisualStyleBackColor = true;
-            this.checkBox_UseLuckyEggIfNotRunning.CheckedChanged += new System.EventHandler(this.checkBox_UseLuckyEggIfNotRunning_CheckedChanged);
             // 
             // checkBox_KeepPokemonWhichCanBeEvolved
             // 
@@ -1412,7 +1409,6 @@
             this.checkBox_KeepPokemonWhichCanBeEvolved.TabIndex = 46;
             this.checkBox_KeepPokemonWhichCanBeEvolved.Text = "Keep Pokemons which can be evolved";
             this.checkBox_KeepPokemonWhichCanBeEvolved.UseVisualStyleBackColor = true;
-            this.checkBox_KeepPokemonWhichCanBeEvolved.CheckedChanged += new System.EventHandler(this.checkBox_KeepPokemonWhichCanBeEvolved_CheckedChanged);
             // 
             // checkBox_EnablePokemonListGui
             // 
@@ -1437,7 +1433,6 @@
             this.checkBox_UseIncenseEvery30min.TabIndex = 43;
             this.checkBox_UseIncenseEvery30min.Text = "Use Incense every 30min";
             this.checkBox_UseIncenseEvery30min.UseVisualStyleBackColor = true;
-            this.checkBox_UseIncenseEvery30min.CheckedChanged += new System.EventHandler(this.checkBox_UseIncenseEvery30min_CheckedChanged);
             // 
             // checkBox_SimulateAnimationTimeAtEvolve
             // 
@@ -1801,7 +1796,6 @@
             this.checkBox_RandomSleepAtCatching.TabIndex = 44;
             this.checkBox_RandomSleepAtCatching.Text = "Random Sleep @Catching 1-3 seconds";
             this.checkBox_RandomSleepAtCatching.UseVisualStyleBackColor = true;
-            this.checkBox_RandomSleepAtCatching.CheckedChanged += new System.EventHandler(this.checkBox_RandomSleepAtCatching_CheckedChanged);
             // 
             // groupBox11
             // 
