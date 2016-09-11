@@ -626,7 +626,7 @@ namespace PokemonGo.RocketAPI.Logic
                 var fortInfo = await _client.Fort.GetFort(pokeStop.Id, pokeStop.Latitude, pokeStop.Longitude);
                 if (fortInfo == null)
                 {
-                    _infoObservable.PushPokeStopInfoUpdate(pokeStop.Id, "!!Can't Get PokeStop Information!!");
+                    _infoObservable.PushPokeStopInfoUpdate(pokeStop, "!!Can't Get PokeStop Information!!");
                     continue;
                 }
 
@@ -953,7 +953,7 @@ namespace PokemonGo.RocketAPI.Logic
                     if (_telegram != null)
                         _telegram.sendInformationText(TelegramUtil.TelegramUtilInformationTopics.Pokestop, fortInfo.Name, fortSearch.ExperienceAwarded, eggs, fortSearch.GemsAwarded, StringUtils.GetSummedFriendlyNameOfItemAwardList(fortSearch.ItemsAwarded));
                 }
-                _infoObservable.PushPokeStopInfoUpdate(pokeStop.Id, pokeStopInfo);
+                _infoObservable.PushPokeStopInfoUpdate(pokeStop, pokeStopInfo);
                 return true;
             }
             else if (!_clientSettings.FarmPokestops)

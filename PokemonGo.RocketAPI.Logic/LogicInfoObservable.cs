@@ -61,11 +61,11 @@ namespace PokemonGo.RocketAPI.Logic
             }
         }
 
-        public delegate void PokeStopInfoUpdateHandler(string pokeStopId, string info);
+        public delegate void PokeStopInfoUpdateHandler(FortData pokeStop, string info);
         public event PokeStopInfoUpdateHandler HandlePokeStopInfoUpdate = delegate { };
-        public void PushPokeStopInfoUpdate(string pokeStopId, string info)
+        public void PushPokeStopInfoUpdate(FortData pokeStop, string info)
         {
-            HandlePokeStopInfoUpdate(pokeStopId, info);
+            HandlePokeStopInfoUpdate(pokeStop, info);
         }
 
         /// <summary>
