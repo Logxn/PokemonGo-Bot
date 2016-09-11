@@ -23,7 +23,7 @@ namespace PokemonGo.RocketAPI.Console
 {
     public partial class LocationSelect : Form
     {
-        public LocationSelect(bool asViewOnly, int team = 0)
+        public LocationSelect(bool asViewOnly, int team = 0, int level = 0, long exp = 0)
         {
             InitializeComponent();
             map.Manager.Mode = AccessMode.ServerOnly;
@@ -33,7 +33,7 @@ namespace PokemonGo.RocketAPI.Console
 
             if (asViewOnly)
             {
-                initViewOnly(team);
+                initViewOnly(team, level, exp);
             }
         }
 
@@ -256,6 +256,29 @@ namespace PokemonGo.RocketAPI.Console
                 Logger.ColoredConsoleWrite(ConsoleColor.DarkRed, string.Format("Ignore this: Error in HandlePokeStop: {0}", e.ToString()));
             }
         }
+        
+        private int GetLevel(long value)
+        {
+        	if(value >= 50000)
+        		return 10;
+        	if(value >= 40000)
+        		return 9;
+        	if(value >= 30000)
+        		return 8;
+        	if(value >= 20000)
+        		return 7;
+        	if(value >= 16000)
+        		return 6;
+        	if(value >= 12000)
+        		return 5;
+        	if(value >= 8000)
+        		return 4;
+        	if(value >= 4000)
+        		return 3;
+        	if (value >= 2000)
+        		return 2;
+        	return 1;
+        }
 
         private void InfoObservable_HandlePokeGym(POGOProtos.Map.Fort.FortData[] forts)
         {
@@ -288,9 +311,11 @@ namespace PokemonGo.RocketAPI.Console
                         			bitmap = Properties.Resources.pokegym_yellow;
                         			break;
                         	};
-                        	
+                        	 
+                        	var str =  StringUtils.getPokemonNameByLanguage(null, pokeGym.GuardPokemonId);                        	
+                        	str =  string.Format("Guard: {0} - CP: {1}\nLevel:{2} ({3})",str,pokeGym.GuardPokemonCp,GetLevel(pokeGym.GymPoints),pokeGym.GymPoints);
                             var pokeGymMaker = new GMarkerGoogle(new PointLatLng(pokeGym.Latitude, pokeGym.Longitude),bitmap);
-                            pokeGymMaker.ToolTipText = string.Format("{0}, {1}", pokeGym.Latitude, pokeGym.Longitude);
+                            pokeGymMaker.ToolTipText = string.Format("{0}, {1}\n{2}", pokeGym.Latitude, pokeGym.Longitude,str);
                             pokeGymMaker.ToolTip.Font = new System.Drawing.Font("Arial", 12, System.Drawing.GraphicsUnit.Pixel);
                             pokeGymMaker.ToolTipMode = MarkerTooltipMode.OnMouseOver;
                             _pokeGymsMarks.Add(pokeGym.Id, pokeGymMaker);
@@ -342,7 +367,7 @@ namespace PokemonGo.RocketAPI.Console
             }
         }
 
-        private void initViewOnly(int team)
+        private void initViewOnly(int team, int level, long exp)
         {
             //first hide all controls
             foreach (Control c in Controls)
@@ -365,6 +390,9 @@ namespace PokemonGo.RocketAPI.Console
             }
             
             _botMarker =  new GMarkerGoogle(new PointLatLng(), bmp);
+            _botMarker.ToolTipText = string.Format("Level: {0} ({1})", level, exp);
+            _botMarker.ToolTip.Font = new System.Drawing.Font("Arial", 12, System.Drawing.GraphicsUnit.Pixel);
+            _botMarker.ToolTipMode = MarkerTooltipMode.OnMouseOver;
             
             //show map
             map.Visible = true;
@@ -374,7 +402,10 @@ namespace PokemonGo.RocketAPI.Console
             routeOverlay.Routes.Add(_botRoute);
             routeOverlay.Markers.Add(_botMarker);
             GMarkerGoogle _botStartMarker = new GMarkerGoogle(new PointLatLng(), Properties.Resources.start_point);
-            _botStartMarker.Position = new PointLatLng(Globals.latitute, Globals.longitude);
+            _botStartMarker.Position = new PointLatLng(Globals.latitute, Globals.longitude);            
+            _botStartMarker.ToolTipText = string.Format("Start Point.\n{0}, {1}", Globals.latitute, Globals.longitude);
+            _botStartMarker.ToolTip.Font = new System.Drawing.Font("Arial", 12, System.Drawing.GraphicsUnit.Pixel);
+            _botStartMarker.ToolTipMode = MarkerTooltipMode.OnMouseOver;            
             routeOverlay.Markers.Add(_botStartMarker);
             GMapPolygon circle = CreateCircle(new PointLatLng(Globals.latitute, Globals.longitude), Globals.radius, 100);
             routeOverlay.Polygons.Add(circle);
