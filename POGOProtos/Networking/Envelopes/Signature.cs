@@ -693,7 +693,7 @@ namespace POGOProtos.Networking.Envelopes {
         public const int VerticalAccuracyFieldNumber = 22;
         private float verticalAccuracy_;
         /// <summary>
-        ///  iOS only
+        ///  iOS only 
         /// </summary>
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         public float VerticalAccuracy {

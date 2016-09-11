@@ -12,6 +12,8 @@ using PokemonGo.RocketAPI.Extensions;
 using System.Security.Cryptography;
 using System.IO;
 using System.Windows.Forms;
+using POGOProtos.Networking.Platform;
+using POGOProtos.Networking.Platform.Requests;
 
 namespace PokemonGo.RocketAPI.Helpers
 {
@@ -101,7 +103,7 @@ namespace PokemonGo.RocketAPI.Helpers
             if (!_internalWatch.IsRunning)
                 _internalWatch.Start();
         }
-        private Unknown6 GenerateSignature(IEnumerable<IMessage> requests)
+        private RequestEnvelope.Types.PlatformRequest GenerateSignature(IEnumerable<IMessage> requests)
         {
             var sig = new POGOProtos.Networking.Envelopes.Signature();
             sig.TimestampSinceStart = (ulong)_internalWatch.ElapsedMilliseconds;
@@ -179,10 +181,6 @@ namespace PokemonGo.RocketAPI.Helpers
             foreach (var req in requests)
                 sig.RequestHash.Add(BitConverter.ToUInt64(x.ComputeHash(req.ToByteArray()), 0));
            
-
-            // OLD
-            //static for now
-            //sig.SessionHash = ByteString.CopyFrom(new byte[16] { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F });
             // NEW Random Byte Array every session.
             if (sessionhash_array == null)
             {
@@ -194,13 +192,19 @@ namespace PokemonGo.RocketAPI.Helpers
 
             sig.Unknown25 = -8537042734809897855; // Generated via xxHash64("\"b8fa9757195897aae92c53dbcf8a60fb3d86d745\"".ToByteArray(), 0x88533787) | 0.33 Version
 
-            Unknown6 val = new Unknown6();
-            val.RequestType = 6;
-            val.Unknown2 = new Unknown6.Types.Unknown2();
             var iv = new byte[32];
             new Random().NextBytes(iv);
-            val.Unknown2.EncryptedSignature = ByteString.CopyFrom(EncryptionHelper.Encrypt(sig.ToByteArray(), iv));
-            return val;
+
+            var platformRequest = new RequestEnvelope.Types.PlatformRequest()
+            {
+                Type = PlatformRequestType.SendEncryptedSignature,
+                RequestMessage = new SendEncryptedSignatureRequest()
+                {
+                    EncryptedSignature = ByteString.CopyFrom(EncryptionHelper.Encrypt(sig.ToByteArray(), iv)),
+                }.ToByteString(),
+            };
+
+            return platformRequest;
         }
 
         public RequestEnvelope GetRequestEnvelope(params Request[] customRequests)
@@ -211,15 +215,16 @@ namespace PokemonGo.RocketAPI.Helpers
 
                 RequestId = 1469378659230941192, //3
                 Requests = { customRequests }, //4
-
                 //Unknown6 = , //6
                 Latitude = _latitude, //7
                 Longitude = _longitude, //8
                 Accuracy = _altitude, //9
                 AuthTicket = _authTicket, //11
                 MsSinceLastLocationfix = 989 //12
+                
             };
-            e.Unknown6.Add(GenerateSignature(customRequests));
+
+            e.PlatformRequests.Add(GenerateSignature(customRequests));
             return e;
         }
 
@@ -249,9 +254,7 @@ namespace PokemonGo.RocketAPI.Helpers
             };
             return e;
         }
-
-
-
+        
         public RequestEnvelope GetRequestEnvelope(RequestType type, IMessage message)
         {
             return GetRequestEnvelope(new Request()

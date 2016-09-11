@@ -43,3 +43,5 @@ Logxn - Helping a lot! <br>
 Cicklow - Mods!
 
 https://github.com/NecronomiconCoding/NecroBot<br>
+
+Discord Link : https://discord.gg/phu3GNN<br>
