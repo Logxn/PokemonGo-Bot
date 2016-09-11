@@ -269,6 +269,9 @@ namespace PokemonGo.RocketAPI.Console
                             case 34:
                                 checkbox_PWDEncryption.Checked = bool.Parse(line);
                             break;
+                            case 35:
+                                checkBox_EnableItemsListGui.Checked = bool.Parse(line);
+                            break;
                             default:
                                 break;
                         }
@@ -953,6 +956,7 @@ namespace PokemonGo.RocketAPI.Console
 
             Globals.useincense = checkBox_UseIncenseEvery30min.Checked;
             Globals.pokeList = checkBox_EnablePokemonListGui.Checked;
+            Globals.itemsList = checkBox_EnableItemsListGui.Checked;
             Globals.keepPokemonsThatCanEvolve = checkBox_KeepPokemonWhichCanBeEvolved.Checked;
             Globals.pokevision = checkBox1.Checked;
             Globals.useLuckyEggIfNotRunning = checkBox_UseLuckyEggIfNotRunning.Checked;
@@ -978,7 +982,7 @@ namespace PokemonGo.RocketAPI.Console
             }
 
             string[] accFile = {
-                    Globals.acc.ToString(),
+                    Globals.acc.ToString(), // 1
                     Globals.username,
                     Globals.password,
                     Globals.latitute.ToString(),
@@ -987,8 +991,8 @@ namespace PokemonGo.RocketAPI.Console
                     Globals.speed.ToString(),
                     Globals.radius.ToString(),
                     Globals.defLoc.ToString(),
-                    Globals.transfer.ToString(),
-                    Globals.duplicate.ToString(),  // 10
+                    Globals.transfer.ToString(), // 10
+                    Globals.duplicate.ToString(),
                     Globals.evolve.ToString(),
                     Globals.maxCp.ToString(),
                     Globals.telAPI,
@@ -997,8 +1001,8 @@ namespace PokemonGo.RocketAPI.Console
                     Globals.navigation_option.ToString(),
                     Globals.useluckyegg.ToString(),
                     Globals.useincense.ToString(),
-                    Globals.ivmaxpercent.ToString(),
-                    Globals.pokeList.ToString(),  // 20
+                    Globals.ivmaxpercent.ToString(), // 20
+                    Globals.pokeList.ToString(),
                     Globals.keepPokemonsThatCanEvolve.ToString(),
                     Globals.useLuckyEggIfNotRunning.ToString(),
                     Globals.autoIncubate.ToString(),
@@ -1007,11 +1011,12 @@ namespace PokemonGo.RocketAPI.Console
                     Globals.settingsLanguage,
                     Globals.userazzberry.ToString(),
                     Convert.ToInt16(Globals.razzberry_chance * 100).ToString(),
-                    Globals.sleepatpokemons.ToString(),
-                    Globals.farmPokestops.ToString(),  //30
+                    Globals.sleepatpokemons.ToString(),  //30
+                    Globals.farmPokestops.ToString(),
                     Globals.telAPI.ToString(),
                     Globals.pauseAtEvolve.ToString(),
-                    Globals.usePwdEncryption.ToString()
+                    Globals.usePwdEncryption.ToString(),
+                    Globals.itemsList.ToString()
             };
             if (Globals.usePwdEncryption)
             {
