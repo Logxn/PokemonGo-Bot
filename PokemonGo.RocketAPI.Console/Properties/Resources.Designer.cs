@@ -4723,6 +4723,46 @@ namespace PokemonGo.RocketAPI.Console.Properties {
 		/// <summary>
 		///   Looks up a localized resource of type System.Drawing.Bitmap.
 		/// </summary>
+		internal static System.Drawing.Bitmap pokegym {
+			get {
+				object obj = ResourceManager.GetObject("pokegym", resourceCulture);
+				return ((System.Drawing.Bitmap)(obj));
+			}
+		}
+		
+		/// <summary>
+		///   Looks up a localized resource of type System.Drawing.Bitmap.
+		/// </summary>
+		internal static System.Drawing.Bitmap pokegym_blue {
+			get {
+				object obj = ResourceManager.GetObject("pokegym_blue", resourceCulture);
+				return ((System.Drawing.Bitmap)(obj));
+			}
+		}
+		
+		/// <summary>
+		///   Looks up a localized resource of type System.Drawing.Bitmap.
+		/// </summary>
+		internal static System.Drawing.Bitmap pokegym_red {
+			get {
+				object obj = ResourceManager.GetObject("pokegym_red", resourceCulture);
+				return ((System.Drawing.Bitmap)(obj));
+			}
+		}
+		
+		/// <summary>
+		///   Looks up a localized resource of type System.Drawing.Bitmap.
+		/// </summary>
+		internal static System.Drawing.Bitmap pokegym_yellow {
+			get {
+				object obj = ResourceManager.GetObject("pokegym_yellow", resourceCulture);
+				return ((System.Drawing.Bitmap)(obj));
+			}
+		}
+		
+		/// <summary>
+		///   Looks up a localized resource of type System.Drawing.Bitmap.
+		/// </summary>
 		internal static System.Drawing.Bitmap pokestop {
 			get {
 				object obj = ResourceManager.GetObject("pokestop", resourceCulture);

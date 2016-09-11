@@ -53,6 +53,7 @@ namespace PokemonGo.RocketAPI.Logic
         private bool havelures = false;
         private bool pokeballoutofstock = false;
         private bool stopsloaded = false;
+        private bool gymsloaded = false;
         public static Logic _instance;
         private bool _pauseWalking = false;
         public bool pauseWalking
@@ -550,6 +551,22 @@ namespace PokemonGo.RocketAPI.Logic
                 await Espiral(client, pokeStops);
                 return;
             }
+            gymsloaded = false;            
+            var pokeGyms =
+            _navigation.pathByNearestNeighbour(
+            mapObjects.Item1.MapCells.SelectMany(i => i.Forts)
+            .Where(
+                i =>
+                i.Type == FortType.Gym )
+                .OrderBy(
+                i =>
+                LocationUtils.CalculateDistanceInMeters(_client.CurrentLatitude, _client.CurrentLongitude, i.Latitude, i.Longitude)).ToArray(), _clientSettings.WalkingSpeedInKilometerPerHour);
+            if (pokeGyms.Any() && _clientSettings.MapLoaded)
+            {
+                _infoObservable.PushAvailablePokeGymsLocations(pokeGyms);
+                gymsloaded = true;
+            }
+            
             //Aca capturar poke!
             await fncPokeStop(_client, pokeStops, false);
         }
