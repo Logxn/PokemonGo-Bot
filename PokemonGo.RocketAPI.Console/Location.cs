@@ -216,30 +216,37 @@ namespace PokemonGo.RocketAPI.Console
             {
                 if (pokeStops.Length > 0)
                 {
-                	map.Overlays.Remove(_pokeStopsOverlay);
+                	_pokemonOverlay.IsVisibile =false;
                     _pokeStopsOverlay.Markers.Clear();
                     _pokeStopsMarks.Clear();
                     int prevCount = pokeStops.Length;
-                    List<POGOProtos.Map.Fort.FortData> pokeStopstoHandle = pokeStops.ToList().Where(x => x.Id != null).ToList();
-                    Logger.ColoredConsoleWrite(ConsoleColor.White, string.Format("Got new Pokestop Count: {0}, unfiltered: {1}", pokeStops.Length, prevCount));
-                    for (int i = pokeStopstoHandle.Count - 1; i >= 0; i--)
+                    
+                    var filteredPokeStops  = pokeStops.Where(i => LocationUtils.CalculateDistanceInMeters(Logic.Logic._instance._clientSettings.DefaultLatitude, Logic.Logic._instance._clientSettings.DefaultLongitude, i.Latitude, i.Longitude) <= Logic.Logic._instance._clientSettings.MaxWalkingRadiusInMeters).ToArray();
+                    Logger.ColoredConsoleWrite(ConsoleColor.White, string.Format("Got new Pokestop Count: {0}, unfiltered: {1}", filteredPokeStops.Length, pokeStops.Length));
+                    
+                    for (int i = filteredPokeStops.Length - 1; i >= 0; i--)
                     {
-                        var pokeStop = pokeStopstoHandle[i];
+                        var pokeStop = filteredPokeStops[i];
                         if (pokeStop.Id != null)
                         {
-                            var pokeStopMaker = new GMarkerGoogle(new PointLatLng(pokeStop.Latitude, pokeStop.Longitude), new Bitmap(Properties.Resources.pokestop));
+                            var pokeStopMaker = new GMarkerGoogle(new PointLatLng(pokeStop.Latitude, pokeStop.Longitude), Properties.Resources.pokestop);
                             if (pokeStop.ActiveFortModifier.Count > 0)
                             {
-                                pokeStopMaker = new GMarkerGoogle(new PointLatLng(pokeStop.Latitude, pokeStop.Longitude), new Bitmap(Properties.Resources.lured_pokestop));
+                                pokeStopMaker = new GMarkerGoogle(new PointLatLng(pokeStop.Latitude, pokeStop.Longitude), Properties.Resources.lured_pokestop);
                             }
                             pokeStopMaker.ToolTipText = string.Format("{0}, {1}", pokeStop.Latitude, pokeStop.Longitude);
                             pokeStopMaker.ToolTip.Font = new System.Drawing.Font("Arial", 12, System.Drawing.GraphicsUnit.Pixel);
                             pokeStopMaker.ToolTipMode = MarkerTooltipMode.OnMouseOver;
                             _pokeStopsMarks.Add(pokeStop.Id, pokeStopMaker);
                             _pokeStopsOverlay.Markers.Add(pokeStopMaker);
+                        }else{
+                        	Logger.ColoredConsoleWrite(ConsoleColor.DarkRed, string.Format("Ignore this: pokeStop.Id is null."));
                         }
                     }
-                    map.Overlays.Add(_pokeStopsOverlay);
+                    
+                    _pokemonOverlay.IsVisibile =true;
+                }else{
+                	Logger.ColoredConsoleWrite(ConsoleColor.DarkRed, string.Format("Ignore this: pokeStops length is 0."));
                 }
             }
             catch (Exception e)
@@ -255,7 +262,7 @@ namespace PokemonGo.RocketAPI.Console
                 if (_pokeStopsMarks.ContainsKey(pokeStopId))
                 {
                     //changeType               
-                    var newMark = new GMarkerGoogle(_pokeStopsMarks[pokeStopId].Position, new Bitmap(Properties.Resources.visited_pokestop));
+                    var newMark = new GMarkerGoogle(_pokeStopsMarks[pokeStopId].Position, Properties.Resources.visited_pokestop);
                 
                     newMark.ToolTipText = info;
                     newMark.ToolTip.Font = new System.Drawing.Font("Arial", 12, System.Drawing.GraphicsUnit.Pixel);
