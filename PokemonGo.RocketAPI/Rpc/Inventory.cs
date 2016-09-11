@@ -575,17 +575,6 @@ namespace PokemonGo.RocketAPI.Rpc
                 }
             }
         }
-        
-        public async Task<NicknamePokemonResponse> ChangePokemonNickname(ulong pokemonId, string nickname)
-        {
-        	var message = new NicknamePokemonMessage
-            {
-                PokemonId = pokemonId,
-                Nickname = 	nickname                	
-            };
-
-            return await PostProtoPayload<Request, NicknamePokemonResponse>(RequestType.NicknamePokemon, message);
-        }
-        
+                
     }
 }

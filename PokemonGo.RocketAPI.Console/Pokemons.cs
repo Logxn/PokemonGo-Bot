@@ -220,7 +220,7 @@ namespace PokemonGo.RocketAPI.Console
 
                         listViewItem.Text = string.Format((pokemon.Favorite == 1) ? "{0} ★" : "{0}", StringUtils.getPokemonNameByLanguage(ClientSettings, (PokemonId)pokemon.PokemonId));
 
-                        listViewItem.ToolTipText = new DateTime((long)pokemon.CreationTimeMs * 10000).AddYears(1769).ToString("dd/MM/yyyy HH:mm:ss");
+                        listViewItem.ToolTipText = new DateTime((long)pokemon.CreationTimeMs * 10000).AddYears(1969).ToString("dd/MM/yyyy HH:mm:ss");
                         if (pokemon.Nickname != "")
                             listViewItem.ToolTipText += "\nNickname: " + pokemon.Nickname;
 
@@ -328,7 +328,7 @@ namespace PokemonGo.RocketAPI.Console
         /// <returns></returns>
         private static Bitmap getPokemonImagefromResource(PokemonId pokemon, string size)
         {
-             var resource = PokemonGo.RocketAPI.Console.Properties.Resources.ResourceManager.GetObject("_"+(int)pokemon+"_"+size, CultureInfo.CurrentCulture);
+            var resource = PokemonGo.RocketAPI.Console.Properties.Resources.ResourceManager.GetObject("_"+(int)pokemon+"_"+size, CultureInfo.CurrentCulture);
             if (resource != null && resource is Bitmap)
             {
                 return new Bitmap(resource as Bitmap);
@@ -495,6 +495,13 @@ namespace PokemonGo.RocketAPI.Console
 
             taskResponse resp = new taskResponse(false, string.Empty);
 
+            if(Globals.pauseAtEvolve)
+            {
+                Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Taking a break to evolve some pokemons!");
+                Globals.pauseAtWalking = true;
+            }
+
+
             foreach (ListViewItem selectedItem in selectedItems)
             {
                 resp = await evolvePokemon((PokemonData)selectedItem.Tag);
@@ -503,6 +510,7 @@ namespace PokemonGo.RocketAPI.Console
                 var name = pokemoninfo.PokemonId;
 
                 File.AppendAllText(evolvelog, $"[{date}] - MANUAL - Trying to evole Pokemon: {name}" + Environment.NewLine);
+                Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Trying to Evolve {name}");
 
                 if (resp.Status)
                 {
@@ -547,6 +555,12 @@ namespace PokemonGo.RocketAPI.Console
             }
             else
                 EnabledButton(true);
+
+            if(Globals.pauseAtEvolve)
+            {
+                Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Evolved everything. Time to continue our journey!");
+                Globals.pauseAtWalking = false;
+            }
             //}
         }
 
@@ -659,7 +673,7 @@ namespace PokemonGo.RocketAPI.Console
             int total = selectedItems.Count;
             string failed = string.Empty;
 
-            DialogResult dialogResult = MessageBox.Show("You clicked IV To Nick. This can not be undone.", "Are you Sure?", MessageBoxButtons.YesNo);
+            DialogResult dialogResult = MessageBox.Show("You clicked to change nickame using IVs.\nAre you Sure?","Confirm Dialog" , MessageBoxButtons.YesNo);
             if (dialogResult == DialogResult.Yes)
             {
                 taskResponse resp = new taskResponse(false, string.Empty);
@@ -671,7 +685,7 @@ namespace PokemonGo.RocketAPI.Console
                     resp = await changePokemonNickname(pokemon);
                     if (resp.Status)
                     {
-                        selectedItem.ToolTipText = new DateTime((long)pokemon.CreationTimeMs * 10000).AddYears(1769).ToString("dd/MM/yyyy HH:mm:ss");
+                        selectedItem.ToolTipText = new DateTime((long)pokemon.CreationTimeMs * 10000).AddYears(1969).ToString("dd/MM/yyyy HH:mm:ss");
                         selectedItem.ToolTipText += "\nNickname: " + pokemon.Nickname;
                         renamed++;
                         statusTexbox.Text = "Renamig..." + renamed;
@@ -782,7 +796,7 @@ namespace PokemonGo.RocketAPI.Console
             taskResponse resp = new taskResponse(false, string.Empty);
             try
             {
-                var nicknamePokemonResponse1 = await client.Inventory.ChangePokemonNickname(pokemon.Id, pokemon.Nickname);
+                var nicknamePokemonResponse1 = await client.Inventory.NicknamePokemon(pokemon.Id, pokemon.Nickname);
 
                 if (nicknamePokemonResponse1.Result == NicknamePokemonResponse.Types.Result.Success)
                 {
@@ -800,6 +814,30 @@ namespace PokemonGo.RocketAPI.Console
             }
             return resp;
         }
+
+ 		private static async Task<taskResponse> changeFavourites(PokemonData pokemon)
+        {
+            taskResponse resp = new taskResponse(false, string.Empty);
+            try
+            {
+            	var response = await client.Inventory.SetFavoritePokemon( (long) pokemon.Id, (pokemon.Favorite == 1));
+
+                if (response.Result == SetFavoritePokemonResponse.Types.Result.Success)
+                {
+                    resp.Status = true;
+                }
+                else
+                {
+                    resp.Message = pokemon.PokemonId.ToString();
+                }
+            }
+            catch (Exception e)
+            {
+                Logger.ColoredConsoleWrite(ConsoleColor.Red, "Error ChangeFavourites: " + e.Message);
+                await changeFavourites(pokemon);
+            }
+            return resp;
+        }                
 
         private void contextMenuStrip1_Opening(object sender, System.ComponentModel.CancelEventArgs e)
         {
@@ -874,12 +912,35 @@ namespace PokemonGo.RocketAPI.Console
             }
             if (resp.Status)
             {
-                PokemonListView.SelectedItems[0].ToolTipText = new DateTime((long)pokemon.CreationTimeMs * 10000).AddYears(1769).ToString("dd/MM/yyyy HH:mm:ss");
+                PokemonListView.SelectedItems[0].ToolTipText = new DateTime((long)pokemon.CreationTimeMs * 10000).AddYears(1969).ToString("dd/MM/yyyy HH:mm:ss");
                 PokemonListView.SelectedItems[0].ToolTipText += "\nNickname: " + pokemon.Nickname;
             }
             else
                 MessageBox.Show(resp.Message + " rename failed!", "Rename Status", MessageBoxButtons.OK);
         }
+        
+        private async void changeFavouritesToolStripMenuItemClick(object sender, EventArgs e)
+        {
+            var pokemon = (PokemonData)PokemonListView.SelectedItems[0].Tag;
+            taskResponse resp = new taskResponse(false, string.Empty);
+
+			string poname = StringUtils.getPokemonNameByLanguage(ClientSettings, (PokemonId)pokemon.PokemonId);
+			if (MessageBox.Show(this, poname + " will be " +((pokemon.Favorite == 1)?"deleted from":"added to") + " your favourites." +"\nAre you sure you want?", "Confirmation Message", MessageBoxButtons.OKCancel) == DialogResult.OK)
+            {
+            	pokemon.Favorite =  (pokemon.Favorite == 1)?0:1 ;
+                resp = await changeFavourites(pokemon);
+            }
+            else
+            {
+                return;
+            }
+            if (resp.Status)
+            {
+            	PokemonListView.SelectedItems[0].Text = string.Format((pokemon.Favorite == 1) ? "{0} ★" : "{0}", StringUtils.getPokemonNameByLanguage(ClientSettings, (PokemonId)pokemon.PokemonId));
+            }
+            else
+                MessageBox.Show(resp.Message + " rename failed!", "Rename Status", MessageBoxButtons.OK);
+        }        
 
         private void checkboxReload_CheckedChanged(object sender, EventArgs e)
         {
@@ -1136,7 +1197,10 @@ namespace PokemonGo.RocketAPI.Console
                 Logger.ColoredConsoleWrite(ConsoleColor.Magenta, "Resume walking between Pokestops.");
                 if (Globals.RouteToRepeat.Count > 0)
                 {
-                    Globals.NextDestinationOverride = Globals.RouteToRepeat;
+                    foreach (var geocoord in Globals.RouteToRepeat)
+                    {
+                        Globals.NextDestinationOverride.AddLast(geocoord);
+                    }                    
                     Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "User Defined Route Captured! Beginning Route Momentarily.");
                 }
                 btnForceUnban.Text = "Pause Walking";
@@ -1171,6 +1235,7 @@ namespace PokemonGo.RocketAPI.Console
         {
             Globals.RepeatUserRoute = checkBox1.Checked;
         }
+
     }
     public static class ControlExtensions
     {
@@ -1269,8 +1334,6 @@ namespace PokemonGo.RocketAPI.Console
             }
         }
     }
-
-
     public static class Prompt
     {
         public static string ShowDialog(string text, string caption)

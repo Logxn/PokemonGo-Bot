@@ -90,8 +90,8 @@ namespace PokemonGo.RocketAPI
         int MinWalkSpeed { get; set; }
         bool Espiral { get;  set; }
         bool MapLoaded { get; set; }
-        Queue<GeoCoordinate> NextDestinationOverride { get; set; }
-        Queue<GeoCoordinate> RouteToRepeat { get; set; }
+        LinkedList<GeoCoordinate> NextDestinationOverride { get; set; }
+        LinkedList<GeoCoordinate> RouteToRepeat { get; set; }
         bool logPokemons { get; set; }
         bool logManualTransfer { get; set; }
 
@@ -102,5 +102,13 @@ namespace PokemonGo.RocketAPI
 
         bool bLogEvolve { get; set; }
 
+        bool pauseTheWalking { get; set; }
+
+        bool pauseAtEvolve2 { get; set; }
+
+        int Pb_Excellent { get; set; }
+        int Pb_Great { get; set; }
+        int Pb_Nice { get; set; }
+        int Pb_Ordinary { get; set; }
     }
 }

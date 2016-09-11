@@ -63,6 +63,10 @@ namespace PokemonGo.RocketAPI.Console
         public bool MapLoaded => Globals.MapLoaded;
 
         public string SelectedLanguage => Globals.settingsLanguage;
+
+        
+
+       // public bool _pauseTheWalking => Globals._pauseTheWalking;
         /*
                  string UseProxyHost { get; set; }
                 int UseProxyPort { get; set; }
@@ -336,6 +340,12 @@ namespace PokemonGo.RocketAPI.Console
             get { return Globals.UseBreakFields; }
             set { Globals.UseBreakFields = value; }
         }
+
+        bool ISettings.pauseAtEvolve2
+        {
+            get { return Globals.pauseAtEvolve2; }
+            set { Globals.pauseAtEvolve2 = value; }
+        }
         bool ISettings.Espiral
         {
             get
@@ -347,6 +357,30 @@ namespace PokemonGo.RocketAPI.Console
             {
                 Globals.Espiral = value;
             }
+        }
+
+        public int Pb_Excellent
+        {
+            get { return Globals.excellentthrow; }
+            set { Globals.excellentthrow = value; }
+        }
+
+        public int Pb_Great
+        {
+            get { return Globals.greatthrow; }
+            set { Globals.greatthrow = value; }
+        }
+
+        public int Pb_Nice
+        {
+            get { return Globals.nicethrow; }
+            set { Globals.nicethrow = value; }
+        }
+
+        public int Pb_Ordinary
+        {
+            get { return Globals.ordinarythrow; }
+            set { Globals.ordinarythrow = value; }
         }
 
         bool ISettings.logPokemons
@@ -388,13 +422,13 @@ namespace PokemonGo.RocketAPI.Console
             }
         }
         
-        public Queue<GeoCoordinate> NextDestinationOverride
+        public LinkedList<GeoCoordinate> NextDestinationOverride
 
         {
             get { return Globals.NextDestinationOverride; }
             set { Globals.NextDestinationOverride = value; }
         }
-        public Queue<GeoCoordinate> RouteToRepeat
+        public LinkedList<GeoCoordinate> RouteToRepeat
         {
             get { return Globals.RouteToRepeat; }
             set { Globals.RouteToRepeat = value; }
@@ -418,6 +452,29 @@ namespace PokemonGo.RocketAPI.Console
         {
             get { return Globals.UseIncenseGUIClick; }
             set { Globals.UseIncenseGUIClick = value; }
+        }
+
+        /*bool ISettings._pauseTheWalking
+        {
+            get { return Globals._pauseTheWalking; }
+            set { Globals._pauseTheWalking = value; }
+        }*/
+            
+
+        bool ISettings.pauseTheWalking
+        {
+            get
+            {
+                return  Globals._pauseTheWalking;
+            }
+            set
+            {
+                if (Logic.Logic._instance != null)
+                {
+                    Logic.Logic._instance.pauseWalking = value;
+                    Globals._pauseTheWalking = value;
+                }
+            }
         }
     }
 }

@@ -22,6 +22,7 @@ namespace PokemonGo.RocketAPI.Console
         public static string path_device = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Device");
         public static string account = Path.Combine(path, "Config.txt");
         public static string items = Path.Combine(path, "Items.txt");
+        public static string throws = Path.Combine(path, "Throws.txt");
         public static string walkSetting = Path.Combine(path, "walk.txt");
         public static string keep = Path.Combine(path, "noTransfer.txt");
         public static string ignore = Path.Combine(path, "noCatch.txt");
@@ -30,6 +31,7 @@ namespace PokemonGo.RocketAPI.Console
         public static string huntstats = Path.Combine(path, "HuntStats.txt");
         public static string miscSettings = Path.Combine(path, "misc.txt");
         public static string deviceSettings = Path.Combine(path_device, "DeviceInfo.txt");
+        public static string updateSettings = Path.Combine(path, "update.txt");
         public static string cmdCoords = string.Empty;
 
         static string logPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Logs");
@@ -182,7 +184,7 @@ namespace PokemonGo.RocketAPI.Console
                                     Globals.keepPokemonsThatCanEvolve = bool.Parse(line);
                                     break;
                                 case 23:
-                                    Globals.pokevision = bool.Parse(line);
+                                    //Globals.pokevision = bool.Parse(line);
                                     break;
                                 case 24:
                                     Globals.useluckyegg = bool.Parse(line);
@@ -199,6 +201,9 @@ namespace PokemonGo.RocketAPI.Console
                                     //case 28:
                                     //    Globals.userazzberry = bool.Parse(line);
                                     //    break;
+                                case 33:
+                                    Globals.usePwdEncryption = bool.Parse(line);
+                                    break;
                             }
                         }
                         catch (Exception)
@@ -208,6 +213,11 @@ namespace PokemonGo.RocketAPI.Console
                         }
                         i++;
                     }
+		            if (Globals.usePwdEncryption)
+		            {
+		            	Globals.password = Encryption.Decrypt(Globals.password);
+		            }
+                    
                     if (cmdCoords != string.Empty)
                     {
                         string[] crdParts = cmdCoords.Split(',');
@@ -257,6 +267,33 @@ namespace PokemonGo.RocketAPI.Console
                                 break;
                             case 10:
                                 Globals.berry = int.Parse(line);
+                                break;
+                        }
+                        i++;
+                    }
+                }
+
+                if (File.Exists(Program.throws))
+                {
+                    string[] lines = File.ReadAllLines(@Program.throws);
+                    i = 1;
+                    foreach (string line in lines)
+                    {
+                        switch (i)
+                        {
+                            case 1:
+                                Globals.excellentthrow = int.Parse(line);
+                                break;
+                            case 2:
+                                Globals.greatthrow = int.Parse(line);
+                                break;
+                            case 3:
+                                Globals.nicethrow = int.Parse(line);
+                                break;
+                            case 4:
+                                Globals.ordinarythrow = int.Parse(line);
+                                break;
+                            default:
                                 break;
                         }
                         i++;
@@ -432,6 +469,10 @@ namespace PokemonGo.RocketAPI.Console
         public static int duplicate = 3;
         public static bool evolve = true;
         public static int maxCp = 999;
+        public static int excellentthrow = 25;
+        public static int greatthrow = 25;
+        public static int nicethrow = 25;
+        public static int ordinarythrow = 25;
         public static int pokeball = 20;
         public static int greatball = 50;
         public static int ultraball = 100;
@@ -444,6 +485,7 @@ namespace PokemonGo.RocketAPI.Console
         public static int toprevive = 50;
         public static int berry = 50;
         public static int ivmaxpercent = 0;
+        public static bool _pauseTheWalking = false;
         private static bool _pauseAtWalking = false;
         public static bool pauseAtWalking
         {
@@ -511,9 +553,9 @@ namespace PokemonGo.RocketAPI.Console
 
         public static bool logPokemons = false;
 
-        public static Queue<GeoCoordinate> NextDestinationOverride = new Queue<GeoCoordinate>();
+        public static LinkedList<GeoCoordinate> NextDestinationOverride = new LinkedList<GeoCoordinate>();
 
-        public static Queue<GeoCoordinate> RouteToRepeat = new Queue<GeoCoordinate>();
+        public static LinkedList<GeoCoordinate> RouteToRepeat = new LinkedList<GeoCoordinate>();
 
         public static bool RepeatUserRoute = false;
 
@@ -526,5 +568,11 @@ namespace PokemonGo.RocketAPI.Console
 
         public static bool UseIncenseGUIClick = false;
         public static bool bLogEvolve = false;
+
+        public static bool pauseAtEvolve = false;
+        public static bool pauseAtEvolve2 = false;
+
+        public static bool AutoUpdate = false;
+        public static bool usePwdEncryption = false;
     }
 }
