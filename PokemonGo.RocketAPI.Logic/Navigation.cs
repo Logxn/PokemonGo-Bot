@@ -102,10 +102,15 @@ namespace PokemonGo.RocketAPI.Logic
                 }
                 else
                 {
-                    result =
-                        await
-                        _client.Player.UpdatePlayerLocation(waypoint.Latitude, waypoint.Longitude,
-                            waypoint.Altitude);
+                	try{
+	                    result =
+	                        await
+	                        _client.Player.UpdatePlayerLocation(waypoint.Latitude, waypoint.Longitude,
+	                            waypoint.Altitude);
+                	}catch (Exception e){ 
+                		Logger.ColoredConsoleWrite(ConsoleColor.DarkRed,"Sending exception info to Logger");
+                		Logger.Error("Exception Updating player Location:" + e.ToString() );
+                	}
                 }
                
                 if (functionExecutedWhileWalking != null)

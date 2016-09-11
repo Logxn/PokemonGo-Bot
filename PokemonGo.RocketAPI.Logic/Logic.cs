@@ -342,8 +342,8 @@ namespace PokemonGo.RocketAPI.Logic
                 }
                 if (_restart)
                 {                	
-                    Logger.ColoredConsoleWrite(ConsoleColor.Green, "Starting again in 10 seconds...");
-                    await Task.Delay(10000);
+                    Logger.ColoredConsoleWrite(ConsoleColor.Green, "Starting again in 60 seconds...");
+                    await Task.Delay(60000);
                 }
                 else
                 {

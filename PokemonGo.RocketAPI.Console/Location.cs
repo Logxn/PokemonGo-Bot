@@ -150,7 +150,8 @@ namespace PokemonGo.RocketAPI.Console
             }
             catch (Exception e)
             {
-                Logger.ColoredConsoleWrite(ConsoleColor.DarkRed, string.Format("Ignore this: Error in HandleClearPokemon: {0}", e.ToString()));
+            	Logger.ColoredConsoleWrite(ConsoleColor.DarkRed, "Ignore this: sending exception information to log file.");
+                Logger.AddLog(string.Format("Error in HandleClearPokemon: {0}", e.ToString()));              
             }
         }
 
@@ -207,8 +208,9 @@ namespace PokemonGo.RocketAPI.Console
                 }
             }
             catch (Exception e)
-            {
-                Logger.ColoredConsoleWrite(ConsoleColor.DarkRed, string.Format("Ignore this: Error in HandleNewPokemonLocations: {0}", e.ToString()));
+            {            	
+            	Logger.ColoredConsoleWrite(ConsoleColor.DarkRed, "Ignore this: sending exception information to log file.");
+                Logger.AddLog(string.Format("Error in HandleNewPokemonLocations: {0}", e.ToString()));
             }
         }
 
@@ -253,7 +255,8 @@ namespace PokemonGo.RocketAPI.Console
             }
             catch (Exception e)
             {
-                Logger.ColoredConsoleWrite(ConsoleColor.DarkRed, string.Format("Ignore this: Error in HandlePokeStop: {0}", e.ToString()));
+    	        Logger.ColoredConsoleWrite(ConsoleColor.DarkRed, "Ignore this: sending exception information to log file.");
+                Logger.AddLog(string.Format("Error in HandlePokeStop: {0}", e.ToString()));
             }
         }
         
@@ -332,7 +335,8 @@ namespace PokemonGo.RocketAPI.Console
             }
             catch (Exception e)
             {
-                Logger.ColoredConsoleWrite(ConsoleColor.DarkRed, string.Format("Ignore this: Error in HandlePokeStop: {0}", e.ToString()));
+    	        Logger.ColoredConsoleWrite(ConsoleColor.DarkRed, "Ignore this: sending exception information to log file.");
+                Logger.AddLog(string.Format("Error in HandlePokeStop: {0}", e.ToString()));                
             }
         }
         
@@ -356,14 +360,16 @@ namespace PokemonGo.RocketAPI.Console
                     }
                     catch (Exception e)
                     {
-                       Logger.ColoredConsoleWrite(ConsoleColor.DarkRed, string.Format("Ignore this: Error in HandlePokeStopInfoUpdate: {0}", e.ToString())); 
+		    	        Logger.ColoredConsoleWrite(ConsoleColor.DarkRed, "Ignore this: sending exception information to log file.");
+		                Logger.AddLog(string.Format("Error in HandlePokeStopInfoUpdate: {0}", e.ToString()));                        
                     }
                 	_pokeStopsMarks[pokeStop.Id] = newMark;                    
                 }
             }
             catch (Exception e)
             {
-                Logger.ColoredConsoleWrite(ConsoleColor.DarkRed, string.Format("Ignore this: Error in HandlePokeStopInfoUpdate: {0}", e.ToString()));
+    	        Logger.ColoredConsoleWrite(ConsoleColor.DarkRed, "Ignore this: sending exception information to log file.");
+                Logger.AddLog(string.Format("Error in HandlePokeStopInfoUpdate: {0}", e.ToString()));
             }
         }
 
