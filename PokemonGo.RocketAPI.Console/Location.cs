@@ -216,6 +216,7 @@ namespace PokemonGo.RocketAPI.Console
             {
                 if (pokeStops.Length > 0)
                 {
+                	map.Overlays.Remove(_pokeStopsOverlay);
                     _pokeStopsOverlay.Markers.Clear();
                     _pokeStopsMarks.Clear();
                     int prevCount = pokeStops.Length;
@@ -238,6 +239,7 @@ namespace PokemonGo.RocketAPI.Console
                             _pokeStopsOverlay.Markers.Add(pokeStopMaker);
                         }
                     }
+                    map.Overlays.Add(_pokeStopsOverlay);
                 }
             }
             catch (Exception e)
