@@ -23,7 +23,7 @@ namespace PokemonGo.RocketAPI.Console
 {
     public partial class LocationSelect : Form
     {
-        public LocationSelect(bool asViewOnly)
+        public LocationSelect(bool asViewOnly, int team = 0)
         {
             InitializeComponent();
             map.Manager.Mode = AccessMode.ServerOnly;
@@ -33,15 +33,15 @@ namespace PokemonGo.RocketAPI.Console
 
             if (asViewOnly)
             {
-                initViewOnly();
+                initViewOnly(team);
             }
         }
 
         public double alt;
         public bool close = true;
 
-        //private GMarkerGoogle _botMarker = new GMarkerGoogle(new PointLatLng(), GMarkerGoogleType.red_small);
-        private GMarkerGoogle _botMarker = new GMarkerGoogle(new PointLatLng(), Properties.Resources.player);
+        
+        private GMarkerGoogle _botMarker;
 
         private GMapRoute _botRoute = new GMapRoute("BotRoute");
         private Dictionary<string, GMarkerGoogle> _pokemonMarks = new Dictionary<string, GMarkerGoogle>();
@@ -253,7 +253,7 @@ namespace PokemonGo.RocketAPI.Console
                 if (_pokeStopsMarks.ContainsKey(pokeStopId))
                 {
                     //changeType               
-                    var newMark = new GMarkerGoogle(_pokeStopsMarks[pokeStopId].Position, Properties.Resources.visited_pokestop);
+                    var newMark = new GMarkerGoogle(_pokeStopsMarks[pokeStopId].Position, new Bitmap(Properties.Resources.visited_pokestop));
                 
                     newMark.ToolTipText = info;
                     newMark.ToolTip.Font = new System.Drawing.Font("Arial", 12, System.Drawing.GraphicsUnit.Pixel);
@@ -276,13 +276,30 @@ namespace PokemonGo.RocketAPI.Console
             }
         }
 
-        private void initViewOnly()
+        private void initViewOnly(int team)
         {
             //first hide all controls
             foreach (Control c in Controls)
             {
                 c.Visible = false;
             }
+            
+            Bitmap bmp = Properties.Resources.player;
+            switch (team) {
+            	case 1:
+            		bmp = Properties.Resources.player_blue;
+            	break;
+            	case 2:
+            		bmp = Properties.Resources.player_red;
+            	break;
+            	case 3:
+            		bmp = Properties.Resources.player_yellow;
+            	break;            		
+            		
+            }
+            
+            _botMarker =  new GMarkerGoogle(new PointLatLng(), bmp);
+            
             //show map
             map.Visible = true;
             map.Dock = DockStyle.Fill;
