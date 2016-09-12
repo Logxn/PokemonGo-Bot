@@ -81,8 +81,8 @@ namespace PokemonGo.RocketAPI.Logic
                     _pauseWalking = value;
                 }
             }
-        }        
-
+        }
+        
         public Logic(ISettings clientSettings, LogicInfoObservable infoObservable)
         {
             _clientSettings = clientSettings;
@@ -480,8 +480,11 @@ namespace PokemonGo.RocketAPI.Logic
             #endregion
 
             #region Check Run Count Limits
+
+            #region Catch Pokemon Count Check
             if (pokemonCatchCount >= _clientSettings.PokemonCatchLimit)
             {
+                
                 if (_clientSettings.FarmPokestops)
                 {
                     Logger.ColoredConsoleWrite(ConsoleColor.Green, "Pokemon Catch Limit Reached - Bot will only farm pokestops");
@@ -501,6 +504,9 @@ namespace PokemonGo.RocketAPI.Logic
                     StringUtils.CheckKillSwitch(true);
                 }
             }
+            #endregion
+
+            #region Farm Pokestops Check
             if (pokeStopFarmedCount >= _clientSettings.PokestopFarmLimit)
             {
                 if (_clientSettings.CatchPokemon)
@@ -522,6 +528,9 @@ namespace PokemonGo.RocketAPI.Logic
                     StringUtils.CheckKillSwitch(true);
                 }
             }
+            #endregion
+
+            #region XP Check
             if (startingXP != -10000 && currentxp != -10000 && (currentxp = -startingXP) >= _clientSettings.XPFarmedLimit)
             {
                 Logger.ColoredConsoleWrite(ConsoleColor.Green, "XP Farmed Limit Reached - Bot will return to default location and stop");
@@ -536,12 +545,13 @@ namespace PokemonGo.RocketAPI.Logic
                 StringUtils.CheckKillSwitch(true);
             }
             #endregion
+
+            #endregion
         }
 
         #endregion
 
-        #region Catch, Walk, and Farm Functions
-
+        #region Catch, Farm and Walk Logic
         private async Task Espiral(Client client, FortData[] pokeStops)
         {
             //Intento de pajarera 1...
@@ -755,8 +765,9 @@ namespace PokemonGo.RocketAPI.Logic
                     _infoObservable.PushPokeStopInfoUpdate(pokeStop, "!!Can't Get PokeStop Information!!");
                     continue;
                 }
-                //check if user wants to break at lured pokestop
-                #region Break At Lure Logic                
+
+                #region Break At Lure Logic  
+                //check if user wants to break at lured pokestop              
                 if (_clientSettings.BreakAtLure && fortInfo.Modifiers.Any())
                 {
                     resumetimestamp = fortInfo.Modifiers.First().ExpirationTimestampMs;
@@ -880,6 +891,7 @@ namespace PokemonGo.RocketAPI.Logic
         }
 
         #region Walk with Routing Functions
+
         private async Task WalkUserRoute(FortData[] pokeStops)
         {
             do
@@ -917,6 +929,7 @@ namespace PokemonGo.RocketAPI.Logic
             }
             while (_clientSettings.NextDestinationOverride.Count > 0);
         }
+
         private async Task WalkWithRouting(FortData pokeStop, double walkspeed)
         {
             await DoRouteWalking(pokeStop.Latitude, pokeStop.Longitude, walkspeed);
@@ -926,6 +939,7 @@ namespace PokemonGo.RocketAPI.Logic
         {
             await DoRouteWalking(latitude, longitude, walkspeed);
         }
+
         private async Task DoRouteWalking(double latitude, double longitude, double walkspeed)
         {
             Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Getting Google Maps Routing");
@@ -971,6 +985,7 @@ namespace PokemonGo.RocketAPI.Logic
                         }
                     }
                 }
+                #region Goggle Directions Response Logging
                 //Log any message other than expected directions response
                 else if (directions.Status == DirectionsStatusCodes.REQUEST_DENIED)
                 {
@@ -992,6 +1007,7 @@ namespace PokemonGo.RocketAPI.Logic
                     Logger.ColoredConsoleWrite(ConsoleColor.Red, "Unhandled Error occurred when getting route[ STATUS:" + directions.StatusStr + " ERROR MESSAGE:" + directions.ErrorMessage + "] Using default walk method instead.");
                     var update = await _navigation.HumanLikeWalking(new GeoCoordinate(latitude, longitude), walkspeed, ExecuteCatchAllNearbyPokemons);
                 }
+                #endregion
             }
             else
             {
@@ -1031,7 +1047,6 @@ namespace PokemonGo.RocketAPI.Logic
 
         private async Task<bool> CheckAndFarmNearbyPokeStop(FortData pokeStop, Client _client, FortDetailsResponse fortInfo)
         {
-
             if (count >= 9)
             {
                 await LogStatsEtc();
@@ -1062,8 +1077,6 @@ namespace PokemonGo.RocketAPI.Logic
                         pokeballoutofstock = false;
                         _clientSettings.CatchPokemon = true;
                     }
-
-
                     failed_softban = 0;
                     _botStats.AddExperience(fortSearch.ExperienceAwarded);
                     pokeStopFarmedCount++;
@@ -1117,8 +1130,7 @@ namespace PokemonGo.RocketAPI.Logic
 
             //bypass catching pokemon if disabled
             if (_clientSettings.CatchPokemon)
-            {
-                #region Find and catch nearby pokemon
+            {                
                 // identify nearby pokemon
                 var mapObjects = await client.Map.GetMapObjects();
                 var pokemons =
@@ -1158,10 +1170,6 @@ namespace PokemonGo.RocketAPI.Logic
                     }
                     #endregion
 
-                    // reset function variables
-                    var missCount = 0;
-                    var forceHit = false;    
-                                   
                     //get distance to pokemon
                     var distance = LocationUtils.CalculateDistanceInMeters(_client.CurrentLatitude, _client.CurrentLongitude, pokemon.Latitude, pokemon.Longitude);
 
@@ -1172,12 +1180,13 @@ namespace PokemonGo.RocketAPI.Logic
                 }
             }
         }
+
         private async Task catchPokemon(ulong encounter_id, string spawnpoint_id, PokemonId pokeid, double poke_long = 0, double poke_lat = 0)
         {
             var missCount = 0;
             var forceHit = false; 
             var encounterPokemonResponse = await _client.Encounter.EncounterPokemon(encounter_id, spawnpoint_id);
-            
+                        
             if (encounterPokemonResponse.Status == EncounterResponse.Types.Status.EncounterSuccess)
             {
                 var bestPokeball = await GetBestBall(encounterPokemonResponse?.WildPokemon, false);
@@ -1323,7 +1332,6 @@ namespace PokemonGo.RocketAPI.Logic
                         Logger.ColoredConsoleWrite(ConsoleColor.Gray,
                             $"Caught {StringUtils.getPokemonNameByLanguage(_clientSettings, pokeid)} CP {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} IV {PokemonInfo.CalculatePokemonPerfection(encounterPokemonResponse.WildPokemon.PokemonData).ToString("0.00")}% using {bestPokeball} got {caughtPokemonResponse.CaptureAward.Xp.Sum()} XP.");
                         pokemonCatchCount++;
-
 
                         if (_telegram != null)
                             _telegram.sendInformationText(TelegramUtil.TelegramUtilInformationTopics.Catch, StringUtils.getPokemonNameByLanguage(_clientSettings, pokeid), encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp, PokemonInfo.CalculatePokemonPerfection(encounterPokemonResponse.WildPokemon.PokemonData).ToString("0.00"), bestPokeball, caughtPokemonResponse.CaptureAward.Xp.Sum());
@@ -1549,6 +1557,7 @@ namespace PokemonGo.RocketAPI.Logic
         #endregion
 
         #region Best Ball and Berry Functions
+
         private async Task<Dictionary<string, int>> GetPokeballQty()
         {
             Dictionary<string, int> pokeBallCollection = new Dictionary<string, int>();
