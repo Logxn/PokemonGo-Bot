@@ -51,6 +51,16 @@ namespace PokemonGo.RocketAPI.Logic
             }
         }
 
+        public delegate void AvailablePokeGymHandler(FortData[] pokeGyms);
+        public event AvailablePokeGymHandler HandleAvailablePokeGym = delegate { };
+        public void PushAvailablePokeGymsLocations(FortData[] pokeGyms)
+        {
+            if (pokeGyms != null && pokeGyms.Any())
+            {
+                HandleAvailablePokeGym(pokeGyms);
+            }
+        }
+
         public delegate void PokeStopInfoUpdateHandler(string pokeStopId, string info);
         public event PokeStopInfoUpdateHandler HandlePokeStopInfoUpdate = delegate { };
         public void PushPokeStopInfoUpdate(string pokeStopId, string info)

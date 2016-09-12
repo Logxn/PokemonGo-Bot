@@ -133,7 +133,6 @@
             this.checkBox_StopWalkingWhenEvolving = new System.Windows.Forms.CheckBox();
             this.label39 = new System.Windows.Forms.Label();
             this.comboBox_Device = new System.Windows.Forms.ComboBox();
-            this.checkbox_PWDEncryption = new System.Windows.Forms.CheckBox();
             this.label33 = new System.Windows.Forms.Label();
             this.text_UseRazzberryChance = new System.Windows.Forms.TextBox();
             this.checkBox_UseRazzberryIfChanceUnder = new System.Windows.Forms.CheckBox();
@@ -142,10 +141,12 @@
             this.checkBox_UseLuckyEggIfNotRunning = new System.Windows.Forms.CheckBox();
             this.checkBox_KeepPokemonWhichCanBeEvolved = new System.Windows.Forms.CheckBox();
             this.checkBox_EnablePokemonListGui = new System.Windows.Forms.CheckBox();
+            this.checkBox_EnableItemsListGui = new System.Windows.Forms.CheckBox();
             this.checkBox_UseIncenseEvery30min = new System.Windows.Forms.CheckBox();
             this.checkBox_SimulateAnimationTimeAtEvolve = new System.Windows.Forms.CheckBox();
             this.checkBox_UseLuckyEggAtEvolve = new System.Windows.Forms.CheckBox();
             this.checkBox_EvolvePokemonIfEnoughCandy = new System.Windows.Forms.CheckBox();
+            this.checkbox_PWDEncryption = new System.Windows.Forms.CheckBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabThrows = new System.Windows.Forms.TabPage();
             this.groupBox16 = new System.Windows.Forms.GroupBox();
@@ -158,6 +159,7 @@
             this.label49 = new System.Windows.Forms.Label();
             this.label48 = new System.Windows.Forms.Label();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.button_ArchimedeanSpiralHelp = new System.Windows.Forms.Button();
             this.checkBox_WalkInArchimedeanSpiral = new System.Windows.Forms.CheckBox();
@@ -205,7 +207,7 @@
             this.lang_de_btn = new System.Windows.Forms.Button();
             this.lang_en_btn = new System.Windows.Forms.Button();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.checkBox_CatchLurePokemons = new System.Windows.Forms.CheckBox();
             this.tabPage1.SuspendLayout();
             this.tabItems.SuspendLayout();
             this.groupBox4.SuspendLayout();
@@ -1269,6 +1271,7 @@
             // 
             // groupBox10
             // 
+            this.groupBox10.Controls.Add(this.checkBox_CatchLurePokemons);
             this.groupBox10.Controls.Add(this.checkBox_StopWalkingWhenEvolving);
             this.groupBox10.Controls.Add(this.label39);
             this.groupBox10.Controls.Add(this.comboBox_Device);
@@ -1280,12 +1283,12 @@
             this.groupBox10.Controls.Add(this.checkBox_UseLuckyEggIfNotRunning);
             this.groupBox10.Controls.Add(this.checkBox_KeepPokemonWhichCanBeEvolved);
             this.groupBox10.Controls.Add(this.checkBox_EnablePokemonListGui);
+            this.groupBox10.Controls.Add(this.checkBox_EnableItemsListGui);
             this.groupBox10.Controls.Add(this.checkBox_UseIncenseEvery30min);
             this.groupBox10.Controls.Add(this.checkBox_SimulateAnimationTimeAtEvolve);
             this.groupBox10.Controls.Add(this.checkBox_UseLuckyEggAtEvolve);
             this.groupBox10.Controls.Add(this.checkBox_EvolvePokemonIfEnoughCandy);
             this.groupBox10.Controls.Add(this.checkbox_PWDEncryption);
-            
             this.groupBox10.Location = new System.Drawing.Point(264, 6);
             this.groupBox10.Name = "groupBox10";
             this.groupBox10.Size = new System.Drawing.Size(271, 328);
@@ -1296,7 +1299,7 @@
             // checkBox_StopWalkingWhenEvolving
             // 
             this.checkBox_StopWalkingWhenEvolving.AutoSize = true;
-            this.checkBox_StopWalkingWhenEvolving.Location = new System.Drawing.Point(21, 89);
+            this.checkBox_StopWalkingWhenEvolving.Location = new System.Drawing.Point(21, 71);
             this.checkBox_StopWalkingWhenEvolving.Margin = new System.Windows.Forms.Padding(2);
             this.checkBox_StopWalkingWhenEvolving.Name = "checkBox_StopWalkingWhenEvolving";
             this.checkBox_StopWalkingWhenEvolving.Size = new System.Drawing.Size(163, 17);
@@ -1348,22 +1351,11 @@
             this.comboBox_Device.Name = "comboBox_Device";
             this.comboBox_Device.Size = new System.Drawing.Size(184, 21);
             this.comboBox_Device.TabIndex = 53;
-        	// 
-        	// checkbox_PWDEncryption
-        	// 
-        	this.checkbox_PWDEncryption.AutoSize = true;
-        	this.checkbox_PWDEncryption.Location = new System.Drawing.Point(21, 302);
-        	this.checkbox_PWDEncryption.Name = "checkbox_PWDEncryption";
-        	this.checkbox_PWDEncryption.Size = new System.Drawing.Size(173, 17);
-        	this.checkbox_PWDEncryption.TabIndex = 56;
-        	this.checkbox_PWDEncryption.Text = "Encrypt password on config file";
-        	this.checkbox_PWDEncryption.UseVisualStyleBackColor = true;
-        	this.checkbox_PWDEncryption.CheckedChanged += new System.EventHandler(this.chkPWDEncryption_CheckedChanged);
             // 
             // label33
             // 
             this.label33.AutoSize = true;
-            this.label33.Location = new System.Drawing.Point(224, 210);
+            this.label33.Location = new System.Drawing.Point(224, 197);
             this.label33.Name = "label33";
             this.label33.Size = new System.Drawing.Size(15, 13);
             this.label33.TabIndex = 52;
@@ -1371,7 +1363,7 @@
             // 
             // text_UseRazzberryChance
             // 
-            this.text_UseRazzberryChance.Location = new System.Drawing.Point(193, 208);
+            this.text_UseRazzberryChance.Location = new System.Drawing.Point(193, 195);
             this.text_UseRazzberryChance.Name = "text_UseRazzberryChance";
             this.text_UseRazzberryChance.Size = new System.Drawing.Size(31, 20);
             this.text_UseRazzberryChance.TabIndex = 51;
@@ -1380,7 +1372,7 @@
             // checkBox_UseRazzberryIfChanceUnder
             // 
             this.checkBox_UseRazzberryIfChanceUnder.AutoSize = true;
-            this.checkBox_UseRazzberryIfChanceUnder.Location = new System.Drawing.Point(21, 210);
+            this.checkBox_UseRazzberryIfChanceUnder.Location = new System.Drawing.Point(21, 197);
             this.checkBox_UseRazzberryIfChanceUnder.Name = "checkBox_UseRazzberryIfChanceUnder";
             this.checkBox_UseRazzberryIfChanceUnder.Size = new System.Drawing.Size(173, 17);
             this.checkBox_UseRazzberryIfChanceUnder.TabIndex = 50;
@@ -1390,7 +1382,7 @@
             // checkBox_UseBasicIncubators
             // 
             this.checkBox_UseBasicIncubators.AutoSize = true;
-            this.checkBox_UseBasicIncubators.Location = new System.Drawing.Point(39, 249);
+            this.checkBox_UseBasicIncubators.Location = new System.Drawing.Point(39, 236);
             this.checkBox_UseBasicIncubators.Name = "checkBox_UseBasicIncubators";
             this.checkBox_UseBasicIncubators.Size = new System.Drawing.Size(125, 17);
             this.checkBox_UseBasicIncubators.TabIndex = 49;
@@ -1402,7 +1394,7 @@
             this.checkBox_AutoIncubate.AutoSize = true;
             this.checkBox_AutoIncubate.Checked = true;
             this.checkBox_AutoIncubate.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox_AutoIncubate.Location = new System.Drawing.Point(21, 230);
+            this.checkBox_AutoIncubate.Location = new System.Drawing.Point(21, 217);
             this.checkBox_AutoIncubate.Name = "checkBox_AutoIncubate";
             this.checkBox_AutoIncubate.Size = new System.Drawing.Size(226, 17);
             this.checkBox_AutoIncubate.TabIndex = 48;
@@ -1412,7 +1404,7 @@
             // checkBox_UseLuckyEggIfNotRunning
             // 
             this.checkBox_UseLuckyEggIfNotRunning.AutoSize = true;
-            this.checkBox_UseLuckyEggIfNotRunning.Location = new System.Drawing.Point(21, 187);
+            this.checkBox_UseLuckyEggIfNotRunning.Location = new System.Drawing.Point(21, 174);
             this.checkBox_UseLuckyEggIfNotRunning.Name = "checkBox_UseLuckyEggIfNotRunning";
             this.checkBox_UseLuckyEggIfNotRunning.Size = new System.Drawing.Size(160, 17);
             this.checkBox_UseLuckyEggIfNotRunning.TabIndex = 47;
@@ -1424,7 +1416,7 @@
             this.checkBox_KeepPokemonWhichCanBeEvolved.AutoSize = true;
             this.checkBox_KeepPokemonWhichCanBeEvolved.Checked = true;
             this.checkBox_KeepPokemonWhichCanBeEvolved.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox_KeepPokemonWhichCanBeEvolved.Location = new System.Drawing.Point(21, 167);
+            this.checkBox_KeepPokemonWhichCanBeEvolved.Location = new System.Drawing.Point(21, 154);
             this.checkBox_KeepPokemonWhichCanBeEvolved.Name = "checkBox_KeepPokemonWhichCanBeEvolved";
             this.checkBox_KeepPokemonWhichCanBeEvolved.Size = new System.Drawing.Size(212, 17);
             this.checkBox_KeepPokemonWhichCanBeEvolved.TabIndex = 46;
@@ -1436,19 +1428,31 @@
             this.checkBox_EnablePokemonListGui.AutoSize = true;
             this.checkBox_EnablePokemonListGui.Checked = true;
             this.checkBox_EnablePokemonListGui.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox_EnablePokemonListGui.Location = new System.Drawing.Point(21, 145);
+            this.checkBox_EnablePokemonListGui.Location = new System.Drawing.Point(21, 111);
             this.checkBox_EnablePokemonListGui.Name = "checkBox_EnablePokemonListGui";
             this.checkBox_EnablePokemonListGui.Size = new System.Drawing.Size(144, 17);
             this.checkBox_EnablePokemonListGui.TabIndex = 45;
             this.checkBox_EnablePokemonListGui.Text = "Enable Pokemon list GUI";
             this.checkBox_EnablePokemonListGui.UseVisualStyleBackColor = true;
             // 
+            // checkBox_EnableItemsListGui
+            // 
+            this.checkBox_EnableItemsListGui.AutoSize = true;
+            this.checkBox_EnableItemsListGui.Checked = true;
+            this.checkBox_EnableItemsListGui.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox_EnableItemsListGui.Location = new System.Drawing.Point(21, 132);
+            this.checkBox_EnableItemsListGui.Name = "checkBox_EnableItemsListGui";
+            this.checkBox_EnableItemsListGui.Size = new System.Drawing.Size(124, 17);
+            this.checkBox_EnableItemsListGui.TabIndex = 45;
+            this.checkBox_EnableItemsListGui.Text = "Enable Items list GUI";
+            this.checkBox_EnableItemsListGui.UseVisualStyleBackColor = true;
+            // 
             // checkBox_UseIncenseEvery30min
             // 
             this.checkBox_UseIncenseEvery30min.AutoSize = true;
             this.checkBox_UseIncenseEvery30min.Checked = true;
             this.checkBox_UseIncenseEvery30min.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox_UseIncenseEvery30min.Location = new System.Drawing.Point(21, 124);
+            this.checkBox_UseIncenseEvery30min.Location = new System.Drawing.Point(21, 90);
             this.checkBox_UseIncenseEvery30min.Name = "checkBox_UseIncenseEvery30min";
             this.checkBox_UseIncenseEvery30min.Size = new System.Drawing.Size(146, 17);
             this.checkBox_UseIncenseEvery30min.TabIndex = 43;
@@ -1460,7 +1464,7 @@
             this.checkBox_SimulateAnimationTimeAtEvolve.AutoSize = true;
             this.checkBox_SimulateAnimationTimeAtEvolve.Checked = true;
             this.checkBox_SimulateAnimationTimeAtEvolve.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox_SimulateAnimationTimeAtEvolve.Location = new System.Drawing.Point(21, 46);
+            this.checkBox_SimulateAnimationTimeAtEvolve.Location = new System.Drawing.Point(21, 33);
             this.checkBox_SimulateAnimationTimeAtEvolve.Name = "checkBox_SimulateAnimationTimeAtEvolve";
             this.checkBox_SimulateAnimationTimeAtEvolve.Size = new System.Drawing.Size(194, 17);
             this.checkBox_SimulateAnimationTimeAtEvolve.TabIndex = 40;
@@ -1473,7 +1477,7 @@
             this.checkBox_UseLuckyEggAtEvolve.AutoSize = true;
             this.checkBox_UseLuckyEggAtEvolve.Checked = true;
             this.checkBox_UseLuckyEggAtEvolve.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox_UseLuckyEggAtEvolve.Location = new System.Drawing.Point(21, 27);
+            this.checkBox_UseLuckyEggAtEvolve.Location = new System.Drawing.Point(21, 14);
             this.checkBox_UseLuckyEggAtEvolve.Name = "checkBox_UseLuckyEggAtEvolve";
             this.checkBox_UseLuckyEggAtEvolve.Size = new System.Drawing.Size(144, 17);
             this.checkBox_UseLuckyEggAtEvolve.TabIndex = 41;
@@ -1486,13 +1490,24 @@
             this.checkBox_EvolvePokemonIfEnoughCandy.AutoSize = true;
             this.checkBox_EvolvePokemonIfEnoughCandy.Checked = true;
             this.checkBox_EvolvePokemonIfEnoughCandy.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox_EvolvePokemonIfEnoughCandy.Location = new System.Drawing.Point(21, 66);
+            this.checkBox_EvolvePokemonIfEnoughCandy.Location = new System.Drawing.Point(21, 53);
             this.checkBox_EvolvePokemonIfEnoughCandy.Name = "checkBox_EvolvePokemonIfEnoughCandy";
             this.checkBox_EvolvePokemonIfEnoughCandy.Size = new System.Drawing.Size(191, 17);
             this.checkBox_EvolvePokemonIfEnoughCandy.TabIndex = 44;
             this.checkBox_EvolvePokemonIfEnoughCandy.Text = "Evolve Pokemons if enough candy\r\n";
             this.checkBox_EvolvePokemonIfEnoughCandy.UseVisualStyleBackColor = true;
             this.checkBox_EvolvePokemonIfEnoughCandy.CheckedChanged += new System.EventHandler(this.checkBox3_CheckedChanged);
+            // 
+            // checkbox_PWDEncryption
+            // 
+            this.checkbox_PWDEncryption.AutoSize = true;
+            this.checkbox_PWDEncryption.Location = new System.Drawing.Point(21, 302);
+            this.checkbox_PWDEncryption.Name = "checkbox_PWDEncryption";
+            this.checkbox_PWDEncryption.Size = new System.Drawing.Size(173, 17);
+            this.checkbox_PWDEncryption.TabIndex = 56;
+            this.checkbox_PWDEncryption.Text = "Encrypt password on config file";
+            this.checkbox_PWDEncryption.UseVisualStyleBackColor = true;
+            this.checkbox_PWDEncryption.CheckedChanged += new System.EventHandler(this.chkPWDEncryption_CheckedChanged);
             // 
             // tabControl1
             // 
@@ -1637,6 +1652,17 @@
             this.tabPage2.TabIndex = 4;
             this.tabPage2.Text = "Walk Settings";
             this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Location = new System.Drawing.Point(265, 252);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(243, 17);
+            this.checkBox1.TabIndex = 67;
+            this.checkBox1.Text = "Use SkipLagged.com api to capture pokemon";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
             // 
             // pictureBox1
             // 
@@ -2155,16 +2181,16 @@
             this.pictureBox2.TabStop = false;
             this.pictureBox2.Click += new System.EventHandler(this.pictureBox2_Click);
             // 
-            // checkBox1
+            // checkBox_CatchLurePokemons
             // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(265, 252);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(243, 17);
-            this.checkBox1.TabIndex = 67;
-            this.checkBox1.Text = "Use SkipLagged.com api to capture pokemon";
-            this.checkBox1.UseVisualStyleBackColor = true;
-            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
+            this.checkBox_CatchLurePokemons.AutoSize = true;
+            this.checkBox_CatchLurePokemons.Location = new System.Drawing.Point(22, 255);
+            this.checkBox_CatchLurePokemons.Name = "checkBox_CatchLurePokemons";
+            this.checkBox_CatchLurePokemons.Size = new System.Drawing.Size(199, 17);
+            this.checkBox_CatchLurePokemons.TabIndex = 57;
+            this.checkBox_CatchLurePokemons.Text = "Catch Lure Pokemons (UNTESTED)";
+            this.checkBox_CatchLurePokemons.UseVisualStyleBackColor = true;
+            this.checkBox_CatchLurePokemons.CheckedChanged += new System.EventHandler(this.checkBox_CatchLurePokemons_CheckedChanged);
             // 
             // GUI
             // 
@@ -2390,6 +2416,7 @@
         private System.Windows.Forms.CheckBox checkBox_UseLuckyEggIfNotRunning;
         private System.Windows.Forms.CheckBox checkBox_KeepPokemonWhichCanBeEvolved;
         private System.Windows.Forms.CheckBox checkBox_EnablePokemonListGui;
+        private System.Windows.Forms.CheckBox checkBox_EnableItemsListGui;
         private System.Windows.Forms.CheckBox checkBox_UseIncenseEvery30min;
         private System.Windows.Forms.CheckBox checkBox_SimulateAnimationTimeAtEvolve;
         private System.Windows.Forms.CheckBox checkBox_UseLuckyEggAtEvolve;
@@ -2419,7 +2446,8 @@
         private System.Windows.Forms.TextBox text_Pb_Great;
         private System.Windows.Forms.TextBox text_Pb_Excellent;
         private System.Windows.Forms.CheckBox checkBox1;
-        private System.Windows.Forms.CheckBox checkbox_PWDEncryption;        
+        private System.Windows.Forms.CheckBox checkbox_PWDEncryption;
+        private System.Windows.Forms.CheckBox checkBox_CatchLurePokemons;
     }
 }
 

@@ -34,6 +34,8 @@ namespace PokemonGo.RocketAPI
         int DontTransferWithCPOver { get; }
         int ivmaxpercent { get; }
 
+        bool CatchLurePokemons { get; }
+
         bool sleepatpokemons { get; }
 
         string TelegramAPIToken { get; }
