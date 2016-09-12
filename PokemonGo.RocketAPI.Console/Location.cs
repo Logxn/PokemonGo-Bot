@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Device.Location;
@@ -23,7 +23,7 @@ namespace PokemonGo.RocketAPI.Console
 {
     public partial class LocationSelect : Form
     {
-        public LocationSelect(bool asViewOnly, int team = 0)
+        public LocationSelect(bool asViewOnly, int team = 0, int level = 0, long exp = 0)
         {
             InitializeComponent();
             map.Manager.Mode = AccessMode.ServerOnly;
@@ -33,7 +33,7 @@ namespace PokemonGo.RocketAPI.Console
 
             if (asViewOnly)
             {
-                initViewOnly(team);
+                initViewOnly(team, level, exp);
             }
         }
 
@@ -150,7 +150,8 @@ namespace PokemonGo.RocketAPI.Console
             }
             catch (Exception e)
             {
-                Logger.ColoredConsoleWrite(ConsoleColor.DarkRed, string.Format("Ignore this: Error in HandleClearPokemon: {0}", e.ToString()));
+            	Logger.ColoredConsoleWrite(ConsoleColor.DarkRed, "Ignore this: sending exception information to log file.");
+                Logger.AddLog(string.Format("Error in HandleClearPokemon: {0}", e.ToString()));              
             }
         }
 
@@ -196,7 +197,7 @@ namespace PokemonGo.RocketAPI.Console
                                 }
 
                             }
-                            pokemonMarker.ToolTipText = string.Format("{0}, {1}, {2}, {3}", StringUtils.getPokemonNameByLanguage(null, pokeData.PokemonId), pokeData.ExpiresAt.ToString(), pokeData.Coordinates.Latitude.Value.ToString(), pokeData.Coordinates.Longitude.Value.ToString());
+                            pokemonMarker.ToolTipText = string.Format("{0}\nExpires at:{1}\n{2}\n{3},{4}", StringUtils.getPokemonNameByLanguage(null, pokeData.PokemonId), pokeData.ExpiresAt.ToString(), FindAddress(pokeData.Coordinates.Latitude.Value, pokeData.Coordinates.Longitude.Value),pokeData.Coordinates.Latitude.Value, pokeData.Coordinates.Longitude.Value);
                             pokemonMarker.ToolTip.Font = new System.Drawing.Font("Arial", 12, System.Drawing.GraphicsUnit.Pixel);
                             pokemonMarker.ToolTipMode = MarkerTooltipMode.OnMouseOver;
                             _pokemonMarks.Add(pokeData.Id, pokemonMarker);
@@ -207,8 +208,9 @@ namespace PokemonGo.RocketAPI.Console
                 }
             }
             catch (Exception e)
-            {
-                Logger.ColoredConsoleWrite(ConsoleColor.DarkRed, string.Format("Ignore this: Error in HandleNewPokemonLocations: {0}", e.ToString()));
+            {            	
+            	Logger.ColoredConsoleWrite(ConsoleColor.DarkRed, "Ignore this: sending exception information to log file.");
+                Logger.AddLog(string.Format("Error in HandleNewPokemonLocations: {0}", e.ToString()));
             }
         }
 
@@ -236,7 +238,8 @@ namespace PokemonGo.RocketAPI.Console
                             {
                                 pokeStopMaker = new GMarkerGoogle(new PointLatLng(pokeStop.Latitude, pokeStop.Longitude), Properties.Resources.lured_pokestop);
                             }
-                            pokeStopMaker.ToolTipText = string.Format("{0}, {1}", pokeStop.Latitude, pokeStop.Longitude);
+                            
+                            pokeStopMaker.ToolTipText = string.Format("{0}\n{1},{2}", FindAddress(pokeStop.Latitude, pokeStop.Longitude), pokeStop.Latitude, pokeStop.Longitude);
                             pokeStopMaker.ToolTip.Font = new System.Drawing.Font("Arial", 12, System.Drawing.GraphicsUnit.Pixel);
                             pokeStopMaker.ToolTipMode = MarkerTooltipMode.OnMouseOver;
                             _pokeStopsMarks.Add(pokeStop.Id, pokeStopMaker);
@@ -253,8 +256,32 @@ namespace PokemonGo.RocketAPI.Console
             }
             catch (Exception e)
             {
-                Logger.ColoredConsoleWrite(ConsoleColor.DarkRed, string.Format("Ignore this: Error in HandlePokeStop: {0}", e.ToString()));
+    	        Logger.ColoredConsoleWrite(ConsoleColor.DarkRed, "Ignore this: sending exception information to log file.");
+                Logger.AddLog(string.Format("Error in HandlePokeStop: {0}", e.ToString()));
             }
+        }
+        
+        private int GetLevel(long value)
+        {
+        	if(value >= 50000)
+        		return 10;
+        	if(value >= 40000)
+        		return 9;
+        	if(value >= 30000)
+        		return 8;
+        	if(value >= 20000)
+        		return 7;
+        	if(value >= 16000)
+        		return 6;
+        	if(value >= 12000)
+        		return 5;
+        	if(value >= 8000)
+        		return 4;
+        	if(value >= 4000)
+        		return 3;
+        	if (value >= 2000)
+        		return 2;
+        	return 1;
         }
 
         private void InfoObservable_HandlePokeGym(POGOProtos.Map.Fort.FortData[] forts)
@@ -288,9 +315,11 @@ namespace PokemonGo.RocketAPI.Console
                         			bitmap = Properties.Resources.pokegym_yellow;
                         			break;
                         	};
-                        	
+                        	 
+                        	var str =  StringUtils.getPokemonNameByLanguage(null, pokeGym.GuardPokemonId);                        	
+                        	str =  string.Format("Guard: {0} - CP: {1}\nLevel:{2} ({3})",str,pokeGym.GuardPokemonCp,GetLevel(pokeGym.GymPoints),pokeGym.GymPoints);
                             var pokeGymMaker = new GMarkerGoogle(new PointLatLng(pokeGym.Latitude, pokeGym.Longitude),bitmap);
-                            pokeGymMaker.ToolTipText = string.Format("{0}, {1}", pokeGym.Latitude, pokeGym.Longitude);
+                            pokeGymMaker.ToolTipText = string.Format("{0}\n{1}, {2}\n{3}", FindAddress(pokeGym.Latitude, pokeGym.Longitude), pokeGym.Latitude, pokeGym.Longitude,str);
                             pokeGymMaker.ToolTip.Font = new System.Drawing.Font("Arial", 12, System.Drawing.GraphicsUnit.Pixel);
                             pokeGymMaker.ToolTipMode = MarkerTooltipMode.OnMouseOver;
                             _pokeGymsMarks.Add(pokeGym.Id, pokeGymMaker);
@@ -307,41 +336,45 @@ namespace PokemonGo.RocketAPI.Console
             }
             catch (Exception e)
             {
-                Logger.ColoredConsoleWrite(ConsoleColor.DarkRed, string.Format("Ignore this: Error in HandlePokeStop: {0}", e.ToString()));
+    	        Logger.ColoredConsoleWrite(ConsoleColor.DarkRed, "Ignore this: sending exception information to log file.");
+                Logger.AddLog(string.Format("Error in HandlePokeStop: {0}", e.ToString()));                
             }
         }
         
-        private void InfoObservable_HandlePokeStopInfoUpdate(string pokeStopId, string info)
+        private void InfoObservable_HandlePokeStopInfoUpdate(POGOProtos.Map.Fort.FortData pokeStop, string info)
         {
             try
             {
-                if (_pokeStopsMarks.ContainsKey(pokeStopId))
+                if (_pokeStopsMarks.ContainsKey(pokeStop.Id))
                 {
-                    //changeType               
-                    var newMark = new GMarkerGoogle(_pokeStopsMarks[pokeStopId].Position, Properties.Resources.visited_pokestop);
+                    //changeType
+                    var bmp  = Properties.Resources.visited_pokestop;
+                    if (pokeStop.ActiveFortModifier.Count > 0)
+						bmp = Properties.Resources.visited_lured_pokestop;
+                    var newMark = new GMarkerGoogle(_pokeStopsMarks[pokeStop.Id].Position, bmp);                                                
                 
                     newMark.ToolTipText = info;
                     newMark.ToolTip.Font = new System.Drawing.Font("Arial", 12, System.Drawing.GraphicsUnit.Pixel);
-                
                     try
                     {
-                        _pokeStopsOverlay.Markers[_pokeStopsOverlay.Markers.IndexOf(_pokeStopsMarks[pokeStopId])] = newMark;
+                        _pokeStopsOverlay.Markers[_pokeStopsOverlay.Markers.IndexOf(_pokeStopsMarks[pokeStop.Id])] = newMark;
                     }
-                    catch (Exception)
+                    catch (Exception e)
                     {
-                        //Logger.ColoredConsoleWrite(ConsoleColor.Red, "[Debug] - Supressed error msg (Location.cs - Line 86 - Index is -1");
-                        // Doing this so the bot wont crash and or restart! - Logxn
+		    	        Logger.ColoredConsoleWrite(ConsoleColor.DarkRed, "Ignore this: sending exception information to log file.");
+		                Logger.AddLog(string.Format("Error in HandlePokeStopInfoUpdate: {0}", e.ToString()));                        
                     }
-                    _pokeStopsMarks[pokeStopId] = newMark;
+                	_pokeStopsMarks[pokeStop.Id] = newMark;                    
                 }
             }
             catch (Exception e)
             {
-                Logger.ColoredConsoleWrite(ConsoleColor.DarkRed, string.Format("Ignore this: Error in HandlePokeStopInfoUpdate: {0}", e.ToString()));
+    	        Logger.ColoredConsoleWrite(ConsoleColor.DarkRed, "Ignore this: sending exception information to log file.");
+                Logger.AddLog(string.Format("Error in HandlePokeStopInfoUpdate: {0}", e.ToString()));
             }
         }
 
-        private void initViewOnly(int team)
+        private void initViewOnly(int team, int level, long exp)
         {
             //first hide all controls
             foreach (Control c in Controls)
@@ -364,6 +397,9 @@ namespace PokemonGo.RocketAPI.Console
             }
             
             _botMarker =  new GMarkerGoogle(new PointLatLng(), bmp);
+            _botMarker.ToolTipText = string.Format("Level: {0} ({1})", level, exp);
+            _botMarker.ToolTip.Font = new System.Drawing.Font("Arial", 12, System.Drawing.GraphicsUnit.Pixel);
+            _botMarker.ToolTipMode = MarkerTooltipMode.OnMouseOver;
             
             //show map
             map.Visible = true;
@@ -373,7 +409,10 @@ namespace PokemonGo.RocketAPI.Console
             routeOverlay.Routes.Add(_botRoute);
             routeOverlay.Markers.Add(_botMarker);
             GMarkerGoogle _botStartMarker = new GMarkerGoogle(new PointLatLng(), Properties.Resources.start_point);
-            _botStartMarker.Position = new PointLatLng(Globals.latitute, Globals.longitude);
+            _botStartMarker.Position = new PointLatLng(Globals.latitute, Globals.longitude);            
+            _botStartMarker.ToolTipText = string.Format("Start Point.\n{0}\n{1},{2}", FindAddress(Globals.latitute, Globals.longitude),Globals.latitute, Globals.longitude);
+            _botStartMarker.ToolTip.Font = new System.Drawing.Font("Arial", 12, System.Drawing.GraphicsUnit.Pixel);
+            _botStartMarker.ToolTipMode = MarkerTooltipMode.OnMouseOver;            
             routeOverlay.Markers.Add(_botStartMarker);
             GMapPolygon circle = CreateCircle(new PointLatLng(Globals.latitute, Globals.longitude), Globals.radius, 100);
             routeOverlay.Polygons.Add(circle);
@@ -565,5 +604,17 @@ namespace PokemonGo.RocketAPI.Console
                 }
             }
         }
+        public static string FindAddress(double lat, double lng)
+        {
+        	string ret = "";
+        	GeoCoderStatusCode status;
+ 			var pos = GMapProviders.GoogleMap.GetPlacemark(new PointLatLng(lat, lng), out status);
+ 			if (status == GeoCoderStatusCode.G_GEO_SUCCESS && pos != null)
+ 			{
+ 				ret = pos.Value.Address;
+        	}
+ 			return ret;
+        }
     }
+    
 }
