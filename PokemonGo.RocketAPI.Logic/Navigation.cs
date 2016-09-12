@@ -109,7 +109,7 @@ namespace PokemonGo.RocketAPI.Logic
 	                            waypoint.Altitude);
                 	}catch (Exception e){ 
                 		Logger.ColoredConsoleWrite(ConsoleColor.DarkRed,"Sending exception info to Logger");
-                		Logger.Error("Exception Updating player Location:" + e.ToString() );
+                		Logger.AddLog("Exception Updating player Location:" + e.ToString() );
                 	}
                 }
                
