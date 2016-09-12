@@ -969,9 +969,20 @@ namespace PokemonGo.RocketAPI.Logic
                     directionsRequest.TravelMode = TravelMode.Bicycling;
                     Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Using Directions For Driving due to max speed setting > 20km/h");                
                 }
+
                 if (_clientSettings.SelectedLanguage == "de")
                     directionsRequest.Language = "de";
-                #endregion
+                if (_clientSettings.SelectedLanguage == "spain")
+                    directionsRequest.Language = "es";
+                if (_clientSettings.SelectedLanguage == "ptBR")
+                    directionsRequest.Language = "pt-BR";
+                if (_clientSettings.SelectedLanguage == "tr")
+                    directionsRequest.Language = "tr";
+                if (_clientSettings.SelectedLanguage == "ru")
+                    directionsRequest.Language = "ru";
+                if (_clientSettings.SelectedLanguage == "france")
+                    directionsRequest.Language = "fr";
+                    #endregion
 
                 directionsRequest.Origin = sourcelatstring + "," + sourcelongstring;
                 directionsRequest.Destination = latstring + "," + longstring;
