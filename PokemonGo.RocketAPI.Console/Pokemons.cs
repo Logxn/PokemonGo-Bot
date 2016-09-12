@@ -27,6 +27,7 @@ namespace PokemonGo.RocketAPI.Console
         public static string languagestr2;
         private static Client client;
         private static GetPlayerResponse profile;
+        private static POGOProtos.Data.Player.PlayerStats stats;
         private static GetInventoryResponse inventory;
         private static IOrderedEnumerable<PokemonData> pokemons;
         private static List<AdditionalPokeData> additionalPokeData = new List<AdditionalPokeData>();
@@ -108,6 +109,7 @@ namespace PokemonGo.RocketAPI.Console
                 if (client.readyToUse != false)
                 {
                     profile = await client.Player.GetPlayer();
+                    await Task.Delay(1000); // Pause to simulate human speed. 
                     inventory = await client.Inventory.GetInventory();
                     pokemons =
                         inventory.InventoryDelta.InventoryItems
@@ -274,6 +276,9 @@ namespace PokemonGo.RocketAPI.Console
                     checkBox1.Enabled = false;
                     statusTexbox.Text = string.Empty;
 
+                    var arrStats = await client.Inventory.GetPlayerStats();
+                    stats = arrStats.First();
+
                     #region populate fields from settings
                     checkBox_RandomSleepAtCatching.Checked = Globals.sleepatpokemons;
                     checkBox_FarmPokestops.Checked = Globals.farmPokestops;
@@ -307,6 +312,8 @@ namespace PokemonGo.RocketAPI.Console
                     text_MaxRazzBerrys.Text = GetRecycleStringValue(_clientSettings.itemRecycleFilter.Where(i => i.Key == ItemId.ItemRazzBerry).First().Value);
                     textBox2.Text = Globals.razzberry_chance.ToString();
                     #endregion
+
+                    ExecuteItemsLoad();
                 }
             }
             catch (Exception e)
@@ -316,7 +323,121 @@ namespace PokemonGo.RocketAPI.Console
                 await Task.Delay(1000); // Lets the API make a little pause, so we dont get blocked
                 Execute();
             }
+        }    
+        private async void ExecuteItemsLoad()
+        {
+            try
+            {
+                client = Logic.Logic._client;
+                if (client.readyToUse != false)
+                {
+                    var items = await client.Inventory.GetItems();
+
+                    ItemId[] validsIDs = { ItemId.ItemPokeBall, ItemId.ItemGreatBall, ItemId.ItemUltraBall };
+
+                    ListViewItem listViewItem;
+                    foreach (var item in items)
+                    {
+                        listViewItem = new ListViewItem();
+                        listViewItem.Tag = item;
+                        listViewItem.Text = getItemName(item.ItemId);
+                        listViewItem.SubItems.Add("" + item.Count);
+                        listViewItem.SubItems.Add("" + item.Unseen);
+                        ItemsListView.Items.Add(listViewItem);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+
+                Logger.Error("[ItemsList-Error] " + e.StackTrace);
+                await Task.Delay(1000); // Lets the API make a little pause, so we dont get blocked
+                ExecuteItemsLoad();
+            }
         }
+        private string getItemName(ItemId itemID)
+        {
+            switch (itemID)
+            {
+                case ItemId.ItemPotion:
+                    return "Potion";
+                case ItemId.ItemSuperPotion:
+                    return "Super Potion";
+                case ItemId.ItemHyperPotion:
+                    return "Hyper Potion";
+                case ItemId.ItemMaxPotion:
+                    return "Max Potion";
+                case ItemId.ItemRevive:
+                    return "Revive";
+                case ItemId.ItemIncenseOrdinary:
+                    return "Incense";
+                case ItemId.ItemPokeBall:
+                    return "Poke Ball";
+                case ItemId.ItemGreatBall:
+                    return "Great Ball";
+                case ItemId.ItemUltraBall:
+                    return "Ultra Ball";
+                case ItemId.ItemMasterBall:
+                    return "Master Ball";
+                case ItemId.ItemRazzBerry:
+                    return "Razz Berry";
+                case ItemId.ItemIncubatorBasic:
+                    string str1;
+                    return "Egg Incubator";
+                default:
+                    return itemID.ToString().Replace("Item", "");
+            }
+        }
+        async void RecycleToolStripMenuItemClick(object sender, EventArgs e)
+        {
+
+            var item = (ItemData)ItemsListView.SelectedItems[0].Tag;
+            int amount = IntegerInput.ShowDialog(1, "How many?", item.Count);
+            if (amount > 0)
+            {
+                taskResponse resp = new taskResponse(false, string.Empty);
+
+                resp = await RecycleItems(item, amount);
+                if (resp.Status)
+                {
+                    item.Count -= amount;
+                    ItemsListView.SelectedItems[0].SubItems[1].Text = "" + item.Count;
+                }
+                else
+                    MessageBox.Show(resp.Message + " recycle failed!", "Recycle Status", MessageBoxButtons.OK);
+
+            }
+        }
+        private static async Task<taskResponse> RecycleItems(ItemData item, int amount)
+        {
+            taskResponse resp1 = new taskResponse(false, string.Empty);
+            try
+            {
+                var resp2 = await client.Inventory.RecycleItem(item.ItemId, amount);
+
+                if (resp2.Result == RecycleInventoryItemResponse.Types.Result.Success)
+                {
+                    resp1.Status = true;
+                }
+                else
+                {
+                    resp1.Message = item.ItemId.ToString();
+                }
+            }
+            catch (Exception e)
+            {
+                Logger.ColoredConsoleWrite(ConsoleColor.Red, "Error RecycleItem: " + e.Message);
+                await RecycleItems(item, amount);
+            }
+            return resp1;
+        }
+
+        void reloadbtnClick(object sender, EventArgs e)
+        {
+            ItemsListView.Items.Clear();
+            ExecuteItemsLoad();
+        }
+
         private string GetRecycleStringValue(int X)
         {
             return X.ToString();
@@ -880,7 +1001,7 @@ namespace PokemonGo.RocketAPI.Console
 
         private void contextMenuStrip1_Opening(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            if (PokemonListView.SelectedItems[0].Checked)
+            if (PokemonListView.SelectedItems.Count > 0 && PokemonListView.SelectedItems[0].Checked)
                 contextMenuStrip1.Items[2].Visible = true;
         }
 
@@ -1111,7 +1232,7 @@ namespace PokemonGo.RocketAPI.Console
 
         private void btnShowMap_Click(object sender, EventArgs e)
         {
-            new LocationSelect(true).Show();
+        	new LocationSelect(true, (int)profile.PlayerData.Team, stats.Level, stats.Experience).Show();
         }
 
         private void lang_en_btn2_Click(object sender, EventArgs e)
@@ -1387,73 +1508,8 @@ namespace PokemonGo.RocketAPI.Console
 
         private void text_MaxPokeballs_TextChanged(object sender, EventArgs e)
         {
-            if (text_MaxPokeballs.Text != null && 
-                text_MaxGreatBalls.Text != null &&                 
-                text_MaxUltraBalls.Text != null &&
-                text_MaxMasterBalls.Text != null &&
-                text_MaxRevives.Text != null &&
-                text_MaxTopRevives.Text != null &&
-                text_MaxPotions.Text != null &&
-                text_MaxSuperPotions.Text != null &&
-                text_MaxHyperPotions.Text != null &&
-                text_MaxTopPotions.Text != null &&
-                text_MaxRazzBerrys.Text != null)
-             {
-                #region variablesetters
-                int _pokeballs;
-                int _greatballs;
-                int _ultraballs;
-                int _revives;
-                int _potions;
-                int _superpotions;
-                int _hyperpotions;
-                int _razzberrys;
-                int _masterballs;
-                int _toprevives;
-                int _toppotions;
-                #endregion
-
-                #region variable parsers and sum total
-                int itemSumme = 0;
-                if (!int.TryParse(text_MaxPokeballs.Text, out _pokeballs)) _pokeballs = 20;
-                itemSumme += _pokeballs;
-                if (!int.TryParse(text_MaxUltraBalls.Text, out _greatballs)) _greatballs = 20;
-                itemSumme += _greatballs;
-                if (!int.TryParse(text_MaxUltraBalls.Text, out _ultraballs)) _ultraballs = 20;
-                itemSumme += _ultraballs;
-                if (!int.TryParse(text_MaxRevives.Text, out _revives)) _revives = 20;
-                itemSumme += _revives;
-                if (!int.TryParse(text_MaxPotions.Text, out _potions)) _potions = 20;
-                itemSumme += _potions;
-                if (!int.TryParse(text_MaxSuperPotions.Text, out _superpotions)) _superpotions = 20;
-                itemSumme += _superpotions;
-                if (!int.TryParse(text_MaxHyperPotions.Text, out _hyperpotions)) _hyperpotions = 20;
-                itemSumme += _hyperpotions;
-                if (!int.TryParse(text_MaxRazzBerrys.Text, out _razzberrys)) _razzberrys = 20;
-                itemSumme += _razzberrys;
-                if (!int.TryParse(text_MaxMasterBalls.Text, out _masterballs)) _masterballs = 200;
-                itemSumme += _masterballs;
-                if (!int.TryParse(text_MaxTopRevives.Text, out _toprevives)) _toprevives = 20;
-                itemSumme += _toprevives;
-                if (!int.TryParse(text_MaxTopPotions.Text, out _toppotions)) _toppotions = 20;
-                itemSumme += _toppotions;
-                #endregion
-
-                #region rebuild recycle collection and sum total                
-                Globals.pokeball = _pokeballs;
-                Globals.greatball = _greatballs;
-                Globals.ultraball = _ultraballs;
-                Globals.revive = _revives;
-                Globals.potion = _potions;
-                Globals.superpotion = _superpotions;
-                Globals.hyperpotion = _hyperpotions;
-                Globals.berry = _razzberrys;
-                Globals.masterball = _masterballs;
-                Globals.toprevive = _toprevives;
-                Globals.toppotion = _toppotions;
-                text_TotalItemCount.Text = Convert.ToString(itemSumme);
-                #endregion
-            } }
+            
+        }
 
         private void checkBox_RandomSleepAtCatching_CheckedChanged(object sender, EventArgs e)
         {
@@ -1659,6 +1715,83 @@ namespace PokemonGo.RocketAPI.Console
         private void linkLabel6_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
 
+        }
+
+        private void reloadbtn_Click(object sender, EventArgs e)
+        {
+            ItemsListView.Items.Clear();
+            Execute();
+        }
+
+        private void text_Max(object sender, EventArgs e)
+        {
+            if (text_MaxPokeballs.Text != null &&
+                text_MaxGreatBalls.Text != null &&
+                text_MaxUltraBalls.Text != null &&
+                text_MaxMasterBalls.Text != null &&
+                text_MaxRevives.Text != null &&
+                text_MaxTopRevives.Text != null &&
+                text_MaxPotions.Text != null &&
+                text_MaxSuperPotions.Text != null &&
+                text_MaxHyperPotions.Text != null &&
+                text_MaxTopPotions.Text != null &&
+                text_MaxRazzBerrys.Text != null)
+            {
+                #region variablesetters
+                int _pokeballs;
+                int _greatballs;
+                int _ultraballs;
+                int _revives;
+                int _potions;
+                int _superpotions;
+                int _hyperpotions;
+                int _razzberrys;
+                int _masterballs;
+                int _toprevives;
+                int _toppotions;
+                #endregion
+
+                #region variable parsers and sum total
+                int itemSumme = 0;
+                if (!int.TryParse(text_MaxPokeballs.Text, out _pokeballs)) _pokeballs = 20;
+                itemSumme += _pokeballs;
+                if (!int.TryParse(text_MaxUltraBalls.Text, out _greatballs)) _greatballs = 20;
+                itemSumme += _greatballs;
+                if (!int.TryParse(text_MaxUltraBalls.Text, out _ultraballs)) _ultraballs = 20;
+                itemSumme += _ultraballs;
+                if (!int.TryParse(text_MaxRevives.Text, out _revives)) _revives = 20;
+                itemSumme += _revives;
+                if (!int.TryParse(text_MaxPotions.Text, out _potions)) _potions = 20;
+                itemSumme += _potions;
+                if (!int.TryParse(text_MaxSuperPotions.Text, out _superpotions)) _superpotions = 20;
+                itemSumme += _superpotions;
+                if (!int.TryParse(text_MaxHyperPotions.Text, out _hyperpotions)) _hyperpotions = 20;
+                itemSumme += _hyperpotions;
+                if (!int.TryParse(text_MaxRazzBerrys.Text, out _razzberrys)) _razzberrys = 20;
+                itemSumme += _razzberrys;
+                if (!int.TryParse(text_MaxMasterBalls.Text, out _masterballs)) _masterballs = 200;
+                itemSumme += _masterballs;
+                if (!int.TryParse(text_MaxTopRevives.Text, out _toprevives)) _toprevives = 20;
+                itemSumme += _toprevives;
+                if (!int.TryParse(text_MaxTopPotions.Text, out _toppotions)) _toppotions = 20;
+                itemSumme += _toppotions;
+                #endregion
+
+                #region rebuild recycle collection and sum total                
+                Globals.pokeball = _pokeballs;
+                Globals.greatball = _greatballs;
+                Globals.ultraball = _ultraballs;
+                Globals.revive = _revives;
+                Globals.potion = _potions;
+                Globals.superpotion = _superpotions;
+                Globals.hyperpotion = _hyperpotions;
+                Globals.berry = _razzberrys;
+                Globals.masterball = _masterballs;
+                Globals.toprevive = _toprevives;
+                Globals.toppotion = _toppotions;
+                text_TotalItemCount.Text = Convert.ToString(itemSumme);
+                #endregion
+            }
         }
     }
     public static class ControlExtensions

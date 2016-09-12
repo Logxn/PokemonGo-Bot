@@ -78,9 +78,28 @@ namespace PokemonGo.RocketAPI.Console
             this.checkBox9 = new System.Windows.Forms.CheckBox();
             this.checkBox10 = new System.Windows.Forms.CheckBox();
             this.checkBox11 = new System.Windows.Forms.CheckBox();
-            this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.text_TotalItemCount = new System.Windows.Forms.TextBox();
-            this.label31 = new System.Windows.Forms.Label();
+            this.checkBox_UseLureAtBreak = new System.Windows.Forms.CheckBox();
+            this.checkBox_BreakAtLure = new System.Windows.Forms.CheckBox();
+            this.checkBox_CatchPokemon = new System.Windows.Forms.CheckBox();
+            this.checkBox_FarmPokestops = new System.Windows.Forms.CheckBox();
+            this.checkBox_RandomSleepAtCatching = new System.Windows.Forms.CheckBox();
+            this.groupBox11 = new System.Windows.Forms.GroupBox();
+            this.checkBox_UseBreakIntervalAndLength = new System.Windows.Forms.CheckBox();
+            this.label47 = new System.Windows.Forms.Label();
+            this.checkBox_RandomlyReduceSpeed = new System.Windows.Forms.CheckBox();
+            this.checkBox_WalkInArchimedeanSpiral = new System.Windows.Forms.CheckBox();
+            this.groupBox13 = new System.Windows.Forms.GroupBox();
+            this.linkLabel6 = new System.Windows.Forms.LinkLabel();
+            this.text_GoogleMapsAPIKey = new System.Windows.Forms.TextBox();
+            this.checkBox_UseGoogleMapsRouting = new System.Windows.Forms.CheckBox();
+            this.label45 = new System.Windows.Forms.Label();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.reloadbtn = new System.Windows.Forms.Button();
+            this.ItemsListView = new System.Windows.Forms.ListView();
+            this.chItem = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.chCount = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.chUnseen = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.label27 = new System.Windows.Forms.Label();
             this.label26 = new System.Windows.Forms.Label();
             this.label25 = new System.Windows.Forms.Label();
@@ -101,31 +120,20 @@ namespace PokemonGo.RocketAPI.Console
             this.text_MaxUltraBalls = new System.Windows.Forms.TextBox();
             this.text_MaxGreatBalls = new System.Windows.Forms.TextBox();
             this.label14 = new System.Windows.Forms.Label();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.text_TotalItemCount = new System.Windows.Forms.TextBox();
+            this.label31 = new System.Windows.Forms.Label();
             this.text_MaxPokeballs = new System.Windows.Forms.TextBox();
             this.label13 = new System.Windows.Forms.Label();
-            this.checkBox_UseLureAtBreak = new System.Windows.Forms.CheckBox();
-            this.checkBox_BreakAtLure = new System.Windows.Forms.CheckBox();
-            this.checkBox_CatchPokemon = new System.Windows.Forms.CheckBox();
-            this.checkBox_FarmPokestops = new System.Windows.Forms.CheckBox();
-            this.checkBox_RandomSleepAtCatching = new System.Windows.Forms.CheckBox();
-            this.groupBox11 = new System.Windows.Forms.GroupBox();
-            this.checkBox_UseBreakIntervalAndLength = new System.Windows.Forms.CheckBox();
-            this.label47 = new System.Windows.Forms.Label();
-            this.checkBox_RandomlyReduceSpeed = new System.Windows.Forms.CheckBox();
-            this.checkBox_WalkInArchimedeanSpiral = new System.Windows.Forms.CheckBox();
-            this.groupBox13 = new System.Windows.Forms.GroupBox();
-            this.linkLabel6 = new System.Windows.Forms.LinkLabel();
-            this.text_GoogleMapsAPIKey = new System.Windows.Forms.TextBox();
-            this.checkBox_UseGoogleMapsRouting = new System.Windows.Forms.CheckBox();
-            this.label45 = new System.Windows.Forms.Label();
             this.contextMenuStrip1.SuspendLayout();
             this.Options.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox10.SuspendLayout();
-            this.groupBox4.SuspendLayout();
             this.groupBox11.SuspendLayout();
             this.groupBox13.SuspendLayout();
+            this.tabPage3.SuspendLayout();
+            this.groupBox4.SuspendLayout();
             this.SuspendLayout();
             // 
             // PokemonListView
@@ -492,6 +500,7 @@ namespace PokemonGo.RocketAPI.Console
             | System.Windows.Forms.AnchorStyles.Right)));
             this.Options.Controls.Add(this.tabPage2);
             this.Options.Controls.Add(this.tabPage1);
+            this.Options.Controls.Add(this.tabPage3);
             this.Options.Location = new System.Drawing.Point(17, 39);
             this.Options.Margin = new System.Windows.Forms.Padding(4);
             this.Options.Name = "Options";
@@ -530,7 +539,6 @@ namespace PokemonGo.RocketAPI.Console
             // tabPage1
             // 
             this.tabPage1.Controls.Add(this.groupBox10);
-            this.tabPage1.Controls.Add(this.groupBox4);
             this.tabPage1.Controls.Add(this.checkBox_UseLureAtBreak);
             this.tabPage1.Controls.Add(this.checkBox_BreakAtLure);
             this.tabPage1.Controls.Add(this.checkBox_CatchPokemon);
@@ -562,7 +570,7 @@ namespace PokemonGo.RocketAPI.Console
             this.groupBox10.Controls.Add(this.checkBox9);
             this.groupBox10.Controls.Add(this.checkBox10);
             this.groupBox10.Controls.Add(this.checkBox11);
-            this.groupBox10.Location = new System.Drawing.Point(564, 11);
+            this.groupBox10.Location = new System.Drawing.Point(329, 10);
             this.groupBox10.Margin = new System.Windows.Forms.Padding(5);
             this.groupBox10.Name = "groupBox10";
             this.groupBox10.Padding = new System.Windows.Forms.Padding(5);
@@ -725,284 +733,6 @@ namespace PokemonGo.RocketAPI.Console
             this.checkBox11.UseVisualStyleBackColor = true;
             this.checkBox11.CheckedChanged += new System.EventHandler(this.checkBox11_CheckedChanged);
             // 
-            // groupBox4
-            // 
-            this.groupBox4.Controls.Add(this.text_TotalItemCount);
-            this.groupBox4.Controls.Add(this.label31);
-            this.groupBox4.Controls.Add(this.label27);
-            this.groupBox4.Controls.Add(this.label26);
-            this.groupBox4.Controls.Add(this.label25);
-            this.groupBox4.Controls.Add(this.text_MaxTopRevives);
-            this.groupBox4.Controls.Add(this.text_MaxTopPotions);
-            this.groupBox4.Controls.Add(this.text_MaxMasterBalls);
-            this.groupBox4.Controls.Add(this.label20);
-            this.groupBox4.Controls.Add(this.label19);
-            this.groupBox4.Controls.Add(this.label18);
-            this.groupBox4.Controls.Add(this.label17);
-            this.groupBox4.Controls.Add(this.label16);
-            this.groupBox4.Controls.Add(this.text_MaxRazzBerrys);
-            this.groupBox4.Controls.Add(this.text_MaxHyperPotions);
-            this.groupBox4.Controls.Add(this.text_MaxSuperPotions);
-            this.groupBox4.Controls.Add(this.text_MaxPotions);
-            this.groupBox4.Controls.Add(this.text_MaxRevives);
-            this.groupBox4.Controls.Add(this.label15);
-            this.groupBox4.Controls.Add(this.text_MaxUltraBalls);
-            this.groupBox4.Controls.Add(this.text_MaxGreatBalls);
-            this.groupBox4.Controls.Add(this.label14);
-            this.groupBox4.Controls.Add(this.text_MaxPokeballs);
-            this.groupBox4.Controls.Add(this.label13);
-            this.groupBox4.Location = new System.Drawing.Point(329, 11);
-            this.groupBox4.Margin = new System.Windows.Forms.Padding(5);
-            this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Padding = new System.Windows.Forms.Padding(5);
-            this.groupBox4.Size = new System.Drawing.Size(225, 437);
-            this.groupBox4.TabIndex = 76;
-            this.groupBox4.TabStop = false;
-            this.groupBox4.Text = "Pokemon Items";
-            this.groupBox4.Enter += new System.EventHandler(this.groupBox4_Enter);
-            // 
-            // text_TotalItemCount
-            // 
-            this.text_TotalItemCount.Location = new System.Drawing.Point(146, 457);
-            this.text_TotalItemCount.Margin = new System.Windows.Forms.Padding(5);
-            this.text_TotalItemCount.Name = "text_TotalItemCount";
-            this.text_TotalItemCount.ReadOnly = true;
-            this.text_TotalItemCount.Size = new System.Drawing.Size(50, 22);
-            this.text_TotalItemCount.TabIndex = 23;
-            this.text_TotalItemCount.TabStop = false;
-            this.text_TotalItemCount.TextChanged += new System.EventHandler(this.text_TotalItemCount_TextChanged);
-            // 
-            // label31
-            // 
-            this.label31.AutoSize = true;
-            this.label31.Location = new System.Drawing.Point(12, 460);
-            this.label31.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
-            this.label31.Name = "label31";
-            this.label31.Size = new System.Drawing.Size(85, 17);
-            this.label31.TabIndex = 22;
-            this.label31.Text = "Total Count:";
-            this.label31.Click += new System.EventHandler(this.label31_Click);
-            // 
-            // label27
-            // 
-            this.label27.AutoSize = true;
-            this.label27.Location = new System.Drawing.Point(14, 207);
-            this.label27.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
-            this.label27.Name = "label27";
-            this.label27.Size = new System.Drawing.Size(120, 17);
-            this.label27.TabIndex = 21;
-            this.label27.Text = "Max. TopRevives:";
-            this.label27.Click += new System.EventHandler(this.label27_Click);
-            // 
-            // label26
-            // 
-            this.label26.AutoSize = true;
-            this.label26.Location = new System.Drawing.Point(14, 133);
-            this.label26.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
-            this.label26.Name = "label26";
-            this.label26.Size = new System.Drawing.Size(118, 17);
-            this.label26.TabIndex = 19;
-            this.label26.Text = "Max. MasterBalls:";
-            this.label26.Click += new System.EventHandler(this.label26_Click);
-            // 
-            // label25
-            // 
-            this.label25.AutoSize = true;
-            this.label25.Location = new System.Drawing.Point(14, 355);
-            this.label25.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
-            this.label25.Name = "label25";
-            this.label25.Size = new System.Drawing.Size(117, 17);
-            this.label25.TabIndex = 17;
-            this.label25.Text = "Max. TopPotions:";
-            this.label25.Click += new System.EventHandler(this.label25_Click);
-            // 
-            // text_MaxTopRevives
-            // 
-            this.text_MaxTopRevives.Location = new System.Drawing.Point(146, 207);
-            this.text_MaxTopRevives.Margin = new System.Windows.Forms.Padding(5);
-            this.text_MaxTopRevives.Name = "text_MaxTopRevives";
-            this.text_MaxTopRevives.Size = new System.Drawing.Size(50, 22);
-            this.text_MaxTopRevives.TabIndex = 20;
-            this.text_MaxTopRevives.TextChanged += new System.EventHandler(this.text_MaxPokeballs_TextChanged);
-            // 
-            // text_MaxTopPotions
-            // 
-            this.text_MaxTopPotions.Location = new System.Drawing.Point(146, 355);
-            this.text_MaxTopPotions.Margin = new System.Windows.Forms.Padding(5);
-            this.text_MaxTopPotions.Name = "text_MaxTopPotions";
-            this.text_MaxTopPotions.Size = new System.Drawing.Size(50, 22);
-            this.text_MaxTopPotions.TabIndex = 24;
-            this.text_MaxTopPotions.TextChanged += new System.EventHandler(this.text_MaxPokeballs_TextChanged);
-            // 
-            // text_MaxMasterBalls
-            // 
-            this.text_MaxMasterBalls.Location = new System.Drawing.Point(146, 133);
-            this.text_MaxMasterBalls.Margin = new System.Windows.Forms.Padding(5);
-            this.text_MaxMasterBalls.Name = "text_MaxMasterBalls";
-            this.text_MaxMasterBalls.Size = new System.Drawing.Size(50, 22);
-            this.text_MaxMasterBalls.TabIndex = 18;
-            this.text_MaxMasterBalls.TextChanged += new System.EventHandler(this.text_MaxPokeballs_TextChanged);
-            // 
-            // label20
-            // 
-            this.label20.AutoSize = true;
-            this.label20.Location = new System.Drawing.Point(14, 392);
-            this.label20.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
-            this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(118, 17);
-            this.label20.TabIndex = 15;
-            this.label20.Text = "Max. RazzBerrys:";
-            this.label20.Click += new System.EventHandler(this.label20_Click);
-            // 
-            // label19
-            // 
-            this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(14, 318);
-            this.label19.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
-            this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(130, 17);
-            this.label19.TabIndex = 14;
-            this.label19.Text = "Max. HyperPotions:";
-            this.label19.Click += new System.EventHandler(this.label19_Click);
-            // 
-            // label18
-            // 
-            this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(14, 281);
-            this.label18.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
-            this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(130, 17);
-            this.label18.TabIndex = 13;
-            this.label18.Text = "Max. SuperPotions:";
-            this.label18.Click += new System.EventHandler(this.label18_Click);
-            // 
-            // label17
-            // 
-            this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(14, 244);
-            this.label17.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
-            this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(92, 17);
-            this.label17.TabIndex = 12;
-            this.label17.Text = "Max. Potions:";
-            this.label17.Click += new System.EventHandler(this.label17_Click);
-            // 
-            // label16
-            // 
-            this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(14, 170);
-            this.label16.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
-            this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(95, 17);
-            this.label16.TabIndex = 11;
-            this.label16.Text = "Max. Revives:";
-            this.label16.Click += new System.EventHandler(this.label16_Click);
-            // 
-            // text_MaxRazzBerrys
-            // 
-            this.text_MaxRazzBerrys.Location = new System.Drawing.Point(146, 392);
-            this.text_MaxRazzBerrys.Margin = new System.Windows.Forms.Padding(5);
-            this.text_MaxRazzBerrys.Name = "text_MaxRazzBerrys";
-            this.text_MaxRazzBerrys.Size = new System.Drawing.Size(50, 22);
-            this.text_MaxRazzBerrys.TabIndex = 25;
-            this.text_MaxRazzBerrys.TextChanged += new System.EventHandler(this.text_MaxPokeballs_TextChanged);
-            // 
-            // text_MaxHyperPotions
-            // 
-            this.text_MaxHyperPotions.Location = new System.Drawing.Point(146, 318);
-            this.text_MaxHyperPotions.Margin = new System.Windows.Forms.Padding(5);
-            this.text_MaxHyperPotions.Name = "text_MaxHyperPotions";
-            this.text_MaxHyperPotions.Size = new System.Drawing.Size(50, 22);
-            this.text_MaxHyperPotions.TabIndex = 23;
-            this.text_MaxHyperPotions.TextChanged += new System.EventHandler(this.text_MaxPokeballs_TextChanged);
-            // 
-            // text_MaxSuperPotions
-            // 
-            this.text_MaxSuperPotions.Location = new System.Drawing.Point(146, 281);
-            this.text_MaxSuperPotions.Margin = new System.Windows.Forms.Padding(5);
-            this.text_MaxSuperPotions.Name = "text_MaxSuperPotions";
-            this.text_MaxSuperPotions.Size = new System.Drawing.Size(50, 22);
-            this.text_MaxSuperPotions.TabIndex = 22;
-            this.text_MaxSuperPotions.TextChanged += new System.EventHandler(this.text_MaxPokeballs_TextChanged);
-            // 
-            // text_MaxPotions
-            // 
-            this.text_MaxPotions.Location = new System.Drawing.Point(146, 244);
-            this.text_MaxPotions.Margin = new System.Windows.Forms.Padding(5);
-            this.text_MaxPotions.Name = "text_MaxPotions";
-            this.text_MaxPotions.Size = new System.Drawing.Size(50, 22);
-            this.text_MaxPotions.TabIndex = 21;
-            this.text_MaxPotions.TextChanged += new System.EventHandler(this.text_MaxPokeballs_TextChanged);
-            // 
-            // text_MaxRevives
-            // 
-            this.text_MaxRevives.Location = new System.Drawing.Point(146, 170);
-            this.text_MaxRevives.Margin = new System.Windows.Forms.Padding(5);
-            this.text_MaxRevives.Name = "text_MaxRevives";
-            this.text_MaxRevives.Size = new System.Drawing.Size(50, 22);
-            this.text_MaxRevives.TabIndex = 19;
-            this.text_MaxRevives.TextChanged += new System.EventHandler(this.text_MaxPokeballs_TextChanged);
-            // 
-            // label15
-            // 
-            this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(14, 96);
-            this.label15.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(105, 17);
-            this.label15.TabIndex = 5;
-            this.label15.Text = "Max. UltraBalls:";
-            this.label15.Click += new System.EventHandler(this.label15_Click);
-            // 
-            // text_MaxUltraBalls
-            // 
-            this.text_MaxUltraBalls.Location = new System.Drawing.Point(146, 96);
-            this.text_MaxUltraBalls.Margin = new System.Windows.Forms.Padding(5);
-            this.text_MaxUltraBalls.Name = "text_MaxUltraBalls";
-            this.text_MaxUltraBalls.Size = new System.Drawing.Size(50, 22);
-            this.text_MaxUltraBalls.TabIndex = 17;
-            this.text_MaxUltraBalls.TextChanged += new System.EventHandler(this.text_MaxPokeballs_TextChanged);
-            // 
-            // text_MaxGreatBalls
-            // 
-            this.text_MaxGreatBalls.Location = new System.Drawing.Point(146, 59);
-            this.text_MaxGreatBalls.Margin = new System.Windows.Forms.Padding(5);
-            this.text_MaxGreatBalls.Name = "text_MaxGreatBalls";
-            this.text_MaxGreatBalls.Size = new System.Drawing.Size(50, 22);
-            this.text_MaxGreatBalls.TabIndex = 16;
-            this.text_MaxGreatBalls.TextChanged += new System.EventHandler(this.text_MaxPokeballs_TextChanged);
-            // 
-            // label14
-            // 
-            this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(14, 59);
-            this.label14.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(111, 17);
-            this.label14.TabIndex = 2;
-            this.label14.Text = "Max. GreatBalls:";
-            this.label14.Click += new System.EventHandler(this.label14_Click);
-            // 
-            // text_MaxPokeballs
-            // 
-            this.text_MaxPokeballs.Location = new System.Drawing.Point(146, 22);
-            this.text_MaxPokeballs.Margin = new System.Windows.Forms.Padding(5);
-            this.text_MaxPokeballs.Name = "text_MaxPokeballs";
-            this.text_MaxPokeballs.Size = new System.Drawing.Size(50, 22);
-            this.text_MaxPokeballs.TabIndex = 15;
-            this.text_MaxPokeballs.TextChanged += new System.EventHandler(this.text_MaxPokeballs_TextChanged);
-            // 
-            // label13
-            // 
-            this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(14, 22);
-            this.label13.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(106, 17);
-            this.label13.TabIndex = 0;
-            this.label13.Text = "Max. Pokeballs:";
-            this.label13.Click += new System.EventHandler(this.label13_Click);
-            // 
             // checkBox_UseLureAtBreak
             // 
             this.checkBox_UseLureAtBreak.AutoSize = true;
@@ -1139,11 +869,11 @@ namespace PokemonGo.RocketAPI.Console
             this.groupBox13.Controls.Add(this.text_GoogleMapsAPIKey);
             this.groupBox13.Controls.Add(this.checkBox_UseGoogleMapsRouting);
             this.groupBox13.Controls.Add(this.label45);
-            this.groupBox13.Location = new System.Drawing.Point(4, 342);
+            this.groupBox13.Location = new System.Drawing.Point(655, 10);
             this.groupBox13.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             this.groupBox13.Name = "groupBox13";
             this.groupBox13.Padding = new System.Windows.Forms.Padding(4, 2, 4, 2);
-            this.groupBox13.Size = new System.Drawing.Size(316, 106);
+            this.groupBox13.Size = new System.Drawing.Size(256, 145);
             this.groupBox13.TabIndex = 70;
             this.groupBox13.TabStop = false;
             this.groupBox13.Text = "Routing Settings (beta)";
@@ -1152,7 +882,7 @@ namespace PokemonGo.RocketAPI.Console
             // linkLabel6
             // 
             this.linkLabel6.AutoSize = true;
-            this.linkLabel6.Location = new System.Drawing.Point(46, 75);
+            this.linkLabel6.Location = new System.Drawing.Point(24, 107);
             this.linkLabel6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.linkLabel6.Name = "linkLabel6";
             this.linkLabel6.Size = new System.Drawing.Size(207, 17);
@@ -1163,17 +893,17 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // text_GoogleMapsAPIKey
             // 
-            this.text_GoogleMapsAPIKey.Location = new System.Drawing.Point(102, 48);
+            this.text_GoogleMapsAPIKey.Location = new System.Drawing.Point(9, 49);
             this.text_GoogleMapsAPIKey.Margin = new System.Windows.Forms.Padding(5);
             this.text_GoogleMapsAPIKey.Name = "text_GoogleMapsAPIKey";
-            this.text_GoogleMapsAPIKey.Size = new System.Drawing.Size(197, 22);
+            this.text_GoogleMapsAPIKey.Size = new System.Drawing.Size(238, 22);
             this.text_GoogleMapsAPIKey.TabIndex = 62;
             this.text_GoogleMapsAPIKey.TextChanged += new System.EventHandler(this.text_GoogleMapsAPIKey_TextChanged);
             // 
             // checkBox_UseGoogleMapsRouting
             // 
             this.checkBox_UseGoogleMapsRouting.AutoSize = true;
-            this.checkBox_UseGoogleMapsRouting.Location = new System.Drawing.Point(9, 22);
+            this.checkBox_UseGoogleMapsRouting.Location = new System.Drawing.Point(9, 81);
             this.checkBox_UseGoogleMapsRouting.Margin = new System.Windows.Forms.Padding(5);
             this.checkBox_UseGoogleMapsRouting.Name = "checkBox_UseGoogleMapsRouting";
             this.checkBox_UseGoogleMapsRouting.Size = new System.Drawing.Size(196, 21);
@@ -1185,7 +915,7 @@ namespace PokemonGo.RocketAPI.Console
             // label45
             // 
             this.label45.AutoSize = true;
-            this.label45.Location = new System.Drawing.Point(29, 53);
+            this.label45.Location = new System.Drawing.Point(9, 27);
             this.label45.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.label45.Name = "label45";
             this.label45.Size = new System.Drawing.Size(61, 17);
@@ -1193,6 +923,327 @@ namespace PokemonGo.RocketAPI.Console
             this.label45.Text = "API Key:";
             this.label45.UseMnemonic = false;
             this.label45.Click += new System.EventHandler(this.label45_Click);
+            // 
+            // tabPage3
+            // 
+            this.tabPage3.Controls.Add(this.groupBox4);
+            this.tabPage3.Controls.Add(this.textBox3);
+            this.tabPage3.Controls.Add(this.reloadbtn);
+            this.tabPage3.Controls.Add(this.ItemsListView);
+            this.tabPage3.Location = new System.Drawing.Point(4, 25);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage3.Size = new System.Drawing.Size(919, 454);
+            this.tabPage3.TabIndex = 2;
+            this.tabPage3.Text = "Items";
+            this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // textBox3
+            // 
+            this.textBox3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBox3.Enabled = false;
+            this.textBox3.Location = new System.Drawing.Point(7, 421);
+            this.textBox3.Margin = new System.Windows.Forms.Padding(4);
+            this.textBox3.Name = "textBox3";
+            this.textBox3.Size = new System.Drawing.Size(324, 22);
+            this.textBox3.TabIndex = 51;
+            // 
+            // reloadbtn
+            // 
+            this.reloadbtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.reloadbtn.Location = new System.Drawing.Point(7, 386);
+            this.reloadbtn.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.reloadbtn.Name = "reloadbtn";
+            this.reloadbtn.Size = new System.Drawing.Size(73, 28);
+            this.reloadbtn.TabIndex = 50;
+            this.reloadbtn.Text = "Reload";
+            this.reloadbtn.UseVisualStyleBackColor = true;
+            this.reloadbtn.Click += new System.EventHandler(this.reloadbtn_Click);
+            // 
+            // ItemsListView
+            // 
+            this.ItemsListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.chItem,
+            this.chCount,
+            this.chUnseen});
+            this.ItemsListView.ContextMenuStrip = this.contextMenuStrip1;
+            this.ItemsListView.FullRowSelect = true;
+            this.ItemsListView.GridLines = true;
+            this.ItemsListView.Location = new System.Drawing.Point(7, 7);
+            this.ItemsListView.Margin = new System.Windows.Forms.Padding(4);
+            this.ItemsListView.Name = "ItemsListView";
+            this.ItemsListView.Size = new System.Drawing.Size(324, 372);
+            this.ItemsListView.TabIndex = 49;
+            this.ItemsListView.UseCompatibleStateImageBehavior = false;
+            this.ItemsListView.View = System.Windows.Forms.View.Details;
+            // 
+            // chItem
+            // 
+            this.chItem.Text = "Item";
+            this.chItem.Width = 120;
+            // 
+            // chCount
+            // 
+            this.chCount.Text = "Count";
+            // 
+            // chUnseen
+            // 
+            this.chUnseen.Text = "Unseen";
+            // 
+            // label27
+            // 
+            this.label27.AutoSize = true;
+            this.label27.Location = new System.Drawing.Point(14, 207);
+            this.label27.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.label27.Name = "label27";
+            this.label27.Size = new System.Drawing.Size(120, 17);
+            this.label27.TabIndex = 21;
+            this.label27.Text = "Max. TopRevives:";
+            // 
+            // label26
+            // 
+            this.label26.AutoSize = true;
+            this.label26.Location = new System.Drawing.Point(14, 133);
+            this.label26.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.label26.Name = "label26";
+            this.label26.Size = new System.Drawing.Size(118, 17);
+            this.label26.TabIndex = 19;
+            this.label26.Text = "Max. MasterBalls:";
+            // 
+            // label25
+            // 
+            this.label25.AutoSize = true;
+            this.label25.Location = new System.Drawing.Point(14, 355);
+            this.label25.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.label25.Name = "label25";
+            this.label25.Size = new System.Drawing.Size(117, 17);
+            this.label25.TabIndex = 17;
+            this.label25.Text = "Max. TopPotions:";
+            // 
+            // text_MaxTopRevives
+            // 
+            this.text_MaxTopRevives.Location = new System.Drawing.Point(146, 207);
+            this.text_MaxTopRevives.Margin = new System.Windows.Forms.Padding(5);
+            this.text_MaxTopRevives.Name = "text_MaxTopRevives";
+            this.text_MaxTopRevives.Size = new System.Drawing.Size(50, 22);
+            this.text_MaxTopRevives.TabIndex = 20;
+            // 
+            // text_MaxTopPotions
+            // 
+            this.text_MaxTopPotions.Location = new System.Drawing.Point(146, 355);
+            this.text_MaxTopPotions.Margin = new System.Windows.Forms.Padding(5);
+            this.text_MaxTopPotions.Name = "text_MaxTopPotions";
+            this.text_MaxTopPotions.Size = new System.Drawing.Size(50, 22);
+            this.text_MaxTopPotions.TabIndex = 24;
+            // 
+            // text_MaxMasterBalls
+            // 
+            this.text_MaxMasterBalls.Location = new System.Drawing.Point(146, 133);
+            this.text_MaxMasterBalls.Margin = new System.Windows.Forms.Padding(5);
+            this.text_MaxMasterBalls.Name = "text_MaxMasterBalls";
+            this.text_MaxMasterBalls.Size = new System.Drawing.Size(50, 22);
+            this.text_MaxMasterBalls.TabIndex = 18;
+            // 
+            // label20
+            // 
+            this.label20.AutoSize = true;
+            this.label20.Location = new System.Drawing.Point(14, 392);
+            this.label20.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(118, 17);
+            this.label20.TabIndex = 15;
+            this.label20.Text = "Max. RazzBerrys:";
+            // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Location = new System.Drawing.Point(14, 318);
+            this.label19.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(130, 17);
+            this.label19.TabIndex = 14;
+            this.label19.Text = "Max. HyperPotions:";
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Location = new System.Drawing.Point(14, 281);
+            this.label18.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(130, 17);
+            this.label18.TabIndex = 13;
+            this.label18.Text = "Max. SuperPotions:";
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(14, 244);
+            this.label17.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(92, 17);
+            this.label17.TabIndex = 12;
+            this.label17.Text = "Max. Potions:";
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(14, 170);
+            this.label16.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(95, 17);
+            this.label16.TabIndex = 11;
+            this.label16.Text = "Max. Revives:";
+            // 
+            // text_MaxRazzBerrys
+            // 
+            this.text_MaxRazzBerrys.Location = new System.Drawing.Point(146, 392);
+            this.text_MaxRazzBerrys.Margin = new System.Windows.Forms.Padding(5);
+            this.text_MaxRazzBerrys.Name = "text_MaxRazzBerrys";
+            this.text_MaxRazzBerrys.Size = new System.Drawing.Size(50, 22);
+            this.text_MaxRazzBerrys.TabIndex = 25;
+            // 
+            // text_MaxHyperPotions
+            // 
+            this.text_MaxHyperPotions.Location = new System.Drawing.Point(146, 318);
+            this.text_MaxHyperPotions.Margin = new System.Windows.Forms.Padding(5);
+            this.text_MaxHyperPotions.Name = "text_MaxHyperPotions";
+            this.text_MaxHyperPotions.Size = new System.Drawing.Size(50, 22);
+            this.text_MaxHyperPotions.TabIndex = 23;
+            // 
+            // text_MaxSuperPotions
+            // 
+            this.text_MaxSuperPotions.Location = new System.Drawing.Point(146, 281);
+            this.text_MaxSuperPotions.Margin = new System.Windows.Forms.Padding(5);
+            this.text_MaxSuperPotions.Name = "text_MaxSuperPotions";
+            this.text_MaxSuperPotions.Size = new System.Drawing.Size(50, 22);
+            this.text_MaxSuperPotions.TabIndex = 22;
+            // 
+            // text_MaxPotions
+            // 
+            this.text_MaxPotions.Location = new System.Drawing.Point(146, 244);
+            this.text_MaxPotions.Margin = new System.Windows.Forms.Padding(5);
+            this.text_MaxPotions.Name = "text_MaxPotions";
+            this.text_MaxPotions.Size = new System.Drawing.Size(50, 22);
+            this.text_MaxPotions.TabIndex = 21;
+            // 
+            // text_MaxRevives
+            // 
+            this.text_MaxRevives.Location = new System.Drawing.Point(146, 170);
+            this.text_MaxRevives.Margin = new System.Windows.Forms.Padding(5);
+            this.text_MaxRevives.Name = "text_MaxRevives";
+            this.text_MaxRevives.Size = new System.Drawing.Size(50, 22);
+            this.text_MaxRevives.TabIndex = 19;
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(14, 96);
+            this.label15.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(105, 17);
+            this.label15.TabIndex = 5;
+            this.label15.Text = "Max. UltraBalls:";
+            // 
+            // text_MaxUltraBalls
+            // 
+            this.text_MaxUltraBalls.Location = new System.Drawing.Point(146, 96);
+            this.text_MaxUltraBalls.Margin = new System.Windows.Forms.Padding(5);
+            this.text_MaxUltraBalls.Name = "text_MaxUltraBalls";
+            this.text_MaxUltraBalls.Size = new System.Drawing.Size(50, 22);
+            this.text_MaxUltraBalls.TabIndex = 17;
+            // 
+            // text_MaxGreatBalls
+            // 
+            this.text_MaxGreatBalls.Location = new System.Drawing.Point(146, 59);
+            this.text_MaxGreatBalls.Margin = new System.Windows.Forms.Padding(5);
+            this.text_MaxGreatBalls.Name = "text_MaxGreatBalls";
+            this.text_MaxGreatBalls.Size = new System.Drawing.Size(50, 22);
+            this.text_MaxGreatBalls.TabIndex = 16;
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(14, 59);
+            this.label14.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(111, 17);
+            this.label14.TabIndex = 2;
+            this.label14.Text = "Max. GreatBalls:";
+            // 
+            // groupBox4
+            // 
+            this.groupBox4.Controls.Add(this.text_TotalItemCount);
+            this.groupBox4.Controls.Add(this.label31);
+            this.groupBox4.Controls.Add(this.label27);
+            this.groupBox4.Controls.Add(this.label26);
+            this.groupBox4.Controls.Add(this.label25);
+            this.groupBox4.Controls.Add(this.text_MaxTopRevives);
+            this.groupBox4.Controls.Add(this.text_MaxTopPotions);
+            this.groupBox4.Controls.Add(this.text_MaxMasterBalls);
+            this.groupBox4.Controls.Add(this.label20);
+            this.groupBox4.Controls.Add(this.label19);
+            this.groupBox4.Controls.Add(this.label18);
+            this.groupBox4.Controls.Add(this.label17);
+            this.groupBox4.Controls.Add(this.label16);
+            this.groupBox4.Controls.Add(this.text_MaxRazzBerrys);
+            this.groupBox4.Controls.Add(this.text_MaxHyperPotions);
+            this.groupBox4.Controls.Add(this.text_MaxSuperPotions);
+            this.groupBox4.Controls.Add(this.text_MaxPotions);
+            this.groupBox4.Controls.Add(this.text_MaxRevives);
+            this.groupBox4.Controls.Add(this.label15);
+            this.groupBox4.Controls.Add(this.text_MaxUltraBalls);
+            this.groupBox4.Controls.Add(this.text_MaxGreatBalls);
+            this.groupBox4.Controls.Add(this.label14);
+            this.groupBox4.Controls.Add(this.text_MaxPokeballs);
+            this.groupBox4.Controls.Add(this.label13);
+            this.groupBox4.Location = new System.Drawing.Point(347, 9);
+            this.groupBox4.Margin = new System.Windows.Forms.Padding(5);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Padding = new System.Windows.Forms.Padding(5);
+            this.groupBox4.Size = new System.Drawing.Size(225, 437);
+            this.groupBox4.TabIndex = 77;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "Pokemon Items";
+            // 
+            // text_TotalItemCount
+            // 
+            this.text_TotalItemCount.Location = new System.Drawing.Point(146, 457);
+            this.text_TotalItemCount.Margin = new System.Windows.Forms.Padding(5);
+            this.text_TotalItemCount.Name = "text_TotalItemCount";
+            this.text_TotalItemCount.ReadOnly = true;
+            this.text_TotalItemCount.Size = new System.Drawing.Size(50, 22);
+            this.text_TotalItemCount.TabIndex = 23;
+            this.text_TotalItemCount.TabStop = false;
+            // 
+            // label31
+            // 
+            this.label31.AutoSize = true;
+            this.label31.Location = new System.Drawing.Point(12, 460);
+            this.label31.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.label31.Name = "label31";
+            this.label31.Size = new System.Drawing.Size(85, 17);
+            this.label31.TabIndex = 22;
+            this.label31.Text = "Total Count:";
+            // 
+            // text_MaxPokeballs
+            // 
+            this.text_MaxPokeballs.Location = new System.Drawing.Point(146, 22);
+            this.text_MaxPokeballs.Margin = new System.Windows.Forms.Padding(5);
+            this.text_MaxPokeballs.Name = "text_MaxPokeballs";
+            this.text_MaxPokeballs.Size = new System.Drawing.Size(50, 22);
+            this.text_MaxPokeballs.TabIndex = 15;
+            this.text_MaxPokeballs.TextChanged += new System.EventHandler(this.text_Max);
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(14, 22);
+            this.label13.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(106, 17);
+            this.label13.TabIndex = 0;
+            this.label13.Text = "Max. Pokeballs:";
             // 
             // Pokemons
             // 
@@ -1226,12 +1277,14 @@ namespace PokemonGo.RocketAPI.Console
             this.tabPage1.PerformLayout();
             this.groupBox10.ResumeLayout(false);
             this.groupBox10.PerformLayout();
-            this.groupBox4.ResumeLayout(false);
-            this.groupBox4.PerformLayout();
             this.groupBox11.ResumeLayout(false);
             this.groupBox11.PerformLayout();
             this.groupBox13.ResumeLayout(false);
             this.groupBox13.PerformLayout();
+            this.tabPage3.ResumeLayout(false);
+            this.tabPage3.PerformLayout();
+            this.groupBox4.ResumeLayout(false);
+            this.groupBox4.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1289,6 +1342,26 @@ namespace PokemonGo.RocketAPI.Console
         private System.Windows.Forms.CheckBox checkBox_UseGoogleMapsRouting;
         private System.Windows.Forms.Label label45;
         private System.Windows.Forms.CheckBox checkBox_WalkInArchimedeanSpiral;
+        private System.Windows.Forms.GroupBox groupBox10;
+        private System.Windows.Forms.CheckBox checkBox2;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.CheckBox checkBox3;
+        private System.Windows.Forms.CheckBox checkBox4;
+        private System.Windows.Forms.CheckBox checkBox5;
+        private System.Windows.Forms.CheckBox checkBox6;
+        private System.Windows.Forms.CheckBox checkBox7;
+        private System.Windows.Forms.CheckBox checkBox8;
+        private System.Windows.Forms.CheckBox checkBox9;
+        private System.Windows.Forms.CheckBox checkBox10;
+        private System.Windows.Forms.CheckBox checkBox11;
+        private System.Windows.Forms.TabPage tabPage3;
+        private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.Button reloadbtn;
+        private System.Windows.Forms.ListView ItemsListView;
+        private System.Windows.Forms.ColumnHeader chItem;
+        private System.Windows.Forms.ColumnHeader chCount;
+        private System.Windows.Forms.ColumnHeader chUnseen;
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.TextBox text_TotalItemCount;
         private System.Windows.Forms.Label label31;
@@ -1314,18 +1387,5 @@ namespace PokemonGo.RocketAPI.Console
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.TextBox text_MaxPokeballs;
         private System.Windows.Forms.Label label13;
-        private System.Windows.Forms.GroupBox groupBox10;
-        private System.Windows.Forms.CheckBox checkBox2;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.CheckBox checkBox3;
-        private System.Windows.Forms.CheckBox checkBox4;
-        private System.Windows.Forms.CheckBox checkBox5;
-        private System.Windows.Forms.CheckBox checkBox6;
-        private System.Windows.Forms.CheckBox checkBox7;
-        private System.Windows.Forms.CheckBox checkBox8;
-        private System.Windows.Forms.CheckBox checkBox9;
-        private System.Windows.Forms.CheckBox checkBox10;
-        private System.Windows.Forms.CheckBox checkBox11;
     }
 }

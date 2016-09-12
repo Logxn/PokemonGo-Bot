@@ -88,8 +88,13 @@ namespace PokemonGo.RocketAPI.Rpc
 
         public async Task<int> getInventoryCount()
         {
-            var p = await GetInventory();
-            return p.InventoryDelta.InventoryItems.Count;
+            var items = await GetItems();
+            var totalitems = 0;
+            foreach (var item in items)
+            {
+                totalitems += item.Count;
+            }
+            return totalitems;
         }
 
         public async Task<int> GetEggsCount()

@@ -1,4 +1,4 @@
-﻿using POGOProtos.Map.Fort;
+using POGOProtos.Map.Fort;
 using System;
 using System.Collections.Generic;
 using System.Device.Location;
@@ -51,11 +51,21 @@ namespace PokemonGo.RocketAPI.Logic
             }
         }
 
-        public delegate void PokeStopInfoUpdateHandler(string pokeStopId, string info);
-        public event PokeStopInfoUpdateHandler HandlePokeStopInfoUpdate = delegate { };
-        public void PushPokeStopInfoUpdate(string pokeStopId, string info)
+        public delegate void AvailablePokeGymHandler(FortData[] pokeGyms);
+        public event AvailablePokeGymHandler HandleAvailablePokeGym = delegate { };
+        public void PushAvailablePokeGymsLocations(FortData[] pokeGyms)
         {
-            HandlePokeStopInfoUpdate(pokeStopId, info);
+            if (pokeGyms != null && pokeGyms.Any())
+            {
+                HandleAvailablePokeGym(pokeGyms);
+            }
+        }
+
+        public delegate void PokeStopInfoUpdateHandler(FortData pokeStop, string info);
+        public event PokeStopInfoUpdateHandler HandlePokeStopInfoUpdate = delegate { };
+        public void PushPokeStopInfoUpdate(FortData pokeStop, string info)
+        {
+            HandlePokeStopInfoUpdate(pokeStop, info);
         }
 
         /// <summary>

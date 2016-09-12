@@ -113,6 +113,7 @@ namespace PokemonGo.RocketAPI
         bool UseLureGUIClick { get; set; }
         bool UseIncenseGUIClick { get; set; }
         bool UseLuckyEggGUIClick { get; set; }
+        //bool CatchLurePokemons { get; set; }
         double TimeToRun { get; set; }
         int ivmaxpercent { get; }
         string SelectedLanguage { get; }
