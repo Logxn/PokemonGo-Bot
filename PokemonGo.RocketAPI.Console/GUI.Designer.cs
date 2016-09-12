@@ -2079,18 +2079,18 @@
             this.checkbox_AutoUpdate.UseVisualStyleBackColor = true;
             
             // 
-            // lang_zh-TW_btn
+            // lang_TW_btn
             //
-            this.lang_zh-TW_btn.BackgroundImage = global::PokemonGo.RocketAPI.Console.Properties.Resources.zh-TW;
-            this.lang_zh-TW_btn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.lang_zh-TW_btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.lang_zh-TW_btn.Location = new System.Drawing.Point(222, 79);
-            this.lang_zh-TW_btn.Name = "lang_zh-TW_btn";
-            this.lang_zh-TW_btn.Size = new System.Drawing.Size(24, 15);
-            this.lang_zh-TW_btn.TabIndex = 45;
-            this.lang_zh-TW_btn.Tag = "zh-TW";
-            this.lang_zh-TW_btn.UseVisualStyleBackColor = true;
-            this.lang_zh-TW_btn.Click += new System.EventHandler(this.languages_btn_Click);
+            this.lang_TW_btn.BackgroundImage = global::PokemonGo.RocketAPI.Console.Properties.Resources.TW;
+            this.lang_TW_btn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.lang_TW_btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.lang_TW_btn.Location = new System.Drawing.Point(222, 79);
+            this.lang_TW_btn.Name = "lang_TW_btn";
+            this.lang_TW_btn.Size = new System.Drawing.Size(24, 15);
+            this.lang_TW_btn.TabIndex = 45;
+            this.lang_TW_btn.Tag = "TW";
+            this.lang_TW_btn.UseVisualStyleBackColor = true;
+            this.lang_TW_btn.Click += new System.EventHandler(this.languages_btn_Click);
             
             // 
             // lang_france_btn
