@@ -959,7 +959,7 @@ namespace PokemonGo.RocketAPI.Logic
                 directionsRequest.TravelMode = TravelMode.Walking;
 
                 #region Set Directions Request Variables based on client settings
-                if (_clientSettings.WalkingSpeedInKilometerPerHour > 10)
+                if (_clientSettings.WalkingSpeedInKilometerPerHour > 10 && _clientSettings.WalkingSpeedInKilometerPerHour < 20)
                 {
                     directionsRequest.TravelMode = TravelMode.Bicycling;
                     Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Using Directions For Bicycling due to max speed setting > 10km/h");
@@ -1107,8 +1107,9 @@ namespace PokemonGo.RocketAPI.Logic
                     pokeStopInfo += $"{fortSearch.ExperienceAwarded} XP{Environment.NewLine}{fortSearch.GemsAwarded}{Environment.NewLine}{egg}{Environment.NewLine}{items.Replace(",", Environment.NewLine)}";
 
                     // Catch Pokemon Lure
-                    if (_clientSettings.CatchPokemon && pokeStop.ActiveFortModifier.Count > 0)
+                    if (pokeStop.LureInfo != null && _clientSettings.CatchPokemon && pokeStop.ActiveFortModifier.Count > 0)
                     {
+                        
                         var lure_Pokemon = pokeStop.LureInfo.ActivePokemonId;
                         if (!_clientSettings.catchPokemonSkipList.Contains(lure_Pokemon))
                         {
