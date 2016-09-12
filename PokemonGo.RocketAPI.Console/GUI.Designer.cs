@@ -130,6 +130,7 @@
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.linkLabel2 = new System.Windows.Forms.LinkLabel();
             this.groupBox10 = new System.Windows.Forms.GroupBox();
+            this.checkBox_CatchLurePokemons = new System.Windows.Forms.CheckBox();
             this.checkBox_StopWalkingWhenEvolving = new System.Windows.Forms.CheckBox();
             this.label39 = new System.Windows.Forms.Label();
             this.comboBox_Device = new System.Windows.Forms.ComboBox();
@@ -207,7 +208,7 @@
             this.lang_de_btn = new System.Windows.Forms.Button();
             this.lang_en_btn = new System.Windows.Forms.Button();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
-            this.checkBox_CatchLurePokemons = new System.Windows.Forms.CheckBox();
+            this.button_Throwshelp = new System.Windows.Forms.Button();
             this.tabPage1.SuspendLayout();
             this.tabItems.SuspendLayout();
             this.groupBox4.SuspendLayout();
@@ -1296,6 +1297,17 @@
             this.groupBox10.TabStop = false;
             this.groupBox10.Text = "Other Settings";
             // 
+            // checkBox_CatchLurePokemons
+            // 
+            this.checkBox_CatchLurePokemons.AutoSize = true;
+            this.checkBox_CatchLurePokemons.Location = new System.Drawing.Point(22, 255);
+            this.checkBox_CatchLurePokemons.Name = "checkBox_CatchLurePokemons";
+            this.checkBox_CatchLurePokemons.Size = new System.Drawing.Size(199, 17);
+            this.checkBox_CatchLurePokemons.TabIndex = 57;
+            this.checkBox_CatchLurePokemons.Text = "Catch Lure Pokemons (UNTESTED)";
+            this.checkBox_CatchLurePokemons.UseVisualStyleBackColor = true;
+            this.checkBox_CatchLurePokemons.CheckedChanged += new System.EventHandler(this.checkBox_CatchLurePokemons_CheckedChanged);
+            // 
             // checkBox_StopWalkingWhenEvolving
             // 
             this.checkBox_StopWalkingWhenEvolving.AutoSize = true;
@@ -1527,6 +1539,7 @@
             // 
             // tabThrows
             // 
+            this.tabThrows.Controls.Add(this.button_Throwshelp);
             this.tabThrows.Controls.Add(this.groupBox16);
             this.tabThrows.Location = new System.Drawing.Point(4, 22);
             this.tabThrows.Name = "tabThrows";
@@ -2181,16 +2194,16 @@
             this.pictureBox2.TabStop = false;
             this.pictureBox2.Click += new System.EventHandler(this.pictureBox2_Click);
             // 
-            // checkBox_CatchLurePokemons
+            // button_Throwshelp
             // 
-            this.checkBox_CatchLurePokemons.AutoSize = true;
-            this.checkBox_CatchLurePokemons.Location = new System.Drawing.Point(22, 255);
-            this.checkBox_CatchLurePokemons.Name = "checkBox_CatchLurePokemons";
-            this.checkBox_CatchLurePokemons.Size = new System.Drawing.Size(199, 17);
-            this.checkBox_CatchLurePokemons.TabIndex = 57;
-            this.checkBox_CatchLurePokemons.Text = "Catch Lure Pokemons (UNTESTED)";
-            this.checkBox_CatchLurePokemons.UseVisualStyleBackColor = true;
-            this.checkBox_CatchLurePokemons.CheckedChanged += new System.EventHandler(this.checkBox_CatchLurePokemons_CheckedChanged);
+            this.button_Throwshelp.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button_Throwshelp.Location = new System.Drawing.Point(199, 9);
+            this.button_Throwshelp.Name = "button_Throwshelp";
+            this.button_Throwshelp.Size = new System.Drawing.Size(21, 22);
+            this.button_Throwshelp.TabIndex = 66;
+            this.button_Throwshelp.Text = "?";
+            this.button_Throwshelp.UseVisualStyleBackColor = true;
+            this.button_Throwshelp.Click += new System.EventHandler(this.button4_Click_1);
             // 
             // GUI
             // 
@@ -2448,8 +2461,8 @@
         private System.Windows.Forms.CheckBox checkBox1;
         private System.Windows.Forms.CheckBox checkbox_PWDEncryption;
         private System.Windows.Forms.CheckBox checkBox_CatchLurePokemons;
-        private System.Windows.Forms.CheckBox checkbox_PWDEncryption;
         private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button button_Throwshelp;
     }
 }
 

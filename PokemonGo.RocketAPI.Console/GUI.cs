@@ -1760,9 +1760,8 @@ namespace PokemonGo.RocketAPI.Console
         {
             Globals.CatchLurePokemons = checkBox_CatchLurePokemons.Checked;
         }
-        }
 
-        private void button2_Click_2(object sender, EventArgs e)
+        private void button4_Click_1(object sender, EventArgs e)
         {
             MessageBox.Show("Here you can set the probabilities of each kind of throw as percentages.\nValues range from 0 to 100, while the sum of all fields must be less than or equal to 100!\n\nDefault Settings: All throw types are evenly distributed at 25% per type.\n\nWarning: Forcing one kind of throw too much may seem suspicious to Niantic. Keep it legit!");
         }
