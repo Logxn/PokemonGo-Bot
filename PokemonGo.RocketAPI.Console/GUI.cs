@@ -1387,8 +1387,8 @@ namespace PokemonGo.RocketAPI.Console
                 lang_ptBR_btn,
                 lang_tr_btn,
                 lang_ru_btn,
-                lang_france_btn
-
+                lang_france_btn,
+		lang_zh-TW_btn
                 // add the new languages' buttons here
             };
 
