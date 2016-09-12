@@ -140,7 +140,7 @@
             this.checkBox_UseLuckyEggIfNotRunning = new System.Windows.Forms.CheckBox();
             this.checkBox_KeepPokemonWhichCanBeEvolved = new System.Windows.Forms.CheckBox();
             this.checkBox_EnablePokemonListGui = new System.Windows.Forms.CheckBox();
-            this.checkBox_EnableItemsListGui = new System.Windows.Forms.CheckBox();
+            //this.checkBox_EnableItemsListGui = new System.Windows.Forms.CheckBox();
             this.checkBox_UseIncenseEvery30min = new System.Windows.Forms.CheckBox();
             this.checkBox_SimulateAnimationTimeAtEvolve = new System.Windows.Forms.CheckBox();
             this.checkBox_UseLuckyEggAtEvolve = new System.Windows.Forms.CheckBox();
@@ -1261,7 +1261,7 @@
             // 
             // groupBox10
             // 
-            this.groupBox10.Controls.Add(this.checkBox_CatchLurePokemons);
+            //this.groupBox10.Controls.Add(this.checkBox_CatchLurePokemons);
             this.groupBox10.Controls.Add(this.checkBox_StopWalkingWhenEvolving);
             this.groupBox10.Controls.Add(this.label39);
             this.groupBox10.Controls.Add(this.comboBox_Device);
@@ -1273,7 +1273,7 @@
             this.groupBox10.Controls.Add(this.checkBox_UseLuckyEggIfNotRunning);
             this.groupBox10.Controls.Add(this.checkBox_KeepPokemonWhichCanBeEvolved);
             this.groupBox10.Controls.Add(this.checkBox_EnablePokemonListGui);
-            this.groupBox10.Controls.Add(this.checkBox_EnableItemsListGui);
+            //this.groupBox10.Controls.Add(this.checkBox_EnableItemsListGui);
             this.groupBox10.Controls.Add(this.checkBox_UseIncenseEvery30min);
             this.groupBox10.Controls.Add(this.checkBox_SimulateAnimationTimeAtEvolve);
             this.groupBox10.Controls.Add(this.checkBox_UseLuckyEggAtEvolve);
@@ -1427,15 +1427,15 @@
             // 
             // checkBox_EnableItemsListGui
             // 
-            this.checkBox_EnableItemsListGui.AutoSize = true;
-            this.checkBox_EnableItemsListGui.Checked = true;
-            this.checkBox_EnableItemsListGui.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox_EnableItemsListGui.Location = new System.Drawing.Point(21, 132);
-            this.checkBox_EnableItemsListGui.Name = "checkBox_EnableItemsListGui";
-            this.checkBox_EnableItemsListGui.Size = new System.Drawing.Size(124, 17);
-            this.checkBox_EnableItemsListGui.TabIndex = 45;
-            this.checkBox_EnableItemsListGui.Text = "Enable Items list GUI";
-            this.checkBox_EnableItemsListGui.UseVisualStyleBackColor = true;
+            //this.checkBox_EnableItemsListGui.AutoSize = true;
+            //this.checkBox_EnableItemsListGui.Checked = true;
+            //this.checkBox_EnableItemsListGui.CheckState = System.Windows.Forms.CheckState.Checked;
+            //this.checkBox_EnableItemsListGui.Location = new System.Drawing.Point(21, 132);
+            //this.checkBox_EnableItemsListGui.Name = "checkBox_EnableItemsListGui";
+            //this.checkBox_EnableItemsListGui.Size = new System.Drawing.Size(124, 17);
+            //this.checkBox_EnableItemsListGui.TabIndex = 45;
+            //this.checkBox_EnableItemsListGui.Text = "Enable Items list GUI";
+            //this.checkBox_EnableItemsListGui.UseVisualStyleBackColor = true;
             // 
             // checkBox_UseIncenseEvery30min
             // 
@@ -2197,7 +2197,7 @@
             this.pictureBox2.TabStop = false;
             this.pictureBox2.Click += new System.EventHandler(this.pictureBox2_Click);
             // 
-            // checkBox_CatchLurePokemons
+            //checkBox_CatchLurePokemons
             // checkbox_checkWhileRunning
             // 
             this.checkbox_checkWhileRunning.AutoSize = true;
@@ -2475,7 +2475,7 @@
         private System.Windows.Forms.CheckBox checkbox_PWDEncryption;
         private System.Windows.Forms.CheckBox checkbox_checkWhileRunning;
         private System.Windows.Forms.CheckBox checkbox_LogEggs;
-        private System.Windows.Forms.CheckBox checkBox_CatchLurePokemons;
+        //private System.Windows.Forms.CheckBox checkBox_CatchLurePokemons;
     }
 }
 

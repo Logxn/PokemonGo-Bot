@@ -32,11 +32,11 @@ namespace PokemonGo.RocketAPI.Console
         public int HoldMaxDoublePokemons => Globals.duplicate;
         public int TelegramLiveStatsDelay => Globals.telDelay;
 
-        public bool CatchLurePokemons
-        {
-            get { return Globals.CatchLurePokemons; }
-            set { Globals.CatchLurePokemons = value; }
-        }
+        //public bool CatchLurePokemons
+        //{
+        //    get { return Globals.CatchLurePokemons; }
+        //    set { Globals.CatchLurePokemons = value; }
+        //}
 
         public bool sleepatpokemons => Globals.sleepatpokemons;
 

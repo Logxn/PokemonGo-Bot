@@ -840,7 +840,7 @@ namespace PokemonGo.RocketAPI.Logic
                         {
                             await ExecuteCatchAllNearbyPokemons();
                             // Catch Pokemon Lure
-                            if (_clientSettings.CatchLurePokemons && Pokestop.ActiveFortModifier.Count > 0)
+                            if (_clientSettings.CatchPokemon && Pokestop.ActiveFortModifier.Count > 0)
                             {
                                 var lure_Pokemon = pokeStop.LureInfo.ActivePokemonId;
                                 if (!_clientSettings.catchPokemonSkipList.Contains(lure_Pokemon))
@@ -1085,7 +1085,7 @@ namespace PokemonGo.RocketAPI.Logic
                     pokeStopInfo += $"{fortSearch.ExperienceAwarded} XP{Environment.NewLine}{fortSearch.GemsAwarded}{Environment.NewLine}{egg}{Environment.NewLine}{items.Replace(",", Environment.NewLine)}";
 
                     // Catch Pokemon Lure
-                    if (_clientSettings.CatchLurePokemons && pokeStop.ActiveFortModifier.Count > 0)
+                    if (_clientSettings.CatchPokemon && pokeStop.ActiveFortModifier.Count > 0)
                     {
                         var lure_Pokemon = pokeStop.LureInfo.ActivePokemonId;
                         if (!_clientSettings.catchPokemonSkipList.Contains(lure_Pokemon))

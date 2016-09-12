@@ -252,12 +252,12 @@ namespace PokemonGo.RocketAPI.Console
                             case 34:
                                 checkbox_PWDEncryption.Checked = bool.Parse(line);
                                 break;
-                            case 35:
-                                checkBox_EnableItemsListGui.Checked = bool.Parse(line);
-                                break;
-                            case 36:
-                                checkBox_CatchLurePokemons.Checked = bool.Parse(line);
-                                break;
+                            //case 35:
+                            //    checkBox_EnableItemsListGui.Checked = bool.Parse(line);
+                                //break;
+                            //case 35:
+                            //    checkBox_CatchLurePokemons.Checked = bool.Parse(line);
+                            //    break;
                             default:
                                 break;
                         }
@@ -928,7 +928,7 @@ namespace PokemonGo.RocketAPI.Console
 
             Globals.useincense = checkBox_UseIncenseEvery30min.Checked;
             Globals.pokeList = checkBox_EnablePokemonListGui.Checked;
-            Globals.itemsList = checkBox_EnableItemsListGui.Checked;
+            //Globals.itemsList = false;
             Globals.keepPokemonsThatCanEvolve = checkBox_KeepPokemonWhichCanBeEvolved.Checked;
             Globals.pokevision = checkBox1.Checked;
             Globals.useLuckyEggIfNotRunning = checkBox_UseLuckyEggIfNotRunning.Checked;
@@ -991,8 +991,8 @@ namespace PokemonGo.RocketAPI.Console
                     Globals.telAPI.ToString(),
                     Globals.pauseAtEvolve.ToString(),
                     Globals.usePwdEncryption.ToString(),
-                    Globals.itemsList.ToString(),
-                    Globals.CatchLurePokemons.ToString()
+                    //Globals.itemsList.ToString(),
+                    //Globals.CatchLurePokemons.ToString()
             };
             if (Globals.usePwdEncryption)
             {
@@ -1674,9 +1674,9 @@ namespace PokemonGo.RocketAPI.Console
             Globals.pokevision = checkBox1.Checked;
         }
 
-        private void checkBox_CatchLurePokemons_CheckedChanged(object sender, EventArgs e)
-        {
-            Globals.CatchLurePokemons = checkBox_CatchLurePokemons.Checked;
-        }
+        //private void checkBox_CatchLurePokemons_CheckedChanged(object sender, EventArgs e)
+        //{
+        //    Globals.CatchLurePokemons = checkBox_CatchLurePokemons.Checked;
+        //}
     }
 }
