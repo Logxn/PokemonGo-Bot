@@ -32,6 +32,8 @@ namespace PokemonGo.RocketAPI.Console
         public int HoldMaxDoublePokemons => Globals.duplicate;
         public int TelegramLiveStatsDelay => Globals.telDelay;
 
+        public bool CatchLurePokemons => Globals.CatchLurePokemons;
+
         public bool sleepatpokemons => Globals.sleepatpokemons;
 
         public double WalkingSpeedInKilometerPerHour => Globals.speed;

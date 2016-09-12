@@ -27,6 +27,7 @@ namespace PokemonGo.RocketAPI.Console
         public static string languagestr2;
         private static Client client;
         private static GetPlayerResponse profile;
+        private static POGOProtos.Data.Player.PlayerStats stats;
         private static GetInventoryResponse inventory;
         private static IOrderedEnumerable<PokemonData> pokemons;
         private static List<AdditionalPokeData> additionalPokeData = new List<AdditionalPokeData>();
@@ -108,6 +109,7 @@ namespace PokemonGo.RocketAPI.Console
                 if (client.readyToUse != false)
                 {
                     profile = await client.Player.GetPlayer();
+                    await Task.Delay(1000); // Pause to simulate human speed. 
                     inventory = await client.Inventory.GetInventory();
                     pokemons =
                         inventory.InventoryDelta.InventoryItems
@@ -1111,7 +1113,7 @@ namespace PokemonGo.RocketAPI.Console
 
         private void btnShowMap_Click(object sender, EventArgs e)
         {
-            new LocationSelect(true).Show();
+        	new LocationSelect(true, (int)profile.PlayerData.Team,stats.Level,stats.Experience  ).Show();
         }
 
         private void lang_en_btn2_Click(object sender, EventArgs e)

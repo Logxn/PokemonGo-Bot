@@ -140,6 +140,7 @@
             this.checkBox_UseLuckyEggIfNotRunning = new System.Windows.Forms.CheckBox();
             this.checkBox_KeepPokemonWhichCanBeEvolved = new System.Windows.Forms.CheckBox();
             this.checkBox_EnablePokemonListGui = new System.Windows.Forms.CheckBox();
+            this.checkBox_EnableItemsListGui = new System.Windows.Forms.CheckBox();
             this.checkBox_UseIncenseEvery30min = new System.Windows.Forms.CheckBox();
             this.checkBox_SimulateAnimationTimeAtEvolve = new System.Windows.Forms.CheckBox();
             this.checkBox_UseLuckyEggAtEvolve = new System.Windows.Forms.CheckBox();
@@ -1260,6 +1261,7 @@
             // 
             // groupBox10
             // 
+            this.groupBox10.Controls.Add(this.checkBox_CatchLurePokemons);
             this.groupBox10.Controls.Add(this.checkBox_StopWalkingWhenEvolving);
             this.groupBox10.Controls.Add(this.label39);
             this.groupBox10.Controls.Add(this.comboBox_Device);
@@ -1271,6 +1273,7 @@
             this.groupBox10.Controls.Add(this.checkBox_UseLuckyEggIfNotRunning);
             this.groupBox10.Controls.Add(this.checkBox_KeepPokemonWhichCanBeEvolved);
             this.groupBox10.Controls.Add(this.checkBox_EnablePokemonListGui);
+            this.groupBox10.Controls.Add(this.checkBox_EnableItemsListGui);
             this.groupBox10.Controls.Add(this.checkBox_UseIncenseEvery30min);
             this.groupBox10.Controls.Add(this.checkBox_SimulateAnimationTimeAtEvolve);
             this.groupBox10.Controls.Add(this.checkBox_UseLuckyEggAtEvolve);
@@ -1422,6 +1425,18 @@
             this.checkBox_EnablePokemonListGui.Text = "Enable Pokemon list GUI";
             this.checkBox_EnablePokemonListGui.UseVisualStyleBackColor = true;
             // 
+            // checkBox_EnableItemsListGui
+            // 
+            this.checkBox_EnableItemsListGui.AutoSize = true;
+            this.checkBox_EnableItemsListGui.Checked = true;
+            this.checkBox_EnableItemsListGui.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox_EnableItemsListGui.Location = new System.Drawing.Point(21, 132);
+            this.checkBox_EnableItemsListGui.Name = "checkBox_EnableItemsListGui";
+            this.checkBox_EnableItemsListGui.Size = new System.Drawing.Size(124, 17);
+            this.checkBox_EnableItemsListGui.TabIndex = 45;
+            this.checkBox_EnableItemsListGui.Text = "Enable Items list GUI";
+            this.checkBox_EnableItemsListGui.UseVisualStyleBackColor = true;
+            // 
             // checkBox_UseIncenseEvery30min
             // 
             this.checkBox_UseIncenseEvery30min.AutoSize = true;
@@ -1439,7 +1454,7 @@
             this.checkBox_SimulateAnimationTimeAtEvolve.AutoSize = true;
             this.checkBox_SimulateAnimationTimeAtEvolve.Checked = true;
             this.checkBox_SimulateAnimationTimeAtEvolve.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox_SimulateAnimationTimeAtEvolve.Location = new System.Drawing.Point(21, 46);
+            this.checkBox_SimulateAnimationTimeAtEvolve.Location = new System.Drawing.Point(21, 33);
             this.checkBox_SimulateAnimationTimeAtEvolve.Name = "checkBox_SimulateAnimationTimeAtEvolve";
             this.checkBox_SimulateAnimationTimeAtEvolve.Size = new System.Drawing.Size(194, 17);
             this.checkBox_SimulateAnimationTimeAtEvolve.TabIndex = 40;
@@ -1452,7 +1467,7 @@
             this.checkBox_UseLuckyEggAtEvolve.AutoSize = true;
             this.checkBox_UseLuckyEggAtEvolve.Checked = true;
             this.checkBox_UseLuckyEggAtEvolve.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox_UseLuckyEggAtEvolve.Location = new System.Drawing.Point(21, 27);
+            this.checkBox_UseLuckyEggAtEvolve.Location = new System.Drawing.Point(21, 14);
             this.checkBox_UseLuckyEggAtEvolve.Name = "checkBox_UseLuckyEggAtEvolve";
             this.checkBox_UseLuckyEggAtEvolve.Size = new System.Drawing.Size(144, 17);
             this.checkBox_UseLuckyEggAtEvolve.TabIndex = 41;
@@ -1465,7 +1480,7 @@
             this.checkBox_EvolvePokemonIfEnoughCandy.AutoSize = true;
             this.checkBox_EvolvePokemonIfEnoughCandy.Checked = true;
             this.checkBox_EvolvePokemonIfEnoughCandy.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox_EvolvePokemonIfEnoughCandy.Location = new System.Drawing.Point(21, 66);
+            this.checkBox_EvolvePokemonIfEnoughCandy.Location = new System.Drawing.Point(21, 53);
             this.checkBox_EvolvePokemonIfEnoughCandy.Name = "checkBox_EvolvePokemonIfEnoughCandy";
             this.checkBox_EvolvePokemonIfEnoughCandy.Size = new System.Drawing.Size(191, 17);
             this.checkBox_EvolvePokemonIfEnoughCandy.TabIndex = 44;
@@ -2182,6 +2197,7 @@
             this.pictureBox2.TabStop = false;
             this.pictureBox2.Click += new System.EventHandler(this.pictureBox2_Click);
             // 
+            // checkBox_CatchLurePokemons
             // checkbox_checkWhileRunning
             // 
             this.checkbox_checkWhileRunning.AutoSize = true;
@@ -2399,6 +2415,7 @@
         private System.Windows.Forms.CheckBox checkBox_UseLuckyEggIfNotRunning;
         private System.Windows.Forms.CheckBox checkBox_KeepPokemonWhichCanBeEvolved;
         private System.Windows.Forms.CheckBox checkBox_EnablePokemonListGui;
+        private System.Windows.Forms.CheckBox checkBox_EnableItemsListGui;
         private System.Windows.Forms.CheckBox checkBox_UseIncenseEvery30min;
         private System.Windows.Forms.CheckBox checkBox_SimulateAnimationTimeAtEvolve;
         private System.Windows.Forms.CheckBox checkBox_UseLuckyEggAtEvolve;
@@ -2458,6 +2475,7 @@
         private System.Windows.Forms.CheckBox checkbox_PWDEncryption;
         private System.Windows.Forms.CheckBox checkbox_checkWhileRunning;
         private System.Windows.Forms.CheckBox checkbox_LogEggs;
+        private System.Windows.Forms.CheckBox checkBox_CatchLurePokemons;
     }
 }
 
