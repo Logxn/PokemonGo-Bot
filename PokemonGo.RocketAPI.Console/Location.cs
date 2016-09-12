@@ -197,7 +197,7 @@ namespace PokemonGo.RocketAPI.Console
                                 }
 
                             }
-                            pokemonMarker.ToolTipText = string.Format("{0}, {1}, {2}, {3}", StringUtils.getPokemonNameByLanguage(null, pokeData.PokemonId), pokeData.ExpiresAt.ToString(), pokeData.Coordinates.Latitude.Value.ToString(), pokeData.Coordinates.Longitude.Value.ToString());
+                            pokemonMarker.ToolTipText = string.Format("{0}\nExpires at:{1}\n{2}\n{3},{4}", StringUtils.getPokemonNameByLanguage(null, pokeData.PokemonId), pokeData.ExpiresAt.ToString(), FindAddress(pokeData.Coordinates.Latitude.Value, pokeData.Coordinates.Longitude.Value),pokeData.Coordinates.Latitude.Value, pokeData.Coordinates.Longitude.Value);
                             pokemonMarker.ToolTip.Font = new System.Drawing.Font("Arial", 12, System.Drawing.GraphicsUnit.Pixel);
                             pokemonMarker.ToolTipMode = MarkerTooltipMode.OnMouseOver;
                             _pokemonMarks.Add(pokeData.Id, pokemonMarker);
@@ -238,7 +238,8 @@ namespace PokemonGo.RocketAPI.Console
                             {
                                 pokeStopMaker = new GMarkerGoogle(new PointLatLng(pokeStop.Latitude, pokeStop.Longitude), Properties.Resources.lured_pokestop);
                             }
-                            pokeStopMaker.ToolTipText = string.Format("{0}, {1}", pokeStop.Latitude, pokeStop.Longitude);
+                            
+                            pokeStopMaker.ToolTipText = string.Format("{0}\n{1},{2}", FindAddress(pokeStop.Latitude, pokeStop.Longitude), pokeStop.Latitude, pokeStop.Longitude);
                             pokeStopMaker.ToolTip.Font = new System.Drawing.Font("Arial", 12, System.Drawing.GraphicsUnit.Pixel);
                             pokeStopMaker.ToolTipMode = MarkerTooltipMode.OnMouseOver;
                             _pokeStopsMarks.Add(pokeStop.Id, pokeStopMaker);
@@ -318,7 +319,7 @@ namespace PokemonGo.RocketAPI.Console
                         	var str =  StringUtils.getPokemonNameByLanguage(null, pokeGym.GuardPokemonId);                        	
                         	str =  string.Format("Guard: {0} - CP: {1}\nLevel:{2} ({3})",str,pokeGym.GuardPokemonCp,GetLevel(pokeGym.GymPoints),pokeGym.GymPoints);
                             var pokeGymMaker = new GMarkerGoogle(new PointLatLng(pokeGym.Latitude, pokeGym.Longitude),bitmap);
-                            pokeGymMaker.ToolTipText = string.Format("{0}, {1}\n{2}", pokeGym.Latitude, pokeGym.Longitude,str);
+                            pokeGymMaker.ToolTipText = string.Format("{0}\n{1}, {2}\n{3}", FindAddress(pokeGym.Latitude, pokeGym.Longitude), pokeGym.Latitude, pokeGym.Longitude,str);
                             pokeGymMaker.ToolTip.Font = new System.Drawing.Font("Arial", 12, System.Drawing.GraphicsUnit.Pixel);
                             pokeGymMaker.ToolTipMode = MarkerTooltipMode.OnMouseOver;
                             _pokeGymsMarks.Add(pokeGym.Id, pokeGymMaker);
@@ -409,7 +410,7 @@ namespace PokemonGo.RocketAPI.Console
             routeOverlay.Markers.Add(_botMarker);
             GMarkerGoogle _botStartMarker = new GMarkerGoogle(new PointLatLng(), Properties.Resources.start_point);
             _botStartMarker.Position = new PointLatLng(Globals.latitute, Globals.longitude);            
-            _botStartMarker.ToolTipText = string.Format("Start Point.\n{0}, {1}", Globals.latitute, Globals.longitude);
+            _botStartMarker.ToolTipText = string.Format("Start Point.\n{0}\n{1},{2}", FindAddress(Globals.latitute, Globals.longitude),Globals.latitute, Globals.longitude);
             _botStartMarker.ToolTip.Font = new System.Drawing.Font("Arial", 12, System.Drawing.GraphicsUnit.Pixel);
             _botStartMarker.ToolTipMode = MarkerTooltipMode.OnMouseOver;            
             routeOverlay.Markers.Add(_botStartMarker);
@@ -603,5 +604,17 @@ namespace PokemonGo.RocketAPI.Console
                 }
             }
         }
+        public static string FindAddress(double lat, double lng)
+        {
+        	string ret = "";
+        	GeoCoderStatusCode status;
+ 			var pos = GMapProviders.GoogleMap.GetPlacemark(new PointLatLng(lat, lng), out status);
+ 			if (status == GeoCoderStatusCode.G_GEO_SUCCESS && pos != null)
+ 			{
+ 				ret = pos.Value.Address;
+        	}
+ 			return ret;
+        }
     }
+    
 }
