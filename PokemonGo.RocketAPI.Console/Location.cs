@@ -39,8 +39,7 @@ namespace PokemonGo.RocketAPI.Console
 
         public double alt;
         public bool close = true;
-
-        
+                
         private GMarkerGoogle _botMarker;
 
         private GMapRoute _botRoute = new GMapRoute("BotRoute");
