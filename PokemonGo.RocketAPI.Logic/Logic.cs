@@ -82,7 +82,7 @@ namespace PokemonGo.RocketAPI.Logic
                 }
             }
         }
-        
+
         public Logic(ISettings clientSettings, LogicInfoObservable infoObservable)
         {
             _clientSettings = clientSettings;
@@ -98,7 +98,7 @@ namespace PokemonGo.RocketAPI.Logic
         #endregion
 
         #region Execute Functions
-        
+
         public async Task Execute()
         {
 
@@ -183,7 +183,7 @@ namespace PokemonGo.RocketAPI.Logic
                 await Task.Delay(10000);
             }
         }
-        
+
         public async Task PostLoginExecute()
         {
             while (true)
@@ -222,7 +222,7 @@ namespace PokemonGo.RocketAPI.Logic
                     }
                 }
                 if (_restart)
-                {                	
+                {
                     Logger.ColoredConsoleWrite(ConsoleColor.Green, "Starting again in 60 seconds...");
                     await Task.Delay(60000);
                 }
@@ -484,7 +484,7 @@ namespace PokemonGo.RocketAPI.Logic
             #region Catch Pokemon Count Check
             if (pokemonCatchCount >= _clientSettings.PokemonCatchLimit)
             {
-                
+
                 if (_clientSettings.FarmPokestops)
                 {
                     Logger.ColoredConsoleWrite(ConsoleColor.Green, "Pokemon Catch Limit Reached - Bot will only farm pokestops");
@@ -605,7 +605,7 @@ namespace PokemonGo.RocketAPI.Logic
                 i2++;
             }
         }
-        
+
         private async Task ExecuteFarmingPokestopsAndPokemons(Client client)
         {
             #region Check Distance from start
@@ -668,13 +668,13 @@ namespace PokemonGo.RocketAPI.Logic
                 await Espiral(client, pokeStops);
                 return;
             }
-            gymsloaded = false;            
+            gymsloaded = false;
             var pokeGyms =
             _navigation.pathByNearestNeighbour(
             mapObjects.Item1.MapCells.SelectMany(i => i.Forts)
             .Where(
                 i =>
-                i.Type == FortType.Gym )
+                i.Type == FortType.Gym)
                 .OrderBy(
                 i =>
                 LocationUtils.CalculateDistanceInMeters(_client.CurrentLatitude, _client.CurrentLongitude, i.Latitude, i.Longitude)).ToArray(), _clientSettings.WalkingSpeedInKilometerPerHour);
@@ -683,7 +683,7 @@ namespace PokemonGo.RocketAPI.Logic
                 _infoObservable.PushAvailablePokeGymsLocations(pokeGyms);
                 gymsloaded = true;
             }
-            
+
             //Normal Walk and Catch between pokestops
             await fncPokeStop(_client, pokeStops, false);
         }
@@ -957,6 +957,22 @@ namespace PokemonGo.RocketAPI.Logic
                 DirectionsRequest directionsRequest = new DirectionsRequest();
                 directionsRequest.ApiKey = _clientSettings.GoogleMapsAPIKey;
                 directionsRequest.TravelMode = TravelMode.Walking;
+
+                #region Set Directions Request Variables based on client settings
+                if (_clientSettings.WalkingSpeedInKilometerPerHour > 10)
+                {
+                    directionsRequest.TravelMode = TravelMode.Bicycling;
+                    Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Using Directions For Bicycling due to max speed setting > 10km/h");
+                }
+                if (_clientSettings.WalkingSpeedInKilometerPerHour > 20)
+                {
+                    directionsRequest.TravelMode = TravelMode.Bicycling;
+                    Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Using Directions For Driving due to max speed setting > 20km/h");                
+                }
+                if (_clientSettings.SelectedLanguage == "de")
+                    directionsRequest.Language = "de";
+                #endregion
+
                 directionsRequest.Origin = sourcelatstring + "," + sourcelongstring;
                 directionsRequest.Destination = latstring + "," + longstring;
                 //get response
@@ -970,7 +986,10 @@ namespace PokemonGo.RocketAPI.Logic
                     {
                         var directiontext = Helpers.Utils.HtmlRemoval.StripTagsRegexCompiled(step.HtmlInstructions);
                         Logger.ColoredConsoleWrite(ConsoleColor.Green, directiontext);
-                        var update = await _navigation.HumanLikeWalking(new GeoCoordinate(step.EndLocation.Latitude, step.EndLocation.Longitude), walkspeed, ExecuteCatchAllNearbyPokemons);
+                        foreach (var point in step.PolyLine.Points)
+                        {
+                            var update = await _navigation.HumanLikeWalking(new GeoCoordinate(step.EndLocation.Latitude, step.EndLocation.Longitude), walkspeed, ExecuteCatchAllNearbyPokemons, true, false);
+                        }
                         stepcount++;
                         if (stepcount == steps.Count())
                         {
@@ -978,8 +997,11 @@ namespace PokemonGo.RocketAPI.Logic
                             var remainingdistancetostop = LocationUtils.CalculateDistanceInMeters(_client.CurrentLatitude, _client.CurrentLongitude, latitude, longitude);
                             if (remainingdistancetostop > 40)
                             {
-                                Logger.ColoredConsoleWrite(ConsoleColor.Green, "As close as google can take us, going off-road");
-                                update = await _navigation.HumanLikeWalking(new GeoCoordinate(latitude, longitude), walkspeed, ExecuteCatchAllNearbyPokemons);
+                                var lowestspeed = 5;
+                                //use client settings value for min speed if set.
+                                if (_clientSettings.MinWalkSpeed != 0) { lowestspeed = _clientSettings.MinWalkSpeed; }
+                                Logger.ColoredConsoleWrite(ConsoleColor.Green, "As close as google can take us, going off-road at walking speed (" + lowestspeed + ")");
+                                var update = await _navigation.HumanLikeWalking(new GeoCoordinate(latitude, longitude), walkspeed, ExecuteCatchAllNearbyPokemons);
                             }
                             Logger.ColoredConsoleWrite(ConsoleColor.Green, "Destination Reached!");
                         }
@@ -1130,7 +1152,7 @@ namespace PokemonGo.RocketAPI.Logic
 
             //bypass catching pokemon if disabled
             if (_clientSettings.CatchPokemon)
-            {                
+            {
                 // identify nearby pokemon
                 var mapObjects = await client.Map.GetMapObjects();
                 var pokemons =
@@ -1184,9 +1206,9 @@ namespace PokemonGo.RocketAPI.Logic
         private async Task catchPokemon(ulong encounter_id, string spawnpoint_id, PokemonId pokeid, double poke_long = 0, double poke_lat = 0)
         {
             var missCount = 0;
-            var forceHit = false; 
+            var forceHit = false;
             var encounterPokemonResponse = await _client.Encounter.EncounterPokemon(encounter_id, spawnpoint_id);
-                        
+
             if (encounterPokemonResponse.Status == EncounterResponse.Types.Status.EncounterSuccess)
             {
                 var bestPokeball = await GetBestBall(encounterPokemonResponse?.WildPokemon, false);
@@ -1499,7 +1521,7 @@ namespace PokemonGo.RocketAPI.Logic
                 Logger.ColoredConsoleWrite(ConsoleColor.Green, "Pokemons evolved. Time to continue our journey!");
                 _clientSettings.pauseTheWalking = false;
             }
-        }       
+        }
 
         private async Task TransferDuplicatePokemon(bool keepPokemonsThatCanEvolve = false, bool TransferFirstLowIV = false)
         {
@@ -1566,7 +1588,7 @@ namespace PokemonGo.RocketAPI.Logic
                                       || (ItemId)i.ItemId == ItemId.ItemGreatBall
                                       || (ItemId)i.ItemId == ItemId.ItemUltraBall
                                       || (ItemId)i.ItemId == ItemId.ItemMasterBall) && i.ItemId > 0).GroupBy(i => ((ItemId)i.ItemId)).ToList();
-            
+
             #region Log Pokeball types out of stock
             if (balls.Any(g => g.Key == ItemId.ItemPokeBall))
                 if (balls.First(g => g.Key == ItemId.ItemPokeBall).First().Count > 0)
@@ -1595,7 +1617,7 @@ namespace PokemonGo.RocketAPI.Logic
 
             return pokeBallCollection;
         }
-        
+
         private async Task<ItemId> GetBestBall(WildPokemon pokemon, bool escaped)
         {
             //pokemon cp to determine ball type

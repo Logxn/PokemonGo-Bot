@@ -1232,7 +1232,14 @@ namespace PokemonGo.RocketAPI.Console
 
         private void btnShowMap_Click(object sender, EventArgs e)
         {
-        	new LocationSelect(true, (int)profile.PlayerData.Team, stats.Level, stats.Experience).Show();
+            if (stats == null)
+            {
+                MessageBox.Show("Stats not yet ready - please try again momentarily");
+            }
+            else
+            {
+                new LocationSelect(true, (int)profile.PlayerData.Team, stats.Level, stats.Experience).Show();
+            }
         }
 
         private void lang_en_btn2_Click(object sender, EventArgs e)
