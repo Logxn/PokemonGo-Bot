@@ -62,7 +62,8 @@ namespace PokemonGo.RocketAPI.Console
             InitializeComponent();
             ClientSettings = new Settings();
             
-            CreatePokemonListColunms();
+            InitialzePokemonListView();
+            
         }
 
         public static ISettings ClientSettings;
@@ -92,7 +93,7 @@ namespace PokemonGo.RocketAPI.Console
             Globals.pauseAtPokeStop = false;
             btnForceUnban.Text = "Pause Walking";
             Execute();
-            this.PokemonListView.ColumnClick += new ColumnClickEventHandler(PokemonListView_ColumnClick);
+            
         }
 
         private void Pokemons_Close(object sender, FormClosingEventArgs e)
@@ -144,7 +145,6 @@ namespace PokemonGo.RocketAPI.Console
                     var imageSize = 50;
 
                     var imageList = new ImageList { ImageSize = new Size(imageSize, imageSize) };
-                    PokemonListView.ShowItemToolTips = true;
                     PokemonListView.SmallImageList = imageList;
 
                     var templates = await client.Download.GetItemTemplates();
@@ -154,8 +154,6 @@ namespace PokemonGo.RocketAPI.Console
                     var myPokemonFamilies = inventory.InventoryDelta.InventoryItems.Select(i => i.InventoryItemData?.Candy).Where(p => p != null && p?.FamilyId != PokemonFamilyId.FamilyUnset);
                     var pokemonFamilies = myPokemonFamilies.ToArray();
 
-                    PokemonListView.DoubleBuffered(true);
-                    PokemonListView.View = View.Details;
 
                     
 
@@ -225,9 +223,6 @@ namespace PokemonGo.RocketAPI.Console
                             listViewItem.SubItems.Add("");
                             listViewItem.SubItems.Add("");
                         }
-
-                        PokemonListView.Columns["#"].DisplayIndex = 0;
-
 
 
                         PokemonListView.Items.Add(listViewItem);
@@ -511,7 +506,7 @@ namespace PokemonGo.RocketAPI.Console
 
         private void btnReload_Click(object sender, EventArgs e)
         {
-            PokemonListView.Clear();
+            PokemonListView.Items.Clear();
             Execute();
         }
 
@@ -675,7 +670,7 @@ namespace PokemonGo.RocketAPI.Console
 
             if (evolved > 0)
             {
-                PokemonListView.Clear();
+                PokemonListView.Items.Clear();
                 Execute();
             }
             else
@@ -783,7 +778,7 @@ namespace PokemonGo.RocketAPI.Console
                 MessageBox.Show("Succesfully powered up " + powerdup + "/" + total + " Pokemons.", "Transfer status", MessageBoxButtons.OK, MessageBoxIcon.Information);
             if (powerdup > 0)
             {
-                PokemonListView.Clear();
+                PokemonListView.Items.Clear();
                 Execute();
             }
             else
@@ -990,7 +985,7 @@ namespace PokemonGo.RocketAPI.Console
             }
             if (resp.Status)
             {
-                PokemonListView.Clear();
+                PokemonListView.Items.Clear();
                 Execute();
             }
             else
@@ -1012,7 +1007,7 @@ namespace PokemonGo.RocketAPI.Console
             }
             if (resp.Status)
             {
-                PokemonListView.Clear();
+                PokemonListView.Items.Clear();
                 Execute();
             }
             else
@@ -1098,7 +1093,7 @@ namespace PokemonGo.RocketAPI.Console
 
         private void reloadtimer_Tick(object sender, EventArgs e)
         {
-            PokemonListView.Clear();
+            PokemonListView.Items.Clear();
             Execute();
         }
 
@@ -1184,7 +1179,7 @@ namespace PokemonGo.RocketAPI.Console
                 }
                 if (poweredup > 0 && i == 1)
                 {
-                    PokemonListView.Clear();
+                    PokemonListView.Items.Clear();
                     Execute();
                 }
             }
@@ -1555,65 +1550,73 @@ namespace PokemonGo.RocketAPI.Console
             }
         }
         
-        private void CreatePokemonListColunms(){        			
+        private void InitialzePokemonListView(){        			
         	PokemonListView.Columns.Clear();
         	ColumnHeader columnheader;
 	        columnheader = new ColumnHeader();
 	        columnheader.Name = "Name";
-	        columnheader.Text = "Name";
+	        columnheader.Text = columnheader.Name;
 	        PokemonListView.Columns.Add(columnheader);
 	        columnheader = new ColumnHeader();
 	        columnheader.Name = "CP";
-	        columnheader.Text = "CP";
+	        columnheader.Text = columnheader.Name;
 	        PokemonListView.Columns.Add(columnheader);
 	        columnheader = new ColumnHeader();
 	        columnheader.Name = "IV A-D-S";
-	        columnheader.Text = "IV A-D-S";
+	        columnheader.Text = columnheader.Name;
 	        PokemonListView.Columns.Add(columnheader);
 	        columnheader = new ColumnHeader();
 	        columnheader.Name = "LVL";
-	        columnheader.Text = "LVL";
+	        columnheader.Text = columnheader.Name;
 	        PokemonListView.Columns.Add(columnheader);
 	        columnheader = new ColumnHeader();
 	        columnheader.Name = "Evolvable?";
-	        columnheader.Text = "Evolvable?";
+	        columnheader.Text = columnheader.Name;
 	        PokemonListView.Columns.Add(columnheader);
 	        columnheader = new ColumnHeader();
 	        columnheader.Name = "Height";
-	        columnheader.Text = "Height";
+	        columnheader.Text = columnheader.Name;
 	        PokemonListView.Columns.Add(columnheader);
 	        columnheader = new ColumnHeader();
 	        columnheader.Name = "Weight";
-	        columnheader.Text = "Weight";
+	        columnheader.Text = columnheader.Name;
 	        PokemonListView.Columns.Add(columnheader);
 	        columnheader = new ColumnHeader();
 	        columnheader.Name = "HP";
-	        columnheader.Text = "HP";
+	        columnheader.Text = columnheader.Name;
 	        PokemonListView.Columns.Add(columnheader);
 	        columnheader = new ColumnHeader();
 	        columnheader.Name = "Attack";
-	        columnheader.Text = "Attack";
+	        columnheader.Text = columnheader.Name;
 	        PokemonListView.Columns.Add(columnheader);
 	        columnheader = new ColumnHeader();
 	        columnheader.Name = "SpecialAttack (DPS)";
-	        columnheader.Text = "SpecialAttack (DPS)";
+	        columnheader.Text = columnheader.Name;
 	        PokemonListView.Columns.Add(columnheader);
 	        columnheader = new ColumnHeader();
 	        columnheader.Name = "#";
-	        columnheader.Text = "#";
+	        columnheader.Text = columnheader.Name;	        
 	        PokemonListView.Columns.Add(columnheader);
 	        columnheader = new ColumnHeader();
 	        columnheader.Name = "% CP";
-	        columnheader.Text = "% CP";
+	        columnheader.Text = columnheader.Name;
 	        PokemonListView.Columns.Add(columnheader);
 	        columnheader = new ColumnHeader();
 	        columnheader.Name = "Type";
-	        columnheader.Text = "Type";
+	        columnheader.Text = columnheader.Name;
 	        PokemonListView.Columns.Add(columnheader);
 	        columnheader = new ColumnHeader();
 	        columnheader.Name = "Type 2";
-	        columnheader.Text = "Type 2";
-	        PokemonListView.Columns.Add(columnheader);        	
+	        columnheader.Text = columnheader.Name;
+	        PokemonListView.Columns.Add(columnheader); 
+	        
+	        PokemonListView.Columns["#"].DisplayIndex = 0;
+	        
+	        PokemonListView.ColumnClick += new ColumnClickEventHandler(PokemonListView_ColumnClick);
+            PokemonListView.ShowItemToolTips = true;
+            PokemonListView.DoubleBuffered(true);
+            PokemonListView.View = View.Details;
+
         }                  
     }
     public static class ControlExtensions
