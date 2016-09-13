@@ -257,19 +257,79 @@ namespace PokemonGo.RocketAPI.Console
                     checkBox5.Checked = Globals.autoIncubate;
                     checkBox4.Checked = Globals.useBasicIncubators;
                     text_GoogleMapsAPIKey.Text = Globals.GoogleMapsAPIKey;
-
-                    text_MaxPokeballs.Text = GetRecycleStringValue(_clientSettings.itemRecycleFilter.Where(i => i.Key == ItemId.ItemPokeBall).First().Value);
-                    text_MaxGreatBalls.Text = GetRecycleStringValue(_clientSettings.itemRecycleFilter.Where(i => i.Key == ItemId.ItemGreatBall).First().Value);
-                    text_MaxUltraBalls.Text = GetRecycleStringValue(_clientSettings.itemRecycleFilter.Where(i => i.Key == ItemId.ItemUltraBall).First().Value);
-                    text_MaxMasterBalls.Text = GetRecycleStringValue(_clientSettings.itemRecycleFilter.Where(i => i.Key == ItemId.ItemMasterBall).First().Value);
-                    text_MaxRevives.Text = GetRecycleStringValue(_clientSettings.itemRecycleFilter.Where(i => i.Key == ItemId.ItemRevive).First().Value);
-                    text_MaxTopRevives.Text = GetRecycleStringValue(_clientSettings.itemRecycleFilter.Where(i => i.Key == ItemId.ItemMaxRevive).First().Value);
-                    text_MaxPotions.Text = GetRecycleStringValue(_clientSettings.itemRecycleFilter.Where(i => i.Key == ItemId.ItemPotion).First().Value);
-                    text_MaxSuperPotions.Text = GetRecycleStringValue(_clientSettings.itemRecycleFilter.Where(i => i.Key == ItemId.ItemSuperPotion).First().Value);
-                    text_MaxHyperPotions.Text = GetRecycleStringValue(_clientSettings.itemRecycleFilter.Where(i => i.Key == ItemId.ItemHyperPotion).First().Value);
-                    text_MaxTopPotions.Text = GetRecycleStringValue(_clientSettings.itemRecycleFilter.Where(i => i.Key == ItemId.ItemMaxPotion).First().Value);
-                    text_MaxRazzBerrys.Text = GetRecycleStringValue(_clientSettings.itemRecycleFilter.Where(i => i.Key == ItemId.ItemRazzBerry).First().Value);
-                    textBox2.Text = Globals.razzberry_chance.ToString();
+                    if (File.Exists(Program.items))
+                    {
+                        string[] lines = File.ReadAllLines(@Program.items);
+                        var i = 1;
+                        foreach (string line in lines)
+                        {
+                            switch (i)
+                            {
+                                case 1:
+                                    text_MaxPokeballs.Text = line;
+                                    break;
+                                case 2:
+                                    text_MaxGreatBalls.Text = line;
+                                    break;
+                                case 3:
+                                    text_MaxUltraBalls.Text = line;
+                                    break;
+                                case 4:
+                                    text_MaxRevives.Text = line;
+                                    break;
+                                case 5:
+                                    text_MaxPotions.Text = line;
+                                    break;
+                                case 6:
+                                    text_MaxSuperPotions.Text = line;
+                                    break;
+                                case 7:
+                                    text_MaxHyperPotions.Text = line;
+                                    break;
+                                case 8:
+                                    text_MaxRazzBerrys.Text = line;
+                                    break;
+                                case 9:
+                                    text_MaxMasterBalls.Text = line;
+                                    break;
+                                case 10:
+                                    text_MaxTopPotions.Text = line;
+                                    break;
+                                case 11:
+                                    text_MaxTopRevives.Text = line;
+                                    break;
+                                default:
+                                    break;
+                            }
+                            i++;
+                        }
+                    }
+                    else
+                    {
+                        text_MaxPokeballs.Text = "20";
+                        text_MaxGreatBalls.Text = "50";
+                        text_MaxUltraBalls.Text = "100";
+                        text_MaxRevives.Text = "20";
+                        text_MaxPotions.Text = "0";
+                        text_MaxSuperPotions.Text = "0";
+                        text_MaxHyperPotions.Text = "50";
+                        text_MaxRazzBerrys.Text = "75";
+                        text_MaxMasterBalls.Text = "200";
+                        text_MaxTopPotions.Text = "100";
+                        text_MaxTopRevives.Text = "20";
+                    }
+                    //text_MaxPokeballs.Text = GetRecycleStringValue(_clientSettings.itemRecycleFilter.Where(i => i.Key == ItemId.ItemPokeBall).First().Value);
+                    //text_MaxGreatBalls.Text = GetRecycleStringValue(_clientSettings.itemRecycleFilter.Where(i => i.Key == ItemId.ItemGreatBall).First().Value);
+                    //text_MaxUltraBalls.Text = GetRecycleStringValue(_clientSettings.itemRecycleFilter.Where(i => i.Key == ItemId.ItemUltraBall).First().Value);
+                    //text_MaxMasterBalls.Text = GetRecycleStringValue(_clientSettings.itemRecycleFilter.Where(i => i.Key == ItemId.ItemMasterBall).First().Value);
+                    //text_MaxRevives.Text = GetRecycleStringValue(_clientSettings.itemRecycleFilter.Where(i => i.Key == ItemId.ItemRevive).First().Value);
+                    //text_MaxTopRevives.Text = GetRecycleStringValue(_clientSettings.itemRecycleFilter.Where(i => i.Key == ItemId.ItemMaxRevive).First().Value);
+                    //text_MaxPotions.Text = GetRecycleStringValue(_clientSettings.itemRecycleFilter.Where(i => i.Key == ItemId.ItemPotion).First().Value);
+                    //text_MaxSuperPotions.Text = GetRecycleStringValue(_clientSettings.itemRecycleFilter.Where(i => i.Key == ItemId.ItemSuperPotion).First().Value);
+                    //text_MaxHyperPotions.Text = GetRecycleStringValue(_clientSettings.itemRecycleFilter.Where(i => i.Key == ItemId.ItemHyperPotion).First().Value);
+                    //text_MaxTopPotions.Text = GetRecycleStringValue(_clientSettings.itemRecycleFilter.Where(i => i.Key == ItemId.ItemMaxPotion).First().Value);
+                    //text_MaxRazzBerrys.Text = GetRecycleStringValue(_clientSettings.itemRecycleFilter.Where(i => i.Key == ItemId.ItemRazzBerry).First().Value);
+                    //textBox2.Text = Globals.razzberry_chance.ToString();
                     #endregion
 
                     ExecuteItemsLoad();
