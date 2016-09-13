@@ -158,8 +158,8 @@ namespace PokemonGo.RocketAPI.Console
         	// 
         	// btnreload
         	// 
-        	this.btnreload.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-        	this.btnreload.Location = new System.Drawing.Point(520, 0);
+        	this.btnreload.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+        	this.btnreload.Location = new System.Drawing.Point(520, 3);
         	this.btnreload.Margin = new System.Windows.Forms.Padding(2);
         	this.btnreload.Name = "btnreload";
         	this.btnreload.Size = new System.Drawing.Size(55, 23);
@@ -279,9 +279,9 @@ namespace PokemonGo.RocketAPI.Console
         	// 
         	// checkBoxreload
         	// 
-        	this.checkBoxreload.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+        	this.checkBoxreload.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
         	this.checkBoxreload.AutoSize = true;
-        	this.checkBoxreload.Location = new System.Drawing.Point(577, 4);
+        	this.checkBoxreload.Location = new System.Drawing.Point(577, 7);
         	this.checkBoxreload.Name = "checkBoxreload";
         	this.checkBoxreload.Size = new System.Drawing.Size(89, 17);
         	this.checkBoxreload.TabIndex = 6;
@@ -291,8 +291,8 @@ namespace PokemonGo.RocketAPI.Console
         	// 
         	// reloadsecondstextbox
         	// 
-        	this.reloadsecondstextbox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-        	this.reloadsecondstextbox.Location = new System.Drawing.Point(672, 3);
+        	this.reloadsecondstextbox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+        	this.reloadsecondstextbox.Location = new System.Drawing.Point(672, 6);
         	this.reloadsecondstextbox.Name = "reloadsecondstextbox";
         	this.reloadsecondstextbox.Size = new System.Drawing.Size(24, 20);
         	this.reloadsecondstextbox.TabIndex = 7;
@@ -537,7 +537,7 @@ namespace PokemonGo.RocketAPI.Console
         	this.tabPage1.Location = new System.Drawing.Point(4, 22);
         	this.tabPage1.Name = "tabPage1";
         	this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-        	this.tabPage1.Size = new System.Drawing.Size(687, 366);
+        	this.tabPage1.Size = new System.Drawing.Size(691, 366);
         	this.tabPage1.TabIndex = 0;
         	this.tabPage1.Text = "Change Options";
         	this.tabPage1.UseVisualStyleBackColor = true;
