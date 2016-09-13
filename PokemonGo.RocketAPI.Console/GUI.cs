@@ -44,7 +44,10 @@ namespace PokemonGo.RocketAPI.Console
         {
             _clientSettings = new Settings();
 
-            MessageBox.Show("The Bot isn't done! Be aware that you can get banned!");
+            var ret = MessageBox.Show("The Bot isn't done! Be aware that you can get banned!\n\nDon't login with the new App Version (0.3.7) (0.3.5 is ok!)\n\nOr you get Banned if you botted before!\n\nAre you sure to continue?","Warning", MessageBoxButtons.YesNo) ;
+            if (ret== DialogResult.No){
+            	Application.Exit();
+            }        	
 
             Directory.CreateDirectory(Program.path);
             Directory.CreateDirectory(Program.path_translation);

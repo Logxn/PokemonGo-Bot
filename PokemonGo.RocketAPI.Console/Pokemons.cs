@@ -347,23 +347,23 @@ namespace PokemonGo.RocketAPI.Console
             try
             {
                 client = Logic.Logic._client;
-                if (client.readyToUse != false)
-                {
-                    var items = await client.Inventory.GetItems();
-
-                    ItemId[] validsIDs = { ItemId.ItemPokeBall, ItemId.ItemGreatBall, ItemId.ItemUltraBall };
-
-                    ListViewItem listViewItem;
-                    foreach (var item in items)
-                    {
-                        listViewItem = new ListViewItem();
-                        listViewItem.Tag = item;
-                        listViewItem.Text = getItemName(item.ItemId);
-                        listViewItem.SubItems.Add("" + item.Count);
-                        listViewItem.SubItems.Add("" + item.Unseen);
-                        ItemsListView.Items.Add(listViewItem);
-                    }
-                }
+	            if (client.readyToUse != false)
+	            {
+	               var items = await client.Inventory.GetItems();
+	              
+	               ItemId[] validsIDs = {ItemId.ItemPokeBall,ItemId.ItemGreatBall,ItemId.ItemUltraBall};
+	               
+	               ListViewItem listViewItem;
+	               foreach (  var item in items) {
+	                listViewItem = new ListViewItem();
+	                listViewItem.Tag = item;
+	                listViewItem.Text = getItemName(item.ItemId);
+	                listViewItem.ImageKey = item.ItemId.ToString().Replace("Item","");
+	                listViewItem.SubItems.Add(""+item.Count);
+	                listViewItem.SubItems.Add(""+item.Unseen);
+	                ItemsListView.Items.Add(listViewItem);
+	               }
+	            }
             }
             catch (Exception e)
             {
@@ -400,8 +400,9 @@ namespace PokemonGo.RocketAPI.Console
                 case ItemId.ItemRazzBerry:
                     return "Razz Berry";
                 case ItemId.ItemIncubatorBasic:
-                    string str1;
                     return "Egg Incubator";
+                case ItemId.ItemIncubatorBasicUnlimited:
+                    return "Unlimited Egg Incubator";
                 default:
                     return itemID.ToString().Replace("Item", "");
             }
@@ -1916,6 +1917,7 @@ namespace PokemonGo.RocketAPI.Console
                 return -result;
             }
         }
+    
     }
     public static class Prompt
     {
