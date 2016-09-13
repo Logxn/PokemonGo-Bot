@@ -27,6 +27,7 @@ namespace PokemonGo.RocketAPI.Console
 		private System.Windows.Forms.ColumnHeader chCount;
 		private System.Windows.Forms.ColumnHeader chUnseen;
 		private System.Windows.Forms.ListView ItemsListView;
+		private System.Windows.Forms.ImageList imageList1;
 		
 		/// <summary>
 		/// Disposes resources used by the form.
@@ -49,7 +50,6 @@ namespace PokemonGo.RocketAPI.Console
 		/// </summary>
 		private void InitializeComponent()
 		{
-            this.FormClosing += this.Form_StopClose;
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Items));
 			this.ItemsListView = new System.Windows.Forms.ListView();
@@ -58,6 +58,7 @@ namespace PokemonGo.RocketAPI.Console
 			this.chUnseen = new System.Windows.Forms.ColumnHeader();
 			this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.recycleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.imageList1 = new System.Windows.Forms.ImageList(this.components);
 			this.btnreload = new System.Windows.Forms.Button();
 			this.lang_tr_btn2 = new System.Windows.Forms.Button();
 			this.lang_ptBR_btn2 = new System.Windows.Forms.Button();
@@ -80,9 +81,11 @@ namespace PokemonGo.RocketAPI.Console
 			this.ItemsListView.ContextMenuStrip = this.contextMenuStrip1;
 			this.ItemsListView.FullRowSelect = true;
 			this.ItemsListView.GridLines = true;
+			this.ItemsListView.LargeImageList = this.imageList1;
 			this.ItemsListView.Location = new System.Drawing.Point(12, 27);
 			this.ItemsListView.Name = "ItemsListView";
 			this.ItemsListView.Size = new System.Drawing.Size(244, 303);
+			this.ItemsListView.SmallImageList = this.imageList1;
 			this.ItemsListView.TabIndex = 0;
 			this.ItemsListView.UseCompatibleStateImageBehavior = false;
 			this.ItemsListView.View = System.Windows.Forms.View.Details;
@@ -114,6 +117,24 @@ namespace PokemonGo.RocketAPI.Console
 			this.recycleToolStripMenuItem.Size = new System.Drawing.Size(114, 22);
 			this.recycleToolStripMenuItem.Text = "Recycle";
 			this.recycleToolStripMenuItem.Click += new System.EventHandler(this.RecycleToolStripMenuItemClick);
+			// 
+			// imageList1
+			// 
+			this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
+			this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
+			this.imageList1.Images.SetKeyName(0, "incenseOrdinary");
+			this.imageList1.Images.SetKeyName(1, "hyperpotion");
+			this.imageList1.Images.SetKeyName(2, "pokeball");
+			this.imageList1.Images.SetKeyName(3, "potion");
+			this.imageList1.Images.SetKeyName(4, "revive");
+			this.imageList1.Images.SetKeyName(5, "greatball");
+			this.imageList1.Images.SetKeyName(6, "superpotion");
+			this.imageList1.Images.SetKeyName(7, "ultraball");
+			this.imageList1.Images.SetKeyName(8, "incubatorbasic");
+			this.imageList1.Images.SetKeyName(9, "incubatorbasicunlimited");
+			this.imageList1.Images.SetKeyName(10, "razzberry");
+			this.imageList1.Images.SetKeyName(11, "troydisk");
+			this.imageList1.Images.SetKeyName(12, "luckyegg");
 			// 
 			// btnreload
 			// 
@@ -209,6 +230,7 @@ namespace PokemonGo.RocketAPI.Console
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.Name = "Items";
 			this.Text = "Items";
+			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form_StopClose);
 			this.Load += new System.EventHandler(this.Items_Load);
 			this.contextMenuStrip1.ResumeLayout(false);
 			this.ResumeLayout(false);
