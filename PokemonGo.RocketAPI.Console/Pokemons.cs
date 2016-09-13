@@ -61,6 +61,8 @@ namespace PokemonGo.RocketAPI.Console
         {
             InitializeComponent();
             ClientSettings = new Settings();
+            
+            CreatePokemonListColunms();
         }
 
         public static ISettings ClientSettings;
@@ -155,63 +157,7 @@ namespace PokemonGo.RocketAPI.Console
                     PokemonListView.DoubleBuffered(true);
                     PokemonListView.View = View.Details;
 
-                    ColumnHeader columnheader;
-                    columnheader = new ColumnHeader();
-                    columnheader.Name = "Name";
-                    columnheader.Text = "Name";
-                    PokemonListView.Columns.Add(columnheader);
-                    columnheader = new ColumnHeader();
-                    columnheader.Name = "CP";
-                    columnheader.Text = "CP";
-                    PokemonListView.Columns.Add(columnheader);
-                    columnheader = new ColumnHeader();
-                    columnheader.Name = "IV A-D-S";
-                    columnheader.Text = "IV A-D-S";
-                    PokemonListView.Columns.Add(columnheader);
-                    columnheader = new ColumnHeader();
-                    columnheader.Name = "LVL";
-                    columnheader.Text = "LVL";
-                    PokemonListView.Columns.Add(columnheader);
-                    columnheader = new ColumnHeader();
-                    columnheader.Name = "Evolvable?";
-                    columnheader.Text = "Evolvable?";
-                    PokemonListView.Columns.Add(columnheader);
-                    columnheader = new ColumnHeader();
-                    columnheader.Name = "Height";
-                    columnheader.Text = "Height";
-                    PokemonListView.Columns.Add(columnheader);
-                    columnheader = new ColumnHeader();
-                    columnheader.Name = "Weight";
-                    columnheader.Text = "Weight";
-                    PokemonListView.Columns.Add(columnheader);
-                    columnheader = new ColumnHeader();
-                    columnheader.Name = "HP";
-                    columnheader.Text = "HP";
-                    PokemonListView.Columns.Add(columnheader);
-                    columnheader = new ColumnHeader();
-                    columnheader.Name = "Attack";
-                    columnheader.Text = "Attack";
-                    PokemonListView.Columns.Add(columnheader);
-                    columnheader = new ColumnHeader();
-                    columnheader.Name = "SpecialAttack (DPS)";
-                    columnheader.Text = "SpecialAttack (DPS)";
-                    PokemonListView.Columns.Add(columnheader);
-                    columnheader = new ColumnHeader();
-                    columnheader.Name = "#";
-                    columnheader.Text = "#";
-                    PokemonListView.Columns.Add(columnheader);
-                    columnheader = new ColumnHeader();
-                    columnheader.Name = "% CP";
-                    columnheader.Text = "% CP";
-                    PokemonListView.Columns.Add(columnheader);
-                    columnheader = new ColumnHeader();
-                    columnheader.Name = "Type";
-                    columnheader.Text = "Type";
-                    PokemonListView.Columns.Add(columnheader);
-                    columnheader = new ColumnHeader();
-                    columnheader.Name = "Type 2";
-                    columnheader.Text = "Type 2";
-                    PokemonListView.Columns.Add(columnheader);
+                    
 
                     PokemonListView.BeginUpdate();
                     foreach (var pokemon in pokemons)
@@ -1422,65 +1368,6 @@ namespace PokemonGo.RocketAPI.Console
             Globals.RepeatUserRoute = checkBox1.Checked;
         }
 
-        private void button4_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void checkBox25_CheckedChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void checkBox22_CheckedChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void textBox33_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void checkBox21_CheckedChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void checkBox20_CheckedChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void checkBox19_CheckedChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void checkBox18_CheckedChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void textBox32_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void textBox31_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void textBox30_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void textBox27_TextChanged_1(object sender, EventArgs e)
-        {
-
-        }
 
         private void checkBox10_CheckedChanged(object sender, EventArgs e)
         {
@@ -1532,10 +1419,6 @@ namespace PokemonGo.RocketAPI.Console
             Globals.Espiral = checkBox_WalkInArchimedeanSpiral.Checked;
         }
 
-        private void text_MaxPokeballs_TextChanged(object sender, EventArgs e)
-        {
-            
-        }
 
         private void checkBox_RandomSleepAtCatching_CheckedChanged(object sender, EventArgs e)
         {
@@ -1593,155 +1476,6 @@ namespace PokemonGo.RocketAPI.Console
             Globals.GoogleMapsAPIKey = text_GoogleMapsAPIKey.Text;
         }
 
-        private void statusTexbox_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void PokemonListView_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void tabPage1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void reloadsecondstextbox_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label2_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void Options_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void tabPage2_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void groupBox10_Enter(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label3_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void groupBox4_Enter(object sender, EventArgs e)
-        {
-
-        }
-
-        private void text_TotalItemCount_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label31_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label27_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label26_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label25_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label20_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label19_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label18_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label17_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label16_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label15_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label14_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label13_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void groupBox11_Enter(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label47_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label45_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void groupBox13_Enter(object sender, EventArgs e)
-        {
-
-        }
-
-        private void linkLabel6_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-
-        }
 
         private void reloadbtn_Click(object sender, EventArgs e)
         {
@@ -1820,6 +1554,67 @@ namespace PokemonGo.RocketAPI.Console
                 #endregion
             }
         }
+        
+        private void CreatePokemonListColunms(){        			
+        	PokemonListView.Columns.Clear();
+        	ColumnHeader columnheader;
+	        columnheader = new ColumnHeader();
+	        columnheader.Name = "Name";
+	        columnheader.Text = "Name";
+	        PokemonListView.Columns.Add(columnheader);
+	        columnheader = new ColumnHeader();
+	        columnheader.Name = "CP";
+	        columnheader.Text = "CP";
+	        PokemonListView.Columns.Add(columnheader);
+	        columnheader = new ColumnHeader();
+	        columnheader.Name = "IV A-D-S";
+	        columnheader.Text = "IV A-D-S";
+	        PokemonListView.Columns.Add(columnheader);
+	        columnheader = new ColumnHeader();
+	        columnheader.Name = "LVL";
+	        columnheader.Text = "LVL";
+	        PokemonListView.Columns.Add(columnheader);
+	        columnheader = new ColumnHeader();
+	        columnheader.Name = "Evolvable?";
+	        columnheader.Text = "Evolvable?";
+	        PokemonListView.Columns.Add(columnheader);
+	        columnheader = new ColumnHeader();
+	        columnheader.Name = "Height";
+	        columnheader.Text = "Height";
+	        PokemonListView.Columns.Add(columnheader);
+	        columnheader = new ColumnHeader();
+	        columnheader.Name = "Weight";
+	        columnheader.Text = "Weight";
+	        PokemonListView.Columns.Add(columnheader);
+	        columnheader = new ColumnHeader();
+	        columnheader.Name = "HP";
+	        columnheader.Text = "HP";
+	        PokemonListView.Columns.Add(columnheader);
+	        columnheader = new ColumnHeader();
+	        columnheader.Name = "Attack";
+	        columnheader.Text = "Attack";
+	        PokemonListView.Columns.Add(columnheader);
+	        columnheader = new ColumnHeader();
+	        columnheader.Name = "SpecialAttack (DPS)";
+	        columnheader.Text = "SpecialAttack (DPS)";
+	        PokemonListView.Columns.Add(columnheader);
+	        columnheader = new ColumnHeader();
+	        columnheader.Name = "#";
+	        columnheader.Text = "#";
+	        PokemonListView.Columns.Add(columnheader);
+	        columnheader = new ColumnHeader();
+	        columnheader.Name = "% CP";
+	        columnheader.Text = "% CP";
+	        PokemonListView.Columns.Add(columnheader);
+	        columnheader = new ColumnHeader();
+	        columnheader.Name = "Type";
+	        columnheader.Text = "Type";
+	        PokemonListView.Columns.Add(columnheader);
+	        columnheader = new ColumnHeader();
+	        columnheader.Name = "Type 2";
+	        columnheader.Text = "Type 2";
+	        PokemonListView.Columns.Add(columnheader);        	
+        }                  
     }
     public static class ControlExtensions
     {
@@ -1917,31 +1712,8 @@ namespace PokemonGo.RocketAPI.Console
                 return -result;
             }
         }
+      
     
-    }
-    public static class Prompt
-    {
-        public static string ShowDialog(string text, string caption)
-        {
-            Form prompt = new Form()
-            {
-                Width = 500,
-                Height = 150,
-                FormBorderStyle = FormBorderStyle.FixedDialog,
-                Text = caption,
-                StartPosition = FormStartPosition.CenterScreen
-            };
-            Label textLabel = new Label() { Left = 50, Top = 20, Text = "Nickname:" };
-            TextBox textBox = new TextBox() { Left = 50, Top = 50, Width = 400, Text = text, MaxLength = 12 };
-            Button confirmation = new Button() { Text = "Ok", Left = 350, Width = 100, Top = 70, DialogResult = DialogResult.OK };
-            confirmation.Click += (sender, e) => { prompt.Close(); };
-            prompt.Controls.Add(textBox);
-            prompt.Controls.Add(confirmation);
-            prompt.Controls.Add(textLabel);
-            prompt.AcceptButton = confirmation;
-
-            return prompt.ShowDialog() == DialogResult.OK ? textBox.Text : "";
-        }
     }
 
 }

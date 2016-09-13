@@ -153,7 +153,6 @@ namespace PokemonGo.RocketAPI.Console
         	this.PokemonListView.Size = new System.Drawing.Size(690, 301);
         	this.PokemonListView.TabIndex = 0;
         	this.PokemonListView.UseCompatibleStateImageBehavior = false;
-        	this.PokemonListView.SelectedIndexChanged += new System.EventHandler(this.PokemonListView_SelectedIndexChanged);
         	this.PokemonListView.MouseClick += new System.Windows.Forms.MouseEventHandler(this.listView1_MouseClick);
         	// 
         	// btnreload
@@ -275,7 +274,6 @@ namespace PokemonGo.RocketAPI.Console
         	this.statusTexbox.Name = "statusTexbox";
         	this.statusTexbox.Size = new System.Drawing.Size(693, 20);
         	this.statusTexbox.TabIndex = 5;
-        	this.statusTexbox.TextChanged += new System.EventHandler(this.statusTexbox_TextChanged);
         	// 
         	// checkBoxreload
         	// 
@@ -296,7 +294,6 @@ namespace PokemonGo.RocketAPI.Console
         	this.reloadsecondstextbox.Name = "reloadsecondstextbox";
         	this.reloadsecondstextbox.Size = new System.Drawing.Size(24, 20);
         	this.reloadsecondstextbox.TabIndex = 7;
-        	this.reloadsecondstextbox.TextChanged += new System.EventHandler(this.reloadsecondstextbox_TextChanged);
         	this.reloadsecondstextbox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.reloadsecondstextbox_KeyPress);
         	// 
         	// label2
@@ -307,7 +304,6 @@ namespace PokemonGo.RocketAPI.Console
         	this.label2.Name = "label2";
         	this.label2.Size = new System.Drawing.Size(0, 13);
         	this.label2.TabIndex = 9;
-        	this.label2.Click += new System.EventHandler(this.label2_Click);
         	// 
         	// reloadtimer
         	// 
@@ -422,7 +418,6 @@ namespace PokemonGo.RocketAPI.Console
         	this.textBox1.Name = "textBox1";
         	this.textBox1.Size = new System.Drawing.Size(28, 20);
         	this.textBox1.TabIndex = 44;
-        	this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
         	// 
         	// label1
         	// 
@@ -433,7 +428,6 @@ namespace PokemonGo.RocketAPI.Console
         	this.label1.Size = new System.Drawing.Size(78, 13);
         	this.label1.TabIndex = 9;
         	this.label1.Text = "Power Up Limit";
-        	this.label1.Click += new System.EventHandler(this.label1_Click);
         	// 
         	// checkBox1
         	// 
@@ -496,7 +490,6 @@ namespace PokemonGo.RocketAPI.Console
         	this.Options.SelectedIndex = 0;
         	this.Options.Size = new System.Drawing.Size(695, 392);
         	this.Options.TabIndex = 46;
-        	this.Options.SelectedIndexChanged += new System.EventHandler(this.Options_SelectedIndexChanged);
         	// 
         	// tabPage2
         	// 
@@ -522,7 +515,6 @@ namespace PokemonGo.RocketAPI.Console
         	this.tabPage2.TabIndex = 1;
         	this.tabPage2.Text = "Pokemon List";
         	this.tabPage2.UseVisualStyleBackColor = true;
-        	this.tabPage2.Click += new System.EventHandler(this.tabPage2_Click);
         	// 
         	// tabPage1
         	// 
@@ -541,7 +533,6 @@ namespace PokemonGo.RocketAPI.Console
         	this.tabPage1.TabIndex = 0;
         	this.tabPage1.Text = "Change Options";
         	this.tabPage1.UseVisualStyleBackColor = true;
-        	this.tabPage1.Click += new System.EventHandler(this.tabPage1_Click);
         	// 
         	// groupBox10
         	// 
@@ -565,7 +556,6 @@ namespace PokemonGo.RocketAPI.Console
         	this.groupBox10.TabIndex = 77;
         	this.groupBox10.TabStop = false;
         	this.groupBox10.Text = "Other Settings";
-        	this.groupBox10.Enter += new System.EventHandler(this.groupBox10_Enter);
         	// 
         	// checkBox2
         	// 
@@ -588,7 +578,6 @@ namespace PokemonGo.RocketAPI.Console
         	this.label3.Size = new System.Drawing.Size(15, 13);
         	this.label3.TabIndex = 52;
         	this.label3.Text = "%";
-        	this.label3.Click += new System.EventHandler(this.label3_Click);
         	// 
         	// textBox2
         	// 
@@ -800,7 +789,6 @@ namespace PokemonGo.RocketAPI.Console
         	this.groupBox11.TabIndex = 69;
         	this.groupBox11.TabStop = false;
         	this.groupBox11.Text = "Walk Options";
-        	this.groupBox11.Enter += new System.EventHandler(this.groupBox11_Enter);
         	// 
         	// checkBox_UseBreakIntervalAndLength
         	// 
@@ -824,7 +812,6 @@ namespace PokemonGo.RocketAPI.Console
         	this.label47.TabIndex = 70;
         	this.label47.Text = "(requires a value in Min Walk Speed)";
         	this.label47.UseMnemonic = false;
-        	this.label47.Click += new System.EventHandler(this.label47_Click);
         	// 
         	// checkBox_RandomlyReduceSpeed
         	// 
@@ -864,7 +851,6 @@ namespace PokemonGo.RocketAPI.Console
         	this.groupBox13.TabIndex = 70;
         	this.groupBox13.TabStop = false;
         	this.groupBox13.Text = "Routing Settings (beta)";
-        	this.groupBox13.Enter += new System.EventHandler(this.groupBox13_Enter);
         	// 
         	// linkLabel6
         	// 
@@ -875,7 +861,6 @@ namespace PokemonGo.RocketAPI.Console
         	this.linkLabel6.TabIndex = 63;
         	this.linkLabel6.TabStop = true;
         	this.linkLabel6.Text = "Get Google Maps API Key Here";
-        	this.linkLabel6.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel6_LinkClicked);
         	// 
         	// text_GoogleMapsAPIKey
         	// 
@@ -908,7 +893,6 @@ namespace PokemonGo.RocketAPI.Console
         	this.label45.TabIndex = 72;
         	this.label45.Text = "API Key:";
         	this.label45.UseMnemonic = false;
-        	this.label45.Click += new System.EventHandler(this.label45_Click);
         	// 
         	// tabPage3
         	// 
