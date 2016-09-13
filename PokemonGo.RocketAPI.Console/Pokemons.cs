@@ -71,24 +71,6 @@ namespace PokemonGo.RocketAPI.Console
         private void Pokemons_Load(object sender, EventArgs e)
         {
             loadAdditionalPokeData();
-            #region Load GLOBALS for Items change
-            //text_MaxPokeballs.Text = Globals.pokeball.ToString();
-            //text_MaxGreatBalls.Text =  Globals.greatball.ToString();
-            //text_MaxUltraBalls.Text =  Globals.ultraball.ToString();
-            //text_MaxRevives.Text = Globals.revive.ToString();
-            //text_MaxPotions.Text = Globals.potion.ToString();
-            //text_MaxSuperPotions.Text = Globals.superpotion.ToString();
-            //text_MaxHyperPotions.Text = Globals.hyperpotion.ToString();
-            //text_MaxRazzBerrys.Text = Globals.berry.ToString();
-            //text_MaxMasterBalls.Text = Globals.masterball.ToString();
-            //text_MaxTopRevives.Text = Globals.toprevive.ToString();
-            //text_MaxTopPotions.Text = Globals.toppotion.ToString();
-            int count = 0;
-            count += Globals.pokeball + Globals.greatball + Globals.ultraball + Globals.revive
-                + Globals.potion + Globals.superpotion + Globals.hyperpotion + Globals.berry + Globals.masterball
-                + Globals.toprevive + Globals.toppotion;
-            text_TotalItemCount.Text = count.ToString();
-            #endregion
             reloadsecondstextbox.Text = "60";
             Globals.pauseAtPokeStop = false;
             btnForceUnban.Text = "Pause Walking";
@@ -257,81 +239,28 @@ namespace PokemonGo.RocketAPI.Console
                     checkBox5.Checked = Globals.autoIncubate;
                     checkBox4.Checked = Globals.useBasicIncubators;
                     text_GoogleMapsAPIKey.Text = Globals.GoogleMapsAPIKey;
-                    if (File.Exists(Program.items))
-                    {
-                        string[] lines = File.ReadAllLines(@Program.items);
-                        var i = 1;
-                        foreach (string line in lines)
-                        {
-                            switch (i)
-                            {
-                                case 1:
-                                    text_MaxPokeballs.Text = line;
-                                    break;
-                                case 2:
-                                    text_MaxGreatBalls.Text = line;
-                                    break;
-                                case 3:
-                                    text_MaxUltraBalls.Text = line;
-                                    break;
-                                case 4:
-                                    text_MaxRevives.Text = line;
-                                    break;
-                                case 5:
-                                    text_MaxPotions.Text = line;
-                                    break;
-                                case 6:
-                                    text_MaxSuperPotions.Text = line;
-                                    break;
-                                case 7:
-                                    text_MaxHyperPotions.Text = line;
-                                    break;
-                                case 8:
-                                    text_MaxRazzBerrys.Text = line;
-                                    break;
-                                case 9:
-                                    text_MaxMasterBalls.Text = line;
-                                    break;
-                                case 10:
-                                    text_MaxTopPotions.Text = line;
-                                    break;
-                                case 11:
-                                    text_MaxTopRevives.Text = line;
-                                    break;
-                                default:
-                                    break;
-                            }
-                            i++;
-                        }
-                    }
-                    else
-                    {
-                        text_MaxPokeballs.Text = "20";
-                        text_MaxGreatBalls.Text = "50";
-                        text_MaxUltraBalls.Text = "100";
-                        text_MaxRevives.Text = "20";
-                        text_MaxPotions.Text = "0";
-                        text_MaxSuperPotions.Text = "0";
-                        text_MaxHyperPotions.Text = "50";
-                        text_MaxRazzBerrys.Text = "75";
-                        text_MaxMasterBalls.Text = "200";
-                        text_MaxTopPotions.Text = "100";
-                        text_MaxTopRevives.Text = "20";
-                    }
-                    //text_MaxPokeballs.Text = GetRecycleStringValue(_clientSettings.itemRecycleFilter.Where(i => i.Key == ItemId.ItemPokeBall).First().Value);
-                    //text_MaxGreatBalls.Text = GetRecycleStringValue(_clientSettings.itemRecycleFilter.Where(i => i.Key == ItemId.ItemGreatBall).First().Value);
-                    //text_MaxUltraBalls.Text = GetRecycleStringValue(_clientSettings.itemRecycleFilter.Where(i => i.Key == ItemId.ItemUltraBall).First().Value);
-                    //text_MaxMasterBalls.Text = GetRecycleStringValue(_clientSettings.itemRecycleFilter.Where(i => i.Key == ItemId.ItemMasterBall).First().Value);
-                    //text_MaxRevives.Text = GetRecycleStringValue(_clientSettings.itemRecycleFilter.Where(i => i.Key == ItemId.ItemRevive).First().Value);
-                    //text_MaxTopRevives.Text = GetRecycleStringValue(_clientSettings.itemRecycleFilter.Where(i => i.Key == ItemId.ItemMaxRevive).First().Value);
-                    //text_MaxPotions.Text = GetRecycleStringValue(_clientSettings.itemRecycleFilter.Where(i => i.Key == ItemId.ItemPotion).First().Value);
-                    //text_MaxSuperPotions.Text = GetRecycleStringValue(_clientSettings.itemRecycleFilter.Where(i => i.Key == ItemId.ItemSuperPotion).First().Value);
-                    //text_MaxHyperPotions.Text = GetRecycleStringValue(_clientSettings.itemRecycleFilter.Where(i => i.Key == ItemId.ItemHyperPotion).First().Value);
-                    //text_MaxTopPotions.Text = GetRecycleStringValue(_clientSettings.itemRecycleFilter.Where(i => i.Key == ItemId.ItemMaxPotion).First().Value);
-                    //text_MaxRazzBerrys.Text = GetRecycleStringValue(_clientSettings.itemRecycleFilter.Where(i => i.Key == ItemId.ItemRazzBerry).First().Value);
-                    //textBox2.Text = Globals.razzberry_chance.ToString();
-                    #endregion
 
+                    text_MaxPokeballs.Text = Globals.pokeball.ToString();
+                    text_MaxGreatBalls.Text =  Globals.greatball.ToString();
+                    text_MaxUltraBalls.Text =  Globals.ultraball.ToString();
+                    text_MaxRevives.Text = Globals.revive.ToString();
+                    text_MaxPotions.Text = Globals.potion.ToString();
+                    text_MaxSuperPotions.Text = Globals.superpotion.ToString();
+                    text_MaxHyperPotions.Text = Globals.hyperpotion.ToString();
+                    text_MaxRazzBerrys.Text = Globals.berry.ToString();
+                    text_MaxMasterBalls.Text = Globals.masterball.ToString();
+                    text_MaxTopRevives.Text = Globals.toprevive.ToString();
+                    text_MaxTopPotions.Text = Globals.toppotion.ToString();
+
+		            int count = 0;
+		            count += Globals.pokeball + Globals.greatball + Globals.ultraball + Globals.revive
+		                + Globals.potion + Globals.superpotion + Globals.hyperpotion + Globals.berry + Globals.masterball
+		                + Globals.toprevive + Globals.toppotion;
+		            text_TotalItemCount.Text = count.ToString();
+
+                    textBox2.Text = Globals.razzberry_chance.ToString();
+                    #endregion
+ 	
                     ExecuteItemsLoad();
                 }
             }
@@ -1536,73 +1465,46 @@ namespace PokemonGo.RocketAPI.Console
         
         private void text_Max(object sender, EventArgs e)
         {
-            if (text_MaxPokeballs.Text != null &&
-                text_MaxGreatBalls.Text != null &&
-                text_MaxUltraBalls.Text != null &&
-                text_MaxMasterBalls.Text != null &&
-                text_MaxRevives.Text != null &&
-                text_MaxTopRevives.Text != null &&
-                text_MaxPotions.Text != null &&
-                text_MaxSuperPotions.Text != null &&
-                text_MaxHyperPotions.Text != null &&
-                text_MaxTopPotions.Text != null &&
-                text_MaxRazzBerrys.Text != null)
-            {
-                #region variablesetters
-                int _pokeballs;
-                int _greatballs;
-                int _ultraballs;
-                int _revives;
-                int _potions;
-                int _superpotions;
-                int _hyperpotions;
-                int _razzberrys;
-                int _masterballs;
-                int _toprevives;
-                int _toppotions;
-                #endregion
-
-                #region variable parsers and sum total
-                int itemSumme = 0;
-                if (!int.TryParse(text_MaxPokeballs.Text, out _pokeballs)) _pokeballs = 20;
-                itemSumme += _pokeballs;
-                if (!int.TryParse(text_MaxUltraBalls.Text, out _greatballs)) _greatballs = 20;
-                itemSumme += _greatballs;
-                if (!int.TryParse(text_MaxUltraBalls.Text, out _ultraballs)) _ultraballs = 20;
-                itemSumme += _ultraballs;
-                if (!int.TryParse(text_MaxRevives.Text, out _revives)) _revives = 20;
-                itemSumme += _revives;
-                if (!int.TryParse(text_MaxPotions.Text, out _potions)) _potions = 20;
-                itemSumme += _potions;
-                if (!int.TryParse(text_MaxSuperPotions.Text, out _superpotions)) _superpotions = 20;
-                itemSumme += _superpotions;
-                if (!int.TryParse(text_MaxHyperPotions.Text, out _hyperpotions)) _hyperpotions = 20;
-                itemSumme += _hyperpotions;
-                if (!int.TryParse(text_MaxRazzBerrys.Text, out _razzberrys)) _razzberrys = 20;
-                itemSumme += _razzberrys;
-                if (!int.TryParse(text_MaxMasterBalls.Text, out _masterballs)) _masterballs = 200;
-                itemSumme += _masterballs;
-                if (!int.TryParse(text_MaxTopRevives.Text, out _toprevives)) _toprevives = 20;
-                itemSumme += _toprevives;
-                if (!int.TryParse(text_MaxTopPotions.Text, out _toppotions)) _toppotions = 20;
-                itemSumme += _toppotions;
-                #endregion
-
-                #region rebuild recycle collection and sum total                
-                Globals.pokeball = _pokeballs;
-                Globals.greatball = _greatballs;
-                Globals.ultraball = _ultraballs;
-                Globals.revive = _revives;
-                Globals.potion = _potions;
-                Globals.superpotion = _superpotions;
-                Globals.hyperpotion = _hyperpotions;
-                Globals.berry = _razzberrys;
-                Globals.masterball = _masterballs;
-                Globals.toprevive = _toprevives;
-                Globals.toppotion = _toppotions;
-                text_TotalItemCount.Text = Convert.ToString(itemSumme);
-                #endregion
-            }
+        	try{
+        		var tb = (TextBox) sender;
+        		var value = 200;
+        		int.TryParse(tb.Text, out value);        		
+        		switch (tb.Name) {
+        			case "text_MaxPokeballs":
+        				Globals.pokeball = value;
+        			break;
+        			case "text_MaxGreatBalls":
+        				Globals.greatball = value;
+        			break;
+        			case "text_MaxUltraBalls":
+        				Globals.ultraball = value;
+        			break;
+        			case "text_MaxRevives":
+        				Globals.pokeball = value;
+        			break;
+        			case "text_MaxPotions":
+        				Globals.potion = value;
+        			break;
+        			case "text_MaxSuperPotions":
+        				Globals.superpotion = value;
+        			break;
+        			case "text_MaxHyperPotions":
+        				Globals.hyperpotion = value;
+        			break;
+        			case "text_MaxMasterBalls":
+        				Globals.masterball = value;
+        			break;
+        			case "text_MaxTopRevives":
+        				Globals.toprevive = value;
+        			break;
+        			case "text_MaxTopPotions":
+        				Globals.toppotion = value;
+        			break;
+        				
+        		}        		        	
+        	}catch (Exception e1){
+        		
+        	}
         }
         
         private void InitialzePokemonListView(){        			
