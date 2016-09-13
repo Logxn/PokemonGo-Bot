@@ -255,7 +255,7 @@ namespace PokemonGo.RocketAPI.Console
                     checkBox6.Checked = Globals.useLuckyEggIfNotRunning;
                     checkBox3.Checked = Globals.userazzberry;
                     checkBox5.Checked = Globals.autoIncubate;
-                    checkBox5.Checked = Globals.useBasicIncubators;
+                    checkBox4.Checked = Globals.useBasicIncubators;
                     text_GoogleMapsAPIKey.Text = Globals.GoogleMapsAPIKey;
 
                     text_MaxPokeballs.Text = GetRecycleStringValue(_clientSettings.itemRecycleFilter.Where(i => i.Key == ItemId.ItemPokeBall).First().Value);
