@@ -72,17 +72,17 @@ namespace PokemonGo.RocketAPI.Console
         {
             loadAdditionalPokeData();
             #region Load GLOBALS for Items change
-            text_MaxPokeballs.Text = Globals.pokeball.ToString();
-            text_MaxGreatBalls.Text =  Globals.greatball.ToString();
-            text_MaxUltraBalls.Text =  Globals.ultraball.ToString();
-            text_MaxRevives.Text = Globals.revive.ToString();
-            text_MaxPotions.Text = Globals.potion.ToString();
-            text_MaxSuperPotions.Text = Globals.superpotion.ToString();
-            text_MaxHyperPotions.Text = Globals.hyperpotion.ToString();
-            text_MaxRazzBerrys.Text = Globals.berry.ToString();
-            text_MaxMasterBalls.Text = Globals.masterball.ToString();
-            text_MaxTopRevives.Text = Globals.toprevive.ToString();
-            text_MaxTopPotions.Text = Globals.toppotion.ToString();
+            //text_MaxPokeballs.Text = Globals.pokeball.ToString();
+            //text_MaxGreatBalls.Text =  Globals.greatball.ToString();
+            //text_MaxUltraBalls.Text =  Globals.ultraball.ToString();
+            //text_MaxRevives.Text = Globals.revive.ToString();
+            //text_MaxPotions.Text = Globals.potion.ToString();
+            //text_MaxSuperPotions.Text = Globals.superpotion.ToString();
+            //text_MaxHyperPotions.Text = Globals.hyperpotion.ToString();
+            //text_MaxRazzBerrys.Text = Globals.berry.ToString();
+            //text_MaxMasterBalls.Text = Globals.masterball.ToString();
+            //text_MaxTopRevives.Text = Globals.toprevive.ToString();
+            //text_MaxTopPotions.Text = Globals.toppotion.ToString();
             int count = 0;
             count += Globals.pokeball + Globals.greatball + Globals.ultraball + Globals.revive
                 + Globals.potion + Globals.superpotion + Globals.hyperpotion + Globals.berry + Globals.masterball
@@ -258,17 +258,17 @@ namespace PokemonGo.RocketAPI.Console
                     checkBox4.Checked = Globals.useBasicIncubators;
                     text_GoogleMapsAPIKey.Text = Globals.GoogleMapsAPIKey;
 
-		            text_MaxPokeballs.Text = Globals.pokeball.ToString();
-		            text_MaxGreatBalls.Text =  Globals.greatball.ToString();
-		            text_MaxUltraBalls.Text =  Globals.ultraball.ToString();
-		            text_MaxRevives.Text = Globals.revive.ToString();
-		            text_MaxPotions.Text = Globals.potion.ToString();
-		            text_MaxSuperPotions.Text = Globals.superpotion.ToString();
-		            text_MaxHyperPotions.Text = Globals.hyperpotion.ToString();
-		            text_MaxRazzBerrys.Text = Globals.berry.ToString();
-		            text_MaxMasterBalls.Text = Globals.masterball.ToString();
-		            text_MaxTopRevives.Text = Globals.toprevive.ToString();
-		            text_MaxTopPotions.Text = Globals.toppotion.ToString();
+    		            text_MaxPokeballs.Text = Globals.pokeball.ToString();
+    		            text_MaxGreatBalls.Text =  Globals.greatball.ToString();
+    		            text_MaxUltraBalls.Text =  Globals.ultraball.ToString();
+    		            text_MaxRevives.Text = Globals.revive.ToString();
+    		            text_MaxPotions.Text = Globals.potion.ToString();
+    		            text_MaxSuperPotions.Text = Globals.superpotion.ToString();
+    		            text_MaxHyperPotions.Text = Globals.hyperpotion.ToString();
+    		            text_MaxRazzBerrys.Text = Globals.berry.ToString();
+    		            text_MaxMasterBalls.Text = Globals.masterball.ToString();
+    		            text_MaxTopRevives.Text = Globals.toprevive.ToString();
+    		            text_MaxTopPotions.Text = Globals.toppotion.ToString();
 
                     textBox2.Text = Globals.razzberry_chance.ToString();
                     #endregion
