@@ -18,6 +18,8 @@ using GoogleMapsApi.Entities.Elevation.Request;
 using GoogleMapsApi.Entities.Elevation.Response;
 using PokemonGo.RocketAPI.Logic.Utils;
 using PokemonGo.RocketApi.PokeMap;
+using POGOProtos.Map.Fort;
+
 
 namespace PokemonGo.RocketAPI.Console
 {
@@ -29,7 +31,8 @@ namespace PokemonGo.RocketAPI.Console
             map.Manager.Mode = AccessMode.ServerOnly;
 
             buttonRefreshPokemon.Visible = false;
-            buttonRefreshPokemon.Enabled = false;
+            buttonRefreshPokemon.Visible = false;
+            buttonRefreshForts.Visible = false;
 
             if (asViewOnly)
             {
@@ -78,6 +81,53 @@ namespace PokemonGo.RocketAPI.Console
 
             //await Logic.Logic._instance.CheckAvailablePokemons(Logic.Logic._client);
             buttonRefreshPokemon.Enabled = true;
+        }
+        private async void buttonRefreshForts_Click(object sender, EventArgs e)
+        {
+        	var button = ((Button)sender);
+        	button.Enabled = false;
+            var client = Logic.Logic._client;
+            if (client.readyToUse )
+            {
+            	Logger.ColoredConsoleWrite(ConsoleColor.DarkRed, "Refreshing Forts", LogLevel.Warning);
+                var mapObjects = await client.Map.GetMapObjects();
+                var mapCells = mapObjects.Item1.MapCells;
+	            var pokeStops =
+	            mapCells.SelectMany(i => i.Forts)
+	            .Where(
+	                i =>
+	                i.Type == FortType.Checkpoint &&
+	                i.CooldownCompleteTimestampMs < (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds)
+	                .OrderBy(
+	                i =>
+	                LocationUtils.CalculateDistanceInMeters(Globals.latitute, Globals.longitude, i.Latitude, i.Longitude));
+	            if (pokeStops.Any() )
+	            {
+	            	InfoObservable_HandlePokeStop (pokeStops.ToArray());
+	            }
+	            var pokeGyms = mapCells.SelectMany(i => i.Forts)
+	            .Where(
+	                i =>
+	                i.Type == FortType.Gym )
+	                .OrderBy(
+	                i =>
+	                LocationUtils.CalculateDistanceInMeters(Globals.latitute, Globals.longitude, i.Latitude, i.Longitude));
+	            if (pokeGyms.Any() )
+	            {
+	                InfoObservable_HandlePokeGym (pokeGyms.ToArray());
+	                
+	            }                
+	            if (!map.Overlays.Contains(_pokeStopsOverlay)){
+	            	map.Overlays.Add(_pokeStopsOverlay);
+	            }
+	            if (!map.Overlays.Contains(_pokeGymsOverlay)){
+	            	map.Overlays.Add(_pokeGymsOverlay);
+	            }
+            	Logger.ColoredConsoleWrite(ConsoleColor.DarkRed, "Refreshing Forts Done.", LogLevel.Warning);
+            }
+           
+
+            button.Enabled = true;
         }
         
         private void bw_DoWork(object sender, DoWorkEventArgs e)
@@ -428,6 +478,7 @@ namespace PokemonGo.RocketAPI.Console
             textBox2.Visible = true;
             buttonRefreshPokemon.Visible = true;
             buttonRefreshPokemon.Enabled = true;
+            buttonRefreshForts.Visible = true;
             cbShowPokeStops.Visible = true;           
             cbShowPokemon.Visible = true;
             _pokemonOverlay.IsVisibile = true;
@@ -615,6 +666,7 @@ namespace PokemonGo.RocketAPI.Console
         	}
  			return ret;
         }
+        
     }
     
 }
