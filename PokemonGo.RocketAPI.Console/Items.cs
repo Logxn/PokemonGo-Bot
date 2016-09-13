@@ -71,6 +71,7 @@ namespace PokemonGo.RocketAPI.Console
                 listViewItem = new ListViewItem();
                 listViewItem.Tag = item;
                 listViewItem.Text = getItemName(item.ItemId);
+                listViewItem.ImageKey = item.ItemId.ToString().Replace("Item","");
                 listViewItem.SubItems.Add(""+item.Count);
                 listViewItem.SubItems.Add(""+item.Unseen);
                 ItemsListView.Items.Add(listViewItem);
