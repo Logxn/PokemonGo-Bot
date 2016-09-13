@@ -201,9 +201,9 @@ namespace PokemonGo.RocketAPI.Console
                                 case 34:
                                     Globals.usePwdEncryption = bool.Parse(line);
                                     break;
-                                case 35:
-                                    Globals.itemsList = bool.Parse(line);
-                                    break;
+                                //case 35:
+                                //    Globals.itemsList = bool.Parse(line);
+                                //    break;
                             }
                         }
                         catch (Exception)
@@ -345,14 +345,14 @@ namespace PokemonGo.RocketAPI.Console
                         pokemonList.ShowDialog();
                     });
                 }
-                if (Globals.itemsList)
-                {
-                    Task.Run(() =>
-                    {
-                        Items itemsList = new Items();
-                        itemsList.ShowDialog();
-                    });
-                }
+                //if (Globals.itemsList)
+                //{
+                //    Task.Run(() =>
+                //    {
+                //        Items itemsList = new Items();
+                //        itemsList.ShowDialog();
+                //    });
+                //}
                 
             }
 
@@ -541,12 +541,12 @@ namespace PokemonGo.RocketAPI.Console
         public static bool userazzberry = true;
         public static double razzberry_chance = 0.35;
         public static bool pokeList = true;
-        public static bool itemsList = false;
+        //public static bool itemsList = false;
         public static bool keepPokemonsThatCanEvolve = true;
         public static bool TransferFirstLowIV = true;
         public static bool pokevision = false;
 
-        public static bool CatchLurePokemons = false;
+        //public static bool CatchLurePokemons = false;
 
         public static bool useLuckyEggIfNotRunning = false;
 
@@ -580,11 +580,14 @@ namespace PokemonGo.RocketAPI.Console
 
         public static bool UseIncenseGUIClick = false;
         public static bool bLogEvolve = false;
+        public static bool LogEggs = false;
 
         public static bool pauseAtEvolve = false;
         public static bool pauseAtEvolve2 = false;
 
         public static bool AutoUpdate = false;
         public static bool usePwdEncryption = false;
+
+        public static bool CheckWhileRunning = false;
     }
 }
