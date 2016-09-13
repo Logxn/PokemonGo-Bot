@@ -1,4 +1,4 @@
-﻿using System.Globalization;
+using System.Globalization;
 using POGOProtos.Data;
 using POGOProtos.Enums;
 using POGOProtos.Networking.Responses;
@@ -255,7 +255,7 @@ namespace PokemonGo.RocketAPI.Console
                     checkBox6.Checked = Globals.useLuckyEggIfNotRunning;
                     checkBox3.Checked = Globals.userazzberry;
                     checkBox5.Checked = Globals.autoIncubate;
-                    checkBox5.Checked = Globals.useBasicIncubators;
+                    checkBox4.Checked = Globals.useBasicIncubators;
                     text_GoogleMapsAPIKey.Text = Globals.GoogleMapsAPIKey;
 
                     text_MaxPokeballs.Text = GetRecycleStringValue(_clientSettings.itemRecycleFilter.Where(i => i.Key == ItemId.ItemPokeBall).First().Value);
@@ -392,11 +392,6 @@ namespace PokemonGo.RocketAPI.Console
             return resp1;
         }
 
-        void reloadbtnClick(object sender, EventArgs e)
-        {
-            ItemsListView.Items.Clear();
-            ExecuteItemsLoad();
-        }
 
         private string GetRecycleStringValue(int X)
         {
@@ -1617,8 +1612,14 @@ namespace PokemonGo.RocketAPI.Console
             PokemonListView.DoubleBuffered(true);
             PokemonListView.View = View.Details;
 
-        }                  
-    }
+        }
+
+		void BtnRealoadItemsClick(object sender, EventArgs e)
+		{
+            ItemsListView.Items.Clear();
+            ExecuteItemsLoad();
+		}                  
+	}
     public static class ControlExtensions
     {
         public static void DoubleBuffered(this Control control, bool enable)

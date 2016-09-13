@@ -119,7 +119,7 @@ namespace PokemonGo.RocketAPI.Console
         	this.label14 = new System.Windows.Forms.Label();
         	this.text_MaxPokeballs = new System.Windows.Forms.TextBox();
         	this.label13 = new System.Windows.Forms.Label();
-        	this.reloadbtn = new System.Windows.Forms.Button();
+        	this.btnRealoadItems = new System.Windows.Forms.Button();
         	this.ItemsListView = new System.Windows.Forms.ListView();
         	this.chItem = new System.Windows.Forms.ColumnHeader();
         	this.chCount = new System.Windows.Forms.ColumnHeader();
@@ -529,7 +529,7 @@ namespace PokemonGo.RocketAPI.Console
         	this.tabPage1.Location = new System.Drawing.Point(4, 22);
         	this.tabPage1.Name = "tabPage1";
         	this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-        	this.tabPage1.Size = new System.Drawing.Size(691, 366);
+        	this.tabPage1.Size = new System.Drawing.Size(687, 366);
         	this.tabPage1.TabIndex = 0;
         	this.tabPage1.Text = "Change Options";
         	this.tabPage1.UseVisualStyleBackColor = true;
@@ -897,7 +897,7 @@ namespace PokemonGo.RocketAPI.Console
         	// tabPage3
         	// 
         	this.tabPage3.Controls.Add(this.groupBox4);
-        	this.tabPage3.Controls.Add(this.reloadbtn);
+        	this.tabPage3.Controls.Add(this.btnRealoadItems);
         	this.tabPage3.Controls.Add(this.ItemsListView);
         	this.tabPage3.Location = new System.Drawing.Point(4, 22);
         	this.tabPage3.Margin = new System.Windows.Forms.Padding(2);
@@ -1162,17 +1162,17 @@ namespace PokemonGo.RocketAPI.Console
         	this.label13.TabIndex = 0;
         	this.label13.Text = "Max. Pokeballs:";
         	// 
-        	// reloadbtn
+        	// btnRealoadItems
         	// 
-        	this.reloadbtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-        	this.reloadbtn.Location = new System.Drawing.Point(181, 340);
-        	this.reloadbtn.Margin = new System.Windows.Forms.Padding(2);
-        	this.reloadbtn.Name = "reloadbtn";
-        	this.reloadbtn.Size = new System.Drawing.Size(55, 23);
-        	this.reloadbtn.TabIndex = 50;
-        	this.reloadbtn.Text = "Reload";
-        	this.reloadbtn.UseVisualStyleBackColor = true;
-        	this.reloadbtn.Click += new System.EventHandler(this.reloadbtn_Click);
+        	this.btnRealoadItems.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+        	this.btnRealoadItems.Location = new System.Drawing.Point(181, 340);
+        	this.btnRealoadItems.Margin = new System.Windows.Forms.Padding(2);
+        	this.btnRealoadItems.Name = "btnRealoadItems";
+        	this.btnRealoadItems.Size = new System.Drawing.Size(55, 23);
+        	this.btnRealoadItems.TabIndex = 50;
+        	this.btnRealoadItems.Text = "Reload";
+        	this.btnRealoadItems.UseVisualStyleBackColor = true;
+        	this.btnRealoadItems.Click += new System.EventHandler(this.BtnRealoadItemsClick);
         	// 
         	// ItemsListView
         	// 
@@ -1352,7 +1352,7 @@ namespace PokemonGo.RocketAPI.Console
         private System.Windows.Forms.CheckBox checkBox10;
         private System.Windows.Forms.CheckBox checkBox11;
         private System.Windows.Forms.TabPage tabPage3;
-        private System.Windows.Forms.Button reloadbtn;
+        private System.Windows.Forms.Button btnRealoadItems;
         private System.Windows.Forms.ListView ItemsListView;
         private System.Windows.Forms.ColumnHeader chItem;
         private System.Windows.Forms.ColumnHeader chCount;
