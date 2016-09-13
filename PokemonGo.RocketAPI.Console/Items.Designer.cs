@@ -50,7 +50,6 @@ namespace PokemonGo.RocketAPI.Console
 		/// </summary>
 		private void InitializeComponent()
 		{
-            this.FormClosing += this.Form_StopClose;			
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Items));
 			this.ItemsListView = new System.Windows.Forms.ListView();
@@ -131,6 +130,10 @@ namespace PokemonGo.RocketAPI.Console
 			this.imageList1.Images.SetKeyName(5, "greatball");
 			this.imageList1.Images.SetKeyName(6, "superpotion");
 			this.imageList1.Images.SetKeyName(7, "ultraball");
+			this.imageList1.Images.SetKeyName(8, "incubatorbasic");
+			this.imageList1.Images.SetKeyName(9, "incubatorbasicunlimited");
+			this.imageList1.Images.SetKeyName(10, "razzberry");
+			this.imageList1.Images.SetKeyName(11, "troydisk");
 			// 
 			// btnreload
 			// 
@@ -226,6 +229,7 @@ namespace PokemonGo.RocketAPI.Console
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.Name = "Items";
 			this.Text = "Items";
+			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form_StopClose);
 			this.Load += new System.EventHandler(this.Items_Load);
 			this.contextMenuStrip1.ResumeLayout(false);
 			this.ResumeLayout(false);
