@@ -392,11 +392,6 @@ namespace PokemonGo.RocketAPI.Console
             return resp1;
         }
 
-        void reloadbtnClick(object sender, EventArgs e)
-        {
-            ItemsListView.Items.Clear();
-            ExecuteItemsLoad();
-        }
 
         private string GetRecycleStringValue(int X)
         {
@@ -1617,7 +1612,13 @@ namespace PokemonGo.RocketAPI.Console
             PokemonListView.DoubleBuffered(true);
             PokemonListView.View = View.Details;
 
-        }                  
+        }
+
+		void BtnRealoadItemsClick(object sender, EventArgs e)
+		{
+            ItemsListView.Items.Clear();
+            ExecuteItemsLoad();
+		}                  
     }
     public static class ControlExtensions
     {
