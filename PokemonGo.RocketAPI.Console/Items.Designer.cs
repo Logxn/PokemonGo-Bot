@@ -134,6 +134,7 @@ namespace PokemonGo.RocketAPI.Console
 			this.imageList1.Images.SetKeyName(9, "incubatorbasicunlimited");
 			this.imageList1.Images.SetKeyName(10, "razzberry");
 			this.imageList1.Images.SetKeyName(11, "troydisk");
+			this.imageList1.Images.SetKeyName(12, "luckyegg");
 			// 
 			// btnreload
 			// 
