@@ -352,13 +352,11 @@ namespace PokemonGo.RocketAPI.Logic
                 StringUtils.getExpDiff(stats.Level)).ToString("N0") + "/" + (stats.NextLevelXp - stats.PrevLevelXp - StringUtils.getExpDiff(stats.Level)).ToString("N0") + "|" + Math.Round(curexppercent, 2) + "%)| Stardust: " + profile.PlayerData.Currencies.ToArray()[1].Amount + "| " + _botStats.ToString();
             if (_clientSettings.CheckWhileRunning)
             {
-                if (getNewestVersion() > Assembly.GetExecutingAssembly().GetName().Version)
+                if (getNewestVersion() > Assembly.GetEntryAssembly().GetName().Version)
                 {
                     if (_clientSettings.autoUpdate)
                     {
-
                         Form update = new Update();
-
                         update.ShowDialog();
                     }
                     else
