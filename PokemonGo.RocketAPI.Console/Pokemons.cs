@@ -1727,9 +1727,10 @@ namespace PokemonGo.RocketAPI.Console
         private void reloadbtn_Click(object sender, EventArgs e)
         {
             ItemsListView.Items.Clear();
+            PokemonListView.Items.Clear();
             Execute();
         }
-
+        
         private void text_Max(object sender, EventArgs e)
         {
             if (text_MaxPokeballs.Text != null &&
