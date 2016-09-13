@@ -1,4 +1,4 @@
-﻿using System.Globalization;
+using System.Globalization;
 using POGOProtos.Data;
 using POGOProtos.Enums;
 using POGOProtos.Networking.Responses;
@@ -1619,7 +1619,7 @@ namespace PokemonGo.RocketAPI.Console
             ItemsListView.Items.Clear();
             ExecuteItemsLoad();
 		}                  
-    }
+	}
     public static class ControlExtensions
     {
         public static void DoubleBuffered(this Control control, bool enable)
