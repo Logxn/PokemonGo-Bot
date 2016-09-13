@@ -68,6 +68,24 @@ namespace PokemonGo.RocketAPI.Console
         private void Pokemons_Load(object sender, EventArgs e)
         {
             loadAdditionalPokeData();
+            #region Load GLOBALS for Items change
+            text_MaxPokeballs.Text = Globals.pokeball.ToString();
+            text_MaxGreatBalls.Text =  Globals.greatball.ToString();
+            text_MaxUltraBalls.Text =  Globals.ultraball.ToString();
+            text_MaxRevives.Text = Globals.revive.ToString();
+            text_MaxPotions.Text = Globals.potion.ToString();
+            text_MaxSuperPotions.Text = Globals.superpotion.ToString();
+            text_MaxHyperPotions.Text = Globals.hyperpotion.ToString();
+            text_MaxRazzBerrys.Text = Globals.berry.ToString();
+            text_MaxMasterBalls.Text = Globals.masterball.ToString();
+            text_MaxTopRevives.Text = Globals.toprevive.ToString();
+            text_MaxTopPotions.Text = Globals.toppotion.ToString();
+            int count = 0;
+            count += Globals.pokeball + Globals.greatball + Globals.ultraball + Globals.revive
+                + Globals.potion + Globals.superpotion + Globals.hyperpotion + Globals.berry + Globals.masterball
+                + Globals.toprevive + Globals.toppotion;
+            text_TotalItemCount.Text = count.ToString();
+            #endregion
             reloadsecondstextbox.Text = "60";
             Globals.pauseAtPokeStop = false;
             btnForceUnban.Text = "Pause Walking";
@@ -1727,9 +1745,10 @@ namespace PokemonGo.RocketAPI.Console
         private void reloadbtn_Click(object sender, EventArgs e)
         {
             ItemsListView.Items.Clear();
+            PokemonListView.Items.Clear();
             Execute();
         }
-
+        
         private void text_Max(object sender, EventArgs e)
         {
             if (text_MaxPokeballs.Text != null &&
