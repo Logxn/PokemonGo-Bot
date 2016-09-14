@@ -844,14 +844,17 @@ namespace PokemonGo.RocketAPI.Logic
                             // Catch Pokemon Lure
                             if (_clientSettings.CatchPokemon && Pokestop.ActiveFortModifier.Count > 0)
                             {
-                                var lure_Pokemon = Pokestop.LureInfo.ActivePokemonId;
-                                if (!_clientSettings.catchPokemonSkipList.Contains(lure_Pokemon))
+                                if (Pokestop != null && Pokestop.LureInfo != null)
                                 {
-                                    await catchPokemon(Pokestop.LureInfo.EncounterId, Pokestop.LureInfo.FortId, Pokestop.LureInfo.ActivePokemonId);
-                                }
-                                else
-                                {
-                                    Logger.ColoredConsoleWrite(ConsoleColor.Green, "Skipped Lure Pokemon: " + pokeStop.LureInfo.ActivePokemonId);
+                                    var lure_Pokemon = Pokestop.LureInfo.ActivePokemonId;
+                                    if (!_clientSettings.catchPokemonSkipList.Contains(lure_Pokemon))
+                                    {
+                                        await catchPokemon(Pokestop.LureInfo.EncounterId, Pokestop.LureInfo.FortId, Pokestop.LureInfo.ActivePokemonId);
+                                    }
+                                    else
+                                    {
+                                        Logger.ColoredConsoleWrite(ConsoleColor.Green, "Skipped Lure Pokemon: " + pokeStop.LureInfo.ActivePokemonId);
+                                    }
                                 }
                             }
                             /////////////////////
