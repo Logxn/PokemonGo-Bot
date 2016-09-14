@@ -1,4 +1,4 @@
-﻿using System.Globalization;
+using System.Globalization;
 using POGOProtos.Data;
 using POGOProtos.Enums;
 using POGOProtos.Networking.Responses;
@@ -18,6 +18,11 @@ using System.Windows.Forms;
 using PokemonGo.RocketAPI.Logic.Utils;
 using System.Collections.Generic;
 using static PokemonGo.RocketAPI.Console.GUI;
+using POGOProtos.Inventory.Item;
+using GoogleMapsApi.Entities.Elevation.Request;
+using GoogleMapsApi;
+using GoogleMapsApi.Entities.Common;
+using GoogleMapsApi.Entities.Elevation.Response;
 
 namespace PokemonGo.RocketAPI.Console
 {
@@ -39,7 +44,7 @@ namespace PokemonGo.RocketAPI.Console
                 var jsonData = File.ReadAllText(path);
                 additionalPokeData = Newtonsoft.Json.JsonConvert.DeserializeObject<List<AdditionalPokeData>>(jsonData);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Logger.ColoredConsoleWrite(ConsoleColor.Red, "Could not load additional PokeData", LogLevel.Error);
             }
@@ -60,6 +65,9 @@ namespace PokemonGo.RocketAPI.Console
         {
             InitializeComponent();
             ClientSettings = new Settings();
+            
+            InitialzePokemonListView();
+            
         }
 
         public static ISettings ClientSettings;
@@ -67,11 +75,11 @@ namespace PokemonGo.RocketAPI.Console
         private void Pokemons_Load(object sender, EventArgs e)
         {
             loadAdditionalPokeData();
-            reloadsecondstextbox.Text = "60";
+            reloadsecondstextbox.Value = 60;
             Globals.pauseAtPokeStop = false;
             btnForceUnban.Text = "Pause Walking";
             Execute();
-            this.PokemonListView.ColumnClick += new ColumnClickEventHandler(PokemonListView_ColumnClick);
+            
         }
 
         private void Pokemons_Close(object sender, FormClosingEventArgs e)
@@ -123,7 +131,6 @@ namespace PokemonGo.RocketAPI.Console
                     var imageSize = 50;
 
                     var imageList = new ImageList { ImageSize = new Size(imageSize, imageSize) };
-                    PokemonListView.ShowItemToolTips = true;
                     PokemonListView.SmallImageList = imageList;
 
                     var templates = await client.Download.GetItemTemplates();
@@ -133,66 +140,8 @@ namespace PokemonGo.RocketAPI.Console
                     var myPokemonFamilies = inventory.InventoryDelta.InventoryItems.Select(i => i.InventoryItemData?.Candy).Where(p => p != null && p?.FamilyId != PokemonFamilyId.FamilyUnset);
                     var pokemonFamilies = myPokemonFamilies.ToArray();
 
-                    PokemonListView.DoubleBuffered(true);
-                    PokemonListView.View = View.Details;
 
-                    ColumnHeader columnheader;
-                    columnheader = new ColumnHeader();
-                    columnheader.Name = "Name";
-                    columnheader.Text = "Name";
-                    PokemonListView.Columns.Add(columnheader);
-                    columnheader = new ColumnHeader();
-                    columnheader.Name = "CP";
-                    columnheader.Text = "CP";
-                    PokemonListView.Columns.Add(columnheader);
-                    columnheader = new ColumnHeader();
-                    columnheader.Name = "IV A-D-S";
-                    columnheader.Text = "IV A-D-S";
-                    PokemonListView.Columns.Add(columnheader);
-                    columnheader = new ColumnHeader();
-                    columnheader.Name = "LVL";
-                    columnheader.Text = "LVL";
-                    PokemonListView.Columns.Add(columnheader);
-                    columnheader = new ColumnHeader();
-                    columnheader.Name = "Evolvable?";
-                    columnheader.Text = "Evolvable?";
-                    PokemonListView.Columns.Add(columnheader);
-                    columnheader = new ColumnHeader();
-                    columnheader.Name = "Height";
-                    columnheader.Text = "Height";
-                    PokemonListView.Columns.Add(columnheader);
-                    columnheader = new ColumnHeader();
-                    columnheader.Name = "Weight";
-                    columnheader.Text = "Weight";
-                    PokemonListView.Columns.Add(columnheader);
-                    columnheader = new ColumnHeader();
-                    columnheader.Name = "HP";
-                    columnheader.Text = "HP";
-                    PokemonListView.Columns.Add(columnheader);
-                    columnheader = new ColumnHeader();
-                    columnheader.Name = "Attack";
-                    columnheader.Text = "Attack";
-                    PokemonListView.Columns.Add(columnheader);
-                    columnheader = new ColumnHeader();
-                    columnheader.Name = "SpecialAttack (DPS)";
-                    columnheader.Text = "SpecialAttack (DPS)";
-                    PokemonListView.Columns.Add(columnheader);
-                    columnheader = new ColumnHeader();
-                    columnheader.Name = "#";
-                    columnheader.Text = "#";
-                    PokemonListView.Columns.Add(columnheader);
-                    columnheader = new ColumnHeader();
-                    columnheader.Name = "% CP";
-                    columnheader.Text = "% CP";
-                    PokemonListView.Columns.Add(columnheader);
-                    columnheader = new ColumnHeader();
-                    columnheader.Name = "Type";
-                    columnheader.Text = "Type";
-                    PokemonListView.Columns.Add(columnheader);
-                    columnheader = new ColumnHeader();
-                    columnheader.Name = "Type 2";
-                    columnheader.Text = "Type 2";
-                    PokemonListView.Columns.Add(columnheader);
+                    
 
                     PokemonListView.BeginUpdate();
                     foreach (var pokemon in pokemons)
@@ -215,7 +164,7 @@ namespace PokemonGo.RocketAPI.Console
                             .Select(f => f.Candy_)
                             .First();
                         listViewItem.SubItems.Add(string.Format("{0}", pokemon.Cp));
-                        //< listViewItem.SubItems.Add(string.Format("{0}% {1}{2}{3} ({4})", PokemonInfo.CalculatePokemonPerfection(pokemon).ToString("0"), pokemon.IndividualAttack.ToString("X"), pokemon.IndividualDefense.ToString("X"), pokemon.IndividualStamina.ToString("X"), (45 - pokemon.IndividualAttack- pokemon.IndividualDefense- pokemon.IndividualStamina) ));
+                        //<listViewItem.SubItems.Add(string.Format("{0}% {1}{2}{3} ({4})", PokemonInfo.CalculatePokemonPerfection(pokemon).ToString("0"), pokemon.IndividualAttack.ToString("X"), pokemon.IndividualDefense.ToString("X"), pokemon.IndividualStamina.ToString("X"), (45 - pokemon.IndividualAttack- pokemon.IndividualDefense- pokemon.IndividualStamina) ));
                         listViewItem.SubItems.Add(string.Format("{0}% {1}-{2}-{3}", PokemonInfo.CalculatePokemonPerfection(pokemon).ToString("0"), pokemon.IndividualAttack, pokemon.IndividualDefense, pokemon.IndividualStamina));
                         listViewItem.SubItems.Add(string.Format("{0}", PokemonInfo.GetLevel(pokemon)));
                         listViewItem.ImageKey = pokemon.PokemonId.ToString();
@@ -248,23 +197,20 @@ namespace PokemonGo.RocketAPI.Console
                         listViewItem.SubItems.Add(string.Format("{0} ({1})", pokemon.Move2, PokemonInfo.GetAttack(pokemon.Move2)));
                         listViewItem.SubItems.Add(string.Format("{0}", (int)pokemon.PokemonId));
                         listViewItem.SubItems.Add(string.Format("{0}", PokemonInfo.CalculatePokemonPerfectionCP(pokemon).ToString("0.00")));
-                        
+
                         AdditionalPokeData addData = additionalPokeData.FirstOrDefault(x => x.PokedexNumber == (int)pokemon.PokemonId);
-                        if(addData != null)
+                        if (addData != null)
                         {
                             listViewItem.SubItems.Add(addData.Type1);
                             listViewItem.SubItems.Add(addData.Type2);
                         }
                         else
                         {
-                            listViewItem.SubItems.Add("");   
+                            listViewItem.SubItems.Add("");
                             listViewItem.SubItems.Add("");
                         }
 
-                        PokemonListView.Columns["#"].DisplayIndex = 0;
 
-                        
-                        
                         PokemonListView.Items.Add(listViewItem);
                     }
                     PokemonListView.EndUpdate();
@@ -274,10 +220,52 @@ namespace PokemonGo.RocketAPI.Console
                     button2.Enabled = false;
                     checkBox1.Enabled = false;
                     statusTexbox.Text = string.Empty;
-                    
+
                     var arrStats = await client.Inventory.GetPlayerStats();
                     stats = arrStats.First();
-                    
+
+                    #region populate fields from settings
+                    checkBox_RandomSleepAtCatching.Checked = Globals.sleepatpokemons;
+                    checkBox_FarmPokestops.Checked = Globals.farmPokestops;
+                    checkBox_CatchPokemon.Checked = Globals.CatchPokemon;
+                    checkBox_BreakAtLure.Checked = Globals.BreakAtLure;
+                    checkBox_UseLureAtBreak.Checked = Globals.UseLureAtBreak;
+                    checkBox_RandomlyReduceSpeed.Checked = Globals.RandomReduceSpeed;
+                    checkBox_UseBreakIntervalAndLength.Checked = Globals.UseBreakFields;
+                    checkBox_WalkInArchimedeanSpiral.Checked = Globals.Espiral;
+                    checkBox_UseGoogleMapsRouting.Checked = Globals.UseGoogleMapsAPI;
+                    checkBox10.Checked = Globals.useluckyegg;
+                    checkBox9.Checked = Globals.UseAnimationTimes;
+                    checkBox2.Checked = Globals.pauseAtEvolve;
+                    checkBox7.Checked = Globals.keepPokemonsThatCanEvolve;
+                    checkBox6.Checked = Globals.useLuckyEggIfNotRunning;
+                    checkBox3.Checked = Globals.userazzberry;
+                    checkBox5.Checked = Globals.autoIncubate;
+                    checkBox4.Checked = Globals.useBasicIncubators;
+                    text_GoogleMapsAPIKey.Text = Globals.GoogleMapsAPIKey;
+
+                    itemsPanel1.num_MaxPokeballs.Value = Globals.pokeball;
+                    itemsPanel1.num_MaxGreatBalls.Value =  Globals.greatball;
+                    itemsPanel1.num_MaxUltraBalls.Value =  Globals.ultraball;
+                    itemsPanel1.num_MaxRevives.Value = Globals.revive;
+                    itemsPanel1.num_MaxPotions.Value = Globals.potion;
+                    itemsPanel1.num_MaxSuperPotions.Value = Globals.superpotion;
+                    itemsPanel1.num_MaxHyperPotions.Value = Globals.hyperpotion;
+                    itemsPanel1.num_MaxRazzBerrys.Value = Globals.berry;
+                    itemsPanel1.num_MaxMasterBalls.Value = Globals.masterball;
+                    itemsPanel1.num_MaxTopRevives.Value = Globals.toprevive;
+                    itemsPanel1.num_MaxTopPotions.Value = Globals.toppotion;
+                    int count = 0;
+		            count += Globals.pokeball + Globals.greatball + Globals.ultraball + Globals.revive
+		                + Globals.potion + Globals.superpotion + Globals.hyperpotion + Globals.berry + Globals.masterball
+		                + Globals.toprevive + Globals.toppotion;
+		            itemsPanel1.text_TotalItemCount.Text = count.ToString();
+
+		            numRazzPercent.Value = (int) (Globals.razzberry_chance * 100);
+		            numTravelSpeed.Value = (int) Globals.RelocateDefaultLocationTravelSpeed;
+                    #endregion
+ 	
+                    itemsPanel1.ExecuteItemsLoad();
                 }
             }
             catch (Exception e)
@@ -287,7 +275,9 @@ namespace PokemonGo.RocketAPI.Console
                 await Task.Delay(1000); // Lets the API make a little pause, so we dont get blocked
                 Execute();
             }
-        }
+        }    
+
+
 
         private void EnabledButton(bool enabled, string reason = "")
         {
@@ -321,11 +311,11 @@ namespace PokemonGo.RocketAPI.Console
             return getPokemonImagefromResource(pokemon, "50");
         }
 
-         public static Bitmap GetPokemonVeryLargeImage(PokemonId pokemon)
+        public static Bitmap GetPokemonVeryLargeImage(PokemonId pokemon)
         {
             return getPokemonImagefromResource(pokemon, "200");
         }
- 
+
         /// <summary>
         /// Gets the pokemon imagefrom resource.
         /// </summary>
@@ -334,7 +324,7 @@ namespace PokemonGo.RocketAPI.Console
         /// <returns></returns>
         private static Bitmap getPokemonImagefromResource(PokemonId pokemon, string size)
         {
-            var resource = PokemonGo.RocketAPI.Console.Properties.Resources.ResourceManager.GetObject("_"+(int)pokemon+"_"+size, CultureInfo.CurrentCulture);
+            var resource = PokemonGo.RocketAPI.Console.Properties.Resources.ResourceManager.GetObject("_" + (int)pokemon + "_" + size, CultureInfo.CurrentCulture);
             if (resource != null && resource is Bitmap)
             {
                 return new Bitmap(resource as Bitmap);
@@ -392,7 +382,7 @@ namespace PokemonGo.RocketAPI.Console
 
         private void btnReload_Click(object sender, EventArgs e)
         {
-            PokemonListView.Clear();
+            PokemonListView.Items.Clear();
             Execute();
         }
 
@@ -501,7 +491,7 @@ namespace PokemonGo.RocketAPI.Console
 
             taskResponse resp = new taskResponse(false, string.Empty);
 
-            if(Globals.pauseAtEvolve)
+            if (Globals.pauseAtEvolve2)
             {
                 Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Taking a break to evolve some pokemons!");
                 Globals.pauseAtWalking = true;
@@ -538,31 +528,31 @@ namespace PokemonGo.RocketAPI.Console
 
             if (failed != string.Empty)
             {
-                if(_clientSettings.bLogEvolve)
+                if (_clientSettings.bLogEvolve)
                 {
                     File.AppendAllText(evolvelog, $"[{date}] - MANUAL - Sucessfully evolved {evolved}/{total} Pokemons. Failed: {failed}" + Environment.NewLine);
                 }
                 MessageBox.Show("Succesfully evolved " + evolved + "/" + total + " Pokemons. Failed: " + failed, "Evolve status", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
-                
+
             else
             {
-                if(_clientSettings.bLogEvolve)
+                if (_clientSettings.bLogEvolve)
                 {
                     File.AppendAllText(evolvelog, $"[{date}] - MANUAL - Sucessfully evolved {evolved}/{total} Pokemons." + Environment.NewLine);
                 }
                 MessageBox.Show("Succesfully evolved " + evolved + "/" + total + " Pokemons.", "Evolve status", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
-               
+
             if (evolved > 0)
             {
-                PokemonListView.Clear();
+                PokemonListView.Items.Clear();
                 Execute();
             }
             else
                 EnabledButton(true);
 
-            if(Globals.pauseAtEvolve)
+            if (Globals.pauseAtEvolve)
             {
                 Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Evolved everything. Time to continue our journey!");
                 Globals.pauseAtWalking = false;
@@ -664,7 +654,7 @@ namespace PokemonGo.RocketAPI.Console
                 MessageBox.Show("Succesfully powered up " + powerdup + "/" + total + " Pokemons.", "Transfer status", MessageBoxButtons.OK, MessageBoxIcon.Information);
             if (powerdup > 0)
             {
-                PokemonListView.Clear();
+                PokemonListView.Items.Clear();
                 Execute();
             }
             else
@@ -789,7 +779,7 @@ namespace PokemonGo.RocketAPI.Console
         {
             string croppedName = StringUtils.getPokemonNameByLanguage(ClientSettings, (PokemonId)pokemon.PokemonId) + " ";
             string nickname;
-            //< nickname = string.Format("{0}{1}{2}{3}", pokemon.IndividualAttack.ToString("X"), pokemon.IndividualDefense.ToString("X"), pokemon.IndividualStamina.ToString("X"),(45 - pokemon.IndividualAttack- pokemon.IndividualDefense- pokemon.IndividualStamina));
+            //<nickname = string.Format("{0}{1}{2}{3}", pokemon.IndividualAttack.ToString("X"), pokemon.IndividualDefense.ToString("X"), pokemon.IndividualStamina.ToString("X"),(45 - pokemon.IndividualAttack- pokemon.IndividualDefense- pokemon.IndividualStamina));
             nickname = string.Format("{0}.{1}.{2}.{3}", PokemonInfo.CalculatePokemonPerfection(pokemon).ToString("0"), pokemon.IndividualAttack, pokemon.IndividualDefense, pokemon.IndividualStamina);
             int lenDiff = 12 - nickname.Length;
             if (croppedName.Length > lenDiff)
@@ -847,7 +837,7 @@ namespace PokemonGo.RocketAPI.Console
 
         private void contextMenuStrip1_Opening(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            if (PokemonListView.SelectedItems[0].Checked)
+            if (PokemonListView.SelectedItems.Count > 0 && PokemonListView.SelectedItems[0].Checked)
                 contextMenuStrip1.Items[2].Visible = true;
         }
 
@@ -871,7 +861,7 @@ namespace PokemonGo.RocketAPI.Console
             }
             if (resp.Status)
             {
-                PokemonListView.Clear();
+                PokemonListView.Items.Clear();
                 Execute();
             }
             else
@@ -893,7 +883,7 @@ namespace PokemonGo.RocketAPI.Console
             }
             if (resp.Status)
             {
-                PokemonListView.Clear();
+                PokemonListView.Items.Clear();
                 Execute();
             }
             else
@@ -952,23 +942,9 @@ namespace PokemonGo.RocketAPI.Console
         {
             if (checkBoxreload.Checked)
             {
-                int def = 0;
-                int interval;
-                if (int.TryParse(reloadsecondstextbox.Text, out interval))
-                {
-                    def = interval;
-                }
-                if (def < 30 || def > 3600)
-                {
-                    MessageBox.Show("Interval has to be between 30 and 3600 seconds!");
-                    reloadsecondstextbox.Text = "60";
-                    checkBoxreload.Checked = false;
-                }
-                else
-                {
-                    reloadtimer.Interval = def * 1000;
-                    reloadtimer.Start();
-                }
+            	int def = (int) reloadsecondstextbox.Value;
+                reloadtimer.Interval = def * 1000;
+                reloadtimer.Start();
             }
             else
             {
@@ -979,17 +955,10 @@ namespace PokemonGo.RocketAPI.Console
 
         private void reloadtimer_Tick(object sender, EventArgs e)
         {
-            PokemonListView.Clear();
+            PokemonListView.Items.Clear();
             Execute();
         }
 
-        private void reloadsecondstextbox_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
-            {
-                e.Handled = true;
-            }
-        }
 
         private async void btnFullPowerUp_Click(object sender, EventArgs e)
         {
@@ -1013,13 +982,12 @@ namespace PokemonGo.RocketAPI.Console
                 int powerUps = 0;
                 while (i == 0)
                 {
-                    var poweruplimit = 0;
-                    int.TryParse(textBox1.Text, out poweruplimit);
+                	var poweruplimit = (int) numPwrUpLimit.Value;
                     foreach (ListViewItem selectedItem in selectedItems)
                     {
-                        if (textBox1.Text != string.Empty)
+                        if (poweruplimit >0)
                         {
-                            if (poweruplimit > 0 && poweredup < poweruplimit)
+                            if (poweredup < poweruplimit)
                             {
                                 resp = await PowerUp((PokemonData)selectedItem.Tag);
                                 if (resp.Status)
@@ -1065,7 +1033,7 @@ namespace PokemonGo.RocketAPI.Console
                 }
                 if (poweredup > 0 && i == 1)
                 {
-                    PokemonListView.Clear();
+                    PokemonListView.Items.Clear();
                     Execute();
                 }
             }
@@ -1078,7 +1046,14 @@ namespace PokemonGo.RocketAPI.Console
 
         private void btnShowMap_Click(object sender, EventArgs e)
         {
-        	new LocationSelect(true, (int)profile.PlayerData.Team,stats.Level,stats.Experience  ).Show();
+            if (stats == null)
+            {
+                MessageBox.Show("Stats not yet ready - please try again momentarily");
+            }
+            else
+            {
+                new LocationSelect(true, (int)profile.PlayerData.Team, stats.Level, stats.Experience).Show();
+            }
         }
 
         private void lang_en_btn2_Click(object sender, EventArgs e)
@@ -1206,7 +1181,7 @@ namespace PokemonGo.RocketAPI.Console
                     foreach (var geocoord in Globals.RouteToRepeat)
                     {
                         Globals.NextDestinationOverride.AddLast(geocoord);
-                    }                    
+                    }
                     Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "User Defined Route Captured! Beginning Route Momentarily.");
                 }
                 btnForceUnban.Text = "Pause Walking";
@@ -1242,7 +1217,265 @@ namespace PokemonGo.RocketAPI.Console
             Globals.RepeatUserRoute = checkBox1.Checked;
         }
 
-    }
+
+        private void checkBox10_CheckedChanged(object sender, EventArgs e)
+        {
+            Globals.useluckyegg = checkBox10.Checked;
+        }
+
+        private void checkBox9_CheckedChanged(object sender, EventArgs e)
+        {
+            Globals.UseAnimationTimes = checkBox9.Checked;
+        }
+
+        private void checkBox_FarmPokestops_CheckedChanged(object sender, EventArgs e)
+        {
+            Globals.farmPokestops = checkBox_FarmPokestops.Checked;
+        }
+
+        private void checkBox_CatchPokemon_CheckedChanged(object sender, EventArgs e)
+        {
+            Globals.CatchPokemon = checkBox_CatchPokemon.Checked;
+        }
+
+        private void checkBox_BreakAtLure_CheckedChanged(object sender, EventArgs e)
+        {
+            Globals.BreakAtLure = checkBox_BreakAtLure.Checked;
+        }
+
+        private void checkBox_UseLureAtBreak_CheckedChanged(object sender, EventArgs e)
+        {
+            Globals.UseLureAtBreak = checkBox_UseLureAtBreak.Checked;
+        }
+
+        private void checkBox_RandomlyReduceSpeed_CheckedChanged(object sender, EventArgs e)
+        {
+            Globals.RandomReduceSpeed = checkBox_RandomlyReduceSpeed.Checked;
+        }
+
+        private void checkBox_UseBreakIntervalAndLength_CheckedChanged(object sender, EventArgs e)
+        {
+            Globals.UseBreakFields = checkBox_UseBreakIntervalAndLength.Checked;
+        }
+
+        private void checkBox_UseGoogleMapsRouting_CheckedChanged(object sender, EventArgs e)
+        {
+            Globals.UseGoogleMapsAPI = checkBox_UseGoogleMapsRouting.Checked;
+        }
+
+        private void checkBox_WalkInArchimedeanSpiral_CheckedChanged(object sender, EventArgs e)
+        {
+            Globals.Espiral = checkBox_WalkInArchimedeanSpiral.Checked;
+        }
+
+
+        private void checkBox_RandomSleepAtCatching_CheckedChanged(object sender, EventArgs e)
+        {
+            Globals.sleepatpokemons = checkBox_RandomSleepAtCatching.Checked;
+        }
+
+        private void checkBox11_CheckedChanged(object sender, EventArgs e)
+        {
+            Globals.evolve = checkBox11.Checked;
+        }
+
+        private void checkBox2_CheckedChanged(object sender, EventArgs e)
+        {
+            Globals.pauseAtEvolve = checkBox2.Checked;
+            Globals.pauseAtEvolve2 = checkBox2.Checked;
+        }
+
+        private void checkBox8_CheckedChanged(object sender, EventArgs e)
+        {
+            Globals.useincense = checkBox8.Checked;
+        }
+
+        private void checkBox7_CheckedChanged(object sender, EventArgs e)
+        {
+            Globals.keepPokemonsThatCanEvolve = checkBox7.Checked;
+        }
+
+        private void checkBox6_CheckedChanged(object sender, EventArgs e)
+        {
+            Globals.useLuckyEggIfNotRunning = checkBox6.Checked;
+        }
+
+        private void checkBox3_CheckedChanged(object sender, EventArgs e)
+        {
+            Globals.userazzberry = checkBox3.Checked;
+        }
+
+        private void checkBox5_CheckedChanged(object sender, EventArgs e)
+        {
+            Globals.autoIncubate = checkBox5.Checked;
+        }
+
+        private void checkBox4_CheckedChanged(object sender, EventArgs e)
+        {
+            Globals.useBasicIncubators = checkBox4.Checked;
+        }
+
+        private void numRazzPercent_TextChanged(object sender, EventArgs e)
+        {
+        	Globals.razzberry_chance = ((double)((NumericUpDown) sender).Value)/100;
+        }
+
+        private void text_GoogleMapsAPIKey_TextChanged(object sender, EventArgs e)
+        {
+            Globals.GoogleMapsAPIKey = text_GoogleMapsAPIKey.Text;
+        }
+        
+        
+        private void InitialzePokemonListView(){        			
+        	PokemonListView.Columns.Clear();
+        	ColumnHeader columnheader;
+	        columnheader = new ColumnHeader();
+	        columnheader.Name = "Name";
+	        columnheader.Text = columnheader.Name;
+	        PokemonListView.Columns.Add(columnheader);
+	        columnheader = new ColumnHeader();
+	        columnheader.Name = "CP";
+	        columnheader.Text = columnheader.Name;
+	        PokemonListView.Columns.Add(columnheader);
+	        columnheader = new ColumnHeader();
+	        columnheader.Name = "IV A-D-S";
+	        columnheader.Text = columnheader.Name;
+	        PokemonListView.Columns.Add(columnheader);
+	        columnheader = new ColumnHeader();
+	        columnheader.Name = "LVL";
+	        columnheader.Text = columnheader.Name;
+	        PokemonListView.Columns.Add(columnheader);
+	        columnheader = new ColumnHeader();
+	        columnheader.Name = "Evolvable?";
+	        columnheader.Text = columnheader.Name;
+	        PokemonListView.Columns.Add(columnheader);
+	        columnheader = new ColumnHeader();
+	        columnheader.Name = "Height";
+	        columnheader.Text = columnheader.Name;
+	        PokemonListView.Columns.Add(columnheader);
+	        columnheader = new ColumnHeader();
+	        columnheader.Name = "Weight";
+	        columnheader.Text = columnheader.Name;
+	        PokemonListView.Columns.Add(columnheader);
+	        columnheader = new ColumnHeader();
+	        columnheader.Name = "HP";
+	        columnheader.Text = columnheader.Name;
+	        PokemonListView.Columns.Add(columnheader);
+	        columnheader = new ColumnHeader();
+	        columnheader.Name = "Attack";
+	        columnheader.Text = columnheader.Name;
+	        PokemonListView.Columns.Add(columnheader);
+	        columnheader = new ColumnHeader();
+	        columnheader.Name = "SpecialAttack (DPS)";
+	        columnheader.Text = columnheader.Name;
+	        PokemonListView.Columns.Add(columnheader);
+	        columnheader = new ColumnHeader();
+	        columnheader.Name = "#";
+	        columnheader.Text = columnheader.Name;	        
+	        PokemonListView.Columns.Add(columnheader);
+	        columnheader = new ColumnHeader();
+	        columnheader.Name = "% CP";
+	        columnheader.Text = columnheader.Name;
+	        PokemonListView.Columns.Add(columnheader);
+	        columnheader = new ColumnHeader();
+	        columnheader.Name = "Type";
+	        columnheader.Text = columnheader.Name;
+	        PokemonListView.Columns.Add(columnheader);
+	        columnheader = new ColumnHeader();
+	        columnheader.Name = "Type 2";
+	        columnheader.Text = columnheader.Name;
+	        PokemonListView.Columns.Add(columnheader); 
+	        
+	        PokemonListView.Columns["#"].DisplayIndex = 0;
+	        
+	        PokemonListView.ColumnClick += new ColumnClickEventHandler(PokemonListView_ColumnClick);
+            PokemonListView.ShowItemToolTips = true;
+            PokemonListView.DoubleBuffered(true);
+            PokemonListView.View = View.Details;
+
+        }
+
+
+        private void numTravelSpeed_TextChanged(object sender, EventArgs e)
+        {
+            try
+            {
+            	Globals.RelocateDefaultLocationTravelSpeed = (double) numTravelSpeed.Value;
+            }
+            catch
+            {
+
+            }
+        }
+
+        private void textBox4_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            double lat = Globals.latitute;
+            double lng = Globals.longitude;
+            try
+            {
+                lat = double.Parse(textBox4.Text.Replace(',', '.'), GUI.cords, System.Globalization.NumberFormatInfo.InvariantInfo);
+                if (lat > 90.0 || lat < -90.0)
+                {
+                    throw new System.ArgumentException("Value has to be between 90 and -90!");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                textBox4.Text = "";
+            }
+            try
+            {
+                lng = double.Parse(textBox5.Text.Replace(',', '.'), GUI.cords, System.Globalization.NumberFormatInfo.InvariantInfo);
+                if (lng > 180.0 || lng < -180.0)
+                {
+                    throw new System.ArgumentException("Value has to be between 180 and -180!");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                textBox5.Text = "";
+            }
+            if (lat != Globals.latitute && lng != Globals.longitude)
+            {
+                Globals.latitute = lat;
+                Globals.longitude = lng;
+                var elevationRequest = new ElevationRequest()
+                {
+                    Locations = new[] { new Location(lat, lng) },
+                };
+                if (!Globals.GoogleMapsAPIKey.Equals(string.Empty))
+                    elevationRequest.ApiKey = Globals.GoogleMapsAPIKey;
+                try
+                {
+                    ElevationResponse elevation = GoogleMaps.Elevation.Query(elevationRequest);
+                    if (elevation.Status == Status.OK)
+                    {
+                        foreach (Result result in elevation.Results)
+                        {
+                            Globals.altitude = result.Elevation;
+                        }
+                    }
+                }
+                catch (Exception)
+                {
+                    // ignored
+                }
+                Globals.RelocateDefaultLocation = true;
+                numTravelSpeed.Value = 0;
+                textBox4.Text = "";
+                textBox5.Text = "";
+                Logger.ColoredConsoleWrite(ConsoleColor.Green, "Default Location Set will navigate there after next pokestop!");
+            }          
+        }
+	}
     public static class ControlExtensions
     {
         public static void DoubleBuffered(this Control control, bool enable)
@@ -1339,30 +1572,8 @@ namespace PokemonGo.RocketAPI.Console
                 return -result;
             }
         }
-    }
-    public static class Prompt
-    {
-        public static string ShowDialog(string text, string caption)
-        {
-            Form prompt = new Form()
-            {
-                Width = 500,
-                Height = 150,
-                FormBorderStyle = FormBorderStyle.FixedDialog,
-                Text = caption,
-                StartPosition = FormStartPosition.CenterScreen
-            };
-            Label textLabel = new Label() { Left = 50, Top = 20, Text = "Nickname:" };
-            TextBox textBox = new TextBox() { Left = 50, Top = 50, Width = 400, Text = text, MaxLength = 12 };
-            Button confirmation = new Button() { Text = "Ok", Left = 350, Width = 100, Top = 70, DialogResult = DialogResult.OK };
-            confirmation.Click += (sender, e) => { prompt.Close(); };
-            prompt.Controls.Add(textBox);
-            prompt.Controls.Add(confirmation);
-            prompt.Controls.Add(textLabel);
-            prompt.AcceptButton = confirmation;
-
-            return prompt.ShowDialog() == DialogResult.OK ? textBox.Text : "";
-        }
+      
+    
     }
 
 }
