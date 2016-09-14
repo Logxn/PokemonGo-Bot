@@ -44,7 +44,7 @@ namespace PokemonGo.RocketAPI.Console
         {
             _clientSettings = new Settings();
 
-            var ret = MessageBox.Show("The Bot isn't done! Be aware that you can get banned!\n\nDon't login with the new App Version (0.3.7) (0.3.5 is ok!)\n\nOr you will probably get Banned if you use the bot again!\n\nAre you sure to continue?","Warning", MessageBoxButtons.YesNo) ;
+            var ret = MessageBox.Show("The Bot isn't done! Be aware that you can get banned!\n\nDon't login with the new App Version (0.3.7) (0.3.5 is ok!)\n\nOr you will probably get Banned if you use the bot again!\n\nAre you sure you want to continue?","Warning", MessageBoxButtons.YesNo) ;
             if (ret== DialogResult.No){
             	Application.Exit();
             }        	
@@ -376,7 +376,7 @@ namespace PokemonGo.RocketAPI.Console
                 text_MaxSuperPotions.Text = "100";
                 text_MaxHyperPotions.Text = "100";
                 text_MaxRazzBerrys.Text = "100";
-                text_MaxMasterBalls.Text = "200";
+                text_MaxMasterBalls.Text = "0";
                 text_MaxTopPotions.Text = "100";
                 text_MaxTopRevives.Text = "100";
             }

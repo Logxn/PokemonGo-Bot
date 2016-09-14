@@ -19,6 +19,10 @@ using PokemonGo.RocketAPI.Logic.Utils;
 using System.Collections.Generic;
 using static PokemonGo.RocketAPI.Console.GUI;
 using POGOProtos.Inventory.Item;
+using GoogleMapsApi.Entities.Elevation.Request;
+using GoogleMapsApi;
+using GoogleMapsApi.Entities.Common;
+using GoogleMapsApi.Entities.Elevation.Response;
 
 namespace PokemonGo.RocketAPI.Console
 {
@@ -71,6 +75,13 @@ namespace PokemonGo.RocketAPI.Console
         private void Pokemons_Load(object sender, EventArgs e)
         {
             loadAdditionalPokeData();
+            #region Load GLOBALS for Items change             
+            int count = 0;
+            count += Globals.pokeball + Globals.greatball + Globals.ultraball + Globals.revive
+                + Globals.potion + Globals.superpotion + Globals.hyperpotion + Globals.berry + Globals.masterball
+                + Globals.toprevive + Globals.toppotion;
+            text_TotalItemCount.Text = count.ToString();
+            #endregion
             reloadsecondstextbox.Text = "60";
             Globals.pauseAtPokeStop = false;
             btnForceUnban.Text = "Pause Walking";
@@ -1585,6 +1596,86 @@ namespace PokemonGo.RocketAPI.Console
             ItemsListView.Items.Clear();
             ExecuteItemsLoad();
 		}                  
+
+        private void textBox3_TextChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                Globals.RelocateDefaultLocationTravelSpeed = double.Parse(textBox3.Text);
+            }
+            catch
+            {
+
+            }
+        }
+
+        private void textBox4_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            double lat = Globals.latitute;
+            double lng = Globals.longitude;
+            try
+            {
+                lat = double.Parse(textBox4.Text.Replace(',', '.'), GUI.cords, System.Globalization.NumberFormatInfo.InvariantInfo);
+                if (lat > 90.0 || lat < -90.0)
+                {
+                    throw new System.ArgumentException("Value has to be between 90 and -90!");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                textBox4.Text = "";
+            }
+            try
+            {
+                lng = double.Parse(textBox5.Text.Replace(',', '.'), GUI.cords, System.Globalization.NumberFormatInfo.InvariantInfo);
+                if (lng > 180.0 || lng < -180.0)
+                {
+                    throw new System.ArgumentException("Value has to be between 180 and -180!");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                textBox5.Text = "";
+            }
+            if (lat != Globals.latitute && lng != Globals.longitude)
+            {
+                Globals.latitute = lat;
+                Globals.longitude = lng;
+                var elevationRequest = new ElevationRequest()
+                {
+                    Locations = new[] { new Location(lat, lng) },
+                };
+                if (!Globals.GoogleMapsAPIKey.Equals(string.Empty))
+                    elevationRequest.ApiKey = Globals.GoogleMapsAPIKey;
+                try
+                {
+                    ElevationResponse elevation = GoogleMaps.Elevation.Query(elevationRequest);
+                    if (elevation.Status == Status.OK)
+                    {
+                        foreach (Result result in elevation.Results)
+                        {
+                            Globals.altitude = result.Elevation;
+                        }
+                    }
+                }
+                catch (Exception)
+                {
+                    // ignored
+                }
+                Globals.RelocateDefaultLocation = true;
+                textBox3.Text = "";
+                textBox4.Text = "";
+                textBox5.Text = "";
+                Logger.ColoredConsoleWrite(ConsoleColor.Green, "Default Location Set will navigate there after next pokestop!");
+            }          
+        }
 	}
     public static class ControlExtensions
     {
