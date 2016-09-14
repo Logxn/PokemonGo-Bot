@@ -842,7 +842,8 @@ namespace PokemonGo.RocketAPI.Logic
                     }
                     catch (Exception e)
                     {
-                        Logger.ColoredConsoleWrite(ConsoleColor.DarkRed, "ignore this: Error in fncPokeStop: " + e.ToString());
+	                    Logger.ColoredConsoleWrite(ConsoleColor.DarkRed, "Ignore this: sending exception information to log file.");
+	                    Logger.AddLog(string.Format("Error in fncPokeStop: " + e.ToString()));
                     }
                 }
                 #endregion

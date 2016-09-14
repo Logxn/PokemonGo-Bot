@@ -75,14 +75,7 @@ namespace PokemonGo.RocketAPI.Console
         private void Pokemons_Load(object sender, EventArgs e)
         {
             loadAdditionalPokeData();
-            #region Load GLOBALS for Items change             
-            int count = 0;
-            count += Globals.pokeball + Globals.greatball + Globals.ultraball + Globals.revive
-                + Globals.potion + Globals.superpotion + Globals.hyperpotion + Globals.berry + Globals.masterball
-                + Globals.toprevive + Globals.toppotion;
-            text_TotalItemCount.Text = count.ToString();
-            #endregion
-            reloadsecondstextbox.Text = "60";
+            reloadsecondstextbox.Value = 60;
             Globals.pauseAtPokeStop = false;
             btnForceUnban.Text = "Pause Walking";
             Execute();
@@ -171,7 +164,7 @@ namespace PokemonGo.RocketAPI.Console
                             .Select(f => f.Candy_)
                             .First();
                         listViewItem.SubItems.Add(string.Format("{0}", pokemon.Cp));
-                        //< listViewItem.SubItems.Add(string.Format("{0}% {1}{2}{3} ({4})", PokemonInfo.CalculatePokemonPerfection(pokemon).ToString("0"), pokemon.IndividualAttack.ToString("X"), pokemon.IndividualDefense.ToString("X"), pokemon.IndividualStamina.ToString("X"), (45 - pokemon.IndividualAttack- pokemon.IndividualDefense- pokemon.IndividualStamina) ));
+                        //<listViewItem.SubItems.Add(string.Format("{0}% {1}{2}{3} ({4})", PokemonInfo.CalculatePokemonPerfection(pokemon).ToString("0"), pokemon.IndividualAttack.ToString("X"), pokemon.IndividualDefense.ToString("X"), pokemon.IndividualStamina.ToString("X"), (45 - pokemon.IndividualAttack- pokemon.IndividualDefense- pokemon.IndividualStamina) ));
                         listViewItem.SubItems.Add(string.Format("{0}% {1}-{2}-{3}", PokemonInfo.CalculatePokemonPerfection(pokemon).ToString("0"), pokemon.IndividualAttack, pokemon.IndividualDefense, pokemon.IndividualStamina));
                         listViewItem.SubItems.Add(string.Format("{0}", PokemonInfo.GetLevel(pokemon)));
                         listViewItem.ImageKey = pokemon.PokemonId.ToString();
@@ -251,27 +244,28 @@ namespace PokemonGo.RocketAPI.Console
                     checkBox4.Checked = Globals.useBasicIncubators;
                     text_GoogleMapsAPIKey.Text = Globals.GoogleMapsAPIKey;
 
-                    num_MaxPokeballs.Value = Globals.pokeball;
-                    num_MaxGreatBalls.Value =  Globals.greatball;
-                    num_MaxUltraBalls.Value =  Globals.ultraball;
-                    num_MaxRevives.Value = Globals.revive;
-                    num_MaxPotions.Value = Globals.potion;
-                    num_MaxSuperPotions.Value = Globals.superpotion;
-                    num_MaxHyperPotions.Value = Globals.hyperpotion;
-                    num_MaxRazzBerrys.Value = Globals.berry;
-                    num_MaxMasterBalls.Value = Globals.masterball;
-                    num_MaxTopRevives.Value = Globals.toprevive;
-                    num_MaxTopPotions.Value = Globals.toppotion;
+                    itemsPanel1.num_MaxPokeballs.Value = Globals.pokeball;
+                    itemsPanel1.num_MaxGreatBalls.Value =  Globals.greatball;
+                    itemsPanel1.num_MaxUltraBalls.Value =  Globals.ultraball;
+                    itemsPanel1.num_MaxRevives.Value = Globals.revive;
+                    itemsPanel1.num_MaxPotions.Value = Globals.potion;
+                    itemsPanel1.num_MaxSuperPotions.Value = Globals.superpotion;
+                    itemsPanel1.num_MaxHyperPotions.Value = Globals.hyperpotion;
+                    itemsPanel1.num_MaxRazzBerrys.Value = Globals.berry;
+                    itemsPanel1.num_MaxMasterBalls.Value = Globals.masterball;
+                    itemsPanel1.num_MaxTopRevives.Value = Globals.toprevive;
+                    itemsPanel1.num_MaxTopPotions.Value = Globals.toppotion;
                     int count = 0;
 		            count += Globals.pokeball + Globals.greatball + Globals.ultraball + Globals.revive
 		                + Globals.potion + Globals.superpotion + Globals.hyperpotion + Globals.berry + Globals.masterball
 		                + Globals.toprevive + Globals.toppotion;
-		            text_TotalItemCount.Text = count.ToString();
+		            itemsPanel1.text_TotalItemCount.Text = count.ToString();
 
-                    textBox2.Text = Globals.razzberry_chance.ToString();
+		            numRazzPercent.Value = (int) (Globals.razzberry_chance * 100);
+		            numTravelSpeed.Value = (int) Globals.RelocateDefaultLocationTravelSpeed;
                     #endregion
  	
-                    ExecuteItemsLoad();
+                    itemsPanel1.ExecuteItemsLoad();
                 }
             }
             catch (Exception e)
@@ -282,120 +276,8 @@ namespace PokemonGo.RocketAPI.Console
                 Execute();
             }
         }    
-        private async void ExecuteItemsLoad()
-        {
-            try
-            {
-                client = Logic.Logic._client;
-	            if (client.readyToUse != false)
-	            {
-	               var items = await client.Inventory.GetItems();
-	              
-	               ItemId[] validsIDs = {ItemId.ItemPokeBall,ItemId.ItemGreatBall,ItemId.ItemUltraBall};
-	               
-	               ListViewItem listViewItem;
-	               foreach (  var item in items) {
-	                listViewItem = new ListViewItem();
-	                listViewItem.Tag = item;
-	                listViewItem.Text = getItemName(item.ItemId);
-	                listViewItem.ImageKey = item.ItemId.ToString().Replace("Item","");
-	                listViewItem.SubItems.Add(""+item.Count);
-	                listViewItem.SubItems.Add(""+item.Unseen);
-	                ItemsListView.Items.Add(listViewItem);
-	               }
-	            }
-            }
-            catch (Exception e)
-            {
-
-                Logger.Error("[ItemsList-Error] " + e.StackTrace);
-                await Task.Delay(1000); // Lets the API make a little pause, so we dont get blocked
-                ExecuteItemsLoad();
-            }
-        }
-        private string getItemName(ItemId itemID)
-        {
-            switch (itemID)
-            {
-                case ItemId.ItemPotion:
-                    return "Potion";
-                case ItemId.ItemSuperPotion:
-                    return "Super Potion";
-                case ItemId.ItemHyperPotion:
-                    return "Hyper Potion";
-                case ItemId.ItemMaxPotion:
-                    return "Max Potion";
-                case ItemId.ItemRevive:
-                    return "Revive";
-                case ItemId.ItemIncenseOrdinary:
-                    return "Incense";
-                case ItemId.ItemPokeBall:
-                    return "Poke Ball";
-                case ItemId.ItemGreatBall:
-                    return "Great Ball";
-                case ItemId.ItemUltraBall:
-                    return "Ultra Ball";
-                case ItemId.ItemMasterBall:
-                    return "Master Ball";
-                case ItemId.ItemRazzBerry:
-                    return "Razz Berry";
-                case ItemId.ItemIncubatorBasic:
-                    return "Egg Incubator";
-                case ItemId.ItemIncubatorBasicUnlimited:
-                    return "Unlimited Egg Incubator";
-                default:
-                    return itemID.ToString().Replace("Item", "");
-            }
-        }
-        async void RecycleToolStripMenuItemClick(object sender, EventArgs e)
-        {
-
-            var item = (ItemData)ItemsListView.SelectedItems[0].Tag;
-            int amount = IntegerInput.ShowDialog(1, "How many?", item.Count);
-            if (amount > 0)
-            {
-                taskResponse resp = new taskResponse(false, string.Empty);
-
-                resp = await RecycleItems(item, amount);
-                if (resp.Status)
-                {
-                    item.Count -= amount;
-                    ItemsListView.SelectedItems[0].SubItems[1].Text = "" + item.Count;
-                }
-                else
-                    MessageBox.Show(resp.Message + " recycle failed!", "Recycle Status", MessageBoxButtons.OK);
-
-            }
-        }
-        private static async Task<taskResponse> RecycleItems(ItemData item, int amount)
-        {
-            taskResponse resp1 = new taskResponse(false, string.Empty);
-            try
-            {
-                var resp2 = await client.Inventory.RecycleItem(item.ItemId, amount);
-
-                if (resp2.Result == RecycleInventoryItemResponse.Types.Result.Success)
-                {
-                    resp1.Status = true;
-                }
-                else
-                {
-                    resp1.Message = item.ItemId.ToString();
-                }
-            }
-            catch (Exception e)
-            {
-                Logger.ColoredConsoleWrite(ConsoleColor.Red, "Error RecycleItem: " + e.Message);
-                await RecycleItems(item, amount);
-            }
-            return resp1;
-        }
 
 
-        private string GetRecycleStringValue(int X)
-        {
-            return X.ToString();
-        }
 
         private void EnabledButton(bool enabled, string reason = "")
         {
@@ -897,7 +779,7 @@ namespace PokemonGo.RocketAPI.Console
         {
             string croppedName = StringUtils.getPokemonNameByLanguage(ClientSettings, (PokemonId)pokemon.PokemonId) + " ";
             string nickname;
-            //< nickname = string.Format("{0}{1}{2}{3}", pokemon.IndividualAttack.ToString("X"), pokemon.IndividualDefense.ToString("X"), pokemon.IndividualStamina.ToString("X"),(45 - pokemon.IndividualAttack- pokemon.IndividualDefense- pokemon.IndividualStamina));
+            //<nickname = string.Format("{0}{1}{2}{3}", pokemon.IndividualAttack.ToString("X"), pokemon.IndividualDefense.ToString("X"), pokemon.IndividualStamina.ToString("X"),(45 - pokemon.IndividualAttack- pokemon.IndividualDefense- pokemon.IndividualStamina));
             nickname = string.Format("{0}.{1}.{2}.{3}", PokemonInfo.CalculatePokemonPerfection(pokemon).ToString("0"), pokemon.IndividualAttack, pokemon.IndividualDefense, pokemon.IndividualStamina);
             int lenDiff = 12 - nickname.Length;
             if (croppedName.Length > lenDiff)
@@ -1060,23 +942,9 @@ namespace PokemonGo.RocketAPI.Console
         {
             if (checkBoxreload.Checked)
             {
-                int def = 0;
-                int interval;
-                if (int.TryParse(reloadsecondstextbox.Text, out interval))
-                {
-                    def = interval;
-                }
-                if (def < 30 || def > 3600)
-                {
-                    MessageBox.Show("Interval has to be between 30 and 3600 seconds!");
-                    reloadsecondstextbox.Text = "60";
-                    checkBoxreload.Checked = false;
-                }
-                else
-                {
-                    reloadtimer.Interval = def * 1000;
-                    reloadtimer.Start();
-                }
+            	int def = (int) reloadsecondstextbox.Value;
+                reloadtimer.Interval = def * 1000;
+                reloadtimer.Start();
             }
             else
             {
@@ -1091,13 +959,6 @@ namespace PokemonGo.RocketAPI.Console
             Execute();
         }
 
-        private void reloadsecondstextbox_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
-            {
-                e.Handled = true;
-            }
-        }
 
         private async void btnFullPowerUp_Click(object sender, EventArgs e)
         {
@@ -1121,13 +982,12 @@ namespace PokemonGo.RocketAPI.Console
                 int powerUps = 0;
                 while (i == 0)
                 {
-                    var poweruplimit = 0;
-                    int.TryParse(textBox1.Text, out poweruplimit);
+                	var poweruplimit = (int) numPwrUpLimit.Value;
                     foreach (ListViewItem selectedItem in selectedItems)
                     {
-                        if (textBox1.Text != string.Empty)
+                        if (poweruplimit >0)
                         {
-                            if (poweruplimit > 0 && poweredup < poweruplimit)
+                            if (poweredup < poweruplimit)
                             {
                                 resp = await PowerUp((PokemonData)selectedItem.Tag);
                                 if (resp.Status)
@@ -1455,74 +1315,16 @@ namespace PokemonGo.RocketAPI.Console
             Globals.useBasicIncubators = checkBox4.Checked;
         }
 
-        private void textBox2_TextChanged(object sender, EventArgs e)
+        private void numRazzPercent_TextChanged(object sender, EventArgs e)
         {
-            if (!double.TryParse(textBox2.Text, out Globals.razzberry_chance)) Globals.razzberry_chance = 35;
+        	Globals.razzberry_chance = ((double)((NumericUpDown) sender).Value)/100;
         }
 
         private void text_GoogleMapsAPIKey_TextChanged(object sender, EventArgs e)
         {
             Globals.GoogleMapsAPIKey = text_GoogleMapsAPIKey.Text;
         }
-
-
-        private void reloadbtn_Click(object sender, EventArgs e)
-        {
-            ItemsListView.Items.Clear();
-            PokemonListView.Items.Clear();
-            Execute();
-        }
         
-        private void num_Max(object sender, EventArgs e)
-        {
-        	try{
-        		var numB = (NumericUpDown) sender;
-        		var value = (int) numB.Value;
-                Logger.ColoredConsoleWrite(ConsoleColor.DarkGray, "==========Begin Recycle Filter Debug Logging=============");
-                Logger.ColoredConsoleWrite(ConsoleColor.DarkGray, "Value Setter Triggered for: " + numB.Name + " New Value: " + numB.Value);
-                Logger.ColoredConsoleWrite(ConsoleColor.DarkGray, "==========End Recycle Filter Debug Logging=============");
-                switch (numB.Name) {
-        			case "num_MaxPokeballs":
-        				Globals.pokeball = value;
-        			break;
-        			case "num_MaxGreatBalls":
-        				Globals.greatball = value;
-        			break;
-        			case "num_MaxUltraBalls":
-        				Globals.ultraball = value;
-        			break;
-        			case "num_MaxRevives":
-        				Globals.pokeball = value;
-        			break;
-        			case "num_MaxPotions":
-        				Globals.potion = value;
-        			break;
-        			case "num_MaxSuperPotions":
-        				Globals.superpotion = value;
-        			break;
-        			case "num_MaxHyperPotions":
-        				Globals.hyperpotion = value;
-        			break;
-        			case "num_MaxMasterBalls":
-        				Globals.masterball = value;
-        			break;
-        			case "num_MaxTopRevives":
-        				Globals.toprevive = value;
-        			break;
-        			case "num_MaxTopPotions":
-        				Globals.toppotion = value;
-        			break;
-        				
-        		}        
-        		 int count = 0;
-		            count += Globals.pokeball + Globals.greatball + Globals.ultraball + Globals.revive
-		                + Globals.potion + Globals.superpotion + Globals.hyperpotion + Globals.berry + Globals.masterball
-		                + Globals.toprevive + Globals.toppotion;
-		         text_TotalItemCount.Text = count.ToString();
-        	}catch (Exception e1){
-        		
-        	}
-        }
         
         private void InitialzePokemonListView(){        			
         	PokemonListView.Columns.Clear();
@@ -1593,17 +1395,12 @@ namespace PokemonGo.RocketAPI.Console
 
         }
 
-		void BtnRealoadItemsClick(object sender, EventArgs e)
-		{
-            ItemsListView.Items.Clear();
-            ExecuteItemsLoad();
-		}                  
 
-        private void textBox3_TextChanged(object sender, EventArgs e)
+        private void numTravelSpeed_TextChanged(object sender, EventArgs e)
         {
             try
             {
-                Globals.RelocateDefaultLocationTravelSpeed = double.Parse(textBox3.Text);
+            	Globals.RelocateDefaultLocationTravelSpeed = (double) numTravelSpeed.Value;
             }
             catch
             {
@@ -1672,7 +1469,7 @@ namespace PokemonGo.RocketAPI.Console
                     // ignored
                 }
                 Globals.RelocateDefaultLocation = true;
-                textBox3.Text = "";
+                numTravelSpeed.Value = 0;
                 textBox4.Text = "";
                 textBox5.Text = "";
                 Logger.ColoredConsoleWrite(ConsoleColor.Green, "Default Location Set will navigate there after next pokestop!");
