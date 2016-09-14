@@ -332,7 +332,6 @@ namespace PokemonGo.RocketAPI.Console
             }
             else
             {
-                throw new NotImplementedException();
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
                 Application.Run(new GUI());
