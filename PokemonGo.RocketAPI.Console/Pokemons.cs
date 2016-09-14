@@ -20,6 +20,10 @@ using PokemonGo.RocketAPI.Logic.Utils;
 using System.Collections.Generic;
 using static PokemonGo.RocketAPI.Console.GUI;
 using POGOProtos.Inventory.Item;
+using GoogleMapsApi.Entities.Elevation.Request;
+using GoogleMapsApi;
+using GoogleMapsApi.Entities.Common;
+using GoogleMapsApi.Entities.Elevation.Response;
 
 namespace PokemonGo.RocketAPI.Console
 {
@@ -72,6 +76,13 @@ namespace PokemonGo.RocketAPI.Console
         private void Pokemons_Load(object sender, EventArgs e)
         {
             loadAdditionalPokeData();
+            #region Load GLOBALS for Items change             
+            int count = 0;
+            count += Globals.pokeball + Globals.greatball + Globals.ultraball + Globals.revive
+                + Globals.potion + Globals.superpotion + Globals.hyperpotion + Globals.berry + Globals.masterball
+                + Globals.toprevive + Globals.toppotion;
+            text_TotalItemCount.Text = count.ToString();
+            #endregion
             reloadsecondstextbox.Text = "60";
             Globals.pauseAtPokeStop = false;
             btnForceUnban.Text = "Pause Walking";
@@ -381,7 +392,238 @@ namespace PokemonGo.RocketAPI.Console
             }
             return resp1;
         }
+    private void tabPage4_Paint(object sender, PaintEventArgs e)
+        {
+            
+        }
+ 
+        /// <summary>
+        /// Gets the image for team.
+        /// </summary>
+        /// <param name="team">The team.</param>
+        /// <returns></returns>
+        private Image getImageForTeam(TeamColor team)
+        {
+            switch(team)
+            {
+                case TeamColor.Neutral:
+                    return null;
+                    break;
+                case TeamColor.Blue:
+                    return Properties.Resources.team_mystic;
+                    break;
+                case TeamColor.Red:
+                    return Properties.Resources.team_valor;
+                    break;
+                case TeamColor.Yellow:
+                    return Properties.Resources.team_instinct;
+                    break;
+                default:
+                    return null;
+                    break;
+                
+                
+            }
 
+        }
+
+        private void tabPage4_SizeChanged(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void Options_TabIndexChanged(object sender, EventArgs e)
+        {
+           
+        }
+
+        private void Options_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if(Options.SelectedIndex == Options.TabPages.IndexOf(tabPagePokemonList))
+            {
+                btnreload.Visible = true;
+                btnreload.Enabled = true;
+                checkBoxreload.Visible = true;
+                checkBoxreload.Enabled = true;
+                reloadsecondstextbox.Visible = true;
+                reloadsecondstextbox.Enabled = true;
+                
+            }
+            else
+            {
+                btnreload.Visible = false;
+                btnreload.Enabled = false;
+                checkBoxreload.Visible =false;
+                checkBoxreload.Enabled =false;
+                reloadsecondstextbox.Visible = false;
+                reloadsecondstextbox.Enabled = false;
+            }
+         if(Options.SelectedIndex == Options.TabPages.IndexOf(tabPagePlayer))
+            {
+             try
+             {
+                    updatePlayerImages();
+                    updatePlayerInfoLabels();
+                 }catch(Exception ex)
+                {
+                       Logger.ColoredConsoleWrite(ConsoleColor.DarkRed, "Error occured while getting PlayerInfos: " + ex.ToString());
+                    
+                }
+            }
+        }
+ 
+        private void updatePlayerImages()
+        {
+            labelNoTeamSelected.Visible = false;
+            labelNoBuddySelected.Visible = false;
+
+            pictureBoxPlayerAvatar.Image = getImageForGender(profile.PlayerData.Avatar.Gender);
+
+            pictureBoxTeam.Location = new Point(0,0);
+            //pictureBoxTeam.BackColor = Color.Magenta;
+            pictureBoxTeam.Image = getImageForTeam(profile.PlayerData.Team);
+            Control parent = pictureBoxTeam;
+            if (profile.PlayerData.Team == TeamColor.Neutral)
+            {
+                labelNoTeamSelected.Location = new Point(0,0);
+                //labelNoTeamSelected.Padding = new System.Windows.Forms.Padding(0,20,0,0);
+                labelNoTeamSelected.Parent = pictureBoxTeam;
+                labelNoTeamSelected.Width = pictureBoxTeam.Width;
+                labelNoTeamSelected.Height = pictureBoxTeam.Height;
+                labelNoTeamSelected.Visible = true;
+                labelNoTeamSelected.TextAlign = ContentAlignment.TopCenter;
+                //labelNoTeamSelected.BackColor = Color.Red;
+                parent = labelNoTeamSelected;
+            }
+
+            pictureBoxTeam.Refresh();
+
+            pictureBoxPlayerAvatar.Parent = parent;
+            var playerLocation = new Point(pictureBoxTeam.Width - (pictureBoxTeam.Width / 2) - (pictureBoxPlayerAvatar.Width / 2),pictureBoxTeam.Height - pictureBoxPlayerAvatar.Height);
+            pictureBoxPlayerAvatar.Height = (int)(pictureBoxTeam.Height * 0.75);
+            pictureBoxPlayerAvatar.Width = pictureBoxTeam.Width;
+            pictureBoxPlayerAvatar.Location = playerLocation;
+            pictureBoxPlayerAvatar.BackColor = Color.Transparent;
+            pictureBoxPlayerAvatar.BringToFront();
+
+            pictureBoxPlayerAvatar.Refresh();
+
+            pictureBoxBuddyPokemon.Parent = pictureBoxPlayerAvatar;
+            var buddyLocation = new Point(60,pictureBoxPlayerAvatar.Height - pictureBoxBuddyPokemon.Height);
+            pictureBoxBuddyPokemon.Image = getImageForBuddy(profile.PlayerData.BuddyPokemon);
+            pictureBoxBuddyPokemon.Location = buddyLocation;
+            pictureBoxBuddyPokemon.BackColor = Color.Transparent;
+            pictureBoxBuddyPokemon.BringToFront();
+            if (profile.PlayerData.BuddyPokemon == null || profile.PlayerData.BuddyPokemon.ToString() == "{ }")
+            {
+                labelNoBuddySelected.Parent = pictureBoxBuddyPokemon;
+                labelNoBuddySelected.Visible = true;
+                labelNoBuddySelected.Width = pictureBoxBuddyPokemon.Width - 27;
+                labelNoBuddySelected.Height = pictureBoxBuddyPokemon.Height;
+                labelNoBuddySelected.Location = new Point(0,0);
+                ;
+                labelNoBuddySelected.TextAlign = ContentAlignment.MiddleCenter;
+                labelNoBuddySelected.BringToFront();
+            }
+        }
+ 
+        /// <summary>
+        /// Updates the player info labels.
+        /// </summary>
+        private async void updatePlayerInfoLabels()
+        {
+            //            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "-----------------------[PLAYER STATS]-----------------------");
+            //Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Level/EXP: {stats.Level} | {curexp.ToString("N0")}/{expneeded.ToString("N0")} ({Math.Round(curexppercent, 2)}%)");
+            //Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "EXP to Level up: " + (stats.NextLevelXp - stats.Experience)); ;
+            //Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "PokeStops visited: " + stats.PokeStopVisits);
+            //Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "KM Walked: " + Math.Round(stats.KmWalked, 2));
+            //Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Pokemon: " + await _client.Inventory.getPokemonCount() + " + " + await _client.Inventory.GetEggsCount() + " Eggs /" + profile.PlayerData.MaxPokemonStorage + " (" + pokemonToEvolve + " Evolvable)");
+            //Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Pokedex Completion: " + stats.UniquePokedexEntries + "/150 " + "[" + pokedexpercent + "%]");
+            ////Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Items: " + await _client.Inventory.getInventoryCount() + "/" + profile.PlayerData.MaxItemStorage);
+            //Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Stardust: " + profile.PlayerData.Currencies.ToArray()[1].Amount.ToString("N0"));
+            //Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "------------------------------------------------------------");
+            //Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Pokemon Catch Count this session: " + pokemonCatchCount);
+            //Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "PokeStop Farmed Count this session: " + pokeStopFarmedCount);
+            var playerStats = await client.Inventory.GetPlayerStats();
+            stats = playerStats.First();
+
+            labelUserProperty1Title.Text = "Username:";
+            labelUserProperty1Value.Text = profile.PlayerData.Username;
+
+            var expneeded = stats.NextLevelXp - stats.PrevLevelXp - StringUtils.getExpDiff(stats.Level);
+            var curexp = stats.Experience - stats.PrevLevelXp - StringUtils.getExpDiff(stats.Level);
+            var curexppercent = Convert.ToDouble(curexp) / Convert.ToDouble(expneeded) * 100;
+
+            var pokemonToEvolve = (await client.Inventory.GetPokemonToEvolve()).Count();
+            var pokedexpercentraw = Convert.ToDouble(stats.UniquePokedexEntries) / Convert.ToDouble(150) * 100;
+            var pokedexpercent = Math.Floor(pokedexpercentraw);
+
+            labelUserProperty2Title.Text = "Level:";
+            var curexppercentrounded = Math.Round(curexppercent, 2);
+            var kmWalked = Math.Round(stats.KmWalked, 2);
+            
+            labelUserProperty2Value.Text = stats.Level + " | " + curexp + "/" +expneeded +"("+curexppercentrounded+"%)";
+
+            labelUserProperty3Title.Text = "Stardust:";
+            labelUserProperty3Value.Text = profile.PlayerData.Currencies.ToArray()[1].Amount.ToString("N0");
+
+            labelUserProperty4Title.Text = "Pokemon:";
+            labelUserProperty4Value.Text = await client.Inventory.getPokemonCount() + " + " + await client.Inventory.GetEggsCount() + " Eggs / " + profile.PlayerData.MaxPokemonStorage + " (" + pokemonToEvolve + " Evolvable)";
+
+            labelUserProperty5Title.Text = "Pokedex:";
+            labelUserProperty5Value.Text = stats.UniquePokedexEntries + "/ 150 " + "[" + pokedexpercent + "%]";
+
+            labelUserProperty6Title.Text = "Walked:";
+            labelUserProperty6Value.Text = kmWalked + "km"; 
+        }
+ 
+        /// <summary>
+        /// Gets the image for buddy.
+        /// </summary>
+        /// <param name="buddyPokemon">The buddy pokemon.</param>
+        /// <returns></returns>
+        private Image getImageForBuddy(BuddyPokemon buddyPokemon)
+        {
+            if (buddyPokemon == null || buddyPokemon.ToString() == "{ }")
+            {
+                return null;
+            }
+            else
+            {
+                var buddyPoke = pokemons.FirstOrDefault(x => x.Id == buddyPokemon.Id);
+                if(buddyPoke != null)
+                {
+                    return GetPokemonVeryLargeImage(buddyPoke.PokemonId);
+                }
+                else
+                {
+                    return null;
+                }
+            }
+        }
+
+
+ 
+        /// <summary>
+        /// Gets the image for gender.
+        /// </summary>
+        /// <param name="gender">The gender.</param>
+        /// <returns></returns>
+        private Image getImageForGender(Gender gender)
+        {
+            switch(gender)
+            {
+                case Gender.Male:
+                    return Properties.Resources.Trainer_M;
+                case Gender.Female:
+                    return Properties.Resources.Trainer_F;
+                default: 
+                    return Properties.Resources.Trainer_M;
+            }
+        }
+    }
+        
+        
         private string GetRecycleStringValue(int X)
         {
             return X.ToString();
@@ -848,6 +1090,7 @@ namespace PokemonGo.RocketAPI.Console
                 {
                     resp.Message = pokemon.PokemonId.ToString();
                 }
+                
             }
             catch (Exception e)
             {
@@ -1583,84 +1826,84 @@ namespace PokemonGo.RocketAPI.Console
             ExecuteItemsLoad();
 		}
 
-        private void tabPage4_Paint(object sender, PaintEventArgs e)
+        private void textBox3_TextChanged(object sender, EventArgs e)
         {
-            
-        }
- 
-        /// <summary>
-        /// Gets the image for team.
-        /// </summary>
-        /// <param name="team">The team.</param>
-        /// <returns></returns>
-        private Image getImageForTeam(TeamColor team)
-        {
-            switch(team)
+            try
             {
-                case TeamColor.Neutral:
-                    return null;
-                    break;
-                case TeamColor.Blue:
-                    return Properties.Resources.team_mystic;
-                    break;
-                case TeamColor.Red:
-                    return Properties.Resources.team_valor;
-                    break;
-                case TeamColor.Yellow:
-                    return Properties.Resources.team_instinct;
-                    break;
-                default:
-                    return null;
-                    break;
-                
-                
+                Globals.RelocateDefaultLocationTravelSpeed = double.Parse(textBox3.Text);
             }
-
-        }
-
-        private void tabPage4_SizeChanged(object sender, EventArgs e)
-        {
-            
-        }
-
-        private void Options_TabIndexChanged(object sender, EventArgs e)
-        {
-           
-        }
-
-        private void Options_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if(Options.SelectedIndex == Options.TabPages.IndexOf(tabPagePokemonList))
+            catch
             {
-                btnreload.Visible = true;
-                btnreload.Enabled = true;
-                checkBoxreload.Visible = true;
-                checkBoxreload.Enabled = true;
-                reloadsecondstextbox.Visible = true;
-                reloadsecondstextbox.Enabled = true;
-                
+
             }
-            else
+        }
+
+        private void textBox4_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            double lat = Globals.latitute;
+            double lng = Globals.longitude;
+            try
             {
-                btnreload.Visible = false;
-                btnreload.Enabled = false;
-                checkBoxreload.Visible =false;
-                checkBoxreload.Enabled =false;
-                reloadsecondstextbox.Visible = false;
-                reloadsecondstextbox.Enabled = false;
-            }
-         if(Options.SelectedIndex == Options.TabPages.IndexOf(tabPagePlayer))
-            {
-             try
-             {
-                    updatePlayerImages();
-                    updatePlayerInfoLabels();
-                 }catch(Exception ex)
+                lat = double.Parse(textBox4.Text.Replace(',', '.'), GUI.cords, System.Globalization.NumberFormatInfo.InvariantInfo);
+                if (lat > 90.0 || lat < -90.0)
                 {
-                       Logger.ColoredConsoleWrite(ConsoleColor.DarkRed, "Error occured while getting PlayerInfos: " + ex.ToString());
-                    
+                    throw new System.ArgumentException("Value has to be between 90 and -90!");
                 }
             }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                textBox4.Text = "";
+            }
+            try
+            {
+                lng = double.Parse(textBox5.Text.Replace(',', '.'), GUI.cords, System.Globalization.NumberFormatInfo.InvariantInfo);
+                if (lng > 180.0 || lng < -180.0)
+                {
+                    throw new System.ArgumentException("Value has to be between 180 and -180!");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                textBox5.Text = "";
+            }
+            if (lat != Globals.latitute && lng != Globals.longitude)
+            {
+                Globals.latitute = lat;
+                Globals.longitude = lng;
+                var elevationRequest = new ElevationRequest()
+                {
+                    Locations = new[] { new Location(lat, lng) },
+                };
+                if (!Globals.GoogleMapsAPIKey.Equals(string.Empty))
+                    elevationRequest.ApiKey = Globals.GoogleMapsAPIKey;
+                try
+                {
+                    ElevationResponse elevation = GoogleMaps.Elevation.Query(elevationRequest);
+                    if (elevation.Status == Status.OK)
+                    {
+                        foreach (Result result in elevation.Results)
+                        {
+                            Globals.altitude = result.Elevation;
+                        }
+                    }
+                }
+                catch (Exception)
+                {
+                    // ignored
+                }
+                Globals.RelocateDefaultLocation = true;
+                textBox3.Text = "";
+                textBox4.Text = "";
+                textBox5.Text = "";
+                Logger.ColoredConsoleWrite(ConsoleColor.Green, "Default Location Set will navigate there after next pokestop!");
+            }          
         }
  
         private void updatePlayerImages()
