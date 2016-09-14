@@ -75,7 +75,7 @@ namespace PokemonGo.RocketAPI.Console
         private void Pokemons_Load(object sender, EventArgs e)
         {
             loadAdditionalPokeData();
-            reloadsecondstextbox.Text = "60";
+            reloadsecondstextbox.Value = 60;
             Globals.pauseAtPokeStop = false;
             btnForceUnban.Text = "Pause Walking";
             Execute();
@@ -262,7 +262,7 @@ namespace PokemonGo.RocketAPI.Console
 		                + Globals.toprevive + Globals.toppotion;
 		            text_TotalItemCount.Text = count.ToString();
 
-                    textBox2.Text = Globals.razzberry_chance.ToString();
+		            numRazzPercent.Value = (int) Globals.razzberry_chance;
                     #endregion
  	
                     ExecuteItemsLoad();
@@ -1054,23 +1054,9 @@ namespace PokemonGo.RocketAPI.Console
         {
             if (checkBoxreload.Checked)
             {
-                int def = 0;
-                int interval;
-                if (int.TryParse(reloadsecondstextbox.Text, out interval))
-                {
-                    def = interval;
-                }
-                if (def < 30 || def > 3600)
-                {
-                    MessageBox.Show("Interval has to be between 30 and 3600 seconds!");
-                    reloadsecondstextbox.Text = "60";
-                    checkBoxreload.Checked = false;
-                }
-                else
-                {
-                    reloadtimer.Interval = def * 1000;
-                    reloadtimer.Start();
-                }
+            	int def = (int) reloadsecondstextbox.Value;
+                reloadtimer.Interval = def * 1000;
+                reloadtimer.Start();
             }
             else
             {
@@ -1085,13 +1071,6 @@ namespace PokemonGo.RocketAPI.Console
             Execute();
         }
 
-        private void reloadsecondstextbox_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
-            {
-                e.Handled = true;
-            }
-        }
 
         private async void btnFullPowerUp_Click(object sender, EventArgs e)
         {
@@ -1115,13 +1094,12 @@ namespace PokemonGo.RocketAPI.Console
                 int powerUps = 0;
                 while (i == 0)
                 {
-                    var poweruplimit = 0;
-                    int.TryParse(textBox1.Text, out poweruplimit);
+                	var poweruplimit = (int) numPwrUpLimit.Value;
                     foreach (ListViewItem selectedItem in selectedItems)
                     {
-                        if (textBox1.Text != string.Empty)
+                        if (poweruplimit >0)
                         {
-                            if (poweruplimit > 0 && poweredup < poweruplimit)
+                            if (poweredup < poweruplimit)
                             {
                                 resp = await PowerUp((PokemonData)selectedItem.Tag);
                                 if (resp.Status)
@@ -1449,9 +1427,9 @@ namespace PokemonGo.RocketAPI.Console
             Globals.useBasicIncubators = checkBox4.Checked;
         }
 
-        private void textBox2_TextChanged(object sender, EventArgs e)
+        private void numRazzPercent_TextChanged(object sender, EventArgs e)
         {
-            if (!double.TryParse(textBox2.Text, out Globals.razzberry_chance)) Globals.razzberry_chance = 35;
+        	Globals.razzberry_chance = (double)((NumericUpDown) sender).Value;
         }
 
         private void text_GoogleMapsAPIKey_TextChanged(object sender, EventArgs e)
@@ -1590,11 +1568,11 @@ namespace PokemonGo.RocketAPI.Console
             ExecuteItemsLoad();
 		}                  
 
-        private void textBox3_TextChanged(object sender, EventArgs e)
+        private void numTravelSpeed_TextChanged(object sender, EventArgs e)
         {
             try
             {
-                Globals.RelocateDefaultLocationTravelSpeed = double.Parse(textBox3.Text);
+            	Globals.RelocateDefaultLocationTravelSpeed = (double) numTravelSpeed.Value;
             }
             catch
             {
@@ -1663,7 +1641,7 @@ namespace PokemonGo.RocketAPI.Console
                     // ignored
                 }
                 Globals.RelocateDefaultLocation = true;
-                textBox3.Text = "";
+                numTravelSpeed.Text = "";
                 textBox4.Text = "";
                 textBox5.Text = "";
                 Logger.ColoredConsoleWrite(ConsoleColor.Green, "Default Location Set will navigate there after next pokestop!");
