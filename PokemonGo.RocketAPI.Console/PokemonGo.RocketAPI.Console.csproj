@@ -142,6 +142,10 @@
     <Compile Include="Items.Designer.cs">
       <DependentUpon>Items.cs</DependentUpon>
     </Compile>
+    <Compile Include="ItemsPanel.cs" />
+    <Compile Include="ItemsPanel.Designer.cs">
+      <DependentUpon>ItemsPanel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Location.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -187,6 +191,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Items.resx">
       <DependentUpon>Items.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ItemsPanel.resx">
+      <DependentUpon>ItemsPanel.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Update.resx">
       <DependentUpon>Update.cs</DependentUpon>
