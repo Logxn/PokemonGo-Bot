@@ -1447,7 +1447,7 @@ namespace PokemonGo.RocketAPI.Console
 
         private void textBox2_TextChanged(object sender, EventArgs e)
         {
-            if (!double.TryParse(textBox2.Text, out Globals.razzberry_chance)) Globals.razzberry_chance = 0;
+            if (!double.TryParse(textBox2.Text, out Globals.razzberry_chance)) Globals.razzberry_chance = 35;
         }
 
         private void text_GoogleMapsAPIKey_TextChanged(object sender, EventArgs e)
