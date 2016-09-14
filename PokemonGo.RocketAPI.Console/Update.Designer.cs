@@ -71,6 +71,7 @@
             this.Controls.Add(this.progress);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
             this.Name = "Update";
             this.Text = "Update";
             this.Load += new System.EventHandler(this.Update_Load);

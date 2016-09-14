@@ -1459,6 +1459,7 @@ namespace PokemonGo.RocketAPI.Console
         private void reloadbtn_Click(object sender, EventArgs e)
         {
             ItemsListView.Items.Clear();
+            PokemonListView.Columns.Clear();
             PokemonListView.Items.Clear();
             Execute();
         }
