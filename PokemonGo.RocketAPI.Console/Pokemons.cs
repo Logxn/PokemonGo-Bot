@@ -164,7 +164,7 @@ namespace PokemonGo.RocketAPI.Console
                             .Select(f => f.Candy_)
                             .First();
                         listViewItem.SubItems.Add(string.Format("{0}", pokemon.Cp));
-                        //< listViewItem.SubItems.Add(string.Format("{0}% {1}{2}{3} ({4})", PokemonInfo.CalculatePokemonPerfection(pokemon).ToString("0"), pokemon.IndividualAttack.ToString("X"), pokemon.IndividualDefense.ToString("X"), pokemon.IndividualStamina.ToString("X"), (45 - pokemon.IndividualAttack- pokemon.IndividualDefense- pokemon.IndividualStamina) ));
+                        //<listViewItem.SubItems.Add(string.Format("{0}% {1}{2}{3} ({4})", PokemonInfo.CalculatePokemonPerfection(pokemon).ToString("0"), pokemon.IndividualAttack.ToString("X"), pokemon.IndividualDefense.ToString("X"), pokemon.IndividualStamina.ToString("X"), (45 - pokemon.IndividualAttack- pokemon.IndividualDefense- pokemon.IndividualStamina) ));
                         listViewItem.SubItems.Add(string.Format("{0}% {1}-{2}-{3}", PokemonInfo.CalculatePokemonPerfection(pokemon).ToString("0"), pokemon.IndividualAttack, pokemon.IndividualDefense, pokemon.IndividualStamina));
                         listViewItem.SubItems.Add(string.Format("{0}", PokemonInfo.GetLevel(pokemon)));
                         listViewItem.ImageKey = pokemon.PokemonId.ToString();
@@ -261,7 +261,8 @@ namespace PokemonGo.RocketAPI.Console
 		                + Globals.toprevive + Globals.toppotion;
 		            itemsPanel1.text_TotalItemCount.Text = count.ToString();
 
-		            numRazzPercent.Value = (int) Globals.razzberry_chance;
+		            numRazzPercent.Value = (int) (Globals.razzberry_chance * 100);
+		            numTravelSpeed.Value = (int) Globals.RelocateDefaultLocationTravelSpeed;
                     #endregion
  	
                     itemsPanel1.ExecuteItemsLoad();
@@ -778,7 +779,7 @@ namespace PokemonGo.RocketAPI.Console
         {
             string croppedName = StringUtils.getPokemonNameByLanguage(ClientSettings, (PokemonId)pokemon.PokemonId) + " ";
             string nickname;
-            //< nickname = string.Format("{0}{1}{2}{3}", pokemon.IndividualAttack.ToString("X"), pokemon.IndividualDefense.ToString("X"), pokemon.IndividualStamina.ToString("X"),(45 - pokemon.IndividualAttack- pokemon.IndividualDefense- pokemon.IndividualStamina));
+            //<nickname = string.Format("{0}{1}{2}{3}", pokemon.IndividualAttack.ToString("X"), pokemon.IndividualDefense.ToString("X"), pokemon.IndividualStamina.ToString("X"),(45 - pokemon.IndividualAttack- pokemon.IndividualDefense- pokemon.IndividualStamina));
             nickname = string.Format("{0}.{1}.{2}.{3}", PokemonInfo.CalculatePokemonPerfection(pokemon).ToString("0"), pokemon.IndividualAttack, pokemon.IndividualDefense, pokemon.IndividualStamina);
             int lenDiff = 12 - nickname.Length;
             if (croppedName.Length > lenDiff)
@@ -1316,7 +1317,7 @@ namespace PokemonGo.RocketAPI.Console
 
         private void numRazzPercent_TextChanged(object sender, EventArgs e)
         {
-        	Globals.razzberry_chance = (double)((NumericUpDown) sender).Value;
+        	Globals.razzberry_chance = ((double)((NumericUpDown) sender).Value)/100;
         }
 
         private void text_GoogleMapsAPIKey_TextChanged(object sender, EventArgs e)
@@ -1468,7 +1469,7 @@ namespace PokemonGo.RocketAPI.Console
                     // ignored
                 }
                 Globals.RelocateDefaultLocation = true;
-                numTravelSpeed.Text = "";
+                numTravelSpeed.Value = 0;
                 textBox4.Text = "";
                 textBox5.Text = "";
                 Logger.ColoredConsoleWrite(ConsoleColor.Green, "Default Location Set will navigate there after next pokestop!");

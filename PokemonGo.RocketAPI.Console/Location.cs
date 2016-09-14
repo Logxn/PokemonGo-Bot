@@ -297,7 +297,7 @@ namespace PokemonGo.RocketAPI.Console
                         routeOverlay.Markers.Add(_botStartMarker);
                         routeOverlay.Markers.Add(_botMarker);
                         int prevCount = pokeStops.Length;
-
+                        //<var filteredPokeStops = pokeStops;
                         var filteredPokeStops = pokeStops.Where(i => LocationUtils.CalculateDistanceInMeters(Logic.Logic._instance._clientSettings.DefaultLatitude, Logic.Logic._instance._clientSettings.DefaultLongitude, i.Latitude, i.Longitude) <= Logic.Logic._instance._clientSettings.MaxWalkingRadiusInMeters).ToArray();
                         Logger.ColoredConsoleWrite(ConsoleColor.White, string.Format("Got new Pokestop Count: {0}, unfiltered: {1}", filteredPokeStops.Length, pokeStops.Length));
 
@@ -375,7 +375,7 @@ namespace PokemonGo.RocketAPI.Console
                         _pokeGymsOverlay.Markers.Clear();
                         _pokeGymsMarks.Clear();
                         int prevCount = forts.Length;
-
+                        //< var filteredForts = forts;
                         var filteredForts = forts.Where(i => LocationUtils.CalculateDistanceInMeters(Logic.Logic._instance._clientSettings.DefaultLatitude, Logic.Logic._instance._clientSettings.DefaultLongitude, i.Latitude, i.Longitude) <= Logic.Logic._instance._clientSettings.MaxWalkingRadiusInMeters).ToArray();
                         Logger.ColoredConsoleWrite(ConsoleColor.White, string.Format("Got new Gym Count: {0}, unfiltered: {1}", filteredForts.Length, forts.Length));
 
