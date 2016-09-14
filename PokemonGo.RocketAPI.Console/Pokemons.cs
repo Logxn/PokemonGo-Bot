@@ -1668,9 +1668,6 @@ namespace PokemonGo.RocketAPI.Console
             labelNoTeamSelected.Visible = false;
             labelNoBuddySelected.Visible = false;
 
-
-            profile.PlayerData.Team = TeamColor.Red;
-
             pictureBoxPlayerAvatar.Image = getImageForGender(profile.PlayerData.Avatar.Gender);
 
             pictureBoxTeam.Location = new Point(0,0);
@@ -1708,17 +1705,17 @@ namespace PokemonGo.RocketAPI.Console
             pictureBoxBuddyPokemon.Location = buddyLocation;
             pictureBoxBuddyPokemon.BackColor = Color.Transparent;
             pictureBoxBuddyPokemon.BringToFront();
-            //if (profile.PlayerData.BuddyPokemon == null || profile.PlayerData.BuddyPokemon.ToString() == "{ }")
-            //{
-            //    labelNoBuddySelected.Parent = pictureBoxBuddyPokemon;
-            //    labelNoBuddySelected.Visible = true;
-            //    labelNoBuddySelected.Width = pictureBoxBuddyPokemon.Width;
-            //    labelNoBuddySelected.Height = pictureBoxBuddyPokemon.Height;
-            //    labelNoBuddySelected.Location = new Point(0,0);
-            //    ;
-            //    labelNoBuddySelected.TextAlign = ContentAlignment.MiddleCenter;
-            //    labelNoBuddySelected.BringToFront();
-            //}
+            if (profile.PlayerData.BuddyPokemon == null || profile.PlayerData.BuddyPokemon.ToString() == "{ }")
+            {
+                labelNoBuddySelected.Parent = pictureBoxBuddyPokemon;
+                labelNoBuddySelected.Visible = true;
+                labelNoBuddySelected.Width = pictureBoxBuddyPokemon.Width - 27;
+                labelNoBuddySelected.Height = pictureBoxBuddyPokemon.Height;
+                labelNoBuddySelected.Location = new Point(0,0);
+                ;
+                labelNoBuddySelected.TextAlign = ContentAlignment.MiddleCenter;
+                labelNoBuddySelected.BringToFront();
+            }
         }
  
         /// <summary>
@@ -1778,7 +1775,6 @@ namespace PokemonGo.RocketAPI.Console
         /// <returns></returns>
         private Image getImageForBuddy(BuddyPokemon buddyPokemon)
         {
-            return GetPokemonVeryLargeImage(PokemonId.Mewtwo);
             if (buddyPokemon == null || buddyPokemon.ToString() == "{ }")
             {
                 return null;
