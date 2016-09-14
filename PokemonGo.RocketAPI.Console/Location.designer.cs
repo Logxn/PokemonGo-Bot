@@ -1,4 +1,4 @@
-﻿namespace PokemonGo.RocketAPI.Console
+namespace PokemonGo.RocketAPI.Console
 {
     partial class LocationSelect
     {
@@ -40,6 +40,7 @@
             this.cbShowPokeStops = new System.Windows.Forms.CheckBox();
             this.buttonRefreshPokemon = new System.Windows.Forms.Button();
             this.cbShowPokemon = new System.Windows.Forms.CheckBox();
+            this.buttonRefreshForts = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // map
@@ -168,7 +169,7 @@
             // 
             this.buttonRefreshPokemon.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.buttonRefreshPokemon.AutoSize = true;
-            this.buttonRefreshPokemon.Location = new System.Drawing.Point(346, 583);
+            this.buttonRefreshPokemon.Location = new System.Drawing.Point(345, 583);
             this.buttonRefreshPokemon.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.buttonRefreshPokemon.Name = "buttonRefreshPokemon";
             this.buttonRefreshPokemon.Size = new System.Drawing.Size(144, 28);
@@ -194,6 +195,20 @@
             this.cbShowPokemon.Visible = false;
             this.cbShowPokemon.CheckedChanged += new System.EventHandler(this.cbShowPokemon_CheckedChanged);
             // 
+            // buttonRefreshForts
+            // 
+            this.buttonRefreshForts.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.buttonRefreshForts.AutoSize = true;
+            this.buttonRefreshForts.Location = new System.Drawing.Point(508, 583);
+            this.buttonRefreshForts.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.buttonRefreshForts.Name = "buttonRefreshForts";
+            this.buttonRefreshForts.Size = new System.Drawing.Size(144, 28);
+            this.buttonRefreshForts.TabIndex = 10;
+            this.buttonRefreshForts.Text = "Refresh Pokestops";
+            this.buttonRefreshForts.UseVisualStyleBackColor = true;
+            this.buttonRefreshForts.Visible = false;            
+            this.buttonRefreshForts.Click += new System.EventHandler(this.buttonRefreshForts_Click);
+            // 
             // LocationSelect
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -202,6 +217,7 @@
             this.Controls.Add(this.cbShowPokemon);
             this.Controls.Add(this.buttonRefreshPokemon);
             this.Controls.Add(this.cbShowPokeStops);
+            this.Controls.Add(this.buttonRefreshForts);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
@@ -234,6 +250,7 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.CheckBox cbShowPokeStops;
         private System.Windows.Forms.Button buttonRefreshPokemon;
+        private System.Windows.Forms.Button buttonRefreshForts;
         private System.Windows.Forms.CheckBox cbShowPokemon;
     }
 }
