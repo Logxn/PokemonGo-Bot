@@ -35,29 +35,25 @@ namespace PokemonGo.RocketAPI.Logic
             double d = 2 * r_earth * Math.Atan2(Math.Sqrt(alpha), Math.Sqrt(1 - alpha));
             return d;
         }
-        
+
         public async Task<PlayerUpdateResponse> HumanLikeWalking(GeoCoordinate targetLocation,
-            double walkingSpeedInKilometersPerHour, Func<Task> functionExecutedWhileWalking, bool fromgoogle = false)
-        { 
+            double walkingSpeedInKilometersPerHour, Func<Task> functionExecutedWhileWalking, bool fromgoogle = false, bool log = true)
+        {
             var randomFactor = 0.5f;
             var randomMin = (int)(walkingSpeedInKilometersPerHour * (1 - randomFactor));
             var randomMax = (int)(walkingSpeedInKilometersPerHour * (1 + randomFactor));
             var RandomWalkSpeed = RandomDevice.Next(randomMin, randomMax);
-            walkingSpeedInKilometersPerHour = RandomWalkSpeed;
-
+            walkingSpeedInKilometersPerHour = RandomWalkSpeed + RandomDevice.NextDouble();
             var speedInMetersPerSecond = walkingSpeedInKilometersPerHour / 3.6;
-        
             var sourceLocation = new GeoCoordinate(_client.CurrentLatitude, _client.CurrentLongitude);
             var distanceToTarget = LocationUtils.CalculateDistanceInMeters(sourceLocation, targetLocation);
 
-        
-        Logger.ColoredConsoleWrite(ConsoleColor.DarkCyan, $"Distance to target location: {distanceToTarget:0.##} meters. Will take {distanceToTarget / speedInMetersPerSecond:0.##} seconds!");
-
+            if (log) { Logger.ColoredConsoleWrite(ConsoleColor.DarkCyan, $"Distance to target location: {distanceToTarget:0.##} meters. Will take {distanceToTarget / speedInMetersPerSecond:0.##} seconds!"); }
             
             var nextWaypointBearing = LocationUtils.DegreeBearing(sourceLocation, targetLocation);
             var nextWaypointDistance = speedInMetersPerSecond;
             var waypoint = LocationUtils.CreateWaypoint(sourceLocation, nextWaypointDistance, nextWaypointBearing);
-             
+
             //Initial walking
             var requestSendDateTime = DateTime.Now;
             var result =
@@ -82,7 +78,7 @@ namespace PokemonGo.RocketAPI.Logic
                 {
                     if (speedInMetersPerSecond > SpeedDownTo)
                     {
-                        Logger.ColoredConsoleWrite(ConsoleColor.DarkCyan, $"We are within 40 meters of the target. Slowing down to ~10 km/h to not pass the target.");
+                        if (log) { Logger.ColoredConsoleWrite(ConsoleColor.DarkCyan, $"We are within 40 meters of the target. Slowing down to ~10 km/h to not pass the target."); }
                         speedInMetersPerSecond = SpeedDownTo;
                     }
                 }
@@ -90,24 +86,32 @@ namespace PokemonGo.RocketAPI.Logic
                 nextWaypointDistance = Math.Min(currentDistanceToTarget, millisecondsUntilGetUpdatePlayerLocationResponse / 1000 * speedInMetersPerSecond);
                 nextWaypointBearing = LocationUtils.DegreeBearing(sourceLocation, targetLocation);
                 waypoint = LocationUtils.CreateWaypoint(sourceLocation, nextWaypointDistance, nextWaypointBearing);
-   
+
                 requestSendDateTime = DateTime.Now;
 
                 if (pauseWalking)
                 {
-                     result =
-                        await
-                        _client.Player.UpdatePlayerLocation(_client.CurrentLatitude, _client.CurrentLongitude,
-                            _client.CurrentAltitude);
+                    result =
+                       await
+                       _client.Player.UpdatePlayerLocation(_client.CurrentLatitude, _client.CurrentLongitude,
+                           _client.CurrentAltitude);
                 }
                 else
                 {
-                    result =
-                        await
-                        _client.Player.UpdatePlayerLocation(waypoint.Latitude, waypoint.Longitude,
-                            waypoint.Altitude);
+                    try
+                    {
+                        result =
+                            await
+                            _client.Player.UpdatePlayerLocation(waypoint.Latitude, waypoint.Longitude,
+                                waypoint.Altitude);
+                    }
+                    catch (Exception e)
+                    {
+                        Logger.ColoredConsoleWrite(ConsoleColor.DarkRed, "Sending exception info to Logger");
+                        Logger.AddLog("Exception Updating player Location:" + e.ToString());
+                    }
                 }
-               
+
                 if (functionExecutedWhileWalking != null)
                 {
                     await functionExecutedWhileWalking();// look for pokemon 

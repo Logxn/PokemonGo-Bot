@@ -32,6 +32,12 @@ namespace PokemonGo.RocketAPI.Console
         public int HoldMaxDoublePokemons => Globals.duplicate;
         public int TelegramLiveStatsDelay => Globals.telDelay;
 
+        //public bool CatchLurePokemons
+        //{
+        //    get { return Globals.CatchLurePokemons; }
+        //    set { Globals.CatchLurePokemons = value; }
+        //}
+
         public bool sleepatpokemons => Globals.sleepatpokemons;
 
         public double WalkingSpeedInKilometerPerHour => Globals.speed;
@@ -58,15 +64,15 @@ namespace PokemonGo.RocketAPI.Console
 
         public bool AutoIncubate => Globals.autoIncubate;
         public bool UseLuckyEggIfNotRunning => Globals.useLuckyEggIfNotRunning;
-        
+
         public bool Espiral => Globals.Espiral;
         public bool MapLoaded => Globals.MapLoaded;
 
         public string SelectedLanguage => Globals.settingsLanguage;
 
-        
 
-       // public bool _pauseTheWalking => Globals._pauseTheWalking;
+
+        // public bool _pauseTheWalking => Globals._pauseTheWalking;
         /*
                  string UseProxyHost { get; set; }
                 int UseProxyPort { get; set; }
@@ -421,7 +427,43 @@ namespace PokemonGo.RocketAPI.Console
                 Globals.bLogEvolve = value;
             }
         }
-        
+
+        bool ISettings.CheckWhileRunning
+        {
+            get
+            {
+                return Globals.CheckWhileRunning;
+            }
+            set
+            {
+                Globals.CheckWhileRunning = value;
+            }
+        }
+
+        bool ISettings.autoUpdate
+        {
+            get
+            {
+                return Globals.AutoUpdate;
+            }
+            set
+            {
+                Globals.AutoUpdate = value;
+            }
+        }
+
+        bool ISettings.logEggs
+        {
+            get
+            {
+                return Globals.LogEggs;
+            }
+            set
+            {
+                Globals.LogEggs = value;
+            }
+        }
+
         public LinkedList<GeoCoordinate> NextDestinationOverride
 
         {
@@ -459,13 +501,13 @@ namespace PokemonGo.RocketAPI.Console
             get { return Globals._pauseTheWalking; }
             set { Globals._pauseTheWalking = value; }
         }*/
-            
+
 
         bool ISettings.pauseTheWalking
         {
             get
             {
-                return  Globals._pauseTheWalking;
+                return Globals._pauseTheWalking;
             }
             set
             {

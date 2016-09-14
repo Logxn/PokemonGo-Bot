@@ -254,3 +254,8 @@ paket-files/
 /.gitattributes
 TestApplication/
 PokemonGo.RocketAPI.Console/Location.cs
+/Builds-Only/Translations
+/Builds-Only/PokeData
+/Builds-Only/Logs
+/Builds-Only/Device
+/Builds-Only/Configs
