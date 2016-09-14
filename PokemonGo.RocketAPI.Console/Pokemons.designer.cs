@@ -63,7 +63,28 @@ namespace PokemonGo.RocketAPI.Console
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.Options = new System.Windows.Forms.TabControl();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.tabPagePokemonList = new System.Windows.Forms.TabPage();
+            this.btnShowMap = new System.Windows.Forms.Button();
+            this.tabPagePlayer = new System.Windows.Forms.TabPage();
+            this.panelTop = new System.Windows.Forms.Panel();
+            this.labelUserProperty6Value = new System.Windows.Forms.Label();
+            this.labelUserProperty6Title = new System.Windows.Forms.Label();
+            this.labelUserProperty5Value = new System.Windows.Forms.Label();
+            this.labelUserProperty4Value = new System.Windows.Forms.Label();
+            this.labelUserProperty3Value = new System.Windows.Forms.Label();
+            this.labelUserProperty2Value = new System.Windows.Forms.Label();
+            this.labelUserProperty1Value = new System.Windows.Forms.Label();
+            this.labelUserProperty4Title = new System.Windows.Forms.Label();
+            this.labelUserProperty3Title = new System.Windows.Forms.Label();
+            this.labelUserProperty2Title = new System.Windows.Forms.Label();
+            this.labelUserProperty1Title = new System.Windows.Forms.Label();
+            this.labelUserProperty5Title = new System.Windows.Forms.Label();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.labelNoBuddySelected = new System.Windows.Forms.Label();
+            this.pictureBoxBuddyPokemon = new System.Windows.Forms.PictureBox();
+            this.pictureBoxPlayerAvatar = new System.Windows.Forms.PictureBox();
+            this.pictureBoxTeam = new System.Windows.Forms.PictureBox();
+            this.labelNoTeamSelected = new System.Windows.Forms.Label();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.groupBox10 = new System.Windows.Forms.GroupBox();
             this.checkBox2 = new System.Windows.Forms.CheckBox();
@@ -137,7 +158,13 @@ namespace PokemonGo.RocketAPI.Console
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.contextMenuStrip1.SuspendLayout();
             this.Options.SuspendLayout();
-            this.tabPage2.SuspendLayout();
+            this.tabPagePokemonList.SuspendLayout();
+            this.tabPagePlayer.SuspendLayout();
+            this.panelTop.SuspendLayout();
+            this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxBuddyPokemon)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPlayerAvatar)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxTeam)).BeginInit();
             this.tabPage1.SuspendLayout();
             this.groupBox10.SuspendLayout();
             this.groupBox11.SuspendLayout();
@@ -515,7 +542,8 @@ namespace PokemonGo.RocketAPI.Console
             this.Options.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.Options.Controls.Add(this.tabPage2);
+            this.Options.Controls.Add(this.tabPagePokemonList);
+            this.Options.Controls.Add(this.tabPagePlayer);
             this.Options.Controls.Add(this.tabPage1);
             this.Options.Controls.Add(this.tabPage3);
             this.Options.Location = new System.Drawing.Point(17, 39);
@@ -524,32 +552,255 @@ namespace PokemonGo.RocketAPI.Console
             this.Options.SelectedIndex = 0;
             this.Options.Size = new System.Drawing.Size(927, 497);
             this.Options.TabIndex = 46;
+            this.Options.SelectedIndexChanged += new System.EventHandler(this.Options_SelectedIndexChanged);
+            this.Options.TabIndexChanged += new System.EventHandler(this.Options_TabIndexChanged);
             // 
             // tabPage2
             // 
-            this.tabPage2.AutoScroll = true;
-            this.tabPage2.Controls.Add(this.PokemonListView);
-            this.tabPage2.Controls.Add(this.btnUpgrade);
-            this.tabPage2.Controls.Add(this.button2);
-            this.tabPage2.Controls.Add(this.btnShowMap);
-            this.tabPage2.Controls.Add(this.label1);
-            this.tabPage2.Controls.Add(this.checkBox1);
-            this.tabPage2.Controls.Add(this.btnFullPowerUp);
-            this.tabPage2.Controls.Add(this.btnForceUnban);
-            this.tabPage2.Controls.Add(this.textBox1);
-            this.tabPage2.Controls.Add(this.button1);
-            this.tabPage2.Controls.Add(this.btnEvolve);
-            this.tabPage2.Controls.Add(this.btnTransfer);
-            this.tabPage2.Controls.Add(this.btnIVToNick);
-            this.tabPage2.Controls.Add(this.button3);
-            this.tabPage2.Location = new System.Drawing.Point(4, 25);
-            this.tabPage2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.tabPage2.Size = new System.Drawing.Size(919, 468);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "Pokemon List";
-            this.tabPage2.UseVisualStyleBackColor = true;
+            this.tabPagePokemonList.AutoScroll = true;
+            this.tabPagePokemonList.Controls.Add(this.PokemonListView);
+            this.tabPagePokemonList.Controls.Add(this.btnUpgrade);
+            this.tabPagePokemonList.Controls.Add(this.button2);
+            this.tabPagePokemonList.Controls.Add(this.btnShowMap);
+            this.tabPagePokemonList.Controls.Add(this.label1);
+            this.tabPagePokemonList.Controls.Add(this.checkBox1);
+            this.tabPagePokemonList.Controls.Add(this.btnFullPowerUp);
+            this.tabPagePokemonList.Controls.Add(this.btnForceUnban);
+            this.tabPagePokemonList.Controls.Add(this.textBox1);
+            this.tabPagePokemonList.Controls.Add(this.button1);
+            this.tabPagePokemonList.Controls.Add(this.btnEvolve);
+            this.tabPagePokemonList.Controls.Add(this.btnTransfer);
+            this.tabPagePokemonList.Controls.Add(this.btnIVToNick);
+            this.tabPagePokemonList.Controls.Add(this.button3);
+            this.tabPagePokemonList.Location = new System.Drawing.Point(4, 22);
+            this.tabPagePokemonList.Name = "tabPagePokemonList";
+            this.tabPagePokemonList.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPagePokemonList.Size = new System.Drawing.Size(687, 378);
+            this.tabPagePokemonList.TabIndex = 1;
+            this.tabPagePokemonList.Text = "Pokemon List";
+            this.tabPagePokemonList.UseVisualStyleBackColor = true;
+            // 
+            // btnShowMap
+            // 
+            this.btnShowMap.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnShowMap.Image = global::PokemonGo.RocketAPI.Console.Properties.Resources.map;
+            this.btnShowMap.Location = new System.Drawing.Point(626, 319);
+            this.btnShowMap.Name = "btnShowMap";
+            this.btnShowMap.Size = new System.Drawing.Size(58, 52);
+            this.btnShowMap.TabIndex = 12;
+            this.btnShowMap.UseVisualStyleBackColor = true;
+            this.btnShowMap.Click += new System.EventHandler(this.btnShowMap_Click);
+            // 
+            // tabPagePlayer
+            // 
+            this.tabPagePlayer.Controls.Add(this.panelTop);
+            this.tabPagePlayer.Location = new System.Drawing.Point(4, 22);
+            this.tabPagePlayer.Name = "tabPagePlayer";
+            this.tabPagePlayer.Size = new System.Drawing.Size(687, 378);
+            this.tabPagePlayer.TabIndex = 3;
+            this.tabPagePlayer.Text = "Player";
+            this.tabPagePlayer.UseVisualStyleBackColor = true;
+            this.tabPagePlayer.SizeChanged += new System.EventHandler(this.tabPage4_SizeChanged);
+            this.tabPagePlayer.Paint += new System.Windows.Forms.PaintEventHandler(this.tabPage4_Paint);
+            // 
+            // panelTop
+            // 
+            this.panelTop.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panelTop.Controls.Add(this.labelUserProperty6Value);
+            this.panelTop.Controls.Add(this.labelUserProperty6Title);
+            this.panelTop.Controls.Add(this.labelUserProperty5Value);
+            this.panelTop.Controls.Add(this.labelUserProperty4Value);
+            this.panelTop.Controls.Add(this.labelUserProperty3Value);
+            this.panelTop.Controls.Add(this.labelUserProperty2Value);
+            this.panelTop.Controls.Add(this.labelUserProperty1Value);
+            this.panelTop.Controls.Add(this.labelUserProperty4Title);
+            this.panelTop.Controls.Add(this.labelUserProperty3Title);
+            this.panelTop.Controls.Add(this.labelUserProperty2Title);
+            this.panelTop.Controls.Add(this.labelUserProperty1Title);
+            this.panelTop.Controls.Add(this.labelUserProperty5Title);
+            this.panelTop.Controls.Add(this.panel1);
+            this.panelTop.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panelTop.Location = new System.Drawing.Point(0, 0);
+            this.panelTop.Name = "panelTop";
+            this.panelTop.Size = new System.Drawing.Size(687, 194);
+            this.panelTop.TabIndex = 54;
+            // 
+            // labelUserProperty6Value
+            // 
+            this.labelUserProperty6Value.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelUserProperty6Value.Location = new System.Drawing.Point(408, 132);
+            this.labelUserProperty6Value.Name = "labelUserProperty6Value";
+            this.labelUserProperty6Value.Size = new System.Drawing.Size(274, 25);
+            this.labelUserProperty6Value.TabIndex = 76;
+            this.labelUserProperty6Value.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // labelUserProperty6Title
+            // 
+            this.labelUserProperty6Title.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelUserProperty6Title.Location = new System.Drawing.Point(231, 132);
+            this.labelUserProperty6Title.Name = "labelUserProperty6Title";
+            this.labelUserProperty6Title.Size = new System.Drawing.Size(153, 25);
+            this.labelUserProperty6Title.TabIndex = 75;
+            this.labelUserProperty6Title.Text = "km Walked:";
+            this.labelUserProperty6Title.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // labelUserProperty5Value
+            // 
+            this.labelUserProperty5Value.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelUserProperty5Value.Location = new System.Drawing.Point(408, 107);
+            this.labelUserProperty5Value.Name = "labelUserProperty5Value";
+            this.labelUserProperty5Value.Size = new System.Drawing.Size(274, 25);
+            this.labelUserProperty5Value.TabIndex = 74;
+            this.labelUserProperty5Value.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // labelUserProperty4Value
+            // 
+            this.labelUserProperty4Value.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelUserProperty4Value.Location = new System.Drawing.Point(404, 82);
+            this.labelUserProperty4Value.Name = "labelUserProperty4Value";
+            this.labelUserProperty4Value.Size = new System.Drawing.Size(274, 25);
+            this.labelUserProperty4Value.TabIndex = 73;
+            this.labelUserProperty4Value.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // labelUserProperty3Value
+            // 
+            this.labelUserProperty3Value.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelUserProperty3Value.Location = new System.Drawing.Point(404, 57);
+            this.labelUserProperty3Value.Name = "labelUserProperty3Value";
+            this.labelUserProperty3Value.Size = new System.Drawing.Size(274, 25);
+            this.labelUserProperty3Value.TabIndex = 72;
+            this.labelUserProperty3Value.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // labelUserProperty2Value
+            // 
+            this.labelUserProperty2Value.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelUserProperty2Value.Location = new System.Drawing.Point(404, 32);
+            this.labelUserProperty2Value.Name = "labelUserProperty2Value";
+            this.labelUserProperty2Value.Size = new System.Drawing.Size(274, 25);
+            this.labelUserProperty2Value.TabIndex = 71;
+            this.labelUserProperty2Value.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // labelUserProperty1Value
+            // 
+            this.labelUserProperty1Value.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelUserProperty1Value.Location = new System.Drawing.Point(404, 7);
+            this.labelUserProperty1Value.Name = "labelUserProperty1Value";
+            this.labelUserProperty1Value.Size = new System.Drawing.Size(274, 25);
+            this.labelUserProperty1Value.TabIndex = 70;
+            this.labelUserProperty1Value.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // labelUserProperty4Title
+            // 
+            this.labelUserProperty4Title.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelUserProperty4Title.Location = new System.Drawing.Point(231, 82);
+            this.labelUserProperty4Title.Name = "labelUserProperty4Title";
+            this.labelUserProperty4Title.Size = new System.Drawing.Size(153, 25);
+            this.labelUserProperty4Title.TabIndex = 69;
+            this.labelUserProperty4Title.Text = "Pokemon:";
+            this.labelUserProperty4Title.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // labelUserProperty3Title
+            // 
+            this.labelUserProperty3Title.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelUserProperty3Title.Location = new System.Drawing.Point(231, 57);
+            this.labelUserProperty3Title.Name = "labelUserProperty3Title";
+            this.labelUserProperty3Title.Size = new System.Drawing.Size(153, 25);
+            this.labelUserProperty3Title.TabIndex = 68;
+            this.labelUserProperty3Title.Text = "Stardust:";
+            this.labelUserProperty3Title.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // labelUserProperty2Title
+            // 
+            this.labelUserProperty2Title.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelUserProperty2Title.Location = new System.Drawing.Point(231, 32);
+            this.labelUserProperty2Title.Name = "labelUserProperty2Title";
+            this.labelUserProperty2Title.Size = new System.Drawing.Size(153, 25);
+            this.labelUserProperty2Title.TabIndex = 67;
+            this.labelUserProperty2Title.Text = "Level:";
+            this.labelUserProperty2Title.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // labelUserProperty1Title
+            // 
+            this.labelUserProperty1Title.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelUserProperty1Title.Location = new System.Drawing.Point(231, 7);
+            this.labelUserProperty1Title.Name = "labelUserProperty1Title";
+            this.labelUserProperty1Title.Size = new System.Drawing.Size(153, 25);
+            this.labelUserProperty1Title.TabIndex = 66;
+            this.labelUserProperty1Title.Text = "Username:";
+            this.labelUserProperty1Title.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // labelUserProperty5Title
+            // 
+            this.labelUserProperty5Title.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelUserProperty5Title.Location = new System.Drawing.Point(231, 107);
+            this.labelUserProperty5Title.Name = "labelUserProperty5Title";
+            this.labelUserProperty5Title.Size = new System.Drawing.Size(153, 25);
+            this.labelUserProperty5Title.TabIndex = 65;
+            this.labelUserProperty5Title.Text = "Pokedex:";
+            this.labelUserProperty5Title.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.labelNoBuddySelected);
+            this.panel1.Controls.Add(this.pictureBoxBuddyPokemon);
+            this.panel1.Controls.Add(this.pictureBoxPlayerAvatar);
+            this.panel1.Controls.Add(this.pictureBoxTeam);
+            this.panel1.Controls.Add(this.labelNoTeamSelected);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Left;
+            this.panel1.Location = new System.Drawing.Point(0, 0);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(226, 192);
+            this.panel1.TabIndex = 60;
+            // 
+            // labelNoBuddySelected
+            // 
+            this.labelNoBuddySelected.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelNoBuddySelected.Location = new System.Drawing.Point(4, 118);
+            this.labelNoBuddySelected.Name = "labelNoBuddySelected";
+            this.labelNoBuddySelected.Size = new System.Drawing.Size(75, 75);
+            this.labelNoBuddySelected.TabIndex = 69;
+            this.labelNoBuddySelected.Text = "No Buddy";
+            this.labelNoBuddySelected.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // pictureBoxBuddyPokemon
+            // 
+            this.pictureBoxBuddyPokemon.Image = global::PokemonGo.RocketAPI.Console.Properties.Resources._1_200;
+            this.pictureBoxBuddyPokemon.Location = new System.Drawing.Point(3, 118);
+            this.pictureBoxBuddyPokemon.Name = "pictureBoxBuddyPokemon";
+            this.pictureBoxBuddyPokemon.Size = new System.Drawing.Size(75, 75);
+            this.pictureBoxBuddyPokemon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBoxBuddyPokemon.TabIndex = 66;
+            this.pictureBoxBuddyPokemon.TabStop = false;
+            // 
+            // pictureBoxPlayerAvatar
+            // 
+            this.pictureBoxPlayerAvatar.Image = global::PokemonGo.RocketAPI.Console.Properties.Resources.Trainer_M;
+            this.pictureBoxPlayerAvatar.Location = new System.Drawing.Point(2, 34);
+            this.pictureBoxPlayerAvatar.Name = "pictureBoxPlayerAvatar";
+            this.pictureBoxPlayerAvatar.Size = new System.Drawing.Size(142, 155);
+            this.pictureBoxPlayerAvatar.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBoxPlayerAvatar.TabIndex = 65;
+            this.pictureBoxPlayerAvatar.TabStop = false;
+            // 
+            // pictureBoxTeam
+            // 
+            this.pictureBoxTeam.Image = global::PokemonGo.RocketAPI.Console.Properties.Resources.team_valor;
+            this.pictureBoxTeam.Location = new System.Drawing.Point(-1, -1);
+            this.pictureBoxTeam.Name = "pictureBoxTeam";
+            this.pictureBoxTeam.Size = new System.Drawing.Size(226, 190);
+            this.pictureBoxTeam.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBoxTeam.TabIndex = 64;
+            this.pictureBoxTeam.TabStop = false;
+            // 
+            // labelNoTeamSelected
+            // 
+            this.labelNoTeamSelected.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelNoTeamSelected.Location = new System.Drawing.Point(-1, -1);
+            this.labelNoTeamSelected.Name = "labelNoTeamSelected";
+            this.labelNoTeamSelected.Size = new System.Drawing.Size(226, 190);
+            this.labelNoTeamSelected.TabIndex = 67;
+            this.labelNoTeamSelected.Text = "No Team selected";
+            this.labelNoTeamSelected.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // tabPage1
             // 
@@ -1463,8 +1714,14 @@ namespace PokemonGo.RocketAPI.Console
             this.Load += new System.EventHandler(this.Pokemons_Load);
             this.contextMenuStrip1.ResumeLayout(false);
             this.Options.ResumeLayout(false);
-            this.tabPage2.ResumeLayout(false);
-            this.tabPage2.PerformLayout();
+            this.tabPagePokemonList.ResumeLayout(false);
+            this.tabPagePokemonList.PerformLayout();
+            this.tabPagePlayer.ResumeLayout(false);
+            this.panelTop.ResumeLayout(false);
+            this.panel1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxBuddyPokemon)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPlayerAvatar)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxTeam)).EndInit();
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
             this.groupBox10.ResumeLayout(false);
@@ -1531,7 +1788,7 @@ namespace PokemonGo.RocketAPI.Console
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.TabControl Options;
         private System.Windows.Forms.TabPage tabPage1;
-        private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.TabPage tabPagePokemonList;
         private System.Windows.Forms.GroupBox groupBox13;
         private System.Windows.Forms.LinkLabel linkLabel6;
         private System.Windows.Forms.TextBox text_GoogleMapsAPIKey;
@@ -1602,5 +1859,25 @@ namespace PokemonGo.RocketAPI.Console
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox textBox4;
         private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.TabPage tabPagePlayer;
+        private System.Windows.Forms.Panel panelTop;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.PictureBox pictureBoxBuddyPokemon;
+        private System.Windows.Forms.PictureBox pictureBoxPlayerAvatar;
+        private System.Windows.Forms.PictureBox pictureBoxTeam;
+        private System.Windows.Forms.Label labelNoTeamSelected;
+        private System.Windows.Forms.Label labelUserProperty5Value;
+        private System.Windows.Forms.Label labelUserProperty4Value;
+        private System.Windows.Forms.Label labelUserProperty3Value;
+        private System.Windows.Forms.Label labelUserProperty2Value;
+        private System.Windows.Forms.Label labelUserProperty1Value;
+        private System.Windows.Forms.Label labelUserProperty4Title;
+        private System.Windows.Forms.Label labelUserProperty3Title;
+        private System.Windows.Forms.Label labelUserProperty2Title;
+        private System.Windows.Forms.Label labelUserProperty1Title;
+        private System.Windows.Forms.Label labelUserProperty5Title;
+        private System.Windows.Forms.Label labelUserProperty6Value;
+        private System.Windows.Forms.Label labelUserProperty6Title;
+        private System.Windows.Forms.Label labelNoBuddySelected;
     }
 }

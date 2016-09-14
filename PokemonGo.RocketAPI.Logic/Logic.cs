@@ -863,6 +863,8 @@ namespace PokemonGo.RocketAPI.Logic
 
                                 if (Pokestop != null && Pokestop.LureInfo != null)
                                 {
+                                if (Pokestop != null && Pokestop.LureInfo != null)
+                                {
                                     var lure_Pokemon = Pokestop.LureInfo.ActivePokemonId;
                                     if (!_clientSettings.catchPokemonSkipList.Contains(lure_Pokemon))
                                     {
@@ -871,6 +873,7 @@ namespace PokemonGo.RocketAPI.Logic
                                     else
                                     {
                                         Logger.ColoredConsoleWrite(ConsoleColor.Green, "Skipped Lure Pokemon: " + pokeStop.LureInfo.ActivePokemonId);
+                                    }
                                     }
                             var FortInfo = await _client.Fort.GetFort(Pokestop.Id, Pokestop.Latitude, Pokestop.Longitude);
                             if ((_clientSettings.UseLureAtBreak || _clientSettings.UseLureGUIClick) && havelures && !pokeStop.ActiveFortModifier.Any() && !addedlure)
