@@ -107,7 +107,7 @@ namespace PokemonGo.RocketAPI.Logic
             await SetCheckTimeToRun();
             for (int i = 0; i < 10; i++)
             {
-                Logger.ColoredConsoleWrite(ConsoleColor.Red, "Don't login with the new App Version (0.3.7) (0.3.5 is ok!), or you get Banned if you botted before!");
+                Logger.ColoredConsoleWrite(ConsoleColor.Red, "Don't login with the new App Version (0.3.7) (0.3.5 is ok!), or you will probably get Banned if you use the bot again after that!");
             }
             Logger.ColoredConsoleWrite(ConsoleColor.Red, "This bot is absolutely free and open-source!");
             Logger.ColoredConsoleWrite(ConsoleColor.Red, "If you've paid for it. Request a chargeback immediately!");
