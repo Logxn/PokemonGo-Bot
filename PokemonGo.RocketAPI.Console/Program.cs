@@ -485,7 +485,7 @@ namespace PokemonGo.RocketAPI.Console
         public static int pokeball = 100;
         public static int greatball = 100;
         public static int ultraball = 100;
-        public static int masterball = 200;
+        public static int masterball = 0;
         public static int revive = 100;
         public static int potion = 100;
         public static int superpotion = 100;
@@ -536,8 +536,8 @@ namespace PokemonGo.RocketAPI.Console
         public static int BreakLength = 0;
         public static int MinWalkSpeed = 5;
         public static int navigation_option = 1;
-        public static bool useluckyegg = false;
-        public static bool useincense = false;
+        public static bool useluckyegg = true;
+        public static bool useincense = true;
         public static bool userazzberry = true;
         public static double razzberry_chance = 0.35;
         public static bool pokeList = true;
@@ -551,7 +551,7 @@ namespace PokemonGo.RocketAPI.Console
         public static bool useLuckyEggIfNotRunning = false;
 
         public static bool autoIncubate = true;
-        public static bool useBasicIncubators = true;
+        public static bool useBasicIncubators = false;
 
         public static bool sleepatpokemons = true;
 
@@ -573,19 +573,26 @@ namespace PokemonGo.RocketAPI.Console
 
         public static bool logManualTransfer = false;
 
-
         public static bool UseLureGUIClick = false;
 
         public static bool UseLuckyEggGUIClick = false;
 
         public static bool UseIncenseGUIClick = false;
+
+        public static bool RelocateDefaultLocation = false;
+
+        public static double RelocateDefaultLocationTravelSpeed = 0;
+
         public static bool bLogEvolve = false;
+
         public static bool LogEggs = false;
 
         public static bool pauseAtEvolve = false;
+
         public static bool pauseAtEvolve2 = false;
 
         public static bool AutoUpdate = false;
+
         public static bool usePwdEncryption = false;
 
         public static bool CheckWhileRunning = false;
