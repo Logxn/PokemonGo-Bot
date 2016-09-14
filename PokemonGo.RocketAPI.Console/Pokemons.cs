@@ -255,8 +255,7 @@ namespace PokemonGo.RocketAPI.Console
                     num_MaxMasterBalls.Value = Globals.masterball;
                     num_MaxTopRevives.Value = Globals.toprevive;
                     num_MaxTopPotions.Value = Globals.toppotion;
-
-		            int count = 0;
+                    int count = 0;
 		            count += Globals.pokeball + Globals.greatball + Globals.ultraball + Globals.revive
 		                + Globals.potion + Globals.superpotion + Globals.hyperpotion + Globals.berry + Globals.masterball
 		                + Globals.toprevive + Globals.toppotion;
@@ -1450,7 +1449,10 @@ namespace PokemonGo.RocketAPI.Console
         	try{
         		var numB = (NumericUpDown) sender;
         		var value = (int) numB.Value;
-        		switch (numB.Name) {
+                Logger.ColoredConsoleWrite(ConsoleColor.DarkGray, "==========Begin Recycle Filter Debug Logging=============");
+                Logger.ColoredConsoleWrite(ConsoleColor.DarkGray, "Value Setter Triggered for: " + numB.Name + " New Value: " + numB.Value);
+                Logger.ColoredConsoleWrite(ConsoleColor.DarkGray, "==========End Recycle Filter Debug Logging=============");
+                switch (numB.Name) {
         			case "num_MaxPokeballs":
         				Globals.pokeball = value;
         			break;
