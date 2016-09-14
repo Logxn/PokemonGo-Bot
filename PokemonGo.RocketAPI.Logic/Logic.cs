@@ -746,8 +746,8 @@ namespace PokemonGo.RocketAPI.Logic
                         break;
                     }
                     else
-                {
-                    Logger.ColoredConsoleWrite(ConsoleColor.Green, "You're outside of the defined max. walking radius. Walking back!");
+                    {
+                        Logger.ColoredConsoleWrite(ConsoleColor.Green, "You're outside of the defined max. walking radius. Walking back!");
                     }
                     if (_clientSettings.UseGoogleMapsAPI)
                     {
@@ -975,7 +975,7 @@ namespace PokemonGo.RocketAPI.Logic
                 if (walkspeed > 20)
                 {
                     directionsRequest.TravelMode = TravelMode.Bicycling;
-                    Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Using Directions For Driving due to max speed setting > 20km/h");                
+                    Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Using Directions For Driving due to max speed setting > 20km/h");
                 }
 
                 if (_clientSettings.SelectedLanguage == "de")
@@ -990,7 +990,7 @@ namespace PokemonGo.RocketAPI.Logic
                     directionsRequest.Language = "ru";
                 if (_clientSettings.SelectedLanguage == "france")
                     directionsRequest.Language = "fr";
-                    #endregion
+                #endregion
 
                 directionsRequest.Origin = sourcelatstring + "," + sourcelongstring;
                 directionsRequest.Destination = latstring + "," + longstring;
@@ -1005,9 +1005,15 @@ namespace PokemonGo.RocketAPI.Logic
                     {
                         var directiontext = Helpers.Utils.HtmlRemoval.StripTagsRegexCompiled(step.HtmlInstructions);
                         Logger.ColoredConsoleWrite(ConsoleColor.Green, directiontext);
+                        var lastpoint = new Location(_client.CurrentLatitude, _client.CurrentLongitude);
                         foreach (var point in step.PolyLine.Points)
                         {
-                            var update = await _navigation.HumanLikeWalking(new GeoCoordinate(point.Latitude, point.Longitude), walkspeed, task, true, false);
+                            var distanceDelta = LocationUtils.CalculateDistanceInMeters(new GeoCoordinate(point.Latitude, point.Longitude), new GeoCoordinate(lastpoint.Latitude, lastpoint.Longitude));
+                            if (distanceDelta > 10)
+                            {
+                                var update = await _navigation.HumanLikeWalking(new GeoCoordinate(point.Latitude, point.Longitude), walkspeed, task, true, false);
+                            }
+                            lastpoint = point;
                         }
                         stepcount++;
                         if (stepcount == steps.Count())
@@ -1128,7 +1134,7 @@ namespace PokemonGo.RocketAPI.Logic
                     // Catch Pokemon Lure
                     if (pokeStop.LureInfo != null && _clientSettings.CatchPokemon && pokeStop.ActiveFortModifier.Count > 0)
                     {
-                        
+
                         var lure_Pokemon = pokeStop.LureInfo.ActivePokemonId;
                         if (!_clientSettings.catchPokemonSkipList.Contains(lure_Pokemon))
                         {
