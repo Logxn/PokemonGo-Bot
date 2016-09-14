@@ -210,7 +210,7 @@ namespace PokemonGo.RocketAPI.Logic
                     }
 
                     await TransferDuplicatePokemon(_clientSettings.keepPokemonsThatCanEvolve, _clientSettings.TransferFirstLowIV);
-                    await RecycleItems();
+                    //await RecycleItems();
                     await ExecuteFarmingPokestopsAndPokemons(_client);
                 }
                 catch (AccessTokenExpiredException)
@@ -1291,7 +1291,7 @@ namespace PokemonGo.RocketAPI.Logic
                 if (bestPokeball == ItemId.ItemUnknown)
                 {
                     Logger.ColoredConsoleWrite(ConsoleColor.Red, $"No Pokeballs! - missed {pokeid} CP {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} IV {PokemonInfo.CalculatePokemonPerfection(encounterPokemonResponse.WildPokemon.PokemonData).ToString("0.00")}%");
-                    Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Detected all balls out of stock - disabling pokemon catch until recycle limit of at least 1 ball type is reached");
+                    Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Detected all balls out of stock - disabling pokemon catch until restock of at least 1 ball type occurs");
                     pokeballoutofstock = true;
                     _clientSettings.CatchPokemon = false;
                     return;
