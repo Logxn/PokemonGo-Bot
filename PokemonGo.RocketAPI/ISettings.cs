@@ -25,6 +25,8 @@ namespace PokemonGo.RocketAPI
         double DefaultAltitude { get; }
         bool UseLastCords { get; }
         bool WalkBackToDefaultLocation { get; }
+        double RelocateDefaultLocationTravelSpeed { get; set; }
+        bool RelocateDefaultLocation { get; set; }
         int MaxWalkingRadiusInMeters { get; }
 
         /* NAVIGATION */

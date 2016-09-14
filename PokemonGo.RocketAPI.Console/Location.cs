@@ -43,7 +43,10 @@ namespace PokemonGo.RocketAPI.Console
         public bool close = true;
 
         private GMarkerGoogle _botMarker;
-
+        private GMapPolygon _circle;
+        private GMarkerGoogle _botStartMarker;
+        private GMapOverlay routeOverlay;
+        private GMapOverlay PokemonOverlay;
         private GMapRoute _botRoute = new GMapRoute("BotRoute");
         private Dictionary<string, GMarkerGoogle> _pokemonMarks = new Dictionary<string, GMarkerGoogle>();
         private GMapOverlay _pokemonOverlay = new GMapOverlay("Pokemon");
@@ -283,6 +286,16 @@ namespace PokemonGo.RocketAPI.Console
                         _pokeStopsOverlay.IsVisibile = false;
                         _pokeStopsOverlay.Markers.Clear();
                         _pokeStopsMarks.Clear();
+                        routeOverlay.Polygons.Clear();
+                        routeOverlay.Polygons.Add(_circle = CreateCircle(new PointLatLng(Globals.latitute, Globals.longitude), Globals.radius, 100));
+                        routeOverlay.Markers.Clear();
+                        _botStartMarker = new GMarkerGoogle(new PointLatLng(), Properties.Resources.start_point);
+                        _botStartMarker.Position = new PointLatLng(Globals.latitute, Globals.longitude);
+                        _botStartMarker.ToolTipText = string.Format("Start Point.\n{0}\n{1},{2}", FindAddress(Globals.latitute, Globals.longitude), Globals.latitute, Globals.longitude);
+                        _botStartMarker.ToolTip.Font = new System.Drawing.Font("Arial", 12, System.Drawing.GraphicsUnit.Pixel);
+                        _botStartMarker.ToolTipMode = MarkerTooltipMode.OnMouseOver;
+                        routeOverlay.Markers.Add(_botStartMarker);
+                        routeOverlay.Markers.Add(_botMarker);
                         int prevCount = pokeStops.Length;
 
                         var filteredPokeStops = pokeStops.Where(i => LocationUtils.CalculateDistanceInMeters(Logic.Logic._instance._clientSettings.DefaultLatitude, Logic.Logic._instance._clientSettings.DefaultLongitude, i.Latitude, i.Longitude) <= Logic.Logic._instance._clientSettings.MaxWalkingRadiusInMeters).ToArray();
@@ -483,18 +496,19 @@ namespace PokemonGo.RocketAPI.Console
             map.Visible = true;
             map.Dock = DockStyle.Fill;
             map.ShowCenter = false;
-            GMapOverlay routeOverlay = new GMapOverlay();
+            routeOverlay = new GMapOverlay();
             routeOverlay.Routes.Add(_botRoute);
-            GMapOverlay PokemonOverlay = new GMapOverlay();
+            PokemonOverlay = new GMapOverlay();
             routeOverlay.Markers.Add(_botMarker);
-            GMarkerGoogle _botStartMarker = new GMarkerGoogle(new PointLatLng(), Properties.Resources.start_point);
+            _botStartMarker = new GMarkerGoogle(new PointLatLng(), Properties.Resources.start_point);
             _botStartMarker.Position = new PointLatLng(Globals.latitute, Globals.longitude);
             _botStartMarker.ToolTipText = string.Format("Start Point.\n{0}\n{1},{2}", FindAddress(Globals.latitute, Globals.longitude), Globals.latitute, Globals.longitude);
             _botStartMarker.ToolTip.Font = new System.Drawing.Font("Arial", 12, System.Drawing.GraphicsUnit.Pixel);
             _botStartMarker.ToolTipMode = MarkerTooltipMode.OnMouseOver;
             routeOverlay.Markers.Add(_botStartMarker);
-            GMapPolygon circle = CreateCircle(new PointLatLng(Globals.latitute, Globals.longitude), Globals.radius, 100);
-            routeOverlay.Polygons.Add(circle);
+            _circle = CreateCircle(new PointLatLng(Globals.latitute, Globals.longitude), Globals.radius, 100);
+            routeOverlay.Polygons.Add(_circle);
+            
 
             map.Overlays.Add(routeOverlay);
             map.Overlays.Add(_pokeStopsOverlay);

@@ -496,6 +496,18 @@ namespace PokemonGo.RocketAPI.Console
             set { Globals.UseIncenseGUIClick = value; }
         }
 
+        public bool RelocateDefaultLocation
+        {
+            get { return Globals.RelocateDefaultLocation; }
+            set { Globals.RelocateDefaultLocation = value; }
+        }
+
+        public double RelocateDefaultLocationTravelSpeed
+        {
+            get { return Globals.RelocateDefaultLocationTravelSpeed; }
+            set { Globals.RelocateDefaultLocationTravelSpeed = value; }
+        }
+
         /*bool ISettings._pauseTheWalking
         {
             get { return Globals._pauseTheWalking; }

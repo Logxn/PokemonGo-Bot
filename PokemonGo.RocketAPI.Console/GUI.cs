@@ -44,7 +44,7 @@ namespace PokemonGo.RocketAPI.Console
         {
             _clientSettings = new Settings();
 
-            var ret = MessageBox.Show("The Bot isn't done! Be aware that you can get banned!\n\nDon't login with the new App Version (0.3.7) (0.3.5 is ok!)\n\nOr you will probably get Banned if you use the bot again!\n\nAre you sure to continue?","Warning", MessageBoxButtons.YesNo) ;
+            var ret = MessageBox.Show("The Bot isn't done! Be aware that you can get banned!\n\nDon't login with the new App Version (0.3.7) (0.3.5 is ok!)\n\nOr you will probably get Banned if you use the bot again!\n\nAre you sure you want to continue?","Warning", MessageBoxButtons.YesNo) ;
             if (ret== DialogResult.No){
             	Application.Exit();
             }        	
@@ -368,17 +368,17 @@ namespace PokemonGo.RocketAPI.Console
             }
             else
             {
-                text_MaxPokeballs.Text = "20";
-                text_MaxGreatBalls.Text = "50";
+                text_MaxPokeballs.Text = "100";
+                text_MaxGreatBalls.Text = "100";
                 text_MaxUltraBalls.Text = "100";
-                text_MaxRevives.Text = "20";
-                text_MaxPotions.Text = "0";
-                text_MaxSuperPotions.Text = "0";
-                text_MaxHyperPotions.Text = "50";
-                text_MaxRazzBerrys.Text = "75";
-                text_MaxMasterBalls.Text = "200";
+                text_MaxRevives.Text = "100";
+                text_MaxPotions.Text = "100";
+                text_MaxSuperPotions.Text = "100";
+                text_MaxHyperPotions.Text = "100";
+                text_MaxRazzBerrys.Text = "100";
+                text_MaxMasterBalls.Text = "0";
                 text_MaxTopPotions.Text = "100";
-                text_MaxTopRevives.Text = "20";
+                text_MaxTopRevives.Text = "100";
             }
 
             if (File.Exists(Program.miscSettings))
