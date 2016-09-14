@@ -130,11 +130,15 @@
       <DependentUpon>GUI.cs</DependentUpon>
     </Compile>
     <Compile Include="Helper\SleepHelper.cs" />
-    <Compile Include="IntegerInput.cs" />
+    <Compile Include="IntegerInput.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="IntegerInput.Designer.cs">
       <DependentUpon>IntegerInput.cs</DependentUpon>
     </Compile>
-    <Compile Include="Items.cs" />
+    <Compile Include="Items.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Items.Designer.cs">
       <DependentUpon>Items.cs</DependentUpon>
     </Compile>
