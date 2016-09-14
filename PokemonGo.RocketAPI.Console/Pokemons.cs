@@ -240,17 +240,17 @@ namespace PokemonGo.RocketAPI.Console
                     checkBox4.Checked = Globals.useBasicIncubators;
                     text_GoogleMapsAPIKey.Text = Globals.GoogleMapsAPIKey;
 
-                    text_MaxPokeballs.Text = Globals.pokeball.ToString();
-                    text_MaxGreatBalls.Text =  Globals.greatball.ToString();
-                    text_MaxUltraBalls.Text =  Globals.ultraball.ToString();
-                    text_MaxRevives.Text = Globals.revive.ToString();
-                    text_MaxPotions.Text = Globals.potion.ToString();
-                    text_MaxSuperPotions.Text = Globals.superpotion.ToString();
-                    text_MaxHyperPotions.Text = Globals.hyperpotion.ToString();
-                    text_MaxRazzBerrys.Text = Globals.berry.ToString();
-                    text_MaxMasterBalls.Text = Globals.masterball.ToString();
-                    text_MaxTopRevives.Text = Globals.toprevive.ToString();
-                    text_MaxTopPotions.Text = Globals.toppotion.ToString();
+                    num_MaxPokeballs.Value = Globals.pokeball;
+                    num_MaxGreatBalls.Value =  Globals.greatball;
+                    num_MaxUltraBalls.Value =  Globals.ultraball;
+                    num_MaxRevives.Value = Globals.revive;
+                    num_MaxPotions.Value = Globals.potion;
+                    num_MaxSuperPotions.Value = Globals.superpotion;
+                    num_MaxHyperPotions.Value = Globals.hyperpotion;
+                    num_MaxRazzBerrys.Value = Globals.berry;
+                    num_MaxMasterBalls.Value = Globals.masterball;
+                    num_MaxTopRevives.Value = Globals.toprevive;
+                    num_MaxTopPotions.Value = Globals.toppotion;
 
 		            int count = 0;
 		            count += Globals.pokeball + Globals.greatball + Globals.ultraball + Globals.revive
@@ -1463,45 +1463,49 @@ namespace PokemonGo.RocketAPI.Console
             Execute();
         }
         
-        private void text_Max(object sender, EventArgs e)
+        private void num_Max(object sender, EventArgs e)
         {
         	try{
-        		var tb = (TextBox) sender;
-        		var value = 200;
-        		int.TryParse(tb.Text, out value);        		
-        		switch (tb.Name) {
-        			case "text_MaxPokeballs":
+        		var numB = (NumericUpDown) sender;
+        		var value = (int) numB.Value;
+        		switch (numB.Name) {
+        			case "num_MaxPokeballs":
         				Globals.pokeball = value;
         			break;
-        			case "text_MaxGreatBalls":
+        			case "num_MaxGreatBalls":
         				Globals.greatball = value;
         			break;
-        			case "text_MaxUltraBalls":
+        			case "num_MaxUltraBalls":
         				Globals.ultraball = value;
         			break;
-        			case "text_MaxRevives":
+        			case "num_MaxRevives":
         				Globals.pokeball = value;
         			break;
-        			case "text_MaxPotions":
+        			case "num_MaxPotions":
         				Globals.potion = value;
         			break;
-        			case "text_MaxSuperPotions":
+        			case "num_MaxSuperPotions":
         				Globals.superpotion = value;
         			break;
-        			case "text_MaxHyperPotions":
+        			case "num_MaxHyperPotions":
         				Globals.hyperpotion = value;
         			break;
-        			case "text_MaxMasterBalls":
+        			case "num_MaxMasterBalls":
         				Globals.masterball = value;
         			break;
-        			case "text_MaxTopRevives":
+        			case "num_MaxTopRevives":
         				Globals.toprevive = value;
         			break;
-        			case "text_MaxTopPotions":
+        			case "num_MaxTopPotions":
         				Globals.toppotion = value;
         			break;
         				
-        		}        		        	
+        		}        
+        		 int count = 0;
+		            count += Globals.pokeball + Globals.greatball + Globals.ultraball + Globals.revive
+		                + Globals.potion + Globals.superpotion + Globals.hyperpotion + Globals.berry + Globals.masterball
+		                + Globals.toprevive + Globals.toppotion;
+		         text_TotalItemCount.Text = count.ToString();
         	}catch (Exception e1){
         		
         	}
