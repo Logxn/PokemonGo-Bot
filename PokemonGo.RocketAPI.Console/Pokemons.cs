@@ -1432,7 +1432,7 @@ namespace PokemonGo.RocketAPI.Console
         {
             try
             {
-                Globals.speed = double.Parse(numTravelSpeed.Value.ToString());
+                Globals.speed = double.Parse(numericUpDown1.Value.ToString());
             }
             catch
             {
@@ -1444,7 +1444,7 @@ namespace PokemonGo.RocketAPI.Console
         {
             try
             {
-                Globals.MinWalkSpeed = int.Parse(numTravelSpeed.Value.ToString());
+                Globals.MinWalkSpeed = int.Parse(numericUpDown2.Value.ToString());
             }
             catch
             {

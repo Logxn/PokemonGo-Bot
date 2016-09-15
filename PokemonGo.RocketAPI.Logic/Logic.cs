@@ -842,8 +842,8 @@ namespace PokemonGo.RocketAPI.Logic
                     }
                     catch (Exception e)
                     {
-	                    Logger.ColoredConsoleWrite(ConsoleColor.DarkRed, "Ignore this: sending exception information to log file.");
-	                    Logger.AddLog(string.Format("Error in fncPokeStop: " + e.ToString()));
+                        Logger.ColoredConsoleWrite(ConsoleColor.DarkRed, "Ignore this: sending exception information to log file.");
+                        Logger.AddLog(string.Format("Error in fncPokeStop: " + e.ToString()));
                     }
                 }
                 #endregion
@@ -893,8 +893,17 @@ namespace PokemonGo.RocketAPI.Logic
 
         private int GetRandomWalkspeed()
         {
+            var rintwalk = (int)_clientSettings.WalkingSpeedInKilometerPerHour;
             Random r = new Random();
-            var rintwalk = r.Next(_clientSettings.MinWalkSpeed, (int)_clientSettings.WalkingSpeedInKilometerPerHour);
+            Logger.ColoredConsoleWrite(ConsoleColor.DarkGray, $"==============Begin Walkspeed Debug==============");
+            Logger.ColoredConsoleWrite(ConsoleColor.DarkGray, $"Default walking speed: " + _clientSettings.WalkingSpeedInKilometerPerHour);
+            Logger.ColoredConsoleWrite(ConsoleColor.DarkGray, $"Min walking speed " + _clientSettings.MinWalkSpeed);
+
+            if ((int)_clientSettings.WalkingSpeedInKilometerPerHour - (int)_clientSettings.MinWalkSpeed > 1)
+            {
+                 rintwalk = r.Next((int)_clientSettings.MinWalkSpeed, (int)_clientSettings.WalkingSpeedInKilometerPerHour);
+            }
+            Logger.ColoredConsoleWrite(ConsoleColor.DarkGray, $"==============End Walkspeed Debug==============");
             Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Setting Walk speed for this leg to " + rintwalk + "km/h");
             return rintwalk;
         }
@@ -1112,18 +1121,10 @@ namespace PokemonGo.RocketAPI.Logic
                     {
                         egg = fortSearch.PokemonDataEgg.EggKmWalkedTarget + "km";
                     }
-
                     string items = "";
                     if (fortSearch.ItemsAwarded != null)
                     {
                         items = StringUtils.GetSummedFriendlyNameOfItemAwardList(fortSearch.ItemsAwarded);
-                    }
-
-                    if (pokeballoutofstock && (items.IndexOf("PokeBall") > -1))
-                    {
-                        Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Detected at least one Pokeball - Enabling Catch Pokemon");
-                        pokeballoutofstock = false;
-                        _clientSettings.CatchPokemon = true;
                     }
                     failed_softban = 0;
                     _botStats.AddExperience(fortSearch.ExperienceAwarded);
@@ -1854,7 +1855,7 @@ namespace PokemonGo.RocketAPI.Logic
             foreach (var item in items)
             {
                 Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Detected Pokeball Restock - Enabling Catch Pokemon");
-                    
+
                 if ((item.ItemId == ItemId.ItemPokeBall || item.ItemId == ItemId.ItemGreatBall || item.ItemId == ItemId.ItemUltraBall || item.ItemId == ItemId.ItemMasterBall) && pokeballoutofstock)
                 {
                     Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Detected Pokeball Restock - Enabling Catch Pokemon");
