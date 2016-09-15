@@ -105,6 +105,8 @@ namespace PokemonGo.RocketAPI.Console
         	this.itemsPanel1 = new PokemonGo.RocketAPI.Console.ItemsPanel();
         	this.tabPage4 = new System.Windows.Forms.TabPage();
         	this.locationPanel1 = new PokemonGo.RocketAPI.Console.LocationPanel();
+        	this.tabPage5 = new System.Windows.Forms.TabPage();
+        	this.playerPanel1 = new PokemonGo.RocketAPI.Console.PlayerPanel();
         	this.contextMenuStrip1.SuspendLayout();
         	((System.ComponentModel.ISupportInitialize)(this.reloadsecondstextbox)).BeginInit();
         	((System.ComponentModel.ISupportInitialize)(this.numPwrUpLimit)).BeginInit();
@@ -119,6 +121,7 @@ namespace PokemonGo.RocketAPI.Console
         	this.groupBox13.SuspendLayout();
         	this.tabPage3.SuspendLayout();
         	this.tabPage4.SuspendLayout();
+        	this.tabPage5.SuspendLayout();
         	this.SuspendLayout();
         	// 
         	// PokemonListView
@@ -487,6 +490,7 @@ namespace PokemonGo.RocketAPI.Console
         	this.Options.Controls.Add(this.tabPage1);
         	this.Options.Controls.Add(this.tabPage3);
         	this.Options.Controls.Add(this.tabPage4);
+        	this.Options.Controls.Add(this.tabPage5);
         	this.Options.Location = new System.Drawing.Point(13, 32);
         	this.Options.Name = "Options";
         	this.Options.SelectedIndex = 0;
@@ -1040,6 +1044,27 @@ namespace PokemonGo.RocketAPI.Console
         	this.locationPanel1.Size = new System.Drawing.Size(691, 378);
         	this.locationPanel1.TabIndex = 0;
         	// 
+        	// tabPage5
+        	// 
+        	this.tabPage5.Controls.Add(this.playerPanel1);
+        	this.tabPage5.Location = new System.Drawing.Point(4, 22);
+        	this.tabPage5.Name = "tabPage5";
+        	this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
+        	this.tabPage5.Size = new System.Drawing.Size(700, 385);
+        	this.tabPage5.TabIndex = 4;
+        	this.tabPage5.Text = "Player Information";
+        	this.tabPage5.UseVisualStyleBackColor = true;
+        	// 
+        	// playerPanel1
+        	// 
+        	this.playerPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+			| System.Windows.Forms.AnchorStyles.Left) 
+			| System.Windows.Forms.AnchorStyles.Right)));
+        	this.playerPanel1.Location = new System.Drawing.Point(0, 0);
+        	this.playerPanel1.Name = "playerPanel1";
+        	this.playerPanel1.Size = new System.Drawing.Size(697, 385);
+        	this.playerPanel1.TabIndex = 0;
+        	// 
         	// Pokemons
         	// 
         	this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1083,6 +1108,7 @@ namespace PokemonGo.RocketAPI.Console
         	this.groupBox13.PerformLayout();
         	this.tabPage3.ResumeLayout(false);
         	this.tabPage4.ResumeLayout(false);
+        	this.tabPage5.ResumeLayout(false);
         	this.ResumeLayout(false);
         	this.PerformLayout();
 
@@ -1167,5 +1193,7 @@ namespace PokemonGo.RocketAPI.Console
         private PokemonGo.RocketAPI.Console.ItemsPanel itemsPanel1;
         private System.Windows.Forms.TabPage tabPage4;
         private PokemonGo.RocketAPI.Console.LocationPanel locationPanel1;
+        private System.Windows.Forms.TabPage tabPage5;
+        private PokemonGo.RocketAPI.Console.PlayerPanel playerPanel1;
     }
 }

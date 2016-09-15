@@ -266,7 +266,8 @@ namespace PokemonGo.RocketAPI.Console
 		            numTravelSpeed.Value = (int) Globals.RelocateDefaultLocationTravelSpeed;
                     #endregion
  	
-                    itemsPanel1.ExecuteItemsLoad();
+                    itemsPanel1.Execute();
+                    playerPanel1.Execute(profile,pokemons);
                 }
             }
             catch (Exception e)

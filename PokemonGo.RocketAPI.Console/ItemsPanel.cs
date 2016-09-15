@@ -35,9 +35,9 @@ namespace PokemonGo.RocketAPI.Console
 		void BtnRealoadItemsClick(object sender, EventArgs e)
 		{
 			ItemsListView.Items.Clear();
-            ExecuteItemsLoad();
+            Execute();
 		}
-		public async void ExecuteItemsLoad()
+		public async void Execute()
         {
             try
             {
@@ -65,7 +65,7 @@ namespace PokemonGo.RocketAPI.Console
 
                 Logger.Error("[ItemsList-Error] " + e.StackTrace);
                 await Task.Delay(1000); // Lets the API make a little pause, so we dont get blocked
-                ExecuteItemsLoad();
+                Execute();
             }
         }
 		private string getItemName(ItemId itemID)
