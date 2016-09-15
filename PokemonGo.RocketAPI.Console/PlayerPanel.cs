@@ -113,10 +113,14 @@ namespace PokemonGo.RocketAPI.Console
             pictureBoxBuddyPokemon.Location = buddyLocation;
             pictureBoxBuddyPokemon.BackColor = Color.Transparent;
             pictureBoxBuddyPokemon.BringToFront();
-            if (profile.PlayerData.BuddyPokemon == null || profile.PlayerData.BuddyPokemon.ToString() == "{ }")
+            //Changed this Section until 0.37 compatible!
+            pictureBoxBuddyPokemon.Visible = false;
+            //if (profile.PlayerData.BuddyPokemon == null || profile.PlayerData.BuddyPokemon.ToString() == "{ }")
+            if (true == true)
             {
                 labelNoBuddySelected.Parent = pictureBoxBuddyPokemon;
-                labelNoBuddySelected.Visible = true;
+                //Changed this Section until 0.37 compatible!
+                labelNoBuddySelected.Visible = false;
                 labelNoBuddySelected.Width = pictureBoxBuddyPokemon.Width - 35;
                 labelNoBuddySelected.Height = pictureBoxBuddyPokemon.Height;
                 labelNoBuddySelected.Location = new Point(0,0);

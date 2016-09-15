@@ -246,7 +246,8 @@ namespace PokemonGo.RocketAPI.Console
                     checkBox5.Checked = Globals.autoIncubate;
                     checkBox4.Checked = Globals.useBasicIncubators;
                     text_GoogleMapsAPIKey.Text = Globals.GoogleMapsAPIKey;
-
+                    numericUpDown1.Value = decimal.Parse(Globals.speed.ToString());
+                    numericUpDown2.Value = decimal.Parse(Globals.MinWalkSpeed.ToString());
                     itemsPanel1.num_MaxPokeballs.Value = Globals.pokeball;
                     itemsPanel1.num_MaxGreatBalls.Value =  Globals.greatball;
                     itemsPanel1.num_MaxUltraBalls.Value =  Globals.ultraball;
@@ -1419,7 +1420,31 @@ namespace PokemonGo.RocketAPI.Console
         {
             try
             {
-            	Globals.RelocateDefaultLocationTravelSpeed = (double) numTravelSpeed.Value;
+            	Globals.RelocateDefaultLocationTravelSpeed = double.Parse(numTravelSpeed.Value.ToString());
+            }
+            catch
+            {
+
+            }
+        }
+
+        private void numDefaultSpeed_TextChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                Globals.speed = double.Parse(numTravelSpeed.Value.ToString());
+            }
+            catch
+            {
+
+            }
+        }
+
+        private void numMinSpeed_TextChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                Globals.MinWalkSpeed = int.Parse(numTravelSpeed.Value.ToString());
             }
             catch
             {
@@ -1500,6 +1525,16 @@ namespace PokemonGo.RocketAPI.Console
             var ret = FindLocation(textBox1.Text);
             textBox4.Text = ret[0].ToString();
             textBox5.Text = ret[1].ToString();
+        }
+
+        private void label9_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void text_Speed_TextChanged(object sender, EventArgs e)
+        {
+            
         }
     }
     public static class ControlExtensions
