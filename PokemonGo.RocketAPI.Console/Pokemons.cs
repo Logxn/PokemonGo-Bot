@@ -1432,7 +1432,8 @@ namespace PokemonGo.RocketAPI.Console
         {
             try
             {
-            	Globals.speed = (double) numericUpDown1.Value;
+              // Globals.speed = double.Parse(numericUpDown1.Value.ToString()); // worse method, slower and less precisse, you need call to two complex (high level) functions 
+            	Globals.speed = (double) numericUpDown1.Value;  // faster method, directy compiler assign memory to new variable 
             }
             catch
             {
@@ -1444,7 +1445,8 @@ namespace PokemonGo.RocketAPI.Console
         {
             try
             {
-            	Globals.MinWalkSpeed = (int) numericUpDown2.Value;
+              // Globals.MinWalkSpeed = int.Parse(numericUpDown2.Value.ToString()); // worse method, slower and less precisse, you need call to two complex functions
+            	Globals.MinWalkSpeed = (int) numericUpDown2.Value;       // faster method, directy compiler assign memory to new variable
             }
             catch
             {
