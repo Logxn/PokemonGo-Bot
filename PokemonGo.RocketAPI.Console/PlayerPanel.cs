@@ -19,74 +19,75 @@ using System.Linq;
 
 namespace PokemonGo.RocketAPI.Console
 {
-	/// <summary>
-	/// Description of PlayerPanel.
-	/// </summary>
-	public partial class PlayerPanel : UserControl
-	{
-		private static GetPlayerResponse profile = null;
-		private static IOrderedEnumerable<PokemonData> pokemons = null;
-		public PlayerPanel()
-		{
-			//
-			// The InitializeComponent() call is required for Windows Forms designer support.
-			//
-			InitializeComponent();
-			
-			//
-			// TODO: Add constructor code after the InitializeComponent() call.
-			//
-		}
-		
-		
-		public void Execute(GetPlayerResponse prof, IOrderedEnumerable<PokemonData> poks){
-			profile = prof;
-			pokemons = poks;
+    /// <summary>
+    /// Description of PlayerPanel.
+    /// </summary>
+    public partial class PlayerPanel : UserControl
+    {
+        private static GetPlayerResponse profile = null;
+        private static IOrderedEnumerable<PokemonData> pokemons = null;
+        public PlayerPanel()
+        {
+            //
+            // The InitializeComponent() call is required for Windows Forms designer support.
+            //
+            InitializeComponent();
+
+            //
+            // TODO: Add constructor code after the InitializeComponent() call.
+            //
+        }
+
+
+        public void Execute(GetPlayerResponse prof, IOrderedEnumerable<PokemonData> poks)
+        {
+            profile = prof;
+            pokemons = poks;
             updatePlayerImages();
-            updatePlayerInfoLabels();			
-		}
-		 /// <summary>
+            updatePlayerInfoLabels();
+        }
+        /// <summary>
         /// Gets the image for team.
         /// </summary>
         /// <param name="team">The team.</param>
         /// <returns></returns>
         private Image getImageForTeam(TeamColor team)
         {
-            switch(team)
+            switch (team)
             {
                 case TeamColor.Neutral:
                     return null;
                     break;
                 case TeamColor.Blue:
-                    return Properties.Resources.player_blue;
+                    return Properties.Resources.mystic;
                     break;
                 case TeamColor.Red:
-                    return Properties.Resources.player_red;
+                    return Properties.Resources.valor;
                     break;
                 case TeamColor.Yellow:
-                    return Properties.Resources.player_yellow;
+                    return Properties.Resources.instinct;
                     break;
                 default:
                     return null;
                     break;
             }
         }
-		private void updatePlayerImages()
+        private void updatePlayerImages()
         {
-			if (profile == null)
-				return;
-			
+            if (profile == null)
+                return;
+
             labelNoTeamSelected.Visible = false;
             labelNoBuddySelected.Visible = false;
-            
-            pictureBoxPlayerAvatar.Image = getImageForGender(profile.PlayerData.Avatar.Gender);
-            
-            pictureBoxTeam.Location = new Point(0,0);
+            if (profile.PlayerData.Avatar != null)
+                pictureBoxPlayerAvatar.Image = getImageForGender(profile.PlayerData.Avatar.Gender);
+
+            pictureBoxTeam.Location = new Point(0, 0);
             pictureBoxTeam.Image = getImageForTeam(profile.PlayerData.Team);
             Control parent = pictureBoxTeam;
             if (profile.PlayerData.Team == TeamColor.Neutral)
             {
-                labelNoTeamSelected.Location = new Point(0,0);
+                labelNoTeamSelected.Location = new Point(0, 0);
                 labelNoTeamSelected.Parent = pictureBoxTeam;
                 labelNoTeamSelected.Width = pictureBoxTeam.Width;
                 labelNoTeamSelected.Height = pictureBoxTeam.Height;
@@ -94,21 +95,21 @@ namespace PokemonGo.RocketAPI.Console
                 labelNoTeamSelected.TextAlign = ContentAlignment.TopCenter;
                 parent = labelNoTeamSelected;
             }
-            
+
             pictureBoxTeam.Refresh();
-            
+
             pictureBoxPlayerAvatar.Parent = parent;
-            var playerLocation = new Point(pictureBoxTeam.Width - (pictureBoxTeam.Width / 2) - (pictureBoxPlayerAvatar.Width / 2),pictureBoxTeam.Height - pictureBoxPlayerAvatar.Height);
+            var playerLocation = new Point(pictureBoxTeam.Width - (pictureBoxTeam.Width / 2) - (pictureBoxPlayerAvatar.Width / 2), pictureBoxTeam.Height - pictureBoxPlayerAvatar.Height);
             pictureBoxPlayerAvatar.Height = (int)(pictureBoxTeam.Height * 0.75);
             pictureBoxPlayerAvatar.Width = pictureBoxTeam.Width;
             pictureBoxPlayerAvatar.Location = playerLocation;
             pictureBoxPlayerAvatar.BackColor = Color.Transparent;
             pictureBoxPlayerAvatar.BringToFront();
-            
+
             pictureBoxPlayerAvatar.Refresh();
-            
+
             pictureBoxBuddyPokemon.Parent = pictureBoxPlayerAvatar;
-            var buddyLocation = new Point(60,pictureBoxPlayerAvatar.Height - pictureBoxBuddyPokemon.Height);
+            var buddyLocation = new Point(60, pictureBoxPlayerAvatar.Height - pictureBoxBuddyPokemon.Height);
             pictureBoxBuddyPokemon.Image = getImageForBuddy(profile.PlayerData.BuddyPokemon);
             pictureBoxBuddyPokemon.Location = buddyLocation;
             pictureBoxBuddyPokemon.BackColor = Color.Transparent;
@@ -123,28 +124,28 @@ namespace PokemonGo.RocketAPI.Console
                 labelNoBuddySelected.Visible = false;
                 labelNoBuddySelected.Width = pictureBoxBuddyPokemon.Width - 35;
                 labelNoBuddySelected.Height = pictureBoxBuddyPokemon.Height;
-                labelNoBuddySelected.Location = new Point(0,0);
+                labelNoBuddySelected.Location = new Point(0, 0);
                 labelNoBuddySelected.TextAlign = ContentAlignment.MiddleCenter;
                 labelNoBuddySelected.BringToFront();
             }
         }
-		
-		private async void updatePlayerInfoLabels()
+
+        private async void updatePlayerInfoLabels()
         {
-			if (profile == null)
-				return;
-			
-			var client = Logic.Logic._client;
+            if (profile == null)
+                return;
+
+            var client = Logic.Logic._client;
             var playerStats = await client.Inventory.GetPlayerStats();
             var stats = playerStats.First();
-            
+
             labelUserProperty1Title.Text = "Username:";
             labelUserProperty1Value.Text = profile.PlayerData.Username;
-            
+
             var expneeded = stats.NextLevelXp - stats.PrevLevelXp - StringUtils.getExpDiff(stats.Level);
             var curexp = stats.Experience - stats.PrevLevelXp - StringUtils.getExpDiff(stats.Level);
             var curexppercent = Convert.ToDouble(curexp) / Convert.ToDouble(expneeded) * 100;
-            
+
             var pokemonToEvolve = (await client.Inventory.GetPokemonToEvolve()).Count();
             var pokedexpercentraw = Convert.ToDouble(stats.UniquePokedexEntries) / Convert.ToDouble(150) * 100;
             var pokedexpercent = Math.Floor(pokedexpercentraw);
@@ -152,7 +153,7 @@ namespace PokemonGo.RocketAPI.Console
             labelUserProperty2Title.Text = "Level:";
             var curexppercentrounded = Math.Round(curexppercent, 2);
             var kmWalked = Math.Round(stats.KmWalked, 2);
-            
+
             labelUserProperty2Value.Text = string.Format("{0} | {1}/{2}({3}%)", stats.Level, curexp, expneeded, curexppercentrounded);
 
             labelUserProperty3Title.Text = "Stardust:";
@@ -160,14 +161,14 @@ namespace PokemonGo.RocketAPI.Console
 
             labelUserProperty4Title.Text = "Pokemon:";
             labelUserProperty4Value.Text = string.Format("{0} + {1} Eggs / {2} ({3} Evolvable)", await client.Inventory.getPokemonCount(), await client.Inventory.GetEggsCount(), profile.PlayerData.MaxPokemonStorage, pokemonToEvolve);
-            
+
             labelUserProperty5Title.Text = "Pokedex:";
             labelUserProperty5Value.Text = string.Format("{0}/ 150 [{1}%]", stats.UniquePokedexEntries, pokedexpercent);
-            
+
             labelUserProperty6Title.Text = "Walked:";
-            labelUserProperty6Value.Text = string.Format("{0}km", kmWalked); 
+            labelUserProperty6Value.Text = string.Format("{0}km", kmWalked);
         }
-        
+
         /// <summary>
         /// Gets the image for buddy.
         /// </summary>
@@ -175,9 +176,9 @@ namespace PokemonGo.RocketAPI.Console
         /// <returns></returns>
         private Image getImageForBuddy(BuddyPokemon buddyPokemon)
         {
-        	if (pokemons == null)
-        		return null;
-        	
+            if (pokemons == null)
+                return null;
+
             if (buddyPokemon == null || buddyPokemon.ToString() == "{ }")
             {
                 return null;
@@ -187,7 +188,7 @@ namespace PokemonGo.RocketAPI.Console
                 var buddyPoke = pokemons.FirstOrDefault(x => x.Id == buddyPokemon.Id);
                 if (buddyPoke != null)
                 {
-                    return getPokemonImagefromResource(buddyPoke.PokemonId,"200");
+                    return getPokemonImagefromResource(buddyPoke.PokemonId, "200");
                 }
                 else
                 {
@@ -195,7 +196,7 @@ namespace PokemonGo.RocketAPI.Console
                 }
             }
         }
-        
+
         /// <summary>
         /// Gets the image for gender.
         /// </summary>
@@ -203,17 +204,17 @@ namespace PokemonGo.RocketAPI.Console
         /// <returns></returns>
         private Image getImageForGender(Gender gender)
         {
-            switch(gender)
+            switch (gender)
             {
                 case Gender.Male:
-                    return Properties.Resources.player;
+                    return Properties.Resources.boy;
                 case Gender.Female:
-                    return Properties.Resources.player;
-                default: 
-                    return Properties.Resources.player;
+                    return Properties.Resources.girl;
+                default:
+                    return Properties.Resources.boy;
             }
         }
-        
+
         private static Bitmap getPokemonImagefromResource(PokemonId pokemon, string size)
         {
             var resource = PokemonGo.RocketAPI.Console.Properties.Resources.ResourceManager.GetObject(string.Format("_{0}_{1}", (int)pokemon, size), CultureInfo.CurrentCulture);
@@ -226,5 +227,5 @@ namespace PokemonGo.RocketAPI.Console
                 return null;
             }
         }
-	}
+    }
 }

@@ -142,7 +142,9 @@
     <Compile Include="Items.Designer.cs">
       <DependentUpon>Items.cs</DependentUpon>
     </Compile>
-    <Compile Include="ItemsPanel.cs" />
+    <Compile Include="ItemsPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="ItemsPanel.Designer.cs">
       <DependentUpon>ItemsPanel.cs</DependentUpon>
     </Compile>
@@ -152,11 +154,15 @@
     <Compile Include="Location.designer.cs">
       <DependentUpon>Location.cs</DependentUpon>
     </Compile>
-    <Compile Include="LocationPanel.cs" />
+    <Compile Include="LocationPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="LocationPanel.Designer.cs">
       <DependentUpon>LocationPanel.cs</DependentUpon>
     </Compile>
-    <Compile Include="PlayerPanel.cs" />
+    <Compile Include="PlayerPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="PlayerPanel.Designer.cs">
       <DependentUpon>PlayerPanel.cs</DependentUpon>
     </Compile>
@@ -226,6 +232,7 @@
     <EmbeddedResource Include="Lang\spain.json" />
     <EmbeddedResource Include="Lang\tr.json" />
     <EmbeddedResource Include="Lang\arabic.json" />
+    <None Include="ClassDiagram1.cd" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -268,6 +275,7 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="PokeData\AdditionalPokeData.json" />
   </ItemGroup>
@@ -322,6 +330,11 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="1470603236_Pokeball.ico" />
+    <Content Include="Resources\boy.png" />
+    <Content Include="Resources\girl.png" />
+    <Content Include="Resources\instinct.png" />
+    <Content Include="Resources\mystic.png" />
+    <Content Include="Resources\valor.png" />
     <None Include="Resources\start_point.png" />
     <None Include="Resources\151-35.png" />
     <None Include="Resources\151-20.png" />

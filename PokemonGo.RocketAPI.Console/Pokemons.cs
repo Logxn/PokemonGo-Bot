@@ -1536,6 +1536,11 @@ namespace PokemonGo.RocketAPI.Console
         {
             
         }
+
+        private void itemsPanel1_Load(object sender, EventArgs e)
+        {
+
+        }
     }
     public static class ControlExtensions
     {
