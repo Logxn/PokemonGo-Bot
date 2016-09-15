@@ -441,6 +441,7 @@ namespace PokemonGo.RocketAPI.Console
 			// 
 			// btnRealoadItems
 			// 
+			this.btnRealoadItems.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.btnRealoadItems.Location = new System.Drawing.Point(180, 349);
 			this.btnRealoadItems.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
 			this.btnRealoadItems.Name = "btnRealoadItems";
