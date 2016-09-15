@@ -196,6 +196,9 @@ namespace PokemonGo.RocketAPI.Console
         			case "num_MaxTopPotions":
         				Globals.toppotion = value;
         			break;
+        			case "num_MaxRazzBerrys":        		
+        				Globals.berry = value;
+        			break;
         				
         		}        
         		 int count = 0;
