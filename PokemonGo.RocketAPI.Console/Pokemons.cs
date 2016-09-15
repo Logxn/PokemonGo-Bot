@@ -246,7 +246,7 @@ namespace PokemonGo.RocketAPI.Console
                     checkBox5.Checked = Globals.autoIncubate;
                     checkBox4.Checked = Globals.useBasicIncubators;
                     text_GoogleMapsAPIKey.Text = Globals.GoogleMapsAPIKey;
-                    numericUpDown1.Value = ystem.Convert.ToDecimal( Globals.speed);
+                    numericUpDown1.Value = System.Convert.ToDecimal( Globals.speed);
                     numericUpDown2.Value = Globals.MinWalkSpeed;
                     itemsPanel1.num_MaxPokeballs.Value = Globals.pokeball;
                     itemsPanel1.num_MaxGreatBalls.Value =  Globals.greatball;
