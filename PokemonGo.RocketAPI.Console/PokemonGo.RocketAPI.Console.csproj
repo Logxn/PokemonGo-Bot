@@ -152,6 +152,10 @@
     <Compile Include="Location.designer.cs">
       <DependentUpon>Location.cs</DependentUpon>
     </Compile>
+    <Compile Include="LocationPanel.cs" />
+    <Compile Include="LocationPanel.Designer.cs">
+      <DependentUpon>LocationPanel.cs</DependentUpon>
+    </Compile>
     <Compile Include="PokeData\AdditionalPokeData.cs" />
     <Compile Include="Pokemons.cs">
       <SubType>Form</SubType>
@@ -194,6 +198,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ItemsPanel.resx">
       <DependentUpon>ItemsPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LocationPanel.resx">
+      <DependentUpon>LocationPanel.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Update.resx">
       <DependentUpon>Update.cs</DependentUpon>
