@@ -83,7 +83,6 @@ namespace PokemonGo.RocketAPI.Console
             Execute();
             itemsPanel1.Execute();
             playerPanel1.Execute(profile,pokemons);            
-            locationPanel1.Init(true,0,0,0);
             
         }
 
@@ -270,7 +269,7 @@ namespace PokemonGo.RocketAPI.Console
 		            numRazzPercent.Value = (int) (Globals.razzberry_chance * 100);
 		            numTravelSpeed.Value = (int) Globals.RelocateDefaultLocationTravelSpeed;
                     #endregion
- 	
+ 					locationPanel1.Init(true,0,0,0);
                 }
             }
             catch (Exception e)
