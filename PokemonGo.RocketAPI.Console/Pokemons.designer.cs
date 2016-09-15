@@ -1034,7 +1034,6 @@ namespace PokemonGo.RocketAPI.Console
         	this.label10.Size = new System.Drawing.Size(89, 13);
         	this.label10.TabIndex = 75;
         	this.label10.Text = "Min Walk Speed:";
-        	this.label10.Click += new System.EventHandler(this.label9_Click);
         	// 
         	// label9
         	// 
@@ -1044,7 +1043,6 @@ namespace PokemonGo.RocketAPI.Console
         	this.label9.Size = new System.Drawing.Size(106, 13);
         	this.label9.TabIndex = 75;
         	this.label9.Text = "Default Walk Speed:";
-        	this.label9.Click += new System.EventHandler(this.label9_Click);
         	// 
         	// checkBox_UseBreakIntervalAndLength
         	// 
@@ -1172,7 +1170,6 @@ namespace PokemonGo.RocketAPI.Console
         	this.itemsPanel1.Name = "itemsPanel1";
         	this.itemsPanel1.Size = new System.Drawing.Size(688, 446);
         	this.itemsPanel1.TabIndex = 0;
-        	this.itemsPanel1.Load += new System.EventHandler(this.itemsPanel1_Load);
         	// 
         	// tabPage4
         	// 

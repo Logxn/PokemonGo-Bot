@@ -81,6 +81,8 @@ namespace PokemonGo.RocketAPI.Console
             Globals.pauseAtPokeStop = false;
             btnForceUnban.Text = "Pause Walking";
             Execute();
+            itemsPanel1.Execute();
+            playerPanel1.Execute(profile,pokemons);            
             locationPanel1.Init(true,0,0,0);
             
         }
@@ -269,8 +271,6 @@ namespace PokemonGo.RocketAPI.Console
 		            numTravelSpeed.Value = (int) Globals.RelocateDefaultLocationTravelSpeed;
                     #endregion
  	
-                    itemsPanel1.Execute();
-                    playerPanel1.Execute(profile,pokemons);
                 }
             }
             catch (Exception e)
@@ -1529,20 +1529,6 @@ namespace PokemonGo.RocketAPI.Console
             textBox5.Text = ret[1].ToString();
         }
 
-        private void label9_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void text_Speed_TextChanged(object sender, EventArgs e)
-        {
-            
-        }
-
-        private void itemsPanel1_Load(object sender, EventArgs e)
-        {
-
-        }
     }
     public static class ControlExtensions
     {
