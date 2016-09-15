@@ -246,8 +246,8 @@ namespace PokemonGo.RocketAPI.Console
                     checkBox5.Checked = Globals.autoIncubate;
                     checkBox4.Checked = Globals.useBasicIncubators;
                     text_GoogleMapsAPIKey.Text = Globals.GoogleMapsAPIKey;
-                    numericUpDown1.Value = decimal.Parse(Globals.speed.ToString());
-                    numericUpDown2.Value = decimal.Parse(Globals.MinWalkSpeed.ToString());
+                    numericUpDown1.Value = (decimal) Globals.speed;
+                    numericUpDown2.Value = Globals.MinWalkSpeed;
                     itemsPanel1.num_MaxPokeballs.Value = Globals.pokeball;
                     itemsPanel1.num_MaxGreatBalls.Value =  Globals.greatball;
                     itemsPanel1.num_MaxUltraBalls.Value =  Globals.ultraball;
@@ -1420,7 +1420,7 @@ namespace PokemonGo.RocketAPI.Console
         {
             try
             {
-            	Globals.RelocateDefaultLocationTravelSpeed = double.Parse(numTravelSpeed.Value.ToString());
+            	Globals.RelocateDefaultLocationTravelSpeed = (double) numTravelSpeed.Value;
             }
             catch
             {
@@ -1432,7 +1432,7 @@ namespace PokemonGo.RocketAPI.Console
         {
             try
             {
-                Globals.speed = double.Parse(numTravelSpeed.Value.ToString());
+            	Globals.speed = (double) numTravelSpeed.Value;
             }
             catch
             {
