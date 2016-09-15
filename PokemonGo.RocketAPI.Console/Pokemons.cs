@@ -329,7 +329,7 @@ namespace PokemonGo.RocketAPI.Console
         /// <returns></returns>
         private static Bitmap getPokemonImagefromResource(PokemonId pokemon, string size)
         {
-            var resource = PokemonGo.RocketAPI.Console.Properties.Resources.ResourceManager.GetObject("_" + (int)pokemon + "_" + size, CultureInfo.CurrentCulture);
+            var resource = PokemonGo.RocketAPI.Console.Properties.ResPokemons.ResourceManager.GetObject("_" + (int)pokemon + "_" + size, CultureInfo.CurrentCulture);
             if (resource != null && resource is Bitmap)
             {
                 return new Bitmap(resource as Bitmap);

@@ -97,7 +97,7 @@ namespace PokemonGo.RocketAPI.Console
 			this.map.ScaleMode = GMap.NET.WindowsForms.ScaleModes.Integer;
 			this.map.SelectedAreaFillColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(65)))), ((int)(((byte)(105)))), ((int)(((byte)(225)))));
 			this.map.ShowTileGridLines = false;
-			this.map.Size = new System.Drawing.Size(773, 403);
+			this.map.Size = new System.Drawing.Size(766, 314);
 			this.map.TabIndex = 1;
 			this.map.Zoom = 0D;
 			this.map.OnMarkerClick += new GMap.NET.WindowsForms.MarkerClick(this.map_OnMarkerClick);
@@ -249,7 +249,7 @@ namespace PokemonGo.RocketAPI.Console
 			this.panel1.Controls.Add(this.button1);
 			this.panel1.Controls.Add(this.label2);
 			this.panel1.Controls.Add(this.label3);
-			this.panel1.Location = new System.Drawing.Point(2, 335);
+			this.panel1.Location = new System.Drawing.Point(2, 246);
 			this.panel1.Name = "panel1";
 			this.panel1.Size = new System.Drawing.Size(702, 74);
 			this.panel1.TabIndex = 23;
@@ -292,7 +292,7 @@ namespace PokemonGo.RocketAPI.Console
 			this.Controls.Add(this.panel1);
 			this.Controls.Add(this.map);
 			this.Name = "LocationPanel";
-			this.Size = new System.Drawing.Size(709, 411);
+			this.Size = new System.Drawing.Size(702, 322);
 			this.panel1.ResumeLayout(false);
 			this.panel1.PerformLayout();
 			this.ResumeLayout(false);
