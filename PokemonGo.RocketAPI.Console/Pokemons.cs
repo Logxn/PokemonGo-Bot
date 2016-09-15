@@ -79,6 +79,7 @@ namespace PokemonGo.RocketAPI.Console
             Globals.pauseAtPokeStop = false;
             btnForceUnban.Text = "Pause Walking";
             Execute();
+            locationPanel1.Init(true,0,0,0);
             
         }
 

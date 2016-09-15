@@ -1,6 +1,6 @@
-﻿/*
+/*
  * Created by SharpDevelop.
- * User: DCRax
+ * User: Xelwon
  * Date: 14/09/2016
  * Time: 22:46
  * 
