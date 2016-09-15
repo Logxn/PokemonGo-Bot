@@ -53,8 +53,10 @@ namespace PokemonGo.RocketAPI.Console
             buttonRefreshPokemon.Enabled = false;
             buttonRefreshForts.Visible = false;
             this.asViewOnly = asViewOnly;
+            panel1.Size = new Size(700,47);            
             if (asViewOnly)
             {
+            	panel1.Size = new Size(483,71);
                 initViewOnly(team, level, exp);
             }
         }
@@ -617,9 +619,10 @@ namespace PokemonGo.RocketAPI.Console
             }
             else
             {
-                //MessageBox.Show("Please Pause Walking from Pokemon GUI before defining Route!");
                 Globals.NextDestinationOverride.AddFirst(new GeoCoordinate(item.Position.Lat, item.Position.Lng));
-                item.ToolTipText = "Next Destination Marked";
+                if (!item.ToolTipText.Contains("\nNext Destination Marked")){
+                	item.ToolTipText += "\nNext Destination Marked";
+                }
             }
         }
 
@@ -710,6 +713,28 @@ namespace PokemonGo.RocketAPI.Console
             }
             return ret;
         }
+        public static double[] FindLocation(string address)
+        {
+        	double[] ret = {0.0,0.0};
+            GeoCoderStatusCode status;
+            var pos = GMapProviders.GoogleMap.GetPoint(address, out status);
+            if (status == GeoCoderStatusCode.G_GEO_SUCCESS && pos != null)
+            {
+            	ret = new double[2];
+            	ret[0] =pos.Value.Lat;
+            	ret[1] =pos.Value.Lng;            	
+            }
+            return ret;
+        }
+        
+		void BtnGetPointsClick(object sender, EventArgs e)
+		{
+			var ret = FindLocation(tbAddress.Text);
+			textBox1.Text = ret[0].ToString();
+			textBox2.Text = ret[1].ToString();
+			map.Position = new PointLatLng(ret[0],ret[1]);
+		}
+        
 		
 	}
 }

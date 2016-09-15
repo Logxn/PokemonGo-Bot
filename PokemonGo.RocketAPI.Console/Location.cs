@@ -1,24 +1,5 @@
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Device.Location;
-using System.Drawing;
-using System.Globalization;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using GMap.NET;
-using GMap.NET.MapProviders;
-using GMap.NET.WindowsForms;
-using GMap.NET.WindowsForms.Markers;
-using GoogleMapsApi;
-using GoogleMapsApi.Entities.Common;
-using GoogleMapsApi.Entities.Elevation.Request;
-using GoogleMapsApi.Entities.Elevation.Response;
-using PokemonGo.RocketAPI.Logic.Utils;
-using PokemonGo.RocketApi.PokeMap;
-using POGOProtos.Map.Fort;
 
 namespace PokemonGo.RocketAPI.Console
 {

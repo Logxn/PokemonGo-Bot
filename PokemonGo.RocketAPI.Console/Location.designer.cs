@@ -38,9 +38,9 @@ namespace PokemonGo.RocketAPI.Console
         	this.locationPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
 			| System.Windows.Forms.AnchorStyles.Left) 
 			| System.Windows.Forms.AnchorStyles.Right)));
-        	this.locationPanel1.Location = new System.Drawing.Point(6, 4);
+        	this.locationPanel1.Location = new System.Drawing.Point(2, 2);
         	this.locationPanel1.Name = "locationPanel1";
-        	this.locationPanel1.Size = new System.Drawing.Size(700, 510);
+        	this.locationPanel1.Size = new System.Drawing.Size(717, 517);
         	this.locationPanel1.TabIndex = 0;
         	// 
         	// LocationSelect

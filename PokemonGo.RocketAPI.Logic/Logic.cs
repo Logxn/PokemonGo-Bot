@@ -417,7 +417,7 @@ namespace PokemonGo.RocketAPI.Logic
                         Logger.ColoredConsoleWrite(ConsoleColor.Red, "Time To Run Reached or Exceeded...Walking back to default location and stopping bot");
                         if (_clientSettings.UseGoogleMapsAPI)
                         {
-                            await WalkWithRouting(_clientSettings.DefaultLatitude, _clientSettings.DefaultLongitude, _clientSettings.WalkingSpeedInKilometerPerHour, ExecuteCatchAllNearbyPokemons);
+                            await WalkWithRouting(_clientSettings.DefaultLatitude, _clientSettings.DefaultLongitude, _clientSettings.WalkingSpeedInKilometerPerHour, ExecuteCatchandFarm);
                         }
                         else
                         {
@@ -497,7 +497,7 @@ namespace PokemonGo.RocketAPI.Logic
                     Logger.ColoredConsoleWrite(ConsoleColor.Green, "Pokemon Catch Limit Reached and not farming pokestops - Bot will return to default location and stop");
                     if (_clientSettings.UseGoogleMapsAPI)
                     {
-                        await WalkWithRouting(_clientSettings.DefaultLatitude, _clientSettings.DefaultLongitude, _clientSettings.WalkingSpeedInKilometerPerHour, ExecuteCatchAllNearbyPokemons);
+                        await WalkWithRouting(_clientSettings.DefaultLatitude, _clientSettings.DefaultLongitude, _clientSettings.WalkingSpeedInKilometerPerHour, ExecuteCatchandFarm);
                     }
                     else
                     {
@@ -521,7 +521,7 @@ namespace PokemonGo.RocketAPI.Logic
                     Logger.ColoredConsoleWrite(ConsoleColor.Green, "Pokestop Farmed Limit Reached and not catching pokemon - Bot will return to default location and stop");
                     if (_clientSettings.UseGoogleMapsAPI)
                     {
-                        await WalkWithRouting(_clientSettings.DefaultLatitude, _clientSettings.DefaultLongitude, _clientSettings.WalkingSpeedInKilometerPerHour, ExecuteCatchAllNearbyPokemons);
+                        await WalkWithRouting(_clientSettings.DefaultLatitude, _clientSettings.DefaultLongitude, _clientSettings.WalkingSpeedInKilometerPerHour, ExecuteCatchandFarm);
                     }
                     else
                     {
@@ -538,7 +538,7 @@ namespace PokemonGo.RocketAPI.Logic
                 Logger.ColoredConsoleWrite(ConsoleColor.Green, "XP Farmed Limit Reached - Bot will return to default location and stop");
                 if (_clientSettings.UseGoogleMapsAPI)
                 {
-                    await WalkWithRouting(_clientSettings.DefaultLatitude, _clientSettings.DefaultLongitude, _clientSettings.WalkingSpeedInKilometerPerHour, ExecuteCatchAllNearbyPokemons);
+                    await WalkWithRouting(_clientSettings.DefaultLatitude, _clientSettings.DefaultLongitude, _clientSettings.WalkingSpeedInKilometerPerHour, ExecuteCatchandFarm);
                 }
                 else
                 {
@@ -832,7 +832,7 @@ namespace PokemonGo.RocketAPI.Logic
                 //walk with routing if enabled or directly to pokestop if not
                 if (_clientSettings.UseGoogleMapsAPI)
                 {
-                    await WalkWithRouting(pokeStop, walkspeed);
+                    await WalkWithRouting(pokeStop, walkspeed, ExecuteCatchandFarm);
                 }
                 else
                 {
@@ -922,7 +922,7 @@ namespace PokemonGo.RocketAPI.Logic
                     Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Path Override detected! Rerouting to user-selected pokeStop...");
                     if (_clientSettings.UseGoogleMapsAPI)
                     {
-                        await WalkWithRouting(targetPokeStop.Latitude, targetPokeStop.Longitude, walkspeed, ExecuteCatchAllNearbyPokemons);
+                        await WalkWithRouting(targetPokeStop.Latitude, targetPokeStop.Longitude, walkspeed, ExecuteCatchandFarm);
                     }
                     else
                     {
@@ -939,9 +939,9 @@ namespace PokemonGo.RocketAPI.Logic
             while (_clientSettings.NextDestinationOverride.Count > 0);
         }
 
-        private async Task WalkWithRouting(FortData pokeStop, double walkspeed)
+        private async Task WalkWithRouting(FortData pokeStop, double walkspeed, Func<Task> task)
         {
-            await DoRouteWalking(pokeStop.Latitude, pokeStop.Longitude, walkspeed, ExecuteCatchAllNearbyPokemons);
+            await DoRouteWalking(pokeStop.Latitude, pokeStop.Longitude, walkspeed, task);
         }
 
         private async Task WalkWithRouting(double latitude, double longitude, double walkspeed, Func<Task> task)
@@ -1853,6 +1853,8 @@ namespace PokemonGo.RocketAPI.Logic
 
             foreach (var item in items)
             {
+                Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Detected Pokeball Restock - Enabling Catch Pokemon");
+                    
                 if ((item.ItemId == ItemId.ItemPokeBall || item.ItemId == ItemId.ItemGreatBall || item.ItemId == ItemId.ItemUltraBall || item.ItemId == ItemId.ItemMasterBall) && pokeballoutofstock)
                 {
                     Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Detected Pokeball Restock - Enabling Catch Pokemon");

@@ -44,9 +44,6 @@ namespace PokemonGo.RocketAPI.Console
         [STAThread]
         static void Main(string[] args)
         {
-
-
-
             SleepHelper.PreventSleep();
             if (args != null && args.Length > 0)
             {
