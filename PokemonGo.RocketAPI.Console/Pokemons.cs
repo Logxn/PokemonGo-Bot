@@ -23,6 +23,8 @@ using GoogleMapsApi.Entities.Elevation.Request;
 using GoogleMapsApi;
 using GoogleMapsApi.Entities.Common;
 using GoogleMapsApi.Entities.Elevation.Response;
+using GMap.NET;
+using GMap.NET.MapProviders;
 
 namespace PokemonGo.RocketAPI.Console
 {
@@ -869,6 +871,20 @@ namespace PokemonGo.RocketAPI.Console
                 MessageBox.Show(resp.Message + " evolving failed!", "Evolve Status", MessageBoxButtons.OK);
         }
 
+        public static double[] FindLocation(string address)
+        {
+            double[] ret = { 0.0, 0.0 };
+            GeoCoderStatusCode status;
+            var pos = GMapProviders.GoogleMap.GetPoint(address, out status);
+            if (status == GeoCoderStatusCode.G_GEO_SUCCESS && pos != null)
+            {
+                ret = new double[2];
+                ret[0] = pos.Value.Lat;
+                ret[1] = pos.Value.Lng;
+            }
+            return ret;
+        }        
+
         private async void powerUpToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var pokemon = (PokemonData)PokemonListView.SelectedItems[0].Tag;
@@ -1053,7 +1069,8 @@ namespace PokemonGo.RocketAPI.Console
             }
             else
             {
-                new LocationSelect(true, (int)profile.PlayerData.Team, stats.Level, stats.Experience).Show();
+                //new LocationSelect(true, (int)profile.PlayerData.Team, stats.Level, stats.Experience).Show();
+                Options.SelectTab(tabPage4);
             }
         }
 
@@ -1476,7 +1493,14 @@ namespace PokemonGo.RocketAPI.Console
                 Logger.ColoredConsoleWrite(ConsoleColor.Green, "Default Location Set will navigate there after next pokestop!");
             }          
         }
-	}
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            var ret = FindLocation(textBox1.Text);
+            textBox4.Text = ret[0].ToString();
+            textBox5.Text = ret[1].ToString();
+        }
+    }
     public static class ControlExtensions
     {
         public static void DoubleBuffered(this Control control, bool enable)
