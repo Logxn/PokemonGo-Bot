@@ -989,19 +989,11 @@ namespace PokemonGo.RocketAPI.Console
             // 
             this.numericUpDown2.Location = new System.Drawing.Point(183, 340);
             this.numericUpDown2.Margin = new System.Windows.Forms.Padding(5);
-            this.numericUpDown2.Maximum = new decimal(new int[] {
-            1000,
-            0,
-            0,
-            0});
+            this.numericUpDown2.Maximum = 1000;
             this.numericUpDown2.Name = "numericUpDown2";
             this.numericUpDown2.Size = new System.Drawing.Size(69, 22);
             this.numericUpDown2.TabIndex = 80;
-            this.numericUpDown2.Value = new decimal(new int[] {
-            5,
-            0,
-            0,
-            0});
+            this.numericUpDown2.Value = 5;
             this.numericUpDown2.TextChanged += new System.EventHandler(this.numTravelSpeed_TextChanged);
             this.numericUpDown2.ValueChanged += new System.EventHandler(this.numMinSpeed_TextChanged);
             // 
@@ -1009,19 +1001,12 @@ namespace PokemonGo.RocketAPI.Console
             // 
             this.numericUpDown1.Location = new System.Drawing.Point(183, 311);
             this.numericUpDown1.Margin = new System.Windows.Forms.Padding(5);
-            this.numericUpDown1.Maximum = new decimal(new int[] {
-            1000,
-            0,
-            0,
-            0});
+            this.numericUpDown1.Maximum = 1000;
             this.numericUpDown1.Name = "numericUpDown1";
             this.numericUpDown1.Size = new System.Drawing.Size(69, 22);
             this.numericUpDown1.TabIndex = 80;
-            this.numericUpDown1.Value = new decimal(new int[] {
-            15,
-            0,
-            0,
-            0});
+            this.numericUpDown1.Value = 15;
+            this.numericUpDown1.DecimalPlaces = 2;
             this.numericUpDown1.TextChanged += new System.EventHandler(this.numTravelSpeed_TextChanged);
             this.numericUpDown1.ValueChanged += new System.EventHandler(this.numDefaultSpeed_TextChanged);
             // 
