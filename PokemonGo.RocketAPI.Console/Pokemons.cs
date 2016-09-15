@@ -246,8 +246,8 @@ namespace PokemonGo.RocketAPI.Console
                     checkBox5.Checked = Globals.autoIncubate;
                     checkBox4.Checked = Globals.useBasicIncubators;
                     text_GoogleMapsAPIKey.Text = Globals.GoogleMapsAPIKey;
-                    numericUpDown1.Value = decimal.Parse(Globals.speed.ToString());
-                    numericUpDown2.Value = decimal.Parse(Globals.MinWalkSpeed.ToString());
+                    numericUpDown1.Value = System.Convert.ToDecimal( Globals.speed);
+                    numericUpDown2.Value = Globals.MinWalkSpeed;
                     itemsPanel1.num_MaxPokeballs.Value = Globals.pokeball;
                     itemsPanel1.num_MaxGreatBalls.Value =  Globals.greatball;
                     itemsPanel1.num_MaxUltraBalls.Value =  Globals.ultraball;
@@ -329,7 +329,7 @@ namespace PokemonGo.RocketAPI.Console
         /// <returns></returns>
         private static Bitmap getPokemonImagefromResource(PokemonId pokemon, string size)
         {
-            var resource = PokemonGo.RocketAPI.Console.Properties.Resources.ResourceManager.GetObject("_" + (int)pokemon + "_" + size, CultureInfo.CurrentCulture);
+            var resource = PokemonGo.RocketAPI.Console.Properties.ResPokemons.ResourceManager.GetObject("_" + (int)pokemon + "_" + size, CultureInfo.CurrentCulture);
             if (resource != null && resource is Bitmap)
             {
                 return new Bitmap(resource as Bitmap);
@@ -1420,7 +1420,7 @@ namespace PokemonGo.RocketAPI.Console
         {
             try
             {
-            	Globals.RelocateDefaultLocationTravelSpeed = double.Parse(numTravelSpeed.Value.ToString());
+            	Globals.RelocateDefaultLocationTravelSpeed = (double) numTravelSpeed.Value;
             }
             catch
             {
@@ -1432,7 +1432,7 @@ namespace PokemonGo.RocketAPI.Console
         {
             try
             {
-                Globals.speed = double.Parse(numTravelSpeed.Value.ToString());
+            	Globals.speed = (double) numericUpDown1.Value;
             }
             catch
             {
@@ -1444,7 +1444,7 @@ namespace PokemonGo.RocketAPI.Console
         {
             try
             {
-                Globals.MinWalkSpeed = int.Parse(numTravelSpeed.Value.ToString());
+            	Globals.MinWalkSpeed = (int) numericUpDown2.Value;
             }
             catch
             {
