@@ -49,6 +49,7 @@ namespace PokemonGo.RocketAPI.Console
 	               ItemId[] validsIDs = {ItemId.ItemPokeBall,ItemId.ItemGreatBall,ItemId.ItemUltraBall};
 	               
 	               ListViewItem listViewItem;
+	               ItemsListView.Items.Clear();
 	               foreach (  var item in items) {
 	                listViewItem = new ListViewItem();
 	                listViewItem.Tag = item;
