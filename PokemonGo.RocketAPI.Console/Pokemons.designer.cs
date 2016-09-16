@@ -1238,7 +1238,7 @@ namespace PokemonGo.RocketAPI.Console
             this.playerPanel1.Location = new System.Drawing.Point(0, 0);
             this.playerPanel1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.playerPanel1.Name = "playerPanel1";
-            this.playerPanel1.Size = new System.Drawing.Size(697, 385);
+            this.playerPanel1.Size = new System.Drawing.Size(936, 566);
             this.playerPanel1.TabIndex = 0;
             // 
             // Pokemons

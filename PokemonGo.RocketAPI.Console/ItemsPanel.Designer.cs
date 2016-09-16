@@ -448,6 +448,9 @@ namespace PokemonGo.RocketAPI.Console
             this.btnRealoadItems.Text = "Reload";
             this.btnRealoadItems.UseVisualStyleBackColor = true;
             this.btnRealoadItems.Click += new System.EventHandler(this.BtnRealoadItemsClick);
+            this.btnRealoadItems.Anchor = ((System.Windows.Forms.AnchorStyles)(((( System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            )));
             // 
             // ItemsListView
             // 
@@ -467,6 +470,9 @@ namespace PokemonGo.RocketAPI.Console
             this.ItemsListView.TabIndex = 78;
             this.ItemsListView.UseCompatibleStateImageBehavior = false;
             this.ItemsListView.View = System.Windows.Forms.View.Details;
+            this.ItemsListView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             // 
             // chItem
             // 
