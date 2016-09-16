@@ -44,6 +44,8 @@ namespace PokemonGo.RocketAPI.Console
         [STAThread]
         static void Main(string[] args)
         {
+            configureNBug();
+
             SleepHelper.PreventSleep();
             if (args != null && args.Length > 0)
             {
@@ -459,6 +461,26 @@ namespace PokemonGo.RocketAPI.Console
                     wC.DownloadString(
                         "https://raw.githubusercontent.com/Ar1i/PokemonGo-Bot/master/ver.md");
         }
+
+                private static void configureNBug()
+        {
+            NBug.Settings.UIMode = NBug.Enums.UIMode.Auto;
+            NBug.Settings.UIProvider = NBug.Enums.UIProvider.Auto;
+            NBug.Settings.SleepBeforeSend = 10;
+            NBug.Settings.MaxQueuedReports = 5;
+            NBug.Settings.StopReportingAfter = 5;
+            NBug.Settings.MiniDumpType = NBug.Enums.MiniDumpType.Normal;
+            NBug.Settings.WriteLogToDisk = false;
+            NBug.Settings.ExitApplicationImmediately = true;
+            NBug.Settings.HandleProcessCorruptedStateExceptions = false;
+            NBug.Settings.ReleaseMode = false;
+            NBug.Settings.DeferredReporting = true;
+            NBug.Settings.StoragePath = "Bugs\\";
+
+            AppDomain.CurrentDomain.UnhandledException += NBug.Handler.UnhandledException;
+        }
+
+
     }
     public static class Globals
     {
