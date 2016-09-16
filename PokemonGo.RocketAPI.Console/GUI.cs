@@ -482,6 +482,9 @@ namespace PokemonGo.RocketAPI.Console
                         case 16:
                             checkBox_UseBreakIntervalAndLength.Checked = bool.Parse(line);
                             break;
+                        case 16:
+                            checkBox_UseBreakIntervalAndLength.Checked = bool.Parse(line);
+                            break;
                         case 17:
                             checkBox1.Checked = bool.Parse(line);
                             break;
