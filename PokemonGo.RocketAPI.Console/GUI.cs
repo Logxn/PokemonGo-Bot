@@ -478,6 +478,9 @@ namespace PokemonGo.RocketAPI.Console
                             break;
                         case 15:
                             checkBox_WalkInArchimedeanSpiral.Checked = bool.Parse(line);
+                            break;                            
+                        case 16:
+                            checkBox_UseBreakIntervalAndLength.Checked = bool.Parse(line);
                             break;
                         case 17:
                             checkBox1.Checked = bool.Parse(line);
