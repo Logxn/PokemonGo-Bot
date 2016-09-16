@@ -270,7 +270,6 @@ namespace PokemonGo.RocketAPI.Console
                     #endregion
  	
                     itemsPanel1.Execute();
-                    playerPanel1.Execute(profile,pokemons);
                 }
             }
             catch (Exception e)
@@ -1540,6 +1539,15 @@ namespace PokemonGo.RocketAPI.Console
         private void itemsPanel1_Load(object sender, EventArgs e)
         {
 
+        }
+
+        private async void Options_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if(Options.SelectedIndex == Options.TabPages.IndexOf(tabPage5))
+            {
+                    playerPanel1.BuddyInfoEnabled = false;
+                    playerPanel1.Execute(profile,pokemons);
+            }
         }
     }
     public static class ControlExtensions
