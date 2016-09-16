@@ -33,7 +33,7 @@ namespace PokemonGo.RocketAPI.Console
         public static string deviceSettings = Path.Combine(path_device, "DeviceInfo.txt");
         public static string updateSettings = Path.Combine(path, "update.txt");
         public static string cmdCoords = string.Empty;
-
+        public static string accountProfiles = Path.Combine(path, "Profiles.txt");
         static string logPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Logs");
         public static string pokelog = Path.Combine(logPath, "PokeLog.txt");
         public static string manualTransferLog = Path.Combine(logPath, "TransferLog.txt");

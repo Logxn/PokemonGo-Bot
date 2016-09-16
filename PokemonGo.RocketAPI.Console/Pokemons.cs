@@ -1261,6 +1261,8 @@ namespace PokemonGo.RocketAPI.Console
         private void checkBox_BreakAtLure_CheckedChanged(object sender, EventArgs e)
         {
             Globals.BreakAtLure = checkBox_BreakAtLure.Checked;
+            if (!checkBox_BreakAtLure.Checked)
+                Globals.pauseAtPokeStop = false;
         }
 
         private void checkBox_UseLureAtBreak_CheckedChanged(object sender, EventArgs e)
