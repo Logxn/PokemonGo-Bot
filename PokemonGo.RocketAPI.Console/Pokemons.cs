@@ -81,8 +81,8 @@ namespace PokemonGo.RocketAPI.Console
             Globals.pauseAtPokeStop = false;
             btnForceUnban.Text = "Pause Walking";
             Execute();
+            itemsPanel1.Execute();            
             locationPanel1.Init(true,0,0,0);
-            
         }
 
         private void Pokemons_Close(object sender, FormClosingEventArgs e)
@@ -246,8 +246,8 @@ namespace PokemonGo.RocketAPI.Console
                     checkBox5.Checked = Globals.autoIncubate;
                     checkBox4.Checked = Globals.useBasicIncubators;
                     text_GoogleMapsAPIKey.Text = Globals.GoogleMapsAPIKey;
-                    numericUpDown1.Value = decimal.Parse(Globals.speed.ToString());
-                    numericUpDown2.Value = decimal.Parse(Globals.MinWalkSpeed.ToString());
+                    numericUpDown1.Value = System.Convert.ToDecimal( Globals.speed);
+                    numericUpDown2.Value = Globals.MinWalkSpeed;
                     itemsPanel1.num_MaxPokeballs.Value = Globals.pokeball;
                     itemsPanel1.num_MaxGreatBalls.Value =  Globals.greatball;
                     itemsPanel1.num_MaxUltraBalls.Value =  Globals.ultraball;
@@ -268,9 +268,9 @@ namespace PokemonGo.RocketAPI.Console
 		            numRazzPercent.Value = (int) (Globals.razzberry_chance * 100);
 		            numTravelSpeed.Value = (int) Globals.RelocateDefaultLocationTravelSpeed;
                     #endregion
- 	
-                    itemsPanel1.Execute();
-                    playerPanel1.Execute(profile,pokemons);
+ 					playerPanel1.Execute(profile,pokemons);
+ 					locationPanel1.CreateBotMarker((int)profile.PlayerData.Team, stats.Level,stats.Experience);
+ 					
                 }
             }
             catch (Exception e)
@@ -329,7 +329,7 @@ namespace PokemonGo.RocketAPI.Console
         /// <returns></returns>
         private static Bitmap getPokemonImagefromResource(PokemonId pokemon, string size)
         {
-            var resource = PokemonGo.RocketAPI.Console.Properties.Resources.ResourceManager.GetObject("_" + (int)pokemon + "_" + size, CultureInfo.CurrentCulture);
+            var resource = PokemonGo.RocketAPI.Console.Properties.ResPokemons.ResourceManager.GetObject("_" + (int)pokemon + "_" + size, CultureInfo.CurrentCulture);
             if (resource != null && resource is Bitmap)
             {
                 return new Bitmap(resource as Bitmap);
@@ -1420,7 +1420,7 @@ namespace PokemonGo.RocketAPI.Console
         {
             try
             {
-            	Globals.RelocateDefaultLocationTravelSpeed = double.Parse(numTravelSpeed.Value.ToString());
+            	Globals.RelocateDefaultLocationTravelSpeed = (double) numTravelSpeed.Value;
             }
             catch
             {
@@ -1432,7 +1432,8 @@ namespace PokemonGo.RocketAPI.Console
         {
             try
             {
-                Globals.speed = double.Parse(numericUpDown1.Value.ToString());
+              // Globals.speed = double.Parse(numericUpDown1.Value.ToString()); // worse method, slower and less precisse, you need call to two complex (high level) functions 
+            	Globals.speed = (double) numericUpDown1.Value;  // faster method, directy compiler assign memory to new variable 
             }
             catch
             {
@@ -1444,7 +1445,8 @@ namespace PokemonGo.RocketAPI.Console
         {
             try
             {
-                Globals.MinWalkSpeed = int.Parse(numericUpDown2.Value.ToString());
+              // Globals.MinWalkSpeed = int.Parse(numericUpDown2.Value.ToString()); // worse method, slower and less precisse, you need call to two complex functions
+            	Globals.MinWalkSpeed = (int) numericUpDown2.Value;       // faster method, directy compiler assign memory to new variable
             }
             catch
             {
@@ -1527,20 +1529,6 @@ namespace PokemonGo.RocketAPI.Console
             textBox5.Text = ret[1].ToString();
         }
 
-        private void label9_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void text_Speed_TextChanged(object sender, EventArgs e)
-        {
-            
-        }
-
-        private void itemsPanel1_Load(object sender, EventArgs e)
-        {
-
-        }
     }
     public static class ControlExtensions
     {

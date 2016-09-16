@@ -493,26 +493,7 @@ namespace PokemonGo.RocketAPI.Console
             {
                 c.Visible = false;
             }
-
-            Bitmap bmp = Properties.Resources.player;
-            switch (team)
-            {
-                case 1:
-                    bmp = Properties.Resources.player_blue;
-                    break;
-                case 2:
-                    bmp = Properties.Resources.player_red;
-                    break;
-                case 3:
-                    bmp = Properties.Resources.player_yellow;
-                    break;
-            }
-
-            _botMarker = new GMarkerGoogle(new PointLatLng(), bmp);
-            _botMarker.ToolTipText = string.Format("Level: {0} ({1})", level, exp);
-            _botMarker.ToolTip.Font = new System.Drawing.Font("Arial", 12, System.Drawing.GraphicsUnit.Pixel);
-            _botMarker.ToolTipMode = MarkerTooltipMode.OnMouseOver;
-
+                        
             //show map
             map.Visible = true;
             map.Dock = DockStyle.Fill;
@@ -520,6 +501,7 @@ namespace PokemonGo.RocketAPI.Console
             routeOverlay = new GMapOverlay();
             routeOverlay.Routes.Add(_botRoute);
             PokemonOverlay = new GMapOverlay();
+            CreateBotMarker(team, level, exp);
             routeOverlay.Markers.Add(_botMarker);
             _botStartMarker = new GMarkerGoogle(new PointLatLng(), Properties.Resources.start_point);
             _botStartMarker.Position = new PointLatLng(Globals.latitute, Globals.longitude);
@@ -733,6 +715,27 @@ namespace PokemonGo.RocketAPI.Console
 			textBox1.Text = ret[0].ToString();
 			textBox2.Text = ret[1].ToString();
 			map.Position = new PointLatLng(ret[0],ret[1]);
+		}
+		public void CreateBotMarker(int team, int level, long exp){
+            Bitmap bmp = Properties.Resources.player;
+            switch (team)
+            {
+                case 1:
+                    bmp = Properties.Resources.player_blue;
+                    break;
+                case 2:
+                    bmp = Properties.Resources.player_red;
+                    break;
+                case 3:
+                    bmp = Properties.Resources.player_yellow;
+                    break;
+            }
+            routeOverlay.IsVisibile =false;
+            _botMarker = new GMarkerGoogle(new PointLatLng(), bmp);
+            _botMarker.ToolTipText = string.Format("Level: {0} ({1})", level, exp);
+            _botMarker.ToolTip.Font = new System.Drawing.Font("Arial", 12, System.Drawing.GraphicsUnit.Pixel);
+            _botMarker.ToolTipMode = MarkerTooltipMode.OnMouseOver;
+			routeOverlay.IsVisibile =true;
 		}
         
 		
