@@ -44,8 +44,6 @@ namespace PokemonGo.RocketAPI.Console
         [STAThread]
         static void Main(string[] args)
         {
-            configureNBug();
-    
             SleepHelper.PreventSleep();
             if (args != null && args.Length > 0)
             {
@@ -355,11 +353,10 @@ namespace PokemonGo.RocketAPI.Console
                 
             }
 
+
             Logger.SetLogger(new Logging.ConsoleLogger(LogLevel.Info));
 
             Globals.infoObservable.HandleNewHuntStats += SaveHuntStats;
-
-
 
             Task.Run(() =>
             {
@@ -393,24 +390,6 @@ namespace PokemonGo.RocketAPI.Console
             });
             System.Console.ReadLine();
             SleepHelper.AllowSleep();
-        }
- 
-        private static void configureNBug()
-        {
-            NBug.Settings.UIMode = NBug.Enums.UIMode.Auto;
-            NBug.Settings.UIProvider = NBug.Enums.UIProvider.Auto;
-            NBug.Settings.SleepBeforeSend = 10;
-            NBug.Settings.MaxQueuedReports = 5;
-            NBug.Settings.StopReportingAfter = 5;
-            NBug.Settings.MiniDumpType = NBug.Enums.MiniDumpType.Normal;
-            NBug.Settings.WriteLogToDisk = false;
-            NBug.Settings.ExitApplicationImmediately = true;
-            NBug.Settings.HandleProcessCorruptedStateExceptions = false;
-            NBug.Settings.ReleaseMode = false;
-            NBug.Settings.DeferredReporting = true;
-            NBug.Settings.StoragePath = "Bugs\\";
-
-            AppDomain.CurrentDomain.UnhandledException += NBug.Handler.UnhandledException;
         }
 
         private static void SaveHuntStats(string newHuntStat)

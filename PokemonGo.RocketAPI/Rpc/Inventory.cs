@@ -24,7 +24,7 @@ namespace PokemonGo.RocketAPI.Rpc
         {
         }
 
-        
+
         public async Task<ReleasePokemonResponse> TransferPokemon(ulong pokemonId)
         {
             var message = new ReleasePokemonMessage
@@ -62,14 +62,14 @@ namespace PokemonGo.RocketAPI.Rpc
                 //Don't evolve if we can't evolve it
                 if (settings.EvolutionIds.Count == 0)
                     continue;
-                
+
                 if (settings == null || familyCandy == null)
                 {
                     continue;
                 }
 
                 var pokemonCandyNeededAlready = pokemonToEvolve.Count(
-                    p => pokemonSettings.SingleOrDefault(x => x.PokemonId == p.PokemonId).FamilyId == settings.FamilyId) 
+                    p => pokemonSettings.SingleOrDefault(x => x.PokemonId == p.PokemonId).FamilyId == settings.FamilyId)
                     * settings.CandyToEvolve;
 
                 if (familyCandy.Candy_ - pokemonCandyNeededAlready > settings.CandyToEvolve)
@@ -309,10 +309,14 @@ namespace PokemonGo.RocketAPI.Rpc
         public async Task<IEnumerable<ItemData>> GetItemsToRecycle(ISettings settings)
         {
             var myItems = await GetItems();
-
+            Logger.ColoredConsoleWrite(ConsoleColor.DarkGray, "==========Begin Recycle Filter Debug Logging=============");
+            foreach (var item in settings.itemRecycleFilter)
+                Logger.ColoredConsoleWrite(ConsoleColor.DarkGray, item.Key.ToString() + ": " + item.Value.ToString());
+            Logger.ColoredConsoleWrite(ConsoleColor.DarkGray, "===========End Recycle Filter Debug Logging==============");
             return myItems
                 .Where(x => settings.itemRecycleFilter.Any(f => f.Key == ((ItemId)x.ItemId) && x.Count > f.Value))
                 .Select(x => new ItemData { ItemId = x.ItemId, Count = x.Count - settings.itemRecycleFilter.Single(f => f.Key == (ItemId)x.ItemId).Value, Unseen = x.Unseen });
+
         }
 
         public async Task<IEnumerable<PokemonData>> GetPokemons(bool clearcache = false)
@@ -580,6 +584,6 @@ namespace PokemonGo.RocketAPI.Rpc
                 }
             }
         }
-                
+
     }
 }
