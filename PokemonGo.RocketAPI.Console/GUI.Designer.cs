@@ -94,12 +94,17 @@
             this.checkedListBox_PokemonToEvolve = new System.Windows.Forms.CheckedListBox();
             this.tabGeneral = new System.Windows.Forms.TabPage();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label21 = new System.Windows.Forms.Label();
+            this.label39 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
+            this.comboBox_Device = new System.Windows.Forms.ComboBox();
             this.text_Password = new System.Windows.Forms.TextBox();
+            this.Profiles = new System.Windows.Forms.ComboBox();
             this.comboBox_AccountType = new System.Windows.Forms.ComboBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.text_EMail = new System.Windows.Forms.TextBox();
+            this.checkbox_PWDEncryption = new System.Windows.Forms.CheckBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.button_SetLocation = new System.Windows.Forms.Button();
             this.checkBox_Start_Walk_from_default_location = new System.Windows.Forms.CheckBox();
@@ -122,8 +127,6 @@
             this.linkLabel2 = new System.Windows.Forms.LinkLabel();
             this.groupBox10 = new System.Windows.Forms.GroupBox();
             this.checkBox_StopWalkingWhenEvolving = new System.Windows.Forms.CheckBox();
-            this.label39 = new System.Windows.Forms.Label();
-            this.comboBox_Device = new System.Windows.Forms.ComboBox();
             this.label33 = new System.Windows.Forms.Label();
             this.text_UseRazzberryChance = new System.Windows.Forms.TextBox();
             this.checkBox_UseRazzberryIfChanceUnder = new System.Windows.Forms.CheckBox();
@@ -136,7 +139,6 @@
             this.checkBox_SimulateAnimationTimeAtEvolve = new System.Windows.Forms.CheckBox();
             this.checkBox_UseLuckyEggAtEvolve = new System.Windows.Forms.CheckBox();
             this.checkBox_EvolvePokemonIfEnoughCandy = new System.Windows.Forms.CheckBox();
-            this.checkbox_PWDEncryption = new System.Windows.Forms.CheckBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabThrows = new System.Windows.Forms.TabPage();
             this.label56 = new System.Windows.Forms.Label();
@@ -192,6 +194,14 @@
             this.text_BreakLength = new System.Windows.Forms.TextBox();
             this.label32 = new System.Windows.Forms.Label();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.groupBox17 = new System.Windows.Forms.GroupBox();
+            this.label61 = new System.Windows.Forms.Label();
+            this.label62 = new System.Windows.Forms.Label();
+            this.text_Telegram_LiveStatsDelay = new System.Windows.Forms.TextBox();
+            this.text_Telegram_Name = new System.Windows.Forms.TextBox();
+            this.label63 = new System.Windows.Forms.Label();
+            this.text_Telegram_Token = new System.Windows.Forms.TextBox();
+            this.label64 = new System.Windows.Forms.Label();
             this.groupBox14 = new System.Windows.Forms.GroupBox();
             this.checkbox_LogEggs = new System.Windows.Forms.CheckBox();
             this.logEvolution = new System.Windows.Forms.CheckBox();
@@ -209,16 +219,6 @@
             this.lang_de_btn = new System.Windows.Forms.Button();
             this.lang_en_btn = new System.Windows.Forms.Button();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
-            this.label61 = new System.Windows.Forms.Label();
-            this.label62 = new System.Windows.Forms.Label();
-            this.text_Telegram_LiveStatsDelay = new System.Windows.Forms.TextBox();
-            this.text_Telegram_Name = new System.Windows.Forms.TextBox();
-            this.label63 = new System.Windows.Forms.Label();
-            this.text_Telegram_Token = new System.Windows.Forms.TextBox();
-            this.label64 = new System.Windows.Forms.Label();
-            this.groupBox17 = new System.Windows.Forms.GroupBox();
-            this.Profiles = new System.Windows.Forms.ComboBox();
-            this.label21 = new System.Windows.Forms.Label();
             this.tabPage1.SuspendLayout();
             this.tabItems.SuspendLayout();
             this.groupBox4.SuspendLayout();
@@ -241,11 +241,11 @@
             this.groupBox11.SuspendLayout();
             this.groupBox12.SuspendLayout();
             this.tabPage3.SuspendLayout();
+            this.groupBox17.SuspendLayout();
             this.groupBox14.SuspendLayout();
             this.tabPage4.SuspendLayout();
             this.groupBox15.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
-            this.groupBox17.SuspendLayout();
             this.SuspendLayout();
             // 
             // button1
@@ -1001,6 +1001,26 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Account Info";
             // 
+            // label21
+            // 
+            this.label21.AutoSize = true;
+            this.label21.Location = new System.Drawing.Point(17, 27);
+            this.label21.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(103, 17);
+            this.label21.TabIndex = 0;
+            this.label21.Text = "Account Profile";
+            // 
+            // label39
+            // 
+            this.label39.AutoSize = true;
+            this.label39.Location = new System.Drawing.Point(16, 200);
+            this.label39.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label39.Name = "label39";
+            this.label39.Size = new System.Drawing.Size(55, 17);
+            this.label39.TabIndex = 54;
+            this.label39.Text = "Device:";
+            // 
             // label1
             // 
             this.label1.AutoSize = true;
@@ -1011,6 +1031,43 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "Account Type:";
             // 
+            // comboBox_Device
+            // 
+            this.comboBox_Device.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox_Device.FormattingEnabled = true;
+            this.comboBox_Device.Items.AddRange(new object[] {
+            "lg-optimus-g",
+            "nexus7gen2",
+            "nexus7gen1",
+            "htc10",
+            "galaxy6",
+            "galaxy-s5-gold",
+            "lg-optimus-f6",
+            "nexus-5x",
+            "galaxy-s7-edge",
+            "asus-zenfone2",
+            "xperia-z5",
+            "galaxy-s4",
+            "nexus-6p",
+            "sony-z3-compact",
+            "lg-v10",
+            "galaxy-tab3",
+            "lg-g4",
+            "nexus5",
+            "xoom",
+            "galaxy-note-edge",
+            "amazon-fire-cm12",
+            "nexus4-chroma",
+            "melrose-s9",
+            "yureka",
+            "note3",
+            "galaxy-tab-s84"});
+            this.comboBox_Device.Location = new System.Drawing.Point(79, 197);
+            this.comboBox_Device.Margin = new System.Windows.Forms.Padding(4);
+            this.comboBox_Device.Name = "comboBox_Device";
+            this.comboBox_Device.Size = new System.Drawing.Size(244, 24);
+            this.comboBox_Device.TabIndex = 53;
+            // 
             // text_Password
             // 
             this.text_Password.Location = new System.Drawing.Point(128, 126);
@@ -1019,6 +1076,17 @@
             this.text_Password.PasswordChar = '*';
             this.text_Password.Size = new System.Drawing.Size(195, 22);
             this.text_Password.TabIndex = 3;
+            // 
+            // Profiles
+            // 
+            this.Profiles.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.Profiles.FormattingEnabled = true;
+            this.Profiles.Location = new System.Drawing.Point(128, 23);
+            this.Profiles.Margin = new System.Windows.Forms.Padding(4);
+            this.Profiles.Name = "Profiles";
+            this.Profiles.Size = new System.Drawing.Size(195, 24);
+            this.Profiles.TabIndex = 1;
+            this.Profiles.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
             // comboBox_AccountType
             // 
@@ -1034,7 +1102,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(43, 128);
+            this.label3.Location = new System.Drawing.Point(17, 126);
             this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(73, 17);
@@ -1043,8 +1111,9 @@
             // 
             // label2
             // 
+            this.label2.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(65, 95);
+            this.label2.Location = new System.Drawing.Point(17, 93);
             this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(51, 17);
@@ -1058,6 +1127,19 @@
             this.text_EMail.Name = "text_EMail";
             this.text_EMail.Size = new System.Drawing.Size(195, 22);
             this.text_EMail.TabIndex = 2;
+            // 
+            // checkbox_PWDEncryption
+            // 
+            this.checkbox_PWDEncryption.AutoSize = true;
+            this.checkbox_PWDEncryption.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.checkbox_PWDEncryption.Location = new System.Drawing.Point(97, 161);
+            this.checkbox_PWDEncryption.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.checkbox_PWDEncryption.Name = "checkbox_PWDEncryption";
+            this.checkbox_PWDEncryption.Size = new System.Drawing.Size(226, 21);
+            this.checkbox_PWDEncryption.TabIndex = 56;
+            this.checkbox_PWDEncryption.Text = "Encrypt password on config file";
+            this.checkbox_PWDEncryption.UseVisualStyleBackColor = true;
+            this.checkbox_PWDEncryption.CheckedChanged += new System.EventHandler(this.chkPWDEncryption_CheckedChanged);
             // 
             // groupBox2
             // 
@@ -1325,53 +1407,6 @@
             this.checkBox_StopWalkingWhenEvolving.Text = "Stop Walking when Evolving";
             this.checkBox_StopWalkingWhenEvolving.UseVisualStyleBackColor = true;
             // 
-            // label39
-            // 
-            this.label39.AutoSize = true;
-            this.label39.Location = new System.Drawing.Point(16, 200);
-            this.label39.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label39.Name = "label39";
-            this.label39.Size = new System.Drawing.Size(55, 17);
-            this.label39.TabIndex = 54;
-            this.label39.Text = "Device:";
-            // 
-            // comboBox_Device
-            // 
-            this.comboBox_Device.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox_Device.FormattingEnabled = true;
-            this.comboBox_Device.Items.AddRange(new object[] {
-            "lg-optimus-g",
-            "nexus7gen2",
-            "nexus7gen1",
-            "htc10",
-            "galaxy6",
-            "galaxy-s5-gold",
-            "lg-optimus-f6",
-            "nexus-5x",
-            "galaxy-s7-edge",
-            "asus-zenfone2",
-            "xperia-z5",
-            "galaxy-s4",
-            "nexus-6p",
-            "sony-z3-compact",
-            "lg-v10",
-            "galaxy-tab3",
-            "lg-g4",
-            "nexus5",
-            "xoom",
-            "galaxy-note-edge",
-            "amazon-fire-cm12",
-            "nexus4-chroma",
-            "melrose-s9",
-            "yureka",
-            "note3",
-            "galaxy-tab-s84"});
-            this.comboBox_Device.Location = new System.Drawing.Point(79, 197);
-            this.comboBox_Device.Margin = new System.Windows.Forms.Padding(4);
-            this.comboBox_Device.Name = "comboBox_Device";
-            this.comboBox_Device.Size = new System.Drawing.Size(244, 24);
-            this.comboBox_Device.TabIndex = 53;
-            // 
             // label33
             // 
             this.label33.AutoSize = true;
@@ -1517,19 +1552,6 @@
             this.checkBox_EvolvePokemonIfEnoughCandy.Text = "Evolve Pokemons if enough candy\r\n";
             this.checkBox_EvolvePokemonIfEnoughCandy.UseVisualStyleBackColor = true;
             this.checkBox_EvolvePokemonIfEnoughCandy.CheckedChanged += new System.EventHandler(this.checkBox3_CheckedChanged);
-            // 
-            // checkbox_PWDEncryption
-            // 
-            this.checkbox_PWDEncryption.AutoSize = true;
-            this.checkbox_PWDEncryption.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.checkbox_PWDEncryption.Location = new System.Drawing.Point(97, 161);
-            this.checkbox_PWDEncryption.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.checkbox_PWDEncryption.Name = "checkbox_PWDEncryption";
-            this.checkbox_PWDEncryption.Size = new System.Drawing.Size(226, 21);
-            this.checkbox_PWDEncryption.TabIndex = 56;
-            this.checkbox_PWDEncryption.Text = "Encrypt password on config file";
-            this.checkbox_PWDEncryption.UseVisualStyleBackColor = true;
-            this.checkbox_PWDEncryption.CheckedChanged += new System.EventHandler(this.chkPWDEncryption_CheckedChanged);
             // 
             // tabControl1
             // 
@@ -2165,6 +2187,88 @@
             this.tabPage3.Text = "Misc";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
+            // groupBox17
+            // 
+            this.groupBox17.Controls.Add(this.label61);
+            this.groupBox17.Controls.Add(this.label62);
+            this.groupBox17.Controls.Add(this.text_Telegram_LiveStatsDelay);
+            this.groupBox17.Controls.Add(this.text_Telegram_Name);
+            this.groupBox17.Controls.Add(this.label63);
+            this.groupBox17.Controls.Add(this.text_Telegram_Token);
+            this.groupBox17.Controls.Add(this.label64);
+            this.groupBox17.Location = new System.Drawing.Point(196, 6);
+            this.groupBox17.Margin = new System.Windows.Forms.Padding(4);
+            this.groupBox17.Name = "groupBox17";
+            this.groupBox17.Padding = new System.Windows.Forms.Padding(4);
+            this.groupBox17.Size = new System.Drawing.Size(336, 134);
+            this.groupBox17.TabIndex = 5;
+            this.groupBox17.TabStop = false;
+            this.groupBox17.Text = "Telegram Settings";
+            // 
+            // label61
+            // 
+            this.label61.AutoSize = true;
+            this.label61.Location = new System.Drawing.Point(250, 93);
+            this.label61.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label61.Name = "label61";
+            this.label61.Size = new System.Drawing.Size(52, 17);
+            this.label61.TabIndex = 6;
+            this.label61.Text = "miliSec";
+            // 
+            // label62
+            // 
+            this.label62.AutoSize = true;
+            this.label62.Location = new System.Drawing.Point(10, 93);
+            this.label62.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label62.Name = "label62";
+            this.label62.Size = new System.Drawing.Size(109, 17);
+            this.label62.TabIndex = 5;
+            this.label62.Text = "Live-Stats delay";
+            // 
+            // text_Telegram_LiveStatsDelay
+            // 
+            this.text_Telegram_LiveStatsDelay.Location = new System.Drawing.Point(148, 89);
+            this.text_Telegram_LiveStatsDelay.Margin = new System.Windows.Forms.Padding(4);
+            this.text_Telegram_LiveStatsDelay.Name = "text_Telegram_LiveStatsDelay";
+            this.text_Telegram_LiveStatsDelay.Size = new System.Drawing.Size(93, 22);
+            this.text_Telegram_LiveStatsDelay.TabIndex = 14;
+            // 
+            // text_Telegram_Name
+            // 
+            this.text_Telegram_Name.Location = new System.Drawing.Point(90, 58);
+            this.text_Telegram_Name.Margin = new System.Windows.Forms.Padding(4);
+            this.text_Telegram_Name.Name = "text_Telegram_Name";
+            this.text_Telegram_Name.Size = new System.Drawing.Size(231, 22);
+            this.text_Telegram_Name.TabIndex = 13;
+            // 
+            // label63
+            // 
+            this.label63.AutoSize = true;
+            this.label63.Location = new System.Drawing.Point(10, 61);
+            this.label63.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label63.Name = "label63";
+            this.label63.Size = new System.Drawing.Size(45, 17);
+            this.label63.TabIndex = 2;
+            this.label63.Text = "Name";
+            // 
+            // text_Telegram_Token
+            // 
+            this.text_Telegram_Token.Location = new System.Drawing.Point(90, 27);
+            this.text_Telegram_Token.Margin = new System.Windows.Forms.Padding(4);
+            this.text_Telegram_Token.Name = "text_Telegram_Token";
+            this.text_Telegram_Token.Size = new System.Drawing.Size(231, 22);
+            this.text_Telegram_Token.TabIndex = 12;
+            // 
+            // label64
+            // 
+            this.label64.AutoSize = true;
+            this.label64.Location = new System.Drawing.Point(10, 29);
+            this.label64.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label64.Name = "label64";
+            this.label64.Size = new System.Drawing.Size(68, 17);
+            this.label64.TabIndex = 0;
+            this.label64.Text = "API token";
+            // 
             // groupBox14
             // 
             this.groupBox14.Controls.Add(this.checkbox_LogEggs);
@@ -2382,109 +2486,6 @@
             this.pictureBox2.TabStop = false;
             this.pictureBox2.Click += new System.EventHandler(this.pictureBox2_Click);
             // 
-            // label61
-            // 
-            this.label61.AutoSize = true;
-            this.label61.Location = new System.Drawing.Point(250, 93);
-            this.label61.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label61.Name = "label61";
-            this.label61.Size = new System.Drawing.Size(52, 17);
-            this.label61.TabIndex = 6;
-            this.label61.Text = "miliSec";
-            // 
-            // label62
-            // 
-            this.label62.AutoSize = true;
-            this.label62.Location = new System.Drawing.Point(10, 93);
-            this.label62.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label62.Name = "label62";
-            this.label62.Size = new System.Drawing.Size(109, 17);
-            this.label62.TabIndex = 5;
-            this.label62.Text = "Live-Stats delay";
-            // 
-            // text_Telegram_LiveStatsDelay
-            // 
-            this.text_Telegram_LiveStatsDelay.Location = new System.Drawing.Point(148, 89);
-            this.text_Telegram_LiveStatsDelay.Margin = new System.Windows.Forms.Padding(4);
-            this.text_Telegram_LiveStatsDelay.Name = "text_Telegram_LiveStatsDelay";
-            this.text_Telegram_LiveStatsDelay.Size = new System.Drawing.Size(93, 22);
-            this.text_Telegram_LiveStatsDelay.TabIndex = 14;
-            // 
-            // text_Telegram_Name
-            // 
-            this.text_Telegram_Name.Location = new System.Drawing.Point(90, 58);
-            this.text_Telegram_Name.Margin = new System.Windows.Forms.Padding(4);
-            this.text_Telegram_Name.Name = "text_Telegram_Name";
-            this.text_Telegram_Name.Size = new System.Drawing.Size(231, 22);
-            this.text_Telegram_Name.TabIndex = 13;
-            // 
-            // label63
-            // 
-            this.label63.AutoSize = true;
-            this.label63.Location = new System.Drawing.Point(10, 61);
-            this.label63.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label63.Name = "label63";
-            this.label63.Size = new System.Drawing.Size(45, 17);
-            this.label63.TabIndex = 2;
-            this.label63.Text = "Name";
-            // 
-            // text_Telegram_Token
-            // 
-            this.text_Telegram_Token.Location = new System.Drawing.Point(90, 27);
-            this.text_Telegram_Token.Margin = new System.Windows.Forms.Padding(4);
-            this.text_Telegram_Token.Name = "text_Telegram_Token";
-            this.text_Telegram_Token.Size = new System.Drawing.Size(231, 22);
-            this.text_Telegram_Token.TabIndex = 12;
-            // 
-            // label64
-            // 
-            this.label64.AutoSize = true;
-            this.label64.Location = new System.Drawing.Point(10, 29);
-            this.label64.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label64.Name = "label64";
-            this.label64.Size = new System.Drawing.Size(68, 17);
-            this.label64.TabIndex = 0;
-            this.label64.Text = "API token";
-            // 
-            // groupBox17
-            // 
-            this.groupBox17.Controls.Add(this.label61);
-            this.groupBox17.Controls.Add(this.label62);
-            this.groupBox17.Controls.Add(this.text_Telegram_LiveStatsDelay);
-            this.groupBox17.Controls.Add(this.text_Telegram_Name);
-            this.groupBox17.Controls.Add(this.label63);
-            this.groupBox17.Controls.Add(this.text_Telegram_Token);
-            this.groupBox17.Controls.Add(this.label64);
-            this.groupBox17.Location = new System.Drawing.Point(196, 6);
-            this.groupBox17.Margin = new System.Windows.Forms.Padding(4);
-            this.groupBox17.Name = "groupBox17";
-            this.groupBox17.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBox17.Size = new System.Drawing.Size(336, 134);
-            this.groupBox17.TabIndex = 5;
-            this.groupBox17.TabStop = false;
-            this.groupBox17.Text = "Telegram Settings";
-            // 
-            // Profiles
-            // 
-            this.Profiles.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.Profiles.FormattingEnabled = true;
-            this.Profiles.Location = new System.Drawing.Point(128, 23);
-            this.Profiles.Margin = new System.Windows.Forms.Padding(4);
-            this.Profiles.Name = "Profiles";
-            this.Profiles.Size = new System.Drawing.Size(195, 24);
-            this.Profiles.TabIndex = 1;
-            this.Profiles.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
-            // 
-            // label21
-            // 
-            this.label21.AutoSize = true;
-            this.label21.Location = new System.Drawing.Point(17, 27);
-            this.label21.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(103, 17);
-            this.label21.TabIndex = 0;
-            this.label21.Text = "Account Profile";
-            // 
             // GUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -2550,14 +2551,14 @@
             this.groupBox12.ResumeLayout(false);
             this.groupBox12.PerformLayout();
             this.tabPage3.ResumeLayout(false);
+            this.groupBox17.ResumeLayout(false);
+            this.groupBox17.PerformLayout();
             this.groupBox14.ResumeLayout(false);
             this.groupBox14.PerformLayout();
             this.tabPage4.ResumeLayout(false);
             this.groupBox15.ResumeLayout(false);
             this.groupBox15.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
-            this.groupBox17.ResumeLayout(false);
-            this.groupBox17.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
