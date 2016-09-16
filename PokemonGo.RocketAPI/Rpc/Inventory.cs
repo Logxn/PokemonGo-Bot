@@ -310,8 +310,8 @@ namespace PokemonGo.RocketAPI.Rpc
         {
             var myItems = await GetItems();
             //Logger.ColoredConsoleWrite(ConsoleColor.DarkGray, "==========Begin Recycle Filter Debug Logging=============");
-            foreach (var item in settings.itemRecycleFilter)
-                //Logger.ColoredConsoleWrite(ConsoleColor.DarkGray, item.Key.ToString() + ": " + item.Value.ToString());
+            //foreach (var item in settings.itemRecycleFilter)
+            //    Logger.ColoredConsoleWrite(ConsoleColor.DarkGray, item.Key.ToString() + ": " + item.Value.ToString());
             //Logger.ColoredConsoleWrite(ConsoleColor.DarkGray, "===========End Recycle Filter Debug Logging==============");
             return myItems
                 .Where(x => settings.itemRecycleFilter.Any(f => f.Key == ((ItemId)x.ItemId) && x.Count > f.Value))
