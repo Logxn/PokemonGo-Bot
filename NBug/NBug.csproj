@@ -331,6 +331,9 @@ if $(ConfigurationName)==Release copy "$(TargetPath)" "$(SolutionDir)packages\NB
 if $(ConfigurationName)==Release copy "$(TargetDir)$(TargetName).pdb" "$(SolutionDir)packages\NBug\tools" /Y</PostBuildEvent>
   </PropertyGroup>
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <PropertyGroup>
+    <PostBuildEvent />
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
