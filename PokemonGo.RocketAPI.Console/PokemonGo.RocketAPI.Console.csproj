@@ -136,12 +136,6 @@
     <Compile Include="IntegerInput.Designer.cs">
       <DependentUpon>IntegerInput.cs</DependentUpon>
     </Compile>
-    <Compile Include="Items.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Items.Designer.cs">
-      <DependentUpon>Items.cs</DependentUpon>
-    </Compile>
     <Compile Include="ItemsPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -202,9 +196,6 @@
   <ItemGroup>
     <EmbeddedResource Include="IntegerInput.resx">
       <DependentUpon>IntegerInput.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Items.resx">
-      <DependentUpon>Items.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ItemsPanel.resx">
       <DependentUpon>ItemsPanel.cs</DependentUpon>
