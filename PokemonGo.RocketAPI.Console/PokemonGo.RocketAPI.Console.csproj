@@ -1009,4 +1009,11 @@ foreach (var item in filesToCleanup)
   <Target Name="AfterBuild">
   </Target>
   -->
+	<Target Name="AfterBuild">
+        <Copy
+            SourceFiles="$(OutputPath)$(AssemblyName).exe"
+            DestinationFolder="$(SolutionDir)/Builds-Only"
+			ContinueOnError="true"
+        />
+    </Target>
 </Project>

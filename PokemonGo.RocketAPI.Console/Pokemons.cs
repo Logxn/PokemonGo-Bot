@@ -82,7 +82,8 @@ namespace PokemonGo.RocketAPI.Console
             btnForceUnban.Text = "Pause Walking";
             Execute();
             locationPanel1.Init(true,0,0,0);
-            
+            eggsPanel1.pokemons = pokemons;
+            eggsPanel1.Execute();            
         }
 
         private void Pokemons_Close(object sender, FormClosingEventArgs e)
