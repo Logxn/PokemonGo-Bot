@@ -27,23 +27,18 @@ namespace PokemonGo.RocketAPI.Console
 	/// </summary>
 	public partial class IncubatorSelect : Form
 	{
-		public string selected="";
+		public EggIncubator selected=null;
 		public IncubatorSelect()
 		{
 			//
 			// The InitializeComponent() call is required for Windows Forms designer support.
 			//
-			InitializeComponent();
-			
-			//
-			// TODO: Add constructor code after the InitializeComponent() call.
-			//
+			InitializeComponent();			
 		}
 		public async void Execute(){
 			var client = Logic.Logic._client;
 			if (client.readyToUse != false)
 			{
-				var items = await client.Inventory.GetEggs();
 				var incubators = await client.Inventory.GetEggIncubators();
   				listView.Items.Clear();	              
 	            ListViewItem listViewItem;					
@@ -64,16 +59,21 @@ namespace PokemonGo.RocketAPI.Console
 		}
 		void ButtonOkClick(object sender, EventArgs e)
 		{			
-			if (listView.SelectedItems.Count < 1){
+			if (listView.SelectedItems.Count < 1)
+			{
 				MessageBox.Show("Please Select an incubator.");
-				((Button)sender).DialogResult = DialogResult.None;
-				return;
 			}
-			else{
-				selected = ((EggIncubator)listView.SelectedItems[0].Tag).Id;
-				((Button)sender).DialogResult = DialogResult.OK;
+			else
+			{
+				selected = (EggIncubator)listView.SelectedItems[0].Tag;
+				((Button) sender).DialogResult = DialogResult.OK;
+				this.Close();
 			}
 			
+		}
+		public DialogResult ShowDialog(){
+			Execute();
+			return base.ShowDialog();
 		}
 	}
 }

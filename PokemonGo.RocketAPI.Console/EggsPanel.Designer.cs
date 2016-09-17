@@ -153,7 +153,7 @@ namespace PokemonGo.RocketAPI.Console
 			this.recycleToolStripMenuItem.Name = "recycleToolStripMenuItem";
 			this.recycleToolStripMenuItem.Size = new System.Drawing.Size(120, 22);
 			this.recycleToolStripMenuItem.Text = "Incubate";
-			this.recycleToolStripMenuItem.Click += new System.EventHandler(this.RecycleToolStripMenuItemClick);
+			this.recycleToolStripMenuItem.Click += new System.EventHandler(this.IncubateToolStripMenuItemClick);
 			// 
 			// imageList
 			// 

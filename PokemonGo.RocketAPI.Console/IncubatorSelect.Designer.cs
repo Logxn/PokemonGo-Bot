@@ -46,6 +46,7 @@ namespace PokemonGo.RocketAPI.Console
 		/// </summary>
 		private void InitializeComponent()
 		{
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(IncubatorSelect));
 			this.buttonCancel = new System.Windows.Forms.Button();
 			this.listView = new System.Windows.Forms.ListView();
 			this.chID = new System.Windows.Forms.ColumnHeader();
@@ -129,7 +130,6 @@ namespace PokemonGo.RocketAPI.Console
 			// buttonOk
 			// 
 			this.buttonOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.buttonOk.DialogResult = System.Windows.Forms.DialogResult.OK;
 			this.buttonOk.Location = new System.Drawing.Point(537, 282);
 			this.buttonOk.Margin = new System.Windows.Forms.Padding(2);
 			this.buttonOk.Name = "buttonOk";
@@ -141,7 +141,6 @@ namespace PokemonGo.RocketAPI.Console
 			// 
 			// IncubatorSelect
 			// 
-			this.AcceptButton = this.buttonOk;
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.CancelButton = this.buttonCancel;
@@ -149,6 +148,7 @@ namespace PokemonGo.RocketAPI.Console
 			this.Controls.Add(this.buttonOk);
 			this.Controls.Add(this.buttonCancel);
 			this.Controls.Add(this.listView);
+			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.Name = "IncubatorSelect";
 			this.Text = "Select Incubator";
 			this.ResumeLayout(false);

@@ -29,6 +29,7 @@ namespace PokemonGo.RocketAPI.Console
 	{
 		private  ISettings ClientSettings;
 		public  IOrderedEnumerable<PokemonData> pokemons = null;
+		private IncubatorSelect incubatorSelect = new IncubatorSelect();
 		
 		public EggsPanel()
 		{
@@ -99,19 +100,6 @@ namespace PokemonGo.RocketAPI.Console
 						listViewItem.SubItems.Add(string.Format("Uses:{0}",incubator.UsesRemaining));
 	                listView.Items.Add(listViewItem);
 	               }
-	               /*foreach (  var item in incubators) {
-	               	listViewItem = new ListViewItem();
-	                listViewItem.Tag = item;
-	                listViewItem.Text = ""+item.Id;
-	                listViewItem.SubItems.Add(""+item.StartKmWalked);
-	                listViewItem.SubItems.Add(""+item.TargetKmWalked);
-	                listViewItem.SubItems.Add(""+item.PokemonId);
-	                listViewItem.SubItems.Add(""+item.IncubatorType);
-	                listViewItem.SubItems.Add(""+item.UsesRemaining);	                
-	                	               	
-	               	listView.Items.Add(listViewItem);
-	               	
-	               }*/
 	               listView.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
 	            }
 	            
@@ -124,6 +112,7 @@ namespace PokemonGo.RocketAPI.Console
                 Execute();
             }
 		}
+		
 		private EggIncubator GetIncubator(IEnumerable incubators, string id){
 		    foreach (EggIncubator incubator in incubators) {
 				if (incubator.Id == id)
@@ -131,6 +120,7 @@ namespace PokemonGo.RocketAPI.Console
 		    }
 			return null;
 		}
+		
 		private string GetPokemonName(PokemonId pokemonID){
 			return StringUtils.getPokemonNameByLanguage(ClientSettings, pokemonID);
 		}
@@ -138,14 +128,71 @@ namespace PokemonGo.RocketAPI.Console
 		private string GetCreationTime(ulong ms){
 			return new DateTime((long)ms * 10000).AddYears(1969).ToString("dd/MM/yyyy HH:mm:ss");
 		}
-		void RecycleToolStripMenuItemClick(object sender, EventArgs e)
-		{
-			MessageBox.Show("To Do");
+		
+		private async void IncubateToolStripMenuItemClick(object sender, EventArgs e)
+		{		
+			if (incubatorSelect.ShowDialog() == DialogResult.OK ){
+				var egg = (PokemonData) listView.SelectedItems[0].Tag;
+					
+				var incubator = incubatorSelect.selected;
+				 								
+                var resp = new taskResponse(false, string.Empty);
+
+                resp = await IncubateEgg(incubator, egg);
+                if (resp.Status)
+                {
+	               	if (incubator.ItemId==ItemId.ItemIncubatorBasic){
+	                	listView.SelectedItems[0].ImageKey = "bincegg";
+	                }else if (incubator.ItemId==ItemId.ItemIncubatorBasicUnlimited){
+	                	listView.SelectedItems[0].ImageKey = "unincegg";
+	                }
+                	
+                }
+                else
+                    MessageBox.Show(resp.Message + " Incubate Egg failed!", "Recycle Status", MessageBoxButtons.OK);
+				
+			}
 		}
-		void BtnRealoadClick(object sender, EventArgs e)
+		private void BtnRealoadClick(object sender, EventArgs e)
 		{
 			listView.Items.Clear();
             Execute();
 		}
+		
+		public class taskResponse
+        {
+            public bool Status { get; set; }
+            public string Message { get; set; }
+            public taskResponse() { }
+            public taskResponse(bool status, string message)
+            {
+                Status = status;
+                Message = message;
+            }
+        }
+		private static async Task<taskResponse> IncubateEgg(EggIncubator item, PokemonData egg)
+        {
+            taskResponse resp1 = new taskResponse(false, string.Empty);
+            try
+            {
+            	var client = Logic.Logic._client;
+            	var resp2 = await client.Inventory.UseItemEggIncubator( item.Id, egg.Id);
+
+                if (resp2.Result == UseItemEggIncubatorResponse.Types.Result.Success)
+                {
+                    resp1.Status = true;
+                }
+                else
+                {
+                    resp1.Message = item.ItemId.ToString();
+                }
+            }
+            catch (Exception e)
+            {
+                Logger.ColoredConsoleWrite(ConsoleColor.Red, "Error IncubateEgg: " + e.Message);
+                await IncubateEgg(item, egg);
+            }
+            return resp1;
+        }				
 	}
 }
