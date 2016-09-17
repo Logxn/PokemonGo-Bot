@@ -407,7 +407,7 @@ namespace PokemonGo.RocketAPI.Logic
         private async Task SetCheckTimeToRun()
         {
             #region Time to Run
-            if (_clientSettings.TimeToRun != 0)
+            if (_clientSettings.TimeToRun > 0)
             {
                 if (timetorunstamp == -10000)
                 {
@@ -810,36 +810,7 @@ namespace PokemonGo.RocketAPI.Logic
                 // Pause and farm nearby pokestops
                 if (_clientSettings.pauseAtPokeStop)
                 {
-                    //set lure pokemon tracking variables
-
-
-                    //check for overlapping pokestops where we are taking a break
-                    Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Reached break location. Using Lures Enabled");
-                    var pokestopsWithinRangeStanding = pokeStops.Where(i => (LocationUtils.CalculateDistanceInMeters(_client.CurrentLatitude, _client.CurrentLongitude, i.Latitude, i.Longitude)) < 40);
-                    Logger.ColoredConsoleWrite(ConsoleColor.Green, $"{pokestopsWithinRangeStanding.Count().ToString()} Pokestops within range of where you are standing.");
-                    //Begin farming loop while on break
-                    do
-                    {
-                        foreach (var Pokestop in pokestopsWithinRangeStanding)
-                        {
-                            await ExecuteCatchAllNearbyPokemons();
-                            var FortInfo = await _client.Fort.GetFort(Pokestop.Id, Pokestop.Latitude, Pokestop.Longitude);
-
-                            if ((_clientSettings.UseLureGUIClick && havelures) || (_clientSettings.UseLureAtBreak && havelures && !pokeStop.ActiveFortModifier.Any() && !addedlure))
-                            {
-                                _clientSettings.UseLureGUIClick = false;
-                                Logger.ColoredConsoleWrite(ConsoleColor.Magenta, $"Use Lure at break enabled - Adding lure and setting resume walking to 30 minutes");
-                                await client.Fort.AddFortModifier(FortInfo.FortId, ItemId.ItemTroyDisk);
-                                resumetimestamp = (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds + 30000;
-                                addedlure = true;
-                            }
-                            var farmed = await CheckAndFarmNearbyPokeStop(Pokestop, _client, FortInfo);
-                            if (farmed) { Pokestop.CooldownCompleteTimestampMs = (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds + 300500; }
-                            await SetCheckTimeToRun();
-                            await RandomHelper.RandomDelay(30000, 40000); // wait for a bit before repeating farm cycle to avoid spamming 
-                        }
-                    }
-                    while (_clientSettings.pauseAtPokeStop);
+                    await FarmPokestopOnBreak(pokeStops, client, addedlure);
                 }
                 else
                 {
@@ -849,6 +820,37 @@ namespace PokemonGo.RocketAPI.Logic
                 }
                 #endregion
             }
+        }
+
+        private async Task FarmPokestopOnBreak(FortData[] pokeStops, Client client, bool addedlure)
+        {
+            //check for overlapping pokestops where we are taking a break
+            Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Reached break location. Using Lures Enabled");
+            var pokestopsWithinRangeStanding = pokeStops.Where(i => (LocationUtils.CalculateDistanceInMeters(_client.CurrentLatitude, _client.CurrentLongitude, i.Latitude, i.Longitude)) < 40);
+            Logger.ColoredConsoleWrite(ConsoleColor.Green, $"{pokestopsWithinRangeStanding.Count().ToString()} Pokestops within range of where you are standing.");
+            //Begin farming loop while on break
+            do
+            {
+                foreach (var Pokestop in pokestopsWithinRangeStanding)
+                {
+                    await ExecuteCatchAllNearbyPokemons();
+                    var FortInfo = await _client.Fort.GetFort(Pokestop.Id, Pokestop.Latitude, Pokestop.Longitude);
+
+                    if ((_clientSettings.UseLureGUIClick && havelures) || (_clientSettings.UseLureAtBreak && havelures && !Pokestop.ActiveFortModifier.Any() && !addedlure))
+                    {
+                        _clientSettings.UseLureGUIClick = false;
+                        Logger.ColoredConsoleWrite(ConsoleColor.Magenta, $"Use Lure at break enabled - Adding lure and setting resume walking to 30 minutes");
+                        await client.Fort.AddFortModifier(FortInfo.FortId, ItemId.ItemTroyDisk);
+                        resumetimestamp = (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds + 30000;
+                        addedlure = true;
+                    }
+                    var farmed = await CheckAndFarmNearbyPokeStop(Pokestop, _client, FortInfo);
+                    if (farmed) { Pokestop.CooldownCompleteTimestampMs = (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds + 300500; }
+                    await SetCheckTimeToRun();
+                    await RandomHelper.RandomDelay(30000, 40000); // wait for a bit before repeating farm cycle to avoid spamming 
+                }
+            }
+            while (_clientSettings.pauseAtPokeStop);
         }
 
         private int GetRandomWalkspeed()
@@ -873,8 +875,11 @@ namespace PokemonGo.RocketAPI.Logic
             {
                 try
                 {
+                    if (_clientSettings.pauseAtPokeStop)
+                    {
+                        await FarmPokestopOnBreak(pokeStops, _client, true);
+                    }
                     var walkspeed = GetRandomWalkspeed();
-
                     var pokestopCoords = _clientSettings.NextDestinationOverride.First();
                     FortData targetPokeStop = null;
                     targetPokeStop = pokeStops.Where(i =>
@@ -1003,7 +1008,7 @@ namespace PokemonGo.RocketAPI.Logic
                                 Logger.ColoredConsoleWrite(ConsoleColor.Green, "As close as google can take us, going off-road at walking speed (" + lowestspeed + ")");
                                 var update = await _navigation.HumanLikeWalking(new GeoCoordinate(latitude, longitude), walkspeed, ExecuteCatchAllNearbyPokemons);
                             }
-                            Logger.ColoredConsoleWrite(ConsoleColor.Green, "Destination Reached!");
+                            Logger.ColoredConsoleWrite(ConsoleColor.Green, "Destination Reached!");                           
                         }
                     }
                 }
@@ -1074,7 +1079,7 @@ namespace PokemonGo.RocketAPI.Logic
             if (count >= 9)
             {
                 await LogStatsEtc();
-                await RecycleItems();
+                //await RecycleItems();
             }
             if (pokeStop.CooldownCompleteTimestampMs < (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds && _clientSettings.FarmPokestops)
             {
