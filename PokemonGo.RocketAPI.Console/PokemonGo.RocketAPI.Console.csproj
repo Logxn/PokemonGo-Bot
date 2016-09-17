@@ -122,6 +122,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EggsForm.cs" />
+    <Compile Include="EggsForm.Designer.cs">
+      <DependentUpon>EggsForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EggsPanel.cs" />
+    <Compile Include="EggsPanel.Designer.cs">
+      <DependentUpon>EggsPanel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Encryption.cs" />
     <Compile Include="GUI.cs">
       <SubType>Form</SubType>
@@ -194,6 +202,12 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="EggsForm.resx">
+      <DependentUpon>EggsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EggsPanel.resx">
+      <DependentUpon>EggsPanel.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="IntegerInput.resx">
       <DependentUpon>IntegerInput.cs</DependentUpon>
     </EmbeddedResource>
@@ -995,4 +1009,11 @@ foreach (var item in filesToCleanup)
   <Target Name="AfterBuild">
   </Target>
   -->
+	<Target Name="AfterBuild">
+        <Copy
+            SourceFiles="$(OutputPath)$(AssemblyName).exe"
+            DestinationFolder="$(SolutionDir)/Builds-Only"
+			ContinueOnError="true"
+        />
+    </Target>
 </Project>
