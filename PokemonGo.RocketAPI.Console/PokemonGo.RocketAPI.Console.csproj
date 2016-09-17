@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="..\packages\Microsoft.Net.Compilers.1.3.2\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.1.3.2\build\Microsoft.Net.Compilers.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
@@ -138,6 +138,10 @@
       <DependentUpon>GUI.cs</DependentUpon>
     </Compile>
     <Compile Include="Helper\SleepHelper.cs" />
+    <Compile Include="IncubatorSelect.cs" />
+    <Compile Include="IncubatorSelect.Designer.cs">
+      <DependentUpon>IncubatorSelect.cs</DependentUpon>
+    </Compile>
     <Compile Include="IntegerInput.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -207,6 +211,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="EggsPanel.resx">
       <DependentUpon>EggsPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="IncubatorSelect.resx">
+      <DependentUpon>IncubatorSelect.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="IntegerInput.resx">
       <DependentUpon>IntegerInput.cs</DependentUpon>
@@ -1009,11 +1016,7 @@ foreach (var item in filesToCleanup)
   <Target Name="AfterBuild">
   </Target>
   -->
-	<Target Name="AfterBuild">
-        <Copy
-            SourceFiles="$(OutputPath)$(AssemblyName).exe"
-            DestinationFolder="$(SolutionDir)/Builds-Only"
-			ContinueOnError="true"
-        />
-    </Target>
+  <Target Name="AfterBuild">
+    <Copy SourceFiles="$(OutputPath)$(AssemblyName).exe" DestinationFolder="$(SolutionDir)/Builds-Only" ContinueOnError="true" />
+  </Target>
 </Project>
