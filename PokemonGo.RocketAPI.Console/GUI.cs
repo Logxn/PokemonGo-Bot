@@ -1022,6 +1022,7 @@ namespace PokemonGo.RocketAPI.Console
                     Globals.telAPI.ToString(),
                     Globals.pauseAtEvolve.ToString(),
                     Globals.usePwdEncryption.ToString(),
+                    
                     //Globals.itemsList.ToString(),
                     //Globals.CatchLurePokemons.ToString()
             };
@@ -1469,7 +1470,7 @@ namespace PokemonGo.RocketAPI.Console
 
         private void linkLabel4_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            Process.Start("https://twitter.com/LoganPunkt");
+            Process.Start("https://twitter.com/MattKnight4355");
         }
 
         private void checkBox13_CheckedChanged(object sender, EventArgs e)
@@ -1705,9 +1706,48 @@ namespace PokemonGo.RocketAPI.Console
             Globals.pokevision = checkBox1.Checked;
         }
 
-        //private void checkBox_CatchLurePokemons_CheckedChanged(object sender, EventArgs e)
-        //{
-        //    Globals.CatchLurePokemons = checkBox_CatchLurePokemons.Checked;
-        //}
+        private void groupBox8_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label22_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void checkBox2_CheckedChanged(object sender, EventArgs e)
+        {
+            Globals.LimitPokeballUse = checkBox2.Checked;
+        }
+
+        private void checkBox3_CheckedChanged_1(object sender, EventArgs e)
+        {
+            Globals.LimitGreatballUse = checkBox2.Checked;
+        }
+
+        private void checkBox7_CheckedChanged_1(object sender, EventArgs e)
+        {
+            Globals.LimitUltraballUse = checkBox2.Checked;
+        }
+        private void numericUpDown1_ValueChanged(object sender, EventArgs e)
+        {
+            Globals.Max_Missed_throws = 3;
+        }
+
+        private void numericUpDown2_ValueChanged(object sender, EventArgs e)
+        {
+            Globals.InventoryBasePokeball = 5;
+        }
+
+        private void numericUpDown3_ValueChanged(object sender, EventArgs e)
+        {
+            Globals.InventoryBaseGreatball = 5;
+        }
+
+        private void numericUpDown4_ValueChanged(object sender, EventArgs e)
+        {
+            Globals.InventoryBaseUltraball = 5;
+        }
     }
 }

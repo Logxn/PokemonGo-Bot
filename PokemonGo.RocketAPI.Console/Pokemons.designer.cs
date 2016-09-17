@@ -112,10 +112,10 @@ namespace PokemonGo.RocketAPI.Console
             this.checkBox_UseGoogleMapsRouting = new System.Windows.Forms.CheckBox();
             this.label45 = new System.Windows.Forms.Label();
             this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.tabPage4 = new System.Windows.Forms.TabPage();
-            this.tabPage5 = new System.Windows.Forms.TabPage();
             this.itemsPanel1 = new PokemonGo.RocketAPI.Console.ItemsPanel();
+            this.tabPage4 = new System.Windows.Forms.TabPage();
             this.locationPanel1 = new PokemonGo.RocketAPI.Console.LocationPanel();
+            this.tabPage5 = new System.Windows.Forms.TabPage();
             this.playerPanel1 = new PokemonGo.RocketAPI.Console.PlayerPanel();
             this.contextMenuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.reloadsecondstextbox)).BeginInit();
@@ -223,28 +223,28 @@ namespace PokemonGo.RocketAPI.Console
             this.iVsToNicknameToolStripMenuItem,
             this.changeFavouritesToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(205, 134);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(199, 124);
             this.contextMenuStrip1.Closing += new System.Windows.Forms.ToolStripDropDownClosingEventHandler(this.contextMenuStrip1_Closing);
             this.contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
             // 
             // transferToolStripMenuItem
             // 
             this.transferToolStripMenuItem.Name = "transferToolStripMenuItem";
-            this.transferToolStripMenuItem.Size = new System.Drawing.Size(204, 26);
+            this.transferToolStripMenuItem.Size = new System.Drawing.Size(198, 24);
             this.transferToolStripMenuItem.Text = "Transfer";
             this.transferToolStripMenuItem.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
             // 
             // powerUpToolStripMenuItem
             // 
             this.powerUpToolStripMenuItem.Name = "powerUpToolStripMenuItem";
-            this.powerUpToolStripMenuItem.Size = new System.Drawing.Size(204, 26);
+            this.powerUpToolStripMenuItem.Size = new System.Drawing.Size(198, 24);
             this.powerUpToolStripMenuItem.Text = "PowerUp";
             this.powerUpToolStripMenuItem.Click += new System.EventHandler(this.powerUpToolStripMenuItem_Click);
             // 
             // evolveToolStripMenuItem
             // 
             this.evolveToolStripMenuItem.Name = "evolveToolStripMenuItem";
-            this.evolveToolStripMenuItem.Size = new System.Drawing.Size(204, 26);
+            this.evolveToolStripMenuItem.Size = new System.Drawing.Size(198, 24);
             this.evolveToolStripMenuItem.Text = "Evolve";
             this.evolveToolStripMenuItem.Visible = false;
             this.evolveToolStripMenuItem.Click += new System.EventHandler(this.evolveToolStripMenuItem_Click);
@@ -252,14 +252,14 @@ namespace PokemonGo.RocketAPI.Console
             // iVsToNicknameToolStripMenuItem
             // 
             this.iVsToNicknameToolStripMenuItem.Name = "iVsToNicknameToolStripMenuItem";
-            this.iVsToNicknameToolStripMenuItem.Size = new System.Drawing.Size(204, 26);
+            this.iVsToNicknameToolStripMenuItem.Size = new System.Drawing.Size(198, 24);
             this.iVsToNicknameToolStripMenuItem.Text = "IVs to Nickname";
             this.iVsToNicknameToolStripMenuItem.Click += new System.EventHandler(this.IVsToNicknameToolStripMenuItemClick);
             // 
             // changeFavouritesToolStripMenuItem
             // 
             this.changeFavouritesToolStripMenuItem.Name = "changeFavouritesToolStripMenuItem";
-            this.changeFavouritesToolStripMenuItem.Size = new System.Drawing.Size(204, 26);
+            this.changeFavouritesToolStripMenuItem.Size = new System.Drawing.Size(198, 24);
             this.changeFavouritesToolStripMenuItem.Text = "Change Favourites";
             this.changeFavouritesToolStripMenuItem.Click += new System.EventHandler(this.changeFavouritesToolStripMenuItemClick);
             // 
@@ -745,12 +745,14 @@ namespace PokemonGo.RocketAPI.Console
             // checkBox2
             // 
             this.checkBox2.AutoSize = true;
+            this.checkBox2.Checked = true;
+            this.checkBox2.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBox2.Location = new System.Drawing.Point(16, 130);
             this.checkBox2.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             this.checkBox2.Name = "checkBox2";
-            this.checkBox2.Size = new System.Drawing.Size(207, 21);
+            this.checkBox2.Size = new System.Drawing.Size(284, 21);
             this.checkBox2.TabIndex = 55;
-            this.checkBox2.Text = "Stop Walking when Evolving";
+            this.checkBox2.Text = "Stop Walking when Evolving/Transfering";
             this.checkBox2.UseVisualStyleBackColor = true;
             this.checkBox2.CheckedChanged += new System.EventHandler(this.checkBox2_CheckedChanged);
             // 
@@ -845,8 +847,6 @@ namespace PokemonGo.RocketAPI.Console
             // checkBox8
             // 
             this.checkBox8.AutoSize = true;
-            this.checkBox8.Checked = true;
-            this.checkBox8.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBox8.Location = new System.Drawing.Point(16, 165);
             this.checkBox8.Margin = new System.Windows.Forms.Padding(5);
             this.checkBox8.Name = "checkBox8";
@@ -1184,29 +1184,6 @@ namespace PokemonGo.RocketAPI.Console
             this.tabPage3.Text = "Items";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
-            // tabPage4
-            // 
-            this.tabPage4.Controls.Add(this.locationPanel1);
-            this.tabPage4.Location = new System.Drawing.Point(4, 25);
-            this.tabPage4.Margin = new System.Windows.Forms.Padding(4);
-            this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Padding = new System.Windows.Forms.Padding(4);
-            this.tabPage4.Size = new System.Drawing.Size(936, 566);
-            this.tabPage4.TabIndex = 3;
-            this.tabPage4.Text = "Location";
-            this.tabPage4.UseVisualStyleBackColor = true;
-            // 
-            // tabPage5
-            // 
-            this.tabPage5.Controls.Add(this.playerPanel1);
-            this.tabPage5.Location = new System.Drawing.Point(4, 25);
-            this.tabPage5.Name = "tabPage5";
-            this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage5.Size = new System.Drawing.Size(936, 566);
-            this.tabPage5.TabIndex = 4;
-            this.tabPage5.Text = "Player Information";
-            this.tabPage5.UseVisualStyleBackColor = true;
-            // 
             // itemsPanel1
             // 
             this.itemsPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -1219,6 +1196,18 @@ namespace PokemonGo.RocketAPI.Console
             this.itemsPanel1.TabIndex = 0;
             this.itemsPanel1.Load += new System.EventHandler(this.itemsPanel1_Load);
             // 
+            // tabPage4
+            // 
+            this.tabPage4.Controls.Add(this.locationPanel1);
+            this.tabPage4.Location = new System.Drawing.Point(4, 25);
+            this.tabPage4.Margin = new System.Windows.Forms.Padding(4);
+            this.tabPage4.Name = "tabPage4";
+            this.tabPage4.Padding = new System.Windows.Forms.Padding(4);
+            this.tabPage4.Size = new System.Drawing.Size(936, 566);
+            this.tabPage4.TabIndex = 3;
+            this.tabPage4.Text = "Location";
+            this.tabPage4.UseVisualStyleBackColor = true;
+            // 
             // locationPanel1
             // 
             this.locationPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -1229,6 +1218,17 @@ namespace PokemonGo.RocketAPI.Console
             this.locationPanel1.Name = "locationPanel1";
             this.locationPanel1.Size = new System.Drawing.Size(921, 553);
             this.locationPanel1.TabIndex = 0;
+            // 
+            // tabPage5
+            // 
+            this.tabPage5.Controls.Add(this.playerPanel1);
+            this.tabPage5.Location = new System.Drawing.Point(4, 25);
+            this.tabPage5.Name = "tabPage5";
+            this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage5.Size = new System.Drawing.Size(936, 566);
+            this.tabPage5.TabIndex = 4;
+            this.tabPage5.Text = "Player Information";
+            this.tabPage5.UseVisualStyleBackColor = true;
             // 
             // playerPanel1
             // 

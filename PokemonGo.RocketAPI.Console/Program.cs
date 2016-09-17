@@ -476,7 +476,6 @@ namespace PokemonGo.RocketAPI.Console
             NBug.Settings.ReleaseMode = false;
             NBug.Settings.DeferredReporting = true;
             NBug.Settings.StoragePath = "Bugs\\";
-
             AppDomain.CurrentDomain.UnhandledException += NBug.Handler.UnhandledException;
         }
 
@@ -530,7 +529,10 @@ namespace PokemonGo.RocketAPI.Console
                 }
             }
         }
-
+        public static bool LimitPokeballUse = false;
+        public static bool LimitGreatballUse = false;
+        public static bool LimitUltraballUse = false;
+        public static int Max_Missed_throws = 3;
         public static List<PokemonId> noTransfer = new List<PokemonId>();
         public static List<PokemonId> noCatch = new List<PokemonId>();
         public static List<PokemonId> doEvolve = new List<PokemonId>();
@@ -560,60 +562,36 @@ namespace PokemonGo.RocketAPI.Console
         public static bool userazzberry = true;
         public static double razzberry_chance = 0.35;
         public static bool pokeList = true;
-        //public static bool itemsList = false;
         public static bool keepPokemonsThatCanEvolve = true;
         public static bool TransferFirstLowIV = true;
         public static bool pokevision = false;
-
-        //public static bool CatchLurePokemons = false;
-
         public static bool useLuckyEggIfNotRunning = false;
-
         public static bool autoIncubate = true;
         public static bool useBasicIncubators = false;
-
         public static bool sleepatpokemons = true;
-
         public static string settingsLanguage = "en";
-
         public static Logic.LogicInfoObservable infoObservable = new Logic.LogicInfoObservable();
-
         public static bool Espiral = false;
-
         public static bool MapLoaded = false;
-
         public static bool logPokemons = false;
-
         public static LinkedList<GeoCoordinate> NextDestinationOverride = new LinkedList<GeoCoordinate>();
-
         public static LinkedList<GeoCoordinate> RouteToRepeat = new LinkedList<GeoCoordinate>();
-
         public static bool RepeatUserRoute = false;
-
         public static bool logManualTransfer = false;
-
         public static bool UseLureGUIClick = false;
-
         public static bool UseLuckyEggGUIClick = false;
-
         public static bool UseIncenseGUIClick = false;
-
         public static bool RelocateDefaultLocation = false;
-
         public static double RelocateDefaultLocationTravelSpeed = 0;
-
         public static bool bLogEvolve = false;
-
         public static bool LogEggs = false;
-
         public static bool pauseAtEvolve = false;
-
         public static bool pauseAtEvolve2 = false;
-
         public static bool AutoUpdate = false;
-
         public static bool usePwdEncryption = false;
-
         public static bool CheckWhileRunning = false;
+        internal static int InventoryBasePokeball = 10;
+        internal static int InventoryBaseGreatball = 10;
+        internal static int InventoryBaseUltraball = 10;
     }
 }

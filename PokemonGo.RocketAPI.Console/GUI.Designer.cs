@@ -121,6 +121,7 @@
             this.text_Latidude = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.groupBox9 = new System.Windows.Forms.GroupBox();
+            this.linkLabel7 = new System.Windows.Forms.LinkLabel();
             this.linkLabel4 = new System.Windows.Forms.LinkLabel();
             this.linkLabel3 = new System.Windows.Forms.LinkLabel();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
@@ -141,11 +142,6 @@
             this.checkBox_EvolvePokemonIfEnoughCandy = new System.Windows.Forms.CheckBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabThrows = new System.Windows.Forms.TabPage();
-            this.label56 = new System.Windows.Forms.Label();
-            this.label55 = new System.Windows.Forms.Label();
-            this.label54 = new System.Windows.Forms.Label();
-            this.label53 = new System.Windows.Forms.Label();
-            this.label52 = new System.Windows.Forms.Label();
             this.groupBox16 = new System.Windows.Forms.GroupBox();
             this.label60 = new System.Windows.Forms.Label();
             this.label59 = new System.Windows.Forms.Label();
@@ -219,6 +215,19 @@
             this.lang_de_btn = new System.Windows.Forms.Button();
             this.lang_en_btn = new System.Windows.Forms.Button();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.groupBox8 = new System.Windows.Forms.GroupBox();
+            this.label22 = new System.Windows.Forms.Label();
+            this.checkBox2 = new System.Windows.Forms.CheckBox();
+            this.checkBox3 = new System.Windows.Forms.CheckBox();
+            this.checkBox7 = new System.Windows.Forms.CheckBox();
+            this.label23 = new System.Windows.Forms.Label();
+            this.label24 = new System.Windows.Forms.Label();
+            this.label52 = new System.Windows.Forms.Label();
+            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDown2 = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDown3 = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDown4 = new System.Windows.Forms.NumericUpDown();
+            this.label53 = new System.Windows.Forms.Label();
             this.tabPage1.SuspendLayout();
             this.tabItems.SuspendLayout();
             this.groupBox4.SuspendLayout();
@@ -246,6 +255,11 @@
             this.tabPage4.SuspendLayout();
             this.groupBox15.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+            this.groupBox8.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown4)).BeginInit();
             this.SuspendLayout();
             // 
             // button1
@@ -1169,7 +1183,7 @@
             // button_SetLocation
             // 
             this.button_SetLocation.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            this.button_SetLocation.Location = new System.Drawing.Point(245, 18);
+            this.button_SetLocation.Location = new System.Drawing.Point(245, 21);
             this.button_SetLocation.Margin = new System.Windows.Forms.Padding(4);
             this.button_SetLocation.Name = "button_SetLocation";
             this.button_SetLocation.Size = new System.Drawing.Size(83, 91);
@@ -1183,7 +1197,7 @@
             this.checkBox_Start_Walk_from_default_location.AutoSize = true;
             this.checkBox_Start_Walk_from_default_location.Checked = true;
             this.checkBox_Start_Walk_from_default_location.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox_Start_Walk_from_default_location.Location = new System.Drawing.Point(5, 182);
+            this.checkBox_Start_Walk_from_default_location.Location = new System.Drawing.Point(5, 185);
             this.checkBox_Start_Walk_from_default_location.Margin = new System.Windows.Forms.Padding(4);
             this.checkBox_Start_Walk_from_default_location.Name = "checkBox_Start_Walk_from_default_location";
             this.checkBox_Start_Walk_from_default_location.Size = new System.Drawing.Size(223, 21);
@@ -1194,7 +1208,7 @@
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(249, 153);
+            this.label10.Location = new System.Drawing.Point(249, 156);
             this.label10.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(51, 17);
@@ -1203,7 +1217,7 @@
             // 
             // text_MoveRadius
             // 
-            this.text_MoveRadius.Location = new System.Drawing.Point(108, 149);
+            this.text_MoveRadius.Location = new System.Drawing.Point(108, 152);
             this.text_MoveRadius.Margin = new System.Windows.Forms.Padding(4);
             this.text_MoveRadius.Name = "text_MoveRadius";
             this.text_MoveRadius.Size = new System.Drawing.Size(132, 22);
@@ -1213,7 +1227,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(9, 153);
+            this.label9.Location = new System.Drawing.Point(9, 156);
             this.label9.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(89, 17);
@@ -1223,7 +1237,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(249, 121);
+            this.label8.Location = new System.Drawing.Point(249, 124);
             this.label8.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(40, 17);
@@ -1233,7 +1247,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(9, 121);
+            this.label7.Location = new System.Drawing.Point(9, 124);
             this.label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(53, 17);
@@ -1242,7 +1256,7 @@
             // 
             // text_Speed
             // 
-            this.text_Speed.Location = new System.Drawing.Point(108, 117);
+            this.text_Speed.Location = new System.Drawing.Point(108, 120);
             this.text_Speed.Margin = new System.Windows.Forms.Padding(4);
             this.text_Speed.Name = "text_Speed";
             this.text_Speed.Size = new System.Drawing.Size(132, 22);
@@ -1252,7 +1266,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(9, 89);
+            this.label6.Location = new System.Drawing.Point(9, 92);
             this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(59, 17);
@@ -1262,7 +1276,7 @@
             // text_Altidude
             // 
             this.text_Altidude.Enabled = false;
-            this.text_Altidude.Location = new System.Drawing.Point(108, 85);
+            this.text_Altidude.Location = new System.Drawing.Point(108, 88);
             this.text_Altidude.Margin = new System.Windows.Forms.Padding(4);
             this.text_Altidude.Name = "text_Altidude";
             this.text_Altidude.Size = new System.Drawing.Size(132, 22);
@@ -1272,7 +1286,7 @@
             // text_Longitude
             // 
             this.text_Longitude.Enabled = false;
-            this.text_Longitude.Location = new System.Drawing.Point(108, 53);
+            this.text_Longitude.Location = new System.Drawing.Point(108, 56);
             this.text_Longitude.Margin = new System.Windows.Forms.Padding(4);
             this.text_Longitude.Name = "text_Longitude";
             this.text_Longitude.Size = new System.Drawing.Size(132, 22);
@@ -1282,7 +1296,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(9, 57);
+            this.label5.Location = new System.Drawing.Point(9, 60);
             this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(75, 17);
@@ -1292,7 +1306,7 @@
             // text_Latidude
             // 
             this.text_Latidude.Enabled = false;
-            this.text_Latidude.Location = new System.Drawing.Point(108, 21);
+            this.text_Latidude.Location = new System.Drawing.Point(108, 24);
             this.text_Latidude.Margin = new System.Windows.Forms.Padding(4);
             this.text_Latidude.Name = "text_Latidude";
             this.text_Latidude.Size = new System.Drawing.Size(132, 22);
@@ -1302,7 +1316,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(9, 25);
+            this.label4.Location = new System.Drawing.Point(9, 28);
             this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(63, 17);
@@ -1311,23 +1325,36 @@
             // 
             // groupBox9
             // 
+            this.groupBox9.Controls.Add(this.linkLabel7);
             this.groupBox9.Controls.Add(this.linkLabel4);
             this.groupBox9.Controls.Add(this.linkLabel3);
             this.groupBox9.Controls.Add(this.linkLabel1);
             this.groupBox9.Controls.Add(this.linkLabel2);
-            this.groupBox9.Location = new System.Drawing.Point(352, 418);
+            this.groupBox9.Location = new System.Drawing.Point(352, 394);
             this.groupBox9.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox9.Name = "groupBox9";
             this.groupBox9.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBox9.Size = new System.Drawing.Size(361, 50);
+            this.groupBox9.Size = new System.Drawing.Size(353, 74);
             this.groupBox9.TabIndex = 18;
             this.groupBox9.TabStop = false;
             this.groupBox9.Text = "Version Info";
             // 
+            // linkLabel7
+            // 
+            this.linkLabel7.AutoSize = true;
+            this.linkLabel7.Location = new System.Drawing.Point(221, 48);
+            this.linkLabel7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.linkLabel7.Name = "linkLabel7";
+            this.linkLabel7.Size = new System.Drawing.Size(115, 17);
+            this.linkLabel7.TabIndex = 39;
+            this.linkLabel7.TabStop = true;
+            this.linkLabel7.Text = "Twitter MTK4355";
+            this.linkLabel7.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel4_LinkClicked);
+            // 
             // linkLabel4
             // 
             this.linkLabel4.AutoSize = true;
-            this.linkLabel4.Location = new System.Drawing.Point(221, 28);
+            this.linkLabel4.Location = new System.Drawing.Point(221, 30);
             this.linkLabel4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.linkLabel4.Name = "linkLabel4";
             this.linkLabel4.Size = new System.Drawing.Size(92, 17);
@@ -1339,7 +1366,7 @@
             // linkLabel3
             // 
             this.linkLabel3.AutoSize = true;
-            this.linkLabel3.Location = new System.Drawing.Point(231, 11);
+            this.linkLabel3.Location = new System.Drawing.Point(221, 13);
             this.linkLabel3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.linkLabel3.Name = "linkLabel3";
             this.linkLabel3.Size = new System.Drawing.Size(79, 17);
@@ -1351,7 +1378,7 @@
             // linkLabel1
             // 
             this.linkLabel1.AutoSize = true;
-            this.linkLabel1.Location = new System.Drawing.Point(8, 28);
+            this.linkLabel1.Location = new System.Drawing.Point(8, 30);
             this.linkLabel1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.linkLabel1.Name = "linkLabel1";
             this.linkLabel1.Size = new System.Drawing.Size(50, 17);
@@ -1363,7 +1390,7 @@
             // linkLabel2
             // 
             this.linkLabel2.AutoSize = true;
-            this.linkLabel2.Location = new System.Drawing.Point(67, 28);
+            this.linkLabel2.Location = new System.Drawing.Point(67, 30);
             this.linkLabel2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.linkLabel2.Name = "linkLabel2";
             this.linkLabel2.Size = new System.Drawing.Size(147, 17);
@@ -1391,7 +1418,7 @@
             this.groupBox10.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox10.Name = "groupBox10";
             this.groupBox10.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBox10.Size = new System.Drawing.Size(342, 404);
+            this.groupBox10.Size = new System.Drawing.Size(342, 385);
             this.groupBox10.TabIndex = 6;
             this.groupBox10.TabStop = false;
             this.groupBox10.Text = "Other Settings";
@@ -1399,12 +1426,14 @@
             // checkBox_StopWalkingWhenEvolving
             // 
             this.checkBox_StopWalkingWhenEvolving.AutoSize = true;
+            this.checkBox_StopWalkingWhenEvolving.Checked = true;
+            this.checkBox_StopWalkingWhenEvolving.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBox_StopWalkingWhenEvolving.Location = new System.Drawing.Point(27, 115);
             this.checkBox_StopWalkingWhenEvolving.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.checkBox_StopWalkingWhenEvolving.Name = "checkBox_StopWalkingWhenEvolving";
-            this.checkBox_StopWalkingWhenEvolving.Size = new System.Drawing.Size(207, 21);
+            this.checkBox_StopWalkingWhenEvolving.Size = new System.Drawing.Size(292, 21);
             this.checkBox_StopWalkingWhenEvolving.TabIndex = 55;
-            this.checkBox_StopWalkingWhenEvolving.Text = "Stop Walking when Evolving";
+            this.checkBox_StopWalkingWhenEvolving.Text = "Stop Walking when Evolving / Transfering";
             this.checkBox_StopWalkingWhenEvolving.UseVisualStyleBackColor = true;
             // 
             // label33
@@ -1572,11 +1601,7 @@
             // 
             // tabThrows
             // 
-            this.tabThrows.Controls.Add(this.label56);
-            this.tabThrows.Controls.Add(this.label55);
-            this.tabThrows.Controls.Add(this.label54);
-            this.tabThrows.Controls.Add(this.label53);
-            this.tabThrows.Controls.Add(this.label52);
+            this.tabThrows.Controls.Add(this.groupBox8);
             this.tabThrows.Controls.Add(this.groupBox16);
             this.tabThrows.Location = new System.Drawing.Point(4, 25);
             this.tabThrows.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -1585,52 +1610,6 @@
             this.tabThrows.TabIndex = 7;
             this.tabThrows.Text = "Throws";
             this.tabThrows.UseVisualStyleBackColor = true;
-            // 
-            // label56
-            // 
-            this.label56.AutoSize = true;
-            this.label56.Location = new System.Drawing.Point(17, 132);
-            this.label56.Name = "label56";
-            this.label56.Size = new System.Drawing.Size(85, 17);
-            this.label56.TabIndex = 2;
-            this.label56.Text = "Keep it legit!";
-            // 
-            // label55
-            // 
-            this.label55.AutoSize = true;
-            this.label55.Location = new System.Drawing.Point(17, 103);
-            this.label55.Name = "label55";
-            this.label55.Size = new System.Drawing.Size(499, 17);
-            this.label55.TabIndex = 2;
-            this.label55.Text = "Warning: Forcing one kind of throw too much may seem suspicious to Niantic. ";
-            // 
-            // label54
-            // 
-            this.label54.AutoSize = true;
-            this.label54.Location = new System.Drawing.Point(17, 74);
-            this.label54.Name = "label54";
-            this.label54.Size = new System.Drawing.Size(455, 17);
-            this.label54.TabIndex = 2;
-            this.label54.Text = "Default Settings: All throw types are evenly distributed at 25% per type.";
-            // 
-            // label53
-            // 
-            this.label53.AutoSize = true;
-            this.label53.Location = new System.Drawing.Point(17, 45);
-            this.label53.Name = "label53";
-            this.label53.Size = new System.Drawing.Size(562, 17);
-            this.label53.TabIndex = 2;
-            this.label53.Text = "Values range from 0 to 100, while the sum of all fields must be less than or equa" +
-    "l to 100!";
-            // 
-            // label52
-            // 
-            this.label52.AutoSize = true;
-            this.label52.Location = new System.Drawing.Point(17, 16);
-            this.label52.Name = "label52";
-            this.label52.Size = new System.Drawing.Size(461, 17);
-            this.label52.TabIndex = 1;
-            this.label52.Text = "Here you can set the probabilities of each kind of throw as percentages.";
             // 
             // groupBox16
             // 
@@ -1646,11 +1625,11 @@
             this.groupBox16.Controls.Add(this.label50);
             this.groupBox16.Controls.Add(this.label49);
             this.groupBox16.Controls.Add(this.label48);
-            this.groupBox16.Location = new System.Drawing.Point(20, 172);
+            this.groupBox16.Location = new System.Drawing.Point(20, 19);
             this.groupBox16.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.groupBox16.Name = "groupBox16";
             this.groupBox16.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.groupBox16.Size = new System.Drawing.Size(219, 132);
+            this.groupBox16.Size = new System.Drawing.Size(219, 156);
             this.groupBox16.TabIndex = 0;
             this.groupBox16.TabStop = false;
             this.groupBox16.Text = "Throw probabilities";
@@ -1658,7 +1637,7 @@
             // label60
             // 
             this.label60.AutoSize = true;
-            this.label60.Location = new System.Drawing.Point(188, 103);
+            this.label60.Location = new System.Drawing.Point(188, 116);
             this.label60.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label60.Name = "label60";
             this.label60.Size = new System.Drawing.Size(20, 17);
@@ -1668,7 +1647,7 @@
             // label59
             // 
             this.label59.AutoSize = true;
-            this.label59.Location = new System.Drawing.Point(188, 77);
+            this.label59.Location = new System.Drawing.Point(188, 87);
             this.label59.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label59.Name = "label59";
             this.label59.Size = new System.Drawing.Size(20, 17);
@@ -1678,7 +1657,7 @@
             // label58
             // 
             this.label58.AutoSize = true;
-            this.label58.Location = new System.Drawing.Point(188, 51);
+            this.label58.Location = new System.Drawing.Point(188, 58);
             this.label58.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label58.Name = "label58";
             this.label58.Size = new System.Drawing.Size(20, 17);
@@ -1688,7 +1667,7 @@
             // label57
             // 
             this.label57.AutoSize = true;
-            this.label57.Location = new System.Drawing.Point(188, 25);
+            this.label57.Location = new System.Drawing.Point(188, 29);
             this.label57.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label57.Name = "label57";
             this.label57.Size = new System.Drawing.Size(20, 17);
@@ -1697,7 +1676,7 @@
             // 
             // text_Pb_Ordinary
             // 
-            this.text_Pb_Ordinary.Location = new System.Drawing.Point(132, 98);
+            this.text_Pb_Ordinary.Location = new System.Drawing.Point(132, 116);
             this.text_Pb_Ordinary.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.text_Pb_Ordinary.Name = "text_Pb_Ordinary";
             this.text_Pb_Ordinary.Size = new System.Drawing.Size(51, 22);
@@ -1706,7 +1685,7 @@
             // 
             // text_Pb_Nice
             // 
-            this.text_Pb_Nice.Location = new System.Drawing.Point(132, 72);
+            this.text_Pb_Nice.Location = new System.Drawing.Point(132, 86);
             this.text_Pb_Nice.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.text_Pb_Nice.Name = "text_Pb_Nice";
             this.text_Pb_Nice.Size = new System.Drawing.Size(51, 22);
@@ -1715,7 +1694,7 @@
             // 
             // text_Pb_Great
             // 
-            this.text_Pb_Great.Location = new System.Drawing.Point(132, 46);
+            this.text_Pb_Great.Location = new System.Drawing.Point(132, 56);
             this.text_Pb_Great.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.text_Pb_Great.Name = "text_Pb_Great";
             this.text_Pb_Great.Size = new System.Drawing.Size(51, 22);
@@ -1724,7 +1703,7 @@
             // 
             // text_Pb_Excellent
             // 
-            this.text_Pb_Excellent.Location = new System.Drawing.Point(132, 20);
+            this.text_Pb_Excellent.Location = new System.Drawing.Point(132, 26);
             this.text_Pb_Excellent.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.text_Pb_Excellent.Name = "text_Pb_Excellent";
             this.text_Pb_Excellent.Size = new System.Drawing.Size(51, 22);
@@ -1734,7 +1713,7 @@
             // label51
             // 
             this.label51.AutoSize = true;
-            this.label51.Location = new System.Drawing.Point(10, 101);
+            this.label51.Location = new System.Drawing.Point(10, 119);
             this.label51.Name = "label51";
             this.label51.Size = new System.Drawing.Size(117, 17);
             this.label51.TabIndex = 3;
@@ -1743,7 +1722,7 @@
             // label50
             // 
             this.label50.AutoSize = true;
-            this.label50.Location = new System.Drawing.Point(10, 75);
+            this.label50.Location = new System.Drawing.Point(10, 89);
             this.label50.Name = "label50";
             this.label50.Size = new System.Drawing.Size(90, 17);
             this.label50.TabIndex = 2;
@@ -1752,7 +1731,7 @@
             // label49
             // 
             this.label49.AutoSize = true;
-            this.label49.Location = new System.Drawing.Point(10, 49);
+            this.label49.Location = new System.Drawing.Point(10, 59);
             this.label49.Name = "label49";
             this.label49.Size = new System.Drawing.Size(98, 17);
             this.label49.TabIndex = 1;
@@ -1761,7 +1740,7 @@
             // label48
             // 
             this.label48.AutoSize = true;
-            this.label48.Location = new System.Drawing.Point(10, 23);
+            this.label48.Location = new System.Drawing.Point(10, 29);
             this.label48.Name = "label48";
             this.label48.Size = new System.Drawing.Size(118, 17);
             this.label48.TabIndex = 0;
@@ -2486,6 +2465,167 @@
             this.pictureBox2.TabStop = false;
             this.pictureBox2.Click += new System.EventHandler(this.pictureBox2_Click);
             // 
+            // groupBox8
+            // 
+            this.groupBox8.Controls.Add(this.label53);
+            this.groupBox8.Controls.Add(this.numericUpDown4);
+            this.groupBox8.Controls.Add(this.numericUpDown3);
+            this.groupBox8.Controls.Add(this.numericUpDown2);
+            this.groupBox8.Controls.Add(this.numericUpDown1);
+            this.groupBox8.Controls.Add(this.checkBox7);
+            this.groupBox8.Controls.Add(this.checkBox3);
+            this.groupBox8.Controls.Add(this.checkBox2);
+            this.groupBox8.Controls.Add(this.label52);
+            this.groupBox8.Controls.Add(this.label24);
+            this.groupBox8.Controls.Add(this.label23);
+            this.groupBox8.Controls.Add(this.label22);
+            this.groupBox8.Location = new System.Drawing.Point(253, 19);
+            this.groupBox8.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.groupBox8.Name = "groupBox8";
+            this.groupBox8.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.groupBox8.Size = new System.Drawing.Size(336, 156);
+            this.groupBox8.TabIndex = 54;
+            this.groupBox8.TabStop = false;
+            this.groupBox8.Text = "Miss Rate and Ball Choice";
+            this.groupBox8.Enter += new System.EventHandler(this.groupBox8_Enter);
+            // 
+            // label22
+            // 
+            this.label22.AutoSize = true;
+            this.label22.Location = new System.Drawing.Point(6, 28);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(252, 17);
+            this.label22.TabIndex = 0;
+            this.label22.Text = "Maximum Missed throws per encounter";
+            this.label22.Click += new System.EventHandler(this.label22_Click);
+            // 
+            // checkBox2
+            // 
+            this.checkBox2.AutoSize = true;
+            this.checkBox2.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.checkBox2.Location = new System.Drawing.Point(16, 52);
+            this.checkBox2.Name = "checkBox2";
+            this.checkBox2.Size = new System.Drawing.Size(166, 21);
+            this.checkBox2.TabIndex = 5;
+            this.checkBox2.Text = "Do not Use Pokeballs";
+            this.checkBox2.UseVisualStyleBackColor = true;
+            this.checkBox2.CheckedChanged += new System.EventHandler(this.checkBox2_CheckedChanged);
+            // 
+            // checkBox3
+            // 
+            this.checkBox3.AutoSize = true;
+            this.checkBox3.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.checkBox3.Location = new System.Drawing.Point(12, 77);
+            this.checkBox3.Name = "checkBox3";
+            this.checkBox3.Size = new System.Drawing.Size(170, 21);
+            this.checkBox3.TabIndex = 5;
+            this.checkBox3.Text = "Do not Use Greatballs";
+            this.checkBox3.UseVisualStyleBackColor = true;
+            this.checkBox3.CheckedChanged += new System.EventHandler(this.checkBox3_CheckedChanged_1);
+            // 
+            // checkBox7
+            // 
+            this.checkBox7.AutoSize = true;
+            this.checkBox7.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.checkBox7.Location = new System.Drawing.Point(18, 102);
+            this.checkBox7.Name = "checkBox7";
+            this.checkBox7.Size = new System.Drawing.Size(164, 21);
+            this.checkBox7.TabIndex = 5;
+            this.checkBox7.Text = "Do not Use Ultraballs";
+            this.checkBox7.UseVisualStyleBackColor = true;
+            this.checkBox7.CheckedChanged += new System.EventHandler(this.checkBox7_CheckedChanged_1);
+            // 
+            // label23
+            // 
+            this.label23.AutoSize = true;
+            this.label23.Location = new System.Drawing.Point(185, 53);
+            this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(72, 17);
+            this.label23.TabIndex = 0;
+            this.label23.Text = "If stock <=";
+            this.label23.Click += new System.EventHandler(this.label22_Click);
+            // 
+            // label24
+            // 
+            this.label24.AutoSize = true;
+            this.label24.Location = new System.Drawing.Point(185, 79);
+            this.label24.Name = "label24";
+            this.label24.Size = new System.Drawing.Size(72, 17);
+            this.label24.TabIndex = 0;
+            this.label24.Text = "If stock <=";
+            this.label24.Click += new System.EventHandler(this.label22_Click);
+            // 
+            // label52
+            // 
+            this.label52.AutoSize = true;
+            this.label52.Location = new System.Drawing.Point(185, 104);
+            this.label52.Name = "label52";
+            this.label52.Size = new System.Drawing.Size(72, 17);
+            this.label52.TabIndex = 0;
+            this.label52.Text = "If stock <=";
+            this.label52.Click += new System.EventHandler(this.label22_Click);
+            // 
+            // numericUpDown1
+            // 
+            this.numericUpDown1.Location = new System.Drawing.Point(261, 28);
+            this.numericUpDown1.Name = "numericUpDown1";
+            this.numericUpDown1.Size = new System.Drawing.Size(62, 22);
+            this.numericUpDown1.TabIndex = 6;
+            this.numericUpDown1.Value = new decimal(new int[] {
+            3,
+            0,
+            0,
+            0});
+            this.numericUpDown1.ValueChanged += new System.EventHandler(this.numericUpDown1_ValueChanged);
+            // 
+            // numericUpDown2
+            // 
+            this.numericUpDown2.Location = new System.Drawing.Point(261, 53);
+            this.numericUpDown2.Name = "numericUpDown2";
+            this.numericUpDown2.Size = new System.Drawing.Size(62, 22);
+            this.numericUpDown2.TabIndex = 7;
+            this.numericUpDown2.Value = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.numericUpDown2.ValueChanged += new System.EventHandler(this.numericUpDown2_ValueChanged);
+            // 
+            // numericUpDown3
+            // 
+            this.numericUpDown3.Location = new System.Drawing.Point(261, 78);
+            this.numericUpDown3.Name = "numericUpDown3";
+            this.numericUpDown3.Size = new System.Drawing.Size(62, 22);
+            this.numericUpDown3.TabIndex = 55;
+            this.numericUpDown3.Value = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.numericUpDown3.ValueChanged += new System.EventHandler(this.numericUpDown3_ValueChanged);
+            // 
+            // numericUpDown4
+            // 
+            this.numericUpDown4.Location = new System.Drawing.Point(261, 103);
+            this.numericUpDown4.Name = "numericUpDown4";
+            this.numericUpDown4.Size = new System.Drawing.Size(62, 22);
+            this.numericUpDown4.TabIndex = 55;
+            this.numericUpDown4.Value = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.numericUpDown4.ValueChanged += new System.EventHandler(this.numericUpDown4_ValueChanged);
+            // 
+            // label53
+            // 
+            this.label53.AutoSize = true;
+            this.label53.Location = new System.Drawing.Point(42, 130);
+            this.label53.Name = "label53";
+            this.label53.Size = new System.Drawing.Size(243, 17);
+            this.label53.TabIndex = 56;
+            this.label53.Text = "(set value to 0 to never use ball type)";
+            // 
             // GUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -2538,7 +2678,6 @@
             this.groupBox10.PerformLayout();
             this.tabControl1.ResumeLayout(false);
             this.tabThrows.ResumeLayout(false);
-            this.tabThrows.PerformLayout();
             this.groupBox16.ResumeLayout(false);
             this.groupBox16.PerformLayout();
             this.tabPage2.ResumeLayout(false);
@@ -2559,6 +2698,12 @@
             this.groupBox15.ResumeLayout(false);
             this.groupBox15.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+            this.groupBox8.ResumeLayout(false);
+            this.groupBox8.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown4)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -2737,11 +2882,6 @@
         private System.Windows.Forms.CheckBox checkbox_PWDEncryption;
         private System.Windows.Forms.CheckBox checkbox_checkWhileRunning;
         private System.Windows.Forms.CheckBox checkbox_LogEggs;
-        private System.Windows.Forms.Label label56;
-        private System.Windows.Forms.Label label55;
-        private System.Windows.Forms.Label label54;
-        private System.Windows.Forms.Label label53;
-        private System.Windows.Forms.Label label52;
         private System.Windows.Forms.Label label60;
         private System.Windows.Forms.Label label59;
         private System.Windows.Forms.Label label58;
@@ -2756,6 +2896,20 @@
         private System.Windows.Forms.Label label63;
         private System.Windows.Forms.TextBox text_Telegram_Token;
         private System.Windows.Forms.Label label64;
+        private System.Windows.Forms.LinkLabel linkLabel7;
+        private System.Windows.Forms.GroupBox groupBox8;
+        private System.Windows.Forms.CheckBox checkBox7;
+        private System.Windows.Forms.CheckBox checkBox3;
+        private System.Windows.Forms.CheckBox checkBox2;
+        private System.Windows.Forms.Label label22;
+        private System.Windows.Forms.Label label52;
+        private System.Windows.Forms.Label label24;
+        private System.Windows.Forms.Label label23;
+        private System.Windows.Forms.NumericUpDown numericUpDown1;
+        private System.Windows.Forms.NumericUpDown numericUpDown4;
+        private System.Windows.Forms.NumericUpDown numericUpDown3;
+        private System.Windows.Forms.NumericUpDown numericUpDown2;
+        private System.Windows.Forms.Label label53;
         //private System.Windows.Forms.CheckBox checkBox_CatchLurePokemons;
     }
 }

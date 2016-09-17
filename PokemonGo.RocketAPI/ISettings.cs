@@ -115,12 +115,17 @@ namespace PokemonGo.RocketAPI
         bool UseLureGUIClick { get; set; }
         bool UseIncenseGUIClick { get; set; }
         bool UseLuckyEggGUIClick { get; set; }
-        //bool CatchLurePokemons { get; set; }
+        bool LimitPokeballUse { get; set; }
+        bool LimitGreatballUse { get; set; }
+        bool LimitUltraballUse { get; set; }
+        int Max_Missed_throws { get; set; }
+        int InventoryBasePokeball { get; set; }
+        int InventoryBaseGreatball { get; set; }
+        int InventoryBaseUltraball { get; set; }
         double TimeToRun { get; set; }
         int ivmaxpercent { get; }
         string SelectedLanguage { get; }
         string GoogleMapsAPIKey { get; }
-
         ICollection<KeyValuePair<ItemId, int>> itemRecycleFilter { get; set; }
         List<PokemonId> pokemonsToHold { get; set; }
         List<PokemonId> pokemonsToEvolve { get; set; }

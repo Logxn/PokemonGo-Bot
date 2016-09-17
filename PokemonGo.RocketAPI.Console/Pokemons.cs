@@ -1229,14 +1229,13 @@ namespace PokemonGo.RocketAPI.Console
 
         private void button1_Click(object sender, EventArgs e)
         {
-            Globals.UseIncenseGUIClick = true;
+            Globals.UseIncenseGUIClick = true;            
         }
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
             Globals.RepeatUserRoute = checkBox1.Checked;
         }
-
 
         private void checkBox10_CheckedChanged(object sender, EventArgs e)
         {
