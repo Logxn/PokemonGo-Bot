@@ -82,6 +82,7 @@ namespace PokemonGo.RocketAPI.Console
             btnForceUnban.Text = "Pause Walking";
             Execute();
             locationPanel1.Init(true,0,0,0);
+			itemsPanel1.Execute();            
             eggsPanel1.pokemons = pokemons;
             eggsPanel1.Execute();            
         }
@@ -269,9 +270,9 @@ namespace PokemonGo.RocketAPI.Console
 		            numRazzPercent.Value = (int) (Globals.razzberry_chance * 100);
 		            numTravelSpeed.Value = (int) Globals.RelocateDefaultLocationTravelSpeed;
                     #endregion
- 	
-                    itemsPanel1.Execute();
+ 	                    
                     playerPanel1.Execute(profile,pokemons);
+                    locationPanel1.CreateBotMarker((int)profile.PlayerData.Team, stats.Level,stats.Experience);
                 }
             }
             catch (Exception e)
