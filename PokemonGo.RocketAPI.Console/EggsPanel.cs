@@ -126,7 +126,7 @@ namespace PokemonGo.RocketAPI.Console
 		}
 		
 		private string GetCreationTime(ulong ms){
-			return new DateTime((long)ms * 10000).AddYears(1969).ToString("dd/MM/yyyy HH:mm:ss");
+			return StringUtils.ConvertTimeMSinString(ms , "dd/MM/yyyy HH:mm:ss");
 		}
 		
 		private async void IncubateToolStripMenuItemClick(object sender, EventArgs e)
