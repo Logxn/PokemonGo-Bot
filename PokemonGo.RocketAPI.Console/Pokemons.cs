@@ -1509,7 +1509,7 @@ namespace PokemonGo.RocketAPI.Console
                 MessageBox.Show(ex.Message);
                 textBox5.Text = "";
             }
-            if (lat != Globals.latitute && lng != Globals.longitude)
+            if ( (!lat.Equals( Globals.latitute)) && (! lng.Equals(Globals.longitude) ))
             {
                 Globals.latitute = lat;
                 Globals.longitude = lng;
