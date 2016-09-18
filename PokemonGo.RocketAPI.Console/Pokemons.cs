@@ -218,7 +218,6 @@ namespace PokemonGo.RocketAPI.Console
                         listViewItem.SubItems.Add(StringUtils.ConvertTimeMSinString(pokemon.CreationTimeMs, "yyyy/MM/dd HH:mm:ss"));
                         listViewItem.SubItems.Add(pokemon.Pokeball.ToString().Replace("Item",""));
                         listViewItem.SubItems.Add(""+pokemon.NumUpgrades);
-                        listViewItem.SubItems.Add(""+pokemon.IsEgg.ToString());
                         listViewItem.SubItems.Add(""+pokemon.BattlesAttacked);
                         listViewItem.SubItems.Add(""+pokemon.BattlesDefended);
 
@@ -1415,11 +1414,11 @@ namespace PokemonGo.RocketAPI.Console
 	        columnheader = new ColumnHeader();
 	        columnheader.Name = "Type 2";
 	        columnheader.Text = columnheader.Name;
+	        PokemonListView.Columns.Add(columnheader);
 
    	        PokemonListView.Columns.Add(CreateColumn("Catch Date"));
 	        PokemonListView.Columns.Add(CreateColumn("Pokeball"));
 	        PokemonListView.Columns.Add(CreateColumn("Num Upgrades"));
-	        PokemonListView.Columns.Add(CreateColumn("Is Egg"));
 	        PokemonListView.Columns.Add(CreateColumn("Battles Attacked"));
 	        PokemonListView.Columns.Add(CreateColumn("Battles Defended"));
 	        
