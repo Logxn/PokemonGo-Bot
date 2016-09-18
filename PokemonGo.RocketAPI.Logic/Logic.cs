@@ -1471,7 +1471,7 @@ namespace PokemonGo.RocketAPI.Logic
             }
             else if (rInt >= Pb_Excellent && rInt < Pb_Excellent + Pb_Great)
             {
-                normalizedRecticleSize = r.NextDouble() * (1.95 - 1.3) + 1.3;
+                normalizedRecticleSize = r.NextDouble() * (1.7 - 1.3) + 1.3;
                 hitTxt = "Great";
             }
             else if (rInt >= Pb_Excellent + Pb_Great && rInt < Pb_Excellent + Pb_Great + Pb_Nice)
