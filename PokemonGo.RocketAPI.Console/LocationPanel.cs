@@ -746,7 +746,12 @@ namespace PokemonGo.RocketAPI.Console
                     break;
             }
             routeOverlay.IsVisibile =false;
-            _botMarker = new GMarkerGoogle(new PointLatLng(), bmp);
+            PointLatLng pointLatLng;
+        	if (_botMarker !=null)
+        		pointLatLng = _botMarker.Position;
+        	else 
+        		pointLatLng = new PointLatLng();
+            _botMarker = new GMarkerGoogle(pointLatLng, bmp);
             _botMarker.ToolTipText = string.Format("Level: {0} ({1})", level, exp);
             _botMarker.ToolTip.Font = new System.Drawing.Font("Arial", 12, System.Drawing.GraphicsUnit.Pixel);
             _botMarker.ToolTipMode = MarkerTooltipMode.OnMouseOver;

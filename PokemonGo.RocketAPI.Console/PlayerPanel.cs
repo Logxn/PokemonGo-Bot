@@ -229,7 +229,7 @@ namespace PokemonGo.RocketAPI.Console
                 return null;
             }
         }
-		async void BtnTeamClick(object sender, EventArgs e)
+		private async void BtnTeamClick(object sender, EventArgs e)
 		{
 			var teamSelect =new TeamSelect();
 			if (teamSelect.ShowDialog() == DialogResult.OK){
@@ -240,7 +240,7 @@ namespace PokemonGo.RocketAPI.Console
                 var resp = await SelectTeam(team);
                 if (resp.Status)
                 {
-                	Execute();
+                	Execute(profile, pokemons);
                 }
                 else
                     MessageBox.Show(resp.Message + "Set Team failed!", "Set Team Status", MessageBoxButtons.OK);				
