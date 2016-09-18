@@ -1298,6 +1298,15 @@ namespace PokemonGo.RocketAPI.Logic
                 bool used = false;
                 do
                 {
+                    // Check if the best ball is still valid
+                    if (bestPokeball == ItemId.ItemUnknown)
+                    {
+                        Logger.ColoredConsoleWrite(ConsoleColor.Red, $"No Pokeballs! - missed {pokeid} CP {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} IV {PokemonInfo.CalculatePokemonPerfection(encounterPokemonResponse.WildPokemon.PokemonData).ToString("0.00")}%");
+                        Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Detected all balls out of stock - disabling pokemon catch until restock of at least 1 ball type occurs");
+                        pokeballoutofstock = true;
+                        _clientSettings.CatchPokemon = false;
+                        return;
+                    }
                     if (((probability.HasValue && probability.Value < _clientSettings.razzberry_chance) || escaped) && _clientSettings.UseRazzBerry && !used)
                     {
                         var bestBerry = await GetBestBerry(encounterPokemonResponse?.WildPokemon);
@@ -1385,9 +1394,10 @@ namespace PokemonGo.RocketAPI.Logic
                         escaped = true;
                         //reset forceHit in case we randomly triggered on last throw.
                         forceHit = false;
-                        if (berryThrown) bestPokeball = await GetBestBall(encounterPokemonResponse?.WildPokemon, true);
                         await RandomHelper.RandomDelay(1500, 6000);
                     }
+                    // Update the best ball to ensure we can still throw
+                    bestPokeball = await GetBestBall(encounterPokemonResponse?.WildPokemon, escaped)
                 }
                 while (caughtPokemonResponse.Status == CatchPokemonResponse.Types.CatchStatus.CatchMissed || caughtPokemonResponse.Status == CatchPokemonResponse.Types.CatchStatus.CatchEscape);
 
@@ -1471,7 +1481,7 @@ namespace PokemonGo.RocketAPI.Logic
             }
             else if (rInt >= Pb_Excellent && rInt < Pb_Excellent + Pb_Great)
             {
-                normalizedRecticleSize = r.NextDouble() * (1.95 - 1.3) + 1.3;
+                normalizedRecticleSize = r.NextDouble() * (1.7 - 1.3) + 1.3;
                 hitTxt = "Great";
             }
             else if (rInt >= Pb_Excellent + Pb_Great && rInt < Pb_Excellent + Pb_Great + Pb_Nice)
@@ -1984,6 +1994,12 @@ namespace PokemonGo.RocketAPI.Logic
                         var egg = (incubator.ItemId == ItemId.ItemIncubatorBasicUnlimited && incubators.Count > 1)
                             ? unusedEggs.FirstOrDefault()
                             : unusedEggs.LastOrDefault();
+                        
+                        // When you're down to your last incubator, prefer 2km then 10km then 5km so you
+                        // can clean out smaller eggs first.
+                        if(incubator.ItemId == ItemId.ItemIncubatorBasicUnlimited && incubators.Count == 1 && egg.EggKmWalkedTarget < 10) {
+                            egg = unusedEggs.FirstOrDefault();
+                        }
 
                         if (egg == null)
                             continue;
