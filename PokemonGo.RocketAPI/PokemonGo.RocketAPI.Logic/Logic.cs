@@ -594,7 +594,7 @@ namespace PokemonGo.RocketAPI.Logic
                             {
                                 //Throw berry if we can
                                 var useRaspberry = await _client.Encounter.UseCaptureItem(pokemon.EncounterId, bestBerry, pokemon.SpawnPointId);
-                                Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Thrown {bestBerry}. Remaining: {berries.Count}.", LogLevel.Info);
+                                Logger.ColoredConsoleWrite(ConsoleColor.DarkMagenta, $"Thrown {bestBerry}. Remaining: {berries.Count}.", LogLevel.Info);
                                 await RandomHelper.RandomDelay(50, 200);
                             } 
                         }
