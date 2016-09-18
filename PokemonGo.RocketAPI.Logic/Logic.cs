@@ -1994,6 +1994,12 @@ namespace PokemonGo.RocketAPI.Logic
                         var egg = (incubator.ItemId == ItemId.ItemIncubatorBasicUnlimited && incubators.Count > 1)
                             ? unusedEggs.FirstOrDefault()
                             : unusedEggs.LastOrDefault();
+                        
+                        // When you're down to your last incubator, prefer 2km then 10km then 5km so you
+                        // can clean out smaller eggs first.
+                        if(incubator.ItemId == ItemId.ItemIncubatorBasicUnlimited && incubators.Count == 1 && egg.EggKmWalkedTarget < 10) {
+                            egg = unusedEggs.FirstOrDefault();
+                        }
 
                         if (egg == null)
                             continue;
