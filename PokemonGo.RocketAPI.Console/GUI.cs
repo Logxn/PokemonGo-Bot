@@ -148,194 +148,194 @@ namespace PokemonGo.RocketAPI.Console
                     i++;
                 }
             }
+            #region Old Load Method
+            //try
+            //{
+            //    if (File.Exists(Program.account))
+            //    {
+            //        string[] lines = File.ReadAllLines(@Program.account);
+            //        i = 1;
+            //        foreach (string line in lines)
+            //        {
+            //            switch (i)
+            //            {
+            //                case 1:
+            //                    if (line == "Google")
+            //                        comboBox_AccountType.SelectedIndex = 0;
+            //                    else
+            //                        comboBox_AccountType.SelectedIndex = 1;
+            //                    break;
+            //                case 2:
+            //                    text_EMail.Text = line;
+            //                    break;
+            //                case 3:
+            //                    text_Password.Text = line;
+            //                    break;
+            //                case 4:
+            //                    text_Latidude.Text = line;
+            //                    break;
+            //                case 5:
+            //                    text_Longitude.Text = line;
+            //                    break;
+            //                case 6:
+            //                    text_Altidude.Text = line;
+            //                    break;
+            //                case 7:
+            //                    text_Speed.Text = line;
+            //                    break;
+            //                case 8:
+            //                    text_MoveRadius.Text = line;
+            //                    break;
+            //                case 9:
+            //                    checkBox_Start_Walk_from_default_location.Checked = bool.Parse(line);
+            //                    break;
+            //                case 10:
+            //                    checkBox_AutoTransferDoublePokemon.Checked = bool.Parse(line);
+            //                    break;
+            //                case 11:
+            //                    text_MaxDuplicatePokemon.Text = line;
+            //                    break;
+            //                case 12:
+            //                    checkBox_EvolvePokemonIfEnoughCandy.Checked = bool.Parse(line);
+            //                    break;
+            //                case 13:
+            //                    text_MaxCPToTransfer.Text = line;
+            //                    break;
+            //                case 14:
+            //                    text_Telegram_Token.Text = line;
+            //                    break;
+            //                case 15:
+            //                    text_Telegram_Name.Text = line;
+            //                    break;
+            //                case 16:
+            //                    text_Telegram_LiveStatsDelay.Text = line;
+            //                    break;
+            //                case 17:
+            //                    //if (line == "1")
+            //                    //{
+            //                    //    Globals.navigation_option = 1;
+            //                    //    checkBox8.Checked = true;
+            //                    //    checkBox_UseLuckyEggAtEvolve.Checked = false;
+            //                    //} else
+            //                    //{
+            //                    //    Globals.navigation_option = 2;
+            //                    //    checkBox_UseLuckyEggAtEvolve.Checked = true;
+            //                    //    checkBox8.Checked = false;
+            //                    //}
+            //                    break;
+            //                case 18:
+            //                    checkBox_UseLuckyEggAtEvolve.Checked = bool.Parse(line);
+            //                    break;
+            //                case 19:
+            //                    checkBox_UseIncenseEvery30min.Checked = bool.Parse(line);
+            //                    break;
+            //                case 20:
+            //                    text_MaxIVToTransfer.Text = line;
+            //                    break;
+            //                case 21:
+            //                    checkBox_EnablePokemonListGui.Checked = bool.Parse(line);
+            //                    break;
+            //                case 22:
+            //                    checkBox_KeepPokemonWhichCanBeEvolved.Checked = bool.Parse(line);
+            //                    break;
+            //                case 23:
+            //                    checkBox_UseLuckyEggIfNotRunning.Checked = bool.Parse(line);
+            //                    break;
+            //                case 24:
+            //                    checkBox_AutoIncubate.Checked = bool.Parse(line);
+            //                    chkAutoIncubate_CheckedChanged(null, EventArgs.Empty);
+            //                    break;
+            //                case 25:
+            //                    checkBox_UseBasicIncubators.Checked = bool.Parse(line);
+            //                    break;
+            //                case 26:
+            //                    checkBox_TransferFirstLowIV.Checked = bool.Parse(line);
+            //                    break;
+            //                case 27:
+            //                    //langSelected = line;
+            //                    break;
+            //                case 28:
+            //                    checkBox_UseRazzberryIfChanceUnder.Checked = bool.Parse(line);
+            //                    break;
+            //                case 29:
+            //                    text_UseRazzberryChance.Text = line;
+            //                    break;
+            //                case 30:
+            //                    checkBox_RandomSleepAtCatching.Checked = bool.Parse(line);
+            //                    break;
+            //                case 31:
+            //                    checkBox_FarmPokestops.Checked = bool.Parse(line);
+            //                    break;
+            //                case 32:
+            //                    text_Telegram_Token.Text = line;
+            //                    break;
+            //                case 34:
+            //                    checkbox_PWDEncryption.Checked = bool.Parse(line);
+            //                    break;
+            //                //case 35:
+            //                //    checkBox_EnableItemsListGui.Checked = bool.Parse(line);
+            //                //break;
+            //                //case 35:
+            //                //    checkBox_CatchLurePokemons.Checked = bool.Parse(line);
+            //                //    break;
+            //                default:
+            //                    break;
+            //            }
+            //            i++;
+            //        }
+            //        if (checkbox_PWDEncryption.Checked)
+            //            text_Password.Text = Encryption.Decrypt(text_Password.Text);
+            //    }
+            //    else
+            //    {
+            //        text_Latidude.Text = "40,764883";
+            //        text_Longitude.Text = "-73,972967";
+            //        text_Altidude.Text = "10";
+            //        text_Speed.Text = "50";
+            //        text_MoveRadius.Text = "5000";
+            //        text_MaxDuplicatePokemon.Text = "3";
+            //        text_MaxCPToTransfer.Text = "999";
+            //        text_Telegram_LiveStatsDelay.Text = "5000";
+            //    }
+            //}
+            //catch (Exception)
+            //{
+            //    MessageBox.Show("Your Config is broken, check if every setting is right!");
+            //}
 
-            try
-            {
-                if (File.Exists(Program.account))
-                {
-                    string[] lines = File.ReadAllLines(@Program.account);
-                    i = 1;
-                    foreach (string line in lines)
-                    {
-                        switch (i)
-                        {
-                            case 1:
-                                if (line == "Google")
-                                    comboBox_AccountType.SelectedIndex = 0;
-                                else
-                                    comboBox_AccountType.SelectedIndex = 1;
-                                break;
-                            case 2:
-                                text_EMail.Text = line;
-                                break;
-                            case 3:
-                                text_Password.Text = line;
-                                break;
-                            case 4:
-                                text_Latidude.Text = line;
-                                break;
-                            case 5:
-                                text_Longitude.Text = line;
-                                break;
-                            case 6:
-                                text_Altidude.Text = line;
-                                break;
-                            case 7:
-                                text_Speed.Text = line;
-                                break;
-                            case 8:
-                                text_MoveRadius.Text = line;
-                                break;
-                            case 9:
-                                checkBox_Start_Walk_from_default_location.Checked = bool.Parse(line);
-                                break;
-                            case 10:
-                                checkBox_AutoTransferDoublePokemon.Checked = bool.Parse(line);
-                                break;
-                            case 11:
-                                text_MaxDuplicatePokemon.Text = line;
-                                break;
-                            case 12:
-                                checkBox_EvolvePokemonIfEnoughCandy.Checked = bool.Parse(line);
-                                break;
-                            case 13:
-                                text_MaxCPToTransfer.Text = line;
-                                break;
-                            case 14:
-                                text_Telegram_Token.Text = line;
-                                break;
-                            case 15:
-                                text_Telegram_Name.Text = line;
-                                break;
-                            case 16:
-                                text_Telegram_LiveStatsDelay.Text = line;
-                                break;
-                            case 17:
-                                //if (line == "1")
-                                //{
-                                //    Globals.navigation_option = 1;
-                                //    checkBox8.Checked = true;
-                                //    checkBox_UseLuckyEggAtEvolve.Checked = false;
-                                //} else
-                                //{
-                                //    Globals.navigation_option = 2;
-                                //    checkBox_UseLuckyEggAtEvolve.Checked = true;
-                                //    checkBox8.Checked = false;
-                                //}
-                                break;
-                            case 18:
-                                checkBox_UseLuckyEggAtEvolve.Checked = bool.Parse(line);
-                                break;
-                            case 19:
-                                checkBox_UseIncenseEvery30min.Checked = bool.Parse(line);
-                                break;
-                            case 20:
-                                text_MaxIVToTransfer.Text = line;
-                                break;
-                            case 21:
-                                checkBox_EnablePokemonListGui.Checked = bool.Parse(line);
-                                break;
-                            case 22:
-                                checkBox_KeepPokemonWhichCanBeEvolved.Checked = bool.Parse(line);
-                                break;
-                            case 23:
-                                checkBox_UseLuckyEggIfNotRunning.Checked = bool.Parse(line);
-                                break;
-                            case 24:
-                                checkBox_AutoIncubate.Checked = bool.Parse(line);
-                                chkAutoIncubate_CheckedChanged(null, EventArgs.Empty);
-                                break;
-                            case 25:
-                                checkBox_UseBasicIncubators.Checked = bool.Parse(line);
-                                break;
-                            case 26:
-                                checkBox_TransferFirstLowIV.Checked = bool.Parse(line);
-                                break;
-                            case 27:
-                                //langSelected = line;
-                                break;
-                            case 28:
-                                checkBox_UseRazzberryIfChanceUnder.Checked = bool.Parse(line);
-                                break;
-                            case 29:
-                                text_UseRazzberryChance.Text = line;
-                                break;
-                            case 30:
-                                checkBox_RandomSleepAtCatching.Checked = bool.Parse(line);
-                                break;
-                            case 31:
-                                checkBox_FarmPokestops.Checked = bool.Parse(line);
-                                break;
-                            case 32:
-                                text_Telegram_Token.Text = line;
-                                break;
-                            case 34:
-                                checkbox_PWDEncryption.Checked = bool.Parse(line);
-                                break;
-                            //case 35:
-                            //    checkBox_EnableItemsListGui.Checked = bool.Parse(line);
-                            //break;
-                            //case 35:
-                            //    checkBox_CatchLurePokemons.Checked = bool.Parse(line);
-                            //    break;
-                            default:
-                                break;
-                        }
-                        i++;
-                    }
-                    if (checkbox_PWDEncryption.Checked)
-                        text_Password.Text = Encryption.Decrypt(text_Password.Text);
-                }
-                else
-                {
-                    text_Latidude.Text = "40,764883";
-                    text_Longitude.Text = "-73,972967";
-                    text_Altidude.Text = "10";
-                    text_Speed.Text = "50";
-                    text_MoveRadius.Text = "5000";
-                    text_MaxDuplicatePokemon.Text = "3";
-                    text_MaxCPToTransfer.Text = "999";
-                    text_Telegram_LiveStatsDelay.Text = "5000";
-                }
-            }
-            catch (Exception)
-            {
-                MessageBox.Show("Your Config is broken, check if every setting is right!");
-            }
-
-            if (File.Exists(Program.throws))
-            {
-                string[] lines = File.ReadAllLines(@Program.throws);
-                i = 1;
-                foreach (string line in lines)
-                {
-                    switch (i)
-                    {
-                        case 1:
-                            text_Pb_Excellent.Text = line;
-                            break;
-                        case 2:
-                            text_Pb_Great.Text = line;
-                            break;
-                        case 3:
-                            text_Pb_Nice.Text = line;
-                            break;
-                        case 4:
-                            text_Pb_Ordinary.Text = line;
-                            break;
-                        default:
-                            break;
-                    }
-                    i++;
-                }
-            }
-            else
-            {
-                text_Pb_Excellent.Text = "25";
-                text_Pb_Great.Text = "25";
-                text_Pb_Nice.Text = "25";
-                text_Pb_Ordinary.Text = "25";
-            }
+            //if (File.Exists(Program.throws))
+            //{
+            //    string[] lines = File.ReadAllLines(@Program.throws);
+            //    i = 1;
+            //    foreach (string line in lines)
+            //    {
+            //        switch (i)
+            //        {
+            //            case 1:
+            //                text_Pb_Excellent.Text = line;
+            //                break;
+            //            case 2:
+            //                text_Pb_Great.Text = line;
+            //                break;
+            //            case 3:
+            //                text_Pb_Nice.Text = line;
+            //                break;
+            //            case 4:
+            //                text_Pb_Ordinary.Text = line;
+            //                break;
+            //            default:
+            //                break;
+            //        }
+            //        i++;
+            //    }
+            //}
+            //else
+            //{
+            //    text_Pb_Excellent.Text = "25";
+            //    text_Pb_Great.Text = "25";
+            //    text_Pb_Nice.Text = "25";
+            //    text_Pb_Ordinary.Text = "25";
+            //}
 
             if (File.Exists(Program.items))
             {
@@ -425,70 +425,70 @@ namespace PokemonGo.RocketAPI.Console
                 }
             }
 
-            if (File.Exists(Program.walkSetting))
-            {
+            //if (File.Exists(Program.walkSetting))
+            //{
 
-                string[] lines = File.ReadAllLines(@Program.walkSetting);
-                i = 1;
-                foreach (string line in lines)
-                {
-                    switch (i)
-                    {
-                        case 1:
-                            checkBox_FarmPokestops.Checked = bool.Parse(line);
-                            break;
-                        case 2:
-                            checkBox_CatchPokemon.Checked = bool.Parse(line);
-                            break;
-                        case 3:
-                            checkBox_BreakAtLure.Checked = bool.Parse(line);
-                            break;
-                        case 4:
-                            checkBox_UseLureAtBreak.Checked = bool.Parse(line);
-                            break;
-                        case 5:
-                            checkBox_RandomlyReduceSpeed.Checked = bool.Parse(line);
-                            break;
-                        case 6:
-                            checkBox_UseGoogleMapsRouting.Checked = bool.Parse(line);
-                            break;
-                        case 7:
-                            text_GoogleMapsAPIKey.Text = line;
-                            break;
-                        case 8:
-                            text_PokemonCatchLimit.Text = line;
-                            break;
-                        case 9:
-                            text_PokestopFarmLimit.Text = line;
-                            break;
-                        case 10:
-                            text_XPFarmedLimit.Text = line;
-                            break;
-                        case 11:
-                            text_BreakInterval.Text = line;
-                            break;
-                        case 12:
-                            text_BreakLength.Text = line;
-                            break;
-                        case 13:
-                            text_MinWalkSpeed.Text = line;
-                            break;
-                        case 14:
-                            text_TimeToRun.Text = line;
-                            break;
-                        case 15:
-                            checkBox_WalkInArchimedeanSpiral.Checked = bool.Parse(line);
-                            break;                            
-                        case 16:
-                            checkBox_UseBreakIntervalAndLength.Checked = bool.Parse(line);
-                            break;
-                        case 17:
-                            checkBox1.Checked = bool.Parse(line);
-                            break;
-                    }
-                    i++;
-                }
-            }
+            //    string[] lines = File.ReadAllLines(@Program.walkSetting);
+            //    i = 1;
+            //    foreach (string line in lines)
+            //    {
+            //        switch (i)
+            //        {
+            //            case 1:
+            //                checkBox_FarmPokestops.Checked = bool.Parse(line);
+            //                break;
+            //            case 2:
+            //                checkBox_CatchPokemon.Checked = bool.Parse(line);
+            //                break;
+            //            case 3:
+            //                checkBox_BreakAtLure.Checked = bool.Parse(line);
+            //                break;
+            //            case 4:
+            //                checkBox_UseLureAtBreak.Checked = bool.Parse(line);
+            //                break;
+            //            case 5:
+            //                checkBox_RandomlyReduceSpeed.Checked = bool.Parse(line);
+            //                break;
+            //            case 6:
+            //                checkBox_UseGoogleMapsRouting.Checked = bool.Parse(line);
+            //                break;
+            //            case 7:
+            //                text_GoogleMapsAPIKey.Text = line;
+            //                break;
+            //            case 8:
+            //                text_PokemonCatchLimit.Text = line;
+            //                break;
+            //            case 9:
+            //                text_PokestopFarmLimit.Text = line;
+            //                break;
+            //            case 10:
+            //                text_XPFarmedLimit.Text = line;
+            //                break;
+            //            case 11:
+            //                text_BreakInterval.Text = line;
+            //                break;
+            //            case 12:
+            //                text_BreakLength.Text = line;
+            //                break;
+            //            case 13:
+            //                text_MinWalkSpeed.Text = line;
+            //                break;
+            //            case 14:
+            //                text_TimeToRun.Text = line;
+            //                break;
+            //            case 15:
+            //                checkBox_WalkInArchimedeanSpiral.Checked = bool.Parse(line);
+            //                break;                            
+            //            case 16:
+            //                checkBox_UseBreakIntervalAndLength.Checked = bool.Parse(line);
+            //                break;
+            //            case 17:
+            //                checkBox1.Checked = bool.Parse(line);
+            //                break;
+            //        }
+            //        i++;
+            //    }
+            //}
 
             if (File.Exists(Program.keep))
             {
@@ -547,7 +547,7 @@ namespace PokemonGo.RocketAPI.Console
                 }
             }
 
-            /* VERSION INFORMATION */
+            ///* VERSION INFORMATION */
             var currVersion = Assembly.GetExecutingAssembly().GetName().Version;
             var newestVersion = Program.getNewestVersion();
 
@@ -582,8 +582,216 @@ namespace PokemonGo.RocketAPI.Console
                         checkedListBox_PokemonToEvolve.SetItemChecked(evolveIDS[line] - 1, true);
                 }
             }
+            #endregion
+            try
+            {
+                if (File.Exists(Program.JSONSettings))
+                {
+                    var configString = File.ReadAllText(Program.JSONSettings);
+                    var config = Newtonsoft.Json.JsonConvert.DeserializeObject<Settings>(configString);
+
+                    if (config.GoogleUsername == String.Empty)
+                        comboBox_AccountType.SelectedIndex = 0;
+                    else
+                        comboBox_AccountType.SelectedIndex = 1;
+
+                    text_EMail.Text = config.GoogleUsername;
+
+                    text_Password.Text = config.GooglePassword;
+
+                    text_Latidude.Text = config.DefaultLatitude.ToString();
+
+                    text_Longitude.Text = config.DefaultLongitude.ToString();
+
+                    text_Altidude.Text = config.DefaultAltitude.ToString();
+
+                    text_Speed.Text = config.WalkingSpeedInKilometerPerHour.ToString();
+                    
+                    text_MoveRadius.Text = config.MaxWalkingRadiusInMeters.ToString();
+
+                    checkBox_Start_Walk_from_default_location.Checked = config.WalkBackToDefaultLocation;
 
 
+                    checkBox_AutoTransferDoublePokemon.Checked = config.TransferDoublePokemons;
+
+                    text_MaxDuplicatePokemon.Text = config.HoldMaxDoublePokemons.ToString();
+
+                    checkBox_EvolvePokemonIfEnoughCandy.Checked = config.EvolvePokemonsIfEnoughCandy;
+
+                    text_MaxCPToTransfer.Text = config.DontTransferWithCPOver.ToString();
+
+                    text_Telegram_Token.Text = config.TelegramAPIToken;
+
+                    text_Telegram_Name.Text = config.TelegramName;
+
+                    text_Telegram_LiveStatsDelay.Text = config.TelegramLiveStatsDelay.ToString();
+
+                    checkBox_UseLuckyEggAtEvolve.Checked = config.UseLuckyEgg;
+
+                    checkBox_UseIncenseEvery30min.Checked = config.UseIncense;
+
+                    text_MaxIVToTransfer.Text = config.ivmaxpercent.ToString();
+
+                    checkBox_EnablePokemonListGui.Checked = true;
+
+                    checkBox_KeepPokemonWhichCanBeEvolved.Checked = config.keepPokemonsThatCanEvolve;
+
+                    checkBox_UseLuckyEggIfNotRunning.Checked = config.UseLuckyEggIfNotRunning;
+
+                    checkBox_AutoIncubate.Checked = config.AutoIncubate;
+                    chkAutoIncubate_CheckedChanged(null, EventArgs.Empty);
+
+                    checkBox_UseBasicIncubators.Checked = config.UseBasicIncubators;
+
+                    checkBox_TransferFirstLowIV.Checked = config.TransferFirstLowIV;
+
+                    checkBox_UseRazzberryIfChanceUnder.Checked = config.UseRazzBerry;
+
+                    text_UseRazzberryChance.Text = (config.razzberry_chance * 100).ToString();
+
+                    checkBox_RandomSleepAtCatching.Checked = config.sleepatpokemons;
+
+                    checkBox_FarmPokestops.Checked = config.FarmPokestops;
+
+                    text_Telegram_Token.Text = config.TelegramAPIToken;
+
+                    //checkbox_PWDEncryption.Checked = config.;
+
+                    if (checkbox_PWDEncryption.Checked)
+                        text_Password.Text = Encryption.Decrypt(text_Password.Text);
+
+                    text_Pb_Excellent.Text = config.Pb_Excellent.ToString();
+
+                    text_Pb_Great.Text = config.Pb_Great.ToString();
+
+                    text_Pb_Nice.Text = config.Pb_Nice.ToString();
+
+                    text_Pb_Ordinary.Text = config.Pb_Ordinary.ToString();
+
+                    text_MaxPokeballs.Text =    ToString();
+
+                    //text_MaxGreatBalls.Text = line;
+
+                    //text_MaxUltraBalls.Text = line;
+
+                    //text_MaxRevives.Text = line;
+
+                    //text_MaxPotions.Text = line;
+
+                    //text_MaxSuperPotions.Text = line;
+
+                    //text_MaxHyperPotions.Text = line;
+
+                    //text_MaxRazzBerrys.Text = line;
+
+                    //text_MaxMasterBalls.Text = line;
+
+                    //text_MaxTopPotions.Text = line;
+
+                    //text_MaxTopRevives.Text = line;
+
+                    //logPokemon.Checked = config.;
+
+                    //logManuelTransfer.Checked = bool.Parse(line);
+
+                    //logEvolution.Checked = bool.Parse(line);
+
+                    //checkbox_LogEggs.Checked = bool.Parse(line);
+
+
+                    checkBox_FarmPokestops.Checked = config.FarmPokestops;
+
+                    checkBox_CatchPokemon.Checked = config.CatchPokemon;
+
+                    checkBox_BreakAtLure.Checked = config.BreakAtLure;
+
+                    checkBox_UseLureAtBreak.Checked = config.UseLureAtBreak;
+
+                    checkBox_RandomlyReduceSpeed.Checked = config.RandomReduceSpeed;
+
+                    checkBox_UseGoogleMapsRouting.Checked = config.UseGoogleMapsAPI;
+
+                    text_GoogleMapsAPIKey.Text = config.GoogleMapsAPIKey;
+
+                    text_PokemonCatchLimit.Text = config.PokemonCatchLimit.ToString();
+
+                    text_PokestopFarmLimit.Text = config.PokestopFarmLimit.ToString();
+
+                    text_XPFarmedLimit.Text = config.XPFarmedLimit.ToString();
+
+                    text_BreakInterval.Text = config.BreakInterval.ToString();
+
+                    text_BreakLength.Text = config.BreakLength.ToString();
+
+                    text_MinWalkSpeed.Text = config.MinWalkSpeed.ToString();
+                    
+                    text_TimeToRun.Text = config.TimeToRun.ToString();
+
+                    checkBox_WalkInArchimedeanSpiral.Checked = config.Espiral;
+
+                    checkBox_UseBreakIntervalAndLength.Checked = false;
+
+                    //checkBox1.Checked = config.;
+
+                    //checkbox_AutoUpdate.Checked = ;
+
+                    //checkbox_checkWhileRunning.Checked = bool.Parse(line);
+
+                    _clientSettings = config;
+                }
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Your Config is broken, check if every setting is right!");
+            }
+
+            if (File.Exists(Program.keep))
+            {
+                string[] lines = File.ReadAllLines(@Program.keep);
+                foreach (string line in lines)
+                {
+                    if (line != string.Empty)
+                        checkedListBox_PokemonNotToTransfer.SetItemChecked(pokeIDS[line] - 1, true);
+                }
+            }
+
+            if (File.Exists(Program.ignore))
+            {
+                string[] lines = File.ReadAllLines(@Program.ignore);
+                foreach (string line in lines)
+                {
+                    if (line != string.Empty)
+                        checkedListBox_PokemonNotToCatch.SetItemChecked(pokeIDS[line] - 1, true);
+                }
+            }
+
+            if (File.Exists(Program.lastcords))
+            {
+                try
+                {
+                    var latlngFromFile = File.ReadAllText(Program.lastcords);
+                    var latlng = latlngFromFile.Split(':');
+                    double latitude, longitude;
+                    double.TryParse(latlng[0], out latitude);
+                    double.TryParse(latlng[1], out longitude);
+                    Globals.latitute = latitude;
+                    Globals.longitude = longitude;
+                }
+                catch
+                {
+
+                }
+            }           
+
+            if (File.Exists(Program.evolve))
+            {
+                string[] lines = File.ReadAllLines(@Program.evolve);
+                foreach (string line in lines)
+                {
+                    if (line != string.Empty)
+                        checkedListBox_PokemonToEvolve.SetItemChecked(evolveIDS[line] - 1, true);
+                }
+            }
             // Load Proxy Settings
             if (_clientSettings.UseProxyHost != string.Empty)
                 prxyIP.Text = _clientSettings.UseProxyHost;
@@ -653,7 +861,7 @@ namespace PokemonGo.RocketAPI.Console
         private void button1_Click(object sender, EventArgs e)
         {
             Save();
-            ActiveForm.Dispose();
+            Dispose();
         }
 
         private void Save()
@@ -1123,6 +1331,9 @@ namespace PokemonGo.RocketAPI.Console
             }
             string[] EvolveFile = temp.Where(x => !String.IsNullOrEmpty(x)).ToArray();
             File.WriteAllLines(@Program.evolve, EvolveFile);
+
+            var configString = Newtonsoft.Json.JsonConvert.SerializeObject(_clientSettings);
+            File.WriteAllText(@Program.JSONSettings, configString);
             #endregion
         }
 

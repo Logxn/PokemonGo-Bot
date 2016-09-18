@@ -1,8 +1,10 @@
-﻿using POGOProtos.Enums;
+﻿using Newtonsoft.Json;
+using POGOProtos.Enums;
 using POGOProtos.Inventory.Item;
 using POGOProtos.Networking.Responses;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -631,10 +633,10 @@ namespace PokemonGo.RocketAPI.Logic.Utils
 
             return false;
         }
-        
-		public static string ConvertTimeMSinString(ulong timeMS, String format){
-        	return (new DateTime((long) timeMS * 10000).AddYears(1969).AddDays(-1).ToString(format));
-        }            
 
+        public static string ConvertTimeMSinString(ulong timeMS, String format)
+        {
+            return (new DateTime((long)timeMS * 10000).AddYears(1969).AddDays(-1).ToString(format));
+        }       
     }
 }

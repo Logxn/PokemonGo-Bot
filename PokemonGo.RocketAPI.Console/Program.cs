@@ -40,6 +40,7 @@ namespace PokemonGo.RocketAPI.Console
         public static string EvolveLog = Path.Combine(logPath, "EvolveLog.txt");
 
         public static string path_pokedata = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "PokeData");
+        internal static string JSONSettings = Path.Combine(path, "Settings.txt");
 
         [STAThread]
         static void Main(string[] args)

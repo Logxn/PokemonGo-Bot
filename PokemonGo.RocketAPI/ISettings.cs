@@ -12,22 +12,22 @@ namespace PokemonGo.RocketAPI
         /* ===================================[SETTINGS]================================= */
         
         /* AUTHENTICATION */
-        AuthType AuthType { get; }
-        string PtcPassword { get; }
-        string PtcUsername { get; }
-        string GoogleUsername { get; }
-        string GooglePassword { get; }
+        AuthType AuthType { get; set; }
+        string PtcPassword { get; set; }
+        string PtcUsername { get; set; }
+        string GoogleUsername { get; set; }
+        string GooglePassword { get; set; }
         string GoogleRefreshToken { get; set; }
 
         /* COORDINATES & LOCATION */
-        double DefaultLatitude { get; }
-        double DefaultLongitude { get; }
-        double DefaultAltitude { get; }
-        bool UseLastCords { get; }
-        bool WalkBackToDefaultLocation { get; }
+        double DefaultLatitude { get; set; }
+        double DefaultLongitude { get; set; }
+        double DefaultAltitude { get; set; }
+        bool UseLastCords { get; set; }
+        bool WalkBackToDefaultLocation { get; set; }
         double RelocateDefaultLocationTravelSpeed { get; set; }
         bool RelocateDefaultLocation { get; set; }
-        int MaxWalkingRadiusInMeters { get; }
+        int MaxWalkingRadiusInMeters { get; set; }
 
         /* NAVIGATION */
         bool FarmPokestops { get; set; }
@@ -46,36 +46,36 @@ namespace PokemonGo.RocketAPI
         int MinWalkSpeed { get; set; }
         int PokemonCatchLimit { get; set; }
         int PokestopFarmLimit { get; set; }
-        int navigation_option { get; }
-        double WalkingSpeedInKilometerPerHour { get; }
+        int navigation_option { get; set; }
+        double WalkingSpeedInKilometerPerHour { get; set; }
 
 
         LinkedList<GeoCoordinate> NextDestinationOverride { get; set; }
         LinkedList<GeoCoordinate> RouteToRepeat { get; set; }
 
         /* EVOLVE */
-        bool EvolvePokemonsIfEnoughCandy { get; }
+        bool EvolvePokemonsIfEnoughCandy { get; set; }
 
         /* TRANSFER */
-        bool TransferDoublePokemons { get; }
-        bool TransferFirstLowIV { get; }
-        int DontTransferWithCPOver { get; }
+        bool TransferDoublePokemons { get; set; }
+        bool TransferFirstLowIV { get; set; }
+        int DontTransferWithCPOver { get; set; }
 
         /* POKEMONS */
-        bool sleepatpokemons { get; }
-        bool keepPokemonsThatCanEvolve { get; }
-        int HoldMaxDoublePokemons { get; }
+        bool sleepatpokemons { get; set; }
+        bool keepPokemonsThatCanEvolve { get; set; }
+        int HoldMaxDoublePokemons { get; set; }
 
         /* ITEMS */
-        bool UseLuckyEgg { get; }
-        bool UseRazzBerry { get; }
-        double razzberry_chance { get; }
-        bool UseLuckyEggIfNotRunning { get; }
-        bool UseIncense { get; }
+        bool UseLuckyEgg { get; set;}
+        bool UseRazzBerry { get; set; }
+        double razzberry_chance { get; set; }
+        bool UseLuckyEggIfNotRunning { get; set; }
+        bool UseIncense { get; set; }
 
         /* EGG HATCHING */
-        bool AutoIncubate { get; }
-        bool UseBasicIncubators { get; }
+        bool AutoIncubate { get; set; }
+        bool UseBasicIncubators { get; set; }
 
         /* PROXIES */
         bool UseProxyVerified { get; set; }
@@ -102,12 +102,12 @@ namespace PokemonGo.RocketAPI
         bool CheckWhileRunning { get; set; }
 
         /* TELEGRAM */
-        int TelegramLiveStatsDelay { get; }
-        string TelegramAPIToken { get; }
-        string TelegramName { get; }
+        int TelegramLiveStatsDelay { get; set; }
+        string TelegramAPIToken { get; set; }
+        string TelegramName { get; set; }
 
         /* MISC */
-        bool pokevision { get; }
+        bool pokevision { get; set; }
         bool UseAnimationTimes { get; set; }
         bool MapLoaded { get; set; }
         bool pauseTheWalking { get; set; }
@@ -123,13 +123,13 @@ namespace PokemonGo.RocketAPI
         int InventoryBaseGreatball { get; set; }
         int InventoryBaseUltraball { get; set; }
         double TimeToRun { get; set; }
-        int ivmaxpercent { get; }
-        string SelectedLanguage { get; }
-        string GoogleMapsAPIKey { get; }
+        int ivmaxpercent { get; set; }
+        string SelectedLanguage { get; set; }
+        string GoogleMapsAPIKey { get; set; }
         ICollection<KeyValuePair<ItemId, int>> itemRecycleFilter { get; set; }
         List<PokemonId> pokemonsToHold { get; set; }
         List<PokemonId> pokemonsToEvolve { get; set; }
-        List<PokemonId> catchPokemonSkipList { get; }
+        List<PokemonId> catchPokemonSkipList { get; set; }
 
         /* ===================================[SETTINGS]================================= */
     }

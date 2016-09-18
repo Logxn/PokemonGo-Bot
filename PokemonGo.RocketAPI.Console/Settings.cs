@@ -9,86 +9,186 @@ namespace PokemonGo.RocketAPI.Console
 {
     public class Settings : ISettings
     {
-        public bool UseLastCords => true; // Only disable this if your sure what you're doing!
+        public bool UseLastCords
+        {
+            get { return true; }
+            set { }
+        }// Only disable this if your sure what you're doing!
 
+        public string GoogleUsername
+        {
+            get { return Globals.username; }
+            set { Globals.username = value; }
+        }
+        public string GooglePassword
+        {
+            get { return Globals.password; }
+            set { Globals.password = value; }
+        }
+        public bool UseIncense
+        {
+            get { return Globals.useincense; }
+            set { Globals.useincense = value; }
+        }
+        AuthType ISettings.AuthType
+        {
+            get { return Globals.acc; }
+            set { Globals.acc = value; }
+        }
+        public string PtcUsername
+        {
+            get { return Globals.username; }
+            set { Globals.username = value; }
+        }
+        public string PtcPassword
+        {
+            get { return Globals.password; }
+            set { Globals.password = value; }
+        }
+        public double DefaultLatitude
+        {
+            get { return Globals.latitute; }
+            set { Globals.latitute = value; }
+        }
+        public double DefaultLongitude
+        {
+            get { return Globals.longitude; }
+            set { Globals.longitude = value; }
+        }
+        public double DefaultAltitude
+        {
+            get { return Globals.altitude; }
+            set { Globals.altitude = value; }
+        }
+        public bool WalkBackToDefaultLocation
+        {
+            get { return Globals.defLoc; }
+            set { Globals.defLoc = value; }
+        }
+        public int MaxWalkingRadiusInMeters
+        {
+            get { return Globals.radius; }
+            set { Globals.radius = value; }
+        }
+        public int HoldMaxDoublePokemons
+        {
+            get { return Globals.duplicate; }
+            set { Globals.duplicate = value; }
+        }
+        public int TelegramLiveStatsDelay
+        {
+            get { return Globals.telDelay; }
+            set { Globals.telDelay = value; }
+        }
+        public bool sleepatpokemons
+        {
+            get { return Globals.sleepatpokemons; }
+            set { Globals.sleepatpokemons = value; }
+        }
+        public double WalkingSpeedInKilometerPerHour
+        {
+            get { return Globals.speed; }
+            set { Globals.speed = value; }
+        }
+        public bool TransferDoublePokemons
+        {
+            get { return Globals.transfer; }
+            set { Globals.transfer = value; }
+        }
+        public int DontTransferWithCPOver
+        {
+            get { return Globals.maxCp; }
+            set { Globals.maxCp = value; }
+        }
+        public int ivmaxpercent
+        {
+            get { return Globals.ivmaxpercent; }
+            set { Globals.ivmaxpercent = value; }
+        }
+        public bool EvolvePokemonsIfEnoughCandy
+        {
+            get { return Globals.evolve; }
+            set { Globals.evolve = value; }
+        }
+        public string TelegramAPIToken
+        {
+            get { return Globals.telAPI; }
+            set { Globals.telAPI = value; }
+        }
+        public string TelegramName
+        {
+            get { return Globals.telName; }
+            set { Globals.telName = value; }
+        }
+        public int navigation_option
+        {
+            get { return Globals.navigation_option; }
+            set { Globals.navigation_option = value; }
+        }
+        public bool UseLuckyEgg
+        {
+            get { return Globals.useluckyegg; }
+            set { Globals.useluckyegg = value; }
+        }
+        public bool UseRazzBerry
+        {
+            get { return Globals.userazzberry; }
+            set { Globals.userazzberry = value; }
+        }
+        public double razzberry_chance
+        {
+            get { return Globals.razzberry_chance; }
+            set { Globals.razzberry_chance = value; }
+        }
+        public bool keepPokemonsThatCanEvolve
+        {
+            get { return Globals.keepPokemonsThatCanEvolve; }
+            set { Globals.keepPokemonsThatCanEvolve = value; }
+        }
+        public bool TransferFirstLowIV
+        {
+            get { return Globals.TransferFirstLowIV; }
+            set { Globals.TransferFirstLowIV = value; }
+        }
+        public bool UseBasicIncubators
+        {
+            get { return Globals.useBasicIncubators; }
+            set { Globals.useBasicIncubators = value; }
+        }
+        public bool pokevision
+        {
+            get { return Globals.pokevision; }
+            set { Globals.pokevision = value; }
+        }
+        public bool AutoIncubate
+        {
+            get { return Globals.autoIncubate; }
+            set { Globals.autoIncubate = value; }
+        }
+        public bool UseLuckyEggIfNotRunning
+        {
+            get { return Globals.useLuckyEggIfNotRunning; }
+            set { Globals.useLuckyEggIfNotRunning = value; }
+        }
 
-        public string GoogleUsername => Globals.username;
-
-        public string GooglePassword => Globals.password;
-
-        public bool UseIncense => Globals.useincense;
-
-        AuthType ISettings.AuthType => Globals.acc;
-
-        public string PtcUsername => Globals.username;
-        public string PtcPassword => Globals.password;
-        public double DefaultLatitude => Globals.latitute;
-        public double DefaultLongitude => Globals.longitude;
-        public double DefaultAltitude => Globals.altitude;
-
-        public bool WalkBackToDefaultLocation => Globals.defLoc;
-        public int MaxWalkingRadiusInMeters => Globals.radius;
-
-        public int HoldMaxDoublePokemons => Globals.duplicate;
-        public int TelegramLiveStatsDelay => Globals.telDelay;
-
-        //public bool CatchLurePokemons
-        //{
-        //    get { return Globals.CatchLurePokemons; }
-        //    set { Globals.CatchLurePokemons = value; }
-        //}
-
-        public bool sleepatpokemons => Globals.sleepatpokemons;
-
-        public double WalkingSpeedInKilometerPerHour => Globals.speed;
-
-        public bool TransferDoublePokemons => Globals.transfer;
-        public int DontTransferWithCPOver => Globals.maxCp;
-        public int ivmaxpercent => Globals.ivmaxpercent;
-
-        public bool EvolvePokemonsIfEnoughCandy => Globals.evolve;
-
-        public string TelegramAPIToken => Globals.telAPI;
-        public string TelegramName => Globals.telName;
-
-        public int navigation_option => Globals.navigation_option;
-
-        public bool UseLuckyEgg => Globals.useluckyegg;
-        public bool UseRazzBerry => Globals.userazzberry;
-        public double razzberry_chance => Globals.razzberry_chance;
-        public bool keepPokemonsThatCanEvolve => Globals.keepPokemonsThatCanEvolve;
-        public bool TransferFirstLowIV => Globals.TransferFirstLowIV;
-
-        public bool UseBasicIncubators => Globals.useBasicIncubators;
-        public bool pokevision => Globals.pokevision;
-
-        public bool AutoIncubate => Globals.autoIncubate;
-        public bool UseLuckyEggIfNotRunning => Globals.useLuckyEggIfNotRunning;
-
-        public bool Espiral => Globals.Espiral;
-        public bool MapLoaded => Globals.MapLoaded;
-
-        public string SelectedLanguage => Globals.settingsLanguage;
-
-
-
-        // public bool _pauseTheWalking => Globals._pauseTheWalking;
-        /*
-                 string UseProxyHost { get; set; }
-                int UseProxyPort { get; set; }
-                string UseProxyUsername { get; set; }
-                string UseProxyPassword { get; set; }
-
-                bool UseProxyVerified { get; set; }
-                bool UseProxyAuthentication { get; set; }
-                */
+        public bool Espiral
+        {
+            get { return Globals.Espiral; }
+            set { Globals.Espiral = value; }
+        }
+        public bool MapLoaded
+        {
+            get { return Globals.MapLoaded; }
+            set { Globals.MapLoaded = value; }
+        }
+        public string SelectedLanguage
+        {
+            get { return Globals.settingsLanguage; }
+            set { Globals.settingsLanguage = value; }
+        }
         public string UseProxyHost
         {
-            get
-            {
-                return UserSettings.Default.UseProxyHost;
-            }
-
+            get { return UserSettings.Default.UseProxyHost; }
             set
             {
                 UserSettings.Default.UseProxyHost = value;
@@ -98,11 +198,7 @@ namespace PokemonGo.RocketAPI.Console
 
         public int UseProxyPort
         {
-            get
-            {
-                return UserSettings.Default.UseProxyPort;
-            }
-
+            get { return UserSettings.Default.UseProxyPort; }
             set
             {
                 UserSettings.Default.UseProxyPort = value;
@@ -112,11 +208,7 @@ namespace PokemonGo.RocketAPI.Console
 
         public string UseProxyUsername
         {
-            get
-            {
-                return UserSettings.Default.UseProxyUsername;
-            }
-
+            get { return UserSettings.Default.UseProxyUsername; }
             set
             {
                 UserSettings.Default.UseProxyUsername = value;
@@ -126,11 +218,7 @@ namespace PokemonGo.RocketAPI.Console
 
         public string UseProxyPassword
         {
-            get
-            {
-                return UserSettings.Default.UseProxyPassword;
-            }
-
+            get { return UserSettings.Default.UseProxyPassword; }
             set
             {
                 UserSettings.Default.UseProxyPassword = value;
@@ -140,11 +228,7 @@ namespace PokemonGo.RocketAPI.Console
 
         public bool UseProxyVerified
         {
-            get
-            {
-                return UserSettings.Default.UseProxyVerified;
-            }
-
+            get { return UserSettings.Default.UseProxyVerified; }
             set
             {
                 UserSettings.Default.UseProxyVerified = value;
@@ -154,11 +238,7 @@ namespace PokemonGo.RocketAPI.Console
 
         public bool UseProxyAuthentication
         {
-            get
-            {
-                return UserSettings.Default.UseProxyAuthentication;
-            }
-
+            get { return UserSettings.Default.UseProxyAuthentication; }
             set
             {
                 UserSettings.Default.UseProxyAuthentication = value;
@@ -177,6 +257,10 @@ namespace PokemonGo.RocketAPI.Console
                 }
 
                 return catchPokemonSkipList;
+            }
+            set
+            {
+                Globals.noCatch = value;
             }
         }
 
@@ -207,16 +291,10 @@ namespace PokemonGo.RocketAPI.Console
             {
                 List<PokemonId> pokemonsToEvolve = new List<PokemonId>();
                 foreach (PokemonId pokemon in Globals.doEvolve)
-                {
-                    pokemonsToEvolve.Add(pokemon);
-                }
-
+                { pokemonsToEvolve.Add(pokemon); }
                 return pokemonsToEvolve;
             }
-            set
-            {
-                throw new NotSupportedException();
-            }
+            set { throw new NotSupportedException(); }
         }
 
         ICollection<KeyValuePair<ItemId, int>> ISettings.itemRecycleFilter
@@ -237,10 +315,8 @@ namespace PokemonGo.RocketAPI.Console
                     new KeyValuePair<ItemId, int>(ItemId.ItemRazzBerry, Globals.berry),
                     new KeyValuePair<ItemId, int>(ItemId.ItemMaxPotion, Globals.toppotion),
                     new KeyValuePair<ItemId, int>(ItemId.ItemMaxRevive, Globals.toprevive)
-
                 };
             }
-
             set
             {
                 throw new NotSupportedException();
@@ -354,15 +430,8 @@ namespace PokemonGo.RocketAPI.Console
         }
         bool ISettings.Espiral
         {
-            get
-            {
-                return Globals.Espiral;
-            }
-
-            set
-            {
-                Globals.Espiral = value;
-            }
+            get { return Globals.Espiral; }
+            set { Globals.Espiral = value; }
         }
 
         public int Pb_Excellent
@@ -391,81 +460,41 @@ namespace PokemonGo.RocketAPI.Console
 
         bool ISettings.logPokemons
         {
-            get
-            {
-                return Globals.logPokemons;
-            }
-
-            set
-            {
-                Globals.logPokemons = value;
-            }
+            get { return Globals.logPokemons; }
+            set { Globals.logPokemons = value; }
         }
 
         bool ISettings.logManualTransfer
         {
-            get
-            {
-                return Globals.logManualTransfer;
-            }
-
-            set
-            {
-                Globals.logManualTransfer = value;
-            }
+            get { return Globals.logManualTransfer; }
+            set { Globals.logManualTransfer = value; }
         }
 
         bool ISettings.bLogEvolve
         {
-            get
-            {
-                return Globals.bLogEvolve;
-            }
-
-            set
-            {
-                Globals.bLogEvolve = value;
-            }
+            get { return Globals.bLogEvolve; }
+            set { Globals.bLogEvolve = value; }
         }
 
         bool ISettings.CheckWhileRunning
         {
-            get
-            {
-                return Globals.CheckWhileRunning;
-            }
-            set
-            {
-                Globals.CheckWhileRunning = value;
-            }
+            get { return Globals.CheckWhileRunning; }
+            set { Globals.CheckWhileRunning = value; }
         }
 
         bool ISettings.autoUpdate
         {
-            get
-            {
-                return Globals.AutoUpdate;
-            }
-            set
-            {
-                Globals.AutoUpdate = value;
-            }
+            get { return Globals.AutoUpdate; }
+            set { Globals.AutoUpdate = value; }
         }
 
         bool ISettings.logEggs
         {
-            get
-            {
-                return Globals.LogEggs;
-            }
-            set
-            {
-                Globals.LogEggs = value;
-            }
+            get { return Globals.LogEggs; }
+            set { Globals.LogEggs = value; }
         }
 
         public LinkedList<GeoCoordinate> NextDestinationOverride
-
         {
             get { return Globals.NextDestinationOverride; }
             set { Globals.NextDestinationOverride = value; }
@@ -542,10 +571,7 @@ namespace PokemonGo.RocketAPI.Console
         }
         bool ISettings.pauseTheWalking
         {
-            get
-            {
-                return Globals._pauseTheWalking;
-            }
+            get { return Globals._pauseTheWalking; }
             set
             {
                 if (Logic.Logic._instance != null)
