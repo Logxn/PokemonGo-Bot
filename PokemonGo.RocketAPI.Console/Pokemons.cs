@@ -1509,37 +1509,44 @@ namespace PokemonGo.RocketAPI.Console
                 MessageBox.Show(ex.Message);
                 textBox5.Text = "";
             }
-            if ( (!lat.Equals( Globals.latitute)) && (! lng.Equals(Globals.longitude) ))
+            try
             {
-                Globals.latitute = lat;
-                Globals.longitude = lng;
-                var elevationRequest = new ElevationRequest()
-                {
-                    Locations = new[] { new Location(lat, lng) },
-                };
-                if (!Globals.GoogleMapsAPIKey.Equals(string.Empty))
-                    elevationRequest.ApiKey = Globals.GoogleMapsAPIKey;
-                try
-                {
-                    ElevationResponse elevation = GoogleMaps.Elevation.Query(elevationRequest);
-                    if (elevation.Status == Status.OK)
-                    {
-                        foreach (Result result in elevation.Results)
-                        {
-                            Globals.altitude = result.Elevation;
-                        }
-                    }
-                }
-                catch (Exception)
-                {
-                    // ignored
-                }
-                Globals.RelocateDefaultLocation = true;
-                numTravelSpeed.Value = 0;
-                textBox4.Text = "";
-                textBox5.Text = "";
-                Logger.ColoredConsoleWrite(ConsoleColor.Green, "Default Location Set will navigate there after next pokestop!");
-            }          
+	            if ( (!lat.Equals( Globals.latitute)) && (! lng.Equals(Globals.longitude) ))
+	            {
+	                Globals.latitute = lat;
+	                Globals.longitude = lng;
+	                var elevationRequest = new ElevationRequest()
+	                {
+	                    Locations = new[] { new Location(lat, lng) },
+	                };
+	                if (!Globals.GoogleMapsAPIKey.Equals(string.Empty))
+	                    elevationRequest.ApiKey = Globals.GoogleMapsAPIKey;
+	                try
+	                {
+	                    ElevationResponse elevation = GoogleMaps.Elevation.Query(elevationRequest);
+	                    if (elevation.Status == Status.OK)
+	                    {
+	                        foreach (Result result in elevation.Results)
+	                        {
+	                            Globals.altitude = result.Elevation;
+	                        }
+	                    }
+	                }
+	                catch (Exception)
+	                {
+	                    // ignored
+	                }
+	                Globals.RelocateDefaultLocation = true;
+	                numTravelSpeed.Value = 0;
+	                textBox4.Text = "";
+	                textBox5.Text = "";
+	                Logger.ColoredConsoleWrite(ConsoleColor.Green, "Default Location Set will navigate there after next pokestop!");
+	            }          
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private void button5_Click(object sender, EventArgs e)
