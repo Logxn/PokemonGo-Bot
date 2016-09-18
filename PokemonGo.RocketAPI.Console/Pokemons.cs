@@ -1519,7 +1519,7 @@ namespace PokemonGo.RocketAPI.Console
 	                {
 	                    Locations = new[] { new Location(lat, lng) },
 	                };
-	                if (!Globals.GoogleMapsAPIKey.Equals(string.Empty))
+	                if (Globals.GoogleMapsAPIKey !="")
 	                    elevationRequest.ApiKey = Globals.GoogleMapsAPIKey;
 	                try
 	                {
