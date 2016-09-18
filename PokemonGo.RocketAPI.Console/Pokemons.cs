@@ -214,7 +214,8 @@ namespace PokemonGo.RocketAPI.Console
                             listViewItem.SubItems.Add("");
                             listViewItem.SubItems.Add("");
                         }
-
+						// NOTE: yyyy/MM/dd is inverted order to can sort correctly as text. 
+                        listViewItem.SubItems.Add(new DateTime((long)pokemon.CreationTimeMs * 10000).AddYears(1969).ToString("yyyy/MM/dd HH:mm:ss"));
 
                         PokemonListView.Items.Add(listViewItem);
                     }
@@ -1409,10 +1410,13 @@ namespace PokemonGo.RocketAPI.Console
 	        columnheader = new ColumnHeader();
 	        columnheader.Name = "Type 2";
 	        columnheader.Text = columnheader.Name;
-	        PokemonListView.Columns.Add(columnheader); 
-	        
-	        PokemonListView.Columns["#"].DisplayIndex = 0;
-	        
+	        PokemonListView.Columns.Add(columnheader); 	
+	        columnheader = new ColumnHeader();	        
+	        columnheader.Name = "Catch Date";
+	        columnheader.Text = columnheader.Name;
+	        PokemonListView.Columns.Add(columnheader);	       
+	                
+	        PokemonListView.Columns["#"].DisplayIndex = 0;	        
 	        PokemonListView.ColumnClick += new ColumnClickEventHandler(PokemonListView_ColumnClick);
             PokemonListView.ShowItemToolTips = true;
             PokemonListView.DoubleBuffered(true);
