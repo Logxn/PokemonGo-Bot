@@ -216,6 +216,11 @@ namespace PokemonGo.RocketAPI.Console
                         }
 						// NOTE: yyyy/MM/dd is inverted order to can sort correctly as text. 
                         listViewItem.SubItems.Add(StringUtils.ConvertTimeMSinString(pokemon.CreationTimeMs, "yyyy/MM/dd HH:mm:ss"));
+                        listViewItem.SubItems.Add(pokemon.Pokeball.ToString().Replace("Item",""));
+                        listViewItem.SubItems.Add(""+pokemon.NumUpgrades);
+                        listViewItem.SubItems.Add(""+pokemon.IsEgg.ToString());
+                        listViewItem.SubItems.Add(""+pokemon.BattlesAttacked);
+                        listViewItem.SubItems.Add(""+pokemon.BattlesDefended);
 
                         PokemonListView.Items.Add(listViewItem);
                     }
@@ -1410,18 +1415,27 @@ namespace PokemonGo.RocketAPI.Console
 	        columnheader = new ColumnHeader();
 	        columnheader.Name = "Type 2";
 	        columnheader.Text = columnheader.Name;
-	        PokemonListView.Columns.Add(columnheader); 	
-	        columnheader = new ColumnHeader();	        
-	        columnheader.Name = "Catch Date";
-	        columnheader.Text = columnheader.Name;
-	        PokemonListView.Columns.Add(columnheader);	       
-	                
+
+   	        PokemonListView.Columns.Add(CreateColumn("Catch Date"));
+	        PokemonListView.Columns.Add(CreateColumn("Pokeball"));
+	        PokemonListView.Columns.Add(CreateColumn("Num Upgrades"));
+	        PokemonListView.Columns.Add(CreateColumn("Is Egg"));
+	        PokemonListView.Columns.Add(CreateColumn("Battles Attacked"));
+	        PokemonListView.Columns.Add(CreateColumn("Battles Defended"));
+	        
 	        PokemonListView.Columns["#"].DisplayIndex = 0;	        
 	        PokemonListView.ColumnClick += new ColumnClickEventHandler(PokemonListView_ColumnClick);
             PokemonListView.ShowItemToolTips = true;
             PokemonListView.DoubleBuffered(true);
             PokemonListView.View = View.Details;
 
+        }        
+        
+        private ColumnHeader CreateColumn(string name){
+        	var columnheader = new ColumnHeader();	        
+	        columnheader.Name = name;
+	        columnheader.Text = name;
+	        return columnheader;
         }
 
 
