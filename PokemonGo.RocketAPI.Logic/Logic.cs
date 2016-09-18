@@ -1298,6 +1298,15 @@ namespace PokemonGo.RocketAPI.Logic
                 bool used = false;
                 do
                 {
+                    // Check if the best ball is still valid
+                    if (bestPokeball == ItemId.ItemUnknown)
+                    {
+                        Logger.ColoredConsoleWrite(ConsoleColor.Red, $"No Pokeballs! - missed {pokeid} CP {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} IV {PokemonInfo.CalculatePokemonPerfection(encounterPokemonResponse.WildPokemon.PokemonData).ToString("0.00")}%");
+                        Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Detected all balls out of stock - disabling pokemon catch until restock of at least 1 ball type occurs");
+                        pokeballoutofstock = true;
+                        _clientSettings.CatchPokemon = false;
+                        return;
+                    }
                     if (((probability.HasValue && probability.Value < _clientSettings.razzberry_chance) || escaped) && _clientSettings.UseRazzBerry && !used)
                     {
                         var bestBerry = await GetBestBerry(encounterPokemonResponse?.WildPokemon);
@@ -1385,9 +1394,10 @@ namespace PokemonGo.RocketAPI.Logic
                         escaped = true;
                         //reset forceHit in case we randomly triggered on last throw.
                         forceHit = false;
-                        if (berryThrown) bestPokeball = await GetBestBall(encounterPokemonResponse?.WildPokemon, true);
                         await RandomHelper.RandomDelay(1500, 6000);
                     }
+                    // Update the best ball to ensure we can still throw
+                    bestPokeball = await GetBestBall(encounterPokemonResponse?.WildPokemon, escaped)
                 }
                 while (caughtPokemonResponse.Status == CatchPokemonResponse.Types.CatchStatus.CatchMissed || caughtPokemonResponse.Status == CatchPokemonResponse.Types.CatchStatus.CatchEscape);
 
