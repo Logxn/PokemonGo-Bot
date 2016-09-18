@@ -1397,7 +1397,7 @@ namespace PokemonGo.RocketAPI.Logic
                         await RandomHelper.RandomDelay(1500, 6000);
                     }
                     // Update the best ball to ensure we can still throw
-                    bestPokeball = await GetBestBall(encounterPokemonResponse?.WildPokemon, escaped)
+                    bestPokeball = await GetBestBall(encounterPokemonResponse?.WildPokemon, escaped);
                 }
                 while (caughtPokemonResponse.Status == CatchPokemonResponse.Types.CatchStatus.CatchMissed || caughtPokemonResponse.Status == CatchPokemonResponse.Types.CatchStatus.CatchEscape);
 
