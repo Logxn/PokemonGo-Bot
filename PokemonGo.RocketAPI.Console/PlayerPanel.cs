@@ -253,6 +253,7 @@ namespace PokemonGo.RocketAPI.Console
 		                var resp2 = await SelectTeam(team);
 		                if (resp2.Status)
 		                {
+		                	Logger.ColoredConsoleWrite(ConsoleColor.Green, "Selected Team: " + team.ToString());
 		                	Execute(profile, pokemons);
 		                }
 		                else
@@ -263,8 +264,10 @@ namespace PokemonGo.RocketAPI.Console
 	            }
 	            else
 	            	MessageBox.Show("Set Team failed!\n non nearby Gym ", "Set Team Status", MessageBoxButtons.OK);
-
 			}
+            else
+            	MessageBox.Show("Set Team canceled!", "Set Team Status", MessageBoxButtons.OK);
+			
 		}
 		
 		public class taskResponse
