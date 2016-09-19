@@ -8,7 +8,7 @@ using System.Device.Location;
 
 namespace PokemonGo.RocketAPI.Console
 {
-    public class Profile 
+    public class Profile
     {
         public string ProfileName
         {
@@ -29,14 +29,14 @@ namespace PokemonGo.RocketAPI.Console
         {
             get;
             set;
-        }        
+        }
     }
     public class Settings : ISettings
     {
         /* ===================================[SETTINGS]================================= */
 
         /* AUTHENTICATION */
-        
+
         public string ProfileName
         {
             get { return Globals.ProfileName; }
@@ -49,7 +49,7 @@ namespace PokemonGo.RocketAPI.Console
         }
         public Enums.AuthType AuthType
         {
-            get { return Globals.acc;  }
+            get { return Globals.acc; }
             set { Globals.acc = value; }
         }
         public string PtcUsername
@@ -242,8 +242,8 @@ namespace PokemonGo.RocketAPI.Console
         {
             get { return Globals.useincense; }
             set { Globals.useincense = value; }
-        }             
-        
+        }
+
         public int TelegramLiveStatsDelay
         {
             get { return Globals.telDelay; }
@@ -259,12 +259,12 @@ namespace PokemonGo.RocketAPI.Console
             get { return Globals.ivmaxpercent; }
             set { Globals.ivmaxpercent = value; }
         }
-        public int MinCPforGreatBall 
+        public int MinCPforGreatBall
         {
             get { return Globals.MinCPforGreatBall; }
             set { Globals.MinCPforGreatBall = value; }
         }
-        public int MinCPforUltraBall 
+        public int MinCPforUltraBall
         {
             get { return Globals.MinCPforUltraBall; }
             set { Globals.MinCPforUltraBall = value; }
@@ -407,23 +407,20 @@ namespace PokemonGo.RocketAPI.Console
 
         public IList<PokemonId> catchPokemonSkipList
         {
-            get { return new List<PokemonId>(); }
+            get { return Globals.noCatch; }
             set { Globals.noCatch = value; }
         }
 
         public IList<PokemonId> pokemonsToHold
         {
-            get { return new List<PokemonId>(); }
+            get { return Globals.noTransfer; }
             set { Globals.noTransfer = value; }
 
-        }        
+        }
 
         public IList<PokemonId> pokemonsToEvolve
         {
-            get
-            {
-                return new List<PokemonId>();
-            }
+            get { return Globals.doEvolve; }
             set { Globals.doEvolve = value; }
         }
 
@@ -463,31 +460,31 @@ namespace PokemonGo.RocketAPI.Console
                             break;
                         case ItemId.ItemRevive:
                             Globals.revive = item.Value;
-                            break;                            
+                            break;
                         case ItemId.ItemMaxRevive:
                             Globals.toprevive = item.Value;
-                            break;                            
+                            break;
                         case ItemId.ItemPotion:
                             Globals.potion = item.Value;
-                            break;                            
+                            break;
                         case ItemId.ItemSuperPotion:
                             Globals.superpotion = item.Value;
-                            break;                            
+                            break;
                         case ItemId.ItemHyperPotion:
                             Globals.hyperpotion = item.Value;
-                            break;                            
+                            break;
                         case ItemId.ItemMaxPotion:
                             Globals.toppotion = item.Value;
-                            break;                            
+                            break;
                         case ItemId.ItemRazzBerry:
                             Globals.berry = item.Value;
-                            break;                            
+                            break;
                         default:
                             break;
                     }
                 }
             }
-        }        
+        }
         public bool pauseAtPokeStop
         {
             get { return Globals.pauseAtPokeStop; }
@@ -678,7 +675,7 @@ namespace PokemonGo.RocketAPI.Console
             get { return Globals.CheckWhileRunning; }
             set { Globals.CheckWhileRunning = value; }
         }
-       public int InventoryBasePokeball
+        public int InventoryBasePokeball
         {
             get { return Globals.InventoryBasePokeball; }
             set { Globals.InventoryBasePokeball = value; }

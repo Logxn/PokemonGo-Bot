@@ -210,8 +210,7 @@ namespace PokemonGo.RocketAPI.Console
             try
             {
                 if (configString != "")
-                {
-                    var strippedstring = configString.Trim('"');
+                {                    
                     var settings = new JsonSerializerSettings
                     {
                         Error = (sender, args) =>
@@ -222,7 +221,7 @@ namespace PokemonGo.RocketAPI.Console
                             }
                         }
                     };
-                    var config = Newtonsoft.Json.JsonConvert.DeserializeObject<Settings>(strippedstring, settings);
+                    var config = Newtonsoft.Json.JsonConvert.DeserializeObject<Settings>(configString, settings);
                     if (config.AuthType == Enums.AuthType.Google)
                     {
                         comboBox_AccountType.SelectedIndex = 0;
@@ -301,8 +300,7 @@ namespace PokemonGo.RocketAPI.Console
 
                     if (checkbox_PWDEncryption.Checked)
                     {
-                        text_Password.Text = Encryption.Decrypt(text_Password.Text);
-                        Globals.password = Encryption.Decrypt(text_Password.Text);
+                        Globals.password = Encryption.Decrypt(Globals.password);
                     }
 
                     text_Pb_Excellent.Text = config.Pb_Excellent.ToString();
@@ -331,9 +329,9 @@ namespace PokemonGo.RocketAPI.Console
 
                     text_MaxRazzBerrys.Text = config.MaxBerries.ToString();
 
-                    text_MaxTopPotions.Text = config.MaxRevives.ToString();
+                    text_MaxTopPotions.Text = config.MaxTopPotions.ToString();
 
-                    text_MaxTopRevives.Text = config.MaxRevives.ToString();
+                    text_MaxTopRevives.Text = config.MaxTopRevives.ToString();
 
                     logPokemon.Checked = config.LogPokemon;
 
@@ -409,7 +407,7 @@ namespace PokemonGo.RocketAPI.Console
                             checkedListBox_PokemonToEvolve.SetItemChecked(evolveIDS[_id] - 1, true);
                         }
                     }
-                    _clientSettings = config;
+                    //_clientSettings = config;
                 }
                 else
                 {
@@ -420,9 +418,8 @@ namespace PokemonGo.RocketAPI.Console
             catch (Exception e)
             {
                 if (!e.Message.Contains("Loading Defaults"))
-                    MessageBox.Show("Your Config is broken, check if every setting is right!");
-                else
-                    MessageBox.Show("Default Config Empty - Loading Default Values");
+                    MessageBox.Show("Your config is broken, check every setting before starting bot!");
+                
                 text_Latidude.Text = "40,764883";
                 text_Longitude.Text = "-73,972967";
                 text_Altidude.Text = "10";
@@ -844,15 +841,15 @@ namespace PokemonGo.RocketAPI.Console
                 Globals.TimeToRun = 0;
             foreach (string pokemon in checkedListBox_PokemonNotToTransfer.CheckedItems)
             {                
-                _clientSettings.pokemonsToHold.Add((PokemonId)Enum.Parse(typeof(PokemonId), pokemon));
+                Globals.noTransfer.Add((PokemonId)Enum.Parse(typeof(PokemonId), pokemon));
             }
             foreach (string pokemon in checkedListBox_PokemonNotToCatch.CheckedItems)
             {
-                _clientSettings.catchPokemonSkipList.Add((PokemonId)Enum.Parse(typeof(PokemonId), pokemon));
+                Globals.noCatch.Add((PokemonId)Enum.Parse(typeof(PokemonId), pokemon));
             }
             foreach (string pokemon in checkedListBox_PokemonToEvolve.CheckedItems)
             {
-                _clientSettings.pokemonsToEvolve.Add((PokemonId)Enum.Parse(typeof(PokemonId), pokemon));
+                Globals.doEvolve.Add((PokemonId)Enum.Parse(typeof(PokemonId), pokemon));
             }
 
             #endregion
@@ -882,7 +879,8 @@ namespace PokemonGo.RocketAPI.Console
                 {
                     if (_profile.ProfileName != ActiveProfile.ProfileName)
                     {                        
-                        newProfiles.Add(_profile);                        
+                        newProfiles.Add(_profile);
+                        found = true;                     
                     }
                     else if (!found)
                     {
@@ -896,6 +894,10 @@ namespace PokemonGo.RocketAPI.Console
             }
             profileJSON = Newtonsoft.Json.JsonConvert.SerializeObject(newProfiles);
             File.WriteAllText(@Program.accountProfiles, profileJSON);
+            if (Globals.usePwdEncryption)
+            {
+                Globals.password = Encryption.Decrypt(Globals.password);
+            }
             #endregion
         }
 
@@ -1447,7 +1449,7 @@ namespace PokemonGo.RocketAPI.Console
 
         private void checkBox3_CheckedChanged(object sender, EventArgs e)
         {
-
+            Globals.evolve = checkBox3.Checked;
         }
 
         private void button4_Click(object sender, EventArgs e)
