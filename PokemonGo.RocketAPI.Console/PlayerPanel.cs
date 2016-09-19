@@ -16,6 +16,9 @@ using POGOProtos.Data;
 using PokemonGo.RocketAPI.Logic.Utils;
 using System.Globalization;
 using System.Linq;
+using System.Threading.Tasks;
+using System.Collections;
+using POGOProtos.Map.Fort;
 
 namespace PokemonGo.RocketAPI.Console
 {
@@ -227,5 +230,108 @@ namespace PokemonGo.RocketAPI.Console
                 return null;
             }
         }
+		private async void BtnTeamClick(object sender, EventArgs e)
+		{
+			var teamSelect =new TeamSelect();
+			if (teamSelect.ShowDialog() == DialogResult.OK){
+				
+				
+				// Simulate to enter in a gym before select a team.
+				var client = Logic.Logic._client;
+				var mapObjects = await client.Map.GetMapObjects();
+				var mapCells = mapObjects.Item1.MapCells;
+				
+				var pokeGyms = mapCells.SelectMany(i => i.Forts)
+	            			.Where(i => i.Type == FortType.Gym );
+	            if (pokeGyms.Any() )
+	            {
+	            	var pokegym = pokeGyms.First();
+
+	                var resp = await GetGym(pokegym.Id,pokegym.Latitude,pokegym.Longitude);
+	                if (resp.Status)
+	                {
+						var team = teamSelect.selected;				
+		                var resp2 = await SelectTeam(team);
+		                if (resp2.Status)
+		                {
+		                	Logger.ColoredConsoleWrite(ConsoleColor.Green, "Selected Team: " + team.ToString());
+		                	Execute(profile, pokemons);
+		                }
+		                else
+		                    MessageBox.Show(resp.Message + "Set Team failed!", "Set Team Status", MessageBoxButtons.OK);
+	                }
+	                else
+	                    MessageBox.Show(resp.Message + "Set Team failed!", "Set Team Status", MessageBoxButtons.OK);            	               
+	            }
+	            else
+	            	MessageBox.Show("Set Team failed!\n non nearby Gym ", "Set Team Status", MessageBoxButtons.OK);
+			}
+            else
+            	MessageBox.Show("Set Team canceled!", "Set Team Status", MessageBoxButtons.OK);
+			
+		}
+		
+		public class taskResponse
+        {
+            public bool Status { get; set; }
+            public string Message { get; set; }
+            public taskResponse() { }
+            public taskResponse(bool status, string message)
+            {
+                Status = status;
+                Message = message;
+            }
+        }
+		private static async Task<taskResponse> SelectTeam(TeamColor teamColor)
+        {
+            taskResponse resp1 = new taskResponse(false, string.Empty);
+            try
+            {
+            	var client = Logic.Logic._client;
+            	var resp2 = await client.Player.SetPlayerTeam(teamColor);
+
+                if (resp2.Status == SetPlayerTeamResponse.Types.Status.Success)
+                {
+                    resp1.Status = true;
+                }
+                else
+                {
+                	resp1.Message = teamColor.ToString();
+                }
+            }
+            catch (Exception e)
+            {
+                Logger.ColoredConsoleWrite(ConsoleColor.Red, "Error SelectTeam: " + e.Message);
+                await SelectTeam(teamColor);
+            }
+            return resp1;
+        }	
+		
+		private static async Task<taskResponse> GetGym(string gym, double lat, double lng)
+        {
+            taskResponse resp1 = new taskResponse(false, string.Empty);
+            try
+            {
+            	var client = Logic.Logic._client;
+            	var resp2 = await client.Fort.GetGymDetails( gym,lat,lng);
+
+                if (resp2.Result == GetGymDetailsResponse.Types.Result.Success)
+                {
+                    resp1.Status = true;
+                }
+                else
+                {
+                	resp1.Message = gym;
+                }
+            }
+            catch (Exception e)
+            {
+                Logger.ColoredConsoleWrite(ConsoleColor.Red, "Error GetGym: " + e.Message);
+                await GetGym(gym,lat,lng);
+            }
+            return resp1;
+        }			
+		
+		//GetGymDetails
     }
 }

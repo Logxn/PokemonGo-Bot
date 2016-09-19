@@ -32,6 +32,7 @@ namespace PokemonGo.RocketAPI.Console
 		private System.Windows.Forms.PictureBox pictureBoxBuddyPokemon;
 		private System.Windows.Forms.PictureBox pictureBoxPlayerAvatar;
 		private System.Windows.Forms.Label labelNoTeamSelected;
+		private System.Windows.Forms.Button btnTeam;
 		
 		/// <summary>
 		/// Disposes resources used by the control.
@@ -72,6 +73,7 @@ namespace PokemonGo.RocketAPI.Console
 			this.pictureBoxBuddyPokemon = new System.Windows.Forms.PictureBox();
 			this.pictureBoxPlayerAvatar = new System.Windows.Forms.PictureBox();
 			this.labelNoTeamSelected = new System.Windows.Forms.Label();
+			this.btnTeam = new System.Windows.Forms.Button();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBoxTeam)).BeginInit();
 			this.panelLeftArea.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBoxBuddyPokemon)).BeginInit();
@@ -242,7 +244,6 @@ namespace PokemonGo.RocketAPI.Console
 			// 
 			// pictureBoxBuddyPokemon
 			// 
-			//this.pictureBoxBuddyPokemon.Image = global::PokemonGo.RocketAPI.Console.Properties.Resources._1_200;
 			this.pictureBoxBuddyPokemon.Location = new System.Drawing.Point(2, 96);
 			this.pictureBoxBuddyPokemon.Margin = new System.Windows.Forms.Padding(2);
 			this.pictureBoxBuddyPokemon.Name = "pictureBoxBuddyPokemon";
@@ -273,10 +274,22 @@ namespace PokemonGo.RocketAPI.Console
 			this.labelNoTeamSelected.Text = "No Team selected";
 			this.labelNoTeamSelected.TextAlign = System.Drawing.ContentAlignment.TopCenter;
 			// 
+			// btnTeam
+			// 
+			this.btnTeam.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.btnTeam.Location = new System.Drawing.Point(576, 166);
+			this.btnTeam.Name = "btnTeam";
+			this.btnTeam.Size = new System.Drawing.Size(75, 23);
+			this.btnTeam.TabIndex = 102;
+			this.btnTeam.Text = "Select Team";
+			this.btnTeam.UseVisualStyleBackColor = true;
+			this.btnTeam.Click += new System.EventHandler(this.BtnTeamClick);
+			// 
 			// PlayerPanel
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.Controls.Add(this.btnTeam);
 			this.Controls.Add(this.labelUserProperty6Value);
 			this.Controls.Add(this.labelUserProperty6Title);
 			this.Controls.Add(this.labelUserProperty5Value);

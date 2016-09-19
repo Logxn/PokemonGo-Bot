@@ -690,14 +690,21 @@ namespace PokemonGo.RocketAPI.Logic
             return pokeStops;
         }
 
-        private async Task fncPokeStop(Client client, FortData[] pokeStops, bool metros30)
+        private async Task fncPokeStop(Client client, FortData[] pokeStopsIn, bool metros30)
         {
             //calculate player distance from start to use later
             var distanceFromStart = LocationUtils.CalculateDistanceInMeters(_clientSettings.DefaultLatitude, _clientSettings.DefaultLongitude, _client.CurrentLatitude, _client.CurrentLongitude);
             //Clear this every so often to prevent bloat on long runs
             lureEncounters.Clear();
+            
+            // TODO: do it optionable
+            // Reordering array randomly to do it a little more difficult to detect.
+            // Random rnd=new Random();
+			//FortData[] pokeStops = pokeStopsIn.OrderBy(x => rnd.Next()).ToArray();
+			FortData[] pokeStops = pokeStopsIn;
+			
             //walk between pokestops in default collection
-            foreach (var pokeStop in pokeStops)
+			foreach (var pokeStop in pokeStops)
             {
                 //check if map has pokestops loaded and load if not
                 if (_clientSettings.MapLoaded && !stopsloaded)

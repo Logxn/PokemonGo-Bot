@@ -66,7 +66,7 @@ namespace PokemonGo.RocketAPI.Console
 			else
 			{
 				selected = (EggIncubator)listView.SelectedItems[0].Tag;
-				((Button) sender).DialogResult = DialogResult.OK;
+				DialogResult = DialogResult.OK;
 				this.Close();
 			}
 			

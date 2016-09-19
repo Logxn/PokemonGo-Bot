@@ -135,7 +135,7 @@ namespace PokemonGo.RocketAPI.Console
 
             var loaded = false;
             Profile blankProfile = new Profile();
-            blankProfile.ProfileName = "Default_Profile";
+            blankProfile.ProfileName = "DefaultProfile";
             blankProfile.IsDefault = true;
             blankProfile.RunOrder = 1;
             blankProfile.SettingsJSON = "";
@@ -147,7 +147,7 @@ namespace PokemonGo.RocketAPI.Console
                 {
                     string JSONstring = File.ReadAllText(@Program.accountProfiles);
                     Collection<Profile> profiles = JsonConvert.DeserializeObject<Collection<Profile>>(JSONstring);
-                    if (profiles.Count == 1 && profiles.First().ProfileName != "Default_Profile")
+                    if (profiles.Count == 1 && profiles.First().ProfileName != "DefaultProfile")
                     {
                         Globals.Profiles.Add(blankProfile);
                     }
