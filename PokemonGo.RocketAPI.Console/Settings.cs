@@ -408,14 +408,15 @@ namespace PokemonGo.RocketAPI.Console
         public IList<PokemonId> catchPokemonSkipList
         {
             get { return new List<PokemonId>(); }
-            set {  }
+            set { Globals.noCatch = value; }
         }
 
         public IList<PokemonId> pokemonsToHold
         {
             get { return new List<PokemonId>(); }
-            set { }            
-        }
+            set { Globals.noTransfer = value; }
+
+        }        
 
         public IList<PokemonId> pokemonsToEvolve
         {
@@ -423,7 +424,7 @@ namespace PokemonGo.RocketAPI.Console
             {
                 return new List<PokemonId>();
             }
-            set {  }
+            set { Globals.doEvolve = value; }
         }
 
         public ICollection<KeyValuePair<ItemId, int>> itemRecycleFilter
