@@ -697,9 +697,12 @@ namespace PokemonGo.RocketAPI.Logic
             //Clear this every so often to prevent bloat on long runs
             lureEncounters.Clear();
             
+            // TODO: do it optionable
             // Reordering array randomly to do it a little more difficult to detect.
-            Random rnd=new Random();
-			FortData[] pokeStops = pokeStopsIn.OrderBy(x => rnd.Next()).ToArray(); 
+            // Random rnd=new Random();
+			//FortData[] pokeStops = pokeStopsIn.OrderBy(x => rnd.Next()).ToArray();
+			FortData[] pokeStops = pokeStopsIn;
+			
             //walk between pokestops in default collection
 			foreach (var pokeStop in pokeStops)
             {
