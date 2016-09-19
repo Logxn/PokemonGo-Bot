@@ -18,6 +18,7 @@ using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Collections;
+using POGOProtos.Map.Fort;
 
 namespace PokemonGo.RocketAPI.Console
 {
@@ -234,16 +235,35 @@ namespace PokemonGo.RocketAPI.Console
 			var teamSelect =new TeamSelect();
 			if (teamSelect.ShowDialog() == DialogResult.OK){
 				
-				//TODO: Simulate to enter in a gym before select a team.
+				// Simulate to enter in a gym before select a team.
+				var client = Logic.Logic._client;
+				var mapObjects = await client.Map.GetMapObjects();
+				var mapCells = mapObjects.Item1.MapCells;
 				
-				var team = teamSelect.selected;				
-                var resp = await SelectTeam(team);
-                if (resp.Status)
-                {
-                	Execute(profile, pokemons);
-                }
-                else
-                    MessageBox.Show(resp.Message + "Set Team failed!", "Set Team Status", MessageBoxButtons.OK);				
+				var pokeGyms = mapCells.SelectMany(i => i.Forts)
+	            			.Where(i => i.Type == FortType.Gym );
+	            if (pokeGyms.Any() )
+	            {
+	            	var pokegym = pokeGyms.First();
+
+	                var resp = await GetGym(pokegym.Id,pokegym.Latitude,pokegym.Longitude);
+	                if (resp.Status)
+	                {
+						var team = teamSelect.selected;				
+		                var resp2 = await SelectTeam(team);
+		                if (resp2.Status)
+		                {
+		                	Execute(profile, pokemons);
+		                }
+		                else
+		                    MessageBox.Show(resp.Message + "Set Team failed!", "Set Team Status", MessageBoxButtons.OK);
+	                }
+	                else
+	                    MessageBox.Show(resp.Message + "Set Team failed!", "Set Team Status", MessageBoxButtons.OK);            	               
+	            }
+	            else
+	            	MessageBox.Show("Set Team failed!\n non nearby Gym ", "Set Team Status", MessageBoxButtons.OK);
+
 			}
 		}
 		
@@ -281,6 +301,33 @@ namespace PokemonGo.RocketAPI.Console
                 await SelectTeam(teamColor);
             }
             return resp1;
-        }		
+        }	
+		
+		private static async Task<taskResponse> GetGym(string gym, double lat, double lng)
+        {
+            taskResponse resp1 = new taskResponse(false, string.Empty);
+            try
+            {
+            	var client = Logic.Logic._client;
+            	var resp2 = await client.Fort.GetGymDetails( gym,lat,lng);
+
+                if (resp2.Result == GetGymDetailsResponse.Types.Result.Success)
+                {
+                    resp1.Status = true;
+                }
+                else
+                {
+                	resp1.Message = gym;
+                }
+            }
+            catch (Exception e)
+            {
+                Logger.ColoredConsoleWrite(ConsoleColor.Red, "Error GetGym: " + e.Message);
+                await GetGym(gym,lat,lng);
+            }
+            return resp1;
+        }			
+		
+		//GetGymDetails
     }
 }

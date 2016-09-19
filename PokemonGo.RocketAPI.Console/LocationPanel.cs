@@ -745,7 +745,7 @@ namespace PokemonGo.RocketAPI.Console
                     bmp = Properties.Resources.player_yellow;
                     break;
             }
-            routeOverlay.IsVisibile =false;
+            routeOverlay.IsVisibile =true;
             PointLatLng pointLatLng;
             if (_botMarker !=null){
         		pointLatLng = _botMarker.Position;
@@ -758,7 +758,7 @@ namespace PokemonGo.RocketAPI.Console
             _botMarker.ToolTip.Font = new System.Drawing.Font("Arial", 12, System.Drawing.GraphicsUnit.Pixel);
             _botMarker.ToolTipMode = MarkerTooltipMode.OnMouseOver;
             routeOverlay.Markers.Add(_botMarker);
-			routeOverlay.IsVisibile =true;
+			routeOverlay.IsVisibile =false;
 		}	
 	}
 }
