@@ -25,10 +25,7 @@ namespace PokemonGo.RocketAPI.Console
 			// The InitializeComponent() call is required for Windows Forms designer support.
 			//
 			InitializeComponent();
-			
-			//
-			// TODO: Add constructor code after the InitializeComponent() call.
-			//
+
 		}
 		void ButtonOkClick(object sender, EventArgs e)
 		{
@@ -48,7 +45,7 @@ namespace PokemonGo.RocketAPI.Console
 						break;
 				}
 				
-				((Button) sender).DialogResult = DialogResult.OK;
+				DialogResult = DialogResult.OK;
 				this.Close();
 			}
 		}

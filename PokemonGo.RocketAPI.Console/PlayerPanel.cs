@@ -235,6 +235,7 @@ namespace PokemonGo.RocketAPI.Console
 			var teamSelect =new TeamSelect();
 			if (teamSelect.ShowDialog() == DialogResult.OK){
 				
+				
 				// Simulate to enter in a gym before select a team.
 				var client = Logic.Logic._client;
 				var mapObjects = await client.Map.GetMapObjects();

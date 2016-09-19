@@ -54,7 +54,7 @@ namespace PokemonGo.RocketAPI.Console
 			// buttonOk
 			// 
 			this.buttonOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.buttonOk.Location = new System.Drawing.Point(242, 102);
+			this.buttonOk.Location = new System.Drawing.Point(255, 105);
 			this.buttonOk.Margin = new System.Windows.Forms.Padding(2);
 			this.buttonOk.Name = "buttonOk";
 			this.buttonOk.Size = new System.Drawing.Size(55, 23);
@@ -67,7 +67,7 @@ namespace PokemonGo.RocketAPI.Console
 			// 
 			this.buttonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.buttonCancel.Location = new System.Drawing.Point(301, 102);
+			this.buttonCancel.Location = new System.Drawing.Point(314, 105);
 			this.buttonCancel.Margin = new System.Windows.Forms.Padding(2);
 			this.buttonCancel.Name = "buttonCancel";
 			this.buttonCancel.Size = new System.Drawing.Size(55, 23);
@@ -90,7 +90,7 @@ namespace PokemonGo.RocketAPI.Console
 			this.listView.Location = new System.Drawing.Point(12, 12);
 			this.listView.MultiSelect = false;
 			this.listView.Name = "listView";
-			this.listView.Size = new System.Drawing.Size(343, 85);
+			this.listView.Size = new System.Drawing.Size(356, 88);
 			this.listView.TabIndex = 87;
 			this.listView.UseCompatibleStateImageBehavior = false;
 			// 
@@ -107,7 +107,7 @@ namespace PokemonGo.RocketAPI.Console
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.CancelButton = this.buttonCancel;
-			this.ClientSize = new System.Drawing.Size(367, 136);
+			this.ClientSize = new System.Drawing.Size(380, 139);
 			this.Controls.Add(this.listView);
 			this.Controls.Add(this.buttonOk);
 			this.Controls.Add(this.buttonCancel);
