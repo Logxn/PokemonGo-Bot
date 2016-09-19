@@ -49,6 +49,7 @@ namespace PokemonGo.RocketAPI.Console
 	               ItemId[] validsIDs = {ItemId.ItemPokeBall,ItemId.ItemGreatBall,ItemId.ItemUltraBall};
 	               
 	               ListViewItem listViewItem;
+	               ItemsListView.Items.Clear();
 	               foreach (  var item in items) {
 	                listViewItem = new ListViewItem();
 	                listViewItem.Tag = item;
@@ -162,9 +163,9 @@ namespace PokemonGo.RocketAPI.Console
         	try{
         		var numB = (NumericUpDown) sender;
         		var value = (int) numB.Value;
-                Logger.ColoredConsoleWrite(ConsoleColor.DarkGray, "==========Begin Recycle Filter Debug Logging=============");
-                Logger.ColoredConsoleWrite(ConsoleColor.DarkGray, "Value Setter Triggered for: " + numB.Name + " New Value: " + numB.Value);
-                Logger.ColoredConsoleWrite(ConsoleColor.DarkGray, "==========End Recycle Filter Debug Logging=============");
+                //Logger.ColoredConsoleWrite(ConsoleColor.DarkGray, "==========Begin Recycle Filter Debug Logging=============");
+                //Logger.ColoredConsoleWrite(ConsoleColor.DarkGray, "Value Setter Triggered for: " + numB.Name + " New Value: " + numB.Value);
+                //Logger.ColoredConsoleWrite(ConsoleColor.DarkGray, "==========End Recycle Filter Debug Logging=============");
                 switch (numB.Name) {
         			case "num_MaxPokeballs":
         				Globals.pokeball = value;

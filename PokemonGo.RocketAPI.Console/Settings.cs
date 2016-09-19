@@ -495,26 +495,51 @@ namespace PokemonGo.RocketAPI.Console
             get { return Globals.UseIncenseGUIClick; }
             set { Globals.UseIncenseGUIClick = value; }
         }
-
         public bool RelocateDefaultLocation
         {
             get { return Globals.RelocateDefaultLocation; }
             set { Globals.RelocateDefaultLocation = value; }
         }
-
+        public bool LimitPokeballUse
+        {
+            get { return Globals.LimitPokeballUse; }
+            set { Globals.LimitPokeballUse = value; }
+        }
+        public bool LimitGreatballUse
+        {
+            get { return Globals.LimitGreatballUse; }
+            set { Globals.LimitGreatballUse = value; }
+        }
+        public bool LimitUltraballUse
+        {
+            get { return Globals.LimitUltraballUse; }
+            set { Globals.LimitUltraballUse = value; }
+        }
+        public int Max_Missed_throws
+        {
+            get { return Globals.Max_Missed_throws; }
+            set { Globals.Max_Missed_throws = value; }
+        }
         public double RelocateDefaultLocationTravelSpeed
         {
             get { return Globals.RelocateDefaultLocationTravelSpeed; }
             set { Globals.RelocateDefaultLocationTravelSpeed = value; }
         }
-
-        /*bool ISettings._pauseTheWalking
+        public int InventoryBasePokeball
         {
-            get { return Globals._pauseTheWalking; }
-            set { Globals._pauseTheWalking = value; }
-        }*/
-
-
+            get { return Globals.InventoryBasePokeball; }
+            set { Globals.InventoryBasePokeball = value; }
+        }
+        public int InventoryBaseGreatball
+        {
+            get { return Globals.InventoryBaseGreatball; }
+            set { Globals.InventoryBaseGreatball = value; }
+        }
+        public int InventoryBaseUltraball
+        {
+            get { return Globals.InventoryBaseUltraball; }
+            set { Globals.InventoryBaseUltraball = value; }
+        }
         bool ISettings.pauseTheWalking
         {
             get

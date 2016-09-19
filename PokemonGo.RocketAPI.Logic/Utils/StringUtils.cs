@@ -631,6 +631,10 @@ namespace PokemonGo.RocketAPI.Logic.Utils
 
             return false;
         }
+        
+		public static string ConvertTimeMSinString(ulong timeMS, String format){
+        	return (new DateTime((long) timeMS * 10000).AddYears(1969).AddDays(-1).ToString(format));
+        }            
 
     }
 }

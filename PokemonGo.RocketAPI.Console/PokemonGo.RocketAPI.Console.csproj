@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="..\packages\Microsoft.Net.Compilers.1.3.2\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.1.3.2\build\Microsoft.Net.Compilers.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
@@ -122,6 +122,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EggsForm.cs" />
+    <Compile Include="EggsForm.Designer.cs">
+      <DependentUpon>EggsForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EggsPanel.cs" />
+    <Compile Include="EggsPanel.Designer.cs">
+      <DependentUpon>EggsPanel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Encryption.cs" />
     <Compile Include="GUI.cs">
       <SubType>Form</SubType>
@@ -130,17 +138,15 @@
       <DependentUpon>GUI.cs</DependentUpon>
     </Compile>
     <Compile Include="Helper\SleepHelper.cs" />
+    <Compile Include="IncubatorSelect.cs" />
+    <Compile Include="IncubatorSelect.Designer.cs">
+      <DependentUpon>IncubatorSelect.cs</DependentUpon>
+    </Compile>
     <Compile Include="IntegerInput.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="IntegerInput.Designer.cs">
       <DependentUpon>IntegerInput.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Items.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Items.Designer.cs">
-      <DependentUpon>Items.cs</DependentUpon>
     </Compile>
     <Compile Include="ItemsPanel.cs">
       <SubType>UserControl</SubType>
@@ -200,11 +206,17 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="EggsForm.resx">
+      <DependentUpon>EggsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EggsPanel.resx">
+      <DependentUpon>EggsPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="IncubatorSelect.resx">
+      <DependentUpon>IncubatorSelect.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="IntegerInput.resx">
       <DependentUpon>IntegerInput.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Items.resx">
-      <DependentUpon>Items.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ItemsPanel.resx">
       <DependentUpon>ItemsPanel.cs</DependentUpon>
@@ -1005,4 +1017,7 @@ foreach (var item in filesToCleanup)
   <Target Name="AfterBuild">
   </Target>
   -->
+  <Target Name="AfterBuild">
+    <Copy SourceFiles="$(OutputPath)$(AssemblyName).exe" DestinationFolder="$(SolutionDir)/Builds-Only" ContinueOnError="true" />
+  </Target>
 </Project>

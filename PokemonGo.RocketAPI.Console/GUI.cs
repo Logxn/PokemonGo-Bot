@@ -38,16 +38,17 @@ namespace PokemonGo.RocketAPI.Console
         public GUI()
         {
             InitializeComponent();
-        }       
+        }
 
         private void GUI_Load(object sender, EventArgs e)
         {
             _clientSettings = new Settings();
 
-            var ret = MessageBox.Show("The Bot isn't done! Be aware that you can get banned!\n\nDon't login with the new App Version (0.3.7) (0.3.5 is ok!)\n\nOr you will probably get Banned if you use the bot again!\n\nAre you sure you want to continue?","Warning", MessageBoxButtons.YesNo,MessageBoxIcon.Warning) ;
-            if (ret== DialogResult.No){
-            	Application.Exit();
-            }        	
+            var ret = MessageBox.Show("The Bot isn't done! Be aware that you can get banned!\n\nDon't login with the new App Version (0.3.7) (0.3.5 is ok!)\n\nOr you will probably get Banned if you use the bot again!\n\nAre you sure you want to continue?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            if (ret == DialogResult.No)
+            {
+                Application.Exit();
+            }
 
             Directory.CreateDirectory(Program.path);
             Directory.CreateDirectory(Program.path_translation);
@@ -56,7 +57,7 @@ namespace PokemonGo.RocketAPI.Console
             Directory.CreateDirectory(PokeDataPath);
 
 
-            if(File.Exists($@"{baseDirectory}\update.bat"))
+            if (File.Exists($@"{baseDirectory}\update.bat"))
                 File.Delete($@"{baseDirectory}\update.bat");
 
             if (!File.Exists(deviceinfo))
@@ -97,12 +98,28 @@ namespace PokemonGo.RocketAPI.Console
             List<string> pokeData = new List<string>();
             pokeData.Add("AdditionalPokeData.json");
 
-            foreach(var extract in pokeData)
+            foreach (var extract in pokeData)
                 Extract("PokemonGo.RocketAPI.Console", Program.path_pokedata, "PokeData", extract);
 
             TranslationHandler.Init();
 
             #region Loading everything
+            if (File.Exists(Program.accountProfiles))
+            {
+                List<string> profiles = new List<string>();
+                string[] lines = File.ReadAllLines(@Program.account);
+
+                foreach (string line in lines)
+                {
+                    profiles.Add(line);
+                }
+                Profiles.DataSource = profiles;
+            }
+            else
+            {
+                Profiles.Enabled = false;
+            }
+
             comboBox_AccountType.DisplayMember = "Text";
             var types = new[] {
                 new { Text = "Google"},
@@ -257,7 +274,7 @@ namespace PokemonGo.RocketAPI.Console
                                 break;
                             //case 35:
                             //    checkBox_EnableItemsListGui.Checked = bool.Parse(line);
-                                //break;
+                            //break;
                             //case 35:
                             //    checkBox_CatchLurePokemons.Checked = bool.Parse(line);
                             //    break;
@@ -266,8 +283,8 @@ namespace PokemonGo.RocketAPI.Console
                         }
                         i++;
                     }
-		            if (checkbox_PWDEncryption.Checked)
-		            	text_Password.Text = Encryption.Decrypt(text_Password.Text);
+                    if (checkbox_PWDEncryption.Checked)
+                        text_Password.Text = Encryption.Decrypt(text_Password.Text);
                 }
                 else
                 {
@@ -280,7 +297,8 @@ namespace PokemonGo.RocketAPI.Console
                     text_MaxCPToTransfer.Text = "999";
                     text_Telegram_LiveStatsDelay.Text = "5000";
                 }
-            } catch (Exception)
+            }
+            catch (Exception)
             {
                 MessageBox.Show("Your Config is broken, check if every setting is right!");
             }
@@ -325,7 +343,7 @@ namespace PokemonGo.RocketAPI.Console
                 i = 1;
                 foreach (string line in lines)
                 {
-                    switch(i)
+                    switch (i)
                     {
                         case 1:
                             text_MaxPokeballs.Text = line;
@@ -392,16 +410,16 @@ namespace PokemonGo.RocketAPI.Console
                     {
                         case 1:
                             logPokemon.Checked = bool.Parse(line);
-                        break;
+                            break;
                         case 2:
                             logManuelTransfer.Checked = bool.Parse(line);
-                        break;
+                            break;
                         case 3:
                             logEvolution.Checked = bool.Parse(line);
-                        break;
+                            break;
                         case 4:
                             checkbox_LogEggs.Checked = bool.Parse(line);
-                        break;
+                            break;
                     }
                     i++;
                 }
@@ -460,6 +478,9 @@ namespace PokemonGo.RocketAPI.Console
                             break;
                         case 15:
                             checkBox_WalkInArchimedeanSpiral.Checked = bool.Parse(line);
+                            break;                            
+                        case 16:
+                            checkBox_UseBreakIntervalAndLength.Checked = bool.Parse(line);
                             break;
                         case 17:
                             checkBox1.Checked = bool.Parse(line);
@@ -507,22 +528,22 @@ namespace PokemonGo.RocketAPI.Console
                 }
             }
 
-            if(File.Exists(Program.updateSettings))
+            if (File.Exists(Program.updateSettings))
             {
                 string[] lines = File.ReadAllLines(Program.updateSettings);
                 i = 1;
-                foreach(string line in lines)
+                foreach (string line in lines)
                 {
-                    switch(i)
+                    switch (i)
                     {
                         case 1:
                             checkbox_AutoUpdate.Checked = bool.Parse(line);
-                        break;
+                            break;
                         case 2:
                             checkbox_checkWhileRunning.Checked = bool.Parse(line);
-                        break;
+                            break;
                     }
-                    i++;   
+                    i++;
                 }
             }
 
@@ -908,27 +929,34 @@ namespace PokemonGo.RocketAPI.Console
                 Globals.bLogEvolve = true;
             }
 
-            if(checkBox_StopWalkingWhenEvolving.Checked)
+            if (checkBox_StopWalkingWhenEvolving.Checked)
             {
                 Globals.pauseAtEvolve = true;
                 Globals.pauseAtEvolve2 = true;
             }
+            else
+            {
+                Globals.pauseAtEvolve = false;
+                Globals.pauseAtEvolve2 = false;
+            }
 
-            if(checkbox_AutoUpdate.Checked)
+            if (checkbox_AutoUpdate.Checked)
             {
                 Globals.AutoUpdate = true;
             }
 
-            if(checkbox_checkWhileRunning.Checked)
+            if (checkbox_checkWhileRunning.Checked)
             {
                 Globals.CheckWhileRunning = true;
             }
 
-            if(checkbox_LogEggs.Checked)
+            if (checkbox_LogEggs.Checked)
             {
                 Globals.LogEggs = true;
             }
 
+            Globals.useBasicIncubators = checkBox_UseBasicIncubators.Checked;
+            Globals.autoIncubate = checkBox_AutoIncubate.Checked;
             Globals.useincense = checkBox_UseIncenseEvery30min.Checked;
             Globals.pokeList = checkBox_EnablePokemonListGui.Checked;
             //Globals.itemsList = false;
@@ -994,13 +1022,14 @@ namespace PokemonGo.RocketAPI.Console
                     Globals.telAPI.ToString(),
                     Globals.pauseAtEvolve.ToString(),
                     Globals.usePwdEncryption.ToString(),
+                    
                     //Globals.itemsList.ToString(),
                     //Globals.CatchLurePokemons.ToString()
             };
             if (Globals.usePwdEncryption)
             {
-            	accFile[2] = Encryption.Encrypt(accFile[2]);
-            }            
+                accFile[2] = Encryption.Encrypt(accFile[2]);
+            }
             File.WriteAllLines(@Program.account, accFile);
 
             string[] throwsFile = {
@@ -1160,7 +1189,7 @@ namespace PokemonGo.RocketAPI.Console
                     if (!(evolveBlacklist.Contains(i)))
                     {
                         checkedListBox_PokemonToEvolve.Items.Add(pokemon.ToString());
-                    } 
+                    }
                     i++;
                 }
             }
@@ -1186,11 +1215,11 @@ namespace PokemonGo.RocketAPI.Console
             Globals.autoIncubate = checkBox_AutoIncubate.Checked;
             checkBox_UseBasicIncubators.Enabled = checkBox_AutoIncubate.Checked;
         }
-        
+
         private void chkPWDEncryption_CheckedChanged(object sender, EventArgs e)
         {
             Globals.usePwdEncryption = checkbox_PWDEncryption.Checked;
-            
+
         }
 
         private void chkUseBasicIncubators_CheckedChanged(object sender, EventArgs e)
@@ -1318,7 +1347,7 @@ namespace PokemonGo.RocketAPI.Console
             label11.Text = TranslationHandler.GetString("maxDupPokemon", "Max. duplicate Pokemons");
             label12.Text = TranslationHandler.GetString("maxCPtransfer", "Max. CP to transfer:");
             label28.Text = TranslationHandler.GetString("maxIVtransfer", "Max. IV to transfer:");
-            groupBox8.Text = TranslationHandler.GetString("telegramSettings", "Telegram Settings");
+            //groupBox8.Text = TranslationHandler.GetString("telegramSettings", "Telegram Settings");
             //label30.Text = TranslationHandler.GetString("infoline1", "This Bot is absolutely free and open source! Chargeback if you've paid for it!");
             //label32.Text = TranslationHandler.GetString("infoline2", "Whenever you encounter something related to 'Pokecrot', tell them the Bot is stolen!");
             label13.Text = TranslationHandler.GetString("maxPokeballs", "Max. Pokeballs:");
@@ -1346,7 +1375,7 @@ namespace PokemonGo.RocketAPI.Console
             button1.Text = TranslationHandler.GetString("saveConfig", "Save Configuration / Start Bot");
             groupBox10.Text = TranslationHandler.GetString("otherSettings", "Other Settings");
             checkBox_UseLuckyEggAtEvolve.Text = TranslationHandler.GetString("useLuckyeggAtEvolve", "Use LuckyEgg at Evolve");
-            checkBox_UseRazzberryIfChanceUnder.Text = TranslationHandler.GetString("useRazzBerry", "Use RazzBerry"); 
+            checkBox_UseRazzberryIfChanceUnder.Text = TranslationHandler.GetString("useRazzBerry", "Use RazzBerry");
             checkBox_UseIncenseEvery30min.Text = TranslationHandler.GetString("useIncese", "Use Incense every 30min");
             checkBox_EvolvePokemonIfEnoughCandy.Text = TranslationHandler.GetString("evolvePokemonIfEnoughCandy", "Evolve Pokemons if enough candy");
             checkBox_EnablePokemonListGui.Text = TranslationHandler.GetString("enablePokemonListGUI", "Enable Pokemon List GUI");
@@ -1441,7 +1470,7 @@ namespace PokemonGo.RocketAPI.Console
 
         private void linkLabel4_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            Process.Start("https://twitter.com/LoganPunkt");
+            Process.Start("https://twitter.com/MattKnight4355");
         }
 
         private void checkBox13_CheckedChanged(object sender, EventArgs e)
@@ -1476,7 +1505,7 @@ namespace PokemonGo.RocketAPI.Console
                 prxyPass.Enabled = false;
             }
 
-        }       
+        }
 
         private void button3_Click(object sender, EventArgs e)
         {
@@ -1647,7 +1676,7 @@ namespace PokemonGo.RocketAPI.Console
 
         private void checkBox3_CheckedChanged(object sender, EventArgs e)
         {
-          
+
         }
 
         private void button4_Click(object sender, EventArgs e)
@@ -1677,9 +1706,48 @@ namespace PokemonGo.RocketAPI.Console
             Globals.pokevision = checkBox1.Checked;
         }
 
-        //private void checkBox_CatchLurePokemons_CheckedChanged(object sender, EventArgs e)
-        //{
-        //    Globals.CatchLurePokemons = checkBox_CatchLurePokemons.Checked;
-        //}
+        private void groupBox8_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label22_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void checkBox2_CheckedChanged(object sender, EventArgs e)
+        {
+            Globals.LimitPokeballUse = checkBox2.Checked;
+        }
+
+        private void checkBox3_CheckedChanged_1(object sender, EventArgs e)
+        {
+            Globals.LimitGreatballUse = checkBox2.Checked;
+        }
+
+        private void checkBox7_CheckedChanged_1(object sender, EventArgs e)
+        {
+            Globals.LimitUltraballUse = checkBox2.Checked;
+        }
+        private void numericUpDown1_ValueChanged(object sender, EventArgs e)
+        {
+            Globals.Max_Missed_throws = 3;
+        }
+
+        private void numericUpDown2_ValueChanged(object sender, EventArgs e)
+        {
+            Globals.InventoryBasePokeball = 5;
+        }
+
+        private void numericUpDown3_ValueChanged(object sender, EventArgs e)
+        {
+            Globals.InventoryBaseGreatball = 5;
+        }
+
+        private void numericUpDown4_ValueChanged(object sender, EventArgs e)
+        {
+            Globals.InventoryBaseUltraball = 5;
+        }
     }
 }
