@@ -243,7 +243,7 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // pictureBoxBuddyPokemon
             // 
-            this.pictureBoxBuddyPokemon.Image = global::PokemonGo.RocketAPI.Console.Properties.Resources._1_200;
+            this.pictureBoxBuddyPokemon.Image = global::PokemonGo.RocketAPI.Console.Properties.PokemonSprites._1_200;
             this.pictureBoxBuddyPokemon.Location = new System.Drawing.Point(56, 95);
             this.pictureBoxBuddyPokemon.Margin = new System.Windows.Forms.Padding(2);
             this.pictureBoxBuddyPokemon.Name = "pictureBoxBuddyPokemon";
