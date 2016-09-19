@@ -385,23 +385,31 @@ namespace PokemonGo.RocketAPI.Console
 
                     UltraBallMinCP.Text = config.MinCPforUltraBall.ToString();
 
-                    foreach (PokemonId Id in config.pokemonsToHold)
+                    if (config.pokemonsToHold != null)
                     {
-                        string _id = Id.ToString();
-                        checkedListBox_PokemonNotToTransfer.SetItemChecked(pokeIDS[_id] - 1, true);
+                        foreach (PokemonId Id in config.pokemonsToHold)
+                        {
+                            string _id = Id.ToString();
+                            checkedListBox_PokemonNotToTransfer.SetItemChecked(pokeIDS[_id] - 1, true);
+                        }
                     }
-                    foreach (PokemonId Id in config.catchPokemonSkipList)
+                    if (config.catchPokemonSkipList != null)
                     {
-                        string _id = Id.ToString();
-                        checkedListBox_PokemonNotToCatch.SetItemChecked(pokeIDS[_id] - 1, true);
+                        foreach (PokemonId Id in config.catchPokemonSkipList)
+                        {
+                            string _id = Id.ToString();
+                            checkedListBox_PokemonNotToCatch.SetItemChecked(pokeIDS[_id] - 1, true);
+                        }
                     }
-                    foreach (PokemonId Id in config.pokemonsToEvolve)
+                    if (config.pokemonsToEvolve != null)
                     {
-                        string _id = Id.ToString();
-                        checkedListBox_PokemonToEvolve.SetItemChecked(evolveIDS[_id] - 1, true);
+                        foreach (PokemonId Id in config.pokemonsToEvolve)
+                        {
+                            string _id = Id.ToString();
+                            checkedListBox_PokemonToEvolve.SetItemChecked(evolveIDS[_id] - 1, true);
+                        }
                     }
-
-                    //_clientSettings = config;
+                    _clientSettings = config;
                 }
                 else
                 {
@@ -835,16 +843,16 @@ namespace PokemonGo.RocketAPI.Console
             if (text_TimeToRun.Text == String.Empty)
                 Globals.TimeToRun = 0;
             foreach (string pokemon in checkedListBox_PokemonNotToTransfer.CheckedItems)
-            {
-                Globals.noTransfer.Add((PokemonId)Enum.Parse(typeof(PokemonId), pokemon));
+            {                
+                _clientSettings.pokemonsToHold.Add((PokemonId)Enum.Parse(typeof(PokemonId), pokemon));
             }
             foreach (string pokemon in checkedListBox_PokemonNotToCatch.CheckedItems)
             {
-                Globals.noCatch.Add((PokemonId)Enum.Parse(typeof(PokemonId), pokemon));
+                _clientSettings.catchPokemonSkipList.Add((PokemonId)Enum.Parse(typeof(PokemonId), pokemon));
             }
             foreach (string pokemon in checkedListBox_PokemonToEvolve.CheckedItems)
             {
-                Globals.doEvolve.Add((PokemonId)Enum.Parse(typeof(PokemonId), pokemon));
+                _clientSettings.pokemonsToEvolve.Add((PokemonId)Enum.Parse(typeof(PokemonId), pokemon));
             }
 
             #endregion

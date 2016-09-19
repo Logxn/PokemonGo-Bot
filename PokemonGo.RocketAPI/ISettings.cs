@@ -148,9 +148,9 @@ namespace PokemonGo.RocketAPI
         int MaxHyperPotions { get; set; }
         int MaxTopPotions { get; set; }
         int MaxBerries { get; set; }
-        List<PokemonId> pokemonsToHold { get; set; }
-        List<PokemonId> pokemonsToEvolve { get; set; }
-        List<PokemonId> catchPokemonSkipList { get; set; }
+        IList<PokemonId> pokemonsToHold { get; set; }
+        IList<PokemonId> pokemonsToEvolve { get; set; }
+        IList<PokemonId> catchPokemonSkipList { get; set; }
 
         /* ===================================[SETTINGS]================================= */
     }
