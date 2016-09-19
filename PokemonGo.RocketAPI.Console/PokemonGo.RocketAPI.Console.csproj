@@ -122,11 +122,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="EggsForm.cs" />
+    <Compile Include="EggsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="EggsForm.Designer.cs">
       <DependentUpon>EggsForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="EggsPanel.cs" />
+    <Compile Include="EggsPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="EggsPanel.Designer.cs">
       <DependentUpon>EggsPanel.cs</DependentUpon>
     </Compile>
@@ -138,7 +142,9 @@
       <DependentUpon>GUI.cs</DependentUpon>
     </Compile>
     <Compile Include="Helper\SleepHelper.cs" />
-    <Compile Include="IncubatorSelect.cs" />
+    <Compile Include="IncubatorSelect.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="IncubatorSelect.Designer.cs">
       <DependentUpon>IncubatorSelect.cs</DependentUpon>
     </Compile>
@@ -346,6 +352,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="bin\Release\" />
+    <Folder Include="Properties\DataSources\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\error-sprite.png" />
