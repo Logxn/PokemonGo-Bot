@@ -18,11 +18,9 @@ namespace PokemonGo.RocketAPI.Console
 		public System.Windows.Forms.TextBox text_TotalItemCount;
 		private System.Windows.Forms.Label label31;
 		private System.Windows.Forms.Label label27;
-		private System.Windows.Forms.Label label26;
 		private System.Windows.Forms.Label label25;
 		public System.Windows.Forms.NumericUpDown num_MaxTopRevives;
 		public System.Windows.Forms.NumericUpDown num_MaxTopPotions;
-		public System.Windows.Forms.NumericUpDown num_MaxMasterBalls;
 		private System.Windows.Forms.Label label20;
 		private System.Windows.Forms.Label label19;
 		private System.Windows.Forms.Label label18;
@@ -75,11 +73,9 @@ namespace PokemonGo.RocketAPI.Console
             this.text_TotalItemCount = new System.Windows.Forms.TextBox();
             this.label31 = new System.Windows.Forms.Label();
             this.label27 = new System.Windows.Forms.Label();
-            this.label26 = new System.Windows.Forms.Label();
             this.label25 = new System.Windows.Forms.Label();
             this.num_MaxTopRevives = new System.Windows.Forms.NumericUpDown();
             this.num_MaxTopPotions = new System.Windows.Forms.NumericUpDown();
-            this.num_MaxMasterBalls = new System.Windows.Forms.NumericUpDown();
             this.label20 = new System.Windows.Forms.Label();
             this.label19 = new System.Windows.Forms.Label();
             this.label18 = new System.Windows.Forms.Label();
@@ -107,7 +103,6 @@ namespace PokemonGo.RocketAPI.Console
             this.groupBox4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.num_MaxTopRevives)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_MaxTopPotions)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.num_MaxMasterBalls)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_MaxRazzBerrys)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_MaxHyperPotions)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_MaxSuperPotions)).BeginInit();
@@ -124,11 +119,9 @@ namespace PokemonGo.RocketAPI.Console
             this.groupBox4.Controls.Add(this.text_TotalItemCount);
             this.groupBox4.Controls.Add(this.label31);
             this.groupBox4.Controls.Add(this.label27);
-            this.groupBox4.Controls.Add(this.label26);
             this.groupBox4.Controls.Add(this.label25);
             this.groupBox4.Controls.Add(this.num_MaxTopRevives);
             this.groupBox4.Controls.Add(this.num_MaxTopPotions);
-            this.groupBox4.Controls.Add(this.num_MaxMasterBalls);
             this.groupBox4.Controls.Add(this.label20);
             this.groupBox4.Controls.Add(this.label19);
             this.groupBox4.Controls.Add(this.label18);
@@ -146,9 +139,9 @@ namespace PokemonGo.RocketAPI.Console
             this.groupBox4.Controls.Add(this.num_MaxPokeballs);
             this.groupBox4.Controls.Add(this.label13);
             this.groupBox4.Location = new System.Drawing.Point(5, 5);
-            this.groupBox4.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.groupBox4.Margin = new System.Windows.Forms.Padding(5);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Padding = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.groupBox4.Padding = new System.Windows.Forms.Padding(5);
             this.groupBox4.Size = new System.Drawing.Size(225, 453);
             this.groupBox4.TabIndex = 80;
             this.groupBox4.TabStop = false;
@@ -156,8 +149,8 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // text_TotalItemCount
             // 
-            this.text_TotalItemCount.Location = new System.Drawing.Point(147, 422);
-            this.text_TotalItemCount.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.text_TotalItemCount.Location = new System.Drawing.Point(147, 392);
+            this.text_TotalItemCount.Margin = new System.Windows.Forms.Padding(5);
             this.text_TotalItemCount.Name = "text_TotalItemCount";
             this.text_TotalItemCount.ReadOnly = true;
             this.text_TotalItemCount.Size = new System.Drawing.Size(67, 22);
@@ -177,27 +170,17 @@ namespace PokemonGo.RocketAPI.Console
             // label27
             // 
             this.label27.AutoSize = true;
-            this.label27.Location = new System.Drawing.Point(13, 207);
+            this.label27.Location = new System.Drawing.Point(13, 177);
             this.label27.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.label27.Name = "label27";
             this.label27.Size = new System.Drawing.Size(120, 17);
             this.label27.TabIndex = 21;
             this.label27.Text = "Max. TopRevives:";
             // 
-            // label26
-            // 
-            this.label26.AutoSize = true;
-            this.label26.Location = new System.Drawing.Point(13, 133);
-            this.label26.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
-            this.label26.Name = "label26";
-            this.label26.Size = new System.Drawing.Size(118, 17);
-            this.label26.TabIndex = 19;
-            this.label26.Text = "Max. MasterBalls:";
-            // 
             // label25
             // 
             this.label25.AutoSize = true;
-            this.label25.Location = new System.Drawing.Point(13, 354);
+            this.label25.Location = new System.Drawing.Point(13, 324);
             this.label25.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.label25.Name = "label25";
             this.label25.Size = new System.Drawing.Size(117, 17);
@@ -206,8 +189,8 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // num_MaxTopRevives
             // 
-            this.num_MaxTopRevives.Location = new System.Drawing.Point(147, 207);
-            this.num_MaxTopRevives.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.num_MaxTopRevives.Location = new System.Drawing.Point(147, 177);
+            this.num_MaxTopRevives.Margin = new System.Windows.Forms.Padding(5);
             this.num_MaxTopRevives.Maximum = new decimal(new int[] {
             2000,
             0,
@@ -220,8 +203,8 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // num_MaxTopPotions
             // 
-            this.num_MaxTopPotions.Location = new System.Drawing.Point(147, 354);
-            this.num_MaxTopPotions.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.num_MaxTopPotions.Location = new System.Drawing.Point(147, 324);
+            this.num_MaxTopPotions.Margin = new System.Windows.Forms.Padding(5);
             this.num_MaxTopPotions.Maximum = new decimal(new int[] {
             2000,
             0,
@@ -232,24 +215,10 @@ namespace PokemonGo.RocketAPI.Console
             this.num_MaxTopPotions.TabIndex = 24;
             this.num_MaxTopPotions.ValueChanged += new System.EventHandler(this.num_Max);
             // 
-            // num_MaxMasterBalls
-            // 
-            this.num_MaxMasterBalls.Location = new System.Drawing.Point(147, 133);
-            this.num_MaxMasterBalls.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
-            this.num_MaxMasterBalls.Maximum = new decimal(new int[] {
-            2000,
-            0,
-            0,
-            0});
-            this.num_MaxMasterBalls.Name = "num_MaxMasterBalls";
-            this.num_MaxMasterBalls.Size = new System.Drawing.Size(68, 22);
-            this.num_MaxMasterBalls.TabIndex = 18;
-            this.num_MaxMasterBalls.ValueChanged += new System.EventHandler(this.num_Max);
-            // 
             // label20
             // 
             this.label20.AutoSize = true;
-            this.label20.Location = new System.Drawing.Point(13, 391);
+            this.label20.Location = new System.Drawing.Point(13, 361);
             this.label20.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.label20.Name = "label20";
             this.label20.Size = new System.Drawing.Size(118, 17);
@@ -259,7 +228,7 @@ namespace PokemonGo.RocketAPI.Console
             // label19
             // 
             this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(13, 318);
+            this.label19.Location = new System.Drawing.Point(13, 288);
             this.label19.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.label19.Name = "label19";
             this.label19.Size = new System.Drawing.Size(130, 17);
@@ -269,7 +238,7 @@ namespace PokemonGo.RocketAPI.Console
             // label18
             // 
             this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(13, 281);
+            this.label18.Location = new System.Drawing.Point(13, 251);
             this.label18.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.label18.Name = "label18";
             this.label18.Size = new System.Drawing.Size(130, 17);
@@ -279,7 +248,7 @@ namespace PokemonGo.RocketAPI.Console
             // label17
             // 
             this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(13, 244);
+            this.label17.Location = new System.Drawing.Point(13, 214);
             this.label17.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.label17.Name = "label17";
             this.label17.Size = new System.Drawing.Size(92, 17);
@@ -289,7 +258,7 @@ namespace PokemonGo.RocketAPI.Console
             // label16
             // 
             this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(13, 170);
+            this.label16.Location = new System.Drawing.Point(13, 140);
             this.label16.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(95, 17);
@@ -298,8 +267,8 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // num_MaxRazzBerrys
             // 
-            this.num_MaxRazzBerrys.Location = new System.Drawing.Point(147, 391);
-            this.num_MaxRazzBerrys.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.num_MaxRazzBerrys.Location = new System.Drawing.Point(147, 361);
+            this.num_MaxRazzBerrys.Margin = new System.Windows.Forms.Padding(5);
             this.num_MaxRazzBerrys.Maximum = new decimal(new int[] {
             2000,
             0,
@@ -312,8 +281,8 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // num_MaxHyperPotions
             // 
-            this.num_MaxHyperPotions.Location = new System.Drawing.Point(147, 318);
-            this.num_MaxHyperPotions.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.num_MaxHyperPotions.Location = new System.Drawing.Point(147, 288);
+            this.num_MaxHyperPotions.Margin = new System.Windows.Forms.Padding(5);
             this.num_MaxHyperPotions.Maximum = new decimal(new int[] {
             2000,
             0,
@@ -326,8 +295,8 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // num_MaxSuperPotions
             // 
-            this.num_MaxSuperPotions.Location = new System.Drawing.Point(147, 281);
-            this.num_MaxSuperPotions.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.num_MaxSuperPotions.Location = new System.Drawing.Point(147, 251);
+            this.num_MaxSuperPotions.Margin = new System.Windows.Forms.Padding(5);
             this.num_MaxSuperPotions.Maximum = new decimal(new int[] {
             2000,
             0,
@@ -340,8 +309,8 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // num_MaxPotions
             // 
-            this.num_MaxPotions.Location = new System.Drawing.Point(147, 244);
-            this.num_MaxPotions.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.num_MaxPotions.Location = new System.Drawing.Point(147, 214);
+            this.num_MaxPotions.Margin = new System.Windows.Forms.Padding(5);
             this.num_MaxPotions.Maximum = new decimal(new int[] {
             2000,
             0,
@@ -354,8 +323,8 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // num_MaxRevives
             // 
-            this.num_MaxRevives.Location = new System.Drawing.Point(147, 170);
-            this.num_MaxRevives.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.num_MaxRevives.Location = new System.Drawing.Point(147, 140);
+            this.num_MaxRevives.Margin = new System.Windows.Forms.Padding(5);
             this.num_MaxRevives.Maximum = new decimal(new int[] {
             2000,
             0,
@@ -369,7 +338,7 @@ namespace PokemonGo.RocketAPI.Console
             // label15
             // 
             this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(13, 96);
+            this.label15.Location = new System.Drawing.Point(13, 103);
             this.label15.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(105, 17);
@@ -378,8 +347,8 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // num_MaxUltraBalls
             // 
-            this.num_MaxUltraBalls.Location = new System.Drawing.Point(147, 96);
-            this.num_MaxUltraBalls.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.num_MaxUltraBalls.Location = new System.Drawing.Point(147, 103);
+            this.num_MaxUltraBalls.Margin = new System.Windows.Forms.Padding(5);
             this.num_MaxUltraBalls.Maximum = new decimal(new int[] {
             2000,
             0,
@@ -392,8 +361,8 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // num_MaxGreatBalls
             // 
-            this.num_MaxGreatBalls.Location = new System.Drawing.Point(147, 59);
-            this.num_MaxGreatBalls.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.num_MaxGreatBalls.Location = new System.Drawing.Point(147, 66);
+            this.num_MaxGreatBalls.Margin = new System.Windows.Forms.Padding(5);
             this.num_MaxGreatBalls.Maximum = new decimal(new int[] {
             2000,
             0,
@@ -407,7 +376,7 @@ namespace PokemonGo.RocketAPI.Console
             // label14
             // 
             this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(13, 59);
+            this.label14.Location = new System.Drawing.Point(13, 66);
             this.label14.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(111, 17);
@@ -416,8 +385,8 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // num_MaxPokeballs
             // 
-            this.num_MaxPokeballs.Location = new System.Drawing.Point(147, 22);
-            this.num_MaxPokeballs.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.num_MaxPokeballs.Location = new System.Drawing.Point(147, 29);
+            this.num_MaxPokeballs.Margin = new System.Windows.Forms.Padding(5);
             this.num_MaxPokeballs.Maximum = new decimal(new int[] {
             2000,
             0,
@@ -431,7 +400,7 @@ namespace PokemonGo.RocketAPI.Console
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(13, 22);
+            this.label13.Location = new System.Drawing.Point(13, 29);
             this.label13.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(106, 17);
@@ -440,6 +409,7 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // btnRealoadItems
             // 
+            this.btnRealoadItems.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnRealoadItems.Location = new System.Drawing.Point(240, 430);
             this.btnRealoadItems.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnRealoadItems.Name = "btnRealoadItems";
@@ -448,12 +418,12 @@ namespace PokemonGo.RocketAPI.Console
             this.btnRealoadItems.Text = "Reload";
             this.btnRealoadItems.UseVisualStyleBackColor = true;
             this.btnRealoadItems.Click += new System.EventHandler(this.BtnRealoadItemsClick);
-            this.btnRealoadItems.Anchor = ((System.Windows.Forms.AnchorStyles)(((( System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            )));
             // 
             // ItemsListView
             // 
+            this.ItemsListView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.ItemsListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.chItem,
             this.chCount,
@@ -463,16 +433,13 @@ namespace PokemonGo.RocketAPI.Console
             this.ItemsListView.GridLines = true;
             this.ItemsListView.LargeImageList = this.imageListItems;
             this.ItemsListView.Location = new System.Drawing.Point(240, 14);
-            this.ItemsListView.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.ItemsListView.Margin = new System.Windows.Forms.Padding(4);
             this.ItemsListView.Name = "ItemsListView";
             this.ItemsListView.Size = new System.Drawing.Size(660, 411);
             this.ItemsListView.SmallImageList = this.imageListItems;
             this.ItemsListView.TabIndex = 78;
             this.ItemsListView.UseCompatibleStateImageBehavior = false;
             this.ItemsListView.View = System.Windows.Forms.View.Details;
-            this.ItemsListView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             // 
             // chItem
             // 
@@ -529,14 +496,13 @@ namespace PokemonGo.RocketAPI.Console
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.btnRealoadItems);
             this.Controls.Add(this.ItemsListView);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "ItemsPanel";
             this.Size = new System.Drawing.Size(917, 468);
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.num_MaxTopRevives)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_MaxTopPotions)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.num_MaxMasterBalls)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_MaxRazzBerrys)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_MaxHyperPotions)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_MaxSuperPotions)).EndInit();

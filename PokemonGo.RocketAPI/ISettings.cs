@@ -1,23 +1,28 @@
 using POGOProtos.Enums;
 using POGOProtos.Inventory.Item;
+using PokemonGo.RocketAPI;
 using PokemonGo.RocketAPI.Enums;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Device.Location;
 
 namespace PokemonGo.RocketAPI
-{
+{    
     public interface ISettings
     { 
  
         /* ===================================[SETTINGS]================================= */
         
         /* AUTHENTICATION */
+        string ProfileName { get; set; }
+        bool IsDefault { get; set; }
         AuthType AuthType { get; set; }
         string PtcPassword { get; set; }
         string PtcUsername { get; set; }
         string GoogleUsername { get; set; }
         string GooglePassword { get; set; }
         string GoogleRefreshToken { get; set; }
+        bool UsePwdEncryption { get; set; }
 
         /* COORDINATES & LOCATION */
         double DefaultLatitude { get; set; }
@@ -98,7 +103,7 @@ namespace PokemonGo.RocketAPI
         bool logEggs { get; set; }
 
         /* UPDATES */
-        bool autoUpdate { get; set; }
+        bool AutoUpdate { get; set; }
         bool CheckWhileRunning { get; set; }
 
         /* TELEGRAM */
@@ -108,6 +113,10 @@ namespace PokemonGo.RocketAPI
 
         /* MISC */
         bool pokevision { get; set; }
+        bool LogPokemon { get; set; }
+        bool LogTransfer { get; set; }
+        bool LogEvolve { get; set; }
+        bool LogEggs { get; set; }
         bool UseAnimationTimes { get; set; }
         bool MapLoaded { get; set; }
         bool pauseTheWalking { get; set; }
@@ -119,6 +128,8 @@ namespace PokemonGo.RocketAPI
         bool LimitGreatballUse { get; set; }
         bool LimitUltraballUse { get; set; }
         int Max_Missed_throws { get; set; }
+        int MinCPforGreatBall { get; set; }
+        int MinCPforUltraBall { get; set; }
         int InventoryBasePokeball { get; set; }
         int InventoryBaseGreatball { get; set; }
         int InventoryBaseUltraball { get; set; }
@@ -127,6 +138,16 @@ namespace PokemonGo.RocketAPI
         string SelectedLanguage { get; set; }
         string GoogleMapsAPIKey { get; set; }
         ICollection<KeyValuePair<ItemId, int>> itemRecycleFilter { get; set; }
+        int MaxPokeballs { get; set; }
+        int MaxGreatballs { get; set; }
+        int MaxUltraballs { get; set; }
+        int MaxRevives { get; set; }
+        int MaxTopRevives { get; set; }
+        int MaxPotions { get; set; }
+        int MaxSuperPotions { get; set; }
+        int MaxHyperPotions { get; set; }
+        int MaxTopPotions { get; set; }
+        int MaxBerries { get; set; }
         List<PokemonId> pokemonsToHold { get; set; }
         List<PokemonId> pokemonsToEvolve { get; set; }
         List<PokemonId> catchPokemonSkipList { get; set; }
