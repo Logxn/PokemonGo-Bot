@@ -565,7 +565,7 @@ namespace PokemonGo.RocketAPI.Console
 			// Globals.acc <- Is updated at Change combobox comboBox_AccountType             
             
             // Account Info
-            if (!textBoxToGlobal(text_EMail)){
+            if (!textBoxToGlobal(text_EMail,"username")){
             	return false;
             }
             if (!textBoxToGlobal(text_Password)){
