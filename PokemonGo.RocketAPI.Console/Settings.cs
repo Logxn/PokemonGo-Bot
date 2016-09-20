@@ -330,6 +330,11 @@ namespace PokemonGo.RocketAPI.Console
             set { Globals.useLuckyEggIfNotRunning = value; }
         }
 
+        public bool SnipePokemon
+        {
+            get { return Globals.SnipePokemon; }
+            set { Globals.SnipePokemon = value; }
+        }
         public bool Espiral
         {
             get { return Globals.Espiral; }

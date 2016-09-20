@@ -360,6 +360,7 @@ namespace PokemonGo.RocketAPI.Console
                     text_Telegram_LiveStatsDelay.Text = config.TelegramLiveStatsDelay.ToString();
 
                     UseSkipLaggedAPI.Checked = config.pokevision;
+                    SnipePokemonPokeCom.Checked = config.SnipePokemon;
 
 					// tab 8 - update                    
                     checkbox_AutoUpdate.Checked = config.AutoUpdate;
@@ -748,11 +749,11 @@ namespace PokemonGo.RocketAPI.Console
 			if (value != String.Empty)
 				Globals.BreakLength = int.Parse(value);
 		
- 			Globals.pauseAtEvolve = checkBox_StopWalkingWhenEvolving.Checked;
+            Globals.pauseAtEvolve = checkBox_StopWalkingWhenEvolving.Checked;
             Globals.pauseAtEvolve2 = checkBox_StopWalkingWhenEvolving.Checked;
 			
             Globals.UseGoogleMapsAPI = checkBox_UseGoogleMapsRouting.Checked;
-			Globals.GoogleMapsAPIKey = text_GoogleMapsAPIKey.Text;
+            Globals.GoogleMapsAPIKey = text_GoogleMapsAPIKey.Text;
 
             Globals.sleepatpokemons = checkBox_RandomSleepAtCatching.Checked;
             Globals.farmPokestops = checkBox_FarmPokestops.Checked;
@@ -773,10 +774,11 @@ namespace PokemonGo.RocketAPI.Console
             
             Globals.telAPI = text_Telegram_Token.Text;
             Globals.telName = text_Telegram_Name.Text;
-			if (!textBoxToGlobalInt(text_Telegram_LiveStatsDelay,"telDelay")){
+            if (!textBoxToGlobalInt(text_Telegram_LiveStatsDelay,"telDelay")){
             	return false;
             }
             Globals.pokevision = UseSkipLaggedAPI.Checked;
+            Globals.SnipePokemon = SnipePokemonPokeCom.Checked;
             
             // tab 8 updates
             Globals.AutoUpdate = checkbox_AutoUpdate.Checked;
@@ -784,7 +786,6 @@ namespace PokemonGo.RocketAPI.Console
             
             Globals.settingsLanguage = langSelected;
                      
-
             
             #endregion
 

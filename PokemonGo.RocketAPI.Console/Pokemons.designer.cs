@@ -1286,8 +1286,8 @@ namespace PokemonGo.RocketAPI.Console
             this.eggsPanel1.TabIndex = 0;
             // 
             // Pokemons
-            // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            //
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);            
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(957, 558);
             this.Controls.Add(this.lang_tr_btn2);

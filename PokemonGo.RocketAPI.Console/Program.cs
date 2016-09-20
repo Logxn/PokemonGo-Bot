@@ -339,5 +339,6 @@ namespace PokemonGo.RocketAPI.Console
         internal static int InventoryBasePokeball = 10;
         internal static int InventoryBaseGreatball = 10;
         internal static int InventoryBaseUltraball = 10;
+        internal static bool SnipePokemon;
     }
 }
