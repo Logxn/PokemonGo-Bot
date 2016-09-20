@@ -779,14 +779,21 @@ namespace PokemonGo.RocketAPI.Console
             }
             Globals.pokevision = UseSkipLaggedAPI.Checked;
             Globals.SnipePokemon = SnipePokemonPokeCom.Checked;
+            if(Globals.SnipePokemon)
+            {
+                DialogResult result = MessageBox.Show("Sniping has not been tested yet. It could get you banned. Do you want to continue?", "Info", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
+                if (result == DialogResult.OK)
+                    Globals.SnipePokemon = true;
+                else
+                    Globals.SnipePokemon = false;      
+            }
             
             // tab 8 updates
             Globals.AutoUpdate = checkbox_AutoUpdate.Checked;
             Globals.CheckWhileRunning = checkbox_checkWhileRunning.Checked;
             
             Globals.settingsLanguage = langSelected;
-                     
-            
+
             #endregion
 
             #region CreatingSettings

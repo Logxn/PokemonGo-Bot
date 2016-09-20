@@ -761,7 +761,6 @@ namespace PokemonGo.RocketAPI.Logic
                 //SkipLagged API
                 if (_clientSettings.pokevision)
                 {
-                    Logger.ColoredConsoleWrite(ConsoleColor.DarkGreen, "SkipLagged API...");
                     foreach (spottedPoke p in await _pokevision.GetNearPokemons(_client.CurrentLatitude, _client.CurrentLongitude))
                     {
                         var dist = LocationUtils.CalculateDistanceInMeters(_client.CurrentLatitude, _client.CurrentLongitude, p._lat, p._lng);
