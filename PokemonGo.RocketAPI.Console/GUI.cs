@@ -211,6 +211,7 @@ namespace PokemonGo.RocketAPI.Console
             {
                 if (configString != "")
                 {                    
+                	
                     var settings = new JsonSerializerSettings
                     {
                         Error = (sender, args) =>
@@ -221,7 +222,7 @@ namespace PokemonGo.RocketAPI.Console
                             }
                         }
                     };
-                    var config = Newtonsoft.Json.JsonConvert.DeserializeObject<Settings>(strippedstring, settings);
+                    var config = Newtonsoft.Json.JsonConvert.DeserializeObject<Settings>(configString, settings);
                    //_clientSettings = config;
                    
                     // tab 1 
