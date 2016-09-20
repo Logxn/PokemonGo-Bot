@@ -245,7 +245,7 @@ namespace PokemonGo.RocketAPI.Console
 
                     text_Latitude.Text = config.DefaultLatitude.ToString();
                     text_Longitude.Text = config.DefaultLongitude.ToString();
-                    text_Altidude.Text = config.DefaultAltitude.ToString();
+                    text_Altitude.Text = config.DefaultAltitude.ToString();
 
                     checkBox_UseLuckyEggAtEvolve.Checked = config.UseLuckyEgg;
                     checkBox_SimulateAnimationTimeAtEvolve.Checked = config.UseAnimationTimes;
@@ -381,7 +381,7 @@ namespace PokemonGo.RocketAPI.Console
                     MessageBox.Show("Default Config Empty - Loading Default Values");
                 text_Latitude.Text = "40,764883";
                 text_Longitude.Text = "-73,972967";
-                text_Altidude.Text = "10";
+                text_Altitude.Text = "10";
                 text_Speed.Text = "50";
                 text_Radius.Text = "5000";
                 text_Duplicate.Text = "3";
@@ -495,6 +495,7 @@ namespace PokemonGo.RocketAPI.Console
         
         private bool textBoxToGlobal(TextBox textBox, string fieldName ="")
         {
+        	textBox.BackColor = SystemColors.Window;
         	var ret = true;        	        	
             if (textBox.Text != string.Empty)
             {
@@ -506,12 +507,14 @@ namespace PokemonGo.RocketAPI.Console
             else
             {
                 textBox.BackColor = Color.Red;
+                this.ActiveControl = textBox;
                 ret = false;
             }
             return ret;        
         }
         private bool textBoxToGlobalDouble(TextBox textBox, string fieldName ="")
         {
+        	textBox.BackColor = SystemColors.Window;
         	var ret = true;        	        	
             if (textBox.Text != string.Empty)
             {
@@ -525,6 +528,7 @@ namespace PokemonGo.RocketAPI.Console
             else
             {
                 textBox.BackColor = Color.Red;
+                this.ActiveControl = textBox;
                 ret = false;
             }
             return ret;        
@@ -532,6 +536,7 @@ namespace PokemonGo.RocketAPI.Console
         
         private bool textBoxToGlobalInt(TextBox textBox, string fieldName ="")
         {
+            textBox.BackColor = SystemColors.Window;
         	var ret = true;        	        	
             if (textBox.Text != string.Empty)
             {
@@ -544,6 +549,7 @@ namespace PokemonGo.RocketAPI.Console
             else
             {
                 textBox.BackColor = Color.Red;
+                this.ActiveControl = textBox;
                 ret = false;
             }
             return ret;        
@@ -570,10 +576,10 @@ namespace PokemonGo.RocketAPI.Console
             if (!textBoxToGlobalDouble(text_Latitude,"latitute")){
             	return false;
             }
-            if (!textBoxToGlobalDouble(text_Longitude)){
+            if (!textBoxToGlobalDouble(text_Longitude,"longitude")){
             	return false;
             }
-            if (!textBoxToGlobalDouble(text_Altidude)){
+            if (!textBoxToGlobalDouble(text_Altitude,"altitude")){
             	return false;
             }
             
@@ -929,7 +935,7 @@ namespace PokemonGo.RocketAPI.Console
             locationSelector.ShowDialog();
             text_Latitude.Text = Globals.latitute.ToString(CultureInfo.InvariantCulture);
             text_Longitude.Text = Globals.longitude.ToString(CultureInfo.InvariantCulture);
-            text_Altidude.Text = Globals.altitude.ToString(CultureInfo.InvariantCulture);
+            text_Altitude.Text = Globals.altitude.ToString(CultureInfo.InvariantCulture);
         }
 
         private void TextBoxes_Items_TextChanged(object sender, EventArgs e)
@@ -1269,6 +1275,8 @@ namespace PokemonGo.RocketAPI.Console
         {
         	if (Save())
             	MessageBox.Show("Current Configuration Saved as - " + ActiveProfile.ProfileName);
+        	else
+        		MessageBox.Show("Please Review Red Box Before Save");
         }
 
         private void ProfileName_TextChanged(object sender, EventArgs e)
