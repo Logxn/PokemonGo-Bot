@@ -11,26 +11,21 @@ namespace PokemonGo.RocketAPI.Console
     public class Profile
     {
         public string ProfileName
-        {
-            get;
-            set;
-        }
+        { get; set; }
         public bool IsDefault
-        {
-            get;
-            set;
-        }
+        { get; set; }
         public int RunOrder
-        {
-            get;
-            set;
-        }
+        { get; set; }
         public string SettingsJSON
-        {
-            get;
-            set;
-        }
+        { get; set; }
     }
+    public class SaveLoadStatus
+    {
+        public bool Status
+        { get; set; }
+        public string StatusMessage
+        { get; set; }
+    }    
     public class Settings : ISettings
     {
         /* ===================================[SETTINGS]================================= */
@@ -54,8 +49,8 @@ namespace PokemonGo.RocketAPI.Console
         }
         public string PtcUsername
         {
-            get { return Globals.username; }
-            set { Globals.username = value; }
+            get { return Globals.email; }
+            set { Globals.email = value; }
         }
         public string PtcPassword
         {
@@ -64,8 +59,8 @@ namespace PokemonGo.RocketAPI.Console
         }
         public string GoogleUsername
         {
-            get { return Globals.username; }
-            set { Globals.username = value; }
+            get { return Globals.email; }
+            set { Globals.email = value; }
         }
         public string GooglePassword
         {
@@ -410,20 +405,20 @@ namespace PokemonGo.RocketAPI.Console
             }
         }
 
-        public IList<PokemonId> catchPokemonSkipList
+        public List<PokemonId> catchPokemonSkipList
         {
             get { return Globals.noCatch; }
             set { Globals.noCatch = value; }
         }
 
-        public IList<PokemonId> pokemonsToHold
+        public List<PokemonId> pokemonsToHold
         {
             get { return Globals.noTransfer; }
             set { Globals.noTransfer = value; }
 
         }
 
-        public IList<PokemonId> pokemonsToEvolve
+        public List<PokemonId> pokemonsToEvolve
         {
             get { return Globals.doEvolve; }
             set { Globals.doEvolve = value; }
@@ -721,6 +716,6 @@ namespace PokemonGo.RocketAPI.Console
         {
             get { return Globals.pokeList; }
             set { Globals.pokeList = value; }
-        }      
+        }
     }
 }

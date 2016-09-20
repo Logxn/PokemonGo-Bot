@@ -52,6 +52,7 @@ namespace PokemonGo.RocketAPI.Logic
         private double timetorunstamp = -10000;
         private double pausetimestamp = -10000;
         private double resumetimestamp = -10000;
+        private double lastlog = -10000;
         private double startingXP = -10000;
         private double currentxp = -10000;
         private bool havelures = false;
@@ -426,139 +427,144 @@ namespace PokemonGo.RocketAPI.Logic
 
         private async Task SetCheckTimeToRun()
         {
-            #region Time to Run
-            if (_clientSettings.TimeToRun > 0)
+            if (((long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds) > (lastlog + 60000))
             {
-                if (timetorunstamp == -10000)
+                lastlog = ((long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds);
+                #region Time to Run
+                if (_clientSettings.TimeToRun > 0)
                 {
-                    timetorunstamp = (_clientSettings.TimeToRun * 60 * 1000) + ((long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds);
-                }
-                else
-                {
-                    var runTimeRemaining = timetorunstamp - (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds;
-                    if (runTimeRemaining <= 0)
+                    if (timetorunstamp == -10000)
                     {
-                        Logger.ColoredConsoleWrite(ConsoleColor.Red, "Time To Run Reached or Exceeded...Walking back to default location and stopping bot");
+                        timetorunstamp = (_clientSettings.TimeToRun * 60 * 1000) + ((long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds);
+                    }
+                    else
+                    {
+                        var runTimeRemaining = timetorunstamp - (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds;
+                        if (runTimeRemaining <= 0)
+                        {
+                            Logger.ColoredConsoleWrite(ConsoleColor.Red, "Time To Run Reached or Exceeded...Walking back to default location and stopping bot");
+
+                            await WalkWithRouting(_clientSettings.DefaultLatitude, _clientSettings.DefaultLongitude, _clientSettings.WalkingSpeedInKilometerPerHour, ExecuteCatchandFarm);
+
+                            StringUtils.CheckKillSwitch(true);
+                        }
+                        else
+                        {
+                            Logger.ColoredConsoleWrite(ConsoleColor.Blue, String.Format("Remaining Time to Run: {0} minutes", Math.Round(runTimeRemaining / 1000 / 60, 2)));
+                        }
+                    }
+                }
+
+                #endregion
+
+                #region Breaks
+                if (_clientSettings.UseBreakFields)
+                {
+                    if (pausetimestamp > -10000)
+                    {
+                        var walkTimeRemaining = pausetimestamp - (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds;
+                        if (walkTimeRemaining <= 0)
+                        {
+                            pausetimestamp = -10000;
+                            _clientSettings.pauseAtPokeStop = true;
+                            resumetimestamp = (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds + _clientSettings.BreakLength * 60 * 1000;
+                            Logger.ColoredConsoleWrite(ConsoleColor.Blue, String.Format("Break Time! Pause walking for {0} minutes", _clientSettings.BreakLength));
+                        }
+                        else
+                        {
+                            Logger.ColoredConsoleWrite(ConsoleColor.Blue, String.Format("Remaining Time until break: {0} minutes", Math.Round(walkTimeRemaining / 1000 / 60, 2)));
+                        }
+                    }
+                    else if (resumetimestamp == -10000)
+                    {
+                        pausetimestamp = (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds + _clientSettings.BreakInterval * 60 * 1000;
+                        Logger.ColoredConsoleWrite(ConsoleColor.Blue, String.Format("Remaining Time until break: {0} minutes", _clientSettings.BreakInterval));
+                    }
+                }
+                if (resumetimestamp > -10000)
+                {
+                    var breakTimeRemaining = resumetimestamp - (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds;
+                    if (breakTimeRemaining <= 0)
+                    {
+                        resumetimestamp = -10000;
+                        _clientSettings.pauseAtPokeStop = false;
+                        Logger.ColoredConsoleWrite(ConsoleColor.Green, "Break over, back to walking!");
+                    }
+                    else
+                    {
+                        Logger.ColoredConsoleWrite(ConsoleColor.Blue, String.Format("Remaining Time until resume walking: {0} minutes", Math.Round(breakTimeRemaining / 1000 / 60, 2)));
+                    }
+                }
+
+                #endregion
+
+                #region Log Catch Disabled
+                //add logging for pokemon catch disabled here for now to prevent spamming
+                if (!_clientSettings.CatchPokemon)
+                {
+                    Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Catching Pokemon Disabled in Client Settings - Skipping all pokemon");
+                }
+                #endregion
+
+                #region Check Run Count Limits
+
+                #region Catch Pokemon Count Check
+                if (pokemonCatchCount >= _clientSettings.PokemonCatchLimit)
+                {
+
+                    if (_clientSettings.FarmPokestops)
+                    {
+                        Logger.ColoredConsoleWrite(ConsoleColor.Green, "Pokemon Catch Limit Reached - Bot will only farm pokestops");
+                        _clientSettings.CatchPokemon = false;
+                    }
+                    else
+                    {
+                        Logger.ColoredConsoleWrite(ConsoleColor.Green, "Pokemon Catch Limit Reached and not farming pokestops - Bot will return to default location and stop");
 
                         await WalkWithRouting(_clientSettings.DefaultLatitude, _clientSettings.DefaultLongitude, _clientSettings.WalkingSpeedInKilometerPerHour, ExecuteCatchandFarm);
 
                         StringUtils.CheckKillSwitch(true);
                     }
-                    else
-                    {
-                        Logger.ColoredConsoleWrite(ConsoleColor.Blue, String.Format("Remaining Time to Run: {0} minutes", Math.Round(runTimeRemaining / 1000 / 60, 2)));
-                    }
                 }
-            }
-            #endregion
+                #endregion
 
-            #region Breaks
-            if (_clientSettings.UseBreakFields)
-            {
-                if (pausetimestamp > -10000)
+                #region Farm Pokestops Check
+                if (pokeStopFarmedCount >= _clientSettings.PokestopFarmLimit)
                 {
-                    var walkTimeRemaining = pausetimestamp - (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds;
-                    if (walkTimeRemaining <= 0)
+                    if (_clientSettings.CatchPokemon)
                     {
-                        pausetimestamp = -10000;
-                        _clientSettings.pauseAtPokeStop = true;
-                        resumetimestamp = (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds + _clientSettings.BreakLength * 60 * 1000;
-                        Logger.ColoredConsoleWrite(ConsoleColor.Blue, String.Format("Break Time! Pause walking for {0} minutes", _clientSettings.BreakLength));
+                        Logger.ColoredConsoleWrite(ConsoleColor.Green, "Pokestop Farmed Limit Reached - Bot will only catch pokemon");
+                        _clientSettings.FarmPokestops = false;
                     }
                     else
                     {
-                        Logger.ColoredConsoleWrite(ConsoleColor.Blue, String.Format("Remaining Time until break: {0} minutes", Math.Round(walkTimeRemaining / 1000 / 60, 2)));
+                        Logger.ColoredConsoleWrite(ConsoleColor.Green, "Pokestop Farmed Limit Reached and not catching pokemon - Bot will return to default location and stop");
+
+                        await WalkWithRouting(_clientSettings.DefaultLatitude, _clientSettings.DefaultLongitude, _clientSettings.WalkingSpeedInKilometerPerHour, ExecuteCatchandFarm);
+
+                        StringUtils.CheckKillSwitch(true);
                     }
                 }
-                else if (resumetimestamp == -10000)
+                #endregion
+
+                #region XP Check
+                if (startingXP != -10000 && currentxp != -10000 && (currentxp = -startingXP) >= _clientSettings.XPFarmedLimit)
                 {
-                    pausetimestamp = (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds + _clientSettings.BreakInterval * 60 * 1000;
-                    Logger.ColoredConsoleWrite(ConsoleColor.Blue, String.Format("Remaining Time until break: {0} minutes", _clientSettings.BreakInterval));
-                }
-            }
-            if (resumetimestamp > -10000)
-            {
-                var breakTimeRemaining = resumetimestamp - (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds;
-                if (breakTimeRemaining <= 0)
-                {
-                    resumetimestamp = -10000;
-                    _clientSettings.pauseAtPokeStop = false;
-                    Logger.ColoredConsoleWrite(ConsoleColor.Green, "Break over, back to walking!");
-                }
-                else
-                {
-                    Logger.ColoredConsoleWrite(ConsoleColor.Blue, String.Format("Remaining Time until resume walking: {0} minutes", Math.Round(breakTimeRemaining / 1000 / 60, 2)));
-                }
-            }
-
-            #endregion
-
-            #region Log Catch Disabled
-            //add logging for pokemon catch disabled here for now to prevent spamming
-            if (!_clientSettings.CatchPokemon)
-            {
-                Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Catching Pokemon Disabled in Client Settings - Skipping all pokemon");
-            }
-            #endregion
-
-            #region Check Run Count Limits
-
-            #region Catch Pokemon Count Check
-            if (pokemonCatchCount >= _clientSettings.PokemonCatchLimit)
-            {
-
-                if (_clientSettings.FarmPokestops)
-                {
-                    Logger.ColoredConsoleWrite(ConsoleColor.Green, "Pokemon Catch Limit Reached - Bot will only farm pokestops");
-                    _clientSettings.CatchPokemon = false;
-                }
-                else
-                {
-                    Logger.ColoredConsoleWrite(ConsoleColor.Green, "Pokemon Catch Limit Reached and not farming pokestops - Bot will return to default location and stop");
-
-                    await WalkWithRouting(_clientSettings.DefaultLatitude, _clientSettings.DefaultLongitude, _clientSettings.WalkingSpeedInKilometerPerHour, ExecuteCatchandFarm);
-
+                    Logger.ColoredConsoleWrite(ConsoleColor.Green, "XP Farmed Limit Reached - Bot will return to default location and stop");
+                    if (_clientSettings.UseGoogleMapsAPI)
+                    {
+                        await WalkWithRouting(_clientSettings.DefaultLatitude, _clientSettings.DefaultLongitude, _clientSettings.WalkingSpeedInKilometerPerHour, ExecuteCatchandFarm);
+                    }
+                    else
+                    {
+                        var walkHome = await _navigation.HumanLikeWalking(new GeoCoordinate(_clientSettings.DefaultLatitude, _clientSettings.DefaultLongitude), _clientSettings.WalkingSpeedInKilometerPerHour, ExecuteCatchAllNearbyPokemons);
+                    }
                     StringUtils.CheckKillSwitch(true);
                 }
+                #endregion
+
+                #endregion
             }
-            #endregion
-
-            #region Farm Pokestops Check
-            if (pokeStopFarmedCount >= _clientSettings.PokestopFarmLimit)
-            {
-                if (_clientSettings.CatchPokemon)
-                {
-                    Logger.ColoredConsoleWrite(ConsoleColor.Green, "Pokestop Farmed Limit Reached - Bot will only catch pokemon");
-                    _clientSettings.FarmPokestops = false;
-                }
-                else
-                {
-                    Logger.ColoredConsoleWrite(ConsoleColor.Green, "Pokestop Farmed Limit Reached and not catching pokemon - Bot will return to default location and stop");
-
-                    await WalkWithRouting(_clientSettings.DefaultLatitude, _clientSettings.DefaultLongitude, _clientSettings.WalkingSpeedInKilometerPerHour, ExecuteCatchandFarm);
-
-                    StringUtils.CheckKillSwitch(true);
-                }
-            }
-            #endregion
-
-            #region XP Check
-            if (startingXP != -10000 && currentxp != -10000 && (currentxp = -startingXP) >= _clientSettings.XPFarmedLimit)
-            {
-                Logger.ColoredConsoleWrite(ConsoleColor.Green, "XP Farmed Limit Reached - Bot will return to default location and stop");
-                if (_clientSettings.UseGoogleMapsAPI)
-                {
-                    await WalkWithRouting(_clientSettings.DefaultLatitude, _clientSettings.DefaultLongitude, _clientSettings.WalkingSpeedInKilometerPerHour, ExecuteCatchandFarm);
-                }
-                else
-                {
-                    var walkHome = await _navigation.HumanLikeWalking(new GeoCoordinate(_clientSettings.DefaultLatitude, _clientSettings.DefaultLongitude), _clientSettings.WalkingSpeedInKilometerPerHour, ExecuteCatchAllNearbyPokemons);
-                }
-                StringUtils.CheckKillSwitch(true);
-            }
-            #endregion
-
-            #endregion
         }
 
         #endregion
