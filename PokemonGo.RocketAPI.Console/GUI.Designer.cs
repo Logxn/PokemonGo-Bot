@@ -47,7 +47,6 @@
             this.prxyIP = new System.Windows.Forms.TextBox();
             this.checkBox_UseProxy = new System.Windows.Forms.CheckBox();
             this.tabItems = new System.Windows.Forms.TabPage();
-            this.label38 = new System.Windows.Forms.Label();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.text_TotalItemCount = new System.Windows.Forms.TextBox();
             this.label31 = new System.Windows.Forms.Label();
@@ -207,7 +206,6 @@
             this.text_PokemonCatchLimit = new System.Windows.Forms.TextBox();
             this.label40 = new System.Windows.Forms.Label();
             this.text_TimeToRun = new System.Windows.Forms.TextBox();
-            this.settingsBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.SnipePokemonPokeCom = new System.Windows.Forms.CheckBox();
             this.UseSkipLaggedAPI = new System.Windows.Forms.CheckBox();
@@ -237,6 +235,9 @@
             this.lang_en_btn = new System.Windows.Forms.Button();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.button2 = new System.Windows.Forms.Button();
+            this.settingsBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.MinCPtoCatch = new System.Windows.Forms.TextBox();
+            this.label8 = new System.Windows.Forms.Label();
             this.tabPage1.SuspendLayout();
             this.tabItems.SuspendLayout();
             this.groupBox4.SuspendLayout();
@@ -265,13 +266,13 @@
             this.groupBox11.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.groupBox12.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.settingsBindingSource)).BeginInit();
             this.tabPage3.SuspendLayout();
             this.groupBox17.SuspendLayout();
             this.groupBox14.SuspendLayout();
             this.tabPage4.SuspendLayout();
             this.groupBox15.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.settingsBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // button1
@@ -323,7 +324,7 @@
             // linkLabel5
             // 
             this.linkLabel5.AutoSize = true;
-            this.linkLabel5.Location = new System.Drawing.Point(31, 455);
+            this.linkLabel5.Location = new System.Drawing.Point(330, 263);
             this.linkLabel5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.linkLabel5.Name = "linkLabel5";
             this.linkLabel5.Size = new System.Drawing.Size(136, 17);
@@ -361,9 +362,9 @@
             this.label35.Location = new System.Drawing.Point(68, 255);
             this.label35.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label35.Name = "label35";
-            this.label35.Size = new System.Drawing.Size(254, 29);
+            this.label35.Size = new System.Drawing.Size(235, 29);
             this.label35.TabIndex = 9;
-            this.label35.Text = "1. Get a HTTPS Proxy.";
+            this.label35.Text = "1. Get HTTPS Proxy.";
             // 
             // label34
             // 
@@ -464,7 +465,6 @@
             // 
             // tabItems
             // 
-            this.tabItems.Controls.Add(this.label38);
             this.tabItems.Controls.Add(this.groupBox4);
             this.tabItems.Location = new System.Drawing.Point(4, 25);
             this.tabItems.Margin = new System.Windows.Forms.Padding(4);
@@ -473,16 +473,6 @@
             this.tabItems.TabIndex = 2;
             this.tabItems.Text = "Items";
             this.tabItems.UseVisualStyleBackColor = true;
-            // 
-            // label38
-            // 
-            this.label38.AutoSize = true;
-            this.label38.Location = new System.Drawing.Point(260, 18);
-            this.label38.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label38.Name = "label38";
-            this.label38.Size = new System.Drawing.Size(459, 17);
-            this.label38.TabIndex = 6;
-            this.label38.Text = "Warning: Dont set Pokeballs to 0, the Bot will auto choose the best one.";
             // 
             // groupBox4
             // 
@@ -752,6 +742,8 @@
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.MinCPtoCatch);
+            this.groupBox3.Controls.Add(this.label8);
             this.groupBox3.Controls.Add(this.checkBox_TransferFirstLowIV);
             this.groupBox3.Controls.Add(this.label29);
             this.groupBox3.Controls.Add(this.text_MaxIVToTransfer);
@@ -773,7 +765,7 @@
             // checkBox_TransferFirstLowIV
             // 
             this.checkBox_TransferFirstLowIV.AutoSize = true;
-            this.checkBox_TransferFirstLowIV.Location = new System.Drawing.Point(245, 22);
+            this.checkBox_TransferFirstLowIV.Location = new System.Drawing.Point(188, 25);
             this.checkBox_TransferFirstLowIV.Margin = new System.Windows.Forms.Padding(4);
             this.checkBox_TransferFirstLowIV.Name = "checkBox_TransferFirstLowIV";
             this.checkBox_TransferFirstLowIV.Size = new System.Drawing.Size(148, 21);
@@ -793,7 +785,7 @@
             // 
             // text_MaxIVToTransfer
             // 
-            this.text_MaxIVToTransfer.Location = new System.Drawing.Point(380, 50);
+            this.text_MaxIVToTransfer.Location = new System.Drawing.Point(380, 54);
             this.text_MaxIVToTransfer.Margin = new System.Windows.Forms.Padding(4);
             this.text_MaxIVToTransfer.Name = "text_MaxIVToTransfer";
             this.text_MaxIVToTransfer.Size = new System.Drawing.Size(69, 22);
@@ -803,7 +795,7 @@
             // label28
             // 
             this.label28.AutoSize = true;
-            this.label28.Location = new System.Drawing.Point(249, 54);
+            this.label28.Location = new System.Drawing.Point(249, 56);
             this.label28.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label28.Name = "label28";
             this.label28.Size = new System.Drawing.Size(126, 17);
@@ -812,7 +804,7 @@
             // 
             // text_MaxCPToTransfer
             // 
-            this.text_MaxCPToTransfer.Location = new System.Drawing.Point(608, 49);
+            this.text_MaxCPToTransfer.Location = new System.Drawing.Point(608, 54);
             this.text_MaxCPToTransfer.Margin = new System.Windows.Forms.Padding(4);
             this.text_MaxCPToTransfer.Name = "text_MaxCPToTransfer";
             this.text_MaxCPToTransfer.Size = new System.Drawing.Size(77, 22);
@@ -822,7 +814,7 @@
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(475, 54);
+            this.label12.Location = new System.Drawing.Point(475, 56);
             this.label12.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(132, 17);
@@ -831,7 +823,7 @@
             // 
             // text_MaxDuplicatePokemon
             // 
-            this.text_MaxDuplicatePokemon.Location = new System.Drawing.Point(188, 50);
+            this.text_MaxDuplicatePokemon.Location = new System.Drawing.Point(184, 52);
             this.text_MaxDuplicatePokemon.Margin = new System.Windows.Forms.Padding(4);
             this.text_MaxDuplicatePokemon.Name = "text_MaxDuplicatePokemon";
             this.text_MaxDuplicatePokemon.Size = new System.Drawing.Size(52, 22);
@@ -856,9 +848,9 @@
             this.checkBox_AutoTransferDoublePokemon.Location = new System.Drawing.Point(9, 25);
             this.checkBox_AutoTransferDoublePokemon.Margin = new System.Windows.Forms.Padding(4);
             this.checkBox_AutoTransferDoublePokemon.Name = "checkBox_AutoTransferDoublePokemon";
-            this.checkBox_AutoTransferDoublePokemon.Size = new System.Drawing.Size(229, 21);
+            this.checkBox_AutoTransferDoublePokemon.Size = new System.Drawing.Size(180, 21);
             this.checkBox_AutoTransferDoublePokemon.TabIndex = 8;
-            this.checkBox_AutoTransferDoublePokemon.Text = "Auto transfer double Pokemons";
+            this.checkBox_AutoTransferDoublePokemon.Text = "Auto transfer duplicates";
             this.checkBox_AutoTransferDoublePokemon.UseVisualStyleBackColor = true;
             // 
             // groupBox5
@@ -1278,7 +1270,7 @@
             this.groupBox9.Controls.Add(this.linkLabel3);
             this.groupBox9.Controls.Add(this.linkLabel1);
             this.groupBox9.Controls.Add(this.linkLabel8);
-            this.groupBox9.Location = new System.Drawing.Point(8, 331);
+            this.groupBox9.Location = new System.Drawing.Point(8, 364);
             this.groupBox9.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox9.Name = "groupBox9";
             this.groupBox9.Padding = new System.Windows.Forms.Padding(4);
@@ -1583,7 +1575,7 @@
             this.groupBox8.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.groupBox8.Name = "groupBox8";
             this.groupBox8.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.groupBox8.Size = new System.Drawing.Size(336, 202);
+            this.groupBox8.Size = new System.Drawing.Size(352, 202);
             this.groupBox8.TabIndex = 54;
             this.groupBox8.TabStop = false;
             this.groupBox8.Text = "Miss Rate and Ball Choice";
@@ -1591,7 +1583,7 @@
             // label33
             // 
             this.label33.AutoSize = true;
-            this.label33.Location = new System.Drawing.Point(301, 164);
+            this.label33.Location = new System.Drawing.Point(311, 164);
             this.label33.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label33.Name = "label33";
             this.label33.Size = new System.Drawing.Size(20, 17);
@@ -1601,7 +1593,7 @@
             // label53
             // 
             this.label53.AutoSize = true;
-            this.label53.Location = new System.Drawing.Point(43, 130);
+            this.label53.Location = new System.Drawing.Point(53, 130);
             this.label53.Name = "label53";
             this.label53.Size = new System.Drawing.Size(243, 17);
             this.label53.TabIndex = 56;
@@ -1609,7 +1601,7 @@
             // 
             // text_UseRazzberryChance
             // 
-            this.text_UseRazzberryChance.Location = new System.Drawing.Point(253, 162);
+            this.text_UseRazzberryChance.Location = new System.Drawing.Point(260, 162);
             this.text_UseRazzberryChance.Margin = new System.Windows.Forms.Padding(4);
             this.text_UseRazzberryChance.Name = "text_UseRazzberryChance";
             this.text_UseRazzberryChance.Size = new System.Drawing.Size(40, 22);
@@ -1618,7 +1610,7 @@
             // 
             // numericUpDown4
             // 
-            this.numericUpDown4.Location = new System.Drawing.Point(261, 103);
+            this.numericUpDown4.Location = new System.Drawing.Point(271, 103);
             this.numericUpDown4.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.numericUpDown4.Name = "numericUpDown4";
             this.numericUpDown4.Size = new System.Drawing.Size(61, 22);
@@ -1632,7 +1624,7 @@
             // checkBox_UseRazzberryIfChanceUnder
             // 
             this.checkBox_UseRazzberryIfChanceUnder.AutoSize = true;
-            this.checkBox_UseRazzberryIfChanceUnder.Location = new System.Drawing.Point(19, 164);
+            this.checkBox_UseRazzberryIfChanceUnder.Location = new System.Drawing.Point(29, 164);
             this.checkBox_UseRazzberryIfChanceUnder.Margin = new System.Windows.Forms.Padding(4);
             this.checkBox_UseRazzberryIfChanceUnder.Name = "checkBox_UseRazzberryIfChanceUnder";
             this.checkBox_UseRazzberryIfChanceUnder.Size = new System.Drawing.Size(227, 21);
@@ -1642,7 +1634,7 @@
             // 
             // numericUpDown3
             // 
-            this.numericUpDown3.Location = new System.Drawing.Point(261, 78);
+            this.numericUpDown3.Location = new System.Drawing.Point(271, 78);
             this.numericUpDown3.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.numericUpDown3.Name = "numericUpDown3";
             this.numericUpDown3.Size = new System.Drawing.Size(61, 22);
@@ -1655,7 +1647,7 @@
             // 
             // numericUpDown2
             // 
-            this.numericUpDown2.Location = new System.Drawing.Point(261, 53);
+            this.numericUpDown2.Location = new System.Drawing.Point(271, 53);
             this.numericUpDown2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.numericUpDown2.Name = "numericUpDown2";
             this.numericUpDown2.Size = new System.Drawing.Size(61, 22);
@@ -1668,7 +1660,7 @@
             // 
             // numericUpDown1
             // 
-            this.numericUpDown1.Location = new System.Drawing.Point(261, 28);
+            this.numericUpDown1.Location = new System.Drawing.Point(271, 28);
             this.numericUpDown1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.numericUpDown1.Name = "numericUpDown1";
             this.numericUpDown1.Size = new System.Drawing.Size(61, 22);
@@ -1683,7 +1675,7 @@
             // 
             this.checkBox7.AutoSize = true;
             this.checkBox7.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.checkBox7.Location = new System.Drawing.Point(15, 103);
+            this.checkBox7.Location = new System.Drawing.Point(25, 103);
             this.checkBox7.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.checkBox7.Name = "checkBox7";
             this.checkBox7.Size = new System.Drawing.Size(164, 21);
@@ -1695,7 +1687,7 @@
             // 
             this.checkBox3.AutoSize = true;
             this.checkBox3.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.checkBox3.Location = new System.Drawing.Point(9, 78);
+            this.checkBox3.Location = new System.Drawing.Point(19, 78);
             this.checkBox3.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.checkBox3.Name = "checkBox3";
             this.checkBox3.Size = new System.Drawing.Size(170, 21);
@@ -1707,7 +1699,7 @@
             // 
             this.checkBox2.AutoSize = true;
             this.checkBox2.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.checkBox2.Location = new System.Drawing.Point(13, 53);
+            this.checkBox2.Location = new System.Drawing.Point(23, 53);
             this.checkBox2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.checkBox2.Name = "checkBox2";
             this.checkBox2.Size = new System.Drawing.Size(166, 21);
@@ -1718,7 +1710,7 @@
             // label52
             // 
             this.label52.AutoSize = true;
-            this.label52.Location = new System.Drawing.Point(185, 103);
+            this.label52.Location = new System.Drawing.Point(195, 103);
             this.label52.Name = "label52";
             this.label52.Size = new System.Drawing.Size(72, 17);
             this.label52.TabIndex = 0;
@@ -1727,7 +1719,7 @@
             // label24
             // 
             this.label24.AutoSize = true;
-            this.label24.Location = new System.Drawing.Point(185, 79);
+            this.label24.Location = new System.Drawing.Point(195, 79);
             this.label24.Name = "label24";
             this.label24.Size = new System.Drawing.Size(72, 17);
             this.label24.TabIndex = 0;
@@ -1736,7 +1728,7 @@
             // label23
             // 
             this.label23.AutoSize = true;
-            this.label23.Location = new System.Drawing.Point(185, 53);
+            this.label23.Location = new System.Drawing.Point(195, 53);
             this.label23.Name = "label23";
             this.label23.Size = new System.Drawing.Size(72, 17);
             this.label23.TabIndex = 0;
@@ -1745,7 +1737,7 @@
             // label22
             // 
             this.label22.AutoSize = true;
-            this.label22.Location = new System.Drawing.Point(5, 28);
+            this.label22.Location = new System.Drawing.Point(15, 28);
             this.label22.Name = "label22";
             this.label22.Size = new System.Drawing.Size(252, 17);
             this.label22.TabIndex = 0;
@@ -1888,7 +1880,6 @@
             // 
             // tabPage2
             // 
-            this.tabPage2.Controls.Add(this.checkBox_StopWalkingWhenEvolving);
             this.tabPage2.Controls.Add(this.groupBox18);
             this.tabPage2.Controls.Add(this.groupBox13);
             this.tabPage2.Controls.Add(this.groupBox11);
@@ -1907,12 +1898,12 @@
             this.checkBox_StopWalkingWhenEvolving.AutoSize = true;
             this.checkBox_StopWalkingWhenEvolving.Checked = true;
             this.checkBox_StopWalkingWhenEvolving.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox_StopWalkingWhenEvolving.Location = new System.Drawing.Point(36, 402);
+            this.checkBox_StopWalkingWhenEvolving.Location = new System.Drawing.Point(13, 293);
             this.checkBox_StopWalkingWhenEvolving.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.checkBox_StopWalkingWhenEvolving.Name = "checkBox_StopWalkingWhenEvolving";
-            this.checkBox_StopWalkingWhenEvolving.Size = new System.Drawing.Size(292, 21);
+            this.checkBox_StopWalkingWhenEvolving.Size = new System.Drawing.Size(233, 21);
             this.checkBox_StopWalkingWhenEvolving.TabIndex = 70;
-            this.checkBox_StopWalkingWhenEvolving.Text = "Stop Walking when Evolving / Transfering";
+            this.checkBox_StopWalkingWhenEvolving.Text = "Stop Walking at Evolve/Transfer";
             this.checkBox_StopWalkingWhenEvolving.UseVisualStyleBackColor = true;
             // 
             // groupBox18
@@ -2048,6 +2039,7 @@
             // 
             // groupBox11
             // 
+            this.groupBox11.Controls.Add(this.checkBox_StopWalkingWhenEvolving);
             this.groupBox11.Controls.Add(this.checkBox_UseBreakIntervalAndLength);
             this.groupBox11.Controls.Add(this.checkBox_Start_Walk_from_default_location);
             this.groupBox11.Controls.Add(this.label47);
@@ -2064,7 +2056,7 @@
             this.groupBox11.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.groupBox11.Name = "groupBox11";
             this.groupBox11.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.groupBox11.Size = new System.Drawing.Size(295, 305);
+            this.groupBox11.Size = new System.Drawing.Size(295, 323);
             this.groupBox11.TabIndex = 59;
             this.groupBox11.TabStop = false;
             this.groupBox11.Text = "Walk Options";
@@ -2347,10 +2339,6 @@
             this.text_TimeToRun.Size = new System.Drawing.Size(132, 22);
             this.text_TimeToRun.TabIndex = 42;
             // 
-            // settingsBindingSource
-            // 
-            this.settingsBindingSource.DataSource = typeof(PokemonGo.RocketAPI.Console.Settings);
-            // 
             // tabPage3
             // 
             this.tabPage3.Controls.Add(this.SnipePokemonPokeCom);
@@ -2489,7 +2477,7 @@
             // checkbox_LogEggs
             // 
             this.checkbox_LogEggs.AutoSize = true;
-            this.checkbox_LogEggs.Location = new System.Drawing.Point(5, 100);
+            this.checkbox_LogEggs.Location = new System.Drawing.Point(5, 98);
             this.checkbox_LogEggs.Margin = new System.Windows.Forms.Padding(4);
             this.checkbox_LogEggs.Name = "checkbox_LogEggs";
             this.checkbox_LogEggs.Size = new System.Drawing.Size(90, 21);
@@ -2500,7 +2488,7 @@
             // logEvolution
             // 
             this.logEvolution.AutoSize = true;
-            this.logEvolution.Location = new System.Drawing.Point(5, 71);
+            this.logEvolution.Location = new System.Drawing.Point(5, 72);
             this.logEvolution.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.logEvolution.Name = "logEvolution";
             this.logEvolution.Size = new System.Drawing.Size(116, 21);
@@ -2699,6 +2687,28 @@
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click_2);
             // 
+            // settingsBindingSource
+            // 
+            this.settingsBindingSource.DataSource = typeof(PokemonGo.RocketAPI.Console.Settings);
+            // 
+            // MinCPtoCatch
+            // 
+            this.MinCPtoCatch.Location = new System.Drawing.Point(608, 24);
+            this.MinCPtoCatch.Margin = new System.Windows.Forms.Padding(4);
+            this.MinCPtoCatch.Name = "MinCPtoCatch";
+            this.MinCPtoCatch.Size = new System.Drawing.Size(77, 22);
+            this.MinCPtoCatch.TabIndex = 14;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(486, 26);
+            this.label8.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(116, 17);
+            this.label8.TabIndex = 13;
+            this.label8.Text = "Min. CP to Catch:";
+            // 
             // GUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -2729,7 +2739,6 @@
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
             this.tabItems.ResumeLayout(false);
-            this.tabItems.PerformLayout();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
             this.tabPokemon.ResumeLayout(false);
@@ -2763,7 +2772,6 @@
             this.groupBox16.ResumeLayout(false);
             this.groupBox16.PerformLayout();
             this.tabPage2.ResumeLayout(false);
-            this.tabPage2.PerformLayout();
             this.groupBox18.ResumeLayout(false);
             this.groupBox18.PerformLayout();
             this.groupBox13.ResumeLayout(false);
@@ -2773,7 +2781,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.groupBox12.ResumeLayout(false);
             this.groupBox12.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.settingsBindingSource)).EndInit();
             this.tabPage3.ResumeLayout(false);
             this.tabPage3.PerformLayout();
             this.groupBox17.ResumeLayout(false);
@@ -2784,6 +2791,7 @@
             this.groupBox15.ResumeLayout(false);
             this.groupBox15.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.settingsBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -2815,7 +2823,6 @@
         private System.Windows.Forms.TextBox prxyIP;
         private System.Windows.Forms.CheckBox checkBox_UseProxy;
         private System.Windows.Forms.TabPage tabItems;
-        private System.Windows.Forms.Label label38;
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.TextBox text_TotalItemCount;
         private System.Windows.Forms.Label label31;
@@ -2998,6 +3005,8 @@
         private System.Windows.Forms.Label label56;
         private System.Windows.Forms.Label label65;
         private System.Windows.Forms.CheckBox SnipePokemonPokeCom;
+        private System.Windows.Forms.TextBox MinCPtoCatch;
+        private System.Windows.Forms.Label label8;
         //private System.Windows.Forms.CheckBox checkBox_CatchLurePokemons;
     }
 }

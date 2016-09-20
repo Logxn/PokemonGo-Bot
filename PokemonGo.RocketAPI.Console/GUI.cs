@@ -292,6 +292,7 @@ namespace PokemonGo.RocketAPI.Console
                     text_MaxDuplicatePokemon.Text = config.HoldMaxDoublePokemons.ToString();
                     text_MaxIVToTransfer.Text = config.ivmaxpercent.ToString();
                     text_MaxCPToTransfer.Text = config.DontTransferWithCPOver.ToString();
+                    MinCPtoCatch.Text = config.MinCPtoCatch.ToString();
 
                     // tab 3 - throws
                     checkBox2.Checked = !Globals.LimitPokeballUse;
@@ -730,6 +731,10 @@ namespace PokemonGo.RocketAPI.Console
                 return false;
             }
             if (!textBoxToGlobalInt(text_MaxRazzBerrys, "berry"))
+            {
+                return false;
+            }
+            if (!textBoxToGlobalInt(MinCPtoCatch, "MinCPtoCatch"))
             {
                 return false;
             }
