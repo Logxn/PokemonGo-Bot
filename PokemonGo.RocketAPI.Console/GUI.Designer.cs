@@ -1119,7 +1119,6 @@
             this.checkbox_PWDEncryption.TabIndex = 56;
             this.checkbox_PWDEncryption.Text = "Encrypt password on config file";
             this.checkbox_PWDEncryption.UseVisualStyleBackColor = true;
-            this.checkbox_PWDEncryption.CheckedChanged += new System.EventHandler(this.chkPWDEncryption_CheckedChanged);
             // 
             // checkBox1
             // 
@@ -1467,7 +1466,6 @@
             this.checkBox_SimulateAnimationTimeAtEvolve.TabIndex = 40;
             this.checkBox_SimulateAnimationTimeAtEvolve.Text = "Simulate Animation Times at Evolve";
             this.checkBox_SimulateAnimationTimeAtEvolve.UseVisualStyleBackColor = true;
-            this.checkBox_SimulateAnimationTimeAtEvolve.CheckedChanged += new System.EventHandler(this.checkBox24_CheckedChanged);
             // 
             // checkBox_UseLuckyEggAtEvolve
             // 
@@ -1481,7 +1479,6 @@
             this.checkBox_UseLuckyEggAtEvolve.TabIndex = 41;
             this.checkBox_UseLuckyEggAtEvolve.Text = "Use LuckyEgg at Evolve";
             this.checkBox_UseLuckyEggAtEvolve.UseVisualStyleBackColor = true;
-            this.checkBox_UseLuckyEggAtEvolve.CheckedChanged += new System.EventHandler(this.checkBox7_CheckedChanged);
             // 
             // checkBox_EvolvePokemonIfEnoughCandy
             // 
@@ -1552,7 +1549,6 @@
             this.groupBox8.TabIndex = 54;
             this.groupBox8.TabStop = false;
             this.groupBox8.Text = "Miss Rate and Ball Choice";
-            this.groupBox8.Enter += new System.EventHandler(this.groupBox8_Enter);
             // 
             // label53
             // 
@@ -1574,7 +1570,6 @@
             0,
             0,
             0});
-            this.numericUpDown4.ValueChanged += new System.EventHandler(this.numericUpDown4_ValueChanged);
             // 
             // numericUpDown3
             // 
@@ -1587,7 +1582,6 @@
             0,
             0,
             0});
-            this.numericUpDown3.ValueChanged += new System.EventHandler(this.numericUpDown3_ValueChanged);
             // 
             // numericUpDown2
             // 
@@ -1600,7 +1594,6 @@
             0,
             0,
             0});
-            this.numericUpDown2.ValueChanged += new System.EventHandler(this.numericUpDown2_ValueChanged);
             // 
             // numericUpDown1
             // 
@@ -1613,7 +1606,6 @@
             0,
             0,
             0});
-            this.numericUpDown1.ValueChanged += new System.EventHandler(this.numericUpDown1_ValueChanged);
             // 
             // checkBox7
             // 
@@ -1625,7 +1617,6 @@
             this.checkBox7.TabIndex = 5;
             this.checkBox7.Text = "Do not Use Ultraballs";
             this.checkBox7.UseVisualStyleBackColor = true;
-            this.checkBox7.CheckedChanged += new System.EventHandler(this.checkBox7_CheckedChanged_1);
             // 
             // checkBox3
             // 
@@ -1637,7 +1628,6 @@
             this.checkBox3.TabIndex = 5;
             this.checkBox3.Text = "Do not Use Greatballs";
             this.checkBox3.UseVisualStyleBackColor = true;
-            this.checkBox3.CheckedChanged += new System.EventHandler(this.checkBox3_CheckedChanged_1);
             // 
             // checkBox2
             // 
@@ -1649,7 +1639,6 @@
             this.checkBox2.TabIndex = 5;
             this.checkBox2.Text = "Do not Use Pokeballs";
             this.checkBox2.UseVisualStyleBackColor = true;
-            this.checkBox2.CheckedChanged += new System.EventHandler(this.checkBox2_CheckedChanged);
             // 
             // label52
             // 
@@ -1659,7 +1648,6 @@
             this.label52.Size = new System.Drawing.Size(72, 17);
             this.label52.TabIndex = 0;
             this.label52.Text = "If stock <=";
-            this.label52.Click += new System.EventHandler(this.label22_Click);
             // 
             // label24
             // 
@@ -1669,7 +1657,6 @@
             this.label24.Size = new System.Drawing.Size(72, 17);
             this.label24.TabIndex = 0;
             this.label24.Text = "If stock <=";
-            this.label24.Click += new System.EventHandler(this.label22_Click);
             // 
             // label23
             // 
@@ -1679,7 +1666,6 @@
             this.label23.Size = new System.Drawing.Size(72, 17);
             this.label23.TabIndex = 0;
             this.label23.Text = "If stock <=";
-            this.label23.Click += new System.EventHandler(this.label22_Click);
             // 
             // label22
             // 
@@ -1689,7 +1675,6 @@
             this.label22.Size = new System.Drawing.Size(252, 17);
             this.label22.TabIndex = 0;
             this.label22.Text = "Maximum Missed throws per encounter";
-            this.label22.Click += new System.EventHandler(this.label22_Click);
             // 
             // groupBox16
             // 
@@ -1864,7 +1849,6 @@
             this.text_MoveRadius.Name = "text_MoveRadius";
             this.text_MoveRadius.Size = new System.Drawing.Size(132, 22);
             this.text_MoveRadius.TabIndex = 72;
-            this.text_MoveRadius.TextChanged += new System.EventHandler(this.text_MoveRadius_TextChanged);
             this.text_MoveRadius.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox7_KeyPress);
             // 
             // label9
@@ -1894,7 +1878,6 @@
             this.text_Speed.Name = "text_Speed";
             this.text_Speed.Size = new System.Drawing.Size(132, 22);
             this.text_Speed.TabIndex = 70;
-            this.text_Speed.TextChanged += new System.EventHandler(this.text_Speed_TextChanged);
             this.text_Speed.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox7_KeyPress);
             // 
             // label46
@@ -1907,7 +1890,6 @@
             this.label46.TabIndex = 69;
             this.label46.Text = "Min Walk Speed (km/h):";
             this.label46.UseMnemonic = false;
-            this.label46.Click += new System.EventHandler(this.label46_Click);
             // 
             // text_MinWalkSpeed
             // 
@@ -1916,7 +1898,6 @@
             this.text_MinWalkSpeed.Name = "text_MinWalkSpeed";
             this.text_MinWalkSpeed.Size = new System.Drawing.Size(132, 22);
             this.text_MinWalkSpeed.TabIndex = 68;
-            this.text_MinWalkSpeed.TextChanged += new System.EventHandler(this.textBox34_TextChanged);
             this.text_MinWalkSpeed.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox7_KeyPress);
             // 
             // groupBox13
@@ -1952,7 +1933,6 @@
             this.text_GoogleMapsAPIKey.Name = "text_GoogleMapsAPIKey";
             this.text_GoogleMapsAPIKey.Size = new System.Drawing.Size(204, 22);
             this.text_GoogleMapsAPIKey.TabIndex = 62;
-            this.text_GoogleMapsAPIKey.TextChanged += new System.EventHandler(this.textBox33_TextChanged);
             // 
             // checkBox_UseGoogleMapsRouting
             // 
@@ -1964,7 +1944,6 @@
             this.checkBox_UseGoogleMapsRouting.TabIndex = 61;
             this.checkBox_UseGoogleMapsRouting.Text = "Use Google Maps Routing";
             this.checkBox_UseGoogleMapsRouting.UseVisualStyleBackColor = true;
-            this.checkBox_UseGoogleMapsRouting.CheckedChanged += new System.EventHandler(this.checkBox22_CheckedChanged);
             // 
             // label45
             // 
@@ -2010,7 +1989,6 @@
             this.checkBox_UseBreakIntervalAndLength.TabIndex = 71;
             this.checkBox_UseBreakIntervalAndLength.Text = "Use Break Interval and Length";
             this.checkBox_UseBreakIntervalAndLength.UseVisualStyleBackColor = true;
-            this.checkBox_UseBreakIntervalAndLength.CheckedChanged += new System.EventHandler(this.checkBox26_CheckedChanged);
             // 
             // checkBox_Start_Walk_from_default_location
             // 
@@ -2046,7 +2024,6 @@
             this.checkBox_RandomlyReduceSpeed.TabIndex = 64;
             this.checkBox_RandomlyReduceSpeed.Text = "Randomly reduce speed";
             this.checkBox_RandomlyReduceSpeed.UseVisualStyleBackColor = true;
-            this.checkBox_RandomlyReduceSpeed.CheckedChanged += new System.EventHandler(this.checkBox_RandomlyReduceSpeed_CheckedChanged);
             // 
             // checkBox_RandomSleepAtCatching
             // 
@@ -2073,7 +2050,6 @@
             this.checkBox_FarmPokestops.TabIndex = 45;
             this.checkBox_FarmPokestops.Text = "Farm Pokestops";
             this.checkBox_FarmPokestops.UseVisualStyleBackColor = true;
-            this.checkBox_FarmPokestops.CheckedChanged += new System.EventHandler(this.checkBox18_CheckedChanged);
             // 
             // checkBox_CatchPokemon
             // 
@@ -2087,7 +2063,6 @@
             this.checkBox_CatchPokemon.TabIndex = 56;
             this.checkBox_CatchPokemon.Text = "Catch Pokemon";
             this.checkBox_CatchPokemon.UseVisualStyleBackColor = true;
-            this.checkBox_CatchPokemon.CheckedChanged += new System.EventHandler(this.checkBox19_CheckedChanged);
             // 
             // pictureBox1
             // 
@@ -2109,7 +2084,6 @@
             this.checkBox_UseLureAtBreak.TabIndex = 58;
             this.checkBox_UseLureAtBreak.Text = "Use Lure At Break";
             this.checkBox_UseLureAtBreak.UseVisualStyleBackColor = true;
-            this.checkBox_UseLureAtBreak.CheckedChanged += new System.EventHandler(this.checkBox21_CheckedChanged);
             // 
             // checkBox_BreakAtLure
             // 
@@ -2121,7 +2095,6 @@
             this.checkBox_BreakAtLure.TabIndex = 57;
             this.checkBox_BreakAtLure.Text = "Break At Lure";
             this.checkBox_BreakAtLure.UseVisualStyleBackColor = true;
-            this.checkBox_BreakAtLure.CheckedChanged += new System.EventHandler(this.checkBox20_CheckedChanged);
             // 
             // button_ArchimedeanSpiralHelp
             // 
@@ -2145,7 +2118,6 @@
             this.checkBox_WalkInArchimedeanSpiral.TabIndex = 64;
             this.checkBox_WalkInArchimedeanSpiral.Text = "Walk in Archimedean Spiral";
             this.checkBox_WalkInArchimedeanSpiral.UseVisualStyleBackColor = true;
-            this.checkBox_WalkInArchimedeanSpiral.CheckedChanged += new System.EventHandler(this.checkBox25_CheckedChanged);
             // 
             // groupBox12
             // 
@@ -2188,7 +2160,6 @@
             this.text_BreakInterval.Name = "text_BreakInterval";
             this.text_BreakInterval.Size = new System.Drawing.Size(132, 22);
             this.text_BreakInterval.TabIndex = 64;
-            this.text_BreakInterval.TextChanged += new System.EventHandler(this.textBox28_TextChanged);
             // 
             // label44
             // 
@@ -2208,7 +2179,6 @@
             this.text_XPFarmedLimit.Name = "text_XPFarmedLimit";
             this.text_XPFarmedLimit.Size = new System.Drawing.Size(132, 22);
             this.text_XPFarmedLimit.TabIndex = 54;
-            this.text_XPFarmedLimit.TextChanged += new System.EventHandler(this.textBox32_TextChanged);
             // 
             // label43
             // 
@@ -2228,7 +2198,6 @@
             this.text_BreakLength.Name = "text_BreakLength";
             this.text_BreakLength.Size = new System.Drawing.Size(132, 22);
             this.text_BreakLength.TabIndex = 66;
-            this.text_BreakLength.TextChanged += new System.EventHandler(this.textBox29_TextChanged);
             // 
             // text_PokestopFarmLimit
             // 
@@ -2237,7 +2206,6 @@
             this.text_PokestopFarmLimit.Name = "text_PokestopFarmLimit";
             this.text_PokestopFarmLimit.Size = new System.Drawing.Size(132, 22);
             this.text_PokestopFarmLimit.TabIndex = 52;
-            this.text_PokestopFarmLimit.TextChanged += new System.EventHandler(this.textBox31_TextChanged);
             // 
             // label42
             // 
@@ -2268,7 +2236,6 @@
             this.text_PokemonCatchLimit.Name = "text_PokemonCatchLimit";
             this.text_PokemonCatchLimit.Size = new System.Drawing.Size(132, 22);
             this.text_PokemonCatchLimit.TabIndex = 50;
-            this.text_PokemonCatchLimit.TextChanged += new System.EventHandler(this.textBox30_TextChanged);
             // 
             // label40
             // 
@@ -2289,7 +2256,6 @@
             this.text_TimeToRun.Name = "text_TimeToRun";
             this.text_TimeToRun.Size = new System.Drawing.Size(132, 22);
             this.text_TimeToRun.TabIndex = 42;
-            this.text_TimeToRun.TextChanged += new System.EventHandler(this.textBox27_TextChanged_1);
             // 
             // settingsBindingSource
             // 
@@ -2698,7 +2664,6 @@
             this.GreatBallMinCP.Size = new System.Drawing.Size(51, 22);
             this.GreatBallMinCP.TabIndex = 4;
             this.GreatBallMinCP.Text = "500";
-            this.GreatBallMinCP.TextChanged += new System.EventHandler(this.GreatBallMinCP_TextChanged);
             // 
             // UltraBallMinCP
             // 
@@ -2708,7 +2673,6 @@
             this.UltraBallMinCP.Size = new System.Drawing.Size(51, 22);
             this.UltraBallMinCP.TabIndex = 4;
             this.UltraBallMinCP.Text = "1000";
-            this.UltraBallMinCP.TextChanged += new System.EventHandler(this.UltraBallMinCP_TextChanged);
             // 
             // groupBox19
             // 

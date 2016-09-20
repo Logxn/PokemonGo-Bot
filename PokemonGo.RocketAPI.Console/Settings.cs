@@ -707,5 +707,15 @@ namespace PokemonGo.RocketAPI.Console
                 }
             }
         }
+        public bool pauseAtEvolve
+        {
+            get { return Globals.pauseAtEvolve; }
+            set { Globals.pauseAtEvolve = value; }
+        }
+        public bool EnablePokeList
+        {
+            get { return Globals.pokeList; }
+            set { Globals.pokeList = value; }
+        }      
     }
 }
