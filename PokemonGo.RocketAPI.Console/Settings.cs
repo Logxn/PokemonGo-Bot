@@ -695,6 +695,11 @@ namespace PokemonGo.RocketAPI.Console
             get { return Globals.usePwdEncryption; }
             set { Globals.usePwdEncryption = value; }
         }
+        public bool EnablePokeList
+        {
+            get { return Globals.pokeList; }
+            set { Globals.pokeList = value; }
+        }
         bool ISettings.pauseTheWalking
         {
             get { return Globals._pauseTheWalking; }
@@ -707,5 +712,11 @@ namespace PokemonGo.RocketAPI.Console
                 }
             }
         }
+        public bool pauseAtEvolve
+        {
+            get { return Globals.pauseAtEvolve; }
+            set { Globals.pauseAtEvolve = value; }
+        }
+        
     }
 }
