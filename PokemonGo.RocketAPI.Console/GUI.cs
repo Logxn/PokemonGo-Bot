@@ -210,8 +210,7 @@ namespace PokemonGo.RocketAPI.Console
             try
             {
                 if (configString != "")
-                {
-                    var strippedstring = configString.Trim('"');
+                {                    
                     var settings = new JsonSerializerSettings
                     {
                         Error = (sender, args) =>
@@ -315,17 +314,17 @@ namespace PokemonGo.RocketAPI.Console
                     text_MaxHyperPotions.Text = config.MaxHyperPotions.ToString();
                     text_MaxTopPotions.Text = config.MaxTopPotions.ToString();
                     text_MaxRazzBerrys.Text = config.MaxBerries.ToString();
-					// tab 5 proxy
-					/*  Doing it below
-					checkBox_UseProxy.Checked	= config.UseProxyVerified;
-					checkBox_UseProxyAuth.Checked = config.UseProxyAuthentication;
-					prxyIP.Text = config.UseProxyHost;
-					prxyPort.Text = ""+config.UseProxyPort;
-					prxyUser.Text = config.UseProxyUsername;
-					prxyPass.Text =config.UseProxyPassword;
-					*/
-		            
-					// tab 6 walk
+          					// tab 5 proxy
+          					/*  Doing it below
+                    checkBox_UseProxy.Checked	= config.UseProxyVerified;
+                    checkBox_UseProxyAuth.Checked = config.UseProxyAuthentication;
+                    prxyIP.Text = config.UseProxyHost;
+                    prxyPort.Text = ""+config.UseProxyPort;
+                    prxyUser.Text = config.UseProxyUsername;
+                    prxyPass.Text =config.UseProxyPassword;
+                    */
+          		            
+          					// tab 6 walk
                     text_Speed.Text = config.WalkingSpeedInKilometerPerHour.ToString();
                     text_MinWalkSpeed.Text = config.MinWalkSpeed.ToString();
                     text_Radius.Text = config.MaxWalkingRadiusInMeters.ToString();
@@ -379,7 +378,7 @@ namespace PokemonGo.RocketAPI.Console
             catch (Exception e)
             {
                 if (!e.Message.Contains("Loading Defaults"))
-                    MessageBox.Show("Your Config is broken, check if every setting is right!");
+                    MessageBox.Show("Your config is broken, check every setting before starting bot!");
                 else
                     MessageBox.Show("Default Config Empty - Loading Default Values");
                 text_Latitude.Text = "40,764883";
@@ -816,7 +815,8 @@ namespace PokemonGo.RocketAPI.Console
                 {
                     if (_profile.ProfileName != ActiveProfile.ProfileName)
                     {                        
-                        newProfiles.Add(_profile);                        
+                        newProfiles.Add(_profile);
+                        found = true;                     
                     }
                     else if (!found)
                     {
@@ -830,6 +830,10 @@ namespace PokemonGo.RocketAPI.Console
             }
             profileJSON = Newtonsoft.Json.JsonConvert.SerializeObject(newProfiles);
             File.WriteAllText(@Program.accountProfiles, profileJSON);
+            if (Globals.usePwdEncryption)
+            {
+                Globals.password = Encryption.Decrypt(Globals.password);
+            }
             #endregion
             return true;
         }
@@ -1259,7 +1263,7 @@ namespace PokemonGo.RocketAPI.Console
 
         private void checkBox3_CheckedChanged(object sender, EventArgs e)
         {
-
+            Globals.evolve = checkBox3.Checked;
         }
 
         private void button4_Click(object sender, EventArgs e)

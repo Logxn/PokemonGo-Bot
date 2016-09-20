@@ -280,9 +280,9 @@ namespace PokemonGo.RocketAPI.Console
         public static bool LimitGreatballUse = false;
         public static bool LimitUltraballUse = false;
         public static int Max_Missed_throws = 3;
-        public static List<PokemonId> noTransfer = new List<PokemonId>();
-        public static List<PokemonId> noCatch = new List<PokemonId>();
-        public static List<PokemonId> doEvolve = new List<PokemonId>();
+        public static IList<PokemonId> noTransfer = new List<PokemonId>();
+        public static IList<PokemonId> noCatch = new List<PokemonId>();
+        public static IList<PokemonId> doEvolve = new List<PokemonId>();
         public static string telAPI = string.Empty;
         public static string telName = string.Empty;
         public static int telDelay = 5000;
