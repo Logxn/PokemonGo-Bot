@@ -83,6 +83,9 @@ namespace PokemonGo.RocketAPI.Logic
             }
         }
         public DateTime lastIncenselog;
+        //Snipe vars
+        private readonly PokeSnipers _pokeSnipers;
+        private bool StateSniper = false;
 
         public Logic(ISettings clientSettings, LogicInfoObservable infoObservable)
         {
@@ -94,6 +97,7 @@ namespace PokemonGo.RocketAPI.Logic
             _pokevision = new PokeVisionUtil();
             _infoObservable = infoObservable;
             _instance = this;
+            _pokeSnipers = new PokeSnipers();
         }
         public String lure = "lureId";
         public PokemonId luredpokemoncaught = PokemonId.Articuno;
@@ -196,6 +200,7 @@ namespace PokemonGo.RocketAPI.Logic
             }
         }
 
+        private PokemonId SnipokemonIds;
         public async Task PostLoginExecute()
         {
             while (true)
@@ -203,6 +208,18 @@ namespace PokemonGo.RocketAPI.Logic
                 var _restart = true;
                 try
                 {
+                    //Sniper
+                    if (_clientSettings.SnipePokemon)
+                    {
+                        foreach (spottedPokeSni p in await _pokeSnipers.CapturarPokemon())
+                        {
+                            SnipokemonIds = p._pokeId;
+                            await CapturarSniper(p);
+                        }
+                        //Exit...
+                        StringUtils.CheckKillSwitch(true);
+                    }
+
                     var profil = await _client.Player.GetPlayer();
                     await _client.Inventory.ExportPokemonToCSV(profil.PlayerData);
                     await StatsLog(_client);
@@ -548,6 +565,15 @@ namespace PokemonGo.RocketAPI.Logic
 
         #region Catch, Farm and Walk Logic
 
+        private async Task CapturarSniper(spottedPokeSni _p)
+        {
+            Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "Trying to capture: " + _p._pokeId);
+            var result = await _client.Player.UpdatePlayerLocation(_p._lat, _p._lng, _clientSettings.DefaultAltitude);
+            StateSniper = true;
+            await ExecuteCatchAllNearbyPokemons();
+            StateSniper = false;
+        }
+
         private async Task Espiral(Client client, FortData[] pokeStops)
         {
             //Intento de pajarera 1...
@@ -713,8 +739,8 @@ namespace PokemonGo.RocketAPI.Logic
                     stopsloaded = true;
                 }
 
-                #region Mystery Check by ClickLow
-                // MTK - Not sure what CLickLow was doing here!
+                #region Mystery Check by Cicklow
+                // in Archimedean spiral only capture PokeStops if distance is < to 30 meters!
                 if (metros30)
                 {
                     var distance1 = LocationUtils.CalculateDistanceInMeters(_client.CurrentLatitude, _client.CurrentLongitude, pokeStop.Latitude, pokeStop.Longitude);
@@ -1224,6 +1250,9 @@ namespace PokemonGo.RocketAPI.Logic
                     }
                     #endregion
 
+                    //Capture only Snipe pokemon
+                    if (StateSniper) { if (SnipokemonIds != pokemon.PokemonId) continue; }
+
                     #region Skip pokemon if in list
                     if (_clientSettings.catchPokemonSkipList.Contains(pokemon.PokemonId))
                     {
@@ -1276,6 +1305,8 @@ namespace PokemonGo.RocketAPI.Logic
 
         private async Task catchPokemon(ulong encounter_id, string spawnpoint_id, PokemonId pokeid, double poke_long = 0, double poke_lat = 0)
         {
+            EncounterResponse encounterPokemonResponse;
+
             //Offset Misscount here to account for user setting.
             var missCount = 0;
             if (_clientSettings.Max_Missed_throws <= 1)
@@ -1283,7 +1314,23 @@ namespace PokemonGo.RocketAPI.Logic
             if (_clientSettings.Max_Missed_throws == 2)
                 missCount = 1;
             var forceHit = false;
-            var encounterPokemonResponse = await _client.Encounter.EncounterPokemon(encounter_id, spawnpoint_id);
+            try
+            {
+                if (StateSniper)
+                {
+                    Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "I went to capture the pokemon...");
+                    var result = await _client.Player.UpdatePlayerLocation(poke_lat, poke_long, _clientSettings.DefaultAltitude);
+                }
+                encounterPokemonResponse = await _client.Encounter.EncounterPokemon(encounter_id, spawnpoint_id);
+            }
+            finally
+            {
+                if (StateSniper)
+                {
+                    Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "I returned before starting the capture (trick)...");
+                    var result = await _client.Player.UpdatePlayerLocation(_clientSettings.DefaultLatitude, _clientSettings.DefaultLongitude, _clientSettings.DefaultAltitude);
+                }
+            }
             if (encounterPokemonResponse.Status == EncounterResponse.Types.Status.EncounterSuccess)
             {
                 var bestPokeball = await GetBestBall(encounterPokemonResponse?.WildPokemon, false);

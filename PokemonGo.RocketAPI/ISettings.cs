@@ -151,7 +151,7 @@ namespace PokemonGo.RocketAPI
         IList<PokemonId> pokemonsToHold { get; set; }
         IList<PokemonId> pokemonsToEvolve { get; set; }
         IList<PokemonId> catchPokemonSkipList { get; set; }
-
+        bool SnipePokemon { get; set; }
         /* ===================================[SETTINGS]================================= */
     }
 }
