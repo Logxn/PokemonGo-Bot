@@ -35,7 +35,7 @@ namespace PokemonGo.RocketAPI.Logic.Utils
             string result = await content.ReadAsStringAsync();
 
             dynamic Snipers = JsonConvert.DeserializeObject(result);
-            Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "Fetching PokeSnipers.com");
+            Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "Looking for Pokemons to snipe....");
             try
             {
                 for(int i=0; Snipers.results[i].id > 0; i++)
