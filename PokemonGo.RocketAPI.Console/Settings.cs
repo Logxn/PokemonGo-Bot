@@ -259,6 +259,11 @@ namespace PokemonGo.RocketAPI.Console
             get { return Globals.MinCPforGreatBall; }
             set { Globals.MinCPforGreatBall = value; }
         }
+        public int MinCPtoCatch
+        {
+            get { return Globals.MinCPtoCatch; }
+            set { Globals.MinCPtoCatch = value; }
+        }
         public int MinCPforUltraBall
         {
             get { return Globals.MinCPforUltraBall; }

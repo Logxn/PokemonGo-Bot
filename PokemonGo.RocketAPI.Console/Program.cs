@@ -341,5 +341,6 @@ namespace PokemonGo.RocketAPI.Console
         internal static int InventoryBaseUltraball = 10;
         internal static bool SnipePokemon;
         internal static bool FirstLoad;
+        public static int MinCPtoCatch = 0;
     }
 }

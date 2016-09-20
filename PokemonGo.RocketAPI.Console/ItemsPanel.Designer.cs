@@ -149,7 +149,7 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // text_TotalItemCount
             // 
-            this.text_TotalItemCount.Location = new System.Drawing.Point(147, 392);
+            this.text_TotalItemCount.Location = new System.Drawing.Point(147, 398);
             this.text_TotalItemCount.Margin = new System.Windows.Forms.Padding(5);
             this.text_TotalItemCount.Name = "text_TotalItemCount";
             this.text_TotalItemCount.ReadOnly = true;
@@ -410,7 +410,7 @@ namespace PokemonGo.RocketAPI.Console
             // btnRealoadItems
             // 
             this.btnRealoadItems.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnRealoadItems.Location = new System.Drawing.Point(240, 430);
+            this.btnRealoadItems.Location = new System.Drawing.Point(240, 431);
             this.btnRealoadItems.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnRealoadItems.Name = "btnRealoadItems";
             this.btnRealoadItems.Size = new System.Drawing.Size(73, 28);

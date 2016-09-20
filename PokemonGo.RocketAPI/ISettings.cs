@@ -127,6 +127,7 @@ namespace PokemonGo.RocketAPI
         bool LimitPokeballUse { get; set; }
         bool LimitGreatballUse { get; set; }
         bool LimitUltraballUse { get; set; }
+        int MinCPtoCatch { get; set; }
         int Max_Missed_throws { get; set; }
         int MinCPforGreatBall { get; set; }
         int MinCPforUltraBall { get; set; }
