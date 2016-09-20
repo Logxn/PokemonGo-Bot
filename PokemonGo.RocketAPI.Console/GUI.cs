@@ -259,21 +259,24 @@ namespace PokemonGo.RocketAPI.Console
 
                     
                     // tab 2 - Pokemons
-                    foreach (PokemonId Id in config.pokemonsToHold)
-                    {
-                        string _id = Id.ToString();
-                        checkedListBox_PokemonNotToTransfer.SetItemChecked(pokeIDS[_id] - 1, true);
-                    }
-                    foreach (PokemonId Id in config.catchPokemonSkipList)
-                    {
-                        string _id = Id.ToString();
-                        checkedListBox_PokemonNotToCatch.SetItemChecked(pokeIDS[_id] - 1, true);
-                    }
-                    foreach (PokemonId Id in config.pokemonsToEvolve)
-                    {
-                        string _id = Id.ToString();
-                        checkedListBox_PokemonToEvolve.SetItemChecked(evolveIDS[_id] - 1, true);
-                    }
+                    if (config.pokemonsToHold !=null)
+	                    foreach (PokemonId Id in config.pokemonsToHold)
+	                    {
+	                        string _id = Id.ToString();
+	                        checkedListBox_PokemonNotToTransfer.SetItemChecked(pokeIDS[_id] - 1, true);
+	                    }
+                    if (config.catchPokemonSkipList !=null)
+	                    foreach (PokemonId Id in config.catchPokemonSkipList)
+	                    {
+	                        string _id = Id.ToString();
+	                        checkedListBox_PokemonNotToCatch.SetItemChecked(pokeIDS[_id] - 1, true);
+	                    }
+                    if (config.pokemonsToEvolve !=null)
+	                    foreach (PokemonId Id in config.pokemonsToEvolve)
+	                    {
+	                        string _id = Id.ToString();
+	                        checkedListBox_PokemonToEvolve.SetItemChecked(evolveIDS[_id] - 1, true);
+	                    }
 
                     checkBox_AutoTransferDoublePokemon.Checked = config.TransferDoublePokemons;
                     checkBox_TransferFirstLowIV.Checked = config.TransferFirstLowIV;
@@ -282,9 +285,9 @@ namespace PokemonGo.RocketAPI.Console
                     text_MaxCPToTransfer.Text = config.DontTransferWithCPOver.ToString();
                     
                     // tab 3 - throws
-                    checkBox1.Checked =!Globals.LimitPokeballUse;
-                    checkBox2.Checked =!Globals.LimitGreatballUse;
-            		checkBox3.Checked = ! Globals.LimitUltraballUse;
+                    checkBox2.Checked =!Globals.LimitPokeballUse;
+                    checkBox3.Checked =!Globals.LimitGreatballUse;
+            		checkBox7.Checked = !Globals.LimitUltraballUse;
             		numericUpDown1.Value = Globals.Max_Missed_throws;
             		numericUpDown2.Value = Globals.InventoryBasePokeball;
             		numericUpDown3.Value = Globals.InventoryBaseGreatball;
@@ -622,9 +625,9 @@ namespace PokemonGo.RocketAPI.Console
             }
             
             // tab 3 - Throw
-            Globals.LimitPokeballUse = !checkBox1.Checked;
-            Globals.LimitGreatballUse = !checkBox2.Checked;
-            Globals.LimitUltraballUse = !checkBox3.Checked;
+            Globals.LimitPokeballUse = !checkBox2.Checked;
+            Globals.LimitGreatballUse = !checkBox3.Checked;
+            Globals.LimitUltraballUse = !checkBox7.Checked;
             Globals.Max_Missed_throws = (int) numericUpDown1.Value; 
             Globals.InventoryBasePokeball = (int) numericUpDown2.Value;
             Globals.InventoryBaseGreatball = (int) numericUpDown3.Value;
