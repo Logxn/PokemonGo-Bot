@@ -855,6 +855,15 @@ namespace PokemonGo.RocketAPI.Console
                 Globals.doEvolve.Add((PokemonId)Enum.Parse(typeof(PokemonId), pokemon));
             }
 
+            if(Globals.SnipePokemon)
+            {
+                DialogResult result = MessageBox.Show("Sniping has not been tested yet. It could get you banned. Do you want to continue?", "Info", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
+                if (result == DialogResult.OK)
+                    Globals.SnipePokemon = true;
+                else
+                    Globals.SnipePokemon = false;      
+            }
+
             #endregion
 
             #region CreatingSettings
