@@ -715,10 +715,12 @@ namespace PokemonGo.RocketAPI.Console
                 if (dialogResult == DialogResult.No)
                     Globals.speed = double.Parse("9.5", cords, NumberFormatInfo.InvariantInfo);
             }
-            if (!textBoxToGlobalInt(text_MinWalkSpeed)){
-            	return false;
-            }
-            if (!textBoxToGlobal(text_Radius)){
+
+            var value = text_MinWalkSpeed.Text;
+			if (value != String.Empty)
+				Globals.MinWalkSpeed = int.Parse(value);
+
+            if (!textBoxToGlobalInt(text_Radius)){
             	return false;
             }
                       
@@ -726,7 +728,7 @@ namespace PokemonGo.RocketAPI.Console
                 text_TimeToRun.Text = "0";
 			Globals.TimeToRun = Double.Parse(text_TimeToRun.Text);
 
-			var value = text_PokemonCatchLimit.Text;
+			value = text_PokemonCatchLimit.Text;
 			if (value != String.Empty)
 				Globals.PokemonCatchLimit = int.Parse(value);
 
