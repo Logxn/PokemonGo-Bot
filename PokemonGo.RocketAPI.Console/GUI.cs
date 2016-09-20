@@ -788,6 +788,7 @@ namespace PokemonGo.RocketAPI.Console
                     Globals.SnipePokemon = false;      
             }
             
+            
             // tab 8 updates
             Globals.AutoUpdate = checkbox_AutoUpdate.Checked;
             Globals.CheckWhileRunning = checkbox_checkWhileRunning.Checked;
