@@ -79,7 +79,7 @@
             this.label28 = new System.Windows.Forms.Label();
             this.text_MaxCPToTransfer = new System.Windows.Forms.TextBox();
             this.label12 = new System.Windows.Forms.Label();
-            this.text_MaxDuplicatePokemon = new System.Windows.Forms.TextBox();
+            this.text_Duplicate = new System.Windows.Forms.TextBox();
             this.label11 = new System.Windows.Forms.Label();
             this.checkBox_AutoTransferDoublePokemon = new System.Windows.Forms.CheckBox();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
@@ -102,7 +102,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.ProfileName = new System.Windows.Forms.TextBox();
-            this.text_EMail = new System.Windows.Forms.TextBox();
+            this.text_Username = new System.Windows.Forms.TextBox();
             this.checkbox_PWDEncryption = new System.Windows.Forms.CheckBox();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
@@ -111,7 +111,7 @@
             this.text_Altidude = new System.Windows.Forms.TextBox();
             this.text_Longitude = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
-            this.text_Latidude = new System.Windows.Forms.TextBox();
+            this.text_Latitude = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.groupBox9 = new System.Windows.Forms.GroupBox();
             this.linkLabel7 = new System.Windows.Forms.LinkLabel();
@@ -162,7 +162,7 @@
             this.label48 = new System.Windows.Forms.Label();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.groupBox18 = new System.Windows.Forms.GroupBox();
-            this.text_MoveRadius = new System.Windows.Forms.TextBox();
+            this.text_Radius = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.text_Speed = new System.Windows.Forms.TextBox();
@@ -758,7 +758,7 @@
             this.groupBox3.Controls.Add(this.label28);
             this.groupBox3.Controls.Add(this.text_MaxCPToTransfer);
             this.groupBox3.Controls.Add(this.label12);
-            this.groupBox3.Controls.Add(this.text_MaxDuplicatePokemon);
+            this.groupBox3.Controls.Add(this.text_Duplicate);
             this.groupBox3.Controls.Add(this.label11);
             this.groupBox3.Controls.Add(this.checkBox_AutoTransferDoublePokemon);
             this.groupBox3.Location = new System.Drawing.Point(8, 393);
@@ -829,14 +829,14 @@
             this.label12.TabIndex = 4;
             this.label12.Text = "Max. CP to transfer:";
             // 
-            // text_MaxDuplicatePokemon
+            // text_Duplicate
             // 
-            this.text_MaxDuplicatePokemon.Location = new System.Drawing.Point(188, 50);
-            this.text_MaxDuplicatePokemon.Margin = new System.Windows.Forms.Padding(4);
-            this.text_MaxDuplicatePokemon.Name = "text_MaxDuplicatePokemon";
-            this.text_MaxDuplicatePokemon.Size = new System.Drawing.Size(52, 22);
-            this.text_MaxDuplicatePokemon.TabIndex = 9;
-            this.text_MaxDuplicatePokemon.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox7_KeyPress);
+            this.text_Duplicate.Location = new System.Drawing.Point(188, 50);
+            this.text_Duplicate.Margin = new System.Windows.Forms.Padding(4);
+            this.text_Duplicate.Name = "text_Duplicate";
+            this.text_Duplicate.Size = new System.Drawing.Size(52, 22);
+            this.text_Duplicate.TabIndex = 9;
+            this.text_Duplicate.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox7_KeyPress);
             // 
             // label11
             // 
@@ -997,7 +997,7 @@
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.ProfileName);
-            this.groupBox1.Controls.Add(this.text_EMail);
+            this.groupBox1.Controls.Add(this.text_Username);
             this.groupBox1.Controls.Add(this.checkbox_PWDEncryption);
             this.groupBox1.Controls.Add(this.checkBox1);
             this.groupBox1.Location = new System.Drawing.Point(8, 7);
@@ -1100,13 +1100,13 @@
             this.ProfileName.TabIndex = 2;
             this.ProfileName.TextChanged += new System.EventHandler(this.ProfileName_TextChanged);
             // 
-            // text_EMail
+            // text_Username
             // 
-            this.text_EMail.Location = new System.Drawing.Point(128, 218);
-            this.text_EMail.Margin = new System.Windows.Forms.Padding(4);
-            this.text_EMail.Name = "text_EMail";
-            this.text_EMail.Size = new System.Drawing.Size(195, 22);
-            this.text_EMail.TabIndex = 2;
+            this.text_Username.Location = new System.Drawing.Point(128, 218);
+            this.text_Username.Margin = new System.Windows.Forms.Padding(4);
+            this.text_Username.Name = "text_Username";
+            this.text_Username.Size = new System.Drawing.Size(195, 22);
+            this.text_Username.TabIndex = 2;
             // 
             // checkbox_PWDEncryption
             // 
@@ -1119,7 +1119,6 @@
             this.checkbox_PWDEncryption.TabIndex = 56;
             this.checkbox_PWDEncryption.Text = "Encrypt password on config file";
             this.checkbox_PWDEncryption.UseVisualStyleBackColor = true;
-            this.checkbox_PWDEncryption.CheckedChanged += new System.EventHandler(this.chkPWDEncryption_CheckedChanged);
             // 
             // checkBox1
             // 
@@ -1142,7 +1141,7 @@
             this.groupBox2.Controls.Add(this.text_Altidude);
             this.groupBox2.Controls.Add(this.text_Longitude);
             this.groupBox2.Controls.Add(this.label5);
-            this.groupBox2.Controls.Add(this.text_Latidude);
+            this.groupBox2.Controls.Add(this.text_Latitude);
             this.groupBox2.Controls.Add(this.label4);
             this.groupBox2.Location = new System.Drawing.Point(363, 11);
             this.groupBox2.Margin = new System.Windows.Forms.Padding(4);
@@ -1205,15 +1204,15 @@
             this.label5.TabIndex = 2;
             this.label5.Text = "Longitude:";
             // 
-            // text_Latidude
+            // text_Latitude
             // 
-            this.text_Latidude.Enabled = false;
-            this.text_Latidude.Location = new System.Drawing.Point(108, 28);
-            this.text_Latidude.Margin = new System.Windows.Forms.Padding(4);
-            this.text_Latidude.Name = "text_Latidude";
-            this.text_Latidude.Size = new System.Drawing.Size(132, 22);
-            this.text_Latidude.TabIndex = 1;
-            this.text_Latidude.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox3_KeyPress);
+            this.text_Latitude.Enabled = false;
+            this.text_Latitude.Location = new System.Drawing.Point(108, 28);
+            this.text_Latitude.Margin = new System.Windows.Forms.Padding(4);
+            this.text_Latitude.Name = "text_Latitude";
+            this.text_Latitude.Size = new System.Drawing.Size(132, 22);
+            this.text_Latitude.TabIndex = 1;
+            this.text_Latitude.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox3_KeyPress);
             // 
             // label4
             // 
@@ -1467,7 +1466,6 @@
             this.checkBox_SimulateAnimationTimeAtEvolve.TabIndex = 40;
             this.checkBox_SimulateAnimationTimeAtEvolve.Text = "Simulate Animation Times at Evolve";
             this.checkBox_SimulateAnimationTimeAtEvolve.UseVisualStyleBackColor = true;
-            this.checkBox_SimulateAnimationTimeAtEvolve.CheckedChanged += new System.EventHandler(this.checkBox24_CheckedChanged);
             // 
             // checkBox_UseLuckyEggAtEvolve
             // 
@@ -1481,7 +1479,6 @@
             this.checkBox_UseLuckyEggAtEvolve.TabIndex = 41;
             this.checkBox_UseLuckyEggAtEvolve.Text = "Use LuckyEgg at Evolve";
             this.checkBox_UseLuckyEggAtEvolve.UseVisualStyleBackColor = true;
-            this.checkBox_UseLuckyEggAtEvolve.CheckedChanged += new System.EventHandler(this.checkBox7_CheckedChanged);
             // 
             // checkBox_EvolvePokemonIfEnoughCandy
             // 
@@ -1552,7 +1549,6 @@
             this.groupBox8.TabIndex = 54;
             this.groupBox8.TabStop = false;
             this.groupBox8.Text = "Miss Rate and Ball Choice";
-            this.groupBox8.Enter += new System.EventHandler(this.groupBox8_Enter);
             // 
             // label53
             // 
@@ -1574,7 +1570,6 @@
             0,
             0,
             0});
-            this.numericUpDown4.ValueChanged += new System.EventHandler(this.numericUpDown4_ValueChanged);
             // 
             // numericUpDown3
             // 
@@ -1587,7 +1582,6 @@
             0,
             0,
             0});
-            this.numericUpDown3.ValueChanged += new System.EventHandler(this.numericUpDown3_ValueChanged);
             // 
             // numericUpDown2
             // 
@@ -1600,7 +1594,6 @@
             0,
             0,
             0});
-            this.numericUpDown2.ValueChanged += new System.EventHandler(this.numericUpDown2_ValueChanged);
             // 
             // numericUpDown1
             // 
@@ -1613,7 +1606,6 @@
             0,
             0,
             0});
-            this.numericUpDown1.ValueChanged += new System.EventHandler(this.numericUpDown1_ValueChanged);
             // 
             // checkBox7
             // 
@@ -1625,7 +1617,6 @@
             this.checkBox7.TabIndex = 5;
             this.checkBox7.Text = "Do not Use Ultraballs";
             this.checkBox7.UseVisualStyleBackColor = true;
-            this.checkBox7.CheckedChanged += new System.EventHandler(this.checkBox7_CheckedChanged_1);
             // 
             // checkBox3
             // 
@@ -1637,7 +1628,6 @@
             this.checkBox3.TabIndex = 5;
             this.checkBox3.Text = "Do not Use Greatballs";
             this.checkBox3.UseVisualStyleBackColor = true;
-            this.checkBox3.CheckedChanged += new System.EventHandler(this.checkBox3_CheckedChanged_1);
             // 
             // checkBox2
             // 
@@ -1649,7 +1639,6 @@
             this.checkBox2.TabIndex = 5;
             this.checkBox2.Text = "Do not Use Pokeballs";
             this.checkBox2.UseVisualStyleBackColor = true;
-            this.checkBox2.CheckedChanged += new System.EventHandler(this.checkBox2_CheckedChanged);
             // 
             // label52
             // 
@@ -1659,7 +1648,6 @@
             this.label52.Size = new System.Drawing.Size(72, 17);
             this.label52.TabIndex = 0;
             this.label52.Text = "If stock <=";
-            this.label52.Click += new System.EventHandler(this.label22_Click);
             // 
             // label24
             // 
@@ -1669,7 +1657,6 @@
             this.label24.Size = new System.Drawing.Size(72, 17);
             this.label24.TabIndex = 0;
             this.label24.Text = "If stock <=";
-            this.label24.Click += new System.EventHandler(this.label22_Click);
             // 
             // label23
             // 
@@ -1679,7 +1666,6 @@
             this.label23.Size = new System.Drawing.Size(72, 17);
             this.label23.TabIndex = 0;
             this.label23.Text = "If stock <=";
-            this.label23.Click += new System.EventHandler(this.label22_Click);
             // 
             // label22
             // 
@@ -1689,7 +1675,6 @@
             this.label22.Size = new System.Drawing.Size(252, 17);
             this.label22.TabIndex = 0;
             this.label22.Text = "Maximum Missed throws per encounter";
-            this.label22.Click += new System.EventHandler(this.label22_Click);
             // 
             // groupBox16
             // 
@@ -1844,7 +1829,7 @@
             // 
             // groupBox18
             // 
-            this.groupBox18.Controls.Add(this.text_MoveRadius);
+            this.groupBox18.Controls.Add(this.text_Radius);
             this.groupBox18.Controls.Add(this.label9);
             this.groupBox18.Controls.Add(this.label7);
             this.groupBox18.Controls.Add(this.text_Speed);
@@ -1857,15 +1842,14 @@
             this.groupBox18.TabStop = false;
             this.groupBox18.Text = "Walking Speed and Range";
             // 
-            // text_MoveRadius
+            // text_Radius
             // 
-            this.text_MoveRadius.Location = new System.Drawing.Point(189, 83);
-            this.text_MoveRadius.Margin = new System.Windows.Forms.Padding(4);
-            this.text_MoveRadius.Name = "text_MoveRadius";
-            this.text_MoveRadius.Size = new System.Drawing.Size(132, 22);
-            this.text_MoveRadius.TabIndex = 72;
-            this.text_MoveRadius.TextChanged += new System.EventHandler(this.text_MoveRadius_TextChanged);
-            this.text_MoveRadius.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox7_KeyPress);
+            this.text_Radius.Location = new System.Drawing.Point(189, 83);
+            this.text_Radius.Margin = new System.Windows.Forms.Padding(4);
+            this.text_Radius.Name = "text_Radius";
+            this.text_Radius.Size = new System.Drawing.Size(132, 22);
+            this.text_Radius.TabIndex = 72;
+            this.text_Radius.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox7_KeyPress);
             // 
             // label9
             // 
@@ -1894,7 +1878,6 @@
             this.text_Speed.Name = "text_Speed";
             this.text_Speed.Size = new System.Drawing.Size(132, 22);
             this.text_Speed.TabIndex = 70;
-            this.text_Speed.TextChanged += new System.EventHandler(this.text_Speed_TextChanged);
             this.text_Speed.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox7_KeyPress);
             // 
             // label46
@@ -1907,7 +1890,6 @@
             this.label46.TabIndex = 69;
             this.label46.Text = "Min Walk Speed (km/h):";
             this.label46.UseMnemonic = false;
-            this.label46.Click += new System.EventHandler(this.label46_Click);
             // 
             // text_MinWalkSpeed
             // 
@@ -1916,7 +1898,6 @@
             this.text_MinWalkSpeed.Name = "text_MinWalkSpeed";
             this.text_MinWalkSpeed.Size = new System.Drawing.Size(132, 22);
             this.text_MinWalkSpeed.TabIndex = 68;
-            this.text_MinWalkSpeed.TextChanged += new System.EventHandler(this.textBox34_TextChanged);
             this.text_MinWalkSpeed.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox7_KeyPress);
             // 
             // groupBox13
@@ -1952,7 +1933,6 @@
             this.text_GoogleMapsAPIKey.Name = "text_GoogleMapsAPIKey";
             this.text_GoogleMapsAPIKey.Size = new System.Drawing.Size(204, 22);
             this.text_GoogleMapsAPIKey.TabIndex = 62;
-            this.text_GoogleMapsAPIKey.TextChanged += new System.EventHandler(this.textBox33_TextChanged);
             // 
             // checkBox_UseGoogleMapsRouting
             // 
@@ -1964,7 +1944,6 @@
             this.checkBox_UseGoogleMapsRouting.TabIndex = 61;
             this.checkBox_UseGoogleMapsRouting.Text = "Use Google Maps Routing";
             this.checkBox_UseGoogleMapsRouting.UseVisualStyleBackColor = true;
-            this.checkBox_UseGoogleMapsRouting.CheckedChanged += new System.EventHandler(this.checkBox22_CheckedChanged);
             // 
             // label45
             // 
@@ -2010,7 +1989,6 @@
             this.checkBox_UseBreakIntervalAndLength.TabIndex = 71;
             this.checkBox_UseBreakIntervalAndLength.Text = "Use Break Interval and Length";
             this.checkBox_UseBreakIntervalAndLength.UseVisualStyleBackColor = true;
-            this.checkBox_UseBreakIntervalAndLength.CheckedChanged += new System.EventHandler(this.checkBox26_CheckedChanged);
             // 
             // checkBox_Start_Walk_from_default_location
             // 
@@ -2046,7 +2024,6 @@
             this.checkBox_RandomlyReduceSpeed.TabIndex = 64;
             this.checkBox_RandomlyReduceSpeed.Text = "Randomly reduce speed";
             this.checkBox_RandomlyReduceSpeed.UseVisualStyleBackColor = true;
-            this.checkBox_RandomlyReduceSpeed.CheckedChanged += new System.EventHandler(this.checkBox_RandomlyReduceSpeed_CheckedChanged);
             // 
             // checkBox_RandomSleepAtCatching
             // 
@@ -2073,7 +2050,6 @@
             this.checkBox_FarmPokestops.TabIndex = 45;
             this.checkBox_FarmPokestops.Text = "Farm Pokestops";
             this.checkBox_FarmPokestops.UseVisualStyleBackColor = true;
-            this.checkBox_FarmPokestops.CheckedChanged += new System.EventHandler(this.checkBox18_CheckedChanged);
             // 
             // checkBox_CatchPokemon
             // 
@@ -2087,7 +2063,6 @@
             this.checkBox_CatchPokemon.TabIndex = 56;
             this.checkBox_CatchPokemon.Text = "Catch Pokemon";
             this.checkBox_CatchPokemon.UseVisualStyleBackColor = true;
-            this.checkBox_CatchPokemon.CheckedChanged += new System.EventHandler(this.checkBox19_CheckedChanged);
             // 
             // pictureBox1
             // 
@@ -2109,7 +2084,6 @@
             this.checkBox_UseLureAtBreak.TabIndex = 58;
             this.checkBox_UseLureAtBreak.Text = "Use Lure At Break";
             this.checkBox_UseLureAtBreak.UseVisualStyleBackColor = true;
-            this.checkBox_UseLureAtBreak.CheckedChanged += new System.EventHandler(this.checkBox21_CheckedChanged);
             // 
             // checkBox_BreakAtLure
             // 
@@ -2121,7 +2095,6 @@
             this.checkBox_BreakAtLure.TabIndex = 57;
             this.checkBox_BreakAtLure.Text = "Break At Lure";
             this.checkBox_BreakAtLure.UseVisualStyleBackColor = true;
-            this.checkBox_BreakAtLure.CheckedChanged += new System.EventHandler(this.checkBox20_CheckedChanged);
             // 
             // button_ArchimedeanSpiralHelp
             // 
@@ -2145,7 +2118,6 @@
             this.checkBox_WalkInArchimedeanSpiral.TabIndex = 64;
             this.checkBox_WalkInArchimedeanSpiral.Text = "Walk in Archimedean Spiral";
             this.checkBox_WalkInArchimedeanSpiral.UseVisualStyleBackColor = true;
-            this.checkBox_WalkInArchimedeanSpiral.CheckedChanged += new System.EventHandler(this.checkBox25_CheckedChanged);
             // 
             // groupBox12
             // 
@@ -2188,7 +2160,6 @@
             this.text_BreakInterval.Name = "text_BreakInterval";
             this.text_BreakInterval.Size = new System.Drawing.Size(132, 22);
             this.text_BreakInterval.TabIndex = 64;
-            this.text_BreakInterval.TextChanged += new System.EventHandler(this.textBox28_TextChanged);
             // 
             // label44
             // 
@@ -2208,7 +2179,6 @@
             this.text_XPFarmedLimit.Name = "text_XPFarmedLimit";
             this.text_XPFarmedLimit.Size = new System.Drawing.Size(132, 22);
             this.text_XPFarmedLimit.TabIndex = 54;
-            this.text_XPFarmedLimit.TextChanged += new System.EventHandler(this.textBox32_TextChanged);
             // 
             // label43
             // 
@@ -2228,7 +2198,6 @@
             this.text_BreakLength.Name = "text_BreakLength";
             this.text_BreakLength.Size = new System.Drawing.Size(132, 22);
             this.text_BreakLength.TabIndex = 66;
-            this.text_BreakLength.TextChanged += new System.EventHandler(this.textBox29_TextChanged);
             // 
             // text_PokestopFarmLimit
             // 
@@ -2237,7 +2206,6 @@
             this.text_PokestopFarmLimit.Name = "text_PokestopFarmLimit";
             this.text_PokestopFarmLimit.Size = new System.Drawing.Size(132, 22);
             this.text_PokestopFarmLimit.TabIndex = 52;
-            this.text_PokestopFarmLimit.TextChanged += new System.EventHandler(this.textBox31_TextChanged);
             // 
             // label42
             // 
@@ -2268,7 +2236,6 @@
             this.text_PokemonCatchLimit.Name = "text_PokemonCatchLimit";
             this.text_PokemonCatchLimit.Size = new System.Drawing.Size(132, 22);
             this.text_PokemonCatchLimit.TabIndex = 50;
-            this.text_PokemonCatchLimit.TextChanged += new System.EventHandler(this.textBox30_TextChanged);
             // 
             // label40
             // 
@@ -2289,7 +2256,6 @@
             this.text_TimeToRun.Name = "text_TimeToRun";
             this.text_TimeToRun.Size = new System.Drawing.Size(132, 22);
             this.text_TimeToRun.TabIndex = 42;
-            this.text_TimeToRun.TextChanged += new System.EventHandler(this.textBox27_TextChanged_1);
             // 
             // settingsBindingSource
             // 
@@ -2698,7 +2664,6 @@
             this.GreatBallMinCP.Size = new System.Drawing.Size(51, 22);
             this.GreatBallMinCP.TabIndex = 4;
             this.GreatBallMinCP.Text = "500";
-            this.GreatBallMinCP.TextChanged += new System.EventHandler(this.GreatBallMinCP_TextChanged);
             // 
             // UltraBallMinCP
             // 
@@ -2708,7 +2673,6 @@
             this.UltraBallMinCP.Size = new System.Drawing.Size(51, 22);
             this.UltraBallMinCP.TabIndex = 4;
             this.UltraBallMinCP.Text = "1000";
-            this.UltraBallMinCP.TextChanged += new System.EventHandler(this.UltraBallMinCP_TextChanged);
             // 
             // groupBox19
             // 
@@ -2873,7 +2837,7 @@
         private System.Windows.Forms.Label label28;
         private System.Windows.Forms.TextBox text_MaxCPToTransfer;
         private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.TextBox text_MaxDuplicatePokemon;
+        private System.Windows.Forms.TextBox text_Duplicate;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.CheckBox checkBox_AutoTransferDoublePokemon;
         private System.Windows.Forms.GroupBox groupBox5;
@@ -2892,14 +2856,14 @@
         private System.Windows.Forms.ComboBox comboBox_AccountType;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox text_EMail;
+        private System.Windows.Forms.TextBox text_Username;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Button button_SetLocation;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TextBox text_Altidude;
         private System.Windows.Forms.TextBox text_Longitude;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.TextBox text_Latidude;
+        private System.Windows.Forms.TextBox text_Latitude;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.GroupBox groupBox9;
         private System.Windows.Forms.LinkLabel linkLabel4;
@@ -3006,7 +2970,7 @@
         private System.Windows.Forms.Label label26;
         private System.Windows.Forms.TextBox ProfileName;
         private System.Windows.Forms.GroupBox groupBox18;
-        private System.Windows.Forms.TextBox text_MoveRadius;
+        private System.Windows.Forms.TextBox text_Radius;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.TextBox text_Speed;
