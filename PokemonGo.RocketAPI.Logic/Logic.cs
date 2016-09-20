@@ -2189,6 +2189,6 @@ namespace PokemonGo.RocketAPI.Logic
             {
                 return false;
             }
-        }
+        }        
     }
 }
