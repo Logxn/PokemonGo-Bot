@@ -209,6 +209,12 @@
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="Settings.cs" />
+    <Compile Include="TeamSelect.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TeamSelect.Designer.cs">
+      <DependentUpon>TeamSelect.cs</DependentUpon>
+    </Compile>
     <Compile Include="Update.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -246,6 +252,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="PlayerPanel.resx">
       <DependentUpon>PlayerPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TeamSelect.resx">
+      <DependentUpon>TeamSelect.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Update.resx">
       <DependentUpon>Update.cs</DependentUpon>
@@ -365,6 +374,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="bin\Release\" />
+    <Folder Include="Properties\DataSources\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\error-sprite.png" />

@@ -359,7 +359,7 @@ namespace PokemonGo.RocketAPI.Logic
             {
                 if (getNewestVersion() > Assembly.GetEntryAssembly().GetName().Version)
                 {
-                    if (_clientSettings.autoUpdate)
+                    if (_clientSettings.AutoUpdate)
                     {
                         Form update = new Update();
                         update.ShowDialog();
@@ -690,14 +690,21 @@ namespace PokemonGo.RocketAPI.Logic
             return pokeStops;
         }
 
-        private async Task fncPokeStop(Client client, FortData[] pokeStops, bool metros30)
+        private async Task fncPokeStop(Client client, FortData[] pokeStopsIn, bool metros30)
         {
             //calculate player distance from start to use later
             var distanceFromStart = LocationUtils.CalculateDistanceInMeters(_clientSettings.DefaultLatitude, _clientSettings.DefaultLongitude, _client.CurrentLatitude, _client.CurrentLongitude);
             //Clear this every so often to prevent bloat on long runs
             lureEncounters.Clear();
+            
+            // TODO: do it optionable
+            // Reordering array randomly to do it a little more difficult to detect.
+            // Random rnd=new Random();
+			//FortData[] pokeStops = pokeStopsIn.OrderBy(x => rnd.Next()).ToArray();
+			FortData[] pokeStops = pokeStopsIn;
+			
             //walk between pokestops in default collection
-            foreach (var pokeStop in pokeStops)
+			foreach (var pokeStop in pokeStops)
             {
                 //check if map has pokestops loaded and load if not
                 if (_clientSettings.MapLoaded && !stopsloaded)
@@ -1746,7 +1753,7 @@ namespace PokemonGo.RocketAPI.Logic
             if (pokeballCollection.ContainsKey("pokeBalls"))
             {
                 pokeBalls = true;
-                if (pokeballqty <= _clientSettings.InventoryBasePokeball)
+                if ((pokeballqty <= _clientSettings.InventoryBasePokeball || _clientSettings.InventoryBasePokeball == 0) && _clientSettings.LimitPokeballUse)
                 {
                     pokeBalls = false;
                 }
@@ -1754,7 +1761,7 @@ namespace PokemonGo.RocketAPI.Logic
             if (pokeballCollection.ContainsKey("greatBalls"))
             {
                 greatBalls = true;
-                if (greatballqty <= _clientSettings.InventoryBaseGreatball)
+                if ((greatballqty <= _clientSettings.InventoryBaseGreatball || _clientSettings.InventoryBaseGreatball == 0) && _clientSettings.LimitGreatballUse)
                 {
                     greatBalls = false;
                 }
@@ -1763,7 +1770,7 @@ namespace PokemonGo.RocketAPI.Logic
             if (pokeballCollection.ContainsKey("ultraBalls"))
             {
                 ultraBalls = true;
-                if (ultraballqty <= _clientSettings.InventoryBaseUltraball)
+                if ((ultraballqty <= _clientSettings.InventoryBaseUltraball || _clientSettings.InventoryBaseUltraball == 0) && _clientSettings.LimitUltraballUse)
                 {
                     ultraBalls = false;
                 }
@@ -1778,10 +1785,22 @@ namespace PokemonGo.RocketAPI.Logic
             #region Get Lowest Appropriate Ball by CP and escape status
 
             var _lowestAppropriateBall = ItemId.ItemUnknown;
+                        
+            var minCPforGreatBall = 500;
+            var minCPforUltraBall = 1000;
+
+            if (_clientSettings.MinCPforGreatBall > 0 &&
+                _clientSettings.MinCPforUltraBall > 0 &&
+                _clientSettings.MinCPforGreatBall < _clientSettings.MinCPforUltraBall)
+            {
+                minCPforGreatBall = _clientSettings.MinCPforGreatBall;
+                minCPforUltraBall = _clientSettings.MinCPforUltraBall;
+            }
+
             var getMyLowestAppropriateBall = new Dictionary<Func<int?, bool>, Action>
             {
-                { x => x < 500  ,() => _lowestAppropriateBall = ItemId.ItemPokeBall   },
-                { x => x < 1000 ,() => _lowestAppropriateBall = ItemId.ItemGreatBall  },
+                { x => x < minCPforGreatBall  ,() => _lowestAppropriateBall = ItemId.ItemPokeBall   },
+                { x => x < minCPforUltraBall ,() => _lowestAppropriateBall = ItemId.ItemGreatBall  },
                 { x => x < 2000 ,() => _lowestAppropriateBall = ItemId.ItemUltraBall  },
                 { x => x >= 2000,() => _lowestAppropriateBall = ItemId.ItemMasterBall  }
             };
