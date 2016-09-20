@@ -35,7 +35,7 @@ namespace PokemonGo.RocketAPI.Console
         static string logPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Logs");
         static string logs = Path.Combine(logPath, "PokeLog.txt");
         static string logmanualtransfer = Path.Combine(logPath, "TransferLog.txt");
-        static Profile ActiveProfile = new Profile();
+        static Profile ActiveProfile;
         static Dictionary<string, int> pokeIDS = new Dictionary<string, int>();
         static Dictionary<string, int> evolveIDS = new Dictionary<string, int>();
 
@@ -47,7 +47,7 @@ namespace PokemonGo.RocketAPI.Console
         private void GUI_Load(object sender, EventArgs e)
         {
             _clientSettings = new Settings();
-
+            Globals.FirstLoad = false;
             var ret = MessageBox.Show("The Bot isn't done! Be aware that you can get banned!\n\nDon't login with the new App Version (0.3.7) (0.3.5 is ok!)\n\nOr you will probably get Banned if you use the bot again!\n\nAre you sure you want to continue?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
             if (ret == DialogResult.No)
             {
@@ -130,6 +130,9 @@ namespace PokemonGo.RocketAPI.Console
                     i++;
                 }
             }
+            Globals.doEvolve = new List<PokemonId>();
+            Globals.noCatch = new List<PokemonId>();
+            Globals.noTransfer = new List<PokemonId>();
 
             #region Loading Everything into GUI 
 
@@ -140,7 +143,7 @@ namespace PokemonGo.RocketAPI.Console
             blankProfile.RunOrder = 1;
             blankProfile.SettingsJSON = "";
             Profileselect.DisplayMember = "ProfileName";
-            
+            Profile selectedProfile = blankProfile;
             if (File.Exists(Program.accountProfiles))
             {
                 try
@@ -157,14 +160,16 @@ namespace PokemonGo.RocketAPI.Console
                         if (_profile.IsDefault)
                         {
                             ActiveProfile = _profile;
-                            Profileselect.SelectedItem = _profile;
+                            selectedProfile = _profile;
+                            LoadData(_profile.SettingsJSON);
                             loaded = true;
-                        }                        
+                        }
                     }
                     if (!loaded)
                     {
-                        Profileselect.SelectedItem = Globals.Profiles.First();
-                    }                    
+                        ActiveProfile = blankProfile;
+                        selectedProfile = blankProfile;
+                    }
                 }
                 catch
                 {
@@ -174,8 +179,10 @@ namespace PokemonGo.RocketAPI.Console
             else
             {
                 Globals.Profiles.Add(blankProfile);
+                ActiveProfile = blankProfile;
             }
             Profileselect.DataSource = Globals.Profiles;
+            Profileselect.SelectedItem = selectedProfile;
             ///* VERSION INFORMATION */
             var currVersion = Assembly.GetExecutingAssembly().GetName().Version;
             var newestVersion = Program.getNewestVersion();
@@ -210,8 +217,8 @@ namespace PokemonGo.RocketAPI.Console
             try
             {
                 if (configString != "")
-                {                    
-                	
+                {
+
                     var settings = new JsonSerializerSettings
                     {
                         Error = (sender, args) =>
@@ -237,8 +244,13 @@ namespace PokemonGo.RocketAPI.Console
                     checkbox_PWDEncryption.Checked = config.UsePwdEncryption;
                     if (checkbox_PWDEncryption.Checked)
                     {
-                        Globals.password  = Encryption.Decrypt(text_Password.Text);
-                        text_Password.Text = Globals.password ;
+                        string encryptedPassword = config.GooglePassword;
+                        if (config.AuthType != Enums.AuthType.Google)
+                        {
+                            encryptedPassword = config.PtcPassword;
+                        }
+                        Globals.password = Encryption.Decrypt(encryptedPassword);
+                        text_Password.Text = Globals.password;
                     }
 
                     text_Latidude.Text = config.DefaultLatitude.ToString();
@@ -256,43 +268,43 @@ namespace PokemonGo.RocketAPI.Console
                     checkBox_UseBasicIncubators.Checked = config.UseBasicIncubators;
 
                     // tab 2 - Pokemons
-                    if (config.pokemonsToHold !=null)
-	                    foreach (PokemonId Id in config.pokemonsToHold)
-	                    {
-	                        string _id = Id.ToString();
-	                        checkedListBox_PokemonNotToTransfer.SetItemChecked(pokeIDS[_id] - 1, true);
-	                    }
-                    if (config.catchPokemonSkipList !=null)
-	                    foreach (PokemonId Id in config.catchPokemonSkipList)
-	                    {
-	                        string _id = Id.ToString();
-	                        checkedListBox_PokemonNotToCatch.SetItemChecked(pokeIDS[_id] - 1, true);
-	                    }
-                    if (config.pokemonsToEvolve !=null)
-	                    foreach (PokemonId Id in config.pokemonsToEvolve)
-	                    {
-	                        string _id = Id.ToString();
-	                        checkedListBox_PokemonToEvolve.SetItemChecked(evolveIDS[_id] - 1, true);
-	                    }
+                    if (config.pokemonsToHold != null)
+                        foreach (PokemonId Id in config.pokemonsToHold)
+                        {
+                            string _id = Id.ToString();
+                            checkedListBox_PokemonNotToTransfer.SetItemChecked(pokeIDS[_id] - 1, true);
+                        }
+                    if (config.catchPokemonSkipList != null)
+                        foreach (PokemonId Id in config.catchPokemonSkipList)
+                        {
+                            string _id = Id.ToString();
+                            checkedListBox_PokemonNotToCatch.SetItemChecked(pokeIDS[_id] - 1, true);
+                        }
+                    if (config.pokemonsToEvolve != null)
+                        foreach (PokemonId Id in config.pokemonsToEvolve)
+                        {
+                            string _id = Id.ToString();
+                            checkedListBox_PokemonToEvolve.SetItemChecked(evolveIDS[_id] - 1, true);
+                        }
 
                     checkBox_AutoTransferDoublePokemon.Checked = config.TransferDoublePokemons;
                     checkBox_TransferFirstLowIV.Checked = config.TransferFirstLowIV;
                     text_MaxDuplicatePokemon.Text = config.HoldMaxDoublePokemons.ToString();
                     text_MaxIVToTransfer.Text = config.ivmaxpercent.ToString();
                     text_MaxCPToTransfer.Text = config.DontTransferWithCPOver.ToString();
-                    
-                    // tab 3 - throws
-                    checkBox2.Checked =!Globals.LimitPokeballUse;
-                    checkBox3.Checked =!Globals.LimitGreatballUse;
-            		checkBox7.Checked = !Globals.LimitUltraballUse;
-            		numericUpDown1.Value = Globals.Max_Missed_throws;
-            		numericUpDown2.Value = Globals.InventoryBasePokeball;
-            		numericUpDown3.Value = Globals.InventoryBaseGreatball;
-            		numericUpDown4.Value = Globals.InventoryBaseUltraball;
 
-            		checkBox_UseRazzberryIfChanceUnder.Checked = config.UseRazzBerry;
+                    // tab 3 - throws
+                    checkBox2.Checked = !Globals.LimitPokeballUse;
+                    checkBox3.Checked = !Globals.LimitGreatballUse;
+                    checkBox7.Checked = !Globals.LimitUltraballUse;
+                    numericUpDown1.Value = Globals.Max_Missed_throws;
+                    numericUpDown2.Value = Globals.InventoryBasePokeball;
+                    numericUpDown3.Value = Globals.InventoryBaseGreatball;
+                    numericUpDown4.Value = Globals.InventoryBaseUltraball;
+
+                    checkBox_UseRazzberryIfChanceUnder.Checked = config.UseRazzBerry;
                     text_UseRazzberryChance.Text = (config.razzberry_chance * 100).ToString();
-                    
+
                     text_Pb_Excellent.Text = config.Pb_Excellent.ToString();
                     text_Pb_Great.Text = config.Pb_Great.ToString();
                     text_Pb_Nice.Text = config.Pb_Nice.ToString();
@@ -300,8 +312,8 @@ namespace PokemonGo.RocketAPI.Console
 
                     GreatBallMinCP.Text = config.MinCPforGreatBall.ToString();
                     UltraBallMinCP.Text = config.MinCPforUltraBall.ToString();
-					
-					// Tab 4 - Items
+
+                    // Tab 4 - Items
                     text_MaxPokeballs.Text = config.MaxPokeballs.ToString();
                     text_MaxGreatBalls.Text = config.MaxGreatballs.ToString();
                     text_MaxUltraBalls.Text = config.MaxUltraballs.ToString();
@@ -312,17 +324,9 @@ namespace PokemonGo.RocketAPI.Console
                     text_MaxHyperPotions.Text = config.MaxHyperPotions.ToString();
                     text_MaxTopPotions.Text = config.MaxTopPotions.ToString();
                     text_MaxRazzBerrys.Text = config.MaxBerries.ToString();
-          					// tab 5 proxy
-          					/*  Doing it below
-                    checkBox_UseProxy.Checked	= config.UseProxyVerified;
-                    checkBox_UseProxyAuth.Checked = config.UseProxyAuthentication;
-                    prxyIP.Text = config.UseProxyHost;
-                    prxyPort.Text = ""+config.UseProxyPort;
-                    prxyUser.Text = config.UseProxyUsername;
-                    prxyPass.Text =config.UseProxyPassword;
-                    */
-          		            
-          					// tab 6 walk
+                    // tab 5 proxy
+                    
+                    // tab 6 walk
                     text_Speed.Text = config.WalkingSpeedInKilometerPerHour.ToString();
                     text_MinWalkSpeed.Text = config.MinWalkSpeed.ToString();
                     text_MoveRadius.Text = config.MaxWalkingRadiusInMeters.ToString();
@@ -333,9 +337,9 @@ namespace PokemonGo.RocketAPI.Console
                     text_XPFarmedLimit.Text = config.XPFarmedLimit.ToString();
                     text_BreakInterval.Text = config.BreakInterval.ToString();
                     text_BreakLength.Text = config.BreakLength.ToString();
-					
+
                     checkBox_StopWalkingWhenEvolving.Checked = config.pauseAtEvolve;
-		            		            
+
                     checkBox_UseGoogleMapsRouting.Checked = config.UseGoogleMapsAPI;
                     text_GoogleMapsAPIKey.Text = config.GoogleMapsAPIKey;
 
@@ -347,7 +351,7 @@ namespace PokemonGo.RocketAPI.Console
                     checkBox_RandomlyReduceSpeed.Checked = config.RandomReduceSpeed;
                     checkBox_UseBreakIntervalAndLength.Checked = config.UseBreakFields;
                     checkBox_WalkInArchimedeanSpiral.Checked = config.Espiral;
-                    checkBox_Start_Walk_from_default_location.Checked = config.WalkBackToDefaultLocation;                    
+                    checkBox_Start_Walk_from_default_location.Checked = config.WalkBackToDefaultLocation;
 
                     // tab 7 - telegram and logs
                     logPokemon.Checked = config.LogPokemon;
@@ -362,11 +366,15 @@ namespace PokemonGo.RocketAPI.Console
                     UseSkipLaggedAPI.Checked = config.pokevision;
                     SnipePokemonPokeCom.Checked = config.SnipePokemon;
 
-					// tab 8 - update                    
+                    // tab 8 - update                    
                     checkbox_AutoUpdate.Checked = config.AutoUpdate;
                     checkbox_checkWhileRunning.Checked = config.CheckWhileRunning;
-                    langSelected = config.SelectedLanguage;                    
-                    
+                    langSelected = config.SelectedLanguage;
+                    var success = LoadGlobals();
+                    if (!success)
+                    {
+                        MessageBox.Show("Loading Config failed - Check settings before running!");
+                    }
                 }
                 else
                 {
@@ -376,10 +384,9 @@ namespace PokemonGo.RocketAPI.Console
             }
             catch (Exception e)
             {
-                if (!e.Message.Contains("Loading Defaults"))
-                    MessageBox.Show("Your config is broken, check every setting before starting bot!");
-                else
-                    MessageBox.Show("Default Config Empty - Loading Default Values");
+                if (!e.Message.Contains("Loading Defaults") && Globals.FirstLoad)
+                    MessageBox.Show("Loading Config failed - Check settings before running!");
+
                 text_Latidude.Text = "40,764883";
                 text_Longitude.Text = "-73,972967";
                 text_Altidude.Text = "10";
@@ -402,6 +409,11 @@ namespace PokemonGo.RocketAPI.Console
                 text_MaxRazzBerrys.Text = "100";
                 text_MaxTopPotions.Text = "100";
                 text_MaxTopRevives.Text = "100";
+                var success = LoadGlobals();
+                if (!success)
+                {
+                    MessageBox.Show("Loading Config failed - Check settings before running!");
+                }
             }
             if (File.Exists(Program.lastcords))
             {
@@ -448,6 +460,7 @@ namespace PokemonGo.RocketAPI.Console
             prxyPort.GotFocus += new EventHandler(prxy_GotFocus);
             prxyUser.GotFocus += new EventHandler(prxy_GotFocus);
             prxyPass.GotFocus += new EventHandler(prxy_GotFocus);
+            Globals.FirstLoad = true;
         }
         //Account Type Changed Event
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
@@ -493,59 +506,18 @@ namespace PokemonGo.RocketAPI.Console
             Save();
             Dispose();
         }
-        
-        private bool textBoxToGlobal(TextBox textBox, string fieldName ="")
-        {
-        	textBox.BackColor = SystemColors.Window;
-        	var ret = true;        	        	
-            if (textBox.Text != string.Empty)
-            {
-            	if (fieldName == string.Empty){
-            		fieldName = textBox.Name.ToLower().Replace("text_","");
-            	}
-	        	typeof(Globals).GetField(fieldName).SetValue(null,textBox.Text);
-            }
-            else
-            {
-                textBox.BackColor = Color.Red;
-                this.ActiveControl = textBox;
-                ret = false;
-            }
-            return ret;        
-        }
-        private bool textBoxToGlobalDouble(TextBox textBox, string fieldName ="")
-        {
-        	textBox.BackColor = SystemColors.Window;
-        	var ret = true;        	        	
-            if (textBox.Text != string.Empty)
-            {
-            	if (fieldName == string.Empty){
-            		fieldName = textBox.Name.ToLower().Replace("text_","");
-            	}
-            	var valueTXT =textBox.Text.Replace(',', '.');
-            	var valueDBL = double.Parse(valueTXT, cords, NumberFormatInfo.InvariantInfo);
-            	typeof(Globals).GetField(fieldName).SetValue( null, valueDBL);
-            }
-            else
-            {
-                textBox.BackColor = Color.Red;
-                this.ActiveControl = textBox;
-                ret = false;
-            }
-            return ret;        
-        }
-        
-        private bool textBoxToGlobalInt(TextBox textBox, string fieldName ="")
+
+        private bool textBoxToGlobal(TextBox textBox, string fieldName = "")
         {
             textBox.BackColor = SystemColors.Window;
-        	var ret = true;        	        	
+            var ret = true;
             if (textBox.Text != string.Empty)
             {
-            	if (fieldName == string.Empty){
-            		fieldName = textBox.Name.ToLower().Replace("text_","");
-            	}
-            	typeof(Globals).GetField(fieldName).SetValue( null,
-            		 int.Parse(textBox.Text));
+                if (fieldName == string.Empty)
+                {
+                    fieldName = textBox.Name.ToLower().Replace("text_", "");
+                }
+                typeof(Globals).GetField(fieldName).SetValue(null, textBox.Text);
             }
             else
             {
@@ -553,40 +525,88 @@ namespace PokemonGo.RocketAPI.Console
                 this.ActiveControl = textBox;
                 ret = false;
             }
-            return ret;        
+            return ret;
+        }
+        private bool textBoxToGlobalDouble(TextBox textBox, string fieldName = "")
+        {
+            textBox.BackColor = SystemColors.Window;
+            var ret = true;
+            if (textBox.Text != string.Empty)
+            {
+                if (fieldName == string.Empty)
+                {
+                    fieldName = textBox.Name.ToLower().Replace("text_", "");
+                }
+                var valueTXT = textBox.Text.Replace(',', '.');
+                var valueDBL = double.Parse(valueTXT, cords, NumberFormatInfo.InvariantInfo);
+                typeof(Globals).GetField(fieldName).SetValue(null, valueDBL);
+            }
+            else
+            {
+                textBox.BackColor = Color.Red;
+                this.ActiveControl = textBox;
+                ret = false;
+            }
+            return ret;
         }
 
-        private bool Save()
+        private bool textBoxToGlobalInt(TextBox textBox, string fieldName = "")
         {
-        	
+            textBox.BackColor = SystemColors.Window;
+            var ret = true;
+            if (textBox.Text != string.Empty)
+            {
+                if (fieldName == string.Empty)
+                {
+                    fieldName = textBox.Name.ToLower().Replace("text_", "");
+                }
+                typeof(Globals).GetField(fieldName).SetValue(null,
+                     int.Parse(textBox.Text));
+            }
+            else
+            {
+                textBox.BackColor = Color.Red;
+                this.ActiveControl = textBox;
+                ret = false;
+            }
+            return ret;
+        }
+
+        private bool LoadGlobals()
+        {
             #region Setting aaaaaaaaaaaall the globals
-            
+
             // tab 1 - General     
-			// Globals.acc <- Is updated at Change combobox comboBox_AccountType             
-            
+            // Globals.acc <- Is updated at Change combobox comboBox_AccountType             
+
             // Account Info
-            if (!textBoxToGlobal(text_EMail,"username")){
-            	return false;
+            if (!textBoxToGlobal(text_EMail,"username"))
+            {
+                return false;
             }
-            if (!textBoxToGlobal(text_Password)){
-            	return false;
-            }            
+            if (!textBoxToGlobal(text_Password))
+            {
+                return false;
+            }
             Globals.usePwdEncryption = checkbox_PWDEncryption.Checked;
-            
+
             // Location
-            if (!textBoxToGlobalDouble(text_Latidude,"latitute")){
-            	return false;
+            if (!textBoxToGlobalDouble(text_Latidude, "latitute"))
+            {
+                return false;
             }
-            if (!textBoxToGlobalDouble(text_Longitude,"longitude")){
-            	return false;
+            if (!textBoxToGlobalDouble(text_Longitude, "longitude"))
+            {
+                return false;
             }
-            if (!textBoxToGlobalDouble(text_Altidude,"altitude")){
-            	return false;
+            if (!textBoxToGlobalDouble(text_Altidude, "altitude"))
+            {
+                return false;
             }
-            
+
             // Other
-            Globals.useluckyegg =checkBox_UseLuckyEggAtEvolve.Checked;
-            Globals.UseAnimationTimes =checkBox_SimulateAnimationTimeAtEvolve.Checked;
+            Globals.useluckyegg = checkBox_UseLuckyEggAtEvolve.Checked;
+            Globals.UseAnimationTimes = checkBox_SimulateAnimationTimeAtEvolve.Checked;
             Globals.evolve = checkBox_EvolvePokemonIfEnoughCandy.Checked;
             Globals.useincense = checkBox_UseIncenseEvery30min.Checked;
             Globals.pokeList = checkBox_EnablePokemonListGui.Checked;
@@ -612,26 +632,29 @@ namespace PokemonGo.RocketAPI.Console
             Globals.transfer = checkBox_AutoTransferDoublePokemon.Checked;
             Globals.TransferFirstLowIV = checkBox_TransferFirstLowIV.Checked;
 
-            if (!textBoxToGlobalInt(text_MaxDuplicatePokemon,"duplicate")){
-            	return false;
+            if (!textBoxToGlobalInt(text_MaxDuplicatePokemon, "duplicate"))
+            {
+                return false;
             }
-			if (!textBoxToGlobalInt(text_MaxIVToTransfer,"ivmaxpercent")){
-            	return false;
+            if (!textBoxToGlobalInt(text_MaxIVToTransfer, "ivmaxpercent"))
+            {
+                return false;
             }
-            if (!textBoxToGlobalInt(text_MaxCPToTransfer,"maxCp")){
-            	return false;
+            if (!textBoxToGlobalInt(text_MaxCPToTransfer, "maxCp"))
+            {
+                return false;
             }
-            
+
             // tab 3 - Throw
             Globals.LimitPokeballUse = !checkBox2.Checked;
             Globals.LimitGreatballUse = !checkBox3.Checked;
             Globals.LimitUltraballUse = !checkBox7.Checked;
-            Globals.Max_Missed_throws = (int) numericUpDown1.Value; 
-            Globals.InventoryBasePokeball = (int) numericUpDown2.Value;
-            Globals.InventoryBaseGreatball = (int) numericUpDown3.Value;
-            Globals.InventoryBaseUltraball = (int) numericUpDown4.Value;
-            
-			Globals.userazzberry = checkBox_UseRazzberryIfChanceUnder.Checked;            
+            Globals.Max_Missed_throws = (int)numericUpDown1.Value;
+            Globals.InventoryBasePokeball = (int)numericUpDown2.Value;
+            Globals.InventoryBaseGreatball = (int)numericUpDown3.Value;
+            Globals.InventoryBaseUltraball = (int)numericUpDown4.Value;
+
+            Globals.userazzberry = checkBox_UseRazzberryIfChanceUnder.Checked;
             if (text_UseRazzberryChance.Text == string.Empty)
             {
                 text_UseRazzberryChance.BackColor = Color.Red;
@@ -643,58 +666,74 @@ namespace PokemonGo.RocketAPI.Console
                 Globals.razzberry_chance = Convert.ToDouble(c);
             }
 
-            if (!textBoxToGlobalInt(text_Pb_Excellent,"excellentthrow")){
-            	return false;
+            if (!textBoxToGlobalInt(text_Pb_Excellent, "excellentthrow"))
+            {
+                return false;
             }
-            if (!textBoxToGlobalInt(text_Pb_Great,"greatthrow")){
-            	return false;
+            if (!textBoxToGlobalInt(text_Pb_Great, "greatthrow"))
+            {
+                return false;
             }
-            if (!textBoxToGlobalInt(text_Pb_Nice,"nicethrow")){
-            	return false;
+            if (!textBoxToGlobalInt(text_Pb_Nice, "nicethrow"))
+            {
+                return false;
             }
-			if (!textBoxToGlobalInt(text_Pb_Ordinary,"ordinarythrow")){
-            	return false;
+            if (!textBoxToGlobalInt(text_Pb_Ordinary, "ordinarythrow"))
+            {
+                return false;
             }
 
-            if (!textBoxToGlobalInt(GreatBallMinCP,"MinCPforGreatBall")){
-            	return false;
+            if (!textBoxToGlobalInt(GreatBallMinCP, "MinCPforGreatBall"))
+            {
+                return false;
             }
-            if (!textBoxToGlobalInt(UltraBallMinCP,"MinCPforUltraBall")){
-            	return false;
+            if (!textBoxToGlobalInt(UltraBallMinCP, "MinCPforUltraBall"))
+            {
+                return false;
             }
-            
+
             // tab 4 - Items
-			if (!textBoxToGlobalInt(text_MaxPokeballs,"pokeball")){
-            	return false;
+            if (!textBoxToGlobalInt(text_MaxPokeballs, "pokeball"))
+            {
+                return false;
             }
-			if (!textBoxToGlobalInt(text_MaxGreatBalls,"greatball")){
-            	return false;
+            if (!textBoxToGlobalInt(text_MaxGreatBalls, "greatball"))
+            {
+                return false;
             }
-			if (!textBoxToGlobalInt(text_MaxUltraBalls,"ultraball")){
-            	return false;
+            if (!textBoxToGlobalInt(text_MaxUltraBalls, "ultraball"))
+            {
+                return false;
             }
-			if (!textBoxToGlobalInt(text_MaxRevives,"revive")){
-            	return false;
+            if (!textBoxToGlobalInt(text_MaxRevives, "revive"))
+            {
+                return false;
             }
-			if (!textBoxToGlobalInt(text_MaxTopRevives,"toprevive")){
-            	return false;
+            if (!textBoxToGlobalInt(text_MaxTopRevives, "toprevive"))
+            {
+                return false;
             }
-			if (!textBoxToGlobalInt(text_MaxPotions,"potion")){
-            	return false;
+            if (!textBoxToGlobalInt(text_MaxPotions, "potion"))
+            {
+                return false;
             }
-			if (!textBoxToGlobalInt(text_MaxSuperPotions,"superpotion")){
-            	return false;
+            if (!textBoxToGlobalInt(text_MaxSuperPotions, "superpotion"))
+            {
+                return false;
             }
-			if (!textBoxToGlobalInt(text_MaxHyperPotions,"hyperpotion")){
-            	return false;
+            if (!textBoxToGlobalInt(text_MaxHyperPotions, "hyperpotion"))
+            {
+                return false;
             }
-			if (!textBoxToGlobalInt(text_MaxTopPotions,"toppotion")){
-            	return false;
+            if (!textBoxToGlobalInt(text_MaxTopPotions, "toppotion"))
+            {
+                return false;
             }
-			if (!textBoxToGlobalInt(text_MaxRazzBerrys,"berry")){
-            	return false;
+            if (!textBoxToGlobalInt(text_MaxRazzBerrys, "berry"))
+            {
+                return false;
             }
-            
+
             // tab 5 - Proxy
             /*
             UserSettings.Default.UseProxyVerified = checkBox_UseProxy.Checked;
@@ -704,12 +743,13 @@ namespace PokemonGo.RocketAPI.Console
             UserSettings.Default.UseProxyUsername = prxyUser.Checked;
             UserSettings.Default.UseProxyPassword = prxyPass.Checked;
             */
-            
+
             // tab 6 - Walk
-            if (!textBoxToGlobalDouble(text_Speed)){
-            	return false;
+            if (!textBoxToGlobalDouble(text_Speed))
+            {
+                return false;
             }
-            if (Globals.speed > 15)
+            if (Globals.speed > 15 && Globals.FirstLoad)
             {
                 var speed = Globals.speed;
                 var dialogResult = MessageBox.Show("The risk of being banned is significantly greater when using higher than human jogging speeds (e.g. > 15km/hr) Click 'No' to use ~10km/hr instead", $"Are you sure you wish to set your speed to {speed} ?", MessageBoxButtons.YesNo);
@@ -718,40 +758,41 @@ namespace PokemonGo.RocketAPI.Console
             }
 
             var value = text_MinWalkSpeed.Text;
-			if (value != String.Empty)
-				Globals.MinWalkSpeed = int.Parse(value);
+            if (value != String.Empty)
+                Globals.MinWalkSpeed = int.Parse(value);
 
-            if (!textBoxToGlobalInt(text_MoveRadius,"radius")){
-            	return false;
+            if (!textBoxToGlobalInt(text_MoveRadius, "radius"))
+            {
+                return false;
             }
-                      
-			if (text_TimeToRun.Text == String.Empty)
+
+            if (text_TimeToRun.Text == String.Empty)
                 text_TimeToRun.Text = "0";
-			Globals.TimeToRun = Double.Parse(text_TimeToRun.Text);
+            Globals.TimeToRun = Double.Parse(text_TimeToRun.Text);
 
-			value = text_PokemonCatchLimit.Text;
-			if (value != String.Empty)
-				Globals.PokemonCatchLimit = int.Parse(value);
+            value = text_PokemonCatchLimit.Text;
+            if (value != String.Empty)
+                Globals.PokemonCatchLimit = int.Parse(value);
 
-			value = text_PokestopFarmLimit.Text;
-			if (value != String.Empty)
-				Globals.PokestopFarmLimit = int.Parse(value);
+            value = text_PokestopFarmLimit.Text;
+            if (value != String.Empty)
+                Globals.PokestopFarmLimit = int.Parse(value);
 
-			value = text_XPFarmedLimit.Text;
-			if (value != String.Empty)
-				Globals.XPFarmedLimit = int.Parse(value);
-			
-			value = text_BreakInterval.Text;
-			if (value != String.Empty)
-				Globals.BreakInterval = int.Parse(value);
+            value = text_XPFarmedLimit.Text;
+            if (value != String.Empty)
+                Globals.XPFarmedLimit = int.Parse(value);
 
-			value = text_BreakLength.Text;
-			if (value != String.Empty)
-				Globals.BreakLength = int.Parse(value);
-		
+            value = text_BreakInterval.Text;
+            if (value != String.Empty)
+                Globals.BreakInterval = int.Parse(value);
+
+            value = text_BreakLength.Text;
+            if (value != String.Empty)
+                Globals.BreakLength = int.Parse(value);
+
             Globals.pauseAtEvolve = checkBox_StopWalkingWhenEvolving.Checked;
             Globals.pauseAtEvolve2 = checkBox_StopWalkingWhenEvolving.Checked;
-			
+
             Globals.UseGoogleMapsAPI = checkBox_UseGoogleMapsRouting.Checked;
             Globals.GoogleMapsAPIKey = text_GoogleMapsAPIKey.Text;
 
@@ -760,89 +801,92 @@ namespace PokemonGo.RocketAPI.Console
             Globals.CatchPokemon = checkBox_CatchPokemon.Checked;
             Globals.BreakAtLure = checkBox_BreakAtLure.Checked;
             Globals.UseLureAtBreak = checkBox_UseLureAtBreak.Checked;
-            Globals.RandomReduceSpeed =checkBox_RandomlyReduceSpeed.Checked;
-            Globals.UseBreakFields =checkBox_UseBreakIntervalAndLength.Checked;
+            Globals.RandomReduceSpeed = checkBox_RandomlyReduceSpeed.Checked;
+            Globals.UseBreakFields = checkBox_UseBreakIntervalAndLength.Checked;
 
             Globals.Espiral = checkBox_WalkInArchimedeanSpiral.Checked;
             Globals.defLoc = checkBox_Start_Walk_from_default_location.Checked;
-			
+
             // tab 7 - Logs and Telegram            
             Globals.logPokemons = logPokemon.Checked;
             Globals.logManualTransfer = logManuelTransfer.Checked;
-            Globals.bLogEvolve = logEvolution.Checked;			
+            Globals.bLogEvolve = logEvolution.Checked;
             Globals.LogEggs = checkbox_LogEggs.Checked;
-            
+
             Globals.telAPI = text_Telegram_Token.Text;
             Globals.telName = text_Telegram_Name.Text;
-            if (!textBoxToGlobalInt(text_Telegram_LiveStatsDelay,"telDelay")){
-            	return false;
+            if (!textBoxToGlobalInt(text_Telegram_LiveStatsDelay, "telDelay"))
+            {
+                return false;
             }
             Globals.pokevision = UseSkipLaggedAPI.Checked;
             Globals.SnipePokemon = SnipePokemonPokeCom.Checked;
-            if(Globals.SnipePokemon)
+            if (Globals.SnipePokemon)
             {
                 DialogResult result = MessageBox.Show("Sniping has not been tested yet. It could get you banned. Do you want to continue?", "Info", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
                 if (result == DialogResult.OK)
                     Globals.SnipePokemon = true;
                 else
-                    Globals.SnipePokemon = false;      
+                    Globals.SnipePokemon = false;
             }
-            
-            
+
             // tab 8 updates
             Globals.AutoUpdate = checkbox_AutoUpdate.Checked;
             Globals.CheckWhileRunning = checkbox_checkWhileRunning.Checked;
-            
+
             Globals.settingsLanguage = langSelected;
 
             #endregion
+            return true;
+        }
 
-            #region CreatingSettings
-            
-            if (Globals.usePwdEncryption)
-            {
-                Globals.password = Encryption.Encrypt(Globals.password);
-            }
-            Settings settings = new Settings();
-            var configString = Newtonsoft.Json.JsonConvert.SerializeObject(settings);
+        private bool Save()
+        {
+            var success = LoadGlobals();
 
-            ActiveProfile.ProfileName = Globals.ProfileName;
-            ActiveProfile.IsDefault = Globals.IsDefault;
-            ActiveProfile.RunOrder = Globals.RunOrder;
-            ActiveProfile.SettingsJSON = configString;
-            Collection<Profile> newProfiles = new Collection<Profile>();
-            string profileJSON = "";
-            var found = false;
-            if (File.Exists(@Program.accountProfiles))
+            if (success)
             {
-                var accountString = File.ReadAllText(@Program.accountProfiles);
-                Collection<Profile> _profiles = JsonConvert.DeserializeObject<Collection<Profile>>(accountString);
-                
-                foreach (Profile _profile in _profiles)
+                #region CreatingSettings
+
+                if (Globals.usePwdEncryption)
                 {
-                    if (_profile.ProfileName != ActiveProfile.ProfileName)
-                    {                        
-                        newProfiles.Add(_profile);
-                        found = true;                     
-                    }
-                    else if (!found)
+                    Globals.password = Encryption.Encrypt(Globals.password);
+                }
+
+                Settings settings = new Settings();
+                var configString = Newtonsoft.Json.JsonConvert.SerializeObject(settings);
+
+                ActiveProfile.ProfileName = Globals.ProfileName;
+                ActiveProfile.IsDefault = Globals.IsDefault;
+                ActiveProfile.RunOrder = Globals.RunOrder;
+                ActiveProfile.SettingsJSON = configString;
+                Collection<Profile> newProfiles = new Collection<Profile>();
+                string profileJSON = "";
+                if (File.Exists(@Program.accountProfiles))
+                {
+                    var accountString = File.ReadAllText(@Program.accountProfiles);
+                    Collection<Profile> _profiles = JsonConvert.DeserializeObject<Collection<Profile>>(accountString);
+
+                    foreach (Profile _profile in _profiles)
                     {
-                        newProfiles.Add(ActiveProfile);
+                        if (_profile.ProfileName != ActiveProfile.ProfileName)
+                            newProfiles.Add(_profile);
                     }
                 }
-            }            
+                newProfiles.Add(ActiveProfile);
+                profileJSON = Newtonsoft.Json.JsonConvert.SerializeObject(newProfiles);
+                File.WriteAllText(@Program.accountProfiles, profileJSON);
+                if (Globals.usePwdEncryption)
+                {
+                    Globals.password = Encryption.Decrypt(Globals.password);
+                }
+                #endregion
+                return true;
+            }
             else
             {
-                newProfiles.Add(ActiveProfile);                
+                return false;
             }
-            profileJSON = Newtonsoft.Json.JsonConvert.SerializeObject(newProfiles);
-            File.WriteAllText(@Program.accountProfiles, profileJSON);
-            if (Globals.usePwdEncryption)
-            {
-                Globals.password = Encryption.Decrypt(Globals.password);
-            }
-            #endregion
-            return true;
         }
 
         #region CheckedChanged Events
@@ -977,22 +1021,25 @@ namespace PokemonGo.RocketAPI.Console
 
         private void TextBoxes_Throws_TextChanged(object sender, EventArgs e)
         {
-            int throwsChanceSum = 0;
+            if (Globals.FirstLoad)
+            {
+                int throwsChanceSum = 0;
 
-            if (text_Pb_Excellent.Text != string.Empty && text_Pb_Great.Text != string.Empty && text_Pb_Nice.Text != string.Empty && text_Pb_Ordinary.Text != string.Empty)
-            {
-                throwsChanceSum = Convert.ToInt16(text_Pb_Excellent.Text) +
-                                  Convert.ToInt16(text_Pb_Great.Text) +
-                                  Convert.ToInt16(text_Pb_Nice.Text) +
-                                  Convert.ToInt16(text_Pb_Ordinary.Text);
-            }
-            if (throwsChanceSum > 100)
-            {
-                MessageBox.Show("You can not have a total throw chance greater than 100%.\nResetting all throw chances to 25%!");
-                text_Pb_Excellent.Text = "25";
-                text_Pb_Great.Text = "25";
-                text_Pb_Nice.Text = "25";
-                text_Pb_Ordinary.Text = "25";
+                if (text_Pb_Excellent.Text != string.Empty && text_Pb_Great.Text != string.Empty && text_Pb_Nice.Text != string.Empty && text_Pb_Ordinary.Text != string.Empty)
+                {
+                    throwsChanceSum = Convert.ToInt16(text_Pb_Excellent.Text) +
+                                      Convert.ToInt16(text_Pb_Great.Text) +
+                                      Convert.ToInt16(text_Pb_Nice.Text) +
+                                      Convert.ToInt16(text_Pb_Ordinary.Text);
+                }
+                if (throwsChanceSum > 100)
+                {
+                    MessageBox.Show("You can not have a total throw chance greater than 100%.\nResetting all throw chances to 25%!");
+                    text_Pb_Excellent.Text = "25";
+                    text_Pb_Great.Text = "25";
+                    text_Pb_Nice.Text = "25";
+                    text_Pb_Ordinary.Text = "25";
+                }
             }
         }
 
@@ -1025,7 +1072,7 @@ namespace PokemonGo.RocketAPI.Console
             label3.Text = TranslationHandler.GetString("password", "Password:");
             groupBox2.Text = TranslationHandler.GetString("locationSettings", "Location Settings");
             label7.Text = TranslationHandler.GetString("speed", "Speed:");
-            label9.Text = TranslationHandler.GetString("moveRadius", "Move Radius:");            
+            label9.Text = TranslationHandler.GetString("moveRadius", "Move Radius:");
             checkBox_Start_Walk_from_default_location.Text = TranslationHandler.GetString("startFromDefaultLocation", "Start from default location");
             groupBox3.Text = TranslationHandler.GetString("botSettings", "Bot Settings");
             checkBox_AutoTransferDoublePokemon.Text = TranslationHandler.GetString("autoTransferDoublePokemon", "Auto transfer double Pokemons");
@@ -1289,10 +1336,10 @@ namespace PokemonGo.RocketAPI.Console
 
         private void button2_Click_2(object sender, EventArgs e)
         {
-        	if (Save())
-            	MessageBox.Show("Current Configuration Saved as - " + ActiveProfile.ProfileName);
-        	else
-        		MessageBox.Show("Please Review Red Box Before Save");
+            if (Save())
+                MessageBox.Show("Current Configuration Saved as - " + ActiveProfile.ProfileName);
+            else
+                MessageBox.Show("Please Review Red Box Before Save");
         }
 
         private void ProfileName_TextChanged(object sender, EventArgs e)
