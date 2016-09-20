@@ -2175,7 +2175,7 @@ namespace PokemonGo.RocketAPI.Logic
                 	poke2.Coordinates.Coordinates.Add(poke.Longitude);
                 	poke2.Coordinates.Coordinates.Add(poke.Latitude);
                 	
-                	poke2.ExpiresAt = new DateTime(poke.ExpirationTimestampMs * 10000);
+                	poke2.ExpiresAt = new DateTime(poke.ExpirationTimestampMs * 10000).AddYears(1969).AddDays(-1);
                     toShow.Add(poke2);                    
                 }
                 if (toShow.Count > 0)
