@@ -383,6 +383,8 @@ namespace PokemonGo.RocketAPI.Console
 
                     UltraBallMinCP.Text = config.MinCPforUltraBall.ToString();
 
+                    SnipePokemonPokeCom.Checked = config.SnipePokemon;
+
                     if (config.pokemonsToHold != null)
                     {
                         foreach (PokemonId Id in config.pokemonsToHold)
@@ -836,6 +838,7 @@ namespace PokemonGo.RocketAPI.Console
             Globals.settingsLanguage = langSelected;
             Globals.sleepatpokemons = checkBox_RandomSleepAtCatching.Checked;
             Globals.Espiral = checkBox_WalkInArchimedeanSpiral.Checked;
+            Globals.SnipePokemon = SnipePokemonPokeCom.Checked;
 
             if (text_TimeToRun.Text == String.Empty)
                 Globals.TimeToRun = 0;
@@ -1570,6 +1573,16 @@ namespace PokemonGo.RocketAPI.Console
         private void UltraBallMinCP_TextChanged(object sender, EventArgs e)
         {
             Globals.MinCPforUltraBall = int.Parse(UltraBallMinCP.Text);
+        }
+
+        private void checkBox8_CheckedChanged_1(object sender, EventArgs e)
+        {
+            Globals.SnipePokemon = SnipePokemonPokeCom.Checked;
+        }
+
+        private void settingsBindingSource_CurrentChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }
