@@ -193,7 +193,9 @@
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="Settings.cs" />
-    <Compile Include="TeamSelect.cs" />
+    <Compile Include="TeamSelect.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="TeamSelect.Designer.cs">
       <DependentUpon>TeamSelect.cs</DependentUpon>
     </Compile>
