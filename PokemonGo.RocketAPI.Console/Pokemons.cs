@@ -72,7 +72,7 @@ namespace PokemonGo.RocketAPI.Console
             ClientSettings = new Settings();
 
             InitialzePokemonListView();
-
+            changesPanel1.Execute();
         }
 
         public static ISettings ClientSettings;
@@ -238,26 +238,6 @@ namespace PokemonGo.RocketAPI.Console
                     stats = arrStats.First();
 
                     #region populate fields from settings
-                    checkBox_RandomSleepAtCatching.Checked = Globals.sleepatpokemons;
-                    checkBox_FarmPokestops.Checked = Globals.farmPokestops;
-                    checkBox_CatchPokemon.Checked = Globals.CatchPokemon;
-                    checkBox_BreakAtLure.Checked = Globals.BreakAtLure;
-                    checkBox_UseLureAtBreak.Checked = Globals.UseLureAtBreak;
-                    checkBox_RandomlyReduceSpeed.Checked = Globals.RandomReduceSpeed;
-                    checkBox_UseBreakIntervalAndLength.Checked = Globals.UseBreakFields;
-                    checkBox_WalkInArchimedeanSpiral.Checked = Globals.Espiral;
-                    checkBox_UseGoogleMapsRouting.Checked = Globals.UseGoogleMapsAPI;
-                    checkBox10.Checked = Globals.useluckyegg;
-                    checkBox9.Checked = Globals.UseAnimationTimes;
-                    checkBox2.Checked = Globals.pauseAtEvolve;
-                    checkBox7.Checked = Globals.keepPokemonsThatCanEvolve;
-                    checkBox6.Checked = Globals.useLuckyEggIfNotRunning;
-                    checkBox3.Checked = Globals.userazzberry;
-                    checkBox5.Checked = Globals.autoIncubate;
-                    checkBox4.Checked = Globals.useBasicIncubators;
-                    text_GoogleMapsAPIKey.Text = Globals.GoogleMapsAPIKey;
-                    numericUpDown1.Value = decimal.Parse(Globals.speed.ToString());
-                    numericUpDown2.Value = decimal.Parse(Globals.MinWalkSpeed.ToString());
                     itemsPanel1.num_MaxPokeballs.Value = Globals.pokeball;
                     itemsPanel1.num_MaxGreatBalls.Value = Globals.greatball;
                     itemsPanel1.num_MaxUltraBalls.Value = Globals.ultraball;
@@ -274,8 +254,6 @@ namespace PokemonGo.RocketAPI.Console
                         + Globals.toprevive + Globals.toppotion;
                     itemsPanel1.text_TotalItemCount.Text = count.ToString();
 
-                    numRazzPercent.Value = (int)(Globals.razzberry_chance * 100);
-                    numTravelSpeed.Value = (int)Globals.RelocateDefaultLocationTravelSpeed;
                     #endregion
 
                     playerPanel1.Execute(profile, pokemons);
@@ -1220,135 +1198,6 @@ namespace PokemonGo.RocketAPI.Console
             freezedenshit.Stop();
         }
 
-        private void button2_Click(object sender, EventArgs e)
-        {
-            Globals.UseLureGUIClick = true;
-        }
-
-        private void button3_Click(object sender, EventArgs e)
-        {
-            Globals.UseLuckyEggGUIClick = true;
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            Globals.UseIncenseGUIClick = true;
-        }
-
-        private void checkBox1_CheckedChanged(object sender, EventArgs e)
-        {
-            Globals.RepeatUserRoute = checkBox1.Checked;
-        }
-
-
-        private void checkBox10_CheckedChanged(object sender, EventArgs e)
-        {
-            Globals.useluckyegg = checkBox10.Checked;
-        }
-
-        private void checkBox9_CheckedChanged(object sender, EventArgs e)
-        {
-            Globals.UseAnimationTimes = checkBox9.Checked;
-        }
-
-        private void checkBox_FarmPokestops_CheckedChanged(object sender, EventArgs e)
-        {
-            Globals.farmPokestops = checkBox_FarmPokestops.Checked;
-        }
-
-        private void checkBox_CatchPokemon_CheckedChanged(object sender, EventArgs e)
-        {
-            Globals.CatchPokemon = checkBox_CatchPokemon.Checked;
-        }
-
-        private void checkBox_BreakAtLure_CheckedChanged(object sender, EventArgs e)
-        {
-            Globals.BreakAtLure = checkBox_BreakAtLure.Checked;
-        }
-
-        private void checkBox_UseLureAtBreak_CheckedChanged(object sender, EventArgs e)
-        {
-            Globals.UseLureAtBreak = checkBox_UseLureAtBreak.Checked;
-        }
-
-        private void checkBox_RandomlyReduceSpeed_CheckedChanged(object sender, EventArgs e)
-        {
-            Globals.RandomReduceSpeed = checkBox_RandomlyReduceSpeed.Checked;
-        }
-
-        private void checkBox_UseBreakIntervalAndLength_CheckedChanged(object sender, EventArgs e)
-        {
-            Globals.UseBreakFields = checkBox_UseBreakIntervalAndLength.Checked;
-        }
-
-        private void checkBox_UseGoogleMapsRouting_CheckedChanged(object sender, EventArgs e)
-        {
-            Globals.UseGoogleMapsAPI = checkBox_UseGoogleMapsRouting.Checked;
-        }
-
-        private void checkBox_WalkInArchimedeanSpiral_CheckedChanged(object sender, EventArgs e)
-        {
-            Globals.Espiral = checkBox_WalkInArchimedeanSpiral.Checked;
-        }
-
-
-        private void checkBox_RandomSleepAtCatching_CheckedChanged(object sender, EventArgs e)
-        {
-            Globals.sleepatpokemons = checkBox_RandomSleepAtCatching.Checked;
-        }
-
-        private void checkBox11_CheckedChanged(object sender, EventArgs e)
-        {
-            Globals.evolve = checkBox11.Checked;
-        }
-
-        private void checkBox2_CheckedChanged(object sender, EventArgs e)
-        {
-            Globals.pauseAtEvolve = checkBox2.Checked;
-            Globals.pauseAtEvolve2 = checkBox2.Checked;
-        }
-
-        private void checkBox8_CheckedChanged(object sender, EventArgs e)
-        {
-            Globals.useincense = checkBox8.Checked;
-        }
-
-        private void checkBox7_CheckedChanged(object sender, EventArgs e)
-        {
-            Globals.keepPokemonsThatCanEvolve = checkBox7.Checked;
-        }
-
-        private void checkBox6_CheckedChanged(object sender, EventArgs e)
-        {
-            Globals.useLuckyEggIfNotRunning = checkBox6.Checked;
-        }
-
-        private void checkBox3_CheckedChanged(object sender, EventArgs e)
-        {
-            Globals.userazzberry = checkBox3.Checked;
-        }
-
-        private void checkBox5_CheckedChanged(object sender, EventArgs e)
-        {
-            Globals.autoIncubate = checkBox5.Checked;
-        }
-
-        private void checkBox4_CheckedChanged(object sender, EventArgs e)
-        {
-            Globals.useBasicIncubators = checkBox4.Checked;
-        }
-
-        private void numRazzPercent_TextChanged(object sender, EventArgs e)
-        {
-            Globals.razzberry_chance = ((double)((NumericUpDown)sender).Value) / 100;
-        }
-
-        private void text_GoogleMapsAPIKey_TextChanged(object sender, EventArgs e)
-        {
-            Globals.GoogleMapsAPIKey = text_GoogleMapsAPIKey.Text;
-        }
-
-
         private void InitialzePokemonListView()
         {
             PokemonListView.Columns.Clear();
@@ -1433,151 +1282,23 @@ namespace PokemonGo.RocketAPI.Console
             return columnheader;
         }
 
-
-        private void numTravelSpeed_TextChanged(object sender, EventArgs e)
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
-            try
-            {
-                Globals.RelocateDefaultLocationTravelSpeed = double.Parse(numTravelSpeed.Value.ToString());
-            }
-            catch
-            {
-
-            }
+            Globals.RepeatUserRoute = checkBox1.Checked;
+        }
+        private void button2_Click(object sender, EventArgs e)
+        {
+            Globals.UseLureGUIClick = true;
         }
 
-        private void numDefaultSpeed_TextChanged(object sender, EventArgs e)
+        private void button3_Click(object sender, EventArgs e)
         {
-            try
-            {
-                Globals.speed = double.Parse(numericUpDown1.Value.ToString());
-            }
-            catch
-            {
-
-            }
+            Globals.UseLuckyEggGUIClick = true;
         }
 
-        private void numMinSpeed_TextChanged(object sender, EventArgs e)
+        private void button1_Click(object sender, EventArgs e)
         {
-            try
-            {
-                Globals.MinWalkSpeed = int.Parse(numericUpDown2.Value.ToString());
-            }
-            catch
-            {
-
-            }
-        }
-
-        private void textBox4_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void button4_Click(object sender, EventArgs e)
-        {
-            double lat = Globals.latitute;
-            double lng = Globals.longitude;
-            try
-            {
-                lat = double.Parse(textBox4.Text.Replace(',', '.'), GUI.cords, System.Globalization.NumberFormatInfo.InvariantInfo);
-                if (lat > 90.0 || lat < -90.0)
-                {
-                    throw new System.ArgumentException("Value has to be between 90 and -90!");
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-                textBox4.Text = "";
-            }
-            try
-            {
-                lng = double.Parse(textBox5.Text.Replace(',', '.'), GUI.cords, System.Globalization.NumberFormatInfo.InvariantInfo);
-                if (lng > 180.0 || lng < -180.0)
-                {
-                    throw new System.ArgumentException("Value has to be between 180 and -180!");
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-                textBox5.Text = "";
-            }
-            if (lat != Globals.latitute && lng != Globals.longitude)
-            {
-                if ((!lat.Equals(Globals.latitute)) && (!lng.Equals(Globals.longitude)))
-                {
-                    Globals.latitute = lat;
-                    Globals.longitude = lng;
-                    var elevationRequest = new ElevationRequest()
-                    {
-                        Locations = new[] { new Location(lat, lng) },
-                    };
-                    if (Globals.GoogleMapsAPIKey != "")
-                        elevationRequest.ApiKey = Globals.GoogleMapsAPIKey;
-                    try
-                    {
-                        ElevationResponse elevation = GoogleMaps.Elevation.Query(elevationRequest);
-                        if (elevation.Status == Status.OK)
-                        {
-                            foreach (Result result in elevation.Results)
-                            {
-                                Globals.altitude = result.Elevation;
-                            }
-                        }
-                    }
-                    catch (Exception)
-                    {
-                        // ignored
-                    }
-                    Globals.RelocateDefaultLocation = true;
-                    numTravelSpeed.Value = 0;
-                    textBox4.Text = "";
-                    textBox5.Text = "";
-                    Logger.ColoredConsoleWrite(ConsoleColor.Green, "Default Location Set will navigate there after next pokestop!");
-                }
-        }
-            }
-           
-
-        private void button5_Click(object sender, EventArgs e)
-        {
-            var ret = FindLocation(textBox1.Text);
-            textBox4.Text = ret[0].ToString();
-            textBox5.Text = ret[1].ToString();
-        }
-
-        private void label9_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void text_Speed_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void UpdateConfig(object sender, EventArgs e)
-        {
-            var configString = JsonConvert.SerializeObject(_clientSettings);
-            Profile updatedProfile = new Console.Profile();
-            ActiveProfile.ProfileName = Globals.ProfileName;
-            ActiveProfile.IsDefault = Globals.IsDefault;
-            ActiveProfile.RunOrder = Globals.RunOrder;
-            ActiveProfile.SettingsJSON = configString;
-            string savedProfiles = File.ReadAllText(@Program.accountProfiles);
-            Collection<Profile> _profiles = JsonConvert.DeserializeObject<Collection<Profile>>(savedProfiles);
-            Profile profiletoupdate = _profiles.Where(i => i.ProfileName == ActiveProfile.ProfileName).First();
-            if (profiletoupdate != null)
-            {
-                _profiles.Remove(profiletoupdate);
-                _profiles.Add(ActiveProfile);
-            }
-            string ProfilesString = JsonConvert.SerializeObject(_profiles);
-            File.WriteAllText(@Program.accountProfiles, ProfilesString);
-            MessageBox.Show("Current Configuration Saved as - " + ActiveProfile.ProfileName);
+            Globals.UseIncenseGUIClick = true;
         }
 
         private async void Options_SelectedIndexChanged(object sender, EventArgs e)

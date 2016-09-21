@@ -219,9 +219,6 @@ namespace PokemonGo.RocketAPI.Console
         {
             try
             {
-                if (Control.ModifierKeys == Keys.Shift ) {
-                    new FormChanges().Show();
-                }else 
                 DisplayLocationSelector();
             }
             catch (Exception ex)
@@ -236,6 +233,35 @@ namespace PokemonGo.RocketAPI.Console
             locationSelector.ShowDialog();
             textBoxLatitude.Text = Globals.latitute.ToString(CultureInfo.InvariantCulture);
             textBoxLongitude.Text = Globals.longitude.ToString(CultureInfo.InvariantCulture);
+        }
+        public void Execute(){
+            //Walk Options
+            checkBox_RandomlyReduceSpeed.Checked = Globals.sleepatpokemons;
+            checkBox_FarmPokestops.Checked = Globals.farmPokestops;
+            checkBox_CatchPokemon.Checked = Globals.CatchPokemon;
+            checkBox_BreakAtLure.Checked = Globals.BreakAtLure;
+            checkBox_UseLureAtBreak.Checked = Globals.UseLureAtBreak;
+            checkBox_RandomlyReduceSpeed.Checked = Globals.RandomReduceSpeed;
+            checkBox_UseBreakIntervalAndLength.Checked = Globals.UseBreakFields;
+            checkBox_WalkInArchimedeanSpiral.Checked = Globals.Espiral;
+            numericUpDownSpeed.Value = decimal.Parse(Globals.speed.ToString());
+            numericUpDownMinWalkSpeed.Value = decimal.Parse(Globals.MinWalkSpeed.ToString());
+            //Other
+            checkBox_useluckyegg.Checked = Globals.useLuckyEggIfNotRunning;
+            checkBox_UseAnimationTimes.Checked = Globals.UseAnimationTimes;
+            checkBox_evolve.Checked = Globals.evolve;
+            checkBox_pauseAtEvolve1_2.Checked = Globals.pauseAtEvolve;
+            checkBox_UseIncense.Checked = Globals.useincense;
+            checkBox_keepPokemonsThatCanEvolve.Checked = Globals.keepPokemonsThatCanEvolve;
+            checkBoxUseLuckyEggIfNotRunning.Checked = Globals.useluckyegg;
+            checkBoxUseRazzBerry.Checked = Globals.userazzberry;
+            numRazzPercent.Value = (int)(Globals.razzberry_chance * 100);
+            checkBoxAutoIncubate.Checked = Globals.autoIncubate;
+            checkBoxUseBasicIncubators.Checked = Globals.useBasicIncubators;
+            //Routing
+            checkBox_UseGoogleMapsRouting.Checked = Globals.UseGoogleMapsAPI;
+            text_GoogleMapsAPIKey.Text = Globals.GoogleMapsAPIKey;
+            numTravelSpeed.Value = (int)Globals.RelocateDefaultLocationTravelSpeed;
         }
 	}
 }
