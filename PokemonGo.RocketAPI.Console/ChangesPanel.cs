@@ -181,6 +181,8 @@ namespace PokemonGo.RocketAPI.Console
         void buttonUpdateClick(object sender, EventArgs e)
         {
             var ActiveProfile = new Profile();
+            if (_clientSettings == null)
+                return;
             var configString = JsonConvert.SerializeObject(_clientSettings);
             Profile updatedProfile = new Console.Profile();
             ActiveProfile.ProfileName = Globals.ProfileName;
@@ -212,6 +214,28 @@ namespace PokemonGo.RocketAPI.Console
                 ret[1] = pos.Value.Lng;
             }
             return ret;
-        }        
-	}    
+        }
+        void Button8Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (Control.ModifierKeys == Keys.Shift ) {
+                    new FormChanges().Show();
+                }else 
+                DisplayLocationSelector();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                Logger.Write(ex.Message);
+            }
+        }
+        private void DisplayLocationSelector()
+        {
+            LocationSelect locationSelector = new LocationSelect(false);
+            locationSelector.ShowDialog();
+            textBoxLatitude.Text = Globals.latitute.ToString(CultureInfo.InvariantCulture);
+            textBoxLongitude.Text = Globals.longitude.ToString(CultureInfo.InvariantCulture);
+        }
+	}
 }

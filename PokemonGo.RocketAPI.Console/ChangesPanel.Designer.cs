@@ -172,6 +172,7 @@ namespace PokemonGo.RocketAPI.Console
 		    this.button8.TabIndex = 86;
 		    this.button8.Text = "Revise";
 		    this.button8.UseVisualStyleBackColor = true;
+		    this.button8.Click += new System.EventHandler(this.Button8Click);
 		    // 
 		    // numTravelSpeed
 		    // 
@@ -663,7 +664,7 @@ namespace PokemonGo.RocketAPI.Console
 		    this.checkBox_UseBreakIntervalAndLength.Name = "checkBox_UseBreakIntervalAndLength";
 		    this.checkBox_UseBreakIntervalAndLength.Size = new System.Drawing.Size(171, 17);
 		    this.checkBox_UseBreakIntervalAndLength.TabIndex = 71;
-		    this.checkBox_UseBreakIntervalAndLength.Tag = "UseBreakIntervalAndLength";
+		    this.checkBox_UseBreakIntervalAndLength.Tag = "UseBreakFields";
 		    this.checkBox_UseBreakIntervalAndLength.Text = "Use Break Interval and Length";
 		    this.checkBox_UseBreakIntervalAndLength.UseVisualStyleBackColor = true;
 		    this.checkBox_UseBreakIntervalAndLength.CheckedChanged += new System.EventHandler(this.CheckBoxes_CheckedChanged);
