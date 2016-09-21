@@ -1242,6 +1242,7 @@ namespace PokemonGo.RocketAPI.Logic
                     }
                     strNames = strNames.Substring(0, strNames.Length - 2);
                     Logger.ColoredConsoleWrite(ConsoleColor.Magenta, $"Found {pokemons.Count()} catchable Pokemon(s): " + strNames);
+                    await ShowNearbyPokemons(pokemons).ConfigureAwait(false);
                 }
                 //catch them all!
                 foreach (var pokemon in pokemons)
@@ -2165,5 +2166,36 @@ namespace PokemonGo.RocketAPI.Logic
             return d;
         }
         #endregion
+        public async Task<bool> ShowNearbyPokemons( IEnumerable<MapPokemon>  pokeData )
+        {
+            _infoObservable.PushClearPokemons();
+            var toShow = new List<DataCollector.PokemonMapData>();
+            if (pokeData != null)
+            {
+                foreach (var poke in pokeData)
+                {
+                	var poke2 = new  DataCollector.PokemonMapData();
+                	poke2.Id = poke.SpawnPointId;
+                	poke2.PokemonId = poke.PokemonId;
+                	poke2.Coordinates = new PokemonGo.RocketApi.PokeMap.DataModel.LatitudeLongitude ();
+                	poke2.Coordinates.Coordinates = new List<double>();
+                	poke2.Coordinates.Coordinates.Add(poke.Longitude);
+                	poke2.Coordinates.Coordinates.Add(poke.Latitude);
+                	
+                	poke2.ExpiresAt = new DateTime(poke.ExpirationTimestampMs * 10000).AddYears(1969).AddDays(-1);
+                    toShow.Add(poke2);                    
+                }
+                if (toShow.Count > 0)
+                {
+                    _infoObservable.PushNewPokemonLocations(toShow);
+                }
+
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }        
     }
 }

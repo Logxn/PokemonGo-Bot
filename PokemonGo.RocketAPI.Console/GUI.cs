@@ -582,7 +582,7 @@ namespace PokemonGo.RocketAPI.Console
 
             // Account Info
             if (!textBoxToGlobal(text_EMail))
-            {
+            {            	
                 return false;
             }
             if (!textBoxToGlobal(text_Password))
