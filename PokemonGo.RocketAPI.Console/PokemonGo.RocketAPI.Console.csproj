@@ -525,6 +525,8 @@
     <None Include="Resources\150-200.png" />
     <None Include="Resources\151-200.png" />
     <Content Include="Resources\boy.png" />
+    <None Include="Resources\combo_by_rootofitall-d8ulo4t.gif" />
+    <None Include="Resources\giphy %281%29.gif" />
     <Content Include="Resources\girl.png" />
     <Content Include="Resources\instinct.png" />
     <Content Include="Resources\mystic.png" />
@@ -533,6 +535,7 @@
     <None Include="Resources\team-valor.png" />
     <None Include="Resources\Trainer_F.png" />
     <None Include="Resources\Trainer_M.png" />
+    <None Include="Resources\Ninja.bmp" />
     <Content Include="Resources\valor.png" />
     <None Include="Resources\start_point.png" />
     <None Include="Resources\151-35.png" />

@@ -264,6 +264,11 @@ namespace PokemonGo.RocketAPI.Console
             get { return Globals.MinCPtoCatch; }
             set { Globals.MinCPtoCatch = value; }
         }
+        public int MinIVtoCatch
+        {
+            get { return Globals.MinIVtoCatch; }
+            set { Globals.MinIVtoCatch = value; }
+        }
         public int MinCPforUltraBall
         {
             get { return Globals.MinCPforUltraBall; }
@@ -278,6 +283,11 @@ namespace PokemonGo.RocketAPI.Console
         {
             get { return Globals.telName; }
             set { Globals.telName = value; }
+        }
+        public bool AvoidRegionLock
+        {
+            get { return Globals.AvoidRegionLock; }
+            set { Globals.AvoidRegionLock = value; }
         }
         public int navigation_option
         {

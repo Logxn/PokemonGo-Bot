@@ -190,7 +190,7 @@ namespace PokemonGo.RocketAPI.Console
             currVer.Text = currVersion.ToString();
             ver.Text = $"Version: {currVersion}";
             newVer.Text = newestVersion.ToString();
-            
+
 
             if (Program.getNewestVersion() > Assembly.GetExecutingAssembly().GetName().Version)
             {
@@ -301,6 +301,7 @@ namespace PokemonGo.RocketAPI.Console
                     text_MaxIVToTransfer.Text = config.ivmaxpercent.ToString();
                     text_MaxCPToTransfer.Text = config.DontTransferWithCPOver.ToString();
                     MinCPtoCatch.Text = config.MinCPtoCatch.ToString();
+                    MinIVtoCatch.Text = config.MinIVtoCatch.ToString();
 
                     // tab 3 - throws
                     checkBox2.Checked = !Globals.LimitPokeballUse;
@@ -334,7 +335,7 @@ namespace PokemonGo.RocketAPI.Console
                     text_MaxTopPotions.Text = config.MaxTopPotions.ToString();
                     text_MaxRazzBerrys.Text = config.MaxBerries.ToString();
                     // tab 5 proxy
-                    
+
                     // tab 6 walk
                     text_Speed.Text = config.WalkingSpeedInKilometerPerHour.ToString();
                     text_MinWalkSpeed.Text = config.MinWalkSpeed.ToString();
@@ -374,6 +375,7 @@ namespace PokemonGo.RocketAPI.Console
 
                     UseSkipLaggedAPI.Checked = config.pokevision;
                     SnipePokemonPokeCom.Checked = config.SnipePokemon;
+                    AvoidRegionLock.Checked = config.AvoidRegionLock;
 
                     // tab 8 - update                    
                     checkbox_AutoUpdate.Checked = config.AutoUpdate;
@@ -590,7 +592,7 @@ namespace PokemonGo.RocketAPI.Console
 
             // Account Info
             if (!textBoxToGlobal(text_EMail))
-            {            	
+            {
                 return false;
             }
             if (!textBoxToGlobal(text_Password))
@@ -625,6 +627,10 @@ namespace PokemonGo.RocketAPI.Console
             Globals.useBasicIncubators = checkBox_UseBasicIncubators.Checked;
 
             // tab 2 - pokemons
+            Globals.noCatch.Clear();
+            Globals.noTransfer.Clear();
+            Globals.doEvolve.Clear();
+
             foreach (string pokemon in checkedListBox_PokemonNotToTransfer.CheckedItems)
             {
                 Globals.noTransfer.Add((PokemonId)Enum.Parse(typeof(PokemonId), pokemon));
@@ -746,7 +752,10 @@ namespace PokemonGo.RocketAPI.Console
             {
                 return false;
             }
-
+            if (!textBoxToGlobalInt(MinIVtoCatch, "MinIVtoCatch"))
+            {
+                return false;
+            }
             // tab 5 - Proxy
             /*
             UserSettings.Default.UseProxyVerified = checkBox_UseProxy.Checked;
@@ -834,7 +843,7 @@ namespace PokemonGo.RocketAPI.Console
             }
             Globals.pokevision = UseSkipLaggedAPI.Checked;
             Globals.SnipePokemon = SnipePokemonPokeCom.Checked;
-            if (Globals.SnipePokemon)
+            if (Globals.SnipePokemon && !Globals.FirstLoad)
             {
                 DialogResult result = MessageBox.Show("Sniping has not been tested yet. It could get you banned. Do you want to continue?", "Info", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
                 if (result == DialogResult.OK)
@@ -860,10 +869,12 @@ namespace PokemonGo.RocketAPI.Console
             if (success)
             {
                 #region CreatingSettings
+                var encryptedPassword = Encryption.Encrypt(Globals.password);
+                var decryptedPassword = Encryption.Decrypt(encryptedPassword);
 
                 if (Globals.usePwdEncryption)
                 {
-                    Globals.password = Encryption.Encrypt(Globals.password);
+                    Globals.password = encryptedPassword;
                 }
 
                 Settings settings = new Settings();
@@ -889,10 +900,7 @@ namespace PokemonGo.RocketAPI.Console
                 newProfiles.Add(ActiveProfile);
                 profileJSON = Newtonsoft.Json.JsonConvert.SerializeObject(newProfiles);
                 File.WriteAllText(@Program.accountProfiles, profileJSON);
-                if (Globals.usePwdEncryption)
-                {
-                    Globals.password = Encryption.Decrypt(Globals.password);
-                }
+                Globals.password = decryptedPassword;
                 #endregion
                 return true;
             }

@@ -45,7 +45,7 @@ namespace PokemonGo.RocketAPI.Logic.Utils
 
                     string coords1 = Snipers.results[i].coords;
                     coords1 = coords1.Replace(',','|');
-                    coords1 = coords1.Replace('.', ',');
+                    //coords1 = coords1.Replace('.', ',');
                     double[] coords = coords1.Split('|').Select(double.Parse).ToArray();
                     Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "" + idPoke + " = " + coords[0] + " / " + coords[1]);
 
