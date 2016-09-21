@@ -122,6 +122,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ChangesPanel.cs" />
+    <Compile Include="ChangesPanel.Designer.cs">
+      <DependentUpon>ChangesPanel.cs</DependentUpon>
+    </Compile>
     <Compile Include="EggsPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -222,6 +226,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="ChangesPanel.resx">
+      <DependentUpon>ChangesPanel.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="EggsPanel.resx">
       <DependentUpon>EggsPanel.cs</DependentUpon>
     </EmbeddedResource>

@@ -2186,11 +2186,18 @@ namespace PokemonGo.RocketAPI.Logic
 
                     try
                     {
-                        poke2.ExpiresAt = new DateTime(poke.ExpirationTimestampMs * 10000).AddYears(1969).AddDays(-1);
+                        Int64 numberOfTicks = poke.ExpirationTimestampMs;
+                        numberOfTicks *= 10000; // convert MS in Ticks
+                        if (numberOfTicks >= DateTime.MinValue.Ticks &&
+                            numberOfTicks <= DateTime.MaxValue.Ticks) {
+                            poke2.ExpiresAt = new DateTime().AddYears(1969).AddDays(-1);
+                        }else{
+                            Logger.AddLog( "Read invalid Date");
+                        }
                     }
                     catch (ArgumentOutOfRangeException e)
                     {
-                        Logger.ColoredConsoleWrite(ConsoleColor.Red, "[Ignore] - Value must be between MinTicks & MaxTicks. (MTK plz fix)");
+                        Logger.ColoredConsoleWrite(ConsoleColor.Red, "Read invalid Date");
                     }
                     
                     toShow.Add(poke2);                    
