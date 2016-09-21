@@ -1001,6 +1001,9 @@ namespace PokemonGo.RocketAPI.Console
         {
             try
             {
+                if (Control.ModifierKeys == Keys.Shift ) {
+                    new FormChanges().Show();
+                }else 
                 DisplayLocationSelector();
             }
             catch (Exception ex)
