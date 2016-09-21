@@ -2243,7 +2243,7 @@ namespace PokemonGo.RocketAPI.Logic
                         numberOfTicks *= 10000; // convert MS in Ticks
                         if (numberOfTicks >= DateTime.MinValue.Ticks &&
                             numberOfTicks <= DateTime.MaxValue.Ticks) {
-                            poke2.ExpiresAt = new DateTime().AddYears(1969).AddDays(-1);
+                            poke2.ExpiresAt = new DateTime(numberOfTicks).AddYears(1969).AddDays(-1);
                         }else{
                             Logger.AddLog( "Read invalid Date");
                         }
