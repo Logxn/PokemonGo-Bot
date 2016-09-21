@@ -50,15 +50,18 @@ namespace PokemonGo.RocketAPI.Console
 	               
 	               ListViewItem listViewItem;
 	               ItemsListView.Items.Clear();
+	               var sum = 0;
 	               foreach (  var item in items) {
 	                listViewItem = new ListViewItem();
 	                listViewItem.Tag = item;
 	                listViewItem.Text = getItemName(item.ItemId);
 	                listViewItem.ImageKey = item.ItemId.ToString().Replace("Item","");
 	                listViewItem.SubItems.Add(""+item.Count);
+	                sum +=item.Count;
 	                listViewItem.SubItems.Add(""+item.Unseen);
 	                ItemsListView.Items.Add(listViewItem);
 	               }
+	               lblCount.Text=""+ sum;
 	            }
             }
             catch (Exception e)

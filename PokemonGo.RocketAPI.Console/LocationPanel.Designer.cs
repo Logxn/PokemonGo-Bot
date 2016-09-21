@@ -53,258 +53,249 @@ namespace PokemonGo.RocketAPI.Console
 		/// </summary>
 		private void InitializeComponent()
 		{
-            this.map = new GMap.NET.WindowsForms.GMapControl();
-            this.cbShowPokemon = new System.Windows.Forms.CheckBox();
-            this.buttonRefreshPokemon = new System.Windows.Forms.Button();
-            this.cbShowPokeStops = new System.Windows.Forms.CheckBox();
-            this.buttonRefreshForts = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
-            this.textBox3 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.btnGetPoints = new System.Windows.Forms.Button();
-            this.lblAddress = new System.Windows.Forms.Label();
-            this.tbAddress = new System.Windows.Forms.TextBox();
-            this.panel1.SuspendLayout();
-            this.SuspendLayout();
-            // 
-            // map
-            // 
-            this.map.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.map.Bearing = 0F;
-            this.map.CanDragMap = true;
-            this.map.EmptyTileColor = System.Drawing.Color.Navy;
-            this.map.GrayScaleMode = false;
-            this.map.HelperLineOption = GMap.NET.WindowsForms.HelperLineOptions.DontShow;
-            this.map.LevelsKeepInMemmory = 5;
-            this.map.Location = new System.Drawing.Point(5, 5);
-            this.map.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
-            this.map.MarkersEnabled = true;
-            this.map.MaxZoom = 2;
-            this.map.MinZoom = 2;
-            this.map.MouseWheelZoomType = GMap.NET.MouseWheelZoomType.MousePositionAndCenter;
-            this.map.Name = "map";
-            this.map.NegativeMode = false;
-            this.map.PolygonsEnabled = true;
-            this.map.RetryLoadTile = 0;
-            this.map.RoutesEnabled = true;
-            this.map.ScaleMode = GMap.NET.WindowsForms.ScaleModes.Integer;
-            this.map.SelectedAreaFillColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(65)))), ((int)(((byte)(105)))), ((int)(((byte)(225)))));
-            this.map.ShowTileGridLines = false;
-            this.map.Size = new System.Drawing.Size(1031, 496);
-            this.map.TabIndex = 1;
-            this.map.Zoom = 0D;
-            this.map.OnMarkerClick += new GMap.NET.WindowsForms.MarkerClick(this.map_OnMarkerClick);
-            this.map.OnMapDrag += new GMap.NET.MapDrag(this.map_OnMapDrag);
-            this.map.Load += new System.EventHandler(this.map_Load);
-            // 
-            // cbShowPokemon
-            // 
-            this.cbShowPokemon.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.cbShowPokemon.AutoSize = true;
-            this.cbShowPokemon.Checked = true;
-            this.cbShowPokemon.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cbShowPokemon.Location = new System.Drawing.Point(151, 12);
-            this.cbShowPokemon.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.cbShowPokemon.Name = "cbShowPokemon";
-            this.cbShowPokemon.Size = new System.Drawing.Size(127, 21);
-            this.cbShowPokemon.TabIndex = 22;
-            this.cbShowPokemon.Text = "Show Pokemon";
-            this.cbShowPokemon.UseVisualStyleBackColor = true;
-            this.cbShowPokemon.Visible = false;
-            this.cbShowPokemon.CheckStateChanged += new System.EventHandler(this.cbShowPokemon_CheckedChanged);
-            // 
-            // buttonRefreshPokemon
-            // 
-            this.buttonRefreshPokemon.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.buttonRefreshPokemon.AutoSize = true;
-            this.buttonRefreshPokemon.Location = new System.Drawing.Point(332, 2);
-            this.buttonRefreshPokemon.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.buttonRefreshPokemon.Name = "buttonRefreshPokemon";
-            this.buttonRefreshPokemon.Size = new System.Drawing.Size(175, 33);
-            this.buttonRefreshPokemon.TabIndex = 20;
-            this.buttonRefreshPokemon.Text = "Refresh Pokemon";
-            this.buttonRefreshPokemon.UseVisualStyleBackColor = true;
-            this.buttonRefreshPokemon.Visible = false;
-            this.buttonRefreshPokemon.Click += new System.EventHandler(this.cbShowPokemon_CheckedChanged);
-            // 
-            // cbShowPokeStops
-            // 
-            this.cbShowPokeStops.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.cbShowPokeStops.AutoSize = true;
-            this.cbShowPokeStops.Checked = true;
-            this.cbShowPokeStops.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cbShowPokeStops.Location = new System.Drawing.Point(5, 12);
-            this.cbShowPokeStops.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
-            this.cbShowPokeStops.Name = "cbShowPokeStops";
-            this.cbShowPokeStops.Size = new System.Drawing.Size(129, 21);
-            this.cbShowPokeStops.TabIndex = 19;
-            this.cbShowPokeStops.Text = "Show PokeStop";
-            this.cbShowPokeStops.UseVisualStyleBackColor = true;
-            this.cbShowPokeStops.Visible = false;
-            this.cbShowPokeStops.CheckedChanged += new System.EventHandler(this.cbShowPokeStops_CheckedChanged);
-            // 
-            // buttonRefreshForts
-            // 
-            this.buttonRefreshForts.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.buttonRefreshForts.AutoSize = true;
-            this.buttonRefreshForts.Location = new System.Drawing.Point(495, 2);
-            this.buttonRefreshForts.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.buttonRefreshForts.Name = "buttonRefreshForts";
-            this.buttonRefreshForts.Size = new System.Drawing.Size(184, 33);
-            this.buttonRefreshForts.TabIndex = 21;
-            this.buttonRefreshForts.Text = "Refresh Pokestops";
-            this.buttonRefreshForts.UseVisualStyleBackColor = true;
-            this.buttonRefreshForts.Visible = false;
-            this.buttonRefreshForts.Click += new System.EventHandler(this.cbShowPokeStops_CheckedChanged);
-            // 
-            // button1
-            // 
-            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.button1.Location = new System.Drawing.Point(752, 60);
-            this.button1.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(177, 28);
-            this.button1.TabIndex = 18;
-            this.button1.Text = "Set Location";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
-            // label3
-            // 
-            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(507, 65);
-            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(59, 17);
-            this.label3.TabIndex = 17;
-            this.label3.Text = "Altitude:";
-            // 
-            // label2
-            // 
-            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(248, 65);
-            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(75, 17);
-            this.label2.TabIndex = 16;
-            this.label2.Text = "Longitude:";
-            // 
-            // label1
-            // 
-            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(1, 65);
-            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(63, 17);
-            this.label1.TabIndex = 15;
-            this.label1.Text = "Latitude:";
-            // 
-            // textBox3
-            // 
-            this.textBox3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.textBox3.Location = new System.Drawing.Point(575, 64);
-            this.textBox3.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(165, 22);
-            this.textBox3.TabIndex = 14;
-            // 
-            // textBox2
-            // 
-            this.textBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.textBox2.Location = new System.Drawing.Point(332, 64);
-            this.textBox2.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(165, 22);
-            this.textBox2.TabIndex = 13;
-            this.textBox2.TextChanged += new System.EventHandler(this.textBox2_TextChanged);
-            // 
-            // textBox1
-            // 
-            this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.textBox1.Location = new System.Drawing.Point(73, 64);
-            this.textBox1.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(165, 22);
-            this.textBox1.TabIndex = 12;
-            this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
-            // 
-            // panel1
-            // 
-            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.panel1.Controls.Add(this.cbShowPokeStops);
-            this.panel1.Controls.Add(this.cbShowPokemon);
-            this.panel1.Controls.Add(this.buttonRefreshPokemon);
-            this.panel1.Controls.Add(this.buttonRefreshForts);
-            this.panel1.Controls.Add(this.btnGetPoints);
-            this.panel1.Controls.Add(this.lblAddress);
-            this.panel1.Controls.Add(this.tbAddress);
-            this.panel1.Controls.Add(this.textBox1);
-            this.panel1.Controls.Add(this.textBox2);
-            this.panel1.Controls.Add(this.textBox3);
-            this.panel1.Controls.Add(this.label1);
-            this.panel1.Controls.Add(this.button1);
-            this.panel1.Controls.Add(this.label2);
-            this.panel1.Controls.Add(this.label3);
-            this.panel1.Location = new System.Drawing.Point(3, 412);
-            this.panel1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(936, 91);
-            this.panel1.TabIndex = 23;
-            // 
-            // btnGetPoints
-            // 
-            this.btnGetPoints.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnGetPoints.Location = new System.Drawing.Point(495, 36);
-            this.btnGetPoints.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
-            this.btnGetPoints.Name = "btnGetPoints";
-            this.btnGetPoints.Size = new System.Drawing.Size(144, 28);
-            this.btnGetPoints.TabIndex = 25;
-            this.btnGetPoints.Text = "Get Point";
-            this.btnGetPoints.UseVisualStyleBackColor = true;
-            this.btnGetPoints.Click += new System.EventHandler(this.BtnGetPointsClick);
-            // 
-            // lblAddress
-            // 
-            this.lblAddress.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.lblAddress.AutoSize = true;
-            this.lblAddress.Location = new System.Drawing.Point(5, 39);
-            this.lblAddress.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblAddress.Name = "lblAddress";
-            this.lblAddress.Size = new System.Drawing.Size(64, 17);
-            this.lblAddress.TabIndex = 24;
-            this.lblAddress.Text = "Address:";
-            // 
-            // tbAddress
-            // 
-            this.tbAddress.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.tbAddress.Location = new System.Drawing.Point(73, 36);
-            this.tbAddress.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
-            this.tbAddress.Name = "tbAddress";
-            this.tbAddress.Size = new System.Drawing.Size(415, 22);
-            this.tbAddress.TabIndex = 23;
-            // 
-            // LocationPanel
-            // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.panel1);
-            this.Controls.Add(this.map);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.Name = "LocationPanel";
-            this.Size = new System.Drawing.Size(945, 506);
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
-            this.ResumeLayout(false);
+			this.map = new GMap.NET.WindowsForms.GMapControl();
+			this.cbShowPokemon = new System.Windows.Forms.CheckBox();
+			this.buttonRefreshPokemon = new System.Windows.Forms.Button();
+			this.cbShowPokeStops = new System.Windows.Forms.CheckBox();
+			this.buttonRefreshForts = new System.Windows.Forms.Button();
+			this.button1 = new System.Windows.Forms.Button();
+			this.label3 = new System.Windows.Forms.Label();
+			this.label2 = new System.Windows.Forms.Label();
+			this.label1 = new System.Windows.Forms.Label();
+			this.textBox3 = new System.Windows.Forms.TextBox();
+			this.textBox2 = new System.Windows.Forms.TextBox();
+			this.textBox1 = new System.Windows.Forms.TextBox();
+			this.panel1 = new System.Windows.Forms.Panel();
+			this.btnGetPoints = new System.Windows.Forms.Button();
+			this.lblAddress = new System.Windows.Forms.Label();
+			this.tbAddress = new System.Windows.Forms.TextBox();
+			this.panel1.SuspendLayout();
+			this.SuspendLayout();
+			// 
+			// map
+			// 
+			this.map.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+			| System.Windows.Forms.AnchorStyles.Left) 
+			| System.Windows.Forms.AnchorStyles.Right)));
+			this.map.Bearing = 0F;
+			this.map.CanDragMap = true;
+			this.map.EmptyTileColor = System.Drawing.Color.Navy;
+			this.map.GrayScaleMode = false;
+			this.map.HelperLineOption = GMap.NET.WindowsForms.HelperLineOptions.DontShow;
+			this.map.LevelsKeepInMemmory = 5;
+			this.map.Location = new System.Drawing.Point(4, 4);
+			this.map.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.map.MarkersEnabled = true;
+			this.map.MaxZoom = 2;
+			this.map.MinZoom = 2;
+			this.map.MouseWheelZoomType = GMap.NET.MouseWheelZoomType.MousePositionAndCenter;
+			this.map.Name = "map";
+			this.map.NegativeMode = false;
+			this.map.PolygonsEnabled = true;
+			this.map.RetryLoadTile = 0;
+			this.map.RoutesEnabled = true;
+			this.map.ScaleMode = GMap.NET.WindowsForms.ScaleModes.Integer;
+			this.map.SelectedAreaFillColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(65)))), ((int)(((byte)(105)))), ((int)(((byte)(225)))));
+			this.map.ShowTileGridLines = false;
+			this.map.Size = new System.Drawing.Size(697, 401);
+			this.map.TabIndex = 1;
+			this.map.Zoom = 0D;
+			this.map.OnMarkerClick += new GMap.NET.WindowsForms.MarkerClick(this.map_OnMarkerClick);
+			this.map.OnMapDrag += new GMap.NET.MapDrag(this.map_OnMapDrag);
+			this.map.Load += new System.EventHandler(this.map_Load);
+			// 
+			// cbShowPokemon
+			// 
+			this.cbShowPokemon.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.cbShowPokemon.AutoSize = true;
+			this.cbShowPokemon.Checked = true;
+			this.cbShowPokemon.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.cbShowPokemon.Location = new System.Drawing.Point(113, 10);
+			this.cbShowPokemon.Name = "cbShowPokemon";
+			this.cbShowPokemon.Size = new System.Drawing.Size(101, 17);
+			this.cbShowPokemon.TabIndex = 22;
+			this.cbShowPokemon.Text = "Show Pokemon";
+			this.cbShowPokemon.UseVisualStyleBackColor = true;
+			this.cbShowPokemon.Visible = false;
+			this.cbShowPokemon.CheckStateChanged += new System.EventHandler(this.cbShowPokemon_CheckedChanged);
+			// 
+			// buttonRefreshPokemon
+			// 
+			this.buttonRefreshPokemon.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.buttonRefreshPokemon.AutoSize = true;
+			this.buttonRefreshPokemon.Location = new System.Drawing.Point(249, 2);
+			this.buttonRefreshPokemon.Name = "buttonRefreshPokemon";
+			this.buttonRefreshPokemon.Size = new System.Drawing.Size(131, 27);
+			this.buttonRefreshPokemon.TabIndex = 20;
+			this.buttonRefreshPokemon.Text = "Refresh Pokemon";
+			this.buttonRefreshPokemon.UseVisualStyleBackColor = true;
+			this.buttonRefreshPokemon.Visible = false;
+			this.buttonRefreshPokemon.Click += new System.EventHandler(this.cbShowPokemon_CheckedChanged);
+			// 
+			// cbShowPokeStops
+			// 
+			this.cbShowPokeStops.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.cbShowPokeStops.AutoSize = true;
+			this.cbShowPokeStops.Checked = true;
+			this.cbShowPokeStops.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.cbShowPokeStops.Location = new System.Drawing.Point(4, 10);
+			this.cbShowPokeStops.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.cbShowPokeStops.Name = "cbShowPokeStops";
+			this.cbShowPokeStops.Size = new System.Drawing.Size(103, 17);
+			this.cbShowPokeStops.TabIndex = 19;
+			this.cbShowPokeStops.Text = "Show PokeStop";
+			this.cbShowPokeStops.UseVisualStyleBackColor = true;
+			this.cbShowPokeStops.Visible = false;
+			this.cbShowPokeStops.CheckedChanged += new System.EventHandler(this.cbShowPokeStops_CheckedChanged);
+			// 
+			// buttonRefreshForts
+			// 
+			this.buttonRefreshForts.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.buttonRefreshForts.AutoSize = true;
+			this.buttonRefreshForts.Location = new System.Drawing.Point(384, 2);
+			this.buttonRefreshForts.Name = "buttonRefreshForts";
+			this.buttonRefreshForts.Size = new System.Drawing.Size(138, 27);
+			this.buttonRefreshForts.TabIndex = 21;
+			this.buttonRefreshForts.Text = "Refresh Pokestops";
+			this.buttonRefreshForts.UseVisualStyleBackColor = true;
+			this.buttonRefreshForts.Visible = false;
+			this.buttonRefreshForts.Click += new System.EventHandler(this.cbShowPokeStops_CheckedChanged);
+			// 
+			// button1
+			// 
+			this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.button1.Location = new System.Drawing.Point(564, 50);
+			this.button1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.button1.Name = "button1";
+			this.button1.Size = new System.Drawing.Size(133, 23);
+			this.button1.TabIndex = 18;
+			this.button1.Text = "Set Location";
+			this.button1.UseVisualStyleBackColor = true;
+			this.button1.Click += new System.EventHandler(this.button1_Click);
+			// 
+			// label3
+			// 
+			this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.label3.AutoSize = true;
+			this.label3.Location = new System.Drawing.Point(380, 53);
+			this.label3.Name = "label3";
+			this.label3.Size = new System.Drawing.Size(45, 13);
+			this.label3.TabIndex = 17;
+			this.label3.Text = "Altitude:";
+			// 
+			// label2
+			// 
+			this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.label2.AutoSize = true;
+			this.label2.Location = new System.Drawing.Point(186, 53);
+			this.label2.Name = "label2";
+			this.label2.Size = new System.Drawing.Size(57, 13);
+			this.label2.TabIndex = 16;
+			this.label2.Text = "Longitude:";
+			// 
+			// label1
+			// 
+			this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.label1.AutoSize = true;
+			this.label1.Location = new System.Drawing.Point(1, 53);
+			this.label1.Name = "label1";
+			this.label1.Size = new System.Drawing.Size(48, 13);
+			this.label1.TabIndex = 15;
+			this.label1.Text = "Latitude:";
+			// 
+			// textBox3
+			// 
+			this.textBox3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.textBox3.Location = new System.Drawing.Point(431, 52);
+			this.textBox3.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.textBox3.Name = "textBox3";
+			this.textBox3.Size = new System.Drawing.Size(125, 20);
+			this.textBox3.TabIndex = 14;
+			// 
+			// textBox2
+			// 
+			this.textBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.textBox2.Location = new System.Drawing.Point(249, 52);
+			this.textBox2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.textBox2.Name = "textBox2";
+			this.textBox2.Size = new System.Drawing.Size(125, 20);
+			this.textBox2.TabIndex = 13;
+			this.textBox2.TextChanged += new System.EventHandler(this.textBox2_TextChanged);
+			// 
+			// textBox1
+			// 
+			this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.textBox1.Location = new System.Drawing.Point(55, 52);
+			this.textBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.textBox1.Name = "textBox1";
+			this.textBox1.Size = new System.Drawing.Size(125, 20);
+			this.textBox1.TabIndex = 12;
+			this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
+			// 
+			// panel1
+			// 
+			this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.panel1.Controls.Add(this.cbShowPokeStops);
+			this.panel1.Controls.Add(this.cbShowPokemon);
+			this.panel1.Controls.Add(this.buttonRefreshPokemon);
+			this.panel1.Controls.Add(this.buttonRefreshForts);
+			this.panel1.Controls.Add(this.btnGetPoints);
+			this.panel1.Controls.Add(this.lblAddress);
+			this.panel1.Controls.Add(this.tbAddress);
+			this.panel1.Controls.Add(this.textBox1);
+			this.panel1.Controls.Add(this.textBox2);
+			this.panel1.Controls.Add(this.textBox3);
+			this.panel1.Controls.Add(this.label1);
+			this.panel1.Controls.Add(this.button1);
+			this.panel1.Controls.Add(this.label2);
+			this.panel1.Controls.Add(this.label3);
+			this.panel1.Location = new System.Drawing.Point(2, 335);
+			this.panel1.Name = "panel1";
+			this.panel1.Size = new System.Drawing.Size(702, 74);
+			this.panel1.TabIndex = 23;
+			// 
+			// btnGetPoints
+			// 
+			this.btnGetPoints.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.btnGetPoints.Location = new System.Drawing.Point(371, 29);
+			this.btnGetPoints.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.btnGetPoints.Name = "btnGetPoints";
+			this.btnGetPoints.Size = new System.Drawing.Size(108, 23);
+			this.btnGetPoints.TabIndex = 25;
+			this.btnGetPoints.Text = "Get Point";
+			this.btnGetPoints.UseVisualStyleBackColor = true;
+			this.btnGetPoints.Click += new System.EventHandler(this.BtnGetPointsClick);
+			// 
+			// lblAddress
+			// 
+			this.lblAddress.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.lblAddress.AutoSize = true;
+			this.lblAddress.Location = new System.Drawing.Point(4, 32);
+			this.lblAddress.Name = "lblAddress";
+			this.lblAddress.Size = new System.Drawing.Size(48, 13);
+			this.lblAddress.TabIndex = 24;
+			this.lblAddress.Text = "Address:";
+			// 
+			// tbAddress
+			// 
+			this.tbAddress.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+			this.tbAddress.Location = new System.Drawing.Point(55, 29);
+			this.tbAddress.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.tbAddress.Name = "tbAddress";
+			this.tbAddress.Size = new System.Drawing.Size(312, 20);
+			this.tbAddress.TabIndex = 23;
+			// 
+			// LocationPanel
+			// 
+			this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
+			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
+			this.Controls.Add(this.panel1);
+			this.Controls.Add(this.map);
+			this.Name = "LocationPanel";
+			this.Size = new System.Drawing.Size(709, 411);
+			this.panel1.ResumeLayout(false);
+			this.panel1.PerformLayout();
+			this.ResumeLayout(false);
 
 		}
 	}

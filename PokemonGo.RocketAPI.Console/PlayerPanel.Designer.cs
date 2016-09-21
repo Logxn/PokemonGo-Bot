@@ -277,7 +277,7 @@ namespace PokemonGo.RocketAPI.Console
 			// btnTeam
 			// 
 			this.btnTeam.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.btnTeam.Location = new System.Drawing.Point(576, 166);
+			this.btnTeam.Location = new System.Drawing.Point(570, 166);
 			this.btnTeam.Name = "btnTeam";
 			this.btnTeam.Size = new System.Drawing.Size(75, 23);
 			this.btnTeam.TabIndex = 102;
@@ -287,8 +287,8 @@ namespace PokemonGo.RocketAPI.Console
 			// 
 			// PlayerPanel
 			// 
-			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
+			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
 			this.Controls.Add(this.btnTeam);
 			this.Controls.Add(this.labelUserProperty6Value);
 			this.Controls.Add(this.labelUserProperty6Title);
@@ -304,7 +304,7 @@ namespace PokemonGo.RocketAPI.Console
 			this.Controls.Add(this.labelUserProperty5Title);
 			this.Controls.Add(this.panelLeftArea);
 			this.Name = "PlayerPanel";
-			this.Size = new System.Drawing.Size(654, 197);
+			this.Size = new System.Drawing.Size(648, 197);
 			((System.ComponentModel.ISupportInitialize)(this.pictureBoxTeam)).EndInit();
 			this.panelLeftArea.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.pictureBoxBuddyPokemon)).EndInit();

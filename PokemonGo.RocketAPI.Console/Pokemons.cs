@@ -1076,8 +1076,6 @@ namespace PokemonGo.RocketAPI.Console
             {
                 //new LocationSelect(true, (int)profile.PlayerData.Team, stats.Level, stats.Experience).Show();
                 Options.SelectTab(tabPage4);
-                if (Control.ModifierKeys == Keys.Shift)
-                    new EggsForm().Show(pokemons); // For now, Trick to show eggs                
             }
         }
 
