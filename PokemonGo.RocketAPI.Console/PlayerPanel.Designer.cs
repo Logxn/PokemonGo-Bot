@@ -208,7 +208,7 @@ namespace PokemonGo.RocketAPI.Console
 			// 
 			// pictureBoxTeam
 			// 
-			this.pictureBoxTeam.Image = global::PokemonGo.RocketAPI.Console.Properties.Resources.player_yellow;
+			this.pictureBoxTeam.Image = global::PokemonGo.RocketAPI.Console.Properties.Resources.team_valor;
 			this.pictureBoxTeam.Location = new System.Drawing.Point(0, 0);
 			this.pictureBoxTeam.Margin = new System.Windows.Forms.Padding(2);
 			this.pictureBoxTeam.Name = "pictureBoxTeam";
@@ -254,7 +254,7 @@ namespace PokemonGo.RocketAPI.Console
 			// 
 			// pictureBoxPlayerAvatar
 			// 
-			this.pictureBoxPlayerAvatar.Image = global::PokemonGo.RocketAPI.Console.Properties.Resources.player;
+			this.pictureBoxPlayerAvatar.Image = global::PokemonGo.RocketAPI.Console.Properties.Resources.Trainer_M;
 			this.pictureBoxPlayerAvatar.Location = new System.Drawing.Point(2, 28);
 			this.pictureBoxPlayerAvatar.Margin = new System.Windows.Forms.Padding(2);
 			this.pictureBoxPlayerAvatar.Name = "pictureBoxPlayerAvatar";

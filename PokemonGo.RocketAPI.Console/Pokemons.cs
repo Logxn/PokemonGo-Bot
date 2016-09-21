@@ -179,7 +179,7 @@ namespace PokemonGo.RocketAPI.Console
 
                         listViewItem.Text = string.Format((pokemon.Favorite == 1) ? "{0} ★" : "{0}", StringUtils.getPokemonNameByLanguage(ClientSettings, (PokemonId)pokemon.PokemonId));
 
-                        listViewItem.ToolTipText = StringUtils.ConvertTimeMSinString(pokemon.CreationTimeMs, "dd/MM/yyyy HH:mm:ss");
+                        listViewItem.ToolTipText = new DateTime((long)pokemon.CreationTimeMs * 10000).AddYears(1969).ToString("dd/MM/yyyy HH:mm:ss");
                         if (pokemon.Nickname != "")
                             listViewItem.ToolTipText += "\nNickname: " + pokemon.Nickname;
 
@@ -338,7 +338,7 @@ namespace PokemonGo.RocketAPI.Console
         /// <returns></returns>
         private static Bitmap getPokemonImagefromResource(PokemonId pokemon, string size)
         {
-            var resource = PokemonGo.RocketAPI.Console.Properties.Resources.ResourceManager.GetObject("_" + (int)pokemon + "_" + size, CultureInfo.CurrentCulture);
+            var resource = PokemonGo.RocketAPI.Console.Properties.PokemonSprites.ResourceManager.GetObject("_" + (int)pokemon + "_" + size, CultureInfo.CurrentCulture);
             if (resource != null && resource is Bitmap)
             {
                 return new Bitmap(resource as Bitmap);
@@ -1240,6 +1240,7 @@ namespace PokemonGo.RocketAPI.Console
             Globals.RepeatUserRoute = checkBox1.Checked;
         }
 
+
         private void checkBox10_CheckedChanged(object sender, EventArgs e)
         {
             Globals.useluckyegg = checkBox10.Checked;
@@ -1263,8 +1264,6 @@ namespace PokemonGo.RocketAPI.Console
         private void checkBox_BreakAtLure_CheckedChanged(object sender, EventArgs e)
         {
             Globals.BreakAtLure = checkBox_BreakAtLure.Checked;
-            if (!checkBox_BreakAtLure.Checked)
-                Globals.pauseAtPokeStop = false;
         }
 
         private void checkBox_UseLureAtBreak_CheckedChanged(object sender, EventArgs e)
@@ -1410,7 +1409,7 @@ namespace PokemonGo.RocketAPI.Console
             columnheader.Name = "Type 2";
             columnheader.Text = columnheader.Name;
             PokemonListView.Columns.Add(columnheader);
-
+	        
             PokemonListView.Columns.Add(CreateColumn("Catch Date"));
             PokemonListView.Columns.Add(CreateColumn("Pokeball"));
             PokemonListView.Columns.Add(CreateColumn("Num Upgrades"));
@@ -1418,6 +1417,7 @@ namespace PokemonGo.RocketAPI.Console
             PokemonListView.Columns.Add(CreateColumn("Battles Defended"));
 
             PokemonListView.Columns["#"].DisplayIndex = 0;
+	        
             PokemonListView.ColumnClick += new ColumnClickEventHandler(PokemonListView_ColumnClick);
             PokemonListView.ShowItemToolTips = true;
             PokemonListView.DoubleBuffered(true);
@@ -1505,7 +1505,7 @@ namespace PokemonGo.RocketAPI.Console
                 MessageBox.Show(ex.Message);
                 textBox5.Text = "";
             }
-            try
+            if (lat != Globals.latitute && lng != Globals.longitude)
             {
                 if ((!lat.Equals(Globals.latitute)) && (!lng.Equals(Globals.longitude)))
                 {
@@ -1538,12 +1538,9 @@ namespace PokemonGo.RocketAPI.Console
                     textBox5.Text = "";
                     Logger.ColoredConsoleWrite(ConsoleColor.Green, "Default Location Set will navigate there after next pokestop!");
                 }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
         }
+            }
+           
 
         private void button5_Click(object sender, EventArgs e)
         {
@@ -1581,6 +1578,15 @@ namespace PokemonGo.RocketAPI.Console
             string ProfilesString = JsonConvert.SerializeObject(_profiles);
             File.WriteAllText(@Program.accountProfiles, ProfilesString);
             MessageBox.Show("Current Configuration Saved as - " + ActiveProfile.ProfileName);
+        }
+
+        private async void Options_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if(Options.SelectedIndex == Options.TabPages.IndexOf(tabPage5))
+            {
+                    playerPanel1.BuddyInfoEnabled = false;
+                    playerPanel1.Execute(profile,pokemons);
+            }
         }
     }
     public static class ControlExtensions
