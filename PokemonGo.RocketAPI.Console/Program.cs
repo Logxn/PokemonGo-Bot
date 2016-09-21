@@ -342,5 +342,7 @@ namespace PokemonGo.RocketAPI.Console
         internal static bool SnipePokemon;
         internal static bool FirstLoad;
         public static int MinCPtoCatch = 0;
+        public static int MinIVtoCatch = 0;
+        public static bool AvoidRegionLock = true;
     }
 }
