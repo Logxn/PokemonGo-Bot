@@ -39,8 +39,26 @@ namespace PokemonGo.RocketAPI.Console
             //
             // TODO: Add constructor code after the InitializeComponent() call.
             //
+
+            pictureBoxBuddyPokemon.Visible = false;
+            pictureBoxPlayerAvatar.Visible = false;
+            pictureBoxTeam.Visible = false;
+
         }
 
+        private bool buddyInfoEnabled = false;
+
+        public bool BuddyInfoEnabled
+        {
+            get
+            {
+                return buddyInfoEnabled;
+            }
+            set
+            {
+                buddyInfoEnabled = value;
+            }
+        }
 
         public void Execute(GetPlayerResponse prof, IOrderedEnumerable<PokemonData> poks)
         {
@@ -62,13 +80,13 @@ namespace PokemonGo.RocketAPI.Console
                     return null;
                     break;
                 case TeamColor.Blue:
-                    return Properties.Resources.mystic;
+                    return Properties.Resources.team_mystic;
                     break;
                 case TeamColor.Red:
-                    return Properties.Resources.valor;
+                    return Properties.Resources.team_valor;
                     break;
                 case TeamColor.Yellow:
-                    return Properties.Resources.instinct;
+                    return Properties.Resources.team_instinct;
                     break;
                 default:
                     return null;
@@ -82,12 +100,8 @@ namespace PokemonGo.RocketAPI.Console
 
             labelNoTeamSelected.Visible = false;
             labelNoBuddySelected.Visible = false;
-            if (profile.PlayerData.Avatar != null)
-                pictureBoxPlayerAvatar.Image = getImageForGender(profile.PlayerData.Avatar.Gender);
 
-            pictureBoxTeam.Location = new Point(0, 0);
-            pictureBoxTeam.Image = getImageForTeam(profile.PlayerData.Team);
-            Control parent = pictureBoxTeam;
+            Control parent = null;
             if (profile.PlayerData.Team == TeamColor.Neutral)
             {
                 labelNoTeamSelected.Location = new Point(0, 0);
@@ -98,38 +112,66 @@ namespace PokemonGo.RocketAPI.Console
                 labelNoTeamSelected.TextAlign = ContentAlignment.TopCenter;
                 parent = labelNoTeamSelected;
             }
+            else
+            {
+                pictureBoxTeam.Location = new Point(0, 0);
+                pictureBoxTeam.Image = getImageForTeam(profile.PlayerData.Team);
+                pictureBoxTeam.Visible = true;
+                parent = pictureBoxTeam;
+                pictureBoxTeam.Refresh();
+            }
 
-            pictureBoxTeam.Refresh();
+            parent.Parent = panelLeftArea;
+            parent.BringToFront();
+            parent.Visible = true;
+            parent.BackColor = Color.Transparent;
 
             pictureBoxPlayerAvatar.Parent = parent;
-            var playerLocation = new Point(pictureBoxTeam.Width - (pictureBoxTeam.Width / 2) - (pictureBoxPlayerAvatar.Width / 2), pictureBoxTeam.Height - pictureBoxPlayerAvatar.Height);
-            pictureBoxPlayerAvatar.Height = (int)(pictureBoxTeam.Height * 0.75);
+            if (profile.PlayerData.Avatar != null)
+            {
+                pictureBoxPlayerAvatar.Image = getImageForGender(profile.PlayerData.Avatar.Gender);
+            }
+            else
+            {
+                pictureBoxPlayerAvatar.Image = getImageForGender(Gender.Male);
+            }
+            pictureBoxPlayerAvatar.Height = (int)(pictureBoxTeam.Height * 0.85);
             pictureBoxPlayerAvatar.Width = pictureBoxTeam.Width;
+            var playerLocation = new Point(0, pictureBoxTeam.Height - pictureBoxPlayerAvatar.Height);
             pictureBoxPlayerAvatar.Location = playerLocation;
             pictureBoxPlayerAvatar.BackColor = Color.Transparent;
+            pictureBoxPlayerAvatar.Visible = true;
+            pictureBoxPlayerAvatar.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBoxPlayerAvatar.Refresh();
             pictureBoxPlayerAvatar.BringToFront();
 
-            pictureBoxPlayerAvatar.Refresh();
-
             pictureBoxBuddyPokemon.Parent = pictureBoxPlayerAvatar;
-            var buddyLocation = new Point(60, pictureBoxPlayerAvatar.Height - pictureBoxBuddyPokemon.Height);
+            var buddyLocation = new Point(45, pictureBoxPlayerAvatar.Height - pictureBoxBuddyPokemon.Height + 15);
             pictureBoxBuddyPokemon.Image = getImageForBuddy(profile.PlayerData.BuddyPokemon);
             pictureBoxBuddyPokemon.Location = buddyLocation;
             pictureBoxBuddyPokemon.BackColor = Color.Transparent;
-            pictureBoxBuddyPokemon.BringToFront();
+            pictureBoxBuddyPokemon.Visible = buddyInfoEnabled;  
             //Changed this Section until 0.37 compatible!
-            pictureBoxBuddyPokemon.Visible = false;
-            //if (profile.PlayerData.BuddyPokemon == null || profile.PlayerData.BuddyPokemon.ToString() == "{ }")
-            if (true == true)
+            if (pictureBoxBuddyPokemon.Visible)
+            {
+                pictureBoxBuddyPokemon.BringToFront();
+            }
+
+              
+            if (profile.PlayerData.BuddyPokemon == null || profile.PlayerData.BuddyPokemon.ToString() == "{ }")
             {
                 labelNoBuddySelected.Parent = pictureBoxBuddyPokemon;
                 //Changed this Section until 0.37 compatible!
-                labelNoBuddySelected.Visible = false;
+                labelNoBuddySelected.Visible = buddyInfoEnabled;
+                
                 labelNoBuddySelected.Width = pictureBoxBuddyPokemon.Width - 35;
                 labelNoBuddySelected.Height = pictureBoxBuddyPokemon.Height;
-                labelNoBuddySelected.Location = new Point(0, 0);
+                labelNoBuddySelected.Location = new Point(10, 0);
                 labelNoBuddySelected.TextAlign = ContentAlignment.MiddleCenter;
-                labelNoBuddySelected.BringToFront();
+                if (labelNoBuddySelected.Visible)
+                {
+                    labelNoBuddySelected.BringToFront();
+                }
             }
         }
 
@@ -210,11 +252,11 @@ namespace PokemonGo.RocketAPI.Console
             switch (gender)
             {
                 case Gender.Male:
-                    return Properties.Resources.boy;
+                    return Properties.Resources.Trainer_M;
                 case Gender.Female:
-                    return Properties.Resources.girl;
+                    return Properties.Resources.Trainer_F;
                 default:
-                    return Properties.Resources.boy;
+                    return Properties.Resources.Trainer_M;
             }
         }
 

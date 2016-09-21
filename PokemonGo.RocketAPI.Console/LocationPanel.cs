@@ -310,7 +310,7 @@ namespace PokemonGo.RocketAPI.Console
                         routeOverlay.Polygons.Clear();
                         routeOverlay.Polygons.Add(_circle = CreateCircle(new PointLatLng(Globals.latitute, Globals.longitude), Globals.radius, 100));
                         routeOverlay.Markers.Clear();
-                        _botStartMarker = new GMarkerGoogle(new PointLatLng(), Properties.Resources.start_point);
+                        _botStartMarker = new GMarkerGoogle(new PointLatLng(), Properties.MapData.start_point);
                         _botStartMarker.Position = new PointLatLng(Globals.latitute, Globals.longitude);
                         _botStartMarker.ToolTipText = string.Format("Start Point.\n{0}\n{1},{2}", FindAddress(Globals.latitute, Globals.longitude), Globals.latitute, Globals.longitude);
                         _botStartMarker.ToolTip.Font = new System.Drawing.Font("Arial", 12, System.Drawing.GraphicsUnit.Pixel);
@@ -327,10 +327,10 @@ namespace PokemonGo.RocketAPI.Console
                             var pokeStop = filteredPokeStops[i];
                             if (pokeStop.Id != null)
                             {
-                                var pokeStopMaker = new GMarkerGoogle(new PointLatLng(pokeStop.Latitude, pokeStop.Longitude), Properties.Resources.pokestop);
+                                var pokeStopMaker = new GMarkerGoogle(new PointLatLng(pokeStop.Latitude, pokeStop.Longitude), Properties.MapData.pokestop);
                                 if (pokeStop.ActiveFortModifier.Count > 0)
                                 {
-                                    pokeStopMaker = new GMarkerGoogle(new PointLatLng(pokeStop.Latitude, pokeStop.Longitude), Properties.Resources.lured_pokestop);
+                                    pokeStopMaker = new GMarkerGoogle(new PointLatLng(pokeStop.Latitude, pokeStop.Longitude), Properties.MapData.lured_pokestop);
                                 }
 
                                 pokeStopMaker.ToolTipText = string.Format("{0}\n{1},{2}", FindAddress(pokeStop.Latitude, pokeStop.Longitude), pokeStop.Latitude, pokeStop.Longitude);
@@ -405,17 +405,17 @@ namespace PokemonGo.RocketAPI.Console
                             var pokeGym = filteredForts[i];
                             if (pokeGym.Id != null)
                             {
-                                var bitmap = Properties.Resources.pokegym;
+                                var bitmap = Properties.MapData.pokegym;
                                 switch (pokeGym.OwnedByTeam)
                                 {
                                     case POGOProtos.Enums.TeamColor.Blue:
-                                        bitmap = Properties.Resources.pokegym_blue;
+                                        bitmap = Properties.MapData.pokegym_blue;
                                         break;
                                     case POGOProtos.Enums.TeamColor.Red:
-                                        bitmap = Properties.Resources.pokegym_red;
+                                        bitmap = Properties.MapData.pokegym_red;
                                         break;
                                     case POGOProtos.Enums.TeamColor.Yellow:
-                                        bitmap = Properties.Resources.pokegym_yellow;
+                                        bitmap = Properties.MapData.pokegym_yellow;
                                         break;
                                 };
 
@@ -459,9 +459,9 @@ namespace PokemonGo.RocketAPI.Console
                     if (_pokeStopsMarks.ContainsKey(pokeStop.Id))
                     {
                         //changeType
-                        var bmp = Properties.Resources.visited_pokestop;
+                        var bmp = Properties.MapData.visited_pokestop;
                         if (pokeStop.ActiveFortModifier.Count > 0)
-                            bmp = Properties.Resources.visited_lured_pokestop;
+                            bmp = Properties.MapData.visited_lured_pokestop;
                         var newMark = new GMarkerGoogle(_pokeStopsMarks[pokeStop.Id].Position, bmp);
 
                         newMark.ToolTipText = info;
@@ -494,17 +494,17 @@ namespace PokemonGo.RocketAPI.Console
                 c.Visible = false;
             }
 
-            Bitmap bmp = Properties.Resources.player;
+            Bitmap bmp = Properties.MapData.player;
             switch (team)
             {
                 case 1:
-                    bmp = Properties.Resources.player_blue;
+                    bmp = Properties.MapData.player_blue;
                     break;
                 case 2:
-                    bmp = Properties.Resources.player_red;
+                    bmp = Properties.MapData.player_red;
                     break;
                 case 3:
-                    bmp = Properties.Resources.player_yellow;
+                    bmp = Properties.MapData.player_yellow;
                     break;
             }
 
@@ -517,7 +517,7 @@ namespace PokemonGo.RocketAPI.Console
             PokemonOverlay = new GMapOverlay();
             CreateBotMarker(team, level, exp);
             //routeOverlay.Markers.Add(_botMarker);
-            _botStartMarker = new GMarkerGoogle(new PointLatLng(), Properties.Resources.start_point);
+            _botStartMarker = new GMarkerGoogle(new PointLatLng(), Properties.MapData.start_point);
             _botStartMarker.Position = new PointLatLng(Globals.latitute, Globals.longitude);
             _botStartMarker.ToolTipText = string.Format("Start Point.\n{0}\n{1},{2}", FindAddress(Globals.latitute, Globals.longitude), Globals.latitute, Globals.longitude);
             _botStartMarker.ToolTip.Font = new System.Drawing.Font("Arial", 12, System.Drawing.GraphicsUnit.Pixel);
@@ -732,17 +732,17 @@ namespace PokemonGo.RocketAPI.Console
 		}
         
 		public void CreateBotMarker(int team, int level, long exp){
-            Bitmap bmp = Properties.Resources.player;
+            Bitmap bmp = Properties.MapData.player;
             switch (team)
             {
                 case 1:
-                    bmp = Properties.Resources.player_blue;
+                    bmp = Properties.MapData.player_blue;
                     break;
                 case 2:
-                    bmp = Properties.Resources.player_red;
+                    bmp = Properties.MapData.player_red;
                     break;
                 case 3:
-                    bmp = Properties.Resources.player_yellow;
+                    bmp = Properties.MapData.player_yellow;
                     break;
             }
             routeOverlay.IsVisibile =false;

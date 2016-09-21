@@ -2166,23 +2166,33 @@ namespace PokemonGo.RocketAPI.Logic
             return d;
         }
         #endregion
+
         public async Task<bool> ShowNearbyPokemons( IEnumerable<MapPokemon>  pokeData )
         {
             _infoObservable.PushClearPokemons();
             var toShow = new List<DataCollector.PokemonMapData>();
+
             if (pokeData != null)
             {
                 foreach (var poke in pokeData)
                 {
                 	var poke2 = new  DataCollector.PokemonMapData();
-                	poke2.Id = poke.SpawnPointId;
+                    poke2.Id = poke.SpawnPointId;
                 	poke2.PokemonId = poke.PokemonId;
                 	poke2.Coordinates = new PokemonGo.RocketApi.PokeMap.DataModel.LatitudeLongitude ();
                 	poke2.Coordinates.Coordinates = new List<double>();
                 	poke2.Coordinates.Coordinates.Add(poke.Longitude);
                 	poke2.Coordinates.Coordinates.Add(poke.Latitude);
-                	
-                	poke2.ExpiresAt = new DateTime(poke.ExpirationTimestampMs * 10000).AddYears(1969).AddDays(-1);
+
+                    try
+                    {
+                        poke2.ExpiresAt = new DateTime(poke.ExpirationTimestampMs * 10000).AddYears(1969).AddDays(-1);
+                    }
+                    catch (ArgumentOutOfRangeException e)
+                    {
+                        Logger.ColoredConsoleWrite(ConsoleColor.Red, "[Ignore] - Value must be between MinTicks & MaxTicks. (MTK plz fix)");
+                    }
+                    
                     toShow.Add(poke2);                    
                 }
                 if (toShow.Count > 0)

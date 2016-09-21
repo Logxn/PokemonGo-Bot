@@ -629,7 +629,7 @@ namespace PokemonGo.RocketAPI.Console
         	// button4
         	// 
         	this.button4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-        	this.button4.Image = global::PokemonGo.RocketAPI.Console.Properties.Resources.start_point;
+        	this.button4.Image = global::PokemonGo.RocketAPI.Console.Properties.MapData.start_point;
         	this.button4.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
         	this.button4.Location = new System.Drawing.Point(8, 156);
         	this.button4.Margin = new System.Windows.Forms.Padding(4);
