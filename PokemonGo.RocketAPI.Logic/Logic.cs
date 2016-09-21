@@ -64,6 +64,7 @@ namespace PokemonGo.RocketAPI.Logic
         private int count = 0;
         public static int failed_softban = 0;
         int level = -1;
+        public List<ulong> skippedPokemon = new List<ulong>();
         public bool pauseWalking
         {
             get
@@ -739,15 +740,15 @@ namespace PokemonGo.RocketAPI.Logic
             var distanceFromStart = LocationUtils.CalculateDistanceInMeters(_clientSettings.DefaultLatitude, _clientSettings.DefaultLongitude, _client.CurrentLatitude, _client.CurrentLongitude);
             //Clear this every so often to prevent bloat on long runs
             lureEncounters.Clear();
-            
+
             // TODO: do it optionable
             // Reordering array randomly to do it a little more difficult to detect.
             // Random rnd=new Random();
-			//FortData[] pokeStops = pokeStopsIn.OrderBy(x => rnd.Next()).ToArray();
-			FortData[] pokeStops = pokeStopsIn;
-			
+            //FortData[] pokeStops = pokeStopsIn.OrderBy(x => rnd.Next()).ToArray();
+            FortData[] pokeStops = pokeStopsIn;
+
             //walk between pokestops in default collection
-			foreach (var pokeStop in pokeStops)
+            foreach (var pokeStop in pokeStops)
             {
                 //check if map has pokestops loaded and load if not
                 if (_clientSettings.MapLoaded && !stopsloaded)
@@ -1375,6 +1376,8 @@ namespace PokemonGo.RocketAPI.Logic
                 }
                 if (encounterPokemonResponse.Status == EncounterResponse.Types.Status.EncounterSuccess)
                 {
+                    if (skippedPokemon.Contains(encounterPokemonResponse.WildPokemon.EncounterId))
+                        return;
                     var bestPokeball = await GetBestBall(encounterPokemonResponse?.WildPokemon, false);
                     if (bestPokeball == ItemId.ItemUnknown)
                     {
@@ -1553,6 +1556,7 @@ namespace PokemonGo.RocketAPI.Logic
                     else
                     {
                         Logger.ColoredConsoleWrite(ConsoleColor.Magenta, "Pokemon CP or IV lower than Configured Min to Catch - Skipping Pokemon");
+                        skippedPokemon.Add(encounterPokemonResponse.WildPokemon.EncounterId);
                     }
                 }
                 else
@@ -1887,7 +1891,7 @@ namespace PokemonGo.RocketAPI.Logic
             #region Get Lowest Appropriate Ball by CP and escape status
 
             var _lowestAppropriateBall = ItemId.ItemUnknown;
-                        
+
             var minCPforGreatBall = 500;
             var minCPforUltraBall = 1000;
 
@@ -2051,13 +2055,19 @@ namespace PokemonGo.RocketAPI.Logic
                 _clientSettings.UseIncenseGUIClick = false;
                 var inventory = await _client.Inventory.GetItems();
                 var incsense = inventory.Where(p => (ItemId)p.ItemId == ItemId.ItemIncenseOrdinary).FirstOrDefault();
-                TimeSpan loginterval = lastIncenselog - DateTime.Now;
-                if (lastincenseuse > DateTime.Now.AddSeconds(5) && loginterval.Seconds >= 60)
+                TimeSpan loginterval = DateTime.Now - lastIncenselog;
+                if (lastincenseuse > DateTime.Now.AddSeconds(5))
                 {
                     TimeSpan duration = lastincenseuse - DateTime.Now;
-                    Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Incense still running: {duration.Minutes}m{duration.Seconds}s");
+                    TimeSpan minute = DateTime.Now.AddMinutes(1) - DateTime.Now;
+                    if (loginterval > minute)
+                    {
+                        Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Incense still running: {duration.Minutes}m{duration.Seconds}s");
+                        lastIncenselog = DateTime.Now;
+                    }
                     return;
                 }
+
                 if (incsense == null || incsense.Count <= 0) { return; }
 
                 await _client.Inventory.UseIncense(ItemId.ItemIncenseOrdinary);
@@ -2115,10 +2125,11 @@ namespace PokemonGo.RocketAPI.Logic
                         var egg = (incubator.ItemId == ItemId.ItemIncubatorBasicUnlimited && incubators.Count > 1)
                             ? unusedEggs.FirstOrDefault()
                             : unusedEggs.LastOrDefault();
-                        
+
                         // When you're down to your last incubator, prefer 2km then 10km then 5km so you
                         // can clean out smaller eggs first.
-                        if(incubator.ItemId == ItemId.ItemIncubatorBasicUnlimited && incubators.Count == 1 && egg.EggKmWalkedTarget < 10) {
+                        if (incubator.ItemId == ItemId.ItemIncubatorBasicUnlimited && incubators.Count == 1 && egg.EggKmWalkedTarget < 10)
+                        {
                             egg = unusedEggs.FirstOrDefault();
                         }
 
@@ -2209,7 +2220,7 @@ namespace PokemonGo.RocketAPI.Logic
         }
         #endregion
 
-        public async Task<bool> ShowNearbyPokemons( IEnumerable<MapPokemon>  pokeData )
+        public async Task<bool> ShowNearbyPokemons(IEnumerable<MapPokemon> pokeData)
         {
             _infoObservable.PushClearPokemons();
             var toShow = new List<DataCollector.PokemonMapData>();
@@ -2218,13 +2229,13 @@ namespace PokemonGo.RocketAPI.Logic
             {
                 foreach (var poke in pokeData)
                 {
-                	var poke2 = new  DataCollector.PokemonMapData();
+                    var poke2 = new DataCollector.PokemonMapData();
                     poke2.Id = poke.SpawnPointId;
-                	poke2.PokemonId = poke.PokemonId;
-                	poke2.Coordinates = new PokemonGo.RocketApi.PokeMap.DataModel.LatitudeLongitude ();
-                	poke2.Coordinates.Coordinates = new List<double>();
-                	poke2.Coordinates.Coordinates.Add(poke.Longitude);
-                	poke2.Coordinates.Coordinates.Add(poke.Latitude);
+                    poke2.PokemonId = poke.PokemonId;
+                    poke2.Coordinates = new PokemonGo.RocketApi.PokeMap.DataModel.LatitudeLongitude();
+                    poke2.Coordinates.Coordinates = new List<double>();
+                    poke2.Coordinates.Coordinates.Add(poke.Longitude);
+                    poke2.Coordinates.Coordinates.Add(poke.Latitude);
 
                     try
                     {
@@ -2234,8 +2245,8 @@ namespace PokemonGo.RocketAPI.Logic
                     {
                         Logger.ColoredConsoleWrite(ConsoleColor.Red, "[Ignore] - Value must be between MinTicks & MaxTicks. (MTK plz fix)");
                     }
-                    
-                    toShow.Add(poke2);                    
+
+                    toShow.Add(poke2);
                 }
                 if (toShow.Count > 0)
                 {
@@ -2248,6 +2259,6 @@ namespace PokemonGo.RocketAPI.Logic
             {
                 return false;
             }
-        }        
+        }
     }
 }
