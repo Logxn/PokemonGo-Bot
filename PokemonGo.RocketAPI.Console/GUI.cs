@@ -512,10 +512,23 @@ namespace PokemonGo.RocketAPI.Console
                 e.Handled = true;
         }
 
+        private const string NEW_YORK_COORS = "40.764883;-73.972967";
         private void button1_Click(object sender, EventArgs e)
         {
-            Save();
-            Dispose();
+            var selectedCoords =Globals.latitute.ToString("0.000000") +";"+Globals.longitude.ToString("0.000000");
+            selectedCoords = selectedCoords.Replace(",",".");
+            if (selectedCoords.Equals(NEW_YORK_COORS))
+            {
+                var ret = MessageBox.Show("Have you set correctly your location?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                if (ret == DialogResult.No)
+                {
+                    return;
+                }
+            }
+            if (Save())
+            {
+                Dispose();
+            }
         }
 
         private bool textBoxToGlobal(TextBox textBox, string fieldName = "")
