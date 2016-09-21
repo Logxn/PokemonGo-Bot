@@ -187,7 +187,10 @@ namespace PokemonGo.RocketAPI.Console
             var currVersion = Assembly.GetExecutingAssembly().GetName().Version;
             var newestVersion = Program.getNewestVersion();
 
-            groupBox9.Text = $"Your Version: {currVersion} | Newest: {newestVersion}";
+            currVer.Text = currVersion.ToString();
+            ver.Text = $"Version: {currVersion}";
+            newVer.Text = newestVersion.ToString();
+            
 
             if (Program.getNewestVersion() > Assembly.GetExecutingAssembly().GetName().Version)
             {
@@ -207,6 +210,11 @@ namespace PokemonGo.RocketAPI.Console
                     }
                 }
 
+            }
+            else
+            {
+                currVer.ForeColor = Color.Green;
+                newVer.ForeColor = Color.Green;
             }
             #endregion
         }
@@ -1370,5 +1378,19 @@ namespace PokemonGo.RocketAPI.Console
             }
         }
 
+        private void linkLabel2_LinkClicked_1(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Process.Start("https://github.com/Ar1i/");
+        }
+
+        private void linkLabel9_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Process.Start("https://github.com/Logxn/");
+        }
+
+        private void linkLabel10_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Process.Start("https://github.com/MTK4355/");
+        }
     }
 }
