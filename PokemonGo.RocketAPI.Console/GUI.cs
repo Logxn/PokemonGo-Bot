@@ -304,9 +304,9 @@ namespace PokemonGo.RocketAPI.Console
                     MinIVtoCatch.Text = config.MinIVtoCatch.ToString();
 
                     // tab 3 - throws
-                    checkBox2.Checked = !Globals.LimitPokeballUse;
-                    checkBox3.Checked = !Globals.LimitGreatballUse;
-                    checkBox7.Checked = !Globals.LimitUltraballUse;
+                    checkBox2.Checked = Globals.LimitPokeballUse;
+                    checkBox3.Checked = Globals.LimitGreatballUse;
+                    checkBox7.Checked = Globals.LimitUltraballUse;
                     numericUpDown1.Value = Globals.Max_Missed_throws;
                     numericUpDown2.Value = Globals.InventoryBasePokeball;
                     numericUpDown3.Value = Globals.InventoryBaseGreatball;
@@ -661,9 +661,9 @@ namespace PokemonGo.RocketAPI.Console
             }
 
             // tab 3 - Throw
-            Globals.LimitPokeballUse = !checkBox2.Checked;
-            Globals.LimitGreatballUse = !checkBox3.Checked;
-            Globals.LimitUltraballUse = !checkBox7.Checked;
+            Globals.LimitPokeballUse = checkBox2.Checked;
+            Globals.LimitGreatballUse = checkBox3.Checked;
+            Globals.LimitUltraballUse = checkBox7.Checked;
             Globals.Max_Missed_throws = (int)numericUpDown1.Value;
             Globals.InventoryBasePokeball = (int)numericUpDown2.Value;
             Globals.InventoryBaseGreatball = (int)numericUpDown3.Value;
@@ -1402,6 +1402,11 @@ namespace PokemonGo.RocketAPI.Console
         private void linkLabel10_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             Process.Start("https://github.com/MTK4355/");
+        }
+
+        private void checkBox7_CheckedChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }
