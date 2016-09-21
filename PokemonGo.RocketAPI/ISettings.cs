@@ -127,6 +127,7 @@ namespace PokemonGo.RocketAPI
         bool LimitPokeballUse { get; set; }
         bool LimitGreatballUse { get; set; }
         bool LimitUltraballUse { get; set; }
+        int MinCPtoCatch { get; set; }
         int Max_Missed_throws { get; set; }
         int MinCPforGreatBall { get; set; }
         int MinCPforUltraBall { get; set; }
@@ -148,10 +149,10 @@ namespace PokemonGo.RocketAPI
         int MaxHyperPotions { get; set; }
         int MaxTopPotions { get; set; }
         int MaxBerries { get; set; }
-        IList<PokemonId> pokemonsToHold { get; set; }
-        IList<PokemonId> pokemonsToEvolve { get; set; }
-        IList<PokemonId> catchPokemonSkipList { get; set; }
-
+        List<PokemonId> pokemonsToHold { get; set; }
+        List<PokemonId> pokemonsToEvolve { get; set; }
+        List<PokemonId> catchPokemonSkipList { get; set; }
+        bool SnipePokemon { get; set; }
         /* ===================================[SETTINGS]================================= */
     }
 }

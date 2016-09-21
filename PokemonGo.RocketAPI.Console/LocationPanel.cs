@@ -137,7 +137,6 @@ namespace PokemonGo.RocketAPI.Console
 	                LocationUtils.CalculateDistanceInMeters(Globals.latitute, Globals.longitude, i.Latitude, i.Longitude));
 	            if (pokeGyms.Any() )
 	            {
-	                InfoObservable_HandlePokeGym (pokeGyms.ToArray());
 	                
 	            }                
 	            if (!map.Overlays.Contains(_pokeStopsOverlay)){
@@ -240,19 +239,20 @@ namespace PokemonGo.RocketAPI.Console
             {
                 try
                 {
-                    if (pokemonLock.WaitOne(5000))
-                    {
+                    //if (pokemonLock.WaitOne(5000))
+                    //{
                         if (mapData.Count > 0)
                         {
                             //_pokemonOverlay = new GMapOverlay("Pokemon");
                             _pokemonMarks.Clear();
                             _pokemonOverlay.Markers.Clear();
+                            _pokemonOverlay.IsVisibile = false;
 
                             int prevCount = mapData.Count;
-                            mapData.Where(x => x.Id == null && x.Coordinates.Latitude.HasValue && x.Coordinates.Longitude.HasValue).ToList().ForEach(x => x.Id = x.PokemonId.ToString() + x.Coordinates.Longitude.Value + +x.Coordinates.Latitude.Value);
+                            //mapData.Where(x => x.Id == null && x.Coordinates.Latitude.HasValue && x.Coordinates.Longitude.HasValue).ToList().ForEach(x => x.Id = x.PokemonId.ToString() + x.Coordinates.Longitude.Value + +x.Coordinates.Latitude.Value);
                             mapData = mapData.Where(x => x.Id != null).ToList();
 
-                            Logger.ColoredConsoleWrite(ConsoleColor.White, string.Format("Got new Pokemon Count: {0}, unfiltered: {1}", mapData.Count, prevCount));
+                            //Logger.ColoredConsoleWrite(ConsoleColor.White, string.Format("Got new Pokemon Count: {0}, unfiltered: {1}", mapData.Count, prevCount));
 
                             for (int i = mapData.Count - 1; i >= 0; i--)
                             {
@@ -285,8 +285,8 @@ namespace PokemonGo.RocketAPI.Console
                         }
                         if (!map.Overlays.Contains(_pokemonOverlay))
                             map.Overlays.Add(_pokemonOverlay);
-                        _pokemonOverlay.IsVisibile = cbShowPokemon.Checked;
-                    }
+                        _pokemonOverlay.IsVisibile = true;//cbShowPokemon.Checked;
+                    //}
                 }
                 catch (Exception e)
                 {

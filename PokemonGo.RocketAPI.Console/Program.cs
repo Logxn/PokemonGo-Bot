@@ -228,7 +228,7 @@ namespace PokemonGo.RocketAPI.Console
         public static int RunOrder = 0;
         public static string SettingsJSON = "";
         public static Enums.AuthType acc = Enums.AuthType.Google;
-        public static string username = "empty";
+        public static string email = "empty";
         public static string password = "empty";
         public static bool defLoc = true;
         public static bool uselastcoords = true;
@@ -280,9 +280,9 @@ namespace PokemonGo.RocketAPI.Console
         public static bool LimitGreatballUse = false;
         public static bool LimitUltraballUse = false;
         public static int Max_Missed_throws = 3;
-        public static IList<PokemonId> noTransfer = new List<PokemonId>();
-        public static IList<PokemonId> noCatch = new List<PokemonId>();
-        public static IList<PokemonId> doEvolve = new List<PokemonId>();
+        public static List<PokemonId> noTransfer;
+        public static List<PokemonId> noCatch;
+        public static List<PokemonId> doEvolve;
         public static string telAPI = string.Empty;
         public static string telName = string.Empty;
         public static int telDelay = 5000;
@@ -339,5 +339,8 @@ namespace PokemonGo.RocketAPI.Console
         internal static int InventoryBasePokeball = 10;
         internal static int InventoryBaseGreatball = 10;
         internal static int InventoryBaseUltraball = 10;
+        internal static bool SnipePokemon;
+        internal static bool FirstLoad;
+        public static int MinCPtoCatch = 0;
     }
 }

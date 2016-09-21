@@ -70,7 +70,7 @@ namespace PokemonGo.RocketAPI.Console
 			// btnReaload
 			// 
 			this.btnReaload.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-			this.btnReaload.Location = new System.Drawing.Point(3, 290);
+			this.btnReaload.Location = new System.Drawing.Point(3, 78);
 			this.btnReaload.Margin = new System.Windows.Forms.Padding(2);
 			this.btnReaload.Name = "btnReaload";
 			this.btnReaload.Size = new System.Drawing.Size(55, 23);
@@ -99,7 +99,7 @@ namespace PokemonGo.RocketAPI.Console
 			this.listView.LargeImageList = this.imageList;
 			this.listView.Location = new System.Drawing.Point(3, 3);
 			this.listView.Name = "listView";
-			this.listView.Size = new System.Drawing.Size(622, 282);
+			this.listView.Size = new System.Drawing.Size(618, 71);
 			this.listView.SmallImageList = this.imageList;
 			this.listView.TabIndex = 80;
 			this.listView.UseCompatibleStateImageBehavior = false;
@@ -165,12 +165,12 @@ namespace PokemonGo.RocketAPI.Console
 			// 
 			// EggsPanel
 			// 
-			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
+			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
 			this.Controls.Add(this.btnReaload);
 			this.Controls.Add(this.listView);
 			this.Name = "EggsPanel";
-			this.Size = new System.Drawing.Size(628, 315);
+			this.Size = new System.Drawing.Size(624, 104);
 			this.contextMenuStrip.ResumeLayout(false);
 			this.ResumeLayout(false);
 
