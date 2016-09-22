@@ -1357,6 +1357,7 @@
             "lg-optimus-g",
             "nexus7gen2",
             "nexus7gen1",
+            "htc-m8",            
             "htc10",
             "galaxy6",
             "galaxy-s5-gold",
