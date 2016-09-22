@@ -620,7 +620,7 @@ namespace PokemonGo.RocketAPI.Console
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(292, 199);
+            this.label4.Location = new System.Drawing.Point(301, 199);
             this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(300, 25);
@@ -630,7 +630,7 @@ namespace PokemonGo.RocketAPI.Console
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(344, 233);
+            this.label5.Location = new System.Drawing.Point(353, 233);
             this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(190, 17);
@@ -640,7 +640,7 @@ namespace PokemonGo.RocketAPI.Console
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(282, 173);
+            this.label3.Location = new System.Drawing.Point(291, 173);
             this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(315, 17);
@@ -714,16 +714,16 @@ namespace PokemonGo.RocketAPI.Console
             this.groupBox1.Controls.Add(this.SnipeInfo);
             this.groupBox1.Location = new System.Drawing.Point(271, 32);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(352, 125);
+            this.groupBox1.Size = new System.Drawing.Size(363, 125);
             this.groupBox1.TabIndex = 76;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Manual Sniping";
+            this.groupBox1.Text = "Manual Sniping (Disabled While Under Construction!)";
             // 
             // SnipeMe
             // 
             this.SnipeMe.BackColor = System.Drawing.Color.MediumAquamarine;
             this.SnipeMe.Enabled = false;
-            this.SnipeMe.Location = new System.Drawing.Point(14, 84);
+            this.SnipeMe.Location = new System.Drawing.Point(21, 81);
             this.SnipeMe.Margin = new System.Windows.Forms.Padding(4);
             this.SnipeMe.Name = "SnipeMe";
             this.SnipeMe.Size = new System.Drawing.Size(324, 28);
@@ -735,7 +735,7 @@ namespace PokemonGo.RocketAPI.Console
             // label64
             // 
             this.label64.AutoSize = true;
-            this.label64.Location = new System.Drawing.Point(62, 33);
+            this.label64.Location = new System.Drawing.Point(69, 30);
             this.label64.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label64.Name = "label64";
             this.label64.Size = new System.Drawing.Size(228, 17);
@@ -745,7 +745,7 @@ namespace PokemonGo.RocketAPI.Console
             // SnipeInfo
             // 
             this.SnipeInfo.Enabled = false;
-            this.SnipeInfo.Location = new System.Drawing.Point(14, 54);
+            this.SnipeInfo.Location = new System.Drawing.Point(21, 51);
             this.SnipeInfo.Margin = new System.Windows.Forms.Padding(4);
             this.SnipeInfo.Name = "SnipeInfo";
             this.SnipeInfo.Size = new System.Drawing.Size(324, 22);
