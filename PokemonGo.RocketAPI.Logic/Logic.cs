@@ -1312,7 +1312,7 @@ namespace PokemonGo.RocketAPI.Logic
                     }
                     strNames = strNames.Substring(0, strNames.Length - 2);
                     Logger.ColoredConsoleWrite(ConsoleColor.Magenta, $"Found {pokemons.Count()} catchable Pokemon(s): " + strNames);
-                    await ShowNearbyPokemons(pokemons).ConfigureAwait(false);
+                    ShowNearbyPokemons(pokemons);
                 }
                 //catch them all!
                 foreach (var pokemon in pokemons)
@@ -1539,6 +1539,7 @@ namespace PokemonGo.RocketAPI.Logic
 
                     if (caughtPokemonResponse.Status == CatchPokemonResponse.Types.CatchStatus.CatchSuccess)
                     {
+                        DeletePokemonFromMap(encounterPokemonResponse.WildPokemon.SpawnPointId);
                         foreach (int xp in caughtPokemonResponse.CaptureAward.Xp)
                             _botStats.AddExperience(xp);
 
@@ -1553,8 +1554,7 @@ namespace PokemonGo.RocketAPI.Logic
                             if (_clientSettings.logPokemons == true)
                             {
                                 File.AppendAllText(logs, $"[{date}] Caught new {StringUtils.getPokemonNameByLanguage(_clientSettings, pokeid)} (CP: {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} | IV: {PokemonInfo.CalculatePokemonPerfection(encounterPokemonResponse.WildPokemon.PokemonData).ToString("0.00")}% | Pokeball used: {bestPokeball} | XP: {caughtPokemonResponse.CaptureAward.Xp.Sum()}) " + Environment.NewLine);
-                            }
-                            _infoObservable.PushDeletePokemonLocation(encounterPokemonResponse.WildPokemon.SpawnPointId);
+                            }                            
                             Logger.ColoredConsoleWrite(ConsoleColor.White,
                                 $"Caught New {StringUtils.getPokemonNameByLanguage(_clientSettings, pokeid)} CP {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} IV {PokemonInfo.CalculatePokemonPerfection(encounterPokemonResponse.WildPokemon.PokemonData).ToString("0.00")}% using {bestPokeball} got {caughtPokemonResponse.CaptureAward.Xp.Sum()} XP.");
                             pokemonCatchCount++;
@@ -2247,7 +2247,7 @@ namespace PokemonGo.RocketAPI.Logic
         }
         #endregion
 
-        public async Task<bool> ShowNearbyPokemons(IEnumerable<MapPokemon> pokeData)
+        public void ShowNearbyPokemonsRun(IEnumerable<MapPokemon> pokeData)
         {
             _infoObservable.PushClearPokemons();
             var toShow = new List<DataCollector.PokemonMapData>();
@@ -2290,12 +2290,15 @@ namespace PokemonGo.RocketAPI.Logic
                     _infoObservable.PushNewPokemonLocations(toShow);
                 }
 
-                return true;
             }
-            else
-            {
-                return false;
-            }
+        }
+        public void ShowNearbyPokemons(IEnumerable<MapPokemon> pokeData)
+        {
+            Task.Factory.StartNew(() => ShowNearbyPokemonsRun(pokeData));
+        }
+        public void DeletePokemonFromMap(string spawnPointId)
+        {
+            Task.Factory.StartNew(() =>_infoObservable.PushDeletePokemonLocation(spawnPointId));         
         }
     }
 }
