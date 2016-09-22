@@ -27,6 +27,7 @@ using GMap.NET;
 using GMap.NET.MapProviders;
 using Newtonsoft.Json;
 using System.Collections.ObjectModel;
+using System.Device.Location;
 
 namespace PokemonGo.RocketAPI.Console
 {
@@ -40,6 +41,7 @@ namespace PokemonGo.RocketAPI.Console
         static Profile ActiveProfile = new Profile();
         private static IOrderedEnumerable<PokemonData> pokemons;
         private static List<AdditionalPokeData> additionalPokeData = new List<AdditionalPokeData>();
+        static Dictionary<string, int> pokeIDS = new Dictionary<string, int>();
 
         private void loadAdditionalPokeData()
         {
@@ -147,10 +149,23 @@ namespace PokemonGo.RocketAPI.Console
 
                     var myPokemonFamilies = inventory.InventoryDelta.InventoryItems.Select(i => i.InventoryItemData?.Candy).Where(p => p != null && p?.FamilyId != PokemonFamilyId.FamilyUnset);
                     var pokemonFamilies = myPokemonFamilies.ToArray();
-
-
-
-
+                    SnipePokemonPokeCom.Checked = Globals.SnipePokemon;
+                    AvoidRegionLock.Checked = Globals.AvoidRegionLock;
+                    int ie = 1;                    
+                    foreach (PokemonId pokemon in Enum.GetValues(typeof(PokemonId)))
+                    {
+                        if (pokemon.ToString() != "Missingno")
+                        {
+                            pokeIDS[pokemon.ToString()] = ie;                            
+                            checkedListBox_NotToSnipe.Items.Add(pokemon.ToString());                            
+                            ie++;
+                        }
+                    }
+                    foreach (PokemonId Id in Globals.NotToSnipe)
+                    {
+                        string _id = Id.ToString();
+                        checkedListBox_NotToSnipe.SetItemChecked(pokeIDS[_id] - 1, true);
+                    }
                     PokemonListView.BeginUpdate();
                     foreach (var pokemon in pokemons)
                     {
@@ -1309,7 +1324,46 @@ namespace PokemonGo.RocketAPI.Console
                     playerPanel1.Execute(profile,pokemons);
             }
         }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            Globals.NotToSnipe.Clear();
+            foreach (string pokemon in checkedListBox_NotToSnipe.CheckedItems)
+            {
+                Globals.NotToSnipe.Add((PokemonId)Enum.Parse(typeof(PokemonId), pokemon));
+            }
+        }
+
+        private async void SnipeMe_Click(object sender, EventArgs e)
+        {                       
+            var array = SnipeInfo.Text.Split('|');
+            PokemonId idPoke = PokemonParser.ParsePokemon(array[0]);
+            GeoCoordinate geocoord = new GeoCoordinate(double.Parse(array[1]), double.Parse(array[2]));
+            var success = await Logic.Logic._instance.Snipe(idPoke, geocoord);
+            SnipeInfo.Text = "";                   
+        }
+
+        private void SnipePokemonPokeCom_CheckedChanged(object sender, EventArgs e)
+        {
+            Globals.SnipePokemon = SnipePokemonPokeCom.Checked;
+        }
+
+        private void AvoidRegionLock_CheckedChanged(object sender, EventArgs e)
+        {
+            Globals.AvoidRegionLock = AvoidRegionLock.Checked;
+        }
+
+        private void SelectallNottoSnipe_CheckedChanged(object sender, EventArgs e)
+        {
+            int i = 0;
+            while (i < checkedListBox_NotToSnipe.Items.Count)
+            {
+                checkedListBox_NotToSnipe.SetItemChecked(i, SelectallNottoSnipe.Checked);
+                i++;
+            }
+        }
     }
+
     public static class ControlExtensions
     {
         public static void DoubleBuffered(this Control control, bool enable)

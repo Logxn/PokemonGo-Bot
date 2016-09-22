@@ -153,6 +153,7 @@ namespace PokemonGo.RocketAPI
         List<PokemonId> pokemonsToHold { get; set; }
         List<PokemonId> pokemonsToEvolve { get; set; }
         List<PokemonId> catchPokemonSkipList { get; set; }
+        List<PokemonId> NotToSnipe { get; set; }
         bool SnipePokemon { get; set; }
         bool AvoidRegionLock { get; set; }
         /* ===================================[SETTINGS]================================= */
