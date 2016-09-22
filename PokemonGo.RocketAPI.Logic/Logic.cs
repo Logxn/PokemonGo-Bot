@@ -1554,10 +1554,10 @@ namespace PokemonGo.RocketAPI.Logic
                             {
                                 File.AppendAllText(logs, $"[{date}] Caught new {StringUtils.getPokemonNameByLanguage(_clientSettings, pokeid)} (CP: {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} | IV: {PokemonInfo.CalculatePokemonPerfection(encounterPokemonResponse.WildPokemon.PokemonData).ToString("0.00")}% | Pokeball used: {bestPokeball} | XP: {caughtPokemonResponse.CaptureAward.Xp.Sum()}) " + Environment.NewLine);
                             }
+                            _infoObservable.PushDeletePokemonLocation(encounterPokemonResponse.WildPokemon.SpawnPointId);
                             Logger.ColoredConsoleWrite(ConsoleColor.White,
                                 $"Caught New {StringUtils.getPokemonNameByLanguage(_clientSettings, pokeid)} CP {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} IV {PokemonInfo.CalculatePokemonPerfection(encounterPokemonResponse.WildPokemon.PokemonData).ToString("0.00")}% using {bestPokeball} got {caughtPokemonResponse.CaptureAward.Xp.Sum()} XP.");
                             pokemonCatchCount++;
-
                         }
                         else
                         {

@@ -484,8 +484,7 @@ namespace PokemonGo.RocketAPI.Console
         }
         //Account Type Changed Event
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            Globals.acc = comboBox_AccountType.SelectedIndex == 0 ? Enums.AuthType.Google : Enums.AuthType.Ptc;
+        {            
             if (comboBox_AccountType.SelectedIndex == 0)
                 label2.Text = "E-Mail:";
             else
@@ -612,7 +611,7 @@ namespace PokemonGo.RocketAPI.Console
             #region Setting aaaaaaaaaaaall the globals
 
             // tab 1 - General     
-            // Globals.acc <- Is updated at Change combobox comboBox_AccountType             
+            Globals.acc = (comboBox_AccountType.SelectedIndex == 0) ? Enums.AuthType.Google : Enums.AuthType.Ptc;
 
             // Account Info
             bool ret = true;
