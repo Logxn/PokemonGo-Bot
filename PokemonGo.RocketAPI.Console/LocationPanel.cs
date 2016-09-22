@@ -233,6 +233,21 @@ namespace PokemonGo.RocketAPI.Console
 
         Semaphore pokemonLock = new Semaphore(0, 1);
 
+        void infoObservable_HandleDeletePokemonLocation( string pokemon_Id)
+        {
+            try {
+                _pokemonOverlay.IsVisibile = false;
+                var pokemonMarker = _pokemonMarks[pokemon_Id];
+                _pokemonOverlay.Markers.Remove(pokemonMarker);
+                _pokemonMarks.Remove(pokemon_Id);
+                _pokemonOverlay.IsVisibile = true;
+            } catch (Exception e) {
+                Logger.ColoredConsoleWrite(ConsoleColor.DarkRed, "[Ignore]: sending exception information to log file.");
+                Logger.AddLog(string.Format("Error in infoObservable_HandleDeletePokemonLocation: {0}", e.ToString()));
+
+            }
+        }
+
         void infoObservable_HandleNewPokemonLocations(List<DataCollector.PokemonMapData> mapData)
         {
             Invoke(new MethodInvoker(() =>
@@ -568,6 +583,7 @@ namespace PokemonGo.RocketAPI.Console
             Globals.infoObservable.HandlePokeStopInfoUpdate += InfoObservable_HandlePokeStopInfoUpdate;
             Globals.infoObservable.HandleClearPokemon += infoObservable_HandleClearPokemon;
             Globals.infoObservable.HandleNewPokemonLocations += infoObservable_HandleNewPokemonLocations;
+            Globals.infoObservable.HandleDeletePokemonLocation += infoObservable_HandleDeletePokemonLocation;
         }
 
 

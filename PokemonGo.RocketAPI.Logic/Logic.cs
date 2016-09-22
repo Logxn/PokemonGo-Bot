@@ -1541,6 +1541,7 @@ namespace PokemonGo.RocketAPI.Logic
                                 _botStats.AddPokemon(1);
                                 await RandomHelper.RandomDelay(1500, 2000);
                             }
+                            _infoObservable.PushDeletePokemonLocation(encounterPokemonResponse.WildPokemon.SpawnPointId);
                         }
                         else
                         {
