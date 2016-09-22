@@ -72,7 +72,9 @@
             this.label13 = new System.Windows.Forms.Label();
             this.tabPokemon = new System.Windows.Forms.TabPage();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.MinIVtoCatch = new System.Windows.Forms.TextBox();
             this.MinCPtoCatch = new System.Windows.Forms.TextBox();
+            this.label54 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.checkBox_TransferFirstLowIV = new System.Windows.Forms.CheckBox();
             this.label29 = new System.Windows.Forms.Label();
@@ -184,6 +186,7 @@
             this.checkBox_RandomSleepAtCatching = new System.Windows.Forms.CheckBox();
             this.checkBox_FarmPokestops = new System.Windows.Forms.CheckBox();
             this.checkBox_CatchPokemon = new System.Windows.Forms.CheckBox();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.checkBox_UseLureAtBreak = new System.Windows.Forms.CheckBox();
             this.checkBox_BreakAtLure = new System.Windows.Forms.CheckBox();
             this.button_ArchimedeanSpiralHelp = new System.Windows.Forms.Button();
@@ -202,6 +205,10 @@
             this.label40 = new System.Windows.Forms.Label();
             this.text_TimeToRun = new System.Windows.Forms.TextBox();
             this.tabMisc = new System.Windows.Forms.TabPage();
+            this.groupBox23 = new System.Windows.Forms.GroupBox();
+            this.SelectallNottoSnipe = new System.Windows.Forms.CheckBox();
+            this.checkedListBox_NotToSnipe = new System.Windows.Forms.CheckedListBox();
+            this.AvoidRegionLock = new System.Windows.Forms.CheckBox();
             this.SnipePokemonPokeCom = new System.Windows.Forms.CheckBox();
             this.UseSkipLaggedAPI = new System.Windows.Forms.CheckBox();
             this.groupBox17 = new System.Windows.Forms.GroupBox();
@@ -244,10 +251,8 @@
             this.linkLabel3 = new System.Windows.Forms.LinkLabel();
             this.linkLabel7 = new System.Windows.Forms.LinkLabel();
             this.linkLabel4 = new System.Windows.Forms.LinkLabel();
+            this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.button2 = new System.Windows.Forms.Button();
-            this.label54 = new System.Windows.Forms.Label();
-            this.MinIVtoCatch = new System.Windows.Forms.TextBox();
-            this.AvoidRegionLock = new System.Windows.Forms.CheckBox();
             this.lang_france_btn = new System.Windows.Forms.Button();
             this.lang_ru_btn = new System.Windows.Forms.Button();
             this.lang_tr_btn = new System.Windows.Forms.Button();
@@ -256,8 +261,7 @@
             this.lang_de_btn = new System.Windows.Forms.Button();
             this.lang_en_btn = new System.Windows.Forms.Button();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.pictureBox3 = new System.Windows.Forms.PictureBox();
+            this.label55 = new System.Windows.Forms.Label();
             this.settingsBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.tabProxies.SuspendLayout();
             this.tabItems.SuspendLayout();
@@ -284,8 +288,10 @@
             this.groupBox18.SuspendLayout();
             this.groupBox13.SuspendLayout();
             this.groupBox11.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.groupBox12.SuspendLayout();
             this.tabMisc.SuspendLayout();
+            this.groupBox23.SuspendLayout();
             this.groupBox17.SuspendLayout();
             this.groupBox14.SuspendLayout();
             this.tabUpdates.SuspendLayout();
@@ -295,9 +301,8 @@
             this.groupBox22.SuspendLayout();
             this.groupBox21.SuspendLayout();
             this.groupBox20.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.settingsBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
@@ -768,12 +773,11 @@
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.label55);
+            this.groupBox3.Controls.Add(this.label29);
             this.groupBox3.Controls.Add(this.MinIVtoCatch);
             this.groupBox3.Controls.Add(this.MinCPtoCatch);
-            this.groupBox3.Controls.Add(this.label54);
-            this.groupBox3.Controls.Add(this.label8);
             this.groupBox3.Controls.Add(this.checkBox_TransferFirstLowIV);
-            this.groupBox3.Controls.Add(this.label29);
             this.groupBox3.Controls.Add(this.text_MaxIVToTransfer);
             this.groupBox3.Controls.Add(this.label28);
             this.groupBox3.Controls.Add(this.text_MaxCPToTransfer);
@@ -781,18 +785,30 @@
             this.groupBox3.Controls.Add(this.text_MaxDuplicatePokemon);
             this.groupBox3.Controls.Add(this.label11);
             this.groupBox3.Controls.Add(this.checkBox_AutoTransferDoublePokemon);
-            this.groupBox3.Location = new System.Drawing.Point(8, 393);
+            this.groupBox3.Controls.Add(this.label8);
+            this.groupBox3.Controls.Add(this.label54);
+            this.groupBox3.Location = new System.Drawing.Point(8, 356);
             this.groupBox3.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBox3.Size = new System.Drawing.Size(703, 86);
+            this.groupBox3.Size = new System.Drawing.Size(703, 102);
             this.groupBox3.TabIndex = 3;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Bot Settings";
             // 
+            // MinIVtoCatch
+            // 
+            this.MinIVtoCatch.Location = new System.Drawing.Point(483, 62);
+            this.MinIVtoCatch.Margin = new System.Windows.Forms.Padding(4);
+            this.MinIVtoCatch.Name = "MinIVtoCatch";
+            this.MinIVtoCatch.Size = new System.Drawing.Size(46, 22);
+            this.MinIVtoCatch.TabIndex = 14;
+            this.MinIVtoCatch.Text = "0";
+            this.MinIVtoCatch.TextChanged += new System.EventHandler(this.TextBoxes_TextChanged);
+            // 
             // MinCPtoCatch
             // 
-            this.MinCPtoCatch.Location = new System.Drawing.Point(639, 24);
+            this.MinCPtoCatch.Location = new System.Drawing.Point(652, 62);
             this.MinCPtoCatch.Margin = new System.Windows.Forms.Padding(4);
             this.MinCPtoCatch.Name = "MinCPtoCatch";
             this.MinCPtoCatch.Size = new System.Drawing.Size(46, 22);
@@ -800,10 +816,20 @@
             this.MinCPtoCatch.Text = "0";
             this.MinCPtoCatch.TextChanged += new System.EventHandler(this.TextBoxes_TextChanged);
             // 
+            // label54
+            // 
+            this.label54.AutoSize = true;
+            this.label54.Location = new System.Drawing.Point(374, 65);
+            this.label54.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label54.Name = "label54";
+            this.label54.Size = new System.Drawing.Size(110, 17);
+            this.label54.TabIndex = 13;
+            this.label54.Text = "Min. IV to Catch:";
+            // 
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(526, 27);
+            this.label8.Location = new System.Drawing.Point(537, 65);
             this.label8.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(116, 17);
@@ -813,7 +839,7 @@
             // checkBox_TransferFirstLowIV
             // 
             this.checkBox_TransferFirstLowIV.AutoSize = true;
-            this.checkBox_TransferFirstLowIV.Location = new System.Drawing.Point(188, 25);
+            this.checkBox_TransferFirstLowIV.Location = new System.Drawing.Point(452, 27);
             this.checkBox_TransferFirstLowIV.Margin = new System.Windows.Forms.Padding(4);
             this.checkBox_TransferFirstLowIV.Name = "checkBox_TransferFirstLowIV";
             this.checkBox_TransferFirstLowIV.Size = new System.Drawing.Size(148, 21);
@@ -824,7 +850,7 @@
             // label29
             // 
             this.label29.AutoSize = true;
-            this.label29.Location = new System.Drawing.Point(452, 57);
+            this.label29.Location = new System.Drawing.Point(160, 65);
             this.label29.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label29.Name = "label29";
             this.label29.Size = new System.Drawing.Size(20, 17);
@@ -833,17 +859,17 @@
             // 
             // text_MaxIVToTransfer
             // 
-            this.text_MaxIVToTransfer.Location = new System.Drawing.Point(380, 54);
+            this.text_MaxIVToTransfer.Location = new System.Drawing.Point(135, 62);
             this.text_MaxIVToTransfer.Margin = new System.Windows.Forms.Padding(4);
             this.text_MaxIVToTransfer.Name = "text_MaxIVToTransfer";
-            this.text_MaxIVToTransfer.Size = new System.Drawing.Size(69, 22);
+            this.text_MaxIVToTransfer.Size = new System.Drawing.Size(47, 22);
             this.text_MaxIVToTransfer.TabIndex = 11;
             this.text_MaxIVToTransfer.Text = "90";
             // 
             // label28
             // 
             this.label28.AutoSize = true;
-            this.label28.Location = new System.Drawing.Point(249, 56);
+            this.label28.Location = new System.Drawing.Point(6, 65);
             this.label28.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label28.Name = "label28";
             this.label28.Size = new System.Drawing.Size(126, 17);
@@ -852,17 +878,17 @@
             // 
             // text_MaxCPToTransfer
             // 
-            this.text_MaxCPToTransfer.Location = new System.Drawing.Point(608, 54);
+            this.text_MaxCPToTransfer.Location = new System.Drawing.Point(325, 62);
             this.text_MaxCPToTransfer.Margin = new System.Windows.Forms.Padding(4);
             this.text_MaxCPToTransfer.Name = "text_MaxCPToTransfer";
-            this.text_MaxCPToTransfer.Size = new System.Drawing.Size(77, 22);
+            this.text_MaxCPToTransfer.Size = new System.Drawing.Size(47, 22);
             this.text_MaxCPToTransfer.TabIndex = 10;
             this.text_MaxCPToTransfer.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox7_KeyPress);
             // 
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(475, 56);
+            this.label12.Location = new System.Drawing.Point(191, 65);
             this.label12.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(132, 17);
@@ -871,7 +897,7 @@
             // 
             // text_MaxDuplicatePokemon
             // 
-            this.text_MaxDuplicatePokemon.Location = new System.Drawing.Point(184, 52);
+            this.text_MaxDuplicatePokemon.Location = new System.Drawing.Point(372, 27);
             this.text_MaxDuplicatePokemon.Margin = new System.Windows.Forms.Padding(4);
             this.text_MaxDuplicatePokemon.Name = "text_MaxDuplicatePokemon";
             this.text_MaxDuplicatePokemon.Size = new System.Drawing.Size(52, 22);
@@ -881,7 +907,7 @@
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(9, 54);
+            this.label11.Location = new System.Drawing.Point(200, 30);
             this.label11.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(172, 17);
@@ -893,7 +919,7 @@
             this.checkBox_AutoTransferDoublePokemon.AutoSize = true;
             this.checkBox_AutoTransferDoublePokemon.Checked = true;
             this.checkBox_AutoTransferDoublePokemon.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox_AutoTransferDoublePokemon.Location = new System.Drawing.Point(9, 25);
+            this.checkBox_AutoTransferDoublePokemon.Location = new System.Drawing.Point(9, 29);
             this.checkBox_AutoTransferDoublePokemon.Margin = new System.Windows.Forms.Padding(4);
             this.checkBox_AutoTransferDoublePokemon.Name = "checkBox_AutoTransferDoublePokemon";
             this.checkBox_AutoTransferDoublePokemon.Size = new System.Drawing.Size(180, 21);
@@ -909,7 +935,7 @@
             this.groupBox5.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox5.Name = "groupBox5";
             this.groupBox5.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBox5.Size = new System.Drawing.Size(229, 378);
+            this.groupBox5.Size = new System.Drawing.Size(229, 341);
             this.groupBox5.TabIndex = 7;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Pokemon - Not to transfer";
@@ -917,7 +943,7 @@
             // checkBox4
             // 
             this.checkBox4.AutoSize = true;
-            this.checkBox4.Location = new System.Drawing.Point(13, 346);
+            this.checkBox4.Location = new System.Drawing.Point(13, 300);
             this.checkBox4.Margin = new System.Windows.Forms.Padding(4);
             this.checkBox4.Name = "checkBox4";
             this.checkBox4.Size = new System.Drawing.Size(87, 21);
@@ -945,7 +971,7 @@
             this.groupBox6.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox6.Name = "groupBox6";
             this.groupBox6.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBox6.Size = new System.Drawing.Size(229, 382);
+            this.groupBox6.Size = new System.Drawing.Size(229, 344);
             this.groupBox6.TabIndex = 8;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "Pokemon - Not to catch";
@@ -953,7 +979,7 @@
             // checkBox5
             // 
             this.checkBox5.AutoSize = true;
-            this.checkBox5.Location = new System.Drawing.Point(8, 350);
+            this.checkBox5.Location = new System.Drawing.Point(8, 303);
             this.checkBox5.Margin = new System.Windows.Forms.Padding(4);
             this.checkBox5.Name = "checkBox5";
             this.checkBox5.Size = new System.Drawing.Size(87, 21);
@@ -981,7 +1007,7 @@
             this.groupBox7.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox7.Name = "groupBox7";
             this.groupBox7.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBox7.Size = new System.Drawing.Size(228, 378);
+            this.groupBox7.Size = new System.Drawing.Size(228, 341);
             this.groupBox7.TabIndex = 9;
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "Pokemon - To evolve";
@@ -989,7 +1015,7 @@
             // checkBox6
             // 
             this.checkBox6.AutoSize = true;
-            this.checkBox6.Location = new System.Drawing.Point(8, 347);
+            this.checkBox6.Location = new System.Drawing.Point(8, 300);
             this.checkBox6.Margin = new System.Windows.Forms.Padding(4);
             this.checkBox6.Name = "checkBox6";
             this.checkBox6.Size = new System.Drawing.Size(87, 21);
@@ -1134,7 +1160,6 @@
             this.text_Password.Size = new System.Drawing.Size(195, 22);
             this.text_Password.TabIndex = 3;
             this.text_Password.TextChanged += new System.EventHandler(this.TextBoxes_TextChanged);
-            
             // 
             // Profileselect
             // 
@@ -2121,6 +2146,16 @@
             this.checkBox_CatchPokemon.Text = "Catch Pokemon";
             this.checkBox_CatchPokemon.UseVisualStyleBackColor = true;
             // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
+            this.pictureBox1.Location = new System.Drawing.Point(221, 239);
+            this.pictureBox1.Margin = new System.Windows.Forms.Padding(4);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(23, 21);
+            this.pictureBox1.TabIndex = 66;
+            this.pictureBox1.TabStop = false;
+            // 
             // checkBox_UseLureAtBreak
             // 
             this.checkBox_UseLureAtBreak.AutoSize = true;
@@ -2306,6 +2341,7 @@
             // 
             // tabMisc
             // 
+            this.tabMisc.Controls.Add(this.groupBox23);
             this.tabMisc.Controls.Add(this.AvoidRegionLock);
             this.tabMisc.Controls.Add(this.SnipePokemonPokeCom);
             this.tabMisc.Controls.Add(this.UseSkipLaggedAPI);
@@ -2320,10 +2356,59 @@
             this.tabMisc.Text = "Misc";
             this.tabMisc.UseVisualStyleBackColor = true;
             // 
+            // groupBox23
+            // 
+            this.groupBox23.Controls.Add(this.SelectallNottoSnipe);
+            this.groupBox23.Controls.Add(this.checkedListBox_NotToSnipe);
+            this.groupBox23.Location = new System.Drawing.Point(7, 148);
+            this.groupBox23.Margin = new System.Windows.Forms.Padding(4);
+            this.groupBox23.Name = "groupBox23";
+            this.groupBox23.Padding = new System.Windows.Forms.Padding(4);
+            this.groupBox23.Size = new System.Drawing.Size(220, 318);
+            this.groupBox23.TabIndex = 70;
+            this.groupBox23.TabStop = false;
+            this.groupBox23.Text = "Pokemon - Not to Snipe";
+            // 
+            // SelectallNottoSnipe
+            // 
+            this.SelectallNottoSnipe.AutoSize = true;
+            this.SelectallNottoSnipe.Location = new System.Drawing.Point(8, 289);
+            this.SelectallNottoSnipe.Margin = new System.Windows.Forms.Padding(4);
+            this.SelectallNottoSnipe.Name = "SelectallNottoSnipe";
+            this.SelectallNottoSnipe.Size = new System.Drawing.Size(87, 21);
+            this.SelectallNottoSnipe.TabIndex = 32;
+            this.SelectallNottoSnipe.Text = "Select all";
+            this.SelectallNottoSnipe.UseVisualStyleBackColor = true;
+            this.SelectallNottoSnipe.CheckedChanged += new System.EventHandler(this.SelectallNottoSnipe_CheckedChanged);
+            // 
+            // checkedListBox_NotToSnipe
+            // 
+            this.checkedListBox_NotToSnipe.CheckOnClick = true;
+            this.checkedListBox_NotToSnipe.FormattingEnabled = true;
+            this.checkedListBox_NotToSnipe.Location = new System.Drawing.Point(8, 25);
+            this.checkedListBox_NotToSnipe.Margin = new System.Windows.Forms.Padding(4);
+            this.checkedListBox_NotToSnipe.Name = "checkedListBox_NotToSnipe";
+            this.checkedListBox_NotToSnipe.ScrollAlwaysVisible = true;
+            this.checkedListBox_NotToSnipe.Size = new System.Drawing.Size(199, 259);
+            this.checkedListBox_NotToSnipe.TabIndex = 0;
+            // 
+            // AvoidRegionLock
+            // 
+            this.AvoidRegionLock.AutoSize = true;
+            this.AvoidRegionLock.Checked = true;
+            this.AvoidRegionLock.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.AvoidRegionLock.Location = new System.Drawing.Point(234, 215);
+            this.AvoidRegionLock.Margin = new System.Windows.Forms.Padding(4);
+            this.AvoidRegionLock.Name = "AvoidRegionLock";
+            this.AvoidRegionLock.Size = new System.Drawing.Size(227, 21);
+            this.AvoidRegionLock.TabIndex = 69;
+            this.AvoidRegionLock.Text = "Avoid Region Locked Pokemon";
+            this.AvoidRegionLock.UseVisualStyleBackColor = true;
+            // 
             // SnipePokemonPokeCom
             // 
             this.SnipePokemonPokeCom.AutoSize = true;
-            this.SnipePokemonPokeCom.Location = new System.Drawing.Point(11, 190);
+            this.SnipePokemonPokeCom.Location = new System.Drawing.Point(234, 186);
             this.SnipePokemonPokeCom.Margin = new System.Windows.Forms.Padding(4);
             this.SnipePokemonPokeCom.Name = "SnipePokemonPokeCom";
             this.SnipePokemonPokeCom.Size = new System.Drawing.Size(188, 21);
@@ -2334,7 +2419,7 @@
             // UseSkipLaggedAPI
             // 
             this.UseSkipLaggedAPI.AutoSize = true;
-            this.UseSkipLaggedAPI.Location = new System.Drawing.Point(11, 161);
+            this.UseSkipLaggedAPI.Location = new System.Drawing.Point(234, 159);
             this.UseSkipLaggedAPI.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.UseSkipLaggedAPI.Name = "UseSkipLaggedAPI";
             this.UseSkipLaggedAPI.Size = new System.Drawing.Size(317, 21);
@@ -2785,6 +2870,15 @@
             this.linkLabel4.TabStop = true;
             this.linkLabel4.Text = "Twitter Logxn";
             // 
+            // pictureBox3
+            // 
+            this.pictureBox3.Image = global::PokemonGo.RocketAPI.Console.Properties.Resources.giphy__1_;
+            this.pictureBox3.Location = new System.Drawing.Point(-34, 73);
+            this.pictureBox3.Name = "pictureBox3";
+            this.pictureBox3.Size = new System.Drawing.Size(792, 459);
+            this.pictureBox3.TabIndex = 43;
+            this.pictureBox3.TabStop = false;
+            // 
             // button2
             // 
             this.button2.Location = new System.Drawing.Point(639, 112);
@@ -2795,39 +2889,6 @@
             this.button2.Text = "Save Profile";
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click_2);
-            // 
-            // label54
-            // 
-            this.label54.AutoSize = true;
-            this.label54.Location = new System.Drawing.Point(363, 27);
-            this.label54.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label54.Name = "label54";
-            this.label54.Size = new System.Drawing.Size(110, 17);
-            this.label54.TabIndex = 13;
-            this.label54.Text = "Min. IV to Catch:";
-            // 
-            // MinIVtoCatch
-            // 
-            this.MinIVtoCatch.Location = new System.Drawing.Point(470, 24);
-            this.MinIVtoCatch.Margin = new System.Windows.Forms.Padding(4);
-            this.MinIVtoCatch.Name = "MinIVtoCatch";
-            this.MinIVtoCatch.Size = new System.Drawing.Size(52, 22);
-            this.MinIVtoCatch.TabIndex = 14;
-            this.MinIVtoCatch.Text = "0";
-            this.MinIVtoCatch.TextChanged += new System.EventHandler(this.TextBoxes_TextChanged);
-            // 
-            // AvoidRegionLock
-            // 
-            this.AvoidRegionLock.AutoSize = true;
-            this.AvoidRegionLock.Checked = true;
-            this.AvoidRegionLock.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.AvoidRegionLock.Location = new System.Drawing.Point(25, 219);
-            this.AvoidRegionLock.Margin = new System.Windows.Forms.Padding(4);
-            this.AvoidRegionLock.Name = "AvoidRegionLock";
-            this.AvoidRegionLock.Size = new System.Drawing.Size(227, 21);
-            this.AvoidRegionLock.TabIndex = 69;
-            this.AvoidRegionLock.Text = "Avoid Region Locked Pokemon";
-            this.AvoidRegionLock.UseVisualStyleBackColor = true;
             // 
             // lang_france_btn
             // 
@@ -2940,24 +3001,15 @@
             this.pictureBox2.TabStop = false;
             this.pictureBox2.Click += new System.EventHandler(this.pictureBox2_Click);
             // 
-            // pictureBox1
+            // label55
             // 
-            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(221, 239);
-            this.pictureBox1.Margin = new System.Windows.Forms.Padding(4);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(23, 21);
-            this.pictureBox1.TabIndex = 66;
-            this.pictureBox1.TabStop = false;
-            // 
-            // pictureBox3
-            // 
-            this.pictureBox3.Image = global::PokemonGo.RocketAPI.Console.Properties.Resources.giphy__1_;
-            this.pictureBox3.Location = new System.Drawing.Point(-34, 73);
-            this.pictureBox3.Name = "pictureBox3";
-            this.pictureBox3.Size = new System.Drawing.Size(792, 459);
-            this.pictureBox3.TabIndex = 43;
-            this.pictureBox3.TabStop = false;
+            this.label55.AutoSize = true;
+            this.label55.Location = new System.Drawing.Point(507, 65);
+            this.label55.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label55.Name = "label55";
+            this.label55.Size = new System.Drawing.Size(20, 17);
+            this.label55.TabIndex = 15;
+            this.label55.Text = "%";
             // 
             // settingsBindingSource
             // 
@@ -3030,10 +3082,13 @@
             this.groupBox13.PerformLayout();
             this.groupBox11.ResumeLayout(false);
             this.groupBox11.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.groupBox12.ResumeLayout(false);
             this.groupBox12.PerformLayout();
             this.tabMisc.ResumeLayout(false);
             this.tabMisc.PerformLayout();
+            this.groupBox23.ResumeLayout(false);
+            this.groupBox23.PerformLayout();
             this.groupBox17.ResumeLayout(false);
             this.groupBox17.PerformLayout();
             this.groupBox14.ResumeLayout(false);
@@ -3050,9 +3105,8 @@
             this.groupBox21.PerformLayout();
             this.groupBox20.ResumeLayout(false);
             this.groupBox20.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.settingsBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -3290,6 +3344,10 @@
         private System.Windows.Forms.Label label54;
         private System.Windows.Forms.CheckBox AvoidRegionLock;
         private System.Windows.Forms.PictureBox pictureBox3;
+        private System.Windows.Forms.GroupBox groupBox23;
+        private System.Windows.Forms.CheckBox SelectallNottoSnipe;
+        private System.Windows.Forms.CheckedListBox checkedListBox_NotToSnipe;
+        private System.Windows.Forms.Label label55;
         //private System.Windows.Forms.CheckBox checkBox_CatchLurePokemons;
     }
 }

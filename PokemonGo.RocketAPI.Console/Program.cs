@@ -283,6 +283,7 @@ namespace PokemonGo.RocketAPI.Console
         public static List<PokemonId> noTransfer;
         public static List<PokemonId> noCatch;
         public static List<PokemonId> doEvolve;
+        public static List<PokemonId> NotToSnipe;
         public static string telAPI = string.Empty;
         public static string telName = string.Empty;
         public static int telDelay = 5000;
@@ -343,6 +344,6 @@ namespace PokemonGo.RocketAPI.Console
         internal static bool FirstLoad;
         public static int MinCPtoCatch = 0;
         public static int MinIVtoCatch = 0;
-        public static bool AvoidRegionLock = true;
+        public static bool AvoidRegionLock = true;        
     }
 }

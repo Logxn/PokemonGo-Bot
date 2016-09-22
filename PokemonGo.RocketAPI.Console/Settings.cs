@@ -439,6 +439,12 @@ namespace PokemonGo.RocketAPI.Console
             set { Globals.doEvolve = value; }
         }
 
+        public List<PokemonId> NotToSnipe
+        {
+            get { return Globals.NotToSnipe; }
+            set { Globals.NotToSnipe = value; }
+        }
+
         public ICollection<KeyValuePair<ItemId, int>> itemRecycleFilter
         {
             get
