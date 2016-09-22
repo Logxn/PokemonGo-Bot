@@ -45,6 +45,7 @@ namespace PokemonGo.RocketAPI.Console
     /// NOTES: Use .Tag property of the components to set the name of the related global variable 
     public partial class ChangesPanel : UserControl
     {
+        const ConsoleColor tryCatchColor = ConsoleColor.DarkYellow;
         public ChangesPanel()
         {
             InitializeComponent();
@@ -59,7 +60,7 @@ namespace PokemonGo.RocketAPI.Console
             }
             try {
                 typeof(Globals).GetField(globalName).SetValue(null, castedSender.Checked);
-                Logger.ColoredConsoleWrite(ConsoleColor.DarkBlue,castedSender.Text+ " value changed");
+                Logger.ColoredConsoleWrite(tryCatchColor,castedSender.Text+ " value changed");
             } catch (Exception ex) {
                 Logger.AddLog("[Exception]: " + ex.ToString());
             }
@@ -68,12 +69,12 @@ namespace PokemonGo.RocketAPI.Console
         {
             Globals.pauseAtEvolve = checkBox_pauseAtEvolve1_2.Checked;
             Globals.pauseAtEvolve2 = checkBox_pauseAtEvolve1_2.Checked;
-            Logger.ColoredConsoleWrite(ConsoleColor.DarkBlue,((CheckBox)sender).Text+ " value changed");
+            Logger.ColoredConsoleWrite(tryCatchColor,((CheckBox)sender).Text+ " value changed");
         }
         void NumRazzPercentValueChanged(object sender, EventArgs e)
         {
             Globals.razzberry_chance = ((double)((NumericUpDown)sender).Value) / 100;
-            Logger.ColoredConsoleWrite(ConsoleColor.DarkBlue,((NumericUpDown)sender).Text+ " value changed");
+            Logger.ColoredConsoleWrite(tryCatchColor,((NumericUpDown)sender).Text+ " value changed");
         }
         void NumericUpDown_DoubleValueChanged(object sender, EventArgs e)
         {
@@ -85,7 +86,7 @@ namespace PokemonGo.RocketAPI.Console
             }
             try {
                 typeof(Globals).GetField(globalName).SetValue(null,(double) castedSender.Value);
-                Logger.ColoredConsoleWrite(ConsoleColor.DarkBlue,castedSender.Text+ " value changed");                
+                Logger.ColoredConsoleWrite(tryCatchColor,castedSender.Text+ " value changed");                
             } catch (Exception ex) {
                 Logger.AddLog("[Exception]: " + ex.ToString());
             }
@@ -100,7 +101,7 @@ namespace PokemonGo.RocketAPI.Console
             }
             try {
                 typeof(Globals).GetField(globalName).SetValue(null,(int) castedSender.Value);
-                Logger.ColoredConsoleWrite(ConsoleColor.DarkBlue,castedSender.Text+ " value changed");
+                Logger.ColoredConsoleWrite(tryCatchColor,castedSender.Text+ " value changed");
             } catch (Exception ex) {
                 Logger.AddLog("[Exception]: " + ex.ToString());
             }
