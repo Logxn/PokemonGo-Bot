@@ -159,6 +159,16 @@ namespace PokemonGo.RocketAPI.Console.Properties {
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
+ 
+         /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap taiwan {
+            get {
+                object obj = ResourceManager.GetObject("taiwan", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
         
         /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
