@@ -210,20 +210,6 @@ namespace PokemonGo.RocketAPI.Logic
                 var _restart = true;
                 try
                 {
-                    //Sniper
-                    if (_clientSettings.SnipePokemon && _clientSettings.CatchPokemon)
-                    {
-                        foreach (spottedPokeSni p in await _pokeSnipers.CapturarPokemon())
-                        {
-                            SnipokemonIds = p._pokeId;
-                            await CapturarSniper(p);
-                        }
-                        //Exit...
-                        //return to default location before beginning to farm.
-                        var result = await _client.Player.UpdatePlayerLocation(_clientSettings.DefaultLatitude, _clientSettings.DefaultLongitude, _clientSettings.DefaultAltitude);
-                        //StringUtils.CheckKillSwitch(true);
-                    }
-
                     var profil = await _client.Player.GetPlayer();
                     await _client.Inventory.ExportPokemonToCSV(profil.PlayerData);
                     await StatsLog(_client);
@@ -670,6 +656,20 @@ namespace PokemonGo.RocketAPI.Logic
             else
             {
                 Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "We found " + pokeStops.Count() + " usable PokeStops near your current location.");
+            }
+            #endregion
+
+            #region Sniper Logic
+            //Sniper
+            if (_clientSettings.SnipePokemon && _clientSettings.CatchPokemon)
+            {
+                foreach (spottedPokeSni p in await _pokeSnipers.CapturarPokemon())
+                {
+                    SnipokemonIds = p._pokeId;
+                    await CapturarSniper(p);
+                }                
+                //return to default location before beginning to farm.
+                var result = await _client.Player.UpdatePlayerLocation(_clientSettings.DefaultLatitude, _clientSettings.DefaultLongitude, _clientSettings.DefaultAltitude);                                
             }
             #endregion
 
@@ -2242,10 +2242,13 @@ namespace PokemonGo.RocketAPI.Logic
                         Int64 numberOfTicks = poke.ExpirationTimestampMs;
                         numberOfTicks *= 10000; // convert MS in Ticks
                         if (numberOfTicks >= DateTime.MinValue.Ticks &&
-                            numberOfTicks <= DateTime.MaxValue.Ticks) {
+                            numberOfTicks <= DateTime.MaxValue.Ticks)
+                        {
                             poke2.ExpiresAt = new DateTime(numberOfTicks).AddYears(1969).AddDays(-1);
-                        }else{
-                            Logger.AddLog( "Read invalid Date");
+                        }
+                        else
+                        {
+                            Logger.AddLog("Read invalid Date");
                         }
                     }
                     catch (ArgumentOutOfRangeException e)

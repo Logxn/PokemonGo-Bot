@@ -779,7 +779,7 @@ namespace PokemonGo.RocketAPI.Console
                 else
                     Globals.SnipePokemon = false;
             }
-
+            Globals.AvoidRegionLock = AvoidRegionLock.Checked;
             // tab 8 updates
             Globals.AutoUpdate = checkbox_AutoUpdate.Checked;
             Globals.CheckWhileRunning = checkbox_checkWhileRunning.Checked;
