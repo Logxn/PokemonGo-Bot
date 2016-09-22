@@ -797,6 +797,8 @@
             this.MinCPtoCatch.Name = "MinCPtoCatch";
             this.MinCPtoCatch.Size = new System.Drawing.Size(46, 22);
             this.MinCPtoCatch.TabIndex = 14;
+            this.MinCPtoCatch.Text = "0";
+            this.MinCPtoCatch.TextChanged += new System.EventHandler(this.TextBoxes_TextChanged);
             // 
             // label8
             // 
@@ -1131,6 +1133,8 @@
             this.text_Password.PasswordChar = '*';
             this.text_Password.Size = new System.Drawing.Size(195, 22);
             this.text_Password.TabIndex = 3;
+            this.text_Password.TextChanged += new System.EventHandler(this.TextBoxes_TextChanged);
+            
             // 
             // Profileselect
             // 
@@ -1191,6 +1195,7 @@
             this.text_EMail.Name = "text_EMail";
             this.text_EMail.Size = new System.Drawing.Size(195, 22);
             this.text_EMail.TabIndex = 2;
+            this.text_EMail.TextChanged += new System.EventHandler(this.TextBoxes_TextChanged);
             // 
             // checkbox_PWDEncryption
             // 
@@ -2808,6 +2813,8 @@
             this.MinIVtoCatch.Name = "MinIVtoCatch";
             this.MinIVtoCatch.Size = new System.Drawing.Size(52, 22);
             this.MinIVtoCatch.TabIndex = 14;
+            this.MinIVtoCatch.Text = "0";
+            this.MinIVtoCatch.TextChanged += new System.EventHandler(this.TextBoxes_TextChanged);
             // 
             // AvoidRegionLock
             // 
