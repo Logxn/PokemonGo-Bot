@@ -1023,6 +1023,8 @@ namespace PokemonGo.RocketAPI.Logic
                     directionsRequest.Language = "ru";
                 if (_clientSettings.SelectedLanguage == "france")
                     directionsRequest.Language = "fr";
+                if (_clientSettings.SelectedLanguage == "taiwan")
+                    directionsRequest.Language = "zh_tw";	                    
                 #endregion
 
                 directionsRequest.Origin = sourcelatstring + "," + sourcelongstring;
