@@ -100,6 +100,7 @@ namespace PokemonGo.RocketAPI.Console
             b.Add("spain.json");
             b.Add("tr.json");
             b.Add("arabic.json");
+            b.Add("taiwan.json");              
 
             foreach (var l in b)
                 Extract("PokemonGo.RocketAPI.Console", Program.path_translation, "Lang", l);
@@ -478,7 +479,7 @@ namespace PokemonGo.RocketAPI.Console
         {
             Globals.acc = comboBox_AccountType.SelectedIndex == 0 ? Enums.AuthType.Google : Enums.AuthType.Ptc;
             if (comboBox_AccountType.SelectedIndex == 0)
-                label2.Text = "E-Mail:";
+                label2.Text = TranslationHandler.GetString("email", "E-Mail:");
             else
                 label2.Text = TranslationHandler.GetString("username", "Username :");
         }
@@ -830,6 +831,14 @@ namespace PokemonGo.RocketAPI.Console
                 File.WriteAllText(@Program.accountProfiles, profileJSON);
                 Globals.password = decryptedPassword;
                 #endregion
+
+                string[] deviceFile =
+                {
+                    comboBox_Device.SelectedItem.ToString(),
+                    DeviceIDtextBox.Text.ToString() == "" ? "dd4c5b1e486a261e" : DeviceIDtextBox.Text.ToString(),
+                };
+                File.WriteAllLines(@Program.deviceSettings, deviceFile);				
+				
                 return true;
             }
             else
@@ -1011,16 +1020,20 @@ namespace PokemonGo.RocketAPI.Console
             Globals.acc = comboBox_AccountType.SelectedIndex == 0 ? Enums.AuthType.Google : Enums.AuthType.Ptc;
             if (comboBox_AccountType.SelectedIndex == 0)
             {
-                label2.Text = "E-Mail:";
+                label2.Text = TranslationHandler.GetString("email", "E-Mail:");
             }
             else
             {
                 label2.Text = TranslationHandler.GetString("username", "Username :");
             }
-
-            label1.Text = TranslationHandler.GetString("accountType", "Account Type:");
+            groupBox1.Text = TranslationHandler.GetString("accountInfo", "Account Info");
+            label1.Text = TranslationHandler.GetString("accountType", "Account Type:");          
             label3.Text = TranslationHandler.GetString("password", "Password:");
             groupBox2.Text = TranslationHandler.GetString("locationSettings", "Location Settings");
+            button_SetLocation.Text = TranslationHandler.GetString("setLocation", "Set Location");
+            label4.Text = TranslationHandler.GetString("latitude", "Latitude:");            
+            label5.Text = TranslationHandler.GetString("longitude", "Longitude:");
+            label6.Text = TranslationHandler.GetString("altitude", "Altitude:");                 
             label7.Text = TranslationHandler.GetString("speed", "Speed:");
             label9.Text = TranslationHandler.GetString("moveRadius", "Move Radius:");
             checkBox_Start_Walk_from_default_location.Text = TranslationHandler.GetString("startFromDefaultLocation", "Start from default location");
@@ -1034,16 +1047,21 @@ namespace PokemonGo.RocketAPI.Console
             label15.Text = TranslationHandler.GetString("maxUltraballs", "Max. UltraBalls:");
             label16.Text = TranslationHandler.GetString("maxRevives", "Max. Revives:");
             label27.Text = TranslationHandler.GetString("maxTopRevives", "Max. TopRevives:");
+            label26.Text = TranslationHandler.GetString("profileName", "Profile Name:");          
+            label21.Text = TranslationHandler.GetString("accountProfile", "Account Profile:");                    
             label17.Text = TranslationHandler.GetString("maxPotions", "Max. Potions:");
             label18.Text = TranslationHandler.GetString("maxSuperpotions", "Max. SuperPotions:");
             label19.Text = TranslationHandler.GetString("maxHyperpotions", "Max. HyperPotions:");
             label25.Text = TranslationHandler.GetString("maxToppotions", "Max. TopPotions:");
             label20.Text = TranslationHandler.GetString("maxRazzberrys", "Max. RazzBerrys:");
             label31.Text = TranslationHandler.GetString("totalCount", "Total Count:");
+            label39.Text = TranslationHandler.GetString("device", "Device:");            
             label48.Text = TranslationHandler.GetString("excellentChance", "Excellent chance:");
             label49.Text = TranslationHandler.GetString("greatChance", "Great chance:");
             label50.Text = TranslationHandler.GetString("niceChance", "Nice chance:");
             label51.Text = TranslationHandler.GetString("ordinaryChance", "Ordinary chance:");
+            label54.Text = TranslationHandler.GetString("minIVtoCatch", "Min. IV to Catch:");            
+            label8.Text = TranslationHandler.GetString("minCPtoCatch", "Min. CP to Catch:");                        
             groupBox5.Text = TranslationHandler.GetString("pokemonNotToTransfer", "Pokemons - Not to transfer");
             checkBox4.Text = TranslationHandler.GetString("selectAll", "Select all");
             groupBox6.Text = TranslationHandler.GetString("pokemonNotToCatch", "Pokemons - Not to catch");
@@ -1061,6 +1079,19 @@ namespace PokemonGo.RocketAPI.Console
             checkBox_AutoIncubate.Text = TranslationHandler.GetString("autoIncubate", "Auto incubate");
             checkBox_UseBasicIncubators.Text = TranslationHandler.GetString("useBasicIncubators", "Use basic incubators");
             checkbox_PWDEncryption.Text = TranslationHandler.GetString("pwdEncryption", "Encrypt password on config file");
+            checkBox_SimulateAnimationTimeAtEvolve.Text =  TranslationHandler.GetString("simulateAnimationTimeAtEvolve", "Simulate Animation Times at Evolve"); 
+            checkBox_UseLuckyEggIfNotRunning.Text = TranslationHandler.GetString("useLuckyEggIfNotRunning", "Use LuckyEgg if not running");        
+            checkBox_TransferFirstLowIV.Text = TranslationHandler.GetString("transferFirstLowIV", "TransferFirstLowIV");       
+            groupBox8.Text = TranslationHandler.GetString("missRateandBallChoice", "Miss Rate and Ball Choice");                
+            label22.Text = TranslationHandler.GetString("maxMissedThrowsPerEncounter", "Maximum Missed throws per encounter");       
+            checkBox2.Text = TranslationHandler.GetString("notUsePokeball", "Do not use PokeBalls");            
+            checkBox3.Text = TranslationHandler.GetString("notUseGreatball", "Do not use GreatBalls");    
+            checkBox7.Text = TranslationHandler.GetString("notUseUltraball", "Do not use UltraBalls"); 
+            label23.Text = TranslationHandler.GetString("ifStockbelow", "If stock <=");     
+            label24.Text = label23.Text;
+            label52.Text = label23.Text;       
+            label53.Text = TranslationHandler.GetString("setValueToZero", "(set value to 0 to never use ball type)");         
+            label55.Text = TranslationHandler.GetString("deviceID", "Device ID");                                                 
         }
 
         private void languages_btn_Click(object sender, EventArgs e)
@@ -1073,7 +1104,8 @@ namespace PokemonGo.RocketAPI.Console
                 lang_ptBR_btn,
                 lang_tr_btn,
                 lang_ru_btn,
-                lang_france_btn
+                lang_france_btn,
+                lang_taiwan_btn
 
                 // add the new languages' buttons here
             };

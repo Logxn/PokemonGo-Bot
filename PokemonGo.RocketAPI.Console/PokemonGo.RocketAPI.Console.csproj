@@ -122,7 +122,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ChangesPanel.cs" />
+    <Compile Include="ChangesPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="ChangesPanel.Designer.cs">
       <DependentUpon>ChangesPanel.cs</DependentUpon>
     </Compile>
@@ -133,7 +135,9 @@
       <DependentUpon>EggsPanel.cs</DependentUpon>
     </Compile>
     <Compile Include="Encryption.cs" />
-    <Compile Include="FormChanges.cs" />
+    <Compile Include="FormChanges.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="FormChanges.Designer.cs">
       <DependentUpon>FormChanges.cs</DependentUpon>
     </Compile>
@@ -278,6 +282,7 @@
     <EmbeddedResource Include="Lang\spain.json" />
     <EmbeddedResource Include="Lang\tr.json" />
     <EmbeddedResource Include="Lang\arabic.json" />
+    <EmbeddedResource Include="Lang\taiwan.json" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -549,6 +554,8 @@
     <None Include="Resources\Trainer_F.png" />
     <None Include="Resources\Trainer_M.png" />
     <None Include="Resources\Ninja.bmp" />
+    <None Include="Resources\taiwan.png" />
+    <None Include="Resources\taiwan1.png" />
     <Content Include="Resources\valor.png" />
     <None Include="Resources\start_point.png" />
     <None Include="Resources\151-35.png" />
