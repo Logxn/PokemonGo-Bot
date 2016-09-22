@@ -555,7 +555,6 @@
     <None Include="Resources\Trainer_M.png" />
     <None Include="Resources\Ninja.bmp" />
     <None Include="Resources\taiwan.png" />
-    <None Include="Resources\taiwan1.png" />
     <Content Include="Resources\valor.png" />
     <None Include="Resources\start_point.png" />
     <None Include="Resources\151-35.png" />
