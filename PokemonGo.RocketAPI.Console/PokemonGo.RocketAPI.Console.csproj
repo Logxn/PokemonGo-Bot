@@ -135,12 +135,6 @@
       <DependentUpon>EggsPanel.cs</DependentUpon>
     </Compile>
     <Compile Include="Encryption.cs" />
-    <Compile Include="FormChanges.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FormChanges.Designer.cs">
-      <DependentUpon>FormChanges.cs</DependentUpon>
-    </Compile>
     <Compile Include="GUI.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -243,9 +237,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="EggsPanel.resx">
       <DependentUpon>EggsPanel.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="FormChanges.resx">
-      <DependentUpon>FormChanges.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="IncubatorSelect.resx">
       <DependentUpon>IncubatorSelect.cs</DependentUpon>
