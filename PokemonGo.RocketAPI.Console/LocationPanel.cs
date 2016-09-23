@@ -51,13 +51,13 @@ namespace PokemonGo.RocketAPI.Console
 
             buttonRefreshPokemon.Visible = false;
             buttonRefreshPokemon.Enabled = false;
-            buttonRefreshForts.Visible = false;
+            buttonRefreshForts.Visible = false;            
             this.asViewOnly = asViewOnly;
             panel1.Size = new Size(700,47);            
             if (asViewOnly)
             {
             	panel1.Size = new Size(483,71);
-                initViewOnly(team, level, exp);
+                initViewOnly(team, level, exp);               
             }
         }
 		
@@ -541,7 +541,6 @@ namespace PokemonGo.RocketAPI.Console
             _circle = CreateCircle(new PointLatLng(Globals.latitute, Globals.longitude), Globals.radius, 100);
             routeOverlay.Polygons.Add(_circle);
             
-
             map.Overlays.Add(routeOverlay);
             map.Overlays.Add(_pokeStopsOverlay);
             map.Overlays.Add(_pokemonOverlay);
@@ -775,6 +774,6 @@ namespace PokemonGo.RocketAPI.Console
             _botMarker.ToolTipMode = MarkerTooltipMode.OnMouseOver;
             routeOverlay.Markers.Add(_botMarker);
 			routeOverlay.IsVisibile =true;
-		}	
-	}
+		}        
+    }
 }
