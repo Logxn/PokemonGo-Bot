@@ -565,8 +565,10 @@ namespace PokemonGo.RocketAPI.Logic
             _clientSettings.pauseTheWalking = true;
             if (!pokeballoutofstock && _clientSettings.CatchPokemon)
             {
-                Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "Trying to capture: " + _p._pokeId);
+                Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "Trying to capture: " + _p._pokeId + " at " + _p._lat + " / " + _p._lng);
                 var result = await _client.Player.UpdatePlayerLocation(_p._lat, _p._lng, _clientSettings.DefaultAltitude);
+                Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "Waiting for pokemon to appear...");
+                await RandomHelper.RandomDelay(5000, 6000);
                 StateSniper = true;
                 await ExecuteCatchAllNearbyPokemons();
                 StateSniper = false;
@@ -586,8 +588,10 @@ namespace PokemonGo.RocketAPI.Logic
             {
                 _clientSettings.pauseTheWalking = true;
                 SnipokemonIds = id;
-                Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "Trying to capture: " + id);
+                Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "Trying to capture: " + id + " at " + coord.Latitude + " / " + coord.Longitude);
                 var result = await _client.Player.UpdatePlayerLocation(coord.Latitude, coord.Longitude, _clientSettings.DefaultAltitude);
+                Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "Waiting for pokemon to appear");
+                await RandomHelper.RandomDelay(5000, 6000);
                 StateSniper = true;
                 await ExecuteCatchAllNearbyPokemons();
                 StateSniper = false;
@@ -1395,7 +1399,7 @@ namespace PokemonGo.RocketAPI.Logic
             {
                 if (StateSniper)
                 {
-                    Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "I went to capture the pokemon...");
+                    Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "I found the pokemon we want to capture...");
                     var result = await _client.Player.UpdatePlayerLocation(poke_lat, poke_long, _clientSettings.DefaultAltitude);
                 }
                 encounterPokemonResponse = await _client.Encounter.EncounterPokemon(encounter_id, spawnpoint_id);
