@@ -28,8 +28,8 @@ namespace PokemonGo.RocketAPI.Console
         const string URI_KEY = "URL:pokesniper2 Protocol";
 
         static void RegisterUriScheme(string appPath) {
-            // HKEY_CLASSES_ROOT\myscheme
-            using (RegistryKey hkcrClass = Registry.ClassesRoot.CreateSubKey(URI_SCHEME)) {
+            // HKEY_CLASSES_ROOT\myscheme            
+            using (RegistryKey hkcrClass = Registry.CurrentUser.CreateSubKey("Software\\Classes\\"+ URI_SCHEME)) {
                 hkcrClass.SetValue(null, URI_KEY);
                 hkcrClass.SetValue("URL Protocol", String.Empty, RegistryValueKind.String);
 
@@ -51,7 +51,7 @@ namespace PokemonGo.RocketAPI.Console
             }
         }
         static void UnregisterUriScheme() {
-            Registry.ClassesRoot.DeleteSubKeyTree(URI_SCHEME);
+            Registry.CurrentUser.DeleteSubKeyTree("Software\\Classes\\"+ URI_SCHEME);
         }
         public PokesniperTool()
         {
@@ -72,7 +72,7 @@ namespace PokemonGo.RocketAPI.Console
                 timer1.Enabled = true;
                 
             } catch (Exception) {
-                MessageBox.Show("To execute this option the bot need executed with administrator privileges");
+                MessageBox.Show("Cannot install service.\n"+e.ToString());
             }
         }
         void btnUninstall_Click(object sender, EventArgs e)
@@ -82,7 +82,7 @@ namespace PokemonGo.RocketAPI.Console
                 Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, "Service Uninstalled");
                 timer1.Enabled = false;
             } catch (Exception) {
-                MessageBox.Show("To execute this option the bot need executed with administrator privileges");
+                MessageBox.Show("Cannot uninstall service\n"+e.ToString());
             }
         }
         void timer1_Tick(object sender, EventArgs e)
