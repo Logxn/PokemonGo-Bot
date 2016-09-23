@@ -178,6 +178,10 @@
     <Compile Include="LocationPanel.Designer.cs">
       <DependentUpon>LocationPanel.cs</DependentUpon>
     </Compile>
+    <Compile Include="PokesniperTool.cs" />
+    <Compile Include="PokesniperTool.Designer.cs">
+      <DependentUpon>PokesniperTool.cs</DependentUpon>
+    </Compile>
     <Compile Include="Properties\MapData.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -254,6 +258,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="LocationPanel.resx">
       <DependentUpon>LocationPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PokesniperTool.resx">
+      <DependentUpon>PokesniperTool.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\MapData.resx">
       <Generator>ResXFileCodeGenerator</Generator>

@@ -951,7 +951,10 @@ namespace PokemonGo.RocketAPI.Console
         {
             try
             {
-                //if (Control.ModifierKeys == Keys.Shift ) 
+                if (Control.ModifierKeys == Keys.Shift ) {
+                    new PokesniperTool().Show();
+                    return;
+                }
                 DisplayLocationSelector();
             }
             catch (Exception ex)

@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using PokemonGo.RocketAPI.Exceptions;
 using System.Reflection;
 using System.Net;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
@@ -31,10 +32,36 @@ namespace PokemonGo.RocketAPI.Console
         public static string manualTransferLog = Path.Combine(logPath, "TransferLog.txt");
         public static string EvolveLog = Path.Combine(logPath, "EvolveLog.txt");
         public static string path_pokedata = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "PokeData");       
-
+        
+        static void SharePokesnipperURI(string uri)
+        {
+            try 
+            {
+                var filename = Path.GetTempPath()+"pokesnipper";
+                if (File.Exists(filename)){
+                    MessageBox.Show("There is a pending pokemon.\nTry latter");
+                }
+                var stream = new FileStream(filename,FileMode.OpenOrCreate);
+                var writer = new BinaryWriter(stream,new UTF8Encoding());
+                writer.Write(uri);
+                stream.Close();
+            } 
+            catch (Exception e) 
+            {
+                MessageBox.Show(e.ToString());
+            }
+        }
         [STAThread]
         static void Main(string[] args)
         {
+            if ( args.Length > 0)
+            {
+                if (args[0].Contains("pokesniper2"))
+                {
+                    SharePokesnipperURI(args[0]);
+                    return;
+                }
+            }            
             configureNBug();
             SleepHelper.PreventSleep();
             if (args != null && args.Length > 0)
