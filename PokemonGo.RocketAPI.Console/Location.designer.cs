@@ -6,7 +6,7 @@ namespace PokemonGo.RocketAPI.Console
         /// Required designer variable.
         /// </summary>
         private System.ComponentModel.IContainer components = null;
-        private PokemonGo.RocketAPI.Console.LocationPanel locationPanel1;
+        public PokemonGo.RocketAPI.Console.LocationPanel locationPanel1;
 
         /// <summary>
         /// Clean up any resources being used.
