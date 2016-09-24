@@ -136,7 +136,9 @@
       <DependentUpon>EggsPanel.cs</DependentUpon>
     </Compile>
     <Compile Include="Encryption.cs" />
-    <Compile Include="GameAspectSimulator.cs" />
+    <Compile Include="GameAspectSimulator.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="GameAspectSimulator.Designer.cs">
       <DependentUpon>GameAspectSimulator.cs</DependentUpon>
     </Compile>
@@ -178,7 +180,9 @@
     <Compile Include="LocationPanel.Designer.cs">
       <DependentUpon>LocationPanel.cs</DependentUpon>
     </Compile>
-    <Compile Include="Pokemons.cs" />
+    <Compile Include="Pokemons.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Pokemons.designer.cs">
       <DependentUpon>Pokemons.cs</DependentUpon>
     </Compile>
@@ -195,7 +199,7 @@
     </Compile>
     <Compile Include="PokeData\AdditionalPokeData.cs" />
     <Compile Include="PokemonsPanel.cs">
-      <SubType>Form</SubType>
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="PokemonsPanel.designer.cs">
       <DependentUpon>PokemonsPanel.cs</DependentUpon>
@@ -219,7 +223,9 @@
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="Settings.cs" />
-    <Compile Include="SniperPanel.cs" />
+    <Compile Include="SniperPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="SniperPanel.Designer.cs">
       <DependentUpon>SniperPanel.cs</DependentUpon>
     </Compile>

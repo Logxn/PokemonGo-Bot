@@ -84,7 +84,7 @@ namespace PokemonGo.RocketAPI.Console
             this.map.HelperLineOption = GMap.NET.WindowsForms.HelperLineOptions.DontShow;
             this.map.LevelsKeepInMemmory = 5;
             this.map.Location = new System.Drawing.Point(5, 5);
-            this.map.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.map.Margin = new System.Windows.Forms.Padding(5);
             this.map.MarkersEnabled = true;
             this.map.MaxZoom = 2;
             this.map.MinZoom = 2;
@@ -111,7 +111,7 @@ namespace PokemonGo.RocketAPI.Console
             this.cbShowPokemon.Checked = true;
             this.cbShowPokemon.CheckState = System.Windows.Forms.CheckState.Checked;
             this.cbShowPokemon.Location = new System.Drawing.Point(141, 13);
-            this.cbShowPokemon.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cbShowPokemon.Margin = new System.Windows.Forms.Padding(4);
             this.cbShowPokemon.Name = "cbShowPokemon";
             this.cbShowPokemon.Size = new System.Drawing.Size(127, 21);
             this.cbShowPokemon.TabIndex = 22;
@@ -125,7 +125,7 @@ namespace PokemonGo.RocketAPI.Console
             this.buttonRefreshPokemon.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.buttonRefreshPokemon.AutoSize = true;
             this.buttonRefreshPokemon.Location = new System.Drawing.Point(311, 2);
-            this.buttonRefreshPokemon.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.buttonRefreshPokemon.Margin = new System.Windows.Forms.Padding(4);
             this.buttonRefreshPokemon.Name = "buttonRefreshPokemon";
             this.buttonRefreshPokemon.Size = new System.Drawing.Size(164, 34);
             this.buttonRefreshPokemon.TabIndex = 20;
@@ -141,7 +141,7 @@ namespace PokemonGo.RocketAPI.Console
             this.cbShowPokeStops.Checked = true;
             this.cbShowPokeStops.CheckState = System.Windows.Forms.CheckState.Checked;
             this.cbShowPokeStops.Location = new System.Drawing.Point(5, 13);
-            this.cbShowPokeStops.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.cbShowPokeStops.Margin = new System.Windows.Forms.Padding(5);
             this.cbShowPokeStops.Name = "cbShowPokeStops";
             this.cbShowPokeStops.Size = new System.Drawing.Size(129, 21);
             this.cbShowPokeStops.TabIndex = 19;
@@ -155,7 +155,7 @@ namespace PokemonGo.RocketAPI.Console
             this.buttonRefreshForts.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.buttonRefreshForts.AutoSize = true;
             this.buttonRefreshForts.Location = new System.Drawing.Point(480, 2);
-            this.buttonRefreshForts.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.buttonRefreshForts.Margin = new System.Windows.Forms.Padding(4);
             this.buttonRefreshForts.Name = "buttonRefreshForts";
             this.buttonRefreshForts.Size = new System.Drawing.Size(172, 34);
             this.buttonRefreshForts.TabIndex = 21;
@@ -168,7 +168,7 @@ namespace PokemonGo.RocketAPI.Console
             // 
             this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.button1.Location = new System.Drawing.Point(705, 62);
-            this.button1.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.button1.Margin = new System.Windows.Forms.Padding(5);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(166, 29);
             this.button1.TabIndex = 18;
@@ -213,7 +213,7 @@ namespace PokemonGo.RocketAPI.Console
             // 
             this.textBox3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.textBox3.Location = new System.Drawing.Point(539, 65);
-            this.textBox3.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.textBox3.Margin = new System.Windows.Forms.Padding(5);
             this.textBox3.Name = "textBox3";
             this.textBox3.Size = new System.Drawing.Size(155, 22);
             this.textBox3.TabIndex = 14;
@@ -222,7 +222,7 @@ namespace PokemonGo.RocketAPI.Console
             // 
             this.textBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.textBox2.Location = new System.Drawing.Point(311, 65);
-            this.textBox2.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.textBox2.Margin = new System.Windows.Forms.Padding(5);
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(155, 22);
             this.textBox2.TabIndex = 13;
@@ -232,7 +232,7 @@ namespace PokemonGo.RocketAPI.Console
             // 
             this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.textBox1.Location = new System.Drawing.Point(69, 65);
-            this.textBox1.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.textBox1.Margin = new System.Windows.Forms.Padding(5);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(155, 22);
             this.textBox1.TabIndex = 12;
@@ -256,7 +256,7 @@ namespace PokemonGo.RocketAPI.Console
             this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.label3);
             this.panel1.Location = new System.Drawing.Point(2, 419);
-            this.panel1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.panel1.Margin = new System.Windows.Forms.Padding(4);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(878, 92);
             this.panel1.TabIndex = 23;
@@ -265,7 +265,7 @@ namespace PokemonGo.RocketAPI.Console
             // 
             this.btnGetPoints.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnGetPoints.Location = new System.Drawing.Point(464, 36);
-            this.btnGetPoints.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.btnGetPoints.Margin = new System.Windows.Forms.Padding(5);
             this.btnGetPoints.Name = "btnGetPoints";
             this.btnGetPoints.Size = new System.Drawing.Size(135, 29);
             this.btnGetPoints.TabIndex = 25;
@@ -288,18 +288,17 @@ namespace PokemonGo.RocketAPI.Console
             // 
             this.tbAddress.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.tbAddress.Location = new System.Drawing.Point(69, 36);
-            this.tbAddress.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
+            this.tbAddress.Margin = new System.Windows.Forms.Padding(5);
             this.tbAddress.Name = "tbAddress";
             this.tbAddress.Size = new System.Drawing.Size(389, 22);
             this.tbAddress.TabIndex = 23;
             // 
             // LocationPanel
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.map);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "LocationPanel";
             this.Size = new System.Drawing.Size(886, 514);
             this.panel1.ResumeLayout(false);
