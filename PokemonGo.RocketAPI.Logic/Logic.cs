@@ -88,6 +88,7 @@ namespace PokemonGo.RocketAPI.Logic
         //Snipe vars
         private readonly PokeSnipers _pokeSnipers;
         private bool StateSniper = false;
+        private bool SniperReturn = false;
 
         public Logic(ISettings clientSettings, LogicInfoObservable infoObservable)
         {
@@ -569,10 +570,12 @@ namespace PokemonGo.RocketAPI.Logic
 
         private async Task CapturarSniper(spottedPokeSni _p)
         {
-            Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "Trying to capture: " + _p._pokeId);
+            Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "Trying to capture " + _p._pokeId + " at " + _p._lat + " / " + _p._lng);
             var result = await _client.Player.UpdatePlayerLocation(_p._lat, _p._lng, _clientSettings.DefaultAltitude);
-            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "I went to capture the pokemon...");
+            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Went to sniping location. Waiting for Pokemon to appear...");
+            await RandomHelper.RandomDelay(5000, 6000);
             StateSniper = true;
+            SniperReturn = false;
             await ExecuteCatchAllNearbyPokemons();
             StateSniper = false;
         }
@@ -582,10 +585,12 @@ namespace PokemonGo.RocketAPI.Logic
             try
             {
                 SnipokemonIds = id;
-                Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "Trying to capture: " + id);
+                Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "Trying to capture " + id + " at " + coord.Latitude + " / " + coord.Longitude);
                 var result = await _client.Player.UpdatePlayerLocation(coord.Latitude, coord.Longitude, _clientSettings.DefaultAltitude);
-                Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "I went to capture the pokemon...");
+                Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Went to sniping location. Waiting for Pokemon to appear...");
+                await RandomHelper.RandomDelay(5000, 6000);
                 StateSniper = true;
+                SniperReturn = false;
                 await ExecuteCatchAllNearbyPokemons();
                 StateSniper = false;
                 return true;
@@ -1465,8 +1470,8 @@ namespace PokemonGo.RocketAPI.Logic
             {
                 if (StateSniper)
                 {
-                    // I think we were doing this twice!             
-                    //var result = await _client.Player.UpdatePlayerLocation(poke_lat, poke_long, _clientSettings.DefaultAltitude);
+                    // I think we were doing this twice! Yes, we are because otherwise bot can not catch multiple pokemon. Example: We snipe Squirtle, but there are 3 of them. 
+                    if (SniperReturn) { var result = await _client.Player.UpdatePlayerLocation(poke_lat, poke_long, _clientSettings.DefaultAltitude); }
                 }
                 encounterPokemonResponse = await _client.Encounter.EncounterPokemon(encounter_id, spawnpoint_id);
             }
@@ -1475,7 +1480,8 @@ namespace PokemonGo.RocketAPI.Logic
                 if (StateSniper)
                 {
                     var result = await _client.Player.UpdatePlayerLocation(_clientSettings.DefaultLatitude, _clientSettings.DefaultLongitude, _clientSettings.DefaultAltitude);
-                    Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "I returned before starting the capture (trick)...");
+                    Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "I found it! Returning before starting the capture (trick)...");
+                    SniperReturn = true;
                 }
             }
             if (encounterPokemonResponse.Status == EncounterResponse.Types.Status.EncounterSuccess)
@@ -1684,7 +1690,7 @@ namespace PokemonGo.RocketAPI.Logic
             int Pb_Nice = _clientSettings.Pb_Nice;
             int Pb_Ordinary = _clientSettings.Pb_Ordinary;
             var r = new Random();
-            int rInt = r.Next(0, 99);
+            int rInt = r.Next(0, 100);
             #endregion
 
             #region Randomize Throw Type
