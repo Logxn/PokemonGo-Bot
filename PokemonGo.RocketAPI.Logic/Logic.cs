@@ -588,7 +588,7 @@ namespace PokemonGo.RocketAPI.Logic
                 Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "Trying to capture " + id + " at " + coord.Latitude + " / " + coord.Longitude);
                 var result = await _client.Player.UpdatePlayerLocation(coord.Latitude, coord.Longitude, _clientSettings.DefaultAltitude);
                 Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Went to sniping location. Waiting for Pokemon to appear...");
-                await RandomHelper.RandomDelay(1000, 2000);
+                await RandomHelper.RandomDelay(5000, 6000);
                 StateSniper = true;
                 SniperReturn = false;
                 await ExecuteCatchAllNearbyPokemons();
@@ -641,7 +641,6 @@ namespace PokemonGo.RocketAPI.Logic
                 {
                     salir = false;
                     Logger.ColoredConsoleWrite(ConsoleColor.Green, "Returning to the starting point...");
-                    var update = await _navigation.HumanLikeWalking(new GeoCoordinate(_clientSettings.DefaultLatitude, _clientSettings.DefaultLongitude), _clientSettings.WalkingSpeedInKilometerPerHour, ExecuteCatchAllNearbyPokemons);
                     break;
                 }
                 if (i2 % 10 == 0) Logger.ColoredConsoleWrite(ConsoleColor.Blue, "Distance from starting point: " + distancia.ToString() + " metros...");

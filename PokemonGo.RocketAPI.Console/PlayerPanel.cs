@@ -6,19 +6,19 @@
  * 
  * To change this template use Tools | Options | Coding | Edit Standard Headers.
  */
+
 using System;
-using System.ComponentModel;
 using System.Drawing;
-using System.Windows.Forms;
-using POGOProtos.Networking.Responses;
-using POGOProtos.Enums;
-using POGOProtos.Data;
-using PokemonGo.RocketAPI.Logic.Utils;
-using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Collections;
+using System.Windows.Forms;
+using System.Globalization;
+using System.Collections.Generic;
+using POGOProtos.Data;
+using POGOProtos.Enums;
 using POGOProtos.Map.Fort;
+using POGOProtos.Networking.Responses;
+using PokemonGo.RocketAPI.Logic.Utils;
 
 namespace PokemonGo.RocketAPI.Console
 {
@@ -35,10 +35,6 @@ namespace PokemonGo.RocketAPI.Console
             // The InitializeComponent() call is required for Windows Forms designer support.
             //
             InitializeComponent();
-
-            //
-            // TODO: Add constructor code after the InitializeComponent() call.
-            //
 
             pictureBoxBuddyPokemon.Visible = false;
             pictureBoxPlayerAvatar.Visible = false;
@@ -57,6 +53,17 @@ namespace PokemonGo.RocketAPI.Console
             set
             {
                 buddyInfoEnabled = value;
+            }
+        }
+
+        public async void Execute()
+        {
+            var client = Logic.Logic._client;
+            if (client.readyToUse != false)
+            {
+                profile = await client.Player.GetPlayer();
+                updatePlayerImages();
+                updatePlayerInfoLabels();
             }
         }
 

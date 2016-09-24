@@ -22,6 +22,7 @@ namespace PokemonGo.RocketAPI.Console
         private System.Windows.Forms.PictureBox btnPicConfig;
         private System.Windows.Forms.PictureBox btnPicClose;
         private System.Windows.Forms.PictureBox btnPicSnipe;
+        private System.Windows.Forms.PictureBox btnPicProfile;
         
         /// <summary>
         /// Disposes resources used by the form.
@@ -53,6 +54,7 @@ namespace PokemonGo.RocketAPI.Console
             this.btnPicConfig = new System.Windows.Forms.PictureBox();
             this.btnPicClose = new System.Windows.Forms.PictureBox();
             this.btnPicSnipe = new System.Windows.Forms.PictureBox();
+            this.btnPicProfile = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.btnPicMenu)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnPicPokes)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnPicEggs)).BeginInit();
@@ -60,6 +62,7 @@ namespace PokemonGo.RocketAPI.Console
             ((System.ComponentModel.ISupportInitialize)(this.btnPicConfig)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnPicClose)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnPicSnipe)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.btnPicProfile)).BeginInit();
             this.SuspendLayout();
             // 
             // locationPanel1
@@ -76,13 +79,13 @@ namespace PokemonGo.RocketAPI.Console
             // 
             this.btnPicMenu.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.btnPicMenu.Image = ((System.Drawing.Image)(resources.GetObject("btnPicMenu.Image")));
-            this.btnPicMenu.Location = new System.Drawing.Point(386, 550);
+            this.btnPicMenu.Location = new System.Drawing.Point(384, 550);
             this.btnPicMenu.Name = "btnPicMenu";
             this.btnPicMenu.Size = new System.Drawing.Size(35, 35);
             this.btnPicMenu.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.btnPicMenu.TabIndex = 1;
             this.btnPicMenu.TabStop = false;
-            this.btnPicMenu.Click += new System.EventHandler(this.pictureBox1_Click);
+            this.btnPicMenu.Click += new System.EventHandler(this.btnPicMenu_Click);
             // 
             // btnPicPokes
             // 
@@ -108,7 +111,7 @@ namespace PokemonGo.RocketAPI.Console
             this.btnPicEggs.TabIndex = 3;
             this.btnPicEggs.TabStop = false;
             this.btnPicEggs.Visible = false;
-            this.btnPicEggs.Click += new System.EventHandler(this.pictureBox3_Click);
+            this.btnPicEggs.Click += new System.EventHandler(this.btnPicEggs_Click);
             // 
             // btnPicItems
             // 
@@ -141,7 +144,7 @@ namespace PokemonGo.RocketAPI.Console
             // 
             this.btnPicClose.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.btnPicClose.Image = ((System.Drawing.Image)(resources.GetObject("btnPicClose.Image")));
-            this.btnPicClose.Location = new System.Drawing.Point(386, 549);
+            this.btnPicClose.Location = new System.Drawing.Point(388, 549);
             this.btnPicClose.Name = "btnPicClose";
             this.btnPicClose.Size = new System.Drawing.Size(40, 36);
             this.btnPicClose.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
@@ -164,11 +167,24 @@ namespace PokemonGo.RocketAPI.Console
             this.btnPicSnipe.Visible = false;
             this.btnPicSnipe.Click += new System.EventHandler(this.btnSnipe_Click);
             // 
+            // btnPicProfile
+            // 
+            this.btnPicProfile.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnPicProfile.Image = ((System.Drawing.Image)(resources.GetObject("btnPicProfile.Image")));
+            this.btnPicProfile.Location = new System.Drawing.Point(13, 545);
+            this.btnPicProfile.Name = "btnPicProfile";
+            this.btnPicProfile.Size = new System.Drawing.Size(49, 40);
+            this.btnPicProfile.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.btnPicProfile.TabIndex = 9;
+            this.btnPicProfile.TabStop = false;
+            this.btnPicProfile.Click += new System.EventHandler(this.btnPicProfile_Click);
+            // 
             // GameAspectSimulator
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(787, 588);
+            this.Controls.Add(this.btnPicProfile);
             this.Controls.Add(this.btnPicSnipe);
             this.Controls.Add(this.btnPicClose);
             this.Controls.Add(this.btnPicConfig);
@@ -188,6 +204,7 @@ namespace PokemonGo.RocketAPI.Console
             ((System.ComponentModel.ISupportInitialize)(this.btnPicConfig)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnPicClose)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnPicSnipe)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.btnPicProfile)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
