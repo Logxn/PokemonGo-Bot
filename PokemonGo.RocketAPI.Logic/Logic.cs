@@ -641,6 +641,7 @@ namespace PokemonGo.RocketAPI.Logic
                 {
                     salir = false;
                     Logger.ColoredConsoleWrite(ConsoleColor.Green, "Returning to the starting point...");
+                    var update = await _navigation.HumanLikeWalking(new GeoCoordinate(_clientSettings.DefaultLatitude, _clientSettings.DefaultLongitude), _clientSettings.WalkingSpeedInKilometerPerHour, ExecuteCatchAllNearbyPokemons);
                     break;
                 }
                 if (i2 % 10 == 0) Logger.ColoredConsoleWrite(ConsoleColor.Blue, "Distance from starting point: " + distancia.ToString() + " metros...");
