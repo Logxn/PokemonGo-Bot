@@ -41,15 +41,15 @@ using System.Device.Location;
 namespace PokemonGo.RocketAPI.Console
 {
     /// <summary>
-    /// Description of GameSimulator.
+    /// Description of GameAspectSimulator.
     /// </summary>
-    public partial class GameSimulator : Form
+    public partial class GameAspectSimulator : Form
     {
         UserControl panel  = null;
         private const AnchorStyles allAnchors = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-        public GameSimulator()
+        public GameAspectSimulator()
         {
             //
             // The InitializeComponent() call is required for Windows Forms designer support.
@@ -138,5 +138,27 @@ namespace PokemonGo.RocketAPI.Console
             locationPanel1.Visible=false;
           
         }
+        void btnSnipe_Click(object sender, EventArgs e)
+        {
+            setVisiblePics(false);
+            btnPicMenu.Visible = false;
+            panel  = new SniperPanel();
+            panel.Anchor = allAnchors;
+            panel.Location = new Point (1,1);
+            panel.Size = new Size(this.Size.Width -10, this.Size.Height -55);
+            panel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            Controls.Add(panel);
+            panel.Visible = true;
+            ((SniperPanel)panel).Execute();
+            btnPicClose.Visible = true;
+            locationPanel1.Visible=false;
+          
+        }
+        private void This_Close(object sender, FormClosingEventArgs e)
+        {
+            e.Cancel = true;
+            this.WindowState = FormWindowState.Minimized;
+        }
+        
     }
 }

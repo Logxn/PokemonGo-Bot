@@ -37,7 +37,7 @@ namespace PokemonGo.RocketAPI.Console
         {
             try 
             {
-                var filename = Path.GetTempPath()+"pokesnipper";
+                var filename = Path.GetTempPath()+"pokesniper";
                 if (File.Exists(filename)){
                     MessageBox.Show("There is a pending pokemon.\nTry latter");
                 }
@@ -125,8 +125,13 @@ namespace PokemonGo.RocketAPI.Console
                 {
                     Task.Run(() =>
                     {
-                        Pokemons pokemonList = new Pokemons();
+                        if (Globals.simulatedPGO){
+                        var pokemonList = new GameAspectSimulator();
                         pokemonList.ShowDialog();
+                                 }else{
+                        var pokemonList = new Pokemons();
+                        pokemonList.ShowDialog();
+                                 }
                     });
                 }                
             }
@@ -377,6 +382,7 @@ namespace PokemonGo.RocketAPI.Console
         public static int MinCPtoCatch = 0;
         public static int MinIVtoCatch = 0;
         public static bool AvoidRegionLock = true;
-        public static bool ForceSnipe = false;             
+        public static bool ForceSnipe = false;
+        public static bool simulatedPGO = false;
     }
 }

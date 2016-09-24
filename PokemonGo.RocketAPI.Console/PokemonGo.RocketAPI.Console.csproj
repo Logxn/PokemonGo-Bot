@@ -135,9 +135,7 @@
     <Compile Include="EggsPanel.Designer.cs">
       <DependentUpon>EggsPanel.cs</DependentUpon>
     </Compile>
-    <Compile Include="Encryption.cs">
-      <DependentUpon>GameAspectSimulator.cs</DependentUpon>
-    </Compile>
+    <Compile Include="Encryption.cs" />
     <Compile Include="GameAspectSimulator.cs" />
     <Compile Include="GameAspectSimulator.Designer.cs">
       <DependentUpon>GameAspectSimulator.cs</DependentUpon>
@@ -184,10 +182,6 @@
     <Compile Include="Pokemons.designer.cs">
       <DependentUpon>Pokemons.cs</DependentUpon>
     </Compile>
-    <Compile Include="PokesniperTool.cs" />
-    <Compile Include="PokesniperTool.Designer.cs">
-      <DependentUpon>PokesniperTool.cs</DependentUpon>
-    </Compile>
     <Compile Include="Properties\MapData.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -225,6 +219,10 @@
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="Settings.cs" />
+    <Compile Include="SniperPanel.cs" />
+    <Compile Include="SniperPanel.Designer.cs">
+      <DependentUpon>SniperPanel.cs</DependentUpon>
+    </Compile>
     <Compile Include="TeamSelect.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -268,15 +266,15 @@
     <EmbeddedResource Include="Pokemons.resx">
       <DependentUpon>Pokemons.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="PokesniperTool.resx">
-      <DependentUpon>PokesniperTool.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Properties\MapData.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>MapData.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="PlayerPanel.resx">
       <DependentUpon>PlayerPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SniperPanel.resx">
+      <DependentUpon>SniperPanel.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TeamSelect.resx">
       <DependentUpon>TeamSelect.cs</DependentUpon>

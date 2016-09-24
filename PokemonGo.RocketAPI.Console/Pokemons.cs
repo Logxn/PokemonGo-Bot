@@ -41,7 +41,7 @@ namespace PokemonGo.RocketAPI.Console
         static Profile ActiveProfile = new Profile();
         private static IOrderedEnumerable<PokemonData> pokemons;
         private static List<AdditionalPokeData> additionalPokeData = new List<AdditionalPokeData>();
-        static Dictionary<string, int> pokeIDS = new Dictionary<string, int>();
+        
 
         private void loadAdditionalPokeData()
         {
@@ -149,26 +149,7 @@ namespace PokemonGo.RocketAPI.Console
 
                     var myPokemonFamilies = inventory.InventoryDelta.InventoryItems.Select(i => i.InventoryItemData?.Candy).Where(p => p != null && p?.FamilyId != PokemonFamilyId.FamilyUnset);
                     var pokemonFamilies = myPokemonFamilies.ToArray();
-                    SnipePokemonPokeCom.Checked = Globals.SnipePokemon;
-                    AvoidRegionLock.Checked = Globals.AvoidRegionLock;
-                    int ie = 1;
-                    var pokemonControlSource = new System.Collections.Generic.List<PokemonId>();        
-                    foreach (PokemonId pokemon in Enum.GetValues(typeof(PokemonId)))
-                    {
-                        if (pokemon.ToString() != "Missingno")
-                        {
-                            pokeIDS[pokemon.ToString()] = ie;                            
-                            checkedListBox_NotToSnipe.Items.Add(pokemon.ToString());                            
-                            ie++;
-                            pokemonControlSource.Add(pokemon);
-                        }
-                    }
-                    comboBox1.DataSource = pokemonControlSource;
-                    foreach (PokemonId Id in Globals.NotToSnipe)
-                    {
-                        string _id = Id.ToString();
-                        checkedListBox_NotToSnipe.SetItemChecked(pokeIDS[_id] - 1, true);
-                    }
+                    
                     PokemonListView.BeginUpdate();
                     foreach (var pokemon in pokemons)
                     {
@@ -254,27 +235,9 @@ namespace PokemonGo.RocketAPI.Console
                     var arrStats = await client.Inventory.GetPlayerStats();
                     stats = arrStats.First();
 
-                    #region populate fields from settings
-                    itemsPanel1.num_MaxPokeballs.Value = Globals.pokeball;
-                    itemsPanel1.num_MaxGreatBalls.Value = Globals.greatball;
-                    itemsPanel1.num_MaxUltraBalls.Value = Globals.ultraball;
-                    itemsPanel1.num_MaxRevives.Value = Globals.revive;
-                    itemsPanel1.num_MaxPotions.Value = Globals.potion;
-                    itemsPanel1.num_MaxSuperPotions.Value = Globals.superpotion;
-                    itemsPanel1.num_MaxHyperPotions.Value = Globals.hyperpotion;
-                    itemsPanel1.num_MaxRazzBerrys.Value = Globals.berry;
-                    itemsPanel1.num_MaxTopRevives.Value = Globals.toprevive;
-                    itemsPanel1.num_MaxTopPotions.Value = Globals.toppotion;
-                    int count = 0;
-                    count += Globals.pokeball + Globals.greatball + Globals.ultraball + Globals.revive
-                        + Globals.potion + Globals.superpotion + Globals.hyperpotion + Globals.berry
-                        + Globals.toprevive + Globals.toppotion;
-                    itemsPanel1.text_TotalItemCount.Text = count.ToString();
-
-                    #endregion
-
                     playerPanel1.Execute(profile, pokemons);
                     locationPanel1.CreateBotMarker((int)profile.PlayerData.Team, stats.Level, stats.Experience);
+                    sniperPanel1.Execute();
                 }
             }
             catch (Exception e)
@@ -1302,49 +1265,6 @@ namespace PokemonGo.RocketAPI.Console
             }
         }
 
-        private void button5_Click(object sender, EventArgs e)
-        {
-            Globals.NotToSnipe.Clear();
-            foreach (string pokemon in checkedListBox_NotToSnipe.CheckedItems)
-            {
-                Globals.NotToSnipe.Add((PokemonId)Enum.Parse(typeof(PokemonId), pokemon));
-            }
-            MessageBox.Show("This setting will only affect current session unless you update configuration on the \"Change Options\" Tab");
-        }
-
-        private void SnipeMe_Click(object sender, EventArgs e)
-        {
-            Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "Manual Snipe Triggered! We'll stop farming and go catch the pokemon ASAP");
-            ManualSnipePokemon.ID = (PokemonId)comboBox1.SelectedItem;
-            SnipeInfo.Text = "";
-            Globals.ForceSnipe = true;
-        }
-
-        private void SnipePokemonPokeCom_CheckedChanged(object sender, EventArgs e)
-        {
-            Globals.SnipePokemon = SnipePokemonPokeCom.Checked;
-        }
-
-        private void AvoidRegionLock_CheckedChanged(object sender, EventArgs e)
-        {
-            Globals.AvoidRegionLock = AvoidRegionLock.Checked;
-        }
-
-        private void SelectallNottoSnipe_CheckedChanged(object sender, EventArgs e)
-        {
-            int i = 0;
-            while (i < checkedListBox_NotToSnipe.Items.Count)
-            {
-                checkedListBox_NotToSnipe.SetItemChecked(i, SelectallNottoSnipe.Checked);
-                i++;
-            }
-        }
-
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            var pokemonImage = GetPokemonVeryLargeImage((PokemonId)comboBox1.SelectedValue);
-            PokemonImage.Image = pokemonImage;
-        }
         
         private void RepeatRoute_CheckedChanged(object sender, EventArgs e)
         {
@@ -1388,119 +1308,5 @@ namespace PokemonGo.RocketAPI.Console
             Globals.ForceSnipe = true;
         }
 
-        private void SnipeInfo_TextChanged(object sender, EventArgs e)
-        {
-            try
-            {
-                var array = SnipeInfo.Text.Split(',');
-                var lat = double.Parse(array[0]);
-                var lng = double.Parse(array[1]);
-                ManualSnipePokemon.Location = new GeoCoordinate(lat, lng);
-            }
-            catch
-            {
-                //do nothing
-            }
-            if (ManualSnipePokemon.Location != null)
-                SnipeMe.Enabled = true;
-        }
-    }
-
-    public static class ControlExtensions
-    {
-        public static void DoubleBuffered(this Control control, bool enable)
-        {
-            var doubleBufferPropertyInfo = control.GetType().GetProperty("DoubleBuffered", BindingFlags.Instance | BindingFlags.NonPublic);
-            doubleBufferPropertyInfo.SetValue(control, enable, null);
-        }
-    }
-    // Compares two ListView items based on a selected column.
-    public class ListViewComparer : System.Collections.IComparer
-    {
-        private int ColumnNumber;
-        private SortOrder SortOrder;
-
-        public ListViewComparer(int column_number, SortOrder sort_order)
-        {
-            ColumnNumber = column_number;
-            SortOrder = sort_order;
-        }
-
-        // Compare two ListViewItems.
-        public int Compare(object object_x, object object_y)
-        {
-            // Get the objects as ListViewItems.
-            ListViewItem item_x = object_x as ListViewItem;
-            ListViewItem item_y = object_y as ListViewItem;
-
-            // Get the corresponding sub-item values.
-            string string_x;
-            if (item_x.SubItems.Count <= ColumnNumber)
-            {
-                string_x = "";
-            }
-            else
-            {
-                string_x = item_x.SubItems[ColumnNumber].Text;
-            }
-
-            string string_y;
-            if (item_y.SubItems.Count <= ColumnNumber)
-            {
-                string_y = "";
-            }
-            else
-            {
-                string_y = item_y.SubItems[ColumnNumber].Text;
-            }
-
-            if (ColumnNumber == 2) //IV
-            {
-                string_x = string_x.Substring(0, string_x.IndexOf("%"));
-                string_y = string_y.Substring(0, string_y.IndexOf("%"));
-
-            }
-            else if (ColumnNumber == 7) //HP
-            {
-                string_x = string_x.Substring(0, string_x.IndexOf("/"));
-                string_y = string_y.Substring(0, string_y.IndexOf("/"));
-            }
-
-            // Compare them.
-            int result;
-            double double_x, double_y;
-            if (double.TryParse(string_x, out double_x) &&
-                double.TryParse(string_y, out double_y))
-            {
-                // Treat as a number.
-                result = double_x.CompareTo(double_y);
-            }
-            else
-            {
-                DateTime date_x, date_y;
-                if (DateTime.TryParse(string_x, out date_x) &&
-                    DateTime.TryParse(string_y, out date_y))
-                {
-                    // Treat as a date.
-                    result = date_x.CompareTo(date_y);
-                }
-                else
-                {
-                    // Treat as a string.
-                    result = string_x.CompareTo(string_y);
-                }
-            }
-
-            // Return the correct result depending on whether
-            // we're sorting ascending or descending.
-            if (SortOrder == SortOrder.Ascending)
-            {
-                return result;
-            }
-            else
-            {
-                return -result;
-            }
-        }
     }
 }

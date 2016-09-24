@@ -8,7 +8,7 @@
  */
 namespace PokemonGo.RocketAPI.Console
 {
-    partial class GameSimulator
+    partial class GameAspectSimulator
     {
         /// <summary>
         /// Designer variable used to keep track of non-visual components.
@@ -21,6 +21,7 @@ namespace PokemonGo.RocketAPI.Console
         private System.Windows.Forms.PictureBox btnPicItems;
         private System.Windows.Forms.PictureBox btnPicConfig;
         private System.Windows.Forms.PictureBox btnPicClose;
+        private System.Windows.Forms.Button btnSnipe;
         
         /// <summary>
         /// Disposes resources used by the form.
@@ -43,7 +44,7 @@ namespace PokemonGo.RocketAPI.Console
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GameSimulator));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GameAspectSimulator));
             this.locationPanel1 = new PokemonGo.RocketAPI.Console.LocationPanel();
             this.btnPicMenu = new System.Windows.Forms.PictureBox();
             this.btnPicPokes = new System.Windows.Forms.PictureBox();
@@ -51,6 +52,7 @@ namespace PokemonGo.RocketAPI.Console
             this.btnPicItems = new System.Windows.Forms.PictureBox();
             this.btnPicConfig = new System.Windows.Forms.PictureBox();
             this.btnPicClose = new System.Windows.Forms.PictureBox();
+            this.btnSnipe = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.btnPicMenu)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnPicPokes)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnPicEggs)).BeginInit();
@@ -147,11 +149,23 @@ namespace PokemonGo.RocketAPI.Console
             this.btnPicClose.Visible = false;
             this.btnPicClose.Click += new System.EventHandler(this.btnPicClose_Click);
             // 
-            // GameSimulator
+            // btnSnipe
+            // 
+            this.btnSnipe.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnSnipe.Location = new System.Drawing.Point(700, 562);
+            this.btnSnipe.Name = "btnSnipe";
+            this.btnSnipe.Size = new System.Drawing.Size(75, 23);
+            this.btnSnipe.TabIndex = 7;
+            this.btnSnipe.Text = "Snipe";
+            this.btnSnipe.UseVisualStyleBackColor = true;
+            this.btnSnipe.Click += new System.EventHandler(this.btnSnipe_Click);
+            // 
+            // GameAspectSimulator
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(787, 588);
+            this.Controls.Add(this.btnSnipe);
             this.Controls.Add(this.btnPicClose);
             this.Controls.Add(this.btnPicConfig);
             this.Controls.Add(this.btnPicItems);
@@ -159,8 +173,10 @@ namespace PokemonGo.RocketAPI.Console
             this.Controls.Add(this.btnPicPokes);
             this.Controls.Add(this.btnPicMenu);
             this.Controls.Add(this.locationPanel1);
-            this.Name = "GameSimulator";
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Name = "GameAspectSimulator";
             this.Text = "GameSimulator";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.This_Close);
             ((System.ComponentModel.ISupportInitialize)(this.btnPicMenu)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnPicPokes)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnPicEggs)).EndInit();
@@ -171,5 +187,7 @@ namespace PokemonGo.RocketAPI.Console
             this.PerformLayout();
 
         }
+        
     }
+    
 }
