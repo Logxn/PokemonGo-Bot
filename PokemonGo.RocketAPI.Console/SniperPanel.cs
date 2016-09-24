@@ -195,7 +195,9 @@ namespace PokemonGo.RocketAPI.Console
                     txt = txt.Replace("pokesniper2://","");
                     var splt = txt.Split('/');
                     SplitLatLng(splt[1]);
-                    SnipePoke( (PokemonId)Enum.Parse(typeof(PokemonId), ToCapital(splt[0])));
+                    SnipePoke( (PokemonId)Enum.Parse(typeof(PokemonId), splt[0]));
+                    //ToCapital fails with MrMime
+                    //SnipePoke( (PokemonId)Enum.Parse(typeof(PokemonId), ToCapital(splt[0])));
                 }
             } catch (Exception ex) {
                 MessageBox.Show( ex.ToString());
