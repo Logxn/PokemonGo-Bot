@@ -462,14 +462,14 @@ namespace PokemonGo.RocketAPI.Console
                                     }
                                     var ImageSize = new System.Drawing.Size(pokebitMap.Width, pokebitMap.Height);
                                     guardPokemonMarker = new GMarkerGoogle(new PointLatLng(pokeGym.Latitude, pokeGym.Longitude), pokebitMap);
-                                    offsetY = -pokebitMap.Height/2;
+                                    offsetY = 5-pokebitMap.Height/2;
                                 }
                                 else
                                 {
                                     guardPokemonMarker = new GMarkerGoogle(new PointLatLng(pokeGym.Latitude, pokeGym.Longitude), GMarkerGoogleType.green_small);
                                     
                                 }
-                                guardPokemonMarker.Offset = new Point(-bitmap.Width/2, offsetY-bitmap.Height);
+                                guardPokemonMarker.Offset = new Point(-bitmap.Width/2-8, offsetY-bitmap.Height);
                                 _pokeGymsMarks.Add(pokeGym.Id+"-"+pokeGym.GuardPokemonId, guardPokemonMarker);
                                 _pokeGymsOverlay.Markers.Add(guardPokemonMarker);
                             }
