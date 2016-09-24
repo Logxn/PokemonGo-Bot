@@ -49,15 +49,19 @@ namespace PokemonGo.RocketAPI.Console
 	               ItemId[] validsIDs = {ItemId.ItemPokeBall,ItemId.ItemGreatBall,ItemId.ItemUltraBall};
 	               
 	               ListViewItem listViewItem;
+	               ItemsListView.Items.Clear();
+	               var sum = 0;
 	               foreach (  var item in items) {
 	                listViewItem = new ListViewItem();
 	                listViewItem.Tag = item;
 	                listViewItem.Text = getItemName(item.ItemId);
 	                listViewItem.ImageKey = item.ItemId.ToString().Replace("Item","");
 	                listViewItem.SubItems.Add(""+item.Count);
+	                sum +=item.Count;
 	                listViewItem.SubItems.Add(""+item.Unseen);
 	                ItemsListView.Items.Add(listViewItem);
 	               }
+	               lblCount.Text=""+ sum;
 	            }
             }
             catch (Exception e)
@@ -90,8 +94,6 @@ namespace PokemonGo.RocketAPI.Console
                     return "Great Ball";
                 case ItemId.ItemUltraBall:
                     return "Ultra Ball";
-                case ItemId.ItemMasterBall:
-                    return "Master Ball";
                 case ItemId.ItemRazzBerry:
                     return "Razz Berry";
                 case ItemId.ItemIncubatorBasic:
@@ -162,9 +164,9 @@ namespace PokemonGo.RocketAPI.Console
         	try{
         		var numB = (NumericUpDown) sender;
         		var value = (int) numB.Value;
-                Logger.ColoredConsoleWrite(ConsoleColor.DarkGray, "==========Begin Recycle Filter Debug Logging=============");
-                Logger.ColoredConsoleWrite(ConsoleColor.DarkGray, "Value Setter Triggered for: " + numB.Name + " New Value: " + numB.Value);
-                Logger.ColoredConsoleWrite(ConsoleColor.DarkGray, "==========End Recycle Filter Debug Logging=============");
+                //Logger.ColoredConsoleWrite(ConsoleColor.DarkGray, "==========Begin Recycle Filter Debug Logging=============");
+                //Logger.ColoredConsoleWrite(ConsoleColor.DarkGray, "Value Setter Triggered for: " + numB.Name + " New Value: " + numB.Value);
+                //Logger.ColoredConsoleWrite(ConsoleColor.DarkGray, "==========End Recycle Filter Debug Logging=============");
                 switch (numB.Name) {
         			case "num_MaxPokeballs":
         				Globals.pokeball = value;
@@ -187,9 +189,6 @@ namespace PokemonGo.RocketAPI.Console
         			case "num_MaxHyperPotions":
         				Globals.hyperpotion = value;
         			break;
-        			case "num_MaxMasterBalls":
-        				Globals.masterball = value;
-        			break;
         			case "num_MaxTopRevives":
         				Globals.toprevive = value;
         			break;
@@ -203,7 +202,7 @@ namespace PokemonGo.RocketAPI.Console
         		}        
         		 int count = 0;
 		            count += Globals.pokeball + Globals.greatball + Globals.ultraball + Globals.revive
-		                + Globals.potion + Globals.superpotion + Globals.hyperpotion + Globals.berry + Globals.masterball
+		                + Globals.potion + Globals.superpotion + Globals.hyperpotion + Globals.berry 
 		                + Globals.toprevive + Globals.toppotion;
 		         text_TotalItemCount.Text = count.ToString();
         	}catch (Exception e1){

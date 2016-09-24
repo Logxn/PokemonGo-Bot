@@ -122,7 +122,25 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ChangesPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ChangesPanel.Designer.cs">
+      <DependentUpon>ChangesPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EggsPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="EggsPanel.Designer.cs">
+      <DependentUpon>EggsPanel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Encryption.cs" />
+    <Compile Include="FormChanges.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormChanges.Designer.cs">
+      <DependentUpon>FormChanges.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -130,17 +148,17 @@
       <DependentUpon>GUI.cs</DependentUpon>
     </Compile>
     <Compile Include="Helper\SleepHelper.cs" />
+    <Compile Include="IncubatorSelect.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="IncubatorSelect.Designer.cs">
+      <DependentUpon>IncubatorSelect.cs</DependentUpon>
+    </Compile>
     <Compile Include="IntegerInput.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="IntegerInput.Designer.cs">
       <DependentUpon>IntegerInput.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Items.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Items.Designer.cs">
-      <DependentUpon>Items.cs</DependentUpon>
     </Compile>
     <Compile Include="ItemsPanel.cs">
       <SubType>UserControl</SubType>
@@ -160,6 +178,15 @@
     <Compile Include="LocationPanel.Designer.cs">
       <DependentUpon>LocationPanel.cs</DependentUpon>
     </Compile>
+    <Compile Include="PokesniperTool.cs" />
+    <Compile Include="PokesniperTool.Designer.cs">
+      <DependentUpon>PokesniperTool.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\MapData.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MapData.resx</DependentUpon>
+    </Compile>
     <Compile Include="PlayerPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -176,6 +203,11 @@
     <Compile Include="Program.cs" />
     <Compile Include="Prompt.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\PokemonSprites.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PokemonSprites.resx</DependentUpon>
+    </Compile>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -187,6 +219,12 @@
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="Settings.cs" />
+    <Compile Include="TeamSelect.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TeamSelect.Designer.cs">
+      <DependentUpon>TeamSelect.cs</DependentUpon>
+    </Compile>
     <Compile Include="Update.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -200,11 +238,20 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="ChangesPanel.resx">
+      <DependentUpon>ChangesPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EggsPanel.resx">
+      <DependentUpon>EggsPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormChanges.resx">
+      <DependentUpon>FormChanges.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="IncubatorSelect.resx">
+      <DependentUpon>IncubatorSelect.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="IntegerInput.resx">
       <DependentUpon>IntegerInput.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Items.resx">
-      <DependentUpon>Items.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ItemsPanel.resx">
       <DependentUpon>ItemsPanel.cs</DependentUpon>
@@ -212,8 +259,18 @@
     <EmbeddedResource Include="LocationPanel.resx">
       <DependentUpon>LocationPanel.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="PokesniperTool.resx">
+      <DependentUpon>PokesniperTool.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\MapData.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>MapData.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="PlayerPanel.resx">
       <DependentUpon>PlayerPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TeamSelect.resx">
+      <DependentUpon>TeamSelect.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Update.resx">
       <DependentUpon>Update.cs</DependentUpon>
@@ -232,7 +289,6 @@
     <EmbeddedResource Include="Lang\spain.json" />
     <EmbeddedResource Include="Lang\tr.json" />
     <EmbeddedResource Include="Lang\arabic.json" />
-    <None Include="ClassDiagram1.cd" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -244,6 +300,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\NBug\NBug.csproj">
+      <Project>{62ced1d5-f603-40de-8bf5-3e49d3a392f4}</Project>
+      <Name>NBug</Name>
+    </ProjectReference>
     <ProjectReference Include="..\POGOProtos\POGOProtos.csproj">
       <Project>{a03a7bb2-4f0b-467b-84b2-9a76e6aae6fb}</Project>
       <Name>POGOProtos</Name>
@@ -274,8 +334,13 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\PokemonSprites.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <SubType>Designer</SubType>
+      <LastGenOutput>PokemonSprites.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="PokeData\AdditionalPokeData.json" />
   </ItemGroup>
@@ -324,16 +389,178 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="bin\Release\" />
+    <Folder Include="Properties\DataSources\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\error-sprite.png" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="1470603236_Pokeball.ico" />
+    <None Include="Resources\1-200.png" />
+    <None Include="Resources\2-200.png" />
+    <None Include="Resources\3-200.png" />
+    <None Include="Resources\3-2001.png" />
+    <None Include="Resources\4-200.png" />
+    <None Include="Resources\5-200.png" />
+    <None Include="Resources\6-200.png" />
+    <None Include="Resources\7-200.png" />
+    <None Include="Resources\8-200.png" />
+    <None Include="Resources\9-200.png" />
+    <None Include="Resources\10-200.png" />
+    <None Include="Resources\11-200.png" />
+    <None Include="Resources\12-200.png" />
+    <None Include="Resources\13-200.png" />
+    <None Include="Resources\14-200.png" />
+    <None Include="Resources\15-200.png" />
+    <None Include="Resources\16-200.png" />
+    <None Include="Resources\17-200.png" />
+    <None Include="Resources\18-200.png" />
+    <None Include="Resources\19-200.png" />
+    <None Include="Resources\20-200.png" />
+    <None Include="Resources\21-200.png" />
+    <None Include="Resources\22-200.png" />
+    <None Include="Resources\23-200.png" />
+    <None Include="Resources\24-200.png" />
+    <None Include="Resources\25-200.png" />
+    <None Include="Resources\26-200.png" />
+    <None Include="Resources\27-200.png" />
+    <None Include="Resources\28-200.png" />
+    <None Include="Resources\29-200.png" />
+    <None Include="Resources\30-200.png" />
+    <None Include="Resources\31-200.png" />
+    <None Include="Resources\32-200.png" />
+    <None Include="Resources\33-200.png" />
+    <None Include="Resources\34-200.png" />
+    <None Include="Resources\35-200.png" />
+    <None Include="Resources\36-200.png" />
+    <None Include="Resources\37-200.png" />
+    <None Include="Resources\38-200.png" />
+    <None Include="Resources\39-200.png" />
+    <None Include="Resources\40-200.png" />
+    <None Include="Resources\41-200.png" />
+    <None Include="Resources\42-200.png" />
+    <None Include="Resources\43-200.png" />
+    <None Include="Resources\44-200.png" />
+    <None Include="Resources\45-200.png" />
+    <None Include="Resources\46-200.png" />
+    <None Include="Resources\47-200.png" />
+    <None Include="Resources\48-200.png" />
+    <None Include="Resources\49-200.png" />
+    <None Include="Resources\50-200.png" />
+    <None Include="Resources\51-200.png" />
+    <None Include="Resources\52-200.png" />
+    <None Include="Resources\53-200.png" />
+    <None Include="Resources\54-200.png" />
+    <None Include="Resources\55-200.png" />
+    <None Include="Resources\56-200.png" />
+    <None Include="Resources\57-200.png" />
+    <None Include="Resources\58-200.png" />
+    <None Include="Resources\59-200.png" />
+    <None Include="Resources\60-200.png" />
+    <None Include="Resources\61-200.png" />
+    <None Include="Resources\62-200.png" />
+    <None Include="Resources\63-200.png" />
+    <None Include="Resources\64-200.png" />
+    <None Include="Resources\65-200.png" />
+    <None Include="Resources\66-200.png" />
+    <None Include="Resources\67-200.png" />
+    <None Include="Resources\68-200.png" />
+    <None Include="Resources\69-200.png" />
+    <None Include="Resources\70-200.png" />
+    <None Include="Resources\71-200.png" />
+    <None Include="Resources\72-200.png" />
+    <None Include="Resources\73-200.png" />
+    <None Include="Resources\74-200.png" />
+    <None Include="Resources\75-200.png" />
+    <None Include="Resources\76-200.png" />
+    <None Include="Resources\77-200.png" />
+    <None Include="Resources\78-200.png" />
+    <None Include="Resources\79-200.png" />
+    <None Include="Resources\80-200.png" />
+    <None Include="Resources\81-200.png" />
+    <None Include="Resources\82-200.png" />
+    <None Include="Resources\83-200.png" />
+    <None Include="Resources\84-200.png" />
+    <None Include="Resources\85-200.png" />
+    <None Include="Resources\86-200.png" />
+    <None Include="Resources\87-200.png" />
+    <None Include="Resources\88-200.png" />
+    <None Include="Resources\89-200.png" />
+    <None Include="Resources\90-200.png" />
+    <None Include="Resources\91-200.png" />
+    <None Include="Resources\92-200.png" />
+    <None Include="Resources\93-200.png" />
+    <None Include="Resources\94-200.png" />
+    <None Include="Resources\95-200.png" />
+    <None Include="Resources\96-200.png" />
+    <None Include="Resources\97-200.png" />
+    <None Include="Resources\98-200.png" />
+    <None Include="Resources\99-200.png" />
+    <None Include="Resources\100-200.png" />
+    <None Include="Resources\101-200.png" />
+    <None Include="Resources\102-200.png" />
+    <None Include="Resources\103-200.png" />
+    <None Include="Resources\104-200.png" />
+    <None Include="Resources\105-200.png" />
+    <None Include="Resources\106-200.png" />
+    <None Include="Resources\107-200.png" />
+    <None Include="Resources\108-200.png" />
+    <None Include="Resources\109-200.png" />
+    <None Include="Resources\110-200.png" />
+    <None Include="Resources\111-200.png" />
+    <None Include="Resources\112-200.png" />
+    <None Include="Resources\113-200.png" />
+    <None Include="Resources\114-200.png" />
+    <None Include="Resources\115-200.png" />
+    <None Include="Resources\116-200.png" />
+    <None Include="Resources\117-200.png" />
+    <None Include="Resources\118-200.png" />
+    <None Include="Resources\119-200.png" />
+    <None Include="Resources\120-200.png" />
+    <None Include="Resources\121-200.png" />
+    <None Include="Resources\122-200.png" />
+    <None Include="Resources\123-200.png" />
+    <None Include="Resources\124-200.png" />
+    <None Include="Resources\125-200.png" />
+    <None Include="Resources\126-200.png" />
+    <None Include="Resources\127-200.png" />
+    <None Include="Resources\128-200.png" />
+    <None Include="Resources\129-200.png" />
+    <None Include="Resources\130-200.png" />
+    <None Include="Resources\131-200.png" />
+    <None Include="Resources\132-200.png" />
+    <None Include="Resources\133-200.png" />
+    <None Include="Resources\134-200.png" />
+    <None Include="Resources\135-200.png" />
+    <None Include="Resources\136-200.png" />
+    <None Include="Resources\137-200.png" />
+    <None Include="Resources\138-200.png" />
+    <None Include="Resources\139-200.png" />
+    <None Include="Resources\140-200.png" />
+    <None Include="Resources\141-200.png" />
+    <None Include="Resources\142-200.png" />
+    <None Include="Resources\143-200.png" />
+    <None Include="Resources\144-200.png" />
+    <None Include="Resources\145-200.png" />
+    <None Include="Resources\146-200.png" />
+    <None Include="Resources\147-200.png" />
+    <None Include="Resources\148-200.png" />
+    <None Include="Resources\149-200.png" />
+    <None Include="Resources\150-200.png" />
+    <None Include="Resources\151-200.png" />
+    <None Include="Resources\12281693746.gif" />
     <Content Include="Resources\boy.png" />
+    <None Include="Resources\combo_by_rootofitall-d8ulo4t.gif" />
+    <None Include="Resources\giphy %281%29.gif" />
     <Content Include="Resources\girl.png" />
     <Content Include="Resources\instinct.png" />
     <Content Include="Resources\mystic.png" />
+    <None Include="Resources\team-instinct.png" />
+    <None Include="Resources\team-mystic.png" />
+    <None Include="Resources\team-valor.png" />
+    <None Include="Resources\Trainer_F.png" />
+    <None Include="Resources\Trainer_M.png" />
+    <None Include="Resources\Ninja.bmp" />
     <Content Include="Resources\valor.png" />
     <None Include="Resources\start_point.png" />
     <None Include="Resources\151-35.png" />
@@ -845,4 +1072,7 @@ foreach (var item in filesToCleanup)
   <Target Name="AfterBuild">
   </Target>
   -->
+  <Target Name="AfterBuild">
+    <Copy SourceFiles="$(OutputPath)$(AssemblyName).exe" DestinationFolder="$(SolutionDir)/Builds-Only" ContinueOnError="true" />
+  </Target>
 </Project>
