@@ -58,6 +58,8 @@ namespace PokemonGo.RocketAPI.Console
 
         public async void Execute()
         {
+            Visible =false;
+            await check();
             var client = Logic.Logic._client;
             if (client.readyToUse != false)
             {
@@ -65,6 +67,7 @@ namespace PokemonGo.RocketAPI.Console
                 updatePlayerImages();
                 updatePlayerInfoLabels();
             }
+            Visible =true;
         }
 
         public void Execute(GetPlayerResponse prof, IOrderedEnumerable<PokemonData> poks)
@@ -355,8 +358,8 @@ namespace PokemonGo.RocketAPI.Console
             }
             return resp1;
         }	
-		
-		private static async Task<taskResponse> GetGym(string gym, double lat, double lng)
+        //GetGymDetails
+        private static async Task<taskResponse> GetGym(string gym, double lat, double lng)
         {
             taskResponse resp1 = new taskResponse(false, string.Empty);
             try
@@ -380,7 +383,20 @@ namespace PokemonGo.RocketAPI.Console
             }
             return resp1;
         }			
-		
-		//GetGymDetails
+        public async Task check()
+        {
+            while (true)
+            {
+                try
+                {
+                    if (Logic.Logic._client != null && Logic.Logic._client.readyToUse != false)
+                    {
+                        break;
+                    }
+                }
+                catch (Exception) { }
+            }
+        }		
+
     }
 }
