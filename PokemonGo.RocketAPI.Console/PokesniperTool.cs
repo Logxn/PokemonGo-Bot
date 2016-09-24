@@ -94,7 +94,7 @@ namespace PokemonGo.RocketAPI.Console
                     var utf8 = new UTF8Encoding();
                     var reader = new BinaryReader(stream,utf8);
                     string txt =  reader.ReadString();
-                    Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, "Readed URI");
+                    Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, "Read URI");
                     reader.Close();
                     stream.Close();
                     File.Delete(filename);
