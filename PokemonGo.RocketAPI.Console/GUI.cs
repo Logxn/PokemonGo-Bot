@@ -272,6 +272,7 @@ namespace PokemonGo.RocketAPI.Console
                     checkBox_EvolvePokemonIfEnoughCandy.Checked = config.EvolvePokemonsIfEnoughCandy;
                     checkBox_UseIncenseEvery30min.Checked = config.UseIncense;
                     checkBox_EnablePokemonListGui.Checked = config.EnablePokeList;
+                    CB_SimulatePGO.Checked = config.simulatedPGO;
                     checkBox_KeepPokemonWhichCanBeEvolved.Checked = config.keepPokemonsThatCanEvolve;
                     checkBox_UseLuckyEggIfNotRunning.Checked = config.UseLuckyEggIfNotRunning;
                     checkBox_AutoIncubate.Checked = config.AutoIncubate;
@@ -630,6 +631,7 @@ namespace PokemonGo.RocketAPI.Console
             Globals.evolve = checkBox_EvolvePokemonIfEnoughCandy.Checked;
             Globals.useincense = checkBox_UseIncenseEvery30min.Checked;
             Globals.pokeList = checkBox_EnablePokemonListGui.Checked;
+            Globals.simulatedPGO = CB_SimulatePGO.Checked;
             Globals.keepPokemonsThatCanEvolve = checkBox_KeepPokemonWhichCanBeEvolved.Checked;
             Globals.useLuckyEggIfNotRunning = checkBox_UseLuckyEggIfNotRunning.Checked;
             Globals.autoIncubate = checkBox_AutoIncubate.Checked;
@@ -951,10 +953,6 @@ namespace PokemonGo.RocketAPI.Console
         {
             try
             {
-                if (Control.ModifierKeys == Keys.Shift ) {
-                    new PokesniperTool().Show();
-                    return;
-                }
                 DisplayLocationSelector();
             }
             catch (Exception ex)

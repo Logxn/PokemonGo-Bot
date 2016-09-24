@@ -128,6 +128,7 @@
     <Compile Include="ChangesPanel.Designer.cs">
       <DependentUpon>ChangesPanel.cs</DependentUpon>
     </Compile>
+    <Compile Include="ControlExtensions.cs" />
     <Compile Include="EggsPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -135,11 +136,9 @@
       <DependentUpon>EggsPanel.cs</DependentUpon>
     </Compile>
     <Compile Include="Encryption.cs" />
-    <Compile Include="FormChanges.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FormChanges.Designer.cs">
-      <DependentUpon>FormChanges.cs</DependentUpon>
+    <Compile Include="GameAspectSimulator.cs" />
+    <Compile Include="GameAspectSimulator.Designer.cs">
+      <DependentUpon>GameAspectSimulator.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI.cs">
       <SubType>Form</SubType>
@@ -166,6 +165,7 @@
     <Compile Include="ItemsPanel.Designer.cs">
       <DependentUpon>ItemsPanel.cs</DependentUpon>
     </Compile>
+    <Compile Include="ListViewComparer.cs" />
     <Compile Include="Location.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -178,9 +178,9 @@
     <Compile Include="LocationPanel.Designer.cs">
       <DependentUpon>LocationPanel.cs</DependentUpon>
     </Compile>
-    <Compile Include="PokesniperTool.cs" />
-    <Compile Include="PokesniperTool.Designer.cs">
-      <DependentUpon>PokesniperTool.cs</DependentUpon>
+    <Compile Include="Pokemons.cs" />
+    <Compile Include="Pokemons.designer.cs">
+      <DependentUpon>Pokemons.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\MapData.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -194,11 +194,11 @@
       <DependentUpon>PlayerPanel.cs</DependentUpon>
     </Compile>
     <Compile Include="PokeData\AdditionalPokeData.cs" />
-    <Compile Include="Pokemons.cs">
+    <Compile Include="PokemonsPanel.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Pokemons.designer.cs">
-      <DependentUpon>Pokemons.cs</DependentUpon>
+    <Compile Include="PokemonsPanel.designer.cs">
+      <DependentUpon>PokemonsPanel.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Prompt.cs" />
@@ -219,6 +219,10 @@
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="Settings.cs" />
+    <Compile Include="SniperPanel.cs" />
+    <Compile Include="SniperPanel.Designer.cs">
+      <DependentUpon>SniperPanel.cs</DependentUpon>
+    </Compile>
     <Compile Include="TeamSelect.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -244,8 +248,8 @@
     <EmbeddedResource Include="EggsPanel.resx">
       <DependentUpon>EggsPanel.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormChanges.resx">
-      <DependentUpon>FormChanges.cs</DependentUpon>
+    <EmbeddedResource Include="GameAspectSimulator.resx">
+      <DependentUpon>GameAspectSimulator.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="IncubatorSelect.resx">
       <DependentUpon>IncubatorSelect.cs</DependentUpon>
@@ -259,8 +263,8 @@
     <EmbeddedResource Include="LocationPanel.resx">
       <DependentUpon>LocationPanel.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="PokesniperTool.resx">
-      <DependentUpon>PokesniperTool.cs</DependentUpon>
+    <EmbeddedResource Include="Pokemons.resx">
+      <DependentUpon>Pokemons.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\MapData.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -268,6 +272,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="PlayerPanel.resx">
       <DependentUpon>PlayerPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SniperPanel.resx">
+      <DependentUpon>SniperPanel.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TeamSelect.resx">
       <DependentUpon>TeamSelect.cs</DependentUpon>
@@ -329,8 +336,8 @@
     <EmbeddedResource Include="Location.resx">
       <DependentUpon>Location.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Pokemons.resx">
-      <DependentUpon>Pokemons.cs</DependentUpon>
+    <EmbeddedResource Include="PokemonsPanel.resx">
+      <DependentUpon>PokemonsPanel.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

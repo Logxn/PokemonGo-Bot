@@ -41,6 +41,22 @@ namespace PokemonGo.RocketAPI.Console
         {
             try
             {
+                num_MaxPokeballs.Value = Globals.pokeball;
+                num_MaxGreatBalls.Value = Globals.greatball;
+                num_MaxUltraBalls.Value = Globals.ultraball;
+                num_MaxRevives.Value = Globals.revive;
+                num_MaxPotions.Value = Globals.potion;
+                num_MaxSuperPotions.Value = Globals.superpotion;
+                num_MaxHyperPotions.Value = Globals.hyperpotion;
+                num_MaxRazzBerrys.Value = Globals.berry;
+                num_MaxTopRevives.Value = Globals.toprevive;
+                num_MaxTopPotions.Value = Globals.toppotion;
+                int count = 0;
+                count += Globals.pokeball + Globals.greatball + Globals.ultraball + Globals.revive
+                    + Globals.potion + Globals.superpotion + Globals.hyperpotion + Globals.berry
+                    + Globals.toprevive + Globals.toppotion;
+                text_TotalItemCount.Text = count.ToString();
+
                 var client = Logic.Logic._client;
 	            if (client.readyToUse != false)
 	            {

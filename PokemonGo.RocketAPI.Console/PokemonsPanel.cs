@@ -31,7 +31,7 @@ using System.Device.Location;
 
 namespace PokemonGo.RocketAPI.Console
 {
-    public partial class Pokemons : Form
+    public partial class PokemonsPanel : UserControl
     {
         public static string languagestr2;
         private static Client client;
@@ -41,7 +41,7 @@ namespace PokemonGo.RocketAPI.Console
         static Profile ActiveProfile = new Profile();
         private static IOrderedEnumerable<PokemonData> pokemons;
         private static List<AdditionalPokeData> additionalPokeData = new List<AdditionalPokeData>();
-        
+        static Dictionary<string, int> pokeIDS = new Dictionary<string, int>();
 
         private void loadAdditionalPokeData()
         {
@@ -68,35 +68,18 @@ namespace PokemonGo.RocketAPI.Console
                 Message = message;
             }
         }
-        public Pokemons()
+        public PokemonsPanel()
         {
             InitializeComponent();
             ClientSettings = new Settings();
 
             InitialzePokemonListView();
-            changesPanel1.Execute();
+            loadAdditionalPokeData();
         }
 
         public static ISettings ClientSettings;
 
-        private void Pokemons_Load(object sender, EventArgs e)
-        {
-            loadAdditionalPokeData();
-            reloadsecondstextbox.Value = 60;
-            Globals.pauseAtPokeStop = false;
-            btnForceUnban.Text = "Pause Walking";
-            Execute();
-            locationPanel1.Init(true, 0, 0, 0);
-            itemsPanel1.Execute();
-            eggsPanel1.pokemons = pokemons;
-            eggsPanel1.Execute();
-        }
 
-        private void Pokemons_Close(object sender, FormClosingEventArgs e)
-        {
-            e.Cancel = true;
-            this.WindowState = FormWindowState.Minimized;
-        }
 
         public async Task check()
         {
@@ -113,18 +96,15 @@ namespace PokemonGo.RocketAPI.Console
             }
         }
 
-        private async void Execute()
+        public async void Execute()
         {
             EnabledButton(false, "Reloading Pokemon list.");
-
-
             await check();
-
             try
             {
                 client = Logic.Logic._client;
                 if (client.readyToUse != false)
-                {                    
+                {
                     profile = await client.Player.GetPlayer();
                     await Task.Delay(1000); // Pause to simulate human speed. 
                     inventory = await client.Inventory.GetInventory();
@@ -149,7 +129,19 @@ namespace PokemonGo.RocketAPI.Console
 
                     var myPokemonFamilies = inventory.InventoryDelta.InventoryItems.Select(i => i.InventoryItemData?.Candy).Where(p => p != null && p?.FamilyId != PokemonFamilyId.FamilyUnset);
                     var pokemonFamilies = myPokemonFamilies.ToArray();
-                    
+                    int ie = 1;                    
+                    foreach (PokemonId pokemon in Enum.GetValues(typeof(PokemonId)))
+                    {
+                        if (pokemon.ToString() != "Missingno")
+                        {
+                            pokeIDS[pokemon.ToString()] = ie;                            
+                            ie++;
+                        }
+                    }
+                    foreach (PokemonId Id in Globals.NotToSnipe)
+                    {
+                        string _id = Id.ToString();
+                    }
                     PokemonListView.BeginUpdate();
                     foreach (var pokemon in pokemons)
                     {
@@ -229,15 +221,13 @@ namespace PokemonGo.RocketAPI.Console
                     PokemonListView.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
                     Text = "Pokemon List | User: " + profile.PlayerData.Username + " | Pokemons: " + pokemons.Count() + "/" + profile.PlayerData.MaxPokemonStorage;
                     EnabledButton(true);
-                    button2.Enabled = false;                    
+                    button2.Enabled = false;
+                    checkBox1.Enabled = false;
                     statusTexbox.Text = string.Empty;
 
                     var arrStats = await client.Inventory.GetPlayerStats();
                     stats = arrStats.First();
 
-                    playerPanel1.Execute(profile, pokemons);
-                    locationPanel1.CreateBotMarker((int)profile.PlayerData.Team, stats.Level, stats.Experience);
-                    sniperPanel1.Execute();
                 }
             }
             catch (Exception e)
@@ -305,52 +295,6 @@ namespace PokemonGo.RocketAPI.Console
                 return null;
         }
 
-        //private static Bitmap GetPokemonImage(int pokemonId)
-        //{
-        //    var Sprites = AppDomain.CurrentDomain.BaseDirectory + "Sprites\\";
-        //    string location = Sprites + pokemonId + ".png";
-        //    if (!Directory.Exists(Sprites))
-        //        Directory.CreateDirectory(Sprites);
-        //    bool err = false;
-        //    Bitmap bitmapRemote = null;
-        //    if (!File.Exists(location))
-        //    {
-        //        try
-        //        {
-        //            ExtendedWebClient wc = new ExtendedWebClient();
-        //            wc.DownloadFile("http://pokemon-go.ar1i.xyz/img/pokemons/" + pokemonId + ".png", @location);
-        //        }
-        //        catch (Exception)
-        //        {
-        //            // User fail picture
-        //            err = true;
-        //        }
-        //    }
-        //    if (err)
-        //    {
-        //        PictureBox picbox = new PictureBox();
-        //        picbox.Image = PokemonGo.RocketAPI.Console.Properties.Resources.error_sprite;
-        //        bitmapRemote = (Bitmap)picbox.Image;
-        //    }
-        //    else
-        //    {
-        //        try
-        //        {
-        //            PictureBox picbox = new PictureBox();
-        //            FileStream m = new FileStream(location, FileMode.Open);
-        //            picbox.Image = Image.FromStream(m);
-        //            bitmapRemote = (Bitmap)picbox.Image;
-        //            m.Close();
-        //        }
-        //        catch (Exception e)
-        //        {
-        //            PictureBox picbox = new PictureBox();
-        //            picbox.Image = PokemonGo.RocketAPI.Console.Properties.Resources.error_sprite;
-        //            bitmapRemote = (Bitmap)picbox.Image;
-        //        }
-        //    }
-        //    return bitmapRemote;
-        //}
 
         private void btnReload_Click(object sender, EventArgs e)
         {
@@ -446,12 +390,7 @@ namespace PokemonGo.RocketAPI.Console
 
         private async void btnEvolve_Click(object sender, EventArgs e)
         {
-            //if (Globals.UseAnimationTimes)
-            //{
-            //    MessageBox.Show("Staged selected Pokemon for Evolution", "Evolve status", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            //}
-            //else
-            //{
+
             EnabledButton(false, "Evolving...");
             var selectedItems = PokemonListView.SelectedItems;
             int evolved = 0;
@@ -534,12 +473,6 @@ namespace PokemonGo.RocketAPI.Console
 
         private async void btnTransfer_Click(object sender, EventArgs e)
         {
-            //if (Globals.UseAnimationTimes)
-            //{
-            //    MessageBox.Show("Staged selected Pokemon for Transfer", "Evolve status", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            //}
-            //else
-            //{
             EnabledButton(false, "Transfering...");
             var selectedItems = PokemonListView.SelectedItems;
             int transfered = 0;
@@ -599,7 +532,6 @@ namespace PokemonGo.RocketAPI.Console
                 Text = "Pokemon List | User: " + profile.PlayerData.Username + " | Pokemons: " + PokemonListView.Items.Count + "/" + profile.PlayerData.MaxPokemonStorage;
             }
             EnabledButton(true);
-            //}
         }
 
         private async void btnUpgrade_Click(object sender, EventArgs e)
@@ -1024,19 +956,6 @@ namespace PokemonGo.RocketAPI.Console
             //}
         }
 
-        private void btnShowMap_Click(object sender, EventArgs e)
-        {
-            if (stats == null)
-            {
-                MessageBox.Show("Stats not yet ready - please try again momentarily");
-            }
-            else
-            {
-                //new LocationSelect(true, (int)profile.PlayerData.Team, stats.Level, stats.Experience).Show();
-                Options.SelectTab(tabPage4);
-            }
-        }
-
         private void lang_en_btn2_Click(object sender, EventArgs e)
         {
             lang_de_btn_2.Enabled = true;
@@ -1134,21 +1053,42 @@ namespace PokemonGo.RocketAPI.Console
         }
 
         private void btnForceUnban_Click(object sender, EventArgs e)
-        {            
+        {
+            // **MTK4355 Repurposed force unban button since force-unban feature is no longer working**
+            //Logic.Logic.failed_softban = 6;
+            //btnForceUnban.Enabled = false;
+            //freezedenshit.Start();
             if (btnForceUnban.Text.Equals("Pause Walking"))
             {
                 Globals.pauseAtPokeStop = true;
-                Logger.ColoredConsoleWrite(ConsoleColor.Magenta, "Pausing at next Pokestop. (will continue catching pokemon and farming pokestop when available)");                
+                Logger.ColoredConsoleWrite(ConsoleColor.Magenta, "Pausing at next Pokestop. (will continue catching pokemon and farming pokestop when available)");
+                if (Globals.RouteToRepeat.Count > 0)
+                {
+                    Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "User Defined Route Cleared!");
+                    Globals.RouteToRepeat.Clear();
+                }
+
                 btnForceUnban.Text = "Resume Walking";
-                button2.Enabled = true;                
+                button2.Enabled = true;
+                checkBox1.Enabled = true;
             }
             else
             {
                 Globals.pauseAtPokeStop = false;
-                Logger.ColoredConsoleWrite(ConsoleColor.Magenta, "Resume walking between Pokestops.");                
+                Logger.ColoredConsoleWrite(ConsoleColor.Magenta, "Resume walking between Pokestops.");
+                if (Globals.RouteToRepeat.Count > 0)
+                {
+                    foreach (var geocoord in Globals.RouteToRepeat)
+                    {
+                        Globals.NextDestinationOverride.AddLast(geocoord);
+                    }
+                    Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "User Defined Route Captured! Beginning Route Momentarily.");
+                }
                 btnForceUnban.Text = "Pause Walking";
-                button2.Enabled = false;                
+                button2.Enabled = false;
+                checkBox1.Enabled = false;
             }
+
         }
 
         private void freezedenshit_Tick(object sender, EventArgs e)
@@ -1240,7 +1180,11 @@ namespace PokemonGo.RocketAPI.Console
             columnheader.Text = name;
             return columnheader;
         }
-        
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            Globals.RepeatUserRoute = checkBox1.Checked;
+        }
         private void button2_Click(object sender, EventArgs e)
         {
             Globals.UseLureGUIClick = true;
@@ -1256,57 +1200,6 @@ namespace PokemonGo.RocketAPI.Console
             Globals.UseIncenseGUIClick = true;
         }
 
-        private async void Options_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if(Options.SelectedIndex == Options.TabPages.IndexOf(tabPage5))
-            {
-                    playerPanel1.BuddyInfoEnabled = false;
-                    playerPanel1.Execute(profile,pokemons);
-            }
-        }
-
-        
-        private void RepeatRoute_CheckedChanged(object sender, EventArgs e)
-        {
-            Globals.RepeatUserRoute = RepeatRoute.Checked;
-        }
-
-        private void CreateRoute_Click(object sender, EventArgs e)
-        {
-            if (CreateRoute.Text.Equals("Define Route"))
-            {
-                Globals.pauseAtPokeStop = true;
-                Logger.ColoredConsoleWrite(ConsoleColor.Magenta, "Create Route Enabled - Click Pokestops in the order you would like to walk them and then Click 'Run Route'");
-                if (Globals.RouteToRepeat.Count > 0)
-                {
-                    Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "User Defined Route Cleared!");
-                    Globals.RouteToRepeat.Clear();
-                }
-                CreateRoute.Text = "Run Route";
-                RepeatRoute.Enabled = true;
-            }
-            else
-            {
-                Globals.pauseAtPokeStop = false;
-                Logger.ColoredConsoleWrite(ConsoleColor.Magenta, "Resume walking between Pokestops.");
-                if (Globals.RouteToRepeat.Count > 0)
-                {
-                    foreach (var geocoord in Globals.RouteToRepeat)
-                    {
-                        Globals.NextDestinationOverride.AddLast(geocoord);
-                    }
-                    Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "User Defined Route Captured! Beginning Route Momentarily.");
-                }
-                CreateRoute.Text = "Define Route";
-                RepeatRoute.Enabled = false;
-            }
-        }
-
-        private void ForceAutoSnipe_Click(object sender, EventArgs e)
-        {
-            Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "User Initiated Automatic Snipe Routine! We'll stop farming and start sniping ASAP!");
-            Globals.ForceSnipe = true;
-        }
-
     }
+
 }
