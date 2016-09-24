@@ -43,7 +43,6 @@ namespace PokemonGo.RocketAPI.Console
                 }
                 var stream = new FileStream(filename,FileMode.OpenOrCreate);
                 var writer = new BinaryWriter(stream,new UTF8Encoding());
-                MessageBox.Show( "writing URI: " +uri);
                 writer.Write(uri);
                 stream.Close();
             } 
