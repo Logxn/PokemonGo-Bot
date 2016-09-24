@@ -264,6 +264,11 @@ namespace PokemonGo.RocketAPI.Console
             get { return Globals.MinCPtoCatch; }
             set { Globals.MinCPtoCatch = value; }
         }
+        public int MinIVtoCatch
+        {
+            get { return Globals.MinIVtoCatch; }
+            set { Globals.MinIVtoCatch = value; }
+        }
         public int MinCPforUltraBall
         {
             get { return Globals.MinCPforUltraBall; }
@@ -278,6 +283,11 @@ namespace PokemonGo.RocketAPI.Console
         {
             get { return Globals.telName; }
             set { Globals.telName = value; }
+        }
+        public bool AvoidRegionLock
+        {
+            get { return Globals.AvoidRegionLock; }
+            set { Globals.AvoidRegionLock = value; }
         }
         public int navigation_option
         {
@@ -427,6 +437,12 @@ namespace PokemonGo.RocketAPI.Console
         {
             get { return Globals.doEvolve; }
             set { Globals.doEvolve = value; }
+        }
+
+        public List<PokemonId> NotToSnipe
+        {
+            get { return Globals.NotToSnipe; }
+            set { Globals.NotToSnipe = value; }
         }
 
         public ICollection<KeyValuePair<ItemId, int>> itemRecycleFilter
@@ -722,5 +738,25 @@ namespace PokemonGo.RocketAPI.Console
             get { return Globals.pokeList; }
             set { Globals.pokeList = value; }
         }
+        public bool ForceSnipe
+        {
+            get { return Globals.ForceSnipe; }
+            set { Globals.ForceSnipe = value; }
+        }
+        public PokemonId? ManualSnipePokemonID
+        {
+            get { return ManualSnipePokemon.ID; }
+            set { ManualSnipePokemon.ID = value; }
+        }
+        public GeoCoordinate ManualSnipePokemonLocation
+        {
+            get { return ManualSnipePokemon.Location; }
+            set { ManualSnipePokemon.Location = value; }
+        }
+        public bool simulatedPGO
+        {
+            get { return Globals.simulatedPGO; }
+            set { Globals.simulatedPGO = value; }
+        }        
     }
 }

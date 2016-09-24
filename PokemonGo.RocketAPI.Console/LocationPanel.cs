@@ -51,13 +51,13 @@ namespace PokemonGo.RocketAPI.Console
 
             buttonRefreshPokemon.Visible = false;
             buttonRefreshPokemon.Enabled = false;
-            buttonRefreshForts.Visible = false;
+            buttonRefreshForts.Visible = false;            
             this.asViewOnly = asViewOnly;
             panel1.Size = new Size(700,47);            
             if (asViewOnly)
             {
             	panel1.Size = new Size(483,71);
-                initViewOnly(team, level, exp);
+                initViewOnly(team, level, exp);               
             }
         }
 		
@@ -233,6 +233,21 @@ namespace PokemonGo.RocketAPI.Console
 
         Semaphore pokemonLock = new Semaphore(0, 1);
 
+        void infoObservable_HandleDeletePokemonLocation( string pokemon_Id)
+        {
+            try {
+                _pokemonOverlay.IsVisibile = false;
+                var pokemonMarker = _pokemonMarks[pokemon_Id];
+                _pokemonOverlay.Markers.Remove(pokemonMarker);
+                _pokemonMarks.Remove(pokemon_Id);
+                _pokemonOverlay.IsVisibile = true;
+            } catch (Exception e) {
+                Logger.ColoredConsoleWrite(ConsoleColor.DarkRed, "[Ignore]: sending exception information to log file.");
+                Logger.AddLog(string.Format("Error in infoObservable_HandleDeletePokemonLocation: {0}", e.ToString()));
+
+            }
+        }
+
         void infoObservable_HandleNewPokemonLocations(List<DataCollector.PokemonMapData> mapData)
         {
             Invoke(new MethodInvoker(() =>
@@ -264,7 +279,7 @@ namespace PokemonGo.RocketAPI.Console
                                 }
                                 else
                                 {
-                                    Bitmap pokebitMap = Pokemons.GetPokemonMediumImage(pokeData.PokemonId);
+                                    Bitmap pokebitMap = PokemonsPanel.GetPokemonMediumImage(pokeData.PokemonId);
                                     if (pokebitMap != null)
                                     {
                                         var ImageSize = new System.Drawing.Size(pokebitMap.Width, pokebitMap.Height);
@@ -526,7 +541,6 @@ namespace PokemonGo.RocketAPI.Console
             _circle = CreateCircle(new PointLatLng(Globals.latitute, Globals.longitude), Globals.radius, 100);
             routeOverlay.Polygons.Add(_circle);
             
-
             map.Overlays.Add(routeOverlay);
             map.Overlays.Add(_pokeStopsOverlay);
             map.Overlays.Add(_pokemonOverlay);
@@ -568,6 +582,7 @@ namespace PokemonGo.RocketAPI.Console
             Globals.infoObservable.HandlePokeStopInfoUpdate += InfoObservable_HandlePokeStopInfoUpdate;
             Globals.infoObservable.HandleClearPokemon += infoObservable_HandleClearPokemon;
             Globals.infoObservable.HandleNewPokemonLocations += infoObservable_HandleNewPokemonLocations;
+            Globals.infoObservable.HandleDeletePokemonLocation += infoObservable_HandleDeletePokemonLocation;
         }
 
 
@@ -759,6 +774,6 @@ namespace PokemonGo.RocketAPI.Console
             _botMarker.ToolTipMode = MarkerTooltipMode.OnMouseOver;
             routeOverlay.Markers.Add(_botMarker);
 			routeOverlay.IsVisibile =true;
-		}	
-	}
+		}        
+    }
 }

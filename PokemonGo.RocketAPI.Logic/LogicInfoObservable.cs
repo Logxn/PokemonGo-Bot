@@ -77,6 +77,15 @@ namespace PokemonGo.RocketAPI.Logic
         {
             HandleNewHuntStats(newValue);
         }
+         /// <summary>
+        /// GeoLocations
+        /// </summary>
+        public delegate void DeletePokemonLocationHandler(string pokemon_Id);
+        public event DeletePokemonLocationHandler HandleDeletePokemonLocation = delegate { };
+        public void PushDeletePokemonLocation(string pokemon_Id)
+        {
+            HandleDeletePokemonLocation(pokemon_Id);
+        }
     }
 
 }

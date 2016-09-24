@@ -7,6 +7,7 @@ using POGOProtos.Enums;
 using System.Linq;
 using POGOProtos.Networking.Responses;
 using POGOProtos.Inventory.Item;
+using System.Threading;
 
 namespace PokemonGo.RocketAPI.Logic.Utils
 {
@@ -38,18 +39,19 @@ namespace PokemonGo.RocketAPI.Logic.Utils
             Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "Looking for Pokemons to snipe....");
             try
             {
-                for(int i=0; Snipers.results[i].id > 0; i++)
+                for (int i = 0; Snipers.results[i].id > 0; i++)
                 {
-                    idPoke = PokemonParser.ParsePokemon(""+Snipers.results[i].name);
+                    idPoke = PokemonParser.ParsePokemon("" + Snipers.results[i].name);
                     //Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "" + Snipers.results[i].name);
-
+                    string c = Thread.CurrentThread.CurrentCulture.NumberFormat.NumberDecimalSeparator;
                     string coords1 = Snipers.results[i].coords;
-                    coords1 = coords1.Replace(',','|');
-                    coords1 = coords1.Replace('.', ',');
+                    coords1 = coords1.Replace(',', '|');
+                    if (c == ",")
+                        coords1 = coords1.Replace('.', ',');
                     double[] coords = coords1.Split('|').Select(double.Parse).ToArray();
                     Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "" + idPoke + " = " + coords[0] + " / " + coords[1]);
 
-                    _newSpotted.Add(    new spottedPokeSni((Int32)idPoke, (Double)coords[0], (Double)coords[1], (Int32)DateTimeToUnixTimestamp((DateTime)Snipers.results[i].until), (Int32)idPoke, (Int32)VerTipo("" + Snipers.results[i].rarity)));
+                    _newSpotted.Add(new spottedPokeSni((Int32)idPoke, (Double)coords[0], (Double)coords[1], (Int32)DateTimeToUnixTimestamp((DateTime)Snipers.results[i].until), (Int32)idPoke, (Int32)VerTipo("" + Snipers.results[i].rarity)));
                     _alreadySpotted.Add(new spottedPokeSni((Int32)idPoke, (Double)coords[0], (Double)coords[1], (Int32)DateTimeToUnixTimestamp((DateTime)Snipers.results[i].until), (Int32)idPoke, (Int32)VerTipo("" + Snipers.results[i].rarity)));
                 }
             }

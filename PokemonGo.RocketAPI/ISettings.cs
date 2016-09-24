@@ -7,12 +7,12 @@ using System.Collections.ObjectModel;
 using System.Device.Location;
 
 namespace PokemonGo.RocketAPI
-{    
+{
     public interface ISettings
-    { 
- 
+    {
+
         /* ===================================[SETTINGS]================================= */
-        
+
         /* AUTHENTICATION */
         string ProfileName { get; set; }
         bool IsDefault { get; set; }
@@ -72,7 +72,7 @@ namespace PokemonGo.RocketAPI
         int HoldMaxDoublePokemons { get; set; }
 
         /* ITEMS */
-        bool UseLuckyEgg { get; set;}
+        bool UseLuckyEgg { get; set; }
         bool UseRazzBerry { get; set; }
         double razzberry_chance { get; set; }
         bool UseLuckyEggIfNotRunning { get; set; }
@@ -128,6 +128,7 @@ namespace PokemonGo.RocketAPI
         bool LimitGreatballUse { get; set; }
         bool LimitUltraballUse { get; set; }
         int MinCPtoCatch { get; set; }
+        int MinIVtoCatch { get; set; }
         int Max_Missed_throws { get; set; }
         int MinCPforGreatBall { get; set; }
         int MinCPforUltraBall { get; set; }
@@ -152,7 +153,12 @@ namespace PokemonGo.RocketAPI
         List<PokemonId> pokemonsToHold { get; set; }
         List<PokemonId> pokemonsToEvolve { get; set; }
         List<PokemonId> catchPokemonSkipList { get; set; }
+        List<PokemonId> NotToSnipe { get; set; }
         bool SnipePokemon { get; set; }
+        bool AvoidRegionLock { get; set; }
+        bool ForceSnipe { get; set; }
+        PokemonId? ManualSnipePokemonID { get; set; }
+        GeoCoordinate ManualSnipePokemonLocation { get; set; }
         /* ===================================[SETTINGS]================================= */
     }
 }
