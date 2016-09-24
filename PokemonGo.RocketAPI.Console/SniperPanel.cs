@@ -160,7 +160,7 @@ namespace PokemonGo.RocketAPI.Console
                 RegisterUriScheme(Application.ExecutablePath);
                 Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, "Service Installed");
                 timer1.Enabled = true;
-                
+                button1.Text ="Stop Timer";
             } catch (Exception) {
                 MessageBox.Show("Cannot install service.\n"+e.ToString());
             }
@@ -172,6 +172,7 @@ namespace PokemonGo.RocketAPI.Console
                 UnregisterUriScheme();
                 Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, "Service Uninstalled");
                 timer1.Enabled = false;
+                button1.Text ="Start Timer";
             } catch (Exception) {
                 MessageBox.Show("Cannot uninstall service\n"+e.ToString());
             }
@@ -201,15 +202,23 @@ namespace PokemonGo.RocketAPI.Console
                 
             }
         }
-        void button2_Click(object sender, EventArgs e)
-        {
-            Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, "Timer to check URI Stopped");
-            timer1.Enabled = false;
-        }
         void button1_Click(object sender, EventArgs e)
         {
-            Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, "Timer to check URI Started");
-            timer1.Enabled = true;
+            if (timer1.Enabled)
+            {
+                Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, "Timer to check URI Stopped");
+                ((Button) sender).Text ="Start Timer";
+            }
+            else{
+                var filename = Path.GetTempPath()+"pokesniper";
+                if (File.Exists(filename))
+                {
+                    File.Delete(filename);    
+                }
+                Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, "Timer to check URI Started");
+                ((Button) sender).Text ="Stop Timer";
+            }
+            timer1.Enabled = !timer1.Enabled;
           
         }
         const string URI_SCHEME = "pokesniper2";
