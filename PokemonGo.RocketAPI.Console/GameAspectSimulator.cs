@@ -67,7 +67,8 @@ namespace PokemonGo.RocketAPI.Console
             btnPicPokes.Visible= value;
             btnPicEggs.Visible= value;
             btnPicItems.Visible= value;
-            btnPicConfig.Visible = value;            
+            btnPicConfig.Visible = value;
+            btnPicSnipe.Visible = value;
         }
         void pictureBox3_Click(object sender, EventArgs e)
         {
