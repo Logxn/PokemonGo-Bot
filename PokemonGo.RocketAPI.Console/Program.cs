@@ -33,7 +33,7 @@ namespace PokemonGo.RocketAPI.Console
         public static string EvolveLog = Path.Combine(logPath, "EvolveLog.txt");
         public static string path_pokedata = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "PokeData");       
         
-        static void SharePokesnipperURI(string uri)
+        static void SharePokesniperURI(string uri)
         {
             try 
             {
@@ -58,7 +58,7 @@ namespace PokemonGo.RocketAPI.Console
             {
                 if (args[0].Contains("pokesniper2"))
                 {
-                    SharePokesnipperURI(args[0]);
+                    SharePokesniperURI(args[0]);
                     return;
                 }
             }            
