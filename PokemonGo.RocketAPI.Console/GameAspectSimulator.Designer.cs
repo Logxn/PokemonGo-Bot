@@ -21,7 +21,7 @@ namespace PokemonGo.RocketAPI.Console
         private System.Windows.Forms.PictureBox btnPicItems;
         private System.Windows.Forms.PictureBox btnPicConfig;
         private System.Windows.Forms.PictureBox btnPicClose;
-        private System.Windows.Forms.Button btnSnipe;
+        private System.Windows.Forms.PictureBox btnPicSnipe;
         
         /// <summary>
         /// Disposes resources used by the form.
@@ -52,13 +52,14 @@ namespace PokemonGo.RocketAPI.Console
             this.btnPicItems = new System.Windows.Forms.PictureBox();
             this.btnPicConfig = new System.Windows.Forms.PictureBox();
             this.btnPicClose = new System.Windows.Forms.PictureBox();
-            this.btnSnipe = new System.Windows.Forms.Button();
+            this.btnPicSnipe = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.btnPicMenu)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnPicPokes)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnPicEggs)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnPicItems)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnPicConfig)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnPicClose)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.btnPicSnipe)).BeginInit();
             this.SuspendLayout();
             // 
             // locationPanel1
@@ -149,23 +150,26 @@ namespace PokemonGo.RocketAPI.Console
             this.btnPicClose.Visible = false;
             this.btnPicClose.Click += new System.EventHandler(this.btnPicClose_Click);
             // 
-            // btnSnipe
+            // btnPicSnipe
             // 
-            this.btnSnipe.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSnipe.Location = new System.Drawing.Point(700, 562);
-            this.btnSnipe.Name = "btnSnipe";
-            this.btnSnipe.Size = new System.Drawing.Size(75, 23);
-            this.btnSnipe.TabIndex = 7;
-            this.btnSnipe.Text = "Snipe";
-            this.btnSnipe.UseVisualStyleBackColor = true;
-            this.btnSnipe.Click += new System.EventHandler(this.btnSnipe_Click);
+            this.btnPicSnipe.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnPicSnipe.BackColor = System.Drawing.Color.Transparent;
+            this.btnPicSnipe.Image = ((System.Drawing.Image)(resources.GetObject("btnPicSnipe.Image")));
+            this.btnPicSnipe.Location = new System.Drawing.Point(726, 66);
+            this.btnPicSnipe.Name = "btnPicSnipe";
+            this.btnPicSnipe.Size = new System.Drawing.Size(40, 40);
+            this.btnPicSnipe.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.btnPicSnipe.TabIndex = 8;
+            this.btnPicSnipe.TabStop = false;
+            this.btnPicSnipe.Visible = false;
+            this.btnPicSnipe.Click += new System.EventHandler(this.btnSnipe_Click);
             // 
             // GameAspectSimulator
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(787, 588);
-            this.Controls.Add(this.btnSnipe);
+            this.Controls.Add(this.btnPicSnipe);
             this.Controls.Add(this.btnPicClose);
             this.Controls.Add(this.btnPicConfig);
             this.Controls.Add(this.btnPicItems);
@@ -183,6 +187,7 @@ namespace PokemonGo.RocketAPI.Console
             ((System.ComponentModel.ISupportInitialize)(this.btnPicItems)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnPicConfig)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnPicClose)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.btnPicSnipe)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 

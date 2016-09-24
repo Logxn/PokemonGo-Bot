@@ -46,12 +46,15 @@ namespace PokemonGo.RocketAPI.Console
     public partial class ChangesPanel : UserControl
     {
         const ConsoleColor tryCatchColor = ConsoleColor.DarkYellow;
+        private bool enableEvents = false;
         public ChangesPanel()
         {
             InitializeComponent();
         }
         void CheckBoxes_CheckedChanged(object sender, EventArgs e)
         {
+            if (! enableEvents)
+                return;
             var castedSender = (CheckBox) sender;
             var globalName = castedSender.Tag.ToString();
             if (globalName == "")
@@ -67,17 +70,23 @@ namespace PokemonGo.RocketAPI.Console
         }
         void CheckBox_pauseAtEvolve1_2CheckedChanged(object sender, EventArgs e)
         {
+            if (! enableEvents)
+                return;
             Globals.pauseAtEvolve = checkBox_pauseAtEvolve1_2.Checked;
             Globals.pauseAtEvolve2 = checkBox_pauseAtEvolve1_2.Checked;
             Logger.ColoredConsoleWrite(tryCatchColor,((CheckBox)sender).Text+ " value changed");
         }
         void NumRazzPercentValueChanged(object sender, EventArgs e)
         {
+            if (! enableEvents)
+                return;
             Globals.razzberry_chance = ((double)((NumericUpDown)sender).Value) / 100;
             Logger.ColoredConsoleWrite(tryCatchColor,((NumericUpDown)sender).Text+ " value changed");
         }
         void NumericUpDown_DoubleValueChanged(object sender, EventArgs e)
         {
+            if (! enableEvents)
+                return;
             var castedSender = (NumericUpDown) sender;
             var globalName = castedSender.Tag.ToString();
             if (globalName == "")
@@ -93,6 +102,8 @@ namespace PokemonGo.RocketAPI.Console
         }
         void NumericUpDown_IntValueChanged(object sender, EventArgs e)
         {
+            if (! enableEvents)
+                return;
             var castedSender = (NumericUpDown) sender;
             var globalName = castedSender.Tag.ToString();
             if (globalName == "")
@@ -236,6 +247,7 @@ namespace PokemonGo.RocketAPI.Console
             textBoxLongitude.Text = Globals.longitude.ToString(CultureInfo.InvariantCulture);
         }
         public void Execute(){
+            enableEvents = false;
             //Walk Options
             checkBox_RandomlyReduceSpeed.Checked = Globals.sleepatpokemons;
             checkBox_FarmPokestops.Checked = Globals.farmPokestops;
@@ -248,13 +260,13 @@ namespace PokemonGo.RocketAPI.Console
             numericUpDownSpeed.Value = decimal.Parse(Globals.speed.ToString());
             numericUpDownMinWalkSpeed.Value = decimal.Parse(Globals.MinWalkSpeed.ToString());
             //Other
-            checkBox_useluckyegg.Checked = Globals.useLuckyEggIfNotRunning;
+            checkBox_useluckyegg.Checked = Globals.useluckyegg;
             checkBox_UseAnimationTimes.Checked = Globals.UseAnimationTimes;
             checkBox_evolve.Checked = Globals.evolve;
             checkBox_pauseAtEvolve1_2.Checked = Globals.pauseAtEvolve;
             checkBox_UseIncense.Checked = Globals.useincense;
             checkBox_keepPokemonsThatCanEvolve.Checked = Globals.keepPokemonsThatCanEvolve;
-            checkBoxUseLuckyEggIfNotRunning.Checked = Globals.useluckyegg;
+            checkBoxUseLuckyEggIfNotRunning.Checked = Globals.useLuckyEggIfNotRunning;
             checkBoxUseRazzBerry.Checked = Globals.userazzberry;
             numRazzPercent.Value = (int)(Globals.razzberry_chance * 100);
             checkBoxAutoIncubate.Checked = Globals.autoIncubate;
@@ -263,6 +275,7 @@ namespace PokemonGo.RocketAPI.Console
             checkBox_UseGoogleMapsRouting.Checked = Globals.UseGoogleMapsAPI;
             text_GoogleMapsAPIKey.Text = Globals.GoogleMapsAPIKey;
             numTravelSpeed.Value = (int)Globals.RelocateDefaultLocationTravelSpeed;
+            enableEvents = true;
         }
 	}
 }
