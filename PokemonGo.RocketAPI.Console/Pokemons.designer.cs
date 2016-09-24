@@ -228,7 +228,7 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // checkBoxreload
             // 
-            this.checkBoxreload.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.checkBoxreload.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.checkBoxreload.AutoSize = true;
             this.checkBoxreload.Location = new System.Drawing.Point(505, 332);
             this.checkBoxreload.Name = "checkBoxreload";
@@ -240,7 +240,7 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // reloadsecondstextbox
             // 
-            this.reloadsecondstextbox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.reloadsecondstextbox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.reloadsecondstextbox.Location = new System.Drawing.Point(597, 331);
             this.reloadsecondstextbox.Maximum = new decimal(new int[] {
             3600,
