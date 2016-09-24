@@ -32,6 +32,7 @@ namespace PokemonGo.RocketAPI.Console
 		private System.Windows.Forms.PictureBox pictureBoxBuddyPokemon;
 		private System.Windows.Forms.PictureBox pictureBoxPlayerAvatar;
 		private System.Windows.Forms.Label labelNoTeamSelected;
+		private System.Windows.Forms.Button btnTeam;
 		
 		/// <summary>
 		/// Disposes resources used by the control.
@@ -72,6 +73,7 @@ namespace PokemonGo.RocketAPI.Console
 			this.pictureBoxBuddyPokemon = new System.Windows.Forms.PictureBox();
 			this.pictureBoxPlayerAvatar = new System.Windows.Forms.PictureBox();
 			this.labelNoTeamSelected = new System.Windows.Forms.Label();
+			this.btnTeam = new System.Windows.Forms.Button();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBoxTeam)).BeginInit();
 			this.panelLeftArea.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBoxBuddyPokemon)).BeginInit();
@@ -84,7 +86,7 @@ namespace PokemonGo.RocketAPI.Console
 			this.labelUserProperty6Value.Location = new System.Drawing.Point(388, 129);
 			this.labelUserProperty6Value.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.labelUserProperty6Value.Name = "labelUserProperty6Value";
-			this.labelUserProperty6Value.Size = new System.Drawing.Size(206, 20);
+			this.labelUserProperty6Value.Size = new System.Drawing.Size(250, 20);
 			this.labelUserProperty6Value.TabIndex = 101;
 			this.labelUserProperty6Value.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
@@ -105,7 +107,7 @@ namespace PokemonGo.RocketAPI.Console
 			this.labelUserProperty5Value.Location = new System.Drawing.Point(388, 109);
 			this.labelUserProperty5Value.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.labelUserProperty5Value.Name = "labelUserProperty5Value";
-			this.labelUserProperty5Value.Size = new System.Drawing.Size(206, 20);
+			this.labelUserProperty5Value.Size = new System.Drawing.Size(250, 20);
 			this.labelUserProperty5Value.TabIndex = 99;
 			this.labelUserProperty5Value.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
@@ -115,7 +117,7 @@ namespace PokemonGo.RocketAPI.Console
 			this.labelUserProperty4Value.Location = new System.Drawing.Point(385, 89);
 			this.labelUserProperty4Value.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.labelUserProperty4Value.Name = "labelUserProperty4Value";
-			this.labelUserProperty4Value.Size = new System.Drawing.Size(206, 20);
+			this.labelUserProperty4Value.Size = new System.Drawing.Size(250, 20);
 			this.labelUserProperty4Value.TabIndex = 98;
 			this.labelUserProperty4Value.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
@@ -125,7 +127,7 @@ namespace PokemonGo.RocketAPI.Console
 			this.labelUserProperty3Value.Location = new System.Drawing.Point(385, 68);
 			this.labelUserProperty3Value.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.labelUserProperty3Value.Name = "labelUserProperty3Value";
-			this.labelUserProperty3Value.Size = new System.Drawing.Size(206, 20);
+			this.labelUserProperty3Value.Size = new System.Drawing.Size(250, 20);
 			this.labelUserProperty3Value.TabIndex = 97;
 			this.labelUserProperty3Value.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
@@ -135,7 +137,7 @@ namespace PokemonGo.RocketAPI.Console
 			this.labelUserProperty2Value.Location = new System.Drawing.Point(385, 48);
 			this.labelUserProperty2Value.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.labelUserProperty2Value.Name = "labelUserProperty2Value";
-			this.labelUserProperty2Value.Size = new System.Drawing.Size(206, 20);
+			this.labelUserProperty2Value.Size = new System.Drawing.Size(250, 20);
 			this.labelUserProperty2Value.TabIndex = 96;
 			this.labelUserProperty2Value.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
@@ -145,7 +147,7 @@ namespace PokemonGo.RocketAPI.Console
 			this.labelUserProperty1Value.Location = new System.Drawing.Point(385, 28);
 			this.labelUserProperty1Value.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.labelUserProperty1Value.Name = "labelUserProperty1Value";
-			this.labelUserProperty1Value.Size = new System.Drawing.Size(206, 20);
+			this.labelUserProperty1Value.Size = new System.Drawing.Size(250, 20);
 			this.labelUserProperty1Value.TabIndex = 95;
 			this.labelUserProperty1Value.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
@@ -206,7 +208,7 @@ namespace PokemonGo.RocketAPI.Console
 			// 
 			// pictureBoxTeam
 			// 
-			this.pictureBoxTeam.Image = global::PokemonGo.RocketAPI.Console.Properties.Resources.player_yellow;
+			this.pictureBoxTeam.Image = global::PokemonGo.RocketAPI.Console.Properties.Resources.team_valor;
 			this.pictureBoxTeam.Location = new System.Drawing.Point(0, 0);
 			this.pictureBoxTeam.Margin = new System.Windows.Forms.Padding(2);
 			this.pictureBoxTeam.Name = "pictureBoxTeam";
@@ -242,7 +244,6 @@ namespace PokemonGo.RocketAPI.Console
 			// 
 			// pictureBoxBuddyPokemon
 			// 
-			//this.pictureBoxBuddyPokemon.Image = global::PokemonGo.RocketAPI.Console.Properties.Resources._1_200;
 			this.pictureBoxBuddyPokemon.Location = new System.Drawing.Point(2, 96);
 			this.pictureBoxBuddyPokemon.Margin = new System.Windows.Forms.Padding(2);
 			this.pictureBoxBuddyPokemon.Name = "pictureBoxBuddyPokemon";
@@ -253,7 +254,7 @@ namespace PokemonGo.RocketAPI.Console
 			// 
 			// pictureBoxPlayerAvatar
 			// 
-			this.pictureBoxPlayerAvatar.Image = global::PokemonGo.RocketAPI.Console.Properties.Resources.player;
+			this.pictureBoxPlayerAvatar.Image = global::PokemonGo.RocketAPI.Console.Properties.Resources.Trainer_M;
 			this.pictureBoxPlayerAvatar.Location = new System.Drawing.Point(2, 28);
 			this.pictureBoxPlayerAvatar.Margin = new System.Windows.Forms.Padding(2);
 			this.pictureBoxPlayerAvatar.Name = "pictureBoxPlayerAvatar";
@@ -273,10 +274,22 @@ namespace PokemonGo.RocketAPI.Console
 			this.labelNoTeamSelected.Text = "No Team selected";
 			this.labelNoTeamSelected.TextAlign = System.Drawing.ContentAlignment.TopCenter;
 			// 
+			// btnTeam
+			// 
+			this.btnTeam.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.btnTeam.Location = new System.Drawing.Point(570, 166);
+			this.btnTeam.Name = "btnTeam";
+			this.btnTeam.Size = new System.Drawing.Size(75, 23);
+			this.btnTeam.TabIndex = 102;
+			this.btnTeam.Text = "Select Team";
+			this.btnTeam.UseVisualStyleBackColor = true;
+			this.btnTeam.Click += new System.EventHandler(this.BtnTeamClick);
+			// 
 			// PlayerPanel
 			// 
-			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
+			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
+			this.Controls.Add(this.btnTeam);
 			this.Controls.Add(this.labelUserProperty6Value);
 			this.Controls.Add(this.labelUserProperty6Title);
 			this.Controls.Add(this.labelUserProperty5Value);
@@ -291,7 +304,7 @@ namespace PokemonGo.RocketAPI.Console
 			this.Controls.Add(this.labelUserProperty5Title);
 			this.Controls.Add(this.panelLeftArea);
 			this.Name = "PlayerPanel";
-			this.Size = new System.Drawing.Size(604, 197);
+			this.Size = new System.Drawing.Size(648, 197);
 			((System.ComponentModel.ISupportInitialize)(this.pictureBoxTeam)).EndInit();
 			this.panelLeftArea.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.pictureBoxBuddyPokemon)).EndInit();

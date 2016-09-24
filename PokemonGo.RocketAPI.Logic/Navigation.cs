@@ -68,6 +68,8 @@ namespace PokemonGo.RocketAPI.Logic
             var locatePokemonWhileWalkingDateTime = DateTime.Now;
             do
             {
+                if (Logic._instance._clientSettings.ForceSnipe)
+                    break;          
                 var millisecondsUntilGetUpdatePlayerLocationResponse =
                     (DateTime.Now - requestSendDateTime).TotalMilliseconds;
 
@@ -86,9 +88,8 @@ namespace PokemonGo.RocketAPI.Logic
                 nextWaypointDistance = Math.Min(currentDistanceToTarget, millisecondsUntilGetUpdatePlayerLocationResponse / 1000 * speedInMetersPerSecond);
                 nextWaypointBearing = LocationUtils.DegreeBearing(sourceLocation, targetLocation);
                 waypoint = LocationUtils.CreateWaypoint(sourceLocation, nextWaypointDistance, nextWaypointBearing);
-
-                requestSendDateTime = DateTime.Now;
-
+                requestSendDateTime = DateTime.Now;                
+                
                 if (pauseWalking)
                 {
                     result =
@@ -112,7 +113,7 @@ namespace PokemonGo.RocketAPI.Logic
                     }
                 }
 
-                if (functionExecutedWhileWalking != null)
+                if (functionExecutedWhileWalking != null && !pauseWalking)
                 {
                     await functionExecutedWhileWalking();// look for pokemon 
                 }

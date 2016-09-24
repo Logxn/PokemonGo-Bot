@@ -8,10 +8,10 @@
 	"meters": "metros",
 	"startFromDefaultLocation": "Empezar en la ubicación predeterminada",
 	"botSettings": "Opciones del Bot",
-	"autoTransferDoublePokemon": "Auto transferir Pokémon duplicados",
+	"autoTransferDoublePokemon": "Auto transferir Pokémons duplicados",
 	"maxDupPokemon": "Máx. Pokémon duplicados",
-	"maxCPtransfer": "Máx. CP para enviar:",
-	"maxIVtransfer": "Máx. IV para enviar:",
+	"maxCPtransfer": "Máx. CP a transferir:",
+	"maxIVtransfer": "Máx. IV a transferir:",
 	"telegramSettings": "Opciones de Telegram",
 	"infoline1": "¡Este bot es absolutamente GRATIS y de código abierto!",
 	"infoline2": "¡¡Si encuentras algo relacionado a 'Pokecrot', avisa de que el bot es ROBADO!!",
@@ -41,5 +41,5 @@
 	"keepPokemonWhichCanBeEvolved": "Mantener Pokémon evolucionables",
 	"autoIncubate": "Auto Incubar",
 	"useRazzBerry": "Usar Bayas Frambu",
-	"useBasicIncubators": "Usar Incubadora base"
+	"useBasicIncubators": "Usar Incubadoras básicas"
 }
