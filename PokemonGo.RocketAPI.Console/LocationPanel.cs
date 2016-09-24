@@ -279,7 +279,7 @@ namespace PokemonGo.RocketAPI.Console
                                 }
                                 else
                                 {
-                                    Bitmap pokebitMap = Pokemons.GetPokemonMediumImage(pokeData.PokemonId);
+                                    Bitmap pokebitMap = PokemonsPanel.GetPokemonMediumImage(pokeData.PokemonId);
                                     if (pokebitMap != null)
                                     {
                                         var ImageSize = new System.Drawing.Size(pokebitMap.Width, pokebitMap.Height);
