@@ -187,7 +187,7 @@ namespace PokemonGo.RocketAPI.Console
                     var utf8 = new UTF8Encoding();
                     var reader = new BinaryReader(stream,utf8);
                     string txt =  reader.ReadString();
-                    Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, "Read URI");
+                    Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, "Read URI: " +txt);
                     reader.Close();
                     stream.Close();
                     File.Delete(filename);
@@ -195,13 +195,21 @@ namespace PokemonGo.RocketAPI.Console
                     txt = txt.Replace("pokesniper2://","");
                     var splt = txt.Split('/');
                     SplitLatLng(splt[1]);
-                    SnipePoke( (PokemonId)Enum.Parse(typeof(PokemonId), splt[0].ToUpper()));
+                    SnipePoke( (PokemonId)Enum.Parse(typeof(PokemonId), ToCapital(splt[0])));
                 }
             } catch (Exception ex) {
                 MessageBox.Show( ex.ToString());
                 
             }
         }
+        static string ToCapital(string s)
+        {
+            if (string.IsNullOrEmpty(s))
+            {
+                return string.Empty;
+            }
+            return char.ToUpper(s[0]) + s.Substring(1).ToLower();
+        }        
         void button1_Click(object sender, EventArgs e)
         {
             if (timer1.Enabled)
