@@ -106,8 +106,8 @@ namespace PokemonGo.RocketAPI.Console
           try
             {
                 var array = latlng.Split(',');
-                var lat = double.Parse(array[0]);
-                var lng = double.Parse(array[1]);
+                var lat = double.Parse(array[0].Trim());
+                var lng = double.Parse(array[1].Trim());
                 ManualSnipePokemon.Location = new GeoCoordinate(lat, lng);
             }
             catch
