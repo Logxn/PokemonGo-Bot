@@ -247,6 +247,11 @@ namespace PokemonGo.RocketAPI.Console
             AppDomain.CurrentDomain.UnhandledException += NBug.Handler.UnhandledException;
         }
     }
+    public static class ManualSnipePokemon
+    {
+        public static PokemonId? ID = null;
+        public static GeoCoordinate Location = null;
+    }
     public static class Globals
     {
         public static Collection<Profile> Profiles = new Collection<Profile>();
@@ -371,6 +376,7 @@ namespace PokemonGo.RocketAPI.Console
         internal static bool FirstLoad;
         public static int MinCPtoCatch = 0;
         public static int MinIVtoCatch = 0;
-        public static bool AvoidRegionLock = true;        
+        public static bool AvoidRegionLock = true;
+        public static bool ForceSnipe = false;             
     }
 }

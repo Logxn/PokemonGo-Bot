@@ -738,5 +738,20 @@ namespace PokemonGo.RocketAPI.Console
             get { return Globals.pokeList; }
             set { Globals.pokeList = value; }
         }
+        public bool ForceSnipe
+        {
+            get { return Globals.ForceSnipe; }
+            set { Globals.ForceSnipe = value; }
+        }
+        public PokemonId? ManualSnipePokemonID
+        {
+            get { return ManualSnipePokemon.ID; }
+            set { ManualSnipePokemon.ID = value; }
+        }
+        public GeoCoordinate ManualSnipePokemonLocation
+        {
+            get { return ManualSnipePokemon.Location; }
+            set { ManualSnipePokemon.Location = value; }
+        }
     }
 }
