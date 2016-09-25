@@ -150,7 +150,14 @@ namespace PokemonGo.RocketAPI.Console
             foreach (PokemonId Id in Globals.NotToSnipe)
             {
                 string _id = Id.ToString();
-                checkedListBox_NotToSnipe.SetItemChecked(pokeIDS[_id] - 1, true);
+                try {
+                    checkedListBox_NotToSnipe.SetItemChecked(pokeIDS[_id] - 1, true);
+                } catch (Exception e) {
+                    Logger.ColoredConsoleWrite(ConsoleColor.DarkRed,"[Ignoring Error] More information in log file");
+                    Logger.AddLog(string.Format("Error loading checkedListBox_NotToSnipe id:{0}, pokeIDS[id]:{1}",_id,pokeIDS[_id]));
+                    Logger.AddLog(e.ToString());
+                }
+                
             }                    
         
         }
