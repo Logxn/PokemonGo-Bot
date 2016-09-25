@@ -383,7 +383,6 @@ namespace PokemonGo.RocketAPI.Console
                     text_Telegram_Name.Text = config.TelegramName;
                     text_Telegram_LiveStatsDelay.Text = config.TelegramLiveStatsDelay.ToString();
 
-                    UseSkipLaggedAPI.Checked = config.pokevision;
                     SnipePokemonPokeCom.Checked = config.SnipePokemon;
                     AvoidRegionLock.Checked = config.AvoidRegionLock;
 
@@ -784,7 +783,6 @@ namespace PokemonGo.RocketAPI.Console
             Globals.telAPI = text_Telegram_Token.Text;
             Globals.telName = text_Telegram_Name.Text;
             ret &= textBoxToGlobalInt(text_Telegram_LiveStatsDelay, "telDelay");
-            Globals.pokevision = UseSkipLaggedAPI.Checked;
             Globals.SnipePokemon = SnipePokemonPokeCom.Checked;
             if ((makePrompts) && (Globals.SnipePokemon && !Globals.FirstLoad))
             {
@@ -800,7 +798,8 @@ namespace PokemonGo.RocketAPI.Console
             Globals.CheckWhileRunning = checkbox_checkWhileRunning.Checked;
 
             Globals.settingsLanguage = langSelected;
-
+            Globals.NextDestinationOverride.Clear();
+            Globals.RouteToRepeat.Clear();
             #endregion
             return ret;
         }
