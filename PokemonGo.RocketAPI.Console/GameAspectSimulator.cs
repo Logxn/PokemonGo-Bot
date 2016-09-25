@@ -149,7 +149,7 @@ namespace PokemonGo.RocketAPI.Console
             panel  = new PlayerPanel();
             panel.Anchor = allAnchors;
             panel.Location = new Point (1,1);
-            panel.Size = new Size(this.Size.Width -10, 200);
+            panel.Size = new Size(this.Size.Width -10, 280);
             panel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             Controls.Add(panel);
             panel.Visible = true;
