@@ -484,7 +484,7 @@ namespace PokemonGo.RocketAPI.Console
             Globals.FirstLoad = true;
         }
         //Account Type Changed Event
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        private void comboAccType_SelectedIndexChanged(object sender, EventArgs e)
         {            
             if (comboBox_AccountType.SelectedIndex == 0)
                 label2.Text = "E-Mail:";
@@ -845,6 +845,7 @@ namespace PokemonGo.RocketAPI.Console
                 File.WriteAllText(@Program.accountProfiles, profileJSON);
                 Globals.password = decryptedPassword;
                 #endregion
+                
                 return true;
             }
             else
@@ -1215,7 +1216,7 @@ namespace PokemonGo.RocketAPI.Console
             Process.Start("http://proxylist.hidemyass.com/search-1297445#listable");
         }
 
-        private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
+        private void comboDevice_SelectedIndexChanged(object sender, EventArgs e)
         {
             try
             {
