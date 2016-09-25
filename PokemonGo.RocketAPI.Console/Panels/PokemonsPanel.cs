@@ -26,7 +26,7 @@ namespace PokemonGo.RocketAPI.Console
         private static List<AdditionalPokeData> additionalPokeData = new List<AdditionalPokeData>();
         private static ISettings ClientSettings;
         private static Client client;
-        private GetPlayerResponse profile;
+        public GetPlayerResponse profile;
 
         private void loadAdditionalPokeData()
         {
