@@ -26,7 +26,7 @@ namespace PokemonGo.RocketAPI.Console
         private static List<AdditionalPokeData> additionalPokeData = new List<AdditionalPokeData>();
         private static ISettings ClientSettings;
         private static Client client;
-        private GetPlayerResponse profile;
+        public GetPlayerResponse profile;
 
         private void loadAdditionalPokeData()
         {
@@ -451,8 +451,8 @@ namespace PokemonGo.RocketAPI.Console
                     }
                     MessageBox.Show("Succesfully transfered " + transfered + "/" + total + " Pokemons.", "Transfer status", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
-
-                Text = "Pokemon List | User: " + profile.PlayerData.Username + " | Pokemons: " + PokemonListView.Items.Count + "/" + profile.PlayerData.MaxPokemonStorage;
+                if ((Parent !=null) && (profile!=null))
+                    Parent.Text = "Pokemon List | User: " + profile.PlayerData.Username + " | Pokemons: " + PokemonListView.Items.Count + "/" + profile.PlayerData.MaxPokemonStorage;
             }
             EnabledButton(true);
         }

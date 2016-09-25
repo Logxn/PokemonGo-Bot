@@ -85,6 +85,8 @@ namespace PokemonGo.RocketAPI.Console
                     playerPanel1.setProfile(profile);
                     playerPanel1.Execute();
                     locationPanel1.CreateBotMarker((int)profile.PlayerData.Team, stats.Level, stats.Experience);
+                    pokemonsPanel1.profile = profile;
+                    playerPanel1.SetPokemons(pokemonsPanel1.pokemons);
                 }
             }
             catch (Exception e)

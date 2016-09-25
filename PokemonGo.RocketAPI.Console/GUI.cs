@@ -1333,6 +1333,7 @@ namespace PokemonGo.RocketAPI.Console
         void TextBoxes_TextChanged(object sender, EventArgs e)
         {
             ((TextBox) sender).BackColor = SystemColors.Window;
-        }        
+        }
+
     }
 }
