@@ -30,6 +30,11 @@ namespace PokemonGo.RocketAPI.Console
             InitializeComponent();
             
             locationPanel1.Init(true, 0, 0, 0);
+            btnPicPokes.Parent= locationPanel1.map;
+            btnPicEggs.Parent= locationPanel1.map;
+            btnPicItems.Parent= locationPanel1.map;
+            btnPicConfig.Parent = locationPanel1.map;
+            btnPicSnipe.Parent = locationPanel1.map;
         }
         void btnPicClose_Click(object sender, EventArgs e)
         {

@@ -14,7 +14,7 @@ namespace PokemonGo.RocketAPI.Console
 		/// Designer variable used to keep track of non-visual components.
 		/// </summary>
 		private System.ComponentModel.IContainer components = null;
-		private GMap.NET.WindowsForms.GMapControl map;
+		public GMap.NET.WindowsForms.GMapControl map;
 		private System.Windows.Forms.CheckBox cbShowPokemon;
 		private System.Windows.Forms.Button buttonRefreshPokemon;
 		private System.Windows.Forms.CheckBox cbShowPokeStops;

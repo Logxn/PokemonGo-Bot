@@ -71,6 +71,7 @@ namespace PokemonGo.RocketAPI.Console
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.locationPanel1.Location = new System.Drawing.Point(0, 1);
+            this.locationPanel1.Margin = new System.Windows.Forms.Padding(4);
             this.locationPanel1.Name = "locationPanel1";
             this.locationPanel1.Size = new System.Drawing.Size(787, 553);
             this.locationPanel1.TabIndex = 0;
@@ -184,13 +185,13 @@ namespace PokemonGo.RocketAPI.Console
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(787, 588);
-            this.Controls.Add(this.btnPicProfile);
-            this.Controls.Add(this.btnPicSnipe);
-            this.Controls.Add(this.btnPicClose);
             this.Controls.Add(this.btnPicConfig);
-            this.Controls.Add(this.btnPicItems);
-            this.Controls.Add(this.btnPicEggs);
+            this.Controls.Add(this.btnPicSnipe);
             this.Controls.Add(this.btnPicPokes);
+            this.Controls.Add(this.btnPicEggs);
+            this.Controls.Add(this.btnPicItems);
+            this.Controls.Add(this.btnPicProfile);
+            this.Controls.Add(this.btnPicClose);
             this.Controls.Add(this.btnPicMenu);
             this.Controls.Add(this.locationPanel1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
