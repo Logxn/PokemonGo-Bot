@@ -79,12 +79,12 @@ namespace PokemonGo.RocketAPI.Console
             this.label64 = new System.Windows.Forms.Label();
             this.SnipeInfo = new System.Windows.Forms.TextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.btnInstall = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
-            this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.label2 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
             this.LinkPokesniperCom = new System.Windows.Forms.LinkLabel();
+            this.btnInstall = new System.Windows.Forms.Button();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.groupBox23.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PokemonImage)).BeginInit();
@@ -121,7 +121,7 @@ namespace PokemonGo.RocketAPI.Console
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(469, 369);
+            this.label4.Location = new System.Drawing.Point(345, 369);
             this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(174, 20);
@@ -131,7 +131,7 @@ namespace PokemonGo.RocketAPI.Console
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(483, 398);
+            this.label5.Location = new System.Drawing.Point(359, 398);
             this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(143, 13);
@@ -141,7 +141,7 @@ namespace PokemonGo.RocketAPI.Console
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(416, 345);
+            this.label3.Location = new System.Drawing.Point(292, 345);
             this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(237, 13);
@@ -217,7 +217,7 @@ namespace PokemonGo.RocketAPI.Console
             this.groupBox1.Controls.Add(this.label6);
             this.groupBox1.Controls.Add(this.label64);
             this.groupBox1.Controls.Add(this.SnipeInfo);
-            this.groupBox1.Location = new System.Drawing.Point(392, 4);
+            this.groupBox1.Location = new System.Drawing.Point(268, 4);
             this.groupBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -295,7 +295,7 @@ namespace PokemonGo.RocketAPI.Console
             this.groupBox2.Controls.Add(this.label7);
             this.groupBox2.Controls.Add(this.label1);
             this.groupBox2.Controls.Add(this.label2);
-            this.groupBox2.Location = new System.Drawing.Point(10, 421);
+            this.groupBox2.Location = new System.Drawing.Point(10, 420);
             this.groupBox2.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(600, 81);
@@ -303,43 +303,26 @@ namespace PokemonGo.RocketAPI.Console
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "URI Service";
             // 
+            // LinkPokesniperCom
+            // 
+            this.LinkPokesniperCom.Location = new System.Drawing.Point(444, 35);
+            this.LinkPokesniperCom.Name = "LinkPokesniperCom";
+            this.LinkPokesniperCom.Size = new System.Drawing.Size(100, 15);
+            this.LinkPokesniperCom.TabIndex = 89;
+            this.LinkPokesniperCom.TabStop = true;
+            this.LinkPokesniperCom.Text = "Pokesniper.com";
+            this.LinkPokesniperCom.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.PokesniperCom_LinkClicked);
+            // 
             // btnInstall
             // 
-            this.btnInstall.Location = new System.Drawing.Point(502, 53);
+            this.btnInstall.Location = new System.Drawing.Point(491, 53);
             this.btnInstall.Margin = new System.Windows.Forms.Padding(4);
             this.btnInstall.Name = "btnInstall";
-            this.btnInstall.Size = new System.Drawing.Size(93, 22);
+            this.btnInstall.Size = new System.Drawing.Size(103, 22);
             this.btnInstall.TabIndex = 5;
             this.btnInstall.Text = "Install Service";
             this.btnInstall.UseVisualStyleBackColor = true;
             this.btnInstall.Click += new System.EventHandler(this.btnInstall_Click);
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(53, 16);
-            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(538, 13);
-            this.label1.TabIndex = 86;
-            this.label1.Text = "Handles \"pokesniper2://\" URI Protocol. So if you have another application to do i" +
-    "t. Is  advisable uninstall before.";
-            // 
-            // timer1
-            // 
-            this.timer1.Interval = 10000;
-            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(54, 36);
-            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(388, 13);
-            this.label2.TabIndex = 87;
-            this.label2.Text = "With Service Installed you can snipe directly from pokesniper URIs like this page" +
-    ":";
             // 
             // label7
             // 
@@ -352,15 +335,32 @@ namespace PokemonGo.RocketAPI.Console
             this.label7.TabIndex = 88;
             this.label7.Text = "NOTES:";
             // 
-            // LinkPokesniperCom
+            // label1
             // 
-            this.LinkPokesniperCom.Location = new System.Drawing.Point(444, 35);
-            this.LinkPokesniperCom.Name = "LinkPokesniperCom";
-            this.LinkPokesniperCom.Size = new System.Drawing.Size(100, 15);
-            this.LinkPokesniperCom.TabIndex = 89;
-            this.LinkPokesniperCom.TabStop = true;
-            this.LinkPokesniperCom.Text = "Pokesniper.com";
-            this.LinkPokesniperCom.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.PokesniperCom_LinkClicked);
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(53, 16);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(538, 13);
+            this.label1.TabIndex = 86;
+            this.label1.Text = "Handles \"pokesniper2://\" URI Protocol. So if you have another application to do i" +
+    "t. Is  advisable uninstall before.";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(54, 36);
+            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(388, 13);
+            this.label2.TabIndex = 87;
+            this.label2.Text = "With Service Installed you can snipe directly from pokesniper URIs like this page" +
+    ":";
+            // 
+            // timer1
+            // 
+            this.timer1.Interval = 10000;
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // SniperPanel
             // 

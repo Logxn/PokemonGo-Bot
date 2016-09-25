@@ -166,7 +166,7 @@ namespace PokemonGo.RocketAPI.Console
                     UnregisterUriScheme();
                     Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, "Service Uninstalled");
                     timer1.Enabled = false;
-                    btnInstall.Text ="Uninstall Service";
+                    btnInstall.Text ="Install Service";
                 } catch (Exception) {
                     MessageBox.Show("Cannot uninstall service\n"+e.ToString());
                 }                
@@ -177,7 +177,7 @@ namespace PokemonGo.RocketAPI.Console
                     RegisterUriScheme(Application.ExecutablePath);
                     Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, "Service Installed");
                     timer1.Enabled = true;
-                    btnInstall.Text ="Install Service";
+                    btnInstall.Text ="Uninstall Service";
                 } catch (Exception) {
                     MessageBox.Show("Cannot install service.\n"+e.ToString());
                 }
