@@ -85,6 +85,9 @@ namespace PokemonGo.RocketAPI.Console
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.label2 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.LinkPokesniperCom = new System.Windows.Forms.LinkLabel();
             this.groupBox23.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PokemonImage)).BeginInit();
@@ -361,6 +364,38 @@ namespace PokemonGo.RocketAPI.Console
             // 
             this.timer1.Interval = 10000;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(54, 36);
+            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(388, 13);
+            this.label2.TabIndex = 87;
+            this.label2.Text = "With Service Installed you can snipe directly from pokesniper URIs like this page" +
+    ":";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.label7.Location = new System.Drawing.Point(8, 15);
+            this.label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(47, 13);
+            this.label7.TabIndex = 88;
+            this.label7.Text = "NOTES:";
+            // 
+            // LinkPokesniperCom
+            // 
+            this.LinkPokesniperCom.Location = new System.Drawing.Point(444, 35);
+            this.LinkPokesniperCom.Name = "LinkPokesniperCom";
+            this.LinkPokesniperCom.Size = new System.Drawing.Size(100, 15);
+            this.LinkPokesniperCom.TabIndex = 89;
+            this.LinkPokesniperCom.TabStop = true;
+            this.LinkPokesniperCom.Text = "Pokesniper.com";
+            this.LinkPokesniperCom.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.PokesniperCom_LinkClicked);
             // 
             // SniperPanel
             // 
