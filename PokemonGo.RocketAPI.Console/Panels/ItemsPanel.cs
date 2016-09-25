@@ -225,6 +225,19 @@ namespace PokemonGo.RocketAPI.Console
         		
         	}
         }
+        void btnCopy_Click(object sender, EventArgs e)
+        {
+          foreach ( ListViewItem lvitem in ItemsListView.Items) {
+                var item = (ItemData) (lvitem.Tag);
+                var controlName = item.ItemId.ToString();
+                controlName = controlName.Replace("Item","num_Max") + "s";
+                var controls = Controls.Find(controlName,true);
+                if (controls.Length > 0 )
+                {
+                    ((NumericUpDown)controls[0]).Value = item.Count;
+                }
+          }
+        }
 		
 	}
 }

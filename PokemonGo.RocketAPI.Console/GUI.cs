@@ -121,20 +121,20 @@ namespace PokemonGo.RocketAPI.Console
                     pokeIDS[pokemon.ToString()] = i;
                     checkedListBox_PokemonNotToTransfer.Items.Add(pokemon.ToString());
                     checkedListBox_PokemonNotToCatch.Items.Add(pokemon.ToString());
-                    checkedListBox_NotToSnipe.Items.Add(pokemon.ToString());
                     if (!(evolveBlacklist.Contains(i)))
                     {
                         checkedListBox_PokemonToEvolve.Items.Add(pokemon.ToString());
                         evolveIDS[pokemon.ToString()] = ev;
                         ev++;
                     }
+                    checkedListBox_NotToSnipe.Items.Add(pokemon.ToString());
                     i++;
                 }
             }
-            Globals.NotToSnipe = new List<PokemonId>();
-            Globals.doEvolve = new List<PokemonId>();
-            Globals.noCatch = new List<PokemonId>();
             Globals.noTransfer = new List<PokemonId>();
+            Globals.noCatch = new List<PokemonId>();
+            Globals.doEvolve = new List<PokemonId>();
+            Globals.NotToSnipe = new List<PokemonId>();
 
             #region Loading Everything into GUI 
 
@@ -638,8 +638,8 @@ namespace PokemonGo.RocketAPI.Console
             Globals.useBasicIncubators = checkBox_UseBasicIncubators.Checked;
 
             // tab 2 - pokemons
-            Globals.noCatch.Clear();
             Globals.noTransfer.Clear();
+            Globals.noCatch.Clear();
             Globals.doEvolve.Clear();
             Globals.NotToSnipe.Clear();
 
@@ -894,34 +894,6 @@ namespace PokemonGo.RocketAPI.Console
                 i++;
             }
         }
-
-        private void checkBox8_CheckedChanged(object sender, EventArgs e)
-        {
-            while (checkedListBox_PokemonNotToTransfer.Items.Count > 0)
-            {
-                checkedListBox_PokemonNotToTransfer.Items.RemoveAt(0);
-                checkedListBox_PokemonNotToCatch.Items.RemoveAt(0);
-                if (checkedListBox_PokemonToEvolve.Items.Count > 0)
-                {
-                    checkedListBox_PokemonToEvolve.Items.RemoveAt(0);
-                }
-            }
-            int i = 1;
-            foreach (PokemonId pokemon in Enum.GetValues(typeof(PokemonId)))
-            {
-                if (pokemon.ToString() != "Missingno")
-                {
-                    checkedListBox_PokemonNotToTransfer.Items.Add(pokemon.ToString());
-                    checkedListBox_PokemonNotToCatch.Items.Add(pokemon.ToString());
-                    if (!(evolveBlacklist.Contains(i)))
-                    {
-                        checkedListBox_PokemonToEvolve.Items.Add(pokemon.ToString());
-                    }
-                    i++;
-                }
-            }
-        }
-
 
         private void chkAutoIncubate_CheckedChanged(object sender, EventArgs e)
         {

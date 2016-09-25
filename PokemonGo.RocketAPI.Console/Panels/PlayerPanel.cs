@@ -6,19 +6,19 @@
  * 
  * To change this template use Tools | Options | Coding | Edit Standard Headers.
  */
+
 using System;
-using System.ComponentModel;
 using System.Drawing;
-using System.Windows.Forms;
-using POGOProtos.Networking.Responses;
-using POGOProtos.Enums;
-using POGOProtos.Data;
-using PokemonGo.RocketAPI.Logic.Utils;
-using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Collections;
+using System.Windows.Forms;
+using System.Globalization;
+using System.Collections.Generic;
+using POGOProtos.Data;
+using POGOProtos.Enums;
 using POGOProtos.Map.Fort;
+using POGOProtos.Networking.Responses;
+using PokemonGo.RocketAPI.Logic.Utils;
 
 namespace PokemonGo.RocketAPI.Console
 {
@@ -35,10 +35,6 @@ namespace PokemonGo.RocketAPI.Console
             // The InitializeComponent() call is required for Windows Forms designer support.
             //
             InitializeComponent();
-
-            //
-            // TODO: Add constructor code after the InitializeComponent() call.
-            //
 
             pictureBoxBuddyPokemon.Visible = false;
             pictureBoxPlayerAvatar.Visible = false;
@@ -60,12 +56,27 @@ namespace PokemonGo.RocketAPI.Console
             }
         }
 
-        public void Execute(GetPlayerResponse prof, IOrderedEnumerable<PokemonData> poks)
+        public async void Execute()
         {
+            Visible =false;
+            await check();
+            var client = Logic.Logic._client;
+            if (client.readyToUse != false)
+            {
+                profile = await client.Player.GetPlayer();
+                updatePlayerImages();
+                updatePlayerInfoLabels();
+            }
+            Visible =true;
+        }
+        
+        public void setProfile(GetPlayerResponse prof){
             profile = prof;
+        }
+
+        public void SetPokemons( IOrderedEnumerable<PokemonData> poks)
+        {
             pokemons = poks;
-            updatePlayerImages();
-            updatePlayerInfoLabels();
         }
         /// <summary>
         /// Gets the image for team.
@@ -233,7 +244,7 @@ namespace PokemonGo.RocketAPI.Console
                 var buddyPoke = pokemons.FirstOrDefault(x => x.Id == buddyPokemon.Id);
                 if (buddyPoke != null)
                 {
-                    return getPokemonImagefromResource(buddyPoke.PokemonId, "200");
+                    return PokeImgManager.GetPokemonImagefromResource(buddyPoke.PokemonId, "200");
                 }
                 else
                 {
@@ -260,18 +271,6 @@ namespace PokemonGo.RocketAPI.Console
             }
         }
 
-        private static Bitmap getPokemonImagefromResource(PokemonId pokemon, string size)
-        {
-            var resource = PokemonGo.RocketAPI.Console.Properties.Resources.ResourceManager.GetObject(string.Format("_{0}_{1}", (int)pokemon, size), CultureInfo.CurrentCulture);
-            if (resource != null && resource is Bitmap)
-            {
-                return new Bitmap(resource as Bitmap);
-            }
-            else
-            {
-                return null;
-            }
-        }
 		private async void BtnTeamClick(object sender, EventArgs e)
 		{
 			var teamSelect =new TeamSelect();
@@ -297,7 +296,7 @@ namespace PokemonGo.RocketAPI.Console
 		                if (resp2.Status)
 		                {
 		                	Logger.ColoredConsoleWrite(ConsoleColor.Green, "Selected Team: " + team.ToString());
-		                	Execute(profile, pokemons);
+		                	Execute();
 		                }
 		                else
 		                    MessageBox.Show(resp.Message + "Set Team failed!", "Set Team Status", MessageBoxButtons.OK);
@@ -348,8 +347,8 @@ namespace PokemonGo.RocketAPI.Console
             }
             return resp1;
         }	
-		
-		private static async Task<taskResponse> GetGym(string gym, double lat, double lng)
+        //GetGymDetails
+        private static async Task<taskResponse> GetGym(string gym, double lat, double lng)
         {
             taskResponse resp1 = new taskResponse(false, string.Empty);
             try
@@ -373,7 +372,20 @@ namespace PokemonGo.RocketAPI.Console
             }
             return resp1;
         }			
-		
-		//GetGymDetails
+        public async Task check()
+        {
+            while (true)
+            {
+                try
+                {
+                    if (Logic.Logic._client != null && Logic.Logic._client.readyToUse != false)
+                    {
+                        break;
+                    }
+                }
+                catch (Exception) { }
+            }
+        }		
+
     }
 }

@@ -92,7 +92,7 @@ namespace PokemonGo.RocketAPI.Console
         }
         void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-          var pokemonImage = Pokemons.GetPokemonVeryLargeImage((PokemonId)comboBox1.SelectedValue);
+          var pokemonImage = PokeImgManager.GetPokemonVeryLargeImage((PokemonId)comboBox1.SelectedValue);
            PokemonImage.Image = pokemonImage;
         }
         
@@ -160,7 +160,7 @@ namespace PokemonGo.RocketAPI.Console
                 RegisterUriScheme(Application.ExecutablePath);
                 Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, "Service Installed");
                 timer1.Enabled = true;
-                
+                button1.Text ="Stop Timer";
             } catch (Exception) {
                 MessageBox.Show("Cannot install service.\n"+e.ToString());
             }
@@ -172,6 +172,7 @@ namespace PokemonGo.RocketAPI.Console
                 UnregisterUriScheme();
                 Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, "Service Uninstalled");
                 timer1.Enabled = false;
+                button1.Text ="Start Timer";
             } catch (Exception) {
                 MessageBox.Show("Cannot uninstall service\n"+e.ToString());
             }
@@ -186,7 +187,7 @@ namespace PokemonGo.RocketAPI.Console
                     var utf8 = new UTF8Encoding();
                     var reader = new BinaryReader(stream,utf8);
                     string txt =  reader.ReadString();
-                    Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, "Read URI");
+                    Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, "Read URI: " +txt);
                     reader.Close();
                     stream.Close();
                     File.Delete(filename);
@@ -194,22 +195,40 @@ namespace PokemonGo.RocketAPI.Console
                     txt = txt.Replace("pokesniper2://","");
                     var splt = txt.Split('/');
                     SplitLatLng(splt[1]);
-                    SnipePoke( (PokemonId)Enum.Parse(typeof(PokemonId), splt[0].ToUpper()));
+                    SnipePoke( (PokemonId)Enum.Parse(typeof(PokemonId), splt[0]));
+                    //ToCapital fails with MrMime
+                    //SnipePoke( (PokemonId)Enum.Parse(typeof(PokemonId), ToCapital(splt[0])));
                 }
             } catch (Exception ex) {
                 MessageBox.Show( ex.ToString());
                 
             }
         }
-        void button2_Click(object sender, EventArgs e)
+        static string ToCapital(string s)
         {
-            Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, "Timer to check URI Stopped");
-            timer1.Enabled = false;
-        }
+            if (string.IsNullOrEmpty(s))
+            {
+                return string.Empty;
+            }
+            return char.ToUpper(s[0]) + s.Substring(1).ToLower();
+        }        
         void button1_Click(object sender, EventArgs e)
         {
-            Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, "Timer to check URI Started");
-            timer1.Enabled = true;
+            if (timer1.Enabled)
+            {
+                Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, "Timer to check URI Stopped");
+                ((Button) sender).Text ="Start Timer";
+            }
+            else{
+                var filename = Path.GetTempPath()+"pokesniper";
+                if (File.Exists(filename))
+                {
+                    File.Delete(filename);    
+                }
+                Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, "Timer to check URI Started");
+                ((Button) sender).Text ="Stop Timer";
+            }
+            timer1.Enabled = !timer1.Enabled;
           
         }
         const string URI_SCHEME = "pokesniper2";

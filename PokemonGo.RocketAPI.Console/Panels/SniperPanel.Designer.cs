@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Created by SharpDevelop.
  * User: Xelwon
  * Date: 24/09/2016
@@ -32,7 +32,6 @@ namespace PokemonGo.RocketAPI.Console
         private System.Windows.Forms.Label label64;
         private System.Windows.Forms.TextBox SnipeInfo;
         private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button btnUninstall;
         private System.Windows.Forms.Button btnInstall;
@@ -79,7 +78,6 @@ namespace PokemonGo.RocketAPI.Console
             this.label64 = new System.Windows.Forms.Label();
             this.SnipeInfo = new System.Windows.Forms.TextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.button2 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.btnUninstall = new System.Windows.Forms.Button();
             this.btnInstall = new System.Windows.Forms.Button();
@@ -109,9 +107,9 @@ namespace PokemonGo.RocketAPI.Console
             this.AvoidRegionLock.Checked = true;
             this.AvoidRegionLock.CheckState = System.Windows.Forms.CheckState.Checked;
             this.AvoidRegionLock.Location = new System.Drawing.Point(4, 393);
-            this.AvoidRegionLock.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.AvoidRegionLock.Margin = new System.Windows.Forms.Padding(4);
             this.AvoidRegionLock.Name = "AvoidRegionLock";
-            this.AvoidRegionLock.Size = new System.Drawing.Size(227, 21);
+            this.AvoidRegionLock.Size = new System.Drawing.Size(177, 17);
             this.AvoidRegionLock.TabIndex = 78;
             this.AvoidRegionLock.Text = "Avoid Region Locked Pokemon";
             this.AvoidRegionLock.UseVisualStyleBackColor = true;
@@ -124,7 +122,7 @@ namespace PokemonGo.RocketAPI.Console
             this.label4.Location = new System.Drawing.Point(469, 369);
             this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(215, 25);
+            this.label4.Size = new System.Drawing.Size(174, 20);
             this.label4.TabIndex = 81;
             this.label4.Text = "30.123456, -97.123456";
             // 
@@ -134,7 +132,7 @@ namespace PokemonGo.RocketAPI.Console
             this.label5.Location = new System.Drawing.Point(483, 398);
             this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(190, 17);
+            this.label5.Size = new System.Drawing.Size(143, 13);
             this.label5.TabIndex = 82;
             this.label5.Text = "please use decimals for now.";
             // 
@@ -144,7 +142,7 @@ namespace PokemonGo.RocketAPI.Console
             this.label3.Location = new System.Drawing.Point(416, 345);
             this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(315, 17);
+            this.label3.Size = new System.Drawing.Size(237, 13);
             this.label3.TabIndex = 83;
             this.label3.Text = "You must enter Snipe Info in the following format!";
             // 
@@ -154,9 +152,9 @@ namespace PokemonGo.RocketAPI.Console
             this.groupBox23.Controls.Add(this.SelectallNottoSnipe);
             this.groupBox23.Controls.Add(this.checkedListBox_NotToSnipe);
             this.groupBox23.Location = new System.Drawing.Point(4, 4);
-            this.groupBox23.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox23.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox23.Name = "groupBox23";
-            this.groupBox23.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox23.Padding = new System.Windows.Forms.Padding(4);
             this.groupBox23.Size = new System.Drawing.Size(228, 324);
             this.groupBox23.TabIndex = 79;
             this.groupBox23.TabStop = false;
@@ -178,9 +176,9 @@ namespace PokemonGo.RocketAPI.Console
             // 
             this.SelectallNottoSnipe.AutoSize = true;
             this.SelectallNottoSnipe.Location = new System.Drawing.Point(8, 295);
-            this.SelectallNottoSnipe.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.SelectallNottoSnipe.Margin = new System.Windows.Forms.Padding(4);
             this.SelectallNottoSnipe.Name = "SelectallNottoSnipe";
-            this.SelectallNottoSnipe.Size = new System.Drawing.Size(87, 21);
+            this.SelectallNottoSnipe.Size = new System.Drawing.Size(69, 17);
             this.SelectallNottoSnipe.TabIndex = 32;
             this.SelectallNottoSnipe.Text = "Select all";
             this.SelectallNottoSnipe.UseVisualStyleBackColor = true;
@@ -191,19 +189,19 @@ namespace PokemonGo.RocketAPI.Console
             this.checkedListBox_NotToSnipe.CheckOnClick = true;
             this.checkedListBox_NotToSnipe.FormattingEnabled = true;
             this.checkedListBox_NotToSnipe.Location = new System.Drawing.Point(8, 25);
-            this.checkedListBox_NotToSnipe.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.checkedListBox_NotToSnipe.Margin = new System.Windows.Forms.Padding(4);
             this.checkedListBox_NotToSnipe.Name = "checkedListBox_NotToSnipe";
             this.checkedListBox_NotToSnipe.ScrollAlwaysVisible = true;
-            this.checkedListBox_NotToSnipe.Size = new System.Drawing.Size(212, 242);
+            this.checkedListBox_NotToSnipe.Size = new System.Drawing.Size(212, 229);
             this.checkedListBox_NotToSnipe.TabIndex = 0;
             // 
             // SnipePokemonPokeCom
             // 
             this.SnipePokemonPokeCom.AutoSize = true;
             this.SnipePokemonPokeCom.Location = new System.Drawing.Point(4, 369);
-            this.SnipePokemonPokeCom.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.SnipePokemonPokeCom.Margin = new System.Windows.Forms.Padding(4);
             this.SnipePokemonPokeCom.Name = "SnipePokemonPokeCom";
-            this.SnipePokemonPokeCom.Size = new System.Drawing.Size(254, 21);
+            this.SnipePokemonPokeCom.Size = new System.Drawing.Size(195, 17);
             this.SnipePokemonPokeCom.TabIndex = 80;
             this.SnipePokemonPokeCom.Text = "Enable Automatic Pokemon Sniping";
             this.SnipePokemonPokeCom.UseVisualStyleBackColor = true;
@@ -242,7 +240,7 @@ namespace PokemonGo.RocketAPI.Console
             this.comboBox1.Location = new System.Drawing.Point(95, 219);
             this.comboBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(199, 24);
+            this.comboBox1.Size = new System.Drawing.Size(199, 21);
             this.comboBox1.TabIndex = 75;
             this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
@@ -251,7 +249,7 @@ namespace PokemonGo.RocketAPI.Console
             this.SnipeMe.BackColor = System.Drawing.Color.MediumAquamarine;
             this.SnipeMe.Enabled = false;
             this.SnipeMe.Location = new System.Drawing.Point(21, 298);
-            this.SnipeMe.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.SnipeMe.Margin = new System.Windows.Forms.Padding(4);
             this.SnipeMe.Name = "SnipeMe";
             this.SnipeMe.Size = new System.Drawing.Size(345, 27);
             this.SnipeMe.TabIndex = 74;
@@ -265,7 +263,7 @@ namespace PokemonGo.RocketAPI.Console
             this.label6.Location = new System.Drawing.Point(136, 199);
             this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(108, 17);
+            this.label6.Size = new System.Drawing.Size(83, 13);
             this.label6.TabIndex = 72;
             this.label6.Text = "Pokemon Name";
             // 
@@ -275,49 +273,36 @@ namespace PokemonGo.RocketAPI.Console
             this.label64.Location = new System.Drawing.Point(125, 247);
             this.label64.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label64.Name = "label64";
-            this.label64.Size = new System.Drawing.Size(130, 17);
+            this.label64.Size = new System.Drawing.Size(98, 13);
             this.label64.TabIndex = 72;
             this.label64.Text = "Latitude, Longitude";
             // 
             // SnipeInfo
             // 
             this.SnipeInfo.Location = new System.Drawing.Point(21, 268);
-            this.SnipeInfo.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.SnipeInfo.Margin = new System.Windows.Forms.Padding(4);
             this.SnipeInfo.Name = "SnipeInfo";
-            this.SnipeInfo.Size = new System.Drawing.Size(345, 22);
+            this.SnipeInfo.Size = new System.Drawing.Size(345, 20);
             this.SnipeInfo.TabIndex = 73;
             this.SnipeInfo.TextChanged += new System.EventHandler(this.SnipeInfo_TextChanged);
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.button2);
             this.groupBox2.Controls.Add(this.button1);
             this.groupBox2.Controls.Add(this.btnUninstall);
             this.groupBox2.Controls.Add(this.btnInstall);
             this.groupBox2.Location = new System.Drawing.Point(11, 421);
-            this.groupBox2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox2.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.groupBox2.Size = new System.Drawing.Size(552, 73);
+            this.groupBox2.Size = new System.Drawing.Size(407, 59);
             this.groupBox2.TabIndex = 85;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "URI Service";
             // 
-            // button2
-            // 
-            this.button2.Location = new System.Drawing.Point(404, 23);
-            this.button2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(124, 28);
-            this.button2.TabIndex = 8;
-            this.button2.Text = "Stop Timer";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
-            // 
             // button1
             // 
             this.button1.Location = new System.Drawing.Point(272, 23);
-            this.button1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.button1.Margin = new System.Windows.Forms.Padding(4);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(124, 28);
             this.button1.TabIndex = 7;
@@ -328,7 +313,7 @@ namespace PokemonGo.RocketAPI.Console
             // btnUninstall
             // 
             this.btnUninstall.Location = new System.Drawing.Point(140, 23);
-            this.btnUninstall.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnUninstall.Margin = new System.Windows.Forms.Padding(4);
             this.btnUninstall.Name = "btnUninstall";
             this.btnUninstall.Size = new System.Drawing.Size(124, 28);
             this.btnUninstall.TabIndex = 6;
@@ -339,7 +324,7 @@ namespace PokemonGo.RocketAPI.Console
             // btnInstall
             // 
             this.btnInstall.Location = new System.Drawing.Point(8, 23);
-            this.btnInstall.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnInstall.Margin = new System.Windows.Forms.Padding(4);
             this.btnInstall.Name = "btnInstall";
             this.btnInstall.Size = new System.Drawing.Size(124, 28);
             this.btnInstall.TabIndex = 5;
@@ -353,7 +338,7 @@ namespace PokemonGo.RocketAPI.Console
             this.label1.Location = new System.Drawing.Point(11, 508);
             this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(755, 17);
+            this.label1.Size = new System.Drawing.Size(574, 13);
             this.label1.TabIndex = 86;
             this.label1.Text = "NOTE: Handles \"pokesniper2://\" URI Protocol. So if you have another application t" +
     "o do it. Is  advisable uninstall before.";
@@ -376,7 +361,7 @@ namespace PokemonGo.RocketAPI.Console
             this.Controls.Add(this.groupBox23);
             this.Controls.Add(this.SnipePokemonPokeCom);
             this.Controls.Add(this.groupBox1);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "SniperPanel";
             this.Size = new System.Drawing.Size(819, 592);
             this.groupBox23.ResumeLayout(false);
