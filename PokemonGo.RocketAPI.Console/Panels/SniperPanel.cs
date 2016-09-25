@@ -132,7 +132,7 @@ namespace PokemonGo.RocketAPI.Console
             SnipePokemonPokeCom.Checked = Globals.SnipePokemon;
             AvoidRegionLock.Checked = Globals.AvoidRegionLock;
             var pokemonControlSource = new System.Collections.Generic.List<PokemonId>();        
-            var ie = 0;
+            var ie = 1; // seeing line 114 of GUI, must be same value
             foreach (PokemonId pokemon in Enum.GetValues(typeof(PokemonId)))
             {
                 if (pokemon.ToString() != "Missingno")
