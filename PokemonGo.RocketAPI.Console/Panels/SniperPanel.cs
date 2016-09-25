@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Created by SharpDevelop.
  * User: Xelwon
  * Date: 24/09/2016
@@ -53,11 +53,8 @@ namespace PokemonGo.RocketAPI.Console
             //
             // The InitializeComponent() call is required for Windows Forms designer support.
             //
-            InitializeComponent();
-            
-            //
-            // TODO: Add constructor code after the InitializeComponent() call.
-            //
+            InitializeComponent();            
+            LinkPokesniperCom.Links.Add(0,LinkPokesniperCom.Text.Length,"http://pokesnipers.com/");
         }
         void SelectallNottoSnipe_CheckedChanged(object sender, EventArgs e)
         {
@@ -135,7 +132,7 @@ namespace PokemonGo.RocketAPI.Console
             SnipePokemonPokeCom.Checked = Globals.SnipePokemon;
             AvoidRegionLock.Checked = Globals.AvoidRegionLock;
             var pokemonControlSource = new System.Collections.Generic.List<PokemonId>();        
-            var ie = 0;
+            var ie = 1; // seeing line 114 of GUI, must be same value
             foreach (PokemonId pokemon in Enum.GetValues(typeof(PokemonId)))
             {
                 if (pokemon.ToString() != "Missingno")
@@ -150,34 +147,44 @@ namespace PokemonGo.RocketAPI.Console
             foreach (PokemonId Id in Globals.NotToSnipe)
             {
                 string _id = Id.ToString();
-                checkedListBox_NotToSnipe.SetItemChecked(pokeIDS[_id] - 1, true);
+                try {
+                    checkedListBox_NotToSnipe.SetItemChecked(pokeIDS[_id] - 1, true);
+                } catch (Exception e) {
+                    Logger.ColoredConsoleWrite(ConsoleColor.DarkRed,"[Ignoring Error] More information in log file");
+                    Logger.AddLog(string.Format("Error loading checkedListBox_NotToSnipe id:{0}, pokeIDS[id]:{1}",_id,pokeIDS[_id]));
+                    Logger.AddLog(e.ToString());
+                }
+                
             }                    
         
         }
         void btnInstall_Click(object sender, EventArgs e)
         {
-          try {
-                RegisterUriScheme(Application.ExecutablePath);
-                Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, "Service Installed");
-                timer1.Enabled = true;
-                button1.Text ="Stop Timer";
-            } catch (Exception) {
-                MessageBox.Show("Cannot install service.\n"+e.ToString());
+            if (timer1.Enabled)
+            {
+                try {
+                    UnregisterUriScheme();
+                    Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, "Service Uninstalled");
+                    timer1.Enabled = false;
+                    btnInstall.Text ="Install Service";
+                } catch (Exception) {
+                    MessageBox.Show("Cannot uninstall service\n"+e.ToString());
+                }                
             }
-        }
-        
-        void btnUninstall_Click(object sender, EventArgs e)
-        {
-            try {
-                UnregisterUriScheme();
-                Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, "Service Uninstalled");
-                timer1.Enabled = false;
-                button1.Text ="Start Timer";
-            } catch (Exception) {
-                MessageBox.Show("Cannot uninstall service\n"+e.ToString());
+            else
+            {
+              try {
+                    RegisterUriScheme(Application.ExecutablePath);
+                    Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, "Service Installed");
+                    timer1.Enabled = true;
+                    btnInstall.Text ="Uninstall Service";
+                } catch (Exception) {
+                    MessageBox.Show("Cannot install service.\n"+e.ToString());
+                }
             }
+            
         }
-        
+
         void timer1_Tick(object sender, EventArgs e)
         {
             try {                
@@ -211,26 +218,8 @@ namespace PokemonGo.RocketAPI.Console
                 return string.Empty;
             }
             return char.ToUpper(s[0]) + s.Substring(1).ToLower();
-        }        
-        void button1_Click(object sender, EventArgs e)
-        {
-            if (timer1.Enabled)
-            {
-                Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, "Timer to check URI Stopped");
-                ((Button) sender).Text ="Start Timer";
-            }
-            else{
-                var filename = Path.GetTempPath()+"pokesniper";
-                if (File.Exists(filename))
-                {
-                    File.Delete(filename);    
-                }
-                Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, "Timer to check URI Started");
-                ((Button) sender).Text ="Stop Timer";
-            }
-            timer1.Enabled = !timer1.Enabled;
-          
         }
+
         const string URI_SCHEME = "pokesniper2";
         const string URI_KEY = "URL:pokesniper2 Protocol";
 
@@ -259,6 +248,10 @@ namespace PokemonGo.RocketAPI.Console
         }
         static void UnregisterUriScheme() {
             Registry.CurrentUser.DeleteSubKeyTree("Software\\Classes\\"+ URI_SCHEME);
+        }
+        void PokesniperCom_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+          System.Diagnostics.Process.Start(e.Link.LinkData.ToString());
         }        
     }
 }

@@ -79,12 +79,14 @@ namespace PokemonGo.RocketAPI.Console
                 {                    
                     profile = await client.Player.GetPlayer();
                     await Task.Delay(1000); // Pause to simulate human speed. 
-                    Text = "Pokemon List | User: " + profile.PlayerData.Username + " | Pokemons: " + pokemonsPanel1.pokemons.Count() + "/" + profile.PlayerData.MaxPokemonStorage;
+                    Text = "User: " + profile.PlayerData.Username;
                     var arrStats = await client.Inventory.GetPlayerStats();
                     stats = arrStats.First();
                     playerPanel1.setProfile(profile);
                     playerPanel1.Execute();
                     locationPanel1.CreateBotMarker((int)profile.PlayerData.Team, stats.Level, stats.Experience);
+                    pokemonsPanel1.profile = profile;
+                    playerPanel1.SetPokemons(pokemonsPanel1.pokemons);
                 }
             }
             catch (Exception e)

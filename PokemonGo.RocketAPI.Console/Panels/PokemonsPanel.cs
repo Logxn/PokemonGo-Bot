@@ -26,7 +26,7 @@ namespace PokemonGo.RocketAPI.Console
         private static List<AdditionalPokeData> additionalPokeData = new List<AdditionalPokeData>();
         private static ISettings ClientSettings;
         private static Client client;
-        private GetPlayerResponse profile;
+        public GetPlayerResponse profile;
 
         private void loadAdditionalPokeData()
         {
@@ -187,6 +187,7 @@ namespace PokemonGo.RocketAPI.Console
                     EnabledButton(true);
                     btnUseLure.Enabled = false;
                     statusTexbox.Text = string.Empty;
+                    RefreshTitle();
                 }
             }
             catch (Exception e)
@@ -256,11 +257,23 @@ namespace PokemonGo.RocketAPI.Console
             if (resp.Status)
             {
                 PokemonListView.Items.Remove(PokemonListView.SelectedItems[0]);
-                if ((profile!=null) && (Parent !=null))
-                    Parent.Text = "Pokemon List | User: " + profile.PlayerData.Username + " | Pokemons: " + PokemonListView.Items.Count + "/" + profile.PlayerData.MaxPokemonStorage;
+                RefreshTitle();
             }
             else
                 MessageBox.Show(resp.Message + " transfer failed!", "Transfer Status", MessageBoxButtons.OK);
+        }
+        public void RefreshTitle()
+        {
+            var txt ="Pokemons";
+            if (Parent !=null)
+            {
+                txt += ": " + PokemonListView.Items.Count;
+                if (profile!=null)
+                {
+                    txt +="/" + profile.PlayerData.MaxPokemonStorage;
+                }
+            }
+            Parent.Text = txt;
         }
 
         private ColumnHeader SortingColumn = null;
@@ -451,8 +464,7 @@ namespace PokemonGo.RocketAPI.Console
                     }
                     MessageBox.Show("Succesfully transfered " + transfered + "/" + total + " Pokemons.", "Transfer status", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
-
-                Text = "Pokemon List | User: " + profile.PlayerData.Username + " | Pokemons: " + PokemonListView.Items.Count + "/" + profile.PlayerData.MaxPokemonStorage;
+                RefreshTitle();
             }
             EnabledButton(true);
         }

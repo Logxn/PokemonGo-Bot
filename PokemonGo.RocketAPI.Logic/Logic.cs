@@ -573,7 +573,7 @@ namespace PokemonGo.RocketAPI.Logic
             Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "Trying to capture " + _p._pokeId + " at " + _p._lat + " / " + _p._lng);
             var result = await _client.Player.UpdatePlayerLocation(_p._lat, _p._lng, _clientSettings.DefaultAltitude);
             Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Went to sniping location. Waiting for Pokemon to appear...");
-            await RandomHelper.RandomDelay(5000, 6000);
+            await RandomHelper.RandomDelay(1000, 2000);
             StateSniper = true;
             SniperReturn = false;
             await ExecuteCatchAllNearbyPokemons();
@@ -588,7 +588,7 @@ namespace PokemonGo.RocketAPI.Logic
                 Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "Trying to capture " + id + " at " + coord.Latitude + " / " + coord.Longitude);
                 var result = await _client.Player.UpdatePlayerLocation(coord.Latitude, coord.Longitude, _clientSettings.DefaultAltitude);
                 Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Went to sniping location. Waiting for Pokemon to appear...");
-                await RandomHelper.RandomDelay(5000, 6000);
+                await RandomHelper.RandomDelay(1000, 2000);
                 StateSniper = true;
                 SniperReturn = false;
                 await ExecuteCatchAllNearbyPokemons();
@@ -658,35 +658,8 @@ namespace PokemonGo.RocketAPI.Logic
 
         private async Task ExecuteFarmingPokestopsAndPokemons(Client client)
         {
-            #region Check and report
-            // Check Distance from start
-            var verifiedLocation = VerifyLocation().Result;
-            // Get PokeStops         
-            var pokeStops = GetNearbyPokeStops().Result;
-            // make sure we found pokestops and log if none found
-            if (_clientSettings.MaxWalkingRadiusInMeters != 0)
-            {
-                pokeStops = pokeStops.Where(i => LocationUtils.CalculateDistanceInMeters(_clientSettings.DefaultLatitude, _clientSettings.DefaultLongitude, i.Latitude, i.Longitude) <= _clientSettings.MaxWalkingRadiusInMeters).ToArray();
-                if (pokeStops.Count() == 0)
-                {
-                    Logger.ColoredConsoleWrite(ConsoleColor.Red, "We can't find any PokeStops in a range of " + _clientSettings.MaxWalkingRadiusInMeters + "m!");
-                    await ExecuteCatchAllNearbyPokemons();
-                }
-            }
-            if (pokeStops.Count() == 0)
-            {
-                Logger.ColoredConsoleWrite(ConsoleColor.Red, "We can't find any PokeStops, which are unused! Probably the server are unstable, or you visted them all. Retrying..");
-                await ExecuteCatchAllNearbyPokemons();
-            }
-            else
-            {
-                Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "We found " + pokeStops.Count() + " usable PokeStops near your current location.");
-            }
-            #endregion
-
             #region Sniper Logic
             //Sniper
-            _clientSettings.ForceSnipe = false;
             if (!pokeballoutofstock)
             {
                 if (_clientSettings.ManualSnipePokemonID != null && _clientSettings.ManualSnipePokemonLocation != null)
@@ -733,9 +706,46 @@ namespace PokemonGo.RocketAPI.Logic
             {
                 Logger.ColoredConsoleWrite(ConsoleColor.DarkRed, "Will resume sniping pokemon after pokeballs restock");
             }
-            #endregion
+            _clientSettings.ForceSnipe = false;
             _clientSettings.ManualSnipePokemonID = null;
             _clientSettings.ManualSnipePokemonLocation = null;
+            #endregion
+
+            #region Check and report
+            // Check Distance from start
+            var verifiedLocation = VerifyLocation().Result;
+            // Get PokeStops         
+            var pokeStops = GetNearbyPokeStops().Result;
+            int tries = 3;
+            do
+            {
+                // make sure we found pokestops and log if none found
+                if (_clientSettings.MaxWalkingRadiusInMeters != 0)
+                {
+                    if (tries < 3)
+                    {
+                        await RandomHelper.RandomDelay(5000, 6000);
+                        pokeStops = GetNearbyPokeStops().Result;
+                    }
+                    pokeStops = pokeStops.Where(i => LocationUtils.CalculateDistanceInMeters(_clientSettings.DefaultLatitude, _clientSettings.DefaultLongitude, i.Latitude, i.Longitude) <= _clientSettings.MaxWalkingRadiusInMeters).ToArray();
+                    if (pokeStops.Count() == 0)
+                    {
+                        Logger.ColoredConsoleWrite(ConsoleColor.Red, "We can't find any PokeStops in a range of " + _clientSettings.MaxWalkingRadiusInMeters + "m!");
+                    }
+                }
+                if (pokeStops.Count() == 0)
+                {
+                    Logger.ColoredConsoleWrite(ConsoleColor.Red, "We can't find any PokeStops, which are unused! Probably the server are unstable, or you visted them all. Retrying..");
+                    tries--;
+                }
+                else
+                {
+                    Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "We found " + pokeStops.Count() + " usable PokeStops near your current location.");
+                    tries = 0;
+                }
+            } while (tries > 0);
+            #endregion
+
             #region Start Walk
             // Walk Spiral if enabled
             if (_clientSettings.Espiral)
@@ -1365,7 +1375,7 @@ namespace PokemonGo.RocketAPI.Logic
                 _infoObservable.PushNewGeoLocations(new GeoCoordinate(_client.CurrentLatitude, _client.CurrentLongitude));
             var client = _client;
             //bypass catching pokemon if disabled
-            if (_clientSettings.CatchPokemon || _clientSettings.SnipePokemon)
+            if (_clientSettings.CatchPokemon || (_clientSettings.SnipePokemon && StateSniper))
             {
                 // identify nearby pokemon
                 var mapObjects = await client.Map.GetMapObjects();
