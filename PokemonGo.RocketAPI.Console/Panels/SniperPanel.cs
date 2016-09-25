@@ -53,11 +53,8 @@ namespace PokemonGo.RocketAPI.Console
             //
             // The InitializeComponent() call is required for Windows Forms designer support.
             //
-            InitializeComponent();
-            
-            //
-            // TODO: Add constructor code after the InitializeComponent() call.
-            //
+            InitializeComponent();            
+            LinkPokesniperCom.Links.Add(6,4,"http://pokesnipers.com/");
         }
         void SelectallNottoSnipe_CheckedChanged(object sender, EventArgs e)
         {
@@ -163,28 +160,31 @@ namespace PokemonGo.RocketAPI.Console
         }
         void btnInstall_Click(object sender, EventArgs e)
         {
-          try {
-                RegisterUriScheme(Application.ExecutablePath);
-                Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, "Service Installed");
-                timer1.Enabled = true;
-                button1.Text ="Stop Timer";
-            } catch (Exception) {
-                MessageBox.Show("Cannot install service.\n"+e.ToString());
+            if (timer1.Enabled)
+            {
+                try {
+                    UnregisterUriScheme();
+                    Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, "Service Uninstalled");
+                    timer1.Enabled = false;
+                    btnInstall.Text ="Uninstall Service";
+                } catch (Exception) {
+                    MessageBox.Show("Cannot uninstall service\n"+e.ToString());
+                }                
             }
-        }
-        
-        void btnUninstall_Click(object sender, EventArgs e)
-        {
-            try {
-                UnregisterUriScheme();
-                Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, "Service Uninstalled");
-                timer1.Enabled = false;
-                button1.Text ="Start Timer";
-            } catch (Exception) {
-                MessageBox.Show("Cannot uninstall service\n"+e.ToString());
+            else
+            {
+              try {
+                    RegisterUriScheme(Application.ExecutablePath);
+                    Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, "Service Installed");
+                    timer1.Enabled = true;
+                    btnInstall.Text ="Install Service";
+                } catch (Exception) {
+                    MessageBox.Show("Cannot install service.\n"+e.ToString());
+                }
             }
+            
         }
-        
+
         void timer1_Tick(object sender, EventArgs e)
         {
             try {                
@@ -218,26 +218,8 @@ namespace PokemonGo.RocketAPI.Console
                 return string.Empty;
             }
             return char.ToUpper(s[0]) + s.Substring(1).ToLower();
-        }        
-        void button1_Click(object sender, EventArgs e)
-        {
-            if (timer1.Enabled)
-            {
-                Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, "Timer to check URI Stopped");
-                ((Button) sender).Text ="Start Timer";
-            }
-            else{
-                var filename = Path.GetTempPath()+"pokesniper";
-                if (File.Exists(filename))
-                {
-                    File.Delete(filename);    
-                }
-                Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, "Timer to check URI Started");
-                ((Button) sender).Text ="Stop Timer";
-            }
-            timer1.Enabled = !timer1.Enabled;
-          
         }
+
         const string URI_SCHEME = "pokesniper2";
         const string URI_KEY = "URL:pokesniper2 Protocol";
 
@@ -266,6 +248,10 @@ namespace PokemonGo.RocketAPI.Console
         }
         static void UnregisterUriScheme() {
             Registry.CurrentUser.DeleteSubKeyTree("Software\\Classes\\"+ URI_SCHEME);
+        }
+        void PokesniperCom_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+          System.Diagnostics.Process.Start(e.Link.LinkData.ToString());
         }        
     }
 }

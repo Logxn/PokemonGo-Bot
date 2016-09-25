@@ -32,11 +32,12 @@ namespace PokemonGo.RocketAPI.Console
         private System.Windows.Forms.Label label64;
         private System.Windows.Forms.TextBox SnipeInfo;
         private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button btnUninstall;
         private System.Windows.Forms.Button btnInstall;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.LinkLabel LinkPokesniperCom;
         
         /// <summary>
         /// Disposes resources used by the control.
@@ -78,11 +79,12 @@ namespace PokemonGo.RocketAPI.Console
             this.label64 = new System.Windows.Forms.Label();
             this.SnipeInfo = new System.Windows.Forms.TextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.button1 = new System.Windows.Forms.Button();
-            this.btnUninstall = new System.Windows.Forms.Button();
             this.btnInstall = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.label2 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.LinkPokesniperCom = new System.Windows.Forms.LinkLabel();
             this.groupBox23.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PokemonImage)).BeginInit();
@@ -288,45 +290,25 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.button1);
-            this.groupBox2.Controls.Add(this.btnUninstall);
+            this.groupBox2.Controls.Add(this.LinkPokesniperCom);
             this.groupBox2.Controls.Add(this.btnInstall);
-            this.groupBox2.Location = new System.Drawing.Point(11, 421);
+            this.groupBox2.Controls.Add(this.label7);
+            this.groupBox2.Controls.Add(this.label1);
+            this.groupBox2.Controls.Add(this.label2);
+            this.groupBox2.Location = new System.Drawing.Point(10, 421);
             this.groupBox2.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(407, 59);
+            this.groupBox2.Size = new System.Drawing.Size(600, 81);
             this.groupBox2.TabIndex = 85;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "URI Service";
             // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(272, 23);
-            this.button1.Margin = new System.Windows.Forms.Padding(4);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(124, 28);
-            this.button1.TabIndex = 7;
-            this.button1.Text = "Start Timer";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
-            // btnUninstall
-            // 
-            this.btnUninstall.Location = new System.Drawing.Point(140, 23);
-            this.btnUninstall.Margin = new System.Windows.Forms.Padding(4);
-            this.btnUninstall.Name = "btnUninstall";
-            this.btnUninstall.Size = new System.Drawing.Size(124, 28);
-            this.btnUninstall.TabIndex = 6;
-            this.btnUninstall.Text = "Uninstal Service";
-            this.btnUninstall.UseVisualStyleBackColor = true;
-            this.btnUninstall.Click += new System.EventHandler(this.btnUninstall_Click);
-            // 
             // btnInstall
             // 
-            this.btnInstall.Location = new System.Drawing.Point(8, 23);
+            this.btnInstall.Location = new System.Drawing.Point(502, 53);
             this.btnInstall.Margin = new System.Windows.Forms.Padding(4);
             this.btnInstall.Name = "btnInstall";
-            this.btnInstall.Size = new System.Drawing.Size(124, 28);
+            this.btnInstall.Size = new System.Drawing.Size(93, 22);
             this.btnInstall.TabIndex = 5;
             this.btnInstall.Text = "Install Service";
             this.btnInstall.UseVisualStyleBackColor = true;
@@ -335,23 +317,54 @@ namespace PokemonGo.RocketAPI.Console
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(11, 508);
+            this.label1.Location = new System.Drawing.Point(53, 16);
             this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(574, 13);
+            this.label1.Size = new System.Drawing.Size(538, 13);
             this.label1.TabIndex = 86;
-            this.label1.Text = "NOTE: Handles \"pokesniper2://\" URI Protocol. So if you have another application t" +
-    "o do it. Is  advisable uninstall before.";
+            this.label1.Text = "Handles \"pokesniper2://\" URI Protocol. So if you have another application to do i" +
+    "t. Is  advisable uninstall before.";
             // 
             // timer1
             // 
             this.timer1.Interval = 10000;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(54, 36);
+            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(388, 13);
+            this.label2.TabIndex = 87;
+            this.label2.Text = "With Service Installed you can snipe directly from pokesniper URIs like this page" +
+    ":";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.label7.Location = new System.Drawing.Point(8, 15);
+            this.label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(47, 13);
+            this.label7.TabIndex = 88;
+            this.label7.Text = "NOTES:";
+            // 
+            // LinkPokesniperCom
+            // 
+            this.LinkPokesniperCom.Location = new System.Drawing.Point(444, 35);
+            this.LinkPokesniperCom.Name = "LinkPokesniperCom";
+            this.LinkPokesniperCom.Size = new System.Drawing.Size(100, 15);
+            this.LinkPokesniperCom.TabIndex = 89;
+            this.LinkPokesniperCom.TabStop = true;
+            this.LinkPokesniperCom.Text = "Pokesniper.com";
+            this.LinkPokesniperCom.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.PokesniperCom_LinkClicked);
+            // 
             // SniperPanel
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
-            this.Controls.Add(this.label1);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.ForceAutoSnipe);
             this.Controls.Add(this.AvoidRegionLock);
@@ -363,13 +376,14 @@ namespace PokemonGo.RocketAPI.Console
             this.Controls.Add(this.groupBox1);
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "SniperPanel";
-            this.Size = new System.Drawing.Size(819, 592);
+            this.Size = new System.Drawing.Size(791, 511);
             this.groupBox23.ResumeLayout(false);
             this.groupBox23.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PokemonImage)).EndInit();
             this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
