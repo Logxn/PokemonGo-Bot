@@ -1365,7 +1365,7 @@ namespace PokemonGo.RocketAPI.Logic
                 _infoObservable.PushNewGeoLocations(new GeoCoordinate(_client.CurrentLatitude, _client.CurrentLongitude));
             var client = _client;
             //bypass catching pokemon if disabled
-            if (_clientSettings.CatchPokemon || _clientSettings.SnipePokemon)
+            if (_clientSettings.CatchPokemon || (_clientSettings.SnipePokemon && StateSniper))
             {
                 // identify nearby pokemon
                 var mapObjects = await client.Map.GetMapObjects();
