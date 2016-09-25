@@ -114,7 +114,7 @@ namespace PokemonGo.RocketAPI.Console
             // 
             this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(273, 432);
+            this.label2.Location = new System.Drawing.Point(273, 465);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(0, 13);
             this.label2.TabIndex = 9;
@@ -142,7 +142,7 @@ namespace PokemonGo.RocketAPI.Console
             this.Options.Location = new System.Drawing.Point(4, 4);
             this.Options.Name = "Options";
             this.Options.SelectedIndex = 0;
-            this.Options.Size = new System.Drawing.Size(757, 510);
+            this.Options.Size = new System.Drawing.Size(765, 543);
             this.Options.TabIndex = 46;
             // 
             // tabPage2
@@ -152,7 +152,7 @@ namespace PokemonGo.RocketAPI.Console
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(749, 484);
+            this.tabPage2.Size = new System.Drawing.Size(757, 503);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Pokemon List";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -165,7 +165,7 @@ namespace PokemonGo.RocketAPI.Console
             this.pokemonsPanel1.Location = new System.Drawing.Point(4, 4);
             this.pokemonsPanel1.Margin = new System.Windows.Forms.Padding(4);
             this.pokemonsPanel1.Name = "pokemonsPanel1";
-            this.pokemonsPanel1.Size = new System.Drawing.Size(741, 473);
+            this.pokemonsPanel1.Size = new System.Drawing.Size(749, 492);
             this.pokemonsPanel1.TabIndex = 0;
             // 
             // tabPage1
@@ -174,7 +174,7 @@ namespace PokemonGo.RocketAPI.Console
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(732, 448);
+            this.tabPage1.Size = new System.Drawing.Size(749, 484);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Change Options";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -187,7 +187,7 @@ namespace PokemonGo.RocketAPI.Console
             this.changesPanel1.Location = new System.Drawing.Point(0, 0);
             this.changesPanel1.Margin = new System.Windows.Forms.Padding(4);
             this.changesPanel1.Name = "changesPanel1";
-            this.changesPanel1.Size = new System.Drawing.Size(737, 450);
+            this.changesPanel1.Size = new System.Drawing.Size(754, 486);
             this.changesPanel1.TabIndex = 0;
             // 
             // tabPage3
@@ -197,7 +197,7 @@ namespace PokemonGo.RocketAPI.Console
             this.tabPage3.Margin = new System.Windows.Forms.Padding(2);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(2);
-            this.tabPage3.Size = new System.Drawing.Size(732, 448);
+            this.tabPage3.Size = new System.Drawing.Size(749, 484);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Items";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -210,7 +210,7 @@ namespace PokemonGo.RocketAPI.Console
             this.itemsPanel1.Location = new System.Drawing.Point(5, 5);
             this.itemsPanel1.Margin = new System.Windows.Forms.Padding(4);
             this.itemsPanel1.Name = "itemsPanel1";
-            this.itemsPanel1.Size = new System.Drawing.Size(721, 451);
+            this.itemsPanel1.Size = new System.Drawing.Size(738, 487);
             this.itemsPanel1.TabIndex = 0;
             // 
             // tabPage4
@@ -221,7 +221,7 @@ namespace PokemonGo.RocketAPI.Console
             this.tabPage4.Location = new System.Drawing.Point(4, 22);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage4.Size = new System.Drawing.Size(732, 448);
+            this.tabPage4.Size = new System.Drawing.Size(749, 484);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Location";
             this.tabPage4.UseVisualStyleBackColor = true;
@@ -231,7 +231,7 @@ namespace PokemonGo.RocketAPI.Console
             this.RepeatRoute.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.RepeatRoute.AutoSize = true;
             this.RepeatRoute.Enabled = false;
-            this.RepeatRoute.Location = new System.Drawing.Point(634, 400);
+            this.RepeatRoute.Location = new System.Drawing.Point(651, 436);
             this.RepeatRoute.Name = "RepeatRoute";
             this.RepeatRoute.Size = new System.Drawing.Size(93, 17);
             this.RepeatRoute.TabIndex = 46;
@@ -241,7 +241,7 @@ namespace PokemonGo.RocketAPI.Console
             // CreateRoute
             // 
             this.CreateRoute.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.CreateRoute.Location = new System.Drawing.Point(633, 422);
+            this.CreateRoute.Location = new System.Drawing.Point(650, 458);
             this.CreateRoute.Margin = new System.Windows.Forms.Padding(2);
             this.CreateRoute.Name = "CreateRoute";
             this.CreateRoute.Size = new System.Drawing.Size(89, 23);
@@ -258,7 +258,7 @@ namespace PokemonGo.RocketAPI.Console
             this.locationPanel1.Location = new System.Drawing.Point(3, 3);
             this.locationPanel1.Margin = new System.Windows.Forms.Padding(4);
             this.locationPanel1.Name = "locationPanel1";
-            this.locationPanel1.Size = new System.Drawing.Size(731, 447);
+            this.locationPanel1.Size = new System.Drawing.Size(748, 483);
             this.locationPanel1.TabIndex = 0;
             // 
             // tabPage5
@@ -268,7 +268,7 @@ namespace PokemonGo.RocketAPI.Console
             this.tabPage5.Margin = new System.Windows.Forms.Padding(2);
             this.tabPage5.Name = "tabPage5";
             this.tabPage5.Padding = new System.Windows.Forms.Padding(2);
-            this.tabPage5.Size = new System.Drawing.Size(732, 448);
+            this.tabPage5.Size = new System.Drawing.Size(749, 484);
             this.tabPage5.TabIndex = 4;
             this.tabPage5.Text = "Player Information";
             this.tabPage5.UseVisualStyleBackColor = true;
@@ -282,7 +282,7 @@ namespace PokemonGo.RocketAPI.Console
             this.playerPanel1.Location = new System.Drawing.Point(0, 0);
             this.playerPanel1.Margin = new System.Windows.Forms.Padding(4);
             this.playerPanel1.Name = "playerPanel1";
-            this.playerPanel1.Size = new System.Drawing.Size(734, 442);
+            this.playerPanel1.Size = new System.Drawing.Size(751, 478);
             this.playerPanel1.TabIndex = 0;
             // 
             // tabPageEggs
@@ -292,7 +292,7 @@ namespace PokemonGo.RocketAPI.Console
             this.tabPageEggs.Margin = new System.Windows.Forms.Padding(2);
             this.tabPageEggs.Name = "tabPageEggs";
             this.tabPageEggs.Padding = new System.Windows.Forms.Padding(2);
-            this.tabPageEggs.Size = new System.Drawing.Size(732, 448);
+            this.tabPageEggs.Size = new System.Drawing.Size(749, 484);
             this.tabPageEggs.TabIndex = 5;
             this.tabPageEggs.Text = "Eggs";
             this.tabPageEggs.UseVisualStyleBackColor = true;
@@ -305,7 +305,7 @@ namespace PokemonGo.RocketAPI.Console
             this.eggsPanel1.Location = new System.Drawing.Point(5, 5);
             this.eggsPanel1.Margin = new System.Windows.Forms.Padding(2);
             this.eggsPanel1.Name = "eggsPanel1";
-            this.eggsPanel1.Size = new System.Drawing.Size(723, 439);
+            this.eggsPanel1.Size = new System.Drawing.Size(740, 475);
             this.eggsPanel1.TabIndex = 0;
             // 
             // tabPage6
@@ -315,7 +315,7 @@ namespace PokemonGo.RocketAPI.Console
             this.tabPage6.Margin = new System.Windows.Forms.Padding(2);
             this.tabPage6.Name = "tabPage6";
             this.tabPage6.Padding = new System.Windows.Forms.Padding(2);
-            this.tabPage6.Size = new System.Drawing.Size(732, 448);
+            this.tabPage6.Size = new System.Drawing.Size(757, 517);
             this.tabPage6.TabIndex = 6;
             this.tabPage6.Text = "Sniper Tools";
             this.tabPage6.UseVisualStyleBackColor = true;
@@ -328,14 +328,14 @@ namespace PokemonGo.RocketAPI.Console
             this.sniperPanel1.Location = new System.Drawing.Point(4, 4);
             this.sniperPanel1.Margin = new System.Windows.Forms.Padding(4);
             this.sniperPanel1.Name = "sniperPanel1";
-            this.sniperPanel1.Size = new System.Drawing.Size(722, 437);
+            this.sniperPanel1.Size = new System.Drawing.Size(747, 506);
             this.sniperPanel1.TabIndex = 0;
             // 
             // Pokemons
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-            this.ClientSize = new System.Drawing.Size(765, 517);
+            this.ClientSize = new System.Drawing.Size(773, 550);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.Options);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));

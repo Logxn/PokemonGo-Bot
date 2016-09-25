@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Created by SharpDevelop.
  * User: Xelwon
  * Date: 24/09/2016
@@ -54,7 +54,7 @@ namespace PokemonGo.RocketAPI.Console
             // The InitializeComponent() call is required for Windows Forms designer support.
             //
             InitializeComponent();            
-            LinkPokesniperCom.Links.Add(6,4,"http://pokesnipers.com/");
+            LinkPokesniperCom.Links.Add(0,LinkPokesniperCom.Text.Length,"http://pokesnipers.com/");
         }
         void SelectallNottoSnipe_CheckedChanged(object sender, EventArgs e)
         {
@@ -166,7 +166,7 @@ namespace PokemonGo.RocketAPI.Console
                     UnregisterUriScheme();
                     Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, "Service Uninstalled");
                     timer1.Enabled = false;
-                    btnInstall.Text ="Uninstall Service";
+                    btnInstall.Text ="Install Service";
                 } catch (Exception) {
                     MessageBox.Show("Cannot uninstall service\n"+e.ToString());
                 }                
@@ -177,7 +177,7 @@ namespace PokemonGo.RocketAPI.Console
                     RegisterUriScheme(Application.ExecutablePath);
                     Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, "Service Installed");
                     timer1.Enabled = true;
-                    btnInstall.Text ="Install Service";
+                    btnInstall.Text ="Uninstall Service";
                 } catch (Exception) {
                     MessageBox.Show("Cannot install service.\n"+e.ToString());
                 }
