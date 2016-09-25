@@ -279,7 +279,7 @@ namespace PokemonGo.RocketAPI.Console
                                 }
                                 else
                                 {
-                                    Bitmap pokebitMap = PokemonsPanel.GetPokemonMediumImage(pokeData.PokemonId);
+                                    Bitmap pokebitMap = PokeImgManager.GetPokemonMediumImage(pokeData.PokemonId);
                                     if (pokebitMap != null)
                                     {
                                         var ImageSize = new System.Drawing.Size(pokebitMap.Width, pokebitMap.Height);
@@ -447,7 +447,7 @@ namespace PokemonGo.RocketAPI.Console
                                 _pokeGymsOverlay.Markers.Add(pokeGymMaker);
                                 // Show Guard
                                 GMarkerGoogle guardPokemonMarker;
-                                Bitmap pokebitMap = PokemonsPanel.GetPokemonMediumImage( pokeGym.GuardPokemonId);
+                                Bitmap pokebitMap = PokeImgManager.GetPokemonMediumImage( pokeGym.GuardPokemonId);
                                 
                                 var offsetY = 0;
                                 if (pokebitMap != null)

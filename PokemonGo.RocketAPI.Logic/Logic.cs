@@ -725,7 +725,8 @@ namespace PokemonGo.RocketAPI.Logic
                 }
                 else
                 {
-                    Logger.ColoredConsoleWrite(ConsoleColor.Magenta, "Pokemon in Not to Snipe List - Skipping Pokemon");
+                    //Logger.ColoredConsoleWrite(ConsoleColor.Magenta, "Pokemon in Not to Snipe List - Skipping Pokemon");
+                    Logger.ColoredConsoleWrite(ConsoleColor.Magenta, "Pokemon Snipe is Disabled");
                 }
             }
             else

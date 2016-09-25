@@ -92,7 +92,7 @@ namespace PokemonGo.RocketAPI.Console
         }
         void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-          var pokemonImage = Pokemons.GetPokemonVeryLargeImage((PokemonId)comboBox1.SelectedValue);
+          var pokemonImage = PokeImgManager.GetPokemonVeryLargeImage((PokemonId)comboBox1.SelectedValue);
            PokemonImage.Image = pokemonImage;
         }
         

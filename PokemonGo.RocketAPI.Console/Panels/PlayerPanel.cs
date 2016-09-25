@@ -69,13 +69,14 @@ namespace PokemonGo.RocketAPI.Console
             }
             Visible =true;
         }
-
-        public void Execute(GetPlayerResponse prof, IOrderedEnumerable<PokemonData> poks)
-        {
+        
+        public void setProfile(GetPlayerResponse prof){
             profile = prof;
+        }
+
+        public void SetPokemons( IOrderedEnumerable<PokemonData> poks)
+        {
             pokemons = poks;
-            updatePlayerImages();
-            updatePlayerInfoLabels();
         }
         /// <summary>
         /// Gets the image for team.
@@ -243,7 +244,7 @@ namespace PokemonGo.RocketAPI.Console
                 var buddyPoke = pokemons.FirstOrDefault(x => x.Id == buddyPokemon.Id);
                 if (buddyPoke != null)
                 {
-                    return getPokemonImagefromResource(buddyPoke.PokemonId, "200");
+                    return PokeImgManager.GetPokemonImagefromResource(buddyPoke.PokemonId, "200");
                 }
                 else
                 {
@@ -270,18 +271,6 @@ namespace PokemonGo.RocketAPI.Console
             }
         }
 
-        private static Bitmap getPokemonImagefromResource(PokemonId pokemon, string size)
-        {
-            var resource = PokemonGo.RocketAPI.Console.Properties.Resources.ResourceManager.GetObject(string.Format("_{0}_{1}", (int)pokemon, size), CultureInfo.CurrentCulture);
-            if (resource != null && resource is Bitmap)
-            {
-                return new Bitmap(resource as Bitmap);
-            }
-            else
-            {
-                return null;
-            }
-        }
 		private async void BtnTeamClick(object sender, EventArgs e)
 		{
 			var teamSelect =new TeamSelect();
@@ -307,7 +296,7 @@ namespace PokemonGo.RocketAPI.Console
 		                if (resp2.Status)
 		                {
 		                	Logger.ColoredConsoleWrite(ConsoleColor.Green, "Selected Team: " + team.ToString());
-		                	Execute(profile, pokemons);
+		                	Execute();
 		                }
 		                else
 		                    MessageBox.Show(resp.Message + "Set Team failed!", "Set Team Status", MessageBoxButtons.OK);
