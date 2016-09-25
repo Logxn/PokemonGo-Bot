@@ -153,20 +153,19 @@ namespace PokemonGo.RocketAPI.Console
 		    this.groupBox1.Controls.Add(this.textBox1);
 		    this.groupBox1.Controls.Add(this.textBoxLatitude);
 		    this.groupBox1.Controls.Add(this.label6);
-		    this.groupBox1.Location = new System.Drawing.Point(629, 139);
+		    this.groupBox1.Location = new System.Drawing.Point(530, 142);
 		    this.groupBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
 		    this.groupBox1.Name = "groupBox1";
 		    this.groupBox1.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-		    this.groupBox1.Size = new System.Drawing.Size(257, 235);
+		    this.groupBox1.Size = new System.Drawing.Size(241, 232);
 		    this.groupBox1.TabIndex = 95;
 		    this.groupBox1.TabStop = false;
 		    this.groupBox1.Text = "Relocate to New Farming Location";
 		    // 
 		    // button8
 		    // 
-		    this.button8.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 		    this.button8.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
-		    this.button8.Location = new System.Drawing.Point(137, 57);
+		    this.button8.Location = new System.Drawing.Point(122, 57);
 		    this.button8.Margin = new System.Windows.Forms.Padding(4);
 		    this.button8.Name = "button8";
 		    this.button8.Size = new System.Drawing.Size(112, 30);
@@ -178,7 +177,7 @@ namespace PokemonGo.RocketAPI.Console
 		    // numTravelSpeed
 		    // 
 		    this.numTravelSpeed.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-		    this.numTravelSpeed.Location = new System.Drawing.Point(180, 94);
+		    this.numTravelSpeed.Location = new System.Drawing.Point(166, 91);
 		    this.numTravelSpeed.Margin = new System.Windows.Forms.Padding(5);
 		    this.numTravelSpeed.Maximum = new decimal(new int[] {
             1000,
@@ -193,12 +192,11 @@ namespace PokemonGo.RocketAPI.Console
 		    // 
 		    // buttonSearch
 		    // 
-		    this.buttonSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 		    this.buttonSearch.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
-		    this.buttonSearch.Location = new System.Drawing.Point(12, 57);
+		    this.buttonSearch.Location = new System.Drawing.Point(7, 57);
 		    this.buttonSearch.Margin = new System.Windows.Forms.Padding(5);
 		    this.buttonSearch.Name = "buttonSearch";
-		    this.buttonSearch.Size = new System.Drawing.Size(113, 28);
+		    this.buttonSearch.Size = new System.Drawing.Size(105, 28);
 		    this.buttonSearch.TabIndex = 84;
 		    this.buttonSearch.Text = "Search";
 		    this.buttonSearch.UseVisualStyleBackColor = true;
@@ -206,13 +204,12 @@ namespace PokemonGo.RocketAPI.Console
 		    // 
 		    // buttonSetLocation
 		    // 
-		    this.buttonSetLocation.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 		    this.buttonSetLocation.Image = global::PokemonGo.RocketAPI.Console.Properties.MapData.start_point;
 		    this.buttonSetLocation.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
-		    this.buttonSetLocation.Location = new System.Drawing.Point(16, 193);
+		    this.buttonSetLocation.Location = new System.Drawing.Point(7, 193);
 		    this.buttonSetLocation.Margin = new System.Windows.Forms.Padding(4);
 		    this.buttonSetLocation.Name = "buttonSetLocation";
-		    this.buttonSetLocation.Size = new System.Drawing.Size(232, 34);
+		    this.buttonSetLocation.Size = new System.Drawing.Size(227, 34);
 		    this.buttonSetLocation.TabIndex = 84;
 		    this.buttonSetLocation.Text = "Set New Location";
 		    this.buttonSetLocation.UseVisualStyleBackColor = true;
@@ -222,7 +219,7 @@ namespace PokemonGo.RocketAPI.Console
 		    // 
 		    this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 		    this.label4.AutoSize = true;
-		    this.label4.Location = new System.Drawing.Point(29, 96);
+		    this.label4.Location = new System.Drawing.Point(29, 93);
 		    this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 		    this.label4.Name = "label4";
 		    this.label4.Size = new System.Drawing.Size(108, 13);
@@ -232,7 +229,7 @@ namespace PokemonGo.RocketAPI.Console
 		    // textBoxLongitude
 		    // 
 		    this.textBoxLongitude.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-		    this.textBoxLongitude.Location = new System.Drawing.Point(83, 160);
+		    this.textBoxLongitude.Location = new System.Drawing.Point(69, 157);
 		    this.textBoxLongitude.Margin = new System.Windows.Forms.Padding(5);
 		    this.textBoxLongitude.Name = "textBoxLongitude";
 		    this.textBoxLongitude.Size = new System.Drawing.Size(164, 20);
@@ -242,7 +239,7 @@ namespace PokemonGo.RocketAPI.Console
 		    // 
 		    this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 		    this.label7.AutoSize = true;
-		    this.label7.Location = new System.Drawing.Point(16, 30);
+		    this.label7.Location = new System.Drawing.Point(16, 27);
 		    this.label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 		    this.label7.Name = "label7";
 		    this.label7.Size = new System.Drawing.Size(48, 13);
@@ -253,7 +250,7 @@ namespace PokemonGo.RocketAPI.Console
 		    // 
 		    this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 		    this.label5.AutoSize = true;
-		    this.label5.Location = new System.Drawing.Point(5, 160);
+		    this.label5.Location = new System.Drawing.Point(5, 157);
 		    this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 		    this.label5.Name = "label5";
 		    this.label5.Size = new System.Drawing.Size(57, 13);
@@ -263,7 +260,7 @@ namespace PokemonGo.RocketAPI.Console
 		    // textBox1
 		    // 
 		    this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-		    this.textBox1.Location = new System.Drawing.Point(83, 27);
+		    this.textBox1.Location = new System.Drawing.Point(69, 24);
 		    this.textBox1.Margin = new System.Windows.Forms.Padding(5);
 		    this.textBox1.Name = "textBox1";
 		    this.textBox1.Size = new System.Drawing.Size(165, 20);
@@ -272,7 +269,7 @@ namespace PokemonGo.RocketAPI.Console
 		    // textBoxLatitude
 		    // 
 		    this.textBoxLatitude.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-		    this.textBoxLatitude.Location = new System.Drawing.Point(83, 128);
+		    this.textBoxLatitude.Location = new System.Drawing.Point(69, 125);
 		    this.textBoxLatitude.Margin = new System.Windows.Forms.Padding(5);
 		    this.textBoxLatitude.Name = "textBoxLatitude";
 		    this.textBoxLatitude.Size = new System.Drawing.Size(165, 20);
@@ -282,7 +279,7 @@ namespace PokemonGo.RocketAPI.Console
 		    // 
 		    this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 		    this.label6.AutoSize = true;
-		    this.label6.Location = new System.Drawing.Point(17, 130);
+		    this.label6.Location = new System.Drawing.Point(17, 127);
 		    this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 		    this.label6.Name = "label6";
 		    this.label6.Size = new System.Drawing.Size(48, 13);
@@ -292,10 +289,10 @@ namespace PokemonGo.RocketAPI.Console
 		    // buttonUpdate
 		    // 
 		    this.buttonUpdate.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
-		    this.buttonUpdate.Location = new System.Drawing.Point(28, 381);
+		    this.buttonUpdate.Location = new System.Drawing.Point(5, 381);
 		    this.buttonUpdate.Margin = new System.Windows.Forms.Padding(5);
 		    this.buttonUpdate.Name = "buttonUpdate";
-		    this.buttonUpdate.Size = new System.Drawing.Size(237, 28);
+		    this.buttonUpdate.Size = new System.Drawing.Size(244, 28);
 		    this.buttonUpdate.TabIndex = 94;
 		    this.buttonUpdate.Text = "Update Config";
 		    this.buttonUpdate.UseVisualStyleBackColor = true;
@@ -315,11 +312,11 @@ namespace PokemonGo.RocketAPI.Console
 		    this.groupBox10.Controls.Add(this.checkBox_UseAnimationTimes);
 		    this.groupBox10.Controls.Add(this.checkBox_useluckyegg);
 		    this.groupBox10.Controls.Add(this.checkBox_evolve);
-		    this.groupBox10.Location = new System.Drawing.Point(304, 2);
+		    this.groupBox10.Location = new System.Drawing.Point(257, 5);
 		    this.groupBox10.Margin = new System.Windows.Forms.Padding(5);
 		    this.groupBox10.Name = "groupBox10";
 		    this.groupBox10.Padding = new System.Windows.Forms.Padding(5);
-		    this.groupBox10.Size = new System.Drawing.Size(317, 372);
+		    this.groupBox10.Size = new System.Drawing.Size(264, 369);
 		    this.groupBox10.TabIndex = 93;
 		    this.groupBox10.TabStop = false;
 		    this.groupBox10.Text = "Other Settings";
@@ -341,7 +338,7 @@ namespace PokemonGo.RocketAPI.Console
 		    // label3
 		    // 
 		    this.label3.AutoSize = true;
-		    this.label3.Location = new System.Drawing.Point(293, 270);
+		    this.label3.Location = new System.Drawing.Point(247, 271);
 		    this.label3.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
 		    this.label3.Name = "label3";
 		    this.label3.Size = new System.Drawing.Size(15, 13);
@@ -350,7 +347,7 @@ namespace PokemonGo.RocketAPI.Console
 		    // 
 		    // numRazzPercent
 		    // 
-		    this.numRazzPercent.Location = new System.Drawing.Point(245, 266);
+		    this.numRazzPercent.Location = new System.Drawing.Point(199, 267);
 		    this.numRazzPercent.Margin = new System.Windows.Forms.Padding(5);
 		    this.numRazzPercent.Name = "numRazzPercent";
 		    this.numRazzPercent.Size = new System.Drawing.Size(47, 20);
@@ -581,7 +578,7 @@ namespace PokemonGo.RocketAPI.Console
 		    this.groupBox11.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
 		    this.groupBox11.Name = "groupBox11";
 		    this.groupBox11.Padding = new System.Windows.Forms.Padding(4, 2, 4, 2);
-		    this.groupBox11.Size = new System.Drawing.Size(292, 372);
+		    this.groupBox11.Size = new System.Drawing.Size(247, 372);
 		    this.groupBox11.TabIndex = 91;
 		    this.groupBox11.TabStop = false;
 		    this.groupBox11.Text = "Walk Options";
@@ -596,7 +593,7 @@ namespace PokemonGo.RocketAPI.Console
             0,
             0});
 		    this.numericUpDownMinWalkSpeed.Name = "numericUpDownMinWalkSpeed";
-		    this.numericUpDownMinWalkSpeed.Size = new System.Drawing.Size(69, 20);
+		    this.numericUpDownMinWalkSpeed.Size = new System.Drawing.Size(48, 20);
 		    this.numericUpDownMinWalkSpeed.TabIndex = 80;
 		    this.numericUpDownMinWalkSpeed.Tag = "MinWalkSpeed";
 		    this.numericUpDownMinWalkSpeed.Value = new decimal(new int[] {
@@ -616,7 +613,7 @@ namespace PokemonGo.RocketAPI.Console
             0,
             0});
 		    this.numericUpDownSpeed.Name = "numericUpDownSpeed";
-		    this.numericUpDownSpeed.Size = new System.Drawing.Size(69, 20);
+		    this.numericUpDownSpeed.Size = new System.Drawing.Size(48, 20);
 		    this.numericUpDownSpeed.TabIndex = 80;
 		    this.numericUpDownSpeed.Tag = "speed";
 		    this.numericUpDownSpeed.Value = new decimal(new int[] {
@@ -629,7 +626,7 @@ namespace PokemonGo.RocketAPI.Console
 		    // label11
 		    // 
 		    this.label11.AutoSize = true;
-		    this.label11.Location = new System.Drawing.Point(232, 342);
+		    this.label11.Location = new System.Drawing.Point(212, 343);
 		    this.label11.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 		    this.label11.Name = "label11";
 		    this.label11.Size = new System.Drawing.Size(33, 13);
@@ -639,7 +636,7 @@ namespace PokemonGo.RocketAPI.Console
 		    // label8
 		    // 
 		    this.label8.AutoSize = true;
-		    this.label8.Location = new System.Drawing.Point(232, 313);
+		    this.label8.Location = new System.Drawing.Point(212, 314);
 		    this.label8.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 		    this.label8.Name = "label8";
 		    this.label8.Size = new System.Drawing.Size(33, 13);
@@ -722,11 +719,11 @@ namespace PokemonGo.RocketAPI.Console
 		    this.groupBox13.Controls.Add(this.text_GoogleMapsAPIKey);
 		    this.groupBox13.Controls.Add(this.checkBox_UseGoogleMapsRouting);
 		    this.groupBox13.Controls.Add(this.label45);
-		    this.groupBox13.Location = new System.Drawing.Point(629, 2);
+		    this.groupBox13.Location = new System.Drawing.Point(530, 5);
 		    this.groupBox13.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
 		    this.groupBox13.Name = "groupBox13";
 		    this.groupBox13.Padding = new System.Windows.Forms.Padding(4, 2, 4, 2);
-		    this.groupBox13.Size = new System.Drawing.Size(256, 133);
+		    this.groupBox13.Size = new System.Drawing.Size(241, 133);
 		    this.groupBox13.TabIndex = 92;
 		    this.groupBox13.TabStop = false;
 		    this.groupBox13.Text = "Routing Settings (beta)";
@@ -744,10 +741,12 @@ namespace PokemonGo.RocketAPI.Console
 		    // 
 		    // text_GoogleMapsAPIKey
 		    // 
+		    this.text_GoogleMapsAPIKey.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 		    this.text_GoogleMapsAPIKey.Location = new System.Drawing.Point(9, 43);
 		    this.text_GoogleMapsAPIKey.Margin = new System.Windows.Forms.Padding(5);
 		    this.text_GoogleMapsAPIKey.Name = "text_GoogleMapsAPIKey";
-		    this.text_GoogleMapsAPIKey.Size = new System.Drawing.Size(239, 20);
+		    this.text_GoogleMapsAPIKey.Size = new System.Drawing.Size(224, 20);
 		    this.text_GoogleMapsAPIKey.TabIndex = 62;
 		    // 
 		    // checkBox_UseGoogleMapsRouting
@@ -784,7 +783,7 @@ namespace PokemonGo.RocketAPI.Console
 		    this.Controls.Add(this.groupBox13);
 		    this.Margin = new System.Windows.Forms.Padding(4);
 		    this.Name = "ChangesPanel";
-		    this.Size = new System.Drawing.Size(897, 431);
+		    this.Size = new System.Drawing.Size(787, 422);
 		    this.groupBox1.ResumeLayout(false);
 		    this.groupBox1.PerformLayout();
 		    ((System.ComponentModel.ISupportInitialize)(this.numTravelSpeed)).EndInit();
