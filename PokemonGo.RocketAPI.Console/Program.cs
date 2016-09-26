@@ -316,6 +316,7 @@ namespace PokemonGo.RocketAPI.Console
         public static bool LimitPokeballUse = false;
         public static bool LimitGreatballUse = false;
         public static bool LimitUltraballUse = false;
+        public static bool NextBestBallOnEscape = false;
         public static int Max_Missed_throws = 3;
         public static List<PokemonId> noTransfer;
         public static List<PokemonId> noCatch;

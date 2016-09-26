@@ -1935,7 +1935,7 @@ namespace PokemonGo.RocketAPI.Logic
             };
             getMyLowestAppropriateBall.First(sw => sw.Key(pokemonCp)).Value();
             //use next best ball if pokemon has escped before
-            if (escaped)
+            if (escaped && _clientSettings.NextBestBallOnEscape)
             {
                 switch (_lowestAppropriateBall)
                 {
@@ -2115,10 +2115,8 @@ namespace PokemonGo.RocketAPI.Logic
         {
             try
             {
-                if (_clientSettings.ForceSnipe)
-                { return; }
-                else if (_clientSettings.RelocateDefaultLocation)
-                    return;
+                if (_clientSettings.ForceSnipe || _clientSettings.RelocateDefaultLocation)
+                { return; }                
                 await _client.Inventory.RefreshCachedInventory(); // REFRESH
                 var incubators = (await _client.Inventory.GetEggIncubators()).ToList();
                 var unusedEggs = (await _client.Inventory.GetEggs()).Where(x => string.IsNullOrEmpty(x.EggIncubatorId)).OrderBy(x => x.EggKmWalkedTarget - x.EggKmWalkedStart).ToList();

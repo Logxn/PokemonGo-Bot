@@ -157,6 +157,7 @@ namespace PokemonGo.RocketAPI
         bool SnipePokemon { get; set; }
         bool AvoidRegionLock { get; set; }
         bool ForceSnipe { get; set; }
+        bool NextBestBallOnEscape { get; set; }
         PokemonId? ManualSnipePokemonID { get; set; }
         GeoCoordinate ManualSnipePokemonLocation { get; set; }
         /* ===================================[SETTINGS]================================= */

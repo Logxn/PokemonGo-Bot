@@ -753,6 +753,11 @@ namespace PokemonGo.RocketAPI.Console
             get { return ManualSnipePokemon.Location; }
             set { ManualSnipePokemon.Location = value; }
         }
+        public bool NextBestBallOnEscape
+        {
+            get { return Globals.NextBestBallOnEscape; }
+            set { Globals.NextBestBallOnEscape = value; }
+        }
         public bool simulatedPGO
         {
             get { return Globals.simulatedPGO; }

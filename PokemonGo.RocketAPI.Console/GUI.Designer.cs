@@ -263,6 +263,7 @@
             this.lang_en_btn = new System.Windows.Forms.Button();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.settingsBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.NextBestBallOnEscape = new System.Windows.Forms.CheckBox();
             this.tabProxies.SuspendLayout();
             this.tabItems.SuspendLayout();
             this.groupBox4.SuspendLayout();
@@ -1581,6 +1582,7 @@
             this.groupBox8.Controls.Add(this.label53);
             this.groupBox8.Controls.Add(this.text_UseRazzberryChance);
             this.groupBox8.Controls.Add(this.numericUpDown4);
+            this.groupBox8.Controls.Add(this.NextBestBallOnEscape);
             this.groupBox8.Controls.Add(this.checkBox_UseRazzberryIfChanceUnder);
             this.groupBox8.Controls.Add(this.numericUpDown3);
             this.groupBox8.Controls.Add(this.numericUpDown2);
@@ -1596,7 +1598,7 @@
             this.groupBox8.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.groupBox8.Name = "groupBox8";
             this.groupBox8.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.groupBox8.Size = new System.Drawing.Size(352, 202);
+            this.groupBox8.Size = new System.Drawing.Size(352, 243);
             this.groupBox8.TabIndex = 54;
             this.groupBox8.TabStop = false;
             this.groupBox8.Text = "Miss Rate and Ball Choice";
@@ -1604,7 +1606,7 @@
             // label33
             // 
             this.label33.AutoSize = true;
-            this.label33.Location = new System.Drawing.Point(311, 164);
+            this.label33.Location = new System.Drawing.Point(304, 164);
             this.label33.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label33.Name = "label33";
             this.label33.Size = new System.Drawing.Size(20, 17);
@@ -3022,6 +3024,17 @@
             // 
             this.settingsBindingSource.DataSource = typeof(PokemonGo.RocketAPI.Console.Settings);
             // 
+            // NextBestBallOnEscape
+            // 
+            this.NextBestBallOnEscape.AutoSize = true;
+            this.NextBestBallOnEscape.Location = new System.Drawing.Point(29, 196);
+            this.NextBestBallOnEscape.Margin = new System.Windows.Forms.Padding(4);
+            this.NextBestBallOnEscape.Name = "NextBestBallOnEscape";
+            this.NextBestBallOnEscape.Size = new System.Drawing.Size(278, 21);
+            this.NextBestBallOnEscape.TabIndex = 55;
+            this.NextBestBallOnEscape.Text = "Use Next Best Ball if Pokemon Escapes";
+            this.NextBestBallOnEscape.UseVisualStyleBackColor = true;
+            // 
             // GUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -3355,6 +3368,7 @@
         private System.Windows.Forms.CheckedListBox checkedListBox_NotToSnipe;
         private System.Windows.Forms.Label label55;
         private System.Windows.Forms.CheckBox CB_SimulatePGO;
+        private System.Windows.Forms.CheckBox NextBestBallOnEscape;
         //private System.Windows.Forms.CheckBox checkBox_CatchLurePokemons;
     }
 }

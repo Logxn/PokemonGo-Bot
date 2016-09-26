@@ -324,6 +324,7 @@ namespace PokemonGo.RocketAPI.Console
 
                     checkBox_UseRazzberryIfChanceUnder.Checked = config.UseRazzBerry;
                     text_UseRazzberryChance.Text = (config.razzberry_chance * 100).ToString();
+                    NextBestBallOnEscape.Checked = config.NextBestBallOnEscape;
 
                     text_Pb_Excellent.Text = config.Pb_Excellent.ToString();
                     text_Pb_Great.Text = config.Pb_Great.ToString();
@@ -796,7 +797,7 @@ namespace PokemonGo.RocketAPI.Console
             // tab 8 updates
             Globals.AutoUpdate = checkbox_AutoUpdate.Checked;
             Globals.CheckWhileRunning = checkbox_checkWhileRunning.Checked;
-
+            Globals.NextBestBallOnEscape = NextBestBallOnEscape.Checked;
             Globals.settingsLanguage = langSelected;
             Globals.NextDestinationOverride.Clear();
             Globals.RouteToRepeat.Clear();
