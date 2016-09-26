@@ -13,6 +13,7 @@ using System.Windows.Forms;
 using POGOProtos.Inventory.Item;
 using System.Threading.Tasks;
 using POGOProtos.Networking.Responses;
+using PokemonGo.RocketAPI.Helpers;
 	
 namespace PokemonGo.RocketAPI.Console
 {
@@ -238,6 +239,47 @@ namespace PokemonGo.RocketAPI.Console
                 }
           }
         }
-		
+        
+        private async Task RecycleItems(bool forcerefresh = false)
+        {            
+            var client = Logic.Logic._client;
+            var items = await client.Inventory.GetItemsToRecycle(new Settings());
+            foreach (var item in items)
+            {
+                var transfer = await client.Inventory.RecycleItem((ItemId)item.ItemId, item.Count);
+                Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Recycled {item.Count}x {(ItemId)item.ItemId}", LogLevel.Info);
+                await RandomHelper.RandomDelay(1000, 5000);
+            }
+        }
+
+        async void btnDiscard_Click(object sender, EventArgs e)
+        {
+            await RecycleItems();
+            Execute();
+        }
+
+        void useToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var item = (ItemData)ItemsListView.SelectedItems[0].Tag;
+            if ((item.ItemId != ItemId.ItemLuckyEgg) && (item.ItemId != ItemId.ItemIncenseOrdinary))
+            {
+                MessageBox.Show(getItemName( item.ItemId) + " cannot be used here.");
+                return;
+            }
+            DialogResult dialogResult = MessageBox.Show("Are you sure you want use " + getItemName( item.ItemId) +"?", "Use Warning", MessageBoxButtons.YesNo);
+            if (dialogResult == DialogResult.Yes)
+            {
+                if (item.ItemId == ItemId.ItemIncenseOrdinary)
+                {
+                    Globals.UseIncenseGUIClick = true;
+                }
+                if (item.ItemId == ItemId.ItemLuckyEgg)
+                {
+                    Globals.UseLuckyEggGUIClick = true;
+                }
+            
+            }
+
+        }		
 	}
 }
