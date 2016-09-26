@@ -55,6 +55,8 @@ namespace PokemonGo.RocketAPI.Console
             //
             InitializeComponent();            
             LinkPokesniperCom.Links.Add(0,LinkPokesniperCom.Text.Length,"http://pokesnipers.com/");
+            linkRarespawns.Links.Add(0,linkRarespawns.Text.Length,"http://www.rarespawns.be/");
+            linkPokezz.Links.Add(0,linkPokezz.Text.Length,"http://pokezz.com/");            
         }
         void SelectallNottoSnipe_CheckedChanged(object sender, EventArgs e)
         {
@@ -202,9 +204,7 @@ namespace PokemonGo.RocketAPI.Console
                     txt = txt.Replace("pokesniper2://","");
                     var splt = txt.Split('/');
                     SplitLatLng(splt[1]);
-                    SnipePoke( (PokemonId)Enum.Parse(typeof(PokemonId), splt[0]));
-                    //ToCapital fails with MrMime
-                    //SnipePoke( (PokemonId)Enum.Parse(typeof(PokemonId), ToCapital(splt[0])));
+                    SnipePoke( (PokemonId)Enum.Parse(typeof(PokemonId), ToCapital(splt[0])));
                 }
             } catch (Exception ex) {
                 MessageBox.Show( ex.ToString());
@@ -217,7 +217,11 @@ namespace PokemonGo.RocketAPI.Console
             {
                 return string.Empty;
             }
-            return char.ToUpper(s[0]) + s.Substring(1).ToLower();
+            var txt =char.ToUpper(s[0]) + s.Substring(1).ToLower();
+            
+            // Replacing text for the exception pokemons that not are written in capital format
+            txt = txt.Replace("mime","Mime");
+            return txt;
         }
 
         const string URI_SCHEME = "pokesniper2";

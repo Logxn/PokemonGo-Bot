@@ -1,2 +1,2 @@
 enabled=true;
-The bot is disabled, until we found out why Bans are happening. Follow my Twitter for more information https://twitter.com/Ar1iDev
+The bot is disabled, cause of a forced app update. Join our discord for more Information. https://discord.gg/phu3GNN
