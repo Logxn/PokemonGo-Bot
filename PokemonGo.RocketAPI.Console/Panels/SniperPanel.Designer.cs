@@ -38,7 +38,8 @@ namespace PokemonGo.RocketAPI.Console
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.LinkLabel LinkPokesniperCom;
-        private System.Windows.Forms.LinkLabel LLRarespawns;
+        private System.Windows.Forms.LinkLabel linkRarespawns;
+        private System.Windows.Forms.LinkLabel linkPokezz;
         
         /// <summary>
         /// Disposes resources used by the control.
@@ -80,7 +81,8 @@ namespace PokemonGo.RocketAPI.Console
             this.label64 = new System.Windows.Forms.Label();
             this.SnipeInfo = new System.Windows.Forms.TextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.LLRarespawns = new System.Windows.Forms.LinkLabel();
+            this.linkPokezz = new System.Windows.Forms.LinkLabel();
+            this.linkRarespawns = new System.Windows.Forms.LinkLabel();
             this.LinkPokesniperCom = new System.Windows.Forms.LinkLabel();
             this.btnInstall = new System.Windows.Forms.Button();
             this.label7 = new System.Windows.Forms.Label();
@@ -292,7 +294,8 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.LLRarespawns);
+            this.groupBox2.Controls.Add(this.linkPokezz);
+            this.groupBox2.Controls.Add(this.linkRarespawns);
             this.groupBox2.Controls.Add(this.LinkPokesniperCom);
             this.groupBox2.Controls.Add(this.btnInstall);
             this.groupBox2.Controls.Add(this.label7);
@@ -306,15 +309,25 @@ namespace PokemonGo.RocketAPI.Console
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "URI Service";
             // 
-            // LLRarespawns
+            // linkPokezz
             // 
-            this.LLRarespawns.Location = new System.Drawing.Point(160, 58);
-            this.LLRarespawns.Name = "LLRarespawns";
-            this.LLRarespawns.Size = new System.Drawing.Size(110, 15);
-            this.LLRarespawns.TabIndex = 90;
-            this.LLRarespawns.TabStop = true;
-            this.LLRarespawns.Text = "www.rarespawns.be";
-            this.LLRarespawns.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.PokesniperCom_LinkClicked);
+            this.linkPokezz.Location = new System.Drawing.Point(276, 58);
+            this.linkPokezz.Name = "linkPokezz";
+            this.linkPokezz.Size = new System.Drawing.Size(67, 15);
+            this.linkPokezz.TabIndex = 91;
+            this.linkPokezz.TabStop = true;
+            this.linkPokezz.Text = "pokezz.com";
+            this.linkPokezz.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.PokesniperCom_LinkClicked);
+            // 
+            // linkRarespawns
+            // 
+            this.linkRarespawns.Location = new System.Drawing.Point(160, 58);
+            this.linkRarespawns.Name = "linkRarespawns";
+            this.linkRarespawns.Size = new System.Drawing.Size(110, 15);
+            this.linkRarespawns.TabIndex = 90;
+            this.linkRarespawns.TabStop = true;
+            this.linkRarespawns.Text = "www.rarespawns.be";
+            this.linkRarespawns.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.PokesniperCom_LinkClicked);
             // 
             // LinkPokesniperCom
             // 
