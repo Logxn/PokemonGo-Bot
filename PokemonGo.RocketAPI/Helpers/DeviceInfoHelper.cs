@@ -63,6 +63,24 @@ namespace PokemonGo.RocketAPI
                     { "HardwareModel", "Nexus 7" }
                 }
             },
+            { "htc-m8",
+                new Dictionary<string, string>()
+                {
+                    { "AndroidBoardName", "MSM8974" },
+                    { "AndroidBootloader", "3.19.0.0000" },
+                    { "DeviceBrand", "htc" },
+                    { "DeviceId", "dd4c5b1e486a261e" },
+                    { "DeviceModel", "HTC_M8x" },
+                    { "DeviceModelBoot", "qcom" },
+                    { "DeviceModelIdentifier", "HTC_M8x" },
+                    { "FirmwareBrand", "htc_asia_tw" },
+                    { "FirmwareFingerprint", "htc/htc_asia_tw/htc_m8:5.0.2/LRX22G/504321.3:user/release-keys" },
+                    { "FirmwareTags", "release-keys" },
+                    { "FirmwareType", "user" },
+                    { "HardwareManufacturer", "HTC" },
+                    { "HardwareModel", "HTC_M8x" }
+                }
+            },
             { "htc10",
                 new Dictionary<string, string>()
                 {
