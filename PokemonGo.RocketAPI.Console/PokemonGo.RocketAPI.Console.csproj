@@ -306,6 +306,7 @@
     <EmbeddedResource Include="Lang\spain.json" />
     <EmbeddedResource Include="Lang\tr.json" />
     <EmbeddedResource Include="Lang\arabic.json" />
+    <EmbeddedResource Include="Lang\taiwan.json" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -576,6 +577,7 @@
     <None Include="Resources\Trainer_F.png" />
     <None Include="Resources\Trainer_M.png" />
     <None Include="Resources\Ninja.bmp" />
+    <Content Include="Resources\taiwan.png" />
     <Content Include="Resources\valor.png" />
     <None Include="Resources\start_point.png" />
     <None Include="Resources\151-35.png" />
