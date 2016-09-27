@@ -183,6 +183,16 @@ namespace PokemonGo.RocketAPI.Console.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap taiwan {
+            get {
+                object obj = ResourceManager.GetObject("taiwan", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap team_instinct {
             get {
                 object obj = ResourceManager.GetObject("team_instinct", resourceCulture);
