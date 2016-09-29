@@ -1433,9 +1433,9 @@ namespace PokemonGo.RocketAPI.Logic
                 bool berryOutOfStock = false;
                 Logger.ColoredConsoleWrite(ConsoleColor.Magenta, $"Encountered {StringUtils.getPokemonNameByLanguage(_clientSettings, pokeid)} CP {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} IV {PokemonInfo.CalculatePokemonPerfection(encounterPokemonResponse.WildPokemon.PokemonData).ToString("0.00")}% Probability {Math.Round(probability.Value * 100)}%");
                 var iv = PokemonInfo.CalculatePokemonPerfection(encounterPokemonResponse.WildPokemon.PokemonData);
+                var bestBerry = await GetBestBerry(encounterPokemonResponse?.WildPokemon);
                 if (encounterPokemonResponse.WildPokemon.PokemonData.Cp > _clientSettings.MinCPtoCatch && iv > _clientSettings.MinIVtoCatch)
                 {
-                    bool used = false;
                     do
                     {
                         // Check if the best ball is still valid
@@ -1447,9 +1447,8 @@ namespace PokemonGo.RocketAPI.Logic
                             _clientSettings.CatchPokemon = false;
                             return;
                         }
-                        if (((probability.HasValue && probability.Value < _clientSettings.razzberry_chance) || escaped) && _clientSettings.UseRazzBerry && !used)
+                        if (((probability.HasValue && probability.Value < _clientSettings.razzberry_chance) || escaped) && _clientSettings.UseRazzBerry && !berryThrown)
                         {
-                            var bestBerry = await GetBestBerry(encounterPokemonResponse?.WildPokemon);
                             if (bestBerry != ItemId.ItemUnknown)
                             {
                                 var berries = inventoryBerries.Where(p => (ItemId)p.ItemId == bestBerry).FirstOrDefault();
@@ -1459,7 +1458,7 @@ namespace PokemonGo.RocketAPI.Logic
                                     //Throw berry
                                     var useRaspberry = await _client.Encounter.UseCaptureItem(encounter_id, bestBerry, spawnpoint_id);
                                     berryThrown = true;
-                                    used = true;
+                                    berries.Count--;
                                     Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Thrown {bestBerry}. Remaining: {berries.Count}.", LogLevel.Info);
                                     await RandomHelper.RandomDelay(50, 200);
                                 }
@@ -1467,14 +1466,12 @@ namespace PokemonGo.RocketAPI.Logic
                                 {
                                     berryThrown = true;
                                     escaped = true;
-                                    used = true;
                                 }
                             }
                             else
                             {
                                 berryThrown = true;
                                 escaped = true;
-                                used = true;
                             }
                         }
                         // limit number of balls wasted by misses and log for UX because fools be tripin                        
@@ -1531,6 +1528,7 @@ namespace PokemonGo.RocketAPI.Logic
                         {
                             Logger.ColoredConsoleWrite(ConsoleColor.Magenta, $"{StringUtils.getPokemonNameByLanguage(_clientSettings, pokeid)} escaped while using {bestPokeball}");
                             escaped = true;
+                            berryThrown = false;
                             //reset forceHit in case we randomly triggered on last throw.
                             forceHit = false;
                             await RandomHelper.RandomDelay(1500, 6000);
