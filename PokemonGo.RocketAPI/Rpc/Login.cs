@@ -61,9 +61,9 @@ namespace PokemonGo.RocketAPI.Rpc
             var serverResponse = await PostProto<Request>(serverRequest);
 
             if (!string.IsNullOrEmpty(serverResponse.ApiUrl))
-                Client.ApiUrl = serverResponse.ApiUrl;
+                Client.ApiUrl = "http://"+serverResponse.ApiUrl;
 
-            Logger.Error("API URL: " + Client.ApiUrl);
+            Logger.Error("CLIENT API URL: " + Client.ApiUrl);
 
             if (serverResponse.AuthTicket != null)
                 Client.AuthTicket = serverResponse.AuthTicket;
