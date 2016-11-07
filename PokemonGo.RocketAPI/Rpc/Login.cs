@@ -11,6 +11,8 @@ using PokemonGo.RocketAPI.Helpers;
 using PokemonGo.RocketAPI.Login;
 using POGOProtos.Networking.Requests;
 using POGOProtos.Networking.Requests.Messages;
+using POGOProtos.Networking.Envelopes;
+using POGOProtos.Networking.Responses;
 
 namespace PokemonGo.RocketAPI.Rpc
 {
@@ -23,6 +25,7 @@ namespace PokemonGo.RocketAPI.Rpc
         public Login(Client client) : base(client)
         {
             login = SetLoginType(client.Settings);
+            Client.ApiUrl = Resources.RpcUrl;
         }
 
         private static ILoginType SetLoginType(ISettings settings)
@@ -40,63 +43,79 @@ namespace PokemonGo.RocketAPI.Rpc
 
         public async Task DoLogin()
         {
-            _client.AuthToken = await login.GetAccessToken().ConfigureAwait(false);
-            await SetServer().ConfigureAwait(false);
+            Client.AuthToken = await login.GetAccessToken().ConfigureAwait(false);
+            Client.StartTime = Utils.GetTime(true);
+
+            await Worker(CommonRequest.GetDownloadRemoteConfigVersionMessageRequest(Client)).ConfigureAwait(false);
+            await Worker(CommonRequest.GetGetAssetDigestMessageRequest(Client)).ConfigureAwait(false);
         }
 
-        private async Task SetServer()
+        private async Task Worker(Request request)
         {
-            #region Standard intial request messages in right Order
 
-            var getPlayerMessage = new GetPlayerMessage(); 
-            var getHatchedEggsMessage = new GetHatchedEggsMessage();
-            var getInventoryMessage = new GetInventoryMessage
+
+            var requests = CommonRequest.FillRequest(request, Client);
+
+
+            var serverRequest = GetRequestBuilder().GetRequestEnvelope(requests, true);
+            var serverResponse = await PostProto<Request>(serverRequest);
+
+            if (!string.IsNullOrEmpty(serverResponse.ApiUrl))
+                Client.ApiUrl = serverResponse.ApiUrl;
+
+            Logger.Error("API URL: " + Client.ApiUrl);
+
+            if (serverResponse.AuthTicket != null)
+                Client.AuthTicket = serverResponse.AuthTicket;
+            
+            
+            switch (serverResponse.StatusCode)
             {
-                LastTimestampMs = DateTime.UtcNow.ToUnixTime()
-            };
-            var checkAwardedBadgesMessage = new CheckAwardedBadgesMessage();
-            var downloadSettingsMessage = new DownloadSettingsMessage
-            {
-                Hash = "b8fa9757195897aae92c53dbcf8a60fb3d86d745"
-            };
-
-            #endregion
-
-            var serverRequest = RequestBuilder.GetInitialRequestEnvelope(
-                new Request
-                {
-                    RequestType = RequestType.GetPlayer,
-                    RequestMessage = getPlayerMessage.ToByteString()
-                }, new Request
-                {
-                    RequestType = RequestType.GetHatchedEggs,
-                    RequestMessage = getHatchedEggsMessage.ToByteString()
-                }, new Request
-                {
-                    RequestType = RequestType.GetInventory,
-                    RequestMessage = getInventoryMessage.ToByteString()
-                }, new Request
-                {
-                    RequestType = RequestType.CheckAwardedBadges,
-                    RequestMessage = checkAwardedBadgesMessage.ToByteString()
-                }, new Request
-                {
-                    RequestType = RequestType.DownloadSettings,
-                    RequestMessage = downloadSettingsMessage.ToByteString()
-                });
-
-
-            var serverResponse = await PostProto<Request>(Resources.RpcUrl, serverRequest);
-
-            if (serverResponse.AuthTicket == null)
-            {
-                _client.AuthToken = null;
-                throw new AccessTokenExpiredException();
+                case ResponseEnvelope.Types.StatusCode.InvalidAuthToken:
+                    Client.AuthToken = null;
+                    throw new AccessTokenExpiredException();
+                case ResponseEnvelope.Types.StatusCode.Redirect:
+                    // 53 means that the api_endpoint was not correctly set, should be at this point, though, so redo the request
+                    await Worker(request);
+                    return;
+                case ResponseEnvelope.Types.StatusCode.BadRequest:
+                    // Your account may be banned! please try from the official client.
+                    throw new LoginFailedException("Your account may be banned! please try from the official client.");
+                case ResponseEnvelope.Types.StatusCode.Unknown:
+                    break;
+                case ResponseEnvelope.Types.StatusCode.Ok:
+                    break;
+                case ResponseEnvelope.Types.StatusCode.OkRpcUrlInResponse:
+                    break;
+                case ResponseEnvelope.Types.StatusCode.InvalidRequest:
+                    break;
+                case ResponseEnvelope.Types.StatusCode.InvalidPlatformRequest:
+                    break;
+                case ResponseEnvelope.Types.StatusCode.SessionInvalidated:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
 
-            _client.AuthTicket = serverResponse.AuthTicket;
-            _client.ApiUrl = serverResponse.ApiUrl;
-        }
+            var responses = serverResponse.Returns;
+            if (responses != null)
+            {
+                var getInventoryResponse = new GetInventoryResponse();
+                if (4 <= responses.Count)
+                {
+                    getInventoryResponse.MergeFrom(responses[3]);
 
+                    CommonRequest.ProcessGetInventoryResponse(Client, getInventoryResponse);
+                }
+
+                var downloadSettingsResponse = new DownloadSettingsResponse();
+                if (6 <= responses.Count)
+                {
+                    downloadSettingsResponse.MergeFrom(responses[5]);
+
+                    CommonRequest.ProcessDownloadSettingsResponse(Client, downloadSettingsResponse);
+                }
+            }
+        }
     }
 }

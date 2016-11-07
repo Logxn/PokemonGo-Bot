@@ -37,7 +37,8 @@ namespace PokemonGo.RocketAPI.Login
                 var sessionData = await GetSessionCookie(tempHttpClient).ConfigureAwait(false);
 
                 //Login
-                var ticketId = await GetLoginTicket(username, password, tempHttpClient, sessionData).ConfigureAwait(false);
+                var ticketId =
+                    await GetLoginTicket(username, password, tempHttpClient, sessionData).ConfigureAwait(false);
 
                 //Get tokenvar
                 var authToken = await GetToken(tempHttpClient, ticketId).ConfigureAwait(false);
@@ -60,14 +61,15 @@ namespace PokemonGo.RocketAPI.Login
             return ticketId;
         }
 
-        private static IDictionary<string, string> GenerateLoginRequest(SessionData sessionData, string user, string pass)
+        private static IDictionary<string, string> GenerateLoginRequest(SessionData sessionData, string user,
+            string pass)
             => new Dictionary<string, string>
             {
-                { "lt", sessionData.Lt },
-                { "execution", sessionData.Execution },
-                { "_eventId", "submit" },
-                { "username", user },
-                { "password", pass }
+                {"lt", sessionData.Lt},
+                {"execution", sessionData.Execution},
+                {"_eventId", "submit"},
+                {"username", user},
+                {"password", pass}
             };
 
         private static IDictionary<string, string> GenerateTokenVarRequest(string ticketId)
@@ -80,28 +82,17 @@ namespace PokemonGo.RocketAPI.Login
                 {"code", ticketId}
             };
 
-        private static async Task<string> GetLoginTicket(string username, string password, System.Net.Http.HttpClient tempHttpClient, SessionData sessionData)
+        private static async Task<string> GetLoginTicket(string username, string password,
+            System.Net.Http.HttpClient tempHttpClient, SessionData sessionData)
         {
             HttpResponseMessage loginResp;
             var loginRequest = GenerateLoginRequest(sessionData, username, password);
             using (var formUrlEncodedContent = new FormUrlEncodedContent(loginRequest))
             {
-                loginResp = await tempHttpClient.PostAsync(Resources.PtcLoginUrl, formUrlEncodedContent).ConfigureAwait(false);
+                loginResp =
+                    await tempHttpClient.PostAsync(Resources.PtcLoginUrl, formUrlEncodedContent).ConfigureAwait(false);
             }
 
-            var r = await loginResp.Content.ReadAsStringAsync();
-
-            if (r == null)
-                throw new PtcOfflineException();
-
-            if (loginResp.StatusCode == HttpStatusCode.InternalServerError)
-                throw new PtcOfflineException();
-
-            if (r.Contains("Account is not yet active"))
-            {
-                throw new AccountNotVerifiedException("Your Account is not verified.");
-            }
-          
             var ticketId = ExtractTicketFromResponse(loginResp);
             return ticketId;
         }
@@ -120,7 +111,8 @@ namespace PokemonGo.RocketAPI.Login
             var tokenRequest = GenerateTokenVarRequest(ticketId);
             using (var formUrlEncodedContent = new FormUrlEncodedContent(tokenRequest))
             {
-                tokenResp = await tempHttpClient.PostAsync(Resources.PtcLoginOauth, formUrlEncodedContent).ConfigureAwait(false);
+                tokenResp =
+                    await tempHttpClient.PostAsync(Resources.PtcLoginOauth, formUrlEncodedContent).ConfigureAwait(false);
             }
 
             var tokenData = await tokenResp.Content.ReadAsStringAsync().ConfigureAwait(false);

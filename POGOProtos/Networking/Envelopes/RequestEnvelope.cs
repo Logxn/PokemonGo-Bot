@@ -163,6 +163,9 @@ namespace POGOProtos.Networking.Envelopes {
     /// <summary>Field number for the "accuracy" field.</summary>
     public const int AccuracyFieldNumber = 9;
     private double accuracy_;
+    /// <summary>
+    ///  Make sure to use this to build POGOProtos.Networking.Envelopes.Signature.location_hash1 and POGOProtos.Networking.Envelopes.Signature.location_hash2
+    /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public double Accuracy {
       get { return accuracy_; }

@@ -127,7 +127,7 @@ namespace PokemonGo.RocketAPI.Rpc
 
             if (luckyEgg == null || luckyEgg.Count <= 0) { return; }
 
-            await _client.Inventory.UseItemXpBoost(ItemId.ItemLuckyEgg);
+            await client.Inventory.UseItemXpBoost(ItemId.ItemLuckyEgg);
             Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Used Lucky Egg, remaining: {luckyEgg.Count - 1}");
             _lastegguse = DateTime.Now.AddMinutes(30);
             await Task.Delay(3000);
@@ -251,8 +251,8 @@ namespace PokemonGo.RocketAPI.Rpc
             {
                 ItemId = itemId,
                 GymId = gymId,
-                PlayerLatitude = _client.CurrentLatitude,
-                PlayerLongitude = _client.CurrentLongitude
+                PlayerLatitude = Client.CurrentLatitude,
+                PlayerLongitude = Client.CurrentLongitude
             };
 
             return await PostProtoPayload<Request, UseItemGymResponse>(RequestType.UseItemGym, message);
@@ -329,7 +329,7 @@ namespace PokemonGo.RocketAPI.Rpc
 
         public async Task<IEnumerable<PokemonSettings>> GetPokemonSettings()
         {
-            var templates = await _client.Download.GetItemTemplates();
+            var templates = await Client.Download.GetItemTemplates();
             return
                 templates.ItemTemplates.Select(i => i.PokemonSettings)
                     .Where(p => p != null && p.FamilyId != PokemonFamilyId.FamilyUnset);
@@ -358,7 +358,7 @@ namespace PokemonGo.RocketAPI.Rpc
             try
             {
                 _lastRefresh = now;
-                _cachedInventory = await _client.Inventory.GetInventory(true);
+                _cachedInventory = await Client.Inventory.GetInventory(true);
                 return _cachedInventory;
             }
             finally
@@ -464,9 +464,9 @@ namespace PokemonGo.RocketAPI.Rpc
                         amountToSkip = familyCandy.Candy_ / settings.CandyToEvolve;
                     }
 
-                    if (_client.Settings.HoldMaxDoublePokemons > amountToSkip)
+                    if (Client.Settings.HoldMaxDoublePokemons > amountToSkip)
                     {
-                        amountToSkip = _client.Settings.HoldMaxDoublePokemons;
+                        amountToSkip = Client.Settings.HoldMaxDoublePokemons;
                     }
                     if (orderByIv)
                     {
@@ -498,7 +498,7 @@ namespace PokemonGo.RocketAPI.Rpc
                     .SelectMany(p => p.Where(x => x.Favorite == 0)
                     .OrderByDescending(PokemonInfo.CalculatePokemonPerfection)
                     .ThenBy(n => n.StaminaMax)
-                    .Skip(_client.Settings.HoldMaxDoublePokemons)
+                    .Skip(Client.Settings.HoldMaxDoublePokemons)
                     .ToList());
 
             }
@@ -510,7 +510,7 @@ namespace PokemonGo.RocketAPI.Rpc
                     .SelectMany(p => p.Where(x => x.Favorite == 0)
                     .OrderByDescending(x => x.Cp)
                     .ThenBy(n => n.StaminaMax)
-                    .Skip(_client.Settings.HoldMaxDoublePokemons)
+                    .Skip(Client.Settings.HoldMaxDoublePokemons)
                     .ToList());
             }
         }

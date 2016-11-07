@@ -21,6 +21,18 @@ namespace PokemonGo.RocketAPI.Logic
             _session = session;
         }
 
+        public void HandleCaptcha(string challengeUrl, ICaptchaResponseHandler captchaResponseHandler)
+        {
+            // TODO Show captcha get token and pass it back.
+            // string token = "";
+            // captchaResponseHandler.SetCaptchaToken(token);
+
+            Logger.Error("We need a Captcha.. (Not implemented yet)");
+
+            Console.ReadKey();
+            Environment.Exit(0);
+        }
+
         public async Task<ApiOperation> HandleApiFailure()
         {
             if (_retryCount == 11)

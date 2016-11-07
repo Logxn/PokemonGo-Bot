@@ -24,14 +24,15 @@ namespace POGOProtos.Networking.Responses {
           string.Concat(
             "CjxQT0dPUHJvdG9zL05ldHdvcmtpbmcvUmVzcG9uc2VzL0dldEhhdGNoZWRF",
             "Z2dzUmVzcG9uc2UucHJvdG8SH1BPR09Qcm90b3MuTmV0d29ya2luZy5SZXNw",
-            "b25zZXMijgEKFkdldEhhdGNoZWRFZ2dzUmVzcG9uc2USDwoHc3VjY2VzcxgB",
+            "b25zZXMipQEKFkdldEhhdGNoZWRFZ2dzUmVzcG9uc2USDwoHc3VjY2VzcxgB",
             "IAEoCBIWCgpwb2tlbW9uX2lkGAIgAygGQgIQARIaChJleHBlcmllbmNlX2F3",
             "YXJkZWQYAyADKAUSFQoNY2FuZHlfYXdhcmRlZBgEIAMoBRIYChBzdGFyZHVz",
-            "dF9hd2FyZGVkGAUgAygFYgZwcm90bzM="));
+            "dF9hd2FyZGVkGAUgAygFEhUKDWVnZ19rbV93YWxrZWQYBiADKAJiBnByb3Rv",
+            "Mw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::POGOProtos.Networking.Responses.GetHatchedEggsResponse), global::POGOProtos.Networking.Responses.GetHatchedEggsResponse.Parser, new[]{ "Success", "PokemonId", "ExperienceAwarded", "CandyAwarded", "StardustAwarded" }, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::POGOProtos.Networking.Responses.GetHatchedEggsResponse), global::POGOProtos.Networking.Responses.GetHatchedEggsResponse.Parser, new[]{ "Success", "PokemonId", "ExperienceAwarded", "CandyAwarded", "StardustAwarded", "EggKmWalked" }, null, null, null)
           }));
     }
     #endregion
@@ -67,6 +68,7 @@ namespace POGOProtos.Networking.Responses {
       experienceAwarded_ = other.experienceAwarded_.Clone();
       candyAwarded_ = other.candyAwarded_.Clone();
       stardustAwarded_ = other.stardustAwarded_.Clone();
+      eggKmWalked_ = other.eggKmWalked_.Clone();
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -125,6 +127,16 @@ namespace POGOProtos.Networking.Responses {
       get { return stardustAwarded_; }
     }
 
+    /// <summary>Field number for the "egg_km_walked" field.</summary>
+    public const int EggKmWalkedFieldNumber = 6;
+    private static readonly pb::FieldCodec<float> _repeated_eggKmWalked_codec
+        = pb::FieldCodec.ForFloat(50);
+    private readonly pbc::RepeatedField<float> eggKmWalked_ = new pbc::RepeatedField<float>();
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public pbc::RepeatedField<float> EggKmWalked {
+      get { return eggKmWalked_; }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
       return Equals(other as GetHatchedEggsResponse);
@@ -143,6 +155,7 @@ namespace POGOProtos.Networking.Responses {
       if(!experienceAwarded_.Equals(other.experienceAwarded_)) return false;
       if(!candyAwarded_.Equals(other.candyAwarded_)) return false;
       if(!stardustAwarded_.Equals(other.stardustAwarded_)) return false;
+      if(!eggKmWalked_.Equals(other.eggKmWalked_)) return false;
       return true;
     }
 
@@ -154,6 +167,7 @@ namespace POGOProtos.Networking.Responses {
       hash ^= experienceAwarded_.GetHashCode();
       hash ^= candyAwarded_.GetHashCode();
       hash ^= stardustAwarded_.GetHashCode();
+      hash ^= eggKmWalked_.GetHashCode();
       return hash;
     }
 
@@ -172,6 +186,7 @@ namespace POGOProtos.Networking.Responses {
       experienceAwarded_.WriteTo(output, _repeated_experienceAwarded_codec);
       candyAwarded_.WriteTo(output, _repeated_candyAwarded_codec);
       stardustAwarded_.WriteTo(output, _repeated_stardustAwarded_codec);
+      eggKmWalked_.WriteTo(output, _repeated_eggKmWalked_codec);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -184,6 +199,7 @@ namespace POGOProtos.Networking.Responses {
       size += experienceAwarded_.CalculateSize(_repeated_experienceAwarded_codec);
       size += candyAwarded_.CalculateSize(_repeated_candyAwarded_codec);
       size += stardustAwarded_.CalculateSize(_repeated_stardustAwarded_codec);
+      size += eggKmWalked_.CalculateSize(_repeated_eggKmWalked_codec);
       return size;
     }
 
@@ -199,6 +215,7 @@ namespace POGOProtos.Networking.Responses {
       experienceAwarded_.Add(other.experienceAwarded_);
       candyAwarded_.Add(other.candyAwarded_);
       stardustAwarded_.Add(other.stardustAwarded_);
+      eggKmWalked_.Add(other.eggKmWalked_);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -231,6 +248,11 @@ namespace POGOProtos.Networking.Responses {
           case 42:
           case 40: {
             stardustAwarded_.AddEntriesFrom(input, _repeated_stardustAwarded_codec);
+            break;
+          }
+          case 50:
+          case 53: {
+            eggKmWalked_.AddEntriesFrom(input, _repeated_eggKmWalked_codec);
             break;
           }
         }
