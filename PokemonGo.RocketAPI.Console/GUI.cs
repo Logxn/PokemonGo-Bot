@@ -48,11 +48,6 @@ namespace PokemonGo.RocketAPI.Console
         {
             _clientSettings = new Settings();
             Globals.FirstLoad = false;
-            var ret = MessageBox.Show("ATTENTION:\nYOU CAN GET BANNED USING THIS BOT\nTHE API IS NOT UPDATE YET\nContinue?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Error);
-            if (ret == DialogResult.No)
-            {
-                Application.Exit();
-            }
             Directory.CreateDirectory(Program.path);
             Directory.CreateDirectory(Program.path_translation);
             Directory.CreateDirectory(Program.path_pokedata);
