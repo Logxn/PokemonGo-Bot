@@ -1,7 +1,5 @@
 ![headerimg](http://i.imgur.com/tyoivkz.png)
 
-THE BOT IS CURRENTLY DOWN DUE TO A FORCED UPDATE BY NIANTIC. PLEASE DO NOT CREATE ISSUES. SEE DISCORD LINK BELOW FOR UPDATES!
-
 Donate
 ------------
 > If you want to donate for the Team, you can do it with BitCoins.<br>
