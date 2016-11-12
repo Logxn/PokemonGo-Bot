@@ -523,7 +523,7 @@ namespace PokemonGo.RocketAPI.Console
             selectedCoords = selectedCoords.Replace(",",".");
             if (selectedCoords.Equals(NEW_YORK_COORS))
             {
-                var ret = MessageBox.Show("Have you set correctly your location?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                var ret = MessageBox.Show("Have you set correctly your location? (It seems like you are using default coords. This can lead to an auto-ban from niantic)", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                 if (ret == DialogResult.No)
                 {
                     return;
