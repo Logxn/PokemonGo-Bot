@@ -266,11 +266,12 @@ namespace PokemonGo.RocketAPI.Logic
         #endregion
 
         #region Stats log and Session Check Functions
-
+        
         private async Task StatsLog(Client client)
         {
             //Enable Pokemon List cause everything is loaded
             _client.readyToUse = true;
+            
             // Check if disabled
             StringUtils.CheckKillSwitch();
             #region Set Stat Variables         
@@ -1598,7 +1599,7 @@ namespace PokemonGo.RocketAPI.Logic
             }
             else
             {
-                Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Error catching Pokemon: {encounterPokemonResponse?.Status}");
+                //Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Error catching Pokemon: {encounterPokemonResponse?.Status}"); Muss man nicht unbedingt haben. Pokemon evntl despawned oder irgendwas anderes unnötiges
             }
             await RandomHelper.RandomDelay(1500, 2000);
         }
