@@ -1,3 +1,4 @@
+using Google.Protobuf;
 using POGOProtos.Enums;
 using POGOProtos.Inventory.Item;
 using PokemonGo.RocketAPI;
@@ -161,5 +162,7 @@ namespace PokemonGo.RocketAPI
         PokemonId? ManualSnipePokemonID { get; set; }
         GeoCoordinate ManualSnipePokemonLocation { get; set; }
         /* ===================================[SETTINGS]================================= */
+
+        ByteString SessionHash { get; set; }
     }
 }

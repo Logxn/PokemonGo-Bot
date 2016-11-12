@@ -1,16 +1,18 @@
-﻿using System.Diagnostics;
+﻿
+
+using System;
+using System.Diagnostics;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Google.Protobuf;
 using PokemonGo.RocketAPI.Exceptions;
 using POGOProtos.Networking.Envelopes;
+using System.Collections.Concurrent;
+using System.Threading;
+
 
 namespace PokemonGo.RocketAPI.Extensions
 {
-    using System;
-    using System.Collections.Concurrent;
-    using System.Threading;
-
     public enum ApiOperation
     {
         Retry,
@@ -21,15 +23,14 @@ namespace PokemonGo.RocketAPI.Extensions
     {
         Task<ApiOperation> HandleApiFailure(RequestEnvelope request, ResponseEnvelope response);
         void HandleApiSuccess(RequestEnvelope request, ResponseEnvelope response);
-        void HandleCaptcha(string challengeUrl, ICaptchaResponseHandler captchaResponseHandler);
 
+        void HandleCaptcha(string challengeUrl, ICaptchaResponseHandler captchaResponseHandler);
     }
 
     public interface ICaptchaResponseHandler
     {
         void SetCaptchaToken(string captchaToken);
     }
-
 
     public static class HttpClientExtensions
     {
@@ -108,7 +109,6 @@ namespace PokemonGo.RocketAPI.Extensions
             string url,
             RequestEnvelope requestEnvelope) where TRequest : IMessage<TRequest>
         {
-            Logger.Error("URL: " + url);
             //Encode payload and put in envelop, then send
             var data = requestEnvelope.ToByteString();
             var result = await client.PostAsync(url, new ByteArrayContent(data.ToByteArray()));

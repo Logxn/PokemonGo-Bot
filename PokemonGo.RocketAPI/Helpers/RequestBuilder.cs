@@ -15,6 +15,8 @@ using System.Windows.Forms;
 using POGOProtos.Networking.Platform;
 using POGOProtos.Networking.Platform.Requests;
 using Troschuetz.Random;
+using POGOProtos.Enums;
+using System.Text;
 
 namespace PokemonGo.RocketAPI.Helpers
 {
@@ -27,6 +29,11 @@ namespace PokemonGo.RocketAPI.Helpers
         private readonly double _altitude;
         private readonly AuthTicket _authTicket;
         private readonly Client _client;
+        private readonly Crypt _crypt;
+        private readonly float _speed;
+        private readonly ISettings _settings;
+        private static long Client_4500_Unknown25 = -1553869577012279119;
+
 
         /// Device Shit
         public static string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Device"); 
@@ -49,6 +56,8 @@ namespace PokemonGo.RocketAPI.Helpers
         private int _token2 = RandomDevice.Next(1, 59);
 
         public byte[] sessionhash_array = null;
+
+
 
         public bool setupdevicedone = false;
 
@@ -88,7 +97,7 @@ namespace PokemonGo.RocketAPI.Helpers
         }
 
 
-        public RequestBuilder(Client client, string authToken, AuthType authType, double latitude, double longitude, double altitude,
+        public RequestBuilder(Client client, string authToken, AuthType authType, double latitude, double longitude, double altitude, ISettings settings,
             AuthTicket authTicket = null)
         {
 
@@ -96,6 +105,7 @@ namespace PokemonGo.RocketAPI.Helpers
             {
                 setUpDevice();
             }
+
             _client = client;
             _authToken = authToken;
             _authType = authType;
@@ -103,12 +113,91 @@ namespace PokemonGo.RocketAPI.Helpers
             _longitude = longitude;
             _altitude = altitude;
             _authTicket = authTicket;
+            _settings = settings;
 
+
+            // Add small variance to speed.
+            _speed = _speed + ((float)Math.Round(GenRandom(-1, 1), 7));
+
+
+
+            if (_settings.SessionHash == null)
+            {
+                GenerateNewHash();
+            }
+
+            if (_crypt == null)
+                _crypt = new Crypt();
+            
         }
 
+        private ByteString SessionHash
+        {
+            get { return _settings.SessionHash; }
+            set { _settings.SessionHash = value; }
+        }
+
+        public void GenerateNewHash()
+        {
+            var hashBytes = new byte[16];
+
+            RandomDevice.NextBytes(hashBytes);
+
+            SessionHash = ByteString.CopyFrom(hashBytes);
+        }
+
+        public uint RequestCount { get; private set; } = 1;
+        private readonly Random _random = new Random(Environment.TickCount);
+
+        private long PositiveRandom()
+        {
+            long ret = _random.Next() | (_random.Next() << 32);
+            // lrand48 ensures it's never < 0
+            // So do the same
+            if (ret < 0)
+                ret = -ret;
+            return ret;
+        }
+
+        private void IncrementRequestCount()
+        {
+            // Request counts on android jump more than 1 at a time according to logs
+            // They are fully sequential on iOS though
+            // So mimic that same behavior here.
+            if (_client.Platform == Platform.Android)
+                RequestCount += (uint)_random.Next(2, 15);
+            else if (_client.Platform == Platform.Ios)
+                RequestCount++;
+        }
+
+        private ulong GetNextRequestId()
+        {
+            if (RequestCount == 1)
+            {
+                IncrementRequestCount();
+                if (_client.Platform == Platform.Android)
+                {
+                    // lrand48 is "broken" in that the first run of it will return a static value.
+                    // So the first time we send a request, we need to match that initial value. 
+                    // Note: On android srand(4) is called in .init_array which seeds the initial value.
+                    return 0x53B77E48000000B0;
+                }
+                if (_client.Platform == Platform.Ios)
+                {
+                    // Same as lrand48, iOS uses "rand()" without a pre-seed which always gives the same first value.
+                    return 0x41A700000002;
+                }
+            }
+
+            // Note that the API expects a "positive" random value here. (At least on Android it does due to lrand48 implementation details)
+            // So we'll just use the same for iOS since it doesn't hurt, and means less code required.
+            ulong r = (((ulong)PositiveRandom() | ((RequestCount + 1) >> 31)) << 32) | (RequestCount + 1);
+            IncrementRequestCount();
+            return r;
+        }
         private RequestEnvelope.Types.PlatformRequest GenerateSignature(IEnumerable<IMessage> requests)
         {
-            byte[] ticket = _authTicket.ToByteArray();
+            byte[] ticketBytes = _authTicket != null ? _authTicket.ToByteArray() : Encoding.UTF8.GetBytes(_authToken);
 
             if (sessionhash_array == null)
             {
@@ -138,10 +227,10 @@ namespace PokemonGo.RocketAPI.Helpers
             var sig = new Signature
             {
                 SessionHash = ByteString.CopyFrom(sessionhash_array),
-                Unknown25 = -8408506833887075802, // Could change every Update
+                Unknown25 = Client_4500_Unknown25, // Could change every Update
+                Timestamp = (ulong)Utils.GetTime(true),
                 TimestampSinceStart = (ulong)(Utils.GetTime(true) - _client.StartTime),
-                Timestamp = (ulong)DateTime.UtcNow.ToUnixTime(),
-                LocationHash1 = Utils.GenLocation1(ticket, _latitude, _longitude, _altitude),
+                LocationHash1 = Utils.GenLocation1(ticketBytes, _latitude, _longitude, _altitude),
                 LocationHash2 = Utils.GenLocation2(_latitude, _longitude, _altitude),
                 DeviceInfo = dInfo
             };
@@ -167,23 +256,26 @@ namespace PokemonGo.RocketAPI.Helpers
                 MagneticFieldAccuracy = -1,
                 Status = 3
             });
+
             Random r = new Random();
             int accuracy = r.Next(15, 50);
-            sig.LocationFix.Add(new POGOProtos.Networking.Envelopes.Signature.Types.LocationFix()
+
+            Signature.Types.LocationFix locationFix = new Signature.Types.LocationFix
             {
-                Provider = "gps",
+                Provider = "network",
                 TimestampSnapshot = (ulong)(Utils.GetTime(true) - _client.StartTime - RandomDevice.Next(100, 300)),
                 Latitude = (float)_latitude,
                 Longitude = (float)_longitude,
                 Altitude = (float)_altitude,
                 HorizontalAccuracy = accuracy,        // Genauigkeit von GPS undso
                 ProviderStatus = 3,
-                Floor = 3,
+                // Unnötig => Floor = 3,
                 LocationType = 1
-            });
+            };
 
-            foreach (var requst in requests)
-                sig.RequestHash.Add(Utils.GenRequestHash(ticket, requst.ToByteArray()));
+            foreach (var request in requests)
+                sig.RequestHash.Add(Utils.GenRequestHash(ticketBytes, request.ToByteArray()));
+
 
             var encryptedSig = new RequestEnvelope.Types.PlatformRequest
             {
@@ -201,12 +293,12 @@ namespace PokemonGo.RocketAPI.Helpers
         {
 
             TRandom TRandomDevice = new TRandom();
+
             var e = new RequestEnvelope
             {
                 StatusCode = 2, //1
-                RequestId = 1469378659230941192, //3
+                RequestId = GetNextRequestId(), //3
                 Requests = { customRequests }, //4
-                //Unknown6 = , //6
                 Latitude = _latitude, //7
                 Longitude = _longitude, //8
                 Accuracy = _altitude, //9

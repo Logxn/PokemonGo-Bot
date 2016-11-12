@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Device.Location;
+using Google.Protobuf;
 
 namespace PokemonGo.RocketAPI.Console
 {
@@ -29,6 +30,13 @@ namespace PokemonGo.RocketAPI.Console
     public class Settings : ISettings
     {
         /* ===================================[SETTINGS]================================= */
+
+        public ByteString SessionHash
+        {
+            get { return Globals.SessionHash; }
+            set { Globals.SessionHash = value; }
+        }
+
 
         /* AUTHENTICATION */
 
@@ -762,6 +770,8 @@ namespace PokemonGo.RocketAPI.Console
         {
             get { return Globals.simulatedPGO; }
             set { Globals.simulatedPGO = value; }
-        }        
+        }      
+        
+ 
     }
 }

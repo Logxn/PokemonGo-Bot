@@ -14,6 +14,7 @@ using PokemonGo.RocketAPI.Logic.Utils;
 using POGOProtos.Enums;
 using System.Device.Location;
 using System.Collections.ObjectModel;
+using Google.Protobuf;
 
 namespace PokemonGo.RocketAPI.Console
 {
@@ -385,5 +386,6 @@ namespace PokemonGo.RocketAPI.Console
         public static bool AvoidRegionLock = true;
         public static bool ForceSnipe = false;
         public static bool simulatedPGO = false;
+        public static ByteString SessionHash;
     }
 }

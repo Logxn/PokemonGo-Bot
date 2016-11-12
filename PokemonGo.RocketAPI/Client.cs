@@ -58,9 +58,12 @@ namespace PokemonGo.RocketAPI
 
 
         public static WebProxy proxy;
-        public bool readyToUse = false;        
+        public bool readyToUse = false;
 
-        public void setFailure(IApiFailureStrategy fail)
+        public double CurrentAccuracy { get; internal set; }
+        public float CurrentSpeed { get; internal set; }
+
+    public void setFailure(IApiFailureStrategy fail)
         {
             ApiFailure = fail;
         }
@@ -88,11 +91,17 @@ namespace PokemonGo.RocketAPI
 
             InventoryLastUpdateTimestamp = 0;
 
-            AppVersion = 4303;
+            /*AppVersion = 4303;
             SettingsHash = "";
 
-            CurrentApiEmulationVersion = new Version("0.43.3");
+            CurrentApiEmulationVersion = new Version("0.43.3");*/
+
+            AppVersion = 4500;
+            SettingsHash = "";
+
+            CurrentApiEmulationVersion = new Version("0.45.0");
         }
+
 
         private WebProxy InitProxy()
         {
