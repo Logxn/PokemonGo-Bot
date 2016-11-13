@@ -21,8 +21,8 @@ namespace PokemonGo.RocketAPI.Rpc
             {
                 EncounterId = encounterId,
                 SpawnPointId = spawnPointGuid,
-                PlayerLatitude = _client.CurrentLatitude,
-                PlayerLongitude = _client.CurrentLongitude
+                PlayerLatitude = Client.CurrentLatitude,
+                PlayerLongitude = Client.CurrentLongitude
             };
             
             return await PostProtoPayload<Request, EncounterResponse>(RequestType.Encounter, message);
@@ -73,8 +73,8 @@ namespace PokemonGo.RocketAPI.Rpc
             {
                 EncounterId = encounterId,
                 FortId = fortId,
-                PlayerLatitude = _client.CurrentLatitude,
-                PlayerLongitude = _client.CurrentLongitude
+                PlayerLatitude = Client.CurrentLatitude,
+                PlayerLongitude = Client.CurrentLongitude
             };
 
             return await PostProtoPayload<Request, DiskEncounterResponse>(RequestType.DiskEncounter, message);

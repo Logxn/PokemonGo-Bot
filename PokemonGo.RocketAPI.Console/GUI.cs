@@ -48,11 +48,6 @@ namespace PokemonGo.RocketAPI.Console
         {
             _clientSettings = new Settings();
             Globals.FirstLoad = false;
-            var ret = MessageBox.Show("The Bot isn't done! Be aware that you can get banned!\n\nDon't login with the new App Version (0.3.7) (0.3.5 is ok!)\n\nOr you will probably get Banned if you use the bot again!\n\nAre you sure you want to continue?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-            if (ret == DialogResult.No)
-            {
-                Application.Exit();
-            }
             Directory.CreateDirectory(Program.path);
             Directory.CreateDirectory(Program.path_translation);
             Directory.CreateDirectory(Program.path_pokedata);
@@ -324,6 +319,7 @@ namespace PokemonGo.RocketAPI.Console
 
                     checkBox_UseRazzberryIfChanceUnder.Checked = config.UseRazzBerry;
                     text_UseRazzberryChance.Text = (config.razzberry_chance * 100).ToString();
+                    NextBestBallOnEscape.Checked = config.NextBestBallOnEscape;
 
                     text_Pb_Excellent.Text = config.Pb_Excellent.ToString();
                     text_Pb_Great.Text = config.Pb_Great.ToString();
@@ -527,7 +523,7 @@ namespace PokemonGo.RocketAPI.Console
             selectedCoords = selectedCoords.Replace(",",".");
             if (selectedCoords.Equals(NEW_YORK_COORS))
             {
-                var ret = MessageBox.Show("Have you set correctly your location?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                var ret = MessageBox.Show("Have you set correctly your location? (It seems like you are using default coords. This can lead to an auto-ban from niantic)", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                 if (ret == DialogResult.No)
                 {
                     return;
@@ -796,7 +792,7 @@ namespace PokemonGo.RocketAPI.Console
             // tab 8 updates
             Globals.AutoUpdate = checkbox_AutoUpdate.Checked;
             Globals.CheckWhileRunning = checkbox_checkWhileRunning.Checked;
-
+            Globals.NextBestBallOnEscape = NextBestBallOnEscape.Checked;
             Globals.settingsLanguage = langSelected;
             Globals.NextDestinationOverride.Clear();
             Globals.RouteToRepeat.Clear();

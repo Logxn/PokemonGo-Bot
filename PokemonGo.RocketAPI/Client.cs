@@ -16,10 +16,11 @@ using POGOProtos.Networking.Requests;
 using POGOProtos.Networking.Requests.Messages;
 using POGOProtos.Networking.Responses;
 using System.Threading;
+using POGOProtos.Enums;
 
 namespace PokemonGo.RocketAPI
 {
-    public class Client
+    public class Client : ICaptchaResponseHandler
     {
         public Rpc.Login Login;
         public Rpc.Player Player;
@@ -33,6 +34,7 @@ namespace PokemonGo.RocketAPI
         public IApiFailureStrategy ApiFailure { get; set; }
         public ISettings Settings { get; }
         public string AuthToken { get; set; }
+        string CaptchaToken;
 
         public double CurrentLatitude { get; set; }
         public double CurrentLongitude { get; set; }
@@ -44,12 +46,31 @@ namespace PokemonGo.RocketAPI
         internal readonly PokemonHttpClient PokemonHttpClient;
         internal AuthTicket AuthTicket { get; set; }
 
-        public static WebProxy proxy;
-        public bool readyToUse = false;        
+        public long StartTime { get; set; }
 
-        public void setFailure(IApiFailureStrategy fail)
+        internal string SettingsHash { get; set; }
+        internal long InventoryLastUpdateTimestamp { get; set; }
+        internal Platform Platform { get; set; }
+        internal uint AppVersion { get; set; }
+
+        public Version CurrentApiEmulationVersion { get; set; }
+        public Version MinimumClientVersion { get; set; }
+
+
+        public static WebProxy proxy;
+        public bool readyToUse = false;
+
+        public double CurrentAccuracy { get; internal set; }
+        public float CurrentSpeed { get; internal set; }
+
+    public void setFailure(IApiFailureStrategy fail)
         {
             ApiFailure = fail;
+        }
+
+        public void SetCaptchaToken(string token)
+        {
+            CaptchaToken = token;
         }
 
         public Client(ISettings settings)
@@ -67,7 +88,20 @@ namespace PokemonGo.RocketAPI
             Misc = new Rpc.Misc(this);
 
             Player.SetCoordinates(settings.DefaultLatitude, settings.DefaultLongitude, settings.DefaultAltitude);
+
+            InventoryLastUpdateTimestamp = 0;
+
+            /*AppVersion = 4303;
+            SettingsHash = "";
+
+            CurrentApiEmulationVersion = new Version("0.43.3");*/
+
+            AppVersion = 4500;
+            SettingsHash = "";
+
+            CurrentApiEmulationVersion = new Version("0.45.0");
         }
+
 
         private WebProxy InitProxy()
         {
@@ -89,5 +123,11 @@ namespace PokemonGo.RocketAPI
                 return null;
             }
         }
+
+        public bool CheckCurrentVersionOutdated()
+        {
+            return CurrentApiEmulationVersion < MinimumClientVersion;
+        }
+
     }
 }

@@ -32,24 +32,26 @@ namespace POGOProtos.Inventory {
             "cm90b3MvRGF0YS9Qb2tlZGV4RW50cnkucHJvdG8aKFBPR09Qcm90b3MvRGF0",
             "YS9QbGF5ZXIvUGxheWVyU3RhdHMucHJvdG8aK1BPR09Qcm90b3MvRGF0YS9Q",
             "bGF5ZXIvUGxheWVyQ3VycmVuY3kucHJvdG8aKVBPR09Qcm90b3MvRGF0YS9Q",
-            "bGF5ZXIvUGxheWVyQ2FtZXJhLnByb3RvItIEChFJbnZlbnRvcnlJdGVtRGF0",
-            "YRIyCgxwb2tlbW9uX2RhdGEYASABKAsyHC5QT0dPUHJvdG9zLkRhdGEuUG9r",
-            "ZW1vbkRhdGESMQoEaXRlbRgCIAEoCzIjLlBPR09Qcm90b3MuSW52ZW50b3J5",
-            "Lkl0ZW0uSXRlbURhdGESNAoNcG9rZWRleF9lbnRyeRgDIAEoCzIdLlBPR09Q",
-            "cm90b3MuRGF0YS5Qb2tlZGV4RW50cnkSOQoMcGxheWVyX3N0YXRzGAQgASgL",
-            "MiMuUE9HT1Byb3Rvcy5EYXRhLlBsYXllci5QbGF5ZXJTdGF0cxI/Cg9wbGF5",
-            "ZXJfY3VycmVuY3kYBSABKAsyJi5QT0dPUHJvdG9zLkRhdGEuUGxheWVyLlBs",
-            "YXllckN1cnJlbmN5EjsKDXBsYXllcl9jYW1lcmEYBiABKAsyJC5QT0dPUHJv",
-            "dG9zLkRhdGEuUGxheWVyLlBsYXllckNhbWVyYRJDChJpbnZlbnRvcnlfdXBn",
-            "cmFkZXMYByABKAsyJy5QT0dPUHJvdG9zLkludmVudG9yeS5JbnZlbnRvcnlV",
-            "cGdyYWRlcxI5Cg1hcHBsaWVkX2l0ZW1zGAggASgLMiIuUE9HT1Byb3Rvcy5J",
-            "bnZlbnRvcnkuQXBwbGllZEl0ZW1zEjsKDmVnZ19pbmN1YmF0b3JzGAkgASgL",
-            "MiMuUE9HT1Byb3Rvcy5JbnZlbnRvcnkuRWdnSW5jdWJhdG9ycxIqCgVjYW5k",
-            "eRgKIAEoCzIbLlBPR09Qcm90b3MuSW52ZW50b3J5LkNhbmR5YgZwcm90bzM="));
+            "bGF5ZXIvUGxheWVyQ2FtZXJhLnByb3RvGiJQT0dPUHJvdG9zL0RhdGEvUXVl",
+            "c3RzL1F1ZXN0LnByb3RvIoAFChFJbnZlbnRvcnlJdGVtRGF0YRIyCgxwb2tl",
+            "bW9uX2RhdGEYASABKAsyHC5QT0dPUHJvdG9zLkRhdGEuUG9rZW1vbkRhdGES",
+            "MQoEaXRlbRgCIAEoCzIjLlBPR09Qcm90b3MuSW52ZW50b3J5Lkl0ZW0uSXRl",
+            "bURhdGESNAoNcG9rZWRleF9lbnRyeRgDIAEoCzIdLlBPR09Qcm90b3MuRGF0",
+            "YS5Qb2tlZGV4RW50cnkSOQoMcGxheWVyX3N0YXRzGAQgASgLMiMuUE9HT1By",
+            "b3Rvcy5EYXRhLlBsYXllci5QbGF5ZXJTdGF0cxI/Cg9wbGF5ZXJfY3VycmVu",
+            "Y3kYBSABKAsyJi5QT0dPUHJvdG9zLkRhdGEuUGxheWVyLlBsYXllckN1cnJl",
+            "bmN5EjsKDXBsYXllcl9jYW1lcmEYBiABKAsyJC5QT0dPUHJvdG9zLkRhdGEu",
+            "UGxheWVyLlBsYXllckNhbWVyYRJDChJpbnZlbnRvcnlfdXBncmFkZXMYByAB",
+            "KAsyJy5QT0dPUHJvdG9zLkludmVudG9yeS5JbnZlbnRvcnlVcGdyYWRlcxI5",
+            "Cg1hcHBsaWVkX2l0ZW1zGAggASgLMiIuUE9HT1Byb3Rvcy5JbnZlbnRvcnku",
+            "QXBwbGllZEl0ZW1zEjsKDmVnZ19pbmN1YmF0b3JzGAkgASgLMiMuUE9HT1By",
+            "b3Rvcy5JbnZlbnRvcnkuRWdnSW5jdWJhdG9ycxIqCgVjYW5keRgKIAEoCzIb",
+            "LlBPR09Qcm90b3MuSW52ZW50b3J5LkNhbmR5EiwKBXF1ZXN0GAsgASgLMh0u",
+            "UE9HT1Byb3Rvcy5EYXRhLlF1ZXN0cy5RdWVzdGIGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::POGOProtos.Inventory.Item.ItemDataReflection.Descriptor, global::POGOProtos.Inventory.AppliedItemsReflection.Descriptor, global::POGOProtos.Inventory.EggIncubatorsReflection.Descriptor, global::POGOProtos.Inventory.CandyReflection.Descriptor, global::POGOProtos.Inventory.InventoryUpgradesReflection.Descriptor, global::POGOProtos.Data.PokemonDataReflection.Descriptor, global::POGOProtos.Data.PokedexEntryReflection.Descriptor, global::POGOProtos.Data.Player.PlayerStatsReflection.Descriptor, global::POGOProtos.Data.Player.PlayerCurrencyReflection.Descriptor, global::POGOProtos.Data.Player.PlayerCameraReflection.Descriptor, },
+          new pbr::FileDescriptor[] { global::POGOProtos.Inventory.Item.ItemDataReflection.Descriptor, global::POGOProtos.Inventory.AppliedItemsReflection.Descriptor, global::POGOProtos.Inventory.EggIncubatorsReflection.Descriptor, global::POGOProtos.Inventory.CandyReflection.Descriptor, global::POGOProtos.Inventory.InventoryUpgradesReflection.Descriptor, global::POGOProtos.Data.PokemonDataReflection.Descriptor, global::POGOProtos.Data.PokedexEntryReflection.Descriptor, global::POGOProtos.Data.Player.PlayerStatsReflection.Descriptor, global::POGOProtos.Data.Player.PlayerCurrencyReflection.Descriptor, global::POGOProtos.Data.Player.PlayerCameraReflection.Descriptor, global::POGOProtos.Data.Quests.QuestReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::POGOProtos.Inventory.InventoryItemData), global::POGOProtos.Inventory.InventoryItemData.Parser, new[]{ "PokemonData", "Item", "PokedexEntry", "PlayerStats", "PlayerCurrency", "PlayerCamera", "InventoryUpgrades", "AppliedItems", "EggIncubators", "Candy" }, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::POGOProtos.Inventory.InventoryItemData), global::POGOProtos.Inventory.InventoryItemData.Parser, new[]{ "PokemonData", "Item", "PokedexEntry", "PlayerStats", "PlayerCurrency", "PlayerCamera", "InventoryUpgrades", "AppliedItems", "EggIncubators", "Candy", "Quest" }, null, null, null)
           }));
     }
     #endregion
@@ -90,6 +92,7 @@ namespace POGOProtos.Inventory {
       AppliedItems = other.appliedItems_ != null ? other.AppliedItems.Clone() : null;
       EggIncubators = other.eggIncubators_ != null ? other.EggIncubators.Clone() : null;
       Candy = other.candy_ != null ? other.Candy.Clone() : null;
+      Quest = other.quest_ != null ? other.Quest.Clone() : null;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -207,6 +210,17 @@ namespace POGOProtos.Inventory {
       }
     }
 
+    /// <summary>Field number for the "quest" field.</summary>
+    public const int QuestFieldNumber = 11;
+    private global::POGOProtos.Data.Quests.Quest quest_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public global::POGOProtos.Data.Quests.Quest Quest {
+      get { return quest_; }
+      set {
+        quest_ = value;
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
       return Equals(other as InventoryItemData);
@@ -230,6 +244,7 @@ namespace POGOProtos.Inventory {
       if (!object.Equals(AppliedItems, other.AppliedItems)) return false;
       if (!object.Equals(EggIncubators, other.EggIncubators)) return false;
       if (!object.Equals(Candy, other.Candy)) return false;
+      if (!object.Equals(Quest, other.Quest)) return false;
       return true;
     }
 
@@ -246,6 +261,7 @@ namespace POGOProtos.Inventory {
       if (appliedItems_ != null) hash ^= AppliedItems.GetHashCode();
       if (eggIncubators_ != null) hash ^= EggIncubators.GetHashCode();
       if (candy_ != null) hash ^= Candy.GetHashCode();
+      if (quest_ != null) hash ^= Quest.GetHashCode();
       return hash;
     }
 
@@ -296,6 +312,10 @@ namespace POGOProtos.Inventory {
         output.WriteRawTag(82);
         output.WriteMessage(Candy);
       }
+      if (quest_ != null) {
+        output.WriteRawTag(90);
+        output.WriteMessage(Quest);
+      }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -330,6 +350,9 @@ namespace POGOProtos.Inventory {
       }
       if (candy_ != null) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(Candy);
+      }
+      if (quest_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Quest);
       }
       return size;
     }
@@ -398,6 +421,12 @@ namespace POGOProtos.Inventory {
           candy_ = new global::POGOProtos.Inventory.Candy();
         }
         Candy.MergeFrom(other.Candy);
+      }
+      if (other.quest_ != null) {
+        if (quest_ == null) {
+          quest_ = new global::POGOProtos.Data.Quests.Quest();
+        }
+        Quest.MergeFrom(other.Quest);
       }
     }
 
@@ -477,6 +506,13 @@ namespace POGOProtos.Inventory {
               candy_ = new global::POGOProtos.Inventory.Candy();
             }
             input.ReadMessage(candy_);
+            break;
+          }
+          case 90: {
+            if (quest_ == null) {
+              quest_ = new global::POGOProtos.Data.Quests.Quest();
+            }
+            input.ReadMessage(quest_);
             break;
           }
         }
