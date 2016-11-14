@@ -39,12 +39,10 @@ namespace PokemonGo.RocketAPI.Console
         private void Pokemons_Load(object sender, EventArgs e)
         {
             Globals.pauseAtPokeStop = false;
-            pokemonsPanel1.init();
-            pokemonsPanel1.Execute();
-            Execute();
             locationPanel1.Init(true, 0, 0, 0);
-            itemsPanel1.Execute();
-            eggsPanel1.Execute();
+            Execute();
+            //itemsPanel1.Execute();
+            //eggsPanel1.Execute();
             sniperPanel1.Execute();
         }
 
@@ -83,10 +81,10 @@ namespace PokemonGo.RocketAPI.Console
                     var arrStats = await client.Inventory.GetPlayerStats();
                     stats = arrStats.First();
                     playerPanel1.setProfile(profile);
-                    playerPanel1.Execute();
+                    //playerPanel1.Execute();
                     locationPanel1.CreateBotMarker((int)profile.PlayerData.Team, stats.Level, stats.Experience);
                     pokemonsPanel1.profile = profile;
-                    playerPanel1.SetPokemons(pokemonsPanel1.pokemons);
+                    //playerPanel1.SetPokemons(pokemonsPanel1.pokemons);
                 }
             }
             catch (Exception e)

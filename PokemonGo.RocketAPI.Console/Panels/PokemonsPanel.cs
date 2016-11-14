@@ -100,6 +100,7 @@ namespace PokemonGo.RocketAPI.Console
                 client = Logic.Logic._client;
                 if (client.readyToUse != false)
                 {
+                    await Task.Delay(1000);
                     inventory = await client.Inventory.GetInventory();
                     pokemons =
                         inventory.InventoryDelta.InventoryItems
@@ -222,6 +223,7 @@ namespace PokemonGo.RocketAPI.Console
         private void btnReload_Click(object sender, EventArgs e)
         {
             PokemonListView.Items.Clear();
+            init();
             Execute();
         }
 
