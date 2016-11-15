@@ -201,14 +201,14 @@ namespace PokemonGo.RocketAPI.Logic
                     catch (Exception) { }
                     #endregion
                 }
-                Logger.ColoredConsoleWrite(ConsoleColor.Red, "Restarting in 10 Seconds.");
-                await Task.Delay(10000);
+                Logger.ColoredConsoleWrite(ConsoleColor.Red, "Restarting in 60 Seconds.");
+                await Task.Delay(60000);
             }
         }
         public async Task PostLoginExecute()
         {
-            while (true)
-            {
+            //while (true)
+            //{
                 try
                 {
                     var profil = await _client.Player.GetPlayer();
@@ -229,12 +229,12 @@ namespace PokemonGo.RocketAPI.Logic
                         Logger.ColoredConsoleWrite(ConsoleColor.Green, "Detected User Request to Relocate to a new farming spot!");
                     else
                     {
-                        Logger.ColoredConsoleWrite(ConsoleColor.Green, "Starting again in 60 seconds...");
-                        await Task.Delay(60000);
+                        //Logger.ColoredConsoleWrite(ConsoleColor.Green, "Starting again in 60 seconds...");
+                        //await Task.Delay(60000);
                     }
                 }
             }
-        }
+        //}
         #endregion
 
         #region Update Functions
