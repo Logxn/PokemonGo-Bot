@@ -68,7 +68,7 @@ namespace PokemonGo.RocketAPI.Logic
             var locatePokemonWhileWalkingDateTime = DateTime.Now;
             do
             {
-                if (Logic._instance._clientSettings.ForceSnipe)
+                if (Logic.Instance.ClientSettings.ForceSnipe)
                     break;          
                 var millisecondsUntilGetUpdatePlayerLocationResponse =
                     (DateTime.Now - requestSendDateTime).TotalMilliseconds;

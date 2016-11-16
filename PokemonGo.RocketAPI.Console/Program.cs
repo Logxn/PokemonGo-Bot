@@ -307,9 +307,9 @@ namespace PokemonGo.RocketAPI.Console
             }
             set
             {
-                if (Logic.Logic._instance != null)
+                if (Logic.Logic.Instance != null)
                 {
-                    Logic.Logic._instance.pauseWalking = value;
+                    Logic.Logic.Instance.PauseWalking = value;
                     _pauseAtWalking = value;
                 }
             }
