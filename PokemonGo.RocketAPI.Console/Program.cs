@@ -387,5 +387,9 @@ namespace PokemonGo.RocketAPI.Console
         public static bool ForceSnipe = false;
         public static bool simulatedPGO = false;
         public static ByteString SessionHash;
+
+        public static bool No2kmEggs = false;
+        public static bool No5kmEggs = false;
+        public static bool No10kmEggs = false;
     }
 }

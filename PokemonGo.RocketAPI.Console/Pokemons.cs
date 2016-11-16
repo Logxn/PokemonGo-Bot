@@ -85,13 +85,13 @@ namespace PokemonGo.RocketAPI.Console
                     locationPanel1.CreateBotMarker((int)profile.PlayerData.Team, stats.Level, stats.Experience);
                     pokemonsPanel1.profile = profile;
                     //playerPanel1.SetPokemons(pokemonsPanel1.pokemons);
-                    itemsPanel1.Execute();
+                    /*itemsPanel1.Execute();
                     eggsPanel1.Execute();
                     while(client.ShowingStats)
                     {
                         await Task.Delay(5000);
                     }
-                    pokemonsPanel1.Execute();
+                    pokemonsPanel1.Execute();*/
                     /*while (client.LoadingPokemons)
                     {
                         await Task.Delay(5000);
