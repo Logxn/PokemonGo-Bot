@@ -473,7 +473,7 @@ namespace PokemonGo.RocketAPI.Console
                     {
                         File.AppendAllText(logs, $"[{date}] - MANUAL - Sucessfully transfered {transfered}/{total} Pokemons." + Environment.NewLine);
                     }
-                    MessageBox.Show("Succesfully transfered " + transfered + "/" + total + " Pokemons.", "Transfer status", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    statusTexbox.Text = $"Succesfully transfered {transfered}/{total} Pokemons.";
                 }
                 RefreshTitle();
             }

@@ -393,6 +393,7 @@ namespace PokemonGo.RocketAPI.Logic
         {
             //Enable Pokemon List cause everything is loaded
             client.readyToUse = true;
+            
 
             // Check if disabled
             StringUtils.CheckKillSwitch();
@@ -425,7 +426,7 @@ namespace PokemonGo.RocketAPI.Logic
             #endregion
 
             #region Log Stats
-
+            client.ShowingStats = true;
             Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "-----------------------[PLAYER STATS]-----------------------");
             Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Level/EXP: {stats.Level} | {curexp.ToString("N0")}/{expneeded.ToString("N0")} ({Math.Round(curexppercent, 2)}%)");
             Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "EXP to Level up: " + (stats.NextLevelXp - stats.Experience));
@@ -531,6 +532,7 @@ namespace PokemonGo.RocketAPI.Logic
             }
 
             #endregion
+            client.ShowingStats = false;
         }
 
         private async Task LogStatsEtc()

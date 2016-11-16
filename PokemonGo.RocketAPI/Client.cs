@@ -63,6 +63,9 @@ namespace PokemonGo.RocketAPI
         public double CurrentAccuracy { get; internal set; }
         public float CurrentSpeed { get; internal set; }
 
+        public bool ShowingStats { get; set; }
+        public bool LoadingPokemons { get; set; }
+
     public void setFailure(IApiFailureStrategy fail)
         {
             ApiFailure = fail;
