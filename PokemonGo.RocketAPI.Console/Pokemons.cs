@@ -41,8 +41,6 @@ namespace PokemonGo.RocketAPI.Console
             Globals.pauseAtPokeStop = false;
             locationPanel1.Init(true, 0, 0, 0);
             Execute();
-            //itemsPanel1.Execute();
-            //eggsPanel1.Execute();
             sniperPanel1.Execute();
         }
 
@@ -58,7 +56,7 @@ namespace PokemonGo.RocketAPI.Console
             {
                 try
                 {
-                    if (Logic.Logic._client != null && Logic.Logic._client.readyToUse != false)
+                    if (Logic.Logic.Client != null && Logic.Logic.Client.readyToUse != false)
                     {
                         break;
                     }
@@ -72,7 +70,7 @@ namespace PokemonGo.RocketAPI.Console
             await check();
             try
             {
-                var client = Logic.Logic._client;
+                var client = Logic.Logic.Client;
                 if (client.readyToUse != false)
                 {                    
                     profile = await client.Player.GetPlayer();
@@ -80,11 +78,9 @@ namespace PokemonGo.RocketAPI.Console
                     Text = "User: " + profile.PlayerData.Username;
                     var arrStats = await client.Inventory.GetPlayerStats();
                     stats = arrStats.First();
-                    playerPanel1.setProfile(profile);
-                    //playerPanel1.Execute();
                     locationPanel1.CreateBotMarker((int)profile.PlayerData.Team, stats.Level, stats.Experience);
+                    playerPanel1.setProfile(profile);
                     pokemonsPanel1.profile = profile;
-                    //playerPanel1.SetPokemons(pokemonsPanel1.pokemons);
                 }
             }
             catch (Exception e)
@@ -124,6 +120,22 @@ namespace PokemonGo.RocketAPI.Console
                 CreateRoute.Text = "Define Route";
                 RepeatRoute.Enabled = false;
             }
+        }
+        void TabControl1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+          TabPage current = (sender as TabControl).SelectedTab;
+          switch (current.Name){
+              case "tpPokemons":
+                  pokemonsPanel1.Execute();
+                  break;
+              case "tpItems":
+                  itemsPanel1.Execute();
+                  break;
+              case "tpEggs":
+                  eggsPanel1.Execute();
+                  break;
+          }
+          
         }
     }
 }
