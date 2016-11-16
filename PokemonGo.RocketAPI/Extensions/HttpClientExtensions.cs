@@ -144,7 +144,7 @@ namespace PokemonGo.RocketAPI.Extensions
                     await Task.Delay((int)(delay));
                 }
                 lastRpc = DateTime.Now.Millisecond;
-                ResponseEnvelope response = await PerformRemoteProcedureCall<TRequest>(client, url, requestEnvelope);
+                ResponseEnvelope response = await PerformRemoteProcedureCall<TRequest>(client, url, r);
                 responses.GetOrAdd(r, response);
             }
             ResponseEnvelope ret;

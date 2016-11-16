@@ -60,7 +60,7 @@ namespace PokemonGo.RocketAPI.Console
         {
             Visible =false;
             await check();
-            var client = Logic.Logic._client;
+            var client = Logic.Logic.Client;
             if (client.readyToUse != false)
             {
                 profile = await client.Player.GetPlayer();
@@ -191,7 +191,7 @@ namespace PokemonGo.RocketAPI.Console
             if (profile == null)
                 return;
 
-            var client = Logic.Logic._client;
+            var client = Logic.Logic.Client;
             var playerStats = await client.Inventory.GetPlayerStats();
             var stats = playerStats.First();
 
@@ -278,7 +278,7 @@ namespace PokemonGo.RocketAPI.Console
 				
 				
 				// Simulate to enter in a gym before select a team.
-				var client = Logic.Logic._client;
+				var client = Logic.Logic.Client;
 				var mapObjects = await client.Map.GetMapObjects();
 				var mapCells = mapObjects.Item1.MapCells;
 				
@@ -328,7 +328,7 @@ namespace PokemonGo.RocketAPI.Console
             taskResponse resp1 = new taskResponse(false, string.Empty);
             try
             {
-            	var client = Logic.Logic._client;
+            	var client = Logic.Logic.Client;
             	var resp2 = await client.Player.SetPlayerTeam(teamColor);
 
                 if (resp2.Status == SetPlayerTeamResponse.Types.Status.Success)
@@ -353,7 +353,7 @@ namespace PokemonGo.RocketAPI.Console
             taskResponse resp1 = new taskResponse(false, string.Empty);
             try
             {
-            	var client = Logic.Logic._client;
+            	var client = Logic.Logic.Client;
             	var resp2 = await client.Fort.GetGymDetails( gym,lat,lng);
 
                 if (resp2.Result == GetGymDetailsResponse.Types.Result.Success)
@@ -378,7 +378,7 @@ namespace PokemonGo.RocketAPI.Console
             {
                 try
                 {
-                    if (Logic.Logic._client != null && Logic.Logic._client.readyToUse != false)
+                    if (Logic.Logic.Client != null && Logic.Logic.Client.readyToUse != false)
                     {
                         break;
                     }

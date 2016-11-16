@@ -36,7 +36,7 @@ namespace PokemonGo.RocketAPI.Console
 			InitializeComponent();			
 		}
 		public async void Execute(){
-			var client = Logic.Logic._client;
+			var client = Logic.Logic.Client;
 			if (client.readyToUse != false)
 			{
 				var incubators = await client.Inventory.GetEggIncubators();

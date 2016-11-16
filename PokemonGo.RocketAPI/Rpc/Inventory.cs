@@ -106,10 +106,17 @@ namespace PokemonGo.RocketAPI.Rpc
 
         public async Task<IEnumerable<PokemonData>> GetEggs()
         {
-            var inventory = await GetInventory();
+            
+                var inventory = await GetInventory();
+                if(inventory == null)
+                {
+                    await GetEggs();
+                }
+
             return
-                inventory.InventoryDelta.InventoryItems.Select(i => i.InventoryItemData?.PokemonData)
-                    .Where(p => p != null && p.IsEgg);
+
+           inventory.InventoryDelta.InventoryItems.Select(i => i.InventoryItemData?.PokemonData)
+               .Where(p => p != null && p.IsEgg);
         }
 
         DateTime _lastegguse;

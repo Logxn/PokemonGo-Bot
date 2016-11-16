@@ -386,6 +386,11 @@ namespace PokemonGo.RocketAPI.Console
                     checkbox_AutoUpdate.Checked = config.AutoUpdate;
                     checkbox_checkWhileRunning.Checked = config.CheckWhileRunning;
                     langSelected = config.SelectedLanguage;
+
+                    //tab eggs
+                    /*checkBox_2kmEggs.Checked = Globals.No2kmEggs;
+                    checkbox_5kmEggs.Checked = Globals.No5kmEggs;
+                    checkbox_10kmEggs.Checked = Globals.No10kmEggs;*/
                     var success = LoadGlobals(false);
                     if (!success)
                     {
@@ -796,6 +801,12 @@ namespace PokemonGo.RocketAPI.Console
             Globals.settingsLanguage = langSelected;
             Globals.NextDestinationOverride.Clear();
             Globals.RouteToRepeat.Clear();
+
+            //tab Eggs
+
+            /*Globals.No2kmEggs = checkBox_2kmEggs.Checked;
+            Globals.No5kmEggs = checkbox_5kmEggs.Checked;
+            Globals.No10kmEggs = checkbox_10kmEggs.Checked;*/
             #endregion
             return ret;
         }
@@ -1330,5 +1341,14 @@ namespace PokemonGo.RocketAPI.Console
             ((TextBox) sender).BackColor = SystemColors.Window;
         }
 
+        private void tabGeneral_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label30_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

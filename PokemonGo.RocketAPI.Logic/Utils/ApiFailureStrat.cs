@@ -28,6 +28,7 @@ namespace PokemonGo.RocketAPI.Logic
             // captchaResponseHandler.SetCaptchaToken(token);
 
             Logger.Error("We need a Captcha.. (Not implemented yet)");
+            Logger.Error($"[DEBUG - PLEASE IGNORE]: Challenge URL!!: {challengeUrl.ToString()}");
 
             Console.ReadKey();
             Environment.Exit(0);

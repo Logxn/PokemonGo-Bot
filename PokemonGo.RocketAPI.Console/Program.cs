@@ -307,9 +307,9 @@ namespace PokemonGo.RocketAPI.Console
             }
             set
             {
-                if (Logic.Logic._instance != null)
+                if (Logic.Logic.Instance != null)
                 {
-                    Logic.Logic._instance.pauseWalking = value;
+                    Logic.Logic.Instance.PauseWalking = value;
                     _pauseAtWalking = value;
                 }
             }
@@ -387,5 +387,9 @@ namespace PokemonGo.RocketAPI.Console
         public static bool ForceSnipe = false;
         public static bool simulatedPGO = false;
         public static ByteString SessionHash;
+
+        public static bool No2kmEggs = false;
+        public static bool No5kmEggs = false;
+        public static bool No10kmEggs = false;
     }
 }

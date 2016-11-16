@@ -64,6 +64,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Data\AssetDigestEntry.cs" />
+    <Compile Include="Data\BackgroundToken.cs" />
+    <Compile Include="Data\Badge\BadgeCaptureReward.cs" />
     <Compile Include="Data\Battle\BattleAction.cs" />
     <Compile Include="Data\Battle\BattleActionType.cs" />
     <Compile Include="Data\Battle\BattleLog.cs" />
@@ -75,6 +77,7 @@
     <Compile Include="Data\BuddyPokemon.cs" />
     <Compile Include="Data\Capture\CaptureAward.cs" />
     <Compile Include="Data\Capture\CaptureProbability.cs" />
+    <Compile Include="Data\ClientVersion.cs" />
     <Compile Include="Data\DownloadUrlEntry.cs" />
     <Compile Include="Data\Gym\GymMembership.cs" />
     <Compile Include="Data\Gym\GymState.cs" />
@@ -101,6 +104,7 @@
     <Compile Include="Enums\BadgeType.cs" />
     <Compile Include="Enums\CameraInterpolation.cs" />
     <Compile Include="Enums\CameraTarget.cs" />
+    <Compile Include="Enums\EncounterType.cs" />
     <Compile Include="Enums\Gender.cs" />
     <Compile Include="Enums\IapItemCategory.cs" />
     <Compile Include="Enums\ItemCategory.cs" />
@@ -127,6 +131,7 @@
     <Compile Include="Inventory\InventoryUpgrade.cs" />
     <Compile Include="Inventory\InventoryUpgrades.cs" />
     <Compile Include="Inventory\InventoryUpgradeType.cs" />
+    <Compile Include="Inventory\InventoryKey.cs" />
     <Compile Include="Inventory\Item\ItemAward.cs" />
     <Compile Include="Inventory\Item\ItemData.cs" />
     <Compile Include="Inventory\Item\ItemId.cs" />
@@ -195,6 +200,7 @@
     <Compile Include="Networking\Requests\Messages\NicknamePokemonMessage.cs" />
     <Compile Include="Networking\Requests\Messages\PlayerUpdateMessage.cs" />
     <Compile Include="Networking\Requests\Messages\RecycleInventoryItemMessage.cs" />
+    <Compile Include="Networking\Requests\Messages\RegisterBackgroundDeviceMessage.cs" />
     <Compile Include="Networking\Requests\Messages\ReleasePokemonMessage.cs" />
     <Compile Include="Networking\Requests\Messages\SetAvatarMessage.cs" />
     <Compile Include="Networking\Requests\Messages\SetBuddyPokemon.cs" />
@@ -253,6 +259,7 @@
     <Compile Include="Networking\Responses\NicknamePokemonResponse.cs" />
     <Compile Include="Networking\Responses\PlayerUpdateResponse.cs" />
     <Compile Include="Networking\Responses\RecycleInventoryItemResponse.cs" />
+    <Compile Include="Networking\Responses\RegisterBackgroundDeviceResponse.cs" />
     <Compile Include="Networking\Responses\ReleasePokemonResponse.cs" />
     <Compile Include="Networking\Responses\SetAvatarResponse.cs" />
     <Compile Include="Networking\Responses\SetBuddyPokemonResponse.cs" />
@@ -283,6 +290,7 @@
     <Compile Include="Settings\Master\CameraSettings.cs" />
     <Compile Include="Settings\Master\EncounterSettings.cs" />
     <Compile Include="Settings\Master\EquippedBadgeSettings.cs" />
+    <Compile Include="Settings\EventSettings.cs" />
     <Compile Include="Settings\Master\GymBattleSettings.cs" />
     <Compile Include="Settings\Master\GymLevelSettings.cs" />
     <Compile Include="Settings\Master\IapItemDisplay.cs" />
@@ -306,7 +314,10 @@
     <Compile Include="Settings\Master\Pokemon\CameraAttributes.cs" />
     <Compile Include="Settings\Master\Pokemon\EncounterAttributes.cs" />
     <Compile Include="Settings\Master\Pokemon\StatsAttributes.cs" />
+    <Compile Include="Settings\Master\Quest\DailyQuestSettings.cs" />
     <Compile Include="Settings\Master\TypeEffectiveSettings.cs" />
+    <Compile Include="Settings\Master\QuestSettings.cs" />
+    <Compile Include="Settings\SfidaSettings.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
