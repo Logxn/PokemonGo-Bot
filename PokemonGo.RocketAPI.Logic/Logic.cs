@@ -2541,7 +2541,8 @@ namespace PokemonGo.RocketAPI.Logic
             }
             catch (Exception e)
             {
-                Logger.Error(e.StackTrace);
+                // Leave this here: Logger.Error(e.StackTrace);
+                Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, "Egg: We dont have any eggs we could incubate.");
             }
         }
 
