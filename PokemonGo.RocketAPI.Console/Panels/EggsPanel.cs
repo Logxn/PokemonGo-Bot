@@ -49,7 +49,7 @@ namespace PokemonGo.RocketAPI.Console
 		{
 			try
             {
-                var client = Logic.Logic._client;
+                var client = Logic.Logic.Client;
 	            if (client.readyToUse != false)
 	            {
 	               var items = await client.Inventory.GetEggs();
@@ -175,7 +175,7 @@ namespace PokemonGo.RocketAPI.Console
             taskResponse resp1 = new taskResponse(false, string.Empty);
             try
             {
-            	var client = Logic.Logic._client;
+            	var client = Logic.Logic.Client;
             	var resp2 = await client.Inventory.UseItemEggIncubator( item.Id, egg.Id);
 
                 if (resp2.Result == UseItemEggIncubatorResponse.Types.Result.Success)

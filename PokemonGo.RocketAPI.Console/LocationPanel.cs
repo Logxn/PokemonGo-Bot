@@ -90,7 +90,7 @@ namespace PokemonGo.RocketAPI.Console
         private async void buttonRefreshPokemon_Click_1(object sender, EventArgs e)
         {
             buttonRefreshPokemon.Enabled = false;
-            if ((await Logic.Logic._instance.CheckAvailablePokemons(Logic.Logic._client)))
+            if ((await Logic.Logic.Instance.CheckAvailablePokemons(Logic.Logic.Client)))
             {
 
                 Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Updated PokemonData.", LogLevel.Info);
@@ -109,7 +109,7 @@ namespace PokemonGo.RocketAPI.Console
         {
         	var button = ((Button)sender);
         	button.Enabled = false;
-            var client = Logic.Logic._client;
+            var client = Logic.Logic.Client;
             if (client.readyToUse )
             {
             	Logger.ColoredConsoleWrite(ConsoleColor.DarkRed, "Refreshing Forts", LogLevel.Warning);
@@ -334,7 +334,7 @@ namespace PokemonGo.RocketAPI.Console
                         routeOverlay.Markers.Add(_botMarker);
                         int prevCount = pokeStops.Length;
                         //<var filteredPokeStops = pokeStops;
-                        var filteredPokeStops = pokeStops.Where(i => LocationUtils.CalculateDistanceInMeters(Logic.Logic._instance._clientSettings.DefaultLatitude, Logic.Logic._instance._clientSettings.DefaultLongitude, i.Latitude, i.Longitude) <= Logic.Logic._instance._clientSettings.MaxWalkingRadiusInMeters).ToArray();
+                        var filteredPokeStops = pokeStops.Where(i => LocationUtils.CalculateDistanceInMeters(Logic.Logic.Instance.ClientSettings.DefaultLatitude, Logic.Logic.Instance.ClientSettings.DefaultLongitude, i.Latitude, i.Longitude) <= Logic.Logic.Instance.ClientSettings.MaxWalkingRadiusInMeters).ToArray();
                         Logger.ColoredConsoleWrite(ConsoleColor.White, string.Format("Got new Pokestop Count: {0}, unfiltered: {1}", filteredPokeStops.Length, pokeStops.Length));
 
                         for (int i = filteredPokeStops.Length - 1; i >= 0; i--)
@@ -412,7 +412,7 @@ namespace PokemonGo.RocketAPI.Console
                         _pokeGymsMarks.Clear();
                         int prevCount = forts.Length;
                         //< var filteredForts = forts;
-                        var filteredForts = forts.Where(i => LocationUtils.CalculateDistanceInMeters(Logic.Logic._instance._clientSettings.DefaultLatitude, Logic.Logic._instance._clientSettings.DefaultLongitude, i.Latitude, i.Longitude) <= Logic.Logic._instance._clientSettings.MaxWalkingRadiusInMeters).ToArray();
+                        var filteredForts = forts.Where(i => LocationUtils.CalculateDistanceInMeters(Logic.Logic.Instance.ClientSettings.DefaultLatitude, Logic.Logic.Instance.ClientSettings.DefaultLongitude, i.Latitude, i.Longitude) <= Logic.Logic.Instance.ClientSettings.MaxWalkingRadiusInMeters).ToArray();
                         Logger.ColoredConsoleWrite(ConsoleColor.White, string.Format("Got new Gym Count: {0}, unfiltered: {1}", filteredForts.Length, forts.Length));
 
                         for (int i = filteredForts.Length - 1; i >= 0; i--)

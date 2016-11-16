@@ -58,7 +58,7 @@ namespace PokemonGo.RocketAPI.Console
                     + Globals.toprevive + Globals.toppotion;
                 text_TotalItemCount.Text = count.ToString();
 
-                var client = Logic.Logic._client;
+                var client = Logic.Logic.Client;
 	            if (client.readyToUse != false)
 	            {
 	               var items = await client.Inventory.GetItems();
@@ -157,7 +157,7 @@ namespace PokemonGo.RocketAPI.Console
             taskResponse resp1 = new taskResponse(false, string.Empty);
             try
             {
-            	var client = Logic.Logic._client;
+            	var client = Logic.Logic.Client;
                 var resp2 = await client.Inventory.RecycleItem(item.ItemId, amount);
 
                 if (resp2.Result == RecycleInventoryItemResponse.Types.Result.Success)
@@ -242,7 +242,7 @@ namespace PokemonGo.RocketAPI.Console
         
         private async Task RecycleItems(bool forcerefresh = false)
         {            
-            var client = Logic.Logic._client;
+            var client = Logic.Logic.Client;
             var items = await client.Inventory.GetItemsToRecycle(new Settings());
             foreach (var item in items)
             {
