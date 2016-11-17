@@ -280,7 +280,6 @@ namespace PokemonGo.RocketAPI.Console
             this.playerPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.playerPanel1.BuddyInfoEnabled = false;
             this.playerPanel1.Location = new System.Drawing.Point(0, 0);
             this.playerPanel1.Margin = new System.Windows.Forms.Padding(4);
             this.playerPanel1.Name = "playerPanel1";
