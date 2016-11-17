@@ -388,9 +388,10 @@ namespace PokemonGo.RocketAPI.Console
                     langSelected = config.SelectedLanguage;
 
                     //tab eggs
-                    /*checkBox_2kmEggs.Checked = Globals.No2kmEggs;
+                    checkbox_10kmEggs.Checked = Globals.No10kmEggs;
+                    checkBox_2kmEggs.Checked = Globals.No2kmEggs;
                     checkbox_5kmEggs.Checked = Globals.No5kmEggs;
-                    checkbox_10kmEggs.Checked = Globals.No10kmEggs;*/
+
                     var success = LoadGlobals(false);
                     if (!success)
                     {
@@ -525,6 +526,7 @@ namespace PokemonGo.RocketAPI.Console
         private void button1_Click(object sender, EventArgs e)
         {
             var selectedCoords =Globals.latitute.ToString("0.000000") +";"+Globals.longitude.ToString("0.000000");
+            
             selectedCoords = selectedCoords.Replace(",",".");
             if (selectedCoords.Equals(NEW_YORK_COORS))
             {
@@ -636,6 +638,10 @@ namespace PokemonGo.RocketAPI.Console
             Globals.useLuckyEggIfNotRunning = checkBox_UseLuckyEggIfNotRunning.Checked;
             Globals.autoIncubate = checkBox_AutoIncubate.Checked;
             Globals.useBasicIncubators = checkBox_UseBasicIncubators.Checked;
+
+            Globals.No2kmEggs = checkBox_2kmEggs.Checked;
+            Globals.No5kmEggs = checkbox_5kmEggs.Checked;
+            Globals.No10kmEggs = checkbox_10kmEggs.Checked;
 
             // tab 2 - pokemons
             Globals.noTransfer.Clear();
@@ -775,6 +781,10 @@ namespace PokemonGo.RocketAPI.Console
             Globals.Espiral = checkBox_WalkInArchimedeanSpiral.Checked;
             Globals.defLoc = checkBox_Start_Walk_from_default_location.Checked;
 
+            Globals.No2kmEggs = checkBox_2kmEggs.Checked;
+            Globals.No5kmEggs = checkbox_5kmEggs.Checked;
+            Globals.No10kmEggs = checkbox_10kmEggs.Checked;
+
             // tab 7 - Logs and Telegram            
             Globals.logPokemons = logPokemon.Checked;
             Globals.logManualTransfer = logManuelTransfer.Checked;
@@ -804,9 +814,7 @@ namespace PokemonGo.RocketAPI.Console
 
             //tab Eggs
 
-            /*Globals.No2kmEggs = checkBox_2kmEggs.Checked;
-            Globals.No5kmEggs = checkbox_5kmEggs.Checked;
-            Globals.No10kmEggs = checkbox_10kmEggs.Checked;*/
+
             #endregion
             return ret;
         }
@@ -858,6 +866,7 @@ namespace PokemonGo.RocketAPI.Console
             {
                 return false;
             }
+           
         }
 
         #region CheckedChanged Events
