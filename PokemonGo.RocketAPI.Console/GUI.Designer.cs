@@ -267,8 +267,8 @@
             this.groupBox_EggOptions = new System.Windows.Forms.GroupBox();
             this.groupBox24 = new System.Windows.Forms.GroupBox();
             this.checkBox_2kmEggs = new System.Windows.Forms.CheckBox();
-            this.checkbox_5kmEggs = new System.Windows.Forms.CheckBox();
-            this.checkbox_10kmEggs = new System.Windows.Forms.CheckBox();
+            this.checkBox_5kmEggs = new System.Windows.Forms.CheckBox();
+            this.checkBox_10kmEggs = new System.Windows.Forms.CheckBox();
             this.settingsBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.tabProxies.SuspendLayout();
             this.tabItems.SuspendLayout();
@@ -3064,8 +3064,8 @@
             // 
             // groupBox24
             // 
-            this.groupBox24.Controls.Add(this.checkbox_10kmEggs);
-            this.groupBox24.Controls.Add(this.checkbox_5kmEggs);
+            this.groupBox24.Controls.Add(this.checkBox_10kmEggs);
+            this.groupBox24.Controls.Add(this.checkBox_5kmEggs);
             this.groupBox24.Controls.Add(this.checkBox_2kmEggs);
             this.groupBox24.Location = new System.Drawing.Point(209, 7);
             this.groupBox24.Name = "groupBox24";
@@ -3086,23 +3086,23 @@
             // 
             // checkbox_5kmEggs
             // 
-            this.checkbox_5kmEggs.AutoSize = true;
-            this.checkbox_5kmEggs.Location = new System.Drawing.Point(7, 62);
-            this.checkbox_5kmEggs.Name = "checkbox_5kmEggs";
-            this.checkbox_5kmEggs.Size = new System.Drawing.Size(159, 21);
-            this.checkbox_5kmEggs.TabIndex = 1;
-            this.checkbox_5kmEggs.Text = "Dont Use 5 km Eggs";
-            this.checkbox_5kmEggs.UseVisualStyleBackColor = true;
+            this.checkBox_5kmEggs.AutoSize = true;
+            this.checkBox_5kmEggs.Location = new System.Drawing.Point(7, 62);
+            this.checkBox_5kmEggs.Name = "checkbox_5kmEggs";
+            this.checkBox_5kmEggs.Size = new System.Drawing.Size(159, 21);
+            this.checkBox_5kmEggs.TabIndex = 1;
+            this.checkBox_5kmEggs.Text = "Dont Use 5 km Eggs";
+            this.checkBox_5kmEggs.UseVisualStyleBackColor = true;
             // 
             // checkbox_10kmEggs
             // 
-            this.checkbox_10kmEggs.AutoSize = true;
-            this.checkbox_10kmEggs.Location = new System.Drawing.Point(7, 89);
-            this.checkbox_10kmEggs.Name = "checkbox_10kmEggs";
-            this.checkbox_10kmEggs.Size = new System.Drawing.Size(167, 21);
-            this.checkbox_10kmEggs.TabIndex = 2;
-            this.checkbox_10kmEggs.Text = "Dont Use 10 km Eggs";
-            this.checkbox_10kmEggs.UseVisualStyleBackColor = true;
+            this.checkBox_10kmEggs.AutoSize = true;
+            this.checkBox_10kmEggs.Location = new System.Drawing.Point(7, 89);
+            this.checkBox_10kmEggs.Name = "checkbox_10kmEggs";
+            this.checkBox_10kmEggs.Size = new System.Drawing.Size(167, 21);
+            this.checkBox_10kmEggs.TabIndex = 2;
+            this.checkBox_10kmEggs.Text = "Dont Use 10 km Eggs";
+            this.checkBox_10kmEggs.UseVisualStyleBackColor = true;
             // 
             // settingsBindingSource
             // 
@@ -3450,8 +3450,8 @@
         private System.Windows.Forms.GroupBox groupBox_EggOptions;
         private System.Windows.Forms.CheckBox checkBox_AutoIncubate;
         private System.Windows.Forms.CheckBox checkBox_UseBasicIncubators;
-        private System.Windows.Forms.CheckBox checkbox_10kmEggs;
-        private System.Windows.Forms.CheckBox checkbox_5kmEggs;
+        private System.Windows.Forms.CheckBox checkBox_10kmEggs;
+        private System.Windows.Forms.CheckBox checkBox_5kmEggs;
         private System.Windows.Forms.CheckBox checkBox_2kmEggs;
         //private System.Windows.Forms.CheckBox checkBox_CatchLurePokemons;
     }
