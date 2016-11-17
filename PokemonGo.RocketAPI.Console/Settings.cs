@@ -772,19 +772,19 @@ namespace PokemonGo.RocketAPI.Console
             set { Globals.simulatedPGO = value; }
         }      
         
-        bool ISettings.No2kmEggs
+        public bool No2kmEggs
         {
             get { return Globals.No2kmEggs; }
             set { Globals.No2kmEggs = value; }
         }
 
-         bool ISettings.No5kmEggs
+        public bool No5kmEggs
         {
             get { return Globals.No5kmEggs; }
             set { Globals.No5kmEggs = value; }
         }
 
-       bool ISettings.No10kmEggs
+        public bool No10kmEggs
         {
             get { return Globals.No10kmEggs; }
             set { Globals.No10kmEggs = value; }
