@@ -248,7 +248,7 @@ namespace PokemonGo.RocketAPI.Logic
                 Client.CurrentAltitude = LocationUtils.getAltidude(Client.CurrentLatitude, Client.CurrentLongitude);
                 ClientSettings.DefaultAltitude = Client.CurrentAltitude;
 
-                Logger.Error("Altidude was 0, resolved that. New Altidude is now: " + Client.CurrentAltitude);
+                Logger.Error($"Altidude was 0, resolved that. New Altidude is now: {Client.CurrentAltitude}");
             }
 
             #endregion
@@ -259,12 +259,13 @@ namespace PokemonGo.RocketAPI.Logic
             {
                 Logger.Error("===============================================");
                 Logger.Error("Proxy enabled.");
-                Logger.Error("ProxyIP: " + ClientSettings.UseProxyHost + ":" + ClientSettings.UseProxyPort);
+                Logger.Error($"ProxyIP: { ClientSettings.UseProxyHost }:{ClientSettings.UseProxyPort}");
                 Logger.Error("===============================================");
             }
 
             #endregion
 
+            #region Restart
             //Restart unless killswitch thrown
             while (true)
             {
@@ -291,7 +292,7 @@ namespace PokemonGo.RocketAPI.Logic
                             Telegram.getClient().OnMessage += Telegram.BotOnMessageReceived;
                             Telegram.getClient().OnMessageEdited += Telegram.BotOnMessageReceived;
 
-                            Logger.ColoredConsoleWrite(ConsoleColor.Green, "Telegram Name: " + me.Username);
+                            Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Telegram Name: {me.Username}");
 
                             Telegram.getClient().StartReceiving();
                         }
@@ -328,6 +329,7 @@ namespace PokemonGo.RocketAPI.Logic
 
                 await Task.Delay(60000);
             }
+            #endregion
         }
 
         public async Task PostLoginExecute()
@@ -394,7 +396,6 @@ namespace PokemonGo.RocketAPI.Logic
             //Enable Pokemon List cause everything is loaded
             client.readyToUse = true;
             
-
             // Check if disabled
             StringUtils.CheckKillSwitch();
 
@@ -417,32 +418,39 @@ namespace PokemonGo.RocketAPI.Logic
 
             if (curexp == 0 && expneeded == 1000)
             {
-                // Do Tutorial
                 await client.Misc.MarkTutorialComplete();
             }
 
             var items = await client.Inventory.GetItems();
-
+            var pokemonCount = await client.Inventory.getPokemonCount();
+            var eggCount = await client.Inventory.GetEggsCount();
+            var maxPokemonStorage = profile.PlayerData.MaxPokemonStorage;
+            var maxItemStorage = profile.PlayerData.MaxItemStorage;
+            var stardust = profile.PlayerData.Currencies.ToArray()[1].Amount.ToString("N0");
+            var currEXP = curexp.ToString("N0");
+            var neededEXP = expneeded.ToString("N0");
+            var expPercent = Math.Round(curexppercent, 2);
             #endregion
 
             #region Log Stats
             client.ShowingStats = true;
             Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "-----------------------[PLAYER STATS]-----------------------");
-            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Level/EXP: {stats.Level} | {curexp.ToString("N0")}/{expneeded.ToString("N0")} ({Math.Round(curexppercent, 2)}%)");
-            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "EXP to Level up: " + (stats.NextLevelXp - stats.Experience));
-            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "PokeStops visited: " + stats.PokeStopVisits);
-            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "KM Walked: " + Math.Round(stats.KmWalked, 2));
-            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Pokemon: " + await client.Inventory.getPokemonCount() + " + " + await client.Inventory.GetEggsCount() + " Eggs /" + profile.PlayerData.MaxPokemonStorage + " (" + pokemonToEvolve + " Evolvable)");
-            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Pokedex Completion: " + stats.UniquePokedexEntries + "/150 " + "[" + pokedexpercent + "%]");
-            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Stardust: " + profile.PlayerData.Currencies.ToArray()[1].Amount.ToString("N0"));
+            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Level/EXP: {stats.Level} | {currEXP}/{neededEXP} ({expPercent}%)");
+            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"EXP to Level up: {(stats.NextLevelXp - stats.Experience)}");
+            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"PokeStops visited: {stats.PokeStopVisits}");
+            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"KM Walked: {Math.Round(stats.KmWalked, 2)}");
+            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Pokemon: {pokemonCount}/{maxPokemonStorage} ({pokemonToEvolve} Evolvable)");
+            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Eggs: {eggCount}");
+            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Pokedex Completion: {stats.UniquePokedexEntries}/150 [{pokedexpercent}%]");
+            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Stardust: {stardust}");
             Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "------------------------------------------------------------");
-            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Pokemon Catch Count this session: " + pokemonCatchCount);
-            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "PokeStop Farmed Count this session: " + pokeStopFarmedCount);
+            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Pokemon Catch Count this session: {pokemonCatchCount}");
+            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"PokeStop Farmed Count this session: {pokeStopFarmedCount}");
 
             var totalitems = 0;
             foreach (var item in items)
             {
-                Logger.ColoredConsoleWrite(ConsoleColor.Cyan, item.ItemId + " Qty: " + item.Count);
+                Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"{item.ItemId} Qty: {item.Count}");
 
                 totalitems += item.Count;
                 if (item.ItemId == ItemId.ItemTroyDisk && item.Count > 0)
@@ -450,7 +458,7 @@ namespace PokemonGo.RocketAPI.Logic
                     havelures = true;
                 }
             }
-            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Items: " + totalitems + "/" + profile.PlayerData.MaxItemStorage);
+            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Items: {totalitems}/{maxItemStorage} ");
             Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "------------------------------------------------------------");
 
             #endregion
@@ -474,7 +482,7 @@ namespace PokemonGo.RocketAPI.Logic
                 {
                     if (alreadygot.Contains(i.ItemId)) continue;
 
-                    Logger.ColoredConsoleWrite(ConsoleColor.Magenta, "Got Item: " + i.ItemId + " " + i.ItemCount + "x");
+                    Logger.ColoredConsoleWrite(ConsoleColor.Magenta, $"Got Item: {i.ItemId} ({i.ItemCount}x)");
                     alreadygot.Add(i.ItemId);
                 }
                 alreadygot.Clear();
@@ -482,11 +490,13 @@ namespace PokemonGo.RocketAPI.Logic
 
             #endregion
 
+            #region Set Console Title
             Console.Title = profile.PlayerData.Username + @" lvl" + stats.Level + @"-(" +
                             (stats.Experience - stats.PrevLevelXp - StringUtils.getExpDiff(stats.Level)).ToString("N0") + @"/" +
                             (stats.NextLevelXp - stats.PrevLevelXp - StringUtils.getExpDiff(stats.Level)).ToString("N0") + @"|" +
                             Math.Round(curexppercent, 2) + @"%)| Stardust: " + profile.PlayerData.Currencies.ToArray()[1].Amount + @"| " +
                             BotStats;
+            #endregion
 
             #region Check for Update
 
@@ -502,7 +512,7 @@ namespace PokemonGo.RocketAPI.Logic
                     else
                     {
                         var dialogResult = MessageBox.Show(
-                            @"There is an Update on Github. do you want to open it ?", @"Newest Version: " + GetNewestVersion(), MessageBoxButtons.YesNo);
+                            @"There is an Update on Github. do you want to open it ?", $@"Newest Version: {GetNewestVersion()}, MessageBoxButtons.YesNo");
 
                         switch (dialogResult)
                         {
@@ -2517,6 +2527,7 @@ namespace PokemonGo.RocketAPI.Logic
                         if (egg.EggKmWalkedTarget < 5 && incubator.ItemId != ItemId.ItemIncubatorBasicUnlimited)
                             continue;
 
+                        
                         if(ClientSettings.No10kmEggs)
                         {
                             if (egg.EggKmWalkedTarget == 10)
@@ -2534,6 +2545,8 @@ namespace PokemonGo.RocketAPI.Logic
                                 return;
                             }
                         }
+
+                        
 
                         var response = await Client.Inventory.UseItemEggIncubator(incubator.Id, egg.Id);
                         unusedEggs.Remove(egg);
