@@ -27,6 +27,7 @@ namespace PokemonGo.RocketAPI.Console
         private static ISettings ClientSettings;
         private static Client client;
         public GetPlayerResponse profile;
+        public PlayerPanel playerPanel1 =null;
 
         private void loadAdditionalPokeData()
         {
@@ -198,6 +199,9 @@ namespace PokemonGo.RocketAPI.Console
                     btnUseLure.Enabled = false;
                     statusTexbox.Text = string.Empty;
                     RefreshTitle();
+                    if (playerPanel1!=null) {
+                        playerPanel1.SetPokemons(pokemons);
+                    }
                 }
             }
             catch (Exception e)

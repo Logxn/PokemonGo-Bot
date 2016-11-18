@@ -938,6 +938,7 @@ namespace PokemonGo.RocketAPI.Console
             try
             {
                 DisplayLocationSelector();
+                text_MoveRadius.Text = ""+Globals.radius;
             }
             catch (Exception ex)
             {

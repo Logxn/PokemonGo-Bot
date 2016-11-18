@@ -29,45 +29,46 @@ namespace PokemonGo.RocketAPI.Console
     {
         private static GetPlayerResponse profile = null;
         private static IOrderedEnumerable<PokemonData> pokemons = null;
+        private static POGOProtos.Data.Player.PlayerStats stats;
+        
         public PlayerPanel()
         {
             //
             // The InitializeComponent() call is required for Windows Forms designer support.
             //
             InitializeComponent();
-
-            pictureBoxBuddyPokemon.Visible = false;
-            pictureBoxPlayerAvatar.Visible = false;
-            pictureBoxTeam.Visible = false;
-
         }
 
-        private bool buddyInfoEnabled = false;
 
-        public bool BuddyInfoEnabled
+        public async void Execute( bool refreshData = true)
         {
-            get
-            {
-                return buddyInfoEnabled;
-            }
-            set
-            {
-                buddyInfoEnabled = value;
-            }
-        }
+            pictureBoxTeam.Image = null;
+            pictureBoxPlayerAvatar.Image = null;
+            pictureBoxBuddyPokemon.Image = null;
+            labelUserProperty1Value.Text = "";
+            labelUserProperty2Value.Text = "";
+            labelUserProperty3Value.Text = "";
+            labelUserProperty4Value.Text = "";
+            labelUserProperty5Value.Text = "";
+            labelUserProperty6Value.Text = "";
 
-        public async void Execute()
-        {
-            Visible =false;
             await check();
             var client = Logic.Logic.Client;
             if (client.readyToUse != false)
             {
-                profile = await client.Player.GetPlayer();
+                /*labelUserProperty1Title.Text = "Username:";  TODO: internationalize*/
+
+                if (refreshData)
+                {
+                    profile = await client.Player.GetPlayer();
+                    await Task.Delay(1000); // Pause to simulate human speed. 
+                    var playerStats = await client.Inventory.GetPlayerStats();
+                    stats = playerStats.First();
+                
+                }
                 updatePlayerImages();
                 updatePlayerInfoLabels();
             }
-            Visible =true;
         }
         
         public void setProfile(GetPlayerResponse prof){
@@ -109,35 +110,18 @@ namespace PokemonGo.RocketAPI.Console
             if (profile == null)
                 return;
 
-            labelNoTeamSelected.Visible = false;
-            labelNoBuddySelected.Visible = false;
-
-            Control parent = null;
-            if (profile.PlayerData.Team == TeamColor.Neutral)
+            pictureBoxTeam.Parent = panelLeftArea;
+            pictureBoxTeam.BackColor = Color.Transparent;
+            pictureBoxTeam.Location = new Point(0, 0);
+            pictureBoxTeam.Image = null;
+            if (profile.PlayerData.Team != TeamColor.Neutral)
             {
-                labelNoTeamSelected.Location = new Point(0, 0);
-                labelNoTeamSelected.Parent = pictureBoxTeam;
-                labelNoTeamSelected.Width = pictureBoxTeam.Width;
-                labelNoTeamSelected.Height = pictureBoxTeam.Height;
-                labelNoTeamSelected.Visible = true;
-                labelNoTeamSelected.TextAlign = ContentAlignment.TopCenter;
-                parent = labelNoTeamSelected;
-            }
-            else
-            {
-                pictureBoxTeam.Location = new Point(0, 0);
                 pictureBoxTeam.Image = getImageForTeam(profile.PlayerData.Team);
-                pictureBoxTeam.Visible = true;
-                parent = pictureBoxTeam;
-                pictureBoxTeam.Refresh();
             }
+            pictureBoxTeam.Refresh();
 
-            parent.Parent = panelLeftArea;
-            parent.BringToFront();
-            parent.Visible = true;
-            parent.BackColor = Color.Transparent;
-
-            pictureBoxPlayerAvatar.Parent = parent;
+            pictureBoxPlayerAvatar.Parent = pictureBoxTeam;
+            pictureBoxPlayerAvatar.BackColor = Color.Transparent;
             if (profile.PlayerData.Avatar != null)
             {
                 pictureBoxPlayerAvatar.Image = getImageForGender(profile.PlayerData.Avatar.Gender);
@@ -150,79 +134,47 @@ namespace PokemonGo.RocketAPI.Console
             pictureBoxPlayerAvatar.Width = pictureBoxTeam.Width;
             var playerLocation = new Point(0, pictureBoxTeam.Height - pictureBoxPlayerAvatar.Height);
             pictureBoxPlayerAvatar.Location = playerLocation;
-            pictureBoxPlayerAvatar.BackColor = Color.Transparent;
-            pictureBoxPlayerAvatar.Visible = true;
             pictureBoxPlayerAvatar.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBoxPlayerAvatar.Refresh();
-            pictureBoxPlayerAvatar.BringToFront();
 
             pictureBoxBuddyPokemon.Parent = pictureBoxPlayerAvatar;
+            pictureBoxBuddyPokemon.BackColor = Color.Transparent;
             var buddyLocation = new Point(45, pictureBoxPlayerAvatar.Height - pictureBoxBuddyPokemon.Height + 15);
             pictureBoxBuddyPokemon.Image = getImageForBuddy(profile.PlayerData.BuddyPokemon);
             pictureBoxBuddyPokemon.Location = buddyLocation;
-            pictureBoxBuddyPokemon.BackColor = Color.Transparent;
-            pictureBoxBuddyPokemon.Visible = buddyInfoEnabled;  
-            //Changed this Section until 0.37 compatible!
-            if (pictureBoxBuddyPokemon.Visible)
-            {
-                pictureBoxBuddyPokemon.BringToFront();
-            }
-
-              
-            if (profile.PlayerData.BuddyPokemon == null || profile.PlayerData.BuddyPokemon.ToString() == "{ }")
-            {
-                labelNoBuddySelected.Parent = pictureBoxBuddyPokemon;
-                //Changed this Section until 0.37 compatible!
-                labelNoBuddySelected.Visible = buddyInfoEnabled;
-                
-                labelNoBuddySelected.Width = pictureBoxBuddyPokemon.Width - 35;
-                labelNoBuddySelected.Height = pictureBoxBuddyPokemon.Height;
-                labelNoBuddySelected.Location = new Point(10, 0);
-                labelNoBuddySelected.TextAlign = ContentAlignment.MiddleCenter;
-                if (labelNoBuddySelected.Visible)
-                {
-                    labelNoBuddySelected.BringToFront();
-                }
-            }
         }
 
         private async void updatePlayerInfoLabels()
         {
-            if (profile == null)
-                return;
 
-            var client = Logic.Logic.Client;
-            var playerStats = await client.Inventory.GetPlayerStats();
-            var stats = playerStats.First();
+            if (profile != null){
+                labelUserProperty1Value.Text = profile.PlayerData.Username;
+                labelUserProperty3Value.Text = profile.PlayerData.Currencies[1].Amount.ToString("N0");
+            }
 
-            labelUserProperty1Title.Text = "Username:";
-            labelUserProperty1Value.Text = profile.PlayerData.Username;
 
-            var expneeded = stats.NextLevelXp - stats.PrevLevelXp - StringUtils.getExpDiff(stats.Level);
-            var curexp = stats.Experience - stats.PrevLevelXp - StringUtils.getExpDiff(stats.Level);
-            var curexppercent = Convert.ToDouble(curexp) / Convert.ToDouble(expneeded) * 100;
+            if (stats != null){
+                
+                var expneeded = stats.NextLevelXp - stats.PrevLevelXp - StringUtils.getExpDiff(stats.Level);
+                var curexp = stats.Experience - stats.PrevLevelXp - StringUtils.getExpDiff(stats.Level);
+                var curexppercent = Convert.ToDouble(curexp) / Convert.ToDouble(expneeded) * 100;
 
-            var pokemonToEvolve = (await client.Inventory.GetPokemonToEvolve()).Count();
-            var pokedexpercentraw = Convert.ToDouble(stats.UniquePokedexEntries) / Convert.ToDouble(150) * 100;
-            var pokedexpercent = Math.Floor(pokedexpercentraw);
+                var curexppercentrounded = Math.Round(curexppercent, 2);
+                labelUserProperty2Value.Text = string.Format("{0} | {1}/{2}({3}%)", stats.Level, curexp, expneeded, curexppercentrounded);
 
-            labelUserProperty2Title.Text = "Level:";
-            var curexppercentrounded = Math.Round(curexppercent, 2);
-            var kmWalked = Math.Round(stats.KmWalked, 2);
+                var pokedexpercentraw = Convert.ToDouble(stats.UniquePokedexEntries) / Convert.ToDouble(150) * 100;
+                var pokedexpercent = Math.Floor(pokedexpercentraw);
+                labelUserProperty5Value.Text = string.Format("{0}/ 150 [{1}%]", stats.UniquePokedexEntries, pokedexpercent);
 
-            labelUserProperty2Value.Text = string.Format("{0} | {1}/{2}({3}%)", stats.Level, curexp, expneeded, curexppercentrounded);
+                var kmWalked = Math.Round(stats.KmWalked, 2);
+                labelUserProperty6Value.Text = string.Format("{0}km", kmWalked);
 
-            labelUserProperty3Title.Text = "Stardust:";
-            labelUserProperty3Value.Text = profile.PlayerData.Currencies[1].Amount.ToString("N0");
+                /*
+                var pokemonToEvolve = (await client.Inventory.GetPokemonToEvolve()).Count();
+                labelUserProperty4Value.Text = string.Format("{0} + {1} Eggs / {2} ({3} Evolvable)", await client.Inventory.getPokemonCount(), await client.Inventory.GetEggsCount(), profile.PlayerData.MaxPokemonStorage, pokemonToEvolve);
+                */
+            }
 
-            labelUserProperty4Title.Text = "Pokemon:";
-            labelUserProperty4Value.Text = string.Format("{0} + {1} Eggs / {2} ({3} Evolvable)", await client.Inventory.getPokemonCount(), await client.Inventory.GetEggsCount(), profile.PlayerData.MaxPokemonStorage, pokemonToEvolve);
-
-            labelUserProperty5Title.Text = "Pokedex:";
-            labelUserProperty5Value.Text = string.Format("{0}/ 150 [{1}%]", stats.UniquePokedexEntries, pokedexpercent);
-
-            labelUserProperty6Title.Text = "Walked:";
-            labelUserProperty6Value.Text = string.Format("{0}km", kmWalked);
         }
 
         /// <summary>
@@ -271,36 +223,35 @@ namespace PokemonGo.RocketAPI.Console
             }
         }
 
-		private async void BtnTeamClick(object sender, EventArgs e)
-		{
-			var teamSelect =new TeamSelect();
-			if (teamSelect.ShowDialog() == DialogResult.OK){
-				
-				
-				// Simulate to enter in a gym before select a team.
-				var client = Logic.Logic.Client;
-				var mapObjects = await client.Map.GetMapObjects();
-				var mapCells = mapObjects.Item1.MapCells;
-				
-				var pokeGyms = mapCells.SelectMany(i => i.Forts)
-	            			.Where(i => i.Type == FortType.Gym );
+        private async void BtnTeamClick(object sender, EventArgs e)
+        {
+            var teamSelect =new TeamSelect();
+            if (teamSelect.ShowDialog() == DialogResult.OK){
+                // Simulate to enter in a gym before select a team.
+                var client = Logic.Logic.Client;
+                var mapObjects = await client.Map.GetMapObjects();
+                var mapCells = mapObjects.Item1.MapCells;
+
+                var pokeGyms = mapCells.SelectMany(i => i.Forts)
+                    .Where(i => i.Type == FortType.Gym );
 	            if (pokeGyms.Any() )
 	            {
 	            	var pokegym = pokeGyms.First();
 
-	                var resp = await GetGym(pokegym.Id,pokegym.Latitude,pokegym.Longitude);
-	                if (resp.Status)
-	                {
-						var team = teamSelect.selected;				
-		                var resp2 = await SelectTeam(team);
-		                if (resp2.Status)
-		                {
-		                	Logger.ColoredConsoleWrite(ConsoleColor.Green, "Selected Team: " + team.ToString());
-		                	Execute();
-		                }
-		                else
-		                    MessageBox.Show(resp.Message + "Set Team failed!", "Set Team Status", MessageBoxButtons.OK);
-	                }
+                    var resp = await GetGym(pokegym.Id,pokegym.Latitude,pokegym.Longitude);
+                    if (resp.Status)
+                    {
+                        var team = teamSelect.selected;
+                        await Task.Delay(1000); // Pause to simulate human speed. 
+                        var resp2 = await SelectTeam(team);
+                        if (resp2.Status)
+                        {
+                            Logger.ColoredConsoleWrite(ConsoleColor.Green, "Selected Team: " + team.ToString());
+                            Execute();
+                        }
+                        else
+                        MessageBox.Show(resp.Message + "Set Team failed!", "Set Team Status", MessageBoxButtons.OK);
+                    }
 	                else
 	                    MessageBox.Show(resp.Message + "Set Team failed!", "Set Team Status", MessageBoxButtons.OK);            	               
 	            }
@@ -308,11 +259,11 @@ namespace PokemonGo.RocketAPI.Console
 	            	MessageBox.Show("Set Team failed!\n non nearby Gym ", "Set Team Status", MessageBoxButtons.OK);
 			}
             else
-            	MessageBox.Show("Set Team canceled!", "Set Team Status", MessageBoxButtons.OK);
-			
-		}
-		
-		public class taskResponse
+                MessageBox.Show("Set Team canceled!", "Set Team Status", MessageBoxButtons.OK);
+
+        }
+
+        public class taskResponse
         {
             public bool Status { get; set; }
             public string Message { get; set; }

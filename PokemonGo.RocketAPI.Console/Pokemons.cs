@@ -16,6 +16,7 @@ namespace PokemonGo.RocketAPI.Console
         private static GetPlayerResponse profile;
         private static POGOProtos.Data.Player.PlayerStats stats;
         public static ISettings ClientSettings;
+        public bool waitingApiResponse = false;
 
         public class taskResponse
         {
@@ -42,6 +43,8 @@ namespace PokemonGo.RocketAPI.Console
             locationPanel1.Init(true, 0, 0, 0);
             Execute();
             sniperPanel1.Execute();
+            pokemonsPanel1.playerPanel1 = playerPanel1;
+
         }
 
         private void Pokemons_Close(object sender, FormClosingEventArgs e)
@@ -123,6 +126,10 @@ namespace PokemonGo.RocketAPI.Console
         }
         void TabControl1_SelectedIndexChanged(object sender, EventArgs e)
         {
+          while (waitingApiResponse){
+              Task.Delay(1000); 
+          }
+          waitingApiResponse = true;
           TabPage current = (sender as TabControl).SelectedTab;
           switch (current.Name){
               case "tpPokemons":
@@ -134,8 +141,11 @@ namespace PokemonGo.RocketAPI.Console
               case "tpEggs":
                   eggsPanel1.Execute();
                   break;
+              case "tpPlayerInfo": 
+                  playerPanel1.Execute();
+                  break;
           }
-          
+          waitingApiResponse = false;
         }
     }
 }
