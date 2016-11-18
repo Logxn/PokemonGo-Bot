@@ -644,7 +644,14 @@ namespace PokemonGo.RocketAPI.Console
                     {
                         foreach (Result result in elevation.Results)
                         {
-                            SetText(result.Elevation);
+                            try
+                            {
+                                SetText(result.Elevation);
+                            }
+                            catch(Exception e)
+                            {
+                                Logger.ColoredConsoleWrite(ConsoleColor.Red, "Here du arschloch");
+                            }
                         }
                     }
                 }
@@ -657,8 +664,14 @@ namespace PokemonGo.RocketAPI.Console
             textBox1.Text = map.Position.Lat.ToString(CultureInfo.InvariantCulture);
             textBox2.Text = map.Position.Lng.ToString(CultureInfo.InvariantCulture);
 
-            radiusOverlay.Polygons.Clear();
-            radiusOverlay.Polygons.Add(CreateCircle(new PointLatLng(map.Position.Lat, map.Position.Lng), (int) nudRadius.Value, 100));
+            /*try
+            {
+                radiusOverlay.Polygons.Clear();
+                radiusOverlay.Polygons.Add(CreateCircle(new PointLatLng(map.Position.Lat, map.Position.Lng), (int)nudRadius.Value, 100));
+            }
+            catch(Exception e)
+
+            { Logger.ColoredConsoleWrite(ConsoleColor.Red, "XELWON PLEASE FIX DIS"); }*/
 
         }
 

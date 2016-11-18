@@ -575,6 +575,7 @@ namespace PokemonGo.RocketAPI.Logic
 
         private async Task SetCheckTimeToRun()
         {
+            
             // Prevent Spamming Logs
             if ((long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds > lastlog + 60000)
             {
@@ -591,6 +592,7 @@ namespace PokemonGo.RocketAPI.Logic
                     else
                     {
                         var runTimeRemaining = timetorunstamp - (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds;
+                        var remainingTime = Math.Round(runTimeRemaining / 1000 / 60, 2);
                         if (runTimeRemaining <= 0)
                         {
                             Logger.ColoredConsoleWrite(ConsoleColor.Red, "Time To Run Reached or Exceeded...Walking back to default location and stopping bot");
@@ -601,7 +603,7 @@ namespace PokemonGo.RocketAPI.Logic
                         }
                         else
                         {
-                            Logger.ColoredConsoleWrite(ConsoleColor.Blue, $"Remaining Time to Run: {Math.Round(runTimeRemaining / 1000 / 60, 2)} minutes");
+                            Logger.ColoredConsoleWrite(ConsoleColor.Blue, $"Remaining Time to Run: {remainingTime} minutes");
                         }
                     }
                 }
