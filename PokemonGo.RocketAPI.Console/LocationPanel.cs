@@ -664,14 +664,11 @@ namespace PokemonGo.RocketAPI.Console
             textBox1.Text = map.Position.Lat.ToString(CultureInfo.InvariantCulture);
             textBox2.Text = map.Position.Lng.ToString(CultureInfo.InvariantCulture);
 
-            /*try
+            if(radiusOverlay != null)
             {
                 radiusOverlay.Polygons.Clear();
                 radiusOverlay.Polygons.Add(CreateCircle(new PointLatLng(map.Position.Lat, map.Position.Lng), (int)nudRadius.Value, 100));
             }
-            catch(Exception e)
-
-            { Logger.ColoredConsoleWrite(ConsoleColor.Red, "XELWON PLEASE FIX DIS"); }*/
 
         }
 
