@@ -650,7 +650,8 @@ namespace PokemonGo.RocketAPI.Console
                             }
                             catch(Exception e)
                             {
-                                Logger.ColoredConsoleWrite(ConsoleColor.Red, "Here du arschloch");
+                                Logger.ColoredConsoleWrite(ConsoleColor.Red, "Error: LocationPanel.cs - Zeile 653.");
+                                Logger.ColoredConsoleWrite(ConsoleColor.Red, e.Message);
                             }
                         }
                     }
