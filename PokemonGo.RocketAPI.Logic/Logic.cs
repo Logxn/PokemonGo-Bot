@@ -2479,6 +2479,23 @@ namespace PokemonGo.RocketAPI.Logic
         #endregion
 
         #region Incubator Functions
+        private List<POGOProtos.Data.PokemonData> eggsHatchingAllowed(List<POGOProtos.Data.PokemonData> eggs)
+        {
+            var ret = new List<POGOProtos.Data.PokemonData> (eggs);
+            if(ClientSettings.No2kmEggs)
+            {
+                ret = ret.Where(x => x.EggKmWalkedTarget !=2).ToList();
+            }
+            if(ClientSettings.No5kmEggs)
+            {
+                ret = ret.Where(x => x.EggKmWalkedTarget !=5).ToList();
+            }
+            if(ClientSettings.No10kmEggs)
+            {
+                ret = ret.Where(x => x.EggKmWalkedTarget !=10).ToList();
+            }
+            return ret;
+        }
 
         private async Task StartIncubation()
         {
@@ -2505,6 +2522,8 @@ namespace PokemonGo.RocketAPI.Logic
                 var logs = Path.Combine(logPath, "EggLog.txt");
                 var date = DateTime.Now.ToString();
 
+                unusedEggs = eggsHatchingAllowed(unusedEggs);
+
                 foreach (var incubator in rememberedIncubators)
                 {
                     var hatched = pokemons.FirstOrDefault(x => !x.IsEgg && x.Id == incubator.PokemonId);
@@ -2518,52 +2537,29 @@ namespace PokemonGo.RocketAPI.Logic
                     Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, "Egg hatched and we got a " + hatched.PokemonId + " CP: " + hatched.Cp + " MaxCP: " + PokemonInfo.CalculateMaxCP(hatched) + " Level: " + PokemonInfo.GetLevel(hatched) + " IV: " + PokemonInfo.CalculatePokemonPerfection(hatched).ToString("0.00") + "%");
                 }
 
+                if (unusedEggs.Count < 1)
+                {
+                    Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, "There is not Allowed Eggs to hatch");
+                    return;
+                }
+
                 var newRememberedIncubators = new List<IncubatorUsage>();
 
                 foreach (var incubator in incubators)
                 {
                     if (incubator.PokemonId == 0)
                     {
-                        // Unlimited incubators prefer short eggs, limited incubators prefer long eggs
-                        // Special case: If only one incubator is available at all, it will prefer long eggs
-                        POGOProtos.Data.PokemonData egg;
-                        if (ClientSettings.EggsAscendingSelection)
-                            egg = incubator.ItemId == ItemId.ItemIncubatorBasicUnlimited && incubators.Count > 1 ? unusedEggs.FirstOrDefault() : unusedEggs.LastOrDefault();
-                        else
-                            egg = incubator.ItemId == ItemId.ItemIncubatorBasicUnlimited && incubators.Count > 1 ?  unusedEggs.LastOrDefault() : unusedEggs.FirstOrDefault();
 
-
-                        // When you're down to your last incubator, prefer 2km then 10km then 5km so you
-                        // can clean out smaller eggs first.
-                        //if (incubator.ItemId == ItemId.ItemIncubatorBasicUnlimited && incubators.Count == 1 && egg.EggKmWalkedTarget < 10)
-                        //{
-                        //    egg = unusedEggs.FirstOrDefault();
-                        //}
-
-                        if (egg == null)
-                            return;
-
-                        if (egg.EggKmWalkedTarget < 5 && incubator.ItemId != ItemId.ItemIncubatorBasicUnlimited)
+                        // If is basic incubator and user don't want use it, we go to the next incubator
+                        if (    (incubator.ItemId == ItemId.ItemIncubatorBasic) 
+                             && ( ! ClientSettings.UseBasicIncubators) )
                             continue;
 
-                            if(ClientSettings.No2kmEggs)
-                            {
-                                if (egg.EggKmWalkedTarget == 2)
-                                    return;
-                            }
-                            if(ClientSettings.No5kmEggs)
-                            {
-                                if(egg.EggKmWalkedTarget == 5)
-                                {
-                                    return;
-                                }
-                            }
-                            if(ClientSettings.No10kmEggs)
-                            {
-                                if (egg.EggKmWalkedTarget == 10)
-                                    return;
-                            }
+                        POGOProtos.Data.PokemonData egg = ClientSettings.EggsAscendingSelection ? unusedEggs.FirstOrDefault() : unusedEggs.LastOrDefault();
 
+                        // If there is not eggs then we finish this function
+                        if (egg == null)
+                            return;
 
                         var response = await Client.Inventory.UseItemEggIncubator(incubator.Id, egg.Id);
                         unusedEggs.Remove(egg);
