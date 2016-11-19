@@ -1448,6 +1448,18 @@ namespace PokemonGo.RocketAPI.Logic
             if (pokeStop.CooldownCompleteTimestampMs < (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds && ClientSettings.FarmPokestops)
             {
                 var fortSearch = await client.Fort.SearchFort(pokeStop.Id, pokeStop.Latitude, pokeStop.Longitude);
+                if(ClientSettings.EnableVerboseLogging)
+                {
+                    Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "================[VERBOSE LOGGING - Pokestop Search]================");
+                    Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Result: {fortSearch.Result}");
+                    Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"ChainHackSequenceNumber: {fortSearch.ChainHackSequenceNumber}");
+                    Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Cooldown Complete (MS): {fortSearch.CooldownCompleteTimestampMs}");
+                    Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"EXP Award: {fortSearch.ExperienceAwarded}");
+                    Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Gems Award: {fortSearch.GemsAwarded}");
+                    Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Item Award: {fortSearch.ItemsAwarded}");
+                    Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Egg Data: {fortSearch.PokemonDataEgg}");
+                    Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "==================================================================");
+                }
 
                 count++;
 
@@ -2111,7 +2123,7 @@ namespace PokemonGo.RocketAPI.Logic
                     {
                         if (duplicatePokemon.Cp >= ClientSettings.DontTransferWithCPOver || PokemonInfo.CalculatePokemonPerfection(duplicatePokemon) >= Client.Settings.ivmaxpercent)
                         {
-                            continue;
+                            continue; // Isnt this wrong? Shouldnt it return instead of continueing?
                         }
 
                         var bestPokemonOfType = await Client.Inventory.GetHighestCPofType(duplicatePokemon);

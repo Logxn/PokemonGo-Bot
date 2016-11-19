@@ -399,6 +399,9 @@ namespace PokemonGo.RocketAPI.Console
                     checkbox_checkWhileRunning.Checked = config.CheckWhileRunning;
                     langSelected = config.SelectedLanguage;
 
+                    // Dev Options
+                    checkbox_Verboselogging.Checked = config.EnableVerboseLogging;
+
                     var success = LoadGlobals(false);
                     if (!success)
                     {
@@ -818,7 +821,9 @@ namespace PokemonGo.RocketAPI.Console
             Globals.NextDestinationOverride.Clear();
             Globals.RouteToRepeat.Clear();
 
-            //tab Eggs
+            // dev options
+
+            Globals.EnableVerboseLogging = checkbox_Verboselogging.Checked;
 
 
             #endregion

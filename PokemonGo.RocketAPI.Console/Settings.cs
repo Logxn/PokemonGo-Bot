@@ -796,5 +796,10 @@ namespace PokemonGo.RocketAPI.Console
             set { Globals.EggsAscendingSelection = value; }
         }
 
+        public bool EnableVerboseLogging
+        {
+            get { return Globals.EnableVerboseLogging; }
+            set { Globals.EnableVerboseLogging = value; }
+        }
     }
 }
