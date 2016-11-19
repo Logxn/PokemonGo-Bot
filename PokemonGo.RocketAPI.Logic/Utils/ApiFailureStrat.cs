@@ -1,11 +1,13 @@
 ﻿#region using directives
 
 using System;
-using System.Threading.Tasks; 
+using System.Threading.Tasks;
 using PokemonGo.RocketAPI.Enums;
 using PokemonGo.RocketAPI.Exceptions;
 using PokemonGo.RocketAPI.Extensions;
+using PokemonGo.RocketAPI.Rpc;
 using POGOProtos.Networking.Envelopes;
+using POGOProtos.Networking.Responses;
 
 #endregion
 
@@ -15,20 +17,46 @@ namespace PokemonGo.RocketAPI.Logic
     {
         private readonly Client _session;
         private int _retryCount;
+        public static Player _player;
+        
 
         public ApiFailureStrat(Client session)
         {
             _session = session;
         }
 
-        public void HandleCaptcha(string challengeUrl, ICaptchaResponseHandler captchaResponseHandler)
+        public async void HandleCaptcha(string challengeUrl, ICaptchaResponseHandler captchaResponseHandler)
         {
-            // TODO Show captcha get token and pass it back.
-            // string token = "";
-            // captchaResponseHandler.SetCaptchaToken(token);
-
+           
+            /* We recieve the token after the user has completed the captcha
+             * The site will want to redirect the user, to the app again
+             * So the redirect url would look like this: "unity:some-long-ass-code"
+             * This "long-ass-code" is the responseToken
+             * */
+            string token = "";
             Logger.Error("We need a Captcha.. (Not implemented yet)");
             Logger.Error($"[DEBUG - PLEASE IGNORE]: Challenge URL!!: {challengeUrl.ToString()}");
+
+            captchaResponseHandler.SetCaptchaToken("bla"); // I dont know why, but lets just set the token here just in case.
+
+            /* Here is where I need the gui.
+             * It should have a WebBrowser, that will redirect to the challengeUrl
+             * We somehow need to create a function that always looks if the url has changed (it will because the user solves the captcha and they want to redirect)
+             * Now we need to remove the "unity:" infront of the url and pass the token to the _player.VerifyChallenge
+             * We need to wait for a response and if its a success....
+             * ... we restart the bot! ;)
+             **/
+
+            VerifyChallengeResponse r = await _player.VerifyChallenge(token); // We will send a request, passing the long-ass-token and wait for a response.
+
+            if (r.Success)
+            {
+                Console.WriteLine("TOKEN OK!");
+            }
+            else
+            {
+                Console.WriteLine("Failure.");
+            }
 
             Console.ReadKey();
             Environment.Exit(0);
