@@ -2,9 +2,10 @@
 
 Donate
 ------------
-> If you want to donate for the Team, you can do it with BitCoins.<br>
-> Our Wallet: 1N9ZF9TYWRDi1Ecjro536j9swF5tzXRURs<br>
-> We appreciate every donation!<br>
+> If you want to donate for the Team, you can do it with Paypal or Paysafecard.<br>
+> Our Paypal Address: nrgneonreflexe@gmail.com<br>
+> We appreciate every donation, and we will split it with the whole team!<br>
+> Paysafecard donations should be sent via private message to "Logxn" in our Discord.<br>
 
 Features
 -------------
@@ -25,23 +26,16 @@ Features
 > - Archimedean spiral (https://en.wikipedia.org/wiki/Archimedean_spiral)
 > - and much more!
 
-Notes
--------------
-If you have troubles (exceptions) when starting and/or you come from an older version try that:
-> - Create new empty folder. 
-> - go to builds only, https://github.com/Ar1i/PokemonGo-Bot/tree/master/Builds-Only
-> - Download and unzip in the new folder
-> - Try to execute now.
-
 Credits
 -------------------
 Most thanks to FeroxRev and AeonLucid, without them this wouldn't be possible.<br>
 FeroxRev - https://github.com/FeroxRev/Pokemon-Go-Rocket-API<br>
 AeonLucid - https://github.com/AeonLucid/POGOProtos<br>
+Ar1i - For bringing this project alive!<br>
+Logxn - Continuing this project and keeping it alive!  <br>
 MTK4355 - Doing a really really good job!<br>
-Logxn - Helping a lot! <br>
+Xelwon - A very kind helping dev! <br>
 Cicklow - Mods!
 
-https://github.com/NecronomiconCoding/NecroBot<br>
 
-Discord Link : https://discord.gg/phu3GNN<br>
+Discord Link : https://discord.gg/42r7fmK<br>
