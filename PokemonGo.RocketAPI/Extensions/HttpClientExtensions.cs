@@ -137,14 +137,15 @@ namespace PokemonGo.RocketAPI.Extensions
             RequestEnvelope r;
             while (rpcQueue.TryDequeue(out r))
             {
-                var diff = Math.Max(0, DateTime.Now.Millisecond - lastRpc);
+                var diff = Math.Max(0, (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds - lastRpc);
                 if (diff < minDiff)
                 {
                     var delay = (minDiff - diff) + (int)(new Random().NextDouble() * 0); // Add some randomness
                     await Task.Delay((int)(delay));
                 }
-                lastRpc = DateTime.Now.Millisecond;
+                lastRpc = (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds;
                 ResponseEnvelope response = await PerformRemoteProcedureCall<TRequest>(client, url, r);
+                //Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Calling PgoServers {url} last Rpc = {lastRpc} diff = {diff} datetimeNow.Millisecond = {DateTime.Now.Millisecond}");
                 responses.GetOrAdd(r, response);
             }
             ResponseEnvelope ret;

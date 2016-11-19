@@ -92,7 +92,7 @@ namespace PokemonGo.RocketAPI.Console
             loadAdditionalPokeData();
         }
         
-        public async void Execute()
+        public async Task Execute()
         {
             EnabledButton(false, "Reloading Pokemon list.");
             await check();

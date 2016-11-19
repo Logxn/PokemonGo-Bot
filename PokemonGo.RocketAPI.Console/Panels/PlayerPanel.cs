@@ -40,7 +40,7 @@ namespace PokemonGo.RocketAPI.Console
         }
 
 
-        public async void Execute( bool refreshData = true)
+        public async Task Execute( bool refreshData = true)
         {
             pictureBoxTeam.Image = null;
             pictureBoxPlayerAvatar.Image = null;
