@@ -38,7 +38,7 @@ namespace PokemonGo.RocketAPI.Console
 			ItemsListView.Items.Clear();
             Execute();
 		}
-		public async void Execute()
+		public async Task Execute()
         {
             try
             {

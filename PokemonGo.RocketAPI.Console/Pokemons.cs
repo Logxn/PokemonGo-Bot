@@ -70,6 +70,7 @@ namespace PokemonGo.RocketAPI.Console
 
         private async void Execute()
         {
+            TabControl1.Enabled = false;
             await check();
             try
             {
@@ -85,6 +86,7 @@ namespace PokemonGo.RocketAPI.Console
                     playerPanel1.setProfile(profile);
                     pokemonsPanel1.profile = profile;
                 }
+                TabControl1.Enabled = true;
             }
             catch (Exception e)
             {
@@ -126,26 +128,33 @@ namespace PokemonGo.RocketAPI.Console
         }
         void TabControl1_SelectedIndexChanged(object sender, EventArgs e)
         {
-          while (waitingApiResponse){
-              Task.Delay(1000); 
-          }
-          waitingApiResponse = true;
-          TabPage current = (sender as TabControl).SelectedTab;
-          switch (current.Name){
-              case "tpPokemons":
-                  pokemonsPanel1.Execute();
-                  break;
-              case "tpItems":
-                  itemsPanel1.Execute();
-                  break;
-              case "tpEggs":
-                  eggsPanel1.Execute();
-                  break;
-              case "tpPlayerInfo": 
-                  playerPanel1.Execute();
-                  break;
-          }
-          waitingApiResponse = false;
+            ChangeTabs(sender, e);
+        }
+
+        private async Task ChangeTabs(object sender, EventArgs e)
+        {
+            while (waitingApiResponse)
+            {
+                await Task.Delay(1000);
+            }
+            waitingApiResponse = true;
+            TabPage current = (sender as TabControl).SelectedTab;
+            switch (current.Name)
+            {
+                case "tpPokemons":
+                    await pokemonsPanel1.Execute();
+                    break;
+                case "tpItems":
+                    await itemsPanel1.Execute();
+                    break;
+                case "tpEggs":
+                    await eggsPanel1.Execute();
+                    break;
+                case "tpPlayerInfo":
+                    await playerPanel1.Execute();
+                    break;
+            }
+            waitingApiResponse = false;
         }
     }
 }

@@ -1810,11 +1810,11 @@
             this.tabEggs.Controls.Add(this.gbSelectionOrder);
             this.tabEggs.Controls.Add(this.groupBox24);
             this.tabEggs.Controls.Add(this.groupBox_EggOptions);
-            this.tabEggs.Location = new System.Drawing.Point(4, 22);
-            this.tabEggs.Margin = new System.Windows.Forms.Padding(2);
+            this.tabEggs.Location = new System.Drawing.Point(4, 25);
+            this.tabEggs.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tabEggs.Name = "tabEggs";
-            this.tabEggs.Padding = new System.Windows.Forms.Padding(2);
-            this.tabEggs.Size = new System.Drawing.Size(564, 396);
+            this.tabEggs.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.tabEggs.Size = new System.Drawing.Size(755, 490);
             this.tabEggs.TabIndex = 9;
             this.tabEggs.Text = "Eggs";
             this.tabEggs.UseVisualStyleBackColor = true;
@@ -1823,20 +1823,21 @@
             // 
             this.gbSelectionOrder.Controls.Add(this.rbSOEggsDescending);
             this.gbSelectionOrder.Controls.Add(this.rbSOEggsAscending);
-            this.gbSelectionOrder.Location = new System.Drawing.Point(316, 6);
-            this.gbSelectionOrder.Margin = new System.Windows.Forms.Padding(2);
+            this.gbSelectionOrder.Location = new System.Drawing.Point(421, 7);
+            this.gbSelectionOrder.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.gbSelectionOrder.Name = "gbSelectionOrder";
-            this.gbSelectionOrder.Padding = new System.Windows.Forms.Padding(2);
-            this.gbSelectionOrder.Size = new System.Drawing.Size(224, 103);
+            this.gbSelectionOrder.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.gbSelectionOrder.Size = new System.Drawing.Size(299, 127);
             this.gbSelectionOrder.TabIndex = 54;
             this.gbSelectionOrder.TabStop = false;
             this.gbSelectionOrder.Text = "Selection order";
             // 
             // rbSOEggsDescending
             // 
-            this.rbSOEggsDescending.Location = new System.Drawing.Point(16, 50);
+            this.rbSOEggsDescending.Location = new System.Drawing.Point(21, 62);
+            this.rbSOEggsDescending.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.rbSOEggsDescending.Name = "rbSOEggsDescending";
-            this.rbSOEggsDescending.Size = new System.Drawing.Size(203, 24);
+            this.rbSOEggsDescending.Size = new System.Drawing.Size(271, 30);
             this.rbSOEggsDescending.TabIndex = 1;
             this.rbSOEggsDescending.TabStop = true;
             this.rbSOEggsDescending.Text = "Descending (10 Km first)";
@@ -1844,9 +1845,10 @@
             // 
             // rbSOEggsAscending
             // 
-            this.rbSOEggsAscending.Location = new System.Drawing.Point(16, 22);
+            this.rbSOEggsAscending.Location = new System.Drawing.Point(21, 27);
+            this.rbSOEggsAscending.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.rbSOEggsAscending.Name = "rbSOEggsAscending";
-            this.rbSOEggsAscending.Size = new System.Drawing.Size(203, 24);
+            this.rbSOEggsAscending.Size = new System.Drawing.Size(271, 30);
             this.rbSOEggsAscending.TabIndex = 0;
             this.rbSOEggsAscending.TabStop = true;
             this.rbSOEggsAscending.Text = "Ascending (2 Km first)";
@@ -1857,11 +1859,11 @@
             this.groupBox24.Controls.Add(this.checkBox_10kmEggs);
             this.groupBox24.Controls.Add(this.checkBox_5kmEggs);
             this.groupBox24.Controls.Add(this.checkBox_2kmEggs);
-            this.groupBox24.Location = new System.Drawing.Point(165, 6);
-            this.groupBox24.Margin = new System.Windows.Forms.Padding(2);
+            this.groupBox24.Location = new System.Drawing.Point(220, 7);
+            this.groupBox24.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.groupBox24.Name = "groupBox24";
-            this.groupBox24.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBox24.Size = new System.Drawing.Size(135, 103);
+            this.groupBox24.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.groupBox24.Size = new System.Drawing.Size(180, 127);
             this.groupBox24.TabIndex = 53;
             this.groupBox24.TabStop = false;
             this.groupBox24.Text = "Dont Use These Eggs";
@@ -1869,10 +1871,10 @@
             // checkBox_10kmEggs
             // 
             this.checkBox_10kmEggs.AutoSize = true;
-            this.checkBox_10kmEggs.Location = new System.Drawing.Point(39, 72);
-            this.checkBox_10kmEggs.Margin = new System.Windows.Forms.Padding(2);
+            this.checkBox_10kmEggs.Location = new System.Drawing.Point(52, 89);
+            this.checkBox_10kmEggs.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.checkBox_10kmEggs.Name = "checkBox_10kmEggs";
-            this.checkBox_10kmEggs.Size = new System.Drawing.Size(56, 17);
+            this.checkBox_10kmEggs.Size = new System.Drawing.Size(70, 21);
             this.checkBox_10kmEggs.TabIndex = 2;
             this.checkBox_10kmEggs.Text = "10 Km";
             this.checkBox_10kmEggs.UseVisualStyleBackColor = true;
@@ -1880,10 +1882,10 @@
             // checkBox_5kmEggs
             // 
             this.checkBox_5kmEggs.AutoSize = true;
-            this.checkBox_5kmEggs.Location = new System.Drawing.Point(39, 50);
-            this.checkBox_5kmEggs.Margin = new System.Windows.Forms.Padding(2);
+            this.checkBox_5kmEggs.Location = new System.Drawing.Point(52, 62);
+            this.checkBox_5kmEggs.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.checkBox_5kmEggs.Name = "checkBox_5kmEggs";
-            this.checkBox_5kmEggs.Size = new System.Drawing.Size(50, 17);
+            this.checkBox_5kmEggs.Size = new System.Drawing.Size(62, 21);
             this.checkBox_5kmEggs.TabIndex = 1;
             this.checkBox_5kmEggs.Text = "5 Km";
             this.checkBox_5kmEggs.UseVisualStyleBackColor = true;
@@ -1891,10 +1893,10 @@
             // checkBox_2kmEggs
             // 
             this.checkBox_2kmEggs.AutoSize = true;
-            this.checkBox_2kmEggs.Location = new System.Drawing.Point(39, 27);
-            this.checkBox_2kmEggs.Margin = new System.Windows.Forms.Padding(2);
+            this.checkBox_2kmEggs.Location = new System.Drawing.Point(52, 33);
+            this.checkBox_2kmEggs.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.checkBox_2kmEggs.Name = "checkBox_2kmEggs";
-            this.checkBox_2kmEggs.Size = new System.Drawing.Size(50, 17);
+            this.checkBox_2kmEggs.Size = new System.Drawing.Size(62, 21);
             this.checkBox_2kmEggs.TabIndex = 0;
             this.checkBox_2kmEggs.Text = "2 Km";
             this.checkBox_2kmEggs.UseVisualStyleBackColor = true;
@@ -1903,11 +1905,11 @@
             // 
             this.groupBox_EggOptions.Controls.Add(this.checkBox_AutoIncubate);
             this.groupBox_EggOptions.Controls.Add(this.checkBox_UseBasicIncubators);
-            this.groupBox_EggOptions.Location = new System.Drawing.Point(4, 5);
-            this.groupBox_EggOptions.Margin = new System.Windows.Forms.Padding(2);
+            this.groupBox_EggOptions.Location = new System.Drawing.Point(5, 6);
+            this.groupBox_EggOptions.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.groupBox_EggOptions.Name = "groupBox_EggOptions";
-            this.groupBox_EggOptions.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBox_EggOptions.Size = new System.Drawing.Size(147, 68);
+            this.groupBox_EggOptions.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.groupBox_EggOptions.Size = new System.Drawing.Size(209, 84);
             this.groupBox_EggOptions.TabIndex = 52;
             this.groupBox_EggOptions.TabStop = false;
             this.groupBox_EggOptions.Text = "Options";
@@ -1917,9 +1919,11 @@
             this.checkBox_AutoIncubate.AutoSize = true;
             this.checkBox_AutoIncubate.Checked = true;
             this.checkBox_AutoIncubate.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox_AutoIncubate.Location = new System.Drawing.Point(6, 28);
+
+            this.checkBox_AutoIncubate.Location = new System.Drawing.Point(8, 34);
+            this.checkBox_AutoIncubate.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.checkBox_AutoIncubate.Name = "checkBox_AutoIncubate";
-            this.checkBox_AutoIncubate.Size = new System.Drawing.Size(92, 17);
+            this.checkBox_AutoIncubate.Size = new System.Drawing.Size(117, 21);
             this.checkBox_AutoIncubate.TabIndex = 50;
             this.checkBox_AutoIncubate.Text = "Auto incubate";
             this.checkBox_AutoIncubate.UseVisualStyleBackColor = true;
@@ -1927,11 +1931,12 @@
             // checkBox_UseBasicIncubators
             // 
             this.checkBox_UseBasicIncubators.AutoSize = true;
-            this.checkBox_UseBasicIncubators.Location = new System.Drawing.Point(6, 46);
+            this.checkBox_UseBasicIncubators.Location = new System.Drawing.Point(8, 57);
+            this.checkBox_UseBasicIncubators.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.checkBox_UseBasicIncubators.Name = "checkBox_UseBasicIncubators";
-            this.checkBox_UseBasicIncubators.Size = new System.Drawing.Size(125, 17);
+            this.checkBox_UseBasicIncubators.Size = new System.Drawing.Size(205, 21);
             this.checkBox_UseBasicIncubators.TabIndex = 51;
-            this.checkBox_UseBasicIncubators.Text = "Use basic incubators";
+            this.checkBox_UseBasicIncubators.Text = "Use consumable incubators";
             this.checkBox_UseBasicIncubators.UseVisualStyleBackColor = true;
             // 
             // tabWalkSettings
