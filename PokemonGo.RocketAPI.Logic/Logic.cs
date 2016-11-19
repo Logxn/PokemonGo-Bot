@@ -2514,14 +2514,19 @@ namespace PokemonGo.RocketAPI.Logic
                     {
                         // Unlimited incubators prefer short eggs, limited incubators prefer long eggs
                         // Special case: If only one incubator is available at all, it will prefer long eggs
-                        var egg = incubator.ItemId == ItemId.ItemIncubatorBasicUnlimited && incubators.Count > 1 ? unusedEggs.FirstOrDefault() : unusedEggs.LastOrDefault();
-                        
+                        POGOProtos.Data.PokemonData egg;
+                        if (ClientSettings.EggsAscendingSelection)
+                            egg = incubator.ItemId == ItemId.ItemIncubatorBasicUnlimited && incubators.Count > 1 ? unusedEggs.FirstOrDefault() : unusedEggs.LastOrDefault();
+                        else
+                            egg = incubator.ItemId == ItemId.ItemIncubatorBasicUnlimited && incubators.Count > 1 ?  unusedEggs.LastOrDefault() : unusedEggs.FirstOrDefault();
+
+
                         // When you're down to your last incubator, prefer 2km then 10km then 5km so you
                         // can clean out smaller eggs first.
-                        if (incubator.ItemId == ItemId.ItemIncubatorBasicUnlimited && incubators.Count == 1 && egg.EggKmWalkedTarget < 10)
-                        {
-                            egg = unusedEggs.FirstOrDefault();
-                        }
+                        //if (incubator.ItemId == ItemId.ItemIncubatorBasicUnlimited && incubators.Count == 1 && egg.EggKmWalkedTarget < 10)
+                        //{
+                        //    egg = unusedEggs.FirstOrDefault();
+                        //}
 
                         if (egg == null)
                             return;
@@ -2529,7 +2534,6 @@ namespace PokemonGo.RocketAPI.Logic
                         if (egg.EggKmWalkedTarget < 5 && incubator.ItemId != ItemId.ItemIncubatorBasicUnlimited)
                             continue;
 
-                        if (ClientSettings.EggsAscendingSelection){
                             if(ClientSettings.No2kmEggs)
                             {
                                 if (egg.EggKmWalkedTarget == 2)
@@ -2547,28 +2551,7 @@ namespace PokemonGo.RocketAPI.Logic
                                 if (egg.EggKmWalkedTarget == 10)
                                     return;
                             }
-                        }
-                        else{
-                            if(ClientSettings.No10kmEggs)
-                            {
-                                if (egg.EggKmWalkedTarget == 10)
-                                    return;
-                            }
-                            if(ClientSettings.No5kmEggs)
-                            {
-                                if(egg.EggKmWalkedTarget == 5)
-                                {
-                                    return;
-                                }
-                            }
-                            if(ClientSettings.No2kmEggs)
-                            {
-                                if (egg.EggKmWalkedTarget == 2)
-                                    return;
-                            }
-                        }
 
-                        
 
                         var response = await Client.Inventory.UseItemEggIncubator(incubator.Id, egg.Id);
                         unusedEggs.Remove(egg);
