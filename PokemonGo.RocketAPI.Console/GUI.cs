@@ -345,6 +345,11 @@ namespace PokemonGo.RocketAPI.Console
                     checkBox_10kmEggs.Checked = config.No10kmEggs;
                     checkBox_2kmEggs.Checked = config.No2kmEggs;
                     checkBox_5kmEggs.Checked = config.No5kmEggs;
+                    if (config.EggsAscendingSelection)
+                        rbSOEggsAscending.Checked = true;
+                    else
+                        rbSOEggsDescending.Checked = true;
+                        
 
                     // tab 5 proxy
 
@@ -717,6 +722,7 @@ namespace PokemonGo.RocketAPI.Console
             Globals.No2kmEggs = checkBox_2kmEggs.Checked;
             Globals.No5kmEggs = checkBox_5kmEggs.Checked;
             Globals.No10kmEggs = checkBox_10kmEggs.Checked;
+            Globals.EggsAscendingSelection = rbSOEggsAscending.Checked;
 
             // tab  - Proxy
             /*
@@ -1067,9 +1073,11 @@ namespace PokemonGo.RocketAPI.Console
             checkBox_EnablePokemonListGui.Text = TranslationHandler.GetString("enablePokemonListGUI", "Enable Pokemon List GUI");
             checkBox_KeepPokemonWhichCanBeEvolved.Text = TranslationHandler.GetString("keepPokemonWhichCanBeEvolved", "Keep Pokemons which can be evolved");
             checkBox_AutoIncubate.Text = TranslationHandler.GetString("autoIncubate", "Auto incubate");
-            checkBox_10kmEggs.Text = TranslationHandler.GetString("10kmEggs", "Don't Use 10 Km Eggs");
-            checkBox_5kmEggs.Text = TranslationHandler.GetString("5kmEggs", "Don't Use 5 Km Eggs");
-            checkBox_2kmEggs.Text = TranslationHandler.GetString("2kmEggs", "Don't Use 2 Km Eggs");
+            checkBox_2kmEggs.Text = TranslationHandler.GetString("2kmEggs", "2 Km");
+            checkBox_5kmEggs.Text = TranslationHandler.GetString("5kmEggs", "5 Km");
+            checkBox_10kmEggs.Text = TranslationHandler.GetString("10kmEggs", "10 Km");
+            rbSOEggsAscending.Text = TranslationHandler.GetString("AscendingEggs", "Ascending (2 Km first)"); 
+            rbSOEggsDescending.Text = TranslationHandler.GetString("DescendingEggs", "Descending (10 Km first)"); 
             checkBox_UseBasicIncubators.Text = TranslationHandler.GetString("useBasicIncubators", "Use basic incubators");
             checkbox_PWDEncryption.Text = TranslationHandler.GetString("pwdEncryption", "Encrypt password on config file");
         }

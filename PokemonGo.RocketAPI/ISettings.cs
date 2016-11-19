@@ -168,5 +168,6 @@ namespace PokemonGo.RocketAPI
         bool No10kmEggs { get; set; }
         bool No5kmEggs { get; set; }
         bool No2kmEggs { get; set; }
+        bool EggsAscendingSelection { get; set; }
     }
 }

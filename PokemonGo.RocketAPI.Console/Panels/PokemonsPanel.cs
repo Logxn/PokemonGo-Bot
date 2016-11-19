@@ -130,6 +130,7 @@ namespace PokemonGo.RocketAPI.Console
                     var myPokemonFamilies = inventory.InventoryDelta.InventoryItems.Select(i => i.InventoryItemData?.Candy).Where(p => p != null && p?.FamilyId != PokemonFamilyId.FamilyUnset);
                     var pokemonFamilies = myPokemonFamilies.ToArray();
                     PokemonListView.BeginUpdate();
+                    PokemonListView.Items.Clear();
                     
                     foreach (var pokemon in pokemons)
                     {
@@ -235,7 +236,6 @@ namespace PokemonGo.RocketAPI.Console
 
         private void btnReload_Click(object sender, EventArgs e)
         {
-            PokemonListView.Items.Clear();
             init();
             Execute();
         }
@@ -408,7 +408,6 @@ namespace PokemonGo.RocketAPI.Console
 
             if (evolved > 0)
             {
-                PokemonListView.Items.Clear();
                 Execute();
             }
             else
@@ -508,7 +507,6 @@ namespace PokemonGo.RocketAPI.Console
                 MessageBox.Show("Succesfully powered up " + powerdup + "/" + total + " Pokemons.", "Transfer status", MessageBoxButtons.OK, MessageBoxIcon.Information);
             if (powerdup > 0)
             {
-                PokemonListView.Items.Clear();
                 Execute();
             }
             else
@@ -715,7 +713,6 @@ namespace PokemonGo.RocketAPI.Console
             }
             if (resp.Status)
             {
-                PokemonListView.Items.Clear();
                 Execute();
             }
             else
@@ -751,7 +748,6 @@ namespace PokemonGo.RocketAPI.Console
             }
             if (resp.Status)
             {
-                PokemonListView.Items.Clear();
                 Execute();
             }
             else
@@ -823,7 +819,6 @@ namespace PokemonGo.RocketAPI.Console
 
         private void reloadtimer_Tick(object sender, EventArgs e)
         {
-            PokemonListView.Items.Clear();
             Execute();
         }
 
@@ -895,7 +890,6 @@ namespace PokemonGo.RocketAPI.Console
                 }
                 if (poweredup > 0 && i == 1)
                 {
-                    PokemonListView.Items.Clear();
                     Execute();
                 }
             }

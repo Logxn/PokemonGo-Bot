@@ -2529,22 +2529,42 @@ namespace PokemonGo.RocketAPI.Logic
                         if (egg.EggKmWalkedTarget < 5 && incubator.ItemId != ItemId.ItemIncubatorBasicUnlimited)
                             continue;
 
-                        
-                        if(ClientSettings.No10kmEggs)
-                        {
-                            if (egg.EggKmWalkedTarget == 10)
-                                return;
-                        }
-                        if(ClientSettings.No2kmEggs)
-                        {
-                            if (egg.EggKmWalkedTarget == 2)
-                                return;
-                        }
-                        if(ClientSettings.No5kmEggs)
-                        {
-                            if(egg.EggKmWalkedTarget == 5)
+                        if (ClientSettings.EggsAscendingSelection){
+                            if(ClientSettings.No2kmEggs)
                             {
-                                return;
+                                if (egg.EggKmWalkedTarget == 2)
+                                    return;
+                            }
+                            if(ClientSettings.No5kmEggs)
+                            {
+                                if(egg.EggKmWalkedTarget == 5)
+                                {
+                                    return;
+                                }
+                            }
+                            if(ClientSettings.No10kmEggs)
+                            {
+                                if (egg.EggKmWalkedTarget == 10)
+                                    return;
+                            }
+                        }
+                        else{
+                            if(ClientSettings.No10kmEggs)
+                            {
+                                if (egg.EggKmWalkedTarget == 10)
+                                    return;
+                            }
+                            if(ClientSettings.No5kmEggs)
+                            {
+                                if(egg.EggKmWalkedTarget == 5)
+                                {
+                                    return;
+                                }
+                            }
+                            if(ClientSettings.No2kmEggs)
+                            {
+                                if (egg.EggKmWalkedTarget == 2)
+                                    return;
                             }
                         }
 
