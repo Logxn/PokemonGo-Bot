@@ -2496,6 +2496,24 @@ namespace PokemonGo.RocketAPI.Logic
             }
             return ret;
         }
+        
+        private List<POGOProtos.Data.PokemonData> eggsHatchingAllowedBasicInc(List<POGOProtos.Data.PokemonData> eggs)
+        {
+            var ret = new List<POGOProtos.Data.PokemonData> (eggs);
+            if(ClientSettings.No2kmEggsBasicInc)
+            {
+                ret = ret.Where(x => x.EggKmWalkedTarget !=2).ToList();
+            }
+            if(ClientSettings.No5kmEggsBasicInc)
+            {
+                ret = ret.Where(x => x.EggKmWalkedTarget !=5).ToList();
+            }
+            if(ClientSettings.No10kmEggsBasicInc)
+            {
+                ret = ret.Where(x => x.EggKmWalkedTarget !=10).ToList();
+            }
+            return ret;
+        }
 
         private async Task StartIncubation()
         {
@@ -2522,7 +2540,9 @@ namespace PokemonGo.RocketAPI.Logic
                 var logs = Path.Combine(logPath, "EggLog.txt");
                 var date = DateTime.Now.ToString();
 
+                var unusedEggsBasicInc = eggsHatchingAllowedBasicInc(unusedEggs); 
                 unusedEggs = eggsHatchingAllowed(unusedEggs);
+                
 
                 foreach (var incubator in rememberedIncubators)
                 {
@@ -2537,7 +2557,7 @@ namespace PokemonGo.RocketAPI.Logic
                     Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, "Egg hatched and we got a " + hatched.PokemonId + " CP: " + hatched.Cp + " MaxCP: " + PokemonInfo.CalculateMaxCP(hatched) + " Level: " + PokemonInfo.GetLevel(hatched) + " IV: " + PokemonInfo.CalculatePokemonPerfection(hatched).ToString("0.00") + "%");
                 }
 
-                if (unusedEggs.Count < 1)
+                if ((unusedEggs.Count < 1) && (unusedEggs.Count < 1))
                 {
                     Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, "There is not Allowed Eggs to hatch");
                     return;
@@ -2555,17 +2575,24 @@ namespace PokemonGo.RocketAPI.Logic
                              && ( ! ClientSettings.UseBasicIncubators) )
                             continue;
 
-                        POGOProtos.Data.PokemonData egg = ClientSettings.EggsAscendingSelection ? unusedEggs.FirstOrDefault() : unusedEggs.LastOrDefault();
+                        POGOProtos.Data.PokemonData egg;
+                        if (incubator.ItemId == ItemId.ItemIncubatorBasic) 
+                            egg = ClientSettings.EggsAscendingSelectionBasicInc ? unusedEggsBasicInc.FirstOrDefault() : unusedEggsBasicInc.LastOrDefault();
+                        else 
+                            egg = ClientSettings.EggsAscendingSelection ? unusedEggs.FirstOrDefault() : unusedEggs.LastOrDefault();
 
                         // If there is not eggs then we finish this function
                         if (egg == null)
                             return;
 
                         var response = await Client.Inventory.UseItemEggIncubator(incubator.Id, egg.Id);
-                        unusedEggs.Remove(egg);
+                        try{
+                            unusedEggs.Remove(egg);
+                            unusedEggsBasicInc.Remove(egg);
+                        } catch (Exception e){
 
+                        }
                         newRememberedIncubators.Add(new IncubatorUsage { IncubatorId = incubator.Id, PokemonId = egg.Id });
-
                         Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, "Added Egg which needs " + egg.EggKmWalkedTarget + "km");
                         // We need some sleep here or this shit explodes
                         await RandomHelper.RandomDelay(100, 200);
