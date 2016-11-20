@@ -1461,6 +1461,28 @@ namespace PokemonGo.RocketAPI.Logic
                     Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "==================================================================");
                 }
 
+                switch (fortSearch.Result.ToString())
+                {
+                    case "NoResultSet":
+                        Logger.ColoredConsoleWrite(ConsoleColor.Red, "Pokestop Error: We did not recieve a result from the pokestop.");
+                        break;
+                    case "Success":
+                        // It already showed our pokestop Information
+                        break;
+                    case "OutOfRange":
+                        Logger.ColoredConsoleWrite(ConsoleColor.Red, "Pokestop Error: The pokestop is out of range!");
+                        break;
+                    case "InCooldownPeriod":
+                        Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "Pokestop Warning: The current Pokestop is in the cooldown period.");
+                        break;
+                    case "InventoryFull":
+                        Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "Pokestop Warning: Your Inventory is full. You did not recieve any items.");
+                        break;
+                    case "ExceededDailyLimit":
+                        Logger.ColoredConsoleWrite(ConsoleColor.Red, "Pokestop Error: You are above your daily limit of pokestops! You should stop farming pokestops.");
+                        break;
+                }
+
                 count++;
 
                 var pokeStopInfo = $"{fortInfo.Name}{Environment.NewLine}Visited:{DateTime.Now.ToString("HH:mm:ss")}{Environment.NewLine}";
@@ -1536,6 +1558,8 @@ namespace PokemonGo.RocketAPI.Logic
                         }
 
                         Telegram?.sendInformationText(TelegramUtil.TelegramUtilInformationTopics.Pokestop, fortInfo.Name, fortSearch.ExperienceAwarded, eggs, fortSearch.GemsAwarded, StringUtils.GetSummedFriendlyNameOfItemAwardList(fortSearch.ItemsAwarded));
+
+                       
                     }
                 }
 
