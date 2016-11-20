@@ -18,6 +18,7 @@ namespace PokemonGo.RocketAPI.Logic
         private readonly Client _session;
         private int _retryCount;
         public static Player _player;
+        public static ISettings _settings;
         
 
         public ApiFailureStrat(Client session)
@@ -135,7 +136,26 @@ namespace PokemonGo.RocketAPI.Logic
         }
         public void HandleApiSuccess(RequestEnvelope request, ResponseEnvelope response)
         {
+            
             _retryCount = 0;
+
+                /*Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Accuracy: {request.Accuracy}");
+                //Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"--------------[AUTH INFO]-------------");
+                //Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Auth Provider: {request.AuthInfo.Provider}");
+                //Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Auth Token: {request.AuthInfo.Token}");
+                Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"------------[AUTHTICKET INFO]------------");
+                Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"AuthTicket End: {request.AuthTicket.End}");
+                Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"AuthTicket Expire (MS): {request.AuthTicket.ExpireTimestampMs}");
+                Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"AuthTicket Start: {request.AuthTicket.Start}");
+                Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"-----------------------------------------");
+                Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Latitude: {request.Latitude}");
+                Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Longitude: {request.Longitude}");
+                Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Milliseconds SinceLastLocationFix: {request.MsSinceLastLocationfix}");
+                Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"PlatformRequests: {request.PlatformRequests}");
+                Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"RequestId: {request.RequestId}");
+                Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Requests: {request.Requests}");
+                Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Status Code: {request.StatusCode}");*/
+            
         }
 
         public async Task<ApiOperation> HandleApiFailure(RequestEnvelope request, ResponseEnvelope response)
