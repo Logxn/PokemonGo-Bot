@@ -795,6 +795,29 @@ namespace PokemonGo.RocketAPI.Console
             get { return Globals.EggsAscendingSelection; }
             set { Globals.EggsAscendingSelection = value; }
         }
+        public bool No2kmEggsBasicInc
+        {
+            get { return Globals.No2kmEggsBasicInc; }
+            set { Globals.No2kmEggsBasicInc = value; }
+        }
+
+        public bool No5kmEggsBasicInc
+        {
+            get { return Globals.No5kmEggsBasicInc; }
+            set { Globals.No5kmEggsBasicInc = value; }
+        }
+
+        public bool No10kmEggsBasicInc
+        {
+            get { return Globals.No10kmEggsBasicInc; }
+            set { Globals.No10kmEggsBasicInc = value; }
+        }
+        
+        public bool EggsAscendingSelectionBasicInc
+        {
+            get { return Globals.EggsAscendingSelectionBasicInc; }
+            set { Globals.EggsAscendingSelectionBasicInc = value; }
+        }
 
         public bool EnableVerboseLogging
         {
