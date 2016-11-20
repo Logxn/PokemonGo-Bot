@@ -65,7 +65,7 @@ namespace PokemonGo.RocketAPI.Console
 	                listViewItem = new ListViewItem();
 	                listViewItem.Tag = item;
 	                listViewItem.Text = ""+item.EggKmWalkedStart;
-	               	listViewItem.ImageKey = "egg";
+	                listViewItem.ImageKey = "" +(item.EggKmWalkedTarget - item.EggKmWalkedStart)+"km";
 	               	
 	               	//EggIncubator incubator = (incubators.Where(i => i.Id == item.EggIncubatorId));
 	               	EggIncubator incubator = GetIncubator( incubators, item.EggIncubatorId);
