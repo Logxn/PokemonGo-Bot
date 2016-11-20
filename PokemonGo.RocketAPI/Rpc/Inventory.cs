@@ -287,6 +287,16 @@ namespace PokemonGo.RocketAPI.Rpc
             return await PostProtoPayload<Request, SetFavoritePokemonResponse>(RequestType.SetFavoritePokemon, message);
         }
 
+        public async Task<SetBuddyPokemonResponse> SetBuddyPokemon(ulong pokemonId)
+        {
+            var message = new SetBuddyPokemonMessage()
+            {
+                PokemonId = pokemonId
+            };
+
+            return await PostProtoPayload<Request, SetBuddyPokemonResponse>(RequestType.SetBuddyPokemon, message);
+        }
+
         public async Task<IEnumerable<PlayerStats>> GetPlayerStats()
         {
             var inv = await GetInventory();

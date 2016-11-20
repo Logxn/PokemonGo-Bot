@@ -145,7 +145,12 @@ namespace PokemonGo.RocketAPI.Console
                         listViewItem.SubItems.Add(string.Format("{0}% {1}-{2}-{3}", PokemonInfo.CalculatePokemonPerfection(pokemon).ToString("0"), pokemon.IndividualAttack, pokemon.IndividualDefense, pokemon.IndividualStamina));
                         listViewItem.SubItems.Add(string.Format("{0}", PokemonInfo.GetLevel(pokemon)));
                         listViewItem.ImageKey = pokemon.PokemonId.ToString();
-                        listViewItem.Text = string.Format((pokemon.Favorite == 1) ? "{0} ★" : "{0}", StringUtils.getPokemonNameByLanguage(ClientSettings, (PokemonId)pokemon.PokemonId));
+                        var specSymbol ="";
+                        if  (pokemon.Favorite == 1) 
+                            specSymbol = "★";
+                        if (profile.PlayerData.BuddyPokemon.Id == pokemon.Id)
+                            specSymbol = "☉";
+                        listViewItem.Text = specSymbol + StringUtils.getPokemonNameByLanguage(ClientSettings, (PokemonId)pokemon.PokemonId);
 
                         listViewItem.ToolTipText = StringUtils.ConvertTimeMSinString(pokemon.CreationTimeMs,"dd/MM/yyyy HH:mm:ss");
                         if (pokemon.Nickname != "")
@@ -687,6 +692,31 @@ namespace PokemonGo.RocketAPI.Console
             return resp;
         }
 
+        private static async Task<taskResponse> changeBuddy(PokemonData pokemon)
+        {
+            taskResponse resp = new taskResponse(false, string.Empty);
+            try
+            {
+                var response = await client.Inventory.SetBuddyPokemon(pokemon.Id);
+
+                if (response.Result == SetBuddyPokemonResponse.Types.Result.Success)
+                {
+                    resp.Status = true;
+                }
+                else
+                {
+                    resp.Message = pokemon.PokemonId.ToString();
+                }
+            }
+            catch (Exception e)
+            {
+                Logger.ColoredConsoleWrite(ConsoleColor.Red, "Error Change Buddy: " + e.Message);
+                await changeBuddy(pokemon);
+            }
+            return resp;
+        }
+
+        
         private void contextMenuStrip1_Opening(object sender, System.ComponentModel.CancelEventArgs e)
         {
             if (PokemonListView.SelectedItems.Count > 0 && PokemonListView.SelectedItems[0].Checked)
@@ -796,10 +826,15 @@ namespace PokemonGo.RocketAPI.Console
             }
             if (resp.Status)
             {
-                PokemonListView.SelectedItems[0].Text = string.Format((pokemon.Favorite == 1) ? "{0} ★" : "{0}", StringUtils.getPokemonNameByLanguage(ClientSettings, (PokemonId)pokemon.PokemonId));
+                var specSymbol ="";
+                if  (pokemon.Favorite == 1) 
+                    specSymbol = "★";
+                if (profile.PlayerData.BuddyPokemon.Id == pokemon.Id)
+                    specSymbol = "☉";
+                PokemonListView.SelectedItems[0].Text = specSymbol + StringUtils.getPokemonNameByLanguage(ClientSettings, (PokemonId)pokemon.PokemonId);
             }
             else
-                MessageBox.Show(resp.Message + " rename failed!", "Rename Status", MessageBoxButtons.OK);
+                MessageBox.Show(resp.Message + " change favourites failed!", "Change favourites Status", MessageBoxButtons.OK);
         }
 
         private void checkboxReload_CheckedChanged(object sender, EventArgs e)
@@ -1138,10 +1173,33 @@ namespace PokemonGo.RocketAPI.Console
             Globals.UseIncenseGUIClick = true;
         }
 
-        private void PokemonsPanel_Load(object sender, EventArgs e)
+        private async void changeBuddyToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            var pokemon = (PokemonData)PokemonListView.SelectedItems[0].Tag;
+            taskResponse resp = new taskResponse(false, string.Empty);
 
+            string poname = StringUtils.getPokemonNameByLanguage(ClientSettings, (PokemonId)pokemon.PokemonId);
+            if (MessageBox.Show(this, poname + " will be put as your buddy." + "\nAre you sure you want?", "Confirmation Message", MessageBoxButtons.OKCancel) == DialogResult.OK)
+            {
+                resp = await changeFavourites(pokemon);
+            }
+            else
+            {
+                return;
+            }
+            if (resp.Status)
+            {
+                var specSymbol ="";
+                if  (pokemon.Favorite == 1)
+                    specSymbol = "★";
+                if (profile.PlayerData.BuddyPokemon.Id == pokemon.Id)
+                    specSymbol = "☉";
+                PokemonListView.SelectedItems[0].Text = specSymbol + StringUtils.getPokemonNameByLanguage(ClientSettings, (PokemonId)pokemon.PokemonId);
+            }
+            else
+                MessageBox.Show(resp.Message + " change buddy failed!", "Change Buddy Status", MessageBoxButtons.OK);
         }
+
     }
 
 }
