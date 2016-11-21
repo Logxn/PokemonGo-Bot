@@ -162,7 +162,9 @@ namespace PokemonGo.RocketAPI.Console
 		    this.imageList.TransparentColor = System.Drawing.Color.Transparent;
 		    this.imageList.Images.SetKeyName(0, "bincegg");
 		    this.imageList.Images.SetKeyName(1, "unincegg");
-		    this.imageList.Images.SetKeyName(2, "egg");
+		    this.imageList.Images.SetKeyName(2, "10km");
+		    this.imageList.Images.SetKeyName(3, "5km");
+		    this.imageList.Images.SetKeyName(4, "2km");
 		    // 
 		    // EggsPanel
 		    // 
