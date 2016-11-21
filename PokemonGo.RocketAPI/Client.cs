@@ -94,15 +94,16 @@ namespace PokemonGo.RocketAPI
 
             InventoryLastUpdateTimestamp = 0;
 
-            /*AppVersion = 4303;
+
+            /*AppVersion = 4500;
             SettingsHash = "";
 
-            CurrentApiEmulationVersion = new Version("0.43.3");*/
+            CurrentApiEmulationVersion = new Version("0.45.0");*/
 
-            AppVersion = 4500;
+            AppVersion = 4701;
             SettingsHash = "";
 
-            CurrentApiEmulationVersion = new Version("0.45.0");
+            CurrentApiEmulationVersion = new Version("0.47.1");
         }
 
 
