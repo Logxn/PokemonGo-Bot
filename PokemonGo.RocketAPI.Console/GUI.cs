@@ -116,8 +116,8 @@ namespace PokemonGo.RocketAPI.Console
                     pokeIDS[pokemon.ToString()] = i;
                     checkedListBox_PokemonNotToTransfer.Items.Add(pokemon.ToString());
                     checkedListBox_PokemonNotToCatch.Items.Add(pokemon.ToString());
-                    if (!(evolveBlacklist.Contains(i)))
-                    {
+                   if (!(evolveBlacklist.Contains(i)))
+                  {
                         checkedListBox_PokemonToEvolve.Items.Add(pokemon.ToString());
                         evolveIDS[pokemon.ToString()] = ev;
                         ev++;
@@ -187,8 +187,7 @@ namespace PokemonGo.RocketAPI.Console
             currVer.Text = currVersion.ToString();
             ver.Text = $"Version: {currVersion}";
             newVer.Text = newestVersion.ToString();
-
-
+            
             if (Program.getNewestVersion() > Assembly.GetExecutingAssembly().GetName().Version)
             {
                 if (checkbox_AutoUpdate.Checked)
@@ -198,7 +197,7 @@ namespace PokemonGo.RocketAPI.Console
                 }
                 else
                 {
-                    DialogResult dialogResult = MessageBox.Show("There is an Update on Github. do you want to open it ?", $"Newest Version: {newestVersion}", MessageBoxButtons.YesNo);
+                    DialogResult dialogResult = MessageBox.Show(TranslationHandler.GetString("message011", "There is an Update on Github. do you want to open it ?\nNewest Version: "), $"{newestVersion}", MessageBoxButtons.YesNo);
                     if (dialogResult == DialogResult.Yes)
                         Process.Start("https://github.com/Ar1i/PokemonGo-Bot");
                     else if (dialogResult == DialogResult.No)
@@ -406,25 +405,40 @@ namespace PokemonGo.RocketAPI.Console
                     checkbox_checkWhileRunning.Checked = config.CheckWhileRunning;
                     langSelected = config.SelectedLanguage;
 
+//  langSelected = (string)clicked.Tag;
+// ajout zepoux 20/11/2016
+                    if (!string.IsNullOrWhiteSpace(langSelected))
+                    {
+                        if (langSelected == "en")
+                            TranslationHandler.SelectLangauge(null);
+                        else
+                            TranslationHandler.SelectLangauge(langSelected);
+                        load_lang();
+                    }
+                    else
+                    {
+                        throw new MissingFieldException(TranslationHandler.GetString("message001", "Every language buttons needs to have as Tag field the language key"));
+                    }
+//end ajout
                     // Dev Options
                     checkbox_Verboselogging.Checked = config.EnableVerboseLogging;
 
                     var success = LoadGlobals(false);
                     if (!success)
                     {
-                        MessageBox.Show("Loading Config failed - Check settings before running!");
+                        MessageBox.Show(TranslationHandler.GetString("message002", "Loading Config failed - Check settings before running!"));
                     }
                 }
                 else
                 {
-                    Exception e = new Exception("Loading Defaults");
+                    Exception e = new Exception(TranslationHandler.GetString("message003", "Loading Defaults"));
                     throw e;
                 }
             }
             catch (Exception e)
             {
                 if (!e.Message.Contains("Loading Defaults") && Globals.FirstLoad)
-                    MessageBox.Show("Loading Config failed - Check settings before running!");
+                    MessageBox.Show(TranslationHandler.GetString("message002", "Loading Config failed - Check settings before running!"));
 
                 text_Latidude.Text = "40,764883";
                 text_Longitude.Text = "-73,972967";
@@ -451,7 +465,7 @@ namespace PokemonGo.RocketAPI.Console
                 var success = LoadGlobals(false);
                 if (!success)
                 {
-                    MessageBox.Show("Loading Config failed - Check settings before running!");
+                    MessageBox.Show(TranslationHandler.GetString("message002", "Loading Config failed - Check settings before running!"));
                 }
             }
             if (File.Exists(Program.lastcords))
@@ -547,7 +561,8 @@ namespace PokemonGo.RocketAPI.Console
             selectedCoords = selectedCoords.Replace(",",".");
             if (selectedCoords.Equals(NEW_YORK_COORS))
             {
-                var ret = MessageBox.Show("Have you set correctly your location? (It seems like you are using default coords. This can lead to an auto-ban from niantic)", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                var ret = MessageBox.Show(TranslationHandler.GetString("message004", "Have you set correctly your location? (It seems like you are using default coords. This can lead to an auto-ban from niantic)"),
+                   TranslationHandler.GetString("message005", "Warning"), MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                 if (ret == DialogResult.No)
                 {
                     return;
@@ -557,7 +572,7 @@ namespace PokemonGo.RocketAPI.Console
             {
                 Dispose();
             }else
-                MessageBox.Show("Please Review Red Boxes Before Start");
+                MessageBox.Show(TranslationHandler.GetString("activeprofile_nok", "Please Review Red Boxes Before Start"));
 
         }
 
@@ -676,6 +691,7 @@ namespace PokemonGo.RocketAPI.Console
             {
                 Globals.NotToSnipe.Add((PokemonId)Enum.Parse(typeof(PokemonId), pokemon));
             }
+
             // bot settings
             Globals.transfer = checkBox_AutoTransferDoublePokemon.Checked;
             Globals.TransferFirstLowIV = checkBox_TransferFirstLowIV.Checked;
@@ -749,14 +765,21 @@ namespace PokemonGo.RocketAPI.Console
             */
 
             // tab 6 - Walk
+  
             ret &= textBoxToGlobalDouble(text_Speed);
             if ((makePrompts) && (Globals.speed > 15 && Globals.FirstLoad))
             {
                 var speed = Globals.speed;
-                var dialogResult = MessageBox.Show("The risk of being banned is significantly greater when using higher than human jogging speeds (e.g. > 15km/hr) Click 'No' to use ~10km/hr instead", $"Are you sure you wish to set your speed to {speed} ?", MessageBoxButtons.YesNo);
+
+                var vitesse = TranslationHandler.GetString("message007", "Are you sure you wish to set your speed to {speed} Kms ?");
+                vitesse = vitesse.Replace("{speed}", speed.ToString());
+
+                var dialogResult = MessageBox.Show(TranslationHandler.GetString("message006", "The risk of being banned is significantly greater when using higher than human jogging speeds (e.g. > 15km/hr) Click 'No' to use ~10km/hr instead"),
+                      vitesse , MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                 if (dialogResult == DialogResult.No)
                     Globals.speed = double.Parse("9.5", cords, NumberFormatInfo.InvariantInfo);
-            }
+                    
+            } 
 
             var value = text_MinWalkSpeed.Text;
             if (value != String.Empty)
@@ -817,7 +840,7 @@ namespace PokemonGo.RocketAPI.Console
             Globals.SnipePokemon = SnipePokemonPokeCom.Checked;
             if ((makePrompts) && (Globals.SnipePokemon && !Globals.FirstLoad))
             {
-                DialogResult result = MessageBox.Show("Sniping has not been tested yet. It could get you banned. Do you want to continue?", "Info", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
+                DialogResult result = MessageBox.Show(TranslationHandler.GetString("message008", "Sniping has not been tested yet. It could get you banned. Do you want to continue?"), "Info", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
                 if (result == DialogResult.OK)
                     Globals.SnipePokemon = true;
                 else
@@ -1014,7 +1037,7 @@ namespace PokemonGo.RocketAPI.Console
                 }
                 if (throwsChanceSum > 100)
                 {
-                    MessageBox.Show("You can not have a total throw chance greater than 100%.\nResetting all throw chances to 25%!");
+                    MessageBox.Show(TranslationHandler.GetString("message009", "You can not have a total throw chance greater than 100%.\nResetting all throw chances to 25%!"));
                     text_Pb_Excellent.Text = "25";
                     text_Pb_Great.Text = "25";
                     text_Pb_Nice.Text = "25";
@@ -1100,7 +1123,22 @@ namespace PokemonGo.RocketAPI.Console
             rbSOEggsAscendingBasicInc.Text = TranslationHandler.GetString("AscendingEggs", "Ascending (2 Km first)"); 
             rbSOEggsDescendingBasicInc.Text = TranslationHandler.GetString("DescendingEggs", "Descending (10 Km first)"); 
             checkBox_UseBasicIncubators.Text = TranslationHandler.GetString("useBasicIncubators", "Use basic incubators");
-            checkbox_PWDEncryption.Text = TranslationHandler.GetString("pwdEncryption", "Encrypt password on config file");
+
+            // ajout zepoux 20/11/2016
+            checkBox_UseLuckyEggIfNotRunning.Text       = TranslationHandler.GetString("checkBox_UseLuckyEggIfNotRunning", "Use LuckyEgg if not running");
+            checkbox_PWDEncryption.Text                 = TranslationHandler.GetString("pwdEncryption", "Encrypt password on config file");
+            button2.Text                                = TranslationHandler.GetString("button2", "Save Profile");
+            groupBoxAccount.Text                        = TranslationHandler.GetString("groupBoxAccount", "Account Info");
+            label21.Text                                = TranslationHandler.GetString("label21", "Account Profile:");
+            label26.Text                                = TranslationHandler.GetString("label26", "Profile Name:");
+            label30.Text                                = TranslationHandler.GetString("label30", "If you run more than 1 instance with the same IP, you'll get banned.");
+            label39.Text = TranslationHandler.GetString("label39", "Device: ");
+            button_SetLocation.Text = TranslationHandler.GetString("button_SetLocation", "Set Location");
+            checkBox_SimulateAnimationTimeAtEvolve.Text = TranslationHandler.GetString("checkBox_SimulateAnimationTimeAtEvolve", "Simulate Animation Times at Evolve");
+            tabWalkSettings.Text = TranslationHandler.GetString("tabWalkSettings", "Walk settings");
+
+            // ajout end
+
         }
 
         private void languages_btn_Click(object sender, EventArgs e)
@@ -1132,7 +1170,7 @@ namespace PokemonGo.RocketAPI.Console
                 }
                 else
                 {
-                    throw new MissingFieldException("Every language buttons needs to have as Tag field the language key");
+                    throw new MissingFieldException(TranslationHandler.GetString("message001", "Every language buttons needs to have as Tag field the language key"));
                 }
             }
         }
@@ -1312,7 +1350,7 @@ namespace PokemonGo.RocketAPI.Console
 
         private void button4_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("This will capture pokemons while walking spiral, and will use pokestops which are within 30 meters of the path projected.");
+            MessageBox.Show(TranslationHandler.GetString("message010", "This will capture pokemons while walking spiral, and will use pokestops which are within 30 meters of the path projected."));
         }
 
 
@@ -1326,10 +1364,10 @@ namespace PokemonGo.RocketAPI.Console
 
         private void button2_Click_2(object sender, EventArgs e)
         {
-            if (Save())
-                MessageBox.Show("Current Configuration Saved as - " + ActiveProfile.ProfileName);
+            if (Save()) 
+                MessageBox.Show(TranslationHandler.GetString("activeprofile_ok", "Current Configuration Saved as - ") + ActiveProfile.ProfileName);
             else
-                MessageBox.Show("Please Review Red Boxes Before Save");
+                MessageBox.Show(TranslationHandler.GetString("activeprofile_nok", "Please Review Red Boxes Before Save"));
         }
 
         private void ProfileName_TextChanged(object sender, EventArgs e)
@@ -1370,23 +1408,9 @@ namespace PokemonGo.RocketAPI.Console
             Process.Start("https://github.com/MTK4355/");
         }
 
-        private void checkBox7_CheckedChanged(object sender, EventArgs e)
-        {
-
-        }
         void TextBoxes_TextChanged(object sender, EventArgs e)
         {
             ((TextBox) sender).BackColor = SystemColors.Window;
-        }
-
-        private void tabGeneral_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label30_Click(object sender, EventArgs e)
-        {
-
         }
     }
 }
