@@ -116,8 +116,8 @@ namespace PokemonGo.RocketAPI.Console
                     pokeIDS[pokemon.ToString()] = i;
                     checkedListBox_PokemonNotToTransfer.Items.Add(pokemon.ToString());
                     checkedListBox_PokemonNotToCatch.Items.Add(pokemon.ToString());
-                   if (!(evolveBlacklist.Contains(i)))
-                  {
+                    if (!(evolveBlacklist.Contains(i)))
+                    {
                         checkedListBox_PokemonToEvolve.Items.Add(pokemon.ToString());
                         evolveIDS[pokemon.ToString()] = ev;
                         ev++;
@@ -187,7 +187,8 @@ namespace PokemonGo.RocketAPI.Console
             currVer.Text = currVersion.ToString();
             ver.Text = $"Version: {currVersion}";
             newVer.Text = newestVersion.ToString();
-            
+
+
             if (Program.getNewestVersion() > Assembly.GetExecutingAssembly().GetName().Version)
             {
                 if (checkbox_AutoUpdate.Checked)
@@ -419,7 +420,7 @@ namespace PokemonGo.RocketAPI.Console
                     {
                         throw new MissingFieldException(TranslationHandler.GetString("message001", "Every language buttons needs to have as Tag field the language key"));
                     }
-//end ajout
+                    //end ajout
                     // Dev Options
                     checkbox_Verboselogging.Checked = config.EnableVerboseLogging;
 
@@ -691,7 +692,6 @@ namespace PokemonGo.RocketAPI.Console
             {
                 Globals.NotToSnipe.Add((PokemonId)Enum.Parse(typeof(PokemonId), pokemon));
             }
-
             // bot settings
             Globals.transfer = checkBox_AutoTransferDoublePokemon.Checked;
             Globals.TransferFirstLowIV = checkBox_TransferFirstLowIV.Checked;
@@ -765,12 +765,10 @@ namespace PokemonGo.RocketAPI.Console
             */
 
             // tab 6 - Walk
-  
             ret &= textBoxToGlobalDouble(text_Speed);
             if ((makePrompts) && (Globals.speed > 15 && Globals.FirstLoad))
             {
                 var speed = Globals.speed;
-
                 var vitesse = TranslationHandler.GetString("message007", "Are you sure you wish to set your speed to {speed} Kms ?");
                 vitesse = vitesse.Replace("{speed}", speed.ToString());
 
@@ -778,8 +776,7 @@ namespace PokemonGo.RocketAPI.Console
                       vitesse , MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                 if (dialogResult == DialogResult.No)
                     Globals.speed = double.Parse("9.5", cords, NumberFormatInfo.InvariantInfo);
-                    
-            } 
+            }
 
             var value = text_MinWalkSpeed.Text;
             if (value != String.Empty)
@@ -1097,12 +1094,6 @@ namespace PokemonGo.RocketAPI.Console
             label49.Text = TranslationHandler.GetString("greatChance", "Great chance:");
             label50.Text = TranslationHandler.GetString("niceChance", "Nice chance:");
             label51.Text = TranslationHandler.GetString("ordinaryChance", "Ordinary chance:");
-            groupBox5.Text = TranslationHandler.GetString("pokemonNotToTransfer", "Pokemons - Not to transfer");
-            checkBox4.Text = TranslationHandler.GetString("selectAll", "Select all");
-            groupBox6.Text = TranslationHandler.GetString("pokemonNotToCatch", "Pokemons - Not to catch");
-            checkBox5.Text = TranslationHandler.GetString("selectAll", "Select all");
-            groupBox7.Text = TranslationHandler.GetString("pokemonNotToEvolve", "Pokemons - To envolve");
-            checkBox6.Text = TranslationHandler.GetString("selectAll", "Select all");
             button1.Text = TranslationHandler.GetString("saveConfig", "Save Configuration / Start Bot");
             groupBox10.Text = TranslationHandler.GetString("otherSettings", "Other Settings");
             checkBox_UseLuckyEggAtEvolve.Text = TranslationHandler.GetString("useLuckyeggAtEvolve", "Use LuckyEgg at Evolve");
@@ -1135,7 +1126,26 @@ namespace PokemonGo.RocketAPI.Console
             label39.Text = TranslationHandler.GetString("label39", "Device: ");
             button_SetLocation.Text = TranslationHandler.GetString("button_SetLocation", "Set Location");
             checkBox_SimulateAnimationTimeAtEvolve.Text = TranslationHandler.GetString("checkBox_SimulateAnimationTimeAtEvolve", "Simulate Animation Times at Evolve");
+
+            tabGeneral.Text = TranslationHandler.GetString("tabGeneral", "General");
+
+            tabPokemon.Text = TranslationHandler.GetString("tabPokemon", "Pokemon");
+                    groupBox5.Text = TranslationHandler.GetString("pokemonNotToTransfer", "Pokemons - Not to transfer");
+                    checkBox4.Text = TranslationHandler.GetString("selectAll", "Select all");
+                    groupBox6.Text = TranslationHandler.GetString("pokemonNotToCatch", "Pokemons - Not to catch");
+                    checkBox5.Text = TranslationHandler.GetString("selectAll", "Select all");
+                    groupBox7.Text = TranslationHandler.GetString("pokemonNotToEvolve", "Pokemons - To envolve");
+                    checkBox6.Text = TranslationHandler.GetString("selectAll", "Select all");
+
+            tabThrows.Text = TranslationHandler.GetString("tabThrows", "Throws");
+            tabItems.Text = TranslationHandler.GetString("tabItems", "Items");
+            tabEggs.Text = TranslationHandler.GetString("tabEggs", "Eggs");
+            tabProxies.Text = TranslationHandler.GetString("tabProxies", "Proxies");
             tabWalkSettings.Text = TranslationHandler.GetString("tabWalkSettings", "Walk settings");
+            tabMisc.Text = TranslationHandler.GetString("tabMisc", "Misc");
+            tabUpdates.Text = TranslationHandler.GetString("tabUpdates", "Updates");
+            tabCredits.Text = TranslationHandler.GetString("tabCredits", "Credits");
+
 
             // ajout end
 
