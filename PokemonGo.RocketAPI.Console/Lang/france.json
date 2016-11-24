@@ -29,10 +29,6 @@
   "maxToppotions": "Max: Potions Max",
   "maxRazzberrys": "Max: Baie Framby",
   "totalCount": "Nombre total",
-  "pokemonNotToTransfer": "Pokemon à ne pas Transférer",
-  "selectAll": "Sélectionner tout",
-  "pokemonNotToCatch": "Pokemon à ne pas capturer",
-  "pokemonNotToEvolve": "Pokemon à évoluer",
   "saveConfig": "Enregistrer les paramètres et Lancer le Bot",
   "otherSettings": "Autres paramètres",
   "useLuckyeggAtEvolve": "Utiliser Oeuf Chance pour évoluer",
@@ -44,7 +40,22 @@
 
   // ajout zepoux 20/11/2016 GUI.form
 
-  "tabWalkSettings":  "Parametres marche",
+  "tabGeneral": "Général",
+
+  "tabPokemon": "Pokemon",
+  "pokemonNotToTransfer": "Pokemon à ne pas Transférer",
+  "selectAll": "Sélectionner tout",
+  "pokemonNotToCatch": "Pokemon à ne pas capturer",
+  "pokemonNotToEvolve": "Pokemon à évoluer",
+
+  "tabThrows": "Lancers",
+  "tabItems": "Objets",
+  "tabEggs": "Oeufs",
+  "tabProxies": "Proxys",
+  "tabWalkSettings": "Parametres marche",
+  "tabMisc": "Divers",
+  "tabUpdates": "Mises à jour",
+  "tabCredits": "Remerciments",
 
   "autoIncubate": "Incubation Auto",
   "2kmEggs": "2 Km",
@@ -77,6 +88,8 @@
   "message008": "Le Sniping n'a pas été testé. Vous risquez le ban, desirez vous continuer?",
   "message009": "Vous ne pouvez pas avoir une chance totale de lancer supérieure à 100%. \n Au pire réglez toutes les chances de lancer à 25%!",
   "message010": "Cela permet de capturer les pokemons tout en marchant en spirale, et utilisera les pokestops qui sont à moins de 30 mètres.",
-  "message011": "Une mise à jour est disponible sur Github. Desirez vous l'ouvrir?\nNouvelle Version: "
+  "message011": "Une mise à jour est disponible sur Github. Desirez vous l'ouvrir?\nNouvelle Version: ",
 
+  "Bulbasaur": "Bulbizarre",
+  "Ivysaur": "nawak"
 }
