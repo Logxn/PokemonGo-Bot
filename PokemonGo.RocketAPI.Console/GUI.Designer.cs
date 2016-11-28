@@ -225,6 +225,7 @@ namespace PokemonGo.RocketAPI.Console
             this.text_PokemonCatchLimit = new System.Windows.Forms.TextBox();
             this.label40 = new System.Windows.Forms.Label();
             this.text_TimeToRun = new System.Windows.Forms.TextBox();
+            this.settingsBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.tabMisc = new System.Windows.Forms.TabPage();
             this.groupBox25 = new System.Windows.Forms.GroupBox();
             this.checkbox_Verboselogging = new System.Windows.Forms.CheckBox();
@@ -283,7 +284,6 @@ namespace PokemonGo.RocketAPI.Console
             this.lang_de_btn = new System.Windows.Forms.Button();
             this.lang_en_btn = new System.Windows.Forms.Button();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
-            this.settingsBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.tabProxies.SuspendLayout();
             this.tabItems.SuspendLayout();
             this.groupBox4.SuspendLayout();
@@ -319,6 +319,7 @@ namespace PokemonGo.RocketAPI.Console
             this.groupBox11.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.groupBox12.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.settingsBindingSource)).BeginInit();
             this.tabMisc.SuspendLayout();
             this.groupBox25.SuspendLayout();
             this.groupBox23.SuspendLayout();
@@ -333,7 +334,6 @@ namespace PokemonGo.RocketAPI.Console
             this.groupBox20.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.settingsBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // button1
@@ -975,7 +975,7 @@ namespace PokemonGo.RocketAPI.Console
             // 
             this.checkedListBox_PokemonNotToCatch.CheckOnClick = true;
             this.checkedListBox_PokemonNotToCatch.FormattingEnabled = true;
-            this.checkedListBox_PokemonNotToCatch.Location = new System.Drawing.Point(6, 19);
+            this.checkedListBox_PokemonNotToCatch.Location = new System.Drawing.Point(12, 20);
             this.checkedListBox_PokemonNotToCatch.Name = "checkedListBox_PokemonNotToCatch";
             this.checkedListBox_PokemonNotToCatch.ScrollAlwaysVisible = true;
             this.checkedListBox_PokemonNotToCatch.Size = new System.Drawing.Size(154, 184);
@@ -2494,6 +2494,10 @@ namespace PokemonGo.RocketAPI.Console
             this.text_TimeToRun.Size = new System.Drawing.Size(100, 20);
             this.text_TimeToRun.TabIndex = 42;
             // 
+            // settingsBindingSource
+            // 
+            this.settingsBindingSource.DataSource = typeof(PokemonGo.RocketAPI.Console.Settings);
+            // 
             // tabMisc
             // 
             this.tabMisc.Controls.Add(this.groupBox25);
@@ -3022,7 +3026,7 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // pictureBox3
             // 
-            this.pictureBox3.Image = global::PokemonGo.RocketAPI.Console.Properties.Resources.giphy__1_;
+            this.pictureBox3.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox3.Image")));
             this.pictureBox3.Location = new System.Drawing.Point(0, 59);
             this.pictureBox3.Margin = new System.Windows.Forms.Padding(2);
             this.pictureBox3.Name = "pictureBox3";
@@ -3043,7 +3047,7 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // lang_france_btn
             // 
-            this.lang_france_btn.BackgroundImage = global::PokemonGo.RocketAPI.Console.Properties.Resources.france;
+            this.lang_france_btn.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("lang_france_btn.BackgroundImage")));
             this.lang_france_btn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.lang_france_btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.lang_france_btn.Location = new System.Drawing.Point(192, 79);
@@ -3056,7 +3060,7 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // lang_ru_btn
             // 
-            this.lang_ru_btn.BackgroundImage = global::PokemonGo.RocketAPI.Console.Properties.Resources.ru1;
+            this.lang_ru_btn.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("lang_ru_btn.BackgroundImage")));
             this.lang_ru_btn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.lang_ru_btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.lang_ru_btn.Location = new System.Drawing.Point(162, 79);
@@ -3069,7 +3073,7 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // lang_tr_btn
             // 
-            this.lang_tr_btn.BackgroundImage = global::PokemonGo.RocketAPI.Console.Properties.Resources.tr1;
+            this.lang_tr_btn.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("lang_tr_btn.BackgroundImage")));
             this.lang_tr_btn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.lang_tr_btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.lang_tr_btn.Location = new System.Drawing.Point(132, 79);
@@ -3082,7 +3086,7 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // lang_ptBR_btn
             // 
-            this.lang_ptBR_btn.BackgroundImage = global::PokemonGo.RocketAPI.Console.Properties.Resources.ptBR;
+            this.lang_ptBR_btn.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("lang_ptBR_btn.BackgroundImage")));
             this.lang_ptBR_btn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.lang_ptBR_btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.lang_ptBR_btn.Location = new System.Drawing.Point(102, 79);
@@ -3095,7 +3099,7 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // lang_spain_btn
             // 
-            this.lang_spain_btn.BackgroundImage = global::PokemonGo.RocketAPI.Console.Properties.Resources.spain;
+            this.lang_spain_btn.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("lang_spain_btn.BackgroundImage")));
             this.lang_spain_btn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.lang_spain_btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.lang_spain_btn.Location = new System.Drawing.Point(72, 79);
@@ -3109,7 +3113,7 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // lang_de_btn
             // 
-            this.lang_de_btn.BackgroundImage = global::PokemonGo.RocketAPI.Console.Properties.Resources.de;
+            this.lang_de_btn.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("lang_de_btn.BackgroundImage")));
             this.lang_de_btn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.lang_de_btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.lang_de_btn.Location = new System.Drawing.Point(42, 79);
@@ -3122,7 +3126,7 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // lang_en_btn
             // 
-            this.lang_en_btn.BackgroundImage = global::PokemonGo.RocketAPI.Console.Properties.Resources.en;
+            this.lang_en_btn.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("lang_en_btn.BackgroundImage")));
             this.lang_en_btn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.lang_en_btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.lang_en_btn.Location = new System.Drawing.Point(12, 79);
@@ -3135,7 +3139,7 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // pictureBox2
             // 
-            this.pictureBox2.BackgroundImage = global::PokemonGo.RocketAPI.Console.Properties.Resources.image;
+            this.pictureBox2.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pictureBox2.BackgroundImage")));
             this.pictureBox2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.pictureBox2.Location = new System.Drawing.Point(35, 5);
             this.pictureBox2.Name = "pictureBox2";
@@ -3143,10 +3147,6 @@ namespace PokemonGo.RocketAPI.Console
             this.pictureBox2.TabIndex = 37;
             this.pictureBox2.TabStop = false;
             this.pictureBox2.Click += new System.EventHandler(this.pictureBox2_Click);
-            // 
-            // settingsBindingSource
-            // 
-            this.settingsBindingSource.DataSource = typeof(PokemonGo.RocketAPI.Console.Settings);
             // 
             // GUI
             // 
@@ -3230,6 +3230,7 @@ namespace PokemonGo.RocketAPI.Console
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.groupBox12.ResumeLayout(false);
             this.groupBox12.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.settingsBindingSource)).EndInit();
             this.tabMisc.ResumeLayout(false);
             this.tabMisc.PerformLayout();
             this.groupBox25.ResumeLayout(false);
@@ -3254,7 +3255,6 @@ namespace PokemonGo.RocketAPI.Console
             this.groupBox20.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.settingsBindingSource)).EndInit();
             this.ResumeLayout(false);
 
         }
