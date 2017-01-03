@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Google.Protobuf;
 using PokemonGo.RocketAPI.Enums;
+using PokemonGo.RocketAPI.Hash;
 using PokemonGo.RocketAPI.Exceptions;
 using PokemonGo.RocketAPI.Extensions;
 using PokemonGo.RocketAPI.Helpers;
@@ -23,6 +24,7 @@ namespace PokemonGo.RocketAPI
     public class Client : ICaptchaResponseHandler
     {
         public Rpc.Login Login;
+        public IHasher Hasher;
         public Rpc.Player Player;
         public Rpc.Download Download;
         public Rpc.Inventory Inventory;
@@ -89,6 +91,7 @@ namespace PokemonGo.RocketAPI
             Fort = new Rpc.Fort(this);
             Encounter = new Rpc.Encounter(this);
             Misc = new Rpc.Misc(this);
+            Hasher = new PokefamerHasher(settings.pFHashKey);
 
             Player.SetCoordinates(settings.DefaultLatitude, settings.DefaultLongitude, settings.DefaultAltitude);
 
@@ -99,10 +102,10 @@ namespace PokemonGo.RocketAPI
 
             CurrentApiEmulationVersion = new Version("0.43.3");*/
 
-            AppVersion = 4500;
+            AppVersion = 5120;
             SettingsHash = "";
 
-            CurrentApiEmulationVersion = new Version("0.45.0");
+            CurrentApiEmulationVersion = new Version("0.51.2");
         }
 
 

@@ -15,6 +15,7 @@ namespace PokemonGo.RocketAPI
         /* ===================================[SETTINGS]================================= */
 
         /* AUTHENTICATION */
+        string pFHashKey { get; set; }
         string ProfileName { get; set; }
         bool IsDefault { get; set; }
         AuthType AuthType { get; set; }

@@ -1,5 +1,6 @@
 ﻿using Google.Protobuf;
 using PokemonGo.RocketAPI.Enums;
+using PokemonGo.RocketAPI.Hash;
 using POGOProtos.Networking;
 using POGOProtos.Networking.Envelopes;
 using POGOProtos.Networking.Requests;
@@ -17,6 +18,9 @@ using POGOProtos.Networking.Platform.Requests;
 using Troschuetz.Random;
 using POGOProtos.Enums;
 using System.Text;
+using Newtonsoft.Json;
+using PokemonGo.RocketAPI.Encrypt;
+using System.Threading.Tasks;
 
 namespace PokemonGo.RocketAPI.Helpers
 {
@@ -29,14 +33,14 @@ namespace PokemonGo.RocketAPI.Helpers
         private readonly double _altitude;
         private readonly AuthTicket _authTicket;
         private readonly Client _client;
-        private readonly Crypt _crypt;
+        private readonly NewCrypt _crypt;        
         private readonly float _speed;
         private readonly ISettings _settings;
         private static long Client_4500_Unknown25 = -1553869577012279119;
 
 
         /// Device Shit
-        public static string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Device"); 
+        public static string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Device");
         public static string deviceinfo = Path.Combine(path, "DeviceInfo.txt");
 
         public string DeviceId;
@@ -62,22 +66,23 @@ namespace PokemonGo.RocketAPI.Helpers
         public bool setupdevicedone = false;
 
         public void setUpDevice()
-        { 
-            string[] arrLine = File.ReadAllLines(deviceinfo); 
+        {
+            string[] arrLine = File.ReadAllLines(deviceinfo);
 
-            string DevicePackageName = arrLine[0].ToString(); 
+            string DevicePackageName = arrLine[0].ToString();
             // Read DeviceID of File
             if (arrLine[1].ToString() != " ")
             {
                 DeviceId = arrLine[1].ToString();
-            } else
+            }
+            else
             {
                 DeviceId = RandomString(16, "0123456789abcdef");
                 // Save to file
                 string[] b = { DevicePackageName, DeviceId };
 
                 File.WriteAllLines(deviceinfo, b);
-            } 
+            }
 
             // Setuprest
             AndroidBoardName = DeviceInfoHelper.DeviceInfoSets[DevicePackageName]["AndroidBoardName"];
@@ -92,7 +97,7 @@ namespace PokemonGo.RocketAPI.Helpers
             FirmwareType = DeviceInfoHelper.DeviceInfoSets[DevicePackageName]["FirmwareType"];
             HardwareManufacturer = DeviceInfoHelper.DeviceInfoSets[DevicePackageName]["HardwareManufacturer"];
             HardwareModel = DeviceInfoHelper.DeviceInfoSets[DevicePackageName]["HardwareModel"];
-        
+
             setupdevicedone = true;
         }
 
@@ -127,8 +132,8 @@ namespace PokemonGo.RocketAPI.Helpers
             }
 
             if (_crypt == null)
-                _crypt = new Crypt();
-            
+                _crypt = new NewCrypt();
+
         }
 
         private ByteString SessionHash
@@ -195,7 +200,8 @@ namespace PokemonGo.RocketAPI.Helpers
             IncrementRequestCount();
             return r;
         }
-        private RequestEnvelope.Types.PlatformRequest GenerateSignature(IEnumerable<IMessage> requests)
+        //private RequestEnvelope.Types.PlatformRequest GenerateSignature(IEnumerable<IMessage> requests)
+        private RequestEnvelope.Types.PlatformRequest GenerateSignature(RequestEnvelope requestEnvelope)
         {
             byte[] ticketBytes = _authTicket != null ? _authTicket.ToByteArray() : Encoding.UTF8.GetBytes(_authToken);
 
@@ -226,12 +232,13 @@ namespace PokemonGo.RocketAPI.Helpers
 
             var sig = new Signature
             {
+                //MTKTODO
                 SessionHash = ByteString.CopyFrom(sessionhash_array),
                 Unknown25 = Client_4500_Unknown25, // Could change every Update
                 Timestamp = (ulong)Utils.GetTime(true),
                 TimestampSinceStart = (ulong)(Utils.GetTime(true) - _client.StartTime),
-                LocationHash1 = (int)Utils.GenLocation1(ticketBytes, _latitude, _longitude, _altitude),
-                LocationHash2 = (int)Utils.GenLocation2(_latitude, _longitude, _altitude),
+                //LocationHash1 = (int)Utils.GenerateLocation1(ticketBytes, _latitude, _longitude, _altitude),
+                //LocationHash2 = (int)Utils.GenerateLocation2(_latitude, _longitude, _altitude),
                 DeviceInfo = dInfo
             };
 
@@ -273,23 +280,64 @@ namespace PokemonGo.RocketAPI.Helpers
                 LocationType = 1
             };
 
-            foreach (var request in requests)
-                sig.RequestHash.Add(Utils.GenRequestHash(ticketBytes, request.ToByteArray()));
+            //foreach (var request in requests)
+            //    //MTKTODO
+            //    sig.RequestHash.Add(Utils.GenerateRequestHash(ticketBytes, request.ToByteArray()));
 
 
-            var encryptedSig = new RequestEnvelope.Types.PlatformRequest
+            //var encryptedSig = new RequestEnvelope.Types.PlatformRequest
+            //{
+            //    Type = PlatformRequestType.SendEncryptedSignature,
+            //    RequestMessage = new SendEncryptedSignatureRequest
+            //    {
+            //        EncryptedSignature = ByteString.CopyFrom(PCrypt.Encrypt(sig.ToByteArray(), (uint)_client.StartTime))
+            //    }.ToByteString()
+            //};
+
+            //return encryptedSig;
+
+            string envelopString = JsonConvert.SerializeObject(requestEnvelope);
+
+            HashRequestContent hashRequest = new HashRequestContent()
+            {
+                Latitude = _latitude,
+                Longitude = _longitude,
+                Altitude = _altitude,
+                AuthTicket = ticketBytes,
+                SessionData = SessionHash.ToByteArray(),
+                Requests = new List<byte[]>(),
+                Timestamp = sig.Timestamp
+            };
+
+
+            foreach (var request in requestEnvelope.Requests)
+            {
+                hashRequest.Requests.Add(request.ToByteArray());
+            }
+
+            var res = _client.Hasher.RequestHashesAsync(hashRequest).Result;
+
+            foreach (var item in res.RequestHashes)
+            {
+                sig.RequestHash.Add((unchecked((ulong)item)));
+            }
+            //sig.RequestHash.AddRange(res.RequestHashes.Cast<ulong>().ToList());
+            sig.LocationHash1 = unchecked((int)res.LocationAuthHash);
+            sig.LocationHash2 = unchecked((int)res.LocationHash);
+
+            var encryptedSignature = new RequestEnvelope.Types.PlatformRequest
             {
                 Type = PlatformRequestType.SendEncryptedSignature,
                 RequestMessage = new SendEncryptedSignatureRequest
                 {
-                    EncryptedSignature = ByteString.CopyFrom(PCrypt.Encrypt(sig.ToByteArray(), (uint)_client.StartTime))
+                    EncryptedSignature = ByteString.CopyFrom(_crypt.Encrypt(sig.ToByteArray(), (uint)_client.StartTime))
                 }.ToByteString()
             };
 
-            return encryptedSig;
+            return encryptedSignature;
         }
 
-        public RequestEnvelope GetRequestEnvelope(Request[] customRequests, bool firstRequest = false)
+        public async Task<RequestEnvelope> GetRequestEnvelope(Request[] customRequests, bool firstRequest = false)
         {
 
             TRandom TRandomDevice = new TRandom();
@@ -303,15 +351,16 @@ namespace PokemonGo.RocketAPI.Helpers
                 Longitude = _longitude, //8
                 Accuracy = _altitude, //9
                 AuthTicket = _authTicket, //11
-                MsSinceLastLocationfix = (long)TRandomDevice.Triangular(300,30000, 10000) //12
-                
+                MsSinceLastLocationfix = (long)TRandomDevice.Triangular(300, 30000, 10000) //12
+
             };
 
             if (_authTicket != null && !firstRequest)
             {
                 e.AuthTicket = _authTicket;
-                e.PlatformRequests.Add(GenerateSignature(customRequests));
-            } else
+                e.PlatformRequests.Add(GenerateSignature(e));
+            }
+            else
             {
                 e.AuthInfo = new RequestEnvelope.Types.AuthInfo
                 {
@@ -326,9 +375,9 @@ namespace PokemonGo.RocketAPI.Helpers
             return e;
         }
 
-        public RequestEnvelope GetRequestEnvelope(RequestType type, IMessage message)
+        public async Task<RequestEnvelope> GetRequestEnvelope(RequestType type, IMessage message)
         {
-            return GetRequestEnvelope(new Request[] { new Request
+            return await GetRequestEnvelope(new Request[] { new Request
             {
                 RequestType = type,
                 RequestMessage = message.ToByteString()

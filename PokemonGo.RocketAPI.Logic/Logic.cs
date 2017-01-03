@@ -199,7 +199,7 @@ namespace PokemonGo.RocketAPI.Logic
         public async Task Execute()
         {
             // Check if disabled
-            StringUtils.CheckKillSwitch();
+            //StringUtils.CheckKillSwitch();
 
             Logger.ColoredConsoleWrite(ConsoleColor.Red, "This bot is absolutely free and open-source!");
             Logger.ColoredConsoleWrite(ConsoleColor.Red, "If you've paid for it. Request a chargeback immediately!");
@@ -397,7 +397,7 @@ namespace PokemonGo.RocketAPI.Logic
             client.readyToUse = true;
             
             // Check if disabled
-            StringUtils.CheckKillSwitch();
+            //StringUtils.CheckKillSwitch();
 
             #region Set Stat Variables         
 
@@ -599,7 +599,7 @@ namespace PokemonGo.RocketAPI.Logic
 
                             await WalkWithRouting(ClientSettings.DefaultLatitude, ClientSettings.DefaultLongitude);
 
-                            StringUtils.CheckKillSwitch(true);
+                            //StringUtils.CheckKillSwitch(true);
                         }
                         else
                         {
@@ -685,7 +685,7 @@ namespace PokemonGo.RocketAPI.Logic
 
                         await WalkWithRouting(ClientSettings.DefaultLatitude, ClientSettings.DefaultLongitude);
 
-                        StringUtils.CheckKillSwitch(true);
+                        //StringUtils.CheckKillSwitch(true);
                     }
                 }
 
@@ -707,7 +707,7 @@ namespace PokemonGo.RocketAPI.Logic
 
                         await WalkWithRouting(ClientSettings.DefaultLatitude, ClientSettings.DefaultLongitude);
 
-                        StringUtils.CheckKillSwitch(true);
+                        //StringUtils.CheckKillSwitch(true);
                     }
                 }
 
@@ -732,7 +732,7 @@ namespace PokemonGo.RocketAPI.Logic
                             ClientSettings.WalkingSpeedInKilometerPerHour,
                             ExecuteCatchAllNearbyPokemons);
                     }
-                    StringUtils.CheckKillSwitch(true);
+                    //StringUtils.CheckKillSwitch(true);
                 }
 
                 #endregion
@@ -1972,7 +1972,7 @@ namespace PokemonGo.RocketAPI.Logic
                         if (FailedSoftban > 10)
                         {
                             Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Soft Ban Detected - Stopping Bot to prevent perma-ban. Try again in 4-24 hours and be more careful next time!");
-                            StringUtils.CheckKillSwitch(true);
+                            //StringUtils.CheckKillSwitch(true);
                         }
                     }
                 }

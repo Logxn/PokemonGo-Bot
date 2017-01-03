@@ -109,7 +109,7 @@ namespace PokemonGo.RocketAPI.Extensions
             string url,
             RequestEnvelope requestEnvelope) where TRequest : IMessage<TRequest>
         {
-            //Encode payload and put in envelop, then send
+            //Encode payload and put in envelope, then send
             var data = requestEnvelope.ToByteString();
             var result = await client.PostAsync(url, new ByteArrayContent(data.ToByteArray()));
 

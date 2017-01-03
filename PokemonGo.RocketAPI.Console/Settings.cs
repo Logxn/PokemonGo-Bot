@@ -37,7 +37,11 @@ namespace PokemonGo.RocketAPI.Console
             set { Globals.SessionHash = value; }
         }
 
-
+        public string pFHashKey
+        {
+            get { return Globals.pFHashKey; }
+            set { Globals.pFHashKey = value;  }
+        }
         /* AUTHENTICATION */
 
         public string ProfileName
