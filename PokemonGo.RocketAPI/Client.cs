@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -97,10 +97,11 @@ namespace PokemonGo.RocketAPI
 
             InventoryLastUpdateTimestamp = 0;
 
-            /*AppVersion = 4303;
+
+            /*AppVersion = 4500;
             SettingsHash = "";
 
-            CurrentApiEmulationVersion = new Version("0.43.3");*/
+            CurrentApiEmulationVersion = new Version("0.45.0");*/
 
             AppVersion = 5120;
             SettingsHash = "";
