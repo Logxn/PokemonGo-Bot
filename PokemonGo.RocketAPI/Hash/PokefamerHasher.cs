@@ -54,56 +54,45 @@ namespace PokemonGo.RocketAPI.Hash
             // v121_2 => IOS 1.22
             const string endpoint = "api/v121_2/hash";
 
-            // NOTE: This is really bad. Don't create new HttpClient's all the time.
-            // Use a single client per-thread if you need one.
+
             using (var client = new System.Net.Http.HttpClient())
             {
-                // The URL to the hashing server.
-                // Do not include "api/v1/hash" unless you know why you're doing it, and want to modify this code.
+
                 client.BaseAddress = new Uri("http://pokehash.buddyauth.com/");
 
-                // By default, all requests (and this example) are in JSON.
+
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-                // Set the X-AuthToken to the key you purchased from Bossland GmbH
+                // GIVE US YOUR FUCKING MONEY
                 client.DefaultRequestHeaders.Add("X-AuthToken", this.apiKey);
 
                 var content = new StringContent(JsonConvert.SerializeObject(request), Encoding.ASCII, "application/json");
-                // An odd bug with HttpClient. You need to set the content type again.
+
                 content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
 
                 var response = await client.PostAsync(endpoint, content);
 
                 // TODO: Fix this up with proper retry-after when we get rate limited.
                 switch (response.StatusCode)
-                {
-                    // All good. Return the hashes back to the caller. :D
+                {           
                     case HttpStatusCode.OK:
                         return JsonConvert.DeserializeObject<HashResponseContent>(await response.Content.ReadAsStringAsync());
-
-                    // Returned when something in your request is "invalid". Also when X-AuthToken is not set.
-                    // See the error message for why it is bad.
-                    case HttpStatusCode.BadRequest:
+                    #region ErrorCodes
+                    case HttpStatusCode.BadRequest: // Invalid request
                         string responseText = await response.Content.ReadAsStringAsync();
-                        if (responseText.Contains("Unauthorized")) throw new HasherException($"Your pokefamer API key is incorrect or expired, please check auth.json (Pokefamer message : {responseText})");
-                        Console.WriteLine($"Bad request sent to the hashing server! {responseText}");
+                        if (responseText.Contains("Unauthorized")) throw new HasherException($"[HashService] Your PF-Hashkey you provided is incorrect (or not valid anymore). Please check again! (Pokefamer message : {responseText})");
+                        Console.WriteLine($"[HashService] Bad request sent to the hashing server! {responseText}");
                         break;
-
-                    // This error code is returned when your "key" is not in a valid state. (Expired, invalid, etc)
-                    case HttpStatusCode.Unauthorized:
-                        throw new  HasherException("You are not authorized to use this service. please check you apinew  key correct");
-                        break;
-
-                    // This error code is returned when you have exhausted your current "hashes per second" value
-                    // You should queue up your requests, and retry in a second.
-                    case (HttpStatusCode)429:
-                        Console.WriteLine($"Your request has been limited. {await response.Content.ReadAsStringAsync()}");
-                        await Task.Delay(2 * 1000);  //stop for 2 sec
+                    case HttpStatusCode.Unauthorized: // No Valid Key
+                        throw new  HasherException("[HashService] Your PF-Hashkey you provided is incorrect (or not valid anymore). Please check again!");
+                    case (HttpStatusCode)429: // To many reqeusts => que 
+                        Console.WriteLine($"[HashService] Your request has been limited. {await response.Content.ReadAsStringAsync()}");
+                        await Task.Delay(2000);  //stop for 2 sec (WHY THE FUCK U USE 2*100 INSTEAD OF 2000 ?!?!?!?!?!)
                         return await RequestHashesAsync(request);
-                        break;
                     default:
-                        throw new HasherException($"Pokefamer Hash API ({client.BaseAddress}{endpoint}) might down!");
+                        throw new HasherException($"[HashService] Pokefamer Hash API ({client.BaseAddress}{endpoint}) might down!");
+                        #endregion
                 }
             }
 
