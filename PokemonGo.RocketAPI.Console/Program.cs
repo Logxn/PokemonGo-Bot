@@ -261,6 +261,7 @@ namespace PokemonGo.RocketAPI.Console
     public static class Globals
     {
         public static Collection<Profile> Profiles = new Collection<Profile>();
+        public static string pFHashKey;
         public static string ProfileName = "DefaultProfile";
         public static bool IsDefault = false;
         public static int RunOrder = 0;
@@ -398,6 +399,6 @@ namespace PokemonGo.RocketAPI.Console
         public static bool No10kmEggsBasicInc = false;
         public static bool EggsAscendingSelectionBasicInc = false;
 
-        public static bool EnableVerboseLogging = false;
+        public static bool EnableVerboseLogging = false;        
     }
 }

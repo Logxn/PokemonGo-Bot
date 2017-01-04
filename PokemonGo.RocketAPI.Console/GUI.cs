@@ -236,6 +236,7 @@ namespace PokemonGo.RocketAPI.Console
                     };
                     var config = Newtonsoft.Json.JsonConvert.DeserializeObject<Settings>(configString, settings);
                     // tab 1 
+                    pFHashKey.Text = config.pFHashKey;
                     ProfileName.Text = config.ProfileName;
                     checkBox1.Checked = config.IsDefault;
 
@@ -635,6 +636,7 @@ namespace PokemonGo.RocketAPI.Console
 
             // Account Info
             bool ret = true;
+            ret &= textBoxToGlobal(pFHashKey, "pFHashKey");
             ret &= textBoxToGlobal(text_EMail);
             ret &= textBoxToGlobal(text_Password);
             Globals.usePwdEncryption = checkbox_PWDEncryption.Checked;
@@ -1387,6 +1389,17 @@ namespace PokemonGo.RocketAPI.Console
         private void label30_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void label66_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void linkLabel14_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            ProcessStartInfo sInfo = new ProcessStartInfo("https://talk.pogodev.org/d/55-api-hashing-service-f-a-q/");
+            Process.Start(sInfo);
         }
     }
 }

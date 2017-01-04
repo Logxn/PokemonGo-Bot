@@ -81,7 +81,7 @@ namespace PokemonGo.RocketAPI.Helpers
             }
         }
 
-        public static uint GenLocation1(byte[] authTicket, double lat, double lng, double alt)
+        public static uint GenerateLocation1(byte[] authTicket, double lat, double lng, double alt)
         {
             byte[] locationBytes = BitConverter.GetBytes(lat).Reverse()
                  .Concat(BitConverter.GetBytes(lng).Reverse())
@@ -90,7 +90,7 @@ namespace PokemonGo.RocketAPI.Helpers
             return HashBuilder.Hash32Salt(locationBytes, HashBuilder.Hash32(authTicket));
         }
 
-        public static uint GenLocation2(double lat, double lng, double alt)
+        public static uint GenerateLocation2(double lat, double lng, double alt)
         {
             byte[] locationBytes = BitConverter.GetBytes(lat).Reverse()
                  .Concat(BitConverter.GetBytes(lng).Reverse())
@@ -98,7 +98,7 @@ namespace PokemonGo.RocketAPI.Helpers
             return HashBuilder.Hash32(locationBytes);
         }
 
-        public static ulong GenRequestHash(byte[] authTicket, byte[] hashR)
+        public static ulong GenerateRequestHash(byte[] authTicket, byte[] hashR)
         {
             ulong seed = HashBuilder.Hash64(authTicket);
             return HashBuilder.Hash64Salt64(hashR, seed);

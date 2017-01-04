@@ -144,13 +144,20 @@
   <ItemGroup>
     <Compile Include="Exceptions\GoogleException.cs" />
     <Compile Include="Exceptions\GoogleOfflineException.cs" />
+    <Compile Include="Exceptions\HasherException.cs" />
     <Compile Include="Exceptions\LoginFailedException.cs" />
     <Compile Include="Exceptions\MinimumClientVersionException.cs" />
+    <Compile Include="Hash\HashModel.cs" />
+    <Compile Include="Hash\IHasher.cs" />
+    <Compile Include="Hash\LegacyHashser.cs" />
+    <Compile Include="Hash\PokefamerHasher.cs" />
     <Compile Include="Helpers\CommonRequest.cs" />
     <Compile Include="Helpers\Crypt.cs" />
     <Compile Include="Helpers\DeviceInfoHelper.cs" />
     <Compile Include="Helpers\EncryptionHelper.cs" />
     <Compile Include="Helpers\HashBuilder.cs" />
+    <Compile Include="Helpers\ICrypt.cs" />
+    <Compile Include="Helpers\NewCrypt.cs" />
     <Compile Include="Helpers\PCrypt.cs" />
     <Compile Include="Helpers\Shuffle\Shuffles.cs" />
     <Compile Include="Helpers\Shuffle\UnShuffle.cs" />
