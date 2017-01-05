@@ -33,10 +33,11 @@ namespace PokemonGo.RocketAPI.Helpers
         private readonly double _altitude;
         private readonly AuthTicket _authTicket;
         private readonly Client _client;
-        private readonly NewCrypt _crypt;        
+        //private readonly NewCrypt _crypt;        
         private readonly float _speed;
         private readonly ISettings _settings;
-        private static long Client_4500_Unknown25 = -1553869577012279119;
+        //private static long Client_4500_Unknown25 = -1553869577012279119;
+        private static long Client_5100_Unknown25 = -8832040574896607694;
 
 
         /// Device Shit
@@ -131,8 +132,8 @@ namespace PokemonGo.RocketAPI.Helpers
                 GenerateNewHash();
             }
 
-            if (_crypt == null)
-                _crypt = new NewCrypt();
+            //if (_crypt == null)
+            //    _crypt = new NewCrypt();
 
         }
 
@@ -234,7 +235,7 @@ namespace PokemonGo.RocketAPI.Helpers
             {
                 //MTKTODO
                 SessionHash = ByteString.CopyFrom(sessionhash_array),
-                Unknown25 = Client_4500_Unknown25, // Could change every Update
+                Unknown25 = Client_5100_Unknown25, // Could change every Update
                 Timestamp = (ulong)Utils.GetTime(true),
                 TimestampSinceStart = (ulong)(Utils.GetTime(true) - _client.StartTime),
                 //LocationHash1 = (int)Utils.GenerateLocation1(ticketBytes, _latitude, _longitude, _altitude),
@@ -330,7 +331,7 @@ namespace PokemonGo.RocketAPI.Helpers
                 Type = PlatformRequestType.SendEncryptedSignature,
                 RequestMessage = new SendEncryptedSignatureRequest
                 {
-                    EncryptedSignature = ByteString.CopyFrom(_crypt.Encrypt(sig.ToByteArray(), (uint)_client.StartTime))
+                    EncryptedSignature = ByteString.CopyFrom(PCryptPokeHash.Encrypt(sig.ToByteArray(), (uint)_client.StartTime)) // Use new PCryptPokeHash
                 }.ToByteString()
             };
 

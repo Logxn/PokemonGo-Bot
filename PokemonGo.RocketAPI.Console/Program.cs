@@ -260,6 +260,12 @@ namespace PokemonGo.RocketAPI.Console
     }
     public static class Globals
     {
+        // Bot Info  Globals (not yet implemented in any function)
+        public static readonly string BotVersion = "1.0.0";
+        public static readonly bool BotDebugFlag = true;
+        public static readonly bool BotStableFlag = false;
+
+        // Other Globals
         public static Collection<Profile> Profiles = new Collection<Profile>();
         public static string pFHashKey;
         public static string ProfileName = "DefaultProfile";
