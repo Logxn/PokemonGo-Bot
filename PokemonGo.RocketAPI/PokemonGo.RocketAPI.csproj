@@ -150,7 +150,7 @@
     <Compile Include="Hash\HashModel.cs" />
     <Compile Include="Hash\IHasher.cs" />
     <Compile Include="Hash\LegacyHasher.cs" />
-    <Compile Include="Hash\PokefamerHasher.cs" />
+    <Compile Include="Hash\PokeHashHasher.cs" />
     <Compile Include="Helpers\CommonRequest.cs" />
     <Compile Include="Helpers\Crypt.cs" />
     <Compile Include="Helpers\DeviceInfoHelper.cs" />

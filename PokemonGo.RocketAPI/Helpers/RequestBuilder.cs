@@ -21,6 +21,9 @@ using System.Text;
 using Newtonsoft.Json;
 using PokemonGo.RocketAPI.Encrypt;
 using System.Threading.Tasks;
+using static POGOProtos.Networking.Envelopes.Signature.Types;
+using static POGOProtos.Networking.Envelopes.RequestEnvelope.Types;
+using System.Net.Http;
 
 namespace PokemonGo.RocketAPI.Helpers
 {
@@ -202,19 +205,36 @@ namespace PokemonGo.RocketAPI.Helpers
             return r;
         }
         //private RequestEnvelope.Types.PlatformRequest GenerateSignature(IEnumerable<IMessage> requests)
+        /// <summary>
+        /// EB Check IMessage
+        /// </summary>
+        /// <param name="requestEnvelope"></param>
+        /// <returns></returns>
+        /// Also pogolib does
+        /// internal async Task<PlatformRequest> GenerateSignatureAsync(RequestEnvelope requestEnvelope)
         private RequestEnvelope.Types.PlatformRequest GenerateSignature(RequestEnvelope requestEnvelope)
         {
-            byte[] ticketBytes = _authTicket != null ? _authTicket.ToByteArray() : Encoding.UTF8.GetBytes(_authToken);
 
-            if (sessionhash_array == null)
-            {
-                byte[] rByte = new byte[16];
-                Random ra = new Random();
-                ra.NextBytes(rByte);
-                sessionhash_array = rByte;
-            }
-            // Device
-            Signature.Types.DeviceInfo dInfo = new Signature.Types.DeviceInfo
+            var timestampSinceStart = (long)(Utils.GetTime(true) - _client.StartTime);
+            var locationFixes = BuildLocationFixes(requestEnvelope, timestampSinceStart);
+
+            requestEnvelope.Accuracy = locationFixes[0].Altitude;
+            requestEnvelope.MsSinceLastLocationfix = (long)locationFixes[0].TimestampSnapshot;
+
+            //// ???
+            //byte[] ticketBytes = _authTicket != null ? _authTicket.ToByteArray() : Encoding.UTF8.GetBytes(_authToken);
+
+            //// ???
+            //if (sessionhash_array == null)
+            //{
+            //    byte[] rByte = new byte[16];
+            //    Random ra = new Random();
+            //    ra.NextBytes(rByte);
+            //    sessionhash_array = rByte;
+            //}
+
+            #region -- DeviceInfo
+            DeviceInfo dInfo = new DeviceInfo
             {
                 DeviceId = this.DeviceId,
                 AndroidBoardName = this.AndroidBoardName, // might al
@@ -230,112 +250,159 @@ namespace PokemonGo.RocketAPI.Helpers
                 FirmwareType = this.FirmwareType,
                 FirmwareFingerprint = this.FirmwareFingerprint
             };
+            #endregion
 
-            var sig = new Signature
+            #region GenerateSignature
+            var signature = new Signature
             {
-                //MTKTODO
-                SessionHash = ByteString.CopyFrom(sessionhash_array),
-                Unknown25 = Client_5100_Unknown25, // Could change every Update
-                Timestamp = (ulong)Utils.GetTime(true),
-                TimestampSinceStart = (ulong)(Utils.GetTime(true) - _client.StartTime),
-                //LocationHash1 = (int)Utils.GenerateLocation1(ticketBytes, _latitude, _longitude, _altitude),
-                //LocationHash2 = (int)Utils.GenerateLocation2(_latitude, _longitude, _altitude),
-                DeviceInfo = dInfo
+                TimestampSinceStart = (ulong)timestampSinceStart,
+                Timestamp = (ulong)Utils.GetTime(true), // true means in Ms
+                //SessionHash = ByteString.CopyFrom(sessionhash_array),
+                //Unknown25 = Client_5100_Unknown25, // Could change every Update
+                SensorInfo =
+                {
+                    new SensorInfo
+                    {
+                        // Values are not the same used in PogoLib
+                        TimestampSnapshot = (ulong)(timestampSinceStart + RandomDevice.Next(100, 250)),
+                        LinearAccelerationX = GenRandom(0.12271042913198471),
+                        LinearAccelerationY = GenRandom(-0.015570580959320068),
+                        LinearAccelerationZ = GenRandom(0.010850906372070313),
+                        RotationRateX = GenRandom(-0.0120010357350111),
+                        RotationRateY = GenRandom(-0.04214850440621376),
+                        RotationRateZ = GenRandom(0.94571763277053833),
+                        AttitudePitch = GenRandom(-47.149471283, 61.8397789001),
+                        AttitudeYaw = GenRandom(-47.149471283, 61.8397789001),
+                        AttitudeRoll = GenRandom(-47.149471283, 5),                        
+                        GravityZ = GenRandom(9.8),
+                        GravityX = GenRandom(0.02),
+                        GravityY = GenRandom(0.3),
+/*                        MagneticFieldX = GenRandom(17.950439453125),
+                        MagneticFieldY = GenRandom(-23.36273193359375),
+                        MagneticFieldZ = GenRandom(-48.8250732421875),*/
+                        MagneticFieldAccuracy = -1,
+                        Status = 3
+                    }
+                },
+                DeviceInfo = dInfo,
+                LocationFix = { locationFixes },
+                ActivityStatus = new ActivityStatus
+                {
+                    Stationary = true
+                }
             };
+            #endregion
 
-            sig.SensorInfo.Add(new POGOProtos.Networking.Envelopes.Signature.Types.SensorInfo
-            {
-                GravityZ = GenRandom(9.8),
-                GravityX = GenRandom(0.02),
-                GravityY = GenRandom(0.3),
-                TimestampSnapshot = (ulong)(Utils.GetTime(true) - _client.StartTime - RandomDevice.Next(100, 500)),
-                LinearAccelerationX = GenRandom(0.12271042913198471),
-                LinearAccelerationY = GenRandom(-0.015570580959320068),
-                LinearAccelerationZ = GenRandom(0.010850906372070313),
-                MagneticFieldX = GenRandom(17.950439453125),
-                MagneticFieldY = GenRandom(-23.36273193359375),
-                MagneticFieldZ = GenRandom(-48.8250732421875),
-                RotationRateX = GenRandom(-0.0120010357350111),
-                RotationRateY = GenRandom(-0.04214850440621376),
-                RotationRateZ = GenRandom(0.94571763277053833),
-                AttitudePitch = GenRandom(-47.149471283, 61.8397789001),
-                AttitudeYaw = GenRandom(-47.149471283, 61.8397789001),
-                AttitudeRoll = GenRandom(-47.149471283, 5),
-                MagneticFieldAccuracy = -1,
-                Status = 3
-            });
+            signature.SessionHash = SessionHash;
+            signature.Unknown25 = Client_5100_Unknown25;
 
-            Random r = new Random();
-            int accuracy = r.Next(15, 50);
+            var serializedTicket = requestEnvelope.AuthTicket != null ? requestEnvelope.AuthTicket.ToByteArray() : requestEnvelope.AuthInfo.ToByteArray();
 
-            Signature.Types.LocationFix locationFix = new Signature.Types.LocationFix
-            {
-                Provider = "network",
-                TimestampSnapshot = (ulong)(Utils.GetTime(true) - _client.StartTime - RandomDevice.Next(100, 300)),
-                Latitude = (float)_latitude,
-                Longitude = (float)_longitude,
-                Altitude = (float)_altitude,
-                HorizontalAccuracy = accuracy,        // Genauigkeit von GPS undso
-                ProviderStatus = 3,
-                // Unnötig => Floor = 3,
-                LocationType = 1
-            };
+            var locationBytes = BitConverter.GetBytes(_latitude).Reverse()
+                .Concat(BitConverter.GetBytes(_longitude).Reverse())
+                .Concat(BitConverter.GetBytes(locationFixes[0].Altitude).Reverse()).ToArray();
 
-            //foreach (var request in requests)
-            //    //MTKTODO
-            //    sig.RequestHash.Add(Utils.GenerateRequestHash(ticketBytes, request.ToByteArray()));
+            var requestsBytes = requestEnvelope.Requests.Select(x => x.ToByteArray()).ToArray();
 
-
-            //var encryptedSig = new RequestEnvelope.Types.PlatformRequest
-            //{
-            //    Type = PlatformRequestType.SendEncryptedSignature,
-            //    RequestMessage = new SendEncryptedSignatureRequest
-            //    {
-            //        EncryptedSignature = ByteString.CopyFrom(PCrypt.Encrypt(sig.ToByteArray(), (uint)_client.StartTime))
-            //    }.ToByteString()
-            //};
-
-            //return encryptedSig;
-
-            string envelopString = JsonConvert.SerializeObject(requestEnvelope);
+            //string envelopString = JsonConvert.SerializeObject(requestEnvelope);
 
             HashRequestContent hashRequest = new HashRequestContent()
             {
-                Latitude = _latitude,
-                Longitude = _longitude,
-                Altitude = _altitude,
-                AuthTicket = ticketBytes,
-                SessionData = SessionHash.ToByteArray(),
-                Requests = new List<byte[]>(),
-                Timestamp = sig.Timestamp
+                Timestamp = signature.Timestamp,
+                Latitude = requestEnvelope.Latitude,
+                Longitude = requestEnvelope.Longitude,
+                Altitude = requestEnvelope.Accuracy,
+                AuthTicket = serializedTicket,
+                SessionData = signature.SessionHash.ToByteArray(),
+                Requests = new List<byte[]>(requestsBytes)                
             };
 
+            //var hashRequestContent = new StringContent(JsonConvert.SerializeObject(hashRequest), Encoding.UTF8, "application/json"); <- Done by PokeHashHasher
 
-            foreach (var request in requestEnvelope.Requests)
-            {
-                hashRequest.Requests.Add(request.ToByteArray());
-            }
+            HashResponseContent responseContent;
 
-            var res = _client.Hasher.RequestHashesAsync(hashRequest).Result;
+            responseContent = _client.Hasher.RequestHashesAsync(hashRequest).Result;
 
-            foreach (var item in res.RequestHashes)
-            {
-                sig.RequestHash.Add((unchecked((ulong)item)));
-            }
-            //sig.RequestHash.AddRange(res.RequestHashes.Cast<ulong>().ToList());
-            sig.LocationHash1 = unchecked((int)res.LocationAuthHash);
-            sig.LocationHash2 = unchecked((int)res.LocationHash);
+            signature.LocationHash1 = unchecked((int)responseContent.LocationAuthHash);
+            signature.LocationHash2 = unchecked((int)responseContent.LocationHash);
 
-            var encryptedSignature = new RequestEnvelope.Types.PlatformRequest
+            //foreach (var item in res.RequestHashes)
+            //{
+            //    signature.RequestHash.Add((unchecked((ulong)item)));
+            //}
+            signature.RequestHash.AddRange(responseContent.RequestHashes.Select(x => (ulong) x).ToArray());
+
+            var encryptedSignature = new PlatformRequest
             {
                 Type = PlatformRequestType.SendEncryptedSignature,
                 RequestMessage = new SendEncryptedSignatureRequest
                 {
-                    EncryptedSignature = ByteString.CopyFrom(PCryptPokeHash.Encrypt(sig.ToByteArray(), (uint)_client.StartTime)) // Use new PCryptPokeHash
+                    EncryptedSignature = ByteString.CopyFrom(PCryptPokeHash.Encrypt(signature.ToByteArray(), (uint)timestampSinceStart)) // Use new PCryptPokeHash
                 }.ToByteString()
             };
 
             return encryptedSignature;
+        }
+
+        /// <summary>
+        /// Generates a few random <see cref="LocationFix"/>es to act like a real GPS sensor.
+        /// </summary>
+        /// <param name="requestEnvelope">The <see cref="RequestEnvelope"/> these <see cref="LocationFix"/>es are used for.</param>
+        /// <param name="timestampSinceStart">The milliseconds passed since starting the <see cref="Session"/> used by the current <see cref="RequestEnvelope"/>.</param>
+        /// <returns></returns>
+        private List<LocationFix> BuildLocationFixes(RequestEnvelope requestEnvelope, long timestampSinceStart)
+        {
+            var locationFixes = new List<LocationFix>();
+            TRandom Random = new TRandom();
+
+            if (requestEnvelope.Requests.Count == 0 || requestEnvelope.Requests[0] == null)
+                return locationFixes;
+
+            var providerCount = Random.Next(4, 10);
+
+            for (var i = 0; i < providerCount; i++)
+            {
+                var timestampSnapshot = timestampSinceStart + (150 * (i + 1) + Random.Next(250 * (i + 1) - 150 * (i + 1)));
+                if (timestampSnapshot >= timestampSinceStart)
+                {
+                    if (locationFixes.Count != 0) break;
+
+                    timestampSnapshot = timestampSinceStart - Random.Next(20, 50);
+
+                    if (timestampSnapshot < 0) timestampSnapshot = 0;
+                }
+
+                locationFixes.Insert(0, new LocationFix
+                {
+                    TimestampSnapshot = (ulong)timestampSnapshot,
+                    Latitude = LocationUtil.OffsetLatitudeLongitude(_latitude, Random.Next(100) + 10),
+                    Longitude = LocationUtil.OffsetLatitudeLongitude(_longitude, Random.Next(100) + 10),
+                    HorizontalAccuracy = (float)Random.NextDouble(5.0, 25.0),
+                    VerticalAccuracy = (float)Random.NextDouble(5.0, 25.0),
+                    Altitude = (float)Random.NextDouble(10.0, 30.0),
+                    Provider = "fused",
+                    ProviderStatus = 3,
+                    LocationType = 1,
+                    // Speed = ?,
+                    Course = -1,
+                    // Floor = 0
+                });
+            }
+
+            return locationFixes;
+        }
+
+        internal class LocationUtil
+        {
+
+            public static float OffsetLatitudeLongitude(double lat, double ran)
+            {
+                const int round = 6378137;
+                var dl = ran / (round * Math.Cos(Math.PI * lat / 180));
+
+                return (float)(lat + dl * 180 / Math.PI);
+            }
+
         }
 
         public async Task<RequestEnvelope> GetRequestEnvelope(Request[] customRequests, bool firstRequest = false)

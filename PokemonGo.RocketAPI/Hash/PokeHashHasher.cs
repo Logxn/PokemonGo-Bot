@@ -11,11 +11,11 @@ using System.Threading.Tasks;
 
 namespace PokemonGo.RocketAPI.Hash
 {
-    public class PokefamerHasher : IHasher
+    public class PokeHashHasher : IHasher
     {
         public long Client_Unknown25 => -8832040574896607694;
         private string apiKey;
-        public PokefamerHasher(string apiKey)
+        public PokeHashHasher(string apiKey)
         {
             this.apiKey = apiKey;
         }
@@ -67,7 +67,7 @@ namespace PokemonGo.RocketAPI.Hash
                 // GIVE US YOUR FUCKING MONEY
                 client.DefaultRequestHeaders.Add("X-AuthToken", this.apiKey);
 
-                var content = new StringContent(JsonConvert.SerializeObject(request), Encoding.ASCII, "application/json");
+                var content = new StringContent(JsonConvert.SerializeObject(request), Encoding.UTF8, "application/json");
 
                 content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
 
