@@ -81,27 +81,27 @@ namespace PokemonGo.RocketAPI.Helpers
             }
         }
 
-        public static uint GenerateLocation1(byte[] authTicket, double lat, double lng, double alt)
+        public static int GenerateLocation1(byte[] locationBytes, byte[] authTicket)
         {
-            byte[] locationBytes = BitConverter.GetBytes(lat).Reverse()
-                 .Concat(BitConverter.GetBytes(lng).Reverse())
-                 .Concat(BitConverter.GetBytes(alt).Reverse()).ToArray();
+            //byte[] locationBytes = BitConverter.GetBytes(lat).Reverse()
+            //     .Concat(BitConverter.GetBytes(lng).Reverse())
+            //     .Concat(BitConverter.GetBytes(alt).Reverse()).ToArray();
 
-            return HashBuilder.Hash32Salt(locationBytes, HashBuilder.Hash32(authTicket));
+            return (int) HashBuilder.Hash32Salt(locationBytes, HashBuilder.Hash32(authTicket));
         }
 
-        public static uint GenerateLocation2(double lat, double lng, double alt)
+        public static int GenerateLocation2(byte[] locationBytes)
         {
-            byte[] locationBytes = BitConverter.GetBytes(lat).Reverse()
-                 .Concat(BitConverter.GetBytes(lng).Reverse())
-                 .Concat(BitConverter.GetBytes(alt).Reverse()).ToArray();
-            return HashBuilder.Hash32(locationBytes);
+            //byte[] locationBytes = BitConverter.GetBytes(lat).Reverse()
+            //     .Concat(BitConverter.GetBytes(lng).Reverse())
+            //     .Concat(BitConverter.GetBytes(alt).Reverse()).ToArray();
+
+            return (int) HashBuilder.Hash32(locationBytes);
         }
 
-        public static ulong GenerateRequestHash(byte[] authTicket, byte[] hashR)
+        public static ulong GenerateRequestHash(byte[] requestBytes, byte[] authTicket)
         {
-            ulong seed = HashBuilder.Hash64(authTicket);
-            return HashBuilder.Hash64Salt64(hashR, seed);
+            return HashBuilder.Hash64Salt64(requestBytes, HashBuilder.Hash64(authTicket));
         }
 
     }

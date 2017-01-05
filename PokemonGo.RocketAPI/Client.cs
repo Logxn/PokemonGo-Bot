@@ -91,7 +91,7 @@ namespace PokemonGo.RocketAPI
             Fort = new Rpc.Fort(this);
             Encounter = new Rpc.Encounter(this);
             Misc = new Rpc.Misc(this);
-            Hasher = new PokefamerHasher(settings.pFHashKey);
+            Hasher = new PokeHashHasher(settings.pFHashKey);
 
             Player.SetCoordinates(settings.DefaultLatitude, settings.DefaultLongitude, settings.DefaultAltitude);
 
