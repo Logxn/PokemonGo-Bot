@@ -67,7 +67,7 @@ namespace PokemonGo.RocketAPI.Console
             {
                 try
                 {
-                    if (Logic.Logic.Client != null && Logic.Logic.Client.readyToUse != false)
+                    if (Logic.Logic.objClient != null && Logic.Logic.objClient.readyToUse != false)
                     {
                         break;
                     }
@@ -98,7 +98,7 @@ namespace PokemonGo.RocketAPI.Console
             await check();
             try
             {
-                client = Logic.Logic.Client;
+                client = Logic.Logic.objClient;
                 if (client.readyToUse != false)
                 {
                     await Task.Delay(1000);

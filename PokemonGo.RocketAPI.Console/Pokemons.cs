@@ -59,7 +59,7 @@ namespace PokemonGo.RocketAPI.Console
             {
                 try
                 {
-                    if (Logic.Logic.Client != null && Logic.Logic.Client.readyToUse != false)
+                    if (Logic.Logic.objClient != null && Logic.Logic.objClient.readyToUse != false)
                     {
                         break;
                     }
@@ -74,7 +74,7 @@ namespace PokemonGo.RocketAPI.Console
             await check();
             try
             {
-                var client = Logic.Logic.Client;
+                var client = Logic.Logic.objClient;
                 if (client.readyToUse != false)
                 {                    
                     profile = await client.Player.GetPlayer();
