@@ -1,2 +1,2 @@
-enabled=false;
-The bot is disabled, cause of a forced app update. Join our discord for more Information. https://discord.gg/phu3GNN
+enabled=true;
+The bot is enabled, but buggy as all hell. Join our discord for more Information. https://discord.gg/phu3GNN
