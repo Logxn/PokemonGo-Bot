@@ -3,29 +3,32 @@ using System.Collections.Generic;
 using System.Device.Location;
 using System.Diagnostics;
 using System.Globalization;
-using System.IO;
 using System.Linq;
 using System.Net;
 using System.Reflection;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using GoogleMapsApi;
 using GoogleMapsApi.Entities.Common;
 using GoogleMapsApi.Entities.Directions.Request;
 using GoogleMapsApi.Entities.Directions.Response;
-using Newtonsoft.Json;
 using PokemonGo.RocketApi.PokeMap;
-using PokemonGo.RocketApi.PokeMap.DataModel;
 using PokemonGo.RocketAPI.Exceptions;
 using PokemonGo.RocketAPI.Helpers;
 using PokemonGo.RocketAPI.Logic.Utils;
 using POGOProtos.Enums;
 using POGOProtos.Inventory.Item;
 using POGOProtos.Map.Fort;
-using POGOProtos.Map.Pokemon;
 using POGOProtos.Networking.Responses;
 using Telegram.Bot;
+using PokemonGo.RocketAPI;
+using PokemonGo.RocketAPI.Logic;
+
+using PokemonGo.RocketApi.PokeMap.DataModel;
+using System.IO;
+using System.Text;
+using Newtonsoft.Json;
+using POGOProtos.Map.Pokemon;
 
 namespace PokemonGo.RocketAPI.Logic
 {
@@ -34,7 +37,7 @@ namespace PokemonGo.RocketAPI.Logic
 
         #region Members and Constructor
 
-        public static Client Client;
+        public static Client objClient;
         public readonly ISettings ClientSettings;
         public TelegramUtil Telegram;
         public BotStats BotStats;
@@ -100,11 +103,11 @@ namespace PokemonGo.RocketAPI.Logic
         #region Constructor
         public Logic(ISettings clientSettings, LogicInfoObservable infoObservable)
         {
-            ClientSettings = clientSettings;
-            Client = new Client(ClientSettings);
-            Client.setFailure(new ApiFailureStrat(Client));
+            this.ClientSettings = clientSettings;
+            objClient = new Client(ClientSettings);
+            objClient.setFailure(new ApiFailureStrat(objClient));
             BotStats = new BotStats();
-            navigation = new Navigation(Client);
+            navigation = new Navigation(objClient);
             pokevision = new PokeVisionUtil();
             this.infoObservable = infoObservable;
             Instance = this;
@@ -124,8 +127,8 @@ namespace PokemonGo.RocketAPI.Logic
             var pokestopsWithinRangeStanding = pokeStops
                 .Where(i => LocationUtils
                    .CalculateDistanceInMeters(
-                       Client.CurrentLatitude,
-                       Client.CurrentLongitude,
+                       objClient.CurrentLatitude,
+                       objClient.CurrentLongitude,
                        i.Latitude,
                        i.Longitude) < 40);
 
@@ -145,7 +148,7 @@ namespace PokemonGo.RocketAPI.Logic
 
                     await ExecuteCatchAllNearbyPokemons();
 
-                    var fortInfo = await Client.Fort.GetFort(pokestop.Id, pokestop.Latitude, pokestop.Longitude);
+                    var fortInfo = await objClient.Fort.GetFort(pokestop.Id, pokestop.Latitude, pokestop.Longitude);
 
                     if ((ClientSettings.UseLureGUIClick && havelures) || (ClientSettings.UseLureAtBreak && havelures && !pokestop.ActiveFortModifier.Any() && !addedlure))
                     {
@@ -153,13 +156,13 @@ namespace PokemonGo.RocketAPI.Logic
 
                         Logger.ColoredConsoleWrite(ConsoleColor.Magenta, "Adding lure and setting resume walking to 30 minutes");
 
-                        await client.Fort.AddFortModifier(fortInfo.FortId, ItemId.ItemTroyDisk);
+                        await objClient.Fort.AddFortModifier(fortInfo.FortId, ItemId.ItemTroyDisk);
 
                         resumetimestamp = (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds + 30000;
                         addedlure = true;
                     }
 
-                    var farmed = await CheckAndFarmNearbyPokeStop(pokestop, Client, fortInfo);
+                    var farmed = await CheckAndFarmNearbyPokeStop(pokestop, objClient, fortInfo);
                     if (farmed)
                     {
                         pokestop.CooldownCompleteTimestampMs = (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds + 300500;
@@ -236,20 +239,20 @@ namespace PokemonGo.RocketAPI.Logic
 
             pokeStopFarmedCount = 0;
 
-            Client.CurrentAltitude = ClientSettings.DefaultAltitude;
-            Client.CurrentLongitude = ClientSettings.DefaultLongitude;
-            Client.CurrentLatitude = ClientSettings.DefaultLatitude;
+            objClient.CurrentAltitude = ClientSettings.DefaultAltitude;
+            objClient.CurrentLongitude = ClientSettings.DefaultLongitude;
+            objClient.CurrentLatitude = ClientSettings.DefaultLatitude;
 
             #endregion
 
             #region Fix Altitude
 
-            if (Math.Abs(Client.CurrentAltitude) < 0)
+            if (Math.Abs(objClient.CurrentAltitude) < 0)
             {
-                Client.CurrentAltitude = LocationUtils.getAltidude(Client.CurrentLatitude, Client.CurrentLongitude);
-                ClientSettings.DefaultAltitude = Client.CurrentAltitude;
+                objClient.CurrentAltitude = LocationUtils.getAltidude(objClient.CurrentLatitude, objClient.CurrentLongitude);
+                ClientSettings.DefaultAltitude = objClient.CurrentAltitude;
 
-                Logger.Error($"Altidude was 0, resolved that. New Altidude is now: {Client.CurrentAltitude}");
+                Logger.Error($"Altidude was 0, resolved that. New Altidude is now: {objClient.CurrentAltitude}");
             }
 
             #endregion
@@ -272,7 +275,7 @@ namespace PokemonGo.RocketAPI.Logic
             {
                 try
                 {
-                    await Client.Login.DoLogin();
+                    await objClient.Login.DoLogin();
 
                     #region Instantiate Telegram
 
@@ -281,10 +284,10 @@ namespace PokemonGo.RocketAPI.Logic
                         try
                         {
                             Telegram = new TelegramUtil(
-                                Client,
+                                objClient,
                                 new TelegramBotClient(ClientSettings.TelegramAPIToken),
                                 ClientSettings,
-                                Client.Inventory);
+                                objClient.Inventory);
 
                             Logger.ColoredConsoleWrite(ConsoleColor.Green, "To activate informations with Telegram, write the bot a message for more informations");
 
@@ -337,10 +340,10 @@ namespace PokemonGo.RocketAPI.Logic
         {
             try
             {
-                var profil = await Client.Player.GetPlayer();
-                await Client.Inventory.ExportPokemonToCSV(profil.PlayerData);
+                var profil = await objClient.Player.GetPlayer();
+                await objClient.Inventory.ExportPokemonToCSV(profil.PlayerData);
                 await LogStatsEtc();
-                await ExecuteFarmingPokestopsAndPokemons(Client);
+                await ExecuteFarmingPokestopsAndPokemons(objClient);
             }
             catch (AccessTokenExpiredException)
             {
@@ -395,15 +398,16 @@ namespace PokemonGo.RocketAPI.Logic
         private async Task StatsLog(Client client)
         {
             //Enable Pokemon List cause everything is loaded
-            client.readyToUse = true;
+            objClient.readyToUse = true;
 
             // Check if disabled
             //StringUtils.CheckKillSwitch();
 
-            #region Set Stat Variables         
+            #region Set Stat Variables
 
             var profile = await client.Player.GetPlayer();
-            var playerStats = await client.Inventory.GetPlayerStats();
+            var inventory = await client.Inventory.GetInventory();
+            var playerStats = client.Inventory.GetPlayerStats(inventory);  // For dont repeat inventory request
             var stats = playerStats.First();
             var expneeded = stats.NextLevelXp - stats.PrevLevelXp - StringUtils.getExpDiff(stats.Level);
             var curexp = stats.Experience - stats.PrevLevelXp - StringUtils.getExpDiff(stats.Level);
@@ -422,9 +426,9 @@ namespace PokemonGo.RocketAPI.Logic
                 await client.Misc.MarkTutorialComplete();
             }
 
-            var items = await client.Inventory.GetItems();
+            var items = client.Inventory.GetItems(inventory); // For dont repeat inventory request
             var pokemonCount = await client.Inventory.getPokemonCount();
-            var eggCount = await client.Inventory.GetEggsCount();
+            var eggCount = client.Inventory.GetEggsCount(inventory);  // For dont repeat inventory request
             var maxPokemonStorage = profile.PlayerData.MaxPokemonStorage;
             var maxItemStorage = profile.PlayerData.MaxItemStorage;
             var stardust = profile.PlayerData.Currencies.ToArray()[1].Amount.ToString("N0");
@@ -492,7 +496,7 @@ namespace PokemonGo.RocketAPI.Logic
             #endregion
 
             #region Set Console Title
-            Console.Title = profile.PlayerData.Username + @" lvl" + stats.Level + @"-(" +
+            System.Console.Title = profile.PlayerData.Username + @" lvl" + stats.Level + @"-(" +
                             (stats.Experience - stats.PrevLevelXp - StringUtils.getExpDiff(stats.Level)).ToString("N0") + @"/" +
                             (stats.NextLevelXp - stats.PrevLevelXp - StringUtils.getExpDiff(stats.Level)).ToString("N0") + @"|" +
                             Math.Round(curexppercent, 2) + @"%)| Stardust: " + profile.PlayerData.Currencies.ToArray()[1].Amount + @"| " +
@@ -555,7 +559,7 @@ namespace PokemonGo.RocketAPI.Logic
             if (ClientSettings.UseLuckyEggIfNotRunning || ClientSettings.UseLuckyEggGUIClick)
             {
                 ClientSettings.UseLuckyEggGUIClick = false;
-                await Client.Inventory.UseLuckyEgg(Client);
+                await objClient.Inventory.UseLuckyEgg(objClient);
             }
 
             if (ClientSettings.EvolvePokemonsIfEnoughCandy)
@@ -570,7 +574,7 @@ namespace PokemonGo.RocketAPI.Logic
 
             await TransferDuplicatePokemon(ClientSettings.keepPokemonsThatCanEvolve, ClientSettings.TransferFirstLowIV);
             await RecycleItems();
-            await StatsLog(Client);
+            await StatsLog(objClient);
             await SetCheckTimeToRun();
         }
 
@@ -754,7 +758,7 @@ namespace PokemonGo.RocketAPI.Logic
             {
                 Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "Trying to capture " + p._pokeId + " at " + p._lat + " / " + p._lng);
 
-                var result = await Client.Player.UpdatePlayerLocation(p._lat, p._lng, ClientSettings.DefaultAltitude);
+                var result = await objClient.Player.UpdatePlayerLocation(p._lat, p._lng, ClientSettings.DefaultAltitude);
 
                 Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Went to sniping location. Waiting for Pokemon to appear...");
 
@@ -783,7 +787,7 @@ namespace PokemonGo.RocketAPI.Logic
 
                 Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "Trying to capture " + id + " at " + coord.Latitude + " / " + coord.Longitude);
 
-                var result = await Client.Player.UpdatePlayerLocation(coord.Latitude, coord.Longitude, ClientSettings.DefaultAltitude);
+                var result = await objClient.Player.UpdatePlayerLocation(coord.Latitude, coord.Longitude, ClientSettings.DefaultAltitude);
 
                 Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Went to sniping location. Waiting for Pokemon to appear...");
 
@@ -818,12 +822,12 @@ namespace PokemonGo.RocketAPI.Logic
             var i2 = 0;
             var salir = true;
             var cantidadvar = 0.0001;
-            double recorrido = client.Settings.MaxWalkingRadiusInMeters;
+            double recorrido = objClient.Settings.MaxWalkingRadiusInMeters;
 
-            pokeStops = pokeStops.Where(i => LocationUtils.CalculateDistanceInMeters(client.CurrentLatitude, client.CurrentLongitude, i.Latitude, i.Longitude) <= ClientSettings.MaxWalkingRadiusInMeters).ToArray();
+            pokeStops = pokeStops.Where(i => LocationUtils.CalculateDistanceInMeters(objClient.CurrentLatitude, objClient.CurrentLongitude, i.Latitude, i.Longitude) <= ClientSettings.MaxWalkingRadiusInMeters).ToArray();
 
-            var centerx = client.CurrentLatitude;
-            var centery = client.CurrentLongitude;
+            var centerx = objClient.CurrentLatitude;
+            var centery = objClient.CurrentLongitude;
 
             if (recorrido <= 100) cantidadvar = 0.00008;
             if (recorrido > 100 && recorrido <= 500) cantidadvar = 0.00009;
@@ -886,7 +890,7 @@ namespace PokemonGo.RocketAPI.Logic
                         //Leaving this here for now in case we need it for debugging
                     }
 
-                    var result = await Client.Player.UpdatePlayerLocation(ClientSettings.DefaultLatitude, ClientSettings.DefaultLongitude, ClientSettings.DefaultAltitude);
+                    var result = await objClient.Player.UpdatePlayerLocation(ClientSettings.DefaultLatitude, ClientSettings.DefaultLongitude, ClientSettings.DefaultAltitude);
                 }
                 else if (ClientSettings.SnipePokemon)
                 {
@@ -919,7 +923,7 @@ namespace PokemonGo.RocketAPI.Logic
                         }
                     }
                     //return to default location before beginning to farm.
-                    var result = await Client.Player.UpdatePlayerLocation(ClientSettings.DefaultLatitude, ClientSettings.DefaultLongitude, ClientSettings.DefaultAltitude);
+                    var result = await objClient.Player.UpdatePlayerLocation(ClientSettings.DefaultLatitude, ClientSettings.DefaultLongitude, ClientSettings.DefaultAltitude);
                 }
                 else
                 {
@@ -987,7 +991,7 @@ namespace PokemonGo.RocketAPI.Logic
             }
 
             //Normal Walk and Catch between pokestops
-            await FncPokeStop(Client, pokeStops, false);
+            await FncPokeStop(objClient, pokeStops, false);
 
             #endregion
         }
@@ -997,14 +1001,14 @@ namespace PokemonGo.RocketAPI.Logic
             #region Get Pokestops
 
             //Query nearby objects for mapData
-            var mapObjects = await Client.Map.GetMapObjects();
+            var mapObjects = await objClient.Map.GetMapObjects();
 
             //narrow map data to pokestops within walking distance
             var pokeStops = navigation
                 .pathByNearestNeighbour(
                     mapObjects.Item1.MapCells.SelectMany(i => i.Forts)
                     .Where(i => i.Type == FortType.Checkpoint && i.CooldownCompleteTimestampMs < (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds)
-                    .OrderBy(i => LocationUtils.CalculateDistanceInMeters(Client.CurrentLatitude, Client.CurrentLongitude, i.Latitude, i.Longitude))
+                    .OrderBy(i => LocationUtils.CalculateDistanceInMeters(objClient.CurrentLatitude, objClient.CurrentLongitude, i.Latitude, i.Longitude))
                     .ToArray(), ClientSettings.WalkingSpeedInKilometerPerHour);
 
             #endregion
@@ -1017,7 +1021,7 @@ namespace PokemonGo.RocketAPI.Logic
                 .pathByNearestNeighbour(
                     mapObjects.Item1.MapCells.SelectMany(i => i.Forts)
                     .Where(i => i.Type == FortType.Gym)
-                    .OrderBy(i => LocationUtils.CalculateDistanceInMeters(Client.CurrentLatitude, Client.CurrentLongitude, i.Latitude, i.Longitude))
+                    .OrderBy(i => LocationUtils.CalculateDistanceInMeters(objClient.CurrentLatitude, objClient.CurrentLongitude, i.Latitude, i.Longitude))
                     .ToArray(), ClientSettings.WalkingSpeedInKilometerPerHour);
 
             #endregion
@@ -1048,8 +1052,8 @@ namespace PokemonGo.RocketAPI.Logic
                 .CalculateDistanceInMeters(
                     ClientSettings.DefaultLatitude,
                     ClientSettings.DefaultLongitude,
-                    client.CurrentLatitude,
-                    client.CurrentLongitude);
+                    objClient.CurrentLatitude,
+                    objClient.CurrentLongitude);
 
             lureEncounters.Clear();
 
@@ -1076,8 +1080,8 @@ namespace PokemonGo.RocketAPI.Logic
                 {
                     var distance1 = LocationUtils
                         .CalculateDistanceInMeters(
-                            client.CurrentLatitude,
-                            client.CurrentLongitude,
+                            objClient.CurrentLatitude,
+                            objClient.CurrentLongitude,
                             pokeStop.Latitude,
                             pokeStop.Longitude);
 
@@ -1094,7 +1098,7 @@ namespace PokemonGo.RocketAPI.Logic
                 await SetCheckTimeToRun();
 
                 //update user location on map
-                infoObservable.PushNewGeoLocations(new GeoCoordinate(client.CurrentLatitude, client.CurrentLongitude));
+                infoObservable.PushNewGeoLocations(new GeoCoordinate(objClient.CurrentLatitude, objClient.CurrentLongitude));
 
                 #region Walk defined Route
 
@@ -1136,8 +1140,8 @@ namespace PokemonGo.RocketAPI.Logic
 
                 if (ClientSettings.ForceSnipe)
                 {
-                    ClientSettings.DefaultLatitude = client.CurrentLatitude;
-                    ClientSettings.DefaultLongitude = client.CurrentLongitude;
+                    ClientSettings.DefaultLatitude = objClient.CurrentLatitude;
+                    ClientSettings.DefaultLongitude = objClient.CurrentLongitude;
 
                     break;
                 }
@@ -1152,12 +1156,12 @@ namespace PokemonGo.RocketAPI.Logic
                 //get destination pokestop information
                 var distance = LocationUtils
                     .CalculateDistanceInMeters(
-                        client.CurrentLatitude,
-                        client.CurrentLongitude,
+                        objClient.CurrentLatitude,
+                        objClient.CurrentLongitude,
                         pokeStop.Latitude,
                         pokeStop.Longitude);
 
-                var fortInfo = await client.Fort.GetFort(pokeStop.Id, pokeStop.Latitude, pokeStop.Longitude);
+                var fortInfo = await objClient.Fort.GetFort(pokeStop.Id, pokeStop.Latitude, pokeStop.Longitude);
 
                 Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Next Pokestop: {fortInfo.Name} in {distance:0.##}m distance.");
 
@@ -1237,7 +1241,7 @@ namespace PokemonGo.RocketAPI.Logic
                 {
                     if (ClientSettings.pauseAtPokeStop)
                     {
-                        await FarmPokestopOnBreak(pokeStops, Client);
+                        await FarmPokestopOnBreak(pokeStops, objClient);
                     }
 
                     var pokestopCoords = ClientSettings.NextDestinationOverride.First();
@@ -1280,8 +1284,8 @@ namespace PokemonGo.RocketAPI.Logic
 
                 var longstring = longitude.ToString(CultureInfo.InvariantCulture).Replace(",", ".");
                 var latstring = latitude.ToString(CultureInfo.InvariantCulture).Replace(",", ".");
-                var sourcelongstring = Client.CurrentLongitude.ToString(CultureInfo.InvariantCulture).Replace(",", ".");
-                var sourcelatstring = Client.CurrentLatitude.ToString(CultureInfo.InvariantCulture).Replace(",", ".");
+                var sourcelongstring = objClient.CurrentLongitude.ToString(CultureInfo.InvariantCulture).Replace(",", ".");
+                var sourcelatstring = objClient.CurrentLatitude.ToString(CultureInfo.InvariantCulture).Replace(",", ".");
 
                 #endregion
 
@@ -1353,7 +1357,7 @@ namespace PokemonGo.RocketAPI.Logic
 
                         var directiontext = Helpers.Utils.HtmlRemoval.StripTagsRegexCompiled(step.HtmlInstructions);
                         Logger.ColoredConsoleWrite(ConsoleColor.Green, directiontext);
-                        var lastpoint = new Location(Client.CurrentLatitude, Client.CurrentLongitude);
+                        var lastpoint = new Location(objClient.CurrentLatitude, objClient.CurrentLongitude);
                         foreach (var point in step.PolyLine.Points)
                         {
                             var distanceDelta = LocationUtils.CalculateDistanceInMeters(new GeoCoordinate(point.Latitude, point.Longitude), new GeoCoordinate(lastpoint.Latitude, lastpoint.Longitude));
@@ -1367,7 +1371,7 @@ namespace PokemonGo.RocketAPI.Logic
                         if (stepcount == steps.Count())
                         {
                             //Make sure we actually made it to the pokestop! 
-                            var remainingdistancetostop = LocationUtils.CalculateDistanceInMeters(Client.CurrentLatitude, Client.CurrentLongitude, latitude, longitude);
+                            var remainingdistancetostop = LocationUtils.CalculateDistanceInMeters(objClient.CurrentLatitude, objClient.CurrentLongitude, latitude, longitude);
                             if (remainingdistancetostop > 40)
                             {
                                 var lowestspeed = 5;
@@ -1400,7 +1404,7 @@ namespace PokemonGo.RocketAPI.Logic
                 }
                 else if (directions.Status == DirectionsStatusCodes.NOT_FOUND)
                 {
-                    Logger.ColoredConsoleWrite(ConsoleColor.Red, "Geocoding coords failed! Waypoint: " + latitude + "," + longitude + " Bot Location: " + Client.CurrentLatitude + "," + Client.CurrentLongitude);
+                    Logger.ColoredConsoleWrite(ConsoleColor.Red, "Geocoding coords failed! Waypoint: " + latitude + "," + longitude + " Bot Location: " + objClient.CurrentLatitude + "," + objClient.CurrentLongitude);
                     var update = await navigation.HumanLikeWalking(new GeoCoordinate(latitude, longitude), walkspeed, ExecuteCatchAllNearbyPokemons);
                 }
                 else
@@ -1424,7 +1428,7 @@ namespace PokemonGo.RocketAPI.Logic
         {
             infoObservable.PushClearPokemons();
 
-            var pokeData = await DataCollector.GetFastPokeMapData(client.CurrentLatitude, client.CurrentLongitude);
+            var pokeData = await DataCollector.GetFastPokeMapData(objClient.CurrentLatitude, objClient.CurrentLongitude);
             var toShow = new List<DataCollector.PokemonMapData>();
 
             if (pokeData == null) return false;
@@ -1448,7 +1452,7 @@ namespace PokemonGo.RocketAPI.Logic
 
             if (pokeStop.CooldownCompleteTimestampMs < (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds && ClientSettings.FarmPokestops)
             {
-                var fortSearch = await client.Fort.SearchFort(pokeStop.Id, pokeStop.Latitude, pokeStop.Longitude);
+                var fortSearch = await objClient.Fort.SearchFort(pokeStop.Id, pokeStop.Latitude, pokeStop.Longitude);
                 if(ClientSettings.EnableVerboseLogging)
                 {
                     Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "================[VERBOSE LOGGING - Pokestop Search]================");
@@ -1593,7 +1597,7 @@ namespace PokemonGo.RocketAPI.Logic
 
                 //narrow map data to pokestops within walking distance
                 var pokeStops = GetNearbyPokeStops(false).Result;
-                var pokestopsWithinRangeStanding = pokeStops.Where(i => LocationUtils.CalculateDistanceInMeters(Client.CurrentLatitude, Client.CurrentLongitude, i.Latitude, i.Longitude) < 40);
+                var pokestopsWithinRangeStanding = pokeStops.Where(i => LocationUtils.CalculateDistanceInMeters(objClient.CurrentLatitude, objClient.CurrentLongitude, i.Latitude, i.Longitude) < 40);
 
                 var withinRangeStandingList = pokestopsWithinRangeStanding as IList<FortData> ?? pokestopsWithinRangeStanding.ToList();
                 if (withinRangeStandingList.Any())
@@ -1602,8 +1606,8 @@ namespace PokemonGo.RocketAPI.Logic
 
                     foreach (var pokestop in withinRangeStandingList)
                     {
-                        var fortInfo = await Client.Fort.GetFort(pokestop.Id, pokestop.Latitude, pokestop.Longitude);
-                        var farmed = await CheckAndFarmNearbyPokeStop(pokestop, Client, fortInfo);
+                        var fortInfo = await objClient.Fort.GetFort(pokestop.Id, pokestop.Latitude, pokestop.Longitude);
+                        var farmed = await CheckAndFarmNearbyPokeStop(pokestop, objClient, fortInfo);
 
                         if (farmed)
                         {
@@ -1627,17 +1631,17 @@ namespace PokemonGo.RocketAPI.Logic
             //update location map with current bot location
             if (!stateSniper)
             {
-                infoObservable.PushNewGeoLocations(new GeoCoordinate(Client.CurrentLatitude, Client.CurrentLongitude));
+                infoObservable.PushNewGeoLocations(new GeoCoordinate(objClient.CurrentLatitude, objClient.CurrentLongitude));
             }
 
-            var client = Client;
+            var client = objClient;
             
             //bypass catching pokemon if disabled
             if (ClientSettings.CatchPokemon || (ClientSettings.SnipePokemon && stateSniper))
             {
                 // identify nearby pokemon
-                var mapObjects = await client.Map.GetMapObjects();
-                var pokemons = mapObjects.Item1.MapCells.SelectMany(i => i.CatchablePokemons).OrderBy(i => LocationUtils.CalculateDistanceInMeters(Client.CurrentLatitude, Client.CurrentLongitude, i.Latitude, i.Longitude));
+                var mapObjects = await objClient.Map.GetMapObjects();
+                var pokemons = mapObjects.Item1.MapCells.SelectMany(i => i.CatchablePokemons).OrderBy(i => LocationUtils.CalculateDistanceInMeters(objClient.CurrentLatitude, objClient.CurrentLongitude, i.Latitude, i.Longitude));
 
                 if (pokemons.Any())
                 {
@@ -1688,7 +1692,7 @@ namespace PokemonGo.RocketAPI.Logic
                     #endregion
 
                     //get distance to pokemon
-                    var distance = LocationUtils.CalculateDistanceInMeters(Client.CurrentLatitude, Client.CurrentLongitude, pokemon.Latitude, pokemon.Longitude);
+                    var distance = LocationUtils.CalculateDistanceInMeters(objClient.CurrentLatitude, objClient.CurrentLongitude, pokemon.Latitude, pokemon.Longitude);
 
                     await Task.Delay(distance > 100 ? 1000 : 100);
 
@@ -1702,7 +1706,7 @@ namespace PokemonGo.RocketAPI.Logic
         {
             #region Stay within defined radius
 
-            var distanceFromStart = LocationUtils.CalculateDistanceInMeters(ClientSettings.DefaultLatitude, ClientSettings.DefaultLongitude, Client.CurrentLatitude, Client.CurrentLongitude);
+            var distanceFromStart = LocationUtils.CalculateDistanceInMeters(ClientSettings.DefaultLatitude, ClientSettings.DefaultLongitude, objClient.CurrentLatitude, objClient.CurrentLongitude);
             
             //walk back to default location if outside of defined radius
             if ((ClientSettings.MaxWalkingRadiusInMeters == 0 ||
@@ -1764,16 +1768,16 @@ namespace PokemonGo.RocketAPI.Logic
                     // Example: We snipe Squirtle, but there are 3 of them. 
                     if (sniperReturn)
                     {
-                        var result = await Client.Player.UpdatePlayerLocation(pokeLat, pokeLong, ClientSettings.DefaultAltitude);
+                        var result = await objClient.Player.UpdatePlayerLocation(pokeLat, pokeLong, ClientSettings.DefaultAltitude);
                     }
                 }
-                encounterPokemonResponse = await Client.Encounter.EncounterPokemon(encounterId, spawnpointId);
+                encounterPokemonResponse = await objClient.Encounter.EncounterPokemon(encounterId, spawnpointId);
             }
             finally
             {
                 if (stateSniper)
                 {
-                    var result = await Client.Player.UpdatePlayerLocation(
+                    var result = await objClient.Player.UpdatePlayerLocation(
                         ClientSettings.DefaultLatitude,
                         ClientSettings.DefaultLongitude,
                         ClientSettings.DefaultAltitude);
@@ -1805,7 +1809,7 @@ namespace PokemonGo.RocketAPI.Logic
                     return;
                 }
 
-                var inventoryBerries = await Client.Inventory.GetItems();
+                var inventoryBerries = await objClient.Inventory.GetItems();
                 var probability = encounterPokemonResponse?.CaptureProbability?.CaptureProbability_?.FirstOrDefault();
 
                 var escaped = false;
@@ -1850,7 +1854,7 @@ namespace PokemonGo.RocketAPI.Logic
                                 if (!berryOutOfStock)
                                 {
                                     //Throw berry
-                                    var useRaspberry = await Client.Encounter.UseCaptureItem(encounterId, bestBerry, spawnpointId);
+                                    var useRaspberry = await objClient.Encounter.UseCaptureItem(encounterId, bestBerry, spawnpointId);
                                     berryThrown = true;
                                     used = true;
 
@@ -2060,7 +2064,7 @@ namespace PokemonGo.RocketAPI.Logic
             {
                 Logger.ColoredConsoleWrite(ConsoleColor.DarkMagenta, $"{hitTxt} throw as {spinTxt} ball.");
             }
-            return await Client.Encounter.CatchPokemon(encounterId, spawnpointId, bestPokeball, forceHit, normalizedRecticleSize, spinModifier);
+            return await objClient.Encounter.CatchPokemon(encounterId, spawnpointId, bestPokeball, forceHit, normalizedRecticleSize, spinModifier);
         }
 
         #endregion
@@ -2073,12 +2077,12 @@ namespace PokemonGo.RocketAPI.Logic
             {
                 return;
             }
-            var pokemonToEvolve = await Client.Inventory.GetPokemonToEvolve(filter);
+            var pokemonToEvolve = await objClient.Inventory.GetPokemonToEvolve(filter);
             if (pokemonToEvolve.Count() != 0)
             {
                 if (ClientSettings.UseLuckyEgg)
                 {
-                    await Client.Inventory.UseLuckyEgg(Client);
+                    await objClient.Inventory.UseLuckyEgg(objClient);
                 }
             }
             if (ClientSettings.pauseAtEvolve2)
@@ -2092,7 +2096,7 @@ namespace PokemonGo.RocketAPI.Logic
                 {
                     continue;
                 }
-                var evolvePokemonOutProto = await Client.Inventory.EvolvePokemon(pokemon.Id);
+                var evolvePokemonOutProto = await objClient.Inventory.EvolvePokemon(pokemon.Id);
                 var date = DateTime.Now.ToString();
                 var logPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Logs");
                 var evolvelog = Path.Combine(logPath, "EvolveLog.txt");
@@ -2144,7 +2148,7 @@ namespace PokemonGo.RocketAPI.Logic
             }
             if (ClientSettings.TransferDoublePokemons)
             {
-                var duplicatePokemons = await Client.Inventory.GetDuplicatePokemonToTransfer(keepPokemonsThatCanEvolve, transferFirstLowIv);
+                var duplicatePokemons = await objClient.Inventory.GetDuplicatePokemonToTransfer(keepPokemonsThatCanEvolve, transferFirstLowIv);
                 if (ClientSettings.pauseAtEvolve2)
                 {
                     Logger.ColoredConsoleWrite(ConsoleColor.Green, "Stopping to transfer some Pokemons.");
@@ -2154,16 +2158,16 @@ namespace PokemonGo.RocketAPI.Logic
                 {
                     if (!ClientSettings.pokemonsToHold.Contains(duplicatePokemon.PokemonId))
                     {
-                        if (duplicatePokemon.Cp >= ClientSettings.DontTransferWithCPOver || PokemonInfo.CalculatePokemonPerfection(duplicatePokemon) >= Client.Settings.ivmaxpercent)
+                        if (duplicatePokemon.Cp >= ClientSettings.DontTransferWithCPOver || PokemonInfo.CalculatePokemonPerfection(duplicatePokemon) >= objClient.Settings.ivmaxpercent)
                         {
                             continue; // Isnt this wrong? Shouldnt it return instead of continueing?
                         }
 
-                        var bestPokemonOfType = await Client.Inventory.GetHighestCPofType(duplicatePokemon);
-                        var bestPokemonsCpOfType = await Client.Inventory.GetHighestCPofType2(duplicatePokemon);
-                        var bestPokemonsIvOfType = await Client.Inventory.GetHighestIVofType(duplicatePokemon);
+                        var bestPokemonOfType = await objClient.Inventory.GetHighestCPofType(duplicatePokemon);
+                        var bestPokemonsCpOfType = await objClient.Inventory.GetHighestCPofType2(duplicatePokemon);
+                        var bestPokemonsIvOfType = await objClient.Inventory.GetHighestIVofType(duplicatePokemon);
 
-                        var transfer = await Client.Inventory.TransferPokemon(duplicatePokemon.Id);
+                        var transfer = await objClient.Inventory.TransferPokemon(duplicatePokemon.Id);
 
                         var logPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Logs");
                         var logs = Path.Combine(logPath, "TransferLog.txt");
@@ -2207,7 +2211,7 @@ namespace PokemonGo.RocketAPI.Logic
         private async Task<Dictionary<string, int>> GetPokeballQty()
         {
             var pokeBallCollection = new Dictionary<string, int>();
-            var items = await Client.Inventory.GetItems();
+            var items = await objClient.Inventory.GetItems();
             var balls = items.Where(i => (i.ItemId == ItemId.ItemPokeBall || i.ItemId == ItemId.ItemGreatBall || i.ItemId == ItemId.ItemUltraBall || i.ItemId == ItemId.ItemMasterBall) && i.ItemId > 0).GroupBy(i => i.ItemId).ToList();
 
             #region Log Pokeball types out of stock
@@ -2400,7 +2404,7 @@ namespace PokemonGo.RocketAPI.Logic
         {
             var pokemonCp = pokemon?.PokemonData?.Cp;
 
-            var items = await Client.Inventory.GetItems();
+            var items = await objClient.Inventory.GetItems();
             var berries = items.Where(i => i.ItemId == ItemId.ItemRazzBerry || i.ItemId == ItemId.ItemBlukBerry || i.ItemId == ItemId.ItemNanabBerry || i.ItemId == ItemId.ItemWeparBerry || i.ItemId == ItemId.ItemPinapBerry).GroupBy(i => i.ItemId).ToList();
             if (berries.Count() == 0)
             {
@@ -2408,11 +2412,11 @@ namespace PokemonGo.RocketAPI.Logic
                 return ItemId.ItemUnknown;
             }
 
-            var razzBerryCount = await Client.Inventory.GetItemAmountByType(ItemId.ItemRazzBerry);
-            var blukBerryCount = await Client.Inventory.GetItemAmountByType(ItemId.ItemBlukBerry);
-            var nanabBerryCount = await Client.Inventory.GetItemAmountByType(ItemId.ItemNanabBerry);
-            var weparBerryCount = await Client.Inventory.GetItemAmountByType(ItemId.ItemWeparBerry);
-            var pinapBerryCount = await Client.Inventory.GetItemAmountByType(ItemId.ItemPinapBerry);
+            var razzBerryCount = await objClient.Inventory.GetItemAmountByType(ItemId.ItemRazzBerry);
+            var blukBerryCount = await objClient.Inventory.GetItemAmountByType(ItemId.ItemBlukBerry);
+            var nanabBerryCount = await objClient.Inventory.GetItemAmountByType(ItemId.ItemNanabBerry);
+            var weparBerryCount = await objClient.Inventory.GetItemAmountByType(ItemId.ItemWeparBerry);
+            var pinapBerryCount = await objClient.Inventory.GetItemAmountByType(ItemId.ItemPinapBerry);
 
             if (pinapBerryCount > 0 && pokemonCp >= 2000)
                 return ItemId.ItemPinapBerry;
@@ -2453,7 +2457,7 @@ namespace PokemonGo.RocketAPI.Logic
             }
             if (ClientSettings.RelocateDefaultLocation)
                 return;
-            var items = await Client.Inventory.GetItemsToRecycle(ClientSettings);
+            var items = await objClient.Inventory.GetItemsToRecycle(ClientSettings);
 
             foreach (var item in items)
             {
@@ -2463,7 +2467,7 @@ namespace PokemonGo.RocketAPI.Logic
                     ClientSettings.CatchPokemon = true;
                     pokeballoutofstock = false;
                 }
-                var transfer = await Client.Inventory.RecycleItem(item.ItemId, item.Count);
+                var transfer = await objClient.Inventory.RecycleItem(item.ItemId, item.Count);
                 Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Recycled {item.Count}x {item.ItemId}", LogLevel.Info);
                 await RandomHelper.RandomDelay(1000, 5000);
             }
@@ -2482,7 +2486,7 @@ namespace PokemonGo.RocketAPI.Logic
             if (ClientSettings.UseIncense || ClientSettings.UseIncenseGUIClick)
             {
                 ClientSettings.UseIncenseGUIClick = false;
-                var inventory = await Client.Inventory.GetItems();
+                var inventory = await objClient.Inventory.GetItems();
                 var incsense = inventory.Where(p => p.ItemId == ItemId.ItemIncenseOrdinary).FirstOrDefault();
                 var loginterval = DateTime.Now - LastIncenselog;
                 if (lastincenseuse > DateTime.Now.AddSeconds(5))
@@ -2502,7 +2506,7 @@ namespace PokemonGo.RocketAPI.Logic
                     return;
                 }
 
-                await Client.Inventory.UseIncense(ItemId.ItemIncenseOrdinary);
+                await objClient.Inventory.UseIncense(ItemId.ItemIncenseOrdinary);
                 Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Used Incsense, remaining: {incsense.Count - 1}");
                 lastincenseuse = DateTime.Now.AddMinutes(30);
                 await Task.Delay(3000);
@@ -2556,12 +2560,12 @@ namespace PokemonGo.RocketAPI.Logic
                 {
                     return;
                 }
-                await Client.Inventory.RefreshCachedInventory(); // REFRESH
-                var incubators = (await Client.Inventory.GetEggIncubators()).ToList();
-                var unusedEggs = (await Client.Inventory.GetEggs()).Where(x => string.IsNullOrEmpty(x.EggIncubatorId)).OrderBy(x => x.EggKmWalkedTarget - x.EggKmWalkedStart).ToList();
-                var pokemons = (await Client.Inventory.GetPokemons()).ToList();
+                var inventory = await objClient.Inventory.GetInventory();
+                var incubators = objClient.Inventory.GetEggIncubators(inventory).ToList();
+                var unusedEggs = (objClient.Inventory.GetEggs(inventory)).Where(x => string.IsNullOrEmpty(x.EggIncubatorId)).OrderBy(x => x.EggKmWalkedTarget - x.EggKmWalkedStart).ToList();
+                var pokemons = (await objClient.Inventory.GetPokemons()).ToList();
 
-                var playerStats = await Client.Inventory.GetPlayerStats();
+                var playerStats = objClient.Inventory.GetPlayerStats(inventory);
                 var stats = playerStats.First();
 
                 var kmWalked = stats.KmWalked;
@@ -2618,7 +2622,7 @@ namespace PokemonGo.RocketAPI.Logic
                         if (egg == null)
                             return;
 
-                        var response = await Client.Inventory.UseItemEggIncubator(incubator.Id, egg.Id);
+                        var response = await objClient.Inventory.UseItemEggIncubator(incubator.Id, egg.Id);
                         try{
                             unusedEggs.Remove(egg);
                             unusedEggsBasicInc.Remove(egg);

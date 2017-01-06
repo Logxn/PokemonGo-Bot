@@ -181,6 +181,13 @@ namespace PokemonGo.RocketAPI.Rpc
         public async Task<GetInventoryResponse> GetInventory()
         {
             return await PostProtoPayload<Request, GetInventoryResponse>(RequestType.GetInventory, new GetInventoryMessage());
+            /*int timeout = 1000;
+            var task = PostProtoPayload<Request, GetInventoryResponse>(RequestType.GetInventory, new GetInventoryMessage());
+            if (await Task.WhenAny(task, Task.Delay(timeout)) == task) {
+                return await task;
+            } else { 
+                return await GetInventory();
+            }*/
         }
 
         public async Task<RecycleInventoryItemResponse> RecycleItem(ItemId itemId, int amount)
@@ -325,7 +332,7 @@ namespace PokemonGo.RocketAPI.Rpc
 
         public async Task<IEnumerable<ItemData>> GetItemsToRecycle(ISettings settings)
         {
-            var myItems = await GetItems();
+            var myItems = await GetItems(); // ver aqui 2
             //Logger.ColoredConsoleWrite(ConsoleColor.DarkGray, "==========Begin Recycle Filter Debug Logging=============");
             //foreach (var item in settings.itemRecycleFilter)
             //    Logger.ColoredConsoleWrite(ConsoleColor.DarkGray, item.Key.ToString() + ": " + item.Value.ToString());
@@ -537,7 +544,7 @@ namespace PokemonGo.RocketAPI.Rpc
         {
             if (player == null)
                 return;
-            var stats = await GetPlayerStats();
+            var stats = await GetPlayerStats(); // ver aqui 1
             var stat = stats.FirstOrDefault();
             if (stat == null)
                 return;
@@ -600,6 +607,47 @@ namespace PokemonGo.RocketAPI.Rpc
                     Logger.Error("Export Player Infos and all Pokemons to CSV not possible. File seems be in use!"/*, LogLevel.Warning*/);
                 }
             }
+        }
+        
+        public IEnumerable<PlayerStats> GetPlayerStats( GetInventoryResponse inventory)
+        {
+            if (inventory != null)
+                return inventory.InventoryDelta.InventoryItems
+                    .Select(i => i.InventoryItemData?.PlayerStats)
+                    .Where(p => p != null);
+            return null;
+        }
+        public IEnumerable<ItemData> GetItems(GetInventoryResponse inventory)
+        {
+            if (inventory != null)
+                return inventory.InventoryDelta.InventoryItems
+                    .Select(i => i.InventoryItemData?.Item)
+                    .Where(p => p != null);
+            return null;
+        }
+
+        public int GetEggsCount(GetInventoryResponse inventory)
+        {
+            var p = GetEggs(inventory);
+            var i = p.Count();
+            return i;
+        }
+
+        public IEnumerable<PokemonData> GetEggs(GetInventoryResponse inventory)
+        {
+            if (inventory != null)
+                return inventory.InventoryDelta.InventoryItems.Select(i => i.InventoryItemData?.PokemonData)
+                .Where(p => p != null && p.IsEgg);
+            return null;
+        }
+        
+        public IEnumerable<EggIncubator> GetEggIncubators(GetInventoryResponse inventory)
+        {
+            return
+                inventory.InventoryDelta.InventoryItems
+                    .Where(x => x.InventoryItemData.EggIncubators != null)
+                    .SelectMany(i => i.InventoryItemData.EggIncubators.EggIncubator)
+                    .Where(i => i != null);
         }
 
     }

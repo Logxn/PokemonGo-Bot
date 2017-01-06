@@ -53,7 +53,7 @@ namespace PokemonGo.RocketAPI.Console
             labelUserProperty6Value.Text = "";
 
             await check();
-            var client = Logic.Logic.Client;
+            var client = Logic.Logic.objClient;
             if (client.readyToUse != false)
             {
                 /*labelUserProperty1Title.Text = "Username:";  TODO: internationalize*/
@@ -228,7 +228,7 @@ namespace PokemonGo.RocketAPI.Console
             var teamSelect =new TeamSelect();
             if (teamSelect.ShowDialog() == DialogResult.OK){
                 // Simulate to enter in a gym before select a team.
-                var client = Logic.Logic.Client;
+                var client = Logic.Logic.objClient;
                 var mapObjects = await client.Map.GetMapObjects();
                 var mapCells = mapObjects.Item1.MapCells;
 
@@ -279,7 +279,7 @@ namespace PokemonGo.RocketAPI.Console
             taskResponse resp1 = new taskResponse(false, string.Empty);
             try
             {
-            	var client = Logic.Logic.Client;
+            	var client = Logic.Logic.objClient;
             	var resp2 = await client.Player.SetPlayerTeam(teamColor);
 
                 if (resp2.Status == SetPlayerTeamResponse.Types.Status.Success)
@@ -304,7 +304,7 @@ namespace PokemonGo.RocketAPI.Console
             taskResponse resp1 = new taskResponse(false, string.Empty);
             try
             {
-            	var client = Logic.Logic.Client;
+            	var client = Logic.Logic.objClient;
             	var resp2 = await client.Fort.GetGymDetails( gym,lat,lng);
 
                 if (resp2.Result == GetGymDetailsResponse.Types.Result.Success)
@@ -329,7 +329,7 @@ namespace PokemonGo.RocketAPI.Console
             {
                 try
                 {
-                    if (Logic.Logic.Client != null && Logic.Logic.Client.readyToUse != false)
+                    if (Logic.Logic.objClient != null && Logic.Logic.objClient.readyToUse != false)
                     {
                         break;
                     }
