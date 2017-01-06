@@ -60,6 +60,7 @@ namespace PokemonGo.RocketAPI.Logic
         public static int FailedSoftban;
         private int level = -1;
         public List<ulong> SkippedPokemon = new List<ulong>();
+        public double lastsearchtimestamp;
 
         #region Pause Walking Function
 
@@ -395,7 +396,7 @@ namespace PokemonGo.RocketAPI.Logic
         {
             //Enable Pokemon List cause everything is loaded
             client.readyToUse = true;
-            
+
             // Check if disabled
             //StringUtils.CheckKillSwitch();
 
@@ -938,7 +939,7 @@ namespace PokemonGo.RocketAPI.Logic
 
             #region Check and report
 
-            var verifiedLocation = VerifyLocation().Result;
+            var verifiedLocation = VerifyLocation().Result;            
             var pokeStops = GetNearbyPokeStops().Result;
             var tries = 3;
 
@@ -1586,31 +1587,39 @@ namespace PokemonGo.RocketAPI.Logic
             {
                 return;
             }
-
-            //narrow map data to pokestops within walking distance
-            var pokeStops = GetNearbyPokeStops(false).Result;
-            var pokestopsWithinRangeStanding = pokeStops.Where(i => LocationUtils.CalculateDistanceInMeters(Client.CurrentLatitude, Client.CurrentLongitude, i.Latitude, i.Longitude) < 40);
-
-            var withinRangeStandingList = pokestopsWithinRangeStanding as IList<FortData> ?? pokestopsWithinRangeStanding.ToList();
-            if (withinRangeStandingList.Any())
+            if ((long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds > lastsearchtimestamp + 10000)
             {
-                Logger.ColoredConsoleWrite(ConsoleColor.Green, $"{withinRangeStandingList.Count} Pokestops within range of user");
+                lastsearchtimestamp = (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds;
 
-                foreach (var pokestop in withinRangeStandingList)
+                //narrow map data to pokestops within walking distance
+                var pokeStops = GetNearbyPokeStops(false).Result;
+                var pokestopsWithinRangeStanding = pokeStops.Where(i => LocationUtils.CalculateDistanceInMeters(Client.CurrentLatitude, Client.CurrentLongitude, i.Latitude, i.Longitude) < 40);
+
+                var withinRangeStandingList = pokestopsWithinRangeStanding as IList<FortData> ?? pokestopsWithinRangeStanding.ToList();
+                if (withinRangeStandingList.Any())
                 {
-                    var fortInfo = await Client.Fort.GetFort(pokestop.Id, pokestop.Latitude, pokestop.Longitude);
-                    var farmed = await CheckAndFarmNearbyPokeStop(pokestop, Client, fortInfo);
+                    Logger.ColoredConsoleWrite(ConsoleColor.Green, $"{withinRangeStandingList.Count} Pokestops within range of user");
 
-                    if (farmed)
+                    foreach (var pokestop in withinRangeStandingList)
                     {
-                        pokestop.CooldownCompleteTimestampMs = (long) (DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds + 300500;
-                    }
+                        var fortInfo = await Client.Fort.GetFort(pokestop.Id, pokestop.Latitude, pokestop.Longitude);
+                        var farmed = await CheckAndFarmNearbyPokeStop(pokestop, Client, fortInfo);
 
-                    await SetCheckTimeToRun();
-                    await RandomHelper.RandomDelay(100, 200);
+                        if (farmed)
+                        {
+                            pokestop.CooldownCompleteTimestampMs = (long) (DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds + 300500;
+                        }
+
+                        await SetCheckTimeToRun();
+                        await RandomHelper.RandomDelay(100, 200);
+                    }
                 }
+                await ExecuteCatchAllNearbyPokemons();
             }
-            await ExecuteCatchAllNearbyPokemons();
+            else
+            {
+                return;
+            }
         }
 
         private async Task ExecuteCatchAllNearbyPokemons()
