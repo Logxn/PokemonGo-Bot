@@ -439,7 +439,14 @@ namespace PokemonGo.RocketAPI.Console
             string logPath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Logs");
             string logs = System.IO.Path.Combine(logPath, "TransferLog.txt");
             string date = DateTime.Now.ToString();
-            PokemonData pokeData = new PokemonData();
+            //PokemonData pokeData = new PokemonData();
+
+            // If PauseAtEvolve selected sopt walking
+            if (Globals.pauseAtEvolve2)
+            {
+                Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Taking a short break to transfer some pokemons!");
+                Globals.pauseAtWalking = true;
+            }
 
 
             DialogResult dialogResult = MessageBox.Show("You clicked transfer. This can not be undone.", "Are you Sure?", MessageBoxButtons.YesNo);
@@ -452,15 +459,15 @@ namespace PokemonGo.RocketAPI.Console
                     resp = await transferPokemon((PokemonData)selectedItem.Tag);
                     if (resp.Status)
                     {
-                        var PokemonInfo = (PokemonData)selectedItem.Tag;
-                        var name = PokemonInfo.PokemonId;
+                        var pokemon = (PokemonData)selectedItem.Tag;
 
-                        File.AppendAllText(logs, $"[{date}] - MANUAL - Trying to transfer pokemon: {name}" + Environment.NewLine);
+                        File.AppendAllText(logs, $"[{date}] - MANUAL - Trying to transfer pokemon: {StringUtils.getPokemonNameByLanguage(ClientSettings, pokemon.PokemonId)}" + Environment.NewLine);
 
                         PokemonListView.Items.Remove(selectedItem);
                         transfered++;
                         statusTexbox.Text = "Transfering..." + transfered;
 
+                        Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Transfer {StringUtils.getPokemonNameByLanguage(ClientSettings, pokemon.PokemonId)} CP {pokemon.Cp} IV {PokemonInfo.CalculatePokemonPerfection(pokemon).ToString("0.00")}", LogLevel.Info);
                     }
                     else
                         failed += resp.Message + " ";
@@ -486,6 +493,12 @@ namespace PokemonGo.RocketAPI.Console
                     statusTexbox.Text = $"Succesfully transfered {transfered}/{total} Pokemons.";
                 }
                 RefreshTitle();
+                // Quarthy - We can continue walking
+                if (Globals.pauseAtEvolve)
+                {
+                    Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Transferred everything. Time to continue our journey!");
+                    Globals.pauseAtWalking = false;
+                }
             }
             EnabledButton(true);
         }
