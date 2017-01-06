@@ -150,6 +150,7 @@ namespace PokemonGo.RocketAPI.Console
             if (profile != null){
                 labelUserProperty1Value.Text = profile.PlayerData.Username;
                 labelUserProperty3Value.Text = profile.PlayerData.Currencies[1].Amount.ToString("N0");
+                labelUserProperty4Value.Text = profile.PlayerData.Currencies[0].Amount.ToString("N0");
             }
 
 

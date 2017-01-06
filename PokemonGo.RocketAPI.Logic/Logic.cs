@@ -1045,7 +1045,21 @@ namespace PokemonGo.RocketAPI.Logic
 
             return pokeStops;
         }
+        
+        private async Task<FortData[]> GetNearbyGyms()
+        {
+            var mapObjects = await objClient.Map.GetMapObjects();
 
+            var pokeGyms = navigation
+                .pathByNearestNeighbour(
+                    mapObjects.Item1.MapCells.SelectMany(i => i.Forts)
+                    .Where(i => i.Type == FortType.Gym)
+                    .OrderBy(i => LocationUtils.CalculateDistanceInMeters(objClient.CurrentLatitude, objClient.CurrentLongitude, i.Latitude, i.Longitude))
+                    .ToArray(), ClientSettings.WalkingSpeedInKilometerPerHour);
+
+            return pokeGyms;
+        }
+        
         private async Task FncPokeStop(Client client, FortData[] pokeStopsIn, bool metros30)
         {
             var distanceFromStart = LocationUtils
@@ -1619,6 +1633,9 @@ namespace PokemonGo.RocketAPI.Logic
                     }
                 }
                 await ExecuteCatchAllNearbyPokemons();
+                
+                if (ClientSettings.DontTransferWithCPOver == 10001)
+                    await ExecutePutInGym();
             }
             else
             {
@@ -1700,8 +1717,106 @@ namespace PokemonGo.RocketAPI.Logic
                     await CatchPokemon(pokemon.EncounterId, pokemon.SpawnPointId, pokemon.PokemonId, pokemon.Longitude, pokemon.Latitude);
                 }
             }
+        }        
+
+private int GetGymLevel(long value)
+        {
+            if (value >= 50000)
+                return 10;
+            if (value >= 40000)
+                return 9;
+            if (value >= 30000)
+                return 8;
+            if (value >= 20000)
+                return 7;
+            if (value >= 16000)
+                return 6;
+            if (value >= 12000)
+                return 5;
+            if (value >= 8000)
+                return 4;
+            if (value >= 4000)
+                return 3;
+            if (value >= 2000)
+                return 2;
+            return 1;
+        }
+        private static List<string> gymsVisited = new List<string>();
+        private async Task<bool> CheckAndPutInNearbyGym(FortData gym, Client client, FortDetailsResponse fortInfo)
+        {
+            var gymColorLog = ConsoleColor.DarkGray;
+
+            if (gymsVisited.IndexOf(gym.Id) > -1  ){
+                Logger.ColoredConsoleWrite(gymColorLog, "Gym already visited.");
+                return false;
+            }
+            if (ClientSettings.DontTransferWithCPOver == 10001)
+            {
+                var pokemons = (await client.Inventory.GetPokemons()).ToList();
+                var pokemon = pokemons.Where(x => ( (!x.IsEgg) && (x.DeployedFortId == "") )).OrderBy(x => x.Cp).FirstOrDefault();
+                if (pokemon == null)
+                {
+                    Logger.ColoredConsoleWrite(gymColorLog, "Not pokemons to assign.");
+                    return false;
+                }
+                await RandomHelper.RandomDelay(100, 200);
+                var profile = await client.Player.GetPlayer();
+                if ( (gym.OwnedByTeam ==  profile.PlayerData.Team) || (gym.OwnedByTeam == POGOProtos.Enums.TeamColor.Neutral ))
+                {
+                    await RandomHelper.RandomDelay(100, 200);
+                    var gymDetails = await client.Fort.GetGymDetails(gym.Id,gym.Latitude,gym.Longitude);
+                    Logger.ColoredConsoleWrite(gymColorLog, "Members: " +gymDetails.GymState.Memberships.Count +". Level: "+ GetGymLevel(gym.GymPoints));
+                    if (gymDetails.GymState.Memberships.Count < GetGymLevel(gym.GymPoints))
+                    {
+                        await RandomHelper.RandomDelay(100, 200);
+                        var fortSearch = await client.Fort.FortDeployPokemon(gym.Id, pokemon.Id);
+                        if (fortSearch.Result.ToString().ToLower() == "success" ){
+                            Logger.ColoredConsoleWrite(gymColorLog, StringUtils.getPokemonNameByLanguage(ClientSettings, (PokemonId)pokemon.PokemonId) +" inserted into the gym");
+                            gymsVisited.Add(gym.Id);
+                            var pokesInGym = pokemons.Where(x => ( (!x.IsEgg) && (x.DeployedFortId != "") )).OrderBy(x => x.Cp).ToList().Count();
+                            Logger.ColoredConsoleWrite(gymColorLog, "pokesInGym: "+ pokesInGym);
+                            if (pokesInGym >9 )
+                            { 
+                                var res = await client.Player.CollectDailyDefenderBonus();
+                                Logger.ColoredConsoleWrite(gymColorLog, "Collect: "+ res.Result.ToString() );
+                            }
+                        }
+                    }
+                    else
+                    {
+                        Logger.ColoredConsoleWrite(gymColorLog, "There is no free space in the gym");
+                    }
+                }
+                else
+                {
+                    Logger.ColoredConsoleWrite(gymColorLog, "Gym isnot of our team");
+                }
+            }
+            return true;
         }
 
+        private async Task ExecutePutInGym()
+        {
+
+            //narrow map data to gyms within walking distance
+            var gyms = GetNearbyGyms().Result;
+            var gymsWithinRangeStanding = gyms.Where(i => LocationUtils.CalculateDistanceInMeters(objClient.CurrentLatitude, objClient.CurrentLongitude, i.Latitude, i.Longitude) < 40);
+
+            var withinRangeStandingList = gymsWithinRangeStanding as IList<FortData> ?? gymsWithinRangeStanding.ToList();
+            if (withinRangeStandingList.Any())
+            {
+                Logger.ColoredConsoleWrite(ConsoleColor.DarkGray, $"{withinRangeStandingList.Count} gyms within range of user");
+
+                foreach (var gym in withinRangeStandingList)
+                {
+                    var fortInfo = await objClient.Fort.GetFort(gym.Id, gym.Latitude, gym.Longitude);
+                    await CheckAndPutInNearbyGym(gym, objClient, fortInfo);
+                    await SetCheckTimeToRun();
+                    await RandomHelper.RandomDelay(100, 200);
+                }
+            }
+        }
+        
         private async Task<bool> VerifyLocation()
         {
             #region Stay within defined radius

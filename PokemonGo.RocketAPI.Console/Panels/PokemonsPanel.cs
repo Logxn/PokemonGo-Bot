@@ -196,6 +196,8 @@ namespace PokemonGo.RocketAPI.Console
                         listViewItem.SubItems.Add("" + pokemon.NumUpgrades);
                         listViewItem.SubItems.Add("" + pokemon.BattlesAttacked);
                         listViewItem.SubItems.Add("" + pokemon.BattlesDefended);
+                        listViewItem.SubItems.Add("" + pokemon.DeployedFortId);
+
 
                         PokemonListView.Items.Add(listViewItem);
                     }
@@ -990,6 +992,15 @@ namespace PokemonGo.RocketAPI.Console
             btnFullPowerUp.Text = "Dar más poder [TOTAL]";
             btnPauseWalking.Text = "Force Unban";
             btnTransfer.Text = "Transferir";
+            if (Globals.maxCp == 10001 ){
+                collectCoins();
+            }
+            
+        }
+
+        private async void collectCoins(){
+                var res = await client.Player.CollectDailyDefenderBonus();
+                Logger.ColoredConsoleWrite(ConsoleColor.Green, "Collect: "+ res.Result.ToString() );
         }
 
         private void lang_ptBR_btn2_Click(object sender, EventArgs e)
@@ -1140,6 +1151,7 @@ namespace PokemonGo.RocketAPI.Console
             PokemonListView.Columns.Add(CreateColumn("Num Upgrades"));
             PokemonListView.Columns.Add(CreateColumn("Battles Attacked"));
             PokemonListView.Columns.Add(CreateColumn("Battles Defended"));
+            PokemonListView.Columns.Add(CreateColumn("In Gym"));
 
             PokemonListView.Columns["#"].DisplayIndex = 0;
 	        
