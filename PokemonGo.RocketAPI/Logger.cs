@@ -41,7 +41,7 @@ namespace PokemonGo.RocketAPI
         {
             ConsoleColor originalColor = Console.ForegroundColor;
             Console.ForegroundColor = color;
-            Console.WriteLine($"[{DateTime.Now.ToString("HH:mm:ss")}] "+ text);
+            Console.WriteLine($"[{level}][{DateTime.Now.ToString("HH:mm:ss")}] "+ text);
             Console.ForegroundColor = originalColor;
             AddLog(text);
         }

@@ -157,8 +157,6 @@
     <Compile Include="Helpers\EncryptionHelper.cs" />
     <Compile Include="Helpers\HashBuilder.cs" />
     <Compile Include="Helpers\ICrypt.cs" />
-    <Compile Include="Helpers\NewCrypt.cs" />
-    <Compile Include="Helpers\PCrypt.cs" />
     <Compile Include="Helpers\PCryptPokeHash.cs" />
     <Compile Include="Helpers\Shuffle\Shuffles.cs" />
     <Compile Include="Helpers\Shuffle\UnShuffle.cs" />
