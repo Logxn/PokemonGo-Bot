@@ -317,10 +317,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\NBug\NBug.csproj">
-      <Project>{62ced1d5-f603-40de-8bf5-3e49d3a392f4}</Project>
-      <Name>NBug</Name>
-    </ProjectReference>
     <ProjectReference Include="..\POGOProtos\POGOProtos.csproj">
       <Project>{a03a7bb2-4f0b-467b-84b2-9a76e6aae6fb}</Project>
       <Name>POGOProtos</Name>
@@ -403,7 +399,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="bin\Release\" />
-    <Folder Include="Panels" />
     <Folder Include="Properties\DataSources\" />
   </ItemGroup>
   <ItemGroup>
