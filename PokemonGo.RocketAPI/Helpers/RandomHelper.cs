@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace PokemonGo.RocketAPI.Helpers
@@ -25,6 +26,11 @@ namespace PokemonGo.RocketAPI.Helpers
         public static async Task RandomDelay(int min, int max)
         {
             await Task.Delay(_rng.Next(min, max)).ConfigureAwait(false);
+        }
+
+        public static void RandomSleep(int min, int max)
+        {
+            Thread.Sleep(_rng.Next(min, max));
         }
 
         public static int RandomNumber(int min, int max)

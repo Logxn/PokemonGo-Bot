@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Collections.Generic;
 using System.Device.Location;
+using PokemonGo.RocketAPI.Helpers;
 
 namespace PokemonGo.RocketAPI.Console
 {
@@ -135,14 +136,14 @@ namespace PokemonGo.RocketAPI.Console
         {
             while (waitingApiResponse)
             {
-                await Task.Delay(1000).ConfigureAwait(false);
+                RandomHelper.RandomSleep(1000,1100);
             }
             waitingApiResponse = true;
             TabPage current = (sender as TabControl).SelectedTab;
             switch (current.Name)
             {
                 case "tpPokemons":
-                    await pokemonsPanel1.Execute().ConfigureAwait(false);
+                    pokemonsPanel1.Execute();
                     break;
                 case "tpItems":
                     await itemsPanel1.Execute().ConfigureAwait(false);

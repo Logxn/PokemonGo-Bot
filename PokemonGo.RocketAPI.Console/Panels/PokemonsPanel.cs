@@ -92,18 +92,26 @@ namespace PokemonGo.RocketAPI.Console
             loadAdditionalPokeData();
         }
         
-        public async Task Execute()
+        private DownloadItemTemplatesResponse templates;
+
+        public async Task refreshData(){
+            inventory = await client.Inventory.GetInventory().ConfigureAwait(false);
+            Logger.ColoredConsoleWrite(ConsoleColor.Gray, $"inventory read");
+            templates = await client.Download.GetItemTemplates().ConfigureAwait(false);
+            Logger.ColoredConsoleWrite(ConsoleColor.Gray, $"templates read");
+        }
+
+        public void Execute()
         {
             EnabledButton(false, "Reloading Pokemon list.");
-            await check().ConfigureAwait(false);
+            check().Wait();
             try
             {
                 client = Logic.Logic.objClient;
                 if (client.readyToUse != false)
                 {
-                    await Task.Delay(1000).ConfigureAwait(false);
-                    inventory = await client.Inventory.GetInventory().ConfigureAwait(false);
-
+                    RandomHelper.RandomSleep(1000, 1200);
+                    refreshData().Wait();
                     try
                     {
                         pokemons =
@@ -117,23 +125,37 @@ namespace PokemonGo.RocketAPI.Console
 
                     }
                     
+                    Logger.ColoredConsoleWrite(ConsoleColor.Gray, $"pokemons read");
+
                     var families = inventory.InventoryDelta.InventoryItems
                         .Select(i => i.InventoryItemData?.Candy)
                         .Where(p => p != null && (int)p?.FamilyId > 0)
                         .OrderByDescending(p => (int)p.FamilyId);
 
+                    Logger.ColoredConsoleWrite(ConsoleColor.Gray, $"families read");
 
-                    var templates = await client.Download.GetItemTemplates().ConfigureAwait(false);
+
+                    
                     var myPokemonSettings = templates.ItemTemplates.Select(i => i.PokemonSettings).Where(p => p != null && p?.FamilyId != PokemonFamilyId.FamilyUnset);
                     var pokemonSettings = myPokemonSettings.ToList();
+                    
+                    Logger.ColoredConsoleWrite(ConsoleColor.Gray, $"templates read");
 
                     var myPokemonFamilies = inventory.InventoryDelta.InventoryItems.Select(i => i.InventoryItemData?.Candy).Where(p => p != null && p?.FamilyId != PokemonFamilyId.FamilyUnset);
                     var pokemonFamilies = myPokemonFamilies.ToArray();
-                    PokemonListView.BeginUpdate();
-                    PokemonListView.Items.Clear();
+                    try{
+                     //   PokemonListView.BeginUpdate();
+                    }catch(Exception){}
+                    Logger.ColoredConsoleWrite(ConsoleColor.Gray, $"disabled update");
                     
+                    
+                    PokemonListView.Items.Clear();
+
+                    Logger.ColoredConsoleWrite(ConsoleColor.Gray, $"PokemonListView cleared");
+
                     foreach (var pokemon in pokemons)
                     {
+                        Logger.ColoredConsoleWrite(ConsoleColor.Gray, $"Adding Pokemon");
                         var listViewItem = new ListViewItem();
                         listViewItem.Tag = pokemon;
                         var currentCandy = families
@@ -198,10 +220,14 @@ namespace PokemonGo.RocketAPI.Console
                         listViewItem.SubItems.Add("" + pokemon.BattlesDefended);
                         listViewItem.SubItems.Add("" + pokemon.DeployedFortId);
 
-
                         PokemonListView.Items.Add(listViewItem);
+                        Logger.ColoredConsoleWrite(ConsoleColor.Gray, $"added pokemon to the list");
+
                     }
-                    PokemonListView.EndUpdate();
+                    try{
+                     //   PokemonListView.EndUpdate();
+                    }catch(Exception){}
+                    Logger.ColoredConsoleWrite(ConsoleColor.Gray, $"restored update");
                     PokemonListView.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
                     EnabledButton(true);
                     btnUseLure.Enabled = false;
@@ -214,9 +240,7 @@ namespace PokemonGo.RocketAPI.Console
             }
             catch (Exception e)
             {
-
-                //Logger.Error("[PokemonList-Error] " + e.StackTrace);
-                await Task.Delay(1000).ConfigureAwait(false); // Lets the API make a little pause, so we dont get blocked
+                Logger.ColoredConsoleWrite(ConsoleColor.Gray, $"Exception catched");
                 Execute();
             }
         }
@@ -386,11 +410,11 @@ namespace PokemonGo.RocketAPI.Console
                     failed += resp.Message + " ";
                 if (Globals.UseAnimationTimes)
                 {
-                    await RandomHelper.RandomDelay(30000, 35000).ConfigureAwait(false);
+                    RandomHelper.RandomSleep(30000, 35000);
                 }
                 else
                 {
-                    await RandomHelper.RandomDelay(500, 800).ConfigureAwait(false);
+                     RandomHelper.RandomSleep(500, 800);
                 }
             }
 
@@ -471,7 +495,7 @@ namespace PokemonGo.RocketAPI.Console
                     }
                     else
                         failed += resp.Message + " ";
-                    await RandomHelper.RandomDelay(5000, 6000).ConfigureAwait(false);
+                     RandomHelper.RandomSleep(5000, 6000);
                 }
 
 
@@ -519,7 +543,7 @@ namespace PokemonGo.RocketAPI.Console
                     powerdup++;
                 else
                     failed += resp.Message + " ";
-                await RandomHelper.RandomDelay(1000, 3000).ConfigureAwait(false);
+                 RandomHelper.RandomSleep(1000, 3000);
             }
             if (failed != string.Empty)
                 MessageBox.Show("Succesfully powered up " + powerdup + "/" + total + " Pokemons. Failed: " + failed, "Transfer status", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -560,7 +584,7 @@ namespace PokemonGo.RocketAPI.Console
                     }
                     else
                         failed += resp.Message + " ";
-                    await RandomHelper.RandomDelay(5000, 6000).ConfigureAwait(false);
+                     RandomHelper.RandomSleep(5000, 6000);
                 }
 
                 if (failed != string.Empty)
@@ -587,7 +611,7 @@ namespace PokemonGo.RocketAPI.Console
                     resp.Message = pokemon.PokemonId.ToString();
                 }
 
-                await RandomHelper.RandomDelay(1000, 2000).ConfigureAwait(false);
+                 RandomHelper.RandomSleep(1000, 2000);
             }
             catch (Exception e)
             {
@@ -637,7 +661,7 @@ namespace PokemonGo.RocketAPI.Console
                     resp.Message = pokemon.PokemonId.ToString();
                 }
 
-                await RandomHelper.RandomDelay(1000, 2000).ConfigureAwait(false);
+                RandomHelper.RandomSleep(1000, 2000);
             }
             catch (Exception e)
             {
@@ -935,7 +959,7 @@ namespace PokemonGo.RocketAPI.Console
                     {
                         powerUps++;
                         statusTexbox.Text = "Powering up..." + powerUps;
-                        await RandomHelper.RandomDelay(1200, 1500).ConfigureAwait(false);
+                        RandomHelper.RandomSleep(1200, 1500);
                     }
                 }
                 if (poweredup > 0 && i == 1)
