@@ -183,8 +183,8 @@ namespace PokemonGo.RocketAPI.Logic.Utils
                 if (_chatid != -1 && _livestats)
                 {
                     var usage = "";
-                    var inventory = await _client.Inventory.GetInventory();
-                    var profil = await _client.Player.GetPlayer();
+                    var inventory = await _client.Inventory.GetInventory().ConfigureAwait(false);
+                    var profil = await _client.Player.GetPlayer().ConfigureAwait(false);
                     var stats = inventory.InventoryDelta.InventoryItems.Select(i => i.InventoryItemData.PlayerStats).ToArray();
                     foreach (var c in stats)
                     {
@@ -207,9 +207,9 @@ namespace PokemonGo.RocketAPI.Logic.Utils
                         }
                     }
 
-                    await _telegram.SendTextMessageAsync(_chatid, usage, replyMarkup: new ReplyKeyboardHide());
+                    await _telegram.SendTextMessageAsync(_chatid, usage, replyMarkup: new ReplyKeyboardHide()).ConfigureAwait(false);
                 }
-                await System.Threading.Tasks.Task.Delay(settings.TelegramLiveStatsDelay);
+                await System.Threading.Tasks.Task.Delay(settings.TelegramLiveStatsDelay).ConfigureAwait(false);
                 DoLiveStats(settings);
             } catch (Exception)
             {
@@ -226,9 +226,9 @@ namespace PokemonGo.RocketAPI.Logic.Utils
                 if (_chatid != -1 && _informations)
                 {
                     int current = 0;
-                    var inventory = await _client.Inventory.GetInventory();
-                    var profil = await _client.Player.GetPlayer();
-                    var stats = await _client.Inventory.GetPlayerStats();
+                    var inventory = await _client.Inventory.GetInventory().ConfigureAwait(false);
+                    var profil = await _client.Player.GetPlayer().ConfigureAwait(false);
+                    var stats = await _client.Inventory.GetPlayerStats().ConfigureAwait(false);
 
                     current = stats.First().Level;
                     
@@ -241,7 +241,7 @@ namespace PokemonGo.RocketAPI.Logic.Utils
 
                     }
                 }
-                await System.Threading.Tasks.Task.Delay(5000);
+                await System.Threading.Tasks.Task.Delay(5000).ConfigureAwait(false);
                 DoInformation();
             } catch (Exception)
             {
@@ -267,7 +267,7 @@ namespace PokemonGo.RocketAPI.Logic.Utils
                     {
                         Properties.Resources.norights.Save(stream, System.Drawing.Imaging.ImageFormat.Jpeg);
                         stream.Position = 0;
-                        await _telegram.SendPhotoAsync(_chatid, new FileToSend("norights.jpg", stream), replyMarkup: new ReplyKeyboardHide());
+                        await _telegram.SendPhotoAsync(_chatid, new FileToSend("norights.jpg", stream), replyMarkup: new ReplyKeyboardHide()).ConfigureAwait(false);
                     }
                     return;
                 }
@@ -286,9 +286,9 @@ namespace PokemonGo.RocketAPI.Logic.Utils
                             @"/forceevolve - Forces Evolve");
                         break;
                     case TelegramUtilTask.GET_STATS:
-                        var inventory = await _client.Inventory.GetInventory();
-                        var profil = await _client.Player.GetPlayer();
-                        var ps = await _client.Inventory.GetPlayerStats(); 
+                        var inventory = await _client.Inventory.GetInventory().ConfigureAwait(false);
+                        var profil = await _client.Player.GetPlayer().ConfigureAwait(false);
+                        var ps = await _client.Inventory.GetPlayerStats().ConfigureAwait(false); 
 
                         int l = ps.First().Level; 
                         long expneeded = ((ps.First().NextLevelXp - ps.First().PrevLevelXp) - StringUtils.getExpDiff(ps.First().Level));
@@ -324,11 +324,11 @@ namespace PokemonGo.RocketAPI.Logic.Utils
                             shows = 10; //TryParse error will reset to 0
                         }
                         telegramAnswer += "Showing " + shows + " Pokemons...\nSorting...";
-                        await _telegram.SendTextMessageAsync(_chatid, telegramAnswer, replyMarkup: new ReplyKeyboardHide());
+                        await _telegram.SendTextMessageAsync(_chatid, telegramAnswer, replyMarkup: new ReplyKeyboardHide()).ConfigureAwait(false);
 
-                        var myPokemons = await _inventory.GetPokemons();
+                        var myPokemons = await _inventory.GetPokemons().ConfigureAwait(false);
                         myPokemons = myPokemons.OrderByDescending(x => x.Cp);
-                        var profile = await _client.Player.GetPlayer();
+                        var profile = await _client.Player.GetPlayer().ConfigureAwait(false);
                         telegramAnswer = $"Top {shows} Pokemons of {profile.PlayerData.Username}:";
 
                         IEnumerable<PokemonData> topPokemon = myPokemons.Take(shows);
@@ -404,37 +404,37 @@ namespace PokemonGo.RocketAPI.Logic.Utils
 
                         break;
                     case TelegramUtilTask.RUN_FORCEEVOLVE:
-                        IEnumerable<PokemonData> pokemonToEvolve = await _inventory.GetPokemonToEvolve(null);
+                        IEnumerable<PokemonData> pokemonToEvolve = await _inventory.GetPokemonToEvolve(null).ConfigureAwait(false);
                         if (pokemonToEvolve.Count() > 3)
                         {
-                            await _inventory.UseLuckyEgg(_client);
+                            await _inventory.UseLuckyEgg(_client).ConfigureAwait(false);
                         }
                         foreach (PokemonData pokemon in pokemonToEvolve)
                         {
                             if (_clientSettings.pokemonsToEvolve.Contains(pokemon.PokemonId))
                             {
-                                var evolvePokemonOutProto = await _client.Inventory.EvolvePokemon((ulong)pokemon.Id);
+                                var evolvePokemonOutProto = await _client.Inventory.EvolvePokemon((ulong)pokemon.Id).ConfigureAwait(false);
                                 if (evolvePokemonOutProto.Result == POGOProtos.Networking.Responses.EvolvePokemonResponse.Types.Result.Success)
                                 {
-                                    await _telegram.SendTextMessageAsync(_chatid, $"Evolved {pokemon.PokemonId} successfully for {evolvePokemonOutProto.ExperienceAwarded}xp", replyMarkup: new ReplyKeyboardHide());
+                                    await _telegram.SendTextMessageAsync(_chatid, $"Evolved {pokemon.PokemonId} successfully for {evolvePokemonOutProto.ExperienceAwarded}xp", replyMarkup: new ReplyKeyboardHide()).ConfigureAwait(false);
                                 }
                                 else
                                 {
-                                    await _telegram.SendTextMessageAsync(_chatid, $"Failed to evolve {pokemon.PokemonId}. EvolvePokemonOutProto.Result was {evolvePokemonOutProto.Result}, stopping evolving {pokemon.PokemonId}", replyMarkup: new ReplyKeyboardHide());
+                                    await _telegram.SendTextMessageAsync(_chatid, $"Failed to evolve {pokemon.PokemonId}. EvolvePokemonOutProto.Result was {evolvePokemonOutProto.Result}, stopping evolving {pokemon.PokemonId}", replyMarkup: new ReplyKeyboardHide()).ConfigureAwait(false);
                                 }
-                                await RandomHelper.RandomDelay(1000, 2000);
+                                await RandomHelper.RandomDelay(1000, 2000).ConfigureAwait(false);
                             }
                         }
                         telegramAnswer = "Done.";
                         break;
                 }
 
-                await _telegram.SendTextMessageAsync(_chatid, telegramAnswer, replyMarkup: new ReplyKeyboardHide());
+                await _telegram.SendTextMessageAsync(_chatid, telegramAnswer, replyMarkup: new ReplyKeyboardHide()).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
                 if (ex is ApiRequestException)
-                    await _telegram.SendTextMessageAsync(_chatid, (ex as ApiRequestException).Message, replyMarkup: new ReplyKeyboardHide());
+                    await _telegram.SendTextMessageAsync(_chatid, (ex as ApiRequestException).Message, replyMarkup: new ReplyKeyboardHide()).ConfigureAwait(false);
             }
         }
 
@@ -457,7 +457,7 @@ namespace PokemonGo.RocketAPI.Logic.Utils
 
         public async void BotOnCallbackQueryReceived(object sender, CallbackQueryEventArgs callbackQueryEventArgs)
         {
-            await _telegram.AnswerCallbackQueryAsync(callbackQueryEventArgs.CallbackQuery.Id, $"Received {callbackQueryEventArgs.CallbackQuery.Data}");
+            await _telegram.AnswerCallbackQueryAsync(callbackQueryEventArgs.CallbackQuery.Id, $"Received {callbackQueryEventArgs.CallbackQuery.Data}").ConfigureAwait(false);
         }
     }
 }

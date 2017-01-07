@@ -57,8 +57,8 @@ namespace PokemonGo.RocketAPI.Rpc
         {
             var requests = CommonRequest.FillRequest(request, Client);
 
-            var serverRequest = await GetRequestBuilder().GetRequestEnvelope(requests, true);
-            var serverResponse = await PostProto<Request>(serverRequest);
+            var serverRequest = await GetRequestBuilder().GetRequestEnvelope(requests, true).ConfigureAwait(false);
+            var serverResponse = await PostProto<Request>(serverRequest).ConfigureAwait(false);
 
             if (!string.IsNullOrEmpty(serverResponse.ApiUrl))
                 Client.ApiUrl = "https://" + serverResponse.ApiUrl + "/rpc";
@@ -73,7 +73,7 @@ namespace PokemonGo.RocketAPI.Rpc
                     throw new AccessTokenExpiredException();
                 case ResponseEnvelope.Types.StatusCode.Redirect:
                     // 53 means that the api_endpoint was not correctly set, should be at this point, though, so redo the request
-                    await FireRequestBlock(request);
+                    await FireRequestBlock(request).ConfigureAwait(false);
                     return;
                 case ResponseEnvelope.Types.StatusCode.BadRequest:
                     // Your account may be banned! please try from the official client.
@@ -125,7 +125,7 @@ namespace PokemonGo.RocketAPI.Rpc
 
         public async Task FireRequestBlockTwo()
         {
-            await FireRequestBlock(CommonRequest.GetGetAssetDigestMessageRequest(Client));
+            await FireRequestBlock(CommonRequest.GetGetAssetDigestMessageRequest(Client)).ConfigureAwait(false);
         }
     }
 }

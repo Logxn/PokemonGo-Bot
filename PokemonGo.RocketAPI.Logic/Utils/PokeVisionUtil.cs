@@ -30,9 +30,9 @@ namespace PokemonGo.RocketAPI.Logic.Utils
             double Lat10 = lat + 0.10;
             double Lon10 = lng + 0.10;
 
-            HttpResponseMessage response = await _httpClient.GetAsync("https://skiplagged.com/api/pokemon.php?bounds=" + lat.ToString().Replace(",", ".") + "," + lng.ToString().Replace(",", ".") + "," + Lat10.ToString().Replace(",", ".") + "," + Lon10.ToString().Replace(",", "."));
+            HttpResponseMessage response = await _httpClient.GetAsync("https://skiplagged.com/api/pokemon.php?bounds=" + lat.ToString().Replace(",", ".") + "," + lng.ToString().Replace(",", ".") + "," + Lat10.ToString().Replace(",", ".") + "," + Lon10.ToString().Replace(",", ".")).ConfigureAwait(false);
             HttpContent content = response.Content;
-            string result = await content.ReadAsStringAsync();
+            string result = await content.ReadAsStringAsync().ConfigureAwait(false);
 
             dynamic stuff = JsonConvert.DeserializeObject(result);
             try

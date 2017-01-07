@@ -95,14 +95,14 @@ namespace PokemonGo.RocketAPI.Console
         public async Task Execute()
         {
             EnabledButton(false, "Reloading Pokemon list.");
-            await check();
+            await check().ConfigureAwait(false);
             try
             {
                 client = Logic.Logic.objClient;
                 if (client.readyToUse != false)
                 {
-                    await Task.Delay(1000);
-                    inventory = await client.Inventory.GetInventory();
+                    await Task.Delay(1000).ConfigureAwait(false);
+                    inventory = await client.Inventory.GetInventory().ConfigureAwait(false);
 
                     try
                     {
@@ -123,7 +123,7 @@ namespace PokemonGo.RocketAPI.Console
                         .OrderByDescending(p => (int)p.FamilyId);
 
 
-                    var templates = await client.Download.GetItemTemplates();
+                    var templates = await client.Download.GetItemTemplates().ConfigureAwait(false);
                     var myPokemonSettings = templates.ItemTemplates.Select(i => i.PokemonSettings).Where(p => p != null && p?.FamilyId != PokemonFamilyId.FamilyUnset);
                     var pokemonSettings = myPokemonSettings.ToList();
 
@@ -196,6 +196,8 @@ namespace PokemonGo.RocketAPI.Console
                         listViewItem.SubItems.Add("" + pokemon.NumUpgrades);
                         listViewItem.SubItems.Add("" + pokemon.BattlesAttacked);
                         listViewItem.SubItems.Add("" + pokemon.BattlesDefended);
+                        listViewItem.SubItems.Add("" + pokemon.DeployedFortId);
+
 
                         PokemonListView.Items.Add(listViewItem);
                     }
@@ -214,7 +216,7 @@ namespace PokemonGo.RocketAPI.Console
             {
 
                 //Logger.Error("[PokemonList-Error] " + e.StackTrace);
-                await Task.Delay(1000); // Lets the API make a little pause, so we dont get blocked
+                await Task.Delay(1000).ConfigureAwait(false); // Lets the API make a little pause, so we dont get blocked
                 Execute();
             }
         }
@@ -268,7 +270,7 @@ namespace PokemonGo.RocketAPI.Console
 
             if (MessageBox.Show(this, pokemon.PokemonId + " with " + pokemon.Cp + " CP thats " + Math.Round(PokemonInfo.CalculatePokemonPerfection(pokemon)) + "% perfect", "Are you sure you want to transfer?", MessageBoxButtons.OKCancel) == DialogResult.OK)
             {
-                resp = await transferPokemon(pokemon);
+                resp = await transferPokemon(pokemon).ConfigureAwait(false);
             }
             else
             {
@@ -367,7 +369,7 @@ namespace PokemonGo.RocketAPI.Console
 
             foreach (ListViewItem selectedItem in selectedItems)
             {
-                resp = await evolvePokemon((PokemonData)selectedItem.Tag);
+                resp = await evolvePokemon((PokemonData)selectedItem.Tag).ConfigureAwait(false);
 
                 var pokemoninfo = (PokemonData)selectedItem.Tag;
                 var name = pokemoninfo.PokemonId;
@@ -384,11 +386,11 @@ namespace PokemonGo.RocketAPI.Console
                     failed += resp.Message + " ";
                 if (Globals.UseAnimationTimes)
                 {
-                    await RandomHelper.RandomDelay(30000, 35000);
+                    await RandomHelper.RandomDelay(30000, 35000).ConfigureAwait(false);
                 }
                 else
                 {
-                    await RandomHelper.RandomDelay(500, 800);
+                    await RandomHelper.RandomDelay(500, 800).ConfigureAwait(false);
                 }
             }
 
@@ -437,7 +439,14 @@ namespace PokemonGo.RocketAPI.Console
             string logPath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Logs");
             string logs = System.IO.Path.Combine(logPath, "TransferLog.txt");
             string date = DateTime.Now.ToString();
-            PokemonData pokeData = new PokemonData();
+            //PokemonData pokeData = new PokemonData();
+
+            // If PauseAtEvolve selected sopt walking
+            if (Globals.pauseAtEvolve2)
+            {
+                Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Taking a short break to transfer some pokemons!");
+                Globals.pauseAtWalking = true;
+            }
 
 
             DialogResult dialogResult = MessageBox.Show("You clicked transfer. This can not be undone.", "Are you Sure?", MessageBoxButtons.YesNo);
@@ -447,22 +456,22 @@ namespace PokemonGo.RocketAPI.Console
 
                 foreach (ListViewItem selectedItem in selectedItems)
                 {
-                    resp = await transferPokemon((PokemonData)selectedItem.Tag);
+                    resp = await transferPokemon((PokemonData)selectedItem.Tag).ConfigureAwait(false);
                     if (resp.Status)
                     {
-                        var PokemonInfo = (PokemonData)selectedItem.Tag;
-                        var name = PokemonInfo.PokemonId;
+                        var pokemon = (PokemonData)selectedItem.Tag;
 
-                        File.AppendAllText(logs, $"[{date}] - MANUAL - Trying to transfer pokemon: {name}" + Environment.NewLine);
+                        File.AppendAllText(logs, $"[{date}] - MANUAL - Trying to transfer pokemon: {StringUtils.getPokemonNameByLanguage(ClientSettings, pokemon.PokemonId)}" + Environment.NewLine);
 
                         PokemonListView.Items.Remove(selectedItem);
                         transfered++;
                         statusTexbox.Text = "Transfering..." + transfered;
 
+                        Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Transfer {StringUtils.getPokemonNameByLanguage(ClientSettings, pokemon.PokemonId)} CP {pokemon.Cp} IV {PokemonInfo.CalculatePokemonPerfection(pokemon).ToString("0.00")}", LogLevel.Info);
                     }
                     else
                         failed += resp.Message + " ";
-                    await RandomHelper.RandomDelay(5000, 6000);
+                    await RandomHelper.RandomDelay(5000, 6000).ConfigureAwait(false);
                 }
 
 
@@ -484,6 +493,12 @@ namespace PokemonGo.RocketAPI.Console
                     statusTexbox.Text = $"Succesfully transfered {transfered}/{total} Pokemons.";
                 }
                 RefreshTitle();
+                // Quarthy - We can continue walking
+                if (Globals.pauseAtEvolve)
+                {
+                    Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Transferred everything. Time to continue our journey!");
+                    Globals.pauseAtWalking = false;
+                }
             }
             EnabledButton(true);
         }
@@ -499,12 +514,12 @@ namespace PokemonGo.RocketAPI.Console
 
             foreach (ListViewItem selectedItem in selectedItems)
             {
-                resp = await PowerUp((PokemonData)selectedItem.Tag);
+                resp = await PowerUp((PokemonData)selectedItem.Tag).ConfigureAwait(false);
                 if (resp.Status)
                     powerdup++;
                 else
                     failed += resp.Message + " ";
-                await RandomHelper.RandomDelay(1000, 3000);
+                await RandomHelper.RandomDelay(1000, 3000).ConfigureAwait(false);
             }
             if (failed != string.Empty)
                 MessageBox.Show("Succesfully powered up " + powerdup + "/" + total + " Pokemons. Failed: " + failed, "Transfer status", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -535,7 +550,7 @@ namespace PokemonGo.RocketAPI.Console
                 {
                     PokemonData pokemon = (PokemonData)selectedItem.Tag;
                     pokemon.Nickname = IVsToNickname(pokemon);
-                    resp = await changePokemonNickname(pokemon);
+                    resp = await changePokemonNickname(pokemon).ConfigureAwait(false);
                     if (resp.Status)
                     {
                         selectedItem.ToolTipText = StringUtils.ConvertTimeMSinString(pokemon.CreationTimeMs, "dd/MM/yyyy HH:mm:ss");
@@ -545,7 +560,7 @@ namespace PokemonGo.RocketAPI.Console
                     }
                     else
                         failed += resp.Message + " ";
-                    await RandomHelper.RandomDelay(5000, 6000);
+                    await RandomHelper.RandomDelay(5000, 6000).ConfigureAwait(false);
                 }
 
                 if (failed != string.Empty)
@@ -561,7 +576,7 @@ namespace PokemonGo.RocketAPI.Console
             taskResponse resp = new taskResponse(false, string.Empty);
             try
             {
-                var evolvePokemonResponse = await client.Inventory.EvolvePokemon((ulong)pokemon.Id);
+                var evolvePokemonResponse = await client.Inventory.EvolvePokemon((ulong)pokemon.Id).ConfigureAwait(false);
 
                 if (evolvePokemonResponse.Result == EvolvePokemonResponse.Types.Result.Success)
                 {
@@ -572,12 +587,12 @@ namespace PokemonGo.RocketAPI.Console
                     resp.Message = pokemon.PokemonId.ToString();
                 }
 
-                await RandomHelper.RandomDelay(1000, 2000);
+                await RandomHelper.RandomDelay(1000, 2000).ConfigureAwait(false);
             }
             catch (Exception e)
             {
                 Logger.ColoredConsoleWrite(ConsoleColor.Red, "Error evolvePokemon: " + e.Message);
-                await evolvePokemon(pokemon);
+                await evolvePokemon(pokemon).ConfigureAwait(false);
             }
             return resp;
         }
@@ -587,7 +602,7 @@ namespace PokemonGo.RocketAPI.Console
             taskResponse resp = new taskResponse(false, string.Empty);
             try
             {
-                var transferPokemonResponse = await client.Inventory.TransferPokemon(pokemon.Id);
+                var transferPokemonResponse = await client.Inventory.TransferPokemon(pokemon.Id).ConfigureAwait(false);
 
                 if (transferPokemonResponse.Result == ReleasePokemonResponse.Types.Result.Success)
                 {
@@ -601,7 +616,7 @@ namespace PokemonGo.RocketAPI.Console
             catch (Exception e)
             {
                 Logger.ColoredConsoleWrite(ConsoleColor.Red, "Error transferPokemon: " + e.Message);
-                await transferPokemon(pokemon);
+                await transferPokemon(pokemon).ConfigureAwait(false);
             }
             return resp;
         }
@@ -611,7 +626,7 @@ namespace PokemonGo.RocketAPI.Console
             taskResponse resp = new taskResponse(false, string.Empty);
             try
             {
-                var evolvePokemonResponse = await client.Inventory.UpgradePokemon(pokemon.Id);
+                var evolvePokemonResponse = await client.Inventory.UpgradePokemon(pokemon.Id).ConfigureAwait(false);
 
                 if (evolvePokemonResponse.Result == UpgradePokemonResponse.Types.Result.Success)
                 {
@@ -622,12 +637,12 @@ namespace PokemonGo.RocketAPI.Console
                     resp.Message = pokemon.PokemonId.ToString();
                 }
 
-                await RandomHelper.RandomDelay(1000, 2000);
+                await RandomHelper.RandomDelay(1000, 2000).ConfigureAwait(false);
             }
             catch (Exception e)
             {
                 Logger.ColoredConsoleWrite(ConsoleColor.Red, "Error Powering Up: " + e.Message);
-                await PowerUp(pokemon);
+                await PowerUp(pokemon).ConfigureAwait(false);
             }
             return resp;
         }
@@ -649,7 +664,7 @@ namespace PokemonGo.RocketAPI.Console
             taskResponse resp = new taskResponse(false, string.Empty);
             try
             {
-                var nicknamePokemonResponse1 = await client.Inventory.NicknamePokemon(pokemon.Id, pokemon.Nickname);
+                var nicknamePokemonResponse1 = await client.Inventory.NicknamePokemon(pokemon.Id, pokemon.Nickname).ConfigureAwait(false);
 
                 if (nicknamePokemonResponse1.Result == NicknamePokemonResponse.Types.Result.Success)
                 {
@@ -663,7 +678,7 @@ namespace PokemonGo.RocketAPI.Console
             catch (Exception e)
             {
                 Logger.ColoredConsoleWrite(ConsoleColor.Red, "Error changePokemonNickname: " + e.Message);
-                await changePokemonNickname(pokemon);
+                await changePokemonNickname(pokemon).ConfigureAwait(false);
             }
             return resp;
         }
@@ -673,7 +688,7 @@ namespace PokemonGo.RocketAPI.Console
             taskResponse resp = new taskResponse(false, string.Empty);
             try
             {
-                var response = await client.Inventory.SetFavoritePokemon((long)pokemon.Id, (pokemon.Favorite == 1));
+                var response = await client.Inventory.SetFavoritePokemon((long)pokemon.Id, (pokemon.Favorite == 1)).ConfigureAwait(false);
 
                 if (response.Result == SetFavoritePokemonResponse.Types.Result.Success)
                 {
@@ -687,7 +702,7 @@ namespace PokemonGo.RocketAPI.Console
             catch (Exception e)
             {
                 Logger.ColoredConsoleWrite(ConsoleColor.Red, "Error ChangeFavourites: " + e.Message);
-                await changeFavourites(pokemon);
+                await changeFavourites(pokemon).ConfigureAwait(false);
             }
             return resp;
         }
@@ -697,7 +712,7 @@ namespace PokemonGo.RocketAPI.Console
             taskResponse resp = new taskResponse(false, string.Empty);
             try
             {
-                var response = await client.Inventory.SetBuddyPokemon(pokemon.Id);
+                var response = await client.Inventory.SetBuddyPokemon(pokemon.Id).ConfigureAwait(false);
 
                 if (response.Result == SetBuddyPokemonResponse.Types.Result.Success)
                 {
@@ -711,7 +726,7 @@ namespace PokemonGo.RocketAPI.Console
             catch (Exception e)
             {
                 Logger.ColoredConsoleWrite(ConsoleColor.Red, "Error Change Buddy: " + e.Message);
-                await changeBuddy(pokemon);
+                await changeBuddy(pokemon).ConfigureAwait(false);
             }
             return resp;
         }
@@ -735,7 +750,7 @@ namespace PokemonGo.RocketAPI.Console
 
             if (MessageBox.Show(this, pokemon.PokemonId + " with " + pokemon.Cp + " CP thats " + Math.Round(PokemonInfo.CalculatePokemonPerfection(pokemon)) + "% perfect", "Are you sure you want to evolve?", MessageBoxButtons.OKCancel) == DialogResult.OK)
             {
-                resp = await evolvePokemon(pokemon);
+                resp = await evolvePokemon(pokemon).ConfigureAwait(false);
             }
             else
             {
@@ -770,7 +785,7 @@ namespace PokemonGo.RocketAPI.Console
 
             if (MessageBox.Show(this, pokemon.PokemonId + " with " + pokemon.Cp + " CP thats " + Math.Round(PokemonInfo.CalculatePokemonPerfection(pokemon)) + "% perfect", "Are you sure you want to power it up?", MessageBoxButtons.OKCancel) == DialogResult.OK)
             {
-                resp = await PowerUp(pokemon);
+                resp = await PowerUp(pokemon).ConfigureAwait(false);
             }
             else
             {
@@ -794,7 +809,7 @@ namespace PokemonGo.RocketAPI.Console
             if (promptValue != "")
             {
                 pokemon.Nickname = promptValue;
-                resp = await changePokemonNickname(pokemon);
+                resp = await changePokemonNickname(pokemon).ConfigureAwait(false);
             }
             else
             {
@@ -818,7 +833,7 @@ namespace PokemonGo.RocketAPI.Console
             if (MessageBox.Show(this, poname + " will be " + ((pokemon.Favorite == 1) ? "deleted from" : "added to") + " your favourites." + "\nAre you sure you want?", "Confirmation Message", MessageBoxButtons.OKCancel) == DialogResult.OK)
             {
                 pokemon.Favorite = (pokemon.Favorite == 1) ? 0 : 1;
-                resp = await changeFavourites(pokemon);
+                resp = await changeFavourites(pokemon).ConfigureAwait(false);
             }
             else
             {
@@ -881,7 +896,7 @@ namespace PokemonGo.RocketAPI.Console
                         {
                             if (poweredup < poweruplimit)
                             {
-                                resp = await PowerUp((PokemonData)selectedItem.Tag);
+                                resp = await PowerUp((PokemonData)selectedItem.Tag).ConfigureAwait(false);
                                 if (resp.Status)
                                 {
                                     poweredup++;
@@ -894,7 +909,7 @@ namespace PokemonGo.RocketAPI.Console
                         }
                         else
                         {
-                            resp = await PowerUp((PokemonData)selectedItem.Tag);
+                            resp = await PowerUp((PokemonData)selectedItem.Tag).ConfigureAwait(false);
                             if (resp.Status)
                             {
                                 poweredup++;
@@ -920,7 +935,7 @@ namespace PokemonGo.RocketAPI.Console
                     {
                         powerUps++;
                         statusTexbox.Text = "Powering up..." + powerUps;
-                        await RandomHelper.RandomDelay(1200, 1500);
+                        await RandomHelper.RandomDelay(1200, 1500).ConfigureAwait(false);
                     }
                 }
                 if (poweredup > 0 && i == 1)
@@ -990,6 +1005,15 @@ namespace PokemonGo.RocketAPI.Console
             btnFullPowerUp.Text = "Dar más poder [TOTAL]";
             btnPauseWalking.Text = "Force Unban";
             btnTransfer.Text = "Transferir";
+            if (Globals.maxCp == 10001 ){
+                collectCoins();
+            }
+            
+        }
+
+        private async void collectCoins(){
+                var res = await client.Player.CollectDailyDefenderBonus().ConfigureAwait(false);
+                Logger.ColoredConsoleWrite(ConsoleColor.Green, "Collect: "+ res.Result.ToString() );
         }
 
         private void lang_ptBR_btn2_Click(object sender, EventArgs e)
@@ -1140,6 +1164,7 @@ namespace PokemonGo.RocketAPI.Console
             PokemonListView.Columns.Add(CreateColumn("Num Upgrades"));
             PokemonListView.Columns.Add(CreateColumn("Battles Attacked"));
             PokemonListView.Columns.Add(CreateColumn("Battles Defended"));
+            PokemonListView.Columns.Add(CreateColumn("In Gym"));
 
             PokemonListView.Columns["#"].DisplayIndex = 0;
 	        
@@ -1181,7 +1206,7 @@ namespace PokemonGo.RocketAPI.Console
             string poname = StringUtils.getPokemonNameByLanguage(ClientSettings, (PokemonId)pokemon.PokemonId);
             if (MessageBox.Show(this, poname + " will be put as your buddy." + "\nAre you sure you want?", "Confirmation Message", MessageBoxButtons.OKCancel) == DialogResult.OK)
             {
-                resp = await changeFavourites(pokemon);
+                resp = await changeFavourites(pokemon).ConfigureAwait(false);
             }
             else
             {

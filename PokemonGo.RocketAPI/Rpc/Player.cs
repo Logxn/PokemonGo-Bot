@@ -39,7 +39,7 @@ namespace PokemonGo.RocketAPI.Rpc
                 }
             });
 
-            return await PostProtoPayload<Request, PlayerUpdateResponse>(updatePlayerLocationRequestEnvelope);
+            return await PostProtoPayload<Request, PlayerUpdateResponse>(updatePlayerLocationRequestEnvelope).ConfigureAwait(false);
         }
 
         internal void SetCoordinates(double lat, double lng, double altitude)
@@ -63,7 +63,7 @@ namespace PokemonGo.RocketAPI.Rpc
         
         public async Task<GetPlayerResponse> GetPlayer()
         {
-            return await PostProtoPayload<Request, GetPlayerResponse>(RequestType.GetPlayer, new GetPlayerMessage());
+            return await PostProtoPayload<Request, GetPlayerResponse>(RequestType.GetPlayer, new GetPlayerMessage()).ConfigureAwait(false);
         }
 
         public async Task<GetPlayerProfileResponse> GetPlayerProfile(string playerName)
@@ -76,22 +76,22 @@ namespace PokemonGo.RocketAPI.Rpc
 
         public async Task<CheckAwardedBadgesResponse> GetNewlyAwardedBadges()
         {
-            return await PostProtoPayload<Request, CheckAwardedBadgesResponse>(RequestType.CheckAwardedBadges, new CheckAwardedBadgesMessage());
+            return await PostProtoPayload<Request, CheckAwardedBadgesResponse>(RequestType.CheckAwardedBadges, new CheckAwardedBadgesMessage()).ConfigureAwait(false);
         }
 
         public async Task<CollectDailyBonusResponse> CollectDailyBonus()
         {
-            return await PostProtoPayload<Request, CollectDailyBonusResponse>(RequestType.CollectDailyBonus, new CollectDailyBonusMessage());
+            return await PostProtoPayload<Request, CollectDailyBonusResponse>(RequestType.CollectDailyBonus, new CollectDailyBonusMessage()).ConfigureAwait(false);
         }
 
         public async Task<CollectDailyDefenderBonusResponse> CollectDailyDefenderBonus()
         {
-            return await PostProtoPayload<Request, CollectDailyDefenderBonusResponse>(RequestType.CollectDailyDefenderBonus, new CollectDailyDefenderBonusMessage());
+            return await PostProtoPayload<Request, CollectDailyDefenderBonusResponse>(RequestType.CollectDailyDefenderBonus, new CollectDailyDefenderBonusMessage()).ConfigureAwait(false);
         }
 
         public async Task<EquipBadgeResponse> EquipBadge(BadgeType type)
         {
-            return await PostProtoPayload<Request, EquipBadgeResponse>(RequestType.EquipBadge, new EquipBadgeMessage() { BadgeType = type });
+            return await PostProtoPayload<Request, EquipBadgeResponse>(RequestType.EquipBadge, new EquipBadgeMessage() { BadgeType = type }).ConfigureAwait(false);
         }
 
         public async Task<LevelUpRewardsResponse> GetLevelUpRewards(int level)
@@ -128,7 +128,7 @@ namespace PokemonGo.RocketAPI.Rpc
 
         public async Task<VerifyChallengeResponse> VerifyChallenge(string token)
         {
-            return await PostProtoPayload<Request, VerifyChallengeResponse>(RequestType.VerifyChallenge, CommonRequest.GetVerifyChallenge(token));
+            return await PostProtoPayload<Request, VerifyChallengeResponse>(RequestType.VerifyChallenge, CommonRequest.GetVerifyChallenge(token)).ConfigureAwait(false);
         }
     }
 }

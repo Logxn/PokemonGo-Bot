@@ -23,12 +23,12 @@ namespace PokemonGo.RocketAPI.Rpc
                 Hash = "b8fa9757195897aae92c53dbcf8a60fb3d86d745"
             };
             
-            return await PostProtoPayload<Request, DownloadSettingsResponse>(RequestType.DownloadSettings, message);
+            return await PostProtoPayload<Request, DownloadSettingsResponse>(RequestType.DownloadSettings, message).ConfigureAwait(false);
         }
 
         public async Task<DownloadItemTemplatesResponse> GetItemTemplates()
         {
-            return await PostProtoPayload<Request, DownloadItemTemplatesResponse>(RequestType.DownloadItemTemplates, new DownloadItemTemplatesMessage());
+            return await PostProtoPayload<Request, DownloadItemTemplatesResponse>(RequestType.DownloadItemTemplates, new DownloadItemTemplatesMessage()).ConfigureAwait(false);
         }
 
         public async Task<DownloadRemoteConfigVersionResponse> GetRemoteConfigVersion(uint appVersion, string deviceManufacturer, string deviceModel, string locale, Platform platform)

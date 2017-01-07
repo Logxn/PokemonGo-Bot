@@ -52,7 +52,7 @@ namespace PokemonGo.RocketAPI.Console
                 var client = Logic.Logic.objClient;
 	            if (client.readyToUse != false)
 	            {
-                   var inventory = await client.Inventory.GetInventory();
+                   var inventory = await client.Inventory.GetInventory().ConfigureAwait(false);
                    var items = client.Inventory.GetEggs(inventory);
                    var incubators = client.Inventory.GetEggIncubators(inventory); 
                    var arrStats = client.Inventory.GetPlayerStats(inventory);
@@ -109,7 +109,7 @@ namespace PokemonGo.RocketAPI.Console
             {
 
                 Logger.Error("[EggsList-Error] " + e.StackTrace);
-                await Task.Delay(1000); // Lets the API make a little pause, so we dont get blocked
+                await Task.Delay(1000).ConfigureAwait(false); // Lets the API make a little pause, so we dont get blocked
                 Execute();
             }
 		}
@@ -139,7 +139,7 @@ namespace PokemonGo.RocketAPI.Console
 				 								
                 var resp = new taskResponse(false, string.Empty);
 
-                resp = await IncubateEgg(incubator, egg);
+                resp = await IncubateEgg(incubator, egg).ConfigureAwait(false);
                 if (resp.Status)
                 {
 	               	if (incubator.ItemId==ItemId.ItemIncubatorBasic){
@@ -177,7 +177,7 @@ namespace PokemonGo.RocketAPI.Console
             try
             {
             	var client = Logic.Logic.objClient;
-            	var resp2 = await client.Inventory.UseItemEggIncubator( item.Id, egg.Id);
+            	var resp2 = await client.Inventory.UseItemEggIncubator( item.Id, egg.Id).ConfigureAwait(false);
 
                 if (resp2.Result == UseItemEggIncubatorResponse.Types.Result.Success)
                 {
@@ -191,7 +191,7 @@ namespace PokemonGo.RocketAPI.Console
             catch (Exception e)
             {
                 Logger.ColoredConsoleWrite(ConsoleColor.Red, "Error IncubateEgg: " + e.Message);
-                await IncubateEgg(item, egg);
+                await IncubateEgg(item, egg).ConfigureAwait(false);
             }
             return resp1;
         }				

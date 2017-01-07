@@ -19,12 +19,12 @@ namespace PokemonGo.RocketAPI.Helpers
 
         public static async Task RandomDelay(int maxDelay = 5000)
         {
-            await Task.Delay(_rng.Next((maxDelay > 500) ? 500 : 0, maxDelay));
+            await Task.Delay(_rng.Next((maxDelay > 500) ? 500 : 0, maxDelay)).ConfigureAwait(false);
         }
 
         public static async Task RandomDelay(int min, int max)
         {
-            await Task.Delay(_rng.Next(min, max));
+            await Task.Delay(_rng.Next(min, max)).ConfigureAwait(false);
         }
 
         public static int RandomNumber(int min, int max)
