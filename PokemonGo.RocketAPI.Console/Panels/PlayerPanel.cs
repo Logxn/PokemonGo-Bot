@@ -52,7 +52,7 @@ namespace PokemonGo.RocketAPI.Console
             labelUserProperty5Value.Text = "";
             labelUserProperty6Value.Text = "";
 
-            await check();
+            await check().ConfigureAwait(false);
             var client = Logic.Logic.objClient;
             if (client.readyToUse != false)
             {
@@ -60,9 +60,9 @@ namespace PokemonGo.RocketAPI.Console
 
                 if (refreshData)
                 {
-                    profile = await client.Player.GetPlayer();
-                    await Task.Delay(1000); // Pause to simulate human speed. 
-                    var playerStats = await client.Inventory.GetPlayerStats();
+                    profile = await client.Player.GetPlayer().ConfigureAwait(false);
+                    await Task.Delay(1000).ConfigureAwait(false); // Pause to simulate human speed. 
+                    var playerStats = await client.Inventory.GetPlayerStats().ConfigureAwait(false);
                     stats = playerStats.First();
                 
                 }
@@ -171,8 +171,8 @@ namespace PokemonGo.RocketAPI.Console
                 labelUserProperty6Value.Text = string.Format("{0}km", kmWalked);
 
                 /*
-                var pokemonToEvolve = (await client.Inventory.GetPokemonToEvolve()).Count();
-                labelUserProperty4Value.Text = string.Format("{0} + {1} Eggs / {2} ({3} Evolvable)", await client.Inventory.getPokemonCount(), await client.Inventory.GetEggsCount(), profile.PlayerData.MaxPokemonStorage, pokemonToEvolve);
+                var pokemonToEvolve = (await client.Inventory.GetPokemonToEvolve()).Count().ConfigureAwait(false);
+                labelUserProperty4Value.Text = string.Format("{0} + {1} Eggs / {2} ({3} Evolvable)", await client.Inventory.getPokemonCount(), await client.Inventory.GetEggsCount(), profile.PlayerData.MaxPokemonStorage, pokemonToEvolve).ConfigureAwait(false);
                 */
             }
 
@@ -230,7 +230,7 @@ namespace PokemonGo.RocketAPI.Console
             if (teamSelect.ShowDialog() == DialogResult.OK){
                 // Simulate to enter in a gym before select a team.
                 var client = Logic.Logic.objClient;
-                var mapObjects = await client.Map.GetMapObjects();
+                var mapObjects = await client.Map.GetMapObjects().ConfigureAwait(false);
                 var mapCells = mapObjects.Item1.MapCells;
 
                 var pokeGyms = mapCells.SelectMany(i => i.Forts)
@@ -239,12 +239,12 @@ namespace PokemonGo.RocketAPI.Console
 	            {
 	            	var pokegym = pokeGyms.First();
 
-                    var resp = await GetGym(pokegym.Id,pokegym.Latitude,pokegym.Longitude);
+                    var resp = await GetGym(pokegym.Id,pokegym.Latitude,pokegym.Longitude).ConfigureAwait(false);
                     if (resp.Status)
                     {
                         var team = teamSelect.selected;
-                        await Task.Delay(1000); // Pause to simulate human speed. 
-                        var resp2 = await SelectTeam(team);
+                        await Task.Delay(1000).ConfigureAwait(false); // Pause to simulate human speed. 
+                        var resp2 = await SelectTeam(team).ConfigureAwait(false);
                         if (resp2.Status)
                         {
                             Logger.ColoredConsoleWrite(ConsoleColor.Green, "Selected Team: " + team.ToString());
@@ -281,7 +281,7 @@ namespace PokemonGo.RocketAPI.Console
             try
             {
             	var client = Logic.Logic.objClient;
-            	var resp2 = await client.Player.SetPlayerTeam(teamColor);
+            	var resp2 = await client.Player.SetPlayerTeam(teamColor).ConfigureAwait(false);
 
                 if (resp2.Status == SetPlayerTeamResponse.Types.Status.Success)
                 {
@@ -295,7 +295,7 @@ namespace PokemonGo.RocketAPI.Console
             catch (Exception e)
             {
                 Logger.ColoredConsoleWrite(ConsoleColor.Red, "Error SelectTeam: " + e.Message);
-                await SelectTeam(teamColor);
+                await SelectTeam(teamColor).ConfigureAwait(false);
             }
             return resp1;
         }	
@@ -306,7 +306,7 @@ namespace PokemonGo.RocketAPI.Console
             try
             {
             	var client = Logic.Logic.objClient;
-            	var resp2 = await client.Fort.GetGymDetails( gym,lat,lng);
+            	var resp2 = await client.Fort.GetGymDetails( gym,lat,lng).ConfigureAwait(false);
 
                 if (resp2.Result == GetGymDetailsResponse.Types.Result.Success)
                 {
@@ -320,7 +320,7 @@ namespace PokemonGo.RocketAPI.Console
             catch (Exception e)
             {
                 Logger.ColoredConsoleWrite(ConsoleColor.Red, "Error GetGym: " + e.Message);
-                await GetGym(gym,lat,lng);
+                await GetGym(gym,lat,lng).ConfigureAwait(false);
             }
             return resp1;
         }			

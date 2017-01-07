@@ -61,7 +61,7 @@ namespace PokemonGo.RocketAPI.Console
                 var client = Logic.Logic.objClient;
 	            if (client.readyToUse != false)
 	            {
-	               var items = await client.Inventory.GetItems();
+	               var items = await client.Inventory.GetItems().ConfigureAwait(false);
 	              
 	               ItemId[] validsIDs = {ItemId.ItemPokeBall,ItemId.ItemGreatBall,ItemId.ItemUltraBall};
 	               
@@ -85,7 +85,7 @@ namespace PokemonGo.RocketAPI.Console
             {
 
                 Logger.Error("[ItemsList-Error] " + e.StackTrace);
-                await Task.Delay(1000); // Lets the API make a little pause, so we dont get blocked
+                await Task.Delay(1000).ConfigureAwait(false); // Lets the API make a little pause, so we dont get blocked
                 Execute();
             }
         }
@@ -130,7 +130,7 @@ namespace PokemonGo.RocketAPI.Console
             {
                 taskResponse resp = new taskResponse(false, string.Empty);
 
-                resp = await RecycleItems(item, amount);
+                resp = await RecycleItems(item, amount).ConfigureAwait(false);
                 if (resp.Status)
                 {
                     item.Count -= amount;
@@ -158,7 +158,7 @@ namespace PokemonGo.RocketAPI.Console
             try
             {
             	var client = Logic.Logic.objClient;
-                var resp2 = await client.Inventory.RecycleItem(item.ItemId, amount);
+                var resp2 = await client.Inventory.RecycleItem(item.ItemId, amount).ConfigureAwait(false);
 
                 if (resp2.Result == RecycleInventoryItemResponse.Types.Result.Success)
                 {
@@ -172,7 +172,7 @@ namespace PokemonGo.RocketAPI.Console
             catch (Exception e)
             {
                 Logger.ColoredConsoleWrite(ConsoleColor.Red, "Error RecycleItem: " + e.Message);
-                await RecycleItems(item, amount);
+                await RecycleItems(item, amount).ConfigureAwait(false);
             }
             return resp1;
         }		
@@ -243,18 +243,18 @@ namespace PokemonGo.RocketAPI.Console
         private async Task RecycleItems(bool forcerefresh = false)
         {            
             var client = Logic.Logic.objClient;
-            var items = await client.Inventory.GetItemsToRecycle(new Settings());
+            var items = await client.Inventory.GetItemsToRecycle(new Settings()).ConfigureAwait(false);
             foreach (var item in items)
             {
-                var transfer = await client.Inventory.RecycleItem((ItemId)item.ItemId, item.Count);
+                var transfer = await client.Inventory.RecycleItem((ItemId)item.ItemId, item.Count).ConfigureAwait(false);
                 Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Recycled {item.Count}x {(ItemId)item.ItemId}", LogLevel.Info);
-                await RandomHelper.RandomDelay(1000, 5000);
+                await RandomHelper.RandomDelay(1000, 5000).ConfigureAwait(false);
             }
         }
 
         async void btnDiscard_Click(object sender, EventArgs e)
         {
-            await RecycleItems();
+            await RecycleItems().ConfigureAwait(false);
             Execute();
         }
 

@@ -32,12 +32,12 @@ namespace PokemonGo.RocketAPI.Rpc
                 PokemonId = pokemonId
             };
 
-            return await PostProtoPayload<Request, ReleasePokemonResponse>(RequestType.ReleasePokemon, message);
+            return await PostProtoPayload<Request, ReleasePokemonResponse>(RequestType.ReleasePokemon, message).ConfigureAwait(false);
         }
 
         public async Task<IEnumerable<PokemonData>> GetPokemonToEvolve(IEnumerable<PokemonId> filter = null)
         {
-            var myPokemons = await GetPokemons();
+            var myPokemons = await GetPokemons().ConfigureAwait(false);
 
             myPokemons = myPokemons.Where(p => p.DeployedFortId == string.Empty).OrderByDescending(p => p.Cp); //Don't evolve pokemon in gyms
 
@@ -47,10 +47,10 @@ namespace PokemonGo.RocketAPI.Rpc
             }
             var pokemons = myPokemons.ToList();
 
-            var myPokemonSettings = await GetPokemonSettings();
+            var myPokemonSettings = await GetPokemonSettings().ConfigureAwait(false);
             var pokemonSettings = myPokemonSettings.ToList();
 
-            var myPokemonFamilies = await GetPokemonFamilies();
+            var myPokemonFamilies = await GetPokemonFamilies().ConfigureAwait(false);
             var pokemonFamilies = myPokemonFamilies.ToArray();
 
             var pokemonToEvolve = new List<PokemonData>();
@@ -82,13 +82,13 @@ namespace PokemonGo.RocketAPI.Rpc
 
         public async Task<int> getPokemonCount()
         {
-            var p = await GetPokemons();
+            var p = await GetPokemons().ConfigureAwait(false);
             return p.Count();
         }
 
         public async Task<int> getInventoryCount()
         {
-            var items = await GetItems();
+            var items = await GetItems().ConfigureAwait(false);
             var totalitems = 0;
             foreach (var item in items)
             {
@@ -99,7 +99,7 @@ namespace PokemonGo.RocketAPI.Rpc
 
         public async Task<int> GetEggsCount()
         {
-            var p = await GetEggs();
+            var p = await GetEggs().ConfigureAwait(false);
             var i = p.Count();
             return i;
         }
@@ -107,10 +107,10 @@ namespace PokemonGo.RocketAPI.Rpc
         public async Task<IEnumerable<PokemonData>> GetEggs()
         {
             
-                var inventory = await GetInventory();
+                var inventory = await GetInventory().ConfigureAwait(false);
                 if(inventory == null)
                 {
-                    await GetEggs();
+                    await GetEggs().ConfigureAwait(false);
                 }
 
             return
@@ -122,7 +122,7 @@ namespace PokemonGo.RocketAPI.Rpc
         DateTime _lastegguse;
         public async Task UseLuckyEgg(Client client)
         {
-            var inventory = await GetItems();
+            var inventory = await GetItems().ConfigureAwait(false);
             var luckyEgg = inventory.FirstOrDefault(p => (ItemId)p.ItemId == ItemId.ItemLuckyEgg);
 
             if (_lastegguse > DateTime.Now.AddSeconds(5))
@@ -134,10 +134,10 @@ namespace PokemonGo.RocketAPI.Rpc
 
             if (luckyEgg == null || luckyEgg.Count <= 0) { return; }
 
-            await client.Inventory.UseItemXpBoost(ItemId.ItemLuckyEgg);
+            await client.Inventory.UseItemXpBoost(ItemId.ItemLuckyEgg).ConfigureAwait(false);
             Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Used Lucky Egg, remaining: {luckyEgg.Count - 1}");
             _lastegguse = DateTime.Now.AddMinutes(30);
-            await Task.Delay(3000);
+            await Task.Delay(3000).ConfigureAwait(false);
         }
 
         public async Task<UseItemXpBoostResponse> UseItemXpBoost(ItemId item)
@@ -147,12 +147,12 @@ namespace PokemonGo.RocketAPI.Rpc
                 ItemId = item
             };
 
-            return await PostProtoPayload<Request, UseItemXpBoostResponse>(RequestType.UseItemXpBoost, message);
+            return await PostProtoPayload<Request, UseItemXpBoostResponse>(RequestType.UseItemXpBoost, message).ConfigureAwait(false);
         }
 
         public async Task<IEnumerable<ItemData>> GetItems()
         {
-            var inventory = await GetInventory();
+            var inventory = await GetInventory().ConfigureAwait(false);
             return inventory.InventoryDelta.InventoryItems
                 .Select(i => i.InventoryItemData?.Item)
                 .Where(p => p != null);
@@ -165,7 +165,7 @@ namespace PokemonGo.RocketAPI.Rpc
                 PokemonId = pokemonId
             };
 
-            return await PostProtoPayload<Request, EvolvePokemonResponse>(RequestType.EvolvePokemon, message);
+            return await PostProtoPayload<Request, EvolvePokemonResponse>(RequestType.EvolvePokemon, message).ConfigureAwait(false);
         }
 
         public async Task<UpgradePokemonResponse> UpgradePokemon(ulong pokemonId)
@@ -175,18 +175,18 @@ namespace PokemonGo.RocketAPI.Rpc
                 PokemonId = pokemonId
             };
 
-            return await PostProtoPayload<Request, UpgradePokemonResponse>(RequestType.UpgradePokemon, message);
+            return await PostProtoPayload<Request, UpgradePokemonResponse>(RequestType.UpgradePokemon, message).ConfigureAwait(false);
         }
 
         public async Task<GetInventoryResponse> GetInventory()
         {
-            return await PostProtoPayload<Request, GetInventoryResponse>(RequestType.GetInventory, new GetInventoryMessage());
+            return await PostProtoPayload<Request, GetInventoryResponse>(RequestType.GetInventory, new GetInventoryMessage()).ConfigureAwait(false);
             /*int timeout = 1000;
             var task = PostProtoPayload<Request, GetInventoryResponse>(RequestType.GetInventory, new GetInventoryMessage());
             if (await Task.WhenAny(task, Task.Delay(timeout)) == task) {
-                return await task;
+                return await task.ConfigureAwait(false);
             } else { 
-                return await GetInventory();
+                return await GetInventory().ConfigureAwait(false);
             }*/
         }
 
@@ -198,7 +198,7 @@ namespace PokemonGo.RocketAPI.Rpc
                 Count = amount
             };
 
-            return await PostProtoPayload<Request, RecycleInventoryItemResponse>(RequestType.RecycleInventoryItem, message);
+            return await PostProtoPayload<Request, RecycleInventoryItemResponse>(RequestType.RecycleInventoryItem, message).ConfigureAwait(false);
         }
 
         public async Task<UseItemXpBoostResponse> UseItemXpBoost()
@@ -208,7 +208,7 @@ namespace PokemonGo.RocketAPI.Rpc
                 ItemId = ItemId.ItemLuckyEgg
             };
 
-            return await PostProtoPayload<Request, UseItemXpBoostResponse>(RequestType.UseItemXpBoost, message);
+            return await PostProtoPayload<Request, UseItemXpBoostResponse>(RequestType.UseItemXpBoost, message).ConfigureAwait(false);
         }
 
         public async Task<UseItemEggIncubatorResponse> UseItemEggIncubator(string itemId, ulong pokemonId)
@@ -219,12 +219,12 @@ namespace PokemonGo.RocketAPI.Rpc
                 PokemonId = pokemonId
             };
 
-            return await PostProtoPayload<Request, UseItemEggIncubatorResponse>(RequestType.UseItemEggIncubator, message);
+            return await PostProtoPayload<Request, UseItemEggIncubatorResponse>(RequestType.UseItemEggIncubator, message).ConfigureAwait(false);
         }
 
         public async Task<GetHatchedEggsResponse> GetHatchedEgg()
         {
-            return await PostProtoPayload<Request, GetHatchedEggsResponse>(RequestType.GetHatchedEggs, new GetHatchedEggsMessage());
+            return await PostProtoPayload<Request, GetHatchedEggsResponse>(RequestType.GetHatchedEggs, new GetHatchedEggsMessage()).ConfigureAwait(false);
         }
 
         public async Task<UseItemPotionResponse> UseItemPotion(ItemId itemId, ulong pokemonId)
@@ -235,7 +235,7 @@ namespace PokemonGo.RocketAPI.Rpc
                 PokemonId = pokemonId
             };
 
-            return await PostProtoPayload<Request, UseItemPotionResponse>(RequestType.UseItemPotion, message);
+            return await PostProtoPayload<Request, UseItemPotionResponse>(RequestType.UseItemPotion, message).ConfigureAwait(false);
         }
 
         public async Task<UseItemEggIncubatorResponse> UseItemRevive(ItemId itemId, ulong pokemonId)
@@ -246,7 +246,7 @@ namespace PokemonGo.RocketAPI.Rpc
                 PokemonId = pokemonId
             };
 
-            return await PostProtoPayload<Request, UseItemEggIncubatorResponse>(RequestType.UseItemEggIncubator, message);
+            return await PostProtoPayload<Request, UseItemEggIncubatorResponse>(RequestType.UseItemEggIncubator, message).ConfigureAwait(false);
         }
 
         public async Task<UseIncenseResponse> UseIncense(ItemId incenseType)
@@ -256,7 +256,7 @@ namespace PokemonGo.RocketAPI.Rpc
                 IncenseType = incenseType
             };
 
-            return await PostProtoPayload<Request, UseIncenseResponse>(RequestType.UseIncense, message);
+            return await PostProtoPayload<Request, UseIncenseResponse>(RequestType.UseIncense, message).ConfigureAwait(false);
         }
 
         public async Task<UseItemGymResponse> UseItemInGym(string gymId, ItemId itemId)
@@ -269,7 +269,7 @@ namespace PokemonGo.RocketAPI.Rpc
                 PlayerLongitude = Client.CurrentLongitude
             };
 
-            return await PostProtoPayload<Request, UseItemGymResponse>(RequestType.UseItemGym, message);
+            return await PostProtoPayload<Request, UseItemGymResponse>(RequestType.UseItemGym, message).ConfigureAwait(false);
         }
 
         public async Task<NicknamePokemonResponse> NicknamePokemon(ulong pokemonId, string nickName)
@@ -280,7 +280,7 @@ namespace PokemonGo.RocketAPI.Rpc
                 Nickname = nickName
             };
 
-            return await PostProtoPayload<Request, NicknamePokemonResponse>(RequestType.NicknamePokemon, message);
+            return await PostProtoPayload<Request, NicknamePokemonResponse>(RequestType.NicknamePokemon, message).ConfigureAwait(false);
         }
 
         public async Task<SetFavoritePokemonResponse> SetFavoritePokemon(long pokemonId, bool isFavorite)
@@ -291,7 +291,7 @@ namespace PokemonGo.RocketAPI.Rpc
                 IsFavorite = isFavorite
             };
 
-            return await PostProtoPayload<Request, SetFavoritePokemonResponse>(RequestType.SetFavoritePokemon, message);
+            return await PostProtoPayload<Request, SetFavoritePokemonResponse>(RequestType.SetFavoritePokemon, message).ConfigureAwait(false);
         }
 
         public async Task<SetBuddyPokemonResponse> SetBuddyPokemon(ulong pokemonId)
@@ -301,12 +301,12 @@ namespace PokemonGo.RocketAPI.Rpc
                 PokemonId = pokemonId
             };
 
-            return await PostProtoPayload<Request, SetBuddyPokemonResponse>(RequestType.SetBuddyPokemon, message);
+            return await PostProtoPayload<Request, SetBuddyPokemonResponse>(RequestType.SetBuddyPokemon, message).ConfigureAwait(false);
         }
 
         public async Task<IEnumerable<PlayerStats>> GetPlayerStats()
         {
-            var inv = await GetInventory();
+            var inv = await GetInventory().ConfigureAwait(false);
             return inv.InventoryDelta.InventoryItems
                 .Select(i => i.InventoryItemData?.PlayerStats)
                 .Where(p => p != null);
@@ -314,14 +314,14 @@ namespace PokemonGo.RocketAPI.Rpc
 
         public async Task<IEnumerable<PokemonData>> GetHighestsPerfect(int limit = 1000)
         {
-            var myPokemon = await GetPokemons();
+            var myPokemon = await GetPokemons().ConfigureAwait(false);
             var pokemons = myPokemon.ToList();
             return pokemons.OrderByDescending(PokemonInfo.CalculatePokemonPerfection).Take(limit);
         }
 
         public async Task<IEnumerable<PokemonData>> GetHighestIVofType(PokemonData pokemon)
         {
-            var myPokemon = await GetPokemons();
+            var myPokemon = await GetPokemons().ConfigureAwait(false);
             var pokemons = myPokemon.ToList();
             return pokemons.Where(x => x.PokemonId == pokemon.PokemonId)
                     .OrderByDescending(PokemonInfo.CalculatePokemonPerfection)
@@ -332,7 +332,7 @@ namespace PokemonGo.RocketAPI.Rpc
 
         public async Task<IEnumerable<ItemData>> GetItemsToRecycle(ISettings settings)
         {
-            var myItems = await GetItems(); // ver aqui 2
+            var myItems = await GetItems().ConfigureAwait(false); // ver aqui 2
             //Logger.ColoredConsoleWrite(ConsoleColor.DarkGray, "==========Begin Recycle Filter Debug Logging=============");
             //foreach (var item in settings.itemRecycleFilter)
             //    Logger.ColoredConsoleWrite(ConsoleColor.DarkGray, item.Key.ToString() + ": " + item.Value.ToString());
@@ -345,7 +345,7 @@ namespace PokemonGo.RocketAPI.Rpc
 
         public async Task<IEnumerable<PokemonData>> GetPokemons(bool clearcache = false)
         {
-            var inventory = await GetInventory(clearcache);
+            var inventory = await GetInventory(clearcache).ConfigureAwait(false);
             return
                 inventory.InventoryDelta.InventoryItems.Select(i => i.InventoryItemData?.PokemonData)
                     .Where(p => p != null && p?.PokemonId > 0);
@@ -353,7 +353,7 @@ namespace PokemonGo.RocketAPI.Rpc
 
         public async Task<IEnumerable<PokemonSettings>> GetPokemonSettings()
         {
-            var templates = await Client.Download.GetItemTemplates();
+            var templates = await Client.Download.GetItemTemplates().ConfigureAwait(false);
             return
                 templates.ItemTemplates.Select(i => i.PokemonSettings)
                     .Where(p => p != null && p.FamilyId != PokemonFamilyId.FamilyUnset);
@@ -367,7 +367,7 @@ namespace PokemonGo.RocketAPI.Rpc
             {
                 return _cachedInventory;
             }
-            return await RefreshCachedInventory();
+            return await RefreshCachedInventory().ConfigureAwait(false);
         }
 
         private GetInventoryResponse _cachedInventory;
@@ -378,11 +378,11 @@ namespace PokemonGo.RocketAPI.Rpc
             var now = DateTime.UtcNow;
             var ss = new SemaphoreSlim(10);
 
-            await ss.WaitAsync();
+            await ss.WaitAsync().ConfigureAwait(false);
             try
             {
                 _lastRefresh = now;
-                _cachedInventory = await Client.Inventory.GetInventory(true);
+                _cachedInventory = await Client.Inventory.GetInventory(true).ConfigureAwait(false);
                 return _cachedInventory;
             }
             finally
@@ -395,23 +395,23 @@ namespace PokemonGo.RocketAPI.Rpc
         {
             if (request)
             {
-                return await PostProtoPayload<Request, GetInventoryResponse>(RequestType.GetInventory, new GetInventoryMessage());
+                return await PostProtoPayload<Request, GetInventoryResponse>(RequestType.GetInventory, new GetInventoryMessage()).ConfigureAwait(false);
             }
             else
             {
-                return await GetCachedInventory();
+                return await GetCachedInventory().ConfigureAwait(false);
             }
         }
 
         public async Task<int> GetItemAmountByType(ItemId type)
         {
-            var pokeballs = await GetItems();
+            var pokeballs = await GetItems().ConfigureAwait(false);
             return pokeballs.FirstOrDefault(i => (ItemId)i.ItemId == type)?.Count ?? 0;
         }
 
         public async Task<List<Candy>> GetPokemonFamilies()
         {
-            var inventory = await GetCachedInventory();
+            var inventory = await GetCachedInventory().ConfigureAwait(false);
 
             var families = from item in inventory.InventoryDelta.InventoryItems
                            where item.InventoryItemData?.Candy != null
@@ -429,7 +429,7 @@ namespace PokemonGo.RocketAPI.Rpc
 
         public async Task<IEnumerable<PokemonData>> GetHighestCPofType2(PokemonData pokemon)
         {
-            var myPokemon = await GetPokemons();
+            var myPokemon = await GetPokemons().ConfigureAwait(false);
             var pokemons = myPokemon.ToList();
             return pokemons.Where(x => x.PokemonId == pokemon.PokemonId)
                     .OrderByDescending(x => x.Cp)
@@ -439,7 +439,7 @@ namespace PokemonGo.RocketAPI.Rpc
 
         public async Task<int> GetHighestCPofType(PokemonData pokemon)
         {
-            var myPokemon = await GetPokemons();
+            var myPokemon = await GetPokemons().ConfigureAwait(false);
             var pokemons = myPokemon.ToList();
             return pokemons.Where(x => x.PokemonId == pokemon.PokemonId)
                             .OrderByDescending(x => x.Cp)
@@ -449,7 +449,7 @@ namespace PokemonGo.RocketAPI.Rpc
 
         public async Task<IEnumerable<EggIncubator>> GetEggIncubators()
         {
-            var inventory = await GetInventory();
+            var inventory = await GetInventory().ConfigureAwait(false);
             return
                 inventory.InventoryDelta.InventoryItems
                     .Where(x => x.InventoryItemData.EggIncubators != null)
@@ -459,7 +459,7 @@ namespace PokemonGo.RocketAPI.Rpc
 
         public async Task<IEnumerable<PokemonData>> GetDuplicatePokemonToTransfer(bool keepPokemonsThatCanEvolve = false, bool orderByIv = false)
         {
-            var myPokemon = await GetPokemons(true);
+            var myPokemon = await GetPokemons(true).ConfigureAwait(false);
 
             var myPokemonList = myPokemon.ToList();
 
@@ -471,10 +471,10 @@ namespace PokemonGo.RocketAPI.Rpc
                 var pokemonsThatCanBeTransfered = pokemonList.GroupBy(p => p.PokemonId)
                     .ToList();
 
-                var myPokemonSettings = await GetPokemonSettings();
+                var myPokemonSettings = await GetPokemonSettings().ConfigureAwait(false);
                 var pokemonSettings = myPokemonSettings as IList<PokemonSettings> ?? myPokemonSettings.ToList();
 
-                var myPokemonFamilies = await GetPokemonFamilies();
+                var myPokemonFamilies = await GetPokemonFamilies().ConfigureAwait(false);
                 var pokemonFamilies = myPokemonFamilies.ToArray();
 
                 foreach (var pokemon in pokemonsThatCanBeTransfered)
@@ -544,7 +544,7 @@ namespace PokemonGo.RocketAPI.Rpc
         {
             if (player == null)
                 return;
-            var stats = await GetPlayerStats(); // ver aqui 1
+            var stats = await GetPlayerStats().ConfigureAwait(false); // ver aqui 1
             var stat = stats.FirstOrDefault();
             if (stat == null)
                 return;
@@ -562,10 +562,10 @@ namespace PokemonGo.RocketAPI.Rpc
                     string header = "PokemonID,Name,NickName,CP / MaxCP,IV Perfection in %,Attack 1,Attack 2,HP,Attk,Def,Stamina,Familie Candies,IsInGym,IsFavorite,previewLink";
                     File.WriteAllText(pokelist_file, $"{header.Replace(",", $"{ls}")}");
 
-                    var AllPokemon = await GetHighestsPerfect();
-                    var myPokemonSettings = await GetPokemonSettings();
+                    var AllPokemon = await GetHighestsPerfect().ConfigureAwait(false);
+                    var myPokemonSettings = await GetPokemonSettings().ConfigureAwait(false);
                     var pokemonSettings = myPokemonSettings.ToList();
-                    var myPokemonFamilies = await GetPokemonFamilies();
+                    var myPokemonFamilies = await GetPokemonFamilies().ConfigureAwait(false);
                     var pokemonFamilies = myPokemonFamilies.ToArray();
                     int trainerLevel = stat.Level;
                     int[] exp_req = new[] { 0, 1000, 3000, 6000, 10000, 15000, 21000, 28000, 36000, 45000, 55000, 65000, 75000, 85000, 100000, 120000, 140000, 160000, 185000, 210000, 260000, 335000, 435000, 560000, 710000, 900000, 1100000, 1350000, 1650000, 2000000, 2500000, 3000000, 3750000, 4750000, 6000000, 7500000, 9500000, 12000000, 15000000, 20000000 };

@@ -31,9 +31,9 @@ namespace PokemonGo.RocketAPI.Logic.Utils
             _newSpotted.Clear();
             ClearAlreadySpottedByTime();
 
-            HttpResponseMessage response = await _httpClient.GetAsync("http://pokesnipers.com/api/v1/pokemon.json");
+            HttpResponseMessage response = await _httpClient.GetAsync("http://pokesnipers.com/api/v1/pokemon.json").ConfigureAwait(false);
             HttpContent content = response.Content;
-            string result = await content.ReadAsStringAsync();
+            string result = await content.ReadAsStringAsync().ConfigureAwait(false);
 
             dynamic Snipers = JsonConvert.DeserializeObject(result);
             Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "Looking for Pokemons to snipe....");
@@ -117,7 +117,7 @@ namespace PokemonGo.RocketAPI.Logic.Utils
 
         /*
             foreach(spottedPokeSni p in await _pokeSnipers.CapturarPokemon()){ 
-                await _pokeSnipers.CapturarSniper(p, _clientSettings, _client);
+                await _pokeSnipers.CapturarSniper(p, _clientSettings, _client).ConfigureAwait(false);
             }
             StringUtils.CheckKillSwitch(true);
         */

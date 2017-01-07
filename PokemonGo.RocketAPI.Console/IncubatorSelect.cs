@@ -39,7 +39,7 @@ namespace PokemonGo.RocketAPI.Console
 			var client = Logic.Logic.objClient;
 			if (client.readyToUse != false)
 			{
-				var incubators = await client.Inventory.GetEggIncubators();
+				var incubators = await client.Inventory.GetEggIncubators().ConfigureAwait(false);
   				listView.Items.Clear();	              
 	            ListViewItem listViewItem;					
 				foreach (  var item in incubators) {

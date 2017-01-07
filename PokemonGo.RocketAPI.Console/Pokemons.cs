@@ -71,16 +71,16 @@ namespace PokemonGo.RocketAPI.Console
         private async void Execute()
         {
             TabControl1.Enabled = false;
-            await check();
+            await check().ConfigureAwait(false);
             try
             {
                 var client = Logic.Logic.objClient;
                 if (client.readyToUse != false)
                 {                    
-                    profile = await client.Player.GetPlayer();
-                    await Task.Delay(1000); // Pause to simulate human speed. 
+                    profile = await client.Player.GetPlayer().ConfigureAwait(false);
+                    await Task.Delay(1000).ConfigureAwait(false); // Pause to simulate human speed. 
                     Text = "User: " + profile.PlayerData.Username;
-                    var arrStats = await client.Inventory.GetPlayerStats();
+                    var arrStats = await client.Inventory.GetPlayerStats().ConfigureAwait(false);
                     stats = arrStats.First();
                     locationPanel1.CreateBotMarker((int)profile.PlayerData.Team, stats.Level, stats.Experience);
                     playerPanel1.setProfile(profile);
@@ -91,7 +91,7 @@ namespace PokemonGo.RocketAPI.Console
             catch (Exception e)
             {
                 Logger.Error("[PokemonList-Error] " + e.StackTrace);
-                await Task.Delay(1000); // Lets the API make a little pause, so we dont get blocked
+                await Task.Delay(1000).ConfigureAwait(false); // Lets the API make a little pause, so we dont get blocked
                 Execute();
             }
         }
@@ -135,23 +135,23 @@ namespace PokemonGo.RocketAPI.Console
         {
             while (waitingApiResponse)
             {
-                await Task.Delay(1000);
+                await Task.Delay(1000).ConfigureAwait(false);
             }
             waitingApiResponse = true;
             TabPage current = (sender as TabControl).SelectedTab;
             switch (current.Name)
             {
                 case "tpPokemons":
-                    await pokemonsPanel1.Execute();
+                    await pokemonsPanel1.Execute().ConfigureAwait(false);
                     break;
                 case "tpItems":
-                    await itemsPanel1.Execute();
+                    await itemsPanel1.Execute().ConfigureAwait(false);
                     break;
                 case "tpEggs":
-                    await eggsPanel1.Execute();
+                    await eggsPanel1.Execute().ConfigureAwait(false);
                     break;
                 case "tpPlayerInfo":
-                    await playerPanel1.Execute();
+                    await playerPanel1.Execute().ConfigureAwait(false);
                     break;
             }
             waitingApiResponse = false;

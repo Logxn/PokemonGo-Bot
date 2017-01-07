@@ -146,9 +146,9 @@ namespace PokemonGo.RocketAPI.Logic
 
                     if (ClientSettings.RelocateDefaultLocation) break;
 
-                    await ExecuteCatchAllNearbyPokemons();
+                    await ExecuteCatchAllNearbyPokemons().ConfigureAwait(false);
 
-                    var fortInfo = await objClient.Fort.GetFort(pokestop.Id, pokestop.Latitude, pokestop.Longitude);
+                    var fortInfo = await objClient.Fort.GetFort(pokestop.Id, pokestop.Latitude, pokestop.Longitude).ConfigureAwait(false);
 
                     if ((ClientSettings.UseLureGUIClick && havelures) || (ClientSettings.UseLureAtBreak && havelures && !pokestop.ActiveFortModifier.Any() && !addedlure))
                     {
@@ -156,21 +156,21 @@ namespace PokemonGo.RocketAPI.Logic
 
                         Logger.ColoredConsoleWrite(ConsoleColor.Magenta, "Adding lure and setting resume walking to 30 minutes");
 
-                        await objClient.Fort.AddFortModifier(fortInfo.FortId, ItemId.ItemTroyDisk);
+                        await objClient.Fort.AddFortModifier(fortInfo.FortId, ItemId.ItemTroyDisk).ConfigureAwait(false);
 
                         resumetimestamp = (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds + 30000;
                         addedlure = true;
                     }
 
-                    var farmed = await CheckAndFarmNearbyPokeStop(pokestop, objClient, fortInfo);
+                    var farmed = await CheckAndFarmNearbyPokeStop(pokestop, objClient, fortInfo).ConfigureAwait(false);
                     if (farmed)
                     {
                         pokestop.CooldownCompleteTimestampMs = (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds + 300500;
                     }
 
-                    await SetCheckTimeToRun();
+                    await SetCheckTimeToRun().ConfigureAwait(false);
 
-                    await RandomHelper.RandomDelay(30000, 40000);
+                    await RandomHelper.RandomDelay(30000, 40000).ConfigureAwait(false);
 
                     // wait for a bit before repeating farm cycle to avoid spamming 
                 }
@@ -275,7 +275,7 @@ namespace PokemonGo.RocketAPI.Logic
             {
                 try
                 {
-                    await objClient.Login.DoLogin();
+                    await objClient.Login.DoLogin().ConfigureAwait(false);
 
                     #region Instantiate Telegram
 
@@ -291,7 +291,7 @@ namespace PokemonGo.RocketAPI.Logic
 
                             Logger.ColoredConsoleWrite(ConsoleColor.Green, "To activate informations with Telegram, write the bot a message for more informations");
 
-                            var me = await Telegram.getClient().GetMeAsync();
+                            var me = await Telegram.getClient().GetMeAsync().ConfigureAwait(false);
                             Telegram.getClient().OnCallbackQuery += Telegram.BotOnCallbackQueryReceived;
                             Telegram.getClient().OnMessage += Telegram.BotOnMessageReceived;
                             Telegram.getClient().OnMessageEdited += Telegram.BotOnMessageReceived;
@@ -308,7 +308,7 @@ namespace PokemonGo.RocketAPI.Logic
 
                     #endregion
 
-                    await PostLoginExecute();
+                    await PostLoginExecute().ConfigureAwait(false);
                 }
                 catch (Exception ex)
                 {
@@ -331,7 +331,7 @@ namespace PokemonGo.RocketAPI.Logic
                 }
                 Logger.ColoredConsoleWrite(ConsoleColor.Red, "Restarting in 60 Seconds.");
 
-                await Task.Delay(60000);
+                await Task.Delay(60000).ConfigureAwait(false);
             }
             #endregion
         }
@@ -340,10 +340,10 @@ namespace PokemonGo.RocketAPI.Logic
         {
             try
             {
-                var profil = await objClient.Player.GetPlayer();
-                await objClient.Inventory.ExportPokemonToCSV(profil.PlayerData);
-                await LogStatsEtc();
-                await ExecuteFarmingPokestopsAndPokemons(objClient);
+                var profil = await objClient.Player.GetPlayer().ConfigureAwait(false);
+                await objClient.Inventory.ExportPokemonToCSV(profil.PlayerData).ConfigureAwait(false);
+                await LogStatsEtc().ConfigureAwait(false);
+                await ExecuteFarmingPokestopsAndPokemons(objClient).ConfigureAwait(false);
             }
             catch (AccessTokenExpiredException)
             {
@@ -405,8 +405,8 @@ namespace PokemonGo.RocketAPI.Logic
 
             #region Set Stat Variables
 
-            var profile = await client.Player.GetPlayer();
-            var inventory = await client.Inventory.GetInventory();
+            var profile = await client.Player.GetPlayer().ConfigureAwait(false);
+            var inventory = await client.Inventory.GetInventory().ConfigureAwait(false);
             var playerStats = client.Inventory.GetPlayerStats(inventory);  // For dont repeat inventory request
             var stats = playerStats.First();
             var expneeded = stats.NextLevelXp - stats.PrevLevelXp - StringUtils.getExpDiff(stats.Level);
@@ -417,17 +417,17 @@ namespace PokemonGo.RocketAPI.Logic
 
             currentxp = stats.Experience;
 
-            var pokemonToEvolve = (await client.Inventory.GetPokemonToEvolve()).Count();
+            var pokemonToEvolve = (await client.Inventory.GetPokemonToEvolve().ConfigureAwait(false)).Count();
             var pokedexpercentraw = Convert.ToDouble(stats.UniquePokedexEntries) / Convert.ToDouble(150) * 100;
             var pokedexpercent = Math.Floor(pokedexpercentraw);
 
             if (curexp == 0 && expneeded == 1000)
             {
-                await client.Misc.MarkTutorialComplete();
+                await client.Misc.MarkTutorialComplete().ConfigureAwait(false);
             }
 
             var items = client.Inventory.GetItems(inventory); // For dont repeat inventory request
-            var pokemonCount = await client.Inventory.getPokemonCount();
+            var pokemonCount = await client.Inventory.getPokemonCount().ConfigureAwait(false);
             var eggCount = client.Inventory.GetEggsCount(inventory);  // For dont repeat inventory request
             var maxPokemonStorage = profile.PlayerData.MaxPokemonStorage;
             var maxItemStorage = profile.PlayerData.MaxItemStorage;
@@ -480,7 +480,7 @@ namespace PokemonGo.RocketAPI.Logic
 
                 Logger.ColoredConsoleWrite(ConsoleColor.Magenta, "Got the level up reward from your level up.");
 
-                var lvlup = await client.Player.GetLevelUpRewards(stats.Level);
+                var lvlup = await client.Player.GetLevelUpRewards(stats.Level).ConfigureAwait(false);
                 var alreadygot = new List<ItemId>();
 
                 foreach (var i in lvlup.ItemsAwarded)
@@ -554,28 +554,28 @@ namespace PokemonGo.RocketAPI.Logic
         {
             // reset stat counter
             count = 0;
-            if (ClientSettings.UseIncenseGUIClick) await UseIncense();
+            if (ClientSettings.UseIncenseGUIClick) await UseIncense().ConfigureAwait(false);
 
             if (ClientSettings.UseLuckyEggIfNotRunning || ClientSettings.UseLuckyEggGUIClick)
             {
                 ClientSettings.UseLuckyEggGUIClick = false;
-                await objClient.Inventory.UseLuckyEgg(objClient);
+                await objClient.Inventory.UseLuckyEgg(objClient).ConfigureAwait(false);
             }
 
             if (ClientSettings.EvolvePokemonsIfEnoughCandy)
             {
-                await EvolveAllPokemonWithEnoughCandy();
+                await EvolveAllPokemonWithEnoughCandy().ConfigureAwait(false);
             }
 
             if (ClientSettings.AutoIncubate)
             {
-                await StartIncubation();
+                await StartIncubation().ConfigureAwait(false);
             }
 
-            await TransferDuplicatePokemon(ClientSettings.keepPokemonsThatCanEvolve, ClientSettings.TransferFirstLowIV);
-            await RecycleItems();
-            await StatsLog(objClient);
-            await SetCheckTimeToRun();
+            await TransferDuplicatePokemon(ClientSettings.keepPokemonsThatCanEvolve, ClientSettings.TransferFirstLowIV).ConfigureAwait(false);
+            await RecycleItems().ConfigureAwait(false);
+            await StatsLog(objClient).ConfigureAwait(false);
+            await SetCheckTimeToRun().ConfigureAwait(false);
         }
 
         private async Task SetCheckTimeToRun()
@@ -602,7 +602,7 @@ namespace PokemonGo.RocketAPI.Logic
                         {
                             Logger.ColoredConsoleWrite(ConsoleColor.Red, "Time To Run Reached or Exceeded...Walking back to default location and stopping bot");
 
-                            await WalkWithRouting(ClientSettings.DefaultLatitude, ClientSettings.DefaultLongitude);
+                            await WalkWithRouting(ClientSettings.DefaultLatitude, ClientSettings.DefaultLongitude).ConfigureAwait(false);
 
                             StringUtils.CheckKillSwitch(true);
                         }
@@ -688,7 +688,7 @@ namespace PokemonGo.RocketAPI.Logic
                     {
                         Logger.ColoredConsoleWrite(ConsoleColor.Green, "Pokemon Catch Limit Reached and not farming pokestops - Bot will return to default location and stop");
 
-                        await WalkWithRouting(ClientSettings.DefaultLatitude, ClientSettings.DefaultLongitude);
+                        await WalkWithRouting(ClientSettings.DefaultLatitude, ClientSettings.DefaultLongitude).ConfigureAwait(false);
 
                         StringUtils.CheckKillSwitch(true);
                     }
@@ -710,7 +710,7 @@ namespace PokemonGo.RocketAPI.Logic
                     {
                         Logger.ColoredConsoleWrite(ConsoleColor.Green, "Pokestop Farmed Limit Reached and not catching pokemon - Bot will return to default location and stop");
 
-                        await WalkWithRouting(ClientSettings.DefaultLatitude, ClientSettings.DefaultLongitude);
+                        await WalkWithRouting(ClientSettings.DefaultLatitude, ClientSettings.DefaultLongitude).ConfigureAwait(false);
 
                         StringUtils.CheckKillSwitch(true);
                     }
@@ -726,7 +726,7 @@ namespace PokemonGo.RocketAPI.Logic
 
                     if (ClientSettings.UseGoogleMapsAPI)
                     {
-                        await WalkWithRouting(ClientSettings.DefaultLatitude, ClientSettings.DefaultLongitude);
+                        await WalkWithRouting(ClientSettings.DefaultLatitude, ClientSettings.DefaultLongitude).ConfigureAwait(false);
                     }
                     else
                     {
@@ -758,16 +758,16 @@ namespace PokemonGo.RocketAPI.Logic
             {
                 Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "Trying to capture " + p._pokeId + " at " + p._lat + " / " + p._lng);
 
-                var result = await objClient.Player.UpdatePlayerLocation(p._lat, p._lng, ClientSettings.DefaultAltitude);
+                var result = await objClient.Player.UpdatePlayerLocation(p._lat, p._lng, ClientSettings.DefaultAltitude).ConfigureAwait(false);
 
                 Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Went to sniping location. Waiting for Pokemon to appear...");
 
-                await RandomHelper.RandomDelay(1000, 2000);
+                await RandomHelper.RandomDelay(1000, 2000).ConfigureAwait(false);
 
                 stateSniper = true;
                 sniperReturn = false;
 
-                await ExecuteCatchAllNearbyPokemons();
+                await ExecuteCatchAllNearbyPokemons().ConfigureAwait(false);
 
                 stateSniper = false;
 
@@ -787,16 +787,16 @@ namespace PokemonGo.RocketAPI.Logic
 
                 Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "Trying to capture " + id + " at " + coord.Latitude + " / " + coord.Longitude);
 
-                var result = await objClient.Player.UpdatePlayerLocation(coord.Latitude, coord.Longitude, ClientSettings.DefaultAltitude);
+                var result = await objClient.Player.UpdatePlayerLocation(coord.Latitude, coord.Longitude, ClientSettings.DefaultAltitude).ConfigureAwait(false);
 
                 Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Went to sniping location. Waiting for Pokemon to appear...");
 
-                await RandomHelper.RandomDelay(1000, 2000);
+                await RandomHelper.RandomDelay(1000, 2000).ConfigureAwait(false);
 
                 stateSniper = true;
                 sniperReturn = false;
 
-                await ExecuteCatchAllNearbyPokemons();
+                await ExecuteCatchAllNearbyPokemons().ConfigureAwait(false);
 
                 stateSniper = false;
 
@@ -815,7 +815,7 @@ namespace PokemonGo.RocketAPI.Logic
         private async Task Espiral(Client client, FortData[] pokeStops)
         {
             //Intento de pajarera 1...
-            await ExecuteCatchAllNearbyPokemons();
+            await ExecuteCatchAllNearbyPokemons().ConfigureAwait(false);
 
             Logger.ColoredConsoleWrite(ConsoleColor.Blue, "Starting Archimedean spiral");
 
@@ -849,7 +849,7 @@ namespace PokemonGo.RocketAPI.Logic
 
                     Logger.ColoredConsoleWrite(ConsoleColor.Green, "Returning to the starting point...");
 
-                    var update = await navigation.HumanLikeWalking(new GeoCoordinate(ClientSettings.DefaultLatitude, ClientSettings.DefaultLongitude), ClientSettings.WalkingSpeedInKilometerPerHour, ExecuteCatchAllNearbyPokemons);
+                    var update = await navigation.HumanLikeWalking(new GeoCoordinate(ClientSettings.DefaultLatitude, ClientSettings.DefaultLongitude), ClientSettings.WalkingSpeedInKilometerPerHour, ExecuteCatchAllNearbyPokemons).ConfigureAwait(false);
 
                     break;
                 }
@@ -866,7 +866,7 @@ namespace PokemonGo.RocketAPI.Logic
 
                 Logger.ColoredConsoleWrite(ConsoleColor.Blue, "Looking PokeStops who are less than 30 meters...");
 
-                await FncPokeStop(client, pokeStops, true);
+                await FncPokeStop(client, pokeStops, true).ConfigureAwait(false);
 
                 i2++;
             }
@@ -883,14 +883,14 @@ namespace PokemonGo.RocketAPI.Logic
             {
                 if (ClientSettings.ManualSnipePokemonID != null && ClientSettings.ManualSnipePokemonLocation != null)
                 {
-                    var snipesuccess = await Snipe((PokemonId)ClientSettings.ManualSnipePokemonID, ClientSettings.ManualSnipePokemonLocation);
+                    var snipesuccess = await Snipe((PokemonId)ClientSettings.ManualSnipePokemonID, ClientSettings.ManualSnipePokemonLocation).ConfigureAwait(false);
 
                     if (!snipesuccess)
                     {
                         //Leaving this here for now in case we need it for debugging
                     }
 
-                    var result = await objClient.Player.UpdatePlayerLocation(ClientSettings.DefaultLatitude, ClientSettings.DefaultLongitude, ClientSettings.DefaultAltitude);
+                    var result = await objClient.Player.UpdatePlayerLocation(ClientSettings.DefaultLatitude, ClientSettings.DefaultLongitude, ClientSettings.DefaultAltitude).ConfigureAwait(false);
                 }
                 else if (ClientSettings.SnipePokemon)
                 {
@@ -906,7 +906,7 @@ namespace PokemonGo.RocketAPI.Logic
                         {
                             snipokemonIds = p._pokeId;
 
-                            var success = await Snipe(p);
+                            var success = await Snipe(p).ConfigureAwait(false);
 
                             if (!success)
                             {
@@ -923,7 +923,7 @@ namespace PokemonGo.RocketAPI.Logic
                         }
                     }
                     //return to default location before beginning to farm.
-                    var result = await objClient.Player.UpdatePlayerLocation(ClientSettings.DefaultLatitude, ClientSettings.DefaultLongitude, ClientSettings.DefaultAltitude);
+                    var result = await objClient.Player.UpdatePlayerLocation(ClientSettings.DefaultLatitude, ClientSettings.DefaultLongitude, ClientSettings.DefaultAltitude).ConfigureAwait(false);
                 }
                 else
                 {
@@ -954,7 +954,7 @@ namespace PokemonGo.RocketAPI.Logic
                 {
                     if (tries < 3)
                     {
-                        await RandomHelper.RandomDelay(5000, 6000);
+                        await RandomHelper.RandomDelay(5000, 6000).ConfigureAwait(false);
                         pokeStops = GetNearbyPokeStops().Result;
                     }
 
@@ -985,13 +985,13 @@ namespace PokemonGo.RocketAPI.Logic
             // Walk Spiral if enabled
             if (ClientSettings.Espiral)
             {
-                await Espiral(client, pokeStops);
+                await Espiral(client, pokeStops).ConfigureAwait(false);
 
                 return;
             }
 
             //Normal Walk and Catch between pokestops
-            await FncPokeStop(objClient, pokeStops, false);
+            await FncPokeStop(objClient, pokeStops, false).ConfigureAwait(false);
 
             #endregion
         }
@@ -1001,7 +1001,7 @@ namespace PokemonGo.RocketAPI.Logic
             #region Get Pokestops
 
             //Query nearby objects for mapData
-            var mapObjects = await objClient.Map.GetMapObjects();
+            var mapObjects = await objClient.Map.GetMapObjects().ConfigureAwait(false);
 
             //narrow map data to pokestops within walking distance
             var pokeStops = navigation
@@ -1048,7 +1048,7 @@ namespace PokemonGo.RocketAPI.Logic
         
         private async Task<FortData[]> GetNearbyGyms()
         {
-            var mapObjects = await objClient.Map.GetMapObjects();
+            var mapObjects = await objClient.Map.GetMapObjects().ConfigureAwait(false);
 
             var pokeGyms = navigation
                 .pathByNearestNeighbour(
@@ -1109,7 +1109,7 @@ namespace PokemonGo.RocketAPI.Logic
                 #endregion
 
                 //make sure user defined limits have not been reached
-                await SetCheckTimeToRun();
+                await SetCheckTimeToRun().ConfigureAwait(false);
 
                 //update user location on map
                 infoObservable.PushNewGeoLocations(new GeoCoordinate(objClient.CurrentLatitude, objClient.CurrentLongitude));
@@ -1122,7 +1122,7 @@ namespace PokemonGo.RocketAPI.Logic
                     {
                         do
                         {
-                            await WalkUserRoute(pokeStops);
+                            await WalkUserRoute(pokeStops).ConfigureAwait(false);
 
                             #region Check for Exit Command
 
@@ -1175,7 +1175,7 @@ namespace PokemonGo.RocketAPI.Logic
                         pokeStop.Latitude,
                         pokeStop.Longitude);
 
-                var fortInfo = await objClient.Fort.GetFort(pokeStop.Id, pokeStop.Latitude, pokeStop.Longitude);
+                var fortInfo = await objClient.Fort.GetFort(pokeStop.Id, pokeStop.Latitude, pokeStop.Longitude).ConfigureAwait(false);
 
                 Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Next Pokestop: {fortInfo.Name} in {distance:0.##}m distance.");
 
@@ -1205,7 +1205,7 @@ namespace PokemonGo.RocketAPI.Logic
 
                 try
                 {
-                    await WalkWithRouting(pokeStop.Latitude, pokeStop.Longitude);
+                    await WalkWithRouting(pokeStop.Latitude, pokeStop.Longitude).ConfigureAwait(false);
                 }
                 catch (Exception e)
                 {
@@ -1216,7 +1216,7 @@ namespace PokemonGo.RocketAPI.Logic
                 // Pause and farm nearby pokestops
                 if (ClientSettings.pauseAtPokeStop)
                 {
-                    await FarmPokestopOnBreak(pokeStops, client);
+                    await FarmPokestopOnBreak(pokeStops, client).ConfigureAwait(false);
                 }
             }
         }
@@ -1255,7 +1255,7 @@ namespace PokemonGo.RocketAPI.Logic
                 {
                     if (ClientSettings.pauseAtPokeStop)
                     {
-                        await FarmPokestopOnBreak(pokeStops, objClient);
+                        await FarmPokestopOnBreak(pokeStops, objClient).ConfigureAwait(false);
                     }
 
                     var pokestopCoords = ClientSettings.NextDestinationOverride.First();
@@ -1263,7 +1263,7 @@ namespace PokemonGo.RocketAPI.Logic
 
                     Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Path Override detected! Rerouting to user-selected pokeStop...");
 
-                    await WalkWithRouting(pokestopCoords.Latitude, pokestopCoords.Longitude);
+                    await WalkWithRouting(pokestopCoords.Latitude, pokestopCoords.Longitude).ConfigureAwait(false);
                 }
                 catch
                 {
@@ -1276,13 +1276,13 @@ namespace PokemonGo.RocketAPI.Logic
         {
             if (ClientSettings.UseGoogleMapsAPI)
             {
-                await DoRouteWalking(latitude, longitude);
+                await DoRouteWalking(latitude, longitude).ConfigureAwait(false);
             }
             else
             {
                 var walkspeed = GetRandomWalkspeed();
 
-                await navigation.HumanLikeWalking(new GeoCoordinate(latitude, longitude), walkspeed, ExecuteCatchandFarm);
+                await navigation.HumanLikeWalking(new GeoCoordinate(latitude, longitude), walkspeed, ExecuteCatchandFarm).ConfigureAwait(false);
             }
         }
 
@@ -1377,7 +1377,7 @@ namespace PokemonGo.RocketAPI.Logic
                             var distanceDelta = LocationUtils.CalculateDistanceInMeters(new GeoCoordinate(point.Latitude, point.Longitude), new GeoCoordinate(lastpoint.Latitude, lastpoint.Longitude));
                             if (distanceDelta > 10)
                             {
-                                var update = await navigation.HumanLikeWalking(new GeoCoordinate(point.Latitude, point.Longitude), walkspeed, ExecuteCatchandFarm, true, false);
+                                var update = await navigation.HumanLikeWalking(new GeoCoordinate(point.Latitude, point.Longitude), walkspeed, ExecuteCatchandFarm, true, false).ConfigureAwait(false);
                             }
                             lastpoint = point;
                         }
@@ -1395,7 +1395,7 @@ namespace PokemonGo.RocketAPI.Logic
                                     lowestspeed = ClientSettings.MinWalkSpeed;
                                 }
                                 Logger.ColoredConsoleWrite(ConsoleColor.Green, "As close as google can take us, going off-road at walking speed (" + lowestspeed + ")");
-                                var update = await navigation.HumanLikeWalking(new GeoCoordinate(latitude, longitude), walkspeed, ExecuteCatchandFarm);
+                                var update = await navigation.HumanLikeWalking(new GeoCoordinate(latitude, longitude), walkspeed, ExecuteCatchandFarm).ConfigureAwait(false);
                             }
                             Logger.ColoredConsoleWrite(ConsoleColor.Green, "Destination Reached!");
                         }
@@ -1409,22 +1409,22 @@ namespace PokemonGo.RocketAPI.Logic
                 else if (directions.Status == DirectionsStatusCodes.REQUEST_DENIED)
                 {
                     Logger.ColoredConsoleWrite(ConsoleColor.Red, "Request Failed! Bad API key?");
-                    var update = await navigation.HumanLikeWalking(new GeoCoordinate(latitude, longitude), walkspeed, ExecuteCatchAllNearbyPokemons);
+                    var update = await navigation.HumanLikeWalking(new GeoCoordinate(latitude, longitude), walkspeed, ExecuteCatchAllNearbyPokemons).ConfigureAwait(false);
                 }
                 else if (directions.Status == DirectionsStatusCodes.OVER_QUERY_LIMIT)
                 {
                     Logger.ColoredConsoleWrite(ConsoleColor.Red, "Over 2500 queries today! Are you botting unsafely? :)");
-                    var update = await navigation.HumanLikeWalking(new GeoCoordinate(latitude, longitude), walkspeed, ExecuteCatchAllNearbyPokemons);
+                    var update = await navigation.HumanLikeWalking(new GeoCoordinate(latitude, longitude), walkspeed, ExecuteCatchAllNearbyPokemons).ConfigureAwait(false);
                 }
                 else if (directions.Status == DirectionsStatusCodes.NOT_FOUND)
                 {
                     Logger.ColoredConsoleWrite(ConsoleColor.Red, "Geocoding coords failed! Waypoint: " + latitude + "," + longitude + " Bot Location: " + objClient.CurrentLatitude + "," + objClient.CurrentLongitude);
-                    var update = await navigation.HumanLikeWalking(new GeoCoordinate(latitude, longitude), walkspeed, ExecuteCatchAllNearbyPokemons);
+                    var update = await navigation.HumanLikeWalking(new GeoCoordinate(latitude, longitude), walkspeed, ExecuteCatchAllNearbyPokemons).ConfigureAwait(false);
                 }
                 else
                 {
                     Logger.ColoredConsoleWrite(ConsoleColor.Red, "Unhandled Error occurred when getting route[ STATUS:" + directions.StatusStr + " ERROR MESSAGE:" + directions.ErrorMessage + "] Using default walk method instead.");
-                    var update = await navigation.HumanLikeWalking(new GeoCoordinate(latitude, longitude), walkspeed, ExecuteCatchAllNearbyPokemons);
+                    var update = await navigation.HumanLikeWalking(new GeoCoordinate(latitude, longitude), walkspeed, ExecuteCatchAllNearbyPokemons).ConfigureAwait(false);
                 }
 
                 #endregion
@@ -1432,7 +1432,7 @@ namespace PokemonGo.RocketAPI.Logic
             else
             {
                 Logger.ColoredConsoleWrite(ConsoleColor.Red, $"API Key not found in Client Settings! Using default method instead.");
-                var update = await navigation.HumanLikeWalking(new GeoCoordinate(latitude, longitude), walkspeed, ExecuteCatchAllNearbyPokemons);
+                var update = await navigation.HumanLikeWalking(new GeoCoordinate(latitude, longitude), walkspeed, ExecuteCatchAllNearbyPokemons).ConfigureAwait(false);
             }
 
             #endregion
@@ -1442,7 +1442,7 @@ namespace PokemonGo.RocketAPI.Logic
         {
             infoObservable.PushClearPokemons();
 
-            var pokeData = await DataCollector.GetFastPokeMapData(objClient.CurrentLatitude, objClient.CurrentLongitude);
+            var pokeData = await DataCollector.GetFastPokeMapData(objClient.CurrentLatitude, objClient.CurrentLongitude).ConfigureAwait(false);
             var toShow = new List<DataCollector.PokemonMapData>();
 
             if (pokeData == null) return false;
@@ -1461,12 +1461,12 @@ namespace PokemonGo.RocketAPI.Logic
         {
             if (count >= 9)
             {
-                await LogStatsEtc();
+                await LogStatsEtc().ConfigureAwait(false);
             }
 
             if (pokeStop.CooldownCompleteTimestampMs < (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds && ClientSettings.FarmPokestops)
             {
-                var fortSearch = await objClient.Fort.SearchFort(pokeStop.Id, pokeStop.Latitude, pokeStop.Longitude);
+                var fortSearch = await objClient.Fort.SearchFort(pokeStop.Id, pokeStop.Latitude, pokeStop.Longitude).ConfigureAwait(false);
                 if(ClientSettings.EnableVerboseLogging)
                 {
                     Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "================[VERBOSE LOGGING - Pokestop Search]================");
@@ -1558,7 +1558,7 @@ namespace PokemonGo.RocketAPI.Logic
                             {
                                 if (!lureEncounters.Contains(pokeStop.LureInfo.EncounterId.ToString()))
                                 {
-                                    await CatchPokemon(pokeStop.LureInfo.EncounterId, pokeStop.LureInfo.FortId, pokeStop.LureInfo.ActivePokemonId, pokeStop.Longitude, pokeStop.Latitude);
+                                    await CatchPokemon(pokeStop.LureInfo.EncounterId, pokeStop.LureInfo.FortId, pokeStop.LureInfo.ActivePokemonId, pokeStop.Longitude, pokeStop.Latitude).ConfigureAwait(false);
 
                                     lureEncounters.Add(pokeStop.LureInfo.EncounterId.ToString());
                                 }
@@ -1620,22 +1620,22 @@ namespace PokemonGo.RocketAPI.Logic
 
                     foreach (var pokestop in withinRangeStandingList)
                     {
-                        var fortInfo = await objClient.Fort.GetFort(pokestop.Id, pokestop.Latitude, pokestop.Longitude);
-                        var farmed = await CheckAndFarmNearbyPokeStop(pokestop, objClient, fortInfo);
+                        var fortInfo = await objClient.Fort.GetFort(pokestop.Id, pokestop.Latitude, pokestop.Longitude).ConfigureAwait(false);
+                        var farmed = await CheckAndFarmNearbyPokeStop(pokestop, objClient, fortInfo).ConfigureAwait(false);
 
                         if (farmed)
                         {
                             pokestop.CooldownCompleteTimestampMs = (long) (DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds + 300500;
                         }
 
-                        await SetCheckTimeToRun();
-                        await RandomHelper.RandomDelay(100, 200);
+                        await SetCheckTimeToRun().ConfigureAwait(false);
+                        await RandomHelper.RandomDelay(100, 200).ConfigureAwait(false);
                     }
                 }
-                await ExecuteCatchAllNearbyPokemons();
+                await ExecuteCatchAllNearbyPokemons().ConfigureAwait(false);
                 
                 if (ClientSettings.DontTransferWithCPOver == 10001)
-                    await ExecutePutInGym();
+                    await ExecutePutInGym().ConfigureAwait(false);
             }
             else
             {
@@ -1657,7 +1657,7 @@ namespace PokemonGo.RocketAPI.Logic
             if (ClientSettings.CatchPokemon || (ClientSettings.SnipePokemon && stateSniper))
             {
                 // identify nearby pokemon
-                var mapObjects = await objClient.Map.GetMapObjects();
+                var mapObjects = await objClient.Map.GetMapObjects().ConfigureAwait(false);
                 var pokemons = mapObjects.Item1.MapCells.SelectMany(i => i.CatchablePokemons).OrderBy(i => LocationUtils.CalculateDistanceInMeters(objClient.CurrentLatitude, objClient.CurrentLongitude, i.Latitude, i.Longitude));
 
                 if (pokemons.Any())
@@ -1667,7 +1667,7 @@ namespace PokemonGo.RocketAPI.Logic
 
                     Logger.ColoredConsoleWrite(ConsoleColor.Magenta, $"Found {pokemons.Count()} catchable Pokemon(s): " + strNames);
                     
-                    //await ShowNearbyPokemons(pokemons);
+                    //await ShowNearbyPokemons(pokemons).ConfigureAwait(false);
                 }
                 else
                 {
@@ -1687,7 +1687,7 @@ namespace PokemonGo.RocketAPI.Logic
 
                     if (count >= 9 && !stateSniper)
                     {
-                        await LogStatsEtc();
+                        await LogStatsEtc().ConfigureAwait(false);
                     }
 
                     #endregion
@@ -1711,10 +1711,10 @@ namespace PokemonGo.RocketAPI.Logic
                     //get distance to pokemon
                     var distance = LocationUtils.CalculateDistanceInMeters(objClient.CurrentLatitude, objClient.CurrentLongitude, pokemon.Latitude, pokemon.Longitude);
 
-                    await Task.Delay(distance > 100 ? 1000 : 100);
+                    await Task.Delay(distance > 100 ? 1000 : 100).ConfigureAwait(false);
 
                     // Do Catch here
-                    await CatchPokemon(pokemon.EncounterId, pokemon.SpawnPointId, pokemon.PokemonId, pokemon.Longitude, pokemon.Latitude);
+                    await CatchPokemon(pokemon.EncounterId, pokemon.SpawnPointId, pokemon.PokemonId, pokemon.Longitude, pokemon.Latitude).ConfigureAwait(false);
                 }
             }
         }        
@@ -1752,24 +1752,24 @@ private int GetGymLevel(long value)
             }
             if (ClientSettings.DontTransferWithCPOver == 10001)
             {
-                var pokemons = (await client.Inventory.GetPokemons()).ToList();
+                var pokemons = (await client.Inventory.GetPokemons().ConfigureAwait(false)).ToList();
                 var pokemon = pokemons.Where(x => ( (!x.IsEgg) && (x.DeployedFortId == "") )).OrderBy(x => x.Cp).FirstOrDefault();
                 if (pokemon == null)
                 {
                     Logger.ColoredConsoleWrite(gymColorLog, "Not pokemons to assign.");
                     return false;
                 }
-                await RandomHelper.RandomDelay(100, 200);
-                var profile = await client.Player.GetPlayer();
+                await RandomHelper.RandomDelay(100, 200).ConfigureAwait(false);
+                var profile = await client.Player.GetPlayer().ConfigureAwait(false);
                 if ( (gym.OwnedByTeam ==  profile.PlayerData.Team) || (gym.OwnedByTeam == POGOProtos.Enums.TeamColor.Neutral ))
                 {
-                    await RandomHelper.RandomDelay(100, 200);
-                    var gymDetails = await client.Fort.GetGymDetails(gym.Id,gym.Latitude,gym.Longitude);
+                    await RandomHelper.RandomDelay(100, 200).ConfigureAwait(false);
+                    var gymDetails = await client.Fort.GetGymDetails(gym.Id,gym.Latitude,gym.Longitude).ConfigureAwait(false);
                     Logger.ColoredConsoleWrite(gymColorLog, "Members: " +gymDetails.GymState.Memberships.Count +". Level: "+ GetGymLevel(gym.GymPoints));
                     if (gymDetails.GymState.Memberships.Count < GetGymLevel(gym.GymPoints))
                     {
-                        await RandomHelper.RandomDelay(100, 200);
-                        var fortSearch = await client.Fort.FortDeployPokemon(gym.Id, pokemon.Id);
+                        await RandomHelper.RandomDelay(100, 200).ConfigureAwait(false);
+                        var fortSearch = await client.Fort.FortDeployPokemon(gym.Id, pokemon.Id).ConfigureAwait(false);
                         if (fortSearch.Result.ToString().ToLower() == "success" ){
                             Logger.ColoredConsoleWrite(gymColorLog, StringUtils.getPokemonNameByLanguage(ClientSettings, (PokemonId)pokemon.PokemonId) +" inserted into the gym");
                             gymsVisited.Add(gym.Id);
@@ -1777,7 +1777,7 @@ private int GetGymLevel(long value)
                             Logger.ColoredConsoleWrite(gymColorLog, "pokesInGym: "+ pokesInGym);
                             if (pokesInGym >9 )
                             { 
-                                var res = await client.Player.CollectDailyDefenderBonus();
+                                var res = await client.Player.CollectDailyDefenderBonus().ConfigureAwait(false);
                                 Logger.ColoredConsoleWrite(gymColorLog, "Collect: "+ res.Result.ToString() );
                             }
                         }
@@ -1809,10 +1809,10 @@ private int GetGymLevel(long value)
 
                 foreach (var gym in withinRangeStandingList)
                 {
-                    var fortInfo = await objClient.Fort.GetFort(gym.Id, gym.Latitude, gym.Longitude);
-                    await CheckAndPutInNearbyGym(gym, objClient, fortInfo);
-                    await SetCheckTimeToRun();
-                    await RandomHelper.RandomDelay(100, 200);
+                    var fortInfo = await objClient.Fort.GetFort(gym.Id, gym.Latitude, gym.Longitude).ConfigureAwait(false);
+                    await CheckAndPutInNearbyGym(gym, objClient, fortInfo).ConfigureAwait(false);
+                    await SetCheckTimeToRun().ConfigureAwait(false);
+                    await RandomHelper.RandomDelay(100, 200).ConfigureAwait(false);
                 }
             }
         }
@@ -1849,7 +1849,7 @@ private int GetGymLevel(long value)
                 Logger.ColoredConsoleWrite(ConsoleColor.Green, "You're outside of the defined max. walking radius. Walking back!");
             }
 
-            await WalkWithRouting(ClientSettings.DefaultLatitude, ClientSettings.DefaultLongitude);
+            await WalkWithRouting(ClientSettings.DefaultLatitude, ClientSettings.DefaultLongitude).ConfigureAwait(false);
 
             return true;
 
@@ -1883,10 +1883,10 @@ private int GetGymLevel(long value)
                     // Example: We snipe Squirtle, but there are 3 of them. 
                     if (sniperReturn)
                     {
-                        var result = await objClient.Player.UpdatePlayerLocation(pokeLat, pokeLong, ClientSettings.DefaultAltitude);
+                        var result = await objClient.Player.UpdatePlayerLocation(pokeLat, pokeLong, ClientSettings.DefaultAltitude).ConfigureAwait(false);
                     }
                 }
-                encounterPokemonResponse = await objClient.Encounter.EncounterPokemon(encounterId, spawnpointId);
+                encounterPokemonResponse = await objClient.Encounter.EncounterPokemon(encounterId, spawnpointId).ConfigureAwait(false);
             }
             finally
             {
@@ -1911,7 +1911,7 @@ private int GetGymLevel(long value)
                     return;
                 }
 
-                var bestPokeball = await GetBestBall(encounterPokemonResponse?.WildPokemon, false);
+                var bestPokeball = await GetBestBall(encounterPokemonResponse?.WildPokemon, false).ConfigureAwait(false);
 
                 if (bestPokeball == ItemId.ItemUnknown)
                 {
@@ -1924,7 +1924,7 @@ private int GetGymLevel(long value)
                     return;
                 }
 
-                var inventoryBerries = await objClient.Inventory.GetItems();
+                var inventoryBerries = await objClient.Inventory.GetItems().ConfigureAwait(false);
                 var probability = encounterPokemonResponse?.CaptureProbability?.CaptureProbability_?.FirstOrDefault();
 
                 var escaped = false;
@@ -1957,7 +1957,7 @@ private int GetGymLevel(long value)
 
                         if (((probability.Value < ClientSettings.razzberry_chance) || escaped) && ClientSettings.UseRazzBerry && !used)
                         {
-                            var bestBerry = await GetBestBerry(encounterPokemonResponse?.WildPokemon);
+                            var bestBerry = await GetBestBerry(encounterPokemonResponse?.WildPokemon).ConfigureAwait(false);
                             if (bestBerry != ItemId.ItemUnknown)
                             {
                                 var berriesInInventory = inventoryBerries as IList<ItemData> ?? inventoryBerries.ToList();
@@ -1969,13 +1969,13 @@ private int GetGymLevel(long value)
                                 if (!berryOutOfStock)
                                 {
                                     //Throw berry
-                                    var useRaspberry = await objClient.Encounter.UseCaptureItem(encounterId, bestBerry, spawnpointId);
+                                    var useRaspberry = await objClient.Encounter.UseCaptureItem(encounterId, bestBerry, spawnpointId).ConfigureAwait(false);
                                     berryThrown = true;
                                     used = true;
 
                                     Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Thrown {bestBerry}. Remaining: {berries.Count}.", LogLevel.Info);
 
-                                    await RandomHelper.RandomDelay(50, 200);
+                                    await RandomHelper.RandomDelay(50, 200).ConfigureAwait(false);
                                 }
                                 else
                                 {
@@ -2036,13 +2036,13 @@ private int GetGymLevel(long value)
                             }
                         }
 
-                        caughtPokemonResponse = await CatchPokemonWithRandomVariables(encounterId, spawnpointId, bestPokeball, forceHit);
+                        caughtPokemonResponse = await CatchPokemonWithRandomVariables(encounterId, spawnpointId, bestPokeball, forceHit).ConfigureAwait(false);
 
                         if (caughtPokemonResponse.Status == CatchPokemonResponse.Types.CatchStatus.CatchMissed)
                         {
                             Logger.ColoredConsoleWrite(ConsoleColor.Magenta, $"Missed {StringUtils.getPokemonNameByLanguage(ClientSettings, pokeid)} while using {bestPokeball}");
                             missCount++;
-                            await RandomHelper.RandomDelay(1500, 6000);
+                            await RandomHelper.RandomDelay(1500, 6000).ConfigureAwait(false);
                         }
                         else if (caughtPokemonResponse.Status == CatchPokemonResponse.Types.CatchStatus.CatchEscape)
                         {
@@ -2050,15 +2050,15 @@ private int GetGymLevel(long value)
                             escaped = true;
                             //reset forceHit in case we randomly triggered on last throw.
                             forceHit = false;
-                            await RandomHelper.RandomDelay(1500, 6000);
+                            await RandomHelper.RandomDelay(1500, 6000).ConfigureAwait(false);
                         }
                         // Update the best ball to ensure we can still throw
-                        bestPokeball = await GetBestBall(encounterPokemonResponse?.WildPokemon, escaped);
+                        bestPokeball = await GetBestBall(encounterPokemonResponse?.WildPokemon, escaped).ConfigureAwait(false);
                     } while (caughtPokemonResponse.Status == CatchPokemonResponse.Types.CatchStatus.CatchMissed || caughtPokemonResponse.Status == CatchPokemonResponse.Types.CatchStatus.CatchEscape);
 
                     if (caughtPokemonResponse.Status == CatchPokemonResponse.Types.CatchStatus.CatchSuccess)
                     {
-                        //await DeletePokemonFromMap(encounterPokemonResponse.WildPokemon.SpawnPointId);
+                        //await DeletePokemonFromMap(encounterPokemonResponse.WildPokemon.SpawnPointId).ConfigureAwait(false);
                         foreach (var xp in caughtPokemonResponse.CaptureAward.Xp)
                             BotStats.AddExperience(xp);
 
@@ -2090,7 +2090,7 @@ private int GetGymLevel(long value)
                                 Telegram.sendInformationText(TelegramUtil.TelegramUtilInformationTopics.Catch, StringUtils.getPokemonNameByLanguage(ClientSettings, pokeid), encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp, PokemonInfo.CalculatePokemonPerfection(encounterPokemonResponse.WildPokemon.PokemonData).ToString("0.00"), bestPokeball, caughtPokemonResponse.CaptureAward.Xp.Sum());
 
                             BotStats.AddPokemon(1);
-                            await RandomHelper.RandomDelay(1500, 2000);
+                            await RandomHelper.RandomDelay(1500, 2000).ConfigureAwait(false);
                         }
                     }
                     else
@@ -2110,7 +2110,7 @@ private int GetGymLevel(long value)
                     SkippedPokemon.Add(encounterPokemonResponse.WildPokemon.EncounterId);
                 }
             }
-            await RandomHelper.RandomDelay(1500, 2000);
+            await RandomHelper.RandomDelay(1500, 2000).ConfigureAwait(false);
         }
 
         private async Task<CatchPokemonResponse> CatchPokemonWithRandomVariables(ulong encounterId, string spawnpointId, ItemId bestPokeball, bool forceHit)
@@ -2179,7 +2179,7 @@ private int GetGymLevel(long value)
             {
                 Logger.ColoredConsoleWrite(ConsoleColor.DarkMagenta, $"{hitTxt} throw as {spinTxt} ball.");
             }
-            return await objClient.Encounter.CatchPokemon(encounterId, spawnpointId, bestPokeball, forceHit, normalizedRecticleSize, spinModifier);
+            return await objClient.Encounter.CatchPokemon(encounterId, spawnpointId, bestPokeball, forceHit, normalizedRecticleSize, spinModifier).ConfigureAwait(false);
         }
 
         #endregion
@@ -2192,12 +2192,12 @@ private int GetGymLevel(long value)
             {
                 return;
             }
-            var pokemonToEvolve = await objClient.Inventory.GetPokemonToEvolve(filter);
+            var pokemonToEvolve = await objClient.Inventory.GetPokemonToEvolve(filter).ConfigureAwait(false);
             if (pokemonToEvolve.Count() != 0)
             {
                 if (ClientSettings.UseLuckyEgg)
                 {
-                    await objClient.Inventory.UseLuckyEgg(objClient);
+                    await objClient.Inventory.UseLuckyEgg(objClient).ConfigureAwait(false);
                 }
             }
             if (ClientSettings.pauseAtEvolve2)
@@ -2211,7 +2211,7 @@ private int GetGymLevel(long value)
                 {
                     continue;
                 }
-                var evolvePokemonOutProto = await objClient.Inventory.EvolvePokemon(pokemon.Id);
+                var evolvePokemonOutProto = await objClient.Inventory.EvolvePokemon(pokemon.Id).ConfigureAwait(false);
                 var date = DateTime.Now.ToString();
                 var logPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Logs");
                 var evolvelog = Path.Combine(logPath, "EvolveLog.txt");
@@ -2241,11 +2241,11 @@ private int GetGymLevel(long value)
                 }
                 if (ClientSettings.UseAnimationTimes)
                 {
-                    await RandomHelper.RandomDelay(30000, 35000);
+                    await RandomHelper.RandomDelay(30000, 35000).ConfigureAwait(false);
                 }
                 else
                 {
-                    await RandomHelper.RandomDelay(500, 600);
+                    await RandomHelper.RandomDelay(500, 600).ConfigureAwait(false);
                 }
             }
             if (ClientSettings.pauseAtEvolve2)
@@ -2263,7 +2263,7 @@ private int GetGymLevel(long value)
             }
             if (ClientSettings.TransferDoublePokemons)
             {
-                var duplicatePokemons = await objClient.Inventory.GetDuplicatePokemonToTransfer(keepPokemonsThatCanEvolve, transferFirstLowIv);
+                var duplicatePokemons = await objClient.Inventory.GetDuplicatePokemonToTransfer(keepPokemonsThatCanEvolve, transferFirstLowIv).ConfigureAwait(false);
                 if (ClientSettings.pauseAtEvolve2)
                 {
                     Logger.ColoredConsoleWrite(ConsoleColor.Green, "Stopping to transfer some Pokemons.");
@@ -2278,11 +2278,11 @@ private int GetGymLevel(long value)
                             continue; // Isnt this wrong? Shouldnt it return instead of continueing?
                         }
 
-                        var bestPokemonOfType = await objClient.Inventory.GetHighestCPofType(duplicatePokemon);
-                        var bestPokemonsCpOfType = await objClient.Inventory.GetHighestCPofType2(duplicatePokemon);
-                        var bestPokemonsIvOfType = await objClient.Inventory.GetHighestIVofType(duplicatePokemon);
+                        var bestPokemonOfType = await objClient.Inventory.GetHighestCPofType(duplicatePokemon).ConfigureAwait(false);
+                        var bestPokemonsCpOfType = await objClient.Inventory.GetHighestCPofType2(duplicatePokemon).ConfigureAwait(false);
+                        var bestPokemonsIvOfType = await objClient.Inventory.GetHighestIVofType(duplicatePokemon).ConfigureAwait(false);
 
-                        var transfer = await objClient.Inventory.TransferPokemon(duplicatePokemon.Id);
+                        var transfer = await objClient.Inventory.TransferPokemon(duplicatePokemon.Id).ConfigureAwait(false);
 
                         var logPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Logs");
                         var logs = Path.Combine(logPath, "TransferLog.txt");
@@ -2308,7 +2308,7 @@ private int GetGymLevel(long value)
                         if (Telegram != null)
                             Telegram.sendInformationText(TelegramUtil.TelegramUtilInformationTopics.Transfer, StringUtils.getPokemonNameByLanguage(ClientSettings, duplicatePokemon.PokemonId), duplicatePokemon.Cp, PokemonInfo.CalculatePokemonPerfection(duplicatePokemon).ToString("0.00"), bestPokemonOfType);
 
-                        await RandomHelper.RandomDelay(5000, 6000);
+                        await RandomHelper.RandomDelay(5000, 6000).ConfigureAwait(false);
                     }
                 }
                 if (ClientSettings.pauseAtEvolve2)
@@ -2326,7 +2326,7 @@ private int GetGymLevel(long value)
         private async Task<Dictionary<string, int>> GetPokeballQty()
         {
             var pokeBallCollection = new Dictionary<string, int>();
-            var items = await objClient.Inventory.GetItems();
+            var items = await objClient.Inventory.GetItems().ConfigureAwait(false);
             var balls = items.Where(i => (i.ItemId == ItemId.ItemPokeBall || i.ItemId == ItemId.ItemGreatBall || i.ItemId == ItemId.ItemUltraBall || i.ItemId == ItemId.ItemMasterBall) && i.ItemId > 0).GroupBy(i => i.ItemId).ToList();
 
             #region Log Pokeball types out of stock
@@ -2364,7 +2364,7 @@ private int GetGymLevel(long value)
         {
             //pokemon cp to determine ball type
             var pokemonCp = pokemon?.PokemonData?.Cp;
-            var pokeballCollection = await GetPokeballQty();
+            var pokeballCollection = await GetPokeballQty().ConfigureAwait(false);
 
             #region Set Available ball types
 
@@ -2519,7 +2519,7 @@ private int GetGymLevel(long value)
         {
             var pokemonCp = pokemon?.PokemonData?.Cp;
 
-            var items = await objClient.Inventory.GetItems();
+            var items = await objClient.Inventory.GetItems().ConfigureAwait(false);
             var berries = items.Where(i => i.ItemId == ItemId.ItemRazzBerry || i.ItemId == ItemId.ItemBlukBerry || i.ItemId == ItemId.ItemNanabBerry || i.ItemId == ItemId.ItemWeparBerry || i.ItemId == ItemId.ItemPinapBerry).GroupBy(i => i.ItemId).ToList();
             if (berries.Count() == 0)
             {
@@ -2527,11 +2527,11 @@ private int GetGymLevel(long value)
                 return ItemId.ItemUnknown;
             }
 
-            var razzBerryCount = await objClient.Inventory.GetItemAmountByType(ItemId.ItemRazzBerry);
-            var blukBerryCount = await objClient.Inventory.GetItemAmountByType(ItemId.ItemBlukBerry);
-            var nanabBerryCount = await objClient.Inventory.GetItemAmountByType(ItemId.ItemNanabBerry);
-            var weparBerryCount = await objClient.Inventory.GetItemAmountByType(ItemId.ItemWeparBerry);
-            var pinapBerryCount = await objClient.Inventory.GetItemAmountByType(ItemId.ItemPinapBerry);
+            var razzBerryCount = await objClient.Inventory.GetItemAmountByType(ItemId.ItemRazzBerry).ConfigureAwait(false);
+            var blukBerryCount = await objClient.Inventory.GetItemAmountByType(ItemId.ItemBlukBerry).ConfigureAwait(false);
+            var nanabBerryCount = await objClient.Inventory.GetItemAmountByType(ItemId.ItemNanabBerry).ConfigureAwait(false);
+            var weparBerryCount = await objClient.Inventory.GetItemAmountByType(ItemId.ItemWeparBerry).ConfigureAwait(false);
+            var pinapBerryCount = await objClient.Inventory.GetItemAmountByType(ItemId.ItemPinapBerry).ConfigureAwait(false);
 
             if (pinapBerryCount > 0 && pokemonCp >= 2000)
                 return ItemId.ItemPinapBerry;
@@ -2572,7 +2572,7 @@ private int GetGymLevel(long value)
             }
             if (ClientSettings.RelocateDefaultLocation)
                 return;
-            var items = await objClient.Inventory.GetItemsToRecycle(ClientSettings);
+            var items = await objClient.Inventory.GetItemsToRecycle(ClientSettings).ConfigureAwait(false);
 
             foreach (var item in items)
             {
@@ -2582,9 +2582,9 @@ private int GetGymLevel(long value)
                     ClientSettings.CatchPokemon = true;
                     pokeballoutofstock = false;
                 }
-                var transfer = await objClient.Inventory.RecycleItem(item.ItemId, item.Count);
+                var transfer = await objClient.Inventory.RecycleItem(item.ItemId, item.Count).ConfigureAwait(false);
                 Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Recycled {item.Count}x {item.ItemId}", LogLevel.Info);
-                await RandomHelper.RandomDelay(1000, 5000);
+                await RandomHelper.RandomDelay(1000, 5000).ConfigureAwait(false);
             }
         }
 
@@ -2601,7 +2601,7 @@ private int GetGymLevel(long value)
             if (ClientSettings.UseIncense || ClientSettings.UseIncenseGUIClick)
             {
                 ClientSettings.UseIncenseGUIClick = false;
-                var inventory = await objClient.Inventory.GetItems();
+                var inventory = await objClient.Inventory.GetItems().ConfigureAwait(false);
                 var incsense = inventory.Where(p => p.ItemId == ItemId.ItemIncenseOrdinary).FirstOrDefault();
                 var loginterval = DateTime.Now - LastIncenselog;
                 if (lastincenseuse > DateTime.Now.AddSeconds(5))
@@ -2621,10 +2621,10 @@ private int GetGymLevel(long value)
                     return;
                 }
 
-                await objClient.Inventory.UseIncense(ItemId.ItemIncenseOrdinary);
+                await objClient.Inventory.UseIncense(ItemId.ItemIncenseOrdinary).ConfigureAwait(false);
                 Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Used Incsense, remaining: {incsense.Count - 1}");
                 lastincenseuse = DateTime.Now.AddMinutes(30);
-                await Task.Delay(3000);
+                await Task.Delay(3000).ConfigureAwait(false);
             }
         }
 
@@ -2675,10 +2675,10 @@ private int GetGymLevel(long value)
                 {
                     return;
                 }
-                var inventory = await objClient.Inventory.GetInventory();
+                var inventory = await objClient.Inventory.GetInventory().ConfigureAwait(false);
                 var incubators = objClient.Inventory.GetEggIncubators(inventory).ToList();
                 var unusedEggs = (objClient.Inventory.GetEggs(inventory)).Where(x => string.IsNullOrEmpty(x.EggIncubatorId)).OrderBy(x => x.EggKmWalkedTarget - x.EggKmWalkedStart).ToList();
-                var pokemons = (await objClient.Inventory.GetPokemons()).ToList();
+                var pokemons = (await objClient.Inventory.GetPokemons().ConfigureAwait(false)).ToList();
 
                 var playerStats = objClient.Inventory.GetPlayerStats(inventory);
                 var stats = playerStats.First();
@@ -2737,7 +2737,7 @@ private int GetGymLevel(long value)
                         if (egg == null)
                             return;
 
-                        var response = await objClient.Inventory.UseItemEggIncubator(incubator.Id, egg.Id);
+                        var response = await objClient.Inventory.UseItemEggIncubator(incubator.Id, egg.Id).ConfigureAwait(false);
                         try{
                             unusedEggs.Remove(egg);
                             unusedEggsBasicInc.Remove(egg);
@@ -2747,7 +2747,7 @@ private int GetGymLevel(long value)
                         newRememberedIncubators.Add(new IncubatorUsage { IncubatorId = incubator.Id, PokemonId = egg.Id });
                         Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, "Added Egg which needs " + egg.EggKmWalkedTarget + "km");
                         // We need some sleep here or this shit explodes
-                        await RandomHelper.RandomDelay(100, 200);
+                        await RandomHelper.RandomDelay(100, 200).ConfigureAwait(false);
                     }
                     else
                     {
@@ -2852,19 +2852,19 @@ private int GetGymLevel(long value)
 
         public async Task ShowNearbyPokemons(IEnumerable<MapPokemon> pokeData)
         {
-            await Task.Factory.StartNew(() => ShowNearbyPokemonsRun(pokeData));
+            await Task.Factory.StartNew(() => ShowNearbyPokemonsRun(pokeData)).ConfigureAwait(false);
         }
 
         public async Task DeletePokemonFromMap(string spawnPointId)
         {
-            await Task.Factory.StartNew(() => infoObservable.PushDeletePokemonLocation(spawnPointId));
+            await Task.Factory.StartNew(() => infoObservable.PushDeletePokemonLocation(spawnPointId)).ConfigureAwait(false);
         }
 
         public async Task RepeatAction(int repeat, Func<Task> action)
         {
             for (var i = 0; i < repeat; i++)
             {
-                await action();
+                await action().ConfigureAwait(false);
             }
         }
 

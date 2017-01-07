@@ -108,7 +108,7 @@ namespace PokemonGo.RocketAPI.Console
                 Logger.ColoredConsoleWrite(ConsoleColor.DarkRed, $"Could not get PokemonData. Service is overloaded.", LogLevel.Warning);
             }
 
-            //await Logic.Logic._instance.CheckAvailablePokemons(Logic.Logic._client);
+            //await Logic.Logic._instance.CheckAvailablePokemons(Logic.Logic._client).ConfigureAwait(false);
             buttonRefreshPokemon.Enabled = true;
         }
         
@@ -120,7 +120,7 @@ namespace PokemonGo.RocketAPI.Console
             if (client.readyToUse )
             {
                 Logger.ColoredConsoleWrite(ConsoleColor.DarkRed, "Refreshing Forts", LogLevel.Warning);
-                var mapObjects = await client.Map.GetMapObjects();
+                var mapObjects = await client.Map.GetMapObjects().ConfigureAwait(false);
                 var mapCells = mapObjects.Item1.MapCells;
                 var pokeStops =
                 mapCells.SelectMany(i => i.Forts)
