@@ -27,7 +27,7 @@ namespace PokemonGo.RocketAPI.Hash
             do {
                 try
                 {
-                    return await InternalRequestHashesAsync(request);
+                    return await InternalRequestHashesAsync(request).ConfigureAwait(false);
                 }
                 catch (HasherException hashEx)
                 {
@@ -35,7 +35,7 @@ namespace PokemonGo.RocketAPI.Hash
                 }
                 catch (Exception ex)
                 {
-
+                    Logger.ColoredConsoleWrite(ConsoleColor.Red, "PokeHashHashed Exception: " + ex.Message);
                 }
                 finally
                 {
@@ -73,27 +73,29 @@ namespace PokemonGo.RocketAPI.Hash
 
                 content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
 
-                var response = await client.PostAsync(endpoint, content);
+                var response = await client.PostAsync(endpoint, content).ConfigureAwait(false);
+
+                var responseContent = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
 
                 // TODO: Fix this up with proper retry-after when we get rate limited.
                 // TODO: Get limits and show to Console
                 switch (response.StatusCode)
                 {           
                     case HttpStatusCode.OK:
-                        Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Hasher Server " + response.Headers.GetValues("X-RateRequestsRemaining").FirstOrDefault() + " rpm of " + response.Headers.GetValues("X-MaxRequestCount").FirstOrDefault(), LogLevel.Debug);
-                        return JsonConvert.DeserializeObject<HashResponseContent>(await response.Content.ReadAsStringAsync());
+                        // Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Hasher Server " + response.Headers.GetValues("X-RateRequestsRemaining").FirstOrDefault() + " rpm of " + response.Headers.GetValues("X-MaxRequestCount").FirstOrDefault(), LogLevel.Debug);
+                        return JsonConvert.DeserializeObject<HashResponseContent>(responseContent);
                     #region ErrorCodes
                     case HttpStatusCode.BadRequest: // Invalid request
-                        string responseText = await response.Content.ReadAsStringAsync();
-                        if (responseText.Contains("Unauthorized")) throw new HasherException($"[HashService] Your PF-Hashkey you provided is incorrect (or not valid anymore). Please check again! (Pokefamer message : {responseText})");
-                        Console.WriteLine($"[HashService] Bad request sent to the hashing server! {responseText}");
+                        //string responseText = await response.Content.ReadAsStringAsync();
+                        if (responseContent.Contains("Unauthorized")) throw new HasherException($"[HashService] Your PF-Hashkey you provided is incorrect (or not valid anymore). Please check again! (Pokefamer message : {responseContent})");
+                        Console.WriteLine($"[HashService] Bad request sent to the hashing server! {responseContent}");
                         break;
                     case HttpStatusCode.Unauthorized: // No Valid Key
                         throw new  HasherException("[HashService] Your PF-Hashkey you provided is incorrect (or not valid anymore). Please check again!");
                     case (HttpStatusCode)429: // To many requests
-                        Console.WriteLine($"[HashService] Your request has been limited. {await response.Content.ReadAsStringAsync()}");
+                        Console.WriteLine($"[HashService] Your request has been limited. {responseContent}");
                         await Task.Delay(2000);  //stop for 2 sec
-                        return await RequestHashesAsync(request);
+                        return await RequestHashesAsync(request).ConfigureAwait(false);
                     default:
                         throw new HasherException($"[HashService] Pokefamer Hash API ({client.BaseAddress}{endpoint}) might down!");
                     #endregion

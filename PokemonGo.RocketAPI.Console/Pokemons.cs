@@ -13,7 +13,7 @@ namespace PokemonGo.RocketAPI.Console
 {
     public partial class Pokemons : Form
     {
-        private static GetPlayerResponse profile;
+        public static GetPlayerResponse profile;
         private static POGOProtos.Data.Player.PlayerStats stats;
         public static ISettings ClientSettings;
         public bool waitingApiResponse = false;
@@ -53,34 +53,34 @@ namespace PokemonGo.RocketAPI.Console
             this.WindowState = FormWindowState.Minimized;
         }
 
-        public async Task check()
-        {
-            while (true)
-            {
-                try
-                {
-                    if (Logic.Logic.Client != null && Logic.Logic.Client.readyToUse != false)
-                    {
-                        break;
-                    }
-                }
-                catch (Exception) { }
-            }
-        }
+        //public async Task check()
+        //{
+        //    while (true)
+        //    {
+        //        try
+        //        {
+        //            if (Logic.Logic.Client != null && Logic.Logic.Client.readyToUse != false)
+        //            {
+        //                break;
+        //            }
+        //        }
+        //        catch (Exception) { }
+        //    }
+        //}
 
         private async void Execute()
         {
             TabControl1.Enabled = false;
-            await check();
+            //await check();
             try
             {
                 var client = Logic.Logic.Client;
                 if (client.readyToUse != false)
                 {                    
-                    profile = await client.Player.GetPlayer();
+                    profile = await client.Player.GetPlayer().ConfigureAwait(false);
                     await Task.Delay(1000); // Pause to simulate human speed. 
                     Text = "User: " + profile.PlayerData.Username;
-                    var arrStats = await client.Inventory.GetPlayerStats();
+                    var arrStats = await client.Inventory.GetPlayerStats().ConfigureAwait(false);
                     stats = arrStats.First();
                     locationPanel1.CreateBotMarker((int)profile.PlayerData.Team, stats.Level, stats.Experience);
                     playerPanel1.setProfile(profile);
@@ -128,7 +128,7 @@ namespace PokemonGo.RocketAPI.Console
         }
         void TabControl1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            ChangeTabs(sender, e);
+            ChangeTabs(sender, e).Wait();
         }
 
         private async Task ChangeTabs(object sender, EventArgs e)
@@ -142,16 +142,20 @@ namespace PokemonGo.RocketAPI.Console
             switch (current.Name)
             {
                 case "tpPokemons":
-                    await pokemonsPanel1.Execute();
+                    //await pokemonsPanel1.Execute();
+                    pokemonsPanel1.Execute();
                     break;
                 case "tpItems":
-                    await itemsPanel1.Execute();
+                    //await itemsPanel1.Execute().ConfigureAwait(false);
+                    itemsPanel1.Execute();
                     break;
                 case "tpEggs":
-                    await eggsPanel1.Execute();
+                    //await eggsPanel1.Execute().ConfigureAwait(false);
+                    eggsPanel1.Execute();
                     break;
                 case "tpPlayerInfo":
-                    await playerPanel1.Execute();
+                    //await playerPanel1.Execute().ConfigureAwait(false);
+                    playerPanel1.Execute();
                     break;
             }
             waitingApiResponse = false;

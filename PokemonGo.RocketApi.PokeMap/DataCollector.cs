@@ -40,8 +40,8 @@ namespace PokemonGo.RocketApi.PokeMap
 
         public static async Task<List<PokemonMapData>> GetFastPokeMapData(double latitude, double longitude)
         {
-            var res = await getCacheData(latitude.ToString(), longitude.ToString());
-            var res2 = await getNearbyData(latitude.ToString(), longitude.ToString());
+            var res = await getCacheData(latitude.ToString(), longitude.ToString()).ConfigureAwait(false);
+            var res2 = await getNearbyData(latitude.ToString(), longitude.ToString()).ConfigureAwait(false);
 
             var retVal = createPokemonMapData(res, res2);
            
@@ -149,7 +149,7 @@ namespace PokemonGo.RocketApi.PokeMap
             do
             {
                 Debug.WriteLine("Starting try #{0}", counter);
-                var response = await client.ExecuteTaskAsync(request);
+                var response = await client.ExecuteTaskAsync(request).ConfigureAwait(false);
             
                 startExecution.Stop();                                            
                 Debug.WriteLine("RestRequest execution time: {0}, {1}ms, {2} ticks", startExecution.Elapsed, startExecution.ElapsedMilliseconds, startExecution.ElapsedTicks);
@@ -180,12 +180,12 @@ namespace PokemonGo.RocketApi.PokeMap
 
         private static async Task<List<ResultCache>> getCacheData(string latitude, string longitude)
         {
-            return await getData<List<ResultCache>>(latitude, longitude, FastPokeMapCacheUrl);
+            return await getData<List<ResultCache>>(latitude, longitude, FastPokeMapCacheUrl).ConfigureAwait(false);
         }
 
         private static async Task<T> getData<T>(string latitude, string longitude, string url) where T : class, new()
         {
-            T returnValue = default(T);
+            //T returnValue = default(T);
             RestSharp.RestClient client = createClient(url);
 
             var req = createRequest(latitude, longitude);
@@ -193,12 +193,12 @@ namespace PokemonGo.RocketApi.PokeMap
             Stopwatch startExecution = null;
             startExecution = Stopwatch.StartNew();
             
-            return await executeRequest<T>(client, req);
+            return await executeRequest<T>(client, req).ConfigureAwait(false);
         }
 
         private static async Task<List<ResultNearby>> getNearbyData(string latitude, string longitude)
         {
-            var retVal = await getData<ResultsNearbyList>(latitude, longitude, FastPokeMapApiUrl);
+            var retVal = await getData<ResultsNearbyList>(latitude, longitude, FastPokeMapApiUrl).ConfigureAwait(false);
             if (retVal == null)
             {
                 return null;

@@ -50,10 +50,10 @@ namespace PokemonGo.RocketAPI.Extensions
             }
 
             ResponseEnvelope response;
-            while ((response = await PerformThrottledRemoteProcedureCall<TRequest>(client, url, requestEnvelope)).Returns.Count !=
+            while ((response = await PerformThrottledRemoteProcedureCall<TRequest>(client, url, requestEnvelope).ConfigureAwait(false)).Returns.Count !=
                    responseTypes.Length)
             {
-                var operation = await strategy.HandleApiFailure(requestEnvelope, response);
+                var operation = await strategy.HandleApiFailure(requestEnvelope, response).ConfigureAwait(false);
                 if (operation == ApiOperation.Abort)
                 {
                     throw new InvalidResponseException(
@@ -78,17 +78,17 @@ namespace PokemonGo.RocketAPI.Extensions
             where TResponsePayload : IMessage<TResponsePayload>, new()
         {
             Debug.WriteLine($"Requesting {typeof(TResponsePayload).Name}");
-            var response = await PerformThrottledRemoteProcedureCall<TRequest>(client, url, requestEnvelope);
+            var response = await PerformThrottledRemoteProcedureCall<TRequest>(client, url, requestEnvelope).ConfigureAwait(false);
 
             while (response.Returns.Count == 0)
             {
-                var operation = await strategy.HandleApiFailure(requestEnvelope, response);
+                var operation = await strategy.HandleApiFailure(requestEnvelope, response).ConfigureAwait(false);
                 if (operation == ApiOperation.Abort)
                 {
                     break;
                 }
 
-                response = await PerformThrottledRemoteProcedureCall<TRequest>(client, url, requestEnvelope);
+                response = await PerformThrottledRemoteProcedureCall<TRequest>(client, url, requestEnvelope).ConfigureAwait(false);
             }
 
             if (response.Returns.Count == 0)
@@ -111,10 +111,10 @@ namespace PokemonGo.RocketAPI.Extensions
         {
             //Encode payload and put in envelope, then send
             var data = requestEnvelope.ToByteString();
-            var result = await client.PostAsync(url, new ByteArrayContent(data.ToByteArray()));
+            var result = await client.PostAsync(url, new ByteArrayContent(data.ToByteArray())).ConfigureAwait(false);
 
             //Decode message
-            var responseData = await result.Content.ReadAsByteArrayAsync();
+            var responseData = await result.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
             var codedStream = new CodedInputStream(responseData);
             var decodedResponse = new ResponseEnvelope();
             decodedResponse.MergeFrom(codedStream);
@@ -144,7 +144,7 @@ namespace PokemonGo.RocketAPI.Extensions
                     await Task.Delay((int)(delay));
                 }
                 lastRpc = (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds;
-                ResponseEnvelope response = await PerformRemoteProcedureCall<TRequest>(client, url, r);
+                ResponseEnvelope response = await PerformRemoteProcedureCall<TRequest>(client, url, r).ConfigureAwait(false);
                 //Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Calling PgoServers {url} last Rpc = {lastRpc} diff = {diff} datetimeNow.Millisecond = {DateTime.Now.Millisecond}");
                 responses.GetOrAdd(r, response);
             }

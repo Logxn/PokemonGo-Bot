@@ -48,7 +48,7 @@ namespace PokemonGo.RocketAPI.Logic
              * ... we restart the bot! ;)
              **/
 
-            VerifyChallengeResponse r = await _player.VerifyChallenge(token); // We will send a request, passing the long-ass-token and wait for a response.
+            VerifyChallengeResponse r = await _player.VerifyChallenge(token).ConfigureAwait(false); // We will send a request, passing the long-ass-token and wait for a response.
 
             if (r.Success)
             {
@@ -90,7 +90,7 @@ namespace PokemonGo.RocketAPI.Logic
             {
                 if (_session.Settings.AuthType == AuthType.Google || _session.Settings.AuthType == AuthType.Ptc)
                 {
-                    await _session.Login.DoLogin();
+                    await _session.Login.DoLogin().ConfigureAwait(false);
                 }
                 else
                 {

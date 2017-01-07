@@ -12,6 +12,8 @@ using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
+using System.Runtime.CompilerServices;
+using System.Diagnostics; 
 using Troschuetz.Random;
 using static POGOProtos.Networking.Envelopes.RequestEnvelope.Types;
 using static POGOProtos.Networking.Envelopes.Signature.Types;
@@ -200,8 +202,8 @@ namespace PokemonGo.RocketAPI.Helpers
         /// <param name="requestEnvelope"></param>
         /// <returns></returns>
         /// Also pogolib does
-        /// internal async Task<PlatformRequest> GenerateSignatureAsync(RequestEnvelope requestEnvelope)
-        private RequestEnvelope.Types.PlatformRequest GenerateSignature(RequestEnvelope requestEnvelope)
+        internal async Task<PlatformRequest> GenerateSignatureAsync(RequestEnvelope requestEnvelope)
+        //private RequestEnvelope.Types.PlatformRequest GenerateSignature(RequestEnvelope requestEnvelope)
         {
 
             var timestampSinceStart = (long)(Utils.GetTime(true) - _client.StartTime);
@@ -310,9 +312,13 @@ namespace PokemonGo.RocketAPI.Helpers
 
             HashResponseContent responseContent;
 
-            responseContent = _client.Hasher.RequestHashesAsync(hashRequest).Result;
+            //TODO:Change .Result to await
+            //responseContent = _client.Hasher.RequestHashesAsync(hashRequest).Result;
+            responseContent = await _client.Hasher.RequestHashesAsync(hashRequest).ConfigureAwait(false);
 
-            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Hasher Server Info: LocAuthHash: " + responseContent.LocationAuthHash + " LocHash: " + responseContent.LocationHash, LogLevel.Debug);
+            if (_client.Settings.EnableVerboseLogging) 
+                Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "[SIG] Hasher Server Info [[" + hashRequest.Requests.Count + "]" + String.Join("|", requestEnvelope.Requests.Select(t => t.RequestType).ToList()) + "] "
+                    +": LocAuthHash: " + responseContent.LocationAuthHash + " LocHash: " + responseContent.LocationHash, LogLevel.Debug);
 
             signature.LocationHash1 = unchecked((int)responseContent.LocationAuthHash);
             signature.LocationHash2 = unchecked((int)responseContent.LocationHash);
@@ -391,9 +397,10 @@ namespace PokemonGo.RocketAPI.Helpers
         }
 
         public async Task<RequestEnvelope> GetRequestEnvelope(Request[] customRequests, bool firstRequest = false)
+        //public RequestEnvelope GetRequestEnvelope(Request[] customRequests, bool firstRequest = false)
         {
             TRandom TRandomDevice = new TRandom();
-
+            
             var e = new RequestEnvelope
             {
                 StatusCode = 2,                 //1
@@ -409,7 +416,7 @@ namespace PokemonGo.RocketAPI.Helpers
             if (_authTicket != null && !firstRequest)
             {
                 e.AuthTicket = _authTicket;
-                e.PlatformRequests.Add(GenerateSignature(e));
+                e.PlatformRequests.Add(await GenerateSignatureAsync(e).ConfigureAwait(false));
             }
             else
             {
@@ -426,13 +433,28 @@ namespace PokemonGo.RocketAPI.Helpers
             return e;
         }
 
+        //public void TraceMessage(string message,
+        //[CallerMemberName] string memberName = "",
+        //[CallerFilePath] string sourceFilePath = "",
+        //[CallerLineNumber] int sourceLineNumber = 0)
+        //{
+        //    Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "[ENV] Envelope -> Generate SIG" + memberName +sourceFilePath+sourceLineNumber, LogLevel.Debug);
+
+        //    //Trace.WriteLine("message: " + message);
+        //    //Trace.WriteLine("member name: " + memberName);
+        //    //Trace.WriteLine("source file path: " + sourceFilePath);
+        //    //Trace.WriteLine("source line number: " + sourceLineNumber);
+        //}
+
         public async Task<RequestEnvelope> GetRequestEnvelope(RequestType type, IMessage message)
+        //public RequestEnvelope GetRequestEnvelope(RequestType type, IMessage message)
         {
             return await GetRequestEnvelope(new Request[] { new Request
+            //return GetRequestEnvelope(new Request[] { new Request
             {
                 RequestType = type,
                 RequestMessage = message.ToByteString()
-            } });
+            } }).ConfigureAwait(false);
 
         }
         private static readonly Random RandomDevice = new Random();

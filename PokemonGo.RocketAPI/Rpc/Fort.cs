@@ -27,7 +27,7 @@ namespace PokemonGo.RocketAPI.Rpc
                 Longitude = fortLongitude
             };
 
-            return await PostProtoPayload<Request, FortDetailsResponse>(RequestType.FortDetails, message);
+            return await PostProtoPayload<Request, FortDetailsResponse>(RequestType.FortDetails, message).ConfigureAwait(false);
         }
 
         public async Task<FortSearchResponse> SearchFort(string fortId, double fortLat, double fortLng)
@@ -41,7 +41,7 @@ namespace PokemonGo.RocketAPI.Rpc
                 PlayerLongitude = Client.CurrentLongitude
             };
 
-            return await PostProtoPayload<Request, FortSearchResponse>(RequestType.FortSearch, message);
+            return await PostProtoPayload<Request, FortSearchResponse>(RequestType.FortSearch, message).ConfigureAwait(false);
         }
 
         public async Task<AddFortModifierResponse> AddFortModifier(string fortId, ItemId modifierType)
@@ -54,7 +54,7 @@ namespace PokemonGo.RocketAPI.Rpc
                 PlayerLongitude = Client.CurrentLongitude
             };
 
-            return await PostProtoPayload<Request, AddFortModifierResponse>(RequestType.AddFortModifier, message);
+            return await PostProtoPayload<Request, AddFortModifierResponse>(RequestType.AddFortModifier, message).ConfigureAwait(false);
         }
 
         public async Task<AttackGymResponse> AttackGym(string fortId, string battleId, List<BattleAction> battleActions,
@@ -72,7 +72,7 @@ namespace PokemonGo.RocketAPI.Rpc
 
             message.AttackActions.AddRange(battleActions);
 
-            return await PostProtoPayload<Request, AttackGymResponse>(RequestType.AttackGym, message);
+            return await PostProtoPayload<Request, AttackGymResponse>(RequestType.AttackGym, message).ConfigureAwait(false);
         }
 
         public async Task<FortDeployPokemonResponse> FortDeployPokemon(string fortId, ulong pokemonId)
@@ -85,7 +85,7 @@ namespace PokemonGo.RocketAPI.Rpc
                 PlayerLongitude = Client.CurrentLongitude
             };
 
-            return await PostProtoPayload<Request, FortDeployPokemonResponse>(RequestType.FortDeployPokemon, message);
+            return await PostProtoPayload<Request, FortDeployPokemonResponse>(RequestType.FortDeployPokemon, message).ConfigureAwait(false);
         }
 
         public async Task<FortRecallPokemonResponse> FortRecallPokemon(string fortId, ulong pokemonId)
@@ -98,7 +98,7 @@ namespace PokemonGo.RocketAPI.Rpc
                 PlayerLongitude = Client.CurrentLongitude
             };
 
-            return await PostProtoPayload<Request, FortRecallPokemonResponse>(RequestType.FortRecallPokemon, message);
+            return await PostProtoPayload<Request, FortRecallPokemonResponse>(RequestType.FortRecallPokemon, message).ConfigureAwait(false);
         }
 
         public async Task<GetGymDetailsResponse> GetGymDetails(string gymId, double gymLat, double gymLng)
@@ -112,7 +112,7 @@ namespace PokemonGo.RocketAPI.Rpc
                 PlayerLongitude = Client.CurrentLongitude
             };
 
-            return await PostProtoPayload<Request, GetGymDetailsResponse>(RequestType.GetGymDetails, message);
+            return await PostProtoPayload<Request, GetGymDetailsResponse>(RequestType.GetGymDetails, message).ConfigureAwait(false);
         }
 
         public async Task<StartGymBattleResponse> StartGymBattle(string gymId, ulong defendingPokemonId,
@@ -127,7 +127,7 @@ namespace PokemonGo.RocketAPI.Rpc
                 PlayerLongitude = Client.CurrentLongitude
             };
 
-            return await PostProtoPayload<Request, StartGymBattleResponse>(RequestType.StartGymBattle, message);
+            return await PostProtoPayload<Request, StartGymBattleResponse>(RequestType.StartGymBattle, message).ConfigureAwait(false);
         }
     }
 }

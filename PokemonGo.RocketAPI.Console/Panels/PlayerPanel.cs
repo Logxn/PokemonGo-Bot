@@ -30,7 +30,8 @@ namespace PokemonGo.RocketAPI.Console
         private static GetPlayerResponse profile = null;
         private static IOrderedEnumerable<PokemonData> pokemons = null;
         private static POGOProtos.Data.Player.PlayerStats stats;
-        
+        private static Client client;
+
         public PlayerPanel()
         {
             //
@@ -39,8 +40,37 @@ namespace PokemonGo.RocketAPI.Console
             InitializeComponent();
         }
 
+        public async Task RefreshPlayerInformation(bool refreshData = true)
+        {
+            try
+            {
+                client = Logic.Logic.Client;
 
-        public async Task Execute( bool refreshData = true)
+                if (client.readyToUse != false)
+                {
+                    /*labelUserProperty1Title.Text = "Username:";  TODO: internationalize*/
+
+                    if (refreshData)
+                    {
+                        profile = await client.Player.GetPlayer().ConfigureAwait(false);
+                        await Task.Delay(1000); // Pause to simulate human speed. 
+                        var playerStats = await client.Inventory.GetPlayerStats().ConfigureAwait(false);
+                        stats = playerStats.First();
+
+                    }
+                    updatePlayerImages();
+                    updatePlayerInfoLabels();
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Could not load Pokemon List - Unhandled exception: {ex}", LogLevel.Error);
+            }
+
+            return;
+        }
+
+        public void Execute(bool refreshData = true)
         {
             pictureBoxTeam.Image = null;
             pictureBoxPlayerAvatar.Image = null;
@@ -52,23 +82,25 @@ namespace PokemonGo.RocketAPI.Console
             labelUserProperty5Value.Text = "";
             labelUserProperty6Value.Text = "";
 
-            await check();
-            var client = Logic.Logic.Client;
-            if (client.readyToUse != false)
-            {
-                /*labelUserProperty1Title.Text = "Username:";  TODO: internationalize*/
+            RefreshPlayerInformation(refreshData).Wait();
 
-                if (refreshData)
-                {
-                    profile = await client.Player.GetPlayer();
-                    await Task.Delay(1000); // Pause to simulate human speed. 
-                    var playerStats = await client.Inventory.GetPlayerStats();
-                    stats = playerStats.First();
+            //await check().ConfigureAwait(false);
+            //var client = Logic.Logic.Client;
+            //if (client.readyToUse != false)
+            //{
+            //    /*labelUserProperty1Title.Text = "Username:";  TODO: internationalize*/
+
+            //    if (refreshData)
+            //    {
+            //        profile = await client.Player.GetPlayer().ConfigureAwait(false);
+            //        await Task.Delay(1000); // Pause to simulate human speed. 
+            //        var playerStats = await client.Inventory.GetPlayerStats().ConfigureAwait(false);
+            //        stats = playerStats.First();
                 
-                }
-                updatePlayerImages();
-                updatePlayerInfoLabels();
-            }
+            //    }
+            //    updatePlayerImages();
+            //    updatePlayerInfoLabels();
+            //}
         }
         
         public void setProfile(GetPlayerResponse prof){
@@ -144,7 +176,7 @@ namespace PokemonGo.RocketAPI.Console
             pictureBoxBuddyPokemon.Location = buddyLocation;
         }
 
-        private async void updatePlayerInfoLabels()
+        private void updatePlayerInfoLabels()
         {
 
             if (profile != null){
@@ -229,7 +261,7 @@ namespace PokemonGo.RocketAPI.Console
             if (teamSelect.ShowDialog() == DialogResult.OK){
                 // Simulate to enter in a gym before select a team.
                 var client = Logic.Logic.Client;
-                var mapObjects = await client.Map.GetMapObjects();
+                var mapObjects = await client.Map.GetMapObjects().ConfigureAwait(false);
                 var mapCells = mapObjects.Item1.MapCells;
 
                 var pokeGyms = mapCells.SelectMany(i => i.Forts)
@@ -238,15 +270,16 @@ namespace PokemonGo.RocketAPI.Console
 	            {
 	            	var pokegym = pokeGyms.First();
 
-                    var resp = await GetGym(pokegym.Id,pokegym.Latitude,pokegym.Longitude);
+                    var resp = await GetGym(pokegym.Id,pokegym.Latitude,pokegym.Longitude).ConfigureAwait(false);
                     if (resp.Status)
                     {
                         var team = teamSelect.selected;
                         await Task.Delay(1000); // Pause to simulate human speed. 
-                        var resp2 = await SelectTeam(team);
+                        var resp2 = await SelectTeam(team).ConfigureAwait(false);
                         if (resp2.Status)
                         {
                             Logger.ColoredConsoleWrite(ConsoleColor.Green, "Selected Team: " + team.ToString());
+                            //Execute().Wait();
                             Execute();
                         }
                         else
@@ -280,7 +313,7 @@ namespace PokemonGo.RocketAPI.Console
             try
             {
             	var client = Logic.Logic.Client;
-            	var resp2 = await client.Player.SetPlayerTeam(teamColor);
+            	var resp2 = await client.Player.SetPlayerTeam(teamColor).ConfigureAwait(false);
 
                 if (resp2.Status == SetPlayerTeamResponse.Types.Status.Success)
                 {
@@ -294,7 +327,7 @@ namespace PokemonGo.RocketAPI.Console
             catch (Exception e)
             {
                 Logger.ColoredConsoleWrite(ConsoleColor.Red, "Error SelectTeam: " + e.Message);
-                await SelectTeam(teamColor);
+                await SelectTeam(teamColor).ConfigureAwait(false);
             }
             return resp1;
         }	
@@ -305,7 +338,7 @@ namespace PokemonGo.RocketAPI.Console
             try
             {
             	var client = Logic.Logic.Client;
-            	var resp2 = await client.Fort.GetGymDetails( gym,lat,lng);
+            	var resp2 = await client.Fort.GetGymDetails( gym,lat,lng).ConfigureAwait(false);
 
                 if (resp2.Result == GetGymDetailsResponse.Types.Result.Success)
                 {
@@ -319,11 +352,11 @@ namespace PokemonGo.RocketAPI.Console
             catch (Exception e)
             {
                 Logger.ColoredConsoleWrite(ConsoleColor.Red, "Error GetGym: " + e.Message);
-                await GetGym(gym,lat,lng);
+                await GetGym(gym,lat,lng).ConfigureAwait(false);
             }
             return resp1;
         }			
-        public async Task check()
+        public Task check()
         {
             while (true)
             {
@@ -336,6 +369,7 @@ namespace PokemonGo.RocketAPI.Console
                 }
                 catch (Exception) { }
             }
+            return null;
         }		
 
     }

@@ -62,7 +62,7 @@ namespace PokemonGo.RocketAPI.Logic
 
             if (functionExecutedWhileWalking != null)
             {
-                await functionExecutedWhileWalking();
+                await functionExecutedWhileWalking().ConfigureAwait(false);
             }
 
             var locatePokemonWhileWalkingDateTime = DateTime.Now;
@@ -115,7 +115,7 @@ namespace PokemonGo.RocketAPI.Logic
 
                 if (functionExecutedWhileWalking != null && !pauseWalking)
                 {
-                    await functionExecutedWhileWalking();// look for pokemon 
+                    await functionExecutedWhileWalking().ConfigureAwait(false);// look for pokemon 
                 }
 
                 await RandomHelper.RandomDelay(500, 600);

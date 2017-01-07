@@ -97,7 +97,7 @@ namespace PokemonGo.RocketAPI.Console
         private async void buttonRefreshPokemon_Click_1(object sender, EventArgs e)
         {
             buttonRefreshPokemon.Enabled = false;
-            if ((await Logic.Logic.Instance.CheckAvailablePokemons(Logic.Logic.Client)))
+            if ((await Logic.Logic.Instance.CheckAvailablePokemons(Logic.Logic.Client).ConfigureAwait(false)))
             {
 
                 Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Updated PokemonData.", LogLevel.Info);
@@ -120,7 +120,7 @@ namespace PokemonGo.RocketAPI.Console
             if (client.readyToUse )
             {
                 Logger.ColoredConsoleWrite(ConsoleColor.DarkRed, "Refreshing Forts", LogLevel.Warning);
-                var mapObjects = await client.Map.GetMapObjects();
+                var mapObjects = await client.Map.GetMapObjects().ConfigureAwait(false);
                 var mapCells = mapObjects.Item1.MapCells;
                 var pokeStops =
                 mapCells.SelectMany(i => i.Forts)
