@@ -9,6 +9,7 @@ using PokemonGo.RocketAPI.Exceptions;
 using POGOProtos.Networking.Envelopes;
 using System.Collections.Concurrent;
 using System.Threading;
+using PokemonGo.RocketAPI.Helpers;
 
 
 namespace PokemonGo.RocketAPI.Extensions
@@ -50,7 +51,7 @@ namespace PokemonGo.RocketAPI.Extensions
             }
 
             ResponseEnvelope response;
-            while ((response = await PerformThrottledRemoteProcedureCall<TRequest>(client, url, requestEnvelope)).Returns.Count !=
+            while ((response = await PerformThrottledRemoteProcedureCall<TRequest>(client, url, requestEnvelope).ConfigureAwait(false)).Returns.Count !=
                    responseTypes.Length)
             {
                 var operation = await strategy.HandleApiFailure(requestEnvelope, response).ConfigureAwait(false);
@@ -140,8 +141,8 @@ namespace PokemonGo.RocketAPI.Extensions
                 var diff = Math.Max(0, (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds - lastRpc);
                 if (diff < minDiff)
                 {
-                    var delay = (minDiff - diff) + (int)(new Random().NextDouble() * 0); // Add some randomness
-                    await Task.Delay((int)(delay)).ConfigureAwait(false);
+                    var delay = (int) ((minDiff - diff) + (int)(new Random().NextDouble() * 0)); // Add some randomness
+                    RandomHelper.RandomSleep(delay,delay+100);
                 }
                 lastRpc = (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds;
                 ResponseEnvelope response = await PerformRemoteProcedureCall<TRequest>(client, url, r).ConfigureAwait(false);

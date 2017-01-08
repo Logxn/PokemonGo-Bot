@@ -321,7 +321,7 @@ namespace PokemonGo.RocketAPI.Helpers
 
             HashResponseContent responseContent;
 
-            responseContent = _client.Hasher.RequestHashesAsync(hashRequest).Result;
+            responseContent = _client.Hasher.RequestHashes(hashRequest);
 
             signature.LocationHash1 = unchecked((int)responseContent.LocationAuthHash);
             signature.LocationHash2 = unchecked((int)responseContent.LocationHash);
@@ -449,7 +449,7 @@ namespace PokemonGo.RocketAPI.Helpers
             {
                 RequestType = type,
                 RequestMessage = message.ToByteString()
-            } });
+            } }).ConfigureAwait(false);
 
         }
         private static readonly Random RandomDevice = new Random();

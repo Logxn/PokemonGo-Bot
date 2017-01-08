@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Collections.Generic;
 using System.Device.Location;
+using PokemonGo.RocketAPI.Helpers;
 
 namespace PokemonGo.RocketAPI.Console
 {
@@ -78,7 +79,7 @@ namespace PokemonGo.RocketAPI.Console
                 if (client.readyToUse != false)
                 {                    
                     profile = await client.Player.GetPlayer().ConfigureAwait(false);
-                    await Task.Delay(1000).ConfigureAwait(false); // Pause to simulate human speed. 
+                    RandomHelper.RandomSleep(1000,1100); // Pause to simulate human speed.
                     Text = "User: " + profile.PlayerData.Username;
                     var arrStats = await client.Inventory.GetPlayerStats().ConfigureAwait(false);
                     stats = arrStats.First();
@@ -91,7 +92,7 @@ namespace PokemonGo.RocketAPI.Console
             catch (Exception e)
             {
                 Logger.Error("[PokemonList-Error] " + e.StackTrace);
-                await Task.Delay(1000).ConfigureAwait(false); // Lets the API make a little pause, so we dont get blocked
+                RandomHelper.RandomSleep(1000,1100);  // Lets the API make a little pause, so we dont get blocked
                 Execute();
             }
         }
@@ -135,14 +136,14 @@ namespace PokemonGo.RocketAPI.Console
         {
             while (waitingApiResponse)
             {
-                await Task.Delay(1000).ConfigureAwait(false);
+                RandomHelper.RandomSleep(1000,1100);
             }
             waitingApiResponse = true;
             TabPage current = (sender as TabControl).SelectedTab;
             switch (current.Name)
             {
                 case "tpPokemons":
-                    await pokemonsPanel1.Execute().ConfigureAwait(false);
+                    pokemonsPanel1.Execute();
                     break;
                 case "tpItems":
                     await itemsPanel1.Execute().ConfigureAwait(false);

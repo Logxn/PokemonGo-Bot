@@ -8,6 +8,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using PokemonGo.RocketAPI.Helpers;
 
 namespace PokemonGo.RocketAPI.Hash
 {
@@ -39,7 +40,7 @@ namespace PokemonGo.RocketAPI.Hash
                 {
                     retry--;
                 }
-                await Task.Delay(1000).ConfigureAwait(false);
+                RandomHelper.RandomSleep(1000,1100);
             } while (retry > 0);
 
             throw new HasherException("Pokefamer Hash API server might down");
@@ -88,7 +89,7 @@ namespace PokemonGo.RocketAPI.Hash
                         throw new  HasherException("[HashService] Your PF-Hashkey you provided is incorrect (or not valid anymore). Please check again!");
                     case (HttpStatusCode)429: // To many reqeusts => que 
                         Console.WriteLine($"[HashService] Your request has been limited. {await response.Content.ReadAsStringAsync().ConfigureAwait(false)}");
-                        await Task.Delay(2000).ConfigureAwait(false);  //stop for 2 sec (WHY THE FUCK U USE 2*100 INSTEAD OF 2000 ?!?!?!?!?!)
+                        RandomHelper.RandomSleep(2000,2100);  //stop for 2 sec (WHY THE FUCK U USE 2*100 INSTEAD OF 2000 ?!?!?!?!?!)
                         return await RequestHashesAsync(request).ConfigureAwait(false);
                     default:
                         throw new HasherException($"[HashService] Pokefamer Hash API ({client.BaseAddress}{endpoint}) might down!");
@@ -99,6 +100,65 @@ namespace PokemonGo.RocketAPI.Hash
             return null;
         }
 
+        public HashResponseContent RequestHashes(HashRequestContent request)
+        {
+            int retry = 3;
+            do {
+                try
+                {
+                    return InternalRequestHashes(request);
+                }
+                catch (HasherException hashEx)
+                {
+                    throw hashEx;
+                }
+                catch (Exception ex)
+                {
+
+                }
+                finally
+                {
+                    retry--;
+                }
+                RandomHelper.RandomSleep(1000,1100);
+            } while (retry > 0);
+
+            throw new HasherException("Pokefamer Hash API server might down");
+
+        }
+        private   HashResponseContent InternalRequestHashes(HashRequestContent request)
+        {
+            const string endpoint = "api/v121_2/hash";
+            using (var client = new System.Net.Http.HttpClient())
+            {
+                client.BaseAddress = new Uri("http://pokehash.buddyauth.com/");
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                client.DefaultRequestHeaders.Add("X-AuthToken", this.apiKey);
+                var content = new StringContent(JsonConvert.SerializeObject(request), Encoding.UTF8, "application/json");
+                content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+                var response = client.PostAsync(endpoint, content).Result;
+                switch (response.StatusCode)
+                {           
+                    case HttpStatusCode.OK:
+                        return JsonConvert.DeserializeObject<HashResponseContent>(response.Content.ReadAsStringAsync().Result);
+                    case HttpStatusCode.BadRequest: // Invalid request
+                        string responseText = response.Content.ReadAsStringAsync().Result;
+                        if (responseText.Contains("Unauthorized")) throw new HasherException($"[HashService] Your PF-Hashkey you provided is incorrect (or not valid anymore). Please check again! (Pokefamer message : {responseText})");
+                        Console.WriteLine($"[HashService] Bad request sent to the hashing server! {responseText}");
+                        break;
+                    case HttpStatusCode.Unauthorized: // No Valid Key
+                        throw new  HasherException("[HashService] Your PF-Hashkey you provided is incorrect (or not valid anymore). Please check again!");
+                    case (HttpStatusCode)429: // To many reqeusts => que 
+                        Console.WriteLine($"[HashService] Your request has been limited. {response.Content.ReadAsStringAsync().Result}");
+                        RandomHelper.RandomSleep(2000,2100);
+                        return RequestHashesAsync(request).Result;
+                    default:
+                        throw new HasherException($"[HashService] Pokefamer Hash API ({client.BaseAddress}{endpoint}) might down!");
+                }
+            }
+            return null;
+        }
 
     }
 }
