@@ -38,7 +38,7 @@ namespace PokemonGo.RocketAPI.Console
             }
             catch (Exception e)
             {
-                Logger.ColoredConsoleWrite(ConsoleColor.Red, "Could not load additional PokeData", LogLevel.Error);
+                Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Could not load additional PokeData: {e.Message}{e.StackTrace}", LogLevel.Error);
             }
         }
 
@@ -95,7 +95,8 @@ namespace PokemonGo.RocketAPI.Console
 
         public async Task refreshData(){
             await check().ConfigureAwait(false);
-            inventory = await client.Inventory.GetInventory().ConfigureAwait(false);
+            // eb - get inventory from cache (sending a false to getInventory)
+            inventory = await client.Inventory.GetInventory(false).ConfigureAwait(false);
             Logger.ColoredConsoleWrite(ConsoleColor.Gray, $"inventory read");
             templates = await client.Download.GetItemTemplates().ConfigureAwait(false);
             Logger.ColoredConsoleWrite(ConsoleColor.Gray, $"templates read");
@@ -118,14 +119,14 @@ namespace PokemonGo.RocketAPI.Console
                         .Where(p => p != null && p?.PokemonId > 0)
                         .OrderByDescending(key => key.Cp);
 
-                    Logger.ColoredConsoleWrite(ConsoleColor.Gray, $"pokemons read");
+                    Logger.ColoredConsoleWrite(ConsoleColor.Gray, $"Pokemons read: {pokemons.Count()}");
 
                     var families = inventory.InventoryDelta.InventoryItems
                         .Select(i => i.InventoryItemData?.Candy)
                         .Where(p => p != null && (int)p?.FamilyId > 0)
                         .OrderByDescending(p => (int)p.FamilyId);
 
-                    Logger.ColoredConsoleWrite(ConsoleColor.Gray, $"families read");
+                    Logger.ColoredConsoleWrite(ConsoleColor.Gray, $"Families read: {families.Count()}");
 
                     var myPokemonSettings = templates.ItemTemplates.Select(i => i.PokemonSettings).Where(p => p != null && p?.FamilyId != PokemonFamilyId.FamilyUnset);
                     var pokemonSettings = myPokemonSettings.ToList();
@@ -275,14 +276,15 @@ namespace PokemonGo.RocketAPI.Console
             }
         }
 
-        private async void toolStripMenuItem1_Click(object sender, EventArgs e)
+        private void toolStripMenuItem1_Click(object sender, EventArgs e)
         {
             var pokemon = (PokemonData)PokemonListView.SelectedItems[0].Tag;
             taskResponse resp = new taskResponse(false, string.Empty);
 
             if (MessageBox.Show(this, pokemon.PokemonId + " with " + pokemon.Cp + " CP thats " + Math.Round(PokemonInfo.CalculatePokemonPerfection(pokemon)) + "% perfect", "Are you sure you want to transfer?", MessageBoxButtons.OKCancel) == DialogResult.OK)
             {
-                resp = await transferPokemon(pokemon).ConfigureAwait(false);
+                //resp = await transferPokemon(pokemon).ConfigureAwait(false);
+                resp = transferPokemon(pokemon).Result;
             }
             else
             {
@@ -358,7 +360,7 @@ namespace PokemonGo.RocketAPI.Console
             PokemonListView.Sort();
         }
 
-        private async void btnEvolve_Click(object sender, EventArgs e)
+        private void btnEvolve_Click(object sender, EventArgs e)
         {
 
             EnabledButton(false, "Evolving...");
@@ -381,7 +383,8 @@ namespace PokemonGo.RocketAPI.Console
 
             foreach (ListViewItem selectedItem in selectedItems)
             {
-                resp = await evolvePokemon((PokemonData)selectedItem.Tag).ConfigureAwait(false);
+                //resp = await evolvePokemon((PokemonData)selectedItem.Tag).ConfigureAwait(false);
+                resp = evolvePokemon((PokemonData)selectedItem.Tag).Result;
 
                 var pokemoninfo = (PokemonData)selectedItem.Tag;
                 var name = pokemoninfo.PokemonId;
@@ -440,7 +443,7 @@ namespace PokemonGo.RocketAPI.Console
             //}
         }
 
-        private async void btnTransfer_Click(object sender, EventArgs e)
+        private void btnTransfer_Click(object sender, EventArgs e)
         {
             EnabledButton(false, "Transfering...");
             var selectedItems = PokemonListView.SelectedItems;
@@ -468,7 +471,8 @@ namespace PokemonGo.RocketAPI.Console
 
                 foreach (ListViewItem selectedItem in selectedItems)
                 {
-                    resp = await transferPokemon((PokemonData)selectedItem.Tag).ConfigureAwait(false);
+                    //resp = await transferPokemon((PokemonData)selectedItem.Tag).ConfigureAwait(false);
+                    resp = transferPokemon((PokemonData)selectedItem.Tag).Result;
                     if (resp.Status)
                     {
                         var pokemon = (PokemonData)selectedItem.Tag;
@@ -515,7 +519,7 @@ namespace PokemonGo.RocketAPI.Console
             EnabledButton(true);
         }
 
-        private async void btnUpgrade_Click(object sender, EventArgs e)
+        private void btnUpgrade_Click(object sender, EventArgs e)
         {
             EnabledButton(false);
             var selectedItems = PokemonListView.SelectedItems;
@@ -526,7 +530,8 @@ namespace PokemonGo.RocketAPI.Console
 
             foreach (ListViewItem selectedItem in selectedItems)
             {
-                resp = await PowerUp((PokemonData)selectedItem.Tag).ConfigureAwait(false);
+                //resp = await PowerUp((PokemonData)selectedItem.Tag).ConfigureAwait(false);
+                resp = PowerUp((PokemonData)selectedItem.Tag).Result;
                 if (resp.Status)
                     powerdup++;
                 else
@@ -545,7 +550,7 @@ namespace PokemonGo.RocketAPI.Console
                 EnabledButton(true);
         }
 
-        private async void BtnIVToNickClick(object sender, EventArgs e)
+        private void BtnIVToNickClick(object sender, EventArgs e)
         {
             EnabledButton(false, "Renaming...");
             var selectedItems = PokemonListView.SelectedItems;
@@ -562,7 +567,8 @@ namespace PokemonGo.RocketAPI.Console
                 {
                     PokemonData pokemon = (PokemonData)selectedItem.Tag;
                     pokemon.Nickname = IVsToNickname(pokemon);
-                    resp = await changePokemonNickname(pokemon).ConfigureAwait(false);
+                    //resp = await changePokemonNickname(pokemon).ConfigureAwait(false);
+                    resp = changePokemonNickname(pokemon).Result;
                     if (resp.Status)
                     {
                         selectedItem.ToolTipText = StringUtils.ConvertTimeMSinString(pokemon.CreationTimeMs, "dd/MM/yyyy HH:mm:ss");
@@ -755,14 +761,15 @@ namespace PokemonGo.RocketAPI.Console
             contextMenuStrip1.Items[2].Visible = false;
         }
 
-        private async void evolveToolStripMenuItem_Click(object sender, EventArgs e)
+        private void evolveToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var pokemon = (PokemonData)PokemonListView.SelectedItems[0].Tag;
             taskResponse resp = new taskResponse(false, string.Empty);
 
             if (MessageBox.Show(this, pokemon.PokemonId + " with " + pokemon.Cp + " CP thats " + Math.Round(PokemonInfo.CalculatePokemonPerfection(pokemon)) + "% perfect", "Are you sure you want to evolve?", MessageBoxButtons.OKCancel) == DialogResult.OK)
             {
-                resp = await evolvePokemon(pokemon).ConfigureAwait(false);
+                //resp = await evolvePokemon(pokemon).ConfigureAwait(false);
+                resp = evolvePokemon(pokemon).Result;
             }
             else
             {
@@ -790,14 +797,15 @@ namespace PokemonGo.RocketAPI.Console
             return ret;
         }
 
-        private async void powerUpToolStripMenuItem_Click(object sender, EventArgs e)
+        private void powerUpToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var pokemon = (PokemonData)PokemonListView.SelectedItems[0].Tag;
             taskResponse resp = new taskResponse(false, string.Empty);
 
             if (MessageBox.Show(this, pokemon.PokemonId + " with " + pokemon.Cp + " CP thats " + Math.Round(PokemonInfo.CalculatePokemonPerfection(pokemon)) + "% perfect", "Are you sure you want to power it up?", MessageBoxButtons.OKCancel) == DialogResult.OK)
             {
-                resp = await PowerUp(pokemon).ConfigureAwait(false);
+                //resp = await PowerUp(pokemon).ConfigureAwait(false);
+                resp = PowerUp(pokemon).Result;
             }
             else
             {
@@ -811,7 +819,7 @@ namespace PokemonGo.RocketAPI.Console
                 MessageBox.Show(resp.Message + " powering up failed!", "PowerUp Status", MessageBoxButtons.OK);
         }
 
-        private async void IVsToNicknameToolStripMenuItemClick(object sender, EventArgs e)
+        private void IVsToNicknameToolStripMenuItemClick(object sender, EventArgs e)
         {
             var pokemon = (PokemonData)PokemonListView.SelectedItems[0].Tag;
             taskResponse resp = new taskResponse(false, string.Empty);
@@ -821,7 +829,8 @@ namespace PokemonGo.RocketAPI.Console
             if (promptValue != "")
             {
                 pokemon.Nickname = promptValue;
-                resp = await changePokemonNickname(pokemon).ConfigureAwait(false);
+                //resp = await changePokemonNickname(pokemon).ConfigureAwait(false);
+                resp = changePokemonNickname(pokemon).Result;
             }
             else
             {
@@ -836,7 +845,7 @@ namespace PokemonGo.RocketAPI.Console
                 MessageBox.Show(resp.Message + " rename failed!", "Rename Status", MessageBoxButtons.OK);
         }
 
-        private async void changeFavouritesToolStripMenuItemClick(object sender, EventArgs e)
+        private void changeFavouritesToolStripMenuItemClick(object sender, EventArgs e)
         {
             var pokemon = (PokemonData)PokemonListView.SelectedItems[0].Tag;
             taskResponse resp = new taskResponse(false, string.Empty);
@@ -845,7 +854,8 @@ namespace PokemonGo.RocketAPI.Console
             if (MessageBox.Show(this, poname + " will be " + ((pokemon.Favorite == 1) ? "deleted from" : "added to") + " your favourites." + "\nAre you sure you want?", "Confirmation Message", MessageBoxButtons.OKCancel) == DialogResult.OK)
             {
                 pokemon.Favorite = (pokemon.Favorite == 1) ? 0 : 1;
-                resp = await changeFavourites(pokemon).ConfigureAwait(false);
+                //resp = await changeFavourites(pokemon).ConfigureAwait(false);
+                resp = changeFavourites(pokemon).Result;
             }
             else
             {
@@ -885,7 +895,7 @@ namespace PokemonGo.RocketAPI.Console
         }
 
 
-        private async void btnFullPowerUp_Click(object sender, EventArgs e)
+        private void btnFullPowerUp_Click(object sender, EventArgs e)
         {
             EnabledButton(false, "Powering up...");
             DialogResult result = MessageBox.Show("This process may take some time.", "FullPowerUp status", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
@@ -908,7 +918,8 @@ namespace PokemonGo.RocketAPI.Console
                         {
                             if (poweredup < poweruplimit)
                             {
-                                resp = await PowerUp((PokemonData)selectedItem.Tag).ConfigureAwait(false);
+                                //resp = await PowerUp((PokemonData)selectedItem.Tag).ConfigureAwait(false);
+                                resp = PowerUp((PokemonData)selectedItem.Tag).Result;
                                 if (resp.Status)
                                 {
                                     poweredup++;
@@ -921,7 +932,8 @@ namespace PokemonGo.RocketAPI.Console
                         }
                         else
                         {
-                            resp = await PowerUp((PokemonData)selectedItem.Tag).ConfigureAwait(false);
+                            //resp = await PowerUp((PokemonData)selectedItem.Tag).ConfigureAwait(false);
+                            resp = PowerUp((PokemonData)selectedItem.Tag).Result;
                             if (resp.Status)
                             {
                                 poweredup++;
@@ -1210,7 +1222,7 @@ namespace PokemonGo.RocketAPI.Console
             Globals.UseIncenseGUIClick = true;
         }
 
-        private async void changeBuddyToolStripMenuItem_Click(object sender, EventArgs e)
+        private void changeBuddyToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var pokemon = (PokemonData)PokemonListView.SelectedItems[0].Tag;
             taskResponse resp = new taskResponse(false, string.Empty);
@@ -1218,7 +1230,8 @@ namespace PokemonGo.RocketAPI.Console
             string poname = StringUtils.getPokemonNameByLanguage(ClientSettings, (PokemonId)pokemon.PokemonId);
             if (MessageBox.Show(this, poname + " will be put as your buddy." + "\nAre you sure you want?", "Confirmation Message", MessageBoxButtons.OKCancel) == DialogResult.OK)
             {
-                resp = await changeFavourites(pokemon).ConfigureAwait(false);
+                //resp = await changeFavourites(pokemon).ConfigureAwait(false);
+                resp = changeFavourites(pokemon).Result;
             }
             else
             {

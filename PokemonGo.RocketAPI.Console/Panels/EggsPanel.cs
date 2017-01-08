@@ -46,15 +46,16 @@ namespace PokemonGo.RocketAPI.Console
 			listView.Items.Clear();
             Execute();
 		}
-		 public  async Task Execute()
+		 public void Execute()
 		{
 			try
             {
                 var client = Logic.Logic.objClient;
 	            if (client.readyToUse != false)
 	            {
-                   var inventory = await client.Inventory.GetInventory().ConfigureAwait(false);
-                   var items = client.Inventory.GetEggs(inventory);
+                    //var inventory = await client.Inventory.GetInventory().ConfigureAwait(false);
+                    var inventory = client.Inventory.GetInventory().Result;
+                    var items = client.Inventory.GetEggs(inventory);
                    var incubators = client.Inventory.GetEggIncubators(inventory); 
                    var arrStats = client.Inventory.GetPlayerStats(inventory);
                    var stats = arrStats.First();
@@ -131,7 +132,7 @@ namespace PokemonGo.RocketAPI.Console
 			return StringUtils.ConvertTimeMSinString(ms , "dd/MM/yyyy HH:mm:ss");
 		}
 		
-		private async void IncubateToolStripMenuItemClick(object sender, EventArgs e)
+		private void IncubateToolStripMenuItemClick(object sender, EventArgs e)
 		{		
 			if (incubatorSelect.ShowDialog() == DialogResult.OK ){
 				var egg = (PokemonData) listView.SelectedItems[0].Tag;
@@ -140,7 +141,8 @@ namespace PokemonGo.RocketAPI.Console
 				 								
                 var resp = new taskResponse(false, string.Empty);
 
-                resp = await IncubateEgg(incubator, egg).ConfigureAwait(false);
+                //resp = await IncubateEgg(incubator, egg).ConfigureAwait(false);
+                resp = IncubateEgg(incubator, egg).Result;
                 if (resp.Status)
                 {
 	               	if (incubator.ItemId==ItemId.ItemIncubatorBasic){

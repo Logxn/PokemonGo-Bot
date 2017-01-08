@@ -247,7 +247,7 @@ namespace PokemonGo.RocketAPI.Logic
 
             #region Fix Altitude
 
-            if (Math.Abs(objClient.CurrentAltitude) < 0)
+            if (Math.Abs(objClient.CurrentAltitude) <= 0)
             {
                 objClient.CurrentAltitude = LocationUtils.getAltidude(objClient.CurrentLatitude, objClient.CurrentLongitude);
                 ClientSettings.DefaultAltitude = objClient.CurrentAltitude;

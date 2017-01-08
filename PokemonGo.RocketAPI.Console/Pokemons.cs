@@ -69,19 +69,25 @@ namespace PokemonGo.RocketAPI.Console
             }
         }
 
-        private async void Execute()
+        //private async void Execute()
+        private void Execute()
         {
             TabControl1.Enabled = false;
-            await check().ConfigureAwait(false);
+            //await check().ConfigureAwait(false);
+            // eb - wait for client to be ready. Disabling async
+            while (true) {if (Logic.Logic.objClient != null && Logic.Logic.objClient.readyToUse != false) break;}
+
             try
             {
                 var client = Logic.Logic.objClient;
                 if (client.readyToUse != false)
-                {                    
-                    profile = await client.Player.GetPlayer().ConfigureAwait(false);
+                {
+                    //profile = await client.Player.GetPlayer().ConfigureAwait(false);
+                    profile = client.Player.GetPlayer().Result;
                     RandomHelper.RandomSleep(1000,1100); // Pause to simulate human speed.
                     Text = "User: " + profile.PlayerData.Username;
-                    var arrStats = await client.Inventory.GetPlayerStats().ConfigureAwait(false);
+                    //var arrStats = await client.Inventory.GetPlayerStats().ConfigureAwait(false);
+                    var arrStats = client.Inventory.GetPlayerStats().Result;
                     stats = arrStats.First();
                     locationPanel1.CreateBotMarker((int)profile.PlayerData.Team, stats.Level, stats.Experience);
                     playerPanel1.setProfile(profile);
@@ -146,13 +152,16 @@ namespace PokemonGo.RocketAPI.Console
                     pokemonsPanel1.Execute();
                     break;
                 case "tpItems":
-                    await itemsPanel1.Execute().ConfigureAwait(false);
+                    //await itemsPanel1.Execute().ConfigureAwait(false);
+                    itemsPanel1.Execute();
                     break;
                 case "tpEggs":
-                    await eggsPanel1.Execute().ConfigureAwait(false);
+                    //await eggsPanel1.Execute().ConfigureAwait(false);
+                    eggsPanel1.Execute();
                     break;
                 case "tpPlayerInfo":
-                    await playerPanel1.Execute().ConfigureAwait(false);
+                    //await playerPanel1.Execute().ConfigureAwait(false);
+                    playerPanel1.Execute();
                     break;
             }
             waitingApiResponse = false;
