@@ -38,7 +38,7 @@ namespace PokemonGo.RocketAPI.Console
 			ItemsListView.Items.Clear();
             Execute();
 		}
-		public async Task Execute()
+		public void Execute()
         {
             try
             {
@@ -61,9 +61,11 @@ namespace PokemonGo.RocketAPI.Console
                 var client = Logic.Logic.objClient;
 	            if (client.readyToUse != false)
 	            {
-	               var items = await client.Inventory.GetItems().ConfigureAwait(false);
-	              
-	               ItemId[] validsIDs = {ItemId.ItemPokeBall,ItemId.ItemGreatBall,ItemId.ItemUltraBall};
+                    // eb - removing async
+                    //var items = await client.Inventory.GetItems().ConfigureAwait(false);
+                    var items = client.Inventory.GetItems().Result;
+
+                    ItemId[] validsIDs = {ItemId.ItemPokeBall,ItemId.ItemGreatBall,ItemId.ItemUltraBall};
 	               
 	               ListViewItem listViewItem;
 	               ItemsListView.Items.Clear();
@@ -85,7 +87,7 @@ namespace PokemonGo.RocketAPI.Console
             {
 
                 Logger.Error("[ItemsList-Error] " + e.StackTrace);
-                await Task.Delay(1000).ConfigureAwait(false); // Lets the API make a little pause, so we dont get blocked
+                RandomHelper.RandomSleep(1000,1100);
                 Execute();
             }
         }
@@ -121,7 +123,7 @@ namespace PokemonGo.RocketAPI.Console
                     return itemID.ToString().Replace("Item", "");
             }
         }
-		async void RecycleToolStripMenuItemClick(object sender, EventArgs e)
+		void RecycleToolStripMenuItemClick(object sender, EventArgs e)
         {
 
             var item = (ItemData)ItemsListView.SelectedItems[0].Tag;
@@ -130,7 +132,8 @@ namespace PokemonGo.RocketAPI.Console
             {
                 taskResponse resp = new taskResponse(false, string.Empty);
 
-                resp = await RecycleItems(item, amount).ConfigureAwait(false);
+                //resp = await RecycleItems(item, amount).ConfigureAwait(false);
+                resp = RecycleItems(item, amount).Result;
                 if (resp.Status)
                 {
                     item.Count -= amount;
@@ -252,9 +255,9 @@ namespace PokemonGo.RocketAPI.Console
             }
         }
 
-        async void btnDiscard_Click(object sender, EventArgs e)
+        void btnDiscard_Click(object sender, EventArgs e)
         {
-            await RecycleItems().ConfigureAwait(false);
+            RecycleItems().Wait();
             Execute();
         }
 

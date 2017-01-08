@@ -97,7 +97,7 @@ namespace PokemonGo.RocketAPI.Console
         private async void buttonRefreshPokemon_Click_1(object sender, EventArgs e)
         {
             buttonRefreshPokemon.Enabled = false;
-            if ((await Logic.Logic.Instance.CheckAvailablePokemons(Logic.Logic.objClient)))
+            if ((await Logic.Logic.Instance.CheckAvailablePokemons(Logic.Logic.objClient).ConfigureAwait(false)))
             {
 
                 Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Updated PokemonData.", LogLevel.Info);

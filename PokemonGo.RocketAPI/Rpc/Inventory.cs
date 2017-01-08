@@ -15,6 +15,7 @@ using POGOProtos.Settings.Master;
 using POGOProtos.Inventory;
 using System.Threading;
 using PokemonGo.RocketAPI;
+using PokemonGo.RocketAPI.Helpers;
 
 namespace PokemonGo.RocketAPI.Rpc
 {
@@ -137,7 +138,7 @@ namespace PokemonGo.RocketAPI.Rpc
             await client.Inventory.UseItemXpBoost(ItemId.ItemLuckyEgg).ConfigureAwait(false);
             Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Used Lucky Egg, remaining: {luckyEgg.Count - 1}");
             _lastegguse = DateTime.Now.AddMinutes(30);
-            await Task.Delay(3000).ConfigureAwait(false);
+            RandomHelper.RandomSleep(3000,3100);
         }
 
         public async Task<UseItemXpBoostResponse> UseItemXpBoost(ItemId item)
@@ -181,13 +182,6 @@ namespace PokemonGo.RocketAPI.Rpc
         public async Task<GetInventoryResponse> GetInventory()
         {
             return await PostProtoPayload<Request, GetInventoryResponse>(RequestType.GetInventory, new GetInventoryMessage()).ConfigureAwait(false);
-            /*int timeout = 1000;
-            var task = PostProtoPayload<Request, GetInventoryResponse>(RequestType.GetInventory, new GetInventoryMessage());
-            if (await Task.WhenAny(task, Task.Delay(timeout)) == task) {
-                return await task.ConfigureAwait(false);
-            } else { 
-                return await GetInventory().ConfigureAwait(false);
-            }*/
         }
 
         public async Task<RecycleInventoryItemResponse> RecycleItem(ItemId itemId, int amount)
@@ -544,7 +538,7 @@ namespace PokemonGo.RocketAPI.Rpc
         {
             if (player == null)
                 return;
-            var stats = await GetPlayerStats().ConfigureAwait(false); // ver aqui 1
+            var stats = await GetPlayerStats().ConfigureAwait(false); 
             var stat = stats.FirstOrDefault();
             if (stat == null)
                 return;

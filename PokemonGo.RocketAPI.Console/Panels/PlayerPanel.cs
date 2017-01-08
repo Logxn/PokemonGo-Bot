@@ -19,6 +19,7 @@ using POGOProtos.Enums;
 using POGOProtos.Map.Fort;
 using POGOProtos.Networking.Responses;
 using PokemonGo.RocketAPI.Logic.Utils;
+using PokemonGo.RocketAPI.Helpers;
 
 namespace PokemonGo.RocketAPI.Console
 {
@@ -40,7 +41,7 @@ namespace PokemonGo.RocketAPI.Console
         }
 
 
-        public async Task Execute( bool refreshData = true)
+        public void Execute( bool refreshData = true)
         {
             pictureBoxTeam.Image = null;
             pictureBoxPlayerAvatar.Image = null;
@@ -52,7 +53,7 @@ namespace PokemonGo.RocketAPI.Console
             labelUserProperty5Value.Text = "";
             labelUserProperty6Value.Text = "";
 
-            await check().ConfigureAwait(false);
+            //await check().ConfigureAwait(false);
             var client = Logic.Logic.objClient;
             if (client.readyToUse != false)
             {
@@ -60,9 +61,11 @@ namespace PokemonGo.RocketAPI.Console
 
                 if (refreshData)
                 {
-                    profile = await client.Player.GetPlayer().ConfigureAwait(false);
-                    await Task.Delay(1000).ConfigureAwait(false); // Pause to simulate human speed. 
-                    var playerStats = await client.Inventory.GetPlayerStats().ConfigureAwait(false);
+                    //profile = await client.Player.GetPlayer().ConfigureAwait(false);
+                    profile = client.Player.GetPlayer().Result;
+                    RandomHelper.RandomSleep(1000,1100);
+                    //var playerStats = await client.Inventory.GetPlayerStats().ConfigureAwait(false);
+                    var playerStats = client.Inventory.GetPlayerStats().Result;
                     stats = playerStats.First();
                 
                 }
@@ -144,7 +147,7 @@ namespace PokemonGo.RocketAPI.Console
             pictureBoxBuddyPokemon.Location = buddyLocation;
         }
 
-        private async void updatePlayerInfoLabels()
+        private void updatePlayerInfoLabels()
         {
 
             if (profile != null){
@@ -172,7 +175,7 @@ namespace PokemonGo.RocketAPI.Console
 
                 /*
                 var pokemonToEvolve = (await client.Inventory.GetPokemonToEvolve()).Count().ConfigureAwait(false);
-                labelUserProperty4Value.Text = string.Format("{0} + {1} Eggs / {2} ({3} Evolvable)", await client.Inventory.getPokemonCount(), await client.Inventory.GetEggsCount(), profile.PlayerData.MaxPokemonStorage, pokemonToEvolve).ConfigureAwait(false);
+                labelUserProperty4Value.Text = string.Format("{0} + {1} Eggs / {2} ({3} Evolvable)", await client.Inventory.getPokemonCount().ConfigureAwait(false), await client.Inventory.GetEggsCount().ConfigureAwait(false), profile.PlayerData.MaxPokemonStorage, pokemonToEvolve).ConfigureAwait(false);
                 */
             }
 
@@ -224,13 +227,14 @@ namespace PokemonGo.RocketAPI.Console
             }
         }
 
-        private async void BtnTeamClick(object sender, EventArgs e)
+        private void BtnTeamClick(object sender, EventArgs e)
         {
             var teamSelect =new TeamSelect();
             if (teamSelect.ShowDialog() == DialogResult.OK){
                 // Simulate to enter in a gym before select a team.
                 var client = Logic.Logic.objClient;
-                var mapObjects = await client.Map.GetMapObjects().ConfigureAwait(false);
+                //var mapObjects = await client.Map.GetMapObjects().ConfigureAwait(false);
+                var mapObjects = client.Map.GetMapObjects().Result;
                 var mapCells = mapObjects.Item1.MapCells;
 
                 var pokeGyms = mapCells.SelectMany(i => i.Forts)
@@ -239,12 +243,14 @@ namespace PokemonGo.RocketAPI.Console
 	            {
 	            	var pokegym = pokeGyms.First();
 
-                    var resp = await GetGym(pokegym.Id,pokegym.Latitude,pokegym.Longitude).ConfigureAwait(false);
+                    //var resp = await GetGym(pokegym.Id,pokegym.Latitude,pokegym.Longitude).ConfigureAwait(false);
+                    var resp = GetGym(pokegym.Id, pokegym.Latitude, pokegym.Longitude).Result;
                     if (resp.Status)
                     {
                         var team = teamSelect.selected;
-                        await Task.Delay(1000).ConfigureAwait(false); // Pause to simulate human speed. 
-                        var resp2 = await SelectTeam(team).ConfigureAwait(false);
+                        RandomHelper.RandomSleep(1000,1100);
+                        //var resp2 = await SelectTeam(team).ConfigureAwait(false);
+                        var resp2 = SelectTeam(team).Result;
                         if (resp2.Status)
                         {
                             Logger.ColoredConsoleWrite(ConsoleColor.Green, "Selected Team: " + team.ToString());

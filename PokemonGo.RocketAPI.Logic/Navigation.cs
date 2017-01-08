@@ -58,7 +58,7 @@ namespace PokemonGo.RocketAPI.Logic
             var requestSendDateTime = DateTime.Now;
             var result =
                 await
-                _client.Player.UpdatePlayerLocation(waypoint.Latitude, waypoint.Longitude, waypoint.Altitude);
+                _client.Player.UpdatePlayerLocation(waypoint.Latitude, waypoint.Longitude, waypoint.Altitude).ConfigureAwait(false);
 
             if (functionExecutedWhileWalking != null)
             {
@@ -95,7 +95,7 @@ namespace PokemonGo.RocketAPI.Logic
                     result =
                        await
                        _client.Player.UpdatePlayerLocation(_client.CurrentLatitude, _client.CurrentLongitude,
-                           _client.CurrentAltitude);
+                           _client.CurrentAltitude).ConfigureAwait(false);
                 }
                 else
                 {
@@ -104,7 +104,7 @@ namespace PokemonGo.RocketAPI.Logic
                         result =
                             await
                             _client.Player.UpdatePlayerLocation(waypoint.Latitude, waypoint.Longitude,
-                                waypoint.Altitude);
+                                waypoint.Altitude).ConfigureAwait(false);
                     }
                     catch (Exception e)
                     {

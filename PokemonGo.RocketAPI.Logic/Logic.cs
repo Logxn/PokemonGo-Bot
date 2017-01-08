@@ -247,7 +247,7 @@ namespace PokemonGo.RocketAPI.Logic
 
             #region Fix Altitude
 
-            if (Math.Abs(objClient.CurrentAltitude) < 0)
+            if (Math.Abs(objClient.CurrentAltitude) <= 0)
             {
                 objClient.CurrentAltitude = LocationUtils.getAltidude(objClient.CurrentLatitude, objClient.CurrentLongitude);
                 ClientSettings.DefaultAltitude = objClient.CurrentAltitude;
@@ -329,9 +329,8 @@ namespace PokemonGo.RocketAPI.Logic
 
                     #endregion
                 }
-                Logger.ColoredConsoleWrite(ConsoleColor.Red, "Restarting in 60 Seconds.");
-
-                await Task.Delay(60000).ConfigureAwait(false);
+                Logger.ColoredConsoleWrite(ConsoleColor.Red, "Restarting in over 50 - 60 Seconds.");
+                RandomHelper.RandomSleep(50000,60000);
             }
             #endregion
         }
@@ -862,7 +861,7 @@ namespace PokemonGo.RocketAPI.Logic
                 await navigation.HumanLikeWalking(
                     new GeoCoordinate(xx, yy),
                     ClientSettings.WalkingSpeedInKilometerPerHour,
-                    ExecuteCatchAllNearbyPokemons);
+                    ExecuteCatchAllNearbyPokemons).ConfigureAwait(false);
 
                 Logger.ColoredConsoleWrite(ConsoleColor.Blue, "Looking PokeStops who are less than 30 meters...");
 
@@ -1711,7 +1710,7 @@ namespace PokemonGo.RocketAPI.Logic
                     //get distance to pokemon
                     var distance = LocationUtils.CalculateDistanceInMeters(objClient.CurrentLatitude, objClient.CurrentLongitude, pokemon.Latitude, pokemon.Longitude);
 
-                    await Task.Delay(distance > 100 ? 1000 : 100).ConfigureAwait(false);
+                    RandomHelper.RandomSleep(distance > 100 ? 1000 : 100,distance > 100 ? 1100 : 110);
 
                     // Do Catch here
                     await CatchPokemon(pokemon.EncounterId, pokemon.SpawnPointId, pokemon.PokemonId, pokemon.Longitude, pokemon.Latitude).ConfigureAwait(false);
@@ -1759,16 +1758,16 @@ private int GetGymLevel(long value)
                     Logger.ColoredConsoleWrite(gymColorLog, "Not pokemons to assign.");
                     return false;
                 }
-                await RandomHelper.RandomDelay(100, 200).ConfigureAwait(false);
+                RandomHelper.RandomSleep(100, 200);
                 var profile = await client.Player.GetPlayer().ConfigureAwait(false);
                 if ( (gym.OwnedByTeam ==  profile.PlayerData.Team) || (gym.OwnedByTeam == POGOProtos.Enums.TeamColor.Neutral ))
                 {
-                    await RandomHelper.RandomDelay(100, 200).ConfigureAwait(false);
+                    RandomHelper.RandomSleep(100, 200);
                     var gymDetails = await client.Fort.GetGymDetails(gym.Id,gym.Latitude,gym.Longitude).ConfigureAwait(false);
                     Logger.ColoredConsoleWrite(gymColorLog, "Members: " +gymDetails.GymState.Memberships.Count +". Level: "+ GetGymLevel(gym.GymPoints));
                     if (gymDetails.GymState.Memberships.Count < GetGymLevel(gym.GymPoints))
                     {
-                        await RandomHelper.RandomDelay(100, 200).ConfigureAwait(false);
+                        RandomHelper.RandomSleep(100, 200);
                         var fortSearch = await client.Fort.FortDeployPokemon(gym.Id, pokemon.Id).ConfigureAwait(false);
                         if (fortSearch.Result.ToString().ToLower() == "success" ){
                             Logger.ColoredConsoleWrite(gymColorLog, StringUtils.getPokemonNameByLanguage(ClientSettings, (PokemonId)pokemon.PokemonId) +" inserted into the gym");
@@ -1812,7 +1811,7 @@ private int GetGymLevel(long value)
                     var fortInfo = await objClient.Fort.GetFort(gym.Id, gym.Latitude, gym.Longitude).ConfigureAwait(false);
                     await CheckAndPutInNearbyGym(gym, objClient, fortInfo).ConfigureAwait(false);
                     await SetCheckTimeToRun().ConfigureAwait(false);
-                    await RandomHelper.RandomDelay(100, 200).ConfigureAwait(false);
+                    RandomHelper.RandomSleep(100, 200);
                 }
             }
         }
@@ -1895,7 +1894,7 @@ private int GetGymLevel(long value)
                     var result = await objClient.Player.UpdatePlayerLocation(
                         ClientSettings.DefaultLatitude,
                         ClientSettings.DefaultLongitude,
-                        ClientSettings.DefaultAltitude);
+                        ClientSettings.DefaultAltitude).ConfigureAwait(false);
 
                     Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "I found it! Returning before starting the capture (trick)...");
 
@@ -2624,7 +2623,7 @@ private int GetGymLevel(long value)
                 await objClient.Inventory.UseIncense(ItemId.ItemIncenseOrdinary).ConfigureAwait(false);
                 Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Used Incsense, remaining: {incsense.Count - 1}");
                 lastincenseuse = DateTime.Now.AddMinutes(30);
-                await Task.Delay(3000).ConfigureAwait(false);
+                RandomHelper.RandomSleep(3000,3100);
             }
         }
 

@@ -10,6 +10,10 @@ namespace PokemonGo.RocketAPI.Hash
     public class LegacyHasher   : IHasher
     {
         public long Client_Unknown25   =>-1553869577012279119;
+        public  HashResponseContent RequestHashes(HashRequestContent request)
+        {
+            return RequestHashesAsync(request).Result;
+        }
         public async Task<HashResponseContent> RequestHashesAsync(HashRequestContent request)
         //public HashResponseContent RequestHashesAsync(HashRequestContent request)
         {
