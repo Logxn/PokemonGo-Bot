@@ -26,6 +26,11 @@ Features
 > - Archimedean spiral (https://en.wikipedia.org/wiki/Archimedean_spiral)
 > - and much more!
 
+Hashing Service (External to us)
+-------------------
+Information about it: https://talk.pogodev.org/d/55-api-hashing-service-f-a-q
+HashBuddy 150 RPM for 3.95€ link: https://checkout.shopify.com/14884872/checkouts/da01a860e8dfe8d443be1c62fdb626fa?attributes%5BresellerId%5D=99
+
 Credits
 -------------------
 Most thanks to FeroxRev and AeonLucid, without them this wouldn't be possible.<br>
