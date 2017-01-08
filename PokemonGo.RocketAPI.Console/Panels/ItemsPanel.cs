@@ -85,7 +85,7 @@ namespace PokemonGo.RocketAPI.Console
             {
 
                 Logger.Error("[ItemsList-Error] " + e.StackTrace);
-                await Task.Delay(1000).ConfigureAwait(false); // Lets the API make a little pause, so we dont get blocked
+                RandomHelper.RandomSleep(1000,1100);
                 Execute();
             }
         }

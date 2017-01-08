@@ -63,7 +63,7 @@ namespace PokemonGo.RocketAPI.Rpc
                 await
                     PostProtoPayload
                         <Request, GetMapObjectsResponse, CheckChallengeResponse, GetHatchedEggsResponse, GetInventoryResponse,
-                            CheckAwardedBadgesResponse, DownloadSettingsResponse, GetBuddyWalkedResponse>(request);
+                            CheckAwardedBadgesResponse, DownloadSettingsResponse, GetBuddyWalkedResponse>(request).ConfigureAwait(false);
 
             GetInventoryResponse getInventoryResponse = response.Item4;
             CommonRequest.ProcessGetInventoryResponse(Client, getInventoryResponse);

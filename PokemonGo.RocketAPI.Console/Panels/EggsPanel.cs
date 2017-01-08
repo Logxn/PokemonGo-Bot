@@ -19,6 +19,7 @@ using POGOProtos.Data;
 using POGOProtos.Inventory;
 using System.Linq;
 using System.Collections;
+using PokemonGo.RocketAPI.Helpers;
 
 namespace PokemonGo.RocketAPI.Console
 {
@@ -109,7 +110,7 @@ namespace PokemonGo.RocketAPI.Console
             {
 
                 Logger.Error("[EggsList-Error] " + e.StackTrace);
-                await Task.Delay(1000).ConfigureAwait(false); // Lets the API make a little pause, so we dont get blocked
+                RandomHelper.RandomSleep(1000,1100);
                 Execute();
             }
 		}

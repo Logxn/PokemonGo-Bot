@@ -13,7 +13,6 @@ using PokemonGo.RocketAPI.Logic.Utils;
 using System.Collections.Generic;
 using GMap.NET;
 using GMap.NET.MapProviders;
-using System.Device.Location;
 
 namespace PokemonGo.RocketAPI.Console
 {
@@ -95,6 +94,7 @@ namespace PokemonGo.RocketAPI.Console
         private DownloadItemTemplatesResponse templates;
 
         public async Task refreshData(){
+            await check().ConfigureAwait(false);
             inventory = await client.Inventory.GetInventory().ConfigureAwait(false);
             Logger.ColoredConsoleWrite(ConsoleColor.Gray, $"inventory read");
             templates = await client.Download.GetItemTemplates().ConfigureAwait(false);
@@ -104,7 +104,6 @@ namespace PokemonGo.RocketAPI.Console
         public void Execute()
         {
             EnabledButton(false, "Reloading Pokemon list.");
-            check().Wait();
             try
             {
                 client = Logic.Logic.objClient;
@@ -112,19 +111,13 @@ namespace PokemonGo.RocketAPI.Console
                 {
                     RandomHelper.RandomSleep(1000, 1200);
                     refreshData().Wait();
-                    try
-                    {
-                        pokemons =
-                        inventory.InventoryDelta.InventoryItems
-                        .Select(i => i.InventoryItemData?.PokemonData)
-                            .Where(p => p != null && p?.PokemonId > 0)
-                            .OrderByDescending(key => key.Cp);
-                    }
-                    catch(Exception)
-                    {
 
-                    }
-                    
+                    pokemons =
+                    inventory.InventoryDelta.InventoryItems
+                    .Select(i => i.InventoryItemData?.PokemonData)
+                        .Where(p => p != null && p?.PokemonId > 0)
+                        .OrderByDescending(key => key.Cp);
+
                     Logger.ColoredConsoleWrite(ConsoleColor.Gray, $"pokemons read");
 
                     var families = inventory.InventoryDelta.InventoryItems
@@ -134,20 +127,15 @@ namespace PokemonGo.RocketAPI.Console
 
                     Logger.ColoredConsoleWrite(ConsoleColor.Gray, $"families read");
 
-
-                    
                     var myPokemonSettings = templates.ItemTemplates.Select(i => i.PokemonSettings).Where(p => p != null && p?.FamilyId != PokemonFamilyId.FamilyUnset);
                     var pokemonSettings = myPokemonSettings.ToList();
                     
-                    Logger.ColoredConsoleWrite(ConsoleColor.Gray, $"templates read");
-
                     var myPokemonFamilies = inventory.InventoryDelta.InventoryItems.Select(i => i.InventoryItemData?.Candy).Where(p => p != null && p?.FamilyId != PokemonFamilyId.FamilyUnset);
                     var pokemonFamilies = myPokemonFamilies.ToArray();
                     try{
-                     //   PokemonListView.BeginUpdate();
+                        PokemonListView.BeginUpdate();
                     }catch(Exception){}
                     Logger.ColoredConsoleWrite(ConsoleColor.Gray, $"disabled update");
-                    
                     
                     PokemonListView.Items.Clear();
 
@@ -170,7 +158,7 @@ namespace PokemonGo.RocketAPI.Console
                         var specSymbol ="";
                         if  (pokemon.Favorite == 1) 
                             specSymbol = "★";
-                        if (profile.PlayerData.BuddyPokemon.Id == pokemon.Id)
+                        if ((profile!=null) && (profile.PlayerData.BuddyPokemon.Id == pokemon.Id))
                             specSymbol = "☉";
                         listViewItem.Text = specSymbol + StringUtils.getPokemonNameByLanguage(ClientSettings, (PokemonId)pokemon.PokemonId);
 
@@ -225,7 +213,7 @@ namespace PokemonGo.RocketAPI.Console
 
                     }
                     try{
-                     //   PokemonListView.EndUpdate();
+                        PokemonListView.EndUpdate();
                     }catch(Exception){}
                     Logger.ColoredConsoleWrite(ConsoleColor.Gray, $"restored update");
                     PokemonListView.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
@@ -241,7 +229,7 @@ namespace PokemonGo.RocketAPI.Console
             catch (Exception e)
             {
                 Logger.ColoredConsoleWrite(ConsoleColor.Gray, $"Exception catched");
-                Execute();
+                //Execute(); <-- Makes a loop
             }
         }
 
@@ -868,7 +856,7 @@ namespace PokemonGo.RocketAPI.Console
                 var specSymbol ="";
                 if  (pokemon.Favorite == 1) 
                     specSymbol = "★";
-                if (profile.PlayerData.BuddyPokemon.Id == pokemon.Id)
+                if ((profile!=null) && (profile.PlayerData.BuddyPokemon.Id == pokemon.Id))
                     specSymbol = "☉";
                 PokemonListView.SelectedItems[0].Text = specSymbol + StringUtils.getPokemonNameByLanguage(ClientSettings, (PokemonId)pokemon.PokemonId);
             }
@@ -1241,7 +1229,7 @@ namespace PokemonGo.RocketAPI.Console
                 var specSymbol ="";
                 if  (pokemon.Favorite == 1)
                     specSymbol = "★";
-                if (profile.PlayerData.BuddyPokemon.Id == pokemon.Id)
+                if ((profile!=null) &&(profile.PlayerData.BuddyPokemon.Id == pokemon.Id))
                     specSymbol = "☉";
                 PokemonListView.SelectedItems[0].Text = specSymbol + StringUtils.getPokemonNameByLanguage(ClientSettings, (PokemonId)pokemon.PokemonId);
             }

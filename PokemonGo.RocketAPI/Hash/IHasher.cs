@@ -10,5 +10,6 @@ namespace PokemonGo.RocketAPI.Hash
     {
         long Client_Unknown25 { get; }
         Task<HashResponseContent> RequestHashesAsync(HashRequestContent request);
+        HashResponseContent RequestHashes(HashRequestContent request);
     }
 }

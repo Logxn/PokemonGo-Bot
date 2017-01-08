@@ -18,6 +18,13 @@ namespace PokemonGo.RocketAPI.Console
     /// </summary>
     public partial class GameAspectSimulator : Form
     {
+        ChangesPanel changesPanel = null;
+        EggsPanel eggsPanel = null;
+        ItemsPanel itemsPanel = null;
+        PlayerPanel playerPanel = null;
+        PokemonsPanel pokemonsPanel = null;
+        SniperPanel sniperPanel = null;
+        
         UserControl panel  = null;
         private const AnchorStyles allAnchors = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
@@ -64,7 +71,9 @@ namespace PokemonGo.RocketAPI.Console
             setVisiblePics(false);
             btnPicMenu.Visible = false;
             btnPicProfile.Visible = false;
-            panel  = new EggsPanel();
+            if (eggsPanel == null)
+                eggsPanel = new EggsPanel();
+            panel  = eggsPanel;
             panel.Anchor = allAnchors;
             panel.Location = new Point (1,1);
             panel.Size = new Size(this.Size.Width -10, this.Size.Height -55);
@@ -80,7 +89,9 @@ namespace PokemonGo.RocketAPI.Console
             setVisiblePics(false);
             btnPicMenu.Visible = false;
             btnPicProfile.Visible = false;
-            panel  = new ItemsPanel();
+            if (itemsPanel == null)
+                itemsPanel = new ItemsPanel();
+            panel  = itemsPanel;
             panel.Anchor = allAnchors;
             panel.Location = new Point (1,1);
             panel.Size = new Size(this.Size.Width -10, this.Size.Height -55);
@@ -96,7 +107,9 @@ namespace PokemonGo.RocketAPI.Console
             setVisiblePics(false);
             btnPicMenu.Visible = false;
             btnPicProfile.Visible = false;
-            panel  = new ChangesPanel();
+            if (changesPanel == null)
+                changesPanel = new ChangesPanel();
+            panel  = changesPanel;
             panel.Anchor = allAnchors;
             panel.Location= new Point (1,1);
             panel.Size = new Size(this.Size.Width -10, this.Size.Height -55);
@@ -112,7 +125,9 @@ namespace PokemonGo.RocketAPI.Console
             setVisiblePics(false);
             btnPicMenu.Visible = false;
             btnPicProfile.Visible = false;
-            panel  = new PokemonsPanel();
+            if (pokemonsPanel == null)
+                pokemonsPanel = new PokemonsPanel();
+            panel  = pokemonsPanel;
             panel.Anchor = allAnchors;
             panel.Location = new Point (1,1);
             panel.Size = new Size(this.Size.Width -10, this.Size.Height -55);
@@ -129,7 +144,9 @@ namespace PokemonGo.RocketAPI.Console
             setVisiblePics(false);
             btnPicMenu.Visible = false;
             btnPicProfile.Visible = false;
-            panel  = new SniperPanel();
+            if (sniperPanel == null)
+                sniperPanel = new SniperPanel();
+            panel  = sniperPanel;
             panel.Anchor = allAnchors;
             panel.Location = new Point (1,1);
             panel.Size = new Size(this.Size.Width -10, this.Size.Height -55);
@@ -151,7 +168,9 @@ namespace PokemonGo.RocketAPI.Console
             setVisiblePics(false);
             btnPicMenu.Visible = false;
             btnPicProfile.Visible = false;            
-            panel  = new PlayerPanel();
+            if (playerPanel == null)
+                playerPanel = new PlayerPanel();
+            panel  = playerPanel;
             panel.Anchor = allAnchors;
             panel.Location = new Point (1,1);
             panel.Size = new Size(this.Size.Width -10, 280);

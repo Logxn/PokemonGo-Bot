@@ -24,7 +24,7 @@ namespace PokemonGo.RocketAPI.Rpc
                         new ClaimCodenameMessage()
                         {
                             Codename = codename
-                        });
+                        }).ConfigureAwait(false);
         }
 
         public async Task<CheckCodenameAvailableResponse> CheckCodenameAvailable(string codename)
@@ -35,7 +35,7 @@ namespace PokemonGo.RocketAPI.Rpc
                         new CheckCodenameAvailableMessage()
                         {
                             Codename = codename
-                        });
+                        }).ConfigureAwait(false);
         }
 
         public async Task<GetSuggestedCodenamesResponse> GetSuggestedCodenames()

@@ -40,7 +40,7 @@ namespace PokemonGo.RocketAPI.Rpc
                 DeviceModel = deviceModel,
                 Locale = locale,
                 Platform = platform
-            });
+            }).ConfigureAwait(false);
         }
 
         public async Task<GetAssetDigestResponse> GetAssetDigest(uint appVersion, string deviceManufacturer, string deviceModel, string locale, Platform platform)
@@ -52,7 +52,7 @@ namespace PokemonGo.RocketAPI.Rpc
                 DeviceModel = deviceModel,
                 Locale = locale,
                 Platform = platform
-            });
+            }).ConfigureAwait(false);
         }
 
         public async Task<GetDownloadUrlsResponse> GetDownloadUrls(IEnumerable<string> assetIds)
@@ -60,7 +60,7 @@ namespace PokemonGo.RocketAPI.Rpc
             return await PostProtoPayload<Request, GetDownloadUrlsResponse>(RequestType.GetDownloadUrls, new GetDownloadUrlsMessage()
             {
                 AssetId = { assetIds }
-            });
+            }).ConfigureAwait(false);
         }
 
     }

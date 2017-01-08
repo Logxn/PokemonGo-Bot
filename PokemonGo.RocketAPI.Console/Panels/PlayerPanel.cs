@@ -19,6 +19,7 @@ using POGOProtos.Enums;
 using POGOProtos.Map.Fort;
 using POGOProtos.Networking.Responses;
 using PokemonGo.RocketAPI.Logic.Utils;
+using PokemonGo.RocketAPI.Helpers;
 
 namespace PokemonGo.RocketAPI.Console
 {
@@ -61,7 +62,7 @@ namespace PokemonGo.RocketAPI.Console
                 if (refreshData)
                 {
                     profile = await client.Player.GetPlayer().ConfigureAwait(false);
-                    await Task.Delay(1000).ConfigureAwait(false); // Pause to simulate human speed. 
+                    RandomHelper.RandomSleep(1000,1100);
                     var playerStats = await client.Inventory.GetPlayerStats().ConfigureAwait(false);
                     stats = playerStats.First();
                 
@@ -172,7 +173,7 @@ namespace PokemonGo.RocketAPI.Console
 
                 /*
                 var pokemonToEvolve = (await client.Inventory.GetPokemonToEvolve()).Count().ConfigureAwait(false);
-                labelUserProperty4Value.Text = string.Format("{0} + {1} Eggs / {2} ({3} Evolvable)", await client.Inventory.getPokemonCount(), await client.Inventory.GetEggsCount(), profile.PlayerData.MaxPokemonStorage, pokemonToEvolve).ConfigureAwait(false);
+                labelUserProperty4Value.Text = string.Format("{0} + {1} Eggs / {2} ({3} Evolvable)", await client.Inventory.getPokemonCount().ConfigureAwait(false), await client.Inventory.GetEggsCount().ConfigureAwait(false), profile.PlayerData.MaxPokemonStorage, pokemonToEvolve).ConfigureAwait(false);
                 */
             }
 
@@ -243,7 +244,7 @@ namespace PokemonGo.RocketAPI.Console
                     if (resp.Status)
                     {
                         var team = teamSelect.selected;
-                        await Task.Delay(1000).ConfigureAwait(false); // Pause to simulate human speed. 
+                        RandomHelper.RandomSleep(1000,1100);
                         var resp2 = await SelectTeam(team).ConfigureAwait(false);
                         if (resp2.Status)
                         {
