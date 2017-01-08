@@ -11,6 +11,7 @@ namespace PokemonGo.RocketAPI.Hash
     {
         public long Client_Unknown25   =>-1553869577012279119;
         public async Task<HashResponseContent> RequestHashesAsync(HashRequestContent request)
+        //public HashResponseContent RequestHashesAsync(HashRequestContent request)
         {
             byte[] locationBytes = BitConverter.GetBytes(request.Latitude).Reverse()
                  .Concat(BitConverter.GetBytes(request.Longitude).Reverse())

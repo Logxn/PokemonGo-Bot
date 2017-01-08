@@ -32,12 +32,13 @@ namespace PokemonGo.RocketAPI.Rpc
             };
 
             var updatePlayerLocationRequestEnvelope = await GetRequestBuilder().GetRequestEnvelope(new Request[] {
+            //var updatePlayerLocationRequestEnvelope = GetRequestBuilder().GetRequestEnvelope(new Request[] {
                 new Request
                 {
                     RequestType = RequestType.PlayerUpdate,
                     RequestMessage = message.ToByteString()
                 }
-            });
+            }).ConfigureAwait(false);
 
             return await PostProtoPayload<Request, PlayerUpdateResponse>(updatePlayerLocationRequestEnvelope).ConfigureAwait(false);
         }
@@ -71,7 +72,7 @@ namespace PokemonGo.RocketAPI.Rpc
             return await PostProtoPayload<Request, GetPlayerProfileResponse>(RequestType.GetPlayerProfile, new GetPlayerProfileMessage()
             {
                 PlayerName = playerName
-            });
+            }).ConfigureAwait(false);
         }
 
         public async Task<CheckAwardedBadgesResponse> GetNewlyAwardedBadges()
@@ -99,7 +100,7 @@ namespace PokemonGo.RocketAPI.Rpc
             return await PostProtoPayload<Request, LevelUpRewardsResponse>(RequestType.LevelUpRewards, new LevelUpRewardsMessage()
             {
                 Level = level
-            });
+            }).ConfigureAwait(false);
         }
 
         public async Task<SetAvatarResponse> SetAvatar(PlayerAvatar playerAvatar)
@@ -107,7 +108,7 @@ namespace PokemonGo.RocketAPI.Rpc
             return await PostProtoPayload<Request, SetAvatarResponse>(RequestType.SetAvatar, new SetAvatarMessage()
             {
                 PlayerAvatar = playerAvatar
-            });
+            }).ConfigureAwait(false);
         }
 
         public async Task<SetContactSettingsResponse> SetContactSetting(ContactSettings contactSettings)
@@ -115,7 +116,7 @@ namespace PokemonGo.RocketAPI.Rpc
             return await PostProtoPayload<Request, SetContactSettingsResponse>(RequestType.SetContactSettings, new SetContactSettingsMessage()
             {
                 ContactSettings = contactSettings
-            });
+            }).ConfigureAwait(false);
         }
 
         public async Task<SetPlayerTeamResponse> SetPlayerTeam(TeamColor teamColor)
@@ -123,7 +124,7 @@ namespace PokemonGo.RocketAPI.Rpc
             return await PostProtoPayload<Request, SetPlayerTeamResponse>(RequestType.SetPlayerTeam, new SetPlayerTeamMessage()
             {
                 Team = teamColor
-            });
+            }).ConfigureAwait(false);
         }
 
         public async Task<VerifyChallengeResponse> VerifyChallenge(string token)

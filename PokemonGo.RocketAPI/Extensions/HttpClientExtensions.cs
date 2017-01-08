@@ -50,7 +50,7 @@ namespace PokemonGo.RocketAPI.Extensions
             }
 
             ResponseEnvelope response;
-            while ((response = await PerformThrottledRemoteProcedureCall<TRequest>(client, url, requestEnvelope)).Returns.Count !=
+            while ((response = await PerformThrottledRemoteProcedureCall<TRequest>(client, url, requestEnvelope).ConfigureAwait(false)).Returns.Count !=
                    responseTypes.Length)
             {
                 var operation = await strategy.HandleApiFailure(requestEnvelope, response).ConfigureAwait(false);

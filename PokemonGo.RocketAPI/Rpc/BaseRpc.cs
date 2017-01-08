@@ -32,10 +32,14 @@ namespace PokemonGo.RocketAPI.Rpc
             where TResponsePayload : IMessage<TResponsePayload>, new()
         {
             var requestEnvelops = await GetRequestBuilder().GetRequestEnvelope(type, message).ConfigureAwait(false);
+            //var requestEnvelops = GetRequestBuilder().GetRequestEnvelope(type, message);
+
+            if (Client.Settings.EnableVerboseLogging) Logger.ColoredConsoleWrite(ConsoleColor.Blue, "Calling Request: " + type, LogLevel.Debug);
+
             return
                 await
                     Client.PokemonHttpClient.PostProtoPayload<TRequest, TResponsePayload>(Client.ApiUrl, requestEnvelops,
-                        Client.ApiFailure);
+                        Client.ApiFailure).ConfigureAwait(false);
         }
 
         protected async Task<TResponsePayload> PostProtoPayload<TRequest, TResponsePayload>(
@@ -45,7 +49,7 @@ namespace PokemonGo.RocketAPI.Rpc
             return
                 await
                     Client.PokemonHttpClient.PostProtoPayload<TRequest, TResponsePayload>(Client.ApiUrl, requestEnvelope,
-                        Client.ApiFailure);
+                        Client.ApiFailure).ConfigureAwait(false);
         }
 
         protected async Task<Tuple<T1, T2>> PostProtoPayload<TRequest, T1, T2>(RequestEnvelope requestEnvelope)
@@ -91,7 +95,7 @@ namespace PokemonGo.RocketAPI.Rpc
             var responses =
                 await
                     PostProtoPayload<TRequest>(requestEnvelope, typeof(T1), typeof(T2), typeof(T3), typeof(T4),
-                        typeof(T5));
+                        typeof(T5)).ConfigureAwait(false);
             return new Tuple<T1, T2, T3, T4, T5>(responses[0] as T1, responses[1] as T2, responses[2] as T3,
                 responses[3] as T4, responses[4] as T5);
         }
@@ -108,7 +112,7 @@ namespace PokemonGo.RocketAPI.Rpc
             var responses =
                 await
                     PostProtoPayload<TRequest>(requestEnvelope, typeof(T1), typeof(T2), typeof(T3), typeof(T4),
-                        typeof(T5), typeof(T6));
+                        typeof(T5), typeof(T6)).ConfigureAwait(false);
             return new Tuple<T1, T2, T3, T4, T5, T6>(responses[0] as T1, responses[1] as T2, responses[2] as T3,
                 responses[3] as T4, responses[4] as T5, responses[5] as T6);
         }
@@ -126,7 +130,7 @@ namespace PokemonGo.RocketAPI.Rpc
             var responses =
                 await
                     PostProtoPayload<TRequest>(requestEnvelope, typeof(T1), typeof(T2), typeof(T3), typeof(T4),
-                        typeof(T5), typeof(T6), typeof(T7));
+                        typeof(T5), typeof(T6), typeof(T7)).ConfigureAwait(false);
             return new Tuple<T1, T2, T3, T4, T5, T6, T7>(responses[0] as T1, responses[1] as T2, responses[2] as T3,
                 responses[3] as T4, responses[4] as T5, responses[5] as T6, responses[6] as T7);
         }
@@ -137,7 +141,7 @@ namespace PokemonGo.RocketAPI.Rpc
             return
                 await
                     Client.PokemonHttpClient.PostProtoPayload<TRequest>(Client.ApiUrl, requestEnvelope,
-                        Client.ApiFailure, responseTypes);
+                        Client.ApiFailure, responseTypes).ConfigureAwait(false);
         }
 
         protected async Task<ResponseEnvelope> PostProto<TRequest>(RequestEnvelope requestEnvelope)

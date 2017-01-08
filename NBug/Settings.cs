@@ -84,9 +84,10 @@ namespace NBug
             try
             {
                 dir = Path.GetDirectoryName(Assembly.GetCallingAssembly().Location);
-            }catch(Exception e)
+            }
+            catch (Exception ex)
             {
-                
+                Logger.Error($"Settings Error on getting Dir Name: {ex}");
             }
 
             if(dir == null)
