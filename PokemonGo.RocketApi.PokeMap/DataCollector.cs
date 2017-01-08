@@ -185,7 +185,7 @@ namespace PokemonGo.RocketApi.PokeMap
 
         private static async Task<T> getData<T>(string latitude, string longitude, string url) where T : class, new()
         {
-            T returnValue = default(T);
+            //T returnValue = default(T);
             RestSharp.RestClient client = createClient(url);
 
             var req = createRequest(latitude, longitude);

@@ -32,6 +32,7 @@ namespace PokemonGo.RocketAPI.Rpc
             };
 
             var updatePlayerLocationRequestEnvelope = await GetRequestBuilder().GetRequestEnvelope(new Request[] {
+            //var updatePlayerLocationRequestEnvelope = GetRequestBuilder().GetRequestEnvelope(new Request[] {
                 new Request
                 {
                     RequestType = RequestType.PlayerUpdate,

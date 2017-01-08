@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data.HashFunction;
 using System.IO;
@@ -83,6 +82,8 @@ namespace PokemonGo.RocketAPI.Helpers
 
         public static int GenerateLocation1(byte[] locationBytes, byte[] authTicket)
         {
+            // Concat done before calls
+            
             //byte[] locationBytes = BitConverter.GetBytes(lat).Reverse()
             //     .Concat(BitConverter.GetBytes(lng).Reverse())
             //     .Concat(BitConverter.GetBytes(alt).Reverse()).ToArray();
@@ -92,6 +93,7 @@ namespace PokemonGo.RocketAPI.Helpers
 
         public static int GenerateLocation2(byte[] locationBytes)
         {
+            // Concat done before calls
             //byte[] locationBytes = BitConverter.GetBytes(lat).Reverse()
             //     .Concat(BitConverter.GetBytes(lng).Reverse())
             //     .Concat(BitConverter.GetBytes(alt).Reverse()).ToArray();

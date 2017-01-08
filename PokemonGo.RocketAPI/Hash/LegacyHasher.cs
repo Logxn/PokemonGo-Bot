@@ -15,6 +15,7 @@ namespace PokemonGo.RocketAPI.Hash
             return RequestHashesAsync(request).Result;
         }
         public async Task<HashResponseContent> RequestHashesAsync(HashRequestContent request)
+        //public HashResponseContent RequestHashesAsync(HashRequestContent request)
         {
             byte[] locationBytes = BitConverter.GetBytes(request.Latitude).Reverse()
                  .Concat(BitConverter.GetBytes(request.Longitude).Reverse())

@@ -11,7 +11,6 @@ using System.Collections.Concurrent;
 using System.Threading;
 using PokemonGo.RocketAPI.Helpers;
 
-
 namespace PokemonGo.RocketAPI.Extensions
 {
     public enum ApiOperation
@@ -141,8 +140,8 @@ namespace PokemonGo.RocketAPI.Extensions
                 var diff = Math.Max(0, (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds - lastRpc);
                 if (diff < minDiff)
                 {
-                    var delay = (int) ((minDiff - diff) + (int)(new Random().NextDouble() * 0)); // Add some randomness
-                    RandomHelper.RandomSleep(delay,delay+100);
+                    var delay = (int)((minDiff - diff) + (int)(new Random().NextDouble() * 0)); // Add some randomness
+                    RandomHelper.RandomSleep(delay, delay + 100);
                 }
                 lastRpc = (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds;
                 ResponseEnvelope response = await PerformRemoteProcedureCall<TRequest>(client, url, r).ConfigureAwait(false);

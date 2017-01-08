@@ -32,6 +32,10 @@ namespace PokemonGo.RocketAPI.Rpc
             where TResponsePayload : IMessage<TResponsePayload>, new()
         {
             var requestEnvelops = await GetRequestBuilder().GetRequestEnvelope(type, message).ConfigureAwait(false);
+            //var requestEnvelops = GetRequestBuilder().GetRequestEnvelope(type, message);
+
+            if (Client.Settings.EnableVerboseLogging) Logger.ColoredConsoleWrite(ConsoleColor.Blue, "Calling Request: " + type, LogLevel.Debug);
+
             return
                 await
                     Client.PokemonHttpClient.PostProtoPayload<TRequest, TResponsePayload>(Client.ApiUrl, requestEnvelops,

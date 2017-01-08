@@ -55,9 +55,9 @@ namespace PokemonGo.RocketAPI.Logic.Utils
                     _alreadySpotted.Add(new spottedPokeSni((Int32)idPoke, (Double)coords[0], (Double)coords[1], (Int32)DateTimeToUnixTimestamp((DateTime)Snipers.results[i].until), (Int32)idPoke, (Int32)VerTipo("" + Snipers.results[i].rarity)));
                 }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                //Logger.ColoredConsoleWrite(ConsoleColor.Red, "Error PokeSnipers: \n" + e.Message + "\n" +  e.HelpLink);
+                Logger.ColoredConsoleWrite(ConsoleColor.Red, "Error PokeSnipers: \n" + ex.Message + "\n" +  ex.HelpLink);
             }
 
             return _newSpotted;
