@@ -106,6 +106,7 @@ namespace PokemonGo.RocketAPI.Rpc
 
         public async Task<IEnumerable<PokemonData>> GetEggs()
         {
+            
                 var inventory = await GetInventory().ConfigureAwait(false);
                 if(inventory == null)
                 {
@@ -136,7 +137,7 @@ namespace PokemonGo.RocketAPI.Rpc
             await client.Inventory.UseItemXpBoost(ItemId.ItemLuckyEgg).ConfigureAwait(false);
             Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Used Lucky Egg, remaining: {luckyEgg.Count - 1}");
             _lastegguse = DateTime.Now.AddMinutes(30);
-            await Task.Delay(3000);
+            await Task.Delay(3000).ConfigureAwait(false);
         }
 
         public async Task<UseItemXpBoostResponse> UseItemXpBoost(ItemId item)
@@ -179,10 +180,14 @@ namespace PokemonGo.RocketAPI.Rpc
 
         public async Task<GetInventoryResponse> GetInventory()
         {
-            // We take also the opportunity to update the cache
-            _cachedInventory = await PostProtoPayload<Request, GetInventoryResponse>(RequestType.GetInventory, new GetInventoryMessage()).ConfigureAwait(false);
-            
-            return _cachedInventory;
+            return await PostProtoPayload<Request, GetInventoryResponse>(RequestType.GetInventory, new GetInventoryMessage()).ConfigureAwait(false);
+            /*int timeout = 1000;
+            var task = PostProtoPayload<Request, GetInventoryResponse>(RequestType.GetInventory, new GetInventoryMessage());
+            if (await Task.WhenAny(task, Task.Delay(timeout)) == task) {
+                return await task.ConfigureAwait(false);
+            } else { 
+                return await GetInventory().ConfigureAwait(false);
+            }*/
         }
 
         public async Task<RecycleInventoryItemResponse> RecycleItem(ItemId itemId, int amount)
@@ -327,7 +332,7 @@ namespace PokemonGo.RocketAPI.Rpc
 
         public async Task<IEnumerable<ItemData>> GetItemsToRecycle(ISettings settings)
         {
-            var myItems = await GetItems().ConfigureAwait(false);
+            var myItems = await GetItems().ConfigureAwait(false); // ver aqui 2
             //Logger.ColoredConsoleWrite(ConsoleColor.DarkGray, "==========Begin Recycle Filter Debug Logging=============");
             //foreach (var item in settings.itemRecycleFilter)
             //    Logger.ColoredConsoleWrite(ConsoleColor.DarkGray, item.Key.ToString() + ": " + item.Value.ToString());
@@ -365,8 +370,7 @@ namespace PokemonGo.RocketAPI.Rpc
             return await RefreshCachedInventory().ConfigureAwait(false);
         }
 
-        public static GetInventoryResponse _cachedInventory;
-
+        private GetInventoryResponse _cachedInventory;
         private DateTime _lastRefresh;
 
         public async Task<GetInventoryResponse> RefreshCachedInventory()
@@ -374,7 +378,7 @@ namespace PokemonGo.RocketAPI.Rpc
             var now = DateTime.UtcNow;
             var ss = new SemaphoreSlim(10);
 
-            await ss.WaitAsync();
+            await ss.WaitAsync().ConfigureAwait(false);
             try
             {
                 _lastRefresh = now;
@@ -540,7 +544,7 @@ namespace PokemonGo.RocketAPI.Rpc
         {
             if (player == null)
                 return;
-            var stats = await GetPlayerStats().ConfigureAwait(false);
+            var stats = await GetPlayerStats().ConfigureAwait(false); // ver aqui 1
             var stat = stats.FirstOrDefault();
             if (stat == null)
                 return;
@@ -603,6 +607,47 @@ namespace PokemonGo.RocketAPI.Rpc
                     Logger.Error("Export Player Infos and all Pokemons to CSV not possible. File seems be in use!"/*, LogLevel.Warning*/);
                 }
             }
+        }
+        
+        public IEnumerable<PlayerStats> GetPlayerStats( GetInventoryResponse inventory)
+        {
+            if (inventory != null)
+                return inventory.InventoryDelta.InventoryItems
+                    .Select(i => i.InventoryItemData?.PlayerStats)
+                    .Where(p => p != null);
+            return null;
+        }
+        public IEnumerable<ItemData> GetItems(GetInventoryResponse inventory)
+        {
+            if (inventory != null)
+                return inventory.InventoryDelta.InventoryItems
+                    .Select(i => i.InventoryItemData?.Item)
+                    .Where(p => p != null);
+            return null;
+        }
+
+        public int GetEggsCount(GetInventoryResponse inventory)
+        {
+            var p = GetEggs(inventory);
+            var i = p.Count();
+            return i;
+        }
+
+        public IEnumerable<PokemonData> GetEggs(GetInventoryResponse inventory)
+        {
+            if (inventory != null)
+                return inventory.InventoryDelta.InventoryItems.Select(i => i.InventoryItemData?.PokemonData)
+                .Where(p => p != null && p.IsEgg);
+            return null;
+        }
+        
+        public IEnumerable<EggIncubator> GetEggIncubators(GetInventoryResponse inventory)
+        {
+            return
+                inventory.InventoryDelta.InventoryItems
+                    .Where(x => x.InventoryItemData.EggIncubators != null)
+                    .SelectMany(i => i.InventoryItemData.EggIncubators.EggIncubator)
+                    .Where(i => i != null);
         }
 
     }

@@ -14,8 +14,7 @@ using POGOProtos.Inventory.Item;
 using System.Threading.Tasks;
 using POGOProtos.Networking.Responses;
 using PokemonGo.RocketAPI.Helpers;
-using System.Collections.Generic;
-
+	
 namespace PokemonGo.RocketAPI.Console
 {
 	/// <summary>
@@ -23,9 +22,7 @@ namespace PokemonGo.RocketAPI.Console
 	/// </summary>
 	public partial class ItemsPanel : UserControl
 	{
-        private static Client client;
-
-        public ItemsPanel()
+		public ItemsPanel()
 		{
 			//
 			// The InitializeComponent() call is required for Windows Forms designer support.
@@ -41,49 +38,7 @@ namespace PokemonGo.RocketAPI.Console
 			ItemsListView.Items.Clear();
             Execute();
 		}
-
-        public async Task<IEnumerable<ItemData>> RefreshInventory()
-        {
-            IEnumerable<ItemData> items = null;
-            try
-            {
-                client = Logic.Logic.Client;
-
-                if (client.readyToUse != false)
-                {
-                    items = await client.Inventory.GetItems().ConfigureAwait(false);
-
-                    //return await client.Inventory.GetItems().ConfigureAwait(false);
-                    return items;
-                    //ItemId[] validsIDs = { ItemId.ItemPokeBall, ItemId.ItemGreatBall, ItemId.ItemUltraBall };
-
-                    //ListViewItem listViewItem;
-                    //ItemsListView.Items.Clear();
-                    //var sum = 0;
-                    //foreach (var item in items)
-                    //{
-                    //    listViewItem = new ListViewItem();
-                    //    listViewItem.Tag = item;
-                    //    listViewItem.Text = getItemName(item.ItemId);
-                    //    listViewItem.ImageKey = item.ItemId.ToString().Replace("Item", "");
-                    //    listViewItem.SubItems.Add("" + item.Count);
-                    //    sum += item.Count;
-                    //    listViewItem.SubItems.Add("" + item.Unseen);
-                    //    ItemsListView.Items.Add(listViewItem);
-                    //}
-                    //lblCount.Text = "" + sum;
-                }
-            }
-            catch (Exception ex)
-            {
-                Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Could not load Pokemon List - Unhandled exception: {ex}", LogLevel.Error);
-            }
-
-            return items;
-        }
-
-        //public async Task Execute()
-        public void Execute()
+		public async Task Execute()
         {
             try
             {
@@ -103,11 +58,10 @@ namespace PokemonGo.RocketAPI.Console
                     + Globals.toprevive + Globals.toppotion;
                 text_TotalItemCount.Text = count.ToString();
 
-                var client = Logic.Logic.Client;
+                var client = Logic.Logic.objClient;
 	            if (client.readyToUse != false)
 	            {
-                    //var items = await client.Inventory.GetItems().ConfigureAwait(false);
-                    IEnumerable<ItemData> items = RefreshInventory().Result;
+	               var items = await client.Inventory.GetItems().ConfigureAwait(false);
 	              
 	               ItemId[] validsIDs = {ItemId.ItemPokeBall,ItemId.ItemGreatBall,ItemId.ItemUltraBall};
 	               
@@ -127,11 +81,12 @@ namespace PokemonGo.RocketAPI.Console
 	               lblCount.Text=""+ sum;
 	            }
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                Logger.Error("[ItemsList-Error] " + ex.StackTrace + ex.Message);
-                //await Task.Delay(1000); // Lets the API make a little pause, so we dont get blocked
-                //Execute();
+
+                Logger.Error("[ItemsList-Error] " + e.StackTrace);
+                await Task.Delay(1000).ConfigureAwait(false); // Lets the API make a little pause, so we dont get blocked
+                Execute();
             }
         }
 		private string getItemName(ItemId itemID)
@@ -202,7 +157,7 @@ namespace PokemonGo.RocketAPI.Console
             taskResponse resp1 = new taskResponse(false, string.Empty);
             try
             {
-            	var client = Logic.Logic.Client;
+            	var client = Logic.Logic.objClient;
                 var resp2 = await client.Inventory.RecycleItem(item.ItemId, amount).ConfigureAwait(false);
 
                 if (resp2.Result == RecycleInventoryItemResponse.Types.Result.Success)
@@ -217,7 +172,7 @@ namespace PokemonGo.RocketAPI.Console
             catch (Exception e)
             {
                 Logger.ColoredConsoleWrite(ConsoleColor.Red, "Error RecycleItem: " + e.Message);
-                //await RecycleItems(item, amount).ConfigureAwait(false);
+                await RecycleItems(item, amount).ConfigureAwait(false);
             }
             return resp1;
         }		
@@ -267,9 +222,9 @@ namespace PokemonGo.RocketAPI.Console
 		                + Globals.potion + Globals.superpotion + Globals.hyperpotion + Globals.berry 
 		                + Globals.toprevive + Globals.toppotion;
 		         text_TotalItemCount.Text = count.ToString();
-        	}catch (Exception ex){
-                Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Could not load Pokemon List - Unhandled exception: {ex}", LogLevel.Error);
-            }
+        	}catch (Exception e1){
+        		
+        	}
         }
         void btnCopy_Click(object sender, EventArgs e)
         {
@@ -287,20 +242,20 @@ namespace PokemonGo.RocketAPI.Console
         
         private async Task RecycleItems(bool forcerefresh = false)
         {            
-            var client = Logic.Logic.Client;
+            var client = Logic.Logic.objClient;
             var items = await client.Inventory.GetItemsToRecycle(new Settings()).ConfigureAwait(false);
             foreach (var item in items)
             {
                 var transfer = await client.Inventory.RecycleItem((ItemId)item.ItemId, item.Count).ConfigureAwait(false);
                 Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Recycled {item.Count}x {(ItemId)item.ItemId}", LogLevel.Info);
-                await RandomHelper.RandomDelay(1000, 5000);
+                await RandomHelper.RandomDelay(1000, 5000).ConfigureAwait(false);
             }
         }
 
         async void btnDiscard_Click(object sender, EventArgs e)
         {
             await RecycleItems().ConfigureAwait(false);
-            //Execute();
+            Execute();
         }
 
         void useToolStripMenuItem_Click(object sender, EventArgs e)

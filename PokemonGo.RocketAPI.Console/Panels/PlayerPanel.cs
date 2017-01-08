@@ -30,8 +30,7 @@ namespace PokemonGo.RocketAPI.Console
         private static GetPlayerResponse profile = null;
         private static IOrderedEnumerable<PokemonData> pokemons = null;
         private static POGOProtos.Data.Player.PlayerStats stats;
-        private static Client client;
-
+        
         public PlayerPanel()
         {
             //
@@ -40,37 +39,8 @@ namespace PokemonGo.RocketAPI.Console
             InitializeComponent();
         }
 
-        public async Task RefreshPlayerInformation(bool refreshData = true)
-        {
-            try
-            {
-                client = Logic.Logic.Client;
 
-                if (client.readyToUse != false)
-                {
-                    /*labelUserProperty1Title.Text = "Username:";  TODO: internationalize*/
-
-                    if (refreshData)
-                    {
-                        profile = await client.Player.GetPlayer().ConfigureAwait(false);
-                        await Task.Delay(1000); // Pause to simulate human speed. 
-                        var playerStats = await client.Inventory.GetPlayerStats().ConfigureAwait(false);
-                        stats = playerStats.First();
-
-                    }
-                    updatePlayerImages();
-                    updatePlayerInfoLabels();
-                }
-            }
-            catch (Exception ex)
-            {
-                Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Could not load Pokemon List - Unhandled exception: {ex}", LogLevel.Error);
-            }
-
-            return;
-        }
-
-        public void Execute(bool refreshData = true)
+        public async Task Execute( bool refreshData = true)
         {
             pictureBoxTeam.Image = null;
             pictureBoxPlayerAvatar.Image = null;
@@ -82,25 +52,23 @@ namespace PokemonGo.RocketAPI.Console
             labelUserProperty5Value.Text = "";
             labelUserProperty6Value.Text = "";
 
-            RefreshPlayerInformation(refreshData).Wait();
+            await check().ConfigureAwait(false);
+            var client = Logic.Logic.objClient;
+            if (client.readyToUse != false)
+            {
+                /*labelUserProperty1Title.Text = "Username:";  TODO: internationalize*/
 
-            //await check().ConfigureAwait(false);
-            //var client = Logic.Logic.Client;
-            //if (client.readyToUse != false)
-            //{
-            //    /*labelUserProperty1Title.Text = "Username:";  TODO: internationalize*/
-
-            //    if (refreshData)
-            //    {
-            //        profile = await client.Player.GetPlayer().ConfigureAwait(false);
-            //        await Task.Delay(1000); // Pause to simulate human speed. 
-            //        var playerStats = await client.Inventory.GetPlayerStats().ConfigureAwait(false);
-            //        stats = playerStats.First();
+                if (refreshData)
+                {
+                    profile = await client.Player.GetPlayer().ConfigureAwait(false);
+                    await Task.Delay(1000).ConfigureAwait(false); // Pause to simulate human speed. 
+                    var playerStats = await client.Inventory.GetPlayerStats().ConfigureAwait(false);
+                    stats = playerStats.First();
                 
-            //    }
-            //    updatePlayerImages();
-            //    updatePlayerInfoLabels();
-            //}
+                }
+                updatePlayerImages();
+                updatePlayerInfoLabels();
+            }
         }
         
         public void setProfile(GetPlayerResponse prof){
@@ -176,12 +144,13 @@ namespace PokemonGo.RocketAPI.Console
             pictureBoxBuddyPokemon.Location = buddyLocation;
         }
 
-        private void updatePlayerInfoLabels()
+        private async void updatePlayerInfoLabels()
         {
 
             if (profile != null){
                 labelUserProperty1Value.Text = profile.PlayerData.Username;
                 labelUserProperty3Value.Text = profile.PlayerData.Currencies[1].Amount.ToString("N0");
+                labelUserProperty4Value.Text = profile.PlayerData.Currencies[0].Amount.ToString("N0");
             }
 
 
@@ -202,8 +171,8 @@ namespace PokemonGo.RocketAPI.Console
                 labelUserProperty6Value.Text = string.Format("{0}km", kmWalked);
 
                 /*
-                var pokemonToEvolve = (await client.Inventory.GetPokemonToEvolve()).Count();
-                labelUserProperty4Value.Text = string.Format("{0} + {1} Eggs / {2} ({3} Evolvable)", await client.Inventory.getPokemonCount(), await client.Inventory.GetEggsCount(), profile.PlayerData.MaxPokemonStorage, pokemonToEvolve);
+                var pokemonToEvolve = (await client.Inventory.GetPokemonToEvolve()).Count().ConfigureAwait(false);
+                labelUserProperty4Value.Text = string.Format("{0} + {1} Eggs / {2} ({3} Evolvable)", await client.Inventory.getPokemonCount(), await client.Inventory.GetEggsCount(), profile.PlayerData.MaxPokemonStorage, pokemonToEvolve).ConfigureAwait(false);
                 */
             }
 
@@ -260,7 +229,7 @@ namespace PokemonGo.RocketAPI.Console
             var teamSelect =new TeamSelect();
             if (teamSelect.ShowDialog() == DialogResult.OK){
                 // Simulate to enter in a gym before select a team.
-                var client = Logic.Logic.Client;
+                var client = Logic.Logic.objClient;
                 var mapObjects = await client.Map.GetMapObjects().ConfigureAwait(false);
                 var mapCells = mapObjects.Item1.MapCells;
 
@@ -274,12 +243,11 @@ namespace PokemonGo.RocketAPI.Console
                     if (resp.Status)
                     {
                         var team = teamSelect.selected;
-                        await Task.Delay(1000); // Pause to simulate human speed. 
+                        await Task.Delay(1000).ConfigureAwait(false); // Pause to simulate human speed. 
                         var resp2 = await SelectTeam(team).ConfigureAwait(false);
                         if (resp2.Status)
                         {
                             Logger.ColoredConsoleWrite(ConsoleColor.Green, "Selected Team: " + team.ToString());
-                            //Execute().Wait();
                             Execute();
                         }
                         else
@@ -312,7 +280,7 @@ namespace PokemonGo.RocketAPI.Console
             taskResponse resp1 = new taskResponse(false, string.Empty);
             try
             {
-            	var client = Logic.Logic.Client;
+            	var client = Logic.Logic.objClient;
             	var resp2 = await client.Player.SetPlayerTeam(teamColor).ConfigureAwait(false);
 
                 if (resp2.Status == SetPlayerTeamResponse.Types.Status.Success)
@@ -337,7 +305,7 @@ namespace PokemonGo.RocketAPI.Console
             taskResponse resp1 = new taskResponse(false, string.Empty);
             try
             {
-            	var client = Logic.Logic.Client;
+            	var client = Logic.Logic.objClient;
             	var resp2 = await client.Fort.GetGymDetails( gym,lat,lng).ConfigureAwait(false);
 
                 if (resp2.Result == GetGymDetailsResponse.Types.Result.Success)
@@ -356,20 +324,19 @@ namespace PokemonGo.RocketAPI.Console
             }
             return resp1;
         }			
-        public Task check()
+        public async Task check()
         {
             while (true)
             {
                 try
                 {
-                    if (Logic.Logic.Client != null && Logic.Logic.Client.readyToUse != false)
+                    if (Logic.Logic.objClient != null && Logic.Logic.objClient.readyToUse != false)
                     {
                         break;
                     }
                 }
                 catch (Exception) { }
             }
-            return null;
         }		
 
     }

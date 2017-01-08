@@ -68,7 +68,7 @@ namespace PokemonGo.RocketAPI.Logic
             if (_retryCount == 11)
                 return ApiOperation.Abort;
 
-            await Task.Delay(500);
+            await Task.Delay(500).ConfigureAwait(false);
             _retryCount++;
 
             if (_retryCount % 5 == 0)
@@ -109,18 +109,18 @@ namespace PokemonGo.RocketAPI.Logic
             {
                 Logger.Error("Access Token expired? Retrying in 1 second.");
 
-                await Task.Delay(1000);
+                await Task.Delay(1000).ConfigureAwait(false);
             }
             catch (PtcOfflineException)
             {
                 Logger.Error("PTC probably offline? Retrying in 15 seconds.");
 
-                await Task.Delay(15000);
+                await Task.Delay(15000).ConfigureAwait(false);
             }
             catch (InvalidResponseException)
             {
                 Logger.Error("Invalid Response, retrying in 5 seconds.");
-                await Task.Delay(5000);
+                await Task.Delay(5000).ConfigureAwait(false);
             } catch (NullReferenceException e)
             {
                 Logger.Error("Method which calls that: " + e.TargetSite + " Source: " + e.Source + " Data: " + e.Data);
@@ -163,7 +163,7 @@ namespace PokemonGo.RocketAPI.Logic
             if (_retryCount == 11)
                 return ApiOperation.Abort;
 
-            await Task.Delay(500);
+            await Task.Delay(500).ConfigureAwait(false);
             _retryCount++;
 
             if (_retryCount % 5 == 0)
@@ -174,15 +174,15 @@ namespace PokemonGo.RocketAPI.Logic
                 }
                 catch (PtcOfflineException)
                 {
-                    await Task.Delay(20000);
+                    await Task.Delay(20000).ConfigureAwait(false);
                 }
                 catch (AccessTokenExpiredException)
                 {
-                    await Task.Delay(2000);
+                    await Task.Delay(2000).ConfigureAwait(false);
                 }
                 catch (Exception ex) when (ex is InvalidResponseException || ex is TaskCanceledException)
                 {
-                    await Task.Delay(1000);
+                    await Task.Delay(1000).ConfigureAwait(false);
                 }
             }
 

@@ -241,7 +241,7 @@ namespace PokemonGo.RocketAPI.Logic.Utils
 
                     }
                 }
-                await System.Threading.Tasks.Task.Delay(5000);
+                await System.Threading.Tasks.Task.Delay(5000).ConfigureAwait(false);
                 DoInformation();
             } catch (Exception)
             {
@@ -422,7 +422,7 @@ namespace PokemonGo.RocketAPI.Logic.Utils
                                 {
                                     await _telegram.SendTextMessageAsync(_chatid, $"Failed to evolve {pokemon.PokemonId}. EvolvePokemonOutProto.Result was {evolvePokemonOutProto.Result}, stopping evolving {pokemon.PokemonId}", replyMarkup: new ReplyKeyboardHide()).ConfigureAwait(false);
                                 }
-                                await RandomHelper.RandomDelay(1000, 2000);
+                                await RandomHelper.RandomDelay(1000, 2000).ConfigureAwait(false);
                             }
                         }
                         telegramAnswer = "Done.";

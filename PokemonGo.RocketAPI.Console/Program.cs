@@ -52,9 +52,7 @@ namespace PokemonGo.RocketAPI.Console
                 MessageBox.Show(e.ToString());
             }
         }
-
         [STAThread]
-
         static void Main(string[] args)
         {
             if ( args.Length > 0)
@@ -64,8 +62,7 @@ namespace PokemonGo.RocketAPI.Console
                     SharePokesniperURI(args[0]);
                     return;
                 }
-            }            
-            configureNBug();
+            }          
             SleepHelper.PreventSleep();
             if (args != null && args.Length > 0)
             {
@@ -102,7 +99,7 @@ namespace PokemonGo.RocketAPI.Console
             if (args != null && args.Length > 0 && args[0].Contains("-nogui"))
             {
                 Logger.ColoredConsoleWrite(ConsoleColor.Red, "You added -nogui! If you didnt setup correctly with the GUI. It wont work.");
-                //int i = 1;
+                int i = 1;
 
                 //TODO Implement JSON Load
 
@@ -145,8 +142,8 @@ namespace PokemonGo.RocketAPI.Console
 
             Task.Run(() =>
             {
+
                 CheckVersion();
-                
                 try
                 {
                     new Logic.Logic(new Settings(), Globals.infoObservable).Execute().Wait();
@@ -175,14 +172,10 @@ namespace PokemonGo.RocketAPI.Console
             System.Console.ReadLine();
             SleepHelper.AllowSleep();
         }
-
         private static void SaveHuntStats(string newHuntStat)
         {
             File.AppendAllText(huntstats, newHuntStat);
         }
-
-        //TODO: Move Checkversion in a separate class
-
         public static void CheckVersion()
         {
             try
@@ -204,7 +197,6 @@ namespace PokemonGo.RocketAPI.Console
 
                 Logger.ColoredConsoleWrite(ConsoleColor.Red, "There is a new Version available: " + gitVersion);
                 Logger.ColoredConsoleWrite(ConsoleColor.Red, "Its recommended to use the newest Version.");
-
                 if (cmdCoords == string.Empty)
                 {
                     Logger.ColoredConsoleWrite(ConsoleColor.Red, "Starting in 10 Seconds.");
@@ -220,7 +212,6 @@ namespace PokemonGo.RocketAPI.Console
                 Logger.ColoredConsoleWrite(ConsoleColor.White, "Unable to check for updates now...");
             }
         }
-
         public static Version getNewestVersion()
         {
             try
@@ -237,39 +228,19 @@ namespace PokemonGo.RocketAPI.Console
                 return Assembly.GetExecutingAssembly().GetName().Version;
             }
         }
-
         public static string DownloadServerVersion()
         {
             using (var wC = new WebClient())
                 return
                     wC.DownloadString(
                         "https://raw.githubusercontent.com/Ar1i/PokemonGo-Bot/master/ver.md");
-        }
-
-        private static void configureNBug()
-        {
-            NBug.Settings.UIMode = NBug.Enums.UIMode.Auto;
-            NBug.Settings.UIProvider = NBug.Enums.UIProvider.Auto;
-            NBug.Settings.SleepBeforeSend = 10;
-            NBug.Settings.MaxQueuedReports = 5;
-            NBug.Settings.StopReportingAfter = 5;
-            NBug.Settings.MiniDumpType = NBug.Enums.MiniDumpType.Normal;
-            NBug.Settings.WriteLogToDisk = false;
-            NBug.Settings.ExitApplicationImmediately = true;
-            NBug.Settings.HandleProcessCorruptedStateExceptions = false;
-            NBug.Settings.ReleaseMode = false;
-            NBug.Settings.DeferredReporting = true;
-            NBug.Settings.StoragePath = "Bugs\\";
-            AppDomain.CurrentDomain.UnhandledException += NBug.Handler.UnhandledException;
-        }
+        }       
     }
-
     public static class ManualSnipePokemon
     {
         public static PokemonId? ID = null;
         public static GeoCoordinate Location = null;
     }
-
     public static class Globals
     {
         // Bot Info  Globals (not yet implemented in any function)
@@ -279,7 +250,7 @@ namespace PokemonGo.RocketAPI.Console
 
         // Other Globals
         public static Collection<Profile> Profiles = new Collection<Profile>();
-        public static string pFHashKey;                             // PokeFarmer Key for HashServer
+        public static string pFHashKey;
         public static string ProfileName = "DefaultProfile";
         public static bool IsDefault = false;
         public static int RunOrder = 0;

@@ -141,7 +141,7 @@ namespace PokemonGo.RocketAPI.Extensions
                 if (diff < minDiff)
                 {
                     var delay = (minDiff - diff) + (int)(new Random().NextDouble() * 0); // Add some randomness
-                    await Task.Delay((int)(delay));
+                    await Task.Delay((int)(delay)).ConfigureAwait(false);
                 }
                 lastRpc = (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds;
                 ResponseEnvelope response = await PerformRemoteProcedureCall<TRequest>(client, url, r).ConfigureAwait(false);

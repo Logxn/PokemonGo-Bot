@@ -97,7 +97,7 @@ namespace PokemonGo.RocketAPI.Console
         private async void buttonRefreshPokemon_Click_1(object sender, EventArgs e)
         {
             buttonRefreshPokemon.Enabled = false;
-            if ((await Logic.Logic.Instance.CheckAvailablePokemons(Logic.Logic.Client).ConfigureAwait(false)))
+            if ((await Logic.Logic.Instance.CheckAvailablePokemons(Logic.Logic.objClient)))
             {
 
                 Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Updated PokemonData.", LogLevel.Info);
@@ -108,7 +108,7 @@ namespace PokemonGo.RocketAPI.Console
                 Logger.ColoredConsoleWrite(ConsoleColor.DarkRed, $"Could not get PokemonData. Service is overloaded.", LogLevel.Warning);
             }
 
-            //await Logic.Logic._instance.CheckAvailablePokemons(Logic.Logic._client);
+            //await Logic.Logic._instance.CheckAvailablePokemons(Logic.Logic._client).ConfigureAwait(false);
             buttonRefreshPokemon.Enabled = true;
         }
         
@@ -116,7 +116,7 @@ namespace PokemonGo.RocketAPI.Console
         {
             var button = ((Button)sender);
             button.Enabled = false;
-            var client = Logic.Logic.Client;
+            var client = Logic.Logic.objClient;
             if (client.readyToUse )
             {
                 Logger.ColoredConsoleWrite(ConsoleColor.DarkRed, "Refreshing Forts", LogLevel.Warning);
