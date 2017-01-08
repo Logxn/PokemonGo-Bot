@@ -23,7 +23,7 @@ Features
 > - Google Routing
 > - PowerUp/Evolve Pokemons in the Gui
 > - Manage Items to hold
-> - Archimedean spiral (https://en.wikipedia.org/wiki/Archimedean_spiral)
+> - Archimedean spiral
 > - and much more!
 
 Hashing Service (Not ours!)
@@ -33,14 +33,13 @@ HashBuddy 150 RPM for 3.95€ link: https://checkout.shopify.com/14884872/checko
 
 Credits
 -------------------
-Most thanks to FeroxRev and AeonLucid, without them this wouldn't be possible.<br>
 FeroxRev - https://github.com/FeroxRev/Pokemon-Go-Rocket-API<br>
 AeonLucid - https://github.com/AeonLucid/POGOProtos<br>
 Ar1i - For bringing this project alive!<br>
 Logxn - Continuing this project and keeping it alive!  <br>
 MTK4355 - Doing a really really good job!<br>
-Xelwon - A very kind helping dev! <br>
-Cicklow - Mods!
+Xelwon - Also a big part of the team! <br>
+Quarthy - For doing some great developer work <br>
 
 
-Discord Link : https://discord.gg/42r7fmK<br>
+Discord Link : https://discord.gg/tEUuRXJ<br>
