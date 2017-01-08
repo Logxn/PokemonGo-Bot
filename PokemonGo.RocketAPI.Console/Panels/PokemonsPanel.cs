@@ -95,11 +95,8 @@ namespace PokemonGo.RocketAPI.Console
 
         public async Task refreshData(){
             await check().ConfigureAwait(false);
-            // eb - get inventory from cache (sending a false to getInventory)
-            inventory = await client.Inventory.GetInventory(false).ConfigureAwait(false);
-            Logger.ColoredConsoleWrite(ConsoleColor.Gray, $"inventory read");
+            inventory = await client.Inventory.GetInventory().ConfigureAwait(false);
             templates = await client.Download.GetItemTemplates().ConfigureAwait(false);
-            Logger.ColoredConsoleWrite(ConsoleColor.Gray, $"templates read");
         }
 
         public void Execute()
@@ -119,14 +116,11 @@ namespace PokemonGo.RocketAPI.Console
                         .Where(p => p != null && p?.PokemonId > 0)
                         .OrderByDescending(key => key.Cp);
 
-                    Logger.ColoredConsoleWrite(ConsoleColor.Gray, $"Pokemons read: {pokemons.Count()}");
 
                     var families = inventory.InventoryDelta.InventoryItems
                         .Select(i => i.InventoryItemData?.Candy)
                         .Where(p => p != null && (int)p?.FamilyId > 0)
                         .OrderByDescending(p => (int)p.FamilyId);
-
-                    Logger.ColoredConsoleWrite(ConsoleColor.Gray, $"Families read: {families.Count()}");
 
                     var myPokemonSettings = templates.ItemTemplates.Select(i => i.PokemonSettings).Where(p => p != null && p?.FamilyId != PokemonFamilyId.FamilyUnset);
                     var pokemonSettings = myPokemonSettings.ToList();
@@ -136,15 +130,11 @@ namespace PokemonGo.RocketAPI.Console
                     try{
                         PokemonListView.BeginUpdate();
                     }catch(Exception){}
-                    Logger.ColoredConsoleWrite(ConsoleColor.Gray, $"disabled update");
                     
                     PokemonListView.Items.Clear();
 
-                    Logger.ColoredConsoleWrite(ConsoleColor.Gray, $"PokemonListView cleared");
-
                     foreach (var pokemon in pokemons)
                     {
-                        Logger.ColoredConsoleWrite(ConsoleColor.Gray, $"Adding Pokemon");
                         var listViewItem = new ListViewItem();
                         listViewItem.Tag = pokemon;
                         var currentCandy = families
@@ -210,13 +200,10 @@ namespace PokemonGo.RocketAPI.Console
                         listViewItem.SubItems.Add("" + pokemon.DeployedFortId);
 
                         PokemonListView.Items.Add(listViewItem);
-                        Logger.ColoredConsoleWrite(ConsoleColor.Gray, $"added pokemon to the list");
-
                     }
                     try{
                         PokemonListView.EndUpdate();
                     }catch(Exception){}
-                    Logger.ColoredConsoleWrite(ConsoleColor.Gray, $"restored update");
                     PokemonListView.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
                     EnabledButton(true);
                     btnUseLure.Enabled = false;
