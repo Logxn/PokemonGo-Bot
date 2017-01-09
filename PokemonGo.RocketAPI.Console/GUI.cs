@@ -1401,5 +1401,13 @@ namespace PokemonGo.RocketAPI.Console
             ProcessStartInfo sInfo = new ProcessStartInfo("https://talk.pogodev.org/d/55-api-hashing-service-f-a-q/");
             Process.Start(sInfo);
         }
+        void linkLabel15_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Process.Start("https://honorbuddy.myshopify.com/cart/29160991442:1?attributes[resellerId]=93");
+        }
+        void linkLabel16_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+          Process.Start("https://github.com/Ar1i/PokemonGo-Bot/");
+        }
     }
 }
