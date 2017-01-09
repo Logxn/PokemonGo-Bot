@@ -1356,16 +1356,17 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // CB_SimulatePGO
             // 
-            this.CB_SimulatePGO.Location = new System.Drawing.Point(170, 115);
+            this.CB_SimulatePGO.Location = new System.Drawing.Point(38, 137);
             this.CB_SimulatePGO.Name = "CB_SimulatePGO";
-            this.CB_SimulatePGO.Size = new System.Drawing.Size(20, 24);
+            this.CB_SimulatePGO.Size = new System.Drawing.Size(214, 24);
             this.CB_SimulatePGO.TabIndex = 50;
+            this.CB_SimulatePGO.Text = "Game Aspect Simulator Format";
             this.CB_SimulatePGO.UseVisualStyleBackColor = true;
             // 
             // checkBox_UseLuckyEggIfNotRunning
             // 
             this.checkBox_UseLuckyEggIfNotRunning.AutoSize = true;
-            this.checkBox_UseLuckyEggIfNotRunning.Location = new System.Drawing.Point(20, 166);
+            this.checkBox_UseLuckyEggIfNotRunning.Location = new System.Drawing.Point(20, 186);
             this.checkBox_UseLuckyEggIfNotRunning.Name = "checkBox_UseLuckyEggIfNotRunning";
             this.checkBox_UseLuckyEggIfNotRunning.Size = new System.Drawing.Size(160, 17);
             this.checkBox_UseLuckyEggIfNotRunning.TabIndex = 47;
@@ -1377,7 +1378,7 @@ namespace PokemonGo.RocketAPI.Console
             this.checkBox_KeepPokemonWhichCanBeEvolved.AutoSize = true;
             this.checkBox_KeepPokemonWhichCanBeEvolved.Checked = true;
             this.checkBox_KeepPokemonWhichCanBeEvolved.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox_KeepPokemonWhichCanBeEvolved.Location = new System.Drawing.Point(20, 142);
+            this.checkBox_KeepPokemonWhichCanBeEvolved.Location = new System.Drawing.Point(20, 162);
             this.checkBox_KeepPokemonWhichCanBeEvolved.Name = "checkBox_KeepPokemonWhichCanBeEvolved";
             this.checkBox_KeepPokemonWhichCanBeEvolved.Size = new System.Drawing.Size(212, 17);
             this.checkBox_KeepPokemonWhichCanBeEvolved.TabIndex = 46;
@@ -1391,9 +1392,9 @@ namespace PokemonGo.RocketAPI.Console
             this.checkBox_EnablePokemonListGui.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBox_EnablePokemonListGui.Location = new System.Drawing.Point(20, 119);
             this.checkBox_EnablePokemonListGui.Name = "checkBox_EnablePokemonListGui";
-            this.checkBox_EnablePokemonListGui.Size = new System.Drawing.Size(144, 17);
+            this.checkBox_EnablePokemonListGui.Size = new System.Drawing.Size(105, 17);
             this.checkBox_EnablePokemonListGui.TabIndex = 45;
-            this.checkBox_EnablePokemonListGui.Text = "Enable Pokemon list GUI";
+            this.checkBox_EnablePokemonListGui.Text = "Enable Lists GUI";
             this.checkBox_EnablePokemonListGui.UseVisualStyleBackColor = true;
             // 
             // checkBox_UseIncenseEvery30min
