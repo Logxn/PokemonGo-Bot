@@ -34,7 +34,7 @@ Ar1i's Pokebot 150 RPM                  https://honorbuddy.myshopify.com/cart/29
 Ar1i's Pokebot 500 RPM                  https://honorbuddy.myshopify.com/cart/29161003474:1?attributes[resellerId]=93 (Costs: 13,95€)<br>
 Ar1i's Pokebot 1.000 RPM                https://honorbuddy.myshopify.com/cart/29161039378:1?attributes[resellerId]=93 (Costs: 29.95€)<br>
 
-You are from Russia, China or Southamerika and have your own Payment Methods? No worries!
+You are from Russia, China or Southamerika and have your own Payment Methods? No worries! <br>
 Ar1i's Pokebot 150 RPM                  http://shop.buddyauth.com/api/payssion/payment?productId=8695281618&quantity=1&resellerId=93 ( Costs: 3,95€ )<br>
 Ar1i's Pokebot 500 RPM                  http://shop.buddyauth.com/api/payssion/payment?productId=8695283730&quantity=1&resellerId=93 ( Costs: 13,95€ )<br>
 Ar1i's Pokebot 1.000 RPM                http://shop.buddyauth.com/api/payssion/payment?productId=8695288722&quantity=1&resellerId=93 ( Costs 29,95€ )<br>
