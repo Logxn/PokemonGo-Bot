@@ -26,11 +26,23 @@ Features
 > - Archimedean spiral
 > - and much more!
 
-Hashing Service (Not ours!)
+Hashing Service (3rd Party)
 -------------------
 Information: https://talk.pogodev.org/d/55-api-hashing-service-f-a-q<br>
-HashBuddy 150 RPM for 3.95€ link: https://checkout.shopify.com/14884872/checkouts/b0a7ddd327ce4363dd790b03c897e912?attributes%5BresellerId%5D=99
+In order to pay with Paypal, Creditcard and SEPA use these links:<br>
+Ar1i's Pokebot 150 RPM                  https://honorbuddy.myshopify.com/cart/29160991442:1?attributes[resellerId]=93 (Costs: 3,95€)<br>
+Ar1i's Pokebot 500 RPM                  https://honorbuddy.myshopify.com/cart/29161003474:1?attributes[resellerId]=93 (Costs: 13,95€)<br>
+Ar1i's Pokebot 1.000 RPM                https://honorbuddy.myshopify.com/cart/29161039378:1?attributes[resellerId]=93 (Costs: 29.95€)<br>
 
+You are from Russia, China or Southamerika and have your own Payment Methods? No worries!
+Ar1i's Pokebot 150 RPM                  http://shop.buddyauth.com/api/payssion/payment?productId=8695281618&quantity=1&resellerId=93 ( Costs: 3,95€ )<br>
+Ar1i's Pokebot 500 RPM                  http://shop.buddyauth.com/api/payssion/payment?productId=8695283730&quantity=1&resellerId=93 ( Costs: 13,95€ )<br>
+Ar1i's Pokebot 1.000 RPM                http://shop.buddyauth.com/api/payssion/payment?productId=8695288722&quantity=1&resellerId=93 ( Costs 29,95€ )<br>
+
+What we from the Developer team get back.<br>
+Per 150 RPM Key we get: 1,18500 € <br>
+Per 500 RPM Key we get: 4,18500 € <br>
+Per 1.000 RPM Key we get: 8,98500 € <br>
 Credits
 -------------------
 FeroxRev - https://github.com/FeroxRev/Pokemon-Go-Rocket-API<br>
