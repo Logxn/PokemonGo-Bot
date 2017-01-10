@@ -388,6 +388,8 @@ namespace PokemonGo.RocketAPI.Console
         public static bool No10kmEggsBasicInc = false;
         public static bool EggsAscendingSelectionBasicInc = false;
 
-        public static bool EnableVerboseLogging = false;        
+        public static bool EnableVerboseLogging = false;
+
+        public static bool farmGyms;
     }
 }

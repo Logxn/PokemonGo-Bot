@@ -53,7 +53,6 @@ namespace PokemonGo.RocketAPI.Console
             labelUserProperty5Value.Text = "";
             labelUserProperty6Value.Text = "";
 
-            //await check().ConfigureAwait(false);
             var client = Logic.Logic.objClient;
             if (client.readyToUse != false)
             {
@@ -153,7 +152,7 @@ namespace PokemonGo.RocketAPI.Console
             if (profile != null){
                 labelUserProperty1Value.Text = profile.PlayerData.Username;
                 labelUserProperty3Value.Text = profile.PlayerData.Currencies[1].Amount.ToString("N0");
-                labelUserProperty4Value.Text = profile.PlayerData.Currencies[0].Amount.ToString("N0");
+                labelCoinsValue.Text = profile.PlayerData.Currencies[0].Amount.ToString("N0");
             }
 
 
@@ -343,7 +342,16 @@ namespace PokemonGo.RocketAPI.Console
                 }
                 catch (Exception) { }
             }
-        }		
+        }
+        void btnColect_Click(object sender, EventArgs e)
+        {
+            collectCoins();
+        }
+        private  void collectCoins(){
+            var res = Logic.Logic.objClient.Player.CollectDailyDefenderBonus().Result;
+            Logger.ColoredConsoleWrite(ConsoleColor.Green, "Collect: "+ res.Result.ToString() );
+        }
+
 
     }
 }

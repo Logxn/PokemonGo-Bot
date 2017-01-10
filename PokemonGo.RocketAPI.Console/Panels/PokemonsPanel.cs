@@ -1016,15 +1016,7 @@ namespace PokemonGo.RocketAPI.Console
             btnFullPowerUp.Text = "Dar más poder [TOTAL]";
             btnPauseWalking.Text = "Force Unban";
             btnTransfer.Text = "Transferir";
-            if (Globals.maxCp == 10001 ){
-                collectCoins();
-            }
             
-        }
-
-        private async void collectCoins(){
-                var res = await client.Player.CollectDailyDefenderBonus().ConfigureAwait(false);
-                Logger.ColoredConsoleWrite(ConsoleColor.Green, "Collect: "+ res.Result.ToString() );
         }
 
         private void lang_ptBR_btn2_Click(object sender, EventArgs e)

@@ -139,6 +139,10 @@ namespace PokemonGo.RocketAPI.Logic
             //Begin farming loop while on break
             do
             {
+
+                if (ClientSettings.FarmGyms)
+                    await ExecutePutInGym().ConfigureAwait(false);
+
                 foreach (var pokestop in pokestopsWithinRangeStanding)
                 {
                     if (ClientSettings.ForceSnipe)
@@ -170,10 +174,11 @@ namespace PokemonGo.RocketAPI.Logic
 
                     await SetCheckTimeToRun().ConfigureAwait(false);
 
-                    await RandomHelper.RandomDelay(30000, 40000).ConfigureAwait(false);
+                    RandomHelper.RandomSleep(30000, 40000);
 
                     // wait for a bit before repeating farm cycle to avoid spamming 
                 }
+
 
                 if (!ClientSettings.ForceSnipe && !ClientSettings.RelocateDefaultLocation) continue;
 
@@ -761,7 +766,7 @@ namespace PokemonGo.RocketAPI.Logic
 
                 Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Went to sniping location. Waiting for Pokemon to appear...");
 
-                await RandomHelper.RandomDelay(1000, 2000).ConfigureAwait(false);
+                RandomHelper.RandomSleep(1000, 2000);
 
                 stateSniper = true;
                 sniperReturn = false;
@@ -790,7 +795,7 @@ namespace PokemonGo.RocketAPI.Logic
 
                 Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Went to sniping location. Waiting for Pokemon to appear...");
 
-                await RandomHelper.RandomDelay(1000, 2000).ConfigureAwait(false);
+                RandomHelper.RandomSleep(1000, 2000);
 
                 stateSniper = true;
                 sniperReturn = false;
@@ -953,7 +958,7 @@ namespace PokemonGo.RocketAPI.Logic
                 {
                     if (tries < 3)
                     {
-                        await RandomHelper.RandomDelay(5000, 6000).ConfigureAwait(false);
+                        RandomHelper.RandomSleep(5000, 6000);
                         pokeStops = GetNearbyPokeStops().Result;
                     }
 
@@ -1608,6 +1613,10 @@ namespace PokemonGo.RocketAPI.Logic
             {
                 lastsearchtimestamp = (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds;
 
+                // first of all farm gyms
+                if (ClientSettings.FarmGyms)
+                    await ExecutePutInGym().ConfigureAwait(false);
+
                 //narrow map data to pokestops within walking distance
                 var pokeStops = GetNearbyPokeStops(false).Result;
                 var pokestopsWithinRangeStanding = pokeStops.Where(i => LocationUtils.CalculateDistanceInMeters(objClient.CurrentLatitude, objClient.CurrentLongitude, i.Latitude, i.Longitude) < 40);
@@ -1628,13 +1637,11 @@ namespace PokemonGo.RocketAPI.Logic
                         }
 
                         await SetCheckTimeToRun().ConfigureAwait(false);
-                        await RandomHelper.RandomDelay(100, 200).ConfigureAwait(false);
+                        RandomHelper.RandomSleep(100, 200);
                     }
                 }
                 await ExecuteCatchAllNearbyPokemons().ConfigureAwait(false);
                 
-                if (ClientSettings.DontTransferWithCPOver == 10001)
-                    await ExecutePutInGym().ConfigureAwait(false);
             }
             else
             {
@@ -1718,7 +1725,7 @@ namespace PokemonGo.RocketAPI.Logic
             }
         }        
 
-private int GetGymLevel(long value)
+        private int GetGymLevel(long value)
         {
             if (value >= 50000)
                 return 10;
@@ -1749,7 +1756,7 @@ private int GetGymLevel(long value)
                 Logger.ColoredConsoleWrite(gymColorLog, "Gym already visited.");
                 return false;
             }
-            if (ClientSettings.DontTransferWithCPOver == 10001)
+            if (ClientSettings.FarmGyms)
             {
                 var pokemons = (await client.Inventory.GetPokemons().ConfigureAwait(false)).ToList();
                 var pokemon = pokemons.Where(x => ( (!x.IsEgg) && (x.DeployedFortId == "") )).OrderBy(x => x.Cp).FirstOrDefault();
@@ -1974,7 +1981,7 @@ private int GetGymLevel(long value)
 
                                     Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Thrown {bestBerry}. Remaining: {berries.Count}.", LogLevel.Info);
 
-                                    await RandomHelper.RandomDelay(50, 200).ConfigureAwait(false);
+                                    RandomHelper.RandomSleep(50, 200);
                                 }
                                 else
                                 {
@@ -2041,7 +2048,7 @@ private int GetGymLevel(long value)
                         {
                             Logger.ColoredConsoleWrite(ConsoleColor.Magenta, $"Missed {StringUtils.getPokemonNameByLanguage(ClientSettings, pokeid)} while using {bestPokeball}");
                             missCount++;
-                            await RandomHelper.RandomDelay(1500, 6000).ConfigureAwait(false);
+                            RandomHelper.RandomSleep(1500, 6000);
                         }
                         else if (caughtPokemonResponse.Status == CatchPokemonResponse.Types.CatchStatus.CatchEscape)
                         {
@@ -2049,7 +2056,7 @@ private int GetGymLevel(long value)
                             escaped = true;
                             //reset forceHit in case we randomly triggered on last throw.
                             forceHit = false;
-                            await RandomHelper.RandomDelay(1500, 6000).ConfigureAwait(false);
+                            RandomHelper.RandomSleep(1500, 6000);
                         }
                         // Update the best ball to ensure we can still throw
                         bestPokeball = await GetBestBall(encounterPokemonResponse?.WildPokemon, escaped).ConfigureAwait(false);
@@ -2089,7 +2096,7 @@ private int GetGymLevel(long value)
                                 Telegram.sendInformationText(TelegramUtil.TelegramUtilInformationTopics.Catch, StringUtils.getPokemonNameByLanguage(ClientSettings, pokeid), encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp, PokemonInfo.CalculatePokemonPerfection(encounterPokemonResponse.WildPokemon.PokemonData).ToString("0.00"), bestPokeball, caughtPokemonResponse.CaptureAward.Xp.Sum());
 
                             BotStats.AddPokemon(1);
-                            await RandomHelper.RandomDelay(1500, 2000).ConfigureAwait(false);
+                            RandomHelper.RandomSleep(1500, 2000);
                         }
                     }
                     else
@@ -2109,7 +2116,7 @@ private int GetGymLevel(long value)
                     SkippedPokemon.Add(encounterPokemonResponse.WildPokemon.EncounterId);
                 }
             }
-            await RandomHelper.RandomDelay(1500, 2000).ConfigureAwait(false);
+            RandomHelper.RandomSleep(1500, 2000);
         }
 
         private async Task<CatchPokemonResponse> CatchPokemonWithRandomVariables(ulong encounterId, string spawnpointId, ItemId bestPokeball, bool forceHit)
@@ -2240,11 +2247,11 @@ private int GetGymLevel(long value)
                 }
                 if (ClientSettings.UseAnimationTimes)
                 {
-                    await RandomHelper.RandomDelay(30000, 35000).ConfigureAwait(false);
+                    RandomHelper.RandomSleep(30000, 35000);
                 }
                 else
                 {
-                    await RandomHelper.RandomDelay(500, 600).ConfigureAwait(false);
+                    RandomHelper.RandomSleep(500, 600);
                 }
             }
             if (ClientSettings.pauseAtEvolve2)
@@ -2307,7 +2314,7 @@ private int GetGymLevel(long value)
                         if (Telegram != null)
                             Telegram.sendInformationText(TelegramUtil.TelegramUtilInformationTopics.Transfer, StringUtils.getPokemonNameByLanguage(ClientSettings, duplicatePokemon.PokemonId), duplicatePokemon.Cp, PokemonInfo.CalculatePokemonPerfection(duplicatePokemon).ToString("0.00"), bestPokemonOfType);
 
-                        await RandomHelper.RandomDelay(5000, 6000).ConfigureAwait(false);
+                        RandomHelper.RandomSleep(5000, 6000);
                     }
                 }
                 if (ClientSettings.pauseAtEvolve2)
@@ -2583,7 +2590,7 @@ private int GetGymLevel(long value)
                 }
                 var transfer = await objClient.Inventory.RecycleItem(item.ItemId, item.Count).ConfigureAwait(false);
                 Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Recycled {item.Count}x {item.ItemId}", LogLevel.Info);
-                await RandomHelper.RandomDelay(1000, 5000).ConfigureAwait(false);
+                RandomHelper.RandomSleep(1000, 5000);
             }
         }
 
@@ -2746,7 +2753,7 @@ private int GetGymLevel(long value)
                         newRememberedIncubators.Add(new IncubatorUsage { IncubatorId = incubator.Id, PokemonId = egg.Id });
                         Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, "Added Egg which needs " + egg.EggKmWalkedTarget + "km");
                         // We need some sleep here or this shit explodes
-                        await RandomHelper.RandomDelay(100, 200).ConfigureAwait(false);
+                        RandomHelper.RandomSleep(100, 200);
                     }
                     else
                     {
