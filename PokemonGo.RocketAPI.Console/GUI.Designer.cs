@@ -3495,7 +3495,6 @@ namespace PokemonGo.RocketAPI.Console
         private System.Windows.Forms.CheckBox checkBox_UseLuckyEggIfNotRunning;
         private System.Windows.Forms.CheckBox checkBox_KeepPokemonWhichCanBeEvolved;
         private System.Windows.Forms.CheckBox checkBox_EnablePokemonListGui;
-        private System.Windows.Forms.CheckBox checkBox_EnableItemsListGui;
         private System.Windows.Forms.CheckBox checkBox_UseIncenseEvery30min;
         private System.Windows.Forms.CheckBox checkBox_SimulateAnimationTimeAtEvolve;
         private System.Windows.Forms.CheckBox checkBox_UseLuckyEggAtEvolve;

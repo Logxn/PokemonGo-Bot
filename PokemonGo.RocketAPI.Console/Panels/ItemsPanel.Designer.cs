@@ -60,6 +60,7 @@ namespace PokemonGo.RocketAPI.Console
 		private System.Windows.Forms.PictureBox pictureBox4;
 		private System.Windows.Forms.PictureBox pictureBox2;
 		private System.Windows.Forms.PictureBox pictureBox1;
+		private System.Windows.Forms.Button buttonUSe;
 		
 		/// <summary>
 		/// Disposes resources used by the control.
@@ -85,6 +86,16 @@ namespace PokemonGo.RocketAPI.Console
 		    this.components = new System.ComponentModel.Container();
 		    System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ItemsPanel));
 		    this.groupBox4 = new System.Windows.Forms.GroupBox();
+		    this.pictureBox9 = new System.Windows.Forms.PictureBox();
+		    this.pictureBox10 = new System.Windows.Forms.PictureBox();
+		    this.pictureBox5 = new System.Windows.Forms.PictureBox();
+		    this.pictureBox6 = new System.Windows.Forms.PictureBox();
+		    this.pictureBox7 = new System.Windows.Forms.PictureBox();
+		    this.pictureBox8 = new System.Windows.Forms.PictureBox();
+		    this.pictureBox3 = new System.Windows.Forms.PictureBox();
+		    this.pictureBox4 = new System.Windows.Forms.PictureBox();
+		    this.pictureBox2 = new System.Windows.Forms.PictureBox();
+		    this.pictureBox1 = new System.Windows.Forms.PictureBox();
 		    this.text_TotalItemCount = new System.Windows.Forms.TextBox();
 		    this.label31 = new System.Windows.Forms.Label();
 		    this.label27 = new System.Windows.Forms.Label();
@@ -120,17 +131,18 @@ namespace PokemonGo.RocketAPI.Console
 		    this.lblCount = new System.Windows.Forms.Label();
 		    this.btnCopy = new System.Windows.Forms.Button();
 		    this.btnDiscard = new System.Windows.Forms.Button();
-		    this.pictureBox1 = new System.Windows.Forms.PictureBox();
-		    this.pictureBox2 = new System.Windows.Forms.PictureBox();
-		    this.pictureBox3 = new System.Windows.Forms.PictureBox();
-		    this.pictureBox4 = new System.Windows.Forms.PictureBox();
-		    this.pictureBox5 = new System.Windows.Forms.PictureBox();
-		    this.pictureBox6 = new System.Windows.Forms.PictureBox();
-		    this.pictureBox7 = new System.Windows.Forms.PictureBox();
-		    this.pictureBox8 = new System.Windows.Forms.PictureBox();
-		    this.pictureBox9 = new System.Windows.Forms.PictureBox();
-		    this.pictureBox10 = new System.Windows.Forms.PictureBox();
+		    this.buttonUSe = new System.Windows.Forms.Button();
 		    this.groupBox4.SuspendLayout();
+		    ((System.ComponentModel.ISupportInitialize)(this.pictureBox9)).BeginInit();
+		    ((System.ComponentModel.ISupportInitialize)(this.pictureBox10)).BeginInit();
+		    ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
+		    ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).BeginInit();
+		    ((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).BeginInit();
+		    ((System.ComponentModel.ISupportInitialize)(this.pictureBox8)).BeginInit();
+		    ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
+		    ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
+		    ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+		    ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
 		    ((System.ComponentModel.ISupportInitialize)(this.num_MaxTopRevives)).BeginInit();
 		    ((System.ComponentModel.ISupportInitialize)(this.num_MaxTopPotions)).BeginInit();
 		    ((System.ComponentModel.ISupportInitialize)(this.num_MaxRazzBerrys)).BeginInit();
@@ -142,16 +154,6 @@ namespace PokemonGo.RocketAPI.Console
 		    ((System.ComponentModel.ISupportInitialize)(this.num_MaxGreatBalls)).BeginInit();
 		    ((System.ComponentModel.ISupportInitialize)(this.num_MaxPokeballs)).BeginInit();
 		    this.contextMenuStripItems.SuspendLayout();
-		    ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-		    ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
-		    ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
-		    ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
-		    ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
-		    ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).BeginInit();
-		    ((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).BeginInit();
-		    ((System.ComponentModel.ISupportInitialize)(this.pictureBox8)).BeginInit();
-		    ((System.ComponentModel.ISupportInitialize)(this.pictureBox9)).BeginInit();
-		    ((System.ComponentModel.ISupportInitialize)(this.pictureBox10)).BeginInit();
 		    this.SuspendLayout();
 		    // 
 		    // groupBox4
@@ -197,25 +199,127 @@ namespace PokemonGo.RocketAPI.Console
 		    this.groupBox4.TabStop = false;
 		    this.groupBox4.Text = "Pokemon Items";
 		    // 
+		    // pictureBox9
+		    // 
+		    this.pictureBox9.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox9.Image")));
+		    this.pictureBox9.Location = new System.Drawing.Point(17, 363);
+		    this.pictureBox9.Name = "pictureBox9";
+		    this.pictureBox9.Size = new System.Drawing.Size(41, 37);
+		    this.pictureBox9.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+		    this.pictureBox9.TabIndex = 35;
+		    this.pictureBox9.TabStop = false;
+		    // 
+		    // pictureBox10
+		    // 
+		    this.pictureBox10.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox10.Image")));
+		    this.pictureBox10.Location = new System.Drawing.Point(17, 325);
+		    this.pictureBox10.Name = "pictureBox10";
+		    this.pictureBox10.Size = new System.Drawing.Size(41, 37);
+		    this.pictureBox10.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+		    this.pictureBox10.TabIndex = 34;
+		    this.pictureBox10.TabStop = false;
+		    // 
+		    // pictureBox5
+		    // 
+		    this.pictureBox5.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox5.Image")));
+		    this.pictureBox5.Location = new System.Drawing.Point(17, 287);
+		    this.pictureBox5.Name = "pictureBox5";
+		    this.pictureBox5.Size = new System.Drawing.Size(41, 37);
+		    this.pictureBox5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+		    this.pictureBox5.TabIndex = 33;
+		    this.pictureBox5.TabStop = false;
+		    // 
+		    // pictureBox6
+		    // 
+		    this.pictureBox6.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox6.Image")));
+		    this.pictureBox6.Location = new System.Drawing.Point(17, 249);
+		    this.pictureBox6.Name = "pictureBox6";
+		    this.pictureBox6.Size = new System.Drawing.Size(41, 37);
+		    this.pictureBox6.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+		    this.pictureBox6.TabIndex = 32;
+		    this.pictureBox6.TabStop = false;
+		    // 
+		    // pictureBox7
+		    // 
+		    this.pictureBox7.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox7.Image")));
+		    this.pictureBox7.Location = new System.Drawing.Point(17, 211);
+		    this.pictureBox7.Name = "pictureBox7";
+		    this.pictureBox7.Size = new System.Drawing.Size(41, 37);
+		    this.pictureBox7.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+		    this.pictureBox7.TabIndex = 31;
+		    this.pictureBox7.TabStop = false;
+		    // 
+		    // pictureBox8
+		    // 
+		    this.pictureBox8.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox8.Image")));
+		    this.pictureBox8.Location = new System.Drawing.Point(17, 173);
+		    this.pictureBox8.Name = "pictureBox8";
+		    this.pictureBox8.Size = new System.Drawing.Size(41, 37);
+		    this.pictureBox8.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+		    this.pictureBox8.TabIndex = 30;
+		    this.pictureBox8.TabStop = false;
+		    // 
+		    // pictureBox3
+		    // 
+		    this.pictureBox3.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox3.Image")));
+		    this.pictureBox3.Location = new System.Drawing.Point(16, 134);
+		    this.pictureBox3.Name = "pictureBox3";
+		    this.pictureBox3.Size = new System.Drawing.Size(41, 37);
+		    this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+		    this.pictureBox3.TabIndex = 29;
+		    this.pictureBox3.TabStop = false;
+		    // 
+		    // pictureBox4
+		    // 
+		    this.pictureBox4.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox4.Image")));
+		    this.pictureBox4.Location = new System.Drawing.Point(16, 96);
+		    this.pictureBox4.Name = "pictureBox4";
+		    this.pictureBox4.Size = new System.Drawing.Size(41, 37);
+		    this.pictureBox4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+		    this.pictureBox4.TabIndex = 28;
+		    this.pictureBox4.TabStop = false;
+		    // 
+		    // pictureBox2
+		    // 
+		    this.pictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox2.Image")));
+		    this.pictureBox2.Location = new System.Drawing.Point(16, 58);
+		    this.pictureBox2.Name = "pictureBox2";
+		    this.pictureBox2.Size = new System.Drawing.Size(41, 37);
+		    this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+		    this.pictureBox2.TabIndex = 27;
+		    this.pictureBox2.TabStop = false;
+		    // 
+		    // pictureBox1
+		    // 
+		    this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
+		    this.pictureBox1.Location = new System.Drawing.Point(16, 20);
+		    this.pictureBox1.Name = "pictureBox1";
+		    this.pictureBox1.Size = new System.Drawing.Size(41, 37);
+		    this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+		    this.pictureBox1.TabIndex = 26;
+		    this.pictureBox1.TabStop = false;
+		    // 
 		    // text_TotalItemCount
 		    // 
-		    this.text_TotalItemCount.Location = new System.Drawing.Point(159, 409);
+		    this.text_TotalItemCount.BorderStyle = System.Windows.Forms.BorderStyle.None;
+		    this.text_TotalItemCount.Location = new System.Drawing.Point(160, 413);
 		    this.text_TotalItemCount.Margin = new System.Windows.Forms.Padding(5);
 		    this.text_TotalItemCount.Name = "text_TotalItemCount";
 		    this.text_TotalItemCount.ReadOnly = true;
-		    this.text_TotalItemCount.Size = new System.Drawing.Size(63, 20);
+		    this.text_TotalItemCount.Size = new System.Drawing.Size(63, 13);
 		    this.text_TotalItemCount.TabIndex = 23;
 		    this.text_TotalItemCount.TabStop = false;
 		    // 
 		    // label31
 		    // 
 		    this.label31.AutoSize = true;
-		    this.label31.Location = new System.Drawing.Point(64, 412);
+		    this.label31.Location = new System.Drawing.Point(91, 413);
 		    this.label31.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
 		    this.label31.Name = "label31";
 		    this.label31.Size = new System.Drawing.Size(65, 13);
 		    this.label31.TabIndex = 22;
 		    this.label31.Text = "Total Count:";
+		    this.label31.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 		    // 
 		    // label27
 		    // 
@@ -460,7 +564,7 @@ namespace PokemonGo.RocketAPI.Console
 		    // btnRealoadItems
 		    // 
 		    this.btnRealoadItems.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-		    this.btnRealoadItems.Location = new System.Drawing.Point(225, 469);
+		    this.btnRealoadItems.Location = new System.Drawing.Point(583, 470);
 		    this.btnRealoadItems.Margin = new System.Windows.Forms.Padding(2);
 		    this.btnRealoadItems.Name = "btnRealoadItems";
 		    this.btnRealoadItems.Size = new System.Drawing.Size(69, 29);
@@ -485,7 +589,7 @@ namespace PokemonGo.RocketAPI.Console
 		    this.ItemsListView.Location = new System.Drawing.Point(245, 14);
 		    this.ItemsListView.Margin = new System.Windows.Forms.Padding(4);
 		    this.ItemsListView.Name = "ItemsListView";
-		    this.ItemsListView.Size = new System.Drawing.Size(407, 449);
+		    this.ItemsListView.Size = new System.Drawing.Size(407, 438);
 		    this.ItemsListView.SmallImageList = this.imageListItems;
 		    this.ItemsListView.TabIndex = 78;
 		    this.ItemsListView.UseCompatibleStateImageBehavior = false;
@@ -551,23 +655,25 @@ namespace PokemonGo.RocketAPI.Console
 		    // 
 		    this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 		    this.label1.AutoSize = true;
-		    this.label1.Location = new System.Drawing.Point(301, 475);
+		    this.label1.Location = new System.Drawing.Point(245, 456);
 		    this.label1.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
 		    this.label1.Name = "label1";
 		    this.label1.Size = new System.Drawing.Size(65, 13);
 		    this.label1.TabIndex = 81;
 		    this.label1.Text = "Total Count:";
+		    this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 		    // 
 		    // lblCount
 		    // 
 		    this.lblCount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 		    this.lblCount.AutoSize = true;
-		    this.lblCount.Location = new System.Drawing.Point(381, 475);
+		    this.lblCount.Location = new System.Drawing.Point(309, 456);
 		    this.lblCount.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
 		    this.lblCount.Name = "lblCount";
 		    this.lblCount.Size = new System.Drawing.Size(13, 13);
 		    this.lblCount.TabIndex = 82;
 		    this.lblCount.Text = "0";
+		    this.lblCount.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 		    // 
 		    // btnCopy
 		    // 
@@ -593,109 +699,22 @@ namespace PokemonGo.RocketAPI.Console
 		    this.btnDiscard.UseVisualStyleBackColor = true;
 		    this.btnDiscard.Click += new System.EventHandler(this.btnDiscard_Click);
 		    // 
-		    // pictureBox1
+		    // buttonUSe
 		    // 
-		    this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-		    this.pictureBox1.Location = new System.Drawing.Point(16, 20);
-		    this.pictureBox1.Name = "pictureBox1";
-		    this.pictureBox1.Size = new System.Drawing.Size(41, 37);
-		    this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-		    this.pictureBox1.TabIndex = 26;
-		    this.pictureBox1.TabStop = false;
-		    // 
-		    // pictureBox2
-		    // 
-		    this.pictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox2.Image")));
-		    this.pictureBox2.Location = new System.Drawing.Point(16, 58);
-		    this.pictureBox2.Name = "pictureBox2";
-		    this.pictureBox2.Size = new System.Drawing.Size(41, 37);
-		    this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-		    this.pictureBox2.TabIndex = 27;
-		    this.pictureBox2.TabStop = false;
-		    // 
-		    // pictureBox3
-		    // 
-		    this.pictureBox3.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox3.Image")));
-		    this.pictureBox3.Location = new System.Drawing.Point(16, 134);
-		    this.pictureBox3.Name = "pictureBox3";
-		    this.pictureBox3.Size = new System.Drawing.Size(41, 37);
-		    this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-		    this.pictureBox3.TabIndex = 29;
-		    this.pictureBox3.TabStop = false;
-		    // 
-		    // pictureBox4
-		    // 
-		    this.pictureBox4.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox4.Image")));
-		    this.pictureBox4.Location = new System.Drawing.Point(16, 96);
-		    this.pictureBox4.Name = "pictureBox4";
-		    this.pictureBox4.Size = new System.Drawing.Size(41, 37);
-		    this.pictureBox4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-		    this.pictureBox4.TabIndex = 28;
-		    this.pictureBox4.TabStop = false;
-		    // 
-		    // pictureBox5
-		    // 
-		    this.pictureBox5.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox5.Image")));
-		    this.pictureBox5.Location = new System.Drawing.Point(17, 287);
-		    this.pictureBox5.Name = "pictureBox5";
-		    this.pictureBox5.Size = new System.Drawing.Size(41, 37);
-		    this.pictureBox5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-		    this.pictureBox5.TabIndex = 33;
-		    this.pictureBox5.TabStop = false;
-		    // 
-		    // pictureBox6
-		    // 
-		    this.pictureBox6.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox6.Image")));
-		    this.pictureBox6.Location = new System.Drawing.Point(17, 249);
-		    this.pictureBox6.Name = "pictureBox6";
-		    this.pictureBox6.Size = new System.Drawing.Size(41, 37);
-		    this.pictureBox6.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-		    this.pictureBox6.TabIndex = 32;
-		    this.pictureBox6.TabStop = false;
-		    // 
-		    // pictureBox7
-		    // 
-		    this.pictureBox7.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox7.Image")));
-		    this.pictureBox7.Location = new System.Drawing.Point(17, 211);
-		    this.pictureBox7.Name = "pictureBox7";
-		    this.pictureBox7.Size = new System.Drawing.Size(41, 37);
-		    this.pictureBox7.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-		    this.pictureBox7.TabIndex = 31;
-		    this.pictureBox7.TabStop = false;
-		    // 
-		    // pictureBox8
-		    // 
-		    this.pictureBox8.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox8.Image")));
-		    this.pictureBox8.Location = new System.Drawing.Point(17, 173);
-		    this.pictureBox8.Name = "pictureBox8";
-		    this.pictureBox8.Size = new System.Drawing.Size(41, 37);
-		    this.pictureBox8.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-		    this.pictureBox8.TabIndex = 30;
-		    this.pictureBox8.TabStop = false;
-		    // 
-		    // pictureBox9
-		    // 
-		    this.pictureBox9.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox9.Image")));
-		    this.pictureBox9.Location = new System.Drawing.Point(17, 363);
-		    this.pictureBox9.Name = "pictureBox9";
-		    this.pictureBox9.Size = new System.Drawing.Size(41, 37);
-		    this.pictureBox9.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-		    this.pictureBox9.TabIndex = 35;
-		    this.pictureBox9.TabStop = false;
-		    // 
-		    // pictureBox10
-		    // 
-		    this.pictureBox10.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox10.Image")));
-		    this.pictureBox10.Location = new System.Drawing.Point(17, 325);
-		    this.pictureBox10.Name = "pictureBox10";
-		    this.pictureBox10.Size = new System.Drawing.Size(41, 37);
-		    this.pictureBox10.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-		    this.pictureBox10.TabIndex = 34;
-		    this.pictureBox10.TabStop = false;
+		    this.buttonUSe.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+		    this.buttonUSe.Location = new System.Drawing.Point(510, 470);
+		    this.buttonUSe.Margin = new System.Windows.Forms.Padding(2);
+		    this.buttonUSe.Name = "buttonUSe";
+		    this.buttonUSe.Size = new System.Drawing.Size(69, 29);
+		    this.buttonUSe.TabIndex = 85;
+		    this.buttonUSe.Text = "Use Item";
+		    this.buttonUSe.UseVisualStyleBackColor = true;
+		    this.buttonUSe.Click += new System.EventHandler(this.useToolStripMenuItem_Click);
 		    // 
 		    // ItemsPanel
 		    // 
 		    this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
+		    this.Controls.Add(this.buttonUSe);
 		    this.Controls.Add(this.btnDiscard);
 		    this.Controls.Add(this.btnCopy);
 		    this.Controls.Add(this.lblCount);
@@ -708,6 +727,16 @@ namespace PokemonGo.RocketAPI.Console
 		    this.Size = new System.Drawing.Size(662, 506);
 		    this.groupBox4.ResumeLayout(false);
 		    this.groupBox4.PerformLayout();
+		    ((System.ComponentModel.ISupportInitialize)(this.pictureBox9)).EndInit();
+		    ((System.ComponentModel.ISupportInitialize)(this.pictureBox10)).EndInit();
+		    ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).EndInit();
+		    ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).EndInit();
+		    ((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).EndInit();
+		    ((System.ComponentModel.ISupportInitialize)(this.pictureBox8)).EndInit();
+		    ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
+		    ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
+		    ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+		    ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
 		    ((System.ComponentModel.ISupportInitialize)(this.num_MaxTopRevives)).EndInit();
 		    ((System.ComponentModel.ISupportInitialize)(this.num_MaxTopPotions)).EndInit();
 		    ((System.ComponentModel.ISupportInitialize)(this.num_MaxRazzBerrys)).EndInit();
@@ -719,16 +748,6 @@ namespace PokemonGo.RocketAPI.Console
 		    ((System.ComponentModel.ISupportInitialize)(this.num_MaxGreatBalls)).EndInit();
 		    ((System.ComponentModel.ISupportInitialize)(this.num_MaxPokeballs)).EndInit();
 		    this.contextMenuStripItems.ResumeLayout(false);
-		    ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-		    ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
-		    ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
-		    ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
-		    ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).EndInit();
-		    ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).EndInit();
-		    ((System.ComponentModel.ISupportInitialize)(this.pictureBox7)).EndInit();
-		    ((System.ComponentModel.ISupportInitialize)(this.pictureBox8)).EndInit();
-		    ((System.ComponentModel.ISupportInitialize)(this.pictureBox9)).EndInit();
-		    ((System.ComponentModel.ISupportInitialize)(this.pictureBox10)).EndInit();
 		    this.ResumeLayout(false);
 		    this.PerformLayout();
 

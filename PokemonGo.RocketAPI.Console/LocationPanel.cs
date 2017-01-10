@@ -63,6 +63,7 @@ namespace PokemonGo.RocketAPI.Console
                 radiusOverlay = new GMapOverlay();
                 map.Overlays.Add(radiusOverlay);
                 nudRadius.Value = Globals.radius;
+                btnPauseWalking.Enabled = false;
             }
         }
         
@@ -545,6 +546,7 @@ namespace PokemonGo.RocketAPI.Console
             {
                 c.Visible = false;
             }
+            btnPauseWalking.Enabled = true;
 
             Bitmap bmp = Properties.MapData.player;
             switch (team)
@@ -831,6 +833,36 @@ namespace PokemonGo.RocketAPI.Console
         {
             radiusOverlay.Polygons.Clear();
             radiusOverlay.Polygons.Add(CreateCircle(new PointLatLng(map.Position.Lat, map.Position.Lng), (int) nudRadius.Value, 100));
+        }
+        void btnPauseWalking_Click(object sender, EventArgs e)
+        {
+            if (btnPauseWalking.Text.Equals("Pause Walking"))
+            {
+                Globals.pauseAtPokeStop = true;
+                Logger.ColoredConsoleWrite(ConsoleColor.Magenta, "Pausing at next Pokestop. (will continue catching pokemon and farming pokestop when available)");
+                if (Globals.RouteToRepeat.Count > 0)
+                {
+                    Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "User Defined Route Cleared!");
+                    Globals.RouteToRepeat.Clear();
+                }
+
+                btnPauseWalking.Text = "Resume Walking";
+            }
+            else
+            {
+                Globals.pauseAtPokeStop = false;
+                Logger.ColoredConsoleWrite(ConsoleColor.Magenta, "Resume walking between Pokestops.");
+                if (Globals.RouteToRepeat.Count > 0)
+                {
+                    foreach (var geocoord in Globals.RouteToRepeat)
+                    {
+                        Globals.NextDestinationOverride.AddLast(geocoord);
+                    }
+                    Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "User Defined Route Captured! Beginning Route Momentarily.");
+                }
+                btnPauseWalking.Text = "Pause Walking";
+            }
+          
         }
     }
 }

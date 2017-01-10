@@ -20,7 +20,6 @@ namespace PokemonGo.RocketAPI.Console
         public  IOrderedEnumerable<PokemonData> pokemons;
         public GetPlayerResponse profile;
         public PlayerPanel playerPanel1;
-        private static string languagestr2;
         private static GetInventoryResponse inventory;
         private static Profile ActiveProfile = new Profile();
         private static List<AdditionalPokeData> additionalPokeData = new List<AdditionalPokeData>();
@@ -303,7 +302,6 @@ namespace PokemonGo.RocketAPI.Console
                     }catch(Exception){}
                     PokemonListView.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
                     EnabledButton(true);
-                    btnUseLure.Enabled = false;
                     statusTexbox.Text = string.Empty;
                     RefreshTitle();
                     if (playerPanel1!=null) {
@@ -329,8 +327,6 @@ namespace PokemonGo.RocketAPI.Console
             reloadsecondstextbox.Enabled = enabled;
             PokemonListView.Enabled = enabled;
             btnIVToNick.Enabled = enabled;
-            btnUseIncense.Enabled = enabled;
-            btnUseLuckyEgg.Enabled = enabled;
         }
 
         public async Task refreshData(){
@@ -983,7 +979,6 @@ namespace PokemonGo.RocketAPI.Console
         }
         private void freezedenshit_Tick(object sender, EventArgs e)
         {
-            btnPauseWalking.Enabled = true;
             freezedenshit.Stop();
         }
         private void lang_en_btn2_Click(object sender, EventArgs e)
@@ -993,7 +988,6 @@ namespace PokemonGo.RocketAPI.Console
             lang_en_btn2.Enabled = false;
             lang_ptBR_btn2.Enabled = true;
             lang_tr_btn2.Enabled = true;
-            languagestr2 = null;
 
             // Pokemon List GUI
             btnreload.Text = "Reload";
@@ -1001,7 +995,6 @@ namespace PokemonGo.RocketAPI.Console
             checkBoxreload.Text = "Reload every";
             btnUpgrade.Text = "PowerUp";
             btnFullPowerUp.Text = "FULL-PowerUp";
-            btnPauseWalking.Text = "Force Unban";
             btnTransfer.Text = "Transfer";
         }
 
@@ -1012,7 +1005,6 @@ namespace PokemonGo.RocketAPI.Console
             lang_de_btn_2.Enabled = false;
             lang_ptBR_btn2.Enabled = true;
             lang_tr_btn2.Enabled = true;
-            languagestr2 = "de";
 
             // Pokemon List GUI
             btnreload.Text = "Aktualisieren";
@@ -1020,7 +1012,6 @@ namespace PokemonGo.RocketAPI.Console
             checkBoxreload.Text = "Aktualisiere alle";
             btnUpgrade.Text = "PowerUp";
             btnFullPowerUp.Text = "FULL-PowerUp";
-            btnPauseWalking.Text = "Force Unban";
             btnTransfer.Text = "Versenden";
         }
 
@@ -1031,7 +1022,6 @@ namespace PokemonGo.RocketAPI.Console
             lang_spain_btn2.Enabled = false;
             lang_ptBR_btn2.Enabled = true;
             lang_tr_btn2.Enabled = true;
-            languagestr2 = "spain";
 
             // Pokemon List GUI
             btnreload.Text = "Actualizar";
@@ -1039,7 +1029,6 @@ namespace PokemonGo.RocketAPI.Console
             checkBoxreload.Text = "Actualizar cada";
             btnUpgrade.Text = "Dar más poder";
             btnFullPowerUp.Text = "Dar más poder [TOTAL]";
-            btnPauseWalking.Text = "Force Unban";
             btnTransfer.Text = "Transferir";
             
         }
@@ -1051,15 +1040,12 @@ namespace PokemonGo.RocketAPI.Console
             lang_spain_btn2.Enabled = true;
             lang_ptBR_btn2.Enabled = false;
             lang_tr_btn2.Enabled = true;
-            languagestr2 = "ptBR";
-
             // Pokemon List GUI
             btnreload.Text = "Recarregar";
             btnEvolve.Text = "Evoluir (selecionados)";
             checkBoxreload.Text = "Recarregar a cada";
             btnUpgrade.Text = "PowerUp (selecionados)";
             btnFullPowerUp.Text = "FULL-PowerUp (selecionados)";
-            btnPauseWalking.Text = "Force Unban";
             btnTransfer.Text = "Transferir (selecionados)";
 
         }
@@ -1071,7 +1057,6 @@ namespace PokemonGo.RocketAPI.Console
             lang_en_btn2.Enabled = true;
             lang_ptBR_btn2.Enabled = true;
             lang_tr_btn2.Enabled = false;
-            languagestr2 = "tr";
 
             // Pokemon List GUI
             btnreload.Text = "Yenile";
@@ -1079,46 +1064,9 @@ namespace PokemonGo.RocketAPI.Console
             checkBoxreload.Text = "Yenile her";
             btnUpgrade.Text = "Güçlendir";
             btnFullPowerUp.Text = "TAM-Güçlendir";
-            btnPauseWalking.Text = "Banı Kaldırmaya Zorla";
             btnTransfer.Text = "Transfer";
         }
 
-        private void btnForceUnban_Click(object sender, EventArgs e)
-        {
-            // **MTK4355 Repurposed force unban button since force-unban feature is no longer working**
-            //Logic.Logic.failed_softban = 6;
-            //btnForceUnban.Enabled = false;
-            //freezedenshit.Start();
-            if (btnPauseWalking.Text.Equals("Pause Walking"))
-            {
-                Globals.pauseAtPokeStop = true;
-                Logger.ColoredConsoleWrite(ConsoleColor.Magenta, "Pausing at next Pokestop. (will continue catching pokemon and farming pokestop when available)");
-                if (Globals.RouteToRepeat.Count > 0)
-                {
-                    Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "User Defined Route Cleared!");
-                    Globals.RouteToRepeat.Clear();
-                }
-
-                btnPauseWalking.Text = "Resume Walking";
-                btnUseLure.Enabled = true;
-            }
-            else
-            {
-                Globals.pauseAtPokeStop = false;
-                Logger.ColoredConsoleWrite(ConsoleColor.Magenta, "Resume walking between Pokestops.");
-                if (Globals.RouteToRepeat.Count > 0)
-                {
-                    foreach (var geocoord in Globals.RouteToRepeat)
-                    {
-                        Globals.NextDestinationOverride.AddLast(geocoord);
-                    }
-                    Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "User Defined Route Captured! Beginning Route Momentarily.");
-                }
-                btnPauseWalking.Text = "Pause Walking";
-                btnUseLure.Enabled = false;
-            }
-
-        }
         private void btnUseLure_Click(object sender, EventArgs e)
         {
             Globals.UseLureGUIClick = true;

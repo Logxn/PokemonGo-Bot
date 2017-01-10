@@ -329,7 +329,7 @@ namespace PokemonGo.RocketAPI.Console
             }
             return resp1;
         }			
-        public async Task check()
+        public void check()
         {
             while (true)
             {
