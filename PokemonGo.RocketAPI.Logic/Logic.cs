@@ -1771,6 +1771,7 @@ namespace PokemonGo.RocketAPI.Logic
             return 1;
         }
         private static List<string> gymsVisited = new List<string>();
+
         private async Task<bool> CheckAndPutInNearbyGym(FortData gym, Client client, FortDetailsResponse fortInfo)
         {
             var gymColorLog = ConsoleColor.DarkGray;
@@ -1806,7 +1807,7 @@ namespace PokemonGo.RocketAPI.Logic
                     if (members < level)
                     {
                         RandomHelper.RandomSleep(100, 200);
-
+                       
                         var fortSearch = await client.Fort.FortDeployPokemon(gym.Id, pokemons.Id).ConfigureAwait(false);
                         var result = fortSearch.Result.ToString().ToLower();
                         var getPokemon = StringUtils.getPokemonNameByLanguage(ClientSettings, (PokemonId)pokemons.PokemonId);
@@ -1834,10 +1835,18 @@ namespace PokemonGo.RocketAPI.Logic
                 {
                     Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - This gym is not your team.");
                     // TO-DO ATTACK ;)?
+                    var getPokemon = getpokemons.Where(x => ((!x.IsEgg) && (x.DeployedFortId != ""))).OrderBy(x => x.Cp);
+                    var getOwnPokemon = client.Inventory.GetPokemons().Result.Where(x => !x.IsEgg).OrderBy(x => x.Cp);
+
+                    //var resp = await client.Fort.StartGymBattle(gym.Id, getPokemon, getOwnPokemon)
+                    //We need a list for the "getOwnPokemons" that can attack. I think its a max of 6 that can attack. Not sure tho
+
                 }
             }
             return true;
         }
+
+
 
         private async Task ExecutePutInGym()
         {
