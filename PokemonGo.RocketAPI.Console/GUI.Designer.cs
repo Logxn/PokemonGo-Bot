@@ -267,6 +267,7 @@ namespace PokemonGo.RocketAPI.Console
             this.linkLabel15 = new System.Windows.Forms.LinkLabel();
             this.label71 = new System.Windows.Forms.Label();
             this.groupBox22 = new System.Windows.Forms.GroupBox();
+            this.linkLabel17 = new System.Windows.Forms.LinkLabel();
             this.linkLabel13 = new System.Windows.Forms.LinkLabel();
             this.linkLabel12 = new System.Windows.Forms.LinkLabel();
             this.linkLabel11 = new System.Windows.Forms.LinkLabel();
@@ -293,7 +294,7 @@ namespace PokemonGo.RocketAPI.Console
             this.lang_de_btn = new System.Windows.Forms.Button();
             this.lang_en_btn = new System.Windows.Forms.Button();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
-            this.linkLabel17 = new System.Windows.Forms.LinkLabel();
+            this.checkBox_FarmGyms = new System.Windows.Forms.CheckBox();
             this.tabProxies.SuspendLayout();
             this.tabItems.SuspendLayout();
             this.groupBox4.SuspendLayout();
@@ -1339,6 +1340,7 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // groupBox10
             // 
+            this.groupBox10.Controls.Add(this.checkBox_FarmGyms);
             this.groupBox10.Controls.Add(this.CB_SimulatePGO);
             this.groupBox10.Controls.Add(this.checkBox_UseLuckyEggIfNotRunning);
             this.groupBox10.Controls.Add(this.checkBox_KeepPokemonWhichCanBeEvolved);
@@ -1356,16 +1358,17 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // CB_SimulatePGO
             // 
-            this.CB_SimulatePGO.Location = new System.Drawing.Point(170, 115);
+            this.CB_SimulatePGO.Location = new System.Drawing.Point(38, 137);
             this.CB_SimulatePGO.Name = "CB_SimulatePGO";
-            this.CB_SimulatePGO.Size = new System.Drawing.Size(20, 24);
+            this.CB_SimulatePGO.Size = new System.Drawing.Size(214, 24);
             this.CB_SimulatePGO.TabIndex = 50;
+            this.CB_SimulatePGO.Text = "Game Aspect Simulator Format";
             this.CB_SimulatePGO.UseVisualStyleBackColor = true;
             // 
             // checkBox_UseLuckyEggIfNotRunning
             // 
             this.checkBox_UseLuckyEggIfNotRunning.AutoSize = true;
-            this.checkBox_UseLuckyEggIfNotRunning.Location = new System.Drawing.Point(20, 166);
+            this.checkBox_UseLuckyEggIfNotRunning.Location = new System.Drawing.Point(20, 186);
             this.checkBox_UseLuckyEggIfNotRunning.Name = "checkBox_UseLuckyEggIfNotRunning";
             this.checkBox_UseLuckyEggIfNotRunning.Size = new System.Drawing.Size(160, 17);
             this.checkBox_UseLuckyEggIfNotRunning.TabIndex = 47;
@@ -1377,7 +1380,7 @@ namespace PokemonGo.RocketAPI.Console
             this.checkBox_KeepPokemonWhichCanBeEvolved.AutoSize = true;
             this.checkBox_KeepPokemonWhichCanBeEvolved.Checked = true;
             this.checkBox_KeepPokemonWhichCanBeEvolved.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox_KeepPokemonWhichCanBeEvolved.Location = new System.Drawing.Point(20, 142);
+            this.checkBox_KeepPokemonWhichCanBeEvolved.Location = new System.Drawing.Point(20, 162);
             this.checkBox_KeepPokemonWhichCanBeEvolved.Name = "checkBox_KeepPokemonWhichCanBeEvolved";
             this.checkBox_KeepPokemonWhichCanBeEvolved.Size = new System.Drawing.Size(212, 17);
             this.checkBox_KeepPokemonWhichCanBeEvolved.TabIndex = 46;
@@ -1391,9 +1394,9 @@ namespace PokemonGo.RocketAPI.Console
             this.checkBox_EnablePokemonListGui.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBox_EnablePokemonListGui.Location = new System.Drawing.Point(20, 119);
             this.checkBox_EnablePokemonListGui.Name = "checkBox_EnablePokemonListGui";
-            this.checkBox_EnablePokemonListGui.Size = new System.Drawing.Size(144, 17);
+            this.checkBox_EnablePokemonListGui.Size = new System.Drawing.Size(105, 17);
             this.checkBox_EnablePokemonListGui.TabIndex = 45;
-            this.checkBox_EnablePokemonListGui.Text = "Enable Pokemon list GUI";
+            this.checkBox_EnablePokemonListGui.Text = "Enable Lists GUI";
             this.checkBox_EnablePokemonListGui.UseVisualStyleBackColor = true;
             // 
             // checkBox_UseIncenseEvery30min
@@ -2957,6 +2960,17 @@ namespace PokemonGo.RocketAPI.Console
             this.groupBox22.TabStop = false;
             this.groupBox22.Text = "Special Thanks";
             // 
+            // linkLabel17
+            // 
+            this.linkLabel17.AutoSize = true;
+            this.linkLabel17.Location = new System.Drawing.Point(6, 64);
+            this.linkLabel17.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.linkLabel17.Name = "linkLabel17";
+            this.linkLabel17.Size = new System.Drawing.Size(44, 13);
+            this.linkLabel17.TabIndex = 3;
+            this.linkLabel17.TabStop = true;
+            this.linkLabel17.Text = "Quarthy";
+            // 
             // linkLabel13
             // 
             this.linkLabel13.AutoSize = true;
@@ -3264,16 +3278,15 @@ namespace PokemonGo.RocketAPI.Console
             this.pictureBox2.TabStop = false;
             this.pictureBox2.Click += new System.EventHandler(this.pictureBox2_Click);
             // 
-            // linkLabel17
+            // checkBox_FarmGyms
             // 
-            this.linkLabel17.AutoSize = true;
-            this.linkLabel17.Location = new System.Drawing.Point(6, 64);
-            this.linkLabel17.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.linkLabel17.Name = "linkLabel17";
-            this.linkLabel17.Size = new System.Drawing.Size(44, 13);
-            this.linkLabel17.TabIndex = 3;
-            this.linkLabel17.TabStop = true;
-            this.linkLabel17.Text = "Quarthy";
+            this.checkBox_FarmGyms.AutoSize = true;
+            this.checkBox_FarmGyms.Location = new System.Drawing.Point(20, 209);
+            this.checkBox_FarmGyms.Name = "checkBox_FarmGyms";
+            this.checkBox_FarmGyms.Size = new System.Drawing.Size(78, 17);
+            this.checkBox_FarmGyms.TabIndex = 51;
+            this.checkBox_FarmGyms.Text = "Farm Gyms";
+            this.checkBox_FarmGyms.UseVisualStyleBackColor = true;
             // 
             // GUI
             // 
@@ -3655,6 +3668,7 @@ namespace PokemonGo.RocketAPI.Console
         private System.Windows.Forms.LinkLabel linkLabel16;
         private System.Windows.Forms.Label label69;
         private System.Windows.Forms.LinkLabel linkLabel17;
+        private System.Windows.Forms.CheckBox checkBox_FarmGyms;
         //private System.Windows.Forms.CheckBox checkBox_CatchLurePokemons;
     }
 }

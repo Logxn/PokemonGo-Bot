@@ -31,6 +31,9 @@ namespace PokemonGo.RocketAPI.Console
 		private System.Windows.Forms.PictureBox pictureBoxBuddyPokemon;
 		private System.Windows.Forms.PictureBox pictureBoxPlayerAvatar;
 		private System.Windows.Forms.Button btnTeam;
+		private System.Windows.Forms.Label labelCoinsValue;
+		private System.Windows.Forms.Label labelCoinsTitle;
+		private System.Windows.Forms.Button btnColect;
 		
 		/// <summary>
 		/// Disposes resources used by the control.
@@ -70,6 +73,9 @@ namespace PokemonGo.RocketAPI.Console
 		    this.pictureBoxBuddyPokemon = new System.Windows.Forms.PictureBox();
 		    this.pictureBoxPlayerAvatar = new System.Windows.Forms.PictureBox();
 		    this.btnTeam = new System.Windows.Forms.Button();
+		    this.labelCoinsValue = new System.Windows.Forms.Label();
+		    this.labelCoinsTitle = new System.Windows.Forms.Label();
+		    this.btnColect = new System.Windows.Forms.Button();
 		    ((System.ComponentModel.ISupportInitialize)(this.pictureBoxTeam)).BeginInit();
 		    this.panelLeftArea.SuspendLayout();
 		    ((System.ComponentModel.ISupportInitialize)(this.pictureBoxBuddyPokemon)).BeginInit();
@@ -258,9 +264,45 @@ namespace PokemonGo.RocketAPI.Console
 		    this.btnTeam.UseVisualStyleBackColor = true;
 		    this.btnTeam.Click += new System.EventHandler(this.BtnTeamClick);
 		    // 
+		    // labelCoinsValue
+		    // 
+		    this.labelCoinsValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+		    this.labelCoinsValue.Location = new System.Drawing.Point(485, 186);
+		    this.labelCoinsValue.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+		    this.labelCoinsValue.Name = "labelCoinsValue";
+		    this.labelCoinsValue.Size = new System.Drawing.Size(312, 25);
+		    this.labelCoinsValue.TabIndex = 104;
+		    this.labelCoinsValue.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+		    // 
+		    // labelCoinsTitle
+		    // 
+		    this.labelCoinsTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+		    this.labelCoinsTitle.Location = new System.Drawing.Point(319, 186);
+		    this.labelCoinsTitle.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+		    this.labelCoinsTitle.Name = "labelCoinsTitle";
+		    this.labelCoinsTitle.Size = new System.Drawing.Size(144, 25);
+		    this.labelCoinsTitle.TabIndex = 103;
+		    this.labelCoinsTitle.Text = "Coins:";
+		    this.labelCoinsTitle.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+		    // 
+		    // btnColect
+		    // 
+		    this.btnColect.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+		    this.btnColect.Location = new System.Drawing.Point(610, 249);
+		    this.btnColect.Margin = new System.Windows.Forms.Padding(4);
+		    this.btnColect.Name = "btnColect";
+		    this.btnColect.Size = new System.Drawing.Size(94, 29);
+		    this.btnColect.TabIndex = 105;
+		    this.btnColect.Text = "Colect Coins";
+		    this.btnColect.UseVisualStyleBackColor = true;
+		    this.btnColect.Click += new System.EventHandler(this.btnColect_Click);
+		    // 
 		    // PlayerPanel
 		    // 
 		    this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
+		    this.Controls.Add(this.btnColect);
+		    this.Controls.Add(this.labelCoinsValue);
+		    this.Controls.Add(this.labelCoinsTitle);
 		    this.Controls.Add(this.btnTeam);
 		    this.Controls.Add(this.labelUserProperty6Value);
 		    this.Controls.Add(this.labelUserProperty6Title);

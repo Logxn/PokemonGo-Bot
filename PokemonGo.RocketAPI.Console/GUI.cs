@@ -271,6 +271,7 @@ namespace PokemonGo.RocketAPI.Console
                     CB_SimulatePGO.Checked = config.simulatedPGO;
                     checkBox_KeepPokemonWhichCanBeEvolved.Checked = config.keepPokemonsThatCanEvolve;
                     checkBox_UseLuckyEggIfNotRunning.Checked = config.UseLuckyEggIfNotRunning;
+                    checkBox_FarmGyms.Checked = config.FarmGyms;
 
                     // tab 2 - Pokemons
                     if (config.pokemonsToHold != null)
@@ -655,6 +656,7 @@ namespace PokemonGo.RocketAPI.Console
             Globals.simulatedPGO = CB_SimulatePGO.Checked;
             Globals.keepPokemonsThatCanEvolve = checkBox_KeepPokemonWhichCanBeEvolved.Checked;
             Globals.useLuckyEggIfNotRunning = checkBox_UseLuckyEggIfNotRunning.Checked;
+            Globals.farmGyms = checkBox_FarmGyms.Checked;
 
             // tab 2 - pokemons
             Globals.noTransfer.Clear();
