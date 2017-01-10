@@ -834,6 +834,12 @@ namespace PokemonGo.RocketAPI.Console
             get { return Globals.farmGyms; }
             set { Globals.farmGyms = value; }
         }
+
+        public bool CollectDailyBonus
+        {
+            get { return Globals.CollectDailyBonus; }
+            set { Globals.CollectDailyBonus = value; }
+        }
         
     }
 }

@@ -391,5 +391,6 @@ namespace PokemonGo.RocketAPI.Console
         public static bool EnableVerboseLogging = false;
 
         public static bool farmGyms;
+        public static bool CollectDailyBonus;
     }
 }

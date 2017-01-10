@@ -116,6 +116,10 @@ namespace PokemonGo.RocketAPI
         /* GYMS */
         bool FarmGyms { get; set; }
 
+        /* DAILY BONUS */
+
+        bool CollectDailyBonus { get; set; }
+
         /* MISC */
         bool pokevision { get; set; }
         bool LogPokemon { get; set; }
