@@ -23,24 +23,35 @@ Features
 > - Google Routing
 > - PowerUp/Evolve Pokemons in the Gui
 > - Manage Items to hold
-> - Archimedean spiral (https://en.wikipedia.org/wiki/Archimedean_spiral)
+> - Archimedean spiral
 > - and much more!
 
-Hashing Service (Not ours!)
+Hashing Service (3rd Party)
 -------------------
 Information: https://talk.pogodev.org/d/55-api-hashing-service-f-a-q<br>
-HashBuddy 150 RPM for 3.95€ link: https://checkout.shopify.com/14884872/checkouts/b0a7ddd327ce4363dd790b03c897e912?attributes%5BresellerId%5D=99
+In order to pay with Paypal, Creditcard and SEPA use these links:<br>
+Ar1i's Pokebot 150 RPM                  https://honorbuddy.myshopify.com/cart/29160991442:1?attributes[resellerId]=93 (Costs: 3,95€)<br>
+Ar1i's Pokebot 500 RPM                  https://honorbuddy.myshopify.com/cart/29161003474:1?attributes[resellerId]=93 (Costs: 13,95€)<br>
+Ar1i's Pokebot 1.000 RPM                https://honorbuddy.myshopify.com/cart/29161039378:1?attributes[resellerId]=93 (Costs: 29.95€)<br>
 
+You are from Russia, China or Southamerika and have your own Payment Methods? No worries! <br>
+Ar1i's Pokebot 150 RPM                  http://shop.buddyauth.com/api/payssion/payment?productId=8695281618&quantity=1&resellerId=93 ( Costs: 3,95€ )<br>
+Ar1i's Pokebot 500 RPM                  http://shop.buddyauth.com/api/payssion/payment?productId=8695283730&quantity=1&resellerId=93 ( Costs: 13,95€ )<br>
+Ar1i's Pokebot 1.000 RPM                http://shop.buddyauth.com/api/payssion/payment?productId=8695288722&quantity=1&resellerId=93 ( Costs 29,95€ )<br>
+
+What we from the Developer team get back.<br>
+Per 150 RPM Key we get: 1,18500 € <br>
+Per 500 RPM Key we get: 4,18500 € <br>
+Per 1.000 RPM Key we get: 8,98500 € <br>
 Credits
 -------------------
-Most thanks to FeroxRev and AeonLucid, without them this wouldn't be possible.<br>
 FeroxRev - https://github.com/FeroxRev/Pokemon-Go-Rocket-API<br>
 AeonLucid - https://github.com/AeonLucid/POGOProtos<br>
 Ar1i - For bringing this project alive!<br>
 Logxn - Continuing this project and keeping it alive!  <br>
 MTK4355 - Doing a really really good job!<br>
-Xelwon - A very kind helping dev! <br>
-Cicklow - Mods!
+Xelwon - Also a big part of the team! <br>
+Quarthy - For doing some great developer work <br>
 
 
-Discord Link : https://discord.gg/42r7fmK<br>
+Discord Link : https://discord.gg/tEUuRXJ<br>

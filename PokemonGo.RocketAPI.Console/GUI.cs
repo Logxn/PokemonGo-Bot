@@ -271,6 +271,8 @@ namespace PokemonGo.RocketAPI.Console
                     CB_SimulatePGO.Checked = config.simulatedPGO;
                     checkBox_KeepPokemonWhichCanBeEvolved.Checked = config.keepPokemonsThatCanEvolve;
                     checkBox_UseLuckyEggIfNotRunning.Checked = config.UseLuckyEggIfNotRunning;
+                    checkBox_FarmGyms.Checked = config.FarmGyms;
+                    checkBox_CollectDailyBonus.Checked = config.CollectDailyBonus;
 
                     // tab 2 - Pokemons
                     if (config.pokemonsToHold != null)
@@ -655,6 +657,8 @@ namespace PokemonGo.RocketAPI.Console
             Globals.simulatedPGO = CB_SimulatePGO.Checked;
             Globals.keepPokemonsThatCanEvolve = checkBox_KeepPokemonWhichCanBeEvolved.Checked;
             Globals.useLuckyEggIfNotRunning = checkBox_UseLuckyEggIfNotRunning.Checked;
+            Globals.farmGyms = checkBox_FarmGyms.Checked;
+            Globals.CollectDailyBonus = checkBox_CollectDailyBonus.Checked;
 
             // tab 2 - pokemons
             Globals.noTransfer.Clear();
@@ -1400,6 +1404,20 @@ namespace PokemonGo.RocketAPI.Console
         {
             ProcessStartInfo sInfo = new ProcessStartInfo("https://talk.pogodev.org/d/55-api-hashing-service-f-a-q/");
             Process.Start(sInfo);
+        }
+        void linkLabel15_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Process.Start("https://honorbuddy.myshopify.com/cart/29160991442:1?attributes[resellerId]=93");
+        }
+        void linkLabel16_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+          Process.Start("https://github.com/Ar1i/PokemonGo-Bot/");
+        }
+
+        private void button_Information_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show($@"Since the new API was cracked by the pogodev team, they have choosen to make the API pay2use
+We did not have any influence on this. We are very sorry this needed to happen!", "Hashing Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
     }
 }

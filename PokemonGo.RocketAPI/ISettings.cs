@@ -113,6 +113,13 @@ namespace PokemonGo.RocketAPI
         string TelegramAPIToken { get; set; }
         string TelegramName { get; set; }
 
+        /* GYMS */
+        bool FarmGyms { get; set; }
+
+        /* DAILY BONUS */
+
+        bool CollectDailyBonus { get; set; }
+
         /* MISC */
         bool pokevision { get; set; }
         bool LogPokemon { get; set; }

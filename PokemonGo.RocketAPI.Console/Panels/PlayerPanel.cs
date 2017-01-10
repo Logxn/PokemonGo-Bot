@@ -53,7 +53,6 @@ namespace PokemonGo.RocketAPI.Console
             labelUserProperty5Value.Text = "";
             labelUserProperty6Value.Text = "";
 
-            //await check().ConfigureAwait(false);
             var client = Logic.Logic.objClient;
             if (client.readyToUse != false)
             {
@@ -153,7 +152,7 @@ namespace PokemonGo.RocketAPI.Console
             if (profile != null){
                 labelUserProperty1Value.Text = profile.PlayerData.Username;
                 labelUserProperty3Value.Text = profile.PlayerData.Currencies[1].Amount.ToString("N0");
-                labelUserProperty4Value.Text = profile.PlayerData.Currencies[0].Amount.ToString("N0");
+                labelCoinsValue.Text = profile.PlayerData.Currencies[0].Amount.ToString("N0");
             }
 
 
@@ -343,7 +342,71 @@ namespace PokemonGo.RocketAPI.Console
                 }
                 catch (Exception) { }
             }
-        }		
+        }
+        void btnColect_Click(object sender, EventArgs e)
+        {
+            collectCoins();
+        }
+        private  void collectCoins(){
+            var res = Logic.Logic.objClient.Player.CollectDailyDefenderBonus().Result;
+
+            var result = res.Result.ToString();
+            var currentDefenders = res.DefendersCount;
+            var currency = res.CurrencyType;
+            var awardedCurrency = res.CurrencyAwarded;
+
+            switch(res.Result.ToString())
+            {
+                case "NoDefenders":
+                    Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, $"(Coin Collection) - Result: You dont have any pokemons in a gym.");
+                    break;
+                case "Success": // May need to change this
+                    Logger.ColoredConsoleWrite(ConsoleColor.Green, $"(Coin Collection) - Current Pokemons In Gyms: {currentDefenders} | Currency Type: {currency} | Awarded: {awardedCurrency} Coins");
+                    break;
+                case "Failure": // May need to change this
+                    Logger.ColoredConsoleWrite(ConsoleColor.Red, $"(Coin Collection - Failed!");
+                    break;
+                case "TooSoon": // May need to change this
+                    Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"(Coin Collection) - Its not time yet to collect your coins!");
+                    break;
+                case "Unset": // May need to change this
+                    Logger.ColoredConsoleWrite(ConsoleColor.Red, $"(Coin Collection) - Result Unset? => {result} | Please screenshot this error and send it to us on Discord or GitHub");
+                    break;
+                default:
+                    Logger.ColoredConsoleWrite(ConsoleColor.Red, $"(Coin Collection) - Result: {result} | Please screenshot this error and send it to us on Discord or GitHub");
+                    break;
+            }
+
+
+            /*// TO-DO Save the last they in config and check if there were 24h between the last check
+
+            var resultx = Logic.Logic.objClient.Player.CollectDailyBonus().Result;
+            var resultString = resultx.Result.ToString();
+
+            Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Result: {resultx}");
+            Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Result string: {resultString}");
+            switch (resultString)
+            {
+                case "Unset":
+                    Logger.ColoredConsoleWrite(ConsoleColor.Red, $"(Daily Bonus) - The result was unset!");
+                    break;
+                case "Success":
+                    Logger.ColoredConsoleWrite(ConsoleColor.Green, $"(Daily Bonus) - We've collected your daily bonus for you!");
+                    break;
+                case "Failure":
+                    Logger.ColoredConsoleWrite(ConsoleColor.Red, $"(Daily Bonus) - Failure!");
+                    break;
+                case "TooSoon":
+                    Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, $"(Daily Bonus) - It's to soon to collect your daily bonus!");
+                    break;
+                default:
+                    Logger.ColoredConsoleWrite(ConsoleColor.Red, $"(Daily Bonus) - Default switch statement reached! => {resultString} | Please screenshot this error and send it to us on Discord or GitHub");
+                    break;
+        }*/
+
+
+    }
+
 
     }
 }
