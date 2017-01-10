@@ -348,6 +348,7 @@ namespace PokemonGo.RocketAPI.Console
             collectCoins();
         }
         private  void collectCoins(){
+            const string prefix = "(Coin Collection)";
             var res = Logic.Logic.objClient.Player.CollectDailyDefenderBonus().Result;
 
             var result = res.Result.ToString();
@@ -357,23 +358,24 @@ namespace PokemonGo.RocketAPI.Console
 
             switch(res.Result.ToString())
             {
+                
                 case "NoDefenders":
-                    Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, $"(Coin Collection) - Result: You dont have any pokemons in a gym.");
+                    Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, $"{prefix} - Result: You dont have any pokemons in a gym.");
                     break;
                 case "Success": // May need to change this
-                    Logger.ColoredConsoleWrite(ConsoleColor.Green, $"(Coin Collection) - Current Pokemons In Gyms: {currentDefenders} | Currency Type: {currency} | Awarded: {awardedCurrency} Coins");
+                    Logger.ColoredConsoleWrite(ConsoleColor.Green, $"{prefix} - Current Pokemons In Gyms: {currentDefenders} | Currency Type: {currency} | Awarded: {awardedCurrency} Coins");
                     break;
                 case "Failure": // May need to change this
-                    Logger.ColoredConsoleWrite(ConsoleColor.Red, $"(Coin Collection - Failed!");
+                    Logger.ColoredConsoleWrite(ConsoleColor.Red, $"{prefix} - Failed!");
                     break;
                 case "TooSoon": // May need to change this
-                    Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"(Coin Collection) - Its not time yet to collect your coins!");
+                    Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"{prefix} - Its not time yet to collect your coins!");
                     break;
                 case "Unset": // May need to change this
-                    Logger.ColoredConsoleWrite(ConsoleColor.Red, $"(Coin Collection) - Result Unset? => {result} | Please screenshot this error and send it to us on Discord or GitHub");
+                    Logger.ColoredConsoleWrite(ConsoleColor.Red, prefix +"- Result Unset? => "+ result+" | Please screenshot this error and send it to us on Discord or GitHub"); //<-- This string is longer than "$" command supports.
                     break;
                 default:
-                    Logger.ColoredConsoleWrite(ConsoleColor.Red, $"(Coin Collection) - Result: {result} | Please screenshot this error and send it to us on Discord or GitHub");
+                    Logger.ColoredConsoleWrite(ConsoleColor.Red, $"{prefix} - Result: {result} | Please screenshot this error and send it to us on Discord or GitHub");
                     break;
             }
 
@@ -402,12 +404,7 @@ namespace PokemonGo.RocketAPI.Console
                 default:
                     Logger.ColoredConsoleWrite(ConsoleColor.Red, $"(Daily Bonus) - Default switch statement reached! => {resultString} | Please screenshot this error and send it to us on Discord or GitHub");
                     break;
-        }*/
-
-
-    }
->>>>>>> refs/remotes/Ar1i/master
-
-
+            }*/
+        }
     }
 }
