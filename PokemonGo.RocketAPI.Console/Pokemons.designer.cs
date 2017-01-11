@@ -376,7 +376,6 @@ namespace PokemonGo.RocketAPI.Console
         private System.Windows.Forms.TabPage tpPokemons;
         private System.Windows.Forms.TabPage tpItems;
                 
-        private System.Windows.Forms.TextBox NumericUpDown;
         private PokemonGo.RocketAPI.Console.ItemsPanel itemsPanel1;
         private System.Windows.Forms.TabPage tpLocation;
         private PokemonGo.RocketAPI.Console.LocationPanel locationPanel1;

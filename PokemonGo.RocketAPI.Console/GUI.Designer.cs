@@ -124,7 +124,6 @@ namespace PokemonGo.RocketAPI.Console
             this.label4 = new System.Windows.Forms.Label();
             this.groupBox10 = new System.Windows.Forms.GroupBox();
             this.checkBox_CollectDailyBonus = new System.Windows.Forms.CheckBox();
-            this.checkBox_FarmGyms = new System.Windows.Forms.CheckBox();
             this.CB_SimulatePGO = new System.Windows.Forms.CheckBox();
             this.checkBox_UseLuckyEggIfNotRunning = new System.Windows.Forms.CheckBox();
             this.checkBox_KeepPokemonWhichCanBeEvolved = new System.Windows.Forms.CheckBox();
@@ -296,6 +295,7 @@ namespace PokemonGo.RocketAPI.Console
             this.lang_de_btn = new System.Windows.Forms.Button();
             this.lang_en_btn = new System.Windows.Forms.Button();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.checkBox_FarmGyms = new System.Windows.Forms.CheckBox();
             this.settingsBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.tabProxies.SuspendLayout();
             this.tabItems.SuspendLayout();
@@ -3683,7 +3683,6 @@ namespace PokemonGo.RocketAPI.Console
         private System.Windows.Forms.CheckBox checkBox_UseLuckyEggIfNotRunning;
         private System.Windows.Forms.CheckBox checkBox_KeepPokemonWhichCanBeEvolved;
         private System.Windows.Forms.CheckBox checkBox_EnablePokemonListGui;
-        private System.Windows.Forms.CheckBox checkBox_EnableItemsListGui;
         private System.Windows.Forms.CheckBox checkBox_UseIncenseEvery30min;
         private System.Windows.Forms.CheckBox checkBox_SimulateAnimationTimeAtEvolve;
         private System.Windows.Forms.CheckBox checkBox_UseLuckyEggAtEvolve;
