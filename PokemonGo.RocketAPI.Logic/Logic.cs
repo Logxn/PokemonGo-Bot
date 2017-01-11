@@ -1788,7 +1788,7 @@ namespace PokemonGo.RocketAPI.Logic
 
                 if (pokemons == null)
                 {
-                    Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - There are no gysm to assign.");
+                    Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - There are no pokemons to assign.");
                     return false;
                 }
                 RandomHelper.RandomSleep(100, 200);

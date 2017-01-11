@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Created by SharpDevelop.
  * User: Xelwon
  * Date: 15/09/2016
@@ -325,7 +325,6 @@ namespace PokemonGo.RocketAPI.Console
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxBuddyPokemon)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPlayerAvatar)).EndInit();
             this.ResumeLayout(false);
-
 		}
 	}
 }

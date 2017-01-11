@@ -264,7 +264,7 @@ namespace PokemonGo.RocketAPI.Console
         void useToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var item = (ItemData)ItemsListView.SelectedItems[0].Tag;
-            if ((item.ItemId != ItemId.ItemLuckyEgg) && (item.ItemId != ItemId.ItemIncenseOrdinary))
+            if ((item.ItemId != ItemId.ItemLuckyEgg) && (item.ItemId != ItemId.ItemIncenseOrdinary)&& (item.ItemId != ItemId.ItemTroyDisk))
             {
                 MessageBox.Show(getItemName( item.ItemId) + " cannot be used here.");
                 return;
@@ -279,6 +279,11 @@ namespace PokemonGo.RocketAPI.Console
                 if (item.ItemId == ItemId.ItemLuckyEgg)
                 {
                     Globals.UseLuckyEggGUIClick = true;
+                }
+                if (item.ItemId == ItemId.ItemTroyDisk)
+                {
+                    Globals.UseLureGUIClick = true;
+                    Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Lure will be used on next pokestop", LogLevel.Info);
                 }
             
             }

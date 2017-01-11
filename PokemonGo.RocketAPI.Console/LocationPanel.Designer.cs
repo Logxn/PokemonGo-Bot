@@ -32,6 +32,7 @@ namespace PokemonGo.RocketAPI.Console
         private System.Windows.Forms.TextBox tbAddress;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.NumericUpDown nudRadius;
+        private System.Windows.Forms.Button btnPauseWalking;
         
         /// <summary>
         /// Disposes resources used by the control.
@@ -73,6 +74,7 @@ namespace PokemonGo.RocketAPI.Console
             this.btnGetPoints = new System.Windows.Forms.Button();
             this.lblAddress = new System.Windows.Forms.Label();
             this.tbAddress = new System.Windows.Forms.TextBox();
+            this.btnPauseWalking = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudRadius)).BeginInit();
             this.SuspendLayout();
@@ -330,9 +332,22 @@ namespace PokemonGo.RocketAPI.Console
             this.tbAddress.Size = new System.Drawing.Size(292, 20);
             this.tbAddress.TabIndex = 7;
             // 
+            // btnPauseWalking
+            // 
+            this.btnPauseWalking.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnPauseWalking.Location = new System.Drawing.Point(7, 5);
+            this.btnPauseWalking.Margin = new System.Windows.Forms.Padding(2);
+            this.btnPauseWalking.Name = "btnPauseWalking";
+            this.btnPauseWalking.Size = new System.Drawing.Size(106, 23);
+            this.btnPauseWalking.TabIndex = 44;
+            this.btnPauseWalking.Text = "Pause Walking";
+            this.btnPauseWalking.UseVisualStyleBackColor = true;
+            this.btnPauseWalking.Click += new System.EventHandler(this.btnPauseWalking_Click);
+            // 
             // LocationPanel
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
+            this.Controls.Add(this.btnPauseWalking);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.map);
             this.Margin = new System.Windows.Forms.Padding(4);
