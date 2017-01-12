@@ -1,0 +1,825 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="checkBox4.Text" xml:space="preserve">
+    <value>Alles auswählen</value>
+  </data>
+  <data name="label17.Text" xml:space="preserve">
+    <value>Max. Zaubertränke:</value>
+  </data>
+  <data name="label37.Text" xml:space="preserve">
+    <value>3. Speichern Sie Proxy.</value>
+  </data>
+  <data name="label57.Text" xml:space="preserve">
+    <value>%</value>
+  </data>
+  <data name="checkBox5.Text" xml:space="preserve">
+    <value>Alles auswählen</value>
+  </data>
+  <data name="label49.Text" xml:space="preserve">
+    <value>Große Chance:</value>
+  </data>
+  <data name="linkLabel4.Text" xml:space="preserve">
+    <value>Twitter Logxn</value>
+  </data>
+  <data name="checkBox_10kmEggs.Text" xml:space="preserve">
+    <value>10 Km. Entfernt</value>
+  </data>
+  <data name="AvoidRegionLock.Text" xml:space="preserve">
+    <value>Vermeiden Region Gesperrt Pokemon</value>
+  </data>
+  <data name="checkBox3.Text" xml:space="preserve">
+    <value>Verwenden Sie keine Greatballs</value>
+  </data>
+  <data name="label60.Text" xml:space="preserve">
+    <value>%</value>
+  </data>
+  <data name="label13.Text" xml:space="preserve">
+    <value>Max. Pokeballs:</value>
+  </data>
+  <data name="label33.Text" xml:space="preserve">
+    <value>%</value>
+  </data>
+  <data name="label2.Text" xml:space="preserve">
+    <value>Email:</value>
+  </data>
+  <data name="linkLabel6.Text" xml:space="preserve">
+    <value>Hier erhalten Sie den Google Maps API Key</value>
+  </data>
+  <data name="groupBox26.Text" xml:space="preserve">
+    <value>Verbrauchbare Inkubatoren</value>
+  </data>
+  <data name="rbSOEggsAscending.Text" xml:space="preserve">
+    <value>Aufsteigend (2 Km zuerst)</value>
+  </data>
+  <data name="button3.Text" xml:space="preserve">
+    <value>Deaktivieren Sie Proxy</value>
+  </data>
+  <data name="checkBox_UseProxyAuth.Text" xml:space="preserve">
+    <value>Verwenden Sie die Authentifizierung</value>
+  </data>
+  <data name="checkBox7.Text" xml:space="preserve">
+    <value>Verwenden Sie nicht Ultraballs</value>
+  </data>
+  <data name="linkLabel16.Text" xml:space="preserve">
+    <value>Github</value>
+  </data>
+  <data name="groupBox23.Text" xml:space="preserve">
+    <value>Pokemon - Nicht zu Snipe</value>
+  </data>
+  <data name="button2.Text" xml:space="preserve">
+    <value>Profil sichern</value>
+  </data>
+  <data name="checkBox_UseLuckyEggAtEvolve.Text" xml:space="preserve">
+    <value>Verwenden Sie LuckyEgg bei Evolve</value>
+  </data>
+  <data name="label8.Text" xml:space="preserve">
+    <value>Min. CP zu fangen:</value>
+  </data>
+  <data name="comboBox_Device.Items5" xml:space="preserve">
+    <value>Galaxy-s5-gold</value>
+  </data>
+  <data name="label47.Text" xml:space="preserve">
+    <value>(Erfordert einen Wert in Min Walk Speed)</value>
+  </data>
+  <data name="checkBox_AutoTransferDoublePokemon.Text" xml:space="preserve">
+    <value>Automatische Duplizierung</value>
+  </data>
+  <data name="comboBox_Device.Items" xml:space="preserve">
+    <value>Lg-optimus-g</value>
+  </data>
+  <data name="groupBox22.Text" xml:space="preserve">
+    <value>Besonderen Dank</value>
+  </data>
+  <data name="comboBox_Device.Items23" xml:space="preserve">
+    <value>Yureka</value>
+  </data>
+  <data name="linkLabel12.Text" xml:space="preserve">
+    <value>Madymaxie</value>
+  </data>
+  <data name="label43.Text" xml:space="preserve">
+    <value>Pokestop Farm Limit:</value>
+  </data>
+  <data name="newVer.Text" xml:space="preserve">
+    <value>1.0.0.0</value>
+  </data>
+  <data name="linkLabel17.Text" xml:space="preserve">
+    <value>Quarthy</value>
+  </data>
+  <data name="groupBox24.Text" xml:space="preserve">
+    <value>Verwenden Sie nicht diese Eier</value>
+  </data>
+  <data name="tabPokemon.Text" xml:space="preserve">
+    <value>Pokémon</value>
+  </data>
+  <data name="comboBox_Device.Items9" xml:space="preserve">
+    <value>Asus-zenfone2</value>
+  </data>
+  <data name="text_MaxIVToTransfer.Text" xml:space="preserve">
+    <value>90</value>
+  </data>
+  <data name="groupBox4.Text" xml:space="preserve">
+    <value>Pokemon Gegenstände</value>
+  </data>
+  <data name="label28.Text" xml:space="preserve">
+    <value>Max. IV zu überweisen:</value>
+  </data>
+  <data name="label16.Text" xml:space="preserve">
+    <value>Max. Wiederbelebung:</value>
+  </data>
+  <data name="label36.Text" xml:space="preserve">
+    <value>2. Geben Sie die Daten ein.</value>
+  </data>
+  <data name="checkBox_10kmEggsBasicInc.Text" xml:space="preserve">
+    <value>10 Km. Entfernt</value>
+  </data>
+  <data name="label14.Text" xml:space="preserve">
+    <value>Max. Großartige Bälle:</value>
+  </data>
+  <data name="linkLabel14.Text" xml:space="preserve">
+    <value>Erhalten Sie es für 3,95 €</value>
+  </data>
+  <data name="label54.Text" xml:space="preserve">
+    <value>Min. IV zu fangen:</value>
+  </data>
+  <data name="checkBox_AutoIncubate.Text" xml:space="preserve">
+    <value>Automatisches Inkubieren</value>
+  </data>
+  <data name="label12.Text" xml:space="preserve">
+    <value>Max. CP zu übertragen:</value>
+  </data>
+  <data name="label32.Text" xml:space="preserve">
+    <value>Bruchintervall (in Minuten):</value>
+  </data>
+  <data name="tabGeneral.Text" xml:space="preserve">
+    <value>General</value>
+  </data>
+  <data name="currText.Text" xml:space="preserve">
+    <value>Aktuelle Version:</value>
+  </data>
+  <data name="linkLabel9.Text" xml:space="preserve">
+    <value>GitHub Logxn</value>
+  </data>
+  <data name="linkLabel7.Text" xml:space="preserve">
+    <value>Twitter MTK4355</value>
+  </data>
+  <data name="NextBestBallOnEscape.Text" xml:space="preserve">
+    <value>Verwenden Sie Next Best Ball, wenn Pokemon Escapes</value>
+  </data>
+  <data name="logPokemon.Text" xml:space="preserve">
+    <value>Protokoll gefangen Pokemon</value>
+  </data>
+  <data name="logEvolution.Text" xml:space="preserve">
+    <value>Log Evolution</value>
+  </data>
+  <data name="label53.Text" xml:space="preserve">
+    <value>(Wert auf 0 setzen, niemals Kugel verwenden)</value>
+  </data>
+  <data name="label61.Text" xml:space="preserve">
+    <value>MiliSec</value>
+  </data>
+  <data name="rbSOEggsDescending.Text" xml:space="preserve">
+    <value>Absteigend (10 Km)</value>
+  </data>
+  <data name="button_ArchimedeanSpiralHelp.Text" xml:space="preserve">
+    <value>Aufrechtzuerhalten.</value>
+  </data>
+  <data name="text_UseRazzberryChance.Text" xml:space="preserve">
+    <value>35</value>
+  </data>
+  <data name="CB_SimulatePGO.Text" xml:space="preserve">
+    <value>Spiel Aspekt Simulator Format</value>
+  </data>
+  <data name="checkBox_WalkInArchimedeanSpiral.Text" xml:space="preserve">
+    <value>Spaziergang in der archimedischen Spirale</value>
+  </data>
+  <data name="button_Information.Text" xml:space="preserve">
+    <value>Zeigen Sie mir einige Informationen</value>
+  </data>
+  <data name="SnipePokemonPokeCom.Text" xml:space="preserve">
+    <value>Aktivieren Sie Pokemon Sniping</value>
+  </data>
+  <data name="label1.Text" xml:space="preserve">
+    <value>Konto Typ:</value>
+  </data>
+  <data name="groupBox14.Text" xml:space="preserve">
+    <value>Manuelle Protokollierung</value>
+  </data>
+  <data name="comboBox_Device.Items4" xml:space="preserve">
+    <value>Galaxy6</value>
+  </data>
+  <data name="comboBox_Device.Items7" xml:space="preserve">
+    <value>Nexus-5x</value>
+  </data>
+  <data name="comboBox_Device.Items21" xml:space="preserve">
+    <value>Nexus4-chroma</value>
+  </data>
+  <data name="comboBox_Device.Items17" xml:space="preserve">
+    <value>Nexus 5</value>
+  </data>
+  <data name="label7.Text" xml:space="preserve">
+    <value>Max. Geschwindigkeit (km / h):</value>
+  </data>
+  <data name="comboBox_Device.Items24" xml:space="preserve">
+    <value>Notiz 3</value>
+  </data>
+  <data name="comboBox_Device.Items19" xml:space="preserve">
+    <value>Galaxy-note-edge</value>
+  </data>
+  <data name="groupBox13.Text" xml:space="preserve">
+    <value>Routing-Einstellungen (Beta)</value>
+  </data>
+  <data name="label44.Text" xml:space="preserve">
+    <value>XP Farmed Limit:</value>
+  </data>
+  <data name="checkBox_SimulateAnimationTimeAtEvolve.Text" xml:space="preserve">
+    <value>Simulieren Sie Animation Times at Evolve</value>
+  </data>
+  <data name="linkLabel13.Text" xml:space="preserve">
+    <value>Cicklow</value>
+  </data>
+  <data name="groupBox9.Text" xml:space="preserve">
+    <value>Versions Information</value>
+  </data>
+  <data name="label9.Text" xml:space="preserve">
+    <value>Bewegungsradius:</value>
+  </data>
+  <data name="label42.Text" xml:space="preserve">
+    <value>Pokemon Catch Limit:</value>
+  </data>
+  <data name="checkbox_AutoUpdate.Text" xml:space="preserve">
+    <value>Auto-Update</value>
+  </data>
+  <data name="rbSOEggsAscendingBasicInc.Text" xml:space="preserve">
+    <value>Aufsteigend (2 Km zuerst)</value>
+  </data>
+  <data name="groupBox11.Text" xml:space="preserve">
+    <value>Gehen Sie Optionen</value>
+  </data>
+  <data name="newText.Text" xml:space="preserve">
+    <value>Neueste Version:</value>
+  </data>
+  <data name="checkBox_5kmEggsBasicInc.Text" xml:space="preserve">
+    <value>5 Km. Entfernt</value>
+  </data>
+  <data name="label25.Text" xml:space="preserve">
+    <value>Max. TopPotions:</value>
+  </data>
+  <data name="groupBox21.Text" xml:space="preserve">
+    <value>Projekt Information</value>
+  </data>
+  <data name="comboBox_Device.Items22" xml:space="preserve">
+    <value>Melrose-s9</value>
+  </data>
+  <data name="currVer.Text" xml:space="preserve">
+    <value>1.0.0.0</value>
+  </data>
+  <data name="checkBox_2kmEggs.Text" xml:space="preserve">
+    <value>2 Km. Entfernt</value>
+  </data>
+  <data name="comboBox_Device.Items25" xml:space="preserve">
+    <value>Galaxy-tab-s84</value>
+  </data>
+  <data name="label30.Text" xml:space="preserve">
+    <value>Wenn Sie mehr als 1 Instanz mit der gleichen IP ausführen, werden Sie verboten.</value>
+  </data>
+  <data name="label50.Text" xml:space="preserve">
+    <value>Schöne Chance:</value>
+  </data>
+  <data name="groupBox_EggOptions.Text" xml:space="preserve">
+    <value>Einstellungen</value>
+  </data>
+  <data name="label41.Text" xml:space="preserve">
+    <value>Bruchlänge (in Minuten):</value>
+  </data>
+  <data name="prxyPass.Text" xml:space="preserve">
+    <value>Proxy-Kennwort</value>
+  </data>
+  <data name="label65.Text" xml:space="preserve">
+    <value>GreatBall Min CP:</value>
+  </data>
+  <data name="checkbox_Verboselogging.Text" xml:space="preserve">
+    <value>Aktivieren Sie Ausführliches Protokollieren</value>
+  </data>
+  <data name="groupBox1.Text" xml:space="preserve">
+    <value>Unbegrenzter Inkubator</value>
+  </data>
+  <data name="tabEggs.Text" xml:space="preserve">
+    <value>Eier</value>
+  </data>
+  <data name="groupBox2.Text" xml:space="preserve">
+    <value>Standorteinstellungen</value>
+  </data>
+  <data name="comboBox_Device.Items20" xml:space="preserve">
+    <value>Amazon-fire-cm12</value>
+  </data>
+  <data name="checkBox_RandomlyReduceSpeed.Text" xml:space="preserve">
+    <value>Geschwindigkeit zufällig reduzieren</value>
+  </data>
+  <data name="label70.Text" xml:space="preserve">
+    <value>Sie können billig KEY von hier kaufen</value>
+  </data>
+  <data name="groupBox19.Text" xml:space="preserve">
+    <value>Mindest-CP pro Kugel-Typ</value>
+  </data>
+  <data name="checkBox_EnablePokemonListGui.Text" xml:space="preserve">
+    <value>Enabled Lists GUI</value>
+  </data>
+  <data name="comboBox_Device.Items18" xml:space="preserve">
+    <value>Xoom</value>
+  </data>
+  <data name="groupBox5.Text" xml:space="preserve">
+    <value>Pokemon - Nicht zu übertragen</value>
+  </data>
+  <data name="checkBox_UseProxy.Text" xml:space="preserve">
+    <value>Verwenden Sie Proxies</value>
+  </data>
+  <data name="groupBox6.Text" xml:space="preserve">
+    <value>Pokemon - Nicht zu fangen</value>
+  </data>
+  <data name="groupBox7.Text" xml:space="preserve">
+    <value>Pokemon - zu entwickeln</value>
+  </data>
+  <data name="tabThrows.Text" xml:space="preserve">
+    <value>Wirft</value>
+  </data>
+  <data name="label69.Text" xml:space="preserve">
+    <value>Weitere Preise und Informationen:</value>
+  </data>
+  <data name="linkLabel8.Text" xml:space="preserve">
+    <value>Diskrete Gemeinschaft</value>
+  </data>
+  <data name="label10.Text" xml:space="preserve">
+    <value>Name des Projekts: PokemonGo-Bot</value>
+  </data>
+  <data name="SelectallNottoSnipe.Text" xml:space="preserve">
+    <value>Alles auswählen</value>
+  </data>
+  <data name="comboBox_Device.Items3" xml:space="preserve">
+    <value>Htc10</value>
+  </data>
+  <data name="rbSOEggsDescendingBasicInc.Text" xml:space="preserve">
+    <value>Absteigend (10 Km)</value>
+  </data>
+  <data name="label6.Text" xml:space="preserve">
+    <value>Höhe:</value>
+  </data>
+  <data name="linkLabel15.Text" xml:space="preserve">
+    <value>150 U / min - 3,95 €</value>
+  </data>
+  <data name="comboBox_Device.Items11" xml:space="preserve">
+    <value>Galaxy S4</value>
+  </data>
+  <data name="groupBox12.Text" xml:space="preserve">
+    <value>Gehen Variablen</value>
+  </data>
+  <data name="comboBox_Device.Items14" xml:space="preserve">
+    <value>Lg-v10</value>
+  </data>
+  <data name="comboBox_Device.Items8" xml:space="preserve">
+    <value>Galaxie-S7-Kante</value>
+  </data>
+  <data name="linkLabel11.Text" xml:space="preserve">
+    <value>Xelwon</value>
+  </data>
+  <data name="button_SetLocation.Text" xml:space="preserve">
+    <value>Ort festlegen</value>
+  </data>
+  <data name="comboBox_Device.Items1" xml:space="preserve">
+    <value>Nexus7gen2</value>
+  </data>
+  <data name="label40.Text" xml:space="preserve">
+    <value>Fahrzeit (in Minuten):</value>
+  </data>
+  <data name="checkBox1.Text" xml:space="preserve">
+    <value>Standard Profil</value>
+  </data>
+  <data name="checkBox_EvolvePokemonIfEnoughCandy.Text" xml:space="preserve">
+    <value>Entwickeln Sie Pokemons, wenn genug Süßigkeit</value>
+  </data>
+  <data name="logManuelTransfer.Text" xml:space="preserve">
+    <value>Protokollübertragung</value>
+  </data>
+  <data name="GreatBallMinCP.Text" xml:space="preserve">
+    <value>500</value>
+  </data>
+  <data name="checkBox_Start_Walk_from_default_location.Text" xml:space="preserve">
+    <value>Starten Sie den Standartpfad</value>
+  </data>
+  <data name="prxyPort.Text" xml:space="preserve">
+    <value>HTTPS-Proxy-Anschluss</value>
+  </data>
+  <data name="linkLabel2.Text" xml:space="preserve">
+    <value>GitHub Ar1i</value>
+  </data>
+  <data name="label27.Text" xml:space="preserve">
+    <value>Max. TopRevives:</value>
+  </data>
+  <data name="checkBox_TransferFirstLowIV.Text" xml:space="preserve">
+    <value>TransferFirstLowIV</value>
+  </data>
+  <data name="checkBox_UseBreakIntervalAndLength.Text" xml:space="preserve">
+    <value>Verwenden Sie Break Intervall und Länge</value>
+  </data>
+  <data name="checkbox_LogEggs.Text" xml:space="preserve">
+    <value>Protokollieren Sie Eier</value>
+  </data>
+  <data name="ver.Text" xml:space="preserve">
+    <value>Version:</value>
+  </data>
+  <data name="tabUpdates.Text" xml:space="preserve">
+    <value>Aktualisierungen</value>
+  </data>
+  <data name="label4.Text" xml:space="preserve">
+    <value>Breite:</value>
+  </data>
+  <data name="label23.Text" xml:space="preserve">
+    <value>Wenn Vorrat &lt;=</value>
+  </data>
+  <data name="checkBox_UseBasicIncubators.Text" xml:space="preserve">
+    <value>Verwenden Sie Verbrauchsmaterial Inkubatoren</value>
+  </data>
+  <data name="comboBox_Device.Items10" xml:space="preserve">
+    <value>Xperia-z5</value>
+  </data>
+  <data name="label21.Text" xml:space="preserve">
+    <value>Konto-Profil</value>
+  </data>
+  <data name="label18.Text" xml:space="preserve">
+    <value>Max. SuperPotions:</value>
+  </data>
+  <data name="label58.Text" xml:space="preserve">
+    <value>%</value>
+  </data>
+  <data name="groupBox3.Text" xml:space="preserve">
+    <value>Bot-Einstellungen</value>
+  </data>
+  <data name="groupBox8.Text" xml:space="preserve">
+    <value>Fräulein-Rate und Kugel-Wahl</value>
+  </data>
+  <data name="groupBox20.Text" xml:space="preserve">
+    <value>Hauptentwickler</value>
+  </data>
+  <data name="label63.Text" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="label56.Text" xml:space="preserve">
+    <value>UltraBall Min CP:</value>
+  </data>
+  <data name="checkbox_PWDEncryption.Text" xml:space="preserve">
+    <value>Passwort für Konfigurationsdatei verschlüsseln</value>
+  </data>
+  <data name="checkBox_BreakAtLure.Text" xml:space="preserve">
+    <value>Brechen Sie am Köder</value>
+  </data>
+  <data name="comboBox_Device.Items13" xml:space="preserve">
+    <value>Sony-z3-kompakt</value>
+  </data>
+  <data name="comboBox_Device.Items16" xml:space="preserve">
+    <value>Lg-g4</value>
+  </data>
+  <data name="checkBox_FarmGyms.Text" xml:space="preserve">
+    <value>Bauernhöfe</value>
+  </data>
+  <data name="label11.Text" xml:space="preserve">
+    <value>Max. Duplizieren Pokemons:</value>
+  </data>
+  <data name="label31.Text" xml:space="preserve">
+    <value>Komplette Anzahl:</value>
+  </data>
+  <data name="label51.Text" xml:space="preserve">
+    <value>Gewöhnliche Chance:</value>
+  </data>
+  <data name="prxyIP.Text" xml:space="preserve">
+    <value>HTTPS Proxy-IP</value>
+  </data>
+  <data name="lang_spain_btn.Text" xml:space="preserve">
+    <value>Button3</value>
+  </data>
+  <data name="groupBox16.Text" xml:space="preserve">
+    <value>Wurfwahrscheinlichkeiten</value>
+  </data>
+  <data name="groupBox18.Text" xml:space="preserve">
+    <value>Gehen Geschwindigkeit und Reichweite</value>
+  </data>
+  <data name="comboBox_Device.Items2" xml:space="preserve">
+    <value>Nexus7gen1</value>
+  </data>
+  <data name="groupBox28.Text" xml:space="preserve">
+    <value>Verwenden Sie nicht diese Eier</value>
+  </data>
+  <data name="checkBox_UseGoogleMapsRouting.Text" xml:space="preserve">
+    <value>Verwenden Sie Google Maps Routing</value>
+  </data>
+  <data name="checkBox_StopWalkingWhenEvolving.Text" xml:space="preserve">
+    <value>Stop zu Fuß auf Evolve / Transfer</value>
+  </data>
+  <data name="tabProxies.Text" xml:space="preserve">
+    <value>Proxies</value>
+  </data>
+  <data name="checkBox_UseLureAtBreak.Text" xml:space="preserve">
+    <value>Verwenden Sie Lure At Break</value>
+  </data>
+  <data name="button1.Text" xml:space="preserve">
+    <value>Konfiguration speichern / Bot starten</value>
+  </data>
+  <data name="label34.Text" xml:space="preserve">
+    <value>Wie Proxy funktioniert:</value>
+  </data>
+  <data name="checkBox_UseIncenseEvery30min.Text" xml:space="preserve">
+    <value>Verwenden Sie Weihrauch alle 30min</value>
+  </data>
+  <data name="$this.Text" xml:space="preserve">
+    <value>PokeGoBot GUI Ausgabe</value>
+  </data>
+  <data name="label48.Text" xml:space="preserve">
+    <value>Ausgezeichnete Chance:</value>
+  </data>
+  <data name="linkLabel1.Text" xml:space="preserve">
+    <value>Github</value>
+  </data>
+  <data name="label52.Text" xml:space="preserve">
+    <value>Wenn Vorrat &lt;=</value>
+  </data>
+  <data name="checkBox_5kmEggs.Text" xml:space="preserve">
+    <value>5 Km. Entfernt</value>
+  </data>
+  <data name="linkLabel5.Text" xml:space="preserve">
+    <value>Https Proxy-Liste Link</value>
+  </data>
+  <data name="checkbox_checkWhileRunning.Text" xml:space="preserve">
+    <value>Im laufenden Betrieb nach Updates suchen</value>
+  </data>
+  <data name="comboBox_Device.Items12" xml:space="preserve">
+    <value>Nexus-6p</value>
+  </data>
+  <data name="checkBox6.Text" xml:space="preserve">
+    <value>Alles auswählen</value>
+  </data>
+  <data name="groupBox29.Text" xml:space="preserve">
+    <value>Informationen zum Hashing</value>
+  </data>
+  <data name="label26.Text" xml:space="preserve">
+    <value>Profilname:</value>
+  </data>
+  <data name="tabWalkSettings.Text" xml:space="preserve">
+    <value>Walk-Einstellungen</value>
+  </data>
+  <data name="label15.Text" xml:space="preserve">
+    <value>Max. UltraBalls:</value>
+  </data>
+  <data name="label35.Text" xml:space="preserve">
+    <value>1. Holen Sie sich HTTPS-Proxy.</value>
+  </data>
+  <data name="label55.Text" xml:space="preserve">
+    <value>%</value>
+  </data>
+  <data name="linkLabel10.Text" xml:space="preserve">
+    <value>GitHub MTK4355</value>
+  </data>
+  <data name="checkPrxy.Text" xml:space="preserve">
+    <value>Proxy speichern</value>
+  </data>
+  <data name="label46.Text" xml:space="preserve">
+    <value>Min. Gehgeschwindigkeit (km / h):</value>
+  </data>
+  <data name="checkBox_UseLuckyEggIfNotRunning.Text" xml:space="preserve">
+    <value>Verwenden Sie LuckyEgg wenn nicht ausgeführt</value>
+  </data>
+  <data name="label3.Text" xml:space="preserve">
+    <value>Passwort:</value>
+  </data>
+  <data name="label66.Text" xml:space="preserve">
+    <value>Hash-Dienstschlüssel:</value>
+  </data>
+  <data name="label64.Text" xml:space="preserve">
+    <value>API-Token</value>
+  </data>
+  <data name="checkBox_UseRazzberryIfChanceUnder.Text" xml:space="preserve">
+    <value>Verwenden Sie RazzBerry, wenn die Chance unter</value>
+  </data>
+  <data name="UltraBallMinCP.Text" xml:space="preserve">
+    <value>1000</value>
+  </data>
+  <data name="label5.Text" xml:space="preserve">
+    <value>Länge:</value>
+  </data>
+  <data name="label62.Text" xml:space="preserve">
+    <value>Live-Stats verzögern</value>
+  </data>
+  <data name="label22.Text" xml:space="preserve">
+    <value>Maximal verpasste Wurfwürfe pro Begegnung</value>
+  </data>
+  <data name="checkBox_ConsoleInTab.Text" xml:space="preserve">
+    <value>Konsole in der Registerkarte</value>
+  </data>
+  <data name="checkBox2.Text" xml:space="preserve">
+    <value>Verwenden Sie keine Pokeballs</value>
+  </data>
+  <data name="tabItems.Text" xml:space="preserve">
+    <value>Artikel</value>
+  </data>
+  <data name="label19.Text" xml:space="preserve">
+    <value>Max. HyperPotions:</value>
+  </data>
+  <data name="MinCPtoCatch.Text" xml:space="preserve">
+    <value>0 ist</value>
+  </data>
+  <data name="label39.Text" xml:space="preserve">
+    <value>Gerät:</value>
+  </data>
+  <data name="label59.Text" xml:space="preserve">
+    <value>%</value>
+  </data>
+  <data name="tabCredits.Text" xml:space="preserve">
+    <value>Kredite</value>
+  </data>
+  <data name="checkBox_RandomSleepAtCatching.Text" xml:space="preserve">
+    <value>Random Sleep @ Aufnehmen 1-3 Sekunden</value>
+  </data>
+  <data name="MinIVtoCatch.Text" xml:space="preserve">
+    <value>0 ist</value>
+  </data>
+  <data name="groupBox17.Text" xml:space="preserve">
+    <value>Telegrammeinstellungen</value>
+  </data>
+  <data name="label38.Text" xml:space="preserve">
+    <value>Verfasst von: Ar1i</value>
+  </data>
+  <data name="groupBox27.Text" xml:space="preserve">
+    <value>Auswahlauftrag</value>
+  </data>
+  <data name="gbSelectionOrder.Text" xml:space="preserve">
+    <value>Auswahlauftrag</value>
+  </data>
+  <data name="groupBoxAccount.Text" xml:space="preserve">
+    <value>Kontoinformation</value>
+  </data>
+  <data name="checkBox_CollectDailyBonus.Text" xml:space="preserve">
+    <value>Täglicher Bonus (nicht getestet)</value>
+  </data>
+  <data name="tabMisc.Text" xml:space="preserve">
+    <value>Verschiedenes</value>
+  </data>
+  <data name="label24.Text" xml:space="preserve">
+    <value>Wenn Vorrat &lt;=</value>
+  </data>
+  <data name="groupBox15.Text" xml:space="preserve">
+    <value>Update Einstellungen</value>
+  </data>
+  <data name="prxyUser.Text" xml:space="preserve">
+    <value>Proxy Benutzername</value>
+  </data>
+  <data name="label45.Text" xml:space="preserve">
+    <value>API-Schlüssel:</value>
+  </data>
+  <data name="groupBox25.Text" xml:space="preserve">
+    <value>Dev-Optionen</value>
+  </data>
+  <data name="comboBox_Device.Items6" xml:space="preserve">
+    <value>Lg-optimus-f6</value>
+  </data>
+  <data name="checkBox_2kmEggsBasicInc.Text" xml:space="preserve">
+    <value>2 Km. Entfernt</value>
+  </data>
+  <data name="comboBox_Device.Items15" xml:space="preserve">
+    <value>Galaxy-tab3</value>
+  </data>
+  <data name="checkBox_FarmPokestops.Text" xml:space="preserve">
+    <value>Bauernhof Pokestops</value>
+  </data>
+  <data name="groupBox10.Text" xml:space="preserve">
+    <value>Andere Einstellungen</value>
+  </data>
+  <data name="checkBox_KeepPokemonWhichCanBeEvolved.Text" xml:space="preserve">
+    <value>Halten Sie Pokemons, die entwickelt werden können</value>
+  </data>
+  <data name="checkBox_CatchPokemon.Text" xml:space="preserve">
+    <value>Fangen Sie Pokemon</value>
+  </data>
+  <data name="label29.Text" xml:space="preserve">
+    <value>%</value>
+  </data>
+  <data name="linkLabel3.Text" xml:space="preserve">
+    <value>Nachricht Ar1i</value>
+  </data>
+  <data name="label20.Text" xml:space="preserve">
+    <value>Max. RazzBerrys:</value>
+  </data>
+</root>

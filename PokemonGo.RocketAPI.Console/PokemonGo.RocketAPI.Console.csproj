@@ -277,6 +277,10 @@
     <EmbeddedResource Include="GameAspectSimulator.resx">
       <DependentUpon>GameAspectSimulator.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GUI.de.resx" />
+    <EmbeddedResource Include="GUI.es.resx">
+      <DependentUpon>GUI.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="IncubatorSelect.resx">
       <DependentUpon>IncubatorSelect.cs</DependentUpon>
     </EmbeddedResource>
