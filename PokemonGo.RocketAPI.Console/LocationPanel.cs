@@ -20,10 +20,12 @@ using GMap.NET;
 using GMap.NET.MapProviders;
 using GMap.NET.WindowsForms;
 using GMap.NET.WindowsForms.Markers;
+using Google.Maps;
+using Google.Maps.Elevation;
 using GoogleMapsApi;
 using GoogleMapsApi.Entities.Common;
-using GoogleMapsApi.Entities.Elevation.Request;
-using GoogleMapsApi.Entities.Elevation.Response;
+//using GoogleMapsApi.Entities.Elevation.Request;
+//using GoogleMapsApi.Entities.Elevation.Response;
 using PokemonGo.RocketAPI.Logic.Utils;
 using PokemonGo.RocketApi.PokeMap;
 using POGOProtos.Map.Fort;
@@ -84,7 +86,8 @@ namespace PokemonGo.RocketAPI.Console
         private Dictionary<string, GMarkerGoogle> _pokeGymsMarks = new Dictionary<string, GMarkerGoogle>();
         private GMapOverlay _pokeGymsOverlay = new GMapOverlay("PokeGyms");
 
-        delegate void SetTextCallback(double cord);
+        //delegate void SetTextCallback(double cord);
+        delegate void SetTextCallback(decimal cord);
 
         private void button1_Click(object sender, EventArgs e)
         {
@@ -635,22 +638,29 @@ namespace PokemonGo.RocketAPI.Console
         {
             Task.Run(() =>
             {
-                var elevationRequest = new ElevationRequest()
-                {
-                    Locations = new[] { new Location(map.Position.Lat, map.Position.Lng) },
-                };
+                //var elevationRequest = new ElevationRequest();
+                //{
+                //    Locations = new[] { new Location(map.Position.Lat, map.Position.Lng) },
+                //};
+                var elevationRequest = new ElevationRequest();
+                elevationRequest.AddLocations(new LatLng(map.Position.Lat, map.Position.Lng));
+                elevationRequest.Sensor = false;
+
                 try
                 {
-                    ElevationResponse elevation = GoogleMaps.Elevation.Query(elevationRequest);
-                    if (elevation.Status == Status.OK)
+                    //ElevationResponse elevation = GoogleMaps.Elevation.Query(elevationRequest);
+                    ElevationResponse elevation = new ElevationService().GetResponse(elevationRequest);
+                    if (elevation.Status == ServiceResponseStatus.Ok)
+                    //if (elevation.Status == Status.OK)
                     {
-                        foreach (Result result in elevation.Results)
+                        //foreach (Result result in elevation.Results)
+                        foreach (ElevationResult result in elevation.Results)
                         {
                             try
                             {
                                 SetText(result.Elevation);
                             }
-                            catch(Exception e)
+                            catch (Exception e)
                             {
                                 Logger.ColoredConsoleWrite(ConsoleColor.Red, "Error: LocationPanel.cs - Zeile 653.");
                                 Logger.ColoredConsoleWrite(ConsoleColor.Red, e.Message);
@@ -658,8 +668,10 @@ namespace PokemonGo.RocketAPI.Console
                         }
                     }
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
+                    Logger.ColoredConsoleWrite(ConsoleColor.Red, "Error: LocationPanel.cs - Elevation Request");
+                    Logger.ColoredConsoleWrite(ConsoleColor.Red, ex.Message);
                     // ignored
                 }
             });
@@ -691,7 +703,8 @@ namespace PokemonGo.RocketAPI.Console
             }
         }
 
-        private void SetText(double cord)
+        //private void SetText(double cord)
+        private void SetText(decimal cord)
         {
             if (textBox3.InvokeRequired)
             {
@@ -701,7 +714,7 @@ namespace PokemonGo.RocketAPI.Console
             else
             {
                 textBox3.Text = cord.ToString(CultureInfo.InvariantCulture);
-                alt = cord;
+                alt = Convert.ToDouble(cord);
             }
         }
 
