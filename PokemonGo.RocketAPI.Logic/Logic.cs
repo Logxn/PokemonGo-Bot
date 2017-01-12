@@ -2805,7 +2805,7 @@ namespace PokemonGo.RocketAPI.Logic
                             unusedEggs.Remove(egg);
                             unusedEggsBasicInc.Remove(egg);
                         } catch (Exception e){
-
+                            Logger.AddLog(e.ToString());
                         }
                         newRememberedIncubators.Add(new IncubatorUsage { IncubatorId = incubator.Id, PokemonId = egg.Id });
                         Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, "Added Egg which needs " + egg.EggKmWalkedTarget + "km");
@@ -2829,7 +2829,7 @@ namespace PokemonGo.RocketAPI.Logic
             }
             catch (Exception e)
             {
-                // Leave this here: Logger.Error(e.StackTrace);
+                Logger.AddLog(e.ToString());
                 Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, "Egg: We dont have any eggs we could incubate.");
             }
         }
@@ -2902,6 +2902,7 @@ namespace PokemonGo.RocketAPI.Logic
                 }
                 catch (ArgumentOutOfRangeException e)
                 {
+                    Logger.AddLog(e.ToString());
                     Logger.ColoredConsoleWrite(ConsoleColor.Red, "Read invalid Date");
                 }
                 toShow.Add(poke2);

@@ -353,8 +353,8 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // button1
             // 
-            resources.ApplyResources(this.button1, "button1");
             this.button1.BackColor = System.Drawing.Color.MediumAquamarine;
+            resources.ApplyResources(this.button1, "button1");
             this.button1.Name = "button1";
             this.button1.UseVisualStyleBackColor = false;
             this.button1.Click += new System.EventHandler(this.button1_Click);
@@ -366,7 +366,6 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // tabProxies
             // 
-            resources.ApplyResources(this.tabProxies, "tabProxies");
             this.tabProxies.Controls.Add(this.linkLabel5);
             this.tabProxies.Controls.Add(this.label37);
             this.tabProxies.Controls.Add(this.label36);
@@ -380,6 +379,7 @@ namespace PokemonGo.RocketAPI.Console
             this.tabProxies.Controls.Add(this.prxyPass);
             this.tabProxies.Controls.Add(this.prxyIP);
             this.tabProxies.Controls.Add(this.checkBox_UseProxy);
+            resources.ApplyResources(this.tabProxies, "tabProxies");
             this.tabProxies.Name = "tabProxies";
             this.tabProxies.UseVisualStyleBackColor = true;
             // 
@@ -460,14 +460,13 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // tabItems
             // 
-            resources.ApplyResources(this.tabItems, "tabItems");
             this.tabItems.Controls.Add(this.groupBox4);
+            resources.ApplyResources(this.tabItems, "tabItems");
             this.tabItems.Name = "tabItems";
             this.tabItems.UseVisualStyleBackColor = true;
             // 
             // groupBox4
             // 
-            resources.ApplyResources(this.groupBox4, "groupBox4");
             this.groupBox4.Controls.Add(this.text_TotalItemCount);
             this.groupBox4.Controls.Add(this.label31);
             this.groupBox4.Controls.Add(this.label27);
@@ -490,6 +489,7 @@ namespace PokemonGo.RocketAPI.Console
             this.groupBox4.Controls.Add(this.label14);
             this.groupBox4.Controls.Add(this.text_MaxPokeballs);
             this.groupBox4.Controls.Add(this.label13);
+            resources.ApplyResources(this.groupBox4, "groupBox4");
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.TabStop = false;
             // 
@@ -625,17 +625,16 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // tabPokemon
             // 
-            resources.ApplyResources(this.tabPokemon, "tabPokemon");
             this.tabPokemon.Controls.Add(this.groupBox3);
             this.tabPokemon.Controls.Add(this.groupBox5);
             this.tabPokemon.Controls.Add(this.groupBox6);
             this.tabPokemon.Controls.Add(this.groupBox7);
+            resources.ApplyResources(this.tabPokemon, "tabPokemon");
             this.tabPokemon.Name = "tabPokemon";
             this.tabPokemon.UseVisualStyleBackColor = true;
             // 
             // groupBox3
             // 
-            resources.ApplyResources(this.groupBox3, "groupBox3");
             this.groupBox3.Controls.Add(this.label55);
             this.groupBox3.Controls.Add(this.label29);
             this.groupBox3.Controls.Add(this.MinIVtoCatch);
@@ -650,6 +649,7 @@ namespace PokemonGo.RocketAPI.Console
             this.groupBox3.Controls.Add(this.checkBox_AutoTransferDoublePokemon);
             this.groupBox3.Controls.Add(this.label8);
             this.groupBox3.Controls.Add(this.label54);
+            resources.ApplyResources(this.groupBox3, "groupBox3");
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.TabStop = false;
             // 
@@ -733,9 +733,9 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // groupBox5
             // 
-            resources.ApplyResources(this.groupBox5, "groupBox5");
             this.groupBox5.Controls.Add(this.checkBox4);
             this.groupBox5.Controls.Add(this.checkedListBox_PokemonNotToTransfer);
+            resources.ApplyResources(this.groupBox5, "groupBox5");
             this.groupBox5.Name = "groupBox5";
             this.groupBox5.TabStop = false;
             // 
@@ -748,16 +748,16 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // checkedListBox_PokemonNotToTransfer
             // 
-            resources.ApplyResources(this.checkedListBox_PokemonNotToTransfer, "checkedListBox_PokemonNotToTransfer");
             this.checkedListBox_PokemonNotToTransfer.CheckOnClick = true;
             this.checkedListBox_PokemonNotToTransfer.FormattingEnabled = true;
+            resources.ApplyResources(this.checkedListBox_PokemonNotToTransfer, "checkedListBox_PokemonNotToTransfer");
             this.checkedListBox_PokemonNotToTransfer.Name = "checkedListBox_PokemonNotToTransfer";
             // 
             // groupBox6
             // 
-            resources.ApplyResources(this.groupBox6, "groupBox6");
             this.groupBox6.Controls.Add(this.checkBox5);
             this.groupBox6.Controls.Add(this.checkedListBox_PokemonNotToCatch);
+            resources.ApplyResources(this.groupBox6, "groupBox6");
             this.groupBox6.Name = "groupBox6";
             this.groupBox6.TabStop = false;
             // 
@@ -770,16 +770,16 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // checkedListBox_PokemonNotToCatch
             // 
-            resources.ApplyResources(this.checkedListBox_PokemonNotToCatch, "checkedListBox_PokemonNotToCatch");
             this.checkedListBox_PokemonNotToCatch.CheckOnClick = true;
             this.checkedListBox_PokemonNotToCatch.FormattingEnabled = true;
+            resources.ApplyResources(this.checkedListBox_PokemonNotToCatch, "checkedListBox_PokemonNotToCatch");
             this.checkedListBox_PokemonNotToCatch.Name = "checkedListBox_PokemonNotToCatch";
             // 
             // groupBox7
             // 
-            resources.ApplyResources(this.groupBox7, "groupBox7");
             this.groupBox7.Controls.Add(this.checkBox6);
             this.groupBox7.Controls.Add(this.checkedListBox_PokemonToEvolve);
+            resources.ApplyResources(this.groupBox7, "groupBox7");
             this.groupBox7.Name = "groupBox7";
             this.groupBox7.TabStop = false;
             // 
@@ -792,23 +792,22 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // checkedListBox_PokemonToEvolve
             // 
-            resources.ApplyResources(this.checkedListBox_PokemonToEvolve, "checkedListBox_PokemonToEvolve");
             this.checkedListBox_PokemonToEvolve.CheckOnClick = true;
             this.checkedListBox_PokemonToEvolve.FormattingEnabled = true;
+            resources.ApplyResources(this.checkedListBox_PokemonToEvolve, "checkedListBox_PokemonToEvolve");
             this.checkedListBox_PokemonToEvolve.Name = "checkedListBox_PokemonToEvolve";
             // 
             // tabGeneral
             // 
-            resources.ApplyResources(this.tabGeneral, "tabGeneral");
             this.tabGeneral.Controls.Add(this.groupBoxAccount);
             this.tabGeneral.Controls.Add(this.groupBox2);
             this.tabGeneral.Controls.Add(this.groupBox10);
+            resources.ApplyResources(this.tabGeneral, "tabGeneral");
             this.tabGeneral.Name = "tabGeneral";
             this.tabGeneral.UseVisualStyleBackColor = true;
             // 
             // groupBoxAccount
             // 
-            resources.ApplyResources(this.groupBoxAccount, "groupBoxAccount");
             this.groupBoxAccount.Controls.Add(this.linkLabel14);
             this.groupBoxAccount.Controls.Add(this.label66);
             this.groupBoxAccount.Controls.Add(this.label39);
@@ -826,6 +825,7 @@ namespace PokemonGo.RocketAPI.Console
             this.groupBoxAccount.Controls.Add(this.text_EMail);
             this.groupBoxAccount.Controls.Add(this.checkbox_PWDEncryption);
             this.groupBoxAccount.Controls.Add(this.checkBox1);
+            resources.ApplyResources(this.groupBoxAccount, "groupBoxAccount");
             this.groupBoxAccount.Name = "groupBoxAccount";
             this.groupBoxAccount.TabStop = false;
             // 
@@ -853,7 +853,6 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // comboBox_Device
             // 
-            resources.ApplyResources(this.comboBox_Device, "comboBox_Device");
             this.comboBox_Device.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox_Device.FormattingEnabled = true;
             this.comboBox_Device.Items.AddRange(new object[] {
@@ -883,6 +882,7 @@ namespace PokemonGo.RocketAPI.Console
             resources.GetString("comboBox_Device.Items23"),
             resources.GetString("comboBox_Device.Items24"),
             resources.GetString("comboBox_Device.Items25")});
+            resources.ApplyResources(this.comboBox_Device, "comboBox_Device");
             this.comboBox_Device.Name = "comboBox_Device";
             this.comboBox_Device.SelectedIndexChanged += new System.EventHandler(this.comboDevice_SelectedIndexChanged);
             // 
@@ -910,17 +910,17 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // Profileselect
             // 
-            resources.ApplyResources(this.Profileselect, "Profileselect");
             this.Profileselect.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.Profileselect.FormattingEnabled = true;
+            resources.ApplyResources(this.Profileselect, "Profileselect");
             this.Profileselect.Name = "Profileselect";
             this.Profileselect.SelectedIndexChanged += new System.EventHandler(this.Profileselectg_SelectedIndexChanged);
             // 
             // comboBox_AccountType
             // 
-            resources.ApplyResources(this.comboBox_AccountType, "comboBox_AccountType");
             this.comboBox_AccountType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox_AccountType.FormattingEnabled = true;
+            resources.ApplyResources(this.comboBox_AccountType, "comboBox_AccountType");
             this.comboBox_AccountType.Name = "comboBox_AccountType";
             this.comboBox_AccountType.SelectedIndexChanged += new System.EventHandler(this.comboAccType_SelectedIndexChanged);
             // 
@@ -963,7 +963,6 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // groupBox2
             // 
-            resources.ApplyResources(this.groupBox2, "groupBox2");
             this.groupBox2.Controls.Add(this.button_SetLocation);
             this.groupBox2.Controls.Add(this.label6);
             this.groupBox2.Controls.Add(this.text_Altidude);
@@ -971,13 +970,14 @@ namespace PokemonGo.RocketAPI.Console
             this.groupBox2.Controls.Add(this.label5);
             this.groupBox2.Controls.Add(this.text_Latidude);
             this.groupBox2.Controls.Add(this.label4);
+            resources.ApplyResources(this.groupBox2, "groupBox2");
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.TabStop = false;
             // 
             // button_SetLocation
             // 
-            resources.ApplyResources(this.button_SetLocation, "button_SetLocation");
             this.button_SetLocation.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            resources.ApplyResources(this.button_SetLocation, "button_SetLocation");
             this.button_SetLocation.Name = "button_SetLocation";
             this.button_SetLocation.UseVisualStyleBackColor = false;
             this.button_SetLocation.Click += new System.EventHandler(this.button2_Click);
@@ -1017,7 +1017,6 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // groupBox10
             // 
-            resources.ApplyResources(this.groupBox10, "groupBox10");
             this.groupBox10.Controls.Add(this.checkBox_ConsoleInTab);
             this.groupBox10.Controls.Add(this.checkBox_CollectDailyBonus);
             this.groupBox10.Controls.Add(this.checkBox_FarmGyms);
@@ -1029,6 +1028,7 @@ namespace PokemonGo.RocketAPI.Console
             this.groupBox10.Controls.Add(this.checkBox_SimulateAnimationTimeAtEvolve);
             this.groupBox10.Controls.Add(this.checkBox_UseLuckyEggAtEvolve);
             this.groupBox10.Controls.Add(this.checkBox_EvolvePokemonIfEnoughCandy);
+            resources.ApplyResources(this.groupBox10, "groupBox10");
             this.groupBox10.Name = "groupBox10";
             this.groupBox10.TabStop = false;
             // 
@@ -1115,7 +1115,6 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // tabControl1
             // 
-            resources.ApplyResources(this.tabControl1, "tabControl1");
             this.tabControl1.Controls.Add(this.tabGeneral);
             this.tabControl1.Controls.Add(this.tabPokemon);
             this.tabControl1.Controls.Add(this.tabThrows);
@@ -1126,25 +1125,26 @@ namespace PokemonGo.RocketAPI.Console
             this.tabControl1.Controls.Add(this.tabMisc);
             this.tabControl1.Controls.Add(this.tabUpdates);
             this.tabControl1.Controls.Add(this.tabCredits);
+            resources.ApplyResources(this.tabControl1, "tabControl1");
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
             // 
             // tabThrows
             // 
-            resources.ApplyResources(this.tabThrows, "tabThrows");
             this.tabThrows.Controls.Add(this.groupBox19);
             this.tabThrows.Controls.Add(this.groupBox8);
             this.tabThrows.Controls.Add(this.groupBox16);
+            resources.ApplyResources(this.tabThrows, "tabThrows");
             this.tabThrows.Name = "tabThrows";
             this.tabThrows.UseVisualStyleBackColor = true;
             // 
             // groupBox19
             // 
-            resources.ApplyResources(this.groupBox19, "groupBox19");
             this.groupBox19.Controls.Add(this.UltraBallMinCP);
             this.groupBox19.Controls.Add(this.GreatBallMinCP);
             this.groupBox19.Controls.Add(this.label56);
             this.groupBox19.Controls.Add(this.label65);
+            resources.ApplyResources(this.groupBox19, "groupBox19");
             this.groupBox19.Name = "groupBox19";
             this.groupBox19.TabStop = false;
             // 
@@ -1170,7 +1170,6 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // groupBox8
             // 
-            resources.ApplyResources(this.groupBox8, "groupBox8");
             this.groupBox8.Controls.Add(this.label33);
             this.groupBox8.Controls.Add(this.label53);
             this.groupBox8.Controls.Add(this.text_UseRazzberryChance);
@@ -1187,6 +1186,7 @@ namespace PokemonGo.RocketAPI.Console
             this.groupBox8.Controls.Add(this.label24);
             this.groupBox8.Controls.Add(this.label23);
             this.groupBox8.Controls.Add(this.label22);
+            resources.ApplyResources(this.groupBox8, "groupBox8");
             this.groupBox8.Name = "groupBox8";
             this.groupBox8.TabStop = false;
             // 
@@ -1297,7 +1297,6 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // groupBox16
             // 
-            resources.ApplyResources(this.groupBox16, "groupBox16");
             this.groupBox16.Controls.Add(this.label60);
             this.groupBox16.Controls.Add(this.label59);
             this.groupBox16.Controls.Add(this.label58);
@@ -1310,6 +1309,7 @@ namespace PokemonGo.RocketAPI.Console
             this.groupBox16.Controls.Add(this.label50);
             this.groupBox16.Controls.Add(this.label49);
             this.groupBox16.Controls.Add(this.label48);
+            resources.ApplyResources(this.groupBox16, "groupBox16");
             this.groupBox16.Name = "groupBox16";
             this.groupBox16.TabStop = false;
             // 
@@ -1379,26 +1379,26 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // tabEggs
             // 
-            resources.ApplyResources(this.tabEggs, "tabEggs");
             this.tabEggs.Controls.Add(this.groupBox26);
             this.tabEggs.Controls.Add(this.groupBox1);
             this.tabEggs.Controls.Add(this.groupBox_EggOptions);
+            resources.ApplyResources(this.tabEggs, "tabEggs");
             this.tabEggs.Name = "tabEggs";
             this.tabEggs.UseVisualStyleBackColor = true;
             // 
             // groupBox26
             // 
-            resources.ApplyResources(this.groupBox26, "groupBox26");
             this.groupBox26.Controls.Add(this.groupBox27);
             this.groupBox26.Controls.Add(this.groupBox28);
+            resources.ApplyResources(this.groupBox26, "groupBox26");
             this.groupBox26.Name = "groupBox26";
             this.groupBox26.TabStop = false;
             // 
             // groupBox27
             // 
-            resources.ApplyResources(this.groupBox27, "groupBox27");
             this.groupBox27.Controls.Add(this.rbSOEggsDescendingBasicInc);
             this.groupBox27.Controls.Add(this.rbSOEggsAscendingBasicInc);
+            resources.ApplyResources(this.groupBox27, "groupBox27");
             this.groupBox27.Name = "groupBox27";
             this.groupBox27.TabStop = false;
             // 
@@ -1418,10 +1418,10 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // groupBox28
             // 
-            resources.ApplyResources(this.groupBox28, "groupBox28");
             this.groupBox28.Controls.Add(this.checkBox_10kmEggsBasicInc);
             this.groupBox28.Controls.Add(this.checkBox_5kmEggsBasicInc);
             this.groupBox28.Controls.Add(this.checkBox_2kmEggsBasicInc);
+            resources.ApplyResources(this.groupBox28, "groupBox28");
             this.groupBox28.Name = "groupBox28";
             this.groupBox28.TabStop = false;
             // 
@@ -1445,17 +1445,17 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // groupBox1
             // 
-            resources.ApplyResources(this.groupBox1, "groupBox1");
             this.groupBox1.Controls.Add(this.gbSelectionOrder);
             this.groupBox1.Controls.Add(this.groupBox24);
+            resources.ApplyResources(this.groupBox1, "groupBox1");
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.TabStop = false;
             // 
             // gbSelectionOrder
             // 
-            resources.ApplyResources(this.gbSelectionOrder, "gbSelectionOrder");
             this.gbSelectionOrder.Controls.Add(this.rbSOEggsDescending);
             this.gbSelectionOrder.Controls.Add(this.rbSOEggsAscending);
+            resources.ApplyResources(this.gbSelectionOrder, "gbSelectionOrder");
             this.gbSelectionOrder.Name = "gbSelectionOrder";
             this.gbSelectionOrder.TabStop = false;
             // 
@@ -1475,10 +1475,10 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // groupBox24
             // 
-            resources.ApplyResources(this.groupBox24, "groupBox24");
             this.groupBox24.Controls.Add(this.checkBox_10kmEggs);
             this.groupBox24.Controls.Add(this.checkBox_5kmEggs);
             this.groupBox24.Controls.Add(this.checkBox_2kmEggs);
+            resources.ApplyResources(this.groupBox24, "groupBox24");
             this.groupBox24.Name = "groupBox24";
             this.groupBox24.TabStop = false;
             // 
@@ -1502,9 +1502,9 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // groupBox_EggOptions
             // 
-            resources.ApplyResources(this.groupBox_EggOptions, "groupBox_EggOptions");
             this.groupBox_EggOptions.Controls.Add(this.checkBox_AutoIncubate);
             this.groupBox_EggOptions.Controls.Add(this.checkBox_UseBasicIncubators);
+            resources.ApplyResources(this.groupBox_EggOptions, "groupBox_EggOptions");
             this.groupBox_EggOptions.Name = "groupBox_EggOptions";
             this.groupBox_EggOptions.TabStop = false;
             // 
@@ -1524,23 +1524,23 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // tabWalkSettings
             // 
-            resources.ApplyResources(this.tabWalkSettings, "tabWalkSettings");
             this.tabWalkSettings.Controls.Add(this.groupBox18);
             this.tabWalkSettings.Controls.Add(this.groupBox13);
             this.tabWalkSettings.Controls.Add(this.groupBox11);
             this.tabWalkSettings.Controls.Add(this.groupBox12);
+            resources.ApplyResources(this.tabWalkSettings, "tabWalkSettings");
             this.tabWalkSettings.Name = "tabWalkSettings";
             this.tabWalkSettings.UseVisualStyleBackColor = true;
             // 
             // groupBox18
             // 
-            resources.ApplyResources(this.groupBox18, "groupBox18");
             this.groupBox18.Controls.Add(this.text_MoveRadius);
             this.groupBox18.Controls.Add(this.label9);
             this.groupBox18.Controls.Add(this.label7);
             this.groupBox18.Controls.Add(this.text_Speed);
             this.groupBox18.Controls.Add(this.label46);
             this.groupBox18.Controls.Add(this.text_MinWalkSpeed);
+            resources.ApplyResources(this.groupBox18, "groupBox18");
             this.groupBox18.Name = "groupBox18";
             this.groupBox18.TabStop = false;
             // 
@@ -1580,11 +1580,11 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // groupBox13
             // 
-            resources.ApplyResources(this.groupBox13, "groupBox13");
             this.groupBox13.Controls.Add(this.linkLabel6);
             this.groupBox13.Controls.Add(this.text_GoogleMapsAPIKey);
             this.groupBox13.Controls.Add(this.checkBox_UseGoogleMapsRouting);
             this.groupBox13.Controls.Add(this.label45);
+            resources.ApplyResources(this.groupBox13, "groupBox13");
             this.groupBox13.Name = "groupBox13";
             this.groupBox13.TabStop = false;
             // 
@@ -1614,7 +1614,6 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // groupBox11
             // 
-            resources.ApplyResources(this.groupBox11, "groupBox11");
             this.groupBox11.Controls.Add(this.checkBox_StopWalkingWhenEvolving);
             this.groupBox11.Controls.Add(this.checkBox_UseBreakIntervalAndLength);
             this.groupBox11.Controls.Add(this.checkBox_Start_Walk_from_default_location);
@@ -1628,6 +1627,7 @@ namespace PokemonGo.RocketAPI.Console
             this.groupBox11.Controls.Add(this.checkBox_BreakAtLure);
             this.groupBox11.Controls.Add(this.button_ArchimedeanSpiralHelp);
             this.groupBox11.Controls.Add(this.checkBox_WalkInArchimedeanSpiral);
+            resources.ApplyResources(this.groupBox11, "groupBox11");
             this.groupBox11.Name = "groupBox11";
             this.groupBox11.TabStop = false;
             // 
@@ -1722,7 +1722,6 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // groupBox12
             // 
-            resources.ApplyResources(this.groupBox12, "groupBox12");
             this.groupBox12.Controls.Add(this.label41);
             this.groupBox12.Controls.Add(this.text_BreakInterval);
             this.groupBox12.Controls.Add(this.label44);
@@ -1735,6 +1734,7 @@ namespace PokemonGo.RocketAPI.Console
             this.groupBox12.Controls.Add(this.text_PokemonCatchLimit);
             this.groupBox12.Controls.Add(this.label40);
             this.groupBox12.Controls.Add(this.text_TimeToRun);
+            resources.ApplyResources(this.groupBox12, "groupBox12");
             this.groupBox12.Name = "groupBox12";
             this.groupBox12.TabStop = false;
             // 
@@ -1801,8 +1801,8 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // text_TimeToRun
             // 
-            resources.ApplyResources(this.text_TimeToRun, "text_TimeToRun");
             this.text_TimeToRun.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.settingsBindingSource, "TimeToRun", true, System.Windows.Forms.DataSourceUpdateMode.OnValidation, "0", "N0"));
+            resources.ApplyResources(this.text_TimeToRun, "text_TimeToRun");
             this.text_TimeToRun.Name = "text_TimeToRun";
             // 
             // settingsBindingSource
@@ -1811,20 +1811,20 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // tabMisc
             // 
-            resources.ApplyResources(this.tabMisc, "tabMisc");
             this.tabMisc.Controls.Add(this.groupBox25);
             this.tabMisc.Controls.Add(this.groupBox23);
             this.tabMisc.Controls.Add(this.AvoidRegionLock);
             this.tabMisc.Controls.Add(this.SnipePokemonPokeCom);
             this.tabMisc.Controls.Add(this.groupBox17);
             this.tabMisc.Controls.Add(this.groupBox14);
+            resources.ApplyResources(this.tabMisc, "tabMisc");
             this.tabMisc.Name = "tabMisc";
             this.tabMisc.UseVisualStyleBackColor = true;
             // 
             // groupBox25
             // 
-            resources.ApplyResources(this.groupBox25, "groupBox25");
             this.groupBox25.Controls.Add(this.checkbox_Verboselogging);
+            resources.ApplyResources(this.groupBox25, "groupBox25");
             this.groupBox25.Name = "groupBox25";
             this.groupBox25.TabStop = false;
             // 
@@ -1836,9 +1836,9 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // groupBox23
             // 
-            resources.ApplyResources(this.groupBox23, "groupBox23");
             this.groupBox23.Controls.Add(this.SelectallNottoSnipe);
             this.groupBox23.Controls.Add(this.checkedListBox_NotToSnipe);
+            resources.ApplyResources(this.groupBox23, "groupBox23");
             this.groupBox23.Name = "groupBox23";
             this.groupBox23.TabStop = false;
             // 
@@ -1851,9 +1851,9 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // checkedListBox_NotToSnipe
             // 
-            resources.ApplyResources(this.checkedListBox_NotToSnipe, "checkedListBox_NotToSnipe");
             this.checkedListBox_NotToSnipe.CheckOnClick = true;
             this.checkedListBox_NotToSnipe.FormattingEnabled = true;
+            resources.ApplyResources(this.checkedListBox_NotToSnipe, "checkedListBox_NotToSnipe");
             this.checkedListBox_NotToSnipe.Name = "checkedListBox_NotToSnipe";
             // 
             // AvoidRegionLock
@@ -1872,7 +1872,6 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // groupBox17
             // 
-            resources.ApplyResources(this.groupBox17, "groupBox17");
             this.groupBox17.Controls.Add(this.label61);
             this.groupBox17.Controls.Add(this.label62);
             this.groupBox17.Controls.Add(this.text_Telegram_LiveStatsDelay);
@@ -1880,6 +1879,7 @@ namespace PokemonGo.RocketAPI.Console
             this.groupBox17.Controls.Add(this.label63);
             this.groupBox17.Controls.Add(this.text_Telegram_Token);
             this.groupBox17.Controls.Add(this.label64);
+            resources.ApplyResources(this.groupBox17, "groupBox17");
             this.groupBox17.Name = "groupBox17";
             this.groupBox17.TabStop = false;
             // 
@@ -1920,11 +1920,11 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // groupBox14
             // 
-            resources.ApplyResources(this.groupBox14, "groupBox14");
             this.groupBox14.Controls.Add(this.checkbox_LogEggs);
             this.groupBox14.Controls.Add(this.logEvolution);
             this.groupBox14.Controls.Add(this.logManuelTransfer);
             this.groupBox14.Controls.Add(this.logPokemon);
+            resources.ApplyResources(this.groupBox14, "groupBox14");
             this.groupBox14.Name = "groupBox14";
             this.groupBox14.TabStop = false;
             // 
@@ -1954,19 +1954,19 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // tabUpdates
             // 
-            resources.ApplyResources(this.tabUpdates, "tabUpdates");
             this.tabUpdates.Controls.Add(this.groupBox9);
             this.tabUpdates.Controls.Add(this.groupBox15);
+            resources.ApplyResources(this.tabUpdates, "tabUpdates");
             this.tabUpdates.Name = "tabUpdates";
             this.tabUpdates.UseVisualStyleBackColor = true;
             // 
             // groupBox9
             // 
-            resources.ApplyResources(this.groupBox9, "groupBox9");
             this.groupBox9.Controls.Add(this.newVer);
             this.groupBox9.Controls.Add(this.currVer);
             this.groupBox9.Controls.Add(this.newText);
             this.groupBox9.Controls.Add(this.currText);
+            resources.ApplyResources(this.groupBox9, "groupBox9");
             this.groupBox9.Name = "groupBox9";
             this.groupBox9.TabStop = false;
             // 
@@ -1992,9 +1992,9 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // groupBox15
             // 
-            resources.ApplyResources(this.groupBox15, "groupBox15");
             this.groupBox15.Controls.Add(this.checkbox_checkWhileRunning);
             this.groupBox15.Controls.Add(this.checkbox_AutoUpdate);
+            resources.ApplyResources(this.groupBox15, "groupBox15");
             this.groupBox15.Name = "groupBox15";
             this.groupBox15.TabStop = false;
             // 
@@ -2012,24 +2012,24 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // tabCredits
             // 
-            resources.ApplyResources(this.tabCredits, "tabCredits");
             this.tabCredits.Controls.Add(this.groupBox29);
             this.tabCredits.Controls.Add(this.groupBox22);
             this.tabCredits.Controls.Add(this.groupBox21);
             this.tabCredits.Controls.Add(this.groupBox20);
             this.tabCredits.Controls.Add(this.pictureBox3);
+            resources.ApplyResources(this.tabCredits, "tabCredits");
             this.tabCredits.Name = "tabCredits";
             this.tabCredits.UseVisualStyleBackColor = true;
             // 
             // groupBox29
             // 
-            resources.ApplyResources(this.groupBox29, "groupBox29");
             this.groupBox29.Controls.Add(this.button_Information);
             this.groupBox29.Controls.Add(this.linkLabel16);
             this.groupBox29.Controls.Add(this.label69);
             this.groupBox29.Controls.Add(this.label70);
             this.groupBox29.Controls.Add(this.linkLabel15);
             this.groupBox29.Controls.Add(this.label71);
+            resources.ApplyResources(this.groupBox29, "groupBox29");
             this.groupBox29.Name = "groupBox29";
             this.groupBox29.TabStop = false;
             // 
@@ -2071,11 +2071,11 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // groupBox22
             // 
-            resources.ApplyResources(this.groupBox22, "groupBox22");
             this.groupBox22.Controls.Add(this.linkLabel17);
             this.groupBox22.Controls.Add(this.linkLabel13);
             this.groupBox22.Controls.Add(this.linkLabel12);
             this.groupBox22.Controls.Add(this.linkLabel11);
+            resources.ApplyResources(this.groupBox22, "groupBox22");
             this.groupBox22.Name = "groupBox22";
             this.groupBox22.TabStop = false;
             // 
@@ -2105,12 +2105,12 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // groupBox21
             // 
-            resources.ApplyResources(this.groupBox21, "groupBox21");
             this.groupBox21.Controls.Add(this.ver);
             this.groupBox21.Controls.Add(this.label38);
             this.groupBox21.Controls.Add(this.linkLabel8);
             this.groupBox21.Controls.Add(this.label10);
             this.groupBox21.Controls.Add(this.linkLabel1);
+            resources.ApplyResources(this.groupBox21, "groupBox21");
             this.groupBox21.Name = "groupBox21";
             this.groupBox21.TabStop = false;
             // 
@@ -2145,13 +2145,13 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // groupBox20
             // 
-            resources.ApplyResources(this.groupBox20, "groupBox20");
             this.groupBox20.Controls.Add(this.linkLabel10);
             this.groupBox20.Controls.Add(this.linkLabel9);
             this.groupBox20.Controls.Add(this.linkLabel2);
             this.groupBox20.Controls.Add(this.linkLabel3);
             this.groupBox20.Controls.Add(this.linkLabel7);
             this.groupBox20.Controls.Add(this.linkLabel4);
+            resources.ApplyResources(this.groupBox20, "groupBox20");
             this.groupBox20.Name = "groupBox20";
             this.groupBox20.TabStop = false;
             // 
@@ -2198,8 +2198,8 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // pictureBox3
             // 
-            resources.ApplyResources(this.pictureBox3, "pictureBox3");
             this.pictureBox3.Image = global::PokemonGo.RocketAPI.Console.Properties.Resources.giphy__1_;
+            resources.ApplyResources(this.pictureBox3, "pictureBox3");
             this.pictureBox3.Name = "pictureBox3";
             this.pictureBox3.TabStop = false;
             // 
@@ -2212,8 +2212,8 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // lang_france_btn
             // 
-            resources.ApplyResources(this.lang_france_btn, "lang_france_btn");
             this.lang_france_btn.BackgroundImage = global::PokemonGo.RocketAPI.Console.Properties.Resources.france;
+            resources.ApplyResources(this.lang_france_btn, "lang_france_btn");
             this.lang_france_btn.Name = "lang_france_btn";
             this.lang_france_btn.Tag = "france";
             this.lang_france_btn.UseVisualStyleBackColor = true;
@@ -2221,8 +2221,8 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // lang_ru_btn
             // 
-            resources.ApplyResources(this.lang_ru_btn, "lang_ru_btn");
             this.lang_ru_btn.BackgroundImage = global::PokemonGo.RocketAPI.Console.Properties.Resources.ru1;
+            resources.ApplyResources(this.lang_ru_btn, "lang_ru_btn");
             this.lang_ru_btn.Name = "lang_ru_btn";
             this.lang_ru_btn.Tag = "ru";
             this.lang_ru_btn.UseVisualStyleBackColor = true;
@@ -2230,8 +2230,8 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // lang_tr_btn
             // 
-            resources.ApplyResources(this.lang_tr_btn, "lang_tr_btn");
             this.lang_tr_btn.BackgroundImage = global::PokemonGo.RocketAPI.Console.Properties.Resources.tr1;
+            resources.ApplyResources(this.lang_tr_btn, "lang_tr_btn");
             this.lang_tr_btn.Name = "lang_tr_btn";
             this.lang_tr_btn.Tag = "tr";
             this.lang_tr_btn.UseVisualStyleBackColor = true;
@@ -2239,8 +2239,8 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // lang_ptBR_btn
             // 
-            resources.ApplyResources(this.lang_ptBR_btn, "lang_ptBR_btn");
             this.lang_ptBR_btn.BackgroundImage = global::PokemonGo.RocketAPI.Console.Properties.Resources.ptBR;
+            resources.ApplyResources(this.lang_ptBR_btn, "lang_ptBR_btn");
             this.lang_ptBR_btn.Name = "lang_ptBR_btn";
             this.lang_ptBR_btn.Tag = "ptBR";
             this.lang_ptBR_btn.UseVisualStyleBackColor = true;
@@ -2248,8 +2248,8 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // lang_spain_btn
             // 
-            resources.ApplyResources(this.lang_spain_btn, "lang_spain_btn");
             this.lang_spain_btn.BackgroundImage = global::PokemonGo.RocketAPI.Console.Properties.Resources.spain;
+            resources.ApplyResources(this.lang_spain_btn, "lang_spain_btn");
             this.lang_spain_btn.Name = "lang_spain_btn";
             this.lang_spain_btn.Tag = "spain";
             this.lang_spain_btn.UseVisualStyleBackColor = true;
@@ -2257,8 +2257,8 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // lang_de_btn
             // 
-            resources.ApplyResources(this.lang_de_btn, "lang_de_btn");
             this.lang_de_btn.BackgroundImage = global::PokemonGo.RocketAPI.Console.Properties.Resources.de;
+            resources.ApplyResources(this.lang_de_btn, "lang_de_btn");
             this.lang_de_btn.Name = "lang_de_btn";
             this.lang_de_btn.Tag = "de";
             this.lang_de_btn.UseVisualStyleBackColor = true;
@@ -2266,8 +2266,8 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // lang_en_btn
             // 
-            resources.ApplyResources(this.lang_en_btn, "lang_en_btn");
             this.lang_en_btn.BackgroundImage = global::PokemonGo.RocketAPI.Console.Properties.Resources.en;
+            resources.ApplyResources(this.lang_en_btn, "lang_en_btn");
             this.lang_en_btn.Name = "lang_en_btn";
             this.lang_en_btn.Tag = "en";
             this.lang_en_btn.UseVisualStyleBackColor = true;
@@ -2275,8 +2275,8 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // pictureBox2
             // 
-            resources.ApplyResources(this.pictureBox2, "pictureBox2");
             this.pictureBox2.BackgroundImage = global::PokemonGo.RocketAPI.Console.Properties.Resources.image;
+            resources.ApplyResources(this.pictureBox2, "pictureBox2");
             this.pictureBox2.Name = "pictureBox2";
             this.pictureBox2.TabStop = false;
             this.pictureBox2.Click += new System.EventHandler(this.pictureBox2_Click);

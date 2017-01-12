@@ -32,7 +32,7 @@ namespace PokemonGo.RocketAPI.Console
 		/// Disposes resources used by the control.
 		/// </summary>
 		/// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-		protected  void Dispose(bool disposing)
+		override protected  void Dispose(bool disposing)
 		{
 			if (disposing) {
 				if (components != null) {

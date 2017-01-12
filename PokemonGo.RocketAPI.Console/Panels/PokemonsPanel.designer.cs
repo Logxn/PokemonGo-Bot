@@ -222,6 +222,7 @@ namespace PokemonGo.RocketAPI.Console
             // lang_tr_btn2
             // 
             resources.ApplyResources(this.lang_tr_btn2, "lang_tr_btn2");
+            this.lang_tr_btn2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lang_tr_btn2.BackgroundImage = global::PokemonGo.RocketAPI.Console.Properties.Resources.tr1;
             this.lang_tr_btn2.Name = "lang_tr_btn2";
             this.lang_tr_btn2.UseVisualStyleBackColor = false;
@@ -230,6 +231,7 @@ namespace PokemonGo.RocketAPI.Console
             // lang_ptBR_btn2
             // 
             resources.ApplyResources(this.lang_ptBR_btn2, "lang_ptBR_btn2");
+            this.lang_ptBR_btn2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lang_ptBR_btn2.BackgroundImage = global::PokemonGo.RocketAPI.Console.Properties.Resources.ptBR;
             this.lang_ptBR_btn2.Name = "lang_ptBR_btn2";
             this.lang_ptBR_btn2.UseVisualStyleBackColor = false;
@@ -238,6 +240,7 @@ namespace PokemonGo.RocketAPI.Console
             // lang_spain_btn2
             // 
             resources.ApplyResources(this.lang_spain_btn2, "lang_spain_btn2");
+            this.lang_spain_btn2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lang_spain_btn2.BackgroundImage = global::PokemonGo.RocketAPI.Console.Properties.Resources.spain;
             this.lang_spain_btn2.Name = "lang_spain_btn2";
             this.lang_spain_btn2.UseVisualStyleBackColor = false;
@@ -246,6 +249,7 @@ namespace PokemonGo.RocketAPI.Console
             // lang_de_btn_2
             // 
             resources.ApplyResources(this.lang_de_btn_2, "lang_de_btn_2");
+            this.lang_de_btn_2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lang_de_btn_2.BackgroundImage = global::PokemonGo.RocketAPI.Console.Properties.Resources.de;
             this.lang_de_btn_2.Name = "lang_de_btn_2";
             this.lang_de_btn_2.UseVisualStyleBackColor = false;
@@ -254,6 +258,7 @@ namespace PokemonGo.RocketAPI.Console
             // lang_en_btn2
             // 
             resources.ApplyResources(this.lang_en_btn2, "lang_en_btn2");
+            this.lang_en_btn2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.lang_en_btn2.BackgroundImage = global::PokemonGo.RocketAPI.Console.Properties.Resources.en;
             this.lang_en_btn2.Name = "lang_en_btn2";
             this.lang_en_btn2.UseVisualStyleBackColor = false;

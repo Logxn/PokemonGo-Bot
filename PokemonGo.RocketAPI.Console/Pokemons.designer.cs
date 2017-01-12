@@ -130,6 +130,8 @@ namespace PokemonGo.RocketAPI.Console
             this.TabControl1.Controls.Add(this.tpPlayerInfo);
             this.TabControl1.Controls.Add(this.tpSnipers);
             this.TabControl1.Controls.Add(this.tpOptions);
+            //this.TabControl1.Controls.Add(this.tpConsole);
+            this.TabControl1.Location = new System.Drawing.Point(4, 4);
             this.TabControl1.Name = "TabControl1";
             this.TabControl1.SelectedIndex = 0;
             this.TabControl1.SelectedIndexChanged += new System.EventHandler(this.TabControl1_SelectedIndexChanged);
@@ -244,6 +246,27 @@ namespace PokemonGo.RocketAPI.Console
             // 
             resources.ApplyResources(this.loggerPanel1, "loggerPanel1");
             this.loggerPanel1.Name = "loggerPanel1";
+            // 
+            // tpConsole
+            // 
+            this.tpConsole.Controls.Add(this.loggerPanel1);
+            this.tpConsole.Location = new System.Drawing.Point(4, 22);
+            this.tpConsole.Name = "tpConsole";
+            this.tpConsole.Padding = new System.Windows.Forms.Padding(3);
+            this.tpConsole.Size = new System.Drawing.Size(757, 517);
+            this.tpConsole.TabIndex = 7;
+            this.tpConsole.Text = "Console";
+            this.tpConsole.UseVisualStyleBackColor = true;
+            // 
+            // loggerPanel1
+            // 
+            this.loggerPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.loggerPanel1.Location = new System.Drawing.Point(6, 6);
+            this.loggerPanel1.Name = "loggerPanel1";
+            this.loggerPanel1.Size = new System.Drawing.Size(745, 505);
+            this.loggerPanel1.TabIndex = 0;
             // 
             // Pokemons
             // 

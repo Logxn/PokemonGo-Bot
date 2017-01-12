@@ -104,7 +104,6 @@ namespace PokemonGo.RocketAPI.Console
             if (args != null && args.Length > 0 && args[0].Contains("-nogui"))
             {
                 Logger.ColoredConsoleWrite(ConsoleColor.Red, "You added -nogui! If you didnt setup correctly with the GUI. It wont work.");
-                int i = 1;
 
                 //TODO Implement JSON Load
 

@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Created by SharpDevelop.
  * User: Xelwon
  * Date: 15/09/2016
@@ -239,6 +239,9 @@ namespace PokemonGo.RocketAPI.Console
             // btnPauseWalking
             // 
             resources.ApplyResources(this.btnPauseWalking, "btnPauseWalking");
+            this.btnPauseWalking.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnPauseWalking.Location = new System.Drawing.Point(20, 19);
+            this.btnPauseWalking.Margin = new System.Windows.Forms.Padding(2);
             this.btnPauseWalking.Name = "btnPauseWalking";
             this.btnPauseWalking.UseVisualStyleBackColor = true;
             this.btnPauseWalking.Click += new System.EventHandler(this.btnPauseWalking_Click);
