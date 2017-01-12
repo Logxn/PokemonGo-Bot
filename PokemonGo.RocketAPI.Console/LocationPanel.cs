@@ -63,7 +63,7 @@ namespace PokemonGo.RocketAPI.Console
                 radiusOverlay = new GMapOverlay();
                 map.Overlays.Add(radiusOverlay);
                 nudRadius.Value = Globals.radius;
-                btnPauseWalking.Enabled = false;
+                btnPauseWalking.Visible = false;
             }
         }
         
@@ -546,7 +546,7 @@ namespace PokemonGo.RocketAPI.Console
             {
                 c.Visible = false;
             }
-            btnPauseWalking.Enabled = true;
+            btnPauseWalking.Visible = true;
 
             Bitmap bmp = Properties.MapData.player;
             switch (team)
