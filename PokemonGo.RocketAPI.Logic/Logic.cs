@@ -523,6 +523,7 @@ namespace PokemonGo.RocketAPI.Logic
                             (stats.NextLevelXp - stats.PrevLevelXp - StringUtils.getExpDiff(stats.Level)).ToString("N0") + @"|" +
                             Math.Round(curexppercent, 2) + @"%)| Stardust: " + profile.PlayerData.Currencies.ToArray()[1].Amount + @"| " +
                             BotStats;
+            if (!ClientSettings.EnableConsoleInTab){
                 System.Console.Title= strTitle;
             }
                 
