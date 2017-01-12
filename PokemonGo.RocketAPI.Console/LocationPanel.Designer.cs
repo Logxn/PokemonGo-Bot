@@ -335,7 +335,7 @@ namespace PokemonGo.RocketAPI.Console
             // btnPauseWalking
             // 
             this.btnPauseWalking.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnPauseWalking.Location = new System.Drawing.Point(7, 5);
+            this.btnPauseWalking.Location = new System.Drawing.Point(20, 19);
             this.btnPauseWalking.Margin = new System.Windows.Forms.Padding(2);
             this.btnPauseWalking.Name = "btnPauseWalking";
             this.btnPauseWalking.Size = new System.Drawing.Size(106, 23);

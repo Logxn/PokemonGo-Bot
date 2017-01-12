@@ -34,6 +34,10 @@ namespace PokemonGo.RocketAPI.Console
         public Pokemons()
         {
             InitializeComponent();
+            if (Globals.consoleInTab){
+                this.TabControl1.Controls.Add(this.tpConsole);
+                Logger.type = 1;
+            }
             ClientSettings = new Settings();
             changesPanel1.Execute();
         }
@@ -50,8 +54,10 @@ namespace PokemonGo.RocketAPI.Console
 
         private void Pokemons_Close(object sender, FormClosingEventArgs e)
         {
-            e.Cancel = true;
-            this.WindowState = FormWindowState.Minimized;
+            if (!Globals.consoleInTab){
+                e.Cancel = true;
+                this.WindowState = FormWindowState.Minimized;
+            }
         }
 
         public async Task check()

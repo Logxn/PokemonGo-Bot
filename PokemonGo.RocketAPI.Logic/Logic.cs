@@ -518,11 +518,15 @@ namespace PokemonGo.RocketAPI.Logic
             #endregion
 
             #region Set Console Title
-            System.Console.Title = profile.PlayerData.Username + @" lvl" + stats.Level + @"-(" +
+            var strTitle = profile.PlayerData.Username + @" lvl" + stats.Level + @"-(" +
                             (stats.Experience - stats.PrevLevelXp - StringUtils.getExpDiff(stats.Level)).ToString("N0") + @"/" +
                             (stats.NextLevelXp - stats.PrevLevelXp - StringUtils.getExpDiff(stats.Level)).ToString("N0") + @"|" +
                             Math.Round(curexppercent, 2) + @"%)| Stardust: " + profile.PlayerData.Currencies.ToArray()[1].Amount + @"| " +
                             BotStats;
+            if (!ClientSettings.EnableConsoleInTab){
+                System.Console.Title= strTitle;
+            }
+                
             #endregion
 
             #region Check for Update
