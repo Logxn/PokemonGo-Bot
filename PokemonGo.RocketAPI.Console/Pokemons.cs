@@ -54,8 +54,10 @@ namespace PokemonGo.RocketAPI.Console
 
         private void Pokemons_Close(object sender, FormClosingEventArgs e)
         {
-            e.Cancel = true;
-            this.WindowState = FormWindowState.Minimized;
+            if (!Globals.consoleInTab){
+                e.Cancel = true;
+                this.WindowState = FormWindowState.Minimized;
+            }
         }
 
         public async Task check()
