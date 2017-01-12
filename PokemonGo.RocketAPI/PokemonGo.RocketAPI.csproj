@@ -113,6 +113,7 @@
     <Reference Include="System.Data.Services.Design" />
     <Reference Include="System.Data.SqlXml" />
     <Reference Include="System.Device" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.IO.Compression" />
     <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>$(SolutionDir)\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
@@ -177,6 +178,11 @@
     <Compile Include="Logger.cs" />
     <Compile Include="Logging\ConsoleLogger.cs" />
     <Compile Include="Logging\ILogger.cs" />
+    <Compile Include="Logging\LoggerC.cs" />
+    <Compile Include="Logging\LoggerPanel.cs" />
+    <Compile Include="Logging\LoggerPanel.Designer.cs">
+      <DependentUpon>LoggerPanel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Login\GoogleLogin.cs" />
     <Compile Include="Login\ILoginType.cs" />
     <Compile Include="Login\PtcLogin.cs" />
@@ -206,6 +212,11 @@
       <Project>{a03a7bb2-4f0b-467b-84b2-9a76e6aae6fb}</Project>
       <Name>POGOProtos</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Logging\LoggerPanel.resx">
+      <DependentUpon>LoggerPanel.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

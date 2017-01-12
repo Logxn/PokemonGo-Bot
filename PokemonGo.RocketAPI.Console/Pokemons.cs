@@ -34,6 +34,10 @@ namespace PokemonGo.RocketAPI.Console
         public Pokemons()
         {
             InitializeComponent();
+            if (Globals.consoleInTab){
+                this.TabControl1.Controls.Add(this.tpConsole);
+                Logger.type = 1;
+            }
             ClientSettings = new Settings();
             changesPanel1.Execute();
         }
