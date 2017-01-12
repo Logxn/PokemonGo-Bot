@@ -840,7 +840,6 @@ namespace PokemonGo.RocketAPI.Console
             // 
             resources.ApplyResources(this.label66, "label66");
             this.label66.Name = "label66";
-            this.label66.Click += new System.EventHandler(this.label66_Click);
             // 
             // label39
             // 

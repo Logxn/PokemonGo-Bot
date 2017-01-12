@@ -35,26 +35,16 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // locationPanel1
             // 
-            this.locationPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.locationPanel1.Location = new System.Drawing.Point(3, 2);
-            this.locationPanel1.Margin = new System.Windows.Forms.Padding(5);
+            resources.ApplyResources(this.locationPanel1, "locationPanel1");
             this.locationPanel1.Name = "locationPanel1";
-            this.locationPanel1.Size = new System.Drawing.Size(852, 500);
-            this.locationPanel1.TabIndex = 0;
             // 
             // LocationSelect
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(855, 505);
             this.Controls.Add(this.locationPanel1);
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
             this.MaximizeBox = false;
             this.Name = "LocationSelect";
-            this.Text = "Location";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.LocationSelect_FormClosing);
             this.ResumeLayout(false);
 

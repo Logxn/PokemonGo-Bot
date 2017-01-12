@@ -117,4 +117,631 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="labelUserProperty6Value.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 12pt</value>
+  </data>
+  <data name="labelUserProperty6Value.Location" type="System.Drawing.Point, System.Drawing">
+    <value>485, 161</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="labelUserProperty6Value.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>2, 0, 2, 0</value>
+  </data>
+  <data name="labelUserProperty6Value.Size" type="System.Drawing.Size, System.Drawing">
+    <value>312, 25</value>
+  </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="labelUserProperty6Value.TabIndex" type="System.Int32, mscorlib">
+    <value>101</value>
+  </data>
+  <data name="labelUserProperty6Value.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="&gt;&gt;labelUserProperty6Value.Name" xml:space="preserve">
+    <value>labelUserProperty6Value</value>
+  </data>
+  <data name="&gt;&gt;labelUserProperty6Value.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;labelUserProperty6Value.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;labelUserProperty6Value.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="labelUserProperty6Title.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 12pt, style=Bold</value>
+  </data>
+  <data name="labelUserProperty6Title.Location" type="System.Drawing.Point, System.Drawing">
+    <value>319, 161</value>
+  </data>
+  <data name="labelUserProperty6Title.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>2, 0, 2, 0</value>
+  </data>
+  <data name="labelUserProperty6Title.Size" type="System.Drawing.Size, System.Drawing">
+    <value>144, 25</value>
+  </data>
+  <data name="labelUserProperty6Title.TabIndex" type="System.Int32, mscorlib">
+    <value>100</value>
+  </data>
+  <data name="labelUserProperty6Title.Text" xml:space="preserve">
+    <value>km Walked:</value>
+  </data>
+  <data name="labelUserProperty6Title.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleRight</value>
+  </data>
+  <data name="&gt;&gt;labelUserProperty6Title.Name" xml:space="preserve">
+    <value>labelUserProperty6Title</value>
+  </data>
+  <data name="&gt;&gt;labelUserProperty6Title.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;labelUserProperty6Title.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;labelUserProperty6Title.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="labelUserProperty5Value.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 12pt</value>
+  </data>
+  <data name="labelUserProperty5Value.Location" type="System.Drawing.Point, System.Drawing">
+    <value>485, 136</value>
+  </data>
+  <data name="labelUserProperty5Value.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>2, 0, 2, 0</value>
+  </data>
+  <data name="labelUserProperty5Value.Size" type="System.Drawing.Size, System.Drawing">
+    <value>312, 25</value>
+  </data>
+  <data name="labelUserProperty5Value.TabIndex" type="System.Int32, mscorlib">
+    <value>99</value>
+  </data>
+  <data name="labelUserProperty5Value.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="&gt;&gt;labelUserProperty5Value.Name" xml:space="preserve">
+    <value>labelUserProperty5Value</value>
+  </data>
+  <data name="&gt;&gt;labelUserProperty5Value.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;labelUserProperty5Value.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;labelUserProperty5Value.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="labelUserProperty4Value.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 12pt</value>
+  </data>
+  <data name="labelUserProperty4Value.Location" type="System.Drawing.Point, System.Drawing">
+    <value>481, 111</value>
+  </data>
+  <data name="labelUserProperty4Value.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>2, 0, 2, 0</value>
+  </data>
+  <data name="labelUserProperty4Value.Size" type="System.Drawing.Size, System.Drawing">
+    <value>312, 25</value>
+  </data>
+  <data name="labelUserProperty4Value.TabIndex" type="System.Int32, mscorlib">
+    <value>98</value>
+  </data>
+  <data name="labelUserProperty4Value.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="&gt;&gt;labelUserProperty4Value.Name" xml:space="preserve">
+    <value>labelUserProperty4Value</value>
+  </data>
+  <data name="&gt;&gt;labelUserProperty4Value.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;labelUserProperty4Value.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;labelUserProperty4Value.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="labelUserProperty3Value.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 12pt</value>
+  </data>
+  <data name="labelUserProperty3Value.Location" type="System.Drawing.Point, System.Drawing">
+    <value>481, 85</value>
+  </data>
+  <data name="labelUserProperty3Value.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>2, 0, 2, 0</value>
+  </data>
+  <data name="labelUserProperty3Value.Size" type="System.Drawing.Size, System.Drawing">
+    <value>312, 25</value>
+  </data>
+  <data name="labelUserProperty3Value.TabIndex" type="System.Int32, mscorlib">
+    <value>97</value>
+  </data>
+  <data name="labelUserProperty3Value.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="&gt;&gt;labelUserProperty3Value.Name" xml:space="preserve">
+    <value>labelUserProperty3Value</value>
+  </data>
+  <data name="&gt;&gt;labelUserProperty3Value.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;labelUserProperty3Value.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;labelUserProperty3Value.ZOrder" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="labelUserProperty2Value.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 12pt</value>
+  </data>
+  <data name="labelUserProperty2Value.Location" type="System.Drawing.Point, System.Drawing">
+    <value>481, 60</value>
+  </data>
+  <data name="labelUserProperty2Value.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>2, 0, 2, 0</value>
+  </data>
+  <data name="labelUserProperty2Value.Size" type="System.Drawing.Size, System.Drawing">
+    <value>312, 25</value>
+  </data>
+  <data name="labelUserProperty2Value.TabIndex" type="System.Int32, mscorlib">
+    <value>96</value>
+  </data>
+  <data name="labelUserProperty2Value.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="&gt;&gt;labelUserProperty2Value.Name" xml:space="preserve">
+    <value>labelUserProperty2Value</value>
+  </data>
+  <data name="&gt;&gt;labelUserProperty2Value.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;labelUserProperty2Value.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;labelUserProperty2Value.ZOrder" xml:space="preserve">
+    <value>9</value>
+  </data>
+  <data name="labelUserProperty1Value.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 12pt</value>
+  </data>
+  <data name="labelUserProperty1Value.Location" type="System.Drawing.Point, System.Drawing">
+    <value>481, 35</value>
+  </data>
+  <data name="labelUserProperty1Value.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>2, 0, 2, 0</value>
+  </data>
+  <data name="labelUserProperty1Value.Size" type="System.Drawing.Size, System.Drawing">
+    <value>312, 25</value>
+  </data>
+  <data name="labelUserProperty1Value.TabIndex" type="System.Int32, mscorlib">
+    <value>95</value>
+  </data>
+  <data name="labelUserProperty1Value.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="&gt;&gt;labelUserProperty1Value.Name" xml:space="preserve">
+    <value>labelUserProperty1Value</value>
+  </data>
+  <data name="&gt;&gt;labelUserProperty1Value.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;labelUserProperty1Value.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;labelUserProperty1Value.ZOrder" xml:space="preserve">
+    <value>10</value>
+  </data>
+  <data name="labelUserProperty4Title.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 12pt, style=Bold</value>
+  </data>
+  <data name="labelUserProperty4Title.Location" type="System.Drawing.Point, System.Drawing">
+    <value>319, 111</value>
+  </data>
+  <data name="labelUserProperty4Title.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>2, 0, 2, 0</value>
+  </data>
+  <data name="labelUserProperty4Title.Size" type="System.Drawing.Size, System.Drawing">
+    <value>144, 25</value>
+  </data>
+  <data name="labelUserProperty4Title.TabIndex" type="System.Int32, mscorlib">
+    <value>94</value>
+  </data>
+  <data name="labelUserProperty4Title.Text" xml:space="preserve">
+    <value>Pokemon:</value>
+  </data>
+  <data name="labelUserProperty4Title.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleRight</value>
+  </data>
+  <data name="&gt;&gt;labelUserProperty4Title.Name" xml:space="preserve">
+    <value>labelUserProperty4Title</value>
+  </data>
+  <data name="&gt;&gt;labelUserProperty4Title.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;labelUserProperty4Title.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;labelUserProperty4Title.ZOrder" xml:space="preserve">
+    <value>11</value>
+  </data>
+  <data name="labelUserProperty3Title.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 12pt, style=Bold</value>
+  </data>
+  <data name="labelUserProperty3Title.Location" type="System.Drawing.Point, System.Drawing">
+    <value>319, 85</value>
+  </data>
+  <data name="labelUserProperty3Title.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>2, 0, 2, 0</value>
+  </data>
+  <data name="labelUserProperty3Title.Size" type="System.Drawing.Size, System.Drawing">
+    <value>144, 25</value>
+  </data>
+  <data name="labelUserProperty3Title.TabIndex" type="System.Int32, mscorlib">
+    <value>93</value>
+  </data>
+  <data name="labelUserProperty3Title.Text" xml:space="preserve">
+    <value>Stardust:</value>
+  </data>
+  <data name="labelUserProperty3Title.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleRight</value>
+  </data>
+  <data name="&gt;&gt;labelUserProperty3Title.Name" xml:space="preserve">
+    <value>labelUserProperty3Title</value>
+  </data>
+  <data name="&gt;&gt;labelUserProperty3Title.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;labelUserProperty3Title.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;labelUserProperty3Title.ZOrder" xml:space="preserve">
+    <value>12</value>
+  </data>
+  <data name="labelUserProperty2Title.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 12pt, style=Bold</value>
+  </data>
+  <data name="labelUserProperty2Title.Location" type="System.Drawing.Point, System.Drawing">
+    <value>319, 60</value>
+  </data>
+  <data name="labelUserProperty2Title.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>2, 0, 2, 0</value>
+  </data>
+  <data name="labelUserProperty2Title.Size" type="System.Drawing.Size, System.Drawing">
+    <value>144, 25</value>
+  </data>
+  <data name="labelUserProperty2Title.TabIndex" type="System.Int32, mscorlib">
+    <value>92</value>
+  </data>
+  <data name="labelUserProperty2Title.Text" xml:space="preserve">
+    <value>Level:</value>
+  </data>
+  <data name="labelUserProperty2Title.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleRight</value>
+  </data>
+  <data name="&gt;&gt;labelUserProperty2Title.Name" xml:space="preserve">
+    <value>labelUserProperty2Title</value>
+  </data>
+  <data name="&gt;&gt;labelUserProperty2Title.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;labelUserProperty2Title.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;labelUserProperty2Title.ZOrder" xml:space="preserve">
+    <value>13</value>
+  </data>
+  <data name="labelUserProperty1Title.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 12pt, style=Bold</value>
+  </data>
+  <data name="labelUserProperty1Title.Location" type="System.Drawing.Point, System.Drawing">
+    <value>319, 35</value>
+  </data>
+  <data name="labelUserProperty1Title.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>2, 0, 2, 0</value>
+  </data>
+  <data name="labelUserProperty1Title.Size" type="System.Drawing.Size, System.Drawing">
+    <value>144, 25</value>
+  </data>
+  <data name="labelUserProperty1Title.TabIndex" type="System.Int32, mscorlib">
+    <value>91</value>
+  </data>
+  <data name="labelUserProperty1Title.Text" xml:space="preserve">
+    <value>Username:</value>
+  </data>
+  <data name="labelUserProperty1Title.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleRight</value>
+  </data>
+  <data name="&gt;&gt;labelUserProperty1Title.Name" xml:space="preserve">
+    <value>labelUserProperty1Title</value>
+  </data>
+  <data name="&gt;&gt;labelUserProperty1Title.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;labelUserProperty1Title.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;labelUserProperty1Title.ZOrder" xml:space="preserve">
+    <value>14</value>
+  </data>
+  <data name="labelUserProperty5Title.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 12pt, style=Bold</value>
+  </data>
+  <data name="labelUserProperty5Title.Location" type="System.Drawing.Point, System.Drawing">
+    <value>319, 136</value>
+  </data>
+  <data name="labelUserProperty5Title.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>2, 0, 2, 0</value>
+  </data>
+  <data name="labelUserProperty5Title.Size" type="System.Drawing.Size, System.Drawing">
+    <value>144, 25</value>
+  </data>
+  <data name="labelUserProperty5Title.TabIndex" type="System.Int32, mscorlib">
+    <value>90</value>
+  </data>
+  <data name="labelUserProperty5Title.Text" xml:space="preserve">
+    <value>Pokedex:</value>
+  </data>
+  <data name="labelUserProperty5Title.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleRight</value>
+  </data>
+  <data name="&gt;&gt;labelUserProperty5Title.Name" xml:space="preserve">
+    <value>labelUserProperty5Title</value>
+  </data>
+  <data name="&gt;&gt;labelUserProperty5Title.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;labelUserProperty5Title.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;labelUserProperty5Title.ZOrder" xml:space="preserve">
+    <value>15</value>
+  </data>
+  <data name="pictureBoxTeam.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="pictureBoxTeam.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>2, 2, 2, 2</value>
+  </data>
+  <data name="pictureBoxTeam.Size" type="System.Drawing.Size, System.Drawing">
+    <value>299, 238</value>
+  </data>
+  <data name="pictureBoxTeam.SizeMode" type="System.Windows.Forms.PictureBoxSizeMode, System.Windows.Forms">
+    <value>Zoom</value>
+  </data>
+  <data name="pictureBoxTeam.TabIndex" type="System.Int32, mscorlib">
+    <value>64</value>
+  </data>
+  <data name="&gt;&gt;pictureBoxTeam.Name" xml:space="preserve">
+    <value>pictureBoxTeam</value>
+  </data>
+  <data name="&gt;&gt;pictureBoxTeam.Type" xml:space="preserve">
+    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;pictureBoxTeam.Parent" xml:space="preserve">
+    <value>panelLeftArea</value>
+  </data>
+  <data name="&gt;&gt;pictureBoxTeam.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="pictureBoxBuddyPokemon.Location" type="System.Drawing.Point, System.Drawing">
+    <value>2, 120</value>
+  </data>
+  <data name="pictureBoxBuddyPokemon.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>2, 2, 2, 2</value>
+  </data>
+  <data name="pictureBoxBuddyPokemon.Size" type="System.Drawing.Size, System.Drawing">
+    <value>112, 112</value>
+  </data>
+  <data name="pictureBoxBuddyPokemon.SizeMode" type="System.Windows.Forms.PictureBoxSizeMode, System.Windows.Forms">
+    <value>Zoom</value>
+  </data>
+  <data name="pictureBoxBuddyPokemon.TabIndex" type="System.Int32, mscorlib">
+    <value>66</value>
+  </data>
+  <data name="&gt;&gt;pictureBoxBuddyPokemon.Name" xml:space="preserve">
+    <value>pictureBoxBuddyPokemon</value>
+  </data>
+  <data name="&gt;&gt;pictureBoxBuddyPokemon.Type" xml:space="preserve">
+    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;pictureBoxBuddyPokemon.Parent" xml:space="preserve">
+    <value>panelLeftArea</value>
+  </data>
+  <data name="&gt;&gt;pictureBoxBuddyPokemon.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="pictureBoxPlayerAvatar.Location" type="System.Drawing.Point, System.Drawing">
+    <value>2, 35</value>
+  </data>
+  <data name="pictureBoxPlayerAvatar.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>2, 2, 2, 2</value>
+  </data>
+  <data name="pictureBoxPlayerAvatar.Size" type="System.Drawing.Size, System.Drawing">
+    <value>145, 201</value>
+  </data>
+  <data name="pictureBoxPlayerAvatar.SizeMode" type="System.Windows.Forms.PictureBoxSizeMode, System.Windows.Forms">
+    <value>Zoom</value>
+  </data>
+  <data name="pictureBoxPlayerAvatar.TabIndex" type="System.Int32, mscorlib">
+    <value>65</value>
+  </data>
+  <data name="&gt;&gt;pictureBoxPlayerAvatar.Name" xml:space="preserve">
+    <value>pictureBoxPlayerAvatar</value>
+  </data>
+  <data name="&gt;&gt;pictureBoxPlayerAvatar.Type" xml:space="preserve">
+    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;pictureBoxPlayerAvatar.Parent" xml:space="preserve">
+    <value>panelLeftArea</value>
+  </data>
+  <data name="&gt;&gt;pictureBoxPlayerAvatar.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="panelLeftArea.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Left</value>
+  </data>
+  <data name="panelLeftArea.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="panelLeftArea.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>2, 2, 2, 2</value>
+  </data>
+  <data name="panelLeftArea.Size" type="System.Drawing.Size, System.Drawing">
+    <value>300, 287</value>
+  </data>
+  <data name="panelLeftArea.TabIndex" type="System.Int32, mscorlib">
+    <value>89</value>
+  </data>
+  <data name="&gt;&gt;panelLeftArea.Name" xml:space="preserve">
+    <value>panelLeftArea</value>
+  </data>
+  <data name="&gt;&gt;panelLeftArea.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;panelLeftArea.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;panelLeftArea.ZOrder" xml:space="preserve">
+    <value>16</value>
+  </data>
+  <data name="btnTeam.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Right</value>
+  </data>
+  <data name="btnTeam.Location" type="System.Drawing.Point, System.Drawing">
+    <value>712, 249</value>
+  </data>
+  <data name="btnTeam.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
+  </data>
+  <data name="btnTeam.Size" type="System.Drawing.Size, System.Drawing">
+    <value>94, 29</value>
+  </data>
+  <data name="btnTeam.TabIndex" type="System.Int32, mscorlib">
+    <value>102</value>
+  </data>
+  <data name="btnTeam.Text" xml:space="preserve">
+    <value>Select Team</value>
+  </data>
+  <data name="&gt;&gt;btnTeam.Name" xml:space="preserve">
+    <value>btnTeam</value>
+  </data>
+  <data name="&gt;&gt;btnTeam.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;btnTeam.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;btnTeam.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="labelCoinsValue.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 12pt</value>
+  </data>
+  <data name="labelCoinsValue.Location" type="System.Drawing.Point, System.Drawing">
+    <value>485, 186</value>
+  </data>
+  <data name="labelCoinsValue.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>2, 0, 2, 0</value>
+  </data>
+  <data name="labelCoinsValue.Size" type="System.Drawing.Size, System.Drawing">
+    <value>312, 25</value>
+  </data>
+  <data name="labelCoinsValue.TabIndex" type="System.Int32, mscorlib">
+    <value>104</value>
+  </data>
+  <data name="labelCoinsValue.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="&gt;&gt;labelCoinsValue.Name" xml:space="preserve">
+    <value>labelCoinsValue</value>
+  </data>
+  <data name="&gt;&gt;labelCoinsValue.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;labelCoinsValue.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;labelCoinsValue.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="labelCoinsTitle.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 12pt, style=Bold</value>
+  </data>
+  <data name="labelCoinsTitle.Location" type="System.Drawing.Point, System.Drawing">
+    <value>319, 186</value>
+  </data>
+  <data name="labelCoinsTitle.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>2, 0, 2, 0</value>
+  </data>
+  <data name="labelCoinsTitle.Size" type="System.Drawing.Size, System.Drawing">
+    <value>144, 25</value>
+  </data>
+  <data name="labelCoinsTitle.TabIndex" type="System.Int32, mscorlib">
+    <value>103</value>
+  </data>
+  <data name="labelCoinsTitle.Text" xml:space="preserve">
+    <value>Coins:</value>
+  </data>
+  <data name="labelCoinsTitle.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleRight</value>
+  </data>
+  <data name="&gt;&gt;labelCoinsTitle.Name" xml:space="preserve">
+    <value>labelCoinsTitle</value>
+  </data>
+  <data name="&gt;&gt;labelCoinsTitle.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;labelCoinsTitle.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;labelCoinsTitle.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="btnCollect.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Right</value>
+  </data>
+  <data name="btnCollect.Location" type="System.Drawing.Point, System.Drawing">
+    <value>598, 249</value>
+  </data>
+  <data name="btnCollect.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
+  </data>
+  <data name="btnCollect.Size" type="System.Drawing.Size, System.Drawing">
+    <value>106, 29</value>
+  </data>
+  <data name="btnCollect.TabIndex" type="System.Int32, mscorlib">
+    <value>105</value>
+  </data>
+  <data name="btnCollect.Text" xml:space="preserve">
+    <value>Collect Coins</value>
+  </data>
+  <data name="&gt;&gt;btnCollect.Name" xml:space="preserve">
+    <value>btnCollect</value>
+  </data>
+  <data name="&gt;&gt;btnCollect.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;btnCollect.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;btnCollect.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="$this.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
+  </data>
+  <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
+    <value>810, 287</value>
+  </data>
+  <data name="&gt;&gt;$this.Name" xml:space="preserve">
+    <value>PlayerPanel</value>
+  </data>
+  <data name="&gt;&gt;$this.Type" xml:space="preserve">
+    <value>System.Windows.Forms.UserControl, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
 </root>
