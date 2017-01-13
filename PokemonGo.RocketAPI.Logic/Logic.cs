@@ -1662,6 +1662,11 @@ namespace PokemonGo.RocketAPI.Logic
                 var mapObjects = await objClient.Map.GetMapObjects().ConfigureAwait(false);
                 var pokemons = mapObjects.Item1.MapCells.SelectMany(i => i.CatchablePokemons).OrderBy(i => LocationUtils.CalculateDistanceInMeters(objClient.CurrentLatitude, objClient.CurrentLongitude, i.Latitude, i.Longitude));
 
+                if(ClientSettings.EnableVerboseLogging)
+                {
+                    Logger.ColoredConsoleWrite(ConsoleColor.DarkBlue, $"(DEBUG) - Pokemons: {pokemons.Count()}");
+                }
+
                 if (pokemons.Any())
                 {
                     var strNames = pokemons.Aggregate("", (current, pokemon) => current + (StringUtils.getPokemonNameByLanguage(ClientSettings, pokemon.PokemonId) + ", "));
@@ -2197,6 +2202,8 @@ private int GetGymLevel(long value)
 
         private async Task EvolveAllPokemonWithEnoughCandy(IEnumerable<PokemonId> filter = null)
         {
+            int evolvecount = 0;
+
             if (ClientSettings.ForceSnipe || ClientSettings.RelocateDefaultLocation)
             {
                 return;
@@ -2209,11 +2216,7 @@ private int GetGymLevel(long value)
                     await objClient.Inventory.UseLuckyEgg(objClient).ConfigureAwait(false);
                 }
             }
-            if (ClientSettings.pauseAtEvolve2)
-            {
-                Logger.ColoredConsoleWrite(ConsoleColor.Green, "Stopping to evolve some Pokemons.");
-                ClientSettings.pauseTheWalking = true;
-            }
+
             foreach (var pokemon in pokemonToEvolve)
             {
                 if (!ClientSettings.pokemonsToEvolve.Contains(pokemon.PokemonId))
@@ -2225,17 +2228,34 @@ private int GetGymLevel(long value)
                 var logPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Logs");
                 var evolvelog = Path.Combine(logPath, "EvolveLog.txt");
 
+                var getPokemonName = StringUtils.getPokemonNameByLanguage(ClientSettings, pokemon.PokemonId);
+                var cp = pokemon.Cp;
+                var calcPerf = PokemonInfo.CalculatePokemonPerfection(pokemon).ToString("0.00");
+                var getEvolvedName = StringUtils.getPokemonNameByLanguage(ClientSettings, evolvePokemonOutProto.EvolvedPokemonData.PokemonId);
+                var getEvolvedCP = evolvePokemonOutProto.EvolvedPokemonData.Cp;
+                var getXP = evolvePokemonOutProto.ExperienceAwarded.ToString("N0");
+
                 if (evolvePokemonOutProto.Result == EvolvePokemonResponse.Types.Result.Success)
                 {
+                    if(evolvecount == 0)
+                    {
+                        if (ClientSettings.pauseAtEvolve2)
+                        {
+                            Logger.ColoredConsoleWrite(ConsoleColor.Green, "Stopping to evolve some Pokemons.");
+                            ClientSettings.pauseTheWalking = true;
+                        }
+                    }
+
                     if (ClientSettings.bLogEvolve)
                     {
-                        File.AppendAllText(evolvelog, $"[{date}] - Evolved {StringUtils.getPokemonNameByLanguage(ClientSettings, pokemon.PokemonId)} CP {pokemon.Cp} {PokemonInfo.CalculatePokemonPerfection(pokemon).ToString("0.00")}%  to {StringUtils.getPokemonNameByLanguage(ClientSettings, evolvePokemonOutProto.EvolvedPokemonData.PokemonId)} CP: {evolvePokemonOutProto.EvolvedPokemonData.Cp} for {evolvePokemonOutProto.ExperienceAwarded.ToString("N0")}xp");
+                        File.AppendAllText(evolvelog, $"[{date}] - Evolved Pokemon: {getPokemonName} | CP {cp} | Perfection {calcPerf}% | => to {getEvolvedName} | CP: {getEvolvedCP} | XP Reward: {getXP}xp");
                     }
-                    Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Evolved {StringUtils.getPokemonNameByLanguage(ClientSettings, pokemon.PokemonId)} CP {pokemon.Cp} {PokemonInfo.CalculatePokemonPerfection(pokemon).ToString("0.00")}%  to {StringUtils.getPokemonNameByLanguage(ClientSettings, evolvePokemonOutProto.EvolvedPokemonData.PokemonId)} CP: {evolvePokemonOutProto.EvolvedPokemonData.Cp} for {evolvePokemonOutProto.ExperienceAwarded.ToString("N0")}xp", LogLevel.Info);
+                    Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Evolved Pokemon: {getPokemonName} | CP {cp} | Perfection {calcPerf}% | => to {getEvolvedName} | CP: {getEvolvedCP} | XP Reward: {getXP}xp", LogLevel.Info);
                     BotStats.AddExperience(evolvePokemonOutProto.ExperienceAwarded);
 
                     if (Telegram != null)
                         Telegram.sendInformationText(TelegramUtil.TelegramUtilInformationTopics.Evolve, StringUtils.getPokemonNameByLanguage(ClientSettings, pokemon.PokemonId), pokemon.Cp, PokemonInfo.CalculatePokemonPerfection(pokemon).ToString("0.00"), StringUtils.getPokemonNameByLanguage(ClientSettings, evolvePokemonOutProto.EvolvedPokemonData.PokemonId), evolvePokemonOutProto.EvolvedPokemonData.Cp, evolvePokemonOutProto.ExperienceAwarded.ToString("N0"));
+                    evolvecount++;
                 }
                 else
                 {
@@ -2246,6 +2266,7 @@ private int GetGymLevel(long value)
                             File.AppendAllText(evolvelog, $"[{date}] - Failed to evolve {pokemon.PokemonId}. EvolvePokemonOutProto.Result was {evolvePokemonOutProto.Result}");
                         }
                         Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Failed to evolve {pokemon.PokemonId}. EvolvePokemonOutProto.Result was {evolvePokemonOutProto.Result}", LogLevel.Info);
+                        evolvecount++;
                     }
                 }
                 if (ClientSettings.UseAnimationTimes)
@@ -2257,11 +2278,15 @@ private int GetGymLevel(long value)
                     RandomHelper.RandomSleep(500, 600);
                 }
             }
-            if (ClientSettings.pauseAtEvolve2)
+            if(evolvecount > 0)
             {
-                Logger.ColoredConsoleWrite(ConsoleColor.Green, "Pokemons evolved. Time to continue our journey!");
-                ClientSettings.pauseTheWalking = false;
+                if (ClientSettings.pauseAtEvolve2)
+                {
+                    Logger.ColoredConsoleWrite(ConsoleColor.Green, "Pokemons evolved. Time to continue our journey!");
+                    ClientSettings.pauseTheWalking = false;
+                }
             }
+
         }
 
         private async Task TransferDuplicatePokemon(bool keepPokemonsThatCanEvolve = false, bool transferFirstLowIv = false)

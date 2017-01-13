@@ -100,6 +100,10 @@
     </Compile>
     <Compile Include="Utils\ApiFailureStrat.cs" />
     <Compile Include="Utils\BotStats.cs" />
+    <Compile Include="Utils\CaptchaHelper.cs" />
+    <Compile Include="Utils\CaptchaHelper.Designer.cs">
+      <DependentUpon>CaptchaHelper.cs</DependentUpon>
+    </Compile>
     <Compile Include="Utils\GeoUtils.cs" />
     <Compile Include="Utils\LocationUtils.cs" />
     <Compile Include="Utils\PokemonParser.cs" />
@@ -122,6 +126,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Update.resx">
       <DependentUpon>Update.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Utils\CaptchaHelper.resx">
+      <DependentUpon>CaptchaHelper.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
