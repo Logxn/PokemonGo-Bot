@@ -139,10 +139,6 @@ namespace PokemonGo.RocketAPI.Logic
             //Begin farming loop while on break
             do
             {
-
-                if (ClientSettings.FarmGyms)
-                    await ExecutePutInGym().ConfigureAwait(false);
-
                 foreach (var pokestop in pokestopsWithinRangeStanding)
                 {
                     if (ClientSettings.ForceSnipe)
@@ -178,7 +174,6 @@ namespace PokemonGo.RocketAPI.Logic
 
                     // wait for a bit before repeating farm cycle to avoid spamming 
                 }
-
 
                 if (!ClientSettings.ForceSnipe && !ClientSettings.RelocateDefaultLocation) continue;
 
@@ -427,24 +422,7 @@ namespace PokemonGo.RocketAPI.Logic
 
             if (curexp == 0 && expneeded == 1000)
             {
-                var resp = await client.Misc.MarkTutorialComplete().ConfigureAwait(false);
-                var response = resp.Result.ToString();
-                
-                switch(response)
-                {
-                    case "Unset":
-                        Logger.ColoredConsoleWrite(ConsoleColor.Red, $"(Tutorial Completion) - Unset response! Probably failed marking the tutorial as complete.");
-                        break;
-                    case "Success":
-                        Logger.ColoredConsoleWrite(ConsoleColor.Green, $"(Tutorial Completion) - Success!");
-                        break;
-                    case "ErrorInvalidPokemon":
-                        Logger.ColoredConsoleWrite(ConsoleColor.Red, $"(Tutorial Completion) - Invalid Pokemon! PokemonID: {resp.PokemonData.PokemonId}");
-                        break;
-                    default:
-                        Logger.ColoredConsoleWrite(ConsoleColor.Red, $"(Tutorial Completion) - Unknown Error => {response} | Please screenshot this error and send it to us on Discord or GitHub");
-                        break;
-                }
+                await client.Misc.MarkTutorialComplete().ConfigureAwait(false);
             }
 
             var items = client.Inventory.GetItems(inventory); // For dont repeat inventory request
@@ -487,7 +465,6 @@ namespace PokemonGo.RocketAPI.Logic
             Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Items: {totalitems}/{maxItemStorage} ");
             Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "------------------------------------------------------------");
 
-
             #endregion
 
             #region Check for Level Up
@@ -518,15 +495,14 @@ namespace PokemonGo.RocketAPI.Logic
             #endregion
 
             #region Set Console Title
-            var strTitle = profile.PlayerData.Username + @" lvl" + stats.Level + @"-(" +
+            if (!ClientSettings.EnableConsoleInTab)
+            {
+                System.Console.Title = profile.PlayerData.Username + @" lvl" + stats.Level + @"-(" +
                             (stats.Experience - stats.PrevLevelXp - StringUtils.getExpDiff(stats.Level)).ToString("N0") + @"/" +
                             (stats.NextLevelXp - stats.PrevLevelXp - StringUtils.getExpDiff(stats.Level)).ToString("N0") + @"|" +
                             Math.Round(curexppercent, 2) + @"%)| Stardust: " + profile.PlayerData.Currencies.ToArray()[1].Amount + @"| " +
                             BotStats;
-            if (!ClientSettings.EnableConsoleInTab){
-                System.Console.Title= strTitle;
             }
-                
             #endregion
 
             #region Check for Update
@@ -573,8 +549,6 @@ namespace PokemonGo.RocketAPI.Logic
             }
 
             #endregion
-
-
             client.ShowingStats = false;
         }
 
@@ -901,8 +875,6 @@ namespace PokemonGo.RocketAPI.Logic
         }
 
         #endregion
-
-        
 
         private async Task ExecuteFarmingPokestopsAndPokemons(Client client)
         {
@@ -1639,10 +1611,6 @@ namespace PokemonGo.RocketAPI.Logic
             {
                 lastsearchtimestamp = (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds;
 
-                // first of all farm gyms
-                if (ClientSettings.FarmGyms)
-                    await ExecutePutInGym().ConfigureAwait(false);
-
                 //narrow map data to pokestops within walking distance
                 var pokeStops = GetNearbyPokeStops(false).Result;
                 var pokestopsWithinRangeStanding = pokeStops.Where(i => LocationUtils.CalculateDistanceInMeters(objClient.CurrentLatitude, objClient.CurrentLongitude, i.Latitude, i.Longitude) < 40);
@@ -1668,6 +1636,8 @@ namespace PokemonGo.RocketAPI.Logic
                 }
                 await ExecuteCatchAllNearbyPokemons().ConfigureAwait(false);
                 
+                if (ClientSettings.FarmGyms)
+                    await ExecutePutInGym().ConfigureAwait(false);
             }
             else
             {
@@ -1749,10 +1719,9 @@ namespace PokemonGo.RocketAPI.Logic
                     await CatchPokemon(pokemon.EncounterId, pokemon.SpawnPointId, pokemon.PokemonId, pokemon.Longitude, pokemon.Latitude).ConfigureAwait(false);
                 }
             }
-        }
+        }        
 
-        #region Gym
-        private int GetGymLevel(long value)
+private int GetGymLevel(long value)
         {
             if (value >= 50000)
                 return 10;
@@ -1775,7 +1744,6 @@ namespace PokemonGo.RocketAPI.Logic
             return 1;
         }
         private static List<string> gymsVisited = new List<string>();
-
         private async Task<bool> CheckAndPutInNearbyGym(FortData gym, Client client, FortDetailsResponse fortInfo)
         {
             var gymColorLog = ConsoleColor.DarkGray;
@@ -1784,45 +1752,31 @@ namespace PokemonGo.RocketAPI.Logic
                 Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - This gym was already visited.");
                 return false;
             }
-
             if (ClientSettings.FarmGyms)
             {
-                var getpokemons = (await client.Inventory.GetPokemons().ConfigureAwait(false)).ToList();
-                var pokemons = getpokemons.Where(x => ( (!x.IsEgg) && (x.DeployedFortId == "") )).OrderBy(x => x.Cp).FirstOrDefault();
-
-                if (pokemons == null)
+                var pokemons = (await client.Inventory.GetPokemons().ConfigureAwait(false)).ToList();
+                var pokemon = pokemons.Where(x => ( (!x.IsEgg) && (x.DeployedFortId == "") )).OrderBy(x => x.Cp).FirstOrDefault();
+                if (pokemon == null)
                 {
                     Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - There are no pokemons to assign.");
                     return false;
                 }
                 RandomHelper.RandomSleep(100, 200);
-
                 var profile = await client.Player.GetPlayer().ConfigureAwait(false);
-                if (gym.OwnedByTeam ==  profile.PlayerData.Team || gym.OwnedByTeam == TeamColor.Neutral )
+                if ( (gym.OwnedByTeam ==  profile.PlayerData.Team) || (gym.OwnedByTeam == POGOProtos.Enums.TeamColor.Neutral ))
                 {
                     RandomHelper.RandomSleep(100, 200);
-
                     var gymDetails = await client.Fort.GetGymDetails(gym.Id,gym.Latitude,gym.Longitude).ConfigureAwait(false);
-                    var members = gymDetails.GymState.Memberships.Count();
-                    var level = GetGymLevel(gym.GymPoints);
-
-                    Logger.ColoredConsoleWrite(gymColorLog, $"(Gym) - Members: {members} | Level: {level}");
-
-                    if (members < level)
+                    Logger.ColoredConsoleWrite(gymColorLog, "Members: " +gymDetails.GymState.Memberships.Count +". Level: "+ GetGymLevel(gym.GymPoints));
+                    if (gymDetails.GymState.Memberships.Count < GetGymLevel(gym.GymPoints))
                     {
                         RandomHelper.RandomSleep(100, 200);
-                       
-                        var fortSearch = await client.Fort.FortDeployPokemon(gym.Id, pokemons.Id).ConfigureAwait(false);
-                        var result = fortSearch.Result.ToString().ToLower();
-                        var getPokemon = StringUtils.getPokemonNameByLanguage(ClientSettings, (PokemonId)pokemons.PokemonId);
-                        if (result == "success" )
-                        {
-                            Logger.ColoredConsoleWrite(gymColorLog,$"(Gym) - {getpokemons} was inserted into this gym.");
+                        var fortSearch = await client.Fort.FortDeployPokemon(gym.Id, pokemon.Id).ConfigureAwait(false);
+                        if (fortSearch.Result.ToString().ToLower() == "success" ){
+                            Logger.ColoredConsoleWrite(gymColorLog, StringUtils.getPokemonNameByLanguage(ClientSettings, (PokemonId)pokemon.PokemonId) +" inserted into the gym");
                             gymsVisited.Add(gym.Id);
-
-                            var pokesInGym = getpokemons.Where(x => ( (!x.IsEgg) && (x.DeployedFortId != "") )).OrderBy(x => x.Cp).ToList().Count();
-                            Logger.ColoredConsoleWrite(gymColorLog, $"(Gym) - Current pokemons in the gym: {pokesInGym}");
-
+                            var pokesInGym = pokemons.Where(x => ( (!x.IsEgg) && (x.DeployedFortId != "") )).OrderBy(x => x.Cp).ToList().Count();
+                            Logger.ColoredConsoleWrite(gymColorLog, "pokesInGym: "+ pokesInGym);
                             if (pokesInGym >9 )
                             { 
                                 var res = await client.Player.CollectDailyDefenderBonus().ConfigureAwait(false);
@@ -1839,18 +1793,15 @@ namespace PokemonGo.RocketAPI.Logic
                 {
                     Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - This gym is not your team.");
                     // TO-DO ATTACK ;)?
-                    var getPokemon = getpokemons.Where(x => ((!x.IsEgg) && (x.DeployedFortId != ""))).OrderBy(x => x.Cp);
-                    var getOwnPokemon = client.Inventory.GetPokemons().Result.Where(x => !x.IsEgg).OrderBy(x => x.Cp);
+                    //var getPokemon = getpokemons.Where(x => ((!x.IsEgg) && (x.DeployedFortId != ""))).OrderBy(x => x.Cp);
+                    //var getOwnPokemon = client.Inventory.GetPokemons().Result.Where(x => !x.IsEgg).OrderBy(x => x.Cp);
 
                     //var resp = await client.Fort.StartGymBattle(gym.Id, getPokemon, getOwnPokemon)
                     //We need a list for the "getOwnPokemons" that can attack. I think its a max of 6 that can attack. Not sure tho
-
                 }
             }
             return true;
         }
-
-
 
         private async Task ExecutePutInGym()
         {
@@ -1868,14 +1819,13 @@ namespace PokemonGo.RocketAPI.Logic
                 foreach (var gym in withinRangeStandingList)
                 {
                     var fortInfo = await objClient.Fort.GetFort(gym.Id, gym.Latitude, gym.Longitude).ConfigureAwait(false);
-                    
                     await CheckAndPutInNearbyGym(gym, objClient, fortInfo).ConfigureAwait(false);
                     await SetCheckTimeToRun().ConfigureAwait(false);
                     RandomHelper.RandomSleep(100, 200);
                 }
             }
         }
-        #endregion
+        
         private async Task<bool> VerifyLocation()
         {
             #region Stay within defined radius
@@ -2000,7 +1950,6 @@ namespace PokemonGo.RocketAPI.Logic
                     var used = false;
                     CatchPokemonResponse caughtPokemonResponse;
 
-                    #region if we miss the pokemon or it escapes
                     do
                     {
                         // Check if the best ball is still valid
@@ -2098,26 +2047,23 @@ namespace PokemonGo.RocketAPI.Logic
 
                         caughtPokemonResponse = await CatchPokemonWithRandomVariables(encounterId, spawnpointId, bestPokeball, forceHit).ConfigureAwait(false);
 
-                        var getPokemon = StringUtils.getPokemonNameByLanguage(ClientSettings, pokeid);
-
-                        switch (caughtPokemonResponse.Status)
+                        if (caughtPokemonResponse.Status == CatchPokemonResponse.Types.CatchStatus.CatchMissed)
                         {
-                            case CatchPokemonResponse.Types.CatchStatus.CatchMissed: 
-                                Logger.ColoredConsoleWrite(ConsoleColor.Magenta, $"Missed {getPokemon} while using {bestPokeball}");
-                                missCount++;
-                                RandomHelper.RandomSleep(1500, 6000);
-                                break;
-                            case CatchPokemonResponse.Types.CatchStatus.CatchEscape: // Should be when the user is soft-banned
-                                Logger.ColoredConsoleWrite(ConsoleColor.Magenta, $"{getPokemon} escaped while using {bestPokeball}");
-                                escaped = true;
-                                forceHit = false;
-                                RandomHelper.RandomSleep(1500, 6000);
-                                break; 
+                            Logger.ColoredConsoleWrite(ConsoleColor.Magenta, $"Missed {StringUtils.getPokemonNameByLanguage(ClientSettings, pokeid)} while using {bestPokeball}");
+                            missCount++;
+                            RandomHelper.RandomSleep(1500, 6000);
                         }
+                        else if (caughtPokemonResponse.Status == CatchPokemonResponse.Types.CatchStatus.CatchEscape)
+                        {
+                            Logger.ColoredConsoleWrite(ConsoleColor.Magenta, $"{StringUtils.getPokemonNameByLanguage(ClientSettings, pokeid)} escaped while using {bestPokeball}");
+                            escaped = true;
+                            //reset forceHit in case we randomly triggered on last throw.
+                            forceHit = false;
+                            RandomHelper.RandomSleep(1500, 6000);
+                        }
+                        // Update the best ball to ensure we can still throw
                         bestPokeball = await GetBestBall(encounterPokemonResponse?.WildPokemon, escaped).ConfigureAwait(false);
-
                     } while (caughtPokemonResponse.Status == CatchPokemonResponse.Types.CatchStatus.CatchMissed || caughtPokemonResponse.Status == CatchPokemonResponse.Types.CatchStatus.CatchEscape);
-                    #endregion
 
                     if (caughtPokemonResponse.Status == CatchPokemonResponse.Types.CatchStatus.CatchSuccess)
                     {
