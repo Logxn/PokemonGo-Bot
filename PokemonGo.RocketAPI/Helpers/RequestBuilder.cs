@@ -387,10 +387,10 @@ namespace PokemonGo.RocketAPI.Helpers
                     Course = -1                    
                     // Floor = 0
                 });
-				if (_settings.EnableVerboseLogging)
+				/*if (_settings.EnableVerboseLogging)
                 {
                     Logger.ColoredConsoleWrite(ConsoleColor.Blue, $"[DEBUG] Request: {requestEnvelope.Requests[0].RequestType} LF:({locationFixes[0].Latitude},{locationFixes[0].Longitude},{locationFixes[0].Altitude}) CL:({_client.CurrentLatitude},{_client.CurrentLongitude},{_client.CurrentAltitude})");
-                }                
+                }  */              
             }
 
             return locationFixes;
