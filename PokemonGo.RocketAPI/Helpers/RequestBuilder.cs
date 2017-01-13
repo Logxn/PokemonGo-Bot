@@ -375,11 +375,14 @@ namespace PokemonGo.RocketAPI.Helpers
                 locationFixes.Insert(0, new LocationFix
                 {
                     TimestampSnapshot = (ulong)timestampSnapshot,
-                    Latitude = LocationUtil.OffsetLatitudeLongitude(_latitude, Random.Next(100) + 10),
-                    Longitude = LocationUtil.OffsetLatitudeLongitude(_longitude, Random.Next(100) + 10),
+                    //Latitude = LocationUtil.OffsetLatitudeLongitude(_latitude, Random.Next(100) + 10),
+                    Latitude = (float)_client.CurrentLatitude,
+                    //Longitude = LocationUtil.OffsetLatitudeLongitude(_longitude, Random.Next(100) + 10),
+                    Longitude = (float)_client.CurrentLongitude,
                     HorizontalAccuracy = (float)Random.NextDouble(5.0, 25.0),
                     VerticalAccuracy = (float)Random.NextDouble(5.0, 25.0),
-                    Altitude = (float)Random.NextDouble(10.0, 30.0),
+                    //Altitude = (float)Random.NextDouble(10.0, 30.0),
+                    Altitude = (float)_client.CurrentAltitude,
                     Provider = "fused",
                     ProviderStatus = 3,
                     LocationType = 1,
@@ -387,6 +390,10 @@ namespace PokemonGo.RocketAPI.Helpers
                     Course = -1,
                     // Floor = 0
                 });
+                if (_settings.EnableVerboseLogging)
+                {
+                    Logger.ColoredConsoleWrite(ConsoleColor.Blue, $"[DEBUG] Request: {requestEnvelope.Requests[0].RequestType} LF:({locationFixes[0].Latitude},{locationFixes[0].Longitude},{locationFixes[0].Altitude}) CL:({_client.CurrentLatitude},{_client.CurrentLongitude},{_client.CurrentAltitude})");
+                }
             }
 
             return locationFixes;
