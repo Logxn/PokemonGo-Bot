@@ -8,8 +8,10 @@ using PokemonGo.RocketAPI.Extensions;
 using PokemonGo.RocketAPI.Rpc;
 using POGOProtos.Networking.Envelopes;
 using POGOProtos.Networking.Responses;
-
+using System.Windows.Forms;
+using PokemonGo.RocketAPI.Helpers;
 #endregion
+
 
 namespace PokemonGo.RocketAPI.Logic
 {
@@ -26,7 +28,7 @@ namespace PokemonGo.RocketAPI.Logic
             _session = session;
         }
 
-        public async void HandleCaptcha(string challengeUrl, ICaptchaResponseHandler captchaResponseHandler)
+        public void HandleCaptcha(string challengeUrl, ICaptchaResponseHandler captchaResponseHandler)
         {
            
             /* We recieve the token after the user has completed the captcha
@@ -34,33 +36,33 @@ namespace PokemonGo.RocketAPI.Logic
              * So the redirect url would look like this: "unity:some-long-ass-code"
              * This "long-ass-code" is the responseToken
              * */
-            string token = "";
-            Logger.Error("We need a Captcha.. (Not implemented yet)");
-            Logger.Error($"[DEBUG - PLEASE IGNORE]: Challenge URL!!: {challengeUrl.ToString()}");
-
-            captchaResponseHandler.SetCaptchaToken("bla"); // I dont know why, but lets just set the token here just in case.
-
-            /* Here is where I need the gui.
-             * It should have a WebBrowser, that will redirect to the challengeUrl
-             * We somehow need to create a function that always looks if the url has changed (it will because the user solves the captcha and they want to redirect)
-             * Now we need to remove the "unity:" infront of the url and pass the token to the _player.VerifyChallenge
-             * We need to wait for a response and if its a success....
-             * ... we restart the bot! ;)
-             **/
-
-            VerifyChallengeResponse r = await _player.VerifyChallenge(token).ConfigureAwait(false); // We will send a request, passing the long-ass-token and wait for a response.
-
-            if (r.Success)
+            Logger.ColoredConsoleWrite(ConsoleColor.Green, "Are you an human?");
+            var chelper = new Utils.CaptchaHelper();
+            if (chelper.ShowDialog() == DialogResult.OK)
             {
-                Console.WriteLine("TOKEN OK!");
+            	var token = chelper.TOKEN;
+            	captchaResponseHandler.SetCaptchaToken(token); 
+	
+            	// We will send a request, passing the long-ass-token and wait for a response.
+	            VerifyChallengeResponse r =  _player.VerifyChallenge(token).Result; 
+	            if (r.Success)
+	            {
+	            	Logger.ColoredConsoleWrite(ConsoleColor.Green, "TOKEN OK!");
+	            }
+	            else
+	            {
+	            	Logger.ColoredConsoleWrite(ConsoleColor.Green, "Failure.");
+	            	HandleCaptcha(challengeUrl,captchaResponseHandler);
+	            }
+	            RandomHelper.RandomSleep(2000,2200);
             }
             else
             {
-                Console.WriteLine("Failure.");
+            	Logger.ColoredConsoleWrite(ConsoleColor.Green, "Canceled.");
+	            Console.ReadKey();
+	            Environment.Exit(0);
             }
 
-            Console.ReadKey();
-            Environment.Exit(0);
         }
 
         public async Task<ApiOperation> HandleApiFailure()
