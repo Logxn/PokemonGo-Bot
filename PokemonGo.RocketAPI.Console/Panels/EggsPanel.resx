@@ -117,9 +117,93 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="btnReaload.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Left</value>
+  </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="btnReaload.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 98</value>
+  </data>
+  <data name="btnReaload.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>2, 2, 2, 2</value>
+  </data>
+  <data name="btnReaload.Size" type="System.Drawing.Size, System.Drawing">
+    <value>81, 29</value>
+  </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="btnReaload.TabIndex" type="System.Int32, mscorlib">
+    <value>81</value>
+  </data>
+  <data name="btnReaload.Text" xml:space="preserve">
+    <value>Reload</value>
+  </data>
+  <data name="&gt;&gt;btnReaload.Name" xml:space="preserve">
+    <value>btnReaload</value>
+  </data>
+  <data name="&gt;&gt;btnReaload.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;btnReaload.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;btnReaload.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="listView.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom, Left, Right</value>
+  </data>
+  <data name="chKmWalkedStart.Text" xml:space="preserve">
+    <value>Kms Left</value>
+  </data>
+  <data name="chKmWalkedTarget.Text" xml:space="preserve">
+    <value>Kms</value>
+  </data>
+  <data name="chPokemon.Text" xml:space="preserve">
+    <value>Pokemon</value>
+  </data>
+  <data name="chPokemon.Width" type="System.Int32, mscorlib">
+    <value>100</value>
+  </data>
+  <data name="chIVs.Text" xml:space="preserve">
+    <value>IVs</value>
+  </data>
+  <data name="chIVs.Width" type="System.Int32, mscorlib">
+    <value>100</value>
+  </data>
+  <data name="chCreationTime.Text" xml:space="preserve">
+    <value>Creation Time</value>
+  </data>
+  <data name="chCreationTime.Width" type="System.Int32, mscorlib">
+    <value>100</value>
+  </data>
+  <data name="chMove1.Text" xml:space="preserve">
+    <value>Move 1</value>
+  </data>
+  <data name="chMove2.Text" xml:space="preserve">
+    <value>Move 2</value>
+  </data>
+  <data name="chIncubator.Text" xml:space="preserve">
+    <value>Incubator</value>
+  </data>
   <metadata name="contextMenuStrip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>11, 12</value>
   </metadata>
+  <data name="recycleToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>120, 22</value>
+  </data>
+  <data name="recycleToolStripMenuItem.Text" xml:space="preserve">
+    <value>Incubate</value>
+  </data>
+  <data name="contextMenuStrip.Size" type="System.Drawing.Size, System.Drawing">
+    <value>121, 26</value>
+  </data>
+  <data name="&gt;&gt;contextMenuStrip.Name" xml:space="preserve">
+    <value>contextMenuStrip</value>
+  </data>
+  <data name="&gt;&gt;contextMenuStrip.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <metadata name="imageList.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>183, 13</value>
   </metadata>
@@ -128,7 +212,7 @@
         AAEAAAD/////AQAAAAAAAAAMAgAAAFdTeXN0ZW0uV2luZG93cy5Gb3JtcywgVmVyc2lvbj00LjAuMC4w
         LCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI3N2E1YzU2MTkzNGUwODkFAQAAACZTeXN0
         ZW0uV2luZG93cy5Gb3Jtcy5JbWFnZUxpc3RTdHJlYW1lcgEAAAAERGF0YQcCAgAAAAkDAAAADwMAAABi
-        IAAAAk1TRnQBSQFMAgEBBQEAAaABAQGgAQEBMgEAATIBAAT/AQkBAAj/AUIBTQE2AQQGAAE2AQQCAAEo
+        IAAAAk1TRnQBSQFMAgEBBQEAAagBAQGoAQEBMgEAATIBAAT/AQkBAAj/AUIBTQE2AQQGAAE2AQQCAAEo
         AwAByAMAAWQDAAEBAQABCAUAASABThgAAYACAAGAAwACgAEAAYADAAGAAQABgAEAAoACAAPAAQABwAHc
         AcABAAHwAcoBpgEAATMFAAEzAQABMwEAATMBAAIzAgADFgEAAxwBAAMiAQADKQEAA1UBAANNAQADQgEA
         AzkBAAGAAXwB/wEAAlAB/wEAAZMBAAHWAQAB/wHsAcwBAAHGAdYB7wEAAdYC5wEAAZABqQGtAgAB/wEz
@@ -157,24 +241,24 @@
         ATMBAAHMAf8BZgEAAv8BmQEAAv8BzAEAAmYB/wEAAWYB/wFmAQABZgL/AQAB/wJmAQAB/wFmAf8BAAL/
         AWYBAAEhAQABpQEAA18BAAN3AQADhgEAA5YBAAPLAQADsgEAA9cBAAPdAQAD4wEAA+oBAAPxAQAD+AEA
         AfAB+wH/AQABpAKgAQADgAMAAf8CAAH/AwAC/wEAAf8DAAH/AQAB/wEAAv8CAAP//wD/AP8A/wDKAAH/
-        ARsB7gKZARwCcwGZARsB9rsAAfQBHAFRAZkDmgJ6AaABmgGZAlEBGwH/tgAB/wGZAXMBmAF4AVcIWQF6
+        ARsBvAKZARwCcwGZARsB9rsAAfQBHAFRAZkDmgJ6AaABmgGZAlEBGwH/tgAB/wGZAXMBmAF4AVcIWQF6
         AaABeQFRAfIB/7MAAfQBUQF4ApcCVwpZAXoBoAF5AZkB/7EAAfMBcwWXAXgCegpZAZoBmQEcAf+vAAHz
         AXMBcQJyA5cBeAOaAnoIWQF6AZkBHAH/rQAB/wFzBHEBcgKXB5oBegdZAXoCma0AARwGcQGYA6AGmgF6
         B1kBoAF0AfSrAAHzAXgEcQGYAZoFoAaaAnoFWQF6AaABdKsAARwBwwEaApkJoAKaAXoDeQF6BlkBegGZ
-        AfKpAAH/AXQHwwagAZoBeAGXBHgBegVZAXoBoAFzqQAB8wGZCcMEoAWXAngBeQZZAZoBdAH/qAAB7gEa
+        AfKpAAH/AXQHwwagAZoBeAGXBHgBegVZAXoBoAFzqQAB8wGZCcMEoAWXAngBeQZZAZoBdAH/qAABvAEa
         CsMCoAGZBpcBeAF5AXoFWQF6AZkB9KgAARwMwwGgAZkBcQJyBJcBeQF6BlkBmgEaqAABHA3DAZkDcQJy
         ApcBeQGaBlkBoAEcqAABHA3DAaAFcQFyAZcBegGaBlkBoAEcqAABdA7DAXgFcQF4ApoBegVZAaABmagA
-        ARwOwwGZBXEBeQKaAXoFWQGgAe6oAAHuD8MBmANxAXkDmgF6BVkBoAEaqAAB8wGZDsMCoAGZBZoBegVZ
-        AZoBG6gAAf8BdA7DBaADmgF6BFkBegF5Af+pAAF0D8MEoAGaA3oEWQF6ARyqAAHuARoOwwSgAXkBeAF5
+        ARwOwwGZBXEBeQKaAXoFWQGgAbyoAAG8D8MBmANxAXkDmgF6BVkBoAEaqAAB8wGZDsMCoAGZBZoBegVZ
+        AZoBG6gAAf8BdA7DBaADmgF6BFkBegF5Af+pAAF0D8MEoAGaA3oEWQF6ARyqAAG8ARoOwwSgAXkBeAF5
         AXoEWQGaAfCqAAH0AXkOwwOgAZkClwF4AZoEWQF5AfarAAEcDsMDoAGXAXEBlwF4AZoDWQGaAXSsAAHz
         AZkNwwOgAZgCcQF4AZoDWQGZAfSsAAH/AXMCmAEbCsMEoAGXAXEBeQGaAlkBmgEcrgABGwF4ApcKwwWg
-        A5oBWQF6AXkB9a8AARwBcgFxARsJwwWgA5oBegGaAZmwAAH0AXIBcQrDBaADmgGgAXMB/7EAAe4BmQrD
+        A5oBWQF6AXkB/68AARwBcgFxARsJwwWgA5oBegGaAZmwAAH0AXIBcQrDBaADmgGgAXMB/7EAAbwBmQrD
         BaACmgGgAXQB9LIAAf8BdArDBaACmgGZARu0AAH0AXQJwwWgApoBmbYAAfIBUQjDBqABdAH/twAB9AFR
         ARoGwwKgAZoBcgGYAXQB/7kAAfYBcwF5BcMCoAGZAXgBmQH/uwAB/wHwAVEBeQEaAsMBGgF5AVEBG78A
         Af8B8AEcAlEBHAEbAf//AP8A/wD/AP8A/wD/AM8ABP8uAAT/jQAB/wGaAXUCUwF1AXQBdQJTAXUBmgHz
         Af8kAAH/AdYB5gLIAeYBzwHmAsgB5gHWAfMB/4UAAf8BGwJ1AZkFvAIHA7wBkwFTAZoB9h8AAf8B3QLm
         AbUFvAIHArwBBwG1AcgB1gH/ggAB9gFTAZMEvAFEAiAFJwFyArwBmQFTARsdAAH/AcgBtQS8AUQCIAUn
-        AXICvAG1AcgB3SQAAf8BGwHuApkBHAJzAZkBGwH2JwAB/wEbAe4CmQEcAnMBmQEbAfYfAAH2AVMEvAEH
+        AXICvAG1AcgB3SQAAf8BGwG8ApkBHAJzAZkBGwH2JwAB/wEbAbwCmQEcAnMBmQEbAfYfAAH2AVMEvAEH
         AZMIdAGTBLwBdQEaGwAB9AHIAQcDvAEHAbUCzwPOAeYCzwG1BLwB5gEJIQAB9AEcAVEBmQOaAnoBoAGa
         AZkCUQEbAf8iAAH0ARwBUQF5A5oCegGgAZoBmQJRARsB/xsAAfYBUwK8AZkBdAJSCXMCUgF0AZMCvAGT
         ARoZAAH/AcgCvAG1AeYByAFCCc0CQgHOAbUCvAG1Ad0eAAH/AZkBkwKwAZMIWQF6AaABeQFRAfIB/x4A
@@ -193,8 +277,8 @@
         AbsB1AHyFwAB/wF0B8MGoAGaBrABegVZAXoBoAFzEwAB/wF0B8MHoAZZAXoFWQF6AaABcxMAAf8BUgS7
         AZgBHAFzAZ0ClgOeAngBngGYAXMBmAS7ARwBGxcAAf8ByAO7AboB1AHOAc0BnQGWAZ0CngN4AZ4BswHN
         AdQBugO7AdQB3RcAAfMBmQnDBKABsAKqBLABmgZZAZoBdAH/EgAB8wGZCcMEoAdZAXoGWQGaAXQB/xIA
-        Af8BdAa7AZ0ClgLBA54CeAGeAZ0FuwGYARoXAAH/Ac4GuwG6ApYBugHBA54CeAGeAboFuwHUAd0XAAHu
-        ARoKwwKgARoBywSqArABkwF6BVkBegGZAfQSAAHuARoKwwKgAZoHWQJ6BVkBegGZAfQSAAH/AXQHuwXB
+        Af8BdAa7AZ0ClgLBA54CeAGeAZ0FuwGYARoXAAH/Ac4GuwG6ApYBugHBA54CeAGeAboFuwHUAd0XAAG8
+        ARoKwwKgARoBywSqArABkwF6BVkBegGZAfQSAAG8ARoKwwKgAZoHWQJ6BVkBegGZAfQSAAH/AXQHuwXB
         Ap0BmAJ4AcEFuwGYARoXAAH/Ac4HuwG6BMECnQGYAngGuwHVAQkXAAEcDMMBoAG2AcoBywWqAZMBegZZ
         AZoBGhIAARwMwwGgAXoHWQJ6BlkBmgEaEgAB9gF0BbsBugXBAboClgGdAngBngG6BbsBmhcAAf8BzgW7
         AboFwQG6ApYBmAJ4AZ4FuwHbAdYXAAEcDcMBtgHGAsoEqgKaBlkBoAEcEgABHA3DAXoCOAVZAXoBmgZZ
@@ -202,14 +286,14 @@
         BLsB2wHWFwABHA3DARoDxgHKAakCqgKaBlkBoAEcEgABHA3DAaAFOAJZAXoBmgZZAaABHBIAAf8BdAW7
         AboGwQKdAp4BeAGeAboFuwF1FwAB/wHOBbsBugbBApYCngF4AZ4BugS7AboB5hcAAXQOwwGwBMYBygGw
         ApoBegVZAaABmRIAAXQOwwFZBTgBWQKaAXoFWQGgAZkSAAH/AXQHuwfBAp4BeAGeBrsBdRcAAf8Bzga7
-        CMECngF4AZ4FuwG6AeYXAAEcDsMBGgXGA5oBegVZAaAB7hIAARwOwwGaBTgBegKaAXoFWQGgAe4SAAH2
-        AXQGuwGdB8EBlgGYAXgBmAa7AXQXAAH0Ac4HuwfBAZ0BngF4AZgFuwG6Ac4XAAHuD8MBtgPGAZMDmgF6
-        BVkBoAEaEgAB7g/DAXoDOAF6A5oBegVZAaABGhIAAfYBdAi7BsEBnQGYAZ4Buga7AVIXAAH0Ac4GuwG6
+        CMECngF4AZ4FuwG6AeYXAAEcDsMBGgXGA5oBegVZAaABvBIAARwOwwGaBTgBegKaAXoFWQGgAbwSAAH2
+        AXQGuwGdB8EBlgGYAXgBmAa7AXQXAAH0Ac4HuwfBAZ0BngF4AZgFuwG6Ac4XAAG8D8MBtgPGAZMDmgF6
+        BVkBoAEaEgABvA/DAXoDOAF6A5oBegVZAaABGhIAAfYBdAi7BsEBnQGYAZ4Buga7AVIXAAH0Ac4GuwG6
         B8EBlgKYAboGuwHIFwAB8wGZDsMBoAMaBJoBegVZAZoBGxIAAfMBmQ7DAqABegGgBJoBegVZAZoBGxIA
         AfQBdAe7AroGwQGeAcEHuwFSFwAB9AHOB7sBnQG6BsECnge7AcgXAAH/AXQOwwWgA5oBegRZAXoBeQH/
         EgAB/wF0DsMFoAOaAXoEWQF6AXkB/xIAAfMBHAi7AZ0HwQG6B7sBUhcAAfMBzgi7AZ0HwQG6B7sByBgA
         AXQPwwSgA5oBegRZAXoBHBQAAXQPwwSgAZoDegRZAXoBHBMAAfMBHAm7AZ0FwQGdCLsBUgH/FgAB8wHO
-        CLsBugG7BcEBmAi7AcgB/xcAAe4BGg7DBKABmgGwAZoBegRZAZoB8BQAAe4BGg7DBKABegFZAnoEWQGa
+        CLsBugG7BcEBmAi7AcgB/xcAAbwBGg7DBKABmgGwAZoBegRZAZoB8BQAAbwBGg7DBKABegFZAnoEWQGa
         AfATAAEbARwKuwGdAbsCwQG6CbsBdAH/FgAB8gHUCbsBugGYA8EBnQm7Ac4B/xcAAfQBeQ7DA6ABtgKq
         AbYBmgRZAXkB9hQAAfQBeQ7DA6ABegNZAZoEWQF5AfYTAAEbARwMuwG6C7sBdAH/FgAB8gHUC7sBugGd
         AboKuwHOAf8YAAEcDsMDoAGwAcoBqgGwAZoDWQGaAXQWAAEcDsMDoAFZATgCWQGaA1kBmgF0FAABGwEc
@@ -217,12 +301,12 @@
         AZoDWQGZAfQUAAEbARwGuwHvBHQCUgN0AhwGuwEcAfMWAAHdAdQGuwG6AtUFzgLUAdUB2wG6BbsB1AHz
         GAAB/wF0AbYBsAG9CsMDoAEaAaoBxgKaAlkBmgEcFwAB/wF0ApoLwwSgAVkBOAF6AZoCWQGaARwVAAEa
         ARwCuwGYAXQBTQEsAU0CUwd1AlMBLAFNAXQB7wK7ARwBGxYAAd0B1QK7AboBzgHIAfwDyAfmAsgBQgHI
-        AdQBugK7AdQB8hkAARsBsALLCsMFoAOaAVkBegF5AfUYAAEbAXkCegrDBaADmgFZAXoBeQH1FQABGgEc
+        AdQBugK7AdQB8hkAARsBsALLCsMFoAOaAVkBegF5Af8YAAEbAXkCegrDBaADmgFZAXoBeQH/FQABGgEc
         AbsBUgFTAZQBGgPyCU0C8gEaAZoBdQFSApgBGhYAAd0B1QG6Ac4ByAHWAQkB8QLyCcgC8gEJAdYCzgG6
         AdQB3RoAARwBywHGAb0JwwWgA5oBegGaAZkaAAF0AnUKwwWgA5oBegGaAZkWAAEaARwBUwGaBfIBGgFT
         B/IBUwEaBPIBGgF1AXQBGhYAAd0B1AHOAQkF8gHdAcgH8gHIAd0E8gHdAc4B1AHdGgAB9AGOAcoKwwWg
         A5oBoAFzAf8aAAH0AXQBdQrDBaADmgGgAXMB/xYAAZoBUwfyARoBdQfyAVMBGgbyAXUBmhYAAdYBzgfy
-        AQkB5gfyAcgB3QbyAdUB1hsAAe4BmQrDBaACmgGgAXQB9BwAAe4BmQrDBaACmgGgAXQB9BcAAZoBGgjy
+        AQkB5gfyAcgB3QbyAdUB1hsAAbwBmQrDBaACmgGgAXQB9BwAAbwBmQrDBaACmgGgAXQB9BcAAZoBGgjy
         ASwHUwEsB/IBGgGaFgAB1gEJB/IB8QH8B8gB/AfyAd0B1hsAAf8BdArDBaACmgGZARsdAAH/AXQKwwWg
         ApoBmQEbGAABGgHxCPIJGgfyAfEBGhYAAQkB8AjyCd0H8gHwAd0cAAH0AXQJwwWgApoBmR8AAfQBdAnD
         BaACmgGZGQACGgjyAfEF8ATxBvIBGgEbFgAB3QHwCPIB8QXwBPEG8gHwAd0dAAHyAVEIwwOgAZoCoAF0
@@ -268,5 +352,104 @@
         Av8DAAH/AfgCAAEHAv8B/gIAAQEO/wMAAf8B/gIAAQ8D/wGAAQABAw7/AwAC/wHAAQAE/wHwAQABPw7/
         AwAZ/wMAGf8DABn/AwAL
 </value>
+  </data>
+  <data name="listView.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 4</value>
+  </data>
+  <data name="listView.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
+  </data>
+  <data name="listView.Size" type="System.Drawing.Size, System.Drawing">
+    <value>635, 88</value>
+  </data>
+  <data name="listView.TabIndex" type="System.Int32, mscorlib">
+    <value>80</value>
+  </data>
+  <data name="&gt;&gt;listView.Name" xml:space="preserve">
+    <value>listView</value>
+  </data>
+  <data name="&gt;&gt;listView.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ListView, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;listView.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;listView.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="$this.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
+  </data>
+  <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
+    <value>643, 130</value>
+  </data>
+  <data name="&gt;&gt;chKmWalkedStart.Name" xml:space="preserve">
+    <value>chKmWalkedStart</value>
+  </data>
+  <data name="&gt;&gt;chKmWalkedStart.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ColumnHeader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;chKmWalkedTarget.Name" xml:space="preserve">
+    <value>chKmWalkedTarget</value>
+  </data>
+  <data name="&gt;&gt;chKmWalkedTarget.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ColumnHeader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;chPokemon.Name" xml:space="preserve">
+    <value>chPokemon</value>
+  </data>
+  <data name="&gt;&gt;chPokemon.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ColumnHeader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;chIVs.Name" xml:space="preserve">
+    <value>chIVs</value>
+  </data>
+  <data name="&gt;&gt;chIVs.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ColumnHeader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;chCreationTime.Name" xml:space="preserve">
+    <value>chCreationTime</value>
+  </data>
+  <data name="&gt;&gt;chCreationTime.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ColumnHeader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;chMove1.Name" xml:space="preserve">
+    <value>chMove1</value>
+  </data>
+  <data name="&gt;&gt;chMove1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ColumnHeader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;chMove2.Name" xml:space="preserve">
+    <value>chMove2</value>
+  </data>
+  <data name="&gt;&gt;chMove2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ColumnHeader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;chIncubator.Name" xml:space="preserve">
+    <value>chIncubator</value>
+  </data>
+  <data name="&gt;&gt;chIncubator.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ColumnHeader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;recycleToolStripMenuItem.Name" xml:space="preserve">
+    <value>recycleToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;recycleToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;imageList.Name" xml:space="preserve">
+    <value>imageList</value>
+  </data>
+  <data name="&gt;&gt;imageList.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ImageList, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;$this.Name" xml:space="preserve">
+    <value>EggsPanel</value>
+  </data>
+  <data name="&gt;&gt;$this.Type" xml:space="preserve">
+    <value>System.Windows.Forms.UserControl, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
 </root>

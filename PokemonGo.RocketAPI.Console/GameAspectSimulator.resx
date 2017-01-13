@@ -117,7 +117,39 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="locationPanel1.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom, Left, Right</value>
+  </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="locationPanel1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 1</value>
+  </data>
+  <data name="locationPanel1.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
+  </data>
+  <data name="locationPanel1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>787, 553</value>
+  </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="locationPanel1.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;locationPanel1.Name" xml:space="preserve">
+    <value>locationPanel1</value>
+  </data>
+  <data name="&gt;&gt;locationPanel1.Type" xml:space="preserve">
+    <value>PokemonGo.RocketAPI.Console.LocationPanel, PokemonGo.RocketAPI.Console, Version=1.1.9.7, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;locationPanel1.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;locationPanel1.ZOrder" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="btnPicMenu.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom</value>
+  </data>
   <data name="btnPicMenu.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABkAAAAZCAYAAADE6YVjAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAI
@@ -138,6 +170,33 @@
         acep2tzclLm5Oenr6/PxCriTk5PLGTbVMg2GoFnsdvtFLkEPZ/eyqqpquq6uzlNRUfGOx3yCm3uPG19v
         VruN4A+GFFJcbgv2ZwAAAABJRU5ErkJggg==
 </value>
+  </data>
+  <data name="btnPicMenu.Location" type="System.Drawing.Point, System.Drawing">
+    <value>384, 550</value>
+  </data>
+  <data name="btnPicMenu.Size" type="System.Drawing.Size, System.Drawing">
+    <value>35, 35</value>
+  </data>
+  <data name="btnPicMenu.SizeMode" type="System.Windows.Forms.PictureBoxSizeMode, System.Windows.Forms">
+    <value>StretchImage</value>
+  </data>
+  <data name="btnPicMenu.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;btnPicMenu.Name" xml:space="preserve">
+    <value>btnPicMenu</value>
+  </data>
+  <data name="&gt;&gt;btnPicMenu.Type" xml:space="preserve">
+    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;btnPicMenu.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;btnPicMenu.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="btnPicPokes.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom</value>
   </data>
   <data name="btnPicPokes.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -186,6 +245,33 @@
         RoqKxkhR0RgpKhojRUVjpKhofAT7N3+xDF8hIRIVAAAAAElFTkSuQmCC
 </value>
   </data>
+  <data name="btnPicPokes.Location" type="System.Drawing.Point, System.Drawing">
+    <value>331, 492</value>
+  </data>
+  <data name="btnPicPokes.Size" type="System.Drawing.Size, System.Drawing">
+    <value>44, 48</value>
+  </data>
+  <data name="btnPicPokes.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="btnPicPokes.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;btnPicPokes.Name" xml:space="preserve">
+    <value>btnPicPokes</value>
+  </data>
+  <data name="&gt;&gt;btnPicPokes.Type" xml:space="preserve">
+    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;btnPicPokes.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;btnPicPokes.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="btnPicEggs.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom</value>
+  </data>
   <data name="btnPicEggs.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAL
@@ -228,6 +314,33 @@
         dERY0RFhRUeEFR0RVnREWNHxgPQ/veCiNMD9KxgAAAAASUVORK5CYII=
 </value>
   </data>
+  <data name="btnPicEggs.Location" type="System.Drawing.Point, System.Drawing">
+    <value>377, 438</value>
+  </data>
+  <data name="btnPicEggs.Size" type="System.Drawing.Size, System.Drawing">
+    <value>44, 48</value>
+  </data>
+  <data name="btnPicEggs.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="btnPicEggs.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;btnPicEggs.Name" xml:space="preserve">
+    <value>btnPicEggs</value>
+  </data>
+  <data name="&gt;&gt;btnPicEggs.Type" xml:space="preserve">
+    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;btnPicEggs.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;btnPicEggs.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="btnPicItems.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom</value>
+  </data>
   <data name="btnPicItems.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAL
@@ -268,6 +381,33 @@
         fdCoXwF30YzwIwdWfQAAAABJRU5ErkJggg==
 </value>
   </data>
+  <data name="btnPicItems.Location" type="System.Drawing.Point, System.Drawing">
+    <value>427, 492</value>
+  </data>
+  <data name="btnPicItems.Size" type="System.Drawing.Size, System.Drawing">
+    <value>44, 48</value>
+  </data>
+  <data name="btnPicItems.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="btnPicItems.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;btnPicItems.Name" xml:space="preserve">
+    <value>btnPicItems</value>
+  </data>
+  <data name="&gt;&gt;btnPicItems.Type" xml:space="preserve">
+    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;btnPicItems.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;btnPicItems.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="btnPicConfig.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Right</value>
+  </data>
   <data name="btnPicConfig.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAD
@@ -307,6 +447,36 @@
         4uLv9feP4prOnbXa5o9L/Qcn9+kT/f1wTwAAAABJRU5ErkJggg==
 </value>
   </data>
+  <data name="btnPicConfig.Location" type="System.Drawing.Point, System.Drawing">
+    <value>721, 10</value>
+  </data>
+  <data name="btnPicConfig.Size" type="System.Drawing.Size, System.Drawing">
+    <value>50, 50</value>
+  </data>
+  <data name="btnPicConfig.SizeMode" type="System.Windows.Forms.PictureBoxSizeMode, System.Windows.Forms">
+    <value>AutoSize</value>
+  </data>
+  <data name="btnPicConfig.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="btnPicConfig.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;btnPicConfig.Name" xml:space="preserve">
+    <value>btnPicConfig</value>
+  </data>
+  <data name="&gt;&gt;btnPicConfig.Type" xml:space="preserve">
+    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;btnPicConfig.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;btnPicConfig.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="btnPicClose.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom</value>
+  </data>
   <data name="btnPicClose.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAACgAAAAkCAYAAAD7PHgWAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAD
@@ -337,6 +507,36 @@
         oaHBGhHPNceG6zoDJBV8ANZdqRw+fNjE4mfpbaH++nb1JaAbzYUicbwbn4J0b7CNAikAXGiueIQ3XdSD
         NwErp8B8SOEHi9I7pECbAbIPcMF54zkIrP4DHKfQaQibak4AAAAASUVORK5CYII=
 </value>
+  </data>
+  <data name="btnPicClose.Location" type="System.Drawing.Point, System.Drawing">
+    <value>388, 549</value>
+  </data>
+  <data name="btnPicClose.Size" type="System.Drawing.Size, System.Drawing">
+    <value>40, 36</value>
+  </data>
+  <data name="btnPicClose.SizeMode" type="System.Windows.Forms.PictureBoxSizeMode, System.Windows.Forms">
+    <value>AutoSize</value>
+  </data>
+  <data name="btnPicClose.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="btnPicClose.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;btnPicClose.Name" xml:space="preserve">
+    <value>btnPicClose</value>
+  </data>
+  <data name="&gt;&gt;btnPicClose.Type" xml:space="preserve">
+    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;btnPicClose.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;btnPicClose.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="btnPicSnipe.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Right</value>
   </data>
   <data name="btnPicSnipe.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -371,6 +571,36 @@
         8PMzLdabHPkXj9s6a+Pl91cAAAAASUVORK5CYII=
 </value>
   </data>
+  <data name="btnPicSnipe.Location" type="System.Drawing.Point, System.Drawing">
+    <value>726, 66</value>
+  </data>
+  <data name="btnPicSnipe.Size" type="System.Drawing.Size, System.Drawing">
+    <value>40, 40</value>
+  </data>
+  <data name="btnPicSnipe.SizeMode" type="System.Windows.Forms.PictureBoxSizeMode, System.Windows.Forms">
+    <value>AutoSize</value>
+  </data>
+  <data name="btnPicSnipe.TabIndex" type="System.Int32, mscorlib">
+    <value>8</value>
+  </data>
+  <data name="btnPicSnipe.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;btnPicSnipe.Name" xml:space="preserve">
+    <value>btnPicSnipe</value>
+  </data>
+  <data name="&gt;&gt;btnPicSnipe.Type" xml:space="preserve">
+    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;btnPicSnipe.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;btnPicSnipe.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="btnPicProfile.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Left</value>
+  </data>
   <data name="btnPicProfile.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAADEAAAAoCAYAAABXRRJPAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAI
@@ -397,6 +627,39 @@
         X0LBL4ZyrCxqaKGJ9SvGGTfmP6OIsxuAMx+6eOHRl2ZF8ixKFm3CqMyXhD8bCx2w/M/FQrMUEr4LUT1P
         2F7SbqMv21+Afjl9bf1/OUUsX9KULO4AAAAASUVORK5CYII=
 </value>
+  </data>
+  <data name="btnPicProfile.Location" type="System.Drawing.Point, System.Drawing">
+    <value>13, 545</value>
+  </data>
+  <data name="btnPicProfile.Size" type="System.Drawing.Size, System.Drawing">
+    <value>49, 40</value>
+  </data>
+  <data name="btnPicProfile.SizeMode" type="System.Windows.Forms.PictureBoxSizeMode, System.Windows.Forms">
+    <value>AutoSize</value>
+  </data>
+  <data name="btnPicProfile.TabIndex" type="System.Int32, mscorlib">
+    <value>9</value>
+  </data>
+  <data name="&gt;&gt;btnPicProfile.Name" xml:space="preserve">
+    <value>btnPicProfile</value>
+  </data>
+  <data name="&gt;&gt;btnPicProfile.Type" xml:space="preserve">
+    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;btnPicProfile.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;btnPicProfile.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
+    <value>6, 13</value>
+  </data>
+  <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
+    <value>787, 588</value>
   </data>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -563,5 +826,14 @@
         /D///wAA////////AAD///////8AAP///////wAA////////AAD///////8AAP///////wAA////////
         AAA=
 </value>
+  </data>
+  <data name="$this.Text" xml:space="preserve">
+    <value>GameSimulator</value>
+  </data>
+  <data name="&gt;&gt;$this.Name" xml:space="preserve">
+    <value>GameAspectSimulator</value>
+  </data>
+  <data name="&gt;&gt;$this.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Form, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
 </root>

@@ -80,47 +80,37 @@ namespace PokemonGo.RocketAPI.Console
             this.iVsToNicknameToolStripMenuItem,
             this.changeFavouritesToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(173, 114);
+            resources.ApplyResources(this.contextMenuStrip1, "contextMenuStrip1");
             // 
             // transferToolStripMenuItem
             // 
             this.transferToolStripMenuItem.Name = "transferToolStripMenuItem";
-            this.transferToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
-            this.transferToolStripMenuItem.Text = "Transfer";
+            resources.ApplyResources(this.transferToolStripMenuItem, "transferToolStripMenuItem");
             // 
             // powerUpToolStripMenuItem
             // 
             this.powerUpToolStripMenuItem.Name = "powerUpToolStripMenuItem";
-            this.powerUpToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
-            this.powerUpToolStripMenuItem.Text = "PowerUp";
+            resources.ApplyResources(this.powerUpToolStripMenuItem, "powerUpToolStripMenuItem");
             // 
             // evolveToolStripMenuItem
             // 
             this.evolveToolStripMenuItem.Name = "evolveToolStripMenuItem";
-            this.evolveToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
-            this.evolveToolStripMenuItem.Text = "Evolve";
-            this.evolveToolStripMenuItem.Visible = false;
+            resources.ApplyResources(this.evolveToolStripMenuItem, "evolveToolStripMenuItem");
             // 
             // iVsToNicknameToolStripMenuItem
             // 
             this.iVsToNicknameToolStripMenuItem.Name = "iVsToNicknameToolStripMenuItem";
-            this.iVsToNicknameToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
-            this.iVsToNicknameToolStripMenuItem.Text = "IVs to Nickname";
+            resources.ApplyResources(this.iVsToNicknameToolStripMenuItem, "iVsToNicknameToolStripMenuItem");
             // 
             // changeFavouritesToolStripMenuItem
             // 
             this.changeFavouritesToolStripMenuItem.Name = "changeFavouritesToolStripMenuItem";
-            this.changeFavouritesToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
-            this.changeFavouritesToolStripMenuItem.Text = "Change Favourites";
+            resources.ApplyResources(this.changeFavouritesToolStripMenuItem, "changeFavouritesToolStripMenuItem");
             // 
             // label2
             // 
-            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(273, 465);
+            resources.ApplyResources(this.label2, "label2");
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(0, 13);
-            this.label2.TabIndex = 9;
             // 
             // reloadtimer
             // 
@@ -132,9 +122,7 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // TabControl1
             // 
-            this.TabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            resources.ApplyResources(this.TabControl1, "TabControl1");
             this.TabControl1.Controls.Add(this.tpLocation);
             this.TabControl1.Controls.Add(this.tpPokemons);
             this.TabControl1.Controls.Add(this.tpItems);
@@ -146,8 +134,6 @@ namespace PokemonGo.RocketAPI.Console
             this.TabControl1.Location = new System.Drawing.Point(4, 4);
             this.TabControl1.Name = "TabControl1";
             this.TabControl1.SelectedIndex = 0;
-            this.TabControl1.Size = new System.Drawing.Size(765, 543);
-            this.TabControl1.TabIndex = 0;
             this.TabControl1.SelectedIndexChanged += new System.EventHandler(this.TabControl1_SelectedIndexChanged);
             // 
             // tpLocation
@@ -155,185 +141,111 @@ namespace PokemonGo.RocketAPI.Console
             this.tpLocation.Controls.Add(this.RepeatRoute);
             this.tpLocation.Controls.Add(this.CreateRoute);
             this.tpLocation.Controls.Add(this.locationPanel1);
-            this.tpLocation.Location = new System.Drawing.Point(4, 22);
+            resources.ApplyResources(this.tpLocation, "tpLocation");
             this.tpLocation.Name = "tpLocation";
-            this.tpLocation.Padding = new System.Windows.Forms.Padding(3);
-            this.tpLocation.Size = new System.Drawing.Size(757, 517);
-            this.tpLocation.TabIndex = 3;
-            this.tpLocation.Text = "Location";
             this.tpLocation.UseVisualStyleBackColor = true;
             // 
             // RepeatRoute
             // 
-            this.RepeatRoute.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.RepeatRoute.AutoSize = true;
-            this.RepeatRoute.Enabled = false;
-            this.RepeatRoute.Location = new System.Drawing.Point(659, 469);
+            resources.ApplyResources(this.RepeatRoute, "RepeatRoute");
             this.RepeatRoute.Name = "RepeatRoute";
-            this.RepeatRoute.Size = new System.Drawing.Size(93, 17);
-            this.RepeatRoute.TabIndex = 46;
-            this.RepeatRoute.Text = "Repeat Route";
             this.RepeatRoute.UseVisualStyleBackColor = true;
             // 
             // CreateRoute
             // 
-            this.CreateRoute.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.CreateRoute.Location = new System.Drawing.Point(658, 491);
-            this.CreateRoute.Margin = new System.Windows.Forms.Padding(2);
+            resources.ApplyResources(this.CreateRoute, "CreateRoute");
             this.CreateRoute.Name = "CreateRoute";
-            this.CreateRoute.Size = new System.Drawing.Size(89, 23);
-            this.CreateRoute.TabIndex = 47;
-            this.CreateRoute.Text = "Define Route";
             this.CreateRoute.UseVisualStyleBackColor = true;
             this.CreateRoute.Click += new System.EventHandler(this.CreateRoute_Click);
             // 
             // locationPanel1
             // 
-            this.locationPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.locationPanel1.Location = new System.Drawing.Point(3, 3);
-            this.locationPanel1.Margin = new System.Windows.Forms.Padding(4);
+            resources.ApplyResources(this.locationPanel1, "locationPanel1");
             this.locationPanel1.Name = "locationPanel1";
-            this.locationPanel1.Size = new System.Drawing.Size(756, 516);
-            this.locationPanel1.TabIndex = 0;
             // 
             // tpPokemons
             // 
-            this.tpPokemons.AutoScroll = true;
+            resources.ApplyResources(this.tpPokemons, "tpPokemons");
             this.tpPokemons.Controls.Add(this.pokemonsPanel1);
-            this.tpPokemons.Location = new System.Drawing.Point(4, 22);
             this.tpPokemons.Name = "tpPokemons";
-            this.tpPokemons.Padding = new System.Windows.Forms.Padding(3);
-            this.tpPokemons.Size = new System.Drawing.Size(757, 517);
-            this.tpPokemons.TabIndex = 1;
-            this.tpPokemons.Text = "Pokemons";
             this.tpPokemons.UseVisualStyleBackColor = true;
             // 
             // pokemonsPanel1
             // 
-            this.pokemonsPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.pokemonsPanel1.Location = new System.Drawing.Point(4, 4);
-            this.pokemonsPanel1.Margin = new System.Windows.Forms.Padding(4);
+            resources.ApplyResources(this.pokemonsPanel1, "pokemonsPanel1");
             this.pokemonsPanel1.Name = "pokemonsPanel1";
-            this.pokemonsPanel1.Size = new System.Drawing.Size(749, 506);
-            this.pokemonsPanel1.TabIndex = 0;
             // 
             // tpItems
             // 
             this.tpItems.Controls.Add(this.itemsPanel1);
-            this.tpItems.Location = new System.Drawing.Point(4, 22);
-            this.tpItems.Margin = new System.Windows.Forms.Padding(2);
+            resources.ApplyResources(this.tpItems, "tpItems");
             this.tpItems.Name = "tpItems";
-            this.tpItems.Padding = new System.Windows.Forms.Padding(2);
-            this.tpItems.Size = new System.Drawing.Size(757, 517);
-            this.tpItems.TabIndex = 2;
-            this.tpItems.Text = "Items";
             this.tpItems.UseVisualStyleBackColor = true;
             // 
             // itemsPanel1
             // 
-            this.itemsPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.itemsPanel1.Location = new System.Drawing.Point(5, 5);
-            this.itemsPanel1.Margin = new System.Windows.Forms.Padding(4);
+            resources.ApplyResources(this.itemsPanel1, "itemsPanel1");
             this.itemsPanel1.Name = "itemsPanel1";
-            this.itemsPanel1.Size = new System.Drawing.Size(746, 520);
-            this.itemsPanel1.TabIndex = 0;
             // 
             // tpEggs
             // 
             this.tpEggs.Controls.Add(this.eggsPanel1);
-            this.tpEggs.Location = new System.Drawing.Point(4, 22);
-            this.tpEggs.Margin = new System.Windows.Forms.Padding(2);
+            resources.ApplyResources(this.tpEggs, "tpEggs");
             this.tpEggs.Name = "tpEggs";
-            this.tpEggs.Padding = new System.Windows.Forms.Padding(2);
-            this.tpEggs.Size = new System.Drawing.Size(757, 517);
-            this.tpEggs.TabIndex = 5;
-            this.tpEggs.Text = "Eggs";
             this.tpEggs.UseVisualStyleBackColor = true;
             // 
             // eggsPanel1
             // 
-            this.eggsPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.eggsPanel1.Location = new System.Drawing.Point(5, 5);
-            this.eggsPanel1.Margin = new System.Windows.Forms.Padding(2);
+            resources.ApplyResources(this.eggsPanel1, "eggsPanel1");
             this.eggsPanel1.Name = "eggsPanel1";
-            this.eggsPanel1.Size = new System.Drawing.Size(748, 508);
-            this.eggsPanel1.TabIndex = 0;
             // 
             // tpPlayerInfo
             // 
             this.tpPlayerInfo.Controls.Add(this.playerPanel1);
-            this.tpPlayerInfo.Location = new System.Drawing.Point(4, 22);
-            this.tpPlayerInfo.Margin = new System.Windows.Forms.Padding(2);
+            resources.ApplyResources(this.tpPlayerInfo, "tpPlayerInfo");
             this.tpPlayerInfo.Name = "tpPlayerInfo";
-            this.tpPlayerInfo.Padding = new System.Windows.Forms.Padding(2);
-            this.tpPlayerInfo.Size = new System.Drawing.Size(757, 517);
-            this.tpPlayerInfo.TabIndex = 4;
-            this.tpPlayerInfo.Text = "Player Information";
             this.tpPlayerInfo.UseVisualStyleBackColor = true;
             // 
             // playerPanel1
             // 
-            this.playerPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.playerPanel1.Location = new System.Drawing.Point(0, 0);
-            this.playerPanel1.Margin = new System.Windows.Forms.Padding(4);
+            resources.ApplyResources(this.playerPanel1, "playerPanel1");
             this.playerPanel1.Name = "playerPanel1";
-            this.playerPanel1.Size = new System.Drawing.Size(759, 511);
-            this.playerPanel1.TabIndex = 0;
             // 
             // tpSnipers
             // 
             this.tpSnipers.Controls.Add(this.sniperPanel1);
-            this.tpSnipers.Location = new System.Drawing.Point(4, 22);
-            this.tpSnipers.Margin = new System.Windows.Forms.Padding(2);
+            resources.ApplyResources(this.tpSnipers, "tpSnipers");
             this.tpSnipers.Name = "tpSnipers";
-            this.tpSnipers.Padding = new System.Windows.Forms.Padding(2);
-            this.tpSnipers.Size = new System.Drawing.Size(757, 517);
-            this.tpSnipers.TabIndex = 6;
-            this.tpSnipers.Text = "Snipers";
             this.tpSnipers.UseVisualStyleBackColor = true;
             // 
             // sniperPanel1
             // 
-            this.sniperPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.sniperPanel1.Location = new System.Drawing.Point(4, 4);
-            this.sniperPanel1.Margin = new System.Windows.Forms.Padding(4);
+            resources.ApplyResources(this.sniperPanel1, "sniperPanel1");
             this.sniperPanel1.Name = "sniperPanel1";
-            this.sniperPanel1.Size = new System.Drawing.Size(747, 506);
-            this.sniperPanel1.TabIndex = 0;
             // 
             // tpOptions
             // 
             this.tpOptions.Controls.Add(this.changesPanel1);
-            this.tpOptions.Location = new System.Drawing.Point(4, 22);
+            resources.ApplyResources(this.tpOptions, "tpOptions");
             this.tpOptions.Name = "tpOptions";
-            this.tpOptions.Padding = new System.Windows.Forms.Padding(3);
-            this.tpOptions.Size = new System.Drawing.Size(757, 517);
-            this.tpOptions.TabIndex = 0;
-            this.tpOptions.Text = "Options";
             this.tpOptions.UseVisualStyleBackColor = true;
             // 
             // changesPanel1
             // 
-            this.changesPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.changesPanel1.Location = new System.Drawing.Point(0, 0);
-            this.changesPanel1.Margin = new System.Windows.Forms.Padding(4);
+            resources.ApplyResources(this.changesPanel1, "changesPanel1");
             this.changesPanel1.Name = "changesPanel1";
-            this.changesPanel1.Size = new System.Drawing.Size(762, 519);
-            this.changesPanel1.TabIndex = 0;
+            // 
+            // tpConsole
+            // 
+            this.tpConsole.Controls.Add(this.loggerPanel1);
+            resources.ApplyResources(this.tpConsole, "tpConsole");
+            this.tpConsole.Name = "tpConsole";
+            this.tpConsole.UseVisualStyleBackColor = true;
+            // 
+            // loggerPanel1
+            // 
+            resources.ApplyResources(this.loggerPanel1, "loggerPanel1");
+            this.loggerPanel1.Name = "loggerPanel1";
             // 
             // tpConsole
             // 
@@ -358,16 +270,11 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // Pokemons
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
+            resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-            this.ClientSize = new System.Drawing.Size(773, 550);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.TabControl1);
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MinimumSize = new System.Drawing.Size(734, 490);
             this.Name = "Pokemons";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Pokemon List";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Pokemons_Close);
             this.Load += new System.EventHandler(this.Pokemons_Load);
             this.contextMenuStrip1.ResumeLayout(false);

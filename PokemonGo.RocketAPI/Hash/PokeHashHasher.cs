@@ -32,7 +32,7 @@ namespace PokemonGo.RocketAPI.Hash
                 {
                     throw hashEx;
                 }
-                catch (Exception ex)
+                catch (Exception )
                 {
 
                 }
@@ -112,7 +112,7 @@ namespace PokemonGo.RocketAPI.Hash
                 {
                     throw hashEx;
                 }
-                catch (Exception ex)
+                catch (Exception )
                 {
 
                 }

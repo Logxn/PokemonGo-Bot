@@ -60,7 +60,7 @@ namespace PokemonGo.RocketAPI.Console
             }
         }
 
-        public async Task check()
+        public void check()
         {
             while (true)
             {
@@ -71,7 +71,9 @@ namespace PokemonGo.RocketAPI.Console
                         break;
                     }
                 }
-                catch (Exception) { }
+                catch (Exception ex1) { 
+                    Logger.AddLog(ex1.ToString());
+                }
             }
         }
 
@@ -79,9 +81,7 @@ namespace PokemonGo.RocketAPI.Console
         private void Execute()
         {
             TabControl1.Enabled = false;
-            //await check().ConfigureAwait(false);
-            // eb - wait for client to be ready. Disabling async
-            while (true) {if (Logic.Logic.objClient != null && Logic.Logic.objClient.readyToUse != false) break;}
+            check();
 
             try
             {
@@ -144,7 +144,7 @@ namespace PokemonGo.RocketAPI.Console
             ChangeTabs(sender, e);
         }
 
-        private async Task ChangeTabs(object sender, EventArgs e)
+        private void ChangeTabs(object sender, EventArgs e)
         {
             while (waitingApiResponse)
             {
@@ -158,15 +158,12 @@ namespace PokemonGo.RocketAPI.Console
                     pokemonsPanel1.Execute();
                     break;
                 case "tpItems":
-                    //await itemsPanel1.Execute().ConfigureAwait(false);
                     itemsPanel1.Execute();
                     break;
                 case "tpEggs":
-                    //await eggsPanel1.Execute().ConfigureAwait(false);
                     eggsPanel1.Execute();
                     break;
                 case "tpPlayerInfo":
-                    //await playerPanel1.Execute().ConfigureAwait(false);
                     playerPanel1.Execute();
                     break;
             }

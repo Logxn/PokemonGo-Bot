@@ -99,7 +99,7 @@ namespace PokemonGo.RocketAPI.Console
             foreach (var l in b)
                 Extract("PokemonGo.RocketAPI.Console", Program.path_translation, "Lang", l);
 
-            List<string> pokeData = new List<string>();
+            var pokeData = new List<string>();
             pokeData.Add("AdditionalPokeData.json");
 
             foreach (var extract in pokeData)
@@ -1385,21 +1385,6 @@ namespace PokemonGo.RocketAPI.Console
         void TextBoxes_TextChanged(object sender, EventArgs e)
         {
             ((TextBox) sender).BackColor = SystemColors.Window;
-        }
-
-        private void tabGeneral_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label30_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label66_Click(object sender, EventArgs e)
-        {
-
         }
 
         private void linkLabel14_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)

@@ -120,19 +120,624 @@
   <metadata name="contextMenuStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>132, 17</value>
   </metadata>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="transferToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>172, 22</value>
+  </data>
+  <data name="transferToolStripMenuItem.Text" xml:space="preserve">
+    <value>Transfer</value>
+  </data>
+  <data name="powerUpToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>172, 22</value>
+  </data>
+  <data name="powerUpToolStripMenuItem.Text" xml:space="preserve">
+    <value>PowerUp</value>
+  </data>
+  <data name="evolveToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>172, 22</value>
+  </data>
+  <data name="evolveToolStripMenuItem.Text" xml:space="preserve">
+    <value>Evolve</value>
+  </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="evolveToolStripMenuItem.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="iVsToNicknameToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>172, 22</value>
+  </data>
+  <data name="iVsToNicknameToolStripMenuItem.Text" xml:space="preserve">
+    <value>IVs to Nickname</value>
+  </data>
+  <data name="changeFavouritesToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>172, 22</value>
+  </data>
+  <data name="changeFavouritesToolStripMenuItem.Text" xml:space="preserve">
+    <value>Change Favourites</value>
+  </data>
+  <data name="contextMenuStrip1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>173, 114</value>
+  </data>
+  <data name="&gt;&gt;contextMenuStrip1.Name" xml:space="preserve">
+    <value>contextMenuStrip1</value>
+  </data>
+  <data name="&gt;&gt;contextMenuStrip1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="label2.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Left</value>
+  </data>
+  <data name="label2.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>273, 465</value>
+  </data>
+  <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>0, 13</value>
+  </data>
+  <data name="label2.TabIndex" type="System.Int32, mscorlib">
+    <value>9</value>
+  </data>
+  <data name="&gt;&gt;label2.Name" xml:space="preserve">
+    <value>label2</value>
+  </data>
+  <data name="&gt;&gt;label2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label2.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;label2.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
   <metadata name="reloadtimer.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
   <metadata name="freezedenshit.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>318, 17</value>
   </metadata>
+  <data name="TabControl1.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom, Left, Right</value>
+  </data>
+  <data name="RepeatRoute.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Right</value>
+  </data>
+  <data name="RepeatRoute.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="RepeatRoute.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="RepeatRoute.Location" type="System.Drawing.Point, System.Drawing">
+    <value>659, 469</value>
+  </data>
+  <data name="RepeatRoute.Size" type="System.Drawing.Size, System.Drawing">
+    <value>93, 17</value>
+  </data>
+  <data name="RepeatRoute.TabIndex" type="System.Int32, mscorlib">
+    <value>46</value>
+  </data>
+  <data name="RepeatRoute.Text" xml:space="preserve">
+    <value>Repeat Route</value>
+  </data>
+  <data name="&gt;&gt;RepeatRoute.Name" xml:space="preserve">
+    <value>RepeatRoute</value>
+  </data>
+  <data name="&gt;&gt;RepeatRoute.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;RepeatRoute.Parent" xml:space="preserve">
+    <value>tpLocation</value>
+  </data>
+  <data name="&gt;&gt;RepeatRoute.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="CreateRoute.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Right</value>
+  </data>
+  <data name="CreateRoute.Location" type="System.Drawing.Point, System.Drawing">
+    <value>658, 491</value>
+  </data>
+  <data name="CreateRoute.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>2, 2, 2, 2</value>
+  </data>
+  <data name="CreateRoute.Size" type="System.Drawing.Size, System.Drawing">
+    <value>89, 23</value>
+  </data>
+  <data name="CreateRoute.TabIndex" type="System.Int32, mscorlib">
+    <value>47</value>
+  </data>
+  <data name="CreateRoute.Text" xml:space="preserve">
+    <value>Define Route</value>
+  </data>
+  <data name="&gt;&gt;CreateRoute.Name" xml:space="preserve">
+    <value>CreateRoute</value>
+  </data>
+  <data name="&gt;&gt;CreateRoute.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CreateRoute.Parent" xml:space="preserve">
+    <value>tpLocation</value>
+  </data>
+  <data name="&gt;&gt;CreateRoute.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="locationPanel1.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom, Left, Right</value>
+  </data>
+  <data name="locationPanel1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 3</value>
+  </data>
+  <data name="locationPanel1.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
+  </data>
+  <data name="locationPanel1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>756, 516</value>
+  </data>
+  <data name="locationPanel1.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;locationPanel1.Name" xml:space="preserve">
+    <value>locationPanel1</value>
+  </data>
+  <data name="&gt;&gt;locationPanel1.Type" xml:space="preserve">
+    <value>PokemonGo.RocketAPI.Console.LocationPanel, PokemonGo.RocketAPI.Console, Version=1.1.9.7, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;locationPanel1.Parent" xml:space="preserve">
+    <value>tpLocation</value>
+  </data>
+  <data name="&gt;&gt;locationPanel1.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="tpLocation.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 22</value>
+  </data>
+  <data name="tpLocation.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 3, 3, 3</value>
+  </data>
+  <data name="tpLocation.Size" type="System.Drawing.Size, System.Drawing">
+    <value>757, 517</value>
+  </data>
+  <data name="tpLocation.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="tpLocation.Text" xml:space="preserve">
+    <value>Location</value>
+  </data>
+  <data name="&gt;&gt;tpLocation.Name" xml:space="preserve">
+    <value>tpLocation</value>
+  </data>
+  <data name="&gt;&gt;tpLocation.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tpLocation.Parent" xml:space="preserve">
+    <value>TabControl1</value>
+  </data>
+  <data name="&gt;&gt;tpLocation.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="tpPokemons.AutoScroll" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="pokemonsPanel1.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom, Left, Right</value>
+  </data>
+  <data name="pokemonsPanel1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 4</value>
+  </data>
+  <data name="pokemonsPanel1.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
+  </data>
+  <data name="pokemonsPanel1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>749, 506</value>
+  </data>
+  <data name="pokemonsPanel1.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;pokemonsPanel1.Name" xml:space="preserve">
+    <value>pokemonsPanel1</value>
+  </data>
+  <data name="&gt;&gt;pokemonsPanel1.Type" xml:space="preserve">
+    <value>PokemonGo.RocketAPI.Console.PokemonsPanel, PokemonGo.RocketAPI.Console, Version=1.1.9.7, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;pokemonsPanel1.Parent" xml:space="preserve">
+    <value>tpPokemons</value>
+  </data>
+  <data name="&gt;&gt;pokemonsPanel1.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="tpPokemons.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 22</value>
+  </data>
+  <data name="tpPokemons.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 3, 3, 3</value>
+  </data>
+  <data name="tpPokemons.Size" type="System.Drawing.Size, System.Drawing">
+    <value>757, 517</value>
+  </data>
+  <data name="tpPokemons.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="tpPokemons.Text" xml:space="preserve">
+    <value>Pokemons</value>
+  </data>
+  <data name="&gt;&gt;tpPokemons.Name" xml:space="preserve">
+    <value>tpPokemons</value>
+  </data>
+  <data name="&gt;&gt;tpPokemons.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tpPokemons.Parent" xml:space="preserve">
+    <value>TabControl1</value>
+  </data>
+  <data name="&gt;&gt;tpPokemons.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="itemsPanel1.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom, Left, Right</value>
+  </data>
+  <data name="itemsPanel1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>5, 5</value>
+  </data>
+  <data name="itemsPanel1.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
+  </data>
+  <data name="itemsPanel1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>746, 520</value>
+  </data>
+  <data name="itemsPanel1.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;itemsPanel1.Name" xml:space="preserve">
+    <value>itemsPanel1</value>
+  </data>
+  <data name="&gt;&gt;itemsPanel1.Type" xml:space="preserve">
+    <value>PokemonGo.RocketAPI.Console.ItemsPanel, PokemonGo.RocketAPI.Console, Version=1.1.9.7, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;itemsPanel1.Parent" xml:space="preserve">
+    <value>tpItems</value>
+  </data>
+  <data name="&gt;&gt;itemsPanel1.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="tpItems.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 22</value>
+  </data>
+  <data name="tpItems.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>2, 2, 2, 2</value>
+  </data>
+  <data name="tpItems.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>2, 2, 2, 2</value>
+  </data>
+  <data name="tpItems.Size" type="System.Drawing.Size, System.Drawing">
+    <value>757, 517</value>
+  </data>
+  <data name="tpItems.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="tpItems.Text" xml:space="preserve">
+    <value>Items</value>
+  </data>
+  <data name="&gt;&gt;tpItems.Name" xml:space="preserve">
+    <value>tpItems</value>
+  </data>
+  <data name="&gt;&gt;tpItems.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tpItems.Parent" xml:space="preserve">
+    <value>TabControl1</value>
+  </data>
+  <data name="&gt;&gt;tpItems.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="eggsPanel1.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom, Left, Right</value>
+  </data>
+  <data name="eggsPanel1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>5, 5</value>
+  </data>
+  <data name="eggsPanel1.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>2, 2, 2, 2</value>
+  </data>
+  <data name="eggsPanel1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>748, 508</value>
+  </data>
+  <data name="eggsPanel1.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;eggsPanel1.Name" xml:space="preserve">
+    <value>eggsPanel1</value>
+  </data>
+  <data name="&gt;&gt;eggsPanel1.Type" xml:space="preserve">
+    <value>PokemonGo.RocketAPI.Console.EggsPanel, PokemonGo.RocketAPI.Console, Version=1.1.9.7, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;eggsPanel1.Parent" xml:space="preserve">
+    <value>tpEggs</value>
+  </data>
+  <data name="&gt;&gt;eggsPanel1.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="tpEggs.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 22</value>
+  </data>
+  <data name="tpEggs.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>2, 2, 2, 2</value>
+  </data>
+  <data name="tpEggs.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>2, 2, 2, 2</value>
+  </data>
+  <data name="tpEggs.Size" type="System.Drawing.Size, System.Drawing">
+    <value>757, 517</value>
+  </data>
+  <data name="tpEggs.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="tpEggs.Text" xml:space="preserve">
+    <value>Eggs</value>
+  </data>
+  <data name="&gt;&gt;tpEggs.Name" xml:space="preserve">
+    <value>tpEggs</value>
+  </data>
+  <data name="&gt;&gt;tpEggs.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tpEggs.Parent" xml:space="preserve">
+    <value>TabControl1</value>
+  </data>
+  <data name="&gt;&gt;tpEggs.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="playerPanel1.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom, Left, Right</value>
+  </data>
+  <data name="playerPanel1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="playerPanel1.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
+  </data>
+  <data name="playerPanel1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>759, 511</value>
+  </data>
+  <data name="playerPanel1.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;playerPanel1.Name" xml:space="preserve">
+    <value>playerPanel1</value>
+  </data>
+  <data name="&gt;&gt;playerPanel1.Type" xml:space="preserve">
+    <value>PokemonGo.RocketAPI.Console.PlayerPanel, PokemonGo.RocketAPI.Console, Version=1.1.9.7, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;playerPanel1.Parent" xml:space="preserve">
+    <value>tpPlayerInfo</value>
+  </data>
+  <data name="&gt;&gt;playerPanel1.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="tpPlayerInfo.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 22</value>
+  </data>
+  <data name="tpPlayerInfo.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>2, 2, 2, 2</value>
+  </data>
+  <data name="tpPlayerInfo.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>2, 2, 2, 2</value>
+  </data>
+  <data name="tpPlayerInfo.Size" type="System.Drawing.Size, System.Drawing">
+    <value>757, 517</value>
+  </data>
+  <data name="tpPlayerInfo.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="tpPlayerInfo.Text" xml:space="preserve">
+    <value>Player Information</value>
+  </data>
+  <data name="&gt;&gt;tpPlayerInfo.Name" xml:space="preserve">
+    <value>tpPlayerInfo</value>
+  </data>
+  <data name="&gt;&gt;tpPlayerInfo.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tpPlayerInfo.Parent" xml:space="preserve">
+    <value>TabControl1</value>
+  </data>
+  <data name="&gt;&gt;tpPlayerInfo.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="sniperPanel1.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom, Left, Right</value>
+  </data>
+  <data name="sniperPanel1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 4</value>
+  </data>
+  <data name="sniperPanel1.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
+  </data>
+  <data name="sniperPanel1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>747, 506</value>
+  </data>
+  <data name="sniperPanel1.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;sniperPanel1.Name" xml:space="preserve">
+    <value>sniperPanel1</value>
+  </data>
+  <data name="&gt;&gt;sniperPanel1.Type" xml:space="preserve">
+    <value>PokemonGo.RocketAPI.Console.SniperPanel, PokemonGo.RocketAPI.Console, Version=1.1.9.7, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;sniperPanel1.Parent" xml:space="preserve">
+    <value>tpSnipers</value>
+  </data>
+  <data name="&gt;&gt;sniperPanel1.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="tpSnipers.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 22</value>
+  </data>
+  <data name="tpSnipers.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>2, 2, 2, 2</value>
+  </data>
+  <data name="tpSnipers.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>2, 2, 2, 2</value>
+  </data>
+  <data name="tpSnipers.Size" type="System.Drawing.Size, System.Drawing">
+    <value>757, 517</value>
+  </data>
+  <data name="tpSnipers.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="tpSnipers.Text" xml:space="preserve">
+    <value>Snipers</value>
+  </data>
+  <data name="&gt;&gt;tpSnipers.Name" xml:space="preserve">
+    <value>tpSnipers</value>
+  </data>
+  <data name="&gt;&gt;tpSnipers.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tpSnipers.Parent" xml:space="preserve">
+    <value>TabControl1</value>
+  </data>
+  <data name="&gt;&gt;tpSnipers.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
   <metadata name="tpOptions.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="changesPanel1.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom, Left, Right</value>
+  </data>
+  <data name="changesPanel1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="changesPanel1.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
+  </data>
+  <data name="changesPanel1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>762, 519</value>
+  </data>
+  <data name="changesPanel1.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;changesPanel1.Name" xml:space="preserve">
+    <value>changesPanel1</value>
+  </data>
+  <data name="&gt;&gt;changesPanel1.Type" xml:space="preserve">
+    <value>PokemonGo.RocketAPI.Console.ChangesPanel, PokemonGo.RocketAPI.Console, Version=1.1.9.7, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;changesPanel1.Parent" xml:space="preserve">
+    <value>tpOptions</value>
+  </data>
+  <data name="&gt;&gt;changesPanel1.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="tpOptions.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 22</value>
+  </data>
+  <data name="tpOptions.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 3, 3, 3</value>
+  </data>
+  <data name="tpOptions.Size" type="System.Drawing.Size, System.Drawing">
+    <value>757, 517</value>
+  </data>
+  <data name="tpOptions.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="tpOptions.Text" xml:space="preserve">
+    <value>Options</value>
+  </data>
+  <data name="&gt;&gt;tpOptions.Name" xml:space="preserve">
+    <value>tpOptions</value>
+  </data>
+  <data name="&gt;&gt;tpOptions.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tpOptions.Parent" xml:space="preserve">
+    <value>TabControl1</value>
+  </data>
+  <data name="&gt;&gt;tpOptions.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="TabControl1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 4</value>
+  </data>
+  <data name="TabControl1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>765, 543</value>
+  </data>
+  <data name="TabControl1.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;TabControl1.Name" xml:space="preserve">
+    <value>TabControl1</value>
+  </data>
+  <data name="&gt;&gt;TabControl1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabControl, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TabControl1.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;TabControl1.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="loggerPanel1.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom, Left, Right</value>
+  </data>
+  <data name="loggerPanel1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 6</value>
+  </data>
+  <data name="loggerPanel1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>745, 505</value>
+  </data>
+  <data name="loggerPanel1.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;loggerPanel1.Name" xml:space="preserve">
+    <value>loggerPanel1</value>
+  </data>
+  <data name="&gt;&gt;loggerPanel1.Type" xml:space="preserve">
+    <value>PokemonGo.RocketAPI.Logging.LoggerPanel, Pokemon.Go.Rocket.API, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;loggerPanel1.Parent" xml:space="preserve">
+    <value>tpConsole</value>
+  </data>
+  <data name="&gt;&gt;loggerPanel1.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="tpConsole.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 22</value>
+  </data>
+  <data name="tpConsole.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 3, 3, 3</value>
+  </data>
+  <data name="tpConsole.Size" type="System.Drawing.Size, System.Drawing">
+    <value>757, 517</value>
+  </data>
+  <data name="tpConsole.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="tpConsole.Text" xml:space="preserve">
+    <value>Console</value>
+  </data>
+  <data name="&gt;&gt;tpConsole.Name" xml:space="preserve">
+    <value>tpConsole</value>
+  </data>
+  <data name="&gt;&gt;tpConsole.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
   <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>47</value>
   </metadata>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
+    <value>96, 96</value>
+  </data>
+  <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
+    <value>773, 550</value>
+  </data>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         AAABAAMAEBAAAAAAIABoBAAANgAAACAgAAAAACAAqBAAAJ4EAAAwMAAAAAAgAKglAABGFQAAKAAAABAA
@@ -388,5 +993,62 @@
         AAAAAP//AAAAAAAA//8AAAAAAAD//wAAAAAAAP//AAAAAAAA//8AAAAAAAD//wAAAAAAAP//AAAAAAAA
         //8AAAAAAAD//wAAAAAAAP//AAAAAAAA//8=
 </value>
+  </data>
+  <data name="$this.MinimumSize" type="System.Drawing.Size, System.Drawing">
+    <value>734, 490</value>
+  </data>
+  <data name="$this.StartPosition" type="System.Windows.Forms.FormStartPosition, System.Windows.Forms">
+    <value>CenterScreen</value>
+  </data>
+  <data name="$this.Text" xml:space="preserve">
+    <value>Pokemon List</value>
+  </data>
+  <data name="&gt;&gt;transferToolStripMenuItem.Name" xml:space="preserve">
+    <value>transferToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;transferToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;powerUpToolStripMenuItem.Name" xml:space="preserve">
+    <value>powerUpToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;powerUpToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;evolveToolStripMenuItem.Name" xml:space="preserve">
+    <value>evolveToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;evolveToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;iVsToNicknameToolStripMenuItem.Name" xml:space="preserve">
+    <value>iVsToNicknameToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;iVsToNicknameToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;changeFavouritesToolStripMenuItem.Name" xml:space="preserve">
+    <value>changeFavouritesToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;changeFavouritesToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;reloadtimer.Name" xml:space="preserve">
+    <value>reloadtimer</value>
+  </data>
+  <data name="&gt;&gt;reloadtimer.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Timer, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;freezedenshit.Name" xml:space="preserve">
+    <value>freezedenshit</value>
+  </data>
+  <data name="&gt;&gt;freezedenshit.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Timer, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;$this.Name" xml:space="preserve">
+    <value>Pokemons</value>
+  </data>
+  <data name="&gt;&gt;$this.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Form, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
 </root>

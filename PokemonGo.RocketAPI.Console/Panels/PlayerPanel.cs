@@ -92,19 +92,14 @@ namespace PokemonGo.RocketAPI.Console
             {
                 case TeamColor.Neutral:
                     return null;
-                    break;
                 case TeamColor.Blue:
                     return Properties.Resources.team_mystic;
-                    break;
                 case TeamColor.Red:
                     return Properties.Resources.team_valor;
-                    break;
                 case TeamColor.Yellow:
                     return Properties.Resources.team_instinct;
-                    break;
                 default:
                     return null;
-                    break;
             }
         }
         private void updatePlayerImages()
