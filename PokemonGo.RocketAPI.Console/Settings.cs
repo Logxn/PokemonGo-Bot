@@ -750,6 +750,11 @@ namespace PokemonGo.RocketAPI.Console
             get { return Globals.pokeList; }
             set { Globals.pokeList = value; }
         }
+        public bool EnableConsoleInTab
+        {
+            get { return Globals.consoleInTab; }
+            set { Globals.consoleInTab = value; }
+        }
         public bool ForceSnipe
         {
             get { return Globals.ForceSnipe; }

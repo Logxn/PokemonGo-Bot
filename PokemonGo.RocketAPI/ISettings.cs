@@ -182,5 +182,6 @@ namespace PokemonGo.RocketAPI
         bool No2kmEggsBasicInc { get; set; }
         bool EggsAscendingSelectionBasicInc { get; set; }
         bool EnableVerboseLogging { get; set; }
+        bool EnableConsoleInTab { get; set; }
     }
 }

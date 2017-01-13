@@ -15,11 +15,15 @@ using POGOProtos.Enums;
 using System.Device.Location;
 using System.Collections.ObjectModel;
 using Google.Protobuf;
+using System.Runtime.InteropServices;
 
 namespace PokemonGo.RocketAPI.Console
 {
     internal class Program
     {
+        [DllImport("kernel32.dll")]
+        public static extern Boolean FreeConsole();
+        
         public static string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Configs");
         public static string path_translation = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Translations");
         public static string path_device = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Device");
@@ -96,6 +100,7 @@ namespace PokemonGo.RocketAPI.Console
             {
                 File.Create(EvolveLog).Close();
             }
+            var openGUI = false;
             if (args != null && args.Length > 0 && args[0].Contains("-nogui"))
             {
                 Logger.ColoredConsoleWrite(ConsoleColor.Red, "You added -nogui! If you didnt setup correctly with the GUI. It wont work.");
@@ -123,20 +128,11 @@ namespace PokemonGo.RocketAPI.Console
                 Application.Run(new GUI());
                 if (Globals.pokeList)
                 {
-                    Task.Run(() =>
-                    {
-                        if (Globals.simulatedPGO){
-                        var pokemonList = new GameAspectSimulator();
-                        pokemonList.ShowDialog();
-                                 }else{
-                        var pokemonList = new Pokemons();
-                        pokemonList.ShowDialog();
-                                 }
-                    });
-                }                
+                    openGUI =true;
+                }
             }
 
-            Logger.SetLogger(new Logging.ConsoleLogger(LogLevel.Info));
+            //Logger.SetLogger(new Logging.ConsoleLogger(LogLevel.Info));
 
             Globals.infoObservable.HandleNewHuntStats += SaveHuntStats;
 
@@ -169,7 +165,23 @@ namespace PokemonGo.RocketAPI.Console
                     new Logic.Logic(new Settings(), Globals.infoObservable).Execute().Wait();
                 }
             });
-            System.Console.ReadLine();
+            if (openGUI)
+            {
+                if (Globals.simulatedPGO)
+                {
+                    Application.Run( new GameAspectSimulator());
+                }
+                else
+                {
+                    if (Globals.consoleInTab)
+                        FreeConsole();
+                    Application.Run( new Pokemons());
+                }
+            }
+            else
+            {
+                   System.Console.ReadLine();
+            }
             SleepHelper.AllowSleep();
         }
         private static void SaveHuntStats(string newHuntStat)
@@ -338,6 +350,7 @@ namespace PokemonGo.RocketAPI.Console
         public static bool userazzberry = true;
         public static double razzberry_chance = 0.35;
         public static bool pokeList = true;
+        public static bool consoleInTab = false;
         public static bool keepPokemonsThatCanEvolve = true;
         public static bool TransferFirstLowIV = true;
         public static bool pokevision = false;

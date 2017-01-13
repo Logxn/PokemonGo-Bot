@@ -1,96 +1,85 @@
-﻿using PokemonGo.RocketAPI.Logging;
+﻿/*
+ * Created by SharpDevelop.
+ * User: Xelwon
+ * Date: 10/01/2017
+ * Time: 23:56
+ * 
+ * To change this template use Tools | Options | Coding | Edit Standard Headers.
+ */
+        /* All function used in this project
+        public static void Error(string str){}
+        public static void ColoredConsoleWrite(ConsoleColor color, string text, LogLevel level = LogLevel.Info){}
+        public static void Write( string text, LogLevel level = LogLevel.Info){}
+        public static void AddLog(string str){}*/ 
 using System;
-using System.IO;
+using PokemonGo.RocketAPI.Logging;
 
 namespace PokemonGo.RocketAPI
 {
-	/// <summary>
-	/// Generic logger which can be used across the projects.
-	/// Logger should be set to properly log.
-	/// </summary>
-	
-	public static class Logger
-	{
-        public static string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Configs");
-        public static string log = Path.Combine(path, "log.txt");
-        private static ILogger logger;
-
-		/// <summary>
-		/// Set the logger. All future requests to <see cref="Write(string, LogLevel)"/> will use that logger, any old will be unset.
-		/// </summary>
-		/// <param name="logger"></param>
-		public static void SetLogger(ILogger logger)
-		{
-			Logger.logger = logger;
-		}
-
-		/// <summary>
-		/// Log a specific message to the logger setup by <see cref="SetLogger(ILogger)"/> .
-		/// </summary>
-		/// <param name="message">The message to log.</param>
-		/// <param name="level">Optional level to log. Default <see cref="LogLevel.Info"/>.</param>
-		public static void Write(string message, LogLevel level = LogLevel.Info)
-		{
-			if (logger == null)
-				return;
-			logger.Write(message, level);
-            AddLog(message);
-		}
-
-        public static void ColoredConsoleWrite(ConsoleColor color, string text, LogLevel level = LogLevel.Info)
+    public enum LogLevel
+    {
+        None = 0,
+        Error = 1,
+        Warning = 2,
+        Info = 3,
+        Debug = 4
+    }
+    public class Logger
+    {
+        public static Logger logger;
+        public static int type = 0;
+        public static string message;
+        public static ConsoleColor color;
+        public Logger()
         {
-            ConsoleColor originalColor = Console.ForegroundColor;
-            Console.ForegroundColor = color;
-            Console.WriteLine($"[{level}][{DateTime.Now.ToString("HH:mm:ss")}] "+ text);
-            Console.ForegroundColor = originalColor;
-            AddLog(text);
+            
         }
-
-        public static void ColoredConsoleWrite(ConsoleColor color, string text)
-        {
-            ConsoleColor originalColor = Console.ForegroundColor;
-            Console.ForegroundColor = color;
-            Console.WriteLine($"[{DateTime.Now.ToString("HH:mm:ss")}] " + text);
-            Console.ForegroundColor = originalColor;
-            AddLog(text);
+        private static LoggerPanel panel = null;
+        public static void setPanel(LoggerPanel panel1){
+            panel = panel1;
+            //type = 1;
         }
-
-        public static void Error(string text)
-        {
-            ConsoleColor originalColor = Console.ForegroundColor;
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine($"[{DateTime.Now.ToString("HH:mm:ss")}] " + text);
-            Console.ForegroundColor = originalColor;
-            AddLog(text);
+        public static void Error(string str){
+            if (type == 0)
+                LoggerC.Error(str);
+            else
+                try {
+                    if (panel != null)
+                        panel.Error(str);
+                    
+                } catch (Exception ex1) {
+                    AddLog(str+ex1.ToString());
+                }
         }
-
-        public static void AddLog(string line)
-        { 
-            if (!File.Exists(log))
-            {
-                File.Create(log);
-            } 
-            try
-            {
-                // here you know that the file exists
-                TextWriter tw = new StreamWriter(log, true); //  we need to add a new line (aka. i am the brain)
-                tw.WriteLine($"[{DateTime.Now.ToString("HH:mm:ss")}] " + line); 
-                tw.Close();
-            } catch (Exception)
-            {
-                // Probably used by other process error
-            }
+        public static void ColoredConsoleWrite(ConsoleColor color, string line, LogLevel level = LogLevel.Info){
+            if (type == 0)
+                LoggerC.ColoredConsoleWrite(color,line,level);
+            else
+                try {
+                if (panel != null)
+                    panel.ColoredConsoleWrite(color,line,level);
+                } catch (Exception ex1) {
+                    AddLog(line+ex1.ToString());
+                }
+        }
+        public static void Write( string line, LogLevel level = LogLevel.Info){
+            if (type == 0)
+                LoggerC.Write(line,level);
+            else
+                try {
+                if (panel != null)
+                    panel.Write(line,level);
+                } catch (Exception ex1) {
+                    AddLog(line+ ex1.ToString());
+                }
+        }
+        
+        public static void AddLog(string line){
+            if (type == 0)
+                LoggerC.AddLog(line);
+            else
+                if (panel != null)
+                    panel.AddLog(line);
         }
     }
-
-  
-
-    public enum LogLevel
-	{
-		None = 0,
-		Error = 1,
-		Warning = 2,
-		Info = 3,
-		Debug = 4
-	}
 }
