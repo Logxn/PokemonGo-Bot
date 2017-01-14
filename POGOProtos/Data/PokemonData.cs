@@ -23,33 +23,35 @@ namespace POGOProtos.Data {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "CiFQT0dPUHJvdG9zL0RhdGEvUG9rZW1vbkRhdGEucHJvdG8SD1BPR09Qcm90",
-            "b3MuRGF0YRogUE9HT1Byb3Rvcy9FbnVtcy9Qb2tlbW9uSWQucHJvdG8aIlBP",
-            "R09Qcm90b3MvRW51bXMvUG9rZW1vbk1vdmUucHJvdG8aJlBPR09Qcm90b3Mv",
-            "SW52ZW50b3J5L0l0ZW0vSXRlbUlkLnByb3RvIoQHCgtQb2tlbW9uRGF0YRIK",
-            "CgJpZBgBIAEoBhIvCgpwb2tlbW9uX2lkGAIgASgOMhsuUE9HT1Byb3Rvcy5F",
-            "bnVtcy5Qb2tlbW9uSWQSCgoCY3AYAyABKAUSDwoHc3RhbWluYRgEIAEoBRIT",
-            "CgtzdGFtaW5hX21heBgFIAEoBRItCgZtb3ZlXzEYBiABKA4yHS5QT0dPUHJv",
-            "dG9zLkVudW1zLlBva2Vtb25Nb3ZlEi0KBm1vdmVfMhgHIAEoDjIdLlBPR09Q",
-            "cm90b3MuRW51bXMuUG9rZW1vbk1vdmUSGAoQZGVwbG95ZWRfZm9ydF9pZBgI",
-            "IAEoCRISCgpvd25lcl9uYW1lGAkgASgJEg4KBmlzX2VnZxgKIAEoCBIcChRl",
-            "Z2dfa21fd2Fsa2VkX3RhcmdldBgLIAEoARIbChNlZ2dfa21fd2Fsa2VkX3N0",
-            "YXJ0GAwgASgBEg4KBm9yaWdpbhgOIAEoBRIQCghoZWlnaHRfbRgPIAEoAhIR",
-            "Cgl3ZWlnaHRfa2cYECABKAISGQoRaW5kaXZpZHVhbF9hdHRhY2sYESABKAUS",
-            "GgoSaW5kaXZpZHVhbF9kZWZlbnNlGBIgASgFEhoKEmluZGl2aWR1YWxfc3Rh",
-            "bWluYRgTIAEoBRIVCg1jcF9tdWx0aXBsaWVyGBQgASgCEjMKCHBva2ViYWxs",
-            "GBUgASgOMiEuUE9HT1Byb3Rvcy5JbnZlbnRvcnkuSXRlbS5JdGVtSWQSGAoQ",
-            "Y2FwdHVyZWRfY2VsbF9pZBgWIAEoBBIYChBiYXR0bGVzX2F0dGFja2VkGBcg",
-            "ASgFEhgKEGJhdHRsZXNfZGVmZW5kZWQYGCABKAUSGAoQZWdnX2luY3ViYXRv",
-            "cl9pZBgZIAEoCRIYChBjcmVhdGlvbl90aW1lX21zGBogASgEEhQKDG51bV91",
-            "cGdyYWRlcxgbIAEoBRIgChhhZGRpdGlvbmFsX2NwX211bHRpcGxpZXIYHCAB",
-            "KAISEAoIZmF2b3JpdGUYHSABKAUSEAoIbmlja25hbWUYHiABKAkSEQoJZnJv",
-            "bV9mb3J0GB8gASgFEhsKE2J1ZGR5X2NhbmR5X2F3YXJkZWQYICABKAUSHQoV",
-            "YnVkZHlfdG90YWxfa21fd2Fsa2VkGCEgASgCEhoKEmRpc3BsYXlfcG9rZW1v",
-            "bl9pZBgiIAEoBRISCgpkaXNwbGF5X2NwGCMgASgFYgZwcm90bzM="));
+            "b3MuRGF0YRokUE9HT1Byb3Rvcy9EYXRhL1Bva2Vtb25EaXNwbGF5LnByb3Rv",
+            "GiBQT0dPUHJvdG9zL0VudW1zL1Bva2Vtb25JZC5wcm90bxoiUE9HT1Byb3Rv",
+            "cy9FbnVtcy9Qb2tlbW9uTW92ZS5wcm90bxomUE9HT1Byb3Rvcy9JbnZlbnRv",
+            "cnkvSXRlbS9JdGVtSWQucHJvdG8ivgcKC1Bva2Vtb25EYXRhEgoKAmlkGAEg",
+            "ASgGEi8KCnBva2Vtb25faWQYAiABKA4yGy5QT0dPUHJvdG9zLkVudW1zLlBv",
+            "a2Vtb25JZBIKCgJjcBgDIAEoBRIPCgdzdGFtaW5hGAQgASgFEhMKC3N0YW1p",
+            "bmFfbWF4GAUgASgFEi0KBm1vdmVfMRgGIAEoDjIdLlBPR09Qcm90b3MuRW51",
+            "bXMuUG9rZW1vbk1vdmUSLQoGbW92ZV8yGAcgASgOMh0uUE9HT1Byb3Rvcy5F",
+            "bnVtcy5Qb2tlbW9uTW92ZRIYChBkZXBsb3llZF9mb3J0X2lkGAggASgJEhIK",
+            "Cm93bmVyX25hbWUYCSABKAkSDgoGaXNfZWdnGAogASgIEhwKFGVnZ19rbV93",
+            "YWxrZWRfdGFyZ2V0GAsgASgBEhsKE2VnZ19rbV93YWxrZWRfc3RhcnQYDCAB",
+            "KAESDgoGb3JpZ2luGA4gASgFEhAKCGhlaWdodF9tGA8gASgCEhEKCXdlaWdo",
+            "dF9rZxgQIAEoAhIZChFpbmRpdmlkdWFsX2F0dGFjaxgRIAEoBRIaChJpbmRp",
+            "dmlkdWFsX2RlZmVuc2UYEiABKAUSGgoSaW5kaXZpZHVhbF9zdGFtaW5hGBMg",
+            "ASgFEhUKDWNwX211bHRpcGxpZXIYFCABKAISMwoIcG9rZWJhbGwYFSABKA4y",
+            "IS5QT0dPUHJvdG9zLkludmVudG9yeS5JdGVtLkl0ZW1JZBIYChBjYXB0dXJl",
+            "ZF9jZWxsX2lkGBYgASgEEhgKEGJhdHRsZXNfYXR0YWNrZWQYFyABKAUSGAoQ",
+            "YmF0dGxlc19kZWZlbmRlZBgYIAEoBRIYChBlZ2dfaW5jdWJhdG9yX2lkGBkg",
+            "ASgJEhgKEGNyZWF0aW9uX3RpbWVfbXMYGiABKAQSFAoMbnVtX3VwZ3JhZGVz",
+            "GBsgASgFEiAKGGFkZGl0aW9uYWxfY3BfbXVsdGlwbGllchgcIAEoAhIQCghm",
+            "YXZvcml0ZRgdIAEoBRIQCghuaWNrbmFtZRgeIAEoCRIRCglmcm9tX2ZvcnQY",
+            "HyABKAUSGwoTYnVkZHlfY2FuZHlfYXdhcmRlZBggIAEoBRIdChVidWRkeV90",
+            "b3RhbF9rbV93YWxrZWQYISABKAISGgoSZGlzcGxheV9wb2tlbW9uX2lkGCIg",
+            "ASgFEhIKCmRpc3BsYXlfY3AYIyABKAUSOAoPcG9rZW1vbl9kaXNwbGF5GCQg",
+            "ASgLMh8uUE9HT1Byb3Rvcy5EYXRhLlBva2Vtb25EaXNwbGF5YgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::POGOProtos.Enums.PokemonIdReflection.Descriptor, global::POGOProtos.Enums.PokemonMoveReflection.Descriptor, global::POGOProtos.Inventory.Item.ItemIdReflection.Descriptor, },
+          new pbr::FileDescriptor[] { global::POGOProtos.Data.PokemonDisplayReflection.Descriptor, global::POGOProtos.Enums.PokemonIdReflection.Descriptor, global::POGOProtos.Enums.PokemonMoveReflection.Descriptor, global::POGOProtos.Inventory.Item.ItemIdReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::POGOProtos.Data.PokemonData), global::POGOProtos.Data.PokemonData.Parser, new[]{ "Id", "PokemonId", "Cp", "Stamina", "StaminaMax", "Move1", "Move2", "DeployedFortId", "OwnerName", "IsEgg", "EggKmWalkedTarget", "EggKmWalkedStart", "Origin", "HeightM", "WeightKg", "IndividualAttack", "IndividualDefense", "IndividualStamina", "CpMultiplier", "Pokeball", "CapturedCellId", "BattlesAttacked", "BattlesDefended", "EggIncubatorId", "CreationTimeMs", "NumUpgrades", "AdditionalCpMultiplier", "Favorite", "Nickname", "FromFort", "BuddyCandyAwarded", "BuddyTotalKmWalked", "DisplayPokemonId", "DisplayCp" }, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::POGOProtos.Data.PokemonData), global::POGOProtos.Data.PokemonData.Parser, new[]{ "Id", "PokemonId", "Cp", "Stamina", "StaminaMax", "Move1", "Move2", "DeployedFortId", "OwnerName", "IsEgg", "EggKmWalkedTarget", "EggKmWalkedStart", "Origin", "HeightM", "WeightKg", "IndividualAttack", "IndividualDefense", "IndividualStamina", "CpMultiplier", "Pokeball", "CapturedCellId", "BattlesAttacked", "BattlesDefended", "EggIncubatorId", "CreationTimeMs", "NumUpgrades", "AdditionalCpMultiplier", "Favorite", "Nickname", "FromFort", "BuddyCandyAwarded", "BuddyTotalKmWalked", "DisplayPokemonId", "DisplayCp", "PokemonDisplay" }, null, null, null)
           }));
     }
     #endregion
@@ -114,6 +116,7 @@ namespace POGOProtos.Data {
       buddyTotalKmWalked_ = other.buddyTotalKmWalked_;
       displayPokemonId_ = other.displayPokemonId_;
       displayCp_ = other.displayCp_;
+      PokemonDisplay = other.pokemonDisplay_ != null ? other.PokemonDisplay.Clone() : null;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -495,6 +498,17 @@ namespace POGOProtos.Data {
       }
     }
 
+    /// <summary>Field number for the "pokemon_display" field.</summary>
+    public const int PokemonDisplayFieldNumber = 36;
+    private global::POGOProtos.Data.PokemonDisplay pokemonDisplay_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public global::POGOProtos.Data.PokemonDisplay PokemonDisplay {
+      get { return pokemonDisplay_; }
+      set {
+        pokemonDisplay_ = value;
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
       return Equals(other as PokemonData);
@@ -542,6 +556,7 @@ namespace POGOProtos.Data {
       if (BuddyTotalKmWalked != other.BuddyTotalKmWalked) return false;
       if (DisplayPokemonId != other.DisplayPokemonId) return false;
       if (DisplayCp != other.DisplayCp) return false;
+      if (!object.Equals(PokemonDisplay, other.PokemonDisplay)) return false;
       return true;
     }
 
@@ -582,6 +597,7 @@ namespace POGOProtos.Data {
       if (BuddyTotalKmWalked != 0F) hash ^= BuddyTotalKmWalked.GetHashCode();
       if (DisplayPokemonId != 0) hash ^= DisplayPokemonId.GetHashCode();
       if (DisplayCp != 0) hash ^= DisplayCp.GetHashCode();
+      if (pokemonDisplay_ != null) hash ^= PokemonDisplay.GetHashCode();
       return hash;
     }
 
@@ -728,6 +744,10 @@ namespace POGOProtos.Data {
         output.WriteRawTag(152, 2);
         output.WriteInt32(DisplayCp);
       }
+      if (pokemonDisplay_ != null) {
+        output.WriteRawTag(162, 2);
+        output.WriteMessage(PokemonDisplay);
+      }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -834,6 +854,9 @@ namespace POGOProtos.Data {
       }
       if (DisplayCp != 0) {
         size += 2 + pb::CodedOutputStream.ComputeInt32Size(DisplayCp);
+      }
+      if (pokemonDisplay_ != null) {
+        size += 2 + pb::CodedOutputStream.ComputeMessageSize(PokemonDisplay);
       }
       return size;
     }
@@ -944,6 +967,12 @@ namespace POGOProtos.Data {
       }
       if (other.DisplayCp != 0) {
         DisplayCp = other.DisplayCp;
+      }
+      if (other.pokemonDisplay_ != null) {
+        if (pokemonDisplay_ == null) {
+          pokemonDisplay_ = new global::POGOProtos.Data.PokemonDisplay();
+        }
+        PokemonDisplay.MergeFrom(other.PokemonDisplay);
       }
     }
 
@@ -1089,6 +1118,13 @@ namespace POGOProtos.Data {
           }
           case 280: {
             DisplayCp = input.ReadInt32();
+            break;
+          }
+          case 290: {
+            if (pokemonDisplay_ == null) {
+              pokemonDisplay_ = new global::POGOProtos.Data.PokemonDisplay();
+            }
+            input.ReadMessage(pokemonDisplay_);
             break;
           }
         }

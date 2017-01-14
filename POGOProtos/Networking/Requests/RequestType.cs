@@ -23,7 +23,7 @@ namespace POGOProtos.Networking.Requests {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "CjBQT0dPUHJvdG9zL05ldHdvcmtpbmcvUmVxdWVzdHMvUmVxdWVzdFR5cGUu",
-            "cHJvdG8SHlBPR09Qcm90b3MuTmV0d29ya2luZy5SZXF1ZXN0cyq9DQoLUmVx",
+            "cHJvdG8SHlBPR09Qcm90b3MuTmV0d29ya2luZy5SZXF1ZXN0cyrBDQoLUmVx",
             "dWVzdFR5cGUSEAoMTUVUSE9EX1VOU0VUEAASEQoNUExBWUVSX1VQREFURRAB",
             "Eg4KCkdFVF9QTEFZRVIQAhIRCg1HRVRfSU5WRU5UT1JZEAQSFQoRRE9XTkxP",
             "QURfU0VUVElOR1MQBRIbChdET1dOTE9BRF9JVEVNX1RFTVBMQVRFUxAGEiIK",
@@ -52,17 +52,17 @@ namespace POGOProtos.Networking.Requests {
             "EE5JQ0tOQU1FX1BPS0VNT04QlQESEAoLRVFVSVBfQkFER0UQlgESGQoUU0VU",
             "X0NPTlRBQ1RfU0VUVElOR1MQlwESFgoRU0VUX0JVRERZX1BPS0VNT04QmAES",
             "FQoQR0VUX0JVRERZX1dBTEtFRBCZARIVChBHRVRfQVNTRVRfRElHRVNUEKwC",
-            "EhYKEUdFVF9ET1dOTE9BRF9VUkxTEK0CEhwKF0dFVF9TVUdHRVNURURfQ09E",
-            "RU5BTUVTEJEDEh0KGENIRUNLX0NPREVOQU1FX0FWQUlMQUJMRRCSAxITCg5D",
-            "TEFJTV9DT0RFTkFNRRCTAxIPCgpTRVRfQVZBVEFSEJQDEhQKD1NFVF9QTEFZ",
-            "RVJfVEVBTRCVAxIbChZNQVJLX1RVVE9SSUFMX0NPTVBMRVRFEJYDEhYKEUxP",
-            "QURfU1BBV05fUE9JTlRTEPQDEhQKD0NIRUNLX0NIQUxMRU5HRRDYBBIVChBW",
-            "RVJJRllfQ0hBTExFTkdFENkEEgkKBEVDSE8QmgUSGwoWREVCVUdfVVBEQVRF",
-            "X0lOVkVOVE9SWRC8BRIYChNERUJVR19ERUxFVEVfUExBWUVSEL0FEhcKElNG",
-            "SURBX1JFR0lTVFJBVElPThCgBhIVChBTRklEQV9BQ1RJT05fTE9HEKEGEhgK",
-            "E1NGSURBX0NFUlRJRklDQVRJT04QogYSEQoMU0ZJREFfVVBEQVRFEKMGEhEK",
-            "DFNGSURBX0FDVElPThCkBhIRCgxTRklEQV9ET1dTRVIQpQYSEgoNU0ZJREFf",
-            "Q0FQVFVSRRCmBmIGcHJvdG8z"));
+            "EhYKEUdFVF9ET1dOTE9BRF9VUkxTEK0CEhMKDkNMQUlNX0NPREVOQU1FEJMD",
+            "Eg8KClNFVF9BVkFUQVIQlAMSFAoPU0VUX1BMQVlFUl9URUFNEJUDEhsKFk1B",
+            "UktfVFVUT1JJQUxfQ09NUExFVEUQlgMSFgoRTE9BRF9TUEFXTl9QT0lOVFMQ",
+            "9AMSFAoPQ0hFQ0tfQ0hBTExFTkdFENgEEhUKEFZFUklGWV9DSEFMTEVOR0UQ",
+            "2QQSCQoERUNITxCaBRIbChZERUJVR19VUERBVEVfSU5WRU5UT1JZELwFEhgK",
+            "E0RFQlVHX0RFTEVURV9QTEFZRVIQvQUSFwoSU0ZJREFfUkVHSVNUUkFUSU9O",
+            "EKAGEhUKEFNGSURBX0FDVElPTl9MT0cQoQYSGAoTU0ZJREFfQ0VSVElGSUNB",
+            "VElPThCiBhIRCgxTRklEQV9VUERBVEUQowYSEQoMU0ZJREFfQUNUSU9OEKQG",
+            "EhEKDFNGSURBX0RPV1NFUhClBhISCg1TRklEQV9DQVBUVVJFEKYGEh8KGkxJ",
+            "U1RfQVZBVEFSX0NVU1RPTUlaQVRJT05TEKcGEh4KGVNFVF9BVkFUQVJfSVRF",
+            "TV9BU19WSUVXRUQQqAZiBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::POGOProtos.Networking.Requests.RequestType), }, null));
@@ -303,14 +303,6 @@ namespace POGOProtos.Networking.Requests {
     /// <summary>
     ///  Implemented [R &amp; M]
     /// </summary>
-    [pbr::OriginalName("GET_SUGGESTED_CODENAMES")] GetSuggestedCodenames = 401,
-    /// <summary>
-    ///  Implemented [R &amp; M]
-    /// </summary>
-    [pbr::OriginalName("CHECK_CODENAME_AVAILABLE")] CheckCodenameAvailable = 402,
-    /// <summary>
-    ///  Implemented [R &amp; M]
-    /// </summary>
     [pbr::OriginalName("CLAIM_CODENAME")] ClaimCodename = 403,
     /// <summary>
     ///  Implemented [R &amp; M]
@@ -370,6 +362,8 @@ namespace POGOProtos.Networking.Requests {
     ///  Not yet released.
     /// </summary>
     [pbr::OriginalName("SFIDA_CAPTURE")] SfidaCapture = 806,
+    [pbr::OriginalName("LIST_AVATAR_CUSTOMIZATIONS")] ListAvatarCustomizations = 807,
+    [pbr::OriginalName("SET_AVATAR_ITEM_AS_VIEWED")] SetAvatarItemAsViewed = 808,
   }
 
   #endregion

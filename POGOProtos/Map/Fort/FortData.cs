@@ -23,31 +23,33 @@ namespace POGOProtos.Map.Fort {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "CiJQT0dPUHJvdG9zL01hcC9Gb3J0L0ZvcnREYXRhLnByb3RvEhNQT0dPUHJv",
-            "dG9zLk1hcC5Gb3J0GiBQT0dPUHJvdG9zL0VudW1zL1Bva2Vtb25JZC5wcm90",
-            "bxogUE9HT1Byb3Rvcy9FbnVtcy9UZWFtQ29sb3IucHJvdG8aJlBPR09Qcm90",
-            "b3MvSW52ZW50b3J5L0l0ZW0vSXRlbUlkLnByb3RvGiJQT0dPUHJvdG9zL01h",
-            "cC9Gb3J0L0ZvcnRUeXBlLnByb3RvGiVQT0dPUHJvdG9zL01hcC9Gb3J0L0Zv",
-            "cnRTcG9uc29yLnByb3RvGitQT0dPUHJvdG9zL01hcC9Gb3J0L0ZvcnRSZW5k",
-            "ZXJpbmdUeXBlLnByb3RvGiZQT0dPUHJvdG9zL01hcC9Gb3J0L0ZvcnRMdXJl",
-            "SW5mby5wcm90byL9BAoIRm9ydERhdGESCgoCaWQYASABKAkSIgoabGFzdF9t",
-            "b2RpZmllZF90aW1lc3RhbXBfbXMYAiABKAMSEAoIbGF0aXR1ZGUYAyABKAES",
-            "EQoJbG9uZ2l0dWRlGAQgASgBEjIKDW93bmVkX2J5X3RlYW0YBSABKA4yGy5Q",
-            "T0dPUHJvdG9zLkVudW1zLlRlYW1Db2xvchI1ChBndWFyZF9wb2tlbW9uX2lk",
-            "GAYgASgOMhsuUE9HT1Byb3Rvcy5FbnVtcy5Qb2tlbW9uSWQSGAoQZ3VhcmRf",
-            "cG9rZW1vbl9jcBgHIAEoBRIPCgdlbmFibGVkGAggASgIEisKBHR5cGUYCSAB",
-            "KA4yHS5QT0dPUHJvdG9zLk1hcC5Gb3J0LkZvcnRUeXBlEhIKCmd5bV9wb2lu",
-            "dHMYCiABKAMSFAoMaXNfaW5fYmF0dGxlGAsgASgIEj8KFGFjdGl2ZV9mb3J0",
-            "X21vZGlmaWVyGAwgAygOMiEuUE9HT1Byb3Rvcy5JbnZlbnRvcnkuSXRlbS5J",
-            "dGVtSWQSNAoJbHVyZV9pbmZvGA0gASgLMiEuUE9HT1Byb3Rvcy5NYXAuRm9y",
-            "dC5Gb3J0THVyZUluZm8SJgoeY29vbGRvd25fY29tcGxldGVfdGltZXN0YW1w",
-            "X21zGA4gASgDEjEKB3Nwb25zb3IYDyABKA4yIC5QT0dPUHJvdG9zLk1hcC5G",
-            "b3J0LkZvcnRTcG9uc29yEj4KDnJlbmRlcmluZ190eXBlGBAgASgOMiYuUE9H",
-            "T1Byb3Rvcy5NYXAuRm9ydC5Gb3J0UmVuZGVyaW5nVHlwZRIdChVkZXBsb3lf",
-            "bG9ja291dF9lbmRfbXMYESABKANiBnByb3RvMw=="));
+            "dG9zLk1hcC5Gb3J0GiRQT0dPUHJvdG9zL0RhdGEvUG9rZW1vbkRpc3BsYXku",
+            "cHJvdG8aIFBPR09Qcm90b3MvRW51bXMvUG9rZW1vbklkLnByb3RvGiBQT0dP",
+            "UHJvdG9zL0VudW1zL1RlYW1Db2xvci5wcm90bxomUE9HT1Byb3Rvcy9JbnZl",
+            "bnRvcnkvSXRlbS9JdGVtSWQucHJvdG8aIlBPR09Qcm90b3MvTWFwL0ZvcnQv",
+            "Rm9ydFR5cGUucHJvdG8aJVBPR09Qcm90b3MvTWFwL0ZvcnQvRm9ydFNwb25z",
+            "b3IucHJvdG8aK1BPR09Qcm90b3MvTWFwL0ZvcnQvRm9ydFJlbmRlcmluZ1R5",
+            "cGUucHJvdG8aJlBPR09Qcm90b3MvTWFwL0ZvcnQvRm9ydEx1cmVJbmZvLnBy",
+            "b3RvIr0FCghGb3J0RGF0YRIKCgJpZBgBIAEoCRIiChpsYXN0X21vZGlmaWVk",
+            "X3RpbWVzdGFtcF9tcxgCIAEoAxIQCghsYXRpdHVkZRgDIAEoARIRCglsb25n",
+            "aXR1ZGUYBCABKAESMgoNb3duZWRfYnlfdGVhbRgFIAEoDjIbLlBPR09Qcm90",
+            "b3MuRW51bXMuVGVhbUNvbG9yEjUKEGd1YXJkX3Bva2Vtb25faWQYBiABKA4y",
+            "Gy5QT0dPUHJvdG9zLkVudW1zLlBva2Vtb25JZBIYChBndWFyZF9wb2tlbW9u",
+            "X2NwGAcgASgFEg8KB2VuYWJsZWQYCCABKAgSKwoEdHlwZRgJIAEoDjIdLlBP",
+            "R09Qcm90b3MuTWFwLkZvcnQuRm9ydFR5cGUSEgoKZ3ltX3BvaW50cxgKIAEo",
+            "AxIUCgxpc19pbl9iYXR0bGUYCyABKAgSPwoUYWN0aXZlX2ZvcnRfbW9kaWZp",
+            "ZXIYDCADKA4yIS5QT0dPUHJvdG9zLkludmVudG9yeS5JdGVtLkl0ZW1JZBI0",
+            "CglsdXJlX2luZm8YDSABKAsyIS5QT0dPUHJvdG9zLk1hcC5Gb3J0LkZvcnRM",
+            "dXJlSW5mbxImCh5jb29sZG93bl9jb21wbGV0ZV90aW1lc3RhbXBfbXMYDiAB",
+            "KAMSMQoHc3BvbnNvchgPIAEoDjIgLlBPR09Qcm90b3MuTWFwLkZvcnQuRm9y",
+            "dFNwb25zb3ISPgoOcmVuZGVyaW5nX3R5cGUYECABKA4yJi5QT0dPUHJvdG9z",
+            "Lk1hcC5Gb3J0LkZvcnRSZW5kZXJpbmdUeXBlEh0KFWRlcGxveV9sb2Nrb3V0",
+            "X2VuZF9tcxgRIAEoAxI+ChVndWFyZF9wb2tlbW9uX2Rpc3BsYXkYEiABKAsy",
+            "Hy5QT0dPUHJvdG9zLkRhdGEuUG9rZW1vbkRpc3BsYXliBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::POGOProtos.Enums.PokemonIdReflection.Descriptor, global::POGOProtos.Enums.TeamColorReflection.Descriptor, global::POGOProtos.Inventory.Item.ItemIdReflection.Descriptor, global::POGOProtos.Map.Fort.FortTypeReflection.Descriptor, global::POGOProtos.Map.Fort.FortSponsorReflection.Descriptor, global::POGOProtos.Map.Fort.FortRenderingTypeReflection.Descriptor, global::POGOProtos.Map.Fort.FortLureInfoReflection.Descriptor, },
+          new pbr::FileDescriptor[] { global::POGOProtos.Data.PokemonDisplayReflection.Descriptor, global::POGOProtos.Enums.PokemonIdReflection.Descriptor, global::POGOProtos.Enums.TeamColorReflection.Descriptor, global::POGOProtos.Inventory.Item.ItemIdReflection.Descriptor, global::POGOProtos.Map.Fort.FortTypeReflection.Descriptor, global::POGOProtos.Map.Fort.FortSponsorReflection.Descriptor, global::POGOProtos.Map.Fort.FortRenderingTypeReflection.Descriptor, global::POGOProtos.Map.Fort.FortLureInfoReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::POGOProtos.Map.Fort.FortData), global::POGOProtos.Map.Fort.FortData.Parser, new[]{ "Id", "LastModifiedTimestampMs", "Latitude", "Longitude", "OwnedByTeam", "GuardPokemonId", "GuardPokemonCp", "Enabled", "Type", "GymPoints", "IsInBattle", "ActiveFortModifier", "LureInfo", "CooldownCompleteTimestampMs", "Sponsor", "RenderingType", "DeployLockoutEndMs" }, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::POGOProtos.Map.Fort.FortData), global::POGOProtos.Map.Fort.FortData.Parser, new[]{ "Id", "LastModifiedTimestampMs", "Latitude", "Longitude", "OwnedByTeam", "GuardPokemonId", "GuardPokemonCp", "Enabled", "Type", "GymPoints", "IsInBattle", "ActiveFortModifier", "LureInfo", "CooldownCompleteTimestampMs", "Sponsor", "RenderingType", "DeployLockoutEndMs", "GuardPokemonDisplay" }, null, null, null)
           }));
     }
     #endregion
@@ -95,6 +97,7 @@ namespace POGOProtos.Map.Fort {
       sponsor_ = other.sponsor_;
       renderingType_ = other.renderingType_;
       deployLockoutEndMs_ = other.deployLockoutEndMs_;
+      GuardPokemonDisplay = other.guardPokemonDisplay_ != null ? other.GuardPokemonDisplay.Clone() : null;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -312,6 +315,17 @@ namespace POGOProtos.Map.Fort {
       }
     }
 
+    /// <summary>Field number for the "guard_pokemon_display" field.</summary>
+    public const int GuardPokemonDisplayFieldNumber = 18;
+    private global::POGOProtos.Data.PokemonDisplay guardPokemonDisplay_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public global::POGOProtos.Data.PokemonDisplay GuardPokemonDisplay {
+      get { return guardPokemonDisplay_; }
+      set {
+        guardPokemonDisplay_ = value;
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
       return Equals(other as FortData);
@@ -342,6 +356,7 @@ namespace POGOProtos.Map.Fort {
       if (Sponsor != other.Sponsor) return false;
       if (RenderingType != other.RenderingType) return false;
       if (DeployLockoutEndMs != other.DeployLockoutEndMs) return false;
+      if (!object.Equals(GuardPokemonDisplay, other.GuardPokemonDisplay)) return false;
       return true;
     }
 
@@ -365,6 +380,7 @@ namespace POGOProtos.Map.Fort {
       if (Sponsor != 0) hash ^= Sponsor.GetHashCode();
       if (RenderingType != 0) hash ^= RenderingType.GetHashCode();
       if (DeployLockoutEndMs != 0L) hash ^= DeployLockoutEndMs.GetHashCode();
+      if (guardPokemonDisplay_ != null) hash ^= GuardPokemonDisplay.GetHashCode();
       return hash;
     }
 
@@ -440,6 +456,10 @@ namespace POGOProtos.Map.Fort {
         output.WriteRawTag(136, 1);
         output.WriteInt64(DeployLockoutEndMs);
       }
+      if (guardPokemonDisplay_ != null) {
+        output.WriteRawTag(146, 1);
+        output.WriteMessage(GuardPokemonDisplay);
+      }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -493,6 +513,9 @@ namespace POGOProtos.Map.Fort {
       }
       if (DeployLockoutEndMs != 0L) {
         size += 2 + pb::CodedOutputStream.ComputeInt64Size(DeployLockoutEndMs);
+      }
+      if (guardPokemonDisplay_ != null) {
+        size += 2 + pb::CodedOutputStream.ComputeMessageSize(GuardPokemonDisplay);
       }
       return size;
     }
@@ -553,6 +576,12 @@ namespace POGOProtos.Map.Fort {
       }
       if (other.DeployLockoutEndMs != 0L) {
         DeployLockoutEndMs = other.DeployLockoutEndMs;
+      }
+      if (other.guardPokemonDisplay_ != null) {
+        if (guardPokemonDisplay_ == null) {
+          guardPokemonDisplay_ = new global::POGOProtos.Data.PokemonDisplay();
+        }
+        GuardPokemonDisplay.MergeFrom(other.GuardPokemonDisplay);
       }
     }
 
@@ -634,6 +663,13 @@ namespace POGOProtos.Map.Fort {
           }
           case 136: {
             DeployLockoutEndMs = input.ReadInt64();
+            break;
+          }
+          case 146: {
+            if (guardPokemonDisplay_ == null) {
+              guardPokemonDisplay_ = new global::POGOProtos.Data.PokemonDisplay();
+            }
+            input.ReadMessage(guardPokemonDisplay_);
             break;
           }
         }
