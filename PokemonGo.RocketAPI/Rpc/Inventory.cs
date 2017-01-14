@@ -22,7 +22,7 @@ namespace PokemonGo.RocketAPI.Rpc
     public class Inventory : BaseRpc
     {
         private GetInventoryResponse _cachedInventory;
-        private DateTime _lastRefresh;
+        private DateTime _lastInventoryRequest;
         private int _minSecondsBetweenInventoryCalls = 30;
         private DateTime _lastegguse;
 
@@ -32,19 +32,82 @@ namespace PokemonGo.RocketAPI.Rpc
 
         #region Inventory Tasks
 
-        public async Task<IEnumerable<ItemData>> GetItems()
+        #region --Gets
+
+        //public async Task<GetInventoryResponse> GetInventory()
+        //{
+        //    return await PostProtoPayload<Request, GetInventoryResponse>(RequestType.GetInventory, new GetInventoryMessage()).ConfigureAwait(false);
+        //}
+        
+        /// <summary>
+        /// Send a parameter TRUE if you want to force real time invetory check
+        /// otherwise it will be checked if _lastInventoryRequest was done more than
+        /// _minSecondsBetweenInventoryCalls
+        /// </summary>
+        /// <param name="forceRequest"></param>
+        /// <returns></returns>
+        public async Task<GetInventoryResponse> GetInventory(bool forceRequest = false)
         {
-            var inventory = await GetInventory().ConfigureAwait(false);
+            if (forceRequest)
+            {
+                // If forceRequest is TRUE we make the call
+                return await PostProtoPayload<Request, GetInventoryResponse>(RequestType.GetInventory, new GetInventoryMessage()).ConfigureAwait(false);
+            }
+            else
+            {
+                if (_lastInventoryRequest.AddSeconds(_minSecondsBetweenInventoryCalls).Ticks > DateTime.UtcNow.Ticks)
+                {
+                    // If forceRequest is default/FALSE and last request made less than _minSecondsBetweenInventoryCalls seconds ago, we return _cachedInventory
+                    return _cachedInventory;
+                }
+                else
+                {
+                    // If forceRequest is default/FALSE and last request made more than _minSecondsBetweenInventoryCalls seconds ago, 
+                    // we make the call and also update _cachedInventory
+                    _cachedInventory = await PostProtoPayload<Request, GetInventoryResponse>(RequestType.GetInventory, new GetInventoryMessage()).ConfigureAwait(false);
+                    return _cachedInventory;
+                }
+            }
+        }
+
+        //private async Task<GetInventoryResponse> GetCachedInventory()
+        //{
+        //    if (_lastInventoryRequest.AddSeconds(_minSecondsBetweenInventoryCalls).Ticks > DateTime.UtcNow.Ticks)
+        //    {
+        //        return _cachedInventory;
+        //    }
+        //    return await RefreshCachedInventory().ConfigureAwait(false);
+        //}
+
+        //public async Task<GetInventoryResponse> RefreshCachedInventory()
+        //{
+        //    var now = DateTime.UtcNow;
+        //    var ss = new SemaphoreSlim(10);
+
+        //    await ss.WaitAsync().ConfigureAwait(false);
+        //    try
+        //    {
+        //        _lastInventoryRequest = now;
+        //        _cachedInventory = await Client.Inventory.GetInventory(true).ConfigureAwait(false);
+        //        return _cachedInventory;
+        //    }
+        //    finally
+        //    {
+        //        ss.Release();
+        //    }
+        //}
+
+        public async Task<IEnumerable<ItemData>> GetItems(bool forceRequest = false)
+        {
+            var inventory = await GetInventory(forceRequest).ConfigureAwait(false);
             return inventory.InventoryDelta.InventoryItems
                 .Select(i => i.InventoryItemData?.Item)
                 .Where(p => p != null);
         }
 
-        public async Task<GetInventoryResponse> GetInventory()
-        {
-            return await PostProtoPayload<Request, GetInventoryResponse>(RequestType.GetInventory, new GetInventoryMessage()).ConfigureAwait(false);
-        }
-
+        // |------getInventoryCount()---------------------[TELEGRAM ONLY]---------
+        // |Quarthy - only used by Telegram. Remove if Telegram support is dropped
+        // |----------------------------------------------------------------------
         public async Task<int> getInventoryCount()
         {
             var items = await GetItems().ConfigureAwait(false);
@@ -56,15 +119,46 @@ namespace PokemonGo.RocketAPI.Rpc
             return totalitems;
         }
 
-        public async Task<UseItemXpBoostResponse> UseItemXpBoost(ItemId item)
+        // Quarthy - Needs revision, probably can be removed. Awaiting logic.cs major update
+        public IEnumerable<ItemData> GetItems(GetInventoryResponse inventory)
         {
-            var message = new UseItemXpBoostMessage()
-            {
-                ItemId = item
-            };
-
-            return await PostProtoPayload<Request, UseItemXpBoostResponse>(RequestType.UseItemXpBoost, message).ConfigureAwait(false);
+            if (inventory != null)
+                return inventory.InventoryDelta.InventoryItems
+                    .Select(i => i.InventoryItemData?.Item)
+                    .Where(p => p != null);
+            return null;
         }
+
+        public async Task<IEnumerable<ItemData>> GetItemsToRecycle(ISettings settings)
+        {
+            var myItems = await GetItems().ConfigureAwait(false); // ver aqui 2
+            //Logger.ColoredConsoleWrite(ConsoleColor.DarkGray, "==========Begin Recycle Filter Debug Logging=============");
+            //foreach (var item in settings.itemRecycleFilter)
+            //    Logger.ColoredConsoleWrite(ConsoleColor.DarkGray, item.Key.ToString() + ": " + item.Value.ToString());
+            //Logger.ColoredConsoleWrite(ConsoleColor.DarkGray, "===========End Recycle Filter Debug Logging==============");
+            return myItems
+                .Where(x => settings.itemRecycleFilter.Any(f => f.Key == ((ItemId)x.ItemId) && x.Count > f.Value))
+                .Select(x => new ItemData { ItemId = x.ItemId, Count = x.Count - settings.itemRecycleFilter.Single(f => f.Key == (ItemId)x.ItemId).Value, Unseen = x.Unseen });
+        }
+
+        public async Task<int> GetItemAmountByType(ItemId type)
+        {
+            var pokeballs = await GetItems().ConfigureAwait(false);
+            return pokeballs.FirstOrDefault(i => (ItemId)i.ItemId == type)?.Count ?? 0;
+        }
+
+        public IEnumerable<PlayerStats> GetPlayerStats(GetInventoryResponse inventory)
+        {
+            if (inventory != null)
+                return inventory.InventoryDelta.InventoryItems
+                    .Select(i => i.InventoryItemData?.PlayerStats)
+                    .Where(p => p != null);
+            return null;
+        }
+
+        #endregion
+
+        #region --Uses
 
         public async Task<RecycleInventoryItemResponse> RecycleItem(ItemId itemId, int amount)
         {
@@ -77,15 +171,26 @@ namespace PokemonGo.RocketAPI.Rpc
             return await PostProtoPayload<Request, RecycleInventoryItemResponse>(RequestType.RecycleInventoryItem, message).ConfigureAwait(false);
         }
 
-        public async Task<UseItemXpBoostResponse> UseItemXpBoost()
+        public async Task<UseItemXpBoostResponse> UseItemXpBoost(ItemId item)
         {
             var message = new UseItemXpBoostMessage()
             {
-                ItemId = ItemId.ItemLuckyEgg
+                ItemId = item
             };
 
             return await PostProtoPayload<Request, UseItemXpBoostResponse>(RequestType.UseItemXpBoost, message).ConfigureAwait(false);
         }
+
+        // Quarthy - Not called by anyone and probably dupe of UseItemXpBoost(ItemId item)
+        //public async Task<UseItemXpBoostResponse> UseItemXpBoost()
+        //{
+        //    var message = new UseItemXpBoostMessage()
+        //    {
+        //        ItemId = ItemId.ItemLuckyEgg
+        //    };
+
+        //    return await PostProtoPayload<Request, UseItemXpBoostResponse>(RequestType.UseItemXpBoost, message).ConfigureAwait(false);
+        //}
 
         public async Task<UseItemPotionResponse> UseItemPotion(ItemId itemId, ulong pokemonId)
         {
@@ -96,7 +201,7 @@ namespace PokemonGo.RocketAPI.Rpc
             };
 
             return await PostProtoPayload<Request, UseItemPotionResponse>(RequestType.UseItemPotion, message).ConfigureAwait(false);
-        }
+        } // Quarthy - Still not implemented in BOT
 
         public async Task<UseItemEggIncubatorResponse> UseItemRevive(ItemId itemId, ulong pokemonId)
         {
@@ -107,7 +212,7 @@ namespace PokemonGo.RocketAPI.Rpc
             };
 
             return await PostProtoPayload<Request, UseItemEggIncubatorResponse>(RequestType.UseItemEggIncubator, message).ConfigureAwait(false);
-        }
+        } // Quarthy - REVIEW - BAD TYPE
 
         public async Task<UseIncenseResponse> UseIncense(ItemId incenseType)
         {
@@ -130,97 +235,29 @@ namespace PokemonGo.RocketAPI.Rpc
             };
 
             return await PostProtoPayload<Request, UseItemGymResponse>(RequestType.UseItemGym, message).ConfigureAwait(false);
-        }
+        } // Quarthy - Still not implemented in BOT
 
-        public async Task<IEnumerable<ItemData>> GetItemsToRecycle(ISettings settings)
-        {
-            var myItems = await GetItems().ConfigureAwait(false); // ver aqui 2
-            //Logger.ColoredConsoleWrite(ConsoleColor.DarkGray, "==========Begin Recycle Filter Debug Logging=============");
-            //foreach (var item in settings.itemRecycleFilter)
-            //    Logger.ColoredConsoleWrite(ConsoleColor.DarkGray, item.Key.ToString() + ": " + item.Value.ToString());
-            //Logger.ColoredConsoleWrite(ConsoleColor.DarkGray, "===========End Recycle Filter Debug Logging==============");
-            return myItems
-                .Where(x => settings.itemRecycleFilter.Any(f => f.Key == ((ItemId)x.ItemId) && x.Count > f.Value))
-                .Select(x => new ItemData { ItemId = x.ItemId, Count = x.Count - settings.itemRecycleFilter.Single(f => f.Key == (ItemId)x.ItemId).Value, Unseen = x.Unseen });
+        #endregion
 
-        }
-
-        private async Task<GetInventoryResponse> GetCachedInventory()
-        {
-            var now = DateTime.UtcNow;
-
-            if (_lastRefresh.AddSeconds(_minSecondsBetweenInventoryCalls).Ticks > now.Ticks)
-            {
-                return _cachedInventory;
-            }
-            return await RefreshCachedInventory().ConfigureAwait(false);
-        }
-
-        public async Task<GetInventoryResponse> RefreshCachedInventory()
-        {
-            var now = DateTime.UtcNow;
-            var ss = new SemaphoreSlim(10);
-
-            await ss.WaitAsync().ConfigureAwait(false);
-            try
-            {
-                _lastRefresh = now;
-                _cachedInventory = await Client.Inventory.GetInventory(true).ConfigureAwait(false);
-                return _cachedInventory;
-            }
-            finally
-            {
-                ss.Release();
-            }
-        }
-
-        public async Task<GetInventoryResponse> GetInventory(bool request = false)
-        {
-            if (request)
-            {
-                return await PostProtoPayload<Request, GetInventoryResponse>(RequestType.GetInventory, new GetInventoryMessage()).ConfigureAwait(false);
-            }
-            else
-            {
-                return await GetCachedInventory().ConfigureAwait(false);
-            }
-        }
-
-        public async Task<int> GetItemAmountByType(ItemId type)
-        {
-            var pokeballs = await GetItems().ConfigureAwait(false);
-            return pokeballs.FirstOrDefault(i => (ItemId)i.ItemId == type)?.Count ?? 0;
-        }
-
-        public IEnumerable<PlayerStats> GetPlayerStats(GetInventoryResponse inventory)
-        {
-            if (inventory != null)
-                return inventory.InventoryDelta.InventoryItems
-                    .Select(i => i.InventoryItemData?.PlayerStats)
-                    .Where(p => p != null);
-            return null;
-        }
-
-        public IEnumerable<ItemData> GetItems(GetInventoryResponse inventory)
-        {
-            if (inventory != null)
-                return inventory.InventoryDelta.InventoryItems
-                    .Select(i => i.InventoryItemData?.Item)
-                    .Where(p => p != null);
-            return null;
-        }
         #endregion
 
         #region Pokemon Tasks
-        public async Task<ReleasePokemonResponse> TransferPokemon(ulong pokemonId)
-        {
-            var message = new ReleasePokemonMessage
-            {
-                PokemonId = pokemonId
-            };
 
-            return await PostProtoPayload<Request, ReleasePokemonResponse>(RequestType.ReleasePokemon, message).ConfigureAwait(false);
-        }
+        public async Task<IEnumerable<PokemonData>> GetPokemons(bool forceRequest = false)
+        {
+            var inventory = await GetInventory(forceRequest).ConfigureAwait(false);
+            return
+                inventory.InventoryDelta.InventoryItems.Select(i => i.InventoryItemData?.PokemonData)
+                    .Where(p => p != null && p?.PokemonId > 0);
+        } // Returns pokemon inventory. Send TRUE if you want to force an inventory refresh
+
+        public async Task<int> getPokemonCount()
+        {
+            var p = await GetPokemons().ConfigureAwait(false);
+            return p.Count();
+        } // Retun total amount of pokemons
+
+        #region --Evolve
 
         public async Task<IEnumerable<PokemonData>> GetPokemonToEvolve(IEnumerable<PokemonId> filter = null)
         {
@@ -267,10 +304,30 @@ namespace PokemonGo.RocketAPI.Rpc
             return pokemonToEvolve;
         }
 
-        public async Task<int> getPokemonCount()
+        public async Task<IEnumerable<PokemonSettings>> GetPokemonSettings()
         {
-            var p = await GetPokemons().ConfigureAwait(false);
-            return p.Count();
+            var templates = await Client.Download.GetItemTemplates().ConfigureAwait(false);
+            return
+                templates.ItemTemplates.Select(i => i.PokemonSettings)
+                    .Where(p => p != null && p.FamilyId != PokemonFamilyId.FamilyUnset);
+        }
+
+        public async Task<List<Candy>> GetPokemonFamilies()
+        {
+            //var inventory = await GetCachedInventory().ConfigureAwait(false);
+            var inventory = await GetInventory().ConfigureAwait(false);
+
+            var families = from item in inventory.InventoryDelta.InventoryItems
+                           where item.InventoryItemData?.Candy != null
+                           where item.InventoryItemData?.Candy.FamilyId != PokemonFamilyId.FamilyUnset
+                           group item by item.InventoryItemData?.Candy.FamilyId into family
+                           select new Candy
+                           {
+                               FamilyId = family.FirstOrDefault().InventoryItemData.Candy.FamilyId,
+                               Candy_ = family.FirstOrDefault().InventoryItemData.Candy.Candy_
+                           };
+
+            return families.ToList();
         }
 
         public async Task<EvolvePokemonResponse> EvolvePokemon(ulong pokemonId)
@@ -281,6 +338,26 @@ namespace PokemonGo.RocketAPI.Rpc
             };
 
             return await PostProtoPayload<Request, EvolvePokemonResponse>(RequestType.EvolvePokemon, message).ConfigureAwait(false);
+        }
+
+        #endregion
+
+        public async Task<ReleasePokemonResponse> TransferPokemon(ulong pokemonId) // Transfer one pokemon
+        {
+            var message = new ReleasePokemonMessage
+            {
+                PokemonId = pokemonId
+            };
+
+            return await PostProtoPayload<Request, ReleasePokemonResponse>(RequestType.ReleasePokemon, message).ConfigureAwait(false);
+        }
+
+        public async Task<ReleasePokemonResponse> TransferPokemon(List<ulong> pokemonId) // Transfer a list of pokemon
+        {
+            var message = new ReleasePokemonMessage { };
+
+            // Waiting for PROTOS Update
+            return await PostProtoPayload<Request, ReleasePokemonResponse>(RequestType.ReleasePokemon, message).ConfigureAwait(false);
         }
 
         public async Task<UpgradePokemonResponse> UpgradePokemon(ulong pokemonId)
@@ -348,40 +425,6 @@ namespace PokemonGo.RocketAPI.Rpc
                     .OrderByDescending(PokemonInfo.CalculatePokemonPerfection)
                     .ThenBy(x => x.Cp)
                     .ToList();
-        }
-
-        public async Task<IEnumerable<PokemonData>> GetPokemons(bool clearcache = false)
-        {
-            var inventory = await GetInventory(clearcache).ConfigureAwait(false);
-            return
-                inventory.InventoryDelta.InventoryItems.Select(i => i.InventoryItemData?.PokemonData)
-                    .Where(p => p != null && p?.PokemonId > 0);
-        }
-
-        public async Task<IEnumerable<PokemonSettings>> GetPokemonSettings()
-        {
-            var templates = await Client.Download.GetItemTemplates().ConfigureAwait(false);
-            return
-                templates.ItemTemplates.Select(i => i.PokemonSettings)
-                    .Where(p => p != null && p.FamilyId != PokemonFamilyId.FamilyUnset);
-        }
-
-        public async Task<List<Candy>> GetPokemonFamilies()
-        {
-            var inventory = await GetCachedInventory().ConfigureAwait(false);
-
-            var families = from item in inventory.InventoryDelta.InventoryItems
-                           where item.InventoryItemData?.Candy != null
-                           where item.InventoryItemData?.Candy.FamilyId != PokemonFamilyId.FamilyUnset
-                           group item by item.InventoryItemData?.Candy.FamilyId into family
-                           select new Candy
-                           {
-                               FamilyId = family.FirstOrDefault().InventoryItemData.Candy.FamilyId,
-                               Candy_ = family.FirstOrDefault().InventoryItemData.Candy.Candy_
-                           };
-
-
-            return families.ToList();
         }
 
         public async Task<IEnumerable<PokemonData>> GetHighestCPofType2(PokemonData pokemon)

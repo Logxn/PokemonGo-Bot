@@ -30,10 +30,8 @@ namespace PokemonGo.RocketAPI.Rpc
                         <GetMapObjectsResponse, CheckChallengeResponse, GetHatchedEggsResponse, GetInventoryResponse, CheckAwardedBadgesResponse,
                             DownloadSettingsResponse, GetBuddyWalkedResponse>> GetMapObjects()
         {
-            var now = DateTime.UtcNow;
-
             // In case we did last _minSecondsBetweenMapCalls before, we return the cached response
-            if (_lastGetMapRequest.AddSeconds(_minSecondsBetweenMapCalls).Ticks > now.Ticks)
+            if (_lastGetMapRequest.AddSeconds(_minSecondsBetweenMapCalls).Ticks > DateTime.UtcNow.Ticks)
             {
                 return _cachedGetMapResponse;
             }
