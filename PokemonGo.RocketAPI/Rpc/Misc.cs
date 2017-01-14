@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -27,7 +27,8 @@ namespace PokemonGo.RocketAPI.Rpc
                         }).ConfigureAwait(false);
         }
 
-       /* public async Task<CheckCodenameAvailableResponse> CheckCodenameAvailable(string codename)
+        /* RequestType.CheckCodenameAvailable does not exist more in pogoprotos
+        public async Task<CheckCodenameAvailableResponse> CheckCodenameAvailable(string codename)
         {
             return
                 await
@@ -38,7 +39,8 @@ namespace PokemonGo.RocketAPI.Rpc
                         }).ConfigureAwait(false);
         }*/
 
-        /*public async Task<GetSuggestedCodenamesResponse> GetSuggestedCodenames()
+        /* GetSuggestedCodenamesResponse does not exist more in pogoprotos
+        public async Task<GetSuggestedCodenamesResponse> GetSuggestedCodenames()
         {
             return await PostProtoPayload<Request, GetSuggestedCodenamesResponse>(RequestType.GetSuggestedCodenames, new GetSuggestedCodenamesMessage()).ConfigureAwait(false);
         }*/
