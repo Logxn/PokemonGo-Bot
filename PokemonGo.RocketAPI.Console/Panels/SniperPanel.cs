@@ -126,7 +126,8 @@ namespace PokemonGo.RocketAPI.Console
             Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "Manual Snipe Triggered! We'll stop farming and go catch the pokemon ASAP");
             ManualSnipePokemon.ID = id;
             SnipeInfo.Text = "";
-            Globals.ForceSnipe = true;            
+            Globals.ForceSnipe = true;
+            ManualSnipePokemon.secondsSnipe = (int) nudSecondsSnipe.Value;
         }
         
         public void Execute()
@@ -256,6 +257,11 @@ namespace PokemonGo.RocketAPI.Console
         void PokesniperCom_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
           System.Diagnostics.Process.Start(e.Link.LinkData.ToString());
-        }        
+        }
+
+        void nudSecondsSnipe_ValueChanged(object sender, EventArgs e)
+        {
+          ManualSnipePokemon.secondsSnipe = (int) nudSecondsSnipe.Value;
+        }
     }
 }
