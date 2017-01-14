@@ -24,21 +24,21 @@ namespace PokemonGo.RocketAPI.Logic.Utils
             _alreadySpotted = new List<spottedPokeSni>();
         }
 
-        public async Task<List<spottedPokeSni>> CapturarPokemon()
+        public List<spottedPokeSni> CapturarPokemon()
         {
             //https://github.com/xxxx0107/PokeSniper2/blob/a8f40c29b531e33c7e0342b8a1b8a06ec1850608/PogoLocationFeeder/Repository/PokeSniperRarePokemonRepository.cs
             PokemonId idPoke = 0;
             _newSpotted.Clear();
             ClearAlreadySpottedByTime();
 
-            HttpResponseMessage response = await _httpClient.GetAsync("http://pokesnipers.com/api/v1/pokemon.json").ConfigureAwait(false);
+            HttpResponseMessage response =  _httpClient.GetAsync("http://pokesnipers.com/api/v1/pokemon.json").Result;
             HttpContent content = response.Content;
-            string result = await content.ReadAsStringAsync().ConfigureAwait(false);
+            string result = content.ReadAsStringAsync().Result;
 
-            dynamic Snipers = JsonConvert.DeserializeObject(result);
-            Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "Looking for Pokemons to snipe....");
             try
             {
+                dynamic Snipers = JsonConvert.DeserializeObject(result);
+                Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "Looking for Pokemons to snipe....");
                 for (int i = 0; Snipers.results[i].id > 0; i++)
                 {
                     idPoke = PokemonParser.ParsePokemon("" + Snipers.results[i].name);

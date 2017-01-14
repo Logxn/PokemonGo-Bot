@@ -40,6 +40,8 @@ namespace PokemonGo.RocketAPI.Console
         private System.Windows.Forms.LinkLabel LinkPokesniperCom;
         private System.Windows.Forms.LinkLabel linkRarespawns;
         private System.Windows.Forms.LinkLabel linkPokezz;
+        private System.Windows.Forms.NumericUpDown nudSecondsSnipe;
+        private System.Windows.Forms.Label label8;
         
         /// <summary>
         /// Disposes resources used by the control.
@@ -89,10 +91,13 @@ namespace PokemonGo.RocketAPI.Console
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.nudSecondsSnipe = new System.Windows.Forms.NumericUpDown();
+            this.label8 = new System.Windows.Forms.Label();
             this.groupBox23.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PokemonImage)).BeginInit();
             this.groupBox2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudSecondsSnipe)).BeginInit();
             this.SuspendLayout();
             // 
             // ForceAutoSnipe
@@ -125,7 +130,7 @@ namespace PokemonGo.RocketAPI.Console
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(345, 369);
+            this.label4.Location = new System.Drawing.Point(436, 369);
             this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(174, 20);
@@ -135,7 +140,7 @@ namespace PokemonGo.RocketAPI.Console
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(359, 398);
+            this.label5.Location = new System.Drawing.Point(450, 398);
             this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(143, 13);
@@ -145,7 +150,7 @@ namespace PokemonGo.RocketAPI.Console
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(292, 345);
+            this.label3.Location = new System.Drawing.Point(383, 345);
             this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(237, 13);
@@ -388,9 +393,42 @@ namespace PokemonGo.RocketAPI.Console
             this.timer1.Interval = 10000;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
+            // nudSecondsSnipe
+            // 
+            this.nudSecondsSnipe.Location = new System.Drawing.Point(321, 391);
+            this.nudSecondsSnipe.Maximum = new decimal(new int[] {
+            60,
+            0,
+            0,
+            0});
+            this.nudSecondsSnipe.Minimum = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
+            this.nudSecondsSnipe.Name = "nudSecondsSnipe";
+            this.nudSecondsSnipe.Size = new System.Drawing.Size(46, 20);
+            this.nudSecondsSnipe.TabIndex = 86;
+            this.nudSecondsSnipe.Value = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
+            this.nudSecondsSnipe.ValueChanged += new System.EventHandler(this.nudSecondsSnipe_ValueChanged);
+            // 
+            // label8
+            // 
+            this.label8.Location = new System.Drawing.Point(198, 393);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(117, 17);
+            this.label8.TabIndex = 87;
+            this.label8.Text = "Secons to wait there:";
+            // 
             // SniperPanel
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
+            this.Controls.Add(this.label8);
+            this.Controls.Add(this.nudSecondsSnipe);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.ForceAutoSnipe);
             this.Controls.Add(this.AvoidRegionLock);
@@ -410,6 +448,7 @@ namespace PokemonGo.RocketAPI.Console
             ((System.ComponentModel.ISupportInitialize)(this.PokemonImage)).EndInit();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudSecondsSnipe)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
