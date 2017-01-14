@@ -1661,28 +1661,18 @@ namespace PokemonGo.RocketAPI.Logic
                 // identify nearby pokemon
                 var mapObjects = await objClient.Map.GetMapObjects().ConfigureAwait(false);
                 var pokemons = mapObjects.Item1.MapCells.SelectMany(i => i.CatchablePokemons).OrderBy(i => LocationUtils.CalculateDistanceInMeters(objClient.CurrentLatitude, objClient.CurrentLongitude, i.Latitude, i.Longitude));
-                var pokemonsWild = mapObjects.Item1.MapCells.SelectMany(i => i.WildPokemons).OrderBy(i => LocationUtils.CalculateDistanceInMeters(objClient.CurrentLatitude, objClient.CurrentLongitude, i.Latitude, i.Longitude));
                 
                 if (ClientSettings.EnableVerboseLogging)
                 {
                     Logger.ColoredConsoleWrite(ConsoleColor.DarkBlue, $"(DEBUG) - Pokemons Catchable: {pokemons.Count()}");
-                    Logger.ColoredConsoleWrite(ConsoleColor.DarkBlue, $"(DEBUG) - Pokemons Wild: {pokemonsWild.Count()}");
                 }
 
-                if (pokemons.Any() || pokemonsWild.Any())
+                if (pokemons.Any())
                 {
                     var strNames = pokemons.Aggregate("", (current, pokemon) => current + (StringUtils.getPokemonNameByLanguage(ClientSettings, pokemon.PokemonId) + ", "));
                     strNames = strNames.Substring(0, strNames.Length - 2);
 
                     Logger.ColoredConsoleWrite(ConsoleColor.Magenta, $"Found {pokemons.Count()} catchable Pokemon(s): " + strNames);
-
-                    strNames = "";
-                    strNames = pokemonsWild.Aggregate("", (current, pokemonWild) => current + (StringUtils.getPokemonNameByLanguage(ClientSettings, pokemonWild.PokemonData.PokemonId) + ", "));
-                    strNames = strNames.Substring(0, strNames.Length - 2);
-
-                    Logger.ColoredConsoleWrite(ConsoleColor.Magenta, $"Found {pokemonsWild.Count()} wild Pokemon(s): " + strNames);
-
-                    //await ShowNearbyPokemons(pokemons).ConfigureAwait(false);
                 }
                 else
                 {
@@ -1731,49 +1721,11 @@ namespace PokemonGo.RocketAPI.Logic
                     // Do Catch here
                     await CatchPokemon(pokemon.EncounterId, pokemon.SpawnPointId, pokemon.PokemonId, pokemon.Longitude, pokemon.Latitude).ConfigureAwait(false);
                 }
-
-                foreach (var pokemon in pokemonsWild)
-                {
-                    #region Stats Log
-
-                    //increment log stats counter and log stats
-                    count++;
-
-                    if (count >= 9 && !stateSniper)
-                    {
-                        await LogStatsEtc().ConfigureAwait(false);
-                    }
-
-                    #endregion
-
-                    //Capture only Snipe pokemon
-                    if (stateSniper)
-                    {
-                        if (snipokemonIds != pokemon.PokemonData.PokemonId) continue;
-                    }
-
-                    #region Skip pokemon if in list
-
-                    if (ClientSettings.catchPokemonSkipList.Contains(pokemon.PokemonData.PokemonId))
-                    {
-                        Logger.ColoredConsoleWrite(ConsoleColor.Green, "Skipped Pokemon: " + pokemon.PokemonData.PokemonId);
-                        continue;
-                    }
-
-                    #endregion
-
-                    //get distance to pokemon
-                    var distance = LocationUtils.CalculateDistanceInMeters(objClient.CurrentLatitude, objClient.CurrentLongitude, pokemon.Latitude, pokemon.Longitude);
-
-                    RandomHelper.RandomSleep(distance > 100 ? 1000 : 100, distance > 100 ? 1100 : 110);
-
-                    // Do Catch here
-                    await CatchPokemon(pokemon.EncounterId, pokemon.SpawnPointId, pokemon.PokemonData.PokemonId, pokemon.Longitude, pokemon.Latitude).ConfigureAwait(false);
-                }
             }
-        }        
+        }
 
-private int GetGymLevel(long value)
+        #region Gym Logic
+        private int GetGymLevel(long value)
         {
             if (value >= 50000)
                 return 10;
@@ -1877,7 +1829,9 @@ private int GetGymLevel(long value)
                 }
             }
         }
-        
+
+        #endregion
+
         private async Task<bool> VerifyLocation()
         {
             #region Stay within defined radius
@@ -1916,6 +1870,8 @@ private int GetGymLevel(long value)
 
             #endregion
         }
+
+        #region CatchPokemon Function
 
         private async Task CatchPokemon(ulong encounterId, string spawnpointId, PokemonId pokeid, double pokeLong = 0, double pokeLat = 0)
         {
@@ -2174,6 +2130,8 @@ private int GetGymLevel(long value)
             RandomHelper.RandomSleep(1500, 2000);
         }
 
+        #endregion
+
         private async Task<CatchPokemonResponse> CatchPokemonWithRandomVariables(ulong encounterId, string spawnpointId, ItemId bestPokeball, bool forceHit)
         {
             #region Reset Function Variables
@@ -2295,7 +2253,7 @@ private int GetGymLevel(long value)
 
                     if (ClientSettings.bLogEvolve)
                     {
-                        File.AppendAllText(evolvelog, $"[{date}] - Evolved Pokemon: {getPokemonName} | CP {cp} | Perfection {calcPerf}% | => to {getEvolvedName} | CP: {getEvolvedCP} | XP Reward: {getXP}xp");
+                        File.AppendAllText(evolvelog, $"[{date}] - Evolved Pokemon: {getPokemonName} | CP {cp} | Perfection {calcPerf}% | => to {getEvolvedName} | CP: {getEvolvedCP} | XP Reward: {getXP}xp" + Environment.NewLine);
                     }
                     Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Evolved Pokemon: {getPokemonName} | CP {cp} | Perfection {calcPerf}% | => to {getEvolvedName} | CP: {getEvolvedCP} | XP Reward: {getXP}xp", LogLevel.Info);
                     BotStats.AddExperience(evolvePokemonOutProto.ExperienceAwarded);
@@ -2310,7 +2268,7 @@ private int GetGymLevel(long value)
                     {
                         if (ClientSettings.bLogEvolve)
                         {
-                            File.AppendAllText(evolvelog, $"[{date}] - Failed to evolve {pokemon.PokemonId}. EvolvePokemonOutProto.Result was {evolvePokemonOutProto.Result}");
+                            File.AppendAllText(evolvelog, $"[{date}] - Failed to evolve {pokemon.PokemonId}. EvolvePokemonOutProto.Result was {evolvePokemonOutProto.Result}" + Environment.NewLine);
                         }
                         Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Failed to evolve {pokemon.PokemonId}. EvolvePokemonOutProto.Result was {evolvePokemonOutProto.Result}", LogLevel.Info);
                         evolvecount++;
