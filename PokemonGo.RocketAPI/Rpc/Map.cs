@@ -21,7 +21,7 @@ namespace PokemonGo.RocketAPI.Rpc
 
         private DateTime _lastGetMapRequest;
         private int _minSecondsBetweenMapCalls = 30;
-        Tuple<GetMapObjectsResponse, CheckChallengeResponse, GetHatchedEggsResponse, GetInventoryResponse, CheckAwardedBadgesResponse, DownloadSettingsResponse, GetBuddyWalkedResponse> _cachedGetMap;
+        Tuple<GetMapObjectsResponse, CheckChallengeResponse, GetHatchedEggsResponse, GetInventoryResponse, CheckAwardedBadgesResponse, DownloadSettingsResponse, GetBuddyWalkedResponse> _cachedGetMapResponse;
 
         public async
             Task
@@ -31,12 +31,11 @@ namespace PokemonGo.RocketAPI.Rpc
                             DownloadSettingsResponse, GetBuddyWalkedResponse>> GetMapObjects()
         {
             var now = DateTime.UtcNow;
-            var _cachedYN = (bool)false;
 
+            // In case we did last _minSecondsBetweenMapCalls before, we return the cached response
             if (_lastGetMapRequest.AddSeconds(_minSecondsBetweenMapCalls).Ticks > now.Ticks)
             {
-                _cachedYN = true;
-                return _cachedGetMap;
+                return _cachedGetMapResponse;
             }
 
             #region Messages
@@ -89,16 +88,9 @@ namespace PokemonGo.RocketAPI.Rpc
             CheckChallengeResponse checkChallengeResponse = response.Item2;
             CommonRequest.ProcessCheckChallengeResponse(Client, checkChallengeResponse);
 
+            // Here we refresh last time this request was done and cache
             _lastGetMapRequest = DateTime.UtcNow;
-            _cachedGetMap = response;
-
-            // *DEBUG* Delete after
-            Logger.ColoredConsoleWrite(ConsoleColor.Green, "[DEBUG][GetMap] [1] Mapcells: (" +_cachedYN.ToString() + ")" + response.Item1.MapCells.Count
-                    + " Forts: " + response.Item1.MapCells.SelectMany(i => i.Forts).Count() 
-                    + " Pokemons Catcheable: " + response.Item1.MapCells.SelectMany(i => i.CatchablePokemons).Count()
-                    + " Pokemons Nearby: " + response.Item1.MapCells.SelectMany(i => i.NearbyPokemons).Count()
-                    + " Pokemons Wild: " + response.Item1.MapCells.SelectMany(i => i.WildPokemons).Count()
-                    );
+            _cachedGetMapResponse = response;
 
             return response;
         }
