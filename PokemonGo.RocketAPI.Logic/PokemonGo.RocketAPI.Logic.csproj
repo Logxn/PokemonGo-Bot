@@ -100,7 +100,9 @@
     </Compile>
     <Compile Include="Utils\ApiFailureStrat.cs" />
     <Compile Include="Utils\BotStats.cs" />
-    <Compile Include="Utils\CaptchaHelper.cs" />
+    <Compile Include="Utils\CaptchaHelper.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Utils\CaptchaHelper.Designer.cs">
       <DependentUpon>CaptchaHelper.cs</DependentUpon>
     </Compile>

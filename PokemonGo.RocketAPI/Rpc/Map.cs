@@ -7,6 +7,7 @@ using PokemonGo.RocketAPI.Helpers;
 using POGOProtos.Networking.Requests;
 using POGOProtos.Networking.Requests.Messages;
 using POGOProtos.Networking.Responses;
+using System.Linq;
 
 #endregion
 
@@ -18,6 +19,10 @@ namespace PokemonGo.RocketAPI.Rpc
         {
         }
 
+        private DateTime _lastGetMapRequest;
+        private int _minSecondsBetweenMapCalls = 30;
+        Tuple<GetMapObjectsResponse, CheckChallengeResponse, GetHatchedEggsResponse, GetInventoryResponse, CheckAwardedBadgesResponse, DownloadSettingsResponse, GetBuddyWalkedResponse> _cachedGetMapResponse;
+
         public async
             Task
                 <
@@ -25,6 +30,14 @@ namespace PokemonGo.RocketAPI.Rpc
                         <GetMapObjectsResponse, CheckChallengeResponse, GetHatchedEggsResponse, GetInventoryResponse, CheckAwardedBadgesResponse,
                             DownloadSettingsResponse, GetBuddyWalkedResponse>> GetMapObjects()
         {
+            var now = DateTime.UtcNow;
+
+            // In case we did last _minSecondsBetweenMapCalls before, we return the cached response
+            if (_lastGetMapRequest.AddSeconds(_minSecondsBetweenMapCalls).Ticks > now.Ticks)
+            {
+                return _cachedGetMapResponse;
+            }
+
             #region Messages
 
             var getMapObjectsMessage = new GetMapObjectsMessage
@@ -74,6 +87,10 @@ namespace PokemonGo.RocketAPI.Rpc
 
             CheckChallengeResponse checkChallengeResponse = response.Item2;
             CommonRequest.ProcessCheckChallengeResponse(Client, checkChallengeResponse);
+
+            // Here we refresh last time this request was done and cache
+            _lastGetMapRequest = DateTime.UtcNow;
+            _cachedGetMapResponse = response;
 
             return response;
         }
