@@ -1661,19 +1661,27 @@ namespace PokemonGo.RocketAPI.Logic
                 // identify nearby pokemon
                 var mapObjects = await objClient.Map.GetMapObjects().ConfigureAwait(false);
                 var pokemons = mapObjects.Item1.MapCells.SelectMany(i => i.CatchablePokemons).OrderBy(i => LocationUtils.CalculateDistanceInMeters(objClient.CurrentLatitude, objClient.CurrentLongitude, i.Latitude, i.Longitude));
-
-                if(ClientSettings.EnableVerboseLogging)
+                var pokemonsWild = mapObjects.Item1.MapCells.SelectMany(i => i.WildPokemons).OrderBy(i => LocationUtils.CalculateDistanceInMeters(objClient.CurrentLatitude, objClient.CurrentLongitude, i.Latitude, i.Longitude));
+                
+                if (ClientSettings.EnableVerboseLogging)
                 {
-                    Logger.ColoredConsoleWrite(ConsoleColor.DarkBlue, $"(DEBUG) - Pokemons: {pokemons.Count()}");
+                    Logger.ColoredConsoleWrite(ConsoleColor.DarkBlue, $"(DEBUG) - Pokemons Catchable: {pokemons.Count()}");
+                    Logger.ColoredConsoleWrite(ConsoleColor.DarkBlue, $"(DEBUG) - Pokemons Wild: {pokemonsWild.Count()}");
                 }
 
-                if (pokemons.Any())
+                if (pokemons.Any() || pokemonsWild.Any())
                 {
                     var strNames = pokemons.Aggregate("", (current, pokemon) => current + (StringUtils.getPokemonNameByLanguage(ClientSettings, pokemon.PokemonId) + ", "));
                     strNames = strNames.Substring(0, strNames.Length - 2);
 
                     Logger.ColoredConsoleWrite(ConsoleColor.Magenta, $"Found {pokemons.Count()} catchable Pokemon(s): " + strNames);
-                    
+
+                    strNames = "";
+                    strNames = pokemonsWild.Aggregate("", (current, pokemonWild) => current + (StringUtils.getPokemonNameByLanguage(ClientSettings, pokemonWild.PokemonData.PokemonId) + ", "));
+                    strNames = strNames.Substring(0, strNames.Length - 2);
+
+                    Logger.ColoredConsoleWrite(ConsoleColor.Magenta, $"Found {pokemonsWild.Count()} wild Pokemon(s): " + strNames);
+
                     //await ShowNearbyPokemons(pokemons).ConfigureAwait(false);
                 }
                 else
@@ -1722,6 +1730,45 @@ namespace PokemonGo.RocketAPI.Logic
 
                     // Do Catch here
                     await CatchPokemon(pokemon.EncounterId, pokemon.SpawnPointId, pokemon.PokemonId, pokemon.Longitude, pokemon.Latitude).ConfigureAwait(false);
+                }
+
+                foreach (var pokemon in pokemonsWild)
+                {
+                    #region Stats Log
+
+                    //increment log stats counter and log stats
+                    count++;
+
+                    if (count >= 9 && !stateSniper)
+                    {
+                        await LogStatsEtc().ConfigureAwait(false);
+                    }
+
+                    #endregion
+
+                    //Capture only Snipe pokemon
+                    if (stateSniper)
+                    {
+                        if (snipokemonIds != pokemon.PokemonData.PokemonId) continue;
+                    }
+
+                    #region Skip pokemon if in list
+
+                    if (ClientSettings.catchPokemonSkipList.Contains(pokemon.PokemonData.PokemonId))
+                    {
+                        Logger.ColoredConsoleWrite(ConsoleColor.Green, "Skipped Pokemon: " + pokemon.PokemonData.PokemonId);
+                        continue;
+                    }
+
+                    #endregion
+
+                    //get distance to pokemon
+                    var distance = LocationUtils.CalculateDistanceInMeters(objClient.CurrentLatitude, objClient.CurrentLongitude, pokemon.Latitude, pokemon.Longitude);
+
+                    RandomHelper.RandomSleep(distance > 100 ? 1000 : 100, distance > 100 ? 1100 : 110);
+
+                    // Do Catch here
+                    await CatchPokemon(pokemon.EncounterId, pokemon.SpawnPointId, pokemon.PokemonData.PokemonId, pokemon.Longitude, pokemon.Latitude).ConfigureAwait(false);
                 }
             }
         }        
