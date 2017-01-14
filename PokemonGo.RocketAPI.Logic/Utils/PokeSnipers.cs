@@ -35,10 +35,10 @@ namespace PokemonGo.RocketAPI.Logic.Utils
             HttpContent content = response.Content;
             string result = content.ReadAsStringAsync().Result;
 
-            dynamic Snipers = JsonConvert.DeserializeObject(result);
-            Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "Looking for Pokemons to snipe....");
             try
             {
+                dynamic Snipers = JsonConvert.DeserializeObject(result);
+                Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "Looking for Pokemons to snipe....");
                 for (int i = 0; Snipers.results[i].id > 0; i++)
                 {
                     idPoke = PokemonParser.ParsePokemon("" + Snipers.results[i].name);
