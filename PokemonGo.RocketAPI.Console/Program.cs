@@ -104,7 +104,6 @@ namespace PokemonGo.RocketAPI.Console
             if (args != null && args.Length > 0 && args[0].Contains("-nogui"))
             {
                 Logger.ColoredConsoleWrite(ConsoleColor.Red, "You added -nogui! If you didnt setup correctly with the GUI. It wont work.");
-                int i = 1;
 
                 //TODO Implement JSON Load
 
@@ -142,14 +141,14 @@ namespace PokemonGo.RocketAPI.Console
                 CheckVersion();
                 try
                 {
-                    new Logic.Logic(new Settings(), Globals.infoObservable).Execute().Wait();
+                    new Logic.Logic(new Settings(), Globals.infoObservable).Execute();
                 }
                 catch (PtcOfflineException)
                 {
                     Logger.ColoredConsoleWrite(ConsoleColor.Red, "PTC Servers are probably down OR you credentials are wrong.", LogLevel.Error);
                     Logger.ColoredConsoleWrite(ConsoleColor.Red, "Trying again in 20 seconds...");
                     Thread.Sleep(20000);
-                    new Logic.Logic(new Settings(), Globals.infoObservable).Execute().Wait();
+                    new Logic.Logic(new Settings(), Globals.infoObservable).Execute();
                 }
                 catch (AccountNotVerifiedException)
                 {
@@ -162,7 +161,7 @@ namespace PokemonGo.RocketAPI.Console
                     Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Unhandled exception: {ex}", LogLevel.Error);
                     Logger.Error("Restarting in 20 Seconds.");
                     Thread.Sleep(20000);
-                    new Logic.Logic(new Settings(), Globals.infoObservable).Execute().Wait();
+                    new Logic.Logic(new Settings(), Globals.infoObservable).Execute();
                 }
             });
             if (openGUI)

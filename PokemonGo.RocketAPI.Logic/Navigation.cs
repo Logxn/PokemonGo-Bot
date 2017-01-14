@@ -36,8 +36,8 @@ namespace PokemonGo.RocketAPI.Logic
             return d;
         }
 
-        public async Task<PlayerUpdateResponse> HumanLikeWalking(GeoCoordinate targetLocation,
-            double walkingSpeedInKilometersPerHour, Func<Task> functionExecutedWhileWalking, bool fromgoogle = false, bool log = true)
+        public PlayerUpdateResponse HumanLikeWalking(GeoCoordinate targetLocation,
+            double walkingSpeedInKilometersPerHour, Func<bool> functionExecutedWhileWalking, bool fromgoogle = false, bool log = true)
         {
             var randomFactor = 0.5f;
             var randomMin = (int)(walkingSpeedInKilometersPerHour * (1 - randomFactor));
@@ -56,13 +56,11 @@ namespace PokemonGo.RocketAPI.Logic
 
             //Initial walking
             var requestSendDateTime = DateTime.Now;
-            var result =
-                await
-                _client.Player.UpdatePlayerLocation(waypoint.Latitude, waypoint.Longitude, waypoint.Altitude).ConfigureAwait(false);
+            var result =_client.Player.UpdatePlayerLocation(waypoint.Latitude, waypoint.Longitude, waypoint.Altitude).Result;
 
             if (functionExecutedWhileWalking != null)
             {
-                await functionExecutedWhileWalking().ConfigureAwait(false);
+                functionExecutedWhileWalking();
             }
 
             var locatePokemonWhileWalkingDateTime = DateTime.Now;
@@ -93,18 +91,16 @@ namespace PokemonGo.RocketAPI.Logic
                 if (pauseWalking)
                 {
                     result =
-                       await
                        _client.Player.UpdatePlayerLocation(_client.CurrentLatitude, _client.CurrentLongitude,
-                           _client.CurrentAltitude).ConfigureAwait(false);
+                           _client.CurrentAltitude).Result;
                 }
                 else
                 {
                     try
                     {
                         result =
-                            await
                             _client.Player.UpdatePlayerLocation(waypoint.Latitude, waypoint.Longitude,
-                                waypoint.Altitude).ConfigureAwait(false);
+                                waypoint.Altitude).Result;
                     }
                     catch (Exception e)
                     {
@@ -115,10 +111,10 @@ namespace PokemonGo.RocketAPI.Logic
 
                 if (functionExecutedWhileWalking != null && !pauseWalking)
                 {
-                    await functionExecutedWhileWalking().ConfigureAwait(false);// look for pokemon 
+                     functionExecutedWhileWalking();// look for pokemon 
                 }
 
-                await RandomHelper.RandomDelay(500, 600).ConfigureAwait(false);
+                RandomHelper.RandomSleep(500, 600);
             }
             while ((LocationUtils.CalculateDistanceInMeters(sourceLocation, targetLocation) >= 30 && !fromgoogle) || LocationUtils.CalculateDistanceInMeters(sourceLocation, targetLocation) >= 2);
             return result;
