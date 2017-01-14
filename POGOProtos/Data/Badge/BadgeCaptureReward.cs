@@ -23,13 +23,13 @@ namespace POGOProtos.Data.Badge {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "Ci5QT0dPUHJvdG9zL0RhdGEvQmFkZ2UvQmFkZ2VDYXB0dXJlUmV3YXJkLnBy",
-            "b3RvEhVQT0dPUHJvdG9zLkRhdGEuQmFkZ2UiNwoSQmFkZ2VDYXB0dXJlUmV3",
-            "YXJkEiEKGWNhcHR1cmVfcmV3YXJkX211bHRpcGxpZXIYASABKAJiBnByb3Rv",
-            "Mw=="));
+            "b3RvEhVQT0dPUHJvdG9zLkRhdGEuQmFkZ2UiVAoSQmFkZ2VDYXB0dXJlUmV3",
+            "YXJkEiEKGWNhcHR1cmVfcmV3YXJkX211bHRpcGxpZXIYASABKAISGwoTYXZh",
+            "dGFyX3RlbXBsYXRlX2lkcxgCIAMoCWIGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::POGOProtos.Data.Badge.BadgeCaptureReward), global::POGOProtos.Data.Badge.BadgeCaptureReward.Parser, new[]{ "CaptureRewardMultiplier" }, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::POGOProtos.Data.Badge.BadgeCaptureReward), global::POGOProtos.Data.Badge.BadgeCaptureReward.Parser, new[]{ "CaptureRewardMultiplier", "AvatarTemplateIds" }, null, null, null)
           }));
     }
     #endregion
@@ -61,6 +61,7 @@ namespace POGOProtos.Data.Badge {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public BadgeCaptureReward(BadgeCaptureReward other) : this() {
       captureRewardMultiplier_ = other.captureRewardMultiplier_;
+      avatarTemplateIds_ = other.avatarTemplateIds_.Clone();
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -79,6 +80,16 @@ namespace POGOProtos.Data.Badge {
       }
     }
 
+    /// <summary>Field number for the "avatar_template_ids" field.</summary>
+    public const int AvatarTemplateIdsFieldNumber = 2;
+    private static readonly pb::FieldCodec<string> _repeated_avatarTemplateIds_codec
+        = pb::FieldCodec.ForString(18);
+    private readonly pbc::RepeatedField<string> avatarTemplateIds_ = new pbc::RepeatedField<string>();
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public pbc::RepeatedField<string> AvatarTemplateIds {
+      get { return avatarTemplateIds_; }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
       return Equals(other as BadgeCaptureReward);
@@ -93,6 +104,7 @@ namespace POGOProtos.Data.Badge {
         return true;
       }
       if (CaptureRewardMultiplier != other.CaptureRewardMultiplier) return false;
+      if(!avatarTemplateIds_.Equals(other.avatarTemplateIds_)) return false;
       return true;
     }
 
@@ -100,6 +112,7 @@ namespace POGOProtos.Data.Badge {
     public override int GetHashCode() {
       int hash = 1;
       if (CaptureRewardMultiplier != 0F) hash ^= CaptureRewardMultiplier.GetHashCode();
+      hash ^= avatarTemplateIds_.GetHashCode();
       return hash;
     }
 
@@ -114,6 +127,7 @@ namespace POGOProtos.Data.Badge {
         output.WriteRawTag(13);
         output.WriteFloat(CaptureRewardMultiplier);
       }
+      avatarTemplateIds_.WriteTo(output, _repeated_avatarTemplateIds_codec);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -122,6 +136,7 @@ namespace POGOProtos.Data.Badge {
       if (CaptureRewardMultiplier != 0F) {
         size += 1 + 4;
       }
+      size += avatarTemplateIds_.CalculateSize(_repeated_avatarTemplateIds_codec);
       return size;
     }
 
@@ -133,6 +148,7 @@ namespace POGOProtos.Data.Badge {
       if (other.CaptureRewardMultiplier != 0F) {
         CaptureRewardMultiplier = other.CaptureRewardMultiplier;
       }
+      avatarTemplateIds_.Add(other.avatarTemplateIds_);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -145,6 +161,10 @@ namespace POGOProtos.Data.Badge {
             break;
           case 13: {
             CaptureRewardMultiplier = input.ReadFloat();
+            break;
+          }
+          case 18: {
+            avatarTemplateIds_.AddEntriesFrom(input, _repeated_avatarTemplateIds_codec);
             break;
           }
         }

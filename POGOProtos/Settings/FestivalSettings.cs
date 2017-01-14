@@ -23,11 +23,11 @@ namespace POGOProtos.Settings {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "CipQT0dPUHJvdG9zL1NldHRpbmdzL0Zlc3RpdmFsU2V0dGluZ3MucHJvdG8S",
-            "E1BPR09Qcm90b3MuU2V0dGluZ3MiowEKEEZlc3RpdmFsU2V0dGluZ3MSSQoN",
+            "E1BPR09Qcm90b3MuU2V0dGluZ3MisAEKEEZlc3RpdmFsU2V0dGluZ3MSSQoN",
             "ZmVzdGl2YWxfdHlwZRgBIAEoDjIyLlBPR09Qcm90b3MuU2V0dGluZ3MuRmVz",
             "dGl2YWxTZXR0aW5ncy5GZXN0aXZhbFR5cGUSCwoDa2V5GAIgASgJEg4KBnZl",
-            "Y3RvchgDIAEoCSInCgxGZXN0aXZhbFR5cGUSCAoETk9ORRAAEg0KCUhBTExP",
-            "V0VFThABYgZwcm90bzM="));
+            "Y3RvchgDIAEoCSI0CgxGZXN0aXZhbFR5cGUSCAoETk9ORRAAEg0KCUhBTExP",
+            "V0VFThABEgsKB0hPTElEQVkQAmIGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
@@ -216,6 +216,7 @@ namespace POGOProtos.Settings {
       public enum FestivalType {
         [pbr::OriginalName("NONE")] None = 0,
         [pbr::OriginalName("HALLOWEEN")] Halloween = 1,
+        [pbr::OriginalName("HOLIDAY")] Holiday = 2,
       }
 
     }
