@@ -27,7 +27,7 @@ namespace PokemonGo.RocketAPI.Rpc
                         }).ConfigureAwait(false);
         }
 
-        public async Task<CheckCodenameAvailableResponse> CheckCodenameAvailable(string codename)
+       /* public async Task<CheckCodenameAvailableResponse> CheckCodenameAvailable(string codename)
         {
             return
                 await
@@ -36,12 +36,12 @@ namespace PokemonGo.RocketAPI.Rpc
                         {
                             Codename = codename
                         }).ConfigureAwait(false);
-        }
+        }*/
 
-        public async Task<GetSuggestedCodenamesResponse> GetSuggestedCodenames()
+        /*public async Task<GetSuggestedCodenamesResponse> GetSuggestedCodenames()
         {
             return await PostProtoPayload<Request, GetSuggestedCodenamesResponse>(RequestType.GetSuggestedCodenames, new GetSuggestedCodenamesMessage()).ConfigureAwait(false);
-        }
+        }*/
 
         public async Task<EchoResponse> SendEcho()
         {

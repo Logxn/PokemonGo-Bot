@@ -63,6 +63,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Data\AssetDigestEntry.cs" />
+    <Compile Include="Data\Avatar\AvatarCustomization.cs" />
+    <Compile Include="Data\Avatar\AvatarItem.cs" />
     <Compile Include="Data\BackgroundToken.cs" />
     <Compile Include="Data\Badge\BadgeCaptureReward.cs" />
     <Compile Include="Data\Battle\BattleAction.cs" />
@@ -91,12 +93,14 @@
     <Compile Include="Data\Player\DailyBonus.cs" />
     <Compile Include="Data\Player\EquippedBadge.cs" />
     <Compile Include="Data\Player\PlayerAvatar.cs" />
+    <Compile Include="Data\Player\PlayerAvatarType.cs" />
     <Compile Include="Data\Player\PlayerCamera.cs" />
     <Compile Include="Data\Player\PlayerCurrency.cs" />
     <Compile Include="Data\Player\PlayerPublicProfile.cs" />
     <Compile Include="Data\Player\PlayerStats.cs" />
     <Compile Include="Data\PokedexEntry.cs" />
     <Compile Include="Data\PokemonData.cs" />
+    <Compile Include="Data\PokemonDisplay.cs" />
     <Compile Include="Data\Quests\DailyQuest.cs" />
     <Compile Include="Data\Quests\Quest.cs" />
     <Compile Include="Enums\ActivityType.cs" />
@@ -116,6 +120,7 @@
     <Compile Include="Enums\PokemonRarity.cs" />
     <Compile Include="Enums\PokemonType.cs" />
     <Compile Include="Enums\QuestType.cs" />
+    <Compile Include="Enums\Slot.cs" />
     <Compile Include="Enums\TeamColor.cs" />
     <Compile Include="Enums\TutorialState.cs" />
     <Compile Include="Inventory\AppliedItem.cs" />
@@ -285,6 +290,7 @@
     <Compile Include="Settings\InventorySettings.cs" />
     <Compile Include="Settings\LevelSettings.cs" />
     <Compile Include="Settings\MapSettings.cs" />
+    <Compile Include="Settings\Master\AvatarCustomizationSettings.cs" />
     <Compile Include="Settings\Master\BadgeSettings.cs" />
     <Compile Include="Settings\Master\CameraSettings.cs" />
     <Compile Include="Settings\Master\EncounterSettings.cs" />
