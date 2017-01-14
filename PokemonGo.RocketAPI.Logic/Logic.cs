@@ -764,7 +764,7 @@ namespace PokemonGo.RocketAPI.Logic
 
                 Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Went to sniping location. Waiting for Pokemon to appear...");
 
-                RandomHelper.RandomSleep(1000, 2000);
+                RandomHelper.RandomSleep(ClientSettings.secondsSnipe*1000, ClientSettings.secondsSnipe*1100);
 
                 stateSniper = true;
                 sniperReturn = false;
@@ -781,7 +781,7 @@ namespace PokemonGo.RocketAPI.Logic
             }
         }
 
-        private bool Snipe(PokemonId id, GeoCoordinate coord)
+        private bool Snipe( PokemonId id, GeoCoordinate coord, int secondsToWait )
         {
             try
             {
@@ -793,7 +793,7 @@ namespace PokemonGo.RocketAPI.Logic
 
                 Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Went to sniping location. Waiting for Pokemon to appear...");
 
-                RandomHelper.RandomSleep(1000, 2000);
+                RandomHelper.RandomSleep(secondsToWait*1000, secondsToWait*1100);
 
                 stateSniper = true;
                 sniperReturn = false;
@@ -885,7 +885,7 @@ namespace PokemonGo.RocketAPI.Logic
             {
                 if (ClientSettings.ManualSnipePokemonID != null && ClientSettings.ManualSnipePokemonLocation != null)
                 {
-                    var snipesuccess = Snipe((PokemonId)ClientSettings.ManualSnipePokemonID, ClientSettings.ManualSnipePokemonLocation);
+                    var snipesuccess = Snipe((PokemonId)ClientSettings.ManualSnipePokemonID, ClientSettings.ManualSnipePokemonLocation,ClientSettings.secondsSnipe);
 
                     if (!snipesuccess)
                     {
@@ -940,6 +940,7 @@ namespace PokemonGo.RocketAPI.Logic
             ClientSettings.ForceSnipe = false;
             ClientSettings.ManualSnipePokemonID = null;
             ClientSettings.ManualSnipePokemonLocation = null;
+            ClientSettings.secondsSnipe = 2;
 
             #endregion
 
@@ -998,17 +999,18 @@ namespace PokemonGo.RocketAPI.Logic
             #endregion
         }
 
-        private FortData[] GetNearbyPokeStops(bool updateMap = true)
+        private FortData[] GetNearbyPokeStops( bool updateMap = true, GetMapObjectsResponse mapObjectsResponse = null)
         {
             #region Get Pokestops
 
             //Query nearby objects for mapData
-            var mapObjects = objClient.Map.GetMapObjects().Result;
+            if (mapObjectsResponse == null)
+                mapObjectsResponse = objClient.Map.GetMapObjects().Result.Item1;
 
             //narrow map data to pokestops within walking distance
             var pokeStops = navigation
                 .pathByNearestNeighbour(
-                    mapObjects.Item1.MapCells.SelectMany(i => i.Forts)
+                    mapObjectsResponse.MapCells.SelectMany(i => i.Forts)
                     .Where(i => i.Type == FortType.Checkpoint && i.CooldownCompleteTimestampMs < (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds)
                     .OrderBy(i => LocationUtils.CalculateDistanceInMeters(objClient.CurrentLatitude, objClient.CurrentLongitude, i.Latitude, i.Longitude))
                     .ToArray(), ClientSettings.WalkingSpeedInKilometerPerHour);
@@ -1021,7 +1023,7 @@ namespace PokemonGo.RocketAPI.Logic
 
             var pokeGyms = navigation
                 .pathByNearestNeighbour(
-                    mapObjects.Item1.MapCells.SelectMany(i => i.Forts)
+                    mapObjectsResponse.MapCells.SelectMany(i => i.Forts)
                     .Where(i => i.Type == FortType.Gym)
                     .OrderBy(i => LocationUtils.CalculateDistanceInMeters(objClient.CurrentLatitude, objClient.CurrentLongitude, i.Latitude, i.Longitude))
                     .ToArray(), ClientSettings.WalkingSpeedInKilometerPerHour);
@@ -1048,13 +1050,14 @@ namespace PokemonGo.RocketAPI.Logic
             return pokeStops;
         }
         
-        private FortData[] GetNearbyGyms()
+        private FortData[] GetNearbyGyms(GetMapObjectsResponse mapObjectsResponse = null)
         {
-            var mapObjects = objClient.Map.GetMapObjects().Result;
+            if (mapObjectsResponse == null)
+                mapObjectsResponse = objClient.Map.GetMapObjects().Result.Item1;
 
             var pokeGyms = navigation
                 .pathByNearestNeighbour(
-                    mapObjects.Item1.MapCells.SelectMany(i => i.Forts)
+                    mapObjectsResponse.MapCells.SelectMany(i => i.Forts)
                     .Where(i => i.Type == FortType.Gym)
                     .OrderBy(i => LocationUtils.CalculateDistanceInMeters(objClient.CurrentLatitude, objClient.CurrentLongitude, i.Latitude, i.Longitude))
                     .ToArray(), ClientSettings.WalkingSpeedInKilometerPerHour);
@@ -1179,15 +1182,14 @@ namespace PokemonGo.RocketAPI.Logic
 
                 var fortInfo = objClient.Fort.GetFort(pokeStop.Id, pokeStop.Latitude, pokeStop.Longitude).Result;
 
-                Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Next Pokestop: {fortInfo.Name} in {distance:0.##}m distance.");
-
                 //log error if pokestop not found
-
                 if (fortInfo == null)
                 {
                     infoObservable.PushPokeStopInfoUpdate(pokeStop, "!!Can't Get PokeStop Information!!");
                     continue;
                 }
+
+                Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Next Pokestop: {fortInfo.Name} in {distance:0.##}m distance.");
 
                 #region Break At Lure Logic  
 
@@ -1611,8 +1613,9 @@ namespace PokemonGo.RocketAPI.Logic
             {
                 lastsearchtimestamp = (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds;
 
+                var mapObjectsResponse = objClient.Map.GetMapObjects().Result.Item1;
                 //narrow map data to pokestops within walking distance
-                var pokeStops = GetNearbyPokeStops(false);
+                var pokeStops = GetNearbyPokeStops(false, mapObjectsResponse);
                 var pokestopsWithinRangeStanding = pokeStops.Where(i => LocationUtils.CalculateDistanceInMeters(objClient.CurrentLatitude, objClient.CurrentLongitude, i.Latitude, i.Longitude) < 40);
 
                 var withinRangeStandingList = pokestopsWithinRangeStanding as IList<FortData> ?? pokestopsWithinRangeStanding.ToList();
@@ -1631,10 +1634,10 @@ namespace PokemonGo.RocketAPI.Logic
                         }
 
                         SetCheckTimeToRun();
-                        RandomHelper.RandomSleep(100, 200);
+                        RandomHelper.RandomSleep(500, 600); // Time between pokestops
                     }
                 }
-                ExecuteCatchAllNearbyPokemons();
+                ExecuteCatchAllNearbyPokemons(mapObjectsResponse);
                 
                 if (ClientSettings.FarmGyms)
                     ExecutePutInGym();
@@ -1648,6 +1651,11 @@ namespace PokemonGo.RocketAPI.Logic
 
         private bool ExecuteCatchAllNearbyPokemons()
         {
+            return ExecuteCatchAllNearbyPokemons(null);
+        }
+
+        private bool ExecuteCatchAllNearbyPokemons(GetMapObjectsResponse mapObjectsResponse )
+        {
             //update location map with current bot location
             if (!stateSniper)
             {
@@ -1659,9 +1667,9 @@ namespace PokemonGo.RocketAPI.Logic
             //bypass catching pokemon if disabled
             if (ClientSettings.CatchPokemon || (ClientSettings.SnipePokemon && stateSniper))
             {
-                // identify nearby pokemon
-                var mapObjects = objClient.Map.GetMapObjects().Result;
-                var pokemons = mapObjects.Item1.MapCells.SelectMany(i => i.CatchablePokemons).OrderBy(i => LocationUtils.CalculateDistanceInMeters(objClient.CurrentLatitude, objClient.CurrentLongitude, i.Latitude, i.Longitude));
+                if (mapObjectsResponse == null)
+                    mapObjectsResponse = objClient.Map.GetMapObjects().Result.Item1;
+                var pokemons = mapObjectsResponse.MapCells.SelectMany(i => i.CatchablePokemons).OrderBy(i => LocationUtils.CalculateDistanceInMeters(objClient.CurrentLatitude, objClient.CurrentLongitude, i.Latitude, i.Longitude));
 
                 if(ClientSettings.EnableVerboseLogging)
                 {
@@ -2126,8 +2134,9 @@ private int GetGymLevel(long value)
                     Logger.ColoredConsoleWrite(ConsoleColor.Magenta, "Pokemon CP or IV lower than Configured Min to Catch - Skipping Pokemon");
                     SkippedPokemon.Add(encounterPokemonResponse.WildPokemon.EncounterId);
                 }
+                RandomHelper.RandomSleep(1000, 2000); // wait 1 second to simulate catch.
             }
-            RandomHelper.RandomSleep(1500, 2000);
+            
         }
 
         private CatchPokemonResponse CatchPokemonWithRandomVariables(ulong encounterId, string spawnpointId, ItemId bestPokeball, bool forceHit)
@@ -2345,7 +2354,7 @@ private int GetGymLevel(long value)
                         if (Telegram != null)
                             Telegram.sendInformationText(TelegramUtil.TelegramUtilInformationTopics.Transfer, StringUtils.getPokemonNameByLanguage(ClientSettings, duplicatePokemon.PokemonId), duplicatePokemon.Cp, PokemonInfo.CalculatePokemonPerfection(duplicatePokemon).ToString("0.00"), bestPokemonOfType);
 
-                        RandomHelper.RandomSleep(5000, 6000);
+                        RandomHelper.RandomSleep(500, 600); // Make faster used to now is poosible transfer several pokemons at same time
                     }
                 }
                 if (ClientSettings.pauseAtEvolve2)

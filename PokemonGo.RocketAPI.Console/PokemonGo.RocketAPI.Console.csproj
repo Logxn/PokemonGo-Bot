@@ -227,6 +227,10 @@
     <Compile Include="Panels\SniperPanel.Designer.cs">
       <DependentUpon>SniperPanel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Panels\SplashScreen.cs" />
+    <Compile Include="Panels\SplashScreen.Designer.cs">
+      <DependentUpon>SplashScreen.cs</DependentUpon>
+    </Compile>
     <Compile Include="PokeImgManager.cs" />
     <Compile Include="Pokemons.cs">
       <SubType>Form</SubType>
@@ -310,6 +314,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Panels\SniperPanel.resx">
       <DependentUpon>SniperPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Panels\SplashScreen.resx">
+      <DependentUpon>SplashScreen.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Pokemons.resx">
       <DependentUpon>Pokemons.cs</DependentUpon>

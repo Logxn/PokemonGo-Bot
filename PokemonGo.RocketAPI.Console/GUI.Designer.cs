@@ -298,7 +298,6 @@ namespace PokemonGo.RocketAPI.Console
             this.lang_en_btn = new System.Windows.Forms.Button();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.checkBox_FarmGyms = new System.Windows.Forms.CheckBox();
-            this.settingsBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.tabProxies.SuspendLayout();
             this.tabItems.SuspendLayout();
             this.groupBox4.SuspendLayout();

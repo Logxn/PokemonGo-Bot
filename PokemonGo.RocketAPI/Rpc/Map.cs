@@ -17,7 +17,10 @@ namespace PokemonGo.RocketAPI.Rpc
         public Map(Client client) : base(client)
         {
         }
-
+        private DateTime _lastGetMapRequest;
+        private const int _minSecondsBetweenMapCalls = 30;
+        private Tuple<GetMapObjectsResponse, CheckChallengeResponse, GetHatchedEggsResponse, GetInventoryResponse, CheckAwardedBadgesResponse, DownloadSettingsResponse, GetBuddyWalkedResponse> _cachedGetMap;
+        
         public async
             Task
                 <
@@ -25,6 +28,12 @@ namespace PokemonGo.RocketAPI.Rpc
                         <GetMapObjectsResponse, CheckChallengeResponse, GetHatchedEggsResponse, GetInventoryResponse, CheckAwardedBadgesResponse,
                             DownloadSettingsResponse, GetBuddyWalkedResponse>> GetMapObjects()
         {
+
+            if (_lastGetMapRequest.AddSeconds(_minSecondsBetweenMapCalls).Ticks > DateTime.UtcNow.Ticks)
+            {
+                return _cachedGetMap;
+            }
+
             #region Messages
 
             var getMapObjectsMessage = new GetMapObjectsMessage
@@ -74,6 +83,9 @@ namespace PokemonGo.RocketAPI.Rpc
 
             CheckChallengeResponse checkChallengeResponse = response.Item2;
             CommonRequest.ProcessCheckChallengeResponse(Client, checkChallengeResponse);
+
+            _lastGetMapRequest = DateTime.UtcNow;
+            _cachedGetMap = response;
 
             return response;
         }

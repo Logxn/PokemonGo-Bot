@@ -127,6 +127,10 @@ namespace PokemonGo.RocketAPI.Console
                 Application.Run(new GUI());
                 if (Globals.pokeList)
                 {
+                    Task.Run(() =>
+                    {
+                                 new Panels.SplashScreen().ShowDialog();
+                             });
                     openGUI =true;
                 }
             }
@@ -251,6 +255,7 @@ namespace PokemonGo.RocketAPI.Console
     {
         public static PokemonId? ID = null;
         public static GeoCoordinate Location = null;
+        public static int secondsSnipe = 2;
     }
     public static class Globals
     {
