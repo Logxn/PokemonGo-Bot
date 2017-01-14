@@ -25,7 +25,7 @@ namespace POGOProtos.Inventory {
             "CidQT0dPUHJvdG9zL0ludmVudG9yeS9JbnZlbnRvcnlLZXkucHJvdG8SFFBP",
             "R09Qcm90b3MuSW52ZW50b3J5GiBQT0dPUHJvdG9zL0VudW1zL1F1ZXN0VHlw",
             "ZS5wcm90bxomUE9HT1Byb3Rvcy9FbnVtcy9Qb2tlbW9uRmFtaWx5SWQucHJv",
-            "dG8aJlBPR09Qcm90b3MvSW52ZW50b3J5L0l0ZW0vSXRlbUlkLnByb3RvIu0C",
+            "dG8aJlBPR09Qcm90b3MvSW52ZW50b3J5L0l0ZW0vSXRlbUlkLnByb3RvIokD",
             "CgxJbnZlbnRvcnlLZXkSEgoKcG9rZW1vbl9pZBgBIAEoBhIvCgRpdGVtGAIg",
             "ASgOMiEuUE9HT1Byb3Rvcy5JbnZlbnRvcnkuSXRlbS5JdGVtSWQSGAoQcG9r",
             "ZWRleF9lbnRyeV9pZBgDIAEoBRIUCgxwbGF5ZXJfc3RhdHMYBCABKAgSFwoP",
@@ -34,11 +34,11 @@ namespace POGOProtos.Inventory {
             "CCABKAgSFgoOZWdnX2luY3ViYXRvcnMYCSABKAgSPAoRcG9rZW1vbl9mYW1p",
             "bHlfaWQYCiABKA4yIS5QT0dPUHJvdG9zLkVudW1zLlBva2Vtb25GYW1pbHlJ",
             "ZBIvCgpxdWVzdF90eXBlGAsgASgOMhsuUE9HT1Byb3Rvcy5FbnVtcy5RdWVz",
-            "dFR5cGViBnByb3RvMw=="));
+            "dFR5cGUSGgoSYXZhdGFyX3RlbXBsYXRlX2lkGAwgASgJYgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::POGOProtos.Enums.QuestTypeReflection.Descriptor, global::POGOProtos.Enums.PokemonFamilyIdReflection.Descriptor, global::POGOProtos.Inventory.Item.ItemIdReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::POGOProtos.Inventory.InventoryKey), global::POGOProtos.Inventory.InventoryKey.Parser, new[]{ "PokemonId", "Item", "PokedexEntryId", "PlayerStats", "PlayerCurrency", "PlayerCamera", "InventoryUpgrades", "AppliedItems", "EggIncubators", "PokemonFamilyId", "QuestType" }, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::POGOProtos.Inventory.InventoryKey), global::POGOProtos.Inventory.InventoryKey.Parser, new[]{ "PokemonId", "Item", "PokedexEntryId", "PlayerStats", "PlayerCurrency", "PlayerCamera", "InventoryUpgrades", "AppliedItems", "EggIncubators", "PokemonFamilyId", "QuestType", "AvatarTemplateId" }, null, null, null)
           }));
     }
     #endregion
@@ -80,6 +80,7 @@ namespace POGOProtos.Inventory {
       eggIncubators_ = other.eggIncubators_;
       pokemonFamilyId_ = other.pokemonFamilyId_;
       questType_ = other.questType_;
+      avatarTemplateId_ = other.avatarTemplateId_;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -208,6 +209,17 @@ namespace POGOProtos.Inventory {
       }
     }
 
+    /// <summary>Field number for the "avatar_template_id" field.</summary>
+    public const int AvatarTemplateIdFieldNumber = 12;
+    private string avatarTemplateId_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string AvatarTemplateId {
+      get { return avatarTemplateId_; }
+      set {
+        avatarTemplateId_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
       return Equals(other as InventoryKey);
@@ -232,6 +244,7 @@ namespace POGOProtos.Inventory {
       if (EggIncubators != other.EggIncubators) return false;
       if (PokemonFamilyId != other.PokemonFamilyId) return false;
       if (QuestType != other.QuestType) return false;
+      if (AvatarTemplateId != other.AvatarTemplateId) return false;
       return true;
     }
 
@@ -249,6 +262,7 @@ namespace POGOProtos.Inventory {
       if (EggIncubators != false) hash ^= EggIncubators.GetHashCode();
       if (PokemonFamilyId != 0) hash ^= PokemonFamilyId.GetHashCode();
       if (QuestType != 0) hash ^= QuestType.GetHashCode();
+      if (AvatarTemplateId.Length != 0) hash ^= AvatarTemplateId.GetHashCode();
       return hash;
     }
 
@@ -303,6 +317,10 @@ namespace POGOProtos.Inventory {
         output.WriteRawTag(88);
         output.WriteEnum((int) QuestType);
       }
+      if (AvatarTemplateId.Length != 0) {
+        output.WriteRawTag(98);
+        output.WriteString(AvatarTemplateId);
+      }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -340,6 +358,9 @@ namespace POGOProtos.Inventory {
       }
       if (QuestType != 0) {
         size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) QuestType);
+      }
+      if (AvatarTemplateId.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(AvatarTemplateId);
       }
       return size;
     }
@@ -381,6 +402,9 @@ namespace POGOProtos.Inventory {
       }
       if (other.QuestType != 0) {
         QuestType = other.QuestType;
+      }
+      if (other.AvatarTemplateId.Length != 0) {
+        AvatarTemplateId = other.AvatarTemplateId;
       }
     }
 
@@ -434,6 +458,10 @@ namespace POGOProtos.Inventory {
           }
           case 88: {
             questType_ = (global::POGOProtos.Enums.QuestType) input.ReadEnum();
+            break;
+          }
+          case 98: {
+            AvatarTemplateId = input.ReadString();
             break;
           }
         }
