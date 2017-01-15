@@ -168,6 +168,8 @@ namespace PokemonGo.RocketAPI
         bool ForceSnipe { get; set; }
         bool NextBestBallOnEscape { get; set; }
         PokemonId? ManualSnipePokemonID { get; set; }
+        int secondsSnipe { get; set; }
+        int triesSnipe { get; set; }
         GeoCoordinate ManualSnipePokemonLocation { get; set; }
         /* ===================================[SETTINGS]================================= */
 

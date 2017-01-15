@@ -7,7 +7,7 @@ using PokemonGo.RocketAPI.Helpers;
 using POGOProtos.Networking.Requests;
 using POGOProtos.Networking.Requests.Messages;
 using POGOProtos.Networking.Responses;
-using System.Linq;
+using System.Threading;
 
 #endregion
 
@@ -20,7 +20,7 @@ namespace PokemonGo.RocketAPI.Rpc
         }
 
         private DateTime _lastGetMapRequest;
-        private int _minSecondsBetweenMapCalls = 30;
+        private const int _minSecondsBetweenMapCalls = 30;
         Tuple<GetMapObjectsResponse, CheckChallengeResponse, GetHatchedEggsResponse, GetInventoryResponse, CheckAwardedBadgesResponse, DownloadSettingsResponse, GetBuddyWalkedResponse> _cachedGetMapResponse;
 
         public async

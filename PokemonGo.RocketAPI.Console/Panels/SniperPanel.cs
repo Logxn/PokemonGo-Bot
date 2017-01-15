@@ -127,6 +127,7 @@ namespace PokemonGo.RocketAPI.Console
             ManualSnipePokemon.ID = id;
             SnipeInfo.Text = "";
             Globals.ForceSnipe = true;            
+            ManualSnipePokemon.secondsSnipe = (int) nudSecondsSnipe.Value;
         }
         
         public void Execute()
@@ -257,5 +258,14 @@ namespace PokemonGo.RocketAPI.Console
         {
           System.Diagnostics.Process.Start(e.Link.LinkData.ToString());
         }        
+        void nudSecondsSnipe_ValueChanged(object sender, EventArgs e)
+        {
+          ManualSnipePokemon.secondsSnipe = (int) nudSecondsSnipe.Value;
+        }
+        void nudTriesSnipe_ValueChanged(object sender, EventArgs e)
+        {
+          ManualSnipePokemon.triesSnipe = (int) nudTriesSnipe.Value;
+          
+        }
     }
 }
