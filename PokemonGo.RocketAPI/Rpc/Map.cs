@@ -19,22 +19,21 @@ namespace PokemonGo.RocketAPI.Rpc
         {
         }
 
-        private const int _minSecondsBetweenMapCalls = 30;
         private DateTime _lastGetMapRequest;
+        private const int _minSecondsBetweenMapCalls = 30;
+        Tuple<GetMapObjectsResponse, CheckChallengeResponse, GetHatchedEggsResponse, GetInventoryResponse, CheckAwardedBadgesResponse, DownloadSettingsResponse, GetBuddyWalkedResponse> _cachedGetMapResponse;
 
         public async
             Task
                 <
                     Tuple
                         <GetMapObjectsResponse, CheckChallengeResponse, GetHatchedEggsResponse, GetInventoryResponse, CheckAwardedBadgesResponse,
-                            DownloadSettingsResponse, GetBuddyWalkedResponse>> GetMapObjects()
+                            DownloadSettingsResponse, GetBuddyWalkedResponse>> GetMapObjects(bool forceRequest = false)
         {
-            var now = DateTime.UtcNow;
-
-            var diffTicks = _lastGetMapRequest.AddSeconds(_minSecondsBetweenMapCalls).Ticks - now.Ticks;
-            if (diffTicks > 0)
+            // In case we did last _minSecondsBetweenMapCalls before, we return the cached response
+            if (_lastGetMapRequest.AddSeconds(_minSecondsBetweenMapCalls).Ticks > DateTime.UtcNow.Ticks && !forceRequest)
             {
-                Thread.Sleep(new TimeSpan(diffTicks).Milliseconds);
+                return _cachedGetMapResponse;
             }
 
             #region Messages
@@ -72,25 +71,26 @@ namespace PokemonGo.RocketAPI.Rpc
             var request = await GetRequestBuilder().GetRequestEnvelope(CommonRequest.FillRequest(getMapObjectsRequest, Client)).ConfigureAwait(false);
             //var request = GetRequestBuilder().GetRequestEnvelope(CommonRequest.FillRequest(getMapObjectsRequest, Client));
 
-            Tuple<GetMapObjectsResponse, CheckChallengeResponse, GetHatchedEggsResponse, GetInventoryResponse, CheckAwardedBadgesResponse, DownloadSettingsResponse, GetBuddyWalkedResponse> response =
+            Tuple<GetMapObjectsResponse, CheckChallengeResponse, GetHatchedEggsResponse, GetInventoryResponse, CheckAwardedBadgesResponse, DownloadSettingsResponse, GetBuddyWalkedResponse> _getMapObjectsResponse =
                 await
                     PostProtoPayload
                         <Request, GetMapObjectsResponse, CheckChallengeResponse, GetHatchedEggsResponse, GetInventoryResponse,
                             CheckAwardedBadgesResponse, DownloadSettingsResponse, GetBuddyWalkedResponse>(request).ConfigureAwait(false);
 
-            GetInventoryResponse getInventoryResponse = response.Item4;
+            GetInventoryResponse getInventoryResponse = _getMapObjectsResponse.Item4;
             CommonRequest.ProcessGetInventoryResponse(Client, getInventoryResponse);
 
-            DownloadSettingsResponse downloadSettingsResponse = response.Item6;
+            DownloadSettingsResponse downloadSettingsResponse = _getMapObjectsResponse.Item6;
             CommonRequest.ProcessDownloadSettingsResponse(Client, downloadSettingsResponse);
 
-            CheckChallengeResponse checkChallengeResponse = response.Item2;
+            CheckChallengeResponse checkChallengeResponse = _getMapObjectsResponse.Item2;
             CommonRequest.ProcessCheckChallengeResponse(Client, checkChallengeResponse);
 
             // Here we refresh last time this request was done and cache
             _lastGetMapRequest = DateTime.UtcNow;
+            _cachedGetMapResponse = _getMapObjectsResponse;
 
-            return response;
+            return _getMapObjectsResponse;
         }
 
         public async Task<GetIncensePokemonResponse> GetIncensePokemons()
