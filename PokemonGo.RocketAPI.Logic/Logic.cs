@@ -2776,11 +2776,14 @@ namespace PokemonGo.RocketAPI.Logic
                             return;
 
                         var response = await objClient.Inventory.UseItemEggIncubator(incubator.Id, egg.Id).ConfigureAwait(false);
-                        try{
+                        try
+                        {
                             unusedEggs.Remove(egg);
                             unusedEggsBasicInc.Remove(egg);
-                        } catch (Exception e){
-
+                        }
+                        catch (Exception ex){
+                            Logger.ColoredConsoleWrite(ConsoleColor.Red, "Error: Logic.cs - StartIncubation()");
+                            Logger.ColoredConsoleWrite(ConsoleColor.Red, ex.Message);
                         }
                         newRememberedIncubators.Add(new IncubatorUsage { IncubatorId = incubator.Id, PokemonId = egg.Id });
                         Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, "Added Egg which needs " + egg.EggKmWalkedTarget + "km");
@@ -2877,9 +2880,11 @@ namespace PokemonGo.RocketAPI.Logic
                         Logger.AddLog("Read invalid Date");
                     }
                 }
-                catch (ArgumentOutOfRangeException e)
+                catch (ArgumentOutOfRangeException ex)
                 {
                     Logger.ColoredConsoleWrite(ConsoleColor.Red, "Read invalid Date");
+                    Logger.ColoredConsoleWrite(ConsoleColor.Red, "Error: Logic.cs - ShowNearbyPokemonRun()");
+                    Logger.ColoredConsoleWrite(ConsoleColor.Red, ex.Message);
                 }
                 toShow.Add(poke2);
             }

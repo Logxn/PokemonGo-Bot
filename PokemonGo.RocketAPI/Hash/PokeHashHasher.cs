@@ -34,7 +34,8 @@ namespace PokemonGo.RocketAPI.Hash
                 }
                 catch (Exception ex)
                 {
-
+                    Logger.ColoredConsoleWrite(ConsoleColor.Red, "Error: PokeHasHasher.cs - RequestHashesAsync()");
+                    Logger.ColoredConsoleWrite(ConsoleColor.Red, ex.Message);
                 }
                 finally
                 {
@@ -114,7 +115,8 @@ namespace PokemonGo.RocketAPI.Hash
                 }
                 catch (Exception ex)
                 {
-
+                    Logger.ColoredConsoleWrite(ConsoleColor.Red, "Error: PokeHashHasher.cs - RequestHashes()");
+                    Logger.ColoredConsoleWrite(ConsoleColor.Red, ex.Message);
                 }
                 finally
                 {
