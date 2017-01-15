@@ -262,5 +262,10 @@ namespace PokemonGo.RocketAPI.Console
         {
           ManualSnipePokemon.secondsSnipe = (int) nudSecondsSnipe.Value;
         }
+        void nudTriesSnipe_ValueChanged(object sender, EventArgs e)
+        {
+          ManualSnipePokemon.triesSnipe = (int) nudTriesSnipe.Value;
+          
+        }
     }
 }
