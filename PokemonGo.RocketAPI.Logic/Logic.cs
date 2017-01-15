@@ -1673,8 +1673,23 @@ namespace PokemonGo.RocketAPI.Logic
             //bypass catching pokemon if disabled
             if (ClientSettings.CatchPokemon || (ClientSettings.SnipePokemon && stateSniper))
             {
+                
                 if (mapObjectsResponse == null)
+                {
                     mapObjectsResponse = objClient.Map.GetMapObjects().Result.Item1;
+                    if (stateSniper){
+                        var tries = 1;
+                        var pokemonsInSnipeMode = mapObjectsResponse.MapCells.SelectMany(i => i.CatchablePokemons);
+                        Logger.ColoredConsoleWrite(ConsoleColor.Red, $"(SNIPING) - try {tries}");
+                        while (!pokemonsInSnipeMode.Any() && (tries < 3)){
+                            Logger.ColoredConsoleWrite(ConsoleColor.Red, $"(SNIPING) - Pokemon Found!");
+                            mapObjectsResponse = objClient.Map.GetMapObjects().Result.Item1;
+                            pokemonsInSnipeMode = mapObjectsResponse.MapCells.SelectMany(i => i.CatchablePokemons);
+                            tries ++;
+                            Logger.ColoredConsoleWrite(ConsoleColor.Red, $"(SNIPING) - try {tries}");
+                        }
+                    }
+                }
                 var pokemons = mapObjectsResponse.MapCells.SelectMany(i => i.CatchablePokemons).OrderBy(i => LocationUtils.CalculateDistanceInMeters(objClient.CurrentLatitude, objClient.CurrentLongitude, i.Latitude, i.Longitude));
 
                 if(ClientSettings.EnableVerboseLogging)
