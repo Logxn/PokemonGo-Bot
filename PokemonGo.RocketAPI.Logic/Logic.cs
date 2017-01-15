@@ -1684,6 +1684,8 @@ namespace PokemonGo.RocketAPI.Logic
                         Logger.ColoredConsoleWrite(ConsoleColor.Red, $"(SNIPING) - try {tries}");
                         while (!pokemonsInSnipeMode.Any() && (tries < ClientSettings.triesSnipe)){
                             Logger.ColoredConsoleWrite(ConsoleColor.Red, $"(SNIPING) -No Pokemon Found!");
+                            Logger.ColoredConsoleWrite(ConsoleColor.Red, $"(SNIPING) -Waiting {ClientSettings.secondsSnipe} before trying again.");
+                            RandomHelper.RandomSleep(ClientSettings.secondsSnipe*1000, ClientSettings.secondsSnipe*1100);
                             mapObjectsResponse = objClient.Map.GetMapObjects().Result.Item1;
                             pokemonsInSnipeMode = mapObjectsResponse.MapCells.SelectMany(i => i.CatchablePokemons);
                             tries ++;
