@@ -19,7 +19,7 @@ namespace PokemonGo.RocketAPI.Rpc
         {
         }
 
-        private const int _minSecondsBetweenMapCalls = 30;
+        private const int _minSecondsBetweenMapCalls = 7;
         private DateTime _lastGetMapRequest;
 
         public async
@@ -34,7 +34,7 @@ namespace PokemonGo.RocketAPI.Rpc
             var diffTicks = _lastGetMapRequest.AddSeconds(_minSecondsBetweenMapCalls).Ticks - now.Ticks;
             if (diffTicks > 0)
             {
-                Thread.Sleep(new TimeSpan(diffTicks).Milliseconds);
+                Thread.Sleep((int)new TimeSpan(diffTicks).TotalMilliseconds);
             }
 
             #region Messages
