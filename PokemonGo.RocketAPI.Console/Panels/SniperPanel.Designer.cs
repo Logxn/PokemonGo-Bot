@@ -397,7 +397,7 @@ namespace PokemonGo.RocketAPI.Console
             // 
             this.nudSecondsSnipe.Location = new System.Drawing.Point(321, 391);
             this.nudSecondsSnipe.Maximum = new decimal(new int[] {
-            60,
+            120,
             0,
             0,
             0});
