@@ -426,7 +426,7 @@ namespace PokemonGo.RocketAPI.Logic
             }
 
             var items = client.Inventory.GetItems(inventory); // For dont repeat inventory request
-            var pokemonCount = (await client.Inventory.GetPokemons().ConfigureAwait(false)).Count();
+            var pokemonCount = client.Inventory.GetPokemons().Result.Count();
             var eggCount = client.Inventory.GetEggsCount(inventory);  // For dont repeat inventory request
             var maxPokemonStorage = profile.PlayerData.MaxPokemonStorage;
             var maxItemStorage = profile.PlayerData.MaxItemStorage;
@@ -2806,7 +2806,7 @@ private int GetGymLevel(long value)
                         if (egg == null)
                             return;
 
-                        var response = await objClient.Inventory.UseItemEggIncubator(incubator.Id, egg.Id).ConfigureAwait(false);
+                        var response = objClient.Inventory.UseItemEggIncubator(incubator.Id, egg.Id);
                         try
                         {
                             unusedEggs.Remove(egg);
