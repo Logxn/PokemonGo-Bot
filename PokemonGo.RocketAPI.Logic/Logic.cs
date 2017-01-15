@@ -426,7 +426,7 @@ namespace PokemonGo.RocketAPI.Logic
             }
 
             var items = client.Inventory.GetItems(inventory); // For dont repeat inventory request
-            var pokemonCount = await client.Inventory.getPokemonCount().ConfigureAwait(false);
+            var pokemonCount = (await client.Inventory.GetPokemons().ConfigureAwait(false)).Count();
             var eggCount = client.Inventory.GetEggsCount(inventory);  // For dont repeat inventory request
             var maxPokemonStorage = profile.PlayerData.MaxPokemonStorage;
             var maxItemStorage = profile.PlayerData.MaxItemStorage;
@@ -1659,7 +1659,7 @@ namespace PokemonGo.RocketAPI.Logic
             if (ClientSettings.CatchPokemon || (ClientSettings.SnipePokemon && stateSniper))
             {
                 // identify nearby pokemon
-                var mapObjects = await objClient.Map.GetMapObjects().ConfigureAwait(false);
+                var mapObjects = await objClient.Map.GetMapObjects(true).ConfigureAwait(false);
                 var pokemons = mapObjects.Item1.MapCells.SelectMany(i => i.CatchablePokemons).OrderBy(i => LocationUtils.CalculateDistanceInMeters(objClient.CurrentLatitude, objClient.CurrentLongitude, i.Latitude, i.Longitude));
                 
                 if (ClientSettings.EnableVerboseLogging)
@@ -1722,6 +1722,7 @@ namespace PokemonGo.RocketAPI.Logic
                     await CatchPokemon(pokemon.EncounterId, pokemon.SpawnPointId, pokemon.PokemonId, pokemon.Longitude, pokemon.Latitude).ConfigureAwait(false);
                 }
                 client.Map.GetMapObjects(true).Wait(); //force Map Objects Update
+                client.Inventory.GetInventory(true).Wait(); //force Inventory Update
             }
         }
 

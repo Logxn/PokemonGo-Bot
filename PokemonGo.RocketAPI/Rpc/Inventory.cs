@@ -1,21 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using POGOProtos.Data;
+using POGOProtos.Data.Player;
 using POGOProtos.Enums;
+using POGOProtos.Inventory;
 using POGOProtos.Inventory.Item;
 using POGOProtos.Networking.Requests;
 using POGOProtos.Networking.Requests.Messages;
 using POGOProtos.Networking.Responses;
-using POGOProtos.Data.Player;
-using System.IO;
-using POGOProtos.Data;
 using POGOProtos.Settings.Master;
-using POGOProtos.Inventory;
-using System.Threading;
-using PokemonGo.RocketAPI;
 using PokemonGo.RocketAPI.Helpers;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace PokemonGo.RocketAPI.Rpc
 {
@@ -150,6 +147,14 @@ namespace PokemonGo.RocketAPI.Rpc
             return pokeballs.FirstOrDefault(i => (ItemId)i.ItemId == type)?.Count ?? 0;
         }
 
+        public async Task<IEnumerable<PlayerStats>> GetPlayerStats()
+        {
+            var inv = await GetInventory().ConfigureAwait(false);
+            return inv.InventoryDelta.InventoryItems
+                .Select(i => i.InventoryItemData?.PlayerStats)
+                .Where(p => p != null);
+        }
+
         public IEnumerable<PlayerStats> GetPlayerStats(GetInventoryResponse inventory)
         {
             if (inventory != null)
@@ -246,6 +251,7 @@ namespace PokemonGo.RocketAPI.Rpc
 
         #region Pokemon Tasks
 
+        #region --Get
         public async Task<IEnumerable<PokemonData>> GetPokemons(bool forceRequest = false)
         {
             var inventory = await GetInventory(forceRequest).ConfigureAwait(false);
@@ -254,14 +260,14 @@ namespace PokemonGo.RocketAPI.Rpc
                     .Where(p => p != null && p?.PokemonId > 0);
         } // Returns pokemon inventory. Send TRUE if you want to force an inventory refresh
 
-        public async Task<int> getPokemonCount()
-        {
-            var p = await GetPokemons().ConfigureAwait(false);
-            return p.Count();
-        } // Retun total amount of pokemons
+        //public async Task<int> getPokemonCount()
+        //{
+        //    var p = await GetPokemons().ConfigureAwait(false);
+        //    return p.Count();
+        //} // Retun total amount of pokemons
+        #endregion
 
         #region --Evolve
-
         public async Task<IEnumerable<PokemonData>> GetPokemonToEvolve(IEnumerable<PokemonId> filter = null)
         {
             var myPokemons = await GetPokemons().ConfigureAwait(false);
@@ -301,9 +307,7 @@ namespace PokemonGo.RocketAPI.Rpc
 
                 if (familyCandy.Candy_ - pokemonCandyNeededAlready > settings.CandyToEvolve)
                     pokemonToEvolve.Add(pokemon);
-
             }
-
             return pokemonToEvolve;
         }
 
@@ -342,9 +346,9 @@ namespace PokemonGo.RocketAPI.Rpc
 
             return await PostProtoPayload<Request, EvolvePokemonResponse>(RequestType.EvolvePokemon, message).ConfigureAwait(false);
         }
-
         #endregion
 
+        #region --Transfer
         public async Task<ReleasePokemonResponse> TransferPokemon(ulong pokemonId) // Transfer one pokemon
         {
             var message = new ReleasePokemonMessage
@@ -354,7 +358,7 @@ namespace PokemonGo.RocketAPI.Rpc
 
             return await PostProtoPayload<Request, ReleasePokemonResponse>(RequestType.ReleasePokemon, message).ConfigureAwait(false);
         }
-
+        
         public async Task<ReleasePokemonResponse> TransferPokemon(List<ulong> pokemonId) // Transfer a list of pokemon (BULK Transfer)
         {
             var message = new ReleasePokemonMessage { };
@@ -362,92 +366,6 @@ namespace PokemonGo.RocketAPI.Rpc
             message.PokemonIds.AddRange(pokemonId);
 
             return await PostProtoPayload<Request, ReleasePokemonResponse>(RequestType.ReleasePokemon, message).ConfigureAwait(false);
-        }
-
-        public async Task<UpgradePokemonResponse> UpgradePokemon(ulong pokemonId)
-        {
-            var message = new UpgradePokemonMessage()
-            {
-                PokemonId = pokemonId
-            };
-
-            return await PostProtoPayload<Request, UpgradePokemonResponse>(RequestType.UpgradePokemon, message).ConfigureAwait(false);
-        }
-
-        public async Task<NicknamePokemonResponse> NicknamePokemon(ulong pokemonId, string nickName)
-        {
-            var message = new NicknamePokemonMessage()
-            {
-                PokemonId = pokemonId,
-                Nickname = nickName
-            };
-
-            return await PostProtoPayload<Request, NicknamePokemonResponse>(RequestType.NicknamePokemon, message).ConfigureAwait(false);
-        }
-
-        public async Task<SetFavoritePokemonResponse> SetFavoritePokemon(long pokemonId, bool isFavorite)
-        {
-            var message = new SetFavoritePokemonMessage()
-            {
-                PokemonId = pokemonId,
-                IsFavorite = isFavorite
-            };
-
-            return await PostProtoPayload<Request, SetFavoritePokemonResponse>(RequestType.SetFavoritePokemon, message).ConfigureAwait(false);
-        }
-
-        public async Task<SetBuddyPokemonResponse> SetBuddyPokemon(ulong pokemonId)
-        {
-            var message = new SetBuddyPokemonMessage()
-            {
-                PokemonId = pokemonId
-            };
-
-            return await PostProtoPayload<Request, SetBuddyPokemonResponse>(RequestType.SetBuddyPokemon, message).ConfigureAwait(false);
-        }
-
-        public async Task<IEnumerable<PlayerStats>> GetPlayerStats()
-        {
-            var inv = await GetInventory().ConfigureAwait(false);
-            return inv.InventoryDelta.InventoryItems
-                .Select(i => i.InventoryItemData?.PlayerStats)
-                .Where(p => p != null);
-        }
-
-        public async Task<IEnumerable<PokemonData>> GetHighestsPerfect(int limit = 1000)
-        {
-            var myPokemon = await GetPokemons().ConfigureAwait(false);
-            var pokemons = myPokemon.ToList();
-            return pokemons.OrderByDescending(PokemonInfo.CalculatePokemonPerfection).Take(limit);
-        }
-
-        public async Task<IEnumerable<PokemonData>> GetHighestIVofType(PokemonData pokemon)
-        {
-            var myPokemon = await GetPokemons().ConfigureAwait(false);
-            var pokemons = myPokemon.ToList();
-            return pokemons.Where(x => x.PokemonId == pokemon.PokemonId)
-                    .OrderByDescending(PokemonInfo.CalculatePokemonPerfection)
-                    .ThenBy(x => x.Cp)
-                    .ToList();
-        }
-
-        public async Task<IEnumerable<PokemonData>> GetHighestCPofType2(PokemonData pokemon)
-        {
-            var myPokemon = await GetPokemons().ConfigureAwait(false);
-            var pokemons = myPokemon.ToList();
-            return pokemons.Where(x => x.PokemonId == pokemon.PokemonId)
-                    .OrderByDescending(x => x.Cp)
-                    .ThenBy(PokemonInfo.CalculatePokemonPerfection)
-                    .ToList();
-        }
-
-        public async Task<int> GetHighestCPofType(PokemonData pokemon)
-        {
-            var myPokemon = await GetPokemons().ConfigureAwait(false);
-            var pokemons = myPokemon.ToList();
-            return pokemons.Where(x => x.PokemonId == pokemon.PokemonId)
-                            .OrderByDescending(x => x.Cp)
-                            .FirstOrDefault().Cp;
         }
 
         public async Task<IEnumerable<PokemonData>> GetDuplicatePokemonToTransfer(bool keepPokemonsThatCanEvolve = false, bool orderByIv = false)
@@ -531,6 +449,95 @@ namespace PokemonGo.RocketAPI.Rpc
                     .ToList());
             }
         }
+        #endregion
+
+        #region --Upgrade
+        public async Task<UpgradePokemonResponse> UpgradePokemon(ulong pokemonId)
+        {
+            var message = new UpgradePokemonMessage()
+            {
+                PokemonId = pokemonId
+            };
+
+            return await PostProtoPayload<Request, UpgradePokemonResponse>(RequestType.UpgradePokemon, message).ConfigureAwait(false);
+        }
+        #endregion
+
+        #region --Name
+        public async Task<NicknamePokemonResponse> NicknamePokemon(ulong pokemonId, string nickName)
+        {
+            var message = new NicknamePokemonMessage()
+            {
+                PokemonId = pokemonId,
+                Nickname = nickName
+            };
+
+            return await PostProtoPayload<Request, NicknamePokemonResponse>(RequestType.NicknamePokemon, message).ConfigureAwait(false);
+        }
+        #endregion
+
+        #region --Favourite
+        public async Task<SetFavoritePokemonResponse> SetFavoritePokemon(long pokemonId, bool isFavorite)
+        {
+            var message = new SetFavoritePokemonMessage()
+            {
+                PokemonId = pokemonId,
+                IsFavorite = isFavorite
+            };
+
+            return await PostProtoPayload<Request, SetFavoritePokemonResponse>(RequestType.SetFavoritePokemon, message).ConfigureAwait(false);
+        }
+        #endregion
+
+        #region --Buddy
+        public async Task<SetBuddyPokemonResponse> SetBuddyPokemon(ulong pokemonId)
+        {
+            var message = new SetBuddyPokemonMessage()
+            {
+                PokemonId = pokemonId
+            };
+
+            return await PostProtoPayload<Request, SetBuddyPokemonResponse>(RequestType.SetBuddyPokemon, message).ConfigureAwait(false);
+        }
+        #endregion
+
+        #region Others
+
+        public async Task<IEnumerable<PokemonData>> GetHighestsPerfect(int limit = 1000)
+        {
+            var myPokemon = await GetPokemons().ConfigureAwait(false);
+            var pokemons = myPokemon.ToList();
+            return pokemons.OrderByDescending(PokemonInfo.CalculatePokemonPerfection).Take(limit);
+        }
+
+        public async Task<IEnumerable<PokemonData>> GetHighestIVofType(PokemonData pokemon)
+        {
+            var myPokemon = await GetPokemons().ConfigureAwait(false);
+            var pokemons = myPokemon.ToList();
+            return pokemons.Where(x => x.PokemonId == pokemon.PokemonId)
+                    .OrderByDescending(PokemonInfo.CalculatePokemonPerfection)
+                    .ThenBy(x => x.Cp)
+                    .ToList();
+        }
+
+        public async Task<IEnumerable<PokemonData>> GetHighestCPofType2(PokemonData pokemon)
+        {
+            var myPokemon = await GetPokemons().ConfigureAwait(false);
+            var pokemons = myPokemon.ToList();
+            return pokemons.Where(x => x.PokemonId == pokemon.PokemonId)
+                    .OrderByDescending(x => x.Cp)
+                    .ThenBy(PokemonInfo.CalculatePokemonPerfection)
+                    .ToList();
+        }
+
+        public async Task<int> GetHighestCPofType(PokemonData pokemon)
+        {
+            var myPokemon = await GetPokemons().ConfigureAwait(false);
+            var pokemons = myPokemon.ToList();
+            return pokemons.Where(x => x.PokemonId == pokemon.PokemonId)
+                            .OrderByDescending(x => x.Cp)
+                            .FirstOrDefault().Cp;
+        }
 
         public async Task ExportPokemonToCSV(PlayerData player, string filename = "PokemonList.csv")
         {
@@ -600,6 +607,8 @@ namespace PokemonGo.RocketAPI.Rpc
                 }
             }
         }
+        #endregion
+
         #endregion
 
         #region Eggs Tasks
