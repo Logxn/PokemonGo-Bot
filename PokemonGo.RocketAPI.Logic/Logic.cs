@@ -788,17 +788,22 @@ namespace PokemonGo.RocketAPI.Logic
                 snipokemonIds = id;
 
                 Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "Trying to capture " + id + " at " + coord.Latitude + " / " + coord.Longitude);
+                Logger.ColoredConsoleWrite(ConsoleColor.Red, $"(SNIPING) Current Loc: {ClientSettings.DefaultLatitude } / { ClientSettings.DefaultLongitude}");
 
                 var result = objClient.Player.UpdatePlayerLocation(coord.Latitude, coord.Longitude, ClientSettings.DefaultAltitude).Result;
+                Logger.ColoredConsoleWrite(ConsoleColor.Red, $"(SNIPING) Destination: {coord.Latitude} / {coord.Longitude}");
 
                 Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Went to sniping location. Waiting for Pokemon to appear...");
 
+                Logger.ColoredConsoleWrite(ConsoleColor.Red, $"(SNIPING) Waiting {ClientSettings.secondsSnipe} seconds");
                 RandomHelper.RandomSleep(secondsToWait*1000, secondsToWait*1100);
+                Logger.ColoredConsoleWrite(ConsoleColor.Red, $"(SNIPING) Waited {ClientSettings.secondsSnipe} seconds");
 
                 stateSniper = true;
                 sniperReturn = false;
 
                 ExecuteCatchAllNearbyPokemons();
+                Logger.ColoredConsoleWrite(ConsoleColor.Red, "(SNIPING) Loc after Snipe func: " + ClientSettings.DefaultLatitude + " / " + ClientSettings.DefaultLongitude);
 
                 stateSniper = false;
 
@@ -941,6 +946,7 @@ namespace PokemonGo.RocketAPI.Logic
             ClientSettings.ManualSnipePokemonID = null;
             ClientSettings.ManualSnipePokemonLocation = null;
             ClientSettings.secondsSnipe = 2;
+            ClientSettings.triesSnipe = 1;
 
             #endregion
 
@@ -1668,8 +1674,23 @@ namespace PokemonGo.RocketAPI.Logic
             //bypass catching pokemon if disabled
             if (ClientSettings.CatchPokemon || (ClientSettings.SnipePokemon && stateSniper))
             {
+                
                 if (mapObjectsResponse == null)
+                {
                     mapObjectsResponse = objClient.Map.GetMapObjects().Result.Item1;
+                    if (stateSniper){
+                        var tries = 1;
+                        var pokemonsInSnipeMode = mapObjectsResponse.MapCells.SelectMany(i => i.CatchablePokemons);
+                        Logger.ColoredConsoleWrite(ConsoleColor.Red, $"(SNIPING) - try {tries}");
+                        while (!pokemonsInSnipeMode.Any() && (tries < ClientSettings.triesSnipe)){
+                            Logger.ColoredConsoleWrite(ConsoleColor.Red, $"(SNIPING) -No Pokemon Found!");
+                            mapObjectsResponse = objClient.Map.GetMapObjects().Result.Item1;
+                            pokemonsInSnipeMode = mapObjectsResponse.MapCells.SelectMany(i => i.CatchablePokemons);
+                            tries ++;
+                            Logger.ColoredConsoleWrite(ConsoleColor.Red, $"(SNIPING) - try {tries}");
+                        }
+                    }
+                }
                 var pokemons = mapObjectsResponse.MapCells.SelectMany(i => i.CatchablePokemons).OrderBy(i => LocationUtils.CalculateDistanceInMeters(objClient.CurrentLatitude, objClient.CurrentLongitude, i.Latitude, i.Longitude));
 
                 if(ClientSettings.EnableVerboseLogging)
@@ -1691,6 +1712,7 @@ namespace PokemonGo.RocketAPI.Logic
                     if (stateSniper)
                     {
                         Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "No Pokemon Found!");
+                        var result = objClient.Player.UpdatePlayerLocation(ClientSettings.DefaultLatitude, ClientSettings.DefaultLongitude, ClientSettings.DefaultAltitude).Result;
                     }
                 }
 
@@ -2714,6 +2736,9 @@ private int GetGymLevel(long value)
             return ret;
         }
 
+        // To store incubators with eggs
+        private static List<IncubatorUsage> rememberedIncubators = new List<IncubatorUsage>();
+        
         private void StartIncubation()
         {
             try
@@ -2732,8 +2757,8 @@ private int GetGymLevel(long value)
 
                 var kmWalked = stats.KmWalked;
 
-                var rememberedIncubatorsFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory + "\\Configs", "incubators.json");
-                var rememberedIncubators = GetRememberedIncubators(rememberedIncubatorsFilePath);
+                //var rememberedIncubatorsFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory + "\\Configs", "incubators.json");
+                //var rememberedIncubators = GetRememberedIncubators(rememberedIncubatorsFilePath);
 
                 var logPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Logs");
                 var logs = Path.Combine(logPath, "EggLog.txt");
@@ -2809,7 +2834,9 @@ private int GetGymLevel(long value)
                 }
 
                 if (!newRememberedIncubators.SequenceEqual(rememberedIncubators))
-                    SaveRememberedIncubators(newRememberedIncubators, rememberedIncubatorsFilePath);
+                    rememberedIncubators = newRememberedIncubators;
+                    //SaveRememberedIncubators(newRememberedIncubators, rememberedIncubatorsFilePath);
+                    
             }
             catch (Exception e)
             {

@@ -770,6 +770,11 @@ namespace PokemonGo.RocketAPI.Console
             get { return ManualSnipePokemon.secondsSnipe; }
             set { ManualSnipePokemon.secondsSnipe = value; }
         }
+        public int triesSnipe
+        {
+            get { return ManualSnipePokemon.secondsSnipe; }
+            set { ManualSnipePokemon.secondsSnipe = value; }
+        }
         public GeoCoordinate ManualSnipePokemonLocation
         {
             get { return ManualSnipePokemon.Location; }

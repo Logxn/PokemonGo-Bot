@@ -42,6 +42,8 @@ namespace PokemonGo.RocketAPI.Console
         private System.Windows.Forms.LinkLabel linkPokezz;
         private System.Windows.Forms.NumericUpDown nudSecondsSnipe;
         private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.NumericUpDown nudTriesSnipe;
         
         /// <summary>
         /// Disposes resources used by the control.
@@ -93,11 +95,14 @@ namespace PokemonGo.RocketAPI.Console
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.nudSecondsSnipe = new System.Windows.Forms.NumericUpDown();
             this.label8 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
+            this.nudTriesSnipe = new System.Windows.Forms.NumericUpDown();
             this.groupBox23.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PokemonImage)).BeginInit();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudSecondsSnipe)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudTriesSnipe)).BeginInit();
             this.SuspendLayout();
             // 
             // ForceAutoSnipe
@@ -395,9 +400,9 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // nudSecondsSnipe
             // 
-            this.nudSecondsSnipe.Location = new System.Drawing.Point(321, 391);
+            this.nudSecondsSnipe.Location = new System.Drawing.Point(349, 371);
             this.nudSecondsSnipe.Maximum = new decimal(new int[] {
-            60,
+            600,
             0,
             0,
             0});
@@ -418,15 +423,48 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // label8
             // 
-            this.label8.Location = new System.Drawing.Point(198, 393);
+            this.label8.Location = new System.Drawing.Point(226, 372);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(117, 17);
+            this.label8.Size = new System.Drawing.Size(117, 20);
             this.label8.TabIndex = 87;
             this.label8.Text = "Secons to wait there:";
+            // 
+            // label9
+            // 
+            this.label9.Location = new System.Drawing.Point(201, 399);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(142, 17);
+            this.label9.TabIndex = 89;
+            this.label9.Text = "Num Tries Finding Enconter:";
+            // 
+            // nudTriesSnipe
+            // 
+            this.nudTriesSnipe.Location = new System.Drawing.Point(349, 397);
+            this.nudTriesSnipe.Maximum = new decimal(new int[] {
+            300,
+            0,
+            0,
+            0});
+            this.nudTriesSnipe.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.nudTriesSnipe.Name = "nudTriesSnipe";
+            this.nudTriesSnipe.Size = new System.Drawing.Size(46, 20);
+            this.nudTriesSnipe.TabIndex = 88;
+            this.nudTriesSnipe.Value = new decimal(new int[] {
+            3,
+            0,
+            0,
+            0});
+            this.nudTriesSnipe.ValueChanged += new System.EventHandler(this.nudTriesSnipe_ValueChanged);
             // 
             // SniperPanel
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
+            this.Controls.Add(this.label9);
+            this.Controls.Add(this.nudTriesSnipe);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.nudSecondsSnipe);
             this.Controls.Add(this.groupBox2);
@@ -449,6 +487,7 @@ namespace PokemonGo.RocketAPI.Console
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudSecondsSnipe)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudTriesSnipe)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
