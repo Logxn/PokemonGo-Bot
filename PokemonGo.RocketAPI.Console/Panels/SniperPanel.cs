@@ -109,9 +109,9 @@ namespace PokemonGo.RocketAPI.Console
                 var lng = double.Parse(array[1].Trim(), CultureInfo.InvariantCulture);
                 ManualSnipePokemon.Location = new GeoCoordinate(lat, lng);
             }
-            catch
+            catch (Exception ex1)
             {
-                //do nothing
+                Logger.ColoredConsoleWrite(ConsoleColor.Red, ex1.ToString());
             }
             if (ManualSnipePokemon.Location != null)
                 SnipeMe.Enabled = true;
@@ -126,7 +126,7 @@ namespace PokemonGo.RocketAPI.Console
             Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "Manual Snipe Triggered! We'll stop farming and go catch the pokemon ASAP");
             ManualSnipePokemon.ID = id;
             SnipeInfo.Text = "";
-            Globals.ForceSnipe = true;            
+            Globals.ForceSnipe = true;
             ManualSnipePokemon.secondsSnipe = (int) nudSecondsSnipe.Value;
             ManualSnipePokemon.triesSnipe = (int) nudTriesSnipe.Value;
         }

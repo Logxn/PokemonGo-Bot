@@ -151,6 +151,10 @@
     <Compile Include="Components\LabelCombo.Designer.cs">
       <DependentUpon>LabelCombo.cs</DependentUpon>
     </Compile>
+    <Compile Include="Components\LabelText.cs" />
+    <Compile Include="Components\LabelText.Designer.cs">
+      <DependentUpon>LabelText.cs</DependentUpon>
+    </Compile>
     <Compile Include="ControlExtensions.cs" />
     <Compile Include="Encryption.cs" />
     <Compile Include="GameAspectSimulator.cs">
@@ -288,6 +292,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Components\LabelCombo.resx">
       <DependentUpon>LabelCombo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Components\LabelText.resx">
+      <DependentUpon>LabelText.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GameAspectSimulator.resx">
       <DependentUpon>GameAspectSimulator.cs</DependentUpon>
