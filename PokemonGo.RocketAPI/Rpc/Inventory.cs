@@ -51,7 +51,9 @@ namespace PokemonGo.RocketAPI.Rpc
             if (forceRequest)
             {
                 // If forceRequest is TRUE we make the call
-                return await PostProtoPayload<Request, GetInventoryResponse>(RequestType.GetInventory, new GetInventoryMessage()).ConfigureAwait(false);
+                _lastInventoryRequest = DateTime.UtcNow;
+                _cachedInventory = await PostProtoPayload<Request, GetInventoryResponse>(RequestType.GetInventory, new GetInventoryMessage()).ConfigureAwait(false);
+                return _cachedInventory;
             }
             else
             {
@@ -64,6 +66,7 @@ namespace PokemonGo.RocketAPI.Rpc
                 {
                     // If forceRequest is default/FALSE and last request made more than _minSecondsBetweenInventoryCalls seconds ago, 
                     // we make the call and also update _cachedInventory
+                    _lastInventoryRequest = DateTime.UtcNow;
                     _cachedInventory = await PostProtoPayload<Request, GetInventoryResponse>(RequestType.GetInventory, new GetInventoryMessage()).ConfigureAwait(false);
                     return _cachedInventory;
                 }
@@ -352,11 +355,12 @@ namespace PokemonGo.RocketAPI.Rpc
             return await PostProtoPayload<Request, ReleasePokemonResponse>(RequestType.ReleasePokemon, message).ConfigureAwait(false);
         }
 
-        public async Task<ReleasePokemonResponse> TransferPokemon(List<ulong> pokemonId) // Transfer a list of pokemon
+        public async Task<ReleasePokemonResponse> TransferPokemon(List<ulong> pokemonId) // Transfer a list of pokemon (BULK Transfer)
         {
             var message = new ReleasePokemonMessage { };
 
-            // Waiting for PROTOS Update
+            message.PokemonIds.AddRange(pokemonId);
+
             return await PostProtoPayload<Request, ReleasePokemonResponse>(RequestType.ReleasePokemon, message).ConfigureAwait(false);
         }
 

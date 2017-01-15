@@ -1721,6 +1721,7 @@ namespace PokemonGo.RocketAPI.Logic
                     // Do Catch here
                     await CatchPokemon(pokemon.EncounterId, pokemon.SpawnPointId, pokemon.PokemonId, pokemon.Longitude, pokemon.Latitude).ConfigureAwait(false);
                 }
+                client.Map.GetMapObjects(true).Wait(); //force Map Objects Update
             }
         }
 
@@ -2706,6 +2707,8 @@ namespace PokemonGo.RocketAPI.Logic
             return ret;
         }
 
+        private static List<IncubatorUsage> rememberedIncubators = new List<IncubatorUsage>();
+
         private async Task StartIncubation()
         {
             try
@@ -2724,9 +2727,6 @@ namespace PokemonGo.RocketAPI.Logic
 
                 var kmWalked = stats.KmWalked;
 
-                var rememberedIncubatorsFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory + "\\Configs", "incubators.json");
-                var rememberedIncubators = GetRememberedIncubators(rememberedIncubatorsFilePath);
-
                 var logPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Logs");
                 var logs = Path.Combine(logPath, "EggLog.txt");
                 var date = DateTime.Now.ToString();
@@ -2734,13 +2734,11 @@ namespace PokemonGo.RocketAPI.Logic
                 var unusedEggsBasicInc = eggsHatchingAllowedBasicInc(unusedEggs); 
                 unusedEggs = eggsHatchingAllowed(unusedEggs);
                 
-
                 foreach (var incubator in rememberedIncubators)
                 {
                     var hatched = pokemons.FirstOrDefault(x => !x.IsEgg && x.Id == incubator.PokemonId);
                     if (hatched == null) continue;
 
-                    //Hier diggi
                     if (ClientSettings.logEggs)
                     {
                         File.AppendAllText(logs, $"[{date}] - Egg hatched and we got a {hatched.PokemonId} (CP: {hatched.Cp} | MaxCP: {PokemonInfo.CalculateMaxCP(hatched)} | Level: {PokemonInfo.GetLevel(hatched)} | IV: {PokemonInfo.CalculatePokemonPerfection(hatched).ToString("0.00")}% )" + Environment.NewLine);
@@ -2801,31 +2799,33 @@ namespace PokemonGo.RocketAPI.Logic
                 }
 
                 if (!newRememberedIncubators.SequenceEqual(rememberedIncubators))
-                    SaveRememberedIncubators(newRememberedIncubators, rememberedIncubatorsFilePath);
+                    rememberedIncubators = newRememberedIncubators;
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
                 // Leave this here: Logger.Error(e.StackTrace);
-                Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, "Egg: We dont have any eggs we could incubate.");
+                //Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, "Egg: We dont have any eggs we could incubate.");
+                Logger.ColoredConsoleWrite(ConsoleColor.Red, "Error: Logic.cs - StartIncubation()");
+                Logger.ColoredConsoleWrite(ConsoleColor.Red, ex.Message);
             }
         }
 
-        private static List<IncubatorUsage> GetRememberedIncubators(string filePath)
-        {
-            Directory.CreateDirectory(Path.GetDirectoryName(filePath));
+        //private static List<IncubatorUsage> GetRememberedIncubators(string filePath)
+        //{
+        //    Directory.CreateDirectory(Path.GetDirectoryName(filePath));
 
-            if (File.Exists(filePath))
-                return JsonConvert.DeserializeObject<List<IncubatorUsage>>(File.ReadAllText(filePath, Encoding.UTF8));
+        //    if (File.Exists(filePath))
+        //        return JsonConvert.DeserializeObject<List<IncubatorUsage>>(File.ReadAllText(filePath, Encoding.UTF8));
 
-            return new List<IncubatorUsage>(0);
-        }
+        //    return new List<IncubatorUsage>(0);
+        //}
 
-        private static void SaveRememberedIncubators(List<IncubatorUsage> incubators, string filePath)
-        {
-            Directory.CreateDirectory(Path.GetDirectoryName(filePath));
+        //private static void SaveRememberedIncubators(List<IncubatorUsage> incubators, string filePath)
+        //{
+        //    Directory.CreateDirectory(Path.GetDirectoryName(filePath));
 
-            File.WriteAllText(filePath, JsonConvert.SerializeObject(incubators), Encoding.UTF8);
-        }
+        //    File.WriteAllText(filePath, JsonConvert.SerializeObject(incubators), Encoding.UTF8);
+        //}
 
         private class IncubatorUsage : IEquatable<IncubatorUsage>
         {

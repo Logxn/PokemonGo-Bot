@@ -169,6 +169,7 @@ namespace PokemonGo.RocketAPI.Console
             {
                 if (Globals.simulatedPGO)
                 {
+
                     Application.Run( new GameAspectSimulator());
                 }
                 else
