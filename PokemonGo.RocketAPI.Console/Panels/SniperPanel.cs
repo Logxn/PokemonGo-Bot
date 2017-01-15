@@ -128,6 +128,7 @@ namespace PokemonGo.RocketAPI.Console
             SnipeInfo.Text = "";
             Globals.ForceSnipe = true;            
             ManualSnipePokemon.secondsSnipe = (int) nudSecondsSnipe.Value;
+            ManualSnipePokemon.triesSnipe = (int) nudTriesSnipe.Value;
         }
         
         public void Execute()

@@ -147,6 +147,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Components\LabelCombo.cs" />
+    <Compile Include="Components\LabelCombo.Designer.cs">
+      <DependentUpon>LabelCombo.cs</DependentUpon>
+    </Compile>
     <Compile Include="ControlExtensions.cs" />
     <Compile Include="Encryption.cs" />
     <Compile Include="GameAspectSimulator.cs">
@@ -227,6 +231,10 @@
     <Compile Include="Panels\SniperPanel.Designer.cs">
       <DependentUpon>SniperPanel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Panels\TutorialPanel.cs" />
+    <Compile Include="Panels\TutorialPanel.Designer.cs">
+      <DependentUpon>TutorialPanel.cs</DependentUpon>
+    </Compile>
     <Compile Include="PokeImgManager.cs" />
     <Compile Include="Pokemons.cs">
       <SubType>Form</SubType>
@@ -278,6 +286,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Components\LabelCombo.resx">
+      <DependentUpon>LabelCombo.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GameAspectSimulator.resx">
       <DependentUpon>GameAspectSimulator.cs</DependentUpon>
     </EmbeddedResource>
@@ -310,6 +321,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Panels\SniperPanel.resx">
       <DependentUpon>SniperPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Panels\TutorialPanel.resx">
+      <DependentUpon>TutorialPanel.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Pokemons.resx">
       <DependentUpon>Pokemons.cs</DependentUpon>
@@ -433,6 +447,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="bin\Release\" />
+    <Folder Include="Components" />
     <Folder Include="Properties\DataSources\" />
   </ItemGroup>
   <ItemGroup>

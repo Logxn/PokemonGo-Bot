@@ -214,6 +214,7 @@ namespace PokemonGo.RocketAPI.Console
             // SnipePokemonPokeCom
             // 
             this.SnipePokemonPokeCom.AutoSize = true;
+            this.SnipePokemonPokeCom.Enabled = false;
             this.SnipePokemonPokeCom.Location = new System.Drawing.Point(4, 369);
             this.SnipePokemonPokeCom.Margin = new System.Windows.Forms.Padding(4);
             this.SnipePokemonPokeCom.Name = "SnipePokemonPokeCom";
