@@ -768,13 +768,15 @@ namespace PokemonGo.RocketAPI.Logic
         {
             try
             {
-                Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "Trying to capture " + p._pokeId + " at " + p._lat + " / " + p._lng);
+                Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "(SNIPING) Trying to capture " + p._pokeId + " at " + p._lat + " / " + p._lng);
 
                 var result = objClient.Player.UpdatePlayerLocation(p._lat, p._lng, ClientSettings.DefaultAltitude).Result;
 
-                Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Went to sniping location. Waiting for Pokemon to appear...");
+                Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "(SNIPING) Went to sniping location. Waiting for Pokemon to appear...");
+                Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"(SNIPING) Waiting {ClientSettings.secondsSnipe} seconds");
 
                 RandomHelper.RandomSleep(ClientSettings.secondsSnipe*1000, ClientSettings.secondsSnipe*1100);
+                
 
                 stateSniper = true;
 
@@ -798,12 +800,12 @@ namespace PokemonGo.RocketAPI.Logic
                 
                 GeoCoordinate validCoord = new GeoCoordinate(coord.Latitude,coord.Longitude);
 
-                Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"(SNIPING) Trying to capture {id}  at { coord.Latitude } / {coord.Longitude}");
+                Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"(SNIPING) Trying to capture {id}  at { coord.Latitude } / {coord.Longitude}");
                 var result = objClient.Player.UpdatePlayerLocation(coord.Latitude, coord.Longitude, ClientSettings.DefaultAltitude).Result;
 
                 Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "(SNIPING) Went to sniping location. Waiting for Pokemon to appear...");
+                Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"(SNIPING) Waiting {secondsToWait} seconds");
                 RandomHelper.RandomSleep(secondsToWait*1000, secondsToWait*1100);
-                Logger.ColoredConsoleWrite(ConsoleColor.Red, $"(SNIPING) Waited {secondsToWait} seconds");
 
                 stateSniper = true;
 
@@ -1689,14 +1691,14 @@ namespace PokemonGo.RocketAPI.Logic
                     if (stateSniper){
                         var tries = 1;
                         var pokemonsInSnipeMode = mapObjectsResponse.MapCells.SelectMany(i => i.CatchablePokemons);
-                        Logger.ColoredConsoleWrite(ConsoleColor.Red, $"(SNIPING) Try {tries} of {ClientSettings.triesSnipe}");
+                        Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"(SNIPING) Try {tries} of {ClientSettings.triesSnipe}");
                         while (!pokemonsInSnipeMode.Any() && (tries < ClientSettings.triesSnipe)){
-                            Logger.ColoredConsoleWrite(ConsoleColor.Red, $"(SNIPING) No Pokemon Found!");
-                            //RandomHelper.RandomSleep(ClientSettings.secondsSnipe*1000, ClientSettings.secondsSnipe*1100);
-                            mapObjectsResponse = objClient.Map.GetMapObjects().Result.Item1;
+                            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"(SNIPING) No Pokemon Found!");
+                            RandomHelper.RandomSleep(ClientSettings.secondsSnipe*1000, ClientSettings.secondsSnipe*1100);
+                            mapObjectsResponse = objClient.Map.GetMapObjects(true).Result.Item1;
                             pokemonsInSnipeMode = mapObjectsResponse.MapCells.SelectMany(i => i.CatchablePokemons);
                             tries ++;
-                            Logger.ColoredConsoleWrite(ConsoleColor.Red, $"(SNIPING) Try {tries} of {ClientSettings.triesSnipe}");
+                            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"(SNIPING) Try {tries} of {ClientSettings.triesSnipe}");
                         }
                     }
                 }
