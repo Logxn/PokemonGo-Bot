@@ -27,7 +27,6 @@ using PokemonGo.RocketAPI.Logic;
 using PokemonGo.RocketApi.PokeMap.DataModel;
 using System.IO;
 using System.Text;
-using Newtonsoft.Json;
 using POGOProtos.Map.Pokemon;
 
 namespace PokemonGo.RocketAPI.Logic
@@ -93,7 +92,6 @@ namespace PokemonGo.RocketAPI.Logic
         #region Snipe Variables
         private readonly PokeSnipers pokeSnipers;
         private bool stateSniper;
-        private bool sniperReturn;
         public string Lure = "lureId";
         public PokemonId Luredpokemoncaught = PokemonId.Articuno;
         private PokemonId snipokemonIds;
@@ -300,9 +298,9 @@ namespace PokemonGo.RocketAPI.Logic
 
                             Telegram.getClient().StartReceiving();
                         }
-                        catch (Exception)
+                        catch (Exception ex1)
                         {
-                            //TODO: Handle the exception; log then throw error
+                        	Logger.ExceptionInfo( ex1.ToString());
                         }
                     }
 
@@ -418,7 +416,7 @@ namespace PokemonGo.RocketAPI.Logic
 
             var profile = client.Player.GetPlayer().Result;
             var inventory = client.Inventory.GetInventory().Result;
-            var playerStats = client.Inventory.GetPlayerStats(inventory);  // For dont repeat inventory request
+            var playerStats = client.Inventory.GetPlayerStats(inventory);
             var stats = playerStats.First();
             var expneeded = stats.NextLevelXp - stats.PrevLevelXp - StringUtils.getExpDiff(stats.Level);
             var curexp = stats.Experience - stats.PrevLevelXp - StringUtils.getExpDiff(stats.Level);
@@ -438,7 +436,7 @@ namespace PokemonGo.RocketAPI.Logic
             }
 
             var items = client.Inventory.GetItems(inventory); // For dont repeat inventory request
-            var pokemonCount = client.Inventory.getPokemonCount().Result;
+            var pokemonCount = client.Inventory.GetPokemons().Result.Count();
             var eggCount = client.Inventory.GetEggsCount(inventory);  // For dont repeat inventory request
             var maxPokemonStorage = profile.PlayerData.MaxPokemonStorage;
             var maxItemStorage = profile.PlayerData.MaxItemStorage;
@@ -779,7 +777,6 @@ namespace PokemonGo.RocketAPI.Logic
                 RandomHelper.RandomSleep(ClientSettings.secondsSnipe*1000, ClientSettings.secondsSnipe*1100);
 
                 stateSniper = true;
-                sniperReturn = false;
 
                 ExecuteCatchAllNearbyPokemons();
 
@@ -809,7 +806,6 @@ namespace PokemonGo.RocketAPI.Logic
                 Logger.ColoredConsoleWrite(ConsoleColor.Red, $"(SNIPING) Waited {secondsToWait} seconds");
 
                 stateSniper = true;
-                sniperReturn = false;
 
                 ExecuteCatchAllNearbyPokemons();
                 
@@ -1708,7 +1704,7 @@ namespace PokemonGo.RocketAPI.Logic
 
                 if(ClientSettings.EnableVerboseLogging)
                 {
-                    Logger.ColoredConsoleWrite(ConsoleColor.DarkBlue, $"(DEBUG) - Pokemons: {pokemons.Count()}");
+                    Logger.ColoredConsoleWrite(ConsoleColor.DarkBlue, $"(DEBUG) - Pokemons Catchable: {pokemons.Count()}");
                 }
 
                 if (pokemons.Any())
@@ -1769,6 +1765,8 @@ namespace PokemonGo.RocketAPI.Logic
                     // Do Catch here
                     CatchPokemon(pokemon.EncounterId, pokemon.SpawnPointId, pokemon.PokemonId, pokemon.Longitude, pokemon.Latitude);
                 }
+                client.Map.GetMapObjects(true).Wait(); //force Map Objects Update
+                client.Inventory.GetInventory(true).Wait(); //force Inventory Update
                 return true;
             }
             return false;
@@ -1952,7 +1950,6 @@ private int GetGymLevel(long value)
                         ClientSettings.DefaultLongitude,
                         ClientSettings.DefaultAltitude).Result;
 
-                    sniperReturn = true;
                 }
             }
 
@@ -2288,7 +2285,7 @@ private int GetGymLevel(long value)
 
                     if (ClientSettings.bLogEvolve)
                     {
-                        File.AppendAllText(evolvelog, $"[{date}] - Evolved Pokemon: {getPokemonName} | CP {cp} | Perfection {calcPerf}% | => to {getEvolvedName} | CP: {getEvolvedCP} | XP Reward: {getXP}xp");
+                        File.AppendAllText(evolvelog, $"[{date}] - Evolved Pokemon: {getPokemonName} | CP {cp} | Perfection {calcPerf}% | => to {getEvolvedName} | CP: {getEvolvedCP} | XP Reward: {getXP}xp" + Environment.NewLine);
                     }
                     Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Evolved Pokemon: {getPokemonName} | CP {cp} | Perfection {calcPerf}% | => to {getEvolvedName} | CP: {getEvolvedCP} | XP Reward: {getXP}xp", LogLevel.Info);
                     BotStats.AddExperience(evolvePokemonOutProto.ExperienceAwarded);
@@ -2303,7 +2300,7 @@ private int GetGymLevel(long value)
                     {
                         if (ClientSettings.bLogEvolve)
                         {
-                            File.AppendAllText(evolvelog, $"[{date}] - Failed to evolve {pokemon.PokemonId}. EvolvePokemonOutProto.Result was {evolvePokemonOutProto.Result}");
+                            File.AppendAllText(evolvelog, $"[{date}] - Failed to evolve {pokemon.PokemonId}. EvolvePokemonOutProto.Result was {evolvePokemonOutProto.Result}" + Environment.NewLine);
                         }
                         Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Failed to evolve {pokemon.PokemonId}. EvolvePokemonOutProto.Result was {evolvePokemonOutProto.Result}", LogLevel.Info);
                         evolvecount++;
@@ -2762,9 +2759,6 @@ private int GetGymLevel(long value)
 
                 var kmWalked = stats.KmWalked;
 
-                //var rememberedIncubatorsFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory + "\\Configs", "incubators.json");
-                //var rememberedIncubators = GetRememberedIncubators(rememberedIncubatorsFilePath);
-
                 var logPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Logs");
                 var logs = Path.Combine(logPath, "EggLog.txt");
                 var date = DateTime.Now.ToString();
@@ -2772,13 +2766,11 @@ private int GetGymLevel(long value)
                 var unusedEggsBasicInc = eggsHatchingAllowedBasicInc(unusedEggs); 
                 unusedEggs = eggsHatchingAllowed(unusedEggs);
                 
-
                 foreach (var incubator in rememberedIncubators)
                 {
                     var hatched = pokemons.FirstOrDefault(x => !x.IsEgg && x.Id == incubator.PokemonId);
                     if (hatched == null) continue;
 
-                    //Hier diggi
                     if (ClientSettings.logEggs)
                     {
                         File.AppendAllText(logs, $"[{date}] - Egg hatched and we got a {hatched.PokemonId} (CP: {hatched.Cp} | MaxCP: {PokemonInfo.CalculateMaxCP(hatched)} | Level: {PokemonInfo.GetLevel(hatched)} | IV: {PokemonInfo.CalculatePokemonPerfection(hatched).ToString("0.00")}% )" + Environment.NewLine);
@@ -2814,12 +2806,15 @@ private int GetGymLevel(long value)
                         if (egg == null)
                             return;
 
-                        var response = objClient.Inventory.UseItemEggIncubator(incubator.Id, egg.Id).Result;
-                        try{
+                        var response = objClient.Inventory.UseItemEggIncubator(incubator.Id, egg.Id);
+                        try
+                        {
                             unusedEggs.Remove(egg);
                             unusedEggsBasicInc.Remove(egg);
-                        } catch (Exception e){
-
+                        }
+                        catch (Exception ex){
+                            Logger.ColoredConsoleWrite(ConsoleColor.Red, "Error: Logic.cs - StartIncubation()");
+                            Logger.ColoredConsoleWrite(ConsoleColor.Red, ex.Message);
                         }
                         newRememberedIncubators.Add(new IncubatorUsage { IncubatorId = incubator.Id, PokemonId = egg.Id });
                         Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, "Added Egg which needs " + egg.EggKmWalkedTarget + "km");
@@ -2840,32 +2835,13 @@ private int GetGymLevel(long value)
 
                 if (!newRememberedIncubators.SequenceEqual(rememberedIncubators))
                     rememberedIncubators = newRememberedIncubators;
-                    //SaveRememberedIncubators(newRememberedIncubators, rememberedIncubatorsFilePath);
-                    
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                // Leave this here: Logger.Error(e.StackTrace);
-                Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, "Egg: We dont have any eggs we could incubate.");
+                Logger.ColoredConsoleWrite(ConsoleColor.Red, ex.Message);
             }
         }
 
-        private static List<IncubatorUsage> GetRememberedIncubators(string filePath)
-        {
-            Directory.CreateDirectory(Path.GetDirectoryName(filePath));
-
-            if (File.Exists(filePath))
-                return JsonConvert.DeserializeObject<List<IncubatorUsage>>(File.ReadAllText(filePath, Encoding.UTF8));
-
-            return new List<IncubatorUsage>(0);
-        }
-
-        private static void SaveRememberedIncubators(List<IncubatorUsage> incubators, string filePath)
-        {
-            Directory.CreateDirectory(Path.GetDirectoryName(filePath));
-
-            File.WriteAllText(filePath, JsonConvert.SerializeObject(incubators), Encoding.UTF8);
-        }
 
         private class IncubatorUsage : IEquatable<IncubatorUsage>
         {
@@ -2916,9 +2892,11 @@ private int GetGymLevel(long value)
                         Logger.AddLog("Read invalid Date");
                     }
                 }
-                catch (ArgumentOutOfRangeException e)
+                catch (ArgumentOutOfRangeException ex)
                 {
                     Logger.ColoredConsoleWrite(ConsoleColor.Red, "Read invalid Date");
+                    Logger.ColoredConsoleWrite(ConsoleColor.Red, "Error: Logic.cs - ShowNearbyPokemonRun()");
+                    Logger.ColoredConsoleWrite(ConsoleColor.Red, ex.Message);
                 }
                 toShow.Add(poke2);
             }

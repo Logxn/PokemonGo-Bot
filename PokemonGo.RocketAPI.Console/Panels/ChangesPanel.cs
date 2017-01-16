@@ -6,51 +6,33 @@
  * 
  * To change this template use Tools | Options | Coding | Edit Standard Headers.
  */
-using System.Globalization;
-using POGOProtos.Data;
-using POGOProtos.Enums;
-using POGOProtos.Networking.Responses;
-using PokemonGo.RocketAPI.Console.PokeData;
-using PokemonGo.RocketAPI.Enums;
-using PokemonGo.RocketAPI.Helpers;
-using System;
-using System.Threading;
-using System.Data;
-using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Reflection;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using PokemonGo.RocketAPI.Logic.Utils;
-using System.Collections.Generic;
-using static PokemonGo.RocketAPI.Console.GUI;
-using POGOProtos.Inventory.Item;
-using GoogleMapsApi.Entities.Elevation.Request;
-using GoogleMapsApi;
-using GoogleMapsApi.Entities.Common;
-using GoogleMapsApi.Entities.Elevation.Response;
 using GMap.NET;
 using GMap.NET.MapProviders;
+using GoogleMapsApi;
+using GoogleMapsApi.Entities.Common;
+using GoogleMapsApi.Entities.Elevation.Request;
+using GoogleMapsApi.Entities.Elevation.Response;
 using Newtonsoft.Json;
+using System;
 using System.Collections.ObjectModel;
+using System.Data;
+using System.Globalization;
+using System.IO;
+using System.Linq;
+using System.Windows.Forms;
+using static PokemonGo.RocketAPI.Console.GUI;
 namespace PokemonGo.RocketAPI.Console
 {
-    /// <summary>
-    /// Description of ChangesPanel.
-    /// </summary>
-    /// NOTES: Use .Tag property of the components to set the name of the related global variable 
-    /// NOTES: Use .Tag property of the components to set the name of the related global variable 
-    /// NOTES: Use .Tag property of the components to set the name of the related global variable 
     public partial class ChangesPanel : UserControl
     {
         const ConsoleColor tryCatchColor = ConsoleColor.DarkYellow;
         private bool enableEvents = false;
+
         public ChangesPanel()
         {
             InitializeComponent();
         }
+
         void CheckBoxes_CheckedChanged(object sender, EventArgs e)
         {
             if (! enableEvents)
@@ -61,13 +43,18 @@ namespace PokemonGo.RocketAPI.Console
             {
                 globalName = castedSender.Name.ToLower().Replace("CheckBox_","");
             }
-            try {
+            try
+            {
                 typeof(Globals).GetField(globalName).SetValue(null, castedSender.Checked);
                 Logger.ColoredConsoleWrite(tryCatchColor,castedSender.Text+ " value changed");
-            } catch (Exception ex) {
-                Logger.AddLog("[Exception]: " + ex.ToString());
+            }
+            catch (Exception ex)
+            {
+                Logger.ColoredConsoleWrite(ConsoleColor.Red, "Error: ChangesPanel.cs - CheckBoxes_CheckedChanged()");
+                Logger.ColoredConsoleWrite(ConsoleColor.Red, ex.Message);
             }
         }
+
         void CheckBox_pauseAtEvolve1_2CheckedChanged(object sender, EventArgs e)
         {
             if (! enableEvents)
@@ -76,6 +63,7 @@ namespace PokemonGo.RocketAPI.Console
             Globals.pauseAtEvolve2 = checkBox_pauseAtEvolve1_2.Checked;
             Logger.ColoredConsoleWrite(tryCatchColor,((CheckBox)sender).Text+ " value changed");
         }
+
         void NumRazzPercentValueChanged(object sender, EventArgs e)
         {
             if (! enableEvents)
@@ -83,6 +71,7 @@ namespace PokemonGo.RocketAPI.Console
             Globals.razzberry_chance = ((double)((NumericUpDown)sender).Value) / 100;
             Logger.ColoredConsoleWrite(tryCatchColor,((NumericUpDown)sender).Text+ " value changed");
         }
+
         void NumericUpDown_DoubleValueChanged(object sender, EventArgs e)
         {
             if (! enableEvents)
@@ -100,6 +89,7 @@ namespace PokemonGo.RocketAPI.Console
                 Logger.AddLog("[Exception]: " + ex.ToString());
             }
         }
+
         void NumericUpDown_IntValueChanged(object sender, EventArgs e)
         {
             if (! enableEvents)
@@ -117,13 +107,21 @@ namespace PokemonGo.RocketAPI.Console
                 Logger.AddLog("[Exception]: " + ex.ToString());
             }
         }
+
+        /// <summary>
+        /// Search for an address in google maps and returns coordenates
+        /// </summary>
         void ButtonSearchClick(object sender, EventArgs e)
         {
-            var ret = FindLocation(textBox1.Text);
-            textBoxLatitude.Text = ret[0].ToString();
-            textBoxLongitude.Text = ret[1].ToString();
-          
+            GeoCoderStatusCode status;
+            var pos = GMapProviders.GoogleMap.GetPoint(textBoxAddressToSearch.Text, out status);
+            if (status == GeoCoderStatusCode.G_GEO_SUCCESS && pos != null)
+            {
+                textBoxLatitude.Text = pos.Value.Lat.ToString();
+                textBoxLongitude.Text = pos.Value.Lng.ToString();
+            }
         }
+
         void ButtonSetLocationClick(object sender, EventArgs e)
         {
             double lat = Globals.latitute;
@@ -190,6 +188,7 @@ namespace PokemonGo.RocketAPI.Console
             }
           
         }
+
         void buttonUpdateClick(object sender, EventArgs e)
         {
             var ActiveProfile = new Profile();
@@ -212,8 +211,8 @@ namespace PokemonGo.RocketAPI.Console
             string ProfilesString = JsonConvert.SerializeObject(_profiles);
             File.WriteAllText(@Program.accountProfiles, ProfilesString);
             MessageBox.Show("Current Configuration Saved as - " + ActiveProfile.ProfileName);
-          
         }
+
         public static double[] FindLocation(string address)
         {
             double[] ret = { 0.0, 0.0 };
@@ -227,7 +226,8 @@ namespace PokemonGo.RocketAPI.Console
             }
             return ret;
         }
-        void Button8Click(object sender, EventArgs e)
+
+        void ButtonReviseClick(object sender, EventArgs e)
         {
             try
             {
@@ -239,6 +239,7 @@ namespace PokemonGo.RocketAPI.Console
                 Logger.Write(ex.Message);
             }
         }
+
         private void DisplayLocationSelector()
         {
             LocationSelect locationSelector = new LocationSelect(false);
@@ -246,6 +247,7 @@ namespace PokemonGo.RocketAPI.Console
             textBoxLatitude.Text = Globals.latitute.ToString(CultureInfo.InvariantCulture);
             textBoxLongitude.Text = Globals.longitude.ToString(CultureInfo.InvariantCulture);
         }
+
         public void Execute(){
             enableEvents = false;
             //Walk Options

@@ -309,10 +309,9 @@ namespace PokemonGo.RocketAPI.Console
                     }
                 }
             }
-            catch (Exception e)
+            catch (Exception ex1)
             {
-                Logger.ColoredConsoleWrite(ConsoleColor.Gray, $"Exception catched");
-                //Execute(); <-- Makes a loop
+            	Logger.ExceptionInfo(ex1.ToString());
             }
         }
         private void EnabledButton(bool enabled, string reason = "")
@@ -554,43 +553,71 @@ namespace PokemonGo.RocketAPI.Console
             DialogResult dialogResult = MessageBox.Show("You clicked transfer. This can not be undone.", "Are you Sure?", MessageBoxButtons.YesNo);
             if (dialogResult == DialogResult.Yes)
             {
-                taskResponse resp = new taskResponse(false, string.Empty);
+                //taskResponse resp = new taskResponse(false, string.Empty);
+
+                ReleasePokemonResponse _response = new ReleasePokemonResponse();
+
+                //File.AppendAllText(logs, $"[{date}] - MANUAL - Trying to BULK transfer pokemons" + Environment.NewLine);
+                //Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "Bulk Transfer", LogLevel.Info);
+
+                var pokemonsToTransfer = new List<ulong>();
+
                 foreach (ListViewItem selectedItem in selectedItems)
                 {
-                    resp = transferPokemon((PokemonData)selectedItem.Tag).Result;
-                    if (resp.Status)
-                    {
-                        var pokemon = (PokemonData) selectedItem.Tag;
-                        File.AppendAllText(logs, $"[{date}] - MANUAL - Trying to transfer pokemon: {Logic.Utils.StringUtils.getPokemonNameByLanguage(ClientSettings, pokemon.PokemonId)}" + Environment.NewLine);
-                        PokemonListView.Items.Remove(selectedItem);
-                        transfered++;
-                        statusTexbox.Text = "Transfering..." + transfered;
-                        var perfection = PokemonInfo.CalculatePokemonPerfection(pokemon).ToString("0.00");
-                        Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Transfer {Logic.Utils.StringUtils.getPokemonNameByLanguage(ClientSettings, pokemon.PokemonId)} CP {pokemon.Cp} IV {perfection}", LogLevel.Info);
-                    }
-                    else
-                    {
-                        failed += resp.Message + " ";
-                    }
-                    Helpers.RandomHelper.RandomSleep(1000, 2000); // API 0.51 allows multiple transfers.
+                    var pokemon = (PokemonData)selectedItem.Tag;
+                    pokemonsToTransfer.Add(pokemon.Id);
+
+                    transfered++;
+
+                    File.AppendAllText(logs, $"[{date}] - MANUAL - Enqueuing to BULK transfer pokemon {transfered}/{total}: {Logic.Utils.StringUtils.getPokemonNameByLanguage(ClientSettings, pokemon.PokemonId)}" + Environment.NewLine);
+                    Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Enqueuing to BULK transfer pokemon {transfered}/{total}: {Logic.Utils.StringUtils.getPokemonNameByLanguage(ClientSettings, pokemon.PokemonId)} CP {pokemon.Cp} IV {PokemonInfo.CalculatePokemonPerfection(pokemon).ToString("0.00")}", LogLevel.Info);
+
+                    //statusTexbox.Text = "Transfering..." + transfered;
+                    PokemonListView.Items.Remove(selectedItem);
+
+                    //resp = transferPokemon((PokemonData)selectedItem.Tag).Result;
+                    //if (resp.Status)
+                    //{
+                    //    var pokemon = (PokemonData) selectedItem.Tag;
+                    //    File.AppendAllText(logs, $"[{date}] - MANUAL - Trying to transfer pokemon: {Logic.Utils.StringUtils.getPokemonNameByLanguage(ClientSettings, pokemon.PokemonId)}" + Environment.NewLine);
+                    //    PokemonListView.Items.Remove(selectedItem);
+                    //    transfered++;
+                    //    statusTexbox.Text = "Transfering..." + transfered;
+                    //    var perfection = PokemonInfo.CalculatePokemonPerfection(pokemon).ToString("0.00");
+                    //    Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Transfer {Logic.Utils.StringUtils.getPokemonNameByLanguage(ClientSettings, pokemon.PokemonId)} CP {pokemon.Cp} IV {perfection}", LogLevel.Info);
+                    //}
+                    //else
+                    //{
+                    //    failed += resp.Message + " ";
+                    //}
+                    //Helpers.RandomHelper.RandomSleep(1000, 2000); // API 0.51 allows multiple transfers.
                 }
-                if (failed != string.Empty)
-                {
+
+                _response = client.Inventory.TransferPokemon(pokemonsToTransfer).Result;
+                
+                if (_response.Result == ReleasePokemonResponse.Types.Result.Success)
+                { 
+                //if (failed != string.Empty)
+                //{
                     if (ClientSettings.logManualTransfer)
                     {
-                        File.AppendAllText(logs, $"[{date}] - MANUAL - Sucessfully transfered {transfered}/{total} Pokemons. Failed: {failed}" + Environment.NewLine);
+                        File.AppendAllText(logs, $"[{date}] - MANUAL - Sucessfully Bulk transfered {transfered}/{total} Pokemons. Failed: {failed}" + Environment.NewLine);
                     }
-                    MessageBox.Show("Succesfully transfered " + transfered + "/" + total + " Pokemons. Failed: " + failed, "Transfer status", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-                else
-                {
-                    if (ClientSettings.logManualTransfer)
-                    {
-                        File.AppendAllText(logs, $"[{date}] - MANUAL - Sucessfully transfered {transfered}/{total} Pokemons." + Environment.NewLine);
-                    }
-                    statusTexbox.Text = $"Succesfully transfered {transfered}/{total} Pokemons.";
+                    //    MessageBox.Show("Succesfully transfered " + transfered + "/" + total + " Pokemons. Failed: " + failed, "Transfer status", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    //}
+                    //else
+                    //{
+                    //    if (ClientSettings.logManualTransfer)
+                    //    {
+                    //        File.AppendAllText(logs, $"[{date}] - MANUAL - Sucessfully transfered {transfered}/{total} Pokemons." + Environment.NewLine);
+                    //    }
+                    Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Transfer Successful of {total} pokemons.", LogLevel.Info);
+                    statusTexbox.Text = $"Succesfully Bulk transfered {total} Pokemons.";
+                    Helpers.RandomHelper.RandomSleep(1000, 2000);
                 }
                 RefreshTitle();
+                client.Inventory.GetInventory(true).Wait(); // force refresh inventory
+
                 // Quarthy - We can continue walking
                 if (Globals.pauseAtEvolve)
                 {
