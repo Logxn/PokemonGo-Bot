@@ -54,8 +54,8 @@ namespace PokemonGo.RocketAPI.Console
             // The InitializeComponent() call is required for Windows Forms designer support.
             //
             InitializeComponent();            
-            LinkPokesniperCom.Links.Add(0,LinkPokesniperCom.Text.Length,"http://pokesnipers.com/");
-            linkRarespawns.Links.Add(0,linkRarespawns.Text.Length,"http://www.rarespawns.be/");
+            LinkPokedexsCom.Links.Add(0,LinkPokedexsCom.Text.Length,"https://pokedexs.com/");
+            linkpokegosnipers.Links.Add(0,linkpokegosnipers.Text.Length,"http://pokegosnipers.com/");
             linkPokezz.Links.Add(0,linkPokezz.Text.Length,"http://pokezz.com/");            
         }
         void SelectallNottoSnipe_CheckedChanged(object sender, EventArgs e)
@@ -94,42 +94,47 @@ namespace PokemonGo.RocketAPI.Console
           var pokemonImage = PokeImgManager.GetPokemonVeryLargeImage((PokemonId)comboBox1.SelectedValue);
            PokemonImage.Image = pokemonImage;
         }
-        
+
+        private GeoCoordinate splLatLngResult;
         void SnipeInfo_TextChanged(object sender, EventArgs e)
         {
-            SplitLatLng(SnipeInfo.Text);
+            splLatLngResult = SplitLatLng(SnipeInfo.Text);
+            SnipeMe.Enabled = (splLatLngResult != null);
         }
-        
-        void SplitLatLng(string latlng)
+
+        GeoCoordinate SplitLatLng(string latlng)
         {
-          try
+          if (latlng!="")
+            try
             {
                 var array = latlng.Split(',');
                 var lat = double.Parse(array[0].Trim(), CultureInfo.InvariantCulture);
                 var lng = double.Parse(array[1].Trim(), CultureInfo.InvariantCulture);
-                ManualSnipePokemon.Location = new GeoCoordinate(lat, lng);
+                return new GeoCoordinate(lat, lng);
             }
-            catch
+            catch (Exception ex1)
             {
-                //do nothing
+                Logger.ExceptionInfo( ex1.ToString());
             }
-            if (ManualSnipePokemon.Location != null)
-                SnipeMe.Enabled = true;
+          return null;
         }
-        
+
         void SnipeMe_Click(object sender, EventArgs e)
         {
-            SnipePoke((PokemonId)comboBox1.SelectedItem);
+            SnipePoke((PokemonId)comboBox1.SelectedItem, (int) nudSecondsSnipe.Value,(int) nudTriesSnipe.Value);
         }
-        void SnipePoke(PokemonId id)
+
+        void SnipePoke(PokemonId id, int secondsToWait, int numberOfTries)
         {
             Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "Manual Snipe Triggered! We'll stop farming and go catch the pokemon ASAP");
             ManualSnipePokemon.ID = id;
+            ManualSnipePokemon.Location = splLatLngResult;
+            ManualSnipePokemon.secondsSnipe = secondsToWait;
+            ManualSnipePokemon.triesSnipe = numberOfTries;
+            Globals.ForceSnipe = true;
             SnipeInfo.Text = "";
-            Globals.ForceSnipe = true;            
-            ManualSnipePokemon.secondsSnipe = (int) nudSecondsSnipe.Value;
         }
-        
+
         public void Execute()
         {
             SnipePokemonPokeCom.Checked = Globals.SnipePokemon;
@@ -204,8 +209,15 @@ namespace PokemonGo.RocketAPI.Console
                     /* code to snipe*/
                     txt = txt.Replace("pokesniper2://","");
                     var splt = txt.Split('/');
-                    SplitLatLng(splt[1]);
-                    SnipePoke( (PokemonId)Enum.Parse(typeof(PokemonId), ToCapital(splt[0])));
+                    splLatLngResult = SplitLatLng(splt[1]);
+                    int stw = 2;
+                    int tries =3;
+                    try {
+                        stw = (int) nudSecondsSnipe.Value;
+                        tries = (int) nudTriesSnipe.Value;
+                    } catch (Exception) {
+                    }
+                    SnipePoke( (PokemonId)Enum.Parse(typeof(PokemonId), ToCapital(splt[0])),stw,tries);
                 }
             } catch (Exception ex) {
                 MessageBox.Show( ex.ToString());

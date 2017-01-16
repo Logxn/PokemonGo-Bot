@@ -37,8 +37,8 @@ namespace PokemonGo.RocketAPI.Console
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.LinkLabel LinkPokesniperCom;
-        private System.Windows.Forms.LinkLabel linkRarespawns;
+        private System.Windows.Forms.LinkLabel LinkPokedexsCom;
+        private System.Windows.Forms.LinkLabel linkpokegosnipers;
         private System.Windows.Forms.LinkLabel linkPokezz;
         private System.Windows.Forms.NumericUpDown nudSecondsSnipe;
         private System.Windows.Forms.Label label8;
@@ -86,8 +86,8 @@ namespace PokemonGo.RocketAPI.Console
             this.SnipeInfo = new System.Windows.Forms.TextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.linkPokezz = new System.Windows.Forms.LinkLabel();
-            this.linkRarespawns = new System.Windows.Forms.LinkLabel();
-            this.LinkPokesniperCom = new System.Windows.Forms.LinkLabel();
+            this.linkpokegosnipers = new System.Windows.Forms.LinkLabel();
+            this.LinkPokedexsCom = new System.Windows.Forms.LinkLabel();
             this.btnInstall = new System.Windows.Forms.Button();
             this.label7 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
@@ -214,6 +214,7 @@ namespace PokemonGo.RocketAPI.Console
             // SnipePokemonPokeCom
             // 
             this.SnipePokemonPokeCom.AutoSize = true;
+            this.SnipePokemonPokeCom.Enabled = false;
             this.SnipePokemonPokeCom.Location = new System.Drawing.Point(4, 369);
             this.SnipePokemonPokeCom.Margin = new System.Windows.Forms.Padding(4);
             this.SnipePokemonPokeCom.Name = "SnipePokemonPokeCom";
@@ -305,8 +306,8 @@ namespace PokemonGo.RocketAPI.Console
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.linkPokezz);
-            this.groupBox2.Controls.Add(this.linkRarespawns);
-            this.groupBox2.Controls.Add(this.LinkPokesniperCom);
+            this.groupBox2.Controls.Add(this.linkpokegosnipers);
+            this.groupBox2.Controls.Add(this.LinkPokedexsCom);
             this.groupBox2.Controls.Add(this.btnInstall);
             this.groupBox2.Controls.Add(this.label7);
             this.groupBox2.Controls.Add(this.label1);
@@ -329,25 +330,25 @@ namespace PokemonGo.RocketAPI.Console
             this.linkPokezz.Text = "pokezz.com";
             this.linkPokezz.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.PokesniperCom_LinkClicked);
             // 
-            // linkRarespawns
+            // linkpokegosnipers
             // 
-            this.linkRarespawns.Location = new System.Drawing.Point(160, 58);
-            this.linkRarespawns.Name = "linkRarespawns";
-            this.linkRarespawns.Size = new System.Drawing.Size(110, 15);
-            this.linkRarespawns.TabIndex = 90;
-            this.linkRarespawns.TabStop = true;
-            this.linkRarespawns.Text = "www.rarespawns.be";
-            this.linkRarespawns.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.PokesniperCom_LinkClicked);
+            this.linkpokegosnipers.Location = new System.Drawing.Point(160, 58);
+            this.linkpokegosnipers.Name = "linkpokegosnipers";
+            this.linkpokegosnipers.Size = new System.Drawing.Size(110, 15);
+            this.linkpokegosnipers.TabIndex = 90;
+            this.linkpokegosnipers.TabStop = true;
+            this.linkpokegosnipers.Text = "pokegosnipers.com";
+            this.linkpokegosnipers.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.PokesniperCom_LinkClicked);
             // 
-            // LinkPokesniperCom
+            // LinkPokedexsCom
             // 
-            this.LinkPokesniperCom.Location = new System.Drawing.Point(54, 58);
-            this.LinkPokesniperCom.Name = "LinkPokesniperCom";
-            this.LinkPokesniperCom.Size = new System.Drawing.Size(100, 15);
-            this.LinkPokesniperCom.TabIndex = 89;
-            this.LinkPokesniperCom.TabStop = true;
-            this.LinkPokesniperCom.Text = "Pokesniper.com";
-            this.LinkPokesniperCom.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.PokesniperCom_LinkClicked);
+            this.LinkPokedexsCom.Location = new System.Drawing.Point(54, 58);
+            this.LinkPokedexsCom.Name = "LinkPokedexsCom";
+            this.LinkPokedexsCom.Size = new System.Drawing.Size(100, 15);
+            this.LinkPokedexsCom.TabIndex = 89;
+            this.LinkPokedexsCom.TabStop = true;
+            this.LinkPokedexsCom.Text = "pokedexs.com";
+            this.LinkPokedexsCom.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.PokesniperCom_LinkClicked);
             // 
             // btnInstall
             // 

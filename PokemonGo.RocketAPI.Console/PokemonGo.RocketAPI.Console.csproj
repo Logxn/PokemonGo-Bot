@@ -147,6 +147,18 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Components\LabelCombo.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Components\LabelCombo.Designer.cs">
+      <DependentUpon>LabelCombo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Components\LabelText.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Components\LabelText.Designer.cs">
+      <DependentUpon>LabelText.cs</DependentUpon>
+    </Compile>
     <Compile Include="ControlExtensions.cs" />
     <Compile Include="Encryption.cs" />
     <Compile Include="GameAspectSimulator.cs">
@@ -187,7 +199,9 @@
     <Compile Include="LocationPanel.Designer.cs">
       <DependentUpon>LocationPanel.cs</DependentUpon>
     </Compile>
-    <Compile Include="LogWindow.cs" />
+    <Compile Include="LogWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="LogWindow.Designer.cs">
       <DependentUpon>LogWindow.cs</DependentUpon>
     </Compile>
@@ -226,6 +240,18 @@
     </Compile>
     <Compile Include="Panels\SniperPanel.Designer.cs">
       <DependentUpon>SniperPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Panels\SplashScreen.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Panels\SplashScreen.Designer.cs">
+      <DependentUpon>SplashScreen.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Panels\TutorialPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Panels\TutorialPanel.Designer.cs">
+      <DependentUpon>TutorialPanel.cs</DependentUpon>
     </Compile>
     <Compile Include="PokeImgManager.cs" />
     <Compile Include="Pokemons.cs">
@@ -278,6 +304,12 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Components\LabelCombo.resx">
+      <DependentUpon>LabelCombo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Components\LabelText.resx">
+      <DependentUpon>LabelText.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GameAspectSimulator.resx">
       <DependentUpon>GameAspectSimulator.cs</DependentUpon>
     </EmbeddedResource>
@@ -310,6 +342,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Panels\SniperPanel.resx">
       <DependentUpon>SniperPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Panels\SplashScreen.resx">
+      <DependentUpon>SplashScreen.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Panels\TutorialPanel.resx">
+      <DependentUpon>TutorialPanel.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Pokemons.resx">
       <DependentUpon>Pokemons.cs</DependentUpon>

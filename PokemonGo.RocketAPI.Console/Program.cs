@@ -125,6 +125,10 @@ namespace PokemonGo.RocketAPI.Console
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
                 Application.Run(new GUI());
+                Task.Run(() =>
+                {
+                             new Panels.SplashScreen().ShowDialog();
+                      });
                 openGUI = Globals.pokeList;
             }
 

@@ -226,7 +226,7 @@ namespace PokemonGo.RocketAPI.Console
 		                + Globals.toprevive + Globals.toppotion;
 		         text_TotalItemCount.Text = count.ToString();
         	}catch (Exception e1){
-        		
+        		Logger.ExceptionInfo(e1.ToString());
         	}
         }
         void btnCopy_Click(object sender, EventArgs e)

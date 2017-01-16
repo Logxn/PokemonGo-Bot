@@ -309,10 +309,9 @@ namespace PokemonGo.RocketAPI.Console
                     }
                 }
             }
-            catch (Exception e)
+            catch (Exception ex1)
             {
-                Logger.ColoredConsoleWrite(ConsoleColor.Gray, $"Exception catched");
-                //Execute(); <-- Makes a loop
+            	Logger.ExceptionInfo(ex1.ToString());
             }
         }
         private void EnabledButton(bool enabled, string reason = "")

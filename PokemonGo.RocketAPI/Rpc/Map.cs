@@ -1,4 +1,4 @@
-﻿#region using directives
+#region using directives
 
 using System;
 using System.Threading.Tasks;
@@ -20,7 +20,7 @@ namespace PokemonGo.RocketAPI.Rpc
         }
 
         private DateTime _lastGetMapRequest;
-        private const int _minSecondsBetweenMapCalls = 30;
+        private const int _minSecondsBetweenMapCalls = 20;
         Tuple<GetMapObjectsResponse, CheckChallengeResponse, GetHatchedEggsResponse, GetInventoryResponse, CheckAwardedBadgesResponse, DownloadSettingsResponse, GetBuddyWalkedResponse> _cachedGetMapResponse;
 
         public async

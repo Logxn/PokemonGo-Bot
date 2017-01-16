@@ -39,6 +39,23 @@ namespace PokemonGo.RocketAPI
             panel = panel1;
             //type = 1;
         }
+        public static void ExceptionInfo(string line){
+            if (type == 0)
+            {
+                LoggerC.ColoredConsoleWrite(ConsoleColor.Red, "Ignore this: sending exception information to log file.");
+                LoggerC.AddLog(line);
+            }
+            else
+                try {
+                    if (panel != null){
+                            panel.ColoredConsoleWrite(ConsoleColor.Red, "Ignore this: sending exception information to log file.");
+                            panel.AddLog(line);
+                    }
+                    
+                } catch (Exception ex1) {
+                    AddLog(line+"\n"+ex1.ToString());
+                }
+        }
         public static void Error(string str){
             if (type == 0)
                 LoggerC.Error(str);
