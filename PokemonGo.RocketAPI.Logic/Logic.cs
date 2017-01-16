@@ -314,23 +314,33 @@ namespace PokemonGo.RocketAPI.Logic
                 {
                     #region Log Error 
 
-                    Logger.Error("Error: " + ex.Source);
-                    Logger.Error($"{ex}");
-                    Logger.ColoredConsoleWrite(ConsoleColor.Green, "Trying to Restart.");
+                    Exception realerror = ex;
+                    while (realerror.InnerException != null)
+                        realerror = realerror.InnerException;
+                    Logger.ExceptionInfo(ex.Message+"/"+realerror.ToString());
 
                     try
                     {
                         Telegram?.getClient().StopReceiving();
                     }
-                    catch (Exception)
+                    catch (Exception ex1)
                     {
-                        //TODO: Handle the exception; log then throw error
+                        realerror = ex1;
+                        while (realerror.InnerException != null)
+                            realerror = realerror.InnerException;
+                        Logger.ExceptionInfo(ex1.Message+"/"+realerror.ToString());
                     }
 
                     #endregion
                 }
-                Logger.ColoredConsoleWrite(ConsoleColor.Red, "Restarting in over 50 - 60 Seconds.");
-                RandomHelper.RandomSleep(50000,60000);
+                var msToWait = 50000;
+                var prefix = "";
+                if (ClientSettings.ForceSnipe){
+                    prefix = "(SNIPING) ";
+                    msToWait = 0;
+                }
+                Logger.ColoredConsoleWrite(ConsoleColor.Red, $"{prefix}Restarting in over {(msToWait+5000)/1000} Seconds.");
+                RandomHelper.RandomSleep(msToWait,msToWait+10000);
             }
             #endregion
         }
@@ -339,9 +349,11 @@ namespace PokemonGo.RocketAPI.Logic
         {
             try
             {
-                var profil = objClient.Player.GetPlayer().Result;
-                objClient.Inventory.ExportPokemonToCSV(profil.PlayerData).Wait();
-                LogStatsEtc();
+                if (!ClientSettings.ForceSnipe){
+                    var profil = objClient.Player.GetPlayer().Result;
+                    objClient.Inventory.ExportPokemonToCSV(profil.PlayerData).Wait();
+                    LogStatsEtc();
+                }
                 ExecuteFarmingPokestopsAndPokemons(objClient);
             }
             catch (AccessTokenExpiredException)
@@ -786,25 +798,25 @@ namespace PokemonGo.RocketAPI.Logic
             try
             {
                 snipokemonIds = id;
+                
+                GeoCoordinate validCoord = new GeoCoordinate(coord.Latitude,coord.Longitude);
 
-                Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "Trying to capture " + id + " at " + coord.Latitude + " / " + coord.Longitude);
-                Logger.ColoredConsoleWrite(ConsoleColor.Red, $"(SNIPING) Current Loc: {ClientSettings.DefaultLatitude } / { ClientSettings.DefaultLongitude}");
-
+                Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"(SNIPING) Trying to capture {id}  at { coord.Latitude } / {coord.Longitude}");
                 var result = objClient.Player.UpdatePlayerLocation(coord.Latitude, coord.Longitude, ClientSettings.DefaultAltitude).Result;
-                Logger.ColoredConsoleWrite(ConsoleColor.Red, $"(SNIPING) Destination: {coord.Latitude} / {coord.Longitude}");
 
-                Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Went to sniping location. Waiting for Pokemon to appear...");
-
-                Logger.ColoredConsoleWrite(ConsoleColor.Red, $"(SNIPING) Waiting {ClientSettings.secondsSnipe} seconds");
+                Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "(SNIPING) Went to sniping location. Waiting for Pokemon to appear...");
                 RandomHelper.RandomSleep(secondsToWait*1000, secondsToWait*1100);
-                Logger.ColoredConsoleWrite(ConsoleColor.Red, $"(SNIPING) Waited {ClientSettings.secondsSnipe} seconds");
+                Logger.ColoredConsoleWrite(ConsoleColor.Red, $"(SNIPING) Waited {secondsToWait} seconds");
 
                 stateSniper = true;
                 sniperReturn = false;
 
                 ExecuteCatchAllNearbyPokemons();
-                Logger.ColoredConsoleWrite(ConsoleColor.Red, "(SNIPING) Loc after Snipe func: " + ClientSettings.DefaultLatitude + " / " + ClientSettings.DefaultLongitude);
-
+                
+                if (validCoord.Latitude != ClientSettings.DefaultLatitude || validCoord.Longitude != ClientSettings.DefaultLongitude){
+                    result = objClient.Player.UpdatePlayerLocation(validCoord.Latitude, validCoord.Longitude, ClientSettings.DefaultAltitude).Result;
+                }
+                
                 stateSniper = false;
 
                 return true;
@@ -946,7 +958,7 @@ namespace PokemonGo.RocketAPI.Logic
             ClientSettings.ManualSnipePokemonID = null;
             ClientSettings.ManualSnipePokemonLocation = null;
             ClientSettings.secondsSnipe = 2;
-            ClientSettings.triesSnipe = 1;
+            ClientSettings.triesSnipe = 3;
 
             #endregion
 
@@ -1681,13 +1693,14 @@ namespace PokemonGo.RocketAPI.Logic
                     if (stateSniper){
                         var tries = 1;
                         var pokemonsInSnipeMode = mapObjectsResponse.MapCells.SelectMany(i => i.CatchablePokemons);
-                        Logger.ColoredConsoleWrite(ConsoleColor.Red, $"(SNIPING) - try {tries}");
+                        Logger.ColoredConsoleWrite(ConsoleColor.Red, $"(SNIPING) Try {tries} of {ClientSettings.triesSnipe}");
                         while (!pokemonsInSnipeMode.Any() && (tries < ClientSettings.triesSnipe)){
-                            Logger.ColoredConsoleWrite(ConsoleColor.Red, $"(SNIPING) -No Pokemon Found!");
+                            Logger.ColoredConsoleWrite(ConsoleColor.Red, $"(SNIPING) No Pokemon Found!");
+                            //RandomHelper.RandomSleep(ClientSettings.secondsSnipe*1000, ClientSettings.secondsSnipe*1100);
                             mapObjectsResponse = objClient.Map.GetMapObjects().Result.Item1;
                             pokemonsInSnipeMode = mapObjectsResponse.MapCells.SelectMany(i => i.CatchablePokemons);
                             tries ++;
-                            Logger.ColoredConsoleWrite(ConsoleColor.Red, $"(SNIPING) - try {tries}");
+                            Logger.ColoredConsoleWrite(ConsoleColor.Red, $"(SNIPING) Try {tries} of {ClientSettings.triesSnipe}");
                         }
                     }
                 }
@@ -1711,8 +1724,9 @@ namespace PokemonGo.RocketAPI.Logic
                 {
                     if (stateSniper)
                     {
-                        Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "No Pokemon Found!");
+                        Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "(SNIPING) No Pokemon Found!");
                         var result = objClient.Player.UpdatePlayerLocation(ClientSettings.DefaultLatitude, ClientSettings.DefaultLongitude, ClientSettings.DefaultAltitude).Result;
+                        
                     }
                 }
 
@@ -1925,27 +1939,18 @@ private int GetGymLevel(long value)
 
             try
             {
-                if (stateSniper)
-                {
-                    // I think we were doing this twice! Yes, we are because otherwise bot can not catch multiple pokemon.
-                    // Example: We snipe Squirtle, but there are 3 of them. 
-                    if (sniperReturn)
-                    {
-                        var result = objClient.Player.UpdatePlayerLocation(pokeLat, pokeLong, ClientSettings.DefaultAltitude).Result;
-                    }
-                }
                 encounterPokemonResponse = objClient.Encounter.EncounterPokemon(encounterId, spawnpointId).Result;
             }
             finally
             {
                 if (stateSniper)
                 {
+                    Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"(SNIPING) Found it! Returning to {ClientSettings.DefaultLatitude} / {ClientSettings.DefaultLongitude} before starting the capture.");
+                    
                     var result = objClient.Player.UpdatePlayerLocation(
                         ClientSettings.DefaultLatitude,
                         ClientSettings.DefaultLongitude,
                         ClientSettings.DefaultAltitude).Result;
-
-                    Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "I found it! Returning before starting the capture (trick)...");
 
                     sniperReturn = true;
                 }

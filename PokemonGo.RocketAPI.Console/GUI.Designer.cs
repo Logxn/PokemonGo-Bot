@@ -125,6 +125,7 @@ namespace PokemonGo.RocketAPI.Console
             this.groupBox10 = new System.Windows.Forms.GroupBox();
             this.checkBox_ConsoleInTab = new System.Windows.Forms.CheckBox();
             this.checkBox_CollectDailyBonus = new System.Windows.Forms.CheckBox();
+            this.checkBox_FarmGyms = new System.Windows.Forms.CheckBox();
             this.CB_SimulatePGO = new System.Windows.Forms.CheckBox();
             this.checkBox_UseLuckyEggIfNotRunning = new System.Windows.Forms.CheckBox();
             this.checkBox_KeepPokemonWhichCanBeEvolved = new System.Windows.Forms.CheckBox();
@@ -297,7 +298,6 @@ namespace PokemonGo.RocketAPI.Console
             this.lang_de_btn = new System.Windows.Forms.Button();
             this.lang_en_btn = new System.Windows.Forms.Button();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
-            this.checkBox_FarmGyms = new System.Windows.Forms.CheckBox();
             this.tabProxies.SuspendLayout();
             this.tabItems.SuspendLayout();
             this.groupBox4.SuspendLayout();
@@ -2664,6 +2664,7 @@ namespace PokemonGo.RocketAPI.Console
             // SnipePokemonPokeCom
             // 
             this.SnipePokemonPokeCom.AutoSize = true;
+            this.SnipePokemonPokeCom.Enabled = false;
             this.SnipePokemonPokeCom.Location = new System.Drawing.Point(176, 127);
             this.SnipePokemonPokeCom.Name = "SnipePokemonPokeCom";
             this.SnipePokemonPokeCom.Size = new System.Drawing.Size(145, 17);
