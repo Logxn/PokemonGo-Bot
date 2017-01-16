@@ -311,7 +311,7 @@ namespace PokemonGo.RocketAPI.Logic.Utils
                             + "\nKM walked: " + ps.First().KmWalked
                             + "\nPokeStops visited: " + ps.First().PokeStopVisits
                             + "\nStardust: " + profil.PlayerData.Currencies.ToArray()[1].Amount
-                            + "\nPokemons: " + await _client.Inventory.getPokemonCount().ConfigureAwait(false) + "/" + profil.PlayerData.MaxPokemonStorage
+                            + "\nPokemons: " + (await _client.Inventory.GetPokemons().ConfigureAwait(false)).Count() + "/" + profil.PlayerData.MaxPokemonStorage
                             + "\nItems: " + await _client.Inventory.getInventoryCount().ConfigureAwait(false) + " / " + profil.PlayerData.MaxItemStorage
                             + "\nCurentLocation:\n" + curlochtml
                             + "\nPokevision:\n" + pokevishtml; 

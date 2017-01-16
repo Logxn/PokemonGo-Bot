@@ -6,6 +6,15 @@
  * 
  * To change this template use Tools | Options | Coding | Edit Standard Headers.
  */
+using GMap.NET;
+using GMap.NET.MapProviders;
+using GMap.NET.WindowsForms;
+using GMap.NET.WindowsForms.Markers;
+using Google.Maps;
+using Google.Maps.Elevation;
+using POGOProtos.Map.Fort;
+using PokemonGo.RocketApi.PokeMap;
+using PokemonGo.RocketAPI.Logic.Utils;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -16,19 +25,6 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using GMap.NET;
-using GMap.NET.MapProviders;
-using GMap.NET.WindowsForms;
-using GMap.NET.WindowsForms.Markers;
-using Google.Maps;
-using Google.Maps.Elevation;
-using GoogleMapsApi;
-using GoogleMapsApi.Entities.Common;
-//using GoogleMapsApi.Entities.Elevation.Request;
-//using GoogleMapsApi.Entities.Elevation.Response;
-using PokemonGo.RocketAPI.Logic.Utils;
-using PokemonGo.RocketApi.PokeMap;
-using POGOProtos.Map.Fort;
 
 namespace PokemonGo.RocketAPI.Console
 {
