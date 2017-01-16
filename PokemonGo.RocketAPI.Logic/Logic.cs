@@ -2813,8 +2813,6 @@ private int GetGymLevel(long value)
                         {
                             unusedEggs.Remove(egg);
                             unusedEggsBasicInc.Remove(egg);
-                        } catch (Exception e){
-
                         }
                         catch (Exception ex){
                             Logger.ColoredConsoleWrite(ConsoleColor.Red, "Error: Logic.cs - StartIncubation()");
@@ -2845,23 +2843,6 @@ private int GetGymLevel(long value)
                 // Leave this here: Logger.Error(e.StackTrace);
                 Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, "Egg: We dont have any eggs we could incubate.");
             }
-        }
-
-        private static List<IncubatorUsage> GetRememberedIncubators(string filePath)
-        {
-            Directory.CreateDirectory(Path.GetDirectoryName(filePath));
-
-            if (File.Exists(filePath))
-                return JsonConvert.DeserializeObject<List<IncubatorUsage>>(File.ReadAllText(filePath, Encoding.UTF8));
-
-            return new List<IncubatorUsage>(0);
-        }
-
-        private static void SaveRememberedIncubators(List<IncubatorUsage> incubators, string filePath)
-        {
-            Directory.CreateDirectory(Path.GetDirectoryName(filePath));
-
-            File.WriteAllText(filePath, JsonConvert.SerializeObject(incubators), Encoding.UTF8);
         }
 
         private class IncubatorUsage : IEquatable<IncubatorUsage>
