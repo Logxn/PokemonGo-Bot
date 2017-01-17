@@ -253,7 +253,7 @@ namespace PokemonGo.RocketAPI.Console
     {
         public static PokemonId? ID = null;
         public static GeoCoordinate Location = null;
-        public static int secondsSnipe = 2;
+        public static int secondsSnipe = 6;
         public static int triesSnipe = 3;
     }
     public static class Globals

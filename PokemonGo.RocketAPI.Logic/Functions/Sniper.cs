@@ -67,7 +67,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
             _clientSettings.ForceSnipe = false;
             _clientSettings.ManualSnipePokemonID = null;
             _clientSettings.ManualSnipePokemonLocation = null;
-            _clientSettings.secondsSnipe = 2;
+            _clientSettings.secondsSnipe = 6;
             _clientSettings.triesSnipe = 3;
             
         }
