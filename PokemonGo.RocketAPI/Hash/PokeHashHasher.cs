@@ -32,7 +32,6 @@ namespace PokemonGo.RocketAPI.Hash
                 {
                     throw hashEx;
                 }
-              
                 catch (Exception ex)
                 {
                     Logger.ColoredConsoleWrite(ConsoleColor.Red, "Error: PokeHasHasher.cs - RequestHashesAsync()");
@@ -105,29 +104,20 @@ namespace PokemonGo.RocketAPI.Hash
         public HashResponseContent RequestHashes(HashRequestContent request)
         {
             int retry = 3;
+            bool doFasterCall ;
             do {
+                doFasterCall = false;
                 try
                 {
-                    var exitLoop = false;
-                    do
-                    {
-                        try
-                        {
-                            return InternalRequestHashes(request);
-                        }
-                        catch (HasherException hashEx)
-                        {
-                            if (hashEx.Message == "429"){
-                                exitLoop = true;
-                                RandomHelper.RandomSleep(100,101);
-                            }else
-                                throw hashEx;
-                        }
-                    }while (!exitLoop);
+                    return InternalRequestHashes(request);
+                }
+                catch (HaserExceptionTooManyRequests hashExTM)
+                {
+                    doFasterCall = true;
                 }
                 catch (HasherException hashEx)
                 {
-                     throw hashEx;
+                    throw hashEx;
                 }
                 catch (Exception ex)
                 {
@@ -138,7 +128,11 @@ namespace PokemonGo.RocketAPI.Hash
                 {
                     retry--;
                 }
-                RandomHelper.RandomSleep(1000,1100);
+                if (doFasterCall)
+                    RandomHelper.RandomSleep(110,115);
+                else
+                    RandomHelper.RandomSleep(1000,1100);
+                    
             } while (retry > 0);
 
             throw new HasherException("Pokefamer Hash API server might down");
@@ -168,7 +162,7 @@ namespace PokemonGo.RocketAPI.Hash
                     case HttpStatusCode.Unauthorized: // No Valid Key
                         throw new  HasherException("[HashService] Your PF-Hashkey you provided is incorrect (or not valid anymore). Please check again!");
                     case (HttpStatusCode)429: // To many reqeusts => que 
-                        throw new  HasherException("429");
+                        throw new HaserExceptionTooManyRequests("429");
                     default:
                         throw new HasherException($"[HashService] Pokefamer Hash API ({client.BaseAddress}{endpoint}) might down!");
                 }
