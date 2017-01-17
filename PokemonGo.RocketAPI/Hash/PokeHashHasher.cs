@@ -32,6 +32,7 @@ namespace PokemonGo.RocketAPI.Hash
                 {
                     throw hashEx;
                 }
+              
                 catch (Exception ex)
                 {
                     Logger.ColoredConsoleWrite(ConsoleColor.Red, "Error: PokeHasHasher.cs - RequestHashesAsync()");
@@ -107,11 +108,26 @@ namespace PokemonGo.RocketAPI.Hash
             do {
                 try
                 {
-                    return InternalRequestHashes(request);
+                    var exitLoop = false;
+                    do
+                    {
+                        try
+                        {
+                            return InternalRequestHashes(request);
+                        }
+                        catch (HasherException hashEx)
+                        {
+                            if (hashEx.Message == "429"){
+                                exitLoop = true;
+                                RandomHelper.RandomSleep(100,101);
+                            }else
+                                throw hashEx;
+                        }
+                    }while (!exitLoop);
                 }
                 catch (HasherException hashEx)
                 {
-                    throw hashEx;
+                     throw hashEx;
                 }
                 catch (Exception ex)
                 {
@@ -152,9 +168,7 @@ namespace PokemonGo.RocketAPI.Hash
                     case HttpStatusCode.Unauthorized: // No Valid Key
                         throw new  HasherException("[HashService] Your PF-Hashkey you provided is incorrect (or not valid anymore). Please check again!");
                     case (HttpStatusCode)429: // To many reqeusts => que 
-                        Console.WriteLine($"[HashService] Your request has been limited. {response.Content.ReadAsStringAsync().Result}");
-                        RandomHelper.RandomSleep(2000,2100);
-                        return RequestHashesAsync(request).Result;
+                        throw new  HasherException("429");
                     default:
                         throw new HasherException($"[HashService] Pokefamer Hash API ({client.BaseAddress}{endpoint}) might down!");
                 }
