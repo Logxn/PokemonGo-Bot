@@ -200,8 +200,9 @@ namespace PokemonGo.RocketAPI.Logic
             // Check if disabled
             StringUtils.CheckKillSwitch();
 
-            Logger.ColoredConsoleWrite(ConsoleColor.Red, "This bot is absolutely free and open-source!");
+            Logger.ColoredConsoleWrite(ConsoleColor.Red, "Source code and binary files of this bot are absolutely free and open-source!");
             Logger.ColoredConsoleWrite(ConsoleColor.Red, "If you've paid for it. Request a chargeback immediately!");
+            Logger.ColoredConsoleWrite(ConsoleColor.Red, "You only need pay for a key to access to Hash Service");
 
             #region Log Logger
 
