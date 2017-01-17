@@ -6,6 +6,7 @@ using POGOProtos.Map.Fort;
 using POGOProtos.Networking.Responses;
 using PokemonGo.RocketAPI.Helpers;
 using PokemonGo.RocketAPI.Logic.Utils;
+using POGOProtos.Enums;
 
 namespace PokemonGo.RocketAPI.Logic
 {
@@ -14,9 +15,10 @@ namespace PokemonGo.RocketAPI.Logic
         public Navigation(Client client)
         {
             _client = client;
+            _clientSettings = client.Settings;
         }
 
-        public bool pauseWalking = false;
+        public bool pauseWalking = false;        
 
         private static readonly Random RandomDevice = new Random();
 
@@ -66,8 +68,6 @@ namespace PokemonGo.RocketAPI.Logic
             var locatePokemonWhileWalkingDateTime = DateTime.Now;
             do
             {
-                if (Logic.Instance.ClientSettings.ForceSnipe)
-                    break;          
                 var millisecondsUntilGetUpdatePlayerLocationResponse =
                     (DateTime.Now - requestSendDateTime).TotalMilliseconds;
 
@@ -112,6 +112,11 @@ namespace PokemonGo.RocketAPI.Logic
                 if (functionExecutedWhileWalking != null && !pauseWalking)
                 {
                      functionExecutedWhileWalking();// look for pokemon 
+                }
+                
+                if (_clientSettings.ForceSnipe){
+                    Logic.Instance.sniperLogic.Execute((PokemonId) _clientSettings.ManualSnipePokemonID,_clientSettings.ManualSnipePokemonLocation);
+                    _clientSettings.ForceSnipe = false;
                 }
 
                 RandomHelper.RandomSleep(500, 600);
