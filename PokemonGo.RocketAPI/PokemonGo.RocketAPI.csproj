@@ -145,7 +145,6 @@
   <ItemGroup>
     <Compile Include="Exceptions\GoogleException.cs" />
     <Compile Include="Exceptions\GoogleOfflineException.cs" />
-    <Compile Include="Exceptions\HaserExceptionTooManyRequests.cs" />
     <Compile Include="Exceptions\HasherException.cs" />
     <Compile Include="Exceptions\LoginFailedException.cs" />
     <Compile Include="Exceptions\MinimumClientVersionException.cs" />

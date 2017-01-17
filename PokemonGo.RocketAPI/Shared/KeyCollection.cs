@@ -30,14 +30,20 @@ namespace PokemonGo.RocketAPI.Shared
         public static void Load()
         {
             var strJSON = File.ReadAllText(filename);
-            keys = JsonConvert.DeserializeObject(strJSON) as Queue;
+            var keys1 = JsonConvert.DeserializeObject<ArrayList>(strJSON);
+            keys = new Queue();
+            foreach ( var element in keys1) {
+                keys.Enqueue(element);
+            }
         }
         public static string nextKey(){
-            if ((keys !=null) && (keys.Count > 0))
-            {
-                var str = keys.Dequeue() as string;
-                keys.Enqueue(str);
-                return str;
+            if (keys !=null){
+                if(keys.Count > 0)
+                {
+                    var str = (string) keys.Dequeue();
+                    keys.Enqueue(str);
+                    return str;
+                }
             }
             return "";
         }

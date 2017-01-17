@@ -122,9 +122,6 @@ namespace PokemonGo.RocketAPI.Console
             }
             else
             {
-                Shared.KeyCollection.addKey("1");
-                Shared.KeyCollection.addKey("2");
-                Shared.KeyCollection.Save();
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
                 Application.Run(new GUI());
