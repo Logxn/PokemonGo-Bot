@@ -54,10 +54,20 @@ namespace PokemonGo.RocketAPI.Console
             // The InitializeComponent() call is required for Windows Forms designer support.
             //
             InitializeComponent();            
-            LinkPokedexsCom.Links.Add(0,LinkPokedexsCom.Text.Length,"https://pokedexs.com/");
-            linkpokegosnipers.Links.Add(0,linkpokegosnipers.Text.Length,"http://pokegosnipers.com/");
-            linkPokezz.Links.Add(0,linkPokezz.Text.Length,"http://pokezz.com/");            
+            //LinkPokedexsCom.Links.Add(0,LinkPokedexsCom.Text.Length,"https://pokedexs.com/");
+            //linkpokegosnipers.Links.Add(0,linkpokegosnipers.Text.Length,"http://pokegosnipers.com/");
+            //linkPokezz.Links.Add(0,linkPokezz.Text.Length,"http://pokezz.com/");            
         }
+        
+        public void AddLinkClick(int linknumber, System.EventHandler evh){
+        	var lbl= linkPokezz;
+        	if (linknumber == 1)
+        		lbl= LinkPokedexsCom;
+        	if (linknumber == 2)
+        		lbl= LinkPokedexsCom;
+        	lbl.Click += evh;
+        }
+        
         void SelectallNottoSnipe_CheckedChanged(object sender, EventArgs e)
         {
             int i = 0;

@@ -18,6 +18,7 @@ namespace PokemonGo.RocketAPI.Console
         private static POGOProtos.Data.Player.PlayerStats stats;
         public static ISettings ClientSettings;
         public bool waitingApiResponse = false;
+        private Panels.WebPanel webPanel;
 
         public class taskResponse
         {
@@ -40,7 +41,12 @@ namespace PokemonGo.RocketAPI.Console
             }
             ClientSettings = new Settings();
             changesPanel1.Execute();
+            webPanel1.AddButtonClick(new System.EventHandler(this.HideWebPanel));
+            sniperPanel1.AddLinkClick(0,new System.EventHandler(this.AddLink));
+            sniperPanel1.AddLinkClick(1,new System.EventHandler(this.AddLink));
+            sniperPanel1.AddLinkClick(2,new System.EventHandler(this.AddLink));
         }
+        
 
         private void Pokemons_Load(object sender, EventArgs e)
         {
@@ -164,5 +170,24 @@ namespace PokemonGo.RocketAPI.Console
             }
             waitingApiResponse = false;
         }
+        public void ShowInWebPanel( string weburl){
+        	if (!TabControl1.Contains(tpWeb))
+        	{
+        		TabControl1.Controls.Add(tpWeb);
+        		
+        	}
+      		webPanel.ChangeURL(weburl);
+        }
+        public void HideWebPanel(object sender, EventArgs e){
+        	if (TabControl1.Contains(tpWeb))
+        	{
+        		TabControl1.Controls.Remove(tpWeb);
+        	}        	
+        }
+        public void AddLink(object sender, EventArgs e){
+        	var lbl = (LinkLabel ) sender;
+        	webPanel1.ChangeURL(lbl.Tag.ToString());
+        }
+        	
     }
 }

@@ -91,6 +91,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Shared\AvatarSettings.cs" />
     <Compile Include="Translation\Translation.cs" />
     <Compile Include="Translation\TranslationHandler.cs" />
     <Compile Include="Update.cs">
@@ -153,6 +154,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Functions" />
+    <Folder Include="Shared" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

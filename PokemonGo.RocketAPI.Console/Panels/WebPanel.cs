@@ -22,5 +22,12 @@ namespace PokemonGo.RocketAPI.Console.Panels
         {
             InitializeComponent();
         }
+        public void ChangeURL(string weburl){
+        	webBrowser1.Navigate(weburl);
+        }
+        public void AddButtonClick(System.EventHandler evh){
+        	this.button1.Click += evh;
+        }
+		
     }
 }
