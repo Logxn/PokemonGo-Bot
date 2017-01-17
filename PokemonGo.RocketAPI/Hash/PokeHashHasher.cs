@@ -124,14 +124,12 @@ namespace PokemonGo.RocketAPI.Hash
                     Logger.ColoredConsoleWrite(ConsoleColor.Red, "Error: PokeHashHasher.cs - RequestHashes()");
                     Logger.ColoredConsoleWrite(ConsoleColor.Red, ex.Message);
                 }
-                finally
-                {
-                    retry--;
-                }
                 if (doFasterCall)
                     RandomHelper.RandomSleep(110,115);
-                else
+                else{
                     RandomHelper.RandomSleep(1000,1100);
+                    retry--;                    
+                }
                     
             } while (retry > 0);
 
