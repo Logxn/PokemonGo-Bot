@@ -28,6 +28,7 @@ using PokemonGo.RocketApi.PokeMap.DataModel;
 using System.IO;
 using System.Text;
 using POGOProtos.Map.Pokemon;
+using PokemonGo.RocketAPI.Logic.Functions;
 
 namespace PokemonGo.RocketAPI.Logic
 {
@@ -89,13 +90,11 @@ namespace PokemonGo.RocketAPI.Logic
 
         public DateTime LastIncenselog;
 
-        #region Snipe Variables
-        private readonly PokeSnipers pokeSnipers;
-        private bool stateSniper;
         public string Lure = "lureId";
         public PokemonId Luredpokemoncaught = PokemonId.Articuno;
         private PokemonId snipokemonIds;
         private bool addedlure;
+        public Sniper sniperLogic;
         #endregion
 
         #region Constructor
@@ -109,11 +108,10 @@ namespace PokemonGo.RocketAPI.Logic
             pokevision = new PokeVisionUtil();
             this.infoObservable = infoObservable;
             Instance = this;
-            pokeSnipers = new PokeSnipers();
+            sniperLogic = new  Sniper(objClient);
         }
         #endregion
 
-        #endregion
 
         #region Workflow
 
@@ -139,8 +137,6 @@ namespace PokemonGo.RocketAPI.Logic
             {
                 foreach (var pokestop in pokestopsWithinRangeStanding)
                 {
-                    if (ClientSettings.ForceSnipe)
-                        break;
 
                     if (ClientSettings.RelocateDefaultLocation) break;
 
@@ -173,7 +169,7 @@ namespace PokemonGo.RocketAPI.Logic
                     // wait for a bit before repeating farm cycle to avoid spamming 
                 }
 
-                if (!ClientSettings.ForceSnipe && !ClientSettings.RelocateDefaultLocation) continue;
+                if (!ClientSettings.RelocateDefaultLocation) continue;
 
                 resumetimestamp = -10000;
                 ClientSettings.pauseAtPokeStop = false;
@@ -332,12 +328,7 @@ namespace PokemonGo.RocketAPI.Logic
                     #endregion
                 }
                 var msToWait = 50000;
-                var prefix = "";
-                if (ClientSettings.ForceSnipe){
-                    prefix = "(SNIPING) ";
-                    msToWait = 0;
-                }
-                Logger.ColoredConsoleWrite(ConsoleColor.Red, $"{prefix}Restarting in over {(msToWait+5000)/1000} Seconds.");
+                Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Restarting in over {(msToWait+5000)/1000} Seconds.");
                 RandomHelper.RandomSleep(msToWait,msToWait+10000);
             }
             #endregion
@@ -347,11 +338,9 @@ namespace PokemonGo.RocketAPI.Logic
         {
             try
             {
-                if (!ClientSettings.ForceSnipe){
-                    var profil = objClient.Player.GetPlayer().Result;
-                    objClient.Inventory.ExportPokemonToCSV(profil.PlayerData).Wait();
-                    LogStatsEtc();
-                }
+                var profil = objClient.Player.GetPlayer().Result;
+                objClient.Inventory.ExportPokemonToCSV(profil.PlayerData).Wait();
+                LogStatsEtc();
                 ExecuteFarmingPokestopsAndPokemons(objClient);
             }
             catch (AccessTokenExpiredException)
@@ -362,11 +351,7 @@ namespace PokemonGo.RocketAPI.Logic
             {
                 Logger.Write($"Exception: {ex}", LogLevel.Error);
 
-                if (ClientSettings.ForceSnipe)
-                {
-                    Logger.ColoredConsoleWrite(ConsoleColor.Green, "Starting Snipe Routine:");
-                }
-                else if (ClientSettings.RelocateDefaultLocation)
+                if (ClientSettings.RelocateDefaultLocation)
                 {
                     Logger.ColoredConsoleWrite(ConsoleColor.Green, "Detected User Request to Relocate to a new farming spot!");
                 }
@@ -762,70 +747,6 @@ namespace PokemonGo.RocketAPI.Logic
 
         #region Catch, Farm and Walk Logic
 
-        #region Snipe Functions
-
-        private bool Snipe(spottedPokeSni p)
-        {
-            try
-            {
-                Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "(SNIPING) Trying to capture " + p._pokeId + " at " + p._lat + " / " + p._lng);
-
-                var result = objClient.Player.UpdatePlayerLocation(p._lat, p._lng, ClientSettings.DefaultAltitude).Result;
-
-                Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "(SNIPING) Went to sniping location. Waiting for Pokemon to appear...");
-                Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"(SNIPING) Waiting {ClientSettings.secondsSnipe} seconds");
-
-                RandomHelper.RandomSleep(ClientSettings.secondsSnipe*1000, ClientSettings.secondsSnipe*1100);
-                
-
-                stateSniper = true;
-
-                ExecuteCatchAllNearbyPokemons();
-
-                stateSniper = false;
-
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
-        }
-
-        private bool Snipe( PokemonId id, GeoCoordinate coord, int secondsToWait )
-        {
-            try
-            {
-                snipokemonIds = id;
-                
-                GeoCoordinate validCoord = new GeoCoordinate(coord.Latitude,coord.Longitude);
-
-                Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"(SNIPING) Trying to capture {id}  at { coord.Latitude } / {coord.Longitude}");
-                var result = objClient.Player.UpdatePlayerLocation(coord.Latitude, coord.Longitude, ClientSettings.DefaultAltitude).Result;
-
-                Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "(SNIPING) Went to sniping location. Waiting for Pokemon to appear...");
-                Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"(SNIPING) Waiting {secondsToWait} seconds");
-                RandomHelper.RandomSleep(secondsToWait*1000, secondsToWait*1100);
-
-                stateSniper = true;
-
-                ExecuteCatchAllNearbyPokemons();
-                
-                if (validCoord.Latitude != ClientSettings.DefaultLatitude || validCoord.Longitude != ClientSettings.DefaultLongitude){
-                    result = objClient.Player.UpdatePlayerLocation(validCoord.Latitude, validCoord.Longitude, ClientSettings.DefaultAltitude).Result;
-                }
-                
-                stateSniper = false;
-
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
-        }
-
-        #endregion
 
         #region Archimedean Spiral
 
@@ -853,7 +774,7 @@ namespace PokemonGo.RocketAPI.Logic
 
             while (salir)
             {
-                if (ClientSettings.ForceSnipe || ClientSettings.RelocateDefaultLocation) break;
+                if ( ClientSettings.RelocateDefaultLocation) break;
 
                 var angle = 0.3 * i2;
                 var xx = centerx + cantidadvar * angle * Math.Cos(angle);
@@ -893,72 +814,6 @@ namespace PokemonGo.RocketAPI.Logic
 
         private void ExecuteFarmingPokestopsAndPokemons(Client client)
         {
-            #region Sniper Logic
-
-            //Sniper
-            if (!pokeballoutofstock)
-            {
-                if (ClientSettings.ManualSnipePokemonID != null && ClientSettings.ManualSnipePokemonLocation != null)
-                {
-                    var snipesuccess = Snipe((PokemonId)ClientSettings.ManualSnipePokemonID, ClientSettings.ManualSnipePokemonLocation,ClientSettings.secondsSnipe);
-
-                    if (!snipesuccess)
-                    {
-                        //Leaving this here for now in case we need it for debugging
-                    }
-
-                    var result = objClient.Player.UpdatePlayerLocation(ClientSettings.DefaultLatitude, ClientSettings.DefaultLongitude, ClientSettings.DefaultAltitude).Result;
-                }
-                else if (ClientSettings.SnipePokemon)
-                {
-                    foreach (var p in pokeSnipers.CapturarPokemon())
-                    {
-                        #region Check for region lock
-
-                        var regionlocked = ClientSettings.AvoidRegionLock && (p._pokeId == PokemonId.Farfetchd || p._pokeId == PokemonId.Kangaskhan || p._pokeId == PokemonId.MrMime || p._pokeId == PokemonId.Tauros);
-
-                        #endregion
-
-                        if (!ClientSettings.NotToSnipe.Contains(p._pokeId) && !regionlocked)
-                        {
-                            snipokemonIds = p._pokeId;
-
-                            var success = Snipe(p);
-
-                            if (!success)
-                            {
-                                //Leaving this here for now in case we need it for debugging
-                            }
-                        }
-                        else if (regionlocked)
-                        {
-                            Logger.ColoredConsoleWrite(ConsoleColor.Magenta, "Region Locked Pokemon Encountered - Will not catch");
-                        }
-                        else
-                        {
-                            Logger.ColoredConsoleWrite(ConsoleColor.Magenta, "Pokemon in Not to Snipe List - Skipping Pokemon");
-                        }
-                    }
-                    //return to default location before beginning to farm.
-                    var result = objClient.Player.UpdatePlayerLocation(ClientSettings.DefaultLatitude, ClientSettings.DefaultLongitude, ClientSettings.DefaultAltitude).Result;
-                }
-                else
-                {
-                    Logger.ColoredConsoleWrite(ConsoleColor.Magenta, "Pokemon Snipe is Disabled");
-                }
-            }
-            else
-            {
-                Logger.ColoredConsoleWrite(ConsoleColor.DarkRed, "Will resume sniping pokemon after pokeballs restock");
-            }
-
-            ClientSettings.ForceSnipe = false;
-            ClientSettings.ManualSnipePokemonID = null;
-            ClientSettings.ManualSnipePokemonLocation = null;
-            ClientSettings.secondsSnipe = 2;
-            ClientSettings.triesSnipe = 3;
-
-            #endregion
 
             #region Check and report
 
@@ -1148,7 +1003,7 @@ namespace PokemonGo.RocketAPI.Logic
 
                             #region Check for Exit Command
 
-                            if (ClientSettings.ForceSnipe || ClientSettings.RelocateDefaultLocation)
+                            if (ClientSettings.RelocateDefaultLocation)
                             {
                                 break;
                             }
@@ -1174,13 +1029,6 @@ namespace PokemonGo.RocketAPI.Logic
 
                 #region Check for Exit Command           
 
-                if (ClientSettings.ForceSnipe)
-                {
-                    ClientSettings.DefaultLatitude = objClient.CurrentLatitude;
-                    ClientSettings.DefaultLongitude = objClient.CurrentLongitude;
-
-                    break;
-                }
 
                 if (ClientSettings.RelocateDefaultLocation)
                 {
@@ -1252,12 +1100,6 @@ namespace PokemonGo.RocketAPI.Logic
             {
                 #region Check for Exit Command
 
-                if (ClientSettings.ForceSnipe)
-                {
-                    ClientSettings.NextDestinationOverride.Clear();
-
-                    break;
-                }
 
                 if (ClientSettings.RelocateDefaultLocation)
                 {
@@ -1377,11 +1219,6 @@ namespace PokemonGo.RocketAPI.Logic
                     {
                         #region Check for Exit Command
 
-                        if (ClientSettings.ForceSnipe)
-                        {
-                            Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "Exiting Navigation to begin Snipe");
-                            break;
-                        }
                         if (ClientSettings.RelocateDefaultLocation)
                         {
                             Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "Exiting Navigation to Relocate");
@@ -1622,7 +1459,7 @@ namespace PokemonGo.RocketAPI.Logic
 
         private bool ExecuteCatchandFarm()
         {
-            if (ClientSettings.ForceSnipe || ClientSettings.RelocateDefaultLocation)
+            if ( ClientSettings.RelocateDefaultLocation)
             {
                 return false;
             }
@@ -1674,33 +1511,16 @@ namespace PokemonGo.RocketAPI.Logic
         private bool ExecuteCatchAllNearbyPokemons(GetMapObjectsResponse mapObjectsResponse )
         {
             //update location map with current bot location
-            if (!stateSniper)
-            {
-                infoObservable.PushNewGeoLocations(new GeoCoordinate(objClient.CurrentLatitude, objClient.CurrentLongitude));
-            }
+            infoObservable.PushNewGeoLocations(new GeoCoordinate(objClient.CurrentLatitude, objClient.CurrentLongitude));
 
             var client = objClient;
             
             //bypass catching pokemon if disabled
-            if (ClientSettings.CatchPokemon || (ClientSettings.SnipePokemon && stateSniper))
+            if (ClientSettings.CatchPokemon )
             {
-                
                 if (mapObjectsResponse == null)
                 {
                     mapObjectsResponse = objClient.Map.GetMapObjects().Result.Item1;
-                    if (stateSniper){
-                        var tries = 1;
-                        var pokemonsInSnipeMode = mapObjectsResponse.MapCells.SelectMany(i => i.CatchablePokemons);
-                        Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"(SNIPING) Try {tries} of {ClientSettings.triesSnipe}");
-                        while (!pokemonsInSnipeMode.Any() && (tries < ClientSettings.triesSnipe)){
-                            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"(SNIPING) No Pokemon Found!");
-                            RandomHelper.RandomSleep(ClientSettings.secondsSnipe*1000, ClientSettings.secondsSnipe*1100);
-                            mapObjectsResponse = objClient.Map.GetMapObjects(true).Result.Item1;
-                            pokemonsInSnipeMode = mapObjectsResponse.MapCells.SelectMany(i => i.CatchablePokemons);
-                            tries ++;
-                            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"(SNIPING) Try {tries} of {ClientSettings.triesSnipe}");
-                        }
-                    }
                 }
                 var pokemons = mapObjectsResponse.MapCells.SelectMany(i => i.CatchablePokemons).OrderBy(i => LocationUtils.CalculateDistanceInMeters(objClient.CurrentLatitude, objClient.CurrentLongitude, i.Latitude, i.Longitude));
 
@@ -1718,15 +1538,6 @@ namespace PokemonGo.RocketAPI.Logic
                     
                     //ShowNearbyPokemons(pokemons);
                 }
-                else
-                {
-                    if (stateSniper)
-                    {
-                        Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "(SNIPING) No Pokemon Found!");
-                        var result = objClient.Player.UpdatePlayerLocation(ClientSettings.DefaultLatitude, ClientSettings.DefaultLongitude, ClientSettings.DefaultAltitude).Result;
-                        
-                    }
-                }
 
                 //catch them all!
                 foreach (var pokemon in pokemons)
@@ -1736,18 +1547,13 @@ namespace PokemonGo.RocketAPI.Logic
                     //increment log stats counter and log stats
                     count++;
 
-                    if (count >= 9 && !stateSniper)
+                    if (count >= 9 )
                     {
                         LogStatsEtc();
                     }
 
                     #endregion
 
-                    //Capture only Snipe pokemon
-                    if (stateSniper)
-                    {
-                        if (snipokemonIds != pokemon.PokemonId) continue;
-                    }
 
                     #region Skip pokemon if in list
 
@@ -1918,7 +1724,7 @@ private int GetGymLevel(long value)
             #endregion
         }
 
-        private void CatchPokemon(ulong encounterId, string spawnpointId, PokemonId pokeid, double pokeLong = 0, double pokeLat = 0)
+        public void CatchPokemon(ulong encounterId, string spawnpointId, PokemonId pokeid, double pokeLong = 0, double pokeLat = 0, bool goBack = false)
         {
             EncounterResponse encounterPokemonResponse;
 
@@ -1943,9 +1749,9 @@ private int GetGymLevel(long value)
             }
             finally
             {
-                if (stateSniper)
+                if (goBack)
                 {
-                    Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"(SNIPING) Found it! Returning to {ClientSettings.DefaultLatitude} / {ClientSettings.DefaultLongitude} before starting the capture.");
+                    Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Go to {ClientSettings.DefaultLatitude} / {ClientSettings.DefaultLongitude} before starting the capture.");
                     
                     var result = objClient.Player.UpdatePlayerLocation(
                         ClientSettings.DefaultLatitude,
@@ -2243,7 +2049,7 @@ private int GetGymLevel(long value)
         {
             int evolvecount = 0;
 
-            if (ClientSettings.ForceSnipe || ClientSettings.RelocateDefaultLocation)
+            if ( ClientSettings.RelocateDefaultLocation)
             {
                 return;
             }
@@ -2330,7 +2136,7 @@ private int GetGymLevel(long value)
 
         private void TransferDuplicatePokemon(bool keepPokemonsThatCanEvolve = false, bool transferFirstLowIv = false)
         {
-            if (ClientSettings.ForceSnipe || ClientSettings.RelocateDefaultLocation)
+            if (ClientSettings.RelocateDefaultLocation)
             {
                 return;
             }
@@ -2639,10 +2445,7 @@ private int GetGymLevel(long value)
 
         private void RecycleItems(bool forcerefresh = false)
         {
-            if (ClientSettings.ForceSnipe)
-            {
-                return;
-            }
+
             if (ClientSettings.RelocateDefaultLocation)
                 return;
             var items = objClient.Inventory.GetItemsToRecycle(ClientSettings).Result;
@@ -2665,10 +2468,7 @@ private int GetGymLevel(long value)
 
         public void UseIncense()
         {
-            if (ClientSettings.ForceSnipe)
-            {
-                return;
-            }
+
             if (ClientSettings.RelocateDefaultLocation)
                 return;
             if (ClientSettings.UseIncense || ClientSettings.UseIncenseGUIClick)
@@ -2747,7 +2547,7 @@ private int GetGymLevel(long value)
         {
             try
             {
-                if (ClientSettings.ForceSnipe || ClientSettings.RelocateDefaultLocation)
+                if ( ClientSettings.RelocateDefaultLocation)
                 {
                     return;
                 }

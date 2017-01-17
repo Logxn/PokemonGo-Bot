@@ -199,12 +199,6 @@
     <Compile Include="LocationPanel.Designer.cs">
       <DependentUpon>LocationPanel.cs</DependentUpon>
     </Compile>
-    <Compile Include="LogWindow.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="LogWindow.Designer.cs">
-      <DependentUpon>LogWindow.cs</DependentUpon>
-    </Compile>
     <Compile Include="Panels\ChangesPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -252,6 +246,12 @@
     </Compile>
     <Compile Include="Panels\TutorialPanel.Designer.cs">
       <DependentUpon>TutorialPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Panels\WebPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Panels\WebPanel.Designer.cs">
+      <DependentUpon>WebPanel.cs</DependentUpon>
     </Compile>
     <Compile Include="PokeImgManager.cs" />
     <Compile Include="Pokemons.cs">
@@ -322,9 +322,6 @@
     <EmbeddedResource Include="LocationPanel.resx">
       <DependentUpon>LocationPanel.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="LogWindow.resx">
-      <DependentUpon>LogWindow.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Panels\ChangesPanel.resx">
       <DependentUpon>ChangesPanel.cs</DependentUpon>
     </EmbeddedResource>
@@ -348,6 +345,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Panels\TutorialPanel.resx">
       <DependentUpon>TutorialPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Panels\WebPanel.resx">
+      <DependentUpon>WebPanel.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Pokemons.resx">
       <DependentUpon>Pokemons.cs</DependentUpon>
