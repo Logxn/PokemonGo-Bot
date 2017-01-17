@@ -9,6 +9,7 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using PokemonGo.RocketAPI.Helpers;
+using PokemonGo.RocketAPI.Shared;
 
 namespace PokemonGo.RocketAPI.Hash
 {
@@ -124,8 +125,12 @@ namespace PokemonGo.RocketAPI.Hash
                     Logger.ColoredConsoleWrite(ConsoleColor.Red, "Error: PokeHashHasher.cs - RequestHashes()");
                     Logger.ColoredConsoleWrite(ConsoleColor.Red, ex.Message);
                 }
-                if (doFasterCall)
-                    RandomHelper.RandomSleep(110,115);
+                if (doFasterCall){
+                    var nextKey = Shared.KeyCollection.nextKey();
+                    if (nextKey !="") 
+                           this.apiKey = nextKey;
+                    RandomHelper.RandomSleep(50,55);
+                }
                 else{
                     RandomHelper.RandomSleep(1000,1100);
                     retry--;                    

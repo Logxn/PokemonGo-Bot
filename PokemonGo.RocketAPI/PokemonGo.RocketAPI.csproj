@@ -197,6 +197,7 @@
     <Compile Include="Rpc\Map.cs" />
     <Compile Include="Rpc\Misc.cs" />
     <Compile Include="Rpc\Player.cs" />
+    <Compile Include="Shared\KeyCollection.cs" />
     <None Include="app.config" />
     <Compile Include="Client.cs" />
     <Compile Include="Extensions\HttpClientExtensions.cs" />
@@ -218,6 +219,9 @@
     <EmbeddedResource Include="Logging\LoggerPanel.resx">
       <DependentUpon>LoggerPanel.cs</DependentUpon>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Shared" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
