@@ -10,6 +10,7 @@ using POGOProtos.Networking.Envelopes;
 using POGOProtos.Networking.Responses;
 using System.Windows.Forms;
 using PokemonGo.RocketAPI.Helpers;
+using PokemonGo.RocketAPI.Logic.Shared;
 #endregion
 
 
@@ -59,7 +60,7 @@ namespace PokemonGo.RocketAPI.Logic
             else
             {
             	Logger.ColoredConsoleWrite(ConsoleColor.Green, "Canceled.");
-	            Console.ReadKey();
+	            System.Console.ReadKey();
 	            Environment.Exit(0);
             }
 
@@ -90,7 +91,7 @@ namespace PokemonGo.RocketAPI.Logic
         {
             try
             {
-                if (_session.Settings.AuthType == AuthType.Google || _session.Settings.AuthType == AuthType.Ptc)
+                if (_session.AuthType == AuthType.Google || _session.AuthType == AuthType.Ptc)
                 {
                     await _session.Login.DoLogin().ConfigureAwait(false);
                 }

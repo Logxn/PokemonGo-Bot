@@ -157,8 +157,10 @@ namespace PokemonGo.RocketAPI.Logic.Shared
         
         public static bool SnipePokemon;
         public static bool ForceSnipe = false;
-        public static ManualSnipePokemon SnipeOpts;
 
         public static bool PauseTheWalking = false;
+        
+        public static ManualSnipePokemon SnipeOpts = new ManualSnipePokemon();
+        public static ProxySettings proxySettings = new ProxySettings();
 	}
 }

@@ -12,6 +12,7 @@ using POGOProtos.Enums;
 using PokemonGo.RocketAPI.Helpers;
 using System.Linq;
 using PokemonGo.RocketAPI.Logic.Utils;
+using PokemonGo.RocketAPI.Logic.Shared;
 
 namespace PokemonGo.RocketAPI.Logic.Functions
 {
@@ -25,10 +26,10 @@ namespace PokemonGo.RocketAPI.Logic.Functions
         private const string LogPrefix = "(SNIPING)";
         private ConsoleColor LogColor = ConsoleColor.Cyan;
 
-        public Sniper(Client client)
+        public Sniper(Client client, ISettings ClientSettings)
         {
             _client = client;
-            _clientSettings = client.Settings;
+            _clientSettings = ClientSettings;
         }
         
         private void SendToLog(string line){
@@ -50,8 +51,8 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                 var result = _client.Player.UpdatePlayerLocation(remoteCoords.Latitude, remoteCoords.Longitude, remoteCoords.Altitude).Result;
 
                 SendToLog($"Went to sniping location.");
-                SendToLog($"Waiting {_clientSettings.secondsSnipe} seconds for Pokemon to appear...");
-                RandomHelper.RandomSleep(_clientSettings.secondsSnipe*1000, _clientSettings.secondsSnipe*1100);
+                SendToLog($"Waiting {_clientSettings.SnipeOpts.WaitSecond} seconds for Pokemon to appear...");
+                RandomHelper.RandomSleep(_clientSettings.SnipeOpts.WaitSecond*1000, _clientSettings.SnipeOpts.WaitSecond*1100);
 
                 TrySnipePokemons(pokeid);
                 
@@ -69,11 +70,11 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                         _clientSettings.DefaultLongitude,
                         _clientSettings.DefaultAltitude).Result;
             }
-            _clientSettings.ForceSnipe = false;
-            _clientSettings.ManualSnipePokemonID = null;
-            _clientSettings.ManualSnipePokemonLocation = null;
-            _clientSettings.secondsSnipe = 6;
-            _clientSettings.triesSnipe = 3;
+            _clientSettings.SnipeOpts.Enabled = false;
+            _clientSettings.SnipeOpts.ID = PokemonId.Missingno;
+            _clientSettings.SnipeOpts.Location = null;
+            _clientSettings.SnipeOpts.WaitSecond = 6;
+            _clientSettings.SnipeOpts.NumTries = 3;
             
         }
         
@@ -86,7 +87,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
             do{
                 var mapObjectsResponse = _client.Map.GetMapObjects(true).Result.Item1;
                 var pokemons = mapObjectsResponse.MapCells.SelectMany(i => i.CatchablePokemons).Where(x => x.PokemonId == pokeid);
-                SendToLog($"Try {tries} of {_clientSettings.triesSnipe}");
+                SendToLog($"Try {tries} of {_clientSettings.SnipeOpts.NumTries}");
                 if (pokemons.Any())
                 {
                     var pokemon = pokemons.FirstOrDefault();
@@ -97,12 +98,12 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                 else
                 {
                     SendToLog($"No Pokemon Found!");
-                    SendToLog($"Waiting {_clientSettings.secondsSnipe} seconds for Pokemon to appear...");
-                    RandomHelper.RandomSleep(_clientSettings.secondsSnipe*1000, _clientSettings.secondsSnipe*1100);
+                    SendToLog($"Waiting {_clientSettings.SnipeOpts.WaitSecond} seconds for Pokemon to appear...");
+                    RandomHelper.RandomSleep(_clientSettings.SnipeOpts.WaitSecond*1000, _clientSettings.SnipeOpts.WaitSecond*1100);
                 }
                 tries ++;
             
-            }while ((tries < _clientSettings.triesSnipe) && !found);
+            }while ((tries < _clientSettings.SnipeOpts.NumTries) && !found);
             
             if (!found){
                 SendToLog( $"Go to {_clientSettings.DefaultLatitude} / {_clientSettings.DefaultLongitude}.");

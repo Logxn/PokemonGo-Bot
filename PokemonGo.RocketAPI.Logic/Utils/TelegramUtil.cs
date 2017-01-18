@@ -22,6 +22,7 @@ using PokemonGo.RocketAPI.Helpers;
 using PokemonGo.RocketAPI.Logic.Translation;
 using PokemonGo.RocketAPI.Rpc;
 using POGOProtos.Data;
+using PokemonGo.RocketAPI.Logic.Shared;
 
 namespace PokemonGo.RocketAPI.Logic.Utils
 {

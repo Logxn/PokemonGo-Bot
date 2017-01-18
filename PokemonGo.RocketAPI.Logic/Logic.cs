@@ -28,6 +28,7 @@ using System.Text;
 using POGOProtos.Map.Pokemon;
 using PokemonGo.RocketAPI.Logic.Functions;
 using System.Threading.Tasks;
+using PokemonGo.RocketAPI.Logic.Shared;
 
 namespace PokemonGo.RocketAPI.Logic
 {
@@ -78,14 +79,17 @@ namespace PokemonGo.RocketAPI.Logic
         public Logic(ISettings clientSettings, LogicInfoObservable infoObservable)
         {
             this.ClientSettings = clientSettings;
-            objClient = new Client(ClientSettings);
+            objClient = new Client(clientSettings.pFHashKey, clientSettings.DefaultLatitude , clientSettings.DefaultLongitude, clientSettings.DefaultAltitude,
+                      clientSettings.proxySettings.hostName, clientSettings.proxySettings.port, clientSettings.proxySettings.username, clientSettings.proxySettings.password,
+                      clientSettings.AuthType, clientSettings.GoogleUsername, clientSettings.GooglePassword
+                     );
             objClient.setFailure(new ApiFailureStrat(objClient));
             BotStats = new BotStats();
-            navigation = new Navigation(objClient);
+            navigation = new Navigation(objClient,clientSettings);
             pokevision = new PokeVisionUtil();
             this.infoObservable = infoObservable;
             Instance = this;
-            sniperLogic = new  Sniper(objClient);
+            sniperLogic = new  Sniper(objClient, clientSettings);
             PokemonGo.RocketAPI.Shared.KeyCollection.Load();
         }
         #endregion
@@ -232,11 +236,11 @@ namespace PokemonGo.RocketAPI.Logic
 
             #region Use Proxy
 
-            if (ClientSettings.UseProxyVerified)
+            if (ClientSettings.proxySettings.enabled)
             {
                 Logger.Error("===============================================");
                 Logger.Error("Proxy enabled.");
-                Logger.Error($"ProxyIP: { ClientSettings.UseProxyHost }:{ClientSettings.UseProxyPort}");
+                Logger.Error($"ProxyIP: { ClientSettings.proxySettings.username }:{ClientSettings.proxySettings.password}");
                 Logger.Error("===============================================");
             }
 
@@ -729,7 +733,7 @@ namespace PokemonGo.RocketAPI.Logic
 
         #region Archimedean Spiral
 
-        private void Espiral(Client client, FortData[] pokeStops)
+        private void Espiral(Client client, FortData[] pokeStops , int MaxWalkingRadiusInMeters)
         {
             //Intento de pajarera 1...
             ExecuteCatchAllNearbyPokemons();
@@ -739,7 +743,7 @@ namespace PokemonGo.RocketAPI.Logic
             var i2 = 0;
             var salir = true;
             var cantidadvar = 0.0001;
-            double recorrido = objClient.Settings.MaxWalkingRadiusInMeters;
+            double recorrido = MaxWalkingRadiusInMeters;
 
             pokeStops = pokeStops.Where(i => LocationUtils.CalculateDistanceInMeters(objClient.CurrentLatitude, objClient.CurrentLongitude, i.Latitude, i.Longitude) <= ClientSettings.MaxWalkingRadiusInMeters).ToArray();
 
@@ -838,7 +842,7 @@ namespace PokemonGo.RocketAPI.Logic
             // Walk Spiral if enabled
             if (ClientSettings.Espiral)
             {
-                Espiral(client, pokeStops);
+                Espiral(client, pokeStops, ClientSettings.MaxWalkingRadiusInMeters);
 
                 return;
             }
@@ -2121,7 +2125,7 @@ private int GetGymLevel(long value)
             }
             if (ClientSettings.TransferDoublePokemons)
             {
-                var duplicatePokemons = objClient.Inventory.GetDuplicatePokemonToTransfer(keepPokemonsThatCanEvolve, transferFirstLowIv).Result;
+                var duplicatePokemons = objClient.Inventory.GetDuplicatePokemonToTransfer(ClientSettings.HoldMaxDoublePokemons, keepPokemonsThatCanEvolve, transferFirstLowIv).Result;
                 if (ClientSettings.pauseAtEvolve2)
                 {
                     Logger.ColoredConsoleWrite(ConsoleColor.Green, "Stopping to transfer some Pokemons.");
@@ -2131,7 +2135,7 @@ private int GetGymLevel(long value)
                 {
                     if (!ClientSettings.pokemonsToHold.Contains(duplicatePokemon.PokemonId))
                     {
-                        if (duplicatePokemon.Cp >= ClientSettings.DontTransferWithCPOver || PokemonInfo.CalculatePokemonPerfection(duplicatePokemon) >= objClient.Settings.ivmaxpercent)
+                        if (duplicatePokemon.Cp >= ClientSettings.DontTransferWithCPOver || PokemonInfo.CalculatePokemonPerfection(duplicatePokemon) >= ClientSettings.ivmaxpercent)
                         {
                             continue; // Isnt this wrong? Shouldnt it return instead of continueing?
                         }
@@ -2427,7 +2431,7 @@ private int GetGymLevel(long value)
 
             if (ClientSettings.RelocateDefaultLocation)
                 return;
-            var items = objClient.Inventory.GetItemsToRecycle(ClientSettings).Result;
+            var items = objClient.Inventory.GetItemsToRecycle(ClientSettings.itemRecycleFilter).Result;
 
             foreach (var item in items)
             {

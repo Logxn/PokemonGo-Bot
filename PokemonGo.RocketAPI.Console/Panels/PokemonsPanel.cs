@@ -447,7 +447,7 @@ namespace PokemonGo.RocketAPI.Console
             if (GlobalSettings.pauseAtEvolve2)
             {
                 Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Taking a break to evolve some pokemons!");
-                GlobalSettings.pauseAtWalking = true;
+                GlobalSettings.PauseTheWalking = true;
             }
 
 
@@ -504,7 +504,7 @@ namespace PokemonGo.RocketAPI.Console
             if (GlobalSettings.pauseAtEvolve)
             {
                 Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Evolved everything. Time to continue our journey!");
-                GlobalSettings.pauseAtWalking = false;
+                GlobalSettings.PauseTheWalking = false;
             }
         }
         private static async Task<taskResponse> evolvePokemon(PokemonData pokemon)
@@ -548,7 +548,7 @@ namespace PokemonGo.RocketAPI.Console
             if (GlobalSettings.pauseAtEvolve2)  // stop walking
             {
                 Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Taking a short break to transfer some pokemons!");
-                GlobalSettings.pauseAtWalking = true;
+                GlobalSettings.PauseTheWalking = true;
             }
             DialogResult dialogResult = MessageBox.Show("You clicked transfer. This can not be undone.", "Are you Sure?", MessageBoxButtons.YesNo);
             if (dialogResult == DialogResult.Yes)
@@ -622,7 +622,7 @@ namespace PokemonGo.RocketAPI.Console
                 if (GlobalSettings.pauseAtEvolve)
                 {
                     Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Transferred everything. Time to continue our journey!");
-                    GlobalSettings.pauseAtWalking = false;
+                    GlobalSettings.PauseTheWalking = false;
                 }                
             }
             EnabledButton(true);

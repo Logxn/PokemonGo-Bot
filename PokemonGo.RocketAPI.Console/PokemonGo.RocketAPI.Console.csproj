@@ -186,7 +186,6 @@
     <Compile Include="IntegerInput.Designer.cs">
       <DependentUpon>IntegerInput.cs</DependentUpon>
     </Compile>
-    <Compile Include="ISettings.cs" />
     <Compile Include="ListViewComparer.cs" />
     <Compile Include="Location.cs">
       <SubType>Form</SubType>
@@ -292,11 +291,6 @@
     <Compile Include="Update.Designer.cs">
       <DependentUpon>Update.cs</DependentUpon>
     </Compile>
-    <Compile Include="UserSettings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-      <DependentUpon>UserSettings.settings</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Components\LabelCombo.resx">
@@ -380,10 +374,6 @@
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
-    <None Include="UserSettings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>UserSettings.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
   <ItemGroup>

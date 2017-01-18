@@ -13,17 +13,17 @@ using System.Device.Location;
 namespace PokemonGo.RocketAPI.Logic.Shared
 {
 
-/*	PokemonId? ID = null;
-        GeoCoordinate Location = null;
-        int secondsSnipe = 6;
-        int triesSnipe = 3;
-        TODO: implements : IEquatable<ManualSnipePokemon>
-*/
-	public struct ManualSnipePokemon 
+	public class ManualSnipePokemon 
 	{
-        public PokemonId ID ;
-        public GeoCoordinate Location ;
-        public int secondsSnipe ;
-        public int triesSnipe ;
+	    public bool Enabled
+        { get; set; }
+        public PokemonId ID 
+        { get; set; }
+        public GeoCoordinate Location
+        { get; set; }
+        public int WaitSecond
+        { get; set; }
+        public int NumTries
+        { get; set; }
 	}
 }

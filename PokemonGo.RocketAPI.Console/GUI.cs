@@ -477,27 +477,29 @@ namespace PokemonGo.RocketAPI.Console
                 }
             }
             // Load Proxy Settings
-            if (_clientSettings.UseProxyHost != string.Empty)
-                prxyIP.Text = _clientSettings.UseProxyHost;
+            if (_clientSettings.proxySettings.hostName != string.Empty)
+                prxyIP.Text = _clientSettings.proxySettings.hostName;
 
-            if (_clientSettings.UseProxyPort != 0)
-                prxyPort.Text = "" + _clientSettings.UseProxyPort;
+            if (_clientSettings.proxySettings.port != 0)
+                prxyPort.Text = "" + _clientSettings.proxySettings.port;
 
-            if (_clientSettings.UseProxyUsername != string.Empty)
-                prxyUser.Text = _clientSettings.UseProxyUsername;
+            if (_clientSettings.proxySettings.username != string.Empty)
+                prxyUser.Text = _clientSettings.proxySettings.username;
 
-            if (_clientSettings.UseProxyPassword != string.Empty)
-                prxyPass.Text = "" + _clientSettings.UseProxyPassword;
+            if (_clientSettings.proxySettings.password != string.Empty)
+                prxyPass.Text = "" + _clientSettings.proxySettings.password;
 
             if (prxyIP.Text != "HTTPS Proxy IP")
-                _clientSettings.UseProxyVerified = true;
+            {
+                _clientSettings.proxySettings.enabled = true;
+            }
             else
-                _clientSettings.UseProxyVerified = false;
+                _clientSettings.proxySettings.enabled = false;
 
             if (prxyUser.Text != "Proxy Username")
-                _clientSettings.UseProxyAuthentication = true;
+                _clientSettings.proxySettings.useAuth = true;
             else
-                _clientSettings.UseProxyAuthentication = false;
+                _clientSettings.proxySettings.useAuth = false;
 
             // Placeholder event add
             prxyIP.GotFocus += new EventHandler(prxy_GotFocus);
@@ -1236,11 +1238,11 @@ namespace PokemonGo.RocketAPI.Console
 
         private void button3_Click(object sender, EventArgs e)
         {
-            _clientSettings.UseProxyHost = string.Empty;
-            _clientSettings.UseProxyPort = 0;
-            _clientSettings.UseProxyUsername = string.Empty;
-            _clientSettings.UseProxyVerified = false;
-            _clientSettings.UseProxyAuthentication = false;
+            _clientSettings.proxySettings.hostName = string.Empty;
+            _clientSettings.proxySettings.port = 0;
+            _clientSettings.proxySettings.username = string.Empty;
+            _clientSettings.proxySettings.enabled = false;
+            _clientSettings.proxySettings.useAuth = false;
         }
 
         private void prxy_GotFocus(object sender, EventArgs e)
@@ -1301,16 +1303,16 @@ namespace PokemonGo.RocketAPI.Console
             string proxyip = prxyIP.Text;
             int port = Convert.ToInt32(prxyPort.Text);
 
-            _clientSettings.UseProxyHost = prxyIP.Text;
-            _clientSettings.UseProxyPort = port;
+            _clientSettings.proxySettings.hostName = prxyIP.Text;
+            _clientSettings.proxySettings.port = port;
 
             if (checkBox_UseProxyAuth.Checked)
             {
-                _clientSettings.UseProxyUsername = prxyUser.Text;
-                _clientSettings.UseProxyPassword = prxyPass.Text;
-                _clientSettings.UseProxyAuthentication = true;
+                _clientSettings.proxySettings.username = prxyUser.Text;
+                _clientSettings.proxySettings.password = prxyPass.Text;
+                _clientSettings.proxySettings.useAuth = true;
             }
-            _clientSettings.UseProxyVerified = true;
+            _clientSettings.proxySettings.enabled = true;
             button1.Enabled = true;
         }
 

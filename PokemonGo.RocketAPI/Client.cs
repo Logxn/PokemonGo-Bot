@@ -34,7 +34,6 @@ namespace PokemonGo.RocketAPI
         public Rpc.Misc Misc;
 
         public IApiFailureStrategy ApiFailure { get; set; }
-        public ISettings Settings { get; }
         public string AuthToken { get; set; }
         string CaptchaToken;
 
@@ -42,7 +41,9 @@ namespace PokemonGo.RocketAPI
         public double CurrentLongitude { get; set; }
         public double CurrentAltitude { get; set; }
 
-        public AuthType AuthType => Settings.AuthType;
+        public AuthType AuthType;
+        public string Username;
+        public string Password;
 
         public string ApiUrl { get; set; }
         internal readonly PokemonHttpClient PokemonHttpClient;
@@ -78,10 +79,15 @@ namespace PokemonGo.RocketAPI
             CaptchaToken = token;
         }
 
-        public Client(ISettings settings)
+        public Client(string hashKey, double latitude , double longitude, double altitude,
+                      string proxyUrl, int proxyPort , string proxyUser,string proxyPass,
+                      AuthType userType, string userName, string password
+                     )
         {
-            Settings = settings;
-            proxy = InitProxy();
+            AuthType = userType;
+            Username = userName;
+            Password = password;
+            proxy = InitProxy(proxyUrl,proxyPort,proxyUser,proxyPass);
             PokemonHttpClient = new PokemonHttpClient();
             Login = new Rpc.Login(this);
             Player = new Rpc.Player(this);
@@ -91,17 +97,11 @@ namespace PokemonGo.RocketAPI
             Fort = new Rpc.Fort(this);
             Encounter = new Rpc.Encounter(this);
             Misc = new Rpc.Misc(this);
-            Hasher = new PokeHashHasher(settings.pFHashKey);
+            Hasher = new PokeHashHasher(hashKey);
 
-            Player.SetCoordinates(settings.DefaultLatitude, settings.DefaultLongitude, settings.DefaultAltitude);
+            Player.SetCoordinates(latitude, longitude, altitude);
 
             InventoryLastUpdateTimestamp = 0;
-
-
-            /*AppVersion = 4500;
-            SettingsHash = "";
-
-            CurrentApiEmulationVersion = new Version("0.45.0");*/
 
             AppVersion = 5120;
             SettingsHash = "";
@@ -110,17 +110,16 @@ namespace PokemonGo.RocketAPI
         }
 
 
-        private WebProxy InitProxy()
+        private WebProxy InitProxy(string proxyHost, int proxyPort, string proxyUsername, string proxyPassword)
         {
+            if (proxyHost == "")
+                return null;
             try
             {
-                if (!Settings.UseProxyVerified)
-                    return null;
+                WebProxy p = new WebProxy(new System.Uri($"http://{proxyHost}:{proxyPort}"), false, null);
 
-                WebProxy p = new WebProxy(new System.Uri($"http://{Settings.UseProxyHost}:{Settings.UseProxyPort}"), false, null);
-
-                if (Settings.UseProxyAuthentication)
-                    p.Credentials = new NetworkCredential(Settings.UseProxyUsername, Settings.UseProxyPassword);
+                if (proxyUsername!="")
+                    p.Credentials = new NetworkCredential(proxyUsername, proxyPassword);
                 return p;
             } catch (Exception)
             {

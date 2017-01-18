@@ -138,11 +138,13 @@ namespace PokemonGo.RocketAPI.Console
         void SnipePoke(PokemonId id, int secondsToWait, int numberOfTries)
         {
             Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "Manual Snipe Triggered! We'll stop farming and go catch the pokemon ASAP");
-            ManualSnipePokemon.ID = id;
-            ManualSnipePokemon.Location = splLatLngResult;
-            ManualSnipePokemon.secondsSnipe = secondsToWait;
-            ManualSnipePokemon.triesSnipe = numberOfTries;
-            GlobalSettings.ForceSnipe = true;
+            
+            GlobalSettings.SnipeOpts.ID = id;
+            GlobalSettings.SnipeOpts.Location = splLatLngResult;
+            GlobalSettings.SnipeOpts.WaitSecond = secondsToWait;
+            GlobalSettings.SnipeOpts.NumTries = numberOfTries;
+            GlobalSettings.SnipeOpts.Enabled = true;
+            //GlobalSettings.ForceSnipe = true;
             SnipeInfo.Text = "";
         }
 
@@ -283,11 +285,11 @@ namespace PokemonGo.RocketAPI.Console
         }        
         void nudSecondsSnipe_ValueChanged(object sender, EventArgs e)
         {
-          ManualSnipePokemon.secondsSnipe = (int) nudSecondsSnipe.Value;
+          GlobalSettings.SnipeOpts.WaitSecond = (int) nudSecondsSnipe.Value;
         }
         void nudTriesSnipe_ValueChanged(object sender, EventArgs e)
         {
-          ManualSnipePokemon.triesSnipe = (int) nudTriesSnipe.Value;
+          GlobalSettings.SnipeOpts.NumTries = (int) nudTriesSnipe.Value;
           
         }
     }

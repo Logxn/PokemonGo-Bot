@@ -68,15 +68,6 @@ namespace PokemonGo.RocketAPI.Console
             get { return GlobalSettings.password; }
             set { GlobalSettings.password = value; }
         }
-        public string GoogleRefreshToken
-        {
-            get { return UserSettings.Default.GoogleRefreshToken; }
-            set
-            {
-                UserSettings.Default.GoogleRefreshToken = value;
-                UserSettings.Default.Save();
-            }
-        }
 
         /* COORDINATES & LOCATION */
         public double DefaultLatitude
@@ -360,65 +351,6 @@ namespace PokemonGo.RocketAPI.Console
         {
             get { return GlobalSettings.settingsLanguage; }
             set { GlobalSettings.settingsLanguage = value; }
-        }
-        public string UseProxyHost
-        {
-            get { return UserSettings.Default.UseProxyHost; }
-            set
-            {
-                UserSettings.Default.UseProxyHost = value;
-                UserSettings.Default.Save();
-            }
-        }
-
-        public int UseProxyPort
-        {
-            get { return UserSettings.Default.UseProxyPort; }
-            set
-            {
-                UserSettings.Default.UseProxyPort = value;
-                UserSettings.Default.Save();
-            }
-        }
-
-        public string UseProxyUsername
-        {
-            get { return UserSettings.Default.UseProxyUsername; }
-            set
-            {
-                UserSettings.Default.UseProxyUsername = value;
-                UserSettings.Default.Save();
-            }
-        }
-
-        public string UseProxyPassword
-        {
-            get { return UserSettings.Default.UseProxyPassword; }
-            set
-            {
-                UserSettings.Default.UseProxyPassword = value;
-                UserSettings.Default.Save();
-            }
-        }
-
-        public bool UseProxyVerified
-        {
-            get { return UserSettings.Default.UseProxyVerified; }
-            set
-            {
-                UserSettings.Default.UseProxyVerified = value;
-                UserSettings.Default.Save();
-            }
-        }
-
-        public bool UseProxyAuthentication
-        {
-            get { return UserSettings.Default.UseProxyAuthentication; }
-            set
-            {
-                UserSettings.Default.UseProxyAuthentication = value;
-                UserSettings.Default.Save();
-            }
         }
 
         public List<PokemonId> catchPokemonSkipList
@@ -823,6 +755,15 @@ namespace PokemonGo.RocketAPI.Console
             get { return GlobalSettings.PauseTheWalking; }
             set { GlobalSettings.PauseTheWalking = value; }
         }
-        
+        public ManualSnipePokemon SnipeOpts
+        {
+            get { return GlobalSettings.SnipeOpts; }
+            set { GlobalSettings.SnipeOpts = value; }
+        }
+        public ProxySettings proxySettings
+        {
+            get { return GlobalSettings.proxySettings; }
+            set { GlobalSettings.proxySettings = value; }
+        }
     }
 }

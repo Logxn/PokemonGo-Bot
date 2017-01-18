@@ -24,7 +24,7 @@ namespace PokemonGo.RocketAPI.Rpc
 
         public Login(Client client) : base(client)
         {
-            _login = SetLoginType(client.Settings);
+            _login = SetLoginType(client.AuthType, client.Username,client.Password);
             Client.ApiUrl = Resources.RpcUrl;
         }
 
