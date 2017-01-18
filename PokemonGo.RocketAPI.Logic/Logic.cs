@@ -64,6 +64,7 @@ namespace PokemonGo.RocketAPI.Logic
         private int level = -1;
         public List<ulong> SkippedPokemon = new List<ulong>();
         public double lastsearchtimestamp;
+        private bool logicAllowCatchPokemon = true;
 
         #region Pause Walking Function
 
@@ -92,7 +93,6 @@ namespace PokemonGo.RocketAPI.Logic
 
         public string Lure = "lureId";
         public PokemonId Luredpokemoncaught = PokemonId.Articuno;
-        private PokemonId snipokemonIds;
         private bool addedlure;
         public Sniper sniperLogic;
         #endregion
@@ -109,6 +109,7 @@ namespace PokemonGo.RocketAPI.Logic
             this.infoObservable = infoObservable;
             Instance = this;
             sniperLogic = new  Sniper(objClient);
+            Shared.KeyCollection.Load();
         }
         #endregion
 
@@ -199,8 +200,9 @@ namespace PokemonGo.RocketAPI.Logic
             // Check if disabled
             StringUtils.CheckKillSwitch();
 
-            Logger.ColoredConsoleWrite(ConsoleColor.Red, "This bot is absolutely free and open-source!");
+            Logger.ColoredConsoleWrite(ConsoleColor.Red, "Source code and binary files of this bot are absolutely free and open-source!");
             Logger.ColoredConsoleWrite(ConsoleColor.Red, "If you've paid for it. Request a chargeback immediately!");
+            Logger.ColoredConsoleWrite(ConsoleColor.Red, "You only need pay for a key to access to Hash Service");
 
             #region Log Logger
 
@@ -679,7 +681,7 @@ namespace PokemonGo.RocketAPI.Logic
                     {
                         Logger.ColoredConsoleWrite(ConsoleColor.Green, "Pokemon Catch Limit Reached - Bot will only farm pokestops");
 
-                        ClientSettings.CatchPokemon = false;
+                        logicAllowCatchPokemon = false;
                     }
                     else
                     {
@@ -697,7 +699,7 @@ namespace PokemonGo.RocketAPI.Logic
 
                 if (pokeStopFarmedCount >= ClientSettings.PokestopFarmLimit)
                 {
-                    if (ClientSettings.CatchPokemon)
+                    if (ClientSettings.CatchPokemon && logicAllowCatchPokemon)
                     {
                         Logger.ColoredConsoleWrite(ConsoleColor.Green, "Pokestop Farmed Limit Reached - Bot will only catch pokemon");
 
@@ -1396,7 +1398,7 @@ namespace PokemonGo.RocketAPI.Logic
                         {
                             Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Detected Pokeball Restock - Enabling Catch Pokemon");
 
-                            ClientSettings.CatchPokemon = true;
+                            logicAllowCatchPokemon = true;
                             pokeballoutofstock = false;
                         }
 
@@ -1516,7 +1518,7 @@ namespace PokemonGo.RocketAPI.Logic
             var client = objClient;
             
             //bypass catching pokemon if disabled
-            if (ClientSettings.CatchPokemon )
+            if (ClientSettings.CatchPokemon && logicAllowCatchPokemon )
             {
                 if (mapObjectsResponse == null)
                 {
@@ -1777,7 +1779,7 @@ private int GetGymLevel(long value)
                     Logger.ColoredConsoleWrite(ConsoleColor.Red, "Detected all balls out of stock - disabling pokemon catch until restock of at least 1 ball type occurs");
 
                     pokeballoutofstock = true;
-                    ClientSettings.CatchPokemon = false;
+                    logicAllowCatchPokemon = false;
 
                     return;
                 }
@@ -1808,7 +1810,7 @@ private int GetGymLevel(long value)
                             Logger.ColoredConsoleWrite(ConsoleColor.Red, "Detected all balls out of stock - disabling pokemon catch until restock of at least 1 ball type occurs");
 
                             pokeballoutofstock = true;
-                            ClientSettings.CatchPokemon = false;
+                            logicAllowCatchPokemon = false;
 
                             return;
                         }
@@ -2455,7 +2457,7 @@ private int GetGymLevel(long value)
                 if ((item.ItemId == ItemId.ItemPokeBall || item.ItemId == ItemId.ItemGreatBall || item.ItemId == ItemId.ItemUltraBall || item.ItemId == ItemId.ItemMasterBall) && pokeballoutofstock)
                 {
                     Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Detected Pokeball Restock - Enabling Catch Pokemon");
-                    ClientSettings.CatchPokemon = true;
+                    logicAllowCatchPokemon = true;
                     pokeballoutofstock = false;
                 }
                 var transfer = objClient.Inventory.RecycleItem(item.ItemId, item.Count).Result;
