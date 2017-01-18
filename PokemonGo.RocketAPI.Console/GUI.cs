@@ -865,7 +865,7 @@ namespace PokemonGo.RocketAPI.Console
                 }
 
                 Settings settings = new Settings();
-                var configString = Newtonsoft.Json.JsonConvert.SerializeObject(settings);
+                var configString = JsonConvert.SerializeObject(settings);
 
                 ActiveProfile.ProfileName = Globals.ProfileName;
                 ActiveProfile.IsDefault = Globals.IsDefault;
@@ -885,7 +885,7 @@ namespace PokemonGo.RocketAPI.Console
                     }
                 }
                 newProfiles.Add(ActiveProfile);
-                profileJSON = Newtonsoft.Json.JsonConvert.SerializeObject(newProfiles);
+                profileJSON = JsonConvert.SerializeObject(newProfiles,Formatting.Indented);
                 File.WriteAllText(@Program.accountProfiles, profileJSON);
                 Globals.password = decryptedPassword;
                 #endregion

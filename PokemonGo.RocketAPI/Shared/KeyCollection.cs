@@ -29,11 +29,13 @@ namespace PokemonGo.RocketAPI.Shared
         }
         public static void Load()
         {
-            var strJSON = File.ReadAllText(filename);
-            var keys1 = JsonConvert.DeserializeObject<ArrayList>(strJSON);
-            keys = new Queue();
-            foreach ( var element in keys1) {
-                keys.Enqueue(element);
+            if (File.Exists(filename)){
+                var strJSON = File.ReadAllText(filename);
+                var keys1 = JsonConvert.DeserializeObject<ArrayList>(strJSON);
+                keys = new Queue();
+                foreach ( var element in keys1) {
+                    keys.Enqueue(element);
+                }
             }
         }
         public static string nextKey(){
@@ -51,6 +53,16 @@ namespace PokemonGo.RocketAPI.Shared
             if (keys == null)
                 keys = new Queue();
             keys.Enqueue(str);
+        }
+        public static void removeKey(string str){
+            if (keys != null){
+                var tmp = new Queue();
+                foreach (var element in keys) {
+                    if (!((string)element).Equals(str))
+                        tmp.Enqueue(element);
+                }
+                keys = tmp;
+            }
         }
         
     }

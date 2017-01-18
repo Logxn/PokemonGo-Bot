@@ -63,6 +63,11 @@ namespace PokemonGo.RocketAPI.Logic.Functions
             catch (Exception ex1)
             {
                 Logger.ExceptionInfo(ex1.ToString());
+                SendToLog($"Go to {_clientSettings.DefaultLatitude} / {_clientSettings.DefaultLongitude}.");
+                var result = _client.Player.UpdatePlayerLocation(
+                        _clientSettings.DefaultLatitude,
+                        _clientSettings.DefaultLongitude,
+                        _clientSettings.DefaultAltitude).Result;
             }
             _clientSettings.ForceSnipe = false;
             _clientSettings.ManualSnipePokemonID = null;
@@ -100,7 +105,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
             }while ((tries < _clientSettings.triesSnipe) && !found);
             
             if (!found){
-                Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Go to {_clientSettings.DefaultLatitude} / {_clientSettings.DefaultLongitude}.");
+                SendToLog( $"Go to {_clientSettings.DefaultLatitude} / {_clientSettings.DefaultLongitude}.");
                 var result = _client.Player.UpdatePlayerLocation(
                         _clientSettings.DefaultLatitude,
                         _clientSettings.DefaultLongitude,

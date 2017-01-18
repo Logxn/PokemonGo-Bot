@@ -105,13 +105,12 @@ namespace PokemonGo.RocketAPI.Hash
         public HashResponseContent RequestHashes(HashRequestContent request)
         {
             int retry = 3;
-            int cyclingRetrys = 50;
+            int cyclingRetrys = 40;
             bool doFasterCall ;
             do {
                 doFasterCall = false;
                 try
                 {
-                    Logger.Write("Trying using: "+this.apiKey.Substring(0,5));
                     return InternalRequestHashes(request);
                 }
                 catch (HasherException hashEx)
@@ -129,9 +128,11 @@ namespace PokemonGo.RocketAPI.Hash
                 }
                 if (doFasterCall){
                     var nextKey = Shared.KeyCollection.nextKey();
-                    if (nextKey !="") 
+                    if (nextKey !=""){
                            this.apiKey = nextKey;
-                    RandomHelper.RandomSleep(150,155);
+                           Logger.Write("Changing KEY to: "+this.apiKey.Substring(0,5));
+                    }
+                    RandomHelper.RandomSleep(250,300);
                 }
                 else{
                     RandomHelper.RandomSleep(1000,1100);
@@ -163,11 +164,13 @@ namespace PokemonGo.RocketAPI.Hash
                         var responseText = response.Content.ReadAsStringAsync().Result;
                         throw new HasherException($"[HashService] Bad request sent to the hashing server! {responseText}");
                     case HttpStatusCode.Unauthorized: // No Valid Key
+                        Shared.KeyCollection.removeKey(this.apiKey);
                         throw new  HasherException($"[HashService] Your PF-Hashkey you provided is incorrect (or not valid anymore). ");
                     case (HttpStatusCode)429: // To many reqeusts => que 
                         responseText = response.Content.ReadAsStringAsync().Result;
                         throw new HasherException($"HashService] Your request has been limited (Message : {responseText})");
                     default:
+                        RandomHelper.RandomSleep(10000,11000);
                         throw new HasherException($"[HashService] Pokefamer Hash API ({client.BaseAddress}{endpoint}) might down!");
                 }
             }

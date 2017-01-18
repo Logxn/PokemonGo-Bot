@@ -93,7 +93,6 @@ namespace PokemonGo.RocketAPI.Logic
 
         public string Lure = "lureId";
         public PokemonId Luredpokemoncaught = PokemonId.Articuno;
-        private PokemonId snipokemonIds;
         private bool addedlure;
         public Sniper sniperLogic;
         #endregion
