@@ -112,7 +112,7 @@ namespace PokemonGo.RocketAPI
 
         private WebProxy InitProxy(string proxyHost, int proxyPort, string proxyUsername, string proxyPassword)
         {
-            if (proxyHost == "")
+            if ((proxyHost == "") || (proxyPort ==0))
                 return null;
             try
             {

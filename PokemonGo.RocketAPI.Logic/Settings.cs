@@ -763,6 +763,7 @@ namespace PokemonGo.RocketAPI.Console
             get { return GlobalSettings.PauseTheWalking; }
             set { GlobalSettings.PauseTheWalking = value; }
         }
+
         public ManualSnipePokemon SnipeOpts
         {
             get { return GlobalSettings.SnipeOpts; }

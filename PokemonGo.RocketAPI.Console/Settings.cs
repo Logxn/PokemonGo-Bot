@@ -764,6 +764,6 @@ namespace PokemonGo.RocketAPI.Console
         {
             get { return GlobalSettings.proxySettings; }
             set { GlobalSettings.proxySettings = value; }
-        }
+        }        
     }
 }

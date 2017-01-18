@@ -218,14 +218,16 @@ namespace PokemonGo.RocketAPI.Console
         }
 
         private void LoadData(string configString)
-        //TODO - Accomplish this with Data-Binding from Globals to eliminate load and update lines
         {
-            try
+            var loadDefaultValues = 0;
+            if (configString == "")
+                loadDefaultValues = 1;
+            else
             {
-                if (configString != "")
+                try
                 {
 
-                    var settings = new JsonSerializerSettings
+                    var jsonSettings = new JsonSerializerSettings
                     {
                         Error = (sender, args) =>
                         {
@@ -235,7 +237,9 @@ namespace PokemonGo.RocketAPI.Console
                             }
                         }
                     };
-                    var config = Newtonsoft.Json.JsonConvert.DeserializeObject<Settings>(configString, settings);
+                        
+                        
+                    var config = Newtonsoft.Json.JsonConvert.DeserializeObject<GUISettings>(configString, jsonSettings);
                     // tab 1 
                     pFHashKey.Text = config.pFHashKey;
                     ProfileName.Text = config.ProfileName;
@@ -312,13 +316,13 @@ namespace PokemonGo.RocketAPI.Console
                     MinIVtoCatch.Text = config.MinIVtoCatch.ToString();
 
                     // tab 3 - throws
-                    checkBox2.Checked = GlobalSettings.LimitPokeballUse;
-                    checkBox3.Checked = GlobalSettings.LimitGreatballUse;
-                    checkBox7.Checked = GlobalSettings.LimitUltraballUse;
-                    numericUpDown1.Value = GlobalSettings.Max_Missed_throws;
-                    numericUpDown2.Value = GlobalSettings.InventoryBasePokeball;
-                    numericUpDown3.Value = GlobalSettings.InventoryBaseGreatball;
-                    numericUpDown4.Value = GlobalSettings.InventoryBaseUltraball;
+                    checkBox2.Checked = config.LimitPokeballUse;
+                    checkBox3.Checked = config.LimitGreatballUse;
+                    checkBox7.Checked = config.LimitUltraballUse;
+                    numericUpDown1.Value = config.Max_Missed_throws;
+                    numericUpDown2.Value = config.InventoryBasePokeball;
+                    numericUpDown3.Value = config.InventoryBaseGreatball;
+                    numericUpDown4.Value = config.InventoryBaseUltraball;
 
                     checkBox_UseRazzberryIfChanceUnder.Checked = config.UseRazzBerry;
                     text_UseRazzberryChance.Text = (config.razzberry_chance * 100).ToString();
@@ -364,6 +368,12 @@ namespace PokemonGo.RocketAPI.Console
                         
 
                     // tab 5 proxy
+                    checkBox_UseProxy.Checked = config.proxySettings.enabled;
+                    checkBox_UseProxyAuth.Checked = config.proxySettings.useAuth;
+                    prxyIP.Text = config.proxySettings.hostName;
+                    prxyPort.Text =""+ config.proxySettings.port;
+                    prxyUser.Text = config.proxySettings.username;
+                    prxyPass.Text = config.proxySettings.password;
 
 
                     // tab 6 walk
@@ -420,17 +430,13 @@ namespace PokemonGo.RocketAPI.Console
                         MessageBox.Show("Loading Config failed - Check settings before running!");
                     }
                 }
-                else
+                catch (Exception e)
                 {
-                    Exception e = new Exception("Loading Defaults");
-                    throw e;
+                    MessageBox.Show("Loading Config failed - Check settings before running!");
                 }
             }
-            catch (Exception e)
+            if (loadDefaultValues > 0)
             {
-                if (!e.Message.Contains("Loading Defaults") && GlobalSettings.FirstLoad)
-                    MessageBox.Show("Loading Config failed - Check settings before running!");
-
                 text_Latidude.Text = "40,764883";
                 text_Longitude.Text = "-73,972967";
                 text_Altidude.Text = "10";
@@ -456,7 +462,7 @@ namespace PokemonGo.RocketAPI.Console
                 var success = LoadGlobals(false);
                 if (!success)
                 {
-                    MessageBox.Show("Loading Config failed - Check settings before running!");
+                    MessageBox.Show("Failing setting default values - Check settings before running!");
                 }
             }
             if (File.Exists(Program.lastcords))
@@ -476,36 +482,6 @@ namespace PokemonGo.RocketAPI.Console
 
                 }
             }
-            // Load Proxy Settings
-            if (_clientSettings.proxySettings.hostName != string.Empty)
-                prxyIP.Text = _clientSettings.proxySettings.hostName;
-
-            if (_clientSettings.proxySettings.port != 0)
-                prxyPort.Text = "" + _clientSettings.proxySettings.port;
-
-            if (_clientSettings.proxySettings.username != string.Empty)
-                prxyUser.Text = _clientSettings.proxySettings.username;
-
-            if (_clientSettings.proxySettings.password != string.Empty)
-                prxyPass.Text = "" + _clientSettings.proxySettings.password;
-
-            if (prxyIP.Text != "HTTPS Proxy IP")
-            {
-                _clientSettings.proxySettings.enabled = true;
-            }
-            else
-                _clientSettings.proxySettings.enabled = false;
-
-            if (prxyUser.Text != "Proxy Username")
-                _clientSettings.proxySettings.useAuth = true;
-            else
-                _clientSettings.proxySettings.useAuth = false;
-
-            // Placeholder event add
-            prxyIP.GotFocus += new EventHandler(prxy_GotFocus);
-            prxyPort.GotFocus += new EventHandler(prxy_GotFocus);
-            prxyUser.GotFocus += new EventHandler(prxy_GotFocus);
-            prxyPass.GotFocus += new EventHandler(prxy_GotFocus);
             GlobalSettings.FirstLoad = true;
         }
         //Account Type Changed Event
@@ -635,7 +611,7 @@ namespace PokemonGo.RocketAPI.Console
 
         private bool LoadGlobals(bool makePrompts=true)
         {
-            #region Setting aaaaaaaaaaaall the globals
+            #region Setting all the globals
 
             // tab 1 - General     
             GlobalSettings.acc = (comboBox_AccountType.SelectedIndex == 0) ? Enums.AuthType.Google : Enums.AuthType.Ptc;
@@ -749,15 +725,16 @@ namespace PokemonGo.RocketAPI.Console
             GlobalSettings.No10kmEggsBasicInc = checkBox_10kmEggsBasicInc.Checked;
             GlobalSettings.EggsAscendingSelectionBasicInc = rbSOEggsAscendingBasicInc.Checked;
 
+            
             // tab  - Proxy
-            /*
-            UserSettings.Default.UseProxyVerified = checkBox_UseProxy.Checked;
-            UserSettings.Default.UseProxyAuthentication = checkBox_UseProxyAuth.Checked;
-            UserSettings.Default.UseProxyHost = prxyIP.Checked;
-            UserSettings.Default.UseProxyPort = prxyPort.Checked;
-            UserSettings.Default.UseProxyUsername = prxyUser.Checked;
-            UserSettings.Default.UseProxyPassword = prxyPass.Checked;
-            */
+            GlobalSettings.proxySettings.enabled =checkBox_UseProxy.Checked;
+            GlobalSettings.proxySettings.useAuth =checkBox_UseProxyAuth.Checked;
+            GlobalSettings.proxySettings.hostName =prxyIP.Text;
+            var intvalue = 0;
+            int.TryParse(prxyPort.Text, out intvalue);
+            GlobalSettings.proxySettings.port = intvalue;
+            GlobalSettings.proxySettings.username =prxyUser.Text;
+            GlobalSettings.proxySettings.password =prxyPass.Text;
 
             // tab 6 - Walk
             ret &= textBoxToGlobalDouble(text_Speed);
@@ -867,14 +844,14 @@ namespace PokemonGo.RocketAPI.Console
                     GlobalSettings.password = encryptedPassword;
                 }
 
-                Settings settings = new Settings();
+                var settings = new Settings();
                 var configString = JsonConvert.SerializeObject(settings);
 
                 ActiveProfile.ProfileName = GlobalSettings.ProfileName;
                 ActiveProfile.IsDefault = GlobalSettings.IsDefault;
                 ActiveProfile.RunOrder = GlobalSettings.RunOrder;
                 ActiveProfile.SettingsJSON = configString;
-                Collection<Profile> newProfiles = new Collection<Profile>();
+                var newProfiles = new Collection<Profile>();
                 string profileJSON = "";
                 if (File.Exists(@Program.accountProfiles))
                 {
@@ -892,7 +869,18 @@ namespace PokemonGo.RocketAPI.Console
                 File.WriteAllText(@Program.accountProfiles, profileJSON);
                 GlobalSettings.password = decryptedPassword;
                 #endregion
-                
+
+                // Delete proxy information if not enabled
+                if (!GlobalSettings.proxySettings.enabled){
+                    GlobalSettings.proxySettings.hostName ="";
+                    GlobalSettings.proxySettings.port = 0;
+                }
+
+                if(!GlobalSettings.proxySettings.useAuth){
+                    GlobalSettings.proxySettings.username ="";
+                    GlobalSettings.proxySettings.password = "";
+                }
+
                 return true;
             }
             else
@@ -1168,26 +1156,19 @@ namespace PokemonGo.RocketAPI.Console
         public class ExtendedWebClient : WebClient
         {
 
-            private int timeout;
-            public int Timeout
-            {
-                get
-                {
-                    return timeout;
-                }
-                set
-                {
-                    timeout = value;
-                }
+            public int Timeout {
+                get;
+                set;
             }
+            
             public ExtendedWebClient()
             {
-                this.timeout = 2000;//In Milli seconds 
+                this.Timeout = 2000;//In Milli seconds 
             }
             protected override WebRequest GetWebRequest(Uri address)
             {
                 var objWebRequest = base.GetWebRequest(address);
-                objWebRequest.Timeout = this.timeout;
+                objWebRequest.Timeout = this.Timeout;
                 return objWebRequest;
             }
         }
@@ -1202,69 +1183,6 @@ namespace PokemonGo.RocketAPI.Console
             Process.Start("https://twitter.com/MattKnight4355");
         }
 
-        private void checkBox13_CheckedChanged(object sender, EventArgs e)
-        {
-            if (checkBox_UseProxy.Checked)
-            {
-                button1.Enabled = false;
-                prxyIP.Enabled = true;
-                prxyPort.Enabled = true;
-                //UserSettings.Default.UseProxyVerified = true;
-            }
-            else
-            {
-                button1.Enabled = true;
-                prxyIP.Enabled = false;
-                prxyPort.Enabled = false;
-                //UserSettings.Default.UseProxyVerified = false;
-            }
-
-        }
-
-        private void checkBox14_CheckedChanged(object sender, EventArgs e)
-        {
-            if (checkBox_UseProxyAuth.Checked)
-            {
-                prxyUser.Enabled = true;
-                prxyPass.Enabled = true;
-            }
-            else
-            {
-                prxyUser.Enabled = false;
-                prxyPass.Enabled = false;
-            }
-
-        }
-
-        private void button3_Click(object sender, EventArgs e)
-        {
-            _clientSettings.proxySettings.hostName = string.Empty;
-            _clientSettings.proxySettings.port = 0;
-            _clientSettings.proxySettings.username = string.Empty;
-            _clientSettings.proxySettings.enabled = false;
-            _clientSettings.proxySettings.useAuth = false;
-        }
-
-        private void prxy_GotFocus(object sender, EventArgs e)
-        {
-            TextBox tb = (TextBox)sender;
-            if (tb.Text == "HTTPS Proxy IP")
-            {
-                tb.Text = "";
-            }
-            else if (tb.Text == "HTTPS Proxy Port")
-            {
-                tb.Text = "";
-            }
-            else if (tb.Text == "Proxy Username")
-            {
-                tb.Text = "";
-            }
-            else if (tb.Text == "Proxy Password")
-            {
-                tb.Text = "";
-            }
-        }
 
         private void linkLabel5_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
@@ -1298,28 +1216,7 @@ namespace PokemonGo.RocketAPI.Console
             return true;
         }
 
-        private void checkPrxy_Click(object sender, EventArgs e)
-        {
-            string proxyip = prxyIP.Text;
-            int port = Convert.ToInt32(prxyPort.Text);
 
-            _clientSettings.proxySettings.hostName = prxyIP.Text;
-            _clientSettings.proxySettings.port = port;
-
-            if (checkBox_UseProxyAuth.Checked)
-            {
-                _clientSettings.proxySettings.username = prxyUser.Text;
-                _clientSettings.proxySettings.password = prxyPass.Text;
-                _clientSettings.proxySettings.useAuth = true;
-            }
-            _clientSettings.proxySettings.enabled = true;
-            button1.Enabled = true;
-        }
-
-        private void checkBox3_CheckedChanged(object sender, EventArgs e)
-        {
-            GlobalSettings.evolve = checkBox3.Checked;
-        }
 
         private void button4_Click(object sender, EventArgs e)
         {
@@ -1381,29 +1278,11 @@ namespace PokemonGo.RocketAPI.Console
             Process.Start("https://github.com/MTK4355/");
         }
 
-        private void checkBox7_CheckedChanged(object sender, EventArgs e)
-        {
-
-        }
         void TextBoxes_TextChanged(object sender, EventArgs e)
         {
             ((TextBox) sender).BackColor = SystemColors.Window;
         }
 
-        private void tabGeneral_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label30_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label66_Click(object sender, EventArgs e)
-        {
-
-        }
 
         private void linkLabel14_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
@@ -1428,5 +1307,26 @@ We did not have any influence on this. We are very sorry this needed to happen!"
 		{
 			new GUIAvatar().ShowDialog();
 		}
+        void checkBox_UseProxy_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBox_UseProxy.Checked){
+                prxyIP.Enabled = true;
+                prxyPort.Enabled = true;
+            }else{
+                prxyIP.Enabled = false;
+                prxyPort.Enabled = false;
+            }
+        }
+        void checkBox_UseProxyAuth_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBox_UseProxyAuth.Checked){
+                prxyUser.Enabled = true;
+                prxyPass.Enabled = true;
+            }else{
+                prxyUser.Enabled = false;
+                prxyPass.Enabled = false;
+            }
+
+        }
     }
 }

@@ -52,7 +52,9 @@ namespace PokemonGo.RocketAPI.Logic.Shared
 		}
 		public void Load()
 		{
-            AvatarSettings settings = JsonConvert.DeserializeObject<AvatarSettings>(File.ReadAllText(filename));
+		    if (File.Exists(filename)){
+                AvatarSettings settings = JsonConvert.DeserializeObject<AvatarSettings>(File.ReadAllText(filename));
+		    }
 		}
 	}
 

@@ -177,5 +177,9 @@ namespace PokemonGo.RocketAPI.Logic.Shared
         bool EnableVerboseLogging { get; set; }
         bool EnableConsoleInTab { get; set; }
         bool PauseTheWalking { get; set; }
+        
+        bool EnablePokeList { get; set; }
+        bool simulatedPGO { get; set; }
+        bool pauseAtEvolve { get; set; }
     }
 }

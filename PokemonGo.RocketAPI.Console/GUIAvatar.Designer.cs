@@ -1,6 +1,6 @@
 ﻿/*
  * Created by SharpDevelop.
- * User: usuarioIEDC
+ * User: Xelwon
  * Date: 18/01/2017
  * Time: 9:45
  * 
@@ -39,53 +39,53 @@ namespace PokemonGo.RocketAPI.Console
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.tutorialPanel1 = new PokemonGo.RocketAPI.Console.Panels.TutorialPanel();
-			this.buttonCancel = new System.Windows.Forms.Button();
-			this.buttonOk = new System.Windows.Forms.Button();
-			this.SuspendLayout();
-			// 
-			// tutorialPanel1
-			// 
-			this.tutorialPanel1.Location = new System.Drawing.Point(3, 2);
-			this.tutorialPanel1.Name = "tutorialPanel1";
-			this.tutorialPanel1.Size = new System.Drawing.Size(498, 315);
-			this.tutorialPanel1.TabIndex = 0;
-			// 
-			// buttonCancel
-			// 
-			this.buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.buttonCancel.Location = new System.Drawing.Point(404, 305);
-			this.buttonCancel.Name = "buttonCancel";
-			this.buttonCancel.Size = new System.Drawing.Size(75, 23);
-			this.buttonCancel.TabIndex = 1;
-			this.buttonCancel.Text = "&Cancel";
-			this.buttonCancel.UseVisualStyleBackColor = true;
-			// 
-			// buttonOk
-			// 
-			this.buttonOk.Location = new System.Drawing.Point(323, 305);
-			this.buttonOk.Name = "buttonOk";
-			this.buttonOk.Size = new System.Drawing.Size(75, 23);
-			this.buttonOk.TabIndex = 2;
-			this.buttonOk.Text = "&Ok";
-			this.buttonOk.UseVisualStyleBackColor = true;
-			this.buttonOk.Click += new System.EventHandler(this.ButtonOkClick);
-			// 
-			// GUIAvatar
-			// 
-			this.AcceptButton = this.buttonOk;
-			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.CancelButton = this.buttonCancel;
-			this.ClientSize = new System.Drawing.Size(487, 338);
-			this.Controls.Add(this.buttonOk);
-			this.Controls.Add(this.buttonCancel);
-			this.Controls.Add(this.tutorialPanel1);
-			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-			this.MaximizeBox = false;
-			this.Name = "GUIAvatar";
-			this.Text = "GUIAvatar";
-			this.ResumeLayout(false);
+		    this.tutorialPanel1 = new PokemonGo.RocketAPI.Console.Panels.TutorialPanel();
+		    this.buttonCancel = new System.Windows.Forms.Button();
+		    this.buttonOk = new System.Windows.Forms.Button();
+		    this.SuspendLayout();
+		    // 
+		    // tutorialPanel1
+		    // 
+		    this.tutorialPanel1.Location = new System.Drawing.Point(3, 2);
+		    this.tutorialPanel1.Name = "tutorialPanel1";
+		    this.tutorialPanel1.Size = new System.Drawing.Size(498, 315);
+		    this.tutorialPanel1.TabIndex = 0;
+		    // 
+		    // buttonCancel
+		    // 
+		    this.buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+		    this.buttonCancel.Location = new System.Drawing.Point(404, 305);
+		    this.buttonCancel.Name = "buttonCancel";
+		    this.buttonCancel.Size = new System.Drawing.Size(75, 23);
+		    this.buttonCancel.TabIndex = 1;
+		    this.buttonCancel.Text = "&Cancel";
+		    this.buttonCancel.UseVisualStyleBackColor = true;
+		    // 
+		    // buttonOk
+		    // 
+		    this.buttonOk.Location = new System.Drawing.Point(323, 305);
+		    this.buttonOk.Name = "buttonOk";
+		    this.buttonOk.Size = new System.Drawing.Size(75, 23);
+		    this.buttonOk.TabIndex = 2;
+		    this.buttonOk.Text = "&Ok";
+		    this.buttonOk.UseVisualStyleBackColor = true;
+		    this.buttonOk.Click += new System.EventHandler(this.ButtonOkClick);
+		    // 
+		    // GUIAvatar
+		    // 
+		    this.AcceptButton = this.buttonOk;
+		    this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+		    this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+		    this.CancelButton = this.buttonCancel;
+		    this.ClientSize = new System.Drawing.Size(487, 338);
+		    this.Controls.Add(this.buttonOk);
+		    this.Controls.Add(this.buttonCancel);
+		    this.Controls.Add(this.tutorialPanel1);
+		    this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+		    this.MaximizeBox = false;
+		    this.Name = "GUIAvatar";
+		    this.Text = "Avatar Settings";
+		    this.ResumeLayout(false);
 
 		}
 	}
