@@ -109,7 +109,7 @@ namespace PokemonGo.RocketAPI.Logic
             this.infoObservable = infoObservable;
             Instance = this;
             sniperLogic = new  Sniper(objClient);
-            Shared.KeyCollection.Load();
+            PokemonGo.RocketAPI.Shared.KeyCollection.Load();
         }
         #endregion
 

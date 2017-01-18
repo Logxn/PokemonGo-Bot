@@ -18,7 +18,6 @@ namespace PokemonGo.RocketAPI.Console
         private static POGOProtos.Data.Player.PlayerStats stats;
         public static ISettings ClientSettings;
         public bool waitingApiResponse = false;
-        private Panels.WebPanel webPanel;
 
         public class taskResponse
         {
@@ -174,9 +173,7 @@ namespace PokemonGo.RocketAPI.Console
         	if (!TabControl1.Contains(tpWeb))
         	{
         		TabControl1.Controls.Add(tpWeb);
-        		
         	}
-      		webPanel.ChangeURL(weburl);
         }
         public void HideWebPanel(object sender, EventArgs e){
         	if (TabControl1.Contains(tpWeb))
