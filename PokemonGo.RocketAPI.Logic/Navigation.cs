@@ -18,7 +18,6 @@ namespace PokemonGo.RocketAPI.Logic
             _clientSettings = client.Settings;
         }
 
-        public bool pauseWalking = false;        
 
         private static readonly Random RandomDevice = new Random();
 
@@ -88,7 +87,7 @@ namespace PokemonGo.RocketAPI.Logic
                 waypoint = LocationUtils.CreateWaypoint(sourceLocation, nextWaypointDistance, nextWaypointBearing);
                 requestSendDateTime = DateTime.Now;                
                 
-                if (pauseWalking)
+                if (_clientSettings.PauseTheWalking)
                 {
                     result =
                        _client.Player.UpdatePlayerLocation(_client.CurrentLatitude, _client.CurrentLongitude,
@@ -109,7 +108,7 @@ namespace PokemonGo.RocketAPI.Logic
                     }
                 }
 
-                if (functionExecutedWhileWalking != null && !pauseWalking)
+                if (functionExecutedWhileWalking != null && !_clientSettings.PauseTheWalking)
                 {
                      functionExecutedWhileWalking();// look for pokemon 
                 }

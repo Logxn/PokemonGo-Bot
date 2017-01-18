@@ -186,6 +186,7 @@
     <Compile Include="IntegerInput.Designer.cs">
       <DependentUpon>IntegerInput.cs</DependentUpon>
     </Compile>
+    <Compile Include="ISettings.cs" />
     <Compile Include="ListViewComparer.cs" />
     <Compile Include="Location.cs">
       <SubType>Form</SubType>
@@ -468,6 +469,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Components" />
+    <Folder Include="Panels\New Folder" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\error-sprite.png" />

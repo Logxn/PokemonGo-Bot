@@ -92,6 +92,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Shared\AvatarSettings.cs" />
+    <Compile Include="Shared\GlobalSettings.cs" />
+    <Compile Include="Shared\ManualSnipePokemon.cs" />
+    <Compile Include="Shared\Profile.cs" />
     <Compile Include="Translation\Translation.cs" />
     <Compile Include="Translation\TranslationHandler.cs" />
     <Compile Include="Update.cs">

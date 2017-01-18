@@ -1,13 +1,12 @@
+using System.Collections.Generic;
+using System.Device.Location;
 using Google.Protobuf;
 using POGOProtos.Enums;
 using POGOProtos.Inventory.Item;
-using PokemonGo.RocketAPI;
 using PokemonGo.RocketAPI.Enums;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Device.Location;
+using PokemonGo.RocketAPI.Logic.Shared;
 
-namespace PokemonGo.RocketAPI
+namespace PokemonGo.RocketAPI.Console
 {
     public interface ISettings
     {
@@ -128,7 +127,7 @@ namespace PokemonGo.RocketAPI
         bool LogEggs { get; set; }
         bool UseAnimationTimes { get; set; }
         bool MapLoaded { get; set; }
-        bool pauseTheWalking { get; set; }
+        //bool pauseTheWalking { get; set; }
         bool pauseAtEvolve2 { get; set; }
         bool UseLureGUIClick { get; set; }
         bool UseIncenseGUIClick { get; set; }
@@ -162,15 +161,13 @@ namespace PokemonGo.RocketAPI
         List<PokemonId> pokemonsToHold { get; set; }
         List<PokemonId> pokemonsToEvolve { get; set; }
         List<PokemonId> catchPokemonSkipList { get; set; }
-        List<PokemonId> NotToSnipe { get; set; }
-        bool SnipePokemon { get; set; }
         bool AvoidRegionLock { get; set; }
-        bool ForceSnipe { get; set; }
         bool NextBestBallOnEscape { get; set; }
-        PokemonId? ManualSnipePokemonID { get; set; }
-        int secondsSnipe { get; set; }
-        int triesSnipe { get; set; }
-        GeoCoordinate ManualSnipePokemonLocation { get; set; }
+        bool SnipePokemon { get; set; }
+        List<PokemonId> NotToSnipe { get; set; }
+        
+        ManualSnipePokemon SnipeOpts;
+        
         /* ===================================[SETTINGS]================================= */
 
         ByteString SessionHash { get; set; }
@@ -185,5 +182,6 @@ namespace PokemonGo.RocketAPI
         bool EggsAscendingSelectionBasicInc { get; set; }
         bool EnableVerboseLogging { get; set; }
         bool EnableConsoleInTab { get; set; }
+        bool PauseTheWalking { get; set; }
     }
 }

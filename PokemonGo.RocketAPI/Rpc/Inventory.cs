@@ -98,11 +98,11 @@ namespace PokemonGo.RocketAPI.Rpc
             return null;
         }
 
-        public async Task<IEnumerable<ItemData>> GetItemsToRecycle(ISettings settings)
+        public async Task<IEnumerable<ItemData>> GetItemsToRecycle(ICollection<KeyValuePair<ItemId, int>> itemRecycleFilter)
         {
             var myItems = await GetItems().ConfigureAwait(false); 
             return myItems
-                .Where(x => settings.itemRecycleFilter.Any(f => f.Key == ((ItemId)x.ItemId) && x.Count > f.Value))
+                .Where(x => itemRecycleFilter.Any(f => f.Key == ((ItemId)x.ItemId) && x.Count > f.Value))
                 .Select(x => new ItemData { ItemId = x.ItemId, Count = x.Count - settings.itemRecycleFilter.Single(f => f.Key == (ItemId)x.ItemId).Value, Unseen = x.Unseen });
         }
 

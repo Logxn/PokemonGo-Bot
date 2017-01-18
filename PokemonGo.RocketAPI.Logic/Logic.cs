@@ -6,7 +6,6 @@ using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Reflection;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using GoogleMapsApi;
 using GoogleMapsApi.Entities.Common;
@@ -23,12 +22,12 @@ using POGOProtos.Networking.Responses;
 using Telegram.Bot;
 using PokemonGo.RocketAPI;
 using PokemonGo.RocketAPI.Logic;
-
 using PokemonGo.RocketApi.PokeMap.DataModel;
 using System.IO;
 using System.Text;
 using POGOProtos.Map.Pokemon;
 using PokemonGo.RocketAPI.Logic.Functions;
+using System.Threading.Tasks;
 
 namespace PokemonGo.RocketAPI.Logic
 {
@@ -65,29 +64,7 @@ namespace PokemonGo.RocketAPI.Logic
         public List<ulong> SkippedPokemon = new List<ulong>();
         public double lastsearchtimestamp;
         private bool logicAllowCatchPokemon = true;
-
-        #region Pause Walking Function
-
-        public bool PauseWalking
-        {
-            get
-            {
-                if (navigation != null)
-                {
-                    pauseWalking = navigation.pauseWalking;
-                }
-                return pauseWalking;
-            }
-            set
-            {
-                if (navigation == null) return;
-
-                navigation.pauseWalking = value;
-                pauseWalking = value;
-            }
-        }
-
-        #endregion
+		
 
         public DateTime LastIncenselog;
 
@@ -2089,7 +2066,7 @@ private int GetGymLevel(long value)
                         if (ClientSettings.pauseAtEvolve2)
                         {
                             Logger.ColoredConsoleWrite(ConsoleColor.Green, "Stopping to evolve some Pokemons.");
-                            ClientSettings.pauseTheWalking = true;
+                            ClientSettings.PauseTheWalking = true;
                         }
                     }
 
@@ -2130,7 +2107,7 @@ private int GetGymLevel(long value)
                 if (ClientSettings.pauseAtEvolve2)
                 {
                     Logger.ColoredConsoleWrite(ConsoleColor.Green, "Pokemons evolved. Time to continue our journey!");
-                    ClientSettings.pauseTheWalking = false;
+                    ClientSettings.PauseTheWalking = false;
                 }
             }
 
@@ -2148,7 +2125,7 @@ private int GetGymLevel(long value)
                 if (ClientSettings.pauseAtEvolve2)
                 {
                     Logger.ColoredConsoleWrite(ConsoleColor.Green, "Stopping to transfer some Pokemons.");
-                    ClientSettings.pauseTheWalking = true;
+                    ClientSettings.PauseTheWalking = true;
                 }
                 foreach (var duplicatePokemon in duplicatePokemons)
                 {
@@ -2195,7 +2172,7 @@ private int GetGymLevel(long value)
                 if (ClientSettings.pauseAtEvolve2)
                 {
                     Logger.ColoredConsoleWrite(ConsoleColor.Green, "Pokemons transfered. Time to continue our journey!");
-                    ClientSettings.pauseTheWalking = false;
+                    ClientSettings.PauseTheWalking = false;
                 }
             }
         }

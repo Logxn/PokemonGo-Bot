@@ -12,6 +12,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.IO;
+using PokemonGo.RocketAPI.Logic.Shared;
 
 namespace PokemonGo.RocketAPI.Console
 {
@@ -21,7 +22,6 @@ namespace PokemonGo.RocketAPI.Console
         public GetPlayerResponse profile;
         public PlayerPanel playerPanel1;
         private static GetInventoryResponse inventory;
-        private static Profile ActiveProfile = new Profile();
         private static List<AdditionalPokeData> additionalPokeData = new List<AdditionalPokeData>();
         private static ISettings ClientSettings;
         private static Client client;
@@ -444,10 +444,10 @@ namespace PokemonGo.RocketAPI.Console
 
             taskResponse resp = new taskResponse(false, string.Empty);
 
-            if (Globals.pauseAtEvolve2)
+            if (GlobalSettings.pauseAtEvolve2)
             {
                 Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Taking a break to evolve some pokemons!");
-                Globals.pauseAtWalking = true;
+                GlobalSettings.pauseAtWalking = true;
             }
 
 
@@ -469,7 +469,7 @@ namespace PokemonGo.RocketAPI.Console
                 else
                     failed += resp.Message + " ";
 
-                if (Globals.UseAnimationTimes)
+                if (GlobalSettings.UseAnimationTimes)
                 {
                     Helpers.RandomHelper.RandomSleep(30000, 35000);
                 }
@@ -501,10 +501,10 @@ namespace PokemonGo.RocketAPI.Console
             else
                 EnabledButton(true);
 
-            if (Globals.pauseAtEvolve)
+            if (GlobalSettings.pauseAtEvolve)
             {
                 Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Evolved everything. Time to continue our journey!");
-                Globals.pauseAtWalking = false;
+                GlobalSettings.pauseAtWalking = false;
             }
         }
         private static async Task<taskResponse> evolvePokemon(PokemonData pokemon)
@@ -545,10 +545,10 @@ namespace PokemonGo.RocketAPI.Console
             string logs = Path.Combine(logPath, "TransferLog.txt");
             string date = DateTime.Now.ToString();
 
-            if (Globals.pauseAtEvolve2)  // stop walking
+            if (GlobalSettings.pauseAtEvolve2)  // stop walking
             {
                 Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Taking a short break to transfer some pokemons!");
-                Globals.pauseAtWalking = true;
+                GlobalSettings.pauseAtWalking = true;
             }
             DialogResult dialogResult = MessageBox.Show("You clicked transfer. This can not be undone.", "Are you Sure?", MessageBoxButtons.YesNo);
             if (dialogResult == DialogResult.Yes)
@@ -619,10 +619,10 @@ namespace PokemonGo.RocketAPI.Console
                 client.Inventory.GetInventory(true).Wait(); // force refresh inventory
 
                 // Quarthy - We can continue walking
-                if (Globals.pauseAtEvolve)
+                if (GlobalSettings.pauseAtEvolve)
                 {
                     Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Transferred everything. Time to continue our journey!");
-                    Globals.pauseAtWalking = false;
+                    GlobalSettings.pauseAtWalking = false;
                 }                
             }
             EnabledButton(true);
@@ -1096,17 +1096,17 @@ namespace PokemonGo.RocketAPI.Console
 
         private void btnUseLure_Click(object sender, EventArgs e)
         {
-            Globals.UseLureGUIClick = true;
+            GlobalSettings.UseLureGUIClick = true;
         }
 
         private void btnUseLuckyEgg_Click(object sender, EventArgs e)
         {
-            Globals.UseLuckyEggGUIClick = true;
+            GlobalSettings.UseLuckyEggGUIClick = true;
         }
 
         private void btnUseIncense_Click(object sender, EventArgs e)
         {
-            Globals.UseIncenseGUIClick = true;
+            GlobalSettings.UseIncenseGUIClick = true;
         }
 
         public class taskResponse

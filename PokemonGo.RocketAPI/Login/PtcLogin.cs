@@ -12,13 +12,11 @@ namespace PokemonGo.RocketAPI.Login
     {
         readonly string password;
         readonly string username;
-        readonly ISettings _settings;
 
-        public PtcLogin(string username, string password, ISettings settings)
+        public PtcLogin(string username, string password)
         {
             this.username = username;
             this.password = password;
-            this._settings = settings;
         }
 
         public async Task<string> GetAccessToken()
