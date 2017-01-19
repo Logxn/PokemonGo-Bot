@@ -15,10 +15,6 @@ namespace PokemonGo.RocketAPI.Logic.Shared
 
         /* ===================================[SETTINGS]================================= */
         
-        /* Bot Infor & Versions */
-        //Version BotVersion { get; }
-        //Version BotApiSupportedVersion { get; }
-        //Version NianticApiVersion { get; }
 
         /* AUTHENTICATION */
         string pFHashKey { get; set; }

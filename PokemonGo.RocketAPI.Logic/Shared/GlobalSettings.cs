@@ -25,9 +25,7 @@ namespace PokemonGo.RocketAPI.Logic.Shared
     public static class GlobalSettings
     {
         // Bot Info  Globals (not yet implemented in any function)
-        public static Version BotVersion = new Version();
-        public static Version BotApiSupportedVersion = new Version();
-        public static Version NianticApiVersion = new Version ();
+        public static Version BotApiSupportedVersion = new Version("0.51.2");
         public static readonly bool BotDebugFlag = true;
         public static readonly bool BotStableFlag = false;
 
@@ -167,7 +165,7 @@ namespace PokemonGo.RocketAPI.Logic.Shared
         public static ManualSnipePokemon SnipeOpts = new ManualSnipePokemon();
         public static ProxySettings proxySettings = new ProxySettings();
         
-        public static bool BypassCheckCompatibilityVersion = true;
+        public static bool BypassCheckCompatibilityVersion = false;
         
         public static string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Configs");
         public static string accountProfiles = Path.Combine(path, "Profiles.txt");
