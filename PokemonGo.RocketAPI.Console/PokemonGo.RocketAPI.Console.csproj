@@ -110,6 +110,18 @@
       <HintPath>..\packages\GPSOAuthSharp.0.0.5\lib\GPSOAuthSharp.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="MetroFramework, Version=1.4.0.0, Culture=neutral, PublicKeyToken=5f91a84759bf584a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MetroModernUI.1.4.0.0\lib\net\MetroFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MetroFramework.Design, Version=1.4.0.0, Culture=neutral, PublicKeyToken=5f91a84759bf584a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MetroModernUI.1.4.0.0\lib\net\MetroFramework.Design.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MetroFramework.Fonts, Version=1.4.0.0, Culture=neutral, PublicKeyToken=5f91a84759bf584a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MetroModernUI.1.4.0.0\lib\net\MetroFramework.Fonts.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\gmaps-api-net.0.13.30\lib\net\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
@@ -148,14 +160,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-
     <Compile Include="Components\LabelCombo.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Components\LabelCombo.Designer.cs">
       <DependentUpon>LabelCombo.cs</DependentUpon>
     </Compile>
-
     <Compile Include="Components\LabelText.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -176,7 +186,9 @@
     <Compile Include="GUI.Designer.cs">
       <DependentUpon>GUI.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUIAvatar.cs" />
+    <Compile Include="GUIAvatar.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="GUIAvatar.Designer.cs">
       <DependentUpon>GUIAvatar.cs</DependentUpon>
     </Compile>
@@ -243,21 +255,18 @@
     <Compile Include="Panels\SniperPanel.Designer.cs">
       <DependentUpon>SniperPanel.cs</DependentUpon>
     </Compile>
-
     <Compile Include="Panels\SplashScreen.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Panels\SplashScreen.Designer.cs">
       <DependentUpon>SplashScreen.cs</DependentUpon>
     </Compile>
-
     <Compile Include="Panels\TutorialPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Panels\TutorialPanel.Designer.cs">
       <DependentUpon>TutorialPanel.cs</DependentUpon>
     </Compile>
-
     <Compile Include="Panels\WebPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
