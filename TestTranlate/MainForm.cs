@@ -19,6 +19,7 @@ namespace TestTranlate
     /// </summary>
     public partial class MainForm : Form
     {
+        TranslatorHelper th = new TranslatorHelper();
         public MainForm()
         {
             //
@@ -26,19 +27,15 @@ namespace TestTranlate
             //
             InitializeComponent();
             
-            var th = new TranslatorHelper();
-            th.languageSelected=CultureInfo.CurrentCulture.Name;
-            MessageBox.Show (CultureInfo.CurrentCulture.Name);
             th.Translate(this);
         }
         void button1_Click(object sender, EventArgs e)
         {
-            var tr = new TranslatorHelper();
-            tr.ExtractTexts(this);
+            th.ExtractTexts(this);
         }
         void button2_Click(object sender, EventArgs e)
         {
-            new TranslatorHelper().Translate(this,"es");
+            TranslatorHelper.Translate(this,"es");
         }
     }
 }
