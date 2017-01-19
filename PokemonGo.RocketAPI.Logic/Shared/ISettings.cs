@@ -1,10 +1,10 @@
-using System.Collections.Generic;
-using System.Device.Location;
+
+
 using Google.Protobuf;
 using POGOProtos.Enums;
 using POGOProtos.Inventory.Item;
 using PokemonGo.RocketAPI.Enums;
-using PokemonGo.RocketAPI.Logic.Shared;
+
 
 namespace PokemonGo.RocketAPI.Logic.Shared
 {
@@ -12,6 +12,11 @@ namespace PokemonGo.RocketAPI.Logic.Shared
     {
 
         /* ===================================[SETTINGS]================================= */
+        
+        /* Bot Infor & Versions */
+        Version BotVersion { get; }
+        Version BotApiSupportedVersion { get; }
+        Version NianticApiVersion { get; }
 
         /* AUTHENTICATION */
         string pFHashKey { get; set; }
@@ -22,6 +27,7 @@ namespace PokemonGo.RocketAPI.Logic.Shared
         string PtcUsername { get; set; }
         string GoogleUsername { get; set; }
         string GooglePassword { get; set; }
+
         bool UsePwdEncryption { get; set; }
 
         /* COORDINATES & LOCATION */
@@ -121,7 +127,7 @@ namespace PokemonGo.RocketAPI.Logic.Shared
         bool LogEggs { get; set; }
         bool UseAnimationTimes { get; set; }
         bool MapLoaded { get; set; }
-        //bool pauseTheWalking { get; set; }
+
         bool pauseAtEvolve2 { get; set; }
         bool UseLureGUIClick { get; set; }
         bool UseIncenseGUIClick { get; set; }
@@ -156,6 +162,7 @@ namespace PokemonGo.RocketAPI.Logic.Shared
         List<PokemonId> pokemonsToEvolve { get; set; }
         List<PokemonId> catchPokemonSkipList { get; set; }
         bool AvoidRegionLock { get; set; }
+
         bool NextBestBallOnEscape { get; set; }
         bool SnipePokemon { get; set; }
         List<PokemonId> NotToSnipe { get; set; }
@@ -176,8 +183,8 @@ namespace PokemonGo.RocketAPI.Logic.Shared
         bool EggsAscendingSelectionBasicInc { get; set; }
         bool EnableVerboseLogging { get; set; }
         bool EnableConsoleInTab { get; set; }
-        bool PauseTheWalking { get; set; }
-        
+
+
         bool EnablePokeList { get; set; }
         bool simulatedPGO { get; set; }
         bool pauseAtEvolve { get; set; }

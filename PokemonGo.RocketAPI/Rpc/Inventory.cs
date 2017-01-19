@@ -100,7 +100,8 @@ namespace PokemonGo.RocketAPI.Rpc
 
         public async Task<IEnumerable<ItemData>> GetItemsToRecycle(ICollection<KeyValuePair<ItemId, int>> itemRecycleFilter)
         {
-            var myItems = await GetItems().ConfigureAwait(false); 
+            var myItems = await GetItems().ConfigureAwait(false);
+            
             return myItems
                 .Where(x => itemRecycleFilter.Any(f => f.Key == ((ItemId)x.ItemId) && x.Count > f.Value))
                 .Select(x => new ItemData { ItemId = x.ItemId, Count = x.Count - itemRecycleFilter.Single(f => f.Key == (ItemId)x.ItemId).Value, Unseen = x.Unseen });
@@ -203,7 +204,6 @@ namespace PokemonGo.RocketAPI.Rpc
         #endregion
 
         #endregion
-
         #region Pokemon Tasks
 
         #region --Get
@@ -307,7 +307,6 @@ namespace PokemonGo.RocketAPI.Rpc
 
             return await PostProtoPayload<Request, ReleasePokemonResponse>(RequestType.ReleasePokemon, message).ConfigureAwait(false);
         }
-        
         public async Task<ReleasePokemonResponse> TransferPokemon(List<ulong> pokemonId) // Transfer a list of pokemon (BULK Transfer)
         {
             var message = new ReleasePokemonMessage { };
@@ -570,13 +569,12 @@ namespace PokemonGo.RocketAPI.Rpc
 
         public async Task<IEnumerable<PokemonData>> GetEggs()
         {
-            
-                var inventory = await GetInventory().ConfigureAwait(false);
-                if(inventory == null)
-                {
-                    await GetEggs().ConfigureAwait(false);
-                }
 
+            var inventory = await GetInventory().ConfigureAwait(false);
+            if (inventory == null)
+            {
+                await GetEggs().ConfigureAwait(false);
+            }
             return
 
            inventory.InventoryDelta.InventoryItems.Select(i => i.InventoryItemData?.PokemonData)
@@ -600,7 +598,7 @@ namespace PokemonGo.RocketAPI.Rpc
             await client.Inventory.UseItemXpBoost(ItemId.ItemLuckyEgg).ConfigureAwait(false);
             Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Used Lucky Egg, remaining: {luckyEgg.Count - 1}");
             _lastegguse = DateTime.Now.AddMinutes(30);
-            RandomHelper.RandomSleep(3000,3100);
+            RandomHelper.RandomSleep(3000, 3100);
         }
 
         public async Task<UseItemEggIncubatorResponse> UseItemEggIncubator(string itemId, ulong pokemonId)

@@ -410,7 +410,7 @@ namespace PokemonGo.RocketAPI.Helpers
 
             TRandom TRandomDevice = new TRandom();
 
-            var e = new RequestEnvelope
+            var _requestEnvelope = new RequestEnvelope
             {
                 StatusCode = 2, //1
                 RequestId = GetNextRequestId(), //3
@@ -425,12 +425,12 @@ namespace PokemonGo.RocketAPI.Helpers
 
             if (_authTicket != null && !firstRequest)
             {
-                e.AuthTicket = _authTicket;
-                e.PlatformRequests.Add(GenerateSignature(e));
+                _requestEnvelope.AuthTicket = _authTicket;
+                _requestEnvelope.PlatformRequests.Add(GenerateSignature(_requestEnvelope));
             }
             else
             {
-                e.AuthInfo = new RequestEnvelope.Types.AuthInfo
+                _requestEnvelope.AuthInfo = new RequestEnvelope.Types.AuthInfo
                 {
                     Provider = _authType == AuthType.Google ? "google" : "ptc",
                     Token = new RequestEnvelope.Types.AuthInfo.Types.JWT
@@ -440,7 +440,7 @@ namespace PokemonGo.RocketAPI.Helpers
                     }
                 };
             }
-            return e;
+            return _requestEnvelope;
         }
 
         public async Task<RequestEnvelope> GetRequestEnvelope(RequestType type, IMessage message)

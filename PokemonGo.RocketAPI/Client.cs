@@ -106,10 +106,9 @@ namespace PokemonGo.RocketAPI
             AppVersion = 5120;
             SettingsHash = "";
 
-            CurrentApiEmulationVersion = new Version("0.51.2");
+            CurrentApiEmulationVersion = Settings.BotApiSupportedVersion;// new Version("0.51.2");
         }
-
-
+        
         private WebProxy InitProxy(string proxyHost, int proxyPort, string proxyUsername, string proxyPassword)
         {
             if ((proxyHost == "") || (proxyPort ==0))

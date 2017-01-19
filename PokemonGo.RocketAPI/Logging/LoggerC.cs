@@ -39,6 +39,14 @@ namespace PokemonGo.RocketAPI.Logging
             AddLog(text);
         }
 
+        public static void ColoredConsoleWriteNoDateTime(ConsoleColor color, string text)
+        {
+            ConsoleColor originalColor = Console.ForegroundColor;
+            Console.ForegroundColor = color;
+            Console.WriteLine(text);
+            Console.ForegroundColor = originalColor;
+        }
+
         public static void Error(string text)
         {
             ConsoleColor originalColor = Console.ForegroundColor;

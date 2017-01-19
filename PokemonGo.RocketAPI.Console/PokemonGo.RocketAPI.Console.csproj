@@ -17,20 +17,6 @@
     </NuGetPackageImportStamp>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
-    <PublishUrl>publish\</PublishUrl>
-    <Install>true</Install>
-    <InstallFrom>Disk</InstallFrom>
-    <UpdateEnabled>false</UpdateEnabled>
-    <UpdateMode>Foreground</UpdateMode>
-    <UpdateInterval>7</UpdateInterval>
-    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
-    <UpdatePeriodically>false</UpdatePeriodically>
-    <UpdateRequired>false</UpdateRequired>
-    <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>8</ApplicationRevision>
-    <ApplicationVersion>1.1.4.%2a</ApplicationVersion>
-    <UseApplicationTrust>false</UseApplicationTrust>
-    <BootstrapperEnabled>true</BootstrapperEnabled>
     <NoWin32Manifest>False</NoWin32Manifest>
     <SignAssembly>False</SignAssembly>
     <DelaySign>False</DelaySign>
@@ -41,6 +27,20 @@
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
     <RunCodeAnalysis>False</RunCodeAnalysis>
     <SourceAnalysisOverrideSettingsFile>C:\Users\DCRax\AppData\Roaming\ICSharpCode\SharpDevelop5\Settings.SourceAnalysis</SourceAnalysisOverrideSettingsFile>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>4</ApplicationRevision>
+    <ApplicationVersion>1.2.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -51,6 +51,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -147,11 +148,17 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Components\LabelCombo.cs" />
+
+    <Compile Include="Components\LabelCombo.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Components\LabelCombo.Designer.cs">
       <DependentUpon>LabelCombo.cs</DependentUpon>
     </Compile>
-    <Compile Include="Components\LabelText.cs" />
+
+    <Compile Include="Components\LabelText.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Components\LabelText.Designer.cs">
       <DependentUpon>LabelText.cs</DependentUpon>
     </Compile>
@@ -236,15 +243,24 @@
     <Compile Include="Panels\SniperPanel.Designer.cs">
       <DependentUpon>SniperPanel.cs</DependentUpon>
     </Compile>
-    <Compile Include="Panels\SplashScreen.cs" />
+
+    <Compile Include="Panels\SplashScreen.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Panels\SplashScreen.Designer.cs">
       <DependentUpon>SplashScreen.cs</DependentUpon>
     </Compile>
-    <Compile Include="Panels\TutorialPanel.cs" />
+
+    <Compile Include="Panels\TutorialPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Panels\TutorialPanel.Designer.cs">
       <DependentUpon>TutorialPanel.cs</DependentUpon>
     </Compile>
-    <Compile Include="Panels\WebPanel.cs" />
+
+    <Compile Include="Panels\WebPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Panels\WebPanel.Designer.cs">
       <DependentUpon>WebPanel.cs</DependentUpon>
     </Compile>
@@ -459,8 +475,6 @@
     <None Include="Resources\ru.gif" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Components" />
-    <Folder Include="Panels\New Folder" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\error-sprite.png" />

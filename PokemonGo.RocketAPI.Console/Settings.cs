@@ -19,20 +19,35 @@ namespace PokemonGo.RocketAPI.Console
     public class Settings : ISettings
     {
         /* ===================================[SETTINGS]================================= */
+        #region Bot Info & Versions
+        public Version BotVersion
+        {
+            get { return Globals.BotVersion; }
+        }
+        public Version BotApiSupportedVersion
+        {
+            get { return Globals.BotApiSupportedVersion; }
+        }
+        public Version NianticApiVersion
+        {
+            get { return Globals.NianticApiVersion; }
+        }
+        #endregion
 
+        #region HashInfo
         public ByteString SessionHash
         {
             get { return GlobalSettings.SessionHash; }
             set { GlobalSettings.SessionHash = value; }
         }
-
         public string pFHashKey
         {
             get { return GlobalSettings.pFHashKey; }
             set { GlobalSettings.pFHashKey = value;  }
         }
-        /* AUTHENTICATION */
+        #endregion
 
+        #region Authentication & Profile
         public string ProfileName
         {
             get { return GlobalSettings.ProfileName; }
@@ -68,6 +83,7 @@ namespace PokemonGo.RocketAPI.Console
             get { return GlobalSettings.password; }
             set { GlobalSettings.password = value; }
         }
+        #endregion
 
         /* COORDINATES & LOCATION */
         public double DefaultLatitude
