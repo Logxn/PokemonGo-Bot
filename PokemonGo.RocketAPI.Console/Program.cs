@@ -66,6 +66,14 @@ namespace PokemonGo.RocketAPI.Console
             if (args != null && args.Length > 0)
             {
                 #region Parse Arguments
+                // First of all.
+                // We check if bot have called clicking in a pokesnimer URI: pokesniper2://PokemonName/latitude,longitude
+                if (args[0].Contains("pokesniper2"))
+                {
+                    // If yes, We create a temporary file to share with main process, and close.
+                    SharePokesniperURI(args[0]);
+                    return;
+                }
                 foreach (string arg in args)
                 {
                     if (arg.Contains(","))
@@ -78,7 +86,10 @@ namespace PokemonGo.RocketAPI.Console
                         }
                         cmdCoords = arg;
                     }
-                    if (arg.ToLower().Contains("-bypassversioncheck")) GlobalSettings.BypassCheckCompatibilityVersion = true;
+
+                    if (arg.ToLower().Contains("-bypassversioncheck"))
+                        GlobalSettings.BypassCheckCompatibilityVersion = true;
+
                     if (arg.ToLower().Contains("-help"))
                     {
                         //Show Help
@@ -93,23 +104,13 @@ namespace PokemonGo.RocketAPI.Console
                 #endregion
             }
 
-            // First thing to check is if current BOT API implementation supports NIANTIC current API unless there's an override command line switch
+            // Checking if current BOT API implementation supports NIANTIC current API (unless there's an override command line switch)
             if (!GlobalSettings.BypassCheckCompatibilityVersion)
             {
                 bool CurrentVersionsOK = new CurrentAPIVersion().CheckAPIVersionCompatibility(GlobalSettings.BotVersion, GlobalSettings.BotApiSupportedVersion, GlobalSettings.NianticApiVersion);
                 if (!CurrentVersionsOK)
                 {
                     Environment.Exit(-1);
-                }
-            }
-
-            // What it does??
-            if ( args.Length > 0)
-            {
-                if (args[0].Contains("pokesniper2"))
-                {
-                    SharePokesniperURI(args[0]);
-                    return;
                 }
             }
 
@@ -122,8 +123,7 @@ namespace PokemonGo.RocketAPI.Console
             {
                 Logger.ColoredConsoleWrite(ConsoleColor.Red, "You added -nogui! If you didnt setup correctly with the GUI. It wont work.");
 
-                //TODO Implement JSON Load
-
+                GlobalSettings.Load();
 
                 if (GlobalSettings.usePwdEncryption)
                 {
@@ -157,6 +157,10 @@ namespace PokemonGo.RocketAPI.Console
             {
 
                 CheckVersion(); // Check if a new version of BOT is available
+                
+                GlobalSettings.BotVersion = new Version(Assembly.GetExecutingAssembly().GetName().Version.ToString());
+                GlobalSettings.BotApiSupportedVersion = new Version("0.51.2");
+                GlobalSettings.NianticApiVersion = new Version (new CurrentAPIVersion().GetCurrentAPIVersion());
 
                 try
                 {

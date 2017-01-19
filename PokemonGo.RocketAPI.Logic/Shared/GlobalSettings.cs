@@ -13,6 +13,8 @@ using POGOProtos.Enums;
 using System.Device.Location;
 using Google.Protobuf;
 using System.Collections.ObjectModel;
+using System.IO;
+using Newtonsoft.Json;
 
 
 namespace PokemonGo.RocketAPI.Logic.Shared
@@ -23,9 +25,9 @@ namespace PokemonGo.RocketAPI.Logic.Shared
     public static class GlobalSettings
     {
         // Bot Info  Globals (not yet implemented in any function)
-        public static Version BotVersion = new Version("0.0.0");
-        public static Version BotApiSupportedVersion = new Version("0.0.0");
-        public static Version NianticApiVersion = new Version("0.0.0");
+        public static Version BotVersion = new Version();
+        public static Version BotApiSupportedVersion = new Version();
+        public static Version NianticApiVersion = new Version ();
         public static readonly bool BotDebugFlag = true;
         public static readonly bool BotStableFlag = false;
 
@@ -166,5 +168,59 @@ namespace PokemonGo.RocketAPI.Logic.Shared
         public static ProxySettings proxySettings = new ProxySettings();
         
         public static bool BypassCheckCompatibilityVersion = true;
+        
+        public static string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Configs");
+        public static string accountProfiles = Path.Combine(path, "Profiles.txt");
+        
+        public static bool Load()
+        {
+            var loaded = false;
+            GlobalSettings.noTransfer = new List<PokemonId>();
+            GlobalSettings.noCatch = new List<PokemonId>();
+            GlobalSettings.doEvolve = new List<PokemonId>();
+            GlobalSettings.NotToSnipe = new List<PokemonId>();
+            if (File.Exists(accountProfiles))
+            {
+                try
+                {
+                    string JSONstring = File.ReadAllText(accountProfiles);
+                    Collection<Profile> profiles = JsonConvert.DeserializeObject<Collection<Profile>>(JSONstring);
+                    foreach (Profile _profile in profiles)
+                    {
+                        GlobalSettings.Profiles.Add(_profile);
+                        if (_profile.IsDefault)
+                        {
+                            LoadProfile(_profile.SettingsJSON);
+                            loaded = true;
+                        }
+                    }
+                }
+                catch (Exception ex1)
+                {
+                    Logger.ExceptionInfo("Loading profiles file:" +ex1.ToString());
+                }
+            }
+            return loaded;
+        }
+        private static void LoadProfile(string configString){
+            var jsonSettings = new JsonSerializerSettings
+            {
+                Error = (sender, args) =>
+                {
+                    if (System.Diagnostics.Debugger.IsAttached)
+                    {
+                        System.Diagnostics.Debugger.Break();
+                    }
+                }
+            };
+            var config = JsonConvert.DeserializeObject<ProfileSettings>(configString, jsonSettings);
+            Assign(config);
+        }
+        private static void Assign(ProfileSettings settings){
+            foreach (var field in settings.GetType().GetFields()) {
+                typeof(GlobalSettings).GetField(field.Name).SetValue(null,
+                     field.GetValue(settings));
+            }
+        }
     }
 }
