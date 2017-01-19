@@ -41,27 +41,27 @@ namespace PokemonGo.RocketAPI.Logic
             var chelper = new Utils.CaptchaHelper();
             if (chelper.ShowDialog() == DialogResult.OK)
             {
-            	var token = chelper.TOKEN;
-            	captchaResponseHandler.SetCaptchaToken(token); 
-	
-            	// We will send a request, passing the long-ass-token and wait for a response.
-	            VerifyChallengeResponse r =  _player.VerifyChallenge(token).Result; 
-	            if (r.Success)
-	            {
-	            	Logger.ColoredConsoleWrite(ConsoleColor.Green, "TOKEN OK!");
-	            }
-	            else
-	            {
-	            	Logger.ColoredConsoleWrite(ConsoleColor.Green, "Failure.");
-	            	HandleCaptcha(challengeUrl,captchaResponseHandler);
-	            }
-	            RandomHelper.RandomSleep(2000,2200);
+                var token = chelper.TOKEN;
+                captchaResponseHandler.SetCaptchaToken(token); 
+    
+                // We will send a request, passing the long-ass-token and wait for a response.
+                VerifyChallengeResponse r =  _player.VerifyChallenge(token).Result; 
+                if (r.Success)
+                {
+                    Logger.ColoredConsoleWrite(ConsoleColor.Green, "TOKEN OK!");
+                }
+                else
+                {
+                    Logger.ColoredConsoleWrite(ConsoleColor.Green, "Failure.");
+                    HandleCaptcha(challengeUrl,captchaResponseHandler);
+                }
+                RandomHelper.RandomSleep(2000,2200);
             }
             else
             {
-            	Logger.ColoredConsoleWrite(ConsoleColor.Green, "Canceled.");
-	            System.Console.ReadKey();
-	            Environment.Exit(0);
+                Logger.ColoredConsoleWrite(ConsoleColor.Green, "Canceled.");
+                System.Console.ReadKey();
+                Environment.Exit(0);
             }
 
         }

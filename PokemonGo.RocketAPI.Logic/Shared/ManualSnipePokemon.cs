@@ -13,9 +13,9 @@ using System.Device.Location;
 namespace PokemonGo.RocketAPI.Logic.Shared
 {
 
-	public class ManualSnipePokemon 
-	{
-	    public bool Enabled
+    public class ManualSnipePokemon 
+    {
+        public bool Enabled
         { get; set; }
         public PokemonId ID 
         { get; set; }
@@ -25,5 +25,5 @@ namespace PokemonGo.RocketAPI.Logic.Shared
         { get; set; }
         public int NumTries
         { get; set; }
-	}
+    }
 }

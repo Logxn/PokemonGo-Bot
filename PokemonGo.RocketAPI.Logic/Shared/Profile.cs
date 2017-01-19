@@ -10,7 +10,7 @@ using System;
 
 namespace PokemonGo.RocketAPI.Logic.Shared
 {
-	public class Profile
+    public class Profile
     {
         public string ProfileName
         { get; set; }

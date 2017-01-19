@@ -79,15 +79,12 @@ namespace PokemonGo.RocketAPI
             CaptchaToken = token;
         }
 
-        public Client(string hashKey, double latitude , double longitude, double altitude,
-                      string proxyUrl, int proxyPort , string proxyUser,string proxyPass,
-                      AuthType userType, string userName, string password
-                     )
+        public Client(Shared.ClientSettings settings)
         {
-            AuthType = userType;
-            Username = userName;
-            Password = password;
-            proxy = InitProxy(proxyUrl,proxyPort,proxyUser,proxyPass);
+            AuthType = settings.userType;
+            Username = settings.userName;
+            Password = settings.password;
+            proxy = InitProxy(settings.proxyUrl,settings.proxyPort,settings.proxyUser,settings.proxyPass);
             PokemonHttpClient = new PokemonHttpClient();
             Login = new Rpc.Login(this);
             Player = new Rpc.Player(this);
@@ -97,16 +94,16 @@ namespace PokemonGo.RocketAPI
             Fort = new Rpc.Fort(this);
             Encounter = new Rpc.Encounter(this);
             Misc = new Rpc.Misc(this);
-            Hasher = new PokeHashHasher(hashKey);
+            Hasher = new PokeHashHasher(settings.hashKey);
 
-            Player.SetCoordinates(latitude, longitude, altitude);
+            Player.SetCoordinates(settings.latitude, settings.longitude, settings.altitude);
 
             InventoryLastUpdateTimestamp = 0;
 
             AppVersion = 5120;
             SettingsHash = "";
 
-            CurrentApiEmulationVersion = Settings.BotApiSupportedVersion;// new Version("0.51.2");
+            CurrentApiEmulationVersion = settings.currentApi;// new Version("0.51.2");
         }
         
         private WebProxy InitProxy(string proxyHost, int proxyPort, string proxyUsername, string proxyPassword)

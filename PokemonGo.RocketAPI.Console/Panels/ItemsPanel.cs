@@ -247,7 +247,7 @@ namespace PokemonGo.RocketAPI.Console
         private async Task RecycleItems(bool forcerefresh = false)
         {            
             var client = Logic.Logic.objClient;
-            var items = await client.Inventory.GetItemsToRecycle(Logic.Logic.Instance.ClientSettings.itemRecycleFilter).ConfigureAwait(false);
+            var items = await client.Inventory.GetItemsToRecycle(Logic.Logic.Instance.BotSettings.itemRecycleFilter).ConfigureAwait(false);
             foreach (var item in items)
             {
                 var transfer = await client.Inventory.RecycleItem((ItemId)item.ItemId, item.Count).ConfigureAwait(false);

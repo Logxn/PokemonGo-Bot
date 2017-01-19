@@ -1303,10 +1303,10 @@ namespace PokemonGo.RocketAPI.Console
             MessageBox.Show($@"Since the new API was cracked by the pogodev team, they have choosen to make the API pay2use
 We did not have any influence on this. We are very sorry this needed to happen!", "Hashing Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
-		void Button4Click(object sender, EventArgs e)
-		{
-			new GUIAvatar().ShowDialog();
-		}
+        void Button4Click(object sender, EventArgs e)
+        {
+            new GUIAvatar().ShowDialog();
+        }
         void checkBox_UseProxy_CheckedChanged(object sender, EventArgs e)
         {
             if (checkBox_UseProxy.Checked){

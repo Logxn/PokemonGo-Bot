@@ -78,11 +78,11 @@ namespace PokemonGo.RocketAPI.Console
                         }
                         cmdCoords = arg;
                     }
-                    if (arg.ToLower().Contains("-bypassversioncheck")) Globals.BypassCheckCompatibilityVersion = true;
+                    if (arg.ToLower().Contains("-bypassversioncheck")) GlobalSettings.BypassCheckCompatibilityVersion = true;
                     if (arg.ToLower().Contains("-help"))
                     {
                         //Show Help
-                        Logger.ColoredConsoleWriteNoDateTime(ConsoleColor.White, $"Pokemon BOT C# v{Globals.BotVersion.ToString()} help" + Environment.NewLine);
+                        Logger.ColoredConsoleWriteNoDateTime(ConsoleColor.White, $"Pokemon BOT C# v{GlobalSettings.BotVersion.ToString()} help" + Environment.NewLine);
                         Logger.ColoredConsoleWriteNoDateTime(ConsoleColor.Gray, "Use:");
                         Logger.ColoredConsoleWriteNoDateTime(ConsoleColor.Gray, "  -nogui <lat>,<long>         Console mode only, starting on the indicated Latitude & Longitude");
                         Logger.ColoredConsoleWriteNoDateTime(ConsoleColor.Gray, "  -bypassversioncheck         to NOT check BOT & API compatibility (be careful with that option)");
@@ -94,9 +94,9 @@ namespace PokemonGo.RocketAPI.Console
             }
 
             // First thing to check is if current BOT API implementation supports NIANTIC current API unless there's an override command line switch
-            if (!Globals.BypassCheckCompatibilityVersion)
+            if (!GlobalSettings.BypassCheckCompatibilityVersion)
             {
-                bool CurrentVersionsOK = new CurrentAPIVersion().CheckAPIVersionCompatibility(Globals.BotVersion, Globals.BotApiSupportedVersion, Globals.NianticApiVersion);
+                bool CurrentVersionsOK = new CurrentAPIVersion().CheckAPIVersionCompatibility(GlobalSettings.BotVersion, GlobalSettings.BotApiSupportedVersion, GlobalSettings.NianticApiVersion);
                 if (!CurrentVersionsOK)
                 {
                     Environment.Exit(-1);

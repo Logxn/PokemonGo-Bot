@@ -17,13 +17,15 @@ using System.Collections.ObjectModel;
 
 namespace PokemonGo.RocketAPI.Logic.Shared
 {
-	/// <summary>
-	/// Description of GlobalSettings.
-	/// </summary>
-	public static class GlobalSettings
-	{
+    /// <summary>
+    /// Description of GlobalSettings.
+    /// </summary>
+    public static class GlobalSettings
+    {
         // Bot Info  Globals (not yet implemented in any function)
-        public static readonly string BotVersion = "1.0.0";
+        public static Version BotVersion = new Version("0.0.0");
+        public static Version BotApiSupportedVersion = new Version("0.0.0");
+        public static Version NianticApiVersion = new Version("0.0.0");
         public static readonly bool BotDebugFlag = true;
         public static readonly bool BotStableFlag = false;
 
@@ -162,5 +164,7 @@ namespace PokemonGo.RocketAPI.Logic.Shared
         
         public static ManualSnipePokemon SnipeOpts = new ManualSnipePokemon();
         public static ProxySettings proxySettings = new ProxySettings();
-	}
+        
+        public static bool BypassCheckCompatibilityVersion = true;
+    }
 }

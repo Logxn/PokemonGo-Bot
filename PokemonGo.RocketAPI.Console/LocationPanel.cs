@@ -342,7 +342,7 @@ namespace PokemonGo.RocketAPI.Console
                         routeOverlay.Markers.Add(_botMarker);
                         int prevCount = pokeStops.Length;
                         //<var filteredPokeStops = pokeStops;
-                        var filteredPokeStops = pokeStops.Where(i => LocationUtils.CalculateDistanceInMeters(Logic.Logic.Instance.ClientSettings.DefaultLatitude, Logic.Logic.Instance.ClientSettings.DefaultLongitude, i.Latitude, i.Longitude) <= Logic.Logic.Instance.ClientSettings.MaxWalkingRadiusInMeters).ToArray();
+                        var filteredPokeStops = pokeStops.Where(i => LocationUtils.CalculateDistanceInMeters(Logic.Logic.Instance.BotSettings.DefaultLatitude, Logic.Logic.Instance.BotSettings.DefaultLongitude, i.Latitude, i.Longitude) <= Logic.Logic.Instance.BotSettings.MaxWalkingRadiusInMeters).ToArray();
                         Logger.ColoredConsoleWrite(ConsoleColor.White, string.Format("Got new Pokestop Count: {0}, unfiltered: {1}", filteredPokeStops.Length, pokeStops.Length));
 
                         for (int i = filteredPokeStops.Length - 1; i >= 0; i--)
@@ -420,7 +420,7 @@ namespace PokemonGo.RocketAPI.Console
                         _pokeGymsMarks.Clear();
                         int prevCount = forts.Length;
                         //< var filteredForts = forts;
-                        var filteredForts = forts.Where(i => LocationUtils.CalculateDistanceInMeters(Logic.Logic.Instance.ClientSettings.DefaultLatitude, Logic.Logic.Instance.ClientSettings.DefaultLongitude, i.Latitude, i.Longitude) <= Logic.Logic.Instance.ClientSettings.MaxWalkingRadiusInMeters).ToArray();
+                        var filteredForts = forts.Where(i => LocationUtils.CalculateDistanceInMeters(Logic.Logic.Instance.BotSettings.DefaultLatitude, Logic.Logic.Instance.BotSettings.DefaultLongitude, i.Latitude, i.Longitude) <= Logic.Logic.Instance.BotSettings.MaxWalkingRadiusInMeters).ToArray();
                         Logger.ColoredConsoleWrite(ConsoleColor.White, string.Format("Got new Gym Count: {0}, unfiltered: {1}", filteredForts.Length, forts.Length));
 
                         for (int i = filteredForts.Length - 1; i >= 0; i--)

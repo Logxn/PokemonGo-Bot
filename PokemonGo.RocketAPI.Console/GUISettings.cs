@@ -908,9 +908,6 @@ namespace PokemonGo.RocketAPI.Console
         get;set;
 
 
-
-
-
     }
     public bool PauseTheWalking {
         get;set;
@@ -924,6 +921,7 @@ namespace PokemonGo.RocketAPI.Console
     public bool pauseAtEvolve {
         get;set;
     }
+
     #endregion
         
     }

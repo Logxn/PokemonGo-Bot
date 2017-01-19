@@ -198,6 +198,7 @@
     <Compile Include="Rpc\Map.cs" />
     <Compile Include="Rpc\Misc.cs" />
     <Compile Include="Rpc\Player.cs" />
+    <Compile Include="Shared\ClientSettings.cs" />
     <Compile Include="Shared\KeyCollection.cs" />
     <None Include="app.config" />
     <Compile Include="Client.cs" />

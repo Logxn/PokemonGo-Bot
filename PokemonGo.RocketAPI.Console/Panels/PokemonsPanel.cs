@@ -23,7 +23,7 @@ namespace PokemonGo.RocketAPI.Console
         public PlayerPanel playerPanel1;
         private static GetInventoryResponse inventory;
         private static List<AdditionalPokeData> additionalPokeData = new List<AdditionalPokeData>();
-        private static ISettings ClientSettings;
+        private static ISettings BotSettings;
         private static Client client;
         private ColumnHeader SortingColumn;
         private DownloadItemTemplatesResponse templates;
@@ -31,7 +31,7 @@ namespace PokemonGo.RocketAPI.Console
         public PokemonsPanel()
         {
             InitializeComponent();
-            ClientSettings = new Settings();
+            BotSettings = new Settings();
             InitialzePokemonListView();
         }
 
@@ -247,7 +247,7 @@ namespace PokemonGo.RocketAPI.Console
                             specSymbol = "★";
                         if ((profile!=null) && (profile.PlayerData.BuddyPokemon.Id == pokemon.Id))
                             specSymbol = "☉";
-                        listViewItem.Text = specSymbol + Logic.Utils.StringUtils.getPokemonNameByLanguage(ClientSettings, (PokemonId)pokemon.PokemonId);
+                        listViewItem.Text = specSymbol + Logic.Utils.StringUtils.getPokemonNameByLanguage(BotSettings, (PokemonId)pokemon.PokemonId);
 
                         listViewItem.ToolTipText = Logic.Utils.StringUtils.ConvertTimeMSinString(pokemon.CreationTimeMs,"dd/MM/yyyy HH:mm:ss");
                         if (pokemon.Nickname != "")
@@ -478,7 +478,7 @@ namespace PokemonGo.RocketAPI.Console
 
             if (failed != string.Empty)
             {
-                if (ClientSettings.bLogEvolve)
+                if (BotSettings.bLogEvolve)
                 {
                     File.AppendAllText(evolvelog, $"[{date}] - MANUAL - Sucessfully evolved {evolved}/{total} Pokemons. Failed: {failed}" + Environment.NewLine);
                 }
@@ -487,7 +487,7 @@ namespace PokemonGo.RocketAPI.Console
 
             else
             {
-                if (ClientSettings.bLogEvolve)
+                if (BotSettings.bLogEvolve)
                 {
                     File.AppendAllText(evolvelog, $"[{date}] - MANUAL - Sucessfully evolved {evolved}/{total} Pokemons." + Environment.NewLine);
                 }
@@ -569,8 +569,8 @@ namespace PokemonGo.RocketAPI.Console
 
                     transfered++;
 
-                    File.AppendAllText(logs, $"[{date}] - MANUAL - Enqueuing to BULK transfer pokemon {transfered}/{total}: {Logic.Utils.StringUtils.getPokemonNameByLanguage(ClientSettings, pokemon.PokemonId)}" + Environment.NewLine);
-                    Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Enqueuing to BULK transfer pokemon {transfered}/{total}: {Logic.Utils.StringUtils.getPokemonNameByLanguage(ClientSettings, pokemon.PokemonId)} CP {pokemon.Cp} IV {PokemonInfo.CalculatePokemonPerfection(pokemon).ToString("0.00")}", LogLevel.Info);
+                    File.AppendAllText(logs, $"[{date}] - MANUAL - Enqueuing to BULK transfer pokemon {transfered}/{total}: {Logic.Utils.StringUtils.getPokemonNameByLanguage(BotSettings, pokemon.PokemonId)}" + Environment.NewLine);
+                    Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Enqueuing to BULK transfer pokemon {transfered}/{total}: {Logic.Utils.StringUtils.getPokemonNameByLanguage(BotSettings, pokemon.PokemonId)} CP {pokemon.Cp} IV {PokemonInfo.CalculatePokemonPerfection(pokemon).ToString("0.00")}", LogLevel.Info);
 
                     //statusTexbox.Text = "Transfering..." + transfered;
                     PokemonListView.Items.Remove(selectedItem);
@@ -599,7 +599,7 @@ namespace PokemonGo.RocketAPI.Console
                 { 
                 //if (failed != string.Empty)
                 //{
-                    if (ClientSettings.logManualTransfer)
+                    if (BotSettings.logManualTransfer)
                     {
                         File.AppendAllText(logs, $"[{date}] - MANUAL - Sucessfully Bulk transfered {transfered}/{total} Pokemons. Failed: {failed}" + Environment.NewLine);
                     }
@@ -607,7 +607,7 @@ namespace PokemonGo.RocketAPI.Console
                     //}
                     //else
                     //{
-                    //    if (ClientSettings.logManualTransfer)
+                    //    if (BotSettings.logManualTransfer)
                     //    {
                     //        File.AppendAllText(logs, $"[{date}] - MANUAL - Sucessfully transfered {transfered}/{total} Pokemons." + Environment.NewLine);
                     //    }
@@ -796,7 +796,7 @@ namespace PokemonGo.RocketAPI.Console
         }
         private static string IVsToNickname(PokemonData pokemon)
         {
-            string croppedName = Logic.Utils.StringUtils.getPokemonNameByLanguage(ClientSettings, (PokemonId)pokemon.PokemonId) + " ";
+            string croppedName = Logic.Utils.StringUtils.getPokemonNameByLanguage(BotSettings, (PokemonId)pokemon.PokemonId) + " ";
             string nickname;
             //<nickname = string.Format("{0}{1}{2}{3}", pokemon.IndividualAttack.ToString("X"), pokemon.IndividualDefense.ToString("X"), pokemon.IndividualStamina.ToString("X"),(45 - pokemon.IndividualAttack- pokemon.IndividualDefense- pokemon.IndividualStamina));
             nickname = string.Format("{0}.{1}.{2}.{3}", PokemonInfo.CalculatePokemonPerfection(pokemon).ToString("0"), pokemon.IndividualAttack, pokemon.IndividualDefense, pokemon.IndividualStamina);
@@ -891,7 +891,7 @@ namespace PokemonGo.RocketAPI.Console
             var pokemon = (PokemonData)PokemonListView.SelectedItems[0].Tag;
             taskResponse resp = new taskResponse(false, string.Empty);
 
-            string poname = Logic.Utils.StringUtils.getPokemonNameByLanguage(ClientSettings, (PokemonId)pokemon.PokemonId);
+            string poname = Logic.Utils.StringUtils.getPokemonNameByLanguage(BotSettings, (PokemonId)pokemon.PokemonId);
             if (MessageBox.Show(this, poname + " will be " + ((pokemon.Favorite == 1) ? "deleted from" : "added to") + " your favourites." + "\nAre you sure you want?", "Confirmation Message", MessageBoxButtons.OKCancel) == DialogResult.OK)
             {
                 pokemon.Favorite = (pokemon.Favorite == 1) ? 0 : 1;
@@ -909,7 +909,7 @@ namespace PokemonGo.RocketAPI.Console
                     specSymbol = "★";
                 if ((profile!=null) && (profile.PlayerData.BuddyPokemon.Id == pokemon.Id))
                     specSymbol = "☉";
-                PokemonListView.SelectedItems[0].Text = specSymbol + Logic.Utils.StringUtils.getPokemonNameByLanguage(ClientSettings, (PokemonId)pokemon.PokemonId);
+                PokemonListView.SelectedItems[0].Text = specSymbol + Logic.Utils.StringUtils.getPokemonNameByLanguage(BotSettings, (PokemonId)pokemon.PokemonId);
             }
             else
                 MessageBox.Show(resp.Message + " change favourites failed!", "Change favourites Status", MessageBoxButtons.OK);
@@ -964,7 +964,7 @@ namespace PokemonGo.RocketAPI.Console
             var pokemon = (PokemonData)PokemonListView.SelectedItems[0].Tag;
             taskResponse resp = new taskResponse(false, string.Empty);
 
-            string poname = Logic.Utils.StringUtils.getPokemonNameByLanguage(ClientSettings, (PokemonId)pokemon.PokemonId);
+            string poname = Logic.Utils.StringUtils.getPokemonNameByLanguage(BotSettings, (PokemonId)pokemon.PokemonId);
             if (MessageBox.Show(this, poname + " will be put as your buddy." + "\nAre you sure you want?", "Confirmation Message", MessageBoxButtons.OKCancel) == DialogResult.OK)
             {
                 //resp = await changeFavourites(pokemon).ConfigureAwait(false);
@@ -981,7 +981,7 @@ namespace PokemonGo.RocketAPI.Console
                     specSymbol = "★";
                 if ((profile!=null) &&(profile.PlayerData.BuddyPokemon.Id == pokemon.Id))
                     specSymbol = "☉";
-                PokemonListView.SelectedItems[0].Text = specSymbol + Logic.Utils.StringUtils.getPokemonNameByLanguage(ClientSettings, (PokemonId)pokemon.PokemonId);
+                PokemonListView.SelectedItems[0].Text = specSymbol + Logic.Utils.StringUtils.getPokemonNameByLanguage(BotSettings, (PokemonId)pokemon.PokemonId);
             }
             else
                 MessageBox.Show(resp.Message + " change buddy failed!", "Change Buddy Status", MessageBoxButtons.OK);
