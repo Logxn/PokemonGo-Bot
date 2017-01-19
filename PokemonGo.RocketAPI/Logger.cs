@@ -79,6 +79,21 @@ namespace PokemonGo.RocketAPI
                     AddLog(line+ex1.ToString());
                 }
         }
+        public static void ColoredConsoleWriteNoDateTime(ConsoleColor color, string line, LogLevel level = LogLevel.Info)
+        {
+            if (type == 0)
+                LoggerC.ColoredConsoleWriteNoDateTime(color, line);
+            else
+                try
+                {
+                    if (panel != null)
+                        panel.ColoredConsoleWrite(color, line, level);
+                }
+                catch (Exception ex1)
+                {
+                    AddLog(line + ex1.ToString());
+                }
+        }
         public static void Write( string line, LogLevel level = LogLevel.Info){
             if (type == 0)
                 LoggerC.Write(line,level);

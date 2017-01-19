@@ -4,6 +4,7 @@
     {
         public const string RpcUrl = @"https://pgorelease.nianticlabs.com/plfe/rpc";
         public const string NumberedRpcUrl = @"https://pgorelease.nianticlabs.com/plfe/{0}/rpc";
+        public const string GetRpcVersionUrl = @"https://pgorelease.nianticlabs.com/plfe/version";
 
         public const string PtcLoginUrl =
             "https://sso.pokemon.com/sso/login?service=https%3A%2F%2Fsso.pokemon.com%2Fsso%2Foauth2.0%2FcallbackAuthorize";

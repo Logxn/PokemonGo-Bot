@@ -7,18 +7,18 @@ using POGOProtos.Networking.Responses;
 using PokemonGo.RocketAPI.Helpers;
 using PokemonGo.RocketAPI.Logic.Utils;
 using POGOProtos.Enums;
+using PokemonGo.RocketAPI.Logic.Shared;
 
 namespace PokemonGo.RocketAPI.Logic
 {
     public class Navigation
     {
-        public Navigation(Client client)
+        public Navigation(Client client, ISettings settings)
         {
             _client = client;
-            _clientSettings = client.Settings;
+            _clientSettings = settings;
         }
 
-        public bool pauseWalking = false;        
 
         private static readonly Random RandomDevice = new Random();
 
@@ -88,7 +88,7 @@ namespace PokemonGo.RocketAPI.Logic
                 waypoint = LocationUtils.CreateWaypoint(sourceLocation, nextWaypointDistance, nextWaypointBearing);
                 requestSendDateTime = DateTime.Now;                
                 
-                if (pauseWalking)
+                if (_clientSettings.PauseTheWalking)
                 {
                     result =
                        _client.Player.UpdatePlayerLocation(_client.CurrentLatitude, _client.CurrentLongitude,
@@ -109,14 +109,14 @@ namespace PokemonGo.RocketAPI.Logic
                     }
                 }
 
-                if (functionExecutedWhileWalking != null && !pauseWalking)
+                if (functionExecutedWhileWalking != null && !_clientSettings.PauseTheWalking)
                 {
                      functionExecutedWhileWalking();// look for pokemon 
                 }
                 
-                if (_clientSettings.ForceSnipe){
-                    Logic.Instance.sniperLogic.Execute((PokemonId) _clientSettings.ManualSnipePokemonID,_clientSettings.ManualSnipePokemonLocation);
-                    _clientSettings.ForceSnipe = false;
+                if (_clientSettings.SnipeOpts.Enabled){
+                    Logic.Instance.sniperLogic.Execute((PokemonId) _clientSettings.SnipeOpts.ID,_clientSettings.SnipeOpts.Location);
+                    //_clientSettings.SnipeOpts.Enabled = false;
                 }
 
                 RandomHelper.RandomSleep(500, 600);
@@ -299,7 +299,7 @@ namespace PokemonGo.RocketAPI.Logic
                 return 0;
             }
 
-            if (_client.Settings.navigation_option == 1)
+            if (_clientSettings.navigation_option == 1)
             {
                 return Convert.ToInt32((_chromosome.Count * 10000) / time);
             }

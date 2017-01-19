@@ -22,58 +22,58 @@ using System.Collections;
 
 namespace PokemonGo.RocketAPI.Console
 {
-	/// <summary>
-	/// Description of IncubatorSelect.
-	/// </summary>
-	public partial class IncubatorSelect : Form
-	{
-		public EggIncubator selected=null;
-		public IncubatorSelect()
-		{
-			//
-			// The InitializeComponent() call is required for Windows Forms designer support.
-			//
-			InitializeComponent();			
-		}
-		public async void Execute(){
-			var client = Logic.Logic.objClient;
-			if (client.readyToUse != false)
-			{
-				var incubators = await client.Inventory.GetEggIncubators().ConfigureAwait(false);
-  				listView.Items.Clear();	              
-	            ListViewItem listViewItem;					
-				foreach (  var item in incubators) {
-					listViewItem = new ListViewItem();
-					listViewItem.Tag = item;
-					listViewItem.Text = ""+item.Id;
-					listViewItem.SubItems.Add(""+item.ItemId);
-					listViewItem.SubItems.Add(""+item.UsesRemaining);	                					               	
-					listViewItem.SubItems.Add(""+item.IncubatorType);
-					listViewItem.SubItems.Add(""+item.StartKmWalked);
-					listViewItem.SubItems.Add(""+item.TargetKmWalked);
-					listViewItem.SubItems.Add(""+item.PokemonId);					
-					listView.Items.Add(listViewItem);			   	
-				}
-	             listView.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
-			}			
-		}
-		void ButtonOkClick(object sender, EventArgs e)
-		{			
-			if (listView.SelectedItems.Count < 1)
-			{
-				MessageBox.Show("Please Select an incubator.");
-			}
-			else
-			{
-				selected = (EggIncubator)listView.SelectedItems[0].Tag;
-				DialogResult = DialogResult.OK;
-				this.Close();
-			}
-			
-		}
-		public DialogResult ShowDialog(){
-			Execute();
-			return base.ShowDialog();
-		}
-	}
+    /// <summary>
+    /// Description of IncubatorSelect.
+    /// </summary>
+    public partial class IncubatorSelect : Form
+    {
+        public EggIncubator selected=null;
+        public IncubatorSelect()
+        {
+            //
+            // The InitializeComponent() call is required for Windows Forms designer support.
+            //
+            InitializeComponent();            
+        }
+        public async void Execute(){
+            var client = Logic.Logic.objClient;
+            if (client.readyToUse != false)
+            {
+                var incubators = await client.Inventory.GetEggIncubators().ConfigureAwait(false);
+                  listView.Items.Clear();                  
+                ListViewItem listViewItem;                    
+                foreach (  var item in incubators) {
+                    listViewItem = new ListViewItem();
+                    listViewItem.Tag = item;
+                    listViewItem.Text = ""+item.Id;
+                    listViewItem.SubItems.Add(""+item.ItemId);
+                    listViewItem.SubItems.Add(""+item.UsesRemaining);                                                           
+                    listViewItem.SubItems.Add(""+item.IncubatorType);
+                    listViewItem.SubItems.Add(""+item.StartKmWalked);
+                    listViewItem.SubItems.Add(""+item.TargetKmWalked);
+                    listViewItem.SubItems.Add(""+item.PokemonId);                    
+                    listView.Items.Add(listViewItem);                   
+                }
+                 listView.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
+            }            
+        }
+        void ButtonOkClick(object sender, EventArgs e)
+        {            
+            if (listView.SelectedItems.Count < 1)
+            {
+                MessageBox.Show("Please Select an incubator.");
+            }
+            else
+            {
+                selected = (EggIncubator)listView.SelectedItems[0].Tag;
+                DialogResult = DialogResult.OK;
+                this.Close();
+            }
+            
+        }
+        public DialogResult ShowDialog(){
+            Execute();
+            return base.ShowDialog();
+        }
+    }
 }

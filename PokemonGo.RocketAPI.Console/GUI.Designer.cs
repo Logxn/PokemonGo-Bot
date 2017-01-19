@@ -34,12 +34,7 @@ namespace PokemonGo.RocketAPI.Console
             this.label30 = new System.Windows.Forms.Label();
             this.tabProxies = new System.Windows.Forms.TabPage();
             this.linkLabel5 = new System.Windows.Forms.LinkLabel();
-            this.label37 = new System.Windows.Forms.Label();
-            this.label36 = new System.Windows.Forms.Label();
             this.label35 = new System.Windows.Forms.Label();
-            this.label34 = new System.Windows.Forms.Label();
-            this.button3 = new System.Windows.Forms.Button();
-            this.checkPrxy = new System.Windows.Forms.Button();
             this.checkBox_UseProxyAuth = new System.Windows.Forms.CheckBox();
             this.prxyUser = new System.Windows.Forms.TextBox();
             this.prxyPort = new System.Windows.Forms.TextBox();
@@ -233,6 +228,7 @@ namespace PokemonGo.RocketAPI.Console
             this.text_TimeToRun = new System.Windows.Forms.TextBox();
             this.settingsBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.tabMisc = new System.Windows.Forms.TabPage();
+            this.buttonTutorial = new System.Windows.Forms.Button();
             this.groupBox25 = new System.Windows.Forms.GroupBox();
             this.checkbox_Verboselogging = new System.Windows.Forms.CheckBox();
             this.groupBox23 = new System.Windows.Forms.GroupBox();
@@ -298,6 +294,10 @@ namespace PokemonGo.RocketAPI.Console
             this.lang_de_btn = new System.Windows.Forms.Button();
             this.lang_en_btn = new System.Windows.Forms.Button();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.labelPrxHost = new System.Windows.Forms.Label();
+            this.labelPrxPort = new System.Windows.Forms.Label();
+            this.labelPrxPass = new System.Windows.Forms.Label();
+            this.labelPrxUser = new System.Windows.Forms.Label();
             this.tabProxies.SuspendLayout();
             this.tabItems.SuspendLayout();
             this.groupBox4.SuspendLayout();
@@ -374,13 +374,12 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // tabProxies
             // 
+            this.tabProxies.Controls.Add(this.labelPrxPass);
+            this.tabProxies.Controls.Add(this.labelPrxUser);
+            this.tabProxies.Controls.Add(this.labelPrxPort);
+            this.tabProxies.Controls.Add(this.labelPrxHost);
             this.tabProxies.Controls.Add(this.linkLabel5);
-            this.tabProxies.Controls.Add(this.label37);
-            this.tabProxies.Controls.Add(this.label36);
             this.tabProxies.Controls.Add(this.label35);
-            this.tabProxies.Controls.Add(this.label34);
-            this.tabProxies.Controls.Add(this.button3);
-            this.tabProxies.Controls.Add(this.checkPrxy);
             this.tabProxies.Controls.Add(this.checkBox_UseProxyAuth);
             this.tabProxies.Controls.Add(this.prxyUser);
             this.tabProxies.Controls.Add(this.prxyPort);
@@ -398,7 +397,7 @@ namespace PokemonGo.RocketAPI.Console
             // linkLabel5
             // 
             this.linkLabel5.AutoSize = true;
-            this.linkLabel5.Location = new System.Drawing.Point(248, 214);
+            this.linkLabel5.Location = new System.Drawing.Point(232, 215);
             this.linkLabel5.Name = "linkLabel5";
             this.linkLabel5.Size = new System.Drawing.Size(103, 13);
             this.linkLabel5.TabIndex = 12;
@@ -406,66 +405,15 @@ namespace PokemonGo.RocketAPI.Console
             this.linkLabel5.Text = "Https Proxy List Link";
             this.linkLabel5.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel5_LinkClicked);
             // 
-            // label37
-            // 
-            this.label37.AutoSize = true;
-            this.label37.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F);
-            this.label37.Location = new System.Drawing.Point(52, 277);
-            this.label37.Name = "label37";
-            this.label37.Size = new System.Drawing.Size(130, 24);
-            this.label37.TabIndex = 11;
-            this.label37.Text = "3. Save Proxy.";
-            // 
-            // label36
-            // 
-            this.label36.AutoSize = true;
-            this.label36.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F);
-            this.label36.Location = new System.Drawing.Point(52, 243);
-            this.label36.Name = "label36";
-            this.label36.Size = new System.Drawing.Size(155, 24);
-            this.label36.TabIndex = 10;
-            this.label36.Text = "2. Put in the Data.";
-            // 
             // label35
             // 
             this.label35.AutoSize = true;
             this.label35.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F);
             this.label35.Location = new System.Drawing.Point(51, 207);
             this.label35.Name = "label35";
-            this.label35.Size = new System.Drawing.Size(184, 24);
+            this.label35.Size = new System.Drawing.Size(164, 24);
             this.label35.TabIndex = 9;
-            this.label35.Text = "1. Get HTTPS Proxy.";
-            // 
-            // label34
-            // 
-            this.label34.AutoSize = true;
-            this.label34.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F);
-            this.label34.Location = new System.Drawing.Point(21, 165);
-            this.label34.Name = "label34";
-            this.label34.Size = new System.Drawing.Size(168, 25);
-            this.label34.TabIndex = 8;
-            this.label34.Text = "How Proxy works:";
-            // 
-            // button3
-            // 
-            this.button3.Location = new System.Drawing.Point(26, 114);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(487, 23);
-            this.button3.TabIndex = 7;
-            this.button3.Text = "Disable Proxy";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
-            // 
-            // checkPrxy
-            // 
-            this.checkPrxy.Location = new System.Drawing.Point(26, 84);
-            this.checkPrxy.Margin = new System.Windows.Forms.Padding(2);
-            this.checkPrxy.Name = "checkPrxy";
-            this.checkPrxy.Size = new System.Drawing.Size(488, 24);
-            this.checkPrxy.TabIndex = 6;
-            this.checkPrxy.Text = "Save Proxy";
-            this.checkPrxy.UseVisualStyleBackColor = true;
-            this.checkPrxy.Click += new System.EventHandler(this.checkPrxy_Click);
+            this.label35.Text = "Get HTTPS Proxy.";
             // 
             // checkBox_UseProxyAuth
             // 
@@ -477,47 +425,43 @@ namespace PokemonGo.RocketAPI.Console
             this.checkBox_UseProxyAuth.TabIndex = 5;
             this.checkBox_UseProxyAuth.Text = "Use Authentication";
             this.checkBox_UseProxyAuth.UseVisualStyleBackColor = true;
-            this.checkBox_UseProxyAuth.CheckedChanged += new System.EventHandler(this.checkBox14_CheckedChanged);
+            this.checkBox_UseProxyAuth.CheckedChanged += new System.EventHandler(this.checkBox_UseProxyAuth_CheckedChanged);
             // 
             // prxyUser
             // 
             this.prxyUser.Enabled = false;
-            this.prxyUser.Location = new System.Drawing.Point(274, 37);
+            this.prxyUser.Location = new System.Drawing.Point(274, 60);
             this.prxyUser.Margin = new System.Windows.Forms.Padding(2);
             this.prxyUser.Name = "prxyUser";
             this.prxyUser.Size = new System.Drawing.Size(239, 20);
             this.prxyUser.TabIndex = 4;
-            this.prxyUser.Text = "Proxy Username";
             // 
             // prxyPort
             // 
             this.prxyPort.Enabled = false;
-            this.prxyPort.Location = new System.Drawing.Point(26, 60);
+            this.prxyPort.Location = new System.Drawing.Point(26, 103);
             this.prxyPort.Margin = new System.Windows.Forms.Padding(2);
             this.prxyPort.Name = "prxyPort";
             this.prxyPort.Size = new System.Drawing.Size(225, 20);
             this.prxyPort.TabIndex = 3;
-            this.prxyPort.Text = "HTTPS Proxy Port";
             // 
             // prxyPass
             // 
             this.prxyPass.Enabled = false;
-            this.prxyPass.Location = new System.Drawing.Point(274, 60);
+            this.prxyPass.Location = new System.Drawing.Point(274, 103);
             this.prxyPass.Margin = new System.Windows.Forms.Padding(2);
             this.prxyPass.Name = "prxyPass";
             this.prxyPass.Size = new System.Drawing.Size(239, 20);
             this.prxyPass.TabIndex = 2;
-            this.prxyPass.Text = "Proxy Password";
             // 
             // prxyIP
             // 
             this.prxyIP.Enabled = false;
-            this.prxyIP.Location = new System.Drawing.Point(26, 37);
+            this.prxyIP.Location = new System.Drawing.Point(26, 60);
             this.prxyIP.Margin = new System.Windows.Forms.Padding(2);
             this.prxyIP.Name = "prxyIP";
             this.prxyIP.Size = new System.Drawing.Size(225, 20);
             this.prxyIP.TabIndex = 1;
-            this.prxyIP.Text = "HTTPS Proxy IP";
             // 
             // checkBox_UseProxy
             // 
@@ -529,7 +473,7 @@ namespace PokemonGo.RocketAPI.Console
             this.checkBox_UseProxy.TabIndex = 0;
             this.checkBox_UseProxy.Text = "Use Proxies";
             this.checkBox_UseProxy.UseVisualStyleBackColor = true;
-            this.checkBox_UseProxy.CheckedChanged += new System.EventHandler(this.checkBox13_CheckedChanged);
+            this.checkBox_UseProxy.CheckedChanged += new System.EventHandler(this.checkBox_UseProxy_CheckedChanged);
             // 
             // tabItems
             // 
@@ -1087,7 +1031,6 @@ namespace PokemonGo.RocketAPI.Console
             this.label66.Size = new System.Drawing.Size(95, 13);
             this.label66.TabIndex = 54;
             this.label66.Text = "Hash Service Key:";
-            this.label66.Click += new System.EventHandler(this.label66_Click);
             // 
             // label39
             // 
@@ -1483,7 +1426,6 @@ namespace PokemonGo.RocketAPI.Console
             this.checkBox_EvolvePokemonIfEnoughCandy.TabIndex = 44;
             this.checkBox_EvolvePokemonIfEnoughCandy.Text = "Evolve Pokemons if enough candy\r\n";
             this.checkBox_EvolvePokemonIfEnoughCandy.UseVisualStyleBackColor = true;
-            this.checkBox_EvolvePokemonIfEnoughCandy.CheckedChanged += new System.EventHandler(this.checkBox3_CheckedChanged);
             // 
             // tabControl1
             // 
@@ -2582,6 +2524,7 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // tabMisc
             // 
+            this.tabMisc.Controls.Add(this.buttonTutorial);
             this.tabMisc.Controls.Add(this.groupBox25);
             this.tabMisc.Controls.Add(this.groupBox23);
             this.tabMisc.Controls.Add(this.AvoidRegionLock);
@@ -2597,12 +2540,22 @@ namespace PokemonGo.RocketAPI.Console
             this.tabMisc.Text = "Misc";
             this.tabMisc.UseVisualStyleBackColor = true;
             // 
+            // buttonTutorial
+            // 
+            this.buttonTutorial.Location = new System.Drawing.Point(235, 349);
+            this.buttonTutorial.Name = "buttonTutorial";
+            this.buttonTutorial.Size = new System.Drawing.Size(208, 23);
+            this.buttonTutorial.TabIndex = 72;
+            this.buttonTutorial.Text = "Change Default Vaules for Complete Tutorial";
+            this.buttonTutorial.UseVisualStyleBackColor = true;
+            this.buttonTutorial.Click += new System.EventHandler(this.Button4Click);
+            // 
             // groupBox25
             // 
             this.groupBox25.Controls.Add(this.checkbox_Verboselogging);
             this.groupBox25.Location = new System.Drawing.Point(176, 173);
             this.groupBox25.Name = "groupBox25";
-            this.groupBox25.Size = new System.Drawing.Size(373, 205);
+            this.groupBox25.Size = new System.Drawing.Size(373, 170);
             this.groupBox25.TabIndex = 71;
             this.groupBox25.TabStop = false;
             this.groupBox25.Text = "Dev Options";
@@ -3327,6 +3280,38 @@ namespace PokemonGo.RocketAPI.Console
             this.pictureBox2.TabStop = false;
             this.pictureBox2.Click += new System.EventHandler(this.pictureBox2_Click);
             // 
+            // labelPrxHost
+            // 
+            this.labelPrxHost.Location = new System.Drawing.Point(26, 45);
+            this.labelPrxHost.Name = "labelPrxHost";
+            this.labelPrxHost.Size = new System.Drawing.Size(100, 13);
+            this.labelPrxHost.TabIndex = 13;
+            this.labelPrxHost.Text = "Host Name:";
+            // 
+            // labelPrxPort
+            // 
+            this.labelPrxPort.Location = new System.Drawing.Point(26, 88);
+            this.labelPrxPort.Name = "labelPrxPort";
+            this.labelPrxPort.Size = new System.Drawing.Size(100, 13);
+            this.labelPrxPort.TabIndex = 14;
+            this.labelPrxPort.Text = "Port:";
+            // 
+            // labelPrxPass
+            // 
+            this.labelPrxPass.Location = new System.Drawing.Point(274, 88);
+            this.labelPrxPass.Name = "labelPrxPass";
+            this.labelPrxPass.Size = new System.Drawing.Size(100, 13);
+            this.labelPrxPass.TabIndex = 16;
+            this.labelPrxPass.Text = "Password:";
+            // 
+            // labelPrxUser
+            // 
+            this.labelPrxUser.Location = new System.Drawing.Point(274, 45);
+            this.labelPrxUser.Name = "labelPrxUser";
+            this.labelPrxUser.Size = new System.Drawing.Size(100, 13);
+            this.labelPrxUser.TabIndex = 15;
+            this.labelPrxUser.Text = "User Name:";
+            // 
             // GUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -3454,12 +3439,9 @@ namespace PokemonGo.RocketAPI.Console
         private System.Windows.Forms.Label label30;
         private System.Windows.Forms.TabPage tabProxies;
         private System.Windows.Forms.LinkLabel linkLabel5;
-        private System.Windows.Forms.Label label37;
-        private System.Windows.Forms.Label label36;
+        private System.Windows.Forms.Label labelPrxPass;
+        private System.Windows.Forms.Label labelPrxPort;
         private System.Windows.Forms.Label label35;
-        private System.Windows.Forms.Label label34;
-        private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.Button checkPrxy;
         private System.Windows.Forms.CheckBox checkBox_UseProxyAuth;
         private System.Windows.Forms.TextBox prxyUser;
         private System.Windows.Forms.TextBox prxyPort;
@@ -3480,7 +3462,7 @@ namespace PokemonGo.RocketAPI.Console
         private System.Windows.Forms.Label label17;
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.TextBox text_MaxRazzBerrys;
-        private System.Windows.Forms.TextBox text_MaxHyperPotions;
+        private System.Windows.Forms.Label labelPrxHost;
         private System.Windows.Forms.TextBox text_MaxSuperPotions;
         private System.Windows.Forms.TextBox text_MaxPotions;
         private System.Windows.Forms.TextBox text_MaxRevives;
@@ -3710,6 +3692,9 @@ namespace PokemonGo.RocketAPI.Console
         private System.Windows.Forms.Button button_Information;
         private System.Windows.Forms.CheckBox checkBox_CollectDailyBonus;
         private System.Windows.Forms.CheckBox checkBox_ConsoleInTab;
+        private System.Windows.Forms.Button buttonTutorial;
+        private System.Windows.Forms.Label labelPrxUser;
+        private System.Windows.Forms.TextBox text_MaxHyperPotions;
         //private System.Windows.Forms.CheckBox checkBox_CatchLurePokemons;
     }
 }
