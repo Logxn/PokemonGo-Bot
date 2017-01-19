@@ -287,10 +287,18 @@ namespace PokemonGo.RocketAPI.Logic
 
                     PostLoginExecute();
                 }
+                catch (LoginFailedException )
+                {
+                        Logger.ColoredConsoleWrite(ConsoleColor.Red,"Login with PTC Failed");
+                }
+                catch (GoogleException )
+                {
+                        Logger.ColoredConsoleWrite(ConsoleColor.Red,"Login with Google Failed");
+                }
                 catch (Exception ex)
                 {
                     #region Log Error 
-
+                    
                     Exception realerror = ex;
                     while (realerror.InnerException != null)
                         realerror = realerror.InnerException;
@@ -310,6 +318,7 @@ namespace PokemonGo.RocketAPI.Logic
 
                     #endregion
                 }
+                
                 var msToWait = 50000;
                 Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Restarting in over {(msToWait+5000)/1000} Seconds.");
                 RandomHelper.RandomSleep(msToWait,msToWait+10000);
