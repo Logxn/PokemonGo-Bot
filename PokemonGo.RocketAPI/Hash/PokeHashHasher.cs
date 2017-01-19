@@ -9,6 +9,7 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using PokemonGo.RocketAPI.Helpers;
+using PokemonGo.RocketAPI.Shared;
 
 namespace PokemonGo.RocketAPI.Hash
 {
@@ -104,25 +105,40 @@ namespace PokemonGo.RocketAPI.Hash
         public HashResponseContent RequestHashes(HashRequestContent request)
         {
             int retry = 3;
+            int cyclingRetrys = 40;
+            bool doFasterCall ;
             do {
+                doFasterCall = false;
                 try
                 {
                     return InternalRequestHashes(request);
                 }
                 catch (HasherException hashEx)
                 {
-                    throw hashEx;
+                    doFasterCall = true;
+                    cyclingRetrys --;
+                    Logger.Write(hashEx.Message);
+                    if (cyclingRetrys < 0)
+                        throw hashEx;
                 }
                 catch (Exception ex)
                 {
                     Logger.ColoredConsoleWrite(ConsoleColor.Red, "Error: PokeHashHasher.cs - RequestHashes()");
                     Logger.ColoredConsoleWrite(ConsoleColor.Red, ex.Message);
                 }
-                finally
-                {
-                    retry--;
+                if (doFasterCall){
+                    var nextKey = Shared.KeyCollection.nextKey();
+                    if (nextKey !=""){
+                           this.apiKey = nextKey;
+                           Logger.Write("Changing KEY to: "+this.apiKey.Substring(0,5));
+                    }
+                    RandomHelper.RandomSleep(250,300);
                 }
-                RandomHelper.RandomSleep(1000,1100);
+                else{
+                    RandomHelper.RandomSleep(1000,1100);
+                    retry--;                    
+                }
+                    
             } while (retry > 0);
 
             throw new HasherException("Pokefamer Hash API server might down");
@@ -145,17 +161,16 @@ namespace PokemonGo.RocketAPI.Hash
                     case HttpStatusCode.OK:
                         return JsonConvert.DeserializeObject<HashResponseContent>(response.Content.ReadAsStringAsync().Result);
                     case HttpStatusCode.BadRequest: // Invalid request
-                        string responseText = response.Content.ReadAsStringAsync().Result;
-                        if (responseText.Contains("Unauthorized")) throw new HasherException($"[HashService] Your PF-Hashkey you provided is incorrect (or not valid anymore). Please check again! (Pokefamer message : {responseText})");
-                        Console.WriteLine($"[HashService] Bad request sent to the hashing server! {responseText}");
-                        break;
+                        var responseText = response.Content.ReadAsStringAsync().Result;
+                        throw new HasherException($"[HashService] Bad request sent to the hashing server! {responseText}");
                     case HttpStatusCode.Unauthorized: // No Valid Key
-                        throw new  HasherException("[HashService] Your PF-Hashkey you provided is incorrect (or not valid anymore). Please check again!");
+                        Shared.KeyCollection.removeKey(this.apiKey);
+                        throw new  HasherException($"[HashService] Your PF-Hashkey you provided is incorrect (or not valid anymore). ");
                     case (HttpStatusCode)429: // To many reqeusts => que 
-                        Console.WriteLine($"[HashService] Your request has been limited. {response.Content.ReadAsStringAsync().Result}");
-                        RandomHelper.RandomSleep(2000,2100);
-                        return RequestHashesAsync(request).Result;
+                        responseText = response.Content.ReadAsStringAsync().Result;
+                        throw new HasherException($"HashService] Your request has been limited (Message : {responseText})");
                     default:
+                        RandomHelper.RandomSleep(10000,11000);
                         throw new HasherException($"[HashService] Pokefamer Hash API ({client.BaseAddress}{endpoint}) might down!");
                 }
             }
