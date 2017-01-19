@@ -7,15 +7,13 @@
  * To change this template use Tools | Options | Coding | Edit Standard Headers.
  */
 using System;
-using PokemonGo.RocketAPI.Logic;
-using PokemonGo.RocketAPI.Logic.Shared;
 
-namespace PokemonGo.RocketAPI.Console
+namespace PokemonGo.RocketAPI.Logic.Shared
 {
     /// <summary>
-    /// Description of GUISettings.
+    /// Description of ProfileSettings.
     /// </summary>
-    public class GUISettings : ISettings
+    public class ProfileSettings : ISettings
     {
         #region ISettings implementation
     public string pFHashKey {
@@ -811,25 +809,10 @@ namespace PokemonGo.RocketAPI.Console
     public System.Collections.Generic.List<POGOProtos.Enums.PokemonId> NotToSnipe {
         get;set;
 
-
-
-
-
     }
-    public ManualSnipePokemon SnipeOpts {
-        get;set;
 
-
-
-
-
-    }
     public Google.Protobuf.ByteString SessionHash {
         get;set;
-
-
-
-
 
     }
     public bool No10kmEggs {

@@ -62,10 +62,19 @@ namespace PokemonGo.RocketAPI.Console
         {
 
             // Review & parse command line arguments
+            var BotVersion = new Version(Assembly.GetExecutingAssembly().GetName().Version.ToString());
 
             if (args != null && args.Length > 0)
             {
                 #region Parse Arguments
+                // First of all.
+                // We check if bot have called clicking in a pokesnimer URI: pokesniper2://PokemonName/latitude,longitude
+                if (args[0].Contains("pokesniper2"))
+                {
+                    // If yes, We create a temporary file to share with main process, and close.
+                    SharePokesniperURI(args[0]);
+                    return;
+                }
                 foreach (string arg in args)
                 {
                     if (arg.Contains(","))
@@ -78,11 +87,14 @@ namespace PokemonGo.RocketAPI.Console
                         }
                         cmdCoords = arg;
                     }
-                    if (arg.ToLower().Contains("-bypassversioncheck")) GlobalSettings.BypassCheckCompatibilityVersion = true;
+
+                    if (arg.ToLower().Contains("-bypassversioncheck"))
+                        GlobalSettings.BypassCheckCompatibilityVersion = true;
+
                     if (arg.ToLower().Contains("-help"))
                     {
                         //Show Help
-                        Logger.ColoredConsoleWriteNoDateTime(ConsoleColor.White, $"Pokemon BOT C# v{GlobalSettings.BotVersion.ToString()} help" + Environment.NewLine);
+                        Logger.ColoredConsoleWriteNoDateTime(ConsoleColor.White, $"Pokemon BOT C# v{BotVersion.ToString()} help" + Environment.NewLine);
                         Logger.ColoredConsoleWriteNoDateTime(ConsoleColor.Gray, "Use:");
                         Logger.ColoredConsoleWriteNoDateTime(ConsoleColor.Gray, "  -nogui <lat>,<long>         Console mode only, starting on the indicated Latitude & Longitude");
                         Logger.ColoredConsoleWriteNoDateTime(ConsoleColor.Gray, "  -bypassversioncheck         to NOT check BOT & API compatibility (be careful with that option)");
@@ -93,41 +105,38 @@ namespace PokemonGo.RocketAPI.Console
                 #endregion
             }
 
-            // First thing to check is if current BOT API implementation supports NIANTIC current API unless there's an override command line switch
+            // Checking if current BOT API implementation supports NIANTIC current API (unless there's an override command line switch)
             if (!GlobalSettings.BypassCheckCompatibilityVersion)
             {
-                bool CurrentVersionsOK = new CurrentAPIVersion().CheckAPIVersionCompatibility(GlobalSettings.BotVersion, GlobalSettings.BotApiSupportedVersion, GlobalSettings.NianticApiVersion);
+                var NianticAPIVersion = new CurrentAPIVersion().GetCurrentAPIVersion();
+                Logger.ColoredConsoleWrite(ConsoleColor.DarkMagenta, $"Bot Current version: {BotVersion}");
+                Logger.ColoredConsoleWrite(ConsoleColor.DarkMagenta, $"Bot Supported API version: {GlobalSettings.BotApiSupportedVersion}");
+                Logger.ColoredConsoleWrite(ConsoleColor.DarkMagenta, $"Current API version: {NianticAPIVersion}");
+                bool CurrentVersionsOK = new CurrentAPIVersion().CheckAPIVersionCompatibility( GlobalSettings.BotApiSupportedVersion, new Version(NianticAPIVersion));
                 if (!CurrentVersionsOK)
                 {
+                    Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Atention, current API version is new and still not supported by Bot.");
+                    Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Bot will now exit to keep your account safe.");
+                    Logger.ColoredConsoleWrite(ConsoleColor.Red, $"---------- PRESS ANY KEY TO CLOSE ----------");
+                    System.Console.ReadKey();
                     Environment.Exit(-1);
                 }
             }
 
-            // What it does??
-            if ( args.Length > 0)
-            {
-                if (args[0].Contains("pokesniper2"))
-                {
-                    SharePokesniperURI(args[0]);
-                    return;
-                }
-            }
-
-            SleepHelper.PreventSleep();
-            CreateLogDirectories();
-
             var openGUI = false;
-
             if (args != null && args.Length > 0 && args[0].Contains("-nogui"))
             {
-                Logger.ColoredConsoleWrite(ConsoleColor.Red, "You added -nogui! If you didnt setup correctly with the GUI. It wont work.");
+                Logger.ColoredConsoleWrite(ConsoleColor.Red, "You added -nogui!");
 
-                //TODO Implement JSON Load
-
+                if (!GlobalSettings.Load()) {
+                    Logger.ColoredConsoleWrite(ConsoleColor.Red, "You didnt setup correctly with the GUI.");
+                    Logger.ColoredConsoleWrite(ConsoleColor.Red, "Run it without -nogui to Configure.");
+                    Logger.ColoredConsoleWrite(ConsoleColor.Red, "Exiting..");
+                    Environment.Exit(-1);
+                }
 
                 if (GlobalSettings.usePwdEncryption)
                 {
-
                     GlobalSettings.password = Encryption.Decrypt(GlobalSettings.password);
                 }
 
@@ -137,6 +146,7 @@ namespace PokemonGo.RocketAPI.Console
                     GlobalSettings.latitute = double.Parse(crdParts[0].Replace(',', '.'), GUI.cords, System.Globalization.NumberFormatInfo.InvariantInfo);
                     GlobalSettings.longitude = double.Parse(crdParts[1].Replace(',', '.'), GUI.cords, System.Globalization.NumberFormatInfo.InvariantInfo);
                 }
+
                 Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Starting at: {GlobalSettings.latitute},{GlobalSettings.longitude}");
             }
             else
@@ -151,13 +161,17 @@ namespace PokemonGo.RocketAPI.Console
                 openGUI = GlobalSettings.pokeList;
             }
 
+
+            SleepHelper.PreventSleep();
+            CreateLogDirectories();
+
             GlobalSettings.infoObservable.HandleNewHuntStats += SaveHuntStats;
 
             Task.Run(() =>
             {
 
                 CheckVersion(); // Check if a new version of BOT is available
-
+                
                 try
                 {
                     new Logic.Logic(new Settings(), GlobalSettings.infoObservable).Execute();

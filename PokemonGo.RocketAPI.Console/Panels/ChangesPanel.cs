@@ -194,9 +194,9 @@ namespace PokemonGo.RocketAPI.Console
         void buttonUpdateClick(object sender, EventArgs e)
         {
             var ActiveProfile = new Profile();
-            if (_clientSettings == null)
+            if (_botSettings == null)
                 return;
-            var configString = JsonConvert.SerializeObject(_clientSettings);
+            var configString = JsonConvert.SerializeObject(_botSettings);
             Profile updatedProfile = new Profile();
             ActiveProfile.ProfileName = GlobalSettings.ProfileName;
             ActiveProfile.IsDefault = GlobalSettings.IsDefault;

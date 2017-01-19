@@ -768,21 +768,6 @@ namespace PokemonGo.RocketAPI.Console
             get { return GlobalSettings.SnipeOpts; }
             set { GlobalSettings.SnipeOpts = value; }
         }
-        public Version BotVersion
-        {
-            get { return GlobalSettings.BotVersion; }
-            set { GlobalSettings.BotVersion = value; }
-        }
-        public Version BotApiSupportedVersion
-        {
-            get { return GlobalSettings.BotApiSupportedVersion; }
-            set { GlobalSettings.BotApiSupportedVersion = value; }
-        }
-        public Version NianticApiVersion
-        {
-            get { return GlobalSettings.NianticApiVersion; }
-            set { GlobalSettings.NianticApiVersion = value; }
-        }
         
     }
 }

@@ -79,10 +79,9 @@ namespace PokemonGo.RocketAPI.Logic
         public Logic(ISettings botSettings, LogicInfoObservable infoObservable)
         {
             this.BotSettings = botSettings;
-            var BotApiSupportedVersion = new Version("0.0.0");
             var clientSettings = new PokemonGo.RocketAPI.Shared.ClientSettings(botSettings.pFHashKey, botSettings.DefaultLatitude , botSettings.DefaultLongitude, botSettings.DefaultAltitude,
                       botSettings.proxySettings.hostName, botSettings.proxySettings.port, botSettings.proxySettings.username, botSettings.proxySettings.password,
-                      botSettings.AuthType, botSettings.GoogleUsername, botSettings.GooglePassword, BotApiSupportedVersion);
+                      botSettings.AuthType, botSettings.GoogleUsername, botSettings.GooglePassword, GlobalSettings.BotApiSupportedVersion);
             objClient = new Client(clientSettings);
             objClient.setFailure(new ApiFailureStrat(objClient));
             BotStats = new BotStats();

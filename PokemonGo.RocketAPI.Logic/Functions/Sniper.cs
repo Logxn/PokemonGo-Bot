@@ -22,14 +22,14 @@ namespace PokemonGo.RocketAPI.Logic.Functions
     public class Sniper
     {
         public Client _client;
-        public ISettings _clientSettings;
+        public ISettings _botSettings;
         private const string LogPrefix = "(SNIPING)";
         private ConsoleColor LogColor = ConsoleColor.Cyan;
 
         public Sniper(Client client, ISettings ClientSettings)
         {
             _client = client;
-            _clientSettings = ClientSettings;
+            _botSettings = ClientSettings;
         }
         
         private void SendToLog(string line){
@@ -38,7 +38,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
         
         public void Execute(  PokemonId pokeid, GeoCoordinate remoteCoords )
         {
-            if (_clientSettings == null && _client ==null )
+            if (_botSettings == null && _client ==null )
             {
                 SendToLog($" client or settings are not set");
                 return;
@@ -51,12 +51,12 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                 var result = _client.Player.UpdatePlayerLocation(remoteCoords.Latitude, remoteCoords.Longitude, remoteCoords.Altitude).Result;
 
                 SendToLog($"Went to sniping location.");
-                SendToLog($"Waiting {_clientSettings.SnipeOpts.WaitSecond} seconds for Pokemon to appear...");
-                RandomHelper.RandomSleep(_clientSettings.SnipeOpts.WaitSecond*1000, _clientSettings.SnipeOpts.WaitSecond*1100);
+                SendToLog($"Waiting {GlobalSettings.SnipeOpts.WaitSecond} seconds for Pokemon to appear...");
+                RandomHelper.RandomSleep(GlobalSettings.SnipeOpts.WaitSecond*1000, GlobalSettings.SnipeOpts.WaitSecond*1100);
 
                 TrySnipePokemons(pokeid);
                 
-                SendToLog($"Location after Snipe : {_clientSettings.DefaultLatitude} / {_clientSettings.DefaultLongitude}");
+                SendToLog($"Location after Snipe : {_botSettings.DefaultLatitude} / {_botSettings.DefaultLongitude}");
                 
                 RandomHelper.RandomSleep(20000, 22000);  // Avoid cache after snipe
 
@@ -64,17 +64,17 @@ namespace PokemonGo.RocketAPI.Logic.Functions
             catch (Exception ex1)
             {
                 Logger.ExceptionInfo(ex1.ToString());
-                SendToLog($"Go to {_clientSettings.DefaultLatitude} / {_clientSettings.DefaultLongitude}.");
+                SendToLog($"Go to {_botSettings.DefaultLatitude} / {_botSettings.DefaultLongitude}.");
                 var result = _client.Player.UpdatePlayerLocation(
-                        _clientSettings.DefaultLatitude,
-                        _clientSettings.DefaultLongitude,
-                        _clientSettings.DefaultAltitude).Result;
+                        _botSettings.DefaultLatitude,
+                        _botSettings.DefaultLongitude,
+                        _botSettings.DefaultAltitude).Result;
             }
-            _clientSettings.SnipeOpts.Enabled = false;
-            _clientSettings.SnipeOpts.ID = PokemonId.Missingno;
-            _clientSettings.SnipeOpts.Location = null;
-            _clientSettings.SnipeOpts.WaitSecond = 6;
-            _clientSettings.SnipeOpts.NumTries = 3;
+            GlobalSettings.SnipeOpts.Enabled = false;
+            GlobalSettings.SnipeOpts.ID = PokemonId.Missingno;
+            GlobalSettings.SnipeOpts.Location = null;
+            GlobalSettings.SnipeOpts.WaitSecond = 6;
+            GlobalSettings.SnipeOpts.NumTries = 3;
             
         }
         
@@ -87,30 +87,30 @@ namespace PokemonGo.RocketAPI.Logic.Functions
             do{
                 var mapObjectsResponse = _client.Map.GetMapObjects(true).Result.Item1;
                 var pokemons = mapObjectsResponse.MapCells.SelectMany(i => i.CatchablePokemons).Where(x => x.PokemonId == pokeid);
-                SendToLog($"Try {tries} of {_clientSettings.SnipeOpts.NumTries}");
+                SendToLog($"Try {tries} of {GlobalSettings.SnipeOpts.NumTries}");
                 if (pokemons.Any())
                 {
                     var pokemon = pokemons.FirstOrDefault();
-                    SendToLog($"Found {pokemons.Count()} catchable Pokemon(s): {StringUtils.getPokemonNameByLanguage(_clientSettings, pokemon.PokemonId)}" );
+                    SendToLog($"Found {pokemons.Count()} catchable Pokemon(s): {StringUtils.getPokemonNameByLanguage(_botSettings, pokemon.PokemonId)}" );
                     Logic.Instance.CatchPokemon(pokemon.EncounterId, pokemon.SpawnPointId, pokemon.PokemonId, pokemon.Longitude, pokemon.Latitude, goBack);
                     found = true;
                 }
                 else
                 {
                     SendToLog($"No Pokemon Found!");
-                    SendToLog($"Waiting {_clientSettings.SnipeOpts.WaitSecond} seconds for Pokemon to appear...");
-                    RandomHelper.RandomSleep(_clientSettings.SnipeOpts.WaitSecond*1000, _clientSettings.SnipeOpts.WaitSecond*1100);
+                    SendToLog($"Waiting {GlobalSettings.SnipeOpts.WaitSecond} seconds for Pokemon to appear...");
+                    RandomHelper.RandomSleep(GlobalSettings.SnipeOpts.WaitSecond*1000, GlobalSettings.SnipeOpts.WaitSecond*1100);
                 }
                 tries ++;
             
-            }while ((tries < _clientSettings.SnipeOpts.NumTries) && !found);
+            }while ((tries < GlobalSettings.SnipeOpts.NumTries) && !found);
             
             if (!found){
-                SendToLog( $"Go to {_clientSettings.DefaultLatitude} / {_clientSettings.DefaultLongitude}.");
+                SendToLog( $"Go to {_botSettings.DefaultLatitude} / {_botSettings.DefaultLongitude}.");
                 var result = _client.Player.UpdatePlayerLocation(
-                        _clientSettings.DefaultLatitude,
-                        _clientSettings.DefaultLongitude,
-                        _clientSettings.DefaultAltitude).Result;
+                        _botSettings.DefaultLatitude,
+                        _botSettings.DefaultLongitude,
+                        _botSettings.DefaultAltitude).Result;
             }
             return found;
         }
