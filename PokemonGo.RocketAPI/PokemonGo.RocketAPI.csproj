@@ -162,6 +162,7 @@
     <Compile Include="Helpers\Shuffle\Shuffles.cs" />
     <Compile Include="Helpers\Shuffle\UnShuffle.cs" />
     <Compile Include="Helpers\Shuffle\UnShuffle2.cs" />
+    <Compile Include="HttpClient\CurrentAPIVersion.cs" />
     <Compile Include="HttpClient\PokemonClient.cs" />
     <Compile Include="Enums\AuthType.cs" />
     <Compile Include="Exceptions\AccessTokenExpiredException.cs" />
@@ -179,7 +180,9 @@
     <Compile Include="Logging\ConsoleLogger.cs" />
     <Compile Include="Logging\ILogger.cs" />
     <Compile Include="Logging\LoggerC.cs" />
-    <Compile Include="Logging\LoggerPanel.cs" />
+    <Compile Include="Logging\LoggerPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Logging\LoggerPanel.Designer.cs">
       <DependentUpon>LoggerPanel.cs</DependentUpon>
     </Compile>
@@ -219,9 +222,7 @@
       <DependentUpon>LoggerPanel.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Shared" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

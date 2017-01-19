@@ -1,21 +1,21 @@
-using System;
-using System.Threading.Tasks;
+using Google.Protobuf;
+using POGOProtos.Enums;
+using PokemonGo.RocketAPI.Console.Helper;
 using PokemonGo.RocketAPI.Exceptions;
-using System.Reflection;
+using PokemonGo.RocketAPI.HttpClient;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Device.Location;
+using System.IO;
 using System.Net;
+using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Collections.Generic;
-using System.IO;
-using PokemonGo.RocketAPI.Console.Helper;
-using PokemonGo.RocketAPI.Logic.Utils;
-using POGOProtos.Enums;
-using System.Device.Location;
-using System.Collections.ObjectModel;
-using Google.Protobuf;
-using System.Runtime.InteropServices;
 
 namespace PokemonGo.RocketAPI.Console
 {
@@ -59,17 +59,12 @@ namespace PokemonGo.RocketAPI.Console
         [STAThread]
         static void Main(string[] args)
         {
-            if ( args.Length > 0)
-            {
-                if (args[0].Contains("pokesniper2"))
-                {
-                    SharePokesniperURI(args[0]);
-                    return;
-                }
-            }          
-            SleepHelper.PreventSleep();
+
+            // Review & parse command line arguments
+
             if (args != null && args.Length > 0)
             {
+                #region Parse Arguments
                 foreach (string arg in args)
                 {
                     if (arg.Contains(","))
@@ -82,25 +77,46 @@ namespace PokemonGo.RocketAPI.Console
                         }
                         cmdCoords = arg;
                     }
+                    if (arg.ToLower().Contains("-bypassversioncheck")) Globals.BypassCheckCompatibilityVersion = true;
+                    if (arg.ToLower().Contains("-help"))
+                    {
+                        //Show Help
+                        Logger.ColoredConsoleWriteNoDateTime(ConsoleColor.White, $"Pokemon BOT C# v{Globals.BotVersion.ToString()} help" + Environment.NewLine);
+                        Logger.ColoredConsoleWriteNoDateTime(ConsoleColor.Gray, "Use:");
+                        Logger.ColoredConsoleWriteNoDateTime(ConsoleColor.Gray, "  -nogui <lat>,<long>         Console mode only, starting on the indicated Latitude & Longitude");
+                        Logger.ColoredConsoleWriteNoDateTime(ConsoleColor.Gray, "  -bypassversioncheck         to NOT check BOT & API compatibility (be careful with that option)");
+                        Logger.ColoredConsoleWriteNoDateTime(ConsoleColor.Gray, "  -help                       this help" + Environment.NewLine);
+                        Environment.Exit(0);
+                    }
+                }
+                #endregion
+            }
+
+            // First thing to check is if current BOT API implementation supports NIANTIC current API unless there's an override command line switch
+            if (!Globals.BypassCheckCompatibilityVersion)
+            {
+                bool CurrentVersionsOK = new CurrentAPIVersion().CheckAPIVersionCompatibility(Globals.BotVersion, Globals.BotApiSupportedVersion, Globals.NianticApiVersion);
+                if (!CurrentVersionsOK)
+                {
+                    Environment.Exit(-1);
                 }
             }
-            if (!Directory.Exists(logPath))
+
+            // What it does??
+            if ( args.Length > 0)
             {
-                Directory.CreateDirectory(logPath);
+                if (args[0].Contains("pokesniper2"))
+                {
+                    SharePokesniperURI(args[0]);
+                    return;
+                }
             }
-            if (!File.Exists(pokelog))
-            {
-                File.Create(pokelog).Close();
-            }
-            if (!File.Exists(manualTransferLog))
-            {
-                File.Create(manualTransferLog).Close();
-            }
-            if (!File.Exists(EvolveLog))
-            {
-                File.Create(EvolveLog).Close();
-            }
+
+            SleepHelper.PreventSleep();
+            CreateLogDirectories();
+
             var openGUI = false;
+
             if (args != null && args.Length > 0 && args[0].Contains("-nogui"))
             {
                 Logger.ColoredConsoleWrite(ConsoleColor.Red, "You added -nogui! If you didnt setup correctly with the GUI. It wont work.");
@@ -132,14 +148,13 @@ namespace PokemonGo.RocketAPI.Console
                 openGUI = Globals.pokeList;
             }
 
-            //Logger.SetLogger(new Logging.ConsoleLogger(LogLevel.Info));
-
             Globals.infoObservable.HandleNewHuntStats += SaveHuntStats;
 
             Task.Run(() =>
             {
 
-                CheckVersion();
+                CheckVersion(); // Check if a new version of BOT is available
+
                 try
                 {
                     new Logic.Logic(new Settings(), Globals.infoObservable).Execute();
@@ -165,11 +180,11 @@ namespace PokemonGo.RocketAPI.Console
                     new Logic.Logic(new Settings(), Globals.infoObservable).Execute();
                 }
             });
+
             if (openGUI)
             {
                 if (Globals.simulatedPGO)
                 {
-
                     Application.Run( new GameAspectSimulator());
                 }
                 else
@@ -185,10 +200,12 @@ namespace PokemonGo.RocketAPI.Console
             }
             SleepHelper.AllowSleep();
         }
+
         private static void SaveHuntStats(string newHuntStat)
         {
             File.AppendAllText(huntstats, newHuntStat);
         }
+
         public static void CheckVersion()
         {
             try
@@ -225,6 +242,7 @@ namespace PokemonGo.RocketAPI.Console
                 Logger.ColoredConsoleWrite(ConsoleColor.White, "Unable to check for updates now...");
             }
         }
+
         public static Version getNewestVersion()
         {
             try
@@ -241,14 +259,36 @@ namespace PokemonGo.RocketAPI.Console
                 return Assembly.GetExecutingAssembly().GetName().Version;
             }
         }
+
         public static string DownloadServerVersion()
         {
             using (var wC = new WebClient())
                 return
                     wC.DownloadString(
                         "https://raw.githubusercontent.com/Ar1i/PokemonGo-Bot/master/ver.md");
-        }       
+        }
+
+        private static void CreateLogDirectories()
+        {
+            if (!Directory.Exists(logPath))
+            {
+                Directory.CreateDirectory(logPath);
+            }
+            if (!File.Exists(pokelog))
+            {
+                File.Create(pokelog).Close();
+            }
+            if (!File.Exists(manualTransferLog))
+            {
+                File.Create(manualTransferLog).Close();
+            }
+            if (!File.Exists(EvolveLog))
+            {
+                File.Create(EvolveLog).Close();
+            }
+        }
     }
+
     public static class ManualSnipePokemon
     {
         public static PokemonId? ID = null;
@@ -256,12 +296,19 @@ namespace PokemonGo.RocketAPI.Console
         public static int secondsSnipe = 6;
         public static int triesSnipe = 3;
     }
+
     public static class Globals
     {
-        // Bot Info  Globals (not yet implemented in any function)
-        public static readonly string BotVersion = "1.0.0";
-        public static readonly bool BotDebugFlag = true;
-        public static readonly bool BotStableFlag = false;
+        // Bot Info Globals
+        public static readonly Version BotVersion = new Version(Assembly.GetExecutingAssembly().GetName().Version.ToString());
+        public static readonly Version BotApiSupportedVersion = new Version("0.51.2");
+        public static readonly Version NianticApiVersion = new Version (new CurrentAPIVersion().GetCurrentAPIVersion());
+
+        //public static readonly bool BotDebugFlag = true;
+        //public static readonly bool BotStableFlag = false;
+
+        // Bot command line argument handle
+        public static bool BypassCheckCompatibilityVersion = false;
 
         // Other Globals
         public static Collection<Profile> Profiles = new Collection<Profile>();

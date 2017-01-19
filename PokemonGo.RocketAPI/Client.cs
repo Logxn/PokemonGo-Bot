@@ -97,19 +97,12 @@ namespace PokemonGo.RocketAPI
 
             InventoryLastUpdateTimestamp = 0;
 
-
-            /*AppVersion = 4500;
-            SettingsHash = "";
-
-            CurrentApiEmulationVersion = new Version("0.45.0");*/
-
             AppVersion = 5120;
             SettingsHash = "";
 
-            CurrentApiEmulationVersion = new Version("0.51.2");
+            CurrentApiEmulationVersion = Settings.BotApiSupportedVersion;// new Version("0.51.2");
         }
-
-
+        
         private WebProxy InitProxy()
         {
             try
