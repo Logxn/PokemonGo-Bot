@@ -198,7 +198,8 @@ namespace PokemonGo.RocketAPI.Logic
         public void Execute()
         {
             // Check if disabled
-            StringUtils.CheckKillSwitch();
+            // Not necessary anymore
+            //StringUtils.CheckKillSwitch();
 
             Logger.ColoredConsoleWrite(ConsoleColor.Red, "Source code and binary files of this bot are absolutely free and open-source!");
             Logger.ColoredConsoleWrite(ConsoleColor.Red, "If you've paid for it. Request a chargeback immediately!");
@@ -265,7 +266,7 @@ namespace PokemonGo.RocketAPI.Logic
 
             #endregion
 
-            #region Restart
+            #region Login & Start
             //Restart unless killswitch thrown
             while (true)
             {
@@ -1582,7 +1583,7 @@ namespace PokemonGo.RocketAPI.Logic
             return false;
         }
 
-private int GetGymLevel(long value)
+        private int GetGymLevel(long value)
         {
             if (value >= 50000)
                 return 10;
@@ -2644,6 +2645,7 @@ private int GetGymLevel(long value)
             {
                 // Leave this here: Logger.Error(e.StackTrace);
                 Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, "Egg: We dont have any eggs we could incubate.");
+                Logger.ColoredConsoleWrite(ConsoleColor.Red, ex.Message);
             }
         }
 

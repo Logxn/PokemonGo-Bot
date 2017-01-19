@@ -3,6 +3,7 @@ using POGOProtos.Enums;
 using POGOProtos.Inventory.Item;
 using PokemonGo.RocketAPI;
 using PokemonGo.RocketAPI.Enums;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Device.Location;
@@ -13,6 +14,11 @@ namespace PokemonGo.RocketAPI
     {
 
         /* ===================================[SETTINGS]================================= */
+        
+        /* Bot Infor & Versions */
+        Version BotVersion { get; }
+        Version BotApiSupportedVersion { get; }
+        Version NianticApiVersion { get; }
 
         /* AUTHENTICATION */
         string pFHashKey { get; set; }
