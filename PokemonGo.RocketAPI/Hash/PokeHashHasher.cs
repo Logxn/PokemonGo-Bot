@@ -1,16 +1,14 @@
 ﻿using Newtonsoft.Json;
 using PokemonGo.RocketAPI.Exceptions;
+using PokemonGo.RocketAPI.Helpers;
+using PokemonGo.RocketAPI.HttpClient;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
-using PokemonGo.RocketAPI.Helpers;
-using PokemonGo.RocketAPI.HttpClient;
-using PokemonGo.RocketAPI.Shared;
 
 namespace PokemonGo.RocketAPI.Hash
 {
@@ -19,9 +17,8 @@ namespace PokemonGo.RocketAPI.Hash
         // ***************************************************************************
         // This Needs to be Changed for every new version
         // ***************************************************************************
-        public long Client_Unknown25 => -8832040574896607694;
-        //const string endpoint = "api/v121_2/hash";
-        //const string endpoint = "api/v123_1/hash";
+        //public long Client_Unknown25 => -8832040574896607694;
+        public long Client_Unknown25 => -76506539888958491;
 
         // ***************************************************************************
         // This value will determine which version of hashing you receive.

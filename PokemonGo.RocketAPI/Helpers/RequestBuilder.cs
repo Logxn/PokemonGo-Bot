@@ -29,8 +29,8 @@ namespace PokemonGo.RocketAPI.Helpers
 {
     public class RequestBuilder
     {
-        const long Client_4500_Unknown25 = -1553869577012279119;
-        const long Client_5100_Unknown25 = -8832040574896607694;
+        //const long Client_5100_Unknown25 = -8832040574896607694;
+        const long Client_5300_Unknown25 = -76506539888958491;
 
         private readonly string _authToken;
         private readonly AuthType _authType;
@@ -287,7 +287,7 @@ namespace PokemonGo.RocketAPI.Helpers
             #endregion
 
             signature.SessionHash = _sessionHash;
-            signature.Unknown25 = Client_5100_Unknown25;
+            signature.Unknown25 = Client_5300_Unknown25;
 
             var serializedTicket = requestEnvelope.AuthTicket != null ? requestEnvelope.AuthTicket.ToByteArray() : requestEnvelope.AuthInfo.ToByteArray();
 
