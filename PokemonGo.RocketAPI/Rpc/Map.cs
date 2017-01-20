@@ -6,8 +6,9 @@ using Google.Protobuf;
 using PokemonGo.RocketAPI.Helpers;
 using POGOProtos.Networking.Requests;
 using POGOProtos.Networking.Requests.Messages;
+using POGOProtos.Networking.Envelopes;
 using POGOProtos.Networking.Responses;
-using System.Threading;
+using POGOProtos.Networking.Platform;
 
 #endregion
 
@@ -69,8 +70,12 @@ namespace PokemonGo.RocketAPI.Rpc
             };
 
             var request = await GetRequestBuilder().GetRequestEnvelope(CommonRequest.FillRequest(getMapObjectsRequest, Client)).ConfigureAwait(false);
-            //var request = GetRequestBuilder().GetRequestEnvelope(CommonRequest.FillRequest(getMapObjectsRequest, Client));
-
+           
+            // This is new code for 0.53 below
+            request.PlatformRequests.Add(new RequestEnvelope.Types.PlatformRequest
+                                                {
+                                                    Type = PlatformRequestType.UnknownPrt8
+                                                });
             Tuple<GetMapObjectsResponse, CheckChallengeResponse, GetHatchedEggsResponse, GetInventoryResponse, CheckAwardedBadgesResponse, DownloadSettingsResponse, GetBuddyWalkedResponse> _getMapObjectsResponse =
                 await
                     PostProtoPayload

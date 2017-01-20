@@ -4,7 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Google.Protobuf;
-using PokemonGo.RocketAPI.Extensions;
+using POGOProtos.Networking.Platform;
+using POGOProtos.Networking.Envelopes;
 using PokemonGo.RocketAPI.Helpers;
 using POGOProtos.Data.Player;
 using POGOProtos.Enums;
@@ -39,6 +40,13 @@ namespace PokemonGo.RocketAPI.Rpc
                     RequestMessage = message.ToByteString()
                 }
             }).ConfigureAwait(false);
+            
+            // This is new code for 0.53 below
+            updatePlayerLocationRequestEnvelope.PlatformRequests.Add(new RequestEnvelope.Types.PlatformRequest
+                                                {
+                                                    Type = PlatformRequestType.UnknownPrt8
+                                                });
+            
 
             return await PostProtoPayload<Request, PlayerUpdateResponse>(updatePlayerLocationRequestEnvelope).ConfigureAwait(false);
         }
