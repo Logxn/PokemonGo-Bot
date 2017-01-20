@@ -63,8 +63,14 @@ namespace PokemonGo.RocketAPI.Console
         {
             try
             {
-                TabControl1.Enabled = false;
+                //TabControl1.Enabled = false;
                 var client = Logic.Logic.objClient;
+                
+                // Wait to client is ready to use
+                while (client ==null || !client.readyToUse){
+                     RandomHelper.RandomSleep(1000,1100);
+                }
+                
                 if (client.readyToUse != false)
                 {
                     profile = client.Player.GetPlayer().Result;
@@ -77,7 +83,7 @@ namespace PokemonGo.RocketAPI.Console
                     playerPanel1.setProfile(profile);
                     pokemonsPanel1.profile = profile;
                 }
-                TabControl1.Enabled = true;
+                //TabControl1.Enabled = true;
             }
             catch (Exception e)
             {
@@ -141,7 +147,7 @@ namespace PokemonGo.RocketAPI.Console
                     break;
             }
         }
-        public void ShowInWebPanel( string weburl)
+        public void ShowWebPanel()
         {
         	if (!TabControl1.Contains(tpWeb))
         	{
@@ -157,8 +163,10 @@ namespace PokemonGo.RocketAPI.Console
         }
         public void AddLink(object sender, EventArgs e)
         {
+            ShowWebPanel();
         	var lbl = (LinkLabel ) sender;
         	webPanel1.ChangeURL(lbl.Tag.ToString());
+        	TabControl1.SelectedTab = tpWeb;
         }
         	
     }
