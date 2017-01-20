@@ -9,6 +9,7 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using PokemonGo.RocketAPI.Helpers;
+using PokemonGo.RocketAPI.HttpClient;
 using PokemonGo.RocketAPI.Shared;
 
 namespace PokemonGo.RocketAPI.Hash
@@ -19,23 +20,37 @@ namespace PokemonGo.RocketAPI.Hash
         // This Needs to be Changed for every new version
         // ***************************************************************************
         public long Client_Unknown25 => -8832040574896607694;
-        const string endpoint = "api/v121_2/hash";
+        //const string endpoint = "api/v121_2/hash";
+        //const string endpoint = "api/v123_1/hash";
+
         // ***************************************************************************
         // This value will determine which version of hashing you receive.
         // Currently supported versions:
         // v119 -> Pogo iOS 1.19
         // v121 -> Pogo iOS 1.21
-        // v121_2 => IOS 1.22 (0.51.2)
-        // vXXXXX => IOS 1.xx (0.53.0)
+        // v121_2 => IOS 1.22 (0.51.0/2)
+        // v123_1 => IOS 1.23 (0.53.0)
         // ***************************************************************************
+        public Dictionary<string, string> EndPointDictionary = new Dictionary<string, string>
+            {
+                {"1.19", "api/v119/hash"},
+                {"1.21", "api/v121/hash"},
+                {"1.21.2", "api/v121_2/hash"},
+                {"0.51.0", "api/v121_2/hash"},
+                {"0.53.0", "api/v123_1/hash" }
+            };
 
+        private Uri _baseAddress = new Uri("http://pokehash.buddyauth.com/");
+        private string _endpoint;
         private string apiKey;
+
         public PokeHashHasher(string apiKey)
         {
+            _endpoint = EndPointDictionary[(CurrentAPIVersion.CurrentNianticAPIVersion).ToString()];
             this.apiKey = apiKey;
         }
 
-        /** ASYNC METHODS **/
+        #region Async Methods
         public async Task<HashResponseContent> RequestHashesAsync(HashRequestContent request)
         {
             int retry = 3;
@@ -46,6 +61,7 @@ namespace PokemonGo.RocketAPI.Hash
                 }
                 catch (HasherException hashEx)
                 {
+                    Logger.Write(hashEx.Message);
                     throw hashEx;
                 }
                 catch (Exception ex)
@@ -57,26 +73,24 @@ namespace PokemonGo.RocketAPI.Hash
                 {
                     retry--;
                 }
-                RandomHelper.RandomSleep(1000,1100);
             } while (retry > 0);
 
             throw new HasherException("Pokefamer Hash API server might down");
-
         }
+
         private async Task<HashResponseContent> InternalRequestHashesAsync(HashRequestContent request)
         {
             using (var client = new System.Net.Http.HttpClient())
             {
-                client.BaseAddress = new Uri("http://pokehash.buddyauth.com/");
+                client.BaseAddress = _baseAddress;
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 client.DefaultRequestHeaders.Add("X-AuthToken", this.apiKey);
 
                 var content = new StringContent(JsonConvert.SerializeObject(request), Encoding.UTF8, "application/json");
-
                 content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
 
-                var response = await client.PostAsync(endpoint, content).ConfigureAwait(false);
+                var response = await client.PostAsync(_endpoint, content).ConfigureAwait(false);
 
                 switch (response.StatusCode)
                 {           
@@ -94,18 +108,19 @@ namespace PokemonGo.RocketAPI.Hash
 
                     case (HttpStatusCode)429: // To many reqeusts => que 
                         Console.WriteLine($"[HashService] Your request has been limited. {await response.Content.ReadAsStringAsync().ConfigureAwait(false)}");
-                        RandomHelper.RandomSleep(2000,2100);  //stop for 2 sec (WHY THE FUCK U USE 2*100 INSTEAD OF 2000 ?!?!?!?!?!)
+                        RandomHelper.RandomSleep(2000,2100);
                         return await RequestHashesAsync(request).ConfigureAwait(false);
 
                     default:
-                        throw new HasherException($"[HashService] Pokefamer Hash API ({client.BaseAddress}{endpoint}) might down!");
+                        throw new HasherException($"[HashService] Pokefamer Hash API ({_baseAddress}{_endpoint}) might down!");
                 }
             }
 
             return null;
         }
+        #endregion
 
-        /** SYNC METHODS **/
+        #region Sync Methods
         public HashResponseContent RequestHashes(HashRequestContent request)
         {
             int retry = 3;
@@ -151,16 +166,15 @@ namespace PokemonGo.RocketAPI.Hash
         {
             using (var client = new System.Net.Http.HttpClient())
             {
-                client.BaseAddress = new Uri("http://pokehash.buddyauth.com/");
+                client.BaseAddress = _baseAddress;
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                 client.DefaultRequestHeaders.Add("X-AuthToken", this.apiKey);
 
                 var content = new StringContent(JsonConvert.SerializeObject(request), Encoding.UTF8, "application/json");
-
                 content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
 
-                var response = client.PostAsync(endpoint, content).Result;
+                var response = client.PostAsync(_endpoint, content).Result;
 
                 switch (response.StatusCode)
                 {           
@@ -181,9 +195,10 @@ namespace PokemonGo.RocketAPI.Hash
 
                     default:
                         RandomHelper.RandomSleep(10000,11000);
-                        throw new HasherException($"[HashService] Pokefamer Hash API ({client.BaseAddress}{endpoint}) might down!");
+                        throw new HasherException($"[HashService] Pokefamer Hash API ({_baseAddress}{_endpoint}) might down!");
                 }
             }
         }
+        #endregion
     }
 }
