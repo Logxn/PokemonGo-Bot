@@ -20,7 +20,7 @@ using PokemonGo.RocketAPI.Logic.Shared;
 
 namespace PokemonGo.RocketAPI.Console
 {
-    public partial class GUI : Form
+    public partial class GUI : MetroFramework.Forms.MetroForm
     {
         public static NumberStyles cords = NumberStyles.AllowDecimalPoint | NumberStyles.AllowLeadingSign;
         public static int[] evolveBlacklist = {
@@ -755,7 +755,8 @@ namespace PokemonGo.RocketAPI.Console
 
             if (text_TimeToRun.Text == String.Empty)
                 text_TimeToRun.Text = "0";
-            GlobalSettings.TimeToRun = Double.Parse(text_TimeToRun.Text);
+            GlobalSettings.TimeToRun = double.Parse(text_TimeToRun.Text);
+            //GlobalSettings.TimeToRun = double.Parse(text_TimeToRun.Text);
 
             value = text_PokemonCatchLimit.Text;
             if (value != String.Empty)
@@ -1327,6 +1328,11 @@ We did not have any influence on this. We are very sorry this needed to happen!"
                 prxyUser.Enabled = false;
                 prxyPass.Enabled = false;
             }
+
+        }
+
+        private void tabMisc_Click(object sender, EventArgs e)
+        {
 
         }
     }

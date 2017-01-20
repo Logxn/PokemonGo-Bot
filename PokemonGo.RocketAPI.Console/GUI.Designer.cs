@@ -31,56 +31,60 @@ namespace PokemonGo.RocketAPI.Console
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GUI));
             this.button1 = new System.Windows.Forms.Button();
-            this.label30 = new System.Windows.Forms.Label();
-            this.tabProxies = new System.Windows.Forms.TabPage();
+            this.label30 = new MetroFramework.Controls.MetroLabel();
+            this.tabProxies = new MetroFramework.Controls.MetroTabPage();
+            this.labelPrxPass = new MetroFramework.Controls.MetroLabel();
+            this.labelPrxUser = new MetroFramework.Controls.MetroLabel();
+            this.labelPrxPort = new MetroFramework.Controls.MetroLabel();
+            this.labelPrxHost = new MetroFramework.Controls.MetroLabel();
             this.linkLabel5 = new System.Windows.Forms.LinkLabel();
-            this.label35 = new System.Windows.Forms.Label();
+            this.label35 = new MetroFramework.Controls.MetroLabel();
             this.checkBox_UseProxyAuth = new System.Windows.Forms.CheckBox();
             this.prxyUser = new System.Windows.Forms.TextBox();
             this.prxyPort = new System.Windows.Forms.TextBox();
             this.prxyPass = new System.Windows.Forms.TextBox();
             this.prxyIP = new System.Windows.Forms.TextBox();
             this.checkBox_UseProxy = new System.Windows.Forms.CheckBox();
-            this.tabItems = new System.Windows.Forms.TabPage();
+            this.tabItems = new MetroFramework.Controls.MetroTabPage();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.text_TotalItemCount = new System.Windows.Forms.TextBox();
-            this.label31 = new System.Windows.Forms.Label();
-            this.label27 = new System.Windows.Forms.Label();
-            this.label25 = new System.Windows.Forms.Label();
+            this.label31 = new MetroFramework.Controls.MetroLabel();
+            this.label27 = new MetroFramework.Controls.MetroLabel();
+            this.label25 = new MetroFramework.Controls.MetroLabel();
             this.text_MaxTopRevives = new System.Windows.Forms.TextBox();
             this.text_MaxTopPotions = new System.Windows.Forms.TextBox();
-            this.label20 = new System.Windows.Forms.Label();
-            this.label19 = new System.Windows.Forms.Label();
-            this.label18 = new System.Windows.Forms.Label();
-            this.label17 = new System.Windows.Forms.Label();
-            this.label16 = new System.Windows.Forms.Label();
+            this.label20 = new MetroFramework.Controls.MetroLabel();
+            this.label19 = new MetroFramework.Controls.MetroLabel();
+            this.label18 = new MetroFramework.Controls.MetroLabel();
+            this.label17 = new MetroFramework.Controls.MetroLabel();
+            this.label16 = new MetroFramework.Controls.MetroLabel();
             this.text_MaxRazzBerrys = new System.Windows.Forms.TextBox();
             this.text_MaxHyperPotions = new System.Windows.Forms.TextBox();
             this.text_MaxSuperPotions = new System.Windows.Forms.TextBox();
             this.text_MaxPotions = new System.Windows.Forms.TextBox();
             this.text_MaxRevives = new System.Windows.Forms.TextBox();
-            this.label15 = new System.Windows.Forms.Label();
+            this.label15 = new MetroFramework.Controls.MetroLabel();
             this.text_MaxUltraBalls = new System.Windows.Forms.TextBox();
             this.text_MaxGreatBalls = new System.Windows.Forms.TextBox();
-            this.label14 = new System.Windows.Forms.Label();
+            this.label14 = new MetroFramework.Controls.MetroLabel();
             this.text_MaxPokeballs = new System.Windows.Forms.TextBox();
-            this.label13 = new System.Windows.Forms.Label();
-            this.tabPokemon = new System.Windows.Forms.TabPage();
+            this.label13 = new MetroFramework.Controls.MetroLabel();
+            this.tabPokemon = new MetroFramework.Controls.MetroTabPage();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.label55 = new System.Windows.Forms.Label();
-            this.label29 = new System.Windows.Forms.Label();
+            this.label55 = new MetroFramework.Controls.MetroLabel();
+            this.label29 = new MetroFramework.Controls.MetroLabel();
             this.MinIVtoCatch = new System.Windows.Forms.TextBox();
             this.MinCPtoCatch = new System.Windows.Forms.TextBox();
             this.checkBox_TransferFirstLowIV = new System.Windows.Forms.CheckBox();
             this.text_MaxIVToTransfer = new System.Windows.Forms.TextBox();
-            this.label28 = new System.Windows.Forms.Label();
+            this.label28 = new MetroFramework.Controls.MetroLabel();
             this.text_MaxCPToTransfer = new System.Windows.Forms.TextBox();
-            this.label12 = new System.Windows.Forms.Label();
+            this.label12 = new MetroFramework.Controls.MetroLabel();
             this.text_MaxDuplicatePokemon = new System.Windows.Forms.TextBox();
-            this.label11 = new System.Windows.Forms.Label();
+            this.label11 = new MetroFramework.Controls.MetroLabel();
             this.checkBox_AutoTransferDoublePokemon = new System.Windows.Forms.CheckBox();
-            this.label8 = new System.Windows.Forms.Label();
-            this.label54 = new System.Windows.Forms.Label();
+            this.label8 = new MetroFramework.Controls.MetroLabel();
+            this.label54 = new MetroFramework.Controls.MetroLabel();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.checkBox4 = new System.Windows.Forms.CheckBox();
             this.checkedListBox_PokemonNotToTransfer = new System.Windows.Forms.CheckedListBox();
@@ -90,33 +94,33 @@ namespace PokemonGo.RocketAPI.Console
             this.groupBox7 = new System.Windows.Forms.GroupBox();
             this.checkBox6 = new System.Windows.Forms.CheckBox();
             this.checkedListBox_PokemonToEvolve = new System.Windows.Forms.CheckedListBox();
-            this.tabGeneral = new System.Windows.Forms.TabPage();
+            this.tabGeneral = new MetroFramework.Controls.MetroTabPage();
             this.groupBoxAccount = new System.Windows.Forms.GroupBox();
             this.linkLabel14 = new System.Windows.Forms.LinkLabel();
-            this.label66 = new System.Windows.Forms.Label();
-            this.label39 = new System.Windows.Forms.Label();
-            this.label21 = new System.Windows.Forms.Label();
+            this.label66 = new MetroFramework.Controls.MetroLabel();
+            this.label39 = new MetroFramework.Controls.MetroLabel();
+            this.label21 = new MetroFramework.Controls.MetroLabel();
             this.comboBox_Device = new System.Windows.Forms.ComboBox();
-            this.label26 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
+            this.label26 = new MetroFramework.Controls.MetroLabel();
+            this.label1 = new MetroFramework.Controls.MetroLabel();
             this.pFHashKey = new System.Windows.Forms.TextBox();
             this.text_Password = new System.Windows.Forms.TextBox();
             this.Profileselect = new System.Windows.Forms.ComboBox();
             this.comboBox_AccountType = new System.Windows.Forms.ComboBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
+            this.label3 = new MetroFramework.Controls.MetroLabel();
+            this.label2 = new MetroFramework.Controls.MetroLabel();
             this.ProfileName = new System.Windows.Forms.TextBox();
             this.text_EMail = new System.Windows.Forms.TextBox();
             this.checkbox_PWDEncryption = new System.Windows.Forms.CheckBox();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.button_SetLocation = new System.Windows.Forms.Button();
-            this.label6 = new System.Windows.Forms.Label();
+            this.label6 = new MetroFramework.Controls.MetroLabel();
             this.text_Altidude = new System.Windows.Forms.TextBox();
             this.text_Longitude = new System.Windows.Forms.TextBox();
-            this.label5 = new System.Windows.Forms.Label();
+            this.label5 = new MetroFramework.Controls.MetroLabel();
             this.text_Latidude = new System.Windows.Forms.TextBox();
-            this.label4 = new System.Windows.Forms.Label();
+            this.label4 = new MetroFramework.Controls.MetroLabel();
             this.groupBox10 = new System.Windows.Forms.GroupBox();
             this.checkBox_ConsoleInTab = new System.Windows.Forms.CheckBox();
             this.checkBox_CollectDailyBonus = new System.Windows.Forms.CheckBox();
@@ -129,16 +133,16 @@ namespace PokemonGo.RocketAPI.Console
             this.checkBox_SimulateAnimationTimeAtEvolve = new System.Windows.Forms.CheckBox();
             this.checkBox_UseLuckyEggAtEvolve = new System.Windows.Forms.CheckBox();
             this.checkBox_EvolvePokemonIfEnoughCandy = new System.Windows.Forms.CheckBox();
-            this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.tabThrows = new System.Windows.Forms.TabPage();
+            this.tabControl1 = new MetroFramework.Controls.MetroTabControl();
+            this.tabThrows = new MetroFramework.Controls.MetroTabPage();
             this.groupBox19 = new System.Windows.Forms.GroupBox();
             this.UltraBallMinCP = new System.Windows.Forms.TextBox();
             this.GreatBallMinCP = new System.Windows.Forms.TextBox();
-            this.label56 = new System.Windows.Forms.Label();
-            this.label65 = new System.Windows.Forms.Label();
+            this.label56 = new MetroFramework.Controls.MetroLabel();
+            this.label65 = new MetroFramework.Controls.MetroLabel();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
-            this.label33 = new System.Windows.Forms.Label();
-            this.label53 = new System.Windows.Forms.Label();
+            this.label33 = new MetroFramework.Controls.MetroLabel();
+            this.label53 = new MetroFramework.Controls.MetroLabel();
             this.text_UseRazzberryChance = new System.Windows.Forms.TextBox();
             this.numericUpDown4 = new System.Windows.Forms.NumericUpDown();
             this.NextBestBallOnEscape = new System.Windows.Forms.CheckBox();
@@ -149,24 +153,24 @@ namespace PokemonGo.RocketAPI.Console
             this.checkBox7 = new System.Windows.Forms.CheckBox();
             this.checkBox3 = new System.Windows.Forms.CheckBox();
             this.checkBox2 = new System.Windows.Forms.CheckBox();
-            this.label52 = new System.Windows.Forms.Label();
-            this.label24 = new System.Windows.Forms.Label();
-            this.label23 = new System.Windows.Forms.Label();
-            this.label22 = new System.Windows.Forms.Label();
+            this.label52 = new MetroFramework.Controls.MetroLabel();
+            this.label24 = new MetroFramework.Controls.MetroLabel();
+            this.label23 = new MetroFramework.Controls.MetroLabel();
+            this.label22 = new MetroFramework.Controls.MetroLabel();
             this.groupBox16 = new System.Windows.Forms.GroupBox();
-            this.label60 = new System.Windows.Forms.Label();
-            this.label59 = new System.Windows.Forms.Label();
-            this.label58 = new System.Windows.Forms.Label();
-            this.label57 = new System.Windows.Forms.Label();
+            this.label60 = new MetroFramework.Controls.MetroLabel();
+            this.label59 = new MetroFramework.Controls.MetroLabel();
+            this.label58 = new MetroFramework.Controls.MetroLabel();
+            this.label57 = new MetroFramework.Controls.MetroLabel();
             this.text_Pb_Ordinary = new System.Windows.Forms.TextBox();
             this.text_Pb_Nice = new System.Windows.Forms.TextBox();
             this.text_Pb_Great = new System.Windows.Forms.TextBox();
             this.text_Pb_Excellent = new System.Windows.Forms.TextBox();
-            this.label51 = new System.Windows.Forms.Label();
-            this.label50 = new System.Windows.Forms.Label();
-            this.label49 = new System.Windows.Forms.Label();
-            this.label48 = new System.Windows.Forms.Label();
-            this.tabEggs = new System.Windows.Forms.TabPage();
+            this.label51 = new MetroFramework.Controls.MetroLabel();
+            this.label50 = new MetroFramework.Controls.MetroLabel();
+            this.label49 = new MetroFramework.Controls.MetroLabel();
+            this.label48 = new MetroFramework.Controls.MetroLabel();
+            this.tabEggs = new MetroFramework.Controls.MetroTabPage();
             this.groupBox26 = new System.Windows.Forms.GroupBox();
             this.groupBox27 = new System.Windows.Forms.GroupBox();
             this.rbSOEggsDescendingBasicInc = new System.Windows.Forms.RadioButton();
@@ -186,24 +190,24 @@ namespace PokemonGo.RocketAPI.Console
             this.groupBox_EggOptions = new System.Windows.Forms.GroupBox();
             this.checkBox_AutoIncubate = new System.Windows.Forms.CheckBox();
             this.checkBox_UseBasicIncubators = new System.Windows.Forms.CheckBox();
-            this.tabWalkSettings = new System.Windows.Forms.TabPage();
+            this.tabWalkSettings = new MetroFramework.Controls.MetroTabPage();
             this.groupBox18 = new System.Windows.Forms.GroupBox();
             this.text_MoveRadius = new System.Windows.Forms.TextBox();
-            this.label9 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
+            this.label9 = new MetroFramework.Controls.MetroLabel();
+            this.label7 = new MetroFramework.Controls.MetroLabel();
             this.text_Speed = new System.Windows.Forms.TextBox();
-            this.label46 = new System.Windows.Forms.Label();
+            this.label46 = new MetroFramework.Controls.MetroLabel();
             this.text_MinWalkSpeed = new System.Windows.Forms.TextBox();
             this.groupBox13 = new System.Windows.Forms.GroupBox();
             this.linkLabel6 = new System.Windows.Forms.LinkLabel();
             this.text_GoogleMapsAPIKey = new System.Windows.Forms.TextBox();
             this.checkBox_UseGoogleMapsRouting = new System.Windows.Forms.CheckBox();
-            this.label45 = new System.Windows.Forms.Label();
+            this.label45 = new MetroFramework.Controls.MetroLabel();
             this.groupBox11 = new System.Windows.Forms.GroupBox();
             this.checkBox_StopWalkingWhenEvolving = new System.Windows.Forms.CheckBox();
             this.checkBox_UseBreakIntervalAndLength = new System.Windows.Forms.CheckBox();
             this.checkBox_Start_Walk_from_default_location = new System.Windows.Forms.CheckBox();
-            this.label47 = new System.Windows.Forms.Label();
+            this.label47 = new MetroFramework.Controls.MetroLabel();
             this.checkBox_RandomlyReduceSpeed = new System.Windows.Forms.CheckBox();
             this.checkBox_RandomSleepAtCatching = new System.Windows.Forms.CheckBox();
             this.checkBox_FarmPokestops = new System.Windows.Forms.CheckBox();
@@ -214,20 +218,20 @@ namespace PokemonGo.RocketAPI.Console
             this.button_ArchimedeanSpiralHelp = new System.Windows.Forms.Button();
             this.checkBox_WalkInArchimedeanSpiral = new System.Windows.Forms.CheckBox();
             this.groupBox12 = new System.Windows.Forms.GroupBox();
-            this.label41 = new System.Windows.Forms.Label();
+            this.label41 = new MetroFramework.Controls.MetroLabel();
             this.text_BreakInterval = new System.Windows.Forms.TextBox();
-            this.label44 = new System.Windows.Forms.Label();
+            this.label44 = new MetroFramework.Controls.MetroLabel();
             this.text_XPFarmedLimit = new System.Windows.Forms.TextBox();
-            this.label43 = new System.Windows.Forms.Label();
+            this.label43 = new MetroFramework.Controls.MetroLabel();
             this.text_BreakLength = new System.Windows.Forms.TextBox();
             this.text_PokestopFarmLimit = new System.Windows.Forms.TextBox();
-            this.label42 = new System.Windows.Forms.Label();
-            this.label32 = new System.Windows.Forms.Label();
+            this.label42 = new MetroFramework.Controls.MetroLabel();
+            this.label32 = new MetroFramework.Controls.MetroLabel();
             this.text_PokemonCatchLimit = new System.Windows.Forms.TextBox();
-            this.label40 = new System.Windows.Forms.Label();
+            this.label40 = new MetroFramework.Controls.MetroLabel();
             this.text_TimeToRun = new System.Windows.Forms.TextBox();
             this.settingsBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.tabMisc = new System.Windows.Forms.TabPage();
+            this.tabMisc = new MetroFramework.Controls.MetroTabPage();
             this.buttonTutorial = new System.Windows.Forms.Button();
             this.groupBox25 = new System.Windows.Forms.GroupBox();
             this.checkbox_Verboselogging = new System.Windows.Forms.CheckBox();
@@ -237,45 +241,45 @@ namespace PokemonGo.RocketAPI.Console
             this.AvoidRegionLock = new System.Windows.Forms.CheckBox();
             this.SnipePokemonPokeCom = new System.Windows.Forms.CheckBox();
             this.groupBox17 = new System.Windows.Forms.GroupBox();
-            this.label61 = new System.Windows.Forms.Label();
-            this.label62 = new System.Windows.Forms.Label();
+            this.label61 = new MetroFramework.Controls.MetroLabel();
+            this.label62 = new MetroFramework.Controls.MetroLabel();
             this.text_Telegram_LiveStatsDelay = new System.Windows.Forms.TextBox();
             this.text_Telegram_Name = new System.Windows.Forms.TextBox();
-            this.label63 = new System.Windows.Forms.Label();
+            this.label63 = new MetroFramework.Controls.MetroLabel();
             this.text_Telegram_Token = new System.Windows.Forms.TextBox();
-            this.label64 = new System.Windows.Forms.Label();
+            this.label64 = new MetroFramework.Controls.MetroLabel();
             this.groupBox14 = new System.Windows.Forms.GroupBox();
             this.checkbox_LogEggs = new System.Windows.Forms.CheckBox();
             this.logEvolution = new System.Windows.Forms.CheckBox();
             this.logManuelTransfer = new System.Windows.Forms.CheckBox();
             this.logPokemon = new System.Windows.Forms.CheckBox();
-            this.tabUpdates = new System.Windows.Forms.TabPage();
+            this.tabUpdates = new MetroFramework.Controls.MetroTabPage();
             this.groupBox9 = new System.Windows.Forms.GroupBox();
-            this.newVer = new System.Windows.Forms.Label();
-            this.currVer = new System.Windows.Forms.Label();
-            this.newText = new System.Windows.Forms.Label();
-            this.currText = new System.Windows.Forms.Label();
+            this.newVer = new MetroFramework.Controls.MetroLabel();
+            this.currVer = new MetroFramework.Controls.MetroLabel();
+            this.newText = new MetroFramework.Controls.MetroLabel();
+            this.currText = new MetroFramework.Controls.MetroLabel();
             this.groupBox15 = new System.Windows.Forms.GroupBox();
             this.checkbox_checkWhileRunning = new System.Windows.Forms.CheckBox();
             this.checkbox_AutoUpdate = new System.Windows.Forms.CheckBox();
-            this.tabCredits = new System.Windows.Forms.TabPage();
+            this.tabCredits = new MetroFramework.Controls.MetroTabPage();
             this.groupBox29 = new System.Windows.Forms.GroupBox();
             this.button_Information = new System.Windows.Forms.Button();
             this.linkLabel16 = new System.Windows.Forms.LinkLabel();
-            this.label69 = new System.Windows.Forms.Label();
-            this.label70 = new System.Windows.Forms.Label();
+            this.label69 = new MetroFramework.Controls.MetroLabel();
+            this.label70 = new MetroFramework.Controls.MetroLabel();
             this.linkLabel15 = new System.Windows.Forms.LinkLabel();
-            this.label71 = new System.Windows.Forms.Label();
+            this.label71 = new MetroFramework.Controls.MetroLabel();
             this.groupBox22 = new System.Windows.Forms.GroupBox();
             this.linkLabel17 = new System.Windows.Forms.LinkLabel();
             this.linkLabel13 = new System.Windows.Forms.LinkLabel();
             this.linkLabel12 = new System.Windows.Forms.LinkLabel();
             this.linkLabel11 = new System.Windows.Forms.LinkLabel();
             this.groupBox21 = new System.Windows.Forms.GroupBox();
-            this.ver = new System.Windows.Forms.Label();
-            this.label38 = new System.Windows.Forms.Label();
+            this.ver = new MetroFramework.Controls.MetroLabel();
+            this.label38 = new MetroFramework.Controls.MetroLabel();
             this.linkLabel8 = new System.Windows.Forms.LinkLabel();
-            this.label10 = new System.Windows.Forms.Label();
+            this.label10 = new MetroFramework.Controls.MetroLabel();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.groupBox20 = new System.Windows.Forms.GroupBox();
             this.linkLabel10 = new System.Windows.Forms.LinkLabel();
@@ -294,10 +298,6 @@ namespace PokemonGo.RocketAPI.Console
             this.lang_de_btn = new System.Windows.Forms.Button();
             this.lang_en_btn = new System.Windows.Forms.Button();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
-            this.labelPrxHost = new System.Windows.Forms.Label();
-            this.labelPrxPort = new System.Windows.Forms.Label();
-            this.labelPrxPass = new System.Windows.Forms.Label();
-            this.labelPrxUser = new System.Windows.Forms.Label();
             this.tabProxies.SuspendLayout();
             this.tabItems.SuspendLayout();
             this.groupBox4.SuspendLayout();
@@ -354,7 +354,7 @@ namespace PokemonGo.RocketAPI.Console
             // button1
             // 
             this.button1.BackColor = System.Drawing.Color.MediumAquamarine;
-            this.button1.Location = new System.Drawing.Point(11, 529);
+            this.button1.Location = new System.Drawing.Point(7, 543);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(570, 23);
             this.button1.TabIndex = 35;
@@ -365,10 +365,9 @@ namespace PokemonGo.RocketAPI.Console
             // label30
             // 
             this.label30.AutoSize = true;
-            this.label30.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.label30.Location = new System.Drawing.Point(68, 555);
+            this.label30.Location = new System.Drawing.Point(64, 569);
             this.label30.Name = "label30";
-            this.label30.Size = new System.Drawing.Size(480, 20);
+            this.label30.Size = new System.Drawing.Size(394, 19);
             this.label30.TabIndex = 45;
             this.label30.Text = "If you run more than 1 instance with the same IP, you\'ll get banned.";
             // 
@@ -386,13 +385,45 @@ namespace PokemonGo.RocketAPI.Console
             this.tabProxies.Controls.Add(this.prxyPass);
             this.tabProxies.Controls.Add(this.prxyIP);
             this.tabProxies.Controls.Add(this.checkBox_UseProxy);
-            this.tabProxies.Location = new System.Drawing.Point(4, 22);
+            this.tabProxies.Location = new System.Drawing.Point(4, 38);
             this.tabProxies.Margin = new System.Windows.Forms.Padding(2);
             this.tabProxies.Name = "tabProxies";
-            this.tabProxies.Size = new System.Drawing.Size(564, 396);
+            this.tabProxies.Size = new System.Drawing.Size(564, 380);
             this.tabProxies.TabIndex = 3;
             this.tabProxies.Text = "Proxies";
             this.tabProxies.UseVisualStyleBackColor = true;
+            // 
+            // labelPrxPass
+            // 
+            this.labelPrxPass.Location = new System.Drawing.Point(274, 100);
+            this.labelPrxPass.Name = "labelPrxPass";
+            this.labelPrxPass.Size = new System.Drawing.Size(100, 20);
+            this.labelPrxPass.TabIndex = 16;
+            this.labelPrxPass.Text = "Password:";
+            // 
+            // labelPrxUser
+            // 
+            this.labelPrxUser.Location = new System.Drawing.Point(274, 45);
+            this.labelPrxUser.Name = "labelPrxUser";
+            this.labelPrxUser.Size = new System.Drawing.Size(100, 20);
+            this.labelPrxUser.TabIndex = 15;
+            this.labelPrxUser.Text = "User Name:";
+            // 
+            // labelPrxPort
+            // 
+            this.labelPrxPort.Location = new System.Drawing.Point(26, 100);
+            this.labelPrxPort.Name = "labelPrxPort";
+            this.labelPrxPort.Size = new System.Drawing.Size(100, 20);
+            this.labelPrxPort.TabIndex = 14;
+            this.labelPrxPort.Text = "Port:";
+            // 
+            // labelPrxHost
+            // 
+            this.labelPrxHost.Location = new System.Drawing.Point(26, 45);
+            this.labelPrxHost.Name = "labelPrxHost";
+            this.labelPrxHost.Size = new System.Drawing.Size(100, 20);
+            this.labelPrxHost.TabIndex = 13;
+            this.labelPrxHost.Text = "Host Name:";
             // 
             // linkLabel5
             // 
@@ -408,10 +439,9 @@ namespace PokemonGo.RocketAPI.Console
             // label35
             // 
             this.label35.AutoSize = true;
-            this.label35.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F);
             this.label35.Location = new System.Drawing.Point(51, 207);
             this.label35.Name = "label35";
-            this.label35.Size = new System.Drawing.Size(164, 24);
+            this.label35.Size = new System.Drawing.Size(110, 19);
             this.label35.TabIndex = 9;
             this.label35.Text = "Get HTTPS Proxy.";
             // 
@@ -430,7 +460,7 @@ namespace PokemonGo.RocketAPI.Console
             // prxyUser
             // 
             this.prxyUser.Enabled = false;
-            this.prxyUser.Location = new System.Drawing.Point(274, 60);
+            this.prxyUser.Location = new System.Drawing.Point(274, 75);
             this.prxyUser.Margin = new System.Windows.Forms.Padding(2);
             this.prxyUser.Name = "prxyUser";
             this.prxyUser.Size = new System.Drawing.Size(239, 20);
@@ -439,7 +469,7 @@ namespace PokemonGo.RocketAPI.Console
             // prxyPort
             // 
             this.prxyPort.Enabled = false;
-            this.prxyPort.Location = new System.Drawing.Point(26, 103);
+            this.prxyPort.Location = new System.Drawing.Point(26, 130);
             this.prxyPort.Margin = new System.Windows.Forms.Padding(2);
             this.prxyPort.Name = "prxyPort";
             this.prxyPort.Size = new System.Drawing.Size(225, 20);
@@ -448,7 +478,7 @@ namespace PokemonGo.RocketAPI.Console
             // prxyPass
             // 
             this.prxyPass.Enabled = false;
-            this.prxyPass.Location = new System.Drawing.Point(274, 103);
+            this.prxyPass.Location = new System.Drawing.Point(274, 130);
             this.prxyPass.Margin = new System.Windows.Forms.Padding(2);
             this.prxyPass.Name = "prxyPass";
             this.prxyPass.Size = new System.Drawing.Size(239, 20);
@@ -457,7 +487,7 @@ namespace PokemonGo.RocketAPI.Console
             // prxyIP
             // 
             this.prxyIP.Enabled = false;
-            this.prxyIP.Location = new System.Drawing.Point(26, 60);
+            this.prxyIP.Location = new System.Drawing.Point(26, 75);
             this.prxyIP.Margin = new System.Windows.Forms.Padding(2);
             this.prxyIP.Name = "prxyIP";
             this.prxyIP.Size = new System.Drawing.Size(225, 20);
@@ -478,9 +508,9 @@ namespace PokemonGo.RocketAPI.Console
             // tabItems
             // 
             this.tabItems.Controls.Add(this.groupBox4);
-            this.tabItems.Location = new System.Drawing.Point(4, 22);
+            this.tabItems.Location = new System.Drawing.Point(4, 38);
             this.tabItems.Name = "tabItems";
-            this.tabItems.Size = new System.Drawing.Size(564, 396);
+            this.tabItems.Size = new System.Drawing.Size(564, 380);
             this.tabItems.TabIndex = 2;
             this.tabItems.Text = "Items";
             this.tabItems.UseVisualStyleBackColor = true;
@@ -530,7 +560,7 @@ namespace PokemonGo.RocketAPI.Console
             this.label31.AutoSize = true;
             this.label31.Location = new System.Drawing.Point(6, 276);
             this.label31.Name = "label31";
-            this.label31.Size = new System.Drawing.Size(65, 13);
+            this.label31.Size = new System.Drawing.Size(78, 19);
             this.label31.TabIndex = 22;
             this.label31.Text = "Total Count:";
             // 
@@ -539,7 +569,7 @@ namespace PokemonGo.RocketAPI.Console
             this.label27.AutoSize = true;
             this.label27.Location = new System.Drawing.Point(6, 119);
             this.label27.Name = "label27";
-            this.label27.Size = new System.Drawing.Size(94, 13);
+            this.label27.Size = new System.Drawing.Size(107, 19);
             this.label27.TabIndex = 21;
             this.label27.Text = "Max. TopRevives:";
             // 
@@ -548,7 +578,7 @@ namespace PokemonGo.RocketAPI.Console
             this.label25.AutoSize = true;
             this.label25.Location = new System.Drawing.Point(6, 224);
             this.label25.Name = "label25";
-            this.label25.Size = new System.Drawing.Size(90, 13);
+            this.label25.Size = new System.Drawing.Size(107, 19);
             this.label25.TabIndex = 17;
             this.label25.Text = "Max. TopPotions:";
             // 
@@ -573,7 +603,7 @@ namespace PokemonGo.RocketAPI.Console
             this.label20.AutoSize = true;
             this.label20.Location = new System.Drawing.Point(6, 251);
             this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(89, 13);
+            this.label20.Size = new System.Drawing.Size(108, 19);
             this.label20.TabIndex = 15;
             this.label20.Text = "Max. RazzBerrys:";
             // 
@@ -582,7 +612,7 @@ namespace PokemonGo.RocketAPI.Console
             this.label19.AutoSize = true;
             this.label19.Location = new System.Drawing.Point(6, 197);
             this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(99, 13);
+            this.label19.Size = new System.Drawing.Size(121, 19);
             this.label19.TabIndex = 14;
             this.label19.Text = "Max. HyperPotions:";
             // 
@@ -591,7 +621,7 @@ namespace PokemonGo.RocketAPI.Console
             this.label18.AutoSize = true;
             this.label18.Location = new System.Drawing.Point(6, 171);
             this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(99, 13);
+            this.label18.Size = new System.Drawing.Size(120, 19);
             this.label18.TabIndex = 13;
             this.label18.Text = "Max. SuperPotions:";
             // 
@@ -600,7 +630,7 @@ namespace PokemonGo.RocketAPI.Console
             this.label17.AutoSize = true;
             this.label17.Location = new System.Drawing.Point(6, 145);
             this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(71, 13);
+            this.label17.Size = new System.Drawing.Size(86, 19);
             this.label17.TabIndex = 12;
             this.label17.Text = "Max. Potions:";
             // 
@@ -609,7 +639,7 @@ namespace PokemonGo.RocketAPI.Console
             this.label16.AutoSize = true;
             this.label16.Location = new System.Drawing.Point(6, 91);
             this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(75, 13);
+            this.label16.Size = new System.Drawing.Size(86, 19);
             this.label16.TabIndex = 11;
             this.label16.Text = "Max. Revives:";
             // 
@@ -663,7 +693,7 @@ namespace PokemonGo.RocketAPI.Console
             this.label15.AutoSize = true;
             this.label15.Location = new System.Drawing.Point(7, 67);
             this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(80, 13);
+            this.label15.Size = new System.Drawing.Size(98, 19);
             this.label15.TabIndex = 5;
             this.label15.Text = "Max. UltraBalls:";
             // 
@@ -690,7 +720,7 @@ namespace PokemonGo.RocketAPI.Console
             this.label14.AutoSize = true;
             this.label14.Location = new System.Drawing.Point(7, 41);
             this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(84, 13);
+            this.label14.Size = new System.Drawing.Size(102, 19);
             this.label14.TabIndex = 2;
             this.label14.Text = "Max. GreatBalls:";
             // 
@@ -708,7 +738,7 @@ namespace PokemonGo.RocketAPI.Console
             this.label13.AutoSize = true;
             this.label13.Location = new System.Drawing.Point(7, 15);
             this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(82, 13);
+            this.label13.Size = new System.Drawing.Size(98, 19);
             this.label13.TabIndex = 0;
             this.label13.Text = "Max. Pokeballs:";
             // 
@@ -718,10 +748,10 @@ namespace PokemonGo.RocketAPI.Console
             this.tabPokemon.Controls.Add(this.groupBox5);
             this.tabPokemon.Controls.Add(this.groupBox6);
             this.tabPokemon.Controls.Add(this.groupBox7);
-            this.tabPokemon.Location = new System.Drawing.Point(4, 22);
+            this.tabPokemon.Location = new System.Drawing.Point(4, 38);
             this.tabPokemon.Name = "tabPokemon";
             this.tabPokemon.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPokemon.Size = new System.Drawing.Size(564, 396);
+            this.tabPokemon.Size = new System.Drawing.Size(564, 380);
             this.tabPokemon.TabIndex = 1;
             this.tabPokemon.Text = "Pokemon";
             this.tabPokemon.UseVisualStyleBackColor = true;
@@ -744,7 +774,7 @@ namespace PokemonGo.RocketAPI.Console
             this.groupBox3.Controls.Add(this.label54);
             this.groupBox3.Location = new System.Drawing.Point(6, 289);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(527, 83);
+            this.groupBox3.Size = new System.Drawing.Size(552, 85);
             this.groupBox3.TabIndex = 3;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Bot Settings";
@@ -754,16 +784,16 @@ namespace PokemonGo.RocketAPI.Console
             this.label55.AutoSize = true;
             this.label55.Location = new System.Drawing.Point(380, 53);
             this.label55.Name = "label55";
-            this.label55.Size = new System.Drawing.Size(15, 13);
+            this.label55.Size = new System.Drawing.Size(20, 19);
             this.label55.TabIndex = 15;
             this.label55.Text = "%";
             // 
             // label29
             // 
             this.label29.AutoSize = true;
-            this.label29.Location = new System.Drawing.Point(120, 53);
+            this.label29.Location = new System.Drawing.Point(87, 65);
             this.label29.Name = "label29";
-            this.label29.Size = new System.Drawing.Size(15, 13);
+            this.label29.Size = new System.Drawing.Size(20, 19);
             this.label29.TabIndex = 8;
             this.label29.Text = "%";
             // 
@@ -778,7 +808,7 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // MinCPtoCatch
             // 
-            this.MinCPtoCatch.Location = new System.Drawing.Point(489, 50);
+            this.MinCPtoCatch.Location = new System.Drawing.Point(510, 52);
             this.MinCPtoCatch.Name = "MinCPtoCatch";
             this.MinCPtoCatch.Size = new System.Drawing.Size(36, 20);
             this.MinCPtoCatch.TabIndex = 14;
@@ -797,7 +827,7 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // text_MaxIVToTransfer
             // 
-            this.text_MaxIVToTransfer.Location = new System.Drawing.Point(101, 50);
+            this.text_MaxIVToTransfer.Location = new System.Drawing.Point(45, 65);
             this.text_MaxIVToTransfer.Name = "text_MaxIVToTransfer";
             this.text_MaxIVToTransfer.Size = new System.Drawing.Size(36, 20);
             this.text_MaxIVToTransfer.TabIndex = 11;
@@ -806,9 +836,9 @@ namespace PokemonGo.RocketAPI.Console
             // label28
             // 
             this.label28.AutoSize = true;
-            this.label28.Location = new System.Drawing.Point(4, 53);
+            this.label28.Location = new System.Drawing.Point(6, 44);
             this.label28.Name = "label28";
-            this.label28.Size = new System.Drawing.Size(96, 13);
+            this.label28.Size = new System.Drawing.Size(120, 19);
             this.label28.TabIndex = 6;
             this.label28.Text = "Max. IV to transfer:";
             // 
@@ -825,7 +855,7 @@ namespace PokemonGo.RocketAPI.Console
             this.label12.AutoSize = true;
             this.label12.Location = new System.Drawing.Point(143, 53);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(100, 13);
+            this.label12.Size = new System.Drawing.Size(126, 19);
             this.label12.TabIndex = 4;
             this.label12.Text = "Max. CP to transfer:";
             // 
@@ -840,9 +870,9 @@ namespace PokemonGo.RocketAPI.Console
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(150, 24);
+            this.label11.Location = new System.Drawing.Point(143, 24);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(132, 13);
+            this.label11.Size = new System.Drawing.Size(161, 19);
             this.label11.TabIndex = 2;
             this.label11.Text = "Max. duplicate Pokemons:";
             // 
@@ -863,7 +893,7 @@ namespace PokemonGo.RocketAPI.Console
             this.label8.AutoSize = true;
             this.label8.Location = new System.Drawing.Point(403, 53);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(90, 13);
+            this.label8.Size = new System.Drawing.Size(111, 19);
             this.label8.TabIndex = 13;
             this.label8.Text = "Min. CP to Catch:";
             // 
@@ -872,7 +902,7 @@ namespace PokemonGo.RocketAPI.Console
             this.label54.AutoSize = true;
             this.label54.Location = new System.Drawing.Point(280, 53);
             this.label54.Name = "label54";
-            this.label54.Size = new System.Drawing.Size(86, 13);
+            this.label54.Size = new System.Drawing.Size(105, 19);
             this.label54.TabIndex = 13;
             this.label54.Text = "Min. IV to Catch:";
             // 
@@ -977,10 +1007,10 @@ namespace PokemonGo.RocketAPI.Console
             this.tabGeneral.Controls.Add(this.groupBoxAccount);
             this.tabGeneral.Controls.Add(this.groupBox2);
             this.tabGeneral.Controls.Add(this.groupBox10);
-            this.tabGeneral.Location = new System.Drawing.Point(4, 22);
+            this.tabGeneral.Location = new System.Drawing.Point(4, 38);
             this.tabGeneral.Name = "tabGeneral";
             this.tabGeneral.Padding = new System.Windows.Forms.Padding(3);
-            this.tabGeneral.Size = new System.Drawing.Size(564, 396);
+            this.tabGeneral.Size = new System.Drawing.Size(564, 380);
             this.tabGeneral.TabIndex = 0;
             this.tabGeneral.Text = "General";
             this.tabGeneral.UseVisualStyleBackColor = true;
@@ -1006,7 +1036,7 @@ namespace PokemonGo.RocketAPI.Console
             this.groupBoxAccount.Controls.Add(this.checkBox1);
             this.groupBoxAccount.Location = new System.Drawing.Point(6, 6);
             this.groupBoxAccount.Name = "groupBoxAccount";
-            this.groupBoxAccount.Size = new System.Drawing.Size(255, 369);
+            this.groupBoxAccount.Size = new System.Drawing.Size(278, 369);
             this.groupBoxAccount.TabIndex = 1;
             this.groupBoxAccount.TabStop = false;
             this.groupBoxAccount.Text = "Account Info";
@@ -1014,7 +1044,7 @@ namespace PokemonGo.RocketAPI.Console
             // linkLabel14
             // 
             this.linkLabel14.AutoSize = true;
-            this.linkLabel14.Location = new System.Drawing.Point(167, 45);
+            this.linkLabel14.Location = new System.Drawing.Point(185, 46);
             this.linkLabel14.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.linkLabel14.Name = "linkLabel14";
             this.linkLabel14.Size = new System.Drawing.Size(78, 13);
@@ -1026,9 +1056,9 @@ namespace PokemonGo.RocketAPI.Console
             // label66
             // 
             this.label66.AutoSize = true;
-            this.label66.Location = new System.Drawing.Point(2, 26);
+            this.label66.Location = new System.Drawing.Point(6, 26);
             this.label66.Name = "label66";
-            this.label66.Size = new System.Drawing.Size(95, 13);
+            this.label66.Size = new System.Drawing.Size(110, 19);
             this.label66.TabIndex = 54;
             this.label66.Text = "Hash Service Key:";
             // 
@@ -1037,7 +1067,7 @@ namespace PokemonGo.RocketAPI.Console
             this.label39.AutoSize = true;
             this.label39.Location = new System.Drawing.Point(5, 77);
             this.label39.Name = "label39";
-            this.label39.Size = new System.Drawing.Size(44, 13);
+            this.label39.Size = new System.Drawing.Size(50, 19);
             this.label39.TabIndex = 54;
             this.label39.Text = "Device:";
             // 
@@ -1046,7 +1076,7 @@ namespace PokemonGo.RocketAPI.Console
             this.label21.AutoSize = true;
             this.label21.Location = new System.Drawing.Point(5, 108);
             this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(79, 13);
+            this.label21.Size = new System.Drawing.Size(98, 19);
             this.label21.TabIndex = 0;
             this.label21.Text = "Account Profile";
             // 
@@ -1081,7 +1111,7 @@ namespace PokemonGo.RocketAPI.Console
             "yureka",
             "note3",
             "galaxy-tab-s84"});
-            this.comboBox_Device.Location = new System.Drawing.Point(100, 72);
+            this.comboBox_Device.Location = new System.Drawing.Point(118, 73);
             this.comboBox_Device.Name = "comboBox_Device";
             this.comboBox_Device.Size = new System.Drawing.Size(147, 21);
             this.comboBox_Device.TabIndex = 53;
@@ -1092,7 +1122,7 @@ namespace PokemonGo.RocketAPI.Console
             this.label26.AutoSize = true;
             this.label26.Location = new System.Drawing.Point(5, 160);
             this.label26.Name = "label26";
-            this.label26.Size = new System.Drawing.Size(70, 13);
+            this.label26.Size = new System.Drawing.Size(90, 19);
             this.label26.TabIndex = 0;
             this.label26.Text = "Profile Name:";
             // 
@@ -1101,13 +1131,13 @@ namespace PokemonGo.RocketAPI.Console
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(5, 192);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(77, 13);
+            this.label1.Size = new System.Drawing.Size(90, 19);
             this.label1.TabIndex = 0;
             this.label1.Text = "Account Type:";
             // 
             // pFHashKey
             // 
-            this.pFHashKey.Location = new System.Drawing.Point(100, 22);
+            this.pFHashKey.Location = new System.Drawing.Point(118, 23);
             this.pFHashKey.Name = "pFHashKey";
             this.pFHashKey.PasswordChar = '*';
             this.pFHashKey.Size = new System.Drawing.Size(147, 20);
@@ -1116,7 +1146,7 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // text_Password
             // 
-            this.text_Password.Location = new System.Drawing.Point(100, 244);
+            this.text_Password.Location = new System.Drawing.Point(118, 245);
             this.text_Password.Name = "text_Password";
             this.text_Password.PasswordChar = '*';
             this.text_Password.Size = new System.Drawing.Size(147, 20);
@@ -1127,7 +1157,7 @@ namespace PokemonGo.RocketAPI.Console
             // 
             this.Profileselect.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.Profileselect.FormattingEnabled = true;
-            this.Profileselect.Location = new System.Drawing.Point(100, 105);
+            this.Profileselect.Location = new System.Drawing.Point(118, 106);
             this.Profileselect.Name = "Profileselect";
             this.Profileselect.Size = new System.Drawing.Size(147, 21);
             this.Profileselect.TabIndex = 1;
@@ -1137,7 +1167,7 @@ namespace PokemonGo.RocketAPI.Console
             // 
             this.comboBox_AccountType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox_AccountType.FormattingEnabled = true;
-            this.comboBox_AccountType.Location = new System.Drawing.Point(100, 189);
+            this.comboBox_AccountType.Location = new System.Drawing.Point(118, 190);
             this.comboBox_AccountType.Name = "comboBox_AccountType";
             this.comboBox_AccountType.Size = new System.Drawing.Size(147, 21);
             this.comboBox_AccountType.TabIndex = 1;
@@ -1148,7 +1178,7 @@ namespace PokemonGo.RocketAPI.Console
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(5, 244);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(56, 13);
+            this.label3.Size = new System.Drawing.Size(66, 19);
             this.label3.TabIndex = 4;
             this.label3.Text = "Password:";
             // 
@@ -1156,15 +1186,15 @@ namespace PokemonGo.RocketAPI.Console
             // 
             this.label2.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(6, 217);
+            this.label2.Location = new System.Drawing.Point(5, 217);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(39, 13);
+            this.label2.Size = new System.Drawing.Size(50, 19);
             this.label2.TabIndex = 2;
             this.label2.Text = "E-Mail:";
             // 
             // ProfileName
             // 
-            this.ProfileName.Location = new System.Drawing.Point(100, 159);
+            this.ProfileName.Location = new System.Drawing.Point(118, 160);
             this.ProfileName.Name = "ProfileName";
             this.ProfileName.Size = new System.Drawing.Size(147, 20);
             this.ProfileName.TabIndex = 2;
@@ -1172,7 +1202,7 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // text_EMail
             // 
-            this.text_EMail.Location = new System.Drawing.Point(100, 217);
+            this.text_EMail.Location = new System.Drawing.Point(118, 218);
             this.text_EMail.Name = "text_EMail";
             this.text_EMail.Size = new System.Drawing.Size(147, 20);
             this.text_EMail.TabIndex = 2;
@@ -1182,7 +1212,7 @@ namespace PokemonGo.RocketAPI.Console
             // 
             this.checkbox_PWDEncryption.AutoSize = true;
             this.checkbox_PWDEncryption.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.checkbox_PWDEncryption.Location = new System.Drawing.Point(77, 272);
+            this.checkbox_PWDEncryption.Location = new System.Drawing.Point(95, 273);
             this.checkbox_PWDEncryption.Margin = new System.Windows.Forms.Padding(2);
             this.checkbox_PWDEncryption.Name = "checkbox_PWDEncryption";
             this.checkbox_PWDEncryption.Size = new System.Drawing.Size(173, 17);
@@ -1195,7 +1225,7 @@ namespace PokemonGo.RocketAPI.Console
             this.checkBox1.AutoSize = true;
             this.checkBox1.Checked = true;
             this.checkBox1.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox1.Location = new System.Drawing.Point(99, 131);
+            this.checkBox1.Location = new System.Drawing.Point(117, 132);
             this.checkBox1.Name = "checkBox1";
             this.checkBox1.Size = new System.Drawing.Size(95, 17);
             this.checkBox1.TabIndex = 41;
@@ -1212,7 +1242,7 @@ namespace PokemonGo.RocketAPI.Console
             this.groupBox2.Controls.Add(this.label5);
             this.groupBox2.Controls.Add(this.text_Latidude);
             this.groupBox2.Controls.Add(this.label4);
-            this.groupBox2.Location = new System.Drawing.Point(272, 9);
+            this.groupBox2.Location = new System.Drawing.Point(290, 9);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(252, 105);
             this.groupBox2.TabIndex = 2;
@@ -1235,7 +1265,7 @@ namespace PokemonGo.RocketAPI.Console
             this.label6.AutoSize = true;
             this.label6.Location = new System.Drawing.Point(7, 78);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(45, 13);
+            this.label6.Size = new System.Drawing.Size(57, 19);
             this.label6.TabIndex = 5;
             this.label6.Text = "Altitude:";
             // 
@@ -1262,7 +1292,7 @@ namespace PokemonGo.RocketAPI.Console
             this.label5.AutoSize = true;
             this.label5.Location = new System.Drawing.Point(7, 52);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(57, 13);
+            this.label5.Size = new System.Drawing.Size(70, 19);
             this.label5.TabIndex = 2;
             this.label5.Text = "Longitude:";
             // 
@@ -1280,7 +1310,7 @@ namespace PokemonGo.RocketAPI.Console
             this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(7, 26);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(48, 13);
+            this.label4.Size = new System.Drawing.Size(58, 19);
             this.label4.TabIndex = 0;
             this.label4.Text = "Latitude:";
             // 
@@ -1297,7 +1327,7 @@ namespace PokemonGo.RocketAPI.Console
             this.groupBox10.Controls.Add(this.checkBox_SimulateAnimationTimeAtEvolve);
             this.groupBox10.Controls.Add(this.checkBox_UseLuckyEggAtEvolve);
             this.groupBox10.Controls.Add(this.checkBox_EvolvePokemonIfEnoughCandy);
-            this.groupBox10.Location = new System.Drawing.Point(272, 120);
+            this.groupBox10.Location = new System.Drawing.Point(290, 120);
             this.groupBox10.Name = "groupBox10";
             this.groupBox10.Size = new System.Drawing.Size(256, 254);
             this.groupBox10.TabIndex = 6;
@@ -1439,21 +1469,22 @@ namespace PokemonGo.RocketAPI.Console
             this.tabControl1.Controls.Add(this.tabMisc);
             this.tabControl1.Controls.Add(this.tabUpdates);
             this.tabControl1.Controls.Add(this.tabCredits);
-            this.tabControl1.Location = new System.Drawing.Point(13, 100);
+            this.tabControl1.Location = new System.Drawing.Point(9, 114);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(572, 422);
             this.tabControl1.TabIndex = 36;
+            this.tabControl1.UseSelectable = true;
             // 
             // tabThrows
             // 
             this.tabThrows.Controls.Add(this.groupBox19);
             this.tabThrows.Controls.Add(this.groupBox8);
             this.tabThrows.Controls.Add(this.groupBox16);
-            this.tabThrows.Location = new System.Drawing.Point(4, 22);
+            this.tabThrows.Location = new System.Drawing.Point(4, 38);
             this.tabThrows.Margin = new System.Windows.Forms.Padding(2);
             this.tabThrows.Name = "tabThrows";
-            this.tabThrows.Size = new System.Drawing.Size(564, 396);
+            this.tabThrows.Size = new System.Drawing.Size(564, 380);
             this.tabThrows.TabIndex = 7;
             this.tabThrows.Text = "Throws";
             this.tabThrows.UseVisualStyleBackColor = true;
@@ -1464,18 +1495,18 @@ namespace PokemonGo.RocketAPI.Console
             this.groupBox19.Controls.Add(this.GreatBallMinCP);
             this.groupBox19.Controls.Add(this.label56);
             this.groupBox19.Controls.Add(this.label65);
-            this.groupBox19.Location = new System.Drawing.Point(284, 150);
+            this.groupBox19.Location = new System.Drawing.Point(320, 150);
             this.groupBox19.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox19.Name = "groupBox19";
             this.groupBox19.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBox19.Size = new System.Drawing.Size(164, 74);
+            this.groupBox19.Size = new System.Drawing.Size(201, 74);
             this.groupBox19.TabIndex = 54;
             this.groupBox19.TabStop = false;
             this.groupBox19.Text = "Minimum CP per Ball Type";
             // 
             // UltraBallMinCP
             // 
-            this.UltraBallMinCP.Location = new System.Drawing.Point(99, 48);
+            this.UltraBallMinCP.Location = new System.Drawing.Point(124, 47);
             this.UltraBallMinCP.Margin = new System.Windows.Forms.Padding(2);
             this.UltraBallMinCP.Name = "UltraBallMinCP";
             this.UltraBallMinCP.Size = new System.Drawing.Size(39, 20);
@@ -1484,7 +1515,7 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // GreatBallMinCP
             // 
-            this.GreatBallMinCP.Location = new System.Drawing.Point(99, 24);
+            this.GreatBallMinCP.Location = new System.Drawing.Point(124, 23);
             this.GreatBallMinCP.Margin = new System.Windows.Forms.Padding(2);
             this.GreatBallMinCP.Name = "GreatBallMinCP";
             this.GreatBallMinCP.Size = new System.Drawing.Size(39, 20);
@@ -1497,7 +1528,7 @@ namespace PokemonGo.RocketAPI.Console
             this.label56.Location = new System.Drawing.Point(8, 50);
             this.label56.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label56.Name = "label56";
-            this.label56.Size = new System.Drawing.Size(86, 13);
+            this.label56.Size = new System.Drawing.Size(108, 19);
             this.label56.TabIndex = 3;
             this.label56.Text = "UltraBall Min CP:";
             // 
@@ -1507,7 +1538,7 @@ namespace PokemonGo.RocketAPI.Console
             this.label65.Location = new System.Drawing.Point(8, 26);
             this.label65.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label65.Name = "label65";
-            this.label65.Size = new System.Drawing.Size(90, 13);
+            this.label65.Size = new System.Drawing.Size(112, 19);
             this.label65.TabIndex = 2;
             this.label65.Text = "GreatBall Min CP:";
             // 
@@ -1533,7 +1564,7 @@ namespace PokemonGo.RocketAPI.Console
             this.groupBox8.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox8.Name = "groupBox8";
             this.groupBox8.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBox8.Size = new System.Drawing.Size(264, 197);
+            this.groupBox8.Size = new System.Drawing.Size(300, 197);
             this.groupBox8.TabIndex = 54;
             this.groupBox8.TabStop = false;
             this.groupBox8.Text = "Miss Rate and Ball Choice";
@@ -1543,7 +1574,7 @@ namespace PokemonGo.RocketAPI.Console
             this.label33.AutoSize = true;
             this.label33.Location = new System.Drawing.Point(228, 133);
             this.label33.Name = "label33";
-            this.label33.Size = new System.Drawing.Size(15, 13);
+            this.label33.Size = new System.Drawing.Size(20, 19);
             this.label33.TabIndex = 57;
             this.label33.Text = "%";
             // 
@@ -1553,7 +1584,7 @@ namespace PokemonGo.RocketAPI.Console
             this.label53.Location = new System.Drawing.Point(40, 106);
             this.label53.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label53.Name = "label53";
-            this.label53.Size = new System.Drawing.Size(181, 13);
+            this.label53.Size = new System.Drawing.Size(223, 19);
             this.label53.TabIndex = 56;
             this.label53.Text = "(set value to 0 to never use ball type)";
             // 
@@ -1567,7 +1598,7 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // numericUpDown4
             // 
-            this.numericUpDown4.Location = new System.Drawing.Point(203, 84);
+            this.numericUpDown4.Location = new System.Drawing.Point(250, 84);
             this.numericUpDown4.Margin = new System.Windows.Forms.Padding(2);
             this.numericUpDown4.Name = "numericUpDown4";
             this.numericUpDown4.Size = new System.Drawing.Size(46, 20);
@@ -1600,7 +1631,7 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // numericUpDown3
             // 
-            this.numericUpDown3.Location = new System.Drawing.Point(203, 63);
+            this.numericUpDown3.Location = new System.Drawing.Point(250, 63);
             this.numericUpDown3.Margin = new System.Windows.Forms.Padding(2);
             this.numericUpDown3.Name = "numericUpDown3";
             this.numericUpDown3.Size = new System.Drawing.Size(46, 20);
@@ -1613,7 +1644,7 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // numericUpDown2
             // 
-            this.numericUpDown2.Location = new System.Drawing.Point(203, 43);
+            this.numericUpDown2.Location = new System.Drawing.Point(250, 43);
             this.numericUpDown2.Margin = new System.Windows.Forms.Padding(2);
             this.numericUpDown2.Name = "numericUpDown2";
             this.numericUpDown2.Size = new System.Drawing.Size(46, 20);
@@ -1626,7 +1657,7 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // numericUpDown1
             // 
-            this.numericUpDown1.Location = new System.Drawing.Point(203, 23);
+            this.numericUpDown1.Location = new System.Drawing.Point(250, 24);
             this.numericUpDown1.Margin = new System.Windows.Forms.Padding(2);
             this.numericUpDown1.Name = "numericUpDown1";
             this.numericUpDown1.Size = new System.Drawing.Size(46, 20);
@@ -1653,7 +1684,7 @@ namespace PokemonGo.RocketAPI.Console
             // 
             this.checkBox3.AutoSize = true;
             this.checkBox3.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.checkBox3.Location = new System.Drawing.Point(14, 63);
+            this.checkBox3.Location = new System.Drawing.Point(15, 64);
             this.checkBox3.Margin = new System.Windows.Forms.Padding(2);
             this.checkBox3.Name = "checkBox3";
             this.checkBox3.Size = new System.Drawing.Size(130, 17);
@@ -1665,7 +1696,7 @@ namespace PokemonGo.RocketAPI.Console
             // 
             this.checkBox2.AutoSize = true;
             this.checkBox2.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.checkBox2.Location = new System.Drawing.Point(17, 43);
+            this.checkBox2.Location = new System.Drawing.Point(16, 44);
             this.checkBox2.Margin = new System.Windows.Forms.Padding(2);
             this.checkBox2.Name = "checkBox2";
             this.checkBox2.Size = new System.Drawing.Size(129, 17);
@@ -1676,40 +1707,40 @@ namespace PokemonGo.RocketAPI.Console
             // label52
             // 
             this.label52.AutoSize = true;
-            this.label52.Location = new System.Drawing.Point(146, 84);
+            this.label52.Location = new System.Drawing.Point(193, 84);
             this.label52.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label52.Name = "label52";
-            this.label52.Size = new System.Drawing.Size(57, 13);
+            this.label52.Size = new System.Drawing.Size(71, 19);
             this.label52.TabIndex = 0;
             this.label52.Text = "If stock <=";
             // 
             // label24
             // 
             this.label24.AutoSize = true;
-            this.label24.Location = new System.Drawing.Point(146, 64);
+            this.label24.Location = new System.Drawing.Point(193, 64);
             this.label24.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label24.Name = "label24";
-            this.label24.Size = new System.Drawing.Size(57, 13);
+            this.label24.Size = new System.Drawing.Size(71, 19);
             this.label24.TabIndex = 0;
             this.label24.Text = "If stock <=";
             // 
             // label23
             // 
             this.label23.AutoSize = true;
-            this.label23.Location = new System.Drawing.Point(146, 43);
+            this.label23.Location = new System.Drawing.Point(193, 43);
             this.label23.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label23.Name = "label23";
-            this.label23.Size = new System.Drawing.Size(57, 13);
+            this.label23.Size = new System.Drawing.Size(71, 19);
             this.label23.TabIndex = 0;
             this.label23.Text = "If stock <=";
             // 
             // label22
             // 
             this.label22.AutoSize = true;
-            this.label22.Location = new System.Drawing.Point(11, 23);
+            this.label22.Location = new System.Drawing.Point(6, 24);
             this.label22.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(190, 13);
+            this.label22.Size = new System.Drawing.Size(240, 19);
             this.label22.TabIndex = 0;
             this.label22.Text = "Maximum Missed throws per encounter";
             // 
@@ -1727,11 +1758,11 @@ namespace PokemonGo.RocketAPI.Console
             this.groupBox16.Controls.Add(this.label50);
             this.groupBox16.Controls.Add(this.label49);
             this.groupBox16.Controls.Add(this.label48);
-            this.groupBox16.Location = new System.Drawing.Point(284, 17);
+            this.groupBox16.Location = new System.Drawing.Point(320, 17);
             this.groupBox16.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox16.Name = "groupBox16";
             this.groupBox16.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBox16.Size = new System.Drawing.Size(164, 127);
+            this.groupBox16.Size = new System.Drawing.Size(201, 127);
             this.groupBox16.TabIndex = 0;
             this.groupBox16.TabStop = false;
             this.groupBox16.Text = "Throw probabilities";
@@ -1739,42 +1770,42 @@ namespace PokemonGo.RocketAPI.Console
             // label60
             // 
             this.label60.AutoSize = true;
-            this.label60.Location = new System.Drawing.Point(141, 94);
+            this.label60.Location = new System.Drawing.Point(166, 97);
             this.label60.Name = "label60";
-            this.label60.Size = new System.Drawing.Size(15, 13);
+            this.label60.Size = new System.Drawing.Size(20, 19);
             this.label60.TabIndex = 53;
             this.label60.Text = "%";
             // 
             // label59
             // 
             this.label59.AutoSize = true;
-            this.label59.Location = new System.Drawing.Point(141, 71);
+            this.label59.Location = new System.Drawing.Point(166, 74);
             this.label59.Name = "label59";
-            this.label59.Size = new System.Drawing.Size(15, 13);
+            this.label59.Size = new System.Drawing.Size(20, 19);
             this.label59.TabIndex = 53;
             this.label59.Text = "%";
             // 
             // label58
             // 
             this.label58.AutoSize = true;
-            this.label58.Location = new System.Drawing.Point(141, 47);
+            this.label58.Location = new System.Drawing.Point(166, 50);
             this.label58.Name = "label58";
-            this.label58.Size = new System.Drawing.Size(15, 13);
+            this.label58.Size = new System.Drawing.Size(20, 19);
             this.label58.TabIndex = 53;
             this.label58.Text = "%";
             // 
             // label57
             // 
             this.label57.AutoSize = true;
-            this.label57.Location = new System.Drawing.Point(141, 24);
+            this.label57.Location = new System.Drawing.Point(166, 27);
             this.label57.Name = "label57";
-            this.label57.Size = new System.Drawing.Size(15, 13);
+            this.label57.Size = new System.Drawing.Size(20, 19);
             this.label57.TabIndex = 53;
             this.label57.Text = "%";
             // 
             // text_Pb_Ordinary
             // 
-            this.text_Pb_Ordinary.Location = new System.Drawing.Point(99, 94);
+            this.text_Pb_Ordinary.Location = new System.Drawing.Point(124, 97);
             this.text_Pb_Ordinary.Margin = new System.Windows.Forms.Padding(2);
             this.text_Pb_Ordinary.Name = "text_Pb_Ordinary";
             this.text_Pb_Ordinary.Size = new System.Drawing.Size(39, 20);
@@ -1783,7 +1814,7 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // text_Pb_Nice
             // 
-            this.text_Pb_Nice.Location = new System.Drawing.Point(99, 70);
+            this.text_Pb_Nice.Location = new System.Drawing.Point(124, 73);
             this.text_Pb_Nice.Margin = new System.Windows.Forms.Padding(2);
             this.text_Pb_Nice.Name = "text_Pb_Nice";
             this.text_Pb_Nice.Size = new System.Drawing.Size(39, 20);
@@ -1792,7 +1823,7 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // text_Pb_Great
             // 
-            this.text_Pb_Great.Location = new System.Drawing.Point(99, 46);
+            this.text_Pb_Great.Location = new System.Drawing.Point(124, 49);
             this.text_Pb_Great.Margin = new System.Windows.Forms.Padding(2);
             this.text_Pb_Great.Name = "text_Pb_Great";
             this.text_Pb_Great.Size = new System.Drawing.Size(39, 20);
@@ -1801,7 +1832,7 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // text_Pb_Excellent
             // 
-            this.text_Pb_Excellent.Location = new System.Drawing.Point(99, 21);
+            this.text_Pb_Excellent.Location = new System.Drawing.Point(124, 24);
             this.text_Pb_Excellent.Margin = new System.Windows.Forms.Padding(2);
             this.text_Pb_Excellent.Name = "text_Pb_Excellent";
             this.text_Pb_Excellent.Size = new System.Drawing.Size(39, 20);
@@ -1814,7 +1845,7 @@ namespace PokemonGo.RocketAPI.Console
             this.label51.Location = new System.Drawing.Point(8, 97);
             this.label51.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label51.Name = "label51";
-            this.label51.Size = new System.Drawing.Size(88, 13);
+            this.label51.Size = new System.Drawing.Size(109, 19);
             this.label51.TabIndex = 3;
             this.label51.Text = "Ordinary chance:";
             // 
@@ -1824,7 +1855,7 @@ namespace PokemonGo.RocketAPI.Console
             this.label50.Location = new System.Drawing.Point(8, 72);
             this.label50.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label50.Name = "label50";
-            this.label50.Size = new System.Drawing.Size(71, 13);
+            this.label50.Size = new System.Drawing.Size(82, 19);
             this.label50.TabIndex = 2;
             this.label50.Text = "Nice chance:";
             // 
@@ -1834,7 +1865,7 @@ namespace PokemonGo.RocketAPI.Console
             this.label49.Location = new System.Drawing.Point(8, 48);
             this.label49.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label49.Name = "label49";
-            this.label49.Size = new System.Drawing.Size(75, 13);
+            this.label49.Size = new System.Drawing.Size(88, 19);
             this.label49.TabIndex = 1;
             this.label49.Text = "Great chance:";
             // 
@@ -1844,7 +1875,7 @@ namespace PokemonGo.RocketAPI.Console
             this.label48.Location = new System.Drawing.Point(8, 24);
             this.label48.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label48.Name = "label48";
-            this.label48.Size = new System.Drawing.Size(92, 13);
+            this.label48.Size = new System.Drawing.Size(106, 19);
             this.label48.TabIndex = 0;
             this.label48.Text = "Excellent chance:";
             // 
@@ -1853,11 +1884,11 @@ namespace PokemonGo.RocketAPI.Console
             this.tabEggs.Controls.Add(this.groupBox26);
             this.tabEggs.Controls.Add(this.groupBox1);
             this.tabEggs.Controls.Add(this.groupBox_EggOptions);
-            this.tabEggs.Location = new System.Drawing.Point(4, 22);
+            this.tabEggs.Location = new System.Drawing.Point(4, 38);
             this.tabEggs.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             this.tabEggs.Name = "tabEggs";
             this.tabEggs.Padding = new System.Windows.Forms.Padding(4, 2, 4, 2);
-            this.tabEggs.Size = new System.Drawing.Size(564, 396);
+            this.tabEggs.Size = new System.Drawing.Size(564, 380);
             this.tabEggs.TabIndex = 9;
             this.tabEggs.Text = "Eggs";
             this.tabEggs.UseVisualStyleBackColor = true;
@@ -2095,11 +2126,11 @@ namespace PokemonGo.RocketAPI.Console
             this.tabWalkSettings.Controls.Add(this.groupBox13);
             this.tabWalkSettings.Controls.Add(this.groupBox11);
             this.tabWalkSettings.Controls.Add(this.groupBox12);
-            this.tabWalkSettings.Location = new System.Drawing.Point(4, 22);
+            this.tabWalkSettings.Location = new System.Drawing.Point(4, 38);
             this.tabWalkSettings.Margin = new System.Windows.Forms.Padding(2);
             this.tabWalkSettings.Name = "tabWalkSettings";
             this.tabWalkSettings.Padding = new System.Windows.Forms.Padding(2);
-            this.tabWalkSettings.Size = new System.Drawing.Size(564, 396);
+            this.tabWalkSettings.Size = new System.Drawing.Size(564, 380);
             this.tabWalkSettings.TabIndex = 4;
             this.tabWalkSettings.Text = "Walk Settings";
             this.tabWalkSettings.UseVisualStyleBackColor = true;
@@ -2116,14 +2147,14 @@ namespace PokemonGo.RocketAPI.Console
             this.groupBox18.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox18.Name = "groupBox18";
             this.groupBox18.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBox18.Size = new System.Drawing.Size(253, 96);
+            this.groupBox18.Size = new System.Drawing.Size(306, 96);
             this.groupBox18.TabIndex = 69;
             this.groupBox18.TabStop = false;
             this.groupBox18.Text = "Walking Speed and Range";
             // 
             // text_MoveRadius
             // 
-            this.text_MoveRadius.Location = new System.Drawing.Point(142, 67);
+            this.text_MoveRadius.Location = new System.Drawing.Point(168, 70);
             this.text_MoveRadius.Name = "text_MoveRadius";
             this.text_MoveRadius.Size = new System.Drawing.Size(100, 20);
             this.text_MoveRadius.TabIndex = 72;
@@ -2134,7 +2165,7 @@ namespace PokemonGo.RocketAPI.Console
             this.label9.AutoSize = true;
             this.label9.Location = new System.Drawing.Point(16, 67);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(68, 13);
+            this.label9.Size = new System.Drawing.Size(84, 19);
             this.label9.TabIndex = 73;
             this.label9.Text = "Move radius:";
             // 
@@ -2143,13 +2174,13 @@ namespace PokemonGo.RocketAPI.Console
             this.label7.AutoSize = true;
             this.label7.Location = new System.Drawing.Point(16, 23);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(126, 13);
+            this.label7.Size = new System.Drawing.Size(152, 19);
             this.label7.TabIndex = 71;
             this.label7.Text = "Max Walk Speed (km/h):";
             // 
             // text_Speed
             // 
-            this.text_Speed.Location = new System.Drawing.Point(142, 19);
+            this.text_Speed.Location = new System.Drawing.Point(168, 22);
             this.text_Speed.Name = "text_Speed";
             this.text_Speed.Size = new System.Drawing.Size(100, 20);
             this.text_Speed.TabIndex = 70;
@@ -2160,14 +2191,14 @@ namespace PokemonGo.RocketAPI.Console
             this.label46.AutoSize = true;
             this.label46.Location = new System.Drawing.Point(16, 45);
             this.label46.Name = "label46";
-            this.label46.Size = new System.Drawing.Size(123, 13);
+            this.label46.Size = new System.Drawing.Size(149, 19);
             this.label46.TabIndex = 69;
             this.label46.Text = "Min Walk Speed (km/h):";
             this.label46.UseMnemonic = false;
             // 
             // text_MinWalkSpeed
             // 
-            this.text_MinWalkSpeed.Location = new System.Drawing.Point(142, 43);
+            this.text_MinWalkSpeed.Location = new System.Drawing.Point(168, 46);
             this.text_MinWalkSpeed.Name = "text_MinWalkSpeed";
             this.text_MinWalkSpeed.Size = new System.Drawing.Size(100, 20);
             this.text_MinWalkSpeed.TabIndex = 68;
@@ -2179,11 +2210,11 @@ namespace PokemonGo.RocketAPI.Console
             this.groupBox13.Controls.Add(this.text_GoogleMapsAPIKey);
             this.groupBox13.Controls.Add(this.checkBox_UseGoogleMapsRouting);
             this.groupBox13.Controls.Add(this.label45);
-            this.groupBox13.Location = new System.Drawing.Point(301, 20);
+            this.groupBox13.Location = new System.Drawing.Point(330, 20);
             this.groupBox13.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox13.Name = "groupBox13";
             this.groupBox13.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBox13.Size = new System.Drawing.Size(221, 93);
+            this.groupBox13.Size = new System.Drawing.Size(229, 93);
             this.groupBox13.TabIndex = 60;
             this.groupBox13.TabStop = false;
             this.groupBox13.Text = "Routing Settings (beta)";
@@ -2202,7 +2233,7 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // text_GoogleMapsAPIKey
             // 
-            this.text_GoogleMapsAPIKey.Location = new System.Drawing.Point(58, 43);
+            this.text_GoogleMapsAPIKey.Location = new System.Drawing.Point(70, 42);
             this.text_GoogleMapsAPIKey.Name = "text_GoogleMapsAPIKey";
             this.text_GoogleMapsAPIKey.Size = new System.Drawing.Size(154, 20);
             this.text_GoogleMapsAPIKey.TabIndex = 62;
@@ -2222,7 +2253,7 @@ namespace PokemonGo.RocketAPI.Console
             this.label45.AutoSize = true;
             this.label45.Location = new System.Drawing.Point(10, 42);
             this.label45.Name = "label45";
-            this.label45.Size = new System.Drawing.Size(48, 13);
+            this.label45.Size = new System.Drawing.Size(56, 19);
             this.label45.TabIndex = 63;
             this.label45.Text = "API Key:";
             this.label45.UseMnemonic = false;
@@ -2242,11 +2273,11 @@ namespace PokemonGo.RocketAPI.Console
             this.groupBox11.Controls.Add(this.checkBox_BreakAtLure);
             this.groupBox11.Controls.Add(this.button_ArchimedeanSpiralHelp);
             this.groupBox11.Controls.Add(this.checkBox_WalkInArchimedeanSpiral);
-            this.groupBox11.Location = new System.Drawing.Point(301, 126);
+            this.groupBox11.Location = new System.Drawing.Point(330, 126);
             this.groupBox11.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox11.Name = "groupBox11";
             this.groupBox11.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBox11.Size = new System.Drawing.Size(221, 262);
+            this.groupBox11.Size = new System.Drawing.Size(229, 288);
             this.groupBox11.TabIndex = 59;
             this.groupBox11.TabStop = false;
             this.groupBox11.Text = "Walk Options";
@@ -2289,9 +2320,9 @@ namespace PokemonGo.RocketAPI.Console
             // label47
             // 
             this.label47.AutoSize = true;
-            this.label47.Location = new System.Drawing.Point(30, 149);
+            this.label47.Location = new System.Drawing.Point(1, 147);
             this.label47.Name = "label47";
-            this.label47.Size = new System.Drawing.Size(181, 13);
+            this.label47.Size = new System.Drawing.Size(222, 19);
             this.label47.TabIndex = 70;
             this.label47.Text = "(requires a value in Min Walk Speed)";
             this.label47.UseMnemonic = false;
@@ -2410,7 +2441,7 @@ namespace PokemonGo.RocketAPI.Console
             this.groupBox12.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox12.Name = "groupBox12";
             this.groupBox12.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBox12.Size = new System.Drawing.Size(253, 172);
+            this.groupBox12.Size = new System.Drawing.Size(306, 172);
             this.groupBox12.TabIndex = 60;
             this.groupBox12.TabStop = false;
             this.groupBox12.Text = "Walk Variables";
@@ -2420,14 +2451,14 @@ namespace PokemonGo.RocketAPI.Console
             this.label41.AutoSize = true;
             this.label41.Location = new System.Drawing.Point(8, 143);
             this.label41.Name = "label41";
-            this.label41.Size = new System.Drawing.Size(130, 13);
+            this.label41.Size = new System.Drawing.Size(159, 19);
             this.label41.TabIndex = 67;
             this.label41.Text = "Break Length (in minutes):";
             this.label41.UseMnemonic = false;
             // 
             // text_BreakInterval
             // 
-            this.text_BreakInterval.Location = new System.Drawing.Point(146, 119);
+            this.text_BreakInterval.Location = new System.Drawing.Point(168, 119);
             this.text_BreakInterval.Name = "text_BreakInterval";
             this.text_BreakInterval.Size = new System.Drawing.Size(100, 20);
             this.text_BreakInterval.TabIndex = 64;
@@ -2437,14 +2468,14 @@ namespace PokemonGo.RocketAPI.Console
             this.label44.AutoSize = true;
             this.label44.Location = new System.Drawing.Point(8, 94);
             this.label44.Name = "label44";
-            this.label44.Size = new System.Drawing.Size(86, 13);
+            this.label44.Size = new System.Drawing.Size(109, 19);
             this.label44.TabIndex = 55;
             this.label44.Text = "XP Farmed Limit:";
             this.label44.UseMnemonic = false;
             // 
             // text_XPFarmedLimit
             // 
-            this.text_XPFarmedLimit.Location = new System.Drawing.Point(146, 93);
+            this.text_XPFarmedLimit.Location = new System.Drawing.Point(168, 93);
             this.text_XPFarmedLimit.Name = "text_XPFarmedLimit";
             this.text_XPFarmedLimit.Size = new System.Drawing.Size(100, 20);
             this.text_XPFarmedLimit.TabIndex = 54;
@@ -2454,21 +2485,21 @@ namespace PokemonGo.RocketAPI.Console
             this.label43.AutoSize = true;
             this.label43.Location = new System.Drawing.Point(8, 70);
             this.label43.Name = "label43";
-            this.label43.Size = new System.Drawing.Size(105, 13);
+            this.label43.Size = new System.Drawing.Size(131, 19);
             this.label43.TabIndex = 53;
             this.label43.Text = "Pokestop Farm Limit:";
             this.label43.UseMnemonic = false;
             // 
             // text_BreakLength
             // 
-            this.text_BreakLength.Location = new System.Drawing.Point(146, 143);
+            this.text_BreakLength.Location = new System.Drawing.Point(168, 143);
             this.text_BreakLength.Name = "text_BreakLength";
             this.text_BreakLength.Size = new System.Drawing.Size(100, 20);
             this.text_BreakLength.TabIndex = 66;
             // 
             // text_PokestopFarmLimit
             // 
-            this.text_PokestopFarmLimit.Location = new System.Drawing.Point(146, 69);
+            this.text_PokestopFarmLimit.Location = new System.Drawing.Point(168, 69);
             this.text_PokestopFarmLimit.Name = "text_PokestopFarmLimit";
             this.text_PokestopFarmLimit.Size = new System.Drawing.Size(100, 20);
             this.text_PokestopFarmLimit.TabIndex = 52;
@@ -2478,7 +2509,7 @@ namespace PokemonGo.RocketAPI.Console
             this.label42.AutoSize = true;
             this.label42.Location = new System.Drawing.Point(8, 46);
             this.label42.Name = "label42";
-            this.label42.Size = new System.Drawing.Size(110, 13);
+            this.label42.Size = new System.Drawing.Size(136, 19);
             this.label42.TabIndex = 51;
             this.label42.Text = "Pokemon Catch Limit:";
             this.label42.UseMnemonic = false;
@@ -2488,14 +2519,14 @@ namespace PokemonGo.RocketAPI.Console
             this.label32.AutoSize = true;
             this.label32.Location = new System.Drawing.Point(8, 119);
             this.label32.Name = "label32";
-            this.label32.Size = new System.Drawing.Size(132, 13);
+            this.label32.Size = new System.Drawing.Size(163, 19);
             this.label32.TabIndex = 65;
             this.label32.Text = "Break Interval (in minutes):";
             this.label32.UseMnemonic = false;
             // 
             // text_PokemonCatchLimit
             // 
-            this.text_PokemonCatchLimit.Location = new System.Drawing.Point(146, 44);
+            this.text_PokemonCatchLimit.Location = new System.Drawing.Point(168, 44);
             this.text_PokemonCatchLimit.Name = "text_PokemonCatchLimit";
             this.text_PokemonCatchLimit.Size = new System.Drawing.Size(100, 20);
             this.text_PokemonCatchLimit.TabIndex = 50;
@@ -2505,7 +2536,7 @@ namespace PokemonGo.RocketAPI.Console
             this.label40.AutoSize = true;
             this.label40.Location = new System.Drawing.Point(8, 21);
             this.label40.Name = "label40";
-            this.label40.Size = new System.Drawing.Size(124, 13);
+            this.label40.Size = new System.Drawing.Size(154, 19);
             this.label40.TabIndex = 43;
             this.label40.Text = "Time to Run (in minutes):";
             this.label40.UseMnemonic = false;
@@ -2513,14 +2544,10 @@ namespace PokemonGo.RocketAPI.Console
             // text_TimeToRun
             // 
             this.text_TimeToRun.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.settingsBindingSource, "TimeToRun", true, System.Windows.Forms.DataSourceUpdateMode.OnValidation, "0", "N0"));
-            this.text_TimeToRun.Location = new System.Drawing.Point(146, 18);
+            this.text_TimeToRun.Location = new System.Drawing.Point(168, 18);
             this.text_TimeToRun.Name = "text_TimeToRun";
             this.text_TimeToRun.Size = new System.Drawing.Size(100, 20);
             this.text_TimeToRun.TabIndex = 42;
-            // 
-            // settingsBindingSource
-            // 
-            this.settingsBindingSource.DataSource = typeof(PokemonGo.RocketAPI.Console.Settings);
             // 
             // tabMisc
             // 
@@ -2531,14 +2558,15 @@ namespace PokemonGo.RocketAPI.Console
             this.tabMisc.Controls.Add(this.SnipePokemonPokeCom);
             this.tabMisc.Controls.Add(this.groupBox17);
             this.tabMisc.Controls.Add(this.groupBox14);
-            this.tabMisc.Location = new System.Drawing.Point(4, 22);
+            this.tabMisc.Location = new System.Drawing.Point(4, 38);
             this.tabMisc.Margin = new System.Windows.Forms.Padding(2);
             this.tabMisc.Name = "tabMisc";
             this.tabMisc.Padding = new System.Windows.Forms.Padding(2);
-            this.tabMisc.Size = new System.Drawing.Size(564, 396);
+            this.tabMisc.Size = new System.Drawing.Size(564, 380);
             this.tabMisc.TabIndex = 5;
             this.tabMisc.Text = "Misc";
             this.tabMisc.UseVisualStyleBackColor = true;
+            this.tabMisc.Click += new System.EventHandler(this.tabMisc_Click);
             // 
             // buttonTutorial
             // 
@@ -2636,7 +2664,7 @@ namespace PokemonGo.RocketAPI.Console
             this.groupBox17.Controls.Add(this.label64);
             this.groupBox17.Location = new System.Drawing.Point(147, 5);
             this.groupBox17.Name = "groupBox17";
-            this.groupBox17.Size = new System.Drawing.Size(252, 109);
+            this.groupBox17.Size = new System.Drawing.Size(261, 109);
             this.groupBox17.TabIndex = 5;
             this.groupBox17.TabStop = false;
             this.groupBox17.Text = "Telegram Settings";
@@ -2646,7 +2674,7 @@ namespace PokemonGo.RocketAPI.Console
             this.label61.AutoSize = true;
             this.label61.Location = new System.Drawing.Point(188, 76);
             this.label61.Name = "label61";
-            this.label61.Size = new System.Drawing.Size(40, 13);
+            this.label61.Size = new System.Drawing.Size(50, 19);
             this.label61.TabIndex = 6;
             this.label61.Text = "miliSec";
             // 
@@ -2655,7 +2683,7 @@ namespace PokemonGo.RocketAPI.Console
             this.label62.AutoSize = true;
             this.label62.Location = new System.Drawing.Point(8, 76);
             this.label62.Name = "label62";
-            this.label62.Size = new System.Drawing.Size(82, 13);
+            this.label62.Size = new System.Drawing.Size(99, 19);
             this.label62.TabIndex = 5;
             this.label62.Text = "Live-Stats delay";
             // 
@@ -2668,7 +2696,7 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // text_Telegram_Name
             // 
-            this.text_Telegram_Name.Location = new System.Drawing.Point(68, 47);
+            this.text_Telegram_Name.Location = new System.Drawing.Point(79, 48);
             this.text_Telegram_Name.Name = "text_Telegram_Name";
             this.text_Telegram_Name.Size = new System.Drawing.Size(174, 20);
             this.text_Telegram_Name.TabIndex = 13;
@@ -2678,13 +2706,13 @@ namespace PokemonGo.RocketAPI.Console
             this.label63.AutoSize = true;
             this.label63.Location = new System.Drawing.Point(8, 50);
             this.label63.Name = "label63";
-            this.label63.Size = new System.Drawing.Size(35, 13);
+            this.label63.Size = new System.Drawing.Size(45, 19);
             this.label63.TabIndex = 2;
             this.label63.Text = "Name";
             // 
             // text_Telegram_Token
             // 
-            this.text_Telegram_Token.Location = new System.Drawing.Point(68, 22);
+            this.text_Telegram_Token.Location = new System.Drawing.Point(79, 23);
             this.text_Telegram_Token.Name = "text_Telegram_Token";
             this.text_Telegram_Token.Size = new System.Drawing.Size(174, 20);
             this.text_Telegram_Token.TabIndex = 12;
@@ -2694,7 +2722,7 @@ namespace PokemonGo.RocketAPI.Console
             this.label64.AutoSize = true;
             this.label64.Location = new System.Drawing.Point(8, 24);
             this.label64.Name = "label64";
-            this.label64.Size = new System.Drawing.Size(54, 13);
+            this.label64.Size = new System.Drawing.Size(65, 19);
             this.label64.TabIndex = 0;
             this.label64.Text = "API token";
             // 
@@ -2760,10 +2788,10 @@ namespace PokemonGo.RocketAPI.Console
             // 
             this.tabUpdates.Controls.Add(this.groupBox9);
             this.tabUpdates.Controls.Add(this.groupBox15);
-            this.tabUpdates.Location = new System.Drawing.Point(4, 22);
+            this.tabUpdates.Location = new System.Drawing.Point(4, 38);
             this.tabUpdates.Name = "tabUpdates";
             this.tabUpdates.Padding = new System.Windows.Forms.Padding(3);
-            this.tabUpdates.Size = new System.Drawing.Size(564, 396);
+            this.tabUpdates.Size = new System.Drawing.Size(564, 380);
             this.tabUpdates.TabIndex = 6;
             this.tabUpdates.Text = "Updates";
             this.tabUpdates.UseVisualStyleBackColor = true;
@@ -2784,20 +2812,20 @@ namespace PokemonGo.RocketAPI.Console
             // newVer
             // 
             this.newVer.AutoSize = true;
-            this.newVer.Location = new System.Drawing.Point(90, 45);
+            this.newVer.Location = new System.Drawing.Point(116, 45);
             this.newVer.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.newVer.Name = "newVer";
-            this.newVer.Size = new System.Drawing.Size(40, 13);
+            this.newVer.Size = new System.Drawing.Size(44, 19);
             this.newVer.TabIndex = 3;
             this.newVer.Text = "1.0.0.0";
             // 
             // currVer
             // 
             this.currVer.AutoSize = true;
-            this.currVer.Location = new System.Drawing.Point(90, 18);
+            this.currVer.Location = new System.Drawing.Point(116, 18);
             this.currVer.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.currVer.Name = "currVer";
-            this.currVer.Size = new System.Drawing.Size(40, 13);
+            this.currVer.Size = new System.Drawing.Size(44, 19);
             this.currVer.TabIndex = 2;
             this.currVer.Text = "1.0.0.0";
             // 
@@ -2807,7 +2835,7 @@ namespace PokemonGo.RocketAPI.Console
             this.newText.Location = new System.Drawing.Point(6, 45);
             this.newText.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.newText.Name = "newText";
-            this.newText.Size = new System.Drawing.Size(87, 13);
+            this.newText.Size = new System.Drawing.Size(104, 19);
             this.newText.TabIndex = 1;
             this.newText.Text = "Newest Version: ";
             // 
@@ -2817,7 +2845,7 @@ namespace PokemonGo.RocketAPI.Console
             this.currText.Location = new System.Drawing.Point(6, 18);
             this.currText.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.currText.Name = "currText";
-            this.currText.Size = new System.Drawing.Size(85, 13);
+            this.currText.Size = new System.Drawing.Size(106, 19);
             this.currText.TabIndex = 0;
             this.currText.Text = "Current Version: ";
             // 
@@ -2859,11 +2887,11 @@ namespace PokemonGo.RocketAPI.Console
             this.tabCredits.Controls.Add(this.groupBox21);
             this.tabCredits.Controls.Add(this.groupBox20);
             this.tabCredits.Controls.Add(this.pictureBox3);
-            this.tabCredits.Location = new System.Drawing.Point(4, 22);
+            this.tabCredits.Location = new System.Drawing.Point(4, 38);
             this.tabCredits.Margin = new System.Windows.Forms.Padding(2);
             this.tabCredits.Name = "tabCredits";
             this.tabCredits.Padding = new System.Windows.Forms.Padding(2);
-            this.tabCredits.Size = new System.Drawing.Size(564, 396);
+            this.tabCredits.Size = new System.Drawing.Size(564, 380);
             this.tabCredits.TabIndex = 8;
             this.tabCredits.Text = "Credits";
             this.tabCredits.UseVisualStyleBackColor = true;
@@ -2876,11 +2904,11 @@ namespace PokemonGo.RocketAPI.Console
             this.groupBox29.Controls.Add(this.label70);
             this.groupBox29.Controls.Add(this.linkLabel15);
             this.groupBox29.Controls.Add(this.label71);
-            this.groupBox29.Location = new System.Drawing.Point(6, 115);
+            this.groupBox29.Location = new System.Drawing.Point(6, 150);
             this.groupBox29.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox29.Name = "groupBox29";
             this.groupBox29.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBox29.Size = new System.Drawing.Size(195, 103);
+            this.groupBox29.Size = new System.Drawing.Size(232, 110);
             this.groupBox29.TabIndex = 44;
             this.groupBox29.TabStop = false;
             this.groupBox29.Text = "Hashing Service Information";
@@ -2899,7 +2927,7 @@ namespace PokemonGo.RocketAPI.Console
             // linkLabel16
             // 
             this.linkLabel16.AutoSize = true;
-            this.linkLabel16.Location = new System.Drawing.Point(146, 77);
+            this.linkLabel16.Location = new System.Drawing.Point(146, 64);
             this.linkLabel16.Name = "linkLabel16";
             this.linkLabel16.Size = new System.Drawing.Size(38, 13);
             this.linkLabel16.TabIndex = 39;
@@ -2913,7 +2941,7 @@ namespace PokemonGo.RocketAPI.Console
             this.label69.Location = new System.Drawing.Point(4, 77);
             this.label69.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label69.Name = "label69";
-            this.label69.Size = new System.Drawing.Size(140, 13);
+            this.label69.Size = new System.Drawing.Size(180, 19);
             this.label69.TabIndex = 38;
             this.label69.Text = "More prices and information:";
             // 
@@ -2923,7 +2951,7 @@ namespace PokemonGo.RocketAPI.Console
             this.label70.Location = new System.Drawing.Point(3, 41);
             this.label70.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label70.Name = "label70";
-            this.label70.Size = new System.Drawing.Size(185, 13);
+            this.label70.Size = new System.Drawing.Size(224, 19);
             this.label70.TabIndex = 1;
             this.label70.Text = "You can buy cheapest KEY from here";
             // 
@@ -2944,7 +2972,7 @@ namespace PokemonGo.RocketAPI.Console
             this.label71.Location = new System.Drawing.Point(3, 19);
             this.label71.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label71.Name = "label71";
-            this.label71.Size = new System.Drawing.Size(0, 13);
+            this.label71.Size = new System.Drawing.Size(0, 0);
             this.label71.TabIndex = 0;
             // 
             // groupBox22
@@ -2953,7 +2981,7 @@ namespace PokemonGo.RocketAPI.Console
             this.groupBox22.Controls.Add(this.linkLabel13);
             this.groupBox22.Controls.Add(this.linkLabel12);
             this.groupBox22.Controls.Add(this.linkLabel11);
-            this.groupBox22.Location = new System.Drawing.Point(349, 13);
+            this.groupBox22.Location = new System.Drawing.Point(355, 13);
             this.groupBox22.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox22.Name = "groupBox22";
             this.groupBox22.Padding = new System.Windows.Forms.Padding(2);
@@ -3017,7 +3045,7 @@ namespace PokemonGo.RocketAPI.Console
             this.groupBox21.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox21.Name = "groupBox21";
             this.groupBox21.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBox21.Size = new System.Drawing.Size(195, 101);
+            this.groupBox21.Size = new System.Drawing.Size(201, 138);
             this.groupBox21.TabIndex = 41;
             this.groupBox21.TabStop = false;
             this.groupBox21.Text = "Project Information";
@@ -3025,27 +3053,27 @@ namespace PokemonGo.RocketAPI.Console
             // ver
             // 
             this.ver.AutoSize = true;
-            this.ver.Location = new System.Drawing.Point(4, 49);
+            this.ver.Location = new System.Drawing.Point(4, 63);
             this.ver.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.ver.Name = "ver";
-            this.ver.Size = new System.Drawing.Size(48, 13);
+            this.ver.Size = new System.Drawing.Size(58, 19);
             this.ver.TabIndex = 2;
             this.ver.Text = "Version: ";
             // 
             // label38
             // 
             this.label38.AutoSize = true;
-            this.label38.Location = new System.Drawing.Point(4, 35);
+            this.label38.Location = new System.Drawing.Point(4, 44);
             this.label38.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label38.Name = "label38";
-            this.label38.Size = new System.Drawing.Size(82, 13);
+            this.label38.Size = new System.Drawing.Size(103, 19);
             this.label38.TabIndex = 1;
             this.label38.Text = "Created by: Ar1i";
             // 
             // linkLabel8
             // 
             this.linkLabel8.AutoSize = true;
-            this.linkLabel8.Location = new System.Drawing.Point(8, 80);
+            this.linkLabel8.Location = new System.Drawing.Point(8, 103);
             this.linkLabel8.Name = "linkLabel8";
             this.linkLabel8.Size = new System.Drawing.Size(97, 13);
             this.linkLabel8.TabIndex = 37;
@@ -3056,17 +3084,17 @@ namespace PokemonGo.RocketAPI.Console
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(4, 21);
+            this.label10.Location = new System.Drawing.Point(5, 20);
             this.label10.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(155, 13);
+            this.label10.Size = new System.Drawing.Size(195, 19);
             this.label10.TabIndex = 0;
             this.label10.Text = "Project Name: PokemonGo-Bot";
             // 
             // linkLabel1
             // 
             this.linkLabel1.AutoSize = true;
-            this.linkLabel1.Location = new System.Drawing.Point(8, 67);
+            this.linkLabel1.Location = new System.Drawing.Point(8, 90);
             this.linkLabel1.Name = "linkLabel1";
             this.linkLabel1.Size = new System.Drawing.Size(38, 13);
             this.linkLabel1.TabIndex = 36;
@@ -3082,7 +3110,7 @@ namespace PokemonGo.RocketAPI.Console
             this.groupBox20.Controls.Add(this.linkLabel3);
             this.groupBox20.Controls.Add(this.linkLabel7);
             this.groupBox20.Controls.Add(this.linkLabel4);
-            this.groupBox20.Location = new System.Drawing.Point(205, 13);
+            this.groupBox20.Location = new System.Drawing.Point(210, 13);
             this.groupBox20.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox20.Name = "groupBox20";
             this.groupBox20.Padding = new System.Windows.Forms.Padding(2);
@@ -3158,7 +3186,7 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // pictureBox3
             // 
-            this.pictureBox3.Image = global::PokemonGo.RocketAPI.Console.Properties.Resources.giphy__1_;
+            this.pictureBox3.BackgroundImage = global::PokemonGo.RocketAPI.Console.Properties.Resources.giphy__1_;
             this.pictureBox3.Location = new System.Drawing.Point(0, 59);
             this.pictureBox3.Margin = new System.Windows.Forms.Padding(2);
             this.pictureBox3.Name = "pictureBox3";
@@ -3168,7 +3196,7 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(480, 79);
+            this.button2.Location = new System.Drawing.Point(476, 93);
             this.button2.Margin = new System.Windows.Forms.Padding(2);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(102, 21);
@@ -3182,7 +3210,7 @@ namespace PokemonGo.RocketAPI.Console
             this.lang_france_btn.BackgroundImage = global::PokemonGo.RocketAPI.Console.Properties.Resources.france;
             this.lang_france_btn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.lang_france_btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.lang_france_btn.Location = new System.Drawing.Point(192, 79);
+            this.lang_france_btn.Location = new System.Drawing.Point(188, 93);
             this.lang_france_btn.Name = "lang_france_btn";
             this.lang_france_btn.Size = new System.Drawing.Size(24, 15);
             this.lang_france_btn.TabIndex = 44;
@@ -3195,7 +3223,7 @@ namespace PokemonGo.RocketAPI.Console
             this.lang_ru_btn.BackgroundImage = global::PokemonGo.RocketAPI.Console.Properties.Resources.ru1;
             this.lang_ru_btn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.lang_ru_btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.lang_ru_btn.Location = new System.Drawing.Point(162, 79);
+            this.lang_ru_btn.Location = new System.Drawing.Point(158, 93);
             this.lang_ru_btn.Name = "lang_ru_btn";
             this.lang_ru_btn.Size = new System.Drawing.Size(24, 15);
             this.lang_ru_btn.TabIndex = 43;
@@ -3208,7 +3236,7 @@ namespace PokemonGo.RocketAPI.Console
             this.lang_tr_btn.BackgroundImage = global::PokemonGo.RocketAPI.Console.Properties.Resources.tr1;
             this.lang_tr_btn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.lang_tr_btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.lang_tr_btn.Location = new System.Drawing.Point(132, 79);
+            this.lang_tr_btn.Location = new System.Drawing.Point(128, 93);
             this.lang_tr_btn.Name = "lang_tr_btn";
             this.lang_tr_btn.Size = new System.Drawing.Size(24, 15);
             this.lang_tr_btn.TabIndex = 42;
@@ -3221,7 +3249,7 @@ namespace PokemonGo.RocketAPI.Console
             this.lang_ptBR_btn.BackgroundImage = global::PokemonGo.RocketAPI.Console.Properties.Resources.ptBR;
             this.lang_ptBR_btn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.lang_ptBR_btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.lang_ptBR_btn.Location = new System.Drawing.Point(102, 79);
+            this.lang_ptBR_btn.Location = new System.Drawing.Point(98, 93);
             this.lang_ptBR_btn.Name = "lang_ptBR_btn";
             this.lang_ptBR_btn.Size = new System.Drawing.Size(24, 15);
             this.lang_ptBR_btn.TabIndex = 41;
@@ -3234,7 +3262,7 @@ namespace PokemonGo.RocketAPI.Console
             this.lang_spain_btn.BackgroundImage = global::PokemonGo.RocketAPI.Console.Properties.Resources.spain;
             this.lang_spain_btn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.lang_spain_btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.lang_spain_btn.Location = new System.Drawing.Point(72, 79);
+            this.lang_spain_btn.Location = new System.Drawing.Point(68, 93);
             this.lang_spain_btn.Name = "lang_spain_btn";
             this.lang_spain_btn.Size = new System.Drawing.Size(24, 15);
             this.lang_spain_btn.TabIndex = 40;
@@ -3248,7 +3276,7 @@ namespace PokemonGo.RocketAPI.Console
             this.lang_de_btn.BackgroundImage = global::PokemonGo.RocketAPI.Console.Properties.Resources.de;
             this.lang_de_btn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.lang_de_btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.lang_de_btn.Location = new System.Drawing.Point(42, 79);
+            this.lang_de_btn.Location = new System.Drawing.Point(38, 93);
             this.lang_de_btn.Name = "lang_de_btn";
             this.lang_de_btn.Size = new System.Drawing.Size(24, 15);
             this.lang_de_btn.TabIndex = 39;
@@ -3261,7 +3289,7 @@ namespace PokemonGo.RocketAPI.Console
             this.lang_en_btn.BackgroundImage = global::PokemonGo.RocketAPI.Console.Properties.Resources.en;
             this.lang_en_btn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.lang_en_btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.lang_en_btn.Location = new System.Drawing.Point(12, 79);
+            this.lang_en_btn.Location = new System.Drawing.Point(8, 93);
             this.lang_en_btn.Name = "lang_en_btn";
             this.lang_en_btn.Size = new System.Drawing.Size(24, 15);
             this.lang_en_btn.TabIndex = 38;
@@ -3271,53 +3299,23 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // pictureBox2
             // 
-            this.pictureBox2.BackgroundImage = global::PokemonGo.RocketAPI.Console.Properties.Resources.image;
+            this.pictureBox2.BackgroundImage = global::PokemonGo.RocketAPI.Console.Properties.Resources.image1;
             this.pictureBox2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox2.Location = new System.Drawing.Point(16, 2);
+            this.pictureBox2.ErrorImage = null;
+            this.pictureBox2.InitialImage = null;
+            this.pictureBox2.Location = new System.Drawing.Point(12, 16);
             this.pictureBox2.Name = "pictureBox2";
             this.pictureBox2.Size = new System.Drawing.Size(550, 70);
             this.pictureBox2.TabIndex = 37;
             this.pictureBox2.TabStop = false;
             this.pictureBox2.Click += new System.EventHandler(this.pictureBox2_Click);
             // 
-            // labelPrxHost
-            // 
-            this.labelPrxHost.Location = new System.Drawing.Point(26, 45);
-            this.labelPrxHost.Name = "labelPrxHost";
-            this.labelPrxHost.Size = new System.Drawing.Size(100, 13);
-            this.labelPrxHost.TabIndex = 13;
-            this.labelPrxHost.Text = "Host Name:";
-            // 
-            // labelPrxPort
-            // 
-            this.labelPrxPort.Location = new System.Drawing.Point(26, 88);
-            this.labelPrxPort.Name = "labelPrxPort";
-            this.labelPrxPort.Size = new System.Drawing.Size(100, 13);
-            this.labelPrxPort.TabIndex = 14;
-            this.labelPrxPort.Text = "Port:";
-            // 
-            // labelPrxPass
-            // 
-            this.labelPrxPass.Location = new System.Drawing.Point(274, 88);
-            this.labelPrxPass.Name = "labelPrxPass";
-            this.labelPrxPass.Size = new System.Drawing.Size(100, 13);
-            this.labelPrxPass.TabIndex = 16;
-            this.labelPrxPass.Text = "Password:";
-            // 
-            // labelPrxUser
-            // 
-            this.labelPrxUser.Location = new System.Drawing.Point(274, 45);
-            this.labelPrxUser.Name = "labelPrxUser";
-            this.labelPrxUser.Size = new System.Drawing.Size(100, 13);
-            this.labelPrxUser.TabIndex = 15;
-            this.labelPrxUser.Text = "User Name:";
-            // 
             // GUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
-            this.ClientSize = new System.Drawing.Size(594, 581);
+            this.ClientSize = new System.Drawing.Size(594, 604);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.label30);
             this.Controls.Add(this.lang_france_btn);
@@ -3330,11 +3328,9 @@ namespace PokemonGo.RocketAPI.Console
             this.Controls.Add(this.pictureBox2);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.button1);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "GUI";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "PokeGoBot GUI Edition";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.GUI_FormClosing);
             this.Load += new System.EventHandler(this.GUI_Load);
@@ -3436,52 +3432,52 @@ namespace PokemonGo.RocketAPI.Console
         private System.Windows.Forms.Button lang_tr_btn;
         private System.Windows.Forms.Button lang_ru_btn;
         private System.Windows.Forms.Button lang_france_btn;
-        private System.Windows.Forms.Label label30;
-        private System.Windows.Forms.TabPage tabProxies;
+        private MetroFramework.Controls.MetroLabel label30;
+        private MetroFramework.Controls.MetroTabPage tabProxies;
         private System.Windows.Forms.LinkLabel linkLabel5;
-        private System.Windows.Forms.Label labelPrxPass;
-        private System.Windows.Forms.Label labelPrxPort;
-        private System.Windows.Forms.Label label35;
+        private MetroFramework.Controls.MetroLabel labelPrxPass;
+        private MetroFramework.Controls.MetroLabel labelPrxPort;
+        private MetroFramework.Controls.MetroLabel label35;
         private System.Windows.Forms.CheckBox checkBox_UseProxyAuth;
         private System.Windows.Forms.TextBox prxyUser;
         private System.Windows.Forms.TextBox prxyPort;
         private System.Windows.Forms.TextBox prxyPass;
         private System.Windows.Forms.TextBox prxyIP;
         private System.Windows.Forms.CheckBox checkBox_UseProxy;
-        private System.Windows.Forms.TabPage tabItems;
+        private MetroFramework.Controls.MetroTabPage tabItems;
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.TextBox text_TotalItemCount;
-        private System.Windows.Forms.Label label31;
-        private System.Windows.Forms.Label label27;
-        private System.Windows.Forms.Label label25;
+        private MetroFramework.Controls.MetroLabel label31;
+        private MetroFramework.Controls.MetroLabel label27;
+        private MetroFramework.Controls.MetroLabel label25;
         private System.Windows.Forms.TextBox text_MaxTopRevives;
         private System.Windows.Forms.TextBox text_MaxTopPotions;
-        private System.Windows.Forms.Label label20;
-        private System.Windows.Forms.Label label19;
-        private System.Windows.Forms.Label label18;
-        private System.Windows.Forms.Label label17;
-        private System.Windows.Forms.Label label16;
+        private MetroFramework.Controls.MetroLabel label20;
+        private MetroFramework.Controls.MetroLabel label19;
+        private MetroFramework.Controls.MetroLabel label18;
+        private MetroFramework.Controls.MetroLabel label17;
+        private MetroFramework.Controls.MetroLabel label16;
         private System.Windows.Forms.TextBox text_MaxRazzBerrys;
-        private System.Windows.Forms.Label labelPrxHost;
+        private MetroFramework.Controls.MetroLabel labelPrxHost;
         private System.Windows.Forms.TextBox text_MaxSuperPotions;
         private System.Windows.Forms.TextBox text_MaxPotions;
         private System.Windows.Forms.TextBox text_MaxRevives;
-        private System.Windows.Forms.Label label15;
+        private MetroFramework.Controls.MetroLabel label15;
         private System.Windows.Forms.TextBox text_MaxUltraBalls;
         private System.Windows.Forms.TextBox text_MaxGreatBalls;
-        private System.Windows.Forms.Label label14;
+        private MetroFramework.Controls.MetroLabel label14;
         private System.Windows.Forms.TextBox text_MaxPokeballs;
-        private System.Windows.Forms.Label label13;
-        private System.Windows.Forms.TabPage tabPokemon;
+        private MetroFramework.Controls.MetroLabel label13;
+        private MetroFramework.Controls.MetroTabPage tabPokemon;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.CheckBox checkBox_TransferFirstLowIV;
-        private System.Windows.Forms.Label label29;
+        private MetroFramework.Controls.MetroLabel label29;
         private System.Windows.Forms.TextBox text_MaxIVToTransfer;
-        private System.Windows.Forms.Label label28;
+        private MetroFramework.Controls.MetroLabel label28;
         private System.Windows.Forms.TextBox text_MaxCPToTransfer;
-        private System.Windows.Forms.Label label12;
+        private MetroFramework.Controls.MetroLabel label12;
         private System.Windows.Forms.TextBox text_MaxDuplicatePokemon;
-        private System.Windows.Forms.Label label11;
+        private MetroFramework.Controls.MetroLabel label11;
         private System.Windows.Forms.CheckBox checkBox_AutoTransferDoublePokemon;
         private System.Windows.Forms.GroupBox groupBox5;
         private System.Windows.Forms.CheckBox checkBox4;
@@ -3492,26 +3488,25 @@ namespace PokemonGo.RocketAPI.Console
         private System.Windows.Forms.GroupBox groupBox7;
         private System.Windows.Forms.CheckBox checkBox6;
         private System.Windows.Forms.CheckedListBox checkedListBox_PokemonToEvolve;
-        private System.Windows.Forms.TabPage tabGeneral;
+        private MetroFramework.Controls.MetroTabPage tabGeneral;
         private System.Windows.Forms.GroupBox groupBoxAccount;
-        private System.Windows.Forms.Label label1;
+        private MetroFramework.Controls.MetroLabel label1;
         private System.Windows.Forms.TextBox text_Password;
         private System.Windows.Forms.ComboBox comboBox_AccountType;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label2;
+        private MetroFramework.Controls.MetroLabel label3;
+        private MetroFramework.Controls.MetroLabel label2;
         private System.Windows.Forms.TextBox text_EMail;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Button button_SetLocation;
-        private System.Windows.Forms.Label label6;
+        private MetroFramework.Controls.MetroLabel label6;
         private System.Windows.Forms.TextBox text_Altidude;
         private System.Windows.Forms.TextBox text_Longitude;
-        private System.Windows.Forms.Label label5;
+        private MetroFramework.Controls.MetroLabel label5;
         private System.Windows.Forms.TextBox text_Latidude;
-        private System.Windows.Forms.Label label4;
+        private MetroFramework.Controls.MetroLabel label4;
         private System.Windows.Forms.GroupBox groupBox10;
-        private System.Windows.Forms.TabControl tabControl1;
-        private System.Windows.Forms.TabPage tabWalkSettings;
-        private System.Windows.Forms.Label label39;
+        private MetroFramework.Controls.MetroTabPage tabWalkSettings;
+        private MetroFramework.Controls.MetroLabel label39;
         private System.Windows.Forms.ComboBox comboBox_Device;
         private System.Windows.Forms.CheckBox checkBox_UseLuckyEggIfNotRunning;
         private System.Windows.Forms.CheckBox checkBox_KeepPokemonWhichCanBeEvolved;
@@ -3520,18 +3515,18 @@ namespace PokemonGo.RocketAPI.Console
         private System.Windows.Forms.CheckBox checkBox_SimulateAnimationTimeAtEvolve;
         private System.Windows.Forms.CheckBox checkBox_UseLuckyEggAtEvolve;
         private System.Windows.Forms.CheckBox checkBox_EvolvePokemonIfEnoughCandy;
-        private System.Windows.Forms.TabPage tabMisc;
+        private MetroFramework.Controls.MetroTabPage tabMisc;
         private System.Windows.Forms.CheckBox logPokemon;
         private System.Windows.Forms.GroupBox groupBox14;
         private System.Windows.Forms.CheckBox logManuelTransfer;
         private System.Windows.Forms.CheckBox logEvolution;
-        private System.Windows.Forms.TabPage tabUpdates;
+        private MetroFramework.Controls.MetroTabPage tabUpdates;
         private System.Windows.Forms.CheckBox checkbox_AutoUpdate;
         private System.Windows.Forms.GroupBox groupBox15;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Button button_ArchimedeanSpiralHelp;
         private System.Windows.Forms.CheckBox checkBox_WalkInArchimedeanSpiral;
-        private System.Windows.Forms.Label label45;
+        private MetroFramework.Controls.MetroLabel label45;
         private System.Windows.Forms.CheckBox checkBox_UseGoogleMapsRouting;
         private System.Windows.Forms.GroupBox groupBox13;
         private System.Windows.Forms.LinkLabel linkLabel6;
@@ -3543,29 +3538,29 @@ namespace PokemonGo.RocketAPI.Console
         private System.Windows.Forms.CheckBox checkBox_RandomSleepAtCatching;
         private System.Windows.Forms.GroupBox groupBox11;
         private System.Windows.Forms.CheckBox checkBox_UseBreakIntervalAndLength;
-        private System.Windows.Forms.Label label47;
+        private MetroFramework.Controls.MetroLabel label47;
         private System.Windows.Forms.CheckBox checkBox_RandomlyReduceSpeed;
-        private System.Windows.Forms.Label label44;
+        private MetroFramework.Controls.MetroLabel label44;
         private System.Windows.Forms.TextBox text_XPFarmedLimit;
-        private System.Windows.Forms.Label label43;
+        private MetroFramework.Controls.MetroLabel label43;
         private System.Windows.Forms.TextBox text_PokestopFarmLimit;
-        private System.Windows.Forms.Label label42;
+        private MetroFramework.Controls.MetroLabel label42;
         private System.Windows.Forms.TextBox text_PokemonCatchLimit;
-        private System.Windows.Forms.Label label40;
+        private MetroFramework.Controls.MetroLabel label40;
         private System.Windows.Forms.TextBox text_TimeToRun;
         private System.Windows.Forms.GroupBox groupBox12;
-        private System.Windows.Forms.Label label46;
+        private MetroFramework.Controls.MetroLabel label46;
         private System.Windows.Forms.TextBox text_MinWalkSpeed;
-        private System.Windows.Forms.Label label41;
+        private MetroFramework.Controls.MetroLabel label41;
         private System.Windows.Forms.TextBox text_BreakInterval;
         private System.Windows.Forms.TextBox text_BreakLength;
-        private System.Windows.Forms.Label label32;
-        private System.Windows.Forms.TabPage tabThrows;
+        private MetroFramework.Controls.MetroLabel label32;
+        private MetroFramework.Controls.MetroTabPage tabThrows;
         private System.Windows.Forms.GroupBox groupBox16;
-        private System.Windows.Forms.Label label51;
-        private System.Windows.Forms.Label label50;
-        private System.Windows.Forms.Label label49;
-        private System.Windows.Forms.Label label48;
+        private MetroFramework.Controls.MetroLabel label51;
+        private MetroFramework.Controls.MetroLabel label50;
+        private MetroFramework.Controls.MetroLabel label49;
+        private MetroFramework.Controls.MetroLabel label48;
         private System.Windows.Forms.TextBox text_Pb_Ordinary;
         private System.Windows.Forms.TextBox text_Pb_Nice;
         private System.Windows.Forms.TextBox text_Pb_Great;
@@ -3573,90 +3568,90 @@ namespace PokemonGo.RocketAPI.Console
         private System.Windows.Forms.CheckBox checkbox_PWDEncryption;
         private System.Windows.Forms.CheckBox checkbox_checkWhileRunning;
         private System.Windows.Forms.CheckBox checkbox_LogEggs;
-        private System.Windows.Forms.Label label60;
-        private System.Windows.Forms.Label label59;
-        private System.Windows.Forms.Label label58;
-        private System.Windows.Forms.Label label57;
-        private System.Windows.Forms.Label label21;
+        private MetroFramework.Controls.MetroLabel label60;
+        private MetroFramework.Controls.MetroLabel label59;
+        private MetroFramework.Controls.MetroLabel label58;
+        private MetroFramework.Controls.MetroLabel label57;
+        private MetroFramework.Controls.MetroLabel label21;
         private System.Windows.Forms.ComboBox Profileselect;
         private System.Windows.Forms.GroupBox groupBox17;
-        private System.Windows.Forms.Label label61;
-        private System.Windows.Forms.Label label62;
+        private MetroFramework.Controls.MetroLabel label61;
+        private MetroFramework.Controls.MetroLabel label62;
         private System.Windows.Forms.TextBox text_Telegram_LiveStatsDelay;
         private System.Windows.Forms.TextBox text_Telegram_Name;
-        private System.Windows.Forms.Label label63;
+        private MetroFramework.Controls.MetroLabel label63;
         private System.Windows.Forms.TextBox text_Telegram_Token;
-        private System.Windows.Forms.Label label64;
+        private MetroFramework.Controls.MetroLabel label64;
         private System.Windows.Forms.GroupBox groupBox8;
         private System.Windows.Forms.CheckBox checkBox7;
         private System.Windows.Forms.CheckBox checkBox3;
         private System.Windows.Forms.CheckBox checkBox2;
-        private System.Windows.Forms.Label label22;
-        private System.Windows.Forms.Label label52;
-        private System.Windows.Forms.Label label24;
-        private System.Windows.Forms.Label label23;
+        private MetroFramework.Controls.MetroLabel label22;
+        private MetroFramework.Controls.MetroLabel label52;
+        private MetroFramework.Controls.MetroLabel label24;
+        private MetroFramework.Controls.MetroLabel label23;
         private System.Windows.Forms.NumericUpDown numericUpDown1;
         private System.Windows.Forms.NumericUpDown numericUpDown4;
         private System.Windows.Forms.NumericUpDown numericUpDown3;
         private System.Windows.Forms.NumericUpDown numericUpDown2;
-        private System.Windows.Forms.Label label53;
+        private MetroFramework.Controls.MetroLabel label53;
         private System.Windows.Forms.BindingSource settingsBindingSource;
-        private System.Windows.Forms.Label label26;
+        private MetroFramework.Controls.MetroLabel label26;
         private System.Windows.Forms.TextBox ProfileName;
         private System.Windows.Forms.GroupBox groupBox18;
         private System.Windows.Forms.TextBox text_MoveRadius;
-        private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.Label label7;
+        private MetroFramework.Controls.MetroLabel label9;
+        private MetroFramework.Controls.MetroLabel label7;
         private System.Windows.Forms.TextBox text_Speed;
         private System.Windows.Forms.CheckBox checkBox_Start_Walk_from_default_location;
         private System.Windows.Forms.CheckBox checkBox1;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.CheckBox checkBox_UseRazzberryIfChanceUnder;
-        private System.Windows.Forms.Label label33;
+        private MetroFramework.Controls.MetroLabel label33;
         private System.Windows.Forms.TextBox text_UseRazzberryChance;
         private System.Windows.Forms.CheckBox checkBox_StopWalkingWhenEvolving;
         private System.Windows.Forms.GroupBox groupBox19;
         private System.Windows.Forms.TextBox UltraBallMinCP;
         private System.Windows.Forms.TextBox GreatBallMinCP;
-        private System.Windows.Forms.Label label56;
-        private System.Windows.Forms.Label label65;
+        private MetroFramework.Controls.MetroLabel label56;
+        private MetroFramework.Controls.MetroLabel label65;
         private System.Windows.Forms.CheckBox SnipePokemonPokeCom;
         private System.Windows.Forms.TextBox MinCPtoCatch;
-        private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.TabPage tabCredits;
+        private MetroFramework.Controls.MetroLabel label8;
+        private MetroFramework.Controls.MetroTabPage tabCredits;
         private System.Windows.Forms.LinkLabel linkLabel7;
         private System.Windows.Forms.LinkLabel linkLabel4;
         private System.Windows.Forms.LinkLabel linkLabel3;
         private System.Windows.Forms.LinkLabel linkLabel1;
         private System.Windows.Forms.LinkLabel linkLabel8;
         private System.Windows.Forms.GroupBox groupBox9;
-        private System.Windows.Forms.Label newVer;
-        private System.Windows.Forms.Label currVer;
-        private System.Windows.Forms.Label newText;
-        private System.Windows.Forms.Label currText;
+        private MetroFramework.Controls.MetroLabel newVer;
+        private MetroFramework.Controls.MetroLabel currVer;
+        private MetroFramework.Controls.MetroLabel newText;
+        private MetroFramework.Controls.MetroLabel currText;
         private System.Windows.Forms.GroupBox groupBox20;
         private System.Windows.Forms.LinkLabel linkLabel2;
         private System.Windows.Forms.LinkLabel linkLabel9;
         private System.Windows.Forms.LinkLabel linkLabel10;
         private System.Windows.Forms.GroupBox groupBox21;
-        private System.Windows.Forms.Label ver;
-        private System.Windows.Forms.Label label38;
-        private System.Windows.Forms.Label label10;
+        private MetroFramework.Controls.MetroLabel ver;
+        private MetroFramework.Controls.MetroLabel label38;
+        private MetroFramework.Controls.MetroLabel label10;
         private System.Windows.Forms.GroupBox groupBox22;
         private System.Windows.Forms.LinkLabel linkLabel13;
         private System.Windows.Forms.LinkLabel linkLabel12;
         private System.Windows.Forms.LinkLabel linkLabel11;
         private System.Windows.Forms.TextBox MinIVtoCatch;
-        private System.Windows.Forms.Label label54;
+        private MetroFramework.Controls.MetroLabel label54;
         private System.Windows.Forms.CheckBox AvoidRegionLock;
         private System.Windows.Forms.PictureBox pictureBox3;
         private System.Windows.Forms.GroupBox groupBox23;
         private System.Windows.Forms.CheckBox SelectallNottoSnipe;
         private System.Windows.Forms.CheckedListBox checkedListBox_NotToSnipe;
-        private System.Windows.Forms.Label label55;
+        private MetroFramework.Controls.MetroLabel label55;
         private System.Windows.Forms.CheckBox CB_SimulatePGO;
         private System.Windows.Forms.CheckBox NextBestBallOnEscape;
-        private System.Windows.Forms.TabPage tabEggs;
+        private MetroFramework.Controls.MetroTabPage tabEggs;
         private System.Windows.Forms.GroupBox groupBox24;
         private System.Windows.Forms.GroupBox groupBox_EggOptions;
         private System.Windows.Forms.CheckBox checkBox_AutoIncubate;
@@ -3678,23 +3673,24 @@ namespace PokemonGo.RocketAPI.Console
         private System.Windows.Forms.CheckBox checkBox_5kmEggsBasicInc;
         private System.Windows.Forms.CheckBox checkBox_2kmEggsBasicInc;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.Label label66;
+        private MetroFramework.Controls.MetroLabel label66;
         private System.Windows.Forms.TextBox pFHashKey;
         private System.Windows.Forms.LinkLabel linkLabel14;
         private System.Windows.Forms.GroupBox groupBox29;
-        private System.Windows.Forms.Label label70;
+        private MetroFramework.Controls.MetroLabel label70;
         private System.Windows.Forms.LinkLabel linkLabel15;
-        private System.Windows.Forms.Label label71;
+        private MetroFramework.Controls.MetroLabel label71;
         private System.Windows.Forms.LinkLabel linkLabel16;
-        private System.Windows.Forms.Label label69;
+        private MetroFramework.Controls.MetroLabel label69;
         private System.Windows.Forms.LinkLabel linkLabel17;
         private System.Windows.Forms.CheckBox checkBox_FarmGyms;
         private System.Windows.Forms.Button button_Information;
         private System.Windows.Forms.CheckBox checkBox_CollectDailyBonus;
         private System.Windows.Forms.CheckBox checkBox_ConsoleInTab;
         private System.Windows.Forms.Button buttonTutorial;
-        private System.Windows.Forms.Label labelPrxUser;
+        private MetroFramework.Controls.MetroLabel labelPrxUser;
         private System.Windows.Forms.TextBox text_MaxHyperPotions;
+        private MetroFramework.Controls.MetroTabControl tabControl1;
         //private System.Windows.Forms.CheckBox checkBox_CatchLurePokemons;
     }
 }
