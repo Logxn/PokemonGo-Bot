@@ -106,7 +106,6 @@ namespace PokemonGo.RocketAPI.Console
             }
 
             // Checking if current BOT API implementation supports NIANTIC current API (unless there's an override command line switch)
-            GlobalSettings.BypassCheckCompatibilityVersion = true; // Remeber delete it <---- Xelwon
             if (!GlobalSettings.BypassCheckCompatibilityVersion)
             {
                 var NianticAPIVersion = new CurrentAPIVersion().GetCurrentAPIVersion();
