@@ -9,6 +9,9 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using PokemonGo.RocketAPI.Helpers;
+using PokemonGo.RocketAPI.HttpClient;
+using PokemonGo.RocketAPI.Shared;
 
 namespace PokemonGo.RocketAPI.Hash
 {
