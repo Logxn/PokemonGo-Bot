@@ -155,6 +155,7 @@
     <Compile Include="Helpers\CommonRequest.cs" />
     <Compile Include="Helpers\Crypt.cs" />
     <Compile Include="Helpers\DeviceInfoHelper.cs" />
+    <Compile Include="Helpers\DeviceSetup.cs" />
     <Compile Include="Helpers\EncryptionHelper.cs" />
     <Compile Include="Helpers\HashBuilder.cs" />
     <Compile Include="Helpers\ICrypt.cs" />
