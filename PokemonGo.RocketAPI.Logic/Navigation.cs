@@ -7,24 +7,24 @@ using POGOProtos.Networking.Responses;
 using PokemonGo.RocketAPI.Helpers;
 using PokemonGo.RocketAPI.Logic.Utils;
 using POGOProtos.Enums;
+using PokemonGo.RocketAPI.Logic.Shared;
 
 namespace PokemonGo.RocketAPI.Logic
 {
     public class Navigation
     {
-        public Navigation(Client client)
+        public Navigation(Client client, ISettings settings)
         {
             _client = client;
-            _clientSettings = client.Settings;
+            _botSettings = settings;
         }
 
-        public bool pauseWalking = false;        
 
         private static readonly Random RandomDevice = new Random();
 
         private const double SpeedDownTo = 10 / 3.6;
         private readonly Client _client;
-        public readonly ISettings _clientSettings;
+        public readonly ISettings _botSettings;
 
         public static double DistanceBetween2Coordinates(double Lat1, double Lng1, double Lat2, double Lng2)
         {
@@ -88,7 +88,7 @@ namespace PokemonGo.RocketAPI.Logic
                 waypoint = LocationUtils.CreateWaypoint(sourceLocation, nextWaypointDistance, nextWaypointBearing);
                 requestSendDateTime = DateTime.Now;                
                 
-                if (pauseWalking)
+                if (_botSettings.PauseTheWalking)
                 {
                     result =
                        _client.Player.UpdatePlayerLocation(_client.CurrentLatitude, _client.CurrentLongitude,
@@ -109,14 +109,14 @@ namespace PokemonGo.RocketAPI.Logic
                     }
                 }
 
-                if (functionExecutedWhileWalking != null && !pauseWalking)
+                if (functionExecutedWhileWalking != null && !_botSettings.PauseTheWalking)
                 {
                      functionExecutedWhileWalking();// look for pokemon 
                 }
                 
-                if (_clientSettings.ForceSnipe){
-                    Logic.Instance.sniperLogic.Execute((PokemonId) _clientSettings.ManualSnipePokemonID,_clientSettings.ManualSnipePokemonLocation);
-                    _clientSettings.ForceSnipe = false;
+                if (GlobalSettings.SnipeOpts.Enabled){
+                    Logic.Instance.sniperLogic.Execute((PokemonId) GlobalSettings.SnipeOpts.ID,GlobalSettings.SnipeOpts.Location);
+                    //_botSettings.SnipeOpts.Enabled = false;
                 }
 
                 RandomHelper.RandomSleep(500, 600);
@@ -299,7 +299,7 @@ namespace PokemonGo.RocketAPI.Logic
                 return 0;
             }
 
-            if (_client.Settings.navigation_option == 1)
+            if (_botSettings.navigation_option == 1)
             {
                 return Convert.ToInt32((_chromosome.Count * 10000) / time);
             }

@@ -14,6 +14,7 @@ using POGOProtos.Inventory.Item;
 using System.Threading.Tasks;
 using POGOProtos.Networking.Responses;
 using PokemonGo.RocketAPI.Helpers;
+using PokemonGo.RocketAPI.Logic.Shared;
 	
 namespace PokemonGo.RocketAPI.Console
 {
@@ -42,20 +43,20 @@ namespace PokemonGo.RocketAPI.Console
         {
             try
             {
-                num_MaxPokeballs.Value = Globals.pokeball;
-                num_MaxGreatBalls.Value = Globals.greatball;
-                num_MaxUltraBalls.Value = Globals.ultraball;
-                num_MaxRevives.Value = Globals.revive;
-                num_MaxPotions.Value = Globals.potion;
-                num_MaxSuperPotions.Value = Globals.superpotion;
-                num_MaxHyperPotions.Value = Globals.hyperpotion;
-                num_MaxRazzBerrys.Value = Globals.berry;
-                num_MaxTopRevives.Value = Globals.toprevive;
-                num_MaxTopPotions.Value = Globals.toppotion;
+                num_MaxPokeballs.Value = GlobalSettings.pokeball;
+                num_MaxGreatBalls.Value = GlobalSettings.greatball;
+                num_MaxUltraBalls.Value = GlobalSettings.ultraball;
+                num_MaxRevives.Value = GlobalSettings.revive;
+                num_MaxPotions.Value = GlobalSettings.potion;
+                num_MaxSuperPotions.Value = GlobalSettings.superpotion;
+                num_MaxHyperPotions.Value = GlobalSettings.hyperpotion;
+                num_MaxRazzBerrys.Value = GlobalSettings.berry;
+                num_MaxTopRevives.Value = GlobalSettings.toprevive;
+                num_MaxTopPotions.Value = GlobalSettings.toppotion;
                 int count = 0;
-                count += Globals.pokeball + Globals.greatball + Globals.ultraball + Globals.revive
-                    + Globals.potion + Globals.superpotion + Globals.hyperpotion + Globals.berry
-                    + Globals.toprevive + Globals.toppotion;
+                count += GlobalSettings.pokeball + GlobalSettings.greatball + GlobalSettings.ultraball + GlobalSettings.revive
+                    + GlobalSettings.potion + GlobalSettings.superpotion + GlobalSettings.hyperpotion + GlobalSettings.berry
+                    + GlobalSettings.toprevive + GlobalSettings.toppotion;
                 text_TotalItemCount.Text = count.ToString();
 
                 var client = Logic.Logic.objClient;
@@ -189,41 +190,41 @@ namespace PokemonGo.RocketAPI.Console
                 //Logger.ColoredConsoleWrite(ConsoleColor.DarkGray, "==========End Recycle Filter Debug Logging=============");
                 switch (numB.Name) {
         			case "num_MaxPokeballs":
-        				Globals.pokeball = value;
+        				GlobalSettings.pokeball = value;
         			break;
         			case "num_MaxGreatBalls":
-        				Globals.greatball = value;
+        				GlobalSettings.greatball = value;
         			break;
         			case "num_MaxUltraBalls":
-        				Globals.ultraball = value;
+        				GlobalSettings.ultraball = value;
         			break;
         			case "num_MaxRevives":
-        				Globals.revive = value;
+        				GlobalSettings.revive = value;
         			break;
         			case "num_MaxPotions":
-        				Globals.potion = value;
+        				GlobalSettings.potion = value;
         			break;
         			case "num_MaxSuperPotions":
-        				Globals.superpotion = value;
+        				GlobalSettings.superpotion = value;
         			break;
         			case "num_MaxHyperPotions":
-        				Globals.hyperpotion = value;
+        				GlobalSettings.hyperpotion = value;
         			break;
         			case "num_MaxTopRevives":
-        				Globals.toprevive = value;
+        				GlobalSettings.toprevive = value;
         			break;
         			case "num_MaxTopPotions":
-        				Globals.toppotion = value;
+        				GlobalSettings.toppotion = value;
         			break;
         			case "num_MaxRazzBerrys":        		
-        				Globals.berry = value;
+        				GlobalSettings.berry = value;
         			break;
         				
         		}        
         		 int count = 0;
-		            count += Globals.pokeball + Globals.greatball + Globals.ultraball + Globals.revive
-		                + Globals.potion + Globals.superpotion + Globals.hyperpotion + Globals.berry 
-		                + Globals.toprevive + Globals.toppotion;
+		            count += GlobalSettings.pokeball + GlobalSettings.greatball + GlobalSettings.ultraball + GlobalSettings.revive
+		                + GlobalSettings.potion + GlobalSettings.superpotion + GlobalSettings.hyperpotion + GlobalSettings.berry 
+		                + GlobalSettings.toprevive + GlobalSettings.toppotion;
 		         text_TotalItemCount.Text = count.ToString();
         	}catch (Exception e1){
         		Logger.ExceptionInfo(e1.ToString());
@@ -246,7 +247,7 @@ namespace PokemonGo.RocketAPI.Console
         private async Task RecycleItems(bool forcerefresh = false)
         {            
             var client = Logic.Logic.objClient;
-            var items = await client.Inventory.GetItemsToRecycle(new Settings()).ConfigureAwait(false);
+            var items = await client.Inventory.GetItemsToRecycle(Logic.Logic.Instance.BotSettings.itemRecycleFilter).ConfigureAwait(false);
             foreach (var item in items)
             {
                 var transfer = await client.Inventory.RecycleItem((ItemId)item.ItemId, item.Count).ConfigureAwait(false);
@@ -274,15 +275,15 @@ namespace PokemonGo.RocketAPI.Console
             {
                 if (item.ItemId == ItemId.ItemIncenseOrdinary)
                 {
-                    Globals.UseIncenseGUIClick = true;
+                    GlobalSettings.UseIncenseGUIClick = true;
                 }
                 if (item.ItemId == ItemId.ItemLuckyEgg)
                 {
-                    Globals.UseLuckyEggGUIClick = true;
+                    GlobalSettings.UseLuckyEggGUIClick = true;
                 }
                 if (item.ItemId == ItemId.ItemTroyDisk)
                 {
-                    Globals.UseLureGUIClick = true;
+                    GlobalSettings.UseLureGUIClick = true;
                     Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Lure will be used on next pokestop", LogLevel.Info);
                 }
             

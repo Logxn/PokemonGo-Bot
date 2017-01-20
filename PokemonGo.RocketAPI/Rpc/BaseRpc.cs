@@ -24,7 +24,7 @@ namespace PokemonGo.RocketAPI.Rpc
         protected RequestBuilder GetRequestBuilder()
         {
             return new RequestBuilder(Client, Client.AuthToken, Client.AuthType, Client.CurrentLatitude, Client.CurrentLongitude,
-                    Client.CurrentAltitude, Client.Settings, Client.AuthTicket);
+                    Client.CurrentAltitude, Client.AuthTicket);
         }
 
         protected async Task<TResponsePayload> PostProtoPayload<TRequest, TResponsePayload>(RequestType type,
@@ -32,9 +32,8 @@ namespace PokemonGo.RocketAPI.Rpc
             where TResponsePayload : IMessage<TResponsePayload>, new()
         {
             var requestEnvelops = await GetRequestBuilder().GetRequestEnvelope(type, message).ConfigureAwait(false);
-            //var requestEnvelops = GetRequestBuilder().GetRequestEnvelope(type, message);
 
-            if (Client.Settings.EnableVerboseLogging) Logger.ColoredConsoleWrite(ConsoleColor.Blue, "Calling Request: " + type, LogLevel.Debug);
+            Logger.ColoredConsoleWrite(ConsoleColor.Blue, "Calling Request: " + type, LogLevel.Debug);
 
             return
                 await

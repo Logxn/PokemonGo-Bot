@@ -22,6 +22,7 @@ using PokemonGo.RocketAPI.Helpers;
 using PokemonGo.RocketAPI.Logic.Translation;
 using PokemonGo.RocketAPI.Rpc;
 using POGOProtos.Data;
+using PokemonGo.RocketAPI.Logic.Shared;
 
 namespace PokemonGo.RocketAPI.Logic.Utils
 {
@@ -104,7 +105,7 @@ namespace PokemonGo.RocketAPI.Logic.Utils
         private Inventory _inventory;
 
         private Telegram.Bot.TelegramBotClient _telegram;
-        private readonly ISettings _clientSettings;
+        private readonly ISettings _botSettings;
 
         private long _chatid = -1;
         private bool _livestats = false;
@@ -156,7 +157,7 @@ namespace PokemonGo.RocketAPI.Logic.Utils
             instance = this;
             _client = client;
             _telegram = telegram;
-            _clientSettings = settings;
+            _botSettings = settings;
             _inventory = inv;
 
             Array values = Enum.GetValues(typeof(TelegramUtilInformationTopics));
@@ -258,7 +259,7 @@ namespace PokemonGo.RocketAPI.Logic.Utils
             try
             {
                 Logger.ColoredConsoleWrite(ConsoleColor.Red, "[TelegramAPI] Got Request from " + message.From.Username + " | " + message.Text);
-                string username = _clientSettings.TelegramName;
+                string username = _botSettings.TelegramName;
                 string telegramAnswer = string.Empty;
                 
                 if (username != message.From.Username)
@@ -411,7 +412,7 @@ namespace PokemonGo.RocketAPI.Logic.Utils
                         }
                         foreach (PokemonData pokemon in pokemonToEvolve)
                         {
-                            if (_clientSettings.pokemonsToEvolve.Contains(pokemon.PokemonId))
+                            if (_botSettings.pokemonsToEvolve.Contains(pokemon.PokemonId))
                             {
                                 var evolvePokemonOutProto = await _client.Inventory.EvolvePokemon((ulong)pokemon.Id).ConfigureAwait(false);
                                 if (evolvePokemonOutProto.Result == POGOProtos.Networking.Responses.EvolvePokemonResponse.Types.Result.Success)

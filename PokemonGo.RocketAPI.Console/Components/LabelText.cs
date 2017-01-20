@@ -23,7 +23,7 @@ namespace PokemonGo.RocketAPI.Console.Components
             InitializeComponent();
         }
         public string Caption { get{return label1.Text;} set{label1.Text=value;} }
-        override public string Text { get{return textBox1.Text;} set{textBox1.Text=value;} }
+        public string Value { get{return textBox1.Text;} set{textBox1.Text=value;} }
         public int SeparatorPoint { get{
                 return textBox1.Location.X;
             } set{

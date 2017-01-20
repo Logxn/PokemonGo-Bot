@@ -16,6 +16,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using PokemonGo.RocketAPI.Logic.Shared;
 
 namespace PokemonGo.RocketAPI.Console
 {
@@ -61,10 +62,19 @@ namespace PokemonGo.RocketAPI.Console
         {
 
             // Review & parse command line arguments
+            var BotVersion = new Version(Assembly.GetExecutingAssembly().GetName().Version.ToString());
 
             if (args != null && args.Length > 0)
             {
                 #region Parse Arguments
+                // First of all.
+                // We check if bot have called clicking in a pokesnimer URI: pokesniper2://PokemonName/latitude,longitude
+                if (args[0].Contains("pokesniper2"))
+                {
+                    // If yes, We create a temporary file to share with main process, and close.
+                    SharePokesniperURI(args[0]);
+                    return;
+                }
                 foreach (string arg in args)
                 {
                     if (arg.Contains(","))
@@ -77,11 +87,14 @@ namespace PokemonGo.RocketAPI.Console
                         }
                         cmdCoords = arg;
                     }
-                    if (arg.ToLower().Contains("-bypassversioncheck")) Globals.BypassCheckCompatibilityVersion = true;
+
+                    if (arg.ToLower().Contains("-bypassversioncheck"))
+                        GlobalSettings.BypassCheckCompatibilityVersion = true;
+
                     if (arg.ToLower().Contains("-help"))
                     {
                         //Show Help
-                        Logger.ColoredConsoleWriteNoDateTime(ConsoleColor.White, $"Pokemon BOT C# v{Globals.BotVersion.ToString()} help" + Environment.NewLine);
+                        Logger.ColoredConsoleWriteNoDateTime(ConsoleColor.White, $"Pokemon BOT C# v{BotVersion.ToString()} help" + Environment.NewLine);
                         Logger.ColoredConsoleWriteNoDateTime(ConsoleColor.Gray, "Use:");
                         Logger.ColoredConsoleWriteNoDateTime(ConsoleColor.Gray, "  -nogui <lat>,<long>         Console mode only, starting on the indicated Latitude & Longitude");
                         Logger.ColoredConsoleWriteNoDateTime(ConsoleColor.Gray, "  -bypassversioncheck         to NOT check BOT & API compatibility (be careful with that option)");
@@ -92,49 +105,50 @@ namespace PokemonGo.RocketAPI.Console
                 #endregion
             }
 
-            // First thing to check is if current BOT API implementation supports NIANTIC current API unless there's an override command line switch
-            if (!Globals.BypassCheckCompatibilityVersion)
+            // Checking if current BOT API implementation supports NIANTIC current API (unless there's an override command line switch)
+            if (!GlobalSettings.BypassCheckCompatibilityVersion)
             {
-                bool CurrentVersionsOK = new CurrentAPIVersion().CheckAPIVersionCompatibility(Globals.BotVersion, Globals.BotApiSupportedVersion, Globals.NianticApiVersion);
+                var NianticAPIVersion = new CurrentAPIVersion().GetCurrentAPIVersion();
+                Logger.ColoredConsoleWrite(ConsoleColor.DarkMagenta, $"Bot Current version: {BotVersion}");
+                Logger.ColoredConsoleWrite(ConsoleColor.DarkMagenta, $"Bot Supported API version: {GlobalSettings.BotApiSupportedVersion}");
+                Logger.ColoredConsoleWrite(ConsoleColor.DarkMagenta, $"Current API version: {NianticAPIVersion}");
+                bool CurrentVersionsOK = new CurrentAPIVersion().CheckAPIVersionCompatibility( GlobalSettings.BotApiSupportedVersion, new Version(NianticAPIVersion));
                 if (!CurrentVersionsOK)
                 {
+                    Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Atention, current API version is new and still not supported by Bot.");
+                    Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Bot will now exit to keep your account safe.");
+                    Logger.ColoredConsoleWrite(ConsoleColor.Red, $"---------- PRESS ANY KEY TO CLOSE ----------");
+                    System.Console.ReadKey();
                     Environment.Exit(-1);
                 }
             }
-
-            // What it does??
-            if ( args.Length > 0)
-            {
-                if (args[0].Contains("pokesniper2"))
-                {
-                    SharePokesniperURI(args[0]);
-                    return;
-                }
-            }
-
-            SleepHelper.PreventSleep();
-            CreateLogDirectories();
 
             var openGUI = false;
 
             if (args != null && args.Length > 0 && args[0].Contains("-nogui"))
             {
-                Logger.ColoredConsoleWrite(ConsoleColor.Red, "You added -nogui! If you didnt setup correctly with the GUI. It wont work.");
+                Logger.ColoredConsoleWrite(ConsoleColor.Red, "You added -nogui!");
 
-                //TODO Implement JSON Load
+                if (!GlobalSettings.Load()) {
+                    Logger.ColoredConsoleWrite(ConsoleColor.Red, "You didn't setup correctly with the GUI.");
+                    Logger.ColoredConsoleWrite(ConsoleColor.Red, "Run it without -nogui to Configure.");
+                    Logger.ColoredConsoleWrite(ConsoleColor.Red, "Exiting..");
+                    Environment.Exit(-1);
+                }
 
-                if (Globals.usePwdEncryption)
+                if (GlobalSettings.usePwdEncryption)
                 {
-                    Globals.password = Encryption.Decrypt(Globals.password);
+                    GlobalSettings.password = Encryption.Decrypt(GlobalSettings.password);
                 }
 
                 if (cmdCoords != string.Empty)
                 {
                     string[] crdParts = cmdCoords.Split(',');
-                    Globals.latitute = double.Parse(crdParts[0].Replace(',', '.'), GUI.cords, System.Globalization.NumberFormatInfo.InvariantInfo);
-                    Globals.longitude = double.Parse(crdParts[1].Replace(',', '.'), GUI.cords, System.Globalization.NumberFormatInfo.InvariantInfo);
+                    GlobalSettings.latitute = double.Parse(crdParts[0].Replace(',', '.'), GUI.cords, System.Globalization.NumberFormatInfo.InvariantInfo);
+                    GlobalSettings.longitude = double.Parse(crdParts[1].Replace(',', '.'), GUI.cords, System.Globalization.NumberFormatInfo.InvariantInfo);
                 }
-                Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Starting at: {Globals.latitute},{Globals.longitude}");
+
+                Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Starting at: {GlobalSettings.latitute},{GlobalSettings.longitude}");
             }
             else
             {
@@ -145,26 +159,30 @@ namespace PokemonGo.RocketAPI.Console
                 {
                              new Panels.SplashScreen().ShowDialog();
                       });
-                openGUI = Globals.pokeList;
+                openGUI = GlobalSettings.pokeList;
             }
 
-            Globals.infoObservable.HandleNewHuntStats += SaveHuntStats;
+
+            SleepHelper.PreventSleep();
+            CreateLogDirectories();
+
+            GlobalSettings.infoObservable.HandleNewHuntStats += SaveHuntStats;
 
             Task.Run(() =>
             {
 
                 CheckVersion(); // Check if a new version of BOT is available
-
+                
                 try
                 {
-                    new Logic.Logic(new Settings(), Globals.infoObservable).Execute();
+                    new Logic.Logic(new Settings(), GlobalSettings.infoObservable).Execute();
                 }
                 catch (PtcOfflineException)
                 {
                     Logger.ColoredConsoleWrite(ConsoleColor.Red, "PTC Servers are probably down OR you credentials are wrong.", LogLevel.Error);
                     Logger.ColoredConsoleWrite(ConsoleColor.Red, "Trying again in 20 seconds...");
                     Thread.Sleep(20000);
-                    new Logic.Logic(new Settings(), Globals.infoObservable).Execute();
+                    new Logic.Logic(new Settings(), GlobalSettings.infoObservable).Execute();
                 }
                 catch (AccountNotVerifiedException)
                 {
@@ -177,19 +195,19 @@ namespace PokemonGo.RocketAPI.Console
                     Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Unhandled exception: {ex}", LogLevel.Error);
                     Logger.Error("Restarting in 20 Seconds.");
                     Thread.Sleep(20000);
-                    new Logic.Logic(new Settings(), Globals.infoObservable).Execute();
+                    new Logic.Logic(new Settings(), GlobalSettings.infoObservable).Execute();
                 }
             });
 
             if (openGUI)
             {
-                if (Globals.simulatedPGO)
+                if (GlobalSettings.simulatedPGO)
                 {
                     Application.Run( new GameAspectSimulator());
                 }
                 else
                 {
-                    if (Globals.consoleInTab)
+                    if (GlobalSettings.consoleInTab)
                         FreeConsole();
                     Application.Run( new Pokemons());
                 }
@@ -287,173 +305,5 @@ namespace PokemonGo.RocketAPI.Console
                 File.Create(EvolveLog).Close();
             }
         }
-    }
-
-    public static class ManualSnipePokemon
-    {
-        public static PokemonId? ID = null;
-        public static GeoCoordinate Location = null;
-        public static int secondsSnipe = 6;
-        public static int triesSnipe = 3;
-    }
-
-    public static class Globals
-    {
-        // Bot Info Globals
-        public static readonly Version BotVersion = new Version(Assembly.GetExecutingAssembly().GetName().Version.ToString());
-        public static readonly Version BotApiSupportedVersion = new Version("0.51.2");
-        public static readonly Version NianticApiVersion = new Version (new CurrentAPIVersion().GetCurrentAPIVersion());
-
-        //public static readonly bool BotDebugFlag = true;
-        //public static readonly bool BotStableFlag = false;
-
-        // Bot command line argument handle
-        public static bool BypassCheckCompatibilityVersion = false;
-
-        // Other Globals
-        public static Collection<Profile> Profiles = new Collection<Profile>();
-        public static string pFHashKey;
-        public static string ProfileName = "DefaultProfile";
-        public static bool IsDefault = false;
-        public static int RunOrder = 0;
-        public static string SettingsJSON = "";
-        public static Enums.AuthType acc = Enums.AuthType.Google;
-        public static string email = "empty";
-        public static string password = "empty";
-        public static bool defLoc = true;
-        public static bool uselastcoords = true;
-        public static double latitute = 40.764883;
-        public static double longitude = -73.972967;
-        public static double altitude = 15.173855;
-        public static double speed = 15;
-        public static int MinWalkSpeed = 5;
-        public static int radius = 5000;
-        public static bool transfer = true;
-        public static int duplicate = 3;
-        public static bool evolve = true;
-        public static int maxCp = 999;
-        public static int excellentthrow = 25;
-        public static int greatthrow = 25;
-        public static int nicethrow = 25;
-        public static int ordinarythrow = 25;
-        public static int pokeball = 100;
-        public static int greatball = 100;
-        public static int ultraball = 100;
-        public static int revive = 100;
-        public static int potion = 100;
-        public static int superpotion = 100;
-        public static int hyperpotion = 100;
-        public static int toppotion = 100;
-        public static int toprevive = 100;
-        public static int berry = 100;
-        public static int MinCPforGreatBall = 500;
-        public static int MinCPforUltraBall = 1000;
-        public static int ivmaxpercent = 0;
-        public static bool _pauseTheWalking = false;
-        private static bool _pauseAtWalking = false;
-        public static bool pauseAtWalking
-        {
-            get
-            {
-                return _pauseAtWalking;
-            }
-            set
-            {
-                if (Logic.Logic.Instance != null)
-                {
-                    Logic.Logic.Instance.PauseWalking = value;
-                    _pauseAtWalking = value;
-                }
-            }
-        }
-        public static bool LimitPokeballUse = false;
-        public static bool LimitGreatballUse = false;
-        public static bool LimitUltraballUse = false;
-        public static bool NextBestBallOnEscape = false;
-        public static int Max_Missed_throws = 3;
-        public static List<PokemonId> noTransfer;
-        public static List<PokemonId> noCatch;
-        public static List<PokemonId> doEvolve;
-        public static List<PokemonId> NotToSnipe;
-        public static string telAPI = string.Empty;
-        public static string telName = string.Empty;
-        public static int telDelay = 5000;
-        public static bool pauseAtPokeStop = false;
-        public static bool farmPokestops = true;
-        public static bool CatchPokemon = true;
-        public static bool BreakAtLure = false;
-        public static bool UseAnimationTimes = true;
-        public static bool UseLureAtBreak = false;
-        public static bool UseGoogleMapsAPI = false;
-        public static string GoogleMapsAPIKey;
-        public static bool RandomReduceSpeed = false;
-        public static bool UseBreakFields = false;
-        public static double TimeToRun;
-        public static int PokemonCatchLimit = 1000;
-        public static int PokestopFarmLimit = 2000;
-        public static int XPFarmedLimit = 150000;
-        public static int BreakInterval = 0;
-        public static int BreakLength = 0;
-        public static int navigation_option = 1;
-        public static bool useluckyegg = true;
-        public static bool useincense = true;
-        public static bool userazzberry = true;
-        public static double razzberry_chance = 0.35;
-        public static bool pokeList = true;
-        public static bool consoleInTab = false;
-        public static bool keepPokemonsThatCanEvolve = true;
-        public static bool TransferFirstLowIV = true;
-        public static bool pokevision = false;
-        public static bool useLuckyEggIfNotRunning = false;
-        public static bool autoIncubate = true;
-        public static bool useBasicIncubators = false;
-        public static bool sleepatpokemons = true;
-        public static string settingsLanguage = "en";
-        public static Logic.LogicInfoObservable infoObservable = new Logic.LogicInfoObservable();
-        public static bool Espiral = false;
-        public static bool MapLoaded = false;
-        public static bool logPokemons = false;
-        public static LinkedList<GeoCoordinate> NextDestinationOverride = new LinkedList<GeoCoordinate>();
-        public static LinkedList<GeoCoordinate> RouteToRepeat = new LinkedList<GeoCoordinate>();
-        public static bool RepeatUserRoute = false;
-        public static bool logManualTransfer = false;
-        public static bool UseLureGUIClick = false;
-        public static bool UseLuckyEggGUIClick = false;
-        public static bool UseIncenseGUIClick = false;
-        public static bool RelocateDefaultLocation = false;
-        public static double RelocateDefaultLocationTravelSpeed = 0;
-        public static bool bLogEvolve = false;
-        public static bool LogEggs = false;
-        public static bool pauseAtEvolve = false;
-        public static bool pauseAtEvolve2 = false;
-        public static bool AutoUpdate = false;
-        public static bool usePwdEncryption = false;
-        public static bool CheckWhileRunning = false;
-        internal static int InventoryBasePokeball = 10;
-        internal static int InventoryBaseGreatball = 10;
-        internal static int InventoryBaseUltraball = 10;
-        internal static bool SnipePokemon;
-        internal static bool FirstLoad;
-        public static int MinCPtoCatch = 0;
-        public static int MinIVtoCatch = 0;
-        public static bool AvoidRegionLock = true;
-        public static bool ForceSnipe = false;
-        public static bool simulatedPGO = false;
-        public static ByteString SessionHash;
-
-        public static bool No2kmEggs = false;
-        public static bool No5kmEggs = false;
-        public static bool No10kmEggs = false;
-        public static bool EggsAscendingSelection = true;
-
-        public static bool No2kmEggsBasicInc = false;
-        public static bool No5kmEggsBasicInc = false;
-        public static bool No10kmEggsBasicInc = false;
-        public static bool EggsAscendingSelectionBasicInc = false;
-
-        public static bool EnableVerboseLogging = false;
-
-        public static bool farmGyms;
-        public static bool CollectDailyBonus;
     }
 }

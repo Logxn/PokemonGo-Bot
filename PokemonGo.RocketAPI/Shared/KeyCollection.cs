@@ -58,12 +58,13 @@ namespace PokemonGo.RocketAPI.Shared
             if (keys != null){
                 var tmp = new Queue();
                 foreach (var element in keys) {
-                    if (!((string)element).Equals(str))
+                    var str1 = (string)element;
+                    if (!str1.Equals(str)){
                         tmp.Enqueue(element);
+                    }
                 }
                 keys = tmp;
             }
         }
-        
     }
 }

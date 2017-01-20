@@ -174,6 +174,10 @@
     <Compile Include="GUI.Designer.cs">
       <DependentUpon>GUI.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUIAvatar.cs" />
+    <Compile Include="GUIAvatar.Designer.cs">
+      <DependentUpon>GUIAvatar.cs</DependentUpon>
+    </Compile>
     <Compile Include="Helper\SleepHelper.cs" />
     <Compile Include="IncubatorSelect.cs">
       <SubType>Form</SubType>
@@ -298,11 +302,6 @@
     <Compile Include="Update.Designer.cs">
       <DependentUpon>Update.cs</DependentUpon>
     </Compile>
-    <Compile Include="UserSettings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-      <DependentUpon>UserSettings.settings</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Components\LabelCombo.resx">
@@ -313,6 +312,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GameAspectSimulator.resx">
       <DependentUpon>GameAspectSimulator.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUIAvatar.resx">
+      <DependentUpon>GUIAvatar.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="IncubatorSelect.resx">
       <DependentUpon>IncubatorSelect.cs</DependentUpon>
@@ -383,10 +385,6 @@
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
-    <None Include="UserSettings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>UserSettings.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -471,8 +469,6 @@
     <None Include="Resources\ru.gif" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="bin\Release\" />
-    <Folder Include="Properties\DataSources\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\error-sprite.png" />
@@ -631,9 +627,7 @@
     <None Include="Resources\149-200.png" />
     <None Include="Resources\150-200.png" />
     <None Include="Resources\151-200.png" />
-    <None Include="Resources\12281693746.gif" />
     <Content Include="Resources\boy.png" />
-    <None Include="Resources\combo_by_rootofitall-d8ulo4t.gif" />
     <None Include="Resources\giphy %281%29.gif" />
     <Content Include="Resources\girl.png" />
     <Content Include="Resources\instinct.png" />
@@ -643,7 +637,6 @@
     <None Include="Resources\team-valor.png" />
     <None Include="Resources\Trainer_F.png" />
     <None Include="Resources\Trainer_M.png" />
-    <None Include="Resources\Ninja.bmp" />
     <Content Include="Resources\valor.png" />
     <None Include="Resources\start_point.png" />
     <None Include="Resources\151-35.png" />

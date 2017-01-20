@@ -175,7 +175,6 @@
     <Compile Include="Helpers\RetryHandler.cs" />
     <Compile Include="Helpers\S2Helper.cs" />
     <Compile Include="Helpers\Utils.cs" />
-    <Compile Include="ISettings.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="Logging\ConsoleLogger.cs" />
     <Compile Include="Logging\ILogger.cs" />
@@ -199,6 +198,7 @@
     <Compile Include="Rpc\Map.cs" />
     <Compile Include="Rpc\Misc.cs" />
     <Compile Include="Rpc\Player.cs" />
+    <Compile Include="Shared\ClientSettings.cs" />
     <Compile Include="Shared\KeyCollection.cs" />
     <None Include="app.config" />
     <Compile Include="Client.cs" />

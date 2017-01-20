@@ -117,7 +117,7 @@ namespace PokemonGo.RocketAPI.Logic.Utils
 
         /*
             foreach(spottedPokeSni p in await _pokeSnipers.CapturarPokemon().ConfigureAwait(false)){ 
-                await _pokeSnipers.CapturarSniper(p, _clientSettings, _client).ConfigureAwait(false);
+                await _pokeSnipers.CapturarSniper(p, _botSettings, _client).ConfigureAwait(false);
             }
             StringUtils.CheckKillSwitch(true);
         */

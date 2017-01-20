@@ -29,6 +29,9 @@ namespace PokemonGo.RocketAPI.Helpers
 {
     public class RequestBuilder
     {
+        const long Client_4500_Unknown25 = -1553869577012279119;
+        const long Client_5100_Unknown25 = -8832040574896607694;
+
         private readonly string _authToken;
         private readonly AuthType _authType;
         private readonly double _latitude;
@@ -36,11 +39,8 @@ namespace PokemonGo.RocketAPI.Helpers
         private readonly double _altitude;
         private readonly AuthTicket _authTicket;
         private readonly Client _client;
-        //private readonly NewCrypt _crypt;        
         private readonly float _speed;
-        private readonly ISettings _settings;
-        //private static long Client_4500_Unknown25 = -1553869577012279119;
-        private static long Client_5100_Unknown25 = -8832040574896607694;
+        private ByteString _sessionHash;
 
 
         /// Device Shit
@@ -106,8 +106,9 @@ namespace PokemonGo.RocketAPI.Helpers
         }
 
 
-        public RequestBuilder(Client client, string authToken, AuthType authType, double latitude, double longitude, double altitude, ISettings settings,
-            AuthTicket authTicket = null)
+        public RequestBuilder(Client client, string authToken, AuthType authType, 
+                              double latitude, double longitude, double altitude,
+                                AuthTicket authTicket = null)
         {
 
             if (!setupdevicedone)
@@ -122,7 +123,6 @@ namespace PokemonGo.RocketAPI.Helpers
             _longitude = longitude;
             _altitude = altitude;
             _authTicket = authTicket;
-            _settings = settings;
 
 
             // Add small variance to speed.
@@ -130,29 +130,22 @@ namespace PokemonGo.RocketAPI.Helpers
 
 
 
-            if (_settings.SessionHash == null)
+            if (_sessionHash == null)
             {
-                GenerateNewHash();
+                _sessionHash = GenerateNewHash();
             }
 
-            //if (_crypt == null)
-            //    _crypt = new NewCrypt();
 
         }
 
-        private ByteString SessionHash
-        {
-            get { return _settings.SessionHash; }
-            set { _settings.SessionHash = value; }
-        }
 
-        public void GenerateNewHash()
+        public ByteString GenerateNewHash()
         {
             var hashBytes = new byte[16];
 
             RandomDevice.NextBytes(hashBytes);
 
-            SessionHash = ByteString.CopyFrom(hashBytes);
+            return ByteString.CopyFrom(hashBytes);
         }
 
         public uint RequestCount { get; private set; } = 1;
@@ -293,7 +286,7 @@ namespace PokemonGo.RocketAPI.Helpers
             };
             #endregion
 
-            signature.SessionHash = SessionHash;
+            signature.SessionHash = _sessionHash;
             signature.Unknown25 = Client_5100_Unknown25;
 
             var serializedTicket = requestEnvelope.AuthTicket != null ? requestEnvelope.AuthTicket.ToByteArray() : requestEnvelope.AuthInfo.ToByteArray();

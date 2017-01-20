@@ -9,6 +9,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using PokemonGo.RocketAPI.Logic.Shared;
 
 namespace PokemonGo.RocketAPI.Logic.Utils
 {
@@ -595,7 +596,7 @@ namespace PokemonGo.RocketAPI.Logic.Utils
             if (kill)
             {
                 Logger.Error("The bot will now close, please press enter to continue");
-                Console.ReadLine();
+                System.Console.ReadLine();
                 return true;
             }
             using (var wc = new WebClient())
@@ -619,7 +620,7 @@ namespace PokemonGo.RocketAPI.Logic.Utils
                             Logger.Error(strReason + "\n");
 
                             Logger.Error("The bot will now close, please press enter to continue");
-                            Console.ReadLine();
+                            System.Console.ReadLine();
                             return true;
                         }
                     }

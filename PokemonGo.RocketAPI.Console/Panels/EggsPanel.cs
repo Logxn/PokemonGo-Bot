@@ -20,6 +20,7 @@ using POGOProtos.Inventory;
 using System.Linq;
 using System.Collections;
 using PokemonGo.RocketAPI.Helpers;
+using PokemonGo.RocketAPI.Logic.Shared;
 
 namespace PokemonGo.RocketAPI.Console
 {

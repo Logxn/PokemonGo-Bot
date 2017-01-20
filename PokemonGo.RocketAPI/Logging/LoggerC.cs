@@ -5,21 +5,21 @@ using PokemonGo.RocketAPI;
 
 namespace PokemonGo.RocketAPI.Logging
 {
-	/// <summary>
-	/// Generic logger which can be used across the projects.
-	/// Logger should be set to properly log.
-	/// </summary>
-	
-	public static class LoggerC 
-	{
+    /// <summary>
+    /// Generic logger which can be used across the projects.
+    /// Logger should be set to properly log.
+    /// </summary>
+    
+    public static class LoggerC 
+    {
         public static string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Configs");
         public static string log = Path.Combine(path, "log.txt");
 
-		public static void Write(string message, LogLevel level = LogLevel.Info)
-		{
+        public static void Write(string message, LogLevel level = LogLevel.Info)
+        {
             Console.WriteLine($"[{level}][{DateTime.Now.ToString("HH:mm:ss")}] "+ message);
             AddLog(message);
-		}
+        }
 
         public static void ColoredConsoleWrite(ConsoleColor color, string text, LogLevel level = LogLevel.Info)
         {
@@ -78,12 +78,12 @@ namespace PokemonGo.RocketAPI.Logging
   
 
     /*public enum LogLevel
-	{
-		None = 0,
-		Error = 1,
-		Warning = 2,
-		Info = 3,
-		Debug = 4
-	}*/
-	
+    {
+        None = 0,
+        Error = 1,
+        Warning = 2,
+        Info = 3,
+        Debug = 4
+    }*/
+    
 }
