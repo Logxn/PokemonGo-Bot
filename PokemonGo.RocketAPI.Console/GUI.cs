@@ -432,6 +432,7 @@ namespace PokemonGo.RocketAPI.Console
                 }
                 catch (Exception e)
                 {
+                    Logger.ExceptionInfo("Loading Config failed:" +e.ToString());
                     MessageBox.Show("Loading Config failed - Check settings before running!");
                 }
             }

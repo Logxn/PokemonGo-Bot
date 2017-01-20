@@ -164,6 +164,9 @@ namespace PokemonGo.RocketAPI.Console
                              new Panels.SplashScreen().ShowDialog();
                       });
                 openGUI = GlobalSettings.pokeList;
+                // To open tabbed GUI to test programing 
+                /*Application.Run( new Pokemons()); 
+                Environment.Exit(0);*/
             }
 
 

@@ -19,22 +19,6 @@ namespace PokemonGo.RocketAPI.Console
     public class Settings : ISettings
     {
         /* ===================================[SETTINGS]================================= */
-/*
-        #region Bot Info & Versions
-        public Version BotVersion
-        {
-            get { return GlobalSettings.BotVersion; }
-        }
-        public Version BotApiSupportedVersion
-        {
-            get { return GlobalSettings.BotApiSupportedVersion; }
-        }
-        public Version NianticApiVersion
-        {
-            get { return GlobalSettings.NianticApiVersion; }
-        }
-        #endregion
-*/
         #region HashInfo
         public ByteString SessionHash
         {

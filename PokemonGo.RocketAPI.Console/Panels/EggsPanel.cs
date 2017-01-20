@@ -54,13 +54,11 @@ namespace PokemonGo.RocketAPI.Console
                 var client = Logic.Logic.objClient;
 	            if (client.readyToUse != false)
 	            {
-                    //var inventory = await client.Inventory.GetInventory().ConfigureAwait(false);
-                    var inventory = client.Inventory.GetInventory().Result;
-                    var items = client.Inventory.GetEggs(inventory);
+                   var inventory = client.Inventory.GetInventory().Result;
+                   var items = client.Inventory.GetEggs(inventory);
                    var incubators = client.Inventory.GetEggIncubators(inventory); 
                    var arrStats = client.Inventory.GetPlayerStats(inventory);
                    var stats = arrStats.First();
-
 	              	               	               
 	               listView.Items.Clear();
 	               
@@ -71,7 +69,6 @@ namespace PokemonGo.RocketAPI.Console
 	                listViewItem.Text = ""+item.EggKmWalkedStart;
 	                listViewItem.ImageKey = "" +(item.EggKmWalkedTarget - item.EggKmWalkedStart)+"km";
 	               	
-	               	//EggIncubator incubator = (incubators.Where(i => i.Id == item.EggIncubatorId));
 	               	EggIncubator incubator = GetIncubator( incubators, item.EggIncubatorId);
 	               	if (incubator !=null){
 		               	if (incubator.ItemId==ItemId.ItemIncubatorBasic){
@@ -113,11 +110,11 @@ namespace PokemonGo.RocketAPI.Console
 
                 Logger.Error("[EggsList-Error] " + e.StackTrace);
                 RandomHelper.RandomSleep(1000,1100);
-                Execute();
+                //Execute();
             }
-		}
-		
-		private EggIncubator GetIncubator(IEnumerable incubators, string id){
+		}		
+		private EggIncubator GetIncubator(IEnumerable incubators, string id)
+		{
 		    foreach (EggIncubator incubator in incubators) {
 				if (incubator.Id == id)
 					return incubator;
@@ -125,11 +122,13 @@ namespace PokemonGo.RocketAPI.Console
 			return null;
 		}
 		
-		private string GetPokemonName(PokemonId pokemonID){
+		private string GetPokemonName(PokemonId pokemonID)
+		{
 			return StringUtils.getPokemonNameByLanguage(ClientSettings, pokemonID);
 		}
 		
-		private string GetCreationTime(ulong ms){
+		private string GetCreationTime(ulong ms)
+		{
 			return StringUtils.ConvertTimeMSinString(ms , "dd/MM/yyyy HH:mm:ss");
 		}
 		
