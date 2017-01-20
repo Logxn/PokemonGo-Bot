@@ -175,9 +175,7 @@ namespace PokemonGo.RocketAPI.Console
                     Logger.AddLog(string.Format("Error loading checkedListBox_NotToSnipe id:{0}, pokeIDS[id]:{1}",_id,pokeIDS[_id]));
                     Logger.AddLog(e.ToString());
                 }
-                
-            }                    
-        
+            }
         }
         void btnInstall_Click(object sender, EventArgs e)
         {

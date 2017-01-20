@@ -89,7 +89,7 @@ namespace PokemonGo.RocketAPI.Console
 
                 Logger.Error("[ItemsList-Error] " + e.StackTrace);
                 RandomHelper.RandomSleep(1000,1100);
-                Execute();
+                //Execute(); 
             }
         }
 		private string getItemName(ItemId itemID)

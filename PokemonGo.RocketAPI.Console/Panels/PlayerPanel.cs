@@ -54,19 +54,14 @@ namespace PokemonGo.RocketAPI.Console
             labelUserProperty6Value.Text = "";
 
             var client = Logic.Logic.objClient;
-            if (client.readyToUse != false)
+            if (client.readyToUse)
             {
-                /*labelUserProperty1Title.Text = "Username:";  TODO: internationalize*/
-
                 if (refreshData)
                 {
-                    //profile = await client.Player.GetPlayer().ConfigureAwait(false);
                     profile = client.Player.GetPlayer().Result;
                     RandomHelper.RandomSleep(1000,1100);
-                    //var playerStats = await client.Inventory.GetPlayerStats().ConfigureAwait(false);
                     var playerStats = client.Inventory.GetPlayerStats().Result;
                     stats = playerStats.First();
-                
                 }
                 updatePlayerImages();
                 updatePlayerInfoLabels();
@@ -88,27 +83,24 @@ namespace PokemonGo.RocketAPI.Console
         /// <returns></returns>
         private Image getImageForTeam(TeamColor team)
         {
+            Image img = null;
             switch (team)
             {
-                case TeamColor.Neutral:
-                    return null;
-                    break;
                 case TeamColor.Blue:
-                    return Properties.Resources.team_mystic;
+                    img = Properties.Resources.team_mystic;
                     break;
                 case TeamColor.Red:
-                    return Properties.Resources.team_valor;
+                    img = Properties.Resources.team_valor;
                     break;
                 case TeamColor.Yellow:
-                    return Properties.Resources.team_instinct;
-                    break;
-                default:
-                    return null;
+                    img = Properties.Resources.team_instinct;
                     break;
             }
+            return img;
         }
         private void updatePlayerImages()
         {
+            this.Enabled = false;
             if (profile == null)
                 return;
 
@@ -120,7 +112,6 @@ namespace PokemonGo.RocketAPI.Console
             {
                 pictureBoxTeam.Image = getImageForTeam(profile.PlayerData.Team);
             }
-            pictureBoxTeam.Refresh();
 
             pictureBoxPlayerAvatar.Parent = pictureBoxTeam;
             pictureBoxPlayerAvatar.BackColor = Color.Transparent;
@@ -137,13 +128,13 @@ namespace PokemonGo.RocketAPI.Console
             var playerLocation = new Point(0, pictureBoxTeam.Height - pictureBoxPlayerAvatar.Height);
             pictureBoxPlayerAvatar.Location = playerLocation;
             pictureBoxPlayerAvatar.SizeMode = PictureBoxSizeMode.Zoom;
-            pictureBoxPlayerAvatar.Refresh();
 
             pictureBoxBuddyPokemon.Parent = pictureBoxPlayerAvatar;
             pictureBoxBuddyPokemon.BackColor = Color.Transparent;
             var buddyLocation = new Point(45, pictureBoxPlayerAvatar.Height - pictureBoxBuddyPokemon.Height + 15);
             pictureBoxBuddyPokemon.Image = getImageForBuddy(profile.PlayerData.BuddyPokemon);
             pictureBoxBuddyPokemon.Location = buddyLocation;
+            this.Enabled = true;
         }
 
         private void updatePlayerInfoLabels()

@@ -1,13 +1,8 @@
-using POGOProtos.Data;
-using POGOProtos.Networking.Responses;
-using PokemonGo.RocketAPI.Console.PokeData;
 using System;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Collections.Generic;
 using System.Device.Location;
+using POGOProtos.Networking.Responses;
 using PokemonGo.RocketAPI.Helpers;
 using PokemonGo.RocketAPI.Logic.Shared;
 
@@ -17,8 +12,6 @@ namespace PokemonGo.RocketAPI.Console
     {
         private static GetPlayerResponse profile;
         private static POGOProtos.Data.Player.PlayerStats stats;
-        public static ISettings ClientSettings;
-        public bool waitingApiResponse = false;
 
         public class taskResponse
         {
@@ -35,11 +28,11 @@ namespace PokemonGo.RocketAPI.Console
         public Pokemons()
         {
             InitializeComponent();
-            if (GlobalSettings.consoleInTab){
+            if (GlobalSettings.consoleInTab)
+            {
                 this.TabControl1.Controls.Add(this.tpConsole);
                 Logger.type = 1;
             }
-            ClientSettings = new Settings();
             changesPanel1.Execute();
             webPanel1.AddButtonClick(new System.EventHandler(this.HideWebPanel));
             sniperPanel1.AddLinkClick(0,new System.EventHandler(this.AddLink));
@@ -50,7 +43,7 @@ namespace PokemonGo.RocketAPI.Console
 
         private void Pokemons_Load(object sender, EventArgs e)
         {
-            GlobalSettings.pauseAtPokeStop = false;
+            //GlobalSettings.pauseAtPokeStop = false;
             locationPanel1.Init(true, 0, 0, 0);
             Execute();
             sniperPanel1.Execute();
@@ -66,36 +59,20 @@ namespace PokemonGo.RocketAPI.Console
             }
         }
 
-        public void waitToBeReady()
-        {
-            while (true)
-            {
-                try
-                {
-                    if (Logic.Logic.objClient != null && Logic.Logic.objClient.readyToUse != false)
-                    {
-                        break;
-                    }
-                }
-                catch (Exception) { }
-            }
-        }
-
         private void Execute()
         {
-            TabControl1.Enabled = false;
-            waitToBeReady();
-
             try
             {
+                TabControl1.Enabled = false;
                 var client = Logic.Logic.objClient;
                 if (client.readyToUse != false)
                 {
                     profile = client.Player.GetPlayer().Result;
                     RandomHelper.RandomSleep(1000,1100); // Pause to simulate human speed.
                     Text = "User: " + profile.PlayerData.Username;
-                    var arrStats = client.Inventory.GetPlayerStats().Result;
-                    stats = arrStats.First();
+                    var arrStats = client.Inventory.GetPlayerStats().Result.GetEnumerator();
+                    arrStats.MoveNext();
+                    stats = arrStats.Current;
                     locationPanel1.CreateBotMarker((int)profile.PlayerData.Team, stats.Level, stats.Experience);
                     playerPanel1.setProfile(profile);
                     pokemonsPanel1.profile = profile;
@@ -106,7 +83,7 @@ namespace PokemonGo.RocketAPI.Console
             {
                 Logger.Error("[PokemonList-Error] " + e.StackTrace);
                 RandomHelper.RandomSleep(1000,1100);  // Lets the API make a little pause, so we dont get blocked
-                Execute();
+                //Execute();
             }
         }
 
@@ -147,11 +124,6 @@ namespace PokemonGo.RocketAPI.Console
 
         private void ChangeTabs(object sender, EventArgs e)
         {
-            while (waitingApiResponse)
-            {
-                RandomHelper.RandomSleep(1000,1100);
-            }
-            waitingApiResponse = true;
             TabPage current = (sender as TabControl).SelectedTab;
             switch (current.Name)
             {
@@ -168,21 +140,23 @@ namespace PokemonGo.RocketAPI.Console
                     playerPanel1.Execute();
                     break;
             }
-            waitingApiResponse = false;
         }
-        public void ShowInWebPanel( string weburl){
+        public void ShowInWebPanel( string weburl)
+        {
         	if (!TabControl1.Contains(tpWeb))
         	{
         		TabControl1.Controls.Add(tpWeb);
         	}
         }
-        public void HideWebPanel(object sender, EventArgs e){
+        public void HideWebPanel(object sender, EventArgs e)
+        {
         	if (TabControl1.Contains(tpWeb))
         	{
         		TabControl1.Controls.Remove(tpWeb);
         	}        	
         }
-        public void AddLink(object sender, EventArgs e){
+        public void AddLink(object sender, EventArgs e)
+        {
         	var lbl = (LinkLabel ) sender;
         	webPanel1.ChangeURL(lbl.Tag.ToString());
         }

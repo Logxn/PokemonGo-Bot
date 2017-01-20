@@ -91,7 +91,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Settings.cs" />
     <Compile Include="Shared\AvatarSettings.cs" />
     <Compile Include="Shared\GlobalSettings.cs" />
     <Compile Include="Shared\ProfileSettings.cs" />
