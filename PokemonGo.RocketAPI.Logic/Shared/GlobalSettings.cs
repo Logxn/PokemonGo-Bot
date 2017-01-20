@@ -25,7 +25,8 @@ namespace PokemonGo.RocketAPI.Logic.Shared
     public static class GlobalSettings
     {
         // Bot Info  Globals (not yet implemented in any function)
-        public static Version BotApiSupportedVersion = new Version("0.51.2");
+        //public static Version BotApiSupportedVersion = new Version("0.51.2");
+        public static Version BotApiSupportedVersion = new Version("0.53.0");
         public static readonly bool BotDebugFlag = true;
         public static readonly bool BotStableFlag = false;
 
