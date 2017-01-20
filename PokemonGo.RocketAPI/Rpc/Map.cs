@@ -71,11 +71,6 @@ namespace PokemonGo.RocketAPI.Rpc
 
             var request = await GetRequestBuilder().GetRequestEnvelope(CommonRequest.FillRequest(getMapObjectsRequest, Client)).ConfigureAwait(false);
            
-            // This is new code for 0.53 below
-            request.PlatformRequests.Add(new RequestEnvelope.Types.PlatformRequest
-                                                {
-                                                    Type = PlatformRequestType.UnknownPrt8
-                                                });
             Tuple<GetMapObjectsResponse, CheckChallengeResponse, GetHatchedEggsResponse, GetInventoryResponse, CheckAwardedBadgesResponse, DownloadSettingsResponse, GetBuddyWalkedResponse> _getMapObjectsResponse =
                 await
                     PostProtoPayload
