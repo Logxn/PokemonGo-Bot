@@ -8,47 +8,44 @@ namespace PokemonGo.RocketAPI.HttpClient
 {
     public class CurrentAPIVersion
     {
+        public static Version CurrentNianticAPIVersion;
+
+        public CurrentAPIVersion()
+        {
+            CurrentNianticAPIVersion = RequestCurrentNianticAPIVersion();
+        }
+
+        public Version GetNianticAPIVersion()
+        {
+            return CurrentNianticAPIVersion;
+        }
+
         /// <summary>
         /// Checks if current API version is supported, so if it is not bigger that the current Bot supported version
         /// </summary>
-        /// <param name="_botVersion">Current BOT Version</param>
         /// <param name="_botAPISupportedVersion">Current BOT Supported API Version</param>
         /// <param name="_NianticAPIVersion">Current NIANTIC API Version</param>
         /// <returns></returns>
-        public bool CheckAPIVersionCompatibility(Version _botVersion, Version _botAPISupportedVersion, Version _NianticAPIVersion)
+        public bool CheckAPIVersionCompatibility( Version _botAPISupportedVersion)
         {
-            Logger.ColoredConsoleWrite(ConsoleColor.DarkMagenta, $"Bot Current version: {_botVersion}");
-            Logger.ColoredConsoleWrite(ConsoleColor.DarkMagenta, $"Bot Supported API version: {_botAPISupportedVersion}");
-            Logger.ColoredConsoleWrite(ConsoleColor.DarkMagenta, $"Current API version: {_NianticAPIVersion}");
-
-            if (_NianticAPIVersion > _botAPISupportedVersion)
-            {
-                Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Atention, current API version is new and still not supported by Bot.");
-                Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Bot will now exit to keep your account safe.");
-                Logger.ColoredConsoleWrite(ConsoleColor.Red, $"---------- PRESS ANY KEY TO CLOSE ----------");
-                Console.ReadKey();
-                return false;
-            }
-            else
-            {
-                return true;
-            }
+            return (CurrentNianticAPIVersion == _botAPISupportedVersion);
         }
 
         /// <summary>
         /// Returns a string with current Niantic forced API version
         /// </summary>
         /// <returns>string</returns>
-        public string GetCurrentAPIVersion()
+        Version RequestCurrentNianticAPIVersion()
         {
-            return HttpGetCurrentAPIVersion().Result;
+            CurrentNianticAPIVersion = new Version(HttpGetCurrentNianticAPIVersion().Result);
+            return CurrentNianticAPIVersion;
         }
 
         /// <summary>
         /// Calls NIANTIC end potint that gives current API version
         /// </summary>
         /// <returns>string</returns>
-        public async Task<string> HttpGetCurrentAPIVersion()
+        async Task<string> HttpGetCurrentNianticAPIVersion()
         {
             string _returnedVersion = "";
 
@@ -75,7 +72,7 @@ namespace PokemonGo.RocketAPI.HttpClient
                 }
                 catch (Exception ex)
                 {
-                    Logger.ColoredConsoleWrite(ConsoleColor.Red, "Error: CurrentAPIVersion.cs - getCurrentAPIVersion()");
+                    Logger.ColoredConsoleWrite(ConsoleColor.Red, "Error: CurrentAPIVersion.cs - getCurrentNianticAPIVersion()");
                     Logger.ColoredConsoleWrite(ConsoleColor.Red, ex.Message);
                     throw;
                 }

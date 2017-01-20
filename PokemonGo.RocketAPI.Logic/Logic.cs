@@ -79,10 +79,9 @@ namespace PokemonGo.RocketAPI.Logic
         public Logic(ISettings botSettings, LogicInfoObservable infoObservable)
         {
             this.BotSettings = botSettings;
-            var BotApiSupportedVersion = new Version("0.0.0");
             var clientSettings = new PokemonGo.RocketAPI.Shared.ClientSettings(botSettings.pFHashKey, botSettings.DefaultLatitude , botSettings.DefaultLongitude, botSettings.DefaultAltitude,
                       botSettings.proxySettings.hostName, botSettings.proxySettings.port, botSettings.proxySettings.username, botSettings.proxySettings.password,
-                      botSettings.AuthType, botSettings.GoogleUsername, botSettings.GooglePassword, BotApiSupportedVersion);
+                      botSettings.AuthType, botSettings.GoogleUsername, botSettings.GooglePassword, GlobalSettings.BotApiSupportedVersion);
             objClient = new Client(clientSettings);
             objClient.setFailure(new ApiFailureStrat(objClient));
             BotStats = new BotStats();
@@ -2634,10 +2633,11 @@ namespace PokemonGo.RocketAPI.Logic
             }
             catch (Exception ex)
             {
+                // Leave this here: Logger.Error(e.StackTrace);
+                Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, "Egg: We dont have any eggs we could incubate.");
                 Logger.ColoredConsoleWrite(ConsoleColor.Red, ex.Message);
             }
         }
-
 
         private class IncubatorUsage : IEquatable<IncubatorUsage>
         {

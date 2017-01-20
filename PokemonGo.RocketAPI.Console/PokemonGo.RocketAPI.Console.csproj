@@ -192,7 +192,6 @@
     <Compile Include="GUIAvatar.Designer.cs">
       <DependentUpon>GUIAvatar.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUISettings.cs" />
     <Compile Include="Helper\SleepHelper.cs" />
     <Compile Include="IncubatorSelect.cs">
       <SubType>Form</SubType>

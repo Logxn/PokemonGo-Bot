@@ -94,6 +94,7 @@
     <Compile Include="Settings.cs" />
     <Compile Include="Shared\AvatarSettings.cs" />
     <Compile Include="Shared\GlobalSettings.cs" />
+    <Compile Include="Shared\ProfileSettings.cs" />
     <Compile Include="Shared\ISettings.cs" />
     <Compile Include="Shared\ManualSnipePokemon.cs" />
     <Compile Include="Shared\Profile.cs" />

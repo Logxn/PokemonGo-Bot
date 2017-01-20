@@ -26,7 +26,7 @@ namespace PokemonGo.RocketAPI.Console
         public static int[] evolveBlacklist = {
             3, 6, 9, 12, 15, 18, 20, 22, 24, 26, 28, 31, 34, 36, 38, 40, 42, 45, 47, 49, 51, 53, 55, 57, 59, 62, 65, 68, 71, 73, 76, 78, 80, 82, 83, 85, 87, 89, 91, 94, 95, 97, 99, 101, 103, 105, 106, 107, 108, 110, 112, 113, 114, 115, 117, 119, 121, 122, 123, 124, 125, 126, 127, 128, 130, 131, 132, 134, 135, 136, 137, 139, 141, 142, 143, 144, 145, 146, 149, 150, 151
         };
-        public static ISettings _clientSettings;
+        public static ISettings _botSettings;
 
         /* PATHS */
         static string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
@@ -47,7 +47,7 @@ namespace PokemonGo.RocketAPI.Console
 
         private void GUI_Load(object sender, EventArgs e)
         {
-            _clientSettings = new Settings();
+            _botSettings = new Settings();
             GlobalSettings.FirstLoad = false;
             Directory.CreateDirectory(Program.path);
             Directory.CreateDirectory(Program.path_translation);
@@ -239,7 +239,7 @@ namespace PokemonGo.RocketAPI.Console
                     };
                         
                         
-                    var config = Newtonsoft.Json.JsonConvert.DeserializeObject<GUISettings>(configString, jsonSettings);
+                    var config = Newtonsoft.Json.JsonConvert.DeserializeObject<ProfileSettings>(configString, jsonSettings);
                     // tab 1 
                     pFHashKey.Text = config.pFHashKey;
                     ProfileName.Text = config.ProfileName;
