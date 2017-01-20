@@ -108,28 +108,29 @@ namespace PokemonGo.RocketAPI.Console
             // Checking if current BOT API implementation supports NIANTIC current API (unless there's an override command line switch)
             if (!GlobalSettings.BypassCheckCompatibilityVersion)
             {
-                var NianticAPIVersion = new CurrentAPIVersion().GetCurrentAPIVersion();
                 Logger.ColoredConsoleWrite(ConsoleColor.DarkMagenta, $"Bot Current version: {BotVersion}");
                 Logger.ColoredConsoleWrite(ConsoleColor.DarkMagenta, $"Bot Supported API version: {GlobalSettings.BotApiSupportedVersion}");
-                Logger.ColoredConsoleWrite(ConsoleColor.DarkMagenta, $"Current API version: {NianticAPIVersion}");
-                bool CurrentVersionsOK = new CurrentAPIVersion().CheckAPIVersionCompatibility( GlobalSettings.BotApiSupportedVersion, new Version(NianticAPIVersion));
+                Logger.ColoredConsoleWrite(ConsoleColor.DarkMagenta, $"Current API version: {new CurrentAPIVersion().GetNianticAPIVersion()}");
+                bool CurrentVersionsOK = new CurrentAPIVersion().CheckAPIVersionCompatibility( GlobalSettings.BotApiSupportedVersion);
                 if (!CurrentVersionsOK)
                 {
                     Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Atention, current API version is new and still not supported by Bot.");
                     Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Bot will now exit to keep your account safe.");
                     Logger.ColoredConsoleWrite(ConsoleColor.Red, $"---------- PRESS ANY KEY TO CLOSE ----------");
+
                     System.Console.ReadKey();
                     Environment.Exit(-1);
                 }
             }
 
             var openGUI = false;
+
             if (args != null && args.Length > 0 && args[0].Contains("-nogui"))
             {
                 Logger.ColoredConsoleWrite(ConsoleColor.Red, "You added -nogui!");
 
                 if (!GlobalSettings.Load()) {
-                    Logger.ColoredConsoleWrite(ConsoleColor.Red, "You didnt setup correctly with the GUI.");
+                    Logger.ColoredConsoleWrite(ConsoleColor.Red, "You didn't setup correctly with the GUI.");
                     Logger.ColoredConsoleWrite(ConsoleColor.Red, "Run it without -nogui to Configure.");
                     Logger.ColoredConsoleWrite(ConsoleColor.Red, "Exiting..");
                     Environment.Exit(-1);
