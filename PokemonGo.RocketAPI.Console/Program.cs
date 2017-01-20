@@ -17,6 +17,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using PokemonGo.RocketAPI.Logic.Shared;
+using PokemonGo.RocketAPI.Logic.Utils;
 
 namespace PokemonGo.RocketAPI.Console
 {
@@ -122,6 +123,9 @@ namespace PokemonGo.RocketAPI.Console
                     Environment.Exit(-1);
                 }
             }
+
+            // Check if Bot is deactivated at server level
+            StringUtils.CheckKillSwitch();
 
             var openGUI = false;
 

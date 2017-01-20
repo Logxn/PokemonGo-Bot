@@ -100,7 +100,10 @@ namespace PokemonGo.RocketAPI
 
             InventoryLastUpdateTimestamp = 0;
 
-            AppVersion = 5120;
+            /***************************/
+            /* Change each new version */
+            /***************************/
+            AppVersion = 5301;
             SettingsHash = "";
 
             CurrentApiEmulationVersion = settings.currentApi;// new Version("0.51.2");
@@ -117,9 +120,10 @@ namespace PokemonGo.RocketAPI
                 if (proxyUsername!="")
                     p.Credentials = new NetworkCredential(proxyUsername, proxyPassword);
                 return p;
-            } catch (Exception)
+            } catch (Exception ex)
             {
                 Logger.Error("Something in your Proxy Settings is wrong, or the Proxy is down! Exiting in 5 seconds.");
+                Logger.ColoredConsoleWrite(ConsoleColor.Red, "Exception in Client.cs - InitProxy: " + ex.Message);
                 Thread.Sleep(5000);
                 Environment.Exit(0);
                 return null;
