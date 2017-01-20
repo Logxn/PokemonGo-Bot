@@ -1,35 +1,25 @@
 ﻿using Google.Protobuf;
-using PokemonGo.RocketAPI.Enums;
-using PokemonGo.RocketAPI.Hash;
-using POGOProtos.Networking;
+using POGOProtos.Enums;
 using POGOProtos.Networking.Envelopes;
-using POGOProtos.Networking.Requests;
-using System;
-using System.Runtime.InteropServices;
-using System.Diagnostics;
-using System.Collections.Generic;
-using System.Linq;
-using PokemonGo.RocketAPI.Extensions;
-using System.Security.Cryptography;
-using System.IO;
-using System.Windows.Forms;
 using POGOProtos.Networking.Platform;
 using POGOProtos.Networking.Platform.Requests;
-using Troschuetz.Random;
-using POGOProtos.Enums;
-using System.Text;
-using Newtonsoft.Json;
-using PokemonGo.RocketAPI.Encrypt;
+using POGOProtos.Networking.Requests;
+using PokemonGo.RocketAPI.Enums;
+using PokemonGo.RocketAPI.Hash;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Security.Cryptography;
 using System.Threading.Tasks;
-using static POGOProtos.Networking.Envelopes.Signature.Types;
+using Troschuetz.Random;
 using static POGOProtos.Networking.Envelopes.RequestEnvelope.Types;
-using System.Net.Http;
+using static POGOProtos.Networking.Envelopes.Signature.Types;
 
 namespace PokemonGo.RocketAPI.Helpers
 {
     public class RequestBuilder
     {
-        //const long Client_5100_Unknown25 = -8832040574896607694;
         const long Client_5300_Unknown25 = -76506539888958491;
 
         private readonly string _authToken;
