@@ -307,6 +307,7 @@ namespace PokemonGo.RocketAPI.Rpc
 
             return await PostProtoPayload<Request, ReleasePokemonResponse>(RequestType.ReleasePokemon, message).ConfigureAwait(false);
         }
+
         public async Task<ReleasePokemonResponse> TransferPokemon(List<ulong> pokemonId) // Transfer a list of pokemon (BULK Transfer)
         {
             var message = new ReleasePokemonMessage { };
