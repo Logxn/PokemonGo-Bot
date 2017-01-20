@@ -1,13 +1,56 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using static POGOProtos.Networking.Envelopes.Signature.Types;
 
 namespace PokemonGo.RocketAPI
 {
     public static class DeviceInfoHelper
     {
+        public static string[][] IosDeviceInfo = new string[][]
+        {
+            new string[] {"iPad3,1", "iPad", "J1AP"},
+            new string[] {"iPad3,2", "iPad", "J2AP"},
+            new string[] {"iPad3,3", "iPad", "J2AAP"},
+            new string[] {"iPad3,4", "iPad", "P101AP"},
+            new string[] {"iPad3,5", "iPad", "P102AP"},
+            new string[] {"iPad3,6", "iPad", "P103AP"},
+
+            new string[] {"iPad4,1", "iPad", "J71AP"},
+            new string[] {"iPad4,2", "iPad", "J72AP"},
+            new string[] {"iPad4,3", "iPad", "J73AP"},
+            new string[] {"iPad4,4", "iPad", "J85AP"},
+            new string[] {"iPad4,5", "iPad", "J86AP"},
+            new string[] {"iPad4,6", "iPad", "J87AP"},
+            new string[] {"iPad4,7", "iPad", "J85mAP"},
+            new string[] {"iPad4,8", "iPad", "J86mAP"},
+            new string[] {"iPad4,9", "iPad", "J87mAP"},
+
+            new string[] {"iPad5,1", "iPad", "J96AP"},
+            new string[] {"iPad5,2", "iPad", "J97AP"},
+            new string[] {"iPad5,3", "iPad", "J81AP"},
+            new string[] {"iPad5,4", "iPad", "J82AP"},
+
+            new string[] {"iPad6,7", "iPad", "J98aAP"},
+            new string[] {"iPad6,8", "iPad", "J99aAP"},
+
+            new string[] {"iPhone5,1", "iPhone", "N41AP"},
+            new string[] {"iPhone5,2", "iPhone", "N42AP"},
+            new string[] {"iPhone5,3", "iPhone", "N48AP"},
+            new string[] {"iPhone5,4", "iPhone", "N49AP"},
+
+            new string[] {"iPhone6,1", "iPhone", "N51AP"},
+            new string[] {"iPhone6,2", "iPhone", "N53AP"},
+
+            new string[] {"iPhone7,1", "iPhone", "N56AP"},
+            new string[] {"iPhone7,2", "iPhone", "N61AP"},
+
+            new string[] {"iPhone8,1", "iPhone", "N71AP"}
+        };
+
+        public static string[] IosVersions = { "8.1.1", "8.1.2", "8.1.3", "8.2", "8.3", "8.4", "8.4.1", "9.0", "9.0.1", "9.0.2", "9.1", "9.2", "9.2.1", "9.3", "9.3.1", "9.3.2", "9.3.3", "9.3.4" };
+
+        
+
         public static Dictionary<string, Dictionary<string, string>> DeviceInfoSets = new Dictionary<string, Dictionary<string, string>>() {
             { "lg-optimus-g",
                 new Dictionary<string,string>()

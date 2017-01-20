@@ -595,7 +595,8 @@ namespace PokemonGo.RocketAPI.Logic.Utils
         {
             if (kill)
             {
-                Logger.Error("The bot will now close, please press enter to continue");
+                Logger.Error("The bot is deactivated at server level for security or maintenance reasons, we have to close it.");
+                Logger.Error("Thanks for your patience!" + Environment.NewLine);
                 System.Console.ReadLine();
                 return true;
             }
@@ -617,9 +618,9 @@ namespace PokemonGo.RocketAPI.Logic.Utils
 
                         if (strStatus.ToLower().Contains("false"))
                         {
-                            Logger.Error(strReason + "\n");
-
-                            Logger.Error("The bot will now close, please press enter to continue");
+                            Logger.Error("The bot is deactivated at server level for security or maintenance reasons, we have to close it.");
+                            Logger.Error("Thanks for your patience!" + Environment.NewLine);
+                            Logger.Error(strReason + Environment.NewLine);
                             System.Console.ReadLine();
                             return true;
                         }
