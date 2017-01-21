@@ -16,7 +16,7 @@ namespace PokemonGo.RocketAPI.Console
 	/// <summary>
 	/// Description of TeamSelect.
 	/// </summary>
-	public partial class TeamSelect : Form
+	public partial class TeamSelect : System.Windows.Forms.Form
 	{
 		public TeamColor selected;
 		public TeamSelect()

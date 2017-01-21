@@ -20,6 +20,7 @@ using POGOProtos.Map.Fort;
 using POGOProtos.Networking.Responses;
 using PokemonGo.RocketAPI.Logic.Utils;
 using PokemonGo.RocketAPI.Helpers;
+using POGOProtos.Data.Player;
 
 namespace PokemonGo.RocketAPI.Console
 {
@@ -117,11 +118,11 @@ namespace PokemonGo.RocketAPI.Console
             pictureBoxPlayerAvatar.BackColor = Color.Transparent;
             if (profile.PlayerData.Avatar != null)
             {
-                pictureBoxPlayerAvatar.Image = getImageForGender(profile.PlayerData.Avatar.Gender);
+                pictureBoxPlayerAvatar.Image = getImageForGender((PlayerAvatarType) profile.PlayerData.Avatar.Avatar);
             }
             else
             {
-                pictureBoxPlayerAvatar.Image = getImageForGender(Gender.Male);
+                pictureBoxPlayerAvatar.Image = getImageForGender(PlayerAvatarType.PlayerAvatarMale);
             }
             pictureBoxPlayerAvatar.Height = (int)(pictureBoxTeam.Height * 0.85);
             pictureBoxPlayerAvatar.Width = pictureBoxTeam.Width;
@@ -204,13 +205,13 @@ namespace PokemonGo.RocketAPI.Console
         /// </summary>
         /// <param name="gender">The gender.</param>
         /// <returns></returns>
-        private Image getImageForGender(Gender gender)
+        private Image getImageForGender(PlayerAvatarType gender)
         {
             switch (gender)
             {
-                case Gender.Male:
+                case PlayerAvatarType.PlayerAvatarMale:
                     return Properties.Resources.Trainer_M;
-                case Gender.Female:
+                case PlayerAvatarType.PlayerAvatarFemale:
                     return Properties.Resources.Trainer_F;
                 default:
                     return Properties.Resources.Trainer_M;

@@ -10,15 +10,8 @@ using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
-using POGOProtos.Inventory.Item;
-using System.Threading.Tasks;
-using POGOProtos.Networking.Responses;
-using PokemonGo.RocketAPI.Logic.Utils;
-using POGOProtos.Enums;
-using POGOProtos.Data;
 using POGOProtos.Inventory;
 using System.Linq;
-using System.Collections;
 
 namespace PokemonGo.RocketAPI.Console
 {

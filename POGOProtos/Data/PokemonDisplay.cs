@@ -23,17 +23,16 @@ namespace POGOProtos.Data {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "CiRQT0dPUHJvdG9zL0RhdGEvUG9rZW1vbkRpc3BsYXkucHJvdG8SD1BPR09Q",
-            "cm90b3MuRGF0YSL7AQoOUG9rZW1vbkRpc3BsYXkSOAoHY29zdHVtZRgBIAEo",
-            "DjInLlBPR09Qcm90b3MuRGF0YS5Qb2tlbW9uRGlzcGxheS5Db3N0dW1lEjYK",
-            "BmdlbmRlchgCIAEoDjImLlBPR09Qcm90b3MuRGF0YS5Qb2tlbW9uRGlzcGxh",
-            "eS5HZW5kZXISDQoFc2hpbnkYAyABKAgiJgoHQ29zdHVtZRIJCgVVTlNFVBAA",
-            "EhAKDEhPTElEQVlfMjAxNhABIkAKBkdlbmRlchIQCgxHRU5ERVJfVU5TRVQQ",
-            "ABIICgRNQUxFEAESCgoGRkVNQUxFEAISDgoKR0VOREVSTEVTUxADYgZwcm90",
-            "bzM="));
+            "cm90b3MuRGF0YRoeUE9HT1Byb3Rvcy9FbnVtcy9Db3N0dW1lLnByb3RvGhtQ",
+            "T0dPUHJvdG9zL0VudW1zL0Zvcm0ucHJvdG8aHVBPR09Qcm90b3MvRW51bXMv",
+            "R2VuZGVyLnByb3RvIpsBCg5Qb2tlbW9uRGlzcGxheRIqCgdjb3N0dW1lGAEg",
+            "ASgOMhkuUE9HT1Byb3Rvcy5FbnVtcy5Db3N0dW1lEigKBmdlbmRlchgCIAEo",
+            "DjIYLlBPR09Qcm90b3MuRW51bXMuR2VuZGVyEg0KBXNoaW55GAMgASgIEiQK",
+            "BGZvcm0YBCABKA4yFi5QT0dPUHJvdG9zLkVudW1zLkZvcm1iBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { },
+          new pbr::FileDescriptor[] { global::POGOProtos.Enums.CostumeReflection.Descriptor, global::POGOProtos.Enums.FormReflection.Descriptor, global::POGOProtos.Enums.GenderReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::POGOProtos.Data.PokemonDisplay), global::POGOProtos.Data.PokemonDisplay.Parser, new[]{ "Costume", "Gender", "Shiny" }, null, new[]{ typeof(global::POGOProtos.Data.PokemonDisplay.Types.Costume), typeof(global::POGOProtos.Data.PokemonDisplay.Types.Gender) }, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::POGOProtos.Data.PokemonDisplay), global::POGOProtos.Data.PokemonDisplay.Parser, new[]{ "Costume", "Gender", "Shiny", "Form" }, null, null, null)
           }));
     }
     #endregion
@@ -67,6 +66,7 @@ namespace POGOProtos.Data {
       costume_ = other.costume_;
       gender_ = other.gender_;
       shiny_ = other.shiny_;
+      form_ = other.form_;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -76,9 +76,9 @@ namespace POGOProtos.Data {
 
     /// <summary>Field number for the "costume" field.</summary>
     public const int CostumeFieldNumber = 1;
-    private global::POGOProtos.Data.PokemonDisplay.Types.Costume costume_ = 0;
+    private global::POGOProtos.Enums.Costume costume_ = 0;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::POGOProtos.Data.PokemonDisplay.Types.Costume Costume {
+    public global::POGOProtos.Enums.Costume Costume {
       get { return costume_; }
       set {
         costume_ = value;
@@ -87,9 +87,9 @@ namespace POGOProtos.Data {
 
     /// <summary>Field number for the "gender" field.</summary>
     public const int GenderFieldNumber = 2;
-    private global::POGOProtos.Data.PokemonDisplay.Types.Gender gender_ = 0;
+    private global::POGOProtos.Enums.Gender gender_ = 0;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::POGOProtos.Data.PokemonDisplay.Types.Gender Gender {
+    public global::POGOProtos.Enums.Gender Gender {
       get { return gender_; }
       set {
         gender_ = value;
@@ -104,6 +104,17 @@ namespace POGOProtos.Data {
       get { return shiny_; }
       set {
         shiny_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "form" field.</summary>
+    public const int FormFieldNumber = 4;
+    private global::POGOProtos.Enums.Form form_ = 0;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public global::POGOProtos.Enums.Form Form {
+      get { return form_; }
+      set {
+        form_ = value;
       }
     }
 
@@ -123,6 +134,7 @@ namespace POGOProtos.Data {
       if (Costume != other.Costume) return false;
       if (Gender != other.Gender) return false;
       if (Shiny != other.Shiny) return false;
+      if (Form != other.Form) return false;
       return true;
     }
 
@@ -132,6 +144,7 @@ namespace POGOProtos.Data {
       if (Costume != 0) hash ^= Costume.GetHashCode();
       if (Gender != 0) hash ^= Gender.GetHashCode();
       if (Shiny != false) hash ^= Shiny.GetHashCode();
+      if (Form != 0) hash ^= Form.GetHashCode();
       return hash;
     }
 
@@ -154,6 +167,10 @@ namespace POGOProtos.Data {
         output.WriteRawTag(24);
         output.WriteBool(Shiny);
       }
+      if (Form != 0) {
+        output.WriteRawTag(32);
+        output.WriteEnum((int) Form);
+      }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -167,6 +184,9 @@ namespace POGOProtos.Data {
       }
       if (Shiny != false) {
         size += 1 + 1;
+      }
+      if (Form != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) Form);
       }
       return size;
     }
@@ -185,6 +205,9 @@ namespace POGOProtos.Data {
       if (other.Shiny != false) {
         Shiny = other.Shiny;
       }
+      if (other.Form != 0) {
+        Form = other.Form;
+      }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -196,39 +219,24 @@ namespace POGOProtos.Data {
             input.SkipLastField();
             break;
           case 8: {
-            costume_ = (global::POGOProtos.Data.PokemonDisplay.Types.Costume) input.ReadEnum();
+            costume_ = (global::POGOProtos.Enums.Costume) input.ReadEnum();
             break;
           }
           case 16: {
-            gender_ = (global::POGOProtos.Data.PokemonDisplay.Types.Gender) input.ReadEnum();
+            gender_ = (global::POGOProtos.Enums.Gender) input.ReadEnum();
             break;
           }
           case 24: {
             Shiny = input.ReadBool();
             break;
           }
+          case 32: {
+            form_ = (global::POGOProtos.Enums.Form) input.ReadEnum();
+            break;
+          }
         }
       }
     }
-
-    #region Nested types
-    /// <summary>Container for nested types declared in the PokemonDisplay message type.</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public static partial class Types {
-      public enum Costume {
-        [pbr::OriginalName("UNSET")] Unset = 0,
-        [pbr::OriginalName("HOLIDAY_2016")] Holiday2016 = 1,
-      }
-
-      public enum Gender {
-        [pbr::OriginalName("GENDER_UNSET")] Unset = 0,
-        [pbr::OriginalName("MALE")] Male = 1,
-        [pbr::OriginalName("FEMALE")] Female = 2,
-        [pbr::OriginalName("GENDERLESS")] Less = 3,
-      }
-
-    }
-    #endregion
 
   }
 

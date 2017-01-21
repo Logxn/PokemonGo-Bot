@@ -107,8 +107,10 @@
     <Compile Include="Enums\BadgeType.cs" />
     <Compile Include="Enums\CameraInterpolation.cs" />
     <Compile Include="Enums\CameraTarget.cs" />
+    <Compile Include="Enums\Costume.cs" />
     <Compile Include="Enums\EncounterType.cs" />
     <Compile Include="Enums\Filter.cs" />
+    <Compile Include="Enums\Form.cs" />
     <Compile Include="Enums\Gender.cs" />
     <Compile Include="Enums\IapItemCategory.cs" />
     <Compile Include="Enums\ItemCategory.cs" />
@@ -298,6 +300,7 @@
     <Compile Include="Settings\Master\CameraSettings.cs" />
     <Compile Include="Settings\Master\EncounterSettings.cs" />
     <Compile Include="Settings\Master\EquippedBadgeSettings.cs" />
+    <Compile Include="Settings\Master\FormSettings.cs" />
     <Compile Include="Settings\Master\GymBattleSettings.cs" />
     <Compile Include="Settings\Master\GymLevelSettings.cs" />
     <Compile Include="Settings\Master\IapItemDisplay.cs" />
@@ -320,10 +323,12 @@
     <Compile Include="Settings\Master\PokemonUpgradeSettings.cs" />
     <Compile Include="Settings\Master\Pokemon\CameraAttributes.cs" />
     <Compile Include="Settings\Master\Pokemon\EncounterAttributes.cs" />
+    <Compile Include="Settings\Master\Pokemon\EvolutionBranch.cs" />
     <Compile Include="Settings\Master\Pokemon\StatsAttributes.cs" />
     <Compile Include="Settings\Master\QuestSettings.cs" />
     <Compile Include="Settings\Master\Quest\DailyQuestSettings.cs" />
     <Compile Include="Settings\Master\TypeEffectiveSettings.cs" />
+    <Compile Include="Settings\NewsSettings.cs" />
     <Compile Include="Settings\SfidaSettings.cs" />
   </ItemGroup>
   <ItemGroup>
