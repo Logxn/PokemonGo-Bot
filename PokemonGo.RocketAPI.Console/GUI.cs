@@ -274,8 +274,7 @@ namespace PokemonGo.RocketAPI.Console
                             }
                         }
                     };
-                        
-                        
+
                     var config = Newtonsoft.Json.JsonConvert.DeserializeObject<ProfileSettings>(configString, jsonSettings);
                     // tab 1 
                     pFHashKey.Text = config.pFHashKey;
@@ -405,19 +404,14 @@ namespace PokemonGo.RocketAPI.Console
 
 
                     // tab 5 proxy
-                    try
-                    {
+                    if (config.proxySettings !=null){
                         checkBox_UseProxy.Checked = config.proxySettings.enabled;
+                        checkBox_UseProxyAuth.Checked = config.proxySettings.useAuth;
+                        prxyIP.Text = config.proxySettings.hostName;
+                        prxyPort.Text =""+ config.proxySettings.port;
+                        prxyUser.Text = config.proxySettings.username;
+                        prxyPass.Text = config.proxySettings.password;
                     }
-                    catch(Exception)
-                    {
-                        //Xelwon please fix this => Loading Config failed:System.NullReferenceException: Object reference not set to an instance of an object.
-                    }
-                    checkBox_UseProxyAuth.Checked = config.proxySettings.useAuth;
-                    prxyIP.Text = config.proxySettings.hostName;
-                    prxyPort.Text =""+ config.proxySettings.port;
-                    prxyUser.Text = config.proxySettings.username;
-                    prxyPass.Text = config.proxySettings.password;
 
 
                     // tab 6 walk
