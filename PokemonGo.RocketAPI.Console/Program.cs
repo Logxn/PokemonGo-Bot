@@ -125,7 +125,7 @@ namespace PokemonGo.RocketAPI.Console
             }
 
             // Check if Bot is deactivated at server level
-            StringUtils.CheckKillSwitch();
+            if (StringUtils.CheckKillSwitch()) Environment.Exit(-1);
 
             var openGUI = false;
 
