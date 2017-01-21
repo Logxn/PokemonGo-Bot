@@ -43,6 +43,7 @@ namespace POGOProtos.Networking.Platform {
     [pbr::OriginalName("BUY_ITEM_IOS")] BuyItemIos = 4,
     [pbr::OriginalName("GET_STORE_ITEMS")] GetStoreItems = 5,
     [pbr::OriginalName("SEND_ENCRYPTED_SIGNATURE")] SendEncryptedSignature = 6,
+    [pbr::OriginalName("UNKNOWN_PTR_8")] UnknownPrt8  = 8,
   }
 
   #endregion

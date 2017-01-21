@@ -8,19 +8,17 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Reflection;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 using PokemonGo.RocketAPI.Logic.Translation;
 using POGOProtos.Enums;
-using System.Threading;
 using Newtonsoft.Json;
 using System.Collections.ObjectModel;
 using PokemonGo.RocketAPI.Logic.Shared;
 
 namespace PokemonGo.RocketAPI.Console
 {
-    public partial class GUI : Form
+    public partial class GUI : System.Windows.Forms.Form
     {
         public static NumberStyles cords = NumberStyles.AllowDecimalPoint | NumberStyles.AllowLeadingSign;
         public static int[] evolveBlacklist = {
@@ -194,7 +192,7 @@ namespace PokemonGo.RocketAPI.Console
             {
                 if (checkbox_AutoUpdate.Checked)
                 {
-                    Form update = new Update();
+                    System.Windows.Forms.Form update = new Update();
                     update.ShowDialog();
                 }
                 else
@@ -432,6 +430,7 @@ namespace PokemonGo.RocketAPI.Console
                 }
                 catch (Exception e)
                 {
+                    Logger.ExceptionInfo("Loading Config failed:" +e.ToString());
                     MessageBox.Show("Loading Config failed - Check settings before running!");
                 }
             }
@@ -1226,7 +1225,7 @@ namespace PokemonGo.RocketAPI.Console
 
         private void button2_Click_1(object sender, EventArgs e)
         {
-            Form update = new Update();
+            System.Windows.Forms.Form update = new Update();
             this.Hide();
             update.Show();
         }

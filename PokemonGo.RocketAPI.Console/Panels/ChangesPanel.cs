@@ -194,13 +194,14 @@ namespace PokemonGo.RocketAPI.Console
         void buttonUpdateClick(object sender, EventArgs e)
         {
             var ActiveProfile = new Profile();
-            if (_botSettings == null)
+            var botSettings = new Settings();
+            if (botSettings == null)
                 return;
-            var configString = JsonConvert.SerializeObject(_botSettings);
+            var configString = JsonConvert.SerializeObject(botSettings);
             Profile updatedProfile = new Profile();
             ActiveProfile.ProfileName = GlobalSettings.ProfileName;
-            ActiveProfile.IsDefault = GlobalSettings.IsDefault;
-            ActiveProfile.RunOrder = GlobalSettings.RunOrder;
+            //ActiveProfile.IsDefault = GlobalSettings.IsDefault; // I think that is unneeded
+            //ActiveProfile.RunOrder = GlobalSettings.RunOrder; // I think that is unneeded
             ActiveProfile.SettingsJSON = configString;
             string savedProfiles = File.ReadAllText(@Program.accountProfiles);
             Collection<Profile> _profiles = JsonConvert.DeserializeObject<Collection<Profile>>(savedProfiles);

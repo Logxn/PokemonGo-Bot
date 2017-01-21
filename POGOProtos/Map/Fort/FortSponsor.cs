@@ -23,11 +23,11 @@ namespace POGOProtos.Map.Fort {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "CiVQT0dPUHJvdG9zL01hcC9Gb3J0L0ZvcnRTcG9uc29yLnByb3RvEhNQT0dP",
-            "UHJvdG9zLk1hcC5Gb3J0KqUBCgtGb3J0U3BvbnNvchIRCg1VTlNFVF9TUE9O",
+            "UHJvdG9zLk1hcC5Gb3J0KsIBCgtGb3J0U3BvbnNvchIRCg1VTlNFVF9TUE9O",
             "U09SEAASDQoJTUNET05BTERTEAESEQoNUE9LRU1PTl9TVE9SRRACEggKBFRP",
             "SE8QAxIMCghTT0ZUQkFOSxAEEgkKBUdMT0JFEAUSCwoHU1BBVFVMQRAGEg8K",
             "C1RIRVJNT01FVEVSEAcSCQoFS05JRkUQCBIJCgVHUklMTBAJEgoKBlNNT0tF",
-            "UhAKYgZwcm90bzM="));
+            "UhAKEgcKA1BBThALEgcKA0JCURAMEgkKBUZSWUVSEA1iBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::POGOProtos.Map.Fort.FortSponsor), }, null));
@@ -48,6 +48,9 @@ namespace POGOProtos.Map.Fort {
     [pbr::OriginalName("KNIFE")] Knife = 8,
     [pbr::OriginalName("GRILL")] Grill = 9,
     [pbr::OriginalName("SMOKER")] Smoker = 10,
+    [pbr::OriginalName("PAN")] Pan = 11,
+    [pbr::OriginalName("BBQ")] Bbq = 12,
+    [pbr::OriginalName("FRYER")] Fryer = 13,
   }
 
   #endregion

@@ -175,9 +175,7 @@ namespace PokemonGo.RocketAPI.Console
                     Logger.AddLog(string.Format("Error loading checkedListBox_NotToSnipe id:{0}, pokeIDS[id]:{1}",_id,pokeIDS[_id]));
                     Logger.AddLog(e.ToString());
                 }
-                
-            }                    
-        
+            }
         }
         void btnInstall_Click(object sender, EventArgs e)
         {
@@ -279,18 +277,17 @@ namespace PokemonGo.RocketAPI.Console
         static void UnregisterUriScheme() {
             Registry.CurrentUser.DeleteSubKeyTree("Software\\Classes\\"+ URI_SCHEME);
         }
-        void PokesniperCom_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-          System.Diagnostics.Process.Start(e.Link.LinkData.ToString());
-        }        
         void nudSecondsSnipe_ValueChanged(object sender, EventArgs e)
         {
           GlobalSettings.SnipeOpts.WaitSecond = (int) nudSecondsSnipe.Value;
         }
         void nudTriesSnipe_ValueChanged(object sender, EventArgs e)
         {
-          GlobalSettings.SnipeOpts.NumTries = (int) nudTriesSnipe.Value;
-          
+          GlobalSettings.SnipeOpts.NumTries = (int) nudTriesSnipe.Value;          
         }
+        void PokesniperCom_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+          System.Diagnostics.Process.Start(e.Link.LinkData.ToString());
+        }        
     }
 }

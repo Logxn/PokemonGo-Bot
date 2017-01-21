@@ -23,6 +23,7 @@ namespace PokemonGo.RocketAPI.Console.Panels
             InitializeComponent();
         }
         public void ChangeURL(string weburl){
+            textBox1.Text = weburl;
         	webBrowser1.Navigate(weburl);
         }
         public void AddButtonClick(System.EventHandler evh){

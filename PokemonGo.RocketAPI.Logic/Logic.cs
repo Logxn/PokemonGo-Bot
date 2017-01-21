@@ -501,7 +501,7 @@ namespace PokemonGo.RocketAPI.Logic
                 {
                     if (BotSettings.AutoUpdate)
                     {
-                        Form update = new Update();
+                        System.Windows.Forms.Form update = new Update();
                         update.ShowDialog();
                     }
                     else

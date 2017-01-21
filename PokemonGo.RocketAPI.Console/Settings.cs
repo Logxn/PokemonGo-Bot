@@ -19,22 +19,6 @@ namespace PokemonGo.RocketAPI.Console
     public class Settings : ISettings
     {
         /* ===================================[SETTINGS]================================= */
-/*
-        #region Bot Info & Versions
-        public Version BotVersion
-        {
-            get { return GlobalSettings.BotVersion; }
-        }
-        public Version BotApiSupportedVersion
-        {
-            get { return GlobalSettings.BotApiSupportedVersion; }
-        }
-        public Version NianticApiVersion
-        {
-            get { return GlobalSettings.NianticApiVersion; }
-        }
-        #endregion
-*/
         #region HashInfo
         public ByteString SessionHash
         {
@@ -666,6 +650,11 @@ namespace PokemonGo.RocketAPI.Console
             get { return GlobalSettings.usePwdEncryption; }
             set { GlobalSettings.usePwdEncryption = value; }
         }
+        public bool PauseTheWalking
+        {
+            get { return GlobalSettings.PauseTheWalking; }
+            set { GlobalSettings.PauseTheWalking = value; }
+        }
         public bool pauseAtEvolve
         {
             get { return GlobalSettings.pauseAtEvolve; }
@@ -767,16 +756,6 @@ namespace PokemonGo.RocketAPI.Console
             set { GlobalSettings.CollectDailyBonus = value; }
         }
 
-        public bool PauseTheWalking
-        {
-            get { return GlobalSettings.PauseTheWalking; }
-            set { GlobalSettings.PauseTheWalking = value; }
-        }
-        public ManualSnipePokemon SnipeOpts
-        {
-            get { return GlobalSettings.SnipeOpts; }
-            set { GlobalSettings.SnipeOpts = value; }
-        }
         public ProxySettings proxySettings
         {
             get { return GlobalSettings.proxySettings; }
