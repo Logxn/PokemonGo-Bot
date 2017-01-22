@@ -47,11 +47,50 @@ namespace PokemonGo.RocketAPI.Console
         {
             _botSettings = new Settings();
             GlobalSettings.FirstLoad = false;
-            Directory.CreateDirectory(Program.path);
-            Directory.CreateDirectory(Program.path_translation);
-            Directory.CreateDirectory(Program.path_pokedata);
-            Directory.CreateDirectory(devicePath);
-            Directory.CreateDirectory(PokeDataPath);
+            try
+            {
+                Directory.CreateDirectory(Program.path);
+                try
+                {
+                    Directory.CreateDirectory(Program.path_translation);
+
+                    try
+                    {
+                        Directory.CreateDirectory(Program.path_pokedata);
+                        try
+                        {
+                            Directory.CreateDirectory(devicePath);
+                            try
+                            {
+                                Directory.CreateDirectory(PokeDataPath);
+                            }
+                            catch(Exception ePokeData)
+                            {
+                                Logger.ColoredConsoleWrite(ConsoleColor.Red, $"(Exception Triggered - GUI.cs Line 69) - Message: {ePokeData.Message}");
+                            }
+                        }
+                        catch(Exception eDevice)
+                        {
+                            Logger.ColoredConsoleWrite(ConsoleColor.Red, $"(Exception Triggered - GUI.cs Line 74) - Message: {eDevice.Message}");
+                        }
+                    }
+                    catch(Exception ePokedata)
+                    {
+                        Logger.ColoredConsoleWrite(ConsoleColor.Red, $"(Exception Triggered - GUI.cs Line 79) - Message: {ePokedata.Message}");
+                    }
+                }
+                catch(Exception eTrans)
+                {
+                    Logger.ColoredConsoleWrite(ConsoleColor.Red, $"(Exception Triggered - GUI.cs Line 84) - Message: {eTrans.Message}");
+                }
+            }
+            catch(Exception ePath)
+            {
+                Logger.ColoredConsoleWrite(ConsoleColor.Red, $"(Exception Triggered - GUI.cs Line 89) - Message: {ePath.Message}");
+            }
+
+            
+
 
             if (File.Exists($@"{baseDirectory}\update.bat"))
                 File.Delete($@"{baseDirectory}\update.bat");
@@ -235,8 +274,7 @@ namespace PokemonGo.RocketAPI.Console
                             }
                         }
                     };
-                        
-                        
+
                     var config = Newtonsoft.Json.JsonConvert.DeserializeObject<ProfileSettings>(configString, jsonSettings);
                     // tab 1 
                     pFHashKey.Text = config.pFHashKey;
@@ -363,15 +401,17 @@ namespace PokemonGo.RocketAPI.Console
                         rbSOEggsAscendingBasicInc.Checked = true;
                     else
                         rbSOEggsDescendingBasicInc.Checked = true;
-                        
+
 
                     // tab 5 proxy
-                    checkBox_UseProxy.Checked = config.proxySettings.enabled;
-                    checkBox_UseProxyAuth.Checked = config.proxySettings.useAuth;
-                    prxyIP.Text = config.proxySettings.hostName;
-                    prxyPort.Text =""+ config.proxySettings.port;
-                    prxyUser.Text = config.proxySettings.username;
-                    prxyPass.Text = config.proxySettings.password;
+                    if (config.proxySettings !=null){
+                        checkBox_UseProxy.Checked = config.proxySettings.enabled;
+                        checkBox_UseProxyAuth.Checked = config.proxySettings.useAuth;
+                        prxyIP.Text = config.proxySettings.hostName;
+                        prxyPort.Text =""+ config.proxySettings.port;
+                        prxyUser.Text = config.proxySettings.username;
+                        prxyPass.Text = config.proxySettings.password;
+                    }
 
 
                     // tab 6 walk

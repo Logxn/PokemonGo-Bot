@@ -60,6 +60,11 @@ namespace PokemonGo.RocketAPI.Logging
         { 
             if (!File.Exists(log))
             {
+                if(!Directory.Exists(path))
+                {
+                    Directory.CreateDirectory(path);
+                }
+
                 File.Create(log);
             } 
             try

@@ -428,7 +428,7 @@ namespace PokemonGo.RocketAPI.Console
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(117, 20);
             this.label8.TabIndex = 87;
-            this.label8.Text = "Secons to wait there:";
+            this.label8.Text = "Seconds to wait there:";
             // 
             // label9
             // 
