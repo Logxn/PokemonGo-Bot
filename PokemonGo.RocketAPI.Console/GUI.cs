@@ -124,12 +124,10 @@ namespace PokemonGo.RocketAPI.Console
             Profiles = new Collection<Profile>();
             var blankProfile = new Profile();
             blankProfile.ProfileName = "DefaultProfile";
-            blankProfile.IsDefault = true;
             blankProfile.RunOrder = 1;
             blankProfile.Settings = new ProfileSettings();
             ActiveProfile = blankProfile;
             UpdateActiveProf(false);
-            ProfileSelect.DisplayMember = "ProfileName";
             var foundDefaultProfile = false;
             var filenameProf ="";
             Profile selectedProfile = null;
@@ -179,9 +177,11 @@ namespace PokemonGo.RocketAPI.Console
             if (!foundDefaultProfile)
                 Profiles.Add(blankProfile);
 
+            ProfileSelect.DisplayMember = "ProfileName";
             ProfileSelect.DataSource = Profiles;
             if (selectedProfile != null)
             {
+                  blankProfile.IsDefault = false;
                   LoadData(selectedProfile.Settings);
                   checkBoxDefaultProf.Checked = selectedProfile.IsDefault;
                   ProfileSelect.SelectedItem = selectedProfile;
@@ -189,11 +189,10 @@ namespace PokemonGo.RocketAPI.Console
             }
             else
             {
-                  
                   ProfileSelect.SelectedItem = blankProfile;
                   ProfileName.Text = blankProfile.ProfileName;
             }
-            
+
             if (result!="")
             {
                  MessageBox.Show("Loading Config failed\n"+result+"Check settings before running!");
@@ -395,10 +394,10 @@ namespace PokemonGo.RocketAPI.Console
             checkBox_Start_Walk_from_default_location.Checked = config.WalkBackToDefaultLocation;
     
             // tab 7 - telegram and logs
-            logPokemon.Checked = config.LogPokemon;
-            logManuelTransfer.Checked = config.LogTransfer;
-            logEvolution.Checked = config.LogEvolve;
-            checkbox_LogEggs.Checked = config.LogEggs;
+            cbLogPokemon.Checked = config.LogPokemons;
+            cbLogManuelTransfer.Checked = config.LogTransfer;
+            cbLogEvolution.Checked = config.LogEvolve;
+            cbLogEggs.Checked = config.LogEggs;
     
             text_Telegram_Token.Text = config.TelegramAPIToken;
             text_Telegram_Name.Text = config.TelegramName;
@@ -427,8 +426,8 @@ namespace PokemonGo.RocketAPI.Console
                     double latitude, longitude;
                     double.TryParse(latlng[0], out latitude);
                     double.TryParse(latlng[1], out longitude);
-                    GlobalVars.latitude = latitude;
-                    GlobalVars.longitude = longitude;
+                    ActiveProfile.Settings.DefaultLatitude = latitude;
+                    ActiveProfile.Settings.DefaultLongitude = longitude;
                 }
                 catch
                 {
@@ -449,8 +448,8 @@ namespace PokemonGo.RocketAPI.Console
         {
             var selectedProfile = (Profile) Profiles.FirstOrDefault(i => i == ProfileSelect.SelectedItem);
             LoadData(selectedProfile.Settings);
-            checkBoxDefaultProf.Checked = selectedProfile.IsDefault;            
             ProfileName.Text = selectedProfile.ProfileName;
+            checkBoxDefaultProf.Checked = selectedProfile.IsDefault;
         }
 
         //Password KeyPress Event
@@ -481,19 +480,24 @@ namespace PokemonGo.RocketAPI.Console
         private const string NEW_YORK_COORS = "40.764883;-73.972967";
         private void buttonSaveStart_Click(object sender, EventArgs e)
         {
-            var selectedCoords =GlobalVars.latitude.ToString("0.000000") +";"+GlobalVars.longitude.ToString("0.000000");
             
-            selectedCoords = selectedCoords.Replace(",",".");
-            if (selectedCoords.Equals(NEW_YORK_COORS))
-            {
-                var ret = MessageBox.Show("Have you set correctly your location? (It seems like you are using default coords. This can lead to an auto-ban from niantic)", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-                if (ret == DialogResult.No)
-                {
-                    return;
-                }
-            }
             if (Save())
             {
+                if (ActiveProfile.Settings.UseLastCords)
+                    LoadLatestCoords();
+
+                var selectedCoords =ActiveProfile.Settings.DefaultLatitude.ToString("0.000000") +";"+ ActiveProfile.Settings.DefaultLongitude.ToString("0.000000");
+                selectedCoords = selectedCoords.Replace(",",".");
+                if (selectedCoords.Equals(NEW_YORK_COORS))
+                {
+                    var ret = MessageBox.Show("Have you set correctly your location? (It seems like you are using default coords. This can lead to an auto-ban from niantic)", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                    if (ret == DialogResult.No)
+                    {
+                        return;
+                    }
+                }
+                GlobalVars.Assign(ActiveProfile.Settings);
+
                 Dispose();
             }else
                 MessageBox.Show("Please Review Red Boxes Before Start");
@@ -570,6 +574,7 @@ namespace PokemonGo.RocketAPI.Console
         {
             #region Setting all the globals
 
+            ActiveProfile.IsDefault = checkBoxDefaultProf.Checked;
             // tab 1 - General
             
             ActiveProfile.Settings.AuthType = (comboBox_AccountType.SelectedIndex == 0) ? Enums.AuthType.Google : Enums.AuthType.Ptc;
@@ -760,10 +765,10 @@ namespace PokemonGo.RocketAPI.Console
             ActiveProfile.Settings.WalkBackToDefaultLocation = checkBox_Start_Walk_from_default_location.Checked;
 
             // tab 7 - Logs and Telegram            
-            ActiveProfile.Settings.logPokemons = logPokemon.Checked;
-            ActiveProfile.Settings.logManualTransfer = logManuelTransfer.Checked;
-            ActiveProfile.Settings.bLogEvolve = logEvolution.Checked;
-            ActiveProfile.Settings.LogEggs = checkbox_LogEggs.Checked;
+            ActiveProfile.Settings.LogPokemons = cbLogPokemon.Checked;
+            ActiveProfile.Settings.LogTransfer = cbLogManuelTransfer.Checked;
+            ActiveProfile.Settings.LogEvolve = cbLogEvolution.Checked;
+            ActiveProfile.Settings.LogEggs = cbLogEggs.Checked;
 
             ActiveProfile.Settings.TelegramAPIToken = text_Telegram_Token.Text;
             ActiveProfile.Settings.TelegramName = text_Telegram_Name.Text;
@@ -810,14 +815,19 @@ namespace PokemonGo.RocketAPI.Console
                     var newProfile = new Profile();
                     newProfile.ProfileName = _profile.ProfileName;
                     newProfile.IsDefault = _profile.IsDefault;
+                    if (ActiveProfile.IsDefault)
+                        newProfile.IsDefault = false;
                     newProfile.RunOrder = _profile.RunOrder;
-                    newProfile.SettingsJSON = "";
+                    newProfile.SettingsJSON = _profile.SettingsJSON;
                     newProfile.Settings = null;
-                    newProfiles.Add(newProfile);
                     if (_profile.ProfileName == ActiveProfile.ProfileName)
                     {
+                        newProfile.IsDefault = ActiveProfile.IsDefault;
+                        newProfile.RunOrder = ActiveProfile.RunOrder;
+                        newProfile.SettingsJSON = "";
                         foundActiveProf = true;
                     }
+                    newProfiles.Add(newProfile);
                 }
                 if (!foundActiveProf)
                 {
@@ -832,14 +842,25 @@ namespace PokemonGo.RocketAPI.Console
                 var profileJSON = JsonConvert.SerializeObject(newProfiles,Formatting.Indented);
                 File.WriteAllText(@Program.accountProfiles, profileJSON);
                 Profiles= newProfiles;
+
                 var selected = ProfileSelect.SelectedItem;
                 ProfileSelect.DataSource = Profiles;
-                ProfileSelect.SelectedItem = selected;
-                
+                ProfileSelect.SelectedItem = getProfileByName(ActiveProfile.ProfileName);
+
                 return true;
             }
             return false;
            
+        }
+        Profile getProfileByName( string name )
+        {
+            foreach (var element in Profiles) {
+                if (element.ProfileName == name)
+                {
+                    return element;
+                }
+            }
+            return null;
         }
 
         #region CheckedChanged Events
@@ -911,7 +932,6 @@ namespace PokemonGo.RocketAPI.Console
             try
             {
                 DisplayLocationSelector();
-                text_MoveRadius.Text = ""+GlobalVars.radius;
             }
             catch (Exception ex)
             {
@@ -923,10 +943,20 @@ namespace PokemonGo.RocketAPI.Console
         private void DisplayLocationSelector()
         {
             LocationSelect locationSelector = new LocationSelect(false);
+            
+            // We set current values
+            double.TryParse(text_Latidude.Text, out GlobalVars.latitude);
+            double.TryParse(text_Longitude.Text, out GlobalVars.longitude);
+            double.TryParse(text_Altidude.Text, out GlobalVars.altitude);
+            int.TryParse(text_MoveRadius.Text, out GlobalVars.radius);
+            
             locationSelector.ShowDialog();
+            
+            // We set selected values
             text_Latidude.Text = GlobalVars.latitude.ToString(CultureInfo.InvariantCulture);
             text_Longitude.Text = GlobalVars.longitude.ToString(CultureInfo.InvariantCulture);
             text_Altidude.Text = GlobalVars.altitude.ToString(CultureInfo.InvariantCulture);
+            text_MoveRadius.Text = ""+GlobalVars.radius;
         }
 
         private void TextBoxes_Items_TextChanged(object sender, EventArgs e)
@@ -1257,6 +1287,7 @@ We did not have any influence on this. We are very sorry this needed to happen!"
         }
         void checkBoxIsDefaultProf_CheckedChanged(object sender, EventArgs e)
         {
+            /*
             if (checkBoxDefaultProf.Checked)
                 foreach (Profile x in Profiles)
                 {
@@ -1274,6 +1305,7 @@ We did not have any influence on this. We are very sorry this needed to happen!"
                     }
                 }
             }
+            */
 
         }
     }

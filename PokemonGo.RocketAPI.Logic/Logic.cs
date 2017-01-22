@@ -57,7 +57,6 @@ namespace PokemonGo.RocketAPI.Logic
         private bool pokeballoutofstock;
         private bool stopsloaded;
         public static Logic Instance;
-        private bool pauseWalking;
         private readonly List<string> lureEncounters = new List<string>();
         private int count;
         public static int FailedSoftban;
@@ -190,17 +189,17 @@ namespace PokemonGo.RocketAPI.Logic
 
             Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Starting Execute on login server: {BotSettings.AuthType}", LogLevel.Info);
 
-            if (BotSettings.logPokemons)
+            if (BotSettings.LogPokemons)
             {
                 Logger.ColoredConsoleWrite(ConsoleColor.Green, "You enabled Pokemonlogging. It will be saved to \"\\Logs\\PokeLog.txt\"");
             }
 
-            if (BotSettings.logManualTransfer)
+            if (BotSettings.LogTransfer)
             {
                 Logger.ColoredConsoleWrite(ConsoleColor.Green, "You enabled manual transfer logging. It will be saved to \"\\Logs\\TransferLog.txt\"");
             }
 
-            if (BotSettings.bLogEvolve)
+            if (BotSettings.LogEvolve)
             {
                 Logger.ColoredConsoleWrite(ConsoleColor.Green, "You enabled Evolution Logging. It will be saved to \"\\Logs\\EvolutionLog.txt\"");
             }
@@ -1921,7 +1920,7 @@ namespace PokemonGo.RocketAPI.Logic
                         var date = DateTime.Now;
                         if (caughtPokemonResponse.CaptureAward.Xp.Sum() >= 500)
                         {
-                            if (BotSettings.logPokemons)
+                            if (BotSettings.LogPokemons)
                             {
                                 File.AppendAllText(logs, $"[{date}] Caught new {StringUtils.getPokemonNameByLanguage(BotSettings, pokeid)} (CP: {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} | IV: {PokemonInfo.CalculatePokemonPerfection(encounterPokemonResponse.WildPokemon.PokemonData).ToString("0.00")}% | Pokeball used: {bestPokeball} | XP: {caughtPokemonResponse.CaptureAward.Xp.Sum()}) " + Environment.NewLine);
                             }
@@ -1930,7 +1929,7 @@ namespace PokemonGo.RocketAPI.Logic
                         }
                         else
                         {
-                            if (BotSettings.logPokemons)
+                            if (BotSettings.LogPokemons)
                             {
                                 File.AppendAllText(logs, $"[{date}] Caught {StringUtils.getPokemonNameByLanguage(BotSettings, pokeid)} (CP: {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} | IV: {PokemonInfo.CalculatePokemonPerfection(encounterPokemonResponse.WildPokemon.PokemonData).ToString("0.00")}% | Pokeball used: {bestPokeball} | XP: {caughtPokemonResponse.CaptureAward.Xp.Sum()}) " + Environment.NewLine);
                             }
@@ -2084,7 +2083,7 @@ namespace PokemonGo.RocketAPI.Logic
                         }
                     }
 
-                    if (BotSettings.bLogEvolve)
+                    if (BotSettings.LogEvolve)
                     {
                         File.AppendAllText(evolvelog, $"[{date}] - Evolved Pokemon: {getPokemonName} | CP {cp} | Perfection {calcPerf}% | => to {getEvolvedName} | CP: {getEvolvedCP} | XP Reward: {getXP}xp" + Environment.NewLine);
                     }
@@ -2099,7 +2098,7 @@ namespace PokemonGo.RocketAPI.Logic
                 {
                     if (evolvePokemonOutProto.Result != EvolvePokemonResponse.Types.Result.Success)
                     {
-                        if (BotSettings.bLogEvolve)
+                        if (BotSettings.LogEvolve)
                         {
                             File.AppendAllText(evolvelog, $"[{date}] - Failed to evolve {pokemon.PokemonId}. EvolvePokemonOutProto.Result was {evolvePokemonOutProto.Result}" + Environment.NewLine);
                         }
@@ -2162,7 +2161,7 @@ namespace PokemonGo.RocketAPI.Logic
 
                         if (transferFirstLowIv)
                         {
-                            if (BotSettings.logManualTransfer)
+                            if (BotSettings.LogTransfer)
                             {
                                 File.AppendAllText(logs, $"[{date}] - Transfer {StringUtils.getPokemonNameByLanguage(BotSettings, duplicatePokemon.PokemonId)} CP {duplicatePokemon.Cp} IV {PokemonInfo.CalculatePokemonPerfection(duplicatePokemon).ToString("0.00")} % (Best IV: {PokemonInfo.CalculatePokemonPerfection(bestPokemonsIvOfType.First()).ToString("0.00")} %)" + Environment.NewLine);
                             }
@@ -2170,7 +2169,7 @@ namespace PokemonGo.RocketAPI.Logic
                         }
                         else
                         {
-                            if (BotSettings.logManualTransfer)
+                            if (BotSettings.LogTransfer)
                             {
                                 File.AppendAllText(logs, $"[{date}] - Transfer {StringUtils.getPokemonNameByLanguage(BotSettings, duplicatePokemon.PokemonId)} CP {duplicatePokemon.Cp} IV {PokemonInfo.CalculatePokemonPerfection(duplicatePokemon).ToString("0.00")} % (Best: {bestPokemonsCpOfType.First().Cp} CP)" + Environment.NewLine);
                             }
@@ -2435,13 +2434,29 @@ namespace PokemonGo.RocketAPI.Logic
         #endregion
 
         #region Recycle and Incense Functions
+        public ICollection<KeyValuePair<ItemId, int>> GetItemFilter()
+        {
+                return new[]
+                {
+                    new KeyValuePair<ItemId, int>(ItemId.ItemPokeBall, GlobalVars.MaxPokeballs),
+                    new KeyValuePair<ItemId, int>(ItemId.ItemGreatBall, GlobalVars.MaxGreatballs),
+                    new KeyValuePair<ItemId, int>(ItemId.ItemUltraBall, GlobalVars.MaxUltraballs),
+                    new KeyValuePair<ItemId, int>(ItemId.ItemRevive, GlobalVars.MaxRevives),
+                    new KeyValuePair<ItemId, int>(ItemId.ItemPotion, GlobalVars.MaxPotions),
+                    new KeyValuePair<ItemId, int>(ItemId.ItemSuperPotion, GlobalVars.MaxSuperPotions),
+                    new KeyValuePair<ItemId, int>(ItemId.ItemHyperPotion, GlobalVars.MaxHyperPotions),
+                    new KeyValuePair<ItemId, int>(ItemId.ItemRazzBerry, GlobalVars.MaxBerries),
+                    new KeyValuePair<ItemId, int>(ItemId.ItemMaxPotion, GlobalVars.MaxTopPotions),
+                    new KeyValuePair<ItemId, int>(ItemId.ItemMaxRevive, GlobalVars.MaxTopRevives)
+                };
+        }
 
         private void RecycleItems(bool forcerefresh = false)
         {
 
             if (BotSettings.RelocateDefaultLocation)
                 return;
-            var items = objClient.Inventory.GetItemsToRecycle(BotSettings.itemRecycleFilter).Result;
+            var items = objClient.Inventory.GetItemsToRecycle(GetItemFilter()).Result;
 
             foreach (var item in items)
             {
@@ -2566,7 +2581,7 @@ namespace PokemonGo.RocketAPI.Logic
                     var hatched = pokemons.FirstOrDefault(x => !x.IsEgg && x.Id == incubator.PokemonId);
                     if (hatched == null) continue;
 
-                    if (BotSettings.logEggs)
+                    if (BotSettings.LogEggs)
                     {
                         File.AppendAllText(logs, $"[{date}] - Egg hatched and we got a {hatched.PokemonId} (CP: {hatched.Cp} | MaxCP: {PokemonInfo.CalculateMaxCP(hatched)} | Level: {PokemonInfo.GetLevel(hatched)} | IV: {PokemonInfo.CalculatePokemonPerfection(hatched).ToString("0.00")}% )" + Environment.NewLine);
                     }

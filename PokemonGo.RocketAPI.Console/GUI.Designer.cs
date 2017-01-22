@@ -247,10 +247,10 @@ namespace PokemonGo.RocketAPI.Console
             this.text_Telegram_Token = new System.Windows.Forms.TextBox();
             this.label64 = new System.Windows.Forms.Label();
             this.groupBox14 = new System.Windows.Forms.GroupBox();
-            this.checkbox_LogEggs = new System.Windows.Forms.CheckBox();
-            this.logEvolution = new System.Windows.Forms.CheckBox();
-            this.logManuelTransfer = new System.Windows.Forms.CheckBox();
-            this.logPokemon = new System.Windows.Forms.CheckBox();
+            this.cbLogEggs = new System.Windows.Forms.CheckBox();
+            this.cbLogEvolution = new System.Windows.Forms.CheckBox();
+            this.cbLogManuelTransfer = new System.Windows.Forms.CheckBox();
+            this.cbLogPokemon = new System.Windows.Forms.CheckBox();
             this.tabUpdates = new System.Windows.Forms.TabPage();
             this.groupBox9 = new System.Windows.Forms.GroupBox();
             this.newVer = new System.Windows.Forms.Label();
@@ -1056,6 +1056,8 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // checkBoxDefaultProf
             // 
+            this.checkBoxDefaultProf.Checked = true;
+            this.checkBoxDefaultProf.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBoxDefaultProf.Location = new System.Drawing.Point(147, 129);
             this.checkBoxDefaultProf.Name = "checkBoxDefaultProf";
             this.checkBoxDefaultProf.Size = new System.Drawing.Size(100, 24);
@@ -2743,10 +2745,10 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // groupBox14
             // 
-            this.groupBox14.Controls.Add(this.checkbox_LogEggs);
-            this.groupBox14.Controls.Add(this.logEvolution);
-            this.groupBox14.Controls.Add(this.logManuelTransfer);
-            this.groupBox14.Controls.Add(this.logPokemon);
+            this.groupBox14.Controls.Add(this.cbLogEggs);
+            this.groupBox14.Controls.Add(this.cbLogEvolution);
+            this.groupBox14.Controls.Add(this.cbLogManuelTransfer);
+            this.groupBox14.Controls.Add(this.cbLogPokemon);
             this.groupBox14.Location = new System.Drawing.Point(4, 4);
             this.groupBox14.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox14.Name = "groupBox14";
@@ -2756,48 +2758,48 @@ namespace PokemonGo.RocketAPI.Console
             this.groupBox14.TabStop = false;
             this.groupBox14.Text = "Manual Logging";
             // 
-            // checkbox_LogEggs
+            // cbLogEggs
             // 
-            this.checkbox_LogEggs.AutoSize = true;
-            this.checkbox_LogEggs.Location = new System.Drawing.Point(4, 80);
-            this.checkbox_LogEggs.Name = "checkbox_LogEggs";
-            this.checkbox_LogEggs.Size = new System.Drawing.Size(71, 17);
-            this.checkbox_LogEggs.TabIndex = 3;
-            this.checkbox_LogEggs.Text = "Log Eggs";
-            this.checkbox_LogEggs.UseVisualStyleBackColor = true;
+            this.cbLogEggs.AutoSize = true;
+            this.cbLogEggs.Location = new System.Drawing.Point(4, 80);
+            this.cbLogEggs.Name = "cbLogEggs";
+            this.cbLogEggs.Size = new System.Drawing.Size(71, 17);
+            this.cbLogEggs.TabIndex = 3;
+            this.cbLogEggs.Text = "Log Eggs";
+            this.cbLogEggs.UseVisualStyleBackColor = true;
             // 
-            // logEvolution
+            // cbLogEvolution
             // 
-            this.logEvolution.AutoSize = true;
-            this.logEvolution.Location = new System.Drawing.Point(4, 58);
-            this.logEvolution.Margin = new System.Windows.Forms.Padding(2);
-            this.logEvolution.Name = "logEvolution";
-            this.logEvolution.Size = new System.Drawing.Size(91, 17);
-            this.logEvolution.TabIndex = 2;
-            this.logEvolution.Text = "Log Evolution";
-            this.logEvolution.UseVisualStyleBackColor = true;
+            this.cbLogEvolution.AutoSize = true;
+            this.cbLogEvolution.Location = new System.Drawing.Point(4, 58);
+            this.cbLogEvolution.Margin = new System.Windows.Forms.Padding(2);
+            this.cbLogEvolution.Name = "cbLogEvolution";
+            this.cbLogEvolution.Size = new System.Drawing.Size(91, 17);
+            this.cbLogEvolution.TabIndex = 2;
+            this.cbLogEvolution.Text = "Log Evolution";
+            this.cbLogEvolution.UseVisualStyleBackColor = true;
             // 
-            // logManuelTransfer
+            // cbLogManuelTransfer
             // 
-            this.logManuelTransfer.AutoSize = true;
-            this.logManuelTransfer.Location = new System.Drawing.Point(4, 37);
-            this.logManuelTransfer.Margin = new System.Windows.Forms.Padding(2);
-            this.logManuelTransfer.Name = "logManuelTransfer";
-            this.logManuelTransfer.Size = new System.Drawing.Size(86, 17);
-            this.logManuelTransfer.TabIndex = 1;
-            this.logManuelTransfer.Text = "Log Transfer";
-            this.logManuelTransfer.UseVisualStyleBackColor = true;
+            this.cbLogManuelTransfer.AutoSize = true;
+            this.cbLogManuelTransfer.Location = new System.Drawing.Point(4, 37);
+            this.cbLogManuelTransfer.Margin = new System.Windows.Forms.Padding(2);
+            this.cbLogManuelTransfer.Name = "cbLogManuelTransfer";
+            this.cbLogManuelTransfer.Size = new System.Drawing.Size(86, 17);
+            this.cbLogManuelTransfer.TabIndex = 1;
+            this.cbLogManuelTransfer.Text = "Log Transfer";
+            this.cbLogManuelTransfer.UseVisualStyleBackColor = true;
             // 
-            // logPokemon
+            // cbLogPokemon
             // 
-            this.logPokemon.AutoSize = true;
-            this.logPokemon.Location = new System.Drawing.Point(4, 16);
-            this.logPokemon.Margin = new System.Windows.Forms.Padding(2);
-            this.logPokemon.Name = "logPokemon";
-            this.logPokemon.Size = new System.Drawing.Size(128, 17);
-            this.logPokemon.TabIndex = 0;
-            this.logPokemon.Text = "Log caught Pokemon";
-            this.logPokemon.UseVisualStyleBackColor = true;
+            this.cbLogPokemon.AutoSize = true;
+            this.cbLogPokemon.Location = new System.Drawing.Point(4, 16);
+            this.cbLogPokemon.Margin = new System.Windows.Forms.Padding(2);
+            this.cbLogPokemon.Name = "cbLogPokemon";
+            this.cbLogPokemon.Size = new System.Drawing.Size(128, 17);
+            this.cbLogPokemon.TabIndex = 0;
+            this.cbLogPokemon.Text = "Log caught Pokemon";
+            this.cbLogPokemon.UseVisualStyleBackColor = true;
             // 
             // tabUpdates
             // 
@@ -3531,10 +3533,10 @@ namespace PokemonGo.RocketAPI.Console
         private System.Windows.Forms.CheckBox checkBox_UseLuckyEggAtEvolve;
         private System.Windows.Forms.CheckBox checkBox_EvolvePokemonIfEnoughCandy;
         private System.Windows.Forms.TabPage tabMisc;
-        private System.Windows.Forms.CheckBox logPokemon;
+        private System.Windows.Forms.CheckBox cbLogPokemon;
         private System.Windows.Forms.GroupBox groupBox14;
-        private System.Windows.Forms.CheckBox logManuelTransfer;
-        private System.Windows.Forms.CheckBox logEvolution;
+        private System.Windows.Forms.CheckBox cbLogManuelTransfer;
+        private System.Windows.Forms.CheckBox cbLogEvolution;
         private System.Windows.Forms.TabPage tabUpdates;
         private System.Windows.Forms.CheckBox checkbox_AutoUpdate;
         private System.Windows.Forms.GroupBox groupBox15;
@@ -3582,7 +3584,7 @@ namespace PokemonGo.RocketAPI.Console
         private System.Windows.Forms.TextBox text_Pb_Excellent;
         private System.Windows.Forms.CheckBox checkbox_PWDEncryption;
         private System.Windows.Forms.CheckBox checkbox_checkWhileRunning;
-        private System.Windows.Forms.CheckBox checkbox_LogEggs;
+        private System.Windows.Forms.CheckBox cbLogEggs;
         private System.Windows.Forms.Label label60;
         private System.Windows.Forms.Label label59;
         private System.Windows.Forms.Label label58;

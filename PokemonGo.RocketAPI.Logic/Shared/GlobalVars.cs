@@ -115,18 +115,18 @@ namespace PokemonGo.RocketAPI.Logic.Shared
         public static LogicInfoObservable infoObservable = new LogicInfoObservable();
         public static bool Espiral = false;
         public static bool MapLoaded = false;
-        public static bool logPokemons = false;
+        public static bool LogPokemons = false;
+        public static bool LogTransfer = false;
+        public static bool LogEvolve = false;
+        public static bool LogEggs = false;
         public static LinkedList<GeoCoordinate> NextDestinationOverride = new LinkedList<GeoCoordinate>();
         public static LinkedList<GeoCoordinate> RouteToRepeat = new LinkedList<GeoCoordinate>();
         public static bool RepeatUserRoute = false;
-        public static bool logManualTransfer = false;
         public static bool UseLureGUIClick = false;
         public static bool UseLuckyEggGUIClick = false;
         public static bool UseIncenseGUIClick = false;
         public static bool RelocateDefaultLocation = false;
         public static double RelocateDefaultLocationTravelSpeed = 0;
-        public static bool bLogEvolve = false;
-        public static bool LogEggs = false;
         public static bool pauseAtEvolve = false;
         public static bool pauseAtEvolve2 = false;
         public static bool AutoUpdate = false;
@@ -168,57 +168,15 @@ namespace PokemonGo.RocketAPI.Logic.Shared
         
         public static string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Configs");
         public static string accountProfiles = Path.Combine(path, "Profiles.txt");
+        public static bool UseLastCords = false;
         
-        public static bool Load()
-        {
-            var loaded = false;
-            GlobalVars.pokemonsToHold = new List<PokemonId>();
-            GlobalVars.catchPokemonSkipList = new List<PokemonId>();
-            GlobalVars.pokemonsToEvolve = new List<PokemonId>();
-            GlobalVars.NotToSnipe = new List<PokemonId>();
-            if (File.Exists(accountProfiles))
-            {
-                try
-                {
-                    string JSONstring = File.ReadAllText(accountProfiles);
-                    Collection<Profile> profiles = JsonConvert.DeserializeObject<Collection<Profile>>(JSONstring);
-                    foreach (Profile _profile in profiles)
-                    {
-                        if (_profile.IsDefault)
-                        {
-                            LoadProfile(_profile.SettingsJSON);
-                            loaded = true;
-                        }
-                    }
-                }
-                catch (Exception ex1)
-                {
-                    Logger.ExceptionInfo("Loading profiles file:" +ex1.ToString());
-                }
-            }
-            return loaded;
-        }
-        private static void LoadProfile(string configString){
-            var jsonSettings = new JsonSerializerSettings
-            {
-                Error = (sender, args) =>
-                {
-                    if (System.Diagnostics.Debugger.IsAttached)
-                    {
-                        System.Diagnostics.Debugger.Break();
-                    }
-                }
-            };
-            var config = JsonConvert.DeserializeObject<ProfileSettings>(configString, jsonSettings);
-            Assign(config);
-        }
-        private static void Assign(ProfileSettings settings){
-            /*
-             * AuthType, acc
-             *  
-             */
-            foreach (var field in settings.GetType().GetFields()) {
-                var fieldname = field.Name;
+        /// <summary>
+        /// Copy all values from ProfileSettings to GlobalVars.
+        /// </summary>
+        /// <param name="settings"></param>
+        public static void Assign(ProfileSettings settings){
+            foreach (var property in settings.GetType().GetProperties()) {
+                var fieldname = property.Name;
                 if (fieldname == "AuthType")
                     fieldname = "acc";
                 if (fieldname == "Username")
@@ -229,9 +187,42 @@ namespace PokemonGo.RocketAPI.Logic.Shared
                     fieldname = "longitude";
                 if (fieldname == "DefaultAltitude")
                     fieldname = "altitude";
-                typeof(GlobalVars).GetField(fieldname).SetValue(null,
-                     field.GetValue(settings));
+                if (fieldname == "MaxWalkingRadiusInMeters")
+                    fieldname = "radius";
+                try {
+                    typeof(GlobalVars).GetField(fieldname).SetValue(null,
+                         property.GetValue(settings));
+                } catch (Exception ex1) {
+                    
+                    Logger.ExceptionInfo($"setting {fieldname}: {ex1.ToString()}");
+                }
             }
+        }
+        public static ProfileSettings GetSettings()
+        {   
+            var settings = new ProfileSettings();
+            foreach (var property in settings.GetType().GetProperties()) {
+                var fieldname = property.Name;
+                if (fieldname == "AuthType")
+                    fieldname = "acc";
+                if (fieldname == "Username")
+                    fieldname = "email";
+                if (fieldname == "DefaultLatitude")
+                    fieldname = "latitude";
+                if (fieldname == "DefaultLongitude")
+                    fieldname = "longitude";
+                if (fieldname == "DefaultAltitude")
+                    fieldname = "altitude";
+                if (fieldname == "MaxWalkingRadiusInMeters")
+                    fieldname = "radius";
+                try {
+                    property.SetValue(settings,typeof(GlobalVars)
+                                   .GetField(fieldname).GetValue(null));
+                } catch (Exception ex1) {
+                    Logger.ExceptionInfo($"setting {fieldname}: {ex1.ToString()}");
+                }
+            }
+            return settings;
         }
     }
 }

@@ -467,7 +467,7 @@ namespace PokemonGo.RocketAPI.Console
 
             if (failed != string.Empty)
             {
-                if (BotSettings.bLogEvolve)
+                if (BotSettings.LogEvolve)
                 {
                     File.AppendAllText(evolvelog, $"[{date}] - MANUAL - Sucessfully evolved {evolved}/{total} Pokemons. Failed: {failed}" + Environment.NewLine);
                 }
@@ -476,7 +476,7 @@ namespace PokemonGo.RocketAPI.Console
 
             else
             {
-                if (BotSettings.bLogEvolve)
+                if (BotSettings.LogEvolve)
                 {
                     File.AppendAllText(evolvelog, $"[{date}] - MANUAL - Sucessfully evolved {evolved}/{total} Pokemons." + Environment.NewLine);
                 }
@@ -568,7 +568,7 @@ namespace PokemonGo.RocketAPI.Console
                 
                 if (_response.Result == ReleasePokemonResponse.Types.Result.Success)
                 { 
-                    if (BotSettings.logManualTransfer)
+                    if (BotSettings.LogTransfer)
                     {
                         File.AppendAllText(logs, $"[{date}] - MANUAL - Sucessfully Bulk transfered {transfered}/{total} Pokemons. Failed: {failed}" + Environment.NewLine);
                     }

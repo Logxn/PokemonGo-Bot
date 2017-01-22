@@ -369,67 +369,7 @@ namespace PokemonGo.RocketAPI.Console
             set { GlobalVars.NotToSnipe = value; }
         }
 
-        public ICollection<KeyValuePair<ItemId, int>> itemRecycleFilter
-        {
-            get
-            {
-                //Type and amount to keep
-                return new[]
-                {
-                    new KeyValuePair<ItemId, int>(ItemId.ItemPokeBall, GlobalVars.MaxPokeballs),
-                    new KeyValuePair<ItemId, int>(ItemId.ItemGreatBall, GlobalVars.MaxGreatballs),
-                    new KeyValuePair<ItemId, int>(ItemId.ItemUltraBall, GlobalVars.MaxUltraballs),
-                    new KeyValuePair<ItemId, int>(ItemId.ItemRevive, GlobalVars.MaxRevives),
-                    new KeyValuePair<ItemId, int>(ItemId.ItemPotion, GlobalVars.MaxPotions),
-                    new KeyValuePair<ItemId, int>(ItemId.ItemSuperPotion, GlobalVars.MaxSuperPotions),
-                    new KeyValuePair<ItemId, int>(ItemId.ItemHyperPotion, GlobalVars.MaxHyperPotions),
-                    new KeyValuePair<ItemId, int>(ItemId.ItemRazzBerry, GlobalVars.MaxBerries),
-                    new KeyValuePair<ItemId, int>(ItemId.ItemMaxPotion, GlobalVars.MaxTopPotions),
-                    new KeyValuePair<ItemId, int>(ItemId.ItemMaxRevive, GlobalVars.MaxTopRevives)
-                };
-            }
-            set
-            {
-                foreach (KeyValuePair<ItemId, int> item in value)
-                {
-                    switch (item.Key)
-                    {
-                        case ItemId.ItemPokeBall:
-                            GlobalVars.MaxPokeballs = item.Value;
-                            break;
-                        case ItemId.ItemGreatBall:
-                            GlobalVars.MaxGreatballs = item.Value;
-                            break;
-                        case ItemId.ItemUltraBall:
-                            GlobalVars.MaxUltraballs = item.Value;
-                            break;
-                        case ItemId.ItemRevive:
-                            GlobalVars.MaxRevives = item.Value;
-                            break;
-                        case ItemId.ItemMaxRevive:
-                            GlobalVars.MaxTopRevives = item.Value;
-                            break;
-                        case ItemId.ItemPotion:
-                            GlobalVars.MaxPotions = item.Value;
-                            break;
-                        case ItemId.ItemSuperPotion:
-                            GlobalVars.MaxSuperPotions = item.Value;
-                            break;
-                        case ItemId.ItemHyperPotion:
-                            GlobalVars.MaxHyperPotions = item.Value;
-                            break;
-                        case ItemId.ItemMaxPotion:
-                            GlobalVars.MaxTopPotions = item.Value;
-                            break;
-                        case ItemId.ItemRazzBerry:
-                            GlobalVars.MaxBerries = item.Value;
-                            break;
-                        default:
-                            break;
-                    }
-                }
-            }
-        }
+
         public bool pauseAtPokeStop
         {
             get { return GlobalVars.pauseAtPokeStop; }
@@ -510,21 +450,6 @@ namespace PokemonGo.RocketAPI.Console
             get { return GlobalVars.Espiral; }
             set { GlobalVars.Espiral = value; }
         }
-        bool ISettings.logPokemons
-        {
-            get { return GlobalVars.logPokemons; }
-            set { GlobalVars.logPokemons = value; }
-        }
-        bool ISettings.logManualTransfer
-        {
-            get { return GlobalVars.logManualTransfer; }
-            set { GlobalVars.logManualTransfer = value; }
-        }
-        bool ISettings.bLogEvolve
-        {
-            get { return GlobalVars.bLogEvolve; }
-            set { GlobalVars.bLogEvolve = value; }
-        }
         bool ISettings.CheckWhileRunning
         {
             get { return GlobalVars.CheckWhileRunning; }
@@ -534,11 +459,6 @@ namespace PokemonGo.RocketAPI.Console
         {
             get { return GlobalVars.AutoUpdate; }
             set { GlobalVars.AutoUpdate = value; }
-        }
-        bool ISettings.logEggs
-        {
-            get { return GlobalVars.LogEggs; }
-            set { GlobalVars.LogEggs = value; }
         }
         public LinkedList<GeoCoordinate> NextDestinationOverride
         {
@@ -590,20 +510,20 @@ namespace PokemonGo.RocketAPI.Console
             get { return GlobalVars.Max_Missed_throws; }
             set { GlobalVars.Max_Missed_throws = value; }
         }
-        public bool LogPokemon
+        public bool LogPokemons
         {
-            get { return GlobalVars.logPokemons; }
-            set { GlobalVars.logPokemons = value; }
+            get { return GlobalVars.LogPokemons; }
+            set { GlobalVars.LogPokemons = value; }
         }
         public bool LogTransfer
         {
-            get { return GlobalVars.logManualTransfer; }
-            set { GlobalVars.logManualTransfer = value; }
+            get { return GlobalVars.LogTransfer; }
+            set { GlobalVars.LogTransfer = value; }
         }
         public bool LogEvolve
         {
-            get { return GlobalVars.bLogEvolve; }
-            set { GlobalVars.bLogEvolve = value; }
+            get { return GlobalVars.LogEvolve; }
+            set { GlobalVars.LogEvolve = value; }
         }
         public bool LogEggs
         {

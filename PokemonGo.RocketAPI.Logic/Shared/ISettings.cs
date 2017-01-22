@@ -90,10 +90,10 @@ namespace PokemonGo.RocketAPI.Logic.Shared
         int ordinarythrow { get; set; }
 
         /* LOGGING */
-        bool logPokemons { get; set; }
-        bool logManualTransfer { get; set; }
-        bool bLogEvolve { get; set; }
-        bool logEggs { get; set; }
+        bool LogPokemons { get; set; }
+        bool LogTransfer { get; set; }
+        bool LogEvolve { get; set; }
+        bool LogEggs { get; set; }
 
         /* UPDATES */
         bool AutoUpdate { get; set; }
@@ -113,10 +113,6 @@ namespace PokemonGo.RocketAPI.Logic.Shared
 
         /* MISC */
         bool pokevision { get; set; }
-        bool LogPokemon { get; set; }
-        bool LogTransfer { get; set; }
-        bool LogEvolve { get; set; }
-        bool LogEggs { get; set; }
         bool UseAnimationTimes { get; set; }
         bool MapLoaded { get; set; }
         bool PauseTheWalking { get; set; }
@@ -139,7 +135,6 @@ namespace PokemonGo.RocketAPI.Logic.Shared
         int ivmaxpercent { get; set; }
         string SelectedLanguage { get; set; }
         string GoogleMapsAPIKey { get; set; }
-        ICollection<KeyValuePair<ItemId, int>> itemRecycleFilter { get; set; }
         int MaxPokeballs { get; set; }
         int MaxGreatballs { get; set; }
         int MaxUltraballs { get; set; }

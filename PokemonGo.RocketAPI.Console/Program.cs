@@ -132,12 +132,40 @@ namespace PokemonGo.RocketAPI.Console
             if (args != null && args.Length > 0 && args[0].Contains("-nogui"))
             {
                 Logger.ColoredConsoleWrite(ConsoleColor.Red, "You added -nogui!");
-
-                if (!GlobalVars.Load()) {
-                    Logger.ColoredConsoleWrite(ConsoleColor.Red, "You didn't setup correctly with the GUI.");
-                    Logger.ColoredConsoleWrite(ConsoleColor.Red, "Run it without -nogui to Configure.");
-                    Logger.ColoredConsoleWrite(ConsoleColor.Red, "Exiting..");
-                    Environment.Exit(-1);
+                
+                if (File.Exists(Program.accountProfiles))
+                {
+                    string JSONstring = File.ReadAllText(accountProfiles);
+                    var Profiles = Newtonsoft.Json.JsonConvert.DeserializeObject<Collection<Profile>>(JSONstring);
+                    Profile selectedProfile = null;
+                    foreach (Profile _profile in Profiles)
+                    {
+                        if (_profile.IsDefault)
+                        {
+                            selectedProfile = _profile;
+                            break;
+                        }
+                    }
+                    if (selectedProfile != null)
+                    {
+                        var filenameProf= Path.Combine(path, $"{selectedProfile.ProfileName}.json");
+                        selectedProfile.Settings = ProfileSettings.LoadFromFile(filenameProf);
+                        selectedProfile.Settings.SaveToGlobals();
+                    }
+                    else
+                    {
+                        Logger.ColoredConsoleWrite(ConsoleColor.Red, "Default Profile not found. You didn't setup the bot correctly.");
+                        Logger.ColoredConsoleWrite(ConsoleColor.Red, "Run it without -nogui to Configure.");
+                        Logger.ColoredConsoleWrite(ConsoleColor.Red, "Exiting..");
+                        Environment.Exit(-1);
+                    }
+                }
+                else
+                {
+                        Logger.ColoredConsoleWrite(ConsoleColor.Red, "You are not setup the bot yet.");
+                        Logger.ColoredConsoleWrite(ConsoleColor.Red, "Run it without -nogui to Configure.");
+                        Logger.ColoredConsoleWrite(ConsoleColor.Red, "Exiting..");
+                        Environment.Exit(-1);
                 }
 
                 if (GlobalVars.UsePwdEncryption)
