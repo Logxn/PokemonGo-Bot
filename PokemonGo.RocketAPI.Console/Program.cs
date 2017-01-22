@@ -133,6 +133,7 @@ namespace PokemonGo.RocketAPI.Console
             {
                 Logger.ColoredConsoleWrite(ConsoleColor.Red, "You added -nogui!");
                 
+                #region Read bot settings
                 if (File.Exists(Program.accountProfiles))
                 {
                     string JSONstring = File.ReadAllText(accountProfiles);
@@ -172,7 +173,8 @@ namespace PokemonGo.RocketAPI.Console
                 {
                     GlobalVars.Password = Encryption.Decrypt(GlobalVars.Password);
                 }
-
+                #endregion
+                
                 if (cmdCoords != string.Empty)
                 {
                     string[] crdParts = cmdCoords.Split(',');
