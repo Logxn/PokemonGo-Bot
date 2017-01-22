@@ -962,7 +962,17 @@ namespace PokemonGo.RocketAPI.Logic.Shared
         public static ProfileSettings LoadFromStringJSON(string strJSON)
         {
             if (strJSON != "") {
-                return JsonConvert.DeserializeObject<ProfileSettings>(strJSON);
+                var ret = JsonConvert.DeserializeObject<ProfileSettings>(strJSON);
+                // Obsoleted - We can delete it passed several versions 
+                // 1{
+                var oldUser = JsonConvert.DeserializeObject<OldUserName>(strJSON);
+                if (!string.IsNullOrEmpty(oldUser.GoogleUsername))
+                {
+                    ret.Username = oldUser.GoogleUsername;
+                    ret.Password = oldUser.GooglePassword;
+                }
+                // }1
+                return ret;
             }
             return null;
         }
@@ -991,6 +1001,19 @@ namespace PokemonGo.RocketAPI.Logic.Shared
             
         }
     }
-    
-    
+    // Obsoleted - We can delete it passed several versions 
+    // 2{
+    public class OldUserName 
+    {
+        public string GoogleUsername {
+            get;
+            set;
+        }
+        public string GooglePassword {
+            get;
+            set;
+        }
+    }
+    // }2
+
 }

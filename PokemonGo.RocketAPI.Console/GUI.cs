@@ -249,7 +249,7 @@ namespace PokemonGo.RocketAPI.Console
             text_EMail.Text = config.Username;
             text_Password.Text = config.Password;
             checkbox_PWDEncryption.Checked = config.UsePwdEncryption;
-            if (config.UsePwdEncryption)
+            if (config.UsePwdEncryption )
             {
                 text_Password.Text = Encryption.Decrypt(config.Password);
             }
@@ -496,6 +496,11 @@ namespace PokemonGo.RocketAPI.Console
                         return;
                     }
                 }
+                
+                // TODO: Make this decyption at end of comuncation
+                if (ActiveProfile.Settings.UsePwdEncryption)
+                    ActiveProfile.Settings.Password = Encryption.Decrypt(ActiveProfile.Settings.Password);
+                
                 GlobalVars.Assign(ActiveProfile.Settings);
 
                 Dispose();
@@ -802,7 +807,7 @@ namespace PokemonGo.RocketAPI.Console
         {
             if (  UpdateActiveProf(true)){
                 ActiveProfile.ProfileName = ProfileName.Text;
-                if (ActiveProfile.Settings.UsePwdEncryption)
+                if (ActiveProfile.Settings.UsePwdEncryption )
                 {
                     ActiveProfile.Settings.Password = Encryption.Encrypt(ActiveProfile.Settings.Password);
                 }
