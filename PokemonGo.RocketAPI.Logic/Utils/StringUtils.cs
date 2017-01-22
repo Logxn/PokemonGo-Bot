@@ -595,9 +595,10 @@ namespace PokemonGo.RocketAPI.Logic.Utils
         {
             if (kill)
             {
-                Logger.Error("The bot is deactivated at server level for security or maintenance reasons, we have to close it.");
-                Logger.Error("Thanks for your patience!" + Environment.NewLine);
+                Logger.Error("You have reached one of the limits (playing time, pokemon caught, km walked...), so, we are closing the Bot for you!");
+                Logger.Error("Thank you!" + Environment.NewLine);
                 System.Console.ReadLine();
+                Environment.Exit(-1);
                 return true;
             }
             using (var wc = new WebClient())
@@ -622,6 +623,7 @@ namespace PokemonGo.RocketAPI.Logic.Utils
                             Logger.Error("Thanks for your patience!" + Environment.NewLine);
                             Logger.Error(strReason + Environment.NewLine);
                             System.Console.ReadLine();
+                            Environment.Exit(-1);
                             return true;
                         }
                     }

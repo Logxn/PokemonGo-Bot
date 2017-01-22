@@ -177,10 +177,6 @@ namespace PokemonGo.RocketAPI.Logic
 
         public void Execute()
         {
-            // Check if disabled
-            // Not necessary anymore
-            //StringUtils.CheckKillSwitch();
-
             Logger.ColoredConsoleWrite(ConsoleColor.Red, "Source code and binary files of this bot are absolutely free and open-source!");
             Logger.ColoredConsoleWrite(ConsoleColor.Red, "If you've paid for it. Request a chargeback immediately!");
             Logger.ColoredConsoleWrite(ConsoleColor.Red, "You only need pay for a key to access to Hash Service");
@@ -385,9 +381,6 @@ namespace PokemonGo.RocketAPI.Logic
         {
             //Enable Pokemon List cause everything is loaded
             objClient.readyToUse = true;
-
-            // Check if disabled
-            StringUtils.CheckKillSwitch();
 
             #region Set Stat Variables
 
@@ -1319,15 +1312,15 @@ namespace PokemonGo.RocketAPI.Logic
                 var fortSearch = objClient.Fort.SearchFort(pokeStop.Id, pokeStop.Latitude, pokeStop.Longitude).Result;
                 if(BotSettings.EnableVerboseLogging)
                 {
-                    Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "================[VERBOSE LOGGING - Pokestop Search]================");
-                    Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Result: {fortSearch.Result}");
-                    Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"ChainHackSequenceNumber: {fortSearch.ChainHackSequenceNumber}");
-                    Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Cooldown Complete (MS): {fortSearch.CooldownCompleteTimestampMs}");
-                    Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"EXP Award: {fortSearch.ExperienceAwarded}");
-                    Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Gems Award: {fortSearch.GemsAwarded}");
-                    Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Item Award: {fortSearch.ItemsAwarded}");
-                    Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Egg Data: {fortSearch.PokemonDataEgg}");
-                    Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "==================================================================");
+                    Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "================[VERBOSE LOGGING - Pokestop Search]================",LogLevel.Debug);
+                    Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Result: {fortSearch.Result}", LogLevel.Debug);
+                    Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"ChainHackSequenceNumber: {fortSearch.ChainHackSequenceNumber}", LogLevel.Debug);
+                    Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Cooldown Complete (MS): {fortSearch.CooldownCompleteTimestampMs}", LogLevel.Debug);
+                    Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"EXP Award: {fortSearch.ExperienceAwarded}", LogLevel.Debug);
+                    Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Gems Award: {fortSearch.GemsAwarded}", LogLevel.Debug);
+                    Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Item Award: {fortSearch.ItemsAwarded}", LogLevel.Debug);
+                    Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Egg Data: {fortSearch.PokemonDataEgg}", LogLevel.Debug);
+                    Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "==================================================================", LogLevel.Debug);
                 }
 
                 switch (fortSearch.Result.ToString())

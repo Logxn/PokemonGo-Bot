@@ -296,11 +296,12 @@ namespace PokemonGo.RocketAPI.Helpers
             };
 
             // This is new code for 0.53 below
-            if (customRequests[0].RequestType == RequestType.GetPlayer ||  customRequests[0].RequestType == RequestType.GetMapObjects)
-                _requestEnvelope.PlatformRequests.Add(new RequestEnvelope.Types.PlatformRequest
-                                                {
-                                                    Type = PlatformRequestType.UnknownPrt8
-                                                });
+            // Note by Logxn: We do need this for ALL requests and before the main requests.
+            
+            _requestEnvelope.PlatformRequests.Add(new RequestEnvelope.Types.PlatformRequest { 
+                Type = PlatformRequestType.UnknownPrt8
+            });
+
 
             if (_authTicket != null && !firstRequest)
             {
