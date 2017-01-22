@@ -20,5 +20,8 @@ namespace PokemonGo.RocketAPI.Logic.Shared
         { get; set; }
         public string SettingsJSON
         { get; set; }
+        public ProfileSettings Settings
+        { get; set; }
+        
     }
 }

@@ -90,7 +90,7 @@ namespace PokemonGo.RocketAPI.Console
                     }
 
                     if (arg.ToLower().Contains("-bypassversioncheck"))
-                        GlobalSettings.BypassCheckCompatibilityVersion = true;
+                        GlobalVars.BypassCheckCompatibilityVersion = true;
 
                     if (arg.ToLower().Contains("-help"))
                     {
@@ -107,12 +107,12 @@ namespace PokemonGo.RocketAPI.Console
             }
 
             // Checking if current BOT API implementation supports NIANTIC current API (unless there's an override command line switch)
-            if (!GlobalSettings.BypassCheckCompatibilityVersion)
+            if (!GlobalVars.BypassCheckCompatibilityVersion)
             {
                 Logger.ColoredConsoleWrite(ConsoleColor.DarkMagenta, $"Bot Current version: {BotVersion}");
-                Logger.ColoredConsoleWrite(ConsoleColor.DarkMagenta, $"Bot Supported API version: {GlobalSettings.BotApiSupportedVersion}");
+                Logger.ColoredConsoleWrite(ConsoleColor.DarkMagenta, $"Bot Supported API version: {GlobalVars.BotApiSupportedVersion}");
                 Logger.ColoredConsoleWrite(ConsoleColor.DarkMagenta, $"Current API version: {new CurrentAPIVersion().GetNianticAPIVersion()}");
-                bool CurrentVersionsOK = new CurrentAPIVersion().CheckAPIVersionCompatibility( GlobalSettings.BotApiSupportedVersion);
+                bool CurrentVersionsOK = new CurrentAPIVersion().CheckAPIVersionCompatibility( GlobalVars.BotApiSupportedVersion);
                 if (!CurrentVersionsOK)
                 {
                     Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Atention, current API version is new and still not supported by Bot.");
@@ -133,26 +133,26 @@ namespace PokemonGo.RocketAPI.Console
             {
                 Logger.ColoredConsoleWrite(ConsoleColor.Red, "You added -nogui!");
 
-                if (!GlobalSettings.Load()) {
+                if (!GlobalVars.Load()) {
                     Logger.ColoredConsoleWrite(ConsoleColor.Red, "You didn't setup correctly with the GUI.");
                     Logger.ColoredConsoleWrite(ConsoleColor.Red, "Run it without -nogui to Configure.");
                     Logger.ColoredConsoleWrite(ConsoleColor.Red, "Exiting..");
                     Environment.Exit(-1);
                 }
 
-                if (GlobalSettings.usePwdEncryption)
+                if (GlobalVars.UsePwdEncryption)
                 {
-                    GlobalSettings.password = Encryption.Decrypt(GlobalSettings.password);
+                    GlobalVars.Password = Encryption.Decrypt(GlobalVars.Password);
                 }
 
                 if (cmdCoords != string.Empty)
                 {
                     string[] crdParts = cmdCoords.Split(',');
-                    GlobalSettings.latitute = double.Parse(crdParts[0].Replace(',', '.'), GUI.cords, System.Globalization.NumberFormatInfo.InvariantInfo);
-                    GlobalSettings.longitude = double.Parse(crdParts[1].Replace(',', '.'), GUI.cords, System.Globalization.NumberFormatInfo.InvariantInfo);
+                    GlobalVars.latitude = double.Parse(crdParts[0].Replace(',', '.'), GUI.cords, System.Globalization.NumberFormatInfo.InvariantInfo);
+                    GlobalVars.longitude = double.Parse(crdParts[1].Replace(',', '.'), GUI.cords, System.Globalization.NumberFormatInfo.InvariantInfo);
                 }
 
-                Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Starting at: {GlobalSettings.latitute},{GlobalSettings.longitude}");
+                Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Starting at: {GlobalVars.latitude},{GlobalVars.longitude}");
             }
             else
             {
@@ -163,7 +163,7 @@ namespace PokemonGo.RocketAPI.Console
                 {
                              new Panels.SplashScreen().ShowDialog();
                       });
-                openGUI = GlobalSettings.pokeList;
+                openGUI = GlobalVars.EnablePokeList;
                 // To open tabbed GUI to test programing 
                 /*Application.Run( new Pokemons()); 
                 Environment.Exit(0);*/
@@ -173,7 +173,7 @@ namespace PokemonGo.RocketAPI.Console
             SleepHelper.PreventSleep();
             CreateLogDirectories();
 
-            GlobalSettings.infoObservable.HandleNewHuntStats += SaveHuntStats;
+            GlobalVars.infoObservable.HandleNewHuntStats += SaveHuntStats;
 
             Task.Run(() =>
             {
@@ -182,14 +182,14 @@ namespace PokemonGo.RocketAPI.Console
                 
                 try
                 {
-                    new Logic.Logic(new Settings(), GlobalSettings.infoObservable).Execute();
+                    new Logic.Logic(new Settings(), GlobalVars.infoObservable).Execute();
                 }
                 catch (PtcOfflineException)
                 {
                     Logger.ColoredConsoleWrite(ConsoleColor.Red, "PTC Servers are probably down OR you credentials are wrong.", LogLevel.Error);
                     Logger.ColoredConsoleWrite(ConsoleColor.Red, "Trying again in 20 seconds...");
                     Thread.Sleep(20000);
-                    new Logic.Logic(new Settings(), GlobalSettings.infoObservable).Execute();
+                    new Logic.Logic(new Settings(), GlobalVars.infoObservable).Execute();
                 }
                 catch (AccountNotVerifiedException)
                 {
@@ -202,19 +202,19 @@ namespace PokemonGo.RocketAPI.Console
                     Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Unhandled exception: {ex}", LogLevel.Error);
                     Logger.Error("Restarting in 20 Seconds.");
                     Thread.Sleep(20000);
-                    new Logic.Logic(new Settings(), GlobalSettings.infoObservable).Execute();
+                    new Logic.Logic(new Settings(), GlobalVars.infoObservable).Execute();
                 }
             });
 
             if (openGUI)
             {
-                if (GlobalSettings.simulatedPGO)
+                if (GlobalVars.simulatedPGO)
                 {
                     Application.Run( new GameAspectSimulator());
                 }
                 else
                 {
-                    if (GlobalSettings.consoleInTab)
+                    if (GlobalVars.EnableConsoleInTab)
                         FreeConsole();
                     Application.Run( new Pokemons());
                 }

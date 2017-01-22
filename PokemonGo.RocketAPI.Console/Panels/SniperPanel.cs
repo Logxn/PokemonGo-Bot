@@ -80,25 +80,25 @@ namespace PokemonGo.RocketAPI.Console
         }
         void UpdateNotToSnipe_Click(object sender, EventArgs e)
         {
-            GlobalSettings.NotToSnipe.Clear();
+            GlobalVars.NotToSnipe.Clear();
             foreach (string pokemon in checkedListBox_NotToSnipe.CheckedItems)
             {
-                GlobalSettings.NotToSnipe.Add((PokemonId)Enum.Parse(typeof(PokemonId), pokemon));
+                GlobalVars.NotToSnipe.Add((PokemonId)Enum.Parse(typeof(PokemonId), pokemon));
             }
             MessageBox.Show("This setting will only affect current session unless you update configuration on the \"Change Options\" Tab");
         }
         void ForceAutoSnipe_Click(object sender, EventArgs e)
         {
           Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "User Initiated Automatic Snipe Routine! We'll stop farming and start sniping ASAP!");
-          GlobalSettings.ForceSnipe = true;
+          GlobalVars.ForceSnipe = true;
         }
         void SnipePokemonPokeCom_CheckedChanged(object sender, EventArgs e)
         {
-          GlobalSettings.SnipePokemon = SnipePokemonPokeCom.Checked;
+          GlobalVars.SnipePokemon = SnipePokemonPokeCom.Checked;
         }
         void AvoidRegionLock_CheckedChanged(object sender, EventArgs e)
         {
-          GlobalSettings.AvoidRegionLock = AvoidRegionLock.Checked;
+          GlobalVars.AvoidRegionLock = AvoidRegionLock.Checked;
         }
         void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -139,19 +139,19 @@ namespace PokemonGo.RocketAPI.Console
         {
             Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "Manual Snipe Triggered! We'll stop farming and go catch the pokemon ASAP");
             
-            GlobalSettings.SnipeOpts.ID = id;
-            GlobalSettings.SnipeOpts.Location = splLatLngResult;
-            GlobalSettings.SnipeOpts.WaitSecond = secondsToWait;
-            GlobalSettings.SnipeOpts.NumTries = numberOfTries;
-            GlobalSettings.SnipeOpts.Enabled = true;
-            //GlobalSettings.ForceSnipe = true;
+            GlobalVars.SnipeOpts.ID = id;
+            GlobalVars.SnipeOpts.Location = splLatLngResult;
+            GlobalVars.SnipeOpts.WaitSecond = secondsToWait;
+            GlobalVars.SnipeOpts.NumTries = numberOfTries;
+            GlobalVars.SnipeOpts.Enabled = true;
+            //GlobalVars.ForceSnipe = true;
             SnipeInfo.Text = "";
         }
 
         public void Execute()
         {
-            SnipePokemonPokeCom.Checked = GlobalSettings.SnipePokemon;
-            AvoidRegionLock.Checked = GlobalSettings.AvoidRegionLock;
+            SnipePokemonPokeCom.Checked = GlobalVars.SnipePokemon;
+            AvoidRegionLock.Checked = GlobalVars.AvoidRegionLock;
             var pokemonControlSource = new System.Collections.Generic.List<PokemonId>();        
             var ie = 1; // seeing line 114 of GUI, must be same value
             foreach (PokemonId pokemon in Enum.GetValues(typeof(PokemonId)))
@@ -165,7 +165,7 @@ namespace PokemonGo.RocketAPI.Console
                 }
             }
             comboBox1.DataSource = pokemonControlSource;
-            foreach (PokemonId Id in GlobalSettings.NotToSnipe)
+            foreach (PokemonId Id in GlobalVars.NotToSnipe)
             {
                 string _id = Id.ToString();
                 try {
@@ -279,11 +279,11 @@ namespace PokemonGo.RocketAPI.Console
         }
         void nudSecondsSnipe_ValueChanged(object sender, EventArgs e)
         {
-          GlobalSettings.SnipeOpts.WaitSecond = (int) nudSecondsSnipe.Value;
+          GlobalVars.SnipeOpts.WaitSecond = (int) nudSecondsSnipe.Value;
         }
         void nudTriesSnipe_ValueChanged(object sender, EventArgs e)
         {
-          GlobalSettings.SnipeOpts.NumTries = (int) nudTriesSnipe.Value;          
+          GlobalVars.SnipeOpts.NumTries = (int) nudTriesSnipe.Value;          
         }
         void PokesniperCom_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {

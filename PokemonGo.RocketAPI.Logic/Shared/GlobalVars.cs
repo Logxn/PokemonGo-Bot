@@ -20,9 +20,9 @@ using Newtonsoft.Json;
 namespace PokemonGo.RocketAPI.Logic.Shared
 {
     /// <summary>
-    /// Description of GlobalSettings.
+    /// Description of GlobalVars.
     /// </summary>
-    public static class GlobalSettings
+    public static class GlobalVars
     {
         // Bot Info  Globals (not yet implemented in any function)
         //public static Version BotApiSupportedVersion = new Version("0.51.2");
@@ -31,7 +31,6 @@ namespace PokemonGo.RocketAPI.Logic.Shared
         public static readonly bool BotStableFlag = false;
 
         // Other Globals
-        public static Collection<Profile> Profiles = new Collection<Profile>();
         public static string pFHashKey;
         public static string ProfileName = "DefaultProfile";
         public static bool IsDefault = false;
@@ -39,33 +38,33 @@ namespace PokemonGo.RocketAPI.Logic.Shared
         public static string SettingsJSON = "";
         public static Enums.AuthType acc = Enums.AuthType.Google;
         public static string email = "empty";
-        public static string password = "empty";
-        public static bool defLoc = true;
+        public static string Password = "empty";
+        public static bool WalkBackToDefaultLocation = true;
         public static bool uselastcoords = true;
-        public static double latitute = 40.764883;
+        public static double latitude = 40.764883;
         public static double longitude = -73.972967;
         public static double altitude = 15.173855;
-        public static double speed = 15;
+        public static double WalkingSpeedInKilometerPerHour = 15;
         public static int MinWalkSpeed = 5;
         public static int radius = 5000;
-        public static bool transfer = true;
-        public static int duplicate = 3;
-        public static bool evolve = true;
-        public static int maxCp = 999;
+        public static bool TransferDoublePokemons = true;
+        public static int HoldMaxDoublePokemons = 3;
+        public static bool EvolvePokemonsIfEnoughCandy = true;
+        public static int DontTransferWithCPOver = 999;
         public static int excellentthrow = 25;
         public static int greatthrow = 25;
         public static int nicethrow = 25;
         public static int ordinarythrow = 25;
-        public static int pokeball = 100;
-        public static int greatball = 100;
-        public static int ultraball = 100;
-        public static int revive = 100;
-        public static int potion = 100;
-        public static int superpotion = 100;
-        public static int hyperpotion = 100;
-        public static int toppotion = 100;
-        public static int toprevive = 100;
-        public static int berry = 100;
+        public static int MaxPokeballs = 100;
+        public static int MaxGreatballs = 100;
+        public static int MaxUltraballs = 100;
+        public static int MaxRevives = 100;
+        public static int MaxPotions = 100;
+        public static int MaxSuperPotions = 100;
+        public static int MaxHyperPotions = 100;
+        public static int MaxTopPotions = 100;
+        public static int MaxTopRevives = 100;
+        public static int MaxBerries = 100;
         public static int MinCPforGreatBall = 500;
         public static int MinCPforUltraBall = 1000;
         public static int ivmaxpercent = 0;
@@ -75,15 +74,15 @@ namespace PokemonGo.RocketAPI.Logic.Shared
         public static bool LimitUltraballUse = false;
         public static bool NextBestBallOnEscape = false;
         public static int Max_Missed_throws = 3;
-        public static List<PokemonId> noTransfer;
-        public static List<PokemonId> noCatch;
-        public static List<PokemonId> doEvolve;
+        public static List<PokemonId> pokemonsToHold;
+        public static List<PokemonId> catchPokemonSkipList;
+        public static List<PokemonId> pokemonsToEvolve;
         public static List<PokemonId> NotToSnipe;
-        public static string telAPI = string.Empty;
-        public static string telName = string.Empty;
-        public static int telDelay = 5000;
+        public static string TelegramAPIToken = string.Empty;
+        public static string TelegramName = string.Empty;
+        public static int TelegramLiveStatsDelay = 5000;
         public static bool pauseAtPokeStop = false;
-        public static bool farmPokestops = true;
+        public static bool FarmPokestops = true;
         public static bool CatchPokemon = true;
         public static bool BreakAtLure = false;
         public static bool UseAnimationTimes = true;
@@ -99,20 +98,20 @@ namespace PokemonGo.RocketAPI.Logic.Shared
         public static int BreakInterval = 0;
         public static int BreakLength = 0;
         public static int navigation_option = 1;
-        public static bool useluckyegg = true;
-        public static bool useincense = true;
-        public static bool userazzberry = true;
+        public static bool UseLuckyEgg = true;
+        public static bool UseIncense = true;
+        public static bool UseRazzBerry = true;
         public static double razzberry_chance = 0.35;
-        public static bool pokeList = true;
-        public static bool consoleInTab = false;
+        public static bool EnablePokeList = true;
+        public static bool EnableConsoleInTab = false;
         public static bool keepPokemonsThatCanEvolve = true;
         public static bool TransferFirstLowIV = true;
         public static bool pokevision = false;
-        public static bool useLuckyEggIfNotRunning = false;
-        public static bool autoIncubate = true;
-        public static bool useBasicIncubators = false;
+        public static bool UseLuckyEggIfNotRunning = false;
+        public static bool AutoIncubate = true;
+        public static bool UseBasicIncubators = false;
         public static bool sleepatpokemons = true;
-        public static string settingsLanguage = "en";
+        public static string SelectedLanguage = "en";
         public static LogicInfoObservable infoObservable = new LogicInfoObservable();
         public static bool Espiral = false;
         public static bool MapLoaded = false;
@@ -131,12 +130,11 @@ namespace PokemonGo.RocketAPI.Logic.Shared
         public static bool pauseAtEvolve = false;
         public static bool pauseAtEvolve2 = false;
         public static bool AutoUpdate = false;
-        public static bool usePwdEncryption = false;
+        public static bool UsePwdEncryption = false;
         public static bool CheckWhileRunning = false;
         public static int InventoryBasePokeball = 10;
         public static int InventoryBaseGreatball = 10;
         public static int InventoryBaseUltraball = 10;
-        public static bool FirstLoad;
         public static int MinCPtoCatch = 0;
         public static int MinIVtoCatch = 0;
         public static bool AvoidRegionLock = true;
@@ -155,7 +153,7 @@ namespace PokemonGo.RocketAPI.Logic.Shared
 
         public static bool EnableVerboseLogging = false;
 
-        public static bool farmGyms;
+        public static bool FarmGyms;
         public static bool CollectDailyBonus;
         
         public static bool SnipePokemon;
@@ -174,10 +172,10 @@ namespace PokemonGo.RocketAPI.Logic.Shared
         public static bool Load()
         {
             var loaded = false;
-            GlobalSettings.noTransfer = new List<PokemonId>();
-            GlobalSettings.noCatch = new List<PokemonId>();
-            GlobalSettings.doEvolve = new List<PokemonId>();
-            GlobalSettings.NotToSnipe = new List<PokemonId>();
+            GlobalVars.pokemonsToHold = new List<PokemonId>();
+            GlobalVars.catchPokemonSkipList = new List<PokemonId>();
+            GlobalVars.pokemonsToEvolve = new List<PokemonId>();
+            GlobalVars.NotToSnipe = new List<PokemonId>();
             if (File.Exists(accountProfiles))
             {
                 try
@@ -186,7 +184,6 @@ namespace PokemonGo.RocketAPI.Logic.Shared
                     Collection<Profile> profiles = JsonConvert.DeserializeObject<Collection<Profile>>(JSONstring);
                     foreach (Profile _profile in profiles)
                     {
-                        GlobalSettings.Profiles.Add(_profile);
                         if (_profile.IsDefault)
                         {
                             LoadProfile(_profile.SettingsJSON);
@@ -216,8 +213,23 @@ namespace PokemonGo.RocketAPI.Logic.Shared
             Assign(config);
         }
         private static void Assign(ProfileSettings settings){
+            /*
+             * AuthType, acc
+             *  
+             */
             foreach (var field in settings.GetType().GetFields()) {
-                typeof(GlobalSettings).GetField(field.Name).SetValue(null,
+                var fieldname = field.Name;
+                if (fieldname == "AuthType")
+                    fieldname = "acc";
+                if (fieldname == "Username")
+                    fieldname = "email";
+                if (fieldname == "DefaultLatitude")
+                    fieldname = "latitude";
+                if (fieldname == "DefaultLongitude")
+                    fieldname = "longitude";
+                if (fieldname == "DefaultAltitude")
+                    fieldname = "altitude";
+                typeof(GlobalVars).GetField(fieldname).SetValue(null,
                      field.GetValue(settings));
             }
         }

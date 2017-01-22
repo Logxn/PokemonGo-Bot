@@ -444,10 +444,10 @@ namespace PokemonGo.RocketAPI.Console
 
             taskResponse resp = new taskResponse(false, string.Empty);
 
-            if (GlobalSettings.pauseAtEvolve2)
+            if (GlobalVars.pauseAtEvolve2)
             {
                 Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Taking a break to evolve some pokemons!");
-                GlobalSettings.PauseTheWalking = true;
+                GlobalVars.PauseTheWalking = true;
             }
 
 
@@ -469,7 +469,7 @@ namespace PokemonGo.RocketAPI.Console
                 else
                     failed += resp.Message + " ";
 
-                if (GlobalSettings.UseAnimationTimes)
+                if (GlobalVars.UseAnimationTimes)
                 {
                     Helpers.RandomHelper.RandomSleep(30000, 35000);
                 }
@@ -501,10 +501,10 @@ namespace PokemonGo.RocketAPI.Console
             else
                 EnabledButton(true);
 
-            if (GlobalSettings.pauseAtEvolve)
+            if (GlobalVars.pauseAtEvolve)
             {
                 Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Evolved everything. Time to continue our journey!");
-                GlobalSettings.PauseTheWalking = false;
+                GlobalVars.PauseTheWalking = false;
             }
         }
         private static async Task<taskResponse> evolvePokemon(PokemonData pokemon)
@@ -545,10 +545,10 @@ namespace PokemonGo.RocketAPI.Console
             string logs = Path.Combine(logPath, "TransferLog.txt");
             string date = DateTime.Now.ToString();
 
-            if (GlobalSettings.pauseAtEvolve2)  // stop walking
+            if (GlobalVars.pauseAtEvolve2)  // stop walking
             {
                 Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Taking a short break to transfer some pokemons!");
-                GlobalSettings.PauseTheWalking = true;
+                GlobalVars.PauseTheWalking = true;
             }
             DialogResult dialogResult = MessageBox.Show("You clicked transfer. This can not be undone.", "Are you Sure?", MessageBoxButtons.YesNo);
             if (dialogResult == DialogResult.Yes)
@@ -619,10 +619,10 @@ namespace PokemonGo.RocketAPI.Console
                 client.Inventory.GetInventory(true).Wait(); // force refresh inventory
 
                 // Quarthy - We can continue walking
-                if (GlobalSettings.pauseAtEvolve)
+                if (GlobalVars.pauseAtEvolve)
                 {
                     Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Transferred everything. Time to continue our journey!");
-                    GlobalSettings.PauseTheWalking = false;
+                    GlobalVars.PauseTheWalking = false;
                 }                
             }
             EnabledButton(true);
@@ -1096,17 +1096,17 @@ namespace PokemonGo.RocketAPI.Console
 
         private void btnUseLure_Click(object sender, EventArgs e)
         {
-            GlobalSettings.UseLureGUIClick = true;
+            GlobalVars.UseLureGUIClick = true;
         }
 
         private void btnUseLuckyEgg_Click(object sender, EventArgs e)
         {
-            GlobalSettings.UseLuckyEggGUIClick = true;
+            GlobalVars.UseLuckyEggGUIClick = true;
         }
 
         private void btnUseIncense_Click(object sender, EventArgs e)
         {
-            GlobalSettings.UseIncenseGUIClick = true;
+            GlobalVars.UseIncenseGUIClick = true;
         }
 
         public class taskResponse

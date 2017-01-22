@@ -114,8 +114,8 @@ namespace PokemonGo.RocketAPI.Logic
                      functionExecutedWhileWalking();// look for pokemon 
                 }
                 
-                if (GlobalSettings.SnipeOpts.Enabled){
-                    Logic.Instance.sniperLogic.Execute((PokemonId) GlobalSettings.SnipeOpts.ID,GlobalSettings.SnipeOpts.Location);
+                if (GlobalVars.SnipeOpts.Enabled){
+                    Logic.Instance.sniperLogic.Execute((PokemonId) GlobalVars.SnipeOpts.ID,GlobalVars.SnipeOpts.Location);
                     //_botSettings.SnipeOpts.Enabled = false;
                 }
 

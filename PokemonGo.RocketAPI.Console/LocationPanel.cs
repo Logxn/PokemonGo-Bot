@@ -61,7 +61,7 @@ namespace PokemonGo.RocketAPI.Console
             }else{
                 radiusOverlay = new GMapOverlay();
                 map.Overlays.Add(radiusOverlay);
-                nudRadius.Value = GlobalSettings.radius;
+                nudRadius.Value = GlobalVars.radius;
                 btnPauseWalking.Visible = false;
             }
         }
@@ -88,10 +88,10 @@ namespace PokemonGo.RocketAPI.Console
 
         private void button1_Click(object sender, EventArgs e)
         {
-            GlobalSettings.latitute = map.Position.Lat;
-            GlobalSettings.longitude = map.Position.Lng;
-            GlobalSettings.altitude = alt;
-            GlobalSettings.radius = (int) nudRadius.Value;
+            GlobalVars.latitude = map.Position.Lat;
+            GlobalVars.longitude = map.Position.Lng;
+            GlobalVars.altitude = alt;
+            GlobalVars.radius = (int) nudRadius.Value;
             close = false;
         }
 
@@ -131,7 +131,7 @@ namespace PokemonGo.RocketAPI.Console
                     i.CooldownCompleteTimestampMs < (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds)
                     .OrderBy(
                     i =>
-                    LocationUtils.CalculateDistanceInMeters(GlobalSettings.latitute, GlobalSettings.longitude, i.Latitude, i.Longitude));
+                    LocationUtils.CalculateDistanceInMeters(GlobalVars.latitude, GlobalVars.longitude, i.Latitude, i.Longitude));
                 if (pokeStops.Any() )
                 {
                     InfoObservable_HandlePokeStop (pokeStops.ToArray());
@@ -142,7 +142,7 @@ namespace PokemonGo.RocketAPI.Console
                     i.Type == FortType.Gym )
                     .OrderBy(
                     i =>
-                    LocationUtils.CalculateDistanceInMeters(GlobalSettings.latitute, GlobalSettings.longitude, i.Latitude, i.Longitude));
+                    LocationUtils.CalculateDistanceInMeters(GlobalVars.latitude, GlobalVars.longitude, i.Latitude, i.Longitude));
                 if (pokeGyms.Any() )
                 {
                     
@@ -331,11 +331,11 @@ namespace PokemonGo.RocketAPI.Console
                         _pokeStopsOverlay.Markers.Clear();
                         _pokeStopsMarks.Clear();
                         routeOverlay.Polygons.Clear();
-                        routeOverlay.Polygons.Add(_circle = CreateCircle(new PointLatLng(GlobalSettings.latitute, GlobalSettings.longitude), GlobalSettings.radius, 100));
+                        routeOverlay.Polygons.Add(_circle = CreateCircle(new PointLatLng(GlobalVars.latitude, GlobalVars.longitude), GlobalVars.radius, 100));
                         routeOverlay.Markers.Clear();
                         _botStartMarker = new GMarkerGoogle(new PointLatLng(), Properties.MapData.start_point);
-                        _botStartMarker.Position = new PointLatLng(GlobalSettings.latitute, GlobalSettings.longitude);
-                        _botStartMarker.ToolTipText = string.Format("Start Point.\n{0}\n{1},{2}", FindAddress(GlobalSettings.latitute, GlobalSettings.longitude), GlobalSettings.latitute, GlobalSettings.longitude);
+                        _botStartMarker.Position = new PointLatLng(GlobalVars.latitude, GlobalVars.longitude);
+                        _botStartMarker.ToolTipText = string.Format("Start Point.\n{0}\n{1},{2}", FindAddress(GlobalVars.latitude, GlobalVars.longitude), GlobalVars.latitude, GlobalVars.longitude);
                         _botStartMarker.ToolTip.Font = new System.Drawing.Font("Arial", 12, System.Drawing.GraphicsUnit.Pixel);
                         _botStartMarker.ToolTipMode = MarkerTooltipMode.OnMouseOver;
                         routeOverlay.Markers.Add(_botStartMarker);
@@ -572,12 +572,12 @@ namespace PokemonGo.RocketAPI.Console
             CreateBotMarker(team, level, exp);
             //routeOverlay.Markers.Add(_botMarker);
             _botStartMarker = new GMarkerGoogle(new PointLatLng(), Properties.MapData.start_point);
-            _botStartMarker.Position = new PointLatLng(GlobalSettings.latitute, GlobalSettings.longitude);
-            _botStartMarker.ToolTipText = string.Format("Start Point.\n{0}\n{1},{2}", FindAddress(GlobalSettings.latitute, GlobalSettings.longitude), GlobalSettings.latitute, GlobalSettings.longitude);
+            _botStartMarker.Position = new PointLatLng(GlobalVars.latitude, GlobalVars.longitude);
+            _botStartMarker.ToolTipText = string.Format("Start Point.\n{0}\n{1},{2}", FindAddress(GlobalVars.latitude, GlobalVars.longitude), GlobalVars.latitude, GlobalVars.longitude);
             _botStartMarker.ToolTip.Font = new System.Drawing.Font("Arial", 12, System.Drawing.GraphicsUnit.Pixel);
             _botStartMarker.ToolTipMode = MarkerTooltipMode.OnMouseOver;
             routeOverlay.Markers.Add(_botStartMarker);
-            _circle = CreateCircle(new PointLatLng(GlobalSettings.latitute, GlobalSettings.longitude), GlobalSettings.radius, 100);
+            _circle = CreateCircle(new PointLatLng(GlobalVars.latitude, GlobalVars.longitude), GlobalVars.radius, 100);
             routeOverlay.Polygons.Add(_circle);
             
             map.Overlays.Add(routeOverlay);
@@ -615,19 +615,19 @@ namespace PokemonGo.RocketAPI.Console
             //don't ask at closing
             close = false;
             //add & remove live data handler after form loaded
-            GlobalSettings.infoObservable.HandleNewGeoLocations += handleLiveGeoLocations;
-            GlobalSettings.infoObservable.HandleAvailablePokeStop += InfoObservable_HandlePokeStop;
-            GlobalSettings.infoObservable.HandleAvailablePokeGym += InfoObservable_HandlePokeGym;
-            GlobalSettings.infoObservable.HandlePokeStopInfoUpdate += InfoObservable_HandlePokeStopInfoUpdate;
-            GlobalSettings.infoObservable.HandleClearPokemon += infoObservable_HandleClearPokemon;
-            GlobalSettings.infoObservable.HandleNewPokemonLocations += infoObservable_HandleNewPokemonLocations;
-            GlobalSettings.infoObservable.HandleDeletePokemonLocation += infoObservable_HandleDeletePokemonLocation;
+            GlobalVars.infoObservable.HandleNewGeoLocations += handleLiveGeoLocations;
+            GlobalVars.infoObservable.HandleAvailablePokeStop += InfoObservable_HandlePokeStop;
+            GlobalVars.infoObservable.HandleAvailablePokeGym += InfoObservable_HandlePokeGym;
+            GlobalVars.infoObservable.HandlePokeStopInfoUpdate += InfoObservable_HandlePokeStopInfoUpdate;
+            GlobalVars.infoObservable.HandleClearPokemon += infoObservable_HandleClearPokemon;
+            GlobalVars.infoObservable.HandleNewPokemonLocations += infoObservable_HandleNewPokemonLocations;
+            GlobalVars.infoObservable.HandleDeletePokemonLocation += infoObservable_HandleDeletePokemonLocation;
         }
 
 
         private void map_Load(object sender, EventArgs e)
         {
-            GlobalSettings.MapLoaded = true;
+            GlobalVars.MapLoaded = true;
             showMap();
         }
 
@@ -686,14 +686,14 @@ namespace PokemonGo.RocketAPI.Console
 
         private void map_OnMarkerClick(GMapMarker item, MouseEventArgs e)
         {
-            if (GlobalSettings.pauseAtPokeStop)
+            if (GlobalVars.pauseAtPokeStop)
             {
-                GlobalSettings.RouteToRepeat.AddLast(new GeoCoordinate(item.Position.Lat, item.Position.Lng));
-                item.ToolTipText = string.Format("Stop {0} Queued", GlobalSettings.RouteToRepeat.Count);
+                GlobalVars.RouteToRepeat.AddLast(new GeoCoordinate(item.Position.Lat, item.Position.Lng));
+                item.ToolTipText = string.Format("Stop {0} Queued", GlobalVars.RouteToRepeat.Count);
             }
             else
             {
-                GlobalSettings.NextDestinationOverride.AddFirst(new GeoCoordinate(item.Position.Lat, item.Position.Lng));
+                GlobalVars.NextDestinationOverride.AddFirst(new GeoCoordinate(item.Position.Lat, item.Position.Lng));
                 if (!item.ToolTipText.Contains("\nNext Destination Marked")){
                     item.ToolTipText += "\nNext Destination Marked";
                 }
@@ -721,14 +721,14 @@ namespace PokemonGo.RocketAPI.Console
             {
                 map.DragButton = MouseButtons.Left;
                 map.MapProvider = GMapProviders.GoogleMap;
-                map.Position = new GMap.NET.PointLatLng(GlobalSettings.latitute, GlobalSettings.longitude);
+                map.Position = new GMap.NET.PointLatLng(GlobalVars.latitude, GlobalVars.longitude);
                 map.MinZoom = 0;
                 map.MaxZoom = 20;
                 map.Zoom = 16;
 
-                textBox1.Text = GlobalSettings.latitute.ToString();
-                textBox2.Text = GlobalSettings.longitude.ToString();
-                textBox3.Text = GlobalSettings.altitude.ToString();
+                textBox1.Text = GlobalVars.latitude.ToString();
+                textBox2.Text = GlobalVars.longitude.ToString();
+                textBox3.Text = GlobalVars.altitude.ToString();
             }
             catch (Exception ex)
             {
@@ -848,25 +848,25 @@ namespace PokemonGo.RocketAPI.Console
         {
             if (btnPauseWalking.Text.Equals("Pause Walking"))
             {
-                GlobalSettings.pauseAtPokeStop = true;
+                GlobalVars.pauseAtPokeStop = true;
                 Logger.ColoredConsoleWrite(ConsoleColor.Magenta, "Pausing at next Pokestop. (will continue catching pokemon and farming pokestop when available)");
-                if (GlobalSettings.RouteToRepeat.Count > 0)
+                if (GlobalVars.RouteToRepeat.Count > 0)
                 {
                     Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "User Defined Route Cleared!");
-                    GlobalSettings.RouteToRepeat.Clear();
+                    GlobalVars.RouteToRepeat.Clear();
                 }
 
                 btnPauseWalking.Text = "Resume Walking";
             }
             else
             {
-                GlobalSettings.pauseAtPokeStop = false;
+                GlobalVars.pauseAtPokeStop = false;
                 Logger.ColoredConsoleWrite(ConsoleColor.Magenta, "Resume walking between Pokestops.");
-                if (GlobalSettings.RouteToRepeat.Count > 0)
+                if (GlobalVars.RouteToRepeat.Count > 0)
                 {
-                    foreach (var geocoord in GlobalSettings.RouteToRepeat)
+                    foreach (var geocoord in GlobalVars.RouteToRepeat)
                     {
-                        GlobalSettings.NextDestinationOverride.AddLast(geocoord);
+                        GlobalVars.NextDestinationOverride.AddLast(geocoord);
                     }
                     Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "User Defined Route Captured! Beginning Route Momentarily.");
                 }

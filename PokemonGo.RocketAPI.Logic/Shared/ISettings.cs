@@ -18,13 +18,9 @@ namespace PokemonGo.RocketAPI.Logic.Shared
 
         /* AUTHENTICATION */
         string pFHashKey { get; set; }
-        string ProfileName { get; set; }
-        bool IsDefault { get; set; }
         AuthType AuthType { get; set; }
-        string PtcPassword { get; set; }
-        string PtcUsername { get; set; }
-        string GoogleUsername { get; set; }
-        string GooglePassword { get; set; }
+        string Username { get; set; }
+        string Password { get; set; }
 
         bool UsePwdEncryption { get; set; }
 
@@ -59,8 +55,6 @@ namespace PokemonGo.RocketAPI.Logic.Shared
         double WalkingSpeedInKilometerPerHour { get; set; }
 
 
-        LinkedList<GeoCoordinate> NextDestinationOverride { get; set; }
-        LinkedList<GeoCoordinate> RouteToRepeat { get; set; }
 
         /* EVOLVE */
         bool EvolvePokemonsIfEnoughCandy { get; set; }
@@ -90,10 +84,10 @@ namespace PokemonGo.RocketAPI.Logic.Shared
         ProxySettings proxySettings { get; set; }
 
         /* THROW SETTINGS */
-        int Pb_Excellent { get; set; }
-        int Pb_Great { get; set; }
-        int Pb_Nice { get; set; }
-        int Pb_Ordinary { get; set; }
+        int excellentthrow { get; set; }
+        int greatthrow { get; set; }
+        int nicethrow { get; set; }
+        int ordinarythrow { get; set; }
 
         /* LOGGING */
         bool logPokemons { get; set; }

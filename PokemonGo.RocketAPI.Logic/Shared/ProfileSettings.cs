@@ -7,6 +7,8 @@
  * To change this template use Tools | Options | Coding | Edit Standard Headers.
  */
 using System;
+using Newtonsoft.Json;
+using System.IO;
 
 namespace PokemonGo.RocketAPI.Logic.Shared
 {
@@ -15,29 +17,20 @@ namespace PokemonGo.RocketAPI.Logic.Shared
     /// </summary>
     public class ProfileSettings : ISettings
     {
+        public ProfileSettings(){
+            this.init();
+        }
         #region ISettings implementation
     public string pFHashKey {
-        get;set;
-    }
-    public string ProfileName {
-        get;set;
-    }
-    public bool IsDefault {
         get;set;
     }
     public PokemonGo.RocketAPI.Enums.AuthType AuthType {
         get;set;
     }
-    public string PtcPassword {
+    public string Username {
         get;set;
     }
-    public string PtcUsername {
-        get;set;
-    }
-    public string GoogleUsername {
-        get;set;
-    }
-    public string GooglePassword {
+    public string Password {
         get;set;
     }
     public bool UsePwdEncryption {
@@ -206,22 +199,7 @@ namespace PokemonGo.RocketAPI.Logic.Shared
 
 
     }
-    public System.Collections.Generic.LinkedList<System.Device.Location.GeoCoordinate> NextDestinationOverride {
-        get;set;
 
-
-
-
-
-    }
-    public System.Collections.Generic.LinkedList<System.Device.Location.GeoCoordinate> RouteToRepeat {
-        get;set;
-
-
-
-
-
-    }
     public bool EvolvePokemonsIfEnoughCandy {
         get;set;
 
@@ -265,25 +243,14 @@ namespace PokemonGo.RocketAPI.Logic.Shared
     public bool keepPokemonsThatCanEvolve {
         get;set;
 
-
-
-
-
     }
+
     public int HoldMaxDoublePokemons {
         get;set;
-
-
-
-
-
     }
+
     public bool UseLuckyEgg {
         get;set;
-
-
-
-
 
     }
     public bool UseRazzBerry {
@@ -342,7 +309,7 @@ namespace PokemonGo.RocketAPI.Logic.Shared
 
 
     }
-    public int Pb_Excellent {
+    public int excellentthrow {
         get;set;
 
 
@@ -350,7 +317,7 @@ namespace PokemonGo.RocketAPI.Logic.Shared
 
 
     }
-    public int Pb_Great {
+    public int greatthrow {
         get;set;
 
 
@@ -358,7 +325,7 @@ namespace PokemonGo.RocketAPI.Logic.Shared
 
 
     }
-    public int Pb_Nice {
+    public int nicethrow {
         get;set;
 
 
@@ -366,7 +333,7 @@ namespace PokemonGo.RocketAPI.Logic.Shared
 
 
     }
-    public int Pb_Ordinary {
+    public int ordinarythrow {
         get;set;
 
 
@@ -906,6 +873,51 @@ namespace PokemonGo.RocketAPI.Logic.Shared
     }
 
     #endregion
+    
+        public void SaveToFile(string filename)
+        {
+            var strJSON = JsonConvert.SerializeObject(this,Formatting.Indented);
+            File.WriteAllText(filename, strJSON);
+        }
+        public static ProfileSettings LoadFromFile(string filename)
+        {
+            if (File.Exists(filename)){
+                var strJSON = File.ReadAllText(filename);
+                return LoadFromStringJSON(strJSON);
+            }
+            return null;
+        }
+        public static ProfileSettings LoadFromStringJSON(string strJSON)
+        {
+            if (strJSON!=""){
+                return JsonConvert.DeserializeObject<ProfileSettings>(strJSON);
+            }
+            return null;
+        }
+        public void LoadFromGlobals()
+        {
+            foreach (var field in this.GetType().GetFields()) {
+                 field.SetValue(this,typeof(GlobalVars).GetField(field.Name).GetValue(null));
+            }
         
+        }
+        public void SaveToGlobals()
+        {
+            foreach (var field in this.GetType().GetFields()) {
+                typeof(GlobalVars).GetField(field.Name).SetValue(null,
+                     field.GetValue(this));
+            }
+        
+        }
+        public void init()
+        {
+            pokemonsToHold = new System.Collections.Generic.List<POGOProtos.Enums.PokemonId>();
+            catchPokemonSkipList = new System.Collections.Generic.List<POGOProtos.Enums.PokemonId>();
+            pokemonsToEvolve = new System.Collections.Generic.List<POGOProtos.Enums.PokemonId>();
+            NotToSnipe = new System.Collections.Generic.List<POGOProtos.Enums.PokemonId>();
+            proxySettings = new ProxySettings();
+        }
     }
+    
+    
 }

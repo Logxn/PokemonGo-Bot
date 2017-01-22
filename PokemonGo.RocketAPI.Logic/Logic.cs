@@ -81,7 +81,7 @@ namespace PokemonGo.RocketAPI.Logic
             this.BotSettings = botSettings;
             var clientSettings = new PokemonGo.RocketAPI.Shared.ClientSettings(botSettings.pFHashKey, botSettings.DefaultLatitude , botSettings.DefaultLongitude, botSettings.DefaultAltitude,
                       botSettings.proxySettings.hostName, botSettings.proxySettings.port, botSettings.proxySettings.username, botSettings.proxySettings.password,
-                      botSettings.AuthType, botSettings.GoogleUsername, botSettings.GooglePassword, GlobalSettings.BotApiSupportedVersion);
+                      botSettings.AuthType, botSettings.Username, botSettings.Password, GlobalVars.BotApiSupportedVersion);
             objClient = new Client(clientSettings);
             objClient.setFailure(new ApiFailureStrat(objClient));
             BotStats = new BotStats();
@@ -986,7 +986,7 @@ namespace PokemonGo.RocketAPI.Logic
 
                 #region Walk defined Route
 
-                if (BotSettings.NextDestinationOverride.Count > 0)
+                if (GlobalVars.NextDestinationOverride.Count > 0)
                 {
                     try
                     {
@@ -1005,9 +1005,9 @@ namespace PokemonGo.RocketAPI.Logic
 
                             if (!BotSettings.RepeatUserRoute) continue;
 
-                            foreach (var geocoord in BotSettings.RouteToRepeat)
+                            foreach (var geocoord in GlobalVars.RouteToRepeat)
                             {
-                                BotSettings.NextDestinationOverride.AddLast(geocoord);
+                                GlobalVars.NextDestinationOverride.AddLast(geocoord);
                             }
                         } while (BotSettings.RepeatUserRoute);
                     }
@@ -1098,8 +1098,8 @@ namespace PokemonGo.RocketAPI.Logic
                 {
                     Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "Relocate Command Detected - Clearing User Defined Route");
 
-                    BotSettings.NextDestinationOverride.Clear();
-                    BotSettings.RouteToRepeat.Clear();
+                    GlobalVars.NextDestinationOverride.Clear();
+                    GlobalVars.RouteToRepeat.Clear();
                     BotSettings.RepeatUserRoute = false;
 
                     break;
@@ -1114,8 +1114,8 @@ namespace PokemonGo.RocketAPI.Logic
                         FarmPokestopOnBreak(pokeStops, objClient);
                     }
 
-                    var pokestopCoords = BotSettings.NextDestinationOverride.First();
-                    BotSettings.NextDestinationOverride.RemoveFirst();
+                    var pokestopCoords = GlobalVars.NextDestinationOverride.First();
+                    GlobalVars.NextDestinationOverride.RemoveFirst();
 
                     Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Path Override detected! Rerouting to user-selected pokeStop...");
 
@@ -1125,7 +1125,7 @@ namespace PokemonGo.RocketAPI.Logic
                 {
                     //do nothing for now. Just handle to prevent blowing up.
                 }
-            } while (BotSettings.NextDestinationOverride.Count > 0);
+            } while (GlobalVars.NextDestinationOverride.Count > 0);
         }
 
         private void WalkWithRouting(double latitude, double longitude)
@@ -1973,10 +1973,10 @@ namespace PokemonGo.RocketAPI.Logic
             var hitTxt = "Default Perfect";
             var spinModifier = 1.0;
             var spinTxt = "Curve";
-            var pbExcellent = BotSettings.Pb_Excellent;
-            var pbGreat = BotSettings.Pb_Excellent;
-            var pbNice = BotSettings.Pb_Nice;
-            var pbOrdinary = BotSettings.Pb_Ordinary;
+            var pbExcellent = BotSettings.excellentthrow;
+            var pbGreat = BotSettings.greatthrow;
+            var pbNice = BotSettings.nicethrow;
+            var pbOrdinary = BotSettings.ordinarythrow;
             var r = new Random();
             var rInt = r.Next(0, 100);
 
