@@ -189,7 +189,8 @@ namespace PokemonGo.RocketAPI.Console
             }
             catch (Exception e)
             {
-                Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Could not load additional PokeData: {e.Message}{e.StackTrace}", LogLevel.Error);
+                var strTrace = $"Could not load additional PokeData: {e.Message}{e.StackTrace}";
+                Logger.ColoredConsoleWrite(ConsoleColor.Red, strTrace, LogLevel.Error);
             }
         }
 
@@ -225,7 +226,9 @@ namespace PokemonGo.RocketAPI.Console
                     var pokemonFamilies = myPokemonFamilies.ToArray();
                     try{
                         PokemonListView.BeginUpdate();
-                    }catch(Exception){}
+                    }catch(Exception ex1){
+                        Logger.ExceptionInfo(ex1.ToString());
+                    }
                     
                     PokemonListView.Items.Clear();
 
@@ -299,7 +302,9 @@ namespace PokemonGo.RocketAPI.Console
                     }
                     try{
                         PokemonListView.EndUpdate();
-                    }catch(Exception){}
+                    }catch(Exception ex1){
+                        Logger.ExceptionInfo(ex1.ToString());
+                    }
                     PokemonListView.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
                     EnabledButton(true);
                     statusTexbox.Text = string.Empty;
@@ -329,25 +334,10 @@ namespace PokemonGo.RocketAPI.Console
         }
 
         public async Task refreshData(){
-            check();
             inventory = await client.Inventory.GetInventory().ConfigureAwait(false);
             templates = await client.Download.GetItemTemplates().ConfigureAwait(false);
         }
 
-        public void check()
-        {
-            while (true)
-            {
-                try
-                {
-                    if (Logic.Logic.objClient != null && Logic.Logic.objClient.readyToUse != false)
-                    {
-                        break;
-                    }
-                }
-                catch (Exception) { }
-            }
-        }
 
         public void RefreshTitle()
         {
@@ -379,14 +369,13 @@ namespace PokemonGo.RocketAPI.Console
             }
         }
 
-        private void toolStripMenuItem1_Click(object sender, EventArgs e)
+        private void transferToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var pokemon = (PokemonData)PokemonListView.SelectedItems[0].Tag;
-            taskResponse resp = new taskResponse(false, string.Empty);
+            var resp = new taskResponse(false, string.Empty);
 
             if (MessageBox.Show(this, pokemon.PokemonId + " with " + pokemon.Cp + " CP thats " + Math.Round(PokemonInfo.CalculatePokemonPerfection(pokemon)) + "% perfect", "Are you sure you want to transfer?", MessageBoxButtons.OKCancel) == DialogResult.OK)
             {
-                //resp = await transferPokemon(pokemon).ConfigureAwait(false);
                 resp = transferPokemon(pokemon).Result;
             }
             else
@@ -403,7 +392,7 @@ namespace PokemonGo.RocketAPI.Console
         }
         private static async Task<taskResponse> transferPokemon(PokemonData pokemon)
         {
-            taskResponse resp = new taskResponse(false, string.Empty);
+            var resp = new taskResponse(false, string.Empty);
             try
             {
                 var transferPokemonResponse = await client.Inventory.TransferPokemon(pokemon.Id).ConfigureAwait(false);
@@ -442,7 +431,7 @@ namespace PokemonGo.RocketAPI.Console
             string logPath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Logs");
             string evolvelog = System.IO.Path.Combine(logPath, "EvolveLog.txt");
 
-            taskResponse resp = new taskResponse(false, string.Empty);
+            var resp = new taskResponse(false, string.Empty);
 
             if (GlobalVars.pauseAtEvolve2)
             {
@@ -509,7 +498,7 @@ namespace PokemonGo.RocketAPI.Console
         }
         private static async Task<taskResponse> evolvePokemon(PokemonData pokemon)
         {
-            taskResponse resp = new taskResponse(false, string.Empty);
+            var resp = new taskResponse(false, string.Empty);
             try
             {
                 var evolvePokemonResponse = await client.Inventory.EvolvePokemon((ulong)pokemon.Id).ConfigureAwait(false);
@@ -553,12 +542,8 @@ namespace PokemonGo.RocketAPI.Console
             DialogResult dialogResult = MessageBox.Show("You clicked transfer. This can not be undone.", "Are you Sure?", MessageBoxButtons.YesNo);
             if (dialogResult == DialogResult.Yes)
             {
-                //taskResponse resp = new taskResponse(false, string.Empty);
 
-                ReleasePokemonResponse _response = new ReleasePokemonResponse();
-
-                //File.AppendAllText(logs, $"[{date}] - MANUAL - Trying to BULK transfer pokemons" + Environment.NewLine);
-                //Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "Bulk Transfer", LogLevel.Info);
+                var _response = new ReleasePokemonResponse();
 
                 var pokemonsToTransfer = new List<ulong>();
 
@@ -570,48 +555,25 @@ namespace PokemonGo.RocketAPI.Console
                     transfered++;
 
                     File.AppendAllText(logs, $"[{date}] - MANUAL - Enqueuing to BULK transfer pokemon {transfered}/{total}: {Logic.Utils.StringUtils.getPokemonNameByLanguage(BotSettings, pokemon.PokemonId)}" + Environment.NewLine);
-                    Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Enqueuing to BULK transfer pokemon {transfered}/{total}: {Logic.Utils.StringUtils.getPokemonNameByLanguage(BotSettings, pokemon.PokemonId)} CP {pokemon.Cp} IV {PokemonInfo.CalculatePokemonPerfection(pokemon).ToString("0.00")}", LogLevel.Info);
+                    var strPokename = Logic.Utils.StringUtils.getPokemonNameByLanguage(BotSettings, pokemon.PokemonId);
+                    var strPerfection = PokemonInfo.CalculatePokemonPerfection(pokemon).ToString("0.00");
+                    var strTrace =  $"Enqueuing to BULK transfer pokemon {transfered}/{total}: {strPokename} CP {pokemon.Cp} IV {strPerfection}";
+                    Logger.ColoredConsoleWrite(ConsoleColor.Yellow, strTrace, LogLevel.Info);
 
-                    //statusTexbox.Text = "Transfering..." + transfered;
                     PokemonListView.Items.Remove(selectedItem);
 
-                    //resp = transferPokemon((PokemonData)selectedItem.Tag).Result;
-                    //if (resp.Status)
-                    //{
-                    //    var pokemon = (PokemonData) selectedItem.Tag;
-                    //    File.AppendAllText(logs, $"[{date}] - MANUAL - Trying to transfer pokemon: {Logic.Utils.StringUtils.getPokemonNameByLanguage(ClientSettings, pokemon.PokemonId)}" + Environment.NewLine);
-                    //    PokemonListView.Items.Remove(selectedItem);
-                    //    transfered++;
-                    //    statusTexbox.Text = "Transfering..." + transfered;
-                    //    var perfection = PokemonInfo.CalculatePokemonPerfection(pokemon).ToString("0.00");
-                    //    Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Transfer {Logic.Utils.StringUtils.getPokemonNameByLanguage(ClientSettings, pokemon.PokemonId)} CP {pokemon.Cp} IV {perfection}", LogLevel.Info);
-                    //}
-                    //else
-                    //{
-                    //    failed += resp.Message + " ";
-                    //}
-                    //Helpers.RandomHelper.RandomSleep(1000, 2000); // API 0.51 allows multiple transfers.
                 }
 
                 _response = client.Inventory.TransferPokemon(pokemonsToTransfer).Result;
                 
                 if (_response.Result == ReleasePokemonResponse.Types.Result.Success)
                 { 
-                //if (failed != string.Empty)
-                //{
                     if (BotSettings.logManualTransfer)
                     {
                         File.AppendAllText(logs, $"[{date}] - MANUAL - Sucessfully Bulk transfered {transfered}/{total} Pokemons. Failed: {failed}" + Environment.NewLine);
                     }
-                    //    MessageBox.Show("Succesfully transfered " + transfered + "/" + total + " Pokemons. Failed: " + failed, "Transfer status", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    //}
-                    //else
-                    //{
-                    //    if (BotSettings.logManualTransfer)
-                    //    {
-                    //        File.AppendAllText(logs, $"[{date}] - MANUAL - Sucessfully transfered {transfered}/{total} Pokemons." + Environment.NewLine);
-                    //    }
-                    Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Transfer Successful of {total} pokemons.", LogLevel.Info);
+                    var strTrace = $"Transfer Successful of {total} pokemons.";
+                    Logger.ColoredConsoleWrite(ConsoleColor.Yellow, strTrace, LogLevel.Info);
                     statusTexbox.Text = $"Succesfully Bulk transfered {total} Pokemons.";
                     Helpers.RandomHelper.RandomSleep(1000, 2000);
                 }
@@ -635,7 +597,7 @@ namespace PokemonGo.RocketAPI.Console
             int powerdup = 0;
             int total = selectedItems.Count;
             string failed = string.Empty;
-            taskResponse resp = new taskResponse(false, string.Empty);
+            var resp = new taskResponse(false, string.Empty);
 
             foreach (ListViewItem selectedItem in selectedItems)
             {
@@ -659,7 +621,7 @@ namespace PokemonGo.RocketAPI.Console
         }
         private static async Task<taskResponse> PowerUp(PokemonData pokemon)
         {
-            taskResponse resp = new taskResponse(false, string.Empty);
+            var resp = new taskResponse(false, string.Empty);
             try
             {
                 var evolvePokemonResponse = await client.Inventory.UpgradePokemon(pokemon.Id).ConfigureAwait(false);
@@ -767,13 +729,12 @@ namespace PokemonGo.RocketAPI.Console
             DialogResult dialogResult = MessageBox.Show("You clicked to change nickame using IVs.\nAre you Sure?", "Confirm Dialog", MessageBoxButtons.YesNo);
             if (dialogResult == DialogResult.Yes)
             {
-                taskResponse resp = new taskResponse(false, string.Empty);
+                var resp = new taskResponse(false, string.Empty);
 
                 foreach (ListViewItem selectedItem in selectedItems)
                 {
-                    PokemonData pokemon = (PokemonData)selectedItem.Tag;
+                    var pokemon = (PokemonData)selectedItem.Tag;
                     pokemon.Nickname = IVsToNickname(pokemon);
-                    //resp = await changePokemonNickname(pokemon).ConfigureAwait(false);
                     resp = changePokemonNickname(pokemon).Result;
                     if (resp.Status)
                     {
@@ -807,7 +768,7 @@ namespace PokemonGo.RocketAPI.Console
         }
         private static async Task<taskResponse> changePokemonNickname(PokemonData pokemon)
         {
-            taskResponse resp = new taskResponse(false, string.Empty);
+            var resp = new taskResponse(false, string.Empty);
             try
             {
                 var nicknamePokemonResponse1 = await client.Inventory.NicknamePokemon(pokemon.Id, pokemon.Nickname).ConfigureAwait(false);
@@ -843,7 +804,7 @@ namespace PokemonGo.RocketAPI.Console
         private void powerUpToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var pokemon = (PokemonData)PokemonListView.SelectedItems[0].Tag;
-            taskResponse resp = new taskResponse(false, string.Empty);
+            var resp = new taskResponse(false, string.Empty);
 
             if (MessageBox.Show(this, pokemon.PokemonId + " with " + pokemon.Cp + " CP thats " + Math.Round(PokemonInfo.CalculatePokemonPerfection(pokemon)) + "% perfect", "Are you sure you want to power it up?", MessageBoxButtons.OKCancel) == DialogResult.OK)
             {
@@ -861,10 +822,10 @@ namespace PokemonGo.RocketAPI.Console
                 MessageBox.Show(resp.Message + " powering up failed!", "PowerUp Status", MessageBoxButtons.OK);
         }
 
-        private void IVsToNicknameToolStripMenuItemClick(object sender, EventArgs e)
+        private void iVsToNicknameToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var pokemon = (PokemonData)PokemonListView.SelectedItems[0].Tag;
-            taskResponse resp = new taskResponse(false, string.Empty);
+            var resp = new taskResponse(false, string.Empty);
 
             string promptValue = Prompt.ShowDialog(IVsToNickname(pokemon), "Confirm Nickname");
 
@@ -886,16 +847,15 @@ namespace PokemonGo.RocketAPI.Console
                 MessageBox.Show(resp.Message + " rename failed!", "Rename Status", MessageBoxButtons.OK);
         }
 
-        private void changeFavouritesToolStripMenuItemClick(object sender, EventArgs e)
+        private void changeFavouritesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var pokemon = (PokemonData)PokemonListView.SelectedItems[0].Tag;
-            taskResponse resp = new taskResponse(false, string.Empty);
+            var resp = new taskResponse(false, string.Empty);
 
             string poname = Logic.Utils.StringUtils.getPokemonNameByLanguage(BotSettings, (PokemonId)pokemon.PokemonId);
             if (MessageBox.Show(this, poname + " will be " + ((pokemon.Favorite == 1) ? "deleted from" : "added to") + " your favourites." + "\nAre you sure you want?", "Confirmation Message", MessageBoxButtons.OKCancel) == DialogResult.OK)
             {
                 pokemon.Favorite = (pokemon.Favorite == 1) ? 0 : 1;
-                //resp = await changeFavourites(pokemon).ConfigureAwait(false);
                 resp = changeFavourites(pokemon).Result;
             }
             else
@@ -914,9 +874,10 @@ namespace PokemonGo.RocketAPI.Console
             else
                 MessageBox.Show(resp.Message + " change favourites failed!", "Change favourites Status", MessageBoxButtons.OK);
         }
+        
         private static async Task<taskResponse> changeFavourites(PokemonData pokemon)
         {
-            taskResponse resp = new taskResponse(false, string.Empty);
+            var resp = new taskResponse(false, string.Empty);
             try
             {
                 var response = await client.Inventory.SetFavoritePokemon((long)pokemon.Id, (pokemon.Favorite == 1)).ConfigureAwait(false);
@@ -941,7 +902,7 @@ namespace PokemonGo.RocketAPI.Console
         private void evolveToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var pokemon = (PokemonData)PokemonListView.SelectedItems[0].Tag;
-            taskResponse resp = new taskResponse(false, string.Empty);
+            var resp = new taskResponse(false, string.Empty);
 
             if (MessageBox.Show(this, pokemon.PokemonId + " with " + pokemon.Cp + " CP thats " + Math.Round(PokemonInfo.CalculatePokemonPerfection(pokemon)) + "% perfect", "Are you sure you want to evolve?", MessageBoxButtons.OKCancel) == DialogResult.OK)
             {
@@ -962,19 +923,18 @@ namespace PokemonGo.RocketAPI.Console
         private void changeBuddyToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var pokemon = (PokemonData)PokemonListView.SelectedItems[0].Tag;
-            taskResponse resp = new taskResponse(false, string.Empty);
+            var ret = false;
 
             string poname = Logic.Utils.StringUtils.getPokemonNameByLanguage(BotSettings, (PokemonId)pokemon.PokemonId);
             if (MessageBox.Show(this, poname + " will be put as your buddy." + "\nAre you sure you want?", "Confirmation Message", MessageBoxButtons.OKCancel) == DialogResult.OK)
             {
-                //resp = await changeFavourites(pokemon).ConfigureAwait(false);
-                resp = changeFavourites(pokemon).Result;
+                ret = changeBuddy(pokemon);
             }
             else
             {
                 return;
             }
-            if (resp.Status)
+            if (ret)
             {
                 var specSymbol ="";
                 if  (pokemon.Favorite == 1)
@@ -984,8 +944,28 @@ namespace PokemonGo.RocketAPI.Console
                 PokemonListView.SelectedItems[0].Text = specSymbol + Logic.Utils.StringUtils.getPokemonNameByLanguage(BotSettings, (PokemonId)pokemon.PokemonId);
             }
             else
-                MessageBox.Show(resp.Message + " change buddy failed!", "Change Buddy Status", MessageBoxButtons.OK);
+                MessageBox.Show("Change buddy "+poname+" failed!", "Change Buddy Status", MessageBoxButtons.OK);
         }
+        
+        private static bool changeBuddy(PokemonData pokemon)
+        {
+            var ret = false;
+            try
+            {
+                var response = client.Inventory.SetBuddyPokemon(pokemon.Id).Result;
+
+                if (response.Result == SetBuddyPokemonResponse.Types.Result.Success)
+                {
+                    ret = true;
+                }
+            }
+            catch (Exception e)
+            {
+                Logger.ColoredConsoleWrite(ConsoleColor.Red, "Error ChangeFavourites: " + e.Message);
+            }
+            return ret;
+        }
+
         private void checkboxReload_CheckedChanged(object sender, EventArgs e)
         {
             if (checkBoxreload.Checked)
@@ -1122,5 +1102,4 @@ namespace PokemonGo.RocketAPI.Console
         }
 
     }
-
 }

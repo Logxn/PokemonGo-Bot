@@ -140,7 +140,7 @@ namespace PokemonGo.RocketAPI.Console
             this.changeFavouritesToolStripMenuItem,
             this.changeBuddyToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(173, 136);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(173, 158);
             this.contextMenuStrip1.Closing += new System.Windows.Forms.ToolStripDropDownClosingEventHandler(this.contextMenuStrip1_Closing);
             this.contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
             // 
@@ -149,7 +149,7 @@ namespace PokemonGo.RocketAPI.Console
             this.transferToolStripMenuItem.Name = "transferToolStripMenuItem";
             this.transferToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
             this.transferToolStripMenuItem.Text = "Transfer";
-            this.transferToolStripMenuItem.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
+            this.transferToolStripMenuItem.Click += new System.EventHandler(this.transferToolStripMenuItem_Click);
             // 
             // powerUpToolStripMenuItem
             // 
@@ -171,14 +171,14 @@ namespace PokemonGo.RocketAPI.Console
             this.iVsToNicknameToolStripMenuItem.Name = "iVsToNicknameToolStripMenuItem";
             this.iVsToNicknameToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
             this.iVsToNicknameToolStripMenuItem.Text = "IVs to Nickname";
-            this.iVsToNicknameToolStripMenuItem.Click += new System.EventHandler(this.IVsToNicknameToolStripMenuItemClick);
+            this.iVsToNicknameToolStripMenuItem.Click += new System.EventHandler(this.iVsToNicknameToolStripMenuItem_Click);
             // 
             // changeFavouritesToolStripMenuItem
             // 
             this.changeFavouritesToolStripMenuItem.Name = "changeFavouritesToolStripMenuItem";
             this.changeFavouritesToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
             this.changeFavouritesToolStripMenuItem.Text = "Change Favourites";
-            this.changeFavouritesToolStripMenuItem.Click += new System.EventHandler(this.changeFavouritesToolStripMenuItemClick);
+            this.changeFavouritesToolStripMenuItem.Click += new System.EventHandler(this.changeFavouritesToolStripMenuItem_Click);
             // 
             // changeBuddyToolStripMenuItem
             // 
