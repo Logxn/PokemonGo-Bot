@@ -43,20 +43,20 @@ namespace PokemonGo.RocketAPI.Console
         {
             try
             {
-                num_MaxPokeballs.Value = GlobalSettings.pokeball;
-                num_MaxGreatBalls.Value = GlobalSettings.greatball;
-                num_MaxUltraBalls.Value = GlobalSettings.ultraball;
-                num_MaxRevives.Value = GlobalSettings.revive;
-                num_MaxPotions.Value = GlobalSettings.potion;
-                num_MaxSuperPotions.Value = GlobalSettings.superpotion;
-                num_MaxHyperPotions.Value = GlobalSettings.hyperpotion;
-                num_MaxRazzBerrys.Value = GlobalSettings.berry;
-                num_MaxTopRevives.Value = GlobalSettings.toprevive;
-                num_MaxTopPotions.Value = GlobalSettings.toppotion;
+                num_MaxPokeballs.Value = GlobalVars.MaxPokeballs;
+                num_MaxGreatBalls.Value = GlobalVars.MaxGreatballs;
+                num_MaxUltraBalls.Value = GlobalVars.MaxUltraballs;
+                num_MaxRevives.Value = GlobalVars.MaxRevives;
+                num_MaxPotions.Value = GlobalVars.MaxPotions;
+                num_MaxSuperPotions.Value = GlobalVars.MaxSuperPotions;
+                num_MaxHyperPotions.Value = GlobalVars.MaxHyperPotions;
+                num_MaxRazzBerrys.Value = GlobalVars.MaxBerries;
+                num_MaxTopRevives.Value = GlobalVars.MaxTopRevives;
+                num_MaxTopPotions.Value = GlobalVars.MaxTopPotions;
                 int count = 0;
-                count += GlobalSettings.pokeball + GlobalSettings.greatball + GlobalSettings.ultraball + GlobalSettings.revive
-                    + GlobalSettings.potion + GlobalSettings.superpotion + GlobalSettings.hyperpotion + GlobalSettings.berry
-                    + GlobalSettings.toprevive + GlobalSettings.toppotion;
+                count += GlobalVars.MaxPokeballs + GlobalVars.MaxGreatballs + GlobalVars.MaxUltraballs + GlobalVars.MaxRevives
+                    + GlobalVars.MaxPotions + GlobalVars.MaxSuperPotions + GlobalVars.MaxHyperPotions + GlobalVars.MaxBerries
+                    + GlobalVars.MaxTopRevives + GlobalVars.MaxTopPotions;
                 text_TotalItemCount.Text = count.ToString();
 
                 var client = Logic.Logic.objClient;
@@ -190,41 +190,41 @@ namespace PokemonGo.RocketAPI.Console
                 //Logger.ColoredConsoleWrite(ConsoleColor.DarkGray, "==========End Recycle Filter Debug Logging=============");
                 switch (numB.Name) {
         			case "num_MaxPokeballs":
-        				GlobalSettings.pokeball = value;
+        				GlobalVars.MaxPokeballs = value;
         			break;
         			case "num_MaxGreatBalls":
-        				GlobalSettings.greatball = value;
+        				GlobalVars.MaxGreatballs = value;
         			break;
         			case "num_MaxUltraBalls":
-        				GlobalSettings.ultraball = value;
+        				GlobalVars.MaxUltraballs = value;
         			break;
         			case "num_MaxRevives":
-        				GlobalSettings.revive = value;
+        				GlobalVars.MaxRevives = value;
         			break;
         			case "num_MaxPotions":
-        				GlobalSettings.potion = value;
+        				GlobalVars.MaxPotions = value;
         			break;
         			case "num_MaxSuperPotions":
-        				GlobalSettings.superpotion = value;
+        				GlobalVars.MaxSuperPotions = value;
         			break;
         			case "num_MaxHyperPotions":
-        				GlobalSettings.hyperpotion = value;
+        				GlobalVars.MaxHyperPotions = value;
         			break;
         			case "num_MaxTopRevives":
-        				GlobalSettings.toprevive = value;
+        				GlobalVars.MaxTopRevives = value;
         			break;
         			case "num_MaxTopPotions":
-        				GlobalSettings.toppotion = value;
+        				GlobalVars.MaxTopPotions = value;
         			break;
         			case "num_MaxRazzBerrys":        		
-        				GlobalSettings.berry = value;
+        				GlobalVars.MaxBerries = value;
         			break;
         				
         		}        
         		 int count = 0;
-		            count += GlobalSettings.pokeball + GlobalSettings.greatball + GlobalSettings.ultraball + GlobalSettings.revive
-		                + GlobalSettings.potion + GlobalSettings.superpotion + GlobalSettings.hyperpotion + GlobalSettings.berry 
-		                + GlobalSettings.toprevive + GlobalSettings.toppotion;
+		            count += GlobalVars.MaxPokeballs + GlobalVars.MaxGreatballs + GlobalVars.MaxUltraballs + GlobalVars.MaxRevives
+		                + GlobalVars.MaxPotions + GlobalVars.MaxSuperPotions + GlobalVars.MaxHyperPotions + GlobalVars.MaxBerries 
+		                + GlobalVars.MaxTopRevives + GlobalVars.MaxTopPotions;
 		         text_TotalItemCount.Text = count.ToString();
         	}catch (Exception e1){
         		Logger.ExceptionInfo(e1.ToString());
@@ -247,7 +247,7 @@ namespace PokemonGo.RocketAPI.Console
         private async Task RecycleItems(bool forcerefresh = false)
         {            
             var client = Logic.Logic.objClient;
-            var items = await client.Inventory.GetItemsToRecycle(Logic.Logic.Instance.BotSettings.itemRecycleFilter).ConfigureAwait(false);
+            var items = await client.Inventory.GetItemsToRecycle(Logic.Logic.Instance.GetItemFilter()).ConfigureAwait(false);
             foreach (var item in items)
             {
                 var transfer = await client.Inventory.RecycleItem((ItemId)item.ItemId, item.Count).ConfigureAwait(false);
@@ -275,15 +275,15 @@ namespace PokemonGo.RocketAPI.Console
             {
                 if (item.ItemId == ItemId.ItemIncenseOrdinary)
                 {
-                    GlobalSettings.UseIncenseGUIClick = true;
+                    GlobalVars.UseIncenseGUIClick = true;
                 }
                 if (item.ItemId == ItemId.ItemLuckyEgg)
                 {
-                    GlobalSettings.UseLuckyEggGUIClick = true;
+                    GlobalVars.UseLuckyEggGUIClick = true;
                 }
                 if (item.ItemId == ItemId.ItemTroyDisk)
                 {
-                    GlobalSettings.UseLureGUIClick = true;
+                    GlobalVars.UseLureGUIClick = true;
                     Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Lure will be used on next pokestop", LogLevel.Info);
                 }
             

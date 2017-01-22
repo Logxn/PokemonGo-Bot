@@ -51,8 +51,8 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                 var result = _client.Player.UpdatePlayerLocation(remoteCoords.Latitude, remoteCoords.Longitude, remoteCoords.Altitude).Result;
 
                 SendToLog($"Went to sniping location.");
-                SendToLog($"Waiting {GlobalSettings.SnipeOpts.WaitSecond} seconds for Pokemon to appear...");
-                RandomHelper.RandomSleep(GlobalSettings.SnipeOpts.WaitSecond*1000, GlobalSettings.SnipeOpts.WaitSecond*1100);
+                SendToLog($"Waiting {GlobalVars.SnipeOpts.WaitSecond} seconds for Pokemon to appear...");
+                RandomHelper.RandomSleep(GlobalVars.SnipeOpts.WaitSecond*1000, GlobalVars.SnipeOpts.WaitSecond*1100);
 
                 TrySnipePokemons(pokeid);
                 
@@ -70,11 +70,11 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                         _botSettings.DefaultLongitude,
                         _botSettings.DefaultAltitude).Result;
             }
-            GlobalSettings.SnipeOpts.Enabled = false;
-            GlobalSettings.SnipeOpts.ID = PokemonId.Missingno;
-            GlobalSettings.SnipeOpts.Location = null;
-            GlobalSettings.SnipeOpts.WaitSecond = 6;
-            GlobalSettings.SnipeOpts.NumTries = 3;
+            GlobalVars.SnipeOpts.Enabled = false;
+            GlobalVars.SnipeOpts.ID = PokemonId.Missingno;
+            GlobalVars.SnipeOpts.Location = null;
+            GlobalVars.SnipeOpts.WaitSecond = 6;
+            GlobalVars.SnipeOpts.NumTries = 3;
             
         }
         
@@ -87,7 +87,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
             do{
                 var mapObjectsResponse = _client.Map.GetMapObjects(true).Result.Item1;
                 var pokemons = mapObjectsResponse.MapCells.SelectMany(i => i.CatchablePokemons).Where(x => x.PokemonId == pokeid);
-                SendToLog($"Try {tries} of {GlobalSettings.SnipeOpts.NumTries}");
+                SendToLog($"Try {tries} of {GlobalVars.SnipeOpts.NumTries}");
                 if (pokemons.Any())
                 {
                     var pokemon = pokemons.FirstOrDefault();
@@ -98,12 +98,12 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                 else
                 {
                     SendToLog($"No Pokemon Found!");
-                    SendToLog($"Waiting {GlobalSettings.SnipeOpts.WaitSecond} seconds for Pokemon to appear...");
-                    RandomHelper.RandomSleep(GlobalSettings.SnipeOpts.WaitSecond*1000, GlobalSettings.SnipeOpts.WaitSecond*1100);
+                    SendToLog($"Waiting {GlobalVars.SnipeOpts.WaitSecond} seconds for Pokemon to appear...");
+                    RandomHelper.RandomSleep(GlobalVars.SnipeOpts.WaitSecond*1000, GlobalVars.SnipeOpts.WaitSecond*1100);
                 }
                 tries ++;
             
-            }while ((tries < GlobalSettings.SnipeOpts.NumTries) && !found);
+            }while ((tries < GlobalVars.SnipeOpts.NumTries) && !found);
             
             if (!found){
                 SendToLog( $"Go to {_botSettings.DefaultLatitude} / {_botSettings.DefaultLongitude}.");

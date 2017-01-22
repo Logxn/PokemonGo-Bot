@@ -28,7 +28,7 @@ namespace PokemonGo.RocketAPI.Console
         public Pokemons()
         {
             InitializeComponent();
-            if (GlobalSettings.consoleInTab)
+            if (GlobalVars.EnableConsoleInTab)
             {
                 this.TabControl1.Controls.Add(this.tpConsole);
                 Logger.type = 1;
@@ -43,7 +43,7 @@ namespace PokemonGo.RocketAPI.Console
 
         private void Pokemons_Load(object sender, EventArgs e)
         {
-            //GlobalSettings.pauseAtPokeStop = false;
+            //GlobalVars.pauseAtPokeStop = false;
             locationPanel1.Init(true, 0, 0, 0);
             Execute();
             sniperPanel1.Execute();
@@ -53,7 +53,7 @@ namespace PokemonGo.RocketAPI.Console
 
         private void Pokemons_Close(object sender, FormClosingEventArgs e)
         {
-            if (!GlobalSettings.consoleInTab){
+            if (!GlobalVars.EnableConsoleInTab){
                 e.Cancel = true;
                 this.WindowState = FormWindowState.Minimized;
             }
@@ -97,25 +97,25 @@ namespace PokemonGo.RocketAPI.Console
         {
             if (CreateRoute.Text.Equals("Define Route"))
             {
-                GlobalSettings.pauseAtPokeStop = true;
+                GlobalVars.pauseAtPokeStop = true;
                 Logger.ColoredConsoleWrite(ConsoleColor.Magenta, "Create Route Enabled - Click Pokestops in the order you would like to walk them and then Click 'Run Route'");
-                if (GlobalSettings.RouteToRepeat.Count > 0)
+                if (GlobalVars.RouteToRepeat.Count > 0)
                 {
                     Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "User Defined Route Cleared!");
-                    GlobalSettings.RouteToRepeat.Clear();
+                    GlobalVars.RouteToRepeat.Clear();
                 }
                 CreateRoute.Text = "Run Route";
                 RepeatRoute.Enabled = true;
             }
             else
             {
-                GlobalSettings.pauseAtPokeStop = false;
+                GlobalVars.pauseAtPokeStop = false;
                 Logger.ColoredConsoleWrite(ConsoleColor.Magenta, "Resume walking between Pokestops.");
-                if (GlobalSettings.RouteToRepeat.Count > 0)
+                if (GlobalVars.RouteToRepeat.Count > 0)
                 {
-                    foreach (var geocoord in GlobalSettings.RouteToRepeat)
+                    foreach (var geocoord in GlobalVars.RouteToRepeat)
                     {
-                        GlobalSettings.NextDestinationOverride.AddLast(geocoord);
+                        GlobalVars.NextDestinationOverride.AddLast(geocoord);
                     }
                     Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "User Defined Route Captured! Beginning Route Momentarily.");
                 }

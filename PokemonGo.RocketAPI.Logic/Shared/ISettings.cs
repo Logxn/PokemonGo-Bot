@@ -18,13 +18,9 @@ namespace PokemonGo.RocketAPI.Logic.Shared
 
         /* AUTHENTICATION */
         string pFHashKey { get; set; }
-        string ProfileName { get; set; }
-        bool IsDefault { get; set; }
         AuthType AuthType { get; set; }
-        string PtcPassword { get; set; }
-        string PtcUsername { get; set; }
-        string GoogleUsername { get; set; }
-        string GooglePassword { get; set; }
+        string Username { get; set; }
+        string Password { get; set; }
 
         bool UsePwdEncryption { get; set; }
 
@@ -59,8 +55,6 @@ namespace PokemonGo.RocketAPI.Logic.Shared
         double WalkingSpeedInKilometerPerHour { get; set; }
 
 
-        LinkedList<GeoCoordinate> NextDestinationOverride { get; set; }
-        LinkedList<GeoCoordinate> RouteToRepeat { get; set; }
 
         /* EVOLVE */
         bool EvolvePokemonsIfEnoughCandy { get; set; }
@@ -90,16 +84,16 @@ namespace PokemonGo.RocketAPI.Logic.Shared
         ProxySettings proxySettings { get; set; }
 
         /* THROW SETTINGS */
-        int Pb_Excellent { get; set; }
-        int Pb_Great { get; set; }
-        int Pb_Nice { get; set; }
-        int Pb_Ordinary { get; set; }
+        int excellentthrow { get; set; }
+        int greatthrow { get; set; }
+        int nicethrow { get; set; }
+        int ordinarythrow { get; set; }
 
         /* LOGGING */
-        bool logPokemons { get; set; }
-        bool logManualTransfer { get; set; }
-        bool bLogEvolve { get; set; }
-        bool logEggs { get; set; }
+        bool LogPokemons { get; set; }
+        bool LogTransfer { get; set; }
+        bool LogEvolve { get; set; }
+        bool LogEggs { get; set; }
 
         /* UPDATES */
         bool AutoUpdate { get; set; }
@@ -119,10 +113,6 @@ namespace PokemonGo.RocketAPI.Logic.Shared
 
         /* MISC */
         bool pokevision { get; set; }
-        bool LogPokemon { get; set; }
-        bool LogTransfer { get; set; }
-        bool LogEvolve { get; set; }
-        bool LogEggs { get; set; }
         bool UseAnimationTimes { get; set; }
         bool MapLoaded { get; set; }
         bool PauseTheWalking { get; set; }
@@ -145,7 +135,6 @@ namespace PokemonGo.RocketAPI.Logic.Shared
         int ivmaxpercent { get; set; }
         string SelectedLanguage { get; set; }
         string GoogleMapsAPIKey { get; set; }
-        ICollection<KeyValuePair<ItemId, int>> itemRecycleFilter { get; set; }
         int MaxPokeballs { get; set; }
         int MaxGreatballs { get; set; }
         int MaxUltraballs { get; set; }
