@@ -9,7 +9,7 @@ namespace PokemonGo.RocketAPI.Hash
     public interface IHasher
     {
         long Client_Unknown25 { get; }
-        Task<HashResponseContent> RequestHashesAsync(HashRequestContent request);
+        //Task<HashResponseContent> RequestHashesAsync(HashRequestContent request);
         HashResponseContent RequestHashes(HashRequestContent request);
     }
 }
