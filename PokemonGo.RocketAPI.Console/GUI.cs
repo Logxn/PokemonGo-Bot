@@ -39,6 +39,8 @@ namespace PokemonGo.RocketAPI.Console
         static Dictionary<string, int> pokeIDS = new Dictionary<string, int>();
         static Dictionary<string, int> evolveIDS = new Dictionary<string, int>();
         static string ConfigsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Configs");
+        
+        public Helper.TranslatorHelper th = new Helper.TranslatorHelper();
 
         public GUI()
         {
@@ -230,6 +232,16 @@ namespace PokemonGo.RocketAPI.Console
                 currVer.ForeColor = Color.Green;
                 newVer.ForeColor = Color.Green;
             }
+            #endregion
+            
+            #region new translation 
+            // NOTE: this next line creates default.json with all strings to translate
+            // th.ExtractTexts(this);
+
+            // Download json file of urrent Culture Info if exists
+            Extract("PokemonGo.RocketAPI.Console", Program.path_translation, "Lang", CultureInfo.CurrentCulture.Name +".json");
+            // Translate using Current Culture Info
+            th.Translate(this);
             #endregion
         }
 
@@ -1131,10 +1143,14 @@ namespace PokemonGo.RocketAPI.Console
             //Logger.ColoredConsoleWrite(ConsoleColor.Red, ass.GetName().ToString());
 
             using (var s = ass.GetManifestResourceStream(nameSpace + "." + (internalFilePath == string.Empty ? string.Empty : internalFilePath + ".") + resourceName))
-            using (BinaryReader r = new BinaryReader(s))
-            using (FileStream fs = new FileStream(outDir + "\\" + resourceName, FileMode.OpenOrCreate))
-            using (BinaryWriter w = new BinaryWriter(fs))
-                w.Write(r.ReadBytes((int)s.Length));
+            {
+                if (s == null) 
+                        return;
+                using (BinaryReader r = new BinaryReader(s))
+                using (FileStream fs = new FileStream(outDir + "\\" + resourceName, FileMode.OpenOrCreate))
+                using (BinaryWriter w = new BinaryWriter(fs))
+                    w.Write(r.ReadBytes((int)s.Length));
+            }
         }
         // Code cleanup we can do later
         public class ExtendedWebClient : WebClient
