@@ -47,7 +47,7 @@ namespace PokemonGo.RocketAPI.Console
             }
             try
             {
-                typeof(GlobalSettings).GetField(globalName).SetValue(null, castedSender.Checked);
+                typeof(GlobalVars).GetField(globalName).SetValue(null, castedSender.Checked);
                 Logger.ColoredConsoleWrite(tryCatchColor,castedSender.Text+ " value changed");
             }
             catch (Exception ex)
@@ -61,8 +61,8 @@ namespace PokemonGo.RocketAPI.Console
         {
             if (! enableEvents)
                 return;
-            GlobalSettings.pauseAtEvolve = checkBox_pauseAtEvolve1_2.Checked;
-            GlobalSettings.pauseAtEvolve2 = checkBox_pauseAtEvolve1_2.Checked;
+            GlobalVars.pauseAtEvolve = checkBox_pauseAtEvolve1_2.Checked;
+            GlobalVars.pauseAtEvolve2 = checkBox_pauseAtEvolve1_2.Checked;
             Logger.ColoredConsoleWrite(tryCatchColor,((CheckBox)sender).Text+ " value changed");
         }
 
@@ -70,7 +70,7 @@ namespace PokemonGo.RocketAPI.Console
         {
             if (! enableEvents)
                 return;
-            GlobalSettings.razzberry_chance = ((double)((NumericUpDown)sender).Value) / 100;
+            GlobalVars.razzberry_chance = ((double)((NumericUpDown)sender).Value) / 100;
             Logger.ColoredConsoleWrite(tryCatchColor,((NumericUpDown)sender).Text+ " value changed");
         }
 
@@ -85,7 +85,7 @@ namespace PokemonGo.RocketAPI.Console
                 globalName = castedSender.Name.ToLower().Replace("NumericUpDown_","");
             }
             try {
-                typeof(GlobalSettings).GetField(globalName).SetValue(null,(double) castedSender.Value);
+                typeof(GlobalVars).GetField(globalName).SetValue(null,(double) castedSender.Value);
                 Logger.ColoredConsoleWrite(tryCatchColor,castedSender.Text+ " value changed");                
             } catch (Exception ex) {
                 Logger.AddLog("[Exception]: " + ex.ToString());
@@ -103,7 +103,7 @@ namespace PokemonGo.RocketAPI.Console
                 globalName = castedSender.Name.ToLower().Replace("NumericUpDown_","");
             }
             try {
-                typeof(GlobalSettings).GetField(globalName).SetValue(null,(int) castedSender.Value);
+                typeof(GlobalVars).GetField(globalName).SetValue(null,(int) castedSender.Value);
                 Logger.ColoredConsoleWrite(tryCatchColor,castedSender.Text+ " value changed");
             } catch (Exception ex) {
                 Logger.AddLog("[Exception]: " + ex.ToString());
@@ -126,8 +126,8 @@ namespace PokemonGo.RocketAPI.Console
 
         void ButtonSetLocationClick(object sender, EventArgs e)
         {
-            double lat = GlobalSettings.latitute;
-            double lng = GlobalSettings.longitude;
+            double lat = GlobalVars.latitude;
+            double lng = GlobalVars.longitude;
             try
             {
                 lat = double.Parse(textBoxLatitude.Text.Replace(',', '.'), GUI.cords, System.Globalization.NumberFormatInfo.InvariantInfo);
@@ -154,18 +154,18 @@ namespace PokemonGo.RocketAPI.Console
                 MessageBox.Show(ex.Message);
                 textBoxLongitude.Text = "";
             }
-            if (lat != GlobalSettings.latitute && lng != GlobalSettings.longitude)
+            if (lat != GlobalVars.latitude && lng != GlobalVars.longitude)
             {
-                if ((!lat.Equals(GlobalSettings.latitute)) && (!lng.Equals(GlobalSettings.longitude)))
+                if ((!lat.Equals(GlobalVars.latitude)) && (!lng.Equals(GlobalVars.longitude)))
                 {
-                    GlobalSettings.latitute = lat;
-                    GlobalSettings.longitude = lng;
+                    GlobalVars.latitude = lat;
+                    GlobalVars.longitude = lng;
                     var elevationRequest = new ElevationRequest()
                     {
                         Locations = new[] { new Location(lat, lng) },
                     };
-                    if (GlobalSettings.GoogleMapsAPIKey != "")
-                        elevationRequest.ApiKey = GlobalSettings.GoogleMapsAPIKey;
+                    if (GlobalVars.GoogleMapsAPIKey != "")
+                        elevationRequest.ApiKey = GlobalVars.GoogleMapsAPIKey;
                     try
                     {
                         ElevationResponse elevation = GoogleMaps.Elevation.Query(elevationRequest);
@@ -173,7 +173,7 @@ namespace PokemonGo.RocketAPI.Console
                         {
                             foreach (Result result in elevation.Results)
                             {
-                                GlobalSettings.altitude = result.Elevation;
+                                GlobalVars.altitude = result.Elevation;
                             }
                         }
                     }
@@ -181,7 +181,7 @@ namespace PokemonGo.RocketAPI.Console
                     {
                         // ignored
                     }
-                    GlobalSettings.RelocateDefaultLocation = true;
+                    GlobalVars.RelocateDefaultLocation = true;
                     numTravelSpeed.Value = 0;
                     textBoxLatitude.Text = "";
                     textBoxLongitude.Text = "";
@@ -199,9 +199,9 @@ namespace PokemonGo.RocketAPI.Console
                 return;
             var configString = JsonConvert.SerializeObject(botSettings);
             Profile updatedProfile = new Profile();
-            ActiveProfile.ProfileName = GlobalSettings.ProfileName;
-            //ActiveProfile.IsDefault = GlobalSettings.IsDefault; // I think that is unneeded
-            //ActiveProfile.RunOrder = GlobalSettings.RunOrder; // I think that is unneeded
+            ActiveProfile.ProfileName = GlobalVars.ProfileName;
+            //ActiveProfile.IsDefault = GlobalVars.IsDefault; // I think that is unneeded
+            //ActiveProfile.RunOrder = GlobalVars.RunOrder; // I think that is unneeded
             ActiveProfile.SettingsJSON = configString;
             string savedProfiles = File.ReadAllText(@Program.accountProfiles);
             Collection<Profile> _profiles = JsonConvert.DeserializeObject<Collection<Profile>>(savedProfiles);
@@ -247,39 +247,39 @@ namespace PokemonGo.RocketAPI.Console
         {
             LocationSelect locationSelector = new LocationSelect(false);
             locationSelector.ShowDialog();
-            textBoxLatitude.Text = GlobalSettings.latitute.ToString(CultureInfo.InvariantCulture);
-            textBoxLongitude.Text = GlobalSettings.longitude.ToString(CultureInfo.InvariantCulture);
+            textBoxLatitude.Text = GlobalVars.latitude.ToString(CultureInfo.InvariantCulture);
+            textBoxLongitude.Text = GlobalVars.longitude.ToString(CultureInfo.InvariantCulture);
         }
 
         public void Execute(){
             enableEvents = false;
             //Walk Options
-            checkBox_RandomlyReduceSpeed.Checked = GlobalSettings.sleepatpokemons;
-            checkBox_FarmPokestops.Checked = GlobalSettings.farmPokestops;
-            checkBox_CatchPokemon.Checked = GlobalSettings.CatchPokemon;
-            checkBox_BreakAtLure.Checked = GlobalSettings.BreakAtLure;
-            checkBox_UseLureAtBreak.Checked = GlobalSettings.UseLureAtBreak;
-            checkBox_RandomlyReduceSpeed.Checked = GlobalSettings.RandomReduceSpeed;
-            checkBox_UseBreakIntervalAndLength.Checked = GlobalSettings.UseBreakFields;
-            checkBox_WalkInArchimedeanSpiral.Checked = GlobalSettings.Espiral;
-            numericUpDownSpeed.Value = decimal.Parse(GlobalSettings.speed.ToString());
-            numericUpDownMinWalkSpeed.Value = decimal.Parse(GlobalSettings.MinWalkSpeed.ToString());
+            checkBox_RandomlyReduceSpeed.Checked = GlobalVars.sleepatpokemons;
+            checkBox_FarmPokestops.Checked = GlobalVars.FarmPokestops;
+            checkBox_CatchPokemon.Checked = GlobalVars.CatchPokemon;
+            checkBox_BreakAtLure.Checked = GlobalVars.BreakAtLure;
+            checkBox_UseLureAtBreak.Checked = GlobalVars.UseLureAtBreak;
+            checkBox_RandomlyReduceSpeed.Checked = GlobalVars.RandomReduceSpeed;
+            checkBox_UseBreakIntervalAndLength.Checked = GlobalVars.UseBreakFields;
+            checkBox_WalkInArchimedeanSpiral.Checked = GlobalVars.Espiral;
+            numericUpDownSpeed.Value = decimal.Parse(GlobalVars.WalkingSpeedInKilometerPerHour.ToString());
+            numericUpDownMinWalkSpeed.Value = decimal.Parse(GlobalVars.MinWalkSpeed.ToString());
             //Other
-            checkBox_useluckyegg.Checked = GlobalSettings.useluckyegg;
-            checkBox_UseAnimationTimes.Checked = GlobalSettings.UseAnimationTimes;
-            checkBox_evolve.Checked = GlobalSettings.evolve;
-            checkBox_pauseAtEvolve1_2.Checked = GlobalSettings.pauseAtEvolve;
-            checkBox_UseIncense.Checked = GlobalSettings.useincense;
-            checkBox_keepPokemonsThatCanEvolve.Checked = GlobalSettings.keepPokemonsThatCanEvolve;
-            checkBoxUseLuckyEggIfNotRunning.Checked = GlobalSettings.useLuckyEggIfNotRunning;
-            checkBoxUseRazzBerry.Checked = GlobalSettings.userazzberry;
-            numRazzPercent.Value = (int)(GlobalSettings.razzberry_chance * 100);
-            checkBoxAutoIncubate.Checked = GlobalSettings.autoIncubate;
-            checkBoxUseBasicIncubators.Checked = GlobalSettings.useBasicIncubators;
+            checkBox_useluckyegg.Checked = GlobalVars.UseLuckyEgg;
+            checkBox_UseAnimationTimes.Checked = GlobalVars.UseAnimationTimes;
+            checkBox_evolve.Checked = GlobalVars.EvolvePokemonsIfEnoughCandy;
+            checkBox_pauseAtEvolve1_2.Checked = GlobalVars.pauseAtEvolve;
+            checkBox_UseIncense.Checked = GlobalVars.UseIncense;
+            checkBox_keepPokemonsThatCanEvolve.Checked = GlobalVars.keepPokemonsThatCanEvolve;
+            checkBoxUseLuckyEggIfNotRunning.Checked = GlobalVars.UseLuckyEggIfNotRunning;
+            checkBoxUseRazzBerry.Checked = GlobalVars.UseRazzBerry;
+            numRazzPercent.Value = (int)(GlobalVars.razzberry_chance * 100);
+            checkBoxAutoIncubate.Checked = GlobalVars.AutoIncubate;
+            checkBoxUseBasicIncubators.Checked = GlobalVars.UseBasicIncubators;
             //Routing
-            checkBox_UseGoogleMapsRouting.Checked = GlobalSettings.UseGoogleMapsAPI;
-            text_GoogleMapsAPIKey.Text = GlobalSettings.GoogleMapsAPIKey;
-            numTravelSpeed.Value = (int)GlobalSettings.RelocateDefaultLocationTravelSpeed;
+            checkBox_UseGoogleMapsRouting.Checked = GlobalVars.UseGoogleMapsAPI;
+            text_GoogleMapsAPIKey.Text = GlobalVars.GoogleMapsAPIKey;
+            numTravelSpeed.Value = (int)GlobalVars.RelocateDefaultLocationTravelSpeed;
             enableEvents = true;
         }
 	}
