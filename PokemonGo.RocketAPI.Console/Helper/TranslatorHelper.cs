@@ -134,12 +134,25 @@ namespace PokemonGo.RocketAPI.Console.Helper
                 string JSONstring = File.ReadAllText(filename);
                 dict = JsonConvert.DeserializeObject<Dictionary<String, String>>(JSONstring);
             } else {
-                var tmp = lang.Split('-')[0];
-                filename = Path.Combine(path, $"{tmp}.json");
-                if (File.Exists(filename)) {
-                    string JSONstring = File.ReadAllText(filename);
-                    dict = JsonConvert.DeserializeObject<Dictionary<String, String>>(JSONstring);
-                }                
+                var baseLang = lang.Split('-');
+                if (baseLang.Length > 1)
+                {
+                    filename = Path.Combine(path, $"{baseLang[0].ToLower()}.json");
+                    if (File.Exists(filename))
+                    {
+                        string JSONstring = File.ReadAllText(filename);
+                        dict = JsonConvert.DeserializeObject<Dictionary<String, String>>(JSONstring);
+                    }
+                    else
+                    {
+                        filename = Path.Combine(path, $"{baseLang[1].ToLower()}.json");
+                        if (File.Exists(filename))
+                        {
+                            string JSONstring = File.ReadAllText(filename);
+                            dict = JsonConvert.DeserializeObject<Dictionary<String, String>>(JSONstring);
+                        }
+                    }
+                }
             }
             return dict;
         }
