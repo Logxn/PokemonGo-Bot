@@ -1,7 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
-# SharpDevelop 5.2
+# Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PokemonGo.RocketAPI", "PokemonGo.RocketAPI\PokemonGo.RocketAPI.csproj", "{05D2DA44-1B8E-4CF7-94ED-4D52451CD095}"
@@ -24,8 +23,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "POGOProtos", "POGOProtos\PO
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{0D72B70F-3A56-49FA-A284-55C422794689}"
 	ProjectSection(SolutionItems) = preProject
-		ver.md = ver.md
 		README.md = README.md
+		ver.md = ver.md
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PokemonGo.RocketAPI.Translator", "PokemonGo.RocketAPI.Translator\PokemonGo.RocketAPI.Translator.csproj", "{3E589F65-5116-455F-9840-B4F6515AD4D4}"
@@ -79,12 +78,12 @@ Global
 		{A03A7BB2-4F0B-467B-84B2-9A76E6AAE6FB}.Release|x86.Build.0 = Release|x86
 		{3E589F65-5116-455F-9840-B4F6515AD4D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{3E589F65-5116-455F-9840-B4F6515AD4D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3E589F65-5116-455F-9840-B4F6515AD4D4}.Debug|x86.ActiveCfg = Debug|x86
-		{3E589F65-5116-455F-9840-B4F6515AD4D4}.Debug|x86.Build.0 = Debug|x86
+		{3E589F65-5116-455F-9840-B4F6515AD4D4}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{3E589F65-5116-455F-9840-B4F6515AD4D4}.Debug|x86.Build.0 = Debug|Any CPU
 		{3E589F65-5116-455F-9840-B4F6515AD4D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3E589F65-5116-455F-9840-B4F6515AD4D4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3E589F65-5116-455F-9840-B4F6515AD4D4}.Release|x86.ActiveCfg = Release|x86
-		{3E589F65-5116-455F-9840-B4F6515AD4D4}.Release|x86.Build.0 = Release|x86
+		{3E589F65-5116-455F-9840-B4F6515AD4D4}.Release|x86.ActiveCfg = Release|Any CPU
+		{3E589F65-5116-455F-9840-B4F6515AD4D4}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

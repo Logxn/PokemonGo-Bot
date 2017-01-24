@@ -15,6 +15,10 @@ using POGOProtos.Enums;
 using Newtonsoft.Json;
 using System.Collections.ObjectModel;
 using PokemonGo.RocketAPI.Logic.Shared;
+using PokemonGo.RocketAPI.HttpClient;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Text;
 
 namespace PokemonGo.RocketAPI.Console
 {
@@ -493,8 +497,7 @@ namespace PokemonGo.RocketAPI.Console
         private const string NEW_YORK_COORS = "40.764883;-73.972967";
         private void buttonSaveStart_Click(object sender, EventArgs e)
         {
-            
-            if (Save())
+                if (Save())
             {
                 if (ActiveProfile.Settings.UseLastCords)
                     LoadLatestCoords();
