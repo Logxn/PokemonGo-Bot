@@ -184,6 +184,13 @@ namespace PokemonGo.RocketAPI.Logic
             Logger.ColoredConsoleWrite(ConsoleColor.Red, "If you've paid for it. Request a chargeback immediately!");
             Logger.ColoredConsoleWrite(ConsoleColor.Red, "You only need pay for a key to access to Hash Service");
 
+            if (GlobalVars.EnableVerboseLogging)
+            {
+                Logger.MaxLogLevel = LogLevel.Debug;
+                Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"LogLevel set to {Logger.MaxLogLevel}. Many logs will be generated.");
+            }
+            else Logger.MaxLogLevel = LogLevel.Info;
+
             #region Log Logger
 
             Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Starting Execute on login server: {BotSettings.AuthType}", LogLevel.Info);
