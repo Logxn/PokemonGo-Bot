@@ -29,6 +29,9 @@ using POGOProtos.Map.Pokemon;
 using PokemonGo.RocketAPI.Logic.Functions;
 using System.Threading.Tasks;
 using PokemonGo.RocketAPI.Logic.Shared;
+using PokemonGo.RocketAPI.HttpClient;
+using System.Net.Http.Headers;
+using System.Net.Http;
 
 namespace PokemonGo.RocketAPI.Logic
 {
