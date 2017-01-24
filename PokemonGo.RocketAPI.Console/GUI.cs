@@ -334,15 +334,20 @@ namespace PokemonGo.RocketAPI.Console
             checkBox_UseRazzberryIfChanceUnder.Checked = config.UseRazzBerry;
             text_UseRazzberryChance.Text = (config.razzberry_chance * 100).ToString();
             NextBestBallOnEscape.Checked = config.NextBestBallOnEscape;
-    
-            text_Pb_Excellent.Text = config.excellentthrow.ToString();
-            text_Pb_Great.Text = config.greatthrow.ToString();
-            text_Pb_Nice.Text = config.nicethrow.ToString();
-            text_Pb_Ordinary.Text = config.ordinarythrow.ToString();
-    
+
+            // To avoid first calculation of 100 %
+            text_Pb_Excellent.Value = 0;
+            text_Pb_Great.Value = 0;
+            text_Pb_Nice.Value = 0;
+            text_Pb_Ordinary.Value = 0;
+            text_Pb_Excellent.Value = config.excellentthrow;
+            text_Pb_Great.Value = config.greatthrow;
+            text_Pb_Nice.Value = config.nicethrow;
+            text_Pb_Ordinary.Value = config.ordinarythrow;
+
             GreatBallMinCP.Text = config.MinCPforGreatBall.ToString();
             UltraBallMinCP.Text = config.MinCPforUltraBall.ToString();
-    
+
             // Tab 4 - Items
             text_MaxPokeballs.Text = config.MaxPokeballs.ToString();
             text_MaxGreatBalls.Text = config.MaxGreatballs.ToString();
@@ -680,11 +685,12 @@ namespace PokemonGo.RocketAPI.Console
                 ActiveProfile.Settings.razzberry_chance = Convert.ToDouble(c);
             }
 
-            ret &= textBoxToActiveProfInt(text_Pb_Excellent, "excellentthrow");
             
-            ret &= textBoxToActiveProfInt(text_Pb_Great, "greatthrow");
-            ret &= textBoxToActiveProfInt(text_Pb_Nice, "nicethrow");
-            ret &= textBoxToActiveProfInt(text_Pb_Ordinary, "ordinarythrow");
+            ActiveProfile.Settings.excellentthrow = (int)text_Pb_Excellent.Value;
+            ActiveProfile.Settings.greatthrow = (int)text_Pb_Great.Value;
+            ActiveProfile.Settings.nicethrow = (int)text_Pb_Nice.Value;
+            ActiveProfile.Settings.ordinarythrow = (int)text_Pb_Ordinary.Value;
+            
             ret &= textBoxToActiveProfInt(GreatBallMinCP, "MinCPforGreatBall");
             ret &= textBoxToActiveProfInt(UltraBallMinCP, "MinCPforUltraBall");
 
@@ -1003,22 +1009,16 @@ namespace PokemonGo.RocketAPI.Console
 
         private void TextBoxes_Throws_TextChanged(object sender, EventArgs e)
         {
-                int throwsChanceSum = 0;
+                decimal throwsChanceSum = 0;
 
-                if (text_Pb_Excellent.Text != string.Empty && text_Pb_Great.Text != string.Empty && text_Pb_Nice.Text != string.Empty && text_Pb_Ordinary.Text != string.Empty)
-                {
-                    throwsChanceSum = Convert.ToInt16(text_Pb_Excellent.Text) +
-                                      Convert.ToInt16(text_Pb_Great.Text) +
-                                      Convert.ToInt16(text_Pb_Nice.Text) +
-                                      Convert.ToInt16(text_Pb_Ordinary.Text);
-                }
+                throwsChanceSum = text_Pb_Excellent.Value +
+                                  text_Pb_Great.Value +
+                                  text_Pb_Nice.Value +
+                                  text_Pb_Ordinary.Value;
                 if (throwsChanceSum > 100)
                 {
-                    MessageBox.Show("You can not have a total throw chance greater than 100%.\nResetting all throw chances to 25%!");
-                    text_Pb_Excellent.Text = "25";
-                    text_Pb_Great.Text = "25";
-                    text_Pb_Nice.Text = "25";
-                    text_Pb_Ordinary.Text = "25";
+                    MessageBox.Show("You can not have a total throw chance greater than 100%.\nResetting throw chance to 0%!");
+                    (sender as NumericUpDown).Value =0;
                 }
         }
 
