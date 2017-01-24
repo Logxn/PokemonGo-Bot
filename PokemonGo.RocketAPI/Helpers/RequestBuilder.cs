@@ -298,7 +298,7 @@ namespace PokemonGo.RocketAPI.Helpers
             // This is new code for 0.53 below
             // Note by Logxn: We do need this for ALL requests and before the main requests.
             // TODO: We need more information about when in needed UnknownPrt8
-            // Added again only for these 2 RequestType by info given by Charles.
+            // Charles says only sent for these 2 RequestTypes
             if (customRequests[0].RequestType == RequestType.GetPlayer ||  customRequests[0].RequestType == RequestType.GetMapObjects)
             _requestEnvelope.PlatformRequests.Add(new RequestEnvelope.Types.PlatformRequest { 
                 Type = PlatformRequestType.UnknownPrt8
