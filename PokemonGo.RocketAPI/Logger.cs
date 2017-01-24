@@ -30,6 +30,7 @@ namespace PokemonGo.RocketAPI
         public static int type = 0;
         public static string message;
         public static ConsoleColor color;
+        public static LogLevel MaxLogLevel = LogLevel.Info; //Info level by default. To change this default, change Settings.cs default FALSE value too
         public Logger()
         {
             
@@ -69,6 +70,8 @@ namespace PokemonGo.RocketAPI
                 }
         }
         public static void ColoredConsoleWrite(ConsoleColor color, string line, LogLevel level = LogLevel.Info){
+            if (level > MaxLogLevel)
+                return;
             if (type == 0)
                 LoggerC.ColoredConsoleWrite(color,line,level);
             else
