@@ -40,7 +40,7 @@ namespace PokemonGo.RocketAPI.Console
         static Dictionary<string, int> evolveIDS = new Dictionary<string, int>();
         static string ConfigsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Configs");
         
-        public Helper.TranslatorHelper th = new Helper.TranslatorHelper();
+        public Helper.TranslatorHelper th = null;
 
         public GUI()
         {
@@ -238,9 +238,10 @@ namespace PokemonGo.RocketAPI.Console
             // NOTE: this next line creates default.json with all strings to translate
             // th.ExtractTexts(this);
 
-            // Download json file of urrent Culture Info if exists
-            Extract("PokemonGo.RocketAPI.Console", Program.path_translation, "Lang", CultureInfo.CurrentCulture.Name +".json");
+            // Download json file of current Culture Info if exists
+            DownloadTranslationFile("PokemonGo.RocketAPI.Console/Lang", Program.path_translation, CultureInfo.CurrentCulture.Name);
             // Translate using Current Culture Info
+            th = new Helper.TranslatorHelper();
             th.Translate(this);
             #endregion
         }
@@ -1131,26 +1132,51 @@ namespace PokemonGo.RocketAPI.Console
                 }
             }
         }
+        
+        public static void DownloadTranslationFile(string remoteDir, string outDir, string lang)
+        {
+            var resourceName = lang + ".json";
+            var filename = outDir + "\\" + resourceName;
+            if (!File.Exists(filename))
+            {
+                try {
+                    using (var wC = new WebClient())
+                    {
+                         wC.DownloadFile("https://raw.githubusercontent.com/Ar1i/PokemonGo-Bot/master/"+remoteDir+"/"+resourceName,filename);
+                         if (File.ReadAllText(filename) == "")
+                             File.Delete(filename);
+                    }
+                } catch (Exception ex1) {
+                    Logger.AddLog(resourceName+":"+ex1.ToString());
+                }
+            }
+
+            // We download base language if exists. For example es-ES, es
+            var baseLang = lang.Split('-');
+            if (baseLang.Count() > 1)
+                DownloadTranslationFile(remoteDir,outDir,baseLang[0]);
+
+        }
 
         public static void Extract(string nameSpace, string outDir, string internalFilePath, string resourceName)
         {
             Assembly ass = Assembly.GetCallingAssembly();
-
             if (File.Exists(outDir + "\\" + resourceName))
             {
                 File.Delete(outDir + "\\" + resourceName);
             }
-            //Logger.ColoredConsoleWrite(ConsoleColor.Red, ass.GetName().ToString());
 
             using (var s = ass.GetManifestResourceStream(nameSpace + "." + (internalFilePath == string.Empty ? string.Empty : internalFilePath + ".") + resourceName))
             {
-                if (s == null) 
-                        return;
-                using (BinaryReader r = new BinaryReader(s))
-                using (FileStream fs = new FileStream(outDir + "\\" + resourceName, FileMode.OpenOrCreate))
-                using (BinaryWriter w = new BinaryWriter(fs))
-                    w.Write(r.ReadBytes((int)s.Length));
+                if (s != null)
+                {
+                    using (BinaryReader r = new BinaryReader(s))
+                    using (FileStream fs = new FileStream(outDir + "\\" + resourceName, FileMode.OpenOrCreate))
+                    using (BinaryWriter w = new BinaryWriter(fs))
+                        w.Write(r.ReadBytes((int)s.Length));
+                }
             }
+            
         }
         // Code cleanup we can do later
         public class ExtendedWebClient : WebClient

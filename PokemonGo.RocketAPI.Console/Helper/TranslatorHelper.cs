@@ -147,6 +147,8 @@ namespace PokemonGo.RocketAPI.Console.Helper
         
         private static void writeTexts(string prefix, Control ctrl, Dictionary<String,String> dict)
         {
+            if (dict == null)
+                return;
             var tagVal = ctrl.Tag as string;        	
             if (ctrl.Parent != null)
                 prefix += ctrl.Parent.Name + ".";
