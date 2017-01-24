@@ -20,6 +20,7 @@ namespace PokemonGo.RocketAPI.Hash
         //public long Client_Unknown25 => -8832040574896607694;
         public long Client_Unknown25 => -76506539888958491;
 
+
         // ***************************************************************************
         // This value will determine which version of hashing you receive.
         // Currently supported versions:
@@ -53,76 +54,6 @@ namespace PokemonGo.RocketAPI.Hash
             _endpoint = EndPointDictionary[(CurrentAPIVersion.CurrentNianticAPIVersion).ToString()];
             this.apiKey = apiKey;
         }
-
-        //#region Async Methods
-        //public async Task<HashResponseContent> RequestHashesAsync(HashRequestContent request)
-        //{
-        //    int retry = 3;
-        //    do {
-        //        try
-        //        {
-        //            return await InternalRequestHashesAsync(request).ConfigureAwait(false);
-        //        }
-        //        catch (HasherException hashEx)
-        //        {
-        //            Logger.Write(hashEx.Message);
-        //            throw hashEx;
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            Logger.ColoredConsoleWrite(ConsoleColor.Red, "Error: PokeHasHasher.cs - RequestHashesAsync()");
-        //            Logger.ColoredConsoleWrite(ConsoleColor.Red, ex.Message);
-        //        }
-        //        finally
-        //        {
-        //            retry--;
-        //        }
-        //    } while (retry > 0);
-
-        //    throw new HasherException("Pokefamer Hash API server might down");
-        //}
-
-        //private async Task<HashResponseContent> InternalRequestHashesAsync(HashRequestContent request)
-        //{
-        //    using (var client = new System.Net.Http.HttpClient())
-        //    {
-        //        client.BaseAddress = _baseAddress;
-        //        client.DefaultRequestHeaders.Accept.Clear();
-        //        client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-        //        client.DefaultRequestHeaders.Add("X-AuthToken", this.apiKey);
-
-        //        var content = new StringContent(JsonConvert.SerializeObject(request), Encoding.UTF8, "application/json");
-        //        content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-
-        //        var response = await client.PostAsync(_endpoint, content).ConfigureAwait(false);
-
-        //        switch (response.StatusCode)
-        //        {           
-        //            case HttpStatusCode.OK:
-        //                return JsonConvert.DeserializeObject<HashResponseContent>(await response.Content.ReadAsStringAsync().ConfigureAwait(false));
-
-        //            case HttpStatusCode.BadRequest: // Invalid request
-        //                string responseText = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-        //                if (responseText.Contains("Unauthorized")) throw new HasherException($"[HashService] Your PF-Hashkey you provided is incorrect (or not valid anymore). Please check again! (Pokefamer message : {responseText})");
-        //                Console.WriteLine($"[HashService] Bad request sent to the hashing server! {responseText}");
-        //                break;
-
-        //            case HttpStatusCode.Unauthorized: // No Valid Key
-        //                throw new  HasherException("[HashService] Your PF-Hashkey you provided is incorrect (or not valid anymore). Please check again!");
-
-        //            case (HttpStatusCode)429: // To many reqeusts => que 
-        //                Console.WriteLine($"[HashService] Your request has been limited. {await response.Content.ReadAsStringAsync().ConfigureAwait(false)}");
-        //                RandomHelper.RandomSleep(2000,2100);
-        //                return await RequestHashesAsync(request).ConfigureAwait(false);
-
-        //            default:
-        //                throw new HasherException($"[HashService] Pokefamer Hash API ({_baseAddress}{_endpoint}) might down!");
-        //        }
-        //    }
-
-        //    return null;
-        //}
-        //#endregion
 
         #region Sync Methods
         public HashResponseContent RequestHashes(HashRequestContent request)
@@ -188,8 +119,9 @@ namespace PokemonGo.RocketAPI.Hash
                         RatePeriodEnd = new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc).AddSeconds(Convert.ToUInt32(((String[])response.Headers.GetValues("X-RatePeriodEnd"))[0])).ToLocalTime();
                         RateRequestRemaining = Convert.ToUInt16(((string[])response.Headers.GetValues("X-RateRequestsRemaining"))[0]);
                         RateLimitSeconds = Convert.ToUInt16(((string[])response.Headers.GetValues("X-RateLimitSeconds"))[0]);
+                        var remainingSeconds = (DateTime.Now - RatePeriodEnd).TotalSeconds * -1;
 
-                        Logger.ColoredConsoleWrite(ConsoleColor.DarkBlue, $"{RateRequestRemaining}/{MaxRequestCount} requests remaining for the next {(DateTime.Now - RatePeriodEnd).TotalSeconds} seconds. Key expires on: {AuthTokenExpiration}", LogLevel.Debug);
+                        //Logger.ColoredConsoleWrite(ConsoleColor.DarkBlue, $"{RateRequestRemaining}/{MaxRequestCount} requests remaining for the next {remainingSeconds} seconds. Key expires on: {AuthTokenExpiration}", LogLevel.Debug);
                         return JsonConvert.DeserializeObject<HashResponseContent>(response.Content.ReadAsStringAsync().Result);
 
                     case HttpStatusCode.BadRequest: // 400

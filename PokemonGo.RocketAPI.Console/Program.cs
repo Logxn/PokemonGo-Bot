@@ -106,12 +106,14 @@ namespace PokemonGo.RocketAPI.Console
                 #endregion
             }
 
+
             // Checking if current BOT API implementation supports NIANTIC current API (unless there's an override command line switch)
             if (!GlobalVars.BypassCheckCompatibilityVersion)
             {
                 Logger.ColoredConsoleWrite(ConsoleColor.DarkMagenta, $"Bot Current version: {BotVersion}");
                 Logger.ColoredConsoleWrite(ConsoleColor.DarkMagenta, $"Bot Supported API version: {GlobalVars.BotApiSupportedVersion}");
                 Logger.ColoredConsoleWrite(ConsoleColor.DarkMagenta, $"Current API version: {new CurrentAPIVersion().GetNianticAPIVersion()}");
+
                 bool CurrentVersionsOK = new CurrentAPIVersion().CheckAPIVersionCompatibility( GlobalVars.BotApiSupportedVersion);
                 if (!CurrentVersionsOK)
                 {

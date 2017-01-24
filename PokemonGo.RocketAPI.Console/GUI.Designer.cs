@@ -2834,6 +2834,7 @@ namespace PokemonGo.RocketAPI.Console
             this.newVer.Name = "newVer";
             this.newVer.Size = new System.Drawing.Size(40, 13);
             this.newVer.TabIndex = 3;
+            this.newVer.Tag = "NO TRANSLATE";
             this.newVer.Text = "1.0.0.0";
             // 
             // currVer
@@ -2844,6 +2845,7 @@ namespace PokemonGo.RocketAPI.Console
             this.currVer.Name = "currVer";
             this.currVer.Size = new System.Drawing.Size(40, 13);
             this.currVer.TabIndex = 2;
+            this.currVer.Tag = "NO TRANSLATE";
             this.currVer.Text = "1.0.0.0";
             // 
             // newText
@@ -3075,6 +3077,7 @@ namespace PokemonGo.RocketAPI.Console
             this.ver.Name = "ver";
             this.ver.Size = new System.Drawing.Size(48, 13);
             this.ver.TabIndex = 2;
+            this.ver.Tag = "NO TRANSLATE";
             this.ver.Text = "Version: ";
             // 
             // label38
