@@ -1153,8 +1153,11 @@ namespace PokemonGo.RocketAPI.Console
 
             // We download base language if exists. For example es-ES, es
             var baseLang = lang.Split('-');
-            if (baseLang.Count() > 1)
-                DownloadTranslationFile(remoteDir,outDir,baseLang[0]);
+            if (baseLang.Length > 1)
+            {
+                DownloadTranslationFile(remoteDir,outDir,baseLang[0].ToLower());
+                DownloadTranslationFile(remoteDir,outDir,baseLang[1].ToLower());
+            }
 
         }
 
