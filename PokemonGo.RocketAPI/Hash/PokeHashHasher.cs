@@ -121,7 +121,7 @@ namespace PokemonGo.RocketAPI.Hash
                         RateLimitSeconds = Convert.ToUInt16(((string[])response.Headers.GetValues("X-RateLimitSeconds"))[0]);
                         var remainingSeconds = (DateTime.Now - RatePeriodEnd).TotalSeconds * -1;
 
-                        //Logger.ColoredConsoleWrite(ConsoleColor.DarkBlue, $"{RateRequestRemaining}/{MaxRequestCount} requests remaining for the next {remainingSeconds} seconds. Key expires on: {AuthTokenExpiration}", LogLevel.Debug);
+                        Logger.ColoredConsoleWrite(ConsoleColor.DarkBlue, $"{RateRequestRemaining}/{MaxRequestCount} requests remaining for the next {remainingSeconds} seconds. Key expires on: {AuthTokenExpiration}", LogLevel.Debug);
                         return JsonConvert.DeserializeObject<HashResponseContent>(response.Content.ReadAsStringAsync().Result);
 
                     case HttpStatusCode.BadRequest: // 400
@@ -130,7 +130,7 @@ namespace PokemonGo.RocketAPI.Hash
 
                     case HttpStatusCode.Unauthorized: // 401
                         Shared.KeyCollection.removeKey(this.apiKey);
-                        throw new  HasherException($"[HashService] 401: Your PF-Hashkey you provided is incorrect (or not valid anymore). ");
+                        throw new HasherException($"[HashService] 401: Your PF-Hashkey you provided is incorrect (or not valid anymore). ");
 
                     case (HttpStatusCode)429: // To many requests
                         responseText = response.Content.ReadAsStringAsync().Result;
@@ -138,7 +138,7 @@ namespace PokemonGo.RocketAPI.Hash
 
                     case HttpStatusCode.ServiceUnavailable:
                         responseText = response.Content.ReadAsStringAsync().Result;
-                        throw new HasherException($"[HashService] 503: It seems PokeFarmer server is unavailable (Message : {responseText})");
+                        throw new HasherException($"[HashService] 503: It seems PokeFarmer server {_baseAddress}{_endpoint} is unavailable (Message : {responseText}) ");
 
                     default:
                         RandomHelper.RandomSleep(10000,11000);

@@ -53,7 +53,8 @@ namespace PokemonGo.RocketAPI.Helpers
 
         private static byte MakeIntegrityByte(byte b)
         {
-            return (byte)(b & 0xe3 | 0x10);
+            //return (byte)(b & 0xe3 | 0x10);
+            return (byte)(b & 0xf3 | 0x10); // [8:14] marcel: @niico @LeaMic I just pushed the fix for that issue you guys found.That 0xe3 should have been 0xf3 -.-
         }
 
         public static byte[] Encrypt(byte[] input, uint ms)
