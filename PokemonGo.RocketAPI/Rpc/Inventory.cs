@@ -354,7 +354,7 @@ namespace PokemonGo.RocketAPI.Rpc
                     }
                     if (orderByIv)
                     {
-                        results.AddRange(pokemonList.Where(x => x.PokemonId == pokemon.Key)
+                        results.AddRange( (IEnumerable<PokemonData>) pokemonList.Where(x => x.PokemonId == pokemon.Key)
                                                     .OrderByDescending(PokemonInfo.CalculatePokemonPerfection)
                                                     .ThenBy(n => n.StaminaMax)
                                                     .Skip(amountToSkip)
@@ -362,7 +362,7 @@ namespace PokemonGo.RocketAPI.Rpc
                     }
                     else
                     {
-                        results.AddRange(pokemonList.Where(x => x.PokemonId == pokemon.Key)
+                        results.AddRange( (IEnumerable<PokemonData>) pokemonList.Where(x => x.PokemonId == pokemon.Key)
                             .OrderByDescending(x => x.Cp)
                             .ThenBy(n => n.StaminaMax)
                             .Skip(amountToSkip)

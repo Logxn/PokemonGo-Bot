@@ -81,6 +81,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Functions\Setout.cs" />
     <Compile Include="Functions\Sniper.cs" />
     <Compile Include="Functions\TelegramLogic.cs" />
     <Compile Include="Logic.cs" />
