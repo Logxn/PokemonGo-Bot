@@ -169,8 +169,8 @@ namespace PokemonGo.RocketAPI.Console
             if (!foundDefaultProfile)
                 Profiles.Add(blankProfile);
 
-            ProfileSelect.DisplayMember = "ProfileName";
             ProfileSelect.DataSource = Profiles;
+            ProfileSelect.DisplayMember = "ProfileName";
             if (selectedProfile != null)
             {
                   blankProfile.IsDefault = false;
@@ -195,7 +195,6 @@ namespace PokemonGo.RocketAPI.Console
             var newestVersion = Program.getNewestVersion();
 
             currVer.Text = currVersion.ToString();
-            ver.Text = $"Version: {currVersion}";
             newVer.Text = newestVersion.ToString();
 
             if (Program.getNewestVersion() > Assembly.GetExecutingAssembly().GetName().Version)
@@ -227,11 +226,11 @@ namespace PokemonGo.RocketAPI.Console
             #region new translation 
             th = new Helper.TranslatorHelper();
             //th.ExtractTexts(this);// <-- Creates default.json with all strings to translate.
-            //comboLanguage.SelectedIndex = 0;
+            comboLanguage.SelectedIndex = 0;
             // Download json file of current Culture Info if exists
-            //DownloadTranslationFile("PokemonGo.RocketAPI.Console/Lang", Program.path_translation, CultureInfo.CurrentCulture.Name);
+            DownloadTranslationFile("PokemonGo.RocketAPI.Console/Lang", Program.path_translation, CultureInfo.CurrentCulture.Name);
             // Translate using Current Culture Info
-            //th.Translate(this);
+            th.Translate(this);
             #endregion
         }
 
@@ -1240,6 +1239,9 @@ We did not have any influence on this. We are very sorry this needed to happen!"
                 case 0:
                     lang = CultureInfo.CurrentCulture.Name;
                     break;
+                case 1:
+                    lang = "default";
+                    break;
                 case 2:
                     lang = "de";
                     break;
@@ -1250,7 +1252,7 @@ We did not have any influence on this. We are very sorry this needed to happen!"
                     lang = "ca-ES";
                     break;
             }
-            
+
             if (lang !="")
             {
                 DownloadTranslationFile("PokemonGo.RocketAPI.Console/Lang", Program.path_translation, lang);

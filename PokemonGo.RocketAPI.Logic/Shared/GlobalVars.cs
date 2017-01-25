@@ -15,6 +15,7 @@ using Google.Protobuf;
 using System.Collections.ObjectModel;
 using System.IO;
 using Newtonsoft.Json;
+using POGOProtos.Inventory.Item;
 
 
 namespace PokemonGo.RocketAPI.Logic.Shared
@@ -224,5 +225,22 @@ namespace PokemonGo.RocketAPI.Logic.Shared
             }
             return settings;
         }
+        public static ICollection<KeyValuePair<ItemId, int>> GetItemFilter()
+        {
+                return new[]
+                {
+                    new KeyValuePair<ItemId, int>(ItemId.ItemPokeBall, Shared.GlobalVars.MaxPokeballs),
+                    new KeyValuePair<ItemId, int>(ItemId.ItemGreatBall, Shared.GlobalVars.MaxGreatballs),
+                    new KeyValuePair<ItemId, int>(ItemId.ItemUltraBall, Shared.GlobalVars.MaxUltraballs),
+                    new KeyValuePair<ItemId, int>(ItemId.ItemRevive, Shared.GlobalVars.MaxRevives),
+                    new KeyValuePair<ItemId, int>(ItemId.ItemPotion, Shared.GlobalVars.MaxPotions),
+                    new KeyValuePair<ItemId, int>(ItemId.ItemSuperPotion, Shared.GlobalVars.MaxSuperPotions),
+                    new KeyValuePair<ItemId, int>(ItemId.ItemHyperPotion, Shared.GlobalVars.MaxHyperPotions),
+                    new KeyValuePair<ItemId, int>(ItemId.ItemRazzBerry, Shared.GlobalVars.MaxBerries),
+                    new KeyValuePair<ItemId, int>(ItemId.ItemMaxPotion, Shared.GlobalVars.MaxTopPotions),
+                    new KeyValuePair<ItemId, int>(ItemId.ItemMaxRevive, Shared.GlobalVars.MaxTopRevives)
+                };
+        }
+
     }
 }

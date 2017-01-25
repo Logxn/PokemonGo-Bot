@@ -271,7 +271,6 @@ namespace PokemonGo.RocketAPI.Console
             this.linkLabel12 = new System.Windows.Forms.LinkLabel();
             this.linkLabel11 = new System.Windows.Forms.LinkLabel();
             this.groupBox21 = new System.Windows.Forms.GroupBox();
-            this.ver = new System.Windows.Forms.Label();
             this.label38 = new System.Windows.Forms.Label();
             this.linkLabel8 = new System.Windows.Forms.LinkLabel();
             this.label10 = new System.Windows.Forms.Label();
@@ -2943,7 +2942,7 @@ namespace PokemonGo.RocketAPI.Console
             this.groupBox29.Controls.Add(this.label70);
             this.groupBox29.Controls.Add(this.linkLabel15);
             this.groupBox29.Controls.Add(this.label71);
-            this.groupBox29.Location = new System.Drawing.Point(204, 84);
+            this.groupBox29.Location = new System.Drawing.Point(4, 83);
             this.groupBox29.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox29.Name = "groupBox29";
             this.groupBox29.Padding = new System.Windows.Forms.Padding(2);
@@ -3075,7 +3074,6 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // groupBox21
             // 
-            this.groupBox21.Controls.Add(this.ver);
             this.groupBox21.Controls.Add(this.label38);
             this.groupBox21.Controls.Add(this.linkLabel8);
             this.groupBox21.Controls.Add(this.label10);
@@ -3084,21 +3082,10 @@ namespace PokemonGo.RocketAPI.Console
             this.groupBox21.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox21.Name = "groupBox21";
             this.groupBox21.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBox21.Size = new System.Drawing.Size(194, 112);
+            this.groupBox21.Size = new System.Drawing.Size(194, 75);
             this.groupBox21.TabIndex = 41;
             this.groupBox21.TabStop = false;
             this.groupBox21.Text = "Project Information";
-            // 
-            // ver
-            // 
-            this.ver.AutoSize = true;
-            this.ver.Location = new System.Drawing.Point(4, 49);
-            this.ver.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.ver.Name = "ver";
-            this.ver.Size = new System.Drawing.Size(48, 13);
-            this.ver.TabIndex = 2;
-            this.ver.Tag = "NO TRANSLATE";
-            this.ver.Text = "Version: ";
             // 
             // label38
             // 
@@ -3113,7 +3100,7 @@ namespace PokemonGo.RocketAPI.Console
             // linkLabel8
             // 
             this.linkLabel8.AutoSize = true;
-            this.linkLabel8.Location = new System.Drawing.Point(8, 80);
+            this.linkLabel8.Location = new System.Drawing.Point(62, 55);
             this.linkLabel8.Name = "linkLabel8";
             this.linkLabel8.Size = new System.Drawing.Size(97, 13);
             this.linkLabel8.TabIndex = 37;
@@ -3134,7 +3121,7 @@ namespace PokemonGo.RocketAPI.Console
             // linkLabel1
             // 
             this.linkLabel1.AutoSize = true;
-            this.linkLabel1.Location = new System.Drawing.Point(8, 67);
+            this.linkLabel1.Location = new System.Drawing.Point(8, 55);
             this.linkLabel1.Name = "linkLabel1";
             this.linkLabel1.Size = new System.Drawing.Size(38, 13);
             this.linkLabel1.TabIndex = 36;
@@ -3597,7 +3584,6 @@ namespace PokemonGo.RocketAPI.Console
         private System.Windows.Forms.LinkLabel linkLabel9;
         private System.Windows.Forms.LinkLabel linkLabel10;
         private System.Windows.Forms.GroupBox groupBox21;
-        private System.Windows.Forms.Label ver;
         private System.Windows.Forms.Label label38;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.GroupBox groupBox22;
