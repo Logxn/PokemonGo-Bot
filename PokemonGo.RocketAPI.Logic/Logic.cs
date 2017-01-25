@@ -259,38 +259,9 @@ namespace PokemonGo.RocketAPI.Logic
                 try
                 {
                     objClient.Login.DoLogin().Wait();
-
-                    #region Instantiate Telegram
-
-                    if (!string.IsNullOrEmpty(BotSettings.TelegramAPIToken) && !string.IsNullOrEmpty(BotSettings.TelegramName))
-                    {
-                        try
-                        {
-                            Telegram = new TelegramUtil(
-                                objClient,
-                                new TelegramBotClient(BotSettings.TelegramAPIToken),
-                                BotSettings,
-                                objClient.Inventory);
-
-                            Logger.ColoredConsoleWrite(ConsoleColor.Green, "To activate informations with Telegram, write the bot a message for more informations");
-
-                            var me = Telegram.getClient().GetMeAsync().Result;
-                            Telegram.getClient().OnCallbackQuery += Telegram.BotOnCallbackQueryReceived;
-                            Telegram.getClient().OnMessage += Telegram.BotOnMessageReceived;
-                            Telegram.getClient().OnMessageEdited += Telegram.BotOnMessageReceived;
-
-                            Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Telegram Name: {me.Username}");
-
-                            Telegram.getClient().StartReceiving();
-                        }
-                        catch (Exception ex1)
-                        {
-                            Logger.ExceptionInfo( ex1.ToString());
-                        }
-                    }
-
-                    #endregion
-
+                    
+                    TelegramLogic.Instantiante();
+                    
                     PostLoginExecute();
                 }
                 catch (LoginFailedException )
@@ -310,17 +281,7 @@ namespace PokemonGo.RocketAPI.Logic
                         realerror = realerror.InnerException;
                     Logger.ExceptionInfo(ex.Message+"/"+realerror.ToString());
 
-                    try
-                    {
-                        Telegram?.getClient().StopReceiving();
-                    }
-                    catch (Exception ex1)
-                    {
-                        realerror = ex1;
-                        while (realerror.InnerException != null)
-                            realerror = realerror.InnerException;
-                        Logger.ExceptionInfo(ex1.Message+"/"+realerror.ToString());
-                    }
+                    TelegramLogic.Stop();
 
                     #endregion
                 }

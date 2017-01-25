@@ -277,6 +277,10 @@ namespace PokemonGo.RocketAPI.Helpers
             }
         }
 
+        // This is new code for 0.53 below
+        // NOTE: In RE channel, nico said that UnknownPrt8 only is needed
+        // in all call ot getplayer and only in second calls of GMO
+        public static bool GMOFirstTime = true;
         public async Task<RequestEnvelope> GetRequestEnvelope(Request[] customRequests, bool firstRequest = false)
         {
 
@@ -299,11 +303,13 @@ namespace PokemonGo.RocketAPI.Helpers
             // Note by Logxn: We do need this for ALL requests and before the main requests.
             // TODO: We need more information about when in needed UnknownPrt8
             // Charles says only sent for these 2 RequestTypes
-            if (customRequests[0].RequestType == RequestType.GetPlayer ||  customRequests[0].RequestType == RequestType.GetMapObjects)
-            _requestEnvelope.PlatformRequests.Add(new RequestEnvelope.Types.PlatformRequest { 
-                Type = PlatformRequestType.UnknownPrt8
-            });
+            if (customRequests[0].RequestType == RequestType.GetPlayer ||  (customRequests[0].RequestType == RequestType.GetMapObjects && !GMOFirstTime))
+                _requestEnvelope.PlatformRequests.Add(new RequestEnvelope.Types.PlatformRequest { 
+                    Type = PlatformRequestType.UnknownPrt8
+                });
 
+            if (customRequests[0].RequestType == RequestType.GetMapObjects && GMOFirstTime)
+                GMOFirstTime =false;
 
             if (_authTicket != null && !firstRequest)
             {
