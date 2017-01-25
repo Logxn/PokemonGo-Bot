@@ -7,34 +7,18 @@
  * To change this template use Tools | Options | Coding | Edit Standard Headers.
  */
 using System;
-
+using System.IO;
 using System.Collections.Generic;
 using System.Device.Location;
-using System.Diagnostics;
-using System.Globalization;
 using System.Linq;
-using System.Net;
-using System.Reflection;
-using System.Windows.Forms;
-using GoogleMapsApi;
-using GoogleMapsApi.Entities.Common;
-using GoogleMapsApi.Entities.Directions.Request;
-using GoogleMapsApi.Entities.Directions.Response;
-using PokemonGo.RocketApi.PokeMap;
-using PokemonGo.RocketAPI.Exceptions;
-using PokemonGo.RocketAPI.Helpers;
-using PokemonGo.RocketAPI.Logic.Utils;
 using POGOProtos.Enums;
-
 using POGOProtos.Inventory;
 using POGOProtos.Inventory.Item;
-
 using POGOProtos.Networking.Responses;
-
 using PokemonGo.RocketAPI;
 using PokemonGo.RocketAPI.Logic;
-
-using System.IO;
+using PokemonGo.RocketAPI.Helpers;
+using PokemonGo.RocketAPI.Logic.Utils;
 
 namespace PokemonGo.RocketAPI.Logic.Functions
 {
@@ -723,7 +707,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                         if (Logic.Instance.Telegram != null)
                             Logic.Instance.Telegram.sendInformationText(TelegramUtil.TelegramUtilInformationTopics.Transfer, StringUtils.getPokemonNameByLanguage( duplicatePokemon.PokemonId), duplicatePokemon.Cp, PokemonInfo.CalculatePokemonPerfection(duplicatePokemon).ToString("0.00"), bestPokemonOfType);
 
-                        RandomHelper.RandomSleep(500, 600); // Make faster used to now is poosible transfer several pokemons at same time
+                        RandomHelper.RandomSleep(2000, 3000); 
                     }
                 }
                 if (Shared.GlobalVars.pauseAtEvolve2)

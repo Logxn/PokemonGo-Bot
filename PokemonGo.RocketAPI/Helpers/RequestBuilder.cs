@@ -305,7 +305,7 @@ namespace PokemonGo.RocketAPI.Helpers
             // Charles says only sent for these 2 RequestTypes
             if (customRequests[0].RequestType == RequestType.GetPlayer ||  (customRequests[0].RequestType == RequestType.GetMapObjects && !GMOFirstTime))
                 _requestEnvelope.PlatformRequests.Add(new RequestEnvelope.Types.PlatformRequest { 
-                    Type = PlatformRequestType.UnknownPrt8
+                    Type = PlatformRequestType.UnknownPtr8
                 });
 
             if (customRequests[0].RequestType == RequestType.GetMapObjects && GMOFirstTime)
