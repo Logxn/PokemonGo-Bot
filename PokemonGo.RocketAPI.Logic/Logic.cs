@@ -44,33 +44,19 @@ namespace PokemonGo.RocketAPI.Logic
         public readonly ISettings BotSettings;
         public TelegramUtil Telegram;
         public BotStats BotStats;
-        private readonly Navigation navigation;
+        public readonly Navigation navigation;
         public const double SpeedDownTo = 10 / 3.6;
         private readonly LogicInfoObservable infoObservable;
         private readonly PokeVisionUtil pokevision;
-        private int pokemonCatchCount;
-        private int pokeStopFarmedCount;
-        private double timetorunstamp = -10000;
-        private double pausetimestamp = -10000;
-        private double resumetimestamp = -10000;
-        private double lastlog = -10000;
-        private double startingXp = -10000;
-        private double currentxp = -10000;
-        private bool havelures;
-        private bool pokeballoutofstock;
+        public bool pokeballoutofstock;
         private bool stopsloaded;
         public static Logic Instance;
         private readonly List<string> lureEncounters = new List<string>();
-        private int count;
         public static int FailedSoftban;
-        private int level = -1;
         public List<ulong> SkippedPokemon = new List<ulong>();
         public double lastsearchtimestamp;
-        private bool logicAllowCatchPokemon = true;
+        public bool logicAllowCatchPokemon = true;
         
-
-        public DateTime LastIncenselog;
-
         public string Lure = "lureId";
         public PokemonId Luredpokemoncaught = PokemonId.Articuno;
         private bool addedlure;
@@ -128,7 +114,7 @@ namespace PokemonGo.RocketAPI.Logic
 
                     var fortInfo = objClient.Fort.GetFort(pokestop.Id, pokestop.Latitude, pokestop.Longitude).Result;
 
-                    if ((BotSettings.UseLureGUIClick && havelures) || (BotSettings.UseLureAtBreak && havelures && !pokestop.ActiveFortModifier.Any() && !addedlure))
+                    if ((BotSettings.UseLureGUIClick && Setout.havelures) || (BotSettings.UseLureAtBreak && Setout.havelures && !pokestop.ActiveFortModifier.Any() && !addedlure))
                     {
                         BotSettings.UseLureGUIClick = false;
 
@@ -136,7 +122,7 @@ namespace PokemonGo.RocketAPI.Logic
 
                         objClient.Fort.AddFortModifier(fortInfo.FortId, ItemId.ItemTroyDisk).Wait();
 
-                        resumetimestamp = (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds + 30000;
+                        Setout.resumetimestamp = (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds + 30000;
                         addedlure = true;
                     }
 
@@ -146,7 +132,7 @@ namespace PokemonGo.RocketAPI.Logic
                         pokestop.CooldownCompleteTimestampMs = (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds + 300500;
                     }
 
-                    SetCheckTimeToRun();
+                    Setout.SetCheckTimeToRun();
 
                     RandomHelper.RandomSleep(30000, 40000);
 
@@ -155,7 +141,7 @@ namespace PokemonGo.RocketAPI.Logic
 
                 if (!BotSettings.RelocateDefaultLocation) continue;
 
-                resumetimestamp = -10000;
+                Setout.resumetimestamp = -10000;
                 BotSettings.pauseAtPokeStop = false;
 
                 Logger.ColoredConsoleWrite(ConsoleColor.Magenta, "Exit Command detected - Ending break");
@@ -216,11 +202,11 @@ namespace PokemonGo.RocketAPI.Logic
 
             Logger.ColoredConsoleWrite(ConsoleColor.Green, "Setting Pokemon Catch Count: to 0 for this session", LogLevel.Info);
 
-            pokemonCatchCount = 0;
+            Setout.pokemonCatchCount = 0;
 
             Logger.ColoredConsoleWrite(ConsoleColor.Green, "Setting Pokestop Farmed Count to 0 for this session", LogLevel.Info);
 
-            pokeStopFarmedCount = 0;
+            Setout.pokeStopFarmedCount = 0;
 
             objClient.CurrentAltitude = BotSettings.DefaultAltitude;
             objClient.CurrentLongitude = BotSettings.DefaultLongitude;
@@ -299,7 +285,7 @@ namespace PokemonGo.RocketAPI.Logic
             {
                 var profil = objClient.Player.GetPlayer().Result;
                 objClient.Inventory.ExportPokemonToCSV(profil.PlayerData).Wait();
-                LogStatsEtc();
+                Setout.Execute();
                 ExecuteFarmingPokestopsAndPokemons(objClient);
             }
             catch (AccessTokenExpiredException)
@@ -319,385 +305,11 @@ namespace PokemonGo.RocketAPI.Logic
 
         #endregion
 
-        #region Update Functions
-
-        public static Version GetNewestVersion()
-        {
-            try
-            {
-                var match = DownloadServerVersion();
-                var gitVersion = new Version(match);
-
-                return gitVersion;
-            }
-            catch (Exception)
-            {
-                return Assembly.GetExecutingAssembly().GetName().Version;
-            }
-        }
-
-        public static string DownloadServerVersion()
-        {
-            using (var wC = new WebClient())
-            {
-                return wC.DownloadString("https://raw.githubusercontent.com/Ar1i/PokemonGo-Bot/master/ver.md");
-            }
-        }
-
-        #endregion
 
         #region Stats log and Session Check Functions
 
-        private void StatsLog(Client client)
-        {
-            //Enable Pokemon List cause everything is loaded
-            objClient.readyToUse = true;
 
-            #region Set Stat Variables
 
-            var profile = client.Player.GetPlayer().Result;
-            var inventory = client.Inventory.GetInventory().Result;
-            var playerStats = client.Inventory.GetPlayerStats(inventory);
-            var stats = playerStats.First();
-            var expneeded = stats.NextLevelXp - stats.PrevLevelXp - StringUtils.getExpDiff(stats.Level);
-            var curexp = stats.Experience - stats.PrevLevelXp - StringUtils.getExpDiff(stats.Level);
-            var curexppercent = Convert.ToDouble(curexp) / Convert.ToDouble(expneeded) * 100;
-
-            if (startingXp == -10000) startingXp = stats.Experience;
-
-            currentxp = stats.Experience;
-
-            var pokemonToEvolve = (client.Inventory.GetPokemonToEvolve().Result).Count();
-            var pokedexpercentraw = Convert.ToDouble(stats.UniquePokedexEntries) / Convert.ToDouble(150) * 100;
-            var pokedexpercent = Math.Floor(pokedexpercentraw);
-
-            if (curexp == 0 && expneeded == 1000)
-            {
-                client.Misc.MarkTutorialComplete().Wait();
-            }
-
-            var items = client.Inventory.GetItems(inventory); // For dont repeat inventory request
-            var pokemonCount = client.Inventory.GetPokemons().Result.Count();
-            var eggCount = client.Inventory.GetEggsCount(inventory);  // For dont repeat inventory request
-            var maxPokemonStorage = profile.PlayerData.MaxPokemonStorage;
-            var maxItemStorage = profile.PlayerData.MaxItemStorage;
-            var stardust = profile.PlayerData.Currencies.ToArray()[1].Amount.ToString("N0");
-            var currEXP = curexp.ToString("N0");
-            var neededEXP = expneeded.ToString("N0");
-            var expPercent = Math.Round(curexppercent, 2);
-            #endregion
-
-            #region Log Stats
-            client.ShowingStats = true;
-            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "-----------------------[PLAYER STATS]-----------------------");
-            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Level/EXP: {stats.Level} | {currEXP}/{neededEXP} ({expPercent}%)");
-            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"EXP to Level up: {(stats.NextLevelXp - stats.Experience)}");
-            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"PokeStops visited: {stats.PokeStopVisits}");
-            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"KM Walked: {Math.Round(stats.KmWalked, 2)}");
-            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Pokemon: {pokemonCount}/{maxPokemonStorage} ({pokemonToEvolve} Evolvable)");
-            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Eggs: {eggCount}");
-            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Pokedex Completion: {stats.UniquePokedexEntries}/150 [{pokedexpercent}%]");
-            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Stardust: {stardust}");
-            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "------------------------------------------------------------");
-            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Pokemon Catch Count this session: {pokemonCatchCount}");
-            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"PokeStop Farmed Count this session: {pokeStopFarmedCount}");
-
-            var totalitems = 0;
-            foreach (var item in items)
-            {
-                Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"{item.ItemId} Qty: {item.Count}");
-
-                totalitems += item.Count;
-                if (item.ItemId == ItemId.ItemTroyDisk && item.Count > 0)
-                {
-                    havelures = true;
-                }
-            }
-            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Items: {totalitems}/{maxItemStorage} ");
-            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "------------------------------------------------------------");
-
-            #endregion
-
-            #region Check for Level Up
-
-            if (level == -1)
-            {
-                level = stats.Level;
-            }
-            else if (stats.Level > level)
-            {
-                level = stats.Level;
-
-                Logger.ColoredConsoleWrite(ConsoleColor.Magenta, "Got the level up reward from your level up.");
-
-                var lvlup = client.Player.GetLevelUpRewards(stats.Level).Result;
-                var alreadygot = new List<ItemId>();
-
-                foreach (var i in lvlup.ItemsAwarded)
-                {
-                    if (alreadygot.Contains(i.ItemId)) continue;
-
-                    Logger.ColoredConsoleWrite(ConsoleColor.Magenta, $"Got Item: {i.ItemId} ({i.ItemCount}x)");
-                    alreadygot.Add(i.ItemId);
-                }
-                alreadygot.Clear();
-            }
-
-            #endregion
-
-            #region Set Console Title
-            if (!BotSettings.EnableConsoleInTab)
-            {
-                System.Console.Title = profile.PlayerData.Username + @" lvl" + stats.Level + @"-(" +
-                            (stats.Experience - stats.PrevLevelXp - StringUtils.getExpDiff(stats.Level)).ToString("N0") + @"/" +
-                            (stats.NextLevelXp - stats.PrevLevelXp - StringUtils.getExpDiff(stats.Level)).ToString("N0") + @"|" +
-                            Math.Round(curexppercent, 2) + @"%)| Stardust: " + profile.PlayerData.Currencies.ToArray()[1].Amount + @"| " +
-                            BotStats;
-            }
-            #endregion
-
-            #region Check for Update
-
-            if (BotSettings.CheckWhileRunning)
-            {
-                if (GetNewestVersion() > Assembly.GetEntryAssembly().GetName().Version)
-                {
-                    if (BotSettings.AutoUpdate)
-                    {
-                        System.Windows.Forms.Form update = new Update();
-                        update.ShowDialog();
-                    }
-                    else
-                    {
-                        var dialogResult = MessageBox.Show(
-                            @"There is an Update on Github. do you want to open it ?", $@"Newest Version: {GetNewestVersion()}, MessageBoxButtons.YesNo");
-
-                        switch (dialogResult)
-                        {
-                            case DialogResult.Yes:
-                                Process.Start("https://github.com/Ar1i/PokemonGo-Bot");
-                                break;
-                            case DialogResult.No:
-                                //nothing   
-                                break;
-                            case DialogResult.None:
-                                break;
-                            case DialogResult.OK:
-                                break;
-                            case DialogResult.Cancel:
-                                break;
-                            case DialogResult.Abort:
-                                break;
-                            case DialogResult.Retry:
-                                break;
-                            case DialogResult.Ignore:
-                                break;
-                            default:
-                                throw new ArgumentOutOfRangeException();
-                        }
-                    }
-                }
-            }
-
-            #endregion
-            client.ShowingStats = false;
-        }
-
-        private void LogStatsEtc()
-        {
-            // reset stat counter
-            count = 0;
-            if (BotSettings.UseIncenseGUIClick) UseIncense();
-
-            if (BotSettings.UseLuckyEggIfNotRunning || BotSettings.UseLuckyEggGUIClick)
-            {
-                BotSettings.UseLuckyEggGUIClick = false;
-                objClient.Inventory.UseLuckyEgg(objClient).Wait();
-            }
-
-            if (BotSettings.EvolvePokemonsIfEnoughCandy)
-            {
-                EvolveAllPokemonWithEnoughCandy();
-            }
-
-            if (BotSettings.AutoIncubate)
-            {
-                StartIncubation();
-            }
-
-            TransferDuplicatePokemon(BotSettings.keepPokemonsThatCanEvolve, BotSettings.TransferFirstLowIV);
-            RecycleItems();
-            StatsLog(objClient);
-            SetCheckTimeToRun();
-        }
-
-        private void SetCheckTimeToRun()
-        {
-            
-            // Prevent Spamming Logs
-            if ((long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds > lastlog + 60000)
-            {
-                lastlog = (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds;
-
-                #region Time to Run
-
-                if (BotSettings.TimeToRun > 0)
-                {
-                    if (timetorunstamp == -10000)
-                    {
-                        timetorunstamp = BotSettings.TimeToRun * 60 * 1000 + (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds;
-                    }
-                    else
-                    {
-                        var runTimeRemaining = timetorunstamp - (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds;
-                        var remainingTime = Math.Round(runTimeRemaining / 1000 / 60, 2);
-                        if (runTimeRemaining <= 0)
-                        {
-                            Logger.ColoredConsoleWrite(ConsoleColor.Red, "Time To Run Reached or Exceeded...Walking back to default location and stopping bot");
-
-                            WalkWithRouting(BotSettings.DefaultLatitude, BotSettings.DefaultLongitude);
-
-                            StringUtils.CheckKillSwitch(true);
-                        }
-                        else
-                        {
-                            Logger.ColoredConsoleWrite(ConsoleColor.Blue, $"Remaining Time to Run: {remainingTime} minutes");
-                        }
-                    }
-                }
-
-                #endregion
-
-                #region Breaks
-
-                if (BotSettings.UseBreakFields)
-                {
-                    if (pausetimestamp > -10000)
-                    {
-                        var walkTimeRemaining = pausetimestamp - (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds;
-                        if (walkTimeRemaining <= 0)
-                        {
-                            pausetimestamp = -10000;
-                            BotSettings.pauseAtPokeStop = true;
-                            resumetimestamp = (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds + BotSettings.BreakLength * 60 * 1000;
-
-                            Logger.ColoredConsoleWrite(ConsoleColor.Blue, $"Break Time! Pause walking for {BotSettings.BreakLength} minutes");
-                        }
-                        else
-                        {
-                            Logger.ColoredConsoleWrite(ConsoleColor.Blue, $"Remaining Time until break: {Math.Round(walkTimeRemaining / 1000 / 60, 2)} minutes");
-                        }
-                    }
-                    else if (resumetimestamp == -10000)
-                    {
-                        pausetimestamp = (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds + BotSettings.BreakInterval * 60 * 1000;
-
-                        Logger.ColoredConsoleWrite(ConsoleColor.Blue, $"Remaining Time until break: {BotSettings.BreakInterval} minutes");
-                    }
-                }
-
-                if (resumetimestamp > -10000)
-                {
-                    var breakTimeRemaining = resumetimestamp - (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds;
-
-                    if (breakTimeRemaining <= 0)
-                    {
-                        resumetimestamp = -10000;
-                        BotSettings.pauseAtPokeStop = false;
-
-                        Logger.ColoredConsoleWrite(ConsoleColor.Green, "Break over, back to walking!");
-                    }
-                    else
-                    {
-                        Logger.ColoredConsoleWrite(ConsoleColor.Blue, $"Remaining Time until resume walking: {Math.Round(breakTimeRemaining / 1000 / 60, 2)} minutes");
-                    }
-                }
-
-                #endregion
-
-                #region Log Catch Disabled
-
-                //add logging for pokemon catch disabled here for now to prevent spamming
-                if (!BotSettings.CatchPokemon)
-                {
-                    Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Catching Pokemon Disabled in Client Settings - Skipping all pokemon");
-                }
-
-                #endregion
-
-                #region Check Run Count Limits
-
-                #region Catch Pokemon Count Check
-
-                if (pokemonCatchCount >= BotSettings.PokemonCatchLimit)
-                {
-                    if (BotSettings.FarmPokestops)
-                    {
-                        Logger.ColoredConsoleWrite(ConsoleColor.Green, "Pokemon Catch Limit Reached - Bot will only farm pokestops");
-
-                        logicAllowCatchPokemon = false;
-                    }
-                    else
-                    {
-                        Logger.ColoredConsoleWrite(ConsoleColor.Green, "Pokemon Catch Limit Reached and not farming pokestops - Bot will return to default location and stop");
-
-                        WalkWithRouting(BotSettings.DefaultLatitude, BotSettings.DefaultLongitude);
-
-                        StringUtils.CheckKillSwitch(true);
-                    }
-                }
-
-                #endregion
-
-                #region Farm Pokestops Check
-
-                if (pokeStopFarmedCount >= BotSettings.PokestopFarmLimit)
-                {
-                    if (BotSettings.CatchPokemon && logicAllowCatchPokemon)
-                    {
-                        Logger.ColoredConsoleWrite(ConsoleColor.Green, "Pokestop Farmed Limit Reached - Bot will only catch pokemon");
-
-                        BotSettings.FarmPokestops = false;
-                    }
-                    else
-                    {
-                        Logger.ColoredConsoleWrite(ConsoleColor.Green, "Pokestop Farmed Limit Reached and not catching pokemon - Bot will return to default location and stop");
-
-                        WalkWithRouting(BotSettings.DefaultLatitude, BotSettings.DefaultLongitude);
-
-                        StringUtils.CheckKillSwitch(true);
-                    }
-                }
-
-                #endregion
-
-                #region XP Check
-
-                if (startingXp != -10000 && currentxp != -10000 && (currentxp = -startingXp) >= BotSettings.XPFarmedLimit)
-                {
-                    Logger.ColoredConsoleWrite(ConsoleColor.Green, "XP Farmed Limit Reached - Bot will return to default location and stop");
-
-                    if (BotSettings.UseGoogleMapsAPI)
-                    {
-                        WalkWithRouting(BotSettings.DefaultLatitude, BotSettings.DefaultLongitude);
-                    }
-                    else
-                    {
-                        var walkHome = navigation.HumanLikeWalking(
-                            new GeoCoordinate(
-                                BotSettings.DefaultLatitude,
-                                BotSettings.DefaultLongitude),
-                            BotSettings.WalkingSpeedInKilometerPerHour,
-                            ExecuteCatchAllNearbyPokemons);
-                    }
-                    StringUtils.CheckKillSwitch(true);
-                }
-
-                #endregion
-
-                #endregion
-            }
-        }
 
         #endregion
 
@@ -942,7 +554,7 @@ namespace PokemonGo.RocketAPI.Logic
                 #endregion
 
                 //make sure user defined limits have not been reached
-                SetCheckTimeToRun();
+                Setout.SetCheckTimeToRun();
 
                 //update user location on map
                 infoObservable.PushNewGeoLocations(new GeoCoordinate(objClient.CurrentLatitude, objClient.CurrentLongitude));
@@ -1017,9 +629,9 @@ namespace PokemonGo.RocketAPI.Logic
                 //check if user wants to break at lured pokestop          
                 if (BotSettings.BreakAtLure && fortInfo.Modifiers.Any())
                 {
-                    pausetimestamp = -10000;
-                    resumetimestamp = fortInfo.Modifiers.First().ExpirationTimestampMs;
-                    var timeRemaining = resumetimestamp - (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds;
+                    Setout.pausetimestamp = -10000;
+                    Setout.resumetimestamp = fortInfo.Modifiers.First().ExpirationTimestampMs;
+                    var timeRemaining = Setout.resumetimestamp - (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds;
 
                     Logger.ColoredConsoleWrite(ConsoleColor.Magenta, "Active Lure at next Pokestop - Pausing walk for " + Math.Round(timeRemaining / 60 / 1000, 2) + " Minutes");
 
@@ -1091,7 +703,7 @@ namespace PokemonGo.RocketAPI.Logic
             } while (GlobalVars.NextDestinationOverride.Count > 0);
         }
 
-        private void WalkWithRouting(double latitude, double longitude)
+        public void WalkWithRouting(double latitude, double longitude)
         {
             if (BotSettings.UseGoogleMapsAPI)
             {
@@ -1273,9 +885,9 @@ namespace PokemonGo.RocketAPI.Logic
 
         private bool CheckAndFarmNearbyPokeStop(FortData pokeStop, Client client, FortDetailsResponse fortInfo)
         {
-            if (count >= 9)
+            if (Setout.count >= 9)
             {
-                LogStatsEtc();
+                Setout.Execute();
             }
 
             if (pokeStop.CooldownCompleteTimestampMs < (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds && BotSettings.FarmPokestops)
@@ -1316,7 +928,7 @@ namespace PokemonGo.RocketAPI.Logic
                         break;
                 }
 
-                count++;
+                Setout.count++;
 
                 var pokeStopInfo = $"{fortInfo.Name}{Environment.NewLine}Visited:{DateTime.Now.ToString("HH:mm:ss")}{Environment.NewLine}";
 
@@ -1358,7 +970,7 @@ namespace PokemonGo.RocketAPI.Logic
 
                         FailedSoftban = 0;
                         BotStats.AddExperience(fortSearch.ExperienceAwarded);
-                        pokeStopFarmedCount++;
+                        Setout.pokeStopFarmedCount++;
 
                         Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Farmed XP: {fortSearch.ExperienceAwarded}, Gems: {fortSearch.GemsAwarded}{", Egg: " + egg}, Items: {items}", LogLevel.Info);
 
@@ -1443,7 +1055,7 @@ namespace PokemonGo.RocketAPI.Logic
                             pokestop.CooldownCompleteTimestampMs = (long) (DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds + 300500;
                         }
 
-                        SetCheckTimeToRun();
+                        Setout.SetCheckTimeToRun();
                         RandomHelper.RandomSleep(500, 600); // Time between pokestops
                     }
                 }
@@ -1459,7 +1071,7 @@ namespace PokemonGo.RocketAPI.Logic
             }
         }
 
-        private bool ExecuteCatchAllNearbyPokemons()
+        public bool ExecuteCatchAllNearbyPokemons()
         {
             return ExecuteCatchAllNearbyPokemons(null);
         }
@@ -1501,11 +1113,11 @@ namespace PokemonGo.RocketAPI.Logic
                     #region Stats Log
 
                     //increment log stats counter and log stats
-                    count++;
+                    Setout.count++;
 
-                    if (count >= 9 )
+                    if (Setout.count >= 9 )
                     {
-                        LogStatsEtc();
+                        Setout.Execute();
                     }
 
                     #endregion
@@ -1635,7 +1247,7 @@ namespace PokemonGo.RocketAPI.Logic
                 {
                     var fortInfo = objClient.Fort.GetFort(gym.Id, gym.Latitude, gym.Longitude).Result;
                     CheckAndPutInNearbyGym(gym, objClient, fortInfo);
-                    SetCheckTimeToRun();
+                    Setout.SetCheckTimeToRun();
                     RandomHelper.RandomSleep(100, 200);
                 }
             }
@@ -1889,7 +1501,7 @@ namespace PokemonGo.RocketAPI.Logic
                                 File.AppendAllText(logs, $"[{date}] Caught new {StringUtils.getPokemonNameByLanguage(BotSettings, pokeid)} (CP: {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} | IV: {PokemonInfo.CalculatePokemonPerfection(encounterPokemonResponse.WildPokemon.PokemonData).ToString("0.00")}% | Pokeball used: {bestPokeball} | XP: {caughtPokemonResponse.CaptureAward.Xp.Sum()}) " + Environment.NewLine);
                             }
                             Logger.ColoredConsoleWrite(ConsoleColor.White, $"Caught New {StringUtils.getPokemonNameByLanguage(BotSettings, pokeid)} CP {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} IV {PokemonInfo.CalculatePokemonPerfection(encounterPokemonResponse.WildPokemon.PokemonData).ToString("0.00")}% using {bestPokeball} got {caughtPokemonResponse.CaptureAward.Xp.Sum()} XP.");
-                            pokemonCatchCount++;
+                            Setout.pokemonCatchCount++;
                         }
                         else
                         {
@@ -1898,7 +1510,7 @@ namespace PokemonGo.RocketAPI.Logic
                                 File.AppendAllText(logs, $"[{date}] Caught {StringUtils.getPokemonNameByLanguage(BotSettings, pokeid)} (CP: {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} | IV: {PokemonInfo.CalculatePokemonPerfection(encounterPokemonResponse.WildPokemon.PokemonData).ToString("0.00")}% | Pokeball used: {bestPokeball} | XP: {caughtPokemonResponse.CaptureAward.Xp.Sum()}) " + Environment.NewLine);
                             }
                             Logger.ColoredConsoleWrite(ConsoleColor.Gray, $"Caught {StringUtils.getPokemonNameByLanguage(BotSettings, pokeid)} CP {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} IV {PokemonInfo.CalculatePokemonPerfection(encounterPokemonResponse.WildPokemon.PokemonData).ToString("0.00")}% using {bestPokeball} got {caughtPokemonResponse.CaptureAward.Xp.Sum()} XP.");
-                            pokemonCatchCount++;
+                            Setout.pokemonCatchCount++;
 
                             if (Telegram != null)
                                 Telegram.sendInformationText(TelegramUtil.TelegramUtilInformationTopics.Catch, StringUtils.getPokemonNameByLanguage(BotSettings, pokeid), encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp, PokemonInfo.CalculatePokemonPerfection(encounterPokemonResponse.WildPokemon.PokemonData).ToString("0.00"), bestPokeball, caughtPokemonResponse.CaptureAward.Xp.Sum());
@@ -2001,158 +1613,7 @@ namespace PokemonGo.RocketAPI.Logic
 
         #region Evlove Transfer Functions
 
-        private void EvolveAllPokemonWithEnoughCandy(IEnumerable<PokemonId> filter = null)
-        {
-            int evolvecount = 0;
-
-            if ( BotSettings.RelocateDefaultLocation)
-            {
-                return;
-            }
-            var pokemonToEvolve = objClient.Inventory.GetPokemonToEvolve(filter).Result;
-            if (pokemonToEvolve.Count() != 0)
-            {
-                if (BotSettings.UseLuckyEgg)
-                {
-                    objClient.Inventory.UseLuckyEgg(objClient).Wait();
-                }
-            }
-
-            foreach (var pokemon in pokemonToEvolve)
-            {
-                if (!BotSettings.pokemonsToEvolve.Contains(pokemon.PokemonId))
-                {
-                    continue;
-                }
-                var evolvePokemonOutProto = objClient.Inventory.EvolvePokemon(pokemon.Id).Result;
-                var date = DateTime.Now.ToString();
-                var logPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Logs");
-                var evolvelog = Path.Combine(logPath, "EvolveLog.txt");
-
-                var getPokemonName = StringUtils.getPokemonNameByLanguage(BotSettings, pokemon.PokemonId);
-                var cp = pokemon.Cp;
-                var calcPerf = PokemonInfo.CalculatePokemonPerfection(pokemon).ToString("0.00");
-                var getEvolvedName = StringUtils.getPokemonNameByLanguage(BotSettings, evolvePokemonOutProto.EvolvedPokemonData.PokemonId);
-                var getEvolvedCP = evolvePokemonOutProto.EvolvedPokemonData.Cp;
-                var getXP = evolvePokemonOutProto.ExperienceAwarded.ToString("N0");
-
-                if (evolvePokemonOutProto.Result == EvolvePokemonResponse.Types.Result.Success)
-                {
-                    if(evolvecount == 0)
-                    {
-                        if (BotSettings.pauseAtEvolve2)
-                        {
-                            Logger.ColoredConsoleWrite(ConsoleColor.Green, "Stopping to evolve some Pokemons.");
-                            BotSettings.PauseTheWalking = true;
-                        }
-                    }
-
-                    if (BotSettings.LogEvolve)
-                    {
-                        File.AppendAllText(evolvelog, $"[{date}] - Evolved Pokemon: {getPokemonName} | CP {cp} | Perfection {calcPerf}% | => to {getEvolvedName} | CP: {getEvolvedCP} | XP Reward: {getXP}xp" + Environment.NewLine);
-                    }
-                    Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Evolved Pokemon: {getPokemonName} | CP {cp} | Perfection {calcPerf}% | => to {getEvolvedName} | CP: {getEvolvedCP} | XP Reward: {getXP}xp", LogLevel.Info);
-                    BotStats.AddExperience(evolvePokemonOutProto.ExperienceAwarded);
-
-                    if (Telegram != null)
-                        Telegram.sendInformationText(TelegramUtil.TelegramUtilInformationTopics.Evolve, StringUtils.getPokemonNameByLanguage(BotSettings, pokemon.PokemonId), pokemon.Cp, PokemonInfo.CalculatePokemonPerfection(pokemon).ToString("0.00"), StringUtils.getPokemonNameByLanguage(BotSettings, evolvePokemonOutProto.EvolvedPokemonData.PokemonId), evolvePokemonOutProto.EvolvedPokemonData.Cp, evolvePokemonOutProto.ExperienceAwarded.ToString("N0"));
-                    evolvecount++;
-                }
-                else
-                {
-                    if (evolvePokemonOutProto.Result != EvolvePokemonResponse.Types.Result.Success)
-                    {
-                        if (BotSettings.LogEvolve)
-                        {
-                            File.AppendAllText(evolvelog, $"[{date}] - Failed to evolve {pokemon.PokemonId}. EvolvePokemonOutProto.Result was {evolvePokemonOutProto.Result}" + Environment.NewLine);
-                        }
-                        Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Failed to evolve {pokemon.PokemonId}. EvolvePokemonOutProto.Result was {evolvePokemonOutProto.Result}", LogLevel.Info);
-                        evolvecount++;
-                    }
-                }
-                if (BotSettings.UseAnimationTimes)
-                {
-                    RandomHelper.RandomSleep(30000, 35000);
-                }
-                else
-                {
-                    RandomHelper.RandomSleep(500, 600);
-                }
-            }
-            if(evolvecount > 0)
-            {
-                if (BotSettings.pauseAtEvolve2)
-                {
-                    Logger.ColoredConsoleWrite(ConsoleColor.Green, "Pokemons evolved. Time to continue our journey!");
-                    BotSettings.PauseTheWalking = false;
-                }
-            }
-
-        }
-
-        private void TransferDuplicatePokemon(bool keepPokemonsThatCanEvolve = false, bool transferFirstLowIv = false)
-        {
-            if (BotSettings.RelocateDefaultLocation)
-            {
-                return;
-            }
-            if (BotSettings.TransferDoublePokemons)
-            {
-                var duplicatePokemons = objClient.Inventory.GetDuplicatePokemonToTransfer(BotSettings.HoldMaxDoublePokemons, keepPokemonsThatCanEvolve, transferFirstLowIv).Result;
-                if (BotSettings.pauseAtEvolve2)
-                {
-                    Logger.ColoredConsoleWrite(ConsoleColor.Green, "Stopping to transfer some Pokemons.");
-                    BotSettings.PauseTheWalking = true;
-                }
-                foreach (var duplicatePokemon in duplicatePokemons)
-                {
-                    if (!BotSettings.pokemonsToHold.Contains(duplicatePokemon.PokemonId))
-                    {
-                        if (duplicatePokemon.Cp >= BotSettings.DontTransferWithCPOver || PokemonInfo.CalculatePokemonPerfection(duplicatePokemon) >= BotSettings.ivmaxpercent)
-                        {
-                            continue; // Isnt this wrong? Shouldnt it return instead of continueing?
-                        }
-
-                        var bestPokemonOfType = objClient.Inventory.GetHighestCPofType(duplicatePokemon).Result;
-                        var bestPokemonsCpOfType = objClient.Inventory.GetHighestCPofType2(duplicatePokemon).Result;
-                        var bestPokemonsIvOfType = objClient.Inventory.GetHighestIVofType(duplicatePokemon).Result;
-
-                        var transfer = objClient.Inventory.TransferPokemon(duplicatePokemon.Id).Result;
-
-                        var logPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Logs");
-                        var logs = Path.Combine(logPath, "TransferLog.txt");
-                        var date = DateTime.Now.ToString();
-
-                        if (transferFirstLowIv)
-                        {
-                            if (BotSettings.LogTransfer)
-                            {
-                                File.AppendAllText(logs, $"[{date}] - Transfer {StringUtils.getPokemonNameByLanguage(BotSettings, duplicatePokemon.PokemonId)} CP {duplicatePokemon.Cp} IV {PokemonInfo.CalculatePokemonPerfection(duplicatePokemon).ToString("0.00")} % (Best IV: {PokemonInfo.CalculatePokemonPerfection(bestPokemonsIvOfType.First()).ToString("0.00")} %)" + Environment.NewLine);
-                            }
-                            Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Transfer {StringUtils.getPokemonNameByLanguage(BotSettings, duplicatePokemon.PokemonId)} CP {duplicatePokemon.Cp} IV {PokemonInfo.CalculatePokemonPerfection(duplicatePokemon).ToString("0.00")} % (Best IV: {PokemonInfo.CalculatePokemonPerfection(bestPokemonsIvOfType.First()).ToString("0.00")} %)", LogLevel.Info);
-                        }
-                        else
-                        {
-                            if (BotSettings.LogTransfer)
-                            {
-                                File.AppendAllText(logs, $"[{date}] - Transfer {StringUtils.getPokemonNameByLanguage(BotSettings, duplicatePokemon.PokemonId)} CP {duplicatePokemon.Cp} IV {PokemonInfo.CalculatePokemonPerfection(duplicatePokemon).ToString("0.00")} % (Best: {bestPokemonsCpOfType.First().Cp} CP)" + Environment.NewLine);
-                            }
-                            Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Transfer {StringUtils.getPokemonNameByLanguage(BotSettings, duplicatePokemon.PokemonId)} CP {duplicatePokemon.Cp} IV {PokemonInfo.CalculatePokemonPerfection(duplicatePokemon).ToString("0.00")} % (Best: {bestPokemonsCpOfType.First().Cp} CP)", LogLevel.Info);
-                        }
-
-                        if (Telegram != null)
-                            Telegram.sendInformationText(TelegramUtil.TelegramUtilInformationTopics.Transfer, StringUtils.getPokemonNameByLanguage(BotSettings, duplicatePokemon.PokemonId), duplicatePokemon.Cp, PokemonInfo.CalculatePokemonPerfection(duplicatePokemon).ToString("0.00"), bestPokemonOfType);
-
-                        RandomHelper.RandomSleep(500, 600); // Make faster used to now is poosible transfer several pokemons at same time
-                    }
-                }
-                if (BotSettings.pauseAtEvolve2)
-                {
-                    Logger.ColoredConsoleWrite(ConsoleColor.Green, "Pokemons transfered. Time to continue our journey!");
-                    BotSettings.PauseTheWalking = false;
-                }
-            }
-        }
+       
 
         #endregion
 
@@ -2398,236 +1859,10 @@ namespace PokemonGo.RocketAPI.Logic
         #endregion
 
         #region Recycle and Incense Functions
-        public ICollection<KeyValuePair<ItemId, int>> GetItemFilter()
-        {
-                return new[]
-                {
-                    new KeyValuePair<ItemId, int>(ItemId.ItemPokeBall, GlobalVars.MaxPokeballs),
-                    new KeyValuePair<ItemId, int>(ItemId.ItemGreatBall, GlobalVars.MaxGreatballs),
-                    new KeyValuePair<ItemId, int>(ItemId.ItemUltraBall, GlobalVars.MaxUltraballs),
-                    new KeyValuePair<ItemId, int>(ItemId.ItemRevive, GlobalVars.MaxRevives),
-                    new KeyValuePair<ItemId, int>(ItemId.ItemPotion, GlobalVars.MaxPotions),
-                    new KeyValuePair<ItemId, int>(ItemId.ItemSuperPotion, GlobalVars.MaxSuperPotions),
-                    new KeyValuePair<ItemId, int>(ItemId.ItemHyperPotion, GlobalVars.MaxHyperPotions),
-                    new KeyValuePair<ItemId, int>(ItemId.ItemRazzBerry, GlobalVars.MaxBerries),
-                    new KeyValuePair<ItemId, int>(ItemId.ItemMaxPotion, GlobalVars.MaxTopPotions),
-                    new KeyValuePair<ItemId, int>(ItemId.ItemMaxRevive, GlobalVars.MaxTopRevives)
-                };
-        }
-
-        private void RecycleItems(bool forcerefresh = false)
-        {
-
-            if (BotSettings.RelocateDefaultLocation)
-                return;
-            var items = objClient.Inventory.GetItemsToRecycle(GetItemFilter()).Result;
-
-            foreach (var item in items)
-            {
-                if ((item.ItemId == ItemId.ItemPokeBall || item.ItemId == ItemId.ItemGreatBall || item.ItemId == ItemId.ItemUltraBall || item.ItemId == ItemId.ItemMasterBall) && pokeballoutofstock)
-                {
-                    Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Detected Pokeball Restock - Enabling Catch Pokemon");
-                    logicAllowCatchPokemon = true;
-                    pokeballoutofstock = false;
-                }
-                var transfer = objClient.Inventory.RecycleItem(item.ItemId, item.Count).Result;
-                Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Recycled {item.Count}x {item.ItemId}", LogLevel.Info);
-                RandomHelper.RandomSleep(1000, 5000);
-            }
-        }
-
-        private DateTime lastincenseuse;
-
-        public void UseIncense()
-        {
-
-            if (BotSettings.RelocateDefaultLocation)
-                return;
-            if (BotSettings.UseIncense || BotSettings.UseIncenseGUIClick)
-            {
-                BotSettings.UseIncenseGUIClick = false;
-                var inventory = objClient.Inventory.GetItems().Result;
-                var incsense = inventory.Where(p => p.ItemId == ItemId.ItemIncenseOrdinary).FirstOrDefault();
-                var loginterval = DateTime.Now - LastIncenselog;
-                if (lastincenseuse > DateTime.Now.AddSeconds(5))
-                {
-                    var duration = lastincenseuse - DateTime.Now;
-                    var minute = DateTime.Now.AddMinutes(1) - DateTime.Now;
-                    if (loginterval > minute)
-                    {
-                        Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Incense still running: {duration.Minutes}m{duration.Seconds}s");
-                        LastIncenselog = DateTime.Now;
-                    }
-                    return;
-                }
-
-                if (incsense == null || incsense.Count <= 0)
-                {
-                    return;
-                }
-
-                objClient.Inventory.UseIncense(ItemId.ItemIncenseOrdinary).Wait();
-                Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Used Incsense, remaining: {incsense.Count - 1}");
-                lastincenseuse = DateTime.Now.AddMinutes(30);
-                RandomHelper.RandomSleep(3000,3100);
-            }
-        }
 
         #endregion
 
         #region Incubator Functions
-        private List<POGOProtos.Data.PokemonData> eggsHatchingAllowed(List<POGOProtos.Data.PokemonData> eggs)
-        {
-            var ret = new List<POGOProtos.Data.PokemonData> (eggs);
-            if(BotSettings.No2kmEggs)
-            {
-                ret = ret.Where(x => x.EggKmWalkedTarget !=2).ToList();
-            }
-            if(BotSettings.No5kmEggs)
-            {
-                ret = ret.Where(x => x.EggKmWalkedTarget !=5).ToList();
-            }
-            if(BotSettings.No10kmEggs)
-            {
-                ret = ret.Where(x => x.EggKmWalkedTarget !=10).ToList();
-            }
-            return ret;
-        }
-        
-        private List<POGOProtos.Data.PokemonData> eggsHatchingAllowedBasicInc(List<POGOProtos.Data.PokemonData> eggs)
-        {
-            var ret = new List<POGOProtos.Data.PokemonData> (eggs);
-            if(BotSettings.No2kmEggsBasicInc)
-            {
-                ret = ret.Where(x => x.EggKmWalkedTarget !=2).ToList();
-            }
-            if(BotSettings.No5kmEggsBasicInc)
-            {
-                ret = ret.Where(x => x.EggKmWalkedTarget !=5).ToList();
-            }
-            if(BotSettings.No10kmEggsBasicInc)
-            {
-                ret = ret.Where(x => x.EggKmWalkedTarget !=10).ToList();
-            }
-            return ret;
-        }
-
-        // To store incubators with eggs
-        private static List<IncubatorUsage> rememberedIncubators = new List<IncubatorUsage>();
-        
-        private void StartIncubation()
-        {
-            try
-            {
-                if ( BotSettings.RelocateDefaultLocation)
-                {
-                    return;
-                }
-                var inventory = objClient.Inventory.GetInventory().Result;
-                var incubators = objClient.Inventory.GetEggIncubators(inventory).ToList();
-                var unusedEggs = (objClient.Inventory.GetEggs(inventory)).Where(x => string.IsNullOrEmpty(x.EggIncubatorId)).OrderBy(x => x.EggKmWalkedTarget - x.EggKmWalkedStart).ToList();
-                var pokemons = (objClient.Inventory.GetPokemons().Result).ToList();
-
-                var playerStats = objClient.Inventory.GetPlayerStats(inventory);
-                var stats = playerStats.First();
-
-                var kmWalked = stats.KmWalked;
-
-                var logPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Logs");
-                var logs = Path.Combine(logPath, "EggLog.txt");
-                var date = DateTime.Now.ToString();
-
-                var unusedEggsBasicInc = eggsHatchingAllowedBasicInc(unusedEggs); 
-                unusedEggs = eggsHatchingAllowed(unusedEggs);
-                
-                foreach (var incubator in rememberedIncubators)
-                {
-                    var hatched = pokemons.FirstOrDefault(x => !x.IsEgg && x.Id == incubator.PokemonId);
-                    if (hatched == null) continue;
-
-                    if (BotSettings.LogEggs)
-                    {
-                        File.AppendAllText(logs, $"[{date}] - Egg hatched and we got a {hatched.PokemonId} (CP: {hatched.Cp} | MaxCP: {PokemonInfo.CalculateMaxCP(hatched)} | Level: {PokemonInfo.GetLevel(hatched)} | IV: {PokemonInfo.CalculatePokemonPerfection(hatched).ToString("0.00")}% )" + Environment.NewLine);
-                    }
-                    Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, "Egg hatched and we got a " + hatched.PokemonId + " CP: " + hatched.Cp + " MaxCP: " + PokemonInfo.CalculateMaxCP(hatched) + " Level: " + PokemonInfo.GetLevel(hatched) + " IV: " + PokemonInfo.CalculatePokemonPerfection(hatched).ToString("0.00") + "%");
-                }
-
-                if ((unusedEggs.Count < 1) && (unusedEggs.Count < 1))
-                {
-                    Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, "There is not Allowed Eggs to hatch");
-                    return;
-                }
-
-                var newRememberedIncubators = new List<IncubatorUsage>();
-
-                foreach (var incubator in incubators)
-                {
-                    if (incubator.PokemonId == 0)
-                    {
-
-                        // If is basic incubator and user don't want use it, we go to the next incubator
-                        if (    (incubator.ItemId == ItemId.ItemIncubatorBasic) 
-                             && ( ! BotSettings.UseBasicIncubators) )
-                            continue;
-
-                        POGOProtos.Data.PokemonData egg;
-                        if (incubator.ItemId == ItemId.ItemIncubatorBasic) 
-                            egg = BotSettings.EggsAscendingSelectionBasicInc ? unusedEggsBasicInc.FirstOrDefault() : unusedEggsBasicInc.LastOrDefault();
-                        else 
-                            egg = BotSettings.EggsAscendingSelection ? unusedEggs.FirstOrDefault() : unusedEggs.LastOrDefault();
-
-                        // If there is not eggs then we finish this function
-                        if (egg == null)
-                            return;
-
-                        var response = objClient.Inventory.UseItemEggIncubator(incubator.Id, egg.Id);
-                        try
-                        {
-                            unusedEggs.Remove(egg);
-                            unusedEggsBasicInc.Remove(egg);
-                        }
-                        catch (Exception ex){
-                            Logger.ColoredConsoleWrite(ConsoleColor.Red, "Error: Logic.cs - StartIncubation()");
-                            Logger.ColoredConsoleWrite(ConsoleColor.Red, ex.Message);
-                        }
-                        newRememberedIncubators.Add(new IncubatorUsage { IncubatorId = incubator.Id, PokemonId = egg.Id });
-                        Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, "Added Egg which needs " + egg.EggKmWalkedTarget + "km");
-                        // We need some sleep here or this shit explodes
-                        RandomHelper.RandomSleep(100, 200);
-                    }
-                    else
-                    {
-                        newRememberedIncubators.Add(new IncubatorUsage
-                        {
-                            IncubatorId = incubator.Id,
-                            PokemonId = incubator.PokemonId
-                        });
-
-                        Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, "Egg (" + (incubator.TargetKmWalked - incubator.StartKmWalked) + "km) need to walk " + Math.Round(incubator.TargetKmWalked - kmWalked, 2) + " km.");
-                    }
-                }
-
-                if (!newRememberedIncubators.SequenceEqual(rememberedIncubators))
-                    rememberedIncubators = newRememberedIncubators;
-            }
-            catch (Exception ex)
-            {
-                // Leave this here: Logger.Error(e.StackTrace);
-                Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, "Egg: We dont have any eggs we could incubate.");
-                Logger.ColoredConsoleWrite(ConsoleColor.Red, ex.Message);
-            }
-        }
-
-        private class IncubatorUsage : IEquatable<IncubatorUsage>
-        {
-            public string IncubatorId;
-            public ulong PokemonId;
-
-            public bool Equals(IncubatorUsage other)
-            {
-                return other != null && other.IncubatorId == IncubatorId && other.PokemonId == PokemonId;
-            }
-        }
 
         #endregion
 
