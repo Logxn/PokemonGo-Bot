@@ -382,7 +382,6 @@
     <EmbeddedResource Include="Lang\spain.json" />
     <EmbeddedResource Include="Lang\tr.json" />
     <EmbeddedResource Include="Lang\arabic.json" />
-    <EmbeddedResource Include="Lang\es.json" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>

@@ -77,23 +77,10 @@ namespace PokemonGo.RocketAPI.Console
                 }
             }
 
-            /* TRANSLATION */
-            var b = new List<string>();
-            b.Add("de.json");
-            b.Add("france.json");
-            b.Add("italian.json");
-            b.Add("ptBR.json");
-            b.Add("ru.json");
-            b.Add("spain.json");
-            b.Add("tr.json");
-            b.Add("arabic.json");
-
+            
             if (!Directory.Exists(Program.path_translation))
                 Directory.CreateDirectory(Program.path_translation);
                 
-            foreach (var l in b)
-                Extract("PokemonGo.RocketAPI.Console", Program.path_translation, "Lang", l);
-
             var pokeData = new List<string>();
             pokeData.Add("AdditionalPokeData.json");
 
@@ -103,7 +90,6 @@ namespace PokemonGo.RocketAPI.Console
             foreach (var extract in pokeData)
                 Extract("PokemonGo.RocketAPI.Console", Program.path_pokedata, "PokeData", extract);
 
-            TranslationHandler.Init();
             int i = 1;
             int ev = 1;
 
@@ -239,14 +225,13 @@ namespace PokemonGo.RocketAPI.Console
             #endregion
             
             #region new translation 
-            // NOTE: this next line creates default.json with all strings to translate
-            // th.ExtractTexts(this);
-
-            // Download json file of current Culture Info if exists
-            DownloadTranslationFile("PokemonGo.RocketAPI.Console/Lang", Program.path_translation, CultureInfo.CurrentCulture.Name);
-            // Translate using Current Culture Info
             th = new Helper.TranslatorHelper();
-            th.Translate(this);
+            //th.ExtractTexts(this);// <-- Creates default.json with all strings to translate.
+            //comboLanguage.SelectedIndex = 0;
+            // Download json file of current Culture Info if exists
+            //DownloadTranslationFile("PokemonGo.RocketAPI.Console/Lang", Program.path_translation, CultureInfo.CurrentCulture.Name);
+            // Translate using Current Culture Info
+            //th.Translate(this);
             #endregion
         }
 
@@ -431,12 +416,24 @@ namespace PokemonGo.RocketAPI.Console
             // tab 8 - update
             checkbox_AutoUpdate.Checked = config.AutoUpdate;
             checkbox_checkWhileRunning.Checked = config.CheckWhileRunning;
-            langSelected = config.SelectedLanguage;
+            ChangeSelectedLanguage(config.SelectedLanguage);
     
             // Dev Options
             checkbox_Verboselogging.Checked = config.EnableVerboseLogging;
         }
-        
+        private void ChangeSelectedLanguage(string lang)
+        {
+            var index = 0;
+            if (lang == "Default")
+                index =1;
+            if (lang == "Deutsche")
+                index =2;
+            if (lang == "Español")
+                index =3;
+            if (lang == "Catalá")
+                index =4;
+            comboLanguage.SelectedIndex = index;
+        }
         private void LoadLatestCoords()
         {
             if (File.Exists(Program.lastcords))
@@ -814,7 +811,7 @@ namespace PokemonGo.RocketAPI.Console
             ActiveProfile.Settings.AutoUpdate = checkbox_AutoUpdate.Checked;
             ActiveProfile.Settings.CheckWhileRunning = checkbox_checkWhileRunning.Checked;
             ActiveProfile.Settings.NextBestBallOnEscape = NextBestBallOnEscape.Checked;
-            ActiveProfile.Settings.SelectedLanguage = langSelected;
+            ActiveProfile.Settings.SelectedLanguage = comboLanguage.Text;
 
             // dev options
 
@@ -1032,110 +1029,8 @@ namespace PokemonGo.RocketAPI.Console
             Process.Start("https://high-minded.net/threads/pokemon-go-c-bot-safer-better.50731/");
         }
 
-        private string langSelected = "en";
-        private void load_lang()
-        {
-            //TranslationHandler.getString("username", "Username :");
 
-            GlobalVars.acc = comboBox_AccountType.SelectedIndex == 0 ? Enums.AuthType.Google : Enums.AuthType.Ptc;
-            if (comboBox_AccountType.SelectedIndex == 0)
-            {
-                label2.Text = "E-Mail:";
-            }
-            else
-            {
-                label2.Text = TranslationHandler.GetString("username", "Username :");
-            }
 
-            label1.Text = TranslationHandler.GetString("accountType", "Account Type:");
-            label3.Text = TranslationHandler.GetString("password", "Password:");
-            groupBox2.Text = TranslationHandler.GetString("locationSettings", "Location Settings");
-            label7.Text = TranslationHandler.GetString("speed", "Speed:");
-            label9.Text = TranslationHandler.GetString("moveRadius", "Move Radius:");
-            checkBox_Start_Walk_from_default_location.Text = TranslationHandler.GetString("startFromDefaultLocation", "Start from default location");
-            groupBox3.Text = TranslationHandler.GetString("botSettings", "Bot Settings");
-            checkBox_AutoTransferDoublePokemon.Text = TranslationHandler.GetString("autoTransferDoublePokemon", "Auto transfer double Pokemons");
-            label11.Text = TranslationHandler.GetString("maxDupPokemon", "Max. duplicate Pokemons");
-            label12.Text = TranslationHandler.GetString("maxCPtransfer", "Max. CP to transfer:");
-            label28.Text = TranslationHandler.GetString("maxIVtransfer", "Max. IV to transfer:");
-            label13.Text = TranslationHandler.GetString("maxPokeballs", "Max. Pokeballs:");
-            label14.Text = TranslationHandler.GetString("maxGreatballs", "Max. GreatBalls:");
-            label15.Text = TranslationHandler.GetString("maxUltraballs", "Max. UltraBalls:");
-            label16.Text = TranslationHandler.GetString("maxRevives", "Max. Revives:");
-            label27.Text = TranslationHandler.GetString("maxTopRevives", "Max. TopRevives:");
-            label17.Text = TranslationHandler.GetString("maxPotions", "Max. Potions:");
-            label18.Text = TranslationHandler.GetString("maxSuperpotions", "Max. SuperPotions:");
-            label19.Text = TranslationHandler.GetString("maxHyperpotions", "Max. HyperPotions:");
-            label25.Text = TranslationHandler.GetString("maxToppotions", "Max. TopPotions:");
-            label20.Text = TranslationHandler.GetString("maxRazzberrys", "Max. RazzBerrys:");
-            label31.Text = TranslationHandler.GetString("totalCount", "Total Count:");
-            label48.Text = TranslationHandler.GetString("excellentChance", "Excellent chance:");
-            label49.Text = TranslationHandler.GetString("greatChance", "Great chance:");
-            label50.Text = TranslationHandler.GetString("niceChance", "Nice chance:");
-            label51.Text = TranslationHandler.GetString("ordinaryChance", "Ordinary chance:");
-            groupBox5.Text = TranslationHandler.GetString("pokemonNotToTransfer", "Pokemons - Not to transfer");
-            checkBox4.Text = TranslationHandler.GetString("selectAll", "Select all");
-            groupBox6.Text = TranslationHandler.GetString("pokemonNotToCatch", "Pokemons - Not to catch");
-            checkBox5.Text = TranslationHandler.GetString("selectAll", "Select all");
-            groupBox7.Text = TranslationHandler.GetString("pokemonNotToEvolve", "Pokemons - To envolve");
-            checkBox6.Text = TranslationHandler.GetString("selectAll", "Select all");
-            buttonSaveStart.Text = TranslationHandler.GetString("saveConfig", "Save Configuration / Start Bot");
-            groupBox10.Text = TranslationHandler.GetString("otherSettings", "Other Settings");
-            checkBox_UseLuckyEggAtEvolve.Text = TranslationHandler.GetString("useLuckyeggAtEvolve", "Use LuckyEgg at Evolve");
-            checkBox_UseRazzberryIfChanceUnder.Text = TranslationHandler.GetString("useRazzBerry", "Use RazzBerry");
-            checkBox_UseIncenseEvery30min.Text = TranslationHandler.GetString("useIncese", "Use Incense every 30min");
-            checkBox_EvolvePokemonIfEnoughCandy.Text = TranslationHandler.GetString("evolvePokemonIfEnoughCandy", "Evolve Pokemons if enough candy");
-            checkBox_EnablePokemonListGui.Text = TranslationHandler.GetString("enablePokemonListGUI", "Enable Pokemon List GUI");
-            checkBox_KeepPokemonWhichCanBeEvolved.Text = TranslationHandler.GetString("keepPokemonWhichCanBeEvolved", "Keep Pokemons which can be evolved");
-            checkBox_AutoIncubate.Text = TranslationHandler.GetString("autoIncubate", "Auto incubate");
-            checkBox_2kmEggs.Text = TranslationHandler.GetString("2kmEggs", "2 Km");
-            checkBox_5kmEggs.Text = TranslationHandler.GetString("5kmEggs", "5 Km");
-            checkBox_10kmEggs.Text = TranslationHandler.GetString("10kmEggs", "10 Km");
-            rbSOEggsAscending.Text = TranslationHandler.GetString("AscendingEggs", "Ascending (2 Km first)"); 
-            rbSOEggsDescending.Text = TranslationHandler.GetString("DescendingEggs", "Descending (10 Km first)"); 
-            checkBox_2kmEggsBasicInc.Text = TranslationHandler.GetString("2kmEggs", "2 Km");
-            checkBox_5kmEggsBasicInc.Text = TranslationHandler.GetString("5kmEggs", "5 Km");
-            checkBox_10kmEggsBasicInc.Text = TranslationHandler.GetString("10kmEggs", "10 Km");
-            rbSOEggsAscendingBasicInc.Text = TranslationHandler.GetString("AscendingEggs", "Ascending (2 Km first)"); 
-            rbSOEggsDescendingBasicInc.Text = TranslationHandler.GetString("DescendingEggs", "Descending (10 Km first)"); 
-            checkBox_UseBasicIncubators.Text = TranslationHandler.GetString("useBasicIncubators", "Use basic incubators");
-            checkbox_PWDEncryption.Text = TranslationHandler.GetString("pwdEncryption", "Encrypt password on config file");
-        }
-
-        private void languages_btn_Click(object sender, EventArgs e)
-        {
-            var clicked = (Button)sender;
-            Button[] languageButtons = {
-                lang_en_btn,
-                lang_spain_btn,
-                lang_de_btn,
-                lang_ptBR_btn,
-                lang_tr_btn,
-                lang_ru_btn,
-                lang_france_btn
-
-                // add the new languages' buttons here
-            };
-
-            if (clicked != null)
-            {
-                // I have used the tag field of the button to save the language key
-                langSelected = (string)clicked.Tag;
-                if (!string.IsNullOrWhiteSpace(langSelected))
-                {
-                    if (langSelected == "en")
-                        TranslationHandler.SelectLangauge(null);
-                    else
-                        TranslationHandler.SelectLangauge(langSelected);
-                    load_lang();
-                }
-                else
-                {
-                    throw new MissingFieldException("Every language buttons needs to have as Tag field the language key");
-                }
-            }
-        }
-        
         public static void DownloadTranslationFile(string remoteDir, string outDir, string lang)
         {
             var resourceName = lang + ".json";
@@ -1338,28 +1233,31 @@ We did not have any influence on this. We are very sorry this needed to happen!"
             }
 
         }
-        void checkBoxIsDefaultProf_CheckedChanged(object sender, EventArgs e)
+        void ComboLanguageSelectedIndexChanged(object sender, EventArgs e)
         {
-            /*
-            if (checkBoxDefaultProf.Checked)
-                foreach (Profile x in Profiles)
-                {
-                    if (ProfileName.Text != x.ProfileName)
-                        x.IsDefault = false;
-                    else
-                        x.IsDefault = true;
-                }
-            else{
-                foreach (Profile x in Profiles)
-                {
-                    if (ProfileName.Text == x.ProfileName){
-                        x.IsDefault = false;
-                        break;
-                    }
-                }
+            var lang = "";
+            switch (comboLanguage.SelectedIndex) {
+                case 0:
+                    lang = CultureInfo.CurrentCulture.Name;
+                    break;
+                case 2:
+                    lang = "de";
+                    break;
+                case 3:
+                    lang = "es";
+                    break;
+                case 4:
+                    lang = "ca-ES";
+                    break;
             }
-            */
-
+            
+            if (lang !="")
+            {
+                DownloadTranslationFile("PokemonGo.RocketAPI.Console/Lang", Program.path_translation, lang);
+                th.SelectLanguage(lang);
+                th.Translate(this);
+            }
         }
+
     }
 }

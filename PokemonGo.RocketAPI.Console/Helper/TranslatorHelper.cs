@@ -37,8 +37,10 @@ namespace PokemonGo.RocketAPI.Console.Helper
             SelectLanguage(CultureInfo.CurrentCulture.Name);
         }
         
-        public void SelectLanguage(string lang)
+        public void SelectLanguage(string lang ="")
         {
+            if (lang == "")
+                return;
             language = lang;
             dictionary = loadDictionary(lang);
         }
