@@ -199,7 +199,7 @@ namespace PokemonGo.RocketAPI.Console.Helper
             if (dict.ContainsKey("string." + str))
                 return dict["string." + str];
             else
-                StoreUnstranatedString(str);
+                StoreUnstranslatedString(str);
             return str;
         }        
        
@@ -249,7 +249,7 @@ namespace PokemonGo.RocketAPI.Console.Helper
             return TS(dictionary, format, args);
         }
         
-        private static void StoreUnstranatedString(string str)
+        private static void StoreUnstranslatedString(string str)
         {
             if (StoreUntranslated)
             {
