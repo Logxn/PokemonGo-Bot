@@ -400,7 +400,7 @@ namespace PokemonGo.RocketAPI.Console
             checkBox_RandomlyReduceSpeed.Checked = config.RandomReduceSpeed;
             checkBox_UseBreakIntervalAndLength.Checked = config.UseBreakFields;
             checkBox_WalkInArchimedeanSpiral.Checked = config.Espiral;
-            checkBox_Start_Walk_from_default_location.Checked = config.WalkBackToDefaultLocation;
+            checkBox_Start_Walk_from_default_location.Checked = !config.UseLastCords;
     
             // tab 7 - telegram and logs
             cbLogPokemon.Checked = config.LogPokemons;
@@ -502,7 +502,7 @@ namespace PokemonGo.RocketAPI.Console
         private const string NEW_YORK_COORS = "40.764883;-73.972967";
         private void buttonSaveStart_Click(object sender, EventArgs e)
         {
-                if (Save())
+            if (Save())
             {
                 if (ActiveProfile.Settings.UseLastCords)
                     LoadLatestCoords();
@@ -791,7 +791,7 @@ namespace PokemonGo.RocketAPI.Console
             ActiveProfile.Settings.UseBreakFields = checkBox_UseBreakIntervalAndLength.Checked;
 
             ActiveProfile.Settings.Espiral = checkBox_WalkInArchimedeanSpiral.Checked;
-            ActiveProfile.Settings.WalkBackToDefaultLocation = checkBox_Start_Walk_from_default_location.Checked;
+            ActiveProfile.Settings.UseLastCords = !checkBox_Start_Walk_from_default_location.Checked;
 
             // tab 7 - Logs and Telegram            
             ActiveProfile.Settings.LogPokemons = cbLogPokemon.Checked;
