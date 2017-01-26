@@ -1,5 +1,5 @@
 {
-  "GUI": "Edición GUI de PokeGoBot\r",
+  "GUI": "Edición GUI de PokeGoBot",
   "GUI.labelLanguage": "Elige Idioma:",
   "GUI.buttonSvProf": "Guardar perfil",
   "GUI.label30": "Si ejecuta más de una instancia con la misma IP, se prohibirá.",
@@ -23,10 +23,10 @@
   "GUI.tabControl1.tabGeneral.groupBox2.label4": "Latitud:",
   "GUI.tabControl1.tabGeneral.groupBox10": "Otros ajustes",
   "GUI.tabControl1.tabGeneral.groupBox10.checkBox_ConsoleInTab": "Consola en la pestaña",
-  "GUI.tabControl1.tabGeneral.groupBox10.checkBox_CollectDailyBonus": "Recoge el bono diario (no probado)",
-  "GUI.tabControl1.tabGeneral.groupBox10.checkBox_FarmGyms": "Gimnasios de la granja",
-  "GUI.tabControl1.tabGeneral.groupBox10.CB_SimulatePGO": "Formato del simulador de aspecto del juego",
-  "GUI.tabControl1.tabGeneral.groupBox10.checkBox_UseLuckyEggIfNotRunning": "Utilice LuckyEgg si no se está ejecutando",
+  "GUI.tabControl1.tabGeneral.groupBox10.checkBox_CollectDailyBonus": "Reclamar bono diario ( no probado )",
+  "GUI.tabControl1.tabGeneral.groupBox10.checkBox_FarmGyms": "Asignar a Gimnasios",
+  "GUI.tabControl1.tabGeneral.groupBox10.CB_SimulatePGO": "Simular Aspecto del Juego",
+  "GUI.tabControl1.tabGeneral.groupBox10.checkBox_UseLuckyEggIfNotRunning": "Usar HuevoSuerte si no se está corriendo",
   "GUI.tabControl1.tabGeneral.groupBox10.checkBox_KeepPokemonWhichCanBeEvolved": "Mantenga Pokemons que se pueden desarrollar",
   "GUI.tabControl1.tabGeneral.groupBox10.checkBox_EnablePokemonListGui": "Habilitar la GUI de listas",
   "GUI.tabControl1.tabGeneral.groupBox10.checkBox_UseIncenseEvery30min": "Utilice el incienso cada 30min",
@@ -194,5 +194,9 @@
   "GUI.tabControl1.tabCredits.groupBox20.linkLabel7": "Twitter MTK4355",
   "GUI.tabControl1.tabCredits.groupBox20.linkLabel4": "Twitter Logxn",
   "GUI.buttonSaveStart": "Guardar Configuración / Iniciar Bot",
+  "string.User Name:": "Nombre de usuario:",
+  "string.The risk of being banned is significantly greater when using higher than human jogging speeds (e.g. > 15km/hr) Click 'No' to use ~10km/hr instead": "El riesgo de ser prohibido es significativamente mayor cuando se utiliza velocidades de jogging superiores a las humanas (por ejemplo,> 15 km / h) Haga clic en 'No' para usar ~ 10 km / h en su lugar",
+  "string.Are you sure you wish to set your speed to {0} ?": "¿Está seguro de que desea configurar la velocidad en {0}?",
+  "string.Current Configuration Saved as - ": "Configuración actual guardada como -",
   "": ""
 }

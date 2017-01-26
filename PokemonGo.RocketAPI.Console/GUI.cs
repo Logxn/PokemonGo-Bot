@@ -54,8 +54,8 @@ namespace PokemonGo.RocketAPI.Console
         private void GUI_Load(object sender, EventArgs e)
         {
 
-            if (File.Exists($@"{baseDirectory}\update.bat"))
-                File.Delete($@"{baseDirectory}\update.bat");
+            if (File.Exists(@"{baseDirectory}\update.bat"))
+                File.Delete(@"{baseDirectory}\update.bat");
 
             comboBox_AccountType.DisplayMember = "Text";
             var types = new[] {
@@ -77,9 +77,18 @@ namespace PokemonGo.RocketAPI.Console
                 }
             }
 
-            
+            #region new translation
             if (!Directory.Exists(Program.path_translation))
                 Directory.CreateDirectory(Program.path_translation);
+
+            th = new Helper.TranslatorHelper();
+            //th.ExtractTexts(this);// <-- Creates default.json with all strings to translate.
+            comboLanguage.SelectedIndex = 0;
+            // Download json file of current Culture Info if exists
+            DownloadTranslationFile("PokemonGo.RocketAPI.Console/Lang", Program.path_translation, CultureInfo.CurrentCulture.Name);
+            // Translate using Current Culture Info
+            th.Translate(this);
+            #endregion
                 
             var pokeData = new List<string>();
             pokeData.Add("AdditionalPokeData.json");
@@ -95,7 +104,7 @@ namespace PokemonGo.RocketAPI.Console
 
             foreach (PokemonId pokemon in Enum.GetValues(typeof(PokemonId)))
             {
-                if (pokemon.ToString() != "Missingno")
+                if (pokemon != PokemonId.Missingno)
                 {
                     pokeIDS[pokemon.ToString()] = i;
                     checkedListBox_PokemonNotToTransfer.Items.Add(pokemon.ToString());
@@ -187,7 +196,8 @@ namespace PokemonGo.RocketAPI.Console
 
             if (result!="")
             {
-                 MessageBox.Show("Loading Config failed\n"+result+"Check settings before running!");
+                var message = th.TS("Loading Config failed\n{0} Check settings before running!",result);
+                 MessageBox.Show(message);
             }
 
             ///* VERSION INFORMATION */
@@ -206,7 +216,9 @@ namespace PokemonGo.RocketAPI.Console
                 }
                 else
                 {
-                    DialogResult dialogResult = MessageBox.Show("There is an Update on Github. do you want to open it ?", $"Newest Version: {newestVersion}", MessageBoxButtons.YesNo);
+                    var message = th.TS ("There is an Update on Github. do you want to open it ?");
+                    var title = th.TS ("Newest Version: {0}",newestVersion);
+                    DialogResult dialogResult = MessageBox.Show(message, title, MessageBoxButtons.YesNo);
                     if (dialogResult == DialogResult.Yes)
                         Process.Start("https://github.com/Ar1i/PokemonGo-Bot");
                     else if (dialogResult == DialogResult.No)
@@ -223,15 +235,6 @@ namespace PokemonGo.RocketAPI.Console
             }
             #endregion
             
-            #region new translation 
-            th = new Helper.TranslatorHelper();
-            //th.ExtractTexts(this);// <-- Creates default.json with all strings to translate.
-            comboLanguage.SelectedIndex = 0;
-            // Download json file of current Culture Info if exists
-            DownloadTranslationFile("PokemonGo.RocketAPI.Console/Lang", Program.path_translation, CultureInfo.CurrentCulture.Name);
-            // Translate using Current Culture Info
-            th.Translate(this);
-            #endregion
         }
 
         private void LoadData(ProfileSettings config)
@@ -420,6 +423,7 @@ namespace PokemonGo.RocketAPI.Console
             // Dev Options
             checkbox_Verboselogging.Checked = config.EnableVerboseLogging;
         }
+        
         private void ChangeSelectedLanguage(string lang)
         {
             var index = 0;
@@ -459,7 +463,7 @@ namespace PokemonGo.RocketAPI.Console
             if (comboBox_AccountType.SelectedIndex == 0)
                 label2.Text = "E-Mail:";
             else
-                label2.Text = TranslationHandler.GetString("username", "Username :");
+                label2.Text = th.TS("User Name:");
         }
 
         private void ProfileSelect_SelectedIndexChanged(object sender, EventArgs e)
@@ -507,7 +511,7 @@ namespace PokemonGo.RocketAPI.Console
                 selectedCoords = selectedCoords.Replace(",",".");
                 if (selectedCoords.Equals(NEW_YORK_COORS))
                 {
-                    var ret = MessageBox.Show("Have you set correctly your location? (It seems like you are using default coords. This can lead to an auto-ban from niantic)", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                    var ret = MessageBox.Show(th.TS("Have you set correctly your location? (It seems like you are using default coords. This can lead to an auto-ban from niantic)"), th.TS("Warning"), MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                     if (ret == DialogResult.No)
                     {
                         return;
@@ -522,7 +526,7 @@ namespace PokemonGo.RocketAPI.Console
 
                 Dispose();
             }else
-                MessageBox.Show("Please Review Red Boxes Before Start");
+                    MessageBox.Show(th.TS("Please Review Red Boxes Before Start"));
 
         }
 
@@ -734,7 +738,9 @@ namespace PokemonGo.RocketAPI.Console
             if ((makePrompts) && (ActiveProfile.Settings.WalkingSpeedInKilometerPerHour > 15 ))
             {
                 var speed = ActiveProfile.Settings.WalkingSpeedInKilometerPerHour;
-                var dialogResult = MessageBox.Show("The risk of being banned is significantly greater when using higher than human jogging speeds (e.g. > 15km/hr) Click 'No' to use ~10km/hr instead", $"Are you sure you wish to set your speed to {speed} ?", MessageBoxButtons.YesNo);
+                var message = th.TS("The risk of being banned is significantly greater when using higher than human jogging speeds (e.g. > 15km/hr) Click 'No' to use ~10km/hr instead");
+                var title = th.TS("Are you sure you wish to set your speed to {0} ?",speed);
+                var dialogResult = MessageBox.Show(message, title, MessageBoxButtons.YesNo);
                 if (dialogResult == DialogResult.No)
                     ActiveProfile.Settings.WalkingSpeedInKilometerPerHour = double.Parse("9.5", cords, NumberFormatInfo.InvariantInfo);
             }
@@ -799,7 +805,7 @@ namespace PokemonGo.RocketAPI.Console
             ActiveProfile.Settings.SnipePokemon = SnipePokemonPokeCom.Checked;
             if ((makePrompts) && (ActiveProfile.Settings.SnipePokemon ))
             {
-                DialogResult result = MessageBox.Show("Sniping has not been tested yet. It could get you banned. Do you want to continue?", "Info", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
+                DialogResult result = MessageBox.Show(th.TS("Sniping has not been tested yet. It could get you banned. Do you want to continue?"), th.TS("Info"), MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
                 if (result == DialogResult.OK)
                     ActiveProfile.Settings.SnipePokemon = true;
                 else
@@ -1013,7 +1019,7 @@ namespace PokemonGo.RocketAPI.Console
                                   text_Pb_Ordinary.Value;
                 if (throwsChanceSum > 100)
                 {
-                    MessageBox.Show("You can not have a total throw chance greater than 100%.\nResetting throw chance to 0%!");
+                    MessageBox.Show(th.TS("You can not have a total throw chance greater than 100%.\nResetting throw chance to 0%!"));
                     (sender as NumericUpDown).Value =0;
                 }
         }
@@ -1132,7 +1138,7 @@ namespace PokemonGo.RocketAPI.Console
 
         private void linkLabel6_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            ProcessStartInfo sInfo = new ProcessStartInfo("https://developers.google.com/maps/documentation/directions/start#get-a-key/");
+            var sInfo = new ProcessStartInfo("https://developers.google.com/maps/documentation/directions/start#get-a-key/");
             Process.Start(sInfo);
         }
 
@@ -1146,7 +1152,7 @@ namespace PokemonGo.RocketAPI.Console
 
         private void button4_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("This will capture pokemons while walking spiral, and will use pokestops which are within 30 meters of the path projected.");
+            MessageBox.Show(th.TS("This will capture pokemons while walking spiral, and will use pokestops which are within 30 meters of the path projected."));
         }
 
 
@@ -1161,9 +1167,9 @@ namespace PokemonGo.RocketAPI.Console
         private void buttonSvProf_Click_2(object sender, EventArgs e)
         {
             if (Save())
-                MessageBox.Show("Current Configuration Saved as - " + ActiveProfile.ProfileName);
+                MessageBox.Show(th.TS("Current Configuration Saved as - ") + ActiveProfile.ProfileName);
             else
-                MessageBox.Show("Please Review Red Boxes Before Save");
+                MessageBox.Show(th.TS("Please Review Red Boxes Before Save"));
         }
 
 
@@ -1204,8 +1210,9 @@ namespace PokemonGo.RocketAPI.Console
 
         private void button_Information_Click(object sender, EventArgs e)
         {
-            MessageBox.Show($@"Since the new API was cracked by the pogodev team, they have choosen to make the API pay2use
-We did not have any influence on this. We are very sorry this needed to happen!", "Hashing Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            var message = th.TS("Since the new API was cracked by the pogodev team, they have choosen to make the API pay2use We did not have any influence on this. We are very sorry this needed to happen!");
+            var title = th.TS("Hashing Information");
+            MessageBox.Show(message, title, MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
         void Button4Click(object sender, EventArgs e)
         {
