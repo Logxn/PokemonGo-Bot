@@ -1253,8 +1253,9 @@ We did not have any influence on this. We are very sorry this needed to happen!"
                     break;
             }
 
+            
             if (lang !="")
-            {
+            {                
                 DownloadTranslationFile("PokemonGo.RocketAPI.Console/Lang", Program.path_translation, lang);
                 th.SelectLanguage(lang);
                 th.Translate(this);
