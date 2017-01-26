@@ -193,5 +193,9 @@
   "GUI.tabControl1.tabCredits.groupBox20.linkLabel3": "Twitter Ar1i",
   "GUI.tabControl1.tabCredits.groupBox20.linkLabel7": "Twitter MTK4355",
   "GUI.tabControl1.tabCredits.groupBox20.linkLabel4": "Twitter Logxn",
-  "GUI.buttonSaveStart": "Save Configuration / Start Bot"
+  "GUI.buttonSaveStart": "Save Configuration / Start Bot",
+	"string.User Name:":"User Name:",
+	"string.The risk of being banned is significantly greater when using higher than human jogging speeds (e.g. > 15km/hr) Click 'No' to use ~10km/hr instead":"The risk of being banned is significantly greater when using higher than human jogging speeds (e.g. > 15km/hr) Click 'No' to use ~10km/hr instead",
+	"string.Are you sure you wish to set your speed to {0} ?":"Are you sure you wish to set your speed to {0} ?",
+	"string.Current Configuration Saved as - ":"Current Configuration Saved as - "  
 }
