@@ -47,16 +47,19 @@ namespace PokemonGo.RocketAPI.Logic.Functions
         }
         public static void Stop()
         {
-            try
+            if (Logic.Instance.Telegram!=null)
             {
-                Logic.Instance.Telegram.getClient().StopReceiving();
-            }
-            catch (Exception ex1)
-            {
-                var realerror = ex1;
-                while (realerror.InnerException != null)
-                    realerror = realerror.InnerException;
-                Logger.ExceptionInfo(ex1.Message+"/"+realerror.ToString());
+                try
+                {
+                    Logic.Instance.Telegram.getClient().StopReceiving();
+                }
+                catch (Exception ex1)
+                {
+                    var realerror = ex1;
+                    while (realerror.InnerException != null)
+                        realerror = realerror.InnerException;
+                    Logger.ExceptionInfo(ex1.Message+"/"+realerror.ToString());
+                }
             }
         }
         

@@ -193,27 +193,11 @@ namespace PokemonGo.RocketAPI.Console
 
         void buttonUpdateClick(object sender, EventArgs e)
         {
-            var ActiveProfile = new Profile();
-            var botSettings = new Settings();
-            if (botSettings == null)
-                return;
-            var configString = JsonConvert.SerializeObject(botSettings);
-            Profile updatedProfile = new Profile();
-            ActiveProfile.ProfileName = GlobalVars.ProfileName;
-            //ActiveProfile.IsDefault = GlobalVars.IsDefault; // I think that is unneeded
-            //ActiveProfile.RunOrder = GlobalVars.RunOrder; // I think that is unneeded
-            ActiveProfile.SettingsJSON = configString;
-            string savedProfiles = File.ReadAllText(@Program.accountProfiles);
-            Collection<Profile> _profiles = JsonConvert.DeserializeObject<Collection<Profile>>(savedProfiles);
-            Profile profiletoupdate = _profiles.Where(i => i.ProfileName == ActiveProfile.ProfileName).First();
-            if (profiletoupdate != null)
-            {
-                _profiles.Remove(profiletoupdate);
-                _profiles.Add(ActiveProfile);
-            }
-            string ProfilesString = JsonConvert.SerializeObject(_profiles);
-            File.WriteAllText(@Program.accountProfiles, ProfilesString);
-            MessageBox.Show("Current Configuration Saved as - " + ActiveProfile.ProfileName);
+            var botSettings = GlobalVars.GetSettings();
+            var ConfigsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Configs");
+            var filenameProf= Path.Combine(ConfigsPath, GlobalVars.ProfileName +".json" );
+            botSettings.SaveToFile(filenameProf);
+            MessageBox.Show("Current Configuration Saved as - " + GlobalVars.ProfileName);
         }
 
         public static double[] FindLocation(string address)
