@@ -8,6 +8,7 @@
  */
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Windows.Forms;
 using Newtonsoft.Json;
 using System.IO;
@@ -28,8 +29,10 @@ namespace PokemonGo.RocketAPI.Console.Helper
     public class TranslatorHelper
     {
         private string language = "default";
+        public static bool StoreUntranslated = true;
         
         public static string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Translations");
+        public static string UntranslatedFile = Path.Combine(path, "untranslated.txt");
         private Dictionary<String, String> dictionary = new Dictionary<String, String>();
         
         public TranslatorHelper()
@@ -37,8 +40,10 @@ namespace PokemonGo.RocketAPI.Console.Helper
             SelectLanguage(CultureInfo.CurrentCulture.Name);
         }
         
-        public void SelectLanguage(string lang)
+        public void SelectLanguage(string lang ="")
         {
+            if (lang == "")
+                return;
             language = lang;
             dictionary = loadDictionary(lang);
         }
@@ -125,7 +130,6 @@ namespace PokemonGo.RocketAPI.Console.Helper
                 dict.Add(key, value);
         }
         
-        
         private static Dictionary<String, String> loadDictionary(string lang)
         {
             var filename = Path.Combine(path, $"{lang}.json");
@@ -157,7 +161,6 @@ namespace PokemonGo.RocketAPI.Console.Helper
             return dict;
         }
         
-        
         private static void writeTexts(string prefix, Control ctrl, Dictionary<String,String> dict)
         {
             if (dict == null)
@@ -187,5 +190,72 @@ namespace PokemonGo.RocketAPI.Console.Helper
                 }
             }
         }
+        
+        // Translate String Methods
+        public static string TS(Dictionary<String, String> dict, string str)
+        {
+            if (dict == null)
+                return str;
+            if (dict.ContainsKey("string." + str))
+                return dict["string." + str];
+            else
+                StoreUnstranslatedString(str);
+            return str;
+        }        
+       
+        public static string TS(Dictionary<String, String> dict, string format, object[] args)
+        {
+            if (dict == null)
+                return string.Format(format,args);
+            for(var i =0;i<args.Length;i++)
+            {
+                if (args[i] is string)
+                    args[i] = TS(dict,args[i] as string);
+            }
+            return string.Format(TS(dict,format), args);
+        }
+        
+        public string TS(string format)
+        {
+            return TS(dictionary, format);
+        }
+        
+        public string TS(string format, object arg0)
+        {
+            return TS(dictionary, format, new object[] {
+                arg0
+            });
+        }
+
+        public string TS(string format, object arg0, object arg1)
+        {
+            return TS(dictionary, format, new object[] {
+                arg0,
+                arg1
+            });
+        }
+       
+        public string TS(string format, object arg0, object arg1, object arg2)
+        {
+            return TS(dictionary, format, new object[] {
+                arg0,
+                arg1,
+                arg2
+            });
+        }
+
+        public string TS(string format, object[] args)
+        {
+            return TS(dictionary, format, args);
+        }
+        
+        private static void StoreUnstranslatedString(string str)
+        {
+            if (StoreUntranslated)
+            {
+                File.AppendAllLines(UntranslatedFile,new string[]{ "\"string."+str+"\":\""+str+"\""});
+            }
+        }
+        
     }
 }
