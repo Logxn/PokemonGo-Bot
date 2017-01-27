@@ -209,8 +209,8 @@ namespace PokemonGo.RocketAPI.Console
         {
             Invoke(new MethodInvoker(() =>
             {
-                textBox1.Text = coords.Latitude.ToString();
-                textBox2.Text = coords.Longitude.ToString();
+                textBox1.Text = coords.Latitude.ToString(CultureInfo.InvariantCulture);
+                textBox2.Text = coords.Longitude.ToString(CultureInfo.InvariantCulture);
                 PointLatLng newPosition = new PointLatLng(coords.Latitude, coords.Longitude);
                 _botMarker.Position = newPosition;
                 _botRoute.Points.Add(newPosition);
@@ -726,9 +726,9 @@ namespace PokemonGo.RocketAPI.Console
                 map.MaxZoom = 20;
                 map.Zoom = 16;
 
-                textBox1.Text = GlobalVars.latitude.ToString();
-                textBox2.Text = GlobalVars.longitude.ToString();
-                textBox3.Text = GlobalVars.altitude.ToString();
+                textBox1.Text = GlobalVars.latitude.ToString(CultureInfo.InvariantCulture);
+                textBox2.Text = GlobalVars.longitude.ToString(CultureInfo.InvariantCulture);
+                textBox3.Text = GlobalVars.altitude.ToString(CultureInfo.InvariantCulture);
             }
             catch (Exception ex)
             {
@@ -742,7 +742,7 @@ namespace PokemonGo.RocketAPI.Console
             {
                 try
                 {
-                    double lat = double.Parse(textBox1.Text.Replace(',', '.'), GUI.cords, System.Globalization.NumberFormatInfo.InvariantInfo);
+                    double lat = StrCordToDouble(textBox1.Text);
                     if (lat > 90.0 || lat < -90.0)
                     {
                         throw new System.ArgumentException("Value has to be between 180 and -180!");
@@ -756,6 +756,8 @@ namespace PokemonGo.RocketAPI.Console
                 }
             }
         }
+               
+        
 
         private void textBox2_TextChanged(object sender, EventArgs e)
         {
@@ -763,7 +765,7 @@ namespace PokemonGo.RocketAPI.Console
             {
                 try
                 {
-                    double lng = double.Parse(textBox2.Text.Replace(',', '.'), GUI.cords, System.Globalization.NumberFormatInfo.InvariantInfo);
+                    double lng = StrCordToDouble(textBox2.Text);
                     if (lng > 180.0 || lng < -180.0)
                     {
                         throw new System.ArgumentException("Value has to be between 90 and -90!");
@@ -874,5 +876,12 @@ namespace PokemonGo.RocketAPI.Console
             }
           
         }
+        public static double StrCordToDouble(string str)
+        {
+            double ret = 0;
+            double.TryParse(str.Replace(",","."),NumberStyles.AllowDecimalPoint | NumberStyles.AllowLeadingSign, CultureInfo.InvariantCulture,out ret);
+            return ret;
+        }
+        
     }
 }
