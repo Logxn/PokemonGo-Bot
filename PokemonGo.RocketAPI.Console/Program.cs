@@ -322,7 +322,7 @@ namespace PokemonGo.RocketAPI.Console
             using (var wC = new WebClient())
                 return
                     wC.DownloadString(
-                        "https://raw.githubusercontent.com/Ar1i/PokemonGo-Bot/master/ver.md");
+                        "https://raw.githubusercontent.com/Logxn/PokemonGo-Bot/master/ver.md");
         }
 
         private static void CreateLogDirectories()

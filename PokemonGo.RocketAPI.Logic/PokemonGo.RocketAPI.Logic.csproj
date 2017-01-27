@@ -35,6 +35,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="GMap.NET.Core">
+      <HintPath>..\packages\GMap.NET.Presentation.1.7.1\lib\net40\GMap.NET.Core.dll</HintPath>
+    </Reference>
     <Reference Include="Google.Protobuf">
       <HintPath>..\packages\Google.Protobuf.3.1.0\lib\net45\Google.Protobuf.dll</HintPath>
     </Reference>

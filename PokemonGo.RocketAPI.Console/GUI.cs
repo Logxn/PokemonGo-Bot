@@ -227,7 +227,7 @@ namespace PokemonGo.RocketAPI.Console
                     var title = th.TS ("Newest Version: {0}",newestVersion);
                     DialogResult dialogResult = MessageBox.Show(message, title, MessageBoxButtons.YesNo);
                     if (dialogResult == DialogResult.Yes)
-                        Process.Start("https://github.com/Ar1i/PokemonGo-Bot");
+                        Process.Start("https://github.com/Logxn/PokemonGo-Bot");
                     else if (dialogResult == DialogResult.No)
                     {
 
@@ -1048,7 +1048,7 @@ namespace PokemonGo.RocketAPI.Console
                 try {
                     using (var wC = new WebClient())
                     {
-                         wC.DownloadFile("https://raw.githubusercontent.com/Ar1i/PokemonGo-Bot/master/"+remoteDir+"/"+resourceName,filename);
+                         wC.DownloadFile("https://raw.githubusercontent.com/Logxn/PokemonGo-Bot/master/"+remoteDir+"/"+resourceName,filename);
                          if (File.ReadAllText(filename) == "")
                              File.Delete(filename);
                     }
@@ -1208,7 +1208,7 @@ namespace PokemonGo.RocketAPI.Console
         }
         void linkLabel16_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-          Process.Start("https://github.com/Ar1i/PokemonGo-Bot/");
+          Process.Start("https://github.com/Logxn/PokemonGo-Bot/");
         }
 
         private void button_Information_Click(object sender, EventArgs e)

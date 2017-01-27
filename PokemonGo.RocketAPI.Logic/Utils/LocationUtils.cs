@@ -5,6 +5,8 @@ using System;
 using System.Device.Location;
 using System.IO;
 using System.Net;
+using GMap.NET;
+using GMap.NET.MapProviders;
 
 #endregion
 
@@ -115,5 +117,36 @@ namespace PokemonGo.RocketAPI.Logic.Utils
         {
             return degrees * (Math.PI / 180);
         }
+        public static string FindAddress(double lat, double lng, bool fullinfo = false)
+        {
+            return FindAddress(new PointLatLng(lat, lng),fullinfo);
+        }
+        public static string FindAddress(PointLatLng pnt, bool fullinfo = false)
+        {
+            string ret = "";
+            GeoCoderStatusCode status;
+            var pos = GMapProviders.GoogleMap.GetPlacemark(pnt, out status);
+            if (status == GeoCoderStatusCode.G_GEO_SUCCESS && pos != null)
+            {
+                ret = pos.Value.Address;
+                if (fullinfo)
+                    ret = pos.Value.ToString();
+            }
+            return ret;
+        }
+        public static double[] FindLocation(string address)
+        {
+            double[] ret = {0.0,0.0};
+            GeoCoderStatusCode status;
+            var pos = GMapProviders.GoogleMap.GetPoint(address, out status);
+            if (status == GeoCoderStatusCode.G_GEO_SUCCESS && pos != null)
+            {
+                ret = new double[2];
+                ret[0] =pos.Value.Lat;
+                ret[1] =pos.Value.Lng;                
+            }
+            return ret;
+        }
+        
     }
 }
