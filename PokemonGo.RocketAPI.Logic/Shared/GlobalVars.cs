@@ -170,6 +170,7 @@ namespace PokemonGo.RocketAPI.Logic.Shared
         public static string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Configs");
         public static string accountProfiles = Path.Combine(path, "Profiles.txt");
         public static bool UseLastCords = false;
+        public static int LeaveInGyms = 0;
         
         /// <summary>
         /// Copy all values from ProfileSettings to GlobalVars.

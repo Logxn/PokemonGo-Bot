@@ -115,6 +115,7 @@ namespace PokemonGo.RocketAPI.Console
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.button_SetLocation = new System.Windows.Forms.Button();
             this.label6 = new System.Windows.Forms.Label();
+            this.checkBox_StartWalkingFromLastLocation = new System.Windows.Forms.CheckBox();
             this.text_Altidude = new System.Windows.Forms.TextBox();
             this.text_Longitude = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
@@ -123,7 +124,6 @@ namespace PokemonGo.RocketAPI.Console
             this.groupBox10 = new System.Windows.Forms.GroupBox();
             this.checkBox_ConsoleInTab = new System.Windows.Forms.CheckBox();
             this.checkBox_CollectDailyBonus = new System.Windows.Forms.CheckBox();
-            this.checkBox_FarmGyms = new System.Windows.Forms.CheckBox();
             this.CB_SimulatePGO = new System.Windows.Forms.CheckBox();
             this.checkBox_UseLuckyEggIfNotRunning = new System.Windows.Forms.CheckBox();
             this.checkBox_KeepPokemonWhichCanBeEvolved = new System.Windows.Forms.CheckBox();
@@ -132,6 +132,7 @@ namespace PokemonGo.RocketAPI.Console
             this.checkBox_SimulateAnimationTimeAtEvolve = new System.Windows.Forms.CheckBox();
             this.checkBox_UseLuckyEggAtEvolve = new System.Windows.Forms.CheckBox();
             this.checkBox_EvolvePokemonIfEnoughCandy = new System.Windows.Forms.CheckBox();
+            this.checkBox_FarmGyms = new System.Windows.Forms.CheckBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabThrows = new System.Windows.Forms.TabPage();
             this.groupBox19 = new System.Windows.Forms.GroupBox();
@@ -187,6 +188,9 @@ namespace PokemonGo.RocketAPI.Console
             this.checkBox_AutoIncubate = new System.Windows.Forms.CheckBox();
             this.checkBox_UseBasicIncubators = new System.Windows.Forms.CheckBox();
             this.tabWalkSettings = new System.Windows.Forms.TabPage();
+            this.groupBoxGyms = new System.Windows.Forms.GroupBox();
+            this.label23 = new System.Windows.Forms.Label();
+            this.comboBoxLeaveInGyms = new System.Windows.Forms.ComboBox();
             this.groupBox18 = new System.Windows.Forms.GroupBox();
             this.text_MoveRadius = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
@@ -202,7 +206,6 @@ namespace PokemonGo.RocketAPI.Console
             this.groupBox11 = new System.Windows.Forms.GroupBox();
             this.checkBox_StopWalkingWhenEvolving = new System.Windows.Forms.CheckBox();
             this.checkBox_UseBreakIntervalAndLength = new System.Windows.Forms.CheckBox();
-            this.checkBox_Start_Walk_from_default_location = new System.Windows.Forms.CheckBox();
             this.label47 = new System.Windows.Forms.Label();
             this.checkBox_RandomlyReduceSpeed = new System.Windows.Forms.CheckBox();
             this.checkBox_RandomSleepAtCatching = new System.Windows.Forms.CheckBox();
@@ -321,6 +324,7 @@ namespace PokemonGo.RocketAPI.Console
             this.groupBox24.SuspendLayout();
             this.groupBox_EggOptions.SuspendLayout();
             this.tabWalkSettings.SuspendLayout();
+            this.groupBoxGyms.SuspendLayout();
             this.groupBox18.SuspendLayout();
             this.groupBox13.SuspendLayout();
             this.groupBox11.SuspendLayout();
@@ -1267,6 +1271,7 @@ namespace PokemonGo.RocketAPI.Console
             // 
             this.groupBox2.Controls.Add(this.button_SetLocation);
             this.groupBox2.Controls.Add(this.label6);
+            this.groupBox2.Controls.Add(this.checkBox_StartWalkingFromLastLocation);
             this.groupBox2.Controls.Add(this.text_Altidude);
             this.groupBox2.Controls.Add(this.text_Longitude);
             this.groupBox2.Controls.Add(this.label5);
@@ -1274,7 +1279,7 @@ namespace PokemonGo.RocketAPI.Console
             this.groupBox2.Controls.Add(this.label4);
             this.groupBox2.Location = new System.Drawing.Point(336, 6);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(307, 105);
+            this.groupBox2.Size = new System.Drawing.Size(307, 126);
             this.groupBox2.TabIndex = 2;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Location Settings";
@@ -1298,6 +1303,16 @@ namespace PokemonGo.RocketAPI.Console
             this.label6.TabIndex = 5;
             this.label6.Text = "Altitude:";
             this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // checkBox_StartWalkingFromLastLocation
+            // 
+            this.checkBox_StartWalkingFromLastLocation.AutoSize = true;
+            this.checkBox_StartWalkingFromLastLocation.Location = new System.Drawing.Point(21, 102);
+            this.checkBox_StartWalkingFromLastLocation.Name = "checkBox_StartWalkingFromLastLocation";
+            this.checkBox_StartWalkingFromLastLocation.Size = new System.Drawing.Size(190, 17);
+            this.checkBox_StartWalkingFromLastLocation.TabIndex = 68;
+            this.checkBox_StartWalkingFromLastLocation.Text = "Start walking from the last location.";
+            this.checkBox_StartWalkingFromLastLocation.UseVisualStyleBackColor = true;
             // 
             // text_Altidude
             // 
@@ -1351,7 +1366,6 @@ namespace PokemonGo.RocketAPI.Console
             // 
             this.groupBox10.Controls.Add(this.checkBox_ConsoleInTab);
             this.groupBox10.Controls.Add(this.checkBox_CollectDailyBonus);
-            this.groupBox10.Controls.Add(this.checkBox_FarmGyms);
             this.groupBox10.Controls.Add(this.CB_SimulatePGO);
             this.groupBox10.Controls.Add(this.checkBox_UseLuckyEggIfNotRunning);
             this.groupBox10.Controls.Add(this.checkBox_KeepPokemonWhichCanBeEvolved);
@@ -1360,9 +1374,9 @@ namespace PokemonGo.RocketAPI.Console
             this.groupBox10.Controls.Add(this.checkBox_SimulateAnimationTimeAtEvolve);
             this.groupBox10.Controls.Add(this.checkBox_UseLuckyEggAtEvolve);
             this.groupBox10.Controls.Add(this.checkBox_EvolvePokemonIfEnoughCandy);
-            this.groupBox10.Location = new System.Drawing.Point(336, 117);
+            this.groupBox10.Location = new System.Drawing.Point(336, 144);
             this.groupBox10.Name = "groupBox10";
-            this.groupBox10.Size = new System.Drawing.Size(307, 267);
+            this.groupBox10.Size = new System.Drawing.Size(307, 238);
             this.groupBox10.TabIndex = 6;
             this.groupBox10.TabStop = false;
             this.groupBox10.Text = "Other Settings";
@@ -1380,21 +1394,12 @@ namespace PokemonGo.RocketAPI.Console
             // 
             this.checkBox_CollectDailyBonus.Checked = true;
             this.checkBox_CollectDailyBonus.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox_CollectDailyBonus.Location = new System.Drawing.Point(20, 230);
+            this.checkBox_CollectDailyBonus.Location = new System.Drawing.Point(20, 209);
             this.checkBox_CollectDailyBonus.Name = "checkBox_CollectDailyBonus";
             this.checkBox_CollectDailyBonus.Size = new System.Drawing.Size(277, 17);
             this.checkBox_CollectDailyBonus.TabIndex = 52;
             this.checkBox_CollectDailyBonus.Text = "Collect Daily Bonus (Not tested)\r\n";
             this.checkBox_CollectDailyBonus.UseVisualStyleBackColor = true;
-            // 
-            // checkBox_FarmGyms
-            // 
-            this.checkBox_FarmGyms.Location = new System.Drawing.Point(20, 208);
-            this.checkBox_FarmGyms.Name = "checkBox_FarmGyms";
-            this.checkBox_FarmGyms.Size = new System.Drawing.Size(277, 17);
-            this.checkBox_FarmGyms.TabIndex = 51;
-            this.checkBox_FarmGyms.Text = "Farm Gyms";
-            this.checkBox_FarmGyms.UseVisualStyleBackColor = true;
             // 
             // CB_SimulatePGO
             // 
@@ -1471,6 +1476,16 @@ namespace PokemonGo.RocketAPI.Console
             this.checkBox_EvolvePokemonIfEnoughCandy.TabIndex = 44;
             this.checkBox_EvolvePokemonIfEnoughCandy.Text = "Evolve Pokemons if enough candy\r\n";
             this.checkBox_EvolvePokemonIfEnoughCandy.UseVisualStyleBackColor = true;
+            // 
+            // checkBox_FarmGyms
+            // 
+            this.checkBox_FarmGyms.AutoSize = true;
+            this.checkBox_FarmGyms.Location = new System.Drawing.Point(16, 19);
+            this.checkBox_FarmGyms.Name = "checkBox_FarmGyms";
+            this.checkBox_FarmGyms.Size = new System.Drawing.Size(78, 17);
+            this.checkBox_FarmGyms.TabIndex = 51;
+            this.checkBox_FarmGyms.Text = "Farm Gyms";
+            this.checkBox_FarmGyms.UseVisualStyleBackColor = true;
             // 
             // tabControl1
             // 
@@ -2151,6 +2166,7 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // tabWalkSettings
             // 
+            this.tabWalkSettings.Controls.Add(this.groupBoxGyms);
             this.tabWalkSettings.Controls.Add(this.groupBox18);
             this.tabWalkSettings.Controls.Add(this.groupBox13);
             this.tabWalkSettings.Controls.Add(this.groupBox11);
@@ -2163,6 +2179,36 @@ namespace PokemonGo.RocketAPI.Console
             this.tabWalkSettings.TabIndex = 4;
             this.tabWalkSettings.Text = "Walk Settings";
             this.tabWalkSettings.UseVisualStyleBackColor = true;
+            // 
+            // groupBoxGyms
+            // 
+            this.groupBoxGyms.Controls.Add(this.label23);
+            this.groupBoxGyms.Controls.Add(this.comboBoxLeaveInGyms);
+            this.groupBoxGyms.Controls.Add(this.checkBox_FarmGyms);
+            this.groupBoxGyms.Location = new System.Drawing.Point(20, 306);
+            this.groupBoxGyms.Name = "groupBoxGyms";
+            this.groupBoxGyms.Size = new System.Drawing.Size(325, 82);
+            this.groupBoxGyms.TabIndex = 70;
+            this.groupBoxGyms.TabStop = false;
+            this.groupBoxGyms.Text = "Gyms";
+            // 
+            // label23
+            // 
+            this.label23.Location = new System.Drawing.Point(16, 40);
+            this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(154, 16);
+            this.label23.TabIndex = 53;
+            this.label23.Text = "Pokemon to leave in Gyms:";
+            this.label23.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // comboBoxLeaveInGyms
+            // 
+            this.comboBoxLeaveInGyms.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxLeaveInGyms.FormattingEnabled = true;
+            this.comboBoxLeaveInGyms.Location = new System.Drawing.Point(176, 39);
+            this.comboBoxLeaveInGyms.Name = "comboBoxLeaveInGyms";
+            this.comboBoxLeaveInGyms.Size = new System.Drawing.Size(121, 21);
+            this.comboBoxLeaveInGyms.TabIndex = 52;
             // 
             // groupBox18
             // 
@@ -2294,7 +2340,6 @@ namespace PokemonGo.RocketAPI.Console
             // 
             this.groupBox11.Controls.Add(this.checkBox_StopWalkingWhenEvolving);
             this.groupBox11.Controls.Add(this.checkBox_UseBreakIntervalAndLength);
-            this.groupBox11.Controls.Add(this.checkBox_Start_Walk_from_default_location);
             this.groupBox11.Controls.Add(this.label47);
             this.groupBox11.Controls.Add(this.checkBox_RandomlyReduceSpeed);
             this.groupBox11.Controls.Add(this.checkBox_RandomSleepAtCatching);
@@ -2319,7 +2364,7 @@ namespace PokemonGo.RocketAPI.Console
             this.checkBox_StopWalkingWhenEvolving.AutoSize = true;
             this.checkBox_StopWalkingWhenEvolving.Checked = true;
             this.checkBox_StopWalkingWhenEvolving.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox_StopWalkingWhenEvolving.Location = new System.Drawing.Point(10, 238);
+            this.checkBox_StopWalkingWhenEvolving.Location = new System.Drawing.Point(10, 223);
             this.checkBox_StopWalkingWhenEvolving.Margin = new System.Windows.Forms.Padding(2);
             this.checkBox_StopWalkingWhenEvolving.Name = "checkBox_StopWalkingWhenEvolving";
             this.checkBox_StopWalkingWhenEvolving.Size = new System.Drawing.Size(182, 17);
@@ -2338,16 +2383,6 @@ namespace PokemonGo.RocketAPI.Console
             this.checkBox_UseBreakIntervalAndLength.TabIndex = 71;
             this.checkBox_UseBreakIntervalAndLength.Text = "Use Break Interval and Length";
             this.checkBox_UseBreakIntervalAndLength.UseVisualStyleBackColor = true;
-            // 
-            // checkBox_Start_Walk_from_default_location
-            // 
-            this.checkBox_Start_Walk_from_default_location.AutoSize = true;
-            this.checkBox_Start_Walk_from_default_location.Location = new System.Drawing.Point(10, 217);
-            this.checkBox_Start_Walk_from_default_location.Name = "checkBox_Start_Walk_from_default_location";
-            this.checkBox_Start_Walk_from_default_location.Size = new System.Drawing.Size(171, 17);
-            this.checkBox_Start_Walk_from_default_location.TabIndex = 68;
-            this.checkBox_Start_Walk_from_default_location.Text = "Start walk from default location";
-            this.checkBox_Start_Walk_from_default_location.UseVisualStyleBackColor = true;
             // 
             // label47
             // 
@@ -3344,6 +3379,8 @@ namespace PokemonGo.RocketAPI.Console
             this.groupBox_EggOptions.ResumeLayout(false);
             this.groupBox_EggOptions.PerformLayout();
             this.tabWalkSettings.ResumeLayout(false);
+            this.groupBoxGyms.ResumeLayout(false);
+            this.groupBoxGyms.PerformLayout();
             this.groupBox18.ResumeLayout(false);
             this.groupBox18.PerformLayout();
             this.groupBox13.ResumeLayout(false);
@@ -3554,7 +3591,7 @@ namespace PokemonGo.RocketAPI.Console
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.TextBox text_Speed;
-        private System.Windows.Forms.CheckBox checkBox_Start_Walk_from_default_location;
+        private System.Windows.Forms.CheckBox checkBox_StartWalkingFromLastLocation;
         private System.Windows.Forms.Button buttonSvProf;
         private System.Windows.Forms.CheckBox checkBox_UseRazzberryIfChanceUnder;
         private System.Windows.Forms.Label label33;
@@ -3642,6 +3679,9 @@ namespace PokemonGo.RocketAPI.Console
         private System.Windows.Forms.CheckBox checkBoxDefaultProf;
         private System.Windows.Forms.Label labelLanguage;
         private System.Windows.Forms.ComboBox comboLanguage;
+        private System.Windows.Forms.GroupBox groupBoxGyms;
+        private System.Windows.Forms.Label label23;
+        private System.Windows.Forms.ComboBox comboBoxLeaveInGyms;
         //private System.Windows.Forms.CheckBox checkBox_CatchLurePokemons;
     }
 }

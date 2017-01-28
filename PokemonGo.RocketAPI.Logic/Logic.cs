@@ -490,21 +490,6 @@ namespace PokemonGo.RocketAPI.Logic
             return pokeStops;
         }
         
-        private FortData[] GetNearbyGyms(GetMapObjectsResponse mapObjectsResponse = null)
-        {
-            if (mapObjectsResponse == null)
-                mapObjectsResponse = objClient.Map.GetMapObjects().Result.Item1;
-
-            var pokeGyms = navigation
-                .pathByNearestNeighbour(
-                    mapObjectsResponse.MapCells.SelectMany(i => i.Forts)
-                    .Where(i => i.Type == FortType.Gym)
-                    .OrderBy(i => LocationUtils.CalculateDistanceInMeters(objClient.CurrentLatitude, objClient.CurrentLongitude, i.Latitude, i.Longitude))
-                    .ToArray(), BotSettings.WalkingSpeedInKilometerPerHour);
-
-            return pokeGyms;
-        }
-        
         private void FncPokeStop(Client client, FortData[] pokeStopsIn, bool metros30)
         {
             var distanceFromStart = LocationUtils
@@ -1058,8 +1043,8 @@ namespace PokemonGo.RocketAPI.Logic
                 }
                 ExecuteCatchAllNearbyPokemons(mapObjectsResponse);
                 
-                if (BotSettings.FarmGyms)
-                    ExecutePutInGym();
+                GymsLogic.Execute();
+                    
                 return true;
             }
             else
@@ -1142,111 +1127,8 @@ namespace PokemonGo.RocketAPI.Logic
             return false;
         }
 
-        private int GetGymLevel(long value)
-        {
-            if (value >= 50000)
-                return 10;
-            if (value >= 40000)
-                return 9;
-            if (value >= 30000)
-                return 8;
-            if (value >= 20000)
-                return 7;
-            if (value >= 16000)
-                return 6;
-            if (value >= 12000)
-                return 5;
-            if (value >= 8000)
-                return 4;
-            if (value >= 4000)
-                return 3;
-            if (value >= 2000)
-                return 2;
-            return 1;
-        }
-        private static List<string> gymsVisited = new List<string>();
-        private bool CheckAndPutInNearbyGym(FortData gym, Client client, FortDetailsResponse fortInfo)
-        {
-            var gymColorLog = ConsoleColor.DarkGray;
 
-            if (gymsVisited.IndexOf(gym.Id) > -1  ){
-                Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - This gym was already visited.");
-                return false;
-            }
-            if (BotSettings.FarmGyms)
-            {
-                var pokemons = (client.Inventory.GetPokemons().Result).ToList();
-                var pokemon = pokemons.Where(x => ( (!x.IsEgg) && (x.DeployedFortId == "") )).OrderBy(x => x.Cp).FirstOrDefault();
-                if (pokemon == null)
-                {
-                    Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - There are no pokemons to assign.");
-                    return false;
-                }
-                RandomHelper.RandomSleep(100, 200);
-                var profile = client.Player.GetPlayer().Result;
-                if ( (gym.OwnedByTeam ==  profile.PlayerData.Team) || (gym.OwnedByTeam == POGOProtos.Enums.TeamColor.Neutral ))
-                {
-                    RandomHelper.RandomSleep(100, 200);
-                    var gymDetails = client.Fort.GetGymDetails(gym.Id,gym.Latitude,gym.Longitude).Result;
-                    Logger.ColoredConsoleWrite(gymColorLog, "Members: " +gymDetails.GymState.Memberships.Count +". Level: "+ GetGymLevel(gym.GymPoints));
-                    if (gymDetails.GymState.Memberships.Count < GetGymLevel(gym.GymPoints))
-                    {
-                        RandomHelper.RandomSleep(100, 200);
-                        var fortSearch = client.Fort.FortDeployPokemon(gym.Id, pokemon.Id).Result;
-                        if (fortSearch.Result.ToString().ToLower() == "success" ){
-                            Logger.ColoredConsoleWrite(gymColorLog, StringUtils.getPokemonNameByLanguage(BotSettings, (PokemonId)pokemon.PokemonId) +" inserted into the gym");
-                            gymsVisited.Add(gym.Id);
-                            var pokesInGym = pokemons.Where(x => ( (!x.IsEgg) && (x.DeployedFortId != "") )).OrderBy(x => x.Cp).ToList().Count();
-                            Logger.ColoredConsoleWrite(gymColorLog, "pokesInGym: "+ pokesInGym);
-                            if (pokesInGym >9 )
-                            { 
-                                var res = client.Player.CollectDailyDefenderBonus().Result;
-                                Logger.ColoredConsoleWrite(gymColorLog, $"(Gym) - Collected: {res.CurrencyAwarded} Coins.");
-                            }
-                        }
-                    }
-                    else
-                    {
-                        Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - There is no free space in the gym");
-                    }
-                }
-                else
-                {
-                    Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - This gym is not your team.");
-                    // TO-DO ATTACK ;)?
-                    //var getPokemon = getpokemons.Where(x => ((!x.IsEgg) && (x.DeployedFortId != ""))).OrderBy(x => x.Cp);
-                    //var getOwnPokemon = client.Inventory.GetPokemons().Result.Where(x => !x.IsEgg).OrderBy(x => x.Cp);
 
-                    //var resp = client.Fort.StartGymBattle(gym.Id, getPokemon, getOwnPokemon)
-                    //We need a list for the "getOwnPokemons" that can attack. I think its a max of 6 that can attack. Not sure tho
-                }
-            }
-            return true;
-        }
-
-        private void ExecutePutInGym()
-        {
-
-            //narrow map data to gyms within walking distance
-            var gyms = GetNearbyGyms();
-            var gymsWithinRangeStanding = gyms.Where(i => LocationUtils.CalculateDistanceInMeters(objClient.CurrentLatitude, objClient.CurrentLongitude, i.Latitude, i.Longitude) < 40);
-
-            var withinRangeStandingList = gymsWithinRangeStanding as IList<FortData> ?? gymsWithinRangeStanding.ToList();
-            var inRange = withinRangeStandingList.Count;
-            if (withinRangeStandingList.Any())
-            {
-                Logger.ColoredConsoleWrite(ConsoleColor.DarkGray, $"(Gym) - {inRange} gyms are within range of the user");
-
-                foreach (var gym in withinRangeStandingList)
-                {
-                    var fortInfo = objClient.Fort.GetFort(gym.Id, gym.Latitude, gym.Longitude).Result;
-                    CheckAndPutInNearbyGym(gym, objClient, fortInfo);
-                    Setout.SetCheckTimeToRun();
-                    RandomHelper.RandomSleep(100, 200);
-                }
-            }
-        }
-        
         private bool VerifyLocation()
         {
             #region Stay within defined radius
