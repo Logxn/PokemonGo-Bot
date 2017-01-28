@@ -28,7 +28,6 @@ namespace PokemonGo.RocketAPI.Console
         public Pokemons()
         {
             InitializeComponent();
-            TabControl1.Controls.Remove(tpWeb);
             if (GlobalVars.EnableConsoleInTab)
             {
                 this.TabControl1.Controls.Add(this.tpConsole);

@@ -58,7 +58,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                 TrySnipePokemons(pokeid);
                 
                 SendToLog($"Location after Snipe : {_botSettings.DefaultLatitude} / {_botSettings.DefaultLongitude}");
-                SendToLog(LocationUtils.FindAddress(remoteCoords.Altitude,remoteCoords.Longitude));
+                SendToLog(LocationUtils.FindAddress(_botSettings.DefaultLatitude,_botSettings.DefaultLongitude));
                 
                 RandomHelper.RandomSleep(20000, 22000);  // Avoid cache after snipe
 

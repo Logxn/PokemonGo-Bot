@@ -256,6 +256,9 @@ namespace PokemonGo.RocketAPI.Console
         void checkbox_Verboselogging_CheckedChanged(object sender, EventArgs e)
         {
             GlobalVars.EnableVerboseLogging = (sender as CheckBox).Checked;
+            Logger.SelectedLevel = LogLevel.Error;
+            if (GlobalVars.EnableVerboseLogging)
+                Logger.SelectedLevel = LogLevel.Debug;
         }
 	}
 }

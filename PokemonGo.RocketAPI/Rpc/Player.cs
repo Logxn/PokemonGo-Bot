@@ -33,7 +33,7 @@ namespace PokemonGo.RocketAPI.Rpc
                 Longitude = Client.CurrentLongitude
             };
 
-            Logger.ColoredConsoleWrite(ConsoleColor.Blue, $"Calling Request UpdatePlayerLocation -> {latitude} / {longitude} / {altitude}", LogLevel.Debug);
+            Logger.Debug( $"Calling Request UpdatePlayerLocation -> {latitude} / {longitude} / {altitude}");
             var updatePlayerLocationRequestEnvelope = await GetRequestBuilder().GetRequestEnvelope(new Request[] {
                 new Request
                 {
