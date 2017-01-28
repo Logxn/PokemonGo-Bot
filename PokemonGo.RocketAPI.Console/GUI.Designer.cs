@@ -189,6 +189,7 @@ namespace PokemonGo.RocketAPI.Console
             this.checkBox_UseBasicIncubators = new System.Windows.Forms.CheckBox();
             this.tabWalkSettings = new System.Windows.Forms.TabPage();
             this.groupBoxGyms = new System.Windows.Forms.GroupBox();
+            this.checkBoxAttackGyms = new System.Windows.Forms.CheckBox();
             this.label23 = new System.Windows.Forms.Label();
             this.comboBoxLeaveInGyms = new System.Windows.Forms.ComboBox();
             this.groupBox18 = new System.Windows.Forms.GroupBox();
@@ -1480,11 +1481,11 @@ namespace PokemonGo.RocketAPI.Console
             // checkBox_FarmGyms
             // 
             this.checkBox_FarmGyms.AutoSize = true;
-            this.checkBox_FarmGyms.Location = new System.Drawing.Point(16, 19);
+            this.checkBox_FarmGyms.Location = new System.Drawing.Point(16, 17);
             this.checkBox_FarmGyms.Name = "checkBox_FarmGyms";
-            this.checkBox_FarmGyms.Size = new System.Drawing.Size(78, 17);
+            this.checkBox_FarmGyms.Size = new System.Drawing.Size(181, 17);
             this.checkBox_FarmGyms.TabIndex = 51;
-            this.checkBox_FarmGyms.Text = "Farm Gyms";
+            this.checkBox_FarmGyms.Text = "Leave Pokemon if there is space";
             this.checkBox_FarmGyms.UseVisualStyleBackColor = true;
             // 
             // tabControl1
@@ -2182,6 +2183,7 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // groupBoxGyms
             // 
+            this.groupBoxGyms.Controls.Add(this.checkBoxAttackGyms);
             this.groupBoxGyms.Controls.Add(this.label23);
             this.groupBoxGyms.Controls.Add(this.comboBoxLeaveInGyms);
             this.groupBoxGyms.Controls.Add(this.checkBox_FarmGyms);
@@ -2192,9 +2194,18 @@ namespace PokemonGo.RocketAPI.Console
             this.groupBoxGyms.TabStop = false;
             this.groupBoxGyms.Text = "Gyms";
             // 
+            // checkBoxAttackGyms
+            // 
+            this.checkBoxAttackGyms.Location = new System.Drawing.Point(16, 37);
+            this.checkBoxAttackGyms.Name = "checkBoxAttackGyms";
+            this.checkBoxAttackGyms.Size = new System.Drawing.Size(293, 18);
+            this.checkBoxAttackGyms.TabIndex = 54;
+            this.checkBoxAttackGyms.Text = "Attack if there is 1 defender ( not tested )";
+            this.checkBoxAttackGyms.UseVisualStyleBackColor = true;
+            // 
             // label23
             // 
-            this.label23.Location = new System.Drawing.Point(16, 40);
+            this.label23.Location = new System.Drawing.Point(16, 58);
             this.label23.Name = "label23";
             this.label23.Size = new System.Drawing.Size(154, 16);
             this.label23.TabIndex = 53;
@@ -2205,7 +2216,7 @@ namespace PokemonGo.RocketAPI.Console
             // 
             this.comboBoxLeaveInGyms.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxLeaveInGyms.FormattingEnabled = true;
-            this.comboBoxLeaveInGyms.Location = new System.Drawing.Point(176, 39);
+            this.comboBoxLeaveInGyms.Location = new System.Drawing.Point(177, 56);
             this.comboBoxLeaveInGyms.Name = "comboBoxLeaveInGyms";
             this.comboBoxLeaveInGyms.Size = new System.Drawing.Size(121, 21);
             this.comboBoxLeaveInGyms.TabIndex = 52;
@@ -3682,6 +3693,7 @@ namespace PokemonGo.RocketAPI.Console
         private System.Windows.Forms.GroupBox groupBoxGyms;
         private System.Windows.Forms.Label label23;
         private System.Windows.Forms.ComboBox comboBoxLeaveInGyms;
+        private System.Windows.Forms.CheckBox checkBoxAttackGyms;
         //private System.Windows.Forms.CheckBox checkBox_CatchLurePokemons;
     }
 }

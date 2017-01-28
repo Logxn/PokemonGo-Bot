@@ -7,6 +7,7 @@
  * To change this template use Tools | Options | Coding | Edit Standard Headers.
  */
 using System;
+using POGOProtos.Settings.Master;
 using PokemonGo.RocketAPI.Logic.Shared;
 
 using System;
@@ -44,6 +45,7 @@ using PokemonGo.RocketAPI.HttpClient;
 using System.Net.Http.Headers;
 using System.Net.Http;
 using POGOProtos.Data;
+using POGOProtos.Data.Battle;
 
 namespace PokemonGo.RocketAPI.Logic.Functions
 {
@@ -85,12 +87,10 @@ namespace PokemonGo.RocketAPI.Logic.Functions
 
             var withinRangeStandingList = gymsWithinRangeStanding as IList<FortData> ?? gymsWithinRangeStanding.ToList();
             var inRange = withinRangeStandingList.Count;
-            if (withinRangeStandingList.Any())
-            {
+            if (withinRangeStandingList.Any()) {
                 Logger.ColoredConsoleWrite(ConsoleColor.DarkGray, $"(Gym) - {inRange} gyms are within range of the user");
 
-                foreach (var gym in withinRangeStandingList)
-                {
+                foreach (var gym in withinRangeStandingList) {
                     var fortInfo = Logic.objClient.Fort.GetFort(gym.Id, gym.Latitude, gym.Longitude).Result;
                     CheckAndPutInNearbyGym(gym, Logic.objClient, fortInfo);
                     Setout.SetCheckTimeToRun();
@@ -107,7 +107,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
 
             var pokeGyms = Logic.Instance.navigation
                 .pathByNearestNeighbour(
-                    mapObjectsResponse.MapCells.SelectMany(i => i.Forts)
+                               mapObjectsResponse.MapCells.SelectMany(i => i.Forts)
                     .Where(i => i.Type == FortType.Gym)
                     .OrderBy(i => LocationUtils.CalculateDistanceInMeters(Logic.objClient.CurrentLatitude, Logic.objClient.CurrentLongitude, i.Latitude, i.Longitude))
                     .ToArray(), GlobalVars.WalkingSpeedInKilometerPerHour);
@@ -119,71 +119,137 @@ namespace PokemonGo.RocketAPI.Logic.Functions
         {
             var gymColorLog = ConsoleColor.DarkGray;
 
-            if (gymsVisited.IndexOf(gym.Id) > -1  ){
+            if (gymsVisited.IndexOf(gym.Id) > -1) {
                 Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - This gym was already visited.");
                 return false;
             }
-            if (GlobalVars.FarmGyms)
-            {
+            if (GlobalVars.FarmGyms) {
                 var pokemons = (client.Inventory.GetPokemons().Result).ToList();
 
-                PokemonData pokemon;
-
-                if (GlobalVars.LeaveInGyms == 0)
-                {
-                    var rnd=new Random();
-                    pokemon = pokemons.Where(x => ( (!x.IsEgg) && (x.DeployedFortId == "") )).OrderBy(x => rnd.Next()).FirstOrDefault();
-                }
-                else if (GlobalVars.LeaveInGyms == 1)
-                    pokemon = pokemons.Where(x => ( (!x.IsEgg) && (x.DeployedFortId == "") )).OrderByDescending(x => x.Cp).FirstOrDefault();
-                else
-                    pokemon = pokemons.Where(x => ( (!x.IsEgg) && (x.DeployedFortId == "") )).OrderBy(x => x.Cp).FirstOrDefault();
+                PokemonData pokemon = getPokeToPut(client);
                 
-                if (pokemon == null)
-                {
+                if (pokemon == null) {
                     Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - There are no pokemons to assign.");
                     return false;
                 }
                 RandomHelper.RandomSleep(100, 200);
                 var profile = client.Player.GetPlayer().Result;
-                if ( (gym.OwnedByTeam ==  profile.PlayerData.Team) || (gym.OwnedByTeam == POGOProtos.Enums.TeamColor.Neutral ))
-                {
+                if ((gym.OwnedByTeam == profile.PlayerData.Team) || (gym.OwnedByTeam == POGOProtos.Enums.TeamColor.Neutral)) {
                     RandomHelper.RandomSleep(100, 200);
-                    var gymDetails = client.Fort.GetGymDetails(gym.Id,gym.Latitude,gym.Longitude).Result;
-                    Logger.ColoredConsoleWrite(gymColorLog, "Members: " +gymDetails.GymState.Memberships.Count +". Level: "+ GetGymLevel(gym.GymPoints));
-                    if (gymDetails.GymState.Memberships.Count < GetGymLevel(gym.GymPoints))
-                    {
-                        RandomHelper.RandomSleep(100, 200);
-                        var fortSearch = client.Fort.FortDeployPokemon(gym.Id, pokemon.Id).Result;
-                        if (fortSearch.Result.ToString().ToLower() == "success" ){
-                            Logger.ColoredConsoleWrite(gymColorLog, StringUtils.getPokemonNameByLanguage((PokemonId)pokemon.PokemonId) +" inserted into the gym");
-                            gymsVisited.Add(gym.Id);
-                            var pokesInGym = pokemons.Where(x => ( (!x.IsEgg) && (x.DeployedFortId != "") )).OrderBy(x => x.Cp).ToList().Count();
-                            Logger.ColoredConsoleWrite(gymColorLog, "pokesInGym: "+ pokesInGym);
-                            if (pokesInGym >9 )
-                            { 
-                                var res = client.Player.CollectDailyDefenderBonus().Result;
-                                Logger.ColoredConsoleWrite(gymColorLog, $"(Gym) - Collected: {res.CurrencyAwarded} Coins.");
+                    var gymDetails = client.Fort.GetGymDetails(gym.Id, gym.Latitude, gym.Longitude).Result;
+                    Logger.ColoredConsoleWrite(gymColorLog, "Members: " + gymDetails.GymState.Memberships.Count + ". Level: " + GetGymLevel(gym.GymPoints));
+                    if (gymDetails.GymState.Memberships.Count < GetGymLevel(gym.GymPoints)) {
+                        putInGym(client,gym,pokemon,pokemons);
+                    } else {
+                        Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - There is no free space in the gym");
+                    }
+                } else {
+                    Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - This gym is not your team.");
+                    if (!GlobalVars.AttackGyms)
+                        return false;
+                    var gymDetails = client.Fort.GetGymDetails(gym.Id, gym.Latitude, gym.Longitude).Result;
+                    // TO-DO ATTACK more than 1 defender
+                    if (gymDetails.GymState.Memberships.Count == 1) {
+                        Logger.ColoredConsoleWrite(gymColorLog, "There is only one rival. Let's go to fight");
+                        var pokeAttackers = pokemons.Where(x => ((!x.IsEgg) && (x.DeployedFortId == "") && (x.Stamina > 0))).OrderBy(x => x.Cp).Take(6);
+                        var pokeAttackersIds = pokeAttackers.Select(x => x.Id);
+                        var defenders = gymDetails.GymState.Memberships.Select(x => x.PokemonData);
+                        RandomHelper.RandomSleep(1000, 1500);
+                        var moveSettings = GetMoveSettings(client);
+                        foreach (var defender in defenders) {
+                            var resp = client.Fort.StartGymBattle(gym.Id, defender.Id, pokeAttackersIds).Result;
+                            if (resp.BattleLog.State == POGOProtos.Data.Battle.BattleState.Active) {
+                                Logger.ColoredConsoleWrite(gymColorLog, "Battle Started");
+                                RandomHelper.RandomSleep(2500, 3000);
+                               
+                                var battleActions = new List<BattleAction>();
+                                var lastRetrievedAction = new BattleAction();
+                                var battleStartMs = resp.BattleLog.BattleStartTimestampMs;
+                                var attResp = client.Fort.AttackGym(gym.Id, resp.BattleId, battleActions, lastRetrievedAction).Result;
+                                
+                                var inBattle = (attResp.Result == AttackGymResponse.Types.Result.Success);
+                                inBattle = (attResp.BattleLog.State == BattleState.Active);
+                                var count = 1;
+                                while (inBattle) {
+                                    var timeMs = attResp.BattleLog.ServerMs;
+                                    var move1Settings = moveSettings.FirstOrDefault(x => x.MoveSettings.MovementId == attResp.ActiveAttacker.PokemonData.Move1).MoveSettings;
+                                    var attack = new BattleAction();
+                                    attack.Type = BattleActionType.ActionAttack;
+                                    attack.DurationMs = move1Settings.DurationMs; 
+                                    attack.DamageWindowsStartTimestampMs = move1Settings.DamageWindowStartMs;
+                                    attack.DamageWindowsEndTimestampMs = move1Settings.DamageWindowEndMs;
+                                    attack.ActionStartMs = timeMs + move1Settings.DurationMs;
+                                    attack.TargetIndex = -1;
+                                    attack.ActivePokemonId = attResp.ActiveAttacker.PokemonData.Id;
+                                    attack.TargetPokemonId = attResp.ActiveDefender.PokemonData.Id;
+                                    battleActions.Clear();
+                                    battleActions.Add(attack);
+                                    lastRetrievedAction = attResp.BattleLog.BattleActions.LastOrDefault();
+                                    attResp = client.Fort.AttackGym(gym.Id, resp.BattleId, battleActions, lastRetrievedAction).Result;
+                                    Logger.ColoredConsoleWrite(gymColorLog, $"Attack {count} done.");
+                                    inBattle = (attResp.Result == AttackGymResponse.Types.Result.Success);
+                                    inBattle = inBattle && (attResp.BattleLog.State == BattleState.Active);
+                                    count++;
+                                    Logger.ColoredConsoleWrite(gymColorLog, "Wait a moment before next attact");
+                                    RandomHelper.RandomSleep(move1Settings.DurationMs + 200, move1Settings.DurationMs + 300);
+                                }
+                                if (attResp.Result == AttackGymResponse.Types.Result.Success) {
+                                    if (attResp.BattleLog.State == BattleState.Defeated)
+                                        Logger.ColoredConsoleWrite(gymColorLog, "We have lost");
+                                    else if (attResp.BattleLog.State == BattleState.Victory) {
+                                        Logger.ColoredConsoleWrite(gymColorLog, "We have won");
+                                        putInGym(client,gym,  getPokeToPut(client),pokemons);
+                                    } else if (attResp.BattleLog.State == BattleState.TimedOut)
+                                        Logger.ColoredConsoleWrite(gymColorLog, "Timed Out");
+                                    gymsVisited.Add(gym.Id);
+                                }
+
                             }
                         }
                     }
-                    else
-                    {
-                        Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - There is no free space in the gym");
-                    }
-                }
-                else
-                {
-                    Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - This gym is not your team.");
-                    // TO-DO ATTACK ;)?
-                    //var getPokemon = getpokemons.Where(x => ((!x.IsEgg) && (x.DeployedFortId != ""))).OrderBy(x => x.Cp);
-                    //var getOwnPokemon = client.Inventory.GetPokemons().Result.Where(x => !x.IsEgg).OrderBy(x => x.Cp);
-
-                    //var resp = client.Fort.StartGymBattle(gym.Id, getPokemon, getOwnPokemon)
-                    //We need a list for the "getOwnPokemons" that can attack. I think its a max of 6 that can attack. Not sure tho
+                    
                 }
             }
             return true;
+        }
+        private static PokemonData getPokeToPut(Client client)
+        {
+            var pokemons = (client.Inventory.GetPokemons().Result).ToList();
+
+            PokemonData pokemon;
+
+            if (GlobalVars.LeaveInGyms == 0) {
+                var rnd = new Random();
+                pokemon = pokemons.Where(x => ((!x.IsEgg) && (x.DeployedFortId == "") && (x.Stamina == x.StaminaMax))).OrderBy(x => rnd.Next()).FirstOrDefault();
+            } else if (GlobalVars.LeaveInGyms == 1)
+                pokemon = pokemons.Where(x => ((!x.IsEgg) && (x.DeployedFortId == "")&& (x.Stamina == x.StaminaMax))).OrderByDescending(x => x.Cp).FirstOrDefault();
+            else
+                pokemon = pokemons.Where(x => ((!x.IsEgg) && (x.DeployedFortId == "")&& (x.Stamina == x.StaminaMax))).OrderBy(x => x.Cp).FirstOrDefault();
+            return pokemon;
+        }
+
+        private static void putInGym(Client client, FortData gym, PokemonData pokemon, IEnumerable<PokemonData> pokemons)
+        {
+            RandomHelper.RandomSleep(100, 200);
+            var fortSearch = client.Fort.FortDeployPokemon(gym.Id, pokemon.Id).Result;
+            if (fortSearch.Result.ToString().ToLower() == "success") {
+                Logger.ColoredConsoleWrite(ConsoleColor.DarkGray, StringUtils.getPokemonNameByLanguage((PokemonId)pokemon.PokemonId) + " inserted into the gym");
+                gymsVisited.Add(gym.Id);
+                var pokesInGym = pokemons.Where(x => ((!x.IsEgg) && (x.DeployedFortId != ""))).OrderBy(x => x.Cp).ToList().Count();
+                Logger.ColoredConsoleWrite(ConsoleColor.DarkGray, "pokesInGym: " + pokesInGym);
+                if (pokesInGym > 9) { 
+                    var res = client.Player.CollectDailyDefenderBonus().Result;
+                    Logger.ColoredConsoleWrite(ConsoleColor.DarkGray, $"(Gym) - Collected: {res.CurrencyAwarded} Coins.");
+                }
+            }
+        }
+        
+
+        private static IEnumerable<DownloadItemTemplatesResponse.Types.ItemTemplate> GetMoveSettings(Client client)
+        {
+            var templates = client.Download.GetItemTemplates().Result.ItemTemplates;
+            return templates.Where(x => x.MoveSettings != null);
+            // && x.MoveSettings.MovementId == move
         }
     }
 }
