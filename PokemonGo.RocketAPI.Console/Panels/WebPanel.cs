@@ -23,7 +23,6 @@ namespace PokemonGo.RocketAPI.Console.Panels
         public WebPanel()
         {
             InitializeComponent();
-            EnableIE11Emulation();
         }
         public void ChangeURL(string weburl){
             textBox1.Text = weburl;
@@ -51,6 +50,10 @@ namespace PokemonGo.RocketAPI.Console.Panels
             if (Registry.CurrentUser.GetValue(keyName+"\\"+AppDomain.CurrentDomain.FriendlyName, null) == null)
                 return false;
             return true;
+        }
+        void WebPanel_Validated(object sender, EventArgs e)
+        {
+            EnableIE11Emulation();
         }
     }
 }
