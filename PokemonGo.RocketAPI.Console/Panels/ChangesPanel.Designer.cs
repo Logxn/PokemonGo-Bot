@@ -62,6 +62,9 @@ namespace PokemonGo.RocketAPI.Console
 		private System.Windows.Forms.CheckBox checkBox_UseGoogleMapsRouting;
 		private System.Windows.Forms.Label label45;
 		private System.Windows.Forms.CheckBox checkbox_Verboselogging;
+		private System.Windows.Forms.CheckBox checkBox_FarmGyms;
+		private System.Windows.Forms.CheckBox checkBox_CollectDailyBonus;
+		private System.Windows.Forms.CheckBox checkBox_AutoTransferDoublePokemon;
 		
 		/// <summary>
 		/// Disposes resources used by the control.
@@ -98,6 +101,9 @@ namespace PokemonGo.RocketAPI.Console
 		    this.label6 = new System.Windows.Forms.Label();
 		    this.buttonUpdate = new System.Windows.Forms.Button();
 		    this.groupBox10 = new System.Windows.Forms.GroupBox();
+		    this.checkBox_AutoTransferDoublePokemon = new System.Windows.Forms.CheckBox();
+		    this.checkBox_CollectDailyBonus = new System.Windows.Forms.CheckBox();
+		    this.checkbox_Verboselogging = new System.Windows.Forms.CheckBox();
 		    this.checkBox_pauseAtEvolve1_2 = new System.Windows.Forms.CheckBox();
 		    this.label3 = new System.Windows.Forms.Label();
 		    this.numRazzPercent = new System.Windows.Forms.NumericUpDown();
@@ -110,6 +116,7 @@ namespace PokemonGo.RocketAPI.Console
 		    this.checkBox_UseAnimationTimes = new System.Windows.Forms.CheckBox();
 		    this.checkBox_useluckyegg = new System.Windows.Forms.CheckBox();
 		    this.checkBox_evolve = new System.Windows.Forms.CheckBox();
+		    this.checkBox_FarmGyms = new System.Windows.Forms.CheckBox();
 		    this.checkBox_UseLureAtBreak = new System.Windows.Forms.CheckBox();
 		    this.checkBox_BreakAtLure = new System.Windows.Forms.CheckBox();
 		    this.checkBox_CatchPokemon = new System.Windows.Forms.CheckBox();
@@ -131,7 +138,6 @@ namespace PokemonGo.RocketAPI.Console
 		    this.text_GoogleMapsAPIKey = new System.Windows.Forms.TextBox();
 		    this.checkBox_UseGoogleMapsRouting = new System.Windows.Forms.CheckBox();
 		    this.label45 = new System.Windows.Forms.Label();
-		    this.checkbox_Verboselogging = new System.Windows.Forms.CheckBox();
 		    this.groupBox1.SuspendLayout();
 		    ((System.ComponentModel.ISupportInitialize)(this.numTravelSpeed)).BeginInit();
 		    this.groupBox10.SuspendLayout();
@@ -221,7 +227,7 @@ namespace PokemonGo.RocketAPI.Console
 		    // 
 		    this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 		    this.label4.AutoSize = true;
-		    this.label4.Location = new System.Drawing.Point(29, 93);
+		    this.label4.Location = new System.Drawing.Point(12, 96);
 		    this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 		    this.label4.Name = "label4";
 		    this.label4.Size = new System.Drawing.Size(108, 13);
@@ -302,8 +308,9 @@ namespace PokemonGo.RocketAPI.Console
 		    // 
 		    // groupBox10
 		    // 
+		    this.groupBox10.Controls.Add(this.checkBox_AutoTransferDoublePokemon);
+		    this.groupBox10.Controls.Add(this.checkBox_CollectDailyBonus);
 		    this.groupBox10.Controls.Add(this.checkbox_Verboselogging);
-		    this.groupBox10.Controls.Add(this.checkBox_pauseAtEvolve1_2);
 		    this.groupBox10.Controls.Add(this.label3);
 		    this.groupBox10.Controls.Add(this.numRazzPercent);
 		    this.groupBox10.Controls.Add(this.checkBoxUseRazzBerry);
@@ -324,12 +331,49 @@ namespace PokemonGo.RocketAPI.Console
 		    this.groupBox10.TabStop = false;
 		    this.groupBox10.Text = "Other Settings";
 		    // 
+		    // checkBox_AutoTransferDoublePokemon
+		    // 
+		    this.checkBox_AutoTransferDoublePokemon.AutoSize = true;
+		    this.checkBox_AutoTransferDoublePokemon.Checked = true;
+		    this.checkBox_AutoTransferDoublePokemon.CheckState = System.Windows.Forms.CheckState.Checked;
+		    this.checkBox_AutoTransferDoublePokemon.Location = new System.Drawing.Point(16, 291);
+		    this.checkBox_AutoTransferDoublePokemon.Name = "checkBox_AutoTransferDoublePokemon";
+		    this.checkBox_AutoTransferDoublePokemon.Size = new System.Drawing.Size(137, 17);
+		    this.checkBox_AutoTransferDoublePokemon.TabIndex = 59;
+		    this.checkBox_AutoTransferDoublePokemon.Tag = "TransferDoublePokemons";
+		    this.checkBox_AutoTransferDoublePokemon.Text = "Auto transfer duplicates";
+		    this.checkBox_AutoTransferDoublePokemon.UseVisualStyleBackColor = true;
+		    this.checkBox_AutoTransferDoublePokemon.CheckedChanged += new System.EventHandler(this.CheckBoxes_CheckedChanged);
+		    // 
+		    // checkBox_CollectDailyBonus
+		    // 
+		    this.checkBox_CollectDailyBonus.AutoSize = true;
+		    this.checkBox_CollectDailyBonus.Checked = true;
+		    this.checkBox_CollectDailyBonus.CheckState = System.Windows.Forms.CheckState.Checked;
+		    this.checkBox_CollectDailyBonus.Location = new System.Drawing.Point(16, 266);
+		    this.checkBox_CollectDailyBonus.Name = "checkBox_CollectDailyBonus";
+		    this.checkBox_CollectDailyBonus.Size = new System.Drawing.Size(175, 17);
+		    this.checkBox_CollectDailyBonus.TabIndex = 58;
+		    this.checkBox_CollectDailyBonus.Text = "Collect Daily Bonus (Not tested)\r\n";
+		    this.checkBox_CollectDailyBonus.UseVisualStyleBackColor = true;
+		    // 
+		    // checkbox_Verboselogging
+		    // 
+		    this.checkbox_Verboselogging.AutoSize = true;
+		    this.checkbox_Verboselogging.Location = new System.Drawing.Point(16, 317);
+		    this.checkbox_Verboselogging.Name = "checkbox_Verboselogging";
+		    this.checkbox_Verboselogging.Size = new System.Drawing.Size(142, 17);
+		    this.checkbox_Verboselogging.TabIndex = 56;
+		    this.checkbox_Verboselogging.Text = "Enable Verbose Logging";
+		    this.checkbox_Verboselogging.UseVisualStyleBackColor = true;
+		    this.checkbox_Verboselogging.CheckedChanged += new System.EventHandler(this.checkbox_Verboselogging_CheckedChanged);
+		    // 
 		    // checkBox_pauseAtEvolve1_2
 		    // 
 		    this.checkBox_pauseAtEvolve1_2.AutoSize = true;
 		    this.checkBox_pauseAtEvolve1_2.Checked = true;
 		    this.checkBox_pauseAtEvolve1_2.CheckState = System.Windows.Forms.CheckState.Checked;
-		    this.checkBox_pauseAtEvolve1_2.Location = new System.Drawing.Point(16, 94);
+		    this.checkBox_pauseAtEvolve1_2.Location = new System.Drawing.Point(12, 271);
 		    this.checkBox_pauseAtEvolve1_2.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
 		    this.checkBox_pauseAtEvolve1_2.Name = "checkBox_pauseAtEvolve1_2";
 		    this.checkBox_pauseAtEvolve1_2.Size = new System.Drawing.Size(221, 17);
@@ -341,7 +385,7 @@ namespace PokemonGo.RocketAPI.Console
 		    // label3
 		    // 
 		    this.label3.AutoSize = true;
-		    this.label3.Location = new System.Drawing.Point(222, 191);
+		    this.label3.Location = new System.Drawing.Point(221, 180);
 		    this.label3.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
 		    this.label3.Name = "label3";
 		    this.label3.Size = new System.Drawing.Size(15, 13);
@@ -350,7 +394,7 @@ namespace PokemonGo.RocketAPI.Console
 		    // 
 		    // numRazzPercent
 		    // 
-		    this.numRazzPercent.Location = new System.Drawing.Point(195, 189);
+		    this.numRazzPercent.Location = new System.Drawing.Point(195, 176);
 		    this.numRazzPercent.Margin = new System.Windows.Forms.Padding(5);
 		    this.numRazzPercent.Name = "numRazzPercent";
 		    this.numRazzPercent.Size = new System.Drawing.Size(59, 20);
@@ -365,12 +409,12 @@ namespace PokemonGo.RocketAPI.Console
 		    // checkBoxUseRazzBerry
 		    // 
 		    this.checkBoxUseRazzBerry.AutoSize = true;
-		    this.checkBoxUseRazzBerry.Location = new System.Drawing.Point(16, 192);
+		    this.checkBoxUseRazzBerry.Location = new System.Drawing.Point(16, 179);
 		    this.checkBoxUseRazzBerry.Margin = new System.Windows.Forms.Padding(5);
 		    this.checkBoxUseRazzBerry.Name = "checkBoxUseRazzBerry";
 		    this.checkBoxUseRazzBerry.Size = new System.Drawing.Size(173, 17);
 		    this.checkBoxUseRazzBerry.TabIndex = 50;
-		    this.checkBoxUseRazzBerry.Tag = "userazzberry";
+		    this.checkBoxUseRazzBerry.Tag = "UseRazzBerry";
 		    this.checkBoxUseRazzBerry.Text = "Use RazzBerry if chance under";
 		    this.checkBoxUseRazzBerry.UseVisualStyleBackColor = true;
 		    this.checkBoxUseRazzBerry.CheckedChanged += new System.EventHandler(this.CheckBoxes_CheckedChanged);
@@ -378,13 +422,13 @@ namespace PokemonGo.RocketAPI.Console
 		    // checkBoxUseBasicIncubators
 		    // 
 		    this.checkBoxUseBasicIncubators.AutoSize = true;
-		    this.checkBoxUseBasicIncubators.Location = new System.Drawing.Point(37, 248);
+		    this.checkBoxUseBasicIncubators.Location = new System.Drawing.Point(37, 240);
 		    this.checkBoxUseBasicIncubators.Margin = new System.Windows.Forms.Padding(5);
 		    this.checkBoxUseBasicIncubators.Name = "checkBoxUseBasicIncubators";
-		    this.checkBoxUseBasicIncubators.Size = new System.Drawing.Size(125, 17);
+		    this.checkBoxUseBasicIncubators.Size = new System.Drawing.Size(157, 17);
 		    this.checkBoxUseBasicIncubators.TabIndex = 49;
-		    this.checkBoxUseBasicIncubators.Tag = "useBasicIncubators";
-		    this.checkBoxUseBasicIncubators.Text = "Use basic incubators";
+		    this.checkBoxUseBasicIncubators.Tag = "UseBasicIncubators";
+		    this.checkBoxUseBasicIncubators.Text = "Use consumable incubators";
 		    this.checkBoxUseBasicIncubators.UseVisualStyleBackColor = true;
 		    this.checkBoxUseBasicIncubators.CheckedChanged += new System.EventHandler(this.CheckBoxes_CheckedChanged);
 		    // 
@@ -393,12 +437,12 @@ namespace PokemonGo.RocketAPI.Console
 		    this.checkBoxAutoIncubate.AutoSize = true;
 		    this.checkBoxAutoIncubate.Checked = true;
 		    this.checkBoxAutoIncubate.CheckState = System.Windows.Forms.CheckState.Checked;
-		    this.checkBoxAutoIncubate.Location = new System.Drawing.Point(16, 222);
+		    this.checkBoxAutoIncubate.Location = new System.Drawing.Point(16, 214);
 		    this.checkBoxAutoIncubate.Margin = new System.Windows.Forms.Padding(5);
 		    this.checkBoxAutoIncubate.Name = "checkBoxAutoIncubate";
 		    this.checkBoxAutoIncubate.Size = new System.Drawing.Size(226, 17);
 		    this.checkBoxAutoIncubate.TabIndex = 48;
-		    this.checkBoxAutoIncubate.Tag = "autoIncubate";
+		    this.checkBoxAutoIncubate.Tag = "AutoIncubate";
 		    this.checkBoxAutoIncubate.Text = "Auto incubate (No guarantee that it works)";
 		    this.checkBoxAutoIncubate.UseVisualStyleBackColor = true;
 		    this.checkBoxAutoIncubate.CheckedChanged += new System.EventHandler(this.CheckBoxes_CheckedChanged);
@@ -406,7 +450,7 @@ namespace PokemonGo.RocketAPI.Console
 		    // checkBoxUseLuckyEggIfNotRunning
 		    // 
 		    this.checkBoxUseLuckyEggIfNotRunning.AutoSize = true;
-		    this.checkBoxUseLuckyEggIfNotRunning.Location = new System.Drawing.Point(16, 165);
+		    this.checkBoxUseLuckyEggIfNotRunning.Location = new System.Drawing.Point(16, 150);
 		    this.checkBoxUseLuckyEggIfNotRunning.Margin = new System.Windows.Forms.Padding(5);
 		    this.checkBoxUseLuckyEggIfNotRunning.Name = "checkBoxUseLuckyEggIfNotRunning";
 		    this.checkBoxUseLuckyEggIfNotRunning.Size = new System.Drawing.Size(160, 17);
@@ -421,7 +465,7 @@ namespace PokemonGo.RocketAPI.Console
 		    this.checkBox_keepPokemonsThatCanEvolve.AutoSize = true;
 		    this.checkBox_keepPokemonsThatCanEvolve.Checked = true;
 		    this.checkBox_keepPokemonsThatCanEvolve.CheckState = System.Windows.Forms.CheckState.Checked;
-		    this.checkBox_keepPokemonsThatCanEvolve.Location = new System.Drawing.Point(16, 139);
+		    this.checkBox_keepPokemonsThatCanEvolve.Location = new System.Drawing.Point(16, 124);
 		    this.checkBox_keepPokemonsThatCanEvolve.Margin = new System.Windows.Forms.Padding(5);
 		    this.checkBox_keepPokemonsThatCanEvolve.Name = "checkBox_keepPokemonsThatCanEvolve";
 		    this.checkBox_keepPokemonsThatCanEvolve.Size = new System.Drawing.Size(212, 17);
@@ -434,12 +478,12 @@ namespace PokemonGo.RocketAPI.Console
 		    // checkBox_UseIncense
 		    // 
 		    this.checkBox_UseIncense.AutoSize = true;
-		    this.checkBox_UseIncense.Location = new System.Drawing.Point(16, 117);
+		    this.checkBox_UseIncense.Location = new System.Drawing.Point(16, 100);
 		    this.checkBox_UseIncense.Margin = new System.Windows.Forms.Padding(5);
 		    this.checkBox_UseIncense.Name = "checkBox_UseIncense";
 		    this.checkBox_UseIncense.Size = new System.Drawing.Size(146, 17);
 		    this.checkBox_UseIncense.TabIndex = 43;
-		    this.checkBox_UseIncense.Tag = "useincense";
+		    this.checkBox_UseIncense.Tag = "UseIncense";
 		    this.checkBox_UseIncense.Text = "Use Incense every 30min";
 		    this.checkBox_UseIncense.UseVisualStyleBackColor = true;
 		    this.checkBox_UseIncense.CheckedChanged += new System.EventHandler(this.CheckBoxes_CheckedChanged);
@@ -464,12 +508,12 @@ namespace PokemonGo.RocketAPI.Console
 		    this.checkBox_useluckyegg.AutoSize = true;
 		    this.checkBox_useluckyegg.Checked = true;
 		    this.checkBox_useluckyegg.CheckState = System.Windows.Forms.CheckState.Checked;
-		    this.checkBox_useluckyegg.Location = new System.Drawing.Point(16, 27);
+		    this.checkBox_useluckyegg.Location = new System.Drawing.Point(16, 23);
 		    this.checkBox_useluckyegg.Margin = new System.Windows.Forms.Padding(5);
 		    this.checkBox_useluckyegg.Name = "checkBox_useluckyegg";
 		    this.checkBox_useluckyegg.Size = new System.Drawing.Size(144, 17);
 		    this.checkBox_useluckyegg.TabIndex = 41;
-		    this.checkBox_useluckyegg.Tag = "useluckyegg";
+		    this.checkBox_useluckyegg.Tag = "UseLuckyEgg";
 		    this.checkBox_useluckyegg.Text = "Use LuckyEgg at Evolve";
 		    this.checkBox_useluckyegg.UseVisualStyleBackColor = true;
 		    this.checkBox_useluckyegg.CheckedChanged += new System.EventHandler(this.CheckBoxes_CheckedChanged);
@@ -479,20 +523,31 @@ namespace PokemonGo.RocketAPI.Console
 		    this.checkBox_evolve.AutoSize = true;
 		    this.checkBox_evolve.Checked = true;
 		    this.checkBox_evolve.CheckState = System.Windows.Forms.CheckState.Checked;
-		    this.checkBox_evolve.Location = new System.Drawing.Point(16, 72);
+		    this.checkBox_evolve.Location = new System.Drawing.Point(16, 74);
 		    this.checkBox_evolve.Margin = new System.Windows.Forms.Padding(5);
 		    this.checkBox_evolve.Name = "checkBox_evolve";
 		    this.checkBox_evolve.Size = new System.Drawing.Size(191, 17);
 		    this.checkBox_evolve.TabIndex = 44;
-		    this.checkBox_evolve.Tag = "evolve";
+		    this.checkBox_evolve.Tag = "EvolvePokemonsIfEnoughCandy";
 		    this.checkBox_evolve.Text = "Evolve Pokemons if enough candy\r\n";
 		    this.checkBox_evolve.UseVisualStyleBackColor = true;
 		    this.checkBox_evolve.CheckedChanged += new System.EventHandler(this.CheckBoxes_CheckedChanged);
 		    // 
+		    // checkBox_FarmGyms
+		    // 
+		    this.checkBox_FarmGyms.AutoSize = true;
+		    this.checkBox_FarmGyms.Location = new System.Drawing.Point(12, 99);
+		    this.checkBox_FarmGyms.Name = "checkBox_FarmGyms";
+		    this.checkBox_FarmGyms.Size = new System.Drawing.Size(78, 17);
+		    this.checkBox_FarmGyms.TabIndex = 57;
+		    this.checkBox_FarmGyms.Text = "Farm Gyms";
+		    this.checkBox_FarmGyms.UseVisualStyleBackColor = true;
+		    this.checkBox_FarmGyms.CheckedChanged += new System.EventHandler(this.CheckBoxes_CheckedChanged);
+		    // 
 		    // checkBox_UseLureAtBreak
 		    // 
 		    this.checkBox_UseLureAtBreak.AutoSize = true;
-		    this.checkBox_UseLureAtBreak.Location = new System.Drawing.Point(12, 150);
+		    this.checkBox_UseLureAtBreak.Location = new System.Drawing.Point(12, 149);
 		    this.checkBox_UseLureAtBreak.Margin = new System.Windows.Forms.Padding(5);
 		    this.checkBox_UseLureAtBreak.Name = "checkBox_UseLureAtBreak";
 		    this.checkBox_UseLureAtBreak.Size = new System.Drawing.Size(113, 17);
@@ -505,7 +560,7 @@ namespace PokemonGo.RocketAPI.Console
 		    // checkBox_BreakAtLure
 		    // 
 		    this.checkBox_BreakAtLure.AutoSize = true;
-		    this.checkBox_BreakAtLure.Location = new System.Drawing.Point(12, 119);
+		    this.checkBox_BreakAtLure.Location = new System.Drawing.Point(12, 122);
 		    this.checkBox_BreakAtLure.Margin = new System.Windows.Forms.Padding(5);
 		    this.checkBox_BreakAtLure.Name = "checkBox_BreakAtLure";
 		    this.checkBox_BreakAtLure.Size = new System.Drawing.Size(91, 17);
@@ -520,7 +575,7 @@ namespace PokemonGo.RocketAPI.Console
 		    this.checkBox_CatchPokemon.AutoSize = true;
 		    this.checkBox_CatchPokemon.Checked = true;
 		    this.checkBox_CatchPokemon.CheckState = System.Windows.Forms.CheckState.Checked;
-		    this.checkBox_CatchPokemon.Location = new System.Drawing.Point(12, 89);
+		    this.checkBox_CatchPokemon.Location = new System.Drawing.Point(12, 75);
 		    this.checkBox_CatchPokemon.Margin = new System.Windows.Forms.Padding(5);
 		    this.checkBox_CatchPokemon.Name = "checkBox_CatchPokemon";
 		    this.checkBox_CatchPokemon.Size = new System.Drawing.Size(102, 17);
@@ -535,12 +590,12 @@ namespace PokemonGo.RocketAPI.Console
 		    this.checkBox_FarmPokestops.AutoSize = true;
 		    this.checkBox_FarmPokestops.Checked = true;
 		    this.checkBox_FarmPokestops.CheckState = System.Windows.Forms.CheckState.Checked;
-		    this.checkBox_FarmPokestops.Location = new System.Drawing.Point(12, 58);
+		    this.checkBox_FarmPokestops.Location = new System.Drawing.Point(12, 50);
 		    this.checkBox_FarmPokestops.Margin = new System.Windows.Forms.Padding(5);
 		    this.checkBox_FarmPokestops.Name = "checkBox_FarmPokestops";
 		    this.checkBox_FarmPokestops.Size = new System.Drawing.Size(102, 17);
 		    this.checkBox_FarmPokestops.TabIndex = 87;
-		    this.checkBox_FarmPokestops.Tag = "farmPokestops";
+		    this.checkBox_FarmPokestops.Tag = "FarmPokestops";
 		    this.checkBox_FarmPokestops.Text = "Farm Pokestops";
 		    this.checkBox_FarmPokestops.UseVisualStyleBackColor = true;
 		    this.checkBox_FarmPokestops.CheckedChanged += new System.EventHandler(this.CheckBoxes_CheckedChanged);
@@ -564,6 +619,8 @@ namespace PokemonGo.RocketAPI.Console
 		    // 
 		    this.groupBox11.Controls.Add(this.numericUpDownMinWalkSpeed);
 		    this.groupBox11.Controls.Add(this.numericUpDownSpeed);
+		    this.groupBox11.Controls.Add(this.checkBox_FarmGyms);
+		    this.groupBox11.Controls.Add(this.checkBox_pauseAtEvolve1_2);
 		    this.groupBox11.Controls.Add(this.label11);
 		    this.groupBox11.Controls.Add(this.checkBox_UseLureAtBreak);
 		    this.groupBox11.Controls.Add(this.label8);
@@ -649,7 +706,7 @@ namespace PokemonGo.RocketAPI.Console
 		    // label10
 		    // 
 		    this.label10.AutoSize = true;
-		    this.label10.Location = new System.Drawing.Point(43, 341);
+		    this.label10.Location = new System.Drawing.Point(36, 342);
 		    this.label10.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 		    this.label10.Name = "label10";
 		    this.label10.Size = new System.Drawing.Size(89, 13);
@@ -669,7 +726,7 @@ namespace PokemonGo.RocketAPI.Console
 		    // checkBox_UseBreakIntervalAndLength
 		    // 
 		    this.checkBox_UseBreakIntervalAndLength.AutoSize = true;
-		    this.checkBox_UseBreakIntervalAndLength.Location = new System.Drawing.Point(13, 246);
+		    this.checkBox_UseBreakIntervalAndLength.Location = new System.Drawing.Point(12, 220);
 		    this.checkBox_UseBreakIntervalAndLength.Margin = new System.Windows.Forms.Padding(5);
 		    this.checkBox_UseBreakIntervalAndLength.Name = "checkBox_UseBreakIntervalAndLength";
 		    this.checkBox_UseBreakIntervalAndLength.Size = new System.Drawing.Size(171, 17);
@@ -682,7 +739,7 @@ namespace PokemonGo.RocketAPI.Console
 		    // label47
 		    // 
 		    this.label47.AutoSize = true;
-		    this.label47.Location = new System.Drawing.Point(32, 214);
+		    this.label47.Location = new System.Drawing.Point(13, 194);
 		    this.label47.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
 		    this.label47.Name = "label47";
 		    this.label47.Size = new System.Drawing.Size(181, 13);
@@ -693,7 +750,7 @@ namespace PokemonGo.RocketAPI.Console
 		    // checkBox_RandomlyReduceSpeed
 		    // 
 		    this.checkBox_RandomlyReduceSpeed.AutoSize = true;
-		    this.checkBox_RandomlyReduceSpeed.Location = new System.Drawing.Point(12, 187);
+		    this.checkBox_RandomlyReduceSpeed.Location = new System.Drawing.Point(12, 176);
 		    this.checkBox_RandomlyReduceSpeed.Margin = new System.Windows.Forms.Padding(5);
 		    this.checkBox_RandomlyReduceSpeed.Name = "checkBox_RandomlyReduceSpeed";
 		    this.checkBox_RandomlyReduceSpeed.Size = new System.Drawing.Size(141, 17);
@@ -706,7 +763,7 @@ namespace PokemonGo.RocketAPI.Console
 		    // checkBox_WalkInArchimedeanSpiral
 		    // 
 		    this.checkBox_WalkInArchimedeanSpiral.AutoSize = true;
-		    this.checkBox_WalkInArchimedeanSpiral.Location = new System.Drawing.Point(13, 278);
+		    this.checkBox_WalkInArchimedeanSpiral.Location = new System.Drawing.Point(12, 247);
 		    this.checkBox_WalkInArchimedeanSpiral.Margin = new System.Windows.Forms.Padding(5);
 		    this.checkBox_WalkInArchimedeanSpiral.Name = "checkBox_WalkInArchimedeanSpiral";
 		    this.checkBox_WalkInArchimedeanSpiral.Size = new System.Drawing.Size(156, 17);
@@ -763,7 +820,7 @@ namespace PokemonGo.RocketAPI.Console
 		    this.checkBox_UseGoogleMapsRouting.Tag = "UseGoogleMapsAPI";
 		    this.checkBox_UseGoogleMapsRouting.Text = "Use Google Maps Routing";
 		    this.checkBox_UseGoogleMapsRouting.UseVisualStyleBackColor = true;
-		    this.checkBox_UseGoogleMapsRouting.CheckedChanged += new System.EventHandler(this.CheckBoxes_CheckedChanged);
+		    this.checkBox_UseGoogleMapsRouting.CheckedChanged += new System.EventHandler(this.checkBox_UseGoogleMapsRouting_CheckedChanged);
 		    // 
 		    // label45
 		    // 
@@ -775,17 +832,6 @@ namespace PokemonGo.RocketAPI.Console
 		    this.label45.TabIndex = 72;
 		    this.label45.Text = "API Key:";
 		    this.label45.UseMnemonic = false;
-		    // 
-		    // checkbox_Verboselogging
-		    // 
-		    this.checkbox_Verboselogging.AutoSize = true;
-		    this.checkbox_Verboselogging.Location = new System.Drawing.Point(16, 290);
-		    this.checkbox_Verboselogging.Name = "checkbox_Verboselogging";
-		    this.checkbox_Verboselogging.Size = new System.Drawing.Size(142, 17);
-		    this.checkbox_Verboselogging.TabIndex = 56;
-		    this.checkbox_Verboselogging.Text = "Enable Verbose Logging";
-		    this.checkbox_Verboselogging.UseVisualStyleBackColor = true;
-		    this.checkbox_Verboselogging.CheckedChanged += new System.EventHandler(this.checkbox_Verboselogging_CheckedChanged);
 		    // 
 		    // ChangesPanel
 		    // 

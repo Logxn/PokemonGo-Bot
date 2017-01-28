@@ -246,6 +246,9 @@ namespace PokemonGo.RocketAPI.Console
             numRazzPercent.Value = (int)(GlobalVars.razzberry_chance * 100);
             checkBoxAutoIncubate.Checked = GlobalVars.AutoIncubate;
             checkBoxUseBasicIncubators.Checked = GlobalVars.UseBasicIncubators;
+            checkBox_FarmGyms.Checked = GlobalVars.FarmGyms;
+            checkBox_CollectDailyBonus.Checked = GlobalVars.CollectDailyBonus;
+            checkBox_AutoTransferDoublePokemon.Checked = GlobalVars.TransferDoublePokemons;
             checkbox_Verboselogging.Checked = GlobalVars.EnableVerboseLogging;
             //Routing
             checkBox_UseGoogleMapsRouting.Checked = GlobalVars.UseGoogleMapsAPI;
@@ -259,6 +262,12 @@ namespace PokemonGo.RocketAPI.Console
             Logger.SelectedLevel = LogLevel.Error;
             if (GlobalVars.EnableVerboseLogging)
                 Logger.SelectedLevel = LogLevel.Debug;
+        }
+        void checkBox_UseGoogleMapsRouting_CheckedChanged(object sender, EventArgs e)
+        {
+            GlobalVars.UseGoogleMapsAPI =checkBox_UseGoogleMapsRouting.Checked;
+            if (GlobalVars.UseGoogleMapsAPI)
+                GlobalVars.GoogleMapsAPIKey = text_GoogleMapsAPIKey.Text;
         }
 	}
 }
