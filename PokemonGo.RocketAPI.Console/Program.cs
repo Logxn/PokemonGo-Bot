@@ -95,11 +95,11 @@ namespace PokemonGo.RocketAPI.Console
                     if (arg.ToLower().Contains("-help"))
                     {
                         //Show Help
-                        Logger.ColoredConsoleWriteNoDateTime(ConsoleColor.White, $"Pokemon BOT C# v{BotVersion.ToString()} help" + Environment.NewLine);
-                        Logger.ColoredConsoleWriteNoDateTime(ConsoleColor.Gray, "Use:");
-                        Logger.ColoredConsoleWriteNoDateTime(ConsoleColor.Gray, "  -nogui <lat>,<long>         Console mode only, starting on the indicated Latitude & Longitude");
-                        Logger.ColoredConsoleWriteNoDateTime(ConsoleColor.Gray, "  -bypassversioncheck         to NOT check BOT & API compatibility (be careful with that option)");
-                        Logger.ColoredConsoleWriteNoDateTime(ConsoleColor.Gray, "  -help                       this help" + Environment.NewLine);
+                        System.Console.WriteLine($"Pokemon BOT C# v{BotVersion.ToString()} help" + Environment.NewLine);
+                        System.Console.WriteLine("Use:");
+                        System.Console.WriteLine("  -nogui <lat>,<long>         Console mode only, starting on the indicated Latitude & Longitude");
+                        System.Console.WriteLine("  -bypassversioncheck         to NOT check BOT & API compatibility (be careful with that option)");
+                        System.Console.WriteLine("  -help                       this help" + Environment.NewLine);
                         Environment.Exit(0);
                     }
                 }
@@ -322,7 +322,7 @@ namespace PokemonGo.RocketAPI.Console
             using (var wC = new WebClient())
                 return
                     wC.DownloadString(
-                        "https://raw.githubusercontent.com/Ar1i/PokemonGo-Bot/master/ver.md");
+                        "https://raw.githubusercontent.com/Logxn/PokemonGo-Bot/master/ver.md");
         }
 
         private static void CreateLogDirectories()

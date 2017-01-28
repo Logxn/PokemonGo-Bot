@@ -209,12 +209,13 @@ namespace PokemonGo.RocketAPI.Console
         {
             Invoke(new MethodInvoker(() =>
             {
-                textBox1.Text = coords.Latitude.ToString();
-                textBox2.Text = coords.Longitude.ToString();
+                textBox1.Text = coords.Latitude.ToString(CultureInfo.InvariantCulture);
+                textBox2.Text = coords.Longitude.ToString(CultureInfo.InvariantCulture);
                 PointLatLng newPosition = new PointLatLng(coords.Latitude, coords.Longitude);
                 _botMarker.Position = newPosition;
                 _botRoute.Points.Add(newPosition);
                 map.Position = newPosition;
+                tbAddress.Text = LocationUtils.FindAddress(newPosition);
             }));
         }
 
@@ -299,7 +300,7 @@ namespace PokemonGo.RocketAPI.Console
                                     }
 
                                 }
-                                pokemonMarker.ToolTipText = string.Format("{0}\nExpires at:{1}\n{2}\n{3},{4}", StringUtils.getPokemonNameByLanguage(null, pokeData.PokemonId), pokeData.ExpiresAt.ToString(), FindAddress(pokeData.Coordinates.Latitude.Value, pokeData.Coordinates.Longitude.Value), pokeData.Coordinates.Latitude.Value, pokeData.Coordinates.Longitude.Value);
+                                pokemonMarker.ToolTipText = string.Format("{0}\nExpires at:{1}\n{2}\n{3},{4}", StringUtils.getPokemonNameByLanguage(null, pokeData.PokemonId), pokeData.ExpiresAt.ToString(), LocationUtils.FindAddress(pokeData.Coordinates.Latitude.Value, pokeData.Coordinates.Longitude.Value), pokeData.Coordinates.Latitude.Value, pokeData.Coordinates.Longitude.Value);
                                 pokemonMarker.ToolTip.Font = new System.Drawing.Font("Arial", 12, System.Drawing.GraphicsUnit.Pixel);
                                 pokemonMarker.ToolTipMode = MarkerTooltipMode.OnMouseOver;
                                 _pokemonMarks.Add(pokeData.Id, pokemonMarker);
@@ -335,7 +336,7 @@ namespace PokemonGo.RocketAPI.Console
                         routeOverlay.Markers.Clear();
                         _botStartMarker = new GMarkerGoogle(new PointLatLng(), Properties.MapData.start_point);
                         _botStartMarker.Position = new PointLatLng(GlobalVars.latitude, GlobalVars.longitude);
-                        _botStartMarker.ToolTipText = string.Format("Start Point.\n{0}\n{1},{2}", FindAddress(GlobalVars.latitude, GlobalVars.longitude), GlobalVars.latitude, GlobalVars.longitude);
+                        _botStartMarker.ToolTipText = string.Format("Start Point.\n{0}\n{1},{2}", LocationUtils.FindAddress(GlobalVars.latitude, GlobalVars.longitude), GlobalVars.latitude, GlobalVars.longitude);
                         _botStartMarker.ToolTip.Font = new System.Drawing.Font("Arial", 12, System.Drawing.GraphicsUnit.Pixel);
                         _botStartMarker.ToolTipMode = MarkerTooltipMode.OnMouseOver;
                         routeOverlay.Markers.Add(_botStartMarker);
@@ -356,7 +357,7 @@ namespace PokemonGo.RocketAPI.Console
                                     pokeStopMaker = new GMarkerGoogle(new PointLatLng(pokeStop.Latitude, pokeStop.Longitude), Properties.MapData.lured_pokestop);
                                 }
 
-                                pokeStopMaker.ToolTipText = string.Format("{0}\n{1},{2}", FindAddress(pokeStop.Latitude, pokeStop.Longitude), pokeStop.Latitude, pokeStop.Longitude);
+                                pokeStopMaker.ToolTipText = string.Format("{0}\n{1},{2}", LocationUtils.FindAddress(pokeStop.Latitude, pokeStop.Longitude), pokeStop.Latitude, pokeStop.Longitude);
                                 pokeStopMaker.ToolTip.Font = new System.Drawing.Font("Arial", 12, System.Drawing.GraphicsUnit.Pixel);
                                 pokeStopMaker.ToolTipMode = MarkerTooltipMode.OnMouseOver;
                                 _pokeStopsMarks.Add(pokeStop.Id, pokeStopMaker);
@@ -448,7 +449,7 @@ namespace PokemonGo.RocketAPI.Console
 
                                 var str = string.Format("Level:{0} ({1})", GetLevel(pokeGym.GymPoints), pokeGym.GymPoints);
                                 var pokeGymMaker = new GMarkerGoogle(new PointLatLng(pokeGym.Latitude, pokeGym.Longitude), bitmap);
-                                pokeGymMaker.ToolTipText = string.Format("{0}\n{1}, {2}\n{3}", FindAddress(pokeGym.Latitude, pokeGym.Longitude), pokeGym.Latitude, pokeGym.Longitude, str);
+                                pokeGymMaker.ToolTipText = string.Format("{0}\n{1}, {2}\n{3}", LocationUtils.FindAddress(pokeGym.Latitude, pokeGym.Longitude), pokeGym.Latitude, pokeGym.Longitude, str);
                                 pokeGymMaker.ToolTip.Font = new System.Drawing.Font("Arial", 12, System.Drawing.GraphicsUnit.Pixel);
                                 pokeGymMaker.ToolTipMode = MarkerTooltipMode.OnMouseOver;
                                 _pokeGymsMarks.Add(pokeGym.Id, pokeGymMaker);
@@ -573,7 +574,7 @@ namespace PokemonGo.RocketAPI.Console
             //routeOverlay.Markers.Add(_botMarker);
             _botStartMarker = new GMarkerGoogle(new PointLatLng(), Properties.MapData.start_point);
             _botStartMarker.Position = new PointLatLng(GlobalVars.latitude, GlobalVars.longitude);
-            _botStartMarker.ToolTipText = string.Format("Start Point.\n{0}\n{1},{2}", FindAddress(GlobalVars.latitude, GlobalVars.longitude), GlobalVars.latitude, GlobalVars.longitude);
+            _botStartMarker.ToolTipText = string.Format("Start Point.\n{0}\n{1},{2}", LocationUtils.FindAddress(GlobalVars.latitude, GlobalVars.longitude), GlobalVars.latitude, GlobalVars.longitude);
             _botStartMarker.ToolTip.Font = new System.Drawing.Font("Arial", 12, System.Drawing.GraphicsUnit.Pixel);
             _botStartMarker.ToolTipMode = MarkerTooltipMode.OnMouseOver;
             routeOverlay.Markers.Add(_botStartMarker);
@@ -675,6 +676,7 @@ namespace PokemonGo.RocketAPI.Console
 
             textBox1.Text = map.Position.Lat.ToString(CultureInfo.InvariantCulture);
             textBox2.Text = map.Position.Lng.ToString(CultureInfo.InvariantCulture);
+            tbAddress.Text = LocationUtils.FindAddress(map.Position);
 
             if(radiusOverlay != null)
             {
@@ -726,9 +728,9 @@ namespace PokemonGo.RocketAPI.Console
                 map.MaxZoom = 20;
                 map.Zoom = 16;
 
-                textBox1.Text = GlobalVars.latitude.ToString();
-                textBox2.Text = GlobalVars.longitude.ToString();
-                textBox3.Text = GlobalVars.altitude.ToString();
+                textBox1.Text = GlobalVars.latitude.ToString(CultureInfo.InvariantCulture);
+                textBox2.Text = GlobalVars.longitude.ToString(CultureInfo.InvariantCulture);
+                textBox3.Text = GlobalVars.altitude.ToString(CultureInfo.InvariantCulture);
             }
             catch (Exception ex)
             {
@@ -742,7 +744,7 @@ namespace PokemonGo.RocketAPI.Console
             {
                 try
                 {
-                    double lat = double.Parse(textBox1.Text.Replace(',', '.'), GUI.cords, System.Globalization.NumberFormatInfo.InvariantInfo);
+                    double lat = StrCordToDouble(textBox1.Text);
                     if (lat > 90.0 || lat < -90.0)
                     {
                         throw new System.ArgumentException("Value has to be between 180 and -180!");
@@ -756,6 +758,8 @@ namespace PokemonGo.RocketAPI.Console
                 }
             }
         }
+               
+        
 
         private void textBox2_TextChanged(object sender, EventArgs e)
         {
@@ -763,7 +767,7 @@ namespace PokemonGo.RocketAPI.Console
             {
                 try
                 {
-                    double lng = double.Parse(textBox2.Text.Replace(',', '.'), GUI.cords, System.Globalization.NumberFormatInfo.InvariantInfo);
+                    double lng = StrCordToDouble(textBox2.Text);
                     if (lng > 180.0 || lng < -180.0)
                     {
                         throw new System.ArgumentException("Value has to be between 90 and -90!");
@@ -777,34 +781,10 @@ namespace PokemonGo.RocketAPI.Console
                 }
             }
         }
-        public static string FindAddress(double lat, double lng)
-        {
-            string ret = "";
-            GeoCoderStatusCode status;
-            var pos = GMapProviders.GoogleMap.GetPlacemark(new PointLatLng(lat, lng), out status);
-            if (status == GeoCoderStatusCode.G_GEO_SUCCESS && pos != null)
-            {
-                ret = pos.Value.Address;
-            }
-            return ret;
-        }
-        public static double[] FindLocation(string address)
-        {
-            double[] ret = {0.0,0.0};
-            GeoCoderStatusCode status;
-            var pos = GMapProviders.GoogleMap.GetPoint(address, out status);
-            if (status == GeoCoderStatusCode.G_GEO_SUCCESS && pos != null)
-            {
-                ret = new double[2];
-                ret[0] =pos.Value.Lat;
-                ret[1] =pos.Value.Lng;                
-            }
-            return ret;
-        }
         
         void BtnGetPointsClick(object sender, EventArgs e)
         {
-            var ret = FindLocation(tbAddress.Text);
+            var ret = LocationUtils.FindLocation(tbAddress.Text);
             textBox1.Text = ret[0].ToString();
             textBox2.Text = ret[1].ToString();
             map.Position = new PointLatLng(ret[0],ret[1]);
@@ -873,6 +853,12 @@ namespace PokemonGo.RocketAPI.Console
                 btnPauseWalking.Text = "Pause Walking";
             }
           
+        }
+        public static double StrCordToDouble(string str)
+        {
+            double ret = 0;
+            double.TryParse(str.Replace(",","."),NumberStyles.AllowDecimalPoint | NumberStyles.AllowLeadingSign, CultureInfo.InvariantCulture,out ret);
+            return ret;
         }
     }
 }

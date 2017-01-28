@@ -170,12 +170,12 @@ namespace PokemonGo.RocketAPI.Logic
             Logger.ColoredConsoleWrite(ConsoleColor.Red, "If you've paid for it. Request a chargeback immediately!");
             Logger.ColoredConsoleWrite(ConsoleColor.Red, "You only need pay for a key to access to Hash Service");
 
+            Logger.SelectedLevel = LogLevel.Error;
             if (GlobalVars.EnableVerboseLogging)
             {
-                Logger.MaxLogLevel = LogLevel.Debug;
-                Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"LogLevel set to {Logger.MaxLogLevel}. Many logs will be generated.");
+                Logger.SelectedLevel = LogLevel.Debug;
+                Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"LogLevel set to {Logger.SelectedLevel}. Many logs will be generated.");
             }
-            else Logger.MaxLogLevel = LogLevel.Info;
 
             #region Log Logger
 
@@ -893,18 +893,15 @@ namespace PokemonGo.RocketAPI.Logic
             if (pokeStop.CooldownCompleteTimestampMs < (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds && BotSettings.FarmPokestops)
             {
                 var fortSearch = objClient.Fort.SearchFort(pokeStop.Id, pokeStop.Latitude, pokeStop.Longitude).Result;
-                if(BotSettings.EnableVerboseLogging)
-                {
-                    Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "================[VERBOSE LOGGING - Pokestop Search]================",LogLevel.Debug);
-                    Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Result: {fortSearch.Result}", LogLevel.Debug);
-                    Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"ChainHackSequenceNumber: {fortSearch.ChainHackSequenceNumber}", LogLevel.Debug);
-                    Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Cooldown Complete (MS): {fortSearch.CooldownCompleteTimestampMs}", LogLevel.Debug);
-                    Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"EXP Award: {fortSearch.ExperienceAwarded}", LogLevel.Debug);
-                    Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Gems Award: {fortSearch.GemsAwarded}", LogLevel.Debug);
-                    Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Item Award: {fortSearch.ItemsAwarded}", LogLevel.Debug);
-                    Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Egg Data: {fortSearch.PokemonDataEgg}", LogLevel.Debug);
-                    Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "==================================================================", LogLevel.Debug);
-                }
+                Logger.Debug("================[VERBOSE LOGGING - Pokestop Search]================");
+                Logger.Debug($"Result: {fortSearch.Result}");
+                Logger.Debug($"ChainHackSequenceNumber: {fortSearch.ChainHackSequenceNumber}");
+                Logger.Debug($"Cooldown Complete (MS): {fortSearch.CooldownCompleteTimestampMs}");
+                Logger.Debug($"EXP Award: {fortSearch.ExperienceAwarded}");
+                Logger.Debug($"Gems Award: {fortSearch.GemsAwarded}");
+                Logger.Debug($"Item Award: {fortSearch.ItemsAwarded}");
+                Logger.Debug($"Egg Data: {fortSearch.PokemonDataEgg}");
+                Logger.Debug("==================================================================");
 
                 switch (fortSearch.Result.ToString())
                 {
@@ -1092,10 +1089,7 @@ namespace PokemonGo.RocketAPI.Logic
                 }
                 var pokemons = mapObjectsResponse.MapCells.SelectMany(i => i.CatchablePokemons).OrderBy(i => LocationUtils.CalculateDistanceInMeters(objClient.CurrentLatitude, objClient.CurrentLongitude, i.Latitude, i.Longitude));
 
-                if(BotSettings.EnableVerboseLogging)
-                {
-                    Logger.ColoredConsoleWrite(ConsoleColor.DarkBlue, $"(DEBUG) - Pokemons Catchable: {pokemons.Count()}");
-                }
+                Logger.Debug( $"Pokemons Catchable: {pokemons.Count()}");
 
                 if (pokemons.Any())
                 {

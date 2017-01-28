@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -32,7 +33,7 @@ namespace PokemonGo.RocketAPI.Rpc
                 Longitude = Client.CurrentLongitude
             };
 
-            Logger.ColoredConsoleWrite(ConsoleColor.Blue, $"Calling Request UpdatePlayerLocation -> {latitude} / {longitude} / {altitude}", LogLevel.Debug);
+            Logger.Debug( $"Calling Request UpdatePlayerLocation -> {latitude} / {longitude} / {altitude}");
             var updatePlayerLocationRequestEnvelope = await GetRequestBuilder().GetRequestEnvelope(new Request[] {
                 new Request
                 {
@@ -56,7 +57,7 @@ namespace PokemonGo.RocketAPI.Rpc
         public void SaveLatLng(double lat, double lng)
         {
             try {
-                string latlng = lat.ToString() + ":" + lng.ToString();
+                string latlng = lat.ToString(CultureInfo.InvariantCulture) + ":" + lng.ToString(CultureInfo.InvariantCulture);
                 File.WriteAllText(Directory.GetCurrentDirectory() + "\\Configs\\LastCoords.txt", latlng);
             } catch (Exception)
             {

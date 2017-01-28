@@ -19,9 +19,9 @@ namespace PokemonGo.RocketAPI
     public enum LogLevel
     {
         None = 0,
-        Error = 1,
+        Info = 1,
         Warning = 2,
-        Info = 3,
+        Error = 3,
         Debug = 4
     }
     public class Logger
@@ -30,7 +30,26 @@ namespace PokemonGo.RocketAPI
         public static int type = 0;
         public static string message;
         public static ConsoleColor color;
-        public static LogLevel MaxLogLevel = LogLevel.Info; //Info level by default. To change this default, change Settings.cs default FALSE value too
+        
+        public static LogLevel SelectedLevel
+        {
+            get
+            {
+                if (type == 0)
+                    return LoggerC.SelectedLevel;
+                if (panel != null)
+                    return LoggerPanel.SelectedLevel;
+                return LogLevel.None;
+            }
+            set
+            {
+                if (type == 0)
+                    LoggerC.SelectedLevel = value;
+                if (panel != null)
+                    LoggerPanel.SelectedLevel= value; 
+            }
+        }
+            
         public Logger()
         {
             
@@ -57,6 +76,30 @@ namespace PokemonGo.RocketAPI
                     AddLog(line+"\n"+ex1.ToString());
                 }
         }
+        public static void Info(string str){
+            if (type == 0)
+                LoggerC.Info(str);
+            else
+                try {
+                    if (panel != null)
+                        panel.Info(str);
+                    
+                } catch (Exception ex1) {
+                    AddLog(str+ex1.ToString());
+                }
+        }
+        public static void Warning(string str){
+            if (type == 0)
+                LoggerC.Warning(str);
+            else
+                try {
+                    if (panel != null)
+                        panel.Warning(str);
+                    
+                } catch (Exception ex1) {
+                    AddLog(str+ex1.ToString());
+                }
+        }
         public static void Error(string str){
             if (type == 0)
                 LoggerC.Error(str);
@@ -69,9 +112,19 @@ namespace PokemonGo.RocketAPI
                     AddLog(str+ex1.ToString());
                 }
         }
+        public static void Debug(string str){
+            if (type == 0)
+                LoggerC.Debug(str);
+            else
+                try {
+                    if (panel != null)
+                        panel.Debug(str);
+                    
+                } catch (Exception ex1) {
+                    AddLog(str+ex1.ToString());
+                }
+        }
         public static void ColoredConsoleWrite(ConsoleColor color, string line, LogLevel level = LogLevel.Info){
-            if (level > MaxLogLevel)
-                return;
             if (type == 0)
                 LoggerC.ColoredConsoleWrite(color,line,level);
             else
@@ -80,21 +133,6 @@ namespace PokemonGo.RocketAPI
                     panel.ColoredConsoleWrite(color,line,level);
                 } catch (Exception ex1) {
                     AddLog(line+ex1.ToString());
-                }
-        }
-        public static void ColoredConsoleWriteNoDateTime(ConsoleColor color, string line, LogLevel level = LogLevel.Info)
-        {
-            if (type == 0)
-                LoggerC.ColoredConsoleWriteNoDateTime(color, line);
-            else
-                try
-                {
-                    if (panel != null)
-                        panel.ColoredConsoleWrite(color, line, level);
-                }
-                catch (Exception ex1)
-                {
-                    AddLog(line + ex1.ToString());
                 }
         }
         public static void Write( string line, LogLevel level = LogLevel.Info){

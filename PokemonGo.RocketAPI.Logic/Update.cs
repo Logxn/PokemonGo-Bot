@@ -36,7 +36,7 @@ namespace PokemonGo.RocketAPI.Logic
             WebClient webClient = new WebClient();
             webClient.DownloadFileCompleted += new AsyncCompletedEventHandler(Completed);
             webClient.DownloadProgressChanged += new DownloadProgressChangedEventHandler(ProgressChanged);
-            webClient.DownloadFileAsync(new Uri("http://raw.githubusercontent.com/Ar1i/PokemonGo-Bot/master/Builds-Only/PokemonGo.RocketAPI.Console.exe"), file);
+            webClient.DownloadFileAsync(new Uri("http://raw.githubusercontent.com/Logxn/PokemonGo-Bot/master/Builds-Only/PokemonGo.RocketAPI.Console.exe"), file);
 
         }
 
@@ -135,7 +135,7 @@ namespace PokemonGo.RocketAPI.Logic
         {
             using (var wC = new WebClient())
             {
-                return wC.DownloadString("https://raw.githubusercontent.com/Ar1i/PokemonGo-Bot/master/ver.md");
+                return wC.DownloadString("https://raw.githubusercontent.com/Logxn/PokemonGo-Bot/master/ver.md");
             }
         }
         
@@ -156,7 +156,7 @@ namespace PokemonGo.RocketAPI.Logic
                     switch (dialogResult)
                     {
                         case DialogResult.Yes:
-                            Process.Start("https://github.com/Ar1i/PokemonGo-Bot");
+                            Process.Start("https://github.com/Logxn/PokemonGo-Bot");
                             break;
                         case DialogResult.No:
                             //nothing   

@@ -21,6 +21,7 @@ namespace PokemonGo.RocketAPI.Logging
     /// </summary>
     public partial class LoggerPanel : UserControl
     {
+        public static LogLevel SelectedLevel = LogLevel.Info;
         public class Message{
             public Message(ConsoleColor c, string t){
                 color = c;
@@ -96,17 +97,37 @@ namespace PokemonGo.RocketAPI.Logging
             }
             return Color.Yellow;
         }
-        public void Error(string line){
-            messages.Enqueue(new Message(ConsoleColor.Red,line));
-            AddLog(line);
+        public void Info(string text)
+        {
+            ColoredConsoleWrite(ConsoleColor.Green,text, LogLevel.Info);
         }
+
+        public void Warning(string text)
+        {
+            ColoredConsoleWrite(ConsoleColor.Yellow,text, LogLevel.Warning);
+        }
+
+        public  void Error(string text)
+        {
+            ColoredConsoleWrite(ConsoleColor.Red,text, LogLevel.Error);
+        }
+
+        public void Debug(string text)
+        {
+            ColoredConsoleWrite(ConsoleColor.Blue,text, LogLevel.Debug);
+        }
+        
         public void ColoredConsoleWrite(ConsoleColor color, string line, LogLevel level = LogLevel.Info){
-            messages.Enqueue(new Message(color,line));
-            AddLog(line);
+            if (level <= SelectedLevel)
+                messages.Enqueue(new Message(color,line));
+            if ( (level!=LogLevel.Debug) || (SelectedLevel ==LogLevel.Debug) )
+                AddLog(line);
         }
         public void Write( string line, LogLevel level = LogLevel.Info){
-            messages.Enqueue(new Message(ConsoleColor.White,line));
-            AddLog(line);
+            if (level <= SelectedLevel)
+                messages.Enqueue(new Message(ConsoleColor.White,line));
+            if ( (level!=LogLevel.Debug) || (SelectedLevel ==LogLevel.Debug) )
+                AddLog(line);
         }
         
         public void AddLog(string line){

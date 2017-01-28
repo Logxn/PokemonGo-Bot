@@ -14,49 +14,50 @@ namespace PokemonGo.RocketAPI.Logging
     {
         public static string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Configs");
         public static string log = Path.Combine(path, "log.txt");
+        public static LogLevel SelectedLevel = LogLevel.Info;
 
         public static void Write(string message, LogLevel level = LogLevel.Info)
         {
-            Console.WriteLine($"[{level}][{DateTime.Now.ToString("HH:mm:ss")}] "+ message);
-            AddLog(message);
+            if (level <= SelectedLevel)
+                Console.WriteLine($"[{level}][{DateTime.Now.ToString("HH:mm:ss")}] "+ message);
+            if ( (level!=LogLevel.Debug) || (SelectedLevel ==LogLevel.Debug) )
+                AddLog(message);
         }
 
         public static void ColoredConsoleWrite(ConsoleColor color, string text, LogLevel level = LogLevel.Info)
         {
-            ConsoleColor originalColor = Console.ForegroundColor;
-            Console.ForegroundColor = color;
-            Console.WriteLine($"[{level}][{DateTime.Now.ToString("HH:mm:ss")}] "+ text);
-            Console.ForegroundColor = originalColor;
-            AddLog(text);
+            if (level <= SelectedLevel)
+            {
+                ConsoleColor originalColor = Console.ForegroundColor;
+                Console.ForegroundColor = color;
+                Console.WriteLine($"[{level}][{DateTime.Now.ToString("HH:mm:ss")}] "+ text);
+                Console.ForegroundColor = originalColor;
+            }
+            if ( (level!=LogLevel.Debug) || (SelectedLevel ==LogLevel.Debug) )
+                AddLog(text);
         }
 
-        public static void ColoredConsoleWrite(ConsoleColor color, string text)
+        public static void Info(string text)
         {
-            ConsoleColor originalColor = Console.ForegroundColor;
-            Console.ForegroundColor = color;
-            Console.WriteLine($"[{DateTime.Now.ToString("HH:mm:ss")}] " + text);
-            Console.ForegroundColor = originalColor;
-            AddLog(text);
+            ColoredConsoleWrite(ConsoleColor.Green,text, LogLevel.Info);
         }
 
-        public static void ColoredConsoleWriteNoDateTime(ConsoleColor color, string text)
+        public static void Warning(string text)
         {
-            ConsoleColor originalColor = Console.ForegroundColor;
-            Console.ForegroundColor = color;
-            Console.WriteLine(text);
-            Console.ForegroundColor = originalColor;
+            ColoredConsoleWrite(ConsoleColor.Yellow,text, LogLevel.Warning);
         }
 
         public static void Error(string text)
         {
-            ConsoleColor originalColor = Console.ForegroundColor;
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine($"[{DateTime.Now.ToString("HH:mm:ss")}] " + text);
-            Console.ForegroundColor = originalColor;
-            AddLog(text);
+            ColoredConsoleWrite(ConsoleColor.Red,text, LogLevel.Error);
         }
 
-        public static void AddLog(string line)
+        public static void Debug(string text)
+        {
+            ColoredConsoleWrite(ConsoleColor.Blue,text, LogLevel.Debug);
+        }
+
+        public static void AddLog(string text, LogLevel level =LogLevel.Info)
         { 
             if (!File.Exists(log))
             {
@@ -71,7 +72,7 @@ namespace PokemonGo.RocketAPI.Logging
             {
                 // here you know that the file exists
                 TextWriter tw = new StreamWriter(log, true); //  we need to add a new line (aka. i am the brain)
-                tw.WriteLine($"[{DateTime.Now.ToString("HH:mm:ss")}] " + line); 
+                tw.WriteLine($"[{level}][{DateTime.Now.ToString("HH:mm:ss")}] "+ text); 
                 tw.Close();
             } catch (Exception)
             {
@@ -79,16 +80,4 @@ namespace PokemonGo.RocketAPI.Logging
             }
         }
     }
-
-  
-
-    /*public enum LogLevel
-    {
-        None = 0,
-        Error = 1,
-        Warning = 2,
-        Info = 3,
-        Debug = 4
-    }*/
-    
 }

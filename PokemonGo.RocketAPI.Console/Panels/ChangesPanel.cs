@@ -200,20 +200,6 @@ namespace PokemonGo.RocketAPI.Console
             MessageBox.Show("Current Configuration Saved as - " + GlobalVars.ProfileName);
         }
 
-        public static double[] FindLocation(string address)
-        {
-            double[] ret = { 0.0, 0.0 };
-            GeoCoderStatusCode status;
-            var pos = GMapProviders.GoogleMap.GetPoint(address, out status);
-            if (status == GeoCoderStatusCode.G_GEO_SUCCESS && pos != null)
-            {
-                ret = new double[2];
-                ret[0] = pos.Value.Lat;
-                ret[1] = pos.Value.Lng;
-            }
-            return ret;
-        }
-
         void ButtonReviseClick(object sender, EventArgs e)
         {
             try
@@ -260,11 +246,19 @@ namespace PokemonGo.RocketAPI.Console
             numRazzPercent.Value = (int)(GlobalVars.razzberry_chance * 100);
             checkBoxAutoIncubate.Checked = GlobalVars.AutoIncubate;
             checkBoxUseBasicIncubators.Checked = GlobalVars.UseBasicIncubators;
+            checkbox_Verboselogging.Checked = GlobalVars.EnableVerboseLogging;
             //Routing
             checkBox_UseGoogleMapsRouting.Checked = GlobalVars.UseGoogleMapsAPI;
             text_GoogleMapsAPIKey.Text = GlobalVars.GoogleMapsAPIKey;
             numTravelSpeed.Value = (int)GlobalVars.RelocateDefaultLocationTravelSpeed;
             enableEvents = true;
+        }
+        void checkbox_Verboselogging_CheckedChanged(object sender, EventArgs e)
+        {
+            GlobalVars.EnableVerboseLogging = (sender as CheckBox).Checked;
+            Logger.SelectedLevel = LogLevel.Error;
+            if (GlobalVars.EnableVerboseLogging)
+                Logger.SelectedLevel = LogLevel.Debug;
         }
 	}
 }

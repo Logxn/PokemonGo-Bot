@@ -50,6 +50,13 @@ namespace PokemonGo.RocketAPI.Console
         {
             InitializeComponent();
         }
+        
+        public double StrCordToDouble(string str)
+        {
+            double ret = 0;
+            double.TryParse(str.Replace(",","."), NumberStyles.AllowDecimalPoint | NumberStyles.AllowLeadingSign, CultureInfo.InvariantCulture,out ret);
+            return ret;
+        }
 
         private void GUI_Load(object sender, EventArgs e)
         {
@@ -220,7 +227,7 @@ namespace PokemonGo.RocketAPI.Console
                     var title = th.TS ("Newest Version: {0}",newestVersion);
                     DialogResult dialogResult = MessageBox.Show(message, title, MessageBoxButtons.YesNo);
                     if (dialogResult == DialogResult.Yes)
-                        Process.Start("https://github.com/Ar1i/PokemonGo-Bot");
+                        Process.Start("https://github.com/Logxn/PokemonGo-Bot");
                     else if (dialogResult == DialogResult.No)
                     {
 
@@ -258,9 +265,9 @@ namespace PokemonGo.RocketAPI.Console
                 text_Password.Text = Encryption.Decrypt(config.Password);
             }
     
-            text_Latidude.Text = config.DefaultLatitude.ToString();
-            text_Longitude.Text = config.DefaultLongitude.ToString();
-            text_Altidude.Text = config.DefaultAltitude.ToString();
+            text_Latidude.Text = config.DefaultLatitude.ToString(CultureInfo.InvariantCulture);
+            text_Longitude.Text = config.DefaultLongitude.ToString(CultureInfo.InvariantCulture);
+            text_Altidude.Text = config.DefaultAltitude.ToString(CultureInfo.InvariantCulture);
     
             checkBox_UseLuckyEggAtEvolve.Checked = config.UseLuckyEgg;
             checkBox_SimulateAnimationTimeAtEvolve.Checked = config.UseAnimationTimes;
@@ -445,11 +452,8 @@ namespace PokemonGo.RocketAPI.Console
                 {
                     var latlngFromFile = File.ReadAllText(Program.lastcords);
                     var latlng = latlngFromFile.Split(':');
-                    double latitude, longitude;
-                    double.TryParse(latlng[0], out latitude);
-                    double.TryParse(latlng[1], out longitude);
-                    ActiveProfile.Settings.DefaultLatitude = latitude;
-                    ActiveProfile.Settings.DefaultLongitude = longitude;
+                    ActiveProfile.Settings.DefaultLatitude = StrCordToDouble(latlng[0]);
+                    ActiveProfile.Settings.DefaultLongitude = StrCordToDouble(latlng[1]);
                 }
                 catch
                 {
@@ -561,7 +565,7 @@ namespace PokemonGo.RocketAPI.Console
                     fieldName = textBox.Name.ToLower().Replace("text_", "");
                 }
                 var valueTXT = textBox.Text.Replace(',', '.');
-                var valueDBL = double.Parse(valueTXT, cords, NumberFormatInfo.InvariantInfo);
+                var valueDBL = double.Parse(valueTXT, cords, CultureInfo.InvariantCulture);
                 typeof(ProfileSettings).GetProperty(fieldName).SetValue(ActiveProfile.Settings, valueDBL);
             }
             else
@@ -742,7 +746,7 @@ namespace PokemonGo.RocketAPI.Console
                 var title = th.TS("Are you sure you wish to set your speed to {0} ?",speed);
                 var dialogResult = MessageBox.Show(message, title, MessageBoxButtons.YesNo);
                 if (dialogResult == DialogResult.No)
-                    ActiveProfile.Settings.WalkingSpeedInKilometerPerHour = double.Parse("9.5", cords, NumberFormatInfo.InvariantInfo);
+                    ActiveProfile.Settings.WalkingSpeedInKilometerPerHour = double.Parse("9.5", cords, CultureInfo.InvariantCulture);
             }
 
             var value = text_MinWalkSpeed.Text;
@@ -971,14 +975,13 @@ namespace PokemonGo.RocketAPI.Console
 
         private void DisplayLocationSelector()
         {
-            LocationSelect locationSelector = new LocationSelect(false);
-            
             // We set current values
-            double.TryParse(text_Latidude.Text, out GlobalVars.latitude);
-            double.TryParse(text_Longitude.Text, out GlobalVars.longitude);
-            double.TryParse(text_Altidude.Text, out GlobalVars.altitude);
+            GlobalVars.latitude = StrCordToDouble(text_Latidude.Text);
+            GlobalVars.longitude = StrCordToDouble(text_Longitude.Text);
+            GlobalVars.altitude = StrCordToDouble(text_Altidude.Text);
             int.TryParse(text_MoveRadius.Text, out GlobalVars.radius);
-            
+
+            LocationSelect locationSelector = new LocationSelect(false);           
             locationSelector.ShowDialog();
             
             // We set selected values
@@ -1045,7 +1048,7 @@ namespace PokemonGo.RocketAPI.Console
                 try {
                     using (var wC = new WebClient())
                     {
-                         wC.DownloadFile("https://raw.githubusercontent.com/Ar1i/PokemonGo-Bot/master/"+remoteDir+"/"+resourceName,filename);
+                         wC.DownloadFile("https://raw.githubusercontent.com/Logxn/PokemonGo-Bot/master/"+remoteDir+"/"+resourceName,filename);
                          if (File.ReadAllText(filename) == "")
                              File.Delete(filename);
                     }
@@ -1205,7 +1208,7 @@ namespace PokemonGo.RocketAPI.Console
         }
         void linkLabel16_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-          Process.Start("https://github.com/Ar1i/PokemonGo-Bot/");
+          Process.Start("https://github.com/Logxn/PokemonGo-Bot/");
         }
 
         private void button_Information_Click(object sender, EventArgs e)
