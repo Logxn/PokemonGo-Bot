@@ -90,7 +90,7 @@ namespace PokemonGo.RocketAPI.Hash
                 }
                 else{
                     RandomHelper.RandomSleep(1000,1100);
-                    retry--;                    
+                    retry--;
                 }
             } while (retry > 0);
 
