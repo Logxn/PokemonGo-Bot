@@ -90,7 +90,7 @@ namespace PokemonGo.RocketAPI.Console
                 Directory.CreateDirectory(Program.path_translation);
 
             th = new Helper.TranslatorHelper();
-            th.ExtractTexts(this);// <-- Creates default.json with all strings to translate.
+            //th.ExtractTexts(this);// <-- Creates default.json with all strings to translate.
             Helper.TranslatorHelper.StoreUntranslated = true;
             comboLanguage.SelectedIndex = 0;
             // Download json file of current Culture Info if exists

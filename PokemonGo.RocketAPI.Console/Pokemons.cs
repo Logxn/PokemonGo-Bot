@@ -67,9 +67,10 @@ namespace PokemonGo.RocketAPI.Console
                 var client = Logic.Logic.objClient;
                 
                 // Wait to client is ready to use
-                while (client ==null || !client.readyToUse){
-                     Logger.Debug("Client not ready to use. Waiting 1 second to retry");
-                     RandomHelper.RandomSleep(1000,1100);
+                while (client ==null || !client.readyToUse)
+                {
+                     Logger.Debug("Client not ready to use. Waiting 5 seconds to retry");
+                     RandomHelper.RandomSleep(5000,5100);
                 }
                 
                 if (client.readyToUse != false)
