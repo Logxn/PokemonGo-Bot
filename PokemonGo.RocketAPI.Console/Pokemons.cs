@@ -17,7 +17,9 @@ namespace PokemonGo.RocketAPI.Console
         {
             public bool Status { get; set; }
             public string Message { get; set; }
-            public taskResponse() { }
+            public taskResponse()
+            {
+            }
             public taskResponse(bool status, string message)
             {
                 Status = status;
@@ -28,22 +30,20 @@ namespace PokemonGo.RocketAPI.Console
         public Pokemons()
         {
             InitializeComponent();
-            if (GlobalVars.EnableConsoleInTab)
-            {
+            if (GlobalVars.EnableConsoleInTab) {
                 this.TabControl1.Controls.Add(this.tpConsole);
                 Logger.type = 1;
             }
             changesPanel1.Execute();
             webPanel1.AddButtonClick(new System.EventHandler(this.HideWebPanel));
-            sniperPanel1.AddLinkClick(0,new System.EventHandler(this.AddLink));
-            sniperPanel1.AddLinkClick(1,new System.EventHandler(this.AddLink));
-            sniperPanel1.AddLinkClick(2,new System.EventHandler(this.AddLink));
+            sniperPanel1.AddLinkClick(0, new System.EventHandler(this.AddLink));
+            sniperPanel1.AddLinkClick(1, new System.EventHandler(this.AddLink));
+            sniperPanel1.AddLinkClick(2, new System.EventHandler(this.AddLink));
         }
         
 
         private void Pokemons_Load(object sender, EventArgs e)
         {
-            //GlobalVars.pauseAtPokeStop = false;
             locationPanel1.Init(true, 0, 0, 0);
             Execute();
             sniperPanel1.Execute();
@@ -53,7 +53,7 @@ namespace PokemonGo.RocketAPI.Console
 
         private void Pokemons_Close(object sender, FormClosingEventArgs e)
         {
-            if (!GlobalVars.EnableConsoleInTab){
+            if (!GlobalVars.EnableConsoleInTab) {
                 e.Cancel = true;
                 this.WindowState = FormWindowState.Minimized;
             }
@@ -61,62 +61,46 @@ namespace PokemonGo.RocketAPI.Console
 
         private void Execute()
         {
-            try
-            {
-                //TabControl1.Enabled = false;
-                var client = Logic.Logic.objClient;
-                
+            try {
                 // Wait to client is ready to use
-                while (client ==null || !client.readyToUse)
-                {
-                     Logger.Debug("Client not ready to use. Waiting 5 seconds to retry");
-                     RandomHelper.RandomSleep(5000,5100);
+                var client = Logic.Logic.objClient;
+                while (client == null || !client.ReadyToUse) {
+                    Logger.Debug("Client not ready to use. Waiting 5 seconds to retry");
+                    RandomHelper.RandomSleep(5000, 5100);
+                    client = Logic.Logic.objClient;
                 }
-                
-                if (client.readyToUse != false)
-                {
-                    profile = client.Player.GetPlayer().Result;
-                    RandomHelper.RandomSleep(1000,1100); // Pause to simulate human speed.
-                    Text = "User: " + profile.PlayerData.Username;
-                    var arrStats = client.Inventory.GetPlayerStats().Result.GetEnumerator();
-                    arrStats.MoveNext();
-                    stats = arrStats.Current;
-                    locationPanel1.CreateBotMarker((int)profile.PlayerData.Team, stats.Level, stats.Experience);
-                    playerPanel1.setProfile(profile);
-                    pokemonsPanel1.profile = profile;
-                }
-                //TabControl1.Enabled = true;
-            }
-            catch (Exception e)
-            {
+
+                profile = client.Player.GetPlayer().Result;
+                RandomHelper.RandomSleep(1000, 1100); // Pause to simulate human speed.
+                Text = "User: " + profile.PlayerData.Username;
+                var arrStats = client.Inventory.GetPlayerStats().Result.GetEnumerator();
+                arrStats.MoveNext();
+                stats = arrStats.Current;
+                locationPanel1.CreateBotMarker((int)profile.PlayerData.Team, stats.Level, stats.Experience);
+                playerPanel1.setProfile(profile);
+                pokemonsPanel1.profile = profile;
+            } catch (Exception e) {
                 Logger.Error("[PokemonList-Error] " + e.StackTrace);
-                RandomHelper.RandomSleep(1000,1100);  // Lets the API make a little pause, so we dont get blocked
-                //Execute();
+                RandomHelper.RandomSleep(1000, 1100);  // Lets the API make a little pause, so we dont get blocked
             }
         }
 
         private void CreateRoute_Click(object sender, EventArgs e)
         {
-            if (CreateRoute.Text.Equals("Define Route"))
-            {
+            if (CreateRoute.Text.Equals("Define Route")) {
                 GlobalVars.pauseAtPokeStop = true;
                 Logger.ColoredConsoleWrite(ConsoleColor.Magenta, "Create Route Enabled - Click Pokestops in the order you would like to walk them and then Click 'Run Route'");
-                if (GlobalVars.RouteToRepeat.Count > 0)
-                {
+                if (GlobalVars.RouteToRepeat.Count > 0) {
                     Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "User Defined Route Cleared!");
                     GlobalVars.RouteToRepeat.Clear();
                 }
                 CreateRoute.Text = "Run Route";
                 RepeatRoute.Enabled = true;
-            }
-            else
-            {
+            } else {
                 GlobalVars.pauseAtPokeStop = false;
                 Logger.ColoredConsoleWrite(ConsoleColor.Magenta, "Resume walking between Pokestops.");
-                if (GlobalVars.RouteToRepeat.Count > 0)
-                {
-                    foreach (var geocoord in GlobalVars.RouteToRepeat)
-                    {
+                if (GlobalVars.RouteToRepeat.Count > 0) {
+                    foreach (var geocoord in GlobalVars.RouteToRepeat) {
                         GlobalVars.NextDestinationOverride.AddLast(geocoord);
                     }
                     Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "User Defined Route Captured! Beginning Route Momentarily.");
@@ -133,8 +117,7 @@ namespace PokemonGo.RocketAPI.Console
         private void ChangeTabs(object sender, EventArgs e)
         {
             TabPage current = (sender as TabControl).SelectedTab;
-            switch (current.Name)
-            {
+            switch (current.Name) {
                 case "tpPokemons":
                     pokemonsPanel1.Execute();
                     break;
@@ -151,25 +134,23 @@ namespace PokemonGo.RocketAPI.Console
         }
         public void ShowWebPanel()
         {
-        	if (!TabControl1.Contains(tpWeb))
-        	{
-        		TabControl1.Controls.Add(tpWeb);
-        	}
+            if (!TabControl1.Contains(tpWeb)) {
+                TabControl1.Controls.Add(tpWeb);
+            }
         }
         public void HideWebPanel(object sender, EventArgs e)
         {
-        	if (TabControl1.Contains(tpWeb))
-        	{
-        		TabControl1.Controls.Remove(tpWeb);
-        	}        	
+            if (TabControl1.Contains(tpWeb)) {
+                TabControl1.Controls.Remove(tpWeb);
+            }        	
         }
         public void AddLink(object sender, EventArgs e)
         {
             ShowWebPanel();
-        	var lbl = (LinkLabel ) sender;
-        	webPanel1.EnableIE11Emulation();
-        	webPanel1.ChangeURL(lbl.Tag.ToString());
-        	TabControl1.SelectedTab = tpWeb;
+            var lbl = (LinkLabel)sender;
+            webPanel1.EnableIE11Emulation();
+            webPanel1.ChangeURL(lbl.Tag.ToString());
+            TabControl1.SelectedTab = tpWeb;
         }
         	
     }

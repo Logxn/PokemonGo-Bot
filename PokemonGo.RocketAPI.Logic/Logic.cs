@@ -396,11 +396,9 @@ namespace PokemonGo.RocketAPI.Logic
         {
 
             #region Check and report
-
-            var verifiedLocation = VerifyLocation();            
+            var verifiedLocation = VerifyLocation();
             var pokeStops = GetNearbyPokeStops();
             var tries = 3;
-
             do
             {
                 // make sure we found pokestops and log if none found

@@ -104,7 +104,6 @@ namespace PokemonGo.RocketAPI.Console
 		    this.checkBox_AutoTransferDoublePokemon = new System.Windows.Forms.CheckBox();
 		    this.checkBox_CollectDailyBonus = new System.Windows.Forms.CheckBox();
 		    this.checkbox_Verboselogging = new System.Windows.Forms.CheckBox();
-		    this.checkBox_pauseAtEvolve1_2 = new System.Windows.Forms.CheckBox();
 		    this.label3 = new System.Windows.Forms.Label();
 		    this.numRazzPercent = new System.Windows.Forms.NumericUpDown();
 		    this.checkBoxUseRazzBerry = new System.Windows.Forms.CheckBox();
@@ -116,6 +115,7 @@ namespace PokemonGo.RocketAPI.Console
 		    this.checkBox_UseAnimationTimes = new System.Windows.Forms.CheckBox();
 		    this.checkBox_useluckyegg = new System.Windows.Forms.CheckBox();
 		    this.checkBox_evolve = new System.Windows.Forms.CheckBox();
+		    this.checkBox_pauseAtEvolve1_2 = new System.Windows.Forms.CheckBox();
 		    this.checkBox_FarmGyms = new System.Windows.Forms.CheckBox();
 		    this.checkBox_UseLureAtBreak = new System.Windows.Forms.CheckBox();
 		    this.checkBox_BreakAtLure = new System.Windows.Forms.CheckBox();
@@ -368,20 +368,6 @@ namespace PokemonGo.RocketAPI.Console
 		    this.checkbox_Verboselogging.UseVisualStyleBackColor = true;
 		    this.checkbox_Verboselogging.CheckedChanged += new System.EventHandler(this.checkbox_Verboselogging_CheckedChanged);
 		    // 
-		    // checkBox_pauseAtEvolve1_2
-		    // 
-		    this.checkBox_pauseAtEvolve1_2.AutoSize = true;
-		    this.checkBox_pauseAtEvolve1_2.Checked = true;
-		    this.checkBox_pauseAtEvolve1_2.CheckState = System.Windows.Forms.CheckState.Checked;
-		    this.checkBox_pauseAtEvolve1_2.Location = new System.Drawing.Point(12, 271);
-		    this.checkBox_pauseAtEvolve1_2.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
-		    this.checkBox_pauseAtEvolve1_2.Name = "checkBox_pauseAtEvolve1_2";
-		    this.checkBox_pauseAtEvolve1_2.Size = new System.Drawing.Size(221, 17);
-		    this.checkBox_pauseAtEvolve1_2.TabIndex = 55;
-		    this.checkBox_pauseAtEvolve1_2.Text = "Stop Walking when Evolving/Transfering";
-		    this.checkBox_pauseAtEvolve1_2.UseVisualStyleBackColor = true;
-		    this.checkBox_pauseAtEvolve1_2.CheckedChanged += new System.EventHandler(this.CheckBox_pauseAtEvolve1_2CheckedChanged);
-		    // 
 		    // label3
 		    // 
 		    this.label3.AutoSize = true;
@@ -533,6 +519,20 @@ namespace PokemonGo.RocketAPI.Console
 		    this.checkBox_evolve.UseVisualStyleBackColor = true;
 		    this.checkBox_evolve.CheckedChanged += new System.EventHandler(this.CheckBoxes_CheckedChanged);
 		    // 
+		    // checkBox_pauseAtEvolve1_2
+		    // 
+		    this.checkBox_pauseAtEvolve1_2.AutoSize = true;
+		    this.checkBox_pauseAtEvolve1_2.Checked = true;
+		    this.checkBox_pauseAtEvolve1_2.CheckState = System.Windows.Forms.CheckState.Checked;
+		    this.checkBox_pauseAtEvolve1_2.Location = new System.Drawing.Point(12, 271);
+		    this.checkBox_pauseAtEvolve1_2.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
+		    this.checkBox_pauseAtEvolve1_2.Name = "checkBox_pauseAtEvolve1_2";
+		    this.checkBox_pauseAtEvolve1_2.Size = new System.Drawing.Size(221, 17);
+		    this.checkBox_pauseAtEvolve1_2.TabIndex = 55;
+		    this.checkBox_pauseAtEvolve1_2.Text = "Stop Walking when Evolving/Transfering";
+		    this.checkBox_pauseAtEvolve1_2.UseVisualStyleBackColor = true;
+		    this.checkBox_pauseAtEvolve1_2.CheckedChanged += new System.EventHandler(this.CheckBox_pauseAtEvolve1_2CheckedChanged);
+		    // 
 		    // checkBox_FarmGyms
 		    // 
 		    this.checkBox_FarmGyms.AutoSize = true;
@@ -540,6 +540,7 @@ namespace PokemonGo.RocketAPI.Console
 		    this.checkBox_FarmGyms.Name = "checkBox_FarmGyms";
 		    this.checkBox_FarmGyms.Size = new System.Drawing.Size(78, 17);
 		    this.checkBox_FarmGyms.TabIndex = 57;
+		    this.checkBox_FarmGyms.Tag = "FarmGyms";
 		    this.checkBox_FarmGyms.Text = "Farm Gyms";
 		    this.checkBox_FarmGyms.UseVisualStyleBackColor = true;
 		    this.checkBox_FarmGyms.CheckedChanged += new System.EventHandler(this.CheckBoxes_CheckedChanged);

@@ -60,7 +60,7 @@ namespace PokemonGo.RocketAPI.Console
                 text_TotalItemCount.Text = count.ToString();
 
                 var client = Logic.Logic.objClient;
-	            if (client.readyToUse != false)
+	            if (client.ReadyToUse != false)
 	            {
                     // eb - removing async
                     //var items = await client.Inventory.GetItems().ConfigureAwait(false);

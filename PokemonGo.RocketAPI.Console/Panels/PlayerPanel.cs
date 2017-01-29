@@ -55,7 +55,7 @@ namespace PokemonGo.RocketAPI.Console
             labelUserProperty6Value.Text = "";
 
             var client = Logic.Logic.objClient;
-            if (client !=null && client.readyToUse)
+            if (client !=null && client.ReadyToUse)
             {
                 if (refreshData)
                 {
@@ -327,7 +327,7 @@ namespace PokemonGo.RocketAPI.Console
             {
                 try
                 {
-                    if (Logic.Logic.objClient != null && Logic.Logic.objClient.readyToUse != false)
+                    if (Logic.Logic.objClient != null && Logic.Logic.objClient.ReadyToUse != false)
                     {
                         break;
                     }

@@ -61,7 +61,7 @@ namespace PokemonGo.RocketAPI
 
 
         public static WebProxy proxy;
-        public bool readyToUse = false;
+        public bool ReadyToUse { get; set; }
 
         public double CurrentAccuracy { get; internal set; }
         public float CurrentSpeed { get; internal set; }
@@ -81,6 +81,7 @@ namespace PokemonGo.RocketAPI
 
         public Client(Shared.ClientSettings settings)
         {
+            ReadyToUse = false;
             AuthType = settings.userType;
             Username = settings.userName;
             Password = settings.password;

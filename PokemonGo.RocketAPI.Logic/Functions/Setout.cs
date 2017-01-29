@@ -75,7 +75,8 @@ namespace PokemonGo.RocketAPI.Logic.Functions
             TransferDuplicatePokemon(Shared.GlobalVars.keepPokemonsThatCanEvolve, Shared.GlobalVars.TransferFirstLowIV);
             RecycleItems();
             StatsLog(Logic.objClient);
-            Logic.objClient.readyToUse = true;
+            Logic.objClient.ReadyToUse = true;
+            Logger.Debug("Client is ready to use");
             SetCheckTimeToRun();
         }
 
@@ -485,9 +486,11 @@ namespace PokemonGo.RocketAPI.Logic.Functions
         {
             
             // Prevent Spamming Logs
+
             if ((long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds > lastlog + 60000)
             {
                 lastlog = (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds;
+                Logger.Debug($"Last Log {lastlog}");
 
                 #region Time to Run
 
