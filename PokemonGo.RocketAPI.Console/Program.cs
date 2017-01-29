@@ -35,7 +35,7 @@ namespace PokemonGo.RocketAPI.Console
         public static string manualTransferLog = Path.Combine(logPath, "TransferLog.txt");
         public static string EvolveLog = Path.Combine(logPath, "EvolveLog.txt");
         public static string path_pokedata = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "PokeData");       
-        
+
         static void SharePokesniperURI(string uri)
         {
             try 
@@ -202,35 +202,22 @@ namespace PokemonGo.RocketAPI.Console
 
             GlobalVars.infoObservable.HandleNewHuntStats += SaveHuntStats;
 
+            CheckVersion(); // Check if a new version of BOT is available
             Task.Run(() =>
             {
-
-                CheckVersion(); // Check if a new version of BOT is available
-                
-                try
-                {
-                    new Logic.Logic(new Settings(), GlobalVars.infoObservable).Execute();
-                }
-                catch (PtcOfflineException)
-                {
-                    Logger.ColoredConsoleWrite(ConsoleColor.Red, "PTC Servers are probably down OR you credentials are wrong.", LogLevel.Error);
-                    Logger.ColoredConsoleWrite(ConsoleColor.Red, "Trying again in 20 seconds...");
-                    Thread.Sleep(20000);
-                    new Logic.Logic(new Settings(), GlobalVars.infoObservable).Execute();
-                }
-                catch (AccountNotVerifiedException)
-                {
-                    Logger.ColoredConsoleWrite(ConsoleColor.Red, "Your PTC Account is not activated. Exiting in 10 Seconds.");
-                    Thread.Sleep(10000);
-                    Environment.Exit(0);
-                }
-                catch (Exception ex)
-                {
-                    Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Unhandled exception: {ex}", LogLevel.Error);
+               do
+               {
+                    try
+                    {
+                        new Logic.Logic(new Settings(), GlobalVars.infoObservable).Execute();
+                    }
+                    catch (Exception ex)
+                    {
+                        Logger.Error( $"Unhandled exception: {ex}");
+                    }
                     Logger.Error("Restarting in 20 Seconds.");
                     Thread.Sleep(20000);
-                    new Logic.Logic(new Settings(), GlobalVars.infoObservable).Execute();
-                }
+               }while (Logic.Logic.restartLogic);
             });
 
             if (openGUI)

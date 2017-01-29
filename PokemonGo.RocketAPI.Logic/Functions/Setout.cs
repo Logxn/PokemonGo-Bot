@@ -75,6 +75,8 @@ namespace PokemonGo.RocketAPI.Logic.Functions
             TransferDuplicatePokemon(Shared.GlobalVars.keepPokemonsThatCanEvolve, Shared.GlobalVars.TransferFirstLowIV);
             RecycleItems();
             StatsLog(Logic.objClient);
+            Logic.objClient.ReadyToUse = true;
+            Logger.Debug("Client is ready to use");
             SetCheckTimeToRun();
         }
 
@@ -150,7 +152,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                     {
                         if (Shared.GlobalVars.pauseAtEvolve2)
                         {
-                            Logger.ColoredConsoleWrite(ConsoleColor.Green, "Stopping to evolve some Pokemons.");
+                            Logger.Info("Stopping to evolve some Pokemons.");
                             Shared.GlobalVars.PauseTheWalking = true;
                         }
                     }
@@ -159,7 +161,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                     {
                         File.AppendAllText(evolvelog, $"[{date}] - Evolved Pokemon: {getPokemonName} | CP {cp} | Perfection {calcPerf}% | => to {getEvolvedName} | CP: {getEvolvedCP} | XP Reward: {getXP}xp" + Environment.NewLine);
                     }
-                    Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Evolved Pokemon: {getPokemonName} | CP {cp} | Perfection {calcPerf}% | => to {getEvolvedName} | CP: {getEvolvedCP} | XP Reward: {getXP}xp", LogLevel.Info);
+                    Logger.Info( $"Evolved Pokemon: {getPokemonName} | CP {cp} | Perfection {calcPerf}% | => to {getEvolvedName} | CP: {getEvolvedCP} | XP Reward: {getXP}xp");
                     Logic.Instance.BotStats.AddExperience(evolvePokemonOutProto.ExperienceAwarded);
 
                     if (Logic.Instance.Telegram != null)
@@ -174,7 +176,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                         {
                             File.AppendAllText(evolvelog, $"[{date}] - Failed to evolve {pokemon.PokemonId}. EvolvePokemonOutProto.Result was {evolvePokemonOutProto.Result}" + Environment.NewLine);
                         }
-                        Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Failed to evolve {pokemon.PokemonId}. EvolvePokemonOutProto.Result was {evolvePokemonOutProto.Result}", LogLevel.Info);
+                        Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Failed to evolve {pokemon.PokemonId}. EvolvePokemonOutProto.Result was {evolvePokemonOutProto.Result}");
                         evolvecount++;
                     }
                 }
@@ -358,15 +360,13 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                     Logic.Instance.pokeballoutofstock = false;
                 }
                 var transfer = Logic.objClient.Inventory.RecycleItem(item.ItemId, item.Count).Result;
-                Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Recycled {item.Count}x {item.ItemId}", LogLevel.Info);
+                Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Recycled {item.Count}x {item.ItemId}");
                 RandomHelper.RandomSleep(1000, 5000);
             }
         }
 
         private static void StatsLog(Client client)
         {
-            //Enable Pokemon List cause everything is loaded
-            client.readyToUse = true;
 
             #region Set Stat Variables
 
@@ -486,9 +486,11 @@ namespace PokemonGo.RocketAPI.Logic.Functions
         {
             
             // Prevent Spamming Logs
+
             if ((long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds > lastlog + 60000)
             {
                 lastlog = (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds;
+                Logger.Debug($"Last Log {lastlog}");
 
                 #region Time to Run
 
@@ -693,7 +695,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                             {
                                 File.AppendAllText(logs, $"[{date}] - Transfer {Pokename} CP {duplicatePokemon.Cp} IV {IVPercent} % (Best IV: {BestIV} %)" + Environment.NewLine);
                             }
-                            Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Transfer {Pokename} CP {duplicatePokemon.Cp} IV {IVPercent} % (Best IV: {BestIV} %)", LogLevel.Info);
+                            Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Transfer {Pokename} CP {duplicatePokemon.Cp} IV {IVPercent} % (Best IV: {BestIV} %)");
                         }
                         else
                         {
@@ -701,7 +703,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                             {
                                 File.AppendAllText(logs, $"[{date}] - Transfer {Pokename} CP {duplicatePokemon.Cp} IV {IVPercent} % (Best: {bestPokemonsCpOfType.First().Cp} CP)" + Environment.NewLine);
                             }
-                            Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Transfer {Pokename} CP {duplicatePokemon.Cp} IV {IVPercent} % (Best: {bestPokemonsCpOfType.First().Cp} CP)", LogLevel.Info);
+                            Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Transfer {Pokename} CP {duplicatePokemon.Cp} IV {IVPercent} % (Best: {bestPokemonsCpOfType.First().Cp} CP)");
                         }
 
                         if (Logic.Instance.Telegram != null)

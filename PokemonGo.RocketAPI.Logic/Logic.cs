@@ -61,6 +61,7 @@ namespace PokemonGo.RocketAPI.Logic
         public PokemonId Luredpokemoncaught = PokemonId.Articuno;
         private bool addedlure;
         public Sniper sniperLogic;
+        public static bool restartLogic =true;
         #endregion
 
         #region Constructor
@@ -240,7 +241,7 @@ namespace PokemonGo.RocketAPI.Logic
 
             #region Login & Start
             //Restart unless killswitch thrown
-            while (true)
+            while (restartLogic)
             {
                 try
                 {
@@ -250,13 +251,30 @@ namespace PokemonGo.RocketAPI.Logic
                     
                     PostLoginExecute();
                 }
+                catch (AccountNotVerifiedException)
+                {
+                    Logger.Error( "Your PTC Account is not activated.");
+                    Logger.Error( "Exiting in 10 Seconds.");
+                    RandomHelper.RandomSleep(10000,10001);
+                    Environment.Exit(0);
+                }
                 catch (LoginFailedException )
                 {
-                        Logger.ColoredConsoleWrite(ConsoleColor.Red,"Login with PTC Failed");
+                    Logger.Error( "Login Failed. Your credentials are wrong or PTC Account is banned.");
+                    Logger.Error( "Exiting in 10 Seconds.");
+                    RandomHelper.RandomSleep(10000,10001);
+                    Environment.Exit(0);
                 }
                 catch (GoogleException )
                 {
-                        Logger.ColoredConsoleWrite(ConsoleColor.Red,"Login with Google Failed");
+                    Logger.ColoredConsoleWrite(ConsoleColor.Red,"Login with Google Failed");
+                    Logger.Error( "Exiting in 10 Seconds.");
+                    RandomHelper.RandomSleep(10000,10001);
+                    Environment.Exit(0);
+                }
+                catch (PtcOfflineException)
+                {
+                    Logger.Error( "PTC Servers are probably down.");
                 }
                 catch (Exception ex)
                 {
@@ -266,12 +284,10 @@ namespace PokemonGo.RocketAPI.Logic
                     while (realerror.InnerException != null)
                         realerror = realerror.InnerException;
                     Logger.ExceptionInfo(ex.Message+"/"+realerror.ToString());
-
-                    TelegramLogic.Stop();
-
                     #endregion
                 }
-                
+
+                TelegramLogic.Stop();
                 var msToWait = 50000;
                 Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Restarting in over {(msToWait+5000)/1000} Seconds.");
                 RandomHelper.RandomSleep(msToWait,msToWait+10000);
@@ -305,11 +321,7 @@ namespace PokemonGo.RocketAPI.Logic
 
         #endregion
 
-
         #region Stats log and Session Check Functions
-
-
-
 
         #endregion
 
@@ -384,11 +396,9 @@ namespace PokemonGo.RocketAPI.Logic
         {
 
             #region Check and report
-
-            var verifiedLocation = VerifyLocation();            
+            var verifiedLocation = VerifyLocation();
             var pokeStops = GetNearbyPokeStops();
             var tries = 3;
-
             do
             {
                 // make sure we found pokestops and log if none found

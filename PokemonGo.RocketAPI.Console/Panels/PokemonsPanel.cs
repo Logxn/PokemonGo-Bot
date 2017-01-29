@@ -203,7 +203,7 @@ namespace PokemonGo.RocketAPI.Console
             try
             {
                 client = Logic.Logic.objClient;
-                if (client.readyToUse != false)
+                if (client.ReadyToUse != false)
                 {
                     Helpers.RandomHelper.RandomSleep(1000, 1200);
                     refreshData().Wait();
@@ -499,6 +499,7 @@ namespace PokemonGo.RocketAPI.Console
                 GlobalVars.PauseTheWalking = false;
             }
         }
+
         private static async Task<taskResponse> evolvePokemon(PokemonData pokemon)
         {
             var resp = new taskResponse(false, string.Empty);

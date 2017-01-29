@@ -52,7 +52,7 @@ namespace PokemonGo.RocketAPI.Console
 			try
             {
                 var client = Logic.Logic.objClient;
-	            if (client.readyToUse != false)
+	            if (client.ReadyToUse != false)
 	            {
                    var inventory = client.Inventory.GetInventory().Result;
                    var items = client.Inventory.GetEggs(inventory);

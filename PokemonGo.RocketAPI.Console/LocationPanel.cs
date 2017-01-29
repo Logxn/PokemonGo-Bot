@@ -118,7 +118,7 @@ namespace PokemonGo.RocketAPI.Console
             var button = ((Button)sender);
             button.Enabled = false;
             var client = Logic.Logic.objClient;
-            if (client.readyToUse )
+            if (client.ReadyToUse )
             {
                 Logger.ColoredConsoleWrite(ConsoleColor.DarkRed, "Refreshing Forts", LogLevel.Warning);
                 var mapObjects = await client.Map.GetMapObjects().ConfigureAwait(false);

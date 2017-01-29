@@ -53,7 +53,7 @@ namespace PokemonGo.RocketAPI.Console
         
         public double StrCordToDouble(string str)
         {
-            double ret = 0;
+            double ret = 0.0;
             double.TryParse(str.Replace(",","."), NumberStyles.AllowDecimalPoint | NumberStyles.AllowLeadingSign, CultureInfo.InvariantCulture,out ret);
             return ret;
         }
@@ -90,7 +90,7 @@ namespace PokemonGo.RocketAPI.Console
                 Directory.CreateDirectory(Program.path_translation);
 
             th = new Helper.TranslatorHelper();
-            th.ExtractTexts(this);// <-- Creates default.json with all strings to translate.
+            //th.ExtractTexts(this);// <-- Creates default.json with all strings to translate.
             Helper.TranslatorHelper.StoreUntranslated = true;
             comboLanguage.SelectedIndex = 0;
             // Download json file of current Culture Info if exists
@@ -457,19 +457,26 @@ namespace PokemonGo.RocketAPI.Console
         }
         private void LoadLatestCoords()
         {
+            var coordLoaded = false;
             if (File.Exists(Program.lastcords))
             {
-                try
+                var latlngFromFile = File.ReadAllText(Program.lastcords);
+                var latlng = latlngFromFile.Split(':');
+                if (latlng.Length > 1)
                 {
-                    var latlngFromFile = File.ReadAllText(Program.lastcords);
-                    var latlng = latlngFromFile.Split(':');
-                    ActiveProfile.Settings.DefaultLatitude = StrCordToDouble(latlng[0]);
-                    ActiveProfile.Settings.DefaultLongitude = StrCordToDouble(latlng[1]);
+                    var lat = StrCordToDouble(latlng[0]);
+                    var lng = StrCordToDouble(latlng[1]);
+                    if (( lat!=0.0) && (lng != 0.0))
+                    {
+                        ActiveProfile.Settings.DefaultLatitude = lat;
+                        ActiveProfile.Settings.DefaultLongitude = lng ;
+                        coordLoaded = true;
+                    }
                 }
-                catch
-                {
-
-                }
+            }
+            if (!coordLoaded){
+                Logger.Warning(th.TS("Failed loading last coords!"));
+                Logger.Warning(th.TS("Using default location"));
             }
         }
         //Account Type Changed Event
