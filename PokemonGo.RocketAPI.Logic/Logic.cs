@@ -1129,7 +1129,6 @@ namespace PokemonGo.RocketAPI.Logic
         }
 
 
-
         private bool VerifyLocation()
         {
             #region Stay within defined radius
@@ -1486,12 +1485,6 @@ namespace PokemonGo.RocketAPI.Logic
             }
             return objClient.Encounter.CatchPokemon(encounterId, spawnpointId, bestPokeball, forceHit, normalizedRecticleSize, spinModifier).Result;
         }
-
-        #endregion
-
-        #region Evlove Transfer Functions
-
-       
 
         #endregion
 

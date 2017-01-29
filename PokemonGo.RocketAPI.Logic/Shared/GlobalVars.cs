@@ -6,16 +6,13 @@
  * 
  * To change this template use Tools | Options | Coding | Edit Standard Headers.
  */
+using Google.Protobuf;
+using POGOProtos.Enums;
+using POGOProtos.Inventory.Item;
 using System;
 using System.Collections.Generic;
-using PokemonGo.RocketAPI.Logic;
-using POGOProtos.Enums;
 using System.Device.Location;
-using Google.Protobuf;
-using System.Collections.ObjectModel;
 using System.IO;
-using Newtonsoft.Json;
-using POGOProtos.Inventory.Item;
 
 
 namespace PokemonGo.RocketAPI.Logic.Shared
@@ -26,10 +23,7 @@ namespace PokemonGo.RocketAPI.Logic.Shared
     public static class GlobalVars
     {
         // Bot Info  Globals (not yet implemented in any function)
-        //public static Version BotApiSupportedVersion = new Version("0.51.2");
-        public static Version BotApiSupportedVersion = new Version("0.53.0");
-        public static readonly bool BotDebugFlag = true;
-        public static readonly bool BotStableFlag = false;
+        public static Version BotApiSupportedVersion = Resources.BotApiSupportedVersion;
 
         // Other Globals
         public static string pFHashKey;
@@ -45,8 +39,8 @@ namespace PokemonGo.RocketAPI.Logic.Shared
         public static double latitude = 40.764883;
         public static double longitude = -73.972967;
         public static double altitude = 15.173855;
-        public static double WalkingSpeedInKilometerPerHour = 15;
-        public static int MinWalkSpeed = 5;
+        public static double WalkingSpeedInKilometerPerHour = 5;
+        public static int MinWalkSpeed = 3;
         public static int radius = 5000;
         public static bool TransferDoublePokemons = true;
         public static int HoldMaxDoublePokemons = 3;
