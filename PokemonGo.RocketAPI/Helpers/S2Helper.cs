@@ -45,5 +45,10 @@ namespace PokemonGo.RocketAPI.Helpers
 
             return GetNext(cellId.Next, depth);
         }
+        public static double[] GetLatLng(ulong cellid)
+        {
+            var s2cell = new S2CellId(cellid);
+            return new []{s2cell.ToLatLng().LatDegrees,s2cell.ToLatLng().LngDegrees};
+        }
     }
 }

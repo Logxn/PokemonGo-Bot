@@ -11,6 +11,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.IO;
+using PokemonGo.RocketAPI.Helpers;
 using PokemonGo.RocketAPI.Logic.Shared;
 
 namespace PokemonGo.RocketAPI.Console
@@ -102,6 +103,7 @@ namespace PokemonGo.RocketAPI.Console
             PokemonListView.Columns.Add(CreateColumn("Battles Attacked"));
             PokemonListView.Columns.Add(CreateColumn("Battles Defended"));
             PokemonListView.Columns.Add(CreateColumn("In Gym"));
+            PokemonListView.Columns.Add(CreateColumn("Capture Place"));
 
             PokemonListView.Columns["#"].DisplayIndex = 0;
             
@@ -296,6 +298,8 @@ namespace PokemonGo.RocketAPI.Console
                         listViewItem.SubItems.Add("" + pokemon.BattlesAttacked);
                         listViewItem.SubItems.Add("" + pokemon.BattlesDefended);
                         listViewItem.SubItems.Add("" + pokemon.DeployedFortId);
+                        var CapturedLatlng = S2Helper.GetLatLng(pokemon.CapturedCellId);
+                        listViewItem.SubItems.Add(Logic.Utils.LocationUtils.FindAddress(CapturedLatlng[0],CapturedLatlng[1]));
 
                         PokemonListView.Items.Add(listViewItem);
                     }

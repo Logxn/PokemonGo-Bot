@@ -31,7 +31,7 @@ namespace PokemonGo.RocketAPI.Console.Panels
         public void AddButtonClick(System.EventHandler evh){
         	this.button1.Click += evh;
         }
-        private void EnableIE11Emulation()
+        public void EnableIE11Emulation()
         {
             if (!existValue())
                 addRegValue();
@@ -50,10 +50,6 @@ namespace PokemonGo.RocketAPI.Console.Panels
             if (Registry.CurrentUser.GetValue(keyName+"\\"+AppDomain.CurrentDomain.FriendlyName, null) == null)
                 return false;
             return true;
-        }
-        void WebPanel_Validated(object sender, EventArgs e)
-        {
-            EnableIE11Emulation();
         }
     }
 }

@@ -85,7 +85,6 @@ namespace PokemonGo.RocketAPI.Console.Panels
             this.Controls.Add(this.webBrowser1);
             this.Name = "WebPanel";
             this.Size = new System.Drawing.Size(664, 475);
-            this.Validated += new System.EventHandler(this.WebPanel_Validated);
             this.ResumeLayout(false);
             this.PerformLayout();
 
