@@ -68,6 +68,7 @@ namespace PokemonGo.RocketAPI.Console
                 
                 // Wait to client is ready to use
                 while (client ==null || !client.readyToUse){
+                     Logger.Debug("Client not ready to use. Waiting 1 second to retry");
                      RandomHelper.RandomSleep(1000,1100);
                 }
                 
@@ -165,6 +166,7 @@ namespace PokemonGo.RocketAPI.Console
         {
             ShowWebPanel();
         	var lbl = (LinkLabel ) sender;
+        	webPanel1.EnableIE11Emulation();
         	webPanel1.ChangeURL(lbl.Tag.ToString());
         	TabControl1.SelectedTab = tpWeb;
         }

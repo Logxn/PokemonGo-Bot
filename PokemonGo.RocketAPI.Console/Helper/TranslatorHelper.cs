@@ -29,7 +29,7 @@ namespace PokemonGo.RocketAPI.Console.Helper
     public class TranslatorHelper
     {
         private string language = "default";
-        public static bool StoreUntranslated = true;
+        public static bool StoreUntranslated = false;
         
         public static string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Translations");
         public static string UntranslatedFile = Path.Combine(path, "untranslated.txt");
@@ -253,7 +253,7 @@ namespace PokemonGo.RocketAPI.Console.Helper
         {
             if (StoreUntranslated)
             {
-                File.AppendAllLines(UntranslatedFile,new string[]{ "\"string."+str+"\":\""+str+"\""});
+                File.AppendAllLines(UntranslatedFile,new string[]{ "\"string."+str+"\":\""+str+"\","});
             }
         }
         

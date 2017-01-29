@@ -72,6 +72,7 @@ namespace PokemonGo.RocketAPI.Console
 
             comboBox_AccountType.DataSource = types;
 
+
             if (!Directory.Exists(Program.path_device))
                 Directory.CreateDirectory(Program.path_device);
             
@@ -89,14 +90,22 @@ namespace PokemonGo.RocketAPI.Console
                 Directory.CreateDirectory(Program.path_translation);
 
             th = new Helper.TranslatorHelper();
-            //th.ExtractTexts(this);// <-- Creates default.json with all strings to translate.
+            th.ExtractTexts(this);// <-- Creates default.json with all strings to translate.
+            Helper.TranslatorHelper.StoreUntranslated = true;
             comboLanguage.SelectedIndex = 0;
             // Download json file of current Culture Info if exists
             DownloadTranslationFile("PokemonGo.RocketAPI.Console/Lang", Program.path_translation, CultureInfo.CurrentCulture.Name);
             // Translate using Current Culture Info
             th.Translate(this);
             #endregion
-                
+
+            comboBoxLeaveInGyms.DataSource = new[]{
+                th.TS("Random"),
+                th.TS("Best CP"),
+                th.TS("Worse CP"),
+            };
+            comboBoxLeaveInGyms.SelectedIndex = 0;
+
             var pokeData = new List<string>();
             pokeData.Add("AdditionalPokeData.json");
 
@@ -407,7 +416,7 @@ namespace PokemonGo.RocketAPI.Console
             checkBox_RandomlyReduceSpeed.Checked = config.RandomReduceSpeed;
             checkBox_UseBreakIntervalAndLength.Checked = config.UseBreakFields;
             checkBox_WalkInArchimedeanSpiral.Checked = config.Espiral;
-            checkBox_Start_Walk_from_default_location.Checked = !config.UseLastCords;
+            checkBox_StartWalkingFromLastLocation.Checked = config.UseLastCords;
     
             // tab 7 - telegram and logs
             cbLogPokemon.Checked = config.LogPokemons;
@@ -429,6 +438,8 @@ namespace PokemonGo.RocketAPI.Console
     
             // Dev Options
             checkbox_Verboselogging.Checked = config.EnableVerboseLogging;
+            // Gyms
+            comboBoxLeaveInGyms.SelectedIndex = config.LeaveInGyms;
         }
         
         private void ChangeSelectedLanguage(string lang)
@@ -795,7 +806,7 @@ namespace PokemonGo.RocketAPI.Console
             ActiveProfile.Settings.UseBreakFields = checkBox_UseBreakIntervalAndLength.Checked;
 
             ActiveProfile.Settings.Espiral = checkBox_WalkInArchimedeanSpiral.Checked;
-            ActiveProfile.Settings.UseLastCords = !checkBox_Start_Walk_from_default_location.Checked;
+            ActiveProfile.Settings.UseLastCords = checkBox_StartWalkingFromLastLocation.Checked;
 
             // tab 7 - Logs and Telegram            
             ActiveProfile.Settings.LogPokemons = cbLogPokemon.Checked;
@@ -823,9 +834,10 @@ namespace PokemonGo.RocketAPI.Console
             ActiveProfile.Settings.SelectedLanguage = comboLanguage.Text;
 
             // dev options
-
             ActiveProfile.Settings.EnableVerboseLogging = checkbox_Verboselogging.Checked;
 
+            // Gyms
+            ActiveProfile.Settings.LeaveInGyms = comboBoxLeaveInGyms.SelectedIndex;
 
             #endregion
             return ret;

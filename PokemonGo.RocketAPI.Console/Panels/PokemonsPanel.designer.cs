@@ -71,7 +71,7 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // btnreload
             // 
-            this.btnreload.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnreload.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnreload.Location = new System.Drawing.Point(533, 302);
             this.btnreload.Margin = new System.Windows.Forms.Padding(2);
             this.btnreload.Name = "btnreload";
@@ -140,7 +140,7 @@ namespace PokemonGo.RocketAPI.Console
             this.changeFavouritesToolStripMenuItem,
             this.changeBuddyToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(173, 158);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(173, 136);
             this.contextMenuStrip1.Closing += new System.Windows.Forms.ToolStripDropDownClosingEventHandler(this.contextMenuStrip1_Closing);
             this.contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
             // 

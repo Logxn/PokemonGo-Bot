@@ -943,6 +943,14 @@ namespace PokemonGo.RocketAPI.Logic.Shared
             get;
             set;
         }
+        public int LeaveInGyms {
+            get;
+            set;
+        }
+        public bool AttackGyms {
+            get;
+            set;
+        }
 
         #endregion
     
