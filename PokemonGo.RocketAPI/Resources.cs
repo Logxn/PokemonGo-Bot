@@ -34,7 +34,7 @@ namespace PokemonGo.RocketAPI
         /*******************************************************************************************************************
          * Bot Supported Version
          ******************************************************************************************************************/
-        public static Version BotVersion = new Version(Assembly.GetExecutingAssembly().GetName().Version.ToString());
+        public static Version BotVersion = new Version(Assembly.GetEntryAssembly().GetName().Version.ToString());
         public static Version BotApiSupportedVersion = new Version("0.53.0");
     }
 }
