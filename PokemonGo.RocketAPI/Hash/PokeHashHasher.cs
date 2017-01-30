@@ -52,16 +52,16 @@ namespace PokemonGo.RocketAPI.Hash
         {
             int retry = 3;
             int cyclingRetrys = 40;
-            bool doFasterCall ;
+            bool changeKey ;
             do {
-                doFasterCall = false;
+                changeKey = false;
                 try
                 {
                     return InternalRequestHashes(request);
                 }
                 catch (HasherException hashEx)
                 {
-                    doFasterCall = true;
+                    changeKey = true;
                     cyclingRetrys --;
                     Logger.Write(hashEx.Message);
                     if (cyclingRetrys < 0)
@@ -72,11 +72,11 @@ namespace PokemonGo.RocketAPI.Hash
                     Logger.ColoredConsoleWrite(ConsoleColor.Red, "Error: PokeHashHasher.cs - RequestHashes()");
                     Logger.ColoredConsoleWrite(ConsoleColor.Red, ex.Message);
                 }
-                if (doFasterCall){
+                if (changeKey){
                     var nextKey = Shared.KeyCollection.nextKey();
                     if (nextKey !=""){
                            this.apiKey = nextKey;
-                           Logger.Write("Changing KEY to: "+this.apiKey.Substring(0,5));
+                           Logger.Debug("Changing KEY to: "+this.apiKey.Substring(0,5));
                     }
                     RandomHelper.RandomSleep(250,300);
                 }
@@ -122,7 +122,7 @@ namespace PokemonGo.RocketAPI.Hash
 
                     case HttpStatusCode.Unauthorized: // 401
                         Shared.KeyCollection.removeKey(this.apiKey);
-                        throw new HasherException($"[HashService] 401: Your PF-Hashkey you provided is incorrect (or not valid anymore). ");
+                        throw new HasherException("[HashService] 401: Your PF-Hashkey you provided is incorrect (or not valid anymore). ");
 
                     case (HttpStatusCode)429: // To many requests
                         responseText = response.Content.ReadAsStringAsync().Result;
