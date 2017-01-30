@@ -1414,7 +1414,7 @@ namespace PokemonGo.RocketAPI.Logic
                         if (FailedSoftban > 10)
                         {
                             Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Soft Ban Detected - Stopping Bot to prevent perma-ban. Try again in 4-24 hours and be more careful next time!");
-                            StringUtils.CheckKillSwitch(true);
+                            Setout.LimitReached("");
                         }
                     }
                 }
@@ -1823,6 +1823,7 @@ namespace PokemonGo.RocketAPI.Logic
             var d = 2 * rEarth * Math.Atan2(Math.Sqrt(alpha), Math.Sqrt(1 - alpha));
             return d;
         }
+
 
         #endregion
 

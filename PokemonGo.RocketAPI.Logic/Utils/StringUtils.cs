@@ -597,14 +597,8 @@ namespace PokemonGo.RocketAPI.Logic.Utils
                           .Aggregate((a, b) => $"{a}, {b}");
         }
 
-        public static bool CheckKillSwitch(bool kill = false)
+        public static bool CheckKillSwitch()
         {
-            if (kill)
-            {
-                Logger.Error("You have reached one of the limits (playing time, pokemon caught, km walked...)");
-                Logger.Error("Thank you!" + Environment.NewLine);
-                return true;
-            }
             using (var wc = new WebClient())
             {
                 try

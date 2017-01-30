@@ -83,7 +83,8 @@ namespace PokemonGo.RocketAPI.Console
                     {
                          wC.DownloadFile("https://raw.githubusercontent.com/Logxn/PokemonGo-Bot/master/"+remoteDir+"/"+resourceName,filename);
                          //wC.DownloadFile("https://veekun.com/dex/media/pokemon/global-link/"+resourceName,filename);
-                         
+                         //wC.DownloadFile("https://df48mbt4ll5mz.cloudfront.net/images/pokemon/"+resourceName,filename);
+
                          if (System.IO.File.ReadAllText(filename) == "")
                              System.IO.File.Delete(filename);
                     }

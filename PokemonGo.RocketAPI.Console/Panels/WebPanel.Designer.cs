@@ -17,6 +17,7 @@ namespace PokemonGo.RocketAPI.Console.Panels
         private System.Windows.Forms.WebBrowser webBrowser1;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.ToolTip toolTip1;
         
         /// <summary>
         /// Disposes resources used by the control.
@@ -39,9 +40,11 @@ namespace PokemonGo.RocketAPI.Console.Panels
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.webBrowser1 = new System.Windows.Forms.WebBrowser();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.button1 = new System.Windows.Forms.Button();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.SuspendLayout();
             // 
             // webBrowser1
@@ -62,9 +65,10 @@ namespace PokemonGo.RocketAPI.Console.Panels
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBox1.Location = new System.Drawing.Point(3, 2);
             this.textBox1.Name = "textBox1";
-            this.textBox1.ReadOnly = true;
             this.textBox1.Size = new System.Drawing.Size(658, 20);
             this.textBox1.TabIndex = 1;
+            this.toolTip1.SetToolTip(this.textBox1, "Press Enter to Navigate");
+            this.textBox1.KeyUp += new System.Windows.Forms.KeyEventHandler(this.textBox1_KeyUp);
             // 
             // button1
             // 

@@ -61,11 +61,21 @@ namespace PokemonGo.RocketAPI.Console
         }
         
         public void AddLinkClick(int linknumber, System.EventHandler evh){
-        	var lbl= linkPokezz;
-        	if (linknumber == 1)
-        		lbl= LinkPokedexsCom;
-        	if (linknumber == 2)
-        		lbl= LinkPokedexsCom;
+        	var lbl= LinkPokedexsCom;
+            switch (linknumber) {
+                case 1:
+                    lbl = linkpokegosnipers;
+                    break;
+                case 2:
+                    lbl = linkPokezz;
+                    break;
+                case 3:
+                    lbl = linkSnipeNecrobot2;
+                    break;
+                case 4:
+                    lbl = linkMyPogoSnipers;
+                    break;
+            }
         	lbl.Click += evh;
         }
         
@@ -182,7 +192,9 @@ namespace PokemonGo.RocketAPI.Console
             if (timer1.Enabled)
             {
                 try {
-                    UnregisterUriScheme();
+                    UnregisterUriScheme(URI_SCHEME);
+                    UnregisterUriScheme(URI_SCHEME_MSNIPER);
+
                     Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, "Service Uninstalled");
                     timer1.Enabled = false;
                     btnInstall.Text ="Install Service";
@@ -193,7 +205,8 @@ namespace PokemonGo.RocketAPI.Console
             else
             {
               try {
-                    RegisterUriScheme(Application.ExecutablePath);
+                    RegisterUriScheme(Application.ExecutablePath,URI_SCHEME,URI_KEY);
+                    RegisterUriScheme(Application.ExecutablePath,URI_SCHEME_MSNIPER,URI_KEY_MSNIPER);
                     Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, "Service Installed");
                     timer1.Enabled = true;
                     btnInstall.Text ="Uninstall Service";
@@ -218,17 +231,33 @@ namespace PokemonGo.RocketAPI.Console
                     stream.Close();
                     File.Delete(filename);
                     /* code to snipe*/
-                    txt = txt.Replace("pokesniper2://","");
-                    var splt = txt.Split('/');
-                    splLatLngResult = SplitLatLng(splt[1]);
-                    int stw = 2;
-                    int tries =3;
-                    try {
-                        stw = (int) nudSecondsSnipe.Value;
-                        tries = (int) nudTriesSnipe.Value;
-                    } catch (Exception) {
+                    if (txt.IndexOf("pokesniper2://")> -1){
+                        txt = txt.Replace("pokesniper2://","");
+                        var splt = txt.Split('/');
+                        splLatLngResult = SplitLatLng(splt[1]);
+                        int stw = 2;
+                        int tries =3;
+                        try {
+                            stw = (int) nudSecondsSnipe.Value;
+                            tries = (int) nudTriesSnipe.Value;
+                        } catch (Exception) {
+                        }
+                        var pokename = ToCapital(splt[0]).Replace('.','_').Replace('-','_');
+                        SnipePoke( (PokemonId)Enum.Parse(typeof(PokemonId), pokename),stw,tries);
+                    }else if (txt.IndexOf("msniper://")> -1){
+                        txt = txt.Replace("msniper://","");
+                        var splt = txt.Split('/');
+                        splLatLngResult = SplitLatLng(splt[3]);
+                        int stw = 2;
+                        int tries =3;
+                        try {
+                            stw = (int) nudSecondsSnipe.Value;
+                            tries = (int) nudTriesSnipe.Value;
+                        } catch (Exception) {
+                        }
+                        var pokename = ToCapital(splt[0]).Replace('.','_').Replace('-','_');
+                        SnipePoke( (PokemonId)Enum.Parse(typeof(PokemonId), pokename),stw,tries);
                     }
-                    SnipePoke( (PokemonId)Enum.Parse(typeof(PokemonId), ToCapital(splt[0])),stw,tries);
                 }
             } catch (Exception ex) {
                 MessageBox.Show( ex.ToString());
@@ -250,11 +279,13 @@ namespace PokemonGo.RocketAPI.Console
 
         const string URI_SCHEME = "pokesniper2";
         const string URI_KEY = "URL:pokesniper2 Protocol";
+        const string URI_SCHEME_MSNIPER = "msniper";
+        const string URI_KEY_MSNIPER = "URL:msniper Protocol";
 
-        static void RegisterUriScheme(string appPath) {
+        static void RegisterUriScheme(string appPath, string uri_scheme, string uri_key) {
             // HKEY_CLASSES_ROOT\myscheme            
-            using (RegistryKey hkcrClass = Registry.CurrentUser.CreateSubKey("Software\\Classes\\"+ URI_SCHEME)) {
-                hkcrClass.SetValue(null, URI_KEY);
+            using (RegistryKey hkcrClass = Registry.CurrentUser.CreateSubKey("Software\\Classes\\"+ uri_scheme)) {
+                hkcrClass.SetValue(null, uri_key);
                 hkcrClass.SetValue("URL Protocol", String.Empty, RegistryValueKind.String);
 
                 // use the application's icon as the URI scheme icon
@@ -274,8 +305,8 @@ namespace PokemonGo.RocketAPI.Console
                 }
             }
         }
-        static void UnregisterUriScheme() {
-            Registry.CurrentUser.DeleteSubKeyTree("Software\\Classes\\"+ URI_SCHEME);
+        static void UnregisterUriScheme(string uri_scheme) {
+            Registry.CurrentUser.DeleteSubKeyTree("Software\\Classes\\"+ uri_scheme);
         }
         void nudSecondsSnipe_ValueChanged(object sender, EventArgs e)
         {
