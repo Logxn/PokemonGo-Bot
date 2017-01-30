@@ -1,12 +1,10 @@
-using Google.Protobuf;
-using POGOProtos.Enums;
 using PokemonGo.RocketAPI.Console.Helper;
 using PokemonGo.RocketAPI.Exceptions;
 using PokemonGo.RocketAPI.HttpClient;
+using PokemonGo.RocketAPI.Logic.Shared;
+using PokemonGo.RocketAPI.Logic.Utils;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Device.Location;
 using System.IO;
 using System.Net;
 using System.Reflection;
@@ -16,8 +14,6 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using PokemonGo.RocketAPI.Logic.Shared;
-using PokemonGo.RocketAPI.Logic.Utils;
 
 namespace PokemonGo.RocketAPI.Console
 {
@@ -63,7 +59,6 @@ namespace PokemonGo.RocketAPI.Console
         {
 
             // Review & parse command line arguments
-            var BotVersion = new Version(Assembly.GetExecutingAssembly().GetName().Version.ToString());
 
             if (args != null && args.Length > 0)
             {
@@ -95,11 +90,11 @@ namespace PokemonGo.RocketAPI.Console
                     if (arg.ToLower().Contains("-help"))
                     {
                         //Show Help
-                        System.Console.WriteLine($"Pokemon BOT C# v{BotVersion.ToString()} help" + Environment.NewLine);
+                        System.Console.WriteLine($"Pokemon BOT C# v{Resources.BotVersion.ToString()} help" + Environment.NewLine);
                         System.Console.WriteLine("Use:");
                         System.Console.WriteLine("  -nogui <lat>,<long>         Console mode only, starting on the indicated Latitude & Longitude");
-                        System.Console.WriteLine("  -bypassversioncheck         to NOT check BOT & API compatibility (be careful with that option)");
-                        System.Console.WriteLine("  -help                       this help" + Environment.NewLine);
+                        System.Console.WriteLine("  -bypassversioncheck         Do NOT check BOT & API compatibility (be careful with that option!)");
+                        System.Console.WriteLine("  -help                       This help" + Environment.NewLine);
                         Environment.Exit(0);
                     }
                 }
@@ -110,8 +105,8 @@ namespace PokemonGo.RocketAPI.Console
             // Checking if current BOT API implementation supports NIANTIC current API (unless there's an override command line switch)
             if (!GlobalVars.BypassCheckCompatibilityVersion)
             {
-                Logger.ColoredConsoleWrite(ConsoleColor.DarkMagenta, $"Bot Current version: {BotVersion}");
-                Logger.ColoredConsoleWrite(ConsoleColor.DarkMagenta, $"Bot Supported API version: {GlobalVars.BotApiSupportedVersion}");
+                Logger.ColoredConsoleWrite(ConsoleColor.DarkMagenta, $"Bot Current version: {Resources.BotVersion}");
+                Logger.ColoredConsoleWrite(ConsoleColor.DarkMagenta, $"Bot Supported API version: {Resources.BotApiSupportedVersion}");
                 Logger.ColoredConsoleWrite(ConsoleColor.DarkMagenta, $"Current API version: {new CurrentAPIVersion().GetNianticAPIVersion()}");
 
                 bool CurrentVersionsOK = new CurrentAPIVersion().CheckAPIVersionCompatibility( GlobalVars.BotApiSupportedVersion);

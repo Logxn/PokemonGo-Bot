@@ -101,13 +101,10 @@ namespace PokemonGo.RocketAPI
 
             InventoryLastUpdateTimestamp = 0;
 
-            /***************************/
-            /* Change each new version */
-            /***************************/
-            AppVersion = 5301;
+            AppVersion = Resources.ClientVersionInt;
             SettingsHash = "";
 
-            CurrentApiEmulationVersion = settings.currentApi;// new Version("0.51.2");
+            CurrentApiEmulationVersion = settings.currentApi;
         }
         
         private WebProxy InitProxy(string proxyHost, int proxyPort, string proxyUsername, string proxyPassword)

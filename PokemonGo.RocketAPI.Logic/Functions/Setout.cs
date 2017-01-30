@@ -679,7 +679,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                         var bestPokemonsCpOfType = Logic.objClient.Inventory.GetHighestCPofType2(duplicatePokemon).Result;
                         var bestPokemonsIvOfType = Logic.objClient.Inventory.GetHighestIVofType(duplicatePokemon).Result;
 
-                        var transfer = Logic.objClient.Inventory.TransferPokemon(duplicatePokemon.Id).Result;
+                        ReleasePokemonResponse transfer = Logic.objClient.Inventory.TransferPokemon(duplicatePokemon.Id).Result;
 
                         var logPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Logs");
                         var logs = Path.Combine(logPath, "TransferLog.txt");

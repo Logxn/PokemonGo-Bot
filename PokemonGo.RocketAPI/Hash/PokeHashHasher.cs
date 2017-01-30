@@ -15,19 +15,7 @@ namespace PokemonGo.RocketAPI.Hash
     public class PokeHashHasher : IHasher
     {
         // ***************************************************************************
-        // This Needs to be Changed for every new version
-        // ***************************************************************************
-        //public long Client_Unknown25 => -8832040574896607694;
-        public long Client_Unknown25 => -76506539888958491;
-
-
-        // ***************************************************************************
         // This value will determine which version of hashing you receive.
-        // Currently supported versions:
-        // v119 -> Pogo iOS 1.19
-        // v121 -> Pogo iOS 1.21
-        // v121_2 => IOS 1.22 (0.51.0/2)
-        // v123_1 => IOS 1.23 (0.53.0)
         // ***************************************************************************
         public Dictionary<string, string> EndPointDictionary = new Dictionary<string, string>
             {
@@ -36,7 +24,11 @@ namespace PokemonGo.RocketAPI.Hash
                 {"1.21.2", "api/v121_2/hash"},
                 {"0.51.0", "api/v121_2/hash"},
                 {"0.53.0", "api/v123_1/hash"},
-                {"0.53.1", "api/v123_1/hash" }
+                {"1.23.1", "api/v123_1/hash"},
+                {"0.53.1", "api/v123_1/hash" },
+                {"1.23.2", "api/v123_1/hash"},
+                {"0.53.2", "api/v123_1/hash" },
+                {"0.55.0", "api/v125_1/hash" }, // not released yet at 29/01/2017
             };
 
             int MaxRequestCount;            // RPM Value
