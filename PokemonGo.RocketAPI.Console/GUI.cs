@@ -396,6 +396,7 @@ namespace PokemonGo.RocketAPI.Console
             text_MinWalkSpeed.Text = config.MinWalkSpeed.ToString();
             text_MoveRadius.Text = config.MaxWalkingRadiusInMeters.ToString();
             text_TimeToRun.Text = config.TimeToRun.ToString();
+            text_RestartAfterRun.Text = config.RestartAfterRun.ToString();
     
             text_PokemonCatchLimit.Text = config.PokemonCatchLimit.ToString();
             text_PokestopFarmLimit.Text = config.PokestopFarmLimit.ToString();
@@ -776,6 +777,11 @@ namespace PokemonGo.RocketAPI.Console
             if (text_TimeToRun.Text == String.Empty)
                 text_TimeToRun.Text = "0";
             ActiveProfile.Settings.TimeToRun = Double.Parse(text_TimeToRun.Text);
+
+            if (text_RestartAfterRun.Text == String.Empty)
+                text_RestartAfterRun.Text = "0";
+            ActiveProfile.Settings.RestartAfterRun = int.Parse(text_RestartAfterRun.Text);
+
 
             value = text_PokemonCatchLimit.Text;
             if (value != String.Empty)
