@@ -251,39 +251,39 @@ namespace PokemonGo.RocketAPI.Logic
                     
                     PostLoginExecute();
                 }
-                catch (AccountNotVerifiedException)
-                {
-                    Logger.Error( "Your PTC Account is not activated.");
-                    Logger.Error( "Exiting in 10 Seconds.");
-                    RandomHelper.RandomSleep(10000,10001);
-                    Environment.Exit(0);
-                }
-                catch (LoginFailedException )
-                {
-                    Logger.Error( "Login Failed. Your credentials are wrong or PTC Account is banned.");
-                    Logger.Error( "Exiting in 10 Seconds.");
-                    RandomHelper.RandomSleep(10000,10001);
-                    Environment.Exit(0);
-                }
-                catch (GoogleException )
-                {
-                    Logger.ColoredConsoleWrite(ConsoleColor.Red,"Login with Google Failed");
-                    Logger.Error( "Exiting in 10 Seconds.");
-                    RandomHelper.RandomSleep(10000,10001);
-                    Environment.Exit(0);
-                }
                 catch (PtcOfflineException)
                 {
                     Logger.Error( "PTC Servers are probably down.");
                 }
+                catch (AggregateException ae) {
+                   foreach (var e in ae.Flatten().InnerExceptions) {
+                      if (e is LoginFailedException) {
+                        Logger.Error( "Login Failed. Your credentials are wrong or PTC Account is banned.");
+                        Logger.Error( "Exiting in 10 Seconds.");
+                        RandomHelper.RandomSleep(10000,10001);
+                        Environment.Exit(0);
+                      } else if (e is GoogleException) {
+                        Logger.Error( "Login Failed. Your credentials are wrong or Google Account is banned.");
+                        Logger.Error( "Exiting in 10 Seconds.");
+                        RandomHelper.RandomSleep(10000,10001);
+                        Environment.Exit(0);
+                      } else if (e is AccountNotVerifiedException) {
+                        Logger.Error( "Your PTC Account is not activated.");
+                        Logger.Error( "Exiting in 10 Seconds.");
+                        RandomHelper.RandomSleep(10000,10001);
+                        Environment.Exit(0);
+                      }else {
+                           throw;
+                      }
+                   }
+                }
                 catch (Exception ex)
                 {
                     #region Log Error 
-                    
                     Exception realerror = ex;
                     while (realerror.InnerException != null)
                         realerror = realerror.InnerException;
-                    Logger.ExceptionInfo(ex.Message+"/"+realerror.ToString());
+                    Logger.ExceptionInfo(ex.Message+"/"+realerror+"/"+ex.GetType());
                     #endregion
                 }
 
@@ -1413,7 +1413,7 @@ namespace PokemonGo.RocketAPI.Logic
                         if (FailedSoftban > 10)
                         {
                             Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Soft Ban Detected - Stopping Bot to prevent perma-ban. Try again in 4-24 hours and be more careful next time!");
-                            StringUtils.CheckKillSwitch(true);
+                            Setout.LimitReached("");
                         }
                     }
                 }
@@ -1816,6 +1816,7 @@ namespace PokemonGo.RocketAPI.Logic
             var d = 2 * rEarth * Math.Atan2(Math.Sqrt(alpha), Math.Sqrt(1 - alpha));
             return d;
         }
+
 
         #endregion
 

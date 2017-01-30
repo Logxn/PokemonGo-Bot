@@ -39,6 +39,8 @@ namespace PokemonGo.RocketAPI.Console
             sniperPanel1.AddLinkClick(0, new System.EventHandler(this.AddLink));
             sniperPanel1.AddLinkClick(1, new System.EventHandler(this.AddLink));
             sniperPanel1.AddLinkClick(2, new System.EventHandler(this.AddLink));
+            sniperPanel1.AddLinkClick(3, new System.EventHandler(this.AddLink));
+            sniperPanel1.AddLinkClick(4, new System.EventHandler(this.AddLink));
         }
         
 

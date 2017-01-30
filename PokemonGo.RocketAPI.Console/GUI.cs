@@ -39,10 +39,10 @@ namespace PokemonGo.RocketAPI.Console
         static string logPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Logs");
         static string logs = Path.Combine(logPath, "PokeLog.txt");
         static string logmanualtransfer = Path.Combine(logPath, "TransferLog.txt");
-        static Profile ActiveProfile;
         static Dictionary<string, int> pokeIDS = new Dictionary<string, int>();
         static Dictionary<string, int> evolveIDS = new Dictionary<string, int>();
         static string ConfigsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Configs");
+        private Profile ActiveProfile;
         
         public Helper.TranslatorHelper th = null;
 
@@ -139,11 +139,10 @@ namespace PokemonGo.RocketAPI.Console
             #region Loading Everything into GUI 
 
             Profiles = new Collection<Profile>();
-            var blankProfile = new Profile();
-            blankProfile.ProfileName = "DefaultProfile";
-            blankProfile.RunOrder = 1;
-            blankProfile.Settings = new ProfileSettings();
-            ActiveProfile = blankProfile;
+            ActiveProfile = new Profile();
+            ActiveProfile.ProfileName = "DefaultProfile";
+            ActiveProfile.RunOrder = 1;
+            ActiveProfile.Settings = new ProfileSettings();
             UpdateActiveProf(false);
             var foundDefaultProfile = false;
             var filenameProf ="";
@@ -183,7 +182,8 @@ namespace PokemonGo.RocketAPI.Console
                             }
                             catch (Exception)
                             {
-                                result += filenameProf+"\n";
+                                if (_profile.ProfileName != "DefaultProfile")
+                                    result += filenameProf+"\n";
                             }
                         
                         }
@@ -192,13 +192,13 @@ namespace PokemonGo.RocketAPI.Console
                 }
             }
             if (!foundDefaultProfile)
-                Profiles.Add(blankProfile);
+                Profiles.Add(ActiveProfile);
 
             ProfileSelect.DataSource = Profiles;
             ProfileSelect.DisplayMember = "ProfileName";
             if (selectedProfile != null)
             {
-                  blankProfile.IsDefault = false;
+                  ActiveProfile.IsDefault = false;
                   LoadData(selectedProfile.Settings);
                   checkBoxDefaultProf.Checked = selectedProfile.IsDefault;
                   ProfileSelect.SelectedItem = selectedProfile;
@@ -206,8 +206,8 @@ namespace PokemonGo.RocketAPI.Console
             }
             else
             {
-                  ProfileSelect.SelectedItem = blankProfile;
-                  ProfileName.Text = blankProfile.ProfileName;
+                  ProfileSelect.SelectedItem = ActiveProfile;
+                  ProfileName.Text = ActiveProfile.ProfileName;
             }
 
             if (result!="")
@@ -396,6 +396,7 @@ namespace PokemonGo.RocketAPI.Console
             text_MinWalkSpeed.Text = config.MinWalkSpeed.ToString();
             text_MoveRadius.Text = config.MaxWalkingRadiusInMeters.ToString();
             text_TimeToRun.Text = config.TimeToRun.ToString();
+            text_RestartAfterRun.Text = config.RestartAfterRun.ToString();
     
             text_PokemonCatchLimit.Text = config.PokemonCatchLimit.ToString();
             text_PokestopFarmLimit.Text = config.PokestopFarmLimit.ToString();
@@ -777,6 +778,11 @@ namespace PokemonGo.RocketAPI.Console
                 text_TimeToRun.Text = "0";
             ActiveProfile.Settings.TimeToRun = Double.Parse(text_TimeToRun.Text);
 
+            if (text_RestartAfterRun.Text == String.Empty)
+                text_RestartAfterRun.Text = "0";
+            ActiveProfile.Settings.RestartAfterRun = int.Parse(text_RestartAfterRun.Text);
+
+
             value = text_PokemonCatchLimit.Text;
             if (value != String.Empty)
                 ActiveProfile.Settings.PokemonCatchLimit = int.Parse(value);
@@ -853,12 +859,11 @@ namespace PokemonGo.RocketAPI.Console
         private bool Save()
         {
             if (  UpdateActiveProf(true)){
-                ActiveProfile.ProfileName = ProfileName.Text;
                 if (ActiveProfile.Settings.UsePwdEncryption )
                 {
                     ActiveProfile.Settings.Password = Encryption.Encrypt(ActiveProfile.Settings.Password);
                 }
-                var filenameProf= Path.Combine(ConfigsPath, ActiveProfile.ProfileName +".json" );
+                var filenameProf= Path.Combine(ConfigsPath, ProfileName.Text +".json" );
                 ActiveProfile.Settings.SaveToFile(filenameProf);
                 var newProfiles = new Collection<Profile>();
                 var foundActiveProf = false;
@@ -872,7 +877,7 @@ namespace PokemonGo.RocketAPI.Console
                     newProfile.RunOrder = _profile.RunOrder;
                     newProfile.SettingsJSON = _profile.SettingsJSON;
                     newProfile.Settings = null;
-                    if (_profile.ProfileName == ActiveProfile.ProfileName)
+                    if (_profile.ProfileName == ProfileName.Text)
                     {
                         newProfile.IsDefault = ActiveProfile.IsDefault;
                         newProfile.RunOrder = ActiveProfile.RunOrder;
@@ -884,7 +889,7 @@ namespace PokemonGo.RocketAPI.Console
                 if (!foundActiveProf)
                 {
                     var newProfile = new Profile();
-                    newProfile.ProfileName = ActiveProfile.ProfileName;
+                    newProfile.ProfileName = ProfileName.Text;
                     newProfile.IsDefault = ActiveProfile.IsDefault;
                     newProfile.RunOrder = ActiveProfile.RunOrder;
                     newProfile.SettingsJSON = "";
@@ -893,11 +898,25 @@ namespace PokemonGo.RocketAPI.Console
                 }
                 var profileJSON = JsonConvert.SerializeObject(newProfiles,Formatting.Indented);
                 File.WriteAllText(@Program.accountProfiles, profileJSON);
-                Profiles= newProfiles;
+                if (!foundActiveProf)
+                {
+                    var newProfile = new Profile();
+                    newProfile.ProfileName = ProfileName.Text;
+                    newProfile.IsDefault = ActiveProfile.IsDefault;
+                    newProfile.RunOrder = ActiveProfile.RunOrder;
+                    newProfile.SettingsJSON = "";
+                    newProfile.Settings = ProfileSettings.LoadFromFile(filenameProf);
+                    Profiles.Add(newProfile);
+                }
+                else{
+                    getProfileByName(ProfileName.Text).Settings = ProfileSettings.LoadFromFile(filenameProf);
+                }
 
-                var selected = ProfileSelect.SelectedItem;
+                var profName = ProfileName.Text;
+                ProfileSelect.DataSource = new Profile[]{};
                 ProfileSelect.DataSource = Profiles;
-                ProfileSelect.SelectedItem = getProfileByName(ActiveProfile.ProfileName);
+                var prof= getProfileByName(profName);
+                ProfileSelect.SelectedItem =prof;
 
                 return true;
             }
@@ -1189,7 +1208,7 @@ namespace PokemonGo.RocketAPI.Console
         private void buttonSvProf_Click_2(object sender, EventArgs e)
         {
             if (Save())
-                MessageBox.Show(th.TS("Current Configuration Saved as - ") + ActiveProfile.ProfileName);
+                MessageBox.Show(th.TS("Current Configuration Saved as - ") + ProfileName.Text);
             else
                 MessageBox.Show(th.TS("Please Review Red Boxes Before Save"));
         }

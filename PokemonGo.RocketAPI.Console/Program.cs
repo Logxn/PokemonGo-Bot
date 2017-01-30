@@ -65,7 +65,7 @@ namespace PokemonGo.RocketAPI.Console
                 #region Parse Arguments
                 // First of all.
                 // We check if bot have called clicking in a pokesnimer URI: pokesniper2://PokemonName/latitude,longitude
-                if (args[0].Contains("pokesniper2"))
+                if (args[0].Contains("pokesniper2") || args[0].Contains("msniper"))
                 {
                     // If yes, We create a temporary file to share with main process, and close.
                     SharePokesniperURI(args[0]);
@@ -192,8 +192,10 @@ namespace PokemonGo.RocketAPI.Console
                       });
                 openGUI = GlobalVars.EnablePokeList;
                 // To open tabbed GUI to test programing 
-                /*Application.Run( new Pokemons()); 
-                Environment.Exit(0);*/
+                /*
+                Application.Run( new Pokemons()); 
+                Environment.Exit(0);
+                */
             }
 
 

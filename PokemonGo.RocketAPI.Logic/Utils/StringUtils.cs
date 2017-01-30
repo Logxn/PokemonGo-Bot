@@ -9,6 +9,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using PokemonGo.RocketAPI.Helpers;
 using PokemonGo.RocketAPI.Logic.Shared;
 
 namespace PokemonGo.RocketAPI.Logic.Utils
@@ -596,16 +597,8 @@ namespace PokemonGo.RocketAPI.Logic.Utils
                           .Aggregate((a, b) => $"{a}, {b}");
         }
 
-        public static bool CheckKillSwitch(bool kill = false)
+        public static bool CheckKillSwitch()
         {
-            if (kill)
-            {
-                Logger.Error("You have reached one of the limits (playing time, pokemon caught, km walked...), so, we are closing the Bot for you!");
-                Logger.Error("Thank you!" + Environment.NewLine);
-                System.Console.ReadLine();
-                Environment.Exit(-1);
-                return true;
-            }
             using (var wc = new WebClient())
             {
                 try

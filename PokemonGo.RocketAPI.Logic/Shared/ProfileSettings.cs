@@ -656,11 +656,10 @@ namespace PokemonGo.RocketAPI.Logic.Shared
         public double TimeToRun {
             get;
             set;
-
-
-
-
-
+        }
+        public int RestartAfterRun {
+            get;
+            set;
         }
         public int ivmaxpercent {
             get;

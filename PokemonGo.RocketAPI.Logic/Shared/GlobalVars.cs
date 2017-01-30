@@ -87,6 +87,7 @@ namespace PokemonGo.RocketAPI.Logic.Shared
         public static bool RandomReduceSpeed = false;
         public static bool UseBreakFields = false;
         public static double TimeToRun;
+        public static int RestartAfterRun;
         public static int PokemonCatchLimit = 1000;
         public static int PokestopFarmLimit = 2000;
         public static int XPFarmedLimit = 150000;

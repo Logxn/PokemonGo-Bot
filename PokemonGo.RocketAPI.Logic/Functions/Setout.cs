@@ -510,7 +510,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
 
                             Logic.Instance.WalkWithRouting(Shared.GlobalVars.latitude, Shared.GlobalVars.longitude);
 
-                            StringUtils.CheckKillSwitch(true);
+                            LimitReached("Time to Run");
                         }
                         else
                         {
@@ -596,7 +596,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
 
                         Logic.Instance.WalkWithRouting(Shared.GlobalVars.latitude, Shared.GlobalVars.longitude);
 
-                        StringUtils.CheckKillSwitch(true);
+                        LimitReached("Catched Pokemon");
                     }
                 }
 
@@ -618,7 +618,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
 
                         Logic.Instance.WalkWithRouting(Shared.GlobalVars.latitude, Shared.GlobalVars.longitude);
 
-                        StringUtils.CheckKillSwitch(true);
+                        LimitReached("Farmed Pokestops");
                     }
                 }
 
@@ -643,7 +643,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                             Shared.GlobalVars.WalkingSpeedInKilometerPerHour,
                             Logic.Instance.ExecuteCatchAllNearbyPokemons);
                     }
-                    StringUtils.CheckKillSwitch(true);
+                    LimitReached("Farmed XP");
                 }
 
                 #endregion
@@ -719,7 +719,26 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                 }
             }
         }
-
+        public static void LimitReached(string limit)
+        {
+            if (limit != "")
+                Logger.Info($"You have reached {limit} limit");
+            if ((Shared.GlobalVars.RestartAfterRun < 1) || (limit == "")){
+                Logger.Info("We are closing the Bot for you! Wait 10 seconds");
+                RandomHelper.RandomSleep(10000,10001);
+                Environment.Exit(-1);
+            }else{
+                Logger.Info($"Waiting {Shared.GlobalVars.RestartAfterRun} minutes");
+                for (var i= Shared.GlobalVars.RestartAfterRun; i>0; i--)
+                {
+                    Logger.Info($"{i} minutes left");
+                    RandomHelper.RandomSleep(60000,61000);
+                }
+                lastlog = -10000;
+                timetorunstamp = Shared.GlobalVars.TimeToRun * 60 * 1000 + (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds;
+                Execute();
+            }
+        }
 
     }
 }
