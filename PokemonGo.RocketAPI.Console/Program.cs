@@ -197,8 +197,8 @@ namespace PokemonGo.RocketAPI.Console
                       });
                 openGUI = GlobalVars.EnablePokeList;
                 // To open tabbed GUI to test programing 
-                Application.Run( new Pokemons()); 
-                Environment.Exit(0);
+                /*Application.Run( new Pokemons()); 
+                Environment.Exit(0);*/
             }
 
 
