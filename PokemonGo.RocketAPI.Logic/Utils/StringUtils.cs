@@ -601,7 +601,7 @@ namespace PokemonGo.RocketAPI.Logic.Utils
         {
             if (kill)
             {
-                Logger.Error("You have reached one of the limits (playing time, pokemon caught, km walked...), so, we are closing the Bot for you!");
+                Logger.Error("You have reached one of the limits (playing time, pokemon caught, km walked...)");
                 Logger.Error("Thank you!" + Environment.NewLine);
                 return true;
             }

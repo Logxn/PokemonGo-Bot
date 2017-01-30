@@ -510,7 +510,19 @@ namespace PokemonGo.RocketAPI.Logic.Functions
 
                             Logic.Instance.WalkWithRouting(Shared.GlobalVars.latitude, Shared.GlobalVars.longitude);
 
-                            StringUtils.CheckKillSwitch(true);
+                            if (StringUtils.CheckKillSwitch(true)){
+                                if (Shared.GlobalVars.RestartAfterRun < 1){
+                                    Logger.Info("We are closing the Bot for you! Wait 10 seconds");
+                                    RandomHelper.RandomSleep(10000,10001);
+                                    Environment.Exit(-1);
+                                }else{
+                                    Logger.Info($"Waiting {Shared.GlobalVars.RestartAfterRun} minutes");
+                                    var timeMs = Shared.GlobalVars.RestartAfterRun*60000;
+                                    RandomHelper.RandomSleep(timeMs,timeMs+1000);
+                                    lastlog = -10000;
+                                    Execute();
+                                }
+                            }
                         }
                         else
                         {
