@@ -902,6 +902,9 @@ namespace PokemonGo.RocketAPI.Console
                     newProfile.Settings = ProfileSettings.LoadFromFile(filenameProf);
                     Profiles.Add(newProfile);
                 }
+                else{
+                    getProfileByName(ProfileName.Text).Settings = ProfileSettings.LoadFromFile(filenameProf);
+                }
 
                 var profName = ProfileName.Text;
                 ProfileSelect.DataSource = new Profile[]{};
