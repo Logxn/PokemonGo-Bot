@@ -1104,6 +1104,7 @@ namespace PokemonGo.RocketAPI.Console
                 Message = message;
             }
         }
+        
 
     }
 }
