@@ -33,19 +33,22 @@ namespace PokemonGo.RocketAPI.Console
 
         public static Bitmap GetPokemonLargeImage(PokemonId pokemon)
         {
-            //return GetPokemonImagefromResource(pokemon, "50");
-            var bmp = new Bitmap(1,1);
-            DownloadSprite("PokemonGo.RocketAPI.Console/Sprites",path, ""+(int)pokemon);
-            var filename = System.IO.Path.Combine(path, ""+(int)pokemon+".png");
-            if (System.IO.File.Exists(filename))
-                bmp = new Bitmap(filename);
-            else{
-                filename = System.IO.Path.Combine(path, "0.png");
+            if (PokemonGo.RocketAPI.Logic.Shared.GlobalVars.UseSpritesFolder)
+            {
+                var bmp = new Bitmap(1,1);
+                DownloadSprite("PokemonGo.RocketAPI.Console/Sprites",path, ""+(int)pokemon);
+                var filename = System.IO.Path.Combine(path, ""+(int)pokemon+".png");
                 if (System.IO.File.Exists(filename))
                     bmp = new Bitmap(filename);
-            
+                else{
+                    filename = System.IO.Path.Combine(path, "0.png");
+                    if (System.IO.File.Exists(filename))
+                        bmp = new Bitmap(filename);
+                
+                }
+                return new Bitmap(bmp,50,50);
             }
-            return new Bitmap(bmp,50,50);
+            return GetPokemonImagefromResource(pokemon, "50");
         }
 
         public static Bitmap GetPokemonVeryLargeImage(PokemonId pokemon)

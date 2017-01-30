@@ -70,6 +70,7 @@ namespace PokemonGo.RocketAPI.Console
             this.label13 = new System.Windows.Forms.Label();
             this.tabPokemon = new System.Windows.Forms.TabPage();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.checkBox_UseSpritesFolder = new System.Windows.Forms.CheckBox();
             this.label55 = new System.Windows.Forms.Label();
             this.label29 = new System.Windows.Forms.Label();
             this.MinIVtoCatch = new System.Windows.Forms.TextBox();
@@ -218,6 +219,8 @@ namespace PokemonGo.RocketAPI.Console
             this.button_ArchimedeanSpiralHelp = new System.Windows.Forms.Button();
             this.checkBox_WalkInArchimedeanSpiral = new System.Windows.Forms.CheckBox();
             this.groupBox12 = new System.Windows.Forms.GroupBox();
+            this.labelRestart = new System.Windows.Forms.Label();
+            this.text_RestartAfterRun = new System.Windows.Forms.TextBox();
             this.label41 = new System.Windows.Forms.Label();
             this.text_BreakInterval = new System.Windows.Forms.TextBox();
             this.label44 = new System.Windows.Forms.Label();
@@ -291,8 +294,6 @@ namespace PokemonGo.RocketAPI.Console
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.labelLanguage = new System.Windows.Forms.Label();
             this.comboLanguage = new System.Windows.Forms.ComboBox();
-            this.labelRestart = new System.Windows.Forms.Label();
-            this.text_RestartAfterRun = new System.Windows.Forms.TextBox();
             this.tabProxies.SuspendLayout();
             this.tabItems.SuspendLayout();
             this.groupBox4.SuspendLayout();
@@ -778,6 +779,7 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.checkBox_UseSpritesFolder);
             this.groupBox3.Controls.Add(this.label55);
             this.groupBox3.Controls.Add(this.label29);
             this.groupBox3.Controls.Add(this.MinIVtoCatch);
@@ -794,10 +796,20 @@ namespace PokemonGo.RocketAPI.Console
             this.groupBox3.Controls.Add(this.label54);
             this.groupBox3.Location = new System.Drawing.Point(6, 289);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(638, 83);
+            this.groupBox3.Size = new System.Drawing.Size(638, 101);
             this.groupBox3.TabIndex = 3;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Bot Settings";
+            // 
+            // checkBox_UseSpritesFolder
+            // 
+            this.checkBox_UseSpritesFolder.AutoSize = true;
+            this.checkBox_UseSpritesFolder.Location = new System.Drawing.Point(10, 77);
+            this.checkBox_UseSpritesFolder.Name = "checkBox_UseSpritesFolder";
+            this.checkBox_UseSpritesFolder.Size = new System.Drawing.Size(207, 17);
+            this.checkBox_UseSpritesFolder.TabIndex = 16;
+            this.checkBox_UseSpritesFolder.Text = "Use Sprites folder for pokemon images";
+            this.checkBox_UseSpritesFolder.UseVisualStyleBackColor = true;
             // 
             // label55
             // 
@@ -2530,6 +2542,24 @@ namespace PokemonGo.RocketAPI.Console
             this.groupBox12.TabStop = false;
             this.groupBox12.Text = "Walk Variables";
             // 
+            // labelRestart
+            // 
+            this.labelRestart.AutoSize = true;
+            this.labelRestart.Location = new System.Drawing.Point(16, 43);
+            this.labelRestart.Name = "labelRestart";
+            this.labelRestart.Size = new System.Drawing.Size(154, 13);
+            this.labelRestart.TabIndex = 69;
+            this.labelRestart.Text = "Restart after run (in minutes) at:";
+            this.labelRestart.UseMnemonic = false;
+            // 
+            // text_RestartAfterRun
+            // 
+            this.text_RestartAfterRun.Location = new System.Drawing.Point(209, 38);
+            this.text_RestartAfterRun.Name = "text_RestartAfterRun";
+            this.text_RestartAfterRun.Size = new System.Drawing.Size(100, 20);
+            this.text_RestartAfterRun.TabIndex = 68;
+            this.text_RestartAfterRun.Text = "0";
+            // 
             // label41
             // 
             this.label41.AutoSize = true;
@@ -3322,24 +3352,6 @@ namespace PokemonGo.RocketAPI.Console
             this.comboLanguage.TabIndex = 48;
             this.comboLanguage.SelectedIndexChanged += new System.EventHandler(this.ComboLanguageSelectedIndexChanged);
             // 
-            // labelRestart
-            // 
-            this.labelRestart.AutoSize = true;
-            this.labelRestart.Location = new System.Drawing.Point(16, 43);
-            this.labelRestart.Name = "labelRestart";
-            this.labelRestart.Size = new System.Drawing.Size(154, 13);
-            this.labelRestart.TabIndex = 69;
-            this.labelRestart.Text = "Restart after run (in minutes) at:";
-            this.labelRestart.UseMnemonic = false;
-            // 
-            // text_RestartAfterRun
-            // 
-            this.text_RestartAfterRun.Location = new System.Drawing.Point(209, 38);
-            this.text_RestartAfterRun.Name = "text_RestartAfterRun";
-            this.text_RestartAfterRun.Size = new System.Drawing.Size(100, 20);
-            this.text_RestartAfterRun.TabIndex = 68;
-            this.text_RestartAfterRun.Text = "0";
-            // 
             // GUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -3718,6 +3730,7 @@ namespace PokemonGo.RocketAPI.Console
         private System.Windows.Forms.CheckBox checkBoxAttackGyms;
         private System.Windows.Forms.Label labelRestart;
         private System.Windows.Forms.TextBox text_RestartAfterRun;
+        private System.Windows.Forms.CheckBox checkBox_UseSpritesFolder;
         //private System.Windows.Forms.CheckBox checkBox_CatchLurePokemons;
     }
 }
