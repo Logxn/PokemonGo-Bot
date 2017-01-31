@@ -422,11 +422,11 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // label9
             // 
-            this.label9.Location = new System.Drawing.Point(201, 399);
+            this.label9.Location = new System.Drawing.Point(193, 399);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(142, 17);
+            this.label9.Size = new System.Drawing.Size(149, 17);
             this.label9.TabIndex = 89;
-            this.label9.Text = "Num Tries Finding Enconter:";
+            this.label9.Text = "Num Tries Finding Encounter:";
             // 
             // nudTriesSnipe
             // 
