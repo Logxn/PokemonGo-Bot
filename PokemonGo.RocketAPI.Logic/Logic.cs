@@ -168,15 +168,15 @@ namespace PokemonGo.RocketAPI.Logic
 
         public void Execute()
         {
-            Logger.ColoredConsoleWrite(ConsoleColor.Red, "Source code and binary files of this bot are absolutely free and open-source!");
-            Logger.ColoredConsoleWrite(ConsoleColor.Red, "If you've paid for it. Request a chargeback immediately!");
-            Logger.ColoredConsoleWrite(ConsoleColor.Red, "You only need pay for a key to access to Hash Service");
-
             Logger.SelectedLevel = LogLevel.Error;
+            Logger.Warning( "Source code and binary files of this bot are absolutely free and open-source!");
+            Logger.Warning( "If you've paid for it. Request a chargeback immediately!");
+            Logger.Warning( "You only need pay for a key to access to Hash Service");
+
             if (GlobalVars.EnableVerboseLogging)
             {
                 Logger.SelectedLevel = LogLevel.Debug;
-                Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"LogLevel set to {Logger.SelectedLevel}. Many logs will be generated.");
+                Logger.ColoredConsoleWrite(ConsoleColor.Red, $"LogLevel set to {Logger.SelectedLevel}. Many logs will be generated.");
             }
 
             #region Log Logger
@@ -218,12 +218,11 @@ namespace PokemonGo.RocketAPI.Logic
 
             #region Fix Altitude
 
-            if (Math.Abs(objClient.CurrentAltitude) <= 0)
-            {
-                objClient.CurrentAltitude = LocationUtils.getAltidude(objClient.CurrentLatitude, objClient.CurrentLongitude);
+            if (Math.Abs(objClient.CurrentAltitude) < double.Epsilon) {
+                objClient.CurrentAltitude = LocationUtils.getAltitude(objClient.CurrentLatitude, objClient.CurrentLongitude);
                 BotSettings.DefaultAltitude = objClient.CurrentAltitude;
 
-                Logger.Error($"Altidude was 0, resolved that. New Altidude is now: {objClient.CurrentAltitude}");
+                Logger.Warning($"Altitude was 0, resolved that. New Altitude is now: {objClient.CurrentAltitude}");
             }
 
             #endregion

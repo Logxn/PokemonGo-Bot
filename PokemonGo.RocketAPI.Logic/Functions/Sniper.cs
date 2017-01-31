@@ -45,7 +45,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
             }
             try
             {
-                remoteCoords.Altitude = LocationUtils.getAltidude(remoteCoords.Altitude, remoteCoords.Longitude);
+                remoteCoords.Altitude = LocationUtils.getAltitude(remoteCoords.Altitude, remoteCoords.Longitude);
                 
                 SendToLog($"Trying to capture {pokeid}  at { remoteCoords.Latitude } / {remoteCoords.Longitude}");
                 SendToLog(LocationUtils.FindAddress(remoteCoords.Latitude,remoteCoords.Longitude));

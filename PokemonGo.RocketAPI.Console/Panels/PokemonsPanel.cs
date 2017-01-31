@@ -556,7 +556,7 @@ namespace PokemonGo.RocketAPI.Console
                     var pokemon = (PokemonData)selectedItem.Tag;
                     var strPokename = Logic.Utils.StringUtils.getPokemonNameByLanguage(BotSettings, pokemon.PokemonId);
 
-                    if (pokemon.DeployedFortId == "" && pokemon.Favorite == 0)
+                    if (pokemon.DeployedFortId == "" && pokemon.Favorite == 0 && pokemon.Id != profile.PlayerData.BuddyPokemon.Id )
                     {
                         pokemonsToTransfer.Add(pokemon.Id);
 

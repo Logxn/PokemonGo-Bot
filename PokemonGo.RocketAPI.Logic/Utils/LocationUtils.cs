@@ -14,7 +14,7 @@ namespace PokemonGo.RocketAPI.Logic.Utils
 {
     public static class LocationUtils
     {
-        public static double getAltidude(double lat, double lon)
+        public static double getAltitude(double lat, double lon)
         {
             try
             {
@@ -87,7 +87,7 @@ namespace PokemonGo.RocketAPI.Logic.Utils
             // adjust toLonRadians to be in the range -180 to +180...
             targetLongitudeRadians = (targetLongitudeRadians + 3 * Math.PI) % (2 * Math.PI) - Math.PI; 
 
-            return new GeoCoordinate(ToDegrees(targetLatitudeRadians), ToDegrees(targetLongitudeRadians), getAltidude((ToDegrees(targetLatitudeRadians)), ToDegrees(targetLongitudeRadians)));
+            return new GeoCoordinate(ToDegrees(targetLatitudeRadians), ToDegrees(targetLongitudeRadians), getAltitude((ToDegrees(targetLatitudeRadians)), ToDegrees(targetLongitudeRadians)));
         }
 
         public static double DegreeBearing(GeoCoordinate sourceLocation, GeoCoordinate targetLocation)
