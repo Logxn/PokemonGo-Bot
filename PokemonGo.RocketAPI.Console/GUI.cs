@@ -324,7 +324,8 @@ namespace PokemonGo.RocketAPI.Console
             text_MaxCPToTransfer.Text = config.DontTransferWithCPOver.ToString();
             MinCPtoCatch.Text = config.MinCPtoCatch.ToString();
             MinIVtoCatch.Text = config.MinIVtoCatch.ToString();
-    
+            checkBox_UseSpritesFolder.Checked = config.UseSpritesFolder;
+
             // tab 3 - throws
             checkBox2.Checked = config.LimitPokeballUse;
             checkBox3.Checked = config.LimitGreatballUse;
