@@ -43,8 +43,8 @@ namespace PokemonGo.RocketAPI.Console
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.NumericUpDown nudTriesSnipe;
-        private System.Windows.Forms.LinkLabel linkSnipeNecrobot2;
-        private System.Windows.Forms.LinkLabel linkMyPogoSnipers;
+        private System.Windows.Forms.LinkLabel linkPokesniperOrg;
+        private System.Windows.Forms.LinkLabel linkPokeWatchers;
         
         /// <summary>
         /// Disposes resources used by the control.
@@ -86,7 +86,8 @@ namespace PokemonGo.RocketAPI.Console
             this.label64 = new System.Windows.Forms.Label();
             this.SnipeInfo = new System.Windows.Forms.TextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.linkSnipeNecrobot2 = new System.Windows.Forms.LinkLabel();
+            this.linkPokeWatchers = new System.Windows.Forms.LinkLabel();
+            this.linkPokesniperOrg = new System.Windows.Forms.LinkLabel();
             this.linkPokezz = new System.Windows.Forms.LinkLabel();
             this.linkpokegosnipers = new System.Windows.Forms.LinkLabel();
             this.LinkPokedexsCom = new System.Windows.Forms.LinkLabel();
@@ -98,7 +99,6 @@ namespace PokemonGo.RocketAPI.Console
             this.label8 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.nudTriesSnipe = new System.Windows.Forms.NumericUpDown();
-            this.linkMyPogoSnipers = new System.Windows.Forms.LinkLabel();
             this.groupBox23.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PokemonImage)).BeginInit();
@@ -307,8 +307,8 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.linkMyPogoSnipers);
-            this.groupBox2.Controls.Add(this.linkSnipeNecrobot2);
+            this.groupBox2.Controls.Add(this.linkPokeWatchers);
+            this.groupBox2.Controls.Add(this.linkPokesniperOrg);
             this.groupBox2.Controls.Add(this.linkPokezz);
             this.groupBox2.Controls.Add(this.linkpokegosnipers);
             this.groupBox2.Controls.Add(this.LinkPokedexsCom);
@@ -324,15 +324,25 @@ namespace PokemonGo.RocketAPI.Console
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "URI Service";
             // 
-            // linkSnipeNecrobot2
+            // linkPokeWatchers
             // 
-            this.linkSnipeNecrobot2.Location = new System.Drawing.Point(301, 57);
-            this.linkSnipeNecrobot2.Name = "linkSnipeNecrobot2";
-            this.linkSnipeNecrobot2.Size = new System.Drawing.Size(118, 15);
-            this.linkSnipeNecrobot2.TabIndex = 92;
-            this.linkSnipeNecrobot2.TabStop = true;
-            this.linkSnipeNecrobot2.Tag = "http://snipe.necrobot2.com/";
-            this.linkSnipeNecrobot2.Text = "snipe.necrobot2.com";
+            this.linkPokeWatchers.Location = new System.Drawing.Point(414, 57);
+            this.linkPokeWatchers.Name = "linkPokeWatchers";
+            this.linkPokeWatchers.Size = new System.Drawing.Size(118, 15);
+            this.linkPokeWatchers.TabIndex = 93;
+            this.linkPokeWatchers.TabStop = true;
+            this.linkPokeWatchers.Tag = "http://pokewatchers.com/";
+            this.linkPokeWatchers.Text = "pokewatchers.com";
+            // 
+            // linkPokesniperOrg
+            // 
+            this.linkPokesniperOrg.Location = new System.Drawing.Point(312, 57);
+            this.linkPokesniperOrg.Name = "linkPokesniperOrg";
+            this.linkPokesniperOrg.Size = new System.Drawing.Size(84, 15);
+            this.linkPokesniperOrg.TabIndex = 92;
+            this.linkPokesniperOrg.TabStop = true;
+            this.linkPokesniperOrg.Tag = "http://pokesniper.org/";
+            this.linkPokesniperOrg.Text = "pokesniper.org";
             // 
             // linkPokezz
             // 
@@ -466,16 +476,6 @@ namespace PokemonGo.RocketAPI.Console
             0,
             0});
             this.nudTriesSnipe.ValueChanged += new System.EventHandler(this.nudTriesSnipe_ValueChanged);
-            // 
-            // linkMyPogoSnipers
-            // 
-            this.linkMyPogoSnipers.Location = new System.Drawing.Point(414, 57);
-            this.linkMyPogoSnipers.Name = "linkMyPogoSnipers";
-            this.linkMyPogoSnipers.Size = new System.Drawing.Size(118, 15);
-            this.linkMyPogoSnipers.TabIndex = 93;
-            this.linkMyPogoSnipers.TabStop = true;
-            this.linkMyPogoSnipers.Tag = "http://www.mypogosnipers.com";
-            this.linkMyPogoSnipers.Text = "mypogosnipers.com";
             // 
             // SniperPanel
             // 

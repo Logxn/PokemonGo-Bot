@@ -11,6 +11,7 @@ using GoogleMapsApi;
 using GoogleMapsApi.Entities.Common;
 using GoogleMapsApi.Entities.Directions.Request;
 using GoogleMapsApi.Entities.Directions.Response;
+using POGOProtos.Data.Logs;
 using PokemonGo.RocketApi.PokeMap;
 using PokemonGo.RocketAPI.Exceptions;
 using PokemonGo.RocketAPI.Helpers;
@@ -1205,7 +1206,8 @@ namespace PokemonGo.RocketAPI.Logic
             {
                 if (goBack)
                 {
-                    Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Go to {BotSettings.DefaultLatitude} / {BotSettings.DefaultLongitude} before starting the capture.");
+                    Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"(SNIPING) Go to {BotSettings.DefaultLatitude} / {BotSettings.DefaultLongitude} before starting the capture.");
+                    Logger.ColoredConsoleWrite(ConsoleColor.Cyan,LocationUtils.FindAddress(BotSettings.DefaultLatitude,BotSettings.DefaultLongitude));
                     
                     var result = objClient.Player.UpdatePlayerLocation(
                         BotSettings.DefaultLatitude,
@@ -1423,6 +1425,10 @@ namespace PokemonGo.RocketAPI.Logic
                     SkippedPokemon.Add(encounterPokemonResponse.WildPokemon.EncounterId);
                 }
                 RandomHelper.RandomSleep(1000, 2000); // wait 1 second to simulate catch.
+            }else if (encounterPokemonResponse.Status == EncounterResponse.Types.Status.PokemonInventoryFull){
+                Logger.Warning("You have not free space for new pokemons. Please transfer anyone before.");
+            }else{
+                Logger.Debug(encounterPokemonResponse.Status.ToString());
             }
             
         }

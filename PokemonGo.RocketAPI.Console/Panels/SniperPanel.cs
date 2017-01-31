@@ -57,7 +57,10 @@ namespace PokemonGo.RocketAPI.Console
             InitializeComponent();            
             //LinkPokedexsCom.Links.Add(0,LinkPokedexsCom.Text.Length,"https://pokedexs.com/");
             //linkpokegosnipers.Links.Add(0,linkpokegosnipers.Text.Length,"http://pokegosnipers.com/");
-            //linkPokezz.Links.Add(0,linkPokezz.Text.Length,"http://pokezz.com/");            
+            //linkPokezz.Links.Add(0,linkPokezz.Text.Length,"http://pokezz.com/");
+            // http://pokewatchers.com/
+            // http://www.mypogosnipers.com
+            // http://snipe.necrobot2.com/
         }
         
         public void AddLinkClick(int linknumber, System.EventHandler evh){
@@ -70,10 +73,10 @@ namespace PokemonGo.RocketAPI.Console
                     lbl = linkPokezz;
                     break;
                 case 3:
-                    lbl = linkSnipeNecrobot2;
+                    lbl = linkPokesniperOrg;
                     break;
                 case 4:
-                    lbl = linkMyPogoSnipers;
+                    lbl = linkPokeWatchers;
                     break;
             }
         	lbl.Click += evh;
