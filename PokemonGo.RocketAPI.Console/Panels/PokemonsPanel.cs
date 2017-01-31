@@ -565,7 +565,7 @@ namespace PokemonGo.RocketAPI.Console
                         File.AppendAllText(logs, $"[{date}] - MANUAL - Enqueuing to BULK transfer pokemon {transfered}/{total}: {Logic.Utils.StringUtils.getPokemonNameByLanguage(BotSettings, pokemon.PokemonId)}" + Environment.NewLine);
                         var strPerfection = PokemonInfo.CalculatePokemonPerfection(pokemon).ToString("0.00");
                         var strTransfer = $"Enqueuing to BULK transfer pokemon {transfered}/{total}: {strPokename} CP {pokemon.Cp} IV {strPerfection}";
-                        Logger.ColoredConsoleWrite(ConsoleColor.Red, strTransfer, LogLevel.Info);
+                        Logger.ColoredConsoleWrite(ConsoleColor.Yellow, strTransfer, LogLevel.Info);
 
                         PokemonListView.Items.Remove(selectedItem);
                     }
@@ -588,6 +588,11 @@ namespace PokemonGo.RocketAPI.Console
                     statusTexbox.Text = $"Succesfully Bulk transfered {total} Pokemons.";
                     Helpers.RandomHelper.RandomSleep(1000, 2000);
                 }
+                else
+                {
+                    Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Something happened while transferring pokemons.");
+                }
+
                 RefreshTitle();
                 client.Inventory.GetInventory(true).Wait(); // force refresh inventory
 
