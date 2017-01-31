@@ -276,10 +276,14 @@ namespace PokemonGo.RocketAPI.Console
                 if (item.ItemId == ItemId.ItemIncenseOrdinary)
                 {
                     GlobalVars.UseIncenseGUIClick = true;
+                    RandomHelper.RandomSleep(200, 300);
+                    BtnRealoadItemsClick(sender,e);
                 }
                 if (item.ItemId == ItemId.ItemLuckyEgg)
                 {
                     GlobalVars.UseLuckyEggGUIClick = true;
+                    RandomHelper.RandomSleep(200, 300);
+                    BtnRealoadItemsClick(sender,e);
                 }
                 if (item.ItemId == ItemId.ItemTroyDisk)
                 {

@@ -12,6 +12,7 @@ namespace PokemonGo.RocketAPI.Console
     {
         private static GetPlayerResponse profile;
         private static POGOProtos.Data.Player.PlayerStats stats;
+        public static bool skipReadyToUse = false;
 
         public class taskResponse
         {
@@ -36,11 +37,8 @@ namespace PokemonGo.RocketAPI.Console
             }
             changesPanel1.Execute();
             webPanel1.AddButtonClick(new System.EventHandler(this.HideWebPanel));
-            sniperPanel1.AddLinkClick(0, new System.EventHandler(this.AddLink));
-            sniperPanel1.AddLinkClick(1, new System.EventHandler(this.AddLink));
-            sniperPanel1.AddLinkClick(2, new System.EventHandler(this.AddLink));
-            sniperPanel1.AddLinkClick(3, new System.EventHandler(this.AddLink));
-            sniperPanel1.AddLinkClick(4, new System.EventHandler(this.AddLink));
+            sniperPanel1.AddButtonClick( new System.EventHandler(this.AddLink));
+            sniperPanel1.webBrowser = webPanel1.webBrowser1;
         }
         
 
@@ -64,23 +62,24 @@ namespace PokemonGo.RocketAPI.Console
         private void Execute()
         {
             try {
-                // Wait to client is ready to use
                 var client = Logic.Logic.objClient;
-                while (client == null || !client.ReadyToUse) {
-                    Logger.Debug("Client not ready to use. Waiting 5 seconds to retry");
-                    RandomHelper.RandomSleep(5000, 5100);
-                    client = Logic.Logic.objClient;
+                if (!skipReadyToUse){
+                    // Wait to client is ready to use
+                    while (client == null || !client.ReadyToUse) {
+                        Logger.Debug("Client not ready to use. Waiting 5 seconds to retry");
+                        RandomHelper.RandomSleep(5000, 5100);
+                        client = Logic.Logic.objClient;
+                    }
+                    profile = client.Player.GetPlayer().Result;
+                    RandomHelper.RandomSleep(1000, 1100); // Pause to simulate human speed.
+                    Text = "User: " + profile.PlayerData.Username;
+                    var arrStats = client.Inventory.GetPlayerStats().Result.GetEnumerator();
+                    arrStats.MoveNext();
+                    stats = arrStats.Current;
+                    locationPanel1.CreateBotMarker((int)profile.PlayerData.Team, stats.Level, stats.Experience);
+                    playerPanel1.setProfile(profile);
+                    pokemonsPanel1.profile = profile;
                 }
-
-                profile = client.Player.GetPlayer().Result;
-                RandomHelper.RandomSleep(1000, 1100); // Pause to simulate human speed.
-                Text = "User: " + profile.PlayerData.Username;
-                var arrStats = client.Inventory.GetPlayerStats().Result.GetEnumerator();
-                arrStats.MoveNext();
-                stats = arrStats.Current;
-                locationPanel1.CreateBotMarker((int)profile.PlayerData.Team, stats.Level, stats.Experience);
-                playerPanel1.setProfile(profile);
-                pokemonsPanel1.profile = profile;
             } catch (Exception e) {
                 Logger.Error("[PokemonList-Error] " + e.StackTrace);
                 RandomHelper.RandomSleep(1000, 1100);  // Lets the API make a little pause, so we dont get blocked
@@ -148,11 +147,11 @@ namespace PokemonGo.RocketAPI.Console
         }
         public void AddLink(object sender, EventArgs e)
         {
-            ShowWebPanel();
-            var lbl = (LinkLabel)sender;
-            webPanel1.EnableIE11Emulation();
-            webPanel1.ChangeURL(lbl.Tag.ToString());
-            TabControl1.SelectedTab = tpWeb;
+            if (!sniperPanel1.checkBoxExternalWeb.Checked){
+                ShowWebPanel();
+                webPanel1.EnableIE11Emulation();
+                TabControl1.SelectedTab = tpWeb;
+            }
         }
         	
     }

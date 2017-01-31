@@ -678,6 +678,7 @@ namespace PokemonGo.RocketAPI.Console
             {
                 ActiveProfile.Settings.NotToSnipe.Add((PokemonId)Enum.Parse(typeof(PokemonId), pokemon));
             }
+            ActiveProfile.Settings.UseSpritesFolder = checkBox_UseSpritesFolder.Checked;
             // bot settings
             ActiveProfile.Settings.TransferDoublePokemons = checkBox_AutoTransferDoublePokemon.Checked;
             ActiveProfile.Settings.TransferFirstLowIV = checkBox_TransferFirstLowIV.Checked;

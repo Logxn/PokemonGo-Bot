@@ -1517,25 +1517,25 @@ namespace PokemonGo.RocketAPI.Logic
                 if (balls.First(g => g.Key == ItemId.ItemPokeBall).First().Count > 0)
                     pokeBallCollection.Add("pokeBalls", balls.First(g => g.Key == ItemId.ItemPokeBall).First().Count);
                 else
-                    Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"FYI - PokeBall Count is Zero");
+                    Logger.Warning("PokeBall Count is Zero");
 
             if (balls.Any(g => g.Key == ItemId.ItemGreatBall))
                 if (balls.First(g => g.Key == ItemId.ItemGreatBall).First().Count > 0)
                     pokeBallCollection.Add("greatBalls", balls.First(g => g.Key == ItemId.ItemGreatBall).First().Count);
                 else
-                    Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"FYI - GreatBall Count is Zero");
+                    Logger.Warning("GreatBall Count is Zero");
 
             if (balls.Any(g => g.Key == ItemId.ItemUltraBall))
                 if (balls.First(g => g.Key == ItemId.ItemUltraBall).First().Count > 0)
                     pokeBallCollection.Add("ultraBalls", balls.First(g => g.Key == ItemId.ItemUltraBall).First().Count);
                 else
-                    Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"FYI - UltraBall Count is Zero");
+                    Logger.Warning("UltraBall Count is Zero");
 
             if (balls.Any(g => g.Key == ItemId.ItemMasterBall))
                 if (balls.First(g => g.Key == ItemId.ItemMasterBall).First().Count > 0)
                     pokeBallCollection.Add("masterBalls", balls.First(g => g.Key == ItemId.ItemMasterBall).First().Count);
                 else
-                    Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"FYI - MasterBall Count is Zero");
+                    Logger.Warning("MasterBall Count is Zero");
 
             #endregion
 
