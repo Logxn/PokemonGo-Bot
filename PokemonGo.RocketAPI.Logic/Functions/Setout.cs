@@ -722,9 +722,15 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                 }
 
                 var _response = Logic.objClient.Inventory.TransferPokemon(pokemonsToTransfer).Result;
+
                 if (_response.Result == ReleasePokemonResponse.Types.Result.Success)
-                { 
-                    Logger.ColoredConsoleWrite(ConsoleColor.Yellow,$"Bulk Transfer Done correctly. {pokemonsToTransfer.Count} Pokemons was transfered");
+                {
+                    Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Transfer Successful of {pokemonsToTransfer.Count} pokemons => {_response.CandyAwarded.ToString()} candy/ies awarded.", LogLevel.Info);
+                    Helpers.RandomHelper.RandomSleep(1000, 2000);
+                }
+                else
+                {
+                    Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Something happened while transferring pokemons.");
                 }
 
                 if (Shared.GlobalVars.pauseAtEvolve2)

@@ -1,5 +1,4 @@
 using PokemonGo.RocketAPI.Console.Helper;
-using PokemonGo.RocketAPI.Exceptions;
 using PokemonGo.RocketAPI.HttpClient;
 using PokemonGo.RocketAPI.Logic.Shared;
 using PokemonGo.RocketAPI.Logic.Utils;
@@ -268,8 +267,8 @@ namespace PokemonGo.RocketAPI.Console
                     return;
                 }
 
-                Logger.ColoredConsoleWrite(ConsoleColor.Red, "There is a new Version available: " + gitVersion);
-                Logger.ColoredConsoleWrite(ConsoleColor.Red, "Its recommended to use the newest Version.");
+                Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Bot Version {gitVersion} is available!");
+                Logger.ColoredConsoleWrite(ConsoleColor.Red, "We recommend to use this new version.");
                 if (cmdCoords == string.Empty)
                 {
                     Logger.ColoredConsoleWrite(ConsoleColor.Red, "Starting in 10 Seconds.");

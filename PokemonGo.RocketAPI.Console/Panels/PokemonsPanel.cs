@@ -547,16 +547,16 @@ namespace PokemonGo.RocketAPI.Console
             if (dialogResult == DialogResult.Yes)
             {
 
-                var _response = new ReleasePokemonResponse();
+                ReleasePokemonResponse _response = new ReleasePokemonResponse();
 
-                var pokemonsToTransfer = new List<ulong>();
+                List<ulong> pokemonsToTransfer = new List<ulong>();
 
                 foreach (ListViewItem selectedItem in selectedItems)
                 {
                     var pokemon = (PokemonData)selectedItem.Tag;
                     var strPokename = Logic.Utils.StringUtils.getPokemonNameByLanguage(BotSettings, pokemon.PokemonId);
 
-                    if (pokemon.DeployedFortId == "" && pokemon.Favorite == 0 && pokemon.Id != profile.PlayerData.BuddyPokemon.Id )
+                    if (pokemon.DeployedFortId == "" && pokemon.Favorite == 0 && pokemon.Id != profile.PlayerData.BuddyPokemon.Id)
                     {
                         pokemonsToTransfer.Add(pokemon.Id);
 
@@ -565,13 +565,15 @@ namespace PokemonGo.RocketAPI.Console
                         File.AppendAllText(logs, $"[{date}] - MANUAL - Enqueuing to BULK transfer pokemon {transfered}/{total}: {Logic.Utils.StringUtils.getPokemonNameByLanguage(BotSettings, pokemon.PokemonId)}" + Environment.NewLine);
                         var strPerfection = PokemonInfo.CalculatePokemonPerfection(pokemon).ToString("0.00");
                         var strTransfer = $"Enqueuing to BULK transfer pokemon {transfered}/{total}: {strPokename} CP {pokemon.Cp} IV {strPerfection}";
-                        Logger.ColoredConsoleWrite(ConsoleColor.Red, strTransfer, LogLevel.Info);
+                        Logger.ColoredConsoleWrite(ConsoleColor.Yellow, strTransfer, LogLevel.Info);
 
                         PokemonListView.Items.Remove(selectedItem);
                     }
                     else
                     {
-                        Logger.ColoredConsoleWrite(ConsoleColor.Gray, $"Impossible to transfer {strPokename} because it's a " + ((pokemon.Favorite == 1) ? "favorite" : "deployed") + " pokemon.");
+                        if (pokemon.DeployedFortId != "") Logger.ColoredConsoleWrite(ConsoleColor.Gray, $"Impossible to transfer {strPokename} because it is deployed in a Gym.");
+                        if (pokemon.Favorite == 1) Logger.ColoredConsoleWrite(ConsoleColor.Gray, $"Impossible to transfer {strPokename} because it is a favourite pokemon.");
+                        if (pokemon.Id == profile.PlayerData.BuddyPokemon.Id) Logger.ColoredConsoleWrite(ConsoleColor.Gray, $"Impossible to transfer {strPokename} because it is your Buddy.");
                         total--;
                     }
                 }
@@ -584,10 +586,15 @@ namespace PokemonGo.RocketAPI.Console
                     {
                         File.AppendAllText(logs, $"[{date}] - MANUAL - Sucessfully Bulk transfered {transfered}/{total} Pokemons. Failed: {failed}" + Environment.NewLine);
                     }
-                    Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Transfer Successful of {transfered}/{total} pokemons.", LogLevel.Info);
+                    Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Transfer Successful of {transfered}/{total} pokemons => {_response.CandyAwarded.ToString()} candy/ies awarded.", LogLevel.Info);
                     statusTexbox.Text = $"Succesfully Bulk transfered {total} Pokemons.";
                     Helpers.RandomHelper.RandomSleep(1000, 2000);
                 }
+                else
+                {
+                    Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Something happened while transferring pokemons.");
+                }
+
                 RefreshTitle();
                 client.Inventory.GetInventory(true).Wait(); // force refresh inventory
 
