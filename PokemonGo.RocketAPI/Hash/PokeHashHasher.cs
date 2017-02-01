@@ -38,12 +38,14 @@ namespace PokemonGo.RocketAPI.Hash
             DateTime AuthTokenExpiration;   // Expiration
 
         private Uri _baseAddress = new Uri("http://pokehash.buddyauth.com/");
+        private Uri _availableHashVersionsCheck = new Uri("https://pokehash.buddyauth.com/api/hash/versions");
         private string _endpoint;
         private string apiKey;
 
         public PokeHashHasher(string apiKey)
         {
-            _endpoint = EndPointDictionary[(CurrentAPIVersion.CurrentNianticAPIVersion).ToString()];
+            //_endpoint = EndPointDictionary[(CurrentAPIVersion.CurrentNianticAPIVersion).ToString()];
+            _endpoint = EndPointDictionary[(Resources.BotApiSupportedVersion).ToString()];
             this.apiKey = apiKey;
         }
 
