@@ -1425,7 +1425,7 @@ namespace PokemonGo.RocketAPI.Logic
                 }
                 RandomHelper.RandomSleep(1000, 2000); // wait 1 second to simulate catch.
             }else if (encounterPokemonResponse.Status == EncounterResponse.Types.Status.PokemonInventoryFull){
-                Logger.Warning("You have not free space for new pokemons. Please transfer anyone before.");
+                Logger.Warning("You have no free space for new pokemons...transfer some as soon as possible.");
             }else{
                 Logger.Debug(encounterPokemonResponse.Status.ToString());
             }
