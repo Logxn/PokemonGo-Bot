@@ -44,17 +44,19 @@ namespace PokemonGo.RocketAPI.Logic.Shared
         static public string nicknamePrefix;
         [JsonProperty("nicknameSufix")]
         static public string nicknameSufix;        
-        public void Save()
+        public static void Save()
         {
-             string ProfilesString = JsonConvert.SerializeObject(this, Formatting.Indented);
+            string ProfilesString = JsonConvert.SerializeObject(new AvatarSettings(), Formatting.Indented);
              File.WriteAllText(filename, ProfilesString);
 
         }
-        public void Load()
+        public static bool Load()
         {
             if (File.Exists(filename)){
                 AvatarSettings settings = JsonConvert.DeserializeObject<AvatarSettings>(File.ReadAllText(filename));
+                return true;
             }
+            return false;
         }
     }
 

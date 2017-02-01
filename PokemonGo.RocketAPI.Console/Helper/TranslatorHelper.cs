@@ -34,10 +34,17 @@ namespace PokemonGo.RocketAPI.Console.Helper
         public static string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Translations");
         public static string UntranslatedFile = Path.Combine(path, "untranslated.txt");
         private Dictionary<String, String> dictionary = new Dictionary<String, String>();
+        private static TranslatorHelper Instance;
         
         public TranslatorHelper()
         {
             SelectLanguage(CultureInfo.CurrentCulture.Name);
+        }
+        
+        public static TranslatorHelper getInstance(){
+            if (Instance == null)
+                Instance = new TranslatorHelper();
+            return Instance;
         }
         
         public void SelectLanguage(string lang ="")
@@ -105,21 +112,25 @@ namespace PokemonGo.RocketAPI.Console.Helper
                 if (tagVal != "NO TRANSLATE") {
                     if (element is Label)
                         SafeAddToDict(dict, ctrlPrefix + (element as Label).Name, (element as Label).Text);
-                    if (element is CheckBox)
+                    else if (element is CheckBox)
                         SafeAddToDict(dict, ctrlPrefix + (element as CheckBox).Name, (element as CheckBox).Text);
-                    if (element is RadioButton)
+                    else if (element is RadioButton)
                         SafeAddToDict(dict, ctrlPrefix + (element as RadioButton).Name, (element as RadioButton).Text);
-                    if (element is Button)
+                    else if (element is Button)
                         SafeAddToDict(dict, ctrlPrefix + (element as Button).Name, (element as Button).Text);
-                    if (element is GroupBox) {
+                    else if (element is GroupBox) {
                         insertTexts(prefix, element as Control, dict);
                     }
-                    if (element is TabControl) {
+                    else if (element is TabControl) {
                         insertTexts(prefix, element as Control, dict);
                     }
-                    if (element is TabPage) {
+                    else if (element is TabPage) {
                         insertTexts(prefix, element as Control, dict);
                     }
+                    else if (element is Components.LabelCombo )
+                        SafeAddToDict(dict, ctrlPrefix + (element as Components.LabelCombo).Name, (element as Components.LabelCombo).Caption);
+                    else if (element is Components.LabelText )
+                        SafeAddToDict(dict, ctrlPrefix + (element as Components.LabelText).Name, (element as Components.LabelText).Caption);
                 }
             }
         }
@@ -177,7 +188,10 @@ namespace PokemonGo.RocketAPI.Console.Helper
                 tagVal = (element as Control).Tag as string;
                 if (tagVal != "NO TRANSLATE") {
                     if (dict.ContainsKey(ctrlPrefix + element.Name))
-                        element.Text = dict[ctrlPrefix + element.Name];
+                        if (element is Components.LabelCombo || element is Components.LabelText)
+                            (element as Components.LabelText).Caption = dict[ctrlPrefix + element.Name];
+                        else
+                            element.Text = dict[ctrlPrefix + element.Name];
                     if (element is GroupBox) {
                         writeTexts(prefix, element as Control, dict);
                     }

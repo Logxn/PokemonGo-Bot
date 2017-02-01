@@ -19,39 +19,43 @@ namespace PokemonGo.RocketAPI.Console.Panels
     /// </summary>
     public partial class TutorialPanel : UserControl
     {
+        Helper.TranslatorHelper th =  Helper.TranslatorHelper.getInstance();
         public TutorialPanel()
         {
             InitializeComponent();
+           // th.ExtractTexts(this);// <-- Creates default.json with all strings to translate.
+           th.Translate(this);
         }
         public void LoadData()
         {
-            new AvatarSettings().Load();
-            ltNickPrefix.Value = AvatarSettings.nicknamePrefix;
-            ltNickSufix.Value = AvatarSettings.nicknameSufix;
-            lcSkin.SelectedIndex = AvatarSettings.skin;
-            lcHair.SelectedIndex = AvatarSettings.hair;
-            lcEyes.SelectedIndex = AvatarSettings.eyes;
-            lcHat.SelectedIndex = AvatarSettings.hat;
-            lcShirt.SelectedIndex = AvatarSettings.shirt;
-            lcPants.SelectedIndex = AvatarSettings.pants;
-            lcShoes.SelectedIndex = AvatarSettings.shoes;            
-            lcBackpack.SelectedIndex = AvatarSettings.backpack;
-            lcGender.SelectedIndex = AvatarSettings.Gender;
-
-            lcPokemon.SelectedIndex = 4;
-            switch (AvatarSettings.starter) {
-                case POGOProtos.Enums.PokemonId.Bulbasaur: 
-                    lcPokemon.SelectedIndex= 0;
-                    break;
-                case POGOProtos.Enums.PokemonId.Charmander: 
-                    lcPokemon.SelectedIndex= 1;
-                    break;
-                case POGOProtos.Enums.PokemonId.Squirtle: 
-                    lcPokemon.SelectedIndex= 2;
-                    break;
-                case POGOProtos.Enums.PokemonId.Pikachu: 
-                    lcPokemon.SelectedIndex= 3;
-                    break;
+            if (AvatarSettings.Load()){
+                ltNickPrefix.Value = AvatarSettings.nicknamePrefix;
+                ltNickSufix.Value = AvatarSettings.nicknameSufix;
+                lcSkin.SelectedIndex = AvatarSettings.skin;
+                lcHair.SelectedIndex = AvatarSettings.hair;
+                lcEyes.SelectedIndex = AvatarSettings.eyes;
+                lcHat.SelectedIndex = AvatarSettings.hat;
+                lcShirt.SelectedIndex = AvatarSettings.shirt;
+                lcPants.SelectedIndex = AvatarSettings.pants;
+                lcShoes.SelectedIndex = AvatarSettings.shoes;            
+                lcBackpack.SelectedIndex = AvatarSettings.backpack;
+                lcGender.SelectedIndex = AvatarSettings.Gender;
+    
+                lcPokemon.SelectedIndex = 4;
+                switch (AvatarSettings.starter) {
+                    case POGOProtos.Enums.PokemonId.Bulbasaur: 
+                        lcPokemon.SelectedIndex= 0;
+                        break;
+                    case POGOProtos.Enums.PokemonId.Charmander: 
+                        lcPokemon.SelectedIndex= 1;
+                        break;
+                    case POGOProtos.Enums.PokemonId.Squirtle: 
+                        lcPokemon.SelectedIndex= 2;
+                        break;
+                    case POGOProtos.Enums.PokemonId.Pikachu: 
+                        lcPokemon.SelectedIndex= 3;
+                        break;
+                }
             }
         }
         public void SaveData()
@@ -83,7 +87,7 @@ namespace PokemonGo.RocketAPI.Console.Panels
                     AvatarSettings.starter= POGOProtos.Enums.PokemonId.Pikachu;
                     break;
             }
-            new AvatarSettings().Save();
+            AvatarSettings.Save();
         }
 
     }

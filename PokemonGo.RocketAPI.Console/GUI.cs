@@ -44,7 +44,7 @@ namespace PokemonGo.RocketAPI.Console
         static string ConfigsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Configs");
         private Profile ActiveProfile;
         
-        public Helper.TranslatorHelper th = null;
+        public Helper.TranslatorHelper th = Helper.TranslatorHelper.getInstance();
 
         public GUI()
         {
@@ -89,7 +89,6 @@ namespace PokemonGo.RocketAPI.Console
             if (!Directory.Exists(Program.path_translation))
                 Directory.CreateDirectory(Program.path_translation);
 
-            th = new Helper.TranslatorHelper();
             //th.ExtractTexts(this);// <-- Creates default.json with all strings to translate.
             Helper.TranslatorHelper.StoreUntranslated = true;
             comboLanguage.SelectedIndex = 0;

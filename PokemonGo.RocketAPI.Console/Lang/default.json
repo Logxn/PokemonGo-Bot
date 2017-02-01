@@ -203,5 +203,19 @@
   "string.Please Review Red Boxes Before Save":"Please Review Red Boxes Before Save",
   "string.Random":"Random",
   "string.Best CP":"Best CP",
-  "string.Worse CP":"Worse CP"
+  "string.Worse CP":"Worse CP",
+  "TutorialPanel.groupBox1": "Nicname",
+  "TutorialPanel.groupBox1.label1": "Nickname will be formed as:\r\nPrefix{countIfNeeded}Sufix",
+  "TutorialPanel.lcGender": "Gender",
+  "TutorialPanel.groupBox1.ltNickSufix": "Sufix",
+  "TutorialPanel.groupBox1.ltNickPrefix": "Prefix",
+  "TutorialPanel.lcPokemon": "Starter Pokemon",
+  "TutorialPanel.lcSkin": "Skin",
+  "TutorialPanel.lcShoes": "Shoes",
+  "TutorialPanel.lcShirt": "Shirt",
+  "TutorialPanel.lcPants": "Pants",
+  "TutorialPanel.lcHat": "Hat",
+  "TutorialPanel.lcHair": "Hair",
+  "TutorialPanel.lcEyes": "Eyes",
+  "TutorialPanel.lcBackpack": "Backpack"  
 }

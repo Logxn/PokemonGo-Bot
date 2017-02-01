@@ -204,5 +204,18 @@
   "GUI.tabControl1.tabUpdates.groupBox9.currText": "Versión actual:",
   "GUI.tabControl1.tabCredits.groupBox22.linkLabel11": "Xelwon",
   "GUI.tabControl1.tabWalkSettings.groupBox12.label44": "XP Límite de cultivo:",
-  "": ""
+  "TutorialPanel.groupBox1": "Nicname",
+  "TutorialPanel.groupBox1.label1": "Nickname will be formed as:\r\nPrefix{countIfNeeded}Sufix",
+  "TutorialPanel.lcGender": "Género",
+  "TutorialPanel.groupBox1.ltNickSufix": "Sufijo",
+  "TutorialPanel.groupBox1.ltNickPrefix": "Prefijo",
+  "TutorialPanel.lcPokemon": "Pokemon Inicial",
+  "TutorialPanel.lcSkin": "Piel",
+  "TutorialPanel.lcShoes": "Zapatos",
+  "TutorialPanel.lcShirt": "Camiseta",
+  "TutorialPanel.lcPants": "Pantalones",
+  "TutorialPanel.lcHat": "Gorra",
+  "TutorialPanel.lcHair": "Pelo",
+  "TutorialPanel.lcEyes": "Ojos",
+  "TutorialPanel.lcBackpack": "Mochila"
 }
