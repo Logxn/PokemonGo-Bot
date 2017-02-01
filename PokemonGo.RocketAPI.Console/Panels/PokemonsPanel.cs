@@ -586,7 +586,7 @@ namespace PokemonGo.RocketAPI.Console
                     {
                         File.AppendAllText(logs, $"[{date}] - MANUAL - Sucessfully Bulk transfered {transfered}/{total} Pokemons. Failed: {failed}" + Environment.NewLine);
                     }
-                    Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Transfer Successful of {transfered}/{total} pokemons => {_response.CandyAwarded.ToString()} candy/ies awarded.", LogLevel.Info);
+                    Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Transfer Successful of {transfered}/{total} pokemons => {_response.CandyAwarded.ToString()} candy/ies awarded.");
                     statusTexbox.Text = $"Succesfully Bulk transfered {total} Pokemons.";
                     Helpers.RandomHelper.RandomSleep(1000, 2000);
                 }
@@ -746,14 +746,14 @@ namespace PokemonGo.RocketAPI.Console
             DialogResult dialogResult = MessageBox.Show("You clicked to change nickame using IVs.\nAre you Sure?", "Confirm Dialog", MessageBoxButtons.YesNo);
             if (dialogResult == DialogResult.Yes)
             {
-                var resp = new taskResponse(false, string.Empty);
+                var resp = false;
 
                 foreach (ListViewItem selectedItem in selectedItems)
                 {
                     var pokemon = (PokemonData)selectedItem.Tag;
                     pokemon.Nickname = IVsToNickname(pokemon);
-                    resp = changePokemonNickname(pokemon).Result;
-                    if (resp.Status)
+                    resp = changePokemonNickname(pokemon);
+                    if (resp)
                     {
                         selectedItem.ToolTipText = Logic.Utils.StringUtils.ConvertTimeMSinString(pokemon.CreationTimeMs, "dd/MM/yyyy HH:mm:ss");
                         selectedItem.ToolTipText += "\nNickname: " + pokemon.Nickname;
@@ -761,7 +761,7 @@ namespace PokemonGo.RocketAPI.Console
                         statusTexbox.Text = "Renamig..." + renamed;
                     }
                     else
-                        failed += resp.Message + " ";
+                        failed += pokemon.Nickname + " ";
                      Helpers.RandomHelper.RandomSleep(5000, 6000);
                 }
 
@@ -783,28 +783,27 @@ namespace PokemonGo.RocketAPI.Console
                 croppedName = croppedName.Substring(0, lenDiff);
             return croppedName + nickname;
         }
-        private static async Task<taskResponse> changePokemonNickname(PokemonData pokemon)
+        private static bool changePokemonNickname(PokemonData pokemon)
         {
-            var resp = new taskResponse(false, string.Empty);
+            var ret = false;
             try
             {
-                var nicknamePokemonResponse1 = await client.Inventory.NicknamePokemon(pokemon.Id, pokemon.Nickname).ConfigureAwait(false);
+                var result = client.Inventory.NicknamePokemon(pokemon.Id, pokemon.Nickname).Result;
 
-                if (nicknamePokemonResponse1.Result == NicknamePokemonResponse.Types.Result.Success)
+                if ( result.Result == NicknamePokemonResponse.Types.Result.Success)
                 {
-                    resp.Status = true;
+                    ret = true;
                 }
                 else
                 {
-                    resp.Message = pokemon.PokemonId.ToString();
+                    Logger.Error($"Failed renaming {pokemon.Nickname}: {result.Result.ToString()}");
                 }
             }
             catch (Exception e)
             {
-                Logger.ColoredConsoleWrite(ConsoleColor.Red, "Error changePokemonNickname: " + e.Message);
-                await changePokemonNickname(pokemon).ConfigureAwait(false);
+                Logger.Error( "Error changePokemonNickname: " + e.Message);
             }
-            return resp;
+            return ret;
         }
 
         private void contextMenuStrip1_Opening(object sender, CancelEventArgs e)
@@ -842,26 +841,26 @@ namespace PokemonGo.RocketAPI.Console
         private void iVsToNicknameToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var pokemon = (PokemonData)PokemonListView.SelectedItems[0].Tag;
-            var resp = new taskResponse(false, string.Empty);
+            var resp = false;
 
             string promptValue = Prompt.ShowDialog(IVsToNickname(pokemon), "Confirm Nickname");
 
             if (promptValue != "")
             {
                 pokemon.Nickname = promptValue;
-                resp = changePokemonNickname(pokemon).Result;
+                resp = changePokemonNickname(pokemon);
             }
             else
             {
                 return;
             }
-            if (resp.Status)
+            if (resp)
             {
                 PokemonListView.SelectedItems[0].ToolTipText = Logic.Utils.StringUtils.ConvertTimeMSinString(pokemon.CreationTimeMs, "dd/MM/yyyy HH:mm:ss");
                 PokemonListView.SelectedItems[0].ToolTipText += "\nNickname: " + pokemon.Nickname;
             }
             else
-                MessageBox.Show(resp.Message + " rename failed!", "Rename Status", MessageBoxButtons.OK);
+                MessageBox.Show( pokemon.Nickname + " rename failed!", "Rename Status", MessageBoxButtons.OK);
         }
 
         private void changeFavouritesToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1004,91 +1003,6 @@ namespace PokemonGo.RocketAPI.Console
         private void freezedenshit_Tick(object sender, EventArgs e)
         {
             freezedenshit.Stop();
-        }
-        private void lang_en_btn2_Click(object sender, EventArgs e)
-        {
-            lang_de_btn_2.Enabled = true;
-            lang_spain_btn2.Enabled = true;
-            lang_en_btn2.Enabled = false;
-            lang_ptBR_btn2.Enabled = true;
-            lang_tr_btn2.Enabled = true;
-
-            // Pokemon List GUI
-            btnreload.Text = "Reload";
-            btnEvolve.Text = "Evolve";
-            checkBoxreload.Text = "Reload every";
-            btnUpgrade.Text = "PowerUp";
-            btnFullPowerUp.Text = "FULL-PowerUp";
-            btnTransfer.Text = "Transfer";
-        }
-
-        private void lang_de_btn_2_Click(object sender, EventArgs e)
-        {
-            lang_en_btn2.Enabled = true;
-            lang_spain_btn2.Enabled = true;
-            lang_de_btn_2.Enabled = false;
-            lang_ptBR_btn2.Enabled = true;
-            lang_tr_btn2.Enabled = true;
-
-            // Pokemon List GUI
-            btnreload.Text = "Aktualisieren";
-            btnEvolve.Text = "Entwickeln";
-            checkBoxreload.Text = "Aktualisiere alle";
-            btnUpgrade.Text = "PowerUp";
-            btnFullPowerUp.Text = "FULL-PowerUp";
-            btnTransfer.Text = "Versenden";
-        }
-
-        private void lang_spain_btn2_Click(object sender, EventArgs e)
-        {
-            lang_en_btn2.Enabled = true;
-            lang_de_btn_2.Enabled = true;
-            lang_spain_btn2.Enabled = false;
-            lang_ptBR_btn2.Enabled = true;
-            lang_tr_btn2.Enabled = true;
-
-            // Pokemon List GUI
-            btnreload.Text = "Actualizar";
-            btnEvolve.Text = "Evolucionar";
-            checkBoxreload.Text = "Actualizar cada";
-            btnUpgrade.Text = "Dar más poder";
-            btnFullPowerUp.Text = "Dar más poder [TOTAL]";
-            btnTransfer.Text = "Transferir";
-            
-        }
-
-        private void lang_ptBR_btn2_Click(object sender, EventArgs e)
-        {
-            lang_en_btn2.Enabled = true;
-            lang_de_btn_2.Enabled = true;
-            lang_spain_btn2.Enabled = true;
-            lang_ptBR_btn2.Enabled = false;
-            lang_tr_btn2.Enabled = true;
-            // Pokemon List GUI
-            btnreload.Text = "Recarregar";
-            btnEvolve.Text = "Evoluir (selecionados)";
-            checkBoxreload.Text = "Recarregar a cada";
-            btnUpgrade.Text = "PowerUp (selecionados)";
-            btnFullPowerUp.Text = "FULL-PowerUp (selecionados)";
-            btnTransfer.Text = "Transferir (selecionados)";
-
-        }
-
-        private void lang_tr_btn2_Click(object sender, EventArgs e)
-        {
-            lang_de_btn_2.Enabled = true;
-            lang_spain_btn2.Enabled = true;
-            lang_en_btn2.Enabled = true;
-            lang_ptBR_btn2.Enabled = true;
-            lang_tr_btn2.Enabled = false;
-
-            // Pokemon List GUI
-            btnreload.Text = "Yenile";
-            btnEvolve.Text = "Geliştir";
-            checkBoxreload.Text = "Yenile her";
-            btnUpgrade.Text = "Güçlendir";
-            btnFullPowerUp.Text = "TAM-Güçlendir";
-            btnTransfer.Text = "Transfer";
         }
 
         private void btnUseLure_Click(object sender, EventArgs e)

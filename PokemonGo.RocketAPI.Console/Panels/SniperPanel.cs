@@ -49,7 +49,8 @@ namespace PokemonGo.RocketAPI.Console
     {
         static Dictionary<string, int> pokeIDS = new Dictionary<string, int>();
         public WebBrowser webBrowser = null;
-        
+        private Helper.TranslatorHelper th = Helper.TranslatorHelper.getInstance();
+
         public SniperPanel()
         {
             //
@@ -57,6 +58,7 @@ namespace PokemonGo.RocketAPI.Console
             //
             InitializeComponent();
             IntializeComboLinks();
+            th.Translate(this);
         }
 
         void IntializeComboLinks()

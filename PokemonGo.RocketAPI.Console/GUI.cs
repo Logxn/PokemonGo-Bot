@@ -44,7 +44,7 @@ namespace PokemonGo.RocketAPI.Console
         static string ConfigsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Configs");
         private Profile ActiveProfile;
         
-        public Helper.TranslatorHelper th = null;
+        public Helper.TranslatorHelper th = Helper.TranslatorHelper.getInstance();
 
         public GUI()
         {
@@ -89,12 +89,10 @@ namespace PokemonGo.RocketAPI.Console
             if (!Directory.Exists(Program.path_translation))
                 Directory.CreateDirectory(Program.path_translation);
 
-            th = new Helper.TranslatorHelper();
-            //th.ExtractTexts(this);// <-- Creates default.json with all strings to translate.
             Helper.TranslatorHelper.StoreUntranslated = true;
             comboLanguage.SelectedIndex = 0;
             // Download json file of current Culture Info if exists
-            DownloadTranslationFile("PokemonGo.RocketAPI.Console/Lang", Program.path_translation, CultureInfo.CurrentCulture.Name);
+            Helper.TranslatorHelper.DownloadTranslationFile("PokemonGo.RocketAPI.Console/Lang", Program.path_translation, CultureInfo.CurrentCulture.Name);
             // Translate using Current Culture Info
             th.Translate(this);
             #endregion
@@ -1077,36 +1075,6 @@ namespace PokemonGo.RocketAPI.Console
             Process.Start("https://high-minded.net/threads/pokemon-go-c-bot-safer-better.50731/");
         }
 
-
-
-        public static void DownloadTranslationFile(string remoteDir, string outDir, string lang)
-        {
-            var resourceName = lang + ".json";
-            var filename = outDir + "\\" + resourceName;
-            if (!File.Exists(filename))
-            {
-                try {
-                    using (var wC = new WebClient())
-                    {
-                         wC.DownloadFile("https://raw.githubusercontent.com/Logxn/PokemonGo-Bot/master/"+remoteDir+"/"+resourceName,filename);
-                         if (File.ReadAllText(filename) == "")
-                             File.Delete(filename);
-                    }
-                } catch (Exception ex1) {
-                    Logger.AddLog(resourceName+":"+ex1.ToString());
-                }
-            }
-
-            // We download base language if exists. For example es-ES, es
-            var baseLang = lang.Split('-');
-            if (baseLang.Length > 1)
-            {
-                DownloadTranslationFile(remoteDir,outDir,baseLang[0].ToLower());
-                DownloadTranslationFile(remoteDir,outDir,baseLang[1].ToLower());
-            }
-
-        }
-
         public static void Extract(string nameSpace, string outDir, string internalFilePath, string resourceName)
         {
             Assembly ass = Assembly.GetCallingAssembly();
@@ -1305,7 +1273,7 @@ namespace PokemonGo.RocketAPI.Console
 
             if (lang !="")
             {
-                DownloadTranslationFile("PokemonGo.RocketAPI.Console/Lang", Program.path_translation, lang);
+                Helper.TranslatorHelper.DownloadTranslationFile("PokemonGo.RocketAPI.Console/Lang", Program.path_translation, lang);
                 th.SelectLanguage(lang);
                 th.Translate(this);
             }

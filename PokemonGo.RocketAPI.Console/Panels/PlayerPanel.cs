@@ -32,13 +32,16 @@ namespace PokemonGo.RocketAPI.Console
         private static GetPlayerResponse profile = null;
         private static IOrderedEnumerable<PokemonData> pokemons = null;
         private static POGOProtos.Data.Player.PlayerStats stats;
-        
+        private Helper.TranslatorHelper th = Helper.TranslatorHelper.getInstance();
+
         public PlayerPanel()
         {
             //
             // The InitializeComponent() call is required for Windows Forms designer support.
             //
             InitializeComponent();
+            th.Translate(this);
+            
         }
 
 
