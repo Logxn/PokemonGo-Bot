@@ -14,7 +14,7 @@ namespace PokemonGo.RocketAPI.Console.Panels
         /// Designer variable used to keep track of non-visual components.
         /// </summary>
         private System.ComponentModel.IContainer components = null;
-        private System.Windows.Forms.WebBrowser webBrowser1;
+        public System.Windows.Forms.WebBrowser webBrowser1;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.ToolTip toolTip1;

@@ -36,15 +36,13 @@ namespace PokemonGo.RocketAPI.Console
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.LinkLabel LinkPokedexsCom;
-        private System.Windows.Forms.LinkLabel linkpokegosnipers;
-        private System.Windows.Forms.LinkLabel linkPokezz;
         private System.Windows.Forms.NumericUpDown nudSecondsSnipe;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.NumericUpDown nudTriesSnipe;
-        private System.Windows.Forms.LinkLabel linkSnipeNecrobot2;
-        private System.Windows.Forms.LinkLabel linkMyPogoSnipers;
+        private System.Windows.Forms.ComboBox comboBoxLinks;
+        private System.Windows.Forms.Button buttonGo;
+        public System.Windows.Forms.CheckBox checkBoxExternalWeb;
         
         /// <summary>
         /// Disposes resources used by the control.
@@ -86,10 +84,9 @@ namespace PokemonGo.RocketAPI.Console
             this.label64 = new System.Windows.Forms.Label();
             this.SnipeInfo = new System.Windows.Forms.TextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.linkSnipeNecrobot2 = new System.Windows.Forms.LinkLabel();
-            this.linkPokezz = new System.Windows.Forms.LinkLabel();
-            this.linkpokegosnipers = new System.Windows.Forms.LinkLabel();
-            this.LinkPokedexsCom = new System.Windows.Forms.LinkLabel();
+            this.checkBoxExternalWeb = new System.Windows.Forms.CheckBox();
+            this.buttonGo = new System.Windows.Forms.Button();
+            this.comboBoxLinks = new System.Windows.Forms.ComboBox();
             this.btnInstall = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -98,7 +95,6 @@ namespace PokemonGo.RocketAPI.Console
             this.label8 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.nudTriesSnipe = new System.Windows.Forms.NumericUpDown();
-            this.linkMyPogoSnipers = new System.Windows.Forms.LinkLabel();
             this.groupBox23.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PokemonImage)).BeginInit();
@@ -307,11 +303,9 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.linkMyPogoSnipers);
-            this.groupBox2.Controls.Add(this.linkSnipeNecrobot2);
-            this.groupBox2.Controls.Add(this.linkPokezz);
-            this.groupBox2.Controls.Add(this.linkpokegosnipers);
-            this.groupBox2.Controls.Add(this.LinkPokedexsCom);
+            this.groupBox2.Controls.Add(this.checkBoxExternalWeb);
+            this.groupBox2.Controls.Add(this.buttonGo);
+            this.groupBox2.Controls.Add(this.comboBoxLinks);
             this.groupBox2.Controls.Add(this.btnInstall);
             this.groupBox2.Controls.Add(this.label1);
             this.groupBox2.Controls.Add(this.label2);
@@ -324,45 +318,35 @@ namespace PokemonGo.RocketAPI.Console
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "URI Service";
             // 
-            // linkSnipeNecrobot2
+            // checkBoxExternalWeb
             // 
-            this.linkSnipeNecrobot2.Location = new System.Drawing.Point(301, 57);
-            this.linkSnipeNecrobot2.Name = "linkSnipeNecrobot2";
-            this.linkSnipeNecrobot2.Size = new System.Drawing.Size(118, 15);
-            this.linkSnipeNecrobot2.TabIndex = 92;
-            this.linkSnipeNecrobot2.TabStop = true;
-            this.linkSnipeNecrobot2.Tag = "http://snipe.necrobot2.com/";
-            this.linkSnipeNecrobot2.Text = "snipe.necrobot2.com";
+            this.checkBoxExternalWeb.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.checkBoxExternalWeb.Location = new System.Drawing.Point(11, 55);
+            this.checkBoxExternalWeb.Name = "checkBoxExternalWeb";
+            this.checkBoxExternalWeb.Size = new System.Drawing.Size(169, 20);
+            this.checkBoxExternalWeb.TabIndex = 96;
+            this.checkBoxExternalWeb.Text = "Open In External Browser";
+            this.checkBoxExternalWeb.UseVisualStyleBackColor = true;
             // 
-            // linkPokezz
+            // buttonGo
             // 
-            this.linkPokezz.Location = new System.Drawing.Point(228, 57);
-            this.linkPokezz.Name = "linkPokezz";
-            this.linkPokezz.Size = new System.Drawing.Size(67, 15);
-            this.linkPokezz.TabIndex = 91;
-            this.linkPokezz.TabStop = true;
-            this.linkPokezz.Tag = "http://pokezz.com";
-            this.linkPokezz.Text = "pokezz.com";
+            this.buttonGo.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.buttonGo.Location = new System.Drawing.Point(413, 52);
+            this.buttonGo.Name = "buttonGo";
+            this.buttonGo.Size = new System.Drawing.Size(54, 23);
+            this.buttonGo.TabIndex = 95;
+            this.buttonGo.Text = "Go";
+            this.buttonGo.UseVisualStyleBackColor = true;
+            this.buttonGo.Click += new System.EventHandler(this.buttonGo_Click);
             // 
-            // linkpokegosnipers
+            // comboBoxLinks
             // 
-            this.linkpokegosnipers.Location = new System.Drawing.Point(109, 57);
-            this.linkpokegosnipers.Name = "linkpokegosnipers";
-            this.linkpokegosnipers.Size = new System.Drawing.Size(110, 15);
-            this.linkpokegosnipers.TabIndex = 90;
-            this.linkpokegosnipers.TabStop = true;
-            this.linkpokegosnipers.Tag = "http://pokegosnipers.com";
-            this.linkpokegosnipers.Text = "pokegosnipers.com";
-            // 
-            // LinkPokedexsCom
-            // 
-            this.LinkPokedexsCom.Location = new System.Drawing.Point(16, 57);
-            this.LinkPokedexsCom.Name = "LinkPokedexsCom";
-            this.LinkPokedexsCom.Size = new System.Drawing.Size(100, 15);
-            this.LinkPokedexsCom.TabIndex = 89;
-            this.LinkPokedexsCom.TabStop = true;
-            this.LinkPokedexsCom.Tag = "https://pokedexs.com";
-            this.LinkPokedexsCom.Text = "pokedexs.com";
+            this.comboBoxLinks.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxLinks.FormattingEnabled = true;
+            this.comboBoxLinks.Location = new System.Drawing.Point(217, 54);
+            this.comboBoxLinks.Name = "comboBoxLinks";
+            this.comboBoxLinks.Size = new System.Drawing.Size(190, 21);
+            this.comboBoxLinks.TabIndex = 94;
             // 
             // btnInstall
             // 
@@ -438,11 +422,11 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // label9
             // 
-            this.label9.Location = new System.Drawing.Point(201, 399);
+            this.label9.Location = new System.Drawing.Point(193, 399);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(142, 17);
+            this.label9.Size = new System.Drawing.Size(149, 17);
             this.label9.TabIndex = 89;
-            this.label9.Text = "Num Tries Finding Enconter:";
+            this.label9.Text = "Num Tries Finding Encounter:";
             // 
             // nudTriesSnipe
             // 
@@ -466,16 +450,6 @@ namespace PokemonGo.RocketAPI.Console
             0,
             0});
             this.nudTriesSnipe.ValueChanged += new System.EventHandler(this.nudTriesSnipe_ValueChanged);
-            // 
-            // linkMyPogoSnipers
-            // 
-            this.linkMyPogoSnipers.Location = new System.Drawing.Point(414, 57);
-            this.linkMyPogoSnipers.Name = "linkMyPogoSnipers";
-            this.linkMyPogoSnipers.Size = new System.Drawing.Size(118, 15);
-            this.linkMyPogoSnipers.TabIndex = 93;
-            this.linkMyPogoSnipers.TabStop = true;
-            this.linkMyPogoSnipers.Tag = "http://www.mypogosnipers.com";
-            this.linkMyPogoSnipers.Text = "mypogosnipers.com";
             // 
             // SniperPanel
             // 

@@ -45,10 +45,10 @@ namespace PokemonGo.RocketAPI.Logic.Functions
             }
             try
             {
-                remoteCoords.Altitude = LocationUtils.getAltidude(remoteCoords.Altitude, remoteCoords.Longitude);
+                remoteCoords.Altitude = LocationUtils.getAltitude(remoteCoords.Latitude, remoteCoords.Longitude);
                 
                 SendToLog($"Trying to capture {pokeid}  at { remoteCoords.Latitude } / {remoteCoords.Longitude}");
-                SendToLog(LocationUtils.FindAddress(remoteCoords.Altitude,remoteCoords.Longitude));
+                SendToLog(LocationUtils.FindAddress(remoteCoords.Latitude,remoteCoords.Longitude));
                 var result = _client.Player.UpdatePlayerLocation(remoteCoords.Latitude, remoteCoords.Longitude, remoteCoords.Altitude).Result;
 
                 SendToLog($"Went to sniping location.");
@@ -105,7 +105,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                 }
                 tries ++;
             
-            }while ((tries < GlobalVars.SnipeOpts.NumTries) && !found);
+            }while ((tries <= GlobalVars.SnipeOpts.NumTries) && !found);
             
             if (!found){
                 SendToLog( $"Go to {_botSettings.DefaultLatitude} / {_botSettings.DefaultLongitude}.");

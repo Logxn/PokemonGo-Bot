@@ -276,7 +276,7 @@ namespace PokemonGo.RocketAPI.Console
     
             text_Latidude.Text = config.DefaultLatitude.ToString(CultureInfo.InvariantCulture);
             text_Longitude.Text = config.DefaultLongitude.ToString(CultureInfo.InvariantCulture);
-            text_Altidude.Text = config.DefaultAltitude.ToString(CultureInfo.InvariantCulture);
+            text_Altitude.Text = config.DefaultAltitude.ToString(CultureInfo.InvariantCulture);
     
             checkBox_UseLuckyEggAtEvolve.Checked = config.UseLuckyEgg;
             checkBox_SimulateAnimationTimeAtEvolve.Checked = config.UseAnimationTimes;
@@ -641,7 +641,7 @@ namespace PokemonGo.RocketAPI.Console
             ret &= textBoxToActiveProfDouble(text_Latidude, "DefaultLatitude");
             
             ret &= textBoxToActiveProfDouble(text_Longitude, "DefaultLongitude");
-            ret &= textBoxToActiveProfDouble(text_Altidude, "DefaultAltitude");
+            ret &= textBoxToActiveProfDouble(text_Altitude, "DefaultAltitude");
 
             // Other
             ActiveProfile.Settings.UseLuckyEgg = checkBox_UseLuckyEggAtEvolve.Checked;
@@ -678,6 +678,7 @@ namespace PokemonGo.RocketAPI.Console
             {
                 ActiveProfile.Settings.NotToSnipe.Add((PokemonId)Enum.Parse(typeof(PokemonId), pokemon));
             }
+            ActiveProfile.Settings.UseSpritesFolder = checkBox_UseSpritesFolder.Checked;
             // bot settings
             ActiveProfile.Settings.TransferDoublePokemons = checkBox_AutoTransferDoublePokemon.Checked;
             ActiveProfile.Settings.TransferFirstLowIV = checkBox_TransferFirstLowIV.Checked;
@@ -1017,7 +1018,7 @@ namespace PokemonGo.RocketAPI.Console
             // We set current values
             GlobalVars.latitude = StrCordToDouble(text_Latidude.Text);
             GlobalVars.longitude = StrCordToDouble(text_Longitude.Text);
-            GlobalVars.altitude = StrCordToDouble(text_Altidude.Text);
+            GlobalVars.altitude = StrCordToDouble(text_Altitude.Text);
             int.TryParse(text_MoveRadius.Text, out GlobalVars.radius);
 
             LocationSelect locationSelector = new LocationSelect(false);           
@@ -1026,7 +1027,7 @@ namespace PokemonGo.RocketAPI.Console
             // We set selected values
             text_Latidude.Text = GlobalVars.latitude.ToString(CultureInfo.InvariantCulture);
             text_Longitude.Text = GlobalVars.longitude.ToString(CultureInfo.InvariantCulture);
-            text_Altidude.Text = GlobalVars.altitude.ToString(CultureInfo.InvariantCulture);
+            text_Altitude.Text = GlobalVars.altitude.ToString(CultureInfo.InvariantCulture);
             text_MoveRadius.Text = ""+GlobalVars.radius;
         }
 

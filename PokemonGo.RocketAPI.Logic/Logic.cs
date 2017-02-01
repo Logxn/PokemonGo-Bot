@@ -11,6 +11,7 @@ using GoogleMapsApi;
 using GoogleMapsApi.Entities.Common;
 using GoogleMapsApi.Entities.Directions.Request;
 using GoogleMapsApi.Entities.Directions.Response;
+using POGOProtos.Data.Logs;
 using PokemonGo.RocketApi.PokeMap;
 using PokemonGo.RocketAPI.Exceptions;
 using PokemonGo.RocketAPI.Helpers;
@@ -167,15 +168,15 @@ namespace PokemonGo.RocketAPI.Logic
 
         public void Execute()
         {
-            Logger.ColoredConsoleWrite(ConsoleColor.Red, "Source code and binary files of this bot are absolutely free and open-source!");
-            Logger.ColoredConsoleWrite(ConsoleColor.Red, "If you've paid for it. Request a chargeback immediately!");
-            Logger.ColoredConsoleWrite(ConsoleColor.Red, "You only need pay for a key to access to Hash Service");
-
             Logger.SelectedLevel = LogLevel.Error;
+            Logger.Warning( "Source code and binary files of this bot are absolutely free and open-source!");
+            Logger.Warning( "If you've paid for it. Request a chargeback immediately!");
+            Logger.Warning( "You only need pay for a key to access to Hash Service");
+
             if (GlobalVars.EnableVerboseLogging)
             {
                 Logger.SelectedLevel = LogLevel.Debug;
-                Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"LogLevel set to {Logger.SelectedLevel}. Many logs will be generated.");
+                Logger.ColoredConsoleWrite(ConsoleColor.Red, $"LogLevel set to {Logger.SelectedLevel}. Many logs will be generated.");
             }
 
             #region Log Logger
@@ -217,12 +218,11 @@ namespace PokemonGo.RocketAPI.Logic
 
             #region Fix Altitude
 
-            if (Math.Abs(objClient.CurrentAltitude) <= 0)
-            {
-                objClient.CurrentAltitude = LocationUtils.getAltidude(objClient.CurrentLatitude, objClient.CurrentLongitude);
+            if (Math.Abs(objClient.CurrentAltitude) < double.Epsilon) {
+                objClient.CurrentAltitude = LocationUtils.getAltitude(objClient.CurrentLatitude, objClient.CurrentLongitude);
                 BotSettings.DefaultAltitude = objClient.CurrentAltitude;
 
-                Logger.Error($"Altidude was 0, resolved that. New Altidude is now: {objClient.CurrentAltitude}");
+                Logger.Warning($"Altitude was 0, resolved that. New Altitude is now: {objClient.CurrentAltitude}");
             }
 
             #endregion
@@ -1205,7 +1205,8 @@ namespace PokemonGo.RocketAPI.Logic
             {
                 if (goBack)
                 {
-                    Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Go to {BotSettings.DefaultLatitude} / {BotSettings.DefaultLongitude} before starting the capture.");
+                    Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"(SNIPING) Go to {BotSettings.DefaultLatitude} / {BotSettings.DefaultLongitude} before starting the capture.");
+                    Logger.ColoredConsoleWrite(ConsoleColor.Cyan,LocationUtils.FindAddress(BotSettings.DefaultLatitude,BotSettings.DefaultLongitude));
                     
                     var result = objClient.Player.UpdatePlayerLocation(
                         BotSettings.DefaultLatitude,
@@ -1423,6 +1424,10 @@ namespace PokemonGo.RocketAPI.Logic
                     SkippedPokemon.Add(encounterPokemonResponse.WildPokemon.EncounterId);
                 }
                 RandomHelper.RandomSleep(1000, 2000); // wait 1 second to simulate catch.
+            }else if (encounterPokemonResponse.Status == EncounterResponse.Types.Status.PokemonInventoryFull){
+                Logger.Warning("You have not free space for new pokemons. Please transfer anyone before.");
+            }else{
+                Logger.Debug(encounterPokemonResponse.Status.ToString());
             }
             
         }
@@ -1512,25 +1517,25 @@ namespace PokemonGo.RocketAPI.Logic
                 if (balls.First(g => g.Key == ItemId.ItemPokeBall).First().Count > 0)
                     pokeBallCollection.Add("pokeBalls", balls.First(g => g.Key == ItemId.ItemPokeBall).First().Count);
                 else
-                    Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"FYI - PokeBall Count is Zero");
+                    Logger.Warning("PokeBall Count is Zero");
 
             if (balls.Any(g => g.Key == ItemId.ItemGreatBall))
                 if (balls.First(g => g.Key == ItemId.ItemGreatBall).First().Count > 0)
                     pokeBallCollection.Add("greatBalls", balls.First(g => g.Key == ItemId.ItemGreatBall).First().Count);
                 else
-                    Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"FYI - GreatBall Count is Zero");
+                    Logger.Warning("GreatBall Count is Zero");
 
             if (balls.Any(g => g.Key == ItemId.ItemUltraBall))
                 if (balls.First(g => g.Key == ItemId.ItemUltraBall).First().Count > 0)
                     pokeBallCollection.Add("ultraBalls", balls.First(g => g.Key == ItemId.ItemUltraBall).First().Count);
                 else
-                    Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"FYI - UltraBall Count is Zero");
+                    Logger.Warning("UltraBall Count is Zero");
 
             if (balls.Any(g => g.Key == ItemId.ItemMasterBall))
                 if (balls.First(g => g.Key == ItemId.ItemMasterBall).First().Count > 0)
                     pokeBallCollection.Add("masterBalls", balls.First(g => g.Key == ItemId.ItemMasterBall).First().Count);
                 else
-                    Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"FYI - MasterBall Count is Zero");
+                    Logger.Warning("MasterBall Count is Zero");
 
             #endregion
 

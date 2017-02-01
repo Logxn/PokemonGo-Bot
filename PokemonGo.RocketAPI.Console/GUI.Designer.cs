@@ -117,7 +117,7 @@ namespace PokemonGo.RocketAPI.Console
             this.button_SetLocation = new System.Windows.Forms.Button();
             this.label6 = new System.Windows.Forms.Label();
             this.checkBox_StartWalkingFromLastLocation = new System.Windows.Forms.CheckBox();
-            this.text_Altidude = new System.Windows.Forms.TextBox();
+            this.text_Altitude = new System.Windows.Forms.TextBox();
             this.text_Longitude = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.text_Latidude = new System.Windows.Forms.TextBox();
@@ -1287,7 +1287,7 @@ namespace PokemonGo.RocketAPI.Console
             this.groupBox2.Controls.Add(this.button_SetLocation);
             this.groupBox2.Controls.Add(this.label6);
             this.groupBox2.Controls.Add(this.checkBox_StartWalkingFromLastLocation);
-            this.groupBox2.Controls.Add(this.text_Altidude);
+            this.groupBox2.Controls.Add(this.text_Altitude);
             this.groupBox2.Controls.Add(this.text_Longitude);
             this.groupBox2.Controls.Add(this.label5);
             this.groupBox2.Controls.Add(this.text_Latidude);
@@ -1329,15 +1329,15 @@ namespace PokemonGo.RocketAPI.Console
             this.checkBox_StartWalkingFromLastLocation.Text = "Start walking from the last location.";
             this.checkBox_StartWalkingFromLastLocation.UseVisualStyleBackColor = true;
             // 
-            // text_Altidude
+            // text_Altitude
             // 
-            this.text_Altidude.Enabled = false;
-            this.text_Altidude.Location = new System.Drawing.Point(101, 75);
-            this.text_Altidude.Name = "text_Altidude";
-            this.text_Altidude.Size = new System.Drawing.Size(100, 20);
-            this.text_Altidude.TabIndex = 4;
-            this.text_Altidude.Text = "0";
-            this.text_Altidude.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox5_KeyPress);
+            this.text_Altitude.Enabled = false;
+            this.text_Altitude.Location = new System.Drawing.Point(101, 75);
+            this.text_Altitude.Name = "text_Altitude";
+            this.text_Altitude.Size = new System.Drawing.Size(100, 20);
+            this.text_Altitude.TabIndex = 4;
+            this.text_Altitude.Text = "0";
+            this.text_Altitude.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox5_KeyPress);
             // 
             // text_Longitude
             // 
@@ -3535,7 +3535,7 @@ namespace PokemonGo.RocketAPI.Console
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Button button_SetLocation;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.TextBox text_Altidude;
+        private System.Windows.Forms.TextBox text_Altitude;
         private System.Windows.Forms.TextBox text_Longitude;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox text_Latidude;

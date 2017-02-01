@@ -48,35 +48,34 @@ namespace PokemonGo.RocketAPI.Console
     public partial class SniperPanel : UserControl
     {
         static Dictionary<string, int> pokeIDS = new Dictionary<string, int>();
+        public WebBrowser webBrowser = null;
         
         public SniperPanel()
         {
             //
             // The InitializeComponent() call is required for Windows Forms designer support.
             //
-            InitializeComponent();            
-            //LinkPokedexsCom.Links.Add(0,LinkPokedexsCom.Text.Length,"https://pokedexs.com/");
-            //linkpokegosnipers.Links.Add(0,linkpokegosnipers.Text.Length,"http://pokegosnipers.com/");
-            //linkPokezz.Links.Add(0,linkPokezz.Text.Length,"http://pokezz.com/");            
+            InitializeComponent();
+            IntializeComboLinks();
         }
-        
-        public void AddLinkClick(int linknumber, System.EventHandler evh){
-        	var lbl= LinkPokedexsCom;
-            switch (linknumber) {
-                case 1:
-                    lbl = linkpokegosnipers;
-                    break;
-                case 2:
-                    lbl = linkPokezz;
-                    break;
-                case 3:
-                    lbl = linkSnipeNecrobot2;
-                    break;
-                case 4:
-                    lbl = linkMyPogoSnipers;
-                    break;
-            }
-        	lbl.Click += evh;
+
+        void IntializeComboLinks()
+        {
+            var links = new Collection<Components.HRefLink>();
+            links.Add( new Components.HRefLink("pokedexs.com","https://pokedexs.com"));
+            links.Add( new Components.HRefLink("pokegosnipers.com","http://pokegosnipers.com"));
+            links.Add( new Components.HRefLink("pokezz.com","http://pokezz.com"));
+            links.Add( new Components.HRefLink("pokewatchers.com","http://pokewatchers.com"));
+            links.Add( new Components.HRefLink("mypogosnipers.com","http://www.mypogosnipers.com"));
+            links.Add( new Components.HRefLink("snipe.necrobot2.com","http://snipe.necrobot2.com"));
+            links.Add( new Components.HRefLink("pokesniper.org","http://pokesniper.org/"));
+            comboBoxLinks.DataSource = links;
+            comboBoxLinks.DisplayMember= "Text";
+            comboBoxLinks.SelectedIndex = 0;
+        }
+
+        public void AddButtonClick(System.EventHandler evh){
+        	buttonGo.Click += evh;
         }
         
         void SelectallNottoSnipe_CheckedChanged(object sender, EventArgs e)
@@ -319,6 +318,18 @@ namespace PokemonGo.RocketAPI.Console
         void PokesniperCom_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
           System.Diagnostics.Process.Start(e.Link.LinkData.ToString());
-        }        
+        }
+        void buttonGo_Click(object sender, EventArgs e)
+        {
+            if (comboBoxLinks.SelectedItem !=null){
+                var url = (comboBoxLinks.SelectedItem as Components.HRefLink).URL;
+                if ( webBrowser!=null  &&  !checkBoxExternalWeb.Checked ){
+                    webBrowser.Navigate(url);
+                }else{
+                    System.Diagnostics.Process.Start(url);
+                }
+            }
+
+        }
     }
 }

@@ -58,7 +58,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
         {
             // reset stat counter
             count = 0;
-            if (Shared.GlobalVars.UseIncenseGUIClick) UseIncense();
+            CheckIfUseIncense();
 
             if (Shared.GlobalVars.UseLuckyEggIfNotRunning || Shared.GlobalVars.UseLuckyEggGUIClick)
             {
@@ -81,9 +81,9 @@ namespace PokemonGo.RocketAPI.Logic.Functions
         }
 
         private static DateTime lastincenseuse;
-        public static void UseIncense()
-        {
 
+        public static void CheckIfUseIncense()
+        {
             if (Shared.GlobalVars.RelocateDefaultLocation)
                 return;
             if (Shared.GlobalVars.UseIncense || Shared.GlobalVars.UseIncenseGUIClick)
@@ -660,34 +660,42 @@ namespace PokemonGo.RocketAPI.Logic.Functions
             }
             if (Shared.GlobalVars.TransferDoublePokemons)
             {
+                var profil = Logic.objClient.Player.GetPlayer().Result;
+                RandomHelper.RandomSleep(300,400);
                 var duplicatePokemons = Logic.objClient.Inventory.GetDuplicatePokemonToTransfer(Shared.GlobalVars.HoldMaxDoublePokemons, keepPokemonsThatCanEvolve, transferFirstLowIv).Result;
                 if (Shared.GlobalVars.pauseAtEvolve2)
                 {
                     Logger.ColoredConsoleWrite(ConsoleColor.Green, "Stopping to transfer some Pokemons.");
                     Shared.GlobalVars.PauseTheWalking = true;
                 }
+                var pokemonsToTransfer = new List<ulong>();
                 foreach (var duplicatePokemon in duplicatePokemons)
                 {
+                    var Pokename = StringUtils.getPokemonNameByLanguage( duplicatePokemon.PokemonId);
+                    var IVPercent = PokemonInfo.CalculatePokemonPerfection(duplicatePokemon).ToString("0.00");
+
+                    if ( profil.PlayerData.BuddyPokemon.Id == duplicatePokemon.Id){
+                        Logger.Warning($"Pokemon {Pokename} with {IVPercent}% IV Is your buddy so can not be transfered");
+                        continue;// go to next itearion from foreach
+                    }
+
                     if (!Shared.GlobalVars.pokemonsToHold.Contains(duplicatePokemon.PokemonId))
                     {
                         if (duplicatePokemon.Cp >= Shared.GlobalVars.DontTransferWithCPOver || PokemonInfo.CalculatePokemonPerfection(duplicatePokemon) >= Shared.GlobalVars.ivmaxpercent)
                         {
-                            continue; // Isnt this wrong? Shouldnt it return instead of continueing?
+                            continue; // go to next itearion from foreach
                         }
 
                         var bestPokemonOfType = Logic.objClient.Inventory.GetHighestCPofType(duplicatePokemon).Result;
                         var bestPokemonsCpOfType = Logic.objClient.Inventory.GetHighestCPofType2(duplicatePokemon).Result;
                         var bestPokemonsIvOfType = Logic.objClient.Inventory.GetHighestIVofType(duplicatePokemon).Result;
 
-                        ReleasePokemonResponse transfer = Logic.objClient.Inventory.TransferPokemon(duplicatePokemon.Id).Result;
+                        pokemonsToTransfer.Add(duplicatePokemon.Id);
 
                         var logPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Logs");
                         var logs = Path.Combine(logPath, "TransferLog.txt");
                         var date = DateTime.Now.ToString();
 
-                        var Pokename = StringUtils.getPokemonNameByLanguage( duplicatePokemon.PokemonId);
-                        var IVPercent =PokemonInfo.CalculatePokemonPerfection(duplicatePokemon).ToString("0.00");
-                        
                         if (transferFirstLowIv)
                         {
                             var BestIV = PokemonInfo.CalculatePokemonPerfection(bestPokemonsIvOfType.First()).ToString("0.00");
@@ -695,7 +703,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                             {
                                 File.AppendAllText(logs, $"[{date}] - Transfer {Pokename} CP {duplicatePokemon.Cp} IV {IVPercent} % (Best IV: {BestIV} %)" + Environment.NewLine);
                             }
-                            Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Transfer {Pokename} CP {duplicatePokemon.Cp} IV {IVPercent} % (Best IV: {BestIV} %)");
+                            Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Enqueuing to BULK Transfer {Pokename} CP {duplicatePokemon.Cp} IV {IVPercent} % (Best IV: {BestIV} %)");
                         }
                         else
                         {
@@ -703,15 +711,22 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                             {
                                 File.AppendAllText(logs, $"[{date}] - Transfer {Pokename} CP {duplicatePokemon.Cp} IV {IVPercent} % (Best: {bestPokemonsCpOfType.First().Cp} CP)" + Environment.NewLine);
                             }
-                            Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Transfer {Pokename} CP {duplicatePokemon.Cp} IV {IVPercent} % (Best: {bestPokemonsCpOfType.First().Cp} CP)");
+                            Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Enqueuing to BULK Transfer {Pokename} CP {duplicatePokemon.Cp} IV {IVPercent} % (Best: {bestPokemonsCpOfType.First().Cp} CP)");
                         }
 
                         if (Logic.Instance.Telegram != null)
                             Logic.Instance.Telegram.sendInformationText(TelegramUtil.TelegramUtilInformationTopics.Transfer, StringUtils.getPokemonNameByLanguage( duplicatePokemon.PokemonId), duplicatePokemon.Cp, PokemonInfo.CalculatePokemonPerfection(duplicatePokemon).ToString("0.00"), bestPokemonOfType);
 
-                        RandomHelper.RandomSleep(2000, 3000); 
+                        RandomHelper.RandomSleep(400, 600); 
                     }
                 }
+
+                var _response = Logic.objClient.Inventory.TransferPokemon(pokemonsToTransfer).Result;
+                if (_response.Result == ReleasePokemonResponse.Types.Result.Success)
+                { 
+                    Logger.ColoredConsoleWrite(ConsoleColor.Yellow,$"Bulk Transfer Done correctly. {pokemonsToTransfer.Count} Pokemons was transfered");
+                }
+
                 if (Shared.GlobalVars.pauseAtEvolve2)
                 {
                     Logger.ColoredConsoleWrite(ConsoleColor.Green, "Pokemons transfered. Time to continue our journey!");
@@ -735,8 +750,9 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                     RandomHelper.RandomSleep(60000,61000);
                 }
                 lastlog = -10000;
-                timetorunstamp = Shared.GlobalVars.TimeToRun * 60 * 1000 + (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds;
-                Execute();
+                timetorunstamp = -10000;
+                Logic.objClient.ReadyToUse = false;
+                Logic.Instance.Execute();
             }
         }
 
