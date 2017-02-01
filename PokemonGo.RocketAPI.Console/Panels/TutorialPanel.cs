@@ -23,7 +23,6 @@ namespace PokemonGo.RocketAPI.Console.Panels
         public TutorialPanel()
         {
             InitializeComponent();
-           // th.ExtractTexts(this);// <-- Creates default.json with all strings to translate.
            th.Translate(this);
         }
         public void LoadData()

@@ -13,6 +13,7 @@ using System.Windows.Forms;
 using Newtonsoft.Json;
 using System.IO;
 using System.Globalization;
+using System.Net;
 
 namespace PokemonGo.RocketAPI.Console.Helper
 {
@@ -30,6 +31,7 @@ namespace PokemonGo.RocketAPI.Console.Helper
     {
         private string language = "default";
         public static bool StoreUntranslated = false;
+        public static bool ActiveExtractTexts = false; // enable or disable to extract texts
         
         public static string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Translations");
         public static string UntranslatedFile = Path.Combine(path, "untranslated.txt");
@@ -57,6 +59,9 @@ namespace PokemonGo.RocketAPI.Console.Helper
        
         public void Translate(Control ctrl)
         {
+            if (ActiveExtractTexts)
+               ExtractTexts(ctrl);
+
             writeTexts("", ctrl, dictionary);
         }
         
@@ -81,7 +86,7 @@ namespace PokemonGo.RocketAPI.Console.Helper
             return "";
         }
 
-        public void ExtractTexts(Control ctrl)
+        public static void ExtractTexts(Control ctrl)
         {
             if (!Directory.Exists(path)) {
                 Directory.CreateDirectory(path);
@@ -98,7 +103,7 @@ namespace PokemonGo.RocketAPI.Console.Helper
         }
         
         
-        private void insertTexts(string prefix, Control ctrl, Dictionary<String,String> dict)
+        private static void insertTexts(string prefix, Control ctrl, Dictionary<String,String> dict)
         {
             var tagVal = ctrl.Tag as string;
             if (ctrl.Parent != null)
@@ -135,7 +140,7 @@ namespace PokemonGo.RocketAPI.Console.Helper
             }
         }
         
-        private void SafeAddToDict(IDictionary<string, string> dict, string key, string value)
+        private static void SafeAddToDict(IDictionary<string, string> dict, string key, string value)
         {
             if (!dict.ContainsKey(key))
                 dict.Add(key, value);
@@ -189,7 +194,7 @@ namespace PokemonGo.RocketAPI.Console.Helper
                 if (tagVal != "NO TRANSLATE") {
                     if (dict.ContainsKey(ctrlPrefix + element.Name))
                         if (element is Components.LabelCombo || element is Components.LabelText)
-                            (element as Components.LabelText).Caption = dict[ctrlPrefix + element.Name];
+                            element.GetType().GetProperty("Caption").SetValue(element,dict[ctrlPrefix + element.Name]);
                         else
                             element.Text = dict[ctrlPrefix + element.Name];
                     if (element is GroupBox) {
@@ -270,6 +275,32 @@ namespace PokemonGo.RocketAPI.Console.Helper
                 File.AppendAllLines(UntranslatedFile,new string[]{ "\"string."+str+"\":\""+str+"\","});
             }
         }
-        
+        public static void DownloadTranslationFile(string remoteDir, string outDir, string lang)
+        {
+            var resourceName = lang + ".json";
+            var filename = outDir + "\\" + resourceName;
+            if (!File.Exists(filename))
+            {
+                try {
+                    using (var wC = new WebClient())
+                    {
+                         wC.DownloadFile("https://raw.githubusercontent.com/Logxn/PokemonGo-Bot/master/"+remoteDir+"/"+resourceName,filename);
+                         if (File.ReadAllText(filename) == "")
+                             File.Delete(filename);
+                    }
+                } catch (Exception ex1) {
+                    Logger.AddLog(resourceName+":"+ex1.ToString());
+                }
+            }
+
+            // We download base language if exists. For example es-ES, es
+            var baseLang = lang.Split('-');
+            if (baseLang.Length > 1)
+            {
+                DownloadTranslationFile(remoteDir,outDir,baseLang[0].ToLower());
+                DownloadTranslationFile(remoteDir,outDir,baseLang[1].ToLower());
+            }
+
+        }
     }
 }

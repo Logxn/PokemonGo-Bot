@@ -65,6 +65,8 @@ namespace PokemonGo.RocketAPI.Console
 		private System.Windows.Forms.CheckBox checkBox_FarmGyms;
 		private System.Windows.Forms.CheckBox checkBox_CollectDailyBonus;
 		private System.Windows.Forms.CheckBox checkBox_AutoTransferDoublePokemon;
+		private System.Windows.Forms.ComboBox comboLanguage;
+		private System.Windows.Forms.Label labelLanguage;
 		
 		/// <summary>
 		/// Disposes resources used by the control.
@@ -138,6 +140,8 @@ namespace PokemonGo.RocketAPI.Console
 		    this.text_GoogleMapsAPIKey = new System.Windows.Forms.TextBox();
 		    this.checkBox_UseGoogleMapsRouting = new System.Windows.Forms.CheckBox();
 		    this.label45 = new System.Windows.Forms.Label();
+		    this.comboLanguage = new System.Windows.Forms.ComboBox();
+		    this.labelLanguage = new System.Windows.Forms.Label();
 		    this.groupBox1.SuspendLayout();
 		    ((System.ComponentModel.ISupportInitialize)(this.numTravelSpeed)).BeginInit();
 		    this.groupBox10.SuspendLayout();
@@ -297,10 +301,10 @@ namespace PokemonGo.RocketAPI.Console
 		    // buttonUpdate
 		    // 
 		    this.buttonUpdate.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
-		    this.buttonUpdate.Location = new System.Drawing.Point(5, 381);
+		    this.buttonUpdate.Location = new System.Drawing.Point(530, 382);
 		    this.buttonUpdate.Margin = new System.Windows.Forms.Padding(5);
 		    this.buttonUpdate.Name = "buttonUpdate";
-		    this.buttonUpdate.Size = new System.Drawing.Size(244, 28);
+		    this.buttonUpdate.Size = new System.Drawing.Size(241, 28);
 		    this.buttonUpdate.TabIndex = 94;
 		    this.buttonUpdate.Text = "Update Config";
 		    this.buttonUpdate.UseVisualStyleBackColor = true;
@@ -834,10 +838,39 @@ namespace PokemonGo.RocketAPI.Console
 		    this.label45.Text = "API Key:";
 		    this.label45.UseMnemonic = false;
 		    // 
+		    // comboLanguage
+		    // 
+		    this.comboLanguage.DisplayMember = "1";
+		    this.comboLanguage.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+		    this.comboLanguage.FormattingEnabled = true;
+		    this.comboLanguage.Items.AddRange(new object[] {
+            "System",
+            "Default",
+            "Deutsche",
+            "Español",
+            "Catalá"});
+		    this.comboLanguage.Location = new System.Drawing.Point(129, 385);
+		    this.comboLanguage.Name = "comboLanguage";
+		    this.comboLanguage.Size = new System.Drawing.Size(121, 21);
+		    this.comboLanguage.TabIndex = 97;
+		    this.comboLanguage.SelectedIndexChanged += new System.EventHandler(this.comboLanguage_SelectedIndexChanged);
+		    // 
+		    // labelLanguage
+		    // 
+		    this.labelLanguage.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+		    this.labelLanguage.Location = new System.Drawing.Point(7, 388);
+		    this.labelLanguage.Name = "labelLanguage";
+		    this.labelLanguage.Size = new System.Drawing.Size(119, 17);
+		    this.labelLanguage.TabIndex = 96;
+		    this.labelLanguage.Text = "Select Language:";
+		    this.labelLanguage.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+		    // 
 		    // ChangesPanel
 		    // 
 		    this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 		    this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+		    this.Controls.Add(this.comboLanguage);
+		    this.Controls.Add(this.labelLanguage);
 		    this.Controls.Add(this.groupBox1);
 		    this.Controls.Add(this.buttonUpdate);
 		    this.Controls.Add(this.groupBox10);
