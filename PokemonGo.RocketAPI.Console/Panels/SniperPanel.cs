@@ -47,9 +47,20 @@ namespace PokemonGo.RocketAPI.Console
     /// </summary>
     public partial class SniperPanel : UserControl
     {
-        static Dictionary<string, int> pokeIDS = new Dictionary<string, int>();
+        private static Dictionary<string, int> pokeIDS = new Dictionary<string, int>();
         public WebBrowser webBrowser = null;
         private Helper.TranslatorHelper th = Helper.TranslatorHelper.getInstance();
+
+        private static Components.HRefLink[] links = {
+         new Components.HRefLink("pokedexs.com","https://pokedexs.com"),
+         new Components.HRefLink("pokegosnipers.com","http://pokegosnipers.com"),
+         new Components.HRefLink("pokezz.com","http://pokezz.com"),
+         new Components.HRefLink("pokewatchers.com","http://pokewatchers.com"),
+         new Components.HRefLink("mypogosnipers.com","http://www.mypogosnipers.com"),
+         new Components.HRefLink("snipe.necrobot2.com","http://snipe.necrobot2.com"),
+         new Components.HRefLink("pokesniper.org","http://pokesniper.org/"),
+         new Components.HRefLink("iv100.top","http://iv100.top/")
+        };
 
         public SniperPanel()
         {
@@ -63,14 +74,6 @@ namespace PokemonGo.RocketAPI.Console
 
         void IntializeComboLinks()
         {
-            var links = new Collection<Components.HRefLink>();
-            links.Add( new Components.HRefLink("pokedexs.com","https://pokedexs.com"));
-            links.Add( new Components.HRefLink("pokegosnipers.com","http://pokegosnipers.com"));
-            links.Add( new Components.HRefLink("pokezz.com","http://pokezz.com"));
-            links.Add( new Components.HRefLink("pokewatchers.com","http://pokewatchers.com"));
-            links.Add( new Components.HRefLink("mypogosnipers.com","http://www.mypogosnipers.com"));
-            links.Add( new Components.HRefLink("snipe.necrobot2.com","http://snipe.necrobot2.com"));
-            links.Add( new Components.HRefLink("pokesniper.org","http://pokesniper.org/"));
             comboBoxLinks.DataSource = links;
             comboBoxLinks.DisplayMember= "Text";
             comboBoxLinks.SelectedIndex = 0;

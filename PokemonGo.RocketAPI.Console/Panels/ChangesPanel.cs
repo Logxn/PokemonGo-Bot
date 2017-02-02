@@ -36,6 +36,7 @@ namespace PokemonGo.RocketAPI.Console
         public ChangesPanel()
         {
             InitializeComponent();
+            comboLanguage.SelectedText = th.GetSelectedLanguage();
             th.Translate(this);
         }
 

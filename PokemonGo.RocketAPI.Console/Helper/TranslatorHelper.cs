@@ -56,7 +56,12 @@ namespace PokemonGo.RocketAPI.Console.Helper
             language = lang;
             dictionary = loadDictionary(lang);
         }
-       
+
+        public string GetSelectedLanguage()
+        {
+            return language;
+        }
+
         public void Translate(Control ctrl)
         {
             if (ActiveExtractTexts)
