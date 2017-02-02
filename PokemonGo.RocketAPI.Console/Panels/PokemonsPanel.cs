@@ -365,11 +365,6 @@ namespace PokemonGo.RocketAPI.Console
             {
                 if (PokemonListView.FocusedItem.Bounds.Contains(e.Location) == true)
                 {
-                    if (PokemonListView.SelectedItems.Count > 1)
-                    {
-                        MessageBox.Show("You can only select 1 item for quick action!", "Selection to large", MessageBoxButtons.OK);
-                        return;
-                    }
                     contextMenuStrip1.Show(Cursor.Position);
                 }
             }
@@ -377,24 +372,7 @@ namespace PokemonGo.RocketAPI.Console
 
         private void transferToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var pokemon = (PokemonData)PokemonListView.SelectedItems[0].Tag;
-            var resp = new taskResponse(false, string.Empty);
-
-            if (MessageBox.Show(this, pokemon.PokemonId + " with " + pokemon.Cp + " CP thats " + Math.Round(PokemonInfo.CalculatePokemonPerfection(pokemon)) + "% perfect", "Are you sure you want to transfer?", MessageBoxButtons.OKCancel) == DialogResult.OK)
-            {
-                resp = transferPokemon(pokemon).Result;
-            }
-            else
-            {
-                return;
-            }
-            if (resp.Status)
-            {
-                PokemonListView.Items.Remove(PokemonListView.SelectedItems[0]);
-                RefreshTitle();
-            }
-            else
-                MessageBox.Show(resp.Message + " transfer failed!", "Transfer Status", MessageBoxButtons.OK);
+            transferSelectedPokemons();
         }
         private static async Task<taskResponse> transferPokemon(PokemonData pokemon)
         {
@@ -529,85 +507,94 @@ namespace PokemonGo.RocketAPI.Console
             return resp;
         }        
 
+        private void transferSelectedPokemons()
+        {
+            try {
+                EnabledButton(false, th.TS("Transfering..."));
+                var selectedItems = PokemonListView.SelectedItems;
+                int transfered = 0;
+                int total = selectedItems.Count;
+                string failed = string.Empty;
+    
+                string logPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Logs");
+                string logs = Path.Combine(logPath, "TransferLog.txt");
+                string date = DateTime.Now.ToString();
+    
+                if (GlobalVars.pauseAtEvolve2)  // stop walking
+                {
+                    Logger.Info("Taking a short break to transfer some pokemons!");
+                    GlobalVars.PauseTheWalking = true;
+                }
+
+                DialogResult dialogResult = MessageBox.Show(th.TS("You're going to transfer pokemons. This can not be reversed."), th.TS("Are you Sure?"), MessageBoxButtons.YesNo);
+                if (dialogResult == DialogResult.Yes)
+                {
+    
+                    var pokemonsToTransfer = new List<ulong>();
+    
+                    foreach (ListViewItem selectedItem in selectedItems)
+                    {
+                        var pokemon = (PokemonData)selectedItem.Tag;
+                        var strPokename = th.TS( pokemon.PokemonId.ToString());
+    
+                        if (pokemon.DeployedFortId == "" && pokemon.Favorite == 0 && pokemon.Id != profile.PlayerData.BuddyPokemon.Id)
+                        {
+                            pokemonsToTransfer.Add(pokemon.Id);
+    
+                            transfered++;
+    
+                            File.AppendAllText(logs, $"[{date}] - MANUAL - Enqueuing to BULK transfer pokemon {transfered}/{total}: {Logic.Utils.StringUtils.getPokemonNameByLanguage(BotSettings, pokemon.PokemonId)}" + Environment.NewLine);
+                            var strPerfection = PokemonInfo.CalculatePokemonPerfection(pokemon).ToString("0.00");
+                            var strTransfer = $"Enqueuing to BULK transfer pokemon {transfered}/{total}: {strPokename} CP {pokemon.Cp} IV {strPerfection}";
+                            Logger.ColoredConsoleWrite(ConsoleColor.Yellow, strTransfer, LogLevel.Info);
+    
+                            PokemonListView.Items.Remove(selectedItem);
+                        }
+                        else
+                        {
+                            if (pokemon.DeployedFortId != "") Logger.ColoredConsoleWrite(ConsoleColor.Gray, $"Impossible to transfer {strPokename} because it is deployed in a Gym.");
+                            if (pokemon.Favorite == 1) Logger.ColoredConsoleWrite(ConsoleColor.Gray, $"Impossible to transfer {strPokename} because it is a favourite pokemon.");
+                            if (pokemon.Id == profile.PlayerData.BuddyPokemon.Id) Logger.ColoredConsoleWrite(ConsoleColor.Gray, $"Impossible to transfer {strPokename} because it is your Buddy.");
+                            total--;
+                        }
+                    }
+                    if (pokemonsToTransfer.Any()){
+                        var _response = client.Inventory.TransferPokemon(pokemonsToTransfer).Result;
+    
+                        if (_response.Result == ReleasePokemonResponse.Types.Result.Success)
+                        { 
+                            if (BotSettings.LogTransfer)
+                            {
+                                File.AppendAllText(logs, $"[{date}] - MANUAL - Sucessfully Bulk transfered {transfered}/{total} Pokemons. Failed: {failed}" + Environment.NewLine);
+                            }
+                            Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Transfer Successful of {transfered}/{total} pokemons => {_response.CandyAwarded.ToString()} candy/ies awarded.");
+                            statusTexbox.Text = $"Succesfully Bulk transfered {total} Pokemons.";
+                            Helpers.RandomHelper.RandomSleep(1000, 2000);
+                        }
+                        else
+                        {
+                            Logger.Error("Something happened while transferring pokemons.");
+                        }
+        
+                        RefreshTitle();
+                        client.Inventory.GetInventory(true).Wait(); // force refresh inventory
+                    }
+    
+                    if (GlobalVars.pauseAtEvolve)
+                    {
+                        Logger.Info("Transferred everything. Time to continue our journey!");
+                        GlobalVars.PauseTheWalking = false;
+                    }                
+                }
+                EnabledButton(true);
+            } catch (Exception ex1) {
+                Logger.ExceptionInfo(ex1.ToString());
+            }
+
+        }
         private void btnTransfer_Click(object sender, EventArgs e)
         {
-            EnabledButton(false, "Transfering...");
-            var selectedItems = PokemonListView.SelectedItems;
-            int transfered = 0;
-            int total = selectedItems.Count;
-            string failed = string.Empty;
-
-            string logPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Logs");
-            string logs = Path.Combine(logPath, "TransferLog.txt");
-            string date = DateTime.Now.ToString();
-
-            if (GlobalVars.pauseAtEvolve2)  // stop walking
-            {
-                Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Taking a short break to transfer some pokemons!");
-                GlobalVars.PauseTheWalking = true;
-            }
-            DialogResult dialogResult = MessageBox.Show("You clicked transfer. This can not be undone.", "Are you Sure?", MessageBoxButtons.YesNo);
-            if (dialogResult == DialogResult.Yes)
-            {
-
-                ReleasePokemonResponse _response = new ReleasePokemonResponse();
-
-                List<ulong> pokemonsToTransfer = new List<ulong>();
-
-                foreach (ListViewItem selectedItem in selectedItems)
-                {
-                    var pokemon = (PokemonData)selectedItem.Tag;
-                    var strPokename = Logic.Utils.StringUtils.getPokemonNameByLanguage(BotSettings, pokemon.PokemonId);
-
-                    if (pokemon.DeployedFortId == "" && pokemon.Favorite == 0 && pokemon.Id != profile.PlayerData.BuddyPokemon.Id)
-                    {
-                        pokemonsToTransfer.Add(pokemon.Id);
-
-                        transfered++;
-
-                        File.AppendAllText(logs, $"[{date}] - MANUAL - Enqueuing to BULK transfer pokemon {transfered}/{total}: {Logic.Utils.StringUtils.getPokemonNameByLanguage(BotSettings, pokemon.PokemonId)}" + Environment.NewLine);
-                        var strPerfection = PokemonInfo.CalculatePokemonPerfection(pokemon).ToString("0.00");
-                        var strTransfer = $"Enqueuing to BULK transfer pokemon {transfered}/{total}: {strPokename} CP {pokemon.Cp} IV {strPerfection}";
-                        Logger.ColoredConsoleWrite(ConsoleColor.Yellow, strTransfer, LogLevel.Info);
-
-                        PokemonListView.Items.Remove(selectedItem);
-                    }
-                    else
-                    {
-                        if (pokemon.DeployedFortId != "") Logger.ColoredConsoleWrite(ConsoleColor.Gray, $"Impossible to transfer {strPokename} because it is deployed in a Gym.");
-                        if (pokemon.Favorite == 1) Logger.ColoredConsoleWrite(ConsoleColor.Gray, $"Impossible to transfer {strPokename} because it is a favourite pokemon.");
-                        if (pokemon.Id == profile.PlayerData.BuddyPokemon.Id) Logger.ColoredConsoleWrite(ConsoleColor.Gray, $"Impossible to transfer {strPokename} because it is your Buddy.");
-                        total--;
-                    }
-                }
-
-                _response = client.Inventory.TransferPokemon(pokemonsToTransfer).Result;
-                
-                if (_response.Result == ReleasePokemonResponse.Types.Result.Success)
-                { 
-                    if (BotSettings.LogTransfer)
-                    {
-                        File.AppendAllText(logs, $"[{date}] - MANUAL - Sucessfully Bulk transfered {transfered}/{total} Pokemons. Failed: {failed}" + Environment.NewLine);
-                    }
-                    Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Transfer Successful of {transfered}/{total} pokemons => {_response.CandyAwarded.ToString()} candy/ies awarded.");
-                    statusTexbox.Text = $"Succesfully Bulk transfered {total} Pokemons.";
-                    Helpers.RandomHelper.RandomSleep(1000, 2000);
-                }
-                else
-                {
-                    Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Something happened while transferring pokemons.");
-                }
-
-                RefreshTitle();
-                client.Inventory.GetInventory(true).Wait(); // force refresh inventory
-
-                if (GlobalVars.pauseAtEvolve)
-                {
-                    Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Transferred everything. Time to continue our journey!");
-                    GlobalVars.PauseTheWalking = false;
-                }                
-            }
-            EnabledButton(true);
+            transferSelectedPokemons();
         }
 
         private static bool PowerUp(PokemonData pokemon)
@@ -740,6 +727,8 @@ namespace PokemonGo.RocketAPI.Console
 
         private void powerUpToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (PokemonListView.SelectedItems.Count < 1)
+                return;
             var pokemon = (PokemonData)PokemonListView.SelectedItems[0].Tag;
             if (MessageBox.Show(this, th.TS( " {0} with {1} CP thats {2} % perfect",pokemon.PokemonId,pokemon.Cp,Math.Round(PokemonInfo.CalculatePokemonPerfection(pokemon))), th.TS("Are you sure you want to power it up?"), MessageBoxButtons.OKCancel) == DialogResult.OK)
                 if ( PowerUp(pokemon))
@@ -748,6 +737,9 @@ namespace PokemonGo.RocketAPI.Console
 
         private void iVsToNicknameToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (PokemonListView.SelectedItems.Count < 1)
+                return;
+
             var pokemon = (PokemonData)PokemonListView.SelectedItems[0].Tag;
             var resp = false;
 
@@ -773,30 +765,34 @@ namespace PokemonGo.RocketAPI.Console
 
         private void changeFavouritesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var pokemon = (PokemonData)PokemonListView.SelectedItems[0].Tag;
-            var resp = new taskResponse(false, string.Empty);
-
-            string poname = Logic.Utils.StringUtils.getPokemonNameByLanguage(BotSettings, (PokemonId)pokemon.PokemonId);
-            if (MessageBox.Show(this, poname + " will be " + ((pokemon.Favorite == 1) ? "deleted from" : "added to") + " your favourites." + "\nAre you sure you want?", "Confirmation Message", MessageBoxButtons.OKCancel) == DialogResult.OK)
-            {
-                pokemon.Favorite = (pokemon.Favorite == 1) ? 0 : 1;
-                resp = changeFavourites(pokemon).Result;
-            }
-            else
-            {
+            if (PokemonListView.SelectedItems.Count < 1)
                 return;
+            foreach (ListViewItem element in PokemonListView.SelectedItems) {
+                var pokemon = element.Tag as PokemonData;
+                var resp = new taskResponse(false, string.Empty);
+    
+                string poname = th.TS(pokemon.PokemonId.ToString());
+                if (MessageBox.Show(this, poname + " will be " + ((pokemon.Favorite == 1) ? "deleted from" : "added to") + " your favourites." + "\nAre you sure you want?", "Confirmation Message", MessageBoxButtons.OKCancel) == DialogResult.OK)
+                {
+                    pokemon.Favorite = (pokemon.Favorite == 1) ? 0 : 1;
+                    resp = changeFavourites(pokemon).Result;
+                }
+                else
+                {
+                    break;
+                }
+                if (resp.Status)
+                {
+                    var specSymbol ="";
+                    if  (pokemon.Favorite == 1) 
+                        specSymbol = "★";
+                    if ((profile!=null) && (profile.PlayerData.BuddyPokemon.Id == pokemon.Id))
+                        specSymbol = "☉";
+                    PokemonListView.SelectedItems[0].Text = specSymbol + Logic.Utils.StringUtils.getPokemonNameByLanguage(BotSettings, (PokemonId)pokemon.PokemonId);
+                }
+                else
+                    MessageBox.Show(resp.Message + " change favourites failed!", "Change favourites Status", MessageBoxButtons.OK);
             }
-            if (resp.Status)
-            {
-                var specSymbol ="";
-                if  (pokemon.Favorite == 1) 
-                    specSymbol = "★";
-                if ((profile!=null) && (profile.PlayerData.BuddyPokemon.Id == pokemon.Id))
-                    specSymbol = "☉";
-                PokemonListView.SelectedItems[0].Text = specSymbol + Logic.Utils.StringUtils.getPokemonNameByLanguage(BotSettings, (PokemonId)pokemon.PokemonId);
-            }
-            else
-                MessageBox.Show(resp.Message + " change favourites failed!", "Change favourites Status", MessageBoxButtons.OK);
         }
         
         private static async Task<taskResponse> changeFavourites(PokemonData pokemon)
@@ -825,27 +821,14 @@ namespace PokemonGo.RocketAPI.Console
 
         private void evolveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var pokemon = (PokemonData)PokemonListView.SelectedItems[0].Tag;
-            var resp = new taskResponse(false, string.Empty);
-
-            if (MessageBox.Show(this, pokemon.PokemonId + " with " + pokemon.Cp + " CP thats " + Math.Round(PokemonInfo.CalculatePokemonPerfection(pokemon)) + "% perfect", "Are you sure you want to evolve?", MessageBoxButtons.OKCancel) == DialogResult.OK)
-            {
-                resp = evolvePokemon(pokemon).Result;
-            }
-            else
-            {
-                return;
-            }
-            if (resp.Status)
-            {
-                Execute();
-            }
-            else
-                MessageBox.Show(resp.Message + " evolving failed!", "Evolve Status", MessageBoxButtons.OK);
+            btnEvolve_Click(sender, e);
         }
 
         private void changeBuddyToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (PokemonListView.SelectedItems.Count < 1)
+                return;
+
             var pokemon = (PokemonData)PokemonListView.SelectedItems[0].Tag;
             var ret = false;
 
@@ -926,6 +909,10 @@ namespace PokemonGo.RocketAPI.Console
         private void btnUseIncense_Click(object sender, EventArgs e)
         {
             GlobalVars.UseIncenseGUIClick = true;
+        }
+        void reloadToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            btnReload_Click(sender,e);
         }
 
         public class taskResponse

@@ -25,5 +25,7 @@ namespace PokemonGo.RocketAPI.Logic.Shared
         { get; set; }
         public int NumTries
         { get; set; }
+        public bool TransferIt
+        { get; set; }
     }
 }

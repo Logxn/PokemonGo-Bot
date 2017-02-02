@@ -43,6 +43,7 @@ namespace PokemonGo.RocketAPI.Console
             this.numPwrUpLimit = new System.Windows.Forms.NumericUpDown();
             this.label1 = new System.Windows.Forms.Label();
             this.checkBox_ShortName = new System.Windows.Forms.CheckBox();
+            this.reloadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.reloadsecondstextbox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numPwrUpLimit)).BeginInit();
@@ -121,9 +122,10 @@ namespace PokemonGo.RocketAPI.Console
             this.evolveToolStripMenuItem,
             this.iVsToNicknameToolStripMenuItem,
             this.changeFavouritesToolStripMenuItem,
-            this.changeBuddyToolStripMenuItem});
+            this.changeBuddyToolStripMenuItem,
+            this.reloadToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(173, 136);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(173, 180);
             this.contextMenuStrip1.Closing += new System.Windows.Forms.ToolStripDropDownClosingEventHandler(this.contextMenuStrip1_Closing);
             this.contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
             // 
@@ -284,6 +286,13 @@ namespace PokemonGo.RocketAPI.Console
             this.checkBox_ShortName.Text = "Use shortest IV format";
             this.checkBox_ShortName.UseVisualStyleBackColor = true;
             // 
+            // reloadToolStripMenuItem
+            // 
+            this.reloadToolStripMenuItem.Name = "reloadToolStripMenuItem";
+            this.reloadToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
+            this.reloadToolStripMenuItem.Text = "Reload";
+            this.reloadToolStripMenuItem.Click += new System.EventHandler(this.reloadToolStripMenuItem_Click);
+            // 
             // PokemonsPanel
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
@@ -333,5 +342,6 @@ namespace PokemonGo.RocketAPI.Console
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ToolStripMenuItem changeBuddyToolStripMenuItem;
         private System.Windows.Forms.CheckBox checkBox_ShortName;
+        private System.Windows.Forms.ToolStripMenuItem reloadToolStripMenuItem;
     }
 }
