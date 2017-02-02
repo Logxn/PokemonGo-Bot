@@ -28,7 +28,8 @@ namespace PokemonGo.RocketAPI.Hash
                 {"0.53.1", "api/v123_1/hash" },
                 {"1.23.2", "api/v123_1/hash"},
                 {"0.53.2", "api/v123_1/hash" },
-                {"0.55.0", "api/v125_1/hash" }, // not released yet at 29/01/2017
+                {"0.55.0", "api/v125/hash" },
+                {"1.25.0", "api/v125/hash" }
             };
 
             int MaxRequestCount;            // RPM Value
@@ -38,12 +39,14 @@ namespace PokemonGo.RocketAPI.Hash
             DateTime AuthTokenExpiration;   // Expiration
 
         private Uri _baseAddress = new Uri("http://pokehash.buddyauth.com/");
+        private Uri _availableHashVersionsCheck = new Uri("https://pokehash.buddyauth.com/api/hash/versions");
         private string _endpoint;
         private string apiKey;
 
         public PokeHashHasher(string apiKey)
         {
-            _endpoint = EndPointDictionary[(CurrentAPIVersion.CurrentNianticAPIVersion).ToString()];
+            //_endpoint = EndPointDictionary[(CurrentAPIVersion.CurrentNianticAPIVersion).ToString()];
+            _endpoint = EndPointDictionary[(Resources.BotApiSupportedVersion).ToString()];
             this.apiKey = apiKey;
         }
 
