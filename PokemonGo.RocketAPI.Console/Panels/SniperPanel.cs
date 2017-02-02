@@ -143,10 +143,10 @@ namespace PokemonGo.RocketAPI.Console
 
         void SnipeMe_Click(object sender, EventArgs e)
         {
-            SnipePoke((PokemonId)comboBox1.SelectedItem, (int) nudSecondsSnipe.Value,(int) nudTriesSnipe.Value);
+            SnipePoke((PokemonId)comboBox1.SelectedItem, (int) nudSecondsSnipe.Value,(int) nudTriesSnipe.Value ,checkBoxSnipeTransfer.Checked);
         }
 
-        void SnipePoke(PokemonId id, int secondsToWait, int numberOfTries)
+        void SnipePoke(PokemonId id, int secondsToWait, int numberOfTries, bool transferIt)
         {
             Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "Manual Snipe Triggered! We'll stop farming and go catch the pokemon ASAP");
             
@@ -154,6 +154,7 @@ namespace PokemonGo.RocketAPI.Console
             GlobalVars.SnipeOpts.Location = splLatLngResult;
             GlobalVars.SnipeOpts.WaitSecond = secondsToWait;
             GlobalVars.SnipeOpts.NumTries = numberOfTries;
+            GlobalVars.SnipeOpts.TransferIt = transferIt;
             GlobalVars.SnipeOpts.Enabled = true;
             //GlobalVars.ForceSnipe = true;
             SnipeInfo.Text = "";
@@ -238,26 +239,30 @@ namespace PokemonGo.RocketAPI.Console
                         splLatLngResult = SplitLatLng(splt[1]);
                         int stw = 2;
                         int tries =3;
+                        var transferIt = false;
                         try {
                             stw = (int) nudSecondsSnipe.Value;
                             tries = (int) nudTriesSnipe.Value;
+                            transferIt = checkBoxSnipeTransfer.Checked;
                         } catch (Exception) {
                         }
                         var pokename = ToCapital(splt[0]).Replace('.','_').Replace('-','_');
-                        SnipePoke( (PokemonId)Enum.Parse(typeof(PokemonId), pokename),stw,tries);
+                        SnipePoke( (PokemonId)Enum.Parse(typeof(PokemonId), pokename),stw,tries,transferIt);
                     }else if (txt.IndexOf("msniper://")> -1){
                         txt = txt.Replace("msniper://","");
                         var splt = txt.Split('/');
                         splLatLngResult = SplitLatLng(splt[3]);
                         int stw = 2;
                         int tries =3;
+                        var transferIt = false;
                         try {
                             stw = (int) nudSecondsSnipe.Value;
                             tries = (int) nudTriesSnipe.Value;
+                            transferIt = checkBoxSnipeTransfer.Checked;
                         } catch (Exception) {
                         }
                         var pokename = ToCapital(splt[0]).Replace('.','_').Replace('-','_');
-                        SnipePoke( (PokemonId)Enum.Parse(typeof(PokemonId), pokename),stw,tries);
+                        SnipePoke( (PokemonId)Enum.Parse(typeof(PokemonId), pokename),stw,tries,transferIt);
                     }
                 }
             } catch (Exception ex) {
