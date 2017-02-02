@@ -25,17 +25,24 @@ namespace POGOProtos.Settings.Master.Pokemon {
             "CjxQT0dPUHJvdG9zL1NldHRpbmdzL01hc3Rlci9Qb2tlbW9uL0VuY291bnRl",
             "ckF0dHJpYnV0ZXMucHJvdG8SIlBPR09Qcm90b3MuU2V0dGluZ3MuTWFzdGVy",
             "LlBva2Vtb24aKlBPR09Qcm90b3MvRW51bXMvUG9rZW1vbk1vdmVtZW50VHlw",
-            "ZS5wcm90byKmAgoTRW5jb3VudGVyQXR0cmlidXRlcxIZChFiYXNlX2NhcHR1",
+            "ZS5wcm90byLDBAoTRW5jb3VudGVyQXR0cmlidXRlcxIZChFiYXNlX2NhcHR1",
             "cmVfcmF0ZRgBIAEoAhIWCg5iYXNlX2ZsZWVfcmF0ZRgCIAEoAhIaChJjb2xs",
             "aXNpb25fcmFkaXVzX20YAyABKAISGgoSY29sbGlzaW9uX2hlaWdodF9tGAQg",
             "ASgCEh8KF2NvbGxpc2lvbl9oZWFkX3JhZGl1c19tGAUgASgCEjwKDW1vdmVt",
             "ZW50X3R5cGUYBiABKA4yJS5QT0dPUHJvdG9zLkVudW1zLlBva2Vtb25Nb3Zl",
             "bWVudFR5cGUSGAoQbW92ZW1lbnRfdGltZXJfcxgHIAEoAhITCgtqdW1wX3Rp",
-            "bWVfcxgIIAEoAhIWCg5hdHRhY2tfdGltZXJfcxgJIAEoAmIGcHJvdG8z"));
+            "bWVfcxgIIAEoAhIWCg5hdHRhY2tfdGltZXJfcxgJIAEoAhIiChpib251c19j",
+            "YW5keV9jYXB0dXJlX3Jld2FyZBgKIAEoBRIlCh1ib251c19zdGFyZHVzdF9j",
+            "YXB0dXJlX3Jld2FyZBgLIAEoBRIaChJhdHRhY2tfcHJvYmFiaWxpdHkYDCAB",
+            "KAISGQoRZG9kZ2VfcHJvYmFiaWxpdHkYDSABKAISGAoQZG9kZ2VfZHVyYXRp",
+            "b25fcxgOIAEoAhIWCg5kb2RnZV9kaXN0YW5jZRgPIAEoAhIXCg9jYW1lcmFf",
+            "ZGlzdGFuY2UYECABKAISJgoebWluX3Bva2Vtb25fYWN0aW9uX2ZyZXF1ZW5j",
+            "eV9zGBEgASgCEiYKHm1heF9wb2tlbW9uX2FjdGlvbl9mcmVxdWVuY3lfcxgS",
+            "IAEoAmIGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::POGOProtos.Enums.PokemonMovementTypeReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::POGOProtos.Settings.Master.Pokemon.EncounterAttributes), global::POGOProtos.Settings.Master.Pokemon.EncounterAttributes.Parser, new[]{ "BaseCaptureRate", "BaseFleeRate", "CollisionRadiusM", "CollisionHeightM", "CollisionHeadRadiusM", "MovementType", "MovementTimerS", "JumpTimeS", "AttackTimerS" }, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::POGOProtos.Settings.Master.Pokemon.EncounterAttributes), global::POGOProtos.Settings.Master.Pokemon.EncounterAttributes.Parser, new[]{ "BaseCaptureRate", "BaseFleeRate", "CollisionRadiusM", "CollisionHeightM", "CollisionHeadRadiusM", "MovementType", "MovementTimerS", "JumpTimeS", "AttackTimerS", "BonusCandyCaptureReward", "BonusStardustCaptureReward", "AttackProbability", "DodgeProbability", "DodgeDurationS", "DodgeDistance", "CameraDistance", "MinPokemonActionFrequencyS", "MaxPokemonActionFrequencyS" }, null, null, null)
           }));
     }
     #endregion
@@ -75,6 +82,15 @@ namespace POGOProtos.Settings.Master.Pokemon {
       movementTimerS_ = other.movementTimerS_;
       jumpTimeS_ = other.jumpTimeS_;
       attackTimerS_ = other.attackTimerS_;
+      bonusCandyCaptureReward_ = other.bonusCandyCaptureReward_;
+      bonusStardustCaptureReward_ = other.bonusStardustCaptureReward_;
+      attackProbability_ = other.attackProbability_;
+      dodgeProbability_ = other.dodgeProbability_;
+      dodgeDurationS_ = other.dodgeDurationS_;
+      dodgeDistance_ = other.dodgeDistance_;
+      cameraDistance_ = other.cameraDistance_;
+      minPokemonActionFrequencyS_ = other.minPokemonActionFrequencyS_;
+      maxPokemonActionFrequencyS_ = other.maxPokemonActionFrequencyS_;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -181,6 +197,105 @@ namespace POGOProtos.Settings.Master.Pokemon {
       }
     }
 
+    /// <summary>Field number for the "bonus_candy_capture_reward" field.</summary>
+    public const int BonusCandyCaptureRewardFieldNumber = 10;
+    private int bonusCandyCaptureReward_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int BonusCandyCaptureReward {
+      get { return bonusCandyCaptureReward_; }
+      set {
+        bonusCandyCaptureReward_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "bonus_stardust_capture_reward" field.</summary>
+    public const int BonusStardustCaptureRewardFieldNumber = 11;
+    private int bonusStardustCaptureReward_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int BonusStardustCaptureReward {
+      get { return bonusStardustCaptureReward_; }
+      set {
+        bonusStardustCaptureReward_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "attack_probability" field.</summary>
+    public const int AttackProbabilityFieldNumber = 12;
+    private float attackProbability_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public float AttackProbability {
+      get { return attackProbability_; }
+      set {
+        attackProbability_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "dodge_probability" field.</summary>
+    public const int DodgeProbabilityFieldNumber = 13;
+    private float dodgeProbability_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public float DodgeProbability {
+      get { return dodgeProbability_; }
+      set {
+        dodgeProbability_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "dodge_duration_s" field.</summary>
+    public const int DodgeDurationSFieldNumber = 14;
+    private float dodgeDurationS_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public float DodgeDurationS {
+      get { return dodgeDurationS_; }
+      set {
+        dodgeDurationS_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "dodge_distance" field.</summary>
+    public const int DodgeDistanceFieldNumber = 15;
+    private float dodgeDistance_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public float DodgeDistance {
+      get { return dodgeDistance_; }
+      set {
+        dodgeDistance_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "camera_distance" field.</summary>
+    public const int CameraDistanceFieldNumber = 16;
+    private float cameraDistance_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public float CameraDistance {
+      get { return cameraDistance_; }
+      set {
+        cameraDistance_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "min_pokemon_action_frequency_s" field.</summary>
+    public const int MinPokemonActionFrequencySFieldNumber = 17;
+    private float minPokemonActionFrequencyS_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public float MinPokemonActionFrequencyS {
+      get { return minPokemonActionFrequencyS_; }
+      set {
+        minPokemonActionFrequencyS_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "max_pokemon_action_frequency_s" field.</summary>
+    public const int MaxPokemonActionFrequencySFieldNumber = 18;
+    private float maxPokemonActionFrequencyS_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public float MaxPokemonActionFrequencyS {
+      get { return maxPokemonActionFrequencyS_; }
+      set {
+        maxPokemonActionFrequencyS_ = value;
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
       return Equals(other as EncounterAttributes);
@@ -203,6 +318,15 @@ namespace POGOProtos.Settings.Master.Pokemon {
       if (MovementTimerS != other.MovementTimerS) return false;
       if (JumpTimeS != other.JumpTimeS) return false;
       if (AttackTimerS != other.AttackTimerS) return false;
+      if (BonusCandyCaptureReward != other.BonusCandyCaptureReward) return false;
+      if (BonusStardustCaptureReward != other.BonusStardustCaptureReward) return false;
+      if (AttackProbability != other.AttackProbability) return false;
+      if (DodgeProbability != other.DodgeProbability) return false;
+      if (DodgeDurationS != other.DodgeDurationS) return false;
+      if (DodgeDistance != other.DodgeDistance) return false;
+      if (CameraDistance != other.CameraDistance) return false;
+      if (MinPokemonActionFrequencyS != other.MinPokemonActionFrequencyS) return false;
+      if (MaxPokemonActionFrequencyS != other.MaxPokemonActionFrequencyS) return false;
       return true;
     }
 
@@ -218,6 +342,15 @@ namespace POGOProtos.Settings.Master.Pokemon {
       if (MovementTimerS != 0F) hash ^= MovementTimerS.GetHashCode();
       if (JumpTimeS != 0F) hash ^= JumpTimeS.GetHashCode();
       if (AttackTimerS != 0F) hash ^= AttackTimerS.GetHashCode();
+      if (BonusCandyCaptureReward != 0) hash ^= BonusCandyCaptureReward.GetHashCode();
+      if (BonusStardustCaptureReward != 0) hash ^= BonusStardustCaptureReward.GetHashCode();
+      if (AttackProbability != 0F) hash ^= AttackProbability.GetHashCode();
+      if (DodgeProbability != 0F) hash ^= DodgeProbability.GetHashCode();
+      if (DodgeDurationS != 0F) hash ^= DodgeDurationS.GetHashCode();
+      if (DodgeDistance != 0F) hash ^= DodgeDistance.GetHashCode();
+      if (CameraDistance != 0F) hash ^= CameraDistance.GetHashCode();
+      if (MinPokemonActionFrequencyS != 0F) hash ^= MinPokemonActionFrequencyS.GetHashCode();
+      if (MaxPokemonActionFrequencyS != 0F) hash ^= MaxPokemonActionFrequencyS.GetHashCode();
       return hash;
     }
 
@@ -264,6 +397,42 @@ namespace POGOProtos.Settings.Master.Pokemon {
         output.WriteRawTag(77);
         output.WriteFloat(AttackTimerS);
       }
+      if (BonusCandyCaptureReward != 0) {
+        output.WriteRawTag(80);
+        output.WriteInt32(BonusCandyCaptureReward);
+      }
+      if (BonusStardustCaptureReward != 0) {
+        output.WriteRawTag(88);
+        output.WriteInt32(BonusStardustCaptureReward);
+      }
+      if (AttackProbability != 0F) {
+        output.WriteRawTag(101);
+        output.WriteFloat(AttackProbability);
+      }
+      if (DodgeProbability != 0F) {
+        output.WriteRawTag(109);
+        output.WriteFloat(DodgeProbability);
+      }
+      if (DodgeDurationS != 0F) {
+        output.WriteRawTag(117);
+        output.WriteFloat(DodgeDurationS);
+      }
+      if (DodgeDistance != 0F) {
+        output.WriteRawTag(125);
+        output.WriteFloat(DodgeDistance);
+      }
+      if (CameraDistance != 0F) {
+        output.WriteRawTag(133, 1);
+        output.WriteFloat(CameraDistance);
+      }
+      if (MinPokemonActionFrequencyS != 0F) {
+        output.WriteRawTag(141, 1);
+        output.WriteFloat(MinPokemonActionFrequencyS);
+      }
+      if (MaxPokemonActionFrequencyS != 0F) {
+        output.WriteRawTag(149, 1);
+        output.WriteFloat(MaxPokemonActionFrequencyS);
+      }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -295,6 +464,33 @@ namespace POGOProtos.Settings.Master.Pokemon {
       }
       if (AttackTimerS != 0F) {
         size += 1 + 4;
+      }
+      if (BonusCandyCaptureReward != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(BonusCandyCaptureReward);
+      }
+      if (BonusStardustCaptureReward != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(BonusStardustCaptureReward);
+      }
+      if (AttackProbability != 0F) {
+        size += 1 + 4;
+      }
+      if (DodgeProbability != 0F) {
+        size += 1 + 4;
+      }
+      if (DodgeDurationS != 0F) {
+        size += 1 + 4;
+      }
+      if (DodgeDistance != 0F) {
+        size += 1 + 4;
+      }
+      if (CameraDistance != 0F) {
+        size += 2 + 4;
+      }
+      if (MinPokemonActionFrequencyS != 0F) {
+        size += 2 + 4;
+      }
+      if (MaxPokemonActionFrequencyS != 0F) {
+        size += 2 + 4;
       }
       return size;
     }
@@ -330,6 +526,33 @@ namespace POGOProtos.Settings.Master.Pokemon {
       }
       if (other.AttackTimerS != 0F) {
         AttackTimerS = other.AttackTimerS;
+      }
+      if (other.BonusCandyCaptureReward != 0) {
+        BonusCandyCaptureReward = other.BonusCandyCaptureReward;
+      }
+      if (other.BonusStardustCaptureReward != 0) {
+        BonusStardustCaptureReward = other.BonusStardustCaptureReward;
+      }
+      if (other.AttackProbability != 0F) {
+        AttackProbability = other.AttackProbability;
+      }
+      if (other.DodgeProbability != 0F) {
+        DodgeProbability = other.DodgeProbability;
+      }
+      if (other.DodgeDurationS != 0F) {
+        DodgeDurationS = other.DodgeDurationS;
+      }
+      if (other.DodgeDistance != 0F) {
+        DodgeDistance = other.DodgeDistance;
+      }
+      if (other.CameraDistance != 0F) {
+        CameraDistance = other.CameraDistance;
+      }
+      if (other.MinPokemonActionFrequencyS != 0F) {
+        MinPokemonActionFrequencyS = other.MinPokemonActionFrequencyS;
+      }
+      if (other.MaxPokemonActionFrequencyS != 0F) {
+        MaxPokemonActionFrequencyS = other.MaxPokemonActionFrequencyS;
       }
     }
 
@@ -375,6 +598,42 @@ namespace POGOProtos.Settings.Master.Pokemon {
           }
           case 77: {
             AttackTimerS = input.ReadFloat();
+            break;
+          }
+          case 80: {
+            BonusCandyCaptureReward = input.ReadInt32();
+            break;
+          }
+          case 88: {
+            BonusStardustCaptureReward = input.ReadInt32();
+            break;
+          }
+          case 101: {
+            AttackProbability = input.ReadFloat();
+            break;
+          }
+          case 109: {
+            DodgeProbability = input.ReadFloat();
+            break;
+          }
+          case 117: {
+            DodgeDurationS = input.ReadFloat();
+            break;
+          }
+          case 125: {
+            DodgeDistance = input.ReadFloat();
+            break;
+          }
+          case 133: {
+            CameraDistance = input.ReadFloat();
+            break;
+          }
+          case 141: {
+            MinPokemonActionFrequencyS = input.ReadFloat();
+            break;
+          }
+          case 149: {
+            MaxPokemonActionFrequencyS = input.ReadFloat();
             break;
           }
         }
