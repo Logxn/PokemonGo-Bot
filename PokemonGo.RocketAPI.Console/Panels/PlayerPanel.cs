@@ -227,7 +227,6 @@ namespace PokemonGo.RocketAPI.Console
             if (teamSelect.ShowDialog() == DialogResult.OK){
                 // Simulate to enter in a gym before select a team.
                 var client = Logic.Logic.objClient;
-                //var mapObjects = await client.Map.GetMapObjects().ConfigureAwait(false);
                 var mapObjects = client.Map.GetMapObjects().Result;
                 var mapCells = mapObjects.Item1.MapCells;
 
@@ -237,13 +236,11 @@ namespace PokemonGo.RocketAPI.Console
 	            {
 	            	var pokegym = pokeGyms.First();
 
-                    //var resp = await GetGym(pokegym.Id,pokegym.Latitude,pokegym.Longitude).ConfigureAwait(false);
                     var resp = GetGym(pokegym.Id, pokegym.Latitude, pokegym.Longitude).Result;
                     if (resp.Status)
                     {
                         var team = teamSelect.selected;
                         RandomHelper.RandomSleep(1000,1100);
-                        //var resp2 = await SelectTeam(team).ConfigureAwait(false);
                         var resp2 = SelectTeam(team).Result;
                         if (resp2.Status)
                         {

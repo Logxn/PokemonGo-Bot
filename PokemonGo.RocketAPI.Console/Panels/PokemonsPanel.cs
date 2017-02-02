@@ -27,10 +27,12 @@ namespace PokemonGo.RocketAPI.Console
         private static Client client;
         private ColumnHeader SortingColumn;
         private DownloadItemTemplatesResponse templates;
+        private Helper.TranslatorHelper th = Helper.TranslatorHelper.getInstance();
         
         public PokemonsPanel()
         {
             InitializeComponent();
+            th.Translate(this);
             BotSettings = new Settings();
             InitialzePokemonListView();
         }
@@ -242,8 +244,10 @@ namespace PokemonGo.RocketAPI.Console
                             .Select(f => f.Candy_)
                             .First();
                         listViewItem.SubItems.Add(string.Format("{0}", pokemon.Cp));
-                        //<listViewItem.SubItems.Add(string.Format("{0}% {1}{2}{3} ({4})", PokemonInfo.CalculatePokemonPerfection(pokemon).ToString("0"), pokemon.IndividualAttack.ToString("X"), pokemon.IndividualDefense.ToString("X"), pokemon.IndividualStamina.ToString("X"), (45 - pokemon.IndividualAttack- pokemon.IndividualDefense- pokemon.IndividualStamina) ));
-                        listViewItem.SubItems.Add(string.Format("{0}% {1}-{2}-{3}", PokemonInfo.CalculatePokemonPerfection(pokemon).ToString("0"), pokemon.IndividualAttack, pokemon.IndividualDefense, pokemon.IndividualStamina));
+                        if (checkBox_ShortName.Checked)
+                            listViewItem.SubItems.Add(string.Format("{0}% {1}{2}{3} ({4})", PokemonInfo.CalculatePokemonPerfection(pokemon).ToString("0"), pokemon.IndividualAttack.ToString("X"), pokemon.IndividualDefense.ToString("X"), pokemon.IndividualStamina.ToString("X"), (45 - pokemon.IndividualAttack- pokemon.IndividualDefense- pokemon.IndividualStamina) ));
+                        else
+                            listViewItem.SubItems.Add(string.Format("{0}% {1}-{2}-{3}", PokemonInfo.CalculatePokemonPerfection(pokemon).ToString("0"), pokemon.IndividualAttack, pokemon.IndividualDefense, pokemon.IndividualStamina));
                         listViewItem.SubItems.Add(string.Format("{0}", PokemonInfo.GetLevel(pokemon)));
                         listViewItem.ImageKey = pokemon.PokemonId.ToString();
                         var specSymbol ="";
@@ -328,7 +332,6 @@ namespace PokemonGo.RocketAPI.Console
             btnreload.Enabled = enabled;
             btnEvolve.Enabled = enabled;
             btnTransfer.Enabled = enabled;
-            btnUpgrade.Enabled = enabled;
             btnFullPowerUp.Enabled = enabled;
             checkBoxreload.Enabled = enabled;
             reloadsecondstextbox.Enabled = enabled;
@@ -607,133 +610,49 @@ namespace PokemonGo.RocketAPI.Console
             EnabledButton(true);
         }
 
-        private void btnUpgrade_Click(object sender, EventArgs e)
+        private static bool PowerUp(PokemonData pokemon)
         {
-            EnabledButton(false);
-            var selectedItems = PokemonListView.SelectedItems;
-            int powerdup = 0;
-            int total = selectedItems.Count;
-            string failed = string.Empty;
-            var resp = new taskResponse(false, string.Empty);
-
-            foreach (ListViewItem selectedItem in selectedItems)
-            {
-                resp = PowerUp((PokemonData)selectedItem.Tag).Result;
-                if (resp.Status)
-                    powerdup++;
-                else
-                    failed += resp.Message + " ";
-                 Helpers.RandomHelper.RandomSleep(1000, 3000);
-            }
-            if (failed != string.Empty)
-                MessageBox.Show("Succesfully powered up " + powerdup + "/" + total + " Pokemons. Failed: " + failed, "Transfer status", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            else
-                MessageBox.Show("Succesfully powered up " + powerdup + "/" + total + " Pokemons.", "Transfer status", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            if (powerdup > 0)
-            {
-                Execute();
-            }
-            else
-                EnabledButton(true);
-        }
-        private static async Task<taskResponse> PowerUp(PokemonData pokemon)
-        {
-            var resp = new taskResponse(false, string.Empty);
+            var ret = false;
             try
             {
-                var evolvePokemonResponse = await client.Inventory.UpgradePokemon(pokemon.Id).ConfigureAwait(false);
+                var evolvePokemonResponse = client.Inventory.UpgradePokemon(pokemon.Id).Result;
 
                 if (evolvePokemonResponse.Result == UpgradePokemonResponse.Types.Result.Success)
                 {
-                    resp.Status = true;
+                    ret  = true;
+                } else {
+                    Logger.Warning(evolvePokemonResponse.Result.ToString());
                 }
-                else
-                {
-                    resp.Message = pokemon.PokemonId.ToString();
-                }
-
                 Helpers.RandomHelper.RandomSleep(1000, 2000);
             }
             catch (Exception e)
             {
                 Logger.ColoredConsoleWrite(ConsoleColor.Red, "Error Powering Up: " + e.Message);
-                await PowerUp(pokemon).ConfigureAwait(false);
             }
-            return resp;
+            return ret;
         }
+
         private void btnFullPowerUp_Click(object sender, EventArgs e)
         {
             EnabledButton(false, "Powering up...");
-            DialogResult result = MessageBox.Show("This process may take some time.", "FullPowerUp status", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
+            DialogResult result = MessageBox.Show(th.TS("This process may take some time."), th.TS("PowerUp status"), MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
             if (result == DialogResult.OK)
             {
                 var selectedItems = PokemonListView.SelectedItems;
-                int poweredup = 0;
-                int total = selectedItems.Count;
                 string failed = string.Empty;
-                int i = 0;
-                int powerUps = 0;
-                var resp = new taskResponse(false, string.Empty);
-                while (i == 0)
-                {
-                    var poweruplimit = (int)numPwrUpLimit.Value;
-                    foreach (ListViewItem selectedItem in selectedItems)
+                var poweruplimit = (int)numPwrUpLimit.Value;
+                var atLeast1PowerUp = false;
+                foreach (ListViewItem selectedItem in selectedItems)
+                    for (var i = 1; i<=poweruplimit;i++)
                     {
-                        if (poweruplimit > 0)
-                        {
-                            if (poweredup < poweruplimit)
-                            {
-                                resp = PowerUp((PokemonData)selectedItem.Tag).Result;
-                                if (resp.Status)
-                                {
-                                    poweredup++;
-                                }
-                                else
-                                    failed += resp.Message + " ";
-                            }
-                            else
-                                failed += " Power Up Limit Reached ";
-                        }
-                        else
-                        {
-                            resp = PowerUp((PokemonData)selectedItem.Tag).Result;
-                            if (resp.Status)
-                            {
-                                poweredup++;
-                            }
-                            else
-                                failed += resp.Message + " ";
-                        }
+                        if (!PowerUp((PokemonData)selectedItem.Tag))
+                            break; // goes to next selected pokemon
+                        atLeast1PowerUp = true;
                     }
-                    if (failed != string.Empty)
-                    {
-                        if (powerUps > 0)
-                        {
-                            MessageBox.Show("Pokemon succesfully powered " + powerUps + " times.", "FullPowerUp status", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        }
-                        else
-                        {
-                            MessageBox.Show("Pokemon not powered up. Not enough Stardust or Candy.", "FullPowerUp status", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        }
-                        i = 1;
-                        EnabledButton(true);
-                    }
-                    else
-                    {
-                        powerUps++;
-                        statusTexbox.Text = "Powering up..." + powerUps;
-                        Helpers.RandomHelper.RandomSleep(1200, 1500);
-                    }
-                }
-                if (poweredup > 0 && i == 1)
-                {
+                if (atLeast1PowerUp)
                     Execute();
-                }
             }
-            else
-            {
-                EnabledButton(true);
-            }
+            EnabledButton(true);
         }
         private void BtnIVToNickClick(object sender, EventArgs e)
         {
@@ -751,7 +670,7 @@ namespace PokemonGo.RocketAPI.Console
                 foreach (ListViewItem selectedItem in selectedItems)
                 {
                     var pokemon = (PokemonData)selectedItem.Tag;
-                    pokemon.Nickname = IVsToNickname(pokemon);
+                    pokemon.Nickname = IVsToNickname(pokemon, checkBox_ShortName.Checked);
                     resp = changePokemonNickname(pokemon);
                     if (resp)
                     {
@@ -772,12 +691,14 @@ namespace PokemonGo.RocketAPI.Console
             }
             EnabledButton(true);
         }
-        private static string IVsToNickname(PokemonData pokemon)
+        private static string IVsToNickname(PokemonData pokemon, bool useShortFormat)
         {
             string croppedName = Logic.Utils.StringUtils.getPokemonNameByLanguage(BotSettings, (PokemonId)pokemon.PokemonId) + " ";
             string nickname;
-            //<nickname = string.Format("{0}{1}{2}{3}", pokemon.IndividualAttack.ToString("X"), pokemon.IndividualDefense.ToString("X"), pokemon.IndividualStamina.ToString("X"),(45 - pokemon.IndividualAttack- pokemon.IndividualDefense- pokemon.IndividualStamina));
-            nickname = string.Format("{0}.{1}.{2}.{3}", PokemonInfo.CalculatePokemonPerfection(pokemon).ToString("0"), pokemon.IndividualAttack, pokemon.IndividualDefense, pokemon.IndividualStamina);
+            if (useShortFormat)
+                nickname = string.Format("{0}{1}{2}{3}", pokemon.IndividualAttack.ToString("X"), pokemon.IndividualDefense.ToString("X"), pokemon.IndividualStamina.ToString("X"),(45 - pokemon.IndividualAttack- pokemon.IndividualDefense- pokemon.IndividualStamina));
+            else
+                nickname = string.Format("{0}.{1}.{2}.{3}", PokemonInfo.CalculatePokemonPerfection(pokemon).ToString("0"), pokemon.IndividualAttack, pokemon.IndividualDefense, pokemon.IndividualStamina);
             int lenDiff = 12 - nickname.Length;
             if (croppedName.Length > lenDiff)
                 croppedName = croppedName.Substring(0, lenDiff);
@@ -820,22 +741,9 @@ namespace PokemonGo.RocketAPI.Console
         private void powerUpToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var pokemon = (PokemonData)PokemonListView.SelectedItems[0].Tag;
-            var resp = new taskResponse(false, string.Empty);
-
-            if (MessageBox.Show(this, pokemon.PokemonId + " with " + pokemon.Cp + " CP thats " + Math.Round(PokemonInfo.CalculatePokemonPerfection(pokemon)) + "% perfect", "Are you sure you want to power it up?", MessageBoxButtons.OKCancel) == DialogResult.OK)
-            {
-                resp = PowerUp(pokemon).Result;
-            }
-            else
-            {
-                return;
-            }
-            if (resp.Status)
-            {
-                Execute();
-            }
-            else
-                MessageBox.Show(resp.Message + " powering up failed!", "PowerUp Status", MessageBoxButtons.OK);
+            if (MessageBox.Show(this, th.TS( " {0} with {1} CP thats {2} % perfect",pokemon.PokemonId,pokemon.Cp,Math.Round(PokemonInfo.CalculatePokemonPerfection(pokemon))), th.TS("Are you sure you want to power it up?"), MessageBoxButtons.OKCancel) == DialogResult.OK)
+                if ( PowerUp(pokemon))
+                    Execute();
         }
 
         private void iVsToNicknameToolStripMenuItem_Click(object sender, EventArgs e)
@@ -843,7 +751,7 @@ namespace PokemonGo.RocketAPI.Console
             var pokemon = (PokemonData)PokemonListView.SelectedItems[0].Tag;
             var resp = false;
 
-            string promptValue = Prompt.ShowDialog(IVsToNickname(pokemon), "Confirm Nickname");
+            string promptValue = Prompt.ShowDialog(IVsToNickname(pokemon ,checkBox_ShortName.Checked), "Confirm Nickname");
 
             if (promptValue != "")
             {
