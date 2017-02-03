@@ -148,6 +148,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Components\HRefLink.cs" />
     <Compile Include="Components\LabelCombo.cs">
       <SubType>UserControl</SubType>
     </Compile>

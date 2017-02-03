@@ -1178,8 +1178,9 @@ namespace PokemonGo.RocketAPI.Logic
             #endregion
         }
 
-        public void CatchPokemon(ulong encounterId, string spawnpointId, PokemonId pokeid, double pokeLong = 0, double pokeLat = 0, bool goBack = false)
+        public ulong CatchPokemon(ulong encounterId, string spawnpointId, PokemonId pokeid, double pokeLong = 0, double pokeLat = 0, bool goBack = false)
         {
+            ulong ret = 0;
             EncounterResponse encounterPokemonResponse;
 
             //Offset Miss count here to account for user setting.
@@ -1221,7 +1222,7 @@ namespace PokemonGo.RocketAPI.Logic
                 if (SkippedPokemon.Contains(encounterPokemonResponse.WildPokemon.EncounterId))
                 {
                     Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Previously Skipped this Pokemon - Skipping Again!");
-                    return;
+                    return 0;
                 }
 
                 var bestPokeball = GetBestBall(encounterPokemonResponse?.WildPokemon, false);
@@ -1237,7 +1238,7 @@ namespace PokemonGo.RocketAPI.Logic
                     pokeballoutofstock = true;
                     logicAllowCatchPokemon = false;
 
-                    return;
+                    return 0;
                 }
 
                 var inventoryBerries = objClient.Inventory.GetItems().Result;
@@ -1266,7 +1267,7 @@ namespace PokemonGo.RocketAPI.Logic
                             pokeballoutofstock = true;
                             logicAllowCatchPokemon = false;
 
-                            return;
+                            return 0;
                         }
 
                         if (((probability.Value < BotSettings.razzberry_chance) || escaped) && BotSettings.UseRazzBerry && !used)
@@ -1372,6 +1373,7 @@ namespace PokemonGo.RocketAPI.Logic
 
                     if (caughtPokemonResponse.Status == CatchPokemonResponse.Types.CatchStatus.CatchSuccess)
                     {
+                        ret = caughtPokemonResponse.CapturedPokemonId;
                         //DeletePokemonFromMap(encounterPokemonResponse.WildPokemon.SpawnPointId).Wait();
                         foreach (var xp in caughtPokemonResponse.CaptureAward.Xp)
                             BotStats.AddExperience(xp);
@@ -1425,11 +1427,11 @@ namespace PokemonGo.RocketAPI.Logic
                 }
                 RandomHelper.RandomSleep(1000, 2000); // wait 1 second to simulate catch.
             }else if (encounterPokemonResponse.Status == EncounterResponse.Types.Status.PokemonInventoryFull){
-                Logger.Warning("You have not free space for new pokemons. Please transfer anyone before.");
+                Logger.Warning("You have no free space for new pokemons...transfer some as soon as possible.");
             }else{
                 Logger.Debug(encounterPokemonResponse.Status.ToString());
             }
-            
+            return ret;
         }
 
         private CatchPokemonResponse CatchPokemonWithRandomVariables(ulong encounterId, string spawnpointId, ItemId bestPokeball, bool forceHit)
@@ -1517,25 +1519,25 @@ namespace PokemonGo.RocketAPI.Logic
                 if (balls.First(g => g.Key == ItemId.ItemPokeBall).First().Count > 0)
                     pokeBallCollection.Add("pokeBalls", balls.First(g => g.Key == ItemId.ItemPokeBall).First().Count);
                 else
-                    Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"FYI - PokeBall Count is Zero");
+                    Logger.Warning("PokeBall Count is Zero");
 
             if (balls.Any(g => g.Key == ItemId.ItemGreatBall))
                 if (balls.First(g => g.Key == ItemId.ItemGreatBall).First().Count > 0)
                     pokeBallCollection.Add("greatBalls", balls.First(g => g.Key == ItemId.ItemGreatBall).First().Count);
                 else
-                    Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"FYI - GreatBall Count is Zero");
+                    Logger.Warning("GreatBall Count is Zero");
 
             if (balls.Any(g => g.Key == ItemId.ItemUltraBall))
                 if (balls.First(g => g.Key == ItemId.ItemUltraBall).First().Count > 0)
                     pokeBallCollection.Add("ultraBalls", balls.First(g => g.Key == ItemId.ItemUltraBall).First().Count);
                 else
-                    Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"FYI - UltraBall Count is Zero");
+                    Logger.Warning("UltraBall Count is Zero");
 
             if (balls.Any(g => g.Key == ItemId.ItemMasterBall))
                 if (balls.First(g => g.Key == ItemId.ItemMasterBall).First().Count > 0)
                     pokeBallCollection.Add("masterBalls", balls.First(g => g.Key == ItemId.ItemMasterBall).First().Count);
                 else
-                    Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"FYI - MasterBall Count is Zero");
+                    Logger.Warning("MasterBall Count is Zero");
 
             #endregion
 

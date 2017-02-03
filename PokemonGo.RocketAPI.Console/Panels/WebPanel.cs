@@ -20,9 +20,12 @@ namespace PokemonGo.RocketAPI.Console.Panels
     /// </summary>
     public partial class WebPanel : UserControl
     {
+        private Helper.TranslatorHelper th = Helper.TranslatorHelper.getInstance();
         public WebPanel()
         {
             InitializeComponent();
+            th.Translate(this);
+            
         }
         public void ChangeURL(string weburl){
             textBox1.Text = weburl;

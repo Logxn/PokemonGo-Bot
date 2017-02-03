@@ -58,7 +58,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
         {
             // reset stat counter
             count = 0;
-            if (Shared.GlobalVars.UseIncenseGUIClick) UseIncense();
+            CheckIfUseIncense();
 
             if (Shared.GlobalVars.UseLuckyEggIfNotRunning || Shared.GlobalVars.UseLuckyEggGUIClick)
             {
@@ -81,9 +81,9 @@ namespace PokemonGo.RocketAPI.Logic.Functions
         }
 
         private static DateTime lastincenseuse;
-        public static void UseIncense()
-        {
 
+        public static void CheckIfUseIncense()
+        {
             if (Shared.GlobalVars.RelocateDefaultLocation)
                 return;
             if (Shared.GlobalVars.UseIncense || Shared.GlobalVars.UseIncenseGUIClick)
@@ -722,9 +722,15 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                 }
 
                 var _response = Logic.objClient.Inventory.TransferPokemon(pokemonsToTransfer).Result;
+
                 if (_response.Result == ReleasePokemonResponse.Types.Result.Success)
-                { 
-                    Logger.ColoredConsoleWrite(ConsoleColor.Yellow,$"Bulk Transfer Done correctly. {pokemonsToTransfer.Count} Pokemons was transfered");
+                {
+                    Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Transfer Successful of {pokemonsToTransfer.Count} pokemons => {_response.CandyAwarded.ToString()} candy/ies awarded.", LogLevel.Info);
+                    Helpers.RandomHelper.RandomSleep(1000, 2000);
+                }
+                else
+                {
+                    Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Something happened while transferring pokemons.");
                 }
 
                 if (Shared.GlobalVars.pauseAtEvolve2)
@@ -750,8 +756,9 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                     RandomHelper.RandomSleep(60000,61000);
                 }
                 lastlog = -10000;
-                timetorunstamp = Shared.GlobalVars.TimeToRun * 60 * 1000 + (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds;
-                Execute();
+                timetorunstamp = -10000;
+                Logic.objClient.ReadyToUse = false;
+                Logic.Instance.Execute();
             }
         }
 

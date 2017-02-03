@@ -26,18 +26,23 @@ namespace POGOProtos.Data {
             "dG9zLkRhdGEaHlBPR09Qcm90b3MvRW51bXMvQ29zdHVtZS5wcm90bxobUE9H",
             "T1Byb3Rvcy9FbnVtcy9Gb3JtLnByb3RvGh1QT0dPUHJvdG9zL0VudW1zL0dl",
             "bmRlci5wcm90bxogUE9HT1Byb3Rvcy9FbnVtcy9Qb2tlbW9uSWQucHJvdG8i",
-            "3gIKDFBva2VkZXhFbnRyeRIvCgpwb2tlbW9uX2lkGAEgASgOMhsuUE9HT1By",
+            "nAQKDFBva2VkZXhFbnRyeRIvCgpwb2tlbW9uX2lkGAEgASgOMhsuUE9HT1By",
             "b3Rvcy5FbnVtcy5Qb2tlbW9uSWQSGQoRdGltZXNfZW5jb3VudGVyZWQYAiAB",
             "KAUSFgoOdGltZXNfY2FwdHVyZWQYAyABKAUSHgoWZXZvbHV0aW9uX3N0b25l",
             "X3BpZWNlcxgEIAEoBRIYChBldm9sdXRpb25fc3RvbmVzGAUgASgFEjQKEWNh",
             "cHR1cmVkX2Nvc3R1bWVzGAYgAygOMhkuUE9HT1Byb3Rvcy5FbnVtcy5Db3N0",
             "dW1lEi4KDmNhcHR1cmVkX2Zvcm1zGAcgAygOMhYuUE9HT1Byb3Rvcy5FbnVt",
             "cy5Gb3JtEjIKEGNhcHR1cmVkX2dlbmRlcnMYCCADKA4yGC5QT0dPUHJvdG9z",
-            "LkVudW1zLkdlbmRlchIWCg5jYXB0dXJlZF9zaGlueRgJIAEoCGIGcHJvdG8z"));
+            "LkVudW1zLkdlbmRlchIWCg5jYXB0dXJlZF9zaGlueRgJIAEoCBI3ChRlbmNv",
+            "dW50ZXJlZF9jb3N0dW1lcxgKIAMoDjIZLlBPR09Qcm90b3MuRW51bXMuQ29z",
+            "dHVtZRIxChFlbmNvdW50ZXJlZF9mb3JtcxgLIAMoDjIWLlBPR09Qcm90b3Mu",
+            "RW51bXMuRm9ybRI1ChNlbmNvdW50ZXJlZF9nZW5kZXJzGAwgAygOMhguUE9H",
+            "T1Byb3Rvcy5FbnVtcy5HZW5kZXISGQoRZW5jb3VudGVyZWRfc2hpbnkYDSAB",
+            "KAhiBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::POGOProtos.Enums.CostumeReflection.Descriptor, global::POGOProtos.Enums.FormReflection.Descriptor, global::POGOProtos.Enums.GenderReflection.Descriptor, global::POGOProtos.Enums.PokemonIdReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::POGOProtos.Data.PokedexEntry), global::POGOProtos.Data.PokedexEntry.Parser, new[]{ "PokemonId", "TimesEncountered", "TimesCaptured", "EvolutionStonePieces", "EvolutionStones", "CapturedCostumes", "CapturedForms", "CapturedGenders", "CapturedShiny" }, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::POGOProtos.Data.PokedexEntry), global::POGOProtos.Data.PokedexEntry.Parser, new[]{ "PokemonId", "TimesEncountered", "TimesCaptured", "EvolutionStonePieces", "EvolutionStones", "CapturedCostumes", "CapturedForms", "CapturedGenders", "CapturedShiny", "EncounteredCostumes", "EncounteredForms", "EncounteredGenders", "EncounteredShiny" }, null, null, null)
           }));
     }
     #endregion
@@ -77,6 +82,10 @@ namespace POGOProtos.Data {
       capturedForms_ = other.capturedForms_.Clone();
       capturedGenders_ = other.capturedGenders_.Clone();
       capturedShiny_ = other.capturedShiny_;
+      encounteredCostumes_ = other.encounteredCostumes_.Clone();
+      encounteredForms_ = other.encounteredForms_.Clone();
+      encounteredGenders_ = other.encounteredGenders_.Clone();
+      encounteredShiny_ = other.encounteredShiny_;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -180,6 +189,47 @@ namespace POGOProtos.Data {
       }
     }
 
+    /// <summary>Field number for the "encountered_costumes" field.</summary>
+    public const int EncounteredCostumesFieldNumber = 10;
+    private static readonly pb::FieldCodec<global::POGOProtos.Enums.Costume> _repeated_encounteredCostumes_codec
+        = pb::FieldCodec.ForEnum(82, x => (int) x, x => (global::POGOProtos.Enums.Costume) x);
+    private readonly pbc::RepeatedField<global::POGOProtos.Enums.Costume> encounteredCostumes_ = new pbc::RepeatedField<global::POGOProtos.Enums.Costume>();
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public pbc::RepeatedField<global::POGOProtos.Enums.Costume> EncounteredCostumes {
+      get { return encounteredCostumes_; }
+    }
+
+    /// <summary>Field number for the "encountered_forms" field.</summary>
+    public const int EncounteredFormsFieldNumber = 11;
+    private static readonly pb::FieldCodec<global::POGOProtos.Enums.Form> _repeated_encounteredForms_codec
+        = pb::FieldCodec.ForEnum(90, x => (int) x, x => (global::POGOProtos.Enums.Form) x);
+    private readonly pbc::RepeatedField<global::POGOProtos.Enums.Form> encounteredForms_ = new pbc::RepeatedField<global::POGOProtos.Enums.Form>();
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public pbc::RepeatedField<global::POGOProtos.Enums.Form> EncounteredForms {
+      get { return encounteredForms_; }
+    }
+
+    /// <summary>Field number for the "encountered_genders" field.</summary>
+    public const int EncounteredGendersFieldNumber = 12;
+    private static readonly pb::FieldCodec<global::POGOProtos.Enums.Gender> _repeated_encounteredGenders_codec
+        = pb::FieldCodec.ForEnum(98, x => (int) x, x => (global::POGOProtos.Enums.Gender) x);
+    private readonly pbc::RepeatedField<global::POGOProtos.Enums.Gender> encounteredGenders_ = new pbc::RepeatedField<global::POGOProtos.Enums.Gender>();
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public pbc::RepeatedField<global::POGOProtos.Enums.Gender> EncounteredGenders {
+      get { return encounteredGenders_; }
+    }
+
+    /// <summary>Field number for the "encountered_shiny" field.</summary>
+    public const int EncounteredShinyFieldNumber = 13;
+    private bool encounteredShiny_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool EncounteredShiny {
+      get { return encounteredShiny_; }
+      set {
+        encounteredShiny_ = value;
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
       return Equals(other as PokedexEntry);
@@ -202,6 +252,10 @@ namespace POGOProtos.Data {
       if(!capturedForms_.Equals(other.capturedForms_)) return false;
       if(!capturedGenders_.Equals(other.capturedGenders_)) return false;
       if (CapturedShiny != other.CapturedShiny) return false;
+      if(!encounteredCostumes_.Equals(other.encounteredCostumes_)) return false;
+      if(!encounteredForms_.Equals(other.encounteredForms_)) return false;
+      if(!encounteredGenders_.Equals(other.encounteredGenders_)) return false;
+      if (EncounteredShiny != other.EncounteredShiny) return false;
       return true;
     }
 
@@ -217,6 +271,10 @@ namespace POGOProtos.Data {
       hash ^= capturedForms_.GetHashCode();
       hash ^= capturedGenders_.GetHashCode();
       if (CapturedShiny != false) hash ^= CapturedShiny.GetHashCode();
+      hash ^= encounteredCostumes_.GetHashCode();
+      hash ^= encounteredForms_.GetHashCode();
+      hash ^= encounteredGenders_.GetHashCode();
+      if (EncounteredShiny != false) hash ^= EncounteredShiny.GetHashCode();
       return hash;
     }
 
@@ -254,6 +312,13 @@ namespace POGOProtos.Data {
         output.WriteRawTag(72);
         output.WriteBool(CapturedShiny);
       }
+      encounteredCostumes_.WriteTo(output, _repeated_encounteredCostumes_codec);
+      encounteredForms_.WriteTo(output, _repeated_encounteredForms_codec);
+      encounteredGenders_.WriteTo(output, _repeated_encounteredGenders_codec);
+      if (EncounteredShiny != false) {
+        output.WriteRawTag(104);
+        output.WriteBool(EncounteredShiny);
+      }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -278,6 +343,12 @@ namespace POGOProtos.Data {
       size += capturedForms_.CalculateSize(_repeated_capturedForms_codec);
       size += capturedGenders_.CalculateSize(_repeated_capturedGenders_codec);
       if (CapturedShiny != false) {
+        size += 1 + 1;
+      }
+      size += encounteredCostumes_.CalculateSize(_repeated_encounteredCostumes_codec);
+      size += encounteredForms_.CalculateSize(_repeated_encounteredForms_codec);
+      size += encounteredGenders_.CalculateSize(_repeated_encounteredGenders_codec);
+      if (EncounteredShiny != false) {
         size += 1 + 1;
       }
       return size;
@@ -308,6 +379,12 @@ namespace POGOProtos.Data {
       capturedGenders_.Add(other.capturedGenders_);
       if (other.CapturedShiny != false) {
         CapturedShiny = other.CapturedShiny;
+      }
+      encounteredCostumes_.Add(other.encounteredCostumes_);
+      encounteredForms_.Add(other.encounteredForms_);
+      encounteredGenders_.Add(other.encounteredGenders_);
+      if (other.EncounteredShiny != false) {
+        EncounteredShiny = other.EncounteredShiny;
       }
     }
 
@@ -356,6 +433,25 @@ namespace POGOProtos.Data {
           }
           case 72: {
             CapturedShiny = input.ReadBool();
+            break;
+          }
+          case 82:
+          case 80: {
+            encounteredCostumes_.AddEntriesFrom(input, _repeated_encounteredCostumes_codec);
+            break;
+          }
+          case 90:
+          case 88: {
+            encounteredForms_.AddEntriesFrom(input, _repeated_encounteredForms_codec);
+            break;
+          }
+          case 98:
+          case 96: {
+            encounteredGenders_.AddEntriesFrom(input, _repeated_encounteredGenders_codec);
+            break;
+          }
+          case 104: {
+            EncounteredShiny = input.ReadBool();
             break;
           }
         }

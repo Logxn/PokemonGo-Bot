@@ -25,20 +25,22 @@ namespace POGOProtos.Networking.Responses {
             "CjtQT0dPUHJvdG9zL05ldHdvcmtpbmcvUmVzcG9uc2VzL0Rpc2tFbmNvdW50",
             "ZXJSZXNwb25zZS5wcm90bxIfUE9HT1Byb3Rvcy5OZXR3b3JraW5nLlJlc3Bv",
             "bnNlcxohUE9HT1Byb3Rvcy9EYXRhL1Bva2Vtb25EYXRhLnByb3RvGjBQT0dP",
-            "UHJvdG9zL0RhdGEvQ2FwdHVyZS9DYXB0dXJlUHJvYmFiaWxpdHkucHJvdG8i",
-            "6gIKFURpc2tFbmNvdW50ZXJSZXNwb25zZRJNCgZyZXN1bHQYASABKA4yPS5Q",
-            "T0dPUHJvdG9zLk5ldHdvcmtpbmcuUmVzcG9uc2VzLkRpc2tFbmNvdW50ZXJS",
-            "ZXNwb25zZS5SZXN1bHQSMgoMcG9rZW1vbl9kYXRhGAIgASgLMhwuUE9HT1By",
-            "b3Rvcy5EYXRhLlBva2Vtb25EYXRhEkgKE2NhcHR1cmVfcHJvYmFiaWxpdHkY",
-            "AyABKAsyKy5QT0dPUHJvdG9zLkRhdGEuQ2FwdHVyZS5DYXB0dXJlUHJvYmFi",
-            "aWxpdHkigwEKBlJlc3VsdBILCgdVTktOT1dOEAASCwoHU1VDQ0VTUxABEhEK",
-            "DU5PVF9BVkFJTEFCTEUQAhIQCgxOT1RfSU5fUkFOR0UQAxIeChpFTkNPVU5U",
-            "RVJfQUxSRUFEWV9GSU5JU0hFRBAEEhoKFlBPS0VNT05fSU5WRU5UT1JZX0ZV",
-            "TEwQBWIGcHJvdG8z"));
+            "UHJvdG9zL0RhdGEvQ2FwdHVyZS9DYXB0dXJlUHJvYmFiaWxpdHkucHJvdG8a",
+            "JlBPR09Qcm90b3MvSW52ZW50b3J5L0l0ZW0vSXRlbUlkLnByb3RvIqIDChVE",
+            "aXNrRW5jb3VudGVyUmVzcG9uc2USTQoGcmVzdWx0GAEgASgOMj0uUE9HT1By",
+            "b3Rvcy5OZXR3b3JraW5nLlJlc3BvbnNlcy5EaXNrRW5jb3VudGVyUmVzcG9u",
+            "c2UuUmVzdWx0EjIKDHBva2Vtb25fZGF0YRgCIAEoCzIcLlBPR09Qcm90b3Mu",
+            "RGF0YS5Qb2tlbW9uRGF0YRJIChNjYXB0dXJlX3Byb2JhYmlsaXR5GAMgASgL",
+            "MisuUE9HT1Byb3Rvcy5EYXRhLkNhcHR1cmUuQ2FwdHVyZVByb2JhYmlsaXR5",
+            "EjYKC2FjdGl2ZV9pdGVtGAQgASgOMiEuUE9HT1Byb3Rvcy5JbnZlbnRvcnku",
+            "SXRlbS5JdGVtSWQigwEKBlJlc3VsdBILCgdVTktOT1dOEAASCwoHU1VDQ0VT",
+            "UxABEhEKDU5PVF9BVkFJTEFCTEUQAhIQCgxOT1RfSU5fUkFOR0UQAxIeChpF",
+            "TkNPVU5URVJfQUxSRUFEWV9GSU5JU0hFRBAEEhoKFlBPS0VNT05fSU5WRU5U",
+            "T1JZX0ZVTEwQBWIGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::POGOProtos.Data.PokemonDataReflection.Descriptor, global::POGOProtos.Data.Capture.CaptureProbabilityReflection.Descriptor, },
+          new pbr::FileDescriptor[] { global::POGOProtos.Data.PokemonDataReflection.Descriptor, global::POGOProtos.Data.Capture.CaptureProbabilityReflection.Descriptor, global::POGOProtos.Inventory.Item.ItemIdReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::POGOProtos.Networking.Responses.DiskEncounterResponse), global::POGOProtos.Networking.Responses.DiskEncounterResponse.Parser, new[]{ "Result", "PokemonData", "CaptureProbability" }, null, new[]{ typeof(global::POGOProtos.Networking.Responses.DiskEncounterResponse.Types.Result) }, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::POGOProtos.Networking.Responses.DiskEncounterResponse), global::POGOProtos.Networking.Responses.DiskEncounterResponse.Parser, new[]{ "Result", "PokemonData", "CaptureProbability", "ActiveItem" }, null, new[]{ typeof(global::POGOProtos.Networking.Responses.DiskEncounterResponse.Types.Result) }, null)
           }));
     }
     #endregion
@@ -72,6 +74,7 @@ namespace POGOProtos.Networking.Responses {
       result_ = other.result_;
       PokemonData = other.pokemonData_ != null ? other.PokemonData.Clone() : null;
       CaptureProbability = other.captureProbability_ != null ? other.CaptureProbability.Clone() : null;
+      activeItem_ = other.activeItem_;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -112,6 +115,17 @@ namespace POGOProtos.Networking.Responses {
       }
     }
 
+    /// <summary>Field number for the "active_item" field.</summary>
+    public const int ActiveItemFieldNumber = 4;
+    private global::POGOProtos.Inventory.Item.ItemId activeItem_ = 0;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public global::POGOProtos.Inventory.Item.ItemId ActiveItem {
+      get { return activeItem_; }
+      set {
+        activeItem_ = value;
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
       return Equals(other as DiskEncounterResponse);
@@ -128,6 +142,7 @@ namespace POGOProtos.Networking.Responses {
       if (Result != other.Result) return false;
       if (!object.Equals(PokemonData, other.PokemonData)) return false;
       if (!object.Equals(CaptureProbability, other.CaptureProbability)) return false;
+      if (ActiveItem != other.ActiveItem) return false;
       return true;
     }
 
@@ -137,6 +152,7 @@ namespace POGOProtos.Networking.Responses {
       if (Result != 0) hash ^= Result.GetHashCode();
       if (pokemonData_ != null) hash ^= PokemonData.GetHashCode();
       if (captureProbability_ != null) hash ^= CaptureProbability.GetHashCode();
+      if (ActiveItem != 0) hash ^= ActiveItem.GetHashCode();
       return hash;
     }
 
@@ -159,6 +175,10 @@ namespace POGOProtos.Networking.Responses {
         output.WriteRawTag(26);
         output.WriteMessage(CaptureProbability);
       }
+      if (ActiveItem != 0) {
+        output.WriteRawTag(32);
+        output.WriteEnum((int) ActiveItem);
+      }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -172,6 +192,9 @@ namespace POGOProtos.Networking.Responses {
       }
       if (captureProbability_ != null) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(CaptureProbability);
+      }
+      if (ActiveItem != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) ActiveItem);
       }
       return size;
     }
@@ -195,6 +218,9 @@ namespace POGOProtos.Networking.Responses {
           captureProbability_ = new global::POGOProtos.Data.Capture.CaptureProbability();
         }
         CaptureProbability.MergeFrom(other.CaptureProbability);
+      }
+      if (other.ActiveItem != 0) {
+        ActiveItem = other.ActiveItem;
       }
     }
 
@@ -222,6 +248,10 @@ namespace POGOProtos.Networking.Responses {
               captureProbability_ = new global::POGOProtos.Data.Capture.CaptureProbability();
             }
             input.ReadMessage(captureProbability_);
+            break;
+          }
+          case 32: {
+            activeItem_ = (global::POGOProtos.Inventory.Item.ItemId) input.ReadEnum();
             break;
           }
         }

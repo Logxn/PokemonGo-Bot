@@ -47,39 +47,40 @@ namespace PokemonGo.RocketAPI.Console
     /// </summary>
     public partial class SniperPanel : UserControl
     {
-        static Dictionary<string, int> pokeIDS = new Dictionary<string, int>();
-        
+        private static Dictionary<string, int> pokeIDS = new Dictionary<string, int>();
+        public WebBrowser webBrowser = null;
+        private Helper.TranslatorHelper th = Helper.TranslatorHelper.getInstance();
+
+        private static Components.HRefLink[] links = {
+         new Components.HRefLink("pokedexs.com","https://pokedexs.com"),
+         new Components.HRefLink("pokegosnipers.com","http://pokegosnipers.com"),
+         new Components.HRefLink("pokezz.com","http://pokezz.com"),
+         new Components.HRefLink("pokewatchers.com","http://pokewatchers.com"),
+         new Components.HRefLink("mypogosnipers.com","http://www.mypogosnipers.com"),
+         new Components.HRefLink("snipe.necrobot2.com","http://snipe.necrobot2.com"),
+         new Components.HRefLink("pokesniper.org","http://pokesniper.org/"),
+         new Components.HRefLink("iv100.top","http://iv100.top/")
+        };
+
         public SniperPanel()
         {
             //
             // The InitializeComponent() call is required for Windows Forms designer support.
             //
-            InitializeComponent();            
-            //LinkPokedexsCom.Links.Add(0,LinkPokedexsCom.Text.Length,"https://pokedexs.com/");
-            //linkpokegosnipers.Links.Add(0,linkpokegosnipers.Text.Length,"http://pokegosnipers.com/");
-            //linkPokezz.Links.Add(0,linkPokezz.Text.Length,"http://pokezz.com/");
-            // http://pokewatchers.com/
-            // http://www.mypogosnipers.com
-            // http://snipe.necrobot2.com/
+            InitializeComponent();
+            IntializeComboLinks();
+            th.Translate(this);
         }
-        
-        public void AddLinkClick(int linknumber, System.EventHandler evh){
-        	var lbl= LinkPokedexsCom;
-            switch (linknumber) {
-                case 1:
-                    lbl = linkpokegosnipers;
-                    break;
-                case 2:
-                    lbl = linkPokezz;
-                    break;
-                case 3:
-                    lbl = linkPokesniperOrg;
-                    break;
-                case 4:
-                    lbl = linkPokeWatchers;
-                    break;
-            }
-        	lbl.Click += evh;
+
+        void IntializeComboLinks()
+        {
+            comboBoxLinks.DataSource = links;
+            comboBoxLinks.DisplayMember= "Text";
+            comboBoxLinks.SelectedIndex = 0;
+        }
+
+        public void AddButtonClick(System.EventHandler evh){
+        	buttonGo.Click += evh;
         }
         
         void SelectallNottoSnipe_CheckedChanged(object sender, EventArgs e)
@@ -145,10 +146,10 @@ namespace PokemonGo.RocketAPI.Console
 
         void SnipeMe_Click(object sender, EventArgs e)
         {
-            SnipePoke((PokemonId)comboBox1.SelectedItem, (int) nudSecondsSnipe.Value,(int) nudTriesSnipe.Value);
+            SnipePoke((PokemonId)comboBox1.SelectedItem, (int) nudSecondsSnipe.Value,(int) nudTriesSnipe.Value ,checkBoxSnipeTransfer.Checked);
         }
 
-        void SnipePoke(PokemonId id, int secondsToWait, int numberOfTries)
+        void SnipePoke(PokemonId id, int secondsToWait, int numberOfTries, bool transferIt)
         {
             Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "Manual Snipe Triggered! We'll stop farming and go catch the pokemon ASAP");
             
@@ -156,6 +157,7 @@ namespace PokemonGo.RocketAPI.Console
             GlobalVars.SnipeOpts.Location = splLatLngResult;
             GlobalVars.SnipeOpts.WaitSecond = secondsToWait;
             GlobalVars.SnipeOpts.NumTries = numberOfTries;
+            GlobalVars.SnipeOpts.TransferIt = transferIt;
             GlobalVars.SnipeOpts.Enabled = true;
             //GlobalVars.ForceSnipe = true;
             SnipeInfo.Text = "";
@@ -240,26 +242,30 @@ namespace PokemonGo.RocketAPI.Console
                         splLatLngResult = SplitLatLng(splt[1]);
                         int stw = 2;
                         int tries =3;
+                        var transferIt = false;
                         try {
                             stw = (int) nudSecondsSnipe.Value;
                             tries = (int) nudTriesSnipe.Value;
+                            transferIt = checkBoxSnipeTransfer.Checked;
                         } catch (Exception) {
                         }
                         var pokename = ToCapital(splt[0]).Replace('.','_').Replace('-','_');
-                        SnipePoke( (PokemonId)Enum.Parse(typeof(PokemonId), pokename),stw,tries);
+                        SnipePoke( (PokemonId)Enum.Parse(typeof(PokemonId), pokename),stw,tries,transferIt);
                     }else if (txt.IndexOf("msniper://")> -1){
                         txt = txt.Replace("msniper://","");
                         var splt = txt.Split('/');
                         splLatLngResult = SplitLatLng(splt[3]);
                         int stw = 2;
                         int tries =3;
+                        var transferIt = false;
                         try {
                             stw = (int) nudSecondsSnipe.Value;
                             tries = (int) nudTriesSnipe.Value;
+                            transferIt = checkBoxSnipeTransfer.Checked;
                         } catch (Exception) {
                         }
                         var pokename = ToCapital(splt[0]).Replace('.','_').Replace('-','_');
-                        SnipePoke( (PokemonId)Enum.Parse(typeof(PokemonId), pokename),stw,tries);
+                        SnipePoke( (PokemonId)Enum.Parse(typeof(PokemonId), pokename),stw,tries,transferIt);
                     }
                 }
             } catch (Exception ex) {
@@ -322,6 +328,18 @@ namespace PokemonGo.RocketAPI.Console
         void PokesniperCom_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
           System.Diagnostics.Process.Start(e.Link.LinkData.ToString());
-        }        
+        }
+        void buttonGo_Click(object sender, EventArgs e)
+        {
+            if (comboBoxLinks.SelectedItem !=null){
+                var url = (comboBoxLinks.SelectedItem as Components.HRefLink).URL;
+                if ( webBrowser!=null  &&  !checkBoxExternalWeb.Checked ){
+                    webBrowser.Navigate(url);
+                }else{
+                    System.Diagnostics.Process.Start(url);
+                }
+            }
+
+        }
     }
 }

@@ -17,6 +17,7 @@ namespace PokemonGo.RocketAPI.Console.Panels
     /// </summary>
     public partial class SplashScreen : Form
     {
+        private Helper.TranslatorHelper th = Helper.TranslatorHelper.getInstance();
         public SplashScreen()
         {
             //
@@ -24,9 +25,7 @@ namespace PokemonGo.RocketAPI.Console.Panels
             //
             InitializeComponent();
             
-            //
-            // TODO: Add constructor code after the InitializeComponent() call.
-            //
+            th.Translate(this);
         }
         void timer1_Tick(object sender, EventArgs e)
         {

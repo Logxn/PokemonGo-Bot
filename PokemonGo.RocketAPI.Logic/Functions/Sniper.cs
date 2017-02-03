@@ -9,6 +9,7 @@
 using System;
 using System.Device.Location;
 using POGOProtos.Enums;
+using POGOProtos.Networking.Responses;
 using PokemonGo.RocketAPI.Helpers;
 using System.Linq;
 using PokemonGo.RocketAPI.Logic.Utils;
@@ -45,7 +46,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
             }
             try
             {
-                remoteCoords.Altitude = LocationUtils.getAltitude(remoteCoords.Altitude, remoteCoords.Longitude);
+                remoteCoords.Altitude = LocationUtils.getAltitude(remoteCoords.Latitude, remoteCoords.Longitude);
                 
                 SendToLog($"Trying to capture {pokeid}  at { remoteCoords.Latitude } / {remoteCoords.Longitude}");
                 SendToLog(LocationUtils.FindAddress(remoteCoords.Latitude,remoteCoords.Longitude));
@@ -54,8 +55,17 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                 SendToLog($"Went to sniping location.");
                 SendToLog($"Waiting {GlobalVars.SnipeOpts.WaitSecond} seconds for Pokemon to appear...");
                 RandomHelper.RandomSleep(GlobalVars.SnipeOpts.WaitSecond*1000, GlobalVars.SnipeOpts.WaitSecond*1100);
-
-                TrySnipePokemons(pokeid);
+                
+                var catchedID = TrySnipePokemons(pokeid);
+                if ( (catchedID >0) && GlobalVars.SnipeOpts.TransferIt)
+                {
+                    var trResult = Logic.objClient.Inventory.TransferPokemon(catchedID).Result;
+                    if (trResult.Result == ReleasePokemonResponse.Types.Result.Success)
+                    {
+                        SendToLog("Pokemon was transfered.");
+                        SendToLog("Candies awarded: " + trResult.CandyAwarded );
+                    }
+                }
                 
                 SendToLog($"Location after Snipe : {_botSettings.DefaultLatitude} / {_botSettings.DefaultLongitude}");
                 SendToLog(LocationUtils.FindAddress(_botSettings.DefaultLatitude,_botSettings.DefaultLongitude));
@@ -80,11 +90,12 @@ namespace PokemonGo.RocketAPI.Logic.Functions
             
         }
         
-        private bool TrySnipePokemons(PokemonId pokeid)
+        private ulong TrySnipePokemons(PokemonId pokeid)
         {
             const bool goBack = true;
             var tries = 1;
             var found = false;
+            ulong catched = 0;
 
             do{
                 var mapObjectsResponse = _client.Map.GetMapObjects(true).Result.Item1;
@@ -94,7 +105,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                 {
                     var pokemon = pokemons.FirstOrDefault();
                     SendToLog($"Found {pokemons.Count()} catchable Pokemon(s): {StringUtils.getPokemonNameByLanguage(_botSettings, pokemon.PokemonId)}" );
-                    Logic.Instance.CatchPokemon(pokemon.EncounterId, pokemon.SpawnPointId, pokemon.PokemonId, pokemon.Longitude, pokemon.Latitude, goBack);
+                    catched = Logic.Instance.CatchPokemon(pokemon.EncounterId, pokemon.SpawnPointId, pokemon.PokemonId, pokemon.Longitude, pokemon.Latitude, goBack);
                     found = true;
                 }
                 else
@@ -105,7 +116,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                 }
                 tries ++;
             
-            }while ((tries < GlobalVars.SnipeOpts.NumTries) && !found);
+            }while ((tries <= GlobalVars.SnipeOpts.NumTries) && !found);
             
             if (!found){
                 SendToLog( $"Go to {_botSettings.DefaultLatitude} / {_botSettings.DefaultLongitude}.");
@@ -114,7 +125,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                         _botSettings.DefaultLongitude,
                         _botSettings.DefaultAltitude).Result;
             }
-            return found;
+            return catched;
         }
 
     }
