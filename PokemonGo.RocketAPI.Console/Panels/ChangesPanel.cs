@@ -202,7 +202,7 @@ namespace PokemonGo.RocketAPI.Console
             var ConfigsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Configs");
             var filenameProf= Path.Combine(ConfigsPath, GlobalVars.ProfileName +".json" );
             botSettings.SaveToFile(filenameProf);
-            MessageBox.Show("Current Configuration Saved as - " + GlobalVars.ProfileName);
+            MessageBox.Show(th.TS("Current Configuration Saved as - ") + GlobalVars.ProfileName);
         }
 
         void ButtonReviseClick(object sender, EventArgs e)

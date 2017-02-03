@@ -29,6 +29,7 @@ namespace PokemonGo.RocketAPI.Console.Helper
     /// </summary>
     public class TranslatorHelper
     {
+
         private string language = "default";
         public static bool StoreUntranslated = false;
         public static bool ActiveExtractTexts = false; // enable or disable to extract texts
@@ -306,6 +307,24 @@ namespace PokemonGo.RocketAPI.Console.Helper
                 DownloadTranslationFile(remoteDir,outDir,baseLang[1].ToLower());
             }
 
+        }
+
+        // Reverse (untranslate) string
+        public string RS(string str)
+        {
+            return RS(dictionary,str);
+        }
+        
+        public static string RS(Dictionary<String, String> dict,string str)
+        {
+            if (dict == null)
+                return str;
+            if (dict.ContainsValue(str)){
+                foreach (KeyValuePair<String, String> pair in dict)
+                    if (pair.Value == str)
+                        return pair.Key.Replace("string.","");
+            }
+            return str;
         }
     }
 }

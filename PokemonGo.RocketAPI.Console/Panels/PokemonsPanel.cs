@@ -43,43 +43,43 @@ namespace PokemonGo.RocketAPI.Console
             PokemonListView.Columns.Clear();
             ColumnHeader columnheader;
             columnheader = new ColumnHeader();
-            columnheader.Name = "Name";
+            columnheader.Name = th.TS("Name");
             columnheader.Text = columnheader.Name;
             PokemonListView.Columns.Add(columnheader);
             columnheader = new ColumnHeader();
-            columnheader.Name = "CP";
+            columnheader.Name = th.TS("CP");
             columnheader.Text = columnheader.Name;
             PokemonListView.Columns.Add(columnheader);
             columnheader = new ColumnHeader();
-            columnheader.Name = "IV A-D-S";
+            columnheader.Name = th.TS("IV A-D-S");
             columnheader.Text = columnheader.Name;
             PokemonListView.Columns.Add(columnheader);
             columnheader = new ColumnHeader();
-            columnheader.Name = "LVL";
+            columnheader.Name = th.TS("LVL");
             columnheader.Text = columnheader.Name;
             PokemonListView.Columns.Add(columnheader);
             columnheader = new ColumnHeader();
-            columnheader.Name = "Evolvable?";
+            columnheader.Name = th.TS("Evolvable?");
             columnheader.Text = columnheader.Name;
             PokemonListView.Columns.Add(columnheader);
             columnheader = new ColumnHeader();
-            columnheader.Name = "Height";
+            columnheader.Name = th.TS("Height");
             columnheader.Text = columnheader.Name;
             PokemonListView.Columns.Add(columnheader);
             columnheader = new ColumnHeader();
-            columnheader.Name = "Weight";
+            columnheader.Name = th.TS("Weight");
             columnheader.Text = columnheader.Name;
             PokemonListView.Columns.Add(columnheader);
             columnheader = new ColumnHeader();
-            columnheader.Name = "HP";
+            columnheader.Name = th.TS("HP");
             columnheader.Text = columnheader.Name;
             PokemonListView.Columns.Add(columnheader);
             columnheader = new ColumnHeader();
-            columnheader.Name = "Attack";
+            columnheader.Name = th.TS("Attack");
             columnheader.Text = columnheader.Name;
             PokemonListView.Columns.Add(columnheader);
             columnheader = new ColumnHeader();
-            columnheader.Name = "SpecialAttack (DPS)";
+            columnheader.Name = th.TS("SpecialAttack (DPS)");
             columnheader.Text = columnheader.Name;
             PokemonListView.Columns.Add(columnheader);
             columnheader = new ColumnHeader();
@@ -87,25 +87,25 @@ namespace PokemonGo.RocketAPI.Console
             columnheader.Text = columnheader.Name;
             PokemonListView.Columns.Add(columnheader);
             columnheader = new ColumnHeader();
-            columnheader.Name = "% CP";
+            columnheader.Name = th.TS("% CP");
             columnheader.Text = columnheader.Name;
             PokemonListView.Columns.Add(columnheader);
             columnheader = new ColumnHeader();
-            columnheader.Name = "Type";
+            columnheader.Name = th.TS("Type");
             columnheader.Text = columnheader.Name;
             PokemonListView.Columns.Add(columnheader);
             columnheader = new ColumnHeader();
-            columnheader.Name = "Type 2";
+            columnheader.Name = th.TS("Type 2");
             columnheader.Text = columnheader.Name;
             PokemonListView.Columns.Add(columnheader);
             
-            PokemonListView.Columns.Add(CreateColumn("Catch Date"));
-            PokemonListView.Columns.Add(CreateColumn("Pokeball"));
-            PokemonListView.Columns.Add(CreateColumn("Num Upgrades"));
-            PokemonListView.Columns.Add(CreateColumn("Battles Attacked"));
-            PokemonListView.Columns.Add(CreateColumn("Battles Defended"));
-            PokemonListView.Columns.Add(CreateColumn("In Gym"));
-            PokemonListView.Columns.Add(CreateColumn("Capture Place"));
+            PokemonListView.Columns.Add(CreateColumn(th.TS("Catch Date")));
+            PokemonListView.Columns.Add(CreateColumn(th.TS("Pokeball")));
+            PokemonListView.Columns.Add(CreateColumn(th.TS("Num Upgrades")));
+            PokemonListView.Columns.Add(CreateColumn(th.TS("Battles Attacked")));
+            PokemonListView.Columns.Add(CreateColumn(th.TS("Battles Defended")));
+            PokemonListView.Columns.Add(CreateColumn(th.TS("In Gym")));
+            PokemonListView.Columns.Add(CreateColumn(th.TS("Capture Place")));
 
             PokemonListView.Columns["#"].DisplayIndex = 0;
             
@@ -201,7 +201,7 @@ namespace PokemonGo.RocketAPI.Console
 
         public void Execute()
         {
-            EnabledButton(false, "Reloading Pokemon list.");
+            EnabledButton(false, th.TS("Reloading Pokemon list."));
             try
             {
                 client = Logic.Logic.objClient;
@@ -255,11 +255,11 @@ namespace PokemonGo.RocketAPI.Console
                             specSymbol = "★";
                         if ((profile!=null) && (profile.PlayerData.BuddyPokemon.Id == pokemon.Id))
                             specSymbol = "☉";
-                        listViewItem.Text = specSymbol + Logic.Utils.StringUtils.getPokemonNameByLanguage(BotSettings, (PokemonId)pokemon.PokemonId);
+                        listViewItem.Text = specSymbol + th.TS( pokemon.PokemonId.ToString());
 
                         listViewItem.ToolTipText = Logic.Utils.StringUtils.ConvertTimeMSinString(pokemon.CreationTimeMs,"dd/MM/yyyy HH:mm:ss");
                         if (pokemon.Nickname != "")
-                            listViewItem.ToolTipText += "\nNickname: " + pokemon.Nickname;
+                            listViewItem.ToolTipText += th.TS("\n+Nickname: {0}",pokemon.Nickname);
 
                         var settings = pokemonSettings.Single(x => x.PokemonId == pokemon.PokemonId);
                         var familyCandy = pokemonFamilies.Single(x => settings.FamilyId == x.FamilyId);
@@ -297,7 +297,7 @@ namespace PokemonGo.RocketAPI.Console
                         }
                         // NOTE: yyyy/MM/dd is inverted order to can sort correctly as text. 
                         listViewItem.SubItems.Add(Logic.Utils.StringUtils.ConvertTimeMSinString(pokemon.CreationTimeMs, "yyyy/MM/dd HH:mm:ss"));
-                        listViewItem.SubItems.Add(pokemon.Pokeball.ToString().Replace("Item", ""));
+                        listViewItem.SubItems.Add(th.TS(pokemon.Pokeball.ToString().Replace("Item", "")));
                         listViewItem.SubItems.Add("" + pokemon.NumUpgrades);
                         listViewItem.SubItems.Add("" + pokemon.BattlesAttacked);
                         listViewItem.SubItems.Add("" + pokemon.BattlesDefended);
@@ -455,7 +455,7 @@ namespace PokemonGo.RocketAPI.Console
                 {
                     File.AppendAllText(evolvelog, $"[{date}] - MANUAL - Sucessfully evolved {evolved}/{total} Pokemons. Failed: {failed}" + Environment.NewLine);
                 }
-                MessageBox.Show("Succesfully evolved " + evolved + "/" + total + " Pokemons. Failed: " + failed, "Evolve status", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show(th.TS("Succesfully evolved {0}/{1} Pokemons. Failed: {2}",evolved,total,failed), th.TS("Evolve status"), MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
 
             else
@@ -464,7 +464,7 @@ namespace PokemonGo.RocketAPI.Console
                 {
                     File.AppendAllText(evolvelog, $"[{date}] - MANUAL - Sucessfully evolved {evolved}/{total} Pokemons." + Environment.NewLine);
                 }
-                MessageBox.Show("Succesfully evolved " + evolved + "/" + total + " Pokemons.", "Evolve status", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show(th.TS("Succesfully evolved {0}/{1} Pokemons.",evolved,total), th.TS("Evolve status"), MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
 
             if (evolved > 0)
@@ -643,13 +643,13 @@ namespace PokemonGo.RocketAPI.Console
         }
         private void BtnIVToNickClick(object sender, EventArgs e)
         {
-            EnabledButton(false, "Renaming...");
+            EnabledButton(false, th.TS("Renaming..."));
             var selectedItems = PokemonListView.SelectedItems;
             int renamed = 0;
             int total = selectedItems.Count;
             string failed = string.Empty;
 
-            DialogResult dialogResult = MessageBox.Show("You clicked to change nickame using IVs.\nAre you Sure?", "Confirm Dialog", MessageBoxButtons.YesNo);
+            DialogResult dialogResult = MessageBox.Show(th.TS("You clicked to change nickame using IVs.\nAre you Sure?"), th.TS("Confirm Dialog"), MessageBoxButtons.YesNo);
             if (dialogResult == DialogResult.Yes)
             {
                 var resp = false;
@@ -662,9 +662,9 @@ namespace PokemonGo.RocketAPI.Console
                     if (resp)
                     {
                         selectedItem.ToolTipText = Logic.Utils.StringUtils.ConvertTimeMSinString(pokemon.CreationTimeMs, "dd/MM/yyyy HH:mm:ss");
-                        selectedItem.ToolTipText += "\nNickname: " + pokemon.Nickname;
+                        selectedItem.ToolTipText += th.TS("\nNickname: {0}", pokemon.Nickname);
                         renamed++;
-                        statusTexbox.Text = "Renamig..." + renamed;
+                        statusTexbox.Text = th.TS("Renamig...") + renamed;
                     }
                     else
                         failed += pokemon.Nickname + " ";
@@ -672,9 +672,9 @@ namespace PokemonGo.RocketAPI.Console
                 }
 
                 if (failed != string.Empty)
-                    MessageBox.Show("Succesfully renamed " + renamed + "/" + total + " Pokemons. Failed: " + failed, "Rename status", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show(th.TS("Succesfully renamed {0}/{1} Pokemons. Failed: {2}", renamed,total,failed), th.TS("Rename status"), MessageBoxButtons.OK, MessageBoxIcon.Information);
                 else
-                    MessageBox.Show("Succesfully renamed " + renamed + "/" + total + " Pokemons.", "Rename status", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show(th.TS("Succesfully renamed {0}/{1} Pokemons.",renamed,total), th.TS("Rename status"), MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             EnabledButton(true);
         }
@@ -743,7 +743,7 @@ namespace PokemonGo.RocketAPI.Console
             var pokemon = (PokemonData)PokemonListView.SelectedItems[0].Tag;
             var resp = false;
 
-            string promptValue = Prompt.ShowDialog(IVsToNickname(pokemon ,checkBox_ShortName.Checked), "Confirm Nickname");
+            string promptValue = Prompt.ShowDialog(IVsToNickname(pokemon ,checkBox_ShortName.Checked), th.TS("Confirm Nickname"));
 
             if (promptValue != "")
             {
@@ -757,10 +757,10 @@ namespace PokemonGo.RocketAPI.Console
             if (resp)
             {
                 PokemonListView.SelectedItems[0].ToolTipText = Logic.Utils.StringUtils.ConvertTimeMSinString(pokemon.CreationTimeMs, "dd/MM/yyyy HH:mm:ss");
-                PokemonListView.SelectedItems[0].ToolTipText += "\nNickname: " + pokemon.Nickname;
+                PokemonListView.SelectedItems[0].ToolTipText += th.TS("\nNickname: {0}",pokemon.Nickname);
             }
             else
-                MessageBox.Show( pokemon.Nickname + " rename failed!", "Rename Status", MessageBoxButtons.OK);
+                MessageBox.Show( th.TS("{0} rename failed!",pokemon.Nickname), th.TS("Rename Status"), MessageBoxButtons.OK);
         }
 
         private void changeFavouritesToolStripMenuItem_Click(object sender, EventArgs e)
@@ -772,7 +772,7 @@ namespace PokemonGo.RocketAPI.Console
                 var resp = new taskResponse(false, string.Empty);
     
                 string poname = th.TS(pokemon.PokemonId.ToString());
-                if (MessageBox.Show(this, poname + " will be " + ((pokemon.Favorite == 1) ? "deleted from" : "added to") + " your favourites." + "\nAre you sure you want?", "Confirmation Message", MessageBoxButtons.OKCancel) == DialogResult.OK)
+                if (MessageBox.Show(this, th.TS("{0} will be ",poname) + ((pokemon.Favorite == 1) ? th.TS("deleted from") : th.TS("added to")) + th.TS(" your favourites.\nAre you sure you want?"), th.TS("Confirmation Message"), MessageBoxButtons.OKCancel) == DialogResult.OK)
                 {
                     pokemon.Favorite = (pokemon.Favorite == 1) ? 0 : 1;
                     resp = changeFavourites(pokemon).Result;
@@ -791,7 +791,7 @@ namespace PokemonGo.RocketAPI.Console
                     PokemonListView.SelectedItems[0].Text = specSymbol + Logic.Utils.StringUtils.getPokemonNameByLanguage(BotSettings, (PokemonId)pokemon.PokemonId);
                 }
                 else
-                    MessageBox.Show(resp.Message + " change favourites failed!", "Change favourites Status", MessageBoxButtons.OK);
+                    MessageBox.Show(th.TS("{0} change favourites failed!",resp.Message), th.TS("Change favourites Status"), MessageBoxButtons.OK);
             }
         }
         
@@ -833,7 +833,7 @@ namespace PokemonGo.RocketAPI.Console
             var ret = false;
 
             string poname = Logic.Utils.StringUtils.getPokemonNameByLanguage(BotSettings, (PokemonId)pokemon.PokemonId);
-            if (MessageBox.Show(this, poname + " will be put as your buddy." + "\nAre you sure you want?", "Confirmation Message", MessageBoxButtons.OKCancel) == DialogResult.OK)
+            if (MessageBox.Show(this, th.TS("{0} will be put as your buddy.",poname) + th.TS("\nAre you sure you want?"), th.TS("Confirmation Message"), MessageBoxButtons.OKCancel) == DialogResult.OK)
             {
                 ret = changeBuddy(pokemon);
             }
@@ -851,7 +851,7 @@ namespace PokemonGo.RocketAPI.Console
                 PokemonListView.SelectedItems[0].Text = specSymbol + Logic.Utils.StringUtils.getPokemonNameByLanguage(BotSettings, (PokemonId)pokemon.PokemonId);
             }
             else
-                MessageBox.Show("Change buddy "+poname+" failed!", "Change Buddy Status", MessageBoxButtons.OK);
+                MessageBox.Show(th.TS("Change buddy {0} failed!",poname), th.TS("Change Buddy Status"), MessageBoxButtons.OK);
         }
         
         private static bool changeBuddy(PokemonData pokemon)

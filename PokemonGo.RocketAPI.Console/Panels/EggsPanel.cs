@@ -146,7 +146,7 @@ namespace PokemonGo.RocketAPI.Console
                     }
                 	
                 } else
-                    MessageBox.Show(resp.Message + " Incubate Egg failed!", "Recycle Status", MessageBoxButtons.OK);
+                    MessageBox.Show(resp.Message + th.TS(" Incubate Egg failed!"), th.TS("Recycle Status"), MessageBoxButtons.OK);
 				
             }
         }

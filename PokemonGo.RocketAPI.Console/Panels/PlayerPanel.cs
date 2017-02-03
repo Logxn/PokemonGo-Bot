@@ -48,30 +48,30 @@ namespace PokemonGo.RocketAPI.Console
         private void InitializeData()
         {
             this.listView.Items.AddRange(new [] {
-                new ListViewItem(new string[] { "Username",""}),
-                new ListViewItem(new string[] {"Coins",""}),
-                new ListViewItem(new string[] {"Stardust",""}),
-                new ListViewItem(new string[] {"Max Items",""}),
-                new ListViewItem(new string[] {"Max Pokemons",""}),
-                new ListViewItem(new string[] {"Battle Lockout End (Ms)",""}),
-                new ListViewItem(new string[] {"Level",""}),
-                new ListViewItem(new string[] {"Pokedex",""}),
-                new ListViewItem(new string[] {"Kms Walked",""}),
-                new ListViewItem(new string[] {"Eggs Hatched",""}),
-                new ListViewItem(new string[] {"Evolutions",""}),
-                new ListViewItem(new string[] {"PokeStop Visits",""}),
-                new ListViewItem(new string[] {"Pokeballs Thrown",""}),
-                new ListViewItem(new string[] {"Battle Attack",""}),
-                new ListViewItem(new string[] {"Battle Defended",""}),
-                new ListViewItem(new string[] {"Battle Training",""}),
-                new ListViewItem(new string[] {"Pokemon Deployed",""}),
-                new ListViewItem(new string[] {"Pokemons Captured",""}),
-                new ListViewItem(new string[] {"Pokemons Encountered",""}),
-                new ListViewItem(new string[] {"Prestige Dropped",""}),
-                new ListViewItem(new string[] {"Prestige Raised",""}),
-                new ListViewItem(new string[] {"Small Rattata Caught",""}),
-                new ListViewItem(new string[] {"Big Magikarp Caught",""}),
-                new ListViewItem(new string[] {"Used Km Pool",""})
+                new ListViewItem(new string[] { th.TS("Username"),""}),
+                new ListViewItem(new string[] { th.TS("Coins"),""}),
+                new ListViewItem(new string[] { th.TS("Stardust"),""}),
+                new ListViewItem(new string[] { th.TS("Max Items"),""}),
+                new ListViewItem(new string[] { th.TS("Max Pokemons"),""}),
+                new ListViewItem(new string[] { th.TS("Battle Lockout End (Ms)"),""}),
+                new ListViewItem(new string[] { th.TS("Level"),""}),
+                new ListViewItem(new string[] { th.TS("Pokedex"),""}),
+                new ListViewItem(new string[] { th.TS("Kms Walked"),""}),
+                new ListViewItem(new string[] { th.TS("Eggs Hatched"),""}),
+                new ListViewItem(new string[] { th.TS("Evolutions"),""}),
+                new ListViewItem(new string[] { th.TS("PokeStop Visits"),""}),
+                new ListViewItem(new string[] { th.TS("Pokeballs Thrown"),""}),
+                new ListViewItem(new string[] { th.TS("Battle Attack"),""}),
+                new ListViewItem(new string[] { th.TS("Battle Defended"),""}),
+                new ListViewItem(new string[] { th.TS("Battle Training"),""}),
+                new ListViewItem(new string[] { th.TS("Pokemon Deployed"),""}),
+                new ListViewItem(new string[] { th.TS("Pokemons Captured"),""}),
+                new ListViewItem(new string[] { th.TS("Pokemons Encountered"),""}),
+                new ListViewItem(new string[] { th.TS("Prestige Dropped"),""}),
+                new ListViewItem(new string[] { th.TS("Prestige Raised"),""}),
+                new ListViewItem(new string[] { th.TS("Small Rattata Caught"),""}),
+                new ListViewItem(new string[] { th.TS("Big Magikarp Caught"),""}),
+                new ListViewItem(new string[] { th.TS("Used Km Pool"),""})
                         });
         }
 
@@ -293,16 +293,16 @@ namespace PokemonGo.RocketAPI.Console
                             Execute();
                         }
                         else
-                        MessageBox.Show(resp.Message + "Set Team failed!", "Set Team Status", MessageBoxButtons.OK);
+                            MessageBox.Show(resp.Message + th.TS("Set Team failed!"), th.TS("Set Team Status"), MessageBoxButtons.OK);
                     }
 	                else
-	                    MessageBox.Show(resp.Message + "Set Team failed!", "Set Team Status", MessageBoxButtons.OK);            	               
+	                    MessageBox.Show(resp.Message + th.TS("Set Team failed!"), th.TS("Set Team Status"), MessageBoxButtons.OK);
 	            }
 	            else
-	            	MessageBox.Show("Set Team failed!\n non nearby Gym ", "Set Team Status", MessageBoxButtons.OK);
+	                MessageBox.Show(th.TS("Set Team failed!\n non nearby Gym "), th.TS("Set Team Status"), MessageBoxButtons.OK);
 			}
             else
-                MessageBox.Show("Set Team canceled!", "Set Team Status", MessageBoxButtons.OK);
+                MessageBox.Show(th.TS("Set Team canceled!"), th.TS("Set Team Status"), MessageBoxButtons.OK);
 
         }
 
@@ -319,7 +319,7 @@ namespace PokemonGo.RocketAPI.Console
         }
 		private static async Task<taskResponse> SelectTeam(TeamColor teamColor)
         {
-            taskResponse resp1 = new taskResponse(false, string.Empty);
+            var resp1 = new taskResponse(false, string.Empty);
             try
             {
             	var client = Logic.Logic.objClient;
@@ -344,7 +344,7 @@ namespace PokemonGo.RocketAPI.Console
         //GetGymDetails
         private static async Task<taskResponse> GetGym(string gym, double lat, double lng)
         {
-            taskResponse resp1 = new taskResponse(false, string.Empty);
+            var resp1 = new taskResponse(false, string.Empty);
             try
             {
             	var client = Logic.Logic.objClient;
