@@ -296,7 +296,7 @@ namespace PokemonGo.RocketAPI.Console.Helper
                     }
                 }catch(WebException webEx){
                     var status = ((HttpWebResponse)webEx.Response).StatusCode ;
-                    if (status == 404)
+                    if (status == HttpStatusCode.NotFound)
                         Logger.AddLog($"File {resourceName} not found in the server.");
                     else
                         Logger.AddLog(resourceName+":"+webEx);
