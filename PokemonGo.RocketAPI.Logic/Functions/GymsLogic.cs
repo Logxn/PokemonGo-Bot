@@ -130,7 +130,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
         {
             var str = "";
             foreach (var element in pokeAttackers) {
-                 str = $"{str}{element.PokemonId.ToString()}:CP={element.Cp}/HP={element.Stamina}";
+                 str = $"{str}{element.PokemonId.ToString()}(CP:{element.Cp}-HP:{element.Stamina}), ";
             }
             Logger.ColoredConsoleWrite(ConsoleColor.DarkGray,"(Gym) - " + str);
         }
@@ -176,7 +176,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                     // TODO: ATTACK more than 1 defender
                     if (gymDetails.GymState.Memberships.Count == 1) {
                         Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - There is only one rival. Let's go to fight");
-                        var pokeAttackers = pokemons.Where(x => ((!x.IsEgg) && (x.DeployedFortId == "") && (x.Stamina > 0))).OrderBy(x => x.Cp).Take(6);
+                        var pokeAttackers = pokemons.Where(x => ((!x.IsEgg) && (x.DeployedFortId == "") && (x.Stamina > 0))).OrderByDescending(x => x.Cp).Take(6);
                         Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - Selected Atackers:");
                         ShowPokemons(pokeAttackers);
                         var pokeAttackersIds = pokeAttackers.Select(x => x.Id);
@@ -218,12 +218,12 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                                     lastRetrievedAction = attResp.BattleLog.BattleActions.LastOrDefault();
                                     attResp = client.Fort.AttackGym(gym.Id, resp.BattleId, battleActions, lastRetrievedAction).Result;
                                     Logger.Debug("(Gym) - Attack Result: "+ attResp.Result);
-                                    Logger.Debug("(Gym) - Battle State: "+ attResp.BattleLog.State);
-                                    Logger.ColoredConsoleWrite(gymColorLog, $"Attack {count} done.");
                                     inBattle = (attResp.Result == AttackGymResponse.Types.Result.Success);
                                     if (inBattle)
                                     {
+                                        Logger.Debug("(Gym) - Battle State: "+ attResp.BattleLog.State);
                                         inBattle = inBattle && (attResp.BattleLog.State == BattleState.Active);
+                                        Logger.ColoredConsoleWrite(gymColorLog, $"Attack {count} done.");
                                         count++;
                                         Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - Wait a moment before next attact");
                                         RandomHelper.RandomSleep(move1Settings.DurationMs, move1Settings.DurationMs + 20);
