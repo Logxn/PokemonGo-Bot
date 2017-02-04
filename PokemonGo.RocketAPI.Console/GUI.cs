@@ -330,6 +330,7 @@ namespace PokemonGo.RocketAPI.Console
             MinCPtoCatch.Text = config.MinCPtoCatch.ToString();
             MinIVtoCatch.Text = config.MinIVtoCatch.ToString();
             checkBox_UseSpritesFolder.Checked = config.UseSpritesFolder;
+            checkBox_ShowPokemons.Checked =  config.ShowPokemons;
 
             // tab 3 - throws
             checkBox2.Checked = config.LimitPokeballUse;
@@ -689,6 +690,7 @@ namespace PokemonGo.RocketAPI.Console
                 ActiveProfile.Settings.NotToSnipe.Add((PokemonId)Enum.Parse(typeof(PokemonId), th.RS(pokemon)));
             }
             ActiveProfile.Settings.UseSpritesFolder = checkBox_UseSpritesFolder.Checked;
+            ActiveProfile.Settings.ShowPokemons = checkBox_ShowPokemons.Checked;
             // bot settings
             ActiveProfile.Settings.TransferDoublePokemons = checkBox_AutoTransferDoublePokemon.Checked;
             ActiveProfile.Settings.TransferFirstLowIV = checkBox_TransferFirstLowIV.Checked;

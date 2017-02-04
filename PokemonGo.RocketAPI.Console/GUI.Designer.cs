@@ -297,6 +297,7 @@ namespace PokemonGo.RocketAPI.Console
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.labelLanguage = new System.Windows.Forms.Label();
             this.comboLanguage = new System.Windows.Forms.ComboBox();
+            this.checkBox_ShowPokemons = new System.Windows.Forms.CheckBox();
             this.tabProxies.SuspendLayout();
             this.tabItems.SuspendLayout();
             this.groupBox4.SuspendLayout();
@@ -817,6 +818,7 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.checkBox_ShowPokemons);
             this.groupBox3.Controls.Add(this.checkBox_UseSpritesFolder);
             this.groupBox3.Controls.Add(this.label55);
             this.groupBox3.Controls.Add(this.label29);
@@ -3394,6 +3396,18 @@ namespace PokemonGo.RocketAPI.Console
             this.comboLanguage.TabIndex = 48;
             this.comboLanguage.SelectedIndexChanged += new System.EventHandler(this.ComboLanguageSelectedIndexChanged);
             // 
+            // checkBox_ShowPokemons
+            // 
+            this.checkBox_ShowPokemons.AutoSize = true;
+            this.checkBox_ShowPokemons.Checked = true;
+            this.checkBox_ShowPokemons.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox_ShowPokemons.Location = new System.Drawing.Point(297, 77);
+            this.checkBox_ShowPokemons.Name = "checkBox_ShowPokemons";
+            this.checkBox_ShowPokemons.Size = new System.Drawing.Size(141, 17);
+            this.checkBox_ShowPokemons.TabIndex = 17;
+            this.checkBox_ShowPokemons.Text = "Show Pokemons in Map";
+            this.checkBox_ShowPokemons.UseVisualStyleBackColor = true;
+            // 
             // GUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -3778,6 +3792,7 @@ namespace PokemonGo.RocketAPI.Console
         private System.Windows.Forms.GroupBox groupBox_AlwaysTransfer;
         private System.Windows.Forms.CheckBox checkBox_AlwaysTransfer;
         private System.Windows.Forms.CheckedListBox checkedListBox_AlwaysTransfer;
+        private System.Windows.Forms.CheckBox checkBox_ShowPokemons;
         //private System.Windows.Forms.CheckBox checkBox_CatchLurePokemons;
     }
 }

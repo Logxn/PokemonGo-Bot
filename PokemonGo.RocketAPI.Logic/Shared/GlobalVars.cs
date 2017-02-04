@@ -169,6 +169,7 @@ namespace PokemonGo.RocketAPI.Logic.Shared
         public static int LeaveInGyms = 0;
         public static bool AttackGyms = false;
         public static bool UseSpritesFolder = false;
+        public static bool ShowPokemons = false;
         
         
         /// <summary>

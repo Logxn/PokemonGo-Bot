@@ -1093,8 +1093,8 @@ namespace PokemonGo.RocketAPI.Logic
                     strNames = strNames.Substring(0, strNames.Length - 2);
 
                     Logger.ColoredConsoleWrite(ConsoleColor.Magenta, $"Found {pokemons.Count()} catchable Pokemon(s): " + strNames);
-                    
-                    //ShowNearbyPokemons(pokemons);
+                    if (GlobalVars.ShowPokemons)
+                        ShowNearbyPokemons(pokemons);
                 }
 
                 //catch them all!
@@ -1374,7 +1374,10 @@ namespace PokemonGo.RocketAPI.Logic
                     if (caughtPokemonResponse.Status == CatchPokemonResponse.Types.CatchStatus.CatchSuccess)
                     {
                         ret = caughtPokemonResponse.CapturedPokemonId;
-                        //DeletePokemonFromMap(encounterPokemonResponse.WildPokemon.SpawnPointId).Wait();
+
+                        if (GlobalVars.ShowPokemons)
+                            DeletePokemonFromMap(encounterPokemonResponse.WildPokemon.SpawnPointId);
+
                         foreach (var xp in caughtPokemonResponse.CaptureAward.Xp)
                             BotStats.AddExperience(xp);
 

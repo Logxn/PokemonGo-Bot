@@ -943,10 +943,8 @@ namespace PokemonGo.RocketAPI.Logic.Shared
             get;
             set;
         }
-        public bool UseSpritesFolder {
-            get;
-            set;
-        }
+        public bool UseSpritesFolder {get;set;}
+        public bool ShowPokemons {get;set;}
 
         #endregion
     
