@@ -161,6 +161,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                         return false;
                     
                     Shared.GlobalVars.PauseTheWalking =true;
+                    Logger.Debug("(Gym) - Stop walking");
                     var gymDetails = client.Fort.GetGymDetails(gym.Id, gym.Latitude, gym.Longitude).Result;
                     Logger.ColoredConsoleWrite(gymColorLog, "Team:"+ GetTeamName(gym.OwnedByTeam) + ". Members: " + gymDetails.GymState.Memberships.Count + ". Level: " + GetGymLevel(gym.GymPoints));
 
@@ -183,7 +184,8 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                                 var lastRetrievedAction = new BattleAction();
                                 var battleStartMs = resp.BattleLog.BattleStartTimestampMs;
                                 var attResp = client.Fort.AttackGym(gym.Id, resp.BattleId, battleActions, lastRetrievedAction).Result;
-                                
+                                Logger.Debug("(Gym) - Attack Result: "+ attResp.Result);
+                                Logger.Debug("(Gym) - Battle State: "+ attResp.BattleLog.State);
                                 var inBattle = (attResp.Result == AttackGymResponse.Types.Result.Success);
                                 inBattle =  inBattle  && (attResp.BattleLog.State == BattleState.Active);
                                 var count = 1;
@@ -203,6 +205,8 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                                     battleActions.Add(attack);
                                     lastRetrievedAction = attResp.BattleLog.BattleActions.LastOrDefault();
                                     attResp = client.Fort.AttackGym(gym.Id, resp.BattleId, battleActions, lastRetrievedAction).Result;
+                                    Logger.Debug("(Gym) - Attack Result: "+ attResp.Result);
+                                    Logger.Debug("(Gym) - Battle State: "+ attResp.BattleLog.State);
                                     Logger.ColoredConsoleWrite(gymColorLog, $"Attack {count} done.");
                                     inBattle = (attResp.Result == AttackGymResponse.Types.Result.Success);
                                     inBattle = inBattle && (attResp.BattleLog.State == BattleState.Active);
@@ -221,13 +225,12 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                                         Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - Timed Out");
                                     gymsVisited.Add(gym.Id);
                                 }
-
                             }
                         }
-
                         ReviveAndCurePokemons(client, pokeAttackers);
                     }
-                    Shared.GlobalVars.PauseTheWalking = false;
+                    GlobalVars.PauseTheWalking = false;
+                    Logger.Debug("(Gym) - Continnue walking");
                 }
             }
             return true;
@@ -285,7 +288,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                             CurePokemon(client, pokemon);
                         }
                     }
-                }else{
+                }else if (pokemon.Stamina < pokemon.StaminaMax ){
                     CurePokemon(client, pokemon);
                 }
             }
