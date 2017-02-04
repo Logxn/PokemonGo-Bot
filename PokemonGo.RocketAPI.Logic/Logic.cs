@@ -1093,8 +1093,10 @@ namespace PokemonGo.RocketAPI.Logic
                     strNames = strNames.Substring(0, strNames.Length - 2);
 
                     Logger.ColoredConsoleWrite(ConsoleColor.Magenta, $"Found {pokemons.Count()} catchable Pokemon(s): " + strNames);
-                    if (GlobalVars.ShowPokemons)
+                    if (GlobalVars.ShowPokemons){
                         ShowNearbyPokemons(pokemons);
+                        RandomHelper.RandomSleep(300,302);
+                    }
                 }
 
                 //catch them all!
