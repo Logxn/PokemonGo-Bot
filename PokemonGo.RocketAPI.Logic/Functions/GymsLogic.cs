@@ -239,8 +239,8 @@ namespace PokemonGo.RocketAPI.Logic.Functions
             if (fortSearch.Result.ToString().ToLower() == "success") {
                 Logger.ColoredConsoleWrite(ConsoleColor.DarkGray, StringUtils.getPokemonNameByLanguage((PokemonId)pokemon.PokemonId) + " inserted into the gym");
                 gymsVisited.Add(gym.Id);
-                var pokesInGym = pokemons.Where(x => ((!x.IsEgg) && (x.DeployedFortId != ""))).OrderBy(x => x.Cp).ToList().Count();
-                Logger.ColoredConsoleWrite(ConsoleColor.DarkGray, "pokesInGym: " + pokesInGym);
+                var pokesInGym = pokemons.Count(x => ((!x.IsEgg) && (x.DeployedFortId != "")))+1;
+                Logger.ColoredConsoleWrite(ConsoleColor.DarkGray, "Pokemons in gyms: " + pokesInGym);
                 if (pokesInGym > 9) { 
                     var res = client.Player.CollectDailyDefenderBonus().Result;
                     Logger.ColoredConsoleWrite(ConsoleColor.DarkGray, $"(Gym) - Collected: {res.CurrencyAwarded} Coins.");

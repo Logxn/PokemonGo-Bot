@@ -79,6 +79,7 @@ namespace PokemonGo.RocketAPI.Console
                         listViewItem.SubItems.Add("" + item.Count);
                         sum += item.Count;
                         listViewItem.SubItems.Add("" + item.Unseen);
+                        listViewItem.SubItems.Add( ""+(int) item.ItemId);
                         ItemsListView.Items.Add(listViewItem);
                     }
                     lblCount.Text = "" + sum;
@@ -127,9 +128,8 @@ namespace PokemonGo.RocketAPI.Console
             var item = (ItemData)ItemsListView.SelectedItems[0].Tag;
             int amount = IntegerInput.ShowDialog(1, "How many?", item.Count);
             if (amount > 0) {
-                taskResponse resp = new taskResponse(false, string.Empty);
+                var resp = new taskResponse(false, string.Empty);
 
-                //resp = await RecycleItems(item, amount).ConfigureAwait(false);
                 resp = RecycleItems(item, amount).Result;
                 if (resp.Status) {
                     item.Count -= amount;
@@ -203,11 +203,10 @@ namespace PokemonGo.RocketAPI.Console
                     case "num_MaxTopPotions":
                         GlobalVars.MaxTopPotions = value;
                         break;
-                    case "num_MaxRazzBerrys":        		
+                    case "num_MaxRazzBerrys":
                         GlobalVars.MaxBerries = value;
                         break;
-        				
-                }        
+                }
                 int count = 0;
                 count += GlobalVars.MaxPokeballs + GlobalVars.MaxGreatballs + GlobalVars.MaxUltraballs + GlobalVars.MaxRevives
                 + GlobalVars.MaxPotions + GlobalVars.MaxSuperPotions + GlobalVars.MaxHyperPotions + GlobalVars.MaxBerries
@@ -273,6 +272,12 @@ namespace PokemonGo.RocketAPI.Console
             
             }
 
+        }
+        void ItemsListView_ColumnClick(object sender, ColumnClickEventArgs e)
+        {
+            var order = (sender as ListView).Sorting;
+            ItemsListView.ListViewItemSorter = new Components.ListViewItemComparer(e.Column, order);
+            (sender as ListView).Sorting = order == SortOrder.Ascending ? SortOrder.Descending : SortOrder.Ascending;
         }
     }
 }

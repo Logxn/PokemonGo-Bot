@@ -179,8 +179,8 @@ namespace PokemonGo.RocketAPI.Console
             // Create a comparer.
             PokemonListView.ListViewItemSorter = new ListViewComparer(e.Column, sort_order);
 
-            // Sort.
-            PokemonListView.Sort();
+            // Sort 
+            //PokemonListView.Sort();
         }
         private void loadAdditionalPokeData()
         {

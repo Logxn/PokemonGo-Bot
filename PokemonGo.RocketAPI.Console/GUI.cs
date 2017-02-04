@@ -121,6 +121,7 @@ namespace PokemonGo.RocketAPI.Console
                 {
                     pokeIDS[pokemon.ToString()] = i;
                     checkedListBox_PokemonNotToTransfer.Items.Add(th.TS(pokemon.ToString()));
+                    checkedListBox_AlwaysTransfer.Items.Add(th.TS(pokemon.ToString()));
                     checkedListBox_PokemonNotToCatch.Items.Add(th.TS(pokemon.ToString()));
                     if (!(evolveBlacklist.Contains(i)))
                     {
@@ -294,6 +295,14 @@ namespace PokemonGo.RocketAPI.Console
                     string _id = Id.ToString();
                     checkedListBox_PokemonNotToTransfer.SetItemChecked(pokeIDS[_id] - 1, true);
                 }
+            if (config.pokemonsToAlwaysTransfer != null)
+                foreach (PokemonId Id in config.pokemonsToAlwaysTransfer)
+                {
+                    string _id = Id.ToString();
+                    checkedListBox_AlwaysTransfer.SetItemChecked(pokeIDS[_id] - 1, true);
+                }
+
+            
             if (config.catchPokemonSkipList != null)
                 foreach (PokemonId Id in config.catchPokemonSkipList)
                 {
@@ -663,6 +672,11 @@ namespace PokemonGo.RocketAPI.Console
             {
                 ActiveProfile.Settings.pokemonsToHold.Add((PokemonId)Enum.Parse(typeof(PokemonId), th.RS(pokemon)));
             }
+            foreach (string pokemon in checkedListBox_AlwaysTransfer.CheckedItems)
+            {
+                ActiveProfile.Settings.pokemonsToAlwaysTransfer.Add((PokemonId)Enum.Parse(typeof(PokemonId), th.RS(pokemon)));
+            }
+            
             foreach (string pokemon in checkedListBox_PokemonNotToCatch.CheckedItems)
             {
                 ActiveProfile.Settings.catchPokemonSkipList.Add((PokemonId)Enum.Parse(typeof(PokemonId), th.RS(pokemon)));
@@ -1275,6 +1289,15 @@ namespace PokemonGo.RocketAPI.Console
                 Helper.TranslatorHelper.DownloadTranslationFile("PokemonGo.RocketAPI.Console/Lang", Program.path_translation, lang);
                 th.SelectLanguage(lang);
                 th.Translate(this);
+            }
+        }
+        void checkBox_AlwaysTransfer_CheckedChanged(object sender, EventArgs e)
+        {
+            var i = 0;
+            while (i < checkedListBox_AlwaysTransfer.Items.Count)
+            {
+                checkedListBox_AlwaysTransfer.SetItemChecked(i, (sender as CheckBox).Checked);
+                i++;
             }
         }
 

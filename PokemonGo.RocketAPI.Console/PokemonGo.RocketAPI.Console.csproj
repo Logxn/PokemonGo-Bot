@@ -161,6 +161,7 @@
     <Compile Include="Components\LabelText.Designer.cs">
       <DependentUpon>LabelText.cs</DependentUpon>
     </Compile>
+    <Compile Include="Components\ListViewItemComparer.cs" />
     <Compile Include="ControlExtensions.cs" />
     <Compile Include="Encryption.cs" />
     <Compile Include="GameAspectSimulator.cs">
