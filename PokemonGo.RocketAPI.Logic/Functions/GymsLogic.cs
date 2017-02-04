@@ -77,6 +77,17 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                 return 2;
             return 1;
         }
+        private static string GetTeamName(TeamColor team){
+            switch (team) {
+                case TeamColor.Red:
+                    return "Valor";
+                case TeamColor.Yellow:
+                    return "Instinct";
+                case TeamColor.Blue:
+                    return "Mystic";
+            }
+            return "Neutral";
+        }
         public static void Execute()
         {
             if (!GlobalVars.FarmGyms)
@@ -137,20 +148,21 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                 if ((gym.OwnedByTeam == profile.PlayerData.Team) || (gym.OwnedByTeam == POGOProtos.Enums.TeamColor.Neutral)) {
                     RandomHelper.RandomSleep(100, 200);
                     var gymDetails = client.Fort.GetGymDetails(gym.Id, gym.Latitude, gym.Longitude).Result;
-                    Logger.ColoredConsoleWrite(gymColorLog, "Members: " + gymDetails.GymState.Memberships.Count + ". Level: " + GetGymLevel(gym.GymPoints));
+                    Logger.ColoredConsoleWrite(gymColorLog, "Team:"+ GetTeamName(gym.OwnedByTeam) + ". Members: " + gymDetails.GymState.Memberships.Count + ". Level: " + GetGymLevel(gym.GymPoints));
                     if (gymDetails.GymState.Memberships.Count < GetGymLevel(gym.GymPoints)) {
                         putInGym(client,gym,pokemon,pokemons);
                     } else {
                         Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - There is no free space in the gym");
                     }
                 } else {
-                    Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - This gym is not your team.");
+                    Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - This gym is not from your team.");
                     if (!GlobalVars.AttackGyms)
                         return false;
                     
                     var gymDetails = client.Fort.GetGymDetails(gym.Id, gym.Latitude, gym.Longitude).Result;
-                    Logger.ColoredConsoleWrite(gymColorLog, $"(Gym) - Number of Defenders: {gymDetails.GymState.Memberships.Count}");
-                    // TO-DO ATTACK more than 1 defender
+                    Logger.ColoredConsoleWrite(gymColorLog, "Team:"+ GetTeamName(gym.OwnedByTeam) + ". Members: " + gymDetails.GymState.Memberships.Count + ". Level: " + GetGymLevel(gym.GymPoints));
+
+                    // TODO: ATTACK more than 1 defender
                     if (gymDetails.GymState.Memberships.Count == 1) {
                         Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - There is only one rival. Let's go to fight");
                         var pokeAttackers = pokemons.Where(x => ((!x.IsEgg) && (x.DeployedFortId == "") && (x.Stamina > 0))).OrderBy(x => x.Cp).Take(6);
