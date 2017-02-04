@@ -294,8 +294,14 @@ namespace PokemonGo.RocketAPI.Console.Helper
                          if (File.ReadAllText(filename) == "")
                              File.Delete(filename);
                     }
+                }catch(WebException webEx){
+                    var status = ((HttpWebResponse)webEx.Response).StatusCode ;
+                    if (status == 404)
+                        Logger.AddLog($"File {resourceName} not found in the server.");
+                    else
+                        Logger.AddLog(resourceName+":"+webEx);
                 } catch (Exception ex1) {
-                    Logger.AddLog(resourceName+":"+ex1.ToString());
+                    Logger.AddLog(resourceName+":"+ex1);
                 }
             }
 
