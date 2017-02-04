@@ -689,7 +689,8 @@ namespace PokemonGo.RocketAPI.Logic.Functions
             }
 
         }
-        private static  void TransferDuplicatePokemon(bool keepPokemonsThatCanEvolve = false, bool transferFirstLowIv = false)
+
+        private static void TransferDuplicatePokemon(bool keepPokemonsThatCanEvolve = false, bool transferFirstLowIv = false)
         {
             if (Shared.GlobalVars.RelocateDefaultLocation)
             {
@@ -698,7 +699,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
             if (Shared.GlobalVars.TransferDoublePokemons)
             {
                 var profil = Logic.objClient.Player.GetPlayer().Result;
-                RandomHelper.RandomSleep(300,400);
+                RandomHelper.RandomSleep(300, 400);
 
                 if (Shared.GlobalVars.pauseAtEvolve2)
                 {
@@ -707,7 +708,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                 }
 
                 TransferUnwantedPokemon(profil.PlayerData.BuddyPokemon.Id);
-                
+
                 var duplicatePokemons = Logic.objClient.Inventory.GetDuplicatePokemonToTransfer(Shared.GlobalVars.HoldMaxDoublePokemons, keepPokemonsThatCanEvolve, transferFirstLowIv).Result;
                 var pokemonsToTransfer = new List<ulong>();
                 foreach (var duplicatePokemon in duplicatePokemons)
@@ -715,7 +716,8 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                     var Pokename = duplicatePokemon.PokemonId.ToString();
                     var IVPercent = PokemonInfo.CalculatePokemonPerfection(duplicatePokemon).ToString("0.00");
 
-                    if ( profil.PlayerData.BuddyPokemon.Id == duplicatePokemon.Id){
+                    if (profil.PlayerData.BuddyPokemon.Id == duplicatePokemon.Id)
+                    {
                         Logger.Warning($"Pokemon {Pokename} with {IVPercent}% IV Is your buddy so can not be transfered");
                         continue;// go to next itearion from foreach
                     }
@@ -755,32 +757,34 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                         }
 
                         if (Logic.Instance.Telegram != null)
-                            Logic.Instance.Telegram.sendInformationText(TelegramUtil.TelegramUtilInformationTopics.Transfer, StringUtils.getPokemonNameByLanguage( duplicatePokemon.PokemonId), duplicatePokemon.Cp, PokemonInfo.CalculatePokemonPerfection(duplicatePokemon).ToString("0.00"), bestPokemonOfType);
+                            Logic.Instance.Telegram.sendInformationText(TelegramUtil.TelegramUtilInformationTopics.Transfer, StringUtils.getPokemonNameByLanguage(duplicatePokemon.PokemonId), duplicatePokemon.Cp, PokemonInfo.CalculatePokemonPerfection(duplicatePokemon).ToString("0.00"), bestPokemonOfType);
 
-                        RandomHelper.RandomSleep(400, 600); 
+                        RandomHelper.RandomSleep(400, 600);
                     }
                 }
                 if (pokemonsToTransfer.Any())
                 {
                     var _response = Logic.objClient.Inventory.TransferPokemon(pokemonsToTransfer).Result;
 
-                if (_response.Result == ReleasePokemonResponse.Types.Result.Success)
-                {
-                    Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "Transfer Successful of " + pokemonsToTransfer.Count + " pokemons => " + _response.CandyAwarded + ((_response.CandyAwarded == 1) ? " candy" : " candies") + " awarded.", LogLevel.Info);
-                    Helpers.RandomHelper.RandomSleep(1000, 2000);
-                }
-                else
-                {
-                    Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Something happened while transferring pokemons.");
-                }
+                    if (_response.Result == ReleasePokemonResponse.Types.Result.Success)
+                    {
+                        Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "Transfer Successful of " + pokemonsToTransfer.Count + " pokemons => " + _response.CandyAwarded + ((_response.CandyAwarded == 1) ? " candy" : " candies") + " awarded.", LogLevel.Info);
+                        Helpers.RandomHelper.RandomSleep(1000, 2000);
+                    }
+                    else
+                    {
+                        Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Something happened while transferring pokemons.");
+                    }
 
-                if (Shared.GlobalVars.pauseAtEvolve2)
-                {
-                    Logger.ColoredConsoleWrite(ConsoleColor.Green, "Pokemons transfered. Time to continue our journey!");
-                    Shared.GlobalVars.PauseTheWalking = false;
+                    if (Shared.GlobalVars.pauseAtEvolve2)
+                    {
+                        Logger.ColoredConsoleWrite(ConsoleColor.Green, "Pokemons transfered. Time to continue our journey!");
+                        Shared.GlobalVars.PauseTheWalking = false;
+                    }
                 }
             }
         }
+
         public static void LimitReached(string limit)
         {
             if (limit != "")

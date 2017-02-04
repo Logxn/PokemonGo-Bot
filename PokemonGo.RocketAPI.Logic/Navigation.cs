@@ -114,6 +114,7 @@ namespace PokemonGo.RocketAPI.Logic
                 if (_botSettings.PauseTheWalking)
                 {
                     //result = _client.Player.UpdatePlayerLocation(_client.CurrentLatitude, _client.CurrentLongitude, _client.CurrentAltitude).Result;
+                    SetCoordinates(waypoint.Latitude, waypoint.Longitude, waypoint.Altitude);
                 }
                 else
                 {

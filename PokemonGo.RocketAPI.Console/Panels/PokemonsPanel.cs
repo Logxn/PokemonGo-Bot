@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using System.IO;
 using PokemonGo.RocketAPI.Helpers;
 using PokemonGo.RocketAPI.Logic.Shared;
+using PokemonGo.RocketAPI.Logic.Utils;
 
 namespace PokemonGo.RocketAPI.Console
 {
@@ -415,7 +416,8 @@ namespace PokemonGo.RocketAPI.Console
             string logPath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Logs");
             string evolvelog = System.IO.Path.Combine(logPath, "EvolveLog.txt");
 
-            var resp = new taskResponse(false, string.Empty);
+            //var resp = new taskResponse(false, string.Empty);
+            EvolvePokemonResponse resp = new EvolvePokemonResponse();
 
             if (GlobalVars.pauseAtEvolve2)
             {
@@ -426,21 +428,31 @@ namespace PokemonGo.RocketAPI.Console
 
             foreach (ListViewItem selectedItem in selectedItems)
             {
-                resp = evolvePokemon((PokemonData)selectedItem.Tag).Result;
+                //resp = evolvePokemon((PokemonData)selectedItem.Tag).Result;
+                resp = client.Inventory.EvolvePokemon((ulong)selectedItem.Tag).Result;
 
                 var pokemoninfo = (PokemonData)selectedItem.Tag;
                 var name = pokemoninfo.PokemonId;
 
-                File.AppendAllText(evolvelog, $"[{date}] - MANUAL - Trying to evole Pokemon: {name}" + Environment.NewLine);
-                Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Trying to Evolve {name}");
+                var getPokemonName = StringUtils.getPokemonNameByLanguage(pokemoninfo.PokemonId);
+                var cp = pokemoninfo.Cp;
+                var calcPerf = PokemonInfo.CalculatePokemonPerfection(pokemoninfo).ToString("0.00");
+                var getEvolvedName = StringUtils.getPokemonNameByLanguage(resp.EvolvedPokemonData.PokemonId);
+                var getEvolvedCP = resp.EvolvedPokemonData.Cp;
+                var getXP = resp.ExperienceAwarded.ToString("N0");
 
-                if (resp.Status)
+                Logger.Info($"Evolved Pokemon: {getPokemonName} | CP {cp} | Perfection {calcPerf}% | => to {getEvolvedName} | CP: {getEvolvedCP} | XP Reward: {getXP}xp");
+
+                if (resp.Result == EvolvePokemonResponse.Types.Result.Success)
                 {
                     evolved++;
                     statusTexbox.Text = "Evolving..." + evolved;
                 }
                 else
-                    failed += resp.Message + " ";
+                {
+                    Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Failed to evolve {pokemoninfo.PokemonId}. EvolvePokemonOutProto.Result was {resp.Result}");
+                    failed += " {pokemoninfo.PokemonId} ";
+                }
 
                 if (GlobalVars.UseAnimationTimes)
                 {
