@@ -146,7 +146,7 @@ namespace PokemonGo.RocketAPI.Console
                     }
                 	
                 } else
-                    MessageBox.Show(resp.Message + " Incubate Egg failed!", "Recycle Status", MessageBoxButtons.OK);
+                    MessageBox.Show(resp.Message + th.TS(" Incubate Egg failed!"), th.TS("Recycle Status"), MessageBoxButtons.OK);
 				
             }
         }
@@ -171,7 +171,7 @@ namespace PokemonGo.RocketAPI.Console
         }
         private static async Task<taskResponse> IncubateEgg(EggIncubator item, PokemonData egg)
         {
-            taskResponse resp1 = new taskResponse(false, string.Empty);
+            var resp1 = new taskResponse(false, string.Empty);
             try {
                 var client = Logic.Logic.objClient;
                 var resp2 = await client.Inventory.UseItemEggIncubator(item.Id, egg.Id).ConfigureAwait(false);
@@ -187,5 +187,12 @@ namespace PokemonGo.RocketAPI.Console
             }
             return resp1;
         }
+        void listView_ColumnClick(object sender, ColumnClickEventArgs e)
+        {
+            var order = (sender as ListView).Sorting;
+            listView.ListViewItemSorter = new Components.ListViewItemComparer(e.Column, order);
+            (sender as ListView).Sorting = order == SortOrder.Ascending ? SortOrder.Descending : SortOrder.Ascending;
+        }
     }
+
 }

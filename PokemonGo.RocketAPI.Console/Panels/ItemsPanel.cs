@@ -79,6 +79,7 @@ namespace PokemonGo.RocketAPI.Console
                         listViewItem.SubItems.Add("" + item.Count);
                         sum += item.Count;
                         listViewItem.SubItems.Add("" + item.Unseen);
+                        listViewItem.SubItems.Add( ""+(int) item.ItemId);
                         ItemsListView.Items.Add(listViewItem);
                     }
                     lblCount.Text = "" + sum;
@@ -94,29 +95,29 @@ namespace PokemonGo.RocketAPI.Console
         {
             switch (itemID) {
                 case ItemId.ItemPotion:
-                    return "Potion";
+                    return th.TS("Potion");
                 case ItemId.ItemSuperPotion:
-                    return "Super Potion";
+                    return th.TS("Super Potion");
                 case ItemId.ItemHyperPotion:
-                    return "Hyper Potion";
+                    return th.TS("Hyper Potion");
                 case ItemId.ItemMaxPotion:
-                    return "Max Potion";
+                    return th.TS("Max Potion");
                 case ItemId.ItemRevive:
-                    return "Revive";
+                    return th.TS("Revive");
                 case ItemId.ItemIncenseOrdinary:
-                    return "Incense";
+                    return th.TS("Incense");
                 case ItemId.ItemPokeBall:
-                    return "Poke Ball";
+                    return th.TS("Poke Ball");
                 case ItemId.ItemGreatBall:
-                    return "Great Ball";
+                    return th.TS("Great Ball");
                 case ItemId.ItemUltraBall:
-                    return "Ultra Ball";
+                    return th.TS("Ultra Ball");
                 case ItemId.ItemRazzBerry:
-                    return "Razz Berry";
+                    return th.TS("Razz Berry");
                 case ItemId.ItemIncubatorBasic:
-                    return "Egg Incubator";
+                    return th.TS("Egg Incubator");
                 case ItemId.ItemIncubatorBasicUnlimited:
-                    return "Unlimited Egg Incubator";
+                    return th.TS("Unlimited Egg Incubator");
                 default:
                     return itemID.ToString().Replace("Item", "");
             }
@@ -127,15 +128,14 @@ namespace PokemonGo.RocketAPI.Console
             var item = (ItemData)ItemsListView.SelectedItems[0].Tag;
             int amount = IntegerInput.ShowDialog(1, "How many?", item.Count);
             if (amount > 0) {
-                taskResponse resp = new taskResponse(false, string.Empty);
+                var resp = new taskResponse(false, string.Empty);
 
-                //resp = await RecycleItems(item, amount).ConfigureAwait(false);
                 resp = RecycleItems(item, amount).Result;
                 if (resp.Status) {
                     item.Count -= amount;
                     ItemsListView.SelectedItems[0].SubItems[1].Text = "" + item.Count;
                 } else
-                    MessageBox.Show(resp.Message + " recycle failed!", "Recycle Status", MessageBoxButtons.OK);
+                    MessageBox.Show(resp.Message + th.TS(" recycle failed!"), th.TS("Recycle Status"), MessageBoxButtons.OK);
 
             }
         }
@@ -154,7 +154,7 @@ namespace PokemonGo.RocketAPI.Console
         }
         private static async Task<taskResponse> RecycleItems(ItemData item, int amount)
         {
-            taskResponse resp1 = new taskResponse(false, string.Empty);
+            var resp1 = new taskResponse(false, string.Empty);
             try {
                 var client = Logic.Logic.objClient;
                 var resp2 = await client.Inventory.RecycleItem(item.ItemId, amount).ConfigureAwait(false);
@@ -175,9 +175,6 @@ namespace PokemonGo.RocketAPI.Console
             try {
                 var numB = (NumericUpDown)sender;
                 var value = (int)numB.Value;
-                //Logger.ColoredConsoleWrite(ConsoleColor.DarkGray, "==========Begin Recycle Filter Debug Logging=============");
-                //Logger.ColoredConsoleWrite(ConsoleColor.DarkGray, "Value Setter Triggered for: " + numB.Name + " New Value: " + numB.Value);
-                //Logger.ColoredConsoleWrite(ConsoleColor.DarkGray, "==========End Recycle Filter Debug Logging=============");
                 switch (numB.Name) {
                     case "num_MaxPokeballs":
                         GlobalVars.MaxPokeballs = value;
@@ -206,11 +203,10 @@ namespace PokemonGo.RocketAPI.Console
                     case "num_MaxTopPotions":
                         GlobalVars.MaxTopPotions = value;
                         break;
-                    case "num_MaxRazzBerrys":        		
+                    case "num_MaxRazzBerrys":
                         GlobalVars.MaxBerries = value;
                         break;
-        				
-                }        
+                }
                 int count = 0;
                 count += GlobalVars.MaxPokeballs + GlobalVars.MaxGreatballs + GlobalVars.MaxUltraballs + GlobalVars.MaxRevives
                 + GlobalVars.MaxPotions + GlobalVars.MaxSuperPotions + GlobalVars.MaxHyperPotions + GlobalVars.MaxBerries
@@ -239,7 +235,7 @@ namespace PokemonGo.RocketAPI.Console
             var items = await client.Inventory.GetItemsToRecycle(GlobalVars.GetItemFilter()).ConfigureAwait(false);
             foreach (var item in items) {
                 var transfer = await client.Inventory.RecycleItem((ItemId)item.ItemId, item.Count).ConfigureAwait(false);
-                Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Recycled {item.Count}x {(ItemId)item.ItemId}", LogLevel.Info);
+                Logger.ColoredConsoleWrite(ConsoleColor.Yellow, String.Format("Recycled {0}x {1}",item.Count,(ItemId)item.ItemId));
                 await RandomHelper.RandomDelay(1000, 5000).ConfigureAwait(false);
             }
         }
@@ -254,10 +250,10 @@ namespace PokemonGo.RocketAPI.Console
         {
             var item = (ItemData)ItemsListView.SelectedItems[0].Tag;
             if ((item.ItemId != ItemId.ItemLuckyEgg) && (item.ItemId != ItemId.ItemIncenseOrdinary) && (item.ItemId != ItemId.ItemTroyDisk)) {
-                MessageBox.Show(getItemName(item.ItemId) + " cannot be used here.");
+                MessageBox.Show(th.TS("{0} cannot be used here.",getItemName(item.ItemId)));
                 return;
             }
-            DialogResult dialogResult = MessageBox.Show("Are you sure you want use " + getItemName(item.ItemId) + "?", "Use Warning", MessageBoxButtons.YesNo);
+            DialogResult dialogResult = MessageBox.Show(th.TS("Are you sure you want use {0}?", getItemName(item.ItemId)), th.TS("Use Warning"), MessageBoxButtons.YesNo);
             if (dialogResult == DialogResult.Yes) {
                 if (item.ItemId == ItemId.ItemIncenseOrdinary) {
                     GlobalVars.UseIncenseGUIClick = true;
@@ -271,11 +267,17 @@ namespace PokemonGo.RocketAPI.Console
                 }
                 if (item.ItemId == ItemId.ItemTroyDisk) {
                     GlobalVars.UseLureGUIClick = true;
-                    Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Lure will be used on next pokestop", LogLevel.Info); 
+                    Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "Lure will be used on next pokestop"); 
                 }
             
             }
 
+        }
+        void ItemsListView_ColumnClick(object sender, ColumnClickEventArgs e)
+        {
+            var order = (sender as ListView).Sorting;
+            ItemsListView.ListViewItemSorter = new Components.ListViewItemComparer(e.Column, order);
+            (sender as ListView).Sorting = order == SortOrder.Ascending ? SortOrder.Descending : SortOrder.Ascending;
         }
     }
 }

@@ -89,7 +89,6 @@ namespace PokemonGo.RocketAPI.Console
             if (!Directory.Exists(Program.path_translation))
                 Directory.CreateDirectory(Program.path_translation);
 
-            Helper.TranslatorHelper.StoreUntranslated = true;
             comboLanguage.SelectedIndex = 0;
             // Download json file of current Culture Info if exists
             Helper.TranslatorHelper.DownloadTranslationFile("PokemonGo.RocketAPI.Console/Lang", Program.path_translation, CultureInfo.CurrentCulture.Name);
@@ -121,15 +120,16 @@ namespace PokemonGo.RocketAPI.Console
                 if (pokemon != PokemonId.Missingno)
                 {
                     pokeIDS[pokemon.ToString()] = i;
-                    checkedListBox_PokemonNotToTransfer.Items.Add(pokemon.ToString());
-                    checkedListBox_PokemonNotToCatch.Items.Add(pokemon.ToString());
+                    checkedListBox_PokemonNotToTransfer.Items.Add(th.TS(pokemon.ToString()));
+                    checkedListBox_AlwaysTransfer.Items.Add(th.TS(pokemon.ToString()));
+                    checkedListBox_PokemonNotToCatch.Items.Add(th.TS(pokemon.ToString()));
                     if (!(evolveBlacklist.Contains(i)))
                     {
-                        checkedListBox_PokemonToEvolve.Items.Add(pokemon.ToString());
+                        checkedListBox_PokemonToEvolve.Items.Add(th.TS(pokemon.ToString()));
                         evolveIDS[pokemon.ToString()] = ev;
                         ev++;
                     }
-                    checkedListBox_NotToSnipe.Items.Add(pokemon.ToString());
+                    checkedListBox_NotToSnipe.Items.Add(th.TS(pokemon.ToString()));
                     i++;
                 }
             }
@@ -295,6 +295,14 @@ namespace PokemonGo.RocketAPI.Console
                     string _id = Id.ToString();
                     checkedListBox_PokemonNotToTransfer.SetItemChecked(pokeIDS[_id] - 1, true);
                 }
+            if (config.pokemonsToAlwaysTransfer != null)
+                foreach (PokemonId Id in config.pokemonsToAlwaysTransfer)
+                {
+                    string _id = Id.ToString();
+                    checkedListBox_AlwaysTransfer.SetItemChecked(pokeIDS[_id] - 1, true);
+                }
+
+            
             if (config.catchPokemonSkipList != null)
                 foreach (PokemonId Id in config.catchPokemonSkipList)
                 {
@@ -550,7 +558,7 @@ namespace PokemonGo.RocketAPI.Console
                 // TODO: Make this decyption at end of comuncation
                 if (ActiveProfile.Settings.UsePwdEncryption)
                     ActiveProfile.Settings.Password = Encryption.Decrypt(ActiveProfile.Settings.Password);
-                
+
                 GlobalVars.Assign(ActiveProfile.Settings);
 
                 Dispose();
@@ -644,7 +652,6 @@ namespace PokemonGo.RocketAPI.Console
 
             // Location
             ret &= textBoxToActiveProfDouble(text_Latidude, "DefaultLatitude");
-            
             ret &= textBoxToActiveProfDouble(text_Longitude, "DefaultLongitude");
             ret &= textBoxToActiveProfDouble(text_Altitude, "DefaultAltitude");
 
@@ -669,19 +676,24 @@ namespace PokemonGo.RocketAPI.Console
 
             foreach (string pokemon in checkedListBox_PokemonNotToTransfer.CheckedItems)
             {
-                ActiveProfile.Settings.pokemonsToHold.Add((PokemonId)Enum.Parse(typeof(PokemonId), pokemon));
+                ActiveProfile.Settings.pokemonsToHold.Add((PokemonId)Enum.Parse(typeof(PokemonId), th.RS(pokemon)));
             }
+            foreach (string pokemon in checkedListBox_AlwaysTransfer.CheckedItems)
+            {
+                ActiveProfile.Settings.pokemonsToAlwaysTransfer.Add((PokemonId)Enum.Parse(typeof(PokemonId), th.RS(pokemon)));
+            }
+            
             foreach (string pokemon in checkedListBox_PokemonNotToCatch.CheckedItems)
             {
-                ActiveProfile.Settings.catchPokemonSkipList.Add((PokemonId)Enum.Parse(typeof(PokemonId), pokemon));
+                ActiveProfile.Settings.catchPokemonSkipList.Add((PokemonId)Enum.Parse(typeof(PokemonId), th.RS(pokemon)));
             }
             foreach (string pokemon in checkedListBox_PokemonToEvolve.CheckedItems)
             {
-                ActiveProfile.Settings.pokemonsToEvolve.Add((PokemonId)Enum.Parse(typeof(PokemonId), pokemon));
+                ActiveProfile.Settings.pokemonsToEvolve.Add((PokemonId)Enum.Parse(typeof(PokemonId), th.RS(pokemon)));
             }
             foreach (string pokemon in checkedListBox_NotToSnipe.CheckedItems)
             {
-                ActiveProfile.Settings.NotToSnipe.Add((PokemonId)Enum.Parse(typeof(PokemonId), pokemon));
+                ActiveProfile.Settings.NotToSnipe.Add((PokemonId)Enum.Parse(typeof(PokemonId), th.RS(pokemon)));
             }
             ActiveProfile.Settings.UseSpritesFolder = checkBox_UseSpritesFolder.Checked;
             // bot settings
@@ -1283,6 +1295,15 @@ namespace PokemonGo.RocketAPI.Console
                 Helper.TranslatorHelper.DownloadTranslationFile("PokemonGo.RocketAPI.Console/Lang", Program.path_translation, lang);
                 th.SelectLanguage(lang);
                 th.Translate(this);
+            }
+        }
+        void checkBox_AlwaysTransfer_CheckedChanged(object sender, EventArgs e)
+        {
+            var i = 0;
+            while (i < checkedListBox_AlwaysTransfer.Items.Count)
+            {
+                checkedListBox_AlwaysTransfer.SetItemChecked(i, (sender as CheckBox).Checked);
+                i++;
             }
         }
 

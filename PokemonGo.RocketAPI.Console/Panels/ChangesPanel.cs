@@ -36,7 +36,21 @@ namespace PokemonGo.RocketAPI.Console
         public ChangesPanel()
         {
             InitializeComponent();
-            comboLanguage.SelectedText = th.GetSelectedLanguage();
+            comboLanguage.SelectedIndex = 0;
+            switch (th.GetSelectedLanguage()) {
+                case "default":
+                    comboLanguage.SelectedIndex = 1;
+                    break;
+                case "de":
+                    comboLanguage.SelectedIndex = 2;
+                    break;
+                case "es":
+                    comboLanguage.SelectedIndex = 3;
+                    break;
+                case "ca":
+                    comboLanguage.SelectedIndex = 4;
+                    break;
+            } 
             th.Translate(this);
         }
 
@@ -202,7 +216,7 @@ namespace PokemonGo.RocketAPI.Console
             var ConfigsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Configs");
             var filenameProf= Path.Combine(ConfigsPath, GlobalVars.ProfileName +".json" );
             botSettings.SaveToFile(filenameProf);
-            MessageBox.Show("Current Configuration Saved as - " + GlobalVars.ProfileName);
+            MessageBox.Show(th.TS("Current Configuration Saved as - ") + GlobalVars.ProfileName);
         }
 
         void ButtonReviseClick(object sender, EventArgs e)

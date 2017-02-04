@@ -159,7 +159,6 @@ namespace PokemonGo.RocketAPI.Console
             GlobalVars.SnipeOpts.NumTries = numberOfTries;
             GlobalVars.SnipeOpts.TransferIt = transferIt;
             GlobalVars.SnipeOpts.Enabled = true;
-            //GlobalVars.ForceSnipe = true;
             SnipeInfo.Text = "";
         }
 
@@ -173,8 +172,8 @@ namespace PokemonGo.RocketAPI.Console
             {
                 if (pokemon.ToString() != "Missingno")
                 {
-                    pokeIDS[pokemon.ToString()] = ie;                            
-                    checkedListBox_NotToSnipe.Items.Add(pokemon.ToString());                            
+                    pokeIDS[pokemon.ToString()] = ie;
+                    checkedListBox_NotToSnipe.Items.Add(th.TS(pokemon.ToString()));
                     ie++;
                     pokemonControlSource.Add(pokemon);
                 }
@@ -186,9 +185,7 @@ namespace PokemonGo.RocketAPI.Console
                 try {
                     checkedListBox_NotToSnipe.SetItemChecked(pokeIDS[_id] - 1, true);
                 } catch (Exception e) {
-                    Logger.ColoredConsoleWrite(ConsoleColor.DarkRed,"[Ignoring Error] More information in log file");
-                    Logger.AddLog(string.Format("Error loading checkedListBox_NotToSnipe id:{0}, pokeIDS[id]:{1}",_id,pokeIDS[_id]));
-                    Logger.AddLog(e.ToString());
+                    Logger.ExceptionInfo(string.Format("Error loading checkedListBox_NotToSnipe id:{0}, pokeIDS[id]:{1}\n{2}",_id,pokeIDS[_id],e));
                 }
             }
         }
@@ -202,9 +199,9 @@ namespace PokemonGo.RocketAPI.Console
 
                     Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, "Service Uninstalled");
                     timer1.Enabled = false;
-                    btnInstall.Text ="Install Service";
+                    btnInstall.Text =th.TS("Install Service");
                 } catch (Exception) {
-                    MessageBox.Show("Cannot uninstall service\n"+e.ToString());
+                    MessageBox.Show(th.TS("Cannot uninstall service.")+"\n"+e.ToString());
                 }                
             }
             else
@@ -214,9 +211,9 @@ namespace PokemonGo.RocketAPI.Console
                     RegisterUriScheme(Application.ExecutablePath,URI_SCHEME_MSNIPER,URI_KEY_MSNIPER);
                     Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, "Service Installed");
                     timer1.Enabled = true;
-                    btnInstall.Text ="Uninstall Service";
+                    btnInstall.Text = th.TS("Uninstall Service");
                 } catch (Exception) {
-                    MessageBox.Show("Cannot install service.\n"+e.ToString());
+                    MessageBox.Show(th.TS("Cannot install service.")+"\n"+e.ToString());
                 }
             }
             
