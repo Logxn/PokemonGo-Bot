@@ -41,7 +41,7 @@ namespace PokemonGo.RocketAPI.Helpers
             if (NewRequestID <= 0)
                 NewRequestID = NewRequestID + MersenePrime;
 
-            Logger.Debug($"{NewRequestID.ToString("X")} [{Hi.ToString("X")},{Lo.ToString("X")}]");
+            //Logger.Debug($"{NewRequestID.ToString("X")} [{Hi.ToString("X")},{Lo.ToString("X")}]");
 
             NewRequestID = NewRequestID % 0x80000000;
             LastRequestID = NewRequestID;

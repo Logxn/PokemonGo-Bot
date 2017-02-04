@@ -725,7 +725,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
 
                 if (_response.Result == ReleasePokemonResponse.Types.Result.Success)
                 {
-                    Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Transfer Successful of {pokemonsToTransfer.Count} pokemons => {_response.CandyAwarded.ToString()} candy/ies awarded.", LogLevel.Info);
+                    Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "Transfer Successful of " + pokemonsToTransfer.Count + " pokemons => " + _response.CandyAwarded + ((_response.CandyAwarded == 1) ? " candy" : " candies") + " awarded.", LogLevel.Info);
                     Helpers.RandomHelper.RandomSleep(1000, 2000);
                 }
                 else

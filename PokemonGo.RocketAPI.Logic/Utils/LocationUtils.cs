@@ -1,14 +1,10 @@
-﻿#region
-
-using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json.Linq;
 using System;
 using System.Device.Location;
 using System.IO;
 using System.Net;
 using GMap.NET;
 using GMap.NET.MapProviders;
-
-#endregion
 
 namespace PokemonGo.RocketAPI.Logic.Utils
 {
