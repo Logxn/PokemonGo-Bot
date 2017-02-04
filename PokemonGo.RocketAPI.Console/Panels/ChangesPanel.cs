@@ -36,7 +36,21 @@ namespace PokemonGo.RocketAPI.Console
         public ChangesPanel()
         {
             InitializeComponent();
-            comboLanguage.SelectedText = th.GetSelectedLanguage();
+            comboLanguage.SelectedIndex = 0;
+            switch (th.GetSelectedLanguage()) {
+                case "default":
+                    comboLanguage.SelectedIndex = 1;
+                    break;
+                case "de":
+                    comboLanguage.SelectedIndex = 2;
+                    break;
+                case "es":
+                    comboLanguage.SelectedIndex = 3;
+                    break;
+                case "ca":
+                    comboLanguage.SelectedIndex = 4;
+                    break;
+            } 
             th.Translate(this);
         }
 

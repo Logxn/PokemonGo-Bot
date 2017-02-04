@@ -539,6 +539,7 @@ namespace PokemonGo.RocketAPI.Console
             this.text_TotalItemCount.Size = new System.Drawing.Size(51, 20);
             this.text_TotalItemCount.TabIndex = 23;
             this.text_TotalItemCount.TabStop = false;
+            this.text_TotalItemCount.Text = "1000";
             // 
             // label31
             // 
@@ -841,6 +842,8 @@ namespace PokemonGo.RocketAPI.Console
             // checkBox_UseSpritesFolder
             // 
             this.checkBox_UseSpritesFolder.AutoSize = true;
+            this.checkBox_UseSpritesFolder.Checked = true;
+            this.checkBox_UseSpritesFolder.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBox_UseSpritesFolder.Location = new System.Drawing.Point(10, 77);
             this.checkBox_UseSpritesFolder.Name = "checkBox_UseSpritesFolder";
             this.checkBox_UseSpritesFolder.Size = new System.Drawing.Size(207, 17);
@@ -937,7 +940,7 @@ namespace PokemonGo.RocketAPI.Console
             this.text_MaxDuplicatePokemon.Name = "text_MaxDuplicatePokemon";
             this.text_MaxDuplicatePokemon.Size = new System.Drawing.Size(40, 20);
             this.text_MaxDuplicatePokemon.TabIndex = 9;
-            this.text_MaxDuplicatePokemon.Text = "0";
+            this.text_MaxDuplicatePokemon.Text = "1";
             this.text_MaxDuplicatePokemon.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox7_KeyPress);
             // 
             // label11
@@ -1699,6 +1702,8 @@ namespace PokemonGo.RocketAPI.Console
             // NextBestBallOnEscape
             // 
             this.NextBestBallOnEscape.AutoSize = true;
+            this.NextBestBallOnEscape.Checked = true;
+            this.NextBestBallOnEscape.CheckState = System.Windows.Forms.CheckState.Checked;
             this.NextBestBallOnEscape.Location = new System.Drawing.Point(70, 161);
             this.NextBestBallOnEscape.Name = "NextBestBallOnEscape";
             this.NextBestBallOnEscape.Size = new System.Drawing.Size(214, 17);
@@ -2322,7 +2327,7 @@ namespace PokemonGo.RocketAPI.Console
             this.text_Speed.Name = "text_Speed";
             this.text_Speed.Size = new System.Drawing.Size(100, 20);
             this.text_Speed.TabIndex = 70;
-            this.text_Speed.Text = "14";
+            this.text_Speed.Text = "11";
             this.text_Speed.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox7_KeyPress);
             // 
             // label46
@@ -2595,7 +2600,7 @@ namespace PokemonGo.RocketAPI.Console
             this.text_RestartAfterRun.Name = "text_RestartAfterRun";
             this.text_RestartAfterRun.Size = new System.Drawing.Size(100, 20);
             this.text_RestartAfterRun.TabIndex = 68;
-            this.text_RestartAfterRun.Text = "0";
+            this.text_RestartAfterRun.Text = "30";
             // 
             // label41
             // 
@@ -2701,7 +2706,7 @@ namespace PokemonGo.RocketAPI.Console
             this.text_TimeToRun.Name = "text_TimeToRun";
             this.text_TimeToRun.Size = new System.Drawing.Size(100, 20);
             this.text_TimeToRun.TabIndex = 42;
-            this.text_TimeToRun.Text = "0";
+            this.text_TimeToRun.Text = "240";
             // 
             // tabMisc
             // 

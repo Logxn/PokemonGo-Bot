@@ -551,7 +551,7 @@ namespace PokemonGo.RocketAPI.Console
                 // TODO: Make this decyption at end of comuncation
                 if (ActiveProfile.Settings.UsePwdEncryption)
                     ActiveProfile.Settings.Password = Encryption.Decrypt(ActiveProfile.Settings.Password);
-                
+
                 GlobalVars.Assign(ActiveProfile.Settings);
 
                 Dispose();
@@ -645,7 +645,6 @@ namespace PokemonGo.RocketAPI.Console
 
             // Location
             ret &= textBoxToActiveProfDouble(text_Latidude, "DefaultLatitude");
-            
             ret &= textBoxToActiveProfDouble(text_Longitude, "DefaultLongitude");
             ret &= textBoxToActiveProfDouble(text_Altitude, "DefaultAltitude");
 

@@ -33,6 +33,8 @@
   "GUI.tabControl1.tabGeneral.groupBox10.checkBox_SimulateAnimationTimeAtEvolve": "Simulate Animation Times at Evolve",
   "GUI.tabControl1.tabGeneral.groupBox10.checkBox_UseLuckyEggAtEvolve": "Use LuckyEgg at Evolve",
   "GUI.tabControl1.tabGeneral.groupBox10.checkBox_EvolvePokemonIfEnoughCandy": "Evolve Pokemons if enough candy\r\n",
+  "GUI.tabControl1.tabPokemon.groupBox_AlwaysTransfer": "Always Transfer",
+  "GUI.tabControl1.tabPokemon.groupBox_AlwaysTransfer.checkBox_AlwaysTransfer": "Select all",
   "GUI.tabControl1.tabPokemon": "Pokemon",
   "GUI.tabControl1.tabPokemon.groupBox3": "Bot Settings",
   "GUI.tabControl1.tabPokemon.groupBox3.checkBox_UseSpritesFolder": "Use Sprites folder for pokemon images",
