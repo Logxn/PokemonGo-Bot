@@ -1094,8 +1094,8 @@ namespace PokemonGo.RocketAPI.Logic
 
                     Logger.ColoredConsoleWrite(ConsoleColor.Magenta, $"Found {pokemons.Count()} catchable Pokemon(s): " + strNames);
                     if (GlobalVars.ShowPokemons){
-                        ShowNearbyPokemons(pokemons);
-                        RandomHelper.RandomSleep(300,302);
+                        ShowNearbyPokemonsRun(pokemons);
+                        //RandomHelper.RandomSleep(600,602);
                     }
                 }
 
