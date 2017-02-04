@@ -25,7 +25,7 @@ namespace POGOProtos.Networking.Responses {
             "CjpQT0dPUHJvdG9zL05ldHdvcmtpbmcvUmVzcG9uc2VzL0NhdGNoUG9rZW1v",
             "blJlc3BvbnNlLnByb3RvEh9QT0dPUHJvdG9zLk5ldHdvcmtpbmcuUmVzcG9u",
             "c2VzGipQT0dPUHJvdG9zL0RhdGEvQ2FwdHVyZS9DYXB0dXJlQXdhcmQucHJv",
-            "dG8i+AMKFENhdGNoUG9rZW1vblJlc3BvbnNlElEKBnN0YXR1cxgBIAEoDjJB",
+            "dG8ijAQKFENhdGNoUG9rZW1vblJlc3BvbnNlElEKBnN0YXR1cxgBIAEoDjJB",
             "LlBPR09Qcm90b3MuTmV0d29ya2luZy5SZXNwb25zZXMuQ2F0Y2hQb2tlbW9u",
             "UmVzcG9uc2UuQ2F0Y2hTdGF0dXMSFAoMbWlzc19wZXJjZW50GAIgASgBEhsK",
             "E2NhcHR1cmVkX3Bva2Vtb25faWQYAyABKAYSPAoNY2FwdHVyZV9hd2FyZBgE",
@@ -34,9 +34,9 @@ namespace POGOProtos.Networking.Responses {
             "Zy5SZXNwb25zZXMuQ2F0Y2hQb2tlbW9uUmVzcG9uc2UuQ2FwdHVyZVJlYXNv",
             "bhIaChJkaXNwbGF5X3Bva2VkZXhfaWQYBiABKAUiZQoLQ2F0Y2hTdGF0dXMS",
             "DwoLQ0FUQ0hfRVJST1IQABIRCg1DQVRDSF9TVUNDRVNTEAESEAoMQ0FUQ0hf",
-            "RVNDQVBFEAISDgoKQ0FUQ0hfRkxFRRADEhAKDENBVENIX01JU1NFRBAEIjwK",
+            "RVNDQVBFEAISDgoKQ0FUQ0hfRkxFRRADEhAKDENBVENIX01JU1NFRBAEIlAK",
             "DUNhcHR1cmVSZWFzb24SCQoFVU5TRVQQABILCgdERUZBVUxUEAESEwoPRUxF",
-            "TUVOVEFMX0JBREdFEAJiBnByb3RvMw=="));
+            "TUVOVEFMX0JBREdFEAISEgoOQ1JJVElDQUxfQ0FUQ0gQA2IGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::POGOProtos.Data.Capture.CaptureAwardReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
@@ -324,6 +324,7 @@ namespace POGOProtos.Networking.Responses {
         [pbr::OriginalName("UNSET")] Unset = 0,
         [pbr::OriginalName("DEFAULT")] Default = 1,
         [pbr::OriginalName("ELEMENTAL_BADGE")] ElementalBadge = 2,
+        [pbr::OriginalName("CRITICAL_CATCH")] CriticalCatch = 3,
       }
 
     }

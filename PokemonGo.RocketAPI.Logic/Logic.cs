@@ -1178,8 +1178,9 @@ namespace PokemonGo.RocketAPI.Logic
             #endregion
         }
 
-        public void CatchPokemon(ulong encounterId, string spawnpointId, PokemonId pokeid, double pokeLong = 0, double pokeLat = 0, bool goBack = false)
+        public ulong CatchPokemon(ulong encounterId, string spawnpointId, PokemonId pokeid, double pokeLong = 0, double pokeLat = 0, bool goBack = false)
         {
+            ulong ret = 0;
             EncounterResponse encounterPokemonResponse;
 
             //Offset Miss count here to account for user setting.
@@ -1221,7 +1222,7 @@ namespace PokemonGo.RocketAPI.Logic
                 if (SkippedPokemon.Contains(encounterPokemonResponse.WildPokemon.EncounterId))
                 {
                     Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Previously Skipped this Pokemon - Skipping Again!");
-                    return;
+                    return 0;
                 }
 
                 var bestPokeball = GetBestBall(encounterPokemonResponse?.WildPokemon, false);
@@ -1237,7 +1238,7 @@ namespace PokemonGo.RocketAPI.Logic
                     pokeballoutofstock = true;
                     logicAllowCatchPokemon = false;
 
-                    return;
+                    return 0;
                 }
 
                 var inventoryBerries = objClient.Inventory.GetItems().Result;
@@ -1266,7 +1267,7 @@ namespace PokemonGo.RocketAPI.Logic
                             pokeballoutofstock = true;
                             logicAllowCatchPokemon = false;
 
-                            return;
+                            return 0;
                         }
 
                         if (((probability.Value < BotSettings.razzberry_chance) || escaped) && BotSettings.UseRazzBerry && !used)
@@ -1372,6 +1373,7 @@ namespace PokemonGo.RocketAPI.Logic
 
                     if (caughtPokemonResponse.Status == CatchPokemonResponse.Types.CatchStatus.CatchSuccess)
                     {
+                        ret = caughtPokemonResponse.CapturedPokemonId;
                         //DeletePokemonFromMap(encounterPokemonResponse.WildPokemon.SpawnPointId).Wait();
                         foreach (var xp in caughtPokemonResponse.CaptureAward.Xp)
                             BotStats.AddExperience(xp);
@@ -1429,7 +1431,7 @@ namespace PokemonGo.RocketAPI.Logic
             }else{
                 Logger.Debug(encounterPokemonResponse.Status.ToString());
             }
-            
+            return ret;
         }
 
         private CatchPokemonResponse CatchPokemonWithRandomVariables(ulong encounterId, string spawnpointId, ItemId bestPokeball, bool forceHit)

@@ -28,7 +28,7 @@ namespace PokemonGo.RocketAPI.HttpClient
         /// <returns></returns>
         public bool CheckAPIVersionCompatibility( Version _botAPISupportedVersion)
         {
-            return (CurrentNianticAPIVersion == _botAPISupportedVersion);
+            return (CurrentNianticAPIVersion <= _botAPISupportedVersion);
         }
 
         /// <summary>

@@ -32,27 +32,57 @@ namespace PokemonGo.RocketAPI.Console
         private static GetPlayerResponse profile = null;
         private static IOrderedEnumerable<PokemonData> pokemons = null;
         private static POGOProtos.Data.Player.PlayerStats stats;
-        
+        private Helper.TranslatorHelper th = Helper.TranslatorHelper.getInstance();
+
         public PlayerPanel()
         {
             //
             // The InitializeComponent() call is required for Windows Forms designer support.
             //
             InitializeComponent();
+            InitializeData();
+            th.Translate(this);
+            
         }
-
+        
+        private void InitializeData()
+        {
+            this.listView.Items.AddRange(new [] {
+                new ListViewItem(new string[] {"1", th.TS("Username"),""}),
+                new ListViewItem(new string[] {"2", th.TS("Coins"),""}),
+                new ListViewItem(new string[] {"3", th.TS("Stardust"),""}),
+                new ListViewItem(new string[] {"4", th.TS("Max Items"),""}),
+                new ListViewItem(new string[] {"5", th.TS("Max Pokemons"),""}),
+                new ListViewItem(new string[] {"6", th.TS("Battle Lockout End (Ms)"),""}),
+                new ListViewItem(new string[] {"7", th.TS("Level"),""}),
+                new ListViewItem(new string[] {"8", th.TS("Pokedex"),""}),
+                new ListViewItem(new string[] {"9", th.TS("Kms Walked"),""}),
+                new ListViewItem(new string[] {"10", th.TS("Eggs Hatched"),""}),
+                new ListViewItem(new string[] {"11", th.TS("Evolutions"),""}),
+                new ListViewItem(new string[] {"12", th.TS("PokeStop Visits"),""}),
+                new ListViewItem(new string[] {"13", th.TS("Pokeballs Thrown"),""}),
+                new ListViewItem(new string[] {"14", th.TS("Battle Attack"),""}),
+                new ListViewItem(new string[] {"15", th.TS("Battle Defended"),""}),
+                new ListViewItem(new string[] {"16", th.TS("Battle Training"),""}),
+                new ListViewItem(new string[] {"17", th.TS("Pokemon Deployed"),""}),
+                new ListViewItem(new string[] {"18", th.TS("Pokemons Captured"),""}),
+                new ListViewItem(new string[] {"19", th.TS("Pokemons Encountered"),""}),
+                new ListViewItem(new string[] {"20", th.TS("Prestige Dropped"),""}),
+                new ListViewItem(new string[] {"21", th.TS("Prestige Raised"),""}),
+                new ListViewItem(new string[] {"22", th.TS("Small Rattata Caught"),""}),
+                new ListViewItem(new string[] {"23", th.TS("Big Magikarp Caught"),""}),
+                new ListViewItem(new string[] {"24", th.TS("Used Km Pool"),""})
+                        });
+        }
 
         public void Execute( bool refreshData = true)
         {
             pictureBoxTeam.Image = null;
             pictureBoxPlayerAvatar.Image = null;
             pictureBoxBuddyPokemon.Image = null;
-            labelUserProperty1Value.Text = "";
-            labelUserProperty2Value.Text = "";
-            labelUserProperty3Value.Text = "";
-            labelUserProperty4Value.Text = "";
-            labelUserProperty5Value.Text = "";
-            labelUserProperty6Value.Text = "";
+            foreach (ListViewItem element in listView.Items) {
+                element.SubItems[2].Text= "";
+            }
 
             var client = Logic.Logic.objClient;
             if (client !=null && client.ReadyToUse)
@@ -60,7 +90,7 @@ namespace PokemonGo.RocketAPI.Console
                 if (refreshData)
                 {
                     profile = client.Player.GetPlayer().Result;
-                    RandomHelper.RandomSleep(1000,1100);
+                    RandomHelper.RandomSleep(300,400);
                     var playerStats = client.Inventory.GetPlayerStats().Result;
                     stats = playerStats.First();
                 }
@@ -142,9 +172,12 @@ namespace PokemonGo.RocketAPI.Console
         {
 
             if (profile != null){
-                labelUserProperty1Value.Text = profile.PlayerData.Username;
-                labelUserProperty3Value.Text = profile.PlayerData.Currencies[1].Amount.ToString("N0");
-                labelCoinsValue.Text = profile.PlayerData.Currencies[0].Amount.ToString("N0");
+                listView.Items[0].SubItems[2].Text = profile.PlayerData.Username;
+                listView.Items[1].SubItems[2].Text = profile.PlayerData.Currencies[0].Amount.ToString("N0");
+                listView.Items[2].SubItems[2].Text = profile.PlayerData.Currencies[1].Amount.ToString("N0");
+                listView.Items[3].SubItems[2].Text = ""+profile.PlayerData.MaxItemStorage;
+                listView.Items[4].SubItems[2].Text = ""+profile.PlayerData.MaxPokemonStorage;
+                listView.Items[5].SubItems[2].Text = ""+profile.PlayerData.BattleLockoutEndMs;
             }
 
 
@@ -155,15 +188,31 @@ namespace PokemonGo.RocketAPI.Console
                 var curexppercent = Convert.ToDouble(curexp) / Convert.ToDouble(expneeded) * 100;
 
                 var curexppercentrounded = Math.Round(curexppercent, 2);
-                labelUserProperty2Value.Text = string.Format("{0} | {1}/{2}({3}%)", stats.Level, curexp, expneeded, curexppercentrounded);
+                listView.Items[6].SubItems[2].Text = string.Format("{0} | {1}/{2}({3}%)", stats.Level, curexp, expneeded, curexppercentrounded);
 
-                var pokedexpercentraw = Convert.ToDouble(stats.UniquePokedexEntries) / Convert.ToDouble(150) * 100;
+                var numDifferentPokemons = Enum.GetNames(typeof(PokemonId)).Length -1;
+                var pokedexpercentraw = Convert.ToDouble(stats.UniquePokedexEntries) / Convert.ToDouble(numDifferentPokemons) * 100;
                 var pokedexpercent = Math.Floor(pokedexpercentraw);
-                labelUserProperty5Value.Text = string.Format("{0}/ 150 [{1}%]", stats.UniquePokedexEntries, pokedexpercent);
+                listView.Items[7].SubItems[2].Text = string.Format("{0}/ {1} [{2}%]", stats.UniquePokedexEntries,numDifferentPokemons, pokedexpercent);
 
                 var kmWalked = Math.Round(stats.KmWalked, 2);
-                labelUserProperty6Value.Text = string.Format("{0}km", kmWalked);
-
+                listView.Items[8].SubItems[2].Text = string.Format("{0}km", kmWalked); 
+                listView.Items[9].SubItems[2].Text = "" + stats.EggsHatched;
+                listView.Items[10].SubItems[2].Text = "" + stats.Evolutions;
+                listView.Items[11].SubItems[2].Text = "" + stats.PokeStopVisits;
+                listView.Items[12].SubItems[2].Text = "" + stats.PokeballsThrown;
+                listView.Items[13].SubItems[2].Text = $"{stats.BattleAttackWon} / {stats.BattleAttackTotal}";
+                listView.Items[14].SubItems[2].Text = ""+stats.BattleDefendedWon;
+                listView.Items[15].SubItems[2].Text = $"{stats.BattleTrainingWon} / {stats.BattleTrainingTotal}";
+                listView.Items[16].SubItems[2].Text = "" + stats.PokemonDeployed;
+                listView.Items[17].SubItems[2].Text = "" + stats.PokemonsCaptured;
+                listView.Items[18].SubItems[2].Text = "" + stats.PokemonsEncountered;
+                listView.Items[19].SubItems[2].Text = "" + stats.PrestigeDroppedTotal;
+                listView.Items[20].SubItems[2].Text = "" + stats.PrestigeRaisedTotal;
+                listView.Items[21].SubItems[2].Text = "" + stats.SmallRattataCaught;
+                listView.Items[22].SubItems[2].Text = "" + stats.BigMagikarpCaught;
+                listView.Items[23].SubItems[2].Text = "" + stats.UsedKmPool;
+                
                 /*
                 var pokemonToEvolve = (await client.Inventory.GetPokemonToEvolve()).Count().ConfigureAwait(false);
                 labelUserProperty4Value.Text = string.Format("{0} + {1} Eggs / {2} ({3} Evolvable)", await client.Inventory.getPokemonCount().ConfigureAwait(false), await client.Inventory.GetEggsCount().ConfigureAwait(false), profile.PlayerData.MaxPokemonStorage, pokemonToEvolve).ConfigureAwait(false);
@@ -224,7 +273,6 @@ namespace PokemonGo.RocketAPI.Console
             if (teamSelect.ShowDialog() == DialogResult.OK){
                 // Simulate to enter in a gym before select a team.
                 var client = Logic.Logic.objClient;
-                //var mapObjects = await client.Map.GetMapObjects().ConfigureAwait(false);
                 var mapObjects = client.Map.GetMapObjects().Result;
                 var mapCells = mapObjects.Item1.MapCells;
 
@@ -234,13 +282,11 @@ namespace PokemonGo.RocketAPI.Console
 	            {
 	            	var pokegym = pokeGyms.First();
 
-                    //var resp = await GetGym(pokegym.Id,pokegym.Latitude,pokegym.Longitude).ConfigureAwait(false);
                     var resp = GetGym(pokegym.Id, pokegym.Latitude, pokegym.Longitude).Result;
                     if (resp.Status)
                     {
                         var team = teamSelect.selected;
                         RandomHelper.RandomSleep(1000,1100);
-                        //var resp2 = await SelectTeam(team).ConfigureAwait(false);
                         var resp2 = SelectTeam(team).Result;
                         if (resp2.Status)
                         {
@@ -248,16 +294,16 @@ namespace PokemonGo.RocketAPI.Console
                             Execute();
                         }
                         else
-                        MessageBox.Show(resp.Message + "Set Team failed!", "Set Team Status", MessageBoxButtons.OK);
+                            MessageBox.Show(resp.Message + th.TS("Set Team failed!"), th.TS("Set Team Status"), MessageBoxButtons.OK);
                     }
 	                else
-	                    MessageBox.Show(resp.Message + "Set Team failed!", "Set Team Status", MessageBoxButtons.OK);            	               
+	                    MessageBox.Show(resp.Message + th.TS("Set Team failed!"), th.TS("Set Team Status"), MessageBoxButtons.OK);
 	            }
 	            else
-	            	MessageBox.Show("Set Team failed!\n non nearby Gym ", "Set Team Status", MessageBoxButtons.OK);
+	                MessageBox.Show(th.TS("Set Team failed!\n non nearby Gym "), th.TS("Set Team Status"), MessageBoxButtons.OK);
 			}
             else
-                MessageBox.Show("Set Team canceled!", "Set Team Status", MessageBoxButtons.OK);
+                MessageBox.Show(th.TS("Set Team canceled!"), th.TS("Set Team Status"), MessageBoxButtons.OK);
 
         }
 
@@ -274,7 +320,7 @@ namespace PokemonGo.RocketAPI.Console
         }
 		private static async Task<taskResponse> SelectTeam(TeamColor teamColor)
         {
-            taskResponse resp1 = new taskResponse(false, string.Empty);
+            var resp1 = new taskResponse(false, string.Empty);
             try
             {
             	var client = Logic.Logic.objClient;
@@ -299,7 +345,7 @@ namespace PokemonGo.RocketAPI.Console
         //GetGymDetails
         private static async Task<taskResponse> GetGym(string gym, double lat, double lng)
         {
-            taskResponse resp1 = new taskResponse(false, string.Empty);
+            var resp1 = new taskResponse(false, string.Empty);
             try
             {
             	var client = Logic.Logic.objClient;
@@ -397,6 +443,12 @@ namespace PokemonGo.RocketAPI.Console
                     Logger.ColoredConsoleWrite(ConsoleColor.Red, $"(Daily Bonus) - Default switch statement reached! => {resultString} | Please screenshot this error and send it to us on Discord or GitHub");
                     break;
             }*/
+        }
+        void listView_ColumnClick(object sender, ColumnClickEventArgs e)
+        {
+            var order = (sender as ListView).Sorting;
+            listView.ListViewItemSorter = new Components.ListViewItemComparer(e.Column, order);
+            (sender as ListView).Sorting = order == SortOrder.Ascending ? SortOrder.Descending : SortOrder.Ascending;
         }
     }
 }

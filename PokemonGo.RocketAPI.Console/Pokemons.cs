@@ -13,6 +13,7 @@ namespace PokemonGo.RocketAPI.Console
         private static GetPlayerResponse profile;
         private static POGOProtos.Data.Player.PlayerStats stats;
         public static bool skipReadyToUse = false;
+        private Helper.TranslatorHelper th = Helper.TranslatorHelper.getInstance();
 
         public class taskResponse
         {
@@ -31,15 +32,17 @@ namespace PokemonGo.RocketAPI.Console
         public Pokemons()
         {
             InitializeComponent();
+            th.Translate(this);
             if (GlobalVars.EnableConsoleInTab) {
                 this.TabControl1.Controls.Add(this.tpConsole);
                 Logger.type = 1;
             }
             changesPanel1.Execute();
+            changesPanel1.OnChangeLanguage = TranslateAll;
             webPanel1.AddButtonClick(new System.EventHandler(this.HideWebPanel));
             sniperPanel1.AddButtonClick( new System.EventHandler(this.AddLink));
             sniperPanel1.webBrowser = webPanel1.webBrowser1;
-        }
+       }
         
 
         private void Pokemons_Load(object sender, EventArgs e)
@@ -153,6 +156,15 @@ namespace PokemonGo.RocketAPI.Console
                 TabControl1.SelectedTab = tpWeb;
             }
         }
-        	
+        public void TranslateAll(){
+            th.Translate(this);
+            th.Translate(locationPanel1);
+            th.Translate(pokemonsPanel1);
+            th.Translate(itemsPanel1);
+            th.Translate(eggsPanel1);
+            th.Translate(playerPanel1);
+            th.Translate(sniperPanel1);
+            th.Translate(webPanel1);
+        }
     }
 }

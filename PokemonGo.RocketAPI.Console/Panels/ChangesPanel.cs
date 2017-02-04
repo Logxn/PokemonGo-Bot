@@ -23,16 +23,21 @@ using System.Windows.Forms;
 using static PokemonGo.RocketAPI.Console.GUI;
 using PokemonGo.RocketAPI.Logic.Shared;
 namespace PokemonGo.RocketAPI.Console
-	
+    
 {
     public partial class ChangesPanel : UserControl
     {
         const ConsoleColor tryCatchColor = ConsoleColor.DarkYellow;
         private bool enableEvents = false;
+        private Helper.TranslatorHelper th = Helper.TranslatorHelper.getInstance();
+        public delegate void ChangeLanguage();
+        public ChangeLanguage OnChangeLanguage;
 
         public ChangesPanel()
         {
             InitializeComponent();
+            comboLanguage.SelectedText = th.GetSelectedLanguage();
+            th.Translate(this);
         }
 
         void CheckBoxes_CheckedChanged(object sender, EventArgs e)
@@ -86,7 +91,7 @@ namespace PokemonGo.RocketAPI.Console
             }
             try {
                 typeof(GlobalVars).GetField(globalName).SetValue(null,(double) castedSender.Value);
-                Logger.ColoredConsoleWrite(tryCatchColor,castedSender.Text+ " value changed");                
+                Logger.ColoredConsoleWrite(tryCatchColor,castedSender.Text+ " value changed");
             } catch (Exception ex) {
                 Logger.AddLog("[Exception]: " + ex.ToString());
             }
@@ -188,7 +193,7 @@ namespace PokemonGo.RocketAPI.Console
                     Logger.ColoredConsoleWrite(ConsoleColor.Green, "Default Location Set will navigate there after next pokestop!");
                 }
             }
-          
+            
         }
 
         void buttonUpdateClick(object sender, EventArgs e)
@@ -197,7 +202,7 @@ namespace PokemonGo.RocketAPI.Console
             var ConfigsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Configs");
             var filenameProf= Path.Combine(ConfigsPath, GlobalVars.ProfileName +".json" );
             botSettings.SaveToFile(filenameProf);
-            MessageBox.Show("Current Configuration Saved as - " + GlobalVars.ProfileName);
+            MessageBox.Show(th.TS("Current Configuration Saved as - ") + GlobalVars.ProfileName);
         }
 
         void ButtonReviseClick(object sender, EventArgs e)
@@ -269,5 +274,35 @@ namespace PokemonGo.RocketAPI.Console
             if (GlobalVars.UseGoogleMapsAPI)
                 GlobalVars.GoogleMapsAPIKey = text_GoogleMapsAPIKey.Text;
         }
-	}
+        void comboLanguage_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var lang = "";
+            switch (comboLanguage.SelectedIndex) {
+                case 0:
+                    lang = CultureInfo.CurrentCulture.Name;
+                    break;
+                case 1:
+                    lang = "default";
+                    break;
+                case 2:
+                    lang = "de";
+                    break;
+                case 3:
+                    lang = "es";
+                    break;
+                case 4:
+                    lang = "ca-ES";
+                    break;
+            }
+
+            if (lang !="")
+            {
+                Helper.TranslatorHelper.DownloadTranslationFile("PokemonGo.RocketAPI.Console/Lang", Program.path_translation, lang);
+                th.SelectLanguage(lang);
+                th.Translate(this);
+                if (OnChangeLanguage != null)
+                    OnChangeLanguage();
+            }
+        }
+    }
 }

@@ -28,22 +28,26 @@ namespace PokemonGo.RocketAPI.Hash
                 {"0.53.1", "api/v123_1/hash" },
                 {"1.23.2", "api/v123_1/hash"},
                 {"0.53.2", "api/v123_1/hash" },
-                {"0.55.0", "api/v125_1/hash" }, // not released yet at 29/01/2017
+                {"0.55.0", "api/v125/hash" },
+                {"1.25.0", "api/v125/hash" }
             };
 
-            int MaxRequestCount;            // RPM Value
-            DateTime RatePeriodEnd;              // End of running minute
-            int RateRequestRemaining;       // Unused Requests this minute
-            int RateLimitSeconds;           // Rate Limit Period (always 60)
-            DateTime AuthTokenExpiration;   // Expiration
+        int MaxRequestCount;            // RPM Value
+        DateTime RatePeriodEnd;         // End of running minute
+        int RateRequestRemaining;       // Unused Requests this minute
+        int RateLimitSeconds;           // Rate Limit Period (always 60)
+        DateTime AuthTokenExpiration;   // Expiration
+        int ExpirationCounter = 1;      // Only show message every 1000 requests (see if down)
 
         private Uri _baseAddress = new Uri("http://pokehash.buddyauth.com/");
+        private Uri _availableHashVersionsCheck = new Uri("https://pokehash.buddyauth.com/api/hash/versions");
         private string _endpoint;
         private string apiKey;
 
         public PokeHashHasher(string apiKey)
         {
-            _endpoint = EndPointDictionary[(CurrentAPIVersion.CurrentNianticAPIVersion).ToString()];
+            //_endpoint = EndPointDictionary[(CurrentAPIVersion.CurrentNianticAPIVersion).ToString()];
+            _endpoint = EndPointDictionary[(Resources.BotApiSupportedVersion).ToString()];
             this.apiKey = apiKey;
         }
 
@@ -114,11 +118,19 @@ namespace PokemonGo.RocketAPI.Hash
                         var remainingSeconds = (DateTime.Now - RatePeriodEnd).TotalSeconds * -1;
 
                         Logger.Debug($"{RateRequestRemaining}/{MaxRequestCount} requests remaining for the next {remainingSeconds} seconds. Key expires on: {AuthTokenExpiration}");
+                        if ((AuthTokenExpiration - DateTime.Now).TotalDays <= 3)
+                        {
+                            if (ExpirationCounter-- == 0)
+                            {
+                                ExpirationCounter = 1000;
+                                Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Attention! Your key is expiring in {(AuthTokenExpiration - DateTime.Now).Days} days and {(AuthTokenExpiration - DateTime.Now).Hours} hours! Expiration date: {AuthTokenExpiration}", LogLevel.Warning);
+                            }
+                        };
                         return JsonConvert.DeserializeObject<HashResponseContent>(response.Content.ReadAsStringAsync().Result);
 
                     case HttpStatusCode.BadRequest: // 400
                         var responseText = response.Content.ReadAsStringAsync().Result;
-                        throw new HasherException($"[HashService] 400: Bad request sent to the hashing server! {responseText}");
+                        throw new HasherException($"[HashService] 400: Your key is probably expired! {responseText}");
 
                     case HttpStatusCode.Unauthorized: // 401
                         Shared.KeyCollection.removeKey(this.apiKey);

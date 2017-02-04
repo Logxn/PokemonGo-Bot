@@ -774,15 +774,8 @@ namespace PokemonGo.RocketAPI.Logic.Shared
 
 
         }
-        public System.Collections.Generic.List<POGOProtos.Enums.PokemonId> pokemonsToHold {
-            get;
-            set;
-
-
-
-
-
-        }
+        public System.Collections.Generic.List<POGOProtos.Enums.PokemonId> pokemonsToHold {get;set;}
+        public System.Collections.Generic.List<POGOProtos.Enums.PokemonId> pokemonsToAlwaysTransfer {get;set;}
         public System.Collections.Generic.List<POGOProtos.Enums.PokemonId> pokemonsToEvolve {
             get;
             set;
@@ -999,6 +992,7 @@ namespace PokemonGo.RocketAPI.Logic.Shared
         public void init()
         {
             pokemonsToHold = new System.Collections.Generic.List<POGOProtos.Enums.PokemonId>();
+            pokemonsToAlwaysTransfer= new System.Collections.Generic.List<POGOProtos.Enums.PokemonId>();
             catchPokemonSkipList = new System.Collections.Generic.List<POGOProtos.Enums.PokemonId>();
             pokemonsToEvolve = new System.Collections.Generic.List<POGOProtos.Enums.PokemonId>();
             NotToSnipe = new System.Collections.Generic.List<POGOProtos.Enums.PokemonId>();

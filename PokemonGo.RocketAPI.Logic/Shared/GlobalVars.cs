@@ -70,6 +70,7 @@ namespace PokemonGo.RocketAPI.Logic.Shared
         public static bool NextBestBallOnEscape = false;
         public static int Max_Missed_throws = 3;
         public static List<PokemonId> pokemonsToHold;
+        public static List<PokemonId> pokemonsToAlwaysTransfer;
         public static List<PokemonId> catchPokemonSkipList;
         public static List<PokemonId> pokemonsToEvolve;
         public static List<PokemonId> NotToSnipe;

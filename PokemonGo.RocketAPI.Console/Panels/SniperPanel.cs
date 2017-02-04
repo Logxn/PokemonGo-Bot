@@ -47,9 +47,21 @@ namespace PokemonGo.RocketAPI.Console
     /// </summary>
     public partial class SniperPanel : UserControl
     {
-        static Dictionary<string, int> pokeIDS = new Dictionary<string, int>();
+        private static Dictionary<string, int> pokeIDS = new Dictionary<string, int>();
         public WebBrowser webBrowser = null;
-        
+        private Helper.TranslatorHelper th = Helper.TranslatorHelper.getInstance();
+
+        private static Components.HRefLink[] links = {
+         new Components.HRefLink("pokedexs.com","https://pokedexs.com"),
+         new Components.HRefLink("pokegosnipers.com","http://pokegosnipers.com"),
+         new Components.HRefLink("pokezz.com","http://pokezz.com"),
+         new Components.HRefLink("pokewatchers.com","http://pokewatchers.com"),
+         new Components.HRefLink("mypogosnipers.com","http://www.mypogosnipers.com"),
+         new Components.HRefLink("snipe.necrobot2.com","http://snipe.necrobot2.com"),
+         new Components.HRefLink("pokesniper.org","http://pokesniper.org/"),
+         new Components.HRefLink("iv100.top","http://iv100.top/")
+        };
+
         public SniperPanel()
         {
             //
@@ -57,18 +69,11 @@ namespace PokemonGo.RocketAPI.Console
             //
             InitializeComponent();
             IntializeComboLinks();
+            th.Translate(this);
         }
 
         void IntializeComboLinks()
         {
-            var links = new Collection<Components.HRefLink>();
-            links.Add( new Components.HRefLink("pokedexs.com","https://pokedexs.com"));
-            links.Add( new Components.HRefLink("pokegosnipers.com","http://pokegosnipers.com"));
-            links.Add( new Components.HRefLink("pokezz.com","http://pokezz.com"));
-            links.Add( new Components.HRefLink("pokewatchers.com","http://pokewatchers.com"));
-            links.Add( new Components.HRefLink("mypogosnipers.com","http://www.mypogosnipers.com"));
-            links.Add( new Components.HRefLink("snipe.necrobot2.com","http://snipe.necrobot2.com"));
-            links.Add( new Components.HRefLink("pokesniper.org","http://pokesniper.org/"));
             comboBoxLinks.DataSource = links;
             comboBoxLinks.DisplayMember= "Text";
             comboBoxLinks.SelectedIndex = 0;
@@ -141,10 +146,10 @@ namespace PokemonGo.RocketAPI.Console
 
         void SnipeMe_Click(object sender, EventArgs e)
         {
-            SnipePoke((PokemonId)comboBox1.SelectedItem, (int) nudSecondsSnipe.Value,(int) nudTriesSnipe.Value);
+            SnipePoke((PokemonId)comboBox1.SelectedItem, (int) nudSecondsSnipe.Value,(int) nudTriesSnipe.Value ,checkBoxSnipeTransfer.Checked);
         }
 
-        void SnipePoke(PokemonId id, int secondsToWait, int numberOfTries)
+        void SnipePoke(PokemonId id, int secondsToWait, int numberOfTries, bool transferIt)
         {
             Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "Manual Snipe Triggered! We'll stop farming and go catch the pokemon ASAP");
             
@@ -152,8 +157,8 @@ namespace PokemonGo.RocketAPI.Console
             GlobalVars.SnipeOpts.Location = splLatLngResult;
             GlobalVars.SnipeOpts.WaitSecond = secondsToWait;
             GlobalVars.SnipeOpts.NumTries = numberOfTries;
+            GlobalVars.SnipeOpts.TransferIt = transferIt;
             GlobalVars.SnipeOpts.Enabled = true;
-            //GlobalVars.ForceSnipe = true;
             SnipeInfo.Text = "";
         }
 
@@ -167,8 +172,8 @@ namespace PokemonGo.RocketAPI.Console
             {
                 if (pokemon.ToString() != "Missingno")
                 {
-                    pokeIDS[pokemon.ToString()] = ie;                            
-                    checkedListBox_NotToSnipe.Items.Add(pokemon.ToString());                            
+                    pokeIDS[pokemon.ToString()] = ie;
+                    checkedListBox_NotToSnipe.Items.Add(th.TS(pokemon.ToString()));
                     ie++;
                     pokemonControlSource.Add(pokemon);
                 }
@@ -180,9 +185,7 @@ namespace PokemonGo.RocketAPI.Console
                 try {
                     checkedListBox_NotToSnipe.SetItemChecked(pokeIDS[_id] - 1, true);
                 } catch (Exception e) {
-                    Logger.ColoredConsoleWrite(ConsoleColor.DarkRed,"[Ignoring Error] More information in log file");
-                    Logger.AddLog(string.Format("Error loading checkedListBox_NotToSnipe id:{0}, pokeIDS[id]:{1}",_id,pokeIDS[_id]));
-                    Logger.AddLog(e.ToString());
+                    Logger.ExceptionInfo(string.Format("Error loading checkedListBox_NotToSnipe id:{0}, pokeIDS[id]:{1}\n{2}",_id,pokeIDS[_id],e));
                 }
             }
         }
@@ -196,9 +199,9 @@ namespace PokemonGo.RocketAPI.Console
 
                     Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, "Service Uninstalled");
                     timer1.Enabled = false;
-                    btnInstall.Text ="Install Service";
+                    btnInstall.Text =th.TS("Install Service");
                 } catch (Exception) {
-                    MessageBox.Show("Cannot uninstall service\n"+e.ToString());
+                    MessageBox.Show(th.TS("Cannot uninstall service.")+"\n"+e.ToString());
                 }                
             }
             else
@@ -208,9 +211,9 @@ namespace PokemonGo.RocketAPI.Console
                     RegisterUriScheme(Application.ExecutablePath,URI_SCHEME_MSNIPER,URI_KEY_MSNIPER);
                     Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, "Service Installed");
                     timer1.Enabled = true;
-                    btnInstall.Text ="Uninstall Service";
+                    btnInstall.Text = th.TS("Uninstall Service");
                 } catch (Exception) {
-                    MessageBox.Show("Cannot install service.\n"+e.ToString());
+                    MessageBox.Show(th.TS("Cannot install service.")+"\n"+e.ToString());
                 }
             }
             
@@ -236,26 +239,30 @@ namespace PokemonGo.RocketAPI.Console
                         splLatLngResult = SplitLatLng(splt[1]);
                         int stw = 2;
                         int tries =3;
+                        var transferIt = false;
                         try {
                             stw = (int) nudSecondsSnipe.Value;
                             tries = (int) nudTriesSnipe.Value;
+                            transferIt = checkBoxSnipeTransfer.Checked;
                         } catch (Exception) {
                         }
                         var pokename = ToCapital(splt[0]).Replace('.','_').Replace('-','_');
-                        SnipePoke( (PokemonId)Enum.Parse(typeof(PokemonId), pokename),stw,tries);
+                        SnipePoke( (PokemonId)Enum.Parse(typeof(PokemonId), pokename),stw,tries,transferIt);
                     }else if (txt.IndexOf("msniper://")> -1){
                         txt = txt.Replace("msniper://","");
                         var splt = txt.Split('/');
                         splLatLngResult = SplitLatLng(splt[3]);
                         int stw = 2;
                         int tries =3;
+                        var transferIt = false;
                         try {
                             stw = (int) nudSecondsSnipe.Value;
                             tries = (int) nudTriesSnipe.Value;
+                            transferIt = checkBoxSnipeTransfer.Checked;
                         } catch (Exception) {
                         }
                         var pokename = ToCapital(splt[0]).Replace('.','_').Replace('-','_');
-                        SnipePoke( (PokemonId)Enum.Parse(typeof(PokemonId), pokename),stw,tries);
+                        SnipePoke( (PokemonId)Enum.Parse(typeof(PokemonId), pokename),stw,tries,transferIt);
                     }
                 }
             } catch (Exception ex) {

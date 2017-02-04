@@ -20,21 +20,29 @@ namespace PokemonGo.RocketAPI
         public const string GoogleGrantRefreshAccessUrl = "https://android.clients.google.com/auth";
 
         // ????
-        public static string currentGameHash = "54b359c97e46900f87211ef6e6dd0b7f2a3ea1f5";
+        //public static string currentGameHash = "54b359c97e46900f87211ef6e6dd0b7f2a3ea1f5";
 
 
         /*******************************************************************************************************************
          * v0.53.x
          ******************************************************************************************************************/
-        public const long Unknown25 = -76506539888958491;
-        public const string UnknownPtr8_RequestMessage = "e40c3e64817d9c96d99d28f6488a2efc40b11046";
-        public const string ClientVersionString = "0.53.0";
-        public const uint ClientVersionInt = 5301;
+        //public const long Unknown25 = -76506539888958491;
+        //public const string UnknownPtr8_RequestMessage = "e40c3e64817d9c96d99d28f6488a2efc40b11046";
+        //public const string ClientVersionString = "0.53.0";
+        //public const uint ClientVersionInt = 5301;
+
+        /*******************************************************************************************************************
+         * v0.55.x
+         ******************************************************************************************************************/
+        public const long Unknown25 = -9156899491064153954;
+        public const string UnknownPtr8_RequestMessage = "90f6a704505bccac73cec99b07794993e6fd5a12";
+        public const string ClientVersionString = "0.55.0";
+        public const uint ClientVersionInt = 5500;
 
         /*******************************************************************************************************************
          * Bot Supported Version
          ******************************************************************************************************************/
         public static Version BotVersion = new Version(Assembly.GetEntryAssembly().GetName().Version.ToString());
-        public static Version BotApiSupportedVersion = new Version("0.53.0");
+        public static Version BotApiSupportedVersion = new Version("0.55.0");
     }
 }
