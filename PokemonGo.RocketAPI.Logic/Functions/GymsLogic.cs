@@ -277,23 +277,28 @@ namespace PokemonGo.RocketAPI.Logic.Functions
 
         private static void ReviveAndCurePokemons(Client client, IEnumerable<PokemonData> attackers)
         {
-            var pokemons = client.Inventory.GetPokemons(true).Result;
-            RandomHelper.RandomSleep(300,400);
-            foreach (var attacker in attackers) {
-                var pokemon = pokemons.FirstOrDefault(x => x.Id == attacker.Id);
-                if (pokemon.Stamina <= 0){
-                    RandomHelper.RandomSleep(300, 400);
-                    var revive = client.Inventory.GetItemAmountByType(ItemId.ItemRevive).Result;
-                    if (revive > 0){
-                        var response = client.Inventory.UseItemRevive(ItemId.ItemRevive,  pokemon.Id).Result;
-                        if (response.Result == UseItemEggIncubatorResponse.Types.Result.Success){
-                            Logger.ColoredConsoleWrite(ConsoleColor.DarkGray, "(Gym) - Pokemon revived: " +pokemon.PokemonId);
-                            CurePokemon(client, pokemon);
+            try {
+                RandomHelper.RandomSleep(300,400);
+                var pokemons = client.Inventory.GetPokemons(true).Result;
+                RandomHelper.RandomSleep(300,400);
+                foreach (var attacker in attackers) {
+                    var pokemon = pokemons.FirstOrDefault(x => x.Id == attacker.Id);
+                    if (pokemon.Stamina <= 0){
+                        RandomHelper.RandomSleep(300, 400);
+                        var revive = client.Inventory.GetItemAmountByType(ItemId.ItemRevive).Result;
+                        if (revive > 0){
+                            var response = client.Inventory.UseItemRevive(ItemId.ItemRevive,  pokemon.Id).Result;
+                            if (response.Result == UseItemEggIncubatorResponse.Types.Result.Success){
+                                Logger.ColoredConsoleWrite(ConsoleColor.DarkGray, "(Gym) - Pokemon revived: " +pokemon.PokemonId);
+                                CurePokemon(client, pokemon);
+                            }
                         }
+                    }else if (pokemon.Stamina < pokemon.StaminaMax ){
+                        CurePokemon(client, pokemon);
                     }
-                }else if (pokemon.Stamina < pokemon.StaminaMax ){
-                    CurePokemon(client, pokemon);
                 }
+            } catch (Exception e) {
+                Logger.ExceptionInfo(e.ToString());
             }
         }
 

@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Google.Protobuf.WellKnownTypes;
+using Newtonsoft.Json;
 using POGOProtos.Enums;
 using POGOProtos.Inventory.Item;
 using POGOProtos.Networking.Responses;
@@ -634,6 +635,16 @@ namespace PokemonGo.RocketAPI.Logic.Utils
             }
 
             return false;
+        }
+
+        public static string TimeMStoString(long timeMS, String format)
+        {
+            if (timeMS > 0){
+                var tstamp =TimeSpan.FromMilliseconds(timeMS);
+                var initialDate = new DateTime(1970,1,1);
+                return tstamp.Add( TimeSpan.FromTicks( initialDate.Ticks)).ToString(format);
+            }
+            return "Unknown";
         }
 
         public static string ConvertTimeMSinString(ulong timeMS, String format)
