@@ -187,8 +187,9 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                         foreach (var defender in defenders) {
                             var resp = client.Fort.StartGymBattle(gym.Id, defender.Id, pokeAttackersIds).Result;
                              // Sometimes we get a null from startgymBattle
-
-                            if (resp != null &&  resp.BattleLog.State == POGOProtos.Data.Battle.BattleState.Active) {
+                             if (resp == null )
+                                 break;
+                            if ( resp.BattleLog.State == POGOProtos.Data.Battle.BattleState.Active) {
                                 Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - Battle Started");
                                 RandomHelper.RandomSleep(2500, 3000);
                                
