@@ -38,6 +38,7 @@ namespace PokemonGo.RocketAPI.Hash
         int RateLimitSeconds;           // Rate Limit Period (always 60)
         DateTime AuthTokenExpiration;   // Expiration
         int ExpirationCounter = 1;      // Only show message every 1000 requests (see if down)
+        bool NoValidKey = false;        // Will be true if no valid key is found (testing)
 
         private Uri _baseAddress = new Uri("http://pokehash.buddyauth.com/");
         private Uri _availableHashVersionsCheck = new Uri("https://pokehash.buddyauth.com/api/hash/versions");
@@ -61,7 +62,7 @@ namespace PokemonGo.RocketAPI.Hash
                 changeKey = false;
                 try
                 {
-                    return InternalRequestHashes(request);
+                    if (!NoValidKey) return InternalRequestHashes(request);
                 }
                 catch (HasherException hashEx)
                 {
@@ -81,6 +82,13 @@ namespace PokemonGo.RocketAPI.Hash
                     if (nextKey !=""){
                            this.apiKey = nextKey;
                            Logger.Debug("Changing KEY to: "+this.apiKey.Substring(0,5));
+                    }
+                    else
+                    {
+                        NoValidKey = true;
+                        Logger.ColoredConsoleWrite(ConsoleColor.Red, "Error: PokeHashHasher.cs - NO VALID KEY FOUND - STOPPING");
+                        System.Console.ReadKey();
+                        Environment.Exit(-1);
                     }
                     RandomHelper.RandomSleep(250,300);
                 }

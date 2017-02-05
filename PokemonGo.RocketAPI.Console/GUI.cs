@@ -466,30 +466,37 @@ namespace PokemonGo.RocketAPI.Console
                 index =4;
             comboLanguage.SelectedIndex = index;
         }
+
+        /// <summary>
+        /// Get Coordinates from file
+        /// </summary>
         private void LoadLatestCoords()
         {
-            var coordLoaded = false;
-            if (File.Exists(Program.lastcords))
+            bool CoordsAreLoaded = false;
+            if (File.Exists(Program.LastCoordsTXTFileName))
             {
-                var latlngFromFile = File.ReadAllText(Program.lastcords);
-                var latlng = latlngFromFile.Split(':');
-                if (latlng.Length > 1)
+                string[] CoordsFromFileTXT = File.ReadAllText(Program.LastCoordsTXTFileName).Split(':');
+
+                if (CoordsFromFileTXT.Length > 1)
                 {
-                    var lat = StrCordToDouble(latlng[0]);
-                    var lng = StrCordToDouble(latlng[1]);
+                    double lat = StrCordToDouble(CoordsFromFileTXT[0]);
+                    double lng = StrCordToDouble(CoordsFromFileTXT[1]);
+                    double alt = StrCordToDouble(CoordsFromFileTXT[2]);
                     if (( lat!=0.0) && (lng != 0.0))
                     {
                         ActiveProfile.Settings.DefaultLatitude = lat;
-                        ActiveProfile.Settings.DefaultLongitude = lng ;
-                        coordLoaded = true;
+                        ActiveProfile.Settings.DefaultLongitude = lng;
+                        ActiveProfile.Settings.DefaultAltitude = alt;
+                        CoordsAreLoaded = true;
                     }
                 }
             }
-            if (!coordLoaded){
+            if (!CoordsAreLoaded){
                 Logger.Warning(th.TS("Failed loading last coords!"));
                 Logger.Warning(th.TS("Using default location"));
             }
         }
+
         //Account Type Changed Event
         private void comboAccType_SelectedIndexChanged(object sender, EventArgs e)
         {            

@@ -120,6 +120,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
         private static void EvolveAllPokemonWithEnoughCandy(IEnumerable<PokemonId> filter = null)
         {
             int evolvecount = 0;
+            int gotXP = 0;
 
             if ( Shared.GlobalVars.RelocateDefaultLocation)
             {
@@ -144,7 +145,8 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                 var calcPerf = PokemonInfo.CalculatePokemonPerfection(pokemon).ToString("0.00");
                 var getEvolvedName = StringUtils.getPokemonNameByLanguage( evolvePokemonOutProto.EvolvedPokemonData.PokemonId);
                 var getEvolvedCP = evolvePokemonOutProto.EvolvedPokemonData.Cp;
-                var getXP = evolvePokemonOutProto.ExperienceAwarded.ToString("N0");
+                //var getXP = evolvePokemonOutProto.ExperienceAwarded.ToString("N0");
+                gotXP = gotXP + evolvePokemonOutProto.ExperienceAwarded;
 
                 if (evolvePokemonOutProto.Result == EvolvePokemonResponse.Types.Result.Success)
                 {
@@ -159,9 +161,9 @@ namespace PokemonGo.RocketAPI.Logic.Functions
 
                     if (Shared.GlobalVars.LogEvolve)
                     {
-                        File.AppendAllText(evolvelog, $"[{date}] - Evolved Pokemon: {getPokemonName} | CP {cp} | Perfection {calcPerf}% | => to {getEvolvedName} | CP: {getEvolvedCP} | XP Reward: {getXP}xp" + Environment.NewLine);
+                        File.AppendAllText(evolvelog, $"[{date}] - Evolved Pokemon: {getPokemonName} | CP {cp} | Perfection {calcPerf}% | => to {getEvolvedName} | CP: {getEvolvedCP} | XP Reward: {gotXP.ToString("N0")} XP" + Environment.NewLine);
                     }
-                    Logger.Info( $"Evolved Pokemon: {getPokemonName} | CP {cp} | Perfection {calcPerf}% | => to {getEvolvedName} | CP: {getEvolvedCP} | XP Reward: {getXP}xp");
+                    Logger.Info( $"Evolved Pokemon: {getPokemonName} | CP {cp} | Perfection {calcPerf}% | => to {getEvolvedName} | CP: {getEvolvedCP} | XP Reward: {gotXP.ToString("N0")} XP");
                     Logic.Instance.BotStats.AddExperience(evolvePokemonOutProto.ExperienceAwarded);
 
                     if (Logic.Instance.Telegram != null)
@@ -180,6 +182,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                         evolvecount++;
                     }
                 }
+
                 if (Shared.GlobalVars.UseAnimationTimes)
                 {
                     RandomHelper.RandomSleep(30000, 35000);
@@ -191,6 +194,8 @@ namespace PokemonGo.RocketAPI.Logic.Functions
             }
             if(evolvecount > 0)
             {
+                Logger.Info($"Evolved {evolvecount} Pokemons. We have got {gotXP.ToString("N0")} XP.");
+
                 if (Shared.GlobalVars.pauseAtEvolve2)
                 {
                     Logger.ColoredConsoleWrite(ConsoleColor.Green, "Pokemons evolved. Time to continue our journey!");
@@ -689,7 +694,8 @@ namespace PokemonGo.RocketAPI.Logic.Functions
             }
 
         }
-        private static  void TransferDuplicatePokemon(bool keepPokemonsThatCanEvolve = false, bool transferFirstLowIv = false)
+
+        private static void TransferDuplicatePokemon(bool keepPokemonsThatCanEvolve = false, bool transferFirstLowIv = false)
         {
             if (Shared.GlobalVars.RelocateDefaultLocation)
             {
@@ -698,7 +704,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
             if (Shared.GlobalVars.TransferDoublePokemons)
             {
                 var profil = Logic.objClient.Player.GetPlayer().Result;
-                RandomHelper.RandomSleep(300,400);
+                RandomHelper.RandomSleep(300, 400);
 
                 if (Shared.GlobalVars.pauseAtEvolve2)
                 {
@@ -707,7 +713,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                 }
 
                 TransferUnwantedPokemon(profil.PlayerData.BuddyPokemon.Id);
-                
+
                 var duplicatePokemons = Logic.objClient.Inventory.GetDuplicatePokemonToTransfer(Shared.GlobalVars.HoldMaxDoublePokemons, keepPokemonsThatCanEvolve, transferFirstLowIv).Result;
                 var pokemonsToTransfer = new List<ulong>();
                 foreach (var duplicatePokemon in duplicatePokemons)
@@ -715,16 +721,17 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                     var Pokename = duplicatePokemon.PokemonId.ToString();
                     var IVPercent = PokemonInfo.CalculatePokemonPerfection(duplicatePokemon).ToString("0.00");
 
-                    if ( profil.PlayerData.BuddyPokemon.Id == duplicatePokemon.Id){
-                        Logger.Warning($"Pokemon {Pokename} with {IVPercent}% IV Is your buddy so can not be transfered");
-                        continue;// go to next itearion from foreach
-                    }
-
                     if (!Shared.GlobalVars.pokemonsToHold.Contains(duplicatePokemon.PokemonId))
                     {
                         if (duplicatePokemon.Cp >= Shared.GlobalVars.DontTransferWithCPOver || PokemonInfo.CalculatePokemonPerfection(duplicatePokemon) >= Shared.GlobalVars.ivmaxpercent)
                         {
                             continue; // go to next itearion from foreach
+                        }
+
+                        if (profil.PlayerData.BuddyPokemon.Id == duplicatePokemon.Id)
+                        {
+                            Logger.Warning($"Pokemon {Pokename} with {IVPercent}% IV Is your buddy so can not be transfered");
+                            continue;// go to next itearion from foreach
                         }
 
                         var bestPokemonOfType = Logic.objClient.Inventory.GetHighestCPofType(duplicatePokemon).Result;
@@ -755,9 +762,9 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                         }
 
                         if (Logic.Instance.Telegram != null)
-                            Logic.Instance.Telegram.sendInformationText(TelegramUtil.TelegramUtilInformationTopics.Transfer, StringUtils.getPokemonNameByLanguage( duplicatePokemon.PokemonId), duplicatePokemon.Cp, PokemonInfo.CalculatePokemonPerfection(duplicatePokemon).ToString("0.00"), bestPokemonOfType);
+                            Logic.Instance.Telegram.sendInformationText(TelegramUtil.TelegramUtilInformationTopics.Transfer, StringUtils.getPokemonNameByLanguage(duplicatePokemon.PokemonId), duplicatePokemon.Cp, PokemonInfo.CalculatePokemonPerfection(duplicatePokemon).ToString("0.00"), bestPokemonOfType);
 
-                        RandomHelper.RandomSleep(400, 600); 
+                        RandomHelper.RandomSleep(400, 600);
                     }
                 }
                 if (pokemonsToTransfer.Any())
@@ -766,22 +773,23 @@ namespace PokemonGo.RocketAPI.Logic.Functions
 
                     if (_response.Result == ReleasePokemonResponse.Types.Result.Success)
                     {
-                        Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Transfer Successful of {pokemonsToTransfer.Count} pokemons => {_response.CandyAwarded.ToString()} candy/ies awarded.", LogLevel.Info);
+                        Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "Transfer Successful of " + pokemonsToTransfer.Count + " pokemons => " + _response.CandyAwarded + ((_response.CandyAwarded == 1) ? " candy" : " candies") + " awarded.", LogLevel.Info);
                         Helpers.RandomHelper.RandomSleep(1000, 2000);
                     }
                     else
                     {
                         Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Something happened while transferring pokemons.");
                     }
-                }
 
-                if (Shared.GlobalVars.pauseAtEvolve2)
-                {
-                    Logger.ColoredConsoleWrite(ConsoleColor.Green, "Pokemons transfered. Time to continue our journey!");
-                    Shared.GlobalVars.PauseTheWalking = false;
+                    if (Shared.GlobalVars.pauseAtEvolve2)
+                    {
+                        Logger.ColoredConsoleWrite(ConsoleColor.Green, "Pokemons transfered. Time to continue our journey!");
+                        Shared.GlobalVars.PauseTheWalking = false;
+                    }
                 }
             }
         }
+
         public static void LimitReached(string limit)
         {
             if (limit != "")

@@ -1155,7 +1155,7 @@ namespace PokemonGo.RocketAPI.Logic
             #endregion
         }
 
-        public ulong CatchPokemon(ulong encounterId, string spawnpointId, PokemonId pokeid, double pokeLong = 0, double pokeLat = 0, bool goBack = false)
+        public ulong CatchPokemon(ulong encounterId, string spawnpointId, PokemonId pokeid, double pokeLong = 0, double pokeLat = 0, bool goBack = false, double returnLatitude = -1, double returnLongitude = -1)
         {
             ulong ret = 0;
             EncounterResponse encounterPokemonResponse;
@@ -1179,18 +1179,22 @@ namespace PokemonGo.RocketAPI.Logic
             {
                 encounterPokemonResponse = objClient.Encounter.EncounterPokemon(encounterId, spawnpointId).Result;
             }
+            catch (Exception ex)
+            {
+                Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Error: Logic.cs - CatchPokemon - encounter: {ex.Message}");
+                return ret;
+            }
             finally
             {
                 if (goBack)
                 {
-                    Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"(SNIPING) Go to {BotSettings.DefaultLatitude} / {BotSettings.DefaultLongitude} before starting the capture.");
-                    Logger.ColoredConsoleWrite(ConsoleColor.Cyan,LocationUtils.FindAddress(BotSettings.DefaultLatitude,BotSettings.DefaultLongitude));
+                    Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"(SNIPING) Go to {returnLatitude} / {returnLongitude} before starting the capture.");
+                    Logger.ColoredConsoleWrite(ConsoleColor.Cyan,LocationUtils.FindAddress(returnLatitude, returnLongitude));
                     
                     var result = objClient.Player.UpdatePlayerLocation(
-                        BotSettings.DefaultLatitude,
-                        BotSettings.DefaultLongitude,
+                        returnLatitude,
+                        returnLongitude,
                         BotSettings.DefaultAltitude).Result;
-
                 }
             }
 

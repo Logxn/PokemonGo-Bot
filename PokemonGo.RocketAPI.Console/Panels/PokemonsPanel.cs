@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using System.IO;
 using PokemonGo.RocketAPI.Helpers;
 using PokemonGo.RocketAPI.Logic.Shared;
+using PokemonGo.RocketAPI.Logic.Utils;
 
 namespace PokemonGo.RocketAPI.Console
 {
@@ -238,6 +239,8 @@ namespace PokemonGo.RocketAPI.Console
                     foreach (var pokemon in pokemons)
                     {
                         var listViewItem = new ListViewItem();
+                        listViewItem.UseItemStyleForSubItems = false;
+
                         listViewItem.Tag = pokemon;
                         var currentCandy = families
                             .Where(i => (int)i.FamilyId <= (int)pokemon.PokemonId)
@@ -256,6 +259,7 @@ namespace PokemonGo.RocketAPI.Console
                         if ((profile!=null) && (profile.PlayerData.BuddyPokemon.Id == pokemon.Id))
                             specSymbol = "☉";
                         listViewItem.Text = specSymbol + th.TS( pokemon.PokemonId.ToString());
+                        
 
                         listViewItem.ToolTipText = Logic.Utils.StringUtils.ConvertTimeMSinString(pokemon.CreationTimeMs,"dd/MM/yyyy HH:mm:ss");
                         if (pokemon.Nickname != "")
@@ -266,13 +270,18 @@ namespace PokemonGo.RocketAPI.Console
 
                         if (settings.EvolutionIds.Count > 0 && familyCandy.Candy_ >= settings.CandyToEvolve)
                         {
-                            listViewItem.SubItems.Add("Y (" + familyCandy.Candy_ + "/" + settings.CandyToEvolve + ")");
+                            //listViewItem.SubItems.Add("Y (" + familyCandy.Candy_ + "/" + settings.CandyToEvolve + ")");
+                            listViewItem.SubItems.Add("");
+                            listViewItem.SubItems[listViewItem.SubItems.Count-1].ForeColor = Color.Green;
+                            listViewItem.SubItems[listViewItem.SubItems.Count-1].Text = "Y (" + familyCandy.Candy_ + "/" + settings.CandyToEvolve + ")";
                             listViewItem.Checked = true;
                         }
                         else
                         {
                             if (settings.EvolutionIds.Count > 0)
+                            {
                                 listViewItem.SubItems.Add("N (" + familyCandy.Candy_ + "/" + settings.CandyToEvolve + ")");
+                            }
                             else
                                 listViewItem.SubItems.Add("N (" + familyCandy.Candy_ + "/Max)");
                         }
@@ -302,6 +311,11 @@ namespace PokemonGo.RocketAPI.Console
                         listViewItem.SubItems.Add("" + pokemon.BattlesAttacked);
                         listViewItem.SubItems.Add("" + pokemon.BattlesDefended);
                         listViewItem.SubItems.Add("" + pokemon.DeployedFortId);
+                        if (pokemon.DeployedFortId != "")
+                        {
+                            listViewItem.SubItems[0].BackColor = Color.Bisque;
+                        }
+
                         var CapturedLatlng = S2Helper.GetLatLng(pokemon.CapturedCellId);
                         listViewItem.SubItems.Add(Logic.Utils.LocationUtils.FindAddress(CapturedLatlng[0],CapturedLatlng[1]));
 
@@ -414,33 +428,45 @@ namespace PokemonGo.RocketAPI.Console
             var date = DateTime.Now.ToString();
             string logPath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Logs");
             string evolvelog = System.IO.Path.Combine(logPath, "EvolveLog.txt");
+            int gotXP = 0;
 
-            var resp = new taskResponse(false, string.Empty);
+            //var resp = new taskResponse(false, string.Empty);
+            EvolvePokemonResponse resp = new EvolvePokemonResponse();
 
             if (GlobalVars.pauseAtEvolve2)
             {
                 Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Taking a break to evolve some pokemons!");
                 GlobalVars.PauseTheWalking = true;
             }
-
-
+            
             foreach (ListViewItem selectedItem in selectedItems)
             {
-                resp = evolvePokemon((PokemonData)selectedItem.Tag).Result;
-
+                //resp = evolvePokemon((PokemonData)selectedItem.Tag).Result;
                 var pokemoninfo = (PokemonData)selectedItem.Tag;
+
+                resp = client.Inventory.EvolvePokemon(pokemoninfo.Id).Result;
+
                 var name = pokemoninfo.PokemonId;
 
-                File.AppendAllText(evolvelog, $"[{date}] - MANUAL - Trying to evole Pokemon: {name}" + Environment.NewLine);
-                Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Trying to Evolve {name}");
+                var getPokemonName = StringUtils.getPokemonNameByLanguage(pokemoninfo.PokemonId);
+                var cp = pokemoninfo.Cp;
+                var calcPerf = PokemonInfo.CalculatePokemonPerfection(pokemoninfo).ToString("0.00");
+                var getEvolvedName = StringUtils.getPokemonNameByLanguage(resp.EvolvedPokemonData.PokemonId);
+                var getEvolvedCP = resp.EvolvedPokemonData.Cp;
+                gotXP = gotXP + resp.ExperienceAwarded;
 
-                if (resp.Status)
+                Logger.Info($"Evolved Pokemon: {getPokemonName} | CP {cp} | Perfection {calcPerf}% | => to {getEvolvedName} | CP: {getEvolvedCP} | XP Reward: {gotXP.ToString("N0")} XP");
+
+                if (resp.Result == EvolvePokemonResponse.Types.Result.Success)
                 {
                     evolved++;
                     statusTexbox.Text = "Evolving..." + evolved;
                 }
                 else
-                    failed += resp.Message + " ";
+                {
+                    Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Failed to evolve {pokemoninfo.PokemonId}. EvolvePokemonOutProto.Result was {resp.Result}");
+                    failed += " {pokemoninfo.PokemonId} ";
+                }
 
                 if (GlobalVars.UseAnimationTimes)
                 {
@@ -448,6 +474,7 @@ namespace PokemonGo.RocketAPI.Console
                 }
             }
 
+            PokemonListView.Refresh();
 
             if (failed != string.Empty)
             {
@@ -457,7 +484,6 @@ namespace PokemonGo.RocketAPI.Console
                 }
                 MessageBox.Show(th.TS("Succesfully evolved {0}/{1} Pokemons. Failed: {2}",evolved,total,failed), th.TS("Evolve status"), MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
-
             else
             {
                 if (BotSettings.LogEvolve)
@@ -466,6 +492,8 @@ namespace PokemonGo.RocketAPI.Console
                 }
                 MessageBox.Show(th.TS("Succesfully evolved {0}/{1} Pokemons.",evolved,total), th.TS("Evolve status"), MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
+
+            Logger.Info($"Evolved {evolved} Pokemons. We have got {gotXP.ToString("N0")} XP.");
 
             if (evolved > 0)
             {
@@ -481,31 +509,31 @@ namespace PokemonGo.RocketAPI.Console
             }
         }
 
-        private static async Task<taskResponse> evolvePokemon(PokemonData pokemon)
-        {
-            var resp = new taskResponse(false, string.Empty);
-            try
-            {
-                var evolvePokemonResponse = await client.Inventory.EvolvePokemon((ulong)pokemon.Id).ConfigureAwait(false);
+        //private static async Task<taskResponse> evolvePokemon(PokemonData pokemon)
+        //{
+        //    var resp = new taskResponse(false, string.Empty);
+        //    try
+        //    {
+        //        var evolvePokemonResponse = await client.Inventory.EvolvePokemon((ulong)pokemon.Id).ConfigureAwait(false);
 
-                if (evolvePokemonResponse.Result == EvolvePokemonResponse.Types.Result.Success)
-                {
-                    resp.Status = true;
-                }
-                else
-                {
-                    resp.Message = pokemon.PokemonId.ToString();
-                }
+        //        if (evolvePokemonResponse.Result == EvolvePokemonResponse.Types.Result.Success)
+        //        {
+        //            resp.Status = true;
+        //        }
+        //        else
+        //        {
+        //            resp.Message = pokemon.PokemonId.ToString();
+        //        }
 
-                Helpers.RandomHelper.RandomSleep(1000, 2000);
-            }
-            catch (Exception e)
-            {
-                Logger.ColoredConsoleWrite(ConsoleColor.Red, "Error evolvePokemon: " + e.Message);
-                await evolvePokemon(pokemon).ConfigureAwait(false);
-            }
-            return resp;
-        }        
+        //        Helpers.RandomHelper.RandomSleep(1000, 2000);
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        Logger.ColoredConsoleWrite(ConsoleColor.Red, "Error evolvePokemon: " + e.Message);
+        //        await evolvePokemon(pokemon).ConfigureAwait(false);
+        //    }
+        //    return resp;
+        //}        
 
         private void transferSelectedPokemons()
         {

@@ -97,7 +97,7 @@ namespace PokemonGo.RocketAPI
             Misc = new Rpc.Misc(this);
             Hasher = new PokeHashHasher(settings.hashKey);
 
-            Player.SetCoordinates(settings.latitude, settings.longitude, settings.altitude);
+            //Player.SetCoordinates(settings.latitude, settings.longitude, settings.altitude);
 
             InventoryLastUpdateTimestamp = 0;
 

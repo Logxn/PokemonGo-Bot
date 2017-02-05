@@ -24,7 +24,7 @@ namespace PokemonGo.RocketAPI.Console
         public static string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Configs");
         public static string path_translation = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Translations");
         public static string path_device = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Device");
-        public static string lastcords = Path.Combine(path, "LastCoords.txt");
+        public static string LastCoordsTXTFileName = Path.Combine(path, "LastCoords.txt");
         public static string huntstats = Path.Combine(path, "HuntStats.txt");
         public static string deviceSettings = Path.Combine(path_device, "DeviceInfo.txt");
         public static string cmdCoords = string.Empty;
@@ -56,36 +56,87 @@ namespace PokemonGo.RocketAPI.Console
         [STAThread]
         static void Main(string[] args)
         {
-
+            var openGUI = false;
             // Review & parse command line arguments
 
             if (args != null && args.Length > 0)
             {
                 #region Parse Arguments
-                // First of all.
-                // We check if bot have called clicking in a pokesnimer URI: pokesniper2://PokemonName/latitude,longitude
-                if (args[0].Contains("pokesniper2") || args[0].Contains("msniper"))
-                {
-                    // If yes, We create a temporary file to share with main process, and close.
-                    SharePokesniperURI(args[0]);
-                    return;
-                }
                 foreach (string arg in args)
                 {
-                    if (arg.Contains(","))
+                    // First of all.
+                    // We check if bot have called clicking in a pokesnimer URI: pokesniper2://PokemonName/latitude,longitude
+                    if (args[0].Contains("pokesniper2") || args[0].Contains("msniper"))
                     {
-                        Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Found coordinates in command line: {arg}");
-                        if (File.Exists(lastcords))
-                        {
-                            Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "Last coords file exists, trying to delete it");
-                            File.Delete(lastcords);
-                        }
-                        cmdCoords = arg;
+                        // If yes, We create a temporary file to share with main process, and close.
+                        SharePokesniperURI(args[0]);
+                        return;
                     }
 
+                    #region Argument -nogui
+                    if (arg.Contains("-nogui"))
+                    {
+                        Logger.ColoredConsoleWrite(ConsoleColor.Red, "You added -nogui!");
+
+                        #region Read bot settings
+                        if (File.Exists(Program.accountProfiles))
+                        {
+                            string JSONstring = File.ReadAllText(accountProfiles);
+                            var Profiles = Newtonsoft.Json.JsonConvert.DeserializeObject<Collection<Profile>>(JSONstring);
+                            Profile selectedProfile = null;
+                            foreach (Profile _profile in Profiles)
+                            {
+                                if (_profile.IsDefault)
+                                {
+                                    selectedProfile = _profile;
+                                    break;
+                                }
+                            }
+                            if (selectedProfile != null)
+                            {
+                                var filenameProf = Path.Combine(path, $"{selectedProfile.ProfileName}.json");
+                                selectedProfile.Settings = ProfileSettings.LoadFromFile(filenameProf);
+                                selectedProfile.Settings.SaveToGlobals();
+                            }
+                            else
+                            {
+                                Logger.ColoredConsoleWrite(ConsoleColor.Red, "Default Profile not found! You didn't setup the bot correctly by running it with -nogui.");
+                                Environment.Exit(-1);
+                            }
+                        }
+                        else
+                        {
+                            Logger.ColoredConsoleWrite(ConsoleColor.Red, "You have not setup the bot yet. Run it without -nogui to Configure.");
+                            Environment.Exit(-1);
+                        }
+
+                        if (GlobalVars.UsePwdEncryption) GlobalVars.Password = Encryption.Decrypt(GlobalVars.Password);
+                        #endregion
+                    }
+                    #endregion
+
+                    #region Argument Coordinates
+                    if (arg.Contains(","))
+                    {
+                        if (File.Exists(LastCoordsTXTFileName))
+                        {
+                            Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "Last coords file exists, trying to delete it");
+                            File.Delete(LastCoordsTXTFileName);
+                        }
+                        
+                        string[] crdParts = arg.Split(',');
+                        GlobalVars.latitude = double.Parse(crdParts[0].Replace(',', '.'), GUI.cords, System.Globalization.NumberFormatInfo.InvariantInfo);
+                        GlobalVars.longitude = double.Parse(crdParts[1].Replace(',', '.'), GUI.cords, System.Globalization.NumberFormatInfo.InvariantInfo);
+                        Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Found coordinates in command line. Starting at: {GlobalVars.latitude},{GlobalVars.longitude},{GlobalVars.altitude}");
+                    }
+                    #endregion
+
+                    #region Argument -bypassversioncheck
                     if (arg.ToLower().Contains("-bypassversioncheck"))
                         GlobalVars.BypassCheckCompatibilityVersion = true;
+#endregion
 
+                    #region Argument -help
                     if (arg.ToLower().Contains("-help"))
                     {
                         //Show Help
@@ -96,10 +147,33 @@ namespace PokemonGo.RocketAPI.Console
                         System.Console.WriteLine("  -help                       This help" + Environment.NewLine);
                         Environment.Exit(0);
                     }
-                }
-                #endregion
-            }
+                    #endregion
 
+
+                }
+
+
+
+            }
+            else
+            {
+                Application.EnableVisualStyles();
+                Application.SetCompatibleTextRenderingDefault(false);
+                Application.Run(new GUI());
+                Task.Run(() =>
+                {
+                    new Panels.SplashScreen().ShowDialog();
+                });
+                openGUI = GlobalVars.EnablePokeList;
+                // To open tabbed GUI to test programing 
+                /*
+                Pokemons.skipReadyToUse = true;
+                Application.Run( new Pokemons()); 
+                Environment.Exit(0);
+                */
+
+            }
+            #endregion
 
             // Checking if current BOT API implementation supports NIANTIC current API (unless there's an override command line switch)
             if (!GlobalVars.BypassCheckCompatibilityVersion)
@@ -123,89 +197,13 @@ namespace PokemonGo.RocketAPI.Console
             // Check if Bot is deactivated at server level
             StringUtils.CheckKillSwitch();
 
-            var openGUI = false;
-
-            if (args != null && args.Length > 0 && args[0].Contains("-nogui"))
-            {
-                Logger.ColoredConsoleWrite(ConsoleColor.Red, "You added -nogui!");
-                
-                #region Read bot settings
-                if (File.Exists(Program.accountProfiles))
-                {
-                    string JSONstring = File.ReadAllText(accountProfiles);
-                    var Profiles = Newtonsoft.Json.JsonConvert.DeserializeObject<Collection<Profile>>(JSONstring);
-                    Profile selectedProfile = null;
-                    foreach (Profile _profile in Profiles)
-                    {
-                        if (_profile.IsDefault)
-                        {
-                            selectedProfile = _profile;
-                            break;
-                        }
-                    }
-                    if (selectedProfile != null)
-                    {
-                        var filenameProf= Path.Combine(path, $"{selectedProfile.ProfileName}.json");
-                        selectedProfile.Settings = ProfileSettings.LoadFromFile(filenameProf);
-                        selectedProfile.Settings.SaveToGlobals();
-                    }
-                    else
-                    {
-                        Logger.ColoredConsoleWrite(ConsoleColor.Red, "Default Profile not found. You didn't setup the bot correctly.");
-                        Logger.ColoredConsoleWrite(ConsoleColor.Red, "Run it without -nogui to Configure.");
-                        Logger.ColoredConsoleWrite(ConsoleColor.Red, "Exiting..");
-                        Environment.Exit(-1);
-                    }
-                }
-                else
-                {
-                        Logger.ColoredConsoleWrite(ConsoleColor.Red, "You are not setup the bot yet.");
-                        Logger.ColoredConsoleWrite(ConsoleColor.Red, "Run it without -nogui to Configure.");
-                        Logger.ColoredConsoleWrite(ConsoleColor.Red, "Exiting..");
-                        Environment.Exit(-1);
-                }
-
-                if (GlobalVars.UsePwdEncryption)
-                {
-                    GlobalVars.Password = Encryption.Decrypt(GlobalVars.Password);
-                }
-                #endregion
-                
-                if (cmdCoords != string.Empty)
-                {
-                    string[] crdParts = cmdCoords.Split(',');
-                    GlobalVars.latitude = double.Parse(crdParts[0].Replace(',', '.'), GUI.cords, System.Globalization.NumberFormatInfo.InvariantInfo);
-                    GlobalVars.longitude = double.Parse(crdParts[1].Replace(',', '.'), GUI.cords, System.Globalization.NumberFormatInfo.InvariantInfo);
-                }
-
-                Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Starting at: {GlobalVars.latitude},{GlobalVars.longitude}");
-            }
-            else
-            {
-                Application.EnableVisualStyles();
-                Application.SetCompatibleTextRenderingDefault(false);
-                Application.Run(new GUI());
-                Task.Run(() =>
-                {
-                             new Panels.SplashScreen().ShowDialog();
-                      });
-                openGUI = GlobalVars.EnablePokeList;
-                // To open tabbed GUI to test programing 
-                /*
-                Pokemons.skipReadyToUse = true;
-                Application.Run( new Pokemons()); 
-                Environment.Exit(0);
-                */
-                
-            }
-
-
             SleepHelper.PreventSleep();
             CreateLogDirectories();
 
             GlobalVars.infoObservable.HandleNewHuntStats += SaveHuntStats;
 
             CheckVersion(); // Check if a new version of BOT is available
+
             Task.Run(() =>
             {
                do
@@ -269,15 +267,6 @@ namespace PokemonGo.RocketAPI.Console
 
                 Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Bot Version {gitVersion} is available!");
                 Logger.ColoredConsoleWrite(ConsoleColor.Red, "We recommend to use this new version.");
-                if (cmdCoords == string.Empty)
-                {
-                    Logger.ColoredConsoleWrite(ConsoleColor.Red, "Starting in 10 Seconds.");
-                    Thread.Sleep(10000);
-                }
-                else
-                {
-                    Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "Starting right away because we are probably sniping.");
-                }
             }
             catch (Exception)
             {
