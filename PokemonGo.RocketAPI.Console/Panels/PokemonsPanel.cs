@@ -239,6 +239,8 @@ namespace PokemonGo.RocketAPI.Console
                     foreach (var pokemon in pokemons)
                     {
                         var listViewItem = new ListViewItem();
+                        listViewItem.UseItemStyleForSubItems = false;
+
                         listViewItem.Tag = pokemon;
                         var currentCandy = families
                             .Where(i => (int)i.FamilyId <= (int)pokemon.PokemonId)
@@ -268,7 +270,10 @@ namespace PokemonGo.RocketAPI.Console
 
                         if (settings.EvolutionIds.Count > 0 && familyCandy.Candy_ >= settings.CandyToEvolve)
                         {
-                            listViewItem.SubItems.Add("Y (" + familyCandy.Candy_ + "/" + settings.CandyToEvolve + ")");
+                            //listViewItem.SubItems.Add("Y (" + familyCandy.Candy_ + "/" + settings.CandyToEvolve + ")");
+                            listViewItem.SubItems.Add("");
+                            listViewItem.SubItems[listViewItem.SubItems.Count-1].ForeColor = Color.Green;
+                            listViewItem.SubItems[listViewItem.SubItems.Count-1].Text = "Y (" + familyCandy.Candy_ + "/" + settings.CandyToEvolve + ")";
                             listViewItem.Checked = true;
                         }
                         else
@@ -276,8 +281,6 @@ namespace PokemonGo.RocketAPI.Console
                             if (settings.EvolutionIds.Count > 0)
                             {
                                 listViewItem.SubItems.Add("N (" + familyCandy.Candy_ + "/" + settings.CandyToEvolve + ")");
-                                if (settings.CandyToEvolve < familyCandy.Candy_)
-                                    listViewItem.SubItems[listViewItem.SubItems.Count].BackColor = Color.Green;
                             }
                             else
                                 listViewItem.SubItems.Add("N (" + familyCandy.Candy_ + "/Max)");
@@ -312,7 +315,7 @@ namespace PokemonGo.RocketAPI.Console
                         {
                             listViewItem.SubItems[0].BackColor = Color.Bisque;
                         }
-                        else listViewItem.SubItems[0].BackColor = Color.MidnightBlue;
+
                         var CapturedLatlng = S2Helper.GetLatLng(pokemon.CapturedCellId);
                         listViewItem.SubItems.Add(Logic.Utils.LocationUtils.FindAddress(CapturedLatlng[0],CapturedLatlng[1]));
 
