@@ -148,14 +148,37 @@ namespace PokemonGo.RocketAPI.Console
                         Environment.Exit(0);
                     }
                     #endregion
-
-
                 }
-
-
-
             }
-            else
+            else openGUI = true;
+            #endregion
+
+            // Checking if current BOT API implementation supports NIANTIC current API (unless there's an override command line switch)
+            if (!GlobalVars.BypassCheckCompatibilityVersion)
+            {
+                Logger.ColoredConsoleWrite(ConsoleColor.DarkMagenta, $"Bot Current version: {Resources.BotVersion}");
+                Logger.ColoredConsoleWrite(ConsoleColor.DarkMagenta, $"Bot Supported API version: {Resources.BotApiSupportedVersion}");
+                Logger.ColoredConsoleWrite(ConsoleColor.DarkMagenta, $"Current API version: {new CurrentAPIVersion().GetNianticAPIVersion()}");
+
+                bool CurrentVersionsOK = new CurrentAPIVersion().CheckAPIVersionCompatibility(GlobalVars.BotApiSupportedVersion);
+                if (!CurrentVersionsOK)
+                {
+                    Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Atention, current API version is new and still not supported by Bot.");
+                    Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Bot will now exit to keep your account safe.");
+                    Logger.ColoredConsoleWrite(ConsoleColor.Red, $"---------- PRESS ANY KEY TO CLOSE ----------");
+
+                    System.Console.ReadKey();
+                    Environment.Exit(-1);
+                }
+            }
+
+            // Check if Bot is deactivated at server level
+            StringUtils.CheckKillSwitch();
+
+            // Check if a new version of BOT is available
+            CheckVersion(); 
+
+            if (openGUI)
             {
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
@@ -171,38 +194,12 @@ namespace PokemonGo.RocketAPI.Console
                 Application.Run( new Pokemons()); 
                 Environment.Exit(0);
                 */
-
             }
-            #endregion
-
-            // Checking if current BOT API implementation supports NIANTIC current API (unless there's an override command line switch)
-            if (!GlobalVars.BypassCheckCompatibilityVersion)
-            {
-                Logger.ColoredConsoleWrite(ConsoleColor.DarkMagenta, $"Bot Current version: {Resources.BotVersion}");
-                Logger.ColoredConsoleWrite(ConsoleColor.DarkMagenta, $"Bot Supported API version: {Resources.BotApiSupportedVersion}");
-                Logger.ColoredConsoleWrite(ConsoleColor.DarkMagenta, $"Current API version: {new CurrentAPIVersion().GetNianticAPIVersion()}");
-
-                bool CurrentVersionsOK = new CurrentAPIVersion().CheckAPIVersionCompatibility( GlobalVars.BotApiSupportedVersion);
-                if (!CurrentVersionsOK)
-                {
-                    Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Atention, current API version is new and still not supported by Bot.");
-                    Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Bot will now exit to keep your account safe.");
-                    Logger.ColoredConsoleWrite(ConsoleColor.Red, $"---------- PRESS ANY KEY TO CLOSE ----------");
-
-                    System.Console.ReadKey();
-                    Environment.Exit(-1);
-                }
-            }
-
-            // Check if Bot is deactivated at server level
-            StringUtils.CheckKillSwitch();
-
+            
             SleepHelper.PreventSleep();
             CreateLogDirectories();
 
             GlobalVars.infoObservable.HandleNewHuntStats += SaveHuntStats;
-
-            CheckVersion(); // Check if a new version of BOT is available
 
             Task.Run(() =>
             {
