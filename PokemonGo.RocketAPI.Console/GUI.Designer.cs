@@ -73,6 +73,7 @@ namespace PokemonGo.RocketAPI.Console
             this.checkBox_AlwaysTransfer = new System.Windows.Forms.CheckBox();
             this.checkedListBox_AlwaysTransfer = new System.Windows.Forms.CheckedListBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.checkBox_ShowPokemons = new System.Windows.Forms.CheckBox();
             this.checkBox_UseSpritesFolder = new System.Windows.Forms.CheckBox();
             this.label55 = new System.Windows.Forms.Label();
             this.label29 = new System.Windows.Forms.Label();
@@ -239,6 +240,7 @@ namespace PokemonGo.RocketAPI.Console
             this.tabMisc = new System.Windows.Forms.TabPage();
             this.buttonTutorial = new System.Windows.Forms.Button();
             this.groupBox25 = new System.Windows.Forms.GroupBox();
+            this.checkBoxStoreUntranslated = new System.Windows.Forms.CheckBox();
             this.checkbox_Verboselogging = new System.Windows.Forms.CheckBox();
             this.groupBox23 = new System.Windows.Forms.GroupBox();
             this.SelectallNottoSnipe = new System.Windows.Forms.CheckBox();
@@ -297,7 +299,7 @@ namespace PokemonGo.RocketAPI.Console
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.labelLanguage = new System.Windows.Forms.Label();
             this.comboLanguage = new System.Windows.Forms.ComboBox();
-            this.checkBox_ShowPokemons = new System.Windows.Forms.CheckBox();
+            this.checkBoxExtractText = new System.Windows.Forms.CheckBox();
             this.tabProxies.SuspendLayout();
             this.tabItems.SuspendLayout();
             this.groupBox4.SuspendLayout();
@@ -840,6 +842,18 @@ namespace PokemonGo.RocketAPI.Console
             this.groupBox3.TabIndex = 3;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Bot Settings";
+            // 
+            // checkBox_ShowPokemons
+            // 
+            this.checkBox_ShowPokemons.AutoSize = true;
+            this.checkBox_ShowPokemons.Checked = true;
+            this.checkBox_ShowPokemons.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox_ShowPokemons.Location = new System.Drawing.Point(297, 77);
+            this.checkBox_ShowPokemons.Name = "checkBox_ShowPokemons";
+            this.checkBox_ShowPokemons.Size = new System.Drawing.Size(141, 17);
+            this.checkBox_ShowPokemons.TabIndex = 17;
+            this.checkBox_ShowPokemons.Text = "Show Pokemons in Map";
+            this.checkBox_ShowPokemons.UseVisualStyleBackColor = true;
             // 
             // checkBox_UseSpritesFolder
             // 
@@ -2740,6 +2754,8 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // groupBox25
             // 
+            this.groupBox25.Controls.Add(this.checkBoxExtractText);
+            this.groupBox25.Controls.Add(this.checkBoxStoreUntranslated);
             this.groupBox25.Controls.Add(this.checkbox_Verboselogging);
             this.groupBox25.Location = new System.Drawing.Point(267, 179);
             this.groupBox25.Name = "groupBox25";
@@ -2747,6 +2763,17 @@ namespace PokemonGo.RocketAPI.Console
             this.groupBox25.TabIndex = 71;
             this.groupBox25.TabStop = false;
             this.groupBox25.Text = "Dev Options";
+            // 
+            // checkBoxStoreUntranslated
+            // 
+            this.checkBoxStoreUntranslated.AutoSize = true;
+            this.checkBoxStoreUntranslated.Location = new System.Drawing.Point(7, 52);
+            this.checkBoxStoreUntranslated.Name = "checkBoxStoreUntranslated";
+            this.checkBoxStoreUntranslated.Size = new System.Drawing.Size(138, 17);
+            this.checkBoxStoreUntranslated.TabIndex = 1;
+            this.checkBoxStoreUntranslated.Text = "Store Untranslated Text";
+            this.checkBoxStoreUntranslated.UseVisualStyleBackColor = true;
+            this.checkBoxStoreUntranslated.CheckedChanged += new System.EventHandler(this.checkBoxStoreUntranslated_CheckedChanged);
             // 
             // checkbox_Verboselogging
             // 
@@ -3396,17 +3423,16 @@ namespace PokemonGo.RocketAPI.Console
             this.comboLanguage.TabIndex = 48;
             this.comboLanguage.SelectedIndexChanged += new System.EventHandler(this.ComboLanguageSelectedIndexChanged);
             // 
-            // checkBox_ShowPokemons
+            // checkBoxExtractText
             // 
-            this.checkBox_ShowPokemons.AutoSize = true;
-            this.checkBox_ShowPokemons.Checked = true;
-            this.checkBox_ShowPokemons.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox_ShowPokemons.Location = new System.Drawing.Point(297, 77);
-            this.checkBox_ShowPokemons.Name = "checkBox_ShowPokemons";
-            this.checkBox_ShowPokemons.Size = new System.Drawing.Size(141, 17);
-            this.checkBox_ShowPokemons.TabIndex = 17;
-            this.checkBox_ShowPokemons.Text = "Show Pokemons in Map";
-            this.checkBox_ShowPokemons.UseVisualStyleBackColor = true;
+            this.checkBoxExtractText.AutoSize = true;
+            this.checkBoxExtractText.Location = new System.Drawing.Point(7, 75);
+            this.checkBoxExtractText.Name = "checkBoxExtractText";
+            this.checkBoxExtractText.Size = new System.Drawing.Size(142, 17);
+            this.checkBoxExtractText.TabIndex = 2;
+            this.checkBoxExtractText.Text = "Extract Texts from Forms";
+            this.checkBoxExtractText.UseVisualStyleBackColor = true;
+            this.checkBoxExtractText.CheckedChanged += new System.EventHandler(this.checkBoxExtractText_CheckedChanged);
             // 
             // GUI
             // 
@@ -3793,6 +3819,8 @@ namespace PokemonGo.RocketAPI.Console
         private System.Windows.Forms.CheckBox checkBox_AlwaysTransfer;
         private System.Windows.Forms.CheckedListBox checkedListBox_AlwaysTransfer;
         private System.Windows.Forms.CheckBox checkBox_ShowPokemons;
+        private System.Windows.Forms.CheckBox checkBoxStoreUntranslated;
+        private System.Windows.Forms.CheckBox checkBoxExtractText;
         //private System.Windows.Forms.CheckBox checkBox_CatchLurePokemons;
     }
 }

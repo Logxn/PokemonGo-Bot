@@ -13,7 +13,7 @@ using GMap.NET.WindowsForms.Markers;
 using Google.Maps;
 using Google.Maps.Elevation;
 using POGOProtos.Map.Fort;
-using PokemonGo.RocketApi.PokeMap;
+using POGOProtos.Map.Pokemon;
 using PokemonGo.RocketAPI.Logic.Utils;
 using System;
 using System.Collections.Generic;
@@ -34,6 +34,7 @@ namespace PokemonGo.RocketAPI.Console
     /// </summary>
     public partial class LocationPanel : UserControl
     {
+        private Helper.TranslatorHelper th = Helper.TranslatorHelper.getInstance();
         public LocationPanel()
         {
             //
@@ -57,7 +58,7 @@ namespace PokemonGo.RocketAPI.Console
             if (asViewOnly)
             {
                 panel1.Size = new Size(483,71);
-                initViewOnly(team, level, exp);               
+                initViewOnly(team, level, exp);
             }else{
                 radiusOverlay = new GMapOverlay();
                 map.Overlays.Add(radiusOverlay);
@@ -95,23 +96,6 @@ namespace PokemonGo.RocketAPI.Console
             close = false;
         }
 
-        private void buttonRefreshPokemon_Click_1(object sender, EventArgs e)
-        {
-            buttonRefreshPokemon.Enabled = false;
-            if ( Logic.Logic.Instance.CheckAvailablePokemons(Logic.Logic.objClient))
-            {
-
-                Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Updated PokemonData.", LogLevel.Info);
-
-            }
-            else
-            {
-                Logger.ColoredConsoleWrite(ConsoleColor.DarkRed, $"Could not get PokemonData. Service is overloaded.", LogLevel.Warning);
-            }
-
-            //await Logic.Logic._instance.CheckAvailablePokemons(Logic.Logic._client).ConfigureAwait(false);
-            buttonRefreshPokemon.Enabled = true;
-        }
         
         private async void buttonRefreshForts_Click(object sender, EventArgs e)
         {
@@ -160,10 +144,6 @@ namespace PokemonGo.RocketAPI.Console
             button.Enabled = true;
         }        
 
-        private void bw_DoWork(object sender, DoWorkEventArgs e)
-        {
-            Thread.Sleep(DataCollector.MaxRetryCount * DataCollector.TimeoutBetweenRetries + 10000);
-        }
 
         /// <summary>
         /// Handles the RunWorkerCompleted event of the bw control.
@@ -257,49 +237,38 @@ namespace PokemonGo.RocketAPI.Console
             }
         }
 
-        void infoObservable_HandleNewPokemonLocations(List<DataCollector.PokemonMapData> mapData)
+        void infoObservable_HandleNewPokemonLocations(IEnumerable<MapPokemon> mapData)
         {
             Invoke(new MethodInvoker(() =>
             {
                 try
                 {
-                    if (mapData.Count > 0)
+                    if (mapData.Any())
                     {
                         _pokemonOverlay.IsVisibile = false;
                         _pokemonMarks.Clear();
                         _pokemonOverlay.Markers.Clear();
 
-                        int prevCount = mapData.Count;
-                        //mapData.Where(x => x.Id == null && x.Coordinates.Latitude.HasValue && x.Coordinates.Longitude.HasValue).ToList().ForEach(x => x.Id = x.PokemonId.ToString() + x.Coordinates.Longitude.Value + +x.Coordinates.Latitude.Value);
-                        mapData = mapData.Where(x => x.Id != null).ToList();
-                        for (int i = mapData.Count - 1; i >= 0; i--)
+                        foreach (var pokeData in mapData) 
                         {
-                            var pokeData = mapData[i];
-                            if (_pokemonMarks.ContainsKey(pokeData.Id))
+                            if (_pokemonMarks.ContainsKey(pokeData.SpawnPointId))
                                 continue; // we got to the next mapData
                             GMarkerGoogle pokemonMarker;
-                            if (pokeData.Type == DataCollector.PokemonMapDataType.Nearby)
+                            Bitmap pokebitMap = PokeImgManager.GetPokemonMediumImage(pokeData.PokemonId);
+                            if (pokebitMap != null)
                             {
-                                pokemonMarker = new GMarkerGoogle(new PointLatLng(pokeData.Coordinates.Latitude.Value, pokeData.Coordinates.Longitude.Value), GMarkerGoogleType.black_small);
+                                var ImageSize = new System.Drawing.Size(pokebitMap.Width, pokebitMap.Height);
+                                pokemonMarker = new GMarkerGoogle(new PointLatLng(pokeData.Latitude, pokeData.Longitude), pokebitMap) { Offset = new System.Drawing.Point(-ImageSize.Width / 2, -ImageSize.Height / 2) };
                             }
                             else
                             {
-                                Bitmap pokebitMap = PokeImgManager.GetPokemonMediumImage(pokeData.PokemonId);
-                                if (pokebitMap != null)
-                                {
-                                    var ImageSize = new System.Drawing.Size(pokebitMap.Width, pokebitMap.Height);
-                                    pokemonMarker = new GMarkerGoogle(new PointLatLng(pokeData.Coordinates.Latitude.Value, pokeData.Coordinates.Longitude.Value), pokebitMap) { Offset = new System.Drawing.Point(-ImageSize.Width / 2, -ImageSize.Height / 2) };
-                                }
-                                else
-                                {
-                                    pokemonMarker = new GMarkerGoogle(new PointLatLng(pokeData.Coordinates.Latitude.Value, pokeData.Coordinates.Longitude.Value), GMarkerGoogleType.green_small);
-                                }
-
+                                pokemonMarker = new GMarkerGoogle(new PointLatLng(pokeData.Latitude, pokeData.Longitude), GMarkerGoogleType.green_small);
                             }
-                            pokemonMarker.ToolTipText = string.Format("{0}\nExpires at:{1}\n{2}\n{3},{4}",  pokeData.PokemonId, pokeData.ExpiresAt , LocationUtils.FindAddress(pokeData.Coordinates.Latitude.Value, pokeData.Coordinates.Longitude.Value), pokeData.Coordinates.Latitude.Value, pokeData.Coordinates.Longitude.Value);
-                            pokemonMarker.ToolTip.Font = new System.Drawing.Font("Arial", 12, System.Drawing.GraphicsUnit.Pixel);
+                            var timeToGo = pokeData.ExpirationTimestampMs;
+                            pokemonMarker.ToolTipText = string.Format("{0}\nExpires at:{1}\n{2}\n{3},{4}",  pokeData.PokemonId, timeToGo, LocationUtils.FindAddress(pokeData.Latitude, pokeData.Longitude), pokeData.Latitude, pokeData.Longitude);
+                            pokemonMarker.ToolTip.Font = new Font("Arial", 12, System.Drawing.GraphicsUnit.Pixel);
                             pokemonMarker.ToolTipMode = MarkerTooltipMode.OnMouseOver;
-                            _pokemonMarks.Add(pokeData.Id, pokemonMarker);
+                            _pokemonMarks.Add(pokeData.SpawnPointId, pokemonMarker);
                             _pokemonOverlay.Markers.Add(pokemonMarker);
                         }
                     }
@@ -543,6 +512,7 @@ namespace PokemonGo.RocketAPI.Console
                 c.Visible = false;
             }
             btnPauseWalking.Visible = true;
+            cbShowPokemon.Visible = true;
 
             Bitmap bmp = Properties.MapData.player;
             switch (team)
@@ -593,20 +563,6 @@ namespace PokemonGo.RocketAPI.Console
             _pokemonOverlay.IsVisibile = true;
             _pokeStopsOverlay.IsVisibile = true;
             _pokeGymsOverlay.IsVisibile = true;
-            if (cbShowPokemon.Checked)
-            {
-                BackgroundWorker bw = new BackgroundWorker();
-                bw.WorkerSupportsCancellation = true;
-                bw.WorkerReportsProgress = true;
-                bw.DoWork +=
-                    new DoWorkEventHandler(bw_DoWork);
-                bw.RunWorkerCompleted +=
-                    new RunWorkerCompletedEventHandler(bw_RunWorkerCompleted);
-
-                buttonRefreshPokemon.Enabled = false;
-                bw.RunWorkerAsync();
-                //Logic.Logic._instance.CheckAvailablePokemons(Logic.Logic._client);
-            }
 
             //don't ask at closing
             close = false;
@@ -821,7 +777,7 @@ namespace PokemonGo.RocketAPI.Console
         }
         void btnPauseWalking_Click(object sender, EventArgs e)
         {
-            if (btnPauseWalking.Text.Equals("Pause Walking"))
+            if (btnPauseWalking.Text.Equals(th.TS("Pause Walking")))
             {
                 GlobalVars.pauseAtPokeStop = true;
                 Logger.ColoredConsoleWrite(ConsoleColor.Magenta, "Pausing at next Pokestop. (will continue catching pokemon and farming pokestop when available)");
@@ -831,7 +787,7 @@ namespace PokemonGo.RocketAPI.Console
                     GlobalVars.RouteToRepeat.Clear();
                 }
 
-                btnPauseWalking.Text = "Resume Walking";
+                btnPauseWalking.Text = th.TS("Resume Walking");
             }
             else
             {
@@ -854,6 +810,10 @@ namespace PokemonGo.RocketAPI.Console
             double ret = 0;
             double.TryParse(str.Replace(",","."),NumberStyles.AllowDecimalPoint | NumberStyles.AllowLeadingSign, CultureInfo.InvariantCulture,out ret);
             return ret;
+        }
+        void cbShowPokemon_CheckStateChanged(object sender, EventArgs e)
+        {
+            GlobalVars.ShowPokemons = (sender as CheckBox).Checked;
         }
     }
 }

@@ -125,7 +125,7 @@ namespace PokemonGo.RocketAPI.Console
             this.cbShowPokemon.Text = "Show Pokemon";
             this.cbShowPokemon.UseVisualStyleBackColor = true;
             this.cbShowPokemon.Visible = false;
-            this.cbShowPokemon.CheckStateChanged += new System.EventHandler(this.cbShowPokemon_CheckedChanged);
+            this.cbShowPokemon.CheckStateChanged += new System.EventHandler(this.cbShowPokemon_CheckStateChanged);
             // 
             // buttonRefreshPokemon
             // 

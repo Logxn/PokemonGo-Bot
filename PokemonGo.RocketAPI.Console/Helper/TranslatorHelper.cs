@@ -32,7 +32,7 @@ namespace PokemonGo.RocketAPI.Console.Helper
 
         private string language = "default";
         public static bool StoreUntranslated = false;
-        public static bool ActiveExtractTexts = true; // enable or disable to extract texts
+        public static bool ActiveExtractTexts = false; // enable or disable to extract texts
         
         public static string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Translations");
         public static string UntranslatedFile = Path.Combine(path, "untranslated.txt");

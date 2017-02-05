@@ -12,7 +12,6 @@ using GoogleMapsApi.Entities.Common;
 using GoogleMapsApi.Entities.Directions.Request;
 using GoogleMapsApi.Entities.Directions.Response;
 using POGOProtos.Data.Logs;
-using PokemonGo.RocketApi.PokeMap;
 using PokemonGo.RocketAPI.Exceptions;
 using PokemonGo.RocketAPI.Helpers;
 using PokemonGo.RocketAPI.Logic.Utils;
@@ -23,7 +22,6 @@ using POGOProtos.Networking.Responses;
 using Telegram.Bot;
 using PokemonGo.RocketAPI;
 using PokemonGo.RocketAPI.Logic;
-using PokemonGo.RocketApi.PokeMap.DataModel;
 using System.IO;
 using System.Text;
 using POGOProtos.Map.Pokemon;
@@ -486,13 +484,13 @@ namespace PokemonGo.RocketAPI.Logic
 
             if (pokeGyms.Any())
             {
-                infoObservable.PushAvailablePokeGymsLocations(pokeGyms);
+                Task.Factory.StartNew(() => infoObservable.PushAvailablePokeGymsLocations(pokeGyms));
             }
 
             //if map open push object data
             if (!pokeStops.Any()) return pokeStops;
 
-            infoObservable.PushAvailablePokeStopLocations(pokeStops);
+            Task.Factory.StartNew(() => infoObservable.PushAvailablePokeStopLocations(pokeStops));
             stopsloaded = true;
 
             #endregion
@@ -523,7 +521,7 @@ namespace PokemonGo.RocketAPI.Logic
                 //check if map has pokestops loaded and load if not
                 if (BotSettings.MapLoaded && !stopsloaded)
                 {
-                    infoObservable.PushAvailablePokeStopLocations(pokeStops);
+                    Task.Factory.StartNew(() => infoObservable.PushAvailablePokeStopLocations(pokeStops));
                     stopsloaded = true;
                 }
 
@@ -552,7 +550,7 @@ namespace PokemonGo.RocketAPI.Logic
                 Setout.SetCheckTimeToRun();
 
                 //update user location on map
-                infoObservable.PushNewGeoLocations(new GeoCoordinate(objClient.CurrentLatitude, objClient.CurrentLongitude));
+                Task.Factory.StartNew(() => infoObservable.PushNewGeoLocations(new GeoCoordinate(objClient.CurrentLatitude, objClient.CurrentLongitude)));
 
                 #region Walk defined Route
 
@@ -613,7 +611,7 @@ namespace PokemonGo.RocketAPI.Logic
                 //log error if pokestop not found
                 if (fortInfo == null)
                 {
-                    infoObservable.PushPokeStopInfoUpdate(pokeStop, "!!Can't Get PokeStop Information!!");
+                    Task.Factory.StartNew(() =>infoObservable.PushPokeStopInfoUpdate(pokeStop, "!!Can't Get PokeStop Information!!"));
                     continue;
                 }
 
@@ -859,24 +857,6 @@ namespace PokemonGo.RocketAPI.Logic
             #endregion
         }
 
-        public bool CheckAvailablePokemons(Client client)
-        {
-            infoObservable.PushClearPokemons();
-
-            var pokeData = DataCollector.GetFastPokeMapData(objClient.CurrentLatitude, objClient.CurrentLongitude).Result;
-            var toShow = new List<DataCollector.PokemonMapData>();
-
-            if (pokeData == null) return false;
-
-            toShow.AddRange(pokeData.Where(poke => poke.Coordinates.Latitude.HasValue && poke.Coordinates.Longitude.HasValue));
-
-            if (toShow.Count > 0)
-            {
-                infoObservable.PushNewPokemonLocations(toShow);
-            }
-
-            return true;
-        }
 
         private bool CheckAndFarmNearbyPokeStop(FortData pokeStop, Client client, FortDetailsResponse fortInfo)
         {
@@ -1001,7 +981,7 @@ namespace PokemonGo.RocketAPI.Logic
                     }
                 }
 
-                infoObservable.PushPokeStopInfoUpdate(pokeStop, pokeStopInfo);
+                Task.Factory.StartNew(() =>infoObservable.PushPokeStopInfoUpdate(pokeStop, pokeStopInfo));
 
                 return true;
             }
@@ -1072,7 +1052,7 @@ namespace PokemonGo.RocketAPI.Logic
         private bool ExecuteCatchAllNearbyPokemons(GetMapObjectsResponse mapObjectsResponse )
         {
             //update location map with current bot location
-            infoObservable.PushNewGeoLocations(new GeoCoordinate(objClient.CurrentLatitude, objClient.CurrentLongitude));
+            Task.Factory.StartNew(() =>infoObservable.PushNewGeoLocations(new GeoCoordinate(objClient.CurrentLatitude, objClient.CurrentLongitude)));
 
             var client = objClient;
             
@@ -1384,7 +1364,7 @@ namespace PokemonGo.RocketAPI.Logic
                             BotStats.AddExperience(xp);
 
                         var curDate = DateTime.Now;
-                        infoObservable.PushNewHuntStats($"{pokeLat}/{pokeLong};{pokeid};{curDate.Ticks};{curDate}" + Environment.NewLine);
+                        Task.Factory.StartNew(() =>infoObservable.PushNewHuntStats($"{pokeLat}/{pokeLong};{pokeid};{curDate.Ticks};{curDate}" + Environment.NewLine));
 
                         var logPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Logs");
                         var logs = Path.Combine(logPath, "PokeLog.txt");
@@ -1760,44 +1740,11 @@ namespace PokemonGo.RocketAPI.Logic
 
         #region Unused Functions
 
-        //TODO: Delete; If not used why keep?
         public void ShowNearbyPokemonsRun(IEnumerable<MapPokemon> pokeData)
         {
             infoObservable.PushClearPokemons();
-            var toShow = new List<DataCollector.PokemonMapData>();
-
-            if (pokeData == null) return;
-
-            foreach (var poke in pokeData)
-            {
-                var poke2 = new DataCollector.PokemonMapData
-                {
-                    Id = poke.SpawnPointId,
-                    PokemonId = poke.PokemonId,
-                    Coordinates = new LatitudeLongitude
-                    {
-                        Coordinates = new List<double> { poke.Longitude, poke.Latitude }
-                    }
-                };
-
-                try
-                {
-                    var str =StringUtils.ConvertTimeMSinString((ulong)poke.ExpirationTimestampMs, "yyyy/MM/dd HH:mm:ss");
-                    poke2.ExpiresAt = DateTime.Parse(str);
-                }
-                catch (ArgumentOutOfRangeException ex)
-                {
-                    Logger.ColoredConsoleWrite(ConsoleColor.Red, "Read invalid Date");
-                    Logger.ColoredConsoleWrite(ConsoleColor.Red, "Error: Logic.cs - ShowNearbyPokemonRun()");
-                    Logger.ColoredConsoleWrite(ConsoleColor.Red, ex.Message);
-                }
-                toShow.Add(poke2);
-            }
-
-            if (toShow.Count > 0)
-            {
-                infoObservable.PushNewPokemonLocations(toShow);
-            }
+            if (pokeData.Any())
+                infoObservable.PushNewPokemonLocations(pokeData);
         }
 
         public void ShowNearbyPokemons(IEnumerable<MapPokemon> pokeData)

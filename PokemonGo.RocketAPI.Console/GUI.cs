@@ -1,3 +1,4 @@
+using PokemonGo.RocketAPI.Console.Helper;
 using PokemonGo.RocketAPI.Logic.Utils;
 using System;
 using System.Collections.Generic;
@@ -1302,6 +1303,14 @@ namespace PokemonGo.RocketAPI.Console
                 checkedListBox_AlwaysTransfer.SetItemChecked(i, (sender as CheckBox).Checked);
                 i++;
             }
+        }
+        void checkBoxStoreUntranslated_CheckedChanged(object sender, EventArgs e)
+        {
+            TranslatorHelper.StoreUntranslated = (sender as CheckBox).Checked;
+        }
+        void checkBoxExtractText_CheckedChanged(object sender, EventArgs e)
+        {
+            TranslatorHelper.ActiveExtractTexts = (sender as CheckBox).Checked;
         }
 
     }
