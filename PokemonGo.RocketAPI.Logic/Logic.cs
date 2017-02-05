@@ -1782,17 +1782,8 @@ namespace PokemonGo.RocketAPI.Logic
 
                 try
                 {
-                    var numberOfTicks = poke.ExpirationTimestampMs;
-                    numberOfTicks *= 10000; // convert MS in Ticks
-
-                    if (numberOfTicks >= DateTime.MinValue.Ticks && numberOfTicks <= DateTime.MaxValue.Ticks)
-                    {
-                        poke2.ExpiresAt = new DateTime(numberOfTicks).AddYears(1969).AddDays(-1);
-                    }
-                    else
-                    {
-                        Logger.AddLog("Read invalid Date");
-                    }
+                    var str =StringUtils.ConvertTimeMSinString((ulong)poke.ExpirationTimestampMs, "yyyy/MM/dd HH:mm:ss");
+                    poke2.ExpiresAt = DateTime.Parse(str);
                 }
                 catch (ArgumentOutOfRangeException ex)
                 {

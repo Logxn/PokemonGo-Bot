@@ -245,15 +245,15 @@ namespace PokemonGo.RocketAPI.Console
         void infoObservable_HandleDeletePokemonLocation( string pokemon_Id)
         {
             try {
-                _pokemonOverlay.IsVisibile = false;
-                var pokemonMarker = _pokemonMarks[pokemon_Id];
-                _pokemonOverlay.Markers.Remove(pokemonMarker);
-                _pokemonMarks.Remove(pokemon_Id);
-                _pokemonOverlay.IsVisibile = true;
+                if (_pokemonMarks.ContainsKey(pokemon_Id)){
+                    _pokemonOverlay.IsVisibile = false;
+                    var pokemonMarker = _pokemonMarks[pokemon_Id];
+                    _pokemonOverlay.Markers.Remove(pokemonMarker);
+                    _pokemonMarks.Remove(pokemon_Id);
+                    _pokemonOverlay.IsVisibile = true;
+                }
             } catch (Exception e) {
-                Logger.ColoredConsoleWrite(ConsoleColor.DarkRed, "[Ignore]: sending exception information to log file.");
-                Logger.AddLog(string.Format("Error in infoObservable_HandleDeletePokemonLocation: {0}", e.ToString()));
-
+                Logger.ExceptionInfo(string.Format("Error in infoObservable_HandleDeletePokemonLocation: {0}", e));
             }
         }
 
@@ -263,54 +263,49 @@ namespace PokemonGo.RocketAPI.Console
             {
                 try
                 {
-                    //if (pokemonLock.WaitOne(5000))
-                    //{
-                        if (mapData.Count > 0)
+                    if (mapData.Count > 0)
+                    {
+                        _pokemonOverlay.IsVisibile = false;
+                        _pokemonMarks.Clear();
+                        _pokemonOverlay.Markers.Clear();
+
+                        int prevCount = mapData.Count;
+                        //mapData.Where(x => x.Id == null && x.Coordinates.Latitude.HasValue && x.Coordinates.Longitude.HasValue).ToList().ForEach(x => x.Id = x.PokemonId.ToString() + x.Coordinates.Longitude.Value + +x.Coordinates.Latitude.Value);
+                        mapData = mapData.Where(x => x.Id != null).ToList();
+                        for (int i = mapData.Count - 1; i >= 0; i--)
                         {
-                            //_pokemonOverlay = new GMapOverlay("Pokemon");
-                            _pokemonMarks.Clear();
-                            _pokemonOverlay.Markers.Clear();
-                            _pokemonOverlay.IsVisibile = false;
-
-                            int prevCount = mapData.Count;
-                            //mapData.Where(x => x.Id == null && x.Coordinates.Latitude.HasValue && x.Coordinates.Longitude.HasValue).ToList().ForEach(x => x.Id = x.PokemonId.ToString() + x.Coordinates.Longitude.Value + +x.Coordinates.Latitude.Value);
-                            mapData = mapData.Where(x => x.Id != null).ToList();
-
-                            //Logger.ColoredConsoleWrite(ConsoleColor.White, string.Format("Got new Pokemon Count: {0}, unfiltered: {1}", mapData.Count, prevCount));
-
-                            for (int i = mapData.Count - 1; i >= 0; i--)
+                            var pokeData = mapData[i];
+                            if (_pokemonMarks.ContainsKey(pokeData.Id))
+                                continue; // we got to the next mapData
+                            GMarkerGoogle pokemonMarker;
+                            if (pokeData.Type == DataCollector.PokemonMapDataType.Nearby)
                             {
-                                var pokeData = mapData[i];
-                                GMarkerGoogle pokemonMarker;
-                                if (pokeData.Type == DataCollector.PokemonMapDataType.Nearby)
+                                pokemonMarker = new GMarkerGoogle(new PointLatLng(pokeData.Coordinates.Latitude.Value, pokeData.Coordinates.Longitude.Value), GMarkerGoogleType.black_small);
+                            }
+                            else
+                            {
+                                Bitmap pokebitMap = PokeImgManager.GetPokemonMediumImage(pokeData.PokemonId);
+                                if (pokebitMap != null)
                                 {
-                                    pokemonMarker = new GMarkerGoogle(new PointLatLng(pokeData.Coordinates.Latitude.Value, pokeData.Coordinates.Longitude.Value), GMarkerGoogleType.black_small);
+                                    var ImageSize = new System.Drawing.Size(pokebitMap.Width, pokebitMap.Height);
+                                    pokemonMarker = new GMarkerGoogle(new PointLatLng(pokeData.Coordinates.Latitude.Value, pokeData.Coordinates.Longitude.Value), pokebitMap) { Offset = new System.Drawing.Point(-ImageSize.Width / 2, -ImageSize.Height / 2) };
                                 }
                                 else
                                 {
-                                    Bitmap pokebitMap = PokeImgManager.GetPokemonMediumImage(pokeData.PokemonId);
-                                    if (pokebitMap != null)
-                                    {
-                                        var ImageSize = new System.Drawing.Size(pokebitMap.Width, pokebitMap.Height);
-                                        pokemonMarker = new GMarkerGoogle(new PointLatLng(pokeData.Coordinates.Latitude.Value, pokeData.Coordinates.Longitude.Value), pokebitMap) { Offset = new System.Drawing.Point(-ImageSize.Width / 2, -ImageSize.Height / 2) };
-                                    }
-                                    else
-                                    {
-                                        pokemonMarker = new GMarkerGoogle(new PointLatLng(pokeData.Coordinates.Latitude.Value, pokeData.Coordinates.Longitude.Value), GMarkerGoogleType.green_small);
-                                    }
-
+                                    pokemonMarker = new GMarkerGoogle(new PointLatLng(pokeData.Coordinates.Latitude.Value, pokeData.Coordinates.Longitude.Value), GMarkerGoogleType.green_small);
                                 }
-                                pokemonMarker.ToolTipText = string.Format("{0}\nExpires at:{1}\n{2}\n{3},{4}", StringUtils.getPokemonNameByLanguage(null, pokeData.PokemonId), pokeData.ExpiresAt.ToString(), LocationUtils.FindAddress(pokeData.Coordinates.Latitude.Value, pokeData.Coordinates.Longitude.Value), pokeData.Coordinates.Latitude.Value, pokeData.Coordinates.Longitude.Value);
-                                pokemonMarker.ToolTip.Font = new System.Drawing.Font("Arial", 12, System.Drawing.GraphicsUnit.Pixel);
-                                pokemonMarker.ToolTipMode = MarkerTooltipMode.OnMouseOver;
-                                _pokemonMarks.Add(pokeData.Id, pokemonMarker);
-                                _pokemonOverlay.Markers.Add(pokemonMarker);
+
                             }
+                            pokemonMarker.ToolTipText = string.Format("{0}\nExpires at:{1}\n{2}\n{3},{4}",  pokeData.PokemonId, pokeData.ExpiresAt , LocationUtils.FindAddress(pokeData.Coordinates.Latitude.Value, pokeData.Coordinates.Longitude.Value), pokeData.Coordinates.Latitude.Value, pokeData.Coordinates.Longitude.Value);
+                            pokemonMarker.ToolTip.Font = new System.Drawing.Font("Arial", 12, System.Drawing.GraphicsUnit.Pixel);
+                            pokemonMarker.ToolTipMode = MarkerTooltipMode.OnMouseOver;
+                            _pokemonMarks.Add(pokeData.Id, pokemonMarker);
+                            _pokemonOverlay.Markers.Add(pokemonMarker);
                         }
-                        if (!map.Overlays.Contains(_pokemonOverlay))
-                            map.Overlays.Add(_pokemonOverlay);
-                        _pokemonOverlay.IsVisibile = true;//cbShowPokemon.Checked;
-                    //}
+                    }
+                    if (!map.Overlays.Contains(_pokemonOverlay))
+                        map.Overlays.Add(_pokemonOverlay);
+                    _pokemonOverlay.IsVisibile = true;//cbShowPokemon.Checked;
                 }
                 catch (Exception e)
                 {

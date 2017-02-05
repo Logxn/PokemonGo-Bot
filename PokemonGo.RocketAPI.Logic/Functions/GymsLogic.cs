@@ -187,8 +187,14 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                         foreach (var defender in defenders) {
                             var resp = client.Fort.StartGymBattle(gym.Id, defender.Id, pokeAttackersIds).Result;
                              // Sometimes we get a null from startgymBattle
-                             if (resp == null )
+                             if (resp == null ){
+                                 Logger.Debug("Response to start battle was null");
                                  break;
+                             }
+                             if (resp.BattleLog == null ){
+                                 Logger.Debug("BatlleLog to start battle was null");
+                                 break;
+                             }
                             if ( resp.BattleLog.State == POGOProtos.Data.Battle.BattleState.Active) {
                                 Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - Battle Started");
                                 RandomHelper.RandomSleep(2500, 3000);
@@ -224,12 +230,13 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                                     {
                                         Logger.Debug("(Gym) - Battle State: "+ attResp.BattleLog.State);
                                         inBattle = inBattle && (attResp.BattleLog.State == BattleState.Active);
-                                        Logger.ColoredConsoleWrite(gymColorLog, $"Attack {count} done.");
+                                        Logger.Debug( $"Attack {count} done.");
                                         count++;
-                                        Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - Wait a moment before next attact");
+                                        Logger.Debug("(Gym) - Wait a moment before next attact");
                                         RandomHelper.RandomSleep(move1Settings.DurationMs, move1Settings.DurationMs + 20);
                                     }
                                 }
+                                Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - Battle Finished");
                                 if (attResp.Result == AttackGymResponse.Types.Result.Success) {
                                     if (attResp.BattleLog.State == BattleState.Defeated)
                                         Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - We have lost");
@@ -291,9 +298,12 @@ namespace PokemonGo.RocketAPI.Logic.Functions
             // && x.MoveSettings.MovementId == move
         }
 
-        private static void ReviveAndCurePokemons(Client client, IEnumerable<PokemonData> pokemons)
+        private static void ReviveAndCurePokemons(Client client, IEnumerable<PokemonData> attackers)
         {
-            foreach (var pokemon in pokemons) {
+            var pokemons = client.Inventory.GetPokemons(true).Result;
+            RandomHelper.RandomSleep(300,400);
+            foreach (var attacker in attackers) {
+                var pokemon = pokemons.FirstOrDefault(x => x.Id == attacker.Id);
                 if (pokemon.Stamina <= 0){
                     RandomHelper.RandomSleep(300, 400);
                     var revive = client.Inventory.GetItemAmountByType(ItemId.ItemRevive).Result;
