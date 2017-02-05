@@ -1,3 +1,4 @@
+using PokemonGo.RocketAPI.Console.Helper;
 using PokemonGo.RocketAPI.Logic.Utils;
 using System;
 using System.Collections.Generic;
@@ -285,7 +286,6 @@ namespace PokemonGo.RocketAPI.Console
             CB_SimulatePGO.Checked = config.simulatedPGO;
             checkBox_KeepPokemonWhichCanBeEvolved.Checked = config.keepPokemonsThatCanEvolve;
             checkBox_UseLuckyEggIfNotRunning.Checked = config.UseLuckyEggIfNotRunning;
-            checkBox_FarmGyms.Checked = config.FarmGyms;
             checkBox_CollectDailyBonus.Checked = config.CollectDailyBonus;
     
             // tab 2 - Pokemons
@@ -331,6 +331,7 @@ namespace PokemonGo.RocketAPI.Console
             MinCPtoCatch.Text = config.MinCPtoCatch.ToString();
             MinIVtoCatch.Text = config.MinIVtoCatch.ToString();
             checkBox_UseSpritesFolder.Checked = config.UseSpritesFolder;
+            checkBox_ShowPokemons.Checked =  config.ShowPokemons;
 
             // tab 3 - throws
             checkBox2.Checked = config.LimitPokeballUse;
@@ -425,7 +426,9 @@ namespace PokemonGo.RocketAPI.Console
             checkBox_UseBreakIntervalAndLength.Checked = config.UseBreakFields;
             checkBox_WalkInArchimedeanSpiral.Checked = config.Espiral;
             checkBox_StartWalkingFromLastLocation.Checked = config.UseLastCords;
-    
+            checkBox_FarmGyms.Checked = config.FarmGyms;
+            checkBoxAttackGyms.Checked = config.AttackGyms;
+
             // tab 7 - telegram and logs
             cbLogPokemon.Checked = config.LogPokemons;
             cbLogManuelTransfer.Checked = config.LogTransfer;
@@ -665,7 +668,6 @@ namespace PokemonGo.RocketAPI.Console
             ActiveProfile.Settings.simulatedPGO = CB_SimulatePGO.Checked;
             ActiveProfile.Settings.keepPokemonsThatCanEvolve = checkBox_KeepPokemonWhichCanBeEvolved.Checked;
             ActiveProfile.Settings.UseLuckyEggIfNotRunning = checkBox_UseLuckyEggIfNotRunning.Checked;
-            ActiveProfile.Settings.FarmGyms = checkBox_FarmGyms.Checked;
             ActiveProfile.Settings.CollectDailyBonus = checkBox_CollectDailyBonus.Checked;
 
             // tab 2 - pokemons
@@ -696,6 +698,7 @@ namespace PokemonGo.RocketAPI.Console
                 ActiveProfile.Settings.NotToSnipe.Add((PokemonId)Enum.Parse(typeof(PokemonId), th.RS(pokemon)));
             }
             ActiveProfile.Settings.UseSpritesFolder = checkBox_UseSpritesFolder.Checked;
+            ActiveProfile.Settings.ShowPokemons = checkBox_ShowPokemons.Checked;
             // bot settings
             ActiveProfile.Settings.TransferDoublePokemons = checkBox_AutoTransferDoublePokemon.Checked;
             ActiveProfile.Settings.TransferFirstLowIV = checkBox_TransferFirstLowIV.Checked;
@@ -839,6 +842,8 @@ namespace PokemonGo.RocketAPI.Console
 
             ActiveProfile.Settings.Espiral = checkBox_WalkInArchimedeanSpiral.Checked;
             ActiveProfile.Settings.UseLastCords = checkBox_StartWalkingFromLastLocation.Checked;
+            ActiveProfile.Settings.FarmGyms = checkBox_FarmGyms.Checked;
+            ActiveProfile.Settings.AttackGyms = checkBoxAttackGyms.Checked;
 
             // tab 7 - Logs and Telegram            
             ActiveProfile.Settings.LogPokemons = cbLogPokemon.Checked;
@@ -1305,6 +1310,14 @@ namespace PokemonGo.RocketAPI.Console
                 checkedListBox_AlwaysTransfer.SetItemChecked(i, (sender as CheckBox).Checked);
                 i++;
             }
+        }
+        void checkBoxStoreUntranslated_CheckedChanged(object sender, EventArgs e)
+        {
+            TranslatorHelper.StoreUntranslated = (sender as CheckBox).Checked;
+        }
+        void checkBoxExtractText_CheckedChanged(object sender, EventArgs e)
+        {
+            TranslatorHelper.ActiveExtractTexts = (sender as CheckBox).Checked;
         }
 
     }

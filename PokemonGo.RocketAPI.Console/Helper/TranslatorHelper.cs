@@ -32,7 +32,7 @@ namespace PokemonGo.RocketAPI.Console.Helper
 
         private string language = "default";
         public static bool StoreUntranslated = false;
-        public static bool ActiveExtractTexts = true; // enable or disable to extract texts
+        public static bool ActiveExtractTexts = false; // enable or disable to extract texts
         
         public static string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Translations");
         public static string UntranslatedFile = Path.Combine(path, "untranslated.txt");
@@ -294,8 +294,14 @@ namespace PokemonGo.RocketAPI.Console.Helper
                          if (File.ReadAllText(filename) == "")
                              File.Delete(filename);
                     }
+                }catch(WebException webEx){
+                    var status = ((HttpWebResponse)webEx.Response).StatusCode ;
+                    if (status == HttpStatusCode.NotFound)
+                        Logger.AddLog($"File {resourceName} not found in the server.");
+                    else
+                        Logger.AddLog(resourceName+":"+webEx);
                 } catch (Exception ex1) {
-                    Logger.AddLog(resourceName+":"+ex1.ToString());
+                    Logger.AddLog(resourceName+":"+ex1);
                 }
             }
 

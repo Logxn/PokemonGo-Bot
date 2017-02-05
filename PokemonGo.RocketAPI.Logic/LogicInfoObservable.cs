@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Device.Location;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using POGOProtos.Map.Pokemon;
 
 namespace PokemonGo.RocketAPI.Logic
 {
@@ -26,9 +26,9 @@ namespace PokemonGo.RocketAPI.Logic
                 /// <summary>
         /// GeoLocations
         /// </summary>
-        public delegate void NewPokemonLocationHandler(List<PokemonGo.RocketApi.PokeMap.DataCollector.PokemonMapData> mapData);
+        public delegate void NewPokemonLocationHandler(IEnumerable<MapPokemon> mapData);
         public event NewPokemonLocationHandler HandleNewPokemonLocations = delegate { };
-        public void PushNewPokemonLocations(List<PokemonGo.RocketApi.PokeMap.DataCollector.PokemonMapData> mapData)
+        public void PushNewPokemonLocations(IEnumerable<MapPokemon> mapData)
         {
             HandleNewPokemonLocations(mapData);
         }

@@ -402,10 +402,6 @@
       <Project>{0739E40D-C589-4AEB-93E5-EE8CD6773C60}</Project>
       <Name>PokemonGo.RocketAPI.Logic</Name>
     </ProjectReference>
-    <ProjectReference Include="..\PokemonGo.RocketApi.PokeMap\PokemonGo.RocketApi.PokeMap.csproj">
-      <Project>{D476DDDA-B56E-4826-9DF8-97BFECA186E7}</Project>
-      <Name>PokemonGo.RocketApi.PokeMap</Name>
-    </ProjectReference>
     <ProjectReference Include="..\PokemonGo.RocketAPI\PokemonGo.RocketAPI.csproj">
       <Project>{05D2DA44-1B8E-4CF7-94ED-4D52451CD095}</Project>
       <Name>PokemonGo.RocketAPI</Name>
