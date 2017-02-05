@@ -270,20 +270,25 @@ namespace PokemonGo.RocketAPI.Console
 
                         if (settings.EvolutionIds.Count > 0 && familyCandy.Candy_ >= settings.CandyToEvolve)
                         {
-                            //listViewItem.SubItems.Add("Y (" + familyCandy.Candy_ + "/" + settings.CandyToEvolve + ")");
                             listViewItem.SubItems.Add("");
-                            listViewItem.SubItems[listViewItem.SubItems.Count-1].ForeColor = Color.Green;
-                            listViewItem.SubItems[listViewItem.SubItems.Count-1].Text = "Y (" + familyCandy.Candy_ + "/" + settings.CandyToEvolve + ")";
+                            listViewItem.SubItems[listViewItem.SubItems.Count - 1].ForeColor = Color.ForestGreen;
+                            //listViewItem.SubItems[listViewItem.SubItems.Count - 1].Font = new Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold);
+                            listViewItem.SubItems[listViewItem.SubItems.Count - 1].Text = "Y (" + familyCandy.Candy_ + "/" + settings.CandyToEvolve + ")";
                             listViewItem.Checked = true;
                         }
                         else
                         {
+                            listViewItem.SubItems.Add("");
                             if (settings.EvolutionIds.Count > 0)
                             {
-                                listViewItem.SubItems.Add("N (" + familyCandy.Candy_ + "/" + settings.CandyToEvolve + ")");
+                                listViewItem.SubItems[listViewItem.SubItems.Count - 1].ForeColor = Color.DarkRed;
+                                listViewItem.SubItems[listViewItem.SubItems.Count - 1].Text = "N (" + familyCandy.Candy_ + "/" + settings.CandyToEvolve + ")";
                             }
                             else
-                                listViewItem.SubItems.Add("N (" + familyCandy.Candy_ + "/Max)");
+                            {
+                                listViewItem.SubItems[listViewItem.SubItems.Count - 1].ForeColor = Color.DarkRed;
+                                listViewItem.SubItems[listViewItem.SubItems.Count - 1].Text = "N (" + familyCandy.Candy_ + "/Max)";
+                            }
                         }
                         listViewItem.SubItems.Add(string.Format("{0}", Math.Round(pokemon.HeightM, 2)));
                         listViewItem.SubItems.Add(string.Format("{0}", Math.Round(pokemon.WeightKg, 2)));
