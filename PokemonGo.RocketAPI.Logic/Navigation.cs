@@ -91,6 +91,9 @@ namespace PokemonGo.RocketAPI.Logic
             var locatePokemonWhileWalkingDateTime = DateTime.Now;
             do
             {
+                //update user location on map
+                Task.Factory.StartNew(() => Logic.Instance.infoObservable.PushNewGeoLocations(new GeoCoordinate(waypoint.Latitude, waypoint.Longitude)));
+
                 var millisecondsUntilGetUpdatePlayerLocationResponse =
                     (DateTime.Now - requestSendDateTime).TotalMilliseconds;
 

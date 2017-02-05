@@ -13,6 +13,7 @@ namespace PokemonGo.RocketAPI.Logic
     /// </summary>
     public class LogicInfoObservable
     {
+
         /// <summary>
         /// GeoLocations
         /// </summary>
@@ -23,11 +24,18 @@ namespace PokemonGo.RocketAPI.Logic
             HandleNewGeoLocations(newValue);
         }
 
-                /// <summary>
-        /// GeoLocations
+        /// <summary>
+        /// PokemonLocations
         /// </summary>
-        public delegate void NewPokemonLocationHandler(IEnumerable<MapPokemon> mapData);
-        public event NewPokemonLocationHandler HandleNewPokemonLocations = delegate { };
+        public delegate void NewPokemonLocationHandler(MapPokemon mapData);
+        public event NewPokemonLocationHandler HandleNewPokemonLocation = delegate { };
+        public void PushNewPokemonLocation(MapPokemon mapData)
+        {
+            HandleNewPokemonLocation(mapData);
+        }
+
+        public delegate void NewPokemonLocatiosnHandler(IEnumerable<MapPokemon> mapData);
+        public event NewPokemonLocatiosnHandler HandleNewPokemonLocations = delegate { };
         public void PushNewPokemonLocations(IEnumerable<MapPokemon> mapData)
         {
             HandleNewPokemonLocations(mapData);
@@ -41,6 +49,20 @@ namespace PokemonGo.RocketAPI.Logic
                 HandleClearPokemon();
         }
 
+        /// <summary>
+        /// DeletePokemonLocation
+        /// </summary>
+        public delegate void DeletePokemonLocationHandler(string pokemon_Id);
+        public event DeletePokemonLocationHandler HandleDeletePokemonLocation = delegate { };
+        public void PushDeletePokemonLocation(string pokemon_Id)
+        {
+            HandleDeletePokemonLocation(pokemon_Id);
+        }
+        
+
+        /// <summary>
+        /// AvailablePokeStopLocations
+        /// </summary>
         public delegate void AvailablePokeStopHandler(FortData[] pokeStops);
         public event AvailablePokeStopHandler HandleAvailablePokeStop = delegate { };
         public void PushAvailablePokeStopLocations(FortData[] pokeStop)
@@ -51,6 +73,19 @@ namespace PokemonGo.RocketAPI.Logic
             }
         }
 
+        /// <summary>
+        /// PokeStopInfoUpdate
+        /// </summary>
+        public delegate void PokeStopInfoUpdateHandler(FortData pokeStop, string info);
+        public event PokeStopInfoUpdateHandler HandlePokeStopInfoUpdate = delegate { };
+        public void PushPokeStopInfoUpdate(FortData pokeStop, string info)
+        {
+            HandlePokeStopInfoUpdate(pokeStop, info);
+        }
+
+        /// <summary>
+        /// AvailablePokeGymsLocations
+        /// </summary>
         public delegate void AvailablePokeGymHandler(FortData[] pokeGyms);
         public event AvailablePokeGymHandler HandleAvailablePokeGym = delegate { };
         public void PushAvailablePokeGymsLocations(FortData[] pokeGyms)
@@ -61,12 +96,6 @@ namespace PokemonGo.RocketAPI.Logic
             }
         }
 
-        public delegate void PokeStopInfoUpdateHandler(FortData pokeStop, string info);
-        public event PokeStopInfoUpdateHandler HandlePokeStopInfoUpdate = delegate { };
-        public void PushPokeStopInfoUpdate(FortData pokeStop, string info)
-        {
-            HandlePokeStopInfoUpdate(pokeStop, info);
-        }
 
         /// <summary>
         /// Hunting stats
@@ -76,15 +105,6 @@ namespace PokemonGo.RocketAPI.Logic
         public void PushNewHuntStats(string newValue)
         {
             HandleNewHuntStats(newValue);
-        }
-         /// <summary>
-        /// GeoLocations
-        /// </summary>
-        public delegate void DeletePokemonLocationHandler(string pokemon_Id);
-        public event DeletePokemonLocationHandler HandleDeletePokemonLocation = delegate { };
-        public void PushDeletePokemonLocation(string pokemon_Id)
-        {
-            HandleDeletePokemonLocation(pokemon_Id);
         }
     }
 
