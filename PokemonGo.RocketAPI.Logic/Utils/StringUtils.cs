@@ -641,8 +641,8 @@ namespace PokemonGo.RocketAPI.Logic.Utils
         {
             if (timeMS > 0){
                 var tstamp =TimeSpan.FromMilliseconds(timeMS);
-                var initialDate = new DateTime(1970,1,1);
-                return tstamp.Add( TimeSpan.FromTicks( initialDate.Ticks)).ToString(format);
+                var tmUnixNow = DateTime.UtcNow.AddDays(1) - new DateTime(1970, 1, 1);
+                return tstamp.Subtract( tmUnixNow).ToString(format);
             }
             return "Unknown";
         }
