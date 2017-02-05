@@ -16,7 +16,6 @@ namespace PokemonGo.RocketAPI.Console
         private System.ComponentModel.IContainer components = null;
         public GMap.NET.WindowsForms.GMapControl map;
         private System.Windows.Forms.CheckBox cbShowPokemon;
-        private System.Windows.Forms.Button buttonRefreshPokemon;
         private System.Windows.Forms.CheckBox cbShowPokeStops;
         private System.Windows.Forms.Button buttonRefreshForts;
         public System.Windows.Forms.Button button1;
@@ -58,9 +57,7 @@ namespace PokemonGo.RocketAPI.Console
         {
             this.map = new GMap.NET.WindowsForms.GMapControl();
             this.cbShowPokemon = new System.Windows.Forms.CheckBox();
-            this.buttonRefreshPokemon = new System.Windows.Forms.Button();
             this.cbShowPokeStops = new System.Windows.Forms.CheckBox();
-            this.buttonRefreshForts = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -71,6 +68,7 @@ namespace PokemonGo.RocketAPI.Console
             this.panel1 = new System.Windows.Forms.Panel();
             this.nudRadius = new System.Windows.Forms.NumericUpDown();
             this.label4 = new System.Windows.Forms.Label();
+            this.buttonRefreshForts = new System.Windows.Forms.Button();
             this.btnGetPoints = new System.Windows.Forms.Button();
             this.lblAddress = new System.Windows.Forms.Label();
             this.tbAddress = new System.Windows.Forms.TextBox();
@@ -113,11 +111,10 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // cbShowPokemon
             // 
-            this.cbShowPokemon.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.cbShowPokemon.AutoSize = true;
             this.cbShowPokemon.Checked = true;
             this.cbShowPokemon.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cbShowPokemon.Location = new System.Drawing.Point(141, 17);
+            this.cbShowPokemon.Location = new System.Drawing.Point(140, 16);
             this.cbShowPokemon.Margin = new System.Windows.Forms.Padding(4);
             this.cbShowPokemon.Name = "cbShowPokemon";
             this.cbShowPokemon.Size = new System.Drawing.Size(101, 17);
@@ -127,27 +124,12 @@ namespace PokemonGo.RocketAPI.Console
             this.cbShowPokemon.Visible = false;
             this.cbShowPokemon.CheckStateChanged += new System.EventHandler(this.cbShowPokemon_CheckStateChanged);
             // 
-            // buttonRefreshPokemon
-            // 
-            this.buttonRefreshPokemon.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.buttonRefreshPokemon.AutoSize = true;
-            this.buttonRefreshPokemon.Location = new System.Drawing.Point(311, 2);
-            this.buttonRefreshPokemon.Margin = new System.Windows.Forms.Padding(4);
-            this.buttonRefreshPokemon.Name = "buttonRefreshPokemon";
-            this.buttonRefreshPokemon.Size = new System.Drawing.Size(164, 25);
-            this.buttonRefreshPokemon.TabIndex = 5;
-            this.buttonRefreshPokemon.Text = "Refresh Pokemon";
-            this.buttonRefreshPokemon.UseVisualStyleBackColor = true;
-            this.buttonRefreshPokemon.Visible = false;
-            this.buttonRefreshPokemon.Click += new System.EventHandler(this.cbShowPokemon_CheckedChanged);
-            // 
             // cbShowPokeStops
             // 
-            this.cbShowPokeStops.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.cbShowPokeStops.AutoSize = true;
             this.cbShowPokeStops.Checked = true;
             this.cbShowPokeStops.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cbShowPokeStops.Location = new System.Drawing.Point(5, 17);
+            this.cbShowPokeStops.Location = new System.Drawing.Point(272, 16);
             this.cbShowPokeStops.Margin = new System.Windows.Forms.Padding(5);
             this.cbShowPokeStops.Name = "cbShowPokeStops";
             this.cbShowPokeStops.Size = new System.Drawing.Size(103, 17);
@@ -156,20 +138,6 @@ namespace PokemonGo.RocketAPI.Console
             this.cbShowPokeStops.UseVisualStyleBackColor = true;
             this.cbShowPokeStops.Visible = false;
             this.cbShowPokeStops.CheckedChanged += new System.EventHandler(this.cbShowPokeStops_CheckedChanged);
-            // 
-            // buttonRefreshForts
-            // 
-            this.buttonRefreshForts.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.buttonRefreshForts.AutoSize = true;
-            this.buttonRefreshForts.Location = new System.Drawing.Point(480, 2);
-            this.buttonRefreshForts.Margin = new System.Windows.Forms.Padding(4);
-            this.buttonRefreshForts.Name = "buttonRefreshForts";
-            this.buttonRefreshForts.Size = new System.Drawing.Size(172, 25);
-            this.buttonRefreshForts.TabIndex = 6;
-            this.buttonRefreshForts.Text = "Refresh Pokestops";
-            this.buttonRefreshForts.UseVisualStyleBackColor = true;
-            this.buttonRefreshForts.Visible = false;
-            this.buttonRefreshForts.Click += new System.EventHandler(this.cbShowPokeStops_CheckedChanged);
             // 
             // button1
             // 
@@ -250,9 +218,6 @@ namespace PokemonGo.RocketAPI.Console
             this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.panel1.Controls.Add(this.nudRadius);
             this.panel1.Controls.Add(this.label4);
-            this.panel1.Controls.Add(this.cbShowPokeStops);
-            this.panel1.Controls.Add(this.cbShowPokemon);
-            this.panel1.Controls.Add(this.buttonRefreshPokemon);
             this.panel1.Controls.Add(this.buttonRefreshForts);
             this.panel1.Controls.Add(this.btnGetPoints);
             this.panel1.Controls.Add(this.lblAddress);
@@ -300,6 +265,20 @@ namespace PokemonGo.RocketAPI.Console
             this.label4.TabIndex = 26;
             this.label4.Text = "Radius:";
             // 
+            // buttonRefreshForts
+            // 
+            this.buttonRefreshForts.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.buttonRefreshForts.AutoSize = true;
+            this.buttonRefreshForts.Location = new System.Drawing.Point(14, 4);
+            this.buttonRefreshForts.Margin = new System.Windows.Forms.Padding(4);
+            this.buttonRefreshForts.Name = "buttonRefreshForts";
+            this.buttonRefreshForts.Size = new System.Drawing.Size(172, 25);
+            this.buttonRefreshForts.TabIndex = 6;
+            this.buttonRefreshForts.Text = "Refresh Pokestops";
+            this.buttonRefreshForts.UseVisualStyleBackColor = true;
+            this.buttonRefreshForts.Visible = false;
+            this.buttonRefreshForts.Click += new System.EventHandler(this.cbShowPokeStops_CheckedChanged);
+            // 
             // btnGetPoints
             // 
             this.btnGetPoints.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
@@ -334,8 +313,7 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // btnPauseWalking
             // 
-            this.btnPauseWalking.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnPauseWalking.Location = new System.Drawing.Point(20, 19);
+            this.btnPauseWalking.Location = new System.Drawing.Point(16, 12);
             this.btnPauseWalking.Margin = new System.Windows.Forms.Padding(2);
             this.btnPauseWalking.Name = "btnPauseWalking";
             this.btnPauseWalking.Size = new System.Drawing.Size(106, 23);
@@ -347,7 +325,9 @@ namespace PokemonGo.RocketAPI.Console
             // LocationPanel
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
+            this.Controls.Add(this.cbShowPokemon);
             this.Controls.Add(this.btnPauseWalking);
+            this.Controls.Add(this.cbShowPokeStops);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.map);
             this.Margin = new System.Windows.Forms.Padding(4);
@@ -357,6 +337,7 @@ namespace PokemonGo.RocketAPI.Console
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudRadius)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
     }

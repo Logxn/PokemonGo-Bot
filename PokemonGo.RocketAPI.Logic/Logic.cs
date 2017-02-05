@@ -45,7 +45,7 @@ namespace PokemonGo.RocketAPI.Logic
         public BotStats BotStats;
         public readonly Navigation navigation;
         public const double SpeedDownTo = 10 / 3.6;
-        private readonly LogicInfoObservable infoObservable;
+        public readonly LogicInfoObservable infoObservable;
         private readonly PokeVisionUtil pokevision;
         public bool pokeballoutofstock;
         private bool stopsloaded;
@@ -297,6 +297,8 @@ namespace PokemonGo.RocketAPI.Logic
         {
             try
             {
+                //update user location on map
+                Task.Factory.StartNew(() => Logic.Instance.infoObservable.PushNewGeoLocations(new GeoCoordinate(GlobalVars.latitude, GlobalVars.longitude)));
                 var profil = objClient.Player.GetPlayer().Result;
                 objClient.Inventory.ExportPokemonToCSV(profil.PlayerData).Wait();
                 Setout.Execute();
@@ -466,7 +468,6 @@ namespace PokemonGo.RocketAPI.Logic
 
             if (!updateMap) return pokeStops;
 
-            //TODO: añadir a resultado.
             #region Get Gyms
 
             var pokeGyms = navigation
@@ -549,9 +550,6 @@ namespace PokemonGo.RocketAPI.Logic
                 //make sure user defined limits have not been reached
                 Setout.SetCheckTimeToRun();
 
-                //update user location on map
-                Task.Factory.StartNew(() => infoObservable.PushNewGeoLocations(new GeoCoordinate(objClient.CurrentLatitude, objClient.CurrentLongitude)));
-
                 #region Walk defined Route
 
                 if (GlobalVars.NextDestinationOverride.Count > 0)
@@ -588,7 +586,7 @@ namespace PokemonGo.RocketAPI.Logic
 
                 #endregion
 
-                #region Check for Exit Command           
+                #region Check for Exit Command 
 
 
                 if (BotSettings.RelocateDefaultLocation)
@@ -619,7 +617,7 @@ namespace PokemonGo.RocketAPI.Logic
 
                 #region Break At Lure Logic  
 
-                //check if user wants to break at lured pokestop          
+                //check if user wants to break at lured pokestop
                 if (BotSettings.BreakAtLure && fortInfo.Modifiers.Any())
                 {
                     Setout.pausetimestamp = -10000;
@@ -639,8 +637,7 @@ namespace PokemonGo.RocketAPI.Logic
                 }
                 catch (Exception e)
                 {
-                    Logger.ColoredConsoleWrite(ConsoleColor.DarkRed, "Ignore this: sending exception information to log file.");
-                    Logger.AddLog(string.Format("Error in Walk Default Route: " + e));
+                    Logger.ExceptionInfo(string.Format("Error in Walk Default Route: " + e));
                 }
 
                 // Pause and farm nearby pokestops
@@ -1051,8 +1048,6 @@ namespace PokemonGo.RocketAPI.Logic
 
         private bool ExecuteCatchAllNearbyPokemons(GetMapObjectsResponse mapObjectsResponse )
         {
-            //update location map with current bot location
-            Task.Factory.StartNew(() =>infoObservable.PushNewGeoLocations(new GeoCoordinate(objClient.CurrentLatitude, objClient.CurrentLongitude)));
 
             var client = objClient;
             
@@ -1074,7 +1069,7 @@ namespace PokemonGo.RocketAPI.Logic
 
                     Logger.ColoredConsoleWrite(ConsoleColor.Magenta, $"Found {pokemons.Count()} catchable Pokemon(s): " + strNames);
                     if (GlobalVars.ShowPokemons){
-                        ShowNearbyPokemonsRun(pokemons);
+                        ShowNearbyPokemons(pokemons);
                         //RandomHelper.RandomSleep(600,602);
                     }
                 }
@@ -1740,17 +1735,11 @@ namespace PokemonGo.RocketAPI.Logic
 
         #region Unused Functions
 
-        public void ShowNearbyPokemonsRun(IEnumerable<MapPokemon> pokeData)
-        {
-            infoObservable.PushClearPokemons();
-            if (pokeData.Any())
-                infoObservable.PushNewPokemonLocations(pokeData);
-        }
-
         public void ShowNearbyPokemons(IEnumerable<MapPokemon> pokeData)
         {
-            Task.Factory.StartNew(() => ShowNearbyPokemonsRun(pokeData));
+            infoObservable.PushNewPokemonLocations(pokeData);
         }
+
 
         public void DeletePokemonFromMap(string spawnPointId)
         {
