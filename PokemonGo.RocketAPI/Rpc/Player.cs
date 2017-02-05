@@ -27,6 +27,15 @@ namespace PokemonGo.RocketAPI.Rpc
         public async Task<PlayerUpdateResponse> UpdatePlayerLocation(double latitude, double longitude, double altitude)
         {
             //SetCoordinates(latitude, longitude, altitude);
+
+            // This needs to me removed from here
+            Client.CurrentLatitude = latitude;
+            Client.CurrentLongitude = longitude;
+            Client.CurrentAltitude = altitude;
+            string latlngalt = latitude.ToString(CultureInfo.InvariantCulture) + ":" + longitude.ToString(CultureInfo.InvariantCulture) + ":" + altitude.ToString(CultureInfo.InvariantCulture);
+            File.WriteAllText(Directory.GetCurrentDirectory() + "\\Configs\\LastCoords.txt", latlngalt);
+            //
+
             var message = new PlayerUpdateMessage
             {
                 Latitude = Client.CurrentLatitude,

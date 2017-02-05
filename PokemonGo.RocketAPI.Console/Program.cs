@@ -134,7 +134,7 @@ namespace PokemonGo.RocketAPI.Console
                     #region Argument -bypassversioncheck
                     if (arg.ToLower().Contains("-bypassversioncheck"))
                         GlobalVars.BypassCheckCompatibilityVersion = true;
-                    #endregion
+#endregion
 
                     #region Argument -help
                     if (arg.ToLower().Contains("-help"))

@@ -274,7 +274,11 @@ namespace PokemonGo.RocketAPI.Console
                         else
                         {
                             if (settings.EvolutionIds.Count > 0)
+                            {
                                 listViewItem.SubItems.Add("N (" + familyCandy.Candy_ + "/" + settings.CandyToEvolve + ")");
+                                if (settings.CandyToEvolve < familyCandy.Candy_)
+                                    listViewItem.SubItems[listViewItem.SubItems.Count].BackColor = Color.Green;
+                            }
                             else
                                 listViewItem.SubItems.Add("N (" + familyCandy.Candy_ + "/Max)");
                         }
@@ -421,6 +425,7 @@ namespace PokemonGo.RocketAPI.Console
             var date = DateTime.Now.ToString();
             string logPath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Logs");
             string evolvelog = System.IO.Path.Combine(logPath, "EvolveLog.txt");
+            int gotXP = 0;
 
             //var resp = new taskResponse(false, string.Empty);
             EvolvePokemonResponse resp = new EvolvePokemonResponse();
@@ -445,9 +450,9 @@ namespace PokemonGo.RocketAPI.Console
                 var calcPerf = PokemonInfo.CalculatePokemonPerfection(pokemoninfo).ToString("0.00");
                 var getEvolvedName = StringUtils.getPokemonNameByLanguage(resp.EvolvedPokemonData.PokemonId);
                 var getEvolvedCP = resp.EvolvedPokemonData.Cp;
-                var getXP = resp.ExperienceAwarded.ToString("N0");
+                gotXP = gotXP + resp.ExperienceAwarded;
 
-                Logger.Info($"Evolved Pokemon: {getPokemonName} | CP {cp} | Perfection {calcPerf}% | => to {getEvolvedName} | CP: {getEvolvedCP} | XP Reward: {getXP}xp");
+                Logger.Info($"Evolved Pokemon: {getPokemonName} | CP {cp} | Perfection {calcPerf}% | => to {getEvolvedName} | CP: {getEvolvedCP} | XP Reward: {gotXP.ToString("N0")} XP");
 
                 if (resp.Result == EvolvePokemonResponse.Types.Result.Success)
                 {
@@ -476,7 +481,6 @@ namespace PokemonGo.RocketAPI.Console
                 }
                 MessageBox.Show(th.TS("Succesfully evolved {0}/{1} Pokemons. Failed: {2}",evolved,total,failed), th.TS("Evolve status"), MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
-
             else
             {
                 if (BotSettings.LogEvolve)
@@ -485,6 +489,8 @@ namespace PokemonGo.RocketAPI.Console
                 }
                 MessageBox.Show(th.TS("Succesfully evolved {0}/{1} Pokemons.",evolved,total), th.TS("Evolve status"), MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
+
+            Logger.Info($"Evolved {evolved} Pokemons. We have got {gotXP.ToString("N0")} XP.");
 
             if (evolved > 0)
             {

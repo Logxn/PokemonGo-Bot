@@ -11,7 +11,7 @@ using GMap.NET.MapProviders;
 using GMap.NET.WindowsForms;
 using GMap.NET.WindowsForms.Markers;
 using POGOProtos.Map.Fort;
-using PokemonGo.RocketApi.PokeMap;
+using POGOProtos.Map.Pokemon;
 using PokemonGo.RocketAPI.Console.Helper;
 using PokemonGo.RocketAPI.Logic.Shared;
 using PokemonGo.RocketAPI.Logic.Utils;
@@ -94,21 +94,21 @@ namespace PokemonGo.RocketAPI.Console
             close = false;
         }
 
-        private void buttonRefreshPokemon_Click_1(object sender, EventArgs e)
-        {
-            buttonRefreshPokemon.Enabled = false;
-            if ( Logic.Logic.Instance.CheckAvailablePokemons(Logic.Logic.objClient))
-            {
-                Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Updated PokemonData.", LogLevel.Info);
-            }
-            else
-            {
-                Logger.ColoredConsoleWrite(ConsoleColor.DarkRed, $"Could not get PokemonData. Service is overloaded.", LogLevel.Warning);
-            }
+        //private void buttonRefreshPokemon_Click_1(object sender, EventArgs e)
+        //{
+        //    buttonRefreshPokemon.Enabled = false;
+        //    if ( Logic.Logic.Instance.CheckAvailablePokemons(Logic.Logic.objClient))
+        //    {
+        //        Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Updated PokemonData.", LogLevel.Info);
+        //    }
+        //    else
+        //    {
+        //        Logger.ColoredConsoleWrite(ConsoleColor.DarkRed, $"Could not get PokemonData. Service is overloaded.", LogLevel.Warning);
+        //    }
 
-            //await Logic.Logic._instance.CheckAvailablePokemons(Logic.Logic._client).ConfigureAwait(false);
-            buttonRefreshPokemon.Enabled = true;
-        }
+        //    //await Logic.Logic._instance.CheckAvailablePokemons(Logic.Logic._client).ConfigureAwait(false);
+        //    buttonRefreshPokemon.Enabled = true;
+        //}
         
         private async void buttonRefreshForts_Click(object sender, EventArgs e)
         {
@@ -235,19 +235,22 @@ namespace PokemonGo.RocketAPI.Console
 
         Semaphore pokemonLock = new Semaphore(0, 1);
 
-        void infoObservable_HandleDeletePokemonLocation( string pokemon_Id)
+        void infoObservable_HandleDeletePokemonLocation(string pokemon_Id)
         {
-            try {
-                if (_pokemonMarks.ContainsKey(pokemon_Id)){
-                    _pokemonOverlay.IsVisibile = false;
-                    var pokemonMarker = _pokemonMarks[pokemon_Id];
-                    _pokemonOverlay.Markers.Remove(pokemonMarker);
-                    _pokemonMarks.Remove(pokemon_Id);
-                    _pokemonOverlay.IsVisibile = true;
+            Invoke(new MethodInvoker(() =>
+            { 
+                try {
+                    if (_pokemonMarks.ContainsKey(pokemon_Id)) {
+                        _pokemonOverlay.IsVisibile = false;
+                        var pokemonMarker = _pokemonMarks[pokemon_Id];
+                        _pokemonOverlay.Markers.Remove(pokemonMarker);
+                        _pokemonMarks.Remove(pokemon_Id);
+                        _pokemonOverlay.IsVisibile = true;
+                    }
+                } catch (Exception e) {
+                    Logger.ExceptionInfo(string.Format("Error in infoObservable_HandleDeletePokemonLocation: {0}", e));
                 }
-            } catch (Exception e) {
-                Logger.ExceptionInfo(string.Format("Error in infoObservable_HandleDeletePokemonLocation: {0}", e));
-            }
+            }));
         }
 
         void infoObservable_HandleNewPokemonLocations(IEnumerable<MapPokemon> mapData)
