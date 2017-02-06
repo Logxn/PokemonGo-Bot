@@ -266,11 +266,15 @@ namespace PokemonGo.RocketAPI.Console
             checkBoxAutoIncubate.Checked = GlobalVars.AutoIncubate;
             checkBoxUseBasicIncubators.Checked = GlobalVars.UseBasicIncubators;
             checkBox_FarmGyms.Checked = GlobalVars.FarmGyms;
+            checkBox_AttackGyms.Checked = GlobalVars.AttackGyms;
             checkBox_CollectDailyBonus.Checked = GlobalVars.CollectDailyBonus;
             checkBox_AutoTransferDoublePokemon.Checked = GlobalVars.TransferDoublePokemons;
             checkbox_Verboselogging.Checked = GlobalVars.EnableVerboseLogging;
             //Routing
+            checkBox_UseGoogleMapsRouting.CheckedChanged -= checkBox_UseGoogleMapsRouting_CheckedChanged;
             checkBox_UseGoogleMapsRouting.Checked = GlobalVars.UseGoogleMapsAPI;
+            checkBox_UseGoogleMapsRouting.CheckedChanged += checkBox_UseGoogleMapsRouting_CheckedChanged;
+            
             text_GoogleMapsAPIKey.Text = GlobalVars.GoogleMapsAPIKey;
             numTravelSpeed.Value = (int)GlobalVars.RelocateDefaultLocationTravelSpeed;
             enableEvents = true;
