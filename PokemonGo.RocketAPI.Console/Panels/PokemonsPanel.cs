@@ -446,7 +446,6 @@ namespace PokemonGo.RocketAPI.Console
             
             foreach (ListViewItem selectedItem in selectedItems)
             {
-                //resp = evolvePokemon((PokemonData)selectedItem.Tag).Result;
                 var pokemoninfo = (PokemonData)selectedItem.Tag;
 
                 resp = client.Inventory.EvolvePokemon(pokemoninfo.Id).Result;
@@ -460,7 +459,7 @@ namespace PokemonGo.RocketAPI.Console
                 var getEvolvedCP = resp.EvolvedPokemonData.Cp;
                 gotXP = gotXP + resp.ExperienceAwarded;
 
-                Logger.Info($"Evolved Pokemon: {getPokemonName} | CP {cp} | Perfection {calcPerf}% | => to {getEvolvedName} | CP: {getEvolvedCP} | XP Reward: {gotXP.ToString("N0")} XP");
+                Logger.Info($"Evolved Pokemon: {getPokemonName} | CP {cp} | Perfection {calcPerf}% | => to {getEvolvedName} | CP: {getEvolvedCP} | XP Reward: {resp.ExperienceAwarded.ToString("N0")} XP");
 
                 if (resp.Result == EvolvePokemonResponse.Types.Result.Success)
                 {
@@ -513,32 +512,6 @@ namespace PokemonGo.RocketAPI.Console
                 GlobalVars.PauseTheWalking = false;
             }
         }
-
-        //private static async Task<taskResponse> evolvePokemon(PokemonData pokemon)
-        //{
-        //    var resp = new taskResponse(false, string.Empty);
-        //    try
-        //    {
-        //        var evolvePokemonResponse = await client.Inventory.EvolvePokemon((ulong)pokemon.Id).ConfigureAwait(false);
-
-        //        if (evolvePokemonResponse.Result == EvolvePokemonResponse.Types.Result.Success)
-        //        {
-        //            resp.Status = true;
-        //        }
-        //        else
-        //        {
-        //            resp.Message = pokemon.PokemonId.ToString();
-        //        }
-
-        //        Helpers.RandomHelper.RandomSleep(1000, 2000);
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        Logger.ColoredConsoleWrite(ConsoleColor.Red, "Error evolvePokemon: " + e.Message);
-        //        await evolvePokemon(pokemon).ConfigureAwait(false);
-        //    }
-        //    return resp;
-        //}        
 
         private void transferSelectedPokemons()
         {

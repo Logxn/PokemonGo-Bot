@@ -145,7 +145,6 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                 var calcPerf = PokemonInfo.CalculatePokemonPerfection(pokemon).ToString("0.00");
                 var getEvolvedName = StringUtils.getPokemonNameByLanguage( evolvePokemonOutProto.EvolvedPokemonData.PokemonId);
                 var getEvolvedCP = evolvePokemonOutProto.EvolvedPokemonData.Cp;
-                //var getXP = evolvePokemonOutProto.ExperienceAwarded.ToString("N0");
                 gotXP = gotXP + evolvePokemonOutProto.ExperienceAwarded;
 
                 if (evolvePokemonOutProto.Result == EvolvePokemonResponse.Types.Result.Success)
@@ -161,9 +160,9 @@ namespace PokemonGo.RocketAPI.Logic.Functions
 
                     if (Shared.GlobalVars.LogEvolve)
                     {
-                        File.AppendAllText(evolvelog, $"[{date}] - Evolved Pokemon: {getPokemonName} | CP {cp} | Perfection {calcPerf}% | => to {getEvolvedName} | CP: {getEvolvedCP} | XP Reward: {gotXP.ToString("N0")} XP" + Environment.NewLine);
+                        File.AppendAllText(evolvelog, $"[{date}] - Evolved Pokemon: {getPokemonName} | CP {cp} | Perfection {calcPerf}% | => to {getEvolvedName} | CP: {getEvolvedCP} | XP Reward: {evolvePokemonOutProto.ExperienceAwarded.ToString("N0")} XP" + Environment.NewLine);
                     }
-                    Logger.Info( $"Evolved Pokemon: {getPokemonName} | CP {cp} | Perfection {calcPerf}% | => to {getEvolvedName} | CP: {getEvolvedCP} | XP Reward: {gotXP.ToString("N0")} XP");
+                    Logger.Info( $"Evolved Pokemon: {getPokemonName} | CP {cp} | Perfection {calcPerf}% | => to {getEvolvedName} | CP: {getEvolvedCP} | XP Reward: {evolvePokemonOutProto.ExperienceAwarded.ToString("N0")} XP");
                     Logic.Instance.BotStats.AddExperience(evolvePokemonOutProto.ExperienceAwarded);
 
                     if (Logic.Instance.Telegram != null)
