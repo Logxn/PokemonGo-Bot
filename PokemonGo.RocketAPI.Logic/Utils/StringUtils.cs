@@ -642,7 +642,16 @@ namespace PokemonGo.RocketAPI.Logic.Utils
             if (timeMS > 0){
                 var tstamp = TimeSpan.FromMilliseconds(timeMS);
                 var tmUnixNow = DateTime.UtcNow - new DateTime(1970, 1, 1);
-                return new DateTime(tstamp.Subtract(tmUnixNow).Ticks).ToString(format);
+                var tmpUnixNow = new DateTime((long)timeMS * 10000).AddYears(1969).AddDays(-1).ToString(format);
+                var subs = new DateTime(tstamp.Subtract(tmUnixNow).Ticks);
+                try
+                {
+                    return subs.ToString(format);
+                }
+                catch (Exception ex)
+                {
+                    Logger.ColoredConsoleWrite(ConsoleColor.Red, "Error: StringUtils - negative time: " + ex.Message);
+                    return 0.ToString();                }
             }
             return "Unknown";
         }
