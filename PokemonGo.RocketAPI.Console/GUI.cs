@@ -482,7 +482,7 @@ namespace PokemonGo.RocketAPI.Console
                 {
                     double lat = StrCordToDouble(CoordsFromFileTXT[0]);
                     double lng = StrCordToDouble(CoordsFromFileTXT[1]);
-                    double alt = StrCordToDouble(CoordsFromFileTXT[2]);
+                    double alt = (CoordsFromFileTXT.Length == 3) ? StrCordToDouble(CoordsFromFileTXT[2]) : 0;
                     if (( lat!=0.0) && (lng != 0.0))
                     {
                         ActiveProfile.Settings.DefaultLatitude = lat;
