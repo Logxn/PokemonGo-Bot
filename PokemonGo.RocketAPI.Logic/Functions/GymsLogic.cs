@@ -264,7 +264,8 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                     var res = client.Player.CollectDailyDefenderBonus().Result;
                     Logger.ColoredConsoleWrite(ConsoleColor.DarkGray, $"(Gym) - Collected: {res.CurrencyAwarded} Coins.");
                 }
-            }
+            }else
+                Logger.Debug("error: "+fortSearch.Result);
         }
         
 
