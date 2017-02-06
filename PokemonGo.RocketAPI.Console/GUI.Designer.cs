@@ -96,6 +96,8 @@ namespace PokemonGo.RocketAPI.Console
             this.checkBox5 = new System.Windows.Forms.CheckBox();
             this.checkedListBox_PokemonNotToCatch = new System.Windows.Forms.CheckedListBox();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
+            this.label_EvolveAt = new System.Windows.Forms.Label();
+            this.nud_EvolveAt = new System.Windows.Forms.NumericUpDown();
             this.checkBox6 = new System.Windows.Forms.CheckBox();
             this.checkedListBox_PokemonToEvolve = new System.Windows.Forms.CheckedListBox();
             this.tabGeneral = new System.Windows.Forms.TabPage();
@@ -240,6 +242,7 @@ namespace PokemonGo.RocketAPI.Console
             this.tabMisc = new System.Windows.Forms.TabPage();
             this.buttonTutorial = new System.Windows.Forms.Button();
             this.groupBox25 = new System.Windows.Forms.GroupBox();
+            this.checkBoxExtractText = new System.Windows.Forms.CheckBox();
             this.checkBoxStoreUntranslated = new System.Windows.Forms.CheckBox();
             this.checkbox_Verboselogging = new System.Windows.Forms.CheckBox();
             this.groupBox23 = new System.Windows.Forms.GroupBox();
@@ -299,7 +302,6 @@ namespace PokemonGo.RocketAPI.Console
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.labelLanguage = new System.Windows.Forms.Label();
             this.comboLanguage = new System.Windows.Forms.ComboBox();
-            this.checkBoxExtractText = new System.Windows.Forms.CheckBox();
             this.tabProxies.SuspendLayout();
             this.tabItems.SuspendLayout();
             this.groupBox4.SuspendLayout();
@@ -309,6 +311,7 @@ namespace PokemonGo.RocketAPI.Console
             this.groupBox5.SuspendLayout();
             this.groupBox6.SuspendLayout();
             this.groupBox7.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_EvolveAt)).BeginInit();
             this.tabGeneral.SuspendLayout();
             this.groupBoxAccount.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -1064,6 +1067,8 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // groupBox7
             // 
+            this.groupBox7.Controls.Add(this.label_EvolveAt);
+            this.groupBox7.Controls.Add(this.nud_EvolveAt);
             this.groupBox7.Controls.Add(this.checkBox6);
             this.groupBox7.Controls.Add(this.checkedListBox_PokemonToEvolve);
             this.groupBox7.Location = new System.Drawing.Point(517, 6);
@@ -1073,10 +1078,30 @@ namespace PokemonGo.RocketAPI.Console
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "To evolve";
             // 
+            // label_EvolveAt
+            // 
+            this.label_EvolveAt.Location = new System.Drawing.Point(58, 252);
+            this.label_EvolveAt.Name = "label_EvolveAt";
+            this.label_EvolveAt.Size = new System.Drawing.Size(98, 18);
+            this.label_EvolveAt.TabIndex = 36;
+            this.label_EvolveAt.Text = "needed to start";
+            // 
+            // nud_EvolveAt
+            // 
+            this.nud_EvolveAt.Location = new System.Drawing.Point(9, 250);
+            this.nud_EvolveAt.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            this.nud_EvolveAt.Name = "nud_EvolveAt";
+            this.nud_EvolveAt.Size = new System.Drawing.Size(42, 20);
+            this.nud_EvolveAt.TabIndex = 35;
+            // 
             // checkBox6
             // 
             this.checkBox6.AutoSize = true;
-            this.checkBox6.Location = new System.Drawing.Point(11, 254);
+            this.checkBox6.Location = new System.Drawing.Point(9, 228);
             this.checkBox6.Name = "checkBox6";
             this.checkBox6.Size = new System.Drawing.Size(69, 17);
             this.checkBox6.TabIndex = 34;
@@ -1088,10 +1113,10 @@ namespace PokemonGo.RocketAPI.Console
             // 
             this.checkedListBox_PokemonToEvolve.CheckOnClick = true;
             this.checkedListBox_PokemonToEvolve.FormattingEnabled = true;
-            this.checkedListBox_PokemonToEvolve.Location = new System.Drawing.Point(9, 17);
+            this.checkedListBox_PokemonToEvolve.Location = new System.Drawing.Point(9, 19);
             this.checkedListBox_PokemonToEvolve.Name = "checkedListBox_PokemonToEvolve";
             this.checkedListBox_PokemonToEvolve.ScrollAlwaysVisible = true;
-            this.checkedListBox_PokemonToEvolve.Size = new System.Drawing.Size(147, 229);
+            this.checkedListBox_PokemonToEvolve.Size = new System.Drawing.Size(147, 199);
             this.checkedListBox_PokemonToEvolve.TabIndex = 0;
             // 
             // tabGeneral
@@ -2764,6 +2789,17 @@ namespace PokemonGo.RocketAPI.Console
             this.groupBox25.TabStop = false;
             this.groupBox25.Text = "Dev Options";
             // 
+            // checkBoxExtractText
+            // 
+            this.checkBoxExtractText.AutoSize = true;
+            this.checkBoxExtractText.Location = new System.Drawing.Point(7, 75);
+            this.checkBoxExtractText.Name = "checkBoxExtractText";
+            this.checkBoxExtractText.Size = new System.Drawing.Size(142, 17);
+            this.checkBoxExtractText.TabIndex = 2;
+            this.checkBoxExtractText.Text = "Extract Texts from Forms";
+            this.checkBoxExtractText.UseVisualStyleBackColor = true;
+            this.checkBoxExtractText.CheckedChanged += new System.EventHandler(this.checkBoxExtractText_CheckedChanged);
+            // 
             // checkBoxStoreUntranslated
             // 
             this.checkBoxStoreUntranslated.AutoSize = true;
@@ -3423,17 +3459,6 @@ namespace PokemonGo.RocketAPI.Console
             this.comboLanguage.TabIndex = 48;
             this.comboLanguage.SelectedIndexChanged += new System.EventHandler(this.ComboLanguageSelectedIndexChanged);
             // 
-            // checkBoxExtractText
-            // 
-            this.checkBoxExtractText.AutoSize = true;
-            this.checkBoxExtractText.Location = new System.Drawing.Point(7, 75);
-            this.checkBoxExtractText.Name = "checkBoxExtractText";
-            this.checkBoxExtractText.Size = new System.Drawing.Size(142, 17);
-            this.checkBoxExtractText.TabIndex = 2;
-            this.checkBoxExtractText.Text = "Extract Texts from Forms";
-            this.checkBoxExtractText.UseVisualStyleBackColor = true;
-            this.checkBoxExtractText.CheckedChanged += new System.EventHandler(this.checkBoxExtractText_CheckedChanged);
-            // 
             // GUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -3472,6 +3497,7 @@ namespace PokemonGo.RocketAPI.Console
             this.groupBox6.PerformLayout();
             this.groupBox7.ResumeLayout(false);
             this.groupBox7.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nud_EvolveAt)).EndInit();
             this.tabGeneral.ResumeLayout(false);
             this.groupBoxAccount.ResumeLayout(false);
             this.groupBoxAccount.PerformLayout();
@@ -3821,6 +3847,8 @@ namespace PokemonGo.RocketAPI.Console
         private System.Windows.Forms.CheckBox checkBox_ShowPokemons;
         private System.Windows.Forms.CheckBox checkBoxStoreUntranslated;
         private System.Windows.Forms.CheckBox checkBoxExtractText;
+        private System.Windows.Forms.Label label_EvolveAt;
+        private System.Windows.Forms.NumericUpDown nud_EvolveAt;
         //private System.Windows.Forms.CheckBox checkBox_CatchLurePokemons;
     }
 }

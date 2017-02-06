@@ -18,6 +18,7 @@ using POGOProtos.Networking.Responses;
 using PokemonGo.RocketAPI;
 using PokemonGo.RocketAPI.Logic;
 using PokemonGo.RocketAPI.Helpers;
+using PokemonGo.RocketAPI.Logic.Shared;
 using PokemonGo.RocketAPI.Logic.Utils;
 
 namespace PokemonGo.RocketAPI.Logic.Functions
@@ -68,7 +69,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
             }
 
             if (Shared.GlobalVars.EvolvePokemonsIfEnoughCandy)
-                EvolveAllPokemonWithEnoughCandy();
+                EvolveAllPokemonWithEnoughCandy(Shared.GlobalVars.pokemonsToEvolve);
 
             if (Shared.GlobalVars.AutoIncubate)
                 StartIncubation();
@@ -117,7 +118,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
             }
         }
 
-        private static void EvolveAllPokemonWithEnoughCandy(IEnumerable<PokemonId> filter = null)
+        private static void EvolveAllPokemonWithEnoughCandy(IEnumerable<PokemonId> filter )
         {
             int evolvecount = 0;
             int gotXP = 0;
@@ -127,20 +128,19 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                 return;
             }
             var pokemonToEvolve = Logic.objClient.Inventory.GetPokemonToEvolve(filter).Result;
-            if (pokemonToEvolve.Any() && Shared.GlobalVars.UseLuckyEgg)
+            var toEvolveCount = pokemonToEvolve.Count();
+            var startEvolving = (toEvolveCount==0 || toEvolveCount==Shared.GlobalVars.EvolveAt );
+
+            if (startEvolving && Shared.GlobalVars.UseLuckyEgg)
                     Logic.objClient.Inventory.UseLuckyEgg(Logic.objClient).Wait();
 
             foreach (var pokemon in pokemonToEvolve)
             {
-                if (!Shared.GlobalVars.pokemonsToEvolve.Contains(pokemon.PokemonId))
-                {
-                    continue;
-                }
                 var evolvePokemonOutProto = Logic.objClient.Inventory.EvolvePokemon(pokemon.Id).Result;
                 var date = DateTime.Now.ToString();
                 var evolvelog = Path.Combine(logPath, "EvolveLog.txt");
 
-                var getPokemonName = StringUtils.getPokemonNameByLanguage( pokemon.PokemonId);
+                var getPokemonName = pokemon.PokemonId.ToString();
                 var cp = pokemon.Cp;
                 var calcPerf = PokemonInfo.CalculatePokemonPerfection(pokemon).ToString("0.00");
                 var getEvolvedName = StringUtils.getPokemonNameByLanguage( evolvePokemonOutProto.EvolvedPokemonData.PokemonId);
@@ -150,13 +150,11 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                 if (evolvePokemonOutProto.Result == EvolvePokemonResponse.Types.Result.Success)
                 {
                     if(evolvecount == 0)
-                    {
                         if (Shared.GlobalVars.pauseAtEvolve2)
                         {
                             Logger.Info("Stopping to evolve some Pokemons.");
                             Shared.GlobalVars.PauseTheWalking = true;
                         }
-                    }
 
                     if (Shared.GlobalVars.LogEvolve)
                     {

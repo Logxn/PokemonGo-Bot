@@ -170,6 +170,7 @@ namespace PokemonGo.RocketAPI.Logic.Shared
         public static bool AttackGyms = false;
         public static bool UseSpritesFolder = false;
         public static bool ShowPokemons = false;
+        public static int EvolveAt = 0;
         
         
         /// <summary>

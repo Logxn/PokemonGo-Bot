@@ -256,10 +256,10 @@ namespace PokemonGo.RocketAPI.Console
                     {
                         pokemonMarker = new GMarkerGoogle(new PointLatLng(mapPokemon.Latitude, mapPokemon.Longitude), GMarkerGoogleType.green_small);
                     }
-                    var timeToGo = StringUtils.TimeMStoString(mapPokemon.ExpirationTimestampMs,"mm:ss");
-                    Logger.Debug("timeToGo: " +timeToGo);
+                    var expriationTime = StringUtils.TimeMStoString(mapPokemon.ExpirationTimestampMs,"mm:ss");
+                    Logger.Debug("nExpires in: " +expriationTime);
                     var address =LocationUtils.FindAddress(mapPokemon.Latitude, mapPokemon.Longitude);
-                    pokemonMarker.ToolTipText = th.TS("{0}\nExpires at: {1}\n{2}\n{3},{4}", new object[]{ mapPokemon.PokemonId, timeToGo, address, mapPokemon.Latitude, mapPokemon.Longitude});
+                    pokemonMarker.ToolTipText = th.TS("{0}\nExpires in: {1}\n{2}\n{3},{4}", new object[]{ mapPokemon.PokemonId, expriationTime, address, mapPokemon.Latitude, mapPokemon.Longitude});
                     pokemonMarker.ToolTip.Font = new Font("Arial", 12, GraphicsUnit.Pixel);
                     pokemonMarker.ToolTipMode = MarkerTooltipMode.OnMouseOver;
                     _pokemonMarks.Add(mapPokemon.SpawnPointId, pokemonMarker);

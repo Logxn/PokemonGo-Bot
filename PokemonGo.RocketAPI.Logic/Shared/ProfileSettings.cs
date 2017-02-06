@@ -812,26 +812,13 @@ namespace PokemonGo.RocketAPI.Logic.Shared
 
 
         }
-        public bool SnipePokemon {
-            get;
-            set;
+        public bool SnipePokemon  {get;set;}
+        public System.Collections.Generic.List<POGOProtos.Enums.PokemonId> NotToSnipe  {get;set;}
 
+        public int EvolveAt {get;set;}
 
+        public Google.Protobuf.ByteString SessionHash  {get;set;}
 
-
-
-        }
-        public System.Collections.Generic.List<POGOProtos.Enums.PokemonId> NotToSnipe {
-            get;
-            set;
-
-        }
-
-        public Google.Protobuf.ByteString SessionHash {
-            get;
-            set;
-
-        }
         public bool No10kmEggs {
             get;
             set;
