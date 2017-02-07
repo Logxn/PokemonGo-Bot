@@ -21,6 +21,7 @@ namespace PokemonGo.RocketAPI.Console.Components
         private System.Windows.Forms.ColumnHeader chCount;
         private System.Windows.Forms.ColumnHeader chUnseen;
         private System.Windows.Forms.ColumnHeader chID;
+        private System.Windows.Forms.ImageList imageListItems;
         
         /// <summary>
         /// Disposes resources used by the form.
@@ -43,6 +44,8 @@ namespace PokemonGo.RocketAPI.Console.Components
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ItemSelect));
             this.buttonOk = new System.Windows.Forms.Button();
             this.buttonCancel = new System.Windows.Forms.Button();
             this.ItemsListView = new System.Windows.Forms.ListView();
@@ -50,6 +53,7 @@ namespace PokemonGo.RocketAPI.Console.Components
             this.chCount = new System.Windows.Forms.ColumnHeader();
             this.chUnseen = new System.Windows.Forms.ColumnHeader();
             this.chID = new System.Windows.Forms.ColumnHeader();
+            this.imageListItems = new System.Windows.Forms.ImageList(this.components);
             this.SuspendLayout();
             // 
             // buttonOk
@@ -113,6 +117,26 @@ namespace PokemonGo.RocketAPI.Console.Components
             // 
             this.chID.Text = "#";
             this.chID.Width = 40;
+            // 
+            // imageListItems
+            // 
+            this.imageListItems.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageListItems.ImageStream")));
+            this.imageListItems.TransparentColor = System.Drawing.Color.Transparent;
+            this.imageListItems.Images.SetKeyName(0, "incenseOrdinary");
+            this.imageListItems.Images.SetKeyName(1, "hyperpotion");
+            this.imageListItems.Images.SetKeyName(2, "pokeball");
+            this.imageListItems.Images.SetKeyName(3, "potion");
+            this.imageListItems.Images.SetKeyName(4, "revive");
+            this.imageListItems.Images.SetKeyName(5, "greatball");
+            this.imageListItems.Images.SetKeyName(6, "superpotion");
+            this.imageListItems.Images.SetKeyName(7, "ultraball");
+            this.imageListItems.Images.SetKeyName(8, "incubatorbasic");
+            this.imageListItems.Images.SetKeyName(9, "incubatorbasicunlimited");
+            this.imageListItems.Images.SetKeyName(10, "razzberry");
+            this.imageListItems.Images.SetKeyName(11, "troydisk");
+            this.imageListItems.Images.SetKeyName(12, "luckyegg");
+            this.imageListItems.Images.SetKeyName(13, "maxrevive");
+            this.imageListItems.Images.SetKeyName(14, "maxpotion");
             // 
             // ItemSelect
             // 

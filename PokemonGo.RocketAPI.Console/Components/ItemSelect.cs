@@ -48,7 +48,7 @@ namespace PokemonGo.RocketAPI.Console.Components
                 ItemsListView.Items.Clear();
                 var sum = 0;
                 foreach (var item in items) {
-                    if (item.Count <1)
+                    if (item.Count <1 || !canUseHere(item.ItemId))
                         continue; // lest go to next item
                     listViewItem = new ListViewItem();
                     listViewItem.Tag = item;
