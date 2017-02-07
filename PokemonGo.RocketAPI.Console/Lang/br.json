@@ -680,6 +680,7 @@
   "string.{0} will be ":"{0} Será",
   "string.added to":"Adicionado a",
   "string.{0}Expires at: {1}{2}{3},{4}":"{0}Expires at: {1}{2}{3},{4}",
+  "string.This will capture pokemons while walking spiral, and will use pokestops which are within 30 meters of the path projected.":"Isto irá capturar pokemons enquanto voceanda em espiral, e vai usar as pokestops que estão dentro de 30 metros do caminho projetado.",
   "string. your favourites.Are you sure you want?":" Seus favoritos.Você tem certeza que quer?",
   "string.You're going to transfer pokemons. This can not be reversed.":"Você vai transferir pokemons.  Isso não pode ser  desfeito.",
   "string.Since the new API was cracked by the pogodev team, they have choosen to make the API pay2use We did not have any influence on this. We are very sorry this needed to happen!": "Desde que a nova API foi crackeada pela equipe do pogodev, eles têm cobrado pelo serviço da API, não tivemos qualquer influência sobre esta cobrança . Nós sentimos muito pelo acontecido!",
