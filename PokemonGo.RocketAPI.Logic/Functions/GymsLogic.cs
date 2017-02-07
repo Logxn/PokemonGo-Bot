@@ -341,8 +341,11 @@ namespace PokemonGo.RocketAPI.Logic.Functions
         private static void ReviveAndCurePokemons(Client client)
         {
             try {
+                var pokemons = client.Inventory.GetPokemons().Result.Where(x => x.Stamina < x.StaminaMax);
+                if (!pokemons.Any())
+                    return;
                 RandomHelper.RandomSleep(8000, 9000); // If we don`t wait, getpokemons return null.
-                var pokemons = client.Inventory.GetPokemons(true).Result;
+                pokemons = client.Inventory.GetPokemons(true).Result.Where(x => x.Stamina < x.StaminaMax);
                 foreach (var pokemon in pokemons) {
                     if (pokemon.Stamina <= 0) {
                         RandomHelper.RandomSleep(300, 400);

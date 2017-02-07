@@ -33,6 +33,7 @@ namespace PokemonGo.RocketAPI.Console
             this.iVsToNicknameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.changeFavouritesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.changeBuddyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.reloadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusTexbox = new System.Windows.Forms.TextBox();
             this.checkBoxreload = new System.Windows.Forms.CheckBox();
             this.reloadsecondstextbox = new System.Windows.Forms.NumericUpDown();
@@ -43,7 +44,7 @@ namespace PokemonGo.RocketAPI.Console
             this.numPwrUpLimit = new System.Windows.Forms.NumericUpDown();
             this.label1 = new System.Windows.Forms.Label();
             this.checkBox_ShortName = new System.Windows.Forms.CheckBox();
-            this.reloadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.cureToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.reloadsecondstextbox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numPwrUpLimit)).BeginInit();
@@ -123,9 +124,10 @@ namespace PokemonGo.RocketAPI.Console
             this.iVsToNicknameToolStripMenuItem,
             this.changeFavouritesToolStripMenuItem,
             this.changeBuddyToolStripMenuItem,
-            this.reloadToolStripMenuItem});
+            this.reloadToolStripMenuItem,
+            this.cureToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(173, 180);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(173, 202);
             this.contextMenuStrip1.Closing += new System.Windows.Forms.ToolStripDropDownClosingEventHandler(this.contextMenuStrip1_Closing);
             this.contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
             // 
@@ -171,6 +173,13 @@ namespace PokemonGo.RocketAPI.Console
             this.changeBuddyToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
             this.changeBuddyToolStripMenuItem.Text = "Change Buddy";
             this.changeBuddyToolStripMenuItem.Click += new System.EventHandler(this.changeBuddyToolStripMenuItem_Click);
+            // 
+            // reloadToolStripMenuItem
+            // 
+            this.reloadToolStripMenuItem.Name = "reloadToolStripMenuItem";
+            this.reloadToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
+            this.reloadToolStripMenuItem.Text = "Reload";
+            this.reloadToolStripMenuItem.Click += new System.EventHandler(this.reloadToolStripMenuItem_Click);
             // 
             // statusTexbox
             // 
@@ -286,12 +295,12 @@ namespace PokemonGo.RocketAPI.Console
             this.checkBox_ShortName.Text = "Use shortest IV format";
             this.checkBox_ShortName.UseVisualStyleBackColor = true;
             // 
-            // reloadToolStripMenuItem
+            // cureToolStripMenuItem
             // 
-            this.reloadToolStripMenuItem.Name = "reloadToolStripMenuItem";
-            this.reloadToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
-            this.reloadToolStripMenuItem.Text = "Reload";
-            this.reloadToolStripMenuItem.Click += new System.EventHandler(this.reloadToolStripMenuItem_Click);
+            this.cureToolStripMenuItem.Name = "cureToolStripMenuItem";
+            this.cureToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
+            this.cureToolStripMenuItem.Text = "Cure";
+            this.cureToolStripMenuItem.Click += new System.EventHandler(this.cureToolStripMenuItem_Click);
             // 
             // PokemonsPanel
             // 
@@ -343,5 +352,6 @@ namespace PokemonGo.RocketAPI.Console
         private System.Windows.Forms.ToolStripMenuItem changeBuddyToolStripMenuItem;
         private System.Windows.Forms.CheckBox checkBox_ShortName;
         private System.Windows.Forms.ToolStripMenuItem reloadToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem cureToolStripMenuItem;
     }
 }
