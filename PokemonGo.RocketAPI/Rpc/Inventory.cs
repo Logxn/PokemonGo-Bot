@@ -165,7 +165,7 @@ namespace PokemonGo.RocketAPI.Rpc
             };
 
             return await PostProtoPayload<Request, UseItemPotionResponse>(RequestType.UseItemPotion, message).ConfigureAwait(false);
-        } // Quarthy - Still not implemented in BOT
+        }
 
         public async Task<UseItemReviveResponse> UseItemRevive(ItemId itemId, ulong pokemonId)
         {
@@ -175,8 +175,8 @@ namespace PokemonGo.RocketAPI.Rpc
                 PokemonId = pokemonId
             };
 
-            return await PostProtoPayload<Request, UseItemReviveResponse>(RequestType.UseItemEggIncubator, message).ConfigureAwait(false);
-        } // Quarthy - REVIEW - BAD TYPE, you were right, was wrong.
+            return await PostProtoPayload<Request, UseItemReviveResponse>(RequestType.UseItemRevive, message).ConfigureAwait(false);
+        }
 
         public async Task<UseIncenseResponse> UseIncense(ItemId incenseType)
         {

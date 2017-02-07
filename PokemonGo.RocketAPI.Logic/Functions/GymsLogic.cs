@@ -126,7 +126,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
             if (!GlobalVars.FarmGyms) {
                 return false;
             }
-            Logger.Debug("Gym) - Reviving pokemons.");
+            Logger.Debug("(Gym) - Reviving pokemons.");
             ReviveAndCurePokemons(client);
             var pokemons = (client.Inventory.GetPokemons().Result).ToList();
 
@@ -368,14 +368,19 @@ namespace PokemonGo.RocketAPI.Logic.Functions
         private static void CurePokemon(Client client, PokemonData pokemon)
         {
             var potion = GetNextAvailablePotion(client);
-            while (pokemon.Stamina < pokemon.StaminaMax && potion != 0) {
+            var fails = 0;
+            while (pokemon.Stamina < pokemon.StaminaMax && potion != 0 && fails < 3) {
+                RandomHelper.RandomSleep(3000,4000);
                 var response = client.Inventory.UseItemPotion(potion, pokemon.Id).Result;
                 if (response.Result == UseItemPotionResponse.Types.Result.Success) {
-                    Logger.ColoredConsoleWrite(ConsoleColor.DarkGray, $"(Gym) - Pokemon {pokemon.PokemonId} cured. Stamina: {response.Stamina}/pokemon.StaminaMax" );
+                    Logger.ColoredConsoleWrite(ConsoleColor.DarkGray, $"(Gym) - Pokemon {pokemon.PokemonId} cured. Stamina: {response.Stamina}/{pokemon.StaminaMax}" );
                     pokemon.Stamina = response.Stamina;
                     potion = GetNextAvailablePotion(client);
-                }else
+                    fails = 0;
+                }else{
+                    fails++;
                     Logger.Debug("Use potion result: "+ response.Result);
+                }
             }
         }
 
