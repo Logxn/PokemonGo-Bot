@@ -23,6 +23,7 @@ using PokemonGo.RocketAPI.Logic;
 using PokemonGo.RocketAPI.Logic.Functions;
 using POGOProtos.Data;
 using POGOProtos.Data.Battle;
+using PokemonGo.RocketAPI.Rpc;
 
 namespace PokemonGo.RocketAPI.Logic.Functions
 {
@@ -120,6 +121,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                 return false;
             }
             if (GlobalVars.FarmGyms) {
+                ReviveAndCurePokemons(client);
                 var pokemons = (client.Inventory.GetPokemons().Result).ToList();
 
                 PokemonData pokemon = getPokeToPut(client);
@@ -150,13 +152,12 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                                     Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - We have lost");
                                 else if (attResp.BattleLog.State == BattleState.Victory) {
                                     Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - We have won");
-                                    ReviveAndCurePokemons(client, pokeAttackers);
+                                    ReviveAndCurePokemons(client);
                                     putInGym(client,gym,  getPokeToPut(client),pokemons);
                                 } else if (attResp.BattleLog.State == BattleState.TimedOut)
                                     Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - Timed Out");
                                 gymsVisited.Add(gym.Id);
                             }
-                        ReviveAndCurePokemons(client, pokeAttackers);
 
                     } else {
                         Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - There is no free space in the gym");
@@ -188,14 +189,12 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                                     Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - We have lost");
                                 else if (attResp.BattleLog.State == BattleState.Victory) {
                                     Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - We have won");
-                                    ReviveAndCurePokemons(client, pokeAttackers);
+                                    ReviveAndCurePokemons(client);
                                     putInGym(client,gym,  getPokeToPut(client),pokemons);
                                 } else if (attResp.BattleLog.State == BattleState.TimedOut)
                                     Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - Timed Out");
                                 gymsVisited.Add(gym.Id);
                             }
-
-                        ReviveAndCurePokemons(client, pokeAttackers);
                     }
                     GlobalVars.PauseTheWalking = false;
                     Logger.Debug("(Gym) - Continnue walking");
@@ -306,14 +305,12 @@ namespace PokemonGo.RocketAPI.Logic.Functions
             // && x.MoveSettings.MovementId == move
         }
 
-        private static void ReviveAndCurePokemons(Client client, IEnumerable<PokemonData> attackers)
+        private static void ReviveAndCurePokemons(Client client)
         {
             try {
-                RandomHelper.RandomSleep(300,400);
+                RandomHelper.RandomSleep(10000,11000);
                 var pokemons = client.Inventory.GetPokemons(true).Result;
-                RandomHelper.RandomSleep(300,400);
-                foreach (var attacker in attackers) {
-                    var pokemon = pokemons.FirstOrDefault(x => x.Id == attacker.Id);
+                foreach (var pokemon in pokemons) {
                     if (pokemon.Stamina <= 0){
                         RandomHelper.RandomSleep(300, 400);
                         var revive = client.Inventory.GetItemAmountByType(ItemId.ItemRevive).Result;
