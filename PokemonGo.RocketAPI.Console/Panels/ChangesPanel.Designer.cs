@@ -354,6 +354,7 @@ namespace PokemonGo.RocketAPI.Console
 		    this.checkBox_CollectDailyBonus.TabIndex = 58;
 		    this.checkBox_CollectDailyBonus.Text = "Collect Daily Bonus (Not tested)\r\n";
 		    this.checkBox_CollectDailyBonus.UseVisualStyleBackColor = true;
+		    this.checkBox_CollectDailyBonus.CheckedChanged += new System.EventHandler(this.CheckBoxes_CheckedChanged);
 		    // 
 		    // checkbox_Verboselogging
 		    // 
@@ -439,7 +440,7 @@ namespace PokemonGo.RocketAPI.Console
 		    this.checkBoxUseLuckyEggIfNotRunning.Name = "checkBoxUseLuckyEggIfNotRunning";
 		    this.checkBoxUseLuckyEggIfNotRunning.Size = new System.Drawing.Size(160, 17);
 		    this.checkBoxUseLuckyEggIfNotRunning.TabIndex = 47;
-		    this.checkBoxUseLuckyEggIfNotRunning.Tag = "useLuckyEggIfNotRunning";
+		    this.checkBoxUseLuckyEggIfNotRunning.Tag = "UseLuckyEggIfNotRunning";
 		    this.checkBoxUseLuckyEggIfNotRunning.Text = "Use LuckyEgg if not running";
 		    this.checkBoxUseLuckyEggIfNotRunning.UseVisualStyleBackColor = true;
 		    this.checkBoxUseLuckyEggIfNotRunning.CheckedChanged += new System.EventHandler(this.CheckBoxes_CheckedChanged);
