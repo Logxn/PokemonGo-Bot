@@ -1,4 +1,4 @@
-﻿using POGOProtos.Data;
+using POGOProtos.Data;
 using POGOProtos.Data.Player;
 using POGOProtos.Enums;
 using POGOProtos.Inventory;
@@ -167,7 +167,7 @@ namespace PokemonGo.RocketAPI.Rpc
             return await PostProtoPayload<Request, UseItemPotionResponse>(RequestType.UseItemPotion, message).ConfigureAwait(false);
         } // Quarthy - Still not implemented in BOT
 
-        public async Task<UseItemEggIncubatorResponse> UseItemRevive(ItemId itemId, ulong pokemonId)
+        public async Task<UseItemReviveResponse> UseItemRevive(ItemId itemId, ulong pokemonId)
         {
             var message = new UseItemReviveMessage()
             {
@@ -175,8 +175,8 @@ namespace PokemonGo.RocketAPI.Rpc
                 PokemonId = pokemonId
             };
 
-            return await PostProtoPayload<Request, UseItemEggIncubatorResponse>(RequestType.UseItemEggIncubator, message).ConfigureAwait(false);
-        } // Quarthy - REVIEW - BAD TYPE
+            return await PostProtoPayload<Request, UseItemReviveResponse>(RequestType.UseItemEggIncubator, message).ConfigureAwait(false);
+        } // Quarthy - REVIEW - BAD TYPE, you were right, was wrong.
 
         public async Task<UseIncenseResponse> UseIncense(ItemId incenseType)
         {

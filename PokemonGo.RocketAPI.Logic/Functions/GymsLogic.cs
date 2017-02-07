@@ -251,7 +251,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                         RandomHelper.RandomSleep(move1Settings.DurationMs + 30, move1Settings.DurationMs + 50);
                     }
                 }
-                Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - Battle Finished in {count} attacks.");
+                Logger.ColoredConsoleWrite(gymColorLog, $"(Gym) - Battle Finished in {count} attacks.");
                 if (attResp.Result == AttackGymResponse.Types.Result.Success) {
                     if (attResp.BattleLog.State == BattleState.Defeated){
                         Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - We have lost");
@@ -289,7 +289,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
             attack.ActionStartMs = timeMs;
             attack.TargetIndex = -1;
             attack.ActivePokemonId = attResp.ActiveAttacker.PokemonData.Id;
-            attack.TargetPokemonId = attResp.ActiveDefender.PokemonData.Id;
+            //attack.TargetPokemonId = attResp.ActiveDefender.PokemonData.Id;
             battleActions.Clear();
             battleActions.Add(attack);
             lastRetrievedAction = attResp.BattleLog.BattleActions.LastOrDefault();
@@ -341,7 +341,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
         private static void ReviveAndCurePokemons(Client client)
         {
             try {
-                RandomHelper.RandomSleep(8000, 9000);
+                RandomHelper.RandomSleep(8000, 9000); // If we don`t wait, getpokemons return null.
                 var pokemons = client.Inventory.GetPokemons(true).Result;
                 foreach (var pokemon in pokemons) {
                     if (pokemon.Stamina <= 0) {
@@ -349,7 +349,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                         var revive = client.Inventory.GetItemAmountByType(ItemId.ItemRevive).Result;
                         if (revive > 0) {
                             var response = client.Inventory.UseItemRevive(ItemId.ItemRevive, pokemon.Id).Result;
-                            if (response.Result == UseItemEggIncubatorResponse.Types.Result.Success) {
+                            if (response.Result == UseItemReviveResponse.Types.Result.Success) {
                                 pokemon.Stamina = pokemon.StaminaMax/2;
                                 Logger.ColoredConsoleWrite(ConsoleColor.DarkGray, "(Gym) - Pokemon revived: " + pokemon.PokemonId);
                                 CurePokemon(client, pokemon);
