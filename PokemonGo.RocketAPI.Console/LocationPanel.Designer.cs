@@ -32,6 +32,8 @@ namespace PokemonGo.RocketAPI.Console
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.NumericUpDown nudRadius;
         private System.Windows.Forms.Button btnPauseWalking;
+        private System.Windows.Forms.Button buttonZoomOut;
+        private System.Windows.Forms.Button buttonZoomIn;
         
         /// <summary>
         /// Disposes resources used by the control.
@@ -73,6 +75,8 @@ namespace PokemonGo.RocketAPI.Console
             this.lblAddress = new System.Windows.Forms.Label();
             this.tbAddress = new System.Windows.Forms.TextBox();
             this.btnPauseWalking = new System.Windows.Forms.Button();
+            this.buttonZoomOut = new System.Windows.Forms.Button();
+            this.buttonZoomIn = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudRadius)).BeginInit();
             this.SuspendLayout();
@@ -324,9 +328,33 @@ namespace PokemonGo.RocketAPI.Console
             this.btnPauseWalking.UseVisualStyleBackColor = true;
             this.btnPauseWalking.Click += new System.EventHandler(this.btnPauseWalking_Click);
             // 
+            // buttonZoomOut
+            // 
+            this.buttonZoomOut.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonZoomOut.Location = new System.Drawing.Point(853, 453);
+            this.buttonZoomOut.Name = "buttonZoomOut";
+            this.buttonZoomOut.Size = new System.Drawing.Size(25, 23);
+            this.buttonZoomOut.TabIndex = 45;
+            this.buttonZoomOut.Text = "+";
+            this.buttonZoomOut.UseVisualStyleBackColor = true;
+            this.buttonZoomOut.Click += new System.EventHandler(this.buttonZoomOut_Click);
+            // 
+            // buttonZoomIn
+            // 
+            this.buttonZoomIn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonZoomIn.Location = new System.Drawing.Point(853, 475);
+            this.buttonZoomIn.Name = "buttonZoomIn";
+            this.buttonZoomIn.Size = new System.Drawing.Size(25, 23);
+            this.buttonZoomIn.TabIndex = 46;
+            this.buttonZoomIn.Text = "-";
+            this.buttonZoomIn.UseVisualStyleBackColor = true;
+            this.buttonZoomIn.Click += new System.EventHandler(this.buttonZoomIn_Click);
+            // 
             // LocationPanel
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
+            this.Controls.Add(this.buttonZoomIn);
+            this.Controls.Add(this.buttonZoomOut);
             this.Controls.Add(this.cbShowPokemon);
             this.Controls.Add(this.btnPauseWalking);
             this.Controls.Add(this.cbShowPokeStops);

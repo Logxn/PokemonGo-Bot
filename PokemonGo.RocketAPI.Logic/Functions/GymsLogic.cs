@@ -201,15 +201,23 @@ namespace PokemonGo.RocketAPI.Logic.Functions
             var moveSettings = GetMoveSettings(client);
             RandomHelper.RandomSleep(1000, 1500);
             var resp = client.Fort.StartGymBattle(gym.Id, defenderId, pokeAttackersIds).Result;
-            // Sometimes we get a null from startgymBattle
-            if (resp == null) {
-                Logger.Debug("Response to start battle was null");
-                return null;
+            var numTries = 3;
+            // Sometimes we get a null from startgymBattle so we try to start battle 3 times
+            while ((resp == null) && (numTries > 0)) {
+                Logger.Debug("Response to start battle was null. Trying again after 2 seconds");
+                RandomHelper.RandomSleep(2000, 2500);
+                resp = client.Fort.StartGymBattle(gym.Id, defenderId, pokeAttackersIds).Result;
+                numTries --;
             }
+
+            if (resp == null)
+                return null;
+
             if (resp.BattleLog == null) {
                 Logger.Debug("BatlleLog to start battle was null");
                 return null;
             }
+
             if (resp.BattleLog.State == BattleState.Active) {
                 Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - Battle Started");
                 RandomHelper.RandomSleep(1000, 1100);
@@ -267,7 +275,10 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                             attResp = LeaveBattle( gym,  client,   resp,  attResp,  battleActions, lastRetrievedAction);
                         }else{
                             var pokemons = (client.Inventory.GetPokemons().Result).ToList();
-                            putInGym(client, gym, getPokeToPut(client, buddyPokemonId), pokemons);
+                            RandomHelper.RandomSleep(400);
+                            var gymDetails = client.Fort.GetGymDetails(gym.Id, gym.Latitude, gym.Longitude).Result;
+                            if (gymDetails.GymState.Memberships.Count < 1)
+                                putInGym(client, gym, getPokeToPut(client, buddyPokemonId), pokemons);
                         }
                     } else if (attResp.BattleLog.State == BattleState.TimedOut)
                         Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - Timed Out");

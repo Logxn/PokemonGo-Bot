@@ -145,7 +145,6 @@ namespace PokemonGo.RocketAPI.Console
             this.TabControl1.Controls.Add(this.tpPlayerInfo);
             this.TabControl1.Controls.Add(this.tpSnipers);
             this.TabControl1.Controls.Add(this.tpOptions);
-            //this.TabControl1.Controls.Add(this.tpWeb);
             this.TabControl1.Location = new System.Drawing.Point(4, 4);
             this.TabControl1.Name = "TabControl1";
             this.TabControl1.SelectedIndex = 0;
@@ -171,7 +170,7 @@ namespace PokemonGo.RocketAPI.Console
             this.RepeatRoute.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.RepeatRoute.AutoSize = true;
             this.RepeatRoute.Enabled = false;
-            this.RepeatRoute.Location = new System.Drawing.Point(684, 469);
+            this.RepeatRoute.Location = new System.Drawing.Point(652, 460);
             this.RepeatRoute.Name = "RepeatRoute";
             this.RepeatRoute.Size = new System.Drawing.Size(93, 17);
             this.RepeatRoute.TabIndex = 46;
@@ -181,10 +180,10 @@ namespace PokemonGo.RocketAPI.Console
             // CreateRoute
             // 
             this.CreateRoute.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.CreateRoute.Location = new System.Drawing.Point(683, 491);
+            this.CreateRoute.Location = new System.Drawing.Point(651, 482);
             this.CreateRoute.Margin = new System.Windows.Forms.Padding(2);
             this.CreateRoute.Name = "CreateRoute";
-            this.CreateRoute.Size = new System.Drawing.Size(89, 23);
+            this.CreateRoute.Size = new System.Drawing.Size(94, 23);
             this.CreateRoute.TabIndex = 47;
             this.CreateRoute.Text = "Define Route";
             this.CreateRoute.UseVisualStyleBackColor = true;
