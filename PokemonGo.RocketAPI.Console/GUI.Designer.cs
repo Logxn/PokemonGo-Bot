@@ -302,6 +302,8 @@ namespace PokemonGo.RocketAPI.Console
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.labelLanguage = new System.Windows.Forms.Label();
             this.comboLanguage = new System.Windows.Forms.ComboBox();
+            this.nudNumDefenders = new System.Windows.Forms.NumericUpDown();
+            this.labelDefenders = new System.Windows.Forms.Label();
             this.tabProxies.SuspendLayout();
             this.tabItems.SuspendLayout();
             this.groupBox4.SuspendLayout();
@@ -359,6 +361,7 @@ namespace PokemonGo.RocketAPI.Console
             this.groupBox20.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudNumDefenders)).BeginInit();
             this.SuspendLayout();
             // 
             // buttonSaveStart
@@ -2280,6 +2283,8 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // groupBoxGyms
             // 
+            this.groupBoxGyms.Controls.Add(this.labelDefenders);
+            this.groupBoxGyms.Controls.Add(this.nudNumDefenders);
             this.groupBoxGyms.Controls.Add(this.checkBoxAttackGyms);
             this.groupBoxGyms.Controls.Add(this.label23);
             this.groupBoxGyms.Controls.Add(this.comboBoxLeaveInGyms);
@@ -2293,11 +2298,12 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // checkBoxAttackGyms
             // 
+            this.checkBoxAttackGyms.AutoSize = true;
             this.checkBoxAttackGyms.Location = new System.Drawing.Point(16, 37);
             this.checkBoxAttackGyms.Name = "checkBoxAttackGyms";
-            this.checkBoxAttackGyms.Size = new System.Drawing.Size(293, 18);
+            this.checkBoxAttackGyms.Size = new System.Drawing.Size(125, 17);
             this.checkBoxAttackGyms.TabIndex = 54;
-            this.checkBoxAttackGyms.Text = "Attack if there is 1 defender ( not tested )";
+            this.checkBoxAttackGyms.Text = "Attack if there are <=";
             this.checkBoxAttackGyms.UseVisualStyleBackColor = true;
             // 
             // label23
@@ -3459,6 +3465,37 @@ namespace PokemonGo.RocketAPI.Console
             this.comboLanguage.TabIndex = 48;
             this.comboLanguage.SelectedIndexChanged += new System.EventHandler(this.ComboLanguageSelectedIndexChanged);
             // 
+            // nudNumDefenders
+            // 
+            this.nudNumDefenders.Location = new System.Drawing.Point(180, 35);
+            this.nudNumDefenders.Maximum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.nudNumDefenders.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.nudNumDefenders.Name = "nudNumDefenders";
+            this.nudNumDefenders.Size = new System.Drawing.Size(40, 20);
+            this.nudNumDefenders.TabIndex = 55;
+            this.nudNumDefenders.Value = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
+            // 
+            // labelDefenders
+            // 
+            this.labelDefenders.AutoSize = true;
+            this.labelDefenders.Location = new System.Drawing.Point(226, 39);
+            this.labelDefenders.Name = "labelDefenders";
+            this.labelDefenders.Size = new System.Drawing.Size(56, 13);
+            this.labelDefenders.TabIndex = 56;
+            this.labelDefenders.Text = "Defenders";
+            // 
             // GUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -3571,6 +3608,7 @@ namespace PokemonGo.RocketAPI.Console
             this.groupBox20.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudNumDefenders)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -3849,6 +3887,8 @@ namespace PokemonGo.RocketAPI.Console
         private System.Windows.Forms.CheckBox checkBoxExtractText;
         private System.Windows.Forms.Label label_EvolveAt;
         private System.Windows.Forms.NumericUpDown nud_EvolveAt;
+        private System.Windows.Forms.Label labelDefenders;
+        private System.Windows.Forms.NumericUpDown nudNumDefenders;
         //private System.Windows.Forms.CheckBox checkBox_CatchLurePokemons;
     }
 }
