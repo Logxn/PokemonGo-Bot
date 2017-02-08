@@ -231,15 +231,25 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                 var inBattle = (attResp.Result == AttackGymResponse.Types.Result.Success);
                 inBattle = inBattle && (attResp.BattleLog.State == BattleState.Active);
                 var count = 1;
+                var energy = 0;
                 while (inBattle) {
                     var timeMs = attResp.BattleLog.ServerMs;
                     var move1Settings = moveSettings.FirstOrDefault(x => x.MoveSettings.MovementId == attResp.ActiveAttacker.PokemonData.Move1).MoveSettings;
+                    var move2Settings = moveSettings.FirstOrDefault(x => x.MoveSettings.MovementId == attResp.ActiveAttacker.PokemonData.Move2).MoveSettings;
                     var attack = new BattleAction();
-                    attack.Type = BattleActionType.ActionAttack;
-                    attack.DurationMs = move1Settings.DurationMs; 
-                    attack.DamageWindowsStartTimestampMs = move1Settings.DamageWindowStartMs;
-                    attack.DamageWindowsEndTimestampMs = move1Settings.DamageWindowEndMs;
-                    attack.ActionStartMs = timeMs + move1Settings.DurationMs;
+                    if (energy >= move2Settings.EnergyDelta){
+                        attack.Type = BattleActionType.ActionSpecialAttack;
+                        attack.DurationMs = move2Settings.DurationMs; 
+                        attack.DamageWindowsStartTimestampMs = move2Settings.DamageWindowStartMs;
+                        attack.DamageWindowsEndTimestampMs = move2Settings.DamageWindowEndMs;
+                        attack.ActionStartMs = timeMs + move2Settings.DurationMs;
+                    }else{
+                        attack.Type = BattleActionType.ActionAttack;
+                        attack.DurationMs = move1Settings.DurationMs; 
+                        attack.DamageWindowsStartTimestampMs = move1Settings.DamageWindowStartMs;
+                        attack.DamageWindowsEndTimestampMs = move1Settings.DamageWindowEndMs;
+                        attack.ActionStartMs = timeMs + move1Settings.DurationMs;
+                    }
                     attack.TargetIndex = -1;
                     attack.ActivePokemonId = attResp.ActiveAttacker.PokemonData.Id;
                     attack.TargetPokemonId = attResp.ActiveDefender.PokemonData.Id;
@@ -252,6 +262,12 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                     if (inBattle) {
                         Logger.Debug("(Gym) - Battle State: " + attResp.BattleLog.State);
                         inBattle = inBattle && (attResp.BattleLog.State == BattleState.Active);
+                        energy = attResp.ActiveAttacker.CurrentEnergy;
+                        var health = attResp.ActiveAttacker.CurrentHealth;
+                        var activeAttacker = attResp.ActiveAttacker.PokemonData.PokemonId;
+                        Logger.Debug($"ActiveAttacker :{activeAttacker}");
+                        Logger.Debug($"Energy :{energy}");
+                        Logger.Debug($"Health :{health}");
                         Logger.Debug($"Attack {count} done.");
                         count++;
                         Logger.Debug("(Gym) - Wait a moment before next attact");
