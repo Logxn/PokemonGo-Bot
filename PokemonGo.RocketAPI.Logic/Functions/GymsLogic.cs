@@ -175,12 +175,11 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                 var gymDetails = client.Fort.GetGymDetails(gym.Id, gym.Latitude, gym.Longitude).Result;
                 Logger.ColoredConsoleWrite(gymColorLog, "Team:" + GetTeamName(gym.OwnedByTeam) + ". Members: " + gymDetails.GymState.Memberships.Count + ". Level: " + GetGymLevel(gym.GymPoints));
 
-                // TODO: ATTACK more than 2 defender
-                if (gymDetails.GymState.Memberships.Count >= 1 && gymDetails.GymState.Memberships.Count <=2) {
+                if (gymDetails.GymState.Memberships.Count >= 1 && gymDetails.GymState.Memberships.Count <= GlobalVars.NumDefenders) {
                     if (gymDetails.GymState.Memberships.Count == 1)
                         Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - There is only one rival. Let's go to fight");
-                    else if (gymDetails.GymState.Memberships.Count == 2)
-                        Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - There are two rivals. Let's go to fight");
+                    else 
+                        Logger.ColoredConsoleWrite(gymColorLog, $"(Gym) - There are {gymDetails.GymState.Memberships.Count} rivals. Let's go to fight");
                     var pokeAttackers = pokemons.Where(x => ((!x.IsEgg) && (x.DeployedFortId == "") && (x.Stamina > 0))).OrderByDescending(x => x.Cp).Take(6);
                     Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - Selected Atackers:");
                     ShowPokemons(pokeAttackers);
@@ -258,6 +257,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                         if (numDefenders > 1){
                             Logger.Debug("(Gym) - Leaving Battle");
                             attResp = LeaveBattle( gym,  client,   resp,  attResp,  battleActions, lastRetrievedAction);
+                            
                         }
                     }else if (attResp.BattleLog.State == BattleState.Victory) {
                         Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - We have won");
@@ -344,11 +344,11 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                 var pokemons = client.Inventory.GetPokemons().Result.Where(x => x.Stamina < x.StaminaMax);
                 if (!pokemons.Any())
                     return;
-                RandomHelper.RandomSleep(8000, 9000); // If we don`t wait, getpokemons return null.
+                RandomHelper.RandomSleep(7000, 8000); // If we don`t wait, getpokemons return null.
                 pokemons = client.Inventory.GetPokemons(true).Result.Where(x => x.Stamina < x.StaminaMax);
                 foreach (var pokemon in pokemons) {
                     if (pokemon.Stamina <= 0) {
-                        RandomHelper.RandomSleep(300, 400);
+                        RandomHelper.RandomSleep(400, 500);
                         var revive = client.Inventory.GetItemAmountByType(ItemId.ItemRevive).Result;
                         if (revive > 0) {
                             var response = client.Inventory.UseItemRevive(ItemId.ItemRevive, pokemon.Id).Result;
@@ -373,7 +373,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
             var potion = GetNextAvailablePotion(client);
             var fails = 0;
             while (pokemon.Stamina < pokemon.StaminaMax && potion != 0 && fails < 3) {
-                RandomHelper.RandomSleep(3000,4000);
+                RandomHelper.RandomSleep(2000,2500);
                 var response = client.Inventory.UseItemPotion(potion, pokemon.Id).Result;
                 if (response.Result == UseItemPotionResponse.Types.Result.Success) {
                     Logger.ColoredConsoleWrite(ConsoleColor.DarkGray, $"(Gym) - Pokemon {pokemon.PokemonId} cured. Stamina: {response.Stamina}/{pokemon.StaminaMax}" );
@@ -389,7 +389,6 @@ namespace PokemonGo.RocketAPI.Logic.Functions
 
         static ItemId GetNextAvailablePotion(Client client)
         {
-            RandomHelper.RandomSleep(100, 200);
             var count = client.Inventory.GetItemAmountByType(ItemId.ItemPotion).Result;
             if (count > 0)
                 return ItemId.ItemPotion;

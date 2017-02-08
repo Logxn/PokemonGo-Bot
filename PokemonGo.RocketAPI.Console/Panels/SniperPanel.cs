@@ -50,16 +50,17 @@ namespace PokemonGo.RocketAPI.Console
         private static Dictionary<string, int> pokeIDS = new Dictionary<string, int>();
         public WebBrowser webBrowser = null;
         private Helper.TranslatorHelper th = Helper.TranslatorHelper.getInstance();
+        private const string linksFileName =  "snipelinks.json";
+        private static string linksFile = Path.Combine(Program.path, linksFileName);
 
         private static Components.HRefLink[] links = {
          new Components.HRefLink("pokedexs.com","https://pokedexs.com"),
-         new Components.HRefLink("pokegosnipers.com","http://pokegosnipers.com"),
          new Components.HRefLink("pokezz.com","http://pokezz.com"),
          new Components.HRefLink("pokewatchers.com","http://pokewatchers.com"),
          new Components.HRefLink("mypogosnipers.com","http://www.mypogosnipers.com"),
-         new Components.HRefLink("snipe.necrobot2.com","http://snipe.necrobot2.com"),
          new Components.HRefLink("pokesniper.org","http://pokesniper.org/"),
-         new Components.HRefLink("iv100.top","http://iv100.top/")
+         new Components.HRefLink("iv100.top","http://iv100.top/"),
+         new Components.HRefLink("pokedex100.com","http://pokedex100.com/")
         };
 
         public SniperPanel()
@@ -74,6 +75,8 @@ namespace PokemonGo.RocketAPI.Console
 
         void IntializeComboLinks()
         {
+            LoadLinks();
+
             comboBoxLinks.DataSource = links;
             comboBoxLinks.DisplayMember= "Text";
             comboBoxLinks.SelectedIndex = 0;
@@ -338,5 +341,41 @@ namespace PokemonGo.RocketAPI.Console
             }
 
         }
+        private static void SaveLinks(){
+            string ProfilesString = JsonConvert.SerializeObject(links, Formatting.Indented);
+            File.WriteAllText(linksFile, ProfilesString);
+        }
+
+        private static bool LoadLinks()
+        {
+            if (!File.Exists(linksFile)){
+                DownloadFile("PokemonGo.RocketAPI.Console/Resources",Program.path,linksFileName);
+            }
+            if (File.Exists(linksFile)){
+                links = JsonConvert.DeserializeObject<Components.HRefLink[]>(File.ReadAllText(linksFile));
+                return true;
+            }
+            return false;
+        }
+
+        private static void DownloadFile(string remoteDir, string outDir, string name)
+        {
+            if (!Directory.Exists(outDir))
+                Directory.CreateDirectory(outDir);
+
+            var filename = Path.Combine(outDir, name);
+            if (!File.Exists(filename))
+            {
+                try {
+                    using (var wC = new WebClient())
+                    {
+                         wC.DownloadFile("https://raw.githubusercontent.com/Logxn/PokemonGo-Bot/master/"+remoteDir+"/"+name,filename);
+                         if (File.ReadAllText(filename) == "")
+                             File.Delete(filename);
+                    }
+                } catch  {
+                }
+            }
+        }        
     }
 }

@@ -429,6 +429,7 @@ namespace PokemonGo.RocketAPI.Console
             checkBox_StartWalkingFromLastLocation.Checked = config.UseLastCords;
             checkBox_FarmGyms.Checked = config.FarmGyms;
             checkBoxAttackGyms.Checked = config.AttackGyms;
+            nudNumDefenders.Value = (config.NumDefenders<=0)?1:config.NumDefenders;
 
             // tab 7 - telegram and logs
             cbLogPokemon.Checked = config.LogPokemons;
@@ -846,6 +847,7 @@ namespace PokemonGo.RocketAPI.Console
             ActiveProfile.Settings.UseLastCords = checkBox_StartWalkingFromLastLocation.Checked;
             ActiveProfile.Settings.FarmGyms = checkBox_FarmGyms.Checked;
             ActiveProfile.Settings.AttackGyms = checkBoxAttackGyms.Checked;
+            ActiveProfile.Settings.NumDefenders = (int) nudNumDefenders.Value;
 
             // tab 7 - Logs and Telegram            
             ActiveProfile.Settings.LogPokemons = cbLogPokemon.Checked;

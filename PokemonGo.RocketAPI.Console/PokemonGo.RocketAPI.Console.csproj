@@ -453,6 +453,7 @@
     <None Include="Resources\de.gif" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\snipelinks.json" />
     <None Include="Resources\spain.png" />
   </ItemGroup>
   <ItemGroup>
