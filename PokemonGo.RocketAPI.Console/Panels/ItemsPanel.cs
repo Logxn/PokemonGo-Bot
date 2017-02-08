@@ -23,14 +23,21 @@ namespace PokemonGo.RocketAPI.Console
     /// </summary>
     public partial class ItemsPanel : UserControl
     {
-        private Helper.TranslatorHelper th = Helper.TranslatorHelper.getInstance();
+        private static Helper.TranslatorHelper th = Helper.TranslatorHelper.getInstance();
         public ItemsPanel()
         {
             //
             // The InitializeComponent() call is required for Windows Forms designer support.
             //
             InitializeComponent();
+
             th.Translate(this);
+
+            this.chID.Text = th.TS("#");
+            this.chItem.Text = th.TS("Item");
+            this.chCount.Text = th.TS("Count");
+            this.chUnseen.Text = th.TS("Unseen");
+            
         }
         void BtnRealoadItemsClick(object sender, EventArgs e)
         {
@@ -91,7 +98,7 @@ namespace PokemonGo.RocketAPI.Console
                 //Execute(); 
             }
         }
-        private string getItemName(ItemId itemID)
+        public static string getItemName(ItemId itemID)
         {
             switch (itemID) {
                 case ItemId.ItemPotion:
@@ -104,6 +111,8 @@ namespace PokemonGo.RocketAPI.Console
                     return th.TS("Max Potion");
                 case ItemId.ItemRevive:
                     return th.TS("Revive");
+                case ItemId.ItemMaxRevive:
+                    return th.TS("Max Revive");
                 case ItemId.ItemIncenseOrdinary:
                     return th.TS("Incense");
                 case ItemId.ItemPokeBall:
