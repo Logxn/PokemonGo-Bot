@@ -14,6 +14,7 @@ using System.IO;
 using PokemonGo.RocketAPI.Helpers;
 using PokemonGo.RocketAPI.Logic.Shared;
 using PokemonGo.RocketAPI.Logic.Utils;
+using POGOProtos.Inventory.Item;
 
 namespace PokemonGo.RocketAPI.Console
 {
@@ -180,7 +181,7 @@ namespace PokemonGo.RocketAPI.Console
             // Create a comparer.
             PokemonListView.ListViewItemSorter = new ListViewComparer(e.Column, sort_order);
 
-            // Sort 
+            // Sort
             //PokemonListView.Sort();
         }
         private void loadAdditionalPokeData()
@@ -212,8 +213,8 @@ namespace PokemonGo.RocketAPI.Console
                     refreshData().Wait();
 
                     pokemons =
-                    inventory.InventoryDelta.InventoryItems
-                    .Select(i => i.InventoryItemData?.PokemonData)
+                        inventory.InventoryDelta.InventoryItems
+                        .Select(i => i.InventoryItemData?.PokemonData)
                         .Where(p => p != null && p?.PokemonId > 0)
                         .OrderByDescending(key => key.Cp);
 
@@ -254,7 +255,7 @@ namespace PokemonGo.RocketAPI.Console
                         listViewItem.SubItems.Add(string.Format("{0}", PokemonInfo.GetLevel(pokemon)));
                         listViewItem.ImageKey = pokemon.PokemonId.ToString();
                         var specSymbol ="";
-                        if  (pokemon.Favorite == 1) 
+                        if  (pokemon.Favorite == 1)
                             specSymbol = "★";
                         if ((profile!=null) && (profile.PlayerData.BuddyPokemon.Id == pokemon.Id))
                             specSymbol = "☉";
@@ -309,7 +310,7 @@ namespace PokemonGo.RocketAPI.Console
                             listViewItem.SubItems.Add("");
                             listViewItem.SubItems.Add("");
                         }
-                        // NOTE: yyyy/MM/dd is inverted order to can sort correctly as text. 
+                        // NOTE: yyyy/MM/dd is inverted order to can sort correctly as text.
                         listViewItem.SubItems.Add(Logic.Utils.StringUtils.ConvertTimeMSinString(pokemon.CreationTimeMs, "yyyy/MM/dd HH:mm:ss"));
                         listViewItem.SubItems.Add(th.TS(pokemon.Pokeball.ToString().Replace("Item", "")));
                         listViewItem.SubItems.Add("" + pokemon.NumUpgrades);
@@ -342,7 +343,7 @@ namespace PokemonGo.RocketAPI.Console
             }
             catch (Exception ex1)
             {
-            	Logger.ExceptionInfo(ex1.ToString());
+                Logger.ExceptionInfo(ex1.ToString());
             }
         }
         private void EnabledButton(bool enabled, string reason = "")
@@ -458,8 +459,8 @@ namespace PokemonGo.RocketAPI.Console
                 var getEvolvedName = StringUtils.getPokemonNameByLanguage(resp.EvolvedPokemonData.PokemonId);
                 var getEvolvedCP = resp.EvolvedPokemonData.Cp;
                 gotXP = gotXP + resp.ExperienceAwarded;
-
-                Logger.Info($"Evolved Pokemon: {getPokemonName} | CP {cp} | Perfection {calcPerf}% | => to {getEvolvedName} | CP: {getEvolvedCP} | XP Reward: {resp.ExperienceAwarded.ToString("N0")} XP");
+                var xpreward =resp.ExperienceAwarded.ToString("N0");
+                Logger.Info($"Evolved Pokemon: {getPokemonName} | CP {cp} | Perfection {calcPerf}% | => to {getEvolvedName} | CP: {getEvolvedCP} | XP Reward: {xpreward} XP");
 
                 if (resp.Result == EvolvePokemonResponse.Types.Result.Success)
                 {
@@ -496,8 +497,8 @@ namespace PokemonGo.RocketAPI.Console
                 }
                 MessageBox.Show(th.TS("Succesfully evolved {0}/{1} Pokemons.",evolved,total), th.TS("Evolve status"), MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
-
-            Logger.Info($"Evolved {evolved} Pokemons. We have got {gotXP.ToString("N0")} XP.");
+            var gotxpno=gotXP.ToString("N0");
+            Logger.Info($"Evolved {evolved} Pokemons. We have got {gotxpno} XP.");
 
             if (evolved > 0)
             {
@@ -521,11 +522,11 @@ namespace PokemonGo.RocketAPI.Console
                 int transfered = 0;
                 int total = selectedItems.Count;
                 string failed = string.Empty;
-    
+                
                 string logPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Logs");
                 string logs = Path.Combine(logPath, "TransferLog.txt");
                 string date = DateTime.Now.ToString();
-    
+                
                 if (GlobalVars.pauseAtEvolve2)  // stop walking
                 {
                     Logger.Info("Taking a short break to transfer some pokemons!");
@@ -535,25 +536,25 @@ namespace PokemonGo.RocketAPI.Console
                 DialogResult dialogResult = MessageBox.Show(th.TS("You're going to transfer pokemons. This can not be reversed."), th.TS("Are you Sure?"), MessageBoxButtons.YesNo);
                 if (dialogResult == DialogResult.Yes)
                 {
-    
+                    
                     var pokemonsToTransfer = new List<ulong>();
-    
+                    
                     foreach (ListViewItem selectedItem in selectedItems)
                     {
                         var pokemon = (PokemonData)selectedItem.Tag;
                         var strPokename = th.TS( pokemon.PokemonId.ToString());
-    
+                        
                         if (pokemon.DeployedFortId == "" && pokemon.Favorite == 0 && pokemon.Id != profile.PlayerData.BuddyPokemon.Id)
                         {
                             pokemonsToTransfer.Add(pokemon.Id);
-    
+                            
                             transfered++;
-    
+                            
                             File.AppendAllText(logs, $"[{date}] - MANUAL - Enqueuing to BULK transfer pokemon {transfered}/{total}: {Logic.Utils.StringUtils.getPokemonNameByLanguage(BotSettings, pokemon.PokemonId)}" + Environment.NewLine);
                             var strPerfection = PokemonInfo.CalculatePokemonPerfection(pokemon).ToString("0.00");
                             var strTransfer = $"Enqueuing to BULK transfer pokemon {transfered}/{total}: {strPokename} CP {pokemon.Cp} IV {strPerfection}";
                             Logger.ColoredConsoleWrite(ConsoleColor.Yellow, strTransfer, LogLevel.Info);
-    
+                            
                             PokemonListView.Items.Remove(selectedItem);
                         }
                         else
@@ -566,9 +567,9 @@ namespace PokemonGo.RocketAPI.Console
                     }
                     if (pokemonsToTransfer.Any()){
                         var _response = client.Inventory.TransferPokemon(pokemonsToTransfer).Result;
-    
+                        
                         if (_response.Result == ReleasePokemonResponse.Types.Result.Success)
-                        { 
+                        {
                             if (BotSettings.LogTransfer)
                             {
                                 File.AppendAllText(logs, $"[{date}] - MANUAL - Sucessfully Bulk transfered {transfered}/{total} Pokemons. Failed: {failed}" + Environment.NewLine);
@@ -581,16 +582,16 @@ namespace PokemonGo.RocketAPI.Console
                         {
                             Logger.Error("Something happened while transferring pokemons.");
                         }
-        
+                        
                         RefreshTitle();
                         client.Inventory.GetInventory(true).Wait(); // force refresh inventory
                     }
-    
+                    
                     if (GlobalVars.pauseAtEvolve)
                     {
                         Logger.Info("Transferred everything. Time to continue our journey!");
                         GlobalVars.PauseTheWalking = false;
-                    }                
+                    }
                 }
                 EnabledButton(true);
             } catch (Exception ex1) {
@@ -637,11 +638,11 @@ namespace PokemonGo.RocketAPI.Console
                 var atLeast1PowerUp = false;
                 foreach (ListViewItem selectedItem in selectedItems)
                     for (var i = 1; i<=poweruplimit;i++)
-                    {
-                        if (!PowerUp((PokemonData)selectedItem.Tag))
-                            break; // goes to next selected pokemon
-                        atLeast1PowerUp = true;
-                    }
+                {
+                    if (!PowerUp((PokemonData)selectedItem.Tag))
+                        break; // goes to next selected pokemon
+                    atLeast1PowerUp = true;
+                }
                 if (atLeast1PowerUp)
                     Execute();
             }
@@ -674,7 +675,7 @@ namespace PokemonGo.RocketAPI.Console
                     }
                     else
                         failed += pokemon.Nickname + " ";
-                     Helpers.RandomHelper.RandomSleep(5000, 6000);
+                    Helpers.RandomHelper.RandomSleep(5000, 6000);
                 }
 
                 if (failed != string.Empty)
@@ -776,7 +777,7 @@ namespace PokemonGo.RocketAPI.Console
             foreach (ListViewItem element in PokemonListView.SelectedItems) {
                 var pokemon = element.Tag as PokemonData;
                 var resp = new taskResponse(false, string.Empty);
-    
+                
                 string poname = th.TS(pokemon.PokemonId.ToString());
                 if (MessageBox.Show(this, th.TS("{0} will be ",poname) + ((pokemon.Favorite == 1) ? th.TS("deleted from") : th.TS("added to")) + th.TS(" your favourites.\nAre you sure you want?"), th.TS("Confirmation Message"), MessageBoxButtons.OKCancel) == DialogResult.OK)
                 {
@@ -790,7 +791,7 @@ namespace PokemonGo.RocketAPI.Console
                 if (resp.Status)
                 {
                     var specSymbol ="";
-                    if  (pokemon.Favorite == 1) 
+                    if  (pokemon.Favorite == 1)
                         specSymbol = "★";
                     if ((profile!=null) && (profile.PlayerData.BuddyPokemon.Id == pokemon.Id))
                         specSymbol = "☉";
@@ -919,6 +920,31 @@ namespace PokemonGo.RocketAPI.Console
         void reloadToolStripMenuItem_Click(object sender, EventArgs e)
         {
             btnReload_Click(sender,e);
+        }
+        void cureToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (PokemonListView.SelectedItems.Count < 1)
+                return;
+            var dialog = new Components.ItemSelect();
+            if (dialog.ShowDialog() == DialogResult.OK) {
+                var selectedPokemon = (PokemonData) PokemonListView.SelectedItems[0].Tag;
+                var selectedItem = dialog.selected;
+                if (selectedItem.ItemId == ItemId.ItemRevive || selectedItem.ItemId == ItemId.ItemMaxRevive)
+                {
+                    var res = client.Inventory.UseItemRevive(selectedItem.ItemId,selectedPokemon.Id).Result;
+                    if (res.Result == UseItemReviveResponse.Types.Result.Success)
+                        MessageBox.Show(th.TS("{0} Revived sucefully",selectedPokemon.PokemonId.ToString()));
+                    else
+                        Logger.Error("Error: "+ res.Result);
+                }
+                else{
+                    var res = client.Inventory.UseItemPotion(selectedItem.ItemId,selectedPokemon.Id).Result;
+                    if (res.Result == UseItemPotionResponse.Types.Result.Success)
+                        MessageBox.Show(th.TS("{0} Cured sucefully",selectedPokemon.PokemonId.ToString()));
+                    else
+                        Logger.Error("Error: "+ res.Result);
+                }
+            }
         }
 
         public class taskResponse

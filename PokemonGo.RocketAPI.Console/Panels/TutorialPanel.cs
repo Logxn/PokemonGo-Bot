@@ -19,15 +19,86 @@ namespace PokemonGo.RocketAPI.Console.Panels
     /// </summary>
     public partial class TutorialPanel : UserControl
     {
-        Helper.TranslatorHelper th =  Helper.TranslatorHelper.getInstance();
+        Helper.TranslatorHelper th = Helper.TranslatorHelper.getInstance();
         public TutorialPanel()
         {
             InitializeComponent();
-           th.Translate(this);
+            th.Translate(this);
+            initializeCombos();
         }
+
+        void initializeCombos()
+        {
+            this.lcGender.Items.AddRange(new object[] {
+                th.TS("Male"),
+                th.TS("Female"),
+                th.TS("Random")
+            });
+            this.lcPokemon.Items.AddRange(new object[] {
+                th.TS("Bulbasaur"),
+                th.TS("Charmander"),
+                th.TS("Squirtle"),
+                th.TS("Picachu"),
+                th.TS("Random")
+            });
+            this.lcBackpack.Items.AddRange(new object[] {
+                "0",
+                "1",
+                "2",
+                th.TS("Random")
+            });
+            this.lcEyes.Items.AddRange(new object[] {
+                "0",
+                "1",
+                "2",
+                "3",
+                th.TS("Random")
+            });
+            this.lcHair.Items.AddRange(new object[] {
+                "0",
+                "1",
+                "2",
+                "3",
+                "4",
+                "5",
+                th.TS("Random")
+            });
+            this.lcShirt.Items.AddRange(new object[] {
+                "0",
+                "1",
+                "2",
+                "Random"
+            });
+            this.lcPants.Items.AddRange(new object[] {
+                "0",
+                "1",
+                "2",
+                th.TS("Random")
+            });            
+            this.lcHat.Items.AddRange(new object[] {
+                "0",
+                "1",
+                "2",
+                th.TS("Random")
+            });
+            this.lcSkin.Items.AddRange(new object[] {
+                "0",
+                "1",
+                "2",
+                "3",
+                th.TS("Random")
+            });
+            this.lcShoes.Items.AddRange(new object[] {
+                "0",
+                "1",
+                "2",
+                th.TS("Random")
+            });
+        }
+
         public void LoadData()
         {
-            if (AvatarSettings.Load()){
+            if (AvatarSettings.Load()) {
                 ltNickPrefix.Value = AvatarSettings.nicknamePrefix;
                 ltNickSufix.Value = AvatarSettings.nicknameSufix;
                 lcSkin.SelectedIndex = AvatarSettings.skin;
@@ -43,16 +114,16 @@ namespace PokemonGo.RocketAPI.Console.Panels
                 lcPokemon.SelectedIndex = 4;
                 switch (AvatarSettings.starter) {
                     case POGOProtos.Enums.PokemonId.Bulbasaur: 
-                        lcPokemon.SelectedIndex= 0;
+                        lcPokemon.SelectedIndex = 0;
                         break;
                     case POGOProtos.Enums.PokemonId.Charmander: 
-                        lcPokemon.SelectedIndex= 1;
+                        lcPokemon.SelectedIndex = 1;
                         break;
                     case POGOProtos.Enums.PokemonId.Squirtle: 
-                        lcPokemon.SelectedIndex= 2;
+                        lcPokemon.SelectedIndex = 2;
                         break;
                     case POGOProtos.Enums.PokemonId.Pikachu: 
-                        lcPokemon.SelectedIndex= 3;
+                        lcPokemon.SelectedIndex = 3;
                         break;
                 }
             }
@@ -69,21 +140,21 @@ namespace PokemonGo.RocketAPI.Console.Panels
             AvatarSettings.backpack = lcBackpack.SelectedIndex;
             AvatarSettings.nicknamePrefix = ltNickPrefix.Value;
             AvatarSettings.nicknameSufix = ltNickSufix.Value;
-             AvatarSettings.Gender = lcGender.SelectedIndex;
+            AvatarSettings.Gender = lcGender.SelectedIndex;
 
-            AvatarSettings.starter= POGOProtos.Enums.PokemonId.Missingno;
+            AvatarSettings.starter = POGOProtos.Enums.PokemonId.Missingno;
             switch (lcPokemon.SelectedIndex) {
                 case 0: 
-                    AvatarSettings.starter= POGOProtos.Enums.PokemonId.Bulbasaur;
+                    AvatarSettings.starter = POGOProtos.Enums.PokemonId.Bulbasaur;
                     break;
                 case 1: 
-                    AvatarSettings.starter= POGOProtos.Enums.PokemonId.Charmander;
+                    AvatarSettings.starter = POGOProtos.Enums.PokemonId.Charmander;
                     break;
                 case 2: 
-                    AvatarSettings.starter= POGOProtos.Enums.PokemonId.Squirtle;
+                    AvatarSettings.starter = POGOProtos.Enums.PokemonId.Squirtle;
                     break;
                 case 3: 
-                    AvatarSettings.starter= POGOProtos.Enums.PokemonId.Pikachu;
+                    AvatarSettings.starter = POGOProtos.Enums.PokemonId.Pikachu;
                     break;
             }
             AvatarSettings.Save();

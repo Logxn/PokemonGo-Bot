@@ -266,17 +266,26 @@ namespace PokemonGo.RocketAPI.Console
             checkBoxAutoIncubate.Checked = GlobalVars.AutoIncubate;
             checkBoxUseBasicIncubators.Checked = GlobalVars.UseBasicIncubators;
             checkBox_FarmGyms.Checked = GlobalVars.FarmGyms;
+            checkBox_AttackGyms.Checked = GlobalVars.AttackGyms;
             checkBox_CollectDailyBonus.Checked = GlobalVars.CollectDailyBonus;
             checkBox_AutoTransferDoublePokemon.Checked = GlobalVars.TransferDoublePokemons;
             checkbox_Verboselogging.Checked = GlobalVars.EnableVerboseLogging;
             //Routing
+            checkBox_UseGoogleMapsRouting.CheckedChanged -= checkBox_UseGoogleMapsRouting_CheckedChanged;
             checkBox_UseGoogleMapsRouting.Checked = GlobalVars.UseGoogleMapsAPI;
+            checkBox_UseGoogleMapsRouting.CheckedChanged += checkBox_UseGoogleMapsRouting_CheckedChanged;
+            
             text_GoogleMapsAPIKey.Text = GlobalVars.GoogleMapsAPIKey;
             numTravelSpeed.Value = (int)GlobalVars.RelocateDefaultLocationTravelSpeed;
+            nudNumDefenders.Value = GlobalVars.NumDefenders;
             enableEvents = true;
+
+
         }
         void checkbox_Verboselogging_CheckedChanged(object sender, EventArgs e)
         {
+            if (! enableEvents)
+                return;
             GlobalVars.EnableVerboseLogging = (sender as CheckBox).Checked;
             Logger.SelectedLevel = LogLevel.Error;
             if (GlobalVars.EnableVerboseLogging)
@@ -284,12 +293,16 @@ namespace PokemonGo.RocketAPI.Console
         }
         void checkBox_UseGoogleMapsRouting_CheckedChanged(object sender, EventArgs e)
         {
+            if (! enableEvents)
+                return;
             GlobalVars.UseGoogleMapsAPI =checkBox_UseGoogleMapsRouting.Checked;
             if (GlobalVars.UseGoogleMapsAPI)
                 GlobalVars.GoogleMapsAPIKey = text_GoogleMapsAPIKey.Text;
         }
         void comboLanguage_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if (! enableEvents)
+                return;
             var lang = "";
             switch (comboLanguage.SelectedIndex) {
                 case 0:
@@ -318,5 +331,13 @@ namespace PokemonGo.RocketAPI.Console
                     OnChangeLanguage();
             }
         }
+
+        void nudNumDefenders_ValueChanged(object sender, EventArgs e)
+        {
+            if (! enableEvents)
+                return;
+            GlobalVars.NumDefenders = (int) (sender as NumericUpDown).Value;
+        }
+
     }
 }

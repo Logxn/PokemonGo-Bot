@@ -20,6 +20,7 @@ namespace PokemonGo.RocketAPI.Console
     /// </summary>
     public partial class IncubatorSelect : Form
     {
+        private Helper.TranslatorHelper th = Helper.TranslatorHelper.getInstance();
         public EggIncubator selected=null;
         public IncubatorSelect()
         {
@@ -28,11 +29,11 @@ namespace PokemonGo.RocketAPI.Console
             //
             InitializeComponent();            
         }
-        public async void Execute(){
+        public void Execute(){
             var client = Logic.Logic.objClient;
             if (client.ReadyToUse != false)
             {
-                var incubators = await client.Inventory.GetEggIncubators().ConfigureAwait(false);
+                var incubators = client.Inventory.GetEggIncubators().Result;
                   listView.Items.Clear();                  
                 ListViewItem listViewItem;                    
                 foreach (  var item in incubators) {
@@ -54,7 +55,7 @@ namespace PokemonGo.RocketAPI.Console
         {            
             if (listView.SelectedItems.Count < 1)
             {
-                MessageBox.Show("Please Select an incubator.");
+                MessageBox.Show(th.TS("Please Select an incubator."));
             }
             else
             {

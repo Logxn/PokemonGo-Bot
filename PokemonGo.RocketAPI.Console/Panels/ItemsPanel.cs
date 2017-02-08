@@ -23,14 +23,21 @@ namespace PokemonGo.RocketAPI.Console
     /// </summary>
     public partial class ItemsPanel : UserControl
     {
-        private Helper.TranslatorHelper th = Helper.TranslatorHelper.getInstance();
+        private static Helper.TranslatorHelper th = Helper.TranslatorHelper.getInstance();
         public ItemsPanel()
         {
             //
             // The InitializeComponent() call is required for Windows Forms designer support.
             //
             InitializeComponent();
+
             th.Translate(this);
+
+            this.chID.Text = th.TS("#");
+            this.chItem.Text = th.TS("Item");
+            this.chCount.Text = th.TS("Count");
+            this.chUnseen.Text = th.TS("Unseen");
+            
         }
         void BtnRealoadItemsClick(object sender, EventArgs e)
         {
@@ -58,16 +65,7 @@ namespace PokemonGo.RocketAPI.Console
 
                 var client = Logic.Logic.objClient;
                 if (client.ReadyToUse != false) {
-                    // eb - removing async
-                    //var items = await client.Inventory.GetItems().ConfigureAwait(false);
                     var items = client.Inventory.GetItems().Result;
-
-                    ItemId[] validsIDs = {
-                        ItemId.ItemPokeBall,
-                        ItemId.ItemGreatBall,
-                        ItemId.ItemUltraBall
-                    };
-	               
                     ListViewItem listViewItem;
                     ItemsListView.Items.Clear();
                     var sum = 0;
@@ -85,13 +83,11 @@ namespace PokemonGo.RocketAPI.Console
                     lblCount.Text = "" + sum;
                 }
             } catch (Exception e) {
-
-                Logger.Error("[ItemsList-Error] " + e.StackTrace);
-                RandomHelper.RandomSleep(1000, 1100);
-                //Execute(); 
+                Logger.ExceptionInfo("[ItemsList-Error] " + e.StackTrace);
             }
         }
-        private string getItemName(ItemId itemID)
+
+        public static string getItemName(ItemId itemID)
         {
             switch (itemID) {
                 case ItemId.ItemPotion:
@@ -104,6 +100,8 @@ namespace PokemonGo.RocketAPI.Console
                     return th.TS("Max Potion");
                 case ItemId.ItemRevive:
                     return th.TS("Revive");
+                case ItemId.ItemMaxRevive:
+                    return th.TS("Max Revive");
                 case ItemId.ItemIncenseOrdinary:
                     return th.TS("Incense");
                 case ItemId.ItemPokeBall:
@@ -122,54 +120,38 @@ namespace PokemonGo.RocketAPI.Console
                     return itemID.ToString().Replace("Item", "");
             }
         }
+
         void RecycleToolStripMenuItemClick(object sender, EventArgs e)
         {
-
             var item = (ItemData)ItemsListView.SelectedItems[0].Tag;
             int amount = IntegerInput.ShowDialog(1, "How many?", item.Count);
             if (amount > 0) {
-                var resp = new taskResponse(false, string.Empty);
-
-                resp = RecycleItems(item, amount).Result;
-                if (resp.Status) {
+                var resp = RecycleItems(item, amount);
+                if (resp) {
                     item.Count -= amount;
                     ItemsListView.SelectedItems[0].SubItems[1].Text = "" + item.Count;
                 } else
-                    MessageBox.Show(resp.Message + th.TS(" recycle failed!"), th.TS("Recycle Status"), MessageBoxButtons.OK);
+                    MessageBox.Show(th.TS(" recycle failed!"), th.TS("Recycle Status"), MessageBoxButtons.OK);
+            }
+        }
 
-            }
-        }
-        public class taskResponse
+        private static bool RecycleItems(ItemData item, int amount)
         {
-            public bool Status { get; set; }
-            public string Message { get; set; }
-            public taskResponse()
-            {
-            }
-            public taskResponse(bool status, string message)
-            {
-                Status = status;
-                Message = message;
-            }
-        }
-        private static async Task<taskResponse> RecycleItems(ItemData item, int amount)
-        {
-            var resp1 = new taskResponse(false, string.Empty);
+            var resp1 = false;
             try {
                 var client = Logic.Logic.objClient;
-                var resp2 = await client.Inventory.RecycleItem(item.ItemId, amount).ConfigureAwait(false);
+                var resp2 = client.Inventory.RecycleItem(item.ItemId, amount).Result;
 
                 if (resp2.Result == RecycleInventoryItemResponse.Types.Result.Success) {
-                    resp1.Status = true;
-                } else {
-                    resp1.Message = item.ItemId.ToString();
-                }
+                    resp1 = true;
+                }else
+                    Logger.Error("RecycleItems:" +resp2.Result);
             } catch (Exception e) {
-                Logger.ColoredConsoleWrite(ConsoleColor.Red, "Error RecycleItem: " + e.Message);
-                await RecycleItems(item, amount).ConfigureAwait(false);
+                Logger.ExceptionInfo("RecycleItems: "+e);
             }
             return resp1;
         }
+
         private void num_Max(object sender, EventArgs e)
         {
             try {
@@ -216,6 +198,7 @@ namespace PokemonGo.RocketAPI.Console
                 Logger.ExceptionInfo(e1.ToString());
             }
         }
+
         void btnCopy_Click(object sender, EventArgs e)
         {
             foreach (ListViewItem lvitem in ItemsListView.Items) {
@@ -228,21 +211,21 @@ namespace PokemonGo.RocketAPI.Console
                 }
             }
         }
-        
-        private async Task RecycleItems(bool forcerefresh = false)
+
+        private void RecycleItems()
         {            
             var client = Logic.Logic.objClient;
-            var items = await client.Inventory.GetItemsToRecycle(GlobalVars.GetItemFilter()).ConfigureAwait(false);
+            var items = client.Inventory.GetItemsToRecycle(GlobalVars.GetItemFilter()).Result;
             foreach (var item in items) {
-                var transfer = await client.Inventory.RecycleItem((ItemId)item.ItemId, item.Count).ConfigureAwait(false);
+                var transfer = client.Inventory.RecycleItem((ItemId)item.ItemId, item.Count).Result;
                 Logger.ColoredConsoleWrite(ConsoleColor.Yellow, String.Format("Recycled {0}x {1}",item.Count,(ItemId)item.ItemId));
-                await RandomHelper.RandomDelay(1000, 5000).ConfigureAwait(false);
+                RandomHelper.RandomSleep(1000, 5000);
             }
         }
 
         void btnDiscard_Click(object sender, EventArgs e)
         {
-            RecycleItems().Wait();
+            RecycleItems();
             Execute();
         }
 
@@ -271,8 +254,8 @@ namespace PokemonGo.RocketAPI.Console
                 }
             
             }
-
         }
+
         void ItemsListView_ColumnClick(object sender, ColumnClickEventArgs e)
         {
             var order = (sender as ListView).Sorting;

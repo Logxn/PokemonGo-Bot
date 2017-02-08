@@ -33,6 +33,11 @@ namespace PokemonGo.RocketAPI.Helpers
             Thread.Sleep(_rng.Next(min, max));
         }
 
+        public static void RandomSleep(int average)
+        {
+            RandomSleep(average-100, average+100);
+        }
+
         public static int RandomNumber(int min, int max)
         {
             var random = new Random();
