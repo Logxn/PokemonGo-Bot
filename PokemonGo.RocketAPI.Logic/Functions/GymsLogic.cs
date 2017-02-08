@@ -130,7 +130,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
             ReviveAndCurePokemons(client);
             var pokemons = (client.Inventory.GetPokemons().Result).ToList();
 
-            RandomHelper.RandomSleep(400, 500);
+            RandomHelper.RandomSleep(900);
             var profile = client.Player.GetPlayer().Result;
 
             PokemonData pokemon = getPokeToPut(client, profile.PlayerData.BuddyPokemon.Id);
@@ -203,25 +203,31 @@ namespace PokemonGo.RocketAPI.Logic.Functions
             var resp = client.Fort.StartGymBattle(gym.Id, defenderId, pokeAttackersIds).Result;
             var numTries = 3;
             // Sometimes we get a null from startgymBattle so we try to start battle 3 times
-            while ((resp == null) && (numTries > 0)) {
-                Logger.Debug("Response to start battle was null. Trying again after 2 seconds");
+            var startFailed = true;
+            startFailed = (resp == null);
+            if  (!startFailed)
+                startFailed = (resp.BattleLog == null);
+
+            while ( startFailed  && numTries > 0) {
+                if (resp == null)
+                    Logger.Debug("(Gym) - Response to start battle was null.");
+                if (resp.BattleLog == null)
+                    Logger.Debug("(Gym) - BatlleLog to start battle was null");
+                Logger.Debug("(Gym) - Trying again after 2 seconds");
                 RandomHelper.RandomSleep(2000, 2500);
                 resp = client.Fort.StartGymBattle(gym.Id, defenderId, pokeAttackersIds).Result;
+                startFailed = (resp == null);
+                if  (!startFailed)
+                    startFailed = (resp.BattleLog == null);
                 numTries --;
             }
 
-            if (resp == null)
+            if (startFailed)
                 return null;
-
-            if (resp.BattleLog == null) {
-                Logger.Debug("BatlleLog to start battle was null");
-                return null;
-            }
 
             if (resp.BattleLog.State == BattleState.Active) {
                 Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - Battle Started");
-                RandomHelper.RandomSleep(1000, 1100);
-                   
+                RandomHelper.RandomSleep(2000);
                 var battleActions = new List<BattleAction>();
                 var lastRetrievedAction = new BattleAction();
                 var battleStartMs = resp.BattleLog.BattleStartTimestampMs;
@@ -237,18 +243,20 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                     var move1Settings = moveSettings.FirstOrDefault(x => x.MoveSettings.MovementId == attResp.ActiveAttacker.PokemonData.Move1).MoveSettings;
                     var move2Settings = moveSettings.FirstOrDefault(x => x.MoveSettings.MovementId == attResp.ActiveAttacker.PokemonData.Move2).MoveSettings;
                     var attack = new BattleAction();
-                    if (energy >= move2Settings.EnergyDelta){
+                    if (energy >= move2Settings.EnergyDelta && move2Settings.EnergyDelta >0){
                         attack.Type = BattleActionType.ActionSpecialAttack;
                         attack.DurationMs = move2Settings.DurationMs; 
                         attack.DamageWindowsStartTimestampMs = move2Settings.DamageWindowStartMs;
                         attack.DamageWindowsEndTimestampMs = move2Settings.DamageWindowEndMs;
                         attack.ActionStartMs = timeMs + move2Settings.DurationMs;
+                        Logger.Debug("(Gym) - Special attack");
                     }else{
                         attack.Type = BattleActionType.ActionAttack;
                         attack.DurationMs = move1Settings.DurationMs; 
                         attack.DamageWindowsStartTimestampMs = move1Settings.DamageWindowStartMs;
                         attack.DamageWindowsEndTimestampMs = move1Settings.DamageWindowEndMs;
                         attack.ActionStartMs = timeMs + move1Settings.DurationMs;
+                        Logger.Debug("(Gym) - Normal attack");
                     }
                     attack.TargetIndex = -1;
                     attack.ActivePokemonId = attResp.ActiveAttacker.PokemonData.Id;
