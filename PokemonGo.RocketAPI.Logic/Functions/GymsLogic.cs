@@ -243,7 +243,8 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                     var move1Settings = moveSettings.FirstOrDefault(x => x.MoveSettings.MovementId == attResp.ActiveAttacker.PokemonData.Move1).MoveSettings;
                     var move2Settings = moveSettings.FirstOrDefault(x => x.MoveSettings.MovementId == attResp.ActiveAttacker.PokemonData.Move2).MoveSettings;
                     var attack = new BattleAction();
-                    if (energy >= move2Settings.EnergyDelta && move2Settings.EnergyDelta >0){
+                    var energyDelta = Math.Abs( move2Settings.EnergyDelta);
+                    if (energy >= energyDelta && energyDelta >0){
                         attack.Type = BattleActionType.ActionSpecialAttack;
                         attack.DurationMs = move2Settings.DurationMs; 
                         attack.DamageWindowsStartTimestampMs = move2Settings.DamageWindowStartMs;
@@ -270,16 +271,21 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                     if (inBattle) {
                         Logger.Debug("(Gym) - Battle State: " + attResp.BattleLog.State);
                         inBattle = inBattle && (attResp.BattleLog.State == BattleState.Active);
+
                         energy = attResp.ActiveAttacker.CurrentEnergy;
                         var health = attResp.ActiveAttacker.CurrentHealth;
                         var activeAttacker = attResp.ActiveAttacker.PokemonData.PokemonId;
-                        Logger.Debug($"ActiveAttacker :{activeAttacker}");
-                        Logger.Debug($"Energy :{energy}");
-                        Logger.Debug($"Health :{health}");
+                        Logger.Debug($"Attacker: {activeAttacker} Energy={energy}, Health={health}");
+
+                        var energyDef = attResp.ActiveDefender.CurrentEnergy;
+                        health = attResp.ActiveDefender.CurrentHealth;
+                        var activeDeffender = attResp.ActiveAttacker.PokemonData.PokemonId;
+                        Logger.Debug($"Deffender: {activeDeffender} Energy={energyDef}, Health={health}");
+
                         Logger.Debug($"Attack {count} done.");
                         count++;
                         Logger.Debug("(Gym) - Wait a moment before next attact");
-                        RandomHelper.RandomSleep(move1Settings.DurationMs + 30, move1Settings.DurationMs + 50);
+                        RandomHelper.RandomSleep(move1Settings.DurationMs + 5, move1Settings.DurationMs + 30);
                     }
                 }
                 Logger.ColoredConsoleWrite(gymColorLog, $"(Gym) - Battle Finished in {count} attacks.");
