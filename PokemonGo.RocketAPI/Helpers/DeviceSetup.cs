@@ -18,7 +18,10 @@ namespace PokemonGo.RocketAPI.Helpers
         {
             DeviceInfo _device = new DeviceInfo();
 
-            string[] arrLine = File.ReadAllLines(deviceinfo);
+            string[] arrLine ={"lg-optimus-g",""};
+
+            if (File.Exists(deviceinfo))
+                File.ReadAllLines(deviceinfo);
 
             string DevicePackageName = arrLine[0].ToString();
             // Read DeviceID of File
