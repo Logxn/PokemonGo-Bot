@@ -646,5 +646,6 @@
   "string.HoOh":"HoOh",
   "string.Celebi":"Celebi",
   "string.Reloading Pokemon list.":"Reloading Pokemon list.",
-  "string.Since the new API was cracked by the pogodev team, they have choosen to make the API pay2use We did not have any influence on this. We are very sorry this needed to happen!":"Since the new API was cracked by the pogodev team, they have choosen to make the API pay2use We did not have any influence on this. We are very sorry this needed to happen!"
+  "string.Since the new API was cracked by the pogodev team, they have choosen to make the API pay2use We did not have any influence on this. We are very sorry this needed to happen!":"Since the new API was cracked by the pogodev team, they have choosen to make the API pay2use We did not have any influence on this. We are very sorry this needed to happen!",
+  "string.Reloading Pokemon list.":"Please select a Device"
 }

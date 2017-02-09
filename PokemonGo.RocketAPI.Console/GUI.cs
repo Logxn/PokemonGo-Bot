@@ -877,9 +877,10 @@ namespace PokemonGo.RocketAPI.Console
             // dev options
             ActiveProfile.Settings.EnableVerboseLogging = checkbox_Verboselogging.Checked;
             
-            if (comboBox_Device.SelectedText==""){
-                MessageBox.Show("Please select a Device");
+            if (comboBox_Device.SelectedIndex<0){
                 ret = false;
+                if (makePrompts)
+                    MessageBox.Show(th.TS("Please select a Device"));
             }
 
             // Gyms
