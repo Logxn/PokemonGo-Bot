@@ -300,23 +300,40 @@ namespace PokemonGo.RocketAPI.Console
         }
 
         private void SavePokestopsInfo(){
+            var file = System.IO.Path.Combine(Program.path, "forts.json");
             var array = new List<MarkerInfo>();
+            var infoJSON =  "";
+            if (System.IO.File.Exists(file)){
+                infoJSON = System.IO.File.ReadAllText(file);
+                array = Newtonsoft.Json.JsonConvert.DeserializeObject<List<MarkerInfo>>(infoJSON);
+            }
+
             foreach (var element in _pokeStopsOverlay.Markers) {
                 var mInfo = new MarkerInfo();
                 mInfo.type = 0;
                 mInfo.info = element.ToolTipText;
                 mInfo.location = element.Position;
-                array.Add(mInfo);
+                if (!ContainsFort(array,mInfo))
+                    array.Add(mInfo);
             }
             foreach (var element in _pokeGymsOverlay.Markers) {
                 var mInfo = new MarkerInfo();
                 mInfo.type = 1;
                 mInfo.info = element.ToolTipText;
                 mInfo.location = element.Position;
-                array.Add(mInfo);
+                if (!ContainsFort(array,mInfo))
+                    array.Add(mInfo);
             }
-            var infoJSON = Newtonsoft.Json.JsonConvert.SerializeObject(array, Newtonsoft.Json.Formatting.Indented);
-            System.IO.File.WriteAllText(System.IO.Path.Combine(Program.path, "forts.json"), infoJSON);
+            infoJSON = Newtonsoft.Json.JsonConvert.SerializeObject(array, Newtonsoft.Json.Formatting.Indented);
+            System.IO.File.WriteAllText(file, infoJSON);
+        }
+
+        private bool ContainsFort(List<MarkerInfo> list , MarkerInfo fort){
+            foreach (var element in list) {
+                if (element.location == fort.location)
+                    return true;
+            }
+            return false;
         }
 
         private void LoadPokestopsInfo(){
