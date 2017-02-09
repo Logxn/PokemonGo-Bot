@@ -248,24 +248,24 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                     Logger.Debug("(Gym) - energyDelta: "+energyDelta);
                     if (energy >= energyDelta && energyDelta > 0) {
                         attack.Type = BattleActionType.ActionSpecialAttack;
+                        attack.ActionStartMs = timeMs + RandomHelper.RandomNumber(150, 200);
                         attack.DurationMs = move2Settings.DurationMs;
                         attack.DamageWindowsStartTimestampMs = move2Settings.DamageWindowStartMs;
                         attack.DamageWindowsEndTimestampMs = move2Settings.DamageWindowEndMs;
-                        attack.ActionStartMs = timeMs + RandomHelper.RandomNumber(300, 400);
                         Logger.Debug("(Gym) - Special attack");
                     } else {
-                        var dodge = RandomHelper.RandomNumber(1, 5);
+                        var dodge = RandomHelper.RandomNumber(1, 6);
                         if (dodge == 1) {
                             attack.Type = BattleActionType.ActionDodge;
-                            attack.DurationMs = RandomHelper.RandomNumber(100, 200);
-                            attack.ActionStartMs = timeMs + attack.DurationMs;
+                            attack.ActionStartMs = timeMs + RandomHelper.RandomNumber(100, 150);
+                            attack.DurationMs = RandomHelper.RandomNumber(100, 150);
                             Logger.Debug("(Gym) - Dodging attack");
                         } else {
                             attack.Type = BattleActionType.ActionAttack;
+                            attack.ActionStartMs = timeMs + RandomHelper.RandomNumber(100, 150);
                             attack.DurationMs = move1Settings.DurationMs;
                             attack.DamageWindowsStartTimestampMs = move1Settings.DamageWindowStartMs;
                             attack.DamageWindowsEndTimestampMs = move1Settings.DamageWindowEndMs;
-                            attack.ActionStartMs = timeMs + RandomHelper.RandomNumber(100, 200);
                             Logger.Debug("(Gym) - Normal attack");
                         }
                     }
@@ -301,7 +301,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                         Logger.Debug($"(Gym) - Round {count} done.");
                         count++;
                         Logger.Debug("(Gym) - Wait a moment before next attact");
-                        RandomHelper.RandomSleep(attack.DurationMs + 200, attack.DurationMs + 230);
+                        RandomHelper.RandomSleep(200);
                     }
                 }
                 Logger.ColoredConsoleWrite(gymColorLog, $"(Gym) - Battle Finished in {count} Rounds.");
