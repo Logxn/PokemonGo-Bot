@@ -6,12 +6,14 @@
  * 
  * To change this template use Tools | Options | Coding | Edit Standard Headers.
  */
+using System.Collections;
 using GMap.NET;
 using GMap.NET.MapProviders;
 using GMap.NET.WindowsForms;
 using GMap.NET.WindowsForms.Markers;
 using POGOProtos.Map.Fort;
 using POGOProtos.Map.Pokemon;
+using PokemonGo.RocketAPI.Console.Components;
 using PokemonGo.RocketAPI.Console.Helper;
 using PokemonGo.RocketAPI.Logic.Shared;
 using PokemonGo.RocketAPI.Logic.Utils;
@@ -62,6 +64,8 @@ namespace PokemonGo.RocketAPI.Console
             }
             buttonZoomOut.Visible= true;
             buttonZoomIn.Visible= true;
+            buttonSavePokestops.Visible=true;
+            buttonLoadPokestops.Visible=true;
         }
         
         public bool close = true;
@@ -293,6 +297,60 @@ namespace PokemonGo.RocketAPI.Console
                     Logger.ExceptionInfo(string.Format("Error in HandleNewPokemonLocations: {0}", e.ToString()));
                 }
             }));
+        }
+
+        private void SavePokestopsInfo(){
+            var array = new List<MarkerInfo>();
+            foreach (var element in _pokeStopsOverlay.Markers) {
+                var mInfo = new MarkerInfo();
+                mInfo.type = 0;
+                mInfo.info = element.ToolTipText;
+                mInfo.location = element.Position;
+                array.Add(mInfo);
+            }
+            foreach (var element in _pokeGymsOverlay.Markers) {
+                var mInfo = new MarkerInfo();
+                mInfo.type = 1;
+                mInfo.info = element.ToolTipText;
+                mInfo.location = element.Position;
+                array.Add(mInfo);
+            }
+            var infoJSON = Newtonsoft.Json.JsonConvert.SerializeObject(array, Newtonsoft.Json.Formatting.Indented);
+            System.IO.File.WriteAllText(System.IO.Path.Combine(Program.path, "forts.json"), infoJSON);
+        }
+
+        private void LoadPokestopsInfo(){
+            var file = System.IO.Path.Combine(Program.path, "forts.json");
+            if (System.IO.File.Exists(file)){
+                var infoJSON = System.IO.File.ReadAllText(file);
+                _pokeStopsOverlay.IsVisibile = false;
+                _pokeStopsOverlay.Markers.Clear();
+                _pokeGymsOverlay.IsVisibile = false;
+                _pokeGymsOverlay.Markers.Clear();
+                var markers = Newtonsoft.Json.JsonConvert.DeserializeObject<MarkerInfo[]>(infoJSON);
+                foreach (var element in markers) {
+                    GMarkerGoogle fortMaker = null;
+                    if (element.type == 0)
+                        fortMaker = new GMarkerGoogle(element.location, Properties.MapData.pokestop);
+                    else
+                        fortMaker = new GMarkerGoogle(element.location, Properties.MapData.pokegym);
+                    if (element.info!=null){
+                        fortMaker.ToolTipText = element.info;
+                        fortMaker.ToolTip.Font = new System.Drawing.Font("Arial", 12, System.Drawing.GraphicsUnit.Pixel);
+                        fortMaker.ToolTipMode = MarkerTooltipMode.OnMouseOver;
+                    }
+                    if (element.type == 0)
+                        _pokeStopsOverlay.Markers.Add(fortMaker);
+                    else
+                        _pokeGymsOverlay.Markers.Add(fortMaker);
+                }
+                if (!map.Overlays.Contains(_pokeStopsOverlay))
+                    map.Overlays.Add(_pokeStopsOverlay);
+                _pokeStopsOverlay.IsVisibile = true;
+                if (!map.Overlays.Contains(_pokeGymsOverlay))
+                    map.Overlays.Add(_pokeGymsOverlay);
+                _pokeGymsOverlay.IsVisibile = true;
+            }
         }
 
         private void InfoObservable_HandlePokeStop(POGOProtos.Map.Fort.FortData[] pokeStops)
@@ -809,6 +867,14 @@ namespace PokemonGo.RocketAPI.Console
         void buttonZoomOut_Click(object sender, EventArgs e)
         {
             map.Zoom ++;
+        }
+        void buttonSavePokestops_Click(object sender, EventArgs e)
+        {
+            SavePokestopsInfo();
+        }
+        void buttonLoadPokestops_Click(object sender, EventArgs e)
+        {
+            LoadPokestopsInfo();
         }
     }
 }
