@@ -130,7 +130,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
             ReviveAndCurePokemons(client);
             var pokemons = (client.Inventory.GetPokemons().Result).ToList();
 
-            RandomHelper.RandomSleep(400, 500);
+            RandomHelper.RandomSleep(900);
             var profile = client.Player.GetPlayer().Result;
 
             PokemonData pokemon = getPokeToPut(client, profile.PlayerData.BuddyPokemon.Id);
@@ -201,19 +201,33 @@ namespace PokemonGo.RocketAPI.Logic.Functions
             var moveSettings = GetMoveSettings(client);
             RandomHelper.RandomSleep(1000, 1500);
             var resp = client.Fort.StartGymBattle(gym.Id, defenderId, pokeAttackersIds).Result;
-            // Sometimes we get a null from startgymBattle
-            if (resp == null) {
-                Logger.Debug("Response to start battle was null");
-                return null;
+            var numTries = 3;
+            // Sometimes we get a null from startgymBattle so we try to start battle 3 times
+            var startFailed = true;
+            startFailed = (resp == null);
+            if  (!startFailed)
+                startFailed = (resp.BattleLog == null);
+
+            while ( startFailed  && numTries > 0) {
+                if (resp == null)
+                    Logger.Debug("(Gym) - Response to start battle was null.");
+                if (resp.BattleLog == null)
+                    Logger.Debug("(Gym) - BatlleLog to start battle was null");
+                Logger.Debug("(Gym) - Trying again after 2 seconds");
+                RandomHelper.RandomSleep(2000, 2500);
+                resp = client.Fort.StartGymBattle(gym.Id, defenderId, pokeAttackersIds).Result;
+                startFailed = (resp == null);
+                if  (!startFailed)
+                    startFailed = (resp.BattleLog == null);
+                numTries --;
             }
-            if (resp.BattleLog == null) {
-                Logger.Debug("BatlleLog to start battle was null");
+
+            if (startFailed)
                 return null;
-            }
+
             if (resp.BattleLog.State == BattleState.Active) {
                 Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - Battle Started");
-                RandomHelper.RandomSleep(1000, 1100);
-                   
+                RandomHelper.RandomSleep(2000);
                 var battleActions = new List<BattleAction>();
                 var lastRetrievedAction = new BattleAction();
                 var battleStartMs = resp.BattleLog.BattleStartTimestampMs;
@@ -223,15 +237,28 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                 var inBattle = (attResp.Result == AttackGymResponse.Types.Result.Success);
                 inBattle = inBattle && (attResp.BattleLog.State == BattleState.Active);
                 var count = 1;
+                var energy = 0;
                 while (inBattle) {
                     var timeMs = attResp.BattleLog.ServerMs;
                     var move1Settings = moveSettings.FirstOrDefault(x => x.MoveSettings.MovementId == attResp.ActiveAttacker.PokemonData.Move1).MoveSettings;
+                    var move2Settings = moveSettings.FirstOrDefault(x => x.MoveSettings.MovementId == attResp.ActiveAttacker.PokemonData.Move2).MoveSettings;
                     var attack = new BattleAction();
-                    attack.Type = BattleActionType.ActionAttack;
-                    attack.DurationMs = move1Settings.DurationMs; 
-                    attack.DamageWindowsStartTimestampMs = move1Settings.DamageWindowStartMs;
-                    attack.DamageWindowsEndTimestampMs = move1Settings.DamageWindowEndMs;
-                    attack.ActionStartMs = timeMs + move1Settings.DurationMs;
+                    var energyDelta = Math.Abs( move2Settings.EnergyDelta);
+                    if (energy >= energyDelta && energyDelta >0){
+                        attack.Type = BattleActionType.ActionSpecialAttack;
+                        attack.DurationMs = move2Settings.DurationMs; 
+                        attack.DamageWindowsStartTimestampMs = move2Settings.DamageWindowStartMs;
+                        attack.DamageWindowsEndTimestampMs = move2Settings.DamageWindowEndMs;
+                        attack.ActionStartMs = timeMs + move2Settings.DurationMs;
+                        Logger.Debug("(Gym) - Special attack");
+                    }else{
+                        attack.Type = BattleActionType.ActionAttack;
+                        attack.DurationMs = move1Settings.DurationMs; 
+                        attack.DamageWindowsStartTimestampMs = move1Settings.DamageWindowStartMs;
+                        attack.DamageWindowsEndTimestampMs = move1Settings.DamageWindowEndMs;
+                        attack.ActionStartMs = timeMs + move1Settings.DurationMs;
+                        Logger.Debug("(Gym) - Normal attack");
+                    }
                     attack.TargetIndex = -1;
                     attack.ActivePokemonId = attResp.ActiveAttacker.PokemonData.Id;
                     attack.TargetPokemonId = attResp.ActiveDefender.PokemonData.Id;
@@ -244,10 +271,21 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                     if (inBattle) {
                         Logger.Debug("(Gym) - Battle State: " + attResp.BattleLog.State);
                         inBattle = inBattle && (attResp.BattleLog.State == BattleState.Active);
+
+                        energy = attResp.ActiveAttacker.CurrentEnergy;
+                        var health = attResp.ActiveAttacker.CurrentHealth;
+                        var activeAttacker = attResp.ActiveAttacker.PokemonData.PokemonId;
+                        Logger.Debug($"Attacker: {activeAttacker} Energy={energy}, Health={health}");
+
+                        var energyDef = attResp.ActiveDefender.CurrentEnergy;
+                        health = attResp.ActiveDefender.CurrentHealth;
+                        var activeDeffender = attResp.ActiveAttacker.PokemonData.PokemonId;
+                        Logger.Debug($"Deffender: {activeDeffender} Energy={energyDef}, Health={health}");
+
                         Logger.Debug($"Attack {count} done.");
                         count++;
                         Logger.Debug("(Gym) - Wait a moment before next attact");
-                        RandomHelper.RandomSleep(move1Settings.DurationMs + 30, move1Settings.DurationMs + 50);
+                        RandomHelper.RandomSleep(move1Settings.DurationMs + 5, move1Settings.DurationMs + 30);
                     }
                 }
                 Logger.ColoredConsoleWrite(gymColorLog, $"(Gym) - Battle Finished in {count} attacks.");
@@ -267,7 +305,10 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                             attResp = LeaveBattle( gym,  client,   resp,  attResp,  battleActions, lastRetrievedAction);
                         }else{
                             var pokemons = (client.Inventory.GetPokemons().Result).ToList();
-                            putInGym(client, gym, getPokeToPut(client, buddyPokemonId), pokemons);
+                            RandomHelper.RandomSleep(400);
+                            var gymDetails = client.Fort.GetGymDetails(gym.Id, gym.Latitude, gym.Longitude).Result;
+                            if (gymDetails.GymState.Memberships.Count < 1)
+                                putInGym(client, gym, getPokeToPut(client, buddyPokemonId), pokemons);
                         }
                     } else if (attResp.BattleLog.State == BattleState.TimedOut)
                         Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - Timed Out");

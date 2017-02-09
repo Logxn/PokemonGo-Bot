@@ -60,6 +60,8 @@ namespace PokemonGo.RocketAPI.Console
                 nudRadius.Value = GlobalVars.radius;
                 btnPauseWalking.Visible = false;
             }
+            buttonZoomOut.Visible= true;
+            buttonZoomIn.Visible= true;
         }
         
         public bool close = true;
@@ -799,6 +801,14 @@ namespace PokemonGo.RocketAPI.Console
         void cbShowPokemon_CheckStateChanged(object sender, EventArgs e)
         {
             GlobalVars.ShowPokemons = (sender as CheckBox).Checked;
+        }
+        void buttonZoomIn_Click(object sender, EventArgs e)
+        {
+            map.Zoom --;
+        }
+        void buttonZoomOut_Click(object sender, EventArgs e)
+        {
+            map.Zoom ++;
         }
     }
 }
