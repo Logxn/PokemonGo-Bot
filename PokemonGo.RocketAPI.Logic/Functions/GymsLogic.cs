@@ -253,11 +253,11 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                     var move1Settings = moveSettings.FirstOrDefault(x => x.MoveSettings.MovementId == attResp.ActiveAttacker.PokemonData.Move1).MoveSettings;
                     var move2Settings = moveSettings.FirstOrDefault(x => x.MoveSettings.MovementId == attResp.ActiveAttacker.PokemonData.Move2).MoveSettings;
                     var attack = new BattleAction();
+                    attack.ActionStartMs = timeMs + RandomHelper.RandomNumber(110, 170);
                     var energyDelta = Math.Abs(move2Settings.EnergyDelta);
                     Logger.Debug("(Gym) - energyDelta: "+energyDelta);
                     if (energy >= energyDelta && energyDelta > 0) {
                         attack.Type = BattleActionType.ActionSpecialAttack;
-                        attack.ActionStartMs = timeMs + RandomHelper.RandomNumber(250, 310);
                         attack.DurationMs = move2Settings.DurationMs;
                         attack.DamageWindowsStartTimestampMs = move2Settings.DamageWindowStartMs;
                         attack.DamageWindowsEndTimestampMs = move2Settings.DamageWindowEndMs;
@@ -266,12 +266,10 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                         var dodge = RandomHelper.RandomNumber(1, 6);
                         if (dodge == 1) {
                             attack.Type = BattleActionType.ActionDodge;
-                            attack.ActionStartMs = timeMs + RandomHelper.RandomNumber(100, 150);
                             attack.DurationMs = RandomHelper.RandomNumber(100, 150);
                             Logger.Debug("(Gym) - Dodging attack");
                         } else {
                             attack.Type = BattleActionType.ActionAttack;
-                            attack.ActionStartMs = timeMs + RandomHelper.RandomNumber(100, 150);
                             attack.DurationMs = move1Settings.DurationMs;
                             attack.DamageWindowsStartTimestampMs = move1Settings.DamageWindowStartMs;
                             attack.DamageWindowsEndTimestampMs = move1Settings.DamageWindowEndMs;
@@ -286,14 +284,25 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                     battleActions.Add(attack);
                     Logger.Debug("(Gym) - Attack: "+ attack);
                     lastRetrievedAction = attResp.BattleLog.BattleActions.LastOrDefault();
+                    var i = 0;
+                    foreach (var element in attResp.BattleLog.BattleActions) {
+                        Logger.Debug($"(Gym) - BattleLog.BattleAction[{i}]: {element}");
+                        i++;
+                    }
                     attResp = client.Fort.AttackGym(gym.Id, resp.BattleId, battleActions, lastRetrievedAction).Result;
+                    Logger.Debug("(Gym) - Attack after call: "+ attack);
                     Logger.Debug("(Gym) - Attack Result: " + attResp.Result);
                     inBattle = (attResp.Result == AttackGymResponse.Types.Result.Success);
                     if (inBattle) {
-                        var minSleepTime = attack.DurationMs - (attResp.BattleLog.ServerMs - timeMs);
-                        if (minSleepTime < 0) 
-                              minSleepTime = 0;
-
+                        var nextTimeAtt = attack.ActionStartMs + attack.DurationMs;
+                        var waitTime = nextTimeAtt - attResp.BattleLog.ServerMs;
+                        if (waitTime < 0) 
+                              waitTime = 0;
+                        Logger.Debug("attack.ActionStartMs: " +attack.ActionStartMs);
+                        Logger.Debug("attack.DurationMs: " +attack.DurationMs);
+                        Logger.Debug("nextTimeAtt: " +nextTimeAtt);
+                        Logger.Debug("attResp.BattleLog.ServerMs: " +attResp.BattleLog.ServerMs);
+                        Logger.Debug("waitTime: " +waitTime);
                         Logger.Debug("(Gym) - Battle State: " + attResp.BattleLog.State);
                         inBattle = inBattle && (attResp.BattleLog.State == BattleState.Active);
 
@@ -307,14 +316,14 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                         if (attResp.ActiveDefender != null){
                             var energyDef = attResp.ActiveDefender.CurrentEnergy;
                             var health = attResp.ActiveDefender.CurrentHealth;
-                            var activeDeffender = attResp.ActiveDefender.PokemonData.PokemonId;
-                            Logger.Debug($"Deffender: {activeDeffender} Energy={energyDef}, Health={health}");
+                            var activeDefender = attResp.ActiveDefender.PokemonData.PokemonId;
+                            Logger.Debug($"Defender: {activeDefender} Energy={energyDef}, Health={health}");
                         }
 
                         Logger.Debug($"(Gym) - Round {count} done.");
                         count++;
-                        Logger.Debug($"(Gym) - Wait {minSleepTime} Ms before next attact");
-                        RandomHelper.RandomSleep( (int) minSleepTime , (int) minSleepTime + 200);
+                        Logger.Debug($"(Gym) - Wait {waitTime} Ms before next attact");
+                        RandomHelper.RandomSleep( (int) waitTime +100, (int) waitTime + 120);
                     }
                 }
                 Logger.ColoredConsoleWrite(gymColorLog, $"(Gym) - Battle Finished in {count} Rounds.");
