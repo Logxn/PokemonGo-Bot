@@ -34,6 +34,8 @@ namespace PokemonGo.RocketAPI.Console
         private System.Windows.Forms.Button btnPauseWalking;
         private System.Windows.Forms.Button buttonZoomOut;
         private System.Windows.Forms.Button buttonZoomIn;
+        private System.Windows.Forms.Button buttonLoadPokestops;
+        private System.Windows.Forms.Button buttonSavePokestops;
         
         /// <summary>
         /// Disposes resources used by the control.
@@ -77,6 +79,8 @@ namespace PokemonGo.RocketAPI.Console
             this.btnPauseWalking = new System.Windows.Forms.Button();
             this.buttonZoomOut = new System.Windows.Forms.Button();
             this.buttonZoomIn = new System.Windows.Forms.Button();
+            this.buttonLoadPokestops = new System.Windows.Forms.Button();
+            this.buttonSavePokestops = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudRadius)).BeginInit();
             this.SuspendLayout();
@@ -350,9 +354,31 @@ namespace PokemonGo.RocketAPI.Console
             this.buttonZoomIn.UseVisualStyleBackColor = true;
             this.buttonZoomIn.Click += new System.EventHandler(this.buttonZoomIn_Click);
             // 
+            // buttonLoadPokestops
+            // 
+            this.buttonLoadPokestops.Location = new System.Drawing.Point(484, 12);
+            this.buttonLoadPokestops.Name = "buttonLoadPokestops";
+            this.buttonLoadPokestops.Size = new System.Drawing.Size(94, 23);
+            this.buttonLoadPokestops.TabIndex = 48;
+            this.buttonLoadPokestops.Text = "Load Pokestops";
+            this.buttonLoadPokestops.UseVisualStyleBackColor = true;
+            this.buttonLoadPokestops.Click += new System.EventHandler(this.buttonLoadPokestops_Click);
+            // 
+            // buttonSavePokestops
+            // 
+            this.buttonSavePokestops.Location = new System.Drawing.Point(385, 12);
+            this.buttonSavePokestops.Name = "buttonSavePokestops";
+            this.buttonSavePokestops.Size = new System.Drawing.Size(94, 23);
+            this.buttonSavePokestops.TabIndex = 47;
+            this.buttonSavePokestops.Text = "Save Pokestops";
+            this.buttonSavePokestops.UseVisualStyleBackColor = true;
+            this.buttonSavePokestops.Click += new System.EventHandler(this.buttonSavePokestops_Click);
+            // 
             // LocationPanel
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
+            this.Controls.Add(this.buttonLoadPokestops);
+            this.Controls.Add(this.buttonSavePokestops);
             this.Controls.Add(this.buttonZoomIn);
             this.Controls.Add(this.buttonZoomOut);
             this.Controls.Add(this.cbShowPokemon);
