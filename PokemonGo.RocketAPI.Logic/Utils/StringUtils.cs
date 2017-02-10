@@ -641,11 +641,16 @@ namespace PokemonGo.RocketAPI.Logic.Utils
         {
             Logger.Debug(String.Format("timeMS: {0}",timeMS));
             if (timeMS > 0){
+                Logger.Debug(String.Format("ConvertTimeMSinString: {0}",ConvertTimeMSinString( (ulong) timeMS,format)));
                 var tstamp = TimeSpan.FromMilliseconds(timeMS);
                 try {
                     var UnixNow = DateTime.UtcNow.AddYears(-1969).AddDays(1);
+                    Logger.Debug(String.Format("UnixNow: {0}",UnixNow));
                     var tsUnixNow = TimeSpan.FromTicks(UnixNow.Ticks);
-                    return (tstamp.Subtract(tsUnixNow)).ToString(format);
+                    Logger.Debug(String.Format("tsUnixNow: {0}",tsUnixNow));
+                    var substract = tstamp.Subtract(tsUnixNow);
+                    Logger.Debug(String.Format("substract: {0}",substract));
+                    return (substract).ToString(format);
                 } catch (Exception e) {
                     Logger.Debug(""+e);
                 }
