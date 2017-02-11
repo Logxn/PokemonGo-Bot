@@ -259,8 +259,9 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                     if (energy >= energyDelta && energyDelta > 0) {
                         attack.Type = BattleActionType.ActionSpecialAttack;
                         attack.DurationMs = move2Settings.DurationMs;
-                        attack.DamageWindowsStartTimestampMs = move2Settings.DamageWindowStartMs;
-                        attack.DamageWindowsEndTimestampMs = move2Settings.DamageWindowEndMs;
+                        attack.DamageWindowsStartTimestampMs = attack.ActionStartMs + move2Settings.DamageWindowStartMs;
+                        attack.DamageWindowsEndTimestampMs = attack.ActionStartMs + move2Settings.DamageWindowEndMs;
+                        attack.EnergyDelta = energyDelta;
                         Logger.Debug("(Gym) - Special attack");
                     } else {
                         var dodge = RandomHelper.RandomNumber(1, 6);
@@ -271,8 +272,9 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                         } else {
                             attack.Type = BattleActionType.ActionAttack;
                             attack.DurationMs = move1Settings.DurationMs;
-                            attack.DamageWindowsStartTimestampMs = move1Settings.DamageWindowStartMs;
-                            attack.DamageWindowsEndTimestampMs = move1Settings.DamageWindowEndMs;
+                            attack.DamageWindowsStartTimestampMs = attack.ActionStartMs + move1Settings.DamageWindowStartMs;
+                            attack.DamageWindowsEndTimestampMs = attack.ActionStartMs + move1Settings.DamageWindowEndMs;
+                            attack.EnergyDelta = 7;
                             Logger.Debug("(Gym) - Normal attack");
                         }
                     }
@@ -365,10 +367,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
             var timeMs = attResp.BattleLog.ServerMs;
             var attack = new BattleAction();
             attack.Type = BattleActionType.ActionPlayerQuit;
-            attack.DurationMs = 0;
-            attack.DamageWindowsStartTimestampMs = 0;
-            attack.DamageWindowsEndTimestampMs = 0;
-            attack.ActionStartMs = timeMs + RandomHelper.RandomNumber(800,1000);
+            attack.ActionStartMs = timeMs + RandomHelper.RandomNumber(400,500);
             attack.TargetIndex = -1;
             attack.ActivePokemonId = attResp.ActiveAttacker.PokemonData.Id;
             battleActions.Clear();

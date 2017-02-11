@@ -20,8 +20,7 @@ namespace PokemonGo.RocketAPI.Logic.Utils
         public static string getPokemonNameGer(PokemonId b)
         {
             string GerName = string.Empty;
-            switch (b)
-            {
+            switch (b) {
                 case PokemonId.Missingno:
                     GerName = "Missingno";
                     break;
@@ -498,8 +497,7 @@ namespace PokemonGo.RocketAPI.Logic.Utils
 
         public static int getExpDiff(int level)
         {
-            switch (level)
-            {
+            switch (level) {
                 case 1:
                     return 0;
                 case 2:
@@ -600,10 +598,8 @@ namespace PokemonGo.RocketAPI.Logic.Utils
 
         public static bool CheckKillSwitch()
         {
-            using (var wc = new WebClient())
-            {
-                try
-                {
+            using (var wc = new WebClient()) {
+                try {
                     string strResponse = wc.DownloadString("https://raw.githubusercontent.com/Logxn/PokemonGo-Bot/master/switch.txt");
 
                     if (strResponse == null)
@@ -611,13 +607,11 @@ namespace PokemonGo.RocketAPI.Logic.Utils
 
                     string[] strSplit = strResponse.Split(';');
 
-                    if (strSplit.Length > 1)
-                    {
+                    if (strSplit.Length > 1) {
                         string strStatus = strSplit[0];
                         string strReason = strSplit[1];
 
-                        if (strStatus.ToLower().Contains("false"))
-                        {
+                        if (strStatus.ToLower().Contains("false")) {
                             Logger.Error("The bot is deactivated at server level for security or maintenance reasons, we have to close it.");
                             Logger.Error("Thanks for your patience!" + Environment.NewLine);
                             Logger.Error(strReason + Environment.NewLine);
@@ -625,12 +619,9 @@ namespace PokemonGo.RocketAPI.Logic.Utils
                             Environment.Exit(-1);
                             return true;
                         }
-                    }
-                    else
+                    } else
                         return false;
-                }
-                catch (WebException)
-                {
+                } catch (WebException) {
                 }
             }
 
@@ -639,21 +630,15 @@ namespace PokemonGo.RocketAPI.Logic.Utils
 
         public static string TimeMStoString(long timeMS, String format)
         {
-            Logger.Debug(String.Format("timeMS: {0}",timeMS));
-            if (timeMS > 0){
-                Logger.Debug(String.Format("ConvertTimeMSinString: {0}",ConvertTimeMSinString( (ulong) timeMS,format)));
-                var tstamp = TimeSpan.FromMilliseconds(timeMS);
-                try {
+            try {
+                if (timeMS > 0) {
+                    var tstamp = TimeSpan.FromMilliseconds(timeMS);
                     var UnixNow = DateTime.UtcNow.AddYears(-1969).AddDays(1);
-                    Logger.Debug(String.Format("UnixNow: {0}",UnixNow));
                     var tsUnixNow = TimeSpan.FromTicks(UnixNow.Ticks);
-                    Logger.Debug(String.Format("tsUnixNow: {0}",tsUnixNow));
-                    var substract = tstamp.Subtract(tsUnixNow);
-                    Logger.Debug(String.Format("substract: {0}",substract));
-                    return (substract).ToString(format);
-                } catch (Exception e) {
-                    Logger.Debug(""+e);
+                    return tstamp.Subtract(tsUnixNow).ToString(format);
                 }
+            } catch (Exception e) {
+                Logger.Debug("" + e);
             }
             return "Unknown";
         }
@@ -661,6 +646,6 @@ namespace PokemonGo.RocketAPI.Logic.Utils
         public static string ConvertTimeMSinString(ulong timeMS, String format)
         {
             return (new DateTime((long)timeMS * 10000).AddYears(1969).AddDays(-1).ToString(format));
-        }       
+        }
     }
 }
