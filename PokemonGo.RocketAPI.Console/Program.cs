@@ -183,11 +183,14 @@ namespace PokemonGo.RocketAPI.Console
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
                 Application.Run(new GUI());
+                
                 Task.Run(() =>
                 {
                     new Panels.SplashScreen().ShowDialog();
                 });
                 openGUI = GlobalVars.EnablePokeList;
+                if (GlobalVars.EnableConsoleInTab) 
+                    Logger.type = 1;
                 // To open tabbed GUI to test programing 
                 /*
                 Pokemons.skipReadyToUse = true;
