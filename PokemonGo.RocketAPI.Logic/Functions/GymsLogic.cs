@@ -75,18 +75,29 @@ namespace PokemonGo.RocketAPI.Logic.Functions
             //narrow map data to gyms within walking distance
             var gyms = GetNearbyGyms();
             var gymsWithinRangeStanding = gyms.Where(i => LocationUtils.CalculateDistanceInMeters(Logic.objClient.CurrentLatitude, Logic.objClient.CurrentLongitude, i.Latitude, i.Longitude) < 40);
-
             var withinRangeStandingList = gymsWithinRangeStanding as IList<FortData> ?? gymsWithinRangeStanding.ToList();
-            var inRange = withinRangeStandingList.Count;
+
             if (withinRangeStandingList.Any()) {
+                var inRange = withinRangeStandingList.Count;
                 Logger.ColoredConsoleWrite(ConsoleColor.DarkGray, $"(Gym) - {inRange} gyms are within range of the user");
+                restoreWalkingAfterLogic = !GlobalVars.PauseTheWalking;
+                GlobalVars.PauseTheWalking = true;
+                Logger.Debug("(Gym) - Stop walking ");
 
                 foreach (var gym in withinRangeStandingList) {
-                    var fortInfo = Logic.objClient.Fort.GetFort(gym.Id, gym.Latitude, gym.Longitude).Result;
-                    CheckAndPutInNearbyGym(gym, Logic.objClient);
+                    var numberOfAttacks = 10;
+                    while (numberOfAttacks > 0 && gymsVisited.IndexOf(gym.Id) == -1) {
+                        Logger.Debug("(Gym) - Attack number " + (11 -numberOfAttacks) );
+                        CheckAndPutInNearbyGym(gym, Logic.objClient);
+                        numberOfAttacks --;
+                    }
                     Setout.SetCheckTimeToRun();
                     RandomHelper.RandomSleep(100, 200);
                 }
+                if (restoreWalkingAfterLogic)
+                    GlobalVars.PauseTheWalking = false;
+                Logger.Debug("(Gym) - Continnue walking");
+
             }
 
         }
@@ -157,9 +168,6 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                     Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - There is a free space");
                     putInGym(client, gym, pokemon, pokemons);
                 } else if (GlobalVars.AttackGyms && gymDetails.GymState.Memberships.Count <= GlobalVars.NumDefenders ) {
-                    restoreWalkingAfterLogic = !GlobalVars.PauseTheWalking;
-                    GlobalVars.PauseTheWalking = true;
-                    Logger.Debug("(Gym) - Stop walking ");
                     if (gymDetails.GymState.Memberships.Count == 1)
                         Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - There is only one defender. Let's go to train");
                     else
@@ -171,9 +179,6 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                     var defender = defenders.FirstOrDefault();
                     Logger.Debug("(Gym) - Pokemon defender: " + defender.PokemonId);
                     var attResp = AttackGym(gym, client,  pokeAttackers, defender.Id, gymDetails.GymState.Memberships.Count, profile.PlayerData.BuddyPokemon.Id);
-                    if (restoreWalkingAfterLogic)
-                        GlobalVars.PauseTheWalking = false;
-                    Logger.Debug("(Gym) - Continnue walking");
                 } else {
                     Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - There is no free space in the gym");
                 }
@@ -182,10 +187,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                 Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - This gym is not from your team.");
                 if (!GlobalVars.AttackGyms)
                     return false;
-                
-                restoreWalkingAfterLogic = !GlobalVars.PauseTheWalking;
-                GlobalVars.PauseTheWalking = true;
-                Logger.Debug("(Gym) - Stop walking ");
+
                 Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - Members: " + gymDetails.GymState.Memberships.Count + ". Level: " + GetGymLevel(gym.GymPoints)+" ("+gym.GymPoints+")");
 
                 if (gymDetails.GymState.Memberships.Count >= 1 && gymDetails.GymState.Memberships.Count <= GlobalVars.NumDefenders) {
@@ -201,9 +203,6 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                     Logger.Debug("(Gym) - Pokemon defender: " + defender.PokemonId);
                     var attResp = AttackGym(gym, client,  pokeAttackers, defender.Id, gymDetails.GymState.Memberships.Count, profile.PlayerData.BuddyPokemon.Id);
                 }
-                if (restoreWalkingAfterLogic)
-                    GlobalVars.PauseTheWalking = false;
-                Logger.Debug("(Gym) - Continnue walking");
             }
             return true;
         }
