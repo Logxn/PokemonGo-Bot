@@ -355,6 +355,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                             var pokemons = (client.Inventory.GetPokemons().Result).ToList();
                             RandomHelper.RandomSleep(400);
                             var gymDetails = client.Fort.GetGymDetails(gym.Id, gym.Latitude, gym.Longitude).Result;
+                            Logger.Debug("(Gym) - Gym Details: "+gymDetails);
                             if (gymDetails.GymState.Memberships.Count < 1)
                                 putInGym(client, gym, getPokeToPut(client, buddyPokemonId), pokemons);
                         }
