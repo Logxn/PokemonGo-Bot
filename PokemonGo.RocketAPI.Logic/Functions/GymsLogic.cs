@@ -292,7 +292,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                             attack.DamageWindowsEndTimestampMs = attack.ActionStartMs + move1Settings.DamageWindowEndMs;
                             attack.EnergyDelta = move1Settings.EnergyDelta;
                             //attack.AttackerIndex = -1;
-                            //attack.TargetPokemonId = attResp.ActiveDefender.PokemonData.Id;
+                            attack.TargetPokemonId = attResp.ActiveDefender.PokemonData.Id;
                             Logger.Debug("(Gym) - Normal attack");
                         }
                     }
