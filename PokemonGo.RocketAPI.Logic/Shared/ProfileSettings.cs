@@ -939,6 +939,10 @@ namespace PokemonGo.RocketAPI.Logic.Shared
         public bool UseSpritesFolder {get;set;}
         public bool ShowPokemons {get;set;}
 
+        public int GymAttackers {
+            get;
+            set;
+        }
         #endregion
     
         public void SaveToFile(string filename)

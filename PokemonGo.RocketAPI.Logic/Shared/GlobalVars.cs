@@ -172,8 +172,9 @@ namespace PokemonGo.RocketAPI.Logic.Shared
         public static bool UseSpritesFolder = false;
         public static bool ShowPokemons = false;
         public static int EvolveAt = 0;
-        
-        
+        public static int GymAttackers = 1;
+
+
         /// <summary>
         /// Copy all values from ProfileSettings to GlobalVars.
         /// </summary>

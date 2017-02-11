@@ -104,6 +104,13 @@ namespace PokemonGo.RocketAPI.Console
             };
             comboBoxLeaveInGyms.SelectedIndex = 0;
 
+            comboBoxAttackers.DataSource = new[]{
+                th.TS("Random"),
+                th.TS("Best CP"),
+                th.TS("Favourites"),
+            };
+            comboBoxAttackers.SelectedIndex = 0;
+
             var pokeData = new List<string>();
             pokeData.Add("AdditionalPokeData.json");
 
@@ -453,6 +460,7 @@ namespace PokemonGo.RocketAPI.Console
             checkbox_Verboselogging.Checked = config.EnableVerboseLogging;
             // Gyms
             comboBoxLeaveInGyms.SelectedIndex = config.LeaveInGyms;
+            comboBoxAttackers.SelectedIndex = config.GymAttackers;
         }
         
         private void ChangeSelectedLanguage(string lang)
@@ -885,6 +893,7 @@ namespace PokemonGo.RocketAPI.Console
 
             // Gyms
             ActiveProfile.Settings.LeaveInGyms = comboBoxLeaveInGyms.SelectedIndex;
+            ActiveProfile.Settings.GymAttackers = comboBoxAttackers.SelectedIndex;
 
             #endregion
             return ret;
