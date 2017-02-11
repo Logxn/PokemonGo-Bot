@@ -127,6 +127,7 @@ namespace PokemonGo.RocketAPI.Console
 		    this.checkBox_FarmPokestops = new System.Windows.Forms.CheckBox();
 		    this.checkBox_SleepAtPokemons = new System.Windows.Forms.CheckBox();
 		    this.groupBox11 = new System.Windows.Forms.GroupBox();
+		    this.nudNumDefenders = new System.Windows.Forms.NumericUpDown();
 		    this.checkBox_AttackGyms = new System.Windows.Forms.CheckBox();
 		    this.numericUpDownMinWalkSpeed = new System.Windows.Forms.NumericUpDown();
 		    this.numericUpDownSpeed = new System.Windows.Forms.NumericUpDown();
@@ -145,16 +146,15 @@ namespace PokemonGo.RocketAPI.Console
 		    this.label45 = new System.Windows.Forms.Label();
 		    this.comboLanguage = new System.Windows.Forms.ComboBox();
 		    this.labelLanguage = new System.Windows.Forms.Label();
-		    this.nudNumDefenders = new System.Windows.Forms.NumericUpDown();
 		    this.groupBox1.SuspendLayout();
 		    ((System.ComponentModel.ISupportInitialize)(this.numTravelSpeed)).BeginInit();
 		    this.groupBox10.SuspendLayout();
 		    ((System.ComponentModel.ISupportInitialize)(this.numRazzPercent)).BeginInit();
 		    this.groupBox11.SuspendLayout();
+		    ((System.ComponentModel.ISupportInitialize)(this.nudNumDefenders)).BeginInit();
 		    ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMinWalkSpeed)).BeginInit();
 		    ((System.ComponentModel.ISupportInitialize)(this.numericUpDownSpeed)).BeginInit();
 		    this.groupBox13.SuspendLayout();
-		    ((System.ComponentModel.ISupportInitialize)(this.nudNumDefenders)).BeginInit();
 		    this.SuspendLayout();
 		    // 
 		    // groupBox1
@@ -648,6 +648,29 @@ namespace PokemonGo.RocketAPI.Console
 		    this.groupBox11.TabStop = false;
 		    this.groupBox11.Text = "Walk Options";
 		    // 
+		    // nudNumDefenders
+		    // 
+		    this.nudNumDefenders.Location = new System.Drawing.Point(167, 120);
+		    this.nudNumDefenders.Maximum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+		    this.nudNumDefenders.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+		    this.nudNumDefenders.Name = "nudNumDefenders";
+		    this.nudNumDefenders.Size = new System.Drawing.Size(40, 20);
+		    this.nudNumDefenders.TabIndex = 92;
+		    this.nudNumDefenders.Value = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
+		    this.nudNumDefenders.ValueChanged += new System.EventHandler(this.nudNumDefenders_ValueChanged);
+		    // 
 		    // checkBox_AttackGyms
 		    // 
 		    this.checkBox_AttackGyms.AutoSize = true;
@@ -692,7 +715,7 @@ namespace PokemonGo.RocketAPI.Console
 		    this.numericUpDownSpeed.Name = "numericUpDownSpeed";
 		    this.numericUpDownSpeed.Size = new System.Drawing.Size(48, 20);
 		    this.numericUpDownSpeed.TabIndex = 80;
-		    this.numericUpDownSpeed.Tag = "speed";
+		    this.numericUpDownSpeed.Tag = "WalkingSpeedInKilometerPerHour";
 		    this.numericUpDownSpeed.Value = new decimal(new int[] {
             15,
             0,
@@ -877,29 +900,6 @@ namespace PokemonGo.RocketAPI.Console
 		    this.labelLanguage.Text = "Select Language:";
 		    this.labelLanguage.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 		    // 
-		    // nudNumDefenders
-		    // 
-		    this.nudNumDefenders.Location = new System.Drawing.Point(167, 120);
-		    this.nudNumDefenders.Maximum = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-		    this.nudNumDefenders.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-		    this.nudNumDefenders.Name = "nudNumDefenders";
-		    this.nudNumDefenders.Size = new System.Drawing.Size(40, 20);
-		    this.nudNumDefenders.TabIndex = 92;
-		    this.nudNumDefenders.Value = new decimal(new int[] {
-            2,
-            0,
-            0,
-            0});
-		    this.nudNumDefenders.ValueChanged += new System.EventHandler(this.nudNumDefenders_ValueChanged);
-		    // 
 		    // ChangesPanel
 		    // 
 		    this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -922,11 +922,11 @@ namespace PokemonGo.RocketAPI.Console
 		    ((System.ComponentModel.ISupportInitialize)(this.numRazzPercent)).EndInit();
 		    this.groupBox11.ResumeLayout(false);
 		    this.groupBox11.PerformLayout();
+		    ((System.ComponentModel.ISupportInitialize)(this.nudNumDefenders)).EndInit();
 		    ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMinWalkSpeed)).EndInit();
 		    ((System.ComponentModel.ISupportInitialize)(this.numericUpDownSpeed)).EndInit();
 		    this.groupBox13.ResumeLayout(false);
 		    this.groupBox13.PerformLayout();
-		    ((System.ComponentModel.ISupportInitialize)(this.nudNumDefenders)).EndInit();
 		    this.ResumeLayout(false);
 
 		}
