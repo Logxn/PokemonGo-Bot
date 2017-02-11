@@ -23,9 +23,10 @@ namespace POGOProtos.Enums {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "ChtQT0dPUHJvdG9zL0VudW1zL1Nsb3QucHJvdG8SEFBPR09Qcm90b3MuRW51",
-            "bXMqeQoEU2xvdBIOCgpVTlNFVF9TTE9UEAASCAoESEFJUhABEgkKBVNISVJU",
-            "EAISCQoFUEFOVFMQAxIHCgNIQVQQBBIJCgVTSE9FUxAFEggKBEVZRVMQBhIM",
-            "CghCQUNLUEFDSxAHEgoKBkdMT1ZFUxAIEgkKBVNPQ0tTEAliBnByb3RvMw=="));
+            "bXMqngEKBFNsb3QSDgoKVU5TRVRfU0xPVBAAEggKBEhBSVIQARIJCgVTSElS",
+            "VBACEgkKBVBBTlRTEAMSBwoDSEFUEAQSCQoFU0hPRVMQBRIICgRFWUVTEAYS",
+            "DAoIQkFDS1BBQ0sQBxIKCgZHTE9WRVMQCBIJCgVTT0NLUxAJEggKBEJFTFQQ",
+            "ChILCgdHTEFTU0VTEAsSDAoITkVDS0xBQ0UQDGIGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::POGOProtos.Enums.Slot), }, null));
@@ -45,6 +46,9 @@ namespace POGOProtos.Enums {
     [pbr::OriginalName("BACKPACK")] Backpack = 7,
     [pbr::OriginalName("GLOVES")] Gloves = 8,
     [pbr::OriginalName("SOCKS")] Socks = 9,
+    [pbr::OriginalName("BELT")] Belt = 10,
+    [pbr::OriginalName("GLASSES")] Glasses = 11,
+    [pbr::OriginalName("NECKLACE")] Necklace = 12,
   }
 
   #endregion

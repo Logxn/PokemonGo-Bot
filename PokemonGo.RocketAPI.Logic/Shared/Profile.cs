@@ -20,5 +20,16 @@ namespace PokemonGo.RocketAPI.Logic.Shared
         { get; set; }
         public string SettingsJSON
         { get; set; }
+        public ProfileSettings Settings
+        { get; set; }
+        public Profile Clone(){
+            var ret = new Profile();
+            ret.ProfileName = this.ProfileName;
+            ret.IsDefault = this.IsDefault;
+            ret.RunOrder = this.RunOrder;
+            ret.SettingsJSON = this.SettingsJSON;
+            ret.Settings = new ProfileSettings();
+            return ret;
+        }
     }
 }

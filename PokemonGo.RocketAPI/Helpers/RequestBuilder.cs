@@ -1,5 +1,4 @@
 ﻿using Google.Protobuf;
-using POGOProtos.Enums;
 using POGOProtos.Networking.Envelopes;
 using POGOProtos.Networking.Platform;
 using POGOProtos.Networking.Platform.Requests;
@@ -8,9 +7,7 @@ using PokemonGo.RocketAPI.Enums;
 using PokemonGo.RocketAPI.Hash;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Security.Cryptography;
 using System.Threading.Tasks;
 using Troschuetz.Random;
 using static POGOProtos.Networking.Envelopes.RequestEnvelope.Types;
@@ -20,8 +17,6 @@ namespace PokemonGo.RocketAPI.Helpers
 {
     public class RequestBuilder
     {
-        const long Client_5300_Unknown25 = -76506539888958491;
-
         private readonly string _authToken;
         private readonly AuthType _authType;
         private readonly double _latitude;
@@ -36,7 +31,9 @@ namespace PokemonGo.RocketAPI.Helpers
         private int _token2 = RandomDevice.Next(1, 59);
         public byte[] sessionhash_array = null;
         public bool setupdevicedone = false;
-      
+
+        private RandomRequestID _requestBuilderID = new RandomRequestID();
+        
         public RequestBuilder(Client client, string authToken, AuthType authType, double latitude, double longitude, double altitude, AuthTicket authTicket = null)
         {
             if (!setupdevicedone)
@@ -71,9 +68,11 @@ namespace PokemonGo.RocketAPI.Helpers
             return ByteString.CopyFrom(hashBytes);
         }
 
-        public uint RequestCount { get; private set; } = 1;
-        private readonly Random _random = new Random(Environment.TickCount);
+        //public uint RequestCount { get; private set; } = 1;
 
+        //private readonly Random _random = new Random(Environment.TickCount);
+
+        /*
         private long PositiveRandom()
         {
             long ret = _random.Next() | (_random.Next() << 32);
@@ -120,6 +119,8 @@ namespace PokemonGo.RocketAPI.Helpers
             IncrementRequestCount();
             return r;
         }
+        */
+
         //private RequestEnvelope.Types.PlatformRequest GenerateSignature(IEnumerable<IMessage> requests)
         /// <summary>
         /// EB Check IMessage
@@ -141,8 +142,7 @@ namespace PokemonGo.RocketAPI.Helpers
             {
                 TimestampSinceStart = (ulong)timestampSinceStart,
                 Timestamp = (ulong)Utils.GetTime(true), // true means in Ms
-                //SessionHash = ByteString.CopyFrom(sessionhash_array),
-                //Unknown25 = Client_5100_Unknown25, // Could change every Update
+
                 SensorInfo =
                 {
                     new SensorInfo
@@ -178,7 +178,7 @@ namespace PokemonGo.RocketAPI.Helpers
             #endregion
 
             signature.SessionHash = _sessionHash;
-            signature.Unknown25 = Client_5300_Unknown25;
+            signature.Unknown25 = Resources.Unknown25;
 
             var serializedTicket = requestEnvelope.AuthTicket != null ? requestEnvelope.AuthTicket.ToByteArray() : requestEnvelope.AuthInfo.ToByteArray();
 
@@ -212,7 +212,7 @@ namespace PokemonGo.RocketAPI.Helpers
                 Type = PlatformRequestType.SendEncryptedSignature,
                 RequestMessage = new SendEncryptedSignatureRequest
                 {
-                    EncryptedSignature = ByteString.CopyFrom(PCryptPokeHash.Encrypt(signature.ToByteArray(), (uint)timestampSinceStart)) // Use new PCryptPokeHash
+                    EncryptedSignature = ByteString.CopyFrom(PCryptPokeHash.Encrypt(signature.ToByteArray(), (uint)timestampSinceStart))
                 }.ToByteString()
             };
 
@@ -277,6 +277,10 @@ namespace PokemonGo.RocketAPI.Helpers
             }
         }
 
+        // This is new code for 0.53 below
+        // NOTE: In RE channel, nico said that UnknownPrt8 only is needed
+        // in all call ot getplayer and only in second calls of GMO
+        public static bool GMOFirstTime = true;
         public async Task<RequestEnvelope> GetRequestEnvelope(Request[] customRequests, bool firstRequest = false)
         {
 
@@ -285,7 +289,7 @@ namespace PokemonGo.RocketAPI.Helpers
             var _requestEnvelope = new RequestEnvelope
             {
                 StatusCode = 2, //1
-                RequestId = GetNextRequestId(), //3
+                RequestId = _requestBuilderID.Next(), // GetNextRequestId(), //3
                 Requests = { customRequests }, //4
                 Latitude = _latitude, //7
                 Longitude = _longitude, //8
@@ -297,11 +301,16 @@ namespace PokemonGo.RocketAPI.Helpers
 
             // This is new code for 0.53 below
             // Note by Logxn: We do need this for ALL requests and before the main requests.
-            
-            _requestEnvelope.PlatformRequests.Add(new RequestEnvelope.Types.PlatformRequest { 
-                Type = PlatformRequestType.UnknownPrt8
-            });
+            // TODO: We need more information about when in needed UnknownPrt8
+            // Charles says only sent for these 2 RequestTypes
+            if (customRequests[0].RequestType == RequestType.GetPlayer ||  (customRequests[0].RequestType == RequestType.GetMapObjects && !GMOFirstTime))
+                _requestEnvelope.PlatformRequests.Add(new RequestEnvelope.Types.PlatformRequest { 
+                    Type = PlatformRequestType.UnknownPtr8,
+                    RequestMessage =  ByteString.CopyFromUtf8(Resources.UnknownPtr8_RequestMessage) //ByteString.CopyFrom("e40c3e64817d9c96d99d28f6488a2efc40b11046")
+                });
 
+            if (customRequests[0].RequestType == RequestType.GetMapObjects && GMOFirstTime)
+                GMOFirstTime =false;
 
             if (_authTicket != null && !firstRequest)
             {

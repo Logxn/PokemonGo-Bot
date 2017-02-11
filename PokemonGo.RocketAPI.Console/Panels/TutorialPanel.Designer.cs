@@ -70,11 +70,6 @@ namespace PokemonGo.RocketAPI.Console.Panels
             // lcBackpack
             // 
             this.lcBackpack.Caption = "Backpack";
-            this.lcBackpack.Items.AddRange(new object[] {
-            "0",
-            "1",
-            "2",
-            "Random"});
             this.lcBackpack.Location = new System.Drawing.Point(3, 252);
             this.lcBackpack.Name = "lcBackpack";
             this.lcBackpack.SelectedIndex = 3;
@@ -85,12 +80,6 @@ namespace PokemonGo.RocketAPI.Console.Panels
             // lcEyes
             // 
             this.lcEyes.Caption = "Eyes";
-            this.lcEyes.Items.AddRange(new object[] {
-            "0",
-            "1",
-            "2",
-            "3",
-            "Random"});
             this.lcEyes.Location = new System.Drawing.Point(3, 80);
             this.lcEyes.Name = "lcEyes";
             this.lcEyes.SelectedIndex = 4;
@@ -101,14 +90,6 @@ namespace PokemonGo.RocketAPI.Console.Panels
             // lcHair
             // 
             this.lcHair.Caption = "Hair";
-            this.lcHair.Items.AddRange(new object[] {
-            "0",
-            "1",
-            "2",
-            "3",
-            "4",
-            "5",
-            "Random"});
             this.lcHair.Location = new System.Drawing.Point(3, 45);
             this.lcHair.Name = "lcHair";
             this.lcHair.SelectedIndex = 6;
@@ -119,11 +100,7 @@ namespace PokemonGo.RocketAPI.Console.Panels
             // lcShirt
             // 
             this.lcShirt.Caption = "Shirt";
-            this.lcShirt.Items.AddRange(new object[] {
-            "0",
-            "1",
-            "2",
-            "Random"});
+
             this.lcShirt.Location = new System.Drawing.Point(3, 147);
             this.lcShirt.Name = "lcShirt";
             this.lcShirt.SelectedIndex = 3;
@@ -134,11 +111,7 @@ namespace PokemonGo.RocketAPI.Console.Panels
             // lcPants
             // 
             this.lcPants.Caption = "Pants";
-            this.lcPants.Items.AddRange(new object[] {
-            "0",
-            "1",
-            "2",
-            "Random"});
+
             this.lcPants.Location = new System.Drawing.Point(3, 182);
             this.lcPants.Name = "lcPants";
             this.lcPants.SelectedIndex = 3;
@@ -149,11 +122,7 @@ namespace PokemonGo.RocketAPI.Console.Panels
             // lcHat
             // 
             this.lcHat.Caption = "Hat";
-            this.lcHat.Items.AddRange(new object[] {
-            "0",
-            "1",
-            "2",
-            "Random"});
+
             this.lcHat.Location = new System.Drawing.Point(3, 115);
             this.lcHat.Name = "lcHat";
             this.lcHat.SelectedIndex = 3;
@@ -164,12 +133,6 @@ namespace PokemonGo.RocketAPI.Console.Panels
             // lcSkin
             // 
             this.lcSkin.Caption = "Skin";
-            this.lcSkin.Items.AddRange(new object[] {
-            "0",
-            "1",
-            "2",
-            "3",
-            "Random"});
             this.lcSkin.Location = new System.Drawing.Point(3, 13);
             this.lcSkin.Name = "lcSkin";
             this.lcSkin.SelectedIndex = 4;
@@ -180,11 +143,6 @@ namespace PokemonGo.RocketAPI.Console.Panels
             // lcShoes
             // 
             this.lcShoes.Caption = "Shoes";
-            this.lcShoes.Items.AddRange(new object[] {
-            "0",
-            "1",
-            "2",
-            "Random"});
             this.lcShoes.Location = new System.Drawing.Point(3, 217);
             this.lcShoes.Name = "lcShoes";
             this.lcShoes.SelectedIndex = 3;
@@ -196,12 +154,6 @@ namespace PokemonGo.RocketAPI.Console.Panels
             // lcPokemon
             // 
             this.lcPokemon.Caption = "Starter Pokemon";
-            this.lcPokemon.Items.AddRange(new object[] {
-            "Bulbasaur",
-            "Charmander",
-            "Squirtle",
-            "Picachu",
-            "Random"});
             this.lcPokemon.Location = new System.Drawing.Point(280, 80);
             this.lcPokemon.Name = "lcPokemon";
             this.lcPokemon.SelectedIndex = 0;
@@ -252,10 +204,6 @@ namespace PokemonGo.RocketAPI.Console.Panels
             // lcGender
             // 
             this.lcGender.Caption = "Gender";
-            this.lcGender.Items.AddRange(new object[] {
-            "Male",
-            "Female",
-            "Random"});
             this.lcGender.Location = new System.Drawing.Point(280, 45);
             this.lcGender.Name = "lcGender";
             this.lcGender.SelectedIndex = 2;

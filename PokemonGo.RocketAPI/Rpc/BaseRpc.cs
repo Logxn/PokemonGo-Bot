@@ -7,6 +7,7 @@ using PokemonGo.RocketAPI.Extensions;
 using PokemonGo.RocketAPI.Helpers;
 using POGOProtos.Networking.Envelopes;
 using POGOProtos.Networking.Requests;
+using PokemonGo.RocketAPI;
 
 #endregion
 
@@ -15,6 +16,7 @@ namespace PokemonGo.RocketAPI.Rpc
     public class BaseRpc
     {
         protected Client Client;
+        
 
         protected BaseRpc(Client client)
         {
@@ -33,7 +35,7 @@ namespace PokemonGo.RocketAPI.Rpc
         {
             var requestEnvelops = await GetRequestBuilder().GetRequestEnvelope(type, message).ConfigureAwait(false);
 
-            Logger.ColoredConsoleWrite(ConsoleColor.Blue, "Calling Request: " + type, LogLevel.Debug);
+            Logger.Debug("Calling Request: " + type);
 
             return
                 await

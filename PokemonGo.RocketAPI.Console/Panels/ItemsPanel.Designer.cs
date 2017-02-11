@@ -61,6 +61,7 @@ namespace PokemonGo.RocketAPI.Console
 		private System.Windows.Forms.PictureBox pictureBox2;
 		private System.Windows.Forms.PictureBox pictureBox1;
 		private System.Windows.Forms.Button buttonUSe;
+		private System.Windows.Forms.ColumnHeader chID;
 		
 		/// <summary>
 		/// Disposes resources used by the control.
@@ -120,6 +121,7 @@ namespace PokemonGo.RocketAPI.Console
 		    this.label13 = new System.Windows.Forms.Label();
 		    this.btnRealoadItems = new System.Windows.Forms.Button();
 		    this.ItemsListView = new System.Windows.Forms.ListView();
+		    this.chID = new System.Windows.Forms.ColumnHeader();
 		    this.chItem = new System.Windows.Forms.ColumnHeader();
 		    this.chCount = new System.Windows.Forms.ColumnHeader();
 		    this.chUnseen = new System.Windows.Forms.ColumnHeader();
@@ -581,7 +583,8 @@ namespace PokemonGo.RocketAPI.Console
 		    this.ItemsListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.chItem,
             this.chCount,
-            this.chUnseen});
+            this.chUnseen,
+            this.chID});
 		    this.ItemsListView.ContextMenuStrip = this.contextMenuStripItems;
 		    this.ItemsListView.FullRowSelect = true;
 		    this.ItemsListView.GridLines = true;
@@ -594,6 +597,12 @@ namespace PokemonGo.RocketAPI.Console
 		    this.ItemsListView.TabIndex = 78;
 		    this.ItemsListView.UseCompatibleStateImageBehavior = false;
 		    this.ItemsListView.View = System.Windows.Forms.View.Details;
+		    this.ItemsListView.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.ItemsListView_ColumnClick);
+		    // 
+		    // chID
+		    // 
+		    this.chID.Text = "#";
+		    this.chID.Width = 40;
 		    // 
 		    // chItem
 		    // 

@@ -61,7 +61,7 @@ namespace PokemonGo.RocketAPI
 
 
         public static WebProxy proxy;
-        public bool readyToUse = false;
+        public bool ReadyToUse { get; set; }
 
         public double CurrentAccuracy { get; internal set; }
         public float CurrentSpeed { get; internal set; }
@@ -81,6 +81,7 @@ namespace PokemonGo.RocketAPI
 
         public Client(Shared.ClientSettings settings)
         {
+            ReadyToUse = false;
             AuthType = settings.userType;
             Username = settings.userName;
             Password = settings.password;
@@ -96,17 +97,14 @@ namespace PokemonGo.RocketAPI
             Misc = new Rpc.Misc(this);
             Hasher = new PokeHashHasher(settings.hashKey);
 
-            Player.SetCoordinates(settings.latitude, settings.longitude, settings.altitude);
+            //Player.SetCoordinates(settings.latitude, settings.longitude, settings.altitude);
 
             InventoryLastUpdateTimestamp = 0;
 
-            /***************************/
-            /* Change each new version */
-            /***************************/
-            AppVersion = 5301;
+            AppVersion = Resources.ClientVersionInt;
             SettingsHash = "";
 
-            CurrentApiEmulationVersion = settings.currentApi;// new Version("0.51.2");
+            CurrentApiEmulationVersion = settings.currentApi;
         }
         
         private WebProxy InitProxy(string proxyHost, int proxyPort, string proxyUsername, string proxyPassword)

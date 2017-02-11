@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,13 +26,23 @@ namespace PokemonGo.RocketAPI.Rpc
 
         public async Task<PlayerUpdateResponse> UpdatePlayerLocation(double latitude, double longitude, double altitude)
         {
-            SetCoordinates(latitude, longitude, altitude);
+            //SetCoordinates(latitude, longitude, altitude);
+
+            // This needs to me removed from here
+            Client.CurrentLatitude = latitude;
+            Client.CurrentLongitude = longitude;
+            Client.CurrentAltitude = altitude;
+            string latlngalt = latitude.ToString(CultureInfo.InvariantCulture) + ":" + longitude.ToString(CultureInfo.InvariantCulture) + ":" + altitude.ToString(CultureInfo.InvariantCulture);
+            File.WriteAllText(Directory.GetCurrentDirectory() + "\\Configs\\LastCoords.txt", latlngalt);
+            //
+
             var message = new PlayerUpdateMessage
             {
                 Latitude = Client.CurrentLatitude,
                 Longitude = Client.CurrentLongitude
             };
 
+            Logger.Debug( $"Calling Request UpdatePlayerLocation -> {latitude} / {longitude} / {altitude}");
             var updatePlayerLocationRequestEnvelope = await GetRequestBuilder().GetRequestEnvelope(new Request[] {
                 new Request
                 {
@@ -40,28 +51,10 @@ namespace PokemonGo.RocketAPI.Rpc
                 }
             }).ConfigureAwait(false);
 
-
             return await PostProtoPayload<Request, PlayerUpdateResponse>(updatePlayerLocationRequestEnvelope).ConfigureAwait(false);
         }
 
-        internal void SetCoordinates(double lat, double lng, double altitude)
-        {
-            Client.CurrentLatitude = lat;
-            Client.CurrentLongitude = lng;
-            Client.CurrentAltitude = altitude;
-            SaveLatLng(lat, lng);
-        }
 
-        public void SaveLatLng(double lat, double lng)
-        {
-            try {
-                string latlng = lat.ToString() + ":" + lng.ToString();
-                File.WriteAllText(Directory.GetCurrentDirectory() + "\\Configs\\LastCoords.txt", latlng);
-            } catch (Exception)
-            {
-
-            }
-         }
         
         public async Task<GetPlayerResponse> GetPlayer()
         {

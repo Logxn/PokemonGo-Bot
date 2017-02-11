@@ -11,7 +11,7 @@ namespace PokemonGo.RocketAPI.Helpers
 
         public static long GetLongRandom(long min, long max)
         {
-            byte[] buf = new byte[8];
+            var buf = new byte[8];
             _random.NextBytes(buf);
             var longRand = BitConverter.ToInt64(buf, 0);
 
@@ -33,9 +33,14 @@ namespace PokemonGo.RocketAPI.Helpers
             Thread.Sleep(_rng.Next(min, max));
         }
 
+        public static void RandomSleep(int average)
+        {
+            RandomSleep(average-100, average+100);
+        }
+
         public static int RandomNumber(int min, int max)
         {
-            Random random = new Random();
+            var random = new Random();
             return random.Next(min, max);
         }
     }

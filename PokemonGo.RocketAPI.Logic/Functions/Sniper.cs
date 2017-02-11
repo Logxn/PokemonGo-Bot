@@ -9,6 +9,7 @@
 using System;
 using System.Device.Location;
 using POGOProtos.Enums;
+using POGOProtos.Networking.Responses;
 using PokemonGo.RocketAPI.Helpers;
 using System.Linq;
 using PokemonGo.RocketAPI.Logic.Utils;
@@ -38,81 +39,104 @@ namespace PokemonGo.RocketAPI.Logic.Functions
         
         public void Execute(  PokemonId pokeid, GeoCoordinate remoteCoords )
         {
+            GeoCoordinate returnCoords = new GeoCoordinate();
+
+            returnCoords.Latitude = _client.CurrentLatitude;
+            returnCoords.Longitude = _client.CurrentLongitude;
+            returnCoords.Altitude = _client.CurrentAltitude;
+            var result = _client.Player.UpdatePlayerLocation(returnCoords.Latitude, returnCoords.Longitude, returnCoords.Altitude).Result;
+
             if (_botSettings == null && _client ==null )
             {
                 SendToLog($" client or settings are not set");
                 return;
             }
+
             try
             {
-                remoteCoords.Altitude = LocationUtils.getAltidude(remoteCoords.Altitude, remoteCoords.Longitude);
+                remoteCoords.Altitude = LocationUtils.getAltitude(remoteCoords.Latitude, remoteCoords.Longitude);
                 
                 SendToLog($"Trying to capture {pokeid}  at { remoteCoords.Latitude } / {remoteCoords.Longitude}");
-                var result = _client.Player.UpdatePlayerLocation(remoteCoords.Latitude, remoteCoords.Longitude, remoteCoords.Altitude).Result;
+                SendToLog(LocationUtils.FindAddress(remoteCoords.Latitude,remoteCoords.Longitude));
+                result = _client.Player.UpdatePlayerLocation(remoteCoords.Latitude, remoteCoords.Longitude, remoteCoords.Altitude).Result;
 
-                SendToLog($"Went to sniping location.");
-                SendToLog($"Waiting {GlobalSettings.SnipeOpts.WaitSecond} seconds for Pokemon to appear...");
-                RandomHelper.RandomSleep(GlobalSettings.SnipeOpts.WaitSecond*1000, GlobalSettings.SnipeOpts.WaitSecond*1100);
-
-                TrySnipePokemons(pokeid);
+                SendToLog($"We are at sniping location...");
+                SendToLog($"Waiting {GlobalVars.SnipeOpts.WaitSecond} seconds for Pokemon to appear...");
+                RandomHelper.RandomSleep(GlobalVars.SnipeOpts.WaitSecond*1000, GlobalVars.SnipeOpts.WaitSecond*1100);
                 
-                SendToLog($"Location after Snipe : {_botSettings.DefaultLatitude} / {_botSettings.DefaultLongitude}");
+                var catchedID = TrySnipePokemons(pokeid, returnCoords);
+                if ( (catchedID >0) && GlobalVars.SnipeOpts.TransferIt)
+                {
+                    var trResult = Logic.objClient.Inventory.TransferPokemon(catchedID).Result;
+                    if (trResult.Result == ReleasePokemonResponse.Types.Result.Success)
+                    {
+                        SendToLog("Pokemon was transfered.");
+                        SendToLog("Candies awarded: " + trResult.CandyAwarded );
+                    }
+                }
+
+                // Restore Position
+                result = _client.Player.UpdatePlayerLocation(returnCoords.Latitude, returnCoords.Longitude, returnCoords.Altitude).Result;
+
+                SendToLog($"Location after Snipe : {returnCoords.Latitude} / {returnCoords.Longitude} / {returnCoords.Altitude}");
+                SendToLog(LocationUtils.FindAddress(returnCoords.Latitude, returnCoords.Longitude));
                 
                 RandomHelper.RandomSleep(20000, 22000);  // Avoid cache after snipe
 
             }
-            catch (Exception ex1)
+            catch (Exception ex)
             {
-                Logger.ExceptionInfo(ex1.ToString());
-                SendToLog($"Go to {_botSettings.DefaultLatitude} / {_botSettings.DefaultLongitude}.");
-                var result = _client.Player.UpdatePlayerLocation(
-                        _botSettings.DefaultLatitude,
-                        _botSettings.DefaultLongitude,
-                        _botSettings.DefaultAltitude).Result;
+                Logger.ExceptionInfo(ex.ToString());
+                SendToLog($"Go to {returnCoords.Latitude} / {returnCoords.Longitude} / {returnCoords.Altitude}.");
+                result = _client.Player.UpdatePlayerLocation(returnCoords.Latitude, returnCoords.Longitude, returnCoords.Altitude).Result;
             }
-            GlobalSettings.SnipeOpts.Enabled = false;
-            GlobalSettings.SnipeOpts.ID = PokemonId.Missingno;
-            GlobalSettings.SnipeOpts.Location = null;
-            GlobalSettings.SnipeOpts.WaitSecond = 6;
-            GlobalSettings.SnipeOpts.NumTries = 3;
-            
+
+            GlobalVars.SnipeOpts.Enabled = false;
+            GlobalVars.SnipeOpts.ID = PokemonId.Missingno;
+            GlobalVars.SnipeOpts.Location = null;
+            GlobalVars.SnipeOpts.WaitSecond = 6;
+            GlobalVars.SnipeOpts.NumTries = 3;
         }
         
-        private bool TrySnipePokemons(PokemonId pokeid)
+        private ulong TrySnipePokemons(PokemonId pokeid, GeoCoordinate returnCoords)
         {
             const bool goBack = true;
             var tries = 1;
-            var found = false;
+            //var found = false;
+            ulong caught = 0;
 
             do{
                 var mapObjectsResponse = _client.Map.GetMapObjects(true).Result.Item1;
                 var pokemons = mapObjectsResponse.MapCells.SelectMany(i => i.CatchablePokemons).Where(x => x.PokemonId == pokeid);
-                SendToLog($"Try {tries} of {GlobalSettings.SnipeOpts.NumTries}");
+                SendToLog($"Try {tries} of {GlobalVars.SnipeOpts.NumTries}");
                 if (pokemons.Any())
                 {
                     var pokemon = pokemons.FirstOrDefault();
                     SendToLog($"Found {pokemons.Count()} catchable Pokemon(s): {StringUtils.getPokemonNameByLanguage(_botSettings, pokemon.PokemonId)}" );
-                    Logic.Instance.CatchPokemon(pokemon.EncounterId, pokemon.SpawnPointId, pokemon.PokemonId, pokemon.Longitude, pokemon.Latitude, goBack);
-                    found = true;
+                    caught = Logic.Instance.CatchPokemon(pokemon.EncounterId, pokemon.SpawnPointId, pokemon.PokemonId, pokemon.Longitude, pokemon.Latitude, goBack, returnCoords.Latitude, returnCoords.Longitude);
+                    //found = true;
                 }
                 else
                 {
                     SendToLog($"No Pokemon Found!");
-                    SendToLog($"Waiting {GlobalSettings.SnipeOpts.WaitSecond} seconds for Pokemon to appear...");
-                    RandomHelper.RandomSleep(GlobalSettings.SnipeOpts.WaitSecond*1000, GlobalSettings.SnipeOpts.WaitSecond*1100);
+                    SendToLog($"Waiting {GlobalVars.SnipeOpts.WaitSecond} seconds for Pokemon to appear...");
+                    RandomHelper.RandomSleep(GlobalVars.SnipeOpts.WaitSecond*1000, GlobalVars.SnipeOpts.WaitSecond*1100);
                 }
                 tries ++;
             
-            }while ((tries < GlobalSettings.SnipeOpts.NumTries) && !found);
-            
-            if (!found){
-                SendToLog( $"Go to {_botSettings.DefaultLatitude} / {_botSettings.DefaultLongitude}.");
-                var result = _client.Player.UpdatePlayerLocation(
-                        _botSettings.DefaultLatitude,
-                        _botSettings.DefaultLongitude,
-                        _botSettings.DefaultAltitude).Result;
-            }
-            return found;
+            }while ((tries <= GlobalVars.SnipeOpts.NumTries) && caught==0);
+
+            if (caught != 0) SendToLog($"{StringUtils.getPokemonNameByLanguage(_botSettings, pokeid)} caught!");
+            else SendToLog($"{ StringUtils.getPokemonNameByLanguage(_botSettings, pokeid)} not found or caught!");
+
+            //if (!found){
+            //    SendToLog( $"Go to {_botSettings.DefaultLatitude} / {_botSettings.DefaultLongitude}.");
+            //    var result = _client.Player.UpdatePlayerLocation(
+            //            _botSettings.DefaultLatitude,
+            //            _botSettings.DefaultLongitude,
+            //            _botSettings.DefaultAltitude).Result;
+            //}
+            return caught;
         }
 
     }

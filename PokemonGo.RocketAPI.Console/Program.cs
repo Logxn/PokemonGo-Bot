@@ -1,12 +1,9 @@
-using Google.Protobuf;
-using POGOProtos.Enums;
 using PokemonGo.RocketAPI.Console.Helper;
-using PokemonGo.RocketAPI.Exceptions;
 using PokemonGo.RocketAPI.HttpClient;
+using PokemonGo.RocketAPI.Logic.Shared;
+using PokemonGo.RocketAPI.Logic.Utils;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Device.Location;
 using System.IO;
 using System.Net;
 using System.Reflection;
@@ -16,8 +13,6 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using PokemonGo.RocketAPI.Logic.Shared;
-using PokemonGo.RocketAPI.Logic.Utils;
 
 namespace PokemonGo.RocketAPI.Console
 {
@@ -29,7 +24,7 @@ namespace PokemonGo.RocketAPI.Console
         public static string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Configs");
         public static string path_translation = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Translations");
         public static string path_device = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Device");
-        public static string lastcords = Path.Combine(path, "LastCoords.txt");
+        public static string LastCoordsTXTFileName = Path.Combine(path, "LastCoords.txt");
         public static string huntstats = Path.Combine(path, "HuntStats.txt");
         public static string deviceSettings = Path.Combine(path_device, "DeviceInfo.txt");
         public static string cmdCoords = string.Empty;
@@ -39,7 +34,7 @@ namespace PokemonGo.RocketAPI.Console
         public static string manualTransferLog = Path.Combine(logPath, "TransferLog.txt");
         public static string EvolveLog = Path.Combine(logPath, "EvolveLog.txt");
         public static string path_pokedata = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "PokeData");       
-        
+
         static void SharePokesniperURI(string uri)
         {
             try 
@@ -61,58 +56,111 @@ namespace PokemonGo.RocketAPI.Console
         [STAThread]
         static void Main(string[] args)
         {
-
+            var openGUI = false;
             // Review & parse command line arguments
-            var BotVersion = new Version(Assembly.GetExecutingAssembly().GetName().Version.ToString());
 
             if (args != null && args.Length > 0)
             {
                 #region Parse Arguments
-                // First of all.
-                // We check if bot have called clicking in a pokesnimer URI: pokesniper2://PokemonName/latitude,longitude
-                if (args[0].Contains("pokesniper2"))
-                {
-                    // If yes, We create a temporary file to share with main process, and close.
-                    SharePokesniperURI(args[0]);
-                    return;
-                }
                 foreach (string arg in args)
                 {
-                    if (arg.Contains(","))
+                    // First of all.
+                    // We check if bot have called clicking in a pokesnimer URI: pokesniper2://PokemonName/latitude,longitude
+                    if (args[0].Contains("pokesniper2") || args[0].Contains("msniper"))
                     {
-                        Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Found coordinates in command line: {arg}");
-                        if (File.Exists(lastcords))
-                        {
-                            Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "Last coords file exists, trying to delete it");
-                            File.Delete(lastcords);
-                        }
-                        cmdCoords = arg;
+                        // If yes, We create a temporary file to share with main process, and close.
+                        SharePokesniperURI(args[0]);
+                        return;
                     }
 
-                    if (arg.ToLower().Contains("-bypassversioncheck"))
-                        GlobalSettings.BypassCheckCompatibilityVersion = true;
+                    #region Argument -nogui
+                    if (arg.Contains("-nogui"))
+                    {
+                        Logger.ColoredConsoleWrite(ConsoleColor.Red, "You added -nogui!");
 
+                        #region Read bot settings
+                        if (File.Exists(Program.accountProfiles))
+                        {
+                            string JSONstring = File.ReadAllText(accountProfiles);
+                            var Profiles = Newtonsoft.Json.JsonConvert.DeserializeObject<Collection<Profile>>(JSONstring);
+                            Profile selectedProfile = null;
+                            foreach (Profile _profile in Profiles)
+                            {
+                                if (_profile.IsDefault)
+                                {
+                                    selectedProfile = _profile;
+                                    break;
+                                }
+                            }
+                            if (selectedProfile != null)
+                            {
+                                var filenameProf = Path.Combine(path, $"{selectedProfile.ProfileName}.json");
+                                selectedProfile.Settings = ProfileSettings.LoadFromFile(filenameProf);
+                                selectedProfile.Settings.SaveToGlobals();
+                            }
+                            else
+                            {
+                                Logger.ColoredConsoleWrite(ConsoleColor.Red, "Default Profile not found! You didn't setup the bot correctly by running it with -nogui.");
+                                Environment.Exit(-1);
+                            }
+                        }
+                        else
+                        {
+                            Logger.ColoredConsoleWrite(ConsoleColor.Red, "You have not setup the bot yet. Run it without -nogui to Configure.");
+                            Environment.Exit(-1);
+                        }
+
+                        if (GlobalVars.UsePwdEncryption) GlobalVars.Password = Encryption.Decrypt(GlobalVars.Password);
+                        #endregion
+                    }
+                    #endregion
+
+                    #region Argument Coordinates
+                    if (arg.Contains(","))
+                    {
+                        if (File.Exists(LastCoordsTXTFileName))
+                        {
+                            Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "Last coords file exists, trying to delete it");
+                            File.Delete(LastCoordsTXTFileName);
+                        }
+                        
+                        string[] crdParts = arg.Split(',');
+                        GlobalVars.latitude = double.Parse(crdParts[0].Replace(',', '.'), GUI.cords, System.Globalization.NumberFormatInfo.InvariantInfo);
+                        GlobalVars.longitude = double.Parse(crdParts[1].Replace(',', '.'), GUI.cords, System.Globalization.NumberFormatInfo.InvariantInfo);
+                        Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Found coordinates in command line. Starting at: {GlobalVars.latitude},{GlobalVars.longitude},{GlobalVars.altitude}");
+                    }
+                    #endregion
+
+                    #region Argument -bypassversioncheck
+                    if (arg.ToLower().Contains("-bypassversioncheck"))
+                        GlobalVars.BypassCheckCompatibilityVersion = true;
+#endregion
+
+                    #region Argument -help
                     if (arg.ToLower().Contains("-help"))
                     {
                         //Show Help
-                        Logger.ColoredConsoleWriteNoDateTime(ConsoleColor.White, $"Pokemon BOT C# v{BotVersion.ToString()} help" + Environment.NewLine);
-                        Logger.ColoredConsoleWriteNoDateTime(ConsoleColor.Gray, "Use:");
-                        Logger.ColoredConsoleWriteNoDateTime(ConsoleColor.Gray, "  -nogui <lat>,<long>         Console mode only, starting on the indicated Latitude & Longitude");
-                        Logger.ColoredConsoleWriteNoDateTime(ConsoleColor.Gray, "  -bypassversioncheck         to NOT check BOT & API compatibility (be careful with that option)");
-                        Logger.ColoredConsoleWriteNoDateTime(ConsoleColor.Gray, "  -help                       this help" + Environment.NewLine);
+                        System.Console.WriteLine($"Pokemon BOT C# v{Resources.BotVersion.ToString()} help" + Environment.NewLine);
+                        System.Console.WriteLine("Use:");
+                        System.Console.WriteLine("  -nogui <lat>,<long>         Console mode only, starting on the indicated Latitude & Longitude");
+                        System.Console.WriteLine("  -bypassversioncheck         Do NOT check BOT & API compatibility (be careful with that option!)");
+                        System.Console.WriteLine("  -help                       This help" + Environment.NewLine);
                         Environment.Exit(0);
                     }
+                    #endregion
                 }
-                #endregion
             }
+            else openGUI = true;
+            #endregion
 
             // Checking if current BOT API implementation supports NIANTIC current API (unless there's an override command line switch)
-            if (!GlobalSettings.BypassCheckCompatibilityVersion)
+            if (!GlobalVars.BypassCheckCompatibilityVersion)
             {
-                Logger.ColoredConsoleWrite(ConsoleColor.DarkMagenta, $"Bot Current version: {BotVersion}");
-                Logger.ColoredConsoleWrite(ConsoleColor.DarkMagenta, $"Bot Supported API version: {GlobalSettings.BotApiSupportedVersion}");
+                Logger.ColoredConsoleWrite(ConsoleColor.DarkMagenta, $"Bot Current version: {Resources.BotVersion}");
+                Logger.ColoredConsoleWrite(ConsoleColor.DarkMagenta, $"Bot Supported API version: {Resources.BotApiSupportedVersion}");
                 Logger.ColoredConsoleWrite(ConsoleColor.DarkMagenta, $"Current API version: {new CurrentAPIVersion().GetNianticAPIVersion()}");
-                bool CurrentVersionsOK = new CurrentAPIVersion().CheckAPIVersionCompatibility( GlobalSettings.BotApiSupportedVersion);
+
+                bool CurrentVersionsOK = new CurrentAPIVersion().CheckAPIVersionCompatibility(GlobalVars.BotApiSupportedVersion);
                 if (!CurrentVersionsOK)
                 {
                     Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Atention, current API version is new and still not supported by Bot.");
@@ -125,96 +173,63 @@ namespace PokemonGo.RocketAPI.Console
             }
 
             // Check if Bot is deactivated at server level
-            if (StringUtils.CheckKillSwitch()) Environment.Exit(-1);
+            StringUtils.CheckKillSwitch();
 
-            var openGUI = false;
+            // Check if a new version of BOT is available
+            CheckVersion(); 
 
-            if (args != null && args.Length > 0 && args[0].Contains("-nogui"))
-            {
-                Logger.ColoredConsoleWrite(ConsoleColor.Red, "You added -nogui!");
-
-                if (!GlobalSettings.Load()) {
-                    Logger.ColoredConsoleWrite(ConsoleColor.Red, "You didn't setup correctly with the GUI.");
-                    Logger.ColoredConsoleWrite(ConsoleColor.Red, "Run it without -nogui to Configure.");
-                    Logger.ColoredConsoleWrite(ConsoleColor.Red, "Exiting..");
-                    Environment.Exit(-1);
-                }
-
-                if (GlobalSettings.usePwdEncryption)
-                {
-                    GlobalSettings.password = Encryption.Decrypt(GlobalSettings.password);
-                }
-
-                if (cmdCoords != string.Empty)
-                {
-                    string[] crdParts = cmdCoords.Split(',');
-                    GlobalSettings.latitute = double.Parse(crdParts[0].Replace(',', '.'), GUI.cords, System.Globalization.NumberFormatInfo.InvariantInfo);
-                    GlobalSettings.longitude = double.Parse(crdParts[1].Replace(',', '.'), GUI.cords, System.Globalization.NumberFormatInfo.InvariantInfo);
-                }
-
-                Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Starting at: {GlobalSettings.latitute},{GlobalSettings.longitude}");
-            }
-            else
+            if (openGUI)
             {
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
                 Application.Run(new GUI());
+                
                 Task.Run(() =>
                 {
-                             new Panels.SplashScreen().ShowDialog();
-                      });
-                openGUI = GlobalSettings.pokeList;
+                    new Panels.SplashScreen().ShowDialog();
+                });
+                openGUI = GlobalVars.EnablePokeList;
+                if (GlobalVars.EnableConsoleInTab) 
+                    Logger.type = 1;
                 // To open tabbed GUI to test programing 
-                /*Application.Run( new Pokemons()); 
-                Environment.Exit(0);*/
+                /*
+                Pokemons.skipReadyToUse = true;
+                Application.Run( new Pokemons()); 
+                Environment.Exit(0);
+                */
             }
-
-
+            
             SleepHelper.PreventSleep();
             CreateLogDirectories();
 
-            GlobalSettings.infoObservable.HandleNewHuntStats += SaveHuntStats;
+            GlobalVars.infoObservable.HandleNewHuntStats += SaveHuntStats;
 
             Task.Run(() =>
             {
-
-                CheckVersion(); // Check if a new version of BOT is available
-                
-                try
-                {
-                    new Logic.Logic(new Settings(), GlobalSettings.infoObservable).Execute();
-                }
-                catch (PtcOfflineException)
-                {
-                    Logger.ColoredConsoleWrite(ConsoleColor.Red, "PTC Servers are probably down OR you credentials are wrong.", LogLevel.Error);
-                    Logger.ColoredConsoleWrite(ConsoleColor.Red, "Trying again in 20 seconds...");
-                    Thread.Sleep(20000);
-                    new Logic.Logic(new Settings(), GlobalSettings.infoObservable).Execute();
-                }
-                catch (AccountNotVerifiedException)
-                {
-                    Logger.ColoredConsoleWrite(ConsoleColor.Red, "Your PTC Account is not activated. Exiting in 10 Seconds.");
-                    Thread.Sleep(10000);
-                    Environment.Exit(0);
-                }
-                catch (Exception ex)
-                {
-                    Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Unhandled exception: {ex}", LogLevel.Error);
+               do
+               {
+                    try
+                    {
+                        new Logic.Logic(new Settings(), GlobalVars.infoObservable).Execute();
+                    }
+                    catch (Exception ex)
+                    {
+                        Logger.Error( $"Unhandled exception: {ex}");
+                    }
                     Logger.Error("Restarting in 20 Seconds.");
                     Thread.Sleep(20000);
-                    new Logic.Logic(new Settings(), GlobalSettings.infoObservable).Execute();
-                }
+               }while (Logic.Logic.restartLogic);
             });
 
             if (openGUI)
             {
-                if (GlobalSettings.simulatedPGO)
+                if (GlobalVars.simulatedPGO)
                 {
                     Application.Run( new GameAspectSimulator());
                 }
                 else
                 {
-                    if (GlobalSettings.consoleInTab)
+                    if (GlobalVars.EnableConsoleInTab)
                         FreeConsole();
                     Application.Run( new Pokemons());
                 }
@@ -250,17 +265,8 @@ namespace PokemonGo.RocketAPI.Console
                     return;
                 }
 
-                Logger.ColoredConsoleWrite(ConsoleColor.Red, "There is a new Version available: " + gitVersion);
-                Logger.ColoredConsoleWrite(ConsoleColor.Red, "Its recommended to use the newest Version.");
-                if (cmdCoords == string.Empty)
-                {
-                    Logger.ColoredConsoleWrite(ConsoleColor.Red, "Starting in 10 Seconds.");
-                    Thread.Sleep(10000);
-                }
-                else
-                {
-                    Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "Starting right away because we are probably sniping.");
-                }
+                Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Bot Version {gitVersion} is available!");
+                Logger.ColoredConsoleWrite(ConsoleColor.Red, "We recommend to use this new version.");
             }
             catch (Exception)
             {
@@ -290,7 +296,7 @@ namespace PokemonGo.RocketAPI.Console
             using (var wC = new WebClient())
                 return
                     wC.DownloadString(
-                        "https://raw.githubusercontent.com/Ar1i/PokemonGo-Bot/master/ver.md");
+                        "https://raw.githubusercontent.com/Logxn/PokemonGo-Bot/master/ver.md");
         }
 
         private static void CreateLogDirectories()

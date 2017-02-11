@@ -6,7 +6,7 @@
  * 
  * To change this template use Tools | Options | Coding | Edit Standard Headers.
  */
-        /* All function used in this project
+/* All function used in this project
         public static void Error(string str){}
         public static void ColoredConsoleWrite(ConsoleColor color, string text, LogLevel level = LogLevel.Info){}
         public static void Write( string text, LogLevel level = LogLevel.Info){}
@@ -19,99 +19,94 @@ namespace PokemonGo.RocketAPI
     public enum LogLevel
     {
         None = 0,
-        Error = 1,
+        Info = 1,
         Warning = 2,
-        Info = 3,
+        Error = 3,
         Debug = 4
     }
-    public class Logger
+    public static class Logger
     {
-        public static Logger logger;
         public static int type = 0;
         public static string message;
         public static ConsoleColor color;
-        public Logger()
-        {
+        
+        public static LogLevel SelectedLevel {
+            get {
+                if (type == 0)
+                    return LoggerC.SelectedLevel;
+                if (type == 1)
+                    return LoggerPanel.SelectedLevel;
+                return LogLevel.None;
+            }
+            set {
+                if (type == 0)
+                    LoggerC.SelectedLevel = value;
+                if (type == 1)
+                    LoggerPanel.SelectedLevel = value; 
+            }
+        }
             
-        }
-        private static LoggerPanel panel = null;
-        public static void setPanel(LoggerPanel panel1){
-            panel = panel1;
-            //type = 1;
-        }
-        public static void ExceptionInfo(string line){
-            if (type == 0)
-            {
+        public static void ExceptionInfo(string line)
+        {
+            if (type == 0) {
                 LoggerC.ColoredConsoleWrite(ConsoleColor.Red, "Ignore this: sending exception information to log file.");
                 LoggerC.AddLog(line);
             }
-            else
-                try {
-                    if (panel != null){
-                            panel.ColoredConsoleWrite(ConsoleColor.Red, "Ignore this: sending exception information to log file.");
-                            panel.AddLog(line);
-                    }
-                    
-                } catch (Exception ex1) {
-                    AddLog(line+"\n"+ex1.ToString());
-                }
+            if (type == 1) {
+                LoggerPanel.ColoredConsoleWrite(ConsoleColor.Red, "Ignore this: sending exception information to log file.");
+                LoggerPanel.AddLog(line);
+            }
+                
         }
-        public static void Error(string str){
-            if (type == 0)
-                LoggerC.Error(str);
-            else
-                try {
-                    if (panel != null)
-                        panel.Error(str);
-                    
-                } catch (Exception ex1) {
-                    AddLog(str+ex1.ToString());
-                }
-        }
-        public static void ColoredConsoleWrite(ConsoleColor color, string line, LogLevel level = LogLevel.Info){
-            if (type == 0)
-                LoggerC.ColoredConsoleWrite(color,line,level);
-            else
-                try {
-                if (panel != null)
-                    panel.ColoredConsoleWrite(color,line,level);
-                } catch (Exception ex1) {
-                    AddLog(line+ex1.ToString());
-                }
-        }
-        public static void ColoredConsoleWriteNoDateTime(ConsoleColor color, string line, LogLevel level = LogLevel.Info)
+        public static void Info(string str)
         {
             if (type == 0)
-                LoggerC.ColoredConsoleWriteNoDateTime(color, line);
-            else
-                try
-                {
-                    if (panel != null)
-                        panel.ColoredConsoleWrite(color, line, level);
-                }
-                catch (Exception ex1)
-                {
-                    AddLog(line + ex1.ToString());
-                }
+                LoggerC.Info(str);
+            if (type == 1)
+                LoggerPanel.Info(str);
         }
-        public static void Write( string line, LogLevel level = LogLevel.Info){
+        public static void Warning(string str)
+        {
             if (type == 0)
-                LoggerC.Write(line,level);
-            else
-                try {
-                if (panel != null)
-                    panel.Write(line,level);
-                } catch (Exception ex1) {
-                    AddLog(line+ ex1.ToString());
-                }
+                LoggerC.Warning(str);
+            if (type == 1)
+                LoggerPanel.Warning(str);
+        }
+        public static void Error(string str)
+        {
+            if (type == 0)
+                LoggerC.Error(str);
+            if (type == 1)
+                LoggerPanel.Error(str);
+        }
+        public static void Debug(string str)
+        {
+            if (type == 0)
+                LoggerC.Debug(str);
+            if (type == 1)
+                LoggerPanel.Debug(str);
+        }
+        public static void ColoredConsoleWrite(ConsoleColor color, string line, LogLevel level = LogLevel.Info)
+        {
+            if (type == 0)
+                LoggerC.ColoredConsoleWrite(color, line, level);
+            if (type == 1)
+                LoggerPanel.ColoredConsoleWrite(color, line, level);
+        }
+        public static void Write(string line, LogLevel level = LogLevel.Info)
+        {
+            if (type == 0)
+                LoggerC.Write(line, level);
+            if (type == 1)
+                LoggerPanel.Write(line, level);
         }
         
-        public static void AddLog(string line){
+        public static void AddLog(string line)
+        {
             if (type == 0)
                 LoggerC.AddLog(line);
-            else
-                if (panel != null)
-                    panel.AddLog(line);
+            if (type == 1)
+                LoggerPanel.AddLog(line);
         }
     }
 }

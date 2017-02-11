@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Google.Protobuf.WellKnownTypes;
+using Newtonsoft.Json;
 using POGOProtos.Enums;
 using POGOProtos.Inventory.Item;
 using POGOProtos.Networking.Responses;
@@ -9,6 +10,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using PokemonGo.RocketAPI.Helpers;
 using PokemonGo.RocketAPI.Logic.Shared;
 
 namespace PokemonGo.RocketAPI.Logic.Utils
@@ -18,8 +20,7 @@ namespace PokemonGo.RocketAPI.Logic.Utils
         public static string getPokemonNameGer(PokemonId b)
         {
             string GerName = string.Empty;
-            switch (b)
-            {
+            switch (b) {
                 case PokemonId.Missingno:
                     GerName = "Missingno";
                     break;
@@ -489,10 +490,14 @@ namespace PokemonGo.RocketAPI.Logic.Utils
             return b.ToString();
         }
 
+        public static string getPokemonNameByLanguage(PokemonId b)
+        {
+            return b.ToString();
+        }
+
         public static int getExpDiff(int level)
         {
-            switch (level)
-            {
+            switch (level) {
                 case 1:
                     return 0;
                 case 2:
@@ -591,54 +596,56 @@ namespace PokemonGo.RocketAPI.Logic.Utils
                           .Aggregate((a, b) => $"{a}, {b}");
         }
 
-        public static bool CheckKillSwitch(bool kill = false)
+        public static bool CheckKillSwitch()
         {
-            if (kill)
-            {
-                Logger.Error("The bot is deactivated at server level for security or maintenance reasons, we have to close it.");
-                Logger.Error("Thanks for your patience!" + Environment.NewLine);
-                System.Console.ReadLine();
-                return true;
-            }
-            using (var wc = new WebClient())
-            {
-                try
-                {
-                    string strResponse = wc.DownloadString("https://raw.githubusercontent.com/Ar1i/PokemonGo-Bot/master/switch.txt");
+            using (var wc = new WebClient()) {
+                try {
+                    string strResponse = wc.DownloadString("https://raw.githubusercontent.com/Logxn/PokemonGo-Bot/master/switch.txt");
 
                     if (strResponse == null)
                         return false;
 
                     string[] strSplit = strResponse.Split(';');
 
-                    if (strSplit.Length > 1)
-                    {
+                    if (strSplit.Length > 1) {
                         string strStatus = strSplit[0];
                         string strReason = strSplit[1];
 
-                        if (strStatus.ToLower().Contains("false"))
-                        {
+                        if (strStatus.ToLower().Contains("false")) {
                             Logger.Error("The bot is deactivated at server level for security or maintenance reasons, we have to close it.");
                             Logger.Error("Thanks for your patience!" + Environment.NewLine);
                             Logger.Error(strReason + Environment.NewLine);
                             System.Console.ReadLine();
+                            Environment.Exit(-1);
                             return true;
                         }
-                    }
-                    else
+                    } else
                         return false;
-                }
-                catch (WebException)
-                {
+                } catch (WebException) {
                 }
             }
 
             return false;
         }
 
+        public static string TimeMStoString(long timeMS, String format)
+        {
+            try {
+                if (timeMS > 0) {
+                    var tstamp = TimeSpan.FromMilliseconds(timeMS);
+                    var UnixNow = DateTime.UtcNow.AddYears(-1969).AddDays(1);
+                    var tsUnixNow = TimeSpan.FromTicks(UnixNow.Ticks);
+                    return tstamp.Subtract(tsUnixNow).ToString(format);
+                }
+            } catch (Exception e) {
+                Logger.Debug("" + e);
+            }
+            return "Unknown";
+        }
+
         public static string ConvertTimeMSinString(ulong timeMS, String format)
         {
             return (new DateTime((long)timeMS * 10000).AddYears(1969).AddDays(-1).ToString(format));
-        }       
+        }
     }
 }

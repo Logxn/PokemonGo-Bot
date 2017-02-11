@@ -8,210 +8,64 @@
  */
 namespace PokemonGo.RocketAPI.Console
 {
-	partial class PlayerPanel
-	{
-		/// <summary>
-		/// Designer variable used to keep track of non-visual components.
-		/// </summary>
-		private System.ComponentModel.IContainer components = null;
-		private System.Windows.Forms.Label labelUserProperty6Value;
-		private System.Windows.Forms.Label labelUserProperty6Title;
-		private System.Windows.Forms.Label labelUserProperty5Value;
-		private System.Windows.Forms.Label labelUserProperty4Value;
-		private System.Windows.Forms.Label labelUserProperty3Value;
-		private System.Windows.Forms.Label labelUserProperty2Value;
-		private System.Windows.Forms.Label labelUserProperty1Value;
-		private System.Windows.Forms.Label labelUserProperty4Title;
-		private System.Windows.Forms.Label labelUserProperty3Title;
-		private System.Windows.Forms.Label labelUserProperty2Title;
-		private System.Windows.Forms.Label labelUserProperty1Title;
-		private System.Windows.Forms.Label labelUserProperty5Title;
-		private System.Windows.Forms.PictureBox pictureBoxTeam;
-		private System.Windows.Forms.Panel panelLeftArea;
-		private System.Windows.Forms.PictureBox pictureBoxBuddyPokemon;
-		private System.Windows.Forms.PictureBox pictureBoxPlayerAvatar;
-		private System.Windows.Forms.Button btnTeam;
-		private System.Windows.Forms.Label labelCoinsValue;
-		private System.Windows.Forms.Label labelCoinsTitle;
-		private System.Windows.Forms.Button btnCollect;
+    partial class PlayerPanel
+    {
+        /// <summary>
+        /// Designer variable used to keep track of non-visual components.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+        private System.Windows.Forms.PictureBox pictureBoxTeam;
+        private System.Windows.Forms.Panel panelLeftArea;
+        private System.Windows.Forms.PictureBox pictureBoxBuddyPokemon;
+        private System.Windows.Forms.PictureBox pictureBoxPlayerAvatar;
+        private System.Windows.Forms.Button btnTeam;
+        private System.Windows.Forms.Button btnCollect;
+        private System.Windows.Forms.ListView listView;
+        private System.Windows.Forms.ColumnHeader Title;
+        private System.Windows.Forms.ColumnHeader Value;
+        private System.Windows.Forms.ColumnHeader ID;
 		
-		/// <summary>
-		/// Disposes resources used by the control.
-		/// </summary>
-		/// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-		protected override void Dispose(bool disposing)
-		{
-			if (disposing) {
-				if (components != null) {
-					components.Dispose();
-				}
-			}
-			base.Dispose(disposing);
-		}
+        /// <summary>
+        /// Disposes resources used by the control.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing) {
+                if (components != null) {
+                    components.Dispose();
+                }
+            }
+            base.Dispose(disposing);
+        }
 		
-		/// <summary>
-		/// This method is required for Windows Forms designer support.
-		/// Do not change the method contents inside the source code editor. The Forms designer might
-		/// not be able to load this method if it was changed manually.
-		/// </summary>
-		private void InitializeComponent()
-		{
-            this.labelUserProperty6Value = new System.Windows.Forms.Label();
-            this.labelUserProperty6Title = new System.Windows.Forms.Label();
-            this.labelUserProperty5Value = new System.Windows.Forms.Label();
-            this.labelUserProperty4Value = new System.Windows.Forms.Label();
-            this.labelUserProperty3Value = new System.Windows.Forms.Label();
-            this.labelUserProperty2Value = new System.Windows.Forms.Label();
-            this.labelUserProperty1Value = new System.Windows.Forms.Label();
-            this.labelUserProperty4Title = new System.Windows.Forms.Label();
-            this.labelUserProperty3Title = new System.Windows.Forms.Label();
-            this.labelUserProperty2Title = new System.Windows.Forms.Label();
-            this.labelUserProperty1Title = new System.Windows.Forms.Label();
-            this.labelUserProperty5Title = new System.Windows.Forms.Label();
+        /// <summary>
+        /// This method is required for Windows Forms designer support.
+        /// Do not change the method contents inside the source code editor. The Forms designer might
+        /// not be able to load this method if it was changed manually.
+        /// </summary>
+        private void InitializeComponent()
+        {
             this.pictureBoxTeam = new System.Windows.Forms.PictureBox();
             this.panelLeftArea = new System.Windows.Forms.Panel();
             this.pictureBoxBuddyPokemon = new System.Windows.Forms.PictureBox();
             this.pictureBoxPlayerAvatar = new System.Windows.Forms.PictureBox();
             this.btnTeam = new System.Windows.Forms.Button();
-            this.labelCoinsValue = new System.Windows.Forms.Label();
-            this.labelCoinsTitle = new System.Windows.Forms.Label();
             this.btnCollect = new System.Windows.Forms.Button();
+            this.listView = new System.Windows.Forms.ListView();
+            this.ID = new System.Windows.Forms.ColumnHeader();
+            this.Title = new System.Windows.Forms.ColumnHeader();
+            this.Value = new System.Windows.Forms.ColumnHeader();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxTeam)).BeginInit();
             this.panelLeftArea.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxBuddyPokemon)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPlayerAvatar)).BeginInit();
             this.SuspendLayout();
             // 
-            // labelUserProperty6Value
-            // 
-            this.labelUserProperty6Value.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelUserProperty6Value.Location = new System.Drawing.Point(485, 161);
-            this.labelUserProperty6Value.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.labelUserProperty6Value.Name = "labelUserProperty6Value";
-            this.labelUserProperty6Value.Size = new System.Drawing.Size(312, 25);
-            this.labelUserProperty6Value.TabIndex = 101;
-            this.labelUserProperty6Value.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // labelUserProperty6Title
-            // 
-            this.labelUserProperty6Title.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelUserProperty6Title.Location = new System.Drawing.Point(319, 161);
-            this.labelUserProperty6Title.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.labelUserProperty6Title.Name = "labelUserProperty6Title";
-            this.labelUserProperty6Title.Size = new System.Drawing.Size(144, 25);
-            this.labelUserProperty6Title.TabIndex = 100;
-            this.labelUserProperty6Title.Text = "km Walked:";
-            this.labelUserProperty6Title.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // labelUserProperty5Value
-            // 
-            this.labelUserProperty5Value.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelUserProperty5Value.Location = new System.Drawing.Point(485, 136);
-            this.labelUserProperty5Value.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.labelUserProperty5Value.Name = "labelUserProperty5Value";
-            this.labelUserProperty5Value.Size = new System.Drawing.Size(312, 25);
-            this.labelUserProperty5Value.TabIndex = 99;
-            this.labelUserProperty5Value.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // labelUserProperty4Value
-            // 
-            this.labelUserProperty4Value.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelUserProperty4Value.Location = new System.Drawing.Point(481, 111);
-            this.labelUserProperty4Value.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.labelUserProperty4Value.Name = "labelUserProperty4Value";
-            this.labelUserProperty4Value.Size = new System.Drawing.Size(312, 25);
-            this.labelUserProperty4Value.TabIndex = 98;
-            this.labelUserProperty4Value.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // labelUserProperty3Value
-            // 
-            this.labelUserProperty3Value.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelUserProperty3Value.Location = new System.Drawing.Point(481, 85);
-            this.labelUserProperty3Value.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.labelUserProperty3Value.Name = "labelUserProperty3Value";
-            this.labelUserProperty3Value.Size = new System.Drawing.Size(312, 25);
-            this.labelUserProperty3Value.TabIndex = 97;
-            this.labelUserProperty3Value.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // labelUserProperty2Value
-            // 
-            this.labelUserProperty2Value.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelUserProperty2Value.Location = new System.Drawing.Point(481, 60);
-            this.labelUserProperty2Value.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.labelUserProperty2Value.Name = "labelUserProperty2Value";
-            this.labelUserProperty2Value.Size = new System.Drawing.Size(312, 25);
-            this.labelUserProperty2Value.TabIndex = 96;
-            this.labelUserProperty2Value.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // labelUserProperty1Value
-            // 
-            this.labelUserProperty1Value.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelUserProperty1Value.Location = new System.Drawing.Point(481, 35);
-            this.labelUserProperty1Value.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.labelUserProperty1Value.Name = "labelUserProperty1Value";
-            this.labelUserProperty1Value.Size = new System.Drawing.Size(312, 25);
-            this.labelUserProperty1Value.TabIndex = 95;
-            this.labelUserProperty1Value.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // labelUserProperty4Title
-            // 
-            this.labelUserProperty4Title.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelUserProperty4Title.Location = new System.Drawing.Point(319, 111);
-            this.labelUserProperty4Title.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.labelUserProperty4Title.Name = "labelUserProperty4Title";
-            this.labelUserProperty4Title.Size = new System.Drawing.Size(144, 25);
-            this.labelUserProperty4Title.TabIndex = 94;
-            this.labelUserProperty4Title.Text = "Pokemon:";
-            this.labelUserProperty4Title.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // labelUserProperty3Title
-            // 
-            this.labelUserProperty3Title.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelUserProperty3Title.Location = new System.Drawing.Point(319, 85);
-            this.labelUserProperty3Title.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.labelUserProperty3Title.Name = "labelUserProperty3Title";
-            this.labelUserProperty3Title.Size = new System.Drawing.Size(144, 25);
-            this.labelUserProperty3Title.TabIndex = 93;
-            this.labelUserProperty3Title.Text = "Stardust:";
-            this.labelUserProperty3Title.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // labelUserProperty2Title
-            // 
-            this.labelUserProperty2Title.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelUserProperty2Title.Location = new System.Drawing.Point(319, 60);
-            this.labelUserProperty2Title.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.labelUserProperty2Title.Name = "labelUserProperty2Title";
-            this.labelUserProperty2Title.Size = new System.Drawing.Size(144, 25);
-            this.labelUserProperty2Title.TabIndex = 92;
-            this.labelUserProperty2Title.Text = "Level:";
-            this.labelUserProperty2Title.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // labelUserProperty1Title
-            // 
-            this.labelUserProperty1Title.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelUserProperty1Title.Location = new System.Drawing.Point(319, 35);
-            this.labelUserProperty1Title.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.labelUserProperty1Title.Name = "labelUserProperty1Title";
-            this.labelUserProperty1Title.Size = new System.Drawing.Size(144, 25);
-            this.labelUserProperty1Title.TabIndex = 91;
-            this.labelUserProperty1Title.Text = "Username:";
-            this.labelUserProperty1Title.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // labelUserProperty5Title
-            // 
-            this.labelUserProperty5Title.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelUserProperty5Title.Location = new System.Drawing.Point(319, 136);
-            this.labelUserProperty5Title.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.labelUserProperty5Title.Name = "labelUserProperty5Title";
-            this.labelUserProperty5Title.Size = new System.Drawing.Size(144, 25);
-            this.labelUserProperty5Title.TabIndex = 90;
-            this.labelUserProperty5Title.Text = "Pokedex:";
-            this.labelUserProperty5Title.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
             // pictureBoxTeam
             // 
             this.pictureBoxTeam.Image = global::PokemonGo.RocketAPI.Console.Properties.Resources.team_valor;
-            this.pictureBoxTeam.Location = new System.Drawing.Point(0, 0);
+            this.pictureBoxTeam.Location = new System.Drawing.Point(0, 6);
             this.pictureBoxTeam.Margin = new System.Windows.Forms.Padding(2);
             this.pictureBoxTeam.Name = "pictureBoxTeam";
             this.pictureBoxTeam.Size = new System.Drawing.Size(299, 238);
@@ -221,19 +75,19 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // panelLeftArea
             // 
+            this.panelLeftArea.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.panelLeftArea.Controls.Add(this.pictureBoxBuddyPokemon);
             this.panelLeftArea.Controls.Add(this.pictureBoxPlayerAvatar);
             this.panelLeftArea.Controls.Add(this.pictureBoxTeam);
-            this.panelLeftArea.Dock = System.Windows.Forms.DockStyle.Left;
-            this.panelLeftArea.Location = new System.Drawing.Point(0, 0);
+            this.panelLeftArea.Location = new System.Drawing.Point(2, 101);
             this.panelLeftArea.Margin = new System.Windows.Forms.Padding(2);
             this.panelLeftArea.Name = "panelLeftArea";
-            this.panelLeftArea.Size = new System.Drawing.Size(300, 287);
+            this.panelLeftArea.Size = new System.Drawing.Size(300, 259);
             this.panelLeftArea.TabIndex = 89;
             // 
             // pictureBoxBuddyPokemon
             // 
-            this.pictureBoxBuddyPokemon.Location = new System.Drawing.Point(2, 120);
+            this.pictureBoxBuddyPokemon.Location = new System.Drawing.Point(2, 126);
             this.pictureBoxBuddyPokemon.Margin = new System.Windows.Forms.Padding(2);
             this.pictureBoxBuddyPokemon.Name = "pictureBoxBuddyPokemon";
             this.pictureBoxBuddyPokemon.Size = new System.Drawing.Size(112, 112);
@@ -244,7 +98,7 @@ namespace PokemonGo.RocketAPI.Console
             // pictureBoxPlayerAvatar
             // 
             this.pictureBoxPlayerAvatar.Image = global::PokemonGo.RocketAPI.Console.Properties.Resources.Trainer_M;
-            this.pictureBoxPlayerAvatar.Location = new System.Drawing.Point(2, 35);
+            this.pictureBoxPlayerAvatar.Location = new System.Drawing.Point(2, 41);
             this.pictureBoxPlayerAvatar.Margin = new System.Windows.Forms.Padding(2);
             this.pictureBoxPlayerAvatar.Name = "pictureBoxPlayerAvatar";
             this.pictureBoxPlayerAvatar.Size = new System.Drawing.Size(145, 201);
@@ -255,7 +109,7 @@ namespace PokemonGo.RocketAPI.Console
             // btnTeam
             // 
             this.btnTeam.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnTeam.Location = new System.Drawing.Point(712, 249);
+            this.btnTeam.Location = new System.Drawing.Point(712, 426);
             this.btnTeam.Margin = new System.Windows.Forms.Padding(4);
             this.btnTeam.Name = "btnTeam";
             this.btnTeam.Size = new System.Drawing.Size(94, 29);
@@ -264,31 +118,10 @@ namespace PokemonGo.RocketAPI.Console
             this.btnTeam.UseVisualStyleBackColor = true;
             this.btnTeam.Click += new System.EventHandler(this.BtnTeamClick);
             // 
-            // labelCoinsValue
-            // 
-            this.labelCoinsValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelCoinsValue.Location = new System.Drawing.Point(485, 186);
-            this.labelCoinsValue.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.labelCoinsValue.Name = "labelCoinsValue";
-            this.labelCoinsValue.Size = new System.Drawing.Size(312, 25);
-            this.labelCoinsValue.TabIndex = 104;
-            this.labelCoinsValue.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // labelCoinsTitle
-            // 
-            this.labelCoinsTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelCoinsTitle.Location = new System.Drawing.Point(319, 186);
-            this.labelCoinsTitle.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.labelCoinsTitle.Name = "labelCoinsTitle";
-            this.labelCoinsTitle.Size = new System.Drawing.Size(144, 25);
-            this.labelCoinsTitle.TabIndex = 103;
-            this.labelCoinsTitle.Text = "Coins:";
-            this.labelCoinsTitle.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
             // btnCollect
             // 
             this.btnCollect.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnCollect.Location = new System.Drawing.Point(598, 249);
+            this.btnCollect.Location = new System.Drawing.Point(598, 426);
             this.btnCollect.Margin = new System.Windows.Forms.Padding(4);
             this.btnCollect.Name = "btnCollect";
             this.btnCollect.Size = new System.Drawing.Size(106, 29);
@@ -297,34 +130,57 @@ namespace PokemonGo.RocketAPI.Console
             this.btnCollect.UseVisualStyleBackColor = true;
             this.btnCollect.Click += new System.EventHandler(this.btnColect_Click);
             // 
+            // listView
+            // 
+            this.listView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.listView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.ID,
+            this.Title,
+            this.Value});
+            this.listView.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.listView.FullRowSelect = true;
+            this.listView.GridLines = true;
+            this.listView.Location = new System.Drawing.Point(305, 3);
+            this.listView.Name = "listView";
+            this.listView.Size = new System.Drawing.Size(493, 416);
+            this.listView.TabIndex = 106;
+            this.listView.UseCompatibleStateImageBehavior = false;
+            this.listView.View = System.Windows.Forms.View.Details;
+            this.listView.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.listView_ColumnClick);
+            // 
+            // ID
+            // 
+            this.ID.Text = "#";
+            this.ID.Width = 30;
+            // 
+            // Title
+            // 
+            this.Title.Text = "Title";
+            this.Title.Width = 200;
+            // 
+            // Value
+            // 
+            this.Value.Text = "Value";
+            this.Value.Width = 200;
+            // 
             // PlayerPanel
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
+            this.Controls.Add(this.listView);
             this.Controls.Add(this.btnCollect);
-            this.Controls.Add(this.labelCoinsValue);
-            this.Controls.Add(this.labelCoinsTitle);
             this.Controls.Add(this.btnTeam);
-            this.Controls.Add(this.labelUserProperty6Value);
-            this.Controls.Add(this.labelUserProperty6Title);
-            this.Controls.Add(this.labelUserProperty5Value);
-            this.Controls.Add(this.labelUserProperty4Value);
-            this.Controls.Add(this.labelUserProperty3Value);
-            this.Controls.Add(this.labelUserProperty2Value);
-            this.Controls.Add(this.labelUserProperty1Value);
-            this.Controls.Add(this.labelUserProperty4Title);
-            this.Controls.Add(this.labelUserProperty3Title);
-            this.Controls.Add(this.labelUserProperty2Title);
-            this.Controls.Add(this.labelUserProperty1Title);
-            this.Controls.Add(this.labelUserProperty5Title);
             this.Controls.Add(this.panelLeftArea);
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "PlayerPanel";
-            this.Size = new System.Drawing.Size(810, 287);
+            this.Size = new System.Drawing.Size(810, 464);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxTeam)).EndInit();
             this.panelLeftArea.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxBuddyPokemon)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPlayerAvatar)).EndInit();
             this.ResumeLayout(false);
-		}
-	}
+
+        }
+    }
 }

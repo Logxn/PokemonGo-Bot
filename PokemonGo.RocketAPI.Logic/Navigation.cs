@@ -8,6 +8,8 @@ using PokemonGo.RocketAPI.Helpers;
 using PokemonGo.RocketAPI.Logic.Utils;
 using POGOProtos.Enums;
 using PokemonGo.RocketAPI.Logic.Shared;
+using System.Globalization;
+using System.IO;
 
 namespace PokemonGo.RocketAPI.Logic
 {
@@ -25,6 +27,27 @@ namespace PokemonGo.RocketAPI.Logic
         private const double SpeedDownTo = 10 / 3.6;
         private readonly Client _client;
         public readonly ISettings _botSettings;
+
+        public void SetCoordinates(double lat, double lng, double altitude)
+        {
+            _client.CurrentLatitude = lat;
+            _client.CurrentLongitude = lng;
+            _client.CurrentAltitude = altitude;
+            SaveLatLngAlt(lat, lng, altitude);
+        }
+
+        public void SaveLatLngAlt(double lat, double lng, double alt)
+        {
+            try
+            {
+                string latlngalt = lat.ToString(CultureInfo.InvariantCulture) + ":" + lng.ToString(CultureInfo.InvariantCulture) + ":" + alt.ToString(CultureInfo.InvariantCulture);
+                File.WriteAllText(Directory.GetCurrentDirectory() + "\\Configs\\LastCoords.txt", latlngalt);
+            }
+            catch (Exception)
+            {
+
+            }
+        }
 
         public static double DistanceBetween2Coordinates(double Lat1, double Lng1, double Lat2, double Lng2)
         {
@@ -68,6 +91,9 @@ namespace PokemonGo.RocketAPI.Logic
             var locatePokemonWhileWalkingDateTime = DateTime.Now;
             do
             {
+                //update user location on map
+                Task.Factory.StartNew(() => Logic.Instance.infoObservable.PushNewGeoLocations(new GeoCoordinate(waypoint.Latitude, waypoint.Longitude)));
+
                 var millisecondsUntilGetUpdatePlayerLocationResponse =
                     (DateTime.Now - requestSendDateTime).TotalMilliseconds;
 
@@ -90,17 +116,15 @@ namespace PokemonGo.RocketAPI.Logic
                 
                 if (_botSettings.PauseTheWalking)
                 {
-                    result =
-                       _client.Player.UpdatePlayerLocation(_client.CurrentLatitude, _client.CurrentLongitude,
-                           _client.CurrentAltitude).Result;
+                    //result = _client.Player.UpdatePlayerLocation(_client.CurrentLatitude, _client.CurrentLongitude, _client.CurrentAltitude).Result;
+                    SetCoordinates(waypoint.Latitude, waypoint.Longitude, waypoint.Altitude);
                 }
                 else
                 {
                     try
                     {
-                        result =
-                            _client.Player.UpdatePlayerLocation(waypoint.Latitude, waypoint.Longitude,
-                                waypoint.Altitude).Result;
+                        //result = _client.Player.UpdatePlayerLocation(waypoint.Latitude, waypoint.Longitude, waypoint.Altitude).Result;
+                        SetCoordinates(waypoint.Latitude, waypoint.Longitude, waypoint.Altitude);
                     }
                     catch (Exception e)
                     {
@@ -114,8 +138,8 @@ namespace PokemonGo.RocketAPI.Logic
                      functionExecutedWhileWalking();// look for pokemon 
                 }
                 
-                if (GlobalSettings.SnipeOpts.Enabled){
-                    Logic.Instance.sniperLogic.Execute((PokemonId) GlobalSettings.SnipeOpts.ID,GlobalSettings.SnipeOpts.Location);
+                if (GlobalVars.SnipeOpts.Enabled){
+                    Logic.Instance.sniperLogic.Execute((PokemonId) GlobalVars.SnipeOpts.ID,GlobalVars.SnipeOpts.Location);
                     //_botSettings.SnipeOpts.Enabled = false;
                 }
 

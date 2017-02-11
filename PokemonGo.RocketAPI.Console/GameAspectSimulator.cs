@@ -24,7 +24,8 @@ namespace PokemonGo.RocketAPI.Console
         PlayerPanel playerPanel = null;
         PokemonsPanel pokemonsPanel = null;
         SniperPanel sniperPanel = null;
-        
+        private Helper.TranslatorHelper th = Helper.TranslatorHelper.getInstance();
+
         UserControl panel  = null;
         private const AnchorStyles allAnchors = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
@@ -35,7 +36,7 @@ namespace PokemonGo.RocketAPI.Console
             // The InitializeComponent() call is required for Windows Forms designer support.
             //
             InitializeComponent();
-            
+            th.Translate(this);
             locationPanel1.Init(true, 0, 0, 0);
             btnPicPokes.Parent= locationPanel1.map;
             btnPicEggs.Parent= locationPanel1.map;
@@ -52,7 +53,7 @@ namespace PokemonGo.RocketAPI.Console
             btnPicProfile.Visible =true;
             locationPanel1.Visible=true;
         }
-        
+
         void btnPicMenu_Click(object sender, EventArgs e)
         {
             setVisiblePics(!btnPicPokes.Visible);

@@ -35,6 +35,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="GMap.NET.Core">
+      <HintPath>..\packages\GMap.NET.Presentation.1.7.1\lib\net40\GMap.NET.Core.dll</HintPath>
+    </Reference>
     <Reference Include="Google.Protobuf">
       <HintPath>..\packages\Google.Protobuf.3.1.0\lib\net45\Google.Protobuf.dll</HintPath>
     </Reference>
@@ -81,7 +84,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Functions\GymsLogic.cs" />
+    <Compile Include="Functions\Setout.cs" />
     <Compile Include="Functions\Sniper.cs" />
+    <Compile Include="Functions\TelegramLogic.cs" />
     <Compile Include="Logic.cs" />
     <Compile Include="LogicInfoObservable.cs" />
     <Compile Include="Navigation.cs" />
@@ -92,7 +98,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Shared\AvatarSettings.cs" />
-    <Compile Include="Shared\GlobalSettings.cs" />
+    <Compile Include="Shared\GlobalVars.cs" />
     <Compile Include="Shared\ProfileSettings.cs" />
     <Compile Include="Shared\ISettings.cs" />
     <Compile Include="Shared\ManualSnipePokemon.cs" />
@@ -146,19 +152,12 @@
       <Project>{a03a7bb2-4f0b-467b-84b2-9a76e6aae6fb}</Project>
       <Name>POGOProtos</Name>
     </ProjectReference>
-    <ProjectReference Include="..\PokemonGo.RocketApi.PokeMap\PokemonGo.RocketApi.PokeMap.csproj">
-      <Project>{D476DDDA-B56E-4826-9DF8-97BFECA186E7}</Project>
-      <Name>PokemonGo.RocketApi.PokeMap</Name>
-    </ProjectReference>
     <ProjectReference Include="..\PokemonGo.RocketAPI\PokemonGo.RocketAPI.csproj">
       <Project>{05d2da44-1b8e-4cf7-94ed-4d52451cd095}</Project>
       <Name>PokemonGo.RocketAPI</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Functions" />
-    <Folder Include="Shared" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

@@ -19,9 +19,9 @@ namespace PokemonGo.RocketAPI.Console
     {
         public GUIAvatar()
         {
-
             InitializeComponent();
             tutorialPanel1.LoadData();
+            Helper.TranslatorHelper.getInstance().Translate(this);
         }
         void ButtonOkClick(object sender, EventArgs e)
         {

@@ -36,7 +36,7 @@ namespace PokemonGo.RocketAPI.Logic
             WebClient webClient = new WebClient();
             webClient.DownloadFileCompleted += new AsyncCompletedEventHandler(Completed);
             webClient.DownloadProgressChanged += new DownloadProgressChangedEventHandler(ProgressChanged);
-            webClient.DownloadFileAsync(new Uri("http://raw.githubusercontent.com/Ar1i/PokemonGo-Bot/master/Builds-Only/PokemonGo.RocketAPI.Console.exe"), file);
+            webClient.DownloadFileAsync(new Uri("http://raw.githubusercontent.com/Logxn/PokemonGo-Bot/master/Builds-Only/PokemonGo.RocketAPI.Console.exe"), file);
 
         }
 
@@ -59,7 +59,7 @@ namespace PokemonGo.RocketAPI.Logic
 
         void checkversion()
         {
-            if (getNewestVersion() > Assembly.GetExecutingAssembly().GetName().Version)
+            if (GetNewestVersion() > Assembly.GetExecutingAssembly().GetName().Version)
             {
                 startDownload();
             }
@@ -114,7 +114,7 @@ namespace PokemonGo.RocketAPI.Logic
             return kilobytes / 1024f;
         }
 
-        public static Version getNewestVersion()
+        public static Version GetNewestVersion()
         {
             try
             {
@@ -134,11 +134,51 @@ namespace PokemonGo.RocketAPI.Logic
         public static string DownloadServerVersion()
         {
             using (var wC = new WebClient())
-                return
-                    wC.DownloadString(
-                        "https://raw.githubusercontent.com/Ar1i/PokemonGo-Bot/master/ver.md");
+            {
+                return wC.DownloadString("https://raw.githubusercontent.com/Logxn/PokemonGo-Bot/master/ver.md");
+            }
         }
+        
+        public static void CheckWhileWalking()
+        {
+            if (GetNewestVersion() > Assembly.GetEntryAssembly().GetName().Version)
+            {
+                if (Shared.GlobalVars.AutoUpdate)
+                {
+                    System.Windows.Forms.Form update = new Update();
+                    update.ShowDialog();
+                }
+                else
+                {
+                    var dialogResult = MessageBox.Show(
+                        @"There is an Update on Github. do you want to open it ?", $@"Newest Version: {GetNewestVersion()}, MessageBoxButtons.YesNo");
 
+                    switch (dialogResult)
+                    {
+                        case DialogResult.Yes:
+                            Process.Start("https://github.com/Logxn/PokemonGo-Bot");
+                            break;
+                        case DialogResult.No:
+                            //nothing   
+                            break;
+                        case DialogResult.None:
+                            break;
+                        case DialogResult.OK:
+                            break;
+                        case DialogResult.Cancel:
+                            break;
+                        case DialogResult.Abort:
+                            break;
+                        case DialogResult.Retry:
+                            break;
+                        case DialogResult.Ignore:
+                            break;
+                        default:
+                            throw new ArgumentOutOfRangeException();
+                    }
+                }
+            }
+        }
 
     }
 }

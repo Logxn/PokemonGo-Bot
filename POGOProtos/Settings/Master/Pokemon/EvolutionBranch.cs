@@ -25,14 +25,15 @@ namespace POGOProtos.Settings.Master.Pokemon {
             "CjhQT0dPUHJvdG9zL1NldHRpbmdzL01hc3Rlci9Qb2tlbW9uL0V2b2x1dGlv",
             "bkJyYW5jaC5wcm90bxIiUE9HT1Byb3Rvcy5TZXR0aW5ncy5NYXN0ZXIuUG9r",
             "ZW1vbhogUE9HT1Byb3Rvcy9FbnVtcy9Qb2tlbW9uSWQucHJvdG8aJlBPR09Q",
-            "cm90b3MvSW52ZW50b3J5L0l0ZW0vSXRlbUlkLnByb3RvIogBCg9Fdm9sdXRp",
+            "cm90b3MvSW52ZW50b3J5L0l0ZW0vSXRlbUlkLnByb3RvIpwBCg9Fdm9sdXRp",
             "b25CcmFuY2gSLgoJZXZvbHV0aW9uGAEgASgOMhsuUE9HT1Byb3Rvcy5FbnVt",
             "cy5Qb2tlbW9uSWQSRQoaZXZvbHV0aW9uX2l0ZW1fcmVxdWlyZW1lbnQYAiAB",
-            "KA4yIS5QT0dPUHJvdG9zLkludmVudG9yeS5JdGVtLkl0ZW1JZGIGcHJvdG8z"));
+            "KA4yIS5QT0dPUHJvdG9zLkludmVudG9yeS5JdGVtLkl0ZW1JZBISCgpjYW5k",
+            "eV9jb3N0GAMgASgFYgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::POGOProtos.Enums.PokemonIdReflection.Descriptor, global::POGOProtos.Inventory.Item.ItemIdReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::POGOProtos.Settings.Master.Pokemon.EvolutionBranch), global::POGOProtos.Settings.Master.Pokemon.EvolutionBranch.Parser, new[]{ "Evolution", "EvolutionItemRequirement" }, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::POGOProtos.Settings.Master.Pokemon.EvolutionBranch), global::POGOProtos.Settings.Master.Pokemon.EvolutionBranch.Parser, new[]{ "Evolution", "EvolutionItemRequirement", "CandyCost" }, null, null, null)
           }));
     }
     #endregion
@@ -65,6 +66,7 @@ namespace POGOProtos.Settings.Master.Pokemon {
     public EvolutionBranch(EvolutionBranch other) : this() {
       evolution_ = other.evolution_;
       evolutionItemRequirement_ = other.evolutionItemRequirement_;
+      candyCost_ = other.candyCost_;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -94,6 +96,17 @@ namespace POGOProtos.Settings.Master.Pokemon {
       }
     }
 
+    /// <summary>Field number for the "candy_cost" field.</summary>
+    public const int CandyCostFieldNumber = 3;
+    private int candyCost_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CandyCost {
+      get { return candyCost_; }
+      set {
+        candyCost_ = value;
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
       return Equals(other as EvolutionBranch);
@@ -109,6 +122,7 @@ namespace POGOProtos.Settings.Master.Pokemon {
       }
       if (Evolution != other.Evolution) return false;
       if (EvolutionItemRequirement != other.EvolutionItemRequirement) return false;
+      if (CandyCost != other.CandyCost) return false;
       return true;
     }
 
@@ -117,6 +131,7 @@ namespace POGOProtos.Settings.Master.Pokemon {
       int hash = 1;
       if (Evolution != 0) hash ^= Evolution.GetHashCode();
       if (EvolutionItemRequirement != 0) hash ^= EvolutionItemRequirement.GetHashCode();
+      if (CandyCost != 0) hash ^= CandyCost.GetHashCode();
       return hash;
     }
 
@@ -135,6 +150,10 @@ namespace POGOProtos.Settings.Master.Pokemon {
         output.WriteRawTag(16);
         output.WriteEnum((int) EvolutionItemRequirement);
       }
+      if (CandyCost != 0) {
+        output.WriteRawTag(24);
+        output.WriteInt32(CandyCost);
+      }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -145,6 +164,9 @@ namespace POGOProtos.Settings.Master.Pokemon {
       }
       if (EvolutionItemRequirement != 0) {
         size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) EvolutionItemRequirement);
+      }
+      if (CandyCost != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(CandyCost);
       }
       return size;
     }
@@ -159,6 +181,9 @@ namespace POGOProtos.Settings.Master.Pokemon {
       }
       if (other.EvolutionItemRequirement != 0) {
         EvolutionItemRequirement = other.EvolutionItemRequirement;
+      }
+      if (other.CandyCost != 0) {
+        CandyCost = other.CandyCost;
       }
     }
 
@@ -176,6 +201,10 @@ namespace POGOProtos.Settings.Master.Pokemon {
           }
           case 16: {
             evolutionItemRequirement_ = (global::POGOProtos.Inventory.Item.ItemId) input.ReadEnum();
+            break;
+          }
+          case 24: {
+            CandyCost = input.ReadInt32();
             break;
           }
         }

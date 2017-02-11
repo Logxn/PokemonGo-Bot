@@ -21,10 +21,13 @@ namespace PokemonGo.RocketAPI.Logging
     /// </summary>
     public partial class LoggerPanel : UserControl
     {
-        public class Message{
-            public Message(ConsoleColor c, string t){
+        public static LogLevel SelectedLevel = LogLevel.Info;
+        public class Message
+        {
+            public Message(ConsoleColor c, string t)
+            {
                 color = c;
-                text =t;
+                text = t;
             }
             public string text;
             public ConsoleColor color;
@@ -40,31 +43,33 @@ namespace PokemonGo.RocketAPI.Logging
             //
             InitializeComponent();
             
-            Logger.setPanel(this);
         }
-        delegate void addNewLineCallback(ConsoleColor color,string text);
-        public void addNewLine(ConsoleColor color, string text){
-            if (this.rtbLog.InvokeRequired){
-                try{
-                    this.Invoke(new Action<ConsoleColor, string>(addNewLine), new object[] {color, text} );
-                }catch (Exception ex1)
-                {
+        delegate void addNewLineCallback(ConsoleColor color, string text);
+        public void addNewLine(ConsoleColor color, string text)
+        {
+            if (this.rtbLog.InvokeRequired) {
+                try {
+                    this.Invoke(new Action<ConsoleColor, string>(addNewLine), new object[] {
+                        color,
+                        text
+                    });
+                } catch (Exception ex1) {
                     AddLog(ex1.ToString());
                 }
-            }else{
+            } else {
                 rtbLog.SelectionStart = rtbLog.TextLength;
                 rtbLog.SelectionColor = ConsoleColorToColor(color);
-                rtbLog.AppendText(text+"\n");
-                if (rtbLog.Focused){
-                    rtbLog.SelectionStart = rtbLog.TextLength+1;
+                rtbLog.AppendText(text + "\n");
+                if (rtbLog.Focused) {
+                    rtbLog.SelectionStart = rtbLog.TextLength + 1;
                     rtbLog.ScrollToCaret();
                 }
             }
         }
         
-        Color ConsoleColorToColor( ConsoleColor ccolor)
+        Color ConsoleColorToColor(ConsoleColor ccolor)
         {
-            switch (ccolor){
+            switch (ccolor) {
                 case ConsoleColor.Black:
                     return Color.Black;
                 case ConsoleColor.Blue:
@@ -96,47 +101,65 @@ namespace PokemonGo.RocketAPI.Logging
             }
             return Color.Yellow;
         }
-        public void Error(string line){
-            messages.Enqueue(new Message(ConsoleColor.Red,line));
-            AddLog(line);
+        public static void Info(string text)
+        {
+            ColoredConsoleWrite(ConsoleColor.Green, text, LogLevel.Info);
         }
-        public void ColoredConsoleWrite(ConsoleColor color, string line, LogLevel level = LogLevel.Info){
-            messages.Enqueue(new Message(color,line));
-            AddLog(line);
+
+        public static void Warning(string text)
+        {
+            ColoredConsoleWrite(ConsoleColor.Yellow, text, LogLevel.Warning);
         }
-        public void Write( string line, LogLevel level = LogLevel.Info){
-            messages.Enqueue(new Message(ConsoleColor.White,line));
-            AddLog(line);
+
+        public static void Error(string text)
+        {
+            ColoredConsoleWrite(ConsoleColor.Red, text, LogLevel.Error);
         }
-        
-        public void AddLog(string line){
-            if (!File.Exists(log))
-            {
+
+        public static void Debug(string text)
+        {
+            ColoredConsoleWrite(ConsoleColor.Blue, text, LogLevel.Debug);
+        }
+
+        public static void ColoredConsoleWrite(ConsoleColor color, string line, LogLevel level = LogLevel.Info)
+        {
+            if (level <= SelectedLevel)
+                messages.Enqueue(new Message(color, line));
+            if ((level != LogLevel.Debug) || (SelectedLevel == LogLevel.Debug))
+                AddLog(line);
+        }
+        public static void Write(string line, LogLevel level = LogLevel.Info)
+        {
+            if (level <= SelectedLevel)
+                messages.Enqueue(new Message(ConsoleColor.White, line));
+            if ((level != LogLevel.Debug) || (SelectedLevel == LogLevel.Debug))
+                AddLog(line);
+        }
+
+        public static void AddLog(string line)
+        {
+            if (!File.Exists(log)) {
                 File.Create(log);
             } 
-            try
-            {
+            try {
                 TextWriter tw = new StreamWriter(log, true); //  we need to add a new line (aka. i am the brain)
-                var strtime =DateTime.Now.ToString("HH:mm:ss");
+                var strtime = DateTime.Now.ToString("HH:mm:ss");
                 tw.WriteLine($"[{strtime}] {line}");
                 tw.Close();
-            } catch (Exception)
-            {
+            } catch (Exception) {
             }
         }
+
         void timer1_Tick(object sender, EventArgs e)
         {
             try {
-                while (messages.Count > 0){
-                 var msg = (Message) messages.Dequeue();
-                 addNewLine(msg.color,msg.text);
+                while (messages.Count > 0) {
+                    var msg = (messages.Dequeue() as Message);
+                    addNewLine(msg.color, msg.text);
                 }
-                
             } catch (Exception ex1) {
-                AddLog(ex1.ToString());                
+                AddLog(ex1.ToString());
             }
-                
         }
-        
     }
 }
