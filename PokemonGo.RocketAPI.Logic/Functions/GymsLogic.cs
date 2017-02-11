@@ -137,7 +137,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
 
             PokemonData pokemon = getPokeToPut(client, profile.PlayerData.BuddyPokemon.Id);
 
-            Logger.Debug("(Gym) - Pokemon to leave: " + pokemon.PokemonId);
+            Logger.Debug("(Gym) - Pokemon to insert: " + pokemon.PokemonId);
 
             if (pokemon == null) {
                 Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - There are no pokemons to assign.");
@@ -296,9 +296,12 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                             Logger.Debug("(Gym) - Normal attack");
                         }
                     }
-                    if (attResp.ActiveAttacker.PokemonData.Stamina > 0)
+                    if (attResp.ActiveAttacker.PokemonData.Stamina > 0){
                         attack.ActivePokemonId = attResp.ActiveAttacker.PokemonData.Id;
-                    battleActions = attResp.BattleLog.BattleActions.ToList();
+                        battleActions = attResp.BattleLog.BattleActions.Where(x => x.ActivePokemonId == attack.ActivePokemonId ).ToList();
+                    }else{
+                        battleActions = new List<BattleAction>();
+                    }
                     lastRetrievedAction = battleActions.LastOrDefault();
                     battleActions.Add(attack);
                     var i = 0;
@@ -407,11 +410,11 @@ namespace PokemonGo.RocketAPI.Logic.Functions
             RandomHelper.RandomSleep(200);
             var fortSearch = client.Fort.FortDeployPokemon(gym.Id, pokemon.Id).Result;
             if (fortSearch.Result.ToString().ToLower() == "success") {
-                Logger.ColoredConsoleWrite(ConsoleColor.DarkGray, pokemon.PokemonId + " inserted into the gym");
+                Logger.ColoredConsoleWrite(ConsoleColor.DarkGray, "(Gym) - "+pokemon.PokemonId + " inserted into the gym");
                 if (!gymsVisited.Contains(gym.Id))
                     gymsVisited.Add(gym.Id);
                 var pokesInGym = pokemons.Count(x => ((!x.IsEgg) && (x.DeployedFortId != ""))) + 1;
-                Logger.ColoredConsoleWrite(ConsoleColor.DarkGray, "Pokemons in gyms: " + pokesInGym);
+                Logger.ColoredConsoleWrite(ConsoleColor.DarkGray, "(Gym) - Pokemons in gyms: " + pokesInGym);
                 if (pokesInGym > 9) {
                     var res = client.Player.CollectDailyDefenderBonus().Result;
                     Logger.ColoredConsoleWrite(ConsoleColor.DarkGray, $"(Gym) - Collected: {res.CurrencyAwarded} Coins.");
