@@ -11,6 +11,7 @@ using GoogleMapsApi;
 using GoogleMapsApi.Entities.Common;
 using GoogleMapsApi.Entities.Directions.Request;
 using GoogleMapsApi.Entities.Directions.Response;
+using POGOProtos.Data;
 using POGOProtos.Data.Logs;
 using PokemonGo.RocketAPI.Exceptions;
 using PokemonGo.RocketAPI.Helpers;
@@ -57,7 +58,6 @@ namespace PokemonGo.RocketAPI.Logic
         public bool logicAllowCatchPokemon = true;
         
         public string Lure = "lureId";
-        public PokemonId Luredpokemoncaught = PokemonId.Articuno;
         private bool addedlure;
         public Sniper sniperLogic;
         public static bool restartLogic =true;
@@ -948,19 +948,26 @@ namespace PokemonGo.RocketAPI.Logic
 
                         if (pokeStop.LureInfo != null)
                         {
-                            var lurePokemon = pokeStop.LureInfo.ActivePokemonId;
+                            var pokedata = new MapPokemon ();
+                            pokedata.EncounterId = pokeStop.LureInfo.EncounterId;
+                            pokedata.PokemonId = pokeStop.LureInfo.ActivePokemonId;
+                            pokedata.Latitude = pokeStop.Latitude;
+                            pokedata.Longitude = pokeStop.Longitude;
+                            pokedata.ExpirationTimestampMs = pokeStop.LureInfo.LureExpiresTimestampMs;
+                            pokedata.SpawnPointId = pokeStop.LureInfo.FortId;
+                            infoObservable.PushNewPokemonLocation(pokedata);
 
-                            if (!BotSettings.catchPokemonSkipList.Contains(lurePokemon))
+                            if (!BotSettings.catchPokemonSkipList.Contains(pokedata.PokemonId))
                             {
-                                if (!lureEncounters.Contains(pokeStop.LureInfo.EncounterId.ToString()))
+                                if (!lureEncounters.Contains(pokedata.EncounterId.ToString()))
                                 {
-                                    CatchPokemon(pokeStop.LureInfo.EncounterId, pokeStop.LureInfo.FortId, pokeStop.LureInfo.ActivePokemonId, pokeStop.Longitude, pokeStop.Latitude);
+                                    CatchLuredPokemon(pokedata.EncounterId,pokedata.SpawnPointId, pokedata.PokemonId, pokedata.Longitude, pokedata.Latitude);
 
-                                    lureEncounters.Add(pokeStop.LureInfo.EncounterId.ToString());
+                                    lureEncounters.Add(pokedata.EncounterId.ToString());
                                 }
                                 else
                                 {
-                                    Logger.ColoredConsoleWrite(ConsoleColor.Green, "Skipped Lure Pokemon: " + pokeStop.LureInfo.ActivePokemonId + "because we have already caught him, or catching pokemon is disabled");
+                                    Logger.ColoredConsoleWrite(ConsoleColor.Green, "Skipped Lure Pokemon: " + pokedata.PokemonId + "because we have already caught him, or catching pokemon is disabled");
                                 }
                             }
                         }
@@ -1155,7 +1162,31 @@ namespace PokemonGo.RocketAPI.Logic
             #endregion
         }
 
-        public ulong CatchPokemon(ulong encounterId, string spawnpointId, PokemonId pokeid, double pokeLong = 0, double pokeLat = 0, bool goBack = false, double returnLatitude = -1, double returnLongitude = -1)
+        public ulong CatchLuredPokemon(ulong encounterId, string spawnpointId, PokemonId pokeid, double pokeLong, double pokeLat)
+        {
+            return CatchPokemon(encounterId,spawnpointId, pokeid,pokeLong,pokeLat,false,-1,-1,true);
+        }
+
+        public static EncounterResponse.Types.Status DiskEncounterResultToEncounterStatus( DiskEncounterResponse.Types.Result diskEncounter)
+        {
+            switch (diskEncounter) {
+                case DiskEncounterResponse.Types.Result.Unknown :
+                    return EncounterResponse.Types.Status.EncounterError;
+                case DiskEncounterResponse.Types.Result.Success :
+                    return EncounterResponse.Types.Status.EncounterSuccess;
+                case DiskEncounterResponse.Types.Result.NotAvailable  :
+                    return EncounterResponse.Types.Status.EncounterNotFound ;
+                case DiskEncounterResponse.Types.Result.NotInRange  :
+                    return EncounterResponse.Types.Status.EncounterNotInRange ;
+                case DiskEncounterResponse.Types.Result.EncounterAlreadyFinished  :
+                    return EncounterResponse.Types.Status.EncounterAlreadyHappened ;
+                case DiskEncounterResponse.Types.Result.PokemonInventoryFull:
+                    return EncounterResponse.Types.Status.PokemonInventoryFull;
+            }
+            return EncounterResponse.Types.Status.EncounterError;
+        }
+
+        public ulong CatchPokemon(ulong encounterId, string spawnpointId, PokemonId pokeid, double pokeLong = 0, double pokeLat = 0, bool goBack = false, double returnLatitude = -1, double returnLongitude = -1, bool luredPoke = false)
         {
             ulong ret = 0;
             EncounterResponse encounterPokemonResponse;
@@ -1177,7 +1208,22 @@ namespace PokemonGo.RocketAPI.Logic
 
             try
             {
-                encounterPokemonResponse = objClient.Encounter.EncounterPokemon(encounterId, spawnpointId).Result;
+                if (!luredPoke)
+                    encounterPokemonResponse = objClient.Encounter.EncounterPokemon(encounterId, spawnpointId).Result;
+                else{
+                    var DiscEncounterPokemonResponse =  objClient.Encounter.EncounterLurePokemon(encounterId, spawnpointId).Result;
+                    encounterPokemonResponse = new EncounterResponse();
+                    encounterPokemonResponse.Status =DiskEncounterResultToEncounterStatus(DiscEncounterPokemonResponse.Result);
+                    
+                    if( DiscEncounterPokemonResponse.Result == DiskEncounterResponse.Types.Result.Success ){
+                        encounterPokemonResponse.WildPokemon = new WildPokemon();
+                        encounterPokemonResponse.WildPokemon.EncounterId = encounterId;
+                        encounterPokemonResponse.WildPokemon.PokemonData = DiscEncounterPokemonResponse.PokemonData;
+                        //encounterPokemonResponse.CaptureProbability = new POGOProtos.Data.Capture.CaptureProbability();
+                    }
+                    
+                }
+                
             }
             catch (Exception ex)
             {
@@ -1226,7 +1272,6 @@ namespace PokemonGo.RocketAPI.Logic
                 var probability = encounterPokemonResponse?.CaptureProbability?.CaptureProbability_?.FirstOrDefault();
 
                 var escaped = false;
-                var berryThrown = false;
                 var berryOutOfStock = false;
                 Logger.ColoredConsoleWrite(ConsoleColor.Magenta, $"Encountered {StringUtils.getPokemonNameByLanguage(BotSettings, pokeid)} CP {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} IV {strIVPerfection}% Probability {Math.Round(probability.Value * 100)}%");
 
@@ -1266,7 +1311,6 @@ namespace PokemonGo.RocketAPI.Logic
                                 {
                                     //Throw berry
                                     var useRaspberry = objClient.Encounter.UseCaptureItem(encounterId, bestBerry, spawnpointId).Result;
-                                    berryThrown = true;
                                     used = true;
 
                                     Logger.Info( $"Thrown {bestBerry}. Remaining: {berries.Count}.");
@@ -1275,14 +1319,12 @@ namespace PokemonGo.RocketAPI.Logic
                                 }
                                 else
                                 {
-                                    berryThrown = true;
                                     escaped = true;
                                     used = true;
                                 }
                             }
                             else
                             {
-                                berryThrown = true;
                                 escaped = true;
                                 used = true;
                             }

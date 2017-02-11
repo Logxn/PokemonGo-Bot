@@ -86,10 +86,10 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                         Logger.ColoredConsoleWrite(ConsoleColor.DarkGray, "(Gym) - This gym was already visited.");
                         continue;
                     }
-                    
+
                     var numberOfAttacks = GlobalVars.NumDefenders + 2;
                     while (numberOfAttacks > 0 && gymsVisited.IndexOf(gym.Id) == -1) {
-                        Logger.Debug("(Gym) - Attack number " + (11 - numberOfAttacks));
+                        Logger.Debug("(Gym) - Attack number " + (GlobalVars.NumDefenders + 2 - numberOfAttacks));
                         CheckAndPutInNearbyGym(gym, Logic.objClient);
                         numberOfAttacks--;
                         if (numberOfAttacks > 0 && gymsVisited.IndexOf(gym.Id) == -1) {
