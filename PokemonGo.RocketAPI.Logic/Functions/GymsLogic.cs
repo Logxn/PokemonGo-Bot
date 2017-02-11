@@ -249,7 +249,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                 var energy = 0;
                 while (inBattle) {
                     var timeMs = attResp.BattleLog.ServerMs;
-                    Logger.Debug("(Gym) - timeMs: "+timeMs);
+                    Logger.Debug("(Gym) - ServerMs: "+timeMs);
                     var move1Settings = moveSettings.FirstOrDefault(x => x.MoveSettings.MovementId == attResp.ActiveAttacker.PokemonData.Move1).MoveSettings;
                     var move2Settings = moveSettings.FirstOrDefault(x => x.MoveSettings.MovementId == attResp.ActiveAttacker.PokemonData.Move2).MoveSettings;
                     var attack = new BattleAction();
@@ -261,20 +261,20 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                         attack.DurationMs = move2Settings.DurationMs;
                         attack.DamageWindowsStartTimestampMs = attack.ActionStartMs + move2Settings.DamageWindowStartMs;
                         attack.DamageWindowsEndTimestampMs = attack.ActionStartMs + move2Settings.DamageWindowEndMs;
-                        attack.EnergyDelta = energyDelta;
+                        attack.EnergyDelta = move2Settings.EnergyDelta;
                         Logger.Debug("(Gym) - Special attack");
                     } else {
                         var dodge = RandomHelper.RandomNumber(1, 6);
                         if (dodge == 1) {
                             attack.Type = BattleActionType.ActionDodge;
-                            attack.DurationMs = RandomHelper.RandomNumber(100, 150);
+                            attack.DurationMs = 500;
                             Logger.Debug("(Gym) - Dodging attack");
                         } else {
                             attack.Type = BattleActionType.ActionAttack;
                             attack.DurationMs = move1Settings.DurationMs;
                             attack.DamageWindowsStartTimestampMs = attack.ActionStartMs + move1Settings.DamageWindowStartMs;
                             attack.DamageWindowsEndTimestampMs = attack.ActionStartMs + move1Settings.DamageWindowEndMs;
-                            attack.EnergyDelta = 7;
+                            attack.EnergyDelta = move1Settings.EnergyDelta;
                             Logger.Debug("(Gym) - Normal attack");
                         }
                     }
@@ -292,7 +292,6 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                         i++;
                     }
                     attResp = client.Fort.AttackGym(gym.Id, resp.BattleId, battleActions, lastRetrievedAction).Result;
-                    Logger.Debug("(Gym) - Attack after call: "+ attack);
                     Logger.Debug("(Gym) - Attack Result: " + attResp.Result);
                     inBattle = (attResp.Result == AttackGymResponse.Types.Result.Success);
                     if (inBattle) {
@@ -300,11 +299,6 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                         var waitTime = nextTimeAtt - attResp.BattleLog.ServerMs;
                         if (waitTime < 0) 
                               waitTime = 0;
-                        Logger.Debug("attack.ActionStartMs: " +attack.ActionStartMs);
-                        Logger.Debug("attack.DurationMs: " +attack.DurationMs);
-                        Logger.Debug("nextTimeAtt: " +nextTimeAtt);
-                        Logger.Debug("attResp.BattleLog.ServerMs: " +attResp.BattleLog.ServerMs);
-                        Logger.Debug("waitTime: " +waitTime);
                         Logger.Debug("(Gym) - Battle State: " + attResp.BattleLog.State);
                         inBattle = inBattle && (attResp.BattleLog.State == BattleState.Active);
 
@@ -312,14 +306,14 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                             energy = attResp.ActiveAttacker.CurrentEnergy;
                             var health = attResp.ActiveAttacker.CurrentHealth;
                             var activeAttacker = attResp.ActiveAttacker.PokemonData.PokemonId;
-                            Logger.Debug($"Attacker: {activeAttacker} Energy={energy}, Health={health}");
+                            Logger.Debug($"(Gym) - Attacker: {activeAttacker} Energy={energy}, Health={health}");
                         }
 
                         if (attResp.ActiveDefender != null){
                             var energyDef = attResp.ActiveDefender.CurrentEnergy;
                             var health = attResp.ActiveDefender.CurrentHealth;
                             var activeDefender = attResp.ActiveDefender.PokemonData.PokemonId;
-                            Logger.Debug($"Defender: {activeDefender} Energy={energyDef}, Health={health}");
+                            Logger.Debug($"(Gym) - Defender: {activeDefender} Energy={energyDef}, Health={health}");
                         }
 
                         Logger.Debug($"(Gym) - Round {count} done.");
