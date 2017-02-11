@@ -145,14 +145,14 @@ namespace PokemonGo.RocketAPI.Logic.Functions
             }
 
             var gymDetails = client.Fort.GetGymDetails(gym.Id, gym.Latitude, gym.Longitude).Result;
+            Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - Team: " + GetTeamName(gym.OwnedByTeam) + ".");
 
             if  (gym.OwnedByTeam == TeamColor.Neutral){
                 RandomHelper.RandomSleep(200, 300);
-                Logger.ColoredConsoleWrite(gymColorLog, "Team:" + GetTeamName(gym.OwnedByTeam) + ".");
                 putInGym(client, gym, pokemon, pokemons);
             }else if ((gym.OwnedByTeam == profile.PlayerData.Team)) {
                 RandomHelper.RandomSleep(200, 300);
-                Logger.ColoredConsoleWrite(gymColorLog, "Team:" + GetTeamName(gym.OwnedByTeam) + ". Members: " + gymDetails.GymState.Memberships.Count + ". Level: " + GetGymLevel(gym.GymPoints)+" ("+gym.GymPoints+")");
+                Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - Members: " + gymDetails.GymState.Memberships.Count + ". Level: " + GetGymLevel(gym.GymPoints)+" ("+gym.GymPoints+")");
                 if (gymDetails.GymState.Memberships.Count < GetGymLevel(gym.GymPoints)) {
                     Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - There is a free space");
                     putInGym(client, gym, pokemon, pokemons);
@@ -186,7 +186,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                 restoreWalkingAfterLogic = !GlobalVars.PauseTheWalking;
                 GlobalVars.PauseTheWalking = true;
                 Logger.Debug("(Gym) - Stop walking ");
-                Logger.ColoredConsoleWrite(gymColorLog, "Team:" + GetTeamName(gym.OwnedByTeam) + ". Members: " + gymDetails.GymState.Memberships.Count + ". Level: " + GetGymLevel(gym.GymPoints)+" ("+gym.GymPoints+")");
+                Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - Members: " + gymDetails.GymState.Memberships.Count + ". Level: " + GetGymLevel(gym.GymPoints)+" ("+gym.GymPoints+")");
 
                 if (gymDetails.GymState.Memberships.Count >= 1 && gymDetails.GymState.Memberships.Count <= GlobalVars.NumDefenders) {
                     if (gymDetails.GymState.Memberships.Count == 1)
@@ -264,6 +264,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                     var move2Settings = moveSettings.FirstOrDefault(x => x.MoveSettings.MovementId == attResp.ActiveAttacker.PokemonData.Move2).MoveSettings;
                     var attack = new BattleAction();
                     attack.ActionStartMs = timeMs + RandomHelper.RandomNumber(110, 170);
+                    attack.TargetIndex = -1;
                     var energyDelta = Math.Abs(move2Settings.EnergyDelta);
                     Logger.Debug("(Gym) - energyDelta: "+energyDelta);
                     if (energy >= energyDelta && energyDelta > 0) {
@@ -275,11 +276,15 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                         //attack.AttackerIndex = -1;
                         Logger.Debug("(Gym) - Special attack");
                     } else {
-                        var dodge = RandomHelper.RandomNumber(1, 6);
+                        var dodge = RandomHelper.RandomNumber(1, 10);
                         if (dodge == 1) {
                             attack.Type = BattleActionType.ActionDodge;
                             attack.DurationMs = 500;
                             Logger.Debug("(Gym) - Dodging attack");
+                        }else if (dodge == 2) {
+                            attack.Type = BattleActionType.ActionFaint;
+                            attack.TargetPokemonId = attResp.ActiveDefender.PokemonData.Id;
+                            Logger.Debug("(Gym) - Fainting");
                         } else {
                             attack.Type = BattleActionType.ActionAttack;
                             attack.DurationMs = move1Settings.DurationMs;
@@ -291,15 +296,13 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                             Logger.Debug("(Gym) - Normal attack");
                         }
                     }
-                    attack.TargetIndex = -1;
                     if (attResp.ActiveAttacker.PokemonData.Stamina > 0)
                         attack.ActivePokemonId = attResp.ActiveAttacker.PokemonData.Id;
-                    battleActions.Clear();
+                    battleActions = attResp.BattleLog.BattleActions.ToList();
+                    lastRetrievedAction = battleActions.LastOrDefault();
                     battleActions.Add(attack);
-                    Logger.Debug("(Gym) - Attack: "+ attack);
-                    lastRetrievedAction = attResp.BattleLog.BattleActions.LastOrDefault();
                     var i = 0;
-                    foreach (var element in attResp.BattleLog.BattleActions) {
+                    foreach (var element in battleActions) {
                         Logger.Debug($"(Gym) - BattleLog.BattleAction[{i}]: {element}");
                         i++;
                     }
