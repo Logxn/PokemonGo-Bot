@@ -464,14 +464,14 @@ namespace PokemonGo.RocketAPI.Logic.Functions
             #endregion
 
             #region Set Console Title
-            if (!Shared.GlobalVars.EnableConsoleInTab)
-            {
-                System.Console.Title = profile.PlayerData.Username + @" lvl" + stats.Level + @"-(" +
-                            (stats.Experience - stats.PrevLevelXp - StringUtils.getExpDiff(stats.Level)).ToString("N0") + @"/" +
-                            (stats.NextLevelXp - stats.PrevLevelXp - StringUtils.getExpDiff(stats.Level)).ToString("N0") + @"|" +
-                            Math.Round(curexppercent, 2) + @"%)| Stardust: " + profile.PlayerData.Currencies.ToArray()[1].Amount + @"| " +
-                            Logic.Instance.BotStats;
-            }
+            if (!GlobalVars.EnableConsoleInTab) RefreshConsoleTitle(client);
+            //{
+            //    System.Console.Title = profile.PlayerData.Username + @" Lvl " + stats.Level + @" (" +
+            //                (stats.Experience - stats.PrevLevelXp - StringUtils.getExpDiff(stats.Level)).ToString("N0") + @"/" +
+            //                (stats.NextLevelXp - stats.PrevLevelXp - StringUtils.getExpDiff(stats.Level)).ToString("N0") + @"|" +
+            //                Math.Round(curexppercent, 2) + @"%) Stardust: " + profile.PlayerData.Currencies.ToArray()[1].Amount + @" " +
+            //                Logic.Instance.BotStats;
+            //}
             #endregion
 
             #region Check for Update
@@ -483,6 +483,23 @@ namespace PokemonGo.RocketAPI.Logic.Functions
 
             #endregion
             client.ShowingStats = false;
+        }
+
+        public static void RefreshConsoleTitle(Client client)
+        {
+            var profile = client.Player.GetPlayer().Result;
+            var inventory = client.Inventory.GetInventory().Result;
+            var playerStats = client.Inventory.GetPlayerStats(inventory);
+            var stats = playerStats.First();
+            var expneeded = stats.NextLevelXp - stats.PrevLevelXp - StringUtils.getExpDiff(stats.Level);
+            var curexp = stats.Experience - stats.PrevLevelXp - StringUtils.getExpDiff(stats.Level);
+            var curexppercent = Convert.ToDouble(curexp) / Convert.ToDouble(expneeded) * 100;
+
+            System.Console.Title = profile.PlayerData.Username + @" Lvl " + stats.Level + @" (" +
+            (stats.Experience - stats.PrevLevelXp - StringUtils.getExpDiff(stats.Level)).ToString("N0") + @"/" +
+            (stats.NextLevelXp - stats.PrevLevelXp - StringUtils.getExpDiff(stats.Level)).ToString("N0") + @"|" +
+            Math.Round(curexppercent, 2) + @"%) Stardust: " + profile.PlayerData.Currencies.ToArray()[1].Amount + @" " +
+            Logic.Instance.BotStats;
         }
 
         public static void SetCheckTimeToRun()
@@ -747,9 +764,9 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                             var BestIV = PokemonInfo.CalculatePokemonPerfection(bestPokemonsIvOfType.First()).ToString("0.00");
                             if (Shared.GlobalVars.LogTransfer)
                             {
-                                File.AppendAllText(logs, $"[{date}] - Transfer {Pokename} CP {duplicatePokemon.Cp} IV {IVPercent} % (Best IV: {BestIV} %)" + Environment.NewLine);
+                                File.AppendAllText(logs, $"[{date}] - Transfer {Pokename} CP {duplicatePokemon.Cp} IV {IVPercent} % (Your best is: {BestIV}% IV)" + Environment.NewLine);
                             }
-                            Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Enqueuing to BULK Transfer {Pokename} CP {duplicatePokemon.Cp} IV {IVPercent} % (Best IV: {BestIV} %)");
+                            Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Enqueuing to BULK Transfer {Pokename} CP {duplicatePokemon.Cp} IV {IVPercent} % (Your best is: {BestIV}% IV)");
                         }
                         else
                         {
