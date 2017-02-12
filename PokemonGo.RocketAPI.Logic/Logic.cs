@@ -927,6 +927,7 @@ namespace PokemonGo.RocketAPI.Logic
 
                         FailedSoftban = 0;
                         BotStats.AddExperience(fortSearch.ExperienceAwarded);
+                        Setout.RefreshConsoleTitle(client);
                         Setout.pokeStopFarmedCount++;
 
                         Logger.Info($"Farmed XP: {fortSearch.ExperienceAwarded}, Gems: {fortSearch.GemsAwarded}, Egg: {egg}, Items: {items}");
@@ -959,7 +960,7 @@ namespace PokemonGo.RocketAPI.Logic
                                 }
                                 else
                                 {
-                                    Logger.ColoredConsoleWrite(ConsoleColor.Green, "Skipped Lure Pokemon: " + pokedata.PokemonId + "because we have already caught him, or catching pokemon is disabled");
+                                    Logger.ColoredConsoleWrite(ConsoleColor.Green, "Skipped Lure Pokemon: " + pokedata.PokemonId + " because we have already caught him, or catching pokemon is disabled");
                                 }
                             }
                         }
@@ -1503,6 +1504,7 @@ namespace PokemonGo.RocketAPI.Logic
                         BotStats.AddPokemon(1);
                         BotStats.AddExperience(caughtPokemonResponse.CaptureAward.Xp.Sum());
                         BotStats.AddStardust(caughtPokemonResponse.CaptureAward.Stardust.Sum());
+                        Setout.RefreshConsoleTitle(objClient);
                         RandomHelper.RandomSleep(1500, 2000);
                     }
                     else
