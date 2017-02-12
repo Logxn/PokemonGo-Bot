@@ -75,7 +75,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
             if (!gymsVisited.Contains(id)){
                 gymsVisited.Add(id);
                 Task.Delay(milliseconds)
-                    .ContinueWith(t => gymsVisited.Remove(id)).Start();
+                    .ContinueWith(t => gymsVisited.Remove(id));
             }
         }
 
