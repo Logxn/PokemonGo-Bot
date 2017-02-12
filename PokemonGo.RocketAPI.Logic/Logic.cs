@@ -248,6 +248,8 @@ namespace PokemonGo.RocketAPI.Logic
                     TelegramLogic.Instantiante();
                     
                     PostLoginExecute();
+
+                    Logger.Info("All Pokestops in range was already visited.");
                 }
                 catch (PtcOfflineException)
                 {
@@ -463,7 +465,7 @@ namespace PokemonGo.RocketAPI.Logic
                 .Where(i => i.Type == FortType.Checkpoint && i.CooldownCompleteTimestampMs < unixNow);
 
             var pokeGyms = mapObjectsResponse.MapCells.SelectMany(i => i.Forts)
-                .Where(i => i.Type == FortType.Gym);
+                .Where(i => i.Type == FortType.Gym && i.CooldownCompleteTimestampMs < unixNow);
 
             if (!GlobalVars.FarmGyms)
                 pokeGyms = new List<FortData>();

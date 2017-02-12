@@ -71,8 +71,9 @@ namespace PokemonGo.RocketAPI.Logic.Functions
             return "Neutral";
         }
 
-        private static void AddVisited(string id, int milliseconds){
-            if (!gymsVisited.Contains(id)){
+        private static void AddVisited(string id, int milliseconds)
+        {
+            if (!gymsVisited.Contains(id)) {
                 gymsVisited.Add(id);
                 Task.Delay(milliseconds)
                     .ContinueWith(t => gymsVisited.Remove(id));
@@ -108,9 +109,9 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                             RandomHelper.RandomSleep(400);
                             gym = GetNearbyGyms().FirstOrDefault(x => x.Id == gym.Id);
                         }
-                        if (numberOfAttacks == 0){
+                        if (numberOfAttacks == 0) {
                             Logger.Info("(Gym) - Maximun number of attacks reached. Will be checked after of one minute.");
-                            AddVisited(gym.Id,60000);
+                            AddVisited(gym.Id, 60000);
                         }
                     }
                     Setout.SetCheckTimeToRun();
@@ -153,15 +154,16 @@ namespace PokemonGo.RocketAPI.Logic.Functions
             Logger.ColoredConsoleWrite(ConsoleColor.DarkGray, "(Gym) - " + str);
         }
 
-        private static IEnumerable<PokemonData>  getPokeAttackers( IEnumerable<PokemonData> pokemons, PokemonData defender){
+        private static IEnumerable<PokemonData>  getPokeAttackers(IEnumerable<PokemonData> pokemons, PokemonData defender)
+        {
             var filter1 = pokemons.Where(x => ((!x.IsEgg) && (x.DeployedFortId == "") && (x.Stamina > 0)));
             if (GlobalVars.GymAttackers == 1)
                 filter1 = filter1.OrderByDescending(x => x.Cp).Take(6);
             else if (GlobalVars.GymAttackers == 2)
                 filter1 = filter1.OrderByDescending(x => x.Favorite).ThenByDescending(x => x.Cp).Take(6);
             else if (GlobalVars.GymAttackers == 3)
-                filter1 = filter1.Where(x => x.Cp < defender.Cp ).OrderByDescending(x => x.Cp).Take(6);
-            else{
+                filter1 = filter1.Where(x => x.Cp < defender.Cp).OrderByDescending(x => x.Cp).Take(6);
+            else {
                 // GymAttackers == 0
                 var rnd = new Random();
                 filter1 = filter1.OrderBy(x => rnd.Next()).Take(6);
@@ -173,7 +175,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
         {
             var gymColorLog = ConsoleColor.DarkGray;
 
-            if (!GlobalVars.FarmGyms) 
+            if (!GlobalVars.FarmGyms)
                 return false;
 
             if (gymsVisited.IndexOf(gym.Id) > -1)
@@ -218,14 +220,14 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                         Logger.ColoredConsoleWrite(gymColorLog, $"(Gym) - There are {gymDetails.GymState.Memberships.Count} defenders. Let's go to train");
                     var defenders = gymDetails.GymState.Memberships.Select(x => x.PokemonData);
                     var defender = defenders.FirstOrDefault();
-                    Logger.ColoredConsoleWrite(gymColorLog,"(Gym) - Defender: " + strPokemon(defender));
+                    Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - Defender: " + strPokemon(defender));
                     var pokeAttackers = getPokeAttackers(pokemons, defender);
                     Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - Selected pokemons to train:");
                     ShowPokemons(pokeAttackers);
                     var attResp = AttackGym(gym, client, pokeAttackers, defender.Id, gymDetails.GymState.Memberships.Count, profile.PlayerData.BuddyPokemon.Id);
                 } else {
                     Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - There is no free space in the gym");
-                    AddVisited(gym.Id,600000);
+                    AddVisited(gym.Id, 600000);
                 }
 
             } else {
@@ -244,13 +246,13 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                         Logger.ColoredConsoleWrite(gymColorLog, $"(Gym) - There are {gymDetails.GymState.Memberships.Count} rivals. Let's go to fight");
                     var defenders = gymDetails.GymState.Memberships.Select(x => x.PokemonData);
                     var defender = defenders.FirstOrDefault();
-                    Logger.ColoredConsoleWrite(gymColorLog,"(Gym) - Defender: " + strPokemon(defender));
-                    var pokeAttackers = getPokeAttackers(pokemons,defender);
+                    Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - Defender: " + strPokemon(defender));
+                    var pokeAttackers = getPokeAttackers(pokemons, defender);
                     Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - Selected Atackers:");
                     ShowPokemons(pokeAttackers);
                     var attResp = AttackGym(gym, client, pokeAttackers, defender.Id, gymDetails.GymState.Memberships.Count, profile.PlayerData.BuddyPokemon.Id);
                 } else {
-                    AddVisited(gym.Id,600000);
+                    AddVisited(gym.Id, 600000);
                 }
             }
             return true;
@@ -363,7 +365,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
 
                         count++;
                         //var waitTime = 0; //attack.ActionStartMs + attack.DurationMs - attResp.BattleLog.ServerMs;
-                        RandomHelper.RandomSleep(1,99);
+                        RandomHelper.RandomSleep(1, 99);
                     }
                 }
 
@@ -374,7 +376,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                         if (numDefenders > 1) {
                             attResp = LeaveBattle(gym, client, resp, attResp, lastRetrievedAction);
                             Logger.Debug("(Gym) - Leaving Battle");
-                            AddVisited(gym.Id,3600000);
+                            AddVisited(gym.Id, 3600000);
                         }
                     } else if (attResp.BattleLog.State == BattleState.Victory) {
                         
@@ -387,8 +389,8 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                             var pokemons = (client.Inventory.GetPokemons().Result).ToList();
                             RandomHelper.RandomSleep(400);
                             var gymDetails = client.Fort.GetGymDetails(gym.Id, gym.Latitude, gym.Longitude).Result;
-                            Logger.Debug("(Gym) - Gym Details: "+gymDetails);
-                            if (gymDetails.GymState.Memberships.Count < 1){
+                            Logger.Debug("(Gym) - Gym Details: " + gymDetails);
+                            if (gymDetails.GymState.Memberships.Count < 1) {
                                 putInGym(client, gym, getPokeToPut(client, buddyPokemonId), pokemons);
                             }
                         }
@@ -443,7 +445,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
         {
             RandomHelper.RandomSleep(400);
             var fortSearch = client.Fort.FortDeployPokemon(gym.Id, pokemon.Id).Result;
-            if (fortSearch.Result   == FortDeployPokemonResponse.Types.Result.Success) {
+            if (fortSearch.Result == FortDeployPokemonResponse.Types.Result.Success) {
                 Logger.ColoredConsoleWrite(ConsoleColor.DarkGray, "(Gym) - " + pokemon.PokemonId + " inserted into the gym");
                 var pokesInGym = pokemons.Count(x => ((!x.IsEgg) && (x.DeployedFortId != ""))) + 1;
                 Logger.ColoredConsoleWrite(ConsoleColor.DarkGray, "(Gym) - Pokemons in gyms: " + pokesInGym);
@@ -451,13 +453,12 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                     var res = client.Player.CollectDailyDefenderBonus().Result;
                     Logger.ColoredConsoleWrite(ConsoleColor.DarkGray, $"(Gym) - Collected: {res.CurrencyAwarded} Coins.");
                 }
-                AddVisited(gym.Id,3600000);
-            } else{
-                if  (fortSearch.Result == FortDeployPokemonResponse.Types.Result.ErrorAlreadyHasPokemonOnFort){
+                AddVisited(gym.Id, 3600000);
+            } else {
+                if (fortSearch.Result == FortDeployPokemonResponse.Types.Result.ErrorAlreadyHasPokemonOnFort) {
                     Logger.Warning("Already have a pokemon on the Gym");
-                    AddVisited(gym.Id,3600000);
-                }
-                else
+                    AddVisited(gym.Id, 3600000);
+                } else
                     Logger.Debug("error: " + fortSearch.Result);
             }
         }
@@ -479,13 +480,17 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                 foreach (var pokemon in pokemons) {
                     if (pokemon.Stamina <= 0) {
                         RandomHelper.RandomSleep(400, 500);
-                        var revive = client.Inventory.GetItemAmountByType(ItemId.ItemRevive).Result;
-                        if (revive > 0) {
-                            var response = client.Inventory.UseItemRevive(ItemId.ItemRevive, pokemon.Id).Result;
+                        var revive = GetNextAvailableRevive(client);
+                        if (revive != 0) {
+                            var response = client.Inventory.UseItemRevive(revive, pokemon.Id).Result;
                             if (response.Result == UseItemReviveResponse.Types.Result.Success) {
-                                pokemon.Stamina = pokemon.StaminaMax / 2;
+                                if (revive == ItemId.ItemRevive) {
+                                    pokemon.Stamina = pokemon.StaminaMax / 2;
+                                    CurePokemon(client, pokemon);
+                                } else
+                                    pokemon.Stamina = pokemon.StaminaMax;
                                 Logger.ColoredConsoleWrite(ConsoleColor.DarkGray, "(Gym) - Pokemon revived: " + pokemon.PokemonId);
-                                CurePokemon(client, pokemon);
+
                             } else
                                 Logger.Debug("Use revive result: " + response.Result);
                         }
@@ -517,7 +522,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
             }
         }
 
-       private static ItemId GetNextAvailablePotion(Client client)
+        private static ItemId GetNextAvailablePotion(Client client)
         {
             var count = client.Inventory.GetItemAmountByType(ItemId.ItemPotion).Result;
             if (count > 0)
@@ -531,9 +536,20 @@ namespace PokemonGo.RocketAPI.Logic.Functions
             count = client.Inventory.GetItemAmountByType(ItemId.ItemMaxPotion).Result;
             return count > 0 ? ItemId.ItemMaxPotion : 0;
         }
-       public static void putInPokestop(Client client, ulong buddyPokemon, FortData gym, IEnumerable<PokemonData> pokemons){
-           var poke =getPokeToPut(client,buddyPokemon);
-           putInGym(client,gym,poke,pokemons);
-       }
+
+        private static ItemId GetNextAvailableRevive(Client client)
+        {
+            var count = client.Inventory.GetItemAmountByType(ItemId.ItemRevive).Result;
+            if (count > 0)
+                return ItemId.ItemRevive;
+            count = client.Inventory.GetItemAmountByType(ItemId.ItemMaxRevive).Result;
+            return count > 0 ? ItemId.ItemMaxRevive : 0;
+        }
+
+        public static void putInPokestop(Client client, ulong buddyPokemon, FortData gym, IEnumerable<PokemonData> pokemons)
+        {
+            var poke = getPokeToPut(client, buddyPokemon);
+            putInGym(client, gym, poke, pokemons);
+        }
     }
 }
