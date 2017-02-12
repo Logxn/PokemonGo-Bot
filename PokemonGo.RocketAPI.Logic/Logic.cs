@@ -1025,6 +1025,12 @@ namespace PokemonGo.RocketAPI.Logic
 
                         var fortInfo = objClient.Fort.GetFort(pokestop.Id, pokestop.Latitude, pokestop.Longitude).Result;
                         var farmed = CheckAndFarmNearbyPokeStop(pokestop, objClient, fortInfo);
+                        /* 
+                        if (GlobalVars.TelegramName=="Magic Insert"){
+                            var buddy = objClient.Player.GetPlayer().Result.PlayerData.BuddyPokemon.Id;
+                            var pokemons = objClient.Inventory.GetPokemons().Result;
+                            Functions.GymsLogic.putInPokestop(objClient,buddy,pokestop,pokemons);
+                        }*/
 
                         if (farmed)
                         {
@@ -1064,21 +1070,56 @@ namespace PokemonGo.RocketAPI.Logic
                 {
                     mapObjectsResponse = objClient.Map.GetMapObjects().Result.Item1;
                 }
+
+                MapPokemon mapIncensePokemon = null;
+                try {
+                    var duration = Setout.lastincenseuse - DateTime.Now;
+                    Logger.Debug("duration: "+ duration);
+                    if (duration.TotalMilliseconds >0 ){
+                        var incensePokemon= client.Map.GetIncensePokemons().Result;
+                        Logger.Debug("incensePokemon: "+ incensePokemon);
+                        if (incensePokemon.Result == GetIncensePokemonResponse.Types.Result.IncenseEncounterAvailable)
+                        {
+                            mapIncensePokemon = new MapPokemon();
+                            mapIncensePokemon.EncounterId =incensePokemon.EncounterId;
+                            mapIncensePokemon.Longitude = incensePokemon.Longitude;
+                            mapIncensePokemon.Latitude = incensePokemon.Latitude;
+                            mapIncensePokemon.PokemonDisplay = incensePokemon.PokemonDisplay;
+                            mapIncensePokemon.PokemonId = incensePokemon.PokemonId;
+                            mapIncensePokemon.SpawnPointId = incensePokemon.EncounterLocation;
+                            mapIncensePokemon.ExpirationTimestampMs = incensePokemon.DisappearTimestampMs;
+        
+                            Logger.ColoredConsoleWrite(ConsoleColor.Magenta, $"Found incensed Pokemon: {mapIncensePokemon.PokemonId}"  );
+                            if (GlobalVars.ShowPokemons){
+                                infoObservable.PushNewPokemonLocation(mapIncensePokemon);
+                            }
+                        }else
+                            Logger.Debug("incensePokemon.Result: "+ incensePokemon.Result);
+                    }
+
+                } catch (Exception ex1) {
+                    Logger.ExceptionInfo(ex1.ToString());
+                }
+                
+                if (mapIncensePokemon!=null)
+                    if (!BotSettings.catchPokemonSkipList.Contains(mapIncensePokemon.PokemonId))
+                        CatchIncensedPokemon(mapIncensePokemon.EncounterId, mapIncensePokemon.SpawnPointId, mapIncensePokemon.PokemonId, mapIncensePokemon.Longitude, mapIncensePokemon.Latitude);                
+
                 var pokemons = mapObjectsResponse.MapCells.SelectMany(i => i.CatchablePokemons).OrderBy(i => LocationUtils.CalculateDistanceInMeters(objClient.CurrentLatitude, objClient.CurrentLongitude, i.Latitude, i.Longitude));
 
                 Logger.Debug( $"Pokemons Catchable: {pokemons.Count()}");
 
                 if (pokemons.Any())
                 {
-                    var strNames = pokemons.Aggregate("", (current, pokemon) => current + (StringUtils.getPokemonNameByLanguage(BotSettings, pokemon.PokemonId) + ", "));
+                    var strNames = pokemons.Aggregate("", (current, pokemon) => current + ( pokemon.PokemonId + ", "));
                     strNames = strNames.Substring(0, strNames.Length - 2);
 
                     Logger.ColoredConsoleWrite(ConsoleColor.Magenta, $"Found {pokemons.Count()} catchable Pokemon(s): " + strNames);
                     if (GlobalVars.ShowPokemons){
                         ShowNearbyPokemons(pokemons);
-                        //RandomHelper.RandomSleep(600,602);
                     }
                 }
+
 
                 //catch them all!
                 foreach (var pokemon in pokemons)
@@ -1161,9 +1202,14 @@ namespace PokemonGo.RocketAPI.Logic
             #endregion
         }
 
+        public ulong CatchIncensedPokemon(ulong encounterId, string spawnpointId, PokemonId pokeid, double pokeLong, double pokeLat)
+        {
+            return CatchPokemon(encounterId,spawnpointId, pokeid,pokeLong,pokeLat,false,-1,-1,2);
+        }
+
         public ulong CatchLuredPokemon(ulong encounterId, string spawnpointId, PokemonId pokeid, double pokeLong, double pokeLat)
         {
-            return CatchPokemon(encounterId,spawnpointId, pokeid,pokeLong,pokeLat,false,-1,-1,true);
+            return CatchPokemon(encounterId,spawnpointId, pokeid,pokeLong,pokeLat,false,-1,-1,1);
         }
 
         public static EncounterResponse.Types.Status DiskEncounterResultToEncounterStatus( DiskEncounterResponse.Types.Result diskEncounter)
@@ -1184,8 +1230,22 @@ namespace PokemonGo.RocketAPI.Logic
             }
             return EncounterResponse.Types.Status.EncounterError;
         }
+        public static EncounterResponse.Types.Status IncenseEncounterResultToEncounterStatus( IncenseEncounterResponse.Types.Result incenseEncounter)
+        {
+            switch (incenseEncounter) {
+                case IncenseEncounterResponse.Types.Result.IncenseEncounterUnknown :
+                    return EncounterResponse.Types.Status.EncounterError;
+                case IncenseEncounterResponse.Types.Result.IncenseEncounterSuccess :
+                    return EncounterResponse.Types.Status.EncounterSuccess;
+                case IncenseEncounterResponse.Types.Result.IncenseEncounterNotAvailable :
+                    return EncounterResponse.Types.Status.EncounterNotFound ;
+                case IncenseEncounterResponse.Types.Result.PokemonInventoryFull:
+                    return EncounterResponse.Types.Status.PokemonInventoryFull;
+            }
+            return EncounterResponse.Types.Status.EncounterError;
+        }
 
-        public ulong CatchPokemon(ulong encounterId, string spawnpointId, PokemonId pokeid, double pokeLong = 0, double pokeLat = 0, bool goBack = false, double returnLatitude = -1, double returnLongitude = -1, bool luredPoke = false)
+        public ulong CatchPokemon(ulong encounterId, string spawnpointId, PokemonId pokeid, double pokeLong = 0, double pokeLat = 0, bool goBack = false, double returnLatitude = -1, double returnLongitude = -1, int luredPoke = 0)
         {
             ulong ret = 0;
             EncounterResponse encounterPokemonResponse;
@@ -1207,9 +1267,9 @@ namespace PokemonGo.RocketAPI.Logic
 
             try
             {
-                if (!luredPoke)
+                if (luredPoke == 0)
                     encounterPokemonResponse = objClient.Encounter.EncounterPokemon(encounterId, spawnpointId).Result;
-                else{
+                else if (luredPoke == 1){
                     var DiscEncounterPokemonResponse =  objClient.Encounter.EncounterLurePokemon(encounterId, spawnpointId).Result;
                     encounterPokemonResponse = new EncounterResponse();
                     encounterPokemonResponse.Status =DiskEncounterResultToEncounterStatus(DiscEncounterPokemonResponse.Result);
@@ -1220,6 +1280,18 @@ namespace PokemonGo.RocketAPI.Logic
                         encounterPokemonResponse.WildPokemon.PokemonData = DiscEncounterPokemonResponse.PokemonData;
                         encounterPokemonResponse.CaptureProbability = new POGOProtos.Data.Capture.CaptureProbability();
                         encounterPokemonResponse.CaptureProbability.CaptureProbability_.Add(1.0F);
+                    }
+                    
+                }else{
+                    var IncenseEncounterPokemonResponse =  objClient.Encounter.EncounterIncensePokemon(encounterId, spawnpointId).Result;
+                    encounterPokemonResponse = new EncounterResponse();
+                    encounterPokemonResponse.Status =IncenseEncounterResultToEncounterStatus(IncenseEncounterPokemonResponse.Result);
+                    
+                    if( IncenseEncounterPokemonResponse.Result == IncenseEncounterResponse.Types.Result.IncenseEncounterSuccess ){
+                        encounterPokemonResponse.WildPokemon = new WildPokemon();
+                        encounterPokemonResponse.WildPokemon.EncounterId = encounterId;
+                        encounterPokemonResponse.WildPokemon.PokemonData =IncenseEncounterPokemonResponse.PokemonData;
+                        encounterPokemonResponse.CaptureProbability = IncenseEncounterPokemonResponse.CaptureProbability;
                     }
                     
                 }

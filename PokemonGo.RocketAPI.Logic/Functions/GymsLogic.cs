@@ -253,7 +253,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
             var gymColorLog = ConsoleColor.DarkGray;
             var pokeAttackersIds = pokeAttackers.Select(x => x.Id);
             var moveSettings = GetMoveSettings(client);
-            RandomHelper.RandomSleep(1000, 1500);
+            RandomHelper.RandomSleep(1100);
             var resp = client.Fort.StartGymBattle(gym.Id, defenderId, pokeAttackersIds).Result;
             var numTries = 3;
             // Sometimes we get a null from startgymBattle so we try to start battle 3 times
@@ -270,9 +270,9 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                 Logger.Debug("(Gym) - Trying again after 11 seconds");
                 RandomHelper.RandomSleep(10000, 11000);
                 var mapObjectsResponse = Logic.objClient.Map.GetMapObjects().Result.Item1;
-                RandomHelper.RandomSleep(500, 600);
+                RandomHelper.RandomSleep(800);
                 var gymDetails = client.Fort.GetGymDetails(gym.Id, gym.Latitude, gym.Longitude).Result;
-                RandomHelper.RandomSleep(500, 600);
+                RandomHelper.RandomSleep(800);
                 resp = client.Fort.StartGymBattle(gym.Id, defenderId, pokeAttackersIds).Result;
                 startFailed = (resp == null);
                 if (!startFailed)
@@ -496,7 +496,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
             }
         }
 
-        static ItemId GetNextAvailablePotion(Client client)
+       private static ItemId GetNextAvailablePotion(Client client)
         {
             var count = client.Inventory.GetItemAmountByType(ItemId.ItemPotion).Result;
             if (count > 0)
@@ -510,5 +510,9 @@ namespace PokemonGo.RocketAPI.Logic.Functions
             count = client.Inventory.GetItemAmountByType(ItemId.ItemMaxPotion).Result;
             return count > 0 ? ItemId.ItemMaxPotion : 0;
         }
+       public static void putInPokestop(Client client, ulong buddyPokemon, FortData gym, IEnumerable<PokemonData> pokemons){
+           var poke =getPokeToPut(client,buddyPokemon);
+           putInGym(client,gym,poke,pokemons);
+       }
     }
 }
