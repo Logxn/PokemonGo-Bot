@@ -56,6 +56,7 @@ namespace PokemonGo.RocketAPI.Console
                 th.TS("Random"),
                 th.TS("Best CP"),
                 th.TS("Favourites"),
+                th.TS("Lower than defenders CP")
             };
             comboBoxAttackers.SelectedIndex = 0;
             

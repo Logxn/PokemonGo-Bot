@@ -1119,7 +1119,8 @@ namespace PokemonGo.RocketAPI.Logic
                     if (GlobalVars.ShowPokemons){
                         ShowNearbyPokemons(pokemons);
                     }
-                }
+                }else
+                    return false;
 
 
                 //catch them all!

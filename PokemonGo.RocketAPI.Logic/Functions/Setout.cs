@@ -86,17 +86,22 @@ namespace PokemonGo.RocketAPI.Logic.Functions
 
         public static void CheckIfUseIncense()
         {
+            Logger.Debug("Checking use of incense");
             if (Shared.GlobalVars.RelocateDefaultLocation)
                 return;
             if (Shared.GlobalVars.UseIncense || Shared.GlobalVars.UseIncenseGUIClick)
             {
+                Logger.Debug("Use incense selected");
                 Shared.GlobalVars.UseIncenseGUIClick = false;
                 var inventory = Logic.objClient.Inventory.GetItems().Result;
                 var incsense = inventory.FirstOrDefault(p => p.ItemId == ItemId.ItemIncenseOrdinary);
                 var loginterval = DateTime.Now - LastIncenselog;
+                Logger.Debug("loginterval: "+ loginterval);
+                Logger.Debug("lastincenseuse: "+ lastincenseuse);
                 if (lastincenseuse > DateTime.Now.AddSeconds(5))
                 {
                     var duration = lastincenseuse - DateTime.Now;
+                    Logger.Debug("duration: "+ duration);
                     var minute = DateTime.Now.AddMinutes(1) - DateTime.Now;
                     if (loginterval > minute)
                     {
@@ -114,7 +119,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                 Logic.objClient.Inventory.UseIncense(ItemId.ItemIncenseOrdinary).Wait();
                 Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Used Incsense, remaining: {incsense.Count - 1}");
                 lastincenseuse = DateTime.Now.AddMinutes(30);
-                RandomHelper.RandomSleep(3000,3100);
+                RandomHelper.RandomSleep(1100);
             }
         }
 
