@@ -138,12 +138,18 @@ namespace PokemonGo.RocketAPI.Logic.Functions
             return pokeGyms;
         }
 
-        static void ShowPokemons(IEnumerable<PokemonData> pokeAttackers)
+        private static string strPokemon(PokemonData pokemon)
+        {
+            var str = $"{pokemon.PokemonId.ToString()}(CP:{pokemon.Cp}-HP:{pokemon.Stamina}";
+            return str;
+        }
+        private static void ShowPokemons(IEnumerable<PokemonData> pokeAttackers)
         {
             var str = "";
             foreach (var element in pokeAttackers) {
-                str = $"{str}{element.PokemonId.ToString()}(CP:{element.Cp}-HP:{element.Stamina}), ";
+                str = $"{str}{strPokemon(element)}, ";
             }
+            str = str.Substring(0, str.Length - 2);
             Logger.ColoredConsoleWrite(ConsoleColor.DarkGray, "(Gym) - " + str);
         }
 
@@ -212,7 +218,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                     ShowPokemons(pokeAttackers);
                     var defenders = gymDetails.GymState.Memberships.Select(x => x.PokemonData);
                     var defender = defenders.FirstOrDefault();
-                    Logger.Debug("(Gym) - Pokemon defender: " + defender.PokemonId);
+                    Logger.ColoredConsoleWrite(gymColorLog,"(Gym) - Defender: " + strPokemon(defender));
                     var attResp = AttackGym(gym, client, pokeAttackers, defender.Id, gymDetails.GymState.Memberships.Count, profile.PlayerData.BuddyPokemon.Id);
                 } else {
                     Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - There is no free space in the gym");
@@ -238,7 +244,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                     ShowPokemons(pokeAttackers);
                     var defenders = gymDetails.GymState.Memberships.Select(x => x.PokemonData);
                     var defender = defenders.FirstOrDefault();
-                    Logger.Debug("(Gym) - Pokemon defender: " + defender.PokemonId);
+                    Logger.ColoredConsoleWrite(gymColorLog,"(Gym) - Defender: " + strPokemon(defender));
                     var attResp = AttackGym(gym, client, pokeAttackers, defender.Id, gymDetails.GymState.Memberships.Count, profile.PlayerData.BuddyPokemon.Id);
                 } else {
                     AddVisited(gym.Id,600000);
