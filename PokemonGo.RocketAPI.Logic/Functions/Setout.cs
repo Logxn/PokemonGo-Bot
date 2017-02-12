@@ -20,6 +20,7 @@ using PokemonGo.RocketAPI.Logic;
 using PokemonGo.RocketAPI.Helpers;
 using PokemonGo.RocketAPI.Logic.Shared;
 using PokemonGo.RocketAPI.Logic.Utils;
+using System.Windows.Forms;
 
 namespace PokemonGo.RocketAPI.Logic.Functions
 {
@@ -464,14 +465,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
             #endregion
 
             #region Set Console Title
-            if (!GlobalVars.EnableConsoleInTab) RefreshConsoleTitle(client);
-            //{
-            //    System.Console.Title = profile.PlayerData.Username + @" Lvl " + stats.Level + @" (" +
-            //                (stats.Experience - stats.PrevLevelXp - StringUtils.getExpDiff(stats.Level)).ToString("N0") + @"/" +
-            //                (stats.NextLevelXp - stats.PrevLevelXp - StringUtils.getExpDiff(stats.Level)).ToString("N0") + @"|" +
-            //                Math.Round(curexppercent, 2) + @"%) Stardust: " + profile.PlayerData.Currencies.ToArray()[1].Amount + @" " +
-            //                Logic.Instance.BotStats;
-            //}
+            RefreshConsoleTitle(client);
             #endregion
 
             #region Check for Update
@@ -495,11 +489,18 @@ namespace PokemonGo.RocketAPI.Logic.Functions
             var curexp = stats.Experience - stats.PrevLevelXp - StringUtils.getExpDiff(stats.Level);
             var curexppercent = Convert.ToDouble(curexp) / Convert.ToDouble(expneeded) * 100;
 
-            System.Console.Title = profile.PlayerData.Username + @" Lvl " + stats.Level + @" (" +
+            string TitleText = profile.PlayerData.Username + @" Lvl " + stats.Level + @" (" +
             (stats.Experience - stats.PrevLevelXp - StringUtils.getExpDiff(stats.Level)).ToString("N0") + @"/" +
             (stats.NextLevelXp - stats.PrevLevelXp - StringUtils.getExpDiff(stats.Level)).ToString("N0") + @"|" +
             Math.Round(curexppercent, 2) + @"%) Stardust: " + profile.PlayerData.Currencies.ToArray()[1].Amount + @" " +
             Logic.Instance.BotStats;
+
+            if (!GlobalVars.EnableConsoleInTab) System.Console.Title = TitleText;
+
+            if (GlobalVars.EnablePokeList && client.ReadyToUse)
+            {
+                Application.OpenForms["Pokemons"].Invoke(new Action(() => Application.OpenForms["Pokemons"].Text = TitleText));
+            }
         }
 
         public static void SetCheckTimeToRun()
