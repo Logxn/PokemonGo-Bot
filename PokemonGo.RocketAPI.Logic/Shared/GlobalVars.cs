@@ -175,7 +175,9 @@ namespace PokemonGo.RocketAPI.Logic.Shared
         public static int GymAttackers = 1;
         public static string FortsFile = "";
         public static bool SaveForts = false;
+        public static int MaxAttacks = 1;
 
+        public static bool SpinGyms  =false;
 
         /// <summary>
         /// Copy all values from ProfileSettings to GlobalVars.

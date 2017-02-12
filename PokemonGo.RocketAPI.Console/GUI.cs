@@ -434,9 +434,7 @@ namespace PokemonGo.RocketAPI.Console
             checkBox_UseBreakIntervalAndLength.Checked = config.UseBreakFields;
             checkBox_WalkInArchimedeanSpiral.Checked = config.Espiral;
             checkBox_StartWalkingFromLastLocation.Checked = config.UseLastCords;
-            checkBox_FarmGyms.Checked = config.FarmGyms;
-            checkBoxAttackGyms.Checked = config.AttackGyms;
-            nudNumDefenders.Value = (config.NumDefenders<=0)?1:config.NumDefenders;
+
 
             // tab 7 - telegram and logs
             cbLogPokemon.Checked = config.LogPokemons;
@@ -459,11 +457,16 @@ namespace PokemonGo.RocketAPI.Console
             // Dev Options
             checkbox_Verboselogging.Checked = config.EnableVerboseLogging;
             // Gyms
+
+            checkBox_FarmGyms.Checked = config.FarmGyms;
+            checkBoxAttackGyms.Checked = config.AttackGyms;
+            nudNumDefenders.Value = (config.NumDefenders<=0)?1:config.NumDefenders;
+            numericUpDownMaxAttacks.Value = (config.MaxAttacks<=0)?1:config.MaxAttacks;
             comboBoxLeaveInGyms.SelectedIndex = config.LeaveInGyms;
             comboBoxAttackers.SelectedIndex = config.GymAttackers;
-            
             checkBoxSaveFortsInfo.Checked = config.SaveForts;
             textBoxFortsFile.Text = config.FortsFile;
+            checkBoxSpinGyms.Checked = config.SpinGyms;
         }
         
         private void ChangeSelectedLanguage(string lang)
@@ -859,6 +862,7 @@ namespace PokemonGo.RocketAPI.Console
             ActiveProfile.Settings.FarmGyms = checkBox_FarmGyms.Checked;
             ActiveProfile.Settings.AttackGyms = checkBoxAttackGyms.Checked;
             ActiveProfile.Settings.NumDefenders = (int) nudNumDefenders.Value;
+            ActiveProfile.Settings.MaxAttacks = (int) numericUpDownMaxAttacks.Value;
 
             // tab 7 - Logs and Telegram            
             ActiveProfile.Settings.LogPokemons = cbLogPokemon.Checked;
@@ -899,6 +903,7 @@ namespace PokemonGo.RocketAPI.Console
             ActiveProfile.Settings.GymAttackers = comboBoxAttackers.SelectedIndex;
             ActiveProfile.Settings.FortsFile = textBoxFortsFile.Text;
             ActiveProfile.Settings.SaveForts = checkBoxSaveFortsInfo.Checked;
+            ActiveProfile.Settings.SpinGyms = checkBoxSpinGyms.Checked;
 
             #endregion
             return ret;

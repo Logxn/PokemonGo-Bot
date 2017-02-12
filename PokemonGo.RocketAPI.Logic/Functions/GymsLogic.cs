@@ -99,17 +99,19 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                         Logger.ColoredConsoleWrite(ConsoleColor.DarkGray, "(Gym) - This gym was already visited.");
                         continue;
                     }
-                    var numberOfAttacks = GlobalVars.NumDefenders + 2;
+                    var numberOfAttacks = GlobalVars.MaxAttacks;
                     while (numberOfAttacks > 0 && gymsVisited.IndexOf(gym.Id) == -1) {
-                        Logger.Debug("(Gym) - Attack number " + (GlobalVars.NumDefenders + 3 - numberOfAttacks));
+                        Logger.Debug("(Gym) - Attack number " + (GlobalVars.MaxAttacks + 1 - numberOfAttacks));
                         CheckAndPutInNearbyGym(gym, Logic.objClient);
                         numberOfAttacks--;
                         if (numberOfAttacks > 0 && gymsVisited.IndexOf(gym.Id) == -1) {
                             RandomHelper.RandomSleep(400);
                             gym = GetNearbyGyms().FirstOrDefault(x => x.Id == gym.Id);
                         }
-                        if (numberOfAttacks == 0)
+                        if (numberOfAttacks == 0){
+                            Logger.Info("(Gym) - Maximun number of attacks reached. Will be checked after of one minute.");
                             AddVisited(gym.Id,60000);
+                        }
                     }
                     Setout.SetCheckTimeToRun();
                     RandomHelper.RandomSleep(300);
@@ -402,7 +404,8 @@ namespace PokemonGo.RocketAPI.Logic.Functions
             var battleActions = new List<BattleAction>();
             battleActions.Add(attack);
             lastRetrievedAction = new BattleAction();
-            return client.Fort.AttackGym(gym.Id, resp.BattleId, battleActions, lastRetrievedAction).Result;
+            var ret = client.Fort.AttackGym(gym.Id, resp.BattleId, battleActions, lastRetrievedAction).Result;
+            return ret;
         }
 
         private static PokemonData getPokeToPut(Client client, ulong buddyPokemon)

@@ -544,12 +544,17 @@ namespace PokemonGo.RocketAPI.Console
                         var pokemon = (PokemonData)selectedItem.Tag;
                         var strPokename = th.TS( pokemon.PokemonId.ToString());
                         
-                        if (pokemon.DeployedFortId == "" && pokemon.Favorite == 0 && pokemon.Id != profile.PlayerData.BuddyPokemon.Id)
+                        if (pokemon.DeployedFortId == "" && pokemon.Favorite == 0  )
                         {
+
+                            if (profile!=null && profile.PlayerData.BuddyPokemon != null)
+                                if ( pokemon.Id == profile.PlayerData.BuddyPokemon.Id)
+                                    continue;
+
                             pokemonsToTransfer.Add(pokemon.Id);
-                            
+
                             transfered++;
-                            
+
                             File.AppendAllText(logs, $"[{date}] - MANUAL - Enqueuing to BULK transfer pokemon {transfered}/{total}: {Logic.Utils.StringUtils.getPokemonNameByLanguage(BotSettings, pokemon.PokemonId)}" + Environment.NewLine);
                             var strPerfection = PokemonInfo.CalculatePokemonPerfection(pokemon).ToString("0.00");
                             var strTransfer = $"Enqueuing to BULK transfer pokemon {transfered}/{total}: {strPokename} CP {pokemon.Cp} IV {strPerfection}";
@@ -898,29 +903,17 @@ namespace PokemonGo.RocketAPI.Console
         {
             Execute();
         }
+
         private void freezedenshit_Tick(object sender, EventArgs e)
         {
             freezedenshit.Stop();
         }
 
-        private void btnUseLure_Click(object sender, EventArgs e)
-        {
-            GlobalVars.UseLureGUIClick = true;
-        }
-
-        private void btnUseLuckyEgg_Click(object sender, EventArgs e)
-        {
-            GlobalVars.UseLuckyEggGUIClick = true;
-        }
-
-        private void btnUseIncense_Click(object sender, EventArgs e)
-        {
-            GlobalVars.UseIncenseGUIClick = true;
-        }
         void reloadToolStripMenuItem_Click(object sender, EventArgs e)
         {
             btnReload_Click(sender,e);
         }
+
         void cureToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (PokemonListView.SelectedItems.Count < 1)

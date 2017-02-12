@@ -58,7 +58,7 @@ namespace PokemonGo.RocketAPI.Logic
         public bool logicAllowCatchPokemon = true;
         
         public string Lure = "lureId";
-        private bool addedlure;
+        private bool addedlure = false;
         public Sniper sniperLogic;
         public static bool restartLogic =true;
         #endregion
@@ -448,56 +448,42 @@ namespace PokemonGo.RocketAPI.Logic
             #endregion
         }
 
-        private FortData[] GetNearbyPokeStops( bool updateMap = true, GetMapObjectsResponse mapObjectsResponse = null)
+        private FortData[] GetNearbyPokeStops(bool updateMap = true, GetMapObjectsResponse mapObjectsResponse = null)
         {
-            #region Get Pokestops
 
             //Query nearby objects for mapData
             if (mapObjectsResponse == null)
                 mapObjectsResponse = objClient.Map.GetMapObjects().Result.Item1;
 
             //narrow map data to pokestops within walking distance
-            var pokeStops = navigation
-                .pathByNearestNeighbour(
-                    mapObjectsResponse.MapCells.SelectMany(i => i.Forts)
-                    .Where(i => i.Type == FortType.Checkpoint && i.CooldownCompleteTimestampMs < (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds)
-                    .OrderBy(i => LocationUtils.CalculateDistanceInMeters(objClient.CurrentLatitude, objClient.CurrentLongitude, i.Latitude, i.Longitude))
-                    .ToArray(), BotSettings.WalkingSpeedInKilometerPerHour);
+            
+            var unixNow = (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds;
+            
+            var pokeStops = mapObjectsResponse.MapCells.SelectMany(i => i.Forts)
+                .Where(i => i.Type == FortType.Checkpoint && i.CooldownCompleteTimestampMs < unixNow);
 
-            #endregion
+            var pokeGyms = mapObjectsResponse.MapCells.SelectMany(i => i.Forts)
+                .Where(i => i.Type == FortType.Gym);
 
-            if (!updateMap) return pokeStops;
+            if (!GlobalVars.FarmGyms)
+                pokeGyms = new List<FortData>();
 
-            #region Get Gyms
+            var both = pokeStops.Concat(pokeGyms)
+                .OrderBy(i => LocationUtils.CalculateDistanceInMeters(objClient.CurrentLatitude, objClient.CurrentLongitude, i.Latitude, i.Longitude));
 
-            var pokeGyms = navigation
-                .pathByNearestNeighbour(
-                    mapObjectsResponse.MapCells.SelectMany(i => i.Forts)
-                    .Where(i => i.Type == FortType.Gym)
-                    .OrderBy(i => LocationUtils.CalculateDistanceInMeters(objClient.CurrentLatitude, objClient.CurrentLongitude, i.Latitude, i.Longitude))
-                    .ToArray(), BotSettings.WalkingSpeedInKilometerPerHour);
+            var forts = navigation.pathByNearestNeighbour(both.ToArray(), BotSettings.WalkingSpeedInKilometerPerHour);
 
-            #endregion
-
-            #region Push data to map
-
-            if (!BotSettings.MapLoaded) return pokeStops;
-
-            if (pokeGyms.Any())
-            {
-                Task.Factory.StartNew(() => infoObservable.PushAvailablePokeGymsLocations(pokeGyms));
+            if (updateMap) {
+                if (pokeStops.Any())
+                    Task.Factory.StartNew(() => infoObservable.PushAvailablePokeStopLocations(pokeStops.ToArray()));
+                if (pokeGyms.Any())
+                    Task.Factory.StartNew(() => infoObservable.PushAvailablePokeGymsLocations(pokeGyms.ToArray()));
+                stopsloaded = true;
             }
 
-            //if map open push object data
-            if (!pokeStops.Any()) return pokeStops;
-
-            Task.Factory.StartNew(() => infoObservable.PushAvailablePokeStopLocations(pokeStops));
-            stopsloaded = true;
-
-            #endregion
-
-            return pokeStops;
+            return forts;
         }
+        
         
         private void FncPokeStop(Client client, FortData[] pokeStopsIn, bool metros30)
         {
@@ -519,12 +505,14 @@ namespace PokemonGo.RocketAPI.Logic
             //walk between pokestops in default collection
             foreach (var pokeStop in pokeStops)
             {
+                /*
                 //check if map has pokestops loaded and load if not
                 if (BotSettings.MapLoaded && !stopsloaded)
                 {
                     Task.Factory.StartNew(() => infoObservable.PushAvailablePokeStopLocations(pokeStops));
                     stopsloaded = true;
                 }
+                */
 
                 #region Mystery Check by Cicklow
 
@@ -1028,6 +1016,13 @@ namespace PokemonGo.RocketAPI.Logic
 
                     foreach (var pokestop in withinRangeStandingList)
                     {
+                        if (!GlobalVars.SpinGyms)
+                            if (pokestop.Type != FortType.Checkpoint )
+                                continue;
+
+                        if (pokestop.Type == FortType.Gym )
+                           Logger.Info("Spinning Gym");
+
                         var fortInfo = objClient.Fort.GetFort(pokestop.Id, pokestop.Latitude, pokestop.Longitude).Result;
                         var farmed = CheckAndFarmNearbyPokeStop(pokestop, objClient, fortInfo);
 
@@ -1776,15 +1771,6 @@ namespace PokemonGo.RocketAPI.Logic
 
         #endregion
 
-        #region Recycle and Incense Functions
-
-        #endregion
-
-        #region Incubator Functions
-
-        #endregion
-
-        #region Unused Functions
 
         public void ShowNearbyPokemons(IEnumerable<MapPokemon> pokeData)
         {
@@ -1806,9 +1792,6 @@ namespace PokemonGo.RocketAPI.Logic
             var d = 2 * rEarth * Math.Atan2(Math.Sqrt(alpha), Math.Sqrt(1 - alpha));
             return d;
         }
-
-
-        #endregion
 
         #endregion
     }

@@ -300,6 +300,10 @@ namespace PokemonGo.RocketAPI.Console
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.tabPageGym = new System.Windows.Forms.TabPage();
             this.groupBoxGyms = new System.Windows.Forms.GroupBox();
+            this.label34 = new System.Windows.Forms.Label();
+            this.checkBoxSpinGyms = new System.Windows.Forms.CheckBox();
+            this.labelMaxAttacks = new System.Windows.Forms.Label();
+            this.numericUpDownMaxAttacks = new System.Windows.Forms.NumericUpDown();
             this.label24 = new System.Windows.Forms.Label();
             this.comboBoxAttackers = new System.Windows.Forms.ComboBox();
             this.labelDefenders = new System.Windows.Forms.Label();
@@ -370,6 +374,7 @@ namespace PokemonGo.RocketAPI.Console
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             this.tabPageGym.SuspendLayout();
             this.groupBoxGyms.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMaxAttacks)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudNumDefenders)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.SuspendLayout();
@@ -3434,6 +3439,10 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // groupBoxGyms
             // 
+            this.groupBoxGyms.Controls.Add(this.label34);
+            this.groupBoxGyms.Controls.Add(this.checkBoxSpinGyms);
+            this.groupBoxGyms.Controls.Add(this.labelMaxAttacks);
+            this.groupBoxGyms.Controls.Add(this.numericUpDownMaxAttacks);
             this.groupBoxGyms.Controls.Add(this.label24);
             this.groupBoxGyms.Controls.Add(this.comboBoxAttackers);
             this.groupBoxGyms.Controls.Add(this.labelDefenders);
@@ -3444,10 +3453,57 @@ namespace PokemonGo.RocketAPI.Console
             this.groupBoxGyms.Controls.Add(this.checkBox_FarmGyms);
             this.groupBoxGyms.Location = new System.Drawing.Point(6, 6);
             this.groupBoxGyms.Name = "groupBoxGyms";
-            this.groupBoxGyms.Size = new System.Drawing.Size(665, 144);
+            this.groupBoxGyms.Size = new System.Drawing.Size(665, 188);
             this.groupBoxGyms.TabIndex = 70;
             this.groupBoxGyms.TabStop = false;
             this.groupBoxGyms.Text = "Gyms";
+            // 
+            // label34
+            // 
+            this.label34.AutoSize = true;
+            this.label34.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label34.Location = new System.Drawing.Point(374, 40);
+            this.label34.Name = "label34";
+            this.label34.Size = new System.Drawing.Size(228, 13);
+            this.label34.TabIndex = 62;
+            this.label34.Text = "NOTE: be carefull. App cannot do this.";
+            // 
+            // checkBoxSpinGyms
+            // 
+            this.checkBoxSpinGyms.AutoSize = true;
+            this.checkBoxSpinGyms.Location = new System.Drawing.Point(374, 17);
+            this.checkBoxSpinGyms.Name = "checkBoxSpinGyms";
+            this.checkBoxSpinGyms.Size = new System.Drawing.Size(169, 17);
+            this.checkBoxSpinGyms.TabIndex = 61;
+            this.checkBoxSpinGyms.Tag = "SpinGyms";
+            this.checkBoxSpinGyms.Text = "Spin Gyms as were Pokestops";
+            this.checkBoxSpinGyms.UseVisualStyleBackColor = true;
+            // 
+            // labelMaxAttacks
+            // 
+            this.labelMaxAttacks.Location = new System.Drawing.Point(17, 136);
+            this.labelMaxAttacks.Name = "labelMaxAttacks";
+            this.labelMaxAttacks.Size = new System.Drawing.Size(192, 16);
+            this.labelMaxAttacks.TabIndex = 60;
+            this.labelMaxAttacks.Text = "Maximum Number of Attacks  by Gym:";
+            this.labelMaxAttacks.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // numericUpDownMaxAttacks
+            // 
+            this.numericUpDownMaxAttacks.Location = new System.Drawing.Point(215, 135);
+            this.numericUpDownMaxAttacks.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numericUpDownMaxAttacks.Name = "numericUpDownMaxAttacks";
+            this.numericUpDownMaxAttacks.Size = new System.Drawing.Size(40, 20);
+            this.numericUpDownMaxAttacks.TabIndex = 59;
+            this.numericUpDownMaxAttacks.Value = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
             // 
             // label24
             // 
@@ -3696,6 +3752,7 @@ namespace PokemonGo.RocketAPI.Console
             this.tabPageGym.ResumeLayout(false);
             this.groupBoxGyms.ResumeLayout(false);
             this.groupBoxGyms.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMaxAttacks)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudNumDefenders)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.ResumeLayout(false);
@@ -3986,6 +4043,10 @@ namespace PokemonGo.RocketAPI.Console
         private System.Windows.Forms.TextBox textBoxFortsFile;
         private System.Windows.Forms.CheckBox checkBoxSaveFortsInfo;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
+        private System.Windows.Forms.Label labelMaxAttacks;
+        private System.Windows.Forms.NumericUpDown numericUpDownMaxAttacks;
+        private System.Windows.Forms.CheckBox checkBoxSpinGyms;
+        private System.Windows.Forms.Label label34;
         //private System.Windows.Forms.CheckBox checkBox_CatchLurePokemons;
     }
 }

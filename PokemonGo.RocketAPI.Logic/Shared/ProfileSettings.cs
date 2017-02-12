@@ -936,6 +936,11 @@ namespace PokemonGo.RocketAPI.Logic.Shared
             set;
         }
 
+        public int MaxAttacks {
+            get;
+            set;
+        }
+
         public bool UseSpritesFolder {get;set;}
         public bool ShowPokemons {get;set;}
 
@@ -953,6 +958,12 @@ namespace PokemonGo.RocketAPI.Logic.Shared
             get;
             set;
         }
+
+        public bool SpinGyms {
+            get;
+            set;
+        }
+
         #endregion
     
         public void SaveToFile(string filename)
