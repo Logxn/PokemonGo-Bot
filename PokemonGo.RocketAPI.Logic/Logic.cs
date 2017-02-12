@@ -1473,9 +1473,6 @@ namespace PokemonGo.RocketAPI.Logic
                         if (GlobalVars.ShowPokemons)
                             DeletePokemonFromMap(encounterPokemonResponse.WildPokemon.SpawnPointId);
 
-                        foreach (var xp in caughtPokemonResponse.CaptureAward.Xp)
-                            BotStats.AddExperience(xp);
-
                         var curDate = DateTime.Now;
                         Task.Factory.StartNew(() =>infoObservable.PushNewHuntStats($"{pokeLat}/{pokeLong};{pokeid};{curDate.Ticks};{curDate}" + Environment.NewLine));
 
@@ -1488,7 +1485,7 @@ namespace PokemonGo.RocketAPI.Logic
                             {
                                 File.AppendAllText(logs, $"[{date}] Caught new {StringUtils.getPokemonNameByLanguage(BotSettings, pokeid)} (CP: {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} | IV: {strIVPerfection}% | Pokeball used: {bestPokeball} | XP: {caughtPokemonResponse.CaptureAward.Xp.Sum()}) " + Environment.NewLine);
                             }
-                            Logger.ColoredConsoleWrite(ConsoleColor.White, $"Caught New {StringUtils.getPokemonNameByLanguage(BotSettings, pokeid)} CP {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} IV {strIVPerfection}% using {bestPokeball} got {caughtPokemonResponse.CaptureAward.Xp.Sum()} XP.");
+                            Logger.ColoredConsoleWrite(ConsoleColor.Gray, $"Caught {StringUtils.getPokemonNameByLanguage(BotSettings, pokeid)} CP {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} IV {strIVPerfection}% got {caughtPokemonResponse.CaptureAward.Xp.Sum()} XP | {caughtPokemonResponse.CaptureAward.Candy.Sum()} Candies | {caughtPokemonResponse.CaptureAward.Stardust.Sum()} Stardust");
                             Setout.pokemonCatchCount++;
                         }
                         else
@@ -1497,16 +1494,16 @@ namespace PokemonGo.RocketAPI.Logic
                             {
                                 File.AppendAllText(logs, $"[{date}] Caught {StringUtils.getPokemonNameByLanguage(BotSettings, pokeid)} (CP: {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} | IV: {strIVPerfection}% | Pokeball used: {bestPokeball} | XP: {caughtPokemonResponse.CaptureAward.Xp.Sum()}) " + Environment.NewLine);
                             }
-                            //Logger.ColoredConsoleWrite(ConsoleColor.Gray, $"Caught {StringUtils.getPokemonNameByLanguage(BotSettings, pokeid)} CP {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} IV {strIVPerfection}% using {bestPokeball} got {caughtPokemonResponse.CaptureAward.Xp.Sum()} XP.");
                             Logger.ColoredConsoleWrite(ConsoleColor.Gray, $"Caught {StringUtils.getPokemonNameByLanguage(BotSettings, pokeid)} CP {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} IV {strIVPerfection}% got {caughtPokemonResponse.CaptureAward.Xp.Sum()} XP | {caughtPokemonResponse.CaptureAward.Candy.Sum()} Candies | {caughtPokemonResponse.CaptureAward.Stardust.Sum()} Stardust");
                             Setout.pokemonCatchCount++;
 
                             if (Telegram != null)
                                 Telegram.sendInformationText(TelegramUtil.TelegramUtilInformationTopics.Catch, StringUtils.getPokemonNameByLanguage(BotSettings, pokeid), encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp, strIVPerfection, bestPokeball, caughtPokemonResponse.CaptureAward.Xp.Sum());
-
-                            BotStats.AddPokemon(1);
-                            RandomHelper.RandomSleep(1500, 2000);
                         }
+                        BotStats.AddPokemon(1);
+                        BotStats.AddExperience(caughtPokemonResponse.CaptureAward.Xp.Sum());
+                        BotStats.AddStardust(caughtPokemonResponse.CaptureAward.Stardust.Sum());
+                        RandomHelper.RandomSleep(1500, 2000);
                     }
                     else
                     {
@@ -1524,7 +1521,6 @@ namespace PokemonGo.RocketAPI.Logic
                     Logger.ColoredConsoleWrite(ConsoleColor.Magenta, "Pokemon CP or IV lower than Configured Min to Catch - Skipping Pokemon");
                     SkippedPokemon.Add(encounterPokemonResponse.WildPokemon.EncounterId);
                 }
-                RandomHelper.RandomSleep(1000, 2000); // wait 1 second to simulate catch.
             }else if (encounterPokemonResponse.Status == EncounterResponse.Types.Status.PokemonInventoryFull){
                 Logger.Warning("You have no free space for new pokemons...transfer some as soon as possible.");
             }else{

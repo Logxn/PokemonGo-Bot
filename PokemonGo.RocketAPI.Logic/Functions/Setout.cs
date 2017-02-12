@@ -466,10 +466,10 @@ namespace PokemonGo.RocketAPI.Logic.Functions
             #region Set Console Title
             if (!Shared.GlobalVars.EnableConsoleInTab)
             {
-                System.Console.Title = profile.PlayerData.Username + @" lvl" + stats.Level + @"-(" +
+                System.Console.Title = profile.PlayerData.Username + @" Lvl " + stats.Level + @" (" +
                             (stats.Experience - stats.PrevLevelXp - StringUtils.getExpDiff(stats.Level)).ToString("N0") + @"/" +
                             (stats.NextLevelXp - stats.PrevLevelXp - StringUtils.getExpDiff(stats.Level)).ToString("N0") + @"|" +
-                            Math.Round(curexppercent, 2) + @"%)| Stardust: " + profile.PlayerData.Currencies.ToArray()[1].Amount + @"| " +
+                            Math.Round(curexppercent, 2) + @"%) Stardust: " + profile.PlayerData.Currencies.ToArray()[1].Amount + @" " +
                             Logic.Instance.BotStats;
             }
             #endregion
