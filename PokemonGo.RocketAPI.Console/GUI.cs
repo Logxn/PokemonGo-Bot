@@ -461,6 +461,9 @@ namespace PokemonGo.RocketAPI.Console
             // Gyms
             comboBoxLeaveInGyms.SelectedIndex = config.LeaveInGyms;
             comboBoxAttackers.SelectedIndex = config.GymAttackers;
+            
+            checkBoxSaveFortsInfo.Checked = config.SaveForts;
+            textBoxFortsFile.Text = config.FortsFile;
         }
         
         private void ChangeSelectedLanguage(string lang)
@@ -894,6 +897,8 @@ namespace PokemonGo.RocketAPI.Console
             // Gyms
             ActiveProfile.Settings.LeaveInGyms = comboBoxLeaveInGyms.SelectedIndex;
             ActiveProfile.Settings.GymAttackers = comboBoxAttackers.SelectedIndex;
+            ActiveProfile.Settings.FortsFile = textBoxFortsFile.Text;
+            ActiveProfile.Settings.SaveForts = checkBoxSaveFortsInfo.Checked;
 
             #endregion
             return ret;
@@ -1061,6 +1066,8 @@ namespace PokemonGo.RocketAPI.Console
             GlobalVars.longitude = StrCordToDouble(text_Longitude.Text);
             GlobalVars.altitude = StrCordToDouble(text_Altitude.Text);
             int.TryParse(text_MoveRadius.Text, out GlobalVars.radius);
+            GlobalVars.FortsFile = textBoxFortsFile.Text;
+            GlobalVars.SaveForts = checkBoxSaveFortsInfo.Checked;
 
             LocationSelect locationSelector = new LocationSelect(false);           
             locationSelector.ShowDialog();
@@ -1337,6 +1344,15 @@ namespace PokemonGo.RocketAPI.Console
         void checkBoxExtractText_CheckedChanged(object sender, EventArgs e)
         {
             TranslatorHelper.ActiveExtractTexts = (sender as CheckBox).Checked;
+        }
+        void buttonSelectFile_Click(object sender, EventArgs e)
+        {
+            if (textBoxFortsFile.Text == "")
+                textBoxFortsFile.Text = Program.path +"\\forts.json";
+            openFileDialog1.FileName =textBoxFortsFile.Text;
+            if (openFileDialog1.ShowDialog() == DialogResult.OK){
+                textBoxFortsFile.Text = openFileDialog1.FileName;
+            }
         }
 
     }

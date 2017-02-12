@@ -946,6 +946,7 @@ namespace PokemonGo.RocketAPI.Logic
                         var strItems = items.Replace(",", Environment.NewLine);
                         pokeStopInfo += $"{fortSearch.ExperienceAwarded} XP{Environment.NewLine}{fortSearch.GemsAwarded}{Environment.NewLine}{egg}{Environment.NewLine}{strItems}";
 
+                        Logger.Debug("LureInfo: " +pokeStop.LureInfo);
                         if (pokeStop.LureInfo != null)
                         {
                             var pokedata = new MapPokemon ();
@@ -955,12 +956,15 @@ namespace PokemonGo.RocketAPI.Logic
                             pokedata.Longitude = pokeStop.Longitude;
                             pokedata.ExpirationTimestampMs = pokeStop.LureInfo.LureExpiresTimestampMs;
                             pokedata.SpawnPointId = pokeStop.LureInfo.FortId;
+                            
                             infoObservable.PushNewPokemonLocation(pokedata);
+                            Logger.Debug("Lured Pokemon: " +pokedata);
 
                             if (!BotSettings.catchPokemonSkipList.Contains(pokedata.PokemonId))
                             {
                                 if (!lureEncounters.Contains(pokedata.EncounterId.ToString()))
                                 {
+                                    Logger.ColoredConsoleWrite(ConsoleColor.Green, "Catching Lured Pokemon");
                                     CatchLuredPokemon(pokedata.EncounterId,pokedata.SpawnPointId, pokedata.PokemonId, pokedata.Longitude, pokedata.Latitude);
 
                                     lureEncounters.Add(pokedata.EncounterId.ToString());
@@ -1219,7 +1223,8 @@ namespace PokemonGo.RocketAPI.Logic
                         encounterPokemonResponse.WildPokemon = new WildPokemon();
                         encounterPokemonResponse.WildPokemon.EncounterId = encounterId;
                         encounterPokemonResponse.WildPokemon.PokemonData = DiscEncounterPokemonResponse.PokemonData;
-                        //encounterPokemonResponse.CaptureProbability = new POGOProtos.Data.Capture.CaptureProbability();
+                        encounterPokemonResponse.CaptureProbability = new POGOProtos.Data.Capture.CaptureProbability();
+                        encounterPokemonResponse.CaptureProbability.CaptureProbability_.Add(1.0F);
                     }
                     
                 }

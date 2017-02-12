@@ -173,6 +173,8 @@ namespace PokemonGo.RocketAPI.Logic.Shared
         public static bool ShowPokemons = false;
         public static int EvolveAt = 0;
         public static int GymAttackers = 1;
+        public static string FortsFile = "";
+        public static bool SaveForts = false;
 
 
         /// <summary>

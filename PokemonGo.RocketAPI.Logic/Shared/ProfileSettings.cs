@@ -943,6 +943,16 @@ namespace PokemonGo.RocketAPI.Logic.Shared
             get;
             set;
         }
+
+        public bool SaveForts {
+            get;
+            set;
+        }
+
+        public string FortsFile {
+            get;
+            set;
+        }
         #endregion
     
         public void SaveToFile(string filename)
