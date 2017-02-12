@@ -52,6 +52,13 @@ namespace PokemonGo.RocketAPI.Console
                     break;
             } 
             th.Translate(this);
+            comboBoxAttackers.DataSource = new[]{
+                th.TS("Random"),
+                th.TS("Best CP"),
+                th.TS("Favourites"),
+            };
+            comboBoxAttackers.SelectedIndex = 0;
+            
         }
 
         void CheckBoxes_CheckedChanged(object sender, EventArgs e)
@@ -278,6 +285,8 @@ namespace PokemonGo.RocketAPI.Console
             text_GoogleMapsAPIKey.Text = GlobalVars.GoogleMapsAPIKey;
             numTravelSpeed.Value = (int)GlobalVars.RelocateDefaultLocationTravelSpeed;
             nudNumDefenders.Value = GlobalVars.NumDefenders;
+            numericUpDownMaxAttacks.Value = GlobalVars.MaxAttacks;
+            comboBoxAttackers.SelectedIndex = GlobalVars.GymAttackers;
             enableEvents = true;
 
 
@@ -331,12 +340,11 @@ namespace PokemonGo.RocketAPI.Console
                     OnChangeLanguage();
             }
         }
-
-        void nudNumDefenders_ValueChanged(object sender, EventArgs e)
+        void comboBoxAttackers_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (! enableEvents)
+          if (! enableEvents)
                 return;
-            GlobalVars.NumDefenders = (int) (sender as NumericUpDown).Value;
+            GlobalVars.GymAttackers = comboBoxAttackers.SelectedIndex;
         }
 
     }

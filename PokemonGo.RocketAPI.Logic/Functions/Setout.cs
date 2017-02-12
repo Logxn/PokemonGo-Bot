@@ -41,6 +41,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
     public static class Setout
     {
         public static int count;
+        public static DateTime lastincenseuse;
         public static DateTime LastIncenselog;
         public static double startingXp = -10000;
         public static double currentxp = -10000;
@@ -82,7 +83,6 @@ namespace PokemonGo.RocketAPI.Logic.Functions
             SetCheckTimeToRun();
         }
 
-        private static DateTime lastincenseuse;
 
         public static void CheckIfUseIncense()
         {
@@ -156,11 +156,12 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                             Shared.GlobalVars.PauseTheWalking = true;
                         }
 
+                    var experienceAwarded =evolvePokemonOutProto.ExperienceAwarded.ToString("N0");
                     if (Shared.GlobalVars.LogEvolve)
                     {
-                        File.AppendAllText(evolvelog, $"[{date}] - Evolved Pokemon: {getPokemonName} | CP {cp} | Perfection {calcPerf}% | => to {getEvolvedName} | CP: {getEvolvedCP} | XP Reward: {evolvePokemonOutProto.ExperienceAwarded.ToString("N0")} XP" + Environment.NewLine);
+                        File.AppendAllText(evolvelog, $"[{date}] - Evolved Pokemon: {getPokemonName} | CP {cp} | Perfection {calcPerf}% | => to {getEvolvedName} | CP: {getEvolvedCP} | XP Reward: {experienceAwarded} XP" + Environment.NewLine);
                     }
-                    Logger.Info( $"Evolved Pokemon: {getPokemonName} | CP {cp} | Perfection {calcPerf}% | => to {getEvolvedName} | CP: {getEvolvedCP} | XP Reward: {evolvePokemonOutProto.ExperienceAwarded.ToString("N0")} XP");
+                    Logger.Info( $"Evolved Pokemon: {getPokemonName} | CP {cp} | Perfection {calcPerf}% | => to {getEvolvedName} | CP: {getEvolvedCP} | XP Reward: {experienceAwarded} XP");
                     Logic.Instance.BotStats.AddExperience(evolvePokemonOutProto.ExperienceAwarded);
 
                     if (Logic.Instance.Telegram != null)
@@ -191,7 +192,8 @@ namespace PokemonGo.RocketAPI.Logic.Functions
             }
             if(evolvecount > 0)
             {
-                Logger.Info($"Evolved {evolvecount} Pokemons. We have got {gotXP.ToString("N0")} XP.");
+                var strGotXP = gotXP.ToString("N0");
+                Logger.Info($"Evolved {evolvecount} Pokemons. We have got {strGotXP} XP.");
 
                 if (Shared.GlobalVars.pauseAtEvolve2)
                 {
@@ -226,7 +228,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                 var date = DateTime.Now.ToString();
 
                 var unusedEggsBasicInc = eggsHatchingAllowedBasicInc(unusedEggs);
-                unusedEggs = eggsHatchingAllowed(unusedEggs);
+                var unusedEggsUnlimitInc = eggsHatchingAllowed(unusedEggs);
                 
                 foreach (var incubator in rememberedIncubators)
                 {
@@ -243,7 +245,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                     Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, "Egg hatched and we got a " + hatched.PokemonId + " CP: " + hatched.Cp + " MaxCP: " + PokemonInfo.CalculateMaxCP(hatched) + " Level: " + PokemonInfo.GetLevel(hatched) + " IV: " + PokemonInfo.CalculatePokemonPerfection(hatched).ToString("0.00") + "%");
                 }
 
-                if ((unusedEggs.Count < 1) && (unusedEggs.Count < 1))
+                if ((unusedEggsUnlimitInc.Count < 1) && (unusedEggsUnlimitInc.Count < 1))
                 {
                     Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, "There is not Allowed Eggs to hatch");
                     return;
@@ -265,7 +267,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                         if (incubator.ItemId == ItemId.ItemIncubatorBasic) 
                             egg = Shared.GlobalVars.EggsAscendingSelectionBasicInc ? unusedEggsBasicInc.FirstOrDefault() : unusedEggsBasicInc.LastOrDefault();
                         else 
-                            egg = Shared.GlobalVars.EggsAscendingSelection ? unusedEggs.FirstOrDefault() : unusedEggs.LastOrDefault();
+                            egg = Shared.GlobalVars.EggsAscendingSelection ? unusedEggsUnlimitInc.FirstOrDefault() : unusedEggsUnlimitInc.LastOrDefault();
 
                         // If there is not eggs then we finish this function
                         if (egg == null)
@@ -274,7 +276,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                         var response = Logic.objClient.Inventory.UseItemEggIncubator(incubator.Id, egg.Id);
                         try
                         {
-                            unusedEggs.Remove(egg);
+                            unusedEggsUnlimitInc.Remove(egg);
                             unusedEggsBasicInc.Remove(egg);
                         }
                         catch (Exception ex){
@@ -682,7 +684,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
 
             if (_response.Result == ReleasePokemonResponse.Types.Result.Success)
             {
-                Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Transfer Successful of {idsToTransfer.Count} pokemons => {_response.CandyAwarded.ToString()} candy/ies awarded.", LogLevel.Info);
+                Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Transfer Successful of {idsToTransfer.Count} pokemons => {_response.CandyAwarded.ToString()} candy/ies awarded.");
                 RandomHelper.RandomSleep(1000, 2000);
             }
             else

@@ -104,6 +104,13 @@ namespace PokemonGo.RocketAPI.Console
             };
             comboBoxLeaveInGyms.SelectedIndex = 0;
 
+            comboBoxAttackers.DataSource = new[]{
+                th.TS("Random"),
+                th.TS("Best CP"),
+                th.TS("Favourites"),
+            };
+            comboBoxAttackers.SelectedIndex = 0;
+
             var pokeData = new List<string>();
             pokeData.Add("AdditionalPokeData.json");
 
@@ -427,9 +434,7 @@ namespace PokemonGo.RocketAPI.Console
             checkBox_UseBreakIntervalAndLength.Checked = config.UseBreakFields;
             checkBox_WalkInArchimedeanSpiral.Checked = config.Espiral;
             checkBox_StartWalkingFromLastLocation.Checked = config.UseLastCords;
-            checkBox_FarmGyms.Checked = config.FarmGyms;
-            checkBoxAttackGyms.Checked = config.AttackGyms;
-            nudNumDefenders.Value = (config.NumDefenders<=0)?1:config.NumDefenders;
+
 
             // tab 7 - telegram and logs
             cbLogPokemon.Checked = config.LogPokemons;
@@ -452,7 +457,16 @@ namespace PokemonGo.RocketAPI.Console
             // Dev Options
             checkbox_Verboselogging.Checked = config.EnableVerboseLogging;
             // Gyms
+
+            checkBox_FarmGyms.Checked = config.FarmGyms;
+            checkBoxAttackGyms.Checked = config.AttackGyms;
+            nudNumDefenders.Value = (config.NumDefenders<=0)?1:config.NumDefenders;
+            numericUpDownMaxAttacks.Value = (config.MaxAttacks<=0)?1:config.MaxAttacks;
             comboBoxLeaveInGyms.SelectedIndex = config.LeaveInGyms;
+            comboBoxAttackers.SelectedIndex = config.GymAttackers;
+            checkBoxSaveFortsInfo.Checked = config.SaveForts;
+            textBoxFortsFile.Text = config.FortsFile;
+            checkBoxSpinGyms.Checked = config.SpinGyms;
         }
         
         private void ChangeSelectedLanguage(string lang)
@@ -848,6 +862,7 @@ namespace PokemonGo.RocketAPI.Console
             ActiveProfile.Settings.FarmGyms = checkBox_FarmGyms.Checked;
             ActiveProfile.Settings.AttackGyms = checkBoxAttackGyms.Checked;
             ActiveProfile.Settings.NumDefenders = (int) nudNumDefenders.Value;
+            ActiveProfile.Settings.MaxAttacks = (int) numericUpDownMaxAttacks.Value;
 
             // tab 7 - Logs and Telegram            
             ActiveProfile.Settings.LogPokemons = cbLogPokemon.Checked;
@@ -885,6 +900,10 @@ namespace PokemonGo.RocketAPI.Console
 
             // Gyms
             ActiveProfile.Settings.LeaveInGyms = comboBoxLeaveInGyms.SelectedIndex;
+            ActiveProfile.Settings.GymAttackers = comboBoxAttackers.SelectedIndex;
+            ActiveProfile.Settings.FortsFile = textBoxFortsFile.Text;
+            ActiveProfile.Settings.SaveForts = checkBoxSaveFortsInfo.Checked;
+            ActiveProfile.Settings.SpinGyms = checkBoxSpinGyms.Checked;
 
             #endregion
             return ret;
@@ -1052,6 +1071,8 @@ namespace PokemonGo.RocketAPI.Console
             GlobalVars.longitude = StrCordToDouble(text_Longitude.Text);
             GlobalVars.altitude = StrCordToDouble(text_Altitude.Text);
             int.TryParse(text_MoveRadius.Text, out GlobalVars.radius);
+            GlobalVars.FortsFile = textBoxFortsFile.Text;
+            GlobalVars.SaveForts = checkBoxSaveFortsInfo.Checked;
 
             LocationSelect locationSelector = new LocationSelect(false);           
             locationSelector.ShowDialog();
@@ -1328,6 +1349,15 @@ namespace PokemonGo.RocketAPI.Console
         void checkBoxExtractText_CheckedChanged(object sender, EventArgs e)
         {
             TranslatorHelper.ActiveExtractTexts = (sender as CheckBox).Checked;
+        }
+        void buttonSelectFile_Click(object sender, EventArgs e)
+        {
+            if (textBoxFortsFile.Text == "")
+                textBoxFortsFile.Text = Program.path +"\\forts.json";
+            openFileDialog1.FileName =textBoxFortsFile.Text;
+            if (openFileDialog1.ShowDialog() == DialogResult.OK){
+                textBoxFortsFile.Text = openFileDialog1.FileName;
+            }
         }
 
     }

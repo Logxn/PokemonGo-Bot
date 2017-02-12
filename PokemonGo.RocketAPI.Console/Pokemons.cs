@@ -33,15 +33,17 @@ namespace PokemonGo.RocketAPI.Console
         {
             InitializeComponent();
             th.Translate(this);
-            if (GlobalVars.EnableConsoleInTab) {
-                this.TabControl1.Controls.Add(this.tpConsole);
-                Logger.type = 1;
-            }
             changesPanel1.Execute();
             changesPanel1.OnChangeLanguage = TranslateAll;
             webPanel1.AddButtonClick(new System.EventHandler(this.HideWebPanel));
             sniperPanel1.AddButtonClick( new System.EventHandler(this.AddLink));
             sniperPanel1.webBrowser = webPanel1.webBrowser1;
+
+            if (!GlobalVars.EnableConsoleInTab) 
+                if (TabControl1.Contains(tpConsole))
+                    TabControl1.Controls.Remove(tpConsole);
+
+
        }
         
 

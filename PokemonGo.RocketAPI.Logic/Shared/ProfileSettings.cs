@@ -936,8 +936,33 @@ namespace PokemonGo.RocketAPI.Logic.Shared
             set;
         }
 
+        public int MaxAttacks {
+            get;
+            set;
+        }
+
         public bool UseSpritesFolder {get;set;}
         public bool ShowPokemons {get;set;}
+
+        public int GymAttackers {
+            get;
+            set;
+        }
+
+        public bool SaveForts {
+            get;
+            set;
+        }
+
+        public string FortsFile {
+            get;
+            set;
+        }
+
+        public bool SpinGyms {
+            get;
+            set;
+        }
 
         #endregion
     

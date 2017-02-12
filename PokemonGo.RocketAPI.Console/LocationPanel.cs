@@ -61,6 +61,8 @@ namespace PokemonGo.RocketAPI.Console
                 map.Overlays.Add(radiusOverlay);
                 nudRadius.Value = GlobalVars.radius;
                 btnPauseWalking.Visible = false;
+                if (GlobalVars.SaveForts)
+                    LoadPokestopsInfo();
             }
             buttonZoomOut.Visible= true;
             buttonZoomIn.Visible= true;
@@ -262,8 +264,8 @@ namespace PokemonGo.RocketAPI.Console
                     {
                         pokemonMarker = new GMarkerGoogle(new PointLatLng(mapPokemon.Latitude, mapPokemon.Longitude), GMarkerGoogleType.green_small);
                     }
-                    var expriationTime = StringUtils.TimeMStoString(mapPokemon.ExpirationTimestampMs,"mm:ss");
-                    Logger.Debug("nExpires in: " +expriationTime);
+                    var expriationTime = StringUtils.TimeMStoString(mapPokemon.ExpirationTimestampMs,@"mm\:ss");
+                    Logger.Debug("Expires in: " +expriationTime);
                     var address =LocationUtils.FindAddress(mapPokemon.Latitude, mapPokemon.Longitude);
                     pokemonMarker.ToolTipText = th.TS("{0}\nExpires in: {1}\n{2}\n{3},{4}", new object[]{ mapPokemon.PokemonId, expriationTime, address, mapPokemon.Latitude, mapPokemon.Longitude});
                     pokemonMarker.ToolTip.Font = new Font("Arial", 12, GraphicsUnit.Pixel);
@@ -300,7 +302,9 @@ namespace PokemonGo.RocketAPI.Console
         }
 
         private void SavePokestopsInfo(){
-            var file = System.IO.Path.Combine(Program.path, "forts.json");
+            var file = GlobalVars.FortsFile;
+            if (file == "")
+                file = System.IO.Path.Combine(Program.path, "forts.json");
             var array = new List<MarkerInfo>();
             var infoJSON =  "";
             if (System.IO.File.Exists(file)){
@@ -337,7 +341,10 @@ namespace PokemonGo.RocketAPI.Console
         }
 
         private void LoadPokestopsInfo(){
-            var file = System.IO.Path.Combine(Program.path, "forts.json");
+            var file = GlobalVars.FortsFile;
+            if (file == "")
+                file = System.IO.Path.Combine(Program.path, "forts.json");
+            
             if (System.IO.File.Exists(file)){
                 var infoJSON = System.IO.File.ReadAllText(file);
                 _pokeStopsOverlay.IsVisibile = false;
@@ -421,6 +428,8 @@ namespace PokemonGo.RocketAPI.Console
                         if (!map.Overlays.Contains(_pokeStopsOverlay))
                             map.Overlays.Add(_pokeStopsOverlay);
                         _pokeStopsOverlay.IsVisibile = true;
+                        if (GlobalVars.SaveForts)
+                            SavePokestopsInfo();
                     }
                     else
                     {
@@ -540,6 +549,9 @@ namespace PokemonGo.RocketAPI.Console
                         if (!map.Overlays.Contains(_pokeGymsOverlay))
                             map.Overlays.Add(_pokeGymsOverlay);
                         _pokeGymsOverlay.IsVisibile = true;
+                        if (GlobalVars.SaveForts)
+                            SavePokestopsInfo();
+                        
                     }
                     else
                     {
@@ -697,21 +709,6 @@ namespace PokemonGo.RocketAPI.Console
                 }
             }
         }
-
-        //private void SetText(double cord)
-        //private void SetText(decimal cord)
-        //{
-        //    if (textBox3.InvokeRequired)
-        //    {
-        //        SetTextCallback d = SetText;
-        //        Invoke(d, cord);
-        //    }
-        //    else
-        //    {
-        //        textBox3.Text = cord.ToString(CultureInfo.InvariantCulture);
-        //        alt = Convert.ToDouble(cord);
-        //    }
-        //}
 
         private void showMap()
         {
