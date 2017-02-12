@@ -101,6 +101,7 @@ namespace PokemonGo.RocketAPI.Console
                 th.TS("Random"),
                 th.TS("Best CP"),
                 th.TS("Worse CP"),
+                th.TS("Favourite")
             };
             comboBoxLeaveInGyms.SelectedIndex = 0;
 
@@ -108,6 +109,7 @@ namespace PokemonGo.RocketAPI.Console
                 th.TS("Random"),
                 th.TS("Best CP"),
                 th.TS("Favourites"),
+                th.TS("Lower than defenders CP")
             };
             comboBoxAttackers.SelectedIndex = 0;
 

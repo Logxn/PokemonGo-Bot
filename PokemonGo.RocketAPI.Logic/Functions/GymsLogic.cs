@@ -153,13 +153,16 @@ namespace PokemonGo.RocketAPI.Logic.Functions
             Logger.ColoredConsoleWrite(ConsoleColor.DarkGray, "(Gym) - " + str);
         }
 
-        private static IEnumerable<PokemonData>  getPokeAttackers( IEnumerable<PokemonData> pokemons){
+        private static IEnumerable<PokemonData>  getPokeAttackers( IEnumerable<PokemonData> pokemons, PokemonData defender){
             var filter1 = pokemons.Where(x => ((!x.IsEgg) && (x.DeployedFortId == "") && (x.Stamina > 0)));
             if (GlobalVars.GymAttackers == 1)
                 filter1 = filter1.OrderByDescending(x => x.Cp).Take(6);
             else if (GlobalVars.GymAttackers == 2)
                 filter1 = filter1.OrderByDescending(x => x.Favorite).ThenByDescending(x => x.Cp).Take(6);
+            else if (GlobalVars.GymAttackers == 3)
+                filter1 = filter1.Where(x => x.Cp < defender.Cp ).OrderByDescending(x => x.Cp).Take(6);
             else{
+                // GymAttackers == 0
                 var rnd = new Random();
                 filter1 = filter1.OrderBy(x => rnd.Next()).Take(6);
             }
@@ -213,12 +216,12 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                         Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - There is only one defender. Let's go to train");
                     else
                         Logger.ColoredConsoleWrite(gymColorLog, $"(Gym) - There are {gymDetails.GymState.Memberships.Count} defenders. Let's go to train");
-                    var pokeAttackers = getPokeAttackers(pokemons);
-                    Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - Selected pokemons to train:");
-                    ShowPokemons(pokeAttackers);
                     var defenders = gymDetails.GymState.Memberships.Select(x => x.PokemonData);
                     var defender = defenders.FirstOrDefault();
                     Logger.ColoredConsoleWrite(gymColorLog,"(Gym) - Defender: " + strPokemon(defender));
+                    var pokeAttackers = getPokeAttackers(pokemons, defender);
+                    Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - Selected pokemons to train:");
+                    ShowPokemons(pokeAttackers);
                     var attResp = AttackGym(gym, client, pokeAttackers, defender.Id, gymDetails.GymState.Memberships.Count, profile.PlayerData.BuddyPokemon.Id);
                 } else {
                     Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - There is no free space in the gym");
@@ -239,12 +242,12 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                         Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - There is only one rival. Let's go to fight");
                     else
                         Logger.ColoredConsoleWrite(gymColorLog, $"(Gym) - There are {gymDetails.GymState.Memberships.Count} rivals. Let's go to fight");
-                    var pokeAttackers = pokemons.Where(x => ((!x.IsEgg) && (x.DeployedFortId == "") && (x.Stamina > 0))).OrderByDescending(x => x.Cp).Take(6);
-                    Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - Selected Atackers:");
-                    ShowPokemons(pokeAttackers);
                     var defenders = gymDetails.GymState.Memberships.Select(x => x.PokemonData);
                     var defender = defenders.FirstOrDefault();
                     Logger.ColoredConsoleWrite(gymColorLog,"(Gym) - Defender: " + strPokemon(defender));
+                    var pokeAttackers = getPokeAttackers(pokemons,defender);
+                    Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - Selected Atackers:");
+                    ShowPokemons(pokeAttackers);
                     var attResp = AttackGym(gym, client, pokeAttackers, defender.Id, gymDetails.GymState.Memberships.Count, profile.PlayerData.BuddyPokemon.Id);
                 } else {
                     AddVisited(gym.Id,600000);
@@ -418,16 +421,22 @@ namespace PokemonGo.RocketAPI.Logic.Functions
         {
             var pokemons = (client.Inventory.GetPokemons().Result).ToList();
 
-            PokemonData pokemon;
+            switch (GlobalVars.LeaveInGyms) {
+                case 1:
+                    return pokemons.Where(x => ((!x.IsEgg) && (x.DeployedFortId == "") && (x.Id != buddyPokemon) && (x.Stamina == x.StaminaMax)))
+                        .OrderByDescending(x => x.Cp).FirstOrDefault();
+                case 2:
+                    return pokemons.Where(x => ((!x.IsEgg) && (x.DeployedFortId == "") && (x.Id != buddyPokemon) && (x.Stamina == x.StaminaMax)))
+                        .OrderBy(x => x.Cp).FirstOrDefault();
+                case 3:
+                    return pokemons.Where(x => ((!x.IsEgg) && (x.DeployedFortId == "") && (x.Id != buddyPokemon) && (x.Stamina == x.StaminaMax)))
+                        .OrderByDescending(x => x.Favorite).ThenByDescending(x => x.Cp).FirstOrDefault();
+            }
+            // GlobalVars.LeaveInGyms ==0
+            var rnd = new Random();
+            return pokemons.Where(x => ((!x.IsEgg) && (x.DeployedFortId == "") && (x.Id != buddyPokemon) && (x.Stamina == x.StaminaMax)))
+                .OrderBy(x => rnd.Next()).FirstOrDefault();
 
-            if (GlobalVars.LeaveInGyms == 0) {
-                var rnd = new Random();
-                pokemon = pokemons.Where(x => ((!x.IsEgg) && (x.DeployedFortId == "") && (x.Id != buddyPokemon) && (x.Stamina == x.StaminaMax))).OrderBy(x => rnd.Next()).FirstOrDefault();
-            } else if (GlobalVars.LeaveInGyms == 1)
-                pokemon = pokemons.Where(x => ((!x.IsEgg) && (x.DeployedFortId == "") && (x.Id != buddyPokemon) && (x.Stamina == x.StaminaMax))).OrderByDescending(x => x.Cp).FirstOrDefault();
-            else
-                pokemon = pokemons.Where(x => ((!x.IsEgg) && (x.DeployedFortId == "") && (x.Id != buddyPokemon) && (x.Stamina == x.StaminaMax))).OrderBy(x => x.Cp).FirstOrDefault();
-            return pokemon;
         }
 
         private static void putInGym(Client client, FortData gym, PokemonData pokemon, IEnumerable<PokemonData> pokemons)
@@ -443,8 +452,14 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                     Logger.ColoredConsoleWrite(ConsoleColor.DarkGray, $"(Gym) - Collected: {res.CurrencyAwarded} Coins.");
                 }
                 AddVisited(gym.Id,3600000);
-            } else
-                Logger.Debug("error: " + fortSearch.Result);
+            } else{
+                if  (fortSearch.Result == FortDeployPokemonResponse.Types.Result.ErrorAlreadyHasPokemonOnFort){
+                    Logger.Warning("Already have a pokemon on the Gym");
+                    AddVisited(gym.Id,3600000);
+                }
+                else
+                    Logger.Debug("error: " + fortSearch.Result);
+            }
         }
         
         private static IEnumerable<DownloadItemTemplatesResponse.Types.ItemTemplate> GetMoveSettings(Client client)
