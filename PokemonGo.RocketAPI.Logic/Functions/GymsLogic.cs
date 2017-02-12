@@ -7,6 +7,7 @@
  * To change this template use Tools | Options | Coding | Edit Standard Headers.
  */
 using System;
+using System.Threading.Tasks;
 using POGOProtos.Settings.Master;
 using PokemonGo.RocketAPI.Logic.Shared;
 
@@ -70,6 +71,14 @@ namespace PokemonGo.RocketAPI.Logic.Functions
             return "Neutral";
         }
 
+        private static void AddVisited(string id, int milliseconds){
+            if (!gymsVisited.Contains(id)){
+                gymsVisited.Add(id);
+                Task.Delay(milliseconds)
+                    .ContinueWith(t => gymsVisited.Remove(id)).Start();
+            }
+        }
+
         public static void Execute()
         {
             if (!GlobalVars.FarmGyms)
@@ -92,7 +101,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                     }
                     var numberOfAttacks = GlobalVars.NumDefenders + 2;
                     while (numberOfAttacks > 0 && gymsVisited.IndexOf(gym.Id) == -1) {
-                        Logger.Debug("(Gym) - Attack number " + (GlobalVars.NumDefenders + 2 - numberOfAttacks));
+                        Logger.Debug("(Gym) - Attack number " + (GlobalVars.NumDefenders + 3 - numberOfAttacks));
                         CheckAndPutInNearbyGym(gym, Logic.objClient);
                         numberOfAttacks--;
                         if (numberOfAttacks > 0 && gymsVisited.IndexOf(gym.Id) == -1) {
@@ -100,15 +109,13 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                             gym = GetNearbyGyms().FirstOrDefault(x => x.Id == gym.Id);
                         }
                         if (numberOfAttacks == 0)
-                            if (!gymsVisited.Contains(gym.Id))
-                                gymsVisited.Add(gym.Id);
+                            AddVisited(gym.Id,60000);
                     }
                     Setout.SetCheckTimeToRun();
                     RandomHelper.RandomSleep(300);
                 }
                 if (restoreWalkingAfterLogic)
                     GlobalVars.PauseTheWalking = false;
-                Logger.Debug("(Gym) - Continnue walking");
 
             }
 
@@ -207,6 +214,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                     var attResp = AttackGym(gym, client, pokeAttackers, defender.Id, gymDetails.GymState.Memberships.Count, profile.PlayerData.BuddyPokemon.Id);
                 } else {
                     Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - There is no free space in the gym");
+                    AddVisited(gym.Id,600000);
                 }
 
             } else {
@@ -231,8 +239,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                     Logger.Debug("(Gym) - Pokemon defender: " + defender.PokemonId);
                     var attResp = AttackGym(gym, client, pokeAttackers, defender.Id, gymDetails.GymState.Memberships.Count, profile.PlayerData.BuddyPokemon.Id);
                 } else {
-                    if (!gymsVisited.Contains(gym.Id))
-                        gymsVisited.Add(gym.Id);
+                    AddVisited(gym.Id,600000);
                 }
             }
             return true;
@@ -356,6 +363,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                         if (numDefenders > 1) {
                             attResp = LeaveBattle(gym, client, resp, attResp, lastRetrievedAction);
                             Logger.Debug("(Gym) - Leaving Battle");
+                            AddVisited(gym.Id,3600000);
                         }
                     } else if (attResp.BattleLog.State == BattleState.Victory) {
                         
@@ -369,13 +377,12 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                             RandomHelper.RandomSleep(400);
                             var gymDetails = client.Fort.GetGymDetails(gym.Id, gym.Latitude, gym.Longitude).Result;
                             Logger.Debug("(Gym) - Gym Details: "+gymDetails);
-                            if (gymDetails.GymState.Memberships.Count < 1)
+                            if (gymDetails.GymState.Memberships.Count < 1){
                                 putInGym(client, gym, getPokeToPut(client, buddyPokemonId), pokemons);
+                            }
                         }
                     } else if (attResp.BattleLog.State == BattleState.TimedOut)
                         Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - Timed Out");
-                    if (numDefenders == 1 && !gymsVisited.Contains(gym.Id))
-                        gymsVisited.Add(gym.Id);
                 } else {
                     Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - Battle Failed: " + attResp.Result);
                 }
@@ -420,14 +427,13 @@ namespace PokemonGo.RocketAPI.Logic.Functions
             var fortSearch = client.Fort.FortDeployPokemon(gym.Id, pokemon.Id).Result;
             if (fortSearch.Result   == FortDeployPokemonResponse.Types.Result.Success) {
                 Logger.ColoredConsoleWrite(ConsoleColor.DarkGray, "(Gym) - " + pokemon.PokemonId + " inserted into the gym");
-                if (!gymsVisited.Contains(gym.Id))
-                    gymsVisited.Add(gym.Id);
                 var pokesInGym = pokemons.Count(x => ((!x.IsEgg) && (x.DeployedFortId != ""))) + 1;
                 Logger.ColoredConsoleWrite(ConsoleColor.DarkGray, "(Gym) - Pokemons in gyms: " + pokesInGym);
                 if (pokesInGym > 9) {
                     var res = client.Player.CollectDailyDefenderBonus().Result;
                     Logger.ColoredConsoleWrite(ConsoleColor.DarkGray, $"(Gym) - Collected: {res.CurrencyAwarded} Coins.");
                 }
+                AddVisited(gym.Id,3600000);
             } else
                 Logger.Debug("error: " + fortSearch.Result);
         }
