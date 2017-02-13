@@ -101,12 +101,12 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                         continue;
                     }
                     var numberOfAttacks = GlobalVars.MaxAttacks;
-                    while (numberOfAttacks > 0 && gymsVisited.IndexOf(gym.Id) == -1) {
+                    while (numberOfAttacks > 0 && !gymsVisited.Contains(gym.Id)) {
                         Logger.Debug("(Gym) - Attack number " + (GlobalVars.MaxAttacks + 1 - numberOfAttacks));
                         CheckAndPutInNearbyGym(gym, Logic.objClient);
                         numberOfAttacks--;
-                        if (numberOfAttacks > 0 && gymsVisited.IndexOf(gym.Id) == -1) {
-                            RandomHelper.RandomSleep(400);
+                        if (numberOfAttacks > 0 && !gymsVisited.Contains(gym.Id)) {
+                            RandomHelper.RandomSleep(900);
                             gym = GetNearbyGyms().FirstOrDefault(x => x.Id == gym.Id);
                         }
                         if (numberOfAttacks == 0) {
@@ -126,6 +126,9 @@ namespace PokemonGo.RocketAPI.Logic.Functions
 
         private static FortData[] GetNearbyGyms(GetMapObjectsResponse mapObjectsResponse = null)
         {
+            Logic.objClient.Player.UpdatePlayerLocation(Logic.objClient.CurrentLatitude, Logic.objClient.CurrentLongitude,Logic.objClient.CurrentAltitude);
+            RandomHelper.RandomSleep(400);
+
             if (mapObjectsResponse == null)
                 mapObjectsResponse = Logic.objClient.Map.GetMapObjects().Result.Item1;
 
@@ -141,7 +144,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
 
         private static string strPokemon(PokemonData pokemon)
         {
-            var str = $"{pokemon.PokemonId.ToString()}(CP:{pokemon.Cp}-HP:{pokemon.Stamina}";
+            var str = $"{pokemon.PokemonId.ToString()}(CP:{pokemon.Cp}|HP:{pokemon.Stamina})";
             return str;
         }
         private static void ShowPokemons(IEnumerable<PokemonData> pokeAttackers)
@@ -203,7 +206,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                 return false;
             }
 
-            Logger.Debug("(Gym) - Pokemon to insert: " + pokemon.PokemonId);
+            Logger.Debug("(Gym) - Pokemon to insert: " + strPokemon(pokemon));
 
             var gymDetails = client.Fort.GetGymDetails(gym.Id, gym.Latitude, gym.Longitude).Result;
             Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - Team: " + GetTeamName(gym.OwnedByTeam) + ".");
@@ -317,6 +320,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                     var timeMs = attResp.BattleLog.ServerMs;
                     var move1Settings = moveSettings.FirstOrDefault(x => x.MoveSettings.MovementId == attResp.ActiveAttacker.PokemonData.Move1).MoveSettings;
                     var move2Settings = moveSettings.FirstOrDefault(x => x.MoveSettings.MovementId == attResp.ActiveAttacker.PokemonData.Move2).MoveSettings;
+                    battleActions = new List<BattleAction>();
                     var attack = new BattleAction();
                     attack.ActionStartMs = timeMs + RandomHelper.RandomNumber(110, 170);
                     attack.TargetIndex = -1;
@@ -325,31 +329,49 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                         attack.ActivePokemonId = attResp.ActiveAttacker.PokemonData.Id;
 
                     if (energy >= Math.Abs(move2Settings.EnergyDelta)) {
-                        attack.Type = BattleActionType.ActionSpecialAttack;
-                        attack.DurationMs = move2Settings.DurationMs;
-                        attack.DamageWindowsStartTimestampMs = attack.ActionStartMs + move2Settings.DamageWindowStartMs;
-                        attack.DamageWindowsEndTimestampMs = attack.ActionStartMs + move2Settings.DamageWindowEndMs;
-                        attack.EnergyDelta = move2Settings.EnergyDelta;
-                    } else {
-                        var dodge = RandomHelper.RandomNumber(1, 60);
-                        if (dodge == 1) {
-                            attack.Type = BattleActionType.ActionDodge;
-                            attack.DurationMs = 500;
-                        } else if (dodge == 2) {
-                            attack.Type = BattleActionType.ActionFaint;
-                        } else {
-                            attack.Type = BattleActionType.ActionAttack;
-                            attack.DurationMs = move1Settings.DurationMs;
-                            attack.DamageWindowsStartTimestampMs = attack.ActionStartMs + move1Settings.DamageWindowStartMs;
-                            attack.DamageWindowsEndTimestampMs = attack.ActionStartMs + move1Settings.DamageWindowEndMs;
-                            attack.EnergyDelta = move1Settings.EnergyDelta;
-                        }
+                        var specialAttack = new BattleAction();
+                        specialAttack.ActionStartMs = attack.ActionStartMs;
+                        specialAttack.TargetIndex = attack.TargetIndex;
+                        specialAttack.TargetPokemonId = attack.TargetPokemonId;
+                        specialAttack.ActivePokemonId = attack.ActivePokemonId;
+                        specialAttack.Type = BattleActionType.ActionSpecialAttack;
+                        specialAttack.DurationMs = move2Settings.DurationMs;
+                        specialAttack.DamageWindowsStartTimestampMs = attack.ActionStartMs + move2Settings.DamageWindowStartMs;
+                        specialAttack.DamageWindowsEndTimestampMs = attack.ActionStartMs + move2Settings.DamageWindowEndMs;
+                        specialAttack.EnergyDelta = move2Settings.EnergyDelta;
+                        battleActions.Add(specialAttack);
+                        attack.ActionStartMs = specialAttack.ActionStartMs+ specialAttack.DurationMs;
+                    } 
+                    var dodge = RandomHelper.RandomNumber(1, 10);
+                    if (dodge == 1) {
+                        var attackDodge = new BattleAction();
+                        attackDodge.ActionStartMs = attack.ActionStartMs;
+                        attackDodge.TargetIndex = attack.TargetIndex;
+                        attackDodge.TargetPokemonId = attack.TargetPokemonId;
+                        attackDodge.ActivePokemonId = attack.ActivePokemonId;
+                        attackDodge.Type = BattleActionType.ActionDodge;
+                        attackDodge.DurationMs = 500;
+                        battleActions.Add(attackDodge);
+                        attack.ActionStartMs = attackDodge.ActionStartMs + attackDodge.DurationMs;
+                    } else if (dodge == 2) {
+                        var attackDodge = new BattleAction();
+                        attackDodge.ActionStartMs = attack.ActionStartMs;
+                        attackDodge.TargetIndex = attack.TargetIndex;
+                        attackDodge.TargetPokemonId = attack.TargetPokemonId;
+                        attackDodge.ActivePokemonId = attack.ActivePokemonId;
+                        attackDodge.Type = BattleActionType.ActionFaint;
+                        battleActions.Add(attackDodge);
+                        attack.ActionStartMs = attackDodge.ActionStartMs + attackDodge.DurationMs;
                     }
+                    attack.Type = BattleActionType.ActionAttack;
+                    attack.DurationMs = move1Settings.DurationMs;
+                    attack.DamageWindowsStartTimestampMs = attack.ActionStartMs + move1Settings.DamageWindowStartMs;
+                    attack.DamageWindowsEndTimestampMs = attack.ActionStartMs + move1Settings.DamageWindowEndMs;
+                    attack.EnergyDelta = move1Settings.EnergyDelta;
 
                     lastRetrievedAction = new BattleAction(); //attResp.BattleLog.BattleActions.FirstOrDefault();
-                    battleActions = new List<BattleAction>();
                     battleActions.Add(attack);
-                    Logger.Debug("(Gym) - Attack: " + attack);
+                    Logger.Debug("(Gym) - battleActions: " + battleActions);
                     attResp = client.Fort.AttackGym(gym.Id, resp.BattleId, battleActions, lastRetrievedAction).Result;
                     Logger.Debug("attResp: " + attResp);
                     inBattle = (attResp.Result == AttackGymResponse.Types.Result.Success);

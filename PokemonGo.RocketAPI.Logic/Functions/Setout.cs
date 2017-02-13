@@ -504,7 +504,11 @@ namespace PokemonGo.RocketAPI.Logic.Functions
 
             if (GlobalVars.EnablePokeList && client.ReadyToUse)
             {
-                Application.OpenForms["Pokemons"].Invoke(new Action(() => Application.OpenForms["Pokemons"].Text = TitleText));
+                try {
+                    Application.OpenForms["Pokemons"].Invoke(new Action(() => Application.OpenForms["Pokemons"].Text = TitleText));
+                } catch (Exception ex1) {
+                    Logger.ExceptionInfo(ex1.ToString());
+                }
             }
         }
 
