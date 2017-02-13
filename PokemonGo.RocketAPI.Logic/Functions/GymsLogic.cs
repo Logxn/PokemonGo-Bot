@@ -150,25 +150,32 @@ namespace PokemonGo.RocketAPI.Logic.Functions
             foreach (var element in pokeAttackers) {
                 str = $"{str}{strPokemon(element)}, ";
             }
-            str = str.Substring(0, str.Length - 2);
+            if (str.Length > 2)
+                str = str.Substring(0, str.Length - 2);
             Logger.ColoredConsoleWrite(ConsoleColor.DarkGray, "(Gym) - " + str);
         }
 
         private static IEnumerable<PokemonData>  getPokeAttackers(IEnumerable<PokemonData> pokemons, PokemonData defender)
         {
             var filter1 = pokemons.Where(x => ((!x.IsEgg) && (x.DeployedFortId == "") && (x.Stamina > 0)));
-            if (GlobalVars.GymAttackers == 1)
-                filter1 = filter1.OrderByDescending(x => x.Cp).Take(6);
-            else if (GlobalVars.GymAttackers == 2)
-                filter1 = filter1.OrderByDescending(x => x.Favorite).ThenByDescending(x => x.Cp).Take(6);
-            else if (GlobalVars.GymAttackers == 3)
-                filter1 = filter1.Where(x => x.Cp < defender.Cp).OrderByDescending(x => x.Cp).Take(6);
-            else {
-                // GymAttackers == 0
-                var rnd = new Random();
-                filter1 = filter1.OrderBy(x => rnd.Next()).Take(6);
+            var filter2 = filter1;
+            switch (GlobalVars.GymAttackers) {
+                case 1:
+                    return filter1.OrderByDescending(x => x.Cp).Take(6);
+                case 2:
+                    return filter1.OrderByDescending(x => x.Favorite).ThenByDescending(x => x.Cp).Take(6);
+                case 3:
+                    filter2 = filter1.Where(x => x.Cp < defender.Cp).OrderByDescending(x => x.Cp).Take(6);
+                    if (filter2.Count() < 6) {
+                        var left = 6 - filter2.Count();
+                        filter2 = filter1.Concat(filter1.OrderByDescending(x => x.Cp).Take(left));
+                    }
+                    return filter2;
             }
-            return filter1;
+            // GlobalVars.GymAttackers ==  0
+            var rnd = new Random();
+            filter2 = filter1.OrderBy(x => rnd.Next()).Take(6);
+            return filter2;
         }
 
         private static bool CheckAndPutInNearbyGym(FortData gym, Client client)
@@ -411,7 +418,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
             attack.Type = BattleActionType.ActionPlayerQuit;
             attack.ActionStartMs = timeMs + RandomHelper.RandomNumber(400, 500);
             attack.TargetIndex = -1;
-            if (attResp.ActiveAttacker !=null)
+            if (attResp.ActiveAttacker != null)
                 attack.ActivePokemonId = attResp.ActiveAttacker.PokemonData.Id;
             var battleActions = new List<BattleAction>();
             battleActions.Add(attack);
