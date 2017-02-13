@@ -274,7 +274,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
             var gymColorLog = ConsoleColor.DarkGray;
             var pokeAttackersIds = pokeAttackers.Select(x => x.Id);
             var moveSettings = GetMoveSettings(client);
-            RandomHelper.RandomSleep(8000);
+            RandomHelper.RandomSleep(10000);
             var gymDetails = client.Fort.GetGymDetails(gym.Id, gym.Latitude, gym.Longitude).Result;
             RandomHelper.RandomSleep(800);
             var resp = client.Fort.StartGymBattle(gym.Id, defenderId, pokeAttackersIds).Result;
@@ -291,7 +291,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                 if (resp.BattleLog == null)
                     Logger.Debug("(Gym) - BatlleLog to start battle was null");
                 Logger.Debug("(Gym) - Trying again after 8 seconds");
-                RandomHelper.RandomSleep(8000);
+                RandomHelper.RandomSleep(10000);
                 gymDetails = client.Fort.GetGymDetails(gym.Id, gym.Latitude, gym.Longitude).Result;
                 RandomHelper.RandomSleep(800);
                 resp = client.Fort.StartGymBattle(gym.Id, defenderId, pokeAttackersIds).Result;
@@ -560,6 +560,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
         {
             var potion = GetNextAvailablePotion(client);
             var fails = 0;
+            Logger.Debug("potion:" +potion);
             while (pokemon.Stamina < pokemon.StaminaMax && potion != 0 && fails < 3) {
                 RandomHelper.RandomSleep(2000, 2500);
                 var response = client.Inventory.UseItemPotion(potion, pokemon.Id).Result;
@@ -578,15 +579,19 @@ namespace PokemonGo.RocketAPI.Logic.Functions
         private static ItemId GetNextAvailablePotion(Client client)
         {
             var count = client.Inventory.GetItemAmountByType(ItemId.ItemPotion).Result;
+            Logger.Debug("count ItemPotion:" +count);
             if (count > 0)
                 return ItemId.ItemPotion;
             count = client.Inventory.GetItemAmountByType(ItemId.ItemSuperPotion).Result;
+            Logger.Debug("count ItemSuperPotion:" +count);
             if (count > 0)
                 return ItemId.ItemSuperPotion;
             count = client.Inventory.GetItemAmountByType(ItemId.ItemHyperPotion).Result;
+            Logger.Debug("count ItemHyperPotion:" +count);
             if (count > 0)
                 return ItemId.ItemHyperPotion;
             count = client.Inventory.GetItemAmountByType(ItemId.ItemMaxPotion).Result;
+            Logger.Debug("count ItemMaxPotion:" +count);
             return count > 0 ? ItemId.ItemMaxPotion : 0;
         }
 
