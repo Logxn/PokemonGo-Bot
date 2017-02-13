@@ -340,6 +340,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                         specialAttack.DamageWindowsEndTimestampMs = attack.ActionStartMs + move2Settings.DamageWindowEndMs;
                         specialAttack.EnergyDelta = move2Settings.EnergyDelta;
                         battleActions.Add(specialAttack);
+                        Logger.Debug("Special Attack Added");
                         attack.ActionStartMs = specialAttack.ActionStartMs+ specialAttack.DurationMs;
                     } 
                     var dodge = RandomHelper.RandomNumber(1, 10);
@@ -352,6 +353,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                         attackDodge.Type = BattleActionType.ActionDodge;
                         attackDodge.DurationMs = 500;
                         battleActions.Add(attackDodge);
+                        Logger.Debug("Dodge Action Added");
                         attack.ActionStartMs = attackDodge.ActionStartMs + attackDodge.DurationMs;
                     } else if (dodge == 2) {
                         var attackDodge = new BattleAction();
@@ -361,6 +363,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                         attackDodge.ActivePokemonId = attack.ActivePokemonId;
                         attackDodge.Type = BattleActionType.ActionFaint;
                         battleActions.Add(attackDodge);
+                        Logger.Debug("Faint Action Added");
                         attack.ActionStartMs = attackDodge.ActionStartMs + attackDodge.DurationMs;
                     }
                     attack.Type = BattleActionType.ActionAttack;
@@ -371,7 +374,8 @@ namespace PokemonGo.RocketAPI.Logic.Functions
 
                     lastRetrievedAction = new BattleAction(); //attResp.BattleLog.BattleActions.FirstOrDefault();
                     battleActions.Add(attack);
-                    Logger.Debug("(Gym) - battleActions: " + battleActions);
+                    Logger.Debug("Normal Attack Added");
+                    Logger.Debug("(Gym) - battleActions: " + battleActions.ToArray());
                     attResp = client.Fort.AttackGym(gym.Id, resp.BattleId, battleActions, lastRetrievedAction).Result;
                     Logger.Debug("attResp: " + attResp);
                     inBattle = (attResp.Result == AttackGymResponse.Types.Result.Success);

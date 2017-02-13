@@ -323,9 +323,6 @@ namespace PokemonGo.RocketAPI.Logic
 
         #endregion
 
-        #region Stats log and Session Check Functions
-
-        #endregion
 
         #region Catch, Farm and Walk Logic
 
