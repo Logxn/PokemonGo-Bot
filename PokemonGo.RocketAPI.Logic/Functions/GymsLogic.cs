@@ -329,8 +329,8 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                     if (attResp.ActiveAttacker.PokemonData.Stamina > 0)
                         baseAction.ActivePokemonId = attResp.ActiveAttacker.PokemonData.Id;
 
-                    var numRepeats = RandomHelper.RandomNumber(0, 3);
-                    for (var i=0;i<numRepeats;i++){
+                    //if (RandomHelper.RandomNumber(1, 6)==1){
+                    for (var i=0;i<RandomHelper.RandomNumber(1, 6);i++){
                         var dodgeAction = new BattleAction();
                         dodgeAction.ActionStartMs = baseAction.ActionStartMs;
                         dodgeAction.TargetIndex = baseAction.TargetIndex;
@@ -342,8 +342,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                         Logger.Debug("Dodge Action Added");
                         baseAction.ActionStartMs = dodgeAction.ActionStartMs + dodgeAction.DurationMs;
                     }
-                    numRepeats = RandomHelper.RandomNumber(0, 3);
-                    for (var i=0;i<numRepeats;i++){
+                    /*if (RandomHelper.RandomNumber(1, 10)==1){
                         var faintAction = new BattleAction();
                         faintAction.ActionStartMs = baseAction.ActionStartMs;
                         faintAction.TargetIndex = baseAction.TargetIndex;
@@ -353,24 +352,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                         battleActions.Add(faintAction);
                         Logger.Debug("Faint Action Added");
                         baseAction.ActionStartMs = faintAction.ActionStartMs + faintAction.DurationMs;
-                    }
-                    numRepeats = RandomHelper.RandomNumber(1, 3);
-                    for (var i=0;i<numRepeats;i++){
-                        var normalAttack = new BattleAction();
-                        normalAttack.ActionStartMs = baseAction.ActionStartMs;
-                        normalAttack.TargetIndex = baseAction.TargetIndex;
-                        normalAttack.TargetPokemonId = baseAction.TargetPokemonId;
-                        normalAttack.ActivePokemonId = baseAction.ActivePokemonId;
-                        normalAttack.Type = BattleActionType.ActionAttack;
-                        normalAttack.DurationMs = baseAction.DurationMs;
-                        normalAttack.DamageWindowsStartTimestampMs = normalAttack.ActionStartMs + move1Settings.DamageWindowStartMs;
-                        normalAttack.DamageWindowsEndTimestampMs = normalAttack.ActionStartMs + move1Settings.DamageWindowEndMs;
-                        normalAttack.EnergyDelta = move1Settings.EnergyDelta;
-                        battleActions.Add(normalAttack);
-                        Logger.Debug("Normal Attack Added");
-                        baseAction.ActionStartMs = normalAttack.ActionStartMs+ normalAttack.DurationMs;
-                    }
-
+                    }*/
                     if (energy >= Math.Abs(move2Settings.EnergyDelta)) {
                         var specialAttack = new BattleAction();
                         specialAttack.ActionStartMs = baseAction.ActionStartMs;
@@ -385,6 +367,23 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                         battleActions.Add(specialAttack);
                         Logger.Debug("Special Attack Added");
                         baseAction.ActionStartMs = specialAttack.ActionStartMs+ specialAttack.DurationMs;
+                    }else{
+                        var numRepeats = RandomHelper.RandomNumber(1, 10);
+                        for (var i=0;i<numRepeats;i++){
+                            var normalAttack = new BattleAction();
+                            normalAttack.ActionStartMs = baseAction.ActionStartMs;
+                            normalAttack.TargetIndex = baseAction.TargetIndex;
+                            normalAttack.TargetPokemonId = baseAction.TargetPokemonId;
+                            normalAttack.ActivePokemonId = baseAction.ActivePokemonId;
+                            normalAttack.Type = BattleActionType.ActionAttack;
+                            normalAttack.DurationMs = baseAction.DurationMs;
+                            normalAttack.DamageWindowsStartTimestampMs = normalAttack.ActionStartMs + move1Settings.DamageWindowStartMs;
+                            normalAttack.DamageWindowsEndTimestampMs = normalAttack.ActionStartMs + move1Settings.DamageWindowEndMs;
+                            normalAttack.EnergyDelta = move1Settings.EnergyDelta;
+                            battleActions.Add(normalAttack);
+                            Logger.Debug("Normal Attack Added");
+                            baseAction.ActionStartMs = normalAttack.ActionStartMs+ normalAttack.DurationMs;
+                        }
                     }
 
                     lastRetrievedAction = new BattleAction(); //attResp.BattleLog.BattleActions.FirstOrDefault();
@@ -411,8 +410,8 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                         }
 
                         count++;
-                        //var waitTime = 0; //baseAction.ActionStartMs - attResp.BattleLog.ServerMs;
-                        RandomHelper.RandomSleep(1, 99);
+                        var waitTime = (int) (baseAction.ActionStartMs - attResp.BattleLog.ServerMs);
+                        RandomHelper.RandomSleep(waitTime,waitTime+100);
                     }
                 }
 
