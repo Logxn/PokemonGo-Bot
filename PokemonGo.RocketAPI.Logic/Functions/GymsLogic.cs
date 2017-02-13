@@ -274,7 +274,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
             var gymColorLog = ConsoleColor.DarkGray;
             var pokeAttackersIds = pokeAttackers.Select(x => x.Id);
             var moveSettings = GetMoveSettings(client);
-            RandomHelper.RandomSleep(1100);
+            RandomHelper.RandomSleep(8000);
             var resp = client.Fort.StartGymBattle(gym.Id, defenderId, pokeAttackersIds).Result;
             var numTries = 3;
             // Sometimes we get a null from startgymBattle so we try to start battle 3 times
@@ -321,59 +321,62 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                     var move1Settings = moveSettings.FirstOrDefault(x => x.MoveSettings.MovementId == attResp.ActiveAttacker.PokemonData.Move1).MoveSettings;
                     var move2Settings = moveSettings.FirstOrDefault(x => x.MoveSettings.MovementId == attResp.ActiveAttacker.PokemonData.Move2).MoveSettings;
                     battleActions = new List<BattleAction>();
-                    var attack = new BattleAction();
-                    attack.ActionStartMs = timeMs + RandomHelper.RandomNumber(110, 170);
-                    attack.TargetIndex = -1;
-                    attack.TargetPokemonId = attResp.ActiveDefender.PokemonData.Id;
+                    
+                    var baseAction = new BattleAction();
+                    baseAction.ActionStartMs = timeMs + RandomHelper.RandomNumber(110, 170);
+                    baseAction.TargetIndex = -1;
+                    baseAction.TargetPokemonId = attResp.ActiveDefender.PokemonData.Id;
                     if (attResp.ActiveAttacker.PokemonData.Stamina > 0)
-                        attack.ActivePokemonId = attResp.ActiveAttacker.PokemonData.Id;
+                        baseAction.ActivePokemonId = attResp.ActiveAttacker.PokemonData.Id;
 
-                    var dodge = RandomHelper.RandomNumber(1, 10);
-                    if (dodge == 1) {
-                        var attackDodge = new BattleAction();
-                        attackDodge.ActionStartMs = attack.ActionStartMs;
-                        attackDodge.TargetIndex = attack.TargetIndex;
-                        attackDodge.TargetPokemonId = attack.TargetPokemonId;
-                        attackDodge.ActivePokemonId = attack.ActivePokemonId;
-                        attackDodge.Type = BattleActionType.ActionDodge;
-                        attackDodge.DurationMs = 500;
-                        battleActions.Add(attackDodge);
+                    var numRepeats = RandomHelper.RandomNumber(0, 3);
+                    for (var i=0;i<numRepeats;i++){
+                        var dodgeAction = new BattleAction();
+                        dodgeAction.ActionStartMs = baseAction.ActionStartMs;
+                        dodgeAction.TargetIndex = baseAction.TargetIndex;
+                        dodgeAction.TargetPokemonId = baseAction.TargetPokemonId;
+                        dodgeAction.ActivePokemonId = baseAction.ActivePokemonId;
+                        dodgeAction.Type = BattleActionType.ActionDodge;
+                        dodgeAction.DurationMs = 500;
+                        battleActions.Add(dodgeAction);
                         Logger.Debug("Dodge Action Added");
-                        attack.ActionStartMs = attackDodge.ActionStartMs + attackDodge.DurationMs;
-                    } else if (dodge == 2) {
-                        var attackDodge = new BattleAction();
-                        attackDodge.ActionStartMs = attack.ActionStartMs;
-                        attackDodge.TargetIndex = attack.TargetIndex;
-                        attackDodge.TargetPokemonId = attack.TargetPokemonId;
-                        attackDodge.ActivePokemonId = attack.ActivePokemonId;
-                        attackDodge.Type = BattleActionType.ActionFaint;
-                        battleActions.Add(attackDodge);
-                        Logger.Debug("Faint Action Added");
-                        attack.ActionStartMs = attackDodge.ActionStartMs + attackDodge.DurationMs;
+                        baseAction.ActionStartMs = dodgeAction.ActionStartMs + dodgeAction.DurationMs;
                     }
-                    var secondAttack = RandomHelper.RandomNumber(1, 10);
-                    if (secondAttack == 1){
-                        var attack2 = new BattleAction();
-                        attack2.ActionStartMs = attack.ActionStartMs;
-                        attack2.TargetIndex = attack.TargetIndex;
-                        attack2.TargetPokemonId = attack.TargetPokemonId;
-                        attack2.ActivePokemonId = attack.ActivePokemonId;
-                        attack2.Type = attack.Type;
-                        attack2.DurationMs = attack.DurationMs;
-                        attack2.DamageWindowsStartTimestampMs = attack2.ActionStartMs + move1Settings.DamageWindowStartMs;
-                        attack2.DamageWindowsEndTimestampMs = attack2.ActionStartMs + move1Settings.DamageWindowEndMs;
-                        attack2.EnergyDelta = move1Settings.EnergyDelta;
-                        battleActions.Add(attack2);
+                    numRepeats = RandomHelper.RandomNumber(0, 3);
+                    for (var i=0;i<numRepeats;i++){
+                        var faintAction = new BattleAction();
+                        faintAction.ActionStartMs = baseAction.ActionStartMs;
+                        faintAction.TargetIndex = baseAction.TargetIndex;
+                        faintAction.TargetPokemonId = baseAction.TargetPokemonId;
+                        faintAction.ActivePokemonId = baseAction.ActivePokemonId;
+                        faintAction.Type = BattleActionType.ActionFaint;
+                        battleActions.Add(faintAction);
+                        Logger.Debug("Faint Action Added");
+                        baseAction.ActionStartMs = faintAction.ActionStartMs + faintAction.DurationMs;
+                    }
+                    numRepeats = RandomHelper.RandomNumber(1, 3);
+                    for (var i=0;i<numRepeats;i++){
+                        var normalAttack = new BattleAction();
+                        normalAttack.ActionStartMs = baseAction.ActionStartMs;
+                        normalAttack.TargetIndex = baseAction.TargetIndex;
+                        normalAttack.TargetPokemonId = baseAction.TargetPokemonId;
+                        normalAttack.ActivePokemonId = baseAction.ActivePokemonId;
+                        normalAttack.Type = BattleActionType.ActionAttack;
+                        normalAttack.DurationMs = baseAction.DurationMs;
+                        normalAttack.DamageWindowsStartTimestampMs = normalAttack.ActionStartMs + move1Settings.DamageWindowStartMs;
+                        normalAttack.DamageWindowsEndTimestampMs = normalAttack.ActionStartMs + move1Settings.DamageWindowEndMs;
+                        normalAttack.EnergyDelta = move1Settings.EnergyDelta;
+                        battleActions.Add(normalAttack);
                         Logger.Debug("Normal Attack Added");
-                        attack.ActionStartMs = attack2.ActionStartMs+ attack.DurationMs;
+                        baseAction.ActionStartMs = normalAttack.ActionStartMs+ normalAttack.DurationMs;
                     }
 
                     if (energy >= Math.Abs(move2Settings.EnergyDelta)) {
                         var specialAttack = new BattleAction();
-                        specialAttack.ActionStartMs = attack.ActionStartMs;
-                        specialAttack.TargetIndex = attack.TargetIndex;
-                        specialAttack.TargetPokemonId = attack.TargetPokemonId;
-                        specialAttack.ActivePokemonId = attack.ActivePokemonId;
+                        specialAttack.ActionStartMs = baseAction.ActionStartMs;
+                        specialAttack.TargetIndex = baseAction.TargetIndex;
+                        specialAttack.TargetPokemonId = baseAction.TargetPokemonId;
+                        specialAttack.ActivePokemonId = baseAction.ActivePokemonId;
                         specialAttack.Type = BattleActionType.ActionSpecialAttack;
                         specialAttack.DurationMs = move2Settings.DurationMs;
                         specialAttack.DamageWindowsStartTimestampMs = specialAttack.ActionStartMs + move2Settings.DamageWindowStartMs;
@@ -381,14 +384,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                         specialAttack.EnergyDelta = move2Settings.EnergyDelta;
                         battleActions.Add(specialAttack);
                         Logger.Debug("Special Attack Added");
-                    }else{
-                        attack.Type = BattleActionType.ActionAttack;
-                        attack.DurationMs = move1Settings.DurationMs;
-                        attack.DamageWindowsStartTimestampMs = attack.ActionStartMs + move1Settings.DamageWindowStartMs;
-                        attack.DamageWindowsEndTimestampMs = attack.ActionStartMs + move1Settings.DamageWindowEndMs;
-                        attack.EnergyDelta = move1Settings.EnergyDelta;
-                        battleActions.Add(attack);
-                        Logger.Debug("Normal Attack Added");
+                        baseAction.ActionStartMs = specialAttack.ActionStartMs+ specialAttack.DurationMs;
                     }
 
                     lastRetrievedAction = new BattleAction(); //attResp.BattleLog.BattleActions.FirstOrDefault();
@@ -415,7 +411,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                         }
 
                         count++;
-                        //var waitTime = 0; //attack.ActionStartMs + attack.DurationMs - attResp.BattleLog.ServerMs;
+                        //var waitTime = 0; //baseAction.ActionStartMs - attResp.BattleLog.ServerMs;
                         RandomHelper.RandomSleep(1, 99);
                     }
                 }
@@ -531,9 +527,10 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                 pokemons = client.Inventory.GetPokemons(true).Result.Where(x => x.Stamina < x.StaminaMax);
                 foreach (var pokemon in pokemons) {
                     if (pokemon.Stamina <= 0) {
-                        RandomHelper.RandomSleep(400, 500);
                         var revive = GetNextAvailableRevive(client);
+                        Logger.Debug("revive:" +revive);
                         if (revive != 0) {
+                            RandomHelper.RandomSleep(500);
                             var response = client.Inventory.UseItemRevive(revive, pokemon.Id).Result;
                             if (response.Result == UseItemReviveResponse.Types.Result.Success) {
                                 if (revive == ItemId.ItemRevive) {
@@ -592,9 +589,11 @@ namespace PokemonGo.RocketAPI.Logic.Functions
         private static ItemId GetNextAvailableRevive(Client client)
         {
             var count = client.Inventory.GetItemAmountByType(ItemId.ItemRevive).Result;
+            Logger.Debug("count ItemRevive:" +count);
             if (count > 0)
                 return ItemId.ItemRevive;
             count = client.Inventory.GetItemAmountByType(ItemId.ItemMaxRevive).Result;
+            Logger.Debug("count ItemMaxRevive:" +count);
             return count > 0 ? ItemId.ItemMaxRevive : 0;
         }
 
