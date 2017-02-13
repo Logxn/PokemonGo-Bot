@@ -328,21 +328,6 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                     if (attResp.ActiveAttacker.PokemonData.Stamina > 0)
                         attack.ActivePokemonId = attResp.ActiveAttacker.PokemonData.Id;
 
-                    if (energy >= Math.Abs(move2Settings.EnergyDelta)) {
-                        var specialAttack = new BattleAction();
-                        specialAttack.ActionStartMs = attack.ActionStartMs;
-                        specialAttack.TargetIndex = attack.TargetIndex;
-                        specialAttack.TargetPokemonId = attack.TargetPokemonId;
-                        specialAttack.ActivePokemonId = attack.ActivePokemonId;
-                        specialAttack.Type = BattleActionType.ActionSpecialAttack;
-                        specialAttack.DurationMs = move2Settings.DurationMs;
-                        specialAttack.DamageWindowsStartTimestampMs = attack.ActionStartMs + move2Settings.DamageWindowStartMs;
-                        specialAttack.DamageWindowsEndTimestampMs = attack.ActionStartMs + move2Settings.DamageWindowEndMs;
-                        specialAttack.EnergyDelta = move2Settings.EnergyDelta;
-                        battleActions.Add(specialAttack);
-                        Logger.Debug("Special Attack Added");
-                        attack.ActionStartMs = specialAttack.ActionStartMs+ specialAttack.DurationMs;
-                    } 
                     var dodge = RandomHelper.RandomNumber(1, 10);
                     if (dodge == 1) {
                         var attackDodge = new BattleAction();
@@ -366,16 +351,49 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                         Logger.Debug("Faint Action Added");
                         attack.ActionStartMs = attackDodge.ActionStartMs + attackDodge.DurationMs;
                     }
-                    attack.Type = BattleActionType.ActionAttack;
-                    attack.DurationMs = move1Settings.DurationMs;
-                    attack.DamageWindowsStartTimestampMs = attack.ActionStartMs + move1Settings.DamageWindowStartMs;
-                    attack.DamageWindowsEndTimestampMs = attack.ActionStartMs + move1Settings.DamageWindowEndMs;
-                    attack.EnergyDelta = move1Settings.EnergyDelta;
+                    var secondAttack = RandomHelper.RandomNumber(1, 10);
+                    if (secondAttack == 1){
+                        var attack2 = new BattleAction();
+                        attack2.ActionStartMs = attack.ActionStartMs;
+                        attack2.TargetIndex = attack.TargetIndex;
+                        attack2.TargetPokemonId = attack.TargetPokemonId;
+                        attack2.ActivePokemonId = attack.ActivePokemonId;
+                        attack2.Type = attack.Type;
+                        attack2.DurationMs = attack.DurationMs;
+                        attack2.DamageWindowsStartTimestampMs = attack2.ActionStartMs + move1Settings.DamageWindowStartMs;
+                        attack2.DamageWindowsEndTimestampMs = attack2.ActionStartMs + move1Settings.DamageWindowEndMs;
+                        attack2.EnergyDelta = move1Settings.EnergyDelta;
+                        battleActions.Add(attack2);
+                        Logger.Debug("Normal Attack Added");
+                        attack.ActionStartMs = attack2.ActionStartMs+ attack.DurationMs;
+                    }
+
+                    if (energy >= Math.Abs(move2Settings.EnergyDelta)) {
+                        var specialAttack = new BattleAction();
+                        specialAttack.ActionStartMs = attack.ActionStartMs;
+                        specialAttack.TargetIndex = attack.TargetIndex;
+                        specialAttack.TargetPokemonId = attack.TargetPokemonId;
+                        specialAttack.ActivePokemonId = attack.ActivePokemonId;
+                        specialAttack.Type = BattleActionType.ActionSpecialAttack;
+                        specialAttack.DurationMs = move2Settings.DurationMs;
+                        specialAttack.DamageWindowsStartTimestampMs = specialAttack.ActionStartMs + move2Settings.DamageWindowStartMs;
+                        specialAttack.DamageWindowsEndTimestampMs = specialAttack.ActionStartMs + move2Settings.DamageWindowEndMs;
+                        specialAttack.EnergyDelta = move2Settings.EnergyDelta;
+                        battleActions.Add(specialAttack);
+                        Logger.Debug("Special Attack Added");
+                    }else{
+                        attack.Type = BattleActionType.ActionAttack;
+                        attack.DurationMs = move1Settings.DurationMs;
+                        attack.DamageWindowsStartTimestampMs = attack.ActionStartMs + move1Settings.DamageWindowStartMs;
+                        attack.DamageWindowsEndTimestampMs = attack.ActionStartMs + move1Settings.DamageWindowEndMs;
+                        attack.EnergyDelta = move1Settings.EnergyDelta;
+                        battleActions.Add(attack);
+                        Logger.Debug("Normal Attack Added");
+                    }
 
                     lastRetrievedAction = new BattleAction(); //attResp.BattleLog.BattleActions.FirstOrDefault();
-                    battleActions.Add(attack);
-                    Logger.Debug("Normal Attack Added");
-                    Logger.Debug("(Gym) - battleActions: " + battleActions.ToArray());
+                    var str  =string.Join(",", battleActions);
+                    Logger.Debug("(Gym) - battleActions: " + str);
                     attResp = client.Fort.AttackGym(gym.Id, resp.BattleId, battleActions, lastRetrievedAction).Result;
                     Logger.Debug("attResp: " + attResp);
                     inBattle = (attResp.Result == AttackGymResponse.Types.Result.Success);

@@ -107,7 +107,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
 
             do{
                 var mapObjectsResponse = _client.Map.GetMapObjects(true).Result.Item1;
-                var pokemons = mapObjectsResponse.MapCells.SelectMany(i => i.CatchablePokemons).Where(x => x.Latitude == pokeCoords.Latitude &&  x.Longitude == pokeCoords.Longitude );
+                var pokemons = mapObjectsResponse.MapCells.SelectMany(i => i.CatchablePokemons).Where(x => Math.Abs(x.Latitude - pokeCoords.Latitude) < double.Epsilon && Math.Abs(x.Longitude - pokeCoords.Longitude) < double.Epsilon );
                 SendToLog($"Try {tries} of {GlobalVars.SnipeOpts.NumTries}");
                 if (pokemons.Any())
                 {
