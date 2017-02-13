@@ -64,7 +64,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                 SendToLog($"Waiting {GlobalVars.SnipeOpts.WaitSecond} seconds for Pokemon to appear...");
                 RandomHelper.RandomSleep(GlobalVars.SnipeOpts.WaitSecond*1000, GlobalVars.SnipeOpts.WaitSecond*1100);
                 
-                var catchedID = TrySnipePokemons(pokeid, returnCoords);
+                var catchedID = TrySnipePokemons(pokeid, remoteCoords, returnCoords);
                 if ( (catchedID >0) && GlobalVars.SnipeOpts.TransferIt)
                 {
                     var trResult = Logic.objClient.Inventory.TransferPokemon(catchedID).Result;
@@ -98,7 +98,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
             GlobalVars.SnipeOpts.NumTries = 3;
         }
         
-        private ulong TrySnipePokemons(PokemonId pokeid, GeoCoordinate returnCoords)
+        private ulong TrySnipePokemons(PokemonId pokeid,GeoCoordinate pokeCoords, GeoCoordinate returnCoords)
         {
             const bool goBack = true;
             var tries = 1;
@@ -107,7 +107,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
 
             do{
                 var mapObjectsResponse = _client.Map.GetMapObjects(true).Result.Item1;
-                var pokemons = mapObjectsResponse.MapCells.SelectMany(i => i.CatchablePokemons).Where(x => x.PokemonId == pokeid);
+                var pokemons = mapObjectsResponse.MapCells.SelectMany(i => i.CatchablePokemons).Where(x => x.Latitude == pokeCoords.Latitude &&  x.Longitude == pokeCoords.Longitude );
                 SendToLog($"Try {tries} of {GlobalVars.SnipeOpts.NumTries}");
                 if (pokemons.Any())
                 {
