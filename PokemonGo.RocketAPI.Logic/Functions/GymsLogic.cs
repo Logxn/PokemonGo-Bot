@@ -191,12 +191,12 @@ namespace PokemonGo.RocketAPI.Logic.Functions
 
             PokemonData pokemon = getPokeToPut(client, profile.PlayerData.BuddyPokemon.Id);
 
-            Logger.Debug("(Gym) - Pokemon to insert: " + pokemon.PokemonId);
-
             if (pokemon == null) {
                 Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - There are no pokemons to assign.");
                 return false;
             }
+
+            Logger.Debug("(Gym) - Pokemon to insert: " + pokemon.PokemonId);
 
             var gymDetails = client.Fort.GetGymDetails(gym.Id, gym.Latitude, gym.Longitude).Result;
             Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - Team: " + GetTeamName(gym.OwnedByTeam) + ".");
@@ -411,7 +411,8 @@ namespace PokemonGo.RocketAPI.Logic.Functions
             attack.Type = BattleActionType.ActionPlayerQuit;
             attack.ActionStartMs = timeMs + RandomHelper.RandomNumber(400, 500);
             attack.TargetIndex = -1;
-            attack.ActivePokemonId = attResp.ActiveAttacker.PokemonData.Id;
+            if (attResp.ActiveAttacker !=null)
+                attack.ActivePokemonId = attResp.ActiveAttacker.PokemonData.Id;
             var battleActions = new List<BattleAction>();
             battleActions.Add(attack);
             lastRetrievedAction = new BattleAction();
