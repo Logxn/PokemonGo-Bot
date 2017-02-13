@@ -102,22 +102,27 @@ namespace PokemonGo.RocketAPI.Logic.Functions
         {
             const bool goBack = true;
             var tries = 1;
-            //var found = false;
+            var found = false;
             ulong caught = 0;
 
             do{
-                var mapObjectsResponse = _client.Map.GetMapObjects(true).Result.Item1;
-                var pokemons = mapObjectsResponse.MapCells.SelectMany(i => i.CatchablePokemons).Where(x => Math.Abs(x.Latitude - pokeCoords.Latitude) < double.Epsilon && Math.Abs(x.Longitude - pokeCoords.Longitude) < double.Epsilon );
                 SendToLog($"Try {tries} of {GlobalVars.SnipeOpts.NumTries}");
-                if (pokemons.Any())
-                {
-                    var pokemon = pokemons.FirstOrDefault();
-                    SendToLog($"Found {pokemons.Count()} catchable Pokemon(s): {StringUtils.getPokemonNameByLanguage(_botSettings, pokemon.PokemonId)}" );
-                    caught = Logic.Instance.CatchPokemon(pokemon.EncounterId, pokemon.SpawnPointId, pokemon.PokemonId, pokemon.Longitude, pokemon.Latitude, goBack, returnCoords.Latitude, returnCoords.Longitude);
-                    //found = true;
+                var mapObjectsResponse = _client.Map.GetMapObjects(true).Result.Item1;
+                var pokemons = mapObjectsResponse.MapCells.SelectMany(i => i.CatchablePokemons);
+                if (pokemons.Any()){
+                    SendToLog($"Found {pokemons.Count()} catchable Pokemon(s)");
+                    foreach (var pokemon in pokemons) {
+                        Logger.Debug("pokemon:" + pokemon);
+                        Logger.Debug("pokeCoords:" + pokeCoords);
+                        if (Math.Abs(pokemon.Latitude - pokeCoords.Latitude) < double.Epsilon && Math.Abs(pokemon.Longitude - pokeCoords.Longitude) < double.Epsilon){
+                            SendToLog($"Found {pokemon.PokemonId} to Snipe");
+                            caught = Logic.Instance.CatchPokemon(pokemon.EncounterId, pokemon.SpawnPointId, pokemon.PokemonId, pokemon.Longitude, pokemon.Latitude, goBack, returnCoords.Latitude, returnCoords.Longitude);
+                            found = true;
+                            break;
+                        }
+                    }
                 }
-                else
-                {
+                if (!found){
                     SendToLog($"No Pokemon Found!");
                     SendToLog($"Waiting {GlobalVars.SnipeOpts.WaitSecond} seconds for Pokemon to appear...");
                     RandomHelper.RandomSleep(GlobalVars.SnipeOpts.WaitSecond*1000, GlobalVars.SnipeOpts.WaitSecond*1100);
@@ -129,13 +134,6 @@ namespace PokemonGo.RocketAPI.Logic.Functions
             if (caught != 0) SendToLog($"{StringUtils.getPokemonNameByLanguage(_botSettings, pokeid)} caught!");
             else SendToLog($"{ StringUtils.getPokemonNameByLanguage(_botSettings, pokeid)} not found or caught!");
 
-            //if (!found){
-            //    SendToLog( $"Go to {_botSettings.DefaultLatitude} / {_botSettings.DefaultLongitude}.");
-            //    var result = _client.Player.UpdatePlayerLocation(
-            //            _botSettings.DefaultLatitude,
-            //            _botSettings.DefaultLongitude,
-            //            _botSettings.DefaultAltitude).Result;
-            //}
             return caught;
         }
 

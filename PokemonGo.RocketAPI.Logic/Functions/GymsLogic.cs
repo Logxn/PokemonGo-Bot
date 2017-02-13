@@ -110,7 +110,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                             gym = GetNearbyGyms().FirstOrDefault(x => x.Id == gym.Id);
                         }
                         if (numberOfAttacks == 0) {
-                            Logger.Info("(Gym) - Maximun number of attacks reached. Will be checked after of one minute.");
+                            Logger.Warning("(Gym) - Maximun number of attacks reached. Will be checked after of one minute.");
                             AddVisited(gym.Id, 60000);
                         }
                     }
@@ -275,6 +275,8 @@ namespace PokemonGo.RocketAPI.Logic.Functions
             var pokeAttackersIds = pokeAttackers.Select(x => x.Id);
             var moveSettings = GetMoveSettings(client);
             RandomHelper.RandomSleep(8000);
+            var gymDetails = client.Fort.GetGymDetails(gym.Id, gym.Latitude, gym.Longitude).Result;
+            RandomHelper.RandomSleep(800);
             var resp = client.Fort.StartGymBattle(gym.Id, defenderId, pokeAttackersIds).Result;
             var numTries = 3;
             // Sometimes we get a null from startgymBattle so we try to start battle 3 times
@@ -288,11 +290,9 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                     Logger.Debug("(Gym) - Response to start battle was null.");
                 if (resp.BattleLog == null)
                     Logger.Debug("(Gym) - BatlleLog to start battle was null");
-                Logger.Debug("(Gym) - Trying again after 11 seconds");
-                RandomHelper.RandomSleep(10000, 11000);
-                var mapObjectsResponse = Logic.objClient.Map.GetMapObjects().Result.Item1;
-                RandomHelper.RandomSleep(800);
-                var gymDetails = client.Fort.GetGymDetails(gym.Id, gym.Latitude, gym.Longitude).Result;
+                Logger.Debug("(Gym) - Trying again after 8 seconds");
+                RandomHelper.RandomSleep(8000);
+                gymDetails = client.Fort.GetGymDetails(gym.Id, gym.Latitude, gym.Longitude).Result;
                 RandomHelper.RandomSleep(800);
                 resp = client.Fort.StartGymBattle(gym.Id, defenderId, pokeAttackersIds).Result;
                 startFailed = (resp == null);
@@ -328,9 +328,8 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                     baseAction.TargetPokemonId = attResp.ActiveDefender.PokemonData.Id;
                     if (attResp.ActiveAttacker.PokemonData.Stamina > 0)
                         baseAction.ActivePokemonId = attResp.ActiveAttacker.PokemonData.Id;
-
-                    //if (RandomHelper.RandomNumber(1, 6)==1){
-                    for (var i=0;i<RandomHelper.RandomNumber(1, 6);i++){
+                    // One each six times we try to evade attack
+                    if (RandomHelper.RandomNumber(1, 6)==1){
                         var dodgeAction = new BattleAction();
                         dodgeAction.ActionStartMs = baseAction.ActionStartMs;
                         dodgeAction.TargetIndex = baseAction.TargetIndex;
@@ -342,6 +341,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                         Logger.Debug("Dodge Action Added");
                         baseAction.ActionStartMs = dodgeAction.ActionStartMs + dodgeAction.DurationMs;
                     }
+                    // Don`t know how to use this action. Reading about it is an automatic action when dying.                    
                     /*if (RandomHelper.RandomNumber(1, 10)==1){
                         var faintAction = new BattleAction();
                         faintAction.ActionStartMs = baseAction.ActionStartMs;
@@ -368,8 +368,8 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                         Logger.Debug("Special Attack Added");
                         baseAction.ActionStartMs = specialAttack.ActionStartMs+ specialAttack.DurationMs;
                     }else{
-                        var numRepeats = RandomHelper.RandomNumber(1, 10);
-                        for (var i=0;i<numRepeats;i++){
+                        // One each six times we do not attack
+                        if (RandomHelper.RandomNumber(1, 6) > 1){
                             var normalAttack = new BattleAction();
                             normalAttack.ActionStartMs = baseAction.ActionStartMs;
                             normalAttack.TargetIndex = baseAction.TargetIndex;
@@ -410,7 +410,12 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                         }
 
                         count++;
+                        // Wait until all attack are done. but not more than 1 second.
                         var waitTime = (int) (baseAction.ActionStartMs - attResp.BattleLog.ServerMs);
+                        if (waitTime < 0)
+                            waitTime =0;
+                        else if (waitTime > 1000)
+                            waitTime = 1000;
                         RandomHelper.RandomSleep(waitTime,waitTime+100);
                     }
                 }
@@ -427,14 +432,14 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                     } else if (attResp.BattleLog.State == BattleState.Victory) {
                         
                         Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - We have won");
-                        ReviveAndCurePokemons(client);
                         if (numDefenders > 1) {
                             attResp = LeaveBattle(gym, client, resp, attResp, lastRetrievedAction);
                             Logger.Debug("(Gym) - Leaving Battle");
                         } else {
+                            ReviveAndCurePokemons(client);
                             var pokemons = (client.Inventory.GetPokemons().Result).ToList();
                             RandomHelper.RandomSleep(400);
-                            var gymDetails = client.Fort.GetGymDetails(gym.Id, gym.Latitude, gym.Longitude).Result;
+                            gymDetails = client.Fort.GetGymDetails(gym.Id, gym.Latitude, gym.Longitude).Result;
                             Logger.Debug("(Gym) - Gym Details: " + gymDetails);
                             if (gymDetails.GymState.Memberships.Count < 1) {
                                 putInGym(client, gym, getPokeToPut(client, buddyPokemonId), pokemons);
