@@ -116,6 +116,8 @@ namespace PokemonGo.RocketAPI.Extensions
             var codedStream = new CodedInputStream(responseData);
             var decodedResponse = new ResponseEnvelope();
             decodedResponse.MergeFrom(codedStream);
+            Logger.Debug("requestEnvelope:" + requestEnvelope);
+            Logger.Debug("decodedResponse:"+ decodedResponse);
 
             return decodedResponse;
         }

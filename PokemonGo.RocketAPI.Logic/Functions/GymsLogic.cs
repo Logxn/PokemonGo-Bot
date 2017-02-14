@@ -198,7 +198,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
             var pokemons = (client.Inventory.GetPokemons()).ToList();
 
             RandomHelper.RandomSleep(900);
-            var profile = client.Player.GetPlayer().Result;
+            var profile = client.Player.GetPlayer();
 
             PokemonData pokemon = getPokeToPut(client, profile.PlayerData.BuddyPokemon.Id);
 

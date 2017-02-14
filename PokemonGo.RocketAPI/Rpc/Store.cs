@@ -27,7 +27,7 @@ namespace PokemonGo.RocketAPI.Rpc
         public GetStoreItemsResponse GetStoreItems()
         {
             var message = new GetStoreMessage();
-            var result  =  PostProtoPayload<Request, GetStoreItemsResponse>(RequestType.GetItemPack, message).Result;
+            var result  =  PostProtoPayload<Request, GetStoreItemsResponse>(RequestType.GetItemPack, message);
             return result;
         }
         
@@ -38,7 +38,7 @@ namespace PokemonGo.RocketAPI.Rpc
                 ItemId = item
             };
 
-            return PostProtoPayload<Request, BuyItemPokeCoinsResponse>(RequestType.BuyItemPack, message).Result;
+            return PostProtoPayload<Request, BuyItemPokeCoinsResponse>(RequestType.BuyItemPack, message);
         }
         
         

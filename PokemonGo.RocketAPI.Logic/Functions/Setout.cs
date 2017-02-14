@@ -380,7 +380,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
 
             #region Set Stat Variables
 
-            var profile = client.Player.GetPlayer().Result;
+            var profile = client.Player.GetPlayer();
             var inventory = client.Inventory.GetInventory();
             var playerStats = client.Inventory.GetPlayerStats();
             var stats = playerStats.First();
@@ -487,7 +487,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
 
         public static void RefreshConsoleTitle(Client client)
         {
-            var profile = client.Player.GetPlayer().Result;
+            var profile = client.Player.GetPlayer();
             var inventory = client.Inventory.GetInventory();
             var playerStats = client.Inventory.GetPlayerStats();
             var stats = playerStats.First();
@@ -730,7 +730,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
             }
             if (Shared.GlobalVars.TransferDoublePokemons)
             {
-                var profil = Logic.objClient.Player.GetPlayer().Result;
+                var profil = Logic.objClient.Player.GetPlayer();
                 RandomHelper.RandomSleep(300, 400);
 
                 if (Shared.GlobalVars.pauseAtEvolve2)

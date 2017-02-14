@@ -23,44 +23,44 @@ namespace PokemonGo.RocketAPI.Rpc
                 Hash = "b8fa9757195897aae92c53dbcf8a60fb3d86d745"
             };
             
-            return await PostProtoPayload<Request, DownloadSettingsResponse>(RequestType.DownloadSettings, message).ConfigureAwait(false);
+            return  PostProtoPayload<Request, DownloadSettingsResponse>(RequestType.DownloadSettings, message);
         }
 
         public async Task<DownloadItemTemplatesResponse> GetItemTemplates()
         {
-            return await PostProtoPayload<Request, DownloadItemTemplatesResponse>(RequestType.DownloadItemTemplates, new DownloadItemTemplatesMessage()).ConfigureAwait(false);
+            return  PostProtoPayload<Request, DownloadItemTemplatesResponse>(RequestType.DownloadItemTemplates, new DownloadItemTemplatesMessage());
         }
 
         public async Task<DownloadRemoteConfigVersionResponse> GetRemoteConfigVersion(uint appVersion, string deviceManufacturer, string deviceModel, string locale, Platform platform)
         {
-            return await PostProtoPayload<Request, DownloadRemoteConfigVersionResponse>(RequestType.DownloadRemoteConfigVersion, new DownloadRemoteConfigVersionMessage()
+            return  PostProtoPayload<Request, DownloadRemoteConfigVersionResponse>(RequestType.DownloadRemoteConfigVersion, new DownloadRemoteConfigVersionMessage()
             {
                 AppVersion = appVersion,
                 DeviceManufacturer = deviceManufacturer,
                 DeviceModel = deviceModel,
                 Locale = locale,
                 Platform = platform
-            }).ConfigureAwait(false);
+            });
         }
 
         public async Task<GetAssetDigestResponse> GetAssetDigest(uint appVersion, string deviceManufacturer, string deviceModel, string locale, Platform platform)
         {
-            return await PostProtoPayload<Request, GetAssetDigestResponse>(RequestType.GetAssetDigest, new GetAssetDigestMessage()
+            return  PostProtoPayload<Request, GetAssetDigestResponse>(RequestType.GetAssetDigest, new GetAssetDigestMessage()
             {
                 AppVersion = appVersion,
                 DeviceManufacturer = deviceManufacturer,
                 DeviceModel = deviceModel,
                 Locale = locale,
                 Platform = platform
-            }).ConfigureAwait(false);
+            });
         }
 
         public async Task<GetDownloadUrlsResponse> GetDownloadUrls(IEnumerable<string> assetIds)
         {
-            return await PostProtoPayload<Request, GetDownloadUrlsResponse>(RequestType.GetDownloadUrls, new GetDownloadUrlsMessage()
+            return  PostProtoPayload<Request, GetDownloadUrlsResponse>(RequestType.GetDownloadUrls, new GetDownloadUrlsMessage()
             {
                 AssetId = { assetIds }
-            }).ConfigureAwait(false);
+            });
         }
 
     }

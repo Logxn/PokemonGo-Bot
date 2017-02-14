@@ -48,7 +48,7 @@ namespace PokemonGo.RocketAPI.Rpc
             // If forceRequest is default/FALSE and last request made more than _minSecondsBetweenInventoryCalls seconds ago, 
             // we make the call and also update _cachedInventory
             _lastInventoryRequest = DateTime.UtcNow;
-            _cachedInventory =  PostProtoPayload<Request, GetInventoryResponse>(RequestType.GetInventory, new GetInventoryMessage()).Result;
+            _cachedInventory =  PostProtoPayload<Request, GetInventoryResponse>(RequestType.GetInventory, new GetInventoryMessage());
             return _cachedInventory;
         }
 
@@ -98,7 +98,7 @@ namespace PokemonGo.RocketAPI.Rpc
                 Count = amount
             };
 
-            return PostProtoPayload<Request, RecycleInventoryItemResponse>(RequestType.RecycleInventoryItem, message).Result;
+            return PostProtoPayload<Request, RecycleInventoryItemResponse>(RequestType.RecycleInventoryItem, message);
         }
 
         public UseItemXpBoostResponse UseItemXpBoost(ItemId item)
@@ -108,7 +108,7 @@ namespace PokemonGo.RocketAPI.Rpc
                 ItemId = item
             };
 
-            return PostProtoPayload<Request, UseItemXpBoostResponse>(RequestType.UseItemXpBoost, message).Result;
+            return PostProtoPayload<Request, UseItemXpBoostResponse>(RequestType.UseItemXpBoost, message);
         }
 
 
@@ -120,7 +120,7 @@ namespace PokemonGo.RocketAPI.Rpc
                 PokemonId = pokemonId
             };
 
-            return PostProtoPayload<Request, UseItemPotionResponse>(RequestType.UseItemPotion, message).Result;
+            return PostProtoPayload<Request, UseItemPotionResponse>(RequestType.UseItemPotion, message);
         }
 
         public UseItemReviveResponse UseItemRevive(ItemId itemId, ulong pokemonId)
@@ -131,7 +131,7 @@ namespace PokemonGo.RocketAPI.Rpc
                 PokemonId = pokemonId
             };
 
-            return PostProtoPayload<Request, UseItemReviveResponse>(RequestType.UseItemRevive, message).Result;
+            return PostProtoPayload<Request, UseItemReviveResponse>(RequestType.UseItemRevive, message);
         }
 
         public UseIncenseResponse UseIncense(ItemId incenseType)
@@ -141,7 +141,7 @@ namespace PokemonGo.RocketAPI.Rpc
                 IncenseType = incenseType
             };
 
-            return PostProtoPayload<Request, UseIncenseResponse>(RequestType.UseIncense, message).Result;
+            return PostProtoPayload<Request, UseIncenseResponse>(RequestType.UseIncense, message);
         }
 
         public  UseItemGymResponse UseItemInGym(string gymId, ItemId itemId)
@@ -154,7 +154,7 @@ namespace PokemonGo.RocketAPI.Rpc
                 PlayerLongitude = Client.CurrentLongitude
             };
 
-            return  PostProtoPayload<Request, UseItemGymResponse>(RequestType.UseItemGym, message).Result;
+            return  PostProtoPayload<Request, UseItemGymResponse>(RequestType.UseItemGym, message);
         } // Quarthy - Still not implemented in BOT
 
         #endregion
@@ -249,7 +249,7 @@ namespace PokemonGo.RocketAPI.Rpc
                 PokemonId = pokemonId
             };
 
-            return PostProtoPayload<Request, EvolvePokemonResponse>(RequestType.EvolvePokemon, message).Result;
+            return PostProtoPayload<Request, EvolvePokemonResponse>(RequestType.EvolvePokemon, message);
         }
         #endregion
 
@@ -261,7 +261,7 @@ namespace PokemonGo.RocketAPI.Rpc
                 PokemonId = pokemonId
             };
 
-            return PostProtoPayload<Request, ReleasePokemonResponse>(RequestType.ReleasePokemon, message).Result;
+            return PostProtoPayload<Request, ReleasePokemonResponse>(RequestType.ReleasePokemon, message);
         }
 
         public ReleasePokemonResponse TransferPokemon(List<ulong> pokemonId) // Transfer a list of pokemon (BULK Transfer)
@@ -270,7 +270,7 @@ namespace PokemonGo.RocketAPI.Rpc
 
             message.PokemonIds.AddRange(pokemonId);
 
-            return  PostProtoPayload<Request, ReleasePokemonResponse>(RequestType.ReleasePokemon, message).Result;
+            return  PostProtoPayload<Request, ReleasePokemonResponse>(RequestType.ReleasePokemon, message);
         }
 
         public IEnumerable<PokemonData> GetDuplicatePokemonToTransfer(int holdMaxDoublePokemons, bool keepPokemonsThatCanEvolve = false, bool orderByIv = false)
@@ -364,7 +364,7 @@ namespace PokemonGo.RocketAPI.Rpc
                 PokemonId = pokemonId
             };
 
-            return  PostProtoPayload<Request, UpgradePokemonResponse>(RequestType.UpgradePokemon, message).Result;
+            return  PostProtoPayload<Request, UpgradePokemonResponse>(RequestType.UpgradePokemon, message);
         }
         #endregion
 
@@ -377,7 +377,7 @@ namespace PokemonGo.RocketAPI.Rpc
                 Nickname = nickName
             };
 
-            return  PostProtoPayload<Request, NicknamePokemonResponse>(RequestType.NicknamePokemon, message).Result;
+            return  PostProtoPayload<Request, NicknamePokemonResponse>(RequestType.NicknamePokemon, message);
         }
         #endregion
 
@@ -390,7 +390,7 @@ namespace PokemonGo.RocketAPI.Rpc
                 IsFavorite = isFavorite
             };
 
-            return  PostProtoPayload<Request, SetFavoritePokemonResponse>(RequestType.SetFavoritePokemon, message).Result;
+            return  PostProtoPayload<Request, SetFavoritePokemonResponse>(RequestType.SetFavoritePokemon, message);
         }
         #endregion
 
@@ -402,7 +402,7 @@ namespace PokemonGo.RocketAPI.Rpc
                 PokemonId = pokemonId
             };
 
-            return  PostProtoPayload<Request, SetBuddyPokemonResponse>(RequestType.SetBuddyPokemon, message).Result;
+            return  PostProtoPayload<Request, SetBuddyPokemonResponse>(RequestType.SetBuddyPokemon, message);
         }
         #endregion
 
@@ -561,12 +561,12 @@ namespace PokemonGo.RocketAPI.Rpc
                 PokemonId = pokemonId
             };
 
-            return PostProtoPayload<Request, UseItemEggIncubatorResponse>(RequestType.UseItemEggIncubator, message).Result;
+            return PostProtoPayload<Request, UseItemEggIncubatorResponse>(RequestType.UseItemEggIncubator, message);
         }
 
         public GetHatchedEggsResponse GetHatchedEgg()
         {
-            return  PostProtoPayload<Request, GetHatchedEggsResponse>(RequestType.GetHatchedEggs, new GetHatchedEggsMessage()).Result;
+            return  PostProtoPayload<Request, GetHatchedEggsResponse>(RequestType.GetHatchedEggs, new GetHatchedEggsMessage());
         }
 
         public IEnumerable<EggIncubator> GetEggIncubators()

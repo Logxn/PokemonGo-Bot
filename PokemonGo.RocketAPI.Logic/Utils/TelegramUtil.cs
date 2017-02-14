@@ -185,7 +185,7 @@ namespace PokemonGo.RocketAPI.Logic.Utils
                 {
                     var usage = "";
                     var inventory =  _client.Inventory.GetInventory();
-                    var profil = await _client.Player.GetPlayer().ConfigureAwait(false);
+                    var profil =  _client.Player.GetPlayer();
                     var stats = inventory.InventoryDelta.InventoryItems.Select(i => i.InventoryItemData.PlayerStats).ToArray();
                     foreach (var c in stats)
                     {
@@ -228,7 +228,7 @@ namespace PokemonGo.RocketAPI.Logic.Utils
                 {
                     int current = 0;
                     var inventory =  _client.Inventory.GetInventory();
-                    var profil = await _client.Player.GetPlayer().ConfigureAwait(false);
+                    var profil =  _client.Player.GetPlayer();
                     var stats =  _client.Inventory.GetPlayerStats();
 
                     current = stats.First().Level;
@@ -288,7 +288,7 @@ namespace PokemonGo.RocketAPI.Logic.Utils
                         break;
                     case TelegramUtilTask.GET_STATS:
                         var inventory =  _client.Inventory.GetInventory();
-                        var profil = await _client.Player.GetPlayer().ConfigureAwait(false);
+                        var profil =  _client.Player.GetPlayer();
                         var ps =  _client.Inventory.GetPlayerStats(); 
 
                         int l = ps.First().Level; 
@@ -329,7 +329,7 @@ namespace PokemonGo.RocketAPI.Logic.Utils
 
                         var myPokemons =  _inventory.GetPokemons();
                         myPokemons = myPokemons.OrderByDescending(x => x.Cp);
-                        var profile = await _client.Player.GetPlayer().ConfigureAwait(false);
+                        var profile =  _client.Player.GetPlayer();
                         telegramAnswer = $"Top {shows} Pokemons of {profile.PlayerData.Username}:";
 
                         IEnumerable<PokemonData> topPokemon = myPokemons.Take(shows);
