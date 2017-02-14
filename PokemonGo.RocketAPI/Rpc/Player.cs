@@ -26,7 +26,6 @@ namespace PokemonGo.RocketAPI.Rpc
 
         public async Task<PlayerUpdateResponse> UpdatePlayerLocation(double latitude, double longitude, double altitude)
         {
-            //SetCoordinates(latitude, longitude, altitude);
 
             // This needs to me removed from here
             Client.CurrentLatitude = latitude;
@@ -34,24 +33,28 @@ namespace PokemonGo.RocketAPI.Rpc
             Client.CurrentAltitude = altitude;
             string latlngalt = latitude.ToString(CultureInfo.InvariantCulture) + ":" + longitude.ToString(CultureInfo.InvariantCulture) + ":" + altitude.ToString(CultureInfo.InvariantCulture);
             File.WriteAllText(Directory.GetCurrentDirectory() + "\\Configs\\LastCoords.txt", latlngalt);
-            //
 
-            var message = new PlayerUpdateMessage
-            {
-                Latitude = Client.CurrentLatitude,
-                Longitude = Client.CurrentLongitude
-            };
-
-            Logger.Debug( $"Calling Request UpdatePlayerLocation -> {latitude} / {longitude} / {altitude}");
-            var updatePlayerLocationRequestEnvelope = await GetRequestBuilder().GetRequestEnvelope(new Request[] {
-                new Request
+            var ret = new PlayerUpdateResponse();
+            try {
+                var message = new PlayerUpdateMessage
                 {
-                    RequestType = RequestType.PlayerUpdate,
-                    RequestMessage = message.ToByteString()
-                }
-            }).ConfigureAwait(false);
+                    Latitude = Client.CurrentLatitude,
+                    Longitude = Client.CurrentLongitude
+                };
+                var updatePlayerLocationRequestEnvelope = GetRequestBuilder().GetRequestEnvelope(new Request[] {
+                    new Request
+                    {
+                        RequestType = RequestType.PlayerUpdate,
+                        RequestMessage = message.ToByteString()
+                    }
+                }).Result;
+                ret = PostProtoPayload<Request, PlayerUpdateResponse>(updatePlayerLocationRequestEnvelope).Result;
+                Logger.Debug("ret:" + ret);
+            } catch (Exception ex1) {
+                Logger.Debug("ex1:" + ex1);
+            }
 
-            return await PostProtoPayload<Request, PlayerUpdateResponse>(updatePlayerLocationRequestEnvelope).ConfigureAwait(false);
+            return  ret;
         }
 
 
