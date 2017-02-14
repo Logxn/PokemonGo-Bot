@@ -35,6 +35,8 @@ namespace PokemonGo.RocketAPI.Rpc
             File.WriteAllText(Directory.GetCurrentDirectory() + "\\Configs\\LastCoords.txt", latlngalt);
 
             var ret = new PlayerUpdateResponse();
+            return ret;
+            // TODO: check how to work PlayerUpdateMessage now 14/02/2017
             try {
                 var message = new PlayerUpdateMessage
                 {
@@ -49,7 +51,6 @@ namespace PokemonGo.RocketAPI.Rpc
                     }
                 }).Result;
                 ret = PostProtoPayload<Request, PlayerUpdateResponse>(updatePlayerLocationRequestEnvelope).Result;
-                Logger.Debug("ret:" + ret);
             } catch (Exception ex1) {
                 Logger.Debug("ex1:" + ex1);
             }

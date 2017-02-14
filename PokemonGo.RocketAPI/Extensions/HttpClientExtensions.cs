@@ -78,18 +78,15 @@ namespace PokemonGo.RocketAPI.Extensions
             where TResponsePayload : IMessage<TResponsePayload>, new()
         {
             var response = PerformThrottledRemoteProcedureCall<TRequest>(client, url, requestEnvelope).Result;
-            Logger.Debug("PerformThrottledRemoteProcedureCall response:" + response);
 
             while (response.Returns.Count == 0)
             {
                 var operation = strategy.HandleApiFailure(requestEnvelope, response).Result;
-                Logger.Debug("HandleApiFailure operation:" + operation);
 
                 if (operation == ApiOperation.Abort)
                     break;
 
                 response = PerformThrottledRemoteProcedureCall<TRequest>(client, url, requestEnvelope).Result;
-                Logger.Debug("PerformThrottledRemoteProcedureCall response:" + response);
             }
 
             if (response.Returns.Count == 0)
@@ -119,7 +116,6 @@ namespace PokemonGo.RocketAPI.Extensions
             var codedStream = new CodedInputStream(responseData);
             var decodedResponse = new ResponseEnvelope();
             decodedResponse.MergeFrom(codedStream);
-            Logger.Debug("decodedResponse:" + decodedResponse);
 
             return decodedResponse;
         }

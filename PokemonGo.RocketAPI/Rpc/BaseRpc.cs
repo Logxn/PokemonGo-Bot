@@ -35,8 +35,6 @@ namespace PokemonGo.RocketAPI.Rpc
         {
             var requestEnvelops = await GetRequestBuilder().GetRequestEnvelope(type, message).ConfigureAwait(false);
 
-            Logger.Debug("Calling Request: " + type);
-
             return
                 await
                     Client.PokemonHttpClient.PostProtoPayload<TRequest, TResponsePayload>(Client.ApiUrl, requestEnvelops,
