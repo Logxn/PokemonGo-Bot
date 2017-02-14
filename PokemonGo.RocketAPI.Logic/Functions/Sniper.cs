@@ -104,6 +104,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
             var tries = 1;
             var found = false;
             ulong caught = 0;
+            const double Epsilon = 0.0000005;
 
             do{
                 SendToLog($"Try {tries} of {GlobalVars.SnipeOpts.NumTries}");
@@ -114,7 +115,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                     foreach (var pokemon in pokemons) {
                         Logger.Debug("pokemon:" + pokemon);
                         Logger.Debug("pokeCoords:" + pokeCoords);
-                        if (Math.Abs(pokemon.Latitude - pokeCoords.Latitude) < double.Epsilon && Math.Abs(pokemon.Longitude - pokeCoords.Longitude) < double.Epsilon){
+                        if (Math.Abs(pokemon.Latitude - pokeCoords.Latitude) < Epsilon && Math.Abs(pokemon.Longitude - pokeCoords.Longitude) < Epsilon){
                             SendToLog($"Found {pokemon.PokemonId} to Snipe");
                             caught = Logic.Instance.CatchPokemon(pokemon.EncounterId, pokemon.SpawnPointId, pokemon.PokemonId, pokemon.Longitude, pokemon.Latitude, goBack, returnCoords.Latitude, returnCoords.Longitude);
                             found = true;
