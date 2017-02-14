@@ -952,7 +952,7 @@ namespace PokemonGo.RocketAPI.Console
                 .FirstOrDefault(i => i.Id == selectedPokemon.DeployedFortId );
             string message;
             if (pokeGym == null){
-                message = "Gym is not in range";
+                message = th.TS("Gym is not in range.\nID: ")+pokeGym.Id;
             }else{
                 message = string.Format("{0}\n{1}, {2}\nID: {3}", LocationUtils.FindAddress(pokeGym.Latitude, pokeGym.Longitude), pokeGym.Latitude, pokeGym.Longitude,   pokeGym.Id);
             }

@@ -194,11 +194,13 @@
     <Compile Include="Rpc\Download.cs" />
     <Compile Include="Rpc\Encounter.cs" />
     <Compile Include="Rpc\Fort.cs" />
+    <Compile Include="Rpc\GetStoreMessage.cs" />
     <Compile Include="Rpc\Inventory.cs" />
     <Compile Include="Rpc\Login.cs" />
     <Compile Include="Rpc\Map.cs" />
     <Compile Include="Rpc\Misc.cs" />
     <Compile Include="Rpc\Player.cs" />
+    <Compile Include="Rpc\Store.cs" />
     <Compile Include="Shared\ClientSettings.cs" />
     <Compile Include="Shared\KeyCollection.cs" />
     <None Include="app.config" />

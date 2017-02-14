@@ -245,6 +245,10 @@
     <Compile Include="Panels\PokemonsPanel.designer.cs">
       <DependentUpon>PokemonsPanel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Panels\ShopPanel.cs" />
+    <Compile Include="Panels\ShopPanel.Designer.cs">
+      <DependentUpon>ShopPanel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Panels\SniperPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -353,6 +357,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Panels\PokemonsPanel.resx">
       <DependentUpon>PokemonsPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Panels\ShopPanel.resx">
+      <DependentUpon>ShopPanel.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Panels\SniperPanel.resx">
       <DependentUpon>SniperPanel.cs</DependentUpon>

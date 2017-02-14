@@ -74,19 +74,6 @@ namespace PokemonGo.RocketAPI.Rpc
                 .Where(p => p != null);
         }
 
-        // |------getInventoryCount()---------------------[TELEGRAM ONLY]---------
-        // |Quarthy - only used by Telegram. Remove if Telegram support is dropped
-        // |----------------------------------------------------------------------
-        public int getInventoryCount()
-        {
-            var items = GetItems();
-            var totalitems = 0;
-            foreach (var item in items)
-            {
-                totalitems += item.Count;
-            }
-            return totalitems;
-        }
 
         public IEnumerable<ItemData> GetItemsToRecycle(ICollection<KeyValuePair<ItemId, int>> itemRecycleFilter)
         {
@@ -552,14 +539,9 @@ namespace PokemonGo.RocketAPI.Rpc
             return i;
         }
 
-        public IEnumerable<PokemonData> GetEggs()
+        public IEnumerable<PokemonData> GetEggs(bool forceRefress = false)
         {
-
-            var inventory =  GetInventory();
-            if (inventory == null)
-            {
-                 GetEggs();
-            }
+            var inventory =  GetInventory(forceRefress);
             return   inventory.InventoryDelta.InventoryItems.Select(i => i.InventoryItemData?.PokemonData)
                .Where(p => p != null && p.IsEgg);
         }
