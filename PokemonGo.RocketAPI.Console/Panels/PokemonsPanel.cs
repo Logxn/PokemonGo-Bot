@@ -15,6 +15,7 @@ using PokemonGo.RocketAPI.Helpers;
 using PokemonGo.RocketAPI.Logic.Shared;
 using PokemonGo.RocketAPI.Logic.Utils;
 using POGOProtos.Inventory.Item;
+using POGOProtos.Map.Fort;
 
 namespace PokemonGo.RocketAPI.Console
 {
@@ -360,7 +361,7 @@ namespace PokemonGo.RocketAPI.Console
         }
 
         public async Task refreshData(){
-            inventory = await client.Inventory.GetInventory().ConfigureAwait(false);
+            inventory =  client.Inventory.GetInventory();
             templates = await client.Download.GetItemTemplates().ConfigureAwait(false);
         }
 
@@ -399,7 +400,7 @@ namespace PokemonGo.RocketAPI.Console
             var resp = new taskResponse(false, string.Empty);
             try
             {
-                var transferPokemonResponse = await client.Inventory.TransferPokemon(pokemon.Id).ConfigureAwait(false);
+                var transferPokemonResponse =  client.Inventory.TransferPokemon(pokemon.Id);
 
                 if (transferPokemonResponse.Result == ReleasePokemonResponse.Types.Result.Success)
                 {
@@ -449,7 +450,7 @@ namespace PokemonGo.RocketAPI.Console
             {
                 var pokemoninfo = (PokemonData)selectedItem.Tag;
 
-                resp = client.Inventory.EvolvePokemon(pokemoninfo.Id).Result;
+                resp = client.Inventory.EvolvePokemon(pokemoninfo.Id);
 
                 var name = pokemoninfo.PokemonId;
 
@@ -571,7 +572,7 @@ namespace PokemonGo.RocketAPI.Console
                         }
                     }
                     if (pokemonsToTransfer.Any()){
-                        var _response = client.Inventory.TransferPokemon(pokemonsToTransfer).Result;
+                        var _response = client.Inventory.TransferPokemon(pokemonsToTransfer);
                         
                         if (_response.Result == ReleasePokemonResponse.Types.Result.Success)
                         {
@@ -589,7 +590,7 @@ namespace PokemonGo.RocketAPI.Console
                         }
                         
                         RefreshTitle();
-                        client.Inventory.GetInventory(true).Wait(); // force refresh inventory
+                        client.Inventory.GetInventory(true); // force refresh inventory
                     }
                     
                     if (GlobalVars.pauseAtEvolve)
@@ -614,7 +615,7 @@ namespace PokemonGo.RocketAPI.Console
             var ret = false;
             try
             {
-                var evolvePokemonResponse = client.Inventory.UpgradePokemon(pokemon.Id).Result;
+                var evolvePokemonResponse = client.Inventory.UpgradePokemon(pokemon.Id);
 
                 if (evolvePokemonResponse.Result == UpgradePokemonResponse.Types.Result.Success)
                 {
@@ -708,7 +709,7 @@ namespace PokemonGo.RocketAPI.Console
             var ret = false;
             try
             {
-                var result = client.Inventory.NicknamePokemon(pokemon.Id, pokemon.Nickname).Result;
+                var result = client.Inventory.NicknamePokemon(pokemon.Id, pokemon.Nickname);
 
                 if ( result.Result == NicknamePokemonResponse.Types.Result.Success)
                 {
@@ -812,7 +813,7 @@ namespace PokemonGo.RocketAPI.Console
             var resp = new taskResponse(false, string.Empty);
             try
             {
-                var response = await client.Inventory.SetFavoritePokemon((long)pokemon.Id, (pokemon.Favorite == 1)).ConfigureAwait(false);
+                var response =  client.Inventory.SetFavoritePokemon((long)pokemon.Id, (pokemon.Favorite == 1));
 
                 if (response.Result == SetFavoritePokemonResponse.Types.Result.Success)
                 {
@@ -871,7 +872,7 @@ namespace PokemonGo.RocketAPI.Console
             var ret = false;
             try
             {
-                var response = client.Inventory.SetBuddyPokemon(pokemon.Id).Result;
+                var response = client.Inventory.SetBuddyPokemon(pokemon.Id);
 
                 if (response.Result == SetBuddyPokemonResponse.Types.Result.Success)
                 {
@@ -925,19 +926,38 @@ namespace PokemonGo.RocketAPI.Console
                 if (selectedItem.ItemId == ItemId.ItemRevive || selectedItem.ItemId == ItemId.ItemMaxRevive)
                 {
                     var res = client.Inventory.UseItemRevive(selectedItem.ItemId,selectedPokemon.Id).Result;
-                    if (res.Result == UseItemReviveResponse.Types.Result.Success)
+                    if (res == UseItemReviveResponse.Types.Result.Success)
                         MessageBox.Show(th.TS("{0} Revived sucefully",selectedPokemon.PokemonId.ToString()));
                     else
-                        Logger.Error("Error: "+ res.Result);
+                        Logger.Error("Error: "+ res);
                 }
                 else{
                     var res = client.Inventory.UseItemPotion(selectedItem.ItemId,selectedPokemon.Id).Result;
-                    if (res.Result == UseItemPotionResponse.Types.Result.Success)
+                    if (res == UseItemPotionResponse.Types.Result.Success)
                         MessageBox.Show(th.TS("{0} Cured sucefully",selectedPokemon.PokemonId.ToString()));
                     else
-                        Logger.Error("Error: "+ res.Result);
+                        Logger.Error("Error: "+ res);
                 }
             }
+        }
+        void gymInformationToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (PokemonListView.SelectedItems.Count < 1)
+                return;
+            var selectedPokemon = (PokemonData) PokemonListView.SelectedItems[0].Tag;
+            if (selectedPokemon.DeployedFortId=="")
+                return;
+            var forts = client.Map.GetMapObjects().Result.Item1;
+            var pokeGym = forts.MapCells.SelectMany(i => i.Forts)
+                .FirstOrDefault(i => i.Id == selectedPokemon.DeployedFortId );
+            string message;
+            if (pokeGym == null){
+                message = "Gym is not in range";
+            }else{
+                message = string.Format("{0}\n{1}, {2}\nID: {3}", LocationUtils.FindAddress(pokeGym.Latitude, pokeGym.Longitude), pokeGym.Latitude, pokeGym.Longitude,   pokeGym.Id);
+            }
+            MessageBox.Show(message);
+
         }
 
         public class taskResponse

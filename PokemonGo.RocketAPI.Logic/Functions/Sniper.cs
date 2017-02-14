@@ -67,7 +67,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                 var catchedID = TrySnipePokemons(pokeid, remoteCoords, returnCoords);
                 if ( (catchedID >0) && GlobalVars.SnipeOpts.TransferIt)
                 {
-                    var trResult = Logic.objClient.Inventory.TransferPokemon(catchedID).Result;
+                    var trResult = Logic.objClient.Inventory.TransferPokemon(catchedID);
                     if (trResult.Result == ReleasePokemonResponse.Types.Result.Success)
                     {
                         SendToLog("Pokemon was transfered.");

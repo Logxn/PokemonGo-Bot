@@ -195,7 +195,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
 
             Logger.Debug("(Gym) - Reviving pokemons.");
             ReviveAndCurePokemons(client);
-            var pokemons = (client.Inventory.GetPokemons().Result).ToList();
+            var pokemons = (client.Inventory.GetPokemons()).ToList();
 
             RandomHelper.RandomSleep(900);
             var profile = client.Player.GetPlayer().Result;
@@ -207,7 +207,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                 return false;
             }
 
-            Logger.Debug("(Gym) - Pokemon to insert: " + strPokemon(pokemon));
+            Logger.Debug("(Gym) - Pokemon to deploy: " + strPokemon(pokemon));
 
             var gymDetails = client.Fort.GetGymDetails(gym.Id, gym.Latitude, gym.Longitude).Result;
             Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - Team: " + GetTeamName(gym.OwnedByTeam) + ".");
@@ -282,9 +282,10 @@ namespace PokemonGo.RocketAPI.Logic.Functions
             // Sometimes we get a null from startgymBattle so we try to start battle 3 times
             var numTries = 3;
             var startFailed = true;
+            const int secondsToWait = 30;
 
             while (startFailed && numTries > 0) {
-                RandomHelper.RandomSleep(10000, 11000);
+                RandomHelper.RandomSleep(secondsToWait*100);
                 mapObjectsResponse = Logic.objClient.Map.GetMapObjects().Result.Item1;
                 RandomHelper.RandomSleep(800);
                 gymDetails = client.Fort.GetGymDetails(gym.Id, gym.Latitude, gym.Longitude).Result;
@@ -301,7 +302,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                     }
                 }
                 if (startFailed)
-                    Logger.Debug("(Gym) - Trying again after 12 seconds");
+                    Logger.Debug($"(Gym) - Trying again after {secondsToWait} seconds");
                 
                 numTries--;
             }
@@ -442,7 +443,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                             Logger.Debug("(Gym) - Leaving Battle");
                         } else {
                             ReviveAndCurePokemons(client);
-                            var pokemons = (client.Inventory.GetPokemons().Result).ToList();
+                            var pokemons = (client.Inventory.GetPokemons()).ToList();
                             RandomHelper.RandomSleep(400);
                             gymDetails = client.Fort.GetGymDetails(gym.Id, gym.Latitude, gym.Longitude).Result;
                             Logger.Debug("(Gym) - Gym Details: " + gymDetails);
@@ -478,7 +479,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
 
         private static PokemonData getPokeToPut(Client client, ulong buddyPokemon)
         {
-            var pokemons = (client.Inventory.GetPokemons().Result).ToList();
+            var pokemons = (client.Inventory.GetPokemons()).ToList();
 
             switch (GlobalVars.LeaveInGyms) {
                 case 1:
@@ -503,7 +504,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
             RandomHelper.RandomSleep(400);
             var fortSearch = client.Fort.FortDeployPokemon(gym.Id, pokemon.Id).Result;
             if (fortSearch.Result == FortDeployPokemonResponse.Types.Result.Success) {
-                Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - " + pokemon.PokemonId + " inserted into the gym");
+                Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - " + pokemon.PokemonId + " deployed into the gym");
                 var pokesInGym = pokemons.Count(x => ((!x.IsEgg) && (x.DeployedFortId != ""))) + 1;
                 Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - Pokemons in gyms: " + pokesInGym);
                 if (pokesInGym > 9) {
@@ -529,18 +530,15 @@ namespace PokemonGo.RocketAPI.Logic.Functions
         private static void ReviveAndCurePokemons(Client client)
         {
             try {
-                var pokemons = client.Inventory.GetPokemons().Result.Where(x => x.Stamina < x.StaminaMax);
-                if (!pokemons.Any())
-                    return;
                 RandomHelper.RandomSleep(7000); // If we don`t wait, getpokemons return null.
-                pokemons = client.Inventory.GetPokemons(true).Result.Where(x => x.Stamina < x.StaminaMax);
+                var pokemons = client.Inventory.GetPokemons(true).Where(x => x.Stamina < x.StaminaMax);
                 foreach (var pokemon in pokemons) {
                     if (pokemon.Stamina <= 0) {
                         var revive = GetNextAvailableRevive(client);
                         Logger.Debug("revive:" +revive);
                         if (revive != 0) {
-                            RandomHelper.RandomSleep(500);
-                            var response = client.Inventory.UseItemRevive(revive, pokemon.Id).Result;
+                            RandomHelper.RandomSleep(250);
+                            var response = client.Inventory.UseItemRevive(revive, pokemon.Id);
                             if (response.Result == UseItemReviveResponse.Types.Result.Success) {
                                 if (revive == ItemId.ItemRevive) {
                                     pokemon.Stamina = pokemon.StaminaMax / 2;
@@ -568,7 +566,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
             Logger.Debug("potion:" +potion);
             while (pokemon.Stamina < pokemon.StaminaMax && potion != 0 && fails < 3) {
                 RandomHelper.RandomSleep(2000);
-                var response = client.Inventory.UseItemPotion(potion, pokemon.Id).Result;
+                var response = client.Inventory.UseItemPotion(potion, pokemon.Id);
                 if (response.Result == UseItemPotionResponse.Types.Result.Success) {
                     Logger.ColoredConsoleWrite(gymColorLog, $"(Gym) - Pokemon {pokemon.PokemonId} cured. Stamina: {response.Stamina}/{pokemon.StaminaMax}" );
                     pokemon.Stamina = response.Stamina;
@@ -583,30 +581,32 @@ namespace PokemonGo.RocketAPI.Logic.Functions
 
         private static ItemId GetNextAvailablePotion(Client client)
         {
-            var count = client.Inventory.GetItemAmountByType(ItemId.ItemPotion).Result;
+            RandomHelper.RandomSleep(250);
+            var count = client.Inventory.GetItemAmountByType(ItemId.ItemPotion,true);
             Logger.Debug("count ItemPotion:" +count);
             if (count > 0)
                 return ItemId.ItemPotion;
-            count = client.Inventory.GetItemAmountByType(ItemId.ItemSuperPotion).Result;
+            count = client.Inventory.GetItemAmountByType(ItemId.ItemSuperPotion);
             Logger.Debug("count ItemSuperPotion:" +count);
             if (count > 0)
                 return ItemId.ItemSuperPotion;
-            count = client.Inventory.GetItemAmountByType(ItemId.ItemHyperPotion).Result;
+            count = client.Inventory.GetItemAmountByType(ItemId.ItemHyperPotion);
             Logger.Debug("count ItemHyperPotion:" +count);
             if (count > 0)
                 return ItemId.ItemHyperPotion;
-            count = client.Inventory.GetItemAmountByType(ItemId.ItemMaxPotion).Result;
+            count = client.Inventory.GetItemAmountByType(ItemId.ItemMaxPotion);
             Logger.Debug("count ItemMaxPotion:" +count);
             return count > 0 ? ItemId.ItemMaxPotion : 0;
         }
 
         private static ItemId GetNextAvailableRevive(Client client)
         {
-            var count = client.Inventory.GetItemAmountByType(ItemId.ItemRevive).Result;
+            RandomHelper.RandomSleep(250);
+            var count = client.Inventory.GetItemAmountByType(ItemId.ItemRevive,true);
             Logger.Debug("count ItemRevive:" +count);
             if (count > 0)
                 return ItemId.ItemRevive;
-            count = client.Inventory.GetItemAmountByType(ItemId.ItemMaxRevive).Result;
+            count = client.Inventory.GetItemAmountByType(ItemId.ItemMaxRevive);
             Logger.Debug("count ItemMaxRevive:" +count);
             return count > 0 ? ItemId.ItemMaxRevive : 0;
         }

@@ -508,7 +508,7 @@ namespace PokemonGo.RocketAPI.Console
 
                                 var str = string.Format("Level:{0} ({1})", GetLevel(pokeGym.GymPoints), pokeGym.GymPoints);
                                 var pokeGymMaker = new GMarkerGoogle(new PointLatLng(pokeGym.Latitude, pokeGym.Longitude), bitmap);
-                                pokeGymMaker.ToolTipText = string.Format("{0}\n{1}, {2}\n{3}", LocationUtils.FindAddress(pokeGym.Latitude, pokeGym.Longitude), pokeGym.Latitude, pokeGym.Longitude, str);
+                                pokeGymMaker.ToolTipText = string.Format("{0}\n{1}, {2}\n{3}\nID: {4}", LocationUtils.FindAddress(pokeGym.Latitude, pokeGym.Longitude), pokeGym.Latitude, pokeGym.Longitude, str,  pokeGym.Id);
                                 pokeGymMaker.ToolTip.Font = new System.Drawing.Font("Arial", 12, System.Drawing.GraphicsUnit.Pixel);
                                 pokeGymMaker.ToolTipMode = MarkerTooltipMode.OnMouseOver;
                                 _pokeGymsMarks.Add(pokeGym.Id, pokeGymMaker);

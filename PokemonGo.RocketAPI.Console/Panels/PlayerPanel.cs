@@ -91,7 +91,7 @@ namespace PokemonGo.RocketAPI.Console
                 {
                     profile = client.Player.GetPlayer().Result;
                     RandomHelper.RandomSleep(300,400);
-                    var playerStats = client.Inventory.GetPlayerStats().Result;
+                    var playerStats = client.Inventory.GetPlayerStats();
                     stats = playerStats.First();
                 }
                 updatePlayerImages();
