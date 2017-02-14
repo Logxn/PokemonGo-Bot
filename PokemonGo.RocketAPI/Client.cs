@@ -32,6 +32,7 @@ namespace PokemonGo.RocketAPI
         public Rpc.Fort Fort;
         public Rpc.Encounter Encounter;
         public Rpc.Misc Misc;
+        public Rpc.Store Store;
 
         public IApiFailureStrategy ApiFailure { get; set; }
         public string AuthToken { get; set; }
@@ -96,6 +97,7 @@ namespace PokemonGo.RocketAPI
             Encounter = new Rpc.Encounter(this);
             Misc = new Rpc.Misc(this);
             Hasher = new PokeHashHasher(settings.hashKey);
+            Store = new PokemonGo.RocketAPI.Rpc.Store(this);
 
             //Player.SetCoordinates(settings.latitude, settings.longitude, settings.altitude);
 

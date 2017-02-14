@@ -405,7 +405,7 @@ namespace PokemonGo.RocketAPI.Logic.Utils
 
                         break;
                     case TelegramUtilTask.RUN_FORCEEVOLVE:
-                        IEnumerable<PokemonData> pokemonToEvolve =  _inventory.GetPokemonToEvolve(null);
+                        IEnumerable<PokemonData> pokemonToEvolve =  _inventory.GetPokemonToEvolve(true);
                         if (pokemonToEvolve.Count() > 3)
                         {
                              _inventory.UseLuckyEgg(_client);

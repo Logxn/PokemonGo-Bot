@@ -20,7 +20,7 @@ namespace PokemonGo.RocketAPI.Rpc
     {
         private GetInventoryResponse _cachedInventory;
         private DateTime _lastInventoryRequest;
-        private int _minSecondsBetweenInventoryCalls = 20;
+        private const int _minSecondsBetweenInventoryCalls = 20;
         private DateTime _lastegguse;
 
         public Inventory(Client client) : base(client)
@@ -40,29 +40,16 @@ namespace PokemonGo.RocketAPI.Rpc
         /// <returns></returns>
         public GetInventoryResponse GetInventory(bool forceRequest = false)
         {
-            if (forceRequest)
+            if (_lastInventoryRequest.AddSeconds(_minSecondsBetweenInventoryCalls).Ticks > DateTime.UtcNow.Ticks && _cachedInventory!=null && !forceRequest)
             {
-                // If forceRequest is TRUE we make the call
-                _lastInventoryRequest = DateTime.UtcNow;
-                _cachedInventory =  PostProtoPayload<Request, GetInventoryResponse>(RequestType.GetInventory, new GetInventoryMessage()).Result;
+                // If forceRequest is default/FALSE and last request made less than _minSecondsBetweenInventoryCalls seconds ago, we return _cachedInventory
                 return _cachedInventory;
             }
-            else
-            {
-                if (_lastInventoryRequest.AddSeconds(_minSecondsBetweenInventoryCalls).Ticks > DateTime.UtcNow.Ticks)
-                {
-                    // If forceRequest is default/FALSE and last request made less than _minSecondsBetweenInventoryCalls seconds ago, we return _cachedInventory
-                    return _cachedInventory;
-                }
-                else
-                {
-                    // If forceRequest is default/FALSE and last request made more than _minSecondsBetweenInventoryCalls seconds ago, 
-                    // we make the call and also update _cachedInventory
-                    _lastInventoryRequest = DateTime.UtcNow;
-                    _cachedInventory =  PostProtoPayload<Request, GetInventoryResponse>(RequestType.GetInventory, new GetInventoryMessage()).Result;
-                    return _cachedInventory;
-                }
-            }
+            // If forceRequest is default/FALSE and last request made more than _minSecondsBetweenInventoryCalls seconds ago, 
+            // we make the call and also update _cachedInventory
+            _lastInventoryRequest = DateTime.UtcNow;
+            _cachedInventory =  PostProtoPayload<Request, GetInventoryResponse>(RequestType.GetInventory, new GetInventoryMessage()).Result;
+            return _cachedInventory;
         }
 
 
@@ -187,9 +174,9 @@ namespace PokemonGo.RocketAPI.Rpc
         #endregion
 
         #region --Evolve
-        public IEnumerable<PokemonData> GetPokemonToEvolve(IEnumerable<PokemonId> filter = null)
+        public IEnumerable<PokemonData> GetPokemonToEvolve(bool forceRequest = false, IEnumerable<PokemonId> filter = null)
         {
-            var myPokemons =  GetPokemons();
+            var myPokemons =  GetPokemons(forceRequest);
 
             myPokemons = myPokemons.Where(p => p.DeployedFortId == string.Empty).OrderByDescending(p => p.Cp); //Don't evolve pokemon in gyms
 

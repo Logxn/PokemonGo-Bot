@@ -17,9 +17,13 @@ namespace PokemonGo.RocketAPI.Console.Panels
         private System.Windows.Forms.ListView listView;
         private System.Windows.Forms.Button btnBuy;
         private System.Windows.Forms.ColumnHeader chItem;
-        private System.Windows.Forms.ColumnHeader chValue;
+        private System.Windows.Forms.ColumnHeader chCurrency;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip;
         private System.Windows.Forms.ToolStripMenuItem buyToolStripMenuItem;
+        private System.Windows.Forms.ColumnHeader columnHeaderIsIap;
+        private System.Windows.Forms.ColumnHeader columnHeaderUnknown7;
+        private System.Windows.Forms.ColumnHeader columnHeaderYieldsCurrency;
+        private System.Windows.Forms.ColumnHeader columnHeaderTags;
         
         /// <summary>
         /// Disposes resources used by the control.
@@ -45,10 +49,14 @@ namespace PokemonGo.RocketAPI.Console.Panels
             this.components = new System.ComponentModel.Container();
             this.listView = new System.Windows.Forms.ListView();
             this.chItem = new System.Windows.Forms.ColumnHeader();
-            this.chValue = new System.Windows.Forms.ColumnHeader();
+            this.chCurrency = new System.Windows.Forms.ColumnHeader();
             this.btnBuy = new System.Windows.Forms.Button();
             this.contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.buyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.columnHeaderIsIap = new System.Windows.Forms.ColumnHeader();
+            this.columnHeaderUnknown7 = new System.Windows.Forms.ColumnHeader();
+            this.columnHeaderYieldsCurrency = new System.Windows.Forms.ColumnHeader();
+            this.columnHeaderTags = new System.Windows.Forms.ColumnHeader();
             this.contextMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -59,7 +67,11 @@ namespace PokemonGo.RocketAPI.Console.Panels
             | System.Windows.Forms.AnchorStyles.Right)));
             this.listView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.chItem,
-            this.chValue});
+            this.chCurrency,
+            this.columnHeaderIsIap,
+            this.columnHeaderUnknown7,
+            this.columnHeaderYieldsCurrency,
+            this.columnHeaderTags});
             this.listView.FullRowSelect = true;
             this.listView.GridLines = true;
             this.listView.Location = new System.Drawing.Point(20, 16);
@@ -75,9 +87,9 @@ namespace PokemonGo.RocketAPI.Console.Panels
             this.chItem.Text = "Item";
             this.chItem.Width = 200;
             // 
-            // chValue
+            // chCurrency
             // 
-            this.chValue.Text = "Value";
+            this.chCurrency.Text = "Currency";
             // 
             // btnBuy
             // 
@@ -89,6 +101,7 @@ namespace PokemonGo.RocketAPI.Console.Panels
             this.btnBuy.TabIndex = 82;
             this.btnBuy.Text = "Buy";
             this.btnBuy.UseVisualStyleBackColor = true;
+            this.btnBuy.Click += new System.EventHandler(this.btnBuy_Click);
             // 
             // contextMenuStrip
             // 
@@ -103,6 +116,24 @@ namespace PokemonGo.RocketAPI.Console.Panels
             this.buyToolStripMenuItem.Name = "buyToolStripMenuItem";
             this.buyToolStripMenuItem.Size = new System.Drawing.Size(94, 22);
             this.buyToolStripMenuItem.Text = "Buy";
+            this.buyToolStripMenuItem.Click += new System.EventHandler(this.buyToolStripMenuItem_Click);
+            // 
+            // columnHeaderIsIap
+            // 
+            this.columnHeaderIsIap.Text = "IsIap";
+            // 
+            // columnHeaderUnknown7
+            // 
+            this.columnHeaderUnknown7.Text = "Unknown7";
+            // 
+            // columnHeaderYieldsCurrency
+            // 
+            this.columnHeaderYieldsCurrency.Text = "YieldsCurrency";
+            // 
+            // columnHeaderTags
+            // 
+            this.columnHeaderTags.Text = "Tags";
+            this.columnHeaderTags.Width = 100;
             // 
             // ShopPanel
             // 

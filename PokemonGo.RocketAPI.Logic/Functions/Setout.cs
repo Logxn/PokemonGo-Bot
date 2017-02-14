@@ -133,7 +133,8 @@ namespace PokemonGo.RocketAPI.Logic.Functions
             {
                 return;
             }
-            var pokemonToEvolve = Logic.objClient.Inventory.GetPokemonToEvolve(filter);
+            
+            var pokemonToEvolve = Logic.objClient.Inventory.GetPokemonToEvolve(true,filter);
             var toEvolveCount = pokemonToEvolve.Count();
             var startEvolving = (toEvolveCount==0 || toEvolveCount==Shared.GlobalVars.EvolveAt );
 
