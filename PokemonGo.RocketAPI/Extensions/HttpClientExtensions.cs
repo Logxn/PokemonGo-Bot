@@ -77,18 +77,19 @@ namespace PokemonGo.RocketAPI.Extensions
             where TRequest : IMessage<TRequest>
             where TResponsePayload : IMessage<TResponsePayload>, new()
         {
-            Debug.WriteLine($"Requesting {typeof(TResponsePayload).Name}");
-            var response = await PerformThrottledRemoteProcedureCall<TRequest>(client, url, requestEnvelope).ConfigureAwait(false);
+            var response = PerformThrottledRemoteProcedureCall<TRequest>(client, url, requestEnvelope).Result;
+            Logger.Debug("PerformThrottledRemoteProcedureCall response:" + response);
 
             while (response.Returns.Count == 0)
             {
-                var operation = await strategy.HandleApiFailure(requestEnvelope, response).ConfigureAwait(false);
-                if (operation == ApiOperation.Abort)
-                {
-                    break;
-                }
+                var operation = strategy.HandleApiFailure(requestEnvelope, response).Result;
+                Logger.Debug("HandleApiFailure operation:" + operation);
 
-                response = await PerformThrottledRemoteProcedureCall<TRequest>(client, url, requestEnvelope).ConfigureAwait(false);
+                if (operation == ApiOperation.Abort)
+                    break;
+
+                response = PerformThrottledRemoteProcedureCall<TRequest>(client, url, requestEnvelope).Result;
+                Logger.Debug("PerformThrottledRemoteProcedureCall response:" + response);
             }
 
             if (response.Returns.Count == 0)
@@ -97,7 +98,7 @@ namespace PokemonGo.RocketAPI.Extensions
             strategy.HandleApiSuccess(requestEnvelope, response);
 
             //Decode payload
-            //todo: multi-payload support
+            //TODO: multi-payload support
             var payload = response.Returns[0];
             var parsedPayload = new TResponsePayload();
             parsedPayload.MergeFrom(payload);
@@ -118,6 +119,7 @@ namespace PokemonGo.RocketAPI.Extensions
             var codedStream = new CodedInputStream(responseData);
             var decodedResponse = new ResponseEnvelope();
             decodedResponse.MergeFrom(codedStream);
+            Logger.Debug("decodedResponse:" + decodedResponse);
 
             return decodedResponse;
         }
@@ -145,7 +147,6 @@ namespace PokemonGo.RocketAPI.Extensions
                 }
                 lastRpc = (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds;
                 ResponseEnvelope response = await PerformRemoteProcedureCall<TRequest>(client, url, r).ConfigureAwait(false);
-                //Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Calling PgoServers {url} last Rpc = {lastRpc} diff = {diff} datetimeNow.Millisecond = {DateTime.Now.Millisecond}");
                 responses.GetOrAdd(r, response);
             }
             ResponseEnvelope ret;
