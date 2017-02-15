@@ -128,7 +128,8 @@ namespace PokemonGo.RocketAPI.Logic.Functions
 
         private static FortData[] GetNearbyGyms(GetMapObjectsResponse mapObjectsResponse = null)
         {
-            Logic.objClient.Player.UpdatePlayerLocation(Logic.objClient.CurrentLatitude, Logic.objClient.CurrentLongitude, Logic.objClient.CurrentAltitude);
+            //Logic.objClient.Player.UpdatePlayerLocation(Logic.objClient.CurrentLatitude, Logic.objClient.CurrentLongitude, Logic.objClient.CurrentAltitude);
+            LocationUtils.updatePlayerLocation(Logic.objClient, Logic.objClient.CurrentLatitude, Logic.objClient.CurrentLongitude, Logic.objClient.CurrentAltitude);
             RandomHelper.RandomSleep(400);
 
             if (mapObjectsResponse == null)

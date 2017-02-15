@@ -367,7 +367,7 @@ namespace PokemonGo.RocketAPI.Logic
 
                     Logger.ColoredConsoleWrite(ConsoleColor.Green, "Returning to the starting point...");
 
-                    var update = navigation.HumanLikeWalking(new GeoCoordinate(BotSettings.DefaultLatitude, BotSettings.DefaultLongitude), BotSettings.WalkingSpeedInKilometerPerHour, ExecuteCatchAllNearbyPokemons);
+                    navigation.HumanLikeWalking(new GeoCoordinate(BotSettings.DefaultLatitude, BotSettings.DefaultLongitude), BotSettings.WalkingSpeedInKilometerPerHour, ExecuteCatchAllNearbyPokemons);
 
                     break;
                 }
@@ -781,7 +781,7 @@ namespace PokemonGo.RocketAPI.Logic
                             var distanceDelta = LocationUtils.CalculateDistanceInMeters(new GeoCoordinate(point.Latitude, point.Longitude), new GeoCoordinate(lastpoint.Latitude, lastpoint.Longitude));
                             if (distanceDelta > 10)
                             {
-                                var update = navigation.HumanLikeWalking(new GeoCoordinate(point.Latitude, point.Longitude), walkspeed, ExecuteCatchandFarm, true, false);
+                                navigation.HumanLikeWalking(new GeoCoordinate(point.Latitude, point.Longitude), walkspeed, ExecuteCatchandFarm, true, false);
                             }
                             lastpoint = point;
                         }
@@ -799,7 +799,7 @@ namespace PokemonGo.RocketAPI.Logic
                                     lowestspeed = BotSettings.MinWalkSpeed;
                                 }
                                 Logger.ColoredConsoleWrite(ConsoleColor.Green, "As close as google can take us, going off-road at walking speed (" + lowestspeed + ")");
-                                var update = navigation.HumanLikeWalking(new GeoCoordinate(latitude, longitude), walkspeed, ExecuteCatchandFarm);
+                                navigation.HumanLikeWalking(new GeoCoordinate(latitude, longitude), walkspeed, ExecuteCatchandFarm);
                             }
                             Logger.ColoredConsoleWrite(ConsoleColor.Green, "Destination Reached!");
                         }
@@ -813,22 +813,22 @@ namespace PokemonGo.RocketAPI.Logic
                 else if (directions.Status == DirectionsStatusCodes.REQUEST_DENIED)
                 {
                     Logger.ColoredConsoleWrite(ConsoleColor.Red, "Request Failed! Bad API key?");
-                    var update = navigation.HumanLikeWalking(new GeoCoordinate(latitude, longitude), walkspeed, ExecuteCatchAllNearbyPokemons);
+                    navigation.HumanLikeWalking(new GeoCoordinate(latitude, longitude), walkspeed, ExecuteCatchAllNearbyPokemons);
                 }
                 else if (directions.Status == DirectionsStatusCodes.OVER_QUERY_LIMIT)
                 {
                     Logger.ColoredConsoleWrite(ConsoleColor.Red, "Over 2500 queries today! Are you botting unsafely? :)");
-                    var update = navigation.HumanLikeWalking(new GeoCoordinate(latitude, longitude), walkspeed, ExecuteCatchAllNearbyPokemons);
+                    navigation.HumanLikeWalking(new GeoCoordinate(latitude, longitude), walkspeed, ExecuteCatchAllNearbyPokemons);
                 }
                 else if (directions.Status == DirectionsStatusCodes.NOT_FOUND)
                 {
                     Logger.ColoredConsoleWrite(ConsoleColor.Red, "Geocoding coords failed! Waypoint: " + latitude + "," + longitude + " Bot Location: " + objClient.CurrentLatitude + "," + objClient.CurrentLongitude);
-                    var update = navigation.HumanLikeWalking(new GeoCoordinate(latitude, longitude), walkspeed, ExecuteCatchAllNearbyPokemons);
+                    navigation.HumanLikeWalking(new GeoCoordinate(latitude, longitude), walkspeed, ExecuteCatchAllNearbyPokemons);
                 }
                 else
                 {
                     Logger.ColoredConsoleWrite(ConsoleColor.Red, "Unhandled Error occurred when getting route[ STATUS:" + directions.StatusStr + " ERROR MESSAGE:" + directions.ErrorMessage + "] Using default walk method instead.");
-                    var update = navigation.HumanLikeWalking(new GeoCoordinate(latitude, longitude), walkspeed, ExecuteCatchAllNearbyPokemons);
+                    navigation.HumanLikeWalking(new GeoCoordinate(latitude, longitude), walkspeed, ExecuteCatchAllNearbyPokemons);
                 }
 
                 #endregion
@@ -836,7 +836,7 @@ namespace PokemonGo.RocketAPI.Logic
             else
             {
                 Logger.ColoredConsoleWrite(ConsoleColor.Red, $"API Key not found in Client Settings! Using default method instead.");
-                var update = navigation.HumanLikeWalking(new GeoCoordinate(latitude, longitude), walkspeed, ExecuteCatchAllNearbyPokemons);
+                navigation.HumanLikeWalking(new GeoCoordinate(latitude, longitude), walkspeed, ExecuteCatchAllNearbyPokemons);
             }
 
             #endregion
@@ -1310,11 +1310,12 @@ namespace PokemonGo.RocketAPI.Logic
                 {
                     Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"(SNIPING) Go to {returnLatitude} / {returnLongitude} before starting the capture.");
                     Logger.ColoredConsoleWrite(ConsoleColor.Cyan,LocationUtils.FindAddress(returnLatitude, returnLongitude));
-                    
-                    var result = objClient.Player.UpdatePlayerLocation(
-                        returnLatitude,
-                        returnLongitude,
-                        BotSettings.DefaultAltitude).Result;
+
+                    LocationUtils.updatePlayerLocation(objClient, returnLatitude, returnLongitude, BotSettings.DefaultAltitude);
+                    //var result = objClient.Player.UpdatePlayerLocation(
+                    //    returnLatitude,
+                    //    returnLongitude,
+                    //    BotSettings.DefaultAltitude).Result;
                 }
             }
 

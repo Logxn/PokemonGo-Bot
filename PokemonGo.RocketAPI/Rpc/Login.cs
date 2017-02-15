@@ -45,7 +45,7 @@ namespace PokemonGo.RocketAPI.Rpc
         {
             Client.AuthToken = await _login.GetAccessToken().ConfigureAwait(false);
             Client.StartTime = Utils.GetTime(true);
-
+            
             await
                 FireRequestBlock(CommonRequest.GetDownloadRemoteConfigVersionMessageRequest(Client))
                     .ConfigureAwait(false);
@@ -59,6 +59,10 @@ namespace PokemonGo.RocketAPI.Rpc
         private async Task FireRequestBlock(Request request)
         {
             var requests = CommonRequest.FillRequest(request, Client);
+
+            RequestBuilder ll = new RequestBuilder(Client, Client.AuthToken, Client.AuthType, Client.CurrentLatitude, Client.CurrentLongitude, Client.CurrentAltitude);
+
+            //var player = Client.Player.GetPlayer();
 
             var serverRequest = await GetRequestBuilder().GetRequestEnvelope(requests, true).ConfigureAwait(false);
             var serverResponse = await PostProto<Request>(serverRequest).ConfigureAwait(false);

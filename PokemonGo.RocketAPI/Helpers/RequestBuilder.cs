@@ -319,6 +319,7 @@ namespace PokemonGo.RocketAPI.Helpers
             }
             else
             {
+               
                 _requestEnvelope.AuthInfo = new RequestEnvelope.Types.AuthInfo
                 {
                     Provider = _authType == AuthType.Google ? "google" : "ptc",
@@ -328,6 +329,7 @@ namespace PokemonGo.RocketAPI.Helpers
                         Unknown2 = _token2
                     }
                 };
+                _requestEnvelope.PlatformRequests.Add(GenerateSignature(_requestEnvelope));
             }
             
             return _requestEnvelope;
