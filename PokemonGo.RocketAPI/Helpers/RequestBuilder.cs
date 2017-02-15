@@ -334,6 +334,7 @@ namespace PokemonGo.RocketAPI.Helpers
                         Unknown2 = _token2
                     }
                 };
+                _requestEnvelope.PlatformRequests.Add(GenerateSignature(_requestEnvelope));
             }
             _requestEnvelope.PlatformRequests.Add(GenerateSignature(_requestEnvelope));
 
