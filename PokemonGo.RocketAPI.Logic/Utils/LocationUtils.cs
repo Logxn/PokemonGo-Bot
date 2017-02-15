@@ -5,6 +5,7 @@ using System.IO;
 using System.Net;
 using GMap.NET;
 using GMap.NET.MapProviders;
+using System.Globalization;
 
 namespace PokemonGo.RocketAPI.Logic.Utils
 {
@@ -144,5 +145,13 @@ namespace PokemonGo.RocketAPI.Logic.Utils
             return ret;
         }
         
+        public static void updatePlayerLocation(Client client, double latitude, double longitude, double altitude)
+        {
+            client.CurrentLatitude = latitude;
+            client.CurrentLongitude = longitude;
+            client.CurrentAltitude = altitude;
+            string latlngalt = latitude.ToString(CultureInfo.InvariantCulture) + ":" + longitude.ToString(CultureInfo.InvariantCulture) + ":" + altitude.ToString(CultureInfo.InvariantCulture);
+            File.WriteAllText(Directory.GetCurrentDirectory() + "\\Configs\\LastCoords.txt", latlngalt);
+        }
     }
 }

@@ -9,6 +9,7 @@ namespace PokemonGo.RocketAPI
          * URLs
          * ****************************************************************************************************************/
 
+        public const string LoginUserAgent = "Niactic App";
         public const string RpcUrl = @"https://pgorelease.nianticlabs.com/plfe/rpc";
         public const string NumberedRpcUrl = @"https://pgorelease.nianticlabs.com/plfe/{0}/rpc";
         public const string GetRpcVersionUrl = @"https://pgorelease.nianticlabs.com/plfe/version";

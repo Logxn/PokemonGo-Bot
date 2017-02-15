@@ -98,6 +98,7 @@ namespace PokemonGo.RocketAPI
             Misc = new Rpc.Misc(this);
             Hasher = new PokeHashHasher(settings.hashKey);
             Store = new PokemonGo.RocketAPI.Rpc.Store(this);
+            Platform = POGOProtos.Enums.Platform.Ios;
 
             //Player.SetCoordinates(settings.latitude, settings.longitude, settings.altitude);
 

@@ -61,8 +61,8 @@ namespace PokemonGo.RocketAPI.Logic
             return d;
         }
 
-        public PlayerUpdateResponse HumanLikeWalking(GeoCoordinate targetLocation,
-            double walkingSpeedInKilometersPerHour, Func<bool> functionExecutedWhileWalking, bool fromgoogle = false, bool log = true)
+        //public PlayerUpdateResponse HumanLikeWalking(GeoCoordinate targetLocation, double walkingSpeedInKilometersPerHour, Func<bool> functionExecutedWhileWalking, bool fromgoogle = false, bool log = true)
+        public void HumanLikeWalking(GeoCoordinate targetLocation, double walkingSpeedInKilometersPerHour, Func<bool> functionExecutedWhileWalking, bool fromgoogle = false, bool log = true)
         {
             var randomFactor = 0.5f;
             var randomMin = (int)(walkingSpeedInKilometersPerHour * (1 - randomFactor));
@@ -81,7 +81,8 @@ namespace PokemonGo.RocketAPI.Logic
 
             //Initial walking
             var requestSendDateTime = DateTime.Now;
-            var result =_client.Player.UpdatePlayerLocation(waypoint.Latitude, waypoint.Longitude, waypoint.Altitude).Result;
+            LocationUtils.updatePlayerLocation(_client, waypoint.Latitude, waypoint.Longitude, waypoint.Altitude);
+            //var result =_client.Player.UpdatePlayerLocation(waypoint.Latitude, waypoint.Longitude, waypoint.Altitude).Result;
 
             if (functionExecutedWhileWalking != null)
             {
@@ -147,7 +148,7 @@ namespace PokemonGo.RocketAPI.Logic
                 RandomHelper.RandomSleep(500, 600);
             }
             while ((LocationUtils.CalculateDistanceInMeters(sourceLocation, targetLocation) >= 30 && !fromgoogle) || LocationUtils.CalculateDistanceInMeters(sourceLocation, targetLocation) >= 2);
-            return result;
+            //return result;
         }
 
         public FortData[] pathByNearestNeighbour(FortData[] pokeStops, double walkingSpeedInKilometersPerHour)

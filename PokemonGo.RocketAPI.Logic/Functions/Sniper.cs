@@ -44,7 +44,9 @@ namespace PokemonGo.RocketAPI.Logic.Functions
             returnCoords.Latitude = _client.CurrentLatitude;
             returnCoords.Longitude = _client.CurrentLongitude;
             returnCoords.Altitude = _client.CurrentAltitude;
-            var result = _client.Player.UpdatePlayerLocation(returnCoords.Latitude, returnCoords.Longitude, returnCoords.Altitude).Result;
+            LocationUtils.updatePlayerLocation(_client, returnCoords.Latitude, returnCoords.Longitude, returnCoords.Altitude);
+
+            //var result = _client.Player.UpdatePlayerLocation(returnCoords.Latitude, returnCoords.Longitude, returnCoords.Altitude).Result;
 
             if (_botSettings == null && _client ==null )
             {
@@ -58,7 +60,8 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                 
                 SendToLog($"Trying to capture {pokeid}  at { remoteCoords.Latitude } / {remoteCoords.Longitude}");
                 SendToLog(LocationUtils.FindAddress(remoteCoords.Latitude,remoteCoords.Longitude));
-                result = _client.Player.UpdatePlayerLocation(remoteCoords.Latitude, remoteCoords.Longitude, remoteCoords.Altitude).Result;
+                LocationUtils.updatePlayerLocation(_client, remoteCoords.Latitude, remoteCoords.Longitude, remoteCoords.Altitude);
+                //result = _client.Player.UpdatePlayerLocation(remoteCoords.Latitude, remoteCoords.Longitude, remoteCoords.Altitude).Result;
 
                 SendToLog($"We are at sniping location...");
                 SendToLog($"Waiting {GlobalVars.SnipeOpts.WaitSecond} seconds for Pokemon to appear...");
@@ -76,7 +79,8 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                 }
 
                 // Restore Position
-                result = _client.Player.UpdatePlayerLocation(returnCoords.Latitude, returnCoords.Longitude, returnCoords.Altitude).Result;
+                LocationUtils.updatePlayerLocation(_client, returnCoords.Latitude, returnCoords.Longitude, returnCoords.Altitude);
+                //result = _client.Player.UpdatePlayerLocation(returnCoords.Latitude, returnCoords.Longitude, returnCoords.Altitude).Result;
 
                 SendToLog($"Location after Snipe : {returnCoords.Latitude} / {returnCoords.Longitude} / {returnCoords.Altitude}");
                 SendToLog(LocationUtils.FindAddress(returnCoords.Latitude, returnCoords.Longitude));
@@ -88,7 +92,8 @@ namespace PokemonGo.RocketAPI.Logic.Functions
             {
                 Logger.ExceptionInfo(ex.ToString());
                 SendToLog($"Go to {returnCoords.Latitude} / {returnCoords.Longitude} / {returnCoords.Altitude}.");
-                result = _client.Player.UpdatePlayerLocation(returnCoords.Latitude, returnCoords.Longitude, returnCoords.Altitude).Result;
+                LocationUtils.updatePlayerLocation(_client, returnCoords.Latitude, returnCoords.Longitude, returnCoords.Altitude);
+                //result = _client.Player.UpdatePlayerLocation(returnCoords.Latitude, returnCoords.Longitude, returnCoords.Altitude).Result;
             }
 
             GlobalVars.SnipeOpts.Enabled = false;

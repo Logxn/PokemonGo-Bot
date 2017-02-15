@@ -612,9 +612,9 @@ namespace PokemonGo.RocketAPI.Logic.Utils
                         string strReason = strSplit[1];
 
                         if (strStatus.ToLower().Contains("false")) {
-                            Logger.Error("The bot is deactivated at server level for security or maintenance reasons, we have to close it.");
-                            Logger.Error("Thanks for your patience!" + Environment.NewLine);
-                            Logger.Error(strReason + Environment.NewLine);
+                            Logger.Info("The bot is deactivated at server level for security or maintenance reasons, we have to close it.");
+                            Logger.Info("Thanks for your patience!" + Environment.NewLine);
+                            Logger.Info(strReason + Environment.NewLine);
                             System.Console.ReadLine();
                             Environment.Exit(-1);
                             return true;

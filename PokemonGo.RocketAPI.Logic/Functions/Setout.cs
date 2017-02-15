@@ -506,7 +506,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
             if (GlobalVars.EnablePokeList && client.ReadyToUse)
             {
                 try {
-                    Application.OpenForms["Pokemons"].Invoke(new Action(() => Application.OpenForms["Pokemons"].Text = TitleText));
+                    Application.OpenForms[0].Invoke(new Action(() => Application.OpenForms[0].Text = TitleText));
                 } catch (Exception ex1) {
                     Logger.ExceptionInfo(ex1.ToString());
                 }
@@ -667,7 +667,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                     }
                     else
                     {
-                        var walkHome = Logic.Instance.navigation.HumanLikeWalking(
+                        Logic.Instance.navigation.HumanLikeWalking(
                             new GeoCoordinate(
                                 Shared.GlobalVars.latitude,
                                 Shared.GlobalVars.longitude),

@@ -1,19 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Google.Protobuf;
-using POGOProtos.Networking.Platform;
-using POGOProtos.Networking.Envelopes;
-using PokemonGo.RocketAPI.Helpers;
-using POGOProtos.Data.Player;
+﻿using POGOProtos.Data.Player;
 using POGOProtos.Enums;
 using POGOProtos.Networking.Requests;
 using POGOProtos.Networking.Requests.Messages;
 using POGOProtos.Networking.Responses;
-using System.IO;
+using PokemonGo.RocketAPI.Helpers;
+using System.Threading.Tasks;
 
 namespace PokemonGo.RocketAPI.Rpc
 {
@@ -24,39 +15,39 @@ namespace PokemonGo.RocketAPI.Rpc
             Client = client;
         }
 
-        public async Task<PlayerUpdateResponse> UpdatePlayerLocation(double latitude, double longitude, double altitude)
-        {
+        //public async Task<PlayerUpdateResponse> UpdatePlayerLocation(double latitude, double longitude, double altitude)
+        //{
 
-            // This needs to me removed from here
-            Client.CurrentLatitude = latitude;
-            Client.CurrentLongitude = longitude;
-            Client.CurrentAltitude = altitude;
-            string latlngalt = latitude.ToString(CultureInfo.InvariantCulture) + ":" + longitude.ToString(CultureInfo.InvariantCulture) + ":" + altitude.ToString(CultureInfo.InvariantCulture);
-            File.WriteAllText(Directory.GetCurrentDirectory() + "\\Configs\\LastCoords.txt", latlngalt);
+        //    // This needs to me removed from here
+        //    Client.CurrentLatitude = latitude;
+        //    Client.CurrentLongitude = longitude;
+        //    Client.CurrentAltitude = altitude;
+        //    string latlngalt = latitude.ToString(CultureInfo.InvariantCulture) + ":" + longitude.ToString(CultureInfo.InvariantCulture) + ":" + altitude.ToString(CultureInfo.InvariantCulture);
+        //    File.WriteAllText(Directory.GetCurrentDirectory() + "\\Configs\\LastCoords.txt", latlngalt);
 
-            var ret = new PlayerUpdateResponse();
-            return ret;
-            // TODO: check how to work PlayerUpdateMessage now 14/02/2017
-            try {
-                var message = new PlayerUpdateMessage
-                {
-                    Latitude = Client.CurrentLatitude,
-                    Longitude = Client.CurrentLongitude
-                };
-                var updatePlayerLocationRequestEnvelope = GetRequestBuilder().GetRequestEnvelope(new Request[] {
-                    new Request
-                    {
-                        RequestType = RequestType.PlayerUpdate,
-                        RequestMessage = message.ToByteString()
-                    }
-                }).Result;
-                ret = PostProtoPayload<Request, PlayerUpdateResponse>(updatePlayerLocationRequestEnvelope).Result;
-            } catch (Exception ex1) {
-                Logger.Debug("ex1:" + ex1);
-            }
+        //    var ret = new PlayerUpdateResponse();
+        //    return ret;
+        //    //// TODO: check how to work PlayerUpdateMessage now 14/02/2017
+        //    //try {
+        //    //    var message = new PlayerUpdateMessage
+        //    //    {
+        //    //        Latitude = Client.CurrentLatitude,
+        //    //        Longitude = Client.CurrentLongitude
+        //    //    };
+        //    //    var updatePlayerLocationRequestEnvelope = GetRequestBuilder().GetRequestEnvelope(new Request[] {
+        //    //        new Request
+        //    //        {
+        //    //            RequestType = RequestType.PlayerUpdate,
+        //    //            RequestMessage = message.ToByteString()
+        //    //        }
+        //    //    }).Result;
+        //    //    ret = PostProtoPayload<Request, PlayerUpdateResponse>(updatePlayerLocationRequestEnvelope).Result;
+        //    //} catch (Exception ex1) {
+        //    //    Logger.Debug("ex1:" + ex1);
+        //    //}
 
-            return  ret;
-        }
+        //    //return  ret;
+        //}
 
 
         
