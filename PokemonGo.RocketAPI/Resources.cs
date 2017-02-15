@@ -36,10 +36,17 @@ namespace PokemonGo.RocketAPI
          * v0.55.x
          ******************************************************************************************************************/
         public const long Unknown25 = -9156899491064153954;
+        // v0.57.2 public const long Unknown25 = 7472694709694384708;
         public const string UnknownPtr8_RequestMessage = "90f6a704505bccac73cec99b07794993e6fd5a12";
         public const string ClientVersionString = "0.55.0";
         public const uint ClientVersionInt = 5500;
-
+        /*******************************************************************************************************************
+         * v0.57.x
+         ******************************************************************************************************************/
+        //public const long Unknown25 = 7472694709694384708;
+        // PENDING public const string UnknownPtr8_RequestMessage = "90f6a704505bccac73cec99b07794993e6fd5a12";
+        //public const string ClientVersionString = "0.57.2";
+        //public const uint ClientVersionInt = 5702;
         /*******************************************************************************************************************
          * Bot Supported Version
          ******************************************************************************************************************/

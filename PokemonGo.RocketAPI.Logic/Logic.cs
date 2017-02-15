@@ -302,7 +302,7 @@ namespace PokemonGo.RocketAPI.Logic
             {
                 //update user location on map
                 Task.Factory.StartNew(() => Logic.Instance.infoObservable.PushNewGeoLocations(new GeoCoordinate(GlobalVars.latitude, GlobalVars.longitude)));
-                var profil = objClient.Player.GetPlayer();
+                GetPlayerResponse profil = objClient.Player.GetPlayer();
                 objClient.Inventory.ExportPokemonToCSV(profil.PlayerData);
                 Setout.Execute();
                 ExecuteFarmingPokestopsAndPokemons(objClient);
