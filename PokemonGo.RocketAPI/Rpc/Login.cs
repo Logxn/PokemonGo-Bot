@@ -53,7 +53,7 @@ namespace PokemonGo.RocketAPI.Rpc
             await FireRequestBlockTwo().ConfigureAwait(false);
             // This is new code for 0.53 below
             // In Each login we reset GMOFirstTime flag.
-            RequestBuilder.GMOFirstTime = true;
+            //RequestBuilder.GMOFirstTime = true;
         }
 
         private async Task FireRequestBlock(Request request)
