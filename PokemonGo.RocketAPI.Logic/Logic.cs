@@ -244,6 +244,7 @@ namespace PokemonGo.RocketAPI.Logic
                 try
                 {
                     objClient.Login.DoLogin().Wait();
+                    Logger.Debug("login done");
                     
                     TelegramLogic.Instantiante();
                     
@@ -301,8 +302,8 @@ namespace PokemonGo.RocketAPI.Logic
             {
                 //update user location on map
                 Task.Factory.StartNew(() => Logic.Instance.infoObservable.PushNewGeoLocations(new GeoCoordinate(GlobalVars.latitude, GlobalVars.longitude)));
-                var profil = objClient.Player.GetPlayer().Result;
-                objClient.Inventory.ExportPokemonToCSV(profil.PlayerData).Wait();
+                var profil = objClient.Player.GetPlayer();
+                objClient.Inventory.ExportPokemonToCSV(profil.PlayerData);
                 Setout.Execute();
                 ExecuteFarmingPokestopsAndPokemons(objClient);
             }
@@ -323,9 +324,6 @@ namespace PokemonGo.RocketAPI.Logic
 
         #endregion
 
-        #region Stats log and Session Check Functions
-
-        #endregion
 
         #region Catch, Farm and Walk Logic
 
@@ -1160,7 +1158,7 @@ namespace PokemonGo.RocketAPI.Logic
                     CatchPokemon(pokemon.EncounterId, pokemon.SpawnPointId, pokemon.PokemonId, pokemon.Longitude, pokemon.Latitude);
                 }
                 client.Map.GetMapObjects(true).Wait(); //force Map Objects Update
-                client.Inventory.GetInventory(true).Wait(); //force Inventory Update
+                client.Inventory.GetInventory(true); //force Inventory Update
                 return true;
             }
             return false;
@@ -1344,7 +1342,7 @@ namespace PokemonGo.RocketAPI.Logic
                     return 0;
                 }
 
-                var inventoryBerries = objClient.Inventory.GetItems().Result;
+                var inventoryBerries = objClient.Inventory.GetItems();
                 var probability = encounterPokemonResponse?.CaptureProbability?.CaptureProbability_?.FirstOrDefault();
 
                 var escaped = false;
@@ -1610,7 +1608,7 @@ namespace PokemonGo.RocketAPI.Logic
         private Dictionary<string, int> GetPokeballQty()
         {
             var pokeBallCollection = new Dictionary<string, int>();
-            var items = objClient.Inventory.GetItems().Result;
+            var items = objClient.Inventory.GetItems();
             var balls = items.Where(i => (i.ItemId == ItemId.ItemPokeBall || i.ItemId == ItemId.ItemGreatBall || i.ItemId == ItemId.ItemUltraBall || i.ItemId == ItemId.ItemMasterBall) && i.ItemId > 0).GroupBy(i => i.ItemId).ToList();
 
             #region Log Pokeball types out of stock
@@ -1803,18 +1801,18 @@ namespace PokemonGo.RocketAPI.Logic
         {
             var pokemonCp = pokemon?.PokemonData?.Cp;
 
-            var items = objClient.Inventory.GetItems().Result;
+            var items = objClient.Inventory.GetItems();
             var berries = items.Where(i => i.ItemId == ItemId.ItemRazzBerry || i.ItemId == ItemId.ItemBlukBerry || i.ItemId == ItemId.ItemNanabBerry || i.ItemId == ItemId.ItemWeparBerry || i.ItemId == ItemId.ItemPinapBerry).GroupBy(i => i.ItemId).ToList();
             if (!berries.Any()) {
                 Logger.ColoredConsoleWrite(ConsoleColor.Red, $"No Berrys to select! - Using next best ball instead"); 
                 return ItemId.ItemUnknown;
             }
 
-            var razzBerryCount = objClient.Inventory.GetItemAmountByType(ItemId.ItemRazzBerry).Result;
-            var blukBerryCount = objClient.Inventory.GetItemAmountByType(ItemId.ItemBlukBerry).Result;
-            var nanabBerryCount = objClient.Inventory.GetItemAmountByType(ItemId.ItemNanabBerry).Result;
-            var weparBerryCount = objClient.Inventory.GetItemAmountByType(ItemId.ItemWeparBerry).Result;
-            var pinapBerryCount = objClient.Inventory.GetItemAmountByType(ItemId.ItemPinapBerry).Result;
+            var razzBerryCount = objClient.Inventory.GetItemAmountByType(ItemId.ItemRazzBerry);
+            var blukBerryCount = objClient.Inventory.GetItemAmountByType(ItemId.ItemBlukBerry);
+            var nanabBerryCount = objClient.Inventory.GetItemAmountByType(ItemId.ItemNanabBerry);
+            var weparBerryCount = objClient.Inventory.GetItemAmountByType(ItemId.ItemWeparBerry);
+            var pinapBerryCount = objClient.Inventory.GetItemAmountByType(ItemId.ItemPinapBerry);
 
             if (pinapBerryCount > 0 && pokemonCp >= 2000)
                 return ItemId.ItemPinapBerry;

@@ -101,7 +101,7 @@ namespace PokemonGo.RocketAPI.Rpc
                 PlayerLongitude = Client.CurrentLongitude
             };
 
-            return await PostProtoPayload<Request, GetIncensePokemonResponse>(RequestType.GetIncensePokemon, message).ConfigureAwait(false);
+            return  PostProtoPayload<Request, GetIncensePokemonResponse>(RequestType.GetIncensePokemon, message);
         }
     }
 }

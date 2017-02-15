@@ -89,9 +89,9 @@ namespace PokemonGo.RocketAPI.Console
             {
                 if (refreshData)
                 {
-                    profile = client.Player.GetPlayer().Result;
+                    profile = client.Player.GetPlayer();
                     RandomHelper.RandomSleep(300,400);
-                    var playerStats = client.Inventory.GetPlayerStats().Result;
+                    var playerStats = client.Inventory.GetPlayerStats();
                     stats = playerStats.First();
                 }
                 updatePlayerImages();

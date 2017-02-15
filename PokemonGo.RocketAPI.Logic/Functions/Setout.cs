@@ -67,7 +67,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
             if (Shared.GlobalVars.UseLuckyEggIfNotRunning || Shared.GlobalVars.UseLuckyEggGUIClick)
             {
                 Shared.GlobalVars.UseLuckyEggGUIClick = false;
-                Logic.objClient.Inventory.UseLuckyEgg(Logic.objClient).Wait();
+                Logic.objClient.Inventory.UseLuckyEgg(Logic.objClient);
             }
 
             if (Shared.GlobalVars.EvolvePokemonsIfEnoughCandy)
@@ -94,7 +94,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
             {
                 Logger.Debug("Use incense selected");
                 Shared.GlobalVars.UseIncenseGUIClick = false;
-                var inventory = Logic.objClient.Inventory.GetItems().Result;
+                var inventory = Logic.objClient.Inventory.GetItems();
                 var incsense = inventory.FirstOrDefault(p => p.ItemId == ItemId.ItemIncenseOrdinary);
                 var loginterval = DateTime.Now - LastIncenselog;
                 Logger.Debug("loginterval: "+ loginterval);
@@ -117,7 +117,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                     return;
                 }
 
-                Logic.objClient.Inventory.UseIncense(ItemId.ItemIncenseOrdinary).Wait();
+                Logic.objClient.Inventory.UseIncense(ItemId.ItemIncenseOrdinary);
                 Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Used Incsense, remaining: {incsense.Count - 1}");
                 lastincenseuse = DateTime.Now.AddMinutes(30);
                 RandomHelper.RandomSleep(1100);
@@ -133,16 +133,17 @@ namespace PokemonGo.RocketAPI.Logic.Functions
             {
                 return;
             }
-            var pokemonToEvolve = Logic.objClient.Inventory.GetPokemonToEvolve(filter).Result;
+            
+            var pokemonToEvolve = Logic.objClient.Inventory.GetPokemonToEvolve(true,filter);
             var toEvolveCount = pokemonToEvolve.Count();
             var startEvolving = (toEvolveCount==0 || toEvolveCount==Shared.GlobalVars.EvolveAt );
 
             if (startEvolving && Shared.GlobalVars.UseLuckyEgg)
-                    Logic.objClient.Inventory.UseLuckyEgg(Logic.objClient).Wait();
+                    Logic.objClient.Inventory.UseLuckyEgg(Logic.objClient);
 
             foreach (var pokemon in pokemonToEvolve)
             {
-                var evolvePokemonOutProto = Logic.objClient.Inventory.EvolvePokemon(pokemon.Id).Result;
+                var evolvePokemonOutProto = Logic.objClient.Inventory.EvolvePokemon(pokemon.Id);
                 var date = DateTime.Now.ToString();
                 var evolvelog = Path.Combine(logPath, "EvolveLog.txt");
 
@@ -220,12 +221,12 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                 {
                     return;
                 }
-                var inventory = Logic.objClient.Inventory.GetInventory().Result;
-                var incubators = Logic.objClient.Inventory.GetEggIncubators(inventory).ToList();
-                var unusedEggs = (Logic.objClient.Inventory.GetEggs(inventory)).Where(x => string.IsNullOrEmpty(x.EggIncubatorId)).OrderBy(x => x.EggKmWalkedTarget - x.EggKmWalkedStart).ToList();
-                var pokemons = (Logic.objClient.Inventory.GetPokemons().Result).ToList();
+                var inventory = Logic.objClient.Inventory.GetInventory();
+                var incubators = Logic.objClient.Inventory.GetEggIncubators().ToList();
+                var unusedEggs = (Logic.objClient.Inventory.GetEggs()).Where(x => string.IsNullOrEmpty(x.EggIncubatorId)).OrderBy(x => x.EggKmWalkedTarget - x.EggKmWalkedStart).ToList();
+                var pokemons = (Logic.objClient.Inventory.GetPokemons()).ToList();
 
-                var playerStats = Logic.objClient.Inventory.GetPlayerStats(inventory);
+                var playerStats = Logic.objClient.Inventory.GetPlayerStats();
                 var stats = playerStats.First();
 
                 var kmWalked = stats.KmWalked;
@@ -358,7 +359,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
 
             if (Shared.GlobalVars.RelocateDefaultLocation)
                 return;
-            var items = Logic.objClient.Inventory.GetItemsToRecycle(Shared.GlobalVars.GetItemFilter()).Result;
+            var items = Logic.objClient.Inventory.GetItemsToRecycle(Shared.GlobalVars.GetItemFilter());
 
             foreach (var item in items)
             {
@@ -379,9 +380,9 @@ namespace PokemonGo.RocketAPI.Logic.Functions
 
             #region Set Stat Variables
 
-            var profile = client.Player.GetPlayer().Result;
-            var inventory = client.Inventory.GetInventory().Result;
-            var playerStats = client.Inventory.GetPlayerStats(inventory);
+            var profile = client.Player.GetPlayer();
+            var inventory = client.Inventory.GetInventory();
+            var playerStats = client.Inventory.GetPlayerStats();
             var stats = playerStats.First();
             var expneeded = stats.NextLevelXp - stats.PrevLevelXp - StringUtils.getExpDiff(stats.Level);
             var curexp = stats.Experience - stats.PrevLevelXp - StringUtils.getExpDiff(stats.Level);
@@ -391,7 +392,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
 
             currentxp = stats.Experience;
 
-            var pokemonToEvolve = (client.Inventory.GetPokemonToEvolve().Result).Count();
+            var pokemonToEvolve = (client.Inventory.GetPokemonToEvolve()).Count();
             var pokedexpercentraw = Convert.ToDouble(stats.UniquePokedexEntries) / Convert.ToDouble(150) * 100;
             var pokedexpercent = Math.Floor(pokedexpercentraw);
 
@@ -400,9 +401,9 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                 client.Misc.MarkTutorialComplete().Wait();
             }
 
-            var items = client.Inventory.GetItems(inventory); 
-            var pokemonCount = client.Inventory.GetPokemons().Result.Count();
-            var eggCount = client.Inventory.GetEggsCount(inventory);
+            var items = client.Inventory.GetItems(); 
+            var pokemonCount = client.Inventory.GetPokemons().Count();
+            var eggCount = client.Inventory.GetEggsCount();
             var maxPokemonStorage = profile.PlayerData.MaxPokemonStorage;
             var maxItemStorage = profile.PlayerData.MaxItemStorage;
             var stardust = profile.PlayerData.Currencies.ToArray()[1].Amount.ToString("N0");
@@ -486,9 +487,9 @@ namespace PokemonGo.RocketAPI.Logic.Functions
 
         public static void RefreshConsoleTitle(Client client)
         {
-            var profile = client.Player.GetPlayer().Result;
-            var inventory = client.Inventory.GetInventory().Result;
-            var playerStats = client.Inventory.GetPlayerStats(inventory);
+            var profile = client.Player.GetPlayer();
+            var inventory = client.Inventory.GetInventory();
+            var playerStats = client.Inventory.GetPlayerStats();
             var stats = playerStats.First();
             var expneeded = stats.NextLevelXp - stats.PrevLevelXp - StringUtils.getExpDiff(stats.Level);
             var curexp = stats.Experience - stats.PrevLevelXp - StringUtils.getExpDiff(stats.Level);
@@ -504,7 +505,11 @@ namespace PokemonGo.RocketAPI.Logic.Functions
 
             if (GlobalVars.EnablePokeList && client.ReadyToUse)
             {
-                Application.OpenForms["Pokemons"].Invoke(new Action(() => Application.OpenForms["Pokemons"].Text = TitleText));
+                try {
+                    Application.OpenForms["Pokemons"].Invoke(new Action(() => Application.OpenForms["Pokemons"].Text = TitleText));
+                } catch (Exception ex1) {
+                    Logger.ExceptionInfo(ex1.ToString());
+                }
             }
         }
 
@@ -682,7 +687,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
         {
             if (!Shared.GlobalVars.pokemonsToAlwaysTransfer.Any())
                 return;
-            var pokemons = Logic.objClient.Inventory.GetPokemons(true).Result;
+            var pokemons = Logic.objClient.Inventory.GetPokemons(true);
             var toTransfer = pokemons.Where(x => x.DeployedFortId == string.Empty && x.Favorite == 0 && !x.IsEgg && x.Id != buddyid);
             var idsToTransfer = new List<ulong>();
             var logs = Path.Combine(logPath, "TransferLog.txt");
@@ -703,7 +708,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
             if (!idsToTransfer.Any())
                 return;
 
-            var _response = Logic.objClient.Inventory.TransferPokemon(idsToTransfer).Result;
+            var _response = Logic.objClient.Inventory.TransferPokemon(idsToTransfer);
 
             if (_response.Result == ReleasePokemonResponse.Types.Result.Success)
             {
@@ -725,7 +730,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
             }
             if (Shared.GlobalVars.TransferDoublePokemons)
             {
-                var profil = Logic.objClient.Player.GetPlayer().Result;
+                var profil = Logic.objClient.Player.GetPlayer();
                 RandomHelper.RandomSleep(300, 400);
 
                 if (Shared.GlobalVars.pauseAtEvolve2)
@@ -736,7 +741,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
 
                 TransferUnwantedPokemon(profil.PlayerData.BuddyPokemon.Id);
 
-                var duplicatePokemons = Logic.objClient.Inventory.GetDuplicatePokemonToTransfer(Shared.GlobalVars.HoldMaxDoublePokemons, keepPokemonsThatCanEvolve, transferFirstLowIv).Result;
+                var duplicatePokemons = Logic.objClient.Inventory.GetDuplicatePokemonToTransfer(Shared.GlobalVars.HoldMaxDoublePokemons, keepPokemonsThatCanEvolve, transferFirstLowIv);
                 var pokemonsToTransfer = new List<ulong>();
                 foreach (var duplicatePokemon in duplicatePokemons)
                 {
@@ -756,9 +761,9 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                             continue;// go to next itearion from foreach
                         }
 
-                        var bestPokemonOfType = Logic.objClient.Inventory.GetHighestCPofType(duplicatePokemon).Result;
-                        var bestPokemonsCpOfType = Logic.objClient.Inventory.GetHighestCPofType2(duplicatePokemon).Result;
-                        var bestPokemonsIvOfType = Logic.objClient.Inventory.GetHighestIVofType(duplicatePokemon).Result;
+                        var bestPokemonOfType = Logic.objClient.Inventory.GetHighestCPofType(duplicatePokemon);
+                        var bestPokemonsCpOfType = Logic.objClient.Inventory.GetHighestCPofType2(duplicatePokemon);
+                        var bestPokemonsIvOfType = Logic.objClient.Inventory.GetHighestIVofType(duplicatePokemon);
 
                         pokemonsToTransfer.Add(duplicatePokemon.Id);
 
@@ -791,7 +796,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                 }
                 if (pokemonsToTransfer.Any())
                 {
-                    var _response = Logic.objClient.Inventory.TransferPokemon(pokemonsToTransfer).Result;
+                    var _response = Logic.objClient.Inventory.TransferPokemon(pokemonsToTransfer);
 
                     if (_response.Result == ReleasePokemonResponse.Types.Result.Success)
                     {

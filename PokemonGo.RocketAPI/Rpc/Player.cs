@@ -26,7 +26,6 @@ namespace PokemonGo.RocketAPI.Rpc
 
         public async Task<PlayerUpdateResponse> UpdatePlayerLocation(double latitude, double longitude, double altitude)
         {
-            //SetCoordinates(latitude, longitude, altitude);
 
             // This needs to me removed from here
             Client.CurrentLatitude = latitude;
@@ -34,96 +33,101 @@ namespace PokemonGo.RocketAPI.Rpc
             Client.CurrentAltitude = altitude;
             string latlngalt = latitude.ToString(CultureInfo.InvariantCulture) + ":" + longitude.ToString(CultureInfo.InvariantCulture) + ":" + altitude.ToString(CultureInfo.InvariantCulture);
             File.WriteAllText(Directory.GetCurrentDirectory() + "\\Configs\\LastCoords.txt", latlngalt);
-            //
 
-            var message = new PlayerUpdateMessage
-            {
-                Latitude = Client.CurrentLatitude,
-                Longitude = Client.CurrentLongitude
-            };
-
-            Logger.Debug( $"Calling Request UpdatePlayerLocation -> {latitude} / {longitude} / {altitude}");
-            var updatePlayerLocationRequestEnvelope = await GetRequestBuilder().GetRequestEnvelope(new Request[] {
-                new Request
+            var ret = new PlayerUpdateResponse();
+            return ret;
+            // TODO: check how to work PlayerUpdateMessage now 14/02/2017
+            try {
+                var message = new PlayerUpdateMessage
                 {
-                    RequestType = RequestType.PlayerUpdate,
-                    RequestMessage = message.ToByteString()
-                }
-            }).ConfigureAwait(false);
+                    Latitude = Client.CurrentLatitude,
+                    Longitude = Client.CurrentLongitude
+                };
+                var updatePlayerLocationRequestEnvelope = GetRequestBuilder().GetRequestEnvelope(new Request[] {
+                    new Request
+                    {
+                        RequestType = RequestType.PlayerUpdate,
+                        RequestMessage = message.ToByteString()
+                    }
+                }).Result;
+                ret = PostProtoPayload<Request, PlayerUpdateResponse>(updatePlayerLocationRequestEnvelope).Result;
+            } catch (Exception ex1) {
+                Logger.Debug("ex1:" + ex1);
+            }
 
-            return await PostProtoPayload<Request, PlayerUpdateResponse>(updatePlayerLocationRequestEnvelope).ConfigureAwait(false);
+            return  ret;
         }
 
 
         
-        public async Task<GetPlayerResponse> GetPlayer()
+        public GetPlayerResponse GetPlayer()
         {
-            return await PostProtoPayload<Request, GetPlayerResponse>(RequestType.GetPlayer, new GetPlayerMessage()).ConfigureAwait(false);
+            return PostProtoPayload<Request, GetPlayerResponse>(RequestType.GetPlayer, new GetPlayerMessage());
         }
 
         public async Task<GetPlayerProfileResponse> GetPlayerProfile(string playerName)
         {
-            return await PostProtoPayload<Request, GetPlayerProfileResponse>(RequestType.GetPlayerProfile, new GetPlayerProfileMessage()
+            return  PostProtoPayload<Request, GetPlayerProfileResponse>(RequestType.GetPlayerProfile, new GetPlayerProfileMessage()
             {
                 PlayerName = playerName
-            }).ConfigureAwait(false);
+            });
         }
 
         public async Task<CheckAwardedBadgesResponse> GetNewlyAwardedBadges()
         {
-            return await PostProtoPayload<Request, CheckAwardedBadgesResponse>(RequestType.CheckAwardedBadges, new CheckAwardedBadgesMessage()).ConfigureAwait(false);
+            return  PostProtoPayload<Request, CheckAwardedBadgesResponse>(RequestType.CheckAwardedBadges, new CheckAwardedBadgesMessage());
         }
 
         public async Task<CollectDailyBonusResponse> CollectDailyBonus()
         {
-            return await PostProtoPayload<Request, CollectDailyBonusResponse>(RequestType.CollectDailyBonus, new CollectDailyBonusMessage()).ConfigureAwait(false);
+            return  PostProtoPayload<Request, CollectDailyBonusResponse>(RequestType.CollectDailyBonus, new CollectDailyBonusMessage());
         }
 
         public async Task<CollectDailyDefenderBonusResponse> CollectDailyDefenderBonus()
         {
-            return await PostProtoPayload<Request, CollectDailyDefenderBonusResponse>(RequestType.CollectDailyDefenderBonus, new CollectDailyDefenderBonusMessage()).ConfigureAwait(false);
+            return PostProtoPayload<Request, CollectDailyDefenderBonusResponse>(RequestType.CollectDailyDefenderBonus, new CollectDailyDefenderBonusMessage());
         }
 
         public async Task<EquipBadgeResponse> EquipBadge(BadgeType type)
         {
-            return await PostProtoPayload<Request, EquipBadgeResponse>(RequestType.EquipBadge, new EquipBadgeMessage() { BadgeType = type }).ConfigureAwait(false);
+            return PostProtoPayload<Request, EquipBadgeResponse>(RequestType.EquipBadge, new EquipBadgeMessage() { BadgeType = type });
         }
 
         public async Task<LevelUpRewardsResponse> GetLevelUpRewards(int level)
         {
-            return await PostProtoPayload<Request, LevelUpRewardsResponse>(RequestType.LevelUpRewards, new LevelUpRewardsMessage()
+            return  PostProtoPayload<Request, LevelUpRewardsResponse>(RequestType.LevelUpRewards, new LevelUpRewardsMessage()
             {
                 Level = level
-            }).ConfigureAwait(false);
+            });
         }
 
         public async Task<SetAvatarResponse> SetAvatar(PlayerAvatar playerAvatar)
         {
-            return await PostProtoPayload<Request, SetAvatarResponse>(RequestType.SetAvatar, new SetAvatarMessage()
+            return  PostProtoPayload<Request, SetAvatarResponse>(RequestType.SetAvatar, new SetAvatarMessage()
             {
                 PlayerAvatar = playerAvatar
-            }).ConfigureAwait(false);
+            });
         }
 
         public async Task<SetContactSettingsResponse> SetContactSetting(ContactSettings contactSettings)
         {
-            return await PostProtoPayload<Request, SetContactSettingsResponse>(RequestType.SetContactSettings, new SetContactSettingsMessage()
+            return  PostProtoPayload<Request, SetContactSettingsResponse>(RequestType.SetContactSettings, new SetContactSettingsMessage()
             {
                 ContactSettings = contactSettings
-            }).ConfigureAwait(false);
+            });
         }
 
         public async Task<SetPlayerTeamResponse> SetPlayerTeam(TeamColor teamColor)
         {
-            return await PostProtoPayload<Request, SetPlayerTeamResponse>(RequestType.SetPlayerTeam, new SetPlayerTeamMessage()
+            return  PostProtoPayload<Request, SetPlayerTeamResponse>(RequestType.SetPlayerTeam, new SetPlayerTeamMessage()
             {
                 Team = teamColor
-            }).ConfigureAwait(false);
+            });
         }
 
         public async Task<VerifyChallengeResponse> VerifyChallenge(string token)
         {
-            return await PostProtoPayload<Request, VerifyChallengeResponse>(RequestType.VerifyChallenge, CommonRequest.GetVerifyChallenge(token)).ConfigureAwait(false);
+            return  PostProtoPayload<Request, VerifyChallengeResponse>(RequestType.VerifyChallenge, CommonRequest.GetVerifyChallenge(token));
         }
     }
 }

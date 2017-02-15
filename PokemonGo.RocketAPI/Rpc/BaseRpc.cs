@@ -29,18 +29,15 @@ namespace PokemonGo.RocketAPI.Rpc
                     Client.CurrentAltitude, Client.AuthTicket);
         }
 
-        protected async Task<TResponsePayload> PostProtoPayload<TRequest, TResponsePayload>(RequestType type,
+        protected TResponsePayload PostProtoPayload<TRequest, TResponsePayload>(RequestType type,
             IMessage message) where TRequest : IMessage<TRequest>
             where TResponsePayload : IMessage<TResponsePayload>, new()
         {
-            var requestEnvelops = await GetRequestBuilder().GetRequestEnvelope(type, message).ConfigureAwait(false);
+            var requestEnvelops = GetRequestBuilder().GetRequestEnvelope(type, message).Result;
+            Logger.Debug("requestEnvelops:" +requestEnvelops);
 
-            Logger.Debug("Calling Request: " + type);
-
-            return
-                await
-                    Client.PokemonHttpClient.PostProtoPayload<TRequest, TResponsePayload>(Client.ApiUrl, requestEnvelops,
-                        Client.ApiFailure).ConfigureAwait(false);
+            return Client.PokemonHttpClient.PostProtoPayload<TRequest, TResponsePayload>(Client.ApiUrl, requestEnvelops,
+                        Client.ApiFailure).Result;
         }
 
         protected async Task<TResponsePayload> PostProtoPayload<TRequest, TResponsePayload>(

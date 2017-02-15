@@ -51,10 +51,9 @@ namespace PokemonGo.RocketAPI.Console
             try {
                 var client = Logic.Logic.objClient;
                 if (client.ReadyToUse != false) {
-                    var inventory = client.Inventory.GetInventory().Result;
-                    var items = client.Inventory.GetEggs(inventory);
-                    var incubators = client.Inventory.GetEggIncubators(inventory); 
-                    var arrStats = client.Inventory.GetPlayerStats(inventory);
+                    var items = client.Inventory.GetEggs();
+                    var incubators = client.Inventory.GetEggIncubators(); 
+                    var arrStats = client.Inventory.GetPlayerStats();
                     var stats = arrStats.First();
 	              	               	               
                     listView.Items.Clear();
@@ -174,7 +173,7 @@ namespace PokemonGo.RocketAPI.Console
             var resp1 = new taskResponse(false, string.Empty);
             try {
                 var client = Logic.Logic.objClient;
-                var resp2 = await client.Inventory.UseItemEggIncubator(item.Id, egg.Id).ConfigureAwait(false);
+                var resp2 =  client.Inventory.UseItemEggIncubator(item.Id, egg.Id);
 
                 if (resp2.Result == UseItemEggIncubatorResponse.Types.Result.Success) {
                     resp1.Status = true;

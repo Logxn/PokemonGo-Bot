@@ -42,7 +42,7 @@ namespace PokemonGo.RocketAPI.Console.Components
         {
             var client = Logic.Logic.objClient;
             if (client.ReadyToUse != false) {
-                var items = client.Inventory.GetItems().Result;
+                var items = client.Inventory.GetItems();
 
                 ListViewItem listViewItem;
                 ItemsListView.Items.Clear();

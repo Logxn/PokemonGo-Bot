@@ -65,7 +65,7 @@ namespace PokemonGo.RocketAPI.Console
 
                 var client = Logic.Logic.objClient;
                 if (client.ReadyToUse != false) {
-                    var items = client.Inventory.GetItems().Result;
+                    var items = client.Inventory.GetItems();
                     ListViewItem listViewItem;
                     ItemsListView.Items.Clear();
                     var sum = 0;
@@ -140,7 +140,7 @@ namespace PokemonGo.RocketAPI.Console
             var resp1 = false;
             try {
                 var client = Logic.Logic.objClient;
-                var resp2 = client.Inventory.RecycleItem(item.ItemId, amount).Result;
+                var resp2 = client.Inventory.RecycleItem(item.ItemId, amount);
 
                 if (resp2.Result == RecycleInventoryItemResponse.Types.Result.Success) {
                     resp1 = true;
@@ -215,7 +215,7 @@ namespace PokemonGo.RocketAPI.Console
         private void RecycleItems()
         {            
             var client = Logic.Logic.objClient;
-            var items = client.Inventory.GetItemsToRecycle(GlobalVars.GetItemFilter()).Result;
+            var items = client.Inventory.GetItemsToRecycle(GlobalVars.GetItemFilter());
             foreach (var item in items) {
                 var transfer = client.Inventory.RecycleItem((ItemId)item.ItemId, item.Count).Result;
                 Logger.ColoredConsoleWrite(ConsoleColor.Yellow, String.Format("Recycled {0}x {1}",item.Count,(ItemId)item.ItemId));

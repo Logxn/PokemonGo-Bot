@@ -184,8 +184,8 @@ namespace PokemonGo.RocketAPI.Logic.Utils
                 if (_chatid != -1 && _livestats)
                 {
                     var usage = "";
-                    var inventory = await _client.Inventory.GetInventory().ConfigureAwait(false);
-                    var profil = await _client.Player.GetPlayer().ConfigureAwait(false);
+                    var inventory =  _client.Inventory.GetInventory();
+                    var profil =  _client.Player.GetPlayer();
                     var stats = inventory.InventoryDelta.InventoryItems.Select(i => i.InventoryItemData.PlayerStats).ToArray();
                     foreach (var c in stats)
                     {
@@ -227,9 +227,9 @@ namespace PokemonGo.RocketAPI.Logic.Utils
                 if (_chatid != -1 && _informations)
                 {
                     int current = 0;
-                    var inventory = await _client.Inventory.GetInventory().ConfigureAwait(false);
-                    var profil = await _client.Player.GetPlayer().ConfigureAwait(false);
-                    var stats = await _client.Inventory.GetPlayerStats().ConfigureAwait(false);
+                    var inventory =  _client.Inventory.GetInventory();
+                    var profil =  _client.Player.GetPlayer();
+                    var stats =  _client.Inventory.GetPlayerStats();
 
                     current = stats.First().Level;
                     
@@ -287,9 +287,9 @@ namespace PokemonGo.RocketAPI.Logic.Utils
                             @"/forceevolve - Forces Evolve");
                         break;
                     case TelegramUtilTask.GET_STATS:
-                        var inventory = await _client.Inventory.GetInventory().ConfigureAwait(false);
-                        var profil = await _client.Player.GetPlayer().ConfigureAwait(false);
-                        var ps = await _client.Inventory.GetPlayerStats().ConfigureAwait(false); 
+                        var inventory =  _client.Inventory.GetInventory();
+                        var profil =  _client.Player.GetPlayer();
+                        var ps =  _client.Inventory.GetPlayerStats(); 
 
                         int l = ps.First().Level; 
                         long expneeded = ((ps.First().NextLevelXp - ps.First().PrevLevelXp) - StringUtils.getExpDiff(ps.First().Level));
@@ -312,8 +312,8 @@ namespace PokemonGo.RocketAPI.Logic.Utils
                             + "\nKM walked: " + ps.First().KmWalked
                             + "\nPokeStops visited: " + ps.First().PokeStopVisits
                             + "\nStardust: " + profil.PlayerData.Currencies.ToArray()[1].Amount
-                            + "\nPokemons: " + (await _client.Inventory.GetPokemons().ConfigureAwait(false)).Count() + "/" + profil.PlayerData.MaxPokemonStorage
-                            + "\nItems: " + await _client.Inventory.getInventoryCount().ConfigureAwait(false) + " / " + profil.PlayerData.MaxItemStorage
+                            + "\nPokemons: " + ( _client.Inventory.GetPokemons()).Count() + "/" + profil.PlayerData.MaxPokemonStorage
+                            + "\nItems: " +  _client.Inventory.GetItems().Count() + " / " + profil.PlayerData.MaxItemStorage
                             + "\nCurentLocation:\n" + curlochtml
                             + "\nPokevision:\n" + pokevishtml; 
                         break;
@@ -327,9 +327,9 @@ namespace PokemonGo.RocketAPI.Logic.Utils
                         telegramAnswer += "Showing " + shows + " Pokemons...\nSorting...";
                         await _telegram.SendTextMessageAsync(_chatid, telegramAnswer, replyMarkup: new ReplyKeyboardHide()).ConfigureAwait(false);
 
-                        var myPokemons = await _inventory.GetPokemons().ConfigureAwait(false);
+                        var myPokemons =  _inventory.GetPokemons();
                         myPokemons = myPokemons.OrderByDescending(x => x.Cp);
-                        var profile = await _client.Player.GetPlayer().ConfigureAwait(false);
+                        var profile =  _client.Player.GetPlayer();
                         telegramAnswer = $"Top {shows} Pokemons of {profile.PlayerData.Username}:";
 
                         IEnumerable<PokemonData> topPokemon = myPokemons.Take(shows);
@@ -405,16 +405,16 @@ namespace PokemonGo.RocketAPI.Logic.Utils
 
                         break;
                     case TelegramUtilTask.RUN_FORCEEVOLVE:
-                        IEnumerable<PokemonData> pokemonToEvolve = await _inventory.GetPokemonToEvolve(null).ConfigureAwait(false);
+                        IEnumerable<PokemonData> pokemonToEvolve =  _inventory.GetPokemonToEvolve(true);
                         if (pokemonToEvolve.Count() > 3)
                         {
-                            await _inventory.UseLuckyEgg(_client).ConfigureAwait(false);
+                             _inventory.UseLuckyEgg(_client);
                         }
                         foreach (PokemonData pokemon in pokemonToEvolve)
                         {
                             if (_botSettings.pokemonsToEvolve.Contains(pokemon.PokemonId))
                             {
-                                var evolvePokemonOutProto = await _client.Inventory.EvolvePokemon((ulong)pokemon.Id).ConfigureAwait(false);
+                                var evolvePokemonOutProto =  _client.Inventory.EvolvePokemon((ulong)pokemon.Id);
                                 if (evolvePokemonOutProto.Result == POGOProtos.Networking.Responses.EvolvePokemonResponse.Types.Result.Success)
                                 {
                                     await _telegram.SendTextMessageAsync(_chatid, $"Evolved {pokemon.PokemonId} successfully for {evolvePokemonOutProto.ExperienceAwarded}xp", replyMarkup: new ReplyKeyboardHide()).ConfigureAwait(false);

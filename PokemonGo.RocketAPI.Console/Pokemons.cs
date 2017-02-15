@@ -75,10 +75,10 @@ namespace PokemonGo.RocketAPI.Console
                         RandomHelper.RandomSleep(5000, 5100);
                         client = Logic.Logic.objClient;
                     }
-                    profile = client.Player.GetPlayer().Result;
+                    profile = client.Player.GetPlayer();
                     RandomHelper.RandomSleep(1000, 1100); // Pause to simulate human speed.
                     Text = "User: " + profile.PlayerData.Username;
-                    var arrStats = client.Inventory.GetPlayerStats().Result.GetEnumerator();
+                    var arrStats = client.Inventory.GetPlayerStats().GetEnumerator();
                     arrStats.MoveNext();
                     stats = arrStats.Current;
                     locationPanel1.CreateBotMarker((int)profile.PlayerData.Team, stats.Level, stats.Experience);

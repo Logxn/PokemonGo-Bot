@@ -18,6 +18,7 @@ namespace PokemonGo.RocketAPI.Console.Panels
         private System.Windows.Forms.PictureBox pictureBox3;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.PictureBox eventDayPict;
         
         /// <summary>
         /// Disposes resources used by the form.
@@ -41,12 +42,15 @@ namespace PokemonGo.RocketAPI.Console.Panels
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SplashScreen));
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.label1 = new System.Windows.Forms.Label();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.eventDayPict = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.eventDayPict)).BeginInit();
             this.SuspendLayout();
             // 
             // pictureBox2
@@ -86,12 +90,22 @@ namespace PokemonGo.RocketAPI.Console.Panels
             this.timer1.Interval = 20000;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
+            // eventDayPict
+            // 
+            this.eventDayPict.Image = ((System.Drawing.Image)(resources.GetObject("eventDayPict.Image")));
+            this.eventDayPict.Location = new System.Drawing.Point(27, 82);
+            this.eventDayPict.Name = "eventDayPict";
+            this.eventDayPict.Size = new System.Drawing.Size(100, 50);
+            this.eventDayPict.TabIndex = 46;
+            this.eventDayPict.TabStop = false;
+            // 
             // SplashScreen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(606, 408);
+            this.Controls.Add(this.eventDayPict);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.pictureBox2);
             this.Controls.Add(this.pictureBox3);
@@ -105,6 +119,7 @@ namespace PokemonGo.RocketAPI.Console.Panels
             this.Text = "SplashScreen";
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.eventDayPict)).EndInit();
             this.ResumeLayout(false);
 
         }
