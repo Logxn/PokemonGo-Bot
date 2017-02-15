@@ -303,11 +303,17 @@ namespace PokemonGo.RocketAPI.Helpers
             // Note by Logxn: We do need this for ALL requests and before the main requests.
             // TODO: We need more information about when in needed UnknownPrt8
             // Charles says only sent for these 2 RequestTypes
-            if (customRequests[0].RequestType == RequestType.GetPlayer ||  (customRequests[0].RequestType == RequestType.GetMapObjects && !GMOFirstTime))
-                _requestEnvelope.PlatformRequests.Add(new RequestEnvelope.Types.PlatformRequest { 
-                    Type = PlatformRequestType.UnknownPtr8,
-                    RequestMessage =  ByteString.CopyFromUtf8(Resources.UnknownPtr8_RequestMessage) //ByteString.CopyFrom("e40c3e64817d9c96d99d28f6488a2efc40b11046")
-                });
+            var plat8Message = new UnknownPtr8Request()
+            {
+                Message = Resources.UnknownPtr8_RequestMessage
+            };
+
+            //if (customRequests[0].RequestType == RequestType.GetPlayer ||  (customRequests[0].RequestType == RequestType.GetMapObjects && !GMOFirstTime))
+            _requestEnvelope.PlatformRequests.Add(new RequestEnvelope.Types.PlatformRequest()
+            {
+                Type = PlatformRequestType.UnknownPtr8,
+                RequestMessage = plat8Message.ToByteString() // ByteString.CopyFromUtf8(Resources.UnknownPtr8_RequestMessage)
+            });
 
             if (customRequests[0].RequestType == RequestType.GetMapObjects && GMOFirstTime)
                 GMOFirstTime =false;
@@ -315,7 +321,6 @@ namespace PokemonGo.RocketAPI.Helpers
             if (_authTicket != null && !firstRequest)
             {
                 _requestEnvelope.AuthTicket = _authTicket;
-                _requestEnvelope.PlatformRequests.Add(GenerateSignature(_requestEnvelope));
             }
             else
             {
@@ -331,7 +336,8 @@ namespace PokemonGo.RocketAPI.Helpers
                 };
                 _requestEnvelope.PlatformRequests.Add(GenerateSignature(_requestEnvelope));
             }
-            
+            _requestEnvelope.PlatformRequests.Add(GenerateSignature(_requestEnvelope));
+
             return _requestEnvelope;
         }
 
