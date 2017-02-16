@@ -231,7 +231,7 @@ namespace PokemonGo.RocketAPI.Console
                 {
                     if (GlobalVars.EnableConsoleInTab)
                         FreeConsole();
-                     Application.Run( new Pokemons());
+                     Application.Run( new TabbedSystem());
                 }
             }
             else

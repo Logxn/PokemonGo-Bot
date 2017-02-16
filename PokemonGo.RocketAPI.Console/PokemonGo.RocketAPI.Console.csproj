@@ -209,12 +209,6 @@
     <Compile Include="Location.designer.cs">
       <DependentUpon>Location.cs</DependentUpon>
     </Compile>
-    <Compile Include="LocationPanel.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="LocationPanel.Designer.cs">
-      <DependentUpon>LocationPanel.cs</DependentUpon>
-    </Compile>
     <Compile Include="Panels\ChangesPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -232,6 +226,12 @@
     </Compile>
     <Compile Include="Panels\ItemsPanel.Designer.cs">
       <DependentUpon>ItemsPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Panels\LocationPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Panels\LocationPanel.Designer.cs">
+      <DependentUpon>LocationPanel.cs</DependentUpon>
     </Compile>
     <Compile Include="Panels\PlayerPanel.cs">
       <SubType>UserControl</SubType>
@@ -274,11 +274,11 @@
       <DependentUpon>WebPanel.cs</DependentUpon>
     </Compile>
     <Compile Include="PokeImgManager.cs" />
-    <Compile Include="Pokemons.cs">
+    <Compile Include="TabbedSystem.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Pokemons.designer.cs">
-      <DependentUpon>Pokemons.cs</DependentUpon>
+    <Compile Include="TabbedSystem.designer.cs">
+      <DependentUpon>TabbedSystem.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\MapData.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -340,9 +340,6 @@
     <EmbeddedResource Include="IntegerInput.resx">
       <DependentUpon>IntegerInput.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="LocationPanel.resx">
-      <DependentUpon>LocationPanel.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Panels\ChangesPanel.resx">
       <DependentUpon>ChangesPanel.cs</DependentUpon>
     </EmbeddedResource>
@@ -351,6 +348,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Panels\ItemsPanel.resx">
       <DependentUpon>ItemsPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Panels\LocationPanel.resx">
+      <DependentUpon>LocationPanel.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Panels\PlayerPanel.resx">
       <DependentUpon>PlayerPanel.cs</DependentUpon>
@@ -373,8 +373,8 @@
     <EmbeddedResource Include="Panels\WebPanel.resx">
       <DependentUpon>WebPanel.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Pokemons.resx">
-      <DependentUpon>Pokemons.cs</DependentUpon>
+    <EmbeddedResource Include="TabbedSystem.resx">
+      <DependentUpon>TabbedSystem.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\MapData.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -393,13 +393,6 @@
       <SubType>Designer</SubType>
     </None>
     <EmbeddedResource Include="Lang\de.json" />
-    <EmbeddedResource Include="Lang\france.json" />
-    <EmbeddedResource Include="Lang\italian.json" />
-    <EmbeddedResource Include="Lang\ptBR.json" />
-    <EmbeddedResource Include="Lang\ru.json" />
-    <EmbeddedResource Include="Lang\spain.json" />
-    <EmbeddedResource Include="Lang\tr.json" />
-    <EmbeddedResource Include="Lang\arabic.json" />
     <None Include="Lang\default.json" />
     <None Include="packages.config">
       <SubType>Designer</SubType>

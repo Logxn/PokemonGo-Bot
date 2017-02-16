@@ -28,7 +28,7 @@ namespace PokemonGo.RocketAPI.Rpc
         }
         public GetStoreItemsResponse GetStoreItems()
         {
-            var message = new POGOProtos.Networking.Requests.Messages.CheckAwardedBadgesMessage();
+            var message = new POGOProtos.Networking.Requests.Messages.GetInventoryMessage();
             var result = PostProtoPayload<Request, GetStoreItemsResponse>(RequestType.GetItemPack, message);
             return result;
         }
