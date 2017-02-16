@@ -105,7 +105,7 @@ namespace PokemonGo.RocketAPI.Extensions
 
         private static async Task<ResponseEnvelope> PerformRemoteProcedureCall<TRequest>(this System.Net.Http.HttpClient client,
             string url,
-            RequestEnvelope requestEnvelope) where TRequest : IMessage<TRequest>
+            RequestEnvelope requestEnvelope, int tries = 0) where TRequest : IMessage<TRequest>
         {
             //Encode payload and put in envelope, then send
             var data = requestEnvelope.ToByteString();
@@ -116,10 +116,41 @@ namespace PokemonGo.RocketAPI.Extensions
             var codedStream = new CodedInputStream(responseData);
             var decodedResponse = new ResponseEnvelope();
             decodedResponse.MergeFrom(codedStream);
-            Logger.Debug("requestEnvelope:" + requestEnvelope);
-            Logger.Debug("decodedResponse:"+ decodedResponse);
+            Logger.Debug("requestEnvelope: "+ strRequestEnvelope(requestEnvelope));
+            Logger.Debug("decodedResponse: "+ strResponseEnvelope(decodedResponse));
+            
+            if (tries < 8){
+                if (decodedResponse.StatusCode == ResponseEnvelope.Types.StatusCode.InvalidAuthToken){
+                    RandomHelper.RandomSleep(600);
+                    return PerformRemoteProcedureCall<TRequest>(client, url, requestEnvelope, ++tries).Result;
+                }
+                if (decodedResponse.StatusCode == ResponseEnvelope.Types.StatusCode.Redirect && requestEnvelope.Requests.Count == 1){
+                    RandomHelper.RandomSleep(600);
+                    return PerformRemoteProcedureCall<TRequest>(client, url, requestEnvelope, ++tries).Result;
+                }
+            }
 
             return decodedResponse;
+        }
+
+        private static string strRequestEnvelope(RequestEnvelope input ){
+            var str ="RequestId: "+ input.RequestId +" | statusCode: "+ input.StatusCode +" | Requests Type: ";
+            foreach (var element in input.Requests) {
+                str+=element.RequestType +", ";
+            }
+            str+=" | PlatformRequests Type: ";
+            foreach (var element in input.PlatformRequests) {
+                str+=element.Type + ", ";
+            }
+            return str;
+        }
+
+        private static string strResponseEnvelope(ResponseEnvelope input ){
+            var str ="RequestId: "+ input.RequestId +" | statusCode: "+ input.StatusCode +"| PlatformReturns Type: "; ;
+            foreach (var element in input.PlatformReturns) {
+                str+=element.Type + ", ";
+            }
+            return str;
         }
 
         // RPC Calls need to be throttled 

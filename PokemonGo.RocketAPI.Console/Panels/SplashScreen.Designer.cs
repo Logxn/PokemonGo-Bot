@@ -42,7 +42,6 @@ namespace PokemonGo.RocketAPI.Console.Panels
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SplashScreen));
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -92,7 +91,6 @@ namespace PokemonGo.RocketAPI.Console.Panels
             // 
             // eventDayPict
             // 
-            this.eventDayPict.Image = ((System.Drawing.Image)(resources.GetObject("eventDayPict.Image")));
             this.eventDayPict.Location = new System.Drawing.Point(27, 82);
             this.eventDayPict.Name = "eventDayPict";
             this.eventDayPict.Size = new System.Drawing.Size(100, 50);

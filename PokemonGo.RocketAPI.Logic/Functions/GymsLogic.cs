@@ -88,7 +88,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                 return;
             //narrow map data to gyms within walking distance
             var gyms = GetNearbyGyms();
-            var gymsWithinRangeStanding = gyms.Where(i => LocationUtils.CalculateDistanceInMeters(Logic.objClient.CurrentLatitude, Logic.objClient.CurrentLongitude, i.Latitude, i.Longitude) < 40);
+            var gymsWithinRangeStanding = gyms.Where(i => LocationUtils.CalculateDistanceInMeters(Logic.objClient.CurrentLatitude, Logic.objClient.CurrentLongitude, i.Latitude, i.Longitude) < 30);
             var withinRangeStandingList = gymsWithinRangeStanding as IList<FortData> ?? gymsWithinRangeStanding.ToList();
 
             if (withinRangeStandingList.Any()) {
@@ -234,6 +234,10 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                     var defender = defenders.FirstOrDefault();
                     Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - Defender: " + strPokemon(defender));
                     var pokeAttackers = getPokeAttackers(pokemons, defender);
+                    if (pokeAttackers.Count() < 6){
+                        Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - There is not enouth pokemons to train");
+                        return false;
+                    }
                     Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - Selected pokemons to train:");
                     ShowPokemons(pokeAttackers);
                     var attResp = AttackGym(gym, client, pokeAttackers, defender.Id, gymDetails.GymState.Memberships.Count, profile.PlayerData.BuddyPokemon.Id);
@@ -260,6 +264,10 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                     var defender = defenders.FirstOrDefault();
                     Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - Defender: " + strPokemon(defender));
                     var pokeAttackers = getPokeAttackers(pokemons, defender);
+                    if (pokeAttackers.Count() < 6){
+                        Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - There is not enouth pokemons to fight");
+                        return false;
+                    }
                     Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - Selected Atackers:");
                     ShowPokemons(pokeAttackers);
                     var attResp = AttackGym(gym, client, pokeAttackers, defender.Id, gymDetails.GymState.Memberships.Count, profile.PlayerData.BuddyPokemon.Id);
@@ -287,10 +295,20 @@ namespace PokemonGo.RocketAPI.Logic.Functions
 
             while (startFailed && numTries > 0) {
                 RandomHelper.RandomSleep(secondsToWait * 100);
-                mapObjectsResponse = Logic.objClient.Map.GetMapObjects().Result.Item1;
+                mapObjectsResponse = client.Map.GetMapObjects().Result.Item1;
                 RandomHelper.RandomSleep(800);
                 gymDetails = client.Fort.GetGymDetails(gym.Id, gym.Latitude, gym.Longitude).Result;
                 RandomHelper.RandomSleep(800);
+                // { Simulate pokemon selection screen
+                var pokemons = client.Inventory.GetInventory(true); 
+                RandomHelper.RandomSleep(10000); // 10 seconds before startt
+                mapObjectsResponse = client.Map.GetMapObjects().Result.Item1;
+                RandomHelper.RandomSleep(800);
+                pokemons = client.Inventory.GetInventory(true); 
+                RandomHelper.RandomSleep(800);
+                var player = client.Player.GetPlayer();
+                
+                // }
                 resp = client.Fort.StartGymBattle(gym.Id, defenderId, pokeAttackersIds).Result;
                 startFailed = false;
                 if (resp == null) {
@@ -474,7 +492,11 @@ namespace PokemonGo.RocketAPI.Logic.Functions
             var battleActions = new List<BattleAction>();
             battleActions.Add(attack);
             lastRetrievedAction = new BattleAction();
-            var ret = client.Fort.AttackGym(gym.Id, resp.BattleId, battleActions, lastRetrievedAction).Result;
+            AttackGymResponse  ret;
+            do{
+                 ret = client.Fort.AttackGym(gym.Id, resp.BattleId, battleActions, lastRetrievedAction).Result;
+            }while (ret.Result != AttackGymResponse.Types.Result.Success);
+            
             return ret;
         }
 

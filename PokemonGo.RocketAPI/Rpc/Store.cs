@@ -14,6 +14,7 @@ using POGOProtos.Networking.Platform.Requests;
 using POGOProtos.Networking.Platform.Responses;
 using POGOProtos.Networking.Requests;
 
+
 namespace PokemonGo.RocketAPI.Rpc
 {
     /// <summary>
@@ -21,20 +22,20 @@ namespace PokemonGo.RocketAPI.Rpc
     /// </summary>
     public class Store : BaseRpc
     {
-        public Store(Client client) : base(client)
+        public Store(Client client)
+            : base(client)
         {
         }
         public GetStoreItemsResponse GetStoreItems()
         {
-            var message = new GetStoreMessage();
-            var result  =  PostProtoPayload<Request, GetStoreItemsResponse>(RequestType.GetItemPack, message);
+            var message = new POGOProtos.Networking.Requests.Messages.CheckAwardedBadgesMessage();
+            var result = PostProtoPayload<Request, GetStoreItemsResponse>(RequestType.GetItemPack, message);
             return result;
         }
         
         public BuyItemPokeCoinsResponse BuyItemPokeCoins(string item)
         {
-            var message = new BuyItemPokeCoinsRequest()
-            {
+            var message = new BuyItemPokeCoinsRequest() {
                 ItemId = item
             };
 

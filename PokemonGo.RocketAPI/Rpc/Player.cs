@@ -15,42 +15,6 @@ namespace PokemonGo.RocketAPI.Rpc
             Client = client;
         }
 
-        //public async Task<PlayerUpdateResponse> UpdatePlayerLocation(double latitude, double longitude, double altitude)
-        //{
-
-        //    // This needs to me removed from here
-        //    Client.CurrentLatitude = latitude;
-        //    Client.CurrentLongitude = longitude;
-        //    Client.CurrentAltitude = altitude;
-        //    string latlngalt = latitude.ToString(CultureInfo.InvariantCulture) + ":" + longitude.ToString(CultureInfo.InvariantCulture) + ":" + altitude.ToString(CultureInfo.InvariantCulture);
-        //    File.WriteAllText(Directory.GetCurrentDirectory() + "\\Configs\\LastCoords.txt", latlngalt);
-
-        //    var ret = new PlayerUpdateResponse();
-        //    return ret;
-        //    //// TODO: check how to work PlayerUpdateMessage now 14/02/2017
-        //    //try {
-        //    //    var message = new PlayerUpdateMessage
-        //    //    {
-        //    //        Latitude = Client.CurrentLatitude,
-        //    //        Longitude = Client.CurrentLongitude
-        //    //    };
-        //    //    var updatePlayerLocationRequestEnvelope = GetRequestBuilder().GetRequestEnvelope(new Request[] {
-        //    //        new Request
-        //    //        {
-        //    //            RequestType = RequestType.PlayerUpdate,
-        //    //            RequestMessage = message.ToByteString()
-        //    //        }
-        //    //    }).Result;
-        //    //    ret = PostProtoPayload<Request, PlayerUpdateResponse>(updatePlayerLocationRequestEnvelope).Result;
-        //    //} catch (Exception ex1) {
-        //    //    Logger.Debug("ex1:" + ex1);
-        //    //}
-
-        //    //return  ret;
-        //}
-
-
-        
         public GetPlayerResponse GetPlayer()
         {
             return PostProtoPayload<Request, GetPlayerResponse>(RequestType.GetPlayer, new GetPlayerMessage());

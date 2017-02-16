@@ -75,7 +75,7 @@ namespace PokemonGo.RocketAPI.Console
             try
             {
                 typeof(GlobalVars).GetField(globalName).SetValue(null, castedSender.Checked);
-                Logger.ColoredConsoleWrite(tryCatchColor,castedSender.Text+ " value changed");
+                Logger.ColoredConsoleWrite(tryCatchColor,th.TS("{0} value changed to {1}",castedSender.Tag,castedSender.Checked));
             }
             catch (Exception ex)
             {
@@ -88,17 +88,20 @@ namespace PokemonGo.RocketAPI.Console
         {
             if (! enableEvents)
                 return;
-            GlobalVars.pauseAtEvolve = checkBox_pauseAtEvolve1_2.Checked;
-            GlobalVars.pauseAtEvolve2 = checkBox_pauseAtEvolve1_2.Checked;
-            Logger.ColoredConsoleWrite(tryCatchColor,((CheckBox)sender).Text+ " value changed");
+            var castedSender = sender as CheckBox;
+            GlobalVars.pauseAtEvolve = castedSender.Checked;
+            GlobalVars.pauseAtEvolve2 = castedSender.Checked;
+            Logger.ColoredConsoleWrite(tryCatchColor,th.TS("{0} value changed to {1}",castedSender.Tag,castedSender.Checked));
         }
 
         void NumRazzPercentValueChanged(object sender, EventArgs e)
         {
             if (! enableEvents)
                 return;
-            GlobalVars.razzberry_chance = ((double)((NumericUpDown)sender).Value) / 100;
-            Logger.ColoredConsoleWrite(tryCatchColor,((NumericUpDown)sender).Text+ " value changed");
+            var castedSender = sender as NumericUpDown;
+
+            GlobalVars.razzberry_chance = (double) castedSender.Value / 100;
+            Logger.ColoredConsoleWrite(tryCatchColor,th.TS("{0} value changed to {1}",castedSender.Tag,castedSender.Text));
         }
 
         void NumericUpDown_DoubleValueChanged(object sender, EventArgs e)
@@ -160,7 +163,7 @@ namespace PokemonGo.RocketAPI.Console
                 lat = double.Parse(textBoxLatitude.Text.Replace(',', '.'), GUI.cords, System.Globalization.NumberFormatInfo.InvariantInfo);
                 if (lat > 90.0 || lat < -90.0)
                 {
-                    throw new System.ArgumentException("Value has to be between 90 and -90!");
+                    throw new System.ArgumentException(th.TS("Value has to be between 90 and -90!"));
                 }
             }
             catch (Exception ex)
@@ -173,7 +176,7 @@ namespace PokemonGo.RocketAPI.Console
                 lng = double.Parse(textBoxLongitude.Text.Replace(',', '.'), GUI.cords, System.Globalization.NumberFormatInfo.InvariantInfo);
                 if (lng > 180.0 || lng < -180.0)
                 {
-                    throw new System.ArgumentException("Value has to be between 180 and -180!");
+                    throw new System.ArgumentException(th.TS("Value has to be between 180 and -180!"));
                 }
             }
             catch (Exception ex)
@@ -204,9 +207,9 @@ namespace PokemonGo.RocketAPI.Console
                             }
                         }
                     }
-                    catch (Exception)
+                    catch (Exception ex1)
                     {
-                        // ignored
+                        Logger.ExceptionInfo(ex1.ToString());
                     }
                     GlobalVars.RelocateDefaultLocation = true;
                     numTravelSpeed.Value = 0;
@@ -242,7 +245,7 @@ namespace PokemonGo.RocketAPI.Console
 
         private void DisplayLocationSelector()
         {
-            LocationSelect locationSelector = new LocationSelect(false);
+            var locationSelector = new LocationSelect(false);
             locationSelector.ShowDialog();
             textBoxLatitude.Text = GlobalVars.latitude.ToString(CultureInfo.InvariantCulture);
             textBoxLongitude.Text = GlobalVars.longitude.ToString(CultureInfo.InvariantCulture);
