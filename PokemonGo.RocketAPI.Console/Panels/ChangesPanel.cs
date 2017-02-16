@@ -50,6 +50,9 @@ namespace PokemonGo.RocketAPI.Console
                 case "ca":
                     comboLanguage.SelectedIndex = 4;
                     break;
+                case "zh":
+                    comboLanguage.SelectedIndex = 5;
+                    break;
             } 
             th.Translate(this);
             comboBoxAttackers.DataSource = new[]{
@@ -332,6 +335,9 @@ namespace PokemonGo.RocketAPI.Console
                     break;
                 case 4:
                     lang = "ca-ES";
+                    break;
+                case 5:
+                    lang = "zh";
                     break;
             }
 

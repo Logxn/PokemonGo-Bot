@@ -1,0 +1,724 @@
+{
+  "GUI"："神奇宝贝机器人介面版本"，
+  "GUI.labelLanguage"："选择语言："，
+  "GUI.buttonSvProf"："储存个人设定"，
+  "GUI.label30"："如果你在一个IP位置使用1个以上帐号登入，你将会被封锁。"，
+  "GUI.tabControl1"：""，
+  "GUI.tabControl1.tabGeneral"："一般"，
+  "GUI.tabControl1.tabGeneral.groupBoxAccount"："帐号讯息"，
+  "GUI.tabControl1.tabGeneral.groupBoxAccount.checkBoxDefaultProf"："预设设定"，
+  "GUI.tabControl1.tabGeneral.groupBoxAccount.linkLabel14"："€3.95可取得"，
+  "GUI.tabControl1.tabGeneral.groupBoxAccount.label66"："伺服器金钥："，
+  "GUI.tabControl1.tabGeneral.groupBoxAccount.label39"："行动装置："，
+  "GUI.tabControl1.tabGeneral.groupBoxAccount.label21"："帐号资料"，
+  "GUI.tabControl1.tabGeneral.groupBoxAccount.label26"："帐号名称："，
+  "GUI.tabControl1.tabGeneral.groupBoxAccount.label1"："帐号类别："，
+  "GUI.tabControl1.tabGeneral.groupBoxAccount.label3"："密码："，
+  "GUI.tabControl1.tabGeneral.groupBoxAccount.label2"："电子信箱："，
+  "GUI.tabControl1.tabGeneral.groupBoxAccount.checkbox_PWDEncryption"："密码在设定档中加密"，
+  "GUI.tabControl1.tabGeneral.groupBox2"："位置设定"，
+  "GUI.tabControl1.tabGeneral.groupBox2.button_SetLocation"："设定位置"，
+  "GUI.tabControl1.tabGeneral.groupBox2.label6"："海拔高度："，
+  "GUI.tabControl1.tabGeneral.groupBox2.checkBox_StartWalkingFromLastLocation"："从上次登出位置开始。"，
+  "GUI.tabControl1.tabGeneral.groupBox2.label5"："经度："，
+  "GUI.tabControl1.tabGeneral.groupBox2.label4"："纬度："，
+  "GUI.tabControl1.tabGeneral.groupBox10"："其它设定"，
+  "GUI.tabControl1.tabGeneral.groupBox10.checkBox_ConsoleInTab"："控制台在标签列表中"，
+  "GUI.tabControl1.tabGeneral.groupBox10.checkBox_CollectDailyBonus"："收集每日奖金（尚未进行测试）\ r \ n"，
+  "GUI.tabControl1.tabGeneral.groupBox10.CB_SimulatePGO"："模拟器格式进行游戏"，
+  "GUI.tabControl1.tabGeneral.groupBox10.checkBox_UseLuckyEggIfNotRunning"："如果没有进行跑步，使用[幸运蛋]"，
+  "GUI.tabControl1.tabGeneral.groupBox10.checkBox_KeepPokemonWhichCanBeEvolved"："保留预备可以进化的神奇宝贝"，
+  "GUI.tabControl1.tabGeneral.groupBox10.checkBox_EnablePokemonListGui"："使用清单介面"，
+  "GUI.tabControl1.tabGeneral.groupBox10.checkBox_UseIncenseEvery30min"："每30分钟使用[薰香]"，
+  "GUI.tabControl1.tabGeneral.groupBox10.checkBox_SimulateAnimationTimeAtEvolve"："模拟动画进化使用的时间"，
+  "GUI.tabControl1.tabGeneral.groupBox10.checkBox_UseLuckyEggAtEvolve"："进化时使用幸运蛋"，
+  "GUI.tabControl1.tabGeneral.groupBox10.checkBox_EvolvePokemonIfEnoughCandy"："进化有足够糖果的神奇宝贝\ r \ n"，
+  "GUI.tabControl1.tabPokemon"："神奇宝贝设置"，
+  "GUI.tabControl1.tabPokemon.groupBox_AlwaysTransfer": "永遠交換列表",
+  "GUI.tabControl1.tabPokemon.groupBox_AlwaysTransfer.checkBox_AlwaysTransfer": "選取所有的",
+  "GUI.tabControl1.tabPokemon.groupBox3": "機器人設定",
+  "GUI.tabControl1.tabPokemon.groupBox3.checkBox_UseSpritesFolder": "如用本機的神奇寶貝圖片",
+  "GUI.tabControl1.tabPokemon.groupBox3.label55": "%",
+  "GUI.tabControl1.tabPokemon.groupBox3.label29": "%",
+  "GUI.tabControl1.tabPokemon.groupBox3.checkBox_TransferFirstLowIV": "交換最低的IV",
+  "GUI.tabControl1.tabPokemon.groupBox3.label28": "最高交換的IV:",
+  "GUI.tabControl1.tabPokemon.groupBox3.label12": "最高交換的CP:",
+  "GUI.tabControl1.tabPokemon.groupBox3.label11": "寶可夢最多重覆數量:",
+  "GUI.tabControl1.tabPokemon.groupBox3.checkBox_AutoTransferDoublePokemon": "自動交換重覆神奇寶貝",
+  "GUI.tabControl1.tabPokemon.groupBox3.label8": "最低抓取CP值:",
+  "GUI.tabControl1.tabPokemon.groupBox3.label54": "最低抓取IV值:",
+  "GUI.tabControl1.tabPokemon.groupBox5": "不要交換列表",
+  "GUI.tabControl1.tabPokemon.groupBox5.checkBox4": "選取所有的",
+  "GUI.tabControl1.tabPokemon.groupBox6": "不要抓取列表",
+  "GUI.tabControl1.tabPokemon.groupBox6.checkBox5": "選取所有的",
+  "GUI.tabControl1.tabPokemon.groupBox7": "要進化的列表",
+  "GUI.tabControl1.tabPokemon.groupBox7.checkBox6": "選取所有的",
+  "GUI.tabControl1.tabThrows": "投扔設定",
+  "GUI.tabControl1.tabThrows.groupBox19": "最低CP投扔寶貝球類別",
+  "GUI.tabControl1.tabThrows.groupBox19.label56": "投高級球最低CP:",
+  "GUI.tabControl1.tabThrows.groupBox19.label65": "投超級球最低CP:",
+  "GUI.tabControl1.tabThrows.groupBox8": "失誤率和球類選擇",
+  "GUI.tabControl1.tabThrows.groupBox8.label33": "%",
+  "GUI.tabControl1.tabThrows.groupBox8.label53": "(設定值為0將永不使用這個球類)",
+  "GUI.tabControl1.tabThrows.groupBox8.NextBestBallOnEscape": "如果神奇寶貝脫逃,使用下一級的寶貝球",
+  "GUI.tabControl1.tabThrows.groupBox8.checkBox_UseRazzberryIfChanceUnder": "使用 [樹莓果實] ,如果抓取率低於",
+  "GUI.tabControl1.tabThrows.groupBox8.checkBox7": "不要使用 [超級球] ,如果庫存少於",
+  "GUI.tabControl1.tabThrows.groupBox8.checkBox3": "不要使用 [高級球] ,如果庫存少於",
+  "GUI.tabControl1.tabThrows.groupBox8.checkBox2": "不要使用 [寶貝球] ,如果庫存少於",
+  "GUI.tabControl1.tabThrows.groupBox8.label22": "每回最多投扔的失誤次數",
+  "GUI.tabControl1.tabThrows.groupBox16": "投扔可能性機率",
+  "GUI.tabControl1.tabThrows.groupBox16.label60": "%",
+  "GUI.tabControl1.tabThrows.groupBox16.label59": "%",
+  "GUI.tabControl1.tabThrows.groupBox16.label58": "%",
+  "GUI.tabControl1.tabThrows.groupBox16.label57": "%",
+  "GUI.tabControl1.tabThrows.groupBox16.label51": "一般的機會:",
+  "GUI.tabControl1.tabThrows.groupBox16.label50": "很好的機會:",
+  "GUI.tabControl1.tabThrows.groupBox16.label49": "最好的機會:",
+  "GUI.tabControl1.tabThrows.groupBox16.label48": "極大的機會:",
+  "GUI.tabControl1.tabItems": "道具設定",
+  "GUI.tabControl1.tabItems.label31": "總數 Total Count:",
+  "GUI.tabControl1.tabItems.groupBox4": "道具列表 Pokemon Items",
+  "GUI.tabControl1.tabItems.groupBox4.label27": "Max. TopRevives 完全藥水復活石 :",
+  "GUI.tabControl1.tabItems.groupBox4.label25": "Max. TopPotions 完全藥水 :",
+  "GUI.tabControl1.tabItems.groupBox4.label20": "Max. RazzBerrys 樹莓果實上限 :",
+  "GUI.tabControl1.tabItems.groupBox4.label19": "Max. HyperPotions 超級藥水上限 :",
+  "GUI.tabControl1.tabItems.groupBox4.label18": "Max. SuperPotions 強效藥水上限 :",
+  "GUI.tabControl1.tabItems.groupBox4.label17": "Max. Potions 一般藥水上限 :",
+  "GUI.tabControl1.tabItems.groupBox4.label16": "Max. Revives 一般復活石上限 :",
+  "GUI.tabControl1.tabItems.groupBox4.label15": "Max. UltraBalls 超級球上限 :",
+  "GUI.tabControl1.tabItems.groupBox4.label14": "Max. GreatBalls 高級球上限 :",
+  "GUI.tabControl1.tabItems.groupBox4.label13": "Max. Pokeballs 寶貝球上限 :",
+  "GUI.tabControl1.tabEggs": "神奇寶貝蛋",
+  "GUI.tabControl1.tabEggs.groupBox26": "限用次數孵化器",
+  "GUI.tabControl1.tabEggs.groupBox26.groupBox27": "選擇順續",
+  "GUI.tabControl1.tabEggs.groupBox26.groupBox27.rbSOEggsDescendingBasicInc": "由遠到近 (10 公里優先)",
+  "GUI.tabControl1.tabEggs.groupBox26.groupBox27.rbSOEggsAscendingBasicInc": "由近到遠 (2 公里優先)",
+  "GUI.tabControl1.tabEggs.groupBox26.groupBox28": "不要孵化這些寶貝蛋",
+  "GUI.tabControl1.tabEggs.groupBox26.groupBox28.checkBox_10kmEggsBasicInc": "10 公里",
+  "GUI.tabControl1.tabEggs.groupBox26.groupBox28.checkBox_5kmEggsBasicInc": "5 公里",
+  "GUI.tabControl1.tabEggs.groupBox26.groupBox28.checkBox_2kmEggsBasicInc": "2 公里",
+  "GUI.tabControl1.tabEggs.groupBox1": "無限次孵化器",
+  "GUI.tabControl1.tabEggs.groupBox1.gbSelectionOrder": "選擇順續",
+  "GUI.tabControl1.tabEggs.groupBox1.gbSelectionOrder.rbSOEggsDescending": "由遠到近 (10 公里優先)",
+  "GUI.tabControl1.tabEggs.groupBox1.gbSelectionOrder.rbSOEggsAscending": "由近到遠 (2 公里優先)",
+  "GUI.tabControl1.tabEggs.groupBox1.groupBox24": "不要孵化這些寶貝蛋",
+  "GUI.tabControl1.tabEggs.groupBox1.groupBox24.checkBox_10kmEggs": "10 公里",
+  "GUI.tabControl1.tabEggs.groupBox1.groupBox24.checkBox_5kmEggs": "5 公里",
+  "GUI.tabControl1.tabEggs.groupBox1.groupBox24.checkBox_2kmEggs": "2 公里",
+  "GUI.tabControl1.tabEggs.groupBox_EggOptions": "其它選擇",
+  "GUI.tabControl1.tabEggs.groupBox_EggOptions.checkBox_AutoIncubate": "自動進行孵化",
+  "GUI.tabControl1.tabEggs.groupBox_EggOptions.checkBox_UseBasicIncubators": "使用 [限用次數] 孵化器","GUI.tabControl1.tabPokemon.groupBox_AlwaysTransfer"："永远交换列表"，
+  "GUI.tabControl1.tabPokemon.groupBox_AlwaysTransfer.checkBox_AlwaysTransfer"："选取所有的"，
+  "GUI.tabControl1.tabPokemon.groupBox3"："机器人设定"，
+  "GUI.tabControl1.tabPokemon.groupBox3.checkBox_UseSpritesFolder"："如用本机的神奇宝贝图片"，
+  "GUI.tabControl1.tabPokemon.groupBox3.label55"："％"，
+  "GUI.tabControl1.tabPokemon.groupBox3.label29"："％"，
+  "GUI.tabControl1.tabPokemon.groupBox3.checkBox_TransferFirstLowIV"："交换最低的IV"，
+  "GUI.tabControl1.tabPokemon.groupBox3.label28"："最高交换的IV："，
+  "GUI.tabControl1.tabPokemon.groupBox3.label12"："最高交换的CP："，
+  "GUI.tabControl1.tabPokemon.groupBox3.label11"："宝可梦最多重覆数量："，
+  "GUI.tabControl1.tabPokemon.groupBox3.checkBox_AutoTransferDoublePokemon"："自动交换重覆神奇宝贝"，
+  "GUI.tabControl1.tabPokemon.groupBox3.label8"："最低抓取CP值："，
+  "GUI.tabControl1.tabPokemon.groupBox3.label54"："最低抓取IV值："，
+  "GUI.tabControl1.tabPokemon.groupBox5"："不要交换列表"，
+  "GUI.tabControl1.tabPokemon.groupBox5.checkBox4"："选取所有的"，
+  "GUI.tabControl1.tabPokemon.groupBox6"："不要抓取列表"，
+  "GUI.tabControl1.tabPokemon.groupBox6.checkBox5"："选取所有的"，
+  "GUI.tabControl1.tabPokemon.groupBox7"："要进化的列表"，
+  "GUI.tabControl1.tabPokemon.groupBox7.checkBox6"："选取所有的"，
+  "GUI.tabControl1.tabThrows"："投扔设定"，
+  "GUI.tabControl1.tabThrows.groupBox19"："最低CP投扔宝贝球类别"，
+  "GUI.tabControl1.tabThrows.groupBox19.label56"："投高级球最低CP："，
+  "GUI.tabControl1.tabThrows.groupBox19.label65"："投超级球最低CP："，
+  "GUI.tabControl1.tabThrows.groupBox8"："失误率和球类选择"，
+  "GUI.tabControl1.tabThrows.groupBox8.label33"："％"，
+  "GUI.tabControl1.tabThrows.groupBox8.label53"："（设定值为0将永不使用这个球类）"，
+  "GUI.tabControl1.tabThrows.groupBox8.NextBestBallOnEscape"："如果神奇宝贝脱逃，使用下一级的宝贝球"，
+  "GUI.tabControl1.tabThrows.groupBox8.checkBox_UseRazzberryIfChanceUnder"："使用[树莓果实]，如果抓取率低于"，
+  "GUI.tabControl1.tabThrows.groupBox8.checkBox7"："不要使用[超级球]，如果库存少于"，
+  "GUI.tabControl1.tabThrows.groupBox8.checkBox3"："不要使用[高级球]，如果库存少于"，
+  "GUI.tabControl1.tabThrows.groupBox8.checkBox2"："不要使用[宝贝球]，如果库存少于"，
+  "GUI.tabControl1.tabThrows.groupBox8.label22"："每回最多投掷的失误次数"，
+  "GUI.tabControl1.tabThrows.groupBox16"："投扔可能性机率"，
+  "GUI.tabControl1.tabThrows.groupBox16.label60"："％"，
+  "GUI.tabControl1.tabThrows.groupBox16.label59"："％"，
+  "GUI.tabControl1.tabThrows.groupBox16.label58"："％"，
+  "GUI.tabControl1.tabThrows.groupBox16.label57"："％"，
+  "GUI.tabControl1.tabThrows.groupBox16.label51"："一般的机会："，
+  "GUI.tabControl1.tabThrows.groupBox16.label50"："很好的机会："，
+  "GUI.tabControl1.tabThrows.groupBox16.label49"："最好的机会："，
+  "GUI.tabControl1.tabThrows.groupBox16.label48"："极大的机会："，
+  "GUI.tabControl1.tabItems"："道具设定"，
+  "GUI.tabControl1.tabItems.label31"："总数总数："，
+  "GUI.tabControl1.tabItems.groupBox4"："道具列表Pokemon Items"，
+  "GUI.tabControl1.tabItems.groupBox4.label27"："Max。TopRevives完全药水复活石："，
+  "GUI.tabControl1.tabItems.groupBox4.label25"："Max。TopPotions完全药水："，
+  "GUI.tabControl1.tabItems.groupBox4.label20"："Max。RazzBerrys treeberry果实上限："，
+  "GUI.tabControl1.tabItems.groupBox4.label19"："Max。HyperPotions超级药水上限："，
+  "GUI.tabControl1.tabItems.groupBox4.label18"："Max。SuperPotions强效药水上限："，
+  "GUI.tabControl1.tabItems.groupBox4.label17"："Max。Potions一般药水上限："，
+  "GUI.tabControl1.tabItems.groupBox4.label16"："Max。Revives一般复活石上限："，
+  "GUI.tabControl1.tabItems.groupBox4.label15"："Max。UltraBalls超级球上限："，
+  "GUI.tabControl1.tabItems.groupBox4.label14"："Max。GreatBalls高级球上限："，
+  "GUI.tabControl1.tabItems.groupBox4.label13"："Max。Pokeballs宝贝球上限："，
+  "GUI.tabControl1.tabEggs"："神奇宝贝蛋"，
+  "GUI.tabControl1.tabEggs.groupBox26"："限用次数孵化器"，
+  "GUI.tabControl1.tabEggs.groupBox26.groupBox27"："选择顺续"，
+  "GUI.tabControl1.tabEggs.groupBox26.groupBox27.rbSOEggsDescendingBasicInc"："由远到近（10公里优先）"，
+  "GUI.tabControl1.tabEggs.groupBox26.groupBox27.rbSOEggsAscendingBasicInc"："由近到远（2公里优先）"，
+  "GUI.tabControl1.tabEggs.groupBox26.groupBox28"："不要孵化这些宝贝蛋"，
+  "GUI.tabControl1.tabEggs.groupBox26.groupBox28.checkBox_10kmEggsBasicInc"："10公里"，
+  "GUI.tabControl1.tabEggs.groupBox26.groupBox28.checkBox_5kmEggsBasicInc"："5公里"，
+  "GUI.tabControl1.tabEggs.groupBox26.groupBox28.checkBox_2kmEggsBasicInc"："2公里"，
+  "GUI.tabControl1.tabEggs.groupBox1"："无限次孵化器"，
+  "GUI.tabControl1.tabEggs.groupBox1.gbSelectionOrder"："选择顺续"，
+  "GUI.tabControl1.tabEggs.groupBox1.gbSelectionOrder.rbSOEggsDescending"："由远到近（10公里优先）"，
+  "GUI.tabControl1.tabEggs.groupBox1.gbSelectionOrder.rbSOEggsAscending"："由近到远（2公里优先）"，
+  "GUI.tabControl1.tabEggs.groupBox1.groupBox24"："不要孵化这些宝贝蛋"，
+  "GUI.tabControl1.tabEggs.groupBox1.groupBox24.checkBox_10kmEggs"："10公里"，
+  "GUI.tabControl1.tabEggs.groupBox1.groupBox24.checkBox_5kmEggs"："5公里"，
+  "GUI.tabControl1.tabEggs.groupBox1.groupBox24.checkBox_2kmEggs"："2公里"，
+  "GUI.tabControl1.tabEggs.groupBox_EggOptions"："其它选择"，
+  "GUI.tabControl1.tabEggs.groupBox_EggOptions.checkBox_AutoIncubate"："自动进行孵化"，
+  "GUI.tabControl1.tabEggs.groupBox_EggOptions.checkBox_UseBasicIncubators"："使用[限用次数]孵化器"，
+"GUI.tabControl1.tabProxies"："代理伺服器"，
+  "GUI.tabControl1.tabProxies.labelPrxPass"："密码："，
+  "GUI.tabControl1.tabProxies.labelPrxUser"："使用者名称："，
+  "GUI.tabControl1.tabProxies.labelPrxPort"："端口："，
+  "GUI.tabControl1.tabProxies.labelPrxHost"："伺服器名称："，
+  "GUI.tabControl1.tabProxies.linkLabel5"："代理服务器清单连结"，
+  "GUI.tabControl1.tabProxies.label35"："取后代理伺服器位置。"，
+  "GUI.tabControl1.tabProxies.checkBox_UseProxyAuth"："使用授权"，
+  "GUI.tabControl1.tabProxies.checkBox_UseProxy"："使用代理伺理器"，
+  "GUI.tabControl1.tabWalkSettings"："行动设定"，
+  "GUI.tabControl1.tabWalkSettings.groupBoxGyms"："道馆"，
+  "GUI.tabControl1.tabWalkSettings.groupBoxGyms.checkBoxAttackGyms"："攻击道馆，如果里面有1个对手（尚未进行测试）"，
+  "GUI.tabControl1.tabWalkSettings.groupBoxGyms.label23"："放置神奇宝贝在道馆："，
+  "GUI.tabControl1.tabWalkSettings.groupBoxGyms.checkBox_FarmGyms"："如果还有空位，放置神奇宝贝在道馆"，
+  "GUI.tabControl1.tabWalkSettings.groupBox18"："移动速度和范围"，
+  "GUI.tabControl1.tabWalkSettings.groupBox18.label9"："移动范围半径："，
+  "GUI.tabControl1.tabWalkSettings.groupBox18.label7"："最快移动速度（km / h）："，
+  "GUI.tabControl1.tabWalkSettings.groupBox18.label46"："最少移动速度（km / h）："，
+  "GUI.tabControl1.tabWalkSettings.groupBox13"："移动路径设定（测试版）"，
+  "GUI.tabControl1.tabWalkSettings.groupBox13.linkLabel6"："取得Google地图API金钥"，
+  "GUI.tabControl1.tabWalkSettings.groupBox13.checkBox_UseGoogleMapsRouting"："使用Google地图路径"，
+  "GUI.tabControl1.tabWalkSettings.groupBox13.label45"："API金钥："，
+  "GUI.tabControl1.tabWalkSettings.groupBox11"："移动其它设定"，
+  "GUI.tabControl1.tabWalkSettings.groupBox11.checkBox_StopWalkingWhenEvolving"："在进化/交换神奇宝贝时停止移动"，
+  "GUI.tabControl1.tabWalkSettings.groupBox11.checkBox_UseBreakIntervalAndLength"："使用中断的间隔和长度设定"，
+  "GUI.tabControl1.tabWalkSettings.groupBox11.label47"："（需要设定有效的最低移动速度值）"，
+  "GUI.tabControl1.tabWalkSettings.groupBox11.checkBox_RandomlyReduceSpeed"："随机降低移动速度"，
+  "GUI.tabControl1.tabWalkSettings.groupBox11.checkBox_RandomSleepAtCatching"："在捕猎时1-3秒中随机休息"，
+  "GUI.tabControl1.tabWalkSettings.groupBox11.checkBox_FarmPokestops"："使用补给站"，
+  "GUI.tabControl1.tabWalkSettings.groupBox11.checkBox_CatchPokemon"："猎捕神奇宝贝"，
+  "GUI.tabControl1.tabWalkSettings.groupBox11.checkBox_UseLureAtBreak"："在休息时，使用[引诱器]"，
+  "GUI.tabControl1.tabWalkSettings.groupBox11.checkBox_BreakAtLure"："休息在有[引诱器]补给站停止行动"，
+  "GUI.tabControl1.tabWalkSettings.groupBox11.button_ArchimedeanSpiralHelp"："？"，
+  "GUI.tabControl1.tabWalkSettings.groupBox11.checkBox_WalkInArchimedeanSpiral"："以螺旋式行径移动"，
+  "GUI.tabControl1.tabWalkSettings.groupBox12"："移动变化量设定"，
+  "GUI.tabControl1.tabWalkSettings.groupBox12.labelRestart"："跑步后几分钟后重新开始（分钟）："，
+  "GUI.tabControl1.tabWalkSettings.groupBox12.label41"："休息时间长短（分钟）："，
+  "GUI.tabControl1.tabWalkSettings.groupBox12.label44"："XP经验值取得限制："，
+  "GUI.tabControl1.tabWalkSettings.groupBox12.label43"："补给站数使用限制："，
+  "GUI.tabControl1.tabWalkSettings.groupBox12.label42"："神奇宝贝猎捕数限制："，
+  "GUI.tabControl1.tabWalkSettings.groupBox12.label32"："中断间隔时间（分钟）："，
+  "GUI.tabControl1.tabWalkSettings.groupBox12.label40"："跑步时间长短（分钟）："，
+  "GUI.tabControl1.tabMisc"："其它设定"，
+  "GUI.tabControl1.tabMisc.buttonTutorial"："更改预设的人物设定"，
+  "GUI.tabControl1.tabMisc.groupBox25"："开发选项"，
+  "GUI.tabControl1.tabMisc.groupBox25.checkbox_Verboselogging"："启用详细记录"，
+  "GUI.tabControl1.tabMisc.groupBox23"："不要狙击的 - 神奇宝贝列表"，
+  "GUI.tabControl1.tabMisc.groupBox23.SelectallNottoSnipe"："选取所有"，
+  "GUI.tabControl1.tabMisc.AvoidRegionLock"："排除区域限制的神奇宝贝"，
+  "GUI.tabControl1.tabMisc.SnipePokemonPokeCom"："启动神奇贝狙击"，
+  "GUI.tabControl1.tabMisc.groupBox17"："终端机形式设置"，
+  "GUI.tabControl1.tabMisc.groupBox17.label61"："频率miliSec"，
+  "GUI.tabControl1.tabMisc.groupBox17.label62"："现场延迟Live-Stats延迟"，
+  "GUI.tabControl1.tabMisc.groupBox17.label63"："名称名称"，
+  "GUI.tabControl1.tabMisc.groupBox17.label64"："金钥API令牌"，
+  "GUI.tabControl1.tabMisc.groupBox14"："手动登入"，
+  "GUI.tabControl1.tabMisc.groupBox14.cbLogEggs"："宝贝蛋记录"，
+  "GUI.tabControl1.tabMisc.groupBox14.cbLogEvolution"："进化记录"，
+  "GUI.tabControl1.tabMisc.groupBox14.cbLogManuelTransfer"："交换记录"，
+  "GUI.tabControl1.tabMisc.groupBox14.cbLogPokemon"："神奇宝贝猎捕记录"，
+  "GUI.tabControl1.tabUpdates"："更新设定"，
+  "GUI.tabControl1.tabUpdates.groupBox9"："版本讯息"，
+  "GUI.tabControl1.tabUpdates.groupBox9.newText"："最新版本："，
+  "GUI.tabControl1.tabUpdates.groupBox9.currText"："使用中版本："，
+  "GUI.tabControl1.tabUpdates.groupBox15"："更新升级设定"，
+  "GUI.tabControl1.tabUpdates.groupBox15.checkbox_checkWhileRunning"："在程式使用中，同时查询是否有升级版本"，
+  "GUI.tabControl1.tabUpdates.groupBox15.checkbox_AutoUpdate"："自动升级"，
+  "GUI.tabControl1.tabCredits"："版权团队"，
+  "GUI.tabControl1.tabCredits.groupBox29"："哈希服务消息"，
+  "GUI.tabControl1.tabCredits.groupBox29.button_Information"："显示相关消息"，
+  "GUI.tabControl1.tabCredits.groupBox29.linkLabel16"："Github"，
+  "GUI.tabControl1.tabCredits.groupBox29.label69"："更多的价格和讯息："，
+  "GUI.tabControl1.tabCredits.groupBox29.label70"："你可以从这里买到更便宜的金钥"，
+"GUI.tabControl1.tabCredits.groupBox29.linkLabel15"："150 RPM - 3,95€"，
+  "GUI.tabControl1.tabCredits.groupBox29.label71"：""，
+  "GUI.tabControl1.tabCredits.groupBox22"："特别的感谢"，
+  "GUI.tabControl1.tabCredits.groupBox22.linkLabel17"："Quarthy"，
+  "GUI.tabControl1.tabCredits.groupBox22.linkLabel13"："cicklow"，
+  "GUI.tabControl1.tabCredits.groupBox22.linkLabel12"："madymaxy"，
+  "GUI.tabControl1.tabCredits.groupBox22.linkLabel11"："Xelwon"，
+  "GUI.tabControl1.tabCredits.groupBox21"："专案消息"，
+  "GUI.tabControl1.tabCredits.groupBox21.label38"："创立者：Ar1i"，
+  "GUI.tabControl1.tabCredits.groupBox21.linkLabel8"："Discord Community"，
+  "GUI.tabControl1.tabCredits.groupBox21.label10"："专案名称：神奇宝贝机器人PokemonGo-Bot"，
+  "GUI.tabControl1.tabCredits.groupBox21.linkLabel1"："Github"，
+  "GUI.tabControl1.tabCredits.groupBox20"："主要开发人员"，
+  "GUI.tabControl1.tabCredits.groupBox20.linkLabel10"："GitHub MTK4355"，
+  "GUI.tabControl1.tabCredits.groupBox20.linkLabel9"："GitHub Logxn"，
+  "GUI.tabControl1.tabCredits.groupBox20.linkLabel2"："GitHub Ar1i"，
+  "GUI.tabControl1.tabCredits.groupBox20.linkLabel3"："Twitter Ar1i"，
+  "GUI.tabControl1.tabCredits.groupBox20.linkLabel7"："Twitter MTK4355"，
+  "GUI.tabControl1.tabCredits.groupBox20.linkLabel4"："Twitter Logxn"，
+  "GUI.buttonSaveStart"："储存设定/启动机器人"，
+  "GUI.tabControl1.tabPokemon.groupBox3.checkBox_ShowPokemons"："在地图上显示神奇宝贝"，
+  "GUI.tabControl1.tabPokemon.groupBox7.label_EvolveAt"："后开始进化"，
+  "GUI.tabControl1.tabMisc.groupBox25.checkBoxExtractText"："从表单中提取内容"，
+  "GUI.tabControl1.tabMisc.groupBox25.checkBoxStoreUntranslated"："存储未翻译的内容"，
+  "TutorialPanel"：""，
+  "TutorialPanel.lcGender"："性别"，
+  "TutorialPanel.groupBox1"："匿名"，
+  "TutorialPanel.groupBox1.label1"："匿名将格式化为：\ r \ nPrefix {countIfNeeded} Sufix"，
+  "TutorialPanel.groupBox1.ltNickSufix"："姓名字首"，
+  "TutorialPanel.groupBox1.ltNickPrefix"："名字字首"，
+  "TutorialPanel.lcPokemon"："开始的神奇宝贝"，
+  "TutorialPanel.lcSkin"："肤色"，
+  "TutorialPanel.lcShoes"："鞋子"，
+  "tutorialPanel.lcShirt"："衣服"，
+  "TutorialPanel.lcPants"："裤子"，
+  "TutorialPanel.lcHat"："帽子"，
+  "TutorialPanel.lcHair"："头发"，
+  "TutorialPanel.lcEyes"："眼睛"，
+  "TutorialPanel.lcBackpack"："背包"，
+  "GUIAvatar"："人物头像设置"，
+  "GUIAvatar.buttonOk"："确定"，
+  "GUIAvatar.buttonCancel"："取消"，
+  "SplashScreen"："SplashScreen"，
+  "SplashScreen.label1"："登入中..."，
+  "PokemonsPanel"：""，
+  "PokemonsPanel.checkBox_ShortName"："使用简短IV格式名称"，
+  "PokemonsPanel.btnreload"："重新读取"​​，
+  "PokemonsPanel.checkBoxreload"："全部重新读取"​​，
+  "PokemonsPanel.label1"："升级数量"，
+  "PokemonsPanel.btnFullPowerUp"："升级"，
+  "PokemonsPanel.btnEvolve"："进化"，
+  "PokemonsPanel.btnTransfer"："交换"，
+  "PokemonsPanel.label2"：""，
+  "PokemonsPanel.btnIVToNick"："匿名"，
+  "ItemsPanel"：""，
+  "ItemsPanel.buttonUSe"："使用道具"，
+  "ItemsPanel.btnDiscard"："丢弃超出设定数量的道具"，
+  "ItemsPanel.btnCopy"："调整为目前储存数量"，
+  "ItemsPanel.lblCount"："0"，
+  "ItemPanel.label1"："总数："，
+  "ItemsPanel.groupBox4"："道具列表"，
+  "ItemsPanel.groupBox4.label31"："总数："，
+  "ItemsPanel.groupBox4.label27"："Max。TopRevives完全药水复活石："，
+  "ItemsPanel.groupBox4.label25"："Max。TopPotions完全药水："，
+  "ItemsPanel.groupBox4.label20"："Max。RazzBerrys树莓果实上限："，
+  "ItemsPanel.groupBox4.label19"："Max。HyperPotions超级药水上限："，
+  "ItemsPanel.groupBox4.label18"："Max。SuperPotions强效药水上限："，
+  "ItemsPanel.groupBox4.label17"："Max。Potions一般药水上限："，
+  "ItemsPanel.groupBox4.label16"："Max。Revives一般复活石上限："，
+  "ItemsPanel.groupBox4.label15"："Max。UltraBalls超级球上限："，
+  "ItemsPanel.groupBox4.label14"："Max。GreatBalls高级球上限："，
+  "ItemsPanel.groupBox4.label13"："Max。Pokeballs宝贝球上限："，
+  "ItemsPanel.btnRealoadItems"："重新读取"​​，
+  "EggsPanel"：""，
+  "EggsPanel.btnReaload"："重新读取"​​，
+  "PlayerPanel"：""，
+  "PlayerPanel.btnCollect"："索取金币"，
+  "PlayerPanel.btnTeam"："选择团队"，
+  "SniperPanel"：""，
+  "SniperPanel.checkBoxSnipeTransfer"："狙击神奇宝贝成功后，直接交换。"，
+  "SniperPanel.label9"："Num Tries Finding Encounter："，
+  "SniperPanel.label8"："等待那里的时间："，
+  "SniperPanel.groupBox2"："URI服务"，
+  "SniperPanel.groupBox2.checkBoxExternalWeb"："在其它的视窗开启"，
+  "SniperPanel.groupBox2.buttonGo"："Go"，
+  "SniperPanel.groupBox2.btnInstall"："安装服务"，
+  "SniperPanel.groupBox2.label1"："Handles \"pokesniper2：//和msniper：// \"URI Protocols。所以如果你有另一个应用程序，
+  "SniperPanel.groupBox2.label2"："安装服务，你可以直接从pokesniper URIs像这样的页面："，
+  "SniperPanel.ForceAutoSnipe"："开始自动狙击"，
+  "SniperPanel.AvoidRegionLock"："排除区域限制的神奇宝贝"，
+  "SniperPanel.groupBox23"："不要狙击的 - 神奇宝贝列表"，
+  "SniperPanel.groupBox23.UpdateNotToSnipe"："升级"，
+  "SniperPanel.groupBox23.SelectallNottoSnipe"："选取所有"，
+  "SniperPanel.SnipePokemonPokeCom"："启动自动狙击神奇宝贝"，
+  "SniperPanel.groupBox1"："手动狙击"，
+  "SniperPanel.groupBox1.SnipeMe"："狙击我！"，
+  "SniperPanel.groupBox1.label6"："神奇宝贝名字："，
+  "SniperPanel.groupBox1.label64"："经度，纬度"，
+  "SniperPanel.groupBox1.label4"："（格式：30.123456，-97.123456）"，
+  "ChangesPanel"：""，
+"ChangesPanel.labelLanguage"："选择语言版本："，
+  "ChangesPanel.groupBox1"："重新定位到新的开发位置"，
+  "ChangesPanel.groupBox1.buttonRevise"："修正"，
+  "ChangesPanel.groupBox1.buttonSearch"："搜寻"，
+  "ChangesPanel.groupBox1.buttonSetLocation"："设定新的位置"，
+  "ChangesPanel.groupBox1.label4"："旅行移动速度（公里/小时）："，
+  "ChangesPanel.groupBox1.label7"："地址："，
+  "ChangesPanel.groupBox1.label5"："经度："，
+  "ChangesPanel.groupBox1.label6"："纬度："，
+  "ChangesPanel.buttonUpdate"："更新设定档"，
+  "ChangesPanel.groupBox10"："其它设定"，
+  "ChangesPanel.groupBox10.checkBox_AutoTransferDoublePokemon"："自动交换重覆神奇宝贝"，
+  "ChangesPanel.groupBox10.checkBox_CollectDailyBonus"："索取每日金币（尚未测试）\ r \ n"，
+  "ChangesPanel.groupBox10.checkbox_Verboselogging"："启动详细登入"，
+  "ChangesPanel.groupBox10.label3"："％"，
+  "ChangesPanel.groupBox10.checkBoxUseRazzBerry"："使用[树莓果实]，如果抓取率低于"，
+  "ChangesPanel.groupBox10.checkBoxUseBasicIncubators"："使用[限用次数]孵化器"，
+  "ChangesPanel.groupBox10.checkBoxAutoIncubate"："自动进行孵化（不保证能够使用）"，
+  "ChangesPanel.groupBox10.checkBoxUseLuckyEggIfNotRunning"："如果没有进行跑步，使用[幸运蛋]"，
+  "ChangesPanel.groupBox10.checkBox_keepPokemonsThatCanEvolve"："保留预备可以进化的神奇宝贝"，
+  "ChangesPanel.groupBox10.checkBox_UseIncense"："每30分钟使用[薰香]"，
+  "ChangesPanel.groupBox10.checkBox_UseAnimationTimes"："模拟动画进化使用的时间"，
+  "ChangesPanel.groupBox10.checkBox_useluckyegg"："进化时使用幸运蛋"，
+  "ChangesPanel.groupBox10.checkBox_evolve"："进化有足够糖果的神奇宝贝\ r \ n"，
+  "ChangesPanel.groupBox11"："移动其它设定"，
+  "ChangesPanel.groupBox11.checkBox_AttackGyms"："攻击道馆"，
+  "ChangesPanel.groupBox11.checkBox_FarmGyms"："查询道馆"，
+  "ChangesPanel.groupBox11.checkBox_pauseAtEvolve1_2"："在进化/交换神奇宝贝时停止移动"，
+  "ChangesPanel.groupBox11.label11"："Km / h"，
+  "ChangesPanel.groupBox11.checkBox_UseLureAtBreak"："在休息时，使用[引诱器]"，
+  "ChangesPanel.groupBox11.label8"："Km / h"，
+  "ChangesPanel.groupBox11.checkBox_BreakAtLure"："休息在有[引诱器]补给站停止行动"，
+  "ChangesPanel.groupBox11.label10"："最少移动速度："，
+  "ChangesPanel.groupBox11.checkBox_CatchPokemon"："猎捕神奇宝贝"，
+  "ChangesPanel.groupBox11.label9"："预设移动速度："，
+  "ChangesPanel.groupBox11.checkBox_FarmPokestops"："使用补给站"，
+  "ChangesPanel.groupBox11.checkBox_UseBreakIntervalAndLength"："使用中断的间隔和长度设定"，
+  "ChangesPanel.groupBox11.checkBox_SleepAtPokemons"："在捕猎时1-3秒中随机休息"，
+  "ChangesPanel.groupBox11.label47"："（需要设定有效的最低移动速度值）"，
+  "ChangesPanel.groupBox11.checkBox_RandomlyReduceSpeed"："随机降低移动速度"，
+  "ChangesPanel.groupBox11.checkBox_WalkInArchimedeanSpiral"："以螺旋式行径移动"，
+  "ChangesPanel.groupBox13"："移动路径设定（测试版）"，
+  "ChangesPanel.groupBox13.linkLabel6"："取得Google地图API金钥"，
+  "ChangesPanel.groupBox13.checkBox_UseGoogleMapsRouting"："使用Google地图路径"，
+  "ChangesPanel.groupBox13.label45"："API金钥："，
+  "WebPanel"：""，
+  "WebPanel.button1"："隐藏"，
+  "TabbedSystem"："神奇宝贝列表"，
+  "TabbedSystem.label2"：""，
+  "TabbedSystem.TabControl1"：""，
+  "TabbedSystem.TabControl1.tpLocation"："位置"，
+  "TabbedSystem.TabControl1.tpLocation.RepeatRoute"："重覆路径"，
+  "TabbedSystem.TabControl1.tpLocation.CreateRoute"："预设路径"，
+  "TabbedSystem.TabControl1.tpPokemons"："神奇宝贝"，
+  "TabbedSystem.TabControl1.tpItems"："道具"，
+  "TabbedSystem.TabControl1.tpEggs"："宝贝蛋"，
+  "TabbedSystem.TabControl1.tpPlayerInfo"："训练者"，
+  "TabbedSystem.TabControl1.tpSnipers"："狙击"，
+  "TabbedSystem.TabControl1.tpOptions"："其它"，
+  "string.User Name："："使用者名称："，
+  当使用高于人类慢跑速度（例如> 15km / hr）时，被禁止的风险显着更大。点击"否"使用〜10km / hr而不是"："当使用高于人类慢跑速度时15km / hr），被封锁的风险大为提高，点选'No'改使用〜10km / hr"，
+  "string.Are you sure you wish to set your speed to {0}？"："你确定你要设定你的移动速度为{0}？"
+  "string.Current Configuration Saved as - "："目前设置储存于 - "，
+  "string.Please Review Red Boxes Before Save"："储存前请重新检查红色空格所需要的必要资料"，
+  "string.Random"："随机"，
+  "string.Best CP"："最高CP"，
+  "string.Worse CP"："最差CP"，
+  "string.Have你设置正确的位置吗？（似乎你正在使用默认坐标，这可能导致自动禁止从niantic）"："你有设定正确的位置吗？（这看起来你使用了预设的位置数值，这将会被任天堂公司自动封锁使用）"，
+  "string.Warning"："警告"，
+  "string.Name"："名称"，
+  "string.CP"："CP"，
+  "string.IV A-D-S"："IV A-D-S"，
+  "string.LVL"："LVL"，
+  "string.Evolvable？"："可进化？"，
+  "string.Height"："高度"，
+  "string.Weight"："重量"，
+  "string.HP"："生命力"，
+  "string.Attack"："攻击"，
+  "string.SpecialAttack（DPS）"："特殊招式（DPS）"，
+  "string。％CP"："％CP"，
+  "string.Type"："种类"，
+  "string.Type 2"："种类2"，
+  "string.Catch Date"："抓取日期"
+  "string.Pokeball"："宝贝球"，"
+  "string.Num Upgrades"："升级次数"，
+  "string.Battles Attacked"："攻击次数"，
+  "string.Battles Defended"："防御次数"，
+  "string.In Gym"："道馆中"，
+  "string.Capture Place"："抓取位置"，
+  "string.Username"："使用者名"，
+  "string.Coins"："金币"，
+  "string.Stardust"："星尘"，
+  "string.Max Items"："道具最大数"，
+  "string.Max Pokemons"："神奇宝贝最大数"，
+  "string.Battle Lockout End（Ms）"："攻击时间结束（Ms）"，
+  "string.Level"："等级"，
+  "string.Pokedex"："列表"，
+  "string.Kms Walked"："移动距离Km"，
+  "string.Eggs Hatched"："宝贝蛋孵化数"，
+  "string.Evolutions"："进化数"，
+  "string.PokeStop Visits"："补给站使用数"，
+  "string.Pokeballs Thrown"："宝贝球使用数"，
+  "string.Battle Attack"："道馆攻击次数"，
+  "string.Battle Defended"："道馆防御次数"，
+  "string.Battle Training"："道馆训练次数"，
+  "string.Pokemon Deployed"："神奇宝贝放置数"，
+  "string.Pokemons Captured"："神奇宝贝抓取数"，
+  "string.Pokemons Enokes"："神奇宝贝遇见数"，
+  "string.Prestige Dropped"："威望降低"，
+  "string.Prestige Raised"："威望提高"，
+  "string.Small Rattata Caught"："抓到最小的小拉达Rattata"，
+  "string.Big Magikarp Caught"："抓到最大的鲤鱼王Magikarp"，
+  "string.Used Km Pool"："使用Km区域"，
+  "string.Bulbasaur"："妙蛙种子"，
+  "string.Ivysaur"："妙蛙草"，
+  "string.Venusaur"："妙蛙花"，
+  "string.Charmander"："小火龙"，
+  "string.Charmeleon"："火恐龙"，
+  "string.Charizard"："喷火龙"，
+  "string.Squirtle"："杰尼龟"，
+  "string.Wartortle"："卡咪龟"，
+  "string.Blastoise"："水箭龟"，
+  "string.Caterpie"："绿毛虫"，
+  "string.Metapod"："铁甲蛹"，
+  "string.Butterfree"："巴大蝴蝶"
+  "string.Weedle"："独角虫"，
+  "string.Kakuna"："铁壳昆"，
+  "string.Beedrill"："大针蜂"，
+  "string.Pidgey"："波波"，
+  "string.Pidgeotto"："比比鸟"，
+  "string.Pidgeot"："比雕"，
+  "string.Rattata"："小拉达"，
+  "string.Raticate"："拉达"，
+  "string.Spearow"："烈雀"，
+  "string.fearow"："大嘴雀"，
+  "string.Ekans"："阿柏蛇"，
+  "string.Arbok"："阿柏怪"，
+  "string.Pikachu"："皮卡丘"，
+  "string.Raichu"："雷丘"，
+  "string.Sandshrew"："穿山鼠"，
+  "string.Sandslash"："穿山王"，
+  "string.Nidoran♀"："尼多兰"，
+  "string.Nidorina"："尼多娜"，
+  "string.Nidoqueen"："尼多后"，
+  "string.Nidoran♂"："尼多朗"，
+  "string.Nidorino"："尼多力诺"，
+  "string.Nidoking"："尼多王"，
+  "string.Clefairy"："皮皮"，
+  "string.Clefable"："皮可西"，
+  "string.Vulpix"："六尾"，
+  "string.Ninetales"："九尾"，
+  "string.Jigglypuff"："胖丁"，
+  "string.Wigglytuff"："胖可丁"，
+  "string.Zubat"："超音蝠"，
+  "string.Golbat"："大嘴蝠"，
+  "string.Oddish"："走路草"，
+  "string.Gloom"："臭臭花"，
+  "string.Vileplume"："霸王花"，
+  "string.Paras"："派拉斯"，
+  "string.Parasect"："派拉斯特"，
+  "string.Venonat"："毛球"，
+  "string.Venomoth"："末入蛾"，
+  "string.Diglett"："地鼠"，
+  "string.Dugtrio"："三地鼠"，
+  "string.Meowth"："喵喵"，
+  "string.Persian"："猫老大"，
+  "string.Psyduck"："可达鸭"，
+  "string.Golduck"："哥达鸭"，
+  "string.Mankey"："猴怪"，
+  "string.Primeape"："火爆猴"，
+  "string.Growlithe"："卡蒂狗"，
+  "string.Arcanine"："风速狗"，
+  "string.Poliwag"："蚊香蝌蚪"，
+  "string.Poliwhirl"："蚊香蛙"，
+  "string.Poliwrath"："快泳蛙"，
+  "string.Abra"："凯西"，
+  "string.Kadabra"："勇吉拉"，
+  "string.Alakazam"："胡地"，
+  "string.Machop"："腕力"，
+  "string.Machoke"："豪力"
+  "string.Machamp"："怪力"，
+  "string.Bellsprout"："喇叭芽"，
+  "string.Weepinbell"："口呆花"，
+  "string.Victreebel"："大食花"，
+  "string.Tentacool"："玛瑙水母"，
+  "string.Tentacruel"："毒刺水母"，
+  "string.Geodude"："小拳石"，
+  "string.Graveler"："隆隆石"，
+  "string.Golem"："隆隆岩"，
+  "string.Ponyta"："小火马"，
+  "string.Rapidash"："烈焰马"，
+  "string.Slowpoke"："呆呆兽"，
+  "string.Slowbro"："呆河马"，
+  "string.Magnemite"："小磁怪"，
+  "string.Magneton"："三合一磁怪"，
+  "string.Farfetch'd"："大葱鸭"，
+  "string.Doduo"："嘟嘟"，
+  "string.Dodrio"："嘟嘟利"，
+  "string.Seel"："小海狮"，
+  "string.Dewgong"："白海狮"，
+  "string.Grimer"："臭泥"，
+  "string.Muk"："臭臭泥"，
+  "string.Shellder"："大舌贝"，
+  "string.Cloyster"："铁甲贝"，
+  "string.Gastly"："鬼斯"，
+  "string.Haunter"："鬼斯通"，
+  "string.Gengar"："耿鬼"，
+  "string.Onix"："大岩蛇"，
+  "string.Drowzee"："素利普"，
+  "string.Hypno"："素利拍"，
+  "string.Krabby"："大钳蟹"，
+  "string.Kingler"："巨钳蟹"，
+  "string.Voltorb"："雷电球"，
+  "string.Electrode"："顽皮弹"，
+  "string.Exeggcute"："蛋蛋"，
+  "string.Exeggutor"："椰蛋树"，
+  "string.Cubone"："可拉可拉"，
+  "string.Marowak"："嘎拉嘎拉"，
+  "string.Hitmonlee"："沙瓦郎"，
+  "string.Hitmonchan"："艾比郎"，
+  "string.Lickitung"："大舌头"，
+  "string.Koffing"："瓦斯弹"，
+  "string.Weezing"："双弹瓦斯"，
+  "string.Rhyhorn"："铁甲犀牛"，
+  "string.Rhydon"："铁甲暴龙"，
+  "string.Chansey"："吉利蛋"，
+  "string.Tangela"："蔓藤怪"，
+  "string.Kangaskhan"："袋龙"，
+  "string.Horsea"："墨海马"，
+  "string.Seadra"："海刺龙"，
+  "string.Goldeen"："角金鱼"，
+  "string.Seaking"："金鱼王"，
+  "string.Staryu"："海星星"，
+  "string.Starmie"："宝石海星"，
+  "string.Mr。Mime"："吸盘魔偶"，
+  "string.Scyther"："飞天螳螂"，
+  "string.Jynx"："迷唇姐"，
+  "string.Electabuzz"："电击兽"，
+  "string.Magmar"："鸭嘴火龙"，
+  "string.Pinsir"："大甲"，
+  "string.Tauros"："肯泰罗"，
+  "string.Magikarp"："鲤鱼王"，
+  "string.Gyarados"："暴鲤龙"，
+  "string.Lapras"："乘龙"，
+  "string.Ditto"："百变怪"，
+  "string.Eevee"："伊布"，
+  "string.Vaporeon"："水精灵"，
+  "string.Jolteon"："雷精灵"，
+  "string.Flareon"："火精灵"，
+  "string.Porygon"："3D龙"，
+  "string.Omanyte"："菊石兽"，
+  "string.Omastar"："多刺菊石兽"，
+  "string.Kabuto"："化石盔"，
+  "string.Kabutops"："镰刀盔"，
+  "string.Aerodactyl"："化石翼龙"，
+  "string.Snorlax"："卡比兽"，
+  "string.Articuno"："急冻鸟"，
+  "string.Zapdos"："闪电鸟"，
+  "string.Moltres"："火焰鸟"，
+  "string.Dratini"："迷你龙"，
+  "string.Dragonair"："哈克龙"，
+  "string.Dragonite"："快龙"，
+  "string.Mewtwo"："超梦"，
+  "string.Mew"："梦幻"，
+  "string.Chikorita"："菊草叶"，
+  "string.Bayleef"："月桂叶"，
+  "string.Meganium"："大菊花"，
+  "string.Cyndaquil"："火球鼠"，
+  "string.Quilava"："火岩鼠"，
+  "string.typhlosion"："火暴兽"，
+  "string.Totodile"："小锯鳄"，
+  "string.Croconaw"："蓝鳄"，
+  "string.Feraligatr"："大力鳄"，
+  "string.Sentret"："尾立"，
+  "string.Furret"："大尾立"，
+  "string.Hoothoot"："咕咕"，
+  "string.Noctowl"："猫头夜鹰"，
+  "string.Ledyba"："芭瓢虫"，
+  "string.Ledian"："安瓢虫"，
+  "string.Spinarak"："线球"，
+  "string.Ariados"："阿利多斯"，
+  "string.Crobat"："叉字蝠"，
+  "string.Chinchou"："灯笼鱼"，
+  "string.Lanturn"："电灯怪"，
+  "string.Pichu"："皮丘"，
+  "string.Cleffa"："皮宝宝"，
+  "string.Igglybuff"："宝宝丁"，
+  "string.Togepi"："波克比"，
+  "string.Togetic"："波克基古"，
+  "string.Natu"："天然雀"，
+  "string.Xatu"："天然鸟"，
+  "string.Mareep"："咩利羊"，
+  "string.Flaaffy"："绵绵"，
+  "string.Ampharos"："电龙"，
+  "string.Bellossom"："美丽花"，
+  "string.Marill"："玛力露"，
+  "string.Azumarill"："玛力露丽"，
+  "string.Sudowoodo"："胡说树"，
+  "string.Politoed"："牛蛙君"，
+  "string.Hoppip"："毽子草"，
+  "string.Skiploom"："毽子花"，
+  "string.Jumpluff"："毽子绵"，
+  "string.Aipom"："长尾怪手"，
+  "string.Sunkern"："向日种子"，
+  "string.Sunflora"："向日花怪"，
+  "string.Yanma"："阳阳玛"，
+  "string.Wooper"："乌波"，
+  "string.Quagsire"："沼王"，
+  "string.Espeon"："太阳精灵"，
+  "string.Umbreon"："月精灵"，
+  "string.Murkrow"："黑暗鸦"，
+  "string.Slowking"："河马王"，
+  "string.Misdreavus"："梦妖"，
+  "string.Unown"："未知图腾"，
+  "string.Wobbuffet"："果然翁"，
+  "string.Girafarig"："麒麟奇"，
+  "string.Pineco"："榛果球"
+  "string.Forretress"："佛烈托斯"，
+  "string.Dunsparce"："土龙弟弟"，
+  "string.Gligar"："天蝎"，
+  "string.Steelix"："大钢蛇"，
+  "string.Snubbull"："布卢"，
+  "string.Granbull"："布卢皇"，
+  "string.Qwilfish"："千针鱼"，
+  "string.Scizor"："巨钳螳螂"，
+  "string.Shuckle"："壶壶"，
+  "string.Heracross"："赫拉克罗斯"，
+  "string.Sneasel"："狃拉"，
+  "string.Teddiursa"："熊宝宝"，
+  "string.Ursaring"："圈圈熊"，
+  "string.Slugma"："熔岩虫"，
+  "string.Magcargo"："熔岩蜗牛"，
+  "string.Swinub"："小山猪"，
+  "string.Plloswine"："长毛猪"，
+  "string.Corsola"："太阳珊瑚"，
+  "string.Remoraid"："铁炮鱼"，
+  "string.Octillery"："章鱼桶"，
+  "string.Delibird"："信使鸟"，
+  "string.Mantine"："巨翅飞鱼"，
+  "string.Skarmory"："盔甲鸟"，
+  "string.Houndour"："戴鲁比"，
+  "string.Houndoom"："黑鲁加"，
+  "string.Kingdra"："刺龙王"，
+  "string.Phanpy"："小小象"，
+  "string.Donphan"："顿甲"，
+  "string.Porygon2"："3D龙II"，
+  "string.Stantler"："惊角鹿"，
+  "string.Smeargle"："图图犬"，
+  "string.Tyrogue"："巴尔郎"，
+  "string.Hitmontop"："柯波朗"，
+  "string.Smoochum"："迷唇娃"，
+  "string.Elekid"："电击怪"，
+  "string.Magby"："小鸭嘴龙"，
+  "string.Miltank"："大奶罐"，
+  "string.Blissey"："幸福蛋"，
+  "string.Raikou"："雷公"，
+  "string.Entei"："炎帝"，
+  "string.Suicune"："水君"，
+  "string.Larvitar"："由基拉"，
+  "string.Pupitar"："沙基拉"，
+  "string.Tyranitar"："班吉拉"，
+  "string.Lugia"："洛奇亚"，
+  "string.Ho-Oh"："凤王"，
+  "string.Celebi"："雪拉比"，
+  "string.Reloading Pokemon list。"："重新读取神奇宝贝列表。"，
+  "string。因为新的API被pogodev团队破解了，他们选择了API pay2use我们没有任何影响，我们很抱歉这需要发生！"："由于新的API被pogodev团队破解，他们选择了API pay2use我们没有任何影响。我们很抱歉这事的发生！"，
+  "string.Reloading Pokemon list。"："请选择使用的行动装置"
+}

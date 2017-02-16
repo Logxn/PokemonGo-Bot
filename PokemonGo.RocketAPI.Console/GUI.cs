@@ -1326,6 +1326,9 @@ namespace PokemonGo.RocketAPI.Console
                 case 4:
                     lang = "ca-ES";
                     break;
+                case 5:
+                    lang = "zh";
+                    break;
             }
 
             if (lang !="")

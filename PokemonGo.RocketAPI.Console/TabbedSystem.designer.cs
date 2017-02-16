@@ -414,7 +414,7 @@ namespace PokemonGo.RocketAPI.Console
             this.Controls.Add(this.TabControl1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimumSize = new System.Drawing.Size(734, 490);
-            this.Name = "Pokemons";
+            this.Name = "TabbedSystem";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Pokemon List";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Pokemons_Close);
