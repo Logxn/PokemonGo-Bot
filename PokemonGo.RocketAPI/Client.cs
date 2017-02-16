@@ -104,7 +104,7 @@ namespace PokemonGo.RocketAPI
 
             InventoryLastUpdateTimestamp = 0;
 
-            AppVersion = Resources.ClientVersionInt;
+            AppVersion = Resources.Api.ClientVersionInt;
             SettingsHash = "";
 
             CurrentApiEmulationVersion = settings.currentApi;

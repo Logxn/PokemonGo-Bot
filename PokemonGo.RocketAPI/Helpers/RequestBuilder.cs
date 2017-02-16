@@ -118,7 +118,7 @@ namespace PokemonGo.RocketAPI.Helpers
             #endregion
 
             signature.SessionHash = _sessionHash;
-            signature.Unknown25 = Resources.Unknown25;
+            signature.Unknown25 = Resources.Api.Unknown25;
 
             var serializedTicket = requestEnvelope.AuthTicket != null ? requestEnvelope.AuthTicket.ToByteArray() : requestEnvelope.AuthInfo.ToByteArray();
 
@@ -214,11 +214,13 @@ namespace PokemonGo.RocketAPI.Helpers
 
         public RequestEnvelope GetPlatformRequestEnvelope( RequestEnvelope.Types.PlatformRequest platfReq, bool firstRequest = false)
         {
+            var req  = new Request();
+            req.RequestType = RequestType.Echo;
 
             var _requestEnvelope = new RequestEnvelope {
                 StatusCode = 2, //1
                 RequestId = _requestBuilderID.Next(), //3
-                Requests = { }, //4
+                Requests = { req }, //4
                 Latitude = _latitude, //7
                 Longitude = _longitude, //8
                 Accuracy = _altitude, //9
@@ -262,7 +264,7 @@ namespace PokemonGo.RocketAPI.Helpers
             };
 
             var plat8Message = new UnknownPtr8Request() {
-                Message = Resources.UnknownPtr8_RequestMessage
+                Message = Resources.Api.UnknownPtr8Message
             };
 
             _requestEnvelope.PlatformRequests.Add(new RequestEnvelope.Types.PlatformRequest() {
