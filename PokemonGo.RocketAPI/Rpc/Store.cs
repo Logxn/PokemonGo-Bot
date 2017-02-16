@@ -10,6 +10,7 @@ using System;
 
 using Google.Protobuf;
 using POGOProtos.Inventory.Item;
+using POGOProtos.Networking.Envelopes;
 using POGOProtos.Networking.Platform.Requests;
 using POGOProtos.Networking.Platform.Responses;
 using POGOProtos.Networking.Requests;
@@ -26,10 +27,12 @@ namespace PokemonGo.RocketAPI.Rpc
             : base(client)
         {
         }
+
         public GetStoreItemsResponse GetStoreItems()
         {
-            var message = new POGOProtos.Networking.Requests.Messages.GetInventoryMessage();
-            var result = PostProtoPayload<Request, GetStoreItemsResponse>(RequestType.GetItemPack, message);
+            var plafReques = new RequestEnvelope.Types.PlatformRequest();
+            plafReques.Type =  POGOProtos.Networking.Platform.PlatformRequestType.GetStoreItems;
+            var result = PostProtoPayload<Request, GetStoreItemsResponse>(plafReques);
             return result;
         }
         

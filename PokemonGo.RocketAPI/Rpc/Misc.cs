@@ -15,7 +15,7 @@ namespace PokemonGo.RocketAPI.Rpc
         {
         }
 
-        public async Task<ClaimCodenameResponse> ClaimCodename(string codename)
+        public ClaimCodenameResponse ClaimCodename(string codename)
         {
             return
                     PostProtoPayload<Request, ClaimCodenameResponse>(RequestType.ClaimCodename,
@@ -25,12 +25,12 @@ namespace PokemonGo.RocketAPI.Rpc
                         });
         }
 
-        public async Task<EchoResponse> SendEcho()
+        public EchoResponse SendEcho()
         {
             return PostProtoPayload<Request, EchoResponse>(RequestType.Echo, new EchoMessage());
         }
 
-        public async Task<EncounterTutorialCompleteResponse> MarkTutorialComplete()
+        public EncounterTutorialCompleteResponse MarkTutorialComplete()
         {
             return PostProtoPayload<Request, EncounterTutorialCompleteResponse>(RequestType.MarkTutorialComplete, new MarkTutorialCompleteMessage());
         }

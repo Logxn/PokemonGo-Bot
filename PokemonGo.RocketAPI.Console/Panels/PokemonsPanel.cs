@@ -210,8 +210,8 @@ namespace PokemonGo.RocketAPI.Console
                 client = Logic.Logic.objClient;
                 if (client.ReadyToUse != false)
                 {
-                    Helpers.RandomHelper.RandomSleep(1000, 1200);
-                    refreshData().Wait();
+                    RandomHelper.RandomSleep(1000, 1200);
+                    refreshData();
 
                     pokemons =
                         inventory.InventoryDelta.InventoryItems
@@ -360,9 +360,9 @@ namespace PokemonGo.RocketAPI.Console
             btnIVToNick.Enabled = enabled;
         }
 
-        public async Task refreshData(){
+        public void refreshData(){
             inventory =  client.Inventory.GetInventory();
-            templates = await client.Download.GetItemTemplates().ConfigureAwait(false);
+            templates = client.Download.GetItemTemplates();
         }
 
 

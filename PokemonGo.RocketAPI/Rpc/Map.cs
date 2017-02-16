@@ -93,7 +93,7 @@ namespace PokemonGo.RocketAPI.Rpc
             return _getMapObjectsResponse;
         }
 
-        public async Task<GetIncensePokemonResponse> GetIncensePokemons()
+        public GetIncensePokemonResponse GetIncensePokemons()
         {
             var message = new GetIncensePokemonMessage
             {

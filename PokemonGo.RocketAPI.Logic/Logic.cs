@@ -49,7 +49,6 @@ namespace PokemonGo.RocketAPI.Logic
         public readonly LogicInfoObservable infoObservable;
         private readonly PokeVisionUtil pokevision;
         public bool pokeballoutofstock;
-        private bool stopsloaded;
         public static Logic Instance;
         private readonly List<string> lureEncounters = new List<string>();
         public static int FailedSoftban;
@@ -112,7 +111,7 @@ namespace PokemonGo.RocketAPI.Logic
 
                     ExecuteCatchAllNearbyPokemons();
 
-                    var fortInfo = objClient.Fort.GetFort(pokestop.Id, pokestop.Latitude, pokestop.Longitude).Result;
+                    var fortInfo = objClient.Fort.GetFort(pokestop.Id, pokestop.Latitude, pokestop.Longitude);
 
                     if ((BotSettings.UseLureGUIClick && Setout.havelures) || (BotSettings.UseLureAtBreak && Setout.havelures && !pokestop.ActiveFortModifier.Any() && !addedlure))
                     {
@@ -120,7 +119,7 @@ namespace PokemonGo.RocketAPI.Logic
 
                         Logger.ColoredConsoleWrite(ConsoleColor.Magenta, "Adding lure and setting resume walking to 30 minutes");
 
-                        objClient.Fort.AddFortModifier(fortInfo.FortId, ItemId.ItemTroyDisk).Wait();
+                        objClient.Fort.AddFortModifier(fortInfo.FortId, ItemId.ItemTroyDisk);
 
                         Setout.resumetimestamp = (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds + 30000;
                         addedlure = true;
@@ -478,7 +477,6 @@ namespace PokemonGo.RocketAPI.Logic
                     Task.Factory.StartNew(() => infoObservable.PushAvailablePokeStopLocations(pokeStops.ToArray()));
                 if (pokeGyms.Any())
                     Task.Factory.StartNew(() => infoObservable.PushAvailablePokeGymsLocations(pokeGyms.ToArray()));
-                stopsloaded = true;
             }
 
             return forts;
@@ -592,7 +590,7 @@ namespace PokemonGo.RocketAPI.Logic
                         pokeStop.Latitude,
                         pokeStop.Longitude);
 
-                var fortInfo = objClient.Fort.GetFort(pokeStop.Id, pokeStop.Latitude, pokeStop.Longitude).Result;
+                var fortInfo = objClient.Fort.GetFort(pokeStop.Id, pokeStop.Latitude, pokeStop.Longitude);
 
                 //log error if pokestop not found
                 if (fortInfo == null)
@@ -852,7 +850,7 @@ namespace PokemonGo.RocketAPI.Logic
 
             if (pokeStop.CooldownCompleteTimestampMs < (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds && BotSettings.FarmPokestops)
             {
-                var fortSearch = objClient.Fort.SearchFort(pokeStop.Id, pokeStop.Latitude, pokeStop.Longitude).Result;
+                var fortSearch = objClient.Fort.SearchFort(pokeStop.Id, pokeStop.Latitude, pokeStop.Longitude);
                 Logger.Debug("================[VERBOSE LOGGING - Pokestop Search]================");
                 Logger.Debug($"Result: {fortSearch.Result}");
                 Logger.Debug($"ChainHackSequenceNumber: {fortSearch.ChainHackSequenceNumber}");
@@ -1024,7 +1022,7 @@ namespace PokemonGo.RocketAPI.Logic
                         if (pokestop.Type == FortType.Gym )
                            Logger.Info("Spinning Gym");
 
-                        var fortInfo = objClient.Fort.GetFort(pokestop.Id, pokestop.Latitude, pokestop.Longitude).Result;
+                        var fortInfo = objClient.Fort.GetFort(pokestop.Id, pokestop.Latitude, pokestop.Longitude);
                         var farmed = CheckAndFarmNearbyPokeStop(pokestop, objClient, fortInfo);
                         /* 
                         if (GlobalVars.TelegramName=="Magic Insert"){
@@ -1077,7 +1075,7 @@ namespace PokemonGo.RocketAPI.Logic
                     var duration = Setout.lastincenseuse - DateTime.Now;
                     Logger.Debug("duration: "+ duration);
                     if (duration.TotalMilliseconds >0 ){
-                        var incensePokemon= client.Map.GetIncensePokemons().Result;
+                        var incensePokemon= client.Map.GetIncensePokemons();
                         Logger.Debug("incensePokemon: "+ incensePokemon);
                         if (incensePokemon.Result == GetIncensePokemonResponse.Types.Result.IncenseEncounterAvailable)
                         {
@@ -1270,9 +1268,9 @@ namespace PokemonGo.RocketAPI.Logic
             try
             {
                 if (luredPoke == 0)
-                    encounterPokemonResponse = objClient.Encounter.EncounterPokemon(encounterId, spawnpointId).Result;
+                    encounterPokemonResponse = objClient.Encounter.EncounterPokemon(encounterId, spawnpointId);
                 else if (luredPoke == 1){
-                    var DiscEncounterPokemonResponse =  objClient.Encounter.EncounterLurePokemon(encounterId, spawnpointId).Result;
+                    var DiscEncounterPokemonResponse =  objClient.Encounter.EncounterLurePokemon(encounterId, spawnpointId);
                     encounterPokemonResponse = new EncounterResponse();
                     encounterPokemonResponse.Status =DiskEncounterResultToEncounterStatus(DiscEncounterPokemonResponse.Result);
                     
@@ -1285,7 +1283,7 @@ namespace PokemonGo.RocketAPI.Logic
                     }
                     
                 }else{
-                    var IncenseEncounterPokemonResponse =  objClient.Encounter.EncounterIncensePokemon(encounterId, spawnpointId).Result;
+                    var IncenseEncounterPokemonResponse =  objClient.Encounter.EncounterIncensePokemon(encounterId, spawnpointId);
                     encounterPokemonResponse = new EncounterResponse();
                     encounterPokemonResponse.Status =IncenseEncounterResultToEncounterStatus(IncenseEncounterPokemonResponse.Result);
                     
@@ -1385,7 +1383,7 @@ namespace PokemonGo.RocketAPI.Logic
                                 if (!berryOutOfStock)
                                 {
                                     //Throw berry
-                                    var useRaspberry = objClient.Encounter.UseCaptureItem(encounterId, bestBerry, spawnpointId).Result;
+                                    var useRaspberry = objClient.Encounter.UseCaptureItem(encounterId, bestBerry, spawnpointId);
                                     used = true;
 
                                     Logger.Info( $"Thrown {bestBerry}. Remaining: {berries.Count}.");
@@ -1599,7 +1597,7 @@ namespace PokemonGo.RocketAPI.Logic
             {
                 Logger.ColoredConsoleWrite(ConsoleColor.DarkMagenta, $"{hitTxt} throw as {spinTxt} ball.");
             }
-            return objClient.Encounter.CatchPokemon(encounterId, spawnpointId, bestPokeball, forceHit, normalizedRecticleSize, spinModifier).Result;
+            return objClient.Encounter.CatchPokemon(encounterId, spawnpointId, bestPokeball, forceHit, normalizedRecticleSize, spinModifier);
         }
 
         #endregion

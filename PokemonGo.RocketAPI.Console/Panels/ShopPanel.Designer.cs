@@ -24,6 +24,7 @@ namespace PokemonGo.RocketAPI.Console.Panels
         private System.Windows.Forms.ColumnHeader columnHeaderUnknown7;
         private System.Windows.Forms.ColumnHeader columnHeaderYieldsCurrency;
         private System.Windows.Forms.ColumnHeader columnHeaderTags;
+        private System.Windows.Forms.ToolStripMenuItem refreshToolStripMenuItem;
         
         /// <summary>
         /// Disposes resources used by the control.
@@ -50,13 +51,14 @@ namespace PokemonGo.RocketAPI.Console.Panels
             this.listView = new System.Windows.Forms.ListView();
             this.chItem = new System.Windows.Forms.ColumnHeader();
             this.chCurrency = new System.Windows.Forms.ColumnHeader();
-            this.btnBuy = new System.Windows.Forms.Button();
-            this.contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.buyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.columnHeaderIsIap = new System.Windows.Forms.ColumnHeader();
             this.columnHeaderUnknown7 = new System.Windows.Forms.ColumnHeader();
             this.columnHeaderYieldsCurrency = new System.Windows.Forms.ColumnHeader();
             this.columnHeaderTags = new System.Windows.Forms.ColumnHeader();
+            this.btnBuy = new System.Windows.Forms.Button();
+            this.contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.buyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.refreshToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -72,6 +74,7 @@ namespace PokemonGo.RocketAPI.Console.Panels
             this.columnHeaderUnknown7,
             this.columnHeaderYieldsCurrency,
             this.columnHeaderTags});
+            this.listView.ContextMenuStrip = this.contextMenuStrip;
             this.listView.FullRowSelect = true;
             this.listView.GridLines = true;
             this.listView.Location = new System.Drawing.Point(20, 16);
@@ -91,33 +94,6 @@ namespace PokemonGo.RocketAPI.Console.Panels
             // 
             this.chCurrency.Text = "Currency";
             // 
-            // btnBuy
-            // 
-            this.btnBuy.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnBuy.Location = new System.Drawing.Point(20, 389);
-            this.btnBuy.Margin = new System.Windows.Forms.Padding(2);
-            this.btnBuy.Name = "btnBuy";
-            this.btnBuy.Size = new System.Drawing.Size(81, 29);
-            this.btnBuy.TabIndex = 82;
-            this.btnBuy.Text = "Buy";
-            this.btnBuy.UseVisualStyleBackColor = true;
-            this.btnBuy.Click += new System.EventHandler(this.btnBuy_Click);
-            // 
-            // contextMenuStrip
-            // 
-            this.contextMenuStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.contextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.buyToolStripMenuItem});
-            this.contextMenuStrip.Name = "contextMenuStrip1";
-            this.contextMenuStrip.Size = new System.Drawing.Size(95, 26);
-            // 
-            // buyToolStripMenuItem
-            // 
-            this.buyToolStripMenuItem.Name = "buyToolStripMenuItem";
-            this.buyToolStripMenuItem.Size = new System.Drawing.Size(94, 22);
-            this.buyToolStripMenuItem.Text = "Buy";
-            this.buyToolStripMenuItem.Click += new System.EventHandler(this.buyToolStripMenuItem_Click);
-            // 
             // columnHeaderIsIap
             // 
             this.columnHeaderIsIap.Text = "IsIap";
@@ -134,6 +110,42 @@ namespace PokemonGo.RocketAPI.Console.Panels
             // 
             this.columnHeaderTags.Text = "Tags";
             this.columnHeaderTags.Width = 100;
+            // 
+            // btnBuy
+            // 
+            this.btnBuy.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnBuy.ContextMenuStrip = this.contextMenuStrip;
+            this.btnBuy.Location = new System.Drawing.Point(20, 389);
+            this.btnBuy.Margin = new System.Windows.Forms.Padding(2);
+            this.btnBuy.Name = "btnBuy";
+            this.btnBuy.Size = new System.Drawing.Size(81, 29);
+            this.btnBuy.TabIndex = 82;
+            this.btnBuy.Text = "Buy";
+            this.btnBuy.UseVisualStyleBackColor = true;
+            this.btnBuy.Click += new System.EventHandler(this.btnBuy_Click);
+            // 
+            // contextMenuStrip
+            // 
+            this.contextMenuStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.contextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.buyToolStripMenuItem,
+            this.refreshToolStripMenuItem});
+            this.contextMenuStrip.Name = "contextMenuStrip1";
+            this.contextMenuStrip.Size = new System.Drawing.Size(114, 48);
+            // 
+            // buyToolStripMenuItem
+            // 
+            this.buyToolStripMenuItem.Name = "buyToolStripMenuItem";
+            this.buyToolStripMenuItem.Size = new System.Drawing.Size(113, 22);
+            this.buyToolStripMenuItem.Text = "Buy";
+            this.buyToolStripMenuItem.Click += new System.EventHandler(this.buyToolStripMenuItem_Click);
+            // 
+            // refreshToolStripMenuItem
+            // 
+            this.refreshToolStripMenuItem.Name = "refreshToolStripMenuItem";
+            this.refreshToolStripMenuItem.Size = new System.Drawing.Size(113, 22);
+            this.refreshToolStripMenuItem.Text = "Refresh";
+            this.refreshToolStripMenuItem.Click += new System.EventHandler(this.refreshToolStripMenuItem_Click);
             // 
             // ShopPanel
             // 

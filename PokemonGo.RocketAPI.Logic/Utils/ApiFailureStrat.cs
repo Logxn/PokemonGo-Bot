@@ -45,7 +45,7 @@ namespace PokemonGo.RocketAPI.Logic
                 captchaResponseHandler.SetCaptchaToken(token); 
     
                 // We will send a request, passing the long-ass-token and wait for a response.
-                VerifyChallengeResponse r =  _player.VerifyChallenge(token).Result; 
+                VerifyChallengeResponse r =  _player.VerifyChallenge(token); 
                 if (r.Success)
                 {
                     Logger.ColoredConsoleWrite(ConsoleColor.Green, "TOKEN OK!");

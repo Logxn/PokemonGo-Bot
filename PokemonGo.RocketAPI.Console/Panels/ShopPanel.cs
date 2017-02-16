@@ -33,7 +33,9 @@ namespace PokemonGo.RocketAPI.Console.Panels
             try {
                 var client = Logic.Logic.objClient;
                 if (client.ReadyToUse != false) {
+                    Logger.Debug("Before of GetStoreItems");
                     var inventory = client.Store.GetStoreItems().Items;
+                    Logger.Debug("After of GetStoreItems");
                     ListViewItem listViewItem;                   
                     foreach (var item in inventory) {
                         listViewItem = new ListViewItem();
@@ -62,6 +64,10 @@ namespace PokemonGo.RocketAPI.Console.Panels
         void buyToolStripMenuItem_Click(object sender, EventArgs e)
         {
             btnBuy_Click(sender, e);
+        }
+        void refreshToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Execute();
         }
 
     }

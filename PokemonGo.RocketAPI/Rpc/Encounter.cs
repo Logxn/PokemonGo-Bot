@@ -15,7 +15,7 @@ namespace PokemonGo.RocketAPI.Rpc
     {
         public Encounter(Client client) : base(client) { }
 
-        public async Task<EncounterResponse> EncounterPokemon(ulong encounterId, string spawnPointGuid)
+        public EncounterResponse EncounterPokemon(ulong encounterId, string spawnPointGuid)
         {
             var message = new EncounterMessage
             {
@@ -28,7 +28,7 @@ namespace PokemonGo.RocketAPI.Rpc
             return  PostProtoPayload<Request, EncounterResponse>(RequestType.Encounter, message);
         }
 
-        public async Task<UseItemCaptureResponse> UseCaptureItem(ulong encounterId, ItemId itemId, string spawnPointId)
+        public UseItemCaptureResponse UseCaptureItem(ulong encounterId, ItemId itemId, string spawnPointId)
         {
             var message = new UseItemCaptureMessage
             {
@@ -40,7 +40,7 @@ namespace PokemonGo.RocketAPI.Rpc
             return PostProtoPayload<Request, UseItemCaptureResponse>(RequestType.UseItemCapture, message);
         }
 
-        public async Task<CatchPokemonResponse> CatchPokemon(ulong encounterId, string spawnPointGuid, ItemId pokeballItemId, bool forceHit, double normalizedRecticleSize = 1.950, double spinModifier = 1, double normalizedHitPos = 1)
+        public CatchPokemonResponse CatchPokemon(ulong encounterId, string spawnPointGuid, ItemId pokeballItemId, bool forceHit, double normalizedRecticleSize = 1.950, double spinModifier = 1, double normalizedHitPos = 1)
         {            
             var message = new CatchPokemonMessage   // We need to make this here more random, that we sometimes dont hit orso
             {
@@ -56,7 +56,7 @@ namespace PokemonGo.RocketAPI.Rpc
             return  PostProtoPayload<Request, CatchPokemonResponse>(RequestType.CatchPokemon, message);
         }
 
-        public async Task<IncenseEncounterResponse> EncounterIncensePokemon(ulong encounterId, string encounterLocation)
+        public IncenseEncounterResponse EncounterIncensePokemon(ulong encounterId, string encounterLocation)
         {
             var message = new IncenseEncounterMessage()
             {
@@ -67,7 +67,7 @@ namespace PokemonGo.RocketAPI.Rpc
             return PostProtoPayload<Request, IncenseEncounterResponse>(RequestType.IncenseEncounter, message);
         }
 
-        public async Task<DiskEncounterResponse> EncounterLurePokemon(ulong encounterId, string fortId)
+        public DiskEncounterResponse EncounterLurePokemon(ulong encounterId, string fortId)
         {
             var message = new DiskEncounterMessage()
             {
@@ -80,7 +80,7 @@ namespace PokemonGo.RocketAPI.Rpc
             return PostProtoPayload<Request, DiskEncounterResponse>(RequestType.DiskEncounter, message);
         }
 
-        public async Task<EncounterTutorialCompleteResponse> EncounterTutorialComplete(PokemonId pokemonId)
+        public EncounterTutorialCompleteResponse EncounterTutorialComplete(PokemonId pokemonId)
         {
             var message = new EncounterTutorialCompleteMessage()
             {

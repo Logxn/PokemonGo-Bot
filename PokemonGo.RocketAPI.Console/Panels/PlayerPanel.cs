@@ -282,12 +282,12 @@ namespace PokemonGo.RocketAPI.Console
 	            {
 	            	var pokegym = pokeGyms.First();
 
-                    var resp = GetGym(pokegym.Id, pokegym.Latitude, pokegym.Longitude).Result;
+                    var resp = GetGym(pokegym.Id, pokegym.Latitude, pokegym.Longitude);
                     if (resp.Status)
                     {
                         var team = teamSelect.selected;
                         RandomHelper.RandomSleep(1000,1100);
-                        var resp2 = SelectTeam(team).Result;
+                        var resp2 = SelectTeam(team);
                         if (resp2.Status)
                         {
                             Logger.ColoredConsoleWrite(ConsoleColor.Green, "Selected Team: " + team.ToString());
@@ -318,13 +318,13 @@ namespace PokemonGo.RocketAPI.Console
                 Message = message;
             }
         }
-		private static async Task<taskResponse> SelectTeam(TeamColor teamColor)
+		private static taskResponse SelectTeam(TeamColor teamColor)
         {
             var resp1 = new taskResponse(false, string.Empty);
             try
             {
             	var client = Logic.Logic.objClient;
-            	var resp2 = await client.Player.SetPlayerTeam(teamColor).ConfigureAwait(false);
+            	var resp2 = client.Player.SetPlayerTeam(teamColor);
 
                 if (resp2.Status == SetPlayerTeamResponse.Types.Status.Success)
                 {
@@ -338,18 +338,18 @@ namespace PokemonGo.RocketAPI.Console
             catch (Exception e)
             {
                 Logger.ColoredConsoleWrite(ConsoleColor.Red, "Error SelectTeam: " + e.Message);
-                await SelectTeam(teamColor).ConfigureAwait(false);
+                SelectTeam(teamColor);
             }
             return resp1;
         }	
         //GetGymDetails
-        private static async Task<taskResponse> GetGym(string gym, double lat, double lng)
+        private static taskResponse GetGym(string gym, double lat, double lng)
         {
             var resp1 = new taskResponse(false, string.Empty);
             try
             {
             	var client = Logic.Logic.objClient;
-            	var resp2 = await client.Fort.GetGymDetails( gym,lat,lng).ConfigureAwait(false);
+            	var resp2 = client.Fort.GetGymDetails( gym,lat,lng);
 
                 if (resp2.Result == GetGymDetailsResponse.Types.Result.Success)
                 {
@@ -363,7 +363,7 @@ namespace PokemonGo.RocketAPI.Console
             catch (Exception e)
             {
                 Logger.ColoredConsoleWrite(ConsoleColor.Red, "Error GetGym: " + e.Message);
-                await GetGym(gym,lat,lng).ConfigureAwait(false);
+                GetGym(gym,lat,lng);
             }
             return resp1;
         }			
@@ -387,7 +387,7 @@ namespace PokemonGo.RocketAPI.Console
         }
         private  void collectCoins(){
             const string prefix = "(Coin Collection)";
-            var res = Logic.Logic.objClient.Player.CollectDailyDefenderBonus().Result;
+            var res = Logic.Logic.objClient.Player.CollectDailyDefenderBonus();
 
             var result = res.Result.ToString();
             var currentDefenders = res.DefendersCount;

@@ -20,7 +20,7 @@ namespace PokemonGo.RocketAPI.Rpc
             return PostProtoPayload<Request, GetPlayerResponse>(RequestType.GetPlayer, new GetPlayerMessage());
         }
 
-        public async Task<GetPlayerProfileResponse> GetPlayerProfile(string playerName)
+        public GetPlayerProfileResponse GetPlayerProfile(string playerName)
         {
             return  PostProtoPayload<Request, GetPlayerProfileResponse>(RequestType.GetPlayerProfile, new GetPlayerProfileMessage()
             {
@@ -28,27 +28,27 @@ namespace PokemonGo.RocketAPI.Rpc
             });
         }
 
-        public async Task<CheckAwardedBadgesResponse> GetNewlyAwardedBadges()
+        public CheckAwardedBadgesResponse GetNewlyAwardedBadges()
         {
             return  PostProtoPayload<Request, CheckAwardedBadgesResponse>(RequestType.CheckAwardedBadges, new CheckAwardedBadgesMessage());
         }
 
-        public async Task<CollectDailyBonusResponse> CollectDailyBonus()
+        public CollectDailyBonusResponse CollectDailyBonus()
         {
             return  PostProtoPayload<Request, CollectDailyBonusResponse>(RequestType.CollectDailyBonus, new CollectDailyBonusMessage());
         }
 
-        public async Task<CollectDailyDefenderBonusResponse> CollectDailyDefenderBonus()
+        public CollectDailyDefenderBonusResponse CollectDailyDefenderBonus()
         {
             return PostProtoPayload<Request, CollectDailyDefenderBonusResponse>(RequestType.CollectDailyDefenderBonus, new CollectDailyDefenderBonusMessage());
         }
 
-        public async Task<EquipBadgeResponse> EquipBadge(BadgeType type)
+        public EquipBadgeResponse EquipBadge(BadgeType type)
         {
             return PostProtoPayload<Request, EquipBadgeResponse>(RequestType.EquipBadge, new EquipBadgeMessage() { BadgeType = type });
         }
 
-        public async Task<LevelUpRewardsResponse> GetLevelUpRewards(int level)
+        public LevelUpRewardsResponse GetLevelUpRewards(int level)
         {
             return  PostProtoPayload<Request, LevelUpRewardsResponse>(RequestType.LevelUpRewards, new LevelUpRewardsMessage()
             {
@@ -56,7 +56,7 @@ namespace PokemonGo.RocketAPI.Rpc
             });
         }
 
-        public async Task<SetAvatarResponse> SetAvatar(PlayerAvatar playerAvatar)
+        public SetAvatarResponse SetAvatar(PlayerAvatar playerAvatar)
         {
             return  PostProtoPayload<Request, SetAvatarResponse>(RequestType.SetAvatar, new SetAvatarMessage()
             {
@@ -64,7 +64,7 @@ namespace PokemonGo.RocketAPI.Rpc
             });
         }
 
-        public async Task<SetContactSettingsResponse> SetContactSetting(ContactSettings contactSettings)
+        public SetContactSettingsResponse SetContactSetting(ContactSettings contactSettings)
         {
             return  PostProtoPayload<Request, SetContactSettingsResponse>(RequestType.SetContactSettings, new SetContactSettingsMessage()
             {
@@ -72,7 +72,7 @@ namespace PokemonGo.RocketAPI.Rpc
             });
         }
 
-        public async Task<SetPlayerTeamResponse> SetPlayerTeam(TeamColor teamColor)
+        public SetPlayerTeamResponse SetPlayerTeam(TeamColor teamColor)
         {
             return  PostProtoPayload<Request, SetPlayerTeamResponse>(RequestType.SetPlayerTeam, new SetPlayerTeamMessage()
             {
@@ -80,7 +80,7 @@ namespace PokemonGo.RocketAPI.Rpc
             });
         }
 
-        public async Task<VerifyChallengeResponse> VerifyChallenge(string token)
+        public VerifyChallengeResponse VerifyChallenge(string token)
         {
             return  PostProtoPayload<Request, VerifyChallengeResponse>(RequestType.VerifyChallenge, CommonRequest.GetVerifyChallenge(token));
         }

@@ -71,7 +71,7 @@ namespace PokemonGo.RocketAPI.Extensions
             return result;
         }
 
-        public static async Task<TResponsePayload> PostProtoPayload<TRequest, TResponsePayload>(
+        public static TResponsePayload PostProtoPayload<TRequest, TResponsePayload>(
             this System.Net.Http.HttpClient client,
             string url, RequestEnvelope requestEnvelope, IApiFailureStrategy strategy)
             where TRequest : IMessage<TRequest>

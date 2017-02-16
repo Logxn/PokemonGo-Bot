@@ -18,7 +18,7 @@ namespace PokemonGo.RocketAPI.Rpc
         {
         }
 
-        public async Task<FortDetailsResponse> GetFort(string fortId, double fortLatitude, double fortLongitude)
+        public FortDetailsResponse GetFort(string fortId, double fortLatitude, double fortLongitude)
         {
             var message = new FortDetailsMessage
             {
@@ -30,7 +30,7 @@ namespace PokemonGo.RocketAPI.Rpc
             return PostProtoPayload<Request, FortDetailsResponse>(RequestType.FortDetails, message);
         }
 
-        public async Task<FortSearchResponse> SearchFort(string fortId, double fortLat, double fortLng)
+        public FortSearchResponse SearchFort(string fortId, double fortLat, double fortLng)
         {
             var message = new FortSearchMessage
             {
@@ -44,7 +44,7 @@ namespace PokemonGo.RocketAPI.Rpc
             return PostProtoPayload<Request, FortSearchResponse>(RequestType.FortSearch, message);
         }
 
-        public async Task<AddFortModifierResponse> AddFortModifier(string fortId, ItemId modifierType)
+        public AddFortModifierResponse AddFortModifier(string fortId, ItemId modifierType)
         {
             var message = new AddFortModifierMessage
             {
@@ -57,7 +57,7 @@ namespace PokemonGo.RocketAPI.Rpc
             return PostProtoPayload<Request, AddFortModifierResponse>(RequestType.AddFortModifier, message);
         }
 
-        public async Task<AttackGymResponse> AttackGym(string fortId, string battleId, List<BattleAction> battleActions,
+        public AttackGymResponse AttackGym(string fortId, string battleId, List<BattleAction> battleActions,
             BattleAction lastRetrievedAction)
         {
             var message = new AttackGymMessage
@@ -75,7 +75,7 @@ namespace PokemonGo.RocketAPI.Rpc
             return PostProtoPayload<Request, AttackGymResponse>(RequestType.AttackGym, message);
         }
 
-        public async Task<FortDeployPokemonResponse> FortDeployPokemon(string fortId, ulong pokemonId)
+        public FortDeployPokemonResponse FortDeployPokemon(string fortId, ulong pokemonId)
         {
             var message = new FortDeployPokemonMessage
             {
@@ -88,7 +88,7 @@ namespace PokemonGo.RocketAPI.Rpc
             return PostProtoPayload<Request, FortDeployPokemonResponse>(RequestType.FortDeployPokemon, message);
         }
 
-        public async Task<FortRecallPokemonResponse> FortRecallPokemon(string fortId, ulong pokemonId)
+        public FortRecallPokemonResponse FortRecallPokemon(string fortId, ulong pokemonId)
         {
             var message = new FortRecallPokemonMessage
             {
@@ -101,7 +101,7 @@ namespace PokemonGo.RocketAPI.Rpc
             return PostProtoPayload<Request, FortRecallPokemonResponse>(RequestType.FortRecallPokemon, message);
         }
 
-        public async Task<GetGymDetailsResponse> GetGymDetails(string gymId, double gymLat, double gymLng)
+        public GetGymDetailsResponse GetGymDetails(string gymId, double gymLat, double gymLng)
         {
             var message = new GetGymDetailsMessage
             {
@@ -115,7 +115,7 @@ namespace PokemonGo.RocketAPI.Rpc
             return PostProtoPayload<Request, GetGymDetailsResponse>(RequestType.GetGymDetails, message);
         }
 
-        public async Task<StartGymBattleResponse> StartGymBattle(string gymId, ulong defendingPokemonId,
+        public StartGymBattleResponse StartGymBattle(string gymId, ulong defendingPokemonId,
             IEnumerable<ulong> attackingPokemonIds)
         {
             var message = new StartGymBattleMessage

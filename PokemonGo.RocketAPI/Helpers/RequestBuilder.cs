@@ -212,6 +212,40 @@ namespace PokemonGo.RocketAPI.Helpers
             }
         }
 
+        public RequestEnvelope GetPlatformRequestEnvelope( RequestEnvelope.Types.PlatformRequest platfReq, bool firstRequest = false)
+        {
+
+            var _requestEnvelope = new RequestEnvelope {
+                StatusCode = 2, //1
+                RequestId = _requestBuilderID.Next(), //3
+                Requests = { }, //4
+                Latitude = _latitude, //7
+                Longitude = _longitude, //8
+                Accuracy = _altitude, //9
+                AuthTicket = _authTicket, //11
+                MsSinceLastLocationfix = (long)TRandomDevice.Triangular(300, 30000, 10000) //12
+
+            };
+
+            _requestEnvelope.PlatformRequests.Add( platfReq);
+
+            if (_authTicket != null && !firstRequest) {
+                _requestEnvelope.AuthTicket = _authTicket;
+            } else {
+                _requestEnvelope.AuthInfo = new RequestEnvelope.Types.AuthInfo {
+                    Provider = _authType == AuthType.Google ? "google" : "ptc",
+                    Token = new RequestEnvelope.Types.AuthInfo.Types.JWT {
+                        Contents = _authToken,
+                        Unknown2 = _token2
+                    }
+                };
+            }
+
+            _requestEnvelope.PlatformRequests.Add(GenerateSignature(_requestEnvelope));
+
+            return _requestEnvelope;
+        }
+
         public RequestEnvelope GetRequestEnvelope(Request[] customRequests, bool firstRequest = false)
         {
 

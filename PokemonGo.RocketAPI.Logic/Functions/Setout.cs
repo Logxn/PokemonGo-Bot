@@ -398,7 +398,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
 
             if (curexp == 0 && expneeded == 1000)
             {
-                client.Misc.MarkTutorialComplete().Wait();
+                client.Misc.MarkTutorialComplete();
             }
 
             var items = client.Inventory.GetItems(); 
@@ -455,7 +455,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
 
                 Logger.ColoredConsoleWrite(ConsoleColor.Magenta, "Got the level up reward from your level up.");
 
-                var lvlup = client.Player.GetLevelUpRewards(stats.Level).Result;
+                var lvlup = client.Player.GetLevelUpRewards(stats.Level);
                 var alreadygot = new List<ItemId>();
 
                 foreach (var i in lvlup.ItemsAwarded)

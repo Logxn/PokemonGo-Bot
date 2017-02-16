@@ -219,7 +219,7 @@ namespace PokemonGo.RocketAPI.Rpc
 
         public  IEnumerable<PokemonSettings> GetPokemonSettings()
         {
-            var templates =  Client.Download.GetItemTemplates().Result;
+            var templates =  Client.Download.GetItemTemplates();
             return
                 templates.ItemTemplates.Select(i => i.PokemonSettings)
                     .Where(p => p != null && p.FamilyId != PokemonFamilyId.FamilyUnset);

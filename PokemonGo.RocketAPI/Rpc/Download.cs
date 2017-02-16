@@ -16,7 +16,7 @@ namespace PokemonGo.RocketAPI.Rpc
         public Download(Client client) : base(client)
         {
         }
-        public async Task<DownloadSettingsResponse> GetSettings()
+        public DownloadSettingsResponse GetSettings()
         {
             var message = new DownloadSettingsMessage
             {
@@ -26,12 +26,12 @@ namespace PokemonGo.RocketAPI.Rpc
             return  PostProtoPayload<Request, DownloadSettingsResponse>(RequestType.DownloadSettings, message);
         }
 
-        public async Task<DownloadItemTemplatesResponse> GetItemTemplates()
+        public DownloadItemTemplatesResponse GetItemTemplates()
         {
             return  PostProtoPayload<Request, DownloadItemTemplatesResponse>(RequestType.DownloadItemTemplates, new DownloadItemTemplatesMessage());
         }
 
-        public async Task<DownloadRemoteConfigVersionResponse> GetRemoteConfigVersion(uint appVersion, string deviceManufacturer, string deviceModel, string locale, Platform platform)
+        public DownloadRemoteConfigVersionResponse GetRemoteConfigVersion(uint appVersion, string deviceManufacturer, string deviceModel, string locale, Platform platform)
         {
             return  PostProtoPayload<Request, DownloadRemoteConfigVersionResponse>(RequestType.DownloadRemoteConfigVersion, new DownloadRemoteConfigVersionMessage()
             {
@@ -43,7 +43,7 @@ namespace PokemonGo.RocketAPI.Rpc
             });
         }
 
-        public async Task<GetAssetDigestResponse> GetAssetDigest(uint appVersion, string deviceManufacturer, string deviceModel, string locale, Platform platform)
+        public GetAssetDigestResponse GetAssetDigest(uint appVersion, string deviceManufacturer, string deviceModel, string locale, Platform platform)
         {
             return  PostProtoPayload<Request, GetAssetDigestResponse>(RequestType.GetAssetDigest, new GetAssetDigestMessage()
             {
@@ -55,7 +55,7 @@ namespace PokemonGo.RocketAPI.Rpc
             });
         }
 
-        public async Task<GetDownloadUrlsResponse> GetDownloadUrls(IEnumerable<string> assetIds)
+        public GetDownloadUrlsResponse GetDownloadUrls(IEnumerable<string> assetIds)
         {
             return  PostProtoPayload<Request, GetDownloadUrlsResponse>(RequestType.GetDownloadUrls, new GetDownloadUrlsMessage()
             {
