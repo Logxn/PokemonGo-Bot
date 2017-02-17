@@ -29,7 +29,9 @@ namespace PokemonGo.RocketAPI.Hash
                 {"1.23.2", "api/v123_1/hash"},
                 {"0.53.2", "api/v123_1/hash" },
                 {"0.55.0", "api/v125/hash" },
-                {"1.25.0", "api/v125/hash" }
+                {"1.25.0", "api/v125/hash" },
+            {"0.57.2", "api/v127_2/hash" },
+            {"1.27.2", "api/v127_2/hash" },
             };
 
         int MaxRequestCount;            // RPM Value

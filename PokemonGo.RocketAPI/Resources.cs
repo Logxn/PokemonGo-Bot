@@ -27,7 +27,7 @@ namespace PokemonGo.RocketAPI
          * Bot Supported Version
          ******************************************************************************************************************/
         public static Version BotVersion = new Version(Assembly.GetEntryAssembly().GetName().Version.ToString());
-        public static Version BotApiSupportedVersion = new Version(Api.ClientVersion);
+        public static Version BotApiSupportedVersion = new Version("0.57.2");
 
         private static APIVars Apiv53 = new APIVars(-76506539888958491,
                                                 "e40c3e64817d9c96d99d28f6488a2efc40b11046",
@@ -38,9 +38,9 @@ namespace PokemonGo.RocketAPI
                                                 "0.55.0");
 
         private static APIVars Apiv572ios = new APIVars(-816976800928766045,
-                                                "",
+                                                "90f6a704505bccac73cec99b07794993e6fd5a12",
                                                 "0.57.2");
-        public static APIVars Api = Apiv55;
+        public static APIVars Api = Apiv572ios;
         
     }
 }
