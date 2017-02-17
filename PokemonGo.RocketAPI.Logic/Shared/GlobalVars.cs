@@ -60,6 +60,8 @@ namespace PokemonGo.RocketAPI.Logic.Shared
         public static int MaxTopPotions = 100;
         public static int MaxTopRevives = 100;
         public static int MaxBerries = 100;
+        public static int MaxPinapBerries = 100;
+        public static int MaxNanabBerries = 100;
         public static int MinCPforGreatBall = 500;
         public static int MinCPforUltraBall = 1000;
         public static int ivmaxpercent = 0;
@@ -250,7 +252,9 @@ namespace PokemonGo.RocketAPI.Logic.Shared
                     new KeyValuePair<ItemId, int>(ItemId.ItemHyperPotion, Shared.GlobalVars.MaxHyperPotions),
                     new KeyValuePair<ItemId, int>(ItemId.ItemRazzBerry, Shared.GlobalVars.MaxBerries),
                     new KeyValuePair<ItemId, int>(ItemId.ItemMaxPotion, Shared.GlobalVars.MaxTopPotions),
-                    new KeyValuePair<ItemId, int>(ItemId.ItemMaxRevive, Shared.GlobalVars.MaxTopRevives)
+                    new KeyValuePair<ItemId, int>(ItemId.ItemMaxRevive, Shared.GlobalVars.MaxTopRevives),
+                    new KeyValuePair<ItemId, int>(ItemId.ItemMaxRevive, Shared.GlobalVars.MaxPinapBerries),
+                    new KeyValuePair<ItemId, int>(ItemId.ItemMaxRevive, Shared.GlobalVars.MaxNanabBerries)
                 };
         }
 

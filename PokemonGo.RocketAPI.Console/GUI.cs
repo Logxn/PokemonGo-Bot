@@ -382,6 +382,8 @@ namespace PokemonGo.RocketAPI.Console
             text_MaxHyperPotions.Text = config.MaxHyperPotions.ToString();
             text_MaxTopPotions.Text = config.MaxTopPotions.ToString();
             text_MaxRazzBerrys.Text = config.MaxBerries.ToString();
+            text_MaxPinapBerrys.Text = config.MaxPinapBerries.ToString();
+            text_MaxNanabBerrys.Text = config.MaxNanabBerries.ToString();
     
             //tab eggs
             checkBox_AutoIncubate.Checked = config.AutoIncubate;
@@ -774,6 +776,8 @@ namespace PokemonGo.RocketAPI.Console
             ret &= textBoxToActiveProfInt(text_MaxHyperPotions, "MaxHyperPotions");
             ret &= textBoxToActiveProfInt(text_MaxTopPotions, "MaxTopPotions");
             ret &= textBoxToActiveProfInt(text_MaxRazzBerrys, "MaxBerries");
+            ret &= textBoxToActiveProfInt(text_MaxPinapBerrys, "MaxPinapBerries");
+            ret &= textBoxToActiveProfInt(text_MaxNanabBerrys, "MaxNanabBerries");
             ret &= textBoxToActiveProfInt(MinCPtoCatch, "MinCPtoCatch");
             ret &= textBoxToActiveProfInt(MinIVtoCatch, "MinIVtoCatch");
 
@@ -1082,9 +1086,8 @@ namespace PokemonGo.RocketAPI.Console
             GlobalVars.FortsFile = textBoxFortsFile.Text;
             GlobalVars.SaveForts = checkBoxSaveFortsInfo.Checked;
 
-            LocationSelect locationSelector = new LocationSelect(false);           
-            locationSelector.ShowDialog();
-            
+            new LocationSelect(false).ShowDialog();
+
             // We set selected values
             text_Latidude.Text = GlobalVars.latitude.ToString(CultureInfo.InvariantCulture);
             text_Longitude.Text = GlobalVars.longitude.ToString(CultureInfo.InvariantCulture);
@@ -1096,7 +1099,9 @@ namespace PokemonGo.RocketAPI.Console
         {
             int itemSumme = 0;
 
-            if (text_MaxPokeballs.Text != string.Empty && text_MaxGreatBalls.Text != string.Empty && text_MaxUltraBalls.Text != string.Empty && text_MaxRevives.Text != string.Empty && text_MaxPotions.Text != string.Empty && text_MaxSuperPotions.Text != string.Empty && text_MaxHyperPotions.Text != string.Empty && text_MaxRazzBerrys.Text != string.Empty && text_MaxTopPotions.Text != string.Empty && text_MaxTopRevives.Text != string.Empty)
+            if (text_MaxPokeballs.Text != string.Empty && text_MaxGreatBalls.Text != string.Empty && text_MaxUltraBalls.Text != string.Empty && text_MaxRevives.Text != string.Empty && text_MaxPotions.Text != string.Empty && text_MaxSuperPotions.Text != string.Empty && text_MaxHyperPotions.Text != string.Empty 
+                && text_MaxRazzBerrys.Text != string.Empty && text_MaxNanabBerrys.Text != string.Empty && text_MaxPinapBerrys.Text != string.Empty 
+                && text_MaxTopPotions.Text != string.Empty && text_MaxTopRevives.Text != string.Empty)
             {
                 itemSumme = Convert.ToInt16(text_MaxPokeballs.Text) +
                             Convert.ToInt16(text_MaxGreatBalls.Text) +
@@ -1107,7 +1112,9 @@ namespace PokemonGo.RocketAPI.Console
                             Convert.ToInt16(text_MaxHyperPotions.Text) +
                             Convert.ToInt16(text_MaxRazzBerrys.Text) +
                             Convert.ToInt16(text_MaxTopRevives.Text) +
-                            Convert.ToInt16(text_MaxTopPotions.Text);
+                            Convert.ToInt16(text_MaxTopPotions.Text) +
+                            Convert.ToInt16(text_MaxNanabBerrys.Text) +
+                            Convert.ToInt16(text_MaxPinapBerrys.Text);
             }
 
             text_TotalItemCount.Text = Convert.ToString(itemSumme);
@@ -1369,6 +1376,10 @@ namespace PokemonGo.RocketAPI.Console
             if (openFileDialog1.ShowDialog() == DialogResult.OK){
                 textBoxFortsFile.Text = openFileDialog1.FileName;
             }
+        }
+        void text_MaxNanabBerrys_TextChanged(object sender, EventArgs e)
+        {
+          
         }
 
     }

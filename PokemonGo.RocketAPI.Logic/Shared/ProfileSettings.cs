@@ -768,15 +768,9 @@ namespace PokemonGo.RocketAPI.Logic.Shared
 
 
         }
-        public int MaxBerries {
-            get;
-            set;
-
-
-
-
-
-        }
+        public int MaxBerries {get;set;}
+        public int MaxPinapBerries {get;set;}
+        public int MaxNanabBerries {get;set;}
         public System.Collections.Generic.List<POGOProtos.Enums.PokemonId> pokemonsToHold {get;set;}
         public System.Collections.Generic.List<POGOProtos.Enums.PokemonId> pokemonsToAlwaysTransfer {get;set;}
         public System.Collections.Generic.List<POGOProtos.Enums.PokemonId> pokemonsToEvolve {

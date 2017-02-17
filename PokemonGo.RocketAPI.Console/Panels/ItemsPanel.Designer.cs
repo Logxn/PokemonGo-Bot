@@ -62,6 +62,12 @@ namespace PokemonGo.RocketAPI.Console
 		private System.Windows.Forms.PictureBox pictureBox1;
 		private System.Windows.Forms.Button buttonUSe;
 		private System.Windows.Forms.ColumnHeader chID;
+		private System.Windows.Forms.PictureBox pictureBoxNana;
+		private System.Windows.Forms.Label labelNanab;
+		public System.Windows.Forms.NumericUpDown num_MaxNanabBerrys;
+		private System.Windows.Forms.PictureBox pictureBoxPina;
+		private System.Windows.Forms.Label labelPinap;
+		public System.Windows.Forms.NumericUpDown num_MaxPinapBerrys;
 		
 		/// <summary>
 		/// Disposes resources used by the control.
@@ -87,6 +93,12 @@ namespace PokemonGo.RocketAPI.Console
 		    this.components = new System.ComponentModel.Container();
 		    System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ItemsPanel));
 		    this.groupBox4 = new System.Windows.Forms.GroupBox();
+		    this.pictureBoxNana = new System.Windows.Forms.PictureBox();
+		    this.labelNanab = new System.Windows.Forms.Label();
+		    this.num_MaxNanabBerrys = new System.Windows.Forms.NumericUpDown();
+		    this.pictureBoxPina = new System.Windows.Forms.PictureBox();
+		    this.labelPinap = new System.Windows.Forms.Label();
+		    this.num_MaxPinapBerrys = new System.Windows.Forms.NumericUpDown();
 		    this.pictureBox9 = new System.Windows.Forms.PictureBox();
 		    this.pictureBox10 = new System.Windows.Forms.PictureBox();
 		    this.pictureBox5 = new System.Windows.Forms.PictureBox();
@@ -121,10 +133,10 @@ namespace PokemonGo.RocketAPI.Console
 		    this.label13 = new System.Windows.Forms.Label();
 		    this.btnRealoadItems = new System.Windows.Forms.Button();
 		    this.ItemsListView = new System.Windows.Forms.ListView();
-		    this.chID = new System.Windows.Forms.ColumnHeader();
 		    this.chItem = new System.Windows.Forms.ColumnHeader();
 		    this.chCount = new System.Windows.Forms.ColumnHeader();
 		    this.chUnseen = new System.Windows.Forms.ColumnHeader();
+		    this.chID = new System.Windows.Forms.ColumnHeader();
 		    this.contextMenuStripItems = new System.Windows.Forms.ContextMenuStrip(this.components);
 		    this.recycleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 		    this.useToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -135,6 +147,10 @@ namespace PokemonGo.RocketAPI.Console
 		    this.btnDiscard = new System.Windows.Forms.Button();
 		    this.buttonUSe = new System.Windows.Forms.Button();
 		    this.groupBox4.SuspendLayout();
+		    ((System.ComponentModel.ISupportInitialize)(this.pictureBoxNana)).BeginInit();
+		    ((System.ComponentModel.ISupportInitialize)(this.num_MaxNanabBerrys)).BeginInit();
+		    ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPina)).BeginInit();
+		    ((System.ComponentModel.ISupportInitialize)(this.num_MaxPinapBerrys)).BeginInit();
 		    ((System.ComponentModel.ISupportInitialize)(this.pictureBox9)).BeginInit();
 		    ((System.ComponentModel.ISupportInitialize)(this.pictureBox10)).BeginInit();
 		    ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
@@ -160,6 +176,12 @@ namespace PokemonGo.RocketAPI.Console
 		    // 
 		    // groupBox4
 		    // 
+		    this.groupBox4.Controls.Add(this.pictureBoxNana);
+		    this.groupBox4.Controls.Add(this.labelNanab);
+		    this.groupBox4.Controls.Add(this.num_MaxNanabBerrys);
+		    this.groupBox4.Controls.Add(this.pictureBoxPina);
+		    this.groupBox4.Controls.Add(this.labelPinap);
+		    this.groupBox4.Controls.Add(this.num_MaxPinapBerrys);
 		    this.groupBox4.Controls.Add(this.pictureBox9);
 		    this.groupBox4.Controls.Add(this.pictureBox10);
 		    this.groupBox4.Controls.Add(this.pictureBox5);
@@ -196,10 +218,76 @@ namespace PokemonGo.RocketAPI.Console
 		    this.groupBox4.Margin = new System.Windows.Forms.Padding(5);
 		    this.groupBox4.Name = "groupBox4";
 		    this.groupBox4.Padding = new System.Windows.Forms.Padding(5);
-		    this.groupBox4.Size = new System.Drawing.Size(233, 460);
+		    this.groupBox4.Size = new System.Drawing.Size(233, 500);
 		    this.groupBox4.TabIndex = 80;
 		    this.groupBox4.TabStop = false;
 		    this.groupBox4.Text = "Pokemon Items";
+		    // 
+		    // pictureBoxNana
+		    // 
+		    this.pictureBoxNana.Image = ((System.Drawing.Image)(resources.GetObject("pictureBoxNana.Image")));
+		    this.pictureBoxNana.Location = new System.Drawing.Point(17, 439);
+		    this.pictureBoxNana.Name = "pictureBoxNana";
+		    this.pictureBoxNana.Size = new System.Drawing.Size(41, 37);
+		    this.pictureBoxNana.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+		    this.pictureBoxNana.TabIndex = 41;
+		    this.pictureBoxNana.TabStop = false;
+		    // 
+		    // labelNanab
+		    // 
+		    this.labelNanab.AutoSize = true;
+		    this.labelNanab.Location = new System.Drawing.Point(61, 449);
+		    this.labelNanab.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+		    this.labelNanab.Name = "labelNanab";
+		    this.labelNanab.Size = new System.Drawing.Size(97, 13);
+		    this.labelNanab.TabIndex = 39;
+		    this.labelNanab.Text = "Max. NanabBerrys:";
+		    // 
+		    // num_MaxNanabBerrys
+		    // 
+		    this.num_MaxNanabBerrys.Location = new System.Drawing.Point(160, 444);
+		    this.num_MaxNanabBerrys.Margin = new System.Windows.Forms.Padding(5);
+		    this.num_MaxNanabBerrys.Maximum = new decimal(new int[] {
+            2000,
+            0,
+            0,
+            0});
+		    this.num_MaxNanabBerrys.Name = "num_MaxNanabBerrys";
+		    this.num_MaxNanabBerrys.Size = new System.Drawing.Size(64, 20);
+		    this.num_MaxNanabBerrys.TabIndex = 40;
+		    // 
+		    // pictureBoxPina
+		    // 
+		    this.pictureBoxPina.Image = ((System.Drawing.Image)(resources.GetObject("pictureBoxPina.Image")));
+		    this.pictureBoxPina.Location = new System.Drawing.Point(17, 401);
+		    this.pictureBoxPina.Name = "pictureBoxPina";
+		    this.pictureBoxPina.Size = new System.Drawing.Size(41, 37);
+		    this.pictureBoxPina.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+		    this.pictureBoxPina.TabIndex = 38;
+		    this.pictureBoxPina.TabStop = false;
+		    // 
+		    // labelPinap
+		    // 
+		    this.labelPinap.AutoSize = true;
+		    this.labelPinap.Location = new System.Drawing.Point(61, 411);
+		    this.labelPinap.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+		    this.labelPinap.Name = "labelPinap";
+		    this.labelPinap.Size = new System.Drawing.Size(92, 13);
+		    this.labelPinap.TabIndex = 36;
+		    this.labelPinap.Text = "Max. PinapBerrys:";
+		    // 
+		    // num_MaxPinapBerrys
+		    // 
+		    this.num_MaxPinapBerrys.Location = new System.Drawing.Point(160, 406);
+		    this.num_MaxPinapBerrys.Margin = new System.Windows.Forms.Padding(5);
+		    this.num_MaxPinapBerrys.Maximum = new decimal(new int[] {
+            2000,
+            0,
+            0,
+            0});
+		    this.num_MaxPinapBerrys.Name = "num_MaxPinapBerrys";
+		    this.num_MaxPinapBerrys.Size = new System.Drawing.Size(64, 20);
+		    this.num_MaxPinapBerrys.TabIndex = 37;
 		    // 
 		    // pictureBox9
 		    // 
@@ -304,7 +392,7 @@ namespace PokemonGo.RocketAPI.Console
 		    // text_TotalItemCount
 		    // 
 		    this.text_TotalItemCount.BorderStyle = System.Windows.Forms.BorderStyle.None;
-		    this.text_TotalItemCount.Location = new System.Drawing.Point(160, 413);
+		    this.text_TotalItemCount.Location = new System.Drawing.Point(160, 478);
 		    this.text_TotalItemCount.Margin = new System.Windows.Forms.Padding(5);
 		    this.text_TotalItemCount.Name = "text_TotalItemCount";
 		    this.text_TotalItemCount.ReadOnly = true;
@@ -315,7 +403,7 @@ namespace PokemonGo.RocketAPI.Console
 		    // label31
 		    // 
 		    this.label31.AutoSize = true;
-		    this.label31.Location = new System.Drawing.Point(91, 413);
+		    this.label31.Location = new System.Drawing.Point(91, 478);
 		    this.label31.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
 		    this.label31.Name = "label31";
 		    this.label31.Size = new System.Drawing.Size(65, 13);
@@ -566,7 +654,7 @@ namespace PokemonGo.RocketAPI.Console
 		    // btnRealoadItems
 		    // 
 		    this.btnRealoadItems.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-		    this.btnRealoadItems.Location = new System.Drawing.Point(583, 470);
+		    this.btnRealoadItems.Location = new System.Drawing.Point(583, 512);
 		    this.btnRealoadItems.Margin = new System.Windows.Forms.Padding(2);
 		    this.btnRealoadItems.Name = "btnRealoadItems";
 		    this.btnRealoadItems.Size = new System.Drawing.Size(69, 29);
@@ -592,17 +680,12 @@ namespace PokemonGo.RocketAPI.Console
 		    this.ItemsListView.Location = new System.Drawing.Point(245, 14);
 		    this.ItemsListView.Margin = new System.Windows.Forms.Padding(4);
 		    this.ItemsListView.Name = "ItemsListView";
-		    this.ItemsListView.Size = new System.Drawing.Size(407, 438);
+		    this.ItemsListView.Size = new System.Drawing.Size(407, 480);
 		    this.ItemsListView.SmallImageList = this.imageListItems;
 		    this.ItemsListView.TabIndex = 78;
 		    this.ItemsListView.UseCompatibleStateImageBehavior = false;
 		    this.ItemsListView.View = System.Windows.Forms.View.Details;
 		    this.ItemsListView.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.ItemsListView_ColumnClick);
-		    // 
-		    // chID
-		    // 
-		    this.chID.Text = "#";
-		    this.chID.Width = 40;
 		    // 
 		    // chItem
 		    // 
@@ -616,6 +699,11 @@ namespace PokemonGo.RocketAPI.Console
 		    // chUnseen
 		    // 
 		    this.chUnseen.Text = "Unseen";
+		    // 
+		    // chID
+		    // 
+		    this.chID.Text = "#";
+		    this.chID.Width = 40;
 		    // 
 		    // contextMenuStripItems
 		    // 
@@ -659,12 +747,14 @@ namespace PokemonGo.RocketAPI.Console
 		    this.imageListItems.Images.SetKeyName(12, "luckyegg");
 		    this.imageListItems.Images.SetKeyName(13, "maxrevive");
 		    this.imageListItems.Images.SetKeyName(14, "maxpotion");
+		    this.imageListItems.Images.SetKeyName(15, "pinapberry");
+		    this.imageListItems.Images.SetKeyName(16, "nanabberry");
 		    // 
 		    // label1
 		    // 
 		    this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 		    this.label1.AutoSize = true;
-		    this.label1.Location = new System.Drawing.Point(245, 456);
+		    this.label1.Location = new System.Drawing.Point(245, 498);
 		    this.label1.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
 		    this.label1.Name = "label1";
 		    this.label1.Size = new System.Drawing.Size(65, 13);
@@ -676,7 +766,7 @@ namespace PokemonGo.RocketAPI.Console
 		    // 
 		    this.lblCount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 		    this.lblCount.AutoSize = true;
-		    this.lblCount.Location = new System.Drawing.Point(309, 456);
+		    this.lblCount.Location = new System.Drawing.Point(309, 498);
 		    this.lblCount.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
 		    this.lblCount.Name = "lblCount";
 		    this.lblCount.Size = new System.Drawing.Size(13, 13);
@@ -687,7 +777,7 @@ namespace PokemonGo.RocketAPI.Console
 		    // btnCopy
 		    // 
 		    this.btnCopy.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-		    this.btnCopy.Location = new System.Drawing.Point(5, 470);
+		    this.btnCopy.Location = new System.Drawing.Point(6, 512);
 		    this.btnCopy.Margin = new System.Windows.Forms.Padding(2);
 		    this.btnCopy.Name = "btnCopy";
 		    this.btnCopy.Size = new System.Drawing.Size(116, 29);
@@ -699,7 +789,7 @@ namespace PokemonGo.RocketAPI.Console
 		    // btnDiscard
 		    // 
 		    this.btnDiscard.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-		    this.btnDiscard.Location = new System.Drawing.Point(127, 470);
+		    this.btnDiscard.Location = new System.Drawing.Point(128, 512);
 		    this.btnDiscard.Margin = new System.Windows.Forms.Padding(2);
 		    this.btnDiscard.Name = "btnDiscard";
 		    this.btnDiscard.Size = new System.Drawing.Size(89, 29);
@@ -711,7 +801,7 @@ namespace PokemonGo.RocketAPI.Console
 		    // buttonUSe
 		    // 
 		    this.buttonUSe.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-		    this.buttonUSe.Location = new System.Drawing.Point(510, 470);
+		    this.buttonUSe.Location = new System.Drawing.Point(510, 512);
 		    this.buttonUSe.Margin = new System.Windows.Forms.Padding(2);
 		    this.buttonUSe.Name = "buttonUSe";
 		    this.buttonUSe.Size = new System.Drawing.Size(69, 29);
@@ -733,9 +823,13 @@ namespace PokemonGo.RocketAPI.Console
 		    this.Controls.Add(this.ItemsListView);
 		    this.Margin = new System.Windows.Forms.Padding(4);
 		    this.Name = "ItemsPanel";
-		    this.Size = new System.Drawing.Size(662, 506);
+		    this.Size = new System.Drawing.Size(662, 548);
 		    this.groupBox4.ResumeLayout(false);
 		    this.groupBox4.PerformLayout();
+		    ((System.ComponentModel.ISupportInitialize)(this.pictureBoxNana)).EndInit();
+		    ((System.ComponentModel.ISupportInitialize)(this.num_MaxNanabBerrys)).EndInit();
+		    ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPina)).EndInit();
+		    ((System.ComponentModel.ISupportInitialize)(this.num_MaxPinapBerrys)).EndInit();
 		    ((System.ComponentModel.ISupportInitialize)(this.pictureBox9)).EndInit();
 		    ((System.ComponentModel.ISupportInitialize)(this.pictureBox10)).EndInit();
 		    ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).EndInit();

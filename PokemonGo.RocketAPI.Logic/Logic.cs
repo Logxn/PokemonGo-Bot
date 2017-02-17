@@ -1856,7 +1856,7 @@ namespace PokemonGo.RocketAPI.Logic
             var items = objClient.Inventory.GetItems();
 
             var berries = items.Where(i => i.ItemId == ItemId.ItemRazzBerry || i.ItemId == ItemId.ItemBlukBerry  || i.ItemId == ItemId.ItemWeparBerry ).GroupBy(i => i.ItemId).ToList();
-            //NOTE: removed from befire || i.ItemId == ItemId.ItemPinapBerry || i.ItemId == ItemId.ItemNanabBerry
+            //NOTE: removed || i.ItemId == ItemId.ItemPinapBerry || i.ItemId == ItemId.ItemNanabBerry
             if (!berries.Any()) {
                 Logger.ColoredConsoleWrite(ConsoleColor.Red, $"No Berrys to select! - Using next best ball instead"); 
                 return ItemId.ItemUnknown;
