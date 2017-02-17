@@ -112,6 +112,10 @@ namespace PokemonGo.RocketAPI.Console
                     return th.TS("Ultra Ball");
                 case ItemId.ItemRazzBerry:
                     return th.TS("Razz Berry");
+                case ItemId.ItemNanabBerry:
+                    return th.TS("Nanab Berry");
+                case ItemId.ItemPinapBerry:
+                    return th.TS("Pinap Berry");
                 case ItemId.ItemIncubatorBasic:
                     return th.TS("Egg Incubator");
                 case ItemId.ItemIncubatorBasicUnlimited:

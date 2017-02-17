@@ -263,14 +263,23 @@ namespace PokemonGo.RocketAPI.Helpers
 
             };
 
-            var plat8Message = new UnknownPtr8Request() {
-                Message = Resources.Api.UnknownPtr8Message
-            };
+            var  randValue = TRandomDevice.Next(1,100);
 
-            _requestEnvelope.PlatformRequests.Add(new RequestEnvelope.Types.PlatformRequest() {
-                Type = PlatformRequestType.UnknownPtr8,
-                RequestMessage = plat8Message.ToByteString()
-            });
+            var insertUnknptr8 = (randValue != 1); // insert it 99 times of each 100 times
+
+            if (customRequests.Length > 0)
+                if (customRequests[0].RequestType != RequestType.GetPlayer && customRequests[0].RequestType != RequestType.GetMapObjects)
+                    insertUnknptr8 = (randValue == 1); // insert it 1 time of each 100 times
+
+            if (insertUnknptr8){
+                var plat8Message = new UnknownPtr8Request() {
+                    Message = Resources.Api.UnknownPtr8Message
+                };
+                _requestEnvelope.PlatformRequests.Add(new RequestEnvelope.Types.PlatformRequest() {
+                    Type = PlatformRequestType.UnknownPtr8,
+                    RequestMessage = plat8Message.ToByteString()
+                });
+            }
 
             if (_authTicket != null && !firstRequest) {
                 _requestEnvelope.AuthTicket = _authTicket;

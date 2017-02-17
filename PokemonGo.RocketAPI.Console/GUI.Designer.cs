@@ -147,6 +147,9 @@ namespace PokemonGo.RocketAPI.Console
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabThrows = new System.Windows.Forms.TabPage();
             this.groupBox30 = new System.Windows.Forms.GroupBox();
+            this.label52 = new System.Windows.Forms.Label();
+            this.num_NanabPercent = new System.Windows.Forms.NumericUpDown();
+            this.label33 = new System.Windows.Forms.Label();
             this.checkBox_UseNanabBerry = new System.Windows.Forms.CheckBox();
             this.checkbox_UsePinapBerry = new System.Windows.Forms.CheckBox();
             this.checkBox_UseRazzberryIfChanceUnder = new System.Windows.Forms.CheckBox();
@@ -158,7 +161,6 @@ namespace PokemonGo.RocketAPI.Console
             this.label56 = new System.Windows.Forms.Label();
             this.label65 = new System.Windows.Forms.Label();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
-            this.label33 = new System.Windows.Forms.Label();
             this.label53 = new System.Windows.Forms.Label();
             this.numericUpDown4 = new System.Windows.Forms.NumericUpDown();
             this.numericUpDown3 = new System.Windows.Forms.NumericUpDown();
@@ -340,6 +342,7 @@ namespace PokemonGo.RocketAPI.Console
             this.tabControl1.SuspendLayout();
             this.tabThrows.SuspendLayout();
             this.groupBox30.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.num_NanabPercent)).BeginInit();
             this.groupBox19.SuspendLayout();
             this.groupBox8.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown4)).BeginInit();
@@ -1687,6 +1690,9 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // groupBox30
             // 
+            this.groupBox30.Controls.Add(this.label52);
+            this.groupBox30.Controls.Add(this.num_NanabPercent);
+            this.groupBox30.Controls.Add(this.label33);
             this.groupBox30.Controls.Add(this.checkBox_UseNanabBerry);
             this.groupBox30.Controls.Add(this.checkbox_UsePinapBerry);
             this.groupBox30.Controls.Add(this.checkBox_UseRazzberryIfChanceUnder);
@@ -1701,10 +1707,43 @@ namespace PokemonGo.RocketAPI.Console
             this.groupBox30.TabStop = false;
             this.groupBox30.Text = "Items";
             // 
+            // label52
+            // 
+            this.label52.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label52.AutoSize = true;
+            this.label52.Location = new System.Drawing.Point(208, 84);
+            this.label52.Name = "label52";
+            this.label52.Size = new System.Drawing.Size(79, 13);
+            this.label52.TabIndex = 60;
+            this.label52.Text = "times each 100";
+            // 
+            // num_NanabPercent
+            // 
+            this.num_NanabPercent.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.num_NanabPercent.Location = new System.Drawing.Point(166, 81);
+            this.num_NanabPercent.Margin = new System.Windows.Forms.Padding(2);
+            this.num_NanabPercent.Name = "num_NanabPercent";
+            this.num_NanabPercent.Size = new System.Drawing.Size(37, 20);
+            this.num_NanabPercent.TabIndex = 59;
+            this.num_NanabPercent.Value = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            // 
+            // label33
+            // 
+            this.label33.AutoSize = true;
+            this.label33.Location = new System.Drawing.Point(289, 18);
+            this.label33.Name = "label33";
+            this.label33.Size = new System.Drawing.Size(15, 13);
+            this.label33.TabIndex = 57;
+            this.label33.Text = "%";
+            // 
             // checkBox_UseNanabBerry
             // 
             this.checkBox_UseNanabBerry.AutoSize = true;
-            this.checkBox_UseNanabBerry.Location = new System.Drawing.Point(52, 80);
+            this.checkBox_UseNanabBerry.Location = new System.Drawing.Point(19, 83);
             this.checkBox_UseNanabBerry.Margin = new System.Windows.Forms.Padding(2);
             this.checkBox_UseNanabBerry.Name = "checkBox_UseNanabBerry";
             this.checkBox_UseNanabBerry.Size = new System.Drawing.Size(107, 17);
@@ -1715,7 +1754,7 @@ namespace PokemonGo.RocketAPI.Console
             // checkbox_UsePinapBerry
             // 
             this.checkbox_UsePinapBerry.AutoSize = true;
-            this.checkbox_UsePinapBerry.Location = new System.Drawing.Point(52, 58);
+            this.checkbox_UsePinapBerry.Location = new System.Drawing.Point(19, 61);
             this.checkbox_UsePinapBerry.Margin = new System.Windows.Forms.Padding(2);
             this.checkbox_UsePinapBerry.Name = "checkbox_UsePinapBerry";
             this.checkbox_UsePinapBerry.Size = new System.Drawing.Size(102, 17);
@@ -1741,7 +1780,7 @@ namespace PokemonGo.RocketAPI.Console
             this.NextBestBallOnEscape.AutoSize = true;
             this.NextBestBallOnEscape.Checked = true;
             this.NextBestBallOnEscape.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.NextBestBallOnEscape.Location = new System.Drawing.Point(52, 35);
+            this.NextBestBallOnEscape.Location = new System.Drawing.Point(19, 38);
             this.NextBestBallOnEscape.Name = "NextBestBallOnEscape";
             this.NextBestBallOnEscape.Size = new System.Drawing.Size(214, 17);
             this.NextBestBallOnEscape.TabIndex = 55;
@@ -1817,7 +1856,6 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // groupBox8
             // 
-            this.groupBox8.Controls.Add(this.label33);
             this.groupBox8.Controls.Add(this.label53);
             this.groupBox8.Controls.Add(this.numericUpDown4);
             this.groupBox8.Controls.Add(this.numericUpDown3);
@@ -1835,15 +1873,6 @@ namespace PokemonGo.RocketAPI.Console
             this.groupBox8.TabIndex = 54;
             this.groupBox8.TabStop = false;
             this.groupBox8.Text = "Miss Rate and Ball Choice";
-            // 
-            // label33
-            // 
-            this.label33.AutoSize = true;
-            this.label33.Location = new System.Drawing.Point(309, 134);
-            this.label33.Name = "label33";
-            this.label33.Size = new System.Drawing.Size(15, 13);
-            this.label33.TabIndex = 57;
-            this.label33.Text = "%";
             // 
             // label53
             // 
@@ -3772,10 +3801,10 @@ namespace PokemonGo.RocketAPI.Console
             this.tabThrows.ResumeLayout(false);
             this.groupBox30.ResumeLayout(false);
             this.groupBox30.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.num_NanabPercent)).EndInit();
             this.groupBox19.ResumeLayout(false);
             this.groupBox19.PerformLayout();
             this.groupBox8.ResumeLayout(false);
-            this.groupBox8.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown4)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();
@@ -4141,6 +4170,8 @@ namespace PokemonGo.RocketAPI.Console
         private System.Windows.Forms.TextBox text_MaxPinapBerrys;
         private System.Windows.Forms.Label label36;
         private System.Windows.Forms.TextBox text_MaxNanabBerrys;
+        private System.Windows.Forms.Label label52;
+        private System.Windows.Forms.NumericUpDown num_NanabPercent;
         //private System.Windows.Forms.CheckBox checkBox_CatchLurePokemons;
     }
 }

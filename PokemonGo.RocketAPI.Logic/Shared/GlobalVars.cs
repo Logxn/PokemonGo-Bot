@@ -101,6 +101,7 @@ namespace PokemonGo.RocketAPI.Logic.Shared
         public static bool UseIncense = true;
         public static bool UseRazzBerry = true;
         public static double razzberry_chance = 0.35;
+        public static int NanabPercent;
         public static bool EnablePokeList = true;
         public static bool EnableConsoleInTab = false;
         public static bool keepPokemonsThatCanEvolve = true;
@@ -253,8 +254,8 @@ namespace PokemonGo.RocketAPI.Logic.Shared
                     new KeyValuePair<ItemId, int>(ItemId.ItemRazzBerry, Shared.GlobalVars.MaxBerries),
                     new KeyValuePair<ItemId, int>(ItemId.ItemMaxPotion, Shared.GlobalVars.MaxTopPotions),
                     new KeyValuePair<ItemId, int>(ItemId.ItemMaxRevive, Shared.GlobalVars.MaxTopRevives),
-                    new KeyValuePair<ItemId, int>(ItemId.ItemMaxRevive, Shared.GlobalVars.MaxPinapBerries),
-                    new KeyValuePair<ItemId, int>(ItemId.ItemMaxRevive, Shared.GlobalVars.MaxNanabBerries)
+                    new KeyValuePair<ItemId, int>(ItemId.ItemPinapBerry, Shared.GlobalVars.MaxPinapBerries),
+                    new KeyValuePair<ItemId, int>(ItemId.ItemNanabBerry, Shared.GlobalVars.MaxNanabBerries)
                 };
         }
 

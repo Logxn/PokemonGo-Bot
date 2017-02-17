@@ -357,6 +357,7 @@ namespace PokemonGo.RocketAPI.Console
             checkBox_UseRazzberryIfChanceUnder.Checked = config.UseRazzBerry;
             text_UseRazzberryChance.Text = (config.razzberry_chance * 100).ToString();
             NextBestBallOnEscape.Checked = config.NextBestBallOnEscape;
+            num_NanabPercent.Value = config.NanabPercent;
 
             // To avoid first calculation of 100 %
             text_Pb_Excellent.Value = 0;
@@ -755,7 +756,8 @@ namespace PokemonGo.RocketAPI.Console
                 ActiveProfile.Settings.razzberry_chance = Convert.ToDouble(c);
             }
 
-            
+            ActiveProfile.Settings.NanabPercent = (int)num_NanabPercent.Value;
+
             ActiveProfile.Settings.excellentthrow = (int)text_Pb_Excellent.Value;
             ActiveProfile.Settings.greatthrow = (int)text_Pb_Great.Value;
             ActiveProfile.Settings.nicethrow = (int)text_Pb_Nice.Value;
