@@ -1379,10 +1379,6 @@ namespace PokemonGo.RocketAPI.Console
                 textBoxFortsFile.Text = openFileDialog1.FileName;
             }
         }
-        void text_MaxNanabBerrys_TextChanged(object sender, EventArgs e)
-        {
-          
-        }
 
     }
 }

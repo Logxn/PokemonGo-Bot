@@ -55,6 +55,8 @@ namespace PokemonGo.RocketAPI.Console
                 num_MaxSuperPotions.Value = GlobalVars.MaxSuperPotions;
                 num_MaxHyperPotions.Value = GlobalVars.MaxHyperPotions;
                 num_MaxRazzBerrys.Value = GlobalVars.MaxBerries;
+                num_MaxPinapBerrys.Value = GlobalVars.MaxPinapBerries;
+                num_MaxNanabBerrys.Value = GlobalVars.MaxNanabBerries;
                 num_MaxTopRevives.Value = GlobalVars.MaxTopRevives;
                 num_MaxTopPotions.Value = GlobalVars.MaxTopPotions;
                 int count = 0;
@@ -191,6 +193,12 @@ namespace PokemonGo.RocketAPI.Console
                         break;
                     case "num_MaxRazzBerrys":
                         GlobalVars.MaxBerries = value;
+                        break;
+                    case "num_MaxNanabRazzBerrys":
+                        GlobalVars.MaxNanabBerries = value;
+                        break;
+                    case "num_MaxPinapBerrys":
+                        GlobalVars.MaxPinapBerries = value;
                         break;
                 }
                 int count = 0;
