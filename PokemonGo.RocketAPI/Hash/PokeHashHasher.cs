@@ -17,6 +17,7 @@ namespace PokemonGo.RocketAPI.Hash
         // ***************************************************************************
         // This value will determine which version of hashing you receive.
         // ***************************************************************************
+        /*
         public Dictionary<string, string> EndPointDictionary = new Dictionary<string, string>
             {
                 {"1.19", "api/v119/hash"},
@@ -33,6 +34,7 @@ namespace PokemonGo.RocketAPI.Hash
             {"0.57.2", "api/v127_2/hash" },
             {"1.27.2", "api/v127_2/hash" },
             };
+            */
 
         int MaxRequestCount;            // RPM Value
         DateTime RatePeriodEnd;         // End of running minute
@@ -42,15 +44,14 @@ namespace PokemonGo.RocketAPI.Hash
         int ExpirationCounter = 1;      // Only show message every 1000 requests (see if down)
         bool NoValidKey = false;        // Will be true if no valid key is found (testing)
 
-        private Uri _baseAddress = new Uri("http://pokehash.buddyauth.com/");
+        private readonly Uri _baseAddress = new Uri("http://pokehash.buddyauth.com/");
         private Uri _availableHashVersionsCheck = new Uri("https://pokehash.buddyauth.com/api/hash/versions");
-        private string _endpoint;
+        private readonly string _endpoint;
         private string apiKey;
 
         public PokeHashHasher(string apiKey)
         {
-            //_endpoint = EndPointDictionary[(CurrentAPIVersion.CurrentNianticAPIVersion).ToString()];
-            _endpoint = EndPointDictionary[(Resources.BotApiSupportedVersion).ToString()];
+            _endpoint = Resources.Api.EndPoint;
             this.apiKey = apiKey;
         }
 

@@ -118,7 +118,7 @@ namespace PokemonGo.RocketAPI.Helpers
             #endregion
 
             signature.SessionHash = _sessionHash;
-            signature.Unknown25 = Resources.Api.Unknown25;
+            signature.Unknown25 = Resources.Api.IOSUnknown25; // TODO: revise all android and IOS sended information
 
             var serializedTicket = requestEnvelope.AuthTicket != null ? requestEnvelope.AuthTicket.ToByteArray() : requestEnvelope.AuthInfo.ToByteArray();
 

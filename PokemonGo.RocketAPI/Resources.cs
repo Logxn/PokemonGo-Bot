@@ -27,20 +27,25 @@ namespace PokemonGo.RocketAPI
          * Bot Supported Version
          ******************************************************************************************************************/
         public static Version BotVersion = new Version(Assembly.GetEntryAssembly().GetName().Version.ToString());
-        public static Version BotApiSupportedVersion = new Version("0.57.2");
 
-        private static APIVars Apiv53 = new APIVars(-76506539888958491,
+        private static APIVars Apiv53 = new APIVars(-1, "0.55.0",
+                                                    -76506539888958491, "1.23.1",
                                                 "e40c3e64817d9c96d99d28f6488a2efc40b11046",
-                                                "0.53.0");
+                                                "api/v123_1/hash");
 
-        private static APIVars Apiv55 = new APIVars(-9156899491064153954,
+        private static APIVars Apiv55 = new APIVars(-1, "0.55.0",
+                                                    -9156899491064153954,"1.25.0",
                                                 "90f6a704505bccac73cec99b07794993e6fd5a12",
-                                                "0.55.0");
+                                                "api/v125/hash");
 
-        private static APIVars Apiv572ios = new APIVars(-816976800928766045,
+        private static APIVars Apiv572 = new APIVars(7472694709694384708,"0.57.2",
+                                                     -816976800928766045,"1.27.2",
                                                 "90f6a704505bccac73cec99b07794993e6fd5a12",
-                                                "0.57.2");
-        public static APIVars Api = Apiv572ios;
-        
+                                                "api/v127_2/hash");
+        public static APIVars Api = Apiv572;
+
+        //BotApiSupportedVersion Must go here to can use Api.ClientVersion value
+        public static Version BotApiSupportedVersion = new Version(Api.AndroidClientVersion);
+
     }
 }
