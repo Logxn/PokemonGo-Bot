@@ -1420,8 +1420,7 @@ namespace PokemonGo.RocketAPI.Logic
                             var pinaps = berryList.FirstOrDefault(p => p.ItemId == ItemId.ItemPinapBerry);
 
 
-
-                            if (pinaps.Count <= 0)
+                            if (pinaps==null && pinaps.Count <= 0)
                             {
                                 pinapsOutOfStock = true;
                             }
@@ -1444,7 +1443,7 @@ namespace PokemonGo.RocketAPI.Logic
                             var nanabList = inventory as IList<ItemData> ?? nanabInInventory.ToList();
                             var nanabs = nanabList.FirstOrDefault(p => p.ItemId == ItemId.ItemNanabBerry);
 
-                            if(nanabs.Count <= 0)
+                            if(nanabs==null && nanabs.Count <= 0)
                             {
                                 nanabsOutOfStock = true;
                             }
@@ -1855,7 +1854,9 @@ namespace PokemonGo.RocketAPI.Logic
             var pokemonCp = pokemon?.PokemonData?.Cp;
 
             var items = objClient.Inventory.GetItems();
-            var berries = items.Where(i => i.ItemId == ItemId.ItemRazzBerry || i.ItemId == ItemId.ItemBlukBerry || i.ItemId == ItemId.ItemNanabBerry || i.ItemId == ItemId.ItemWeparBerry || i.ItemId == ItemId.ItemPinapBerry).GroupBy(i => i.ItemId).ToList();
+
+            var berries = items.Where(i => i.ItemId == ItemId.ItemRazzBerry || i.ItemId == ItemId.ItemBlukBerry  || i.ItemId == ItemId.ItemWeparBerry ).GroupBy(i => i.ItemId).ToList();
+            //NOTE: removed from befire || i.ItemId == ItemId.ItemPinapBerry || i.ItemId == ItemId.ItemNanabBerry
             if (!berries.Any()) {
                 Logger.ColoredConsoleWrite(ConsoleColor.Red, $"No Berrys to select! - Using next best ball instead"); 
                 return ItemId.ItemUnknown;
