@@ -54,12 +54,13 @@ namespace PokemonGo.RocketAPI.Console.Panels
         }
         void btnBuy_Click(object sender, EventArgs e)
         {
-            if (listView.SelectedItems.Count > 0) {
+            MessageBox.Show("Sorry this function is currently unavailable :/", "Sorry...",  MessageBoxButtons.OK, MessageBoxIcon.Information);
+            /*if (listView.SelectedItems.Count > 0) {
                 var item = (GetStoreItemsResponse.Types.StoreItem)listView.SelectedItems[0].Tag;
                 if (MessageBox.Show(this, th.TS("Buying {0}.", item.ItemId) + th.TS("\nAre you sure you want?"), th.TS("Confirmation Message"), MessageBoxButtons.OKCancel) == DialogResult.OK) {
                     Logic.Logic.objClient.Store.BuyItemPokeCoins(item.ItemId);
                 }
-            }
+            }*/
         }
         void buyToolStripMenuItem_Click(object sender, EventArgs e)
         {

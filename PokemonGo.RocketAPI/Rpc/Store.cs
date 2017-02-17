@@ -36,14 +36,14 @@ namespace PokemonGo.RocketAPI.Rpc
             return result;
         }
         
-        public BuyItemPokeCoinsResponse BuyItemPokeCoins(string item)
+        /*public BuyItemPokeCoinsResponse BuyItemPokeCoins(string item)
         {
             var message = new BuyItemPokeCoinsRequest() {
                 ItemId = item
             };
 
             return PostProtoPayload<Request, BuyItemPokeCoinsResponse>(RequestType.BuyItemPack, message);
-        }
+        }*/
         
         
     }
