@@ -15,7 +15,7 @@ namespace PokemonGo.RocketAPI.Console
         { get; set; }
         public string StatusMessage
         { get; set; }
-    }    
+    }
     public class Settings : ISettings
     {
         /* ===================================[SETTINGS]================================= */
@@ -28,7 +28,7 @@ namespace PokemonGo.RocketAPI.Console
         public string pFHashKey
         {
             get { return GlobalVars.pFHashKey; }
-            set { GlobalVars.pFHashKey = value;  }
+            set { GlobalVars.pFHashKey = value; }
         }
         #endregion
 
@@ -599,8 +599,8 @@ namespace PokemonGo.RocketAPI.Console
         {
             get { return GlobalVars.simulatedPGO; }
             set { GlobalVars.simulatedPGO = value; }
-        }      
-        
+        }
+
         public bool No2kmEggs
         {
             get { return GlobalVars.No2kmEggs; }
@@ -618,7 +618,7 @@ namespace PokemonGo.RocketAPI.Console
             get { return GlobalVars.No10kmEggs; }
             set { GlobalVars.No10kmEggs = value; }
         }
-        
+
         public bool EggsAscendingSelection
         {
             get { return GlobalVars.EggsAscendingSelection; }
@@ -641,7 +641,7 @@ namespace PokemonGo.RocketAPI.Console
             get { return GlobalVars.No10kmEggsBasicInc; }
             set { GlobalVars.No10kmEggsBasicInc = value; }
         }
-        
+
         public bool EggsAscendingSelectionBasicInc
         {
             get { return GlobalVars.EggsAscendingSelectionBasicInc; }
@@ -670,6 +670,18 @@ namespace PokemonGo.RocketAPI.Console
         {
             get { return GlobalVars.proxySettings; }
             set { GlobalVars.proxySettings = value; }
-        }        
+        }
+
+        public bool UsePinapBerry
+        {
+            get { return GlobalVars.UsePinapBerry; }
+            set { GlobalVars.UsePinapBerry = value; }
+        }
+
+        public bool UseNanabBerry
+        {
+            get { return GlobalVars.UseNanabBerry; }
+            set { GlobalVars.UseNanabBerry = value; }
+        }
     }
 }

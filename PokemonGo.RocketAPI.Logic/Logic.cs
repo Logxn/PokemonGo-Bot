@@ -912,6 +912,7 @@ namespace PokemonGo.RocketAPI.Logic
                             if (item.ItemId == ItemId.ItemPokeBall || item.ItemId == ItemId.ItemGreatBall || item.ItemId == ItemId.ItemUltraBall)
                             {
                                 logrestock = true;
+                                
                             }
                         }
 
@@ -1136,7 +1137,7 @@ namespace PokemonGo.RocketAPI.Logic
 
                     #endregion
 
-
+                    
                     #region Skip pokemon if in list
 
                     if (BotSettings.catchPokemonSkipList.Contains(pokemon.PokemonId))
@@ -1346,6 +1347,11 @@ namespace PokemonGo.RocketAPI.Logic
 
                 var escaped = false;
                 var berryOutOfStock = false;
+
+                var pinapsOutOfStock = false;
+                var nanabsOutOfStock = false;
+
+                var usedNanabs = false;
                 Logger.ColoredConsoleWrite(ConsoleColor.Magenta, $"Encountered {StringUtils.getPokemonNameByLanguage(BotSettings, pokeid)} CP {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} IV {strIVPerfection}% Probability {Math.Round(probability.Value * 100)}%");
 
                 if (encounterPokemonResponse.WildPokemon.PokemonData != null &&
@@ -1369,6 +1375,8 @@ namespace PokemonGo.RocketAPI.Logic
                             return 0;
                         }
 
+                
+
                         if (((probability.Value < BotSettings.razzberry_chance) || escaped) && BotSettings.UseRazzBerry && !used)
                         {
                             var bestBerry = GetBestBerry(encounterPokemonResponse?.WildPokemon);
@@ -1388,6 +1396,8 @@ namespace PokemonGo.RocketAPI.Logic
 
                                     Logger.Info( $"Thrown {bestBerry}. Remaining: {berries.Count}.");
 
+                                    
+
                                     RandomHelper.RandomSleep(50, 200);
                                 }
                                 else
@@ -1403,6 +1413,50 @@ namespace PokemonGo.RocketAPI.Logic
                             }
                         }
 
+                        if (BotSettings.UsePinapBerry)
+                        {
+                            var berriesInInventory = inventoryBerries as IList<ItemData> ?? inventoryBerries.ToList();
+                            var berryList = inventoryBerries as IList<ItemData> ?? berriesInInventory.ToList();
+                            var pinaps = berryList.FirstOrDefault(p => p.ItemId == ItemId.ItemPinapBerry);
+
+
+
+                            if (pinaps.Count <= 0)
+                            {
+                                pinapsOutOfStock = true;
+                            }
+                            
+
+                            if (!pinapsOutOfStock)
+                            {
+                                // Use a pinap 
+                                objClient.Encounter.UseCaptureItem(encounterId, ItemId.ItemPinapBerry, spawnpointId);
+                                Logger.Info($"We used a Pinap Berry. Remaining: {pinaps.Count}.");
+
+                                RandomHelper.RandomSleep(50, 200);
+                            }
+                        }
+
+                        if(BotSettings.UseNanabBerry && !usedNanabs)
+                        {
+                            var inventory = objClient.Inventory.GetItems();
+                            var nanabInInventory = inventory as IList<ItemData> ?? inventory.ToList();
+                            var nanabList = inventory as IList<ItemData> ?? nanabInInventory.ToList();
+                            var nanabs = nanabList.FirstOrDefault(p => p.ItemId == ItemId.ItemNanabBerry);
+
+                            if(nanabs.Count <= 0)
+                            {
+                                nanabsOutOfStock = true;
+                            }
+
+                            if(!nanabsOutOfStock)
+                            {
+                                objClient.Encounter.UseCaptureItem(encounterId, ItemId.ItemNanabBerry, spawnpointId);
+                                Logger.Info($"We used a Nanab Berry. Remaining: {nanabs.Count}.");
+                                usedNanabs = true;
+                                RandomHelper.RandomSleep(50, 200);
+                            }
+                        }
                         // limit number of balls wasted by misses and log for UX because fools be tripin                        
                         var r = new Random();
                         switch (missCount)

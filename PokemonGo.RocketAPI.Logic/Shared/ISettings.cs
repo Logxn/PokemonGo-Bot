@@ -173,5 +173,8 @@ namespace PokemonGo.RocketAPI.Logic.Shared
         bool EnablePokeList { get; set; }
         bool simulatedPGO { get; set; }
         bool pauseAtEvolve { get; set; }
+
+        bool UsePinapBerry { get; set; }
+        bool UseNanabBerry { get; set; }
     }
 }

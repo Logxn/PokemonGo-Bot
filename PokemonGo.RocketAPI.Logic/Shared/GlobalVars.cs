@@ -179,6 +179,10 @@ namespace PokemonGo.RocketAPI.Logic.Shared
 
         public static bool SpinGyms  =false;
 
+        public static bool UsePinapBerry = false;
+
+        public static bool UseNanabBerry = false;
+
         /// <summary>
         /// Copy all values from ProfileSettings to GlobalVars.
         /// </summary>

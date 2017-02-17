@@ -296,6 +296,8 @@ namespace PokemonGo.RocketAPI.Console
             checkBox_KeepPokemonWhichCanBeEvolved.Checked = config.keepPokemonsThatCanEvolve;
             checkBox_UseLuckyEggIfNotRunning.Checked = config.UseLuckyEggIfNotRunning;
             checkBox_CollectDailyBonus.Checked = config.CollectDailyBonus;
+            checkbox_UsePinapBerry.Checked = config.UsePinapBerry;
+            checkBox_UseNanabBerry.Checked = config.UseNanabBerry;
     
             // tab 2 - Pokemons
             if (config.pokemonsToHold != null)
@@ -694,6 +696,8 @@ namespace PokemonGo.RocketAPI.Console
             ActiveProfile.Settings.pokemonsToEvolve.Clear();
             ActiveProfile.Settings.NotToSnipe.Clear();
 
+            ActiveProfile.Settings.UsePinapBerry = checkbox_UsePinapBerry.Checked;
+
             foreach (string pokemon in checkedListBox_PokemonNotToTransfer.CheckedItems)
             {
                 ActiveProfile.Settings.pokemonsToHold.Add((PokemonId)Enum.Parse(typeof(PokemonId), th.RS(pokemon)));
@@ -906,6 +910,8 @@ namespace PokemonGo.RocketAPI.Console
             ActiveProfile.Settings.FortsFile = textBoxFortsFile.Text;
             ActiveProfile.Settings.SaveForts = checkBoxSaveFortsInfo.Checked;
             ActiveProfile.Settings.SpinGyms = checkBoxSpinGyms.Checked;
+
+            ActiveProfile.Settings.UseNanabBerry = checkBox_UseNanabBerry.Checked;
 
             #endregion
             return ret;
