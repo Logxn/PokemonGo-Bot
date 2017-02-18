@@ -53,12 +53,19 @@ namespace PokemonGo.RocketAPI.Rpc
         }
 
 
-        public IEnumerable<ItemData> GetItems(bool forceRequest = false)
+        public IEnumerable<ItemData> GetItemsOld(bool forceRequest = false)
         {
             var inventory = GetInventory(forceRequest);
             return inventory.InventoryDelta.InventoryItems
                 .Select(i => i.InventoryItemData?.Item)
                 .Where(p => p != null);
+        }
+
+        public IEnumerable<ItemData> GetItems(bool forceRequest = false)
+        {
+            var items = GetInventory(forceRequest).InventoryDelta.InventoryItems
+                .Where(i => i.InventoryItemData.Item !=null);
+            return items.Select(i=> i.InventoryItemData.Item);
         }
 
 
