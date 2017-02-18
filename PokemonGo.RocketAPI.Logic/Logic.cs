@@ -1391,7 +1391,7 @@ namespace PokemonGo.RocketAPI.Logic
                                 if (!berryOutOfStock)
                                 {
                                     //Throw berry
-                                    var useRaspberry = objClient.Encounter.UseCaptureItem(encounterId, bestBerry, spawnpointId);
+                                    var useRaspberry = objClient.Encounter.UseItemEncounter(encounterId, bestBerry, spawnpointId);
                                     used = true;
 
                                     Logger.Info( $"Thrown {bestBerry}. Remaining: {berries.Count}.");
@@ -1415,22 +1415,20 @@ namespace PokemonGo.RocketAPI.Logic
 
                         if (BotSettings.UsePinapBerry)
                         {
-                            var berriesInInventory = inventoryBerries as IList<ItemData> ?? inventoryBerries.ToList();
-                            var berryList = inventoryBerries as IList<ItemData> ?? berriesInInventory.ToList();
-                            var pinaps = berryList.FirstOrDefault(p => p.ItemId == ItemId.ItemPinapBerry);
+                            var inventory = objClient.Inventory.GetItems();
+                            var pinaps = inventory.Where(p => p.ItemId == ItemId.ItemPinapBerry);
+                            var pinap = pinaps.FirstOrDefault();
 
 
-                            if (pinaps==null && pinaps.Count <= 0)
-                            {
+                            if (pinap == null || pinap.Count < 0)
                                 pinapsOutOfStock = true;
-                            }
                             
 
                             if (!pinapsOutOfStock)
                             {
                                 // Use a pinap 
-                                objClient.Encounter.UseCaptureItem(encounterId, ItemId.ItemPinapBerry, spawnpointId);
-                                Logger.Info($"We used a Pinap Berry. Remaining: {pinaps.Count}.");
+                                objClient.Encounter.UseItemEncounter(encounterId, ItemId.ItemPinapBerry, spawnpointId);
+                                Logger.Info($"We used a Pinap Berry. Remaining: {pinaps.Count()}.");
 
                                 RandomHelper.RandomSleep(50, 200);
                             }
@@ -1443,19 +1441,16 @@ namespace PokemonGo.RocketAPI.Logic
                             var reallyUseIt =  (r.Next(0,GlobalVars.NanabPercent)!=0);
                             if (GlobalVars.NanabPercent == 100 || reallyUseIt){
                                 var inventory = objClient.Inventory.GetItems();
-                                var nanabInInventory = inventory as IList<ItemData> ?? inventory.ToList();
-                                var nanabList = inventory as IList<ItemData> ?? nanabInInventory.ToList();
-                                var nanabs = nanabList.FirstOrDefault(p => p.ItemId == ItemId.ItemNanabBerry);
-    
-                                if(nanabs==null && nanabs.Count <= 0)
-                                {
+                                var nanabs = inventory.Where(p => p.ItemId == ItemId.ItemNanabBerry);
+                                var nanab = nanabs.FirstOrDefault();
+
+                                if (nanab == null || nanab.Count < 0)
                                     nanabsOutOfStock = true;
-                                }
     
                                 if(!nanabsOutOfStock)
                                 {
-                                    objClient.Encounter.UseCaptureItem(encounterId, ItemId.ItemNanabBerry, spawnpointId);
-                                    Logger.Info($"We used a Nanab Berry. Remaining: {nanabs.Count}.");
+                                    objClient.Encounter.UseItemEncounter(encounterId, ItemId.ItemNanabBerry, spawnpointId);
+                                    Logger.Info($"We used a Nanab Berry. Remaining: {nanabs.Count()}.");
                                     usedNanabs = true;
                                     RandomHelper.RandomSleep(50, 200);
                                 }

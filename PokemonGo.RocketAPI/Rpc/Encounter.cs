@@ -89,5 +89,17 @@ namespace PokemonGo.RocketAPI.Rpc
 
             return PostProtoPayload<Request, EncounterTutorialCompleteResponse>(RequestType.EncounterTutorialComplete, message);
         }
+
+        public UseItemEncounterResponse UseItemEncounter(ulong encounterId, ItemId item, string spawnPointId)
+        {
+            var message = new UseItemEncounterMessage()
+            {
+                Item = item,
+                EncounterId = encounterId,
+                SpawnPointGuid = spawnPointId,
+            };
+
+            return PostProtoPayload<Request, UseItemEncounterResponse>(RequestType.UseItemEncounter, message);
+        }
     }
 }
