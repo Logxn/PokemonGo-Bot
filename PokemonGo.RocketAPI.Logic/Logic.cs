@@ -1415,21 +1415,25 @@ namespace PokemonGo.RocketAPI.Logic
 
                         if (BotSettings.UsePinapBerry)
                         {
-                            var inventory = objClient.Inventory.GetItems();
-                            var pinaps = inventory.Where(p => p.ItemId == ItemId.ItemPinapBerry);
-                            var pinap = pinaps.FirstOrDefault();
-
-
-                            if (pinap == null || pinap.Count < 0)
-                                pinapsOutOfStock = true;
-                            
-
-                            if (!pinapsOutOfStock)
-                            {
-                                // Use a pinap 
-                                objClient.Encounter.UseItemEncounter(encounterId, ItemId.ItemPinapBerry, spawnpointId);
-                                Logger.Info($"We used a Pinap Berry. Remaining: {pinaps.Count()}.");
-                                RandomHelper.RandomSleep(50, 200);
+                            try {
+                                var inventory = objClient.Inventory.GetItems();
+                                var pinaps = inventory.Where(p => p.ItemId == ItemId.ItemPinapBerry);
+                                var pinap = pinaps.FirstOrDefault();
+    
+    
+                                if (pinap == null || pinap.Count < 0)
+                                    pinapsOutOfStock = true;
+                                
+    
+                                if (!pinapsOutOfStock)
+                                {
+                                    // Use a pinap 
+                                    objClient.Encounter.UseItemEncounter(encounterId, ItemId.ItemPinapBerry, spawnpointId);
+                                    Logger.Info($"We used a Pinap Berry. Remaining: {pinaps.Count()}.");
+                                    RandomHelper.RandomSleep(50, 200);
+                                }
+                            } catch (Exception ex1) {
+                                Logger.Debug (""+ex1);
                             }
                         }
                         
@@ -1437,22 +1441,27 @@ namespace PokemonGo.RocketAPI.Logic
 
                         if(BotSettings.UseNanabBerry && !usedNanabs )
                         {
-                            var reallyUseIt =  (r.Next(0,GlobalVars.NanabPercent)!=0);
-                            if (GlobalVars.NanabPercent == 100 || reallyUseIt){
-                                var inventory = objClient.Inventory.GetItems();
-                                var nanabs = inventory.Where(p => p.ItemId == ItemId.ItemNanabBerry);
-                                var nanab = nanabs.FirstOrDefault();
-
-                                if (nanab == null || nanab.Count < 0)
-                                    nanabsOutOfStock = true;
+                            try {
+                                var reallyUseIt =  (r.Next(0,GlobalVars.NanabPercent)!=0);
+                                if (GlobalVars.NanabPercent == 100 || reallyUseIt){
+                                    var inventory = objClient.Inventory.GetItems();
+                                    var nanabs = inventory.Where(p => p.ItemId == ItemId.ItemNanabBerry);
+                                    var nanab = nanabs.FirstOrDefault();
     
-                                if(!nanabsOutOfStock)
-                                {
-                                    objClient.Encounter.UseItemEncounter(encounterId, ItemId.ItemNanabBerry, spawnpointId);
-                                    Logger.Info($"We used a Nanab Berry. Remaining: {nanabs.Count()}.");
-                                    usedNanabs = true;
-                                    RandomHelper.RandomSleep(50, 200);
+                                    if (nanab == null || nanab.Count < 0)
+                                        nanabsOutOfStock = true;
+        
+                                    if(!nanabsOutOfStock)
+                                    {
+                                        objClient.Encounter.UseItemEncounter(encounterId, ItemId.ItemNanabBerry, spawnpointId);
+                                        Logger.Info($"We used a Nanab Berry. Remaining: {nanabs.Count()}.");
+                                        usedNanabs = true;
+                                        RandomHelper.RandomSleep(50, 200);
+                                    }
                                 }
+                                
+                            } catch (Exception ex1) {
+                                Logger.Debug (""+ex1);
                             }
                         }
                         // limit number of balls wasted by misses and log for UX because fools be tripin                        
