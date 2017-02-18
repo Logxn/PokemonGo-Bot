@@ -249,12 +249,14 @@ namespace PokemonGo.RocketAPI.Rpc
             return families.ToList();
         }
 
-        public EvolvePokemonResponse EvolvePokemon(ulong pokemonId)
+        public EvolvePokemonResponse EvolvePokemon(ulong pokemonId, ItemId item  = ItemId.ItemUnknown)
         {
             var message = new EvolvePokemonMessage
             {
-                PokemonId = pokemonId
+                PokemonId = pokemonId,
             };
+            if (item != ItemId.ItemUnknown)
+                message.EvolutionItemRequirement = item ;
 
             return PostProtoPayload<Request, EvolvePokemonResponse>(RequestType.EvolvePokemon, message);
         }

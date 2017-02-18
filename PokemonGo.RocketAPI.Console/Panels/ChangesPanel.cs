@@ -78,7 +78,7 @@ namespace PokemonGo.RocketAPI.Console
             try
             {
                 typeof(GlobalVars).GetField(globalName).SetValue(null, castedSender.Checked);
-                Logger.ColoredConsoleWrite(tryCatchColor,th.TS("{0} value changed to {1}",castedSender.Tag,castedSender.Checked));
+                Logger.ColoredConsoleWrite(tryCatchColor,th.TS("{0} value changed to {1}",globalName,castedSender.Checked));
             }
             catch (Exception ex)
             {
@@ -119,7 +119,7 @@ namespace PokemonGo.RocketAPI.Console
             }
             try {
                 typeof(GlobalVars).GetField(globalName).SetValue(null,(double) castedSender.Value);
-                Logger.ColoredConsoleWrite(tryCatchColor,castedSender.Text+ " value changed");
+            Logger.ColoredConsoleWrite(tryCatchColor,th.TS("{0} value changed to {1}",globalName,castedSender.Text));
             } catch (Exception ex) {
                 Logger.AddLog("[Exception]: " + ex.ToString());
             }
@@ -137,7 +137,7 @@ namespace PokemonGo.RocketAPI.Console
             }
             try {
                 typeof(GlobalVars).GetField(globalName).SetValue(null,(int) castedSender.Value);
-                Logger.ColoredConsoleWrite(tryCatchColor,castedSender.Text+ " value changed");
+            Logger.ColoredConsoleWrite(tryCatchColor,th.TS("{0} value changed to {1}",globalName,castedSender.Text));
             } catch (Exception ex) {
                 Logger.AddLog("[Exception]: " + ex.ToString());
             }

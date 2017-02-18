@@ -81,10 +81,13 @@ namespace PokemonGo.RocketAPI.Helpers
 
             requestEnvelope.Accuracy = locationFixes[0].Altitude;
             requestEnvelope.MsSinceLastLocationfix = (long)locationFixes[0].TimestampSnapshot;
-             var  at = new Signature.Types.ActivityStatus();
-             at.Stationary = true;
-            if (_client.Platform == POGOProtos.Enums.Platform.Ios)
-                at.Automotive = (TRandomDevice.Next(1,2)==1);
+            var  at = new Signature.Types.ActivityStatus(){
+                Stationary = true
+            };
+
+            
+            if (_client.Platform == Platform.Ios)
+                at.Tilting = (TRandomDevice.Next(1,2)==1);
 
             #region GenerateSignature
             var signature = new Signature {
@@ -107,9 +110,9 @@ namespace PokemonGo.RocketAPI.Helpers
                         GravityZ = GenRandom(9.8),
                         GravityX = GenRandom(0.02),
                         GravityY = GenRandom(0.3),
-/*                        MagneticFieldX = GenRandom(17.950439453125),
-                        MagneticFieldY = GenRandom(-23.36273193359375),
-                        MagneticFieldZ = GenRandom(-48.8250732421875),*/
+                        MagneticFieldX = GenRandom(-10,10),
+                        MagneticFieldY = GenRandom(-10,10),
+                        MagneticFieldZ = GenRandom(-40,-20),
                         MagneticFieldAccuracy = -1,
                         Status = 3
                     }
@@ -190,12 +193,13 @@ namespace PokemonGo.RocketAPI.Helpers
                 }
                 var tmpCourse = -1F;
                 var mpSpeed = 0F;
-                
-                if (_client.Platform == POGOProtos.Enums.Platform.Ios){
-                    tmpCourse = (float)TRandomDevice.NextDouble(0.2,359.1);
-                    mpSpeed = (float)TRandomDevice.NextDouble(0.3,4.2);
+
+
+                if (_client.Platform == Platform.Ios){
+                    tmpCourse = (float)TRandomDevice.NextDouble(100,330);
+                    mpSpeed = (float)TRandomDevice.NextDouble(0.9,2.2);
                 }
-                
+
 
                 locationFixes.Insert(0, new Signature.Types.LocationFix {
                     TimestampSnapshot = (ulong)timestampSnapshot,

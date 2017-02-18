@@ -31,22 +31,24 @@ namespace PokemonGo.RocketAPI.Rpc
         public GetStoreItemsResponse GetStoreItems()
         {
             var plafReques = new RequestEnvelope.Types.PlatformRequest();
-            plafReques.Type =  POGOProtos.Networking.Platform.PlatformRequestType.GetStoreItems;
+            plafReques.Type = POGOProtos.Networking.Platform.PlatformRequestType.GetStoreItems;
             var result = PostProtoPayload<Request, GetStoreItemsResponse>(plafReques);
             return result;
         }
-        
-        /*public BuyItemPokeCoinsResponse BuyItemPokeCoins(string item)
+
+        public BuyItemPokeCoinsResponse BuyItemPokeCoins(string item)
         {
             var message = new BuyItemPokeCoinsRequest() {
                 ItemId = item
             };
 
-            return PostProtoPayload<Request, BuyItemPokeCoinsResponse>(RequestType.BuyItemPack, message);
-        }*/
-        
-        
+            var plafReques = new RequestEnvelope.Types.PlatformRequest() {
+                Type = POGOProtos.Networking.Platform.PlatformRequestType.BuyItemPokecoins,
+                RequestMessage = message.ToByteString()
+            };
+
+            var result = PostProtoPayload<Request, BuyItemPokeCoinsResponse>(plafReques);
+            return result;
+        }
     }
-    
-        
 }

@@ -1375,7 +1375,6 @@ namespace PokemonGo.RocketAPI.Logic
                             return 0;
                         }
 
-                
 
                         if (((probability.Value < BotSettings.razzberry_chance) || escaped) && BotSettings.UseRazzBerry && !used)
                         {
@@ -1396,8 +1395,6 @@ namespace PokemonGo.RocketAPI.Logic
                                     used = true;
 
                                     Logger.Info( $"Thrown {bestBerry}. Remaining: {remaining}.");
-
-                                    
 
                                     RandomHelper.RandomSleep(50, 200);
                                 }
@@ -1420,25 +1417,26 @@ namespace PokemonGo.RocketAPI.Logic
                                 var inventory = objClient.Inventory.GetItems(true);
                                 var pinaps = inventory.Where(p => p.ItemId == ItemId.ItemPinapBerry);
                                 var pinap = pinaps.FirstOrDefault();
-                                var remaining = pinaps.Count() - 1;
-    
-    
-                                if (pinap == null || pinap.Count < 0)
+                                if (pinap == null || pinap.Count < 1)
                                     pinapsOutOfStock = true;
-                                
-    
+
                                 if (!pinapsOutOfStock)
                                 {
                                     // Use a pinap 
-                                    objClient.Encounter.UseItemEncounter(encounterId, ItemId.ItemPinapBerry, spawnpointId);
-                                    Logger.Info($"We used a Pinap Berry. Remaining: {remaining}.");
-                                    RandomHelper.RandomSleep(50, 200);
+                                    var res = objClient.Encounter.UseItemEncounter(encounterId, ItemId.ItemPinapBerry, spawnpointId);
+                                    if (res.Status ==UseItemEncounterResponse.Types.Status.Success){
+                                        var remaining = pinaps.Count() - 1;
+                                        Logger.Info($"We used a Pinap Berry. Remaining: {remaining}.");
+                                    }
+                                    else
+                                        Logger.Info("Status: "+ res.Status);
+                                    RandomHelper.RandomSleep(250);
                                 }
                             } catch (Exception ex1) {
                                 Logger.Debug (""+ex1);
                             }
                         }
-                        
+
                         var r = new Random();
 
                         if(BotSettings.UseNanabBerry && !usedNanabs )
@@ -1449,17 +1447,20 @@ namespace PokemonGo.RocketAPI.Logic
                                     var inventory = objClient.Inventory.GetItems(true);
                                     var nanabs = inventory.Where(p => p.ItemId == ItemId.ItemNanabBerry);
                                     var nanab = nanabs.FirstOrDefault();
-                                    var remaining = nanabs.Count() - 1;
-    
-                                    if (nanab == null || nanab.Count < 0)
+
+                                    if (nanab == null || nanab.Count < 1)
                                         nanabsOutOfStock = true;
-        
+
                                     if(!nanabsOutOfStock)
                                     {
-                                        objClient.Encounter.UseItemEncounter(encounterId, ItemId.ItemNanabBerry, spawnpointId);
-                                        Logger.Info($"We used a Nanab Berry. Remaining: {remaining}.");
-                                        usedNanabs = true;
-                                        RandomHelper.RandomSleep(50, 200);
+                                        var res = objClient.Encounter.UseItemEncounter(encounterId, ItemId.ItemNanabBerry, spawnpointId);
+                                        if (res.Status ==UseItemEncounterResponse.Types.Status.Success){
+                                            var remaining = nanabs.Count() - 1;
+                                            Logger.Info($"We used a Nabab Berry. Remaining: {remaining}.");
+                                        }
+                                        else
+                                            Logger.Info("Status: "+ res.Status);
+                                        RandomHelper.RandomSleep(250);
                                     }
                                 }
                                 

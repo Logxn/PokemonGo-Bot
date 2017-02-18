@@ -109,7 +109,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
             var tries = 1;
             var found = false;
             ulong caught = 0;
-            const double Epsilon = 0.0000005;
+            const double Epsilon = 0.000005;
 
             do{
                 SendToLog($"Try {tries} of {GlobalVars.SnipeOpts.NumTries}");

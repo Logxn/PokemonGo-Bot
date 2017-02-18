@@ -36,7 +36,8 @@ namespace PokemonGo.RocketAPI.Console.Panels
                     Logger.Debug("Before of GetStoreItems");
                     var inventory = client.Store.GetStoreItems().Items;
                     Logger.Debug("After of GetStoreItems");
-                    ListViewItem listViewItem;                   
+                    ListViewItem listViewItem;
+                    listView.Items.Clear();
                     foreach (var item in inventory) {
                         listViewItem = new ListViewItem();
                         listViewItem.Tag = item;
@@ -46,6 +47,7 @@ namespace PokemonGo.RocketAPI.Console.Panels
                         listViewItem.SubItems.Add("" + item.Unknown7);
                         listViewItem.SubItems.Add("" + item.YieldsCurrency);
                         listViewItem.SubItems.Add("" + item.Tags);
+                        listView.Items.Add(listViewItem);
                     }
                 }
             } catch (Exception ex1) {
@@ -54,13 +56,12 @@ namespace PokemonGo.RocketAPI.Console.Panels
         }
         void btnBuy_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Sorry this function is currently unavailable :/", "Sorry...",  MessageBoxButtons.OK, MessageBoxIcon.Information);
-            /*if (listView.SelectedItems.Count > 0) {
+            if (listView.SelectedItems.Count > 0) {
                 var item = (GetStoreItemsResponse.Types.StoreItem)listView.SelectedItems[0].Tag;
                 if (MessageBox.Show(this, th.TS("Buying {0}.", item.ItemId) + th.TS("\nAre you sure you want?"), th.TS("Confirmation Message"), MessageBoxButtons.OKCancel) == DialogResult.OK) {
                     Logic.Logic.objClient.Store.BuyItemPokeCoins(item.ItemId);
                 }
-            }*/
+            }
         }
         void buyToolStripMenuItem_Click(object sender, EventArgs e)
         {

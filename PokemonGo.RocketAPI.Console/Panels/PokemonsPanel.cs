@@ -270,28 +270,33 @@ namespace PokemonGo.RocketAPI.Console
                         var settings = pokemonSettings.Single(x => x.PokemonId == pokemon.PokemonId);
                         var familyCandy = pokemonFamilies.Single(x => settings.FamilyId == x.FamilyId);
 
-                        if (settings.EvolutionIds.Count > 0 && familyCandy.Candy_ >= settings.CandyToEvolve)
+                        listViewItem.SubItems.Add("");
+                        var canEvolve = "N";
+                        var neededCandies = "Max";
+                        listViewItem.SubItems[listViewItem.SubItems.Count - 1].ForeColor = Color.DarkRed;
+                        if (settings.EvolutionIds.Count > 0 )
                         {
-                            listViewItem.SubItems.Add("");
-                            listViewItem.SubItems[listViewItem.SubItems.Count - 1].ForeColor = Color.ForestGreen;
-                            //listViewItem.SubItems[listViewItem.SubItems.Count - 1].Font = new Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold);
-                            listViewItem.SubItems[listViewItem.SubItems.Count - 1].Text = "Y (" + familyCandy.Candy_ + "/" + settings.CandyToEvolve + ")";
-                            listViewItem.Checked = true;
-                        }
-                        else
-                        {
-                            listViewItem.SubItems.Add("");
-                            if (settings.EvolutionIds.Count > 0)
-                            {
-                                listViewItem.SubItems[listViewItem.SubItems.Count - 1].ForeColor = Color.DarkRed;
-                                listViewItem.SubItems[listViewItem.SubItems.Count - 1].Text = "N (" + familyCandy.Candy_ + "/" + settings.CandyToEvolve + ")";
-                            }
-                            else
-                            {
-                                listViewItem.SubItems[listViewItem.SubItems.Count - 1].ForeColor = Color.DarkRed;
-                                listViewItem.SubItems[listViewItem.SubItems.Count - 1].Text = "N (" + familyCandy.Candy_ + "/Max)";
+                            neededCandies = ""+settings.CandyToEvolve;
+                            if ( familyCandy.Candy_ >= settings.CandyToEvolve){
+                                listViewItem.SubItems[listViewItem.SubItems.Count - 1].ForeColor = Color.ForestGreen;
+                                canEvolve = "Y";
+                                listViewItem.Checked = true;
                             }
                         }
+
+                        var strPip = "";
+                        foreach (var element in settings.EvolutionBranch) {
+                            var canEvolve2 = "N";
+                            if ( familyCandy.Candy_ >= element.CandyCost){
+                                //listViewItem.SubItems[listViewItem.SubItems.Count - 1].ForeColor = Color.LightPink;
+                                canEvolve2 = "Y";
+                                listViewItem.Checked = true;
+                            }
+                            strPip = strPip+ $" | {canEvolve2} ({element.CandyCost})";
+                        }
+
+                        listViewItem.SubItems[listViewItem.SubItems.Count - 1].Text = $"{canEvolve} ({familyCandy.Candy_}/{neededCandies}){strPip}";
+
                         listViewItem.SubItems.Add(string.Format("{0}", Math.Round(pokemon.HeightM, 2)));
                         listViewItem.SubItems.Add(string.Format("{0}", Math.Round(pokemon.WeightKg, 2)));
                         listViewItem.SubItems.Add(string.Format("{0}/{1}", pokemon.Stamina, pokemon.StaminaMax));
@@ -437,8 +442,8 @@ namespace PokemonGo.RocketAPI.Console
             string evolvelog = System.IO.Path.Combine(logPath, "EvolveLog.txt");
             int gotXP = 0;
 
-            //var resp = new taskResponse(false, string.Empty);
-            EvolvePokemonResponse resp = new EvolvePokemonResponse();
+            
+            var resp = new EvolvePokemonResponse();
 
             if (GlobalVars.pauseAtEvolve2)
             {
@@ -449,7 +454,8 @@ namespace PokemonGo.RocketAPI.Console
             foreach (ListViewItem selectedItem in selectedItems)
             {
                 var pokemoninfo = (PokemonData)selectedItem.Tag;
-
+                
+                // TODO: Don`t know how to know which item is to evolve each pokemon
                 resp = client.Inventory.EvolvePokemon(pokemoninfo.Id);
 
                 var name = pokemoninfo.PokemonId;
