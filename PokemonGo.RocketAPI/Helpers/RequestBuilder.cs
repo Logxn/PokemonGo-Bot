@@ -1,4 +1,5 @@
-﻿using Google.Protobuf;
+using Google.Protobuf;
+using POGOProtos.Enums;
 using POGOProtos.Networking.Envelopes;
 using POGOProtos.Networking.Platform;
 using POGOProtos.Networking.Platform.Requests;
@@ -34,7 +35,7 @@ namespace PokemonGo.RocketAPI.Helpers
         public RequestBuilder(Client client, string authToken, AuthType authType, double latitude, double longitude, double altitude, AuthTicket authTicket = null)
         {
             if (!setupdevicedone) {
-                _DeviceInfo = new DeviceSetup().setUpDevice();
+                _DeviceInfo = DeviceSetup.SelectedDevice.DeviceInfo;
                 setupdevicedone = true;
             }
 
@@ -80,6 +81,10 @@ namespace PokemonGo.RocketAPI.Helpers
 
             requestEnvelope.Accuracy = locationFixes[0].Altitude;
             requestEnvelope.MsSinceLastLocationfix = (long)locationFixes[0].TimestampSnapshot;
+             var  at = new Signature.Types.ActivityStatus();
+             at.Stationary = true;
+            if (_client.Platform == POGOProtos.Enums.Platform.Ios)
+                at.Automotive = (TRandomDevice.Next(1,2)==1);
 
             #region GenerateSignature
             var signature = new Signature {
@@ -111,14 +116,15 @@ namespace PokemonGo.RocketAPI.Helpers
                 },
                 DeviceInfo = _DeviceInfo,// dInfo,
                 LocationFix = { locationFixes },
-                ActivityStatus = new Signature.Types.ActivityStatus {
-                    Stationary = true
-                }
+                ActivityStatus = at
             };
             #endregion
 
             signature.SessionHash = _sessionHash;
-            signature.Unknown25 = Resources.Api.IOSUnknown25; // TODO: revise all android and IOS sended information
+            
+            //signature.Unknown25 = Resources.Api.AndroidUnknown25;
+            //if (_client.Platform == Platform.Ios)
+            signature.Unknown25 = Resources.Api.IOSUnknown25;
 
             var serializedTicket = requestEnvelope.AuthTicket != null ? requestEnvelope.AuthTicket.ToByteArray() : requestEnvelope.AuthInfo.ToByteArray();
 
@@ -182,6 +188,14 @@ namespace PokemonGo.RocketAPI.Helpers
                     if (timestampSnapshot < 0)
                         timestampSnapshot = 0;
                 }
+                var tmpCourse = -1F;
+                var mpSpeed = 0F;
+                
+                if (_client.Platform == POGOProtos.Enums.Platform.Ios){
+                    tmpCourse = (float)TRandomDevice.NextDouble(0.2,359.1);
+                    mpSpeed = (float)TRandomDevice.NextDouble(0.3,4.2);
+                }
+                
 
                 locationFixes.Insert(0, new Signature.Types.LocationFix {
                     TimestampSnapshot = (ulong)timestampSnapshot,
@@ -193,8 +207,8 @@ namespace PokemonGo.RocketAPI.Helpers
                     Provider = "fused",
                     ProviderStatus = 3,
                     LocationType = 1,
-                    // Speed = ?,
-                    Course = -1,
+                    Speed = mpSpeed,
+                    Course = tmpCourse,
                     // Floor = 0
                 });
             }

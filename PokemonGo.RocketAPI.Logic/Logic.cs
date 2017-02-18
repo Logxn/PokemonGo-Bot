@@ -1430,7 +1430,7 @@ namespace PokemonGo.RocketAPI.Logic
                             {
                                 // Use a pinap 
                                 objClient.Encounter.UseCaptureItem(encounterId, ItemId.ItemPinapBerry, spawnpointId);
-                                Logger.Info($"We used a Pinap Berry. Remaining: {pinaps.Count}.");
+                                Logger.Info($"We used a Pinap Berry. Remaining: {pinaps.Count -1}.");
 
                                 RandomHelper.RandomSleep(50, 200);
                             }

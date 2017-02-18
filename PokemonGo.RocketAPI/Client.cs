@@ -98,9 +98,14 @@ namespace PokemonGo.RocketAPI
             Misc = new Rpc.Misc(this);
             Hasher = new PokeHashHasher(settings.hashKey);
             Store = new PokemonGo.RocketAPI.Rpc.Store(this);
-            Platform = POGOProtos.Enums.Platform.Ios;
+            
+            if (DeviceSetup.SelectedDevice.OSType == "iOS")
+                Platform = POGOProtos.Enums.Platform.Ios;
+            else
+                Platform = POGOProtos.Enums.Platform.Android;
+            
+            Logger.Info("Platform:" +Platform);
 
-            //Player.SetCoordinates(settings.latitude, settings.longitude, settings.altitude);
 
             InventoryLastUpdateTimestamp = 0;
 

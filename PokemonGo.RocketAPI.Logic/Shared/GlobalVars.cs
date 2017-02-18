@@ -185,6 +185,9 @@ namespace PokemonGo.RocketAPI.Logic.Shared
         public static bool UsePinapBerry = false;
 
         public static bool UseNanabBerry = false;
+        
+        public static string DeviceTradeName ="";
+        public static string DeviceID ="";
 
         /// <summary>
         /// Copy all values from ProfileSettings to GlobalVars.

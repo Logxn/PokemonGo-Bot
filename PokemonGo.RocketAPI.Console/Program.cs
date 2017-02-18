@@ -1,4 +1,5 @@
 using PokemonGo.RocketAPI.Console.Helper;
+using PokemonGo.RocketAPI.Helpers;
 using PokemonGo.RocketAPI.HttpClient;
 using PokemonGo.RocketAPI.Logic.Shared;
 using PokemonGo.RocketAPI.Logic.Utils;
@@ -27,6 +28,7 @@ namespace PokemonGo.RocketAPI.Console
         public static string LastCoordsTXTFileName = Path.Combine(path, "LastCoords.txt");
         public static string huntstats = Path.Combine(path, "HuntStats.txt");
         public static string deviceSettings = Path.Combine(path_device, "DeviceInfo.txt");
+        public static string deviceData = Path.Combine(path_device, "DeviceData.json");
         public static string cmdCoords = string.Empty;
         public static string accountProfiles = Path.Combine(path, "Profiles.txt");
         static string logPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Logs");
@@ -210,6 +212,7 @@ namespace PokemonGo.RocketAPI.Console
                {
                     try
                     {
+                        DeviceSetup.SelectDevice(GlobalVars.DeviceTradeName, GlobalVars.DeviceID, deviceData);
                         new Logic.Logic(new Settings(), GlobalVars.infoObservable).Execute();
                     }
                     catch (Exception ex)

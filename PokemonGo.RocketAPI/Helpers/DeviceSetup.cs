@@ -1,91 +1,122 @@
-﻿using System;
+﻿/*
+ * Created by SharpDevelop.
+ * User: Xelwon
+ * Date: 17/02/2017
+ * Time: 22:39
+ * 
+ * To change this template use Tools | Options | Coding | Edit Standard Headers.
+ */
+using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static POGOProtos.Networking.Envelopes.Signature.Types;
+using System.Net;
+using Newtonsoft.Json;
+using POGOProtos.Networking.Envelopes;
 
 namespace PokemonGo.RocketAPI.Helpers
 {
-    class DeviceSetup
+    /// <summary>
+    /// Description of DeviceData.
+    /// </summary>
+    public class DeviceSetup
     {
-        // Reads last setup device (a file generated on last run)
-        public static string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Device");
-        public static string deviceinfo = Path.Combine(path, "DeviceInfo.txt");
-
-        public DeviceInfo setUpDevice()
-        {
-            DeviceInfo _device = new DeviceInfo();
-
-            string[] arrLine ={"lg-optimus-g",""};
-
-            if (File.Exists(deviceinfo))
-                File.ReadAllLines(deviceinfo);
-
-            string DevicePackageName = arrLine[0].ToString();
-            // Read DeviceID of File
-            if (arrLine[1].ToString() != " ")
-            {
-                _device.DeviceId = arrLine[1].ToString();
-            }
-            else
-            {
-                _device.DeviceId = GenerateRandomDeviceId();
-                // Save to file
-                string[] b = { DevicePackageName, _device.DeviceId };
-
-                File.WriteAllLines(deviceinfo, b);
-            }
-
-            // Setuprest
-            _device.AndroidBoardName = DeviceInfoHelper.DeviceInfoSets[DevicePackageName]["AndroidBoardName"];
-            _device.AndroidBootloader = DeviceInfoHelper.DeviceInfoSets[DevicePackageName]["AndroidBootloader"];
-            _device.DeviceBrand = DeviceInfoHelper.DeviceInfoSets[DevicePackageName]["DeviceBrand"];
-            _device.DeviceModel = DeviceInfoHelper.DeviceInfoSets[DevicePackageName]["DeviceModel"];
-            _device.DeviceModelBoot = DeviceInfoHelper.DeviceInfoSets[DevicePackageName]["DeviceModelBoot"];
-            _device.DeviceModelIdentifier = DeviceInfoHelper.DeviceInfoSets[DevicePackageName]["DeviceModelIdentifier"];
-            _device.FirmwareBrand = DeviceInfoHelper.DeviceInfoSets[DevicePackageName]["FirmwareBrand"];
-            _device.FirmwareFingerprint = DeviceInfoHelper.DeviceInfoSets[DevicePackageName]["FirmwareFingerprint"];
-            _device.FirmwareTags = DeviceInfoHelper.DeviceInfoSets[DevicePackageName]["FirmwareTags"];
-            _device.FirmwareType = DeviceInfoHelper.DeviceInfoSets[DevicePackageName]["FirmwareType"];
-            _device.HardwareManufacturer = DeviceInfoHelper.DeviceInfoSets[DevicePackageName]["HardwareManufacturer"];
-            _device.HardwareModel = DeviceInfoHelper.DeviceInfoSets[DevicePackageName]["HardwareModel"];
-
-            return _device;
-            //setupdevicedone = true;
+        public static DeviceInfoEx SelectedDevice {
+            get;
+            set;
         }
 
-        public static string BytesToHex(byte[] bytes)
+        public static void SelectDevice(string deviceTradeName, string deviceID, string filename)
         {
-            char[] hexArray = "0123456789abcdef".ToCharArray();
-            char[] hexChars = new char[bytes.Length * 2];
-            for (int index = 0; index < bytes.Length; index++)
-            {
-                int var = bytes[index] & 0xFF;
-                hexChars[index * 2] = hexArray[(int)((uint)var >> 4)];
-                hexChars[index * 2 + 1] = hexArray[var & 0x0F];
+            var instance = new DeviceSetup(filename);
+            SelectedDevice = instance.FindDevice(deviceTradeName);
+            if (SelectedDevice != null){
+                SelectedDevice.DeviceInfo.DeviceId = deviceID;
             }
-            return new string(hexChars).ToLower();
+        }
+        public List<DeviceInfoEx> data{get;set;}
+
+        public DeviceSetup(string filename)
+        {
+            LoadFromFile(filename);
         }
 
-        private static string GenerateRandomDeviceId(long numBytes = 16)
+        public class DeviceInfoEx
         {
-            var bytes = new byte[numBytes];
-            new Random().NextBytes(bytes);
-            return BytesToHex(bytes);
+            public string Tradename {get;set;}
+            public string OSType {get;set;}
+            public Signature.Types.DeviceInfo DeviceInfo {get;set;}
+
+        }
+        public void LoadFromFile(string filename){
+            if (File.Exists(filename)) {
+                var strJSON = File.ReadAllText(filename);
+                data = JsonConvert.DeserializeObject<List<DeviceInfoEx>>(strJSON);
+            }else
+                LoadDefaultDevices();
         }
 
-        public static DeviceInfo GetRandomIosDevice()
+        public void SaveToFile(string filename)
         {
-            DeviceInfo deviceInfo = new DeviceInfo();
+            var strJSON = JsonConvert.SerializeObject(data, Formatting.Indented);
+            File.WriteAllText(filename, strJSON);
+        }
 
-            // iOS device id (UDID) are 16 bytes long.
-            var bytes = new byte[16];
-            new Random().NextBytes(bytes);
-            var deviceId = BytesToHex(bytes);
+        public void LoadDefaultDevices()
+        {
+            data = new List<DeviceInfoEx>();
+            DeviceInfoEx dev =  null; 
+            
+            // Android
+            foreach (KeyValuePair<string, Dictionary<string, string>> entry in DeviceInfoHelper.DeviceInfoSets ) {
+                dev = new DeviceInfoEx();
+                dev.Tradename = entry.Key;
+                dev.OSType = "Android";
+                dev.DeviceInfo = new Signature.Types.DeviceInfo();
+                dev.DeviceInfo.DeviceId = RandomDeviceId();
+                dev.DeviceInfo.AndroidBoardName = entry.Value["AndroidBoardName"];
+                dev.DeviceInfo.AndroidBootloader = entry.Value["AndroidBootloader"];
+                dev.DeviceInfo.DeviceBrand = entry.Value["DeviceBrand"];
+                dev.DeviceInfo.DeviceModel = entry.Value["DeviceModel"];
+                dev.DeviceInfo.DeviceModelBoot = entry.Value["DeviceModelBoot"];
+                dev.DeviceInfo.FirmwareBrand = entry.Value["FirmwareBrand"];
+                dev.DeviceInfo.FirmwareFingerprint = entry.Value["FirmwareFingerprint"];
+                dev.DeviceInfo.FirmwareTags = entry.Value["FirmwareTags"];
+                dev.DeviceInfo.FirmwareType = entry.Value["FirmwareType"];
+                dev.DeviceInfo.HardwareManufacturer = entry.Value["HardwareManufacturer"];
+                dev.DeviceInfo.HardwareModel = entry.Value["HardwareModel"];
+                data.Add(dev);
+            }
+            
+            // IOS
+            dev = new DeviceInfoEx();
+            dev.Tradename = "iPhone 7";
+            dev.OSType = "iOS";
+            dev.DeviceInfo = new Signature.Types.DeviceInfo();
+            dev.DeviceInfo.DeviceId = RandomDeviceId();
+            dev.DeviceInfo.DeviceBrand = "Apple";
+            dev.DeviceInfo.DeviceModel = "iPhone";
+            dev.DeviceInfo.DeviceModelBoot = "iPhone7,2";
+            dev.DeviceInfo.FirmwareBrand = "iPhone OS";
+            dev.DeviceInfo.FirmwareType = "9.3.3";
+            dev.DeviceInfo.HardwareModel = "N61AP";
+            dev.DeviceInfo.HardwareManufacturer = "Apple";
+            data.Add(dev);
+        }
 
-            deviceInfo.DeviceId = deviceId;
+        public static string RandomDeviceId(int numBytes = 16)
+        {
+            var r = new Random();
+            var str = "";
+            for (var i = 0; i<numBytes;i++)
+                str += r.Next(1,16).ToString("x");
+            return str;
+        }
+
+        public static Signature.Types.DeviceInfo GetRandomIosDevice()
+        {
+            var deviceInfo = new Signature.Types.DeviceInfo();
+
+            deviceInfo.DeviceId = RandomDeviceId();
             deviceInfo.FirmwareType = DeviceInfoHelper.IosVersions[new Random().Next(DeviceInfoHelper.IosVersions.Length)];
             string[] device = DeviceInfoHelper.IosDeviceInfo[new Random().Next(DeviceInfoHelper.IosDeviceInfo.Length)];
             deviceInfo.DeviceModelBoot = device[0];
@@ -97,6 +128,14 @@ namespace PokemonGo.RocketAPI.Helpers
             deviceInfo.HardwareManufacturer = "Apple";
 
             return deviceInfo;
+        }
+
+        public DeviceInfoEx FindDevice( string tradename){
+            foreach (var element in data) {
+               if (element.Tradename == tradename)
+                   return element;
+            }
+            return null;
         }
 
     }

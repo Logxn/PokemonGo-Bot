@@ -10,6 +10,7 @@ using System.Globalization;
 using POGOProtos.Data;
 using POGOProtos.Enums;
 using POGOProtos.Networking.Responses;
+using PokemonGo.RocketAPI.Console.Helper;
 using PokemonGo.RocketAPI.Console.PokeData;
 using PokemonGo.RocketAPI.Enums;
 using PokemonGo.RocketAPI.Helpers;
@@ -349,7 +350,7 @@ namespace PokemonGo.RocketAPI.Console
         private static bool LoadLinks()
         {
             if (!File.Exists(linksFile)){
-                DownloadFile("PokemonGo.RocketAPI.Console/Resources",Program.path,linksFileName);
+                DownloadHelper.DownloadFile("PokemonGo.RocketAPI.Console/Resources",Program.path,linksFileName);
             }
             if (File.Exists(linksFile)){
                 links = JsonConvert.DeserializeObject<Components.HRefLink[]>(File.ReadAllText(linksFile));
@@ -357,25 +358,5 @@ namespace PokemonGo.RocketAPI.Console
             }
             return false;
         }
-
-        private static void DownloadFile(string remoteDir, string outDir, string name)
-        {
-            if (!Directory.Exists(outDir))
-                Directory.CreateDirectory(outDir);
-
-            var filename = Path.Combine(outDir, name);
-            if (!File.Exists(filename))
-            {
-                try {
-                    using (var wC = new WebClient())
-                    {
-                         wC.DownloadFile("https://raw.githubusercontent.com/Logxn/PokemonGo-Bot/master/"+remoteDir+"/"+name,filename);
-                         if (File.ReadAllText(filename) == "")
-                             File.Delete(filename);
-                    }
-                } catch  {
-                }
-            }
-        }        
     }
 }

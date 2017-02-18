@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using static POGOProtos.Networking.Envelopes.Signature.Types;
 
-namespace PokemonGo.RocketAPI
+namespace PokemonGo.RocketAPI.Helpers
 {
     public static class DeviceInfoHelper
     {

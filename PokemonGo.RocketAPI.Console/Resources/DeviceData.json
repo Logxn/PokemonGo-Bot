@@ -1,0 +1,515 @@
+[
+  {
+    "Tradename": "lg-optimus-g",
+    "OSType": "Android",
+    "DeviceInfo": {
+      "DeviceId": "d9ec71a7bb96a35b",
+      "AndroidBoardName": "geehrc",
+      "AndroidBootloader": "MAKOZ10f",
+      "DeviceBrand": "LGE",
+      "DeviceModel": "LG-LS970",
+      "DeviceModelIdentifier": "",
+      "DeviceModelBoot": "qcom",
+      "HardwareManufacturer": "LGE",
+      "HardwareModel": "LG-LS970",
+      "FirmwareBrand": "cm_ls970",
+      "FirmwareTags": "test-keys",
+      "FirmwareType": "userdebug",
+      "FirmwareFingerprint": "google/occam/mako:4.2.2/JDQ39/573038:user/release-keys"
+    }
+  },
+  {
+    "Tradename": "nexus7gen2",
+    "OSType": "Android",
+    "DeviceInfo": {
+      "DeviceId": "d9ec71a7bb96a35b",
+      "AndroidBoardName": "flo",
+      "AndroidBootloader": "FLO-04.07",
+      "DeviceBrand": "google",
+      "DeviceModel": "Nexus 7",
+      "DeviceModelIdentifier": "",
+      "DeviceModelBoot": "qcom",
+      "HardwareManufacturer": "asus",
+      "HardwareModel": "Nexus 7",
+      "FirmwareBrand": "razor",
+      "FirmwareTags": "release-keys",
+      "FirmwareType": "user",
+      "FirmwareFingerprint": "google/razor/flo:6.0.1/MOB30P/2960889:user/release-keys"
+    }
+  },
+  {
+    "Tradename": "nexus7gen1",
+    "OSType": "Android",
+    "DeviceInfo": {
+      "DeviceId": "d9ec71a7bb96a35b",
+      "AndroidBoardName": "grouper",
+      "AndroidBootloader": "4.23",
+      "DeviceBrand": "google",
+      "DeviceModel": "Nexus 7",
+      "DeviceModelIdentifier": "",
+      "DeviceModelBoot": "qcom",
+      "HardwareManufacturer": "asus",
+      "HardwareModel": "Nexus 7",
+      "FirmwareBrand": "nakasi",
+      "FirmwareTags": "release-keys",
+      "FirmwareType": "user",
+      "FirmwareFingerprint": "google/nakasi/grouper:5.1.1/LMY47V/1836172:user/release-keys"
+    }
+  },
+  {
+    "Tradename": "htc10",
+    "OSType": "Android",
+    "DeviceInfo": {
+      "DeviceId": "d9ec71a7bb96a35b",
+      "AndroidBoardName": "msm8996",
+      "AndroidBootloader": "1.0.0.0000",
+      "DeviceBrand": "HTC",
+      "DeviceModel": "HTC 10",
+      "DeviceModelIdentifier": "",
+      "DeviceModelBoot": "qcom",
+      "HardwareManufacturer": "HTC",
+      "HardwareModel": "HTC 10",
+      "FirmwareBrand": "pmewl_00531",
+      "FirmwareTags": "release-keys",
+      "FirmwareType": "user",
+      "FirmwareFingerprint": "htc/pmewl_00531/htc_pmewl:6.0.1/MMB29M/770927.1:user/release-keys"
+    }
+  },
+  {
+    "Tradename": "galaxy6",
+    "OSType": "Android",
+    "DeviceInfo": {
+      "DeviceId": "d9ec71a7bb96a35b",
+      "AndroidBoardName": "universal7420",
+      "AndroidBootloader": "G920FXXU3DPEK",
+      "DeviceBrand": "samsung",
+      "DeviceModel": "zeroflte",
+      "DeviceModelIdentifier": "",
+      "DeviceModelBoot": "qcom",
+      "HardwareManufacturer": "samsung",
+      "HardwareModel": "samsungexynos7420",
+      "FirmwareBrand": "zerofltexx",
+      "FirmwareTags": "dev-keys",
+      "FirmwareType": "user",
+      "FirmwareFingerprint": "samsung/zerofltexx/zeroflte:6.0.1/MMB29K/G920FXXU3DPEK:user/release-keys"
+    }
+  },
+  {
+    "Tradename": "galaxy-s5-gold",
+    "OSType": "Android",
+    "DeviceInfo": {
+      "DeviceId": "d9ec71a7bb96a35b",
+      "AndroidBoardName": "MSM8974",
+      "AndroidBootloader": "G900FXXU1CPEH",
+      "DeviceBrand": "samsung",
+      "DeviceModel": "SM-G900F",
+      "DeviceModelIdentifier": "",
+      "DeviceModelBoot": "qcom",
+      "HardwareManufacturer": "samsung",
+      "HardwareModel": "SM-G900F",
+      "FirmwareBrand": "kltexx",
+      "FirmwareTags": "release-keys",
+      "FirmwareType": "user",
+      "FirmwareFingerprint": "samsung/kltexx/klte:6.0.1/MMB29M/G900FXXU1CPEH:user/release-keys"
+    }
+  },
+  {
+    "Tradename": "lg-optimus-f6",
+    "OSType": "Android",
+    "DeviceInfo": {
+      "DeviceId": "d9ec71a7bb96a35b",
+      "AndroidBoardName": "f6t",
+      "AndroidBootloader": "1.0.0.0000",
+      "DeviceBrand": "lge",
+      "DeviceModel": "LG-D500",
+      "DeviceModelIdentifier": "",
+      "DeviceModelBoot": "qcom",
+      "HardwareManufacturer": "LGE",
+      "HardwareModel": "LG-D500",
+      "FirmwareBrand": "f6_tmo_us",
+      "FirmwareTags": "release-keys",
+      "FirmwareType": "user",
+      "FirmwareFingerprint": "lge/f6_tmo_us/f6:4.1.2/JZO54K/D50010h.1384764249:user/release-keys"
+    }
+  },
+  {
+    "Tradename": "nexus-5x",
+    "OSType": "Android",
+    "DeviceInfo": {
+      "DeviceId": "d9ec71a7bb96a35b",
+      "AndroidBoardName": "bullhead",
+      "AndroidBootloader": "BHZ10k",
+      "DeviceBrand": "google",
+      "DeviceModel": "Nexus 5X",
+      "DeviceModelIdentifier": "",
+      "DeviceModelBoot": "qcom",
+      "HardwareManufacturer": "LGE",
+      "HardwareModel": "Nexus 5X",
+      "FirmwareBrand": "bullhead",
+      "FirmwareTags": "release-keys",
+      "FirmwareType": "user",
+      "FirmwareFingerprint": "google/bullhead/bullhead:6.0.1/MTC19T/2741993:user/release-keys"
+    }
+  },
+  {
+    "Tradename": "galaxy-s7-edge",
+    "OSType": "Android",
+    "DeviceInfo": {
+      "DeviceId": "d9ec71a7bb96a35b",
+      "AndroidBoardName": "msm8996",
+      "AndroidBootloader": "G935TUVU3APG1",
+      "DeviceBrand": "samsung",
+      "DeviceModel": "SM-G935T",
+      "DeviceModelIdentifier": "",
+      "DeviceModelBoot": "qcom",
+      "HardwareManufacturer": "samsung",
+      "HardwareModel": "SM-G935T",
+      "FirmwareBrand": "hero2qltetmo",
+      "FirmwareTags": "release-keys",
+      "FirmwareType": "user",
+      "FirmwareFingerprint": "samsung/hero2qltetmo/hero2qltetmo:6.0.1/MMB29M/G935TUVU3APG1:user/release-keys"
+    }
+  },
+  {
+    "Tradename": "asus-zenfone2",
+    "OSType": "Android",
+    "DeviceInfo": {
+      "DeviceId": "d9ec71a7bb96a35b",
+      "AndroidBoardName": "moorefield",
+      "AndroidBootloader": "",
+      "DeviceBrand": "asus",
+      "DeviceModel": "ASUS_Z00AD",
+      "DeviceModelIdentifier": "",
+      "DeviceModelBoot": "qcom",
+      "HardwareManufacturer": "asus",
+      "HardwareModel": "ASUS_Z00AD",
+      "FirmwareBrand": "WW_Z00A",
+      "FirmwareTags": "release-keys",
+      "FirmwareType": "user",
+      "FirmwareFingerprint": "asus/WW_Z00A/Z00A_1:5.0/LRX21V/2.20.40.194_20160713_6971_user:user/release-keys"
+    }
+  },
+  {
+    "Tradename": "xperia-z5",
+    "OSType": "Android",
+    "DeviceInfo": {
+      "DeviceId": "d9ec71a7bb96a35b",
+      "AndroidBoardName": "msm8994",
+      "AndroidBootloader": "s1",
+      "DeviceBrand": "Sony",
+      "DeviceModel": "E6653",
+      "DeviceModelIdentifier": "",
+      "DeviceModelBoot": "qcom",
+      "HardwareManufacturer": "Sony",
+      "HardwareModel": "E6653",
+      "FirmwareBrand": "E6653",
+      "FirmwareTags": "release-keys",
+      "FirmwareType": "user",
+      "FirmwareFingerprint": "Sony/E6653/E6653:6.0.1/32.2.A.0.224/456768306:user/release-keys"
+    }
+  },
+  {
+    "Tradename": "galaxy-s4",
+    "OSType": "Android",
+    "DeviceInfo": {
+      "DeviceId": "d9ec71a7bb96a35b",
+      "AndroidBoardName": "MSM8960",
+      "AndroidBootloader": "I337MVLUGOH1",
+      "DeviceBrand": "samsung",
+      "DeviceModel": "SGH-I337M",
+      "DeviceModelIdentifier": "",
+      "DeviceModelBoot": "qcom",
+      "HardwareManufacturer": "samsung",
+      "HardwareModel": "SGH-I337M",
+      "FirmwareBrand": "jfltevl",
+      "FirmwareTags": "release-keys",
+      "FirmwareType": "user",
+      "FirmwareFingerprint": "samsung/jfltevl/jfltecan:5.0.1/LRX22C/I337MVLUGOH1:user/release-keys"
+    }
+  },
+  {
+    "Tradename": "nexus-6p",
+    "OSType": "Android",
+    "DeviceInfo": {
+      "DeviceId": "d9ec71a7bb96a35b",
+      "AndroidBoardName": "angler",
+      "AndroidBootloader": "angler-03.52",
+      "DeviceBrand": "google",
+      "DeviceModel": "Nexus 6P",
+      "DeviceModelIdentifier": "",
+      "DeviceModelBoot": "qcom",
+      "HardwareManufacturer": "Huawei",
+      "HardwareModel": "Nexus 6P",
+      "FirmwareBrand": "angler",
+      "FirmwareTags": "release-keys",
+      "FirmwareType": "user",
+      "FirmwareFingerprint": "google/angler/angler:6.0.1/MTC19X/2960136:user/release-keys"
+    }
+  },
+  {
+    "Tradename": "sony-z3-compact",
+    "OSType": "Android",
+    "DeviceInfo": {
+      "DeviceId": "d9ec71a7bb96a35b",
+      "AndroidBoardName": "MSM8974",
+      "AndroidBootloader": "s1",
+      "DeviceBrand": "docomo",
+      "DeviceModel": "SO-02G",
+      "DeviceModelIdentifier": "",
+      "DeviceModelBoot": "qcom",
+      "HardwareManufacturer": "Sony",
+      "HardwareModel": "SO-02G",
+      "FirmwareBrand": "SO-02G",
+      "FirmwareTags": "release-keys",
+      "FirmwareType": "user",
+      "FirmwareFingerprint": "docomo/SO-02G/SO-02G:5.0.2/23.1.B.1.317/2161656255:user/release-keys"
+    }
+  },
+  {
+    "Tradename": "lg-v10",
+    "OSType": "Android",
+    "DeviceInfo": {
+      "DeviceId": "d9ec71a7bb96a35b",
+      "AndroidBoardName": "MSM8992",
+      "AndroidBootloader": "",
+      "DeviceBrand": "LG",
+      "DeviceModel": "V10",
+      "DeviceModelIdentifier": "",
+      "DeviceModelBoot": "qcom",
+      "HardwareManufacturer": "LG",
+      "HardwareModel": "V10",
+      "FirmwareBrand": "pplus",
+      "FirmwareTags": "test-keys",
+      "FirmwareType": "eng",
+      "FirmwareFingerprint": "LG/pplus/pplus:5.1.1/LYZ28J/kasp3rd02071120:eng/test-keys"
+    }
+  },
+  {
+    "Tradename": "galaxy-tab3",
+    "OSType": "Android",
+    "DeviceInfo": {
+      "DeviceId": "d9ec71a7bb96a35b",
+      "AndroidBoardName": "smdk4x12",
+      "AndroidBootloader": "T310UEUCOI1",
+      "DeviceBrand": "samsung",
+      "DeviceModel": "SM-T310",
+      "DeviceModelIdentifier": "",
+      "DeviceModelBoot": "qcom",
+      "HardwareManufacturer": "samsung",
+      "HardwareModel": "SM-T310",
+      "FirmwareBrand": "lt01wifiue",
+      "FirmwareTags": "release-keys",
+      "FirmwareType": "user",
+      "FirmwareFingerprint": "samsung/lt01wifiue/lt01wifi:4.4.2/KOT49H/T310UEUCOI1:user/release-keys"
+    }
+  },
+  {
+    "Tradename": "lg-g4",
+    "OSType": "Android",
+    "DeviceInfo": {
+      "DeviceId": "d9ec71a7bb96a35b",
+      "AndroidBoardName": "msm8992",
+      "AndroidBootloader": "",
+      "DeviceBrand": "lge",
+      "DeviceModel": "VS986",
+      "DeviceModelIdentifier": "",
+      "DeviceModelBoot": "qcom",
+      "HardwareManufacturer": "LGE",
+      "HardwareModel": "VS986",
+      "FirmwareBrand": "p1_vzw",
+      "FirmwareTags": "release-keys",
+      "FirmwareType": "user",
+      "FirmwareFingerprint": "lge/p1_vzw/p1:5.1/LMY47D/151541507ff1b:user/release-keys"
+    }
+  },
+  {
+    "Tradename": "nexus5",
+    "OSType": "Android",
+    "DeviceInfo": {
+      "DeviceId": "d9ec71a7bb96a35b",
+      "AndroidBoardName": "hammerhead",
+      "AndroidBootloader": "HHZ20b",
+      "DeviceBrand": "google",
+      "DeviceModel": "Nexus 5",
+      "DeviceModelIdentifier": "",
+      "DeviceModelBoot": "qcom",
+      "HardwareManufacturer": "LGE",
+      "HardwareModel": "Nexus 5",
+      "FirmwareBrand": "hammerhead",
+      "FirmwareTags": "release-keys",
+      "FirmwareType": "user",
+      "FirmwareFingerprint": "google/hammerhead/hammerhead:6.0.1/MOB30M/2862625:user/release-keys"
+    }
+  },
+  {
+    "Tradename": "xoom",
+    "OSType": "Android",
+    "DeviceInfo": {
+      "DeviceId": "d9ec71a7bb96a35b",
+      "AndroidBoardName": "",
+      "AndroidBootloader": "1050",
+      "DeviceBrand": "motorola",
+      "DeviceModel": "Xoom",
+      "DeviceModelIdentifier": "",
+      "DeviceModelBoot": "qcom",
+      "HardwareManufacturer": "Motorola",
+      "HardwareModel": "Xoom",
+      "FirmwareBrand": "tervigon",
+      "FirmwareTags": "test-keys",
+      "FirmwareType": "userdebug",
+      "FirmwareFingerprint": "motorola/tervigon/wingray:4.1.2/JZO54K/485486:user/release-keys"
+    }
+  },
+  {
+    "Tradename": "galaxy-note-edge",
+    "OSType": "Android",
+    "DeviceInfo": {
+      "DeviceId": "d9ec71a7bb96a35b",
+      "AndroidBoardName": "APQ8084",
+      "AndroidBootloader": "N915W8VLU1CPE2",
+      "DeviceBrand": "samsung",
+      "DeviceModel": "SM-N915W8",
+      "DeviceModelIdentifier": "",
+      "DeviceModelBoot": "qcom",
+      "HardwareManufacturer": "samsung",
+      "HardwareModel": "SM-N915W8",
+      "FirmwareBrand": "tbltecan",
+      "FirmwareTags": "release-keys",
+      "FirmwareType": "user",
+      "FirmwareFingerprint": "samsung/tbltecan/tbltecan:6.0.1/MMB29M/N915W8VLU1CPE2:user/release-keys"
+    }
+  },
+  {
+    "Tradename": "amazon-fire-cm12",
+    "OSType": "Android",
+    "DeviceInfo": {
+      "DeviceId": "d9ec71a7bb96a35b",
+      "AndroidBoardName": "ford",
+      "AndroidBootloader": "",
+      "DeviceBrand": "google",
+      "DeviceModel": "KFFOWI",
+      "DeviceModelIdentifier": "",
+      "DeviceModelBoot": "qcom",
+      "HardwareManufacturer": "amzn",
+      "HardwareModel": "KFFOWI",
+      "FirmwareBrand": "cm_ford",
+      "FirmwareTags": "test-keys",
+      "FirmwareType": "userdebug",
+      "FirmwareFingerprint": "google/cm_ford/ford:5.1.1/LMY48Y/ba503d5e70:userdebug/test-keys"
+    }
+  },
+  {
+    "Tradename": "nexus4-chroma",
+    "OSType": "Android",
+    "DeviceInfo": {
+      "DeviceId": "d9ec71a7bb96a35b",
+      "AndroidBoardName": "MAKO",
+      "AndroidBootloader": "MAKOZ30f",
+      "DeviceBrand": "google",
+      "DeviceModel": "Nexus 4",
+      "DeviceModelIdentifier": "",
+      "DeviceModelBoot": "qcom",
+      "HardwareManufacturer": "LGE",
+      "HardwareModel": "Nexus 4",
+      "FirmwareBrand": "occam",
+      "FirmwareTags": "test-keys",
+      "FirmwareType": "userdebug",
+      "FirmwareFingerprint": "google/occam/mako:6.0.1/MOB30Y/3067468:user/release-keys"
+    }
+  },
+  {
+    "Tradename": "melrose-s9",
+    "OSType": "Android",
+    "DeviceInfo": {
+      "DeviceId": "d9ec71a7bb96a35b",
+      "AndroidBoardName": "g15",
+      "AndroidBootloader": "",
+      "DeviceBrand": "alps",
+      "DeviceModel": "MELROSE S9",
+      "DeviceModelIdentifier": "",
+      "DeviceModelBoot": "mtk",
+      "HardwareManufacturer": "alps",
+      "HardwareModel": "MELROSE S9",
+      "FirmwareBrand": "g15",
+      "FirmwareTags": "release-keys",
+      "FirmwareType": "user",
+      "FirmwareFingerprint": "alps/g15/g15:4.4.2/KOT49H/:user/release-keys"
+    }
+  },
+  {
+    "Tradename": "yureka",
+    "OSType": "Android",
+    "DeviceInfo": {
+      "DeviceId": "d9ec71a7bb96a35b",
+      "AndroidBoardName": "MSM8916",
+      "AndroidBootloader": "tomato-12-gf7e8024",
+      "DeviceBrand": "YU",
+      "DeviceModel": "AO5510",
+      "DeviceModelIdentifier": "",
+      "DeviceModelBoot": "qcom",
+      "HardwareManufacturer": "YU",
+      "HardwareModel": "AO5510",
+      "FirmwareBrand": "YUREKA",
+      "FirmwareTags": "test-keys",
+      "FirmwareType": "userdebug",
+      "FirmwareFingerprint": "YU/YUREKA/YUREKA:5.0.2/LRX22G/YNG1TAS1K0:user/release-keys"
+    }
+  },
+  {
+    "Tradename": "note3",
+    "OSType": "Android",
+    "DeviceInfo": {
+      "DeviceId": "d9ec71a7bb96a35b",
+      "AndroidBoardName": "MSM8974",
+      "AndroidBootloader": "N900PVPUEOK2",
+      "DeviceBrand": "samsung",
+      "DeviceModel": "SM-N900P",
+      "DeviceModelIdentifier": "",
+      "DeviceModelBoot": "qcom",
+      "HardwareManufacturer": "samsung",
+      "HardwareModel": "SM-N900P",
+      "FirmwareBrand": "cm_hltespr",
+      "FirmwareTags": "test-keys",
+      "FirmwareType": "user",
+      "FirmwareFingerprint": "samsung/hltespr/hltespr:5.0/LRX21V/N900PVPUEOH1:user/release-keys"
+    }
+  },
+  {
+    "Tradename": "galaxy-tab-s84",
+    "OSType": "Android",
+    "DeviceInfo": {
+      "DeviceId": "d9ec71a7bb96a35b",
+      "AndroidBoardName": "universal5420",
+      "AndroidBootloader": "T705XXU1BOL2",
+      "DeviceBrand": "samsung",
+      "DeviceModel": "Samsung Galaxy Tab S 8.4 LTE",
+      "DeviceModelIdentifier": "",
+      "DeviceModelBoot": "universal5420",
+      "HardwareManufacturer": "samsung",
+      "HardwareModel": "SM-T705",
+      "FirmwareBrand": "Samsung Galaxy Tab S 8.4 LTE",
+      "FirmwareTags": "release-keys",
+      "FirmwareType": "user",
+      "FirmwareFingerprint": "samsung/klimtltexx/klimtlte:5.0.2/LRX22G/T705XXU1BOL2:user/release-keys"
+    }
+  },
+  {
+    "Tradename": "iPhone 7",
+    "OSType": "iOS",
+    "DeviceInfo": {
+      "DeviceId": "d9ec71a7bb96a35b",
+      "AndroidBoardName": "",
+      "AndroidBootloader": "",
+      "DeviceBrand": "Apple",
+      "DeviceModel": "iPhone",
+      "DeviceModelIdentifier": "",
+      "DeviceModelBoot": "iPhone7,2",
+      "HardwareManufacturer": "Apple",
+      "HardwareModel": "N61AP",
+      "FirmwareBrand": "iPhone OS",
+      "FirmwareTags": "",
+      "FirmwareType": "9.3.3",
+      "FirmwareFingerprint": ""
+    }
+  }
+]

@@ -255,6 +255,7 @@ namespace PokemonGo.RocketAPI.Console
 		    this.num_MaxNanabBerrys.Name = "num_MaxNanabBerrys";
 		    this.num_MaxNanabBerrys.Size = new System.Drawing.Size(64, 20);
 		    this.num_MaxNanabBerrys.TabIndex = 40;
+		    this.num_MaxNanabBerrys.ValueChanged += new System.EventHandler(this.num_Max);
 		    // 
 		    // pictureBoxPina
 		    // 
@@ -288,6 +289,7 @@ namespace PokemonGo.RocketAPI.Console
 		    this.num_MaxPinapBerrys.Name = "num_MaxPinapBerrys";
 		    this.num_MaxPinapBerrys.Size = new System.Drawing.Size(64, 20);
 		    this.num_MaxPinapBerrys.TabIndex = 37;
+		    this.num_MaxPinapBerrys.ValueChanged += new System.EventHandler(this.num_Max);
 		    // 
 		    // pictureBox9
 		    // 

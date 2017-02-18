@@ -183,6 +183,7 @@
     <Compile Include="GUIAvatar.Designer.cs">
       <DependentUpon>GUIAvatar.cs</DependentUpon>
     </Compile>
+    <Compile Include="Helper\DownloadHelper.cs" />
     <Compile Include="Helper\LocationHelper.cs" />
     <Compile Include="Helper\SleepHelper.cs" />
     <Compile Include="Helper\TranslatorHelper.cs" />

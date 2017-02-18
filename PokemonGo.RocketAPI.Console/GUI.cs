@@ -1,4 +1,5 @@
 using PokemonGo.RocketAPI.Console.Helper;
+using PokemonGo.RocketAPI.Helpers;
 using PokemonGo.RocketAPI.Logic.Utils;
 using System;
 using System.Collections.Generic;
@@ -20,6 +21,7 @@ using PokemonGo.RocketAPI.HttpClient;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
+using PokemonGo.RocketAPI.Shared;
 
 namespace PokemonGo.RocketAPI.Console
 {
@@ -77,14 +79,12 @@ namespace PokemonGo.RocketAPI.Console
             if (!Directory.Exists(Program.path_device))
                 Directory.CreateDirectory(Program.path_device);
             
-            if (File.Exists(deviceinfo))
-            {
-                string[] arrLine = File.ReadAllLines(deviceinfo);
-                if (arrLine[0] != null)
-                {
-                    comboBox_Device.Text = arrLine[0];
-                }
-            }
+            if (!File.Exists(Program.deviceData))
+                DownloadHelper.DownloadFile("PokemonGo.RocketAPI.Console/Resources",Program.path_device,"DeviceData.json");
+
+            var devData = new DeviceSetup(Program.deviceData);
+            comboBox_Device.DisplayMember ="Tradename";
+            comboBox_Device.DataSource = devData.data;
 
             #region new translation
             if (!Directory.Exists(Program.path_translation))
@@ -274,6 +274,10 @@ namespace PokemonGo.RocketAPI.Console
             {
                 comboBox_AccountType.SelectedIndex = 0;
             }
+
+            comboBox_Device.Text = config.DeviceTradeName;
+            textBoxDeviceID.Text = config.DeviceID;
+
             text_EMail.Text = config.Username;
             text_Password.Text = config.Password;
             checkbox_PWDEncryption.Checked = config.UsePwdEncryption;
@@ -671,7 +675,16 @@ namespace PokemonGo.RocketAPI.Console
             // Account Info
             bool ret = true;
             ret &= textBoxToActiveProf(pFHashKey, "pFHashKey");
+
+            ActiveProfile.Settings.DeviceTradeName = comboBox_Device.Text;
             
+            ActiveProfile.Settings.DeviceID = textBoxDeviceID.Text;
+
+            if( makePrompts && textBoxDeviceID.Text==""){
+                MessageBox.Show(th.TS("Please. Create a Device ID"));
+                ret = false;
+            }
+
             ret &= textBoxToActiveProf(text_EMail,"Username");
             ret &= textBoxToActiveProf(text_Password,"Password");
             ActiveProfile.Settings.UsePwdEncryption = checkbox_PWDEncryption.Checked;
@@ -903,7 +916,7 @@ namespace PokemonGo.RocketAPI.Console
 
             // dev options
             ActiveProfile.Settings.EnableVerboseLogging = checkbox_Verboselogging.Checked;
-            
+
             if (comboBox_Device.SelectedIndex<0){
                 ret = false;
                 if (makePrompts)
@@ -1204,19 +1217,6 @@ namespace PokemonGo.RocketAPI.Console
             Process.Start("http://proxylist.hidemyass.com/search-1297445#listable");
         }
 
-        private void comboDevice_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            try
-            {
-                string[] arrLine = File.ReadAllLines(deviceinfo);
-                arrLine[0] = comboBox_Device.SelectedItem.ToString();
-                File.WriteAllLines(deviceinfo, arrLine);
-            }
-            catch (Exception)
-            {
-                File.WriteAllLines(deviceinfo, new string[] { comboBox_Device.SelectedItem.ToString(), " " });
-            }
-        }
 
 
         private void linkLabel6_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -1378,6 +1378,10 @@ namespace PokemonGo.RocketAPI.Console
             if (openFileDialog1.ShowDialog() == DialogResult.OK){
                 textBoxFortsFile.Text = openFileDialog1.FileName;
             }
+        }
+        void ButtonGenerateID_Click(object sender, EventArgs e)
+        {
+            textBoxDeviceID.Text = DeviceSetup.RandomDeviceId();
         }
 
     }

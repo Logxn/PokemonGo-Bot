@@ -955,6 +955,16 @@ namespace PokemonGo.RocketAPI.Logic.Shared
             set;
         }
 
+        public string DeviceTradeName {
+            get;
+            set;
+        }
+
+        public string DeviceID {
+            get;
+            set;
+        }
+
         #endregion
     
         public void SaveToFile(string filename)
