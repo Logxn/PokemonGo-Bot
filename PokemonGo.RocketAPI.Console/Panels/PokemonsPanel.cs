@@ -185,6 +185,7 @@ namespace PokemonGo.RocketAPI.Console
             // Sort
             //PokemonListView.Sort();
         }
+
         private void loadAdditionalPokeData()
         {
             const string path = "PokeData\\AdditionalPokeData.json";
@@ -263,7 +264,7 @@ namespace PokemonGo.RocketAPI.Console
                         listViewItem.Text = specSymbol + th.TS( pokemon.PokemonId.ToString());
                         
 
-                        listViewItem.ToolTipText = Logic.Utils.StringUtils.ConvertTimeMSinString(pokemon.CreationTimeMs,"dd/MM/yyyy HH:mm:ss");
+                        listViewItem.ToolTipText = StringUtils.ConvertTimeMSinString(pokemon.CreationTimeMs,"dd/MM/yyyy HH:mm:ss");
                         if (pokemon.Nickname != "")
                             listViewItem.ToolTipText += th.TS("\n+Nickname: {0}",pokemon.Nickname);
 
@@ -271,31 +272,30 @@ namespace PokemonGo.RocketAPI.Console
                         var familyCandy = pokemonFamilies.Single(x => settings.FamilyId == x.FamilyId);
 
                         listViewItem.SubItems.Add("");
-                        var canEvolve = "N";
-                        var neededCandies = "Max";
                         listViewItem.SubItems[listViewItem.SubItems.Count - 1].ForeColor = Color.DarkRed;
-                        if (settings.EvolutionIds.Count > 0 )
-                        {
-                            neededCandies = ""+settings.CandyToEvolve;
-                            if ( familyCandy.Candy_ >= settings.CandyToEvolve){
-                                listViewItem.SubItems[listViewItem.SubItems.Count - 1].ForeColor = Color.ForestGreen;
+
+                        var strPip = "N";
+                        var numOfEvolves = 0;
+                        var separator = "";
+                        if (settings.EvolutionBranch.Count>0) 
+                            strPip = "";
+                        foreach (var element in settings.EvolutionBranch) {
+                            var canEvolve = "N";
+                            if ( familyCandy.Candy_ >= element.CandyCost){
+                                numOfEvolves ++;
                                 canEvolve = "Y";
                                 listViewItem.Checked = true;
                             }
+                            if (numOfEvolves > 1)
+                                separator = " | ";
+                            strPip = strPip+ $"{separator}{canEvolve} ({element.CandyCost})";
                         }
+                        if (numOfEvolves == 1)
+                            listViewItem.SubItems[listViewItem.SubItems.Count - 1].ForeColor = Color.ForestGreen;
+                        else if (numOfEvolves > 1)
+                            listViewItem.SubItems[listViewItem.SubItems.Count - 1].ForeColor = Color.LightPink;
 
-                        var strPip = "";
-                        foreach (var element in settings.EvolutionBranch) {
-                            var canEvolve2 = "N";
-                            if ( familyCandy.Candy_ >= element.CandyCost){
-                                //listViewItem.SubItems[listViewItem.SubItems.Count - 1].ForeColor = Color.LightPink;
-                                canEvolve2 = "Y";
-                                listViewItem.Checked = true;
-                            }
-                            strPip = strPip+ $" | {canEvolve2} ({element.CandyCost})";
-                        }
-
-                        listViewItem.SubItems[listViewItem.SubItems.Count - 1].Text = $"{canEvolve} ({familyCandy.Candy_}/{neededCandies}){strPip}";
+                        listViewItem.SubItems[listViewItem.SubItems.Count - 1].Text = $"{strPip} | C:{familyCandy.Candy_}";
 
                         listViewItem.SubItems.Add(string.Format("{0}", Math.Round(pokemon.HeightM, 2)));
                         listViewItem.SubItems.Add(string.Format("{0}", Math.Round(pokemon.WeightKg, 2)));
@@ -946,6 +946,7 @@ namespace PokemonGo.RocketAPI.Console
                 }
             }
         }
+
         void gymInformationToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (PokemonListView.SelectedItems.Count < 1)
@@ -960,10 +961,11 @@ namespace PokemonGo.RocketAPI.Console
             if (pokeGym == null){
                 message = th.TS("Gym is not in range.\nID: ")+pokeGym.Id;
             }else{
-                message = string.Format("{0}\n{1}, {2}\nID: {3}", LocationUtils.FindAddress(pokeGym.Latitude, pokeGym.Longitude), pokeGym.Latitude, pokeGym.Longitude,   pokeGym.Id);
+                var gymDetails = client.Fort.GetGymDetails(pokeGym.Id, pokeGym.Latitude, pokeGym.Longitude);
+                message = string.Format("{0}\n{1}, {2}\n{3}\nID: {4}", LocationUtils.FindAddress(pokeGym.Latitude, pokeGym.Longitude), pokeGym.Latitude, pokeGym.Longitude, gymDetails.Name ,  pokeGym.Id);
+                Logic.Logic.Instance.infoObservable.PushUpdatePokeGym(pokeGym);
             }
             MessageBox.Show(message);
-
         }
 
         public class taskResponse

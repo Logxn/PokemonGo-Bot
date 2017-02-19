@@ -143,7 +143,10 @@ namespace PokemonGo.RocketAPI.Logic.Functions
 
             foreach (var pokemon in pokemonToEvolve)
             {
+                // TODO: Check new 2 gen evolves
                 var evolvePokemonOutProto = Logic.objClient.Inventory.EvolvePokemon(pokemon.Id);
+                if (evolvePokemonOutProto == null)
+                    continue;
                 var date = DateTime.Now.ToString();
                 var evolvelog = Path.Combine(logPath, "EvolveLog.txt");
 

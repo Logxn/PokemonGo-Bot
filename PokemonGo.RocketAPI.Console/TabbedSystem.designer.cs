@@ -60,8 +60,6 @@ namespace PokemonGo.RocketAPI.Console
             this.loggerPanel1 = new PokemonGo.RocketAPI.Logging.LoggerPanel();
             this.tpWeb = new System.Windows.Forms.TabPage();
             this.webPanel1 = new PokemonGo.RocketAPI.Console.Panels.WebPanel();
-            this.tpShop = new System.Windows.Forms.TabPage();
-            this.shopPanel1 = new PokemonGo.RocketAPI.Console.Panels.ShopPanel();
             this.contextMenuStrip1.SuspendLayout();
             this.TabControl1.SuspendLayout();
             this.tpLocation.SuspendLayout();
@@ -73,7 +71,6 @@ namespace PokemonGo.RocketAPI.Console
             this.tpOptions.SuspendLayout();
             this.tpConsole.SuspendLayout();
             this.tpWeb.SuspendLayout();
-            this.tpShop.SuspendLayout();
             this.SuspendLayout();
             // 
             // contextMenuStrip1
@@ -149,7 +146,6 @@ namespace PokemonGo.RocketAPI.Console
             this.TabControl1.Controls.Add(this.tpSnipers);
             this.TabControl1.Controls.Add(this.tpOptions);
             this.TabControl1.Controls.Add(this.tpConsole);
-            this.TabControl1.Controls.Add(this.tpShop);
             this.TabControl1.Location = new System.Drawing.Point(4, 4);
             this.TabControl1.Name = "TabControl1";
             this.TabControl1.SelectedIndex = 0;
@@ -384,28 +380,7 @@ namespace PokemonGo.RocketAPI.Console
             this.webPanel1.Size = new System.Drawing.Size(776, 514);
             this.webPanel1.TabIndex = 0;
             // 
-            // tpShop
-            // 
-            this.tpShop.Controls.Add(this.shopPanel1);
-            this.tpShop.Location = new System.Drawing.Point(4, 22);
-            this.tpShop.Name = "tpShop";
-            this.tpShop.Padding = new System.Windows.Forms.Padding(3);
-            this.tpShop.Size = new System.Drawing.Size(782, 517);
-            this.tpShop.TabIndex = 8;
-            this.tpShop.Text = "Shop";
-            this.tpShop.UseVisualStyleBackColor = true;
-            // 
-            // shopPanel1
-            // 
-            this.shopPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.shopPanel1.Location = new System.Drawing.Point(6, 6);
-            this.shopPanel1.Name = "shopPanel1";
-            this.shopPanel1.Size = new System.Drawing.Size(770, 505);
-            this.shopPanel1.TabIndex = 0;
-            // 
-            // Pokemons
+            // TabbedSystem
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
@@ -431,7 +406,6 @@ namespace PokemonGo.RocketAPI.Console
             this.tpOptions.ResumeLayout(false);
             this.tpConsole.ResumeLayout(false);
             this.tpWeb.ResumeLayout(false);
-            this.tpShop.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -470,7 +444,5 @@ namespace PokemonGo.RocketAPI.Console
         private PokemonGo.RocketAPI.Logging.LoggerPanel loggerPanel1;
         private System.Windows.Forms.TabPage tpWeb;
         private PokemonGo.RocketAPI.Console.Panels.WebPanel webPanel1;
-        private System.Windows.Forms.TabPage tpShop;
-        private PokemonGo.RocketAPI.Console.Panels.ShopPanel shopPanel1;
     }
 }

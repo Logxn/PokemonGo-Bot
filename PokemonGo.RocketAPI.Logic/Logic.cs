@@ -948,7 +948,7 @@ namespace PokemonGo.RocketAPI.Logic
                             infoObservable.PushNewPokemonLocation(pokedata);
                             Logger.Debug("Lured Pokemon: " +pokedata);
 
-                            if (!BotSettings.catchPokemonSkipList.Contains(pokedata.PokemonId))
+                            if (!BotSettings.catchPokemonSkipList.Contains(pokedata.PokemonId) && GlobalVars.CatchPokemon)
                             {
                                 if (!lureEncounters.Contains(pokedata.EncounterId.ToString()))
                                 {
@@ -1102,7 +1102,7 @@ namespace PokemonGo.RocketAPI.Logic
                 }
                 
                 if (mapIncensePokemon!=null)
-                    if (!BotSettings.catchPokemonSkipList.Contains(mapIncensePokemon.PokemonId))
+                    if (!BotSettings.catchPokemonSkipList.Contains(mapIncensePokemon.PokemonId) )
                         CatchIncensedPokemon(mapIncensePokemon.EncounterId, mapIncensePokemon.SpawnPointId, mapIncensePokemon.PokemonId, mapIncensePokemon.Longitude, mapIncensePokemon.Latitude);                
 
                 var pokemons = mapObjectsResponse.MapCells.SelectMany(i => i.CatchablePokemons).OrderBy(i => LocationUtils.CalculateDistanceInMeters(objClient.CurrentLatitude, objClient.CurrentLongitude, i.Latitude, i.Longitude));

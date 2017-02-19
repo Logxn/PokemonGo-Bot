@@ -106,6 +106,15 @@ namespace PokemonGo.RocketAPI.Logic
         {
             HandleNewHuntStats(newValue);
         }
+        /// <summary>
+        /// UpdatePokeGym
+        /// </summary>
+        public delegate void UpdatePokeGym(FortData pokeGym);
+        public event UpdatePokeGym HandleUpdatePokeGym = delegate { };
+        public void PushUpdatePokeGym(FortData pokeGym)
+        {
+            HandleUpdatePokeGym(pokeGym);
+        }
     }
 
 }

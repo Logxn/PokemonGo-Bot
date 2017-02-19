@@ -127,6 +127,13 @@ namespace PokemonGo.RocketAPI.Logic.Functions
 
         }
 
+        private static void RefreshGymsInMap(FortData[] gyms)
+        {
+            foreach (var element in gyms) {
+                Logic.Instance.infoObservable.PushUpdatePokeGym(element);
+            }
+        }
+
         private static FortData[] GetNearbyGyms(GetMapObjectsResponse mapObjectsResponse = null)
         {
             //Logic.objClient.Player.UpdatePlayerLocation(Logic.objClient.CurrentLatitude, Logic.objClient.CurrentLongitude, Logic.objClient.CurrentAltitude);
@@ -142,7 +149,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                     .Where(i => i.Type == FortType.Gym)
                     .OrderBy(i => LocationUtils.CalculateDistanceInMeters(Logic.objClient.CurrentLatitude, Logic.objClient.CurrentLongitude, i.Latitude, i.Longitude))
                     .ToArray(), GlobalVars.WalkingSpeedInKilometerPerHour);
-
+            Task.Factory.StartNew(() => RefreshGymsInMap(pokeGyms));
             return pokeGyms;
         }
 
@@ -213,10 +220,10 @@ namespace PokemonGo.RocketAPI.Logic.Functions
 
             var gymDetails = client.Fort.GetGymDetails(gym.Id, gym.Latitude, gym.Longitude);
             Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - Team: " + GetTeamName(gym.OwnedByTeam) + ".");
-            if (gymDetails.GymState.Memberships!=null && gymDetails.GymState.Memberships.Count > 0 )
+            if (gymDetails.GymState.Memberships != null && gymDetails.GymState.Memberships.Count > 0)
                 Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - Members: " + gymDetails.GymState.Memberships.Count + ". Level: " + GetGymLevel(gym.GymPoints) + " (" + gym.GymPoints + ")");
-            Logger.Debug( "(Gym) - Name: " + gymDetails.Name);
-            Logger.Debug( "(Gym) - Description: " + gymDetails.Description);
+            Logger.Debug("(Gym) - Name: " + gymDetails.Name);
+            Logger.Debug("(Gym) - Description: " + gymDetails.Description);
 
             if (gym.OwnedByTeam == TeamColor.Neutral) {
                 RandomHelper.RandomSleep(250);
@@ -234,7 +241,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                     var defender = defenders.FirstOrDefault();
                     Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - Defender: " + strPokemon(defender));
                     var pokeAttackers = getPokeAttackers(pokemons, defender);
-                    if (pokeAttackers.Count() < 6){
+                    if (pokeAttackers.Count() < 6) {
                         Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - There is not enouth pokemons to train");
                         return false;
                     }
@@ -259,7 +266,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                     var defender = defenders.FirstOrDefault();
                     Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - Defender: " + strPokemon(defender));
                     var pokeAttackers = getPokeAttackers(pokemons, defender);
-                    if (pokeAttackers.Count() < 6){
+                    if (pokeAttackers.Count() < 6) {
                         Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - There is not enouth pokemons to fight");
                         return false;
                     }
@@ -435,9 +442,9 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                         Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - We have lost");
                         if (numDefenders > 1) {
                             Logger.Debug("(Gym) - Leaving Battle");
-                            do{
+                            do {
                                 attResp = LeaveBattle(gym, client, resp, attResp, lastRetrievedAction);
-                            } while ( attResp.Result != AttackGymResponse.Types.Result.Success);
+                            } while (attResp.Result != AttackGymResponse.Types.Result.Success);
                             
                             AddVisited(gym.Id, 3600000);
                         }
@@ -446,9 +453,9 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                         Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - We have won");
                         if (numDefenders > 1) {
                             Logger.Debug("(Gym) - Leaving Battle");
-                            do{
+                            do {
                                 attResp = LeaveBattle(gym, client, resp, attResp, lastRetrievedAction);
-                            } while ( attResp.Result != AttackGymResponse.Types.Result.Success);
+                            } while (attResp.Result != AttackGymResponse.Types.Result.Success);
                             RandomHelper.RandomSleep(800);
                         } else {
                             ReviveAndCurePokemons(client);
@@ -482,10 +489,10 @@ namespace PokemonGo.RocketAPI.Logic.Functions
             var battleActions = new List<BattleAction>();
             battleActions.Add(attack);
             lastRetrievedAction = new BattleAction();
-            AttackGymResponse  ret;
-            do{
-                 ret = client.Fort.AttackGym(gym.Id, resp.BattleId, battleActions, lastRetrievedAction);
-            }while (ret.Result != AttackGymResponse.Types.Result.Success);
+            AttackGymResponse ret;
+            do {
+                ret = client.Fort.AttackGym(gym.Id, resp.BattleId, battleActions, lastRetrievedAction);
+            } while (ret.Result != AttackGymResponse.Types.Result.Success);
             
             return ret;
         }
