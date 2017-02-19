@@ -24,8 +24,8 @@ namespace PokemonGo.RocketAPI.Console
 		public System.Windows.Forms.NumericUpDown num_MaxSuperPotions;
 		public System.Windows.Forms.NumericUpDown num_MaxPotions;
 		public System.Windows.Forms.NumericUpDown num_MaxRevives;
-		public System.Windows.Forms.NumericUpDown num_MaxUltraBalls;
-		public System.Windows.Forms.NumericUpDown num_MaxGreatBalls;
+		public System.Windows.Forms.NumericUpDown num_MaxUltraballs;
+		public System.Windows.Forms.NumericUpDown num_MaxGreatballs;
 		public System.Windows.Forms.NumericUpDown num_MaxPokeballs;
 		private System.Windows.Forms.Button btnRealoadItems;
 		private System.Windows.Forms.ListView ItemsListView;
@@ -124,8 +124,8 @@ namespace PokemonGo.RocketAPI.Console
 		    this.num_MaxSuperPotions = new System.Windows.Forms.NumericUpDown();
 		    this.num_MaxPotions = new System.Windows.Forms.NumericUpDown();
 		    this.num_MaxRevives = new System.Windows.Forms.NumericUpDown();
-		    this.num_MaxUltraBalls = new System.Windows.Forms.NumericUpDown();
-		    this.num_MaxGreatBalls = new System.Windows.Forms.NumericUpDown();
+		    this.num_MaxUltraballs = new System.Windows.Forms.NumericUpDown();
+		    this.num_MaxGreatballs = new System.Windows.Forms.NumericUpDown();
 		    this.num_MaxPokeballs = new System.Windows.Forms.NumericUpDown();
 		    this.btnRealoadItems = new System.Windows.Forms.Button();
 		    this.ItemsListView = new System.Windows.Forms.ListView();
@@ -174,8 +174,8 @@ namespace PokemonGo.RocketAPI.Console
 		    ((System.ComponentModel.ISupportInitialize)(this.num_MaxSuperPotions)).BeginInit();
 		    ((System.ComponentModel.ISupportInitialize)(this.num_MaxPotions)).BeginInit();
 		    ((System.ComponentModel.ISupportInitialize)(this.num_MaxRevives)).BeginInit();
-		    ((System.ComponentModel.ISupportInitialize)(this.num_MaxUltraBalls)).BeginInit();
-		    ((System.ComponentModel.ISupportInitialize)(this.num_MaxGreatBalls)).BeginInit();
+		    ((System.ComponentModel.ISupportInitialize)(this.num_MaxUltraballs)).BeginInit();
+		    ((System.ComponentModel.ISupportInitialize)(this.num_MaxGreatballs)).BeginInit();
 		    ((System.ComponentModel.ISupportInitialize)(this.num_MaxPokeballs)).BeginInit();
 		    this.contextMenuStripItems.SuspendLayout();
 		    this.SuspendLayout();
@@ -215,8 +215,8 @@ namespace PokemonGo.RocketAPI.Console
 		    this.groupBoxItems.Controls.Add(this.num_MaxSuperPotions);
 		    this.groupBoxItems.Controls.Add(this.num_MaxPotions);
 		    this.groupBoxItems.Controls.Add(this.num_MaxRevives);
-		    this.groupBoxItems.Controls.Add(this.num_MaxUltraBalls);
-		    this.groupBoxItems.Controls.Add(this.num_MaxGreatBalls);
+		    this.groupBoxItems.Controls.Add(this.num_MaxUltraballs);
+		    this.groupBoxItems.Controls.Add(this.num_MaxGreatballs);
 		    this.groupBoxItems.Controls.Add(this.num_MaxPokeballs);
 		    this.groupBoxItems.Location = new System.Drawing.Point(5, 5);
 		    this.groupBoxItems.Margin = new System.Windows.Forms.Padding(5);
@@ -615,33 +615,33 @@ namespace PokemonGo.RocketAPI.Console
 		    this.num_MaxRevives.TabIndex = 19;
 		    this.num_MaxRevives.ValueChanged += new System.EventHandler(this.num_Max);
 		    // 
-		    // num_MaxUltraBalls
+		    // num_MaxUltraballs
 		    // 
-		    this.num_MaxUltraBalls.Location = new System.Drawing.Point(58, 84);
-		    this.num_MaxUltraBalls.Margin = new System.Windows.Forms.Padding(5);
-		    this.num_MaxUltraBalls.Maximum = new decimal(new int[] {
+		    this.num_MaxUltraballs.Location = new System.Drawing.Point(58, 84);
+		    this.num_MaxUltraballs.Margin = new System.Windows.Forms.Padding(5);
+		    this.num_MaxUltraballs.Maximum = new decimal(new int[] {
             2000,
             0,
             0,
             0});
-		    this.num_MaxUltraBalls.Name = "num_MaxUltraBalls";
-		    this.num_MaxUltraBalls.Size = new System.Drawing.Size(52, 20);
-		    this.num_MaxUltraBalls.TabIndex = 17;
-		    this.num_MaxUltraBalls.ValueChanged += new System.EventHandler(this.num_Max);
+		    this.num_MaxUltraballs.Name = "num_MaxUltraballs";
+		    this.num_MaxUltraballs.Size = new System.Drawing.Size(52, 20);
+		    this.num_MaxUltraballs.TabIndex = 17;
+		    this.num_MaxUltraballs.ValueChanged += new System.EventHandler(this.num_Max);
 		    // 
-		    // num_MaxGreatBalls
+		    // num_MaxGreatballs
 		    // 
-		    this.num_MaxGreatBalls.Location = new System.Drawing.Point(165, 40);
-		    this.num_MaxGreatBalls.Margin = new System.Windows.Forms.Padding(5);
-		    this.num_MaxGreatBalls.Maximum = new decimal(new int[] {
+		    this.num_MaxGreatballs.Location = new System.Drawing.Point(165, 40);
+		    this.num_MaxGreatballs.Margin = new System.Windows.Forms.Padding(5);
+		    this.num_MaxGreatballs.Maximum = new decimal(new int[] {
             2000,
             0,
             0,
             0});
-		    this.num_MaxGreatBalls.Name = "num_MaxGreatBalls";
-		    this.num_MaxGreatBalls.Size = new System.Drawing.Size(52, 20);
-		    this.num_MaxGreatBalls.TabIndex = 16;
-		    this.num_MaxGreatBalls.ValueChanged += new System.EventHandler(this.num_Max);
+		    this.num_MaxGreatballs.Name = "num_MaxGreatballs";
+		    this.num_MaxGreatballs.Size = new System.Drawing.Size(52, 20);
+		    this.num_MaxGreatballs.TabIndex = 16;
+		    this.num_MaxGreatballs.ValueChanged += new System.EventHandler(this.num_Max);
 		    // 
 		    // num_MaxPokeballs
 		    // 
@@ -868,8 +868,8 @@ namespace PokemonGo.RocketAPI.Console
 		    ((System.ComponentModel.ISupportInitialize)(this.num_MaxSuperPotions)).EndInit();
 		    ((System.ComponentModel.ISupportInitialize)(this.num_MaxPotions)).EndInit();
 		    ((System.ComponentModel.ISupportInitialize)(this.num_MaxRevives)).EndInit();
-		    ((System.ComponentModel.ISupportInitialize)(this.num_MaxUltraBalls)).EndInit();
-		    ((System.ComponentModel.ISupportInitialize)(this.num_MaxGreatBalls)).EndInit();
+		    ((System.ComponentModel.ISupportInitialize)(this.num_MaxUltraballs)).EndInit();
+		    ((System.ComponentModel.ISupportInitialize)(this.num_MaxGreatballs)).EndInit();
 		    ((System.ComponentModel.ISupportInitialize)(this.num_MaxPokeballs)).EndInit();
 		    this.contextMenuStripItems.ResumeLayout(false);
 		    this.ResumeLayout(false);
