@@ -588,6 +588,31 @@ namespace PokemonGo.RocketAPI.Rpc
                     .Where(i => i != null);
         }
 
+        public static ItemId GeteNeededItemToEvolve(PokemonId pokeId)
+        {
+                var item = ItemId.ItemUnknown;
+                switch (pokeId) {
+                    case PokemonId.Seadra:
+                        item = ItemId.ItemDragonScale;
+                        break;
+                    case PokemonId.Poliwhirl:
+                    case PokemonId.Slowpoke:
+                        item = ItemId.ItemKingsRock;
+                        break;
+                    case PokemonId.Scyther:
+                    case PokemonId.Onix:
+                        item = ItemId.ItemMetalCoat;
+                        break;
+                    case PokemonId.Porygon:
+                        item = ItemId.ItemUpGrade;
+                        break;
+                    case PokemonId.Gloom:
+                    case PokemonId.Sunkern:
+                        item = ItemId.ItemSunStone;
+                        break;
+                }
+                return item;
+        }
 
 
         #endregion

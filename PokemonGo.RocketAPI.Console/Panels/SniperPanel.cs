@@ -250,8 +250,7 @@ namespace PokemonGo.RocketAPI.Console
                             transferIt = checkBoxSnipeTransfer.Checked;
                         } catch (Exception) {
                         }
-                        var pokename = ToCapital(splt[0]).Replace('.','_').Replace('-','_');
-                        SnipePoke( (PokemonId)Enum.Parse(typeof(PokemonId), pokename),stw,tries,transferIt);
+                        SnipePoke( ToPokemonID(splt[0]) ,stw,tries,transferIt);
                     }else if (txt.IndexOf("msniper://")> -1){
                         txt = txt.Replace("msniper://","");
                         var splt = txt.Split('/');
@@ -265,8 +264,7 @@ namespace PokemonGo.RocketAPI.Console
                             transferIt = checkBoxSnipeTransfer.Checked;
                         } catch (Exception) {
                         }
-                        var pokename = ToCapital(splt[0]).Replace('.','_').Replace('-','_');
-                        SnipePoke( (PokemonId)Enum.Parse(typeof(PokemonId), pokename),stw,tries,transferIt);
+                        SnipePoke( ToPokemonID(splt[0]),stw,tries,transferIt);
                     }
                 }
             } catch (Exception ex) {
@@ -274,17 +272,13 @@ namespace PokemonGo.RocketAPI.Console
                 
             }
         }
-        static string ToCapital(string s)
+
+        PokemonId ToPokemonID(string pokename)
         {
-            if (string.IsNullOrEmpty(s))
-            {
-                return string.Empty;
-            }
-            var txt =char.ToUpper(s[0]) + s.Substring(1).ToLower();
-            
-            // Replacing text for the exception pokemons that not are written in capital format
-            txt = txt.Replace("mime","Mime");
-            return txt;
+            var pokeStr  = pokename.Replace('.','_').Replace('-','_');
+            var pokeID = PokemonId.Missingno;
+            Enum.TryParse<PokemonId>( pokeStr,true, out pokeID);
+            return pokeID;
         }
 
         const string URI_SCHEME = "pokesniper2";

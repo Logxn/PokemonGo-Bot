@@ -21,6 +21,7 @@ using PokemonGo.RocketAPI.Helpers;
 using PokemonGo.RocketAPI.Logic.Shared;
 using PokemonGo.RocketAPI.Logic.Utils;
 using System.Windows.Forms;
+using PokemonGo.RocketAPI.Rpc;
 
 namespace PokemonGo.RocketAPI.Logic.Functions
 {
@@ -145,28 +146,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
             foreach (var pokemon in pokemonToEvolve)
             {
 
-                var item = ItemId.ItemUnknown;
-                switch (pokemon.PokemonId) {
-                    case PokemonId.Seadra:
-                        item = ItemId.ItemDragonScale;
-                        break;
-                    case PokemonId.Poliwhirl:
-                    case PokemonId.Slowpoke:
-                        item = ItemId.ItemKingsRock;
-                        break;
-                    case PokemonId.Scyther:
-                    case PokemonId.Onix:
-                        item = ItemId.ItemMetalCoat;
-                        break;
-                    case PokemonId.Porygon:
-                        item = ItemId.ItemUpGrade;
-                        break;
-                    case PokemonId.Gloom:
-                    case PokemonId.Sunkern:
-                        item = ItemId.ItemSunStone;
-                        break;
-                }
-
+                var item = Inventory.GeteNeededItemToEvolve(pokemon.PokemonId);
                 if (item != ItemId.ItemUnknown && Logic.objClient.Inventory.GetItemAmountByType(item) < 1){
                     if (pokemon.PokemonId == PokemonId.Slowpoke 
                         || pokemon.PokemonId == PokemonId.Poliwhirl
@@ -176,11 +156,8 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                     else
                         continue; // go to next pokemon
                 }
-                
-
                 evolvePokemonOutProto = Logic.objClient.Inventory.EvolvePokemon(pokemon.Id, item);
 
-                
                 if (evolvePokemonOutProto == null)
                     continue;
 

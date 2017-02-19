@@ -16,6 +16,7 @@ using PokemonGo.RocketAPI.Logic.Shared;
 using PokemonGo.RocketAPI.Logic.Utils;
 using POGOProtos.Inventory.Item;
 using POGOProtos.Map.Fort;
+using PokemonGo.RocketAPI.Rpc;
 
 namespace PokemonGo.RocketAPI.Console
 {
@@ -262,40 +263,26 @@ namespace PokemonGo.RocketAPI.Console
                         if ((profile!=null) && (profile.PlayerData.BuddyPokemon.Id == pokemon.Id))
                             specSymbol = "☉";
                         listViewItem.Text = specSymbol + th.TS( pokemon.PokemonId.ToString());
-                        
+
 
                         listViewItem.ToolTipText = StringUtils.ConvertTimeMSinString(pokemon.CreationTimeMs,"dd/MM/yyyy HH:mm:ss");
                         if (pokemon.Nickname != "")
                             listViewItem.ToolTipText += th.TS("\n+Nickname: {0}",pokemon.Nickname);
 
+                        # region Evolve Column
                         var settings = pokemonSettings.Single(x => x.PokemonId == pokemon.PokemonId);
                         var familyCandy = pokemonFamilies.Single(x => settings.FamilyId == x.FamilyId);
-
                         listViewItem.SubItems.Add("");
-                        listViewItem.SubItems[listViewItem.SubItems.Count - 1].ForeColor = Color.DarkRed;
-
-                        var strPip = "N";
                         var numOfEvolves = 0;
-                        var separator = "";
-                        if (settings.EvolutionBranch.Count>0) 
-                            strPip = "";
-                        foreach (var element in settings.EvolutionBranch) {
-                            var canEvolve = "N";
-                            if ( familyCandy.Candy_ >= element.CandyCost){
-                                numOfEvolves ++;
-                                canEvolve = "Y";
-                                listViewItem.Checked = true;
-                            }
-                            if (numOfEvolves > 1)
-                                separator = " | ";
-                            strPip = strPip+ $"{separator}{canEvolve} ({element.CandyCost})";
-                        }
+                        String strEvolves = EvolvesToString(pokemon, settings, familyCandy, out numOfEvolves);
+                        // Colour Management
+                        listViewItem.SubItems[listViewItem.SubItems.Count - 1].ForeColor = Color.DarkRed;
                         if (numOfEvolves == 1)
                             listViewItem.SubItems[listViewItem.SubItems.Count - 1].ForeColor = Color.ForestGreen;
                         else if (numOfEvolves > 1)
                             listViewItem.SubItems[listViewItem.SubItems.Count - 1].ForeColor = Color.LightPink;
-
-                        listViewItem.SubItems[listViewItem.SubItems.Count - 1].Text = $"{strPip} | C:{familyCandy.Candy_}";
+                        listViewItem.SubItems[listViewItem.SubItems.Count - 1].Text = $"{strEvolves} | C:{familyCandy.Candy_}";
+                        # endregion Evolve Column
 
                         listViewItem.SubItems.Add(string.Format("{0}", Math.Round(pokemon.HeightM, 2)));
                         listViewItem.SubItems.Add(string.Format("{0}", Math.Round(pokemon.WeightKg, 2)));
@@ -454,28 +441,8 @@ namespace PokemonGo.RocketAPI.Console
             foreach (ListViewItem selectedItem in selectedItems)
             {
                 var pokemoninfo = (PokemonData)selectedItem.Tag;
-                
-                var item = ItemId.ItemUnknown;
-                switch (pokemoninfo.PokemonId) {
-                    case PokemonId.Seadra:
-                        item = ItemId.ItemDragonScale;
-                        break;
-                    case PokemonId.Poliwhirl:
-                    case PokemonId.Slowpoke:
-                        item = ItemId.ItemKingsRock;
-                        break;
-                    case PokemonId.Scyther:
-                    case PokemonId.Onix:
-                        item = ItemId.ItemMetalCoat;
-                        break;
-                    case PokemonId.Porygon:
-                        item = ItemId.ItemUpGrade;
-                        break;
-                    case PokemonId.Gloom:
-                    case PokemonId.Sunkern:
-                        item = ItemId.ItemSunStone;
-                        break;
-                }
+
+                var item = Inventory.GeteNeededItemToEvolve(pokemoninfo.PokemonId);
 
                 if (item != ItemId.ItemUnknown && client.Inventory.GetItemAmountByType(item) < 1){
                     if (pokemoninfo.PokemonId == PokemonId.Slowpoke 
@@ -487,7 +454,7 @@ namespace PokemonGo.RocketAPI.Console
                         continue; // go to next pokemon
                 }
                 resp = client.Inventory.EvolvePokemon(pokemoninfo.Id, item);
-                
+
 
                 var name = pokemoninfo.PokemonId;
 
@@ -1012,5 +979,37 @@ namespace PokemonGo.RocketAPI.Console
         }
         
 
+        string EvolvesToString(PokemonData pokemon, POGOProtos.Settings.Master.PokemonSettings settings, POGOProtos.Inventory.Candy familyCandy, out int numOfEvolves)
+        {
+            var strEvolves = "N";
+            numOfEvolves = 0;
+            var separator = "";
+            if (settings.EvolutionBranch.Count>0) 
+                strEvolves = "";
+            var item = Inventory.GeteNeededItemToEvolve(pokemon.PokemonId);
+            var amountItems =  -1 ;
+            if (item != ItemId.ItemUnknown )
+                amountItems = client.Inventory.GetItemAmountByType(item);
+            var i = 0;
+            foreach (var element in settings.EvolutionBranch) {
+                var canEvolve = "N";
+                var stone ="";
+                if ( familyCandy.Candy_ >= element.CandyCost){
+                    if (amountItems != 0){
+                        canEvolve = "Y";
+                        numOfEvolves ++;
+                    }
+                }
+                if (i > 1){
+                    separator = " | ";
+                }
+                if (item != ItemId.ItemUnknown ){
+                    stone = ","+ settings.EvolutionPips;
+                }
+                strEvolves = strEvolves+ $"{separator}{canEvolve} ({element.CandyCost}{stone})";
+                i++;
+            }
+            return strEvolves;
+        }
     }
 }
