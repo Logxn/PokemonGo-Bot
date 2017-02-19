@@ -216,14 +216,19 @@ namespace PokemonGo.RocketAPI.Console
                         GlobalVars.MaxUpGrade = value;
                         break;
                 }
-                int count = 0;
-                count += GlobalVars.MaxPokeballs + GlobalVars.MaxGreatballs + GlobalVars.MaxUltraballs + GlobalVars.MaxRevives
-                + GlobalVars.MaxPotions + GlobalVars.MaxSuperPotions + GlobalVars.MaxHyperPotions + GlobalVars.MaxBerries
-                + GlobalVars.MaxTopRevives + GlobalVars.MaxTopPotions;
-                text_TotalItemCount.Text = count.ToString();
+                UpdateItemTotalCount();
+
             } catch (Exception e1) {
                 Logger.ExceptionInfo(e1.ToString());
             }
+        }
+
+        private void UpdateItemTotalCount(){
+            int totalCount = 0;
+            foreach (Control element in this.groupBoxItems.Controls) 
+                if (element.Name.IndexOf("num_") == 0)
+                    totalCount += (int)(element as NumericUpDown).Value;
+            text_TotalItemCount.Text = ""+ totalCount;
         }
 
         void btnCopy_Click(object sender, EventArgs e)

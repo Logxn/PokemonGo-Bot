@@ -377,18 +377,15 @@ namespace PokemonGo.RocketAPI.Console
             UltraBallMinCP.Text = config.MinCPforUltraBall.ToString();
 
             // Tab 4 - Items
-            text_MaxPokeballs.Text = config.MaxPokeballs.ToString();
-            text_MaxGreatBalls.Text = config.MaxGreatballs.ToString();
-            text_MaxUltraBalls.Text = config.MaxUltraballs.ToString();
-            text_MaxRevives.Text = config.MaxRevives.ToString();
-            text_MaxTopRevives.Text = config.MaxTopRevives.ToString();
-            text_MaxPotions.Text = config.MaxPotions.ToString();
-            text_MaxSuperPotions.Text = config.MaxSuperPotions.ToString();
-            text_MaxHyperPotions.Text = config.MaxHyperPotions.ToString();
-            text_MaxTopPotions.Text = config.MaxTopPotions.ToString();
-            text_MaxRazzBerrys.Text = config.MaxBerries.ToString();
-            text_MaxPinapBerrys.Text = config.MaxPinapBerries.ToString();
-            text_MaxNanabBerrys.Text = config.MaxNanabBerries.ToString();
+            foreach (Control element in this.groupBoxItems.Controls) {
+                if (element.Name.IndexOf("num_") == 0){
+                    var name = element.Name.Replace("num_","");
+                    var property = config.GetType().GetProperty(name);
+                    if (property!=null)
+                        (element as NumericUpDown).Value = (int) property.GetValue(config);
+
+                }
+            }
     
             //tab eggs
             checkBox_AutoIncubate.Checked = config.AutoIncubate;
@@ -781,18 +778,15 @@ namespace PokemonGo.RocketAPI.Console
 
 
             // tab 4 - Items
-            ret &= textBoxToActiveProfInt(text_MaxPokeballs, "MaxPokeballs");
-            ret &= textBoxToActiveProfInt(text_MaxGreatBalls, "MaxGreatballs");
-            ret &= textBoxToActiveProfInt(text_MaxUltraBalls, "MaxUltraballs");
-            ret &= textBoxToActiveProfInt(text_MaxRevives, "MaxRevives");
-            ret &= textBoxToActiveProfInt(text_MaxTopRevives, "MaxTopRevives");
-            ret &= textBoxToActiveProfInt(text_MaxPotions, "MaxPotions");
-            ret &= textBoxToActiveProfInt(text_MaxSuperPotions, "MaxSuperPotions");
-            ret &= textBoxToActiveProfInt(text_MaxHyperPotions, "MaxHyperPotions");
-            ret &= textBoxToActiveProfInt(text_MaxTopPotions, "MaxTopPotions");
-            ret &= textBoxToActiveProfInt(text_MaxRazzBerrys, "MaxBerries");
-            ret &= textBoxToActiveProfInt(text_MaxPinapBerrys, "MaxPinapBerries");
-            ret &= textBoxToActiveProfInt(text_MaxNanabBerrys, "MaxNanabBerries");
+            foreach (Control element in this.groupBoxItems.Controls) {
+                if (element.Name.IndexOf("num_") == 0){
+                    var name = element.Name.Replace("num_","");
+                    var property = ActiveProfile.Settings.GetType().GetProperty(name);
+                    if (property!=null)
+                        property.SetValue(ActiveProfile.Settings, (int) (element as NumericUpDown).Value );
+                }
+            }
+
             ret &= textBoxToActiveProfInt(MinCPtoCatch, "MinCPtoCatch");
             ret &= textBoxToActiveProfInt(MinIVtoCatch, "MinIVtoCatch");
 
@@ -1110,29 +1104,15 @@ namespace PokemonGo.RocketAPI.Console
             text_MoveRadius.Text = ""+GlobalVars.radius;
         }
 
-        private void TextBoxes_Items_TextChanged(object sender, EventArgs e)
+        private void ItemsMaxValues_TextChanged(object sender, EventArgs e)
         {
-            int itemSumme = 0;
+            int totalCount = 0;
 
-            if (text_MaxPokeballs.Text != string.Empty && text_MaxGreatBalls.Text != string.Empty && text_MaxUltraBalls.Text != string.Empty && text_MaxRevives.Text != string.Empty && text_MaxPotions.Text != string.Empty && text_MaxSuperPotions.Text != string.Empty && text_MaxHyperPotions.Text != string.Empty 
-                && text_MaxRazzBerrys.Text != string.Empty && text_MaxNanabBerrys.Text != string.Empty && text_MaxPinapBerrys.Text != string.Empty 
-                && text_MaxTopPotions.Text != string.Empty && text_MaxTopRevives.Text != string.Empty)
-            {
-                itemSumme = Convert.ToInt16(text_MaxPokeballs.Text) +
-                            Convert.ToInt16(text_MaxGreatBalls.Text) +
-                            Convert.ToInt16(text_MaxUltraBalls.Text) +
-                            Convert.ToInt16(text_MaxRevives.Text) +
-                            Convert.ToInt16(text_MaxPotions.Text) +
-                            Convert.ToInt16(text_MaxSuperPotions.Text) +
-                            Convert.ToInt16(text_MaxHyperPotions.Text) +
-                            Convert.ToInt16(text_MaxRazzBerrys.Text) +
-                            Convert.ToInt16(text_MaxTopRevives.Text) +
-                            Convert.ToInt16(text_MaxTopPotions.Text) +
-                            Convert.ToInt16(text_MaxNanabBerrys.Text) +
-                            Convert.ToInt16(text_MaxPinapBerrys.Text);
-            }
+            foreach (Control element in this.groupBoxItems.Controls)
+                if (element.Name.IndexOf("num_") == 0)
+                    totalCount += (int)(element as NumericUpDown).Value;
 
-            text_TotalItemCount.Text = Convert.ToString(itemSumme);
+            text_TotalItemCount.Text = ""+totalCount;
         }
 
         private void TextBoxes_Throws_TextChanged(object sender, EventArgs e)

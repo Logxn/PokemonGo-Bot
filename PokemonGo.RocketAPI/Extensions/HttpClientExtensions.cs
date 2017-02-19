@@ -121,11 +121,11 @@ namespace PokemonGo.RocketAPI.Extensions
             
             if (tries < 8){
                 if (decodedResponse.StatusCode == ResponseEnvelope.Types.StatusCode.InvalidAuthToken){
-                    RandomHelper.RandomSleep(600);
-                    return PerformRemoteProcedureCall<TRequest>(client, url, requestEnvelope, ++tries).Result;
+                    RandomHelper.RandomSleep(1100);
+                    throw new AccessTokenExpiredException();
                 }
                 if (decodedResponse.StatusCode == ResponseEnvelope.Types.StatusCode.Redirect && requestEnvelope.Requests.Count == 1){
-                    RandomHelper.RandomSleep(600);
+                    RandomHelper.RandomSleep(11000);
                     return PerformRemoteProcedureCall<TRequest>(client, url, requestEnvelope, ++tries).Result;
                 }
             }

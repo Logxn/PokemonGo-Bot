@@ -14,7 +14,7 @@ namespace PokemonGo.RocketAPI.Console
 		/// Designer variable used to keep track of non-visual components.
 		/// </summary>
 		private System.ComponentModel.IContainer components = null;
-		private System.Windows.Forms.GroupBox groupBox4;
+		private System.Windows.Forms.GroupBox groupBoxItems;
 		public System.Windows.Forms.TextBox text_TotalItemCount;
 		private System.Windows.Forms.Label label31;
 		public System.Windows.Forms.NumericUpDown num_MaxTopRevives;
@@ -90,7 +90,7 @@ namespace PokemonGo.RocketAPI.Console
 		{
 		    this.components = new System.ComponentModel.Container();
 		    System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ItemsPanel));
-		    this.groupBox4 = new System.Windows.Forms.GroupBox();
+		    this.groupBoxItems = new System.Windows.Forms.GroupBox();
 		    this.pictureBox15 = new System.Windows.Forms.PictureBox();
 		    this.num_MaxUpGrade = new System.Windows.Forms.NumericUpDown();
 		    this.pictureBox11 = new System.Windows.Forms.PictureBox();
@@ -142,7 +142,7 @@ namespace PokemonGo.RocketAPI.Console
 		    this.btnCopy = new System.Windows.Forms.Button();
 		    this.btnDiscard = new System.Windows.Forms.Button();
 		    this.buttonUSe = new System.Windows.Forms.Button();
-		    this.groupBox4.SuspendLayout();
+		    this.groupBoxItems.SuspendLayout();
 		    ((System.ComponentModel.ISupportInitialize)(this.pictureBox15)).BeginInit();
 		    ((System.ComponentModel.ISupportInitialize)(this.num_MaxUpGrade)).BeginInit();
 		    ((System.ComponentModel.ISupportInitialize)(this.pictureBox11)).BeginInit();
@@ -180,52 +180,52 @@ namespace PokemonGo.RocketAPI.Console
 		    this.contextMenuStripItems.SuspendLayout();
 		    this.SuspendLayout();
 		    // 
-		    // groupBox4
+		    // groupBoxItems
 		    // 
-		    this.groupBox4.Controls.Add(this.pictureBox15);
-		    this.groupBox4.Controls.Add(this.num_MaxUpGrade);
-		    this.groupBox4.Controls.Add(this.pictureBox11);
-		    this.groupBox4.Controls.Add(this.pictureBox12);
-		    this.groupBox4.Controls.Add(this.pictureBox13);
-		    this.groupBox4.Controls.Add(this.pictureBox14);
-		    this.groupBox4.Controls.Add(this.num_MaxMetalCoat);
-		    this.groupBox4.Controls.Add(this.num_MaxKingsRock);
-		    this.groupBox4.Controls.Add(this.num_MaxSunStone);
-		    this.groupBox4.Controls.Add(this.num_MaxDragonScale);
-		    this.groupBox4.Controls.Add(this.pictureBoxNana);
-		    this.groupBox4.Controls.Add(this.num_MaxNanabBerrys);
-		    this.groupBox4.Controls.Add(this.pictureBoxPina);
-		    this.groupBox4.Controls.Add(this.num_MaxPinapBerrys);
-		    this.groupBox4.Controls.Add(this.pictureBox9);
-		    this.groupBox4.Controls.Add(this.pictureBox10);
-		    this.groupBox4.Controls.Add(this.pictureBox5);
-		    this.groupBox4.Controls.Add(this.pictureBox6);
-		    this.groupBox4.Controls.Add(this.pictureBox7);
-		    this.groupBox4.Controls.Add(this.pictureBox8);
-		    this.groupBox4.Controls.Add(this.pictureBox3);
-		    this.groupBox4.Controls.Add(this.pictureBox4);
-		    this.groupBox4.Controls.Add(this.pictureBox2);
-		    this.groupBox4.Controls.Add(this.pictureBox1);
-		    this.groupBox4.Controls.Add(this.text_TotalItemCount);
-		    this.groupBox4.Controls.Add(this.label31);
-		    this.groupBox4.Controls.Add(this.num_MaxTopRevives);
-		    this.groupBox4.Controls.Add(this.num_MaxTopPotions);
-		    this.groupBox4.Controls.Add(this.num_MaxRazzBerrys);
-		    this.groupBox4.Controls.Add(this.num_MaxHyperPotions);
-		    this.groupBox4.Controls.Add(this.num_MaxSuperPotions);
-		    this.groupBox4.Controls.Add(this.num_MaxPotions);
-		    this.groupBox4.Controls.Add(this.num_MaxRevives);
-		    this.groupBox4.Controls.Add(this.num_MaxUltraBalls);
-		    this.groupBox4.Controls.Add(this.num_MaxGreatBalls);
-		    this.groupBox4.Controls.Add(this.num_MaxPokeballs);
-		    this.groupBox4.Location = new System.Drawing.Point(5, 5);
-		    this.groupBox4.Margin = new System.Windows.Forms.Padding(5);
-		    this.groupBox4.Name = "groupBox4";
-		    this.groupBox4.Padding = new System.Windows.Forms.Padding(5);
-		    this.groupBox4.Size = new System.Drawing.Size(233, 465);
-		    this.groupBox4.TabIndex = 80;
-		    this.groupBox4.TabStop = false;
-		    this.groupBox4.Text = "Items - Maximun Values";
+		    this.groupBoxItems.Controls.Add(this.pictureBox15);
+		    this.groupBoxItems.Controls.Add(this.num_MaxUpGrade);
+		    this.groupBoxItems.Controls.Add(this.pictureBox11);
+		    this.groupBoxItems.Controls.Add(this.pictureBox12);
+		    this.groupBoxItems.Controls.Add(this.pictureBox13);
+		    this.groupBoxItems.Controls.Add(this.pictureBox14);
+		    this.groupBoxItems.Controls.Add(this.num_MaxMetalCoat);
+		    this.groupBoxItems.Controls.Add(this.num_MaxKingsRock);
+		    this.groupBoxItems.Controls.Add(this.num_MaxSunStone);
+		    this.groupBoxItems.Controls.Add(this.num_MaxDragonScale);
+		    this.groupBoxItems.Controls.Add(this.pictureBoxNana);
+		    this.groupBoxItems.Controls.Add(this.num_MaxNanabBerrys);
+		    this.groupBoxItems.Controls.Add(this.pictureBoxPina);
+		    this.groupBoxItems.Controls.Add(this.num_MaxPinapBerrys);
+		    this.groupBoxItems.Controls.Add(this.pictureBox9);
+		    this.groupBoxItems.Controls.Add(this.pictureBox10);
+		    this.groupBoxItems.Controls.Add(this.pictureBox5);
+		    this.groupBoxItems.Controls.Add(this.pictureBox6);
+		    this.groupBoxItems.Controls.Add(this.pictureBox7);
+		    this.groupBoxItems.Controls.Add(this.pictureBox8);
+		    this.groupBoxItems.Controls.Add(this.pictureBox3);
+		    this.groupBoxItems.Controls.Add(this.pictureBox4);
+		    this.groupBoxItems.Controls.Add(this.pictureBox2);
+		    this.groupBoxItems.Controls.Add(this.pictureBox1);
+		    this.groupBoxItems.Controls.Add(this.text_TotalItemCount);
+		    this.groupBoxItems.Controls.Add(this.label31);
+		    this.groupBoxItems.Controls.Add(this.num_MaxTopRevives);
+		    this.groupBoxItems.Controls.Add(this.num_MaxTopPotions);
+		    this.groupBoxItems.Controls.Add(this.num_MaxRazzBerrys);
+		    this.groupBoxItems.Controls.Add(this.num_MaxHyperPotions);
+		    this.groupBoxItems.Controls.Add(this.num_MaxSuperPotions);
+		    this.groupBoxItems.Controls.Add(this.num_MaxPotions);
+		    this.groupBoxItems.Controls.Add(this.num_MaxRevives);
+		    this.groupBoxItems.Controls.Add(this.num_MaxUltraBalls);
+		    this.groupBoxItems.Controls.Add(this.num_MaxGreatBalls);
+		    this.groupBoxItems.Controls.Add(this.num_MaxPokeballs);
+		    this.groupBoxItems.Location = new System.Drawing.Point(5, 5);
+		    this.groupBoxItems.Margin = new System.Windows.Forms.Padding(5);
+		    this.groupBoxItems.Name = "groupBoxItems";
+		    this.groupBoxItems.Padding = new System.Windows.Forms.Padding(5);
+		    this.groupBoxItems.Size = new System.Drawing.Size(233, 465);
+		    this.groupBoxItems.TabIndex = 80;
+		    this.groupBoxItems.TabStop = false;
+		    this.groupBoxItems.Text = "Items - Maximun Values";
 		    // 
 		    // pictureBox15
 		    // 
@@ -829,14 +829,14 @@ namespace PokemonGo.RocketAPI.Console
 		    this.Controls.Add(this.btnCopy);
 		    this.Controls.Add(this.lblCount);
 		    this.Controls.Add(this.label1);
-		    this.Controls.Add(this.groupBox4);
+		    this.Controls.Add(this.groupBoxItems);
 		    this.Controls.Add(this.btnRealoadItems);
 		    this.Controls.Add(this.ItemsListView);
 		    this.Margin = new System.Windows.Forms.Padding(4);
 		    this.Name = "ItemsPanel";
 		    this.Size = new System.Drawing.Size(662, 514);
-		    this.groupBox4.ResumeLayout(false);
-		    this.groupBox4.PerformLayout();
+		    this.groupBoxItems.ResumeLayout(false);
+		    this.groupBoxItems.PerformLayout();
 		    ((System.ComponentModel.ISupportInitialize)(this.pictureBox15)).EndInit();
 		    ((System.ComponentModel.ISupportInitialize)(this.num_MaxUpGrade)).EndInit();
 		    ((System.ComponentModel.ISupportInitialize)(this.pictureBox11)).EndInit();

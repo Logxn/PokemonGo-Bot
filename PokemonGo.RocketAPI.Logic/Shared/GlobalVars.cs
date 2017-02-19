@@ -264,7 +264,12 @@ namespace PokemonGo.RocketAPI.Logic.Shared
                     new KeyValuePair<ItemId, int>(ItemId.ItemMaxPotion, Shared.GlobalVars.MaxTopPotions),
                     new KeyValuePair<ItemId, int>(ItemId.ItemMaxRevive, Shared.GlobalVars.MaxTopRevives),
                     new KeyValuePair<ItemId, int>(ItemId.ItemPinapBerry, Shared.GlobalVars.MaxPinapBerries),
-                    new KeyValuePair<ItemId, int>(ItemId.ItemNanabBerry, Shared.GlobalVars.MaxNanabBerries)
+                    new KeyValuePair<ItemId, int>(ItemId.ItemNanabBerry, Shared.GlobalVars.MaxNanabBerries),
+                    new KeyValuePair<ItemId, int>(ItemId.ItemSunStone, Shared.GlobalVars.MaxSunStone),
+                    new KeyValuePair<ItemId, int>(ItemId.ItemKingsRock, Shared.GlobalVars.MaxKingsRock),
+                    new KeyValuePair<ItemId, int>(ItemId.ItemMetalCoat, Shared.GlobalVars.MaxMetalCoat),
+                    new KeyValuePair<ItemId, int>(ItemId.ItemDragonScale, Shared.GlobalVars.MaxDragonScale),
+                    new KeyValuePair<ItemId, int>(ItemId.ItemUpGrade, Shared.GlobalVars.MaxUpGrade)
                 };
         }
 

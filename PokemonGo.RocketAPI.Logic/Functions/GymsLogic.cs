@@ -294,7 +294,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
             // Sometimes we get a null from startgymBattle so we try to start battle 3 times
             var numTries = 3;
             var startFailed = true;
-            const int secondsToWait = 30;
+            const int secondsToWait = 2;
 
             while (startFailed && numTries > 0) {
                 RandomHelper.RandomSleep(800);
