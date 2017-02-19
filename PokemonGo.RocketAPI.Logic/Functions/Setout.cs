@@ -133,7 +133,8 @@ namespace PokemonGo.RocketAPI.Logic.Functions
             {
                 return;
             }
-            
+            EvolvePokemonResponse evolvePokemonOutProto;
+
             var pokemonToEvolve = Logic.objClient.Inventory.GetPokemonToEvolve(true,filter);
             var toEvolveCount = pokemonToEvolve.Count();
             var startEvolving = (toEvolveCount==0 || toEvolveCount==Shared.GlobalVars.EvolveAt );
@@ -144,7 +145,37 @@ namespace PokemonGo.RocketAPI.Logic.Functions
             foreach (var pokemon in pokemonToEvolve)
             {
                 // TODO: Check new 2 gen evolves
-                var evolvePokemonOutProto = Logic.objClient.Inventory.EvolvePokemon(pokemon.Id);
+                if (pokemon.Id == (ulong)PokemonId.Seadra)
+                {
+                    // Do a check if the item is in inventory
+                     evolvePokemonOutProto = Logic.objClient.Inventory.EvolvePokemon(pokemon.Id, ItemId.ItemDragonScale);
+                }
+                else if (pokemon.Id == (ulong)PokemonId.Poliwhirl || pokemon.Id == (ulong)PokemonId.Slowpoke)
+                {
+                    // Do a check if the item is in inventory
+                     evolvePokemonOutProto = Logic.objClient.Inventory.EvolvePokemon(pokemon.Id, ItemId.ItemKingsRock);
+                }
+                else if (pokemon.Id == (ulong)PokemonId.Scyther || pokemon.Id == (ulong)PokemonId.Onix)
+                {
+                    // Do a check if the item is in inventory
+                     evolvePokemonOutProto = Logic.objClient.Inventory.EvolvePokemon(pokemon.Id, ItemId.ItemMetalCoat);
+                }
+                else if (pokemon.Id == (ulong)PokemonId.Porygon2)
+                {
+                    // Do a check if the item is in inventory
+                     evolvePokemonOutProto = Logic.objClient.Inventory.EvolvePokemon(pokemon.Id,  ItemId.ItemUpGrade);
+                }
+                else if (pokemon.Id == (ulong)PokemonId.Gloom || pokemon.Id == (ulong)PokemonId.Sunkern)
+                {
+                    // Do a check if the item is in inventory
+                     evolvePokemonOutProto = Logic.objClient.Inventory.EvolvePokemon(pokemon.Id, ItemId.ItemSunStone);
+                }
+                else
+                {
+                     evolvePokemonOutProto = Logic.objClient.Inventory.EvolvePokemon(pokemon.Id);
+                }
+
+                
                 if (evolvePokemonOutProto == null)
                     continue;
                 var date = DateTime.Now.ToString();
