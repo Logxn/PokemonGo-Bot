@@ -345,7 +345,8 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                     var baseAction = new BattleAction();
                     baseAction.ActionStartMs = timeMs + RandomNumbers.Next(110, 170);
                     baseAction.TargetIndex = -1;
-                    baseAction.TargetPokemonId = attResp.ActiveDefender.PokemonData.Id;
+                    if (attResp.ActiveDefender != null)
+                        baseAction.TargetPokemonId = attResp.ActiveDefender.PokemonData.Id;
                     if (attResp.ActiveAttacker.PokemonData.Stamina > 0)
                         baseAction.ActivePokemonId = attResp.ActiveAttacker.PokemonData.Id;
                     // One each ten times we try to evade attack
@@ -403,9 +404,15 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                     if (inBattle) {
 
                         inBattle = attResp.BattleLog.State == BattleState.Active;
+                        
                         if (attResp.BattleLog.State == BattleState.Victory){
                             numVictories ++;
-                            inBattle = (numVictories < gymDetails.GymState.Memberships.Count);
+                            //inBattle = (numVictories < gymDetails.GymState.Memberships.Count);
+                            if (numVictories < gymDetails.GymState.Memberships.Count){
+                                var next = gymDetails.GymState.Memberships[numVictories];
+                                resp = StartGymBattle(client, gym.Id, next.PokemonData.Id, pokeAttackersIds);
+                                RandomHelper.RandomSleep(1000);
+                            }
                         }
 
                         if (attResp.ActiveAttacker != null) {
@@ -442,13 +449,13 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                     } else if (attResp.BattleLog.State == BattleState.Victory) {
                         
                         Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - We have won");
-                        /*if (numDefenders > 1) {
+                        if (numDefenders > 1) {
                             Logger.Debug("(Gym) - Leaving Battle");
                             do {
                                 attResp = LeaveBattle(gym, client, resp, attResp, lastRetrievedAction);
                             } while (attResp.Result != AttackGymResponse.Types.Result.Success);
                             RandomHelper.RandomSleep(800);
-                        } else */
+                        } else 
                         {
                             ReviveAndCurePokemons(client);
                             var pokemons = (client.Inventory.GetPokemons()).ToList();
@@ -502,7 +509,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
             var timeMs = attResp.BattleLog.ServerMs;
             var attack = new BattleAction();
             attack.Type = BattleActionType.ActionPlayerQuit;
-            attack.ActionStartMs = timeMs + RandomNumbers.Next(400, 500);
+            
             attack.TargetIndex = -1;
             if (attResp.ActiveAttacker != null)
                 attack.ActivePokemonId = attResp.ActiveAttacker.PokemonData.Id;

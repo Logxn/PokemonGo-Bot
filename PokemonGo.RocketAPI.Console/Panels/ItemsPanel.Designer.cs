@@ -19,7 +19,7 @@ namespace PokemonGo.RocketAPI.Console
 		private System.Windows.Forms.Label label31;
 		public System.Windows.Forms.NumericUpDown num_MaxTopRevives;
 		public System.Windows.Forms.NumericUpDown num_MaxTopPotions;
-		public System.Windows.Forms.NumericUpDown num_MaxRazzBerrys;
+		public System.Windows.Forms.NumericUpDown num_MaxBerries;
 		public System.Windows.Forms.NumericUpDown num_MaxHyperPotions;
 		public System.Windows.Forms.NumericUpDown num_MaxSuperPotions;
 		public System.Windows.Forms.NumericUpDown num_MaxPotions;
@@ -53,9 +53,9 @@ namespace PokemonGo.RocketAPI.Console
 		private System.Windows.Forms.Button buttonUSe;
 		private System.Windows.Forms.ColumnHeader chID;
 		private System.Windows.Forms.PictureBox pictureBoxNana;
-		public System.Windows.Forms.NumericUpDown num_MaxNanabBerrys;
+		public System.Windows.Forms.NumericUpDown num_MaxNanabBerries;
 		private System.Windows.Forms.PictureBox pictureBoxPina;
-		public System.Windows.Forms.NumericUpDown num_MaxPinapBerrys;
+		public System.Windows.Forms.NumericUpDown num_MaxPinapBerries;
 		private System.Windows.Forms.PictureBox pictureBox15;
 		public System.Windows.Forms.NumericUpDown num_MaxUpGrade;
 		private System.Windows.Forms.PictureBox pictureBox11;
@@ -102,9 +102,9 @@ namespace PokemonGo.RocketAPI.Console
 		    this.num_MaxSunStone = new System.Windows.Forms.NumericUpDown();
 		    this.num_MaxDragonScale = new System.Windows.Forms.NumericUpDown();
 		    this.pictureBoxNana = new System.Windows.Forms.PictureBox();
-		    this.num_MaxNanabBerrys = new System.Windows.Forms.NumericUpDown();
+		    this.num_MaxNanabBerries = new System.Windows.Forms.NumericUpDown();
 		    this.pictureBoxPina = new System.Windows.Forms.PictureBox();
-		    this.num_MaxPinapBerrys = new System.Windows.Forms.NumericUpDown();
+		    this.num_MaxPinapBerries = new System.Windows.Forms.NumericUpDown();
 		    this.pictureBox9 = new System.Windows.Forms.PictureBox();
 		    this.pictureBox10 = new System.Windows.Forms.PictureBox();
 		    this.pictureBox5 = new System.Windows.Forms.PictureBox();
@@ -119,7 +119,7 @@ namespace PokemonGo.RocketAPI.Console
 		    this.label31 = new System.Windows.Forms.Label();
 		    this.num_MaxTopRevives = new System.Windows.Forms.NumericUpDown();
 		    this.num_MaxTopPotions = new System.Windows.Forms.NumericUpDown();
-		    this.num_MaxRazzBerrys = new System.Windows.Forms.NumericUpDown();
+		    this.num_MaxBerries = new System.Windows.Forms.NumericUpDown();
 		    this.num_MaxHyperPotions = new System.Windows.Forms.NumericUpDown();
 		    this.num_MaxSuperPotions = new System.Windows.Forms.NumericUpDown();
 		    this.num_MaxPotions = new System.Windows.Forms.NumericUpDown();
@@ -154,9 +154,9 @@ namespace PokemonGo.RocketAPI.Console
 		    ((System.ComponentModel.ISupportInitialize)(this.num_MaxSunStone)).BeginInit();
 		    ((System.ComponentModel.ISupportInitialize)(this.num_MaxDragonScale)).BeginInit();
 		    ((System.ComponentModel.ISupportInitialize)(this.pictureBoxNana)).BeginInit();
-		    ((System.ComponentModel.ISupportInitialize)(this.num_MaxNanabBerrys)).BeginInit();
+		    ((System.ComponentModel.ISupportInitialize)(this.num_MaxNanabBerries)).BeginInit();
 		    ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPina)).BeginInit();
-		    ((System.ComponentModel.ISupportInitialize)(this.num_MaxPinapBerrys)).BeginInit();
+		    ((System.ComponentModel.ISupportInitialize)(this.num_MaxPinapBerries)).BeginInit();
 		    ((System.ComponentModel.ISupportInitialize)(this.pictureBox9)).BeginInit();
 		    ((System.ComponentModel.ISupportInitialize)(this.pictureBox10)).BeginInit();
 		    ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
@@ -169,7 +169,7 @@ namespace PokemonGo.RocketAPI.Console
 		    ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
 		    ((System.ComponentModel.ISupportInitialize)(this.num_MaxTopRevives)).BeginInit();
 		    ((System.ComponentModel.ISupportInitialize)(this.num_MaxTopPotions)).BeginInit();
-		    ((System.ComponentModel.ISupportInitialize)(this.num_MaxRazzBerrys)).BeginInit();
+		    ((System.ComponentModel.ISupportInitialize)(this.num_MaxBerries)).BeginInit();
 		    ((System.ComponentModel.ISupportInitialize)(this.num_MaxHyperPotions)).BeginInit();
 		    ((System.ComponentModel.ISupportInitialize)(this.num_MaxSuperPotions)).BeginInit();
 		    ((System.ComponentModel.ISupportInitialize)(this.num_MaxPotions)).BeginInit();
@@ -193,9 +193,9 @@ namespace PokemonGo.RocketAPI.Console
 		    this.groupBoxItems.Controls.Add(this.num_MaxSunStone);
 		    this.groupBoxItems.Controls.Add(this.num_MaxDragonScale);
 		    this.groupBoxItems.Controls.Add(this.pictureBoxNana);
-		    this.groupBoxItems.Controls.Add(this.num_MaxNanabBerrys);
+		    this.groupBoxItems.Controls.Add(this.num_MaxNanabBerries);
 		    this.groupBoxItems.Controls.Add(this.pictureBoxPina);
-		    this.groupBoxItems.Controls.Add(this.num_MaxPinapBerrys);
+		    this.groupBoxItems.Controls.Add(this.num_MaxPinapBerries);
 		    this.groupBoxItems.Controls.Add(this.pictureBox9);
 		    this.groupBoxItems.Controls.Add(this.pictureBox10);
 		    this.groupBoxItems.Controls.Add(this.pictureBox5);
@@ -210,7 +210,7 @@ namespace PokemonGo.RocketAPI.Console
 		    this.groupBoxItems.Controls.Add(this.label31);
 		    this.groupBoxItems.Controls.Add(this.num_MaxTopRevives);
 		    this.groupBoxItems.Controls.Add(this.num_MaxTopPotions);
-		    this.groupBoxItems.Controls.Add(this.num_MaxRazzBerrys);
+		    this.groupBoxItems.Controls.Add(this.num_MaxBerries);
 		    this.groupBoxItems.Controls.Add(this.num_MaxHyperPotions);
 		    this.groupBoxItems.Controls.Add(this.num_MaxSuperPotions);
 		    this.groupBoxItems.Controls.Add(this.num_MaxPotions);
@@ -357,19 +357,19 @@ namespace PokemonGo.RocketAPI.Console
 		    this.pictureBoxNana.TabIndex = 41;
 		    this.pictureBoxNana.TabStop = false;
 		    // 
-		    // num_MaxNanabBerrys
+		    // num_MaxNanabBerries
 		    // 
-		    this.num_MaxNanabBerrys.Location = new System.Drawing.Point(165, 129);
-		    this.num_MaxNanabBerrys.Margin = new System.Windows.Forms.Padding(5);
-		    this.num_MaxNanabBerrys.Maximum = new decimal(new int[] {
+		    this.num_MaxNanabBerries.Location = new System.Drawing.Point(165, 129);
+		    this.num_MaxNanabBerries.Margin = new System.Windows.Forms.Padding(5);
+		    this.num_MaxNanabBerries.Maximum = new decimal(new int[] {
             2000,
             0,
             0,
             0});
-		    this.num_MaxNanabBerrys.Name = "num_MaxNanabBerrys";
-		    this.num_MaxNanabBerrys.Size = new System.Drawing.Size(52, 20);
-		    this.num_MaxNanabBerrys.TabIndex = 40;
-		    this.num_MaxNanabBerrys.ValueChanged += new System.EventHandler(this.num_Max);
+		    this.num_MaxNanabBerries.Name = "num_MaxNanabBerries";
+		    this.num_MaxNanabBerries.Size = new System.Drawing.Size(52, 20);
+		    this.num_MaxNanabBerries.TabIndex = 40;
+		    this.num_MaxNanabBerries.ValueChanged += new System.EventHandler(this.num_Max);
 		    // 
 		    // pictureBoxPina
 		    // 
@@ -381,19 +381,19 @@ namespace PokemonGo.RocketAPI.Console
 		    this.pictureBoxPina.TabIndex = 38;
 		    this.pictureBoxPina.TabStop = false;
 		    // 
-		    // num_MaxPinapBerrys
+		    // num_MaxPinapBerries
 		    // 
-		    this.num_MaxPinapBerrys.Location = new System.Drawing.Point(58, 129);
-		    this.num_MaxPinapBerrys.Margin = new System.Windows.Forms.Padding(5);
-		    this.num_MaxPinapBerrys.Maximum = new decimal(new int[] {
+		    this.num_MaxPinapBerries.Location = new System.Drawing.Point(58, 129);
+		    this.num_MaxPinapBerries.Margin = new System.Windows.Forms.Padding(5);
+		    this.num_MaxPinapBerries.Maximum = new decimal(new int[] {
             2000,
             0,
             0,
             0});
-		    this.num_MaxPinapBerrys.Name = "num_MaxPinapBerrys";
-		    this.num_MaxPinapBerrys.Size = new System.Drawing.Size(52, 20);
-		    this.num_MaxPinapBerrys.TabIndex = 37;
-		    this.num_MaxPinapBerrys.ValueChanged += new System.EventHandler(this.num_Max);
+		    this.num_MaxPinapBerries.Name = "num_MaxPinapBerries";
+		    this.num_MaxPinapBerries.Size = new System.Drawing.Size(52, 20);
+		    this.num_MaxPinapBerries.TabIndex = 37;
+		    this.num_MaxPinapBerries.ValueChanged += new System.EventHandler(this.num_Max);
 		    // 
 		    // pictureBox9
 		    // 
@@ -545,19 +545,19 @@ namespace PokemonGo.RocketAPI.Console
 		    this.num_MaxTopPotions.TabIndex = 24;
 		    this.num_MaxTopPotions.ValueChanged += new System.EventHandler(this.num_Max);
 		    // 
-		    // num_MaxRazzBerrys
+		    // num_MaxBerries
 		    // 
-		    this.num_MaxRazzBerrys.Location = new System.Drawing.Point(164, 85);
-		    this.num_MaxRazzBerrys.Margin = new System.Windows.Forms.Padding(5);
-		    this.num_MaxRazzBerrys.Maximum = new decimal(new int[] {
+		    this.num_MaxBerries.Location = new System.Drawing.Point(164, 85);
+		    this.num_MaxBerries.Margin = new System.Windows.Forms.Padding(5);
+		    this.num_MaxBerries.Maximum = new decimal(new int[] {
             2000,
             0,
             0,
             0});
-		    this.num_MaxRazzBerrys.Name = "num_MaxRazzBerrys";
-		    this.num_MaxRazzBerrys.Size = new System.Drawing.Size(52, 20);
-		    this.num_MaxRazzBerrys.TabIndex = 25;
-		    this.num_MaxRazzBerrys.ValueChanged += new System.EventHandler(this.num_Max);
+		    this.num_MaxBerries.Name = "num_MaxBerries";
+		    this.num_MaxBerries.Size = new System.Drawing.Size(52, 20);
+		    this.num_MaxBerries.TabIndex = 25;
+		    this.num_MaxBerries.ValueChanged += new System.EventHandler(this.num_Max);
 		    // 
 		    // num_MaxHyperPotions
 		    // 
@@ -848,9 +848,9 @@ namespace PokemonGo.RocketAPI.Console
 		    ((System.ComponentModel.ISupportInitialize)(this.num_MaxSunStone)).EndInit();
 		    ((System.ComponentModel.ISupportInitialize)(this.num_MaxDragonScale)).EndInit();
 		    ((System.ComponentModel.ISupportInitialize)(this.pictureBoxNana)).EndInit();
-		    ((System.ComponentModel.ISupportInitialize)(this.num_MaxNanabBerrys)).EndInit();
+		    ((System.ComponentModel.ISupportInitialize)(this.num_MaxNanabBerries)).EndInit();
 		    ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPina)).EndInit();
-		    ((System.ComponentModel.ISupportInitialize)(this.num_MaxPinapBerrys)).EndInit();
+		    ((System.ComponentModel.ISupportInitialize)(this.num_MaxPinapBerries)).EndInit();
 		    ((System.ComponentModel.ISupportInitialize)(this.pictureBox9)).EndInit();
 		    ((System.ComponentModel.ISupportInitialize)(this.pictureBox10)).EndInit();
 		    ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).EndInit();
@@ -863,7 +863,7 @@ namespace PokemonGo.RocketAPI.Console
 		    ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
 		    ((System.ComponentModel.ISupportInitialize)(this.num_MaxTopRevives)).EndInit();
 		    ((System.ComponentModel.ISupportInitialize)(this.num_MaxTopPotions)).EndInit();
-		    ((System.ComponentModel.ISupportInitialize)(this.num_MaxRazzBerrys)).EndInit();
+		    ((System.ComponentModel.ISupportInitialize)(this.num_MaxBerries)).EndInit();
 		    ((System.ComponentModel.ISupportInitialize)(this.num_MaxHyperPotions)).EndInit();
 		    ((System.ComponentModel.ISupportInitialize)(this.num_MaxSuperPotions)).EndInit();
 		    ((System.ComponentModel.ISupportInitialize)(this.num_MaxPotions)).EndInit();

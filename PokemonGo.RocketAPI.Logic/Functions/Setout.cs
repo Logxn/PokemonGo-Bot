@@ -148,8 +148,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
 
                 var item = Inventory.GeteNeededItemToEvolve(pokemon.PokemonId);
                 if (item != ItemId.ItemUnknown && Logic.objClient.Inventory.GetItemAmountByType(item) < 1){
-                    if (pokemon.PokemonId == PokemonId.Slowpoke 
-                        || pokemon.PokemonId == PokemonId.Poliwhirl
+                    if ( pokemon.PokemonId == PokemonId.Poliwhirl
                         || pokemon.PokemonId == PokemonId.Gloom
                        )
                         item = ItemId.ItemUnknown; // try to evolve without items
@@ -409,8 +408,9 @@ namespace PokemonGo.RocketAPI.Logic.Functions
 
             currentxp = stats.Experience;
 
+            var numDifferentPokemons = Enum.GetNames(typeof(PokemonId)).Length -1;
             var pokemonToEvolve = (client.Inventory.GetPokemonToEvolve()).Count();
-            var pokedexpercentraw = Convert.ToDouble(stats.UniquePokedexEntries) / Convert.ToDouble(150) * 100;
+            var pokedexpercentraw = Convert.ToDouble(stats.UniquePokedexEntries) / Convert.ToDouble(numDifferentPokemons) * 100;
             var pokedexpercent = Math.Floor(pokedexpercentraw);
 
             if (curexp == 0 && expneeded == 1000)
@@ -438,7 +438,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
             Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"KM Walked: {Math.Round(stats.KmWalked, 2)}");
             Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Pokemon: {pokemonCount}/{maxPokemonStorage} ({pokemonToEvolve} Evolvable)");
             Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Eggs: {eggCount}");
-            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Pokedex Completion: {stats.UniquePokedexEntries}/150 [{pokedexpercent}%]");
+            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Pokedex Completion: {stats.UniquePokedexEntries}/{numDifferentPokemons} [{pokedexpercent}%]");
             Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Stardust: {stardust}");
             Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "------------------------------------------------------------");
             Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Pokemon Catch Count this session: {pokemonCatchCount}");

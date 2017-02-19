@@ -445,8 +445,7 @@ namespace PokemonGo.RocketAPI.Console
                 var item = Inventory.GeteNeededItemToEvolve(pokemoninfo.PokemonId);
 
                 if (item != ItemId.ItemUnknown && client.Inventory.GetItemAmountByType(item) < 1){
-                    if (pokemoninfo.PokemonId == PokemonId.Slowpoke 
-                        || pokemoninfo.PokemonId == PokemonId.Poliwhirl
+                    if ( pokemoninfo.PokemonId == PokemonId.Poliwhirl
                         || pokemoninfo.PokemonId == PokemonId.Gloom
                        )
                         item = ItemId.ItemUnknown; // try to evolve without items
@@ -952,12 +951,14 @@ namespace PokemonGo.RocketAPI.Console
             var selectedPokemon = (PokemonData) PokemonListView.SelectedItems[0].Tag;
             if (selectedPokemon.DeployedFortId=="")
                 return;
+
             var forts = client.Map.GetMapObjects().Result.Item1;
             var pokeGym = forts.MapCells.SelectMany(i => i.Forts)
                 .FirstOrDefault(i => i.Id == selectedPokemon.DeployedFortId );
-            string message;
+
+            string message ="";
             if (pokeGym == null){
-                message = th.TS("Gym is not in range.\nID: ")+pokeGym.Id;
+                message = th.TS("Gym is not in range.\nID: ") + selectedPokemon.DeployedFortId;
             }else{
                 var gymDetails = client.Fort.GetGymDetails(pokeGym.Id, pokeGym.Latitude, pokeGym.Longitude);
                 message = string.Format("{0}\n{1}, {2}\n{3}\nID: {4}", LocationUtils.FindAddress(pokeGym.Latitude, pokeGym.Longitude), pokeGym.Latitude, pokeGym.Longitude, gymDetails.Name ,  pokeGym.Id);

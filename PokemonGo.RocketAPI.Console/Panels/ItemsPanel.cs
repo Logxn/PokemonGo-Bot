@@ -47,23 +47,15 @@ namespace PokemonGo.RocketAPI.Console
         public void Execute()
         {
             try {
-                num_MaxPokeballs.Value = GlobalVars.MaxPokeballs;
-                num_MaxGreatBalls.Value = GlobalVars.MaxGreatballs;
-                num_MaxUltraBalls.Value = GlobalVars.MaxUltraballs;
-                num_MaxRevives.Value = GlobalVars.MaxRevives;
-                num_MaxPotions.Value = GlobalVars.MaxPotions;
-                num_MaxSuperPotions.Value = GlobalVars.MaxSuperPotions;
-                num_MaxHyperPotions.Value = GlobalVars.MaxHyperPotions;
-                num_MaxRazzBerrys.Value = GlobalVars.MaxBerries;
-                num_MaxPinapBerrys.Value = GlobalVars.MaxPinapBerries;
-                num_MaxNanabBerrys.Value = GlobalVars.MaxNanabBerries;
-                num_MaxTopRevives.Value = GlobalVars.MaxTopRevives;
-                num_MaxTopPotions.Value = GlobalVars.MaxTopPotions;
-                int count = 0;
-                count += GlobalVars.MaxPokeballs + GlobalVars.MaxGreatballs + GlobalVars.MaxUltraballs + GlobalVars.MaxRevives
-                + GlobalVars.MaxPotions + GlobalVars.MaxSuperPotions + GlobalVars.MaxHyperPotions + GlobalVars.MaxBerries
-                + GlobalVars.MaxTopRevives + GlobalVars.MaxTopPotions;
-                text_TotalItemCount.Text = count.ToString();
+                foreach (Control element in this.groupBoxItems.Controls) {
+                    if (element.Name.IndexOf("num_") == 0){
+                        var name = element.Name.Replace("num_","");
+                        var property = typeof(GlobalVars).GetField(name);
+                        if (property!=null)
+                            (element as NumericUpDown).Value = (int) property.GetValue(null);
+                    }
+                }
+                UpdateItemTotalCount();
 
                 var client = Logic.Logic.objClient;
                 if (client.ReadyToUse != false) {
