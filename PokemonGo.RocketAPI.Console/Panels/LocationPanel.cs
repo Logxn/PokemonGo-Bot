@@ -455,13 +455,15 @@ namespace PokemonGo.RocketAPI.Console
             pokeGymMaker.ToolTip.Font = new System.Drawing.Font("Arial", 12, System.Drawing.GraphicsUnit.Pixel);
             pokeGymMaker.ToolTipMode = MarkerTooltipMode.OnMouseOver;
 
-            if (_pokeGymsMarks.ContainsKey(pokeGym.Id))
+            if (_pokeGymsMarks.ContainsKey(pokeGym.Id)){
+                var markerToDel = _pokeGymsMarks[pokeGym.Id];
+                if (_pokeGymsOverlay.Markers.Contains(markerToDel))
+                    _pokeGymsOverlay.Markers.Remove(markerToDel);
                 _pokeGymsMarks.Remove(pokeGym.Id);
+            }
             _pokeGymsMarks.Add(pokeGym.Id, pokeGymMaker);
-            
-            if (_pokeGymsOverlay.Markers.Contains(pokeGymMaker))
-                _pokeGymsOverlay.Markers.Remove(pokeGymMaker);
              _pokeGymsOverlay.Markers.Add(pokeGymMaker);
+
             // Show Guard
             GMarkerGoogle guardPokemonMarker;
             Bitmap pokebitMap = PokeImgManager.GetPokemonMediumImage(pokeGym.GuardPokemonId);
@@ -484,13 +486,14 @@ namespace PokemonGo.RocketAPI.Console
 
             }
             guardPokemonMarker.Offset = new Point(-bitmap.Width / 2 - 8, offsetY - bitmap.Height);
-            
-            if (_pokeGymsMarks.ContainsKey(pokeGym.Id + "-" + pokeGym.GuardPokemonId))
-                _pokeGymsMarks.Remove(pokeGym.Id + "-" + pokeGym.GuardPokemonId);
+
+            if (_pokeGymsMarks.ContainsKey(pokeGym.Id + "-" + pokeGym.GuardPokemonId)){
+                var markerToDel = _pokeGymsMarks[pokeGym.Id + "-" + pokeGym.GuardPokemonId];
+                if (_pokeGymsOverlay.Markers.Contains(markerToDel))
+                    _pokeGymsOverlay.Markers.Remove(markerToDel);
+                 _pokeGymsMarks.Remove(pokeGym.Id + "-" + pokeGym.GuardPokemonId);
+            }
             _pokeGymsMarks.Add(pokeGym.Id + "-" + pokeGym.GuardPokemonId, guardPokemonMarker);
-            
-            if (_pokeGymsOverlay.Markers.Contains(guardPokemonMarker))
-                _pokeGymsOverlay.Markers.Remove(guardPokemonMarker);
             _pokeGymsOverlay.Markers.Add(guardPokemonMarker);
             }));
 

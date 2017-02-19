@@ -189,6 +189,12 @@ namespace PokemonGo.RocketAPI.Logic.Shared
         public static string DeviceTradeName ="";
         public static string DeviceID ="";
 
+        public static int MaxDragonScale =100;
+        public static int MaxSunStone =100;
+        public static int MaxKingsRock =100;
+        public static int MaxMetalCoat =100;
+        public static int MaxUpGrade =100;
+
         /// <summary>
         /// Copy all values from ProfileSettings to GlobalVars.
         /// </summary>

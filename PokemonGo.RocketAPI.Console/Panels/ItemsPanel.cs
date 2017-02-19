@@ -200,6 +200,21 @@ namespace PokemonGo.RocketAPI.Console
                     case "num_MaxNanabBerrys":
                         GlobalVars.MaxNanabBerries = value;
                         break;
+                    case "num_MaxDragonScale":
+                        GlobalVars.MaxDragonScale = value;
+                        break;
+                    case "num_MaxSunStone":
+                        GlobalVars.MaxSunStone = value;
+                        break;
+                    case "num_MaxKingsRock":
+                        GlobalVars.MaxKingsRock = value;
+                        break;
+                    case "num_MaxMetalCoat":
+                        GlobalVars.MaxMetalCoat = value;
+                        break;
+                    case "num_MaxUpGrade":
+                        GlobalVars.MaxUpGrade = value;
+                        break;
                 }
                 int count = 0;
                 count += GlobalVars.MaxPokeballs + GlobalVars.MaxGreatballs + GlobalVars.MaxUltraballs + GlobalVars.MaxRevives

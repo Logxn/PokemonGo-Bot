@@ -965,6 +965,13 @@ namespace PokemonGo.RocketAPI.Logic.Shared
             set;
         }
 
+        public  int MaxDragonScale {get;set;}
+        public  int MaxSunStone{get;set;}
+        public  int MaxKingsRock {get;set;}
+        public  int MaxMetalCoat {get;set;}
+        public  int MaxUpGrade {get;set;}
+
+
         #endregion
     
         public void SaveToFile(string filename)
