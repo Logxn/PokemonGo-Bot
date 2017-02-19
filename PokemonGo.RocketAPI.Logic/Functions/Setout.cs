@@ -144,40 +144,46 @@ namespace PokemonGo.RocketAPI.Logic.Functions
 
             foreach (var pokemon in pokemonToEvolve)
             {
-                // TODO: Check new 2 gen evolves
-                if (pokemon.Id == (ulong)PokemonId.Seadra)
-                {
-                    // Do a check if the item is in inventory
-                     evolvePokemonOutProto = Logic.objClient.Inventory.EvolvePokemon(pokemon.Id, ItemId.ItemDragonScale);
+
+                var item = ItemId.ItemUnknown;
+                switch (pokemon.PokemonId) {
+                    case PokemonId.Seadra:
+                        item = ItemId.ItemDragonScale;
+                        break;
+                    case PokemonId.Poliwhirl:
+                    case PokemonId.Slowpoke:
+                        item = ItemId.ItemKingsRock;
+                        break;
+                    case PokemonId.Scyther:
+                    case PokemonId.Onix:
+                        item = ItemId.ItemMetalCoat;
+                        break;
+                    case PokemonId.Porygon:
+                        item = ItemId.ItemUpGrade;
+                        break;
+                    case PokemonId.Gloom:
+                    case PokemonId.Sunkern:
+                        item = ItemId.ItemSunStone;
+                        break;
                 }
-                else if (pokemon.Id == (ulong)PokemonId.Poliwhirl || pokemon.Id == (ulong)PokemonId.Slowpoke)
-                {
-                    // Do a check if the item is in inventory
-                     evolvePokemonOutProto = Logic.objClient.Inventory.EvolvePokemon(pokemon.Id, ItemId.ItemKingsRock);
+
+                if (item != ItemId.ItemUnknown && Logic.objClient.Inventory.GetItemAmountByType(item) < 1){
+                    if (pokemon.PokemonId == PokemonId.Slowpoke 
+                        || pokemon.PokemonId == PokemonId.Poliwhirl
+                        || pokemon.PokemonId == PokemonId.Gloom
+                       )
+                        item = ItemId.ItemUnknown; // try to evolve without items
+                    else
+                        continue; // go to next pokemon
                 }
-                else if (pokemon.Id == (ulong)PokemonId.Scyther || pokemon.Id == (ulong)PokemonId.Onix)
-                {
-                    // Do a check if the item is in inventory
-                     evolvePokemonOutProto = Logic.objClient.Inventory.EvolvePokemon(pokemon.Id, ItemId.ItemMetalCoat);
-                }
-                else if (pokemon.Id == (ulong)PokemonId.Porygon2)
-                {
-                    // Do a check if the item is in inventory
-                     evolvePokemonOutProto = Logic.objClient.Inventory.EvolvePokemon(pokemon.Id,  ItemId.ItemUpGrade);
-                }
-                else if (pokemon.Id == (ulong)PokemonId.Gloom || pokemon.Id == (ulong)PokemonId.Sunkern)
-                {
-                    // Do a check if the item is in inventory
-                     evolvePokemonOutProto = Logic.objClient.Inventory.EvolvePokemon(pokemon.Id, ItemId.ItemSunStone);
-                }
-                else
-                {
-                     evolvePokemonOutProto = Logic.objClient.Inventory.EvolvePokemon(pokemon.Id);
-                }
+                
+
+                evolvePokemonOutProto = Logic.objClient.Inventory.EvolvePokemon(pokemon.Id, item);
 
                 
                 if (evolvePokemonOutProto == null)
                     continue;
+
                 var date = DateTime.Now.ToString();
                 var evolvelog = Path.Combine(logPath, "EvolveLog.txt");
 
