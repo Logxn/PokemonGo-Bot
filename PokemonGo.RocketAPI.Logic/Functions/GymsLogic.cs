@@ -403,8 +403,8 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                     inBattle = (attResp.Result == AttackGymResponse.Types.Result.Success);
                     if (inBattle) {
 
-                        inBattle = attResp.BattleLog.State == BattleState.Active;
-                        
+                        inBattle = (attResp.BattleLog.State == BattleState.Active);
+                        /*
                         if (attResp.BattleLog.State == BattleState.Victory){
                             numVictories ++;
                             //inBattle = (numVictories < gymDetails.GymState.Memberships.Count);
@@ -413,7 +413,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                                 resp = StartGymBattle(client, gym.Id, next.PokemonData.Id, pokeAttackersIds);
                                 RandomHelper.RandomSleep(1000);
                             }
-                        }
+                        }*/
 
                         if (attResp.ActiveAttacker != null) {
                             energy = attResp.ActiveAttacker.CurrentEnergy;
@@ -451,9 +451,11 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                         Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - We have won");
                         if (numDefenders > 1) {
                             Logger.Debug("(Gym) - Leaving Battle");
+                            var times = 3;
                             do {
                                 attResp = LeaveBattle(gym, client, resp, attResp, lastRetrievedAction);
-                            } while (attResp.Result != AttackGymResponse.Types.Result.Success);
+                                times --;
+                            } while (attResp.Result != AttackGymResponse.Types.Result.Success && times > 0);
                             RandomHelper.RandomSleep(800);
                         } else 
                         {
@@ -517,9 +519,11 @@ namespace PokemonGo.RocketAPI.Logic.Functions
             battleActions.Add(attack);
             lastRetrievedAction = new BattleAction();
             AttackGymResponse ret;
+            var times =3;
             do {
                 ret = client.Fort.AttackGym(gym.Id, resp.BattleId, battleActions, lastRetrievedAction);
-            } while (ret.Result != AttackGymResponse.Types.Result.Success);
+                times --;
+            } while (ret.Result != AttackGymResponse.Types.Result.Success && times>0);
             
             return ret;
         }
