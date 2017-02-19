@@ -194,11 +194,11 @@ namespace PokemonGo.RocketAPI.Console
                     case "num_MaxRazzBerrys":
                         GlobalVars.MaxBerries = value;
                         break;
-                    case "num_MaxNanabRazzBerrys":
-                        GlobalVars.MaxNanabBerries = value;
-                        break;
                     case "num_MaxPinapBerrys":
                         GlobalVars.MaxPinapBerries = value;
+                        break;
+                    case "num_MaxNanabBerrys":
+                        GlobalVars.MaxNanabBerries = value;
                         break;
                 }
                 int count = 0;
