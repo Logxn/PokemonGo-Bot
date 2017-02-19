@@ -456,7 +456,36 @@ namespace PokemonGo.RocketAPI.Console
                 var pokemoninfo = (PokemonData)selectedItem.Tag;
                 
                 // TODO: Don`t know how to know which item is to evolve each pokemon
-                resp = client.Inventory.EvolvePokemon(pokemoninfo.Id);
+                if(pokemoninfo.Id == (ulong)PokemonId.Seadra)
+                {
+                    // Do a check if the item is in inventory
+                    resp = client.Inventory.EvolvePokemon(pokemoninfo.Id, ItemId.ItemDragonScale);
+                }
+                else if(pokemoninfo.Id == (ulong)PokemonId.Poliwhirl || pokemoninfo.Id == (ulong)PokemonId.Slowpoke)
+                {
+                    // Do a check if the item is in inventory
+                    resp = client.Inventory.EvolvePokemon(pokemoninfo.Id, ItemId.ItemKingsRock);
+                }
+                else if(pokemoninfo.Id == (ulong)PokemonId.Scyther || pokemoninfo.Id == (ulong)PokemonId.Onix)
+                {
+                    // Do a check if the item is in inventory
+                    resp = client.Inventory.EvolvePokemon(pokemoninfo.Id, ItemId.ItemMetalCoat);
+                }
+                else if(pokemoninfo.Id == (ulong)PokemonId.Porygon2)
+                {
+                    // Do a check if the item is in inventory
+                    resp = client.Inventory.EvolvePokemon(pokemoninfo.Id, ItemId.ItemUpGrade);
+                }
+                else if(pokemoninfo.Id == (ulong)PokemonId.Gloom || pokemoninfo.Id == (ulong)PokemonId.Sunkern)
+                {
+                    // Do a check if the item is in inventory
+                    resp = client.Inventory.EvolvePokemon(pokemoninfo.Id, ItemId.ItemSunStone);
+                }
+                else
+                {
+                    resp = client.Inventory.EvolvePokemon(pokemoninfo.Id);
+                }
+                
 
                 var name = pokemoninfo.PokemonId;
 
