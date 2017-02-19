@@ -503,14 +503,6 @@ namespace PokemonGo.RocketAPI.Logic
             //walk between pokestops in default collection
             foreach (var pokeStop in pokeStops)
             {
-                /*
-                //check if map has pokestops loaded and load if not
-                if (BotSettings.MapLoaded && !stopsloaded)
-                {
-                    Task.Factory.StartNew(() => infoObservable.PushAvailablePokeStopLocations(pokeStops));
-                    stopsloaded = true;
-                }
-                */
 
                 #region Mystery Check by Cicklow
 

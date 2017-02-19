@@ -1000,7 +1000,7 @@ namespace PokemonGo.RocketAPI.Console
                         numOfEvolves ++;
                     }
                 }
-                if (i > 1){
+                if (i > 0){
                     separator = " | ";
                 }
                 if (item != ItemId.ItemUnknown ){

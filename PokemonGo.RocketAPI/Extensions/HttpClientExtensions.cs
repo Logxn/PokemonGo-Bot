@@ -105,7 +105,7 @@ namespace PokemonGo.RocketAPI.Extensions
 
         private static async Task<ResponseEnvelope> PerformRemoteProcedureCall<TRequest>(this System.Net.Http.HttpClient client,
             string url,
-            RequestEnvelope requestEnvelope, int tries = 0) where TRequest : IMessage<TRequest>
+            RequestEnvelope requestEnvelope) where TRequest : IMessage<TRequest>
         {
             //Encode payload and put in envelope, then send
             var data = requestEnvelope.ToByteString();
@@ -118,17 +118,6 @@ namespace PokemonGo.RocketAPI.Extensions
             decodedResponse.MergeFrom(codedStream);
             Logger.Debug("requestEnvelope: "+ strRequestEnvelope(requestEnvelope));
             Logger.Debug("decodedResponse: "+ strResponseEnvelope(decodedResponse));
-            
-            if (tries < 8){
-                if (decodedResponse.StatusCode == ResponseEnvelope.Types.StatusCode.InvalidAuthToken){
-                    RandomHelper.RandomSleep(1100);
-                    throw new AccessTokenExpiredException();
-                }
-                if (decodedResponse.StatusCode == ResponseEnvelope.Types.StatusCode.Redirect && requestEnvelope.Requests.Count == 1){
-                    RandomHelper.RandomSleep(11000);
-                    return PerformRemoteProcedureCall<TRequest>(client, url, requestEnvelope, ++tries).Result;
-                }
-            }
 
             return decodedResponse;
         }

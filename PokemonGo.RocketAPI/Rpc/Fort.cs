@@ -118,14 +118,12 @@ namespace PokemonGo.RocketAPI.Rpc
         public StartGymBattleResponse StartGymBattle(string gymId, ulong defendingPokemonId,
             IEnumerable<ulong> attackingPokemonIds)
         {
-            var message = new StartGymBattleMessage
-            {
-                GymId = gymId,
-                DefendingPokemonId = defendingPokemonId,
-                AttackingPokemonIds = { attackingPokemonIds },
-                PlayerLatitude = Client.CurrentLatitude,
-                PlayerLongitude = Client.CurrentLongitude
-            };
+            var message = new StartGymBattleMessage ();
+            message.GymId = gymId;
+            message.DefendingPokemonId = defendingPokemonId;
+            message.AttackingPokemonIds.Add(attackingPokemonIds);
+            message.PlayerLatitude = Client.CurrentLatitude;
+            message.PlayerLongitude = Client.CurrentLongitude;
 
             return PostProtoPayload<Request, StartGymBattleResponse>(RequestType.StartGymBattle, message);
         }
