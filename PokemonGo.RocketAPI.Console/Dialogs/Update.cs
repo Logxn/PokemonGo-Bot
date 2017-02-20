@@ -30,7 +30,7 @@ namespace PokemonGo.RocketAPI.Console
         private void startDownload()
         {
 
-            WebClient webClient = new WebClient();
+            var webClient = new WebClient();
             webClient.DownloadFileCompleted += new AsyncCompletedEventHandler(Completed);
             webClient.DownloadProgressChanged += new DownloadProgressChangedEventHandler(ProgressChanged);
             webClient.DownloadFileAsync(new Uri("http://raw.githubusercontent.com/Logxn/PokemonGo-Bot/master/Builds-Only/PokemonGo.RocketAPI.Console.exe"), file);

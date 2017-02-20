@@ -145,10 +145,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Components\HRefLink.cs" />
-    <Compile Include="Components\ItemSelect.cs" />
-    <Compile Include="Components\ItemSelect.Designer.cs">
-      <DependentUpon>ItemSelect.cs</DependentUpon>
-    </Compile>
     <Compile Include="Components\LabelCombo.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -161,9 +157,44 @@
     <Compile Include="Components\LabelText.Designer.cs">
       <DependentUpon>LabelText.cs</DependentUpon>
     </Compile>
+    <Compile Include="Components\ListViewComparer.cs" />
     <Compile Include="Components\ListViewItemComparer.cs" />
     <Compile Include="Components\MarkerInfo.cs" />
     <Compile Include="ControlExtensions.cs" />
+    <Compile Include="Dialogs\GUIAvatar.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\GUIAvatar.Designer.cs">
+      <DependentUpon>GUIAvatar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\IncubatorSelect.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\IncubatorSelect.Designer.cs">
+      <DependentUpon>IncubatorSelect.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\IntegerInput.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\IntegerInput.Designer.cs">
+      <DependentUpon>IntegerInput.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\ItemSelect.cs" />
+    <Compile Include="Dialogs\ItemSelect.Designer.cs">
+      <DependentUpon>ItemSelect.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\TeamSelect.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\TeamSelect.Designer.cs">
+      <DependentUpon>TeamSelect.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\Update.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\Update.Designer.cs">
+      <DependentUpon>Update.cs</DependentUpon>
+    </Compile>
     <Compile Include="Encryption.cs" />
     <Compile Include="GameAspectSimulator.cs">
       <SubType>Form</SubType>
@@ -177,29 +208,10 @@
     <Compile Include="GUI.Designer.cs">
       <DependentUpon>GUI.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUIAvatar.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="GUIAvatar.Designer.cs">
-      <DependentUpon>GUIAvatar.cs</DependentUpon>
-    </Compile>
     <Compile Include="Helper\DownloadHelper.cs" />
     <Compile Include="Helper\LocationHelper.cs" />
     <Compile Include="Helper\SleepHelper.cs" />
     <Compile Include="Helper\TranslatorHelper.cs" />
-    <Compile Include="IncubatorSelect.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="IncubatorSelect.Designer.cs">
-      <DependentUpon>IncubatorSelect.cs</DependentUpon>
-    </Compile>
-    <Compile Include="IntegerInput.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="IntegerInput.Designer.cs">
-      <DependentUpon>IntegerInput.cs</DependentUpon>
-    </Compile>
-    <Compile Include="ListViewComparer.cs" />
     <Compile Include="Location.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -302,40 +314,34 @@
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="Settings.cs" />
-    <Compile Include="TeamSelect.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="TeamSelect.Designer.cs">
-      <DependentUpon>TeamSelect.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Update.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Update.Designer.cs">
-      <DependentUpon>Update.cs</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Components\ItemSelect.resx">
-      <DependentUpon>ItemSelect.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Components\LabelCombo.resx">
       <DependentUpon>LabelCombo.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Components\LabelText.resx">
       <DependentUpon>LabelText.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GameAspectSimulator.resx">
-      <DependentUpon>GameAspectSimulator.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GUIAvatar.resx">
+    <EmbeddedResource Include="Dialogs\GUIAvatar.resx">
       <DependentUpon>GUIAvatar.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="IncubatorSelect.resx">
+    <EmbeddedResource Include="Dialogs\IncubatorSelect.resx">
       <DependentUpon>IncubatorSelect.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="IntegerInput.resx">
+    <EmbeddedResource Include="Dialogs\IntegerInput.resx">
       <DependentUpon>IntegerInput.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialogs\ItemSelect.resx">
+      <DependentUpon>ItemSelect.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialogs\TeamSelect.resx">
+      <DependentUpon>TeamSelect.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialogs\Update.resx">
+      <DependentUpon>Update.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GameAspectSimulator.resx">
+      <DependentUpon>GameAspectSimulator.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Panels\ChangesPanel.resx">
       <DependentUpon>ChangesPanel.cs</DependentUpon>
@@ -376,12 +382,6 @@
     <EmbeddedResource Include="Properties\MapData.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>MapData.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="TeamSelect.resx">
-      <DependentUpon>TeamSelect.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Update.resx">
-      <DependentUpon>Update.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="App.config">
       <SubType>Designer</SubType>
@@ -478,6 +478,7 @@
     <None Include="Resources\ru.gif" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Dialogs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\error-sprite.png" />

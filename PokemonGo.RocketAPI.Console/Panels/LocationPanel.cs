@@ -350,7 +350,34 @@ namespace PokemonGo.RocketAPI.Console
             }
         }
 
-        private void InfoObservable_HandlePokeStop(POGOProtos.Map.Fort.FortData[] pokeStops)
+        private void InfoObservable_HandlePokeStop(FortData pokeStop)
+        {
+            Invoke(new MethodInvoker(() => {
+                if (pokeStop.Id != null) {
+                    var pokeStopMaker = new GMarkerGoogle(new PointLatLng(pokeStop.Latitude, pokeStop.Longitude), Properties.MapData.pokestop);
+                    if (pokeStop.ActiveFortModifier.Count > 0) {
+                        pokeStopMaker = new GMarkerGoogle(new PointLatLng(pokeStop.Latitude, pokeStop.Longitude), Properties.MapData.lured_pokestop);
+                    }
+
+                    pokeStopMaker.ToolTipText = string.Format("{0}\n{1},{2}", LocationUtils.FindAddress(pokeStop.Latitude, pokeStop.Longitude), pokeStop.Latitude, pokeStop.Longitude);
+                    pokeStopMaker.ToolTip.Font = new System.Drawing.Font("Arial", 12, System.Drawing.GraphicsUnit.Pixel);
+                    pokeStopMaker.ToolTipMode = MarkerTooltipMode.OnMouseOver;
+
+                    if (_pokeStopsMarks.ContainsKey(pokeStop.Id)){
+                        var markerToDel = _pokeStopsMarks[pokeStop.Id];
+                        if (_pokeStopsOverlay.Markers.Contains(markerToDel))
+                            _pokeStopsOverlay.Markers.Remove(markerToDel);
+                         _pokeStopsMarks.Remove(pokeStop.Id);
+                    }
+                    _pokeStopsMarks.Add(pokeStop.Id, pokeStopMaker);
+                    _pokeStopsOverlay.Markers.Add(pokeStopMaker);
+                } else {
+                    Logger.ColoredConsoleWrite(ConsoleColor.DarkRed, string.Format("Ignore this: pokeStop.Id is null."));
+                }
+            }));
+        }
+
+        private void InfoObservable_HandlePokeStop(FortData[] pokeStops)
         {
             Invoke(new MethodInvoker(() => {
                 try {
@@ -370,25 +397,13 @@ namespace PokemonGo.RocketAPI.Console
                         routeOverlay.Markers.Add(_botMarker);
                         int prevCount = pokeStops.Length;
 
-                        var filteredPokeStops = pokeStops.Where(i => LocationUtils.CalculateDistanceInMeters(Logic.Logic.Instance.BotSettings.DefaultLatitude, Logic.Logic.Instance.BotSettings.DefaultLongitude, i.Latitude, i.Longitude) <= Logic.Logic.Instance.BotSettings.MaxWalkingRadiusInMeters).ToArray();
-                        Logger.ColoredConsoleWrite(ConsoleColor.White, string.Format("Got new Pokestop Count: {0}, unfiltered: {1}", filteredPokeStops.Length, pokeStops.Length));
+                        // TODO: Make this filter optionable.
+                        //var filteredPokeStops = pokeStops.Where(i => LocationUtils.CalculateDistanceInMeters(Logic.Logic.Instance.BotSettings.DefaultLatitude, Logic.Logic.Instance.BotSettings.DefaultLongitude, i.Latitude, i.Longitude) <= Logic.Logic.Instance.BotSettings.MaxWalkingRadiusInMeters).ToArray();
+                        //Logger.ColoredConsoleWrite(ConsoleColor.White, string.Format("Got new Pokestop Count: {0}, unfiltered: {1}", filteredPokeStops.Length, pokeStops.Length));
+                        var filteredPokeStops = pokeStops;
 
                         for (int i = filteredPokeStops.Length - 1; i >= 0; i--) {
-                            var pokeStop = filteredPokeStops[i];
-                            if (pokeStop.Id != null) {
-                                var pokeStopMaker = new GMarkerGoogle(new PointLatLng(pokeStop.Latitude, pokeStop.Longitude), Properties.MapData.pokestop);
-                                if (pokeStop.ActiveFortModifier.Count > 0) {
-                                    pokeStopMaker = new GMarkerGoogle(new PointLatLng(pokeStop.Latitude, pokeStop.Longitude), Properties.MapData.lured_pokestop);
-                                }
-
-                                pokeStopMaker.ToolTipText = string.Format("{0}\n{1},{2}", LocationUtils.FindAddress(pokeStop.Latitude, pokeStop.Longitude), pokeStop.Latitude, pokeStop.Longitude);
-                                pokeStopMaker.ToolTip.Font = new System.Drawing.Font("Arial", 12, System.Drawing.GraphicsUnit.Pixel);
-                                pokeStopMaker.ToolTipMode = MarkerTooltipMode.OnMouseOver;
-                                _pokeStopsMarks.Add(pokeStop.Id, pokeStopMaker);
-                                _pokeStopsOverlay.Markers.Add(pokeStopMaker);
-                            } else {
-                                Logger.ColoredConsoleWrite(ConsoleColor.DarkRed, string.Format("Ignore this: pokeStop.Id is null."));
-                            }
+                            InfoObservable_HandlePokeStop(filteredPokeStops[i]);
                         }
                         if (!map.Overlays.Contains(_pokeStopsOverlay))
                             map.Overlays.Add(_pokeStopsOverlay);
