@@ -1293,21 +1293,22 @@ namespace PokemonGo.RocketAPI.Logic
             catch (Exception ex)
             {
                 Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Error: Logic.cs - CatchPokemon - encounter: {ex.Message}");
-                return ret;
-            }
-            finally
-            {
                 if (goBack)
                 {
                     Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"(SNIPING) Go to {returnLatitude} / {returnLongitude} before starting the capture.");
                     Logger.ColoredConsoleWrite(ConsoleColor.Cyan,LocationUtils.FindAddress(returnLatitude, returnLongitude));
-
                     LocationUtils.updatePlayerLocation(objClient, returnLatitude, returnLongitude, BotSettings.DefaultAltitude);
-                    //var result = objClient.Player.UpdatePlayerLocation(
-                    //    returnLatitude,
-                    //    returnLongitude,
-                    //    BotSettings.DefaultAltitude).Result;
+                    var tmpMap = objClient.Map.GetMapObjects(true);
                 }
+                return ret;
+            }
+
+            if (goBack)
+            {
+                Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"(SNIPING) Go to {returnLatitude} / {returnLongitude} before starting the capture.");
+                Logger.ColoredConsoleWrite(ConsoleColor.Cyan,LocationUtils.FindAddress(returnLatitude, returnLongitude));
+                LocationUtils.updatePlayerLocation(objClient, returnLatitude, returnLongitude, BotSettings.DefaultAltitude);
+                var tmpMap = objClient.Map.GetMapObjects(true);
             }
 
             if (encounterPokemonResponse.Status == EncounterResponse.Types.Status.EncounterSuccess)

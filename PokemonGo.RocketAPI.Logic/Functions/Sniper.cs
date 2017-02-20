@@ -39,14 +39,12 @@ namespace PokemonGo.RocketAPI.Logic.Functions
         
         public void Execute(  PokemonId pokeid, GeoCoordinate remoteCoords )
         {
-            GeoCoordinate returnCoords = new GeoCoordinate();
+            var returnCoords = new GeoCoordinate();
 
             returnCoords.Latitude = _client.CurrentLatitude;
             returnCoords.Longitude = _client.CurrentLongitude;
             returnCoords.Altitude = _client.CurrentAltitude;
             LocationUtils.updatePlayerLocation(_client, returnCoords.Latitude, returnCoords.Longitude, returnCoords.Altitude);
-
-            //var result = _client.Player.UpdatePlayerLocation(returnCoords.Latitude, returnCoords.Longitude, returnCoords.Altitude).Result;
 
             if (_botSettings == null && _client ==null )
             {
@@ -57,17 +55,24 @@ namespace PokemonGo.RocketAPI.Logic.Functions
             try
             {
                 remoteCoords.Altitude = LocationUtils.getAltitude(remoteCoords.Latitude, remoteCoords.Longitude);
-                
+
                 SendToLog($"Trying to capture {pokeid}  at { remoteCoords.Latitude } / {remoteCoords.Longitude}");
                 SendToLog(LocationUtils.FindAddress(remoteCoords.Latitude,remoteCoords.Longitude));
-                LocationUtils.updatePlayerLocation(_client, remoteCoords.Latitude, remoteCoords.Longitude, remoteCoords.Altitude);
-                //result = _client.Player.UpdatePlayerLocation(remoteCoords.Latitude, remoteCoords.Longitude, remoteCoords.Altitude).Result;
+                LocationUtils.updatePlayerLocation(_client, remoteCoords.Latitude, remoteCoords.Longitude, remoteCoords.Altitude, false);
+                var gmp = _client.Map.GetMapObjects(true);
 
                 SendToLog($"We are at sniping location...");
                 SendToLog($"Waiting {GlobalVars.SnipeOpts.WaitSecond} seconds for Pokemon to appear...");
                 RandomHelper.RandomSleep(GlobalVars.SnipeOpts.WaitSecond*1000, GlobalVars.SnipeOpts.WaitSecond*1100);
                 
                 var catchedID = TrySnipePokemons(pokeid, remoteCoords, returnCoords);
+
+                LocationUtils.updatePlayerLocation(_client, returnCoords.Latitude, returnCoords.Longitude, returnCoords.Altitude);
+                gmp = _client.Map.GetMapObjects(true);
+
+                SendToLog($"Location after Snipe : {_client.CurrentLatitude} / {_client.CurrentLongitude} / {_client.CurrentAltitude}");
+                SendToLog(LocationUtils.FindAddress(_client.CurrentLatitude, _client.CurrentLongitude));
+
                 if ( (catchedID >0) && GlobalVars.SnipeOpts.TransferIt)
                 {
                     var trResult = Logic.objClient.Inventory.TransferPokemon(catchedID);
@@ -78,13 +83,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                     }
                 }
 
-                // Restore Position
-                LocationUtils.updatePlayerLocation(_client, returnCoords.Latitude, returnCoords.Longitude, returnCoords.Altitude);
-                //result = _client.Player.UpdatePlayerLocation(returnCoords.Latitude, returnCoords.Longitude, returnCoords.Altitude).Result;
 
-                SendToLog($"Location after Snipe : {returnCoords.Latitude} / {returnCoords.Longitude} / {returnCoords.Altitude}");
-                SendToLog(LocationUtils.FindAddress(returnCoords.Latitude, returnCoords.Longitude));
-                
                 RandomHelper.RandomSleep(20000, 22000);  // Avoid cache after snipe
 
             }
@@ -93,7 +92,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                 Logger.ExceptionInfo(ex.ToString());
                 SendToLog($"Go to {returnCoords.Latitude} / {returnCoords.Longitude} / {returnCoords.Altitude}.");
                 LocationUtils.updatePlayerLocation(_client, returnCoords.Latitude, returnCoords.Longitude, returnCoords.Altitude);
-                //result = _client.Player.UpdatePlayerLocation(returnCoords.Latitude, returnCoords.Longitude, returnCoords.Altitude).Result;
+                var gmp = _client.Map.GetMapObjects();
             }
 
             GlobalVars.SnipeOpts.Enabled = false;
@@ -102,7 +101,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
             GlobalVars.SnipeOpts.WaitSecond = 6;
             GlobalVars.SnipeOpts.NumTries = 3;
         }
-        
+
         private ulong TrySnipePokemons(PokemonId pokeid,GeoCoordinate pokeCoords, GeoCoordinate returnCoords)
         {
             const bool goBack = true;
@@ -137,8 +136,10 @@ namespace PokemonGo.RocketAPI.Logic.Functions
             
             }while ((tries <= GlobalVars.SnipeOpts.NumTries) && caught==0);
 
-            if (caught != 0) SendToLog($"{StringUtils.getPokemonNameByLanguage(_botSettings, pokeid)} caught!");
-            else SendToLog($"{ StringUtils.getPokemonNameByLanguage(_botSettings, pokeid)} not found or caught!");
+            if (caught != 0)
+                SendToLog($"{pokeid} caught!");
+            else 
+                SendToLog($"{ pokeid} not found or caught!");
 
             return caught;
         }
