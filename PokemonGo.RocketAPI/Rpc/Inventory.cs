@@ -596,7 +596,7 @@ namespace PokemonGo.RocketAPI.Rpc
                         item = ItemId.ItemDragonScale;
                         break;
                     case PokemonId.Poliwhirl:
-                    case PokemonId.Slowbro:
+                    case PokemonId.Slowpoke:
                         item = ItemId.ItemKingsRock;
                         break;
                     case PokemonId.Scyther:

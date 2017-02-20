@@ -447,6 +447,7 @@ namespace PokemonGo.RocketAPI.Console
                 if (item != ItemId.ItemUnknown && client.Inventory.GetItemAmountByType(item) < 1){
                     if ( pokemoninfo.PokemonId == PokemonId.Poliwhirl
                         || pokemoninfo.PokemonId == PokemonId.Gloom
+                        || pokemoninfo.PokemonId == PokemonId.Slowpoke
                        )
                         item = ItemId.ItemUnknown; // try to evolve without items
                     else

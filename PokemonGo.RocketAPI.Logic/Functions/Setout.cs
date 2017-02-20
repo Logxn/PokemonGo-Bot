@@ -150,6 +150,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                 if (item != ItemId.ItemUnknown && Logic.objClient.Inventory.GetItemAmountByType(item) < 1){
                     if ( pokemon.PokemonId == PokemonId.Poliwhirl
                         || pokemon.PokemonId == PokemonId.Gloom
+                        || pokemon.PokemonId == PokemonId.Slowpoke
                        )
                         item = ItemId.ItemUnknown; // try to evolve without items
                     else
