@@ -103,16 +103,16 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                         Logger.ColoredConsoleWrite(ConsoleColor.DarkGray, "(Gym) - This gym was already visited.");
                         continue;
                     }
-                    var numberOfAttacks = GlobalVars.Gyms.MaxAttacks;
-                    while (numberOfAttacks > 0 && !gymsVisited.Contains(gym.Id)) {
-                        Logger.Debug("(Gym) - Attack number " + (GlobalVars.Gyms.MaxAttacks + 1 - numberOfAttacks));
+                    var attackCount = 1;
+                    while (attackCount <= GlobalVars.Gyms.MaxAttacks && !gymsVisited.Contains(gym.Id)) {
+                        Logger.Debug("(Gym) - Attack number " + attackCount);
                         CheckAndPutInNearbyGym(gym, Logic.objClient);
-                        numberOfAttacks--;
-                        if (numberOfAttacks > 0 && !gymsVisited.Contains(gym.Id)) {
+                        attackCount++;
+                        if (attackCount <= GlobalVars.Gyms.MaxAttacks  && !gymsVisited.Contains(gym.Id)) {
                             RandomHelper.RandomSleep(900);
                             gym = GetNearbyGyms().FirstOrDefault(x => x.Id == gym.Id);
                         }
-                        if (numberOfAttacks == 0) {
+                        if (attackCount > GlobalVars.Gyms.MaxAttacks) {
                             Logger.Warning("(Gym) - Maximun number of attacks reached. Will be checked after of one minute.");
                             AddVisited(gym.Id, 60000);
                         }
