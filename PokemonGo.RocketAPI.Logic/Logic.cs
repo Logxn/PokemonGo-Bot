@@ -464,7 +464,7 @@ namespace PokemonGo.RocketAPI.Logic
             var pokeGyms = mapObjectsResponse.MapCells.SelectMany(i => i.Forts)
                 .Where(i => i.Type == FortType.Gym && i.CooldownCompleteTimestampMs < unixNow);
 
-            if (!GlobalVars.FarmGyms)
+            if (!GlobalVars.Gyms.Farm)
                 pokeGyms = new List<FortData>();
 
             var both = pokeStops.Concat(pokeGyms)
@@ -1008,7 +1008,7 @@ namespace PokemonGo.RocketAPI.Logic
 
                     foreach (var pokestop in withinRangeStandingList)
                     {
-                        if (!GlobalVars.SpinGyms)
+                        if (!GlobalVars.Gyms.Spin)
                             if (pokestop.Type != FortType.Checkpoint )
                                 continue;
 

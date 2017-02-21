@@ -127,8 +127,8 @@ namespace PokemonGo.RocketAPI.Console
                         }
                         
                         string[] crdParts = arg.Split(',');
-                        GlobalVars.latitude = double.Parse(crdParts[0].Replace(',', '.'), GUI.cords, System.Globalization.NumberFormatInfo.InvariantInfo);
-                        GlobalVars.longitude = double.Parse(crdParts[1].Replace(',', '.'), GUI.cords, System.Globalization.NumberFormatInfo.InvariantInfo);
+                        GlobalVars.latitude = double.Parse(crdParts[0].Replace(',', '.'), ConfigWindow.cords, System.Globalization.NumberFormatInfo.InvariantInfo);
+                        GlobalVars.longitude = double.Parse(crdParts[1].Replace(',', '.'), ConfigWindow.cords, System.Globalization.NumberFormatInfo.InvariantInfo);
                         Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Found coordinates in command line. Starting at: {GlobalVars.latitude},{GlobalVars.longitude},{GlobalVars.altitude}");
                     }
                     #endregion
@@ -184,7 +184,7 @@ namespace PokemonGo.RocketAPI.Console
             {
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
-                Application.Run(new GUI());
+                Application.Run(new ConfigWindow());
                 
                 Task.Run(() =>
                 {

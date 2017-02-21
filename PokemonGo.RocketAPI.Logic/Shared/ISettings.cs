@@ -104,9 +104,6 @@ namespace PokemonGo.RocketAPI.Logic.Shared
         string TelegramAPIToken { get; set; }
         string TelegramName { get; set; }
 
-        /* GYMS */
-        bool FarmGyms { get; set; }
-
         /* DAILY BONUS */
 
         bool CollectDailyBonus { get; set; }

@@ -14,7 +14,7 @@ using POGOProtos.Inventory;
 using POGOProtos.Inventory.Item;
 using System.Linq;
 
-namespace PokemonGo.RocketAPI.Console.Components
+namespace PokemonGo.RocketAPI.Console.Dialogs
 {
     /// <summary>
     /// Description of ItemSelect.

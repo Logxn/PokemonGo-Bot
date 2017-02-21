@@ -95,6 +95,7 @@
     </Compile>
     <Compile Include="Shared\AvatarSettings.cs" />
     <Compile Include="Shared\GlobalVars.cs" />
+    <Compile Include="Shared\GymSettings.cs" />
     <Compile Include="Shared\ProfileSettings.cs" />
     <Compile Include="Shared\ISettings.cs" />
     <Compile Include="Shared\ManualSnipePokemon.cs" />

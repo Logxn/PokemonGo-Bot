@@ -386,7 +386,7 @@ namespace PokemonGo.RocketAPI.Console
             this.nudSecondsSnipe.Size = new System.Drawing.Size(46, 20);
             this.nudSecondsSnipe.TabIndex = 86;
             this.nudSecondsSnipe.Value = new decimal(new int[] {
-            6,
+            7,
             0,
             0,
             0});
@@ -425,7 +425,7 @@ namespace PokemonGo.RocketAPI.Console
             this.nudTriesSnipe.Size = new System.Drawing.Size(46, 20);
             this.nudTriesSnipe.TabIndex = 88;
             this.nudTriesSnipe.Value = new decimal(new int[] {
-            3,
+            2,
             0,
             0,
             0});

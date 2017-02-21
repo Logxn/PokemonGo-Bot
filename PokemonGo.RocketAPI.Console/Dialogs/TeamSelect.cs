@@ -11,7 +11,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using POGOProtos.Enums;
 
-namespace PokemonGo.RocketAPI.Console
+namespace PokemonGo.RocketAPI.Console.Dialogs
 {
 	/// <summary>
 	/// Description of TeamSelect.

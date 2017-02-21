@@ -20,7 +20,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
-using static PokemonGo.RocketAPI.Console.GUI;
+using static PokemonGo.RocketAPI.Console.ConfigWindow;
 using PokemonGo.RocketAPI.Logic.Shared;
 namespace PokemonGo.RocketAPI.Console
     
@@ -55,6 +55,14 @@ namespace PokemonGo.RocketAPI.Console
                     break;
             } 
             th.Translate(this);
+            
+            comboBoxLeaveInGyms.DataSource = new[]{
+                th.TS("Random"),
+                th.TS("Best CP"),
+                th.TS("Worse CP"),
+                th.TS("Favourite")
+            };
+            comboBoxLeaveInGyms.SelectedIndex = 0;
             comboBoxAttackers.DataSource = new[]{
                 th.TS("Random"),
                 th.TS("Best CP"),
@@ -62,7 +70,6 @@ namespace PokemonGo.RocketAPI.Console
                 th.TS("Lower than defenders CP")
             };
             comboBoxAttackers.SelectedIndex = 0;
-            
         }
 
         void CheckBoxes_CheckedChanged(object sender, EventArgs e)
@@ -163,7 +170,7 @@ namespace PokemonGo.RocketAPI.Console
             double lng = GlobalVars.longitude;
             try
             {
-                lat = double.Parse(textBoxLatitude.Text.Replace(',', '.'), GUI.cords, System.Globalization.NumberFormatInfo.InvariantInfo);
+                lat = double.Parse(textBoxLatitude.Text.Replace(',', '.'), ConfigWindow.cords, System.Globalization.NumberFormatInfo.InvariantInfo);
                 if (lat > 90.0 || lat < -90.0)
                 {
                     throw new System.ArgumentException(th.TS("Value has to be between 90 and -90!"));
@@ -176,7 +183,7 @@ namespace PokemonGo.RocketAPI.Console
             }
             try
             {
-                lng = double.Parse(textBoxLongitude.Text.Replace(',', '.'), GUI.cords, System.Globalization.NumberFormatInfo.InvariantInfo);
+                lng = double.Parse(textBoxLongitude.Text.Replace(',', '.'), ConfigWindow.cords, System.Globalization.NumberFormatInfo.InvariantInfo);
                 if (lng > 180.0 || lng < -180.0)
                 {
                     throw new System.ArgumentException(th.TS("Value has to be between 180 and -180!"));
@@ -279,8 +286,6 @@ namespace PokemonGo.RocketAPI.Console
             numRazzPercent.Value = (int)(GlobalVars.razzberry_chance * 100);
             checkBoxAutoIncubate.Checked = GlobalVars.AutoIncubate;
             checkBoxUseBasicIncubators.Checked = GlobalVars.UseBasicIncubators;
-            checkBox_FarmGyms.Checked = GlobalVars.FarmGyms;
-            checkBox_AttackGyms.Checked = GlobalVars.AttackGyms;
             checkBox_CollectDailyBonus.Checked = GlobalVars.CollectDailyBonus;
             checkBox_AutoTransferDoublePokemon.Checked = GlobalVars.TransferDoublePokemons;
             checkbox_Verboselogging.Checked = GlobalVars.EnableVerboseLogging;
@@ -291,9 +296,16 @@ namespace PokemonGo.RocketAPI.Console
             
             text_GoogleMapsAPIKey.Text = GlobalVars.GoogleMapsAPIKey;
             numTravelSpeed.Value = (int)GlobalVars.RelocateDefaultLocationTravelSpeed;
-            nudNumDefenders.Value = GlobalVars.NumDefenders;
-            numericUpDownMaxAttacks.Value = GlobalVars.MaxAttacks;
-            comboBoxAttackers.SelectedIndex = GlobalVars.GymAttackers;
+
+            nudNumDefenders.Value = GlobalVars.Gyms.NumDefenders;
+            numericUpDownMaxAttacks.Value = GlobalVars.Gyms.MaxAttacks;
+
+            comboBoxLeaveInGyms.SelectedIndex = GlobalVars.Gyms.DeployPokemons;
+            comboBoxAttackers.SelectedIndex = GlobalVars.Gyms.Attackers;
+            checkBox_FarmGyms.Checked = GlobalVars.Gyms.Farm;
+            checkBox_AttackGyms.Checked = GlobalVars.Gyms.Attack;
+            checkBoxSpinGyms.Checked = GlobalVars.Gyms.Spin;
+
             enableEvents = true;
 
 
@@ -354,7 +366,47 @@ namespace PokemonGo.RocketAPI.Console
         {
           if (! enableEvents)
                 return;
-            GlobalVars.GymAttackers = comboBoxAttackers.SelectedIndex;
+            GlobalVars.Gyms.Attackers = comboBoxAttackers.SelectedIndex;
+        }
+        void checkBox_FarmGyms_CheckedChanged(object sender, EventArgs e)
+        {
+            if (! enableEvents)
+                return;
+            GlobalVars.Gyms.Farm = (sender as CheckBox).Checked;
+        }
+        void checkBox_AttackGyms_CheckedChanged(object sender, EventArgs e)
+        {
+            if (! enableEvents)
+                return;
+              GlobalVars.Gyms.Attack = (sender as CheckBox).Checked;
+        }
+        void nudNumDefenders_ValueChanged(object sender, EventArgs e)
+        {
+            if (! enableEvents)
+                return;
+            GlobalVars.Gyms.NumDefenders = (int)(sender as NumericUpDown).Value;
+            Logger.ColoredConsoleWrite(tryCatchColor,th.TS("{0} value changed to {1}","NumDefenders",GlobalVars.Gyms.NumDefenders));
+        }
+        void numericUpDownMaxAttacks_ValueChanged(object sender, EventArgs e)
+        {
+            if (! enableEvents)
+                return;
+            GlobalVars.Gyms.MaxAttacks = (int)(sender as NumericUpDown).Value;
+            Logger.ColoredConsoleWrite(tryCatchColor,th.TS("{0} value changed to {1}","MaxAttacks",GlobalVars.Gyms.MaxAttacks));
+
+        }
+        void comboBoxLeaveInGyms_SelectedIndexChanged(object sender, EventArgs e)
+        {
+          if (! enableEvents)
+                return;
+            GlobalVars.Gyms.DeployPokemons = comboBoxLeaveInGyms.SelectedIndex;
+          
+        }
+        void checkBoxSpinGyms_CheckedChanged(object sender, EventArgs e)
+        {
+            if (! enableEvents)
+                return;
+              GlobalVars.Gyms.Spin = (sender as CheckBox).Checked;
         }
 
     }

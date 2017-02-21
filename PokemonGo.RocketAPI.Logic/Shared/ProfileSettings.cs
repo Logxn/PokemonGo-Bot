@@ -434,15 +434,6 @@ namespace PokemonGo.RocketAPI.Logic.Shared
 
 
         }
-        public bool FarmGyms {
-            get;
-            set;
-
-
-
-
-
-        }
         public bool CollectDailyBonus {
             get;
             set;
@@ -913,32 +904,10 @@ namespace PokemonGo.RocketAPI.Logic.Shared
             get;
             set;
         }
-        public int LeaveInGyms {
-            get;
-            set;
-        }
-        public bool AttackGyms {
-            get;
-            set;
-        }
-
-        public int NumDefenders {
-            get;
-            set;
-        }
-
-        public int MaxAttacks {
-            get;
-            set;
-        }
 
         public bool UseSpritesFolder {get;set;}
         public bool ShowPokemons {get;set;}
 
-        public int GymAttackers {
-            get;
-            set;
-        }
 
         public bool SaveForts {
             get;
@@ -950,10 +919,6 @@ namespace PokemonGo.RocketAPI.Logic.Shared
             set;
         }
 
-        public bool SpinGyms {
-            get;
-            set;
-        }
 
         public string DeviceTradeName {
             get;
@@ -970,6 +935,8 @@ namespace PokemonGo.RocketAPI.Logic.Shared
         public  int MaxKingsRock {get;set;}
         public  int MaxMetalCoat {get;set;}
         public  int MaxUpGrade {get;set;}
+
+        public  GymSettings Gyms {get;set;}
 
 
         #endregion
@@ -1021,6 +988,7 @@ namespace PokemonGo.RocketAPI.Logic.Shared
             pokemonsToEvolve = new System.Collections.Generic.List<POGOProtos.Enums.PokemonId>();
             NotToSnipe = new System.Collections.Generic.List<POGOProtos.Enums.PokemonId>();
             proxySettings = new ProxySettings();
+            Gyms = new GymSettings();
         }
         public void Assign(ProfileSettings settings)
         {

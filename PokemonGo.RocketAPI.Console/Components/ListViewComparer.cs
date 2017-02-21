@@ -9,7 +9,7 @@
 using System;
 using System.Windows.Forms;
 
-namespace PokemonGo.RocketAPI.Console
+namespace PokemonGo.RocketAPI.Console.Components
 {
 // Compares two ListView items based on a selected column.
     public class ListViewComparer : System.Collections.IComparer
@@ -27,29 +27,13 @@ namespace PokemonGo.RocketAPI.Console
         public int Compare(object object_x, object object_y)
         {
             // Get the objects as ListViewItems.
-            ListViewItem item_x = object_x as ListViewItem;
-            ListViewItem item_y = object_y as ListViewItem;
+            var item_x = object_x as ListViewItem;
+            var item_y = object_y as ListViewItem;
 
             // Get the corresponding sub-item values.
-            string string_x;
-            if (item_x.SubItems.Count <= ColumnNumber)
-            {
-                string_x = "";
-            }
-            else
-            {
-                string_x = item_x.SubItems[ColumnNumber].Text;
-            }
+            var string_x = item_x.SubItems.Count <= ColumnNumber ? "" : item_x.SubItems[ColumnNumber].Text;
 
-            string string_y;
-            if (item_y.SubItems.Count <= ColumnNumber)
-            {
-                string_y = "";
-            }
-            else
-            {
-                string_y = item_y.SubItems[ColumnNumber].Text;
-            }
+            var string_y = item_y.SubItems.Count <= ColumnNumber ? "" : item_y.SubItems[ColumnNumber].Text;
 
             if (ColumnNumber == 2) //IV
             {
@@ -90,13 +74,11 @@ namespace PokemonGo.RocketAPI.Console
 
             // Return the correct result depending on whether
             // we're sorting ascending or descending.
-            if (SortOrder == SortOrder.Ascending)
-            {
-                return result;
-            }
-            else
-            {
-                return -result;
+            switch (SortOrder) {
+                case SortOrder.Ascending:
+                    return result;
+                default:
+                    return -result;
             }
         }
     }

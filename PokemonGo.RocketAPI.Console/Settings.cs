@@ -654,11 +654,6 @@ namespace PokemonGo.RocketAPI.Console
             set { GlobalVars.EnableVerboseLogging = value; }
         }
 
-        public bool FarmGyms
-        {
-            get { return GlobalVars.FarmGyms; }
-            set { GlobalVars.FarmGyms = value; }
-        }
 
         public bool CollectDailyBonus
         {

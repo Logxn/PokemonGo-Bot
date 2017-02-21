@@ -1,4 +1,4 @@
-﻿namespace PokemonGo.RocketAPI.Console
+﻿namespace PokemonGo.RocketAPI.Console.Dialogs
 {
     partial class Update
     {

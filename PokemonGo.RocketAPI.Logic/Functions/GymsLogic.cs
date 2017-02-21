@@ -85,7 +85,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
 
         public static void Execute()
         {
-            if (!GlobalVars.FarmGyms)
+            if (!GlobalVars.Gyms.Farm)
                 return;
             //narrow map data to gyms within walking distance
             var gyms = GetNearbyGyms();
@@ -103,9 +103,9 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                         Logger.ColoredConsoleWrite(ConsoleColor.DarkGray, "(Gym) - This gym was already visited.");
                         continue;
                     }
-                    var numberOfAttacks = GlobalVars.MaxAttacks;
+                    var numberOfAttacks = GlobalVars.Gyms.MaxAttacks;
                     while (numberOfAttacks > 0 && !gymsVisited.Contains(gym.Id)) {
-                        Logger.Debug("(Gym) - Attack number " + (GlobalVars.MaxAttacks + 1 - numberOfAttacks));
+                        Logger.Debug("(Gym) - Attack number " + (GlobalVars.Gyms.MaxAttacks + 1 - numberOfAttacks));
                         CheckAndPutInNearbyGym(gym, Logic.objClient);
                         numberOfAttacks--;
                         if (numberOfAttacks > 0 && !gymsVisited.Contains(gym.Id)) {
@@ -173,7 +173,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
         {
             var filter1 = pokemons.Where(x => ((!x.IsEgg) && (x.DeployedFortId == "") && (x.Stamina > 0)));
             var filter2 = filter1;
-            switch (GlobalVars.GymAttackers) {
+            switch (GlobalVars.Gyms.Attackers) {
                 case 1:
                     return filter1.OrderByDescending(x => x.Cp).Take(6);
                 case 2:
@@ -195,7 +195,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
         private static bool CheckAndPutInNearbyGym(FortData gym, Client client)
         {
 
-            if (!GlobalVars.FarmGyms)
+            if (!GlobalVars.Gyms.Farm)
                 return false;
 
             if (gymsVisited.IndexOf(gym.Id) > -1)
@@ -233,7 +233,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                 if (gymDetails.GymState.Memberships.Count < GetGymLevel(gym.GymPoints)) {
                     Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - There is a free space");
                     putInGym(client, gym, pokemon, pokemons);
-                } else if (GlobalVars.AttackGyms && gymDetails.GymState.Memberships.Count <= GlobalVars.NumDefenders) {
+                } else if (GlobalVars.Gyms.Attack && gymDetails.GymState.Memberships.Count <= GlobalVars.Gyms.NumDefenders) {
                     restoreWalkingAfterLogic = !GlobalVars.PauseTheWalking;
                     GlobalVars.PauseTheWalking = true;
                     Logger.Debug("(Gym) - Stop walking ");
@@ -256,11 +256,11 @@ namespace PokemonGo.RocketAPI.Logic.Functions
 
             } else {
                 Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - This gym is not from your team.");
-                if (!GlobalVars.AttackGyms){
+                if (!GlobalVars.Gyms.Attack){
                     Logger.Debug("Attack is disabled");
                     return false;
                 }
-                if (gymDetails.GymState.Memberships.Count >= 1 && gymDetails.GymState.Memberships.Count <= GlobalVars.NumDefenders) {
+                if (gymDetails.GymState.Memberships.Count >= 1 && gymDetails.GymState.Memberships.Count <= GlobalVars.Gyms.NumDefenders) {
                     restoreWalkingAfterLogic = !GlobalVars.PauseTheWalking;
                     GlobalVars.PauseTheWalking = true;
                     Logger.Debug("(Gym) - Stop walking ");
@@ -532,7 +532,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
         {
             var pokemons = (client.Inventory.GetPokemons()).ToList();
 
-            switch (GlobalVars.LeaveInGyms) {
+            switch (GlobalVars.Gyms.DeployPokemons) {
                 case 1:
                     return pokemons.Where(x => ((!x.IsEgg) && (x.DeployedFortId == "") && (x.Id != buddyPokemon) && (x.Stamina == x.StaminaMax)))
                         .OrderByDescending(x => x.Cp).FirstOrDefault();

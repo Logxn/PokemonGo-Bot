@@ -13,6 +13,7 @@ using System.Windows.Forms;
 using POGOProtos.Inventory.Item;
 using System.Threading.Tasks;
 using POGOProtos.Networking.Responses;
+using PokemonGo.RocketAPI.Console.Dialogs;
 using PokemonGo.RocketAPI.Helpers;
 using PokemonGo.RocketAPI.Logic.Shared;
 	

@@ -161,11 +161,11 @@
     <Compile Include="Components\ListViewItemComparer.cs" />
     <Compile Include="Components\MarkerInfo.cs" />
     <Compile Include="ControlExtensions.cs" />
-    <Compile Include="Dialogs\GUIAvatar.cs">
+    <Compile Include="Dialogs\AvatarSelect.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Dialogs\GUIAvatar.Designer.cs">
-      <DependentUpon>GUIAvatar.cs</DependentUpon>
+    <Compile Include="Dialogs\AvatarSelect.Designer.cs">
+      <DependentUpon>AvatarSelect.cs</DependentUpon>
     </Compile>
     <Compile Include="Dialogs\IncubatorSelect.cs">
       <SubType>Form</SubType>
@@ -202,14 +202,15 @@
     <Compile Include="GameAspectSimulator.Designer.cs">
       <DependentUpon>GameAspectSimulator.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI.cs">
+    <Compile Include="ConfigWindow.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="GUI.Designer.cs">
-      <DependentUpon>GUI.cs</DependentUpon>
+    <Compile Include="ConfigWindow.Designer.cs">
+      <DependentUpon>ConfigWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="Helper\DownloadHelper.cs" />
     <Compile Include="Helper\LocationHelper.cs" />
+    <Compile Include="Helper\PokeImgManager.cs" />
     <Compile Include="Helper\SleepHelper.cs" />
     <Compile Include="Helper\TranslatorHelper.cs" />
     <Compile Include="Location.cs">
@@ -282,7 +283,6 @@
     <Compile Include="Panels\WebPanel.Designer.cs">
       <DependentUpon>WebPanel.cs</DependentUpon>
     </Compile>
-    <Compile Include="PokeImgManager.cs" />
     <Compile Include="TabbedSystem.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -322,8 +322,8 @@
     <EmbeddedResource Include="Components\LabelText.resx">
       <DependentUpon>LabelText.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Dialogs\GUIAvatar.resx">
-      <DependentUpon>GUIAvatar.cs</DependentUpon>
+    <EmbeddedResource Include="Dialogs\AvatarSelect.resx">
+      <DependentUpon>AvatarSelect.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Dialogs\IncubatorSelect.resx">
       <DependentUpon>IncubatorSelect.cs</DependentUpon>
@@ -414,8 +414,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="GUI.resx">
-      <DependentUpon>GUI.cs</DependentUpon>
+    <EmbeddedResource Include="ConfigWindow.resx">
+      <DependentUpon>ConfigWindow.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Location.resx">

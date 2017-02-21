@@ -26,7 +26,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using PokemonGo.RocketAPI.Logic.Utils;
 using System.Collections.Generic;
-using static PokemonGo.RocketAPI.Console.GUI;
+using static PokemonGo.RocketAPI.Console.ConfigWindow;
 using POGOProtos.Inventory.Item;
 using GoogleMapsApi.Entities.Elevation.Request;
 using GoogleMapsApi;

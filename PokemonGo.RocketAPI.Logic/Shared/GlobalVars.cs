@@ -153,7 +153,6 @@ namespace PokemonGo.RocketAPI.Logic.Shared
 
         public static bool EnableVerboseLogging = false;
 
-        public static bool FarmGyms;
         public static bool CollectDailyBonus;
         
         public static bool SnipePokemon;
@@ -169,18 +168,11 @@ namespace PokemonGo.RocketAPI.Logic.Shared
         public static string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Configs");
         public static string accountProfiles = Path.Combine(path, "Profiles.txt");
         public static bool UseLastCords = false;
-        public static int LeaveInGyms = 0;
-        public static bool AttackGyms = false;
-        public static int NumDefenders = 1;
         public static bool UseSpritesFolder = false;
         public static bool ShowPokemons = false;
         public static int EvolveAt = 0;
-        public static int GymAttackers = 1;
         public static string FortsFile = "";
         public static bool SaveForts = false;
-        public static int MaxAttacks = 1;
-
-        public static bool SpinGyms  =false;
 
         public static bool UsePinapBerry = false;
 
@@ -194,6 +186,8 @@ namespace PokemonGo.RocketAPI.Logic.Shared
         public static int MaxKingsRock =100;
         public static int MaxMetalCoat =100;
         public static int MaxUpGrade =100;
+        
+        public static GymSettings Gyms = new GymSettings();
 
         /// <summary>
         /// Copy all values from ProfileSettings to GlobalVars.

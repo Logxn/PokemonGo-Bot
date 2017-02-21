@@ -13,7 +13,7 @@ using System.Windows.Forms;
 using POGOProtos.Inventory;
 using System.Linq;
 
-namespace PokemonGo.RocketAPI.Console
+namespace PokemonGo.RocketAPI.Console.Dialogs
 {
     /// <summary>
     /// Description of IncubatorSelect.

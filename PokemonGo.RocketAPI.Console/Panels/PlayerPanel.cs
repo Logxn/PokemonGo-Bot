@@ -18,6 +18,7 @@ using POGOProtos.Data;
 using POGOProtos.Enums;
 using POGOProtos.Map.Fort;
 using POGOProtos.Networking.Responses;
+using PokemonGo.RocketAPI.Console.Dialogs;
 using PokemonGo.RocketAPI.Logic.Utils;
 using PokemonGo.RocketAPI.Helpers;
 using POGOProtos.Data.Player;
