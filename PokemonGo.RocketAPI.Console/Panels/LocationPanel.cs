@@ -672,16 +672,48 @@ namespace PokemonGo.RocketAPI.Console
 
         private void map_OnMarkerClick(GMapMarker item, MouseEventArgs e)
         {
-            if (GlobalVars.pauseAtPokeStop) {
-                GlobalVars.RouteToRepeat.AddLast(new GeoCoordinate(item.Position.Lat, item.Position.Lng));
-                item.ToolTipText = string.Format("Stop {0} Queued", GlobalVars.RouteToRepeat.Count);
-            } else {
-                GlobalVars.NextDestinationOverride.AddFirst(new GeoCoordinate(item.Position.Lat, item.Position.Lng));
-                if (!item.ToolTipText.Contains("\nNext Destination Marked")) {
-                    item.ToolTipText += "\nNext Destination Marked";
+            if (e.Button == MouseButtons.Left)
+                if (GlobalVars.pauseAtPokeStop) {
+                    GlobalVars.RouteToRepeat.AddLast(new GeoCoordinate(item.Position.Lat, item.Position.Lng));
+                    item.ToolTipText = string.Format("Stop {0} Queued", GlobalVars.RouteToRepeat.Count);
+                } else {
+                    GlobalVars.NextDestinationOverride.AddFirst(new GeoCoordinate(item.Position.Lat, item.Position.Lng));
+                    if (!item.ToolTipText.Contains("\nNext Destination Marked")) {
+                        item.ToolTipText += "\nNext Destination Marked";
+                    }
                 }
+            if (e.Button == MouseButtons.Right){
+                var gymID= getGymID(item);
+                if (gymID=="")
+                    return;
+                
+                if (MessageBox.Show(th.TS("Do you want see gym details?"), th.TS("Gym Details Confirmation"), MessageBoxButtons.YesNo) == DialogResult.No)
+                    return;
+                
+                var details = Logic.Logic.objClient.Fort.GetGymDetails(gymID, item.Position.Lat, item.Position.Lng);
+                if (details.Result == POGOProtos.Networking.Responses.GetGymDetailsResponse.Types.Result.Success){
+                    var str = item.ToolTipText + "\n";
+                    str += details.Name + "\n";
+                    str +=  details.GymState.Memberships.Count+" Defenders: \n";
+                    str += Logic.Functions.GymsLogic.strPokemons(details.GymState.Memberships.Select(x => x.PokemonData)) +"\n";
+                    str += th.TS("Do you want copy location?");
+                    if (MessageBox.Show(str, th.TS("Gym Details"), MessageBoxButtons.YesNo  ) == DialogResult.Yes){
+                        Clipboard.SetText(item.Position.Lat.ToString(CultureInfo.InvariantCulture)  +","+ item.Position.Lng.ToString(CultureInfo.InvariantCulture));
+                    }
+                }
+
             }
         }
+        
+        private string getGymID( GMapMarker item){
+            foreach (var element in _pokeGymsMarks) {
+                if( element.Value == item)
+                    return element.Key;
+            }
+            return "";
+        }
+        
+
 
         private void showMap()
         {

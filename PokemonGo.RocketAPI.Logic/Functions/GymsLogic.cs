@@ -153,11 +153,23 @@ namespace PokemonGo.RocketAPI.Logic.Functions
             return pokeGyms;
         }
 
-        private static string strPokemon(PokemonData pokemon)
+        public static string strPokemon(PokemonData pokemon)
         {
-            var str = $"{pokemon.PokemonId.ToString()}(CP:{pokemon.Cp}|HP:{pokemon.Stamina})";
+            var str = $"{pokemon.PokemonId.ToString()} (CP: {pokemon.Cp} | HP: {pokemon.Stamina})";
             return str;
         }
+
+        public static string strPokemons(IEnumerable<PokemonData> pokemons)
+        {
+            var str ="";
+            foreach (var element in pokemons) {
+                str = $"{str}{strPokemon(element)}\n";
+            }
+            if (str.Length > 1)
+                str = str.Substring(0, str.Length - 1);
+            return str;
+        }
+
         private static void ShowPokemons(IEnumerable<PokemonData> pokeAttackers)
         {
             var str = "";
@@ -528,7 +540,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
             return ret;
         }
 
-        private static PokemonData getPokeToPut(Client client, ulong buddyPokemon)
+        public static PokemonData getPokeToPut(Client client, ulong buddyPokemon)
         {
             var pokemons = (client.Inventory.GetPokemons()).ToList();
 

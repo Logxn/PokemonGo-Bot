@@ -150,7 +150,11 @@ namespace PokemonGo.RocketAPI.Console
 
         void SnipeMe_Click(object sender, EventArgs e)
         {
-            SnipePoke((PokemonId)comboBox1.SelectedItem, (int) nudSecondsSnipe.Value,(int) nudTriesSnipe.Value ,checkBoxSnipeTransfer.Checked);
+            var pokeid = (PokemonId)comboBox1.SelectedItem;
+            if (checkBoxSnipeGym.Checked)
+                pokeid = PokemonId.Missingno;
+                
+            SnipePoke(pokeid, (int) nudSecondsSnipe.Value,(int) nudTriesSnipe.Value ,checkBoxSnipeTransfer.Checked);
         }
 
         void SnipePoke(PokemonId id, int secondsToWait, int numberOfTries, bool transferIt)
@@ -351,6 +355,10 @@ namespace PokemonGo.RocketAPI.Console
                 return true;
             }
             return false;
+        }
+        void checkBoxSnipeGym_CheckedChanged(object sender, EventArgs e)
+        {
+            comboBox1.Enabled = !(sender as CheckBox).Checked;
         }
     }
 }
