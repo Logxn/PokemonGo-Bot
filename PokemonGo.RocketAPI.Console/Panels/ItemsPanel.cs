@@ -160,10 +160,10 @@ namespace PokemonGo.RocketAPI.Console
                     case "num_MaxPokeballs":
                         GlobalVars.MaxPokeballs = value;
                         break;
-                    case "num_MaxGreatBalls":
+                    case "num_MaxGreatballs":
                         GlobalVars.MaxGreatballs = value;
                         break;
-                    case "num_MaxUltraBalls":
+                    case "num_MaxUltraballs":
                         GlobalVars.MaxUltraballs = value;
                         break;
                     case "num_MaxRevives":
@@ -184,13 +184,13 @@ namespace PokemonGo.RocketAPI.Console
                     case "num_MaxTopPotions":
                         GlobalVars.MaxTopPotions = value;
                         break;
-                    case "num_MaxRazzBerrys":
+                    case "num_MaxBerries":
                         GlobalVars.MaxBerries = value;
                         break;
-                    case "num_MaxPinapBerrys":
+                    case "num_MaxPinapBerries":
                         GlobalVars.MaxPinapBerries = value;
                         break;
-                    case "num_MaxNanabBerrys":
+                    case "num_MaxNanabBerries":
                         GlobalVars.MaxNanabBerries = value;
                         break;
                     case "num_MaxDragonScale":
