@@ -7,6 +7,7 @@
  * To change this template use Tools | Options | Coding | Edit Standard Headers.
  */
 using System.Collections;
+using System.Threading.Tasks;
 using GMap.NET;
 using GMap.NET.MapProviders;
 using GMap.NET.WindowsForms;
@@ -350,27 +351,39 @@ namespace PokemonGo.RocketAPI.Console
             }
         }
 
-        private void InfoObservable_HandlePokeStop(FortData pokeStop)
+        private void InfoObservable_HandlePokeStop(FortData pokeStop, bool visited = false, string info ="")
         {
             Invoke(new MethodInvoker(() => {
                 if (pokeStop.Id != null) {
-                    var pokeStopMaker = new GMarkerGoogle(new PointLatLng(pokeStop.Latitude, pokeStop.Longitude), Properties.MapData.pokestop);
+                    var latLng = new PointLatLng(pokeStop.Latitude, pokeStop.Longitude);
+                    var poke = (visited)? Properties.MapData.visited_pokestop:Properties.MapData.pokestop;
                     if (pokeStop.ActiveFortModifier.Count > 0) {
-                        pokeStopMaker = new GMarkerGoogle(new PointLatLng(pokeStop.Latitude, pokeStop.Longitude), Properties.MapData.lured_pokestop);
+                        poke = (visited)? Properties.MapData.visited_lured_pokestop: Properties.MapData.lured_pokestop;
                     }
+                    var pokeStopMaker = new GMarkerGoogle(latLng, poke );
 
-                    pokeStopMaker.ToolTipText = string.Format("{0}\n{1},{2}", LocationUtils.FindAddress(pokeStop.Latitude, pokeStop.Longitude), pokeStop.Latitude, pokeStop.Longitude);
-                    pokeStopMaker.ToolTip.Font = new System.Drawing.Font("Arial", 12, System.Drawing.GraphicsUnit.Pixel);
-                    pokeStopMaker.ToolTipMode = MarkerTooltipMode.OnMouseOver;
-
+                    var tooltipText = "";
                     if (_pokeStopsMarks.ContainsKey(pokeStop.Id)){
                         var markerToDel = _pokeStopsMarks[pokeStop.Id];
+                        tooltipText = markerToDel.ToolTipText;
                         if (_pokeStopsOverlay.Markers.Contains(markerToDel))
                             _pokeStopsOverlay.Markers.Remove(markerToDel);
                          _pokeStopsMarks.Remove(pokeStop.Id);
+                    }else{
+                        if (info=="")
+                            pokeStopMaker.ToolTipText = string.Format("{0}\n{1},{2}", LocationUtils.FindAddress(pokeStop.Latitude, pokeStop.Longitude), pokeStop.Latitude, pokeStop.Longitude);
                     }
+                    if (info!="")
+                        pokeStopMaker.ToolTipText = info;
+                    pokeStopMaker.ToolTip.Font = new System.Drawing.Font("Arial", 12, System.Drawing.GraphicsUnit.Pixel);
+                    pokeStopMaker.ToolTipMode = MarkerTooltipMode.OnMouseOver;
+
                     _pokeStopsMarks.Add(pokeStop.Id, pokeStopMaker);
                     _pokeStopsOverlay.Markers.Add(pokeStopMaker);
+                    if (visited)
+                        Task.Delay(300000)
+                            .ContinueWith(t => InfoObservable_HandlePokeStop(pokeStop,false,pokeStopMaker.ToolTipText));
+                        
                 } else {
                     Logger.ColoredConsoleWrite(ConsoleColor.DarkRed, string.Format("Ignore this: pokeStop.Id is null."));
                 }
@@ -554,30 +567,7 @@ namespace PokemonGo.RocketAPI.Console
 
         private void InfoObservable_HandlePokeStopInfoUpdate(POGOProtos.Map.Fort.FortData pokeStop, string info)
         {
-            Invoke(new MethodInvoker(() => {
-                try {
-                    if (_pokeStopsMarks.ContainsKey(pokeStop.Id)) {
-                        //changeType
-                        var bmp = Properties.MapData.visited_pokestop;
-                        if (pokeStop.ActiveFortModifier.Count > 0)
-                            bmp = Properties.MapData.visited_lured_pokestop;
-                        var newMark = new GMarkerGoogle(_pokeStopsMarks[pokeStop.Id].Position, bmp);
-
-                        newMark.ToolTipText = info;
-                        newMark.ToolTip.Font = new System.Drawing.Font("Arial", 12, System.Drawing.GraphicsUnit.Pixel);
-                        try {
-                            _pokeStopsOverlay.Markers[_pokeStopsOverlay.Markers.IndexOf(_pokeStopsMarks[pokeStop.Id])] = newMark;
-                        } catch (Exception e) {
-                            Logger.ColoredConsoleWrite(ConsoleColor.DarkRed, "Ignore this: sending exception information to log file.");
-                            Logger.AddLog(string.Format("Error in HandlePokeStopInfoUpdate: {0}", e.ToString()));
-                        }
-                        _pokeStopsMarks[pokeStop.Id] = newMark;
-                    }
-                } catch (Exception e) {
-                    Logger.ColoredConsoleWrite(ConsoleColor.DarkRed, "Ignore this: sending exception information to log file.");
-                    Logger.AddLog(string.Format("Error in HandlePokeStopInfoUpdate: {0}", e.ToString()));
-                }
-            }));
+            InfoObservable_HandlePokeStop(pokeStop,true,info);
         }
 
         private void initViewOnly(int team, int level, long exp)

@@ -102,7 +102,7 @@ namespace PokemonGo.RocketAPI.Console.Dialogs
         {
             try
             {
-                Process.Start($@"{basedir}\update.bat");
+                Process.Start(@"{basedir}\update.bat");
                 Environment.Exit(0);
             }
             catch(Exception e)

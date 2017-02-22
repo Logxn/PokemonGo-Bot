@@ -1060,7 +1060,7 @@ namespace PokemonGo.RocketAPI.Console
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            Process.Start("https://github.com/Ar1i/PokemonGo-Bot");
+            Process.Start("https://github.com/Logxn/PokemonGo-Bot");
         }
 
         private void linkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
