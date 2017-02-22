@@ -19,11 +19,11 @@ namespace PokemonGo.RocketAPI.Console.Dialogs
     {
         /*Not change order of this strings*/
         public static string localFile = Application.ExecutablePath;
-        public static string downloadedFile = Application.ExecutablePath + ".downloaded";
+        public static string downloadedFile = Path.GetTempFileName();
         public static string baseDir = new FileInfo(localFile).DirectoryName;
         public static string exeName = new FileInfo(localFile).Name;
         public static string remoteFile = "http://raw.githubusercontent.com/Logxn/PokemonGo-Bot/master/Builds-Only/" + exeName;
-        public static string updateFile = Path.Combine(baseDir, "update.bat");
+        public static string updateFile = Path.GetTempFileName()+".bat";
 
         public Update()
         {
@@ -76,7 +76,7 @@ namespace PokemonGo.RocketAPI.Console.Dialogs
         {
             try {
                 var w = new StreamWriter(updateFile);
-                w.WriteLine("timeout 5 > NUL");
+                w.WriteLine("timeout 2 > NUL");
                 w.WriteLine($"move /y \"{downloadedFile}\" \"{localFile}\"");
                 w.WriteLine("echo Y");
                 w.WriteLine($"start {localFile}");
@@ -91,7 +91,9 @@ namespace PokemonGo.RocketAPI.Console.Dialogs
         private void OpenBat()
         {
             try {
-                Process.Start(updateFile);
+                var psi = new ProcessStartInfo (updateFile);
+                psi.WindowStyle = ProcessWindowStyle.Hidden;
+                Process.Start(psi);
                 Environment.Exit(0);
             } catch (Exception e) {
                 MessageBox.Show(e.Message);

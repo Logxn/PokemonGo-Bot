@@ -69,8 +69,12 @@ namespace PokemonGo.RocketAPI.Login
         {
             var loginDataResponse = await httpClient.GetAsync(Resources.PtcLoginUrl);
             if (loginDataResponse.StatusCode == HttpStatusCode.OK){
-                var loginData = JsonConvert.DeserializeObject<SessionData>(await loginDataResponse.Content.ReadAsStringAsync());
-                return loginData;
+                try {
+                    var loginData = JsonConvert.DeserializeObject<SessionData>(await loginDataResponse.Content.ReadAsStringAsync());
+                    return loginData;
+                } catch (Exception ex1) {
+                    Logger.ExceptionInfo(ex1.ToString());
+                }
             }
             return null;
         }

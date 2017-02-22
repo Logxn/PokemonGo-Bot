@@ -258,7 +258,7 @@ namespace PokemonGo.RocketAPI.Logic
                 catch (AggregateException ae) {
                    foreach (var e in ae.Flatten().InnerExceptions) {
                       if (e is LoginFailedException) {
-                        Logger.Error( "Login Failed. Your credentials are wrong or PTC Account is banned.");
+                        Logger.Error(e.Message);
                         Logger.Error( "Exiting in 10 Seconds.");
                         RandomHelper.RandomSleep(10000,10001);
                         Environment.Exit(0);
