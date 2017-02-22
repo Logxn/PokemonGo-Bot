@@ -648,11 +648,6 @@ namespace PokemonGo.RocketAPI.Console
             set { GlobalVars.EggsAscendingSelectionBasicInc = value; }
         }
 
-        public bool EnableVerboseLogging
-        {
-            get { return GlobalVars.EnableVerboseLogging; }
-            set { GlobalVars.EnableVerboseLogging = value; }
-        }
 
 
         public bool CollectDailyBonus

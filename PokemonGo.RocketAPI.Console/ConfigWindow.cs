@@ -407,14 +407,14 @@ namespace PokemonGo.RocketAPI.Console
                 rbSOEggsDescendingBasicInc.Checked = true;
 
             // tab 5 proxy
-            if (config.proxySettings !=null){
-                checkBox_UseProxy.Checked = config.proxySettings.enabled;
-                checkBox_UseProxyAuth.Checked = config.proxySettings.useAuth;
-                prxyIP.Text = config.proxySettings.hostName;
-                prxyPort.Text =""+ config.proxySettings.port;
-                prxyUser.Text = config.proxySettings.username;
-                prxyPass.Text = config.proxySettings.password;
-            }
+            if (config.proxySettings== null)
+                config.proxySettings = new ProxySettings();
+            checkBox_UseProxy.Checked = config.proxySettings.enabled;
+            checkBox_UseProxyAuth.Checked = config.proxySettings.useAuth;
+            prxyIP.Text = config.proxySettings.hostName;
+            prxyPort.Text =""+ config.proxySettings.port;
+            prxyUser.Text = config.proxySettings.username;
+            prxyPass.Text = config.proxySettings.password;
 
             // tab 6 walk
             text_Speed.Text = config.WalkingSpeedInKilometerPerHour.ToString();
@@ -464,9 +464,17 @@ namespace PokemonGo.RocketAPI.Console
             ChangeSelectedLanguage(config.SelectedLanguage);
     
             // Dev Options
-            checkbox_Verboselogging.Checked = config.EnableVerboseLogging;
+            if (config.Debug== null)
+                config.Debug = new DebugSettings();
+            checkbox_Verboselogging.Checked = config.Debug.VerboseMode;
+            checkBoxExtractText.Checked = config.Debug.ExtractFormTexts;
+            checkBoxStoreUntranslated.Checked = config.Debug.StoreUntranslatedText;
+            TranslatorHelper.ActiveExtractTexts = checkBoxExtractText.Checked;
+            TranslatorHelper.StoreUntranslated = checkBoxStoreUntranslated.Checked;
             // Gyms
 
+            if (config.Gyms== null)
+                config.Gyms = new GymSettings();
             checkBox_FarmGyms.Checked = config.Gyms.Farm;
             checkBoxSaveFortsInfo.Checked = config.SaveForts;
             textBoxFortsFile.Text = config.FortsFile;
@@ -476,6 +484,7 @@ namespace PokemonGo.RocketAPI.Console
             comboBoxLeaveInGyms.SelectedIndex = config.Gyms.DeployPokemons;
             comboBoxAttackers.SelectedIndex = config.Gyms.Attackers;
             checkBoxSpinGyms.Checked = config.Gyms.Spin;
+            numMaxTrainingXP.Value = config.Gyms.MaxTrainingXP;
         }
         
         private void ChangeSelectedLanguage(string lang)
@@ -805,6 +814,9 @@ namespace PokemonGo.RocketAPI.Console
 
             
             // tab  - Proxy
+            if (ActiveProfile.Settings.proxySettings == null)
+                ActiveProfile.Settings.proxySettings = new ProxySettings();
+            
             ActiveProfile.Settings.proxySettings.enabled =checkBox_UseProxy.Checked;
             ActiveProfile.Settings.proxySettings.useAuth =checkBox_UseProxyAuth.Checked;
             ActiveProfile.Settings.proxySettings.hostName =prxyIP.Text;
@@ -906,7 +918,11 @@ namespace PokemonGo.RocketAPI.Console
             ActiveProfile.Settings.SelectedLanguage = comboLanguage.Text;
 
             // dev options
-            ActiveProfile.Settings.EnableVerboseLogging = checkbox_Verboselogging.Checked;
+            if (ActiveProfile.Settings.Debug == null)
+                ActiveProfile.Settings.Debug = new DebugSettings();
+            ActiveProfile.Settings.Debug.VerboseMode = checkbox_Verboselogging.Checked;
+            ActiveProfile.Settings.Debug.ExtractFormTexts = checkBoxExtractText.Checked;
+            ActiveProfile.Settings.Debug.StoreUntranslatedText = checkBoxStoreUntranslated.Checked;
 
             if (comboBox_Device.SelectedIndex<0){
                 ret = false;
@@ -917,6 +933,9 @@ namespace PokemonGo.RocketAPI.Console
             // Gyms
             ActiveProfile.Settings.FortsFile = textBoxFortsFile.Text;
             ActiveProfile.Settings.SaveForts = checkBoxSaveFortsInfo.Checked;
+            
+            if (ActiveProfile.Settings.Gyms == null)
+                ActiveProfile.Settings.Gyms = new GymSettings();
             ActiveProfile.Settings.Gyms.DeployPokemons = comboBoxLeaveInGyms.SelectedIndex;
             ActiveProfile.Settings.Gyms.Attackers = comboBoxAttackers.SelectedIndex;
             ActiveProfile.Settings.Gyms.Spin= checkBoxSpinGyms.Checked;
@@ -924,8 +943,10 @@ namespace PokemonGo.RocketAPI.Console
             ActiveProfile.Settings.Gyms.Attack = checkBoxAttackGyms.Checked;
             ActiveProfile.Settings.Gyms.NumDefenders = (int) nudNumDefenders.Value;
             ActiveProfile.Settings.Gyms.MaxAttacks = (int) numericUpDownMaxAttacks.Value;
+            ActiveProfile.Settings.Gyms.MaxTrainingXP = (int) numMaxTrainingXP.Value;
 
             ActiveProfile.Settings.UseNanabBerry = checkBox_UseNanabBerry.Checked;
+            
 
             #endregion
             return ret;
@@ -1363,6 +1384,20 @@ namespace PokemonGo.RocketAPI.Console
         void ButtonGenerateID_Click(object sender, EventArgs e)
         {
             textBoxDeviceID.Text = DeviceSetup.RandomDeviceId();
+        }
+
+        void checkBox_UseBreakIntervalAndLength_CheckedChanged(object sender, EventArgs e)
+        {
+            text_BreakInterval.Enabled = (sender as CheckBox).Checked;
+            text_BreakLength.Enabled = (sender as CheckBox).Checked;
+        }
+        void checkBox_RandomlyReduceSpeed_CheckedChanged(object sender, EventArgs e)
+        {
+          text_MinWalkSpeed.Enabled = (sender as CheckBox).Checked;
+        }
+        void checkBox_UseGoogleMapsRouting_CheckedChanged(object sender, EventArgs e)
+        {
+          text_GoogleMapsAPIKey.Enabled = (sender as CheckBox).Checked;
         }
 
     }

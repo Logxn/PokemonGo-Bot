@@ -163,7 +163,6 @@ namespace PokemonGo.RocketAPI.Logic.Shared
         bool No5kmEggsBasicInc { get; set; }
         bool No2kmEggsBasicInc { get; set; }
         bool EggsAscendingSelectionBasicInc { get; set; }
-        bool EnableVerboseLogging { get; set; }
         bool EnableConsoleInTab { get; set; }
 
 

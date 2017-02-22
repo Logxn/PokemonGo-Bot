@@ -288,7 +288,7 @@ namespace PokemonGo.RocketAPI.Console
             checkBoxUseBasicIncubators.Checked = GlobalVars.UseBasicIncubators;
             checkBox_CollectDailyBonus.Checked = GlobalVars.CollectDailyBonus;
             checkBox_AutoTransferDoublePokemon.Checked = GlobalVars.TransferDoublePokemons;
-            checkbox_Verboselogging.Checked = GlobalVars.EnableVerboseLogging;
+            checkbox_Verboselogging.Checked = GlobalVars.Debug.VerboseMode;
             //Routing
             checkBox_UseGoogleMapsRouting.CheckedChanged -= checkBox_UseGoogleMapsRouting_CheckedChanged;
             checkBox_UseGoogleMapsRouting.Checked = GlobalVars.UseGoogleMapsAPI;
@@ -305,18 +305,16 @@ namespace PokemonGo.RocketAPI.Console
             checkBox_FarmGyms.Checked = GlobalVars.Gyms.Farm;
             checkBox_AttackGyms.Checked = GlobalVars.Gyms.Attack;
             checkBoxSpinGyms.Checked = GlobalVars.Gyms.Spin;
-
             enableEvents = true;
-
-
         }
+
         void checkbox_Verboselogging_CheckedChanged(object sender, EventArgs e)
         {
             if (! enableEvents)
                 return;
-            GlobalVars.EnableVerboseLogging = (sender as CheckBox).Checked;
+            GlobalVars.Debug.VerboseMode = (sender as CheckBox).Checked;
             Logger.SelectedLevel = LogLevel.Error;
-            if (GlobalVars.EnableVerboseLogging)
+            if (GlobalVars.Debug.VerboseMode)
                 Logger.SelectedLevel = LogLevel.Debug;
         }
         void checkBox_UseGoogleMapsRouting_CheckedChanged(object sender, EventArgs e)

@@ -170,7 +170,7 @@ namespace PokemonGo.RocketAPI.Logic
             Logger.Warning( "If you've paid for it. Request a chargeback immediately!");
             Logger.Warning( "You only need pay for a key to access to Hash Service");
 
-            if (GlobalVars.EnableVerboseLogging)
+            if (GlobalVars.Debug.VerboseMode)
             {
                 Logger.SelectedLevel = LogLevel.Debug;
                 Logger.ColoredConsoleWrite(ConsoleColor.Red, $"LogLevel set to {Logger.SelectedLevel}. Many logs will be generated.");

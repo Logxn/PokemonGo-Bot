@@ -873,15 +873,7 @@ namespace PokemonGo.RocketAPI.Logic.Shared
 
 
         }
-        public bool EnableVerboseLogging {
-            get;
-            set;
 
-
-
-
-
-        }
         public bool EnableConsoleInTab {
             get;
             set;
@@ -937,6 +929,7 @@ namespace PokemonGo.RocketAPI.Logic.Shared
         public  int MaxUpGrade {get;set;}
 
         public  GymSettings Gyms {get;set;}
+        public  DebugSettings Debug {get;set;}
 
 
         #endregion

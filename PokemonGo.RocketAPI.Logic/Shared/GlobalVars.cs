@@ -151,8 +151,6 @@ namespace PokemonGo.RocketAPI.Logic.Shared
         public static bool No10kmEggsBasicInc = false;
         public static bool EggsAscendingSelectionBasicInc = false;
 
-        public static bool EnableVerboseLogging = false;
-
         public static bool CollectDailyBonus;
         
         public static bool SnipePokemon;
@@ -188,6 +186,8 @@ namespace PokemonGo.RocketAPI.Logic.Shared
         public static int MaxUpGrade =100;
         
         public static GymSettings Gyms = new GymSettings();
+        
+        public static DebugSettings Debug = new DebugSettings();
 
         /// <summary>
         /// Copy all values from ProfileSettings to GlobalVars.

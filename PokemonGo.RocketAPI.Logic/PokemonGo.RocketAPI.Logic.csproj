@@ -94,6 +94,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Shared\AvatarSettings.cs" />
+    <Compile Include="Shared\DebugSettings.cs" />
     <Compile Include="Shared\GlobalVars.cs" />
     <Compile Include="Shared\GymSettings.cs" />
     <Compile Include="Shared\ProfileSettings.cs" />

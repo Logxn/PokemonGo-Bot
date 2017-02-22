@@ -167,8 +167,8 @@ namespace PokemonGo.RocketAPI.Console
             this.text_MoveRadius = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
+            this.checkBox_RandomlyReduceSpeed = new System.Windows.Forms.CheckBox();
             this.text_Speed = new System.Windows.Forms.TextBox();
-            this.label46 = new System.Windows.Forms.Label();
             this.text_MinWalkSpeed = new System.Windows.Forms.TextBox();
             this.groupBox13 = new System.Windows.Forms.GroupBox();
             this.linkLabel6 = new System.Windows.Forms.LinkLabel();
@@ -177,30 +177,28 @@ namespace PokemonGo.RocketAPI.Console
             this.label45 = new System.Windows.Forms.Label();
             this.groupBox11 = new System.Windows.Forms.GroupBox();
             this.checkBox_StopWalkingWhenEvolving = new System.Windows.Forms.CheckBox();
-            this.checkBox_UseBreakIntervalAndLength = new System.Windows.Forms.CheckBox();
-            this.label47 = new System.Windows.Forms.Label();
-            this.checkBox_RandomlyReduceSpeed = new System.Windows.Forms.CheckBox();
             this.checkBox_RandomSleepAtCatching = new System.Windows.Forms.CheckBox();
             this.checkBox_FarmPokestops = new System.Windows.Forms.CheckBox();
+            this.label44 = new System.Windows.Forms.Label();
             this.checkBox_CatchPokemon = new System.Windows.Forms.CheckBox();
+            this.text_XPFarmedLimit = new System.Windows.Forms.TextBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.checkBox_UseLureAtBreak = new System.Windows.Forms.CheckBox();
-            this.checkBox_BreakAtLure = new System.Windows.Forms.CheckBox();
+            this.label43 = new System.Windows.Forms.Label();
+            this.text_PokestopFarmLimit = new System.Windows.Forms.TextBox();
             this.button_ArchimedeanSpiralHelp = new System.Windows.Forms.Button();
+            this.label42 = new System.Windows.Forms.Label();
             this.checkBox_WalkInArchimedeanSpiral = new System.Windows.Forms.CheckBox();
+            this.text_PokemonCatchLimit = new System.Windows.Forms.TextBox();
             this.groupBox12 = new System.Windows.Forms.GroupBox();
             this.labelRestart = new System.Windows.Forms.Label();
+            this.checkBox_UseBreakIntervalAndLength = new System.Windows.Forms.CheckBox();
             this.text_RestartAfterRun = new System.Windows.Forms.TextBox();
             this.label41 = new System.Windows.Forms.Label();
             this.text_BreakInterval = new System.Windows.Forms.TextBox();
-            this.label44 = new System.Windows.Forms.Label();
-            this.text_XPFarmedLimit = new System.Windows.Forms.TextBox();
-            this.label43 = new System.Windows.Forms.Label();
             this.text_BreakLength = new System.Windows.Forms.TextBox();
-            this.text_PokestopFarmLimit = new System.Windows.Forms.TextBox();
-            this.label42 = new System.Windows.Forms.Label();
+            this.checkBox_UseLureAtBreak = new System.Windows.Forms.CheckBox();
             this.label32 = new System.Windows.Forms.Label();
-            this.text_PokemonCatchLimit = new System.Windows.Forms.TextBox();
+            this.checkBox_BreakAtLure = new System.Windows.Forms.CheckBox();
             this.label40 = new System.Windows.Forms.Label();
             this.text_TimeToRun = new System.Windows.Forms.TextBox();
             this.tabEggs = new System.Windows.Forms.TabPage();
@@ -335,6 +333,8 @@ namespace PokemonGo.RocketAPI.Console
             this.labelLanguage = new System.Windows.Forms.Label();
             this.comboLanguage = new System.Windows.Forms.ComboBox();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.numMaxTrainingXP = new System.Windows.Forms.NumericUpDown();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.tabProxies.SuspendLayout();
             this.tabItems.SuspendLayout();
             this.groupBoxItems.SuspendLayout();
@@ -431,6 +431,7 @@ namespace PokemonGo.RocketAPI.Console
             this.groupBox21.SuspendLayout();
             this.groupBox20.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numMaxTrainingXP)).BeginInit();
             this.SuspendLayout();
             // 
             // buttonSaveStart
@@ -2047,9 +2048,9 @@ namespace PokemonGo.RocketAPI.Console
             this.groupBoxForts.Controls.Add(this.buttonSelectFile);
             this.groupBoxForts.Controls.Add(this.textBoxFortsFile);
             this.groupBoxForts.Controls.Add(this.checkBoxSaveFortsInfo);
-            this.groupBoxForts.Location = new System.Drawing.Point(28, 303);
+            this.groupBoxForts.Location = new System.Drawing.Point(28, 302);
             this.groupBoxForts.Name = "groupBoxForts";
-            this.groupBoxForts.Size = new System.Drawing.Size(324, 84);
+            this.groupBoxForts.Size = new System.Drawing.Size(324, 83);
             this.groupBoxForts.TabIndex = 70;
             this.groupBoxForts.TabStop = false;
             this.groupBoxForts.Text = "Forts";
@@ -2086,8 +2087,8 @@ namespace PokemonGo.RocketAPI.Console
             this.groupBox18.Controls.Add(this.text_MoveRadius);
             this.groupBox18.Controls.Add(this.label9);
             this.groupBox18.Controls.Add(this.label7);
+            this.groupBox18.Controls.Add(this.checkBox_RandomlyReduceSpeed);
             this.groupBox18.Controls.Add(this.text_Speed);
-            this.groupBox18.Controls.Add(this.label46);
             this.groupBox18.Controls.Add(this.text_MinWalkSpeed);
             this.groupBox18.Location = new System.Drawing.Point(27, 8);
             this.groupBox18.Margin = new System.Windows.Forms.Padding(2);
@@ -2100,55 +2101,59 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // text_MoveRadius
             // 
-            this.text_MoveRadius.Location = new System.Drawing.Point(209, 66);
+            this.text_MoveRadius.Location = new System.Drawing.Point(258, 71);
             this.text_MoveRadius.Name = "text_MoveRadius";
-            this.text_MoveRadius.Size = new System.Drawing.Size(100, 20);
+            this.text_MoveRadius.Size = new System.Drawing.Size(52, 20);
             this.text_MoveRadius.TabIndex = 72;
             this.text_MoveRadius.Text = "5000";
             this.text_MoveRadius.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox7_KeyPress);
             // 
             // label9
             // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(16, 67);
+            this.label9.Location = new System.Drawing.Point(31, 74);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(68, 13);
+            this.label9.Size = new System.Drawing.Size(211, 13);
             this.label9.TabIndex = 73;
             this.label9.Text = "Move radius:";
+            this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // label7
             // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(16, 23);
+            this.label7.Location = new System.Drawing.Point(31, 21);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(126, 13);
+            this.label7.Size = new System.Drawing.Size(211, 13);
             this.label7.TabIndex = 71;
-            this.label7.Text = "Max Walk Speed (km/h):";
+            this.label7.Text = "Walk Speed (km/h):";
+            this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // checkBox_RandomlyReduceSpeed
+            // 
+            this.checkBox_RandomlyReduceSpeed.AutoSize = true;
+            this.checkBox_RandomlyReduceSpeed.Checked = true;
+            this.checkBox_RandomlyReduceSpeed.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox_RandomlyReduceSpeed.Location = new System.Drawing.Point(17, 45);
+            this.checkBox_RandomlyReduceSpeed.Name = "checkBox_RandomlyReduceSpeed";
+            this.checkBox_RandomlyReduceSpeed.Size = new System.Drawing.Size(197, 17);
+            this.checkBox_RandomlyReduceSpeed.TabIndex = 64;
+            this.checkBox_RandomlyReduceSpeed.Text = "Randomly reduce speed until (km/h)";
+            this.checkBox_RandomlyReduceSpeed.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.checkBox_RandomlyReduceSpeed.UseVisualStyleBackColor = true;
+            this.checkBox_RandomlyReduceSpeed.CheckedChanged += new System.EventHandler(this.checkBox_RandomlyReduceSpeed_CheckedChanged);
             // 
             // text_Speed
             // 
-            this.text_Speed.Location = new System.Drawing.Point(209, 18);
+            this.text_Speed.Location = new System.Drawing.Point(258, 18);
             this.text_Speed.Name = "text_Speed";
-            this.text_Speed.Size = new System.Drawing.Size(100, 20);
+            this.text_Speed.Size = new System.Drawing.Size(51, 20);
             this.text_Speed.TabIndex = 70;
             this.text_Speed.Text = "11";
             this.text_Speed.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox7_KeyPress);
             // 
-            // label46
-            // 
-            this.label46.AutoSize = true;
-            this.label46.Location = new System.Drawing.Point(16, 45);
-            this.label46.Name = "label46";
-            this.label46.Size = new System.Drawing.Size(123, 13);
-            this.label46.TabIndex = 69;
-            this.label46.Text = "Min Walk Speed (km/h):";
-            this.label46.UseMnemonic = false;
-            // 
             // text_MinWalkSpeed
             // 
-            this.text_MinWalkSpeed.Location = new System.Drawing.Point(209, 42);
+            this.text_MinWalkSpeed.Location = new System.Drawing.Point(258, 43);
             this.text_MinWalkSpeed.Name = "text_MinWalkSpeed";
-            this.text_MinWalkSpeed.Size = new System.Drawing.Size(100, 20);
+            this.text_MinWalkSpeed.Size = new System.Drawing.Size(51, 20);
             this.text_MinWalkSpeed.TabIndex = 68;
             this.text_MinWalkSpeed.Text = "2";
             this.text_MinWalkSpeed.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox7_KeyPress);
@@ -2166,7 +2171,7 @@ namespace PokemonGo.RocketAPI.Console
             this.groupBox13.Size = new System.Drawing.Size(278, 96);
             this.groupBox13.TabIndex = 60;
             this.groupBox13.TabStop = false;
-            this.groupBox13.Text = "Routing Settings (beta)";
+            this.groupBox13.Text = "Routing Settings";
             // 
             // linkLabel6
             // 
@@ -2182,9 +2187,10 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // text_GoogleMapsAPIKey
             // 
+            this.text_GoogleMapsAPIKey.Enabled = false;
             this.text_GoogleMapsAPIKey.Location = new System.Drawing.Point(88, 43);
             this.text_GoogleMapsAPIKey.Name = "text_GoogleMapsAPIKey";
-            this.text_GoogleMapsAPIKey.Size = new System.Drawing.Size(185, 20);
+            this.text_GoogleMapsAPIKey.Size = new System.Drawing.Size(178, 20);
             this.text_GoogleMapsAPIKey.TabIndex = 62;
             // 
             // checkBox_UseGoogleMapsRouting
@@ -2196,6 +2202,7 @@ namespace PokemonGo.RocketAPI.Console
             this.checkBox_UseGoogleMapsRouting.TabIndex = 61;
             this.checkBox_UseGoogleMapsRouting.Text = "Use Google Maps Routing";
             this.checkBox_UseGoogleMapsRouting.UseVisualStyleBackColor = true;
+            this.checkBox_UseGoogleMapsRouting.CheckedChanged += new System.EventHandler(this.checkBox_UseGoogleMapsRouting_CheckedChanged);
             // 
             // label45
             // 
@@ -2210,22 +2217,23 @@ namespace PokemonGo.RocketAPI.Console
             // groupBox11
             // 
             this.groupBox11.Controls.Add(this.checkBox_StopWalkingWhenEvolving);
-            this.groupBox11.Controls.Add(this.checkBox_UseBreakIntervalAndLength);
-            this.groupBox11.Controls.Add(this.label47);
-            this.groupBox11.Controls.Add(this.checkBox_RandomlyReduceSpeed);
             this.groupBox11.Controls.Add(this.checkBox_RandomSleepAtCatching);
             this.groupBox11.Controls.Add(this.checkBox_FarmPokestops);
+            this.groupBox11.Controls.Add(this.label44);
             this.groupBox11.Controls.Add(this.checkBox_CatchPokemon);
+            this.groupBox11.Controls.Add(this.text_XPFarmedLimit);
             this.groupBox11.Controls.Add(this.pictureBox1);
-            this.groupBox11.Controls.Add(this.checkBox_UseLureAtBreak);
-            this.groupBox11.Controls.Add(this.checkBox_BreakAtLure);
+            this.groupBox11.Controls.Add(this.label43);
+            this.groupBox11.Controls.Add(this.text_PokestopFarmLimit);
             this.groupBox11.Controls.Add(this.button_ArchimedeanSpiralHelp);
+            this.groupBox11.Controls.Add(this.label42);
             this.groupBox11.Controls.Add(this.checkBox_WalkInArchimedeanSpiral);
-            this.groupBox11.Location = new System.Drawing.Point(371, 113);
+            this.groupBox11.Controls.Add(this.text_PokemonCatchLimit);
+            this.groupBox11.Location = new System.Drawing.Point(371, 108);
             this.groupBox11.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox11.Name = "groupBox11";
             this.groupBox11.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBox11.Size = new System.Drawing.Size(278, 275);
+            this.groupBox11.Size = new System.Drawing.Size(278, 277);
             this.groupBox11.TabIndex = 59;
             this.groupBox11.TabStop = false;
             this.groupBox11.Text = "Walk Options";
@@ -2235,7 +2243,7 @@ namespace PokemonGo.RocketAPI.Console
             this.checkBox_StopWalkingWhenEvolving.AutoSize = true;
             this.checkBox_StopWalkingWhenEvolving.Checked = true;
             this.checkBox_StopWalkingWhenEvolving.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox_StopWalkingWhenEvolving.Location = new System.Drawing.Point(10, 223);
+            this.checkBox_StopWalkingWhenEvolving.Location = new System.Drawing.Point(8, 229);
             this.checkBox_StopWalkingWhenEvolving.Margin = new System.Windows.Forms.Padding(2);
             this.checkBox_StopWalkingWhenEvolving.Name = "checkBox_StopWalkingWhenEvolving";
             this.checkBox_StopWalkingWhenEvolving.Size = new System.Drawing.Size(182, 17);
@@ -2243,46 +2251,12 @@ namespace PokemonGo.RocketAPI.Console
             this.checkBox_StopWalkingWhenEvolving.Text = "Stop Walking at Evolve/Transfer";
             this.checkBox_StopWalkingWhenEvolving.UseVisualStyleBackColor = true;
             // 
-            // checkBox_UseBreakIntervalAndLength
-            // 
-            this.checkBox_UseBreakIntervalAndLength.AutoSize = true;
-            this.checkBox_UseBreakIntervalAndLength.Checked = true;
-            this.checkBox_UseBreakIntervalAndLength.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox_UseBreakIntervalAndLength.Location = new System.Drawing.Point(10, 171);
-            this.checkBox_UseBreakIntervalAndLength.Name = "checkBox_UseBreakIntervalAndLength";
-            this.checkBox_UseBreakIntervalAndLength.Size = new System.Drawing.Size(171, 17);
-            this.checkBox_UseBreakIntervalAndLength.TabIndex = 71;
-            this.checkBox_UseBreakIntervalAndLength.Text = "Use Break Interval and Length";
-            this.checkBox_UseBreakIntervalAndLength.UseVisualStyleBackColor = true;
-            // 
-            // label47
-            // 
-            this.label47.AutoSize = true;
-            this.label47.Location = new System.Drawing.Point(30, 149);
-            this.label47.Name = "label47";
-            this.label47.Size = new System.Drawing.Size(181, 13);
-            this.label47.TabIndex = 70;
-            this.label47.Text = "(requires a value in Min Walk Speed)";
-            this.label47.UseMnemonic = false;
-            // 
-            // checkBox_RandomlyReduceSpeed
-            // 
-            this.checkBox_RandomlyReduceSpeed.AutoSize = true;
-            this.checkBox_RandomlyReduceSpeed.Checked = true;
-            this.checkBox_RandomlyReduceSpeed.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox_RandomlyReduceSpeed.Location = new System.Drawing.Point(10, 127);
-            this.checkBox_RandomlyReduceSpeed.Name = "checkBox_RandomlyReduceSpeed";
-            this.checkBox_RandomlyReduceSpeed.Size = new System.Drawing.Size(141, 17);
-            this.checkBox_RandomlyReduceSpeed.TabIndex = 64;
-            this.checkBox_RandomlyReduceSpeed.Text = "Randomly reduce speed";
-            this.checkBox_RandomlyReduceSpeed.UseVisualStyleBackColor = true;
-            // 
             // checkBox_RandomSleepAtCatching
             // 
             this.checkBox_RandomSleepAtCatching.AutoSize = true;
             this.checkBox_RandomSleepAtCatching.Checked = true;
             this.checkBox_RandomSleepAtCatching.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox_RandomSleepAtCatching.Location = new System.Drawing.Point(10, 17);
+            this.checkBox_RandomSleepAtCatching.Location = new System.Drawing.Point(13, 68);
             this.checkBox_RandomSleepAtCatching.Name = "checkBox_RandomSleepAtCatching";
             this.checkBox_RandomSleepAtCatching.Size = new System.Drawing.Size(213, 17);
             this.checkBox_RandomSleepAtCatching.TabIndex = 44;
@@ -2294,58 +2268,75 @@ namespace PokemonGo.RocketAPI.Console
             this.checkBox_FarmPokestops.AutoSize = true;
             this.checkBox_FarmPokestops.Checked = true;
             this.checkBox_FarmPokestops.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox_FarmPokestops.Location = new System.Drawing.Point(10, 39);
+            this.checkBox_FarmPokestops.Location = new System.Drawing.Point(13, 94);
             this.checkBox_FarmPokestops.Name = "checkBox_FarmPokestops";
             this.checkBox_FarmPokestops.Size = new System.Drawing.Size(102, 17);
             this.checkBox_FarmPokestops.TabIndex = 45;
             this.checkBox_FarmPokestops.Text = "Farm Pokestops";
             this.checkBox_FarmPokestops.UseVisualStyleBackColor = true;
             // 
+            // label44
+            // 
+            this.label44.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.label44.Location = new System.Drawing.Point(10, 149);
+            this.label44.Name = "label44";
+            this.label44.Size = new System.Drawing.Size(172, 13);
+            this.label44.TabIndex = 55;
+            this.label44.Text = "XP Farmed Limit:";
+            this.label44.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.label44.UseMnemonic = false;
+            // 
             // checkBox_CatchPokemon
             // 
             this.checkBox_CatchPokemon.AutoSize = true;
             this.checkBox_CatchPokemon.Checked = true;
             this.checkBox_CatchPokemon.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox_CatchPokemon.Location = new System.Drawing.Point(10, 61);
+            this.checkBox_CatchPokemon.Location = new System.Drawing.Point(13, 19);
             this.checkBox_CatchPokemon.Name = "checkBox_CatchPokemon";
             this.checkBox_CatchPokemon.Size = new System.Drawing.Size(102, 17);
             this.checkBox_CatchPokemon.TabIndex = 56;
             this.checkBox_CatchPokemon.Text = "Catch Pokemon";
             this.checkBox_CatchPokemon.UseVisualStyleBackColor = true;
             // 
+            // text_XPFarmedLimit
+            // 
+            this.text_XPFarmedLimit.Location = new System.Drawing.Point(215, 146);
+            this.text_XPFarmedLimit.Name = "text_XPFarmedLimit";
+            this.text_XPFarmedLimit.Size = new System.Drawing.Size(51, 20);
+            this.text_XPFarmedLimit.TabIndex = 54;
+            this.text_XPFarmedLimit.Text = "100000";
+            // 
             // pictureBox1
             // 
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(229, 194);
+            this.pictureBox1.Location = new System.Drawing.Point(222, 201);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(17, 17);
             this.pictureBox1.TabIndex = 66;
             this.pictureBox1.TabStop = false;
             // 
-            // checkBox_UseLureAtBreak
+            // label43
             // 
-            this.checkBox_UseLureAtBreak.AutoSize = true;
-            this.checkBox_UseLureAtBreak.Location = new System.Drawing.Point(10, 105);
-            this.checkBox_UseLureAtBreak.Name = "checkBox_UseLureAtBreak";
-            this.checkBox_UseLureAtBreak.Size = new System.Drawing.Size(113, 17);
-            this.checkBox_UseLureAtBreak.TabIndex = 58;
-            this.checkBox_UseLureAtBreak.Text = "Use Lure At Break";
-            this.checkBox_UseLureAtBreak.UseVisualStyleBackColor = true;
+            this.label43.Location = new System.Drawing.Point(18, 121);
+            this.label43.Name = "label43";
+            this.label43.Size = new System.Drawing.Size(164, 13);
+            this.label43.TabIndex = 53;
+            this.label43.Text = "Pokestop Farm Limit:";
+            this.label43.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.label43.UseMnemonic = false;
             // 
-            // checkBox_BreakAtLure
+            // text_PokestopFarmLimit
             // 
-            this.checkBox_BreakAtLure.AutoSize = true;
-            this.checkBox_BreakAtLure.Location = new System.Drawing.Point(10, 83);
-            this.checkBox_BreakAtLure.Name = "checkBox_BreakAtLure";
-            this.checkBox_BreakAtLure.Size = new System.Drawing.Size(91, 17);
-            this.checkBox_BreakAtLure.TabIndex = 57;
-            this.checkBox_BreakAtLure.Text = "Break At Lure";
-            this.checkBox_BreakAtLure.UseVisualStyleBackColor = true;
+            this.text_PokestopFarmLimit.Location = new System.Drawing.Point(215, 118);
+            this.text_PokestopFarmLimit.Name = "text_PokestopFarmLimit";
+            this.text_PokestopFarmLimit.Size = new System.Drawing.Size(51, 20);
+            this.text_PokestopFarmLimit.TabIndex = 52;
+            this.text_PokestopFarmLimit.Text = "1000";
             // 
             // button_ArchimedeanSpiralHelp
             // 
             this.button_ArchimedeanSpiralHelp.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button_ArchimedeanSpiralHelp.Location = new System.Drawing.Point(252, 189);
+            this.button_ArchimedeanSpiralHelp.Location = new System.Drawing.Point(245, 196);
             this.button_ArchimedeanSpiralHelp.Name = "button_ArchimedeanSpiralHelp";
             this.button_ArchimedeanSpiralHelp.Size = new System.Drawing.Size(21, 22);
             this.button_ArchimedeanSpiralHelp.TabIndex = 65;
@@ -2353,162 +2344,156 @@ namespace PokemonGo.RocketAPI.Console
             this.button_ArchimedeanSpiralHelp.UseVisualStyleBackColor = true;
             this.button_ArchimedeanSpiralHelp.Click += new System.EventHandler(this.button4_Click);
             // 
+            // label42
+            // 
+            this.label42.Location = new System.Drawing.Point(18, 46);
+            this.label42.Name = "label42";
+            this.label42.Size = new System.Drawing.Size(164, 13);
+            this.label42.TabIndex = 51;
+            this.label42.Text = "Pokemon Catch Limit:";
+            this.label42.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.label42.UseMnemonic = false;
+            // 
             // checkBox_WalkInArchimedeanSpiral
             // 
             this.checkBox_WalkInArchimedeanSpiral.AutoSize = true;
-            this.checkBox_WalkInArchimedeanSpiral.Location = new System.Drawing.Point(10, 194);
+            this.checkBox_WalkInArchimedeanSpiral.Location = new System.Drawing.Point(8, 200);
             this.checkBox_WalkInArchimedeanSpiral.Name = "checkBox_WalkInArchimedeanSpiral";
             this.checkBox_WalkInArchimedeanSpiral.Size = new System.Drawing.Size(156, 17);
             this.checkBox_WalkInArchimedeanSpiral.TabIndex = 64;
             this.checkBox_WalkInArchimedeanSpiral.Text = "Walk in Archimedean Spiral";
             this.checkBox_WalkInArchimedeanSpiral.UseVisualStyleBackColor = true;
             // 
+            // text_PokemonCatchLimit
+            // 
+            this.text_PokemonCatchLimit.Location = new System.Drawing.Point(215, 41);
+            this.text_PokemonCatchLimit.Name = "text_PokemonCatchLimit";
+            this.text_PokemonCatchLimit.Size = new System.Drawing.Size(51, 20);
+            this.text_PokemonCatchLimit.TabIndex = 50;
+            this.text_PokemonCatchLimit.Text = "1000";
+            // 
             // groupBox12
             // 
             this.groupBox12.Controls.Add(this.labelRestart);
+            this.groupBox12.Controls.Add(this.checkBox_UseBreakIntervalAndLength);
             this.groupBox12.Controls.Add(this.text_RestartAfterRun);
             this.groupBox12.Controls.Add(this.label41);
             this.groupBox12.Controls.Add(this.text_BreakInterval);
-            this.groupBox12.Controls.Add(this.label44);
-            this.groupBox12.Controls.Add(this.text_XPFarmedLimit);
-            this.groupBox12.Controls.Add(this.label43);
             this.groupBox12.Controls.Add(this.text_BreakLength);
-            this.groupBox12.Controls.Add(this.text_PokestopFarmLimit);
-            this.groupBox12.Controls.Add(this.label42);
+            this.groupBox12.Controls.Add(this.checkBox_UseLureAtBreak);
             this.groupBox12.Controls.Add(this.label32);
-            this.groupBox12.Controls.Add(this.text_PokemonCatchLimit);
+            this.groupBox12.Controls.Add(this.checkBox_BreakAtLure);
             this.groupBox12.Controls.Add(this.label40);
             this.groupBox12.Controls.Add(this.text_TimeToRun);
-            this.groupBox12.Location = new System.Drawing.Point(27, 113);
+            this.groupBox12.Location = new System.Drawing.Point(28, 108);
             this.groupBox12.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox12.Name = "groupBox12";
             this.groupBox12.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBox12.Size = new System.Drawing.Size(326, 188);
+            this.groupBox12.Size = new System.Drawing.Size(326, 192);
             this.groupBox12.TabIndex = 60;
             this.groupBox12.TabStop = false;
-            this.groupBox12.Text = "Walk Variables";
+            this.groupBox12.Text = "Break Variables";
             // 
             // labelRestart
             // 
-            this.labelRestart.AutoSize = true;
-            this.labelRestart.Location = new System.Drawing.Point(16, 43);
+            this.labelRestart.Location = new System.Drawing.Point(16, 160);
             this.labelRestart.Name = "labelRestart";
-            this.labelRestart.Size = new System.Drawing.Size(154, 13);
+            this.labelRestart.Size = new System.Drawing.Size(225, 13);
             this.labelRestart.TabIndex = 69;
             this.labelRestart.Text = "Restart after run (in minutes) at:";
+            this.labelRestart.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.labelRestart.UseMnemonic = false;
+            // 
+            // checkBox_UseBreakIntervalAndLength
+            // 
+            this.checkBox_UseBreakIntervalAndLength.AutoSize = true;
+            this.checkBox_UseBreakIntervalAndLength.Location = new System.Drawing.Point(16, 50);
+            this.checkBox_UseBreakIntervalAndLength.Name = "checkBox_UseBreakIntervalAndLength";
+            this.checkBox_UseBreakIntervalAndLength.Size = new System.Drawing.Size(227, 17);
+            this.checkBox_UseBreakIntervalAndLength.TabIndex = 71;
+            this.checkBox_UseBreakIntervalAndLength.Text = "Use Break Interval and Length (in minutes)";
+            this.checkBox_UseBreakIntervalAndLength.UseVisualStyleBackColor = true;
+            this.checkBox_UseBreakIntervalAndLength.CheckedChanged += new System.EventHandler(this.checkBox_UseBreakIntervalAndLength_CheckedChanged);
             // 
             // text_RestartAfterRun
             // 
-            this.text_RestartAfterRun.Location = new System.Drawing.Point(209, 38);
+            this.text_RestartAfterRun.Location = new System.Drawing.Point(257, 159);
             this.text_RestartAfterRun.Name = "text_RestartAfterRun";
-            this.text_RestartAfterRun.Size = new System.Drawing.Size(100, 20);
+            this.text_RestartAfterRun.Size = new System.Drawing.Size(51, 20);
             this.text_RestartAfterRun.TabIndex = 68;
             this.text_RestartAfterRun.Text = "30";
             // 
             // label41
             // 
-            this.label41.AutoSize = true;
-            this.label41.Location = new System.Drawing.Point(16, 164);
+            this.label41.Location = new System.Drawing.Point(32, 99);
             this.label41.Name = "label41";
-            this.label41.Size = new System.Drawing.Size(130, 13);
+            this.label41.Size = new System.Drawing.Size(211, 13);
             this.label41.TabIndex = 67;
-            this.label41.Text = "Break Length (in minutes):";
+            this.label41.Text = "Length:";
+            this.label41.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.label41.UseMnemonic = false;
             // 
             // text_BreakInterval
             // 
-            this.text_BreakInterval.Location = new System.Drawing.Point(209, 137);
+            this.text_BreakInterval.Enabled = false;
+            this.text_BreakInterval.Location = new System.Drawing.Point(257, 72);
             this.text_BreakInterval.Name = "text_BreakInterval";
-            this.text_BreakInterval.Size = new System.Drawing.Size(100, 20);
+            this.text_BreakInterval.Size = new System.Drawing.Size(51, 20);
             this.text_BreakInterval.TabIndex = 64;
-            // 
-            // label44
-            // 
-            this.label44.AutoSize = true;
-            this.label44.Location = new System.Drawing.Point(16, 115);
-            this.label44.Name = "label44";
-            this.label44.Size = new System.Drawing.Size(86, 13);
-            this.label44.TabIndex = 55;
-            this.label44.Text = "XP Farmed Limit:";
-            this.label44.UseMnemonic = false;
-            // 
-            // text_XPFarmedLimit
-            // 
-            this.text_XPFarmedLimit.Location = new System.Drawing.Point(209, 111);
-            this.text_XPFarmedLimit.Name = "text_XPFarmedLimit";
-            this.text_XPFarmedLimit.Size = new System.Drawing.Size(100, 20);
-            this.text_XPFarmedLimit.TabIndex = 54;
-            this.text_XPFarmedLimit.Text = "100000";
-            // 
-            // label43
-            // 
-            this.label43.AutoSize = true;
-            this.label43.Location = new System.Drawing.Point(16, 91);
-            this.label43.Name = "label43";
-            this.label43.Size = new System.Drawing.Size(105, 13);
-            this.label43.TabIndex = 53;
-            this.label43.Text = "Pokestop Farm Limit:";
-            this.label43.UseMnemonic = false;
             // 
             // text_BreakLength
             // 
-            this.text_BreakLength.Location = new System.Drawing.Point(209, 161);
+            this.text_BreakLength.Enabled = false;
+            this.text_BreakLength.Location = new System.Drawing.Point(257, 96);
             this.text_BreakLength.Name = "text_BreakLength";
-            this.text_BreakLength.Size = new System.Drawing.Size(100, 20);
+            this.text_BreakLength.Size = new System.Drawing.Size(51, 20);
             this.text_BreakLength.TabIndex = 66;
             // 
-            // text_PokestopFarmLimit
+            // checkBox_UseLureAtBreak
             // 
-            this.text_PokestopFarmLimit.Location = new System.Drawing.Point(209, 87);
-            this.text_PokestopFarmLimit.Name = "text_PokestopFarmLimit";
-            this.text_PokestopFarmLimit.Size = new System.Drawing.Size(100, 20);
-            this.text_PokestopFarmLimit.TabIndex = 52;
-            this.text_PokestopFarmLimit.Text = "1000";
-            // 
-            // label42
-            // 
-            this.label42.AutoSize = true;
-            this.label42.Location = new System.Drawing.Point(16, 67);
-            this.label42.Name = "label42";
-            this.label42.Size = new System.Drawing.Size(110, 13);
-            this.label42.TabIndex = 51;
-            this.label42.Text = "Pokemon Catch Limit:";
-            this.label42.UseMnemonic = false;
+            this.checkBox_UseLureAtBreak.AutoSize = true;
+            this.checkBox_UseLureAtBreak.Location = new System.Drawing.Point(184, 21);
+            this.checkBox_UseLureAtBreak.Name = "checkBox_UseLureAtBreak";
+            this.checkBox_UseLureAtBreak.Size = new System.Drawing.Size(113, 17);
+            this.checkBox_UseLureAtBreak.TabIndex = 58;
+            this.checkBox_UseLureAtBreak.Text = "Use Lure At Break";
+            this.checkBox_UseLureAtBreak.UseVisualStyleBackColor = true;
             // 
             // label32
             // 
-            this.label32.AutoSize = true;
-            this.label32.Location = new System.Drawing.Point(16, 140);
+            this.label32.Location = new System.Drawing.Point(30, 75);
             this.label32.Name = "label32";
-            this.label32.Size = new System.Drawing.Size(132, 13);
+            this.label32.Size = new System.Drawing.Size(213, 13);
             this.label32.TabIndex = 65;
-            this.label32.Text = "Break Interval (in minutes):";
+            this.label32.Text = "Interval:";
+            this.label32.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.label32.UseMnemonic = false;
             // 
-            // text_PokemonCatchLimit
+            // checkBox_BreakAtLure
             // 
-            this.text_PokemonCatchLimit.Location = new System.Drawing.Point(209, 62);
-            this.text_PokemonCatchLimit.Name = "text_PokemonCatchLimit";
-            this.text_PokemonCatchLimit.Size = new System.Drawing.Size(100, 20);
-            this.text_PokemonCatchLimit.TabIndex = 50;
-            this.text_PokemonCatchLimit.Text = "1000";
+            this.checkBox_BreakAtLure.AutoSize = true;
+            this.checkBox_BreakAtLure.Location = new System.Drawing.Point(16, 21);
+            this.checkBox_BreakAtLure.Name = "checkBox_BreakAtLure";
+            this.checkBox_BreakAtLure.Size = new System.Drawing.Size(91, 17);
+            this.checkBox_BreakAtLure.TabIndex = 57;
+            this.checkBox_BreakAtLure.Text = "Break At Lure";
+            this.checkBox_BreakAtLure.UseVisualStyleBackColor = true;
             // 
             // label40
             // 
-            this.label40.AutoSize = true;
-            this.label40.Location = new System.Drawing.Point(16, 21);
+            this.label40.Location = new System.Drawing.Point(16, 139);
             this.label40.Name = "label40";
-            this.label40.Size = new System.Drawing.Size(124, 13);
+            this.label40.Size = new System.Drawing.Size(225, 13);
             this.label40.TabIndex = 43;
             this.label40.Text = "Time to Run (in minutes):";
+            this.label40.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.label40.UseMnemonic = false;
             // 
             // text_TimeToRun
             // 
-            this.text_TimeToRun.Location = new System.Drawing.Point(209, 15);
+            this.text_TimeToRun.Location = new System.Drawing.Point(257, 136);
             this.text_TimeToRun.Name = "text_TimeToRun";
-            this.text_TimeToRun.Size = new System.Drawing.Size(100, 20);
+            this.text_TimeToRun.Size = new System.Drawing.Size(51, 20);
             this.text_TimeToRun.TabIndex = 42;
             this.text_TimeToRun.Text = "240";
             // 
@@ -2529,10 +2514,11 @@ namespace PokemonGo.RocketAPI.Console
             // groupBox26
             // 
             this.groupBox26.Controls.Add(this.groupBox27);
+            this.groupBox26.Controls.Add(this.checkBox_UseBasicIncubators);
             this.groupBox26.Controls.Add(this.groupBox28);
-            this.groupBox26.Location = new System.Drawing.Point(8, 218);
+            this.groupBox26.Location = new System.Drawing.Point(8, 179);
             this.groupBox26.Name = "groupBox26";
-            this.groupBox26.Size = new System.Drawing.Size(549, 113);
+            this.groupBox26.Size = new System.Drawing.Size(549, 144);
             this.groupBox26.TabIndex = 56;
             this.groupBox26.TabStop = false;
             this.groupBox26.Text = "Consumable Incubators";
@@ -2541,7 +2527,7 @@ namespace PokemonGo.RocketAPI.Console
             // 
             this.groupBox27.Controls.Add(this.rbSOEggsDescendingBasicInc);
             this.groupBox27.Controls.Add(this.rbSOEggsAscendingBasicInc);
-            this.groupBox27.Location = new System.Drawing.Point(259, 18);
+            this.groupBox27.Location = new System.Drawing.Point(259, 42);
             this.groupBox27.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             this.groupBox27.Name = "groupBox27";
             this.groupBox27.Padding = new System.Windows.Forms.Padding(4, 2, 4, 2);
@@ -2579,7 +2565,7 @@ namespace PokemonGo.RocketAPI.Console
             this.groupBox28.Controls.Add(this.checkBox_10kmEggsBasicInc);
             this.groupBox28.Controls.Add(this.checkBox_5kmEggsBasicInc);
             this.groupBox28.Controls.Add(this.checkBox_2kmEggsBasicInc);
-            this.groupBox28.Location = new System.Drawing.Point(12, 18);
+            this.groupBox28.Location = new System.Drawing.Point(12, 42);
             this.groupBox28.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             this.groupBox28.Name = "groupBox28";
             this.groupBox28.Padding = new System.Windows.Forms.Padding(4, 2, 4, 2);
@@ -2625,7 +2611,7 @@ namespace PokemonGo.RocketAPI.Console
             // 
             this.groupBox1.Controls.Add(this.gbSelectionOrder);
             this.groupBox1.Controls.Add(this.groupBox24);
-            this.groupBox1.Location = new System.Drawing.Point(8, 99);
+            this.groupBox1.Location = new System.Drawing.Point(8, 60);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(549, 113);
             this.groupBox1.TabIndex = 55;
@@ -2719,12 +2705,11 @@ namespace PokemonGo.RocketAPI.Console
             // groupBox_EggOptions
             // 
             this.groupBox_EggOptions.Controls.Add(this.checkBox_AutoIncubate);
-            this.groupBox_EggOptions.Controls.Add(this.checkBox_UseBasicIncubators);
             this.groupBox_EggOptions.Location = new System.Drawing.Point(7, 8);
             this.groupBox_EggOptions.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             this.groupBox_EggOptions.Name = "groupBox_EggOptions";
             this.groupBox_EggOptions.Padding = new System.Windows.Forms.Padding(4, 2, 4, 2);
-            this.groupBox_EggOptions.Size = new System.Drawing.Size(279, 86);
+            this.groupBox_EggOptions.Size = new System.Drawing.Size(550, 47);
             this.groupBox_EggOptions.TabIndex = 52;
             this.groupBox_EggOptions.TabStop = false;
             this.groupBox_EggOptions.Text = "Options";
@@ -2745,12 +2730,12 @@ namespace PokemonGo.RocketAPI.Console
             // checkBox_UseBasicIncubators
             // 
             this.checkBox_UseBasicIncubators.AutoSize = true;
-            this.checkBox_UseBasicIncubators.Location = new System.Drawing.Point(11, 48);
+            this.checkBox_UseBasicIncubators.Location = new System.Drawing.Point(12, 18);
             this.checkBox_UseBasicIncubators.Margin = new System.Windows.Forms.Padding(5);
             this.checkBox_UseBasicIncubators.Name = "checkBox_UseBasicIncubators";
-            this.checkBox_UseBasicIncubators.Size = new System.Drawing.Size(157, 17);
+            this.checkBox_UseBasicIncubators.Size = new System.Drawing.Size(53, 17);
             this.checkBox_UseBasicIncubators.TabIndex = 51;
-            this.checkBox_UseBasicIncubators.Text = "Use consumable incubators";
+            this.checkBox_UseBasicIncubators.Text = "Use it";
             this.checkBox_UseBasicIncubators.UseVisualStyleBackColor = true;
             // 
             // tabThrows
@@ -3245,6 +3230,8 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // groupBoxGyms
             // 
+            this.groupBoxGyms.Controls.Add(this.numMaxTrainingXP);
+            this.groupBoxGyms.Controls.Add(this.checkBox1);
             this.groupBoxGyms.Controls.Add(this.label34);
             this.groupBoxGyms.Controls.Add(this.checkBoxSpinGyms);
             this.groupBoxGyms.Controls.Add(this.labelMaxAttacks);
@@ -3259,7 +3246,7 @@ namespace PokemonGo.RocketAPI.Console
             this.groupBoxGyms.Controls.Add(this.checkBox_FarmGyms);
             this.groupBoxGyms.Location = new System.Drawing.Point(6, 6);
             this.groupBoxGyms.Name = "groupBoxGyms";
-            this.groupBoxGyms.Size = new System.Drawing.Size(665, 188);
+            this.groupBoxGyms.Size = new System.Drawing.Size(665, 221);
             this.groupBoxGyms.TabIndex = 70;
             this.groupBoxGyms.TabStop = false;
             this.groupBoxGyms.Text = "Gyms";
@@ -3287,7 +3274,7 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // labelMaxAttacks
             // 
-            this.labelMaxAttacks.Location = new System.Drawing.Point(17, 136);
+            this.labelMaxAttacks.Location = new System.Drawing.Point(17, 189);
             this.labelMaxAttacks.Name = "labelMaxAttacks";
             this.labelMaxAttacks.Size = new System.Drawing.Size(192, 16);
             this.labelMaxAttacks.TabIndex = 60;
@@ -3296,7 +3283,7 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // numericUpDownMaxAttacks
             // 
-            this.numericUpDownMaxAttacks.Location = new System.Drawing.Point(215, 135);
+            this.numericUpDownMaxAttacks.Location = new System.Drawing.Point(215, 188);
             this.numericUpDownMaxAttacks.Minimum = new decimal(new int[] {
             1,
             0,
@@ -3313,7 +3300,7 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // label24
             // 
-            this.label24.Location = new System.Drawing.Point(16, 101);
+            this.label24.Location = new System.Drawing.Point(16, 154);
             this.label24.Name = "label24";
             this.label24.Size = new System.Drawing.Size(192, 16);
             this.label24.TabIndex = 58;
@@ -3324,7 +3311,7 @@ namespace PokemonGo.RocketAPI.Console
             // 
             this.comboBoxAttackers.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxAttackers.FormattingEnabled = true;
-            this.comboBoxAttackers.Location = new System.Drawing.Point(215, 99);
+            this.comboBoxAttackers.Location = new System.Drawing.Point(215, 152);
             this.comboBoxAttackers.Name = "comboBoxAttackers";
             this.comboBoxAttackers.Size = new System.Drawing.Size(121, 21);
             this.comboBoxAttackers.TabIndex = 57;
@@ -4069,6 +4056,33 @@ namespace PokemonGo.RocketAPI.Console
             this.openFileDialog1.FileName = "openFileDialog1";
             this.openFileDialog1.Filter = "Json Files (*.json)|*.json";
             // 
+            // numMaxTrainingXp
+            // 
+            this.numMaxTrainingXP.Location = new System.Drawing.Point(215, 110);
+            this.numMaxTrainingXP.Maximum = new decimal(new int[] {
+            52000,
+            0,
+            0,
+            0});
+            this.numMaxTrainingXP.Name = "numMaxTrainingXp";
+            this.numMaxTrainingXP.Size = new System.Drawing.Size(121, 20);
+            this.numMaxTrainingXP.TabIndex = 64;
+            this.numMaxTrainingXP.Value = new decimal(new int[] {
+            50000,
+            0,
+            0,
+            0});
+            // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Location = new System.Drawing.Point(16, 112);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(141, 17);
+            this.checkBox1.TabIndex = 63;
+            this.checkBox1.Text = "Not train if have level >=";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            // 
             // ConfigWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -4162,6 +4176,7 @@ namespace PokemonGo.RocketAPI.Console
             this.groupBox12.PerformLayout();
             this.tabEggs.ResumeLayout(false);
             this.groupBox26.ResumeLayout(false);
+            this.groupBox26.PerformLayout();
             this.groupBox27.ResumeLayout(false);
             this.groupBox27.PerformLayout();
             this.groupBox28.ResumeLayout(false);
@@ -4220,6 +4235,7 @@ namespace PokemonGo.RocketAPI.Console
             this.groupBox20.ResumeLayout(false);
             this.groupBox20.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numMaxTrainingXP)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -4315,7 +4331,6 @@ namespace PokemonGo.RocketAPI.Console
         private System.Windows.Forms.CheckBox checkBox_RandomSleepAtCatching;
         private System.Windows.Forms.GroupBox groupBox11;
         private System.Windows.Forms.CheckBox checkBox_UseBreakIntervalAndLength;
-        private System.Windows.Forms.Label label47;
         private System.Windows.Forms.CheckBox checkBox_RandomlyReduceSpeed;
         private System.Windows.Forms.Label label44;
         private System.Windows.Forms.TextBox text_XPFarmedLimit;
@@ -4326,7 +4341,6 @@ namespace PokemonGo.RocketAPI.Console
         private System.Windows.Forms.Label label40;
         private System.Windows.Forms.TextBox text_TimeToRun;
         private System.Windows.Forms.GroupBox groupBox12;
-        private System.Windows.Forms.Label label46;
         private System.Windows.Forms.TextBox text_MinWalkSpeed;
         private System.Windows.Forms.Label label41;
         private System.Windows.Forms.TextBox text_BreakInterval;
@@ -4531,6 +4545,8 @@ namespace PokemonGo.RocketAPI.Console
         public System.Windows.Forms.NumericUpDown num_MaxTopPotions;
         public System.Windows.Forms.NumericUpDown num_MaxTopRevives;
         public System.Windows.Forms.NumericUpDown num_MaxBerries;
+        private System.Windows.Forms.NumericUpDown numMaxTrainingXP;
+        private System.Windows.Forms.CheckBox checkBox1;
         //private System.Windows.Forms.CheckBox checkBox_CatchLurePokemons;
     }
 }
