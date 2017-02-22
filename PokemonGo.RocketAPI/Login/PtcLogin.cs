@@ -35,6 +35,8 @@ namespace PokemonGo.RocketAPI.Login
                 {
                     httpClient.DefaultRequestHeaders.UserAgent.TryParseAdd(Resources.LoginUserAgent);
                     var loginData = await GetLoginData(httpClient);
+                    if (loginData == null)
+                        return null;
                     var ticket = await PostLogin(httpClient, this.username, this.password, loginData);
                     var accessToken = await PostLoginOauth(httpClient, ticket);
                     Logger.Debug("Authenticated through PTC.");
@@ -66,8 +68,11 @@ namespace PokemonGo.RocketAPI.Login
         private async Task<SessionData> GetLoginData(System.Net.Http.HttpClient httpClient)
         {
             var loginDataResponse = await httpClient.GetAsync(Resources.PtcLoginUrl);
-            var loginData = JsonConvert.DeserializeObject<SessionData>(await loginDataResponse.Content.ReadAsStringAsync());
-            return loginData;
+            if (loginDataResponse.StatusCode == HttpStatusCode.OK){
+                var loginData = JsonConvert.DeserializeObject<SessionData>(await loginDataResponse.Content.ReadAsStringAsync());
+                return loginData;
+            }
+            return null;
         }
 
         /// <summary>
@@ -100,8 +105,9 @@ namespace PokemonGo.RocketAPI.Login
 
             var loginResponseData = JObject.Parse(loginResponseDataRaw);
             var loginResponseErrors = (JArray)loginResponseData["errors"];
-
-            throw new Exception($"Pokemon Trainer Club gave error(s): '{string.Join(",", loginResponseErrors)}'");
+            
+            var joinedResponseErrors = string.Join(",", loginResponseErrors);
+            throw new Exception($"Pokemon Trainer Club gave error(s): '{joinedResponseErrors}'");
         }
 
         /// <summary>

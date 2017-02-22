@@ -17,9 +17,13 @@ namespace PokemonGo.RocketAPI.Console.Dialogs
 {
     public partial class Update : Form
     {
-        public static string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Update");
-        public static string file = path + @"\PokemonGo.RocketAPI.Console.exe";
-        public static string basedir = AppDomain.CurrentDomain.BaseDirectory;
+        /*Not change order of this strings*/
+        public static string localFile = Application.ExecutablePath;
+        public static string downloadedFile = Application.ExecutablePath + ".downloaded";
+        public static string baseDir = new FileInfo(localFile).DirectoryName;
+        public static string exeName = new FileInfo(localFile).Name;
+        public static string remoteFile = "http://raw.githubusercontent.com/Logxn/PokemonGo-Bot/master/Builds-Only/" + exeName;
+        public static string updateFile = Path.Combine(baseDir, "update.bat");
 
         public Update()
         {
@@ -31,9 +35,9 @@ namespace PokemonGo.RocketAPI.Console.Dialogs
         {
 
             var webClient = new WebClient();
-            webClient.DownloadFileCompleted += new AsyncCompletedEventHandler(Completed);
-            webClient.DownloadProgressChanged += new DownloadProgressChangedEventHandler(ProgressChanged);
-            webClient.DownloadFileAsync(new Uri("http://raw.githubusercontent.com/Logxn/PokemonGo-Bot/master/Builds-Only/PokemonGo.RocketAPI.Console.exe"), file);
+            webClient.DownloadFileCompleted += Completed;
+            webClient.DownloadProgressChanged += ProgressChanged;
+            webClient.DownloadFileAsync(new Uri(remoteFile), downloadedFile);
 
         }
 
@@ -55,58 +59,41 @@ namespace PokemonGo.RocketAPI.Console.Dialogs
 
         private void Update_Load(object sender, EventArgs e)
         {
-            if (!Directory.Exists(path))
-            {
-                Directory.CreateDirectory(path);
-            }
-
             checkversion();
-
         }
 
         void checkversion()
         {
-            if (Program.getNewestVersion() > Assembly.GetExecutingAssembly().GetName().Version)
-            {
+            if (Program.getNewestVersion() > new Version (Application.ProductVersion)) {
                 startDownload();
-            }
-            else
-            {
+            } else {
                 MessageBox.Show("Your client is up-to-date.");
-                this.Hide();
+                Hide();
             }
         }
 
         private void CreateBat()
         {
-            try
-            {
-                StreamWriter w = new StreamWriter(basedir + @"\update.bat");
-                //w.WriteLine($"taskkill /F /IM PokemonGo.RocketAPI.Console");
-                w.WriteLine($"timeout 5 > NUL");
-                w.WriteLine($"xcopy /s /y \"{file}\" \"{basedir}PokemonGo.RocketAPI.Console.exe\"");
-                w.WriteLine($"rmdir /s /q \"{path}\"");
-                w.WriteLine($"echo Y");
-                w.WriteLine($"start  \"{basedir}\" PokemonGo.RocketAPI.Console.exe");
+            try {
+                var w = new StreamWriter(updateFile);
+                w.WriteLine("timeout 5 > NUL");
+                w.WriteLine($"move /y \"{downloadedFile}\" \"{localFile}\"");
+                w.WriteLine("echo Y");
+                w.WriteLine($"start {localFile}");
+                w.WriteLine($"del /f \"{updateFile}\"");
                 w.Close();
-            }
-            catch(Exception e)
-            {
+                OpenBat();
+            } catch (Exception e) {
                 MessageBox.Show(e.Message);
             }
-
-            OpenBat();
         }
 
         private void OpenBat()
         {
-            try
-            {
-                Process.Start($@"{basedir}\update.bat");
+            try {
+                Process.Start(updateFile);
                 Environment.Exit(0);
-            }
-            catch(Exception e)
-            {
+            } catch (Exception e) {
                 MessageBox.Show(e.Message);
             }
         }

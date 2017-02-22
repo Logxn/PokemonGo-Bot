@@ -44,6 +44,12 @@ namespace PokemonGo.RocketAPI.Rpc
         public async Task DoLogin()
         {
             Client.AuthToken = await _login.GetAccessToken().ConfigureAwait(false);
+            
+            if ( Client.AuthToken == null){
+                throw new LoginFailedException("Connection with Server failed. Please, check if niantic servers are up");
+            }
+                
+            
             Client.StartTime = Utils.GetTime(true);
             
             await
