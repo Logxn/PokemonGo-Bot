@@ -25,10 +25,6 @@ namespace PokemonGo.RocketAPI.Logic
         public static string file = path + @"\PokemonGo.RocketAPI.Console.exe";
         public static string basedir = AppDomain.CurrentDomain.BaseDirectory;
 
-        private void Update_Load(object sender, EventArgs e)
-        {
-
-        }
 
         private void startDownload()
         {
@@ -77,7 +73,7 @@ namespace PokemonGo.RocketAPI.Logic
                 StreamWriter w = new StreamWriter(basedir + @"\update.bat");
                 //w.WriteLine($"taskkill /F /IM PokemonGo.RocketAPI.Console");
                 w.WriteLine($"timeout 5 > NUL");
-                w.WriteLine($"xcopy /s /y \"{file}\" \"{basedir}\\PokemonGo.RocketAPI.Console.exe\"");
+                w.WriteLine($"xcopy /s /y \"{file}\" \"{basedir}\"");
                 w.WriteLine($"rmdir /s /q \"{path}\"");
                 w.WriteLine($"echo Y");
                 w.WriteLine($"start  \"{basedir}\" PokemonGo.RocketAPI.Console.exe");
