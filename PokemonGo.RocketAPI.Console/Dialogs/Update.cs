@@ -84,7 +84,7 @@ namespace PokemonGo.RocketAPI.Console.Dialogs
                 StreamWriter w = new StreamWriter(basedir + @"\update.bat");
                 //w.WriteLine($"taskkill /F /IM PokemonGo.RocketAPI.Console");
                 w.WriteLine($"timeout 5 > NUL");
-                w.WriteLine($"xcopy /s /y \"{file}\" \"{basedir}\\PokemonGo.RocketAPI.Console.exe\"");
+                w.WriteLine($"xcopy /s /y \"{file}\" \"{basedir}PokemonGo.RocketAPI.Console.exe\"");
                 w.WriteLine($"rmdir /s /q \"{path}\"");
                 w.WriteLine($"echo Y");
                 w.WriteLine($"start  \"{basedir}\" PokemonGo.RocketAPI.Console.exe");
@@ -102,7 +102,7 @@ namespace PokemonGo.RocketAPI.Console.Dialogs
         {
             try
             {
-                Process.Start(@"{basedir}\update.bat");
+                Process.Start($@"{basedir}\update.bat");
                 Environment.Exit(0);
             }
             catch(Exception e)
