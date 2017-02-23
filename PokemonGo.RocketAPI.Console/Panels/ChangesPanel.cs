@@ -416,6 +416,12 @@ namespace PokemonGo.RocketAPI.Console
             Logger.ColoredConsoleWrite(tryCatchColor,th.TS("{0} value changed to {1}","MaxTrainingXP",GlobalVars.Gyms.NumDefenders));
           
         }
+        void textBoxTesting_TextChanged(object sender, EventArgs e)
+        {
+            if (! enableEvents)
+                return;
+              GlobalVars.Gyms.Testing = (sender as TextBox).Text;
+        }
 
     }
 }

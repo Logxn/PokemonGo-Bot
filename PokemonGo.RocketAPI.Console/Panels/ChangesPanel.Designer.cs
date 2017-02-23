@@ -84,6 +84,8 @@ namespace PokemonGo.RocketAPI.Console
 		private System.Windows.Forms.CheckBox checkBoxSpinGyms;
 		private System.Windows.Forms.Label labelTraining;
 		private System.Windows.Forms.NumericUpDown numMaxTrainingXP;
+		private System.Windows.Forms.Label label1;
+		private System.Windows.Forms.TextBox textBoxTesting;
 		
 		/// <summary>
 		/// Disposes resources used by the control.
@@ -176,6 +178,8 @@ namespace PokemonGo.RocketAPI.Console
 		    this.tabControl1 = new System.Windows.Forms.TabControl();
 		    this.tpGeneral = new System.Windows.Forms.TabPage();
 		    this.tpGym = new System.Windows.Forms.TabPage();
+		    this.textBoxTesting = new System.Windows.Forms.TextBox();
+		    this.label1 = new System.Windows.Forms.Label();
 		    this.groupBox1.SuspendLayout();
 		    ((System.ComponentModel.ISupportInitialize)(this.numTravelSpeed)).BeginInit();
 		    this.groupBox10.SuspendLayout();
@@ -937,6 +941,8 @@ namespace PokemonGo.RocketAPI.Console
 		    // 
 		    // groupBoxGym
 		    // 
+		    this.groupBoxGym.Controls.Add(this.label1);
+		    this.groupBoxGym.Controls.Add(this.textBoxTesting);
 		    this.groupBoxGym.Controls.Add(this.labelTraining);
 		    this.groupBoxGym.Controls.Add(this.numMaxTrainingXP);
 		    this.groupBoxGym.Controls.Add(this.label34);
@@ -1116,6 +1122,22 @@ namespace PokemonGo.RocketAPI.Console
 		    this.tpGym.TabIndex = 1;
 		    this.tpGym.Text = "Gym Settings";
 		    this.tpGym.UseVisualStyleBackColor = true;
+		    // 
+		    // textBoxTesting
+		    // 
+		    this.textBoxTesting.Location = new System.Drawing.Point(415, 145);
+		    this.textBoxTesting.Name = "textBoxTesting";
+		    this.textBoxTesting.Size = new System.Drawing.Size(228, 20);
+		    this.textBoxTesting.TabIndex = 104;
+		    this.textBoxTesting.TextChanged += new System.EventHandler(this.textBoxTesting_TextChanged);
+		    // 
+		    // label1
+		    // 
+		    this.label1.Location = new System.Drawing.Point(424, 115);
+		    this.label1.Name = "label1";
+		    this.label1.Size = new System.Drawing.Size(219, 18);
+		    this.label1.TabIndex = 105;
+		    this.label1.Text = "General Text Box. For testing things";
 		    // 
 		    // ChangesPanel
 		    // 

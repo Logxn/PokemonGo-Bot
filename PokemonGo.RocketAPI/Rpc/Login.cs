@@ -62,7 +62,7 @@ namespace PokemonGo.RocketAPI.Rpc
             //RequestBuilder.GMOFirstTime = true;
         }
 
-        private async Task FireRequestBlock(Request request)
+        public async Task FireRequestBlock(Request request)
         {
             var requests = CommonRequest.FillRequest(request, Client);
 

@@ -417,7 +417,8 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                     Logger.Debug("(Gym) - battleActions: " + str);
                     attResp = client.Fort.AttackGym(gym.Id, resp.BattleId, battleActions, lastRetrievedAction);
                     Logger.Debug("attResp: " + attResp);
-                    Logger.Debug("attResp BattleActions: " + attResp.BattleLog.BattleActions);
+                    Logger.Debug("attResp BattleActions: ");
+                    ShowBattleActions(attResp.BattleLog.BattleActions);
                     inBattle = (attResp.Result == AttackGymResponse.Types.Result.Success);
                     if (inBattle) {
 
@@ -468,7 +469,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                         
                         Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - We have won");
                         foreach (var element in  attResp.BattleLog.BattleActions) {
-                            if (element.Type == BattleActionType.ActionVictory) {
+                            if (element.BattleResults!=null) {
                                 Logger.Debug("(Gym) - Gym points: " + element.BattleResults.GymPointsDelta);
                                 Logger.Debug("(Gym) - Experience Awarded: " + element.BattleResults.PlayerExperienceAwarded);
                                 Logger.Debug("(Gym) - Next Pokemon: " + element.BattleResults.NextDefenderPokemonId);
@@ -503,6 +504,13 @@ namespace PokemonGo.RocketAPI.Logic.Functions
             }
             return null;
         }
+        private static void ShowBattleActions (IEnumerable<BattleAction> actions){
+            var i = 1;
+            foreach (var element in actions) {
+                Logger.Debug("Action {i}: {element}");
+                i++;
+            }
+        }
 
         public static StartGymBattleResponse StartGymBattle(Client client, string gymId, ulong defendingPokemonId,
             IEnumerable<ulong> attackingPokemonIds)
@@ -523,9 +531,18 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                 }
                     
                 if (startFailed) {
-                    RandomHelper.RandomSleep(800);
-                    client.Login.FireRequestBlockTwo().Wait();
-                    RandomHelper.RandomSleep(800);
+                    RandomHelper.RandomSleep(5000);
+                    if (GlobalVars.Gyms.Testing == "dologin"){
+                        client.Login.DoLogin();
+                        RandomHelper.RandomSleep(2000);
+                    }else if (GlobalVars.Gyms.Testing == "FireRequestBlockTwo"){
+                        client.Login.FireRequestBlockTwo().Wait();
+                        RandomHelper.RandomSleep(2000);
+                    }else if (GlobalVars.Gyms.Testing == "gmo"){
+                        RandomHelper.RandomSleep(2000);
+                        var gmo = client.Map.GetMapObjects().Result;
+                        RandomHelper.RandomSleep(7000);
+                    }
                 } else {
                     Logger.Debug("StartGymBattle Response:" + resp);
                 }
@@ -552,7 +569,8 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                 lastRetrievedAction = new BattleAction();
                 ret = client.Fort.AttackGym(gym.Id, resp.BattleId, battleActions, lastRetrievedAction);
                 Logger.Debug($"ret {times}: {ret}");
-                Logger.Debug("ret BattleActions: " + ret.BattleLog.BattleActions);
+                Logger.Debug("ret BattleActions: ");
+                ShowBattleActions(attResp.BattleLog.BattleActions);
                 times--;
                 if (ret.Result == AttackGymResponse.Types.Result.Success) {
                     foreach (var element in  ret.BattleLog.BattleActions) {

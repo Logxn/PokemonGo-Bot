@@ -23,5 +23,6 @@ namespace PokemonGo.RocketAPI.Logic.Shared
         public int NumDefenders {get;set;}
         public int MaxAttacks {get;set;}
         public int MaxTrainingXP {get;set;}
+        public string Testing {get;set;}
     }
 }

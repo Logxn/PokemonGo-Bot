@@ -136,7 +136,7 @@ namespace PokemonGo.RocketAPI.Console
                     #region Argument -bypassversioncheck
                     if (arg.ToLower().Contains("-bypassversioncheck"))
                         GlobalVars.BypassCheckCompatibilityVersion = true;
-#endregion
+                    #endregion
 
                     #region Argument -help
                     if (arg.ToLower().Contains("-help"))
@@ -195,8 +195,8 @@ namespace PokemonGo.RocketAPI.Console
                     Logger.type = 1;
                 // To open tabbed GUI to test programing 
                 /*
-                Pokemons.skipReadyToUse = true;
-                Application.Run( new Pokemons()); 
+                TabbedSystem.skipReadyToUse = true;
+                Application.Run( new TabbedSystem()); 
                 Environment.Exit(0);
                 */
             }

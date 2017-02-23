@@ -118,11 +118,7 @@ namespace PokemonGo.RocketAPI.Console
         {
           GlobalVars.AvoidRegionLock = AvoidRegionLock.Checked;
         }
-        void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-          var pokemonImage = PokeImgManager.GetPokemonVeryLargeImage((PokemonId)comboBox1.SelectedValue);
-           PokemonImage.Image = pokemonImage;
-        }
+
 
         private GeoCoordinate splLatLngResult;
         void SnipeInfo_TextChanged(object sender, EventArgs e)
@@ -150,10 +146,10 @@ namespace PokemonGo.RocketAPI.Console
 
         void SnipeMe_Click(object sender, EventArgs e)
         {
-            var pokeid = (PokemonId)comboBox1.SelectedItem;
-            if (checkBoxSnipeGym.Checked)
-                pokeid = PokemonId.Missingno;
-                
+            var pokeid = PokemonId.Missingno;
+            if (!checkBoxSnipeGym.Checked && comboBox1.SelectedValue!=null)
+                pokeid = (PokemonId)comboBox1.SelectedValue;
+            
             SnipePoke(pokeid, (int) nudSecondsSnipe.Value,(int) nudTriesSnipe.Value ,checkBoxSnipeTransfer.Checked);
         }
 
@@ -359,6 +355,13 @@ namespace PokemonGo.RocketAPI.Console
         void checkBoxSnipeGym_CheckedChanged(object sender, EventArgs e)
         {
             comboBox1.Enabled = !(sender as CheckBox).Checked;
+        }
+        void comboBox1_SelectedValueChanged(object sender, EventArgs e)
+        {
+          var pokeId = PokemonId.Missingno;
+          Enum.TryParse<PokemonId>(comboBox1.SelectedValue.ToString(), out pokeId);
+          var pokemonImage = PokeImgManager.GetPokemonVeryLargeImage(pokeId);
+          PokemonImage.Image = pokemonImage;
         }
     }
 }
