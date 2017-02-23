@@ -39,9 +39,10 @@ namespace PokemonGo.RocketAPI.Console
             sniperPanel1.AddButtonClick( new System.EventHandler(this.AddLink));
             sniperPanel1.webBrowser = webPanel1.webBrowser1;
 
-            if (!GlobalVars.EnableConsoleInTab) 
-                if (TabControl1.Contains(tpConsole))
-                    TabControl1.Controls.Remove(tpConsole);
+            if (!GlobalVars.EnableConsoleInTab) {
+                loggerPanel1.Visible=false;
+                splitContainer1.Panel2Collapsed = true;
+            }
 
 
        }

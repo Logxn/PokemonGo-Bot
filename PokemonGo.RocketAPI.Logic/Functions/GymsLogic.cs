@@ -417,6 +417,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                     Logger.Debug("(Gym) - battleActions: " + str);
                     attResp = client.Fort.AttackGym(gym.Id, resp.BattleId, battleActions, lastRetrievedAction);
                     Logger.Debug("attResp: " + attResp);
+                    Logger.Debug("attResp BattleActions: " + attResp.BattleLog.BattleActions);
                     inBattle = (attResp.Result == AttackGymResponse.Types.Result.Success);
                     if (inBattle) {
 
@@ -551,6 +552,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                 lastRetrievedAction = new BattleAction();
                 ret = client.Fort.AttackGym(gym.Id, resp.BattleId, battleActions, lastRetrievedAction);
                 Logger.Debug($"ret {times}: {ret}");
+                Logger.Debug("ret BattleActions: " + ret.BattleLog.BattleActions);
                 times--;
                 if (ret.Result == AttackGymResponse.Types.Result.Success) {
                     foreach (var element in  ret.BattleLog.BattleActions) {
@@ -632,13 +634,12 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                                 RandomHelper.RandomSleep(250);
                                 var response = client.Inventory.UseItemRevive(revive, pokemon.Id);
                                 if (response.Result == UseItemReviveResponse.Types.Result.Success) {
+                                    Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - Pokemon revived: " + pokemon.PokemonId);
                                     if (revive == ItemId.ItemRevive) {
                                         pokemon.Stamina = pokemon.StaminaMax / 2;
                                         CurePokemon(client, pokemon);
                                     } else
                                         pokemon.Stamina = pokemon.StaminaMax;
-                                    Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - Pokemon revived: " + pokemon.PokemonId);
-    
                                 } else
                                     Logger.Debug("Use revive result: " + response.Result);
                             } else {

@@ -206,6 +206,7 @@ namespace PokemonGo.RocketAPI.Console
             this.groupBox27 = new System.Windows.Forms.GroupBox();
             this.rbSOEggsDescendingBasicInc = new System.Windows.Forms.RadioButton();
             this.rbSOEggsAscendingBasicInc = new System.Windows.Forms.RadioButton();
+            this.checkBox_UseBasicIncubators = new System.Windows.Forms.CheckBox();
             this.groupBox28 = new System.Windows.Forms.GroupBox();
             this.checkBox_10kmEggsBasicInc = new System.Windows.Forms.CheckBox();
             this.checkBox_5kmEggsBasicInc = new System.Windows.Forms.CheckBox();
@@ -220,7 +221,6 @@ namespace PokemonGo.RocketAPI.Console
             this.checkBox_2kmEggs = new System.Windows.Forms.CheckBox();
             this.groupBox_EggOptions = new System.Windows.Forms.GroupBox();
             this.checkBox_AutoIncubate = new System.Windows.Forms.CheckBox();
-            this.checkBox_UseBasicIncubators = new System.Windows.Forms.CheckBox();
             this.tabThrows = new System.Windows.Forms.TabPage();
             this.groupBox30 = new System.Windows.Forms.GroupBox();
             this.label52 = new System.Windows.Forms.Label();
@@ -261,6 +261,8 @@ namespace PokemonGo.RocketAPI.Console
             this.label48 = new System.Windows.Forms.Label();
             this.tabPageGym = new System.Windows.Forms.TabPage();
             this.groupBoxGyms = new System.Windows.Forms.GroupBox();
+            this.numMaxTrainingXP = new System.Windows.Forms.NumericUpDown();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.label34 = new System.Windows.Forms.Label();
             this.checkBoxSpinGyms = new System.Windows.Forms.CheckBox();
             this.labelMaxAttacks = new System.Windows.Forms.Label();
@@ -333,8 +335,6 @@ namespace PokemonGo.RocketAPI.Console
             this.labelLanguage = new System.Windows.Forms.Label();
             this.comboLanguage = new System.Windows.Forms.ComboBox();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.numMaxTrainingXP = new System.Windows.Forms.NumericUpDown();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.tabProxies.SuspendLayout();
             this.tabItems.SuspendLayout();
             this.groupBoxItems.SuspendLayout();
@@ -415,6 +415,7 @@ namespace PokemonGo.RocketAPI.Console
             ((System.ComponentModel.ISupportInitialize)(this.text_Pb_Excellent)).BeginInit();
             this.tabPageGym.SuspendLayout();
             this.groupBoxGyms.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numMaxTrainingXP)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMaxAttacks)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudNumDefenders)).BeginInit();
             this.tabMisc.SuspendLayout();
@@ -431,7 +432,6 @@ namespace PokemonGo.RocketAPI.Console
             this.groupBox21.SuspendLayout();
             this.groupBox20.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numMaxTrainingXP)).BeginInit();
             this.SuspendLayout();
             // 
             // buttonSaveStart
@@ -1905,7 +1905,7 @@ namespace PokemonGo.RocketAPI.Console
             this.checkBox_ConsoleInTab.Name = "checkBox_ConsoleInTab";
             this.checkBox_ConsoleInTab.Size = new System.Drawing.Size(125, 17);
             this.checkBox_ConsoleInTab.TabIndex = 53;
-            this.checkBox_ConsoleInTab.Text = "Console in tab";
+            this.checkBox_ConsoleInTab.Text = "Integrate Console";
             this.checkBox_ConsoleInTab.UseVisualStyleBackColor = true;
             // 
             // checkBox_CollectDailyBonus
@@ -2560,6 +2560,17 @@ namespace PokemonGo.RocketAPI.Console
             this.rbSOEggsAscendingBasicInc.Text = "Ascending (2 Km first)";
             this.rbSOEggsAscendingBasicInc.UseVisualStyleBackColor = true;
             // 
+            // checkBox_UseBasicIncubators
+            // 
+            this.checkBox_UseBasicIncubators.AutoSize = true;
+            this.checkBox_UseBasicIncubators.Location = new System.Drawing.Point(12, 18);
+            this.checkBox_UseBasicIncubators.Margin = new System.Windows.Forms.Padding(5);
+            this.checkBox_UseBasicIncubators.Name = "checkBox_UseBasicIncubators";
+            this.checkBox_UseBasicIncubators.Size = new System.Drawing.Size(53, 17);
+            this.checkBox_UseBasicIncubators.TabIndex = 51;
+            this.checkBox_UseBasicIncubators.Text = "Use it";
+            this.checkBox_UseBasicIncubators.UseVisualStyleBackColor = true;
+            // 
             // groupBox28
             // 
             this.groupBox28.Controls.Add(this.checkBox_10kmEggsBasicInc);
@@ -2726,17 +2737,6 @@ namespace PokemonGo.RocketAPI.Console
             this.checkBox_AutoIncubate.TabIndex = 50;
             this.checkBox_AutoIncubate.Text = "Auto incubate";
             this.checkBox_AutoIncubate.UseVisualStyleBackColor = true;
-            // 
-            // checkBox_UseBasicIncubators
-            // 
-            this.checkBox_UseBasicIncubators.AutoSize = true;
-            this.checkBox_UseBasicIncubators.Location = new System.Drawing.Point(12, 18);
-            this.checkBox_UseBasicIncubators.Margin = new System.Windows.Forms.Padding(5);
-            this.checkBox_UseBasicIncubators.Name = "checkBox_UseBasicIncubators";
-            this.checkBox_UseBasicIncubators.Size = new System.Drawing.Size(53, 17);
-            this.checkBox_UseBasicIncubators.TabIndex = 51;
-            this.checkBox_UseBasicIncubators.Text = "Use it";
-            this.checkBox_UseBasicIncubators.UseVisualStyleBackColor = true;
             // 
             // tabThrows
             // 
@@ -3250,6 +3250,33 @@ namespace PokemonGo.RocketAPI.Console
             this.groupBoxGyms.TabIndex = 70;
             this.groupBoxGyms.TabStop = false;
             this.groupBoxGyms.Text = "Gyms";
+            // 
+            // numMaxTrainingXP
+            // 
+            this.numMaxTrainingXP.Location = new System.Drawing.Point(215, 110);
+            this.numMaxTrainingXP.Maximum = new decimal(new int[] {
+            52000,
+            0,
+            0,
+            0});
+            this.numMaxTrainingXP.Name = "numMaxTrainingXP";
+            this.numMaxTrainingXP.Size = new System.Drawing.Size(121, 20);
+            this.numMaxTrainingXP.TabIndex = 64;
+            this.numMaxTrainingXP.Value = new decimal(new int[] {
+            50000,
+            0,
+            0,
+            0});
+            // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Location = new System.Drawing.Point(16, 112);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(141, 17);
+            this.checkBox1.TabIndex = 63;
+            this.checkBox1.Text = "Not train if have level >=";
+            this.checkBox1.UseVisualStyleBackColor = true;
             // 
             // label34
             // 
@@ -4056,33 +4083,6 @@ namespace PokemonGo.RocketAPI.Console
             this.openFileDialog1.FileName = "openFileDialog1";
             this.openFileDialog1.Filter = "Json Files (*.json)|*.json";
             // 
-            // numMaxTrainingXp
-            // 
-            this.numMaxTrainingXP.Location = new System.Drawing.Point(215, 110);
-            this.numMaxTrainingXP.Maximum = new decimal(new int[] {
-            52000,
-            0,
-            0,
-            0});
-            this.numMaxTrainingXP.Name = "numMaxTrainingXp";
-            this.numMaxTrainingXP.Size = new System.Drawing.Size(121, 20);
-            this.numMaxTrainingXP.TabIndex = 64;
-            this.numMaxTrainingXP.Value = new decimal(new int[] {
-            50000,
-            0,
-            0,
-            0});
-            // 
-            // checkBox1
-            // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(16, 112);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(141, 17);
-            this.checkBox1.TabIndex = 63;
-            this.checkBox1.Text = "Not train if have level >=";
-            this.checkBox1.UseVisualStyleBackColor = true;
-            // 
             // ConfigWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -4208,6 +4208,7 @@ namespace PokemonGo.RocketAPI.Console
             this.tabPageGym.ResumeLayout(false);
             this.groupBoxGyms.ResumeLayout(false);
             this.groupBoxGyms.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numMaxTrainingXP)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMaxAttacks)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudNumDefenders)).EndInit();
             this.tabMisc.ResumeLayout(false);
@@ -4235,7 +4236,6 @@ namespace PokemonGo.RocketAPI.Console
             this.groupBox20.ResumeLayout(false);
             this.groupBox20.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numMaxTrainingXP)).EndInit();
             this.ResumeLayout(false);
 
         }

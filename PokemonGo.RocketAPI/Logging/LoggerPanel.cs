@@ -123,15 +123,19 @@ namespace PokemonGo.RocketAPI.Logging
 
         public static void ColoredConsoleWrite(ConsoleColor color, string line, LogLevel level = LogLevel.Info)
         {
+            var strtime = DateTime.Now.ToString("HH:mm:ss");
+            var lineWithTime = $"[{strtime}] {line}";
             if (level <= SelectedLevel)
-                messages.Enqueue(new Message(color, line));
+                messages.Enqueue(new Message(color, lineWithTime));
             if ((level != LogLevel.Debug) || (SelectedLevel == LogLevel.Debug))
                 AddLog(line);
         }
         public static void Write(string line, LogLevel level = LogLevel.Info)
         {
+            var strtime = DateTime.Now.ToString("HH:mm:ss");
+            var lineWithTime = $"[{strtime}] {line}";
             if (level <= SelectedLevel)
-                messages.Enqueue(new Message(ConsoleColor.White, line));
+                messages.Enqueue(new Message(ConsoleColor.White, lineWithTime));
             if ((level != LogLevel.Debug) || (SelectedLevel == LogLevel.Debug))
                 AddLog(line);
         }
