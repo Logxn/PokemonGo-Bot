@@ -38,6 +38,10 @@ namespace PokemonGo.RocketAPI.Shared
                 }
             }
         }
+        public static bool ExistsFile()
+        {
+            return File.Exists(filename);
+        }
         public static string nextKey(){
             if (keys !=null){
                 if(keys.Count > 0)

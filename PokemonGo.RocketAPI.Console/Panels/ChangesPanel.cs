@@ -305,6 +305,8 @@ namespace PokemonGo.RocketAPI.Console
             checkBox_FarmGyms.Checked = GlobalVars.Gyms.Farm;
             checkBox_AttackGyms.Checked = GlobalVars.Gyms.Attack;
             checkBoxSpinGyms.Checked = GlobalVars.Gyms.Spin;
+            numMaxTrainingXP.Value = GlobalVars.Gyms.MaxTrainingXP;
+            
             enableEvents = true;
         }
 
@@ -405,6 +407,14 @@ namespace PokemonGo.RocketAPI.Console
             if (! enableEvents)
                 return;
               GlobalVars.Gyms.Spin = (sender as CheckBox).Checked;
+        }
+        void numMaxTrainingXP_ValueChanged(object sender, EventArgs e)
+        {
+            if (! enableEvents)
+                return;
+            GlobalVars.Gyms.MaxTrainingXP = (int)(sender as NumericUpDown).Value;
+            Logger.ColoredConsoleWrite(tryCatchColor,th.TS("{0} value changed to {1}","MaxTrainingXP",GlobalVars.Gyms.NumDefenders));
+          
         }
 
     }

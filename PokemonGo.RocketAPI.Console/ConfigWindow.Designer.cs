@@ -262,7 +262,6 @@ namespace PokemonGo.RocketAPI.Console
             this.tabPageGym = new System.Windows.Forms.TabPage();
             this.groupBoxGyms = new System.Windows.Forms.GroupBox();
             this.numMaxTrainingXP = new System.Windows.Forms.NumericUpDown();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.label34 = new System.Windows.Forms.Label();
             this.checkBoxSpinGyms = new System.Windows.Forms.CheckBox();
             this.labelMaxAttacks = new System.Windows.Forms.Label();
@@ -335,6 +334,7 @@ namespace PokemonGo.RocketAPI.Console
             this.labelLanguage = new System.Windows.Forms.Label();
             this.comboLanguage = new System.Windows.Forms.ComboBox();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.labelTraining = new System.Windows.Forms.Label();
             this.tabProxies.SuspendLayout();
             this.tabItems.SuspendLayout();
             this.groupBoxItems.SuspendLayout();
@@ -3230,8 +3230,8 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // groupBoxGyms
             // 
+            this.groupBoxGyms.Controls.Add(this.labelTraining);
             this.groupBoxGyms.Controls.Add(this.numMaxTrainingXP);
-            this.groupBoxGyms.Controls.Add(this.checkBox1);
             this.groupBoxGyms.Controls.Add(this.label34);
             this.groupBoxGyms.Controls.Add(this.checkBoxSpinGyms);
             this.groupBoxGyms.Controls.Add(this.labelMaxAttacks);
@@ -3267,16 +3267,6 @@ namespace PokemonGo.RocketAPI.Console
             0,
             0,
             0});
-            // 
-            // checkBox1
-            // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(16, 112);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(141, 17);
-            this.checkBox1.TabIndex = 63;
-            this.checkBox1.Text = "Not train if have level >=";
-            this.checkBox1.UseVisualStyleBackColor = true;
             // 
             // label34
             // 
@@ -4083,6 +4073,15 @@ namespace PokemonGo.RocketAPI.Console
             this.openFileDialog1.FileName = "openFileDialog1";
             this.openFileDialog1.Filter = "Json Files (*.json)|*.json";
             // 
+            // labelTraining
+            // 
+            this.labelTraining.Location = new System.Drawing.Point(16, 110);
+            this.labelTraining.Name = "labelTraining";
+            this.labelTraining.Size = new System.Drawing.Size(192, 16);
+            this.labelTraining.TabIndex = 65;
+            this.labelTraining.Text = "Not train if have level >=";
+            this.labelTraining.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
             // ConfigWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -4546,7 +4545,7 @@ namespace PokemonGo.RocketAPI.Console
         public System.Windows.Forms.NumericUpDown num_MaxTopRevives;
         public System.Windows.Forms.NumericUpDown num_MaxBerries;
         private System.Windows.Forms.NumericUpDown numMaxTrainingXP;
-        private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.Label labelTraining;
         //private System.Windows.Forms.CheckBox checkBox_CatchLurePokemons;
     }
 }

@@ -17,32 +17,21 @@ namespace PokemonGo.RocketAPI.Hash
         // ***************************************************************************
         // This value will determine which version of hashing you receive.
         // ***************************************************************************
-        /*
-        public Dictionary<string, string> EndPointDictionary = new Dictionary<string, string>
-            {
-                {"1.19", "api/v119/hash"},
-                {"1.21", "api/v121/hash"},
-                {"1.21.2", "api/v121_2/hash"},
-                {"0.51.0", "api/v121_2/hash"},
-                {"0.53.0", "api/v123_1/hash"},
-                {"1.23.1", "api/v123_1/hash"},
-                {"0.53.1", "api/v123_1/hash" },
-                {"1.23.2", "api/v123_1/hash"},
-                {"0.53.2", "api/v123_1/hash" },
-                {"0.55.0", "api/v125/hash" },
-                {"1.25.0", "api/v125/hash" },
-            {"0.57.2", "api/v127_2/hash" },
-            {"1.27.2", "api/v127_2/hash" },
-            };
-            */
 
-        int MaxRequestCount;            // RPM Value
-        DateTime RatePeriodEnd;         // End of running minute
-        int RateRequestRemaining;       // Unused Requests this minute
-        int RateLimitSeconds;           // Rate Limit Period (always 60)
-        DateTime AuthTokenExpiration;   // Expiration
-        int ExpirationCounter = 1;      // Only show message every 1000 requests (see if down)
-        bool NoValidKey = false;        // Will be true if no valid key is found (testing)
+        int MaxRequestCount;
+        // RPM Value
+        DateTime RatePeriodEnd;
+        // End of running minute
+        int RateRequestRemaining;
+        // Unused Requests this minute
+        int RateLimitSeconds;
+        // Rate Limit Period (always 60)
+        DateTime AuthTokenExpiration;
+        // Expiration
+        int ExpirationCounter = 1;
+        // Only show message every 1000 requests (see if down)
+        bool NoValidKey = false;
+        // Will be true if no valid key is found (testing)
 
         private readonly Uri _baseAddress = new Uri("http://pokehash.buddyauth.com/");
         private Uri _availableHashVersionsCheck = new Uri("https://pokehash.buddyauth.com/api/hash/versions");
@@ -60,43 +49,37 @@ namespace PokemonGo.RocketAPI.Hash
         {
             int retry = 3;
             int cyclingRetrys = 40;
-            bool changeKey ;
+            bool changeKey;
             do {
                 changeKey = false;
-                try
-                {
-                    if (!NoValidKey) return InternalRequestHashes(request);
-                }
-                catch (HasherException hashEx)
-                {
-                    changeKey = true;
-                    cyclingRetrys --;
+                try {
+                    if (!NoValidKey)
+                        return InternalRequestHashes(request);
+                } catch (HasherException hashEx) {
+                    changeKey = Shared.KeyCollection.ExistsFile();
+                    cyclingRetrys--;
                     Logger.Write(hashEx.Message);
                     if (cyclingRetrys < 0)
                         throw hashEx;
-                }
-                catch (Exception ex)
-                {
+
+                } catch (Exception ex) {
                     Logger.ColoredConsoleWrite(ConsoleColor.Red, "Error: PokeHashHasher.cs - RequestHashes()");
                     Logger.ColoredConsoleWrite(ConsoleColor.Red, ex.Message);
                 }
-                if (changeKey){
+                if (changeKey) {
                     var nextKey = Shared.KeyCollection.nextKey();
-                    if (nextKey !=""){
-                           this.apiKey = nextKey;
-                           Logger.Debug("Changing KEY to: "+this.apiKey.Substring(0,5));
-                    }
-                    else
-                    {
+                    if (nextKey != "") {
+                        this.apiKey = nextKey;
+                        Logger.Debug("Changing KEY to: " + this.apiKey.Substring(0, 5));
+                    } else {
                         NoValidKey = true;
                         Logger.ColoredConsoleWrite(ConsoleColor.Red, "Error: PokeHashHasher.cs - NO VALID KEY FOUND - STOPPING");
                         System.Console.ReadKey();
                         Environment.Exit(-1);
                     }
-                    RandomHelper.RandomSleep(250,300);
-                }
-                else{
-                    RandomHelper.RandomSleep(1000,1100);
+                    RandomHelper.RandomSleep(250, 300);
+                } else {
+                    RandomHelper.RandomSleep(1000, 1100);
                     retry--;
                 }
             } while (retry > 0);
@@ -106,8 +89,7 @@ namespace PokemonGo.RocketAPI.Hash
 
         private HashResponseContent InternalRequestHashes(HashRequestContent request)
         {
-            using (var client = new System.Net.Http.HttpClient())
-            {
+            using (var client = new System.Net.Http.HttpClient()) {
                 client.BaseAddress = _baseAddress;
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
@@ -118,8 +100,7 @@ namespace PokemonGo.RocketAPI.Hash
 
                 var response = client.PostAsync(_endpoint, content).Result;
 
-                switch (response.StatusCode)
-                {
+                switch (response.StatusCode) {
                     case HttpStatusCode.OK: //200
                         AuthTokenExpiration = new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc).AddSeconds(Convert.ToUInt32(((String[])response.Headers.GetValues("X-AuthTokenExpiration"))[0])).ToLocalTime();
                         MaxRequestCount = Convert.ToUInt16(((string[])response.Headers.GetValues("X-MaxRequestCount"))[0]);
@@ -129,14 +110,12 @@ namespace PokemonGo.RocketAPI.Hash
                         var remainingSeconds = (DateTime.Now - RatePeriodEnd).TotalSeconds * -1;
 
                         Logger.Debug($"{RateRequestRemaining}/{MaxRequestCount} requests remaining for the next {remainingSeconds} seconds. Key expires on: {AuthTokenExpiration}");
-                        if ((AuthTokenExpiration - DateTime.Now).TotalDays <= 3)
-                        {
-                            if (ExpirationCounter-- == 0)
-                            {
+                        if ((AuthTokenExpiration - DateTime.Now).TotalDays <= 3) {
+                            if (ExpirationCounter-- == 0) {
                                 ExpirationCounter = 1000;
-                                Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Attention! Your key is expiring in {(AuthTokenExpiration - DateTime.Now).Days} days and {(AuthTokenExpiration - DateTime.Now).Hours} hours! Expiration date: {AuthTokenExpiration}", LogLevel.Warning);
+                                Logger.Warning( $"Attention! Your key is expiring in {(AuthTokenExpiration - DateTime.Now).Days} days and {(AuthTokenExpiration - DateTime.Now).Hours} hours! Expiration date: {AuthTokenExpiration}");
                             }
-                        };
+                        }
                         return JsonConvert.DeserializeObject<HashResponseContent>(response.Content.ReadAsStringAsync().Result);
 
                     case HttpStatusCode.BadRequest: // 400
@@ -156,7 +135,7 @@ namespace PokemonGo.RocketAPI.Hash
                         throw new HasherException($"[HashService] 503: It seems PokeFarmer server {_baseAddress}{_endpoint} is unavailable (Message : {responseText}) ");
 
                     default:
-                        RandomHelper.RandomSleep(10000,11000);
+                        RandomHelper.RandomSleep(10000, 11000);
                         throw new HasherException($"[HashService] Unknown: Pokefamer Hash API ({_baseAddress}{_endpoint}) might down!");
                 }
             }

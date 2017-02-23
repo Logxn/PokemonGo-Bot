@@ -800,7 +800,7 @@ namespace PokemonGo.RocketAPI.Console
                             specSymbol = "☉";
                         PokemonListView.SelectedItems[0].Text = specSymbol + Logic.Utils.StringUtils.getPokemonNameByLanguage(BotSettings, (PokemonId)pokemon.PokemonId);
                     }else
-                    MessageBox.Show(th.TS("{0} change favourites failed!",poname), th.TS("Change favourites Status"), MessageBoxButtons.OK);
+                        MessageBox.Show(th.TS("{0} change favourites failed!",poname), th.TS("Change favourites Status"), MessageBoxButtons.OK);
                 }
             }
         }
@@ -897,22 +897,31 @@ namespace PokemonGo.RocketAPI.Console
                 return;
             var dialog = new Dialogs.ItemSelect();
             if (dialog.ShowDialog() == DialogResult.OK) {
-                var selectedPokemon = (PokemonData) PokemonListView.SelectedItems[0].Tag;
                 var selectedItem = dialog.selected;
-                if (selectedItem.ItemId == ItemId.ItemRevive || selectedItem.ItemId == ItemId.ItemMaxRevive)
-                {
-                    var res = client.Inventory.UseItemRevive(selectedItem.ItemId,selectedPokemon.Id).Result;
-                    if (res == UseItemReviveResponse.Types.Result.Success)
-                        MessageBox.Show(th.TS("{0} Revived sucefully",selectedPokemon.PokemonId.ToString()));
-                    else
-                        Logger.Error("Error: "+ res);
-                }
-                else{
-                    var res = client.Inventory.UseItemPotion(selectedItem.ItemId,selectedPokemon.Id).Result;
-                    if (res == UseItemPotionResponse.Types.Result.Success)
-                        MessageBox.Show(th.TS("{0} Cured sucefully",selectedPokemon.PokemonId.ToString()));
-                    else
-                        Logger.Error("Error: "+ res);
+                var itemsCount = client.Inventory.GetItemAmountByType(selectedItem.ItemId);
+                var index = 0;
+                foreach (ListViewItem element in PokemonListView.SelectedItems) {
+                    var selectedPokemon = (PokemonData) element. Tag;
+                    if (selectedItem.ItemId == ItemId.ItemRevive || selectedItem.ItemId == ItemId.ItemMaxRevive)
+                    {
+                        var res = client.Inventory.UseItemRevive(selectedItem.ItemId,selectedPokemon.Id).Result;
+                        if (res == UseItemReviveResponse.Types.Result.Success)
+                            MessageBox.Show(th.TS("{0} Revived sucefully",selectedPokemon.PokemonId.ToString()));
+                        else
+                            Logger.Error("Error: "+ res);
+                    }
+                    else{
+                        var res = client.Inventory.UseItemPotion(selectedItem.ItemId,selectedPokemon.Id).Result;
+                        if (res == UseItemPotionResponse.Types.Result.Success)
+                            MessageBox.Show(th.TS("{0} Cured sucefully",selectedPokemon.PokemonId.ToString()));
+                        else
+                            Logger.Error("Error: "+ res);
+                    }
+                    index ++;
+                    if ( itemsCount <  index ){
+                        MessageBox.Show(th.TS("You haven`t got enough Items for all selected pokemons\nCured {0} Pokemons.",index));
+                        return;
+                    }
                 }
             }
         }
@@ -958,7 +967,7 @@ namespace PokemonGo.RocketAPI.Console
             var strEvolves = "N";
             numOfEvolves = 0;
             var separator = "";
-            if (settings.EvolutionBranch.Count>0) 
+            if (settings.EvolutionBranch.Count>0)
                 strEvolves = "";
             var item = Inventory.GeteNeededItemToEvolve(pokemon.PokemonId);
             var amountItems =  -1 ;

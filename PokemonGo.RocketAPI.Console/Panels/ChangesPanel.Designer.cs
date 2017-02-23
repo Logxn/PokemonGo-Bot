@@ -82,6 +82,8 @@ namespace PokemonGo.RocketAPI.Console
 		private System.Windows.Forms.ComboBox comboBoxLeaveInGyms;
 		private System.Windows.Forms.Label label34;
 		private System.Windows.Forms.CheckBox checkBoxSpinGyms;
+		private System.Windows.Forms.Label labelTraining;
+		private System.Windows.Forms.NumericUpDown numMaxTrainingXP;
 		
 		/// <summary>
 		/// Disposes resources used by the control.
@@ -160,6 +162,8 @@ namespace PokemonGo.RocketAPI.Console
 		    this.comboLanguage = new System.Windows.Forms.ComboBox();
 		    this.labelLanguage = new System.Windows.Forms.Label();
 		    this.groupBoxGym = new System.Windows.Forms.GroupBox();
+		    this.labelTraining = new System.Windows.Forms.Label();
+		    this.numMaxTrainingXP = new System.Windows.Forms.NumericUpDown();
 		    this.label34 = new System.Windows.Forms.Label();
 		    this.checkBoxSpinGyms = new System.Windows.Forms.CheckBox();
 		    this.label23 = new System.Windows.Forms.Label();
@@ -182,6 +186,7 @@ namespace PokemonGo.RocketAPI.Console
 		    ((System.ComponentModel.ISupportInitialize)(this.nudNumDefenders)).BeginInit();
 		    this.groupBox13.SuspendLayout();
 		    this.groupBoxGym.SuspendLayout();
+		    ((System.ComponentModel.ISupportInitialize)(this.numMaxTrainingXP)).BeginInit();
 		    ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMaxAttacks)).BeginInit();
 		    this.tabControl1.SuspendLayout();
 		    this.tpGeneral.SuspendLayout();
@@ -808,7 +813,7 @@ namespace PokemonGo.RocketAPI.Console
 		    // 
 		    // nudNumDefenders
 		    // 
-		    this.nudNumDefenders.Location = new System.Drawing.Point(230, 92);
+		    this.nudNumDefenders.Location = new System.Drawing.Point(230, 87);
 		    this.nudNumDefenders.Maximum = new decimal(new int[] {
             10,
             0,
@@ -833,7 +838,7 @@ namespace PokemonGo.RocketAPI.Console
 		    // checkBox_AttackGyms
 		    // 
 		    this.checkBox_AttackGyms.AutoSize = true;
-		    this.checkBox_AttackGyms.Location = new System.Drawing.Point(17, 94);
+		    this.checkBox_AttackGyms.Location = new System.Drawing.Point(17, 89);
 		    this.checkBox_AttackGyms.Name = "checkBox_AttackGyms";
 		    this.checkBox_AttackGyms.Size = new System.Drawing.Size(125, 17);
 		    this.checkBox_AttackGyms.TabIndex = 91;
@@ -932,6 +937,8 @@ namespace PokemonGo.RocketAPI.Console
 		    // 
 		    // groupBoxGym
 		    // 
+		    this.groupBoxGym.Controls.Add(this.labelTraining);
+		    this.groupBoxGym.Controls.Add(this.numMaxTrainingXP);
 		    this.groupBoxGym.Controls.Add(this.label34);
 		    this.groupBoxGym.Controls.Add(this.checkBoxSpinGyms);
 		    this.groupBoxGym.Controls.Add(this.label23);
@@ -949,6 +956,33 @@ namespace PokemonGo.RocketAPI.Console
 		    this.groupBoxGym.Size = new System.Drawing.Size(757, 383);
 		    this.groupBoxGym.TabIndex = 98;
 		    this.groupBoxGym.TabStop = false;
+		    // 
+		    // labelTraining
+		    // 
+		    this.labelTraining.Location = new System.Drawing.Point(31, 129);
+		    this.labelTraining.Name = "labelTraining";
+		    this.labelTraining.Size = new System.Drawing.Size(192, 16);
+		    this.labelTraining.TabIndex = 103;
+		    this.labelTraining.Text = "Not train if have level >=";
+		    this.labelTraining.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+		    // 
+		    // numMaxTrainingXP
+		    // 
+		    this.numMaxTrainingXP.Location = new System.Drawing.Point(230, 129);
+		    this.numMaxTrainingXP.Maximum = new decimal(new int[] {
+            52000,
+            0,
+            0,
+            0});
+		    this.numMaxTrainingXP.Name = "numMaxTrainingXP";
+		    this.numMaxTrainingXP.Size = new System.Drawing.Size(121, 20);
+		    this.numMaxTrainingXP.TabIndex = 102;
+		    this.numMaxTrainingXP.Value = new decimal(new int[] {
+            50000,
+            0,
+            0,
+            0});
+		    this.numMaxTrainingXP.ValueChanged += new System.EventHandler(this.numMaxTrainingXP_ValueChanged);
 		    // 
 		    // label34
 		    // 
@@ -993,7 +1027,7 @@ namespace PokemonGo.RocketAPI.Console
 		    // 
 		    // label24
 		    // 
-		    this.label24.Location = new System.Drawing.Point(32, 134);
+		    this.label24.Location = new System.Drawing.Point(32, 177);
 		    this.label24.Name = "label24";
 		    this.label24.Size = new System.Drawing.Size(192, 16);
 		    this.label24.TabIndex = 97;
@@ -1004,7 +1038,7 @@ namespace PokemonGo.RocketAPI.Console
 		    // 
 		    this.comboBoxAttackers.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 		    this.comboBoxAttackers.FormattingEnabled = true;
-		    this.comboBoxAttackers.Location = new System.Drawing.Point(230, 129);
+		    this.comboBoxAttackers.Location = new System.Drawing.Point(230, 172);
 		    this.comboBoxAttackers.Name = "comboBoxAttackers";
 		    this.comboBoxAttackers.Size = new System.Drawing.Size(121, 21);
 		    this.comboBoxAttackers.TabIndex = 96;
@@ -1012,7 +1046,7 @@ namespace PokemonGo.RocketAPI.Console
 		    // 
 		    // labelMaxAttacks
 		    // 
-		    this.labelMaxAttacks.Location = new System.Drawing.Point(12, 189);
+		    this.labelMaxAttacks.Location = new System.Drawing.Point(12, 221);
 		    this.labelMaxAttacks.Name = "labelMaxAttacks";
 		    this.labelMaxAttacks.Size = new System.Drawing.Size(212, 16);
 		    this.labelMaxAttacks.TabIndex = 95;
@@ -1021,7 +1055,7 @@ namespace PokemonGo.RocketAPI.Console
 		    // 
 		    // numericUpDownMaxAttacks
 		    // 
-		    this.numericUpDownMaxAttacks.Location = new System.Drawing.Point(230, 185);
+		    this.numericUpDownMaxAttacks.Location = new System.Drawing.Point(230, 217);
 		    this.numericUpDownMaxAttacks.Minimum = new decimal(new int[] {
             1,
             0,
@@ -1041,7 +1075,7 @@ namespace PokemonGo.RocketAPI.Console
 		    // labelDefenders
 		    // 
 		    this.labelDefenders.AutoSize = true;
-		    this.labelDefenders.Location = new System.Drawing.Point(277, 95);
+		    this.labelDefenders.Location = new System.Drawing.Point(277, 90);
 		    this.labelDefenders.Name = "labelDefenders";
 		    this.labelDefenders.Size = new System.Drawing.Size(56, 13);
 		    this.labelDefenders.TabIndex = 93;
@@ -1109,6 +1143,7 @@ namespace PokemonGo.RocketAPI.Console
 		    this.groupBox13.PerformLayout();
 		    this.groupBoxGym.ResumeLayout(false);
 		    this.groupBoxGym.PerformLayout();
+		    ((System.ComponentModel.ISupportInitialize)(this.numMaxTrainingXP)).EndInit();
 		    ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMaxAttacks)).EndInit();
 		    this.tabControl1.ResumeLayout(false);
 		    this.tpGeneral.ResumeLayout(false);

@@ -247,7 +247,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                     putInGym(client, gym, pokemon, pokemons);
                 } else if (GlobalVars.Gyms.Attack && gymDetails.GymState.Memberships.Count <= GlobalVars.Gyms.NumDefenders) {
                     if (gym.GymPoints >= GlobalVars.Gyms.MaxTrainingXP) {
-                        Logger.Debug($"(Gym) - Maximum Gym level to train ({GlobalVars.Gyms.MaxTrainingXP}) reached.");
+                        Logger.Warning($"(Gym) - Maximum Gym level to train ({GlobalVars.Gyms.MaxTrainingXP}) reached.");
                         AddVisited(gym.Id, 600000);
                         return true;
                     }
@@ -259,7 +259,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                     Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - Defender: " + strPokemon(defender));
                     var pokeAttackers = getPokeAttackers(pokemons, defender);
                     if (pokeAttackers.Count() < 6) {
-                        Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - There is not enouth pokemons to train");
+                        Logger.Warning( "(Gym) - There is not enouth pokemons to train");
                         return false;
                     }
                     Logger.ColoredConsoleWrite(gymColorLog, "(Gym) Let's go to train");
@@ -267,7 +267,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                     ShowPokemons(pokeAttackers);
                     var attResp = AttackGym(gym, client, pokeAttackers, defender.Id, gymDetails.GymState.Memberships.Count, profile.PlayerData.BuddyPokemon.Id);
                 } else {
-                    Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - There is no free space in the gym");
+                    Logger.Warning( "(Gym) - There is no free space in the gym");
                     AddVisited(gym.Id, 600000);
                 }
 
