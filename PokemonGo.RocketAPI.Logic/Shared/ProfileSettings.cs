@@ -931,6 +931,9 @@ namespace PokemonGo.RocketAPI.Logic.Shared
         public  GymSettings Gyms {get;set;}
         public  DebugSettings Debug {get;set;}
 
+        public  bool SaveLocations {get;set;}
+        public  int MinIVSave {get;set;}
+        public  string SaveLocationsFile {get;set;}
 
         #endregion
     

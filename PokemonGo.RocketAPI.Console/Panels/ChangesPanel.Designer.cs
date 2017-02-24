@@ -86,6 +86,13 @@ namespace PokemonGo.RocketAPI.Console
 		private System.Windows.Forms.NumericUpDown numMaxTrainingXP;
 		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.TextBox textBoxTesting;
+		private System.Windows.Forms.TabPage tabPageMisc;
+		private System.Windows.Forms.GroupBox groupBox4;
+		private System.Windows.Forms.Label label13;
+		private System.Windows.Forms.NumericUpDown numMinIVSave;
+		private System.Windows.Forms.Button buttonSelectLocationFile;
+		private System.Windows.Forms.TextBox textBoxSaveLocationsFile;
+		private System.Windows.Forms.CheckBox checkBoxSaveLocations;
 		
 		/// <summary>
 		/// Disposes resources used by the control.
@@ -164,6 +171,8 @@ namespace PokemonGo.RocketAPI.Console
 		    this.comboLanguage = new System.Windows.Forms.ComboBox();
 		    this.labelLanguage = new System.Windows.Forms.Label();
 		    this.groupBoxGym = new System.Windows.Forms.GroupBox();
+		    this.label1 = new System.Windows.Forms.Label();
+		    this.textBoxTesting = new System.Windows.Forms.TextBox();
 		    this.labelTraining = new System.Windows.Forms.Label();
 		    this.numMaxTrainingXP = new System.Windows.Forms.NumericUpDown();
 		    this.label34 = new System.Windows.Forms.Label();
@@ -178,8 +187,13 @@ namespace PokemonGo.RocketAPI.Console
 		    this.tabControl1 = new System.Windows.Forms.TabControl();
 		    this.tpGeneral = new System.Windows.Forms.TabPage();
 		    this.tpGym = new System.Windows.Forms.TabPage();
-		    this.textBoxTesting = new System.Windows.Forms.TextBox();
-		    this.label1 = new System.Windows.Forms.Label();
+		    this.tabPageMisc = new System.Windows.Forms.TabPage();
+		    this.groupBox4 = new System.Windows.Forms.GroupBox();
+		    this.label13 = new System.Windows.Forms.Label();
+		    this.numMinIVSave = new System.Windows.Forms.NumericUpDown();
+		    this.buttonSelectLocationFile = new System.Windows.Forms.Button();
+		    this.textBoxSaveLocationsFile = new System.Windows.Forms.TextBox();
+		    this.checkBoxSaveLocations = new System.Windows.Forms.CheckBox();
 		    this.groupBox1.SuspendLayout();
 		    ((System.ComponentModel.ISupportInitialize)(this.numTravelSpeed)).BeginInit();
 		    this.groupBox10.SuspendLayout();
@@ -195,6 +209,9 @@ namespace PokemonGo.RocketAPI.Console
 		    this.tabControl1.SuspendLayout();
 		    this.tpGeneral.SuspendLayout();
 		    this.tpGym.SuspendLayout();
+		    this.tabPageMisc.SuspendLayout();
+		    this.groupBox4.SuspendLayout();
+		    ((System.ComponentModel.ISupportInitialize)(this.numMinIVSave)).BeginInit();
 		    this.SuspendLayout();
 		    // 
 		    // groupBox1
@@ -963,13 +980,29 @@ namespace PokemonGo.RocketAPI.Console
 		    this.groupBoxGym.TabIndex = 98;
 		    this.groupBoxGym.TabStop = false;
 		    // 
+		    // label1
+		    // 
+		    this.label1.Location = new System.Drawing.Point(424, 115);
+		    this.label1.Name = "label1";
+		    this.label1.Size = new System.Drawing.Size(219, 18);
+		    this.label1.TabIndex = 105;
+		    this.label1.Text = "General Text Box. For testing things";
+		    // 
+		    // textBoxTesting
+		    // 
+		    this.textBoxTesting.Location = new System.Drawing.Point(415, 145);
+		    this.textBoxTesting.Name = "textBoxTesting";
+		    this.textBoxTesting.Size = new System.Drawing.Size(228, 20);
+		    this.textBoxTesting.TabIndex = 104;
+		    this.textBoxTesting.TextChanged += new System.EventHandler(this.textBoxTesting_TextChanged);
+		    // 
 		    // labelTraining
 		    // 
 		    this.labelTraining.Location = new System.Drawing.Point(31, 129);
 		    this.labelTraining.Name = "labelTraining";
 		    this.labelTraining.Size = new System.Drawing.Size(192, 16);
 		    this.labelTraining.TabIndex = 103;
-		    this.labelTraining.Text = "Not train if have level >=";
+		    this.labelTraining.Text = "Not train if points are >=";
 		    this.labelTraining.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 		    // 
 		    // numMaxTrainingXP
@@ -1092,6 +1125,7 @@ namespace PokemonGo.RocketAPI.Console
 		    // 
 		    this.tabControl1.Controls.Add(this.tpGeneral);
 		    this.tabControl1.Controls.Add(this.tpGym);
+		    this.tabControl1.Controls.Add(this.tabPageMisc);
 		    this.tabControl1.Location = new System.Drawing.Point(3, 3);
 		    this.tabControl1.Name = "tabControl1";
 		    this.tabControl1.SelectedIndex = 0;
@@ -1123,21 +1157,86 @@ namespace PokemonGo.RocketAPI.Console
 		    this.tpGym.Text = "Gym Settings";
 		    this.tpGym.UseVisualStyleBackColor = true;
 		    // 
-		    // textBoxTesting
+		    // tabPageMisc
 		    // 
-		    this.textBoxTesting.Location = new System.Drawing.Point(415, 145);
-		    this.textBoxTesting.Name = "textBoxTesting";
-		    this.textBoxTesting.Size = new System.Drawing.Size(228, 20);
-		    this.textBoxTesting.TabIndex = 104;
-		    this.textBoxTesting.TextChanged += new System.EventHandler(this.textBoxTesting_TextChanged);
+		    this.tabPageMisc.Controls.Add(this.groupBox4);
+		    this.tabPageMisc.Location = new System.Drawing.Point(4, 22);
+		    this.tabPageMisc.Name = "tabPageMisc";
+		    this.tabPageMisc.Padding = new System.Windows.Forms.Padding(3);
+		    this.tabPageMisc.Size = new System.Drawing.Size(774, 398);
+		    this.tabPageMisc.TabIndex = 2;
+		    this.tabPageMisc.Text = "Misc";
+		    this.tabPageMisc.UseVisualStyleBackColor = true;
 		    // 
-		    // label1
+		    // groupBox4
 		    // 
-		    this.label1.Location = new System.Drawing.Point(424, 115);
-		    this.label1.Name = "label1";
-		    this.label1.Size = new System.Drawing.Size(219, 18);
-		    this.label1.TabIndex = 105;
-		    this.label1.Text = "General Text Box. For testing things";
+		    this.groupBox4.Controls.Add(this.label13);
+		    this.groupBox4.Controls.Add(this.numMinIVSave);
+		    this.groupBox4.Controls.Add(this.buttonSelectLocationFile);
+		    this.groupBox4.Controls.Add(this.textBoxSaveLocationsFile);
+		    this.groupBox4.Controls.Add(this.checkBoxSaveLocations);
+		    this.groupBox4.Location = new System.Drawing.Point(10, 6);
+		    this.groupBox4.Name = "groupBox4";
+		    this.groupBox4.Size = new System.Drawing.Size(371, 79);
+		    this.groupBox4.TabIndex = 74;
+		    this.groupBox4.TabStop = false;
+		    this.groupBox4.Text = "Sharing Locations";
+		    // 
+		    // label13
+		    // 
+		    this.label13.Location = new System.Drawing.Point(236, 20);
+		    this.label13.Name = "label13";
+		    this.label13.Size = new System.Drawing.Size(82, 13);
+		    this.label13.TabIndex = 15;
+		    this.label13.Text = "Min IV";
+		    this.label13.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+		    // 
+		    // numMinIVSave
+		    // 
+		    this.numMinIVSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+		    this.numMinIVSave.Location = new System.Drawing.Point(328, 18);
+		    this.numMinIVSave.Margin = new System.Windows.Forms.Padding(2);
+		    this.numMinIVSave.Name = "numMinIVSave";
+		    this.numMinIVSave.Size = new System.Drawing.Size(37, 20);
+		    this.numMinIVSave.TabIndex = 67;
+		    this.numMinIVSave.Tag = "MinIVSave";
+		    this.numMinIVSave.Value = new decimal(new int[] {
+            90,
+            0,
+            0,
+            0});
+		    this.numMinIVSave.ValueChanged += new System.EventHandler(this.NumericUpDown_DoubleValueChanged);
+		    // 
+		    // buttonSelectLocationFile
+		    // 
+		    this.buttonSelectLocationFile.Enabled = false;
+		    this.buttonSelectLocationFile.Location = new System.Drawing.Point(341, 44);
+		    this.buttonSelectLocationFile.Name = "buttonSelectLocationFile";
+		    this.buttonSelectLocationFile.Size = new System.Drawing.Size(24, 24);
+		    this.buttonSelectLocationFile.TabIndex = 66;
+		    this.buttonSelectLocationFile.Text = ",.";
+		    this.buttonSelectLocationFile.UseVisualStyleBackColor = true;
+		    // 
+		    // textBoxSaveLocationsFile
+		    // 
+		    this.textBoxSaveLocationsFile.Enabled = false;
+		    this.textBoxSaveLocationsFile.Location = new System.Drawing.Point(15, 48);
+		    this.textBoxSaveLocationsFile.Name = "textBoxSaveLocationsFile";
+		    this.textBoxSaveLocationsFile.Size = new System.Drawing.Size(320, 20);
+		    this.textBoxSaveLocationsFile.TabIndex = 65;
+		    this.textBoxSaveLocationsFile.TextChanged += new System.EventHandler(this.textBoxSaveLocationsFile_TextChanged);
+		    // 
+		    // checkBoxSaveLocations
+		    // 
+		    this.checkBoxSaveLocations.AutoSize = true;
+		    this.checkBoxSaveLocations.Location = new System.Drawing.Point(15, 19);
+		    this.checkBoxSaveLocations.Name = "checkBoxSaveLocations";
+		    this.checkBoxSaveLocations.Size = new System.Drawing.Size(148, 17);
+		    this.checkBoxSaveLocations.TabIndex = 64;
+		    this.checkBoxSaveLocations.Tag = "SaveLocations";
+		    this.checkBoxSaveLocations.Text = "Save Pokemons Location";
+		    this.checkBoxSaveLocations.UseVisualStyleBackColor = true;
+		    this.checkBoxSaveLocations.CheckedChanged += new System.EventHandler(this.CheckBoxes_CheckedChanged);
 		    // 
 		    // ChangesPanel
 		    // 
@@ -1170,6 +1269,10 @@ namespace PokemonGo.RocketAPI.Console
 		    this.tabControl1.ResumeLayout(false);
 		    this.tpGeneral.ResumeLayout(false);
 		    this.tpGym.ResumeLayout(false);
+		    this.tabPageMisc.ResumeLayout(false);
+		    this.groupBox4.ResumeLayout(false);
+		    this.groupBox4.PerformLayout();
+		    ((System.ComponentModel.ISupportInitialize)(this.numMinIVSave)).EndInit();
 		    this.ResumeLayout(false);
 
 		}

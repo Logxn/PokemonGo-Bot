@@ -485,6 +485,11 @@ namespace PokemonGo.RocketAPI.Console
             comboBoxAttackers.SelectedIndex = config.Gyms.Attackers;
             checkBoxSpinGyms.Checked = config.Gyms.Spin;
             numMaxTrainingXP.Value = config.Gyms.MaxTrainingXP;
+            // Save Location
+            checkBoxSaveLocations.Checked = config.SaveLocations;
+            numMinIVSave.Value = config.MinIVSave;
+            textBoxSaveLocationsFile.Text = config.SaveLocationsFile;
+
         }
         
         private void ChangeSelectedLanguage(string lang)
@@ -946,6 +951,10 @@ namespace PokemonGo.RocketAPI.Console
             ActiveProfile.Settings.Gyms.MaxTrainingXP = (int) numMaxTrainingXP.Value;
 
             ActiveProfile.Settings.UseNanabBerry = checkBox_UseNanabBerry.Checked;
+            // Save Locations
+            ActiveProfile.Settings.SaveLocations = checkBoxSaveLocations.Checked;
+            ActiveProfile.Settings.MinIVSave = (int) numMinIVSave.Value;
+            ActiveProfile.Settings.SaveLocationsFile = textBoxSaveLocationsFile.Text;
             
 
             #endregion
@@ -1376,9 +1385,10 @@ namespace PokemonGo.RocketAPI.Console
         {
             if (textBoxFortsFile.Text == "")
                 textBoxFortsFile.Text = Program.path +"\\forts.json";
-            openFileDialog1.FileName =textBoxFortsFile.Text;
-            if (openFileDialog1.ShowDialog() == DialogResult.OK){
-                textBoxFortsFile.Text = openFileDialog1.FileName;
+            saveFileDialog1.FileName =textBoxFortsFile.Text;
+            saveFileDialog1.FilterIndex = 1;
+            if (saveFileDialog1.ShowDialog() == DialogResult.OK){
+                textBoxFortsFile.Text = saveFileDialog1.FileName;
             }
         }
         void ButtonGenerateID_Click(object sender, EventArgs e)
@@ -1398,6 +1408,27 @@ namespace PokemonGo.RocketAPI.Console
         void checkBox_UseGoogleMapsRouting_CheckedChanged(object sender, EventArgs e)
         {
           text_GoogleMapsAPIKey.Enabled = (sender as CheckBox).Checked;
+        }
+        void checkBoxSaveFortsInfo_CheckedChanged(object sender, EventArgs e)
+        {
+            textBoxFortsFile.Enabled = (sender as CheckBox).Checked;
+            buttonSelectFile.Enabled = (sender as CheckBox).Checked;
+        }
+        void checkBoxSaveLocations_CheckedChanged(object sender, EventArgs e)
+        {
+            numMinIVSave.Enabled = (sender as CheckBox).Checked;
+            textBoxSaveLocationsFile.Enabled = (sender as CheckBox).Checked;
+            buttonSelectLocationFile.Enabled = (sender as CheckBox).Checked;
+        }
+        void buttonSelectLocationFile_Click(object sender, EventArgs e)
+        {
+            if (textBoxSaveLocationsFile.Text == "")
+                textBoxSaveLocationsFile.Text = Program.path +"\\pokemons.txt";
+            saveFileDialog1.FileName =textBoxSaveLocationsFile.Text;
+            saveFileDialog1.FilterIndex = 2;
+            if (saveFileDialog1.ShowDialog() == DialogResult.OK){
+                textBoxSaveLocationsFile.Text = saveFileDialog1.FileName;
+            }
         }
 
     }

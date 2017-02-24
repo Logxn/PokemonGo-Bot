@@ -307,6 +307,10 @@ namespace PokemonGo.RocketAPI.Console
             checkBoxSpinGyms.Checked = GlobalVars.Gyms.Spin;
             numMaxTrainingXP.Value = GlobalVars.Gyms.MaxTrainingXP;
             
+            checkBoxSaveLocations.Checked = GlobalVars.SaveLocations;
+            textBoxSaveLocationsFile.Text = GlobalVars.SaveLocationsFile;
+            numMinIVSave.Value = GlobalVars.MinIVSave;
+            
             enableEvents = true;
         }
 
@@ -421,6 +425,13 @@ namespace PokemonGo.RocketAPI.Console
             if (! enableEvents)
                 return;
               GlobalVars.Gyms.Testing = (sender as TextBox).Text;
+        }
+        void textBoxSaveLocationsFile_TextChanged(object sender, EventArgs e)
+        {
+            if (! enableEvents)
+                return;
+              GlobalVars.SaveLocationsFile = (sender as TextBox).Text;
+          
         }
 
     }

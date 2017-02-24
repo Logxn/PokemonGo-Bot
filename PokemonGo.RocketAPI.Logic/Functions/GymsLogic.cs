@@ -468,11 +468,14 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                     } else if (attResp.BattleLog.State == BattleState.Victory) {
                         
                         Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - We have won");
+                        var nextDefenderID = -1L;
                         foreach (var element in  attResp.BattleLog.BattleActions) {
                             if (element.BattleResults!=null) {
                                 Logger.Debug("(Gym) - Gym points: " + element.BattleResults.GymPointsDelta);
                                 Logger.Debug("(Gym) - Experience Awarded: " + element.BattleResults.PlayerExperienceAwarded);
                                 Logger.Debug("(Gym) - Next Pokemon: " + element.BattleResults.NextDefenderPokemonId);
+                                if (element.BattleResults.NextDefenderPokemonId != -1)
+                                    nextDefenderID = element.BattleResults.NextDefenderPokemonId;
                             }
                         }
                         
@@ -480,7 +483,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                             Logger.Debug("(Gym) - Leaving Battle");
                             var times = 3;
                             do {
-                                attResp = LeaveBattle(gym, client, resp, attResp, lastRetrievedAction);
+                                attResp = LeaveBattle(gym, client, resp, attResp, lastRetrievedAction,nextDefenderID);
                                 times--;
                             } while (attResp.Result != AttackGymResponse.Types.Result.Success && times > 0);
 
@@ -505,9 +508,10 @@ namespace PokemonGo.RocketAPI.Logic.Functions
             return null;
         }
         private static void ShowBattleActions (IEnumerable<BattleAction> actions){
+            Logger.Debug("Actions: "+actions.Count());
             var i = 1;
             foreach (var element in actions) {
-                Logger.Debug("Action {i}: {element}");
+                Logger.Debug($"Action {i}: {element}");
                 i++;
             }
         }
@@ -518,6 +522,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
             StartGymBattleResponse resp = null;
             var numTries = 3;
             var startFailed = false;
+            var deltaValue = 0.001;
             do {
                 resp = client.Fort.StartGymBattle(gymId, defendingPokemonId, attackingPokemonIds);
                 if (resp == null) {
@@ -532,16 +537,25 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                     
                 if (startFailed) {
                     RandomHelper.RandomSleep(5000);
-                    if (GlobalVars.Gyms.Testing == "dologin"){
-                        client.Login.DoLogin();
+                    if (GlobalVars.Gyms.Testing == "1"){
+                        resp = client.Fort.StartGymBattle(gymId, 0, attackingPokemonIds);
                         RandomHelper.RandomSleep(2000);
-                    }else if (GlobalVars.Gyms.Testing == "FireRequestBlockTwo"){
+                    }else if (GlobalVars.Gyms.Testing == "2" || GlobalVars.Gyms.Testing == ""){
                         client.Login.FireRequestBlockTwo().Wait();
                         RandomHelper.RandomSleep(2000);
-                    }else if (GlobalVars.Gyms.Testing == "gmo"){
+                    }else if (GlobalVars.Gyms.Testing == "3"){
                         RandomHelper.RandomSleep(2000);
                         var gmo = client.Map.GetMapObjects().Result;
                         RandomHelper.RandomSleep(7000);
+                    }else if (GlobalVars.Gyms.Testing == "4"){
+                        client.CurrentLatitude = client.CurrentLatitude + deltaValue;
+                        RandomHelper.RandomSleep(7000);
+                        var gmo = client.Map.GetMapObjects().Result;
+                        resp = client.Fort.StartGymBattle(gymId, defendingPokemonId, attackingPokemonIds);
+                        client.CurrentLatitude = client.CurrentLatitude - deltaValue;
+                        RandomHelper.RandomSleep(7000);
+                        gmo = client.Map.GetMapObjects().Result;
+                        RandomHelper.RandomSleep(250);
                     }
                 } else {
                     Logger.Debug("StartGymBattle Response:" + resp);
@@ -551,7 +565,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
             return resp;
         }
 
-        private static  AttackGymResponse LeaveBattle(FortData gym, Client client, StartGymBattleResponse resp, AttackGymResponse attResp, BattleAction lastRetrievedAction)
+        private static  AttackGymResponse LeaveBattle(FortData gym, Client client, StartGymBattleResponse resp, AttackGymResponse attResp, BattleAction lastRetrievedAction, long nextDefenderID)
         {
             AttackGymResponse ret = attResp;
             var times = 3;
@@ -560,8 +574,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                 var timeMs = ret.BattleLog.ServerMs;
                 var attack = new BattleAction();
                 attack.Type = BattleActionType.ActionPlayerQuit;
-                
-                attack.TargetIndex = -1;
+                attack.TargetPokemonId = (ulong) nextDefenderID;
                 if (attResp.ActiveAttacker != null)
                     attack.ActivePokemonId = attResp.ActiveAttacker.PokemonData.Id;
                 var battleActions = new List<BattleAction>();
@@ -602,7 +615,6 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                     return pokemons.Where(x => ((!x.IsEgg) && (x.DeployedFortId == "") && (x.Id != buddyPokemon) && (x.Stamina == x.StaminaMax)))
                         .OrderByDescending(x => x.Favorite).ThenByDescending(x => x.Cp).FirstOrDefault();
             }
-            // GlobalVars.LeaveInGyms ==0
             var rnd = new Random();
             return pokemons.Where(x => ((!x.IsEgg) && (x.DeployedFortId == "") && (x.Id != buddyPokemon) && (x.Stamina == x.StaminaMax)))
                 .OrderBy(x => rnd.Next()).FirstOrDefault();

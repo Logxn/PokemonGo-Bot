@@ -80,6 +80,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Functions\CatchingLogic.cs" />
     <Compile Include="Functions\GymsLogic.cs" />
     <Compile Include="Functions\Setout.cs" />
     <Compile Include="Functions\Sniper.cs" />

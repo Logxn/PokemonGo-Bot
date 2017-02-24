@@ -186,8 +186,11 @@ namespace PokemonGo.RocketAPI.Logic.Shared
         public static int MaxUpGrade =100;
         
         public static GymSettings Gyms = new GymSettings();
-        
         public static DebugSettings Debug = new DebugSettings();
+
+        public static bool SaveLocations =false;
+        public static int MinIVSave = 100;
+        public static string SaveLocationsFile = "";
 
         /// <summary>
         /// Copy all values from ProfileSettings to GlobalVars.

@@ -383,7 +383,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                 if ((item.ItemId == ItemId.ItemPokeBall || item.ItemId == ItemId.ItemGreatBall || item.ItemId == ItemId.ItemUltraBall || item.ItemId == ItemId.ItemMasterBall) && Logic.Instance.pokeballoutofstock)
                 {
                     Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Detected Pokeball Restock - Enabling Catch Pokemon");
-                    Logic.Instance.logicAllowCatchPokemon = true;
+                    CatchingLogic.AllowCatchPokemon = true;
                     Logic.Instance.pokeballoutofstock = false;
                 }
                 var transfer = Logic.objClient.Inventory.RecycleItem(item.ItemId, item.Count).Result;
@@ -637,7 +637,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                     {
                         Logger.ColoredConsoleWrite(ConsoleColor.Green, "Pokemon Catch Limit Reached - Bot will only farm pokestops");
 
-                        Logic.Instance.logicAllowCatchPokemon = false;
+                        CatchingLogic.AllowCatchPokemon = false;
                     }
                     else
                     {
@@ -655,7 +655,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
 
                 if (pokeStopFarmedCount >= Shared.GlobalVars.PokestopFarmLimit)
                 {
-                    if (Shared.GlobalVars.CatchPokemon && Logic.Instance.logicAllowCatchPokemon)
+                    if (Shared.GlobalVars.CatchPokemon && CatchingLogic.AllowCatchPokemon)
                     {
                         Logger.ColoredConsoleWrite(ConsoleColor.Green, "Pokestop Farmed Limit Reached - Bot will only catch pokemon");
 
@@ -690,7 +690,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                                 Shared.GlobalVars.latitude,
                                 Shared.GlobalVars.longitude),
                             Shared.GlobalVars.WalkingSpeedInKilometerPerHour,
-                            Logic.Instance.ExecuteCatchAllNearbyPokemons);
+                            CatchingLogic.Execute);
                     }
                     LimitReached("Farmed XP");
                 }

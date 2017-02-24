@@ -52,9 +52,8 @@ namespace PokemonGo.RocketAPI.Logic
         public static Logic Instance;
         private readonly List<string> lureEncounters = new List<string>();
         public static int FailedSoftban;
-        public List<ulong> SkippedPokemon = new List<ulong>();
         public double lastsearchtimestamp;
-        public bool logicAllowCatchPokemon = true;
+        
         
         public string Lure = "lureId";
         private bool addedlure = false;
@@ -109,7 +108,7 @@ namespace PokemonGo.RocketAPI.Logic
 
                     if (BotSettings.RelocateDefaultLocation) break;
 
-                    ExecuteCatchAllNearbyPokemons();
+                    CatchingLogic.Execute();
 
                     var fortInfo = objClient.Fort.GetFort(pokestop.Id, pokestop.Latitude, pokestop.Longitude);
 
@@ -331,8 +330,7 @@ namespace PokemonGo.RocketAPI.Logic
 
         private void Espiral(Client client, FortData[] pokeStops , int MaxWalkingRadiusInMeters)
         {
-            //Intento de pajarera 1...
-            ExecuteCatchAllNearbyPokemons();
+            CatchingLogic.Execute();
 
             Logger.ColoredConsoleWrite(ConsoleColor.Blue, "Starting Archimedean spiral");
 
@@ -366,7 +364,7 @@ namespace PokemonGo.RocketAPI.Logic
 
                     Logger.ColoredConsoleWrite(ConsoleColor.Green, "Returning to the starting point...");
 
-                    navigation.HumanLikeWalking(new GeoCoordinate(BotSettings.DefaultLatitude, BotSettings.DefaultLongitude), BotSettings.WalkingSpeedInKilometerPerHour, ExecuteCatchAllNearbyPokemons);
+                    navigation.HumanLikeWalking(new GeoCoordinate(BotSettings.DefaultLatitude, BotSettings.DefaultLongitude), BotSettings.WalkingSpeedInKilometerPerHour, CatchingLogic.Execute);
 
                     break;
                 }
@@ -379,7 +377,7 @@ namespace PokemonGo.RocketAPI.Logic
                 navigation.HumanLikeWalking(
                     new GeoCoordinate(xx, yy),
                     BotSettings.WalkingSpeedInKilometerPerHour,
-                    ExecuteCatchAllNearbyPokemons);
+                    CatchingLogic.Execute);
 
                 Logger.ColoredConsoleWrite(ConsoleColor.Blue, "Looking PokeStops who are less than 30 meters...");
 
@@ -803,22 +801,22 @@ namespace PokemonGo.RocketAPI.Logic
                 else if (directions.Status == DirectionsStatusCodes.REQUEST_DENIED)
                 {
                     Logger.ColoredConsoleWrite(ConsoleColor.Red, "Request Failed! Bad API key?");
-                    navigation.HumanLikeWalking(new GeoCoordinate(latitude, longitude), walkspeed, ExecuteCatchAllNearbyPokemons);
+                    navigation.HumanLikeWalking(new GeoCoordinate(latitude, longitude), walkspeed, CatchingLogic.Execute);
                 }
                 else if (directions.Status == DirectionsStatusCodes.OVER_QUERY_LIMIT)
                 {
                     Logger.ColoredConsoleWrite(ConsoleColor.Red, "Over 2500 queries today! Are you botting unsafely? :)");
-                    navigation.HumanLikeWalking(new GeoCoordinate(latitude, longitude), walkspeed, ExecuteCatchAllNearbyPokemons);
+                    navigation.HumanLikeWalking(new GeoCoordinate(latitude, longitude), walkspeed, CatchingLogic.Execute);
                 }
                 else if (directions.Status == DirectionsStatusCodes.NOT_FOUND)
                 {
                     Logger.ColoredConsoleWrite(ConsoleColor.Red, "Geocoding coords failed! Waypoint: " + latitude + "," + longitude + " Bot Location: " + objClient.CurrentLatitude + "," + objClient.CurrentLongitude);
-                    navigation.HumanLikeWalking(new GeoCoordinate(latitude, longitude), walkspeed, ExecuteCatchAllNearbyPokemons);
+                    navigation.HumanLikeWalking(new GeoCoordinate(latitude, longitude), walkspeed, CatchingLogic.Execute);
                 }
                 else
                 {
                     Logger.ColoredConsoleWrite(ConsoleColor.Red, "Unhandled Error occurred when getting route[ STATUS:" + directions.StatusStr + " ERROR MESSAGE:" + directions.ErrorMessage + "] Using default walk method instead.");
-                    navigation.HumanLikeWalking(new GeoCoordinate(latitude, longitude), walkspeed, ExecuteCatchAllNearbyPokemons);
+                    navigation.HumanLikeWalking(new GeoCoordinate(latitude, longitude), walkspeed, CatchingLogic.Execute);
                 }
 
                 #endregion
@@ -826,7 +824,7 @@ namespace PokemonGo.RocketAPI.Logic
             else
             {
                 Logger.ColoredConsoleWrite(ConsoleColor.Red, $"API Key not found in Client Settings! Using default method instead.");
-                navigation.HumanLikeWalking(new GeoCoordinate(latitude, longitude), walkspeed, ExecuteCatchAllNearbyPokemons);
+                navigation.HumanLikeWalking(new GeoCoordinate(latitude, longitude), walkspeed, CatchingLogic.Execute);
             }
 
             #endregion
@@ -912,7 +910,7 @@ namespace PokemonGo.RocketAPI.Logic
                         {
                             Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Detected Pokeball Restock - Enabling Catch Pokemon");
 
-                            logicAllowCatchPokemon = true;
+                            CatchingLogic.AllowCatchPokemon = true;
                             pokeballoutofstock = false;
                         }
 
@@ -945,7 +943,7 @@ namespace PokemonGo.RocketAPI.Logic
                                 if (!lureEncounters.Contains(pokedata.EncounterId.ToString()))
                                 {
                                     Logger.ColoredConsoleWrite(ConsoleColor.Green, "Catching Lured Pokemon");
-                                    CatchLuredPokemon(pokedata.EncounterId,pokedata.SpawnPointId, pokedata.PokemonId, pokedata.Longitude, pokedata.Latitude);
+                                    CatchingLogic.CatchLuredPokemon(pokedata.EncounterId,pokedata.SpawnPointId, pokedata.PokemonId, pokedata.Longitude, pokedata.Latitude);
 
                                     lureEncounters.Add(pokedata.EncounterId.ToString());
                                 }
@@ -1017,12 +1015,6 @@ namespace PokemonGo.RocketAPI.Logic
 
                         var fortInfo = objClient.Fort.GetFort(pokestop.Id, pokestop.Latitude, pokestop.Longitude);
                         var farmed = CheckAndFarmNearbyPokeStop(pokestop, objClient, fortInfo);
-                        /* 
-                        if (GlobalVars.TelegramName=="Magic Insert"){
-                            var buddy = objClient.Player.GetPlayer().Result.PlayerData.BuddyPokemon.Id;
-                            var pokemons = objClient.Inventory.GetPokemons().Result;
-                            Functions.GymsLogic.putInPokestop(objClient,buddy,pokestop,pokemons);
-                        }*/
 
                         if (farmed)
                         {
@@ -1033,7 +1025,7 @@ namespace PokemonGo.RocketAPI.Logic
                         RandomHelper.RandomSleep(500, 600); // Time between pokestops
                     }
                 }
-                ExecuteCatchAllNearbyPokemons(mapObjectsResponse);
+                CatchingLogic.Execute(mapObjectsResponse);
                 
                 GymsLogic.Execute();
                     
@@ -1043,116 +1035,6 @@ namespace PokemonGo.RocketAPI.Logic
             {
                 return false;
             }
-        }
-
-        public bool ExecuteCatchAllNearbyPokemons()
-        {
-            return ExecuteCatchAllNearbyPokemons(null);
-        }
-
-        private bool ExecuteCatchAllNearbyPokemons(GetMapObjectsResponse mapObjectsResponse )
-        {
-
-            var client = objClient;
-            
-            //bypass catching pokemon if disabled
-            if (BotSettings.CatchPokemon && logicAllowCatchPokemon )
-            {
-                if (mapObjectsResponse == null)
-                {
-                    mapObjectsResponse = objClient.Map.GetMapObjects().Result.Item1;
-                }
-
-                MapPokemon mapIncensePokemon = null;
-                try {
-                    var duration = Setout.lastincenseuse - DateTime.Now;
-                    Logger.Debug("duration: "+ duration);
-                    if (duration.TotalMilliseconds >0 ){
-                        var incensePokemon= client.Map.GetIncensePokemons();
-                        Logger.Debug("incensePokemon: "+ incensePokemon);
-                        if (incensePokemon.Result == GetIncensePokemonResponse.Types.Result.IncenseEncounterAvailable)
-                        {
-                            mapIncensePokemon = new MapPokemon();
-                            mapIncensePokemon.EncounterId =incensePokemon.EncounterId;
-                            mapIncensePokemon.Longitude = incensePokemon.Longitude;
-                            mapIncensePokemon.Latitude = incensePokemon.Latitude;
-                            mapIncensePokemon.PokemonDisplay = incensePokemon.PokemonDisplay;
-                            mapIncensePokemon.PokemonId = incensePokemon.PokemonId;
-                            mapIncensePokemon.SpawnPointId = incensePokemon.EncounterLocation;
-                            mapIncensePokemon.ExpirationTimestampMs = incensePokemon.DisappearTimestampMs;
-        
-                            Logger.ColoredConsoleWrite(ConsoleColor.Magenta, $"Found incensed Pokemon: {mapIncensePokemon.PokemonId}"  );
-                            if (GlobalVars.ShowPokemons){
-                                infoObservable.PushNewPokemonLocation(mapIncensePokemon);
-                            }
-                        }else
-                            Logger.Debug("incensePokemon.Result: "+ incensePokemon.Result);
-                    }
-
-                } catch (Exception ex1) {
-                    Logger.ExceptionInfo(ex1.ToString());
-                }
-                
-                if (mapIncensePokemon!=null)
-                    if (!BotSettings.catchPokemonSkipList.Contains(mapIncensePokemon.PokemonId) )
-                        CatchIncensedPokemon(mapIncensePokemon.EncounterId, mapIncensePokemon.SpawnPointId, mapIncensePokemon.PokemonId, mapIncensePokemon.Longitude, mapIncensePokemon.Latitude);                
-
-                var pokemons = mapObjectsResponse.MapCells.SelectMany(i => i.CatchablePokemons).OrderBy(i => LocationUtils.CalculateDistanceInMeters(objClient.CurrentLatitude, objClient.CurrentLongitude, i.Latitude, i.Longitude));
-
-                Logger.Debug( $"Pokemons Catchable: {pokemons.Count()}");
-
-                if (pokemons.Any())
-                {
-                    var strNames = pokemons.Aggregate("", (current, pokemon) => current + ( pokemon.PokemonId + ", "));
-                    strNames = strNames.Substring(0, strNames.Length - 2);
-
-                    Logger.ColoredConsoleWrite(ConsoleColor.Magenta, $"Found {pokemons.Count()} catchable Pokemon(s): " + strNames);
-                    if (GlobalVars.ShowPokemons){
-                        ShowNearbyPokemons(pokemons);
-                    }
-                }else
-                    return false;
-
-
-                //catch them all!
-                foreach (var pokemon in pokemons)
-                {
-                    #region Stats Log
-
-                    //increment log stats counter and log stats
-                    Setout.count++;
-
-                    if (Setout.count >= 9 )
-                    {
-                        Setout.Execute();
-                    }
-
-                    #endregion
-
-                    
-                    #region Skip pokemon if in list
-
-                    if (BotSettings.catchPokemonSkipList.Contains(pokemon.PokemonId))
-                    {
-                        Logger.ColoredConsoleWrite(ConsoleColor.Green, "Skipped Pokemon: " + pokemon.PokemonId);
-                        continue;
-                    }
-
-                    #endregion
-
-                    //get distance to pokemon
-                    var distance = LocationUtils.CalculateDistanceInMeters(objClient.CurrentLatitude, objClient.CurrentLongitude, pokemon.Latitude, pokemon.Longitude);
-
-                    RandomHelper.RandomSleep(distance > 100 ? 1000 : 100,distance > 100 ? 1100 : 110);
-
-                    // Do Catch here
-                    CatchPokemon(pokemon.EncounterId, pokemon.SpawnPointId, pokemon.PokemonId, pokemon.Longitude, pokemon.Latitude);
-                }
-                client.Map.GetMapObjects(true).Wait(); //force Map Objects Update
-                client.Inventory.GetInventory(true); //force Inventory Update
-                return true;
-            }
-            return false;
         }
 
 
@@ -1195,718 +1077,7 @@ namespace PokemonGo.RocketAPI.Logic
             #endregion
         }
 
-        public ulong CatchIncensedPokemon(ulong encounterId, string spawnpointId, PokemonId pokeid, double pokeLong, double pokeLat)
-        {
-            return CatchPokemon(encounterId,spawnpointId, pokeid,pokeLong,pokeLat,false,-1,-1,2);
-        }
-
-        public ulong CatchLuredPokemon(ulong encounterId, string spawnpointId, PokemonId pokeid, double pokeLong, double pokeLat)
-        {
-            return CatchPokemon(encounterId,spawnpointId, pokeid,pokeLong,pokeLat,false,-1,-1,1);
-        }
-
-        public static EncounterResponse.Types.Status DiskEncounterResultToEncounterStatus( DiskEncounterResponse.Types.Result diskEncounter)
-        {
-            switch (diskEncounter) {
-                case DiskEncounterResponse.Types.Result.Unknown :
-                    return EncounterResponse.Types.Status.EncounterError;
-                case DiskEncounterResponse.Types.Result.Success :
-                    return EncounterResponse.Types.Status.EncounterSuccess;
-                case DiskEncounterResponse.Types.Result.NotAvailable  :
-                    return EncounterResponse.Types.Status.EncounterNotFound ;
-                case DiskEncounterResponse.Types.Result.NotInRange  :
-                    return EncounterResponse.Types.Status.EncounterNotInRange ;
-                case DiskEncounterResponse.Types.Result.EncounterAlreadyFinished  :
-                    return EncounterResponse.Types.Status.EncounterAlreadyHappened ;
-                case DiskEncounterResponse.Types.Result.PokemonInventoryFull:
-                    return EncounterResponse.Types.Status.PokemonInventoryFull;
-            }
-            return EncounterResponse.Types.Status.EncounterError;
-        }
-        public static EncounterResponse.Types.Status IncenseEncounterResultToEncounterStatus( IncenseEncounterResponse.Types.Result incenseEncounter)
-        {
-            switch (incenseEncounter) {
-                case IncenseEncounterResponse.Types.Result.IncenseEncounterUnknown :
-                    return EncounterResponse.Types.Status.EncounterError;
-                case IncenseEncounterResponse.Types.Result.IncenseEncounterSuccess :
-                    return EncounterResponse.Types.Status.EncounterSuccess;
-                case IncenseEncounterResponse.Types.Result.IncenseEncounterNotAvailable :
-                    return EncounterResponse.Types.Status.EncounterNotFound ;
-                case IncenseEncounterResponse.Types.Result.PokemonInventoryFull:
-                    return EncounterResponse.Types.Status.PokemonInventoryFull;
-            }
-            return EncounterResponse.Types.Status.EncounterError;
-        }
-
-        public ulong CatchPokemon(ulong encounterId, string spawnpointId, PokemonId pokeid, double pokeLong = 0, double pokeLat = 0, bool goBack = false, double returnLatitude = -1, double returnLongitude = -1, int luredPoke = 0)
-        {
-            ulong ret = 0;
-            EncounterResponse encounterPokemonResponse;
-
-            //Offset Miss count here to account for user setting.
-            var missCount = 0;
-
-            if (BotSettings.Max_Missed_throws <= 1)
-            {
-                missCount = 2;
-            }
-
-            if (BotSettings.Max_Missed_throws == 2)
-            {
-                missCount = 1;
-            }
-
-            var forceHit = false;
-
-            try
-            {
-                if (luredPoke == 0)
-                    encounterPokemonResponse = objClient.Encounter.EncounterPokemon(encounterId, spawnpointId);
-                else if (luredPoke == 1){
-                    var DiscEncounterPokemonResponse =  objClient.Encounter.EncounterLurePokemon(encounterId, spawnpointId);
-                    encounterPokemonResponse = new EncounterResponse();
-                    encounterPokemonResponse.Status =DiskEncounterResultToEncounterStatus(DiscEncounterPokemonResponse.Result);
-                    
-                    if( DiscEncounterPokemonResponse.Result == DiskEncounterResponse.Types.Result.Success ){
-                        encounterPokemonResponse.WildPokemon = new WildPokemon();
-                        encounterPokemonResponse.WildPokemon.EncounterId = encounterId;
-                        encounterPokemonResponse.WildPokemon.PokemonData = DiscEncounterPokemonResponse.PokemonData;
-                        encounterPokemonResponse.CaptureProbability = new POGOProtos.Data.Capture.CaptureProbability();
-                        encounterPokemonResponse.CaptureProbability.CaptureProbability_.Add(1.0F);
-                    }
-                    
-                }else{
-                    var IncenseEncounterPokemonResponse =  objClient.Encounter.EncounterIncensePokemon(encounterId, spawnpointId);
-                    encounterPokemonResponse = new EncounterResponse();
-                    encounterPokemonResponse.Status =IncenseEncounterResultToEncounterStatus(IncenseEncounterPokemonResponse.Result);
-                    
-                    if( IncenseEncounterPokemonResponse.Result == IncenseEncounterResponse.Types.Result.IncenseEncounterSuccess ){
-                        encounterPokemonResponse.WildPokemon = new WildPokemon();
-                        encounterPokemonResponse.WildPokemon.EncounterId = encounterId;
-                        encounterPokemonResponse.WildPokemon.PokemonData =IncenseEncounterPokemonResponse.PokemonData;
-                        encounterPokemonResponse.CaptureProbability = IncenseEncounterPokemonResponse.CaptureProbability;
-                    }
-                    
-                }
-                
-            }
-            catch (Exception ex)
-            {
-                Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Error: Logic.cs - CatchPokemon - encounter: {ex.Message}");
-                if (goBack)
-                {
-                    Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"(SNIPING) Go to {returnLatitude} / {returnLongitude} before starting the capture.");
-                    Logger.ColoredConsoleWrite(ConsoleColor.Cyan,LocationUtils.FindAddress(returnLatitude, returnLongitude));
-                    LocationUtils.updatePlayerLocation(objClient, returnLatitude, returnLongitude, BotSettings.DefaultAltitude);
-                    var tmpMap = objClient.Map.GetMapObjects(true);
-                }
-                return ret;
-            }
-
-            if (goBack)
-            {
-                Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"(SNIPING) Go to {returnLatitude} / {returnLongitude} before starting the capture.");
-                Logger.ColoredConsoleWrite(ConsoleColor.Cyan,LocationUtils.FindAddress(returnLatitude, returnLongitude));
-                LocationUtils.updatePlayerLocation(objClient, returnLatitude, returnLongitude, BotSettings.DefaultAltitude);
-                var tmpMap = objClient.Map.GetMapObjects(true);
-            }
-
-            if (encounterPokemonResponse.Status == EncounterResponse.Types.Status.EncounterSuccess)
-            {
-                if (SkippedPokemon.Contains(encounterPokemonResponse.WildPokemon.EncounterId))
-                {
-                    Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "Previously Skipped this Pokemon - Skipping Again!");
-                    return 0;
-                }
-
-                var bestPokeball = GetBestBall(encounterPokemonResponse?.WildPokemon, false);
-
-                var iv = PokemonInfo.CalculatePokemonPerfection(encounterPokemonResponse.WildPokemon.PokemonData);
-                var strIVPerfection =iv.ToString("0.00");
-                if (bestPokeball == ItemId.ItemUnknown)
-                {
-                    
-                    Logger.ColoredConsoleWrite(ConsoleColor.Red, $"No Pokeballs! - missed {pokeid} CP {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} IV {strIVPerfection}%");
-                    Logger.ColoredConsoleWrite(ConsoleColor.Red, "Detected all balls out of stock - disabling pokemon catch until restock of at least 1 ball type occurs");
-
-                    pokeballoutofstock = true;
-                    logicAllowCatchPokemon = false;
-
-                    return 0;
-                }
-
-                var inventoryBerries = objClient.Inventory.GetItems(true);
-                var probability = encounterPokemonResponse?.CaptureProbability?.CaptureProbability_?.FirstOrDefault();
-
-                var escaped = false;
-                var berryOutOfStock = false;
-
-                var pinapsOutOfStock = false;
-                var nanabsOutOfStock = false;
-
-                var usedNanabs = false;
-                Logger.ColoredConsoleWrite(ConsoleColor.Magenta, $"Encountered {StringUtils.getPokemonNameByLanguage(BotSettings, pokeid)} CP {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} IV {strIVPerfection}% Probability {Math.Round(probability.Value * 100)}%");
-
-                if (encounterPokemonResponse.WildPokemon.PokemonData != null &&
-                    encounterPokemonResponse.WildPokemon.PokemonData.Cp > BotSettings.MinCPtoCatch &&
-                    iv > BotSettings.MinIVtoCatch)
-                {
-                    var used = false;
-                    CatchPokemonResponse caughtPokemonResponse;
-
-                    do
-                    {
-                        // Check if the best ball is still valid
-                        if (bestPokeball == ItemId.ItemUnknown)
-                        {
-                            Logger.ColoredConsoleWrite(ConsoleColor.Red, $"No Pokeballs! - missed {pokeid} CP {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} IV {strIVPerfection}%");
-                            Logger.ColoredConsoleWrite(ConsoleColor.Red, "Detected all balls out of stock - disabling pokemon catch until restock of at least 1 ball type occurs");
-
-                            pokeballoutofstock = true;
-                            logicAllowCatchPokemon = false;
-
-                            return 0;
-                        }
-
-
-                        if (((probability.Value < BotSettings.razzberry_chance) || escaped) && BotSettings.UseRazzBerry && !used)
-                        {
-                            var bestBerry = GetBestBerry(encounterPokemonResponse?.WildPokemon);
-                            if (bestBerry != ItemId.ItemUnknown)
-                            {
-                                var berriesInInventory = inventoryBerries as IList<ItemData> ?? inventoryBerries.ToList();
-                                var berryList = inventoryBerries as IList<ItemData> ?? berriesInInventory.ToList();
-                                var berries = berryList.FirstOrDefault(p => p.ItemId == bestBerry);
-                                var remaining = berries.Count - 1;
-
-                                if (berries.Count <= 0) berryOutOfStock = true;
-
-                                if (!berryOutOfStock)
-                                {
-                                    //Throw berry
-                                    var useRaspberry = objClient.Encounter.UseItemEncounter(encounterId, bestBerry, spawnpointId);
-                                    used = true;
-
-                                    Logger.Info( $"Thrown {bestBerry}. Remaining: {remaining}.");
-
-                                    RandomHelper.RandomSleep(50, 200);
-                                }
-                                else
-                                {
-                                    escaped = true;
-                                    used = true;
-                                }
-                            }
-                            else
-                            {
-                                escaped = true;
-                                used = true;
-                            }
-                        }
-
-                        if (BotSettings.UsePinapBerry)
-                        {
-                            try {
-                                var inventory = objClient.Inventory.GetItems(true);
-                                var pinaps = inventory.Where(p => p.ItemId == ItemId.ItemPinapBerry);
-                                var pinap = pinaps.FirstOrDefault();
-                                if (pinap == null || pinap.Count < 1)
-                                    pinapsOutOfStock = true;
-
-                                if (!pinapsOutOfStock)
-                                {
-                                    // Use a pinap 
-                                    var res = objClient.Encounter.UseItemEncounter(encounterId, ItemId.ItemPinapBerry, spawnpointId);
-                                    if (res.Status ==UseItemEncounterResponse.Types.Status.Success){
-                                        var remaining = pinaps.Count() - 1;
-                                        Logger.Info($"We used a Pinap Berry. Remaining: {remaining}.");
-                                    }
-                                    else
-                                        Logger.Info("Status: "+ res.Status);
-                                    RandomHelper.RandomSleep(250);
-                                }
-                            } catch (Exception ex1) {
-                                Logger.Debug (""+ex1);
-                            }
-                        }
-
-                        var r = new Random();
-
-                        if(BotSettings.UseNanabBerry && !usedNanabs )
-                        {
-                            try {
-                                var reallyUseIt =  (r.Next(0,GlobalVars.NanabPercent)!=0);
-                                if (GlobalVars.NanabPercent == 100 || reallyUseIt){
-                                    var inventory = objClient.Inventory.GetItems(true);
-                                    var nanabs = inventory.Where(p => p.ItemId == ItemId.ItemNanabBerry);
-                                    var nanab = nanabs.FirstOrDefault();
-
-                                    if (nanab == null || nanab.Count < 1)
-                                        nanabsOutOfStock = true;
-
-                                    if(!nanabsOutOfStock)
-                                    {
-                                        var res = objClient.Encounter.UseItemEncounter(encounterId, ItemId.ItemNanabBerry, spawnpointId);
-                                        if (res.Status ==UseItemEncounterResponse.Types.Status.Success){
-                                            var remaining = nanabs.Count() - 1;
-                                            Logger.Info($"We used a Nabab Berry. Remaining: {remaining}.");
-                                        }
-                                        else
-                                            Logger.Info("Status: "+ res.Status);
-                                        RandomHelper.RandomSleep(250);
-                                    }
-                                }
-                                
-                            } catch (Exception ex1) {
-                                Logger.Debug (""+ex1);
-                            }
-                        }
-                        // limit number of balls wasted by misses and log for UX because fools be tripin                        
-                        switch (missCount)
-                        {
-                            case 0:
-                                if (bestPokeball == ItemId.ItemMasterBall)
-                                {
-                                    Logger.ColoredConsoleWrite(ConsoleColor.Magenta, "No messing around with your Master Balls! Forcing a hit on target.");
-                                    forceHit = true;
-                                }
-                                break;
-                            case 1:
-                                if (bestPokeball == ItemId.ItemUltraBall)
-                                {
-                                    Logger.ColoredConsoleWrite(ConsoleColor.Magenta, "Not wasting more of your Ultra Balls! Forcing a hit on target.");
-                                    forceHit = true;
-                                }
-                                break;
-                            case 2:
-                                //adding another chance of forcing hit here to improve overall odds after 2 misses                                
-                                var rInt = r.Next(0, 2);
-                                if (rInt == 1)
-                                {
-                                    // lets hit
-                                    forceHit = true;
-                                }
-                                break;
-                            default:
-                                // default to force hit after 3 wasted balls of any kind.
-                                Logger.ColoredConsoleWrite(ConsoleColor.Magenta, "Enough misses! Forcing a hit on target.");
-                                forceHit = true;
-                                break;
-                        }
-                        if (missCount > 0)
-                        {
-                            //adding another chance of forcing hit here to improve overall odds after 1st miss                            
-                            var rInt = r.Next(0, 3);
-                            if (rInt == 1)
-                            {
-                                // lets hit
-                                forceHit = true;
-                            }
-                        }
-
-                        caughtPokemonResponse = CatchPokemonWithRandomVariables(encounterId, spawnpointId, bestPokeball, forceHit);
-
-                        if (caughtPokemonResponse.Status == CatchPokemonResponse.Types.CatchStatus.CatchMissed)
-                        {
-                            Logger.ColoredConsoleWrite(ConsoleColor.Magenta, $"Missed {StringUtils.getPokemonNameByLanguage(BotSettings, pokeid)} while using {bestPokeball}");
-                            missCount++;
-                            RandomHelper.RandomSleep(1500, 6000);
-                        }
-                        else if (caughtPokemonResponse.Status == CatchPokemonResponse.Types.CatchStatus.CatchEscape)
-                        {
-                            Logger.ColoredConsoleWrite(ConsoleColor.Magenta, $"{StringUtils.getPokemonNameByLanguage(BotSettings, pokeid)} escaped while using {bestPokeball}");
-                            escaped = true;
-                            //reset forceHit in case we randomly triggered on last throw.
-                            forceHit = false;
-                            RandomHelper.RandomSleep(1500, 6000);
-                        }
-                        // Update the best ball to ensure we can still throw
-                        bestPokeball = GetBestBall(encounterPokemonResponse?.WildPokemon, escaped);
-                    } while (caughtPokemonResponse.Status == CatchPokemonResponse.Types.CatchStatus.CatchMissed || caughtPokemonResponse.Status == CatchPokemonResponse.Types.CatchStatus.CatchEscape);
-
-                    if (caughtPokemonResponse.Status == CatchPokemonResponse.Types.CatchStatus.CatchSuccess)
-                    {
-                        ret = caughtPokemonResponse.CapturedPokemonId;
-
-                        if (GlobalVars.ShowPokemons)
-                            DeletePokemonFromMap(encounterPokemonResponse.WildPokemon.SpawnPointId);
-
-                        var curDate = DateTime.Now;
-                        Task.Factory.StartNew(() =>infoObservable.PushNewHuntStats($"{pokeLat}/{pokeLong};{pokeid};{curDate.Ticks};{curDate}" + Environment.NewLine));
-
-                        var logPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Logs");
-                        var logs = Path.Combine(logPath, "PokeLog.txt");
-                        var date = DateTime.Now;
-                        if (caughtPokemonResponse.CaptureAward.Xp.Sum() >= 500)
-                        {
-                            if (BotSettings.LogPokemons)
-                            {
-                                File.AppendAllText(logs, $"[{date}] Caught new {StringUtils.getPokemonNameByLanguage(BotSettings, pokeid)} (CP: {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} | IV: {strIVPerfection}% | Pokeball used: {bestPokeball} | XP: {caughtPokemonResponse.CaptureAward.Xp.Sum()}) " + Environment.NewLine);
-                            }
-                            Logger.ColoredConsoleWrite(ConsoleColor.Gray, $"Caught {StringUtils.getPokemonNameByLanguage(BotSettings, pokeid)} CP {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} IV {strIVPerfection}% got {caughtPokemonResponse.CaptureAward.Xp.Sum()} XP | {caughtPokemonResponse.CaptureAward.Candy.Sum()} Candies | {caughtPokemonResponse.CaptureAward.Stardust.Sum()} Stardust");
-                            Setout.pokemonCatchCount++;
-                        }
-                        else
-                        {
-                            if (BotSettings.LogPokemons)
-                            {
-                                File.AppendAllText(logs, $"[{date}] Caught {StringUtils.getPokemonNameByLanguage(BotSettings, pokeid)} (CP: {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} | IV: {strIVPerfection}% | Pokeball used: {bestPokeball} | XP: {caughtPokemonResponse.CaptureAward.Xp.Sum()}) " + Environment.NewLine);
-                            }
-                            Logger.ColoredConsoleWrite(ConsoleColor.Gray, $"Caught {StringUtils.getPokemonNameByLanguage(BotSettings, pokeid)} CP {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} IV {strIVPerfection}% got {caughtPokemonResponse.CaptureAward.Xp.Sum()} XP | {caughtPokemonResponse.CaptureAward.Candy.Sum()} Candies | {caughtPokemonResponse.CaptureAward.Stardust.Sum()} Stardust");
-                            Setout.pokemonCatchCount++;
-
-                            if (Telegram != null)
-                                Telegram.sendInformationText(TelegramUtil.TelegramUtilInformationTopics.Catch, StringUtils.getPokemonNameByLanguage(BotSettings, pokeid), encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp, strIVPerfection, bestPokeball, caughtPokemonResponse.CaptureAward.Xp.Sum());
-                        }
-                        BotStats.AddPokemon(1);
-                        BotStats.AddExperience(caughtPokemonResponse.CaptureAward.Xp.Sum());
-                        BotStats.AddStardust(caughtPokemonResponse.CaptureAward.Stardust.Sum());
-                        Setout.RefreshConsoleTitle(objClient);
-                        RandomHelper.RandomSleep(1500, 2000);
-                    }
-                    else
-                    {
-                        Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, $"{StringUtils.getPokemonNameByLanguage(BotSettings, pokeid)} CP {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} IV {strIVPerfection}% got away while using {bestPokeball}..");
-                        FailedSoftban++;
-                        if (FailedSoftban > 10)
-                        {
-                            Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Soft Ban Detected - Stopping Bot to prevent perma-ban. Try again in 4-24 hours and be more careful next time!");
-                            Setout.LimitReached("");
-                        }
-                    }
-                }
-                else
-                {
-                    Logger.ColoredConsoleWrite(ConsoleColor.Magenta, "Pokemon CP or IV lower than Configured Min to Catch - Skipping Pokemon");
-                    SkippedPokemon.Add(encounterPokemonResponse.WildPokemon.EncounterId);
-                }
-            }else if (encounterPokemonResponse.Status == EncounterResponse.Types.Status.PokemonInventoryFull){
-                Logger.Warning("You have no free space for new pokemons...transfer some as soon as possible.");
-            }else{
-                Logger.Debug(encounterPokemonResponse.Status.ToString());
-            }
-            return ret;
-        }
-
-        private CatchPokemonResponse CatchPokemonWithRandomVariables(ulong encounterId, string spawnpointId, ItemId bestPokeball, bool forceHit)
-        {
-            #region Reset Function Variables
-
-            var normalizedRecticleSize = 1.95;
-            var hitTxt = "Default Perfect";
-            var spinModifier = 1.0;
-            var spinTxt = "Curve";
-            var pbExcellent = BotSettings.excellentthrow;
-            var pbGreat = BotSettings.greatthrow;
-            var pbNice = BotSettings.nicethrow;
-            var pbOrdinary = BotSettings.ordinarythrow;
-            var r = new Random();
-            var rInt = r.Next(0, 100);
-
-            #endregion
-
-            #region Randomize Throw Type
-
-            if (rInt >= 0 && rInt < pbExcellent)
-            {
-                normalizedRecticleSize = r.NextDouble() * (1.95 - 1.7) + 1.7;
-                hitTxt = "Excellent";
-            }
-            else if (rInt >= pbExcellent && rInt < pbExcellent + pbGreat)
-            {
-                normalizedRecticleSize = r.NextDouble() * (1.7 - 1.3) + 1.3;
-                hitTxt = "Great";
-            }
-            else if (rInt >= pbExcellent + pbGreat && rInt < pbExcellent + pbGreat + pbNice)
-            {
-                normalizedRecticleSize = r.NextDouble() * (1.3 - 1) + 1;
-                hitTxt = "Nice";
-            }
-            else if (rInt >= pbExcellent + pbGreat + pbNice && rInt < pbExcellent + pbGreat + pbNice + pbOrdinary)
-            {
-                normalizedRecticleSize = r.NextDouble() * (1 - 0.1) + 0.1;
-                hitTxt = "Ordinary";
-            }
-            else
-            {
-                normalizedRecticleSize = r.NextDouble() * (1 - 0.1) + 0.1;
-                hitTxt = "Ordinary";
-            }
-
-            var rIntSpin = r.Next(0, 2);
-            if (rIntSpin == 0)
-            {
-                spinModifier = 0.0;
-                spinTxt = "Straight";
-            }
-            var rIntHit = r.Next(0, 2);
-            if (rIntHit == 0)
-            {
-                forceHit = true;
-            }
-
-            #endregion
-
-            //round to 2 decimals  
-            normalizedRecticleSize = Math.Round(normalizedRecticleSize, 2);
-            //if not miss, log throw variables
-            if (forceHit)
-            {
-                Logger.ColoredConsoleWrite(ConsoleColor.DarkMagenta, $"{hitTxt} throw as {spinTxt} ball.");
-            }
-            return objClient.Encounter.CatchPokemon(encounterId, spawnpointId, bestPokeball, forceHit, normalizedRecticleSize, spinModifier);
-        }
-
         #endregion
-
-        #region Best Ball and Berry Functions
-
-        private Dictionary<string, int> GetPokeballQty()
-        {
-            var pokeBallCollection = new Dictionary<string, int>();
-            var items = objClient.Inventory.GetItems();
-            var balls = items.Where(i => (i.ItemId == ItemId.ItemPokeBall || i.ItemId == ItemId.ItemGreatBall || i.ItemId == ItemId.ItemUltraBall || i.ItemId == ItemId.ItemMasterBall) && i.ItemId > 0).GroupBy(i => i.ItemId).ToList();
-
-            #region Log Pokeball types out of stock
-
-            if (balls.Any(g => g.Key == ItemId.ItemPokeBall))
-                if (balls.First(g => g.Key == ItemId.ItemPokeBall).First().Count > 0)
-                    pokeBallCollection.Add("pokeBalls", balls.First(g => g.Key == ItemId.ItemPokeBall).First().Count);
-                else
-                    Logger.Warning("PokeBall Count is Zero");
-
-            if (balls.Any(g => g.Key == ItemId.ItemGreatBall))
-                if (balls.First(g => g.Key == ItemId.ItemGreatBall).First().Count > 0)
-                    pokeBallCollection.Add("greatBalls", balls.First(g => g.Key == ItemId.ItemGreatBall).First().Count);
-                else
-                    Logger.Warning("GreatBall Count is Zero");
-
-            if (balls.Any(g => g.Key == ItemId.ItemUltraBall))
-                if (balls.First(g => g.Key == ItemId.ItemUltraBall).First().Count > 0)
-                    pokeBallCollection.Add("ultraBalls", balls.First(g => g.Key == ItemId.ItemUltraBall).First().Count);
-                else
-                    Logger.Warning("UltraBall Count is Zero");
-
-            if (balls.Any(g => g.Key == ItemId.ItemMasterBall))
-                if (balls.First(g => g.Key == ItemId.ItemMasterBall).First().Count > 0)
-                    pokeBallCollection.Add("masterBalls", balls.First(g => g.Key == ItemId.ItemMasterBall).First().Count);
-                else
-                    Logger.Warning("MasterBall Count is Zero");
-
-            #endregion
-
-            return pokeBallCollection;
-        }
-
-        private ItemId GetBestBall(WildPokemon pokemon, bool escaped)
-        {
-            //pokemon cp to determine ball type
-            var pokemonCp = pokemon?.PokemonData?.Cp;
-            var pokeballCollection = GetPokeballQty();
-
-            #region Set Available ball types
-
-            var pokeBalls = false;
-            var greatBalls = false;
-            var ultraBalls = false;
-            var masterBalls = false;
-            var pokeballqty = 0;
-            var greatballqty = 0;
-            var ultraballqty = 0;
-
-            foreach (var pokeballtype in pokeballCollection)
-            {
-                switch (pokeballtype.Key)
-                {
-                    case "pokeBalls":
-                        {
-                            pokeballqty = pokeballtype.Value;
-                            break;
-                        }
-                    case "greatBalls":
-                        {
-                            greatballqty = pokeballtype.Value;
-                            break;
-                        }
-                    case "ultraBalls":
-                        {
-                            ultraballqty = pokeballtype.Value;
-                            break;
-                        }
-                }
-            }
-            if (pokeballCollection.ContainsKey("pokeBalls"))
-            {
-                pokeBalls = true;
-                if ((pokeballqty <= BotSettings.InventoryBasePokeball || BotSettings.InventoryBasePokeball == 0) && BotSettings.LimitPokeballUse)
-                {
-                    pokeBalls = false;
-                }
-            }
-            if (pokeballCollection.ContainsKey("greatBalls"))
-            {
-                greatBalls = true;
-                if ((greatballqty <= BotSettings.InventoryBaseGreatball || BotSettings.InventoryBaseGreatball == 0) && BotSettings.LimitGreatballUse)
-                {
-                    greatBalls = false;
-                }
-            }
-
-            if (pokeballCollection.ContainsKey("ultraBalls"))
-            {
-                ultraBalls = true;
-                if ((ultraballqty <= BotSettings.InventoryBaseUltraball || BotSettings.InventoryBaseUltraball == 0) && BotSettings.LimitUltraballUse)
-                {
-                    ultraBalls = false;
-                }
-            }
-
-            if (pokeballCollection.ContainsKey("masterBalls"))
-            {
-                masterBalls = true;
-            }
-
-            #endregion
-
-            #region Get Lowest Appropriate Ball by CP and escape status
-
-            var lowestAppropriateBall = ItemId.ItemUnknown;
-
-            var minCPforGreatBall = 500;
-            var minCPforUltraBall = 1000;
-
-            if (BotSettings.MinCPforGreatBall > 0 && BotSettings.MinCPforUltraBall > 0 && BotSettings.MinCPforGreatBall < BotSettings.MinCPforUltraBall)
-            {
-                minCPforGreatBall = BotSettings.MinCPforGreatBall;
-                minCPforUltraBall = BotSettings.MinCPforUltraBall;
-            }
-
-            var getMyLowestAppropriateBall = new Dictionary<Func<int?, bool>, Action>
-            {
-                {x => x < minCPforGreatBall, () => lowestAppropriateBall = ItemId.ItemPokeBall}, {x => x < minCPforUltraBall, () => lowestAppropriateBall = ItemId.ItemGreatBall}, {x => x < 2000, () => lowestAppropriateBall = ItemId.ItemUltraBall}, {x => x >= 2000, () => lowestAppropriateBall = ItemId.ItemMasterBall}
-            };
-            getMyLowestAppropriateBall.First(sw => sw.Key(pokemonCp)).Value();
-            //use next best ball if pokemon has escped before
-            if (escaped && BotSettings.NextBestBallOnEscape)
-            {
-                switch (lowestAppropriateBall)
-                {
-                    case ItemId.ItemGreatBall:
-                        {
-                            lowestAppropriateBall = ItemId.ItemUltraBall;
-                            break;
-                        }
-                    case ItemId.ItemUltraBall:
-                        {
-                            lowestAppropriateBall = ItemId.ItemMasterBall;
-                            break;
-                        }
-                    case ItemId.ItemMasterBall:
-                        {
-                            lowestAppropriateBall = ItemId.ItemMasterBall;
-                            break;
-                        }
-                    default:
-                        {
-                            lowestAppropriateBall = ItemId.ItemGreatBall;
-                            break;
-                        }
-                }
-            }
-            //handle appropriate ball out of stock
-            switch (lowestAppropriateBall)
-            {
-                case ItemId.ItemGreatBall:
-                    {
-                        if (greatBalls) return ItemId.ItemGreatBall;
-                        if (ultraBalls) return ItemId.ItemUltraBall;
-                        if (masterBalls) return ItemId.ItemMasterBall;
-                        if (pokeBalls) return ItemId.ItemPokeBall;
-                        return ItemId.ItemUnknown;
-                    }
-                case ItemId.ItemUltraBall:
-                    {
-                        if (ultraBalls) return ItemId.ItemUltraBall;
-                        if (masterBalls) return ItemId.ItemMasterBall;
-                        if (greatBalls) return ItemId.ItemGreatBall;
-                        if (pokeBalls) return ItemId.ItemPokeBall;
-                        return ItemId.ItemUnknown;
-                    }
-                case ItemId.ItemMasterBall:
-                    {
-                        if (masterBalls) return ItemId.ItemMasterBall;
-                        if (ultraBalls) return ItemId.ItemUltraBall;
-                        if (greatBalls) return ItemId.ItemGreatBall;
-                        if (pokeBalls) return ItemId.ItemPokeBall;
-                        return ItemId.ItemUnknown;
-                    }
-                default:
-                    {
-                        if (pokeBalls) return ItemId.ItemPokeBall;
-                        if (greatBalls) return ItemId.ItemGreatBall;
-                        if (ultraBalls) return ItemId.ItemUltraBall;
-                        if (pokeBalls) return ItemId.ItemMasterBall;
-                        return ItemId.ItemUnknown;
-                    }
-            }
-
-            #endregion
-        }
-
-        private ItemId GetBestBerry(WildPokemon pokemon)
-        {
-            var pokemonCp = pokemon?.PokemonData?.Cp;
-
-            var items = objClient.Inventory.GetItems();
-
-            var berries = items.Where(i => i.ItemId == ItemId.ItemRazzBerry || i.ItemId == ItemId.ItemBlukBerry  || i.ItemId == ItemId.ItemWeparBerry ).GroupBy(i => i.ItemId).ToList();
-            //NOTE: removed || i.ItemId == ItemId.ItemPinapBerry || i.ItemId == ItemId.ItemNanabBerry
-            if (!berries.Any()) {
-                Logger.ColoredConsoleWrite(ConsoleColor.Red, $"No Berrys to select! - Using next best ball instead"); 
-                return ItemId.ItemUnknown;
-            }
-
-            var razzBerryCount = objClient.Inventory.GetItemAmountByType(ItemId.ItemRazzBerry);
-            var blukBerryCount = objClient.Inventory.GetItemAmountByType(ItemId.ItemBlukBerry);
-            var nanabBerryCount = objClient.Inventory.GetItemAmountByType(ItemId.ItemNanabBerry);
-            var weparBerryCount = objClient.Inventory.GetItemAmountByType(ItemId.ItemWeparBerry);
-            var pinapBerryCount = objClient.Inventory.GetItemAmountByType(ItemId.ItemPinapBerry);
-
-            if (pinapBerryCount > 0 && pokemonCp >= 2000)
-                return ItemId.ItemPinapBerry;
-            if (weparBerryCount > 0 && pokemonCp >= 2000)
-                return ItemId.ItemWeparBerry;
-            if (nanabBerryCount > 0 && pokemonCp >= 2000)
-                return ItemId.ItemNanabBerry;
-            if (nanabBerryCount > 0 && pokemonCp >= 2000)
-                return ItemId.ItemBlukBerry;
-
-            if (weparBerryCount > 0 && pokemonCp >= 1500)
-                return ItemId.ItemWeparBerry;
-            if (nanabBerryCount > 0 && pokemonCp >= 1500)
-                return ItemId.ItemNanabBerry;
-            if (blukBerryCount > 0 && pokemonCp >= 1500)
-                return ItemId.ItemBlukBerry;
-
-            if (nanabBerryCount > 0 && pokemonCp >= 1000)
-                return ItemId.ItemNanabBerry;
-            if (blukBerryCount > 0 && pokemonCp >= 1000)
-                return ItemId.ItemBlukBerry;
-
-            if (blukBerryCount > 0 && pokemonCp >= 500)
-                return ItemId.ItemBlukBerry;
-
-            return berries.OrderBy(g => g.Key).First().Key;
-        }
-
-        #endregion
-
-
-        public void ShowNearbyPokemons(IEnumerable<MapPokemon> pokeData)
-        {
-            infoObservable.PushNewPokemonLocations(pokeData);
-        }
-
 
         public void DeletePokemonFromMap(string spawnPointId)
         {
