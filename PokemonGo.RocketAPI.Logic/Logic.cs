@@ -157,6 +157,7 @@ namespace PokemonGo.RocketAPI.Logic
                 walkspeed = randomWalkSpeed.Next(BotSettings.MinWalkSpeed,
                     (int)BotSettings.WalkingSpeedInKilometerPerHour);
             }
+            Logger.Debug($"WalkingSpeedInKilometerPerHour: {BotSettings.WalkingSpeedInKilometerPerHour}, MinWalkSpeed: {BotSettings.MinWalkSpeed}, walkspeed: {walkspeed}");
             return walkspeed;
         }
 

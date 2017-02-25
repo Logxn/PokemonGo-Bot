@@ -1208,27 +1208,21 @@ namespace PokemonGo.RocketAPI.Console
             Process.Start("http://proxylist.hidemyass.com");
         }
 
-
-
         private void linkLabel6_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             var sInfo = new ProcessStartInfo("https://developers.google.com/maps/documentation/directions/start#get-a-key/");
             Process.Start(sInfo);
         }
 
-
         public bool AcceptAllCertifications(object sender, System.Security.Cryptography.X509Certificates.X509Certificate certification, System.Security.Cryptography.X509Certificates.X509Chain chain, System.Net.Security.SslPolicyErrors sslPolicyErrors)
         {
             return true;
         }
 
-
-
         private void button4_Click(object sender, EventArgs e)
         {
             MessageBox.Show(th.TS("This will capture pokemons while walking spiral, and will use pokestops which are within 30 meters of the path projected."));
         }
-
 
         private void button2_Click_1(object sender, EventArgs e)
         {
