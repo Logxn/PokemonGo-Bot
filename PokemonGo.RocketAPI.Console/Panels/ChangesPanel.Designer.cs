@@ -1205,11 +1205,10 @@ namespace PokemonGo.RocketAPI.Console
             0,
             0,
             0});
-		    this.numMinIVSave.ValueChanged += new System.EventHandler(this.NumericUpDown_DoubleValueChanged);
+		    this.numMinIVSave.ValueChanged += new System.EventHandler(this.NumericUpDown_IntValueChanged);
 		    // 
 		    // buttonSelectLocationFile
 		    // 
-		    this.buttonSelectLocationFile.Enabled = false;
 		    this.buttonSelectLocationFile.Location = new System.Drawing.Point(341, 44);
 		    this.buttonSelectLocationFile.Name = "buttonSelectLocationFile";
 		    this.buttonSelectLocationFile.Size = new System.Drawing.Size(24, 24);
@@ -1219,7 +1218,6 @@ namespace PokemonGo.RocketAPI.Console
 		    // 
 		    // textBoxSaveLocationsFile
 		    // 
-		    this.textBoxSaveLocationsFile.Enabled = false;
 		    this.textBoxSaveLocationsFile.Location = new System.Drawing.Point(15, 48);
 		    this.textBoxSaveLocationsFile.Name = "textBoxSaveLocationsFile";
 		    this.textBoxSaveLocationsFile.Size = new System.Drawing.Size(320, 20);

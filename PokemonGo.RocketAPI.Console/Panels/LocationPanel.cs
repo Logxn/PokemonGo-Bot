@@ -433,29 +433,6 @@ namespace PokemonGo.RocketAPI.Console
             }));
         }
 
-        private int GetLevel(long value)
-        {
-            if (value >= 50000)
-                return 10;
-            if (value >= 40000)
-                return 9;
-            if (value >= 30000)
-                return 8;
-            if (value >= 20000)
-                return 7;
-            if (value >= 16000)
-                return 6;
-            if (value >= 12000)
-                return 5;
-            if (value >= 8000)
-                return 4;
-            if (value >= 4000)
-                return 3;
-            if (value >= 2000)
-                return 2;
-            return 1;
-        }
-
         private void InfoObservable_HandleUpdatePokeGym(FortData pokeGym)
         {
             Invoke(new MethodInvoker(() => {
@@ -476,8 +453,10 @@ namespace PokemonGo.RocketAPI.Console
                     color = Color.Yellow;
                     break;
             }
+            var level = Logic.Functions.GymsLogic.GetGymLevel(pokeGym.GymPoints);
+            var nextLevel =  Logic.Functions.GymsLogic.GetLevelPoints(level+1);
 
-            var str = string.Format("Level:{0} ({1})", GetLevel(pokeGym.GymPoints), pokeGym.GymPoints);
+            var str = string.Format("Level:{0} ({1}/{2})",level, pokeGym.GymPoints,nextLevel);
             var pokeGymMaker = new GMarkerGoogle(new PointLatLng(pokeGym.Latitude, pokeGym.Longitude), bitmap);
             pokeGymMaker.ToolTipText = string.Format("{0}\n{1}, {2}\n{3}\nID: {4}", LocationUtils.FindAddress(pokeGym.Latitude, pokeGym.Longitude), pokeGym.Latitude, pokeGym.Longitude, str, pokeGym.Id);
             pokeGymMaker.ToolTip.Font = new System.Drawing.Font("Arial", 12, System.Drawing.GraphicsUnit.Pixel);

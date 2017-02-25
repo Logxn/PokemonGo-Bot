@@ -38,7 +38,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
         private static ConsoleColor gymColorLog = ConsoleColor.DarkGray;
         private static Random RandomNumbers = new Random();
 
-        private static int  GetGymLevel(long value)
+        public static int  GetGymLevel(long value)
         {
             if (value >= 50000)
                 return 10;
@@ -58,6 +58,29 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                 return 3;
             if (value >= 2000)
                 return 2;
+            return 1;
+        }
+
+        public static long  GetLevelPoints( int value)
+        {
+            if (value >= 10)
+                return 50000;
+            if (value >= 9)
+                return 40000;
+            if (value >= 8)
+                return 30000;
+            if (value >= 7)
+                return 20000;
+            if (value >= 6)
+                return 16000;
+            if (value >= 5)
+                return 12000;
+            if (value >= 4)
+                return 8000;
+            if (value >= 3)
+                return 4000;
+            if (value >= 2)
+                return 2000;
             return 1;
         }
 
@@ -232,8 +255,11 @@ namespace PokemonGo.RocketAPI.Logic.Functions
 
             var gymDetails = client.Fort.GetGymDetails(gym.Id, gym.Latitude, gym.Longitude);
             Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - Team: " + GetTeamName(gym.OwnedByTeam) + ".");
-            if (gymDetails.GymState.Memberships != null && gymDetails.GymState.Memberships.Count > 0)
-                Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - Members: " + gymDetails.GymState.Memberships.Count + ". Level: " + GetGymLevel(gym.GymPoints) + " (" + gym.GymPoints + ")");
+            if (gymDetails.GymState.Memberships != null && gymDetails.GymState.Memberships.Count > 0){
+                var level = GetGymLevel(gym.GymPoints);
+                var nextLevel = GetLevelPoints(level+1);
+                Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - Members: " + gymDetails.GymState.Memberships.Count + $". Level: {level} ( {gym.GymPoints }/{nextLevel})");
+            }
             Logger.Debug("(Gym) - Name: " + gymDetails.Name);
             Logger.Debug("(Gym) - Description: " + gymDetails.Description);
 
