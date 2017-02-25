@@ -78,6 +78,7 @@ namespace PokemonGo.RocketAPI.Console
                             }
                             if (selectedProfile != null)
                             {
+                                GlobalVars.ProfileName =selectedProfile.ProfileName;
                                 var filenameProf = Path.Combine(path, $"{selectedProfile.ProfileName}.json");
                                 selectedProfile.Settings = ProfileSettings.LoadFromFile(filenameProf);
                                 selectedProfile.Settings.SaveToGlobals();

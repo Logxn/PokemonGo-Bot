@@ -594,6 +594,7 @@ namespace PokemonGo.RocketAPI.Console
                 if (ActiveProfile.Settings.UsePwdEncryption)
                     ActiveProfile.Settings.Password = Encryption.Decrypt(ActiveProfile.Settings.Password);
 
+                GlobalVars.ProfileName = ActiveProfile.ProfileName;
                 GlobalVars.Assign(ActiveProfile.Settings);
 
                 Dispose();
