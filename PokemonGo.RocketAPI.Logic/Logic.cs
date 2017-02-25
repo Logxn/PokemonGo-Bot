@@ -230,7 +230,7 @@ namespace PokemonGo.RocketAPI.Logic
             {
                 Logger.Error("===============================================");
                 Logger.Error("Proxy enabled.");
-                Logger.Error($"ProxyIP: { BotSettings.proxySettings.username }:{BotSettings.proxySettings.password}");
+                Logger.Error($"ProxyIP: { BotSettings.proxySettings.hostName }:{BotSettings.proxySettings.port}");
                 Logger.Error("===============================================");
             }
 

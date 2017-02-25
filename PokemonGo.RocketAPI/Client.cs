@@ -121,7 +121,11 @@ namespace PokemonGo.RocketAPI
                 return null;
             try
             {
-                WebProxy p = new WebProxy(new System.Uri($"http://{proxyHost}:{proxyPort}"), false, null);
+                var proxyUri = $"http://{proxyHost}:{proxyPort}";
+                Logger.Debug("proxyUri: "+proxyUri);
+                Logger.Debug("proxyUsername: "+proxyUsername);
+                Logger.Debug("proxyPassword: ?"+proxyPassword.Substring(2,4)+"*");
+                var p = new WebProxy(new System.Uri(proxyUri), false, null);
 
                 if (proxyUsername!="")
                     p.Credentials = new NetworkCredential(proxyUsername, proxyPassword);

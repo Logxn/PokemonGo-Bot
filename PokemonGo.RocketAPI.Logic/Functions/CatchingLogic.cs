@@ -289,13 +289,6 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                 var probability = encounterPokemonResponse?.CaptureProbability?.CaptureProbability_?.FirstOrDefault();
                 var probability100 =  Math.Round(probability.Value * 100);
 
-                var escaped = false;
-                var berryOutOfStock = false;
-
-                var pinapsOutOfStock = false;
-                var nanabsOutOfStock = false;
-
-                var usedNanabs = false;
                 Logger.ColoredConsoleWrite(ConsoleColor.Magenta, $"Encountered {pokeid} CP {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} IV {strIVPerfection}% Probability {probability100}%");
                 if (encounterPokemonResponse.WildPokemon.PokemonData != null)
                     SaveLocations(encounterPokemonResponse.WildPokemon, iv, probability100);
@@ -304,7 +297,8 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                     encounterPokemonResponse.WildPokemon.PokemonData.Cp > GlobalVars.MinCPtoCatch &&
                     iv > GlobalVars.MinIVtoCatch)
                 {
-                    var used = false;
+                    var usedBerry = false;
+                    var escaped = false;
                     CatchPokemonResponse caughtPokemonResponse;
 
                     do
@@ -322,57 +316,42 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                         }
 
 
-                        if (((probability.Value < GlobalVars.razzberry_chance) || escaped) && GlobalVars.UseRazzBerry && !used)
+                        if (GlobalVars.UseRazzBerry &&  !usedBerry && ( probability.Value < GlobalVars.razzberry_chance ))
                         {
-                            var bestBerry = GetBestBerry(encounterPokemonResponse?.WildPokemon);
-                            if (bestBerry != ItemId.ItemUnknown)
+                            var inventory = client.Inventory.GetItems();
+                            var berries = inventory.Where(p => p.ItemId == ItemId.ItemRazzBerry);
+                            var berry = berries.FirstOrDefault();
+                            if (berry != null || berry.Count > 0)
                             {
-                                var berriesInInventory = inventoryBerries as IList<ItemData> ?? inventoryBerries.ToList();
-                                var berryList = inventoryBerries as IList<ItemData> ?? berriesInInventory.ToList();
-                                var berries = berryList.FirstOrDefault(p => p.ItemId == bestBerry);
-                                var remaining = berries.Count - 1;
-
-                                if (berries.Count <= 0) berryOutOfStock = true;
-
-                                if (!berryOutOfStock)
-                                {
-                                    //Throw berry
-                                    var useRaspberry = client.Encounter.UseItemEncounter(encounterId, bestBerry, spawnpointId);
-                                    used = true;
-
-                                    Logger.Info( $"Thrown {bestBerry}. Remaining: {remaining}.");
-
-                                    RandomHelper.RandomSleep(50, 200);
+                                //Throw berry
+                                var useRaspberry = client.Encounter.UseItemEncounter(encounterId, ItemId.ItemRazzBerry, spawnpointId);
+                                if (useRaspberry.Status ==UseItemEncounterResponse.Types.Status.Success){
+                                    var remaining = berry.Count - 1;
+                                    Logger.Info($"We used a Razz Berry. Remaining: {remaining}.");
+                                    usedBerry = true;
                                 }
                                 else
-                                {
-                                    escaped = true;
-                                    used = true;
-                                }
-                            }
-                            else
-                            {
-                                escaped = true;
-                                used = true;
+                                    Logger.Info("Status: "+ useRaspberry.Status);
+
+                                RandomHelper.RandomSleep(250);
                             }
                         }
 
-                        if (GlobalVars.UsePinapBerry)
+                        if (GlobalVars.UsePinapBerry && !usedBerry )
                         {
                             try {
-                                var inventory = client.Inventory.GetItems(true);
+                                var inventory = client.Inventory.GetItems();
                                 var pinaps = inventory.Where(p => p.ItemId == ItemId.ItemPinapBerry);
                                 var pinap = pinaps.FirstOrDefault();
-                                if (pinap == null || pinap.Count < 1)
-                                    pinapsOutOfStock = true;
 
-                                if (!pinapsOutOfStock)
+                                if (pinap != null || pinap.Count > 0)
                                 {
                                     // Use a pinap 
                                     var res = client.Encounter.UseItemEncounter(encounterId, ItemId.ItemPinapBerry, spawnpointId);
                                     if (res.Status ==UseItemEncounterResponse.Types.Status.Success){
-                                        var remaining = pinaps.Count() - 1;
+                                        var remaining = pinap.Count - 1;
                                         Logger.Info($"We used a Pinap Berry. Remaining: {remaining}.");
+                                        usedBerry = true;
                                     }
                                     else
                                         Logger.Info("Status: "+ res.Status);
@@ -385,24 +364,22 @@ namespace PokemonGo.RocketAPI.Logic.Functions
 
                         var r = new Random();
 
-                        if(GlobalVars.UseNanabBerry && !usedNanabs )
+                        if(GlobalVars.UseNanabBerry && !usedBerry )
                         {
                             try {
                                 var reallyUseIt =  (r.Next(0,GlobalVars.NanabPercent)!=0);
                                 if (GlobalVars.NanabPercent == 100 || reallyUseIt){
-                                    var inventory = client.Inventory.GetItems(true);
+                                    var inventory = client.Inventory.GetItems();
                                     var nanabs = inventory.Where(p => p.ItemId == ItemId.ItemNanabBerry);
                                     var nanab = nanabs.FirstOrDefault();
 
-                                    if (nanab == null || nanab.Count < 1)
-                                        nanabsOutOfStock = true;
-
-                                    if(!nanabsOutOfStock)
+                                    if (nanab != null || nanab.Count > 0)
                                     {
                                         var res = client.Encounter.UseItemEncounter(encounterId, ItemId.ItemNanabBerry, spawnpointId);
                                         if (res.Status ==UseItemEncounterResponse.Types.Status.Success){
-                                            var remaining = nanabs.Count() - 1;
+                                            var remaining = nanab.Count - 1;
                                             Logger.Info($"We used a Nabab Berry. Remaining: {remaining}.");
+                                            usedBerry = true;
                                         }
                                         else
                                             Logger.Info("Status: "+ res.Status);
@@ -463,15 +440,16 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                         {
                             Logger.ColoredConsoleWrite(ConsoleColor.Magenta, $"Missed { pokeid} while using {bestPokeball}");
                             missCount++;
-                            RandomHelper.RandomSleep(1500, 6000);
+                            RandomHelper.RandomSleep(1500, 3000);
                         }
                         else if (caughtPokemonResponse.Status == CatchPokemonResponse.Types.CatchStatus.CatchEscape)
                         {
                             Logger.ColoredConsoleWrite(ConsoleColor.Magenta, $"{pokeid} escaped while using {bestPokeball}");
+                            usedBerry = false;
                             escaped = true;
                             //reset forceHit in case we randomly triggered on last throw.
                             forceHit = false;
-                            RandomHelper.RandomSleep(1500, 6000);
+                            RandomHelper.RandomSleep(1500, 3000);
                         }
                         // Update the best ball to ensure we can still throw
                         bestPokeball = GetBestBall(encounterPokemonResponse?.WildPokemon, escaped);
@@ -763,6 +741,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
             #endregion
         }
 
+        // TODO: can be used in a future api that have different berries to decrease capture probability
         private static ItemId GetBestBerry(WildPokemon pokemon)
         {
             var pokemonCp = pokemon?.PokemonData?.Cp;

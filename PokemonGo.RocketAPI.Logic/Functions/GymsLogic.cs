@@ -438,7 +438,18 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                         }
                     }
 
-                    lastRetrievedAction = new BattleAction(); //attResp.BattleLog.BattleActions.FirstOrDefault();
+                    switch (GlobalVars.Gyms.Testing) {
+                        case "Empty Action":
+                            lastRetrievedAction = new BattleAction();
+                            break;
+                        case "First Action":
+                            lastRetrievedAction = attResp.BattleLog.BattleActions.FirstOrDefault(x => x.ActivePokemonId != attResp.ActiveAttacker.PokemonData.Id); //new BattleAction();
+                            break;
+                        default:
+                            lastRetrievedAction = attResp.BattleLog.BattleActions.LastOrDefault(x => x.ActivePokemonId != attResp.ActiveAttacker.PokemonData.Id); //new BattleAction();
+                            break;
+                    }
+
                     var str = string.Join(",", battleActions);
                     Logger.Debug("(Gym) - battleActions: " + str);
                     attResp = client.Fort.AttackGym(gym.Id, resp.BattleId, battleActions, lastRetrievedAction);
@@ -563,17 +574,17 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                     
                 if (startFailed) {
                     RandomHelper.RandomSleep(5000);
-                    if (GlobalVars.Gyms.Testing == "1"){
+                    if (GlobalVars.Gyms.Testing == "Start Gym Battle"){
                         resp = client.Fort.StartGymBattle(gymId, 0, attackingPokemonIds);
                         RandomHelper.RandomSleep(2000);
-                    }else if (GlobalVars.Gyms.Testing == "2" || GlobalVars.Gyms.Testing == ""){
+                    }else if (GlobalVars.Gyms.Testing == "Fire Request Block Two" || GlobalVars.Gyms.Testing == ""){
                         client.Login.FireRequestBlockTwo().Wait();
                         RandomHelper.RandomSleep(2000);
-                    }else if (GlobalVars.Gyms.Testing == "3"){
+                    }else if (GlobalVars.Gyms.Testing == "Get Map Objects"){
                         RandomHelper.RandomSleep(2000);
                         var gmo = client.Map.GetMapObjects().Result;
                         RandomHelper.RandomSleep(7000);
-                    }else if (GlobalVars.Gyms.Testing == "4"){
+                    }else if (GlobalVars.Gyms.Testing == "GMO,SGB,GMO"){
                         client.CurrentLatitude = client.CurrentLatitude + deltaValue;
                         RandomHelper.RandomSleep(7000);
                         var gmo = client.Map.GetMapObjects().Result;

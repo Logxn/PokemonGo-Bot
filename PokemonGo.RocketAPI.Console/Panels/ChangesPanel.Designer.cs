@@ -85,7 +85,7 @@ namespace PokemonGo.RocketAPI.Console
 		private System.Windows.Forms.Label labelTraining;
 		private System.Windows.Forms.NumericUpDown numMaxTrainingXP;
 		private System.Windows.Forms.Label label1;
-		private System.Windows.Forms.TextBox textBoxTesting;
+		private System.Windows.Forms.ComboBox textBoxTesting;
 		private System.Windows.Forms.TabPage tabPageMisc;
 		private System.Windows.Forms.GroupBox groupBox4;
 		private System.Windows.Forms.Label label13;
@@ -172,7 +172,7 @@ namespace PokemonGo.RocketAPI.Console
 		    this.labelLanguage = new System.Windows.Forms.Label();
 		    this.groupBoxGym = new System.Windows.Forms.GroupBox();
 		    this.label1 = new System.Windows.Forms.Label();
-		    this.textBoxTesting = new System.Windows.Forms.TextBox();
+		    this.textBoxTesting = new System.Windows.Forms.ComboBox();
 		    this.labelTraining = new System.Windows.Forms.Label();
 		    this.numMaxTrainingXP = new System.Windows.Forms.NumericUpDown();
 		    this.label34 = new System.Windows.Forms.Label();
@@ -990,9 +990,13 @@ namespace PokemonGo.RocketAPI.Console
 		    // 
 		    // textBoxTesting
 		    // 
+            this.textBoxTesting.Items.AddRange(new object[] {
+                "Start Gym Battle", "Fire Request Block Two", "Get Map Objects"
+                    , "GMO,SGB,GMO", "Empty Action", "First Action"
+            });
 		    this.textBoxTesting.Location = new System.Drawing.Point(415, 145);
 		    this.textBoxTesting.Name = "textBoxTesting";
-		    this.textBoxTesting.Size = new System.Drawing.Size(228, 20);
+		    this.textBoxTesting.Size = new System.Drawing.Size(228, 21);
 		    this.textBoxTesting.TabIndex = 104;
 		    this.textBoxTesting.TextChanged += new System.EventHandler(this.textBoxTesting_TextChanged);
 		    // 
