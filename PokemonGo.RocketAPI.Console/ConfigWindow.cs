@@ -140,7 +140,6 @@ namespace PokemonGo.RocketAPI.Console
                         evolveIDS[pokemon.ToString()] = ev;
                         ev++;
                     }
-                    checkedListBox_NotToSnipe.Items.Add(th.TS(pokemon.ToString()));
                     i++;
                 }
             }
@@ -332,12 +331,6 @@ namespace PokemonGo.RocketAPI.Console
                     checkedListBox_PokemonToEvolve.SetItemChecked(evolveIDS[_id] - 1, true);
                 }
     
-            if (config.NotToSnipe != null)
-                foreach (PokemonId Id in config.NotToSnipe)
-                {
-                    string _id = Id.ToString();
-                    checkedListBox_NotToSnipe.SetItemChecked(pokeIDS[_id] - 1, true);
-                }
     
             checkBox_AutoTransferDoublePokemon.Checked = config.TransferDoublePokemons;
             checkBox_TransferFirstLowIV.Checked = config.TransferFirstLowIV;
@@ -743,10 +736,6 @@ namespace PokemonGo.RocketAPI.Console
             {
                 ActiveProfile.Settings.pokemonsToEvolve.Add((PokemonId)Enum.Parse(typeof(PokemonId), th.RS(pokemon)));
             }
-            foreach (string pokemon in checkedListBox_NotToSnipe.CheckedItems)
-            {
-                ActiveProfile.Settings.NotToSnipe.Add((PokemonId)Enum.Parse(typeof(PokemonId), th.RS(pokemon)));
-            }
             ActiveProfile.Settings.UseSpritesFolder = checkBox_UseSpritesFolder.Checked;
             ActiveProfile.Settings.ShowPokemons = checkBox_ShowPokemons.Checked;
             ActiveProfile.Settings.EvolveAt = (int) nud_EvolveAt.Value;
@@ -1071,15 +1060,6 @@ namespace PokemonGo.RocketAPI.Console
             }
         }
 
-        private void SelectallNottoSnipe_CheckedChanged(object sender, EventArgs e)
-        {
-            int i = 0;
-            while (i < checkedListBox_NotToSnipe.Items.Count)
-            {
-                checkedListBox_NotToSnipe.SetItemChecked(i, SelectallNottoSnipe.Checked);
-                i++;
-            }
-        }
 
         #endregion
 
@@ -1225,7 +1205,7 @@ namespace PokemonGo.RocketAPI.Console
 
         private void linkLabel5_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            Process.Start("http://proxylist.hidemyass.com/search-1297445#listable");
+            Process.Start("http://proxylist.hidemyass.com");
         }
 
 

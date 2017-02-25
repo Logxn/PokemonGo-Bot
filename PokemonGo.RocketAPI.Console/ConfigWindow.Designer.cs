@@ -279,18 +279,15 @@ namespace PokemonGo.RocketAPI.Console
             this.label13 = new System.Windows.Forms.Label();
             this.numMinIVSave = new System.Windows.Forms.NumericUpDown();
             this.buttonSelectLocationFile = new System.Windows.Forms.Button();
+            this.AvoidRegionLock = new System.Windows.Forms.CheckBox();
             this.textBoxSaveLocationsFile = new System.Windows.Forms.TextBox();
+            this.SnipePokemonPokeCom = new System.Windows.Forms.CheckBox();
             this.checkBoxSaveLocations = new System.Windows.Forms.CheckBox();
             this.buttonTutorial = new System.Windows.Forms.Button();
             this.groupBox25 = new System.Windows.Forms.GroupBox();
             this.checkBoxExtractText = new System.Windows.Forms.CheckBox();
             this.checkBoxStoreUntranslated = new System.Windows.Forms.CheckBox();
             this.checkbox_Verboselogging = new System.Windows.Forms.CheckBox();
-            this.groupBox23 = new System.Windows.Forms.GroupBox();
-            this.SelectallNottoSnipe = new System.Windows.Forms.CheckBox();
-            this.checkedListBox_NotToSnipe = new System.Windows.Forms.CheckedListBox();
-            this.AvoidRegionLock = new System.Windows.Forms.CheckBox();
-            this.SnipePokemonPokeCom = new System.Windows.Forms.CheckBox();
             this.groupBox17 = new System.Windows.Forms.GroupBox();
             this.label61 = new System.Windows.Forms.Label();
             this.label62 = new System.Windows.Forms.Label();
@@ -428,7 +425,6 @@ namespace PokemonGo.RocketAPI.Console
             this.groupBox4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numMinIVSave)).BeginInit();
             this.groupBox25.SuspendLayout();
-            this.groupBox23.SuspendLayout();
             this.groupBox17.SuspendLayout();
             this.groupBox14.SuspendLayout();
             this.tabUpdates.SuspendLayout();
@@ -530,10 +526,10 @@ namespace PokemonGo.RocketAPI.Console
             this.linkLabel5.AutoSize = true;
             this.linkLabel5.Location = new System.Drawing.Point(253, 346);
             this.linkLabel5.Name = "linkLabel5";
-            this.linkLabel5.Size = new System.Drawing.Size(103, 13);
+            this.linkLabel5.Size = new System.Drawing.Size(119, 13);
             this.linkLabel5.TabIndex = 12;
             this.linkLabel5.TabStop = true;
-            this.linkLabel5.Text = "Https Proxy List Link";
+            this.linkLabel5.Text = "proxylist.hidemyass.com";
             this.linkLabel5.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel5_LinkClicked);
             // 
             // label35
@@ -3417,9 +3413,6 @@ namespace PokemonGo.RocketAPI.Console
             this.tabMisc.Controls.Add(this.groupBox4);
             this.tabMisc.Controls.Add(this.buttonTutorial);
             this.tabMisc.Controls.Add(this.groupBox25);
-            this.tabMisc.Controls.Add(this.groupBox23);
-            this.tabMisc.Controls.Add(this.AvoidRegionLock);
-            this.tabMisc.Controls.Add(this.SnipePokemonPokeCom);
             this.tabMisc.Controls.Add(this.groupBox17);
             this.tabMisc.Controls.Add(this.groupBox14);
             this.tabMisc.Location = new System.Drawing.Point(4, 22);
@@ -3436,14 +3429,16 @@ namespace PokemonGo.RocketAPI.Console
             this.groupBox4.Controls.Add(this.label13);
             this.groupBox4.Controls.Add(this.numMinIVSave);
             this.groupBox4.Controls.Add(this.buttonSelectLocationFile);
+            this.groupBox4.Controls.Add(this.AvoidRegionLock);
             this.groupBox4.Controls.Add(this.textBoxSaveLocationsFile);
+            this.groupBox4.Controls.Add(this.SnipePokemonPokeCom);
             this.groupBox4.Controls.Add(this.checkBoxSaveLocations);
             this.groupBox4.Location = new System.Drawing.Point(271, 126);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(371, 79);
+            this.groupBox4.Size = new System.Drawing.Size(371, 126);
             this.groupBox4.TabIndex = 73;
             this.groupBox4.TabStop = false;
-            this.groupBox4.Text = "Sharing Locations";
+            this.groupBox4.Text = "Sniping Settings";
             // 
             // label13
             // 
@@ -3479,6 +3474,18 @@ namespace PokemonGo.RocketAPI.Console
             this.buttonSelectLocationFile.UseVisualStyleBackColor = true;
             this.buttonSelectLocationFile.Click += new System.EventHandler(this.buttonSelectLocationFile_Click);
             // 
+            // AvoidRegionLock
+            // 
+            this.AvoidRegionLock.AutoSize = true;
+            this.AvoidRegionLock.Checked = true;
+            this.AvoidRegionLock.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.AvoidRegionLock.Location = new System.Drawing.Point(15, 102);
+            this.AvoidRegionLock.Name = "AvoidRegionLock";
+            this.AvoidRegionLock.Size = new System.Drawing.Size(177, 17);
+            this.AvoidRegionLock.TabIndex = 69;
+            this.AvoidRegionLock.Text = "Avoid Region Locked Pokemon";
+            this.AvoidRegionLock.UseVisualStyleBackColor = true;
+            // 
             // textBoxSaveLocationsFile
             // 
             this.textBoxSaveLocationsFile.Enabled = false;
@@ -3486,6 +3493,17 @@ namespace PokemonGo.RocketAPI.Console
             this.textBoxSaveLocationsFile.Name = "textBoxSaveLocationsFile";
             this.textBoxSaveLocationsFile.Size = new System.Drawing.Size(320, 20);
             this.textBoxSaveLocationsFile.TabIndex = 65;
+            // 
+            // SnipePokemonPokeCom
+            // 
+            this.SnipePokemonPokeCom.AutoSize = true;
+            this.SnipePokemonPokeCom.Enabled = false;
+            this.SnipePokemonPokeCom.Location = new System.Drawing.Point(15, 79);
+            this.SnipePokemonPokeCom.Name = "SnipePokemonPokeCom";
+            this.SnipePokemonPokeCom.Size = new System.Drawing.Size(145, 17);
+            this.SnipePokemonPokeCom.TabIndex = 69;
+            this.SnipePokemonPokeCom.Text = "Enable Pokemon Sniping";
+            this.SnipePokemonPokeCom.UseVisualStyleBackColor = true;
             // 
             // checkBoxSaveLocations
             // 
@@ -3500,7 +3518,7 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // buttonTutorial
             // 
-            this.buttonTutorial.Location = new System.Drawing.Point(305, 357);
+            this.buttonTutorial.Location = new System.Drawing.Point(361, 354);
             this.buttonTutorial.Name = "buttonTutorial";
             this.buttonTutorial.Size = new System.Drawing.Size(281, 23);
             this.buttonTutorial.TabIndex = 72;
@@ -3513,9 +3531,9 @@ namespace PokemonGo.RocketAPI.Console
             this.groupBox25.Controls.Add(this.checkBoxExtractText);
             this.groupBox25.Controls.Add(this.checkBoxStoreUntranslated);
             this.groupBox25.Controls.Add(this.checkbox_Verboselogging);
-            this.groupBox25.Location = new System.Drawing.Point(263, 264);
+            this.groupBox25.Location = new System.Drawing.Point(24, 126);
             this.groupBox25.Name = "groupBox25";
-            this.groupBox25.Size = new System.Drawing.Size(373, 87);
+            this.groupBox25.Size = new System.Drawing.Size(225, 126);
             this.groupBox25.TabIndex = 71;
             this.groupBox25.TabStop = false;
             this.groupBox25.Text = "Dev Options";
@@ -3551,61 +3569,6 @@ namespace PokemonGo.RocketAPI.Console
             this.checkbox_Verboselogging.TabIndex = 0;
             this.checkbox_Verboselogging.Text = "Enable Verbose Logging";
             this.checkbox_Verboselogging.UseVisualStyleBackColor = true;
-            // 
-            // groupBox23
-            // 
-            this.groupBox23.Controls.Add(this.SelectallNottoSnipe);
-            this.groupBox23.Controls.Add(this.checkedListBox_NotToSnipe);
-            this.groupBox23.Location = new System.Drawing.Point(25, 126);
-            this.groupBox23.Name = "groupBox23";
-            this.groupBox23.Size = new System.Drawing.Size(224, 254);
-            this.groupBox23.TabIndex = 70;
-            this.groupBox23.TabStop = false;
-            this.groupBox23.Text = "Pokemon - Not to Snipe";
-            // 
-            // SelectallNottoSnipe
-            // 
-            this.SelectallNottoSnipe.AutoSize = true;
-            this.SelectallNottoSnipe.Location = new System.Drawing.Point(9, 224);
-            this.SelectallNottoSnipe.Name = "SelectallNottoSnipe";
-            this.SelectallNottoSnipe.Size = new System.Drawing.Size(69, 17);
-            this.SelectallNottoSnipe.TabIndex = 32;
-            this.SelectallNottoSnipe.Text = "Select all";
-            this.SelectallNottoSnipe.UseVisualStyleBackColor = true;
-            this.SelectallNottoSnipe.CheckedChanged += new System.EventHandler(this.SelectallNottoSnipe_CheckedChanged);
-            // 
-            // checkedListBox_NotToSnipe
-            // 
-            this.checkedListBox_NotToSnipe.CheckOnClick = true;
-            this.checkedListBox_NotToSnipe.FormattingEnabled = true;
-            this.checkedListBox_NotToSnipe.Location = new System.Drawing.Point(6, 20);
-            this.checkedListBox_NotToSnipe.Name = "checkedListBox_NotToSnipe";
-            this.checkedListBox_NotToSnipe.ScrollAlwaysVisible = true;
-            this.checkedListBox_NotToSnipe.Size = new System.Drawing.Size(212, 184);
-            this.checkedListBox_NotToSnipe.TabIndex = 0;
-            // 
-            // AvoidRegionLock
-            // 
-            this.AvoidRegionLock.AutoSize = true;
-            this.AvoidRegionLock.Checked = true;
-            this.AvoidRegionLock.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.AvoidRegionLock.Location = new System.Drawing.Point(271, 237);
-            this.AvoidRegionLock.Name = "AvoidRegionLock";
-            this.AvoidRegionLock.Size = new System.Drawing.Size(177, 17);
-            this.AvoidRegionLock.TabIndex = 69;
-            this.AvoidRegionLock.Text = "Avoid Region Locked Pokemon";
-            this.AvoidRegionLock.UseVisualStyleBackColor = true;
-            // 
-            // SnipePokemonPokeCom
-            // 
-            this.SnipePokemonPokeCom.AutoSize = true;
-            this.SnipePokemonPokeCom.Enabled = false;
-            this.SnipePokemonPokeCom.Location = new System.Drawing.Point(271, 214);
-            this.SnipePokemonPokeCom.Name = "SnipePokemonPokeCom";
-            this.SnipePokemonPokeCom.Size = new System.Drawing.Size(145, 17);
-            this.SnipePokemonPokeCom.TabIndex = 69;
-            this.SnipePokemonPokeCom.Text = "Enable Pokemon Sniping";
-            this.SnipePokemonPokeCom.UseVisualStyleBackColor = true;
             // 
             // groupBox17
             // 
@@ -4290,14 +4253,11 @@ namespace PokemonGo.RocketAPI.Console
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMaxAttacks)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudNumDefenders)).EndInit();
             this.tabMisc.ResumeLayout(false);
-            this.tabMisc.PerformLayout();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numMinIVSave)).EndInit();
             this.groupBox25.ResumeLayout(false);
             this.groupBox25.PerformLayout();
-            this.groupBox23.ResumeLayout(false);
-            this.groupBox23.PerformLayout();
             this.groupBox17.ResumeLayout(false);
             this.groupBox17.PerformLayout();
             this.groupBox14.ResumeLayout(false);
@@ -4508,9 +4468,6 @@ namespace PokemonGo.RocketAPI.Console
         private System.Windows.Forms.TextBox MinIVtoCatch;
         private System.Windows.Forms.Label label54;
         private System.Windows.Forms.CheckBox AvoidRegionLock;
-        private System.Windows.Forms.GroupBox groupBox23;
-        private System.Windows.Forms.CheckBox SelectallNottoSnipe;
-        private System.Windows.Forms.CheckedListBox checkedListBox_NotToSnipe;
         private System.Windows.Forms.Label label55;
         private System.Windows.Forms.CheckBox CB_SimulatePGO;
         private System.Windows.Forms.CheckBox NextBestBallOnEscape;

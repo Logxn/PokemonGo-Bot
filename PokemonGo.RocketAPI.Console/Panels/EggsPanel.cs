@@ -58,7 +58,7 @@ namespace PokemonGo.RocketAPI.Console
 	              	               	               
                     listView.Items.Clear();
 	               
-                    ListViewItem listViewItem;	               
+                    ListViewItem listViewItem;
                     foreach (var item in items) {
                         listViewItem = new ListViewItem();
                         listViewItem.Tag = item;

@@ -37,24 +37,6 @@ namespace PokemonGo.RocketAPI.Console
         public static string EvolveLog = Path.Combine(logPath, "EvolveLog.txt");
         public static string path_pokedata = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "PokeData");       
 
-        static void SharePokesniperURI(string uri)
-        {
-            try 
-            {
-                var filename = Path.GetTempPath()+"pokesniper";
-                if (File.Exists(filename)){
-                    MessageBox.Show("There is a pending pokemon.\nTry latter");
-                }
-                var stream = new FileStream(filename,FileMode.OpenOrCreate);
-                var writer = new BinaryWriter(stream,new UTF8Encoding());
-                writer.Write(uri);
-                stream.Close();
-            } 
-            catch (Exception e) 
-            {
-                MessageBox.Show(e.ToString());
-            }
-        }
         [STAThread]
         static void Main(string[] args)
         {
@@ -71,7 +53,7 @@ namespace PokemonGo.RocketAPI.Console
                     if (args[0].Contains("pokesniper2") || args[0].Contains("msniper"))
                     {
                         // If yes, We create a temporary file to share with main process, and close.
-                        SharePokesniperURI(args[0]);
+                        SniperPanel.SharePokesniperURI(args[0]);
                         return;
                     }
 

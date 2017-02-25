@@ -12,6 +12,7 @@ using System.Globalization;
 using System.IO;
 using System.Threading.Tasks;
 using POGOProtos.Data;
+using POGOProtos.Data.Capture;
 using POGOProtos.Enums;
 using POGOProtos.Inventory.Item;
 using POGOProtos.Map.Pokemon;
@@ -286,6 +287,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
 
                 var inventoryBerries = client.Inventory.GetItems(true);
                 var probability = encounterPokemonResponse?.CaptureProbability?.CaptureProbability_?.FirstOrDefault();
+                var probability100 =  Math.Round(probability.Value * 100);
 
                 var escaped = false;
                 var berryOutOfStock = false;
@@ -294,9 +296,9 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                 var nanabsOutOfStock = false;
 
                 var usedNanabs = false;
-                Logger.ColoredConsoleWrite(ConsoleColor.Magenta, $"Encountered {pokeid} CP {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} IV {strIVPerfection}% Probability {Math.Round(probability.Value * 100)}%");
+                Logger.ColoredConsoleWrite(ConsoleColor.Magenta, $"Encountered {pokeid} CP {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} IV {strIVPerfection}% Probability {probability100}%");
                 if (encounterPokemonResponse.WildPokemon.PokemonData != null)
-                    SaveLocations(encounterPokemonResponse.WildPokemon, iv);
+                    SaveLocations(encounterPokemonResponse.WildPokemon, iv, probability100);
 
                 if (encounterPokemonResponse.WildPokemon.PokemonData != null &&
                     encounterPokemonResponse.WildPokemon.PokemonData.Cp > GlobalVars.MinCPtoCatch &&
@@ -848,18 +850,44 @@ namespace PokemonGo.RocketAPI.Logic.Functions
             infoObservable.PushNewPokemonLocations(pokeData);
         }
         
-        public static void SaveLocations(WildPokemon pokemon, double iv){
+        public static void SaveLocations(WildPokemon pokemon, double iv, double probability){
             if (GlobalVars.SaveLocations){
                 if (iv >= GlobalVars.MinIVSave){
                     var strIV = iv.ToString("0.00");
-                    var date = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss");
-                    var expriationTime = StringUtils.TimeMStoString(pokemon.LastModifiedTimestampMs, @"mm\:ss");
-                    var Latitude = pokemon.Latitude.ToString(CultureInfo.InvariantCulture);
-                    var Longitude = pokemon.Longitude.ToString(CultureInfo.InvariantCulture);
-                    var line = $"{date}|{expriationTime}|{strIV}|pokesniper2://{pokemon.PokemonData.PokemonId}/{Latitude},{Longitude}";
-                    File.AppendAllLines(GlobalVars.SaveLocationsFile,new string[]{line});
+                    var id = pokemon.EncounterId;
+                    if (!ExistYet(id)){
+                        var date = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss");
+                        var LastModified = StringUtils.TimeMStoString(pokemon.LastModifiedTimestampMs, @"mm\:ss");
+                        var TillHidden = StringUtils.TimeMStoString(pokemon.TimeTillHiddenMs, @"mm\:ss");
+                        var name = GlobalVars.ProfileName;
+                        var Latitude = pokemon.Latitude.ToString(CultureInfo.InvariantCulture);
+                        var Longitude = pokemon.Longitude.ToString(CultureInfo.InvariantCulture);
+                        var line = $"{date}|{LastModified}|{id}|{name}|{TillHidden}|{probability}|{strIV}|pokesniper2://{pokemon.PokemonData.PokemonId}/{Latitude},{Longitude}";
+                        File.AppendAllLines(GlobalVars.SaveLocationsFile,new string[]{line});
+                    }
                 }
             }
+        }
+        public static bool ExistYet(ulong EncounterId)
+        {
+            var tries = 5;
+            do {
+                try {
+                    var lines = File.ReadAllLines(GlobalVars.SaveLocationsFile);
+                    foreach (var element in lines) {
+                        var id = 0UL;
+                        ulong.TryParse(element.Split('|')[0], out id);
+                        if (id == EncounterId)
+                            return true;
+                    }
+                    
+                } catch (Exception ex1) {
+                    Logger.Debug(ex1.ToString());
+                }
+                tries--;
+                RandomHelper.RandomSleep(150);
+            } while(tries < 0);
+            return false;
         }
 
     }
