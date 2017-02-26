@@ -664,7 +664,7 @@ namespace PokemonGo.RocketAPI.Console
                     var str = item.ToolTipText + "\n";
                     str += details.Name + "\n";
                     str +=  details.GymState.Memberships.Count+" Defenders: \n";
-                    str += Logic.Functions.GymsLogic.strPokemons(details.GymState.Memberships.Select(x => x.PokemonData)) +"\n";
+                    str += Logic.Functions.GymsLogic.strPokemons(details.GymState.Memberships.Select(x => x.PokemonData)) +"\n\n";
                     str += th.TS("Do you want copy location?");
                     if (MessageBox.Show(str, th.TS("Gym Details"), MessageBoxButtons.YesNo  ) == DialogResult.Yes){
                         Clipboard.SetText(item.Position.Lat.ToString(CultureInfo.InvariantCulture)  +","+ item.Position.Lng.ToString(CultureInfo.InvariantCulture));

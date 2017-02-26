@@ -1406,6 +1406,10 @@ namespace PokemonGo.RocketAPI.Console
                 textBoxSaveLocationsFile.Text = saveFileDialog1.FileName;
             }
         }
+        void linkLabelPokemaster_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+          Process.Start("https://pokemaster.me");
+        }
 
     }
 }

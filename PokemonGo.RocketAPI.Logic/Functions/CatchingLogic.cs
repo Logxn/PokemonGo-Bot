@@ -854,7 +854,9 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                     var lines = File.ReadAllLines(GlobalVars.SaveLocationsFile);
                     foreach (var element in lines) {
                         var id = 0UL;
-                        ulong.TryParse(element.Split('|')[0], out id);
+                        var values =element.Split('|');
+                        if (values.Length>2)
+                            ulong.TryParse(values[2], out id);
                         if (id == EncounterId)
                             return true;
                     }
