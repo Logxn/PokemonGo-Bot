@@ -90,7 +90,7 @@ namespace PokemonGo.RocketAPI.Console
         {
             var txt = th.TS("Items");
             if (Parent != null) {
-                txt += ": " + text_TotalItemCount.Text;
+                txt += ": " + lblCount.Text;
                 if (profile !=null)
                     txt += "/" + profile.PlayerData.MaxItemStorage;
             }
