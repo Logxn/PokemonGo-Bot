@@ -164,16 +164,19 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                 var date = DateTime.Now.ToString();
                 var evolvelog = Path.Combine(logPath, "EvolveLog.txt");
 
-                var getPokemonName = pokemon.PokemonId.ToString();
-                var cp = pokemon.Cp;
-                var calcPerf = PokemonInfo.CalculatePokemonPerfection(pokemon).ToString("0.00");
-                var getEvolvedName = StringUtils.getPokemonNameByLanguage( evolvePokemonOutProto.EvolvedPokemonData.PokemonId);
-                var getEvolvedCP = evolvePokemonOutProto.EvolvedPokemonData.Cp;
-                gotXP = gotXP + evolvePokemonOutProto.ExperienceAwarded;
+                
 
                 if (evolvePokemonOutProto.Result == EvolvePokemonResponse.Types.Result.Success)
+
                 {
-                    if(evolvecount == 0)
+                    var getPokemonName = pokemon.PokemonId.ToString();
+                    var cp = pokemon.Cp;
+                    var calcPerf = PokemonInfo.CalculatePokemonPerfection(pokemon).ToString("0.00");
+                    var getEvolvedName = StringUtils.getPokemonNameByLanguage(evolvePokemonOutProto.EvolvedPokemonData.PokemonId);
+                    var getEvolvedCP = evolvePokemonOutProto.EvolvedPokemonData.Cp;
+                    gotXP = gotXP + evolvePokemonOutProto.ExperienceAwarded;
+
+                    if (evolvecount == 0)
                         if (Shared.GlobalVars.pauseAtEvolve2)
                         {
                             Logger.Info("Stopping to evolve some Pokemons.");
@@ -186,11 +189,21 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                         File.AppendAllText(evolvelog, $"[{date}] - Evolved Pokemon: {getPokemonName} | CP {cp} | Perfection {calcPerf}% | => to {getEvolvedName} | CP: {getEvolvedCP} | XP Reward: {experienceAwarded} XP" + Environment.NewLine);
                     }
                     Logger.Info( $"Evolved Pokemon: {getPokemonName} | CP {cp} | Perfection {calcPerf}% | => to {getEvolvedName} | CP: {getEvolvedCP} | XP Reward: {experienceAwarded} XP");
+                    Logger.Info($"Waiting a few seconds... dont worry!");
                     Logic.Instance.BotStats.AddExperience(evolvePokemonOutProto.ExperienceAwarded);
 
                     if (Logic.Instance.Telegram != null)
                         Logic.Instance.Telegram.sendInformationText(TelegramUtil.TelegramUtilInformationTopics.Evolve, StringUtils.getPokemonNameByLanguage( pokemon.PokemonId), pokemon.Cp, PokemonInfo.CalculatePokemonPerfection(pokemon).ToString("0.00"), StringUtils.getPokemonNameByLanguage( evolvePokemonOutProto.EvolvedPokemonData.PokemonId), evolvePokemonOutProto.EvolvedPokemonData.Cp, evolvePokemonOutProto.ExperienceAwarded.ToString("N0"));
                     evolvecount++;
+
+                    if (Shared.GlobalVars.UseAnimationTimes)
+                    {
+                        RandomHelper.RandomSleep(30000, 35000);
+                    }
+                    else
+                    {
+                        RandomHelper.RandomSleep(500, 600);
+                    }
                 }
                 else
                 {
@@ -205,14 +218,6 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                     }
                 }
 
-                if (Shared.GlobalVars.UseAnimationTimes)
-                {
-                    RandomHelper.RandomSleep(30000, 35000);
-                }
-                else
-                {
-                    RandomHelper.RandomSleep(500, 600);
-                }
             }
             if(evolvecount > 0)
             {

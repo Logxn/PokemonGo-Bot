@@ -836,7 +836,19 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                         var Latitude = pokemon.Latitude.ToString(CultureInfo.InvariantCulture);
                         var Longitude = pokemon.Longitude.ToString(CultureInfo.InvariantCulture);
                         var line = $"{date}|{LastModified}|{id}|{name}|{TillHidden}|{probability}|{strIV}|pokesniper2://{pokemon.PokemonData.PokemonId}/{Latitude},{Longitude}";
-                        File.AppendAllLines(GlobalVars.SaveLocationsFile,new string[]{line});
+                        try
+                        {
+                            File.AppendAllLines(GlobalVars.SaveLocationsFile, new string[] { line });
+                        }
+                        catch(Exception)
+                        {
+                            Logger.Info("Hey pssst. If you get this message follow these steps:");
+                            Logger.Info("1. Open your Pokemonlist and go to the Tab 'Options'");
+                            Logger.Info("2. Select Misc");
+                            Logger.Info("3. Either you press the two dots and select a path...");
+                            Logger.Info("4. Or disable the feature...");
+                            Logger.Info("5. Dont forget to press Update Config.");
+                        }
                     }
                 }
             }

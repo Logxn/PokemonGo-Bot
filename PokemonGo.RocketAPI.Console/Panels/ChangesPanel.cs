@@ -233,6 +233,12 @@ namespace PokemonGo.RocketAPI.Console
 
         void buttonUpdateClick(object sender, EventArgs e)
         {
+            if(checkBoxSaveLocations.Checked && ( textBoxSaveLocationsFile.Text == "" || textBoxSaveLocationsFile.Text == null || string.IsNullOrWhiteSpace(textBoxSaveLocationsFile.Text)))
+            {
+                MessageBox.Show(th.TS("Attention: You did not select a path for 'SavePokemonsLocation'"), th.TS("Oh snap!"), MessageBoxButtons.OK, MessageBoxIcon.Hand);
+                textBoxSaveLocationsFile.BackColor = System.Drawing.Color.Red;
+                return;
+            }
             var botSettings = GlobalVars.GetSettings();
             var ConfigsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Configs");
             var filenameProf= Path.Combine(ConfigsPath, GlobalVars.ProfileName +".json" );

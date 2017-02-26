@@ -576,6 +576,12 @@ namespace PokemonGo.RocketAPI.Console
         {
             if (Save())
             {
+                if(checkBoxSaveLocations.Checked && (textBoxSaveLocationsFile.Text == "" || textBoxSaveLocationsFile.Text == null || string.IsNullOrWhiteSpace(textBoxSaveLocationsFile.Text)))
+                {
+                    MessageBox.Show(th.TS("Attention: You did not select a path for 'SavePokemonsLocation'"), th.TS("Oh snap!"), MessageBoxButtons.OK, MessageBoxIcon.Hand);
+                    textBoxSaveLocationsFile.BackColor = System.Drawing.Color.Red;
+                    return;
+                }
                 if (ActiveProfile.Settings.UseLastCords)
                     LoadLatestCoords();
 

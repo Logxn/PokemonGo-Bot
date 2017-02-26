@@ -454,6 +454,7 @@ namespace PokemonGo.RocketAPI.Console
             int gotXP = 0;
 
             
+            
             var resp = new EvolvePokemonResponse();
 
             if (GlobalVars.pauseAtEvolve2)
@@ -465,7 +466,6 @@ namespace PokemonGo.RocketAPI.Console
             foreach (ListViewItem selectedItem in selectedItems)
             {
                 var pokemoninfo = (PokemonData)selectedItem.Tag;
-
                 var item = Inventory.GeteNeededItemToEvolve(pokemoninfo.PokemonId);
 
                 if (item != ItemId.ItemUnknown && client.Inventory.GetItemAmountByType(item) < 1){
@@ -480,21 +480,28 @@ namespace PokemonGo.RocketAPI.Console
                 resp = client.Inventory.EvolvePokemon(pokemoninfo.Id, item);
 
 
-                var name = pokemoninfo.PokemonId;
-
-                var getPokemonName = StringUtils.getPokemonNameByLanguage(pokemoninfo.PokemonId);
-                var cp = pokemoninfo.Cp;
-                var calcPerf = PokemonInfo.CalculatePokemonPerfection(pokemoninfo).ToString("0.00");
-                var getEvolvedName = StringUtils.getPokemonNameByLanguage(resp.EvolvedPokemonData.PokemonId);
-                var getEvolvedCP = resp.EvolvedPokemonData.Cp;
-                gotXP = gotXP + resp.ExperienceAwarded;
-                var xpreward =resp.ExperienceAwarded.ToString("N0");
-                Logger.Info($"Evolved Pokemon: {getPokemonName} | CP {cp} | Perfection {calcPerf}% | => to {getEvolvedName} | CP: {getEvolvedCP} | XP Reward: {xpreward} XP");
+               
 
                 if (resp.Result == EvolvePokemonResponse.Types.Result.Success)
                 {
                     evolved++;
                     statusTexbox.Text = "Evolving..." + evolved;
+                    var name = pokemoninfo.PokemonId;
+
+                    var getPokemonName = StringUtils.getPokemonNameByLanguage(pokemoninfo.PokemonId);
+                    var cp = pokemoninfo.Cp;
+                    var calcPerf = PokemonInfo.CalculatePokemonPerfection(pokemoninfo).ToString("0.00");
+                    var getEvolvedName = th.TS(resp.EvolvedPokemonData.DisplayPokemonId.ToString());
+
+                    var getEvolvedCP = resp.EvolvedPokemonData.Cp;
+                    gotXP = gotXP + resp.ExperienceAwarded;
+                    var xpreward = resp.ExperienceAwarded.ToString("N0");
+                    Logger.Info($"Evolved Pokemon: {getPokemonName} | CP {cp} | Perfection {calcPerf}% | => to {getEvolvedName} | CP: {getEvolvedCP} | XP Reward: {xpreward} XP");
+                    Logger.Info($"Waiting a few seconds... dont worry!");
+                    if (GlobalVars.UseAnimationTimes)
+                    {
+                        Helpers.RandomHelper.RandomSleep(30000, 35000);
+                    }
                 }
                 else
                 {
@@ -502,10 +509,6 @@ namespace PokemonGo.RocketAPI.Console
                     failed += " {pokemoninfo.PokemonId} ";
                 }
 
-                if (GlobalVars.UseAnimationTimes)
-                {
-                    Helpers.RandomHelper.RandomSleep(30000, 35000);
-                }
             }
 
             PokemonListView.Refresh();
@@ -1017,5 +1020,7 @@ namespace PokemonGo.RocketAPI.Console
             }
             return strEvolves;
         }
+
+
     }
 }
