@@ -471,10 +471,15 @@ namespace PokemonGo.RocketAPI.Console
             _pokeGymsMarks.Add(pokeGym.Id, pokeGymMaker);
              _pokeGymsOverlay.Markers.Add(pokeGymMaker);
 
-            // Show Guard
+            #region Show Guard
+            if (_pokeGymsMarks.ContainsKey(pokeGym.Id + "-Guard")){
+                var markerToDel = _pokeGymsMarks[pokeGym.Id + "-Guard"];
+                if (_pokeGymsOverlay.Markers.Contains(markerToDel))
+                    _pokeGymsOverlay.Markers.Remove(markerToDel);
+                 _pokeGymsMarks.Remove(pokeGym.Id +"-Guard");
+            }
             GMarkerGoogle guardPokemonMarker;
             Bitmap pokebitMap = PokeImgManager.GetPokemonMediumImage(pokeGym.GuardPokemonId);
-                                
             var offsetY = 0;
             if (pokebitMap != null) {
                 for (int idx = 0; idx < pokebitMap.Width; idx++) {
@@ -488,20 +493,41 @@ namespace PokemonGo.RocketAPI.Console
                 var ImageSize = new System.Drawing.Size(pokebitMap.Width, pokebitMap.Height);
                 guardPokemonMarker = new GMarkerGoogle(new PointLatLng(pokeGym.Latitude, pokeGym.Longitude), pokebitMap);
                 offsetY = 5 - pokebitMap.Height / 2;
-            } else {
-                guardPokemonMarker = new GMarkerGoogle(new PointLatLng(pokeGym.Latitude, pokeGym.Longitude), GMarkerGoogleType.green_small);
+                guardPokemonMarker.Offset = new Point(-bitmap.Width / 2 - 8, offsetY - bitmap.Height);
 
+                _pokeGymsMarks.Add(pokeGym.Id + "-Guard", guardPokemonMarker);
+                _pokeGymsOverlay.Markers.Add(guardPokemonMarker);
             }
-            guardPokemonMarker.Offset = new Point(-bitmap.Width / 2 - 8, offsetY - bitmap.Height);
+            #endregion Show Guard
 
-            if (_pokeGymsMarks.ContainsKey(pokeGym.Id + "-" + pokeGym.GuardPokemonId)){
-                var markerToDel = _pokeGymsMarks[pokeGym.Id + "-" + pokeGym.GuardPokemonId];
+            #region Show fighting
+            if (_pokeGymsMarks.ContainsKey(pokeGym.Id + "-Fighting")){
+                var markerToDel = _pokeGymsMarks[pokeGym.Id + "-Fighting"];
                 if (_pokeGymsOverlay.Markers.Contains(markerToDel))
                     _pokeGymsOverlay.Markers.Remove(markerToDel);
-                 _pokeGymsMarks.Remove(pokeGym.Id + "-" + pokeGym.GuardPokemonId);
+                 _pokeGymsMarks.Remove(pokeGym.Id +"-Fighting");
             }
-            _pokeGymsMarks.Add(pokeGym.Id + "-" + pokeGym.GuardPokemonId, guardPokemonMarker);
-            _pokeGymsOverlay.Markers.Add(guardPokemonMarker);
+            GMarkerGoogle FightingMarker;
+            if (pokeGym.IsInBattle) {
+                for (int idx = 0; idx < pokebitMap.Width; idx++) {
+                    pokebitMap.SetPixel(idx, 0, color);
+                    pokebitMap.SetPixel(idx, pokebitMap.Height - 1, color);
+                }
+                for (int idx = 0; idx < pokebitMap.Height; idx++) {
+                    pokebitMap.SetPixel(0, idx, color);
+                    pokebitMap.SetPixel(pokebitMap.Width - 1, idx, color);
+                }
+                FightingMarker = new GMarkerGoogle(new PointLatLng(pokeGym.Latitude, pokeGym.Longitude),  GMarkerGoogleType.red_small );
+                if (pokebitMap != null) {
+                    offsetY = 5 - pokebitMap.Height / 2;
+                    FightingMarker.Offset = new Point(-bitmap.Width / 2 - 8, offsetY -5);
+                }
+
+                _pokeGymsMarks.Add(pokeGym.Id + "-Fighting", FightingMarker);
+                _pokeGymsOverlay.Markers.Add(FightingMarker);
+            }
+            #endregion Show figting
+
             }));
 
         }

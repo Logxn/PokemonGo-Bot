@@ -79,6 +79,7 @@ namespace PokemonGo.RocketAPI.Console
                         ItemsListView.Items.Add(listViewItem);
                     }
                     lblCount.Text = "" + sum;
+                    RefreshTitle();
                 }
             } catch (Exception e) {
                 Logger.ExceptionInfo("[ItemsList-Error] " + e.StackTrace);
