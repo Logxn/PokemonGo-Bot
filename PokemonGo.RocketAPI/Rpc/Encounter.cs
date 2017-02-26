@@ -40,6 +40,18 @@ namespace PokemonGo.RocketAPI.Rpc
             return PostProtoPayload<Request, UseItemCaptureResponse>(RequestType.UseItemCapture, message);
         }
 
+        public UseItemEncounterResponse UseItemEncounter(ulong encounterId, ItemId item, string spawnPointId)
+        {
+            var message = new UseItemEncounterMessage()
+            {
+                Item = item,
+                EncounterId = encounterId,
+                SpawnPointGuid = spawnPointId,
+            };
+
+            return PostProtoPayload<Request, UseItemEncounterResponse>(RequestType.UseItemEncounter, message);
+        }
+
         public CatchPokemonResponse CatchPokemon(ulong encounterId, string spawnPointGuid, ItemId pokeballItemId, bool forceHit, double normalizedRecticleSize = 1.950, double spinModifier = 1, double normalizedHitPos = 1)
         {            
             var message = new CatchPokemonMessage   // We need to make this here more random, that we sometimes dont hit orso
@@ -88,18 +100,6 @@ namespace PokemonGo.RocketAPI.Rpc
             };
 
             return PostProtoPayload<Request, EncounterTutorialCompleteResponse>(RequestType.EncounterTutorialComplete, message);
-        }
-
-        public UseItemEncounterResponse UseItemEncounter(ulong encounterId, ItemId item, string spawnPointId)
-        {
-            var message = new UseItemEncounterMessage()
-            {
-                Item = item,
-                EncounterId = encounterId,
-                SpawnPointGuid = spawnPointId,
-            };
-
-            return PostProtoPayload<Request, UseItemEncounterResponse>(RequestType.UseItemEncounter, message);
         }
     }
 }

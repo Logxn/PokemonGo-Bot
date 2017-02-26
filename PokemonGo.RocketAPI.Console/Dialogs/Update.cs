@@ -37,7 +37,14 @@ namespace PokemonGo.RocketAPI.Console.Dialogs
             var webClient = new WebClient();
             webClient.DownloadFileCompleted += Completed;
             webClient.DownloadProgressChanged += ProgressChanged;
-            webClient.DownloadFileAsync(new Uri(remoteFile), downloadedFile);
+            try
+            {
+                webClient.DownloadFileAsync(new Uri(remoteFile), downloadedFile);
+            }
+            catch(Exception e)
+            {
+                MessageBox.Show($"Failed downloading the newest Update: {e.Message}", "Oh Snap!", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+            }
 
         }
 
@@ -84,7 +91,7 @@ namespace PokemonGo.RocketAPI.Console.Dialogs
                 w.Close();
                 OpenBat();
             } catch (Exception e) {
-                MessageBox.Show(e.Message);
+                MessageBox.Show($"Error Creating Bat: {e.Message}", "Oh Snap!", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
             }
         }
 
@@ -96,7 +103,7 @@ namespace PokemonGo.RocketAPI.Console.Dialogs
                 Process.Start(psi);
                 Environment.Exit(0);
             } catch (Exception e) {
-                MessageBox.Show(e.Message);
+                MessageBox.Show($"Error Opening Bat: {e.Message}", "Oh Snap!", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
             }
         }
 
@@ -109,8 +116,5 @@ namespace PokemonGo.RocketAPI.Console.Dialogs
         {
             return kilobytes / 1024f;
         }
-
-
-
     }
 }
