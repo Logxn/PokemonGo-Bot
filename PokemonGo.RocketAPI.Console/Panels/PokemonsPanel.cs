@@ -331,11 +331,11 @@ namespace PokemonGo.RocketAPI.Console
                         var str ="";
                         if (pokemon.PokemonDisplay.Costume != Costume.Unset)
                             str =pokemon.PokemonDisplay.Costume.ToString();
+                        listViewItem.SubItems.Add("" + str);
                         str ="";
                         if (pokemon.PokemonDisplay.Form != POGOProtos.Enums.Form.Unset)
                             str = pokemon.PokemonDisplay.Form.ToString().Replace("Unown","").Replace("ExclamationPoint","!").Replace("QuestionMark","?");
                             
-                        listViewItem.SubItems.Add("" + str);
                         listViewItem.SubItems.Add("" + str);
                         listViewItem.SubItems.Add("" + pokemon.BuddyCandyAwarded);
                         listViewItem.SubItems.Add("" + pokemon.BuddyTotalKmWalked);
