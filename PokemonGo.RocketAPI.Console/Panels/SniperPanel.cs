@@ -74,7 +74,7 @@ namespace PokemonGo.RocketAPI.Console
         }
         void SnipePokemonPokeCom_CheckedChanged(object sender, EventArgs e)
         {
-            GlobalVars.SnipePokemon = SnipePokemonPokeCom.Checked;
+            timerAutosnipe.Enabled = (sender as CheckBox).Checked;
         }
         void AvoidRegionLock_CheckedChanged(object sender, EventArgs e)
         {
@@ -223,10 +223,11 @@ namespace PokemonGo.RocketAPI.Console
             Logger.Debug("Lines: " + lines);
             if (lines.Length > 0 && listView.Items.Count == lines.Length)
                 return;
-            listView.Items.Clear();
             foreach (var element in lines) {
                 var columns = element.Split('|');
                 var columnsCount = columns.Length;
+                if (isInList(columns[2]))
+                    continue;
                 var listViewItem = new ListViewItem();
                 if (columnsCount > 7)
                     listViewItem.Text = columns[7];
@@ -237,10 +238,35 @@ namespace PokemonGo.RocketAPI.Console
                 for (var i = 0; i < 5; i++)
                     if (columnsCount > i)
                         listViewItem.SubItems.Add(columns[i]);
+                
+                if (listViewItem.SubItems[6].Text == GlobalVars.ProfileName)
+                    listViewItem.SubItems.Add("true");
+                else
+                    listViewItem.SubItems.Add("false");
+                
                 listView.Items.Add(listViewItem);
             }
         }
-        
+
+        bool isInList(string id)
+        {
+            foreach (ListViewItem element in listView.Items) {
+                if (element.SubItems[5].Text == id)
+                    return true;
+            }
+            return false;
+        }
+
+        ListViewItem GetNextUnused()
+        {
+            foreach (ListViewItem element in listView.Items) {
+                if ((element.SubItems[6].Text != GlobalVars.ProfileName)
+                    && (element.SubItems[8].Text == "false"))
+                    return element;
+            }
+            return null;
+        }
+
         PokemonId ToPokemonID(string pokename)
         {
             var pokeStr = pokename.Replace('.', '_').Replace('-', '_');
@@ -340,6 +366,7 @@ namespace PokemonGo.RocketAPI.Console
             if (listView.SelectedItems.Count < 1)
                 return;
             SnipeURI(listView.SelectedItems[0].Text);
+            listView.SelectedItems[0].SubItems[8].Text = "true";
         }
 
         public static void SharePokesniperURI(string uri)
@@ -357,6 +384,7 @@ namespace PokemonGo.RocketAPI.Console
                 MessageBox.Show(e.ToString());
             }
         }
+
         void timerLocations_Tick(object sender, EventArgs e)
         {
             try {
@@ -365,6 +393,36 @@ namespace PokemonGo.RocketAPI.Console
                 Logger.Debug(ex1.ToString());
             }
         }
-        
+
+        void timerAutosnipe_Tick(object sender, EventArgs e)
+        {
+            var next = GetNextUnused();
+            if (next != null) {
+                SnipeURI(next.Text);
+                next.SubItems[8].Text = "true";
+            }
+        }
+
+        void numSnipeMinutes_ValueChanged(object sender, EventArgs e)
+        {
+            var status = timerAutosnipe.Enabled;
+            timerAutosnipe.Enabled = false;
+            timerAutosnipe.Interval = (int)(sender as NumericUpDown).Value * 1000;
+            timerAutosnipe.Enabled = status;
+        }
+
+        void markAsUsedToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (listView.SelectedItems.Count <1)
+                return;
+            foreach (ListViewItem element in listView.SelectedItems) {
+                element.SubItems[8].Text = element.SubItems[8].Text == "true" ? "false" : "true";
+            }
+        }
+        void snipeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            listView_DoubleClick(sender,e);
+        }
+
     }
 }
