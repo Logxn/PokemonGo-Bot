@@ -321,7 +321,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                             var inventory = client.Inventory.GetItems();
                             var berries = inventory.Where(p => p.ItemId == ItemId.ItemRazzBerry);
                             var berry = berries.FirstOrDefault();
-                            if (berry != null || berry.Count > 0)
+                            if (berry != null && berry.Count > 0)
                             {
                                 //Throw berry
                                 var useRaspberry = client.Encounter.UseItemEncounter(encounterId, ItemId.ItemRazzBerry, spawnpointId);
@@ -331,7 +331,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                                     usedBerry = true;
                                 }
                                 else
-                                    Logger.Info("Status: "+ useRaspberry.Status);
+                                    Logger.Info("RazzBerry Status: "+ useRaspberry.Status);
 
                                 RandomHelper.RandomSleep(250);
                             }
@@ -344,7 +344,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                                 var pinaps = inventory.Where(p => p.ItemId == ItemId.ItemPinapBerry);
                                 var pinap = pinaps.FirstOrDefault();
 
-                                if (pinap != null || pinap.Count > 0)
+                                if (pinap != null && pinap.Count > 0)
                                 {
                                     // Use a pinap 
                                     var res = client.Encounter.UseItemEncounter(encounterId, ItemId.ItemPinapBerry, spawnpointId);
@@ -354,7 +354,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                                         usedBerry = true;
                                     }
                                     else
-                                        Logger.Info("Status: "+ res.Status);
+                                        Logger.Info("PinapBerry Status: "+ res.Status);
                                     RandomHelper.RandomSleep(250);
                                 }
                             } catch (Exception ex1) {
@@ -373,7 +373,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                                     var nanabs = inventory.Where(p => p.ItemId == ItemId.ItemNanabBerry);
                                     var nanab = nanabs.FirstOrDefault();
 
-                                    if (nanab != null || nanab.Count > 0)
+                                    if (nanab != null && nanab.Count > 0)
                                     {
                                         var res = client.Encounter.UseItemEncounter(encounterId, ItemId.ItemNanabBerry, spawnpointId);
                                         if (res.Status ==UseItemEncounterResponse.Types.Status.Success){
@@ -386,7 +386,6 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                                         RandomHelper.RandomSleep(250);
                                     }
                                 }
-                                
                             } catch (Exception ex1) {
                                 Logger.Debug (""+ex1);
                             }

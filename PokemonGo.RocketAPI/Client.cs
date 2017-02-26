@@ -122,9 +122,9 @@ namespace PokemonGo.RocketAPI
             try
             {
                 var proxyUri = $"http://{proxyHost}:{proxyPort}";
-                Logger.Debug("proxyUri: "+proxyUri);
-                Logger.Debug("proxyUsername: "+proxyUsername);
-                Logger.Debug("proxyPassword: ?"+proxyPassword.Substring(2,4)+"*");
+                Logger.Info("proxyUri: "+proxyUri);
+                Logger.Info("proxyUsername: "+proxyUsername);
+                Logger.Info("proxyPassword: "+(proxyPassword != ""));
                 var p = new WebProxy(new System.Uri(proxyUri), false, null);
 
                 if (proxyUsername!="")
