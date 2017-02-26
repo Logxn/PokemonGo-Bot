@@ -112,6 +112,13 @@ namespace PokemonGo.RocketAPI.Console
             PokemonListView.Columns.Add(CreateColumn(th.TS("In Gym")));
             PokemonListView.Columns.Add(CreateColumn(th.TS("Capture Place")));
 
+            PokemonListView.Columns.Add(CreateColumn(th.TS("Gender")));
+            PokemonListView.Columns.Add(CreateColumn(th.TS("Costume")));
+            PokemonListView.Columns.Add(CreateColumn(th.TS("Form")));
+            PokemonListView.Columns.Add(CreateColumn(th.TS("Buddy Candy Awarded")));
+            PokemonListView.Columns.Add(CreateColumn(th.TS("Buddy Total Km Walked")));
+            PokemonListView.Columns.Add(CreateColumn(th.TS("ID")));
+
             PokemonListView.Columns["#"].DisplayIndex = 0;
             
             PokemonListView.ColumnClick += new ColumnClickEventHandler(PokemonListView_ColumnClick);
@@ -319,6 +326,20 @@ namespace PokemonGo.RocketAPI.Console
 
                         var CapturedLatlng = S2Helper.GetLatLng(pokemon.CapturedCellId);
                         listViewItem.SubItems.Add(Logic.Utils.LocationUtils.FindAddress(CapturedLatlng[0],CapturedLatlng[1]));
+                        listViewItem.SubItems.Add("" + pokemon.PokemonDisplay.Gender);
+                        //listViewItem.SubItems.Add("" + pokemon.PokemonDisplay.Shiny); // not implemented yet
+                        var str ="";
+                        if (pokemon.PokemonDisplay.Costume != Costume.Unset)
+                            str =pokemon.PokemonDisplay.Costume.ToString();
+                        str ="";
+                        if (pokemon.PokemonDisplay.Form != POGOProtos.Enums.Form.Unset)
+                            str = pokemon.PokemonDisplay.Form.ToString().Replace("Unown","").Replace("ExclamationPoint","!").Replace("QuestionMark","?");
+                            
+                        listViewItem.SubItems.Add("" + str);
+                        listViewItem.SubItems.Add("" + str);
+                        listViewItem.SubItems.Add("" + pokemon.BuddyCandyAwarded);
+                        listViewItem.SubItems.Add("" + pokemon.BuddyTotalKmWalked);
+                        listViewItem.SubItems.Add("" + pokemon.Id);
 
                         PokemonListView.Items.Add(listViewItem);
                     }
