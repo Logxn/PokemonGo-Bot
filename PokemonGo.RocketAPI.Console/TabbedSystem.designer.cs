@@ -148,6 +148,7 @@ namespace PokemonGo.RocketAPI.Console
             this.TabControl1.Controls.Add(this.tpPlayerInfo);
             this.TabControl1.Controls.Add(this.tpSnipers);
             this.TabControl1.Controls.Add(this.tpOptions);
+            this.TabControl1.Controls.Add(this.tpWeb);
             this.TabControl1.Location = new System.Drawing.Point(3, 3);
             this.TabControl1.Name = "TabControl1";
             this.TabControl1.SelectedIndex = 0;

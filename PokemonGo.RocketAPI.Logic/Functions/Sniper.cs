@@ -62,7 +62,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
 
                 SendToLog($"We are at sniping location...");
                 SendToLog($"Waiting {GlobalVars.SnipeOpts.WaitSecond} seconds for Pokemon to appear...");
-                RandomHelper.RandomSleep(GlobalVars.SnipeOpts.WaitSecond * 1000, GlobalVars.SnipeOpts.WaitSecond * 1100);
+                RandomHelper.RandomSleep(GlobalVars.SnipeOpts.WaitSecond * 1200);
                 
                 var catchedID = 0UL;
                 if (pokeid == PokemonId.Missingno)
@@ -140,8 +140,10 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                 }
                 if (!found) {
                     SendToLog($"No Gym Found!");
-                    SendToLog($"Waiting {GlobalVars.SnipeOpts.WaitSecond} seconds to check again...");
-                    RandomHelper.RandomSleep(GlobalVars.SnipeOpts.WaitSecond * 1000, GlobalVars.SnipeOpts.WaitSecond * 1100);
+                    if ((tries <= GlobalVars.SnipeOpts.NumTries)){
+                        SendToLog($"Waiting {GlobalVars.SnipeOpts.WaitSecond} seconds to check again...");
+                        RandomHelper.RandomSleep(GlobalVars.SnipeOpts.WaitSecond * 1200);
+                    }
                 }
                 tries++;
                 
@@ -176,19 +178,20 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                         }
                     }
                 }
+                tries++;
                 if (!found) {
                     SendToLog($"No Pokemon Found!");
-                    SendToLog($"Waiting {GlobalVars.SnipeOpts.WaitSecond} seconds for Pokemon to appear...");
-                    RandomHelper.RandomSleep(GlobalVars.SnipeOpts.WaitSecond * 1000, GlobalVars.SnipeOpts.WaitSecond * 1100);
+                    if ((tries <= GlobalVars.SnipeOpts.NumTries)){
+                        SendToLog($"Waiting {GlobalVars.SnipeOpts.WaitSecond} seconds for Pokemon to appear...");
+                        RandomHelper.RandomSleep(GlobalVars.SnipeOpts.WaitSecond * 1200);
+                    }
                 }
-                tries++;
-            
-            } while ((tries <= GlobalVars.SnipeOpts.NumTries) && caught == 0);
+            } while ((tries <= GlobalVars.SnipeOpts.NumTries) && !found);
 
             if (caught != 0)
                 SendToLog($"{pokeid} caught!");
-            else
-                SendToLog($"{ pokeid} not found or caught!");
+            else if (found)
+                SendToLog($"{ pokeid} not caught!");
 
             return caught;
         }

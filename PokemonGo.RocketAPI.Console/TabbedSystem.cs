@@ -38,11 +38,13 @@ namespace PokemonGo.RocketAPI.Console
             webPanel1.AddButtonClick(new System.EventHandler(this.HideWebPanel));
             sniperPanel1.AddButtonClick( new System.EventHandler(this.AddLink));
             sniperPanel1.webBrowser = webPanel1.webBrowser1;
+            webPanel1.ChangeURL("http://www.pokemaster.me/");
 
             if (!GlobalVars.EnableConsoleInTab) {
                 loggerPanel1.Visible=false;
                 splitContainer1.Panel2Collapsed = true;
             }
+            
 
 
        }

@@ -519,8 +519,7 @@ namespace PokemonGo.RocketAPI.Console
                 }
                 FightingMarker = new GMarkerGoogle(new PointLatLng(pokeGym.Latitude, pokeGym.Longitude),  GMarkerGoogleType.red_small );
                 if (pokebitMap != null) {
-                    offsetY = 5 - pokebitMap.Height / 2;
-                    FightingMarker.Offset = new Point(-bitmap.Width / 2 - 8, offsetY -5);
+                    FightingMarker.Offset = new Point(-bitmap.Width / 2 , 5 - pokebitMap.Height * 2 );
                 }
 
                 _pokeGymsMarks.Add(pokeGym.Id + "-Fighting", FightingMarker);

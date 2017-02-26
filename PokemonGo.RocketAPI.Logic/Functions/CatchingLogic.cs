@@ -300,6 +300,10 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                     var usedBerry = false;
                     var escaped = false;
                     CatchPokemonResponse caughtPokemonResponse;
+                    var inventory = client.Inventory.GetItems();
+                    var razz = inventory.FirstOrDefault(p => p.ItemId == ItemId.ItemRazzBerry);
+                    var pinap= inventory.FirstOrDefault(p => p.ItemId == ItemId.ItemPinapBerry);
+                    var nanab = inventory.FirstOrDefault(p => p.ItemId == ItemId.ItemNanabBerry);
 
                     do
                     {
@@ -318,20 +322,17 @@ namespace PokemonGo.RocketAPI.Logic.Functions
 
                         if (GlobalVars.UseRazzBerry &&  !usedBerry && ( probability.Value < GlobalVars.razzberry_chance ))
                         {
-                            var inventory = client.Inventory.GetItems();
-                            var berries = inventory.Where(p => p.ItemId == ItemId.ItemRazzBerry);
-                            var berry = berries.FirstOrDefault();
-                            if (berry != null && berry.Count > 0)
+                            if (razz != null && razz.Count > 0)
                             {
                                 //Throw berry
-                                var useRaspberry = client.Encounter.UseItemEncounter(encounterId, ItemId.ItemRazzBerry, spawnpointId);
-                                if (useRaspberry.Status ==UseItemEncounterResponse.Types.Status.Success){
-                                    var remaining = berry.Count - 1;
-                                    Logger.Info($"We used a Razz Berry. Remaining: {remaining}.");
+                                var useRazzberry = client.Encounter.UseItemEncounter(encounterId, ItemId.ItemRazzBerry, spawnpointId);
+                                if (useRazzberry.Status ==UseItemEncounterResponse.Types.Status.Success){
+                                    razz.Count = razz.Count - 1;
+                                    Logger.Info($"We used a Razz Berry. Remaining: {razz.Count}.");
                                     usedBerry = true;
                                 }
                                 else
-                                    Logger.Info("RazzBerry Status: "+ useRaspberry.Status);
+                                    Logger.Info("RazzBerry Status: "+ useRazzberry.Status);
 
                                 RandomHelper.RandomSleep(250);
                             }
@@ -340,17 +341,14 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                         if (GlobalVars.UsePinapBerry && !usedBerry )
                         {
                             try {
-                                var inventory = client.Inventory.GetItems();
-                                var pinaps = inventory.Where(p => p.ItemId == ItemId.ItemPinapBerry);
-                                var pinap = pinaps.FirstOrDefault();
 
                                 if (pinap != null && pinap.Count > 0)
                                 {
                                     // Use a pinap 
                                     var res = client.Encounter.UseItemEncounter(encounterId, ItemId.ItemPinapBerry, spawnpointId);
                                     if (res.Status ==UseItemEncounterResponse.Types.Status.Success){
-                                        var remaining = pinap.Count - 1;
-                                        Logger.Info($"We used a Pinap Berry. Remaining: {remaining}.");
+                                        pinap.Count = pinap.Count - 1;
+                                        Logger.Info($"We used a Pinap Berry. Remaining: {pinap.Count}.");
                                         usedBerry = true;
                                     }
                                     else
@@ -369,16 +367,13 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                             try {
                                 var reallyUseIt =  (r.Next(0,GlobalVars.NanabPercent)!=0);
                                 if (GlobalVars.NanabPercent == 100 || reallyUseIt){
-                                    var inventory = client.Inventory.GetItems();
-                                    var nanabs = inventory.Where(p => p.ItemId == ItemId.ItemNanabBerry);
-                                    var nanab = nanabs.FirstOrDefault();
 
                                     if (nanab != null && nanab.Count > 0)
                                     {
                                         var res = client.Encounter.UseItemEncounter(encounterId, ItemId.ItemNanabBerry, spawnpointId);
                                         if (res.Status ==UseItemEncounterResponse.Types.Status.Success){
-                                            var remaining = nanab.Count - 1;
-                                            Logger.Info($"We used a Nabab Berry. Remaining: {remaining}.");
+                                            nanab.Count = nanab.Count - 1;
+                                            Logger.Info($"We used a Nabab Berry. Remaining: {nanab.Count}.");
                                             usedBerry = true;
                                         }
                                         else
