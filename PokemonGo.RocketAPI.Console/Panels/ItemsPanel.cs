@@ -25,6 +25,8 @@ namespace PokemonGo.RocketAPI.Console
     public partial class ItemsPanel : UserControl
     {
         private static Helper.TranslatorHelper th = Helper.TranslatorHelper.getInstance();
+        public GetPlayerResponse profile;
+        
         public ItemsPanel()
         {
             //
@@ -43,10 +45,11 @@ namespace PokemonGo.RocketAPI.Console
         void BtnRealoadItemsClick(object sender, EventArgs e)
         {
             ItemsListView.Items.Clear();
-            Execute();
+            Execute(profile);
         }
-        public void Execute()
+        public void Execute(GetPlayerResponse profileIn)
         {
+            profile = profileIn;
             try {
                 foreach (Control element in this.groupBoxItems.Controls) {
                     if (element.Name.IndexOf("num_") == 0){
@@ -80,6 +83,17 @@ namespace PokemonGo.RocketAPI.Console
             } catch (Exception e) {
                 Logger.ExceptionInfo("[ItemsList-Error] " + e.StackTrace);
             }
+        }
+
+        public void RefreshTitle()
+        {
+            var txt = th.TS("Items");
+            if (Parent != null) {
+                txt += ": " + text_TotalItemCount.Text;
+                if (profile !=null)
+                    txt += "/" + profile.PlayerData.MaxItemStorage;
+            }
+            Parent.Text = txt;
         }
 
         public static string getItemName(ItemId itemID)
@@ -251,7 +265,7 @@ namespace PokemonGo.RocketAPI.Console
         void btnDiscard_Click(object sender, EventArgs e)
         {
             RecycleItems();
-            Execute();
+            Execute(profile);
         }
 
         void useToolStripMenuItem_Click(object sender, EventArgs e)

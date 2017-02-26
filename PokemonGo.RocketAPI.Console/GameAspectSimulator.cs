@@ -99,7 +99,7 @@ namespace PokemonGo.RocketAPI.Console
             panel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             Controls.Add(panel);
             panel.Visible = true;
-            ((ItemsPanel)panel).Execute();
+            ((ItemsPanel)panel).Execute(null);
             btnPicClose.Visible = true;
             locationPanel1.Visible=false;
         }
@@ -135,7 +135,7 @@ namespace PokemonGo.RocketAPI.Console
             panel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             Controls.Add(panel);
             panel.Visible = true;
-            ((PokemonsPanel)panel).Execute();
+            ((PokemonsPanel)panel).Execute(null);
             btnPicClose.Visible = true;
             locationPanel1.Visible=false;
           

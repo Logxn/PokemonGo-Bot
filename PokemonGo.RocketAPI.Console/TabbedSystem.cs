@@ -84,7 +84,7 @@ namespace PokemonGo.RocketAPI.Console
                     stats = arrStats.Current;
                     locationPanel1.CreateBotMarker((int)profile.PlayerData.Team, stats.Level, stats.Experience);
                     playerPanel1.setProfile(profile);
-                    pokemonsPanel1.profile = profile;
+                    //pokemonsPanel1.profile = profile;
                 }
             } catch (Exception e) {
                 Logger.Error("[PokemonList-Error] " + e.StackTrace);
@@ -126,10 +126,10 @@ namespace PokemonGo.RocketAPI.Console
             TabPage current = (sender as TabControl).SelectedTab;
             switch (current.Name) {
                 case "tpPokemons":
-                    pokemonsPanel1.Execute();
+                    pokemonsPanel1.Execute(profile);
                     break;
                 case "tpItems":
-                    itemsPanel1.Execute();
+                    itemsPanel1.Execute(profile);
                     break;
                 case "tpEggs":
                     eggsPanel1.Execute();

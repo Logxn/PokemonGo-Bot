@@ -205,8 +205,9 @@ namespace PokemonGo.RocketAPI.Console
 
         #endregion initialize listview
 
-        public void Execute()
+        public void Execute(GetPlayerResponse profileIn)
         {
+            profile = profileIn;
             EnabledButton(false, th.TS("Reloading Pokemon list."));
             try
             {
@@ -361,13 +362,14 @@ namespace PokemonGo.RocketAPI.Console
 
         public void RefreshTitle()
         {
-            var txt ="Pokemons";
-            if (Parent !=null)
-            {
+            var txt =th.TS("Pokemons");
+            if (Parent != null) {
                 txt += ": " + PokemonListView.Items.Count;
-                if (profile!=null)
-                {
-                    txt +="/" + profile.PlayerData.MaxPokemonStorage;
+                if (profile != null) {
+                    var eggs = inventory.InventoryDelta.InventoryItems
+                                .Select(i => i.InventoryItemData?.PokemonData)
+                       .Where(p => p != null && p.IsEgg);
+                    txt += "/" + (profile.PlayerData.MaxPokemonStorage - eggs.Count());
                 }
             }
             Parent.Text = txt;
@@ -414,7 +416,7 @@ namespace PokemonGo.RocketAPI.Console
 
         private void btnReload_Click(object sender, EventArgs e)
         {
-            Execute();
+            Execute(profile);
         }
 
         private void btnEvolve_Click(object sender, EventArgs e)
@@ -508,7 +510,7 @@ namespace PokemonGo.RocketAPI.Console
 
             if (evolved > 0)
             {
-                Execute();
+                Execute(profile);
             }
             else
                 EnabledButton(true);
@@ -655,7 +657,7 @@ namespace PokemonGo.RocketAPI.Console
                     atLeast1PowerUp = true;
                 }
                 if (atLeast1PowerUp)
-                    Execute();
+                    Execute(profile);
             }
             EnabledButton(true);
         }
@@ -750,7 +752,7 @@ namespace PokemonGo.RocketAPI.Console
             var pokemon = (PokemonData)PokemonListView.SelectedItems[0].Tag;
             if (MessageBox.Show(this, th.TS( " {0} with {1} CP thats {2} % perfect",pokemon.PokemonId,pokemon.Cp,Math.Round(PokemonInfo.CalculatePokemonPerfection(pokemon))), th.TS("Are you sure you want to power it up?"), MessageBoxButtons.OKCancel) == DialogResult.OK)
                 if ( PowerUp(pokemon))
-                    Execute();
+                    Execute(profile);
         }
 
         private void iVsToNicknameToolStripMenuItem_Click(object sender, EventArgs e)
@@ -878,7 +880,7 @@ namespace PokemonGo.RocketAPI.Console
         }
         private void reloadtimer_Tick(object sender, EventArgs e)
         {
-            Execute();
+            Execute(profile);
         }
 
         private void freezedenshit_Tick(object sender, EventArgs e)

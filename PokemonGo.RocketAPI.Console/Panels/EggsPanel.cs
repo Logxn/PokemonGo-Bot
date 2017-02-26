@@ -98,6 +98,7 @@ namespace PokemonGo.RocketAPI.Console
                         listView.Items.Add(listViewItem);
                     }
                     listView.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
+                    RefreshTitle();
                 }
 	            
             } catch (Exception e) {
@@ -115,7 +116,14 @@ namespace PokemonGo.RocketAPI.Console
             }
             return null;
         }
-		
+        public void RefreshTitle()
+        {
+            var txt = th.TS("Eggs");
+            if (Parent != null) {
+                txt += ": " + listView.Items.Count;
+            }
+            Parent.Text = txt;
+        }		
         private string GetPokemonName(PokemonId pokemonID)
         {
             return  th.TS(pokemonID.ToString());
