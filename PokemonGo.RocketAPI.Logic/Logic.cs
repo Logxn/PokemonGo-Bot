@@ -112,16 +112,18 @@ namespace PokemonGo.RocketAPI.Logic
 
                     var fortInfo = objClient.Fort.GetFort(pokestop.Id, pokestop.Latitude, pokestop.Longitude);
 
-                    if ((BotSettings.UseLureGUIClick && Setout.havelures) || (BotSettings.UseLureAtBreak && Setout.havelures && !pokestop.ActiveFortModifier.Any() && !addedlure))
+                    if ( BotSettings.UseLureGUIClick || (BotSettings.UseLureAtBreak && !pokestop.ActiveFortModifier.Any() && !addedlure))
                     {
-                        BotSettings.UseLureGUIClick = false;
-
-                        Logger.ColoredConsoleWrite(ConsoleColor.Magenta, "Adding lure and setting resume walking to 30 minutes");
-
-                        objClient.Fort.AddFortModifier(fortInfo.FortId, ItemId.ItemTroyDisk);
-
-                        Setout.resumetimestamp = (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds + 30000;
-                        addedlure = true;
+                        if (objClient.Inventory.GetItemAmountByType( ItemId.ItemTroyDisk) > 0) {
+                            BotSettings.UseLureGUIClick = false;
+    
+                            Logger.ColoredConsoleWrite(ConsoleColor.Magenta, "Adding lure and setting resume walking to 30 minutes");
+    
+                            objClient.Fort.AddFortModifier(fortInfo.FortId, ItemId.ItemTroyDisk);
+    
+                            Setout.resumetimestamp = (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds + 30000;
+                            addedlure = true;
+                        }
                     }
 
                     var farmed = CheckAndFarmNearbyPokeStop(pokestop, objClient, fortInfo);

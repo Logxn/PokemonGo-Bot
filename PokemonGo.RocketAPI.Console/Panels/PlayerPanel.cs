@@ -98,6 +98,8 @@ namespace PokemonGo.RocketAPI.Console
                 updatePlayerImages();
                 updatePlayerInfoLabels();
             }
+            labelPokemons.Text = ""+ Logic.Functions.Setout.pokemonCatchCount;
+            labelPokestops.Text = ""+ Logic.Functions.Setout.pokemonCatchCount;
         }
         
         public void setProfile(GetPlayerResponse prof){

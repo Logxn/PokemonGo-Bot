@@ -47,7 +47,6 @@ namespace PokemonGo.RocketAPI.Logic.Functions
         public static DateTime LastIncenselog;
         public static double startingXp = -10000;
         public static double currentxp = -10000;
-        public static  bool havelures;
         public static  int level = -1;
         public static double timetorunstamp = -10000;
         public static double pausetimestamp = -10000;
@@ -57,29 +56,37 @@ namespace PokemonGo.RocketAPI.Logic.Functions
         public static int pokeStopFarmedCount;
         private static string logPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Logs");
 
-
-
         public static void Execute()
         {
             // reset stat counter
             count = 0;
             CheckIfUseIncense();
 
-            if (Shared.GlobalVars.UseLuckyEggIfNotRunning || Shared.GlobalVars.UseLuckyEggGUIClick)
+            if (GlobalVars.UseLuckyEggIfNotRunning || GlobalVars.UseLuckyEggGUIClick)
             {
-                Shared.GlobalVars.UseLuckyEggGUIClick = false;
+                GlobalVars.UseLuckyEggGUIClick = false;
                 Logic.objClient.Inventory.UseLuckyEgg(Logic.objClient);
             }
 
-            if (Shared.GlobalVars.EvolvePokemonsIfEnoughCandy)
-                EvolveAllPokemonWithEnoughCandy(Shared.GlobalVars.pokemonsToEvolve);
+            if (GlobalVars.EvolvePokemonsIfEnoughCandy)
+                EvolveAllPokemonWithEnoughCandy(GlobalVars.pokemonsToEvolve);
 
-            if (Shared.GlobalVars.AutoIncubate)
+            if (GlobalVars.AutoIncubate)
                 StartIncubation();
 
-            TransferDuplicatePokemon(Shared.GlobalVars.keepPokemonsThatCanEvolve, Shared.GlobalVars.TransferFirstLowIV);
+            TransferDuplicatePokemon(GlobalVars.keepPokemonsThatCanEvolve, GlobalVars.TransferFirstLowIV);
             RecycleItems();
-            StatsLog(Logic.objClient);
+
+            CheckLevelUp(Logic.objClient);
+            
+            if (GlobalVars.ShowStats)
+                StatsLog(Logic.objClient);
+
+            if (GlobalVars.CheckWhileRunning)
+                Update.CheckWhileWalking();
+
+            RefreshConsoleTitle(Logic.objClient);
+            
             Logic.objClient.ReadyToUse = true;
             Logger.Debug("Client is ready to use");
             SetCheckTimeToRun();
@@ -89,12 +96,12 @@ namespace PokemonGo.RocketAPI.Logic.Functions
         public static void CheckIfUseIncense()
         {
             Logger.Debug("Checking use of incense");
-            if (Shared.GlobalVars.RelocateDefaultLocation)
+            if (GlobalVars.RelocateDefaultLocation)
                 return;
-            if (Shared.GlobalVars.UseIncense || Shared.GlobalVars.UseIncenseGUIClick)
+            if (GlobalVars.UseIncense || GlobalVars.UseIncenseGUIClick)
             {
                 Logger.Debug("Use incense selected");
-                Shared.GlobalVars.UseIncenseGUIClick = false;
+                GlobalVars.UseIncenseGUIClick = false;
                 var inventory = Logic.objClient.Inventory.GetItems();
                 var incsense = inventory.FirstOrDefault(p => p.ItemId == ItemId.ItemIncenseOrdinary);
                 var loginterval = DateTime.Now - LastIncenselog;
@@ -130,7 +137,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
             int evolvecount = 0;
             int gotXP = 0;
 
-            if ( Shared.GlobalVars.RelocateDefaultLocation)
+            if ( GlobalVars.RelocateDefaultLocation)
             {
                 return;
             }
@@ -138,9 +145,9 @@ namespace PokemonGo.RocketAPI.Logic.Functions
 
             var pokemonToEvolve = Logic.objClient.Inventory.GetPokemonToEvolve(true,filter);
             var toEvolveCount = pokemonToEvolve.Count();
-            var startEvolving = (toEvolveCount==0 || toEvolveCount==Shared.GlobalVars.EvolveAt );
+            var startEvolving = (toEvolveCount==0 || toEvolveCount==GlobalVars.EvolveAt );
 
-            if (startEvolving && Shared.GlobalVars.UseLuckyEgg)
+            if (startEvolving && GlobalVars.UseLuckyEgg)
                     Logic.objClient.Inventory.UseLuckyEgg(Logic.objClient);
 
             foreach (var pokemon in pokemonToEvolve)
@@ -177,14 +184,14 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                     gotXP = gotXP + evolvePokemonOutProto.ExperienceAwarded;
 
                     if (evolvecount == 0)
-                        if (Shared.GlobalVars.pauseAtEvolve2)
+                        if (GlobalVars.pauseAtEvolve2)
                         {
                             Logger.Info("Stopping to evolve some Pokemons.");
-                            Shared.GlobalVars.PauseTheWalking = true;
+                            GlobalVars.PauseTheWalking = true;
                         }
 
                     var experienceAwarded =evolvePokemonOutProto.ExperienceAwarded.ToString("N0");
-                    if (Shared.GlobalVars.LogEvolve)
+                    if (GlobalVars.LogEvolve)
                     {
                         File.AppendAllText(evolvelog, $"[{date}] - Evolved Pokemon: {getPokemonName} | CP {cp} | Perfection {calcPerf}% | => to {getEvolvedName} | CP: {getEvolvedCP} | XP Reward: {experienceAwarded} XP" + Environment.NewLine);
                     }
@@ -196,7 +203,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                         Logic.Instance.Telegram.sendInformationText(TelegramUtil.TelegramUtilInformationTopics.Evolve, StringUtils.getPokemonNameByLanguage( pokemon.PokemonId), pokemon.Cp, PokemonInfo.CalculatePokemonPerfection(pokemon).ToString("0.00"), StringUtils.getPokemonNameByLanguage( evolvePokemonOutProto.EvolvedPokemonData.PokemonId), evolvePokemonOutProto.EvolvedPokemonData.Cp, evolvePokemonOutProto.ExperienceAwarded.ToString("N0"));
                     evolvecount++;
 
-                    if (Shared.GlobalVars.UseAnimationTimes)
+                    if (GlobalVars.UseAnimationTimes)
                     {
                         RandomHelper.RandomSleep(30000, 35000);
                     }
@@ -209,7 +216,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                 {
                     if (evolvePokemonOutProto.Result != EvolvePokemonResponse.Types.Result.Success)
                     {
-                        if (Shared.GlobalVars.LogEvolve)
+                        if (GlobalVars.LogEvolve)
                         {
                             File.AppendAllText(evolvelog, $"[{date}] - Failed to evolve {pokemon.PokemonId}. EvolvePokemonOutProto.Result was {evolvePokemonOutProto.Result}" + Environment.NewLine);
                         }
@@ -224,10 +231,10 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                 var strGotXP = gotXP.ToString("N0");
                 Logger.Info($"Evolved {evolvecount} Pokemons. We have got {strGotXP} XP.");
 
-                if (Shared.GlobalVars.pauseAtEvolve2)
+                if (GlobalVars.pauseAtEvolve2)
                 {
                     Logger.ColoredConsoleWrite(ConsoleColor.Green, "Pokemons evolved. Time to continue our journey!");
-                    Shared.GlobalVars.PauseTheWalking = false;
+                    GlobalVars.PauseTheWalking = false;
                 }
             }
 
@@ -239,7 +246,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
         {
             try
             {
-                if ( Shared.GlobalVars.RelocateDefaultLocation)
+                if ( GlobalVars.RelocateDefaultLocation)
                 {
                     return;
                 }
@@ -264,7 +271,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                     var hatched = pokemons.FirstOrDefault(x => !x.IsEgg && x.Id == incubator.PokemonId);
                     if (hatched == null) continue;
 
-                    if (Shared.GlobalVars.LogEggs)
+                    if (GlobalVars.LogEggs)
                     {
                         var MaxCP = PokemonInfo.CalculateMaxCP(hatched);
                         var Level = PokemonInfo.GetLevel(hatched);
@@ -289,14 +296,14 @@ namespace PokemonGo.RocketAPI.Logic.Functions
 
                         // If is basic incubator and user don't want use it, we go to the next incubator
                         if (    (incubator.ItemId == ItemId.ItemIncubatorBasic) 
-                             && ( ! Shared.GlobalVars.UseBasicIncubators) )
+                             && ( ! GlobalVars.UseBasicIncubators) )
                             continue;
 
                         POGOProtos.Data.PokemonData egg;
                         if (incubator.ItemId == ItemId.ItemIncubatorBasic) 
-                            egg = Shared.GlobalVars.EggsAscendingSelectionBasicInc ? unusedEggsBasicInc.FirstOrDefault() : unusedEggsBasicInc.LastOrDefault();
+                            egg = GlobalVars.EggsAscendingSelectionBasicInc ? unusedEggsBasicInc.FirstOrDefault() : unusedEggsBasicInc.LastOrDefault();
                         else 
-                            egg = Shared.GlobalVars.EggsAscendingSelection ? unusedEggsUnlimitInc.FirstOrDefault() : unusedEggsUnlimitInc.LastOrDefault();
+                            egg = GlobalVars.EggsAscendingSelection ? unusedEggsUnlimitInc.FirstOrDefault() : unusedEggsUnlimitInc.LastOrDefault();
 
                         // If there is not eggs then we finish this function
                         if (egg == null)
@@ -343,15 +350,15 @@ namespace PokemonGo.RocketAPI.Logic.Functions
         private static List<POGOProtos.Data.PokemonData> eggsHatchingAllowedBasicInc( object eggs)
         {
             var ret = new List<POGOProtos.Data.PokemonData> ((List<POGOProtos.Data.PokemonData> ) eggs);
-            if(Shared.GlobalVars.No2kmEggsBasicInc)
+            if(GlobalVars.No2kmEggsBasicInc)
             {
                 ret = ret.Where(x => x.EggKmWalkedTarget !=2).ToList();
             }
-            if(Shared.GlobalVars.No5kmEggsBasicInc)
+            if(GlobalVars.No5kmEggsBasicInc)
             {
                 ret = ret.Where(x => x.EggKmWalkedTarget !=5).ToList();
             }
-            if(Shared.GlobalVars.No10kmEggsBasicInc)
+            if(GlobalVars.No10kmEggsBasicInc)
             {
                 ret = ret.Where(x => x.EggKmWalkedTarget !=10).ToList();
             }
@@ -361,15 +368,15 @@ namespace PokemonGo.RocketAPI.Logic.Functions
         private static List<POGOProtos.Data.PokemonData> eggsHatchingAllowed(object eggs)
         {
             var ret = new List<POGOProtos.Data.PokemonData> ((List<POGOProtos.Data.PokemonData> ) eggs);
-            if(Shared.GlobalVars.No2kmEggs)
+            if(GlobalVars.No2kmEggs)
             {
                 ret = ret.Where(x => x.EggKmWalkedTarget !=2).ToList();
             }
-            if(Shared.GlobalVars.No5kmEggs)
+            if(GlobalVars.No5kmEggs)
             {
                 ret = ret.Where(x => x.EggKmWalkedTarget !=5).ToList();
             }
-            if(Shared.GlobalVars.No10kmEggs)
+            if(GlobalVars.No10kmEggs)
             {
                 ret = ret.Where(x => x.EggKmWalkedTarget !=10).ToList();
             }
@@ -379,9 +386,9 @@ namespace PokemonGo.RocketAPI.Logic.Functions
         private static void RecycleItems(bool forcerefresh = false)
         {
 
-            if (Shared.GlobalVars.RelocateDefaultLocation)
+            if (GlobalVars.RelocateDefaultLocation)
                 return;
-            var items = Logic.objClient.Inventory.GetItemsToRecycle(Shared.GlobalVars.GetItemFilter());
+            var items = Logic.objClient.Inventory.GetItemsToRecycle(GlobalVars.GetItemFilter());
 
             foreach (var item in items)
             {
@@ -397,10 +404,9 @@ namespace PokemonGo.RocketAPI.Logic.Functions
             }
         }
 
+
         private static void StatsLog(Client client)
         {
-
-            #region Set Stat Variables
 
             var profile = client.Player.GetPlayer();
             var inventory = client.Inventory.GetInventory();
@@ -419,10 +425,6 @@ namespace PokemonGo.RocketAPI.Logic.Functions
             var pokedexpercentraw = Convert.ToDouble(stats.UniquePokedexEntries) / Convert.ToDouble(numDifferentPokemons) * 100;
             var pokedexpercent = Math.Floor(pokedexpercentraw);
 
-            if (curexp == 0 && expneeded == 1000)
-            {
-                client.Misc.MarkTutorialComplete();
-            }
 
             var items = client.Inventory.GetItems(); 
             var pokemonCount = client.Inventory.GetPokemons().Count();
@@ -433,9 +435,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
             var currEXP = curexp.ToString("N0");
             var neededEXP = expneeded.ToString("N0");
             var expPercent = Math.Round(curexppercent, 2);
-            #endregion
 
-            #region Log Stats
             client.ShowingStats = true;
             Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "-----------------------[PLAYER STATS]-----------------------");
             Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Level/EXP: {stats.Level} | {currEXP}/{neededEXP} ({expPercent}%)");
@@ -451,29 +451,30 @@ namespace PokemonGo.RocketAPI.Logic.Functions
             Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"PokeStop Farmed Count this session: {pokeStopFarmedCount}");
 
             var totalitems = 0;
-            foreach (var item in items)
-            {
+            foreach (var item in items){
                 Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"{item.ItemId} Qty: {item.Count}");
-
                 totalitems += item.Count;
-                if (item.ItemId == ItemId.ItemTroyDisk && item.Count > 0)
-                {
-                    havelures = true;
-                }
             }
             Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Items: {totalitems}/{maxItemStorage} ");
             Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "------------------------------------------------------------");
 
-            #endregion
+            client.ShowingStats = false;
 
-            #region Check for Level Up
 
-            if (level == -1)
-            {
+        }
+
+        private static void CheckLevelUp(Client client)
+        {
+            var stats = client.Inventory.GetPlayerStats().First();
+            
+            if (stats.Level == 1 && stats.NextLevelXp == 1000)
+                client.Misc.MarkTutorialComplete();
+
+
+            if (level == -1) {
                 level = stats.Level;
             }
-            else if (stats.Level > level)
-            {
+            else if (stats.Level > level) {
                 level = stats.Level;
 
                 Logger.ColoredConsoleWrite(ConsoleColor.Magenta, "Got the level up reward from your level up.");
@@ -490,22 +491,6 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                 }
                 alreadygot.Clear();
             }
-
-            #endregion
-
-            #region Set Console Title
-            RefreshConsoleTitle(client);
-            #endregion
-
-            #region Check for Update
-
-            if (Shared.GlobalVars.CheckWhileRunning)
-            {
-                Update.CheckWhileWalking();
-            }
-
-            #endregion
-            client.ShowingStats = false;
         }
 
         public static void RefreshConsoleTitle(Client client)
@@ -548,11 +533,11 @@ namespace PokemonGo.RocketAPI.Logic.Functions
 
                 #region Time to Run
 
-                if (Shared.GlobalVars.TimeToRun > 0)
+                if (GlobalVars.TimeToRun > 0)
                 {
                     if (timetorunstamp == -10000)
                     {
-                        timetorunstamp = Shared.GlobalVars.TimeToRun * 60 * 1000 + (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds;
+                        timetorunstamp = GlobalVars.TimeToRun * 60 * 1000 + (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds;
                     }
                     else
                     {
@@ -562,7 +547,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                         {
                             Logger.ColoredConsoleWrite(ConsoleColor.Red, "Time To Run Reached or Exceeded...Walking back to default location and stopping bot");
 
-                            Logic.Instance.WalkWithRouting(Shared.GlobalVars.latitude, Shared.GlobalVars.longitude);
+                            Logic.Instance.WalkWithRouting(GlobalVars.latitude, GlobalVars.longitude);
 
                             LimitReached("Time to Run");
                         }
@@ -577,7 +562,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
 
                 #region Breaks
 
-                if (Shared.GlobalVars.UseBreakFields)
+                if (GlobalVars.UseBreakFields)
                 {
                     if (pausetimestamp > -10000)
                     {
@@ -585,10 +570,10 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                         if (walkTimeRemaining <= 0)
                         {
                             pausetimestamp = -10000;
-                            Shared.GlobalVars.pauseAtPokeStop = true;
-                            resumetimestamp = (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds +Shared.GlobalVars.BreakLength * 60 * 1000;
+                            GlobalVars.pauseAtPokeStop = true;
+                            resumetimestamp = (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds +GlobalVars.BreakLength * 60 * 1000;
 
-                            Logger.ColoredConsoleWrite(ConsoleColor.Blue, $"Break Time! Pause walking for {Shared.GlobalVars.BreakLength} minutes");
+                            Logger.ColoredConsoleWrite(ConsoleColor.Blue, $"Break Time! Pause walking for {GlobalVars.BreakLength} minutes");
                         }
                         else
                         {
@@ -597,9 +582,9 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                     }
                     else if (resumetimestamp == -10000)
                     {
-                        pausetimestamp = (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds + Shared.GlobalVars.BreakInterval * 60 * 1000;
+                        pausetimestamp = (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds + GlobalVars.BreakInterval * 60 * 1000;
 
-                        Logger.ColoredConsoleWrite(ConsoleColor.Blue, $"Remaining Time until break: {Shared.GlobalVars.BreakInterval} minutes");
+                        Logger.ColoredConsoleWrite(ConsoleColor.Blue, $"Remaining Time until break: {GlobalVars.BreakInterval} minutes");
                     }
                 }
 
@@ -610,7 +595,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                     if (breakTimeRemaining <= 0)
                     {
                         resumetimestamp = -10000;
-                        Shared.GlobalVars.pauseAtPokeStop = false;
+                        GlobalVars.pauseAtPokeStop = false;
 
                         Logger.ColoredConsoleWrite(ConsoleColor.Green, "Break over, back to walking!");
                     }
@@ -625,7 +610,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                 #region Log Catch Disabled
 
                 //add logging for pokemon catch disabled here for now to prevent spamming
-                if (!Shared.GlobalVars.CatchPokemon)
+                if (!GlobalVars.CatchPokemon)
                 {
                     Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Catching Pokemon Disabled in Client Settings - Skipping all pokemon");
                 }
@@ -636,9 +621,9 @@ namespace PokemonGo.RocketAPI.Logic.Functions
 
                 #region Catch Pokemon Count Check
 
-                if (pokemonCatchCount >= Shared.GlobalVars.PokemonCatchLimit)
+                if (pokemonCatchCount >= GlobalVars.PokemonCatchLimit)
                 {
-                    if (Shared.GlobalVars.FarmPokestops)
+                    if (GlobalVars.FarmPokestops)
                     {
                         Logger.ColoredConsoleWrite(ConsoleColor.Green, "Pokemon Catch Limit Reached - Bot will only farm pokestops");
 
@@ -648,7 +633,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                     {
                         Logger.ColoredConsoleWrite(ConsoleColor.Green, "Pokemon Catch Limit Reached and not farming pokestops - Bot will return to default location and stop");
 
-                        Logic.Instance.WalkWithRouting(Shared.GlobalVars.latitude, Shared.GlobalVars.longitude);
+                        Logic.Instance.WalkWithRouting(GlobalVars.latitude, GlobalVars.longitude);
 
                         LimitReached("Catched Pokemon");
                     }
@@ -658,19 +643,19 @@ namespace PokemonGo.RocketAPI.Logic.Functions
 
                 #region Farm Pokestops Check
 
-                if (pokeStopFarmedCount >= Shared.GlobalVars.PokestopFarmLimit)
+                if (pokeStopFarmedCount >= GlobalVars.PokestopFarmLimit)
                 {
-                    if (Shared.GlobalVars.CatchPokemon && CatchingLogic.AllowCatchPokemon)
+                    if (GlobalVars.CatchPokemon && CatchingLogic.AllowCatchPokemon)
                     {
                         Logger.ColoredConsoleWrite(ConsoleColor.Green, "Pokestop Farmed Limit Reached - Bot will only catch pokemon");
 
-                        Shared.GlobalVars.FarmPokestops = false;
+                        GlobalVars.FarmPokestops = false;
                     }
                     else
                     {
                         Logger.ColoredConsoleWrite(ConsoleColor.Green, "Pokestop Farmed Limit Reached and not catching pokemon - Bot will return to default location and stop");
 
-                        Logic.Instance.WalkWithRouting(Shared.GlobalVars.latitude, Shared.GlobalVars.longitude);
+                        Logic.Instance.WalkWithRouting(GlobalVars.latitude, GlobalVars.longitude);
 
                         LimitReached("Farmed Pokestops");
                     }
@@ -680,21 +665,21 @@ namespace PokemonGo.RocketAPI.Logic.Functions
 
                 #region XP Check
 
-                if (startingXp != -10000 && currentxp != -10000 && (currentxp = -startingXp) >= Shared.GlobalVars.XPFarmedLimit)
+                if (startingXp != -10000 && currentxp != -10000 && (currentxp = -startingXp) >= GlobalVars.XPFarmedLimit)
                 {
                     Logger.ColoredConsoleWrite(ConsoleColor.Green, "XP Farmed Limit Reached - Bot will return to default location and stop");
 
-                    if (Shared.GlobalVars.UseGoogleMapsAPI)
+                    if (GlobalVars.UseGoogleMapsAPI)
                     {
-                       Logic.Instance.WalkWithRouting(Shared.GlobalVars.latitude, Shared.GlobalVars.longitude);
+                       Logic.Instance.WalkWithRouting(GlobalVars.latitude, GlobalVars.longitude);
                     }
                     else
                     {
                         Logic.Instance.navigation.HumanLikeWalking(
                             new GeoCoordinate(
-                                Shared.GlobalVars.latitude,
-                                Shared.GlobalVars.longitude),
-                            Shared.GlobalVars.WalkingSpeedInKilometerPerHour,
+                                GlobalVars.latitude,
+                                GlobalVars.longitude),
+                            GlobalVars.WalkingSpeedInKilometerPerHour,
                             CatchingLogic.Execute);
                     }
                     LimitReached("Farmed XP");
@@ -708,17 +693,17 @@ namespace PokemonGo.RocketAPI.Logic.Functions
 
         private static  void TransferUnwantedPokemon(ulong buddyid)
         {
-            if (!Shared.GlobalVars.pokemonsToAlwaysTransfer.Any())
+            if (!GlobalVars.pokemonsToAlwaysTransfer.Any())
                 return;
             var pokemons = Logic.objClient.Inventory.GetPokemons(true);
             var toTransfer = pokemons.Where(x => x.DeployedFortId == string.Empty && x.Favorite == 0 && !x.IsEgg && x.Id != buddyid);
             var idsToTransfer = new List<ulong>();
             var logs = Path.Combine(logPath, "TransferLog.txt");
             foreach (var pokemon in toTransfer){
-                if (Shared.GlobalVars.pokemonsToAlwaysTransfer.Contains(pokemon.PokemonId)){
+                if (GlobalVars.pokemonsToAlwaysTransfer.Contains(pokemon.PokemonId)){
                     idsToTransfer.Add(pokemon.Id);
                     var Pokename = pokemon.PokemonId.ToString();
-                    if (Shared.GlobalVars.LogTransfer)
+                    if (GlobalVars.LogTransfer)
                     {
                         var date = DateTime.Now.ToString();
                         File.AppendAllText(logs, $"[{date}] - Transfer unwanted {Pokename} CP {pokemon.Cp}" + Environment.NewLine);
@@ -747,33 +732,33 @@ namespace PokemonGo.RocketAPI.Logic.Functions
 
         private static void TransferDuplicatePokemon(bool keepPokemonsThatCanEvolve = false, bool transferFirstLowIv = false)
         {
-            if (Shared.GlobalVars.RelocateDefaultLocation)
+            if (GlobalVars.RelocateDefaultLocation)
             {
                 return;
             }
-            if (Shared.GlobalVars.TransferDoublePokemons)
+            if (GlobalVars.TransferDoublePokemons)
             {
                 var profil = Logic.objClient.Player.GetPlayer();
                 RandomHelper.RandomSleep(300, 400);
 
-                if (Shared.GlobalVars.pauseAtEvolve2)
+                if (GlobalVars.pauseAtEvolve2)
                 {
                     Logger.ColoredConsoleWrite(ConsoleColor.Green, "Stopping to transfer some Pokemons.");
-                    Shared.GlobalVars.PauseTheWalking = true;
+                    GlobalVars.PauseTheWalking = true;
                 }
 
                 TransferUnwantedPokemon(profil.PlayerData.BuddyPokemon.Id);
 
-                var duplicatePokemons = Logic.objClient.Inventory.GetDuplicatePokemonToTransfer(Shared.GlobalVars.HoldMaxDoublePokemons, keepPokemonsThatCanEvolve, transferFirstLowIv);
+                var duplicatePokemons = Logic.objClient.Inventory.GetDuplicatePokemonToTransfer(GlobalVars.HoldMaxDoublePokemons, keepPokemonsThatCanEvolve, transferFirstLowIv);
                 var pokemonsToTransfer = new List<ulong>();
                 foreach (var duplicatePokemon in duplicatePokemons)
                 {
                     var Pokename = duplicatePokemon.PokemonId.ToString();
                     var IVPercent = PokemonInfo.CalculatePokemonPerfection(duplicatePokemon).ToString("0.00");
 
-                    if (!Shared.GlobalVars.pokemonsToHold.Contains(duplicatePokemon.PokemonId))
+                    if (!GlobalVars.pokemonsToHold.Contains(duplicatePokemon.PokemonId))
                     {
-                        if (duplicatePokemon.Cp >= Shared.GlobalVars.DontTransferWithCPOver || PokemonInfo.CalculatePokemonPerfection(duplicatePokemon) >= Shared.GlobalVars.ivmaxpercent)
+                        if (duplicatePokemon.Cp >= GlobalVars.DontTransferWithCPOver || PokemonInfo.CalculatePokemonPerfection(duplicatePokemon) >= GlobalVars.ivmaxpercent)
                         {
                             continue; // go to next itearion from foreach
                         }
@@ -796,7 +781,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                         if (transferFirstLowIv)
                         {
                             var BestIV = PokemonInfo.CalculatePokemonPerfection(bestPokemonsIvOfType.First()).ToString("0.00");
-                            if (Shared.GlobalVars.LogTransfer)
+                            if (GlobalVars.LogTransfer)
                             {
                                 File.AppendAllText(logs, $"[{date}] - Transfer {Pokename} CP {duplicatePokemon.Cp} IV {IVPercent} % (Your best is: {BestIV}% IV)" + Environment.NewLine);
                             }
@@ -804,7 +789,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                         }
                         else
                         {
-                            if (Shared.GlobalVars.LogTransfer)
+                            if (GlobalVars.LogTransfer)
                             {
                                 File.AppendAllText(logs, $"[{date}] - Transfer {Pokename} CP {duplicatePokemon.Cp} IV {IVPercent} % (Best: {bestPokemonsCpOfType.First().Cp} CP)" + Environment.NewLine);
                             }
@@ -831,10 +816,10 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                         Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Something happened while transferring pokemons.");
                     }
 
-                    if (Shared.GlobalVars.pauseAtEvolve2)
+                    if (GlobalVars.pauseAtEvolve2)
                     {
                         Logger.ColoredConsoleWrite(ConsoleColor.Green, "Pokemons transfered. Time to continue our journey!");
-                        Shared.GlobalVars.PauseTheWalking = false;
+                        GlobalVars.PauseTheWalking = false;
                     }
                 }
             }
@@ -844,13 +829,13 @@ namespace PokemonGo.RocketAPI.Logic.Functions
         {
             if (limit != "")
                 Logger.Info($"You have reached {limit} limit");
-            if ((Shared.GlobalVars.RestartAfterRun < 1) || (limit == "")){
+            if ((GlobalVars.RestartAfterRun < 1) || (limit == "")){
                 Logger.Info("We are closing the Bot for you! Wait 10 seconds");
                 RandomHelper.RandomSleep(10000,10001);
                 Environment.Exit(-1);
             }else{
-                Logger.Info($"Waiting {Shared.GlobalVars.RestartAfterRun} minutes");
-                for (var i= Shared.GlobalVars.RestartAfterRun; i>0; i--)
+                Logger.Info($"Waiting {GlobalVars.RestartAfterRun} minutes");
+                for (var i= GlobalVars.RestartAfterRun; i>0; i--)
                 {
                     Logger.Info($"{i} minutes left");
                     RandomHelper.RandomSleep(60000,61000);

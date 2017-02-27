@@ -24,6 +24,11 @@ namespace PokemonGo.RocketAPI.Console
         private System.Windows.Forms.ColumnHeader Title;
         private System.Windows.Forms.ColumnHeader Value;
         private System.Windows.Forms.ColumnHeader ID;
+        private System.Windows.Forms.GroupBox groupBoxSession;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label labelPokestops;
+        private System.Windows.Forms.Label labelPokemons;
 		
         /// <summary>
         /// Disposes resources used by the control.
@@ -56,10 +61,16 @@ namespace PokemonGo.RocketAPI.Console
             this.ID = new System.Windows.Forms.ColumnHeader();
             this.Title = new System.Windows.Forms.ColumnHeader();
             this.Value = new System.Windows.Forms.ColumnHeader();
+            this.groupBoxSession = new System.Windows.Forms.GroupBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.labelPokemons = new System.Windows.Forms.Label();
+            this.labelPokestops = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxTeam)).BeginInit();
             this.panelLeftArea.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxBuddyPokemon)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPlayerAvatar)).BeginInit();
+            this.groupBoxSession.SuspendLayout();
             this.SuspendLayout();
             // 
             // pictureBoxTeam
@@ -79,7 +90,7 @@ namespace PokemonGo.RocketAPI.Console
             this.panelLeftArea.Controls.Add(this.pictureBoxBuddyPokemon);
             this.panelLeftArea.Controls.Add(this.pictureBoxPlayerAvatar);
             this.panelLeftArea.Controls.Add(this.pictureBoxTeam);
-            this.panelLeftArea.Location = new System.Drawing.Point(2, 101);
+            this.panelLeftArea.Location = new System.Drawing.Point(2, 40);
             this.panelLeftArea.Margin = new System.Windows.Forms.Padding(2);
             this.panelLeftArea.Name = "panelLeftArea";
             this.panelLeftArea.Size = new System.Drawing.Size(300, 259);
@@ -165,9 +176,59 @@ namespace PokemonGo.RocketAPI.Console
             this.Value.Text = "Value";
             this.Value.Width = 200;
             // 
+            // groupBoxSession
+            // 
+            this.groupBoxSession.Controls.Add(this.labelPokestops);
+            this.groupBoxSession.Controls.Add(this.labelPokemons);
+            this.groupBoxSession.Controls.Add(this.label2);
+            this.groupBoxSession.Controls.Add(this.label1);
+            this.groupBoxSession.Location = new System.Drawing.Point(4, 332);
+            this.groupBoxSession.Name = "groupBoxSession";
+            this.groupBoxSession.Size = new System.Drawing.Size(295, 87);
+            this.groupBoxSession.TabIndex = 107;
+            this.groupBoxSession.TabStop = false;
+            this.groupBoxSession.Text = "Session Info";
+            // 
+            // label1
+            // 
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(15, 21);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(142, 18);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Pokemons Caught:";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // label2
+            // 
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(15, 48);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(142, 18);
+            this.label2.TabIndex = 1;
+            this.label2.Text = "PokeStops Farmed:";
+            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // labelPokemons
+            // 
+            this.labelPokemons.Location = new System.Drawing.Point(163, 24);
+            this.labelPokemons.Name = "labelPokemons";
+            this.labelPokemons.Size = new System.Drawing.Size(105, 18);
+            this.labelPokemons.TabIndex = 2;
+            this.labelPokemons.Text = "0";
+            // 
+            // labelPokestops
+            // 
+            this.labelPokestops.Location = new System.Drawing.Point(163, 51);
+            this.labelPokestops.Name = "labelPokestops";
+            this.labelPokestops.Size = new System.Drawing.Size(105, 18);
+            this.labelPokestops.TabIndex = 3;
+            this.labelPokestops.Text = "0";
+            // 
             // PlayerPanel
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
+            this.Controls.Add(this.groupBoxSession);
             this.Controls.Add(this.listView);
             this.Controls.Add(this.btnCollect);
             this.Controls.Add(this.btnTeam);
@@ -179,6 +240,7 @@ namespace PokemonGo.RocketAPI.Console
             this.panelLeftArea.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxBuddyPokemon)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPlayerAvatar)).EndInit();
+            this.groupBoxSession.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }

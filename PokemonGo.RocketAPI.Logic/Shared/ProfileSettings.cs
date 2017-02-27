@@ -434,15 +434,8 @@ namespace PokemonGo.RocketAPI.Logic.Shared
 
 
         }
-        public bool CollectDailyBonus {
-            get;
-            set;
-
-
-
-
-
-        }
+        public bool CollectDailyBonus {get;set; }
+        public bool ShowStats {get;set; }
         public bool pokevision {
             get;
             set;

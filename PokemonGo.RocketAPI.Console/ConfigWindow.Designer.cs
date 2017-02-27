@@ -322,6 +322,7 @@ namespace PokemonGo.RocketAPI.Console
             this.linkLabel13 = new System.Windows.Forms.LinkLabel();
             this.linkLabel12 = new System.Windows.Forms.LinkLabel();
             this.groupBox21 = new System.Windows.Forms.GroupBox();
+            this.linkLabelPokemaster = new System.Windows.Forms.LinkLabel();
             this.label38 = new System.Windows.Forms.Label();
             this.linkLabel8 = new System.Windows.Forms.LinkLabel();
             this.label10 = new System.Windows.Forms.Label();
@@ -338,7 +339,7 @@ namespace PokemonGo.RocketAPI.Console
             this.labelLanguage = new System.Windows.Forms.Label();
             this.comboLanguage = new System.Windows.Forms.ComboBox();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
-            this.linkLabelPokemaster = new System.Windows.Forms.LinkLabel();
+            this.checkBox_ShowStats = new System.Windows.Forms.CheckBox();
             this.tabProxies.SuspendLayout();
             this.tabItems.SuspendLayout();
             this.groupBoxItems.SuspendLayout();
@@ -1887,6 +1888,7 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // groupBox10
             // 
+            this.groupBox10.Controls.Add(this.checkBox_ShowStats);
             this.groupBox10.Controls.Add(this.checkBox_ConsoleInTab);
             this.groupBox10.Controls.Add(this.checkBox_CollectDailyBonus);
             this.groupBox10.Controls.Add(this.CB_SimulatePGO);
@@ -1897,16 +1899,16 @@ namespace PokemonGo.RocketAPI.Console
             this.groupBox10.Controls.Add(this.checkBox_SimulateAnimationTimeAtEvolve);
             this.groupBox10.Controls.Add(this.checkBox_UseLuckyEggAtEvolve);
             this.groupBox10.Controls.Add(this.checkBox_EvolvePokemonIfEnoughCandy);
-            this.groupBox10.Location = new System.Drawing.Point(361, 144);
+            this.groupBox10.Location = new System.Drawing.Point(361, 140);
             this.groupBox10.Name = "groupBox10";
-            this.groupBox10.Size = new System.Drawing.Size(307, 238);
+            this.groupBox10.Size = new System.Drawing.Size(307, 244);
             this.groupBox10.TabIndex = 6;
             this.groupBox10.TabStop = false;
             this.groupBox10.Text = "Other Settings";
             // 
             // checkBox_ConsoleInTab
             // 
-            this.checkBox_ConsoleInTab.Location = new System.Drawing.Point(176, 118);
+            this.checkBox_ConsoleInTab.Location = new System.Drawing.Point(175, 109);
             this.checkBox_ConsoleInTab.Name = "checkBox_ConsoleInTab";
             this.checkBox_ConsoleInTab.Size = new System.Drawing.Size(125, 17);
             this.checkBox_ConsoleInTab.TabIndex = 53;
@@ -1917,7 +1919,7 @@ namespace PokemonGo.RocketAPI.Console
             // 
             this.checkBox_CollectDailyBonus.Checked = true;
             this.checkBox_CollectDailyBonus.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox_CollectDailyBonus.Location = new System.Drawing.Point(20, 209);
+            this.checkBox_CollectDailyBonus.Location = new System.Drawing.Point(19, 200);
             this.checkBox_CollectDailyBonus.Name = "checkBox_CollectDailyBonus";
             this.checkBox_CollectDailyBonus.Size = new System.Drawing.Size(277, 17);
             this.checkBox_CollectDailyBonus.TabIndex = 52;
@@ -1926,7 +1928,7 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // CB_SimulatePGO
             // 
-            this.CB_SimulatePGO.Location = new System.Drawing.Point(38, 137);
+            this.CB_SimulatePGO.Location = new System.Drawing.Point(37, 128);
             this.CB_SimulatePGO.Name = "CB_SimulatePGO";
             this.CB_SimulatePGO.Size = new System.Drawing.Size(259, 24);
             this.CB_SimulatePGO.TabIndex = 50;
@@ -1935,7 +1937,7 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // checkBox_UseLuckyEggIfNotRunning
             // 
-            this.checkBox_UseLuckyEggIfNotRunning.Location = new System.Drawing.Point(20, 186);
+            this.checkBox_UseLuckyEggIfNotRunning.Location = new System.Drawing.Point(19, 177);
             this.checkBox_UseLuckyEggIfNotRunning.Name = "checkBox_UseLuckyEggIfNotRunning";
             this.checkBox_UseLuckyEggIfNotRunning.Size = new System.Drawing.Size(281, 17);
             this.checkBox_UseLuckyEggIfNotRunning.TabIndex = 47;
@@ -1944,7 +1946,7 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // checkBox_KeepPokemonWhichCanBeEvolved
             // 
-            this.checkBox_KeepPokemonWhichCanBeEvolved.Location = new System.Drawing.Point(20, 162);
+            this.checkBox_KeepPokemonWhichCanBeEvolved.Location = new System.Drawing.Point(19, 153);
             this.checkBox_KeepPokemonWhichCanBeEvolved.Name = "checkBox_KeepPokemonWhichCanBeEvolved";
             this.checkBox_KeepPokemonWhichCanBeEvolved.Size = new System.Drawing.Size(281, 17);
             this.checkBox_KeepPokemonWhichCanBeEvolved.TabIndex = 46;
@@ -1955,7 +1957,7 @@ namespace PokemonGo.RocketAPI.Console
             // 
             this.checkBox_EnablePokemonListGui.Checked = true;
             this.checkBox_EnablePokemonListGui.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox_EnablePokemonListGui.Location = new System.Drawing.Point(20, 119);
+            this.checkBox_EnablePokemonListGui.Location = new System.Drawing.Point(19, 110);
             this.checkBox_EnablePokemonListGui.Name = "checkBox_EnablePokemonListGui";
             this.checkBox_EnablePokemonListGui.Size = new System.Drawing.Size(150, 17);
             this.checkBox_EnablePokemonListGui.TabIndex = 45;
@@ -1964,7 +1966,7 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // checkBox_UseIncenseEvery30min
             // 
-            this.checkBox_UseIncenseEvery30min.Location = new System.Drawing.Point(20, 95);
+            this.checkBox_UseIncenseEvery30min.Location = new System.Drawing.Point(19, 86);
             this.checkBox_UseIncenseEvery30min.Name = "checkBox_UseIncenseEvery30min";
             this.checkBox_UseIncenseEvery30min.Size = new System.Drawing.Size(277, 17);
             this.checkBox_UseIncenseEvery30min.TabIndex = 43;
@@ -1975,7 +1977,7 @@ namespace PokemonGo.RocketAPI.Console
             // 
             this.checkBox_SimulateAnimationTimeAtEvolve.Checked = true;
             this.checkBox_SimulateAnimationTimeAtEvolve.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox_SimulateAnimationTimeAtEvolve.Location = new System.Drawing.Point(20, 50);
+            this.checkBox_SimulateAnimationTimeAtEvolve.Location = new System.Drawing.Point(19, 41);
             this.checkBox_SimulateAnimationTimeAtEvolve.Name = "checkBox_SimulateAnimationTimeAtEvolve";
             this.checkBox_SimulateAnimationTimeAtEvolve.Size = new System.Drawing.Size(281, 17);
             this.checkBox_SimulateAnimationTimeAtEvolve.TabIndex = 40;
@@ -1984,7 +1986,7 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // checkBox_UseLuckyEggAtEvolve
             // 
-            this.checkBox_UseLuckyEggAtEvolve.Location = new System.Drawing.Point(20, 28);
+            this.checkBox_UseLuckyEggAtEvolve.Location = new System.Drawing.Point(19, 19);
             this.checkBox_UseLuckyEggAtEvolve.Name = "checkBox_UseLuckyEggAtEvolve";
             this.checkBox_UseLuckyEggAtEvolve.Size = new System.Drawing.Size(277, 17);
             this.checkBox_UseLuckyEggAtEvolve.TabIndex = 41;
@@ -1993,7 +1995,7 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // checkBox_EvolvePokemonIfEnoughCandy
             // 
-            this.checkBox_EvolvePokemonIfEnoughCandy.Location = new System.Drawing.Point(20, 72);
+            this.checkBox_EvolvePokemonIfEnoughCandy.Location = new System.Drawing.Point(19, 63);
             this.checkBox_EvolvePokemonIfEnoughCandy.Name = "checkBox_EvolvePokemonIfEnoughCandy";
             this.checkBox_EvolvePokemonIfEnoughCandy.Size = new System.Drawing.Size(281, 17);
             this.checkBox_EvolvePokemonIfEnoughCandy.TabIndex = 44;
@@ -3945,6 +3947,18 @@ namespace PokemonGo.RocketAPI.Console
             this.groupBox21.TabStop = false;
             this.groupBox21.Text = "Project Information";
             // 
+            // linkLabelPokemaster
+            // 
+            this.linkLabelPokemaster.AutoSize = true;
+            this.linkLabelPokemaster.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.linkLabelPokemaster.Location = new System.Drawing.Point(6, 16);
+            this.linkLabelPokemaster.Name = "linkLabelPokemaster";
+            this.linkLabelPokemaster.Size = new System.Drawing.Size(141, 24);
+            this.linkLabelPokemaster.TabIndex = 42;
+            this.linkLabelPokemaster.TabStop = true;
+            this.linkLabelPokemaster.Text = "Pokemaster.me";
+            this.linkLabelPokemaster.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabelPokemaster_LinkClicked);
+            // 
             // label38
             // 
             this.label38.AutoSize = true;
@@ -4126,17 +4140,16 @@ namespace PokemonGo.RocketAPI.Console
             this.saveFileDialog1.Filter = "Json Files (*.json)|*.json|Text Files (*.txt)|*.txt";
             this.saveFileDialog1.OverwritePrompt = false;
             // 
-            // linkLabelPokemaster
+            // checkBox_ShowStats
             // 
-            this.linkLabelPokemaster.AutoSize = true;
-            this.linkLabelPokemaster.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.linkLabelPokemaster.Location = new System.Drawing.Point(6, 16);
-            this.linkLabelPokemaster.Name = "linkLabelPokemaster";
-            this.linkLabelPokemaster.Size = new System.Drawing.Size(141, 24);
-            this.linkLabelPokemaster.TabIndex = 42;
-            this.linkLabelPokemaster.TabStop = true;
-            this.linkLabelPokemaster.Text = "Pokemaster.me";
-            this.linkLabelPokemaster.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabelPokemaster_LinkClicked);
+            this.checkBox_ShowStats.Checked = true;
+            this.checkBox_ShowStats.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox_ShowStats.Location = new System.Drawing.Point(19, 223);
+            this.checkBox_ShowStats.Name = "checkBox_ShowStats";
+            this.checkBox_ShowStats.Size = new System.Drawing.Size(277, 17);
+            this.checkBox_ShowStats.TabIndex = 54;
+            this.checkBox_ShowStats.Text = "Show Stats in Console";
+            this.checkBox_ShowStats.UseVisualStyleBackColor = true;
             // 
             // ConfigWindow
             // 
@@ -4606,6 +4619,7 @@ namespace PokemonGo.RocketAPI.Console
         private System.Windows.Forms.CheckBox checkBoxSaveLocations;
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
         private System.Windows.Forms.LinkLabel linkLabelPokemaster;
+        private System.Windows.Forms.CheckBox checkBox_ShowStats;
         //private System.Windows.Forms.CheckBox checkBox_CatchLurePokemons;
     }
 }

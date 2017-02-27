@@ -300,6 +300,7 @@ namespace PokemonGo.RocketAPI.Console
             checkBox_KeepPokemonWhichCanBeEvolved.Checked = config.keepPokemonsThatCanEvolve;
             checkBox_UseLuckyEggIfNotRunning.Checked = config.UseLuckyEggIfNotRunning;
             checkBox_CollectDailyBonus.Checked = config.CollectDailyBonus;
+            checkBox_ShowStats.Checked = config.ShowStats;
             checkbox_UsePinapBerry.Checked = config.UsePinapBerry;
             checkBox_UseNanabBerry.Checked = config.UseNanabBerry;
     
@@ -718,6 +719,7 @@ namespace PokemonGo.RocketAPI.Console
             ActiveProfile.Settings.keepPokemonsThatCanEvolve = checkBox_KeepPokemonWhichCanBeEvolved.Checked;
             ActiveProfile.Settings.UseLuckyEggIfNotRunning = checkBox_UseLuckyEggIfNotRunning.Checked;
             ActiveProfile.Settings.CollectDailyBonus = checkBox_CollectDailyBonus.Checked;
+            ActiveProfile.Settings.ShowStats = checkBox_ShowStats.Checked;
 
             // tab 2 - pokemons
             ActiveProfile.Settings.pokemonsToHold.Clear();
