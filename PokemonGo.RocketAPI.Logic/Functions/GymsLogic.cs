@@ -491,7 +491,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                         if (waitTime < 0)
                             waitTime = 0;
                         else if (waitTime > 1200)
-                            waitTime = 1500;
+                            waitTime = 1200;
                         RandomHelper.RandomSleep(waitTime, waitTime + 100);
                     }
                 }
@@ -584,6 +584,24 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                         RandomHelper.RandomSleep(2000);
                         var gmo = client.Map.GetMapObjects().Result;
                         RandomHelper.RandomSleep(7000);
+                    }else if (GlobalVars.Gyms.Testing == "Wait 2 minutes before of next try"){
+                        // 120 secondos
+                        Logger.Info("Waiting 2 minutes before of next attack try");
+                        if (GlobalVars.CatchPokemon)
+                            Logger.Info("While, we will try to catch pokemons");
+                        for (var i = 0; i<60;i++){
+                            var rnd = RandomHelper.RandomNumber(1,10);
+                            // 0.00001 = 1 meters 
+                            //http://gizmodo.com/how-precise-is-one-degree-of-longitude-or-latitude-1631241162
+                            LocationUtils.updatePlayerLocation(client, client.CurrentLongitude + rnd, client.CurrentLatitude,client.CurrentAltitude);
+                            RandomHelper.RandomSleep(10000);
+                            CatchingLogic.Execute();
+                            // go back
+                            LocationUtils.updatePlayerLocation(client, client.CurrentLongitude , client.CurrentLatitude,client.CurrentAltitude);
+                            RandomHelper.RandomSleep(10000);
+                            CatchingLogic.Execute();
+                        }
+                        
                     }else if (GlobalVars.Gyms.Testing == "GMO,SGB,GMO"){
                         client.CurrentLatitude = client.CurrentLatitude + deltaValue;
                         RandomHelper.RandomSleep(7000);
