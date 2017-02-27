@@ -99,7 +99,7 @@ namespace PokemonGo.RocketAPI.Console
                 updatePlayerInfoLabels();
             }
             labelPokemons.Text = ""+ Logic.Functions.Setout.pokemonCatchCount;
-            labelPokestops.Text = ""+ Logic.Functions.Setout.pokemonCatchCount;
+            labelPokestops.Text = ""+ Logic.Functions.Setout.pokeStopFarmedCount;
         }
         
         public void setProfile(GetPlayerResponse prof){
