@@ -7,6 +7,7 @@
  * To change this template use Tools | Options | Coding | Edit Standard Headers.
  */
 using System.Globalization;
+using System.Net;
 using POGOProtos.Enums;
 using PokemonGo.RocketAPI.Console.Helper;
 using System;
@@ -381,7 +382,7 @@ namespace PokemonGo.RocketAPI.Console
         {
             var pokeId = PokemonId.Missingno;
             Enum.TryParse<PokemonId>(comboBox1.SelectedValue.ToString(), out pokeId);
-            var pokemonImage = PokeImgManager.GetPokemonMediumImage(pokeId);
+            var pokemonImage = PokeImgManager.GetPokemonLargeImage(pokeId);
             PokemonImage.Image = pokemonImage;
         }
 
@@ -420,11 +421,14 @@ namespace PokemonGo.RocketAPI.Console
 
         void timerAutosnipe_Tick(object sender, EventArgs e)
         {
+            if (!GlobalVars.CatchPokemon)
+                return;
             var next = GetNextUnused();
             if (next != null) {
                 SnipeURI(next.Text);
                 next.SubItems[8].Text = "true";
             }
+            
         }
 
         void numSnipeMinutes_ValueChanged(object sender, EventArgs e)
@@ -471,6 +475,59 @@ namespace PokemonGo.RocketAPI.Console
                 stre += "" +element+",";
             }
             MessageBox.Show(stre);
+        }
+        void button1_Click(object sender, EventArgs e)
+        {
+            var webClient = new WebClient();
+            var downloadedFile = Path.GetTempFileName();
+            webClient.DownloadFile("http://www.mypogosnipers.com/data/cache/free.txt", downloadedFile);
+            var lines = File.ReadAllLines(downloadedFile);
+            // line example:-38.1197678226872,144.331814009056,177,Natu -IV: 98% - PeckFast/NightShade (mypogosnipers.com)
+            if (lines.Length>0){
+                foreach (var element in lines) {
+                    var columns = element.Split(',');
+                    var Latitude = columns[0].Trim();
+                    var Longitude = columns[1].Trim();
+                    var alt = columns[2].Trim();
+                    var id = Latitude +Longitude+alt;
+                    if (isInList(id))
+                        continue;
+
+                    var columns2 = columns[3].Trim().Split('-');
+                    var pokeID = columns2[0].Trim();
+                    var iv100 = columns2[1].Trim().Replace("IV:","").Replace("%","");
+                    var date = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss");
+                    var listViewItem = new ListViewItem();
+                    listViewItem.Text= $"pokesniper2://{pokeID}/{Latitude},{Longitude}";
+                    listViewItem.SubItems.Add(iv100);
+                    listViewItem.SubItems.Add("");
+                    listViewItem.SubItems.Add(date);
+                    listViewItem.SubItems.Add("");
+                    listViewItem.SubItems.Add(id);
+                    listViewItem.SubItems.Add("mypogosnipers");
+                    listViewItem.SubItems.Add("");
+                    listViewItem.SubItems.Add("false");
+                    
+                    listView.Items.Add(listViewItem);
+                }
+            }
+
+        }
+        void deleteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            for (var i= listView.SelectedItems.Count -1;i>=0;i--) {
+                listView.Items.Remove(listView.SelectedItems[i]);
+            }
+        }
+        void deleteAllToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            listView.Items.Clear();
+        }
+        void listView_ColumnClick(object sender, ColumnClickEventArgs e)
+        {
+            var order = (sender as ListView).Sorting;
+            listView.ListViewItemSorter = new Components.ListViewItemComparer(e.Column, order);
+            (sender as ListView).Sorting = order == SortOrder.Ascending ? SortOrder.Descending : SortOrder.Ascending;
         }
 
     }
