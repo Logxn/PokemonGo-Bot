@@ -788,7 +788,7 @@ namespace PokemonGo.RocketAPI.Logic.Shared
 
         }
         public bool SnipePokemon  {get;set;}
-        public System.Collections.Generic.List<POGOProtos.Enums.PokemonId> NotToSnipe  {get;set;}
+        public System.Collections.Generic.List<POGOProtos.Enums.PokemonId> ToSnipe  {get;set;}
 
         public int EvolveAt {get;set;}
 
@@ -975,7 +975,7 @@ namespace PokemonGo.RocketAPI.Logic.Shared
             pokemonsToAlwaysTransfer= new System.Collections.Generic.List<POGOProtos.Enums.PokemonId>();
             catchPokemonSkipList = new System.Collections.Generic.List<POGOProtos.Enums.PokemonId>();
             pokemonsToEvolve = new System.Collections.Generic.List<POGOProtos.Enums.PokemonId>();
-            NotToSnipe = new System.Collections.Generic.List<POGOProtos.Enums.PokemonId>();
+            ToSnipe = new System.Collections.Generic.List<POGOProtos.Enums.PokemonId>();
             proxySettings = new ProxySettings();
             Gyms = new GymSettings();
         }

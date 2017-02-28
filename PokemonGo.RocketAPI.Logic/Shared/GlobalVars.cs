@@ -75,7 +75,7 @@ namespace PokemonGo.RocketAPI.Logic.Shared
         public static List<PokemonId> pokemonsToAlwaysTransfer;
         public static List<PokemonId> catchPokemonSkipList;
         public static List<PokemonId> pokemonsToEvolve;
-        public static List<PokemonId> NotToSnipe;
+        public static List<PokemonId> ToSnipe;
         public static string TelegramAPIToken = string.Empty;
         public static string TelegramName = string.Empty;
         public static int TelegramLiveStatsDelay = 5000;

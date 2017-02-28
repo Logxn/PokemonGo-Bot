@@ -150,7 +150,7 @@
   "ConfigWindow.tabControl1.tabMisc.groupBox25": "Enwickler",
   "ConfigWindow.tabControl1.tabMisc.groupBox25.checkbox_Verboselogging": "Aktiviere ausführliche Protokollierung",
   "ConfigWindow.tabControl1.tabMisc.groupBox23": "Pokémon (Nicht via \"Sniper\" fangen)",
-  "ConfigWindow.tabControl1.tabMisc.groupBox23.SelectallNottoSnipe": "Alle auswählen",
+  "ConfigWindow.tabControl1.tabMisc.groupBox23.SelectalltoSnipe": "Alle auswählen",
   "ConfigWindow.tabControl1.tabMisc.AvoidRegionLock": "Vermeide Lokalisierte Pokémon",
   "ConfigWindow.tabControl1.tabMisc.SnipePokemonPokeCom": "Aktiviere Pokémon Sniping",
   "ConfigWindow.tabControl1.tabMisc.groupBox17": "Telegram Einstellungen",

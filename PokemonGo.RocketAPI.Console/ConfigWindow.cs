@@ -725,7 +725,7 @@ namespace PokemonGo.RocketAPI.Console
             ActiveProfile.Settings.pokemonsToHold.Clear();
             ActiveProfile.Settings.catchPokemonSkipList.Clear();
             ActiveProfile.Settings.pokemonsToEvolve.Clear();
-            ActiveProfile.Settings.NotToSnipe.Clear();
+            ActiveProfile.Settings.ToSnipe.Clear();
 
             ActiveProfile.Settings.UsePinapBerry = checkbox_UsePinapBerry.Checked;
 
@@ -1418,6 +1418,34 @@ namespace PokemonGo.RocketAPI.Console
         {
           Process.Start("https://pokemaster.me");
         }
+        void buttonTest_Click(object sender, EventArgs e)
+        {
+            var port = 80;
+            int.TryParse(prxyPort.Text,out port);
+             MessageBox.Show(th.TS(testProxy (prxyIP.Text,port,prxyUser.Text,prxyPass.Text)));
+        }
+        private string testProxy(string proxyHost, int proxyPort, string proxyUsername, string proxyPassword)
+        {
+            if ((proxyHost == "") || (proxyPort ==0))
+                return "Proxy Host or Port is wrong";
+            try
+            {
+                var proxyUri = $"http://{proxyHost}:{proxyPort}";
+                Logger.Info("proxyUri: "+proxyUri);
+                Logger.Info("proxyUsername: "+proxyUsername);
+                Logger.Info("proxyPassword: "+(proxyPassword != ""));
+                var p = new WebProxy(new System.Uri(proxyUri), false, null);
 
+                if (proxyUsername!="")
+                    p.Credentials = new NetworkCredential(proxyUsername, proxyPassword);
+                var wc = new WebClient();
+                wc.Proxy =p;
+                wc.DownloadData("https://pokemaster.me");
+                return "Proxy is OK";
+            } catch (Exception ex)
+            {
+                return ex.Message;
+            }
+        }
     }
 }

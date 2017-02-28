@@ -49,17 +49,28 @@ namespace PokemonGo.RocketAPI.Console
             // The InitializeComponent() call is required for Windows Forms designer support.
             //
             InitializeComponent();
-            IntializeComboLinks();
+            IntializeCombos();
             th.Translate(this);
         }
 
-        void IntializeComboLinks()
+        void IntializeCombos()
         {
             LoadLinks();
 
             comboBoxLinks.DataSource = links;
             comboBoxLinks.DisplayMember = "Text";
             comboBoxLinks.SelectedIndex = 0;
+            
+            var pokemonControlSource = new List<PokemonId>();
+            checkedListBox_ToSnipe.Items.Clear();
+            foreach (PokemonId pokemon in Enum.GetValues(typeof(PokemonId))) {
+                if (pokemon.ToString() != "Missingno"){
+                    pokemonControlSource.Add(pokemon);
+                    checkedListBox_ToSnipe.Items.Add(th.TS(pokemon.ToString()));
+                }
+            }            
+            comboBox1.DataSource = pokemonControlSource;
+
         }
 
         public void AddButtonClick(System.EventHandler evh)
@@ -129,13 +140,15 @@ namespace PokemonGo.RocketAPI.Console
         {
             SnipePokemonPokeCom.Checked = GlobalVars.SnipePokemon;
             AvoidRegionLock.Checked = GlobalVars.AvoidRegionLock;
-            var pokemonControlSource = new List<PokemonId>();
-            foreach (PokemonId pokemon in Enum.GetValues(typeof(PokemonId))) {
-                if (pokemon.ToString() != "Missingno")
-                    pokemonControlSource.Add(pokemon);
-            }            
-            comboBox1.DataSource = pokemonControlSource;
+            
+            foreach (PokemonId Id in GlobalVars.ToSnipe)
+            {
+                var intID =  (int) Id;
+                checkedListBox_ToSnipe.SetItemChecked( intID - 1, true);
+            }
+
         }
+
         void btnInstall_Click(object sender, EventArgs e)
         {
             if (timerSnipe.Enabled) {
@@ -178,7 +191,8 @@ namespace PokemonGo.RocketAPI.Console
                     transferIt = checkBoxSnipeTransfer.Checked;
                 } catch (Exception) {
                 }
-                SnipePoke(ToPokemonID(splt[0]), stw, tries, transferIt);
+                var pokeID = ToPokemonID(splt[0]);
+                SnipePoke(pokeID, stw, tries, transferIt);
             } else if (txt.IndexOf("msniper://") > -1) {
                 txt = txt.Replace("msniper://", "");
                 var splt = txt.Split('/');
@@ -192,7 +206,8 @@ namespace PokemonGo.RocketAPI.Console
                     transferIt = checkBoxSnipeTransfer.Checked;
                 } catch (Exception) {
                 }
-                SnipePoke(ToPokemonID(splt[0]), stw, tries, transferIt);
+                var pokeID = ToPokemonID(splt[0]);
+                SnipePoke(pokeID, stw, tries, transferIt);
             }
         }
 
@@ -261,8 +276,17 @@ namespace PokemonGo.RocketAPI.Console
         {
             foreach (ListViewItem element in listView.Items) {
                 if ((element.SubItems[6].Text != GlobalVars.ProfileName)
-                    && (element.SubItems[8].Text == "false"))
-                    return element;
+                    && (element.SubItems[8].Text == "false")){
+                    var txt = element.Text;
+                    txt = txt.Replace("pokesniper2://", "");
+                    var splt = txt.Split('/');
+                    var pokeID = ToPokemonID(splt[0]);
+                    if ( GlobalVars.ToSnipe.Contains(pokeID)){
+                        return element;
+                    }
+                    Logger.Info(pokeID +" not is in to snipe list");
+                    element.SubItems[8].Text = "true";
+                }
             }
             return null;
         }
@@ -357,7 +381,7 @@ namespace PokemonGo.RocketAPI.Console
         {
             var pokeId = PokemonId.Missingno;
             Enum.TryParse<PokemonId>(comboBox1.SelectedValue.ToString(), out pokeId);
-            var pokemonImage = PokeImgManager.GetPokemonVeryLargeImage(pokeId);
+            var pokemonImage = PokeImgManager.GetPokemonMediumImage(pokeId);
             PokemonImage.Image = pokemonImage;
         }
 
@@ -422,6 +446,31 @@ namespace PokemonGo.RocketAPI.Console
         void snipeToolStripMenuItem_Click(object sender, EventArgs e)
         {
             listView_DoubleClick(sender,e);
+        }
+        void checkBoxSelectAll_CheckedChanged(object sender, EventArgs e)
+        {
+           var isChecked = ( sender as CheckBox).Checked;
+           for ( var i = 0; i< checkedListBox_ToSnipe.Items.Count; i++) {
+              checkedListBox_ToSnipe.SetItemChecked(i, isChecked );
+           }
+        }
+        void checkedListBox_ToSnipe_ItemCheck(object sender, ItemCheckEventArgs e)
+        {
+            var index = e.Index;
+            var pokeID = (PokemonId) (index+1);
+            CheckState isChecked = e.NewValue;
+            if (GlobalVars.ToSnipe.Contains(pokeID))
+                GlobalVars.ToSnipe.Remove(pokeID);
+            if (isChecked == CheckState.Checked)
+                GlobalVars.ToSnipe.Add(pokeID);
+        }
+        void label3_DoubleClick(object sender, EventArgs e)
+        {
+            var stre ="";
+            foreach (var element in GlobalVars.ToSnipe) {
+                stre += "" +element+",";
+            }
+            MessageBox.Show(stre);
         }
 
     }

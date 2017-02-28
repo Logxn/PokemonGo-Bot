@@ -146,6 +146,7 @@ namespace PokemonGo.RocketAPI.Console
             this.text_Latidude = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.groupBox10 = new System.Windows.Forms.GroupBox();
+            this.checkBox_ShowStats = new System.Windows.Forms.CheckBox();
             this.checkBox_ConsoleInTab = new System.Windows.Forms.CheckBox();
             this.checkBox_CollectDailyBonus = new System.Windows.Forms.CheckBox();
             this.CB_SimulatePGO = new System.Windows.Forms.CheckBox();
@@ -339,7 +340,7 @@ namespace PokemonGo.RocketAPI.Console
             this.labelLanguage = new System.Windows.Forms.Label();
             this.comboLanguage = new System.Windows.Forms.ComboBox();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
-            this.checkBox_ShowStats = new System.Windows.Forms.CheckBox();
+            this.buttonTest = new System.Windows.Forms.Button();
             this.tabProxies.SuspendLayout();
             this.tabItems.SuspendLayout();
             this.groupBoxItems.SuspendLayout();
@@ -467,6 +468,7 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // tabProxies
             // 
+            this.tabProxies.Controls.Add(this.buttonTest);
             this.tabProxies.Controls.Add(this.labelPrxPass);
             this.tabProxies.Controls.Add(this.labelPrxUser);
             this.tabProxies.Controls.Add(this.labelPrxPort);
@@ -1905,6 +1907,17 @@ namespace PokemonGo.RocketAPI.Console
             this.groupBox10.TabIndex = 6;
             this.groupBox10.TabStop = false;
             this.groupBox10.Text = "Other Settings";
+            // 
+            // checkBox_ShowStats
+            // 
+            this.checkBox_ShowStats.Checked = true;
+            this.checkBox_ShowStats.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox_ShowStats.Location = new System.Drawing.Point(19, 223);
+            this.checkBox_ShowStats.Name = "checkBox_ShowStats";
+            this.checkBox_ShowStats.Size = new System.Drawing.Size(277, 17);
+            this.checkBox_ShowStats.TabIndex = 54;
+            this.checkBox_ShowStats.Text = "Show Stats in Console";
+            this.checkBox_ShowStats.UseVisualStyleBackColor = true;
             // 
             // checkBox_ConsoleInTab
             // 
@@ -4140,16 +4153,15 @@ namespace PokemonGo.RocketAPI.Console
             this.saveFileDialog1.Filter = "Json Files (*.json)|*.json|Text Files (*.txt)|*.txt";
             this.saveFileDialog1.OverwritePrompt = false;
             // 
-            // checkBox_ShowStats
+            // buttonTest
             // 
-            this.checkBox_ShowStats.Checked = true;
-            this.checkBox_ShowStats.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox_ShowStats.Location = new System.Drawing.Point(19, 223);
-            this.checkBox_ShowStats.Name = "checkBox_ShowStats";
-            this.checkBox_ShowStats.Size = new System.Drawing.Size(277, 17);
-            this.checkBox_ShowStats.TabIndex = 54;
-            this.checkBox_ShowStats.Text = "Show Stats in Console";
-            this.checkBox_ShowStats.UseVisualStyleBackColor = true;
+            this.buttonTest.Location = new System.Drawing.Point(281, 236);
+            this.buttonTest.Name = "buttonTest";
+            this.buttonTest.Size = new System.Drawing.Size(75, 23);
+            this.buttonTest.TabIndex = 17;
+            this.buttonTest.Text = "Test it";
+            this.buttonTest.UseVisualStyleBackColor = true;
+            this.buttonTest.Click += new System.EventHandler(this.buttonTest_Click);
             // 
             // ConfigWindow
             // 
@@ -4620,6 +4632,7 @@ namespace PokemonGo.RocketAPI.Console
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
         private System.Windows.Forms.LinkLabel linkLabelPokemaster;
         private System.Windows.Forms.CheckBox checkBox_ShowStats;
+        private System.Windows.Forms.Button buttonTest;
         //private System.Windows.Forms.CheckBox checkBox_CatchLurePokemons;
     }
 }

@@ -363,10 +363,10 @@ namespace PokemonGo.RocketAPI.Console
             set { GlobalVars.pokemonsToEvolve = value; }
         }
 
-        public List<PokemonId> NotToSnipe
+        public List<PokemonId> ToSnipe
         {
-            get { return GlobalVars.NotToSnipe; }
-            set { GlobalVars.NotToSnipe = value; }
+            get { return GlobalVars.ToSnipe; }
+            set { GlobalVars.ToSnipe = value; }
         }
 
 

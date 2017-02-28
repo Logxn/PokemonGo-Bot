@@ -149,7 +149,7 @@ namespace PokemonGo.RocketAPI.Logic.Shared
 
         bool NextBestBallOnEscape { get; set; }
         bool SnipePokemon { get; set; }
-        List<PokemonId> NotToSnipe { get; set; }
+        List<PokemonId> ToSnipe { get; set; }
                 
         /* ===================================[SETTINGS]================================= */
 
