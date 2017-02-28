@@ -37,10 +37,12 @@ namespace PokemonGo.RocketAPI.HttpClient
         /// <returns>string</returns>
         Version RequestCurrentNianticAPIVersion()
         {
-            var apiVer = HttpGetCurrentNianticAPIVersion().Result;
             CurrentNianticAPIVersion = new Version();
-            if (apiVer!="")
-                CurrentNianticAPIVersion = new Version(apiVer);
+            try {
+                CurrentNianticAPIVersion = new Version(HttpGetCurrentNianticAPIVersion().Result);
+            } catch (Exception ex1) {
+                Logger.ExceptionInfo(ex1.ToString());
+            }
             return CurrentNianticAPIVersion;
         }
 

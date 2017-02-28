@@ -62,10 +62,10 @@ namespace PokemonGo.RocketAPI.Console
             this.Title = new System.Windows.Forms.ColumnHeader();
             this.Value = new System.Windows.Forms.ColumnHeader();
             this.groupBoxSession = new System.Windows.Forms.GroupBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.labelPokemons = new System.Windows.Forms.Label();
             this.labelPokestops = new System.Windows.Forms.Label();
+            this.labelPokemons = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxTeam)).BeginInit();
             this.panelLeftArea.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxBuddyPokemon)).BeginInit();
@@ -178,6 +178,7 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // groupBoxSession
             // 
+            this.groupBoxSession.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.groupBoxSession.Controls.Add(this.labelPokestops);
             this.groupBoxSession.Controls.Add(this.labelPokemons);
             this.groupBoxSession.Controls.Add(this.label2);
@@ -189,15 +190,21 @@ namespace PokemonGo.RocketAPI.Console
             this.groupBoxSession.TabStop = false;
             this.groupBoxSession.Text = "Session Info";
             // 
-            // label1
+            // labelPokestops
             // 
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(15, 21);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(142, 18);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Pokemons Caught:";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.labelPokestops.Location = new System.Drawing.Point(163, 51);
+            this.labelPokestops.Name = "labelPokestops";
+            this.labelPokestops.Size = new System.Drawing.Size(105, 18);
+            this.labelPokestops.TabIndex = 3;
+            this.labelPokestops.Text = "0";
+            // 
+            // labelPokemons
+            // 
+            this.labelPokemons.Location = new System.Drawing.Point(163, 24);
+            this.labelPokemons.Name = "labelPokemons";
+            this.labelPokemons.Size = new System.Drawing.Size(105, 18);
+            this.labelPokemons.TabIndex = 2;
+            this.labelPokemons.Text = "0";
             // 
             // label2
             // 
@@ -209,21 +216,15 @@ namespace PokemonGo.RocketAPI.Console
             this.label2.Text = "PokeStops Farmed:";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // labelPokemons
+            // label1
             // 
-            this.labelPokemons.Location = new System.Drawing.Point(163, 24);
-            this.labelPokemons.Name = "labelPokemons";
-            this.labelPokemons.Size = new System.Drawing.Size(105, 18);
-            this.labelPokemons.TabIndex = 2;
-            this.labelPokemons.Text = "0";
-            // 
-            // labelPokestops
-            // 
-            this.labelPokestops.Location = new System.Drawing.Point(163, 51);
-            this.labelPokestops.Name = "labelPokestops";
-            this.labelPokestops.Size = new System.Drawing.Size(105, 18);
-            this.labelPokestops.TabIndex = 3;
-            this.labelPokestops.Text = "0";
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(15, 21);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(142, 18);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Pokemons Caught:";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // PlayerPanel
             // 
