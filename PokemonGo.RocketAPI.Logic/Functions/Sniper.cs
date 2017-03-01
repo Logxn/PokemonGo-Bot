@@ -7,8 +7,10 @@
  * To change this template use Tools | Options | Coding | Edit Standard Headers.
  */
 using System;
+using System.Collections.Generic;
 using System.Device.Location;
 using POGOProtos.Enums;
+using POGOProtos.Map.Pokemon;
 using POGOProtos.Networking.Responses;
 using PokemonGo.RocketAPI.Helpers;
 using System.Linq;
@@ -63,13 +65,15 @@ namespace PokemonGo.RocketAPI.Logic.Functions
 
                 SendToLog($"We are at sniping location...");
                 SendToLog($"Waiting {GlobalVars.SnipeOpts.WaitSecond} seconds for Pokemon to appear...");
-                RandomHelper.RandomSleep(GlobalVars.SnipeOpts.WaitSecond * 1200);
+                RandomHelper.RandomSleep(GlobalVars.SnipeOpts.WaitSecond * 1000);
                 
                 var catchedID = 0UL;
                 if (pokeid == PokemonId.Missingno)
                     catchedID = TrySnipeGym(remoteCoords, returnCoords);
-                else
+                else{
+                    RandomHelper.RandomSleep(1000);
                     catchedID = TrySnipePokemons(pokeid, remoteCoords, returnCoords);
+                }
 
                 LocationUtils.updatePlayerLocation(_client, returnCoords.Latitude, returnCoords.Longitude, returnCoords.Altitude);
                 gmp = _client.Map.GetMapObjects(true);
@@ -84,7 +88,6 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                         SendToLog("Candies awarded: " + trResult.CandyAwarded);
                     }
                 }
-
 
                 RandomHelper.RandomSleep(20000, 22000);  // Avoid cache after snipe
 
@@ -155,6 +158,22 @@ namespace PokemonGo.RocketAPI.Logic.Functions
             return caught;
         }
 
+        private bool FindPokemon(PokemonId pokeid, GeoCoordinate pokeCoords,   IEnumerable<MapPokemon> pokemons, out MapPokemon pokemonOUT)
+        {
+            var found = false;
+            pokemonOUT = null;
+            foreach (var pokemon in pokemons) {
+                Logger.Debug("pokemon:" + pokemon);
+                if (Math.Abs(pokemon.Latitude - pokeCoords.Latitude) < Epsilon && Math.Abs(pokemon.Longitude - pokeCoords.Longitude) < Epsilon) {
+                    found = true;
+                    pokemonOUT = pokemon;
+                    if (pokemon.PokemonId == pokeid)
+                        break;
+                }
+            }
+            return found;
+        }
+
         private ulong TrySnipePokemons(PokemonId pokeid, GeoCoordinate pokeCoords, GeoCoordinate returnCoords)
         {
             const bool goBack = true;
@@ -168,16 +187,10 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                 var pokemons = mapObjectsResponse.MapCells.SelectMany(i => i.CatchablePokemons);
                 if (pokemons.Any()) {
                     SendToLog($"Found {pokemons.Count()} catchable Pokemon(s)");
-                    foreach (var pokemon in pokemons) {
-                        Logger.Debug("pokemon:" + pokemon);
-                        Logger.Debug("pokeCoords:" + pokeCoords);
-                        if (Math.Abs(pokemon.Latitude - pokeCoords.Latitude) < Epsilon && Math.Abs(pokemon.Longitude - pokeCoords.Longitude) < Epsilon) {
-                            SendToLog($"Found {pokemon.PokemonId} to Snipe");
-                            caught = CatchingLogic.CatchPokemon(pokemon.EncounterId, pokemon.SpawnPointId, pokemon.PokemonId, pokemon.Longitude, pokemon.Latitude, goBack, returnCoords.Latitude, returnCoords.Longitude);
-                            found = true;
-                            break;
-                        }
-                    }
+                    MapPokemon pokemon = null;
+                    found = FindPokemon(pokeid,pokeCoords,pokemons,out pokemon);
+                    if (found)
+                        caught = CatchingLogic.CatchPokemon(pokemon.EncounterId, pokemon.SpawnPointId, pokemon.PokemonId, pokemon.Longitude, pokemon.Latitude, goBack, returnCoords.Latitude, returnCoords.Longitude);
                 }
                 tries++;
                 if (!found) {
