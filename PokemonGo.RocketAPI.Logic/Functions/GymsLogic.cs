@@ -637,8 +637,8 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                 if (ret.Result == AttackGymResponse.Types.Result.Success) {
                     foreach (var element in  ret.BattleLog.BattleActions) {
                         if (element.Type == BattleActionType.ActionPlayerQuit) {
-                            Logger.Debug("(Gym) - Gym points: " + element.BattleResults.GymPointsDelta);
-                            Logger.Debug("(Gym) - Experience Awarded: " + element.BattleResults.PlayerExperienceAwarded);
+                            Logger.Info("(Gym) - Gym points: " + element.BattleResults.GymPointsDelta);
+                            Logger.Info("(Gym) - Experience Awarded: " + element.BattleResults.PlayerExperienceAwarded);
                             Logger.Debug("(Gym) - Next Pokemon: " + element.BattleResults.NextDefenderPokemonId);
                             exit = true;
                         }
