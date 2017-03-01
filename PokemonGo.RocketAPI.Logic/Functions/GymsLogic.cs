@@ -285,7 +285,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                     Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - Defender: " + strPokemon(defender));
                     var pokeAttackers = getPokeAttackers(pokemons, defender);
                     if (pokeAttackers.Count() < 6) {
-                        Logger.Warning( "(Gym) - There is not enouth pokemons to train");
+                        Logger.Warning( "(Gym) - There are not enouth pokemons to train");
                         return false;
                     }
                     Logger.ColoredConsoleWrite(gymColorLog, "(Gym) Let's go to train");
@@ -301,6 +301,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                 Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - This gym is not from your team.");
                 if (!GlobalVars.Gyms.Attack) {
                     Logger.Debug("Attack is disabled");
+                    AddVisited(gym.Id, 600000);
                     return false;
                 }
                 if (gymDetails.GymState.Memberships.Count >= 1 && gymDetails.GymState.Memberships.Count <= GlobalVars.Gyms.NumDefenders) {
@@ -312,7 +313,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                     Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - Defender: " + strPokemon(defender));
                     var pokeAttackers = getPokeAttackers(pokemons, defender);
                     if (pokeAttackers.Count() < 6) {
-                        Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - There is not enouth pokemons to fight");
+                        Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - There are not enouth pokemons to fight");
                         return false;
                     }
                     Logger.ColoredConsoleWrite(gymColorLog, "(Gym) Let's go to fight");

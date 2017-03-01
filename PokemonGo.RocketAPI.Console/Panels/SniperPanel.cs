@@ -126,6 +126,11 @@ namespace PokemonGo.RocketAPI.Console
 
         void SnipePoke(PokemonId id, int secondsToWait, int numberOfTries, bool transferIt)
         {
+            if (GlobalVars.SnipeOpts.Enabled){
+                Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "There is a Snipe in process.");
+                return;
+            }
+                
             Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "Manual Snipe Triggered! We'll stop farming and go catch the pokemon ASAP");
             
             GlobalVars.SnipeOpts.ID = id;

@@ -30,14 +30,20 @@ namespace PokemonGo.RocketAPI.Console
         {
             if (string.IsNullOrEmpty(input))
                 return "";
-            byte[] inputArray = Convert.FromBase64String(input);
-            var tripleDES = new TripleDESCryptoServiceProvider();
-            tripleDES.Key = ASCIIEncoding.ASCII.GetBytes(key);
-            tripleDES.Mode = CipherMode.ECB;
-            tripleDES.Padding = PaddingMode.PKCS7;
-            byte[] resultArray = tripleDES.CreateDecryptor().TransformFinalBlock(inputArray, 0, inputArray.Length);
-            tripleDES.Clear();
-            return UTF8Encoding.UTF8.GetString(resultArray);
+            try {
+                byte[] inputArray = Convert.FromBase64String(input);
+                var tripleDES = new TripleDESCryptoServiceProvider();
+                tripleDES.Key = ASCIIEncoding.ASCII.GetBytes(key);
+                tripleDES.Mode = CipherMode.ECB;
+                tripleDES.Padding = PaddingMode.PKCS7;
+                byte[] resultArray = tripleDES.CreateDecryptor().TransformFinalBlock(inputArray, 0, inputArray.Length);
+                tripleDES.Clear();
+                return UTF8Encoding.UTF8.GetString(resultArray);
+                
+            } catch (Exception ex1) {
+                Logger.ExceptionInfo(ex1.ToString());
+            }
+            return "";
         }
 
     }

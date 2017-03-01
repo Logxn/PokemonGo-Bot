@@ -283,7 +283,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
 
                 if ((unusedEggsUnlimitInc.Count < 1) && (unusedEggsUnlimitInc.Count < 1))
                 {
-                    Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, "There is not Allowed Eggs to hatch");
+                    Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, "There are not Allowed Eggs to hatch");
                     return;
                 }
 

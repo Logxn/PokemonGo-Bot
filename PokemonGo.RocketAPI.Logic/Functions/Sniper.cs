@@ -26,6 +26,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
         public ISettings _botSettings;
         private const string LogPrefix = "(SNIPING)";
         private ConsoleColor LogColor = ConsoleColor.Cyan;
+        
 
         public Sniper(Client client, ISettings ClientSettings)
         {

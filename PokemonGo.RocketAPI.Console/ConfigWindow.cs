@@ -47,6 +47,7 @@ namespace PokemonGo.RocketAPI.Console
         static Dictionary<string, int> evolveIDS = new Dictionary<string, int>();
         static string ConfigsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Configs");
         private Profile ActiveProfile;
+        private List<PokemonId> toSnipe = new List<PokemonId>();
         
         public Helper.TranslatorHelper th = Helper.TranslatorHelper.getInstance();
 
@@ -284,6 +285,8 @@ namespace PokemonGo.RocketAPI.Console
             if (config.UsePwdEncryption )
             {
                 text_Password.Text = Encryption.Decrypt(config.Password);
+                if (text_Password.Text=="")
+                    MessageBox.Show(th.TS("Password cannot be decrypted.\nPlease, enter it again."));
             }
     
             text_Latidude.Text = config.DefaultLatitude.ToString(CultureInfo.InvariantCulture);
@@ -451,6 +454,7 @@ namespace PokemonGo.RocketAPI.Console
     
             SnipePokemonPokeCom.Checked = config.SnipePokemon;
             AvoidRegionLock.Checked = config.AvoidRegionLock;
+            toSnipe = config.ToSnipe;
     
             // tab 8 - update
             checkbox_AutoUpdate.Checked = config.AutoUpdate;
@@ -725,7 +729,6 @@ namespace PokemonGo.RocketAPI.Console
             ActiveProfile.Settings.pokemonsToHold.Clear();
             ActiveProfile.Settings.catchPokemonSkipList.Clear();
             ActiveProfile.Settings.pokemonsToEvolve.Clear();
-            ActiveProfile.Settings.ToSnipe.Clear();
 
             ActiveProfile.Settings.UsePinapBerry = checkbox_UsePinapBerry.Checked;
 
@@ -915,6 +918,7 @@ namespace PokemonGo.RocketAPI.Console
                     ActiveProfile.Settings.SnipePokemon = false;
             }
             ActiveProfile.Settings.AvoidRegionLock = AvoidRegionLock.Checked;
+            ActiveProfile.Settings.ToSnipe= toSnipe;
             // tab 8 updates
             ActiveProfile.Settings.AutoUpdate = checkbox_AutoUpdate.Checked;
             ActiveProfile.Settings.CheckWhileRunning = checkbox_checkWhileRunning.Checked;
