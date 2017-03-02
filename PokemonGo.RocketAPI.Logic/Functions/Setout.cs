@@ -11,6 +11,7 @@ using System.IO;
 using System.Collections.Generic;
 using System.Device.Location;
 using System.Linq;
+using Newtonsoft.Json;
 using POGOProtos.Enums;
 using POGOProtos.Inventory;
 using POGOProtos.Inventory.Item;
@@ -54,7 +55,37 @@ namespace PokemonGo.RocketAPI.Logic.Functions
         public static double lastlog = -10000;
         public static int pokemonCatchCount;
         public static int pokeStopFarmedCount;
+        public static DateTime sessionStart;
         private static string logPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Logs");
+        private static string configPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Configs");
+        private static string sessionFile = Path.Combine(configPath, "session.json");
+        
+        public static void SaveSession()
+        {
+            var strs = new Dictionary<string,string>();
+            strs.Add("SessionStart", ""+ sessionStart.Ticks);
+            strs.Add("PokemonsCaught", ""+pokemonCatchCount);
+            strs.Add("PokestopsFarmed", ""+pokeStopFarmedCount);
+            var Json = JsonConvert.SerializeObject(strs, Formatting.Indented);
+            if(!Directory.Exists(configPath))
+                Directory.CreateDirectory(configPath);
+            File.WriteAllText(sessionFile, Json);
+            
+        }
+        
+        public static void LoadSession()
+        {
+            if(!File.Exists(sessionFile))
+                return;
+            var strJSON = File.ReadAllText(sessionFile);
+            var strs = JsonConvert.DeserializeObject<Dictionary<string,string>>(strJSON);
+            var ticks = 0L;
+            long.TryParse(strs["SessionStart"],out ticks);
+            sessionStart = new DateTime(ticks);
+            int.TryParse(strs["PokemonsCaught"],out pokemonCatchCount);
+            int.TryParse(strs["PokestopsFarmed"],out pokeStopFarmedCount);
+            
+        }
 
         public static void Execute()
         {

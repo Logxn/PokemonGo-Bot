@@ -193,6 +193,7 @@ namespace PokemonGo.RocketAPI.Logic.Shared
         public static string SaveLocationsFile = "";
         public static bool ShowStats = false;
 
+        public static bool ContinueLatestSession =false;
         /// <summary>
         /// Copy all values from ProfileSettings to GlobalVars.
         /// </summary>

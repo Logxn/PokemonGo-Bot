@@ -147,10 +147,16 @@ namespace PokemonGo.RocketAPI.Console
             SnipePokemonPokeCom.Checked = GlobalVars.SnipePokemon;
             AvoidRegionLock.Checked = GlobalVars.AvoidRegionLock;
             
-            foreach (PokemonId Id in GlobalVars.ToSnipe)
+            //foreach (PokemonId Id in GlobalVars.ToSnipe)
+            foreach (PokemonId pokemon in Enum.GetValues(typeof(PokemonId))) {
             {
-                var intID =  (int) Id;
-                checkedListBox_ToSnipe.SetItemChecked( intID - 1, true);
+                }
+                try {
+                    int intID = (int) pokemon;
+                    checkedListBox_ToSnipe.SetItemChecked( intID - 1, GlobalVars.ToSnipe.Contains(pokemon));
+                } catch (Exception ex1) {
+                    Logger.AddLog("ex" + ex1);
+                }
             }
 
         }
@@ -290,7 +296,7 @@ namespace PokemonGo.RocketAPI.Console
                     if ( GlobalVars.ToSnipe.Contains(pokeID)){
                         return element;
                     }
-                    Logger.Info(pokeID +" not is in to snipe list");
+                    Logger.Debug(pokeID +" not is in to snipe list");
                     element.SubItems[8].Text = "true";
                 }
             }
@@ -440,7 +446,7 @@ namespace PokemonGo.RocketAPI.Console
         {
             var status = timerAutosnipe.Enabled;
             timerAutosnipe.Enabled = false;
-            timerAutosnipe.Interval = (int)(sender as NumericUpDown).Value * 1000;
+            timerAutosnipe.Interval = (int)(sender as NumericUpDown).Value * 60000;
             timerAutosnipe.Enabled = status;
         }
 

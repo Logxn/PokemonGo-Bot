@@ -201,6 +201,8 @@ namespace PokemonGo.RocketAPI.Logic
 
             #region Set Counters and Location
 
+            Setout.sessionStart = DateTime.UtcNow;
+                
             Logger.Info( "Setting Pokemon Catch Count: to 0 for this session");
 
             Setout.pokemonCatchCount = 0;
@@ -208,6 +210,9 @@ namespace PokemonGo.RocketAPI.Logic
             Logger.Info( "Setting Pokestop Farmed Count to 0 for this session");
 
             Setout.pokeStopFarmedCount = 0;
+            
+            if (GlobalVars.ContinueLatestSession)
+                Setout.LoadSession();
 
             objClient.CurrentAltitude = BotSettings.DefaultAltitude;
             objClient.CurrentLongitude = BotSettings.DefaultLongitude;
@@ -921,6 +926,7 @@ namespace PokemonGo.RocketAPI.Logic
                         BotStats.AddExperience(fortSearch.ExperienceAwarded);
                         Setout.RefreshConsoleTitle(client);
                         Setout.pokeStopFarmedCount++;
+                        Setout.SaveSession();
 
                         Logger.Info($"Farmed XP: {fortSearch.ExperienceAwarded}, Gems: {fortSearch.GemsAwarded}, Egg: {egg}, Items: {items}");
 

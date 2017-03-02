@@ -32,6 +32,7 @@ namespace PokemonGo.RocketAPI.Console
             this.buttonSaveStart = new System.Windows.Forms.Button();
             this.label30 = new System.Windows.Forms.Label();
             this.tabProxies = new System.Windows.Forms.TabPage();
+            this.buttonTest = new System.Windows.Forms.Button();
             this.labelPrxPass = new System.Windows.Forms.Label();
             this.labelPrxUser = new System.Windows.Forms.Label();
             this.labelPrxPort = new System.Windows.Forms.Label();
@@ -340,7 +341,7 @@ namespace PokemonGo.RocketAPI.Console
             this.labelLanguage = new System.Windows.Forms.Label();
             this.comboLanguage = new System.Windows.Forms.ComboBox();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
-            this.buttonTest = new System.Windows.Forms.Button();
+            this.checkBoxContinue = new System.Windows.Forms.CheckBox();
             this.tabProxies.SuspendLayout();
             this.tabItems.SuspendLayout();
             this.groupBoxItems.SuspendLayout();
@@ -488,6 +489,16 @@ namespace PokemonGo.RocketAPI.Console
             this.tabProxies.TabIndex = 3;
             this.tabProxies.Text = "Proxies";
             this.tabProxies.UseVisualStyleBackColor = true;
+            // 
+            // buttonTest
+            // 
+            this.buttonTest.Location = new System.Drawing.Point(281, 236);
+            this.buttonTest.Name = "buttonTest";
+            this.buttonTest.Size = new System.Drawing.Size(75, 23);
+            this.buttonTest.TabIndex = 17;
+            this.buttonTest.Text = "Test it";
+            this.buttonTest.UseVisualStyleBackColor = true;
+            this.buttonTest.Click += new System.EventHandler(this.buttonTest_Click);
             // 
             // labelPrxPass
             // 
@@ -1534,6 +1545,7 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // groupBoxAccount
             // 
+            this.groupBoxAccount.Controls.Add(this.checkBoxContinue);
             this.groupBoxAccount.Controls.Add(this.ButtonGenerateID);
             this.groupBoxAccount.Controls.Add(this.label67);
             this.groupBoxAccount.Controls.Add(this.textBoxDeviceID);
@@ -2279,7 +2291,7 @@ namespace PokemonGo.RocketAPI.Console
             this.checkBox_RandomSleepAtCatching.AutoSize = true;
             this.checkBox_RandomSleepAtCatching.Checked = true;
             this.checkBox_RandomSleepAtCatching.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox_RandomSleepAtCatching.Location = new System.Drawing.Point(13, 68);
+            this.checkBox_RandomSleepAtCatching.Location = new System.Drawing.Point(8, 67);
             this.checkBox_RandomSleepAtCatching.Name = "checkBox_RandomSleepAtCatching";
             this.checkBox_RandomSleepAtCatching.Size = new System.Drawing.Size(213, 17);
             this.checkBox_RandomSleepAtCatching.TabIndex = 44;
@@ -2291,7 +2303,7 @@ namespace PokemonGo.RocketAPI.Console
             this.checkBox_FarmPokestops.AutoSize = true;
             this.checkBox_FarmPokestops.Checked = true;
             this.checkBox_FarmPokestops.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox_FarmPokestops.Location = new System.Drawing.Point(13, 94);
+            this.checkBox_FarmPokestops.Location = new System.Drawing.Point(8, 95);
             this.checkBox_FarmPokestops.Name = "checkBox_FarmPokestops";
             this.checkBox_FarmPokestops.Size = new System.Drawing.Size(102, 17);
             this.checkBox_FarmPokestops.TabIndex = 45;
@@ -2314,7 +2326,7 @@ namespace PokemonGo.RocketAPI.Console
             this.checkBox_CatchPokemon.AutoSize = true;
             this.checkBox_CatchPokemon.Checked = true;
             this.checkBox_CatchPokemon.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox_CatchPokemon.Location = new System.Drawing.Point(13, 19);
+            this.checkBox_CatchPokemon.Location = new System.Drawing.Point(8, 19);
             this.checkBox_CatchPokemon.Name = "checkBox_CatchPokemon";
             this.checkBox_CatchPokemon.Size = new System.Drawing.Size(102, 17);
             this.checkBox_CatchPokemon.TabIndex = 56;
@@ -4153,15 +4165,16 @@ namespace PokemonGo.RocketAPI.Console
             this.saveFileDialog1.Filter = "Json Files (*.json)|*.json|Text Files (*.txt)|*.txt";
             this.saveFileDialog1.OverwritePrompt = false;
             // 
-            // buttonTest
+            // checkBoxContinue
             // 
-            this.buttonTest.Location = new System.Drawing.Point(281, 236);
-            this.buttonTest.Name = "buttonTest";
-            this.buttonTest.Size = new System.Drawing.Size(75, 23);
-            this.buttonTest.TabIndex = 17;
-            this.buttonTest.Text = "Test it";
-            this.buttonTest.UseVisualStyleBackColor = true;
-            this.buttonTest.Click += new System.EventHandler(this.buttonTest_Click);
+            this.checkBoxContinue.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.checkBoxContinue.Location = new System.Drawing.Point(25, 334);
+            this.checkBoxContinue.Name = "checkBoxContinue";
+            this.checkBoxContinue.Size = new System.Drawing.Size(288, 29);
+            this.checkBoxContinue.TabIndex = 69;
+            this.checkBoxContinue.Text = "Continue Latest Session";
+            this.checkBoxContinue.UseVisualStyleBackColor = true;
+            this.checkBoxContinue.CheckedChanged += new System.EventHandler(this.checkBoxContinue_CheckedChanged);
             // 
             // ConfigWindow
             // 
@@ -4633,6 +4646,7 @@ namespace PokemonGo.RocketAPI.Console
         private System.Windows.Forms.LinkLabel linkLabelPokemaster;
         private System.Windows.Forms.CheckBox checkBox_ShowStats;
         private System.Windows.Forms.Button buttonTest;
+        private System.Windows.Forms.CheckBox checkBoxContinue;
         //private System.Windows.Forms.CheckBox checkBox_CatchLurePokemons;
     }
 }

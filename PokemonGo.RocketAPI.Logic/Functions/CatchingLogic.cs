@@ -470,6 +470,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                             }
                             Logger.ColoredConsoleWrite(ConsoleColor.Gray, $"Caught {pokeid} CP {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} IV {strIVPerfection}% got {caughtPokemonResponse.CaptureAward.Xp.Sum()} XP | {caughtPokemonResponse.CaptureAward.Candy.Sum()} Candies | {caughtPokemonResponse.CaptureAward.Stardust.Sum()} Stardust");
                             Setout.pokemonCatchCount++;
+                            Setout.SaveSession();
                         }
                         else
                         {
@@ -479,6 +480,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                             }
                             Logger.ColoredConsoleWrite(ConsoleColor.Gray, $"Caught {pokeid} CP {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} IV {strIVPerfection}% got {caughtPokemonResponse.CaptureAward.Xp.Sum()} XP | {caughtPokemonResponse.CaptureAward.Candy.Sum()} Candies | {caughtPokemonResponse.CaptureAward.Stardust.Sum()} Stardust");
                             Setout.pokemonCatchCount++;
+                            Setout.SaveSession();
 
                             if (Logic.Instance.Telegram != null)
                                 Logic.Instance.Telegram.sendInformationText(TelegramUtil.TelegramUtilInformationTopics.Catch, pokeid, encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp, strIVPerfection, bestPokeball, caughtPokemonResponse.CaptureAward.Xp.Sum());

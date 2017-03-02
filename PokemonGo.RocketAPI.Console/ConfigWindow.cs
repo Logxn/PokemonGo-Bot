@@ -1451,5 +1451,9 @@ namespace PokemonGo.RocketAPI.Console
                 return ex.Message;
             }
         }
+        void checkBoxContinue_CheckedChanged(object sender, EventArgs e)
+        {
+            GlobalVars.ContinueLatestSession = (sender as CheckBox).Checked;
+        }
     }
 }

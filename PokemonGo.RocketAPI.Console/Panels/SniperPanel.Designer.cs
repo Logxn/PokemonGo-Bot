@@ -623,7 +623,7 @@ namespace PokemonGo.RocketAPI.Console
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(204, 18);
             this.label5.TabIndex = 100;
-            this.label5.Text = "Minutes to wait betwen snipes:";
+            this.label5.Text = "Minutes to wait between snipes:";
             this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // timerAutosnipe

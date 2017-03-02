@@ -509,8 +509,8 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                         var nextDefenderID = -1L;
                         foreach (var element in  attResp.BattleLog.BattleActions) {
                             if (element.BattleResults!=null) {
-                                Logger.Debug("(Gym) - Gym points: " + element.BattleResults.GymPointsDelta);
-                                Logger.Debug("(Gym) - Experience Awarded: " + element.BattleResults.PlayerExperienceAwarded);
+                                Logger.Info("(Gym) - Gym points: " + element.BattleResults.GymPointsDelta);
+                                Logger.Info("(Gym) - Experience Awarded: " + element.BattleResults.PlayerExperienceAwarded);
                                 Logger.Debug("(Gym) - Next Pokemon: " + element.BattleResults.NextDefenderPokemonId);
                                 if (element.BattleResults.NextDefenderPokemonId != -1)
                                     nextDefenderID = element.BattleResults.NextDefenderPokemonId;
@@ -602,7 +602,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                         
                     }else{
                         RandomHelper.RandomSleep(2000);
-                        CatchingLogic.Execute();
+                        var gmo = client.Map.GetMapObjects().Result;
                         client.Login.FireRequestBlockTwo().Wait();
                         RandomHelper.RandomSleep(2000);
                     }
