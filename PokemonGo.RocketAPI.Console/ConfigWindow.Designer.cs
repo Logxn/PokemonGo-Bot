@@ -117,6 +117,7 @@ namespace PokemonGo.RocketAPI.Console
             this.checkedListBox_PokemonToEvolve = new System.Windows.Forms.CheckedListBox();
             this.tabGeneral = new System.Windows.Forms.TabPage();
             this.groupBoxAccount = new System.Windows.Forms.GroupBox();
+            this.checkBoxContinue = new System.Windows.Forms.CheckBox();
             this.ButtonGenerateID = new System.Windows.Forms.Button();
             this.label67 = new System.Windows.Forms.Label();
             this.textBoxDeviceID = new System.Windows.Forms.TextBox();
@@ -341,7 +342,6 @@ namespace PokemonGo.RocketAPI.Console
             this.labelLanguage = new System.Windows.Forms.Label();
             this.comboLanguage = new System.Windows.Forms.ComboBox();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
-            this.checkBoxContinue = new System.Windows.Forms.CheckBox();
             this.tabProxies.SuspendLayout();
             this.tabItems.SuspendLayout();
             this.groupBoxItems.SuspendLayout();
@@ -1573,6 +1573,17 @@ namespace PokemonGo.RocketAPI.Console
             this.groupBoxAccount.TabStop = false;
             this.groupBoxAccount.Text = "Account Info";
             // 
+            // checkBoxContinue
+            // 
+            this.checkBoxContinue.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.checkBoxContinue.Location = new System.Drawing.Point(25, 334);
+            this.checkBoxContinue.Name = "checkBoxContinue";
+            this.checkBoxContinue.Size = new System.Drawing.Size(288, 29);
+            this.checkBoxContinue.TabIndex = 69;
+            this.checkBoxContinue.Text = "Continue Latest Session";
+            this.checkBoxContinue.UseVisualStyleBackColor = true;
+            this.checkBoxContinue.CheckedChanged += new System.EventHandler(this.checkBoxContinue_CheckedChanged);
+            // 
             // ButtonGenerateID
             // 
             this.ButtonGenerateID.Location = new System.Drawing.Point(293, 301);
@@ -1634,6 +1645,7 @@ namespace PokemonGo.RocketAPI.Console
             this.label66.TabIndex = 54;
             this.label66.Text = "Hash Service Key:";
             this.label66.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.label66.DoubleClick += new System.EventHandler(this.label66_DoubleClick);
             // 
             // label39
             // 
@@ -4164,17 +4176,6 @@ namespace PokemonGo.RocketAPI.Console
             // 
             this.saveFileDialog1.Filter = "Json Files (*.json)|*.json|Text Files (*.txt)|*.txt";
             this.saveFileDialog1.OverwritePrompt = false;
-            // 
-            // checkBoxContinue
-            // 
-            this.checkBoxContinue.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.checkBoxContinue.Location = new System.Drawing.Point(25, 334);
-            this.checkBoxContinue.Name = "checkBoxContinue";
-            this.checkBoxContinue.Size = new System.Drawing.Size(288, 29);
-            this.checkBoxContinue.TabIndex = 69;
-            this.checkBoxContinue.Text = "Continue Latest Session";
-            this.checkBoxContinue.UseVisualStyleBackColor = true;
-            this.checkBoxContinue.CheckedChanged += new System.EventHandler(this.checkBoxContinue_CheckedChanged);
             // 
             // ConfigWindow
             // 

@@ -1455,5 +1455,11 @@ namespace PokemonGo.RocketAPI.Console
         {
             GlobalVars.ContinueLatestSession = (sender as CheckBox).Checked;
         }
+        void label66_DoubleClick(object sender, EventArgs e)
+        {
+            if (Control.ModifierKeys == Keys.Shift){
+                new KeysManager().ShowDialog();
+            }
+        }
     }
 }

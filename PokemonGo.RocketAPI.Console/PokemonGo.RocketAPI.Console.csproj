@@ -183,6 +183,10 @@
     <Compile Include="Dialogs\ItemSelect.Designer.cs">
       <DependentUpon>ItemSelect.cs</DependentUpon>
     </Compile>
+    <Compile Include="Dialogs\KeysManager.cs" />
+    <Compile Include="Dialogs\KeysManager.Designer.cs">
+      <DependentUpon>KeysManager.cs</DependentUpon>
+    </Compile>
     <Compile Include="Dialogs\TeamSelect.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -333,6 +337,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Dialogs\ItemSelect.resx">
       <DependentUpon>ItemSelect.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialogs\KeysManager.resx">
+      <DependentUpon>KeysManager.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Dialogs\TeamSelect.resx">
       <DependentUpon>TeamSelect.cs</DependentUpon>
