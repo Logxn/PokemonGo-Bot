@@ -192,6 +192,7 @@ namespace PokemonGo.RocketAPI.Logic.Shared
         public static int MinIVSave = 100;
         public static string SaveLocationsFile = "";
         public static bool ShowStats = false;
+        public static int MinIVtoSnipe = 90;
 
         public static bool ContinueLatestSession =false;
         /// <summary>

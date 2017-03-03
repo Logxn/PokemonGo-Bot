@@ -296,6 +296,12 @@ namespace PokemonGo.RocketAPI.Console
                     if ( GlobalVars.ToSnipe.Contains(pokeID)){
                         return element;
                     }
+                    if (checkBoxMinIVSnipe.Checked){
+                        var iv = 0.0;
+                        double.TryParse (element.SubItems[1].Text, out iv);
+                        if ( iv >= GlobalVars.MinIVtoSnipe)
+                            return element;
+                    }
                     Logger.Debug(pokeID +" not is in to snipe list");
                     element.SubItems[8].Text = "true";
                 }
@@ -539,6 +545,10 @@ namespace PokemonGo.RocketAPI.Console
             var order = (sender as ListView).Sorting;
             listView.ListViewItemSorter = new Components.ListViewItemComparer(e.Column, order);
             (sender as ListView).Sorting = order == SortOrder.Ascending ? SortOrder.Descending : SortOrder.Ascending;
+        }
+        void numMinIVSnipe_ValueChanged(object sender, EventArgs e)
+        {
+            GlobalVars.MinIVtoSnipe = (int)(sender as NumericUpDown).Value;
         }
 
     }

@@ -136,13 +136,13 @@ namespace PokemonGo.RocketAPI.Console
             this.label5 = new System.Windows.Forms.Label();
             this.timerAutosnipe = new System.Windows.Forms.Timer(this.components);
             this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.checkBoxMinIVSnipe = new System.Windows.Forms.CheckBox();
+            this.checkBoxMinProbSnipe = new System.Windows.Forms.CheckBox();
+            this.numMinProbSnipe = new System.Windows.Forms.NumericUpDown();
+            this.numMinIVSnipe = new System.Windows.Forms.NumericUpDown();
             this.checkBoxSelectAll = new System.Windows.Forms.CheckBox();
             this.checkedListBox_ToSnipe = new System.Windows.Forms.CheckedListBox();
             this.buttonImport = new System.Windows.Forms.Button();
-            this.numMinIVSnipe = new System.Windows.Forms.NumericUpDown();
-            this.numMinProbSnipe = new System.Windows.Forms.NumericUpDown();
-            this.checkBoxMinProbSnipe = new System.Windows.Forms.CheckBox();
-            this.checkBoxMinIVSnipe = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PokemonImage)).BeginInit();
             this.groupBox2.SuspendLayout();
@@ -152,8 +152,8 @@ namespace PokemonGo.RocketAPI.Console
             this.contextMenuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numSnipeMinutes)).BeginInit();
             this.groupBox5.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numMinIVSnipe)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numMinProbSnipe)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numMinIVSnipe)).BeginInit();
             this.SuspendLayout();
             // 
             // AvoidRegionLock
@@ -648,6 +648,57 @@ namespace PokemonGo.RocketAPI.Console
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Pokemons to Snipe";
             // 
+            // checkBoxMinIVSnipe
+            // 
+            this.checkBoxMinIVSnipe.Location = new System.Drawing.Point(9, 17);
+            this.checkBoxMinIVSnipe.Name = "checkBoxMinIVSnipe";
+            this.checkBoxMinIVSnipe.Size = new System.Drawing.Size(90, 24);
+            this.checkBoxMinIVSnipe.TabIndex = 74;
+            this.checkBoxMinIVSnipe.Text = "Min IV";
+            this.checkBoxMinIVSnipe.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxMinProbSnipe
+            // 
+            this.checkBoxMinProbSnipe.Enabled = false;
+            this.checkBoxMinProbSnipe.Location = new System.Drawing.Point(9, 41);
+            this.checkBoxMinProbSnipe.Name = "checkBoxMinProbSnipe";
+            this.checkBoxMinProbSnipe.Size = new System.Drawing.Size(90, 24);
+            this.checkBoxMinProbSnipe.TabIndex = 73;
+            this.checkBoxMinProbSnipe.Text = "Min Prob.";
+            this.checkBoxMinProbSnipe.UseVisualStyleBackColor = true;
+            // 
+            // numMinProbSnipe
+            // 
+            this.numMinProbSnipe.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.numMinProbSnipe.Enabled = false;
+            this.numMinProbSnipe.Location = new System.Drawing.Point(119, 41);
+            this.numMinProbSnipe.Margin = new System.Windows.Forms.Padding(2);
+            this.numMinProbSnipe.Name = "numMinProbSnipe";
+            this.numMinProbSnipe.Size = new System.Drawing.Size(37, 20);
+            this.numMinProbSnipe.TabIndex = 71;
+            this.numMinProbSnipe.Tag = "MinIVSave";
+            this.numMinProbSnipe.Value = new decimal(new int[] {
+            90,
+            0,
+            0,
+            0});
+            // 
+            // numMinIVSnipe
+            // 
+            this.numMinIVSnipe.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.numMinIVSnipe.Location = new System.Drawing.Point(119, 20);
+            this.numMinIVSnipe.Margin = new System.Windows.Forms.Padding(2);
+            this.numMinIVSnipe.Name = "numMinIVSnipe";
+            this.numMinIVSnipe.Size = new System.Drawing.Size(37, 20);
+            this.numMinIVSnipe.TabIndex = 69;
+            this.numMinIVSnipe.Tag = "MinIVSave";
+            this.numMinIVSnipe.Value = new decimal(new int[] {
+            90,
+            0,
+            0,
+            0});
+            this.numMinIVSnipe.ValueChanged += new System.EventHandler(this.numMinIVSnipe_ValueChanged);
+            // 
             // checkBoxSelectAll
             // 
             this.checkBoxSelectAll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
@@ -686,58 +737,6 @@ namespace PokemonGo.RocketAPI.Console
             this.buttonImport.UseVisualStyleBackColor = true;
             this.buttonImport.Click += new System.EventHandler(this.button1_Click);
             // 
-            // numMinIVSnipe
-            // 
-            this.numMinIVSnipe.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.numMinIVSnipe.Enabled = false;
-            this.numMinIVSnipe.Location = new System.Drawing.Point(119, 20);
-            this.numMinIVSnipe.Margin = new System.Windows.Forms.Padding(2);
-            this.numMinIVSnipe.Name = "numMinIVSnipe";
-            this.numMinIVSnipe.Size = new System.Drawing.Size(37, 20);
-            this.numMinIVSnipe.TabIndex = 69;
-            this.numMinIVSnipe.Tag = "MinIVSave";
-            this.numMinIVSnipe.Value = new decimal(new int[] {
-            90,
-            0,
-            0,
-            0});
-            // 
-            // numMinProbSnipe
-            // 
-            this.numMinProbSnipe.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.numMinProbSnipe.Enabled = false;
-            this.numMinProbSnipe.Location = new System.Drawing.Point(119, 41);
-            this.numMinProbSnipe.Margin = new System.Windows.Forms.Padding(2);
-            this.numMinProbSnipe.Name = "numMinProbSnipe";
-            this.numMinProbSnipe.Size = new System.Drawing.Size(37, 20);
-            this.numMinProbSnipe.TabIndex = 71;
-            this.numMinProbSnipe.Tag = "MinIVSave";
-            this.numMinProbSnipe.Value = new decimal(new int[] {
-            90,
-            0,
-            0,
-            0});
-            // 
-            // checkBoxMinProbSnipe
-            // 
-            this.checkBoxMinProbSnipe.Enabled = false;
-            this.checkBoxMinProbSnipe.Location = new System.Drawing.Point(9, 41);
-            this.checkBoxMinProbSnipe.Name = "checkBoxMinProbSnipe";
-            this.checkBoxMinProbSnipe.Size = new System.Drawing.Size(90, 24);
-            this.checkBoxMinProbSnipe.TabIndex = 73;
-            this.checkBoxMinProbSnipe.Text = "Min Prob.";
-            this.checkBoxMinProbSnipe.UseVisualStyleBackColor = true;
-            // 
-            // checkBoxMinIVSnipe
-            // 
-            this.checkBoxMinIVSnipe.Enabled = false;
-            this.checkBoxMinIVSnipe.Location = new System.Drawing.Point(9, 17);
-            this.checkBoxMinIVSnipe.Name = "checkBoxMinIVSnipe";
-            this.checkBoxMinIVSnipe.Size = new System.Drawing.Size(90, 24);
-            this.checkBoxMinIVSnipe.TabIndex = 74;
-            this.checkBoxMinIVSnipe.Text = "Min IV";
-            this.checkBoxMinIVSnipe.UseVisualStyleBackColor = true;
-            // 
             // SniperPanel
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
@@ -771,8 +770,8 @@ namespace PokemonGo.RocketAPI.Console
             ((System.ComponentModel.ISupportInitialize)(this.numSnipeMinutes)).EndInit();
             this.groupBox5.ResumeLayout(false);
             this.groupBox5.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numMinIVSnipe)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numMinProbSnipe)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numMinIVSnipe)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
