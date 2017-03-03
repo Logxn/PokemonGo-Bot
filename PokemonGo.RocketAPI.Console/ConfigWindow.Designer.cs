@@ -4165,7 +4165,8 @@ namespace PokemonGo.RocketAPI.Console
             "Deutsche",
             "Español",
             "Catalá",
-            "Chinese"});
+            "中文",
+            "Italiano"});
             this.comboLanguage.Location = new System.Drawing.Point(144, 78);
             this.comboLanguage.Name = "comboLanguage";
             this.comboLanguage.Size = new System.Drawing.Size(121, 21);
