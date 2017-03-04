@@ -507,9 +507,16 @@ namespace PokemonGo.RocketAPI.Logic
             var pokeStops = pokeStopsIn;
 
             //walk between pokestops in default collection
+            var queue = new Queue<FortData>();
             foreach (var pokeStop in pokeStops)
-            {
+                queue.Enqueue(pokeStop);
 
+            for (var i =  pokeStops.Length -2; i > 0 ; i--)
+                queue.Enqueue(pokeStops[i]);
+
+            while (queue.Count > 0) {
+                var pokeStop = queue.Dequeue();
+                queue.Enqueue(pokeStop);
                 #region Mystery Check by Cicklow
 
                 // in Archimedean spiral only capture PokeStops if distance is < to 30 meters!
