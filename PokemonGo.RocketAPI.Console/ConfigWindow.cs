@@ -135,6 +135,7 @@ namespace PokemonGo.RocketAPI.Console
                     checkedListBox_PokemonNotToTransfer.Items.Add(th.TS(pokemon.ToString()));
                     checkedListBox_AlwaysTransfer.Items.Add(th.TS(pokemon.ToString()));
                     checkedListBox_PokemonNotToCatch.Items.Add(th.TS(pokemon.ToString()));
+                    checkedListBox_Pinap.Items.Add(th.TS(pokemon.ToString()));
                     if (!(evolveBlacklist.Contains(i)))
                     {
                         checkedListBox_PokemonToEvolve.Items.Add(th.TS(pokemon.ToString()));
@@ -144,6 +145,7 @@ namespace PokemonGo.RocketAPI.Console
                     i++;
                 }
             }
+
 
             #region Loading Everything into GUI 
 
@@ -304,7 +306,6 @@ namespace PokemonGo.RocketAPI.Console
             checkBox_UseLuckyEggIfNotRunning.Checked = config.UseLuckyEggIfNotRunning;
             checkBox_CollectDailyBonus.Checked = config.CollectDailyBonus;
             checkBox_ShowStats.Checked = config.ShowStats;
-            checkbox_UsePinapBerry.Checked = config.UsePinapBerry;
             checkBox_UseNanabBerry.Checked = config.UseNanabBerry;
     
             // tab 2 - Pokemons
@@ -360,6 +361,17 @@ namespace PokemonGo.RocketAPI.Console
             text_UseRazzberryChance.Text = (config.razzberry_chance * 100).ToString();
             NextBestBallOnEscape.Checked = config.NextBestBallOnEscape;
             num_NanabPercent.Value = config.NanabPercent;
+
+            foreach (PokemonId pokemon in Enum.GetValues(typeof(PokemonId))) {
+                if (pokemon == PokemonId.Missingno)
+                    continue;
+                var intID = (int) pokemon;
+                var isChecked = false;
+                if (config.PokemonPinap!=null){
+                    isChecked = config.PokemonPinap.Contains(pokemon);
+                }
+                checkedListBox_Pinap.SetItemChecked( intID - 1, isChecked);
+            }
 
             // To avoid first calculation of 100 %
             text_Pb_Excellent.Value = 0;
@@ -730,8 +742,6 @@ namespace PokemonGo.RocketAPI.Console
             ActiveProfile.Settings.catchPokemonSkipList.Clear();
             ActiveProfile.Settings.pokemonsToEvolve.Clear();
 
-            ActiveProfile.Settings.UsePinapBerry = checkbox_UsePinapBerry.Checked;
-
             foreach (string pokemon in checkedListBox_PokemonNotToTransfer.CheckedItems)
             {
                 ActiveProfile.Settings.pokemonsToHold.Add((PokemonId)Enum.Parse(typeof(PokemonId), th.RS(pokemon)));
@@ -793,6 +803,14 @@ namespace PokemonGo.RocketAPI.Console
             ret &= textBoxToActiveProfInt(GreatBallMinCP, "MinCPforGreatBall");
             ret &= textBoxToActiveProfInt(UltraBallMinCP, "MinCPforUltraBall");
 
+            if (ActiveProfile.Settings.PokemonPinap == null)
+                ActiveProfile.Settings.PokemonPinap = new List<PokemonId>();
+            else
+                ActiveProfile.Settings.PokemonPinap.Clear();
+            foreach (string pokemon in checkedListBox_Pinap.CheckedItems)
+            {
+                ActiveProfile.Settings.PokemonPinap.Add((PokemonId)Enum.Parse(typeof(PokemonId), th.RS(pokemon)));
+            }
 
             // tab 4 - Items
             foreach (Control element in this.groupBoxItems.Controls) {
@@ -1463,6 +1481,17 @@ namespace PokemonGo.RocketAPI.Console
             if (Control.ModifierKeys == Keys.Shift){
                 new KeysManager().ShowDialog();
             }
+        }
+        void groupBox30_Enter(object sender, EventArgs e)
+        {
+          
+        }
+        void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            var isChecked = ( sender as CheckBox).Checked;
+           for ( var i = 0; i< checkedListBox_Pinap.Items.Count; i++) {
+              checkedListBox_Pinap.SetItemChecked(i, isChecked );
+           }
         }
     }
 }

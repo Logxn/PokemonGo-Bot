@@ -927,6 +927,7 @@ namespace PokemonGo.RocketAPI.Logic.Shared
         public  bool SaveLocations {get;set;}
         public  int MinIVSave {get;set;}
         public  string SaveLocationsFile {get;set;}
+        public System.Collections.Generic.List<POGOProtos.Enums.PokemonId> PokemonPinap {get;set;}
 
         #endregion
     

@@ -338,7 +338,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                             }
                         }
 
-                        if (GlobalVars.UsePinapBerry && !usedBerry )
+                        if (GlobalVars.PokemonPinap.Contains(pokeid) && !usedBerry )
                         {
                             try {
 

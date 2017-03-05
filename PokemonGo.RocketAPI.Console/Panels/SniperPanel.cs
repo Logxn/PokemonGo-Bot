@@ -65,10 +65,10 @@ namespace PokemonGo.RocketAPI.Console
             var pokemonControlSource = new List<PokemonId>();
             checkedListBox_ToSnipe.Items.Clear();
             foreach (PokemonId pokemon in Enum.GetValues(typeof(PokemonId))) {
-                if (pokemon.ToString() != "Missingno"){
-                    pokemonControlSource.Add(pokemon);
-                    checkedListBox_ToSnipe.Items.Add(th.TS(pokemon.ToString()));
-                }
+                if (pokemon == PokemonId.Missingno)
+                    continue;
+                pokemonControlSource.Add(pokemon);
+                checkedListBox_ToSnipe.Items.Add(th.TS(pokemon.ToString()));
             }            
             comboBox1.DataSource = pokemonControlSource;
 
@@ -149,12 +149,10 @@ namespace PokemonGo.RocketAPI.Console
             
             //foreach (PokemonId Id in GlobalVars.ToSnipe)
             foreach (PokemonId pokemon in Enum.GetValues(typeof(PokemonId))) {
-                try {
-                    int intID = (int) pokemon;
-                    checkedListBox_ToSnipe.SetItemChecked( intID - 1, GlobalVars.ToSnipe.Contains(pokemon));
-                } catch (Exception ex1) {
-                    Logger.AddLog("ex" + ex1);
-                }
+                if (pokemon == PokemonId.Missingno)
+                    continue;
+                int intID = (int) pokemon;
+                checkedListBox_ToSnipe.SetItemChecked( intID - 1, GlobalVars.ToSnipe.Contains(pokemon));
             }
         }
 

@@ -172,8 +172,6 @@ namespace PokemonGo.RocketAPI.Logic.Shared
         public static string FortsFile = "";
         public static bool SaveForts = false;
 
-        public static bool UsePinapBerry = false;
-
         public static bool UseNanabBerry = false;
         
         public static string DeviceTradeName ="";
@@ -195,6 +193,7 @@ namespace PokemonGo.RocketAPI.Logic.Shared
         public static int MinIVtoSnipe = 90;
 
         public static bool ContinueLatestSession =false;
+        public static List<PokemonId> PokemonPinap;
         /// <summary>
         /// Copy all values from ProfileSettings to GlobalVars.
         /// </summary>
