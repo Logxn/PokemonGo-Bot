@@ -1,6 +1,7 @@
 ﻿#region using directives
 
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 using PokemonGo.RocketAPI.Enums;
 using PokemonGo.RocketAPI.Exceptions;
@@ -28,7 +29,7 @@ namespace PokemonGo.RocketAPI.Logic
         {
             _session = session;
         }
-
+        [STAThread]
         public void HandleCaptcha(string challengeUrl, ICaptchaResponseHandler captchaResponseHandler)
         {
            
@@ -38,7 +39,7 @@ namespace PokemonGo.RocketAPI.Logic
              * This "long-ass-code" is the responseToken
              * */
             Logger.ColoredConsoleWrite(ConsoleColor.Green, "Are you an human?");
-            var chelper = new Utils.CaptchaHelper();
+            var chelper = new Utils.CaptchaHelper(challengeUrl);
             if (chelper.ShowDialog() == DialogResult.OK)
             {
                 var token = chelper.TOKEN;
@@ -65,6 +66,7 @@ namespace PokemonGo.RocketAPI.Logic
             }
 
         }
+                
 
         public async Task<ApiOperation> HandleApiFailure()
         {

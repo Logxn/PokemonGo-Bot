@@ -536,8 +536,10 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                                 putInGym(client, gym, getPokeToPut(client, buddyPokemonId), pokemons);
                             }
                         }
-                    } else if (attResp.BattleLog.State == BattleState.TimedOut)
+                    } else if (attResp.BattleLog.State == BattleState.TimedOut){
                         Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - Timed Out");
+                        AddVisited(gym.Id, 1800000);
+                    }
                 } else {
                     Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - Battle Failed: " + attResp.Result);
                 }

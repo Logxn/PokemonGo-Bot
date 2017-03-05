@@ -149,8 +149,6 @@ namespace PokemonGo.RocketAPI.Console
             
             //foreach (PokemonId Id in GlobalVars.ToSnipe)
             foreach (PokemonId pokemon in Enum.GetValues(typeof(PokemonId))) {
-            {
-                }
                 try {
                     int intID = (int) pokemon;
                     checkedListBox_ToSnipe.SetItemChecked( intID - 1, GlobalVars.ToSnipe.Contains(pokemon));
@@ -158,7 +156,6 @@ namespace PokemonGo.RocketAPI.Console
                     Logger.AddLog("ex" + ex1);
                 }
             }
-
         }
 
         void btnInstall_Click(object sender, EventArgs e)
