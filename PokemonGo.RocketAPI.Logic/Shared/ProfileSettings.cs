@@ -927,6 +927,8 @@ namespace PokemonGo.RocketAPI.Logic.Shared
         public  bool SaveLocations {get;set;}
         public  int MinIVSave {get;set;}
         public  string SaveLocationsFile {get;set;}
+        public  bool WalkInLoop {get;set;}
+        public  bool WalkRandomly {get;set;}
 
         #endregion
     

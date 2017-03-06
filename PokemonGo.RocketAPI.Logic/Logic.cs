@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Device.Location;
 using System.Diagnostics;
@@ -500,15 +501,19 @@ namespace PokemonGo.RocketAPI.Logic
 
             lureEncounters.Clear();
 
-            // TODO: do it optionable
-            // Reordering array randomly to do it a little more difficult to detect.
-            // Random rnd=new Random();
-            //FortData[] pokeStops = pokeStopsIn.OrderBy(x => rnd.Next()).ToArray();
-            var pokeStops = pokeStopsIn;
+            var rnd=new Random();
+            var pokeStops = GlobalVars.WalkRandomly ? pokeStopsIn.OrderBy(x => rnd.Next()).ToArray() : pokeStopsIn;
 
-            //walk between pokestops in default collection
+            var pokestopsQueue = new Queue<FortData>();
             foreach (var pokeStop in pokeStops)
+                pokestopsQueue.Enqueue(pokeStop);
+            
+            //walk between pokestops in default collection
+            while (pokestopsQueue.Any())
             {
+                var pokeStop = pokestopsQueue.Dequeue();
+                if (GlobalVars.WalkInLoop)
+                    pokestopsQueue.Enqueue(pokeStop);
 
                 #region Mystery Check by Cicklow
 

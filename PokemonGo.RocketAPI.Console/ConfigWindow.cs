@@ -77,7 +77,6 @@ namespace PokemonGo.RocketAPI.Console
 
             comboBox_AccountType.DataSource = types;
 
-
             if (!Directory.Exists(Program.path_device))
                 Directory.CreateDirectory(Program.path_device);
             

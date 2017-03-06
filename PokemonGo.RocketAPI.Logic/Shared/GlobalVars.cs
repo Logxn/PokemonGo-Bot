@@ -194,6 +194,9 @@ namespace PokemonGo.RocketAPI.Logic.Shared
         public static bool ShowStats = false;
 
         public static bool ContinueLatestSession =false;
+        public static bool WalkInLoop = false;
+        public static bool WalkRandomly = false;
+
         /// <summary>
         /// Copy all values from ProfileSettings to GlobalVars.
         /// </summary>
