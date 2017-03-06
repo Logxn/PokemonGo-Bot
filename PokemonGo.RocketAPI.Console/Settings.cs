@@ -662,11 +662,6 @@ namespace PokemonGo.RocketAPI.Console
             set { GlobalVars.proxySettings = value; }
         }
 
-        public bool UsePinapBerry
-        {
-            get { return GlobalVars.UsePinapBerry; }
-            set { GlobalVars.UsePinapBerry = value; }
-        }
 
         public bool UseNanabBerry
         {

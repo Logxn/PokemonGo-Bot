@@ -56,9 +56,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                 return 4;
             if (value >= 4000)
                 return 3;
-            if (value >= 2000)
-                return 2;
-            return 1;
+            return value >= 2000 ? 2 : 1;
         }
 
         public static long  GetLevelPoints( int value)
@@ -79,9 +77,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                 return 8000;
             if (value >= 3)
                 return 4000;
-            if (value >= 2)
-                return 2000;
-            return 1;
+            return value >= 2 ? 2000 : 1;
         }
 
         private static string GetTeamName(TeamColor team)
@@ -143,8 +139,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                     Setout.SetCheckTimeToRun();
                     RandomHelper.RandomSleep(300);
                 }
-                if (restoreWalkingAfterLogic)
-                    GlobalVars.PauseTheWalking = false;
+                GlobalVars.PauseTheWalking &= !restoreWalkingAfterLogic;
 
             }
 
@@ -168,7 +163,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
 
             var pokeGyms = Logic.Instance.navigation
                 .pathByNearestNeighbour(
-                               mapObjectsResponse.MapCells.SelectMany(i => i.Forts)
+                    mapObjectsResponse.MapCells.SelectMany(i => i.Forts)
                     .Where(i => i.Type == FortType.Gym)
                     .OrderBy(i => LocationUtils.CalculateDistanceInMeters(Logic.objClient.CurrentLatitude, Logic.objClient.CurrentLongitude, i.Latitude, i.Longitude))
                     .ToArray(), GlobalVars.WalkingSpeedInKilometerPerHour);
@@ -327,8 +322,17 @@ namespace PokemonGo.RocketAPI.Logic.Functions
             return true;
         }
 
+        private static long GetNextDefender(Google.Protobuf.Collections.RepeatedField<BattleAction> battleActions)
+        {
+            foreach (var element in battleActions)
+                if (element.BattleResults != null)
+                    if (element.BattleResults.NextDefenderPokemonId != -1)
+                        return element.BattleResults.NextDefenderPokemonId;
+            return -1L;
+        }
+
         private static AttackGymResponse AttackGym(FortData gym, Client client,
-            IEnumerable<PokemonData> pokeAttackers, ulong defenderId, int numDefenders, ulong buddyPokemonId)
+                                                   IEnumerable<PokemonData> pokeAttackers, ulong defenderId, int numDefenders, ulong buddyPokemonId)
         {
             
             var pokeAttackersIds = pokeAttackers.Select(x => x.Id);
@@ -461,16 +465,20 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                     if (inBattle) {
 
                         inBattle = (attResp.BattleLog.State == BattleState.Active);
-                        /*
+                        
                         if (attResp.BattleLog.State == BattleState.Victory){
                             numVictories ++;
-                            //inBattle = (numVictories < gymDetails.GymState.Memberships.Count);
-                            if (numVictories < gymDetails.GymState.Memberships.Count){
-                                var next = gymDetails.GymState.Memberships[numVictories];
-                                resp = StartGymBattle(client, gym.Id, next.PokemonData.Id, pokeAttackersIds);
-                                RandomHelper.RandomSleep(1000);
+                            if (GlobalVars.Gyms.Testing == "Restart Battle After of Victory"){
+                                //inBattle = (numVictories < gymDetails.GymState.Memberships.Count);
+                                if (numVictories < gymDetails.GymState.Memberships.Count){
+                                    
+                                    var next =  GetNextDefender(attResp.BattleLog.BattleActions);
+                                    //gymDetails.GymState.Memberships[numVictories];
+                                    resp = StartGymBattle(client, gym.Id, (ulong) next, pokeAttackersIds);
+                                    RandomHelper.RandomSleep(1000);
+                                }
                             }
-                        }*/
+                        }
 
                         if (attResp.ActiveAttacker != null) {
                             energy = attResp.ActiveAttacker.CurrentEnergy;
@@ -499,45 +507,48 @@ namespace PokemonGo.RocketAPI.Logic.Functions
 
                 Logger.ColoredConsoleWrite(gymColorLog, $"(Gym) - Battle Finished in {count} Rounds.");
                 if (attResp.Result == AttackGymResponse.Types.Result.Success) {
-                    if (attResp.BattleLog.State == BattleState.Defeated) {
-                        Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - We have lost");
-                        if (numDefenders > 1)
-                            AddVisited(gym.Id, 3600000);
-                    } else if (attResp.BattleLog.State == BattleState.Victory) {
-                        
-                        Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - We have won");
-                        var nextDefenderID = -1L;
-                        foreach (var element in  attResp.BattleLog.BattleActions) {
-                            if (element.BattleResults!=null) {
-                                Logger.Info("(Gym) - Gym points: " + element.BattleResults.GymPointsDelta);
-                                Logger.Info("(Gym) - Experience Awarded: " + element.BattleResults.PlayerExperienceAwarded);
-                                Logger.Debug("(Gym) - Next Pokemon: " + element.BattleResults.NextDefenderPokemonId);
-                                if (element.BattleResults.NextDefenderPokemonId != -1)
-                                    nextDefenderID = element.BattleResults.NextDefenderPokemonId;
+                    switch (attResp.BattleLog.State) {
+                        case BattleState.Defeated:
+                            Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - We have lost");
+                            if (numDefenders > 1)
+                                AddVisited(gym.Id, 3600000);
+                            break;
+                        case BattleState.Victory:
+                            Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - We have won");
+                            var nextDefenderID = -1L;
+                            foreach (var element in attResp.BattleLog.BattleActions) {
+                                if (element.BattleResults != null) {
+                                    Logger.Info("(Gym) - Gym points: " + element.BattleResults.GymPointsDelta);
+                                    Logger.Info("(Gym) - Experience Awarded: " + element.BattleResults.PlayerExperienceAwarded);
+                                    Logger.Debug("(Gym) - Next Pokemon: " + element.BattleResults.NextDefenderPokemonId);
+                                    if (element.BattleResults.NextDefenderPokemonId != -1)
+                                        nextDefenderID = element.BattleResults.NextDefenderPokemonId;
+                                }
                             }
-                        }
-                        
-                        if (numDefenders > 1) {
-                            Logger.Debug("(Gym) - Leaving Battle");
-                            var times = 3;
-                            do {
-                                attResp = LeaveBattle(gym, client, resp, attResp, lastRetrievedAction,nextDefenderID);
-                                times--;
-                            } while (attResp.Result != AttackGymResponse.Types.Result.Success && times > 0);
-
-                            RandomHelper.RandomSleep(800);
-                        } else {
-                            ReviveAndCurePokemons(client);
-                            var pokemons = (client.Inventory.GetPokemons()).ToList();
-                            RandomHelper.RandomSleep(400);
-                            gymDetails = client.Fort.GetGymDetails(gym.Id, gym.Latitude, gym.Longitude);
-                            Logger.Debug("(Gym) - Gym Details: " + gymDetails);
-                            if (gymDetails.GymState.Memberships.Count < 1) {
-                                putInGym(client, gym, getPokeToPut(client, buddyPokemonId), pokemons);
+                            if (numDefenders > 1) {
+                                Logger.Debug("(Gym) - Leaving Battle");
+                                var times = 3;
+                                do {
+                                    attResp = LeaveBattle(gym, client, resp, attResp, lastRetrievedAction, nextDefenderID);
+                                    times--;
+                                } while (attResp.Result != AttackGymResponse.Types.Result.Success && times > 0);
+                                RandomHelper.RandomSleep(800);
+                            } else {
+                                ReviveAndCurePokemons(client);
+                                var pokemons = (client.Inventory.GetPokemons()).ToList();
+                                RandomHelper.RandomSleep(400);
+                                gymDetails = client.Fort.GetGymDetails(gym.Id, gym.Latitude, gym.Longitude);
+                                Logger.Debug("(Gym) - Gym Details: " + gymDetails);
+                                if (gymDetails.GymState.Memberships.Count < 1) {
+                                    putInGym(client, gym, getPokeToPut(client, buddyPokemonId), pokemons);
+                                }
                             }
-                        }
-                    } else if (attResp.BattleLog.State == BattleState.TimedOut)
-                        Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - Timed Out");
+                            break;
+                        case BattleState.TimedOut:
+                            Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - Timed Out");
+                            AddVisited(gym.Id, 1800000);
+                            break;
+                    }
                 } else {
                     Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - Battle Failed: " + attResp.Result);
                 }
@@ -555,12 +566,11 @@ namespace PokemonGo.RocketAPI.Logic.Functions
         }
 
         public static StartGymBattleResponse StartGymBattle(Client client, string gymId, ulong defendingPokemonId,
-            IEnumerable<ulong> attackingPokemonIds)
+                                                            IEnumerable<ulong> attackingPokemonIds)
         {
             StartGymBattleResponse resp = null;
             var numTries = 3;
             var startFailed = false;
-            var deltaValue = 0.001;
             do {
                 resp = client.Fort.StartGymBattle(gymId, defendingPokemonId, attackingPokemonIds);
                 if (resp == null) {
@@ -572,7 +582,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                         startFailed = true;
                     }
                 }
-                    
+                
                 if (startFailed) {
                     RandomHelper.RandomSleep(5000);
                     if (GlobalVars.Gyms.Testing == "Fire Request Block Two"){
@@ -584,7 +594,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                         if (GlobalVars.CatchPokemon)
                             Logger.Info("While, we will try to catch pokemons");
                         var rnd = RandomHelper.RandomNumber(50,90) * 0.00001;
-                        // 0.00001 = 1 meters 
+                        // 0.00001 = 1 meters
                         //http://gizmodo.com/how-precise-is-one-degree-of-longitude-or-latitude-1631241162
                         Logger.Debug("going to 50 meters far of gym");
                         LocationUtils.updatePlayerLocation(client, client.CurrentLongitude + rnd, client.CurrentLatitude,client.CurrentAltitude);

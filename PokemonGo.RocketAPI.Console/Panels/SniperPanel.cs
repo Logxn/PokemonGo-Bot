@@ -65,10 +65,10 @@ namespace PokemonGo.RocketAPI.Console
             var pokemonControlSource = new List<PokemonId>();
             checkedListBox_ToSnipe.Items.Clear();
             foreach (PokemonId pokemon in Enum.GetValues(typeof(PokemonId))) {
-                if (pokemon.ToString() != "Missingno"){
-                    pokemonControlSource.Add(pokemon);
-                    checkedListBox_ToSnipe.Items.Add(th.TS(pokemon.ToString()));
-                }
+                if (pokemon == PokemonId.Missingno)
+                    continue;
+                pokemonControlSource.Add(pokemon);
+                checkedListBox_ToSnipe.Items.Add(th.TS(pokemon.ToString()));
             }            
             comboBox1.DataSource = pokemonControlSource;
 
@@ -149,16 +149,11 @@ namespace PokemonGo.RocketAPI.Console
             
             //foreach (PokemonId Id in GlobalVars.ToSnipe)
             foreach (PokemonId pokemon in Enum.GetValues(typeof(PokemonId))) {
-            {
-                }
-                try {
-                    int intID = (int) pokemon;
-                    checkedListBox_ToSnipe.SetItemChecked( intID - 1, GlobalVars.ToSnipe.Contains(pokemon));
-                } catch (Exception ex1) {
-                    Logger.AddLog("ex" + ex1);
-                }
+                if (pokemon == PokemonId.Missingno)
+                    continue;
+                int intID = (int) pokemon;
+                checkedListBox_ToSnipe.SetItemChecked( intID - 1, GlobalVars.ToSnipe.Contains(pokemon));
             }
-
         }
 
         void btnInstall_Click(object sender, EventArgs e)
@@ -295,6 +290,12 @@ namespace PokemonGo.RocketAPI.Console
                     var pokeID = ToPokemonID(splt[0]);
                     if ( GlobalVars.ToSnipe.Contains(pokeID)){
                         return element;
+                    }
+                    if (checkBoxMinIVSnipe.Checked){
+                        var iv = 0.0;
+                        double.TryParse (element.SubItems[1].Text, out iv);
+                        if ( iv >= GlobalVars.MinIVtoSnipe)
+                            return element;
                     }
                     Logger.Debug(pokeID +" not is in to snipe list");
                     element.SubItems[8].Text = "true";
@@ -539,6 +540,10 @@ namespace PokemonGo.RocketAPI.Console
             var order = (sender as ListView).Sorting;
             listView.ListViewItemSorter = new Components.ListViewItemComparer(e.Column, order);
             (sender as ListView).Sorting = order == SortOrder.Ascending ? SortOrder.Descending : SortOrder.Ascending;
+        }
+        void numMinIVSnipe_ValueChanged(object sender, EventArgs e)
+        {
+            GlobalVars.MinIVtoSnipe = (int)(sender as NumericUpDown).Value;
         }
 
     }

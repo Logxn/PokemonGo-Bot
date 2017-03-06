@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Created by SharpDevelop.
  * User: Xelwon
  * Date: 18/01/2017
@@ -303,7 +303,6 @@ namespace PokemonGo.RocketAPI.Logic.Shared
 
         }
 
-        public bool UsePinapBerry { get; set; }
         public bool UseNanabBerry { get; set; }
         public double razzberry_chance {get;set;}
         public int NanabPercent {get;set;}
@@ -929,6 +928,7 @@ namespace PokemonGo.RocketAPI.Logic.Shared
         public  string SaveLocationsFile {get;set;}
         public  bool WalkInLoop {get;set;}
         public  bool WalkRandomly {get;set;}
+        public System.Collections.Generic.List<POGOProtos.Enums.PokemonId> PokemonPinap {get;set;}
 
         #endregion
     

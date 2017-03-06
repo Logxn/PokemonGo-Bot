@@ -11,8 +11,6 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Threading.Tasks;
-using POGOProtos.Data;
-using POGOProtos.Data.Capture;
 using POGOProtos.Enums;
 using POGOProtos.Inventory.Item;
 using POGOProtos.Map.Pokemon;
@@ -69,7 +67,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                             mapIncensePokemon.PokemonId = incensePokemon.PokemonId;
                             mapIncensePokemon.SpawnPointId = incensePokemon.EncounterLocation;
                             mapIncensePokemon.ExpirationTimestampMs = incensePokemon.DisappearTimestampMs;
-        
+                            
                             Logger.ColoredConsoleWrite(ConsoleColor.Magenta, $"Found incensed Pokemon: {mapIncensePokemon.PokemonId}"  );
                             if (GlobalVars.ShowPokemons){
                                 infoObservable.PushNewPokemonLocation(mapIncensePokemon);
@@ -338,13 +336,13 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                             }
                         }
 
-                        if (GlobalVars.UsePinapBerry && !usedBerry )
+                        if (GlobalVars.PokemonPinap.Contains(pokeid) && !usedBerry )
                         {
                             try {
 
                                 if (pinap != null && pinap.Count > 0)
                                 {
-                                    // Use a pinap 
+                                    // Use a pinap
                                     var res = client.Encounter.UseItemEncounter(encounterId, ItemId.ItemPinapBerry, spawnpointId);
                                     if (res.Status ==UseItemEncounterResponse.Types.Status.Success){
                                         pinap.Count = pinap.Count - 1;
@@ -385,7 +383,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                                 Logger.Debug (""+ex1);
                             }
                         }
-                        // limit number of balls wasted by misses and log for UX because fools be tripin                        
+                        // limit number of balls wasted by misses and log for UX because fools be tripin
                         switch (missCount)
                         {
                             case 0:
@@ -403,13 +401,9 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                                 }
                                 break;
                             case 2:
-                                //adding another chance of forcing hit here to improve overall odds after 2 misses                                
+                                //adding another chance of forcing hit here to improve overall odds after 2 misses
                                 var rInt = r.Next(0, 2);
-                                if (rInt == 1)
-                                {
-                                    // lets hit
-                                    forceHit = true;
-                                }
+                                forceHit |= rInt == 1;
                                 break;
                             default:
                                 // default to force hit after 3 wasted balls of any kind.
@@ -419,7 +413,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                         }
                         if (missCount > 0)
                         {
-                            //adding another chance of forcing hit here to improve overall odds after 1st miss                            
+                            //adding another chance of forcing hit here to improve overall odds after 1st miss
                             var rInt = r.Next(0, 3);
                             if (rInt == 1)
                             {
@@ -573,7 +567,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
 
             #endregion
 
-            //round to 2 decimals  
+            //round to 2 decimals
             normalizedRecticleSize = Math.Round(normalizedRecticleSize, 2);
             //if not miss, log throw variables
             if (forceHit)
@@ -603,52 +597,34 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                 switch (pokeballtype.Key)
                 {
                     case "pokeBalls":
-                        {
-                            pokeballqty = pokeballtype.Value;
-                            break;
-                        }
+                        pokeballqty = pokeballtype.Value;
+                        break;
                     case "greatBalls":
-                        {
-                            greatballqty = pokeballtype.Value;
-                            break;
-                        }
+                        greatballqty = pokeballtype.Value;
+                        break;
                     case "ultraBalls":
-                        {
-                            ultraballqty = pokeballtype.Value;
-                            break;
-                        }
+                        ultraballqty = pokeballtype.Value;
+                        break;
                 }
             }
             if (pokeballCollection.ContainsKey("pokeBalls"))
             {
                 pokeBalls = true;
-                if ((pokeballqty <= GlobalVars.InventoryBasePokeball || GlobalVars.InventoryBasePokeball == 0) && GlobalVars.LimitPokeballUse)
-                {
-                    pokeBalls = false;
-                }
+                pokeBalls &= (pokeballqty > GlobalVars.InventoryBasePokeball && GlobalVars.InventoryBasePokeball != 0) || !GlobalVars.LimitPokeballUse;
             }
             if (pokeballCollection.ContainsKey("greatBalls"))
             {
                 greatBalls = true;
-                if ((greatballqty <= GlobalVars.InventoryBaseGreatball || GlobalVars.InventoryBaseGreatball == 0) && GlobalVars.LimitGreatballUse)
-                {
-                    greatBalls = false;
-                }
+                greatBalls &= (greatballqty > GlobalVars.InventoryBaseGreatball && GlobalVars.InventoryBaseGreatball != 0) || !GlobalVars.LimitGreatballUse;
             }
 
             if (pokeballCollection.ContainsKey("ultraBalls"))
             {
                 ultraBalls = true;
-                if ((ultraballqty <= GlobalVars.InventoryBaseUltraball || GlobalVars.InventoryBaseUltraball == 0) && GlobalVars.LimitUltraballUse)
-                {
-                    ultraBalls = false;
-                }
+                ultraBalls &= (ultraballqty > GlobalVars.InventoryBaseUltraball && GlobalVars.InventoryBaseUltraball != 0) || !GlobalVars.LimitUltraballUse;
             }
 
-            if (pokeballCollection.ContainsKey("masterBalls"))
-            {
-                masterBalls = true;
-            }
+            masterBalls |= pokeballCollection.ContainsKey("masterBalls");
 
             #endregion
 
@@ -676,113 +652,47 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                 switch (lowestAppropriateBall)
                 {
                     case ItemId.ItemGreatBall:
-                        {
-                            lowestAppropriateBall = ItemId.ItemUltraBall;
-                            break;
-                        }
+                        lowestAppropriateBall = ItemId.ItemUltraBall;
+                        break;
                     case ItemId.ItemUltraBall:
-                        {
-                            lowestAppropriateBall = ItemId.ItemMasterBall;
-                            break;
-                        }
+                        lowestAppropriateBall = ItemId.ItemMasterBall;
+                        break;
                     case ItemId.ItemMasterBall:
-                        {
-                            lowestAppropriateBall = ItemId.ItemMasterBall;
-                            break;
-                        }
+                        lowestAppropriateBall = ItemId.ItemMasterBall;
+                        break;
                     default:
-                        {
-                            lowestAppropriateBall = ItemId.ItemGreatBall;
-                            break;
-                        }
+                        lowestAppropriateBall = ItemId.ItemGreatBall;
+                        break;
                 }
             }
             //handle appropriate ball out of stock
             switch (lowestAppropriateBall)
             {
                 case ItemId.ItemGreatBall:
-                    {
-                        if (greatBalls) return ItemId.ItemGreatBall;
-                        if (ultraBalls) return ItemId.ItemUltraBall;
-                        if (masterBalls) return ItemId.ItemMasterBall;
-                        if (pokeBalls) return ItemId.ItemPokeBall;
-                        return ItemId.ItemUnknown;
-                    }
+                    if (greatBalls) return ItemId.ItemGreatBall;
+                    if (ultraBalls) return ItemId.ItemUltraBall;
+                    if (masterBalls) return ItemId.ItemMasterBall;
+                    return pokeBalls ? ItemId.ItemPokeBall : ItemId.ItemUnknown;
                 case ItemId.ItemUltraBall:
-                    {
-                        if (ultraBalls) return ItemId.ItemUltraBall;
-                        if (masterBalls) return ItemId.ItemMasterBall;
-                        if (greatBalls) return ItemId.ItemGreatBall;
-                        if (pokeBalls) return ItemId.ItemPokeBall;
-                        return ItemId.ItemUnknown;
-                    }
+                    if (ultraBalls) return ItemId.ItemUltraBall;
+                    if (masterBalls) return ItemId.ItemMasterBall;
+                    if (greatBalls) return ItemId.ItemGreatBall;
+                    return pokeBalls ? ItemId.ItemPokeBall : ItemId.ItemUnknown;
                 case ItemId.ItemMasterBall:
-                    {
-                        if (masterBalls) return ItemId.ItemMasterBall;
-                        if (ultraBalls) return ItemId.ItemUltraBall;
-                        if (greatBalls) return ItemId.ItemGreatBall;
-                        if (pokeBalls) return ItemId.ItemPokeBall;
-                        return ItemId.ItemUnknown;
-                    }
+                    if (masterBalls) return ItemId.ItemMasterBall;
+                    if (ultraBalls) return ItemId.ItemUltraBall;
+                    if (greatBalls) return ItemId.ItemGreatBall;
+                    return pokeBalls ? ItemId.ItemPokeBall : ItemId.ItemUnknown;
                 default:
-                    {
-                        if (pokeBalls) return ItemId.ItemPokeBall;
-                        if (greatBalls) return ItemId.ItemGreatBall;
-                        if (ultraBalls) return ItemId.ItemUltraBall;
-                        if (pokeBalls) return ItemId.ItemMasterBall;
-                        return ItemId.ItemUnknown;
-                    }
+                    if (pokeBalls) return ItemId.ItemPokeBall;
+                    if (greatBalls) return ItemId.ItemGreatBall;
+                    if (ultraBalls) return ItemId.ItemUltraBall;
+                    return pokeBalls ? ItemId.ItemMasterBall : ItemId.ItemUnknown;
             }
 
             #endregion
         }
 
-        // TODO: can be used in a future api that have different berries to decrease capture probability
-        private static ItemId GetBestBerry(WildPokemon pokemon)
-        {
-            var pokemonCp = pokemon?.PokemonData?.Cp;
-
-            var items = client.Inventory.GetItems();
-
-            var berries = items.Where(i => i.ItemId == ItemId.ItemRazzBerry || i.ItemId == ItemId.ItemBlukBerry  || i.ItemId == ItemId.ItemWeparBerry ).GroupBy(i => i.ItemId).ToList();
-            //NOTE: removed || i.ItemId == ItemId.ItemPinapBerry || i.ItemId == ItemId.ItemNanabBerry
-            if (!berries.Any()) {
-                Logger.ColoredConsoleWrite(ConsoleColor.Red, $"No Berrys to select! - Using next best ball instead"); 
-                return ItemId.ItemUnknown;
-            }
-
-            var razzBerryCount = client.Inventory.GetItemAmountByType(ItemId.ItemRazzBerry);
-            var blukBerryCount = client.Inventory.GetItemAmountByType(ItemId.ItemBlukBerry);
-            var nanabBerryCount = client.Inventory.GetItemAmountByType(ItemId.ItemNanabBerry);
-            var weparBerryCount = client.Inventory.GetItemAmountByType(ItemId.ItemWeparBerry);
-            var pinapBerryCount = client.Inventory.GetItemAmountByType(ItemId.ItemPinapBerry);
-
-            if (pinapBerryCount > 0 && pokemonCp >= 2000)
-                return ItemId.ItemPinapBerry;
-            if (weparBerryCount > 0 && pokemonCp >= 2000)
-                return ItemId.ItemWeparBerry;
-            if (nanabBerryCount > 0 && pokemonCp >= 2000)
-                return ItemId.ItemNanabBerry;
-            if (nanabBerryCount > 0 && pokemonCp >= 2000)
-                return ItemId.ItemBlukBerry;
-
-            if (weparBerryCount > 0 && pokemonCp >= 1500)
-                return ItemId.ItemWeparBerry;
-            if (nanabBerryCount > 0 && pokemonCp >= 1500)
-                return ItemId.ItemNanabBerry;
-            if (blukBerryCount > 0 && pokemonCp >= 1500)
-                return ItemId.ItemBlukBerry;
-
-            if (nanabBerryCount > 0 && pokemonCp >= 1000)
-                return ItemId.ItemNanabBerry;
-            if (blukBerryCount > 0 && pokemonCp >= 1000)
-                return ItemId.ItemBlukBerry;
-
-            if (blukBerryCount > 0 && pokemonCp >= 500)
-                return ItemId.ItemBlukBerry;
-
-            return berries.OrderBy(g => g.Key).First().Key;
-        }
         private static Dictionary<string, int> GetPokeballQty()
         {
             var pokeBallCollection = new Dictionary<string, int>();
