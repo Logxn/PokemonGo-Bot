@@ -4313,7 +4313,7 @@ namespace PokemonGo.RocketAPI.Console
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
-            this.BackColor = System.Drawing.Color.Black;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
             this.ClientSize = new System.Drawing.Size(717, 561);
             this.Controls.Add(this.pictureBox2);
             this.Controls.Add(this.comboLanguage);
@@ -4322,7 +4322,7 @@ namespace PokemonGo.RocketAPI.Console
             this.Controls.Add(this.label30);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.buttonSaveStart);
-            this.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
+            this.ForeColor = System.Drawing.Color.Black;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "ConfigWindow";
