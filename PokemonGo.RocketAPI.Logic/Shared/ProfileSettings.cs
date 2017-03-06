@@ -303,7 +303,6 @@ namespace PokemonGo.RocketAPI.Logic.Shared
 
         }
 
-        public bool UsePinapBerry { get; set; }
         public bool UseNanabBerry { get; set; }
         public double razzberry_chance {get;set;}
         public int NanabPercent {get;set;}
