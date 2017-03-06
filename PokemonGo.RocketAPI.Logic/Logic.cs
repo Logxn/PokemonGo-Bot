@@ -508,6 +508,11 @@ namespace PokemonGo.RocketAPI.Logic
             foreach (var pokeStop in pokeStops)
                 pokestopsQueue.Enqueue(pokeStop);
             
+
+            if (GlobalVars.WalkInLoop)
+                for (var i =  pokeStops.Length -2; i > 0 ; i--)
+                    pokestopsQueue.Enqueue(pokeStops[i]);
+
             //walk between pokestops in default collection
             while (pokestopsQueue.Any())
             {

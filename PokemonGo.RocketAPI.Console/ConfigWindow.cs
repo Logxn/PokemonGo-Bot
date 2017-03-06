@@ -545,6 +545,11 @@ namespace PokemonGo.RocketAPI.Console
         private const string NEW_YORK_COORS = "40.764883;-73.972967";
         private void buttonSaveStart_Click(object sender, EventArgs e)
         {
+            if (checkBoxContinue.Checked &&
+                    MessageBox.Show(th.TS("Are you sure you want continue last session?\n You will continue with last values of farmed pokestops and caught Pokemons"), th.TS("Warning"), MessageBoxButtons.YesNo, MessageBoxIcon.Warning) 
+                    == DialogResult.No){
+                 return;
+            }
             if (Save()) {
                 if (checkBoxSaveLocations.Checked && string.IsNullOrEmpty(textBoxSaveLocationsFile.Text)) {
                     MessageBox.Show(th.TS("Attention: You did not select a path for 'SavePokemonsLocation'"), th.TS("Oh snap!"), MessageBoxButtons.OK, MessageBoxIcon.Hand);

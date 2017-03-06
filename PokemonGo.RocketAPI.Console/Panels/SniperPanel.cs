@@ -488,11 +488,12 @@ namespace PokemonGo.RocketAPI.Console
             }
             MessageBox.Show(stre);
         }
-        void button1_Click(object sender, EventArgs e)
+        //"http://www.mypogosnipers.com/data/cache/free.txt"
+        void InportRemoteList(string remoteURL)
         {
             var webClient = new WebClient();
             var downloadedFile = Path.GetTempFileName();
-            webClient.DownloadFile("http://www.mypogosnipers.com/data/cache/free.txt", downloadedFile);
+            webClient.DownloadFile(remoteURL, downloadedFile);
             var lines = File.ReadAllLines(downloadedFile);
             // line example:-38.1197678226872,144.331814009056,177,Natu -IV: 98% - PeckFast/NightShade (mypogosnipers.com)
             if (lines.Length>0){
@@ -544,6 +545,18 @@ namespace PokemonGo.RocketAPI.Console
         void numMinIVSnipe_ValueChanged(object sender, EventArgs e)
         {
             GlobalVars.MinIVtoSnipe = (int)(sender as NumericUpDown).Value;
+        }
+        void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            timerAutoImport.Enabled = (sender as CheckBox).Checked;
+        }
+
+        void numAutoImport_ValueChanged(object sender, EventArgs e)
+        {
+            var status = timerAutoImport.Enabled;
+            timerAutoImport.Enabled = false;
+            timerAutoImport.Interval = (int)(sender as NumericUpDown).Value * 60000;
+            timerAutoImport.Enabled = status;
         }
 
     }

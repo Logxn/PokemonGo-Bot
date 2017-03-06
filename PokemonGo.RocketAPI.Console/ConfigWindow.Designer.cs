@@ -1609,11 +1609,11 @@ namespace PokemonGo.RocketAPI.Console
             // checkBoxContinue
             // 
             this.checkBoxContinue.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.checkBoxContinue.Location = new System.Drawing.Point(25, 334);
+            this.checkBoxContinue.Location = new System.Drawing.Point(9, 334);
             this.checkBoxContinue.Name = "checkBoxContinue";
-            this.checkBoxContinue.Size = new System.Drawing.Size(288, 29);
+            this.checkBoxContinue.Size = new System.Drawing.Size(302, 29);
             this.checkBoxContinue.TabIndex = 69;
-            this.checkBoxContinue.Text = "Continue Latest Session";
+            this.checkBoxContinue.Text = "Continue with Last Session Values";
             this.checkBoxContinue.UseVisualStyleBackColor = true;
             this.checkBoxContinue.CheckedChanged += new System.EventHandler(this.checkBoxContinue_CheckedChanged);
             // 
@@ -4219,14 +4219,16 @@ namespace PokemonGo.RocketAPI.Console
             // labelLanguage
             // 
             this.labelLanguage.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.labelLanguage.AutoSize = true;
             this.labelLanguage.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelLanguage.ForeColor = System.Drawing.Color.White;
-            this.labelLanguage.Location = new System.Drawing.Point(10, 19);
+            this.labelLanguage.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.labelLanguage.Location = new System.Drawing.Point(12, 23);
             this.labelLanguage.Name = "labelLanguage";
-            this.labelLanguage.Size = new System.Drawing.Size(144, 17);
+            this.labelLanguage.Size = new System.Drawing.Size(107, 13);
             this.labelLanguage.TabIndex = 47;
             this.labelLanguage.Text = "Select Language:";
-            this.labelLanguage.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.labelLanguage.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // comboLanguage
             // 
@@ -4242,9 +4244,9 @@ namespace PokemonGo.RocketAPI.Console
             "Catalá",
             "中文",
             "Italiano"});
-            this.comboLanguage.Location = new System.Drawing.Point(33, 43);
+            this.comboLanguage.Location = new System.Drawing.Point(12, 43);
             this.comboLanguage.Name = "comboLanguage";
-            this.comboLanguage.Size = new System.Drawing.Size(121, 21);
+            this.comboLanguage.Size = new System.Drawing.Size(142, 21);
             this.comboLanguage.TabIndex = 48;
             this.comboLanguage.SelectedIndexChanged += new System.EventHandler(this.ComboLanguageSelectedIndexChanged);
             // 
@@ -4420,6 +4422,7 @@ namespace PokemonGo.RocketAPI.Console
             this.groupBox20.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
