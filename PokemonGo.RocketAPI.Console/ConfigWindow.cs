@@ -1025,10 +1025,11 @@ namespace PokemonGo.RocketAPI.Console
         {
             Process.Start("https://github.com/Logxn/PokemonGo-Bot");
         }
-
+        
+        // https://high-minded.net/threads/pokemon-go-c-bot-safer-better.50731/
         private void linkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            Process.Start("https://high-minded.net/threads/pokemon-go-c-bot-safer-better.50731/");
+            Process.Start("http://slaughter-gaming.de/");
         }
 
         private void linkLabel8_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
