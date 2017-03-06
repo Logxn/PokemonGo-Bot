@@ -558,6 +558,10 @@ namespace PokemonGo.RocketAPI.Console
             timerAutoImport.Interval = (int)(sender as NumericUpDown).Value * 60000;
             timerAutoImport.Enabled = status;
         }
+        void timerAutoImport_Tick(object sender, EventArgs e)
+        {
+            InportRemoteList("http://www.mypogosnipers.com/data/cache/free.txt");
+        }
 
     }
 }

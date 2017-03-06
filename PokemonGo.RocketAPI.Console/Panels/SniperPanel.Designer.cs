@@ -783,6 +783,7 @@ namespace PokemonGo.RocketAPI.Console
             // timerAutoImport
             // 
             this.timerAutoImport.Interval = 600000;
+            this.timerAutoImport.Tick += new System.EventHandler(this.timerAutoImport_Tick);
             // 
             // SniperPanel
             // 
