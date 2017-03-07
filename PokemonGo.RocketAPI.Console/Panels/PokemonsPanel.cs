@@ -512,7 +512,7 @@ namespace PokemonGo.RocketAPI.Console
                             evolveDialog.pictureBox1.Image =  (i % 2 == 0)?normalImage:null;
                             evolveDialog.pictureBox2.Image =  (i % 2 == 1)?evolvedImage:null;
                             evolveDialog.Refresh();
-                            RandomHelper.RandomSleep(2600);
+                            RandomHelper.RandomSleep(2400);
                         }
                     }
                 }
@@ -726,7 +726,7 @@ namespace PokemonGo.RocketAPI.Console
                     }
                     else
                         failed += pokemon.Nickname + " ";
-                    Helpers.RandomHelper.RandomSleep(5000, 6000);
+                    RandomHelper.RandomSleep(3000);
                 }
 
                 if (failed != string.Empty)

@@ -294,7 +294,15 @@ namespace PokemonGo.RocketAPI.Console
                     if (checkBoxMinIVSnipe.Checked){
                         var iv = 0.0;
                         double.TryParse (element.SubItems[1].Text, out iv);
-                        if ( iv >= GlobalVars.MinIVtoSnipe)
+                        var minIV =  (int)numMinIVSnipe.Value;
+                        if ( iv >= minIV)
+                            return element;
+                    }
+                    if (checkBoxMinProbSnipe.Checked){
+                        var prob = 0.0;
+                        double.TryParse (element.SubItems[1].Text, out prob);
+                        var minProb =  (int)numMinProbSnipe.Value;
+                        if ( prob >= minProb)
                             return element;
                     }
                     Logger.Debug(pokeID +" not is in to snipe list");
@@ -542,13 +550,11 @@ namespace PokemonGo.RocketAPI.Console
             listView.ListViewItemSorter = new Components.ListViewItemComparer(e.Column, order);
             (sender as ListView).Sorting = order == SortOrder.Ascending ? SortOrder.Descending : SortOrder.Ascending;
         }
-        void numMinIVSnipe_ValueChanged(object sender, EventArgs e)
-        {
-            GlobalVars.MinIVtoSnipe = (int)(sender as NumericUpDown).Value;
-        }
         void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
             timerAutoImport.Enabled = (sender as CheckBox).Checked;
+            if (timerAutoImport.Enabled)
+                timerAutoImport_Tick(sender, e);
         }
 
         void numAutoImport_ValueChanged(object sender, EventArgs e)
@@ -560,7 +566,7 @@ namespace PokemonGo.RocketAPI.Console
         }
         void timerAutoImport_Tick(object sender, EventArgs e)
         {
-            InportRemoteList("http://www.mypogosnipers.com/data/cache/free.txt");
+            InportRemoteList(textBoxPokemonsList.Text);
         }
 
     }
