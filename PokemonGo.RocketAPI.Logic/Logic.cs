@@ -52,7 +52,7 @@ namespace PokemonGo.RocketAPI.Logic
         public bool pokeballoutofstock;
         public static Logic Instance;
         private readonly List<string> lureEncounters = new List<string>();
-        public static int FailedSoftban;
+        public static int FailedSoftban = 0;
         public double lastsearchtimestamp;
         
         

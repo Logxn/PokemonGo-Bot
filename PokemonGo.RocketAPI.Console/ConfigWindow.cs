@@ -303,6 +303,7 @@ namespace PokemonGo.RocketAPI.Console
             text_MaxCPToTransfer.Text = config.DontTransferWithCPOver.ToString();
             MinCPtoCatch.Text = config.MinCPtoCatch.ToString();
             MinIVtoCatch.Text = config.MinIVtoCatch.ToString();
+            MinProbToCatch.Text = config.MinProbToCatch.ToString();
             checkBox_UseSpritesFolder.Checked = config.UseSpritesFolder;
             checkBox_ShowPokemons.Checked = config.ShowPokemons;
             nud_EvolveAt.Value = config.EvolveAt;
@@ -759,6 +760,7 @@ namespace PokemonGo.RocketAPI.Console
 
             ret &= textBoxToActiveProfInt(MinCPtoCatch, "MinCPtoCatch");
             ret &= textBoxToActiveProfInt(MinIVtoCatch, "MinIVtoCatch");
+            ret &= textBoxToActiveProfInt(MinProbToCatch, "MinProbToCatch");
 
             // tab  - Eggs
             ActiveProfile.Settings.AutoIncubate = checkBox_AutoIncubate.Checked;

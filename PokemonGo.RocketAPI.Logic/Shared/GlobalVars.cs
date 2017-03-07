@@ -137,6 +137,7 @@ namespace PokemonGo.RocketAPI.Logic.Shared
         public static int InventoryBaseUltraball = 10;
         public static int MinCPtoCatch = 0;
         public static int MinIVtoCatch = 0;
+        public static int MinProbToCatch = 0;
         public static bool AvoidRegionLock = true;
         public static bool simulatedPGO = false;
         public static ByteString SessionHash;

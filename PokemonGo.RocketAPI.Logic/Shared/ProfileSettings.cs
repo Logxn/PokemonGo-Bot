@@ -570,15 +570,8 @@ namespace PokemonGo.RocketAPI.Logic.Shared
 
 
         }
-        public int MinIVtoCatch {
-            get;
-            set;
-
-
-
-
-
-        }
+        public int MinIVtoCatch {get;set;}
+        public int MinProbToCatch {get;set;}
         public int Max_Missed_throws {
             get;
             set;

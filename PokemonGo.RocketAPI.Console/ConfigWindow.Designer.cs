@@ -349,6 +349,9 @@ namespace PokemonGo.RocketAPI.Console
             this.comboLanguage = new System.Windows.Forms.ComboBox();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.label14 = new System.Windows.Forms.Label();
+            this.MinProbToCatch = new System.Windows.Forms.TextBox();
+            this.labelMinProb = new System.Windows.Forms.Label();
             this.tabProxies.SuspendLayout();
             this.tabItems.SuspendLayout();
             this.groupBoxItems.SuspendLayout();
@@ -1253,6 +1256,9 @@ namespace PokemonGo.RocketAPI.Console
             // groupBox3
             // 
             this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.groupBox3.Controls.Add(this.label14);
+            this.groupBox3.Controls.Add(this.MinProbToCatch);
+            this.groupBox3.Controls.Add(this.labelMinProb);
             this.groupBox3.Controls.Add(this.checkBox_ShowPokemons);
             this.groupBox3.Controls.Add(this.checkBox_UseSpritesFolder);
             this.groupBox3.Controls.Add(this.label55);
@@ -1303,7 +1309,7 @@ namespace PokemonGo.RocketAPI.Console
             // label55
             // 
             this.label55.AutoSize = true;
-            this.label55.Location = new System.Drawing.Point(460, 53);
+            this.label55.Location = new System.Drawing.Point(482, 53);
             this.label55.Name = "label55";
             this.label55.Size = new System.Drawing.Size(15, 13);
             this.label55.TabIndex = 15;
@@ -1320,7 +1326,7 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // MinIVtoCatch
             // 
-            this.MinIVtoCatch.Location = new System.Drawing.Point(442, 50);
+            this.MinIVtoCatch.Location = new System.Drawing.Point(464, 50);
             this.MinIVtoCatch.Name = "MinIVtoCatch";
             this.MinIVtoCatch.Size = new System.Drawing.Size(36, 20);
             this.MinIVtoCatch.TabIndex = 14;
@@ -1329,7 +1335,7 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // MinCPtoCatch
             // 
-            this.MinCPtoCatch.Location = new System.Drawing.Point(582, 50);
+            this.MinCPtoCatch.Location = new System.Drawing.Point(621, 49);
             this.MinCPtoCatch.Name = "MinCPtoCatch";
             this.MinCPtoCatch.Size = new System.Drawing.Size(36, 20);
             this.MinCPtoCatch.TabIndex = 14;
@@ -1415,7 +1421,7 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // label8
             // 
-            this.label8.Location = new System.Drawing.Point(481, 53);
+            this.label8.Location = new System.Drawing.Point(520, 52);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(105, 13);
             this.label8.TabIndex = 13;
@@ -1424,7 +1430,7 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // label54
             // 
-            this.label54.Location = new System.Drawing.Point(339, 53);
+            this.label54.Location = new System.Drawing.Point(361, 53);
             this.label54.Name = "label54";
             this.label54.Size = new System.Drawing.Size(107, 13);
             this.label54.TabIndex = 13;
@@ -4308,6 +4314,32 @@ namespace PokemonGo.RocketAPI.Console
             this.pictureBox2.TabStop = false;
             this.pictureBox2.Click += new System.EventHandler(this.pictureBox2_Click);
             // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(639, 78);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(15, 13);
+            this.label14.TabIndex = 20;
+            this.label14.Text = "%";
+            // 
+            // MinProbtoCatch
+            // 
+            this.MinProbToCatch.Location = new System.Drawing.Point(621, 75);
+            this.MinProbToCatch.Name = "MinProbtoCatch";
+            this.MinProbToCatch.Size = new System.Drawing.Size(36, 20);
+            this.MinProbToCatch.TabIndex = 19;
+            this.MinProbToCatch.Text = "0";
+            // 
+            // labelMinProb
+            // 
+            this.labelMinProb.Location = new System.Drawing.Point(482, 78);
+            this.labelMinProb.Name = "labelMinProb";
+            this.labelMinProb.Size = new System.Drawing.Size(138, 13);
+            this.labelMinProb.TabIndex = 18;
+            this.labelMinProb.Text = "Min. Probabiltity to Catch:";
+            this.labelMinProb.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
             // ConfigWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -4793,5 +4825,8 @@ namespace PokemonGo.RocketAPI.Console
         private System.Windows.Forms.GroupBox groupBox23;
         private System.Windows.Forms.LinkLabel linkLabel2;
         private System.Windows.Forms.PictureBox pictureBox3;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.TextBox MinProbToCatch;
+        private System.Windows.Forms.Label labelMinProb;
     }
 }

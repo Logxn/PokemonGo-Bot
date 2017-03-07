@@ -292,8 +292,9 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                     SaveLocations(encounterPokemonResponse.WildPokemon, iv, probability100);
 
                 if (encounterPokemonResponse.WildPokemon.PokemonData != null &&
-                    encounterPokemonResponse.WildPokemon.PokemonData.Cp > GlobalVars.MinCPtoCatch &&
-                    iv > GlobalVars.MinIVtoCatch)
+                    encounterPokemonResponse.WildPokemon.PokemonData.Cp >= GlobalVars.MinCPtoCatch &&
+                    probability100 >= GlobalVars.MinProbToCatch &&
+                    iv >= GlobalVars.MinIVtoCatch)
                 {
                     var usedBerry = false;
                     var escaped = false;
@@ -498,7 +499,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                 }
                 else
                 {
-                    Logger.ColoredConsoleWrite(ConsoleColor.Magenta, "Pokemon CP or IV lower than Configured Min to Catch - Skipping Pokemon");
+                    Logger.ColoredConsoleWrite(ConsoleColor.Magenta, "Pokemon CP or IV or Prob lower than Configured Min to Catch - Skipping Pokemon");
                     SkippedPokemon.Add(encounterPokemonResponse.WildPokemon.EncounterId);
                 }
             }else if (encounterPokemonResponse.Status == EncounterResponse.Types.Status.PokemonInventoryFull){
