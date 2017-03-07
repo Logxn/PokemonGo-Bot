@@ -29,7 +29,7 @@ namespace PokemonGo.RocketAPI.Logic
         {
             _session = session;
         }
-        [STAThread]
+        
         public void HandleCaptcha(string challengeUrl, ICaptchaResponseHandler captchaResponseHandler)
         {
            
@@ -39,31 +39,27 @@ namespace PokemonGo.RocketAPI.Logic
              * This "long-ass-code" is the responseToken
              * */
             Logger.ColoredConsoleWrite(ConsoleColor.Green, "Are you an human?");
-            var chelper = new Utils.CaptchaHelper(challengeUrl);
-            if (chelper.ShowDialog() == DialogResult.OK)
-            {
-                var token = chelper.TOKEN;
-                captchaResponseHandler.SetCaptchaToken(token); 
-    
-                // We will send a request, passing the long-ass-token and wait for a response.
-                VerifyChallengeResponse r =  _player.VerifyChallenge(token); 
-                if (r.Success)
-                {
-                    Logger.ColoredConsoleWrite(ConsoleColor.Green, "TOKEN OK!");
+            Task.Run(() => {
+                var chelper = new Utils.CaptchaHelper(challengeUrl);
+                if (chelper.ShowDialog() == DialogResult.OK) {
+                    var token = chelper.TOKEN;
+                    captchaResponseHandler.SetCaptchaToken(token);
+                             
+                    // We will send a request, passing the long-ass-token and wait for a response.
+                    VerifyChallengeResponse r = _player.VerifyChallenge(token);
+                    if (r.Success) {
+                        Logger.ColoredConsoleWrite(ConsoleColor.Green, "TOKEN OK!");
+                    } else {
+                        Logger.ColoredConsoleWrite(ConsoleColor.Green, "Failure.");
+                        HandleCaptcha(challengeUrl, captchaResponseHandler);
+                    }
+                    RandomHelper.RandomSleep(2000, 2200);
+                } else {
+                    Logger.ColoredConsoleWrite(ConsoleColor.Green, "Canceled.");
+                    System.Console.ReadKey();
+                    Environment.Exit(0);
                 }
-                else
-                {
-                    Logger.ColoredConsoleWrite(ConsoleColor.Green, "Failure.");
-                    HandleCaptcha(challengeUrl,captchaResponseHandler);
-                }
-                RandomHelper.RandomSleep(2000,2200);
-            }
-            else
-            {
-                Logger.ColoredConsoleWrite(ConsoleColor.Green, "Canceled.");
-                System.Console.ReadKey();
-                Environment.Exit(0);
-            }
+            }).Wait();
 
         }
                 

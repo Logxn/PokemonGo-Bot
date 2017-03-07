@@ -7,6 +7,7 @@ using POGOProtos.Data;
 using POGOProtos.Enums;
 using POGOProtos.Networking.Responses;
 using PokemonGo.RocketAPI.Console.Components;
+using PokemonGo.RocketAPI.Console.Dialogs;
 using PokemonGo.RocketAPI.Console.PokeData;
 using System.Linq;
 using System.Collections.Generic;
@@ -463,6 +464,7 @@ namespace PokemonGo.RocketAPI.Console
                 GlobalVars.PauseTheWalking = true;
             }
             
+            var evolveDialog = new EvolvingDialog();
             foreach (ListViewItem selectedItem in selectedItems)
             {
                 var pokemoninfo = (PokemonData)selectedItem.Tag;
@@ -477,13 +479,15 @@ namespace PokemonGo.RocketAPI.Console
                     else
                         continue; // go to next pokemon
                 }
+                
+                evolveDialog.pictureBox1.Image = PokeImgManager.GetPokemonVeryLargeImage(pokemoninfo.PokemonId);
+                evolveDialog.pictureBox2.Image = null;
+                evolveDialog.progressBar1.Value = 0;
+                evolveDialog.Show();
                 resp = client.Inventory.EvolvePokemon(pokemoninfo.Id, item);
-
-
-               
-
                 if (resp.Result == EvolvePokemonResponse.Types.Result.Success)
                 {
+                    evolveDialog.pictureBox2.Image = PokeImgManager.GetPokemonVeryLargeImage(resp.EvolvedPokemonData.PokemonId);
                     evolved++;
                     statusTexbox.Text = "Evolving..." + evolved;
                     var name = pokemoninfo.PokemonId;
@@ -500,7 +504,11 @@ namespace PokemonGo.RocketAPI.Console
                     Logger.Info($"Waiting a few seconds... dont worry!");
                     if (GlobalVars.UseAnimationTimes)
                     {
-                        Helpers.RandomHelper.RandomSleep(30000, 35000);
+                        const int times = 12;
+                        for (var i = 0; i < times;i++){
+                            evolveDialog.progressBar1.Value += evolveDialog.progressBar1.Maximum/times;
+                            RandomHelper.RandomSleep(2600);
+                        }
                     }
                 }
                 else
@@ -508,6 +516,7 @@ namespace PokemonGo.RocketAPI.Console
                     Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Failed to evolve {pokemoninfo.PokemonId}. EvolvePokemonOutProto.Result was {resp.Result}");
                     failed += " {pokemoninfo.PokemonId} ";
                 }
+                evolveDialog.Hide();
 
             }
 

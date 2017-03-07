@@ -167,6 +167,10 @@
     <Compile Include="Dialogs\AvatarSelect.Designer.cs">
       <DependentUpon>AvatarSelect.cs</DependentUpon>
     </Compile>
+    <Compile Include="Dialogs\EvolvingDialog.cs" />
+    <Compile Include="Dialogs\EvolvingDialog.Designer.cs">
+      <DependentUpon>EvolvingDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="Dialogs\IncubatorSelect.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -328,6 +332,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Dialogs\AvatarSelect.resx">
       <DependentUpon>AvatarSelect.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialogs\EvolvingDialog.resx">
+      <DependentUpon>EvolvingDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Dialogs\IncubatorSelect.resx">
       <DependentUpon>IncubatorSelect.cs</DependentUpon>

@@ -692,7 +692,7 @@ namespace PokemonGo.RocketAPI.Console
                     str += Logic.Functions.GymsLogic.strPokemons(details.GymState.Memberships.Select(x => x.PokemonData)) +"\n\n";
                     str += th.TS("Do you want copy location?");
                     if (MessageBox.Show(str, th.TS("Gym Details"), MessageBoxButtons.YesNo  ) == DialogResult.Yes){
-                        Clipboard.SetText(item.Position.Lat.ToString(CultureInfo.InvariantCulture)  +","+ item.Position.Lng.ToString(CultureInfo.InvariantCulture));
+                        Clipboard.SetText(details.GymState.FortData.Latitude.ToString(CultureInfo.InvariantCulture)  +","+ details.GymState.FortData.Longitude.ToString(CultureInfo.InvariantCulture));
                     }
                 }
 
