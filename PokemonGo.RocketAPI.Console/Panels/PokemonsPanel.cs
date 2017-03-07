@@ -487,7 +487,8 @@ namespace PokemonGo.RocketAPI.Console
                 resp = client.Inventory.EvolvePokemon(pokemoninfo.Id, item);
                 if (resp.Result == EvolvePokemonResponse.Types.Result.Success)
                 {
-                    evolveDialog.pictureBox2.Image = PokeImgManager.GetPokemonVeryLargeImage(resp.EvolvedPokemonData.PokemonId);
+                    evolveDialog.pictureBox2.Image = PokeImgManager.GetPokemonVeryLargeImage((PokemonId)resp.EvolvedPokemonData.DisplayPokemonId);
+                    evolveDialog.Refresh();
                     evolved++;
                     statusTexbox.Text = "Evolving..." + evolved;
                     var name = pokemoninfo.PokemonId;
@@ -495,7 +496,7 @@ namespace PokemonGo.RocketAPI.Console
                     var getPokemonName = StringUtils.getPokemonNameByLanguage(pokemoninfo.PokemonId);
                     var cp = pokemoninfo.Cp;
                     var calcPerf = PokemonInfo.CalculatePokemonPerfection(pokemoninfo).ToString("0.00");
-                    var getEvolvedName = th.TS(resp.EvolvedPokemonData.DisplayPokemonId.ToString());
+                    var getEvolvedName = th.TS(((PokemonId)resp.EvolvedPokemonData.DisplayPokemonId).ToString());
 
                     var getEvolvedCP = resp.EvolvedPokemonData.Cp;
                     gotXP = gotXP + resp.ExperienceAwarded;
@@ -507,6 +508,10 @@ namespace PokemonGo.RocketAPI.Console
                         const int times = 12;
                         for (var i = 0; i < times;i++){
                             evolveDialog.progressBar1.Value += evolveDialog.progressBar1.Maximum/times;
+                            if (i == times /2){
+                                evolveDialog.pictureBox1.Image = null;
+                                evolveDialog.Refresh();
+                            }
                             RandomHelper.RandomSleep(2600);
                         }
                     }
