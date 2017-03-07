@@ -479,15 +479,16 @@ namespace PokemonGo.RocketAPI.Console
                     else
                         continue; // go to next pokemon
                 }
-                
-                evolveDialog.pictureBox1.Image = PokeImgManager.GetPokemonVeryLargeImage(pokemoninfo.PokemonId);
+                var normalImage = PokeImgManager.GetPokemonVeryLargeImage(pokemoninfo.PokemonId);
+                evolveDialog.pictureBox1.Image = normalImage;
                 evolveDialog.pictureBox2.Image = null;
                 evolveDialog.progressBar1.Value = 0;
                 evolveDialog.Show();
                 resp = client.Inventory.EvolvePokemon(pokemoninfo.Id, item);
                 if (resp.Result == EvolvePokemonResponse.Types.Result.Success)
                 {
-                    evolveDialog.pictureBox2.Image = PokeImgManager.GetPokemonVeryLargeImage((PokemonId)resp.EvolvedPokemonData.DisplayPokemonId);
+                    var evolvedImage = PokeImgManager.GetPokemonVeryLargeImage(resp.EvolvedPokemonData.PokemonId);
+                    evolveDialog.pictureBox2.Image = evolvedImage;
                     evolveDialog.Refresh();
                     evolved++;
                     statusTexbox.Text = "Evolving..." + evolved;
@@ -496,7 +497,7 @@ namespace PokemonGo.RocketAPI.Console
                     var getPokemonName = StringUtils.getPokemonNameByLanguage(pokemoninfo.PokemonId);
                     var cp = pokemoninfo.Cp;
                     var calcPerf = PokemonInfo.CalculatePokemonPerfection(pokemoninfo).ToString("0.00");
-                    var getEvolvedName = th.TS(((PokemonId)resp.EvolvedPokemonData.DisplayPokemonId).ToString());
+                    var getEvolvedName = th.TS((resp.EvolvedPokemonData.PokemonId).ToString());
 
                     var getEvolvedCP = resp.EvolvedPokemonData.Cp;
                     gotXP = gotXP + resp.ExperienceAwarded;
@@ -508,10 +509,9 @@ namespace PokemonGo.RocketAPI.Console
                         const int times = 12;
                         for (var i = 0; i < times;i++){
                             evolveDialog.progressBar1.Value += evolveDialog.progressBar1.Maximum/times;
-                            if (i == times /2){
-                                evolveDialog.pictureBox1.Image = null;
-                                evolveDialog.Refresh();
-                            }
+                            evolveDialog.pictureBox1.Image =  (i % 2 == 0)?normalImage:null;
+                            evolveDialog.pictureBox2.Image =  (i % 2 == 1)?evolvedImage:null;
+                            evolveDialog.Refresh();
                             RandomHelper.RandomSleep(2600);
                         }
                     }
