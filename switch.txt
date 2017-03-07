@@ -1,2 +1,2 @@
-enabled=true;
-Niantic changed something in current api (0.55). Please be patient. Join our discord for more Information. https://discord.gg/phu3GNN
+enabled=false;
+Sorry, we are updating to the newest API. This can take a while... meanwhile joing us https://discord.gg/phu3GNN
