@@ -1,2 +1,2 @@
-enabled=false;
+enabled=true;
 Sorry, we are updating to the newest API. This can take a while... meanwhile joing us https://discord.gg/phu3GNN
