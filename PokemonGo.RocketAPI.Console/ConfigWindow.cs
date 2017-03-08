@@ -479,7 +479,7 @@ namespace PokemonGo.RocketAPI.Console
         /// <summary>
         /// Get Coordinates from file
         /// </summary>
-        private const double ePSILON = 0.000005;
+        private const double ePSILON = 0.000001;
         private void LoadLatestCoords()
         {
             bool CoordsAreLoaded = false;
@@ -546,11 +546,6 @@ namespace PokemonGo.RocketAPI.Console
         private const string NEW_YORK_COORS = "40.764883;-73.972967";
         private void buttonSaveStart_Click(object sender, EventArgs e)
         {
-            if (checkBoxContinue.Checked &&
-                    MessageBox.Show(th.TS("Are you sure you want continue last session?\n You will continue with last values of farmed pokestops and caught Pokemons"), th.TS("Warning"), MessageBoxButtons.YesNo, MessageBoxIcon.Warning) 
-                    == DialogResult.No){
-                 return;
-            }
             if (Save()) {
                 if (checkBoxSaveLocations.Checked && string.IsNullOrEmpty(textBoxSaveLocationsFile.Text)) {
                     MessageBox.Show(th.TS("Attention: You did not select a path for 'SavePokemonsLocation'"), th.TS("Oh snap!"), MessageBoxButtons.OK, MessageBoxIcon.Hand);
@@ -576,6 +571,8 @@ namespace PokemonGo.RocketAPI.Console
                 GlobalVars.Assign(ActiveProfile.Settings);
                 GlobalVars.ProfileName = ProfileName.Text;
                 Logger.Info("GlobalVars.ProfileName: " + GlobalVars.ProfileName);
+
+                GlobalVars.ContinueLatestSession &= !checkBoxContinue.Checked || MessageBox.Show(th.TS("Are you sure you want continue last session?\n You will continue with last values of farmed pokestops and caught Pokemons"), th.TS("Warning"), MessageBoxButtons.YesNo, MessageBoxIcon.Warning) != DialogResult.No;
 
                 Dispose();
             } else

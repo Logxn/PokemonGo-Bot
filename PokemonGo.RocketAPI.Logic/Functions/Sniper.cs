@@ -104,7 +104,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
             GlobalVars.SnipeOpts.WaitSecond = 6;
             GlobalVars.SnipeOpts.NumTries = 3;
         }
-        const double Epsilon = 0.000005;
+        const double Epsilon = 0.000001;
 
         private ulong TrySnipeGym(GeoCoordinate pokeCoords, GeoCoordinate returnCoords)
         {

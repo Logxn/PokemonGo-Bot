@@ -595,6 +595,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                             Logger.Info("While, we will try to catch pokemons");
                         var rnd = RandomHelper.RandomNumber(50,90) * 0.00001;
                         // 0.00001 = 1 meters
+                        // http://www.um.es/geograf/sigmur/temariohtml/node6_mn.html
                         //http://gizmodo.com/how-precise-is-one-degree-of-longitude-or-latitude-1631241162
                         Logger.Debug("going to 50 meters far of gym");
                         LocationUtils.updatePlayerLocation(client, client.CurrentLongitude + rnd, client.CurrentLatitude,client.CurrentAltitude);
