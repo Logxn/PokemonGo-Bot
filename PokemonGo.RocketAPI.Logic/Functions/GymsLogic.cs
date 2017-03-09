@@ -590,12 +590,6 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                         client.Login.FireRequestBlockTwo().Wait();
                         RandomHelper.RandomSleep(2000);
                     }else if (GlobalVars.Gyms.Testing == "Wait 2 minutes before of next try" && numTries ==3){
-                        RandomHelper.RandomSleep(2000);
-                        var gmo = client.Map.GetMapObjects().Result;
-                        client.Login.FireRequestBlockTwo().Wait();
-                        RandomHelper.RandomSleep(2000);
-                        
-                    }else{
                         if (GlobalVars.CatchPokemon)
                             Logger.Info("While, we will try to catch pokemons");
                         // 0.00001 = 1 meters
@@ -607,9 +601,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                             Logger.Debug("going to 50 meters far of gym");
                             LocationUtils.updatePlayerLocation(client, gymloc.Longitude + rnd, gymloc.Latitude, gymloc.Altitude);
                             RandomHelper.RandomSleep(10000);
-                            Logic.Instance.runGymLogic = false;
-                            Logic.Instance.ExecuteCatchandFarm();
-                            Logic.Instance.runGymLogic = true;
+                            CatchingLogic.Execute();
                             rnd = RandomHelper.RandomNumber(50,90) * 0.00001;
                             Logger.Debug("going to 50 meters far of gym");
                             LocationUtils.updatePlayerLocation(client, gymloc.Longitude + rnd, gymloc.Latitude, gymloc.Altitude);
@@ -622,6 +614,10 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                             CatchingLogic.Execute();
                         }
                         RandomHelper.RandomSleep(2000);
+                    }else{
+                        RandomHelper.RandomSleep(2000);
+                        var player = client.Player.GetPlayer();
+                        var gmo = client.Map.GetMapObjects().Result;
                     }
                 } else {
                     Logger.Debug("StartGymBattle Response:" + resp);
