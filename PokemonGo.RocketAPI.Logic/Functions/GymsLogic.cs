@@ -7,6 +7,7 @@
  * To change this template use Tools | Options | Coding | Edit Standard Headers.
  */
 using System;
+using System.Device.Location;
 using System.Threading.Tasks;
 using POGOProtos.Settings.Master;
 using PokemonGo.RocketAPI.Logic.Shared;
@@ -589,32 +590,37 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                         client.Login.FireRequestBlockTwo().Wait();
                         RandomHelper.RandomSleep(2000);
                     }else if (GlobalVars.Gyms.Testing == "Wait 2 minutes before of next try" && numTries ==3){
-                        // 120 secondos
-                        Logger.Info("Waiting 2 minutes before of next attack try");
-                        if (GlobalVars.CatchPokemon)
-                            Logger.Info("While, we will try to catch pokemons");
-                        var rnd = RandomHelper.RandomNumber(50,90) * 0.00001;
-                        // 0.00001 = 1 meters
-                        // http://www.um.es/geograf/sigmur/temariohtml/node6_mn.html
-                        //http://gizmodo.com/how-precise-is-one-degree-of-longitude-or-latitude-1631241162
-                        Logger.Debug("going to 50 meters far of gym");
-                        LocationUtils.updatePlayerLocation(client, client.CurrentLongitude + rnd, client.CurrentLatitude,client.CurrentAltitude);
-                        RandomHelper.RandomSleep(10000);
-                        CatchingLogic.Execute();
-                        RandomHelper.RandomSleep(10000);
-                        CatchingLogic.Execute();
-                        Logger.Debug("returning to gym location");
-                        // go back
-                        LocationUtils.updatePlayerLocation(client, client.CurrentLongitude - rnd , client.CurrentLatitude,client.CurrentAltitude);
-                        RandomHelper.RandomSleep(10000);
-                        CatchingLogic.Execute();
+                        RandomHelper.RandomSleep(2000);
+                        var gmo = client.Map.GetMapObjects().Result;
                         client.Login.FireRequestBlockTwo().Wait();
                         RandomHelper.RandomSleep(2000);
                         
                     }else{
-                        RandomHelper.RandomSleep(2000);
-                        var gmo = client.Map.GetMapObjects().Result;
-                        client.Login.FireRequestBlockTwo().Wait();
+                        if (GlobalVars.CatchPokemon)
+                            Logger.Info("While, we will try to catch pokemons");
+                        // 0.00001 = 1 meters
+                        // http://www.um.es/geograf/sigmur/temariohtml/node6_mn.html
+                        //http://gizmodo.com/how-precise-is-one-degree-of-longitude-or-latitude-1631241162
+                        var gymloc = new GeoCoordinate ( client.CurrentLongitude , client.CurrentLatitude, client.CurrentAltitude);
+                        for (var times = 1; times < 5;times++){
+                            var rnd = RandomHelper.RandomNumber(50,90) * 0.00001;
+                            Logger.Debug("going to 50 meters far of gym");
+                            LocationUtils.updatePlayerLocation(client, gymloc.Longitude + rnd, gymloc.Latitude, gymloc.Altitude);
+                            RandomHelper.RandomSleep(10000);
+                            Logic.Instance.runGymLogic = false;
+                            Logic.Instance.ExecuteCatchandFarm();
+                            Logic.Instance.runGymLogic = true;
+                            rnd = RandomHelper.RandomNumber(50,90) * 0.00001;
+                            Logger.Debug("going to 50 meters far of gym");
+                            LocationUtils.updatePlayerLocation(client, gymloc.Longitude + rnd, gymloc.Latitude, gymloc.Altitude);
+                            RandomHelper.RandomSleep(10000);
+                            CatchingLogic.Execute();
+                            Logger.Debug("returning to gym location");
+                            // go back
+                            LocationUtils.updatePlayerLocation(client, gymloc);
+                            RandomHelper.RandomSleep(10000);
+                            CatchingLogic.Execute();
+                        }
                         RandomHelper.RandomSleep(2000);
                     }
                 } else {

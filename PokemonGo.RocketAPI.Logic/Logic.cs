@@ -1003,7 +1003,8 @@ namespace PokemonGo.RocketAPI.Logic
             return false;
         }
 
-        private bool ExecuteCatchandFarm()
+        public bool runGymLogic = true;
+        public bool ExecuteCatchandFarm()
         {
             if ( BotSettings.RelocateDefaultLocation)
             {
@@ -1046,7 +1047,8 @@ namespace PokemonGo.RocketAPI.Logic
                 }
                 CatchingLogic.Execute(mapObjectsResponse);
                 
-                GymsLogic.Execute();
+                if (runGymLogic)
+                    GymsLogic.Execute();
                     
                 return true;
             }
