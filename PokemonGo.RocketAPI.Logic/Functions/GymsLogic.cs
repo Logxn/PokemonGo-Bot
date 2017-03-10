@@ -616,8 +616,6 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                         RandomHelper.RandomSleep(2000);
                     }else{
                         RandomHelper.RandomSleep(5000);
-                        var gmo = client.Map.GetMapObjects().Result;
-                        var player = client.Player.GetPlayer();
                     }
                 } else {
                     Logger.Debug("StartGymBattle Response:" + resp);

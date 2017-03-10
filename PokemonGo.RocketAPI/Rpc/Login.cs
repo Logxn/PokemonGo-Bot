@@ -96,6 +96,7 @@ namespace PokemonGo.RocketAPI.Rpc
                 case ResponseEnvelope.Types.StatusCode.Ok:
                     break;
                 case ResponseEnvelope.Types.StatusCode.OkRpcUrlInResponse:
+                    
                     break;
                 case ResponseEnvelope.Types.StatusCode.InvalidRequest:
                     break;

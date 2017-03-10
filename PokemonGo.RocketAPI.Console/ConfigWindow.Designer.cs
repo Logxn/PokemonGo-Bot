@@ -88,6 +88,9 @@ namespace PokemonGo.RocketAPI.Console
             this.checkBox_AlwaysTransfer = new System.Windows.Forms.CheckBox();
             this.checkedListBox_AlwaysTransfer = new System.Windows.Forms.CheckedListBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.label14 = new System.Windows.Forms.Label();
+            this.MinProbToCatch = new System.Windows.Forms.TextBox();
+            this.labelMinProb = new System.Windows.Forms.Label();
             this.checkBox_ShowPokemons = new System.Windows.Forms.CheckBox();
             this.checkBox_UseSpritesFolder = new System.Windows.Forms.CheckBox();
             this.label55 = new System.Windows.Forms.Label();
@@ -349,9 +352,6 @@ namespace PokemonGo.RocketAPI.Console
             this.comboLanguage = new System.Windows.Forms.ComboBox();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
-            this.label14 = new System.Windows.Forms.Label();
-            this.MinProbToCatch = new System.Windows.Forms.TextBox();
-            this.labelMinProb = new System.Windows.Forms.Label();
             this.tabProxies.SuspendLayout();
             this.tabItems.SuspendLayout();
             this.groupBoxItems.SuspendLayout();
@@ -1281,6 +1281,32 @@ namespace PokemonGo.RocketAPI.Console
             this.groupBox3.TabIndex = 3;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Bot Settings";
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(639, 78);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(15, 13);
+            this.label14.TabIndex = 20;
+            this.label14.Text = "%";
+            // 
+            // MinProbToCatch
+            // 
+            this.MinProbToCatch.Location = new System.Drawing.Point(621, 75);
+            this.MinProbToCatch.Name = "MinProbToCatch";
+            this.MinProbToCatch.Size = new System.Drawing.Size(36, 20);
+            this.MinProbToCatch.TabIndex = 19;
+            this.MinProbToCatch.Text = "0";
+            // 
+            // labelMinProb
+            // 
+            this.labelMinProb.Location = new System.Drawing.Point(482, 78);
+            this.labelMinProb.Name = "labelMinProb";
+            this.labelMinProb.Size = new System.Drawing.Size(138, 13);
+            this.labelMinProb.TabIndex = 18;
+            this.labelMinProb.Text = "Min. Probabiltity to Catch:";
+            this.labelMinProb.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // checkBox_ShowPokemons
             // 
@@ -4307,38 +4333,12 @@ namespace PokemonGo.RocketAPI.Console
             this.pictureBox2.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.pictureBox2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
             this.pictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox2.Image")));
-            this.pictureBox2.Location = new System.Drawing.Point(170, 18);
+            this.pictureBox2.Location = new System.Drawing.Point(210, 19);
             this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(415, 48);
+            this.pictureBox2.Size = new System.Drawing.Size(325, 48);
             this.pictureBox2.TabIndex = 49;
             this.pictureBox2.TabStop = false;
             this.pictureBox2.Click += new System.EventHandler(this.pictureBox2_Click);
-            // 
-            // label14
-            // 
-            this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(639, 78);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(15, 13);
-            this.label14.TabIndex = 20;
-            this.label14.Text = "%";
-            // 
-            // MinProbtoCatch
-            // 
-            this.MinProbToCatch.Location = new System.Drawing.Point(621, 75);
-            this.MinProbToCatch.Name = "MinProbtoCatch";
-            this.MinProbToCatch.Size = new System.Drawing.Size(36, 20);
-            this.MinProbToCatch.TabIndex = 19;
-            this.MinProbToCatch.Text = "0";
-            // 
-            // labelMinProb
-            // 
-            this.labelMinProb.Location = new System.Drawing.Point(482, 78);
-            this.labelMinProb.Name = "labelMinProb";
-            this.labelMinProb.Size = new System.Drawing.Size(138, 13);
-            this.labelMinProb.TabIndex = 18;
-            this.labelMinProb.Text = "Min. Probabiltity to Catch:";
-            this.labelMinProb.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // ConfigWindow
             // 
