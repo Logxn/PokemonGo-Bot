@@ -8,8 +8,8 @@
     <ProjectGuid>{1FEA147E-F704-497B-A538-00B053B5F672}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>PokemonGo.RocketAPI.Console</RootNamespace>
-    <AssemblyName>PokemonGo.RocketAPI.Console</AssemblyName>
+    <RootNamespace>PokeMaster</RootNamespace>
+    <AssemblyName>PokeMaster</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <IsWebBootstrapper>false</IsWebBootstrapper>
