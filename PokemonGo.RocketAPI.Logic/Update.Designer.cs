@@ -1,4 +1,4 @@
-﻿namespace PokemonGo.RocketAPI.Logic
+﻿namespace PokeMaster.Logic
 {
     partial class Update
     {

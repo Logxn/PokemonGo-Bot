@@ -4,21 +4,22 @@ using System.Threading.Tasks;
 using System.Net.Http;
 using Newtonsoft.Json;
 using POGOProtos.Enums;
+using PokemonGo.RocketAPI.HttpClient;
 
-namespace PokemonGo.RocketAPI.Logic.Utils
+namespace PokeMaster.Logic.Utils
 {
     class PokeVisionUtil
     {
 
         private List<spottedPoke> _newSpotted;
         private List<spottedPoke> _alreadySpotted;
-        HttpClient.PokemonHttpClient _httpClient;
+        PokemonHttpClient _httpClient;
 
         public PokeVisionUtil()
         {
             _newSpotted = new List<spottedPoke>();
             _alreadySpotted = new List<spottedPoke>();
-            _httpClient = new HttpClient.PokemonHttpClient();
+            _httpClient = new PokemonHttpClient();
         }
 
 

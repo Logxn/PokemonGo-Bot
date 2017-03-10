@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace PokemonGo.RocketAPI.Console.Helper
+namespace PokeMaster.Helper
 {
     internal static class SleepHelper
     {

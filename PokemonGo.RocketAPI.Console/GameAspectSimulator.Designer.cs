@@ -6,7 +6,7 @@
  * 
  * To change this template use Tools | Options | Coding | Edit Standard Headers.
  */
-namespace PokemonGo.RocketAPI.Console
+namespace PokeMaster
 {
     partial class GameAspectSimulator
     {
@@ -14,7 +14,7 @@ namespace PokemonGo.RocketAPI.Console
         /// Designer variable used to keep track of non-visual components.
         /// </summary>
         private System.ComponentModel.IContainer components = null;
-        private PokemonGo.RocketAPI.Console.LocationPanel locationPanel1;
+        private PokeMaster.LocationPanel locationPanel1;
         private System.Windows.Forms.PictureBox btnPicMenu;
         private System.Windows.Forms.PictureBox btnPicPokes;
         private System.Windows.Forms.PictureBox btnPicEggs;
@@ -46,7 +46,7 @@ namespace PokemonGo.RocketAPI.Console
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GameAspectSimulator));
-            this.locationPanel1 = new PokemonGo.RocketAPI.Console.LocationPanel();
+            this.locationPanel1 = new PokeMaster.LocationPanel();
             this.btnPicMenu = new System.Windows.Forms.PictureBox();
             this.btnPicPokes = new System.Windows.Forms.PictureBox();
             this.btnPicEggs = new System.Windows.Forms.PictureBox();

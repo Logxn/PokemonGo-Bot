@@ -12,7 +12,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using Microsoft.Win32;
 
-namespace PokemonGo.RocketAPI.Logic.Utils
+namespace PokeMaster.Logic.Utils
 {
     /// <summary>
     /// Description of CaptchaHelper.

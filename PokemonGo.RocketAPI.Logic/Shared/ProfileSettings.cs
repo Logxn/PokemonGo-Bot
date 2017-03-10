@@ -10,7 +10,7 @@ using System;
 using Newtonsoft.Json;
 using System.IO;
 
-namespace PokemonGo.RocketAPI.Logic.Shared
+namespace PokeMaster.Logic.Shared
 {
     /// <summary>
     /// Description of ProfileSettings.

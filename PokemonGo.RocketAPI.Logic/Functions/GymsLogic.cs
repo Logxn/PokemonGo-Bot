@@ -10,24 +10,24 @@ using System;
 using System.Device.Location;
 using System.Threading.Tasks;
 using POGOProtos.Settings.Master;
-using PokemonGo.RocketAPI.Logic.Shared;
+using PokeMaster.Logic.Shared;
 
 using System.Collections.Generic;
 using System.Linq;
 using PokemonGo.RocketAPI.Helpers;
-using PokemonGo.RocketAPI.Logic.Utils;
+using PokeMaster.Logic.Utils;
 using POGOProtos.Enums;
 using POGOProtos.Inventory.Item;
 using POGOProtos.Map.Fort;
 using POGOProtos.Networking.Responses;
 using PokemonGo.RocketAPI;
-using PokemonGo.RocketAPI.Logic;
-using PokemonGo.RocketAPI.Logic.Functions;
+using PokeMaster.Logic;
+using PokeMaster.Logic.Functions;
 using POGOProtos.Data;
 using POGOProtos.Data.Battle;
 using PokemonGo.RocketAPI.Rpc;
 
-namespace PokemonGo.RocketAPI.Logic.Functions
+namespace PokeMaster.Logic.Functions
 {
     /// <summary>
     /// Description of GymsLogic.

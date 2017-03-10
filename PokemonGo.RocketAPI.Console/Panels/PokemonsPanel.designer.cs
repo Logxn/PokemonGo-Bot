@@ -1,5 +1,5 @@
 using System.Drawing;
-namespace PokemonGo.RocketAPI.Console
+namespace PokeMaster
 {
     partial class PokemonsPanel
     {

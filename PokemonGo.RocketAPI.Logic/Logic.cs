@@ -1,40 +1,26 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Device.Location;
-using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
-using System.Net;
-using System.Reflection;
-using System.Windows.Forms;
+using System.Threading.Tasks;
 using GoogleMapsApi;
 using GoogleMapsApi.Entities.Common;
 using GoogleMapsApi.Entities.Directions.Request;
 using GoogleMapsApi.Entities.Directions.Response;
-using POGOProtos.Data;
-using POGOProtos.Data.Logs;
-using PokemonGo.RocketAPI.Exceptions;
-using PokemonGo.RocketAPI.Helpers;
-using PokemonGo.RocketAPI.Logic.Utils;
-using POGOProtos.Enums;
 using POGOProtos.Inventory.Item;
 using POGOProtos.Map.Fort;
-using POGOProtos.Networking.Responses;
-using Telegram.Bot;
-using PokemonGo.RocketAPI;
-using PokemonGo.RocketAPI.Logic;
-using System.IO;
-using System.Text;
 using POGOProtos.Map.Pokemon;
-using PokemonGo.RocketAPI.Logic.Functions;
-using System.Threading.Tasks;
-using PokemonGo.RocketAPI.Logic.Shared;
-using PokemonGo.RocketAPI.HttpClient;
-using System.Net.Http.Headers;
-using System.Net.Http;
+using POGOProtos.Networking.Responses;
+using PokemonGo.RocketAPI;
+using PokemonGo.RocketAPI.Exceptions;
+using PokemonGo.RocketAPI.Helpers;
+using PokeMaster.Logic;
+using PokeMaster.Logic.Functions;
+using PokeMaster.Logic.Shared;
+using PokeMaster.Logic.Utils;
 
-namespace PokemonGo.RocketAPI.Logic
+namespace PokeMaster.Logic
 {
     public class Logic
     {
@@ -779,7 +765,7 @@ namespace PokemonGo.RocketAPI.Logic
 
                         #endregion
 
-                        var directiontext = Helpers.Utils.HtmlRemoval.StripTagsRegexCompiled(step.HtmlInstructions);
+                        var directiontext =  PokemonGo.RocketAPI.Helpers.Utils.HtmlRemoval.StripTagsRegexCompiled(step.HtmlInstructions);
                         Logger.ColoredConsoleWrite(ConsoleColor.Green, directiontext);
                         var lastpoint = new Location(objClient.CurrentLatitude, objClient.CurrentLongitude);
                         foreach (var point in step.PolyLine.Points)

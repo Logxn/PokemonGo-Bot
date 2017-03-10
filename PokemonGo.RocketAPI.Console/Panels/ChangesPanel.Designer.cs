@@ -6,7 +6,7 @@
  * 
  * To change this template use Tools | Options | Coding | Edit Standard Headers.
  */
-namespace PokemonGo.RocketAPI.Console
+namespace PokeMaster
 {
     partial class ChangesPanel
     {
@@ -277,7 +277,7 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // buttonSetLocation
             // 
-            this.buttonSetLocation.Image = global::PokemonGo.RocketAPI.Console.Properties.MapData.start_point;
+            this.buttonSetLocation.Image = global::PokeMaster.Properties.MapData.start_point;
             this.buttonSetLocation.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
             this.buttonSetLocation.Location = new System.Drawing.Point(6, 185);
             this.buttonSetLocation.Margin = new System.Windows.Forms.Padding(4);

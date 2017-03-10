@@ -6,21 +6,22 @@ using System.Windows.Forms;
 using POGOProtos.Data;
 using POGOProtos.Enums;
 using POGOProtos.Networking.Responses;
-using PokemonGo.RocketAPI.Console.Components;
-using PokemonGo.RocketAPI.Console.Dialogs;
-using PokemonGo.RocketAPI.Console.PokeData;
+using PokeMaster.Components;
+using PokeMaster.Dialogs;
+using PokeMaster.PokeData;
 using System.Linq;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.IO;
+using PokemonGo.RocketAPI;
 using PokemonGo.RocketAPI.Helpers;
-using PokemonGo.RocketAPI.Logic.Shared;
-using PokemonGo.RocketAPI.Logic.Utils;
+using PokeMaster.Logic.Shared;
+using PokeMaster.Logic.Utils;
 using POGOProtos.Inventory.Item;
 using POGOProtos.Map.Fort;
 using PokemonGo.RocketAPI.Rpc;
 
-namespace PokemonGo.RocketAPI.Console
+namespace PokeMaster
 {
     public partial class PokemonsPanel : UserControl
     {
@@ -627,7 +628,7 @@ namespace PokemonGo.RocketAPI.Console
                             }
                             Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Transfer Successful of {transfered}/{total} pokemons => {_response.CandyAwarded.ToString()} candy/ies awarded.");
                             statusTexbox.Text = $"Succesfully Bulk transfered {total} Pokemons.";
-                            Helpers.RandomHelper.RandomSleep(1000, 2000);
+                            RandomHelper.RandomSleep(1000, 2000);
                         }
                         else
                         {
@@ -668,7 +669,7 @@ namespace PokemonGo.RocketAPI.Console
                 } else {
                     Logger.Warning(evolvePokemonResponse.Result.ToString());
                 }
-                Helpers.RandomHelper.RandomSleep(1000, 2000);
+                RandomHelper.RandomSleep(1000, 2000);
             }
             catch (Exception e)
             {

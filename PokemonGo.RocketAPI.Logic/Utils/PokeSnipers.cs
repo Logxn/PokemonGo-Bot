@@ -1,25 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using System.Net.Http;
 using Newtonsoft.Json;
 using POGOProtos.Enums;
 using System.Linq;
-using POGOProtos.Networking.Responses;
-using POGOProtos.Inventory.Item;
 using System.Threading;
+using PokemonGo.RocketAPI;
+using PokemonGo.RocketAPI.HttpClient;
 
-namespace PokemonGo.RocketAPI.Logic.Utils
+namespace PokeMaster.Logic.Utils
 {
     class PokeSnipers
     {
-        HttpClient.PokemonHttpClient _httpClient;
+        PokemonHttpClient _httpClient;
         private List<spottedPokeSni> _newSpotted;
         private List<spottedPokeSni> _alreadySpotted;
 
         public PokeSnipers()
         {
-            _httpClient = new HttpClient.PokemonHttpClient();
+            _httpClient = new PokemonHttpClient();
             _newSpotted = new List<spottedPokeSni>();
             _alreadySpotted = new List<spottedPokeSni>();
         }

@@ -10,7 +10,7 @@ using System;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace PokemonGo.RocketAPI.Console.Dialogs
+namespace PokeMaster.Dialogs
 {
     /// <summary>
     /// Description of EvolvingDialog.

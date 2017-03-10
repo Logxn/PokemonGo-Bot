@@ -1,4 +1,4 @@
-namespace PokemonGo.RocketAPI.Console
+namespace PokeMaster
 {
     partial class ConfigWindow
     {

@@ -12,12 +12,13 @@ using System.Device.Location;
 using POGOProtos.Enums;
 using POGOProtos.Map.Pokemon;
 using POGOProtos.Networking.Responses;
+using PokemonGo.RocketAPI;
 using PokemonGo.RocketAPI.Helpers;
 using System.Linq;
-using PokemonGo.RocketAPI.Logic.Utils;
-using PokemonGo.RocketAPI.Logic.Shared;
+using PokeMaster.Logic.Utils;
+using PokeMaster.Logic.Shared;
 
-namespace PokemonGo.RocketAPI.Logic.Functions
+namespace PokeMaster.Logic.Functions
 {
     /// <summary>
     /// Class to manage logic to snipe pokemons.

@@ -13,11 +13,12 @@ using System.Windows.Forms;
 using POGOProtos.Inventory.Item;
 using System.Threading.Tasks;
 using POGOProtos.Networking.Responses;
-using PokemonGo.RocketAPI.Console.Dialogs;
+using PokeMaster.Dialogs;
+using PokemonGo.RocketAPI;
 using PokemonGo.RocketAPI.Helpers;
-using PokemonGo.RocketAPI.Logic.Shared;
+using PokeMaster.Logic.Shared;
 	
-namespace PokemonGo.RocketAPI.Console
+namespace PokeMaster
 {
     /// <summary>
     /// Description of ItemsPanel.

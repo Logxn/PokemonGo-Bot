@@ -12,7 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace PokemonGo.RocketAPI.Logic
+namespace PokeMaster.Logic
 {
     public partial class Update : Form
     {
@@ -22,7 +22,7 @@ namespace PokemonGo.RocketAPI.Logic
         }
 
         public static string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Update");
-        public static string file = path + @"\PokemonGo.RocketAPI.Console.exe";
+        public static string file = path + @"\PokeMaster.exe";
         public static string basedir = AppDomain.CurrentDomain.BaseDirectory;
 
 
@@ -32,7 +32,7 @@ namespace PokemonGo.RocketAPI.Logic
             WebClient webClient = new WebClient();
             webClient.DownloadFileCompleted += new AsyncCompletedEventHandler(Completed);
             webClient.DownloadProgressChanged += new DownloadProgressChangedEventHandler(ProgressChanged);
-            webClient.DownloadFileAsync(new Uri("http://raw.githubusercontent.com/Logxn/PokemonGo-Bot/master/Builds-Only/PokemonGo.RocketAPI.Console.exe"), file);
+            webClient.DownloadFileAsync(new Uri("http://raw.githubusercontent.com/Logxn/PokemonGo-Bot/master/Builds-Only/PokeMaster.exe"), file);
 
         }
 
@@ -76,7 +76,7 @@ namespace PokemonGo.RocketAPI.Logic
                 w.WriteLine($"xcopy /s /y \"{file}\" \"{basedir}\"");
                 w.WriteLine($"rmdir /s /q \"{path}\"");
                 w.WriteLine($"echo Y");
-                w.WriteLine($"start  \"{basedir}\" PokemonGo.RocketAPI.Console.exe");
+                w.WriteLine($"start  \"{basedir}\" PokeMaster.exe");
                 w.Close();
             }
             catch (Exception e)

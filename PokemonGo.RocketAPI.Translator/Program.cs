@@ -9,7 +9,7 @@
 using System;
 using System.Windows.Forms;
 
-namespace PokemonGo.RocketAPI.Translator
+namespace PokeMaster.Translator
 {
     /// <summary>
     /// Class with program entry point.

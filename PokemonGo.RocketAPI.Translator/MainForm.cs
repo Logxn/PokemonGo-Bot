@@ -15,7 +15,7 @@ using Newtonsoft.Json;
 using System.Globalization;
 
 
-namespace PokemonGo.RocketAPI.Translator
+namespace PokeMaster.Translator
 {
     /// <summary>
     /// Description of MainForm.

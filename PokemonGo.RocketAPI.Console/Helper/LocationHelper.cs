@@ -9,8 +9,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using PokemonGo.RocketAPI;
 
-namespace PokemonGo.RocketAPI.Console.Helper
+namespace PokeMaster.Helper
 {
     public class LocationHelper
     {

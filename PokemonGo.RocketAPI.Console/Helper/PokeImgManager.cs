@@ -12,7 +12,7 @@ using POGOProtos.Enums;
 using System.Globalization;
 using System.Net;
 
-namespace PokemonGo.RocketAPI.Console
+namespace PokeMaster
 {
     /// <summary>
     /// Description of PokeImgManager.
@@ -33,7 +33,7 @@ namespace PokemonGo.RocketAPI.Console
 
         public static Bitmap GetPokemonLargeImage(PokemonId pokemon)
         {
-            if (PokemonGo.RocketAPI.Logic.Shared.GlobalVars.UseSpritesFolder)
+            if (PokeMaster.Logic.Shared.GlobalVars.UseSpritesFolder)
             {
                 var bmp = new Bitmap(1,1);
                 DownloadSprite("PokemonGo.RocketAPI.Console/Sprites",path, ""+(int)pokemon);
@@ -53,7 +53,7 @@ namespace PokemonGo.RocketAPI.Console
 
         public static Bitmap GetPokemonVeryLargeImage(PokemonId pokemon)
         {
-            if (PokemonGo.RocketAPI.Logic.Shared.GlobalVars.UseSpritesFolder)
+            if (PokeMaster.Logic.Shared.GlobalVars.UseSpritesFolder)
             {
                 var bmp = new Bitmap(1,1);
                 DownloadSprite("PokemonGo.RocketAPI.Console/Sprites",path, ""+(int)pokemon);
@@ -79,7 +79,7 @@ namespace PokemonGo.RocketAPI.Console
         /// <returns></returns>
         public static Bitmap GetPokemonImagefromResource(PokemonId pokemon, string size)
         {
-            var resource = PokemonGo.RocketAPI.Console.Properties.PokemonSprites.ResourceManager.GetObject("_" + (int)pokemon + "_" + size, CultureInfo.CurrentCulture);
+            var resource = PokeMaster.Properties.PokemonSprites.ResourceManager.GetObject("_" + (int)pokemon + "_" + size, CultureInfo.CurrentCulture);
             if (resource != null && resource is Bitmap)
             {
                 return new Bitmap(resource as Bitmap);

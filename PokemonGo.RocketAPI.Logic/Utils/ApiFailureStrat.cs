@@ -3,6 +3,7 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using PokemonGo.RocketAPI;
 using PokemonGo.RocketAPI.Enums;
 using PokemonGo.RocketAPI.Exceptions;
 using PokemonGo.RocketAPI.Extensions;
@@ -11,11 +12,11 @@ using POGOProtos.Networking.Envelopes;
 using POGOProtos.Networking.Responses;
 using System.Windows.Forms;
 using PokemonGo.RocketAPI.Helpers;
-using PokemonGo.RocketAPI.Logic.Shared;
+using PokeMaster.Logic.Shared;
 #endregion
 
 
-namespace PokemonGo.RocketAPI.Logic
+namespace PokeMaster.Logic
 {
     public class ApiFailureStrat : IApiFailureStrategy
     {

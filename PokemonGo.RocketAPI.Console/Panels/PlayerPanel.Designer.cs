@@ -6,7 +6,7 @@
  * 
  * To change this template use Tools | Options | Coding | Edit Standard Headers.
  */
-namespace PokemonGo.RocketAPI.Console
+namespace PokeMaster
 {
     partial class PlayerPanel
     {
@@ -75,7 +75,7 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // pictureBoxTeam
             // 
-            this.pictureBoxTeam.Image = global::PokemonGo.RocketAPI.Console.Properties.Resources.team_valor;
+            this.pictureBoxTeam.Image = global::PokeMaster.Properties.Resources.team_valor;
             this.pictureBoxTeam.Location = new System.Drawing.Point(0, 6);
             this.pictureBoxTeam.Margin = new System.Windows.Forms.Padding(2);
             this.pictureBoxTeam.Name = "pictureBoxTeam";
@@ -108,7 +108,7 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // pictureBoxPlayerAvatar
             // 
-            this.pictureBoxPlayerAvatar.Image = global::PokemonGo.RocketAPI.Console.Properties.Resources.Trainer_M;
+            this.pictureBoxPlayerAvatar.Image = global::PokeMaster.Properties.Resources.Trainer_M;
             this.pictureBoxPlayerAvatar.Location = new System.Drawing.Point(2, 41);
             this.pictureBoxPlayerAvatar.Margin = new System.Windows.Forms.Padding(2);
             this.pictureBoxPlayerAvatar.Name = "pictureBoxPlayerAvatar";

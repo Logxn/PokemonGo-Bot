@@ -11,20 +11,20 @@ using System.IO;
 using System.Collections.Generic;
 using System.Device.Location;
 using System.Linq;
+using System.Windows.Forms;
 using Newtonsoft.Json;
 using POGOProtos.Enums;
 using POGOProtos.Inventory;
 using POGOProtos.Inventory.Item;
 using POGOProtos.Networking.Responses;
 using PokemonGo.RocketAPI;
-using PokemonGo.RocketAPI.Logic;
-using PokemonGo.RocketAPI.Helpers;
-using PokemonGo.RocketAPI.Logic.Shared;
-using PokemonGo.RocketAPI.Logic.Utils;
-using System.Windows.Forms;
 using PokemonGo.RocketAPI.Rpc;
+using PokemonGo.RocketAPI.Helpers;
+using PokeMaster.Logic;
+using PokeMaster.Logic.Shared;
+using PokeMaster.Logic.Utils;
 
-namespace PokemonGo.RocketAPI.Logic.Functions
+namespace PokeMaster.Logic.Functions
 {
     /// <summary>
     /// Description of Setout.
@@ -840,7 +840,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                     if (_response.Result == ReleasePokemonResponse.Types.Result.Success)
                     {
                         Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "Transfer Successful of " + pokemonsToTransfer.Count + " pokemons => " + _response.CandyAwarded + ((_response.CandyAwarded == 1) ? " candy" : " candies") + " awarded.", LogLevel.Info);
-                        Helpers.RandomHelper.RandomSleep(1000, 2000);
+                        PokemonGo.RocketAPI.Helpers.RandomHelper.RandomSleep(1000, 2000);
                     }
                     else
                     {

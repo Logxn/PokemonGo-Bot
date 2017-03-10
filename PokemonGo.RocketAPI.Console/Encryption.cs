@@ -3,8 +3,9 @@
 using System;
 using System.Text;
 using System.Security.Cryptography;
+using PokemonGo.RocketAPI;
 
-namespace PokemonGo.RocketAPI.Console
+namespace PokeMaster
 {
     /// <summary>
     /// Class to encypt/decrypt strings using 3DESCrypto and Base64 to can save it as plain text.

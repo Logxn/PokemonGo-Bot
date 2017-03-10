@@ -6,8 +6,9 @@ using System.Net;
 using GMap.NET;
 using GMap.NET.MapProviders;
 using System.Globalization;
+using PokemonGo.RocketAPI;
 
-namespace PokemonGo.RocketAPI.Logic.Utils
+namespace PokeMaster.Logic.Utils
 {
     public static class LocationUtils
     {

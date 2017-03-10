@@ -1,4 +1,4 @@
-namespace PokemonGo.RocketAPI.Console
+namespace PokeMaster
 {
     partial class TabbedSystem
     {
@@ -43,22 +43,22 @@ namespace PokemonGo.RocketAPI.Console
             this.tpLocation = new System.Windows.Forms.TabPage();
             this.RepeatRoute = new System.Windows.Forms.CheckBox();
             this.CreateRoute = new System.Windows.Forms.Button();
-            this.locationPanel1 = new PokemonGo.RocketAPI.Console.LocationPanel();
+            this.locationPanel1 = new PokeMaster.LocationPanel();
             this.tpPokemons = new System.Windows.Forms.TabPage();
-            this.pokemonsPanel1 = new PokemonGo.RocketAPI.Console.PokemonsPanel();
+            this.pokemonsPanel1 = new PokeMaster.PokemonsPanel();
             this.tpItems = new System.Windows.Forms.TabPage();
-            this.itemsPanel1 = new PokemonGo.RocketAPI.Console.ItemsPanel();
+            this.itemsPanel1 = new PokeMaster.ItemsPanel();
             this.tpEggs = new System.Windows.Forms.TabPage();
-            this.eggsPanel1 = new PokemonGo.RocketAPI.Console.EggsPanel();
+            this.eggsPanel1 = new PokeMaster.EggsPanel();
             this.tpPlayerInfo = new System.Windows.Forms.TabPage();
-            this.playerPanel1 = new PokemonGo.RocketAPI.Console.PlayerPanel();
+            this.playerPanel1 = new PokeMaster.PlayerPanel();
             this.tpSnipers = new System.Windows.Forms.TabPage();
-            this.sniperPanel1 = new PokemonGo.RocketAPI.Console.SniperPanel();
+            this.sniperPanel1 = new PokeMaster.SniperPanel();
             this.tpOptions = new System.Windows.Forms.TabPage();
-            this.changesPanel1 = new PokemonGo.RocketAPI.Console.ChangesPanel();
+            this.changesPanel1 = new PokeMaster.ChangesPanel();
             this.loggerPanel1 = new PokemonGo.RocketAPI.Logging.LoggerPanel();
             this.tpWeb = new System.Windows.Forms.TabPage();
-            this.webPanel1 = new PokemonGo.RocketAPI.Console.Panels.WebPanel();
+            this.webPanel1 = new PokeMaster.Panels.WebPanel();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.contextMenuStrip1.SuspendLayout();
             this.TabControl1.SuspendLayout();
@@ -443,22 +443,22 @@ namespace PokemonGo.RocketAPI.Console
         private System.Windows.Forms.TabPage tpPokemons;
         private System.Windows.Forms.TabPage tpItems;
                 
-        private PokemonGo.RocketAPI.Console.ItemsPanel itemsPanel1;
+        private PokeMaster.ItemsPanel itemsPanel1;
         private System.Windows.Forms.TabPage tpLocation;
-        private PokemonGo.RocketAPI.Console.LocationPanel locationPanel1;
+        private PokeMaster.LocationPanel locationPanel1;
         private System.Windows.Forms.TabPage tpPlayerInfo;
-        private PokemonGo.RocketAPI.Console.PlayerPanel playerPanel1;
+        private PokeMaster.PlayerPanel playerPanel1;
         private System.Windows.Forms.TabPage tpEggs;
-        private PokemonGo.RocketAPI.Console.EggsPanel eggsPanel1;
-        private PokemonGo.RocketAPI.Console.ChangesPanel changesPanel1;
+        private PokeMaster.EggsPanel eggsPanel1;
+        private PokeMaster.ChangesPanel changesPanel1;
         private System.Windows.Forms.TabPage tpSnipers;
         private System.Windows.Forms.CheckBox RepeatRoute;
         private System.Windows.Forms.Button CreateRoute;
-        private PokemonGo.RocketAPI.Console.SniperPanel sniperPanel1;
-        private PokemonGo.RocketAPI.Console.PokemonsPanel pokemonsPanel1;
+        private PokeMaster.SniperPanel sniperPanel1;
+        private PokeMaster.PokemonsPanel pokemonsPanel1;
         private PokemonGo.RocketAPI.Logging.LoggerPanel loggerPanel1;
         private System.Windows.Forms.TabPage tpWeb;
-        private PokemonGo.RocketAPI.Console.Panels.WebPanel webPanel1;
+        private PokeMaster.Panels.WebPanel webPanel1;
         private System.Windows.Forms.SplitContainer splitContainer1;
     }
 }

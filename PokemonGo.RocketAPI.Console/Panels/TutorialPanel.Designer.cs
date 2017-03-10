@@ -6,7 +6,7 @@
  * 
  * To change this template use Tools | Options | Coding | Edit Standard Headers.
  */
-namespace PokemonGo.RocketAPI.Console.Panels
+namespace PokeMaster.Panels
 {
     partial class TutorialPanel
     {
@@ -14,20 +14,20 @@ namespace PokemonGo.RocketAPI.Console.Panels
         /// Designer variable used to keep track of non-visual components.
         /// </summary>
         private System.ComponentModel.IContainer components = null;
-        private PokemonGo.RocketAPI.Console.Components.LabelCombo lcBackpack;
-        private PokemonGo.RocketAPI.Console.Components.LabelCombo lcEyes;
-        private PokemonGo.RocketAPI.Console.Components.LabelCombo lcHair;
-        private PokemonGo.RocketAPI.Console.Components.LabelCombo lcShirt;
-        private PokemonGo.RocketAPI.Console.Components.LabelCombo lcPants;
-        private PokemonGo.RocketAPI.Console.Components.LabelCombo lcHat;
-        private PokemonGo.RocketAPI.Console.Components.LabelCombo lcSkin;
-        private PokemonGo.RocketAPI.Console.Components.LabelCombo lcShoes;
-        private PokemonGo.RocketAPI.Console.Components.LabelCombo lcPokemon;
+        private PokeMaster.Components.LabelCombo lcBackpack;
+        private PokeMaster.Components.LabelCombo lcEyes;
+        private PokeMaster.Components.LabelCombo lcHair;
+        private PokeMaster.Components.LabelCombo lcShirt;
+        private PokeMaster.Components.LabelCombo lcPants;
+        private PokeMaster.Components.LabelCombo lcHat;
+        private PokeMaster.Components.LabelCombo lcSkin;
+        private PokeMaster.Components.LabelCombo lcShoes;
+        private PokeMaster.Components.LabelCombo lcPokemon;
         private System.Windows.Forms.GroupBox groupBox1;
-        private PokemonGo.RocketAPI.Console.Components.LabelText ltNickPrefix;
+        private PokeMaster.Components.LabelText ltNickPrefix;
         private System.Windows.Forms.Label label1;
-        private PokemonGo.RocketAPI.Console.Components.LabelText ltNickSufix;
-        private PokemonGo.RocketAPI.Console.Components.LabelCombo lcGender;
+        private PokeMaster.Components.LabelText ltNickSufix;
+        private PokeMaster.Components.LabelCombo lcGender;
         
         /// <summary>
         /// Disposes resources used by the control.
@@ -50,20 +50,20 @@ namespace PokemonGo.RocketAPI.Console.Panels
         /// </summary>
         private void InitializeComponent()
         {
-            this.lcBackpack = new PokemonGo.RocketAPI.Console.Components.LabelCombo();
-            this.lcEyes = new PokemonGo.RocketAPI.Console.Components.LabelCombo();
-            this.lcHair = new PokemonGo.RocketAPI.Console.Components.LabelCombo();
-            this.lcShirt = new PokemonGo.RocketAPI.Console.Components.LabelCombo();
-            this.lcPants = new PokemonGo.RocketAPI.Console.Components.LabelCombo();
-            this.lcHat = new PokemonGo.RocketAPI.Console.Components.LabelCombo();
-            this.lcSkin = new PokemonGo.RocketAPI.Console.Components.LabelCombo();
-            this.lcShoes = new PokemonGo.RocketAPI.Console.Components.LabelCombo();
-            this.lcPokemon = new PokemonGo.RocketAPI.Console.Components.LabelCombo();
+            this.lcBackpack = new PokeMaster.Components.LabelCombo();
+            this.lcEyes = new PokeMaster.Components.LabelCombo();
+            this.lcHair = new PokeMaster.Components.LabelCombo();
+            this.lcShirt = new PokeMaster.Components.LabelCombo();
+            this.lcPants = new PokeMaster.Components.LabelCombo();
+            this.lcHat = new PokeMaster.Components.LabelCombo();
+            this.lcSkin = new PokeMaster.Components.LabelCombo();
+            this.lcShoes = new PokeMaster.Components.LabelCombo();
+            this.lcPokemon = new PokeMaster.Components.LabelCombo();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.ltNickSufix = new PokemonGo.RocketAPI.Console.Components.LabelText();
-            this.ltNickPrefix = new PokemonGo.RocketAPI.Console.Components.LabelText();
-            this.lcGender = new PokemonGo.RocketAPI.Console.Components.LabelCombo();
+            this.ltNickSufix = new PokeMaster.Components.LabelText();
+            this.ltNickPrefix = new PokeMaster.Components.LabelText();
+            this.lcGender = new PokeMaster.Components.LabelCombo();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 

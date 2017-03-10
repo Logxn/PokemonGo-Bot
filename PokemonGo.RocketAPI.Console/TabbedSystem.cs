@@ -3,10 +3,11 @@ using System.Windows.Forms;
 using System.Collections.Generic;
 using System.Device.Location;
 using POGOProtos.Networking.Responses;
+using PokemonGo.RocketAPI;
 using PokemonGo.RocketAPI.Helpers;
-using PokemonGo.RocketAPI.Logic.Shared;
+using PokeMaster.Logic.Shared;
 
-namespace PokemonGo.RocketAPI.Console
+namespace PokeMaster
 {
     public partial class TabbedSystem : Form
     {

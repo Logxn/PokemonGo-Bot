@@ -1,8 +1,9 @@
-using PokemonGo.RocketAPI.Console.Helper;
+using PokeMaster.Helper;
+using PokemonGo.RocketAPI;
 using PokemonGo.RocketAPI.Helpers;
 using PokemonGo.RocketAPI.HttpClient;
-using PokemonGo.RocketAPI.Logic.Shared;
-using PokemonGo.RocketAPI.Logic.Utils;
+using PokeMaster.Logic.Shared;
+using PokeMaster.Logic.Utils;
 using System;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -15,7 +16,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace PokemonGo.RocketAPI.Console
+namespace PokeMaster
 {
     internal class Program
     {

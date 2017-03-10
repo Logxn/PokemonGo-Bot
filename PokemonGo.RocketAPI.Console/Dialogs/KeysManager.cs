@@ -15,7 +15,7 @@ using System.Windows.Forms;
 using Newtonsoft.Json;
 using PokemonGo.RocketAPI.Shared;
 
-namespace PokemonGo.RocketAPI.Console.Dialogs
+namespace PokeMaster.Dialogs
 {
     /// <summary>
     /// Description of KeysManager.

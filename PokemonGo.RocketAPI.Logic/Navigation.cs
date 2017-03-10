@@ -4,14 +4,15 @@ using System.Device.Location;
 using System.Threading.Tasks;
 using POGOProtos.Map.Fort;
 using POGOProtos.Networking.Responses;
+using PokemonGo.RocketAPI;
 using PokemonGo.RocketAPI.Helpers;
-using PokemonGo.RocketAPI.Logic.Utils;
+using PokeMaster.Logic.Utils;
 using POGOProtos.Enums;
-using PokemonGo.RocketAPI.Logic.Shared;
+using PokeMaster.Logic.Shared;
 using System.Globalization;
 using System.IO;
 
-namespace PokemonGo.RocketAPI.Logic
+namespace PokeMaster.Logic
 {
     public class Navigation
     {

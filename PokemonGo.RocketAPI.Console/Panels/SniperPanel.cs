@@ -9,7 +9,7 @@
 using System.Globalization;
 using System.Net;
 using POGOProtos.Enums;
-using PokemonGo.RocketAPI.Console.Helper;
+using PokeMaster.Helper;
 using System;
 using System.Drawing;
 using System.IO;
@@ -20,9 +20,10 @@ using Newtonsoft.Json;
 using System.Device.Location;
 using Microsoft.Win32;
 using System.Text;
-using PokemonGo.RocketAPI.Logic.Shared;
+using PokeMaster.Logic.Shared;
+using PokemonGo.RocketAPI;
 
-namespace PokemonGo.RocketAPI.Console
+namespace PokeMaster
 {
     /// <summary>
     /// Description of SniperPanel.

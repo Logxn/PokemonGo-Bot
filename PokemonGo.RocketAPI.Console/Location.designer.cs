@@ -1,4 +1,4 @@
-namespace PokemonGo.RocketAPI.Console
+namespace PokeMaster
 {
     partial class LocationSelect
     {
@@ -6,7 +6,7 @@ namespace PokemonGo.RocketAPI.Console
         /// Required designer variable.
         /// </summary>
         private System.ComponentModel.IContainer components = null;
-        public PokemonGo.RocketAPI.Console.LocationPanel locationPanel1;
+        public PokeMaster.LocationPanel locationPanel1;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -30,7 +30,7 @@ namespace PokemonGo.RocketAPI.Console
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LocationSelect));
-            this.locationPanel1 = new PokemonGo.RocketAPI.Console.LocationPanel();
+            this.locationPanel1 = new PokeMaster.LocationPanel();
             this.SuspendLayout();
             // 
             // locationPanel1

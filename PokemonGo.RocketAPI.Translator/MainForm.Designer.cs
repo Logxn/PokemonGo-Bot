@@ -6,7 +6,7 @@
  * 
  * To change this template use Tools | Options | Coding | Edit Standard Headers.
  */
-namespace PokemonGo.RocketAPI.Translator
+namespace PokeMaster.Translator
 {
     partial class MainForm
     {
@@ -245,7 +245,7 @@ namespace PokemonGo.RocketAPI.Translator
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "MainForm";
-            this.Text = "PokemonGo.RocketAPI.Translator";
+            this.Text = "PokeMaster.Translator";
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();

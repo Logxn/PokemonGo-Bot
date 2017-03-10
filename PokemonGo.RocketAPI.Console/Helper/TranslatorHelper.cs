@@ -14,8 +14,9 @@ using Newtonsoft.Json;
 using System.IO;
 using System.Globalization;
 using System.Net;
+using PokemonGo.RocketAPI;
 
-namespace PokemonGo.RocketAPI.Console.Helper
+namespace PokeMaster.Helper
 {
     /// <summary>
     /// Class to Help translation of forms.

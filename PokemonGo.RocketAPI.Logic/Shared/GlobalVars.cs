@@ -6,16 +6,17 @@
  * 
  * To change this template use Tools | Options | Coding | Edit Standard Headers.
  */
-using Google.Protobuf;
-using POGOProtos.Enums;
-using POGOProtos.Inventory.Item;
 using System;
 using System.Collections.Generic;
 using System.Device.Location;
 using System.IO;
+using Google.Protobuf;
+using POGOProtos.Enums;
+using POGOProtos.Inventory.Item;
+using PokemonGo.RocketAPI;
+using PokemonGo.RocketAPI.Enums;
 
-
-namespace PokemonGo.RocketAPI.Logic.Shared
+namespace PokeMaster.Logic.Shared
 {
     /// <summary>
     /// Description of GlobalVars.
@@ -31,7 +32,7 @@ namespace PokemonGo.RocketAPI.Logic.Shared
         public static bool IsDefault = false;
         public static int RunOrder = 0;
         public static string SettingsJSON = "";
-        public static Enums.AuthType acc = Enums.AuthType.Google;
+        public static AuthType acc = AuthType.Google;
         public static string email = "empty";
         public static string Password = "empty";
         public static bool WalkBackToDefaultLocation = true;

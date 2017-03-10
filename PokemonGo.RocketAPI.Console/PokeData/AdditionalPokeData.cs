@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PokemonGo.RocketAPI.Console.PokeData
+namespace PokeMaster.PokeData
 {
     public class AdditionalPokeData
     {

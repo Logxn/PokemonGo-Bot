@@ -14,10 +14,10 @@ using GMap.NET.WindowsForms;
 using GMap.NET.WindowsForms.Markers;
 using POGOProtos.Map.Fort;
 using POGOProtos.Map.Pokemon;
-using PokemonGo.RocketAPI.Console.Components;
-using PokemonGo.RocketAPI.Console.Helper;
-using PokemonGo.RocketAPI.Logic.Shared;
-using PokemonGo.RocketAPI.Logic.Utils;
+using PokeMaster.Components;
+using PokeMaster.Helper;
+using PokeMaster.Logic.Shared;
+using PokeMaster.Logic.Utils;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -27,8 +27,9 @@ using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
+using PokemonGo.RocketAPI;
 
-namespace PokemonGo.RocketAPI.Console
+namespace PokeMaster
 {
     /// <summary>
     /// Description of LocationPanel.

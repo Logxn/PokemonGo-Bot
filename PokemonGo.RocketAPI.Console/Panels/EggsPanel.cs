@@ -13,16 +13,17 @@ using System.Windows.Forms;
 using POGOProtos.Inventory.Item;
 using System.Threading.Tasks;
 using POGOProtos.Networking.Responses;
-using PokemonGo.RocketAPI.Console.Dialogs;
-using PokemonGo.RocketAPI.Logic.Utils;
+using PokeMaster.Dialogs;
+using PokeMaster.Logic.Utils;
 using POGOProtos.Enums;
 using POGOProtos.Data;
 using POGOProtos.Inventory;
 using System.Linq;
 using System.Collections;
+using PokemonGo.RocketAPI;
 using PokemonGo.RocketAPI.Helpers;
 
-namespace PokemonGo.RocketAPI.Console
+namespace PokeMaster
 {
     /// <summary>
     /// Description of EggsPanel.

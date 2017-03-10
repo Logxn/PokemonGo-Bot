@@ -11,18 +11,18 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Threading.Tasks;
-using GoogleMapsApi.Entities.DistanceMatrix.Response;
 using POGOProtos.Enums;
 using POGOProtos.Inventory.Item;
 using POGOProtos.Map.Pokemon;
 using POGOProtos.Networking.Responses;
+using PokemonGo.RocketAPI;
 using PokemonGo.RocketAPI.Helpers;
-using PokemonGo.RocketAPI.Logic.Shared;
+using PokeMaster.Logic.Shared;
 using System.Linq;
-using PokemonGo.RocketAPI.Logic;
-using PokemonGo.RocketAPI.Logic.Utils;
+using PokeMaster.Logic;
+using PokeMaster.Logic.Utils;
 
-namespace PokemonGo.RocketAPI.Logic.Functions
+namespace PokeMaster.Logic.Functions
 {
     /// <summary>
     /// Description of CatchingLogic.

@@ -11,7 +11,7 @@ using System.Linq;
 using System.Windows.Forms;
 using System.Drawing;
 
-namespace PokemonGo.RocketAPI.Console
+namespace PokeMaster
 {
     /// <summary>
     /// Description of GameAspectSimulator.

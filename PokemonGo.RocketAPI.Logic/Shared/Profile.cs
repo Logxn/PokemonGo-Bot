@@ -8,7 +8,7 @@
  */
 using System;
 
-namespace PokemonGo.RocketAPI.Logic.Shared
+namespace PokeMaster.Logic.Shared
 {
     public class Profile
     {

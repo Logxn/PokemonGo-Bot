@@ -1,23 +1,13 @@
 using System;
 using System.Net;
-using System.Net.Http;
-using System.Threading.Tasks;
-using Google.Protobuf;
+using System.Threading;
+using POGOProtos.Enums;
+using POGOProtos.Networking.Envelopes;
 using PokemonGo.RocketAPI.Enums;
 using PokemonGo.RocketAPI.Hash;
-using PokemonGo.RocketAPI.Exceptions;
 using PokemonGo.RocketAPI.Extensions;
 using PokemonGo.RocketAPI.Helpers;
 using PokemonGo.RocketAPI.HttpClient;
-using PokemonGo.RocketAPI.Login;
-using POGOProtos.Inventory;
-using POGOProtos.Inventory.Item;
-using POGOProtos.Networking.Envelopes;
-using POGOProtos.Networking.Requests;
-using POGOProtos.Networking.Requests.Messages;
-using POGOProtos.Networking.Responses;
-using System.Threading;
-using POGOProtos.Enums;
 
 namespace PokemonGo.RocketAPI
 {

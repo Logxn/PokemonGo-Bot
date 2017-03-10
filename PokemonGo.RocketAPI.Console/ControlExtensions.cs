@@ -10,7 +10,7 @@ using System;
 using System.Windows.Forms;
 using System.Reflection;
 
-namespace PokemonGo.RocketAPI.Console
+namespace PokeMaster
 {
     public static class ControlExtensions
     {

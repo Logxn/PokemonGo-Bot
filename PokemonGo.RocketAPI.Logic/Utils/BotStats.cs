@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace PokemonGo.RocketAPI.Logic.Utils
+namespace PokeMaster.Logic.Utils
 {
     public class BotStats
     {

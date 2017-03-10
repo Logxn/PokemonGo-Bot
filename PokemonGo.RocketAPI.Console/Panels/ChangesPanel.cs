@@ -20,9 +20,9 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
-using static PokemonGo.RocketAPI.Console.ConfigWindow;
-using PokemonGo.RocketAPI.Logic.Shared;
-namespace PokemonGo.RocketAPI.Console
+using PokeMaster.Logic.Shared;
+using PokemonGo.RocketAPI;
+namespace PokeMaster
     
 {
     public partial class ChangesPanel : UserControl

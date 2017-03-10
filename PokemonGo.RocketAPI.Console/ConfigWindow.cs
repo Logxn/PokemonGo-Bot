@@ -9,15 +9,16 @@ using System.Net;
 using System.Reflection;
 using System.Windows.Forms;
 using System.Collections.ObjectModel;
-
-using PokemonGo.RocketAPI.Console.Dialogs;
-using PokemonGo.RocketAPI.Console.Helper;
-using PokemonGo.RocketAPI.Helpers;
-using PokemonGo.RocketAPI.Logic.Shared;
-using POGOProtos.Enums;
 using Newtonsoft.Json;
+using POGOProtos.Enums;
+using PokemonGo.RocketAPI;
+using PokemonGo.RocketAPI.Helpers;
+using PokemonGo.RocketAPI.Enums;
+using PokeMaster.Logic.Shared;
+using PokeMaster.Dialogs;
+using PokeMaster.Helper;
 
-namespace PokemonGo.RocketAPI.Console
+namespace PokeMaster
 {
     public partial class ConfigWindow : System.Windows.Forms.Form
     {
@@ -238,7 +239,7 @@ namespace PokemonGo.RocketAPI.Console
             pFHashKey.Text = config.pFHashKey;
             
             comboBox_AccountType.SelectedIndex = 1;
-            if (config.AuthType == Enums.AuthType.Google) {
+            if (config.AuthType == AuthType.Google) {
                 comboBox_AccountType.SelectedIndex = 0;
             }
 
@@ -641,7 +642,7 @@ namespace PokemonGo.RocketAPI.Console
             ActiveProfile.IsDefault = checkBoxDefaultProf.Checked;
             // tab 1 - General
             
-            ActiveProfile.Settings.AuthType = (comboBox_AccountType.SelectedIndex == 0) ? Enums.AuthType.Google : Enums.AuthType.Ptc;
+            ActiveProfile.Settings.AuthType = (comboBox_AccountType.SelectedIndex == 0) ? AuthType.Google : AuthType.Ptc;
 
             // Account Info
             bool ret = true;

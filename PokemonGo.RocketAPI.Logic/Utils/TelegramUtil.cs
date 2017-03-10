@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using PokemonGo.RocketAPI;
 using Telegram.Bot.Args;
 using Telegram.Bot.Exceptions;
 using Telegram.Bot.Types;
@@ -14,17 +15,17 @@ using Telegram.Bot.Types.ReplyMarkups;
 
 using PokemonGo.RocketAPI.Enums;
 using PokemonGo.RocketAPI.Extensions;
-using PokemonGo.RocketAPI.Logic.Utils;
+using PokeMaster.Logic.Utils;
 using PokemonGo.RocketAPI.Exceptions;
-using PokemonGo.RocketAPI.Logic;
+using PokeMaster.Logic;
 using PokemonGo.RocketAPI.Helpers;
 
-using PokemonGo.RocketAPI.Logic.Translation;
+using PokeMaster.Logic.Translation;
 using PokemonGo.RocketAPI.Rpc;
 using POGOProtos.Data;
-using PokemonGo.RocketAPI.Logic.Shared;
+using PokeMaster.Logic.Shared;
 
-namespace PokemonGo.RocketAPI.Logic.Utils
+namespace PokeMaster.Logic.Utils
 {
     public class TelegramUtil
     {

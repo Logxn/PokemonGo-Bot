@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using POGOProtos.Map.Pokemon;
 
-namespace PokemonGo.RocketAPI.Logic
+namespace PokeMaster.Logic
 {
     /// <summary>
     /// "Observable" mades live infos possible
