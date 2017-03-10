@@ -383,15 +383,15 @@ namespace PokeMaster.Logic.Functions
             var ret = new List<POGOProtos.Data.PokemonData> ((List<POGOProtos.Data.PokemonData> ) eggs);
             if(GlobalVars.No2kmEggsBasicInc)
             {
-                ret = ret.Where(x => x.EggKmWalkedTarget !=2).ToList();
+                ret = ret.Where(x => (int)x.EggKmWalkedTarget !=2).ToList();
             }
             if(GlobalVars.No5kmEggsBasicInc)
             {
-                ret = ret.Where(x => x.EggKmWalkedTarget !=5).ToList();
+                ret = ret.Where(x => (int)x.EggKmWalkedTarget !=5).ToList();
             }
             if(GlobalVars.No10kmEggsBasicInc)
             {
-                ret = ret.Where(x => x.EggKmWalkedTarget !=10).ToList();
+                ret = ret.Where(x => (int)x.EggKmWalkedTarget !=10).ToList();
             }
             return ret;
         }
@@ -401,15 +401,15 @@ namespace PokeMaster.Logic.Functions
             var ret = new List<POGOProtos.Data.PokemonData> ((List<POGOProtos.Data.PokemonData> ) eggs);
             if(GlobalVars.No2kmEggs)
             {
-                ret = ret.Where(x => x.EggKmWalkedTarget !=2).ToList();
+                ret = ret.Where(x => (int) x.EggKmWalkedTarget !=2).ToList();
             }
             if(GlobalVars.No5kmEggs)
             {
-                ret = ret.Where(x => x.EggKmWalkedTarget !=5).ToList();
+                ret = ret.Where(x => (int) x.EggKmWalkedTarget !=5).ToList();
             }
             if(GlobalVars.No10kmEggs)
             {
-                ret = ret.Where(x => x.EggKmWalkedTarget !=10).ToList();
+                ret = ret.Where(x => (int) x.EggKmWalkedTarget !=10).ToList();
             }
             return ret;
         }
@@ -447,7 +447,7 @@ namespace PokeMaster.Logic.Functions
             var curexp = stats.Experience - stats.PrevLevelXp - StringUtils.getExpDiff(stats.Level);
             var curexppercent = Convert.ToDouble(curexp) / Convert.ToDouble(expneeded) * 100;
 
-            if (startingXp == -10000) startingXp = stats.Experience;
+            if ((int) startingXp == -10000) startingXp = stats.Experience;
 
             currentxp = stats.Experience;
 
@@ -566,7 +566,7 @@ namespace PokeMaster.Logic.Functions
 
                 if (GlobalVars.TimeToRun > 0)
                 {
-                    if (timetorunstamp == -10000)
+                    if ((int) timetorunstamp == -10000)
                     {
                         timetorunstamp = GlobalVars.TimeToRun * 60 * 1000 + (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds;
                     }
@@ -611,7 +611,7 @@ namespace PokeMaster.Logic.Functions
                             Logger.ColoredConsoleWrite(ConsoleColor.Blue, $"Remaining Time until break: {Math.Round(walkTimeRemaining / 1000 / 60, 2)} minutes");
                         }
                     }
-                    else if (resumetimestamp == -10000)
+                    else if ((int) resumetimestamp == -10000)
                     {
                         pausetimestamp = (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds + GlobalVars.BreakInterval * 60 * 1000;
 
@@ -696,7 +696,7 @@ namespace PokeMaster.Logic.Functions
 
                 #region XP Check
 
-                if (startingXp != -10000 && currentxp != -10000 && (currentxp = -startingXp) >= GlobalVars.XPFarmedLimit)
+                if ((int) startingXp != -10000 && (int) currentxp != -10000 && (currentxp = -startingXp) >= GlobalVars.XPFarmedLimit)
                 {
                     Logger.ColoredConsoleWrite(ConsoleColor.Green, "XP Farmed Limit Reached - Bot will return to default location and stop");
 
@@ -778,7 +778,8 @@ namespace PokeMaster.Logic.Functions
                     GlobalVars.PauseTheWalking = true;
                 }
 
-                TransferUnwantedPokemon(profil.PlayerData.BuddyPokemon.Id);
+                var buddyid = (profil.PlayerData.BuddyPokemon !=null)?profil.PlayerData.BuddyPokemon.Id:0;
+                TransferUnwantedPokemon(buddyid);
 
                 var duplicatePokemons = Logic.objClient.Inventory.GetDuplicatePokemonToTransfer(GlobalVars.HoldMaxDoublePokemons, keepPokemonsThatCanEvolve, transferFirstLowIv);
                 var pokemonsToTransfer = new List<ulong>();
