@@ -18,7 +18,7 @@ using System.Windows.Forms;
 
 namespace PokeMaster
 {
-    internal class Program
+    internal static class Program
     {
         [DllImport("kernel32.dll")]
         public static extern Boolean FreeConsole();
@@ -32,7 +32,7 @@ namespace PokeMaster
         public static string deviceData = Path.Combine(path_device, "DeviceData.json");
         public static string cmdCoords = string.Empty;
         public static string accountProfiles = Path.Combine(path, "Profiles.txt");
-        static string logPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Logs");
+        static readonly string logPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Logs");
         public static string pokelog = Path.Combine(logPath, "PokeLog.txt");
         public static string manualTransferLog = Path.Combine(logPath, "TransferLog.txt");
         public static string EvolveLog = Path.Combine(logPath, "EvolveLog.txt");
@@ -121,8 +121,7 @@ namespace PokeMaster
                     #endregion
 
                     #region Argument -bypassversioncheck
-                    if (arg.ToLower().Contains("-bypassversioncheck"))
-                        GlobalVars.BypassCheckCompatibilityVersion = true;
+                    GlobalVars.BypassCheckCompatibilityVersion |= arg.ToLower().Contains("-bypassversioncheck");
                     #endregion
 
                     #region Argument -help
@@ -174,9 +173,7 @@ namespace PokeMaster
                 Application.Run(new ConfigWindow());
                 
                 Task.Run(() =>
-                {
-                    new Panels.SplashScreen().ShowDialog();
-                });
+                new Panels.SplashScreen().ShowDialog());
                 openGUI = GlobalVars.EnablePokeList;
                 // To open tabbed GUI to test programing 
                 /*
