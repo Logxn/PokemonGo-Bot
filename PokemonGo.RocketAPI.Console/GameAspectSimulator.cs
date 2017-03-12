@@ -99,7 +99,7 @@ namespace PokeMaster
             panel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             Controls.Add(panel);
             panel.Visible = true;
-            ((ItemsPanel)panel).Execute(null);
+            ((ItemsPanel)panel).Execute();
             btnPicClose.Visible = true;
             locationPanel1.Visible=false;
         }
@@ -135,7 +135,7 @@ namespace PokeMaster
             panel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             Controls.Add(panel);
             panel.Visible = true;
-            ((PokemonsPanel)panel).Execute(null);
+            ((PokemonsPanel)panel).Execute();
             btnPicClose.Visible = true;
             locationPanel1.Visible=false;
           

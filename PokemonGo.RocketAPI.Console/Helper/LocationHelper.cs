@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using PokeMaster.Logic.Utils;
 using PokemonGo.RocketAPI;
 
 namespace PokeMaster.Helper

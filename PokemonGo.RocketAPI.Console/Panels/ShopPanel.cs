@@ -11,6 +11,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 using POGOProtos.Networking.Platform.Responses;
+using PokeMaster.Logic.Utils;
 using PokemonGo.RocketAPI;
 
 namespace PokeMaster.Panels
@@ -29,11 +30,13 @@ namespace PokeMaster.Panels
             //
             InitializeComponent();
         }
+        
         public void Execute()
         {
+            /*
             try {
                 var client = Logic.Logic.objClient;
-                if (client.ReadyToUse != false) {
+                if (Logic.Logic.ClientReadyToUse != false) {
                     Logger.Debug("Before of GetStoreItems");
                     var inventory = client.Store.GetStoreItems().Items;
                     Logger.Debug("After of GetStoreItems");
@@ -54,15 +57,17 @@ namespace PokeMaster.Panels
             } catch (Exception ex1) {
                 Logger.ExceptionInfo(ex1.ToString());
             }
+            */
         }
         void btnBuy_Click(object sender, EventArgs e)
-        {
+        {/*
             if (listView.SelectedItems.Count > 0) {
                 var item = (GetStoreItemsResponse.Types.StoreItem)listView.SelectedItems[0].Tag;
                 if (MessageBox.Show(this, th.TS("Buying {0}.", item.ItemId) + th.TS("\nAre you sure you want?"), th.TS("Confirmation Message"), MessageBoxButtons.OKCancel) == DialogResult.OK) {
                     Logic.Logic.objClient.Store.BuyItemPokeCoins(item.ItemId);
                 }
             }
+            */
         }
         void buyToolStripMenuItem_Click(object sender, EventArgs e)
         {

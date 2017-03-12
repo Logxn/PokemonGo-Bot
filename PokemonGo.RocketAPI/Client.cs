@@ -1,139 +1,217 @@
+﻿#region using directives
+
 using System;
 using System.Net;
-using System.Threading;
+using PokemonGo.RocketAPI.Enums;
+using PokemonGo.RocketAPI.Extensions;
+using PokemonGo.RocketAPI.HttpClient;
+using PokemonGo.RocketAPI.Rpc;
 using POGOProtos.Enums;
 using POGOProtos.Networking.Envelopes;
-using PokemonGo.RocketAPI.Enums;
-using PokemonGo.RocketAPI.Hash;
-using PokemonGo.RocketAPI.Extensions;
 using PokemonGo.RocketAPI.Helpers;
-using PokemonGo.RocketAPI.HttpClient;
+using PokemonGo.RocketAPI.Hash;
+using PokemonGo.RocketAPI.Encrypt;
+using PokemonGo.RocketAPI.Exceptions;
+using POGOProtos.Networking.Responses;
+using PokemonGo.RocketAPI.Authentication.Data;
+using PokemonGo.RocketAPI.LoginProviders;
+using POGOProtos.Settings;
+using System.Net.Http;
+using System.Net.Http.Headers;
+
+#endregion
 
 namespace PokemonGo.RocketAPI
 {
     public class Client : ICaptchaResponseHandler
     {
-        public Rpc.Login Login;
-        public IHasher Hasher;
-        public Rpc.Player Player;
-        public Rpc.Download Download;
-        public Rpc.Inventory Inventory;
-        public Rpc.Map Map;
-        public Rpc.Fort Fort;
-        public Rpc.Encounter Encounter;
-        public Rpc.Misc Misc;
-        public Rpc.Store Store;
+        public static string API_VERSION = "0.57.4";
 
-        public IApiFailureStrategy ApiFailure { get; set; }
-        public string AuthToken { get; set; }
-        string CaptchaToken;
+        public static WebProxy Proxy;
 
-        public double CurrentLatitude { get; set; }
-        public double CurrentLongitude { get; set; }
-        public double CurrentAltitude { get; set; }
-
-        public AuthType AuthType;
-        public string Username;
-        public string Password;
-
-        public string ApiUrl { get; set; }
         internal readonly PokemonHttpClient PokemonHttpClient;
-        internal AuthTicket AuthTicket { get; set; }
+        public Download Download;
+        public Encounter Encounter;
+        public Fort Fort;
+        public Inventory Inventory;
+        public Rpc.Login Login;
+        public Map Map;
+        public Misc Misc;
+        public Player Player;
+        string CaptchaToken;
+        public KillSwitchTask KillswitchTask;
+        public Hash.IHasher Hasher;
+        public ICrypt Cryptor;
+        internal RequestBuilder RequestBuilder;
+        
+        public ISettings Settings { get; }
 
-        public long StartTime { get; set; }
-
-        internal string SettingsHash { get; set; }
-        internal long InventoryLastUpdateTimestamp { get; set; }
-        internal Platform Platform { get; set; }
-        internal uint AppVersion { get; set; }
-
-        public Version CurrentApiEmulationVersion { get; set; }
-        public Version MinimumClientVersion { get; set; }
-
-
-        public static WebProxy proxy;
-        public bool ReadyToUse { get; set; }
-
+        public double CurrentLatitude { get; internal set; }
+        public double CurrentLongitude { get; internal set; }
+        public double CurrentAltitude { get; internal set; }
         public double CurrentAccuracy { get; internal set; }
         public float CurrentSpeed { get; internal set; }
 
-        public bool ShowingStats { get; set; }
-        public bool LoadingPokemons { get; set; }
+        public AuthType AuthType 
+        { get { return Settings.AuthType; } set { Settings.AuthType = value; } }
+            
+        internal string ApiUrl { get; set; }
+        internal AuthTicket AuthTicket { get; set; }                
 
-    public void setFailure(IApiFailureStrategy fail)
+        internal string SettingsHash { get; set; }
+        public GlobalSettings GlobalSettings { get; set; }
+        public long InventoryLastUpdateTimestamp { get; set; }
+        internal Platform Platform { get; set; }
+        internal uint AppVersion { get; set; }
+        internal string UnknownPlat8Field { get; set; }
+        internal long Unknown25 { get; set; }
+        internal string ApiEndPoint { get; set; }
+        public long StartTime { get; set; }
+        public Version CurrentApiEmulationVersion { get; set; }
+        public Version MinimumClientVersion { get; set; }        // This is version from DownloadSettings, but after login is updated from https://pgorelease.nianticlabs.com/plfe/version
+
+        //public POGOLib.Net.Session AuthSession { get; set; }
+        public ILoginProvider LoginProvider { get; set; }
+        public AccessToken AccessToken { get; set; }
+        
+        public Client(ISettings settings)
         {
-            ApiFailure = fail;
+            if (settings.UsePogoDevHashServer)
+            {
+                if (string.IsNullOrEmpty(settings.AuthAPIKey)) throw new AuthConfigException("You selected Pogodev API but not provide proper API Key");
+
+                Cryptor = new Crypt();
+
+                // This value will determine which version of the hashing service you will receive.
+                // Currently supported versions:
+                // v119   -> Pogo iOS 1.19
+                // v121   -> Pogo iOS 1.21
+                // v121_2 -> Pogo iOS 1.22
+                // v125   -> Pogo iOS 1.25
+                // v127_2 -> Pogo iOS 1.27.2
+                // v127_3 -> Pogo iOS 1.27.3
+                // v127_4 -> Pogo iOS 1.27.4
+
+                ApiEndPoint = "api/v127_4/hash";
+                Hasher = new PokefamerHasher(settings.AuthAPIKey, settings.DisplayVerboseLog, ApiEndPoint);
+
+                // These 4 constants below need to change if we update the hashing server API version that is used.
+                Unknown25 = -816976800928766045;
+                AppVersion = 5704;
+                CurrentApiEmulationVersion = new Version(API_VERSION); // Make sure to update the constant above.
+                UnknownPlat8Field = "90f6a704505bccac73cec99b07794993e6fd5a12";
+            }
+            else
+            if (settings.UseLegacyAPI)
+            {
+                Hasher = new LegacyHashser();
+                Cryptor = new LegacyCrypt();
+
+                Unknown25 = -816976800928766045;// - 816976800928766045;// - 1553869577012279119;
+                AppVersion = 4500;
+                CurrentApiEmulationVersion = new Version("0.45.0");
+            }
+            else
+            {
+                throw new AuthConfigException("No API method being select in your auth.json");
+            }
+            
+            Settings = settings;
+            Proxy = InitProxy();
+            PokemonHttpClient = new PokemonHttpClient();
+            Login = new Rpc.Login(this);
+            Player = new Player(this);
+            Download = new Download(this);
+            Inventory = new Inventory(this);
+            Map = new Map(this);
+            Fort = new Fort(this);
+            Encounter = new Encounter(this);
+            Misc = new Misc(this);
+            KillswitchTask = new KillSwitchTask(this);
+
+            Player.SetCoordinates(Settings.DefaultLatitude, Settings.DefaultLongitude, Settings.DefaultAltitude);
+            Platform = settings.DevicePlatform.Equals("ios", StringComparison.Ordinal) ? Platform.Ios : Platform.Android;
+
+            // We can no longer emulate Android so for now just overwrite settings with randomly generated iOS device info.
+            if (Platform == Platform.Android)
+            {
+                DeviceInfo iosInfo = DeviceInfoHelper.GetRandomIosDevice();
+                settings.DeviceId = iosInfo.DeviceId;
+                settings.DeviceBrand = iosInfo.DeviceBrand;
+                settings.DeviceModel = iosInfo.DeviceModel;
+                settings.DeviceModelBoot = iosInfo.DeviceModelBoot;
+                settings.HardwareManufacturer = iosInfo.HardwareManufacturer;
+                settings.HardwareModel = iosInfo.HardwareModel;
+                settings.FirmwareBrand = iosInfo.FirmwareBrand;
+                settings.FirmwareType = iosInfo.FirmwareType;
+
+                // Clear out the android fields.
+                settings.AndroidBoardName = "";
+                settings.AndroidBootloader = "";
+                settings.DeviceModelIdentifier = "";
+                settings.FirmwareTags = "";
+                settings.FirmwareFingerprint = "";
+
+                // Now set the client platform to ios
+                Platform = Platform.Ios;
+            }
         }
 
+        public void Reset()
+        {
+            AccessToken = null;
+            AuthTicket = null;
+            StartTime = Utils.GetTime(true);
+            RequestBuilder = new RequestBuilder(this, this.Settings);
+            InventoryLastUpdateTimestamp = 0;
+            SettingsHash = "";
+        }
+        
         public void SetCaptchaToken(string token)
         {
             CaptchaToken = token;
         }
 
-        public Client(Shared.ClientSettings settings)
+        private WebProxy InitProxy()
         {
-            ReadyToUse = false;
-            AuthType = settings.userType;
-            Username = settings.userName;
-            Password = settings.password;
-            proxy = InitProxy(settings.proxyUrl,settings.proxyPort,settings.proxyUser,settings.proxyPass);
-            PokemonHttpClient = new PokemonHttpClient();
-            Login = new Rpc.Login(this);
-            Player = new Rpc.Player(this);
-            Download = new Rpc.Download(this);
-            Inventory = new Rpc.Inventory(this);
-            Map = new Rpc.Map(this);
-            Fort = new Rpc.Fort(this);
-            Encounter = new Rpc.Encounter(this);
-            Misc = new Rpc.Misc(this);
-            Hasher = new PokeHashHasher(settings.hashKey);
-            Store = new PokemonGo.RocketAPI.Rpc.Store(this);
-            
-            if (DeviceSetup.SelectedDevice.OSType == "iOS")
-                Platform = POGOProtos.Enums.Platform.Ios;
-            else
-                Platform = POGOProtos.Enums.Platform.Android;
-            
-            Logger.Info("Platform:" +Platform);
+            if (!Settings.UseProxy) return null;
 
+            var uri = $"http://{Settings.UseProxyHost}:{Settings.UseProxyPort}";
+            var prox = new WebProxy(new Uri(uri), false, null);
 
-            InventoryLastUpdateTimestamp = 0;
+            if (Settings.UseProxyAuthentication)
+                prox.Credentials = new NetworkCredential(Settings.UseProxyUsername, Settings.UseProxyPassword);
 
-            AppVersion = Resources.Api.AndroidClientVersionInt;
-            SettingsHash = "";
-
-            CurrentApiEmulationVersion = settings.currentApi;
-        }
-        
-        private WebProxy InitProxy(string proxyHost, int proxyPort, string proxyUsername, string proxyPassword)
-        {
-            if ((proxyHost == "") || (proxyPort ==0))
-                return null;
-            try
-            {
-                var proxyUri = $"http://{proxyHost}:{proxyPort}";
-                Logger.Info("proxyUri: "+proxyUri);
-                Logger.Info("proxyUsername: "+proxyUsername);
-                Logger.Info("proxyPassword: "+(proxyPassword != ""));
-                var p = new WebProxy(new System.Uri(proxyUri), false, null);
-
-                if (proxyUsername!="")
-                    p.Credentials = new NetworkCredential(proxyUsername, proxyPassword);
-                return p;
-            } catch (Exception ex)
-            {
-                Logger.Error("Something in your Proxy Settings is wrong, or the Proxy is down! Exiting in 5 seconds.");
-                Logger.ColoredConsoleWrite(ConsoleColor.Red, "Exception in Client.cs - InitProxy: " + ex.Message);
-                Thread.Sleep(5000);
-                Environment.Exit(0);
-                return null;
-            }
+            return prox;
         }
 
         public bool CheckCurrentVersionOutdated()
         {
+            if (MinimumClientVersion == null)
+                return false;
+
             return CurrentApiEmulationVersion < MinimumClientVersion;
         }
 
+        public static Version GetMinimumRequiredVersionFromUrl()
+        {
+            try
+            {
+                var httpClient = new System.Net.Http.HttpClient();
+                var requestMessage = new HttpRequestMessage(HttpMethod.Get, "https://pgorelease.nianticlabs.com/plfe/version");
+                requestMessage.Headers.Add("User-Agent", "Niantic App");
+
+                HttpResponseMessage response = httpClient.SendAsync(requestMessage).Result;
+                var responseAsString = response.Content.ReadAsStringAsync().Result;
+
+                var version = responseAsString.Replace("\u0006", "").Replace("\n", "");
+                return new Version(version);
+            }
+            catch(Exception ex)
+            {
+                APIConfiguration.Logger.LogError(ex.ToString());
+            }
+            return null;
+        }
     }
 }

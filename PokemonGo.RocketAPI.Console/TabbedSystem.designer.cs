@@ -56,7 +56,7 @@ namespace PokeMaster
             this.sniperPanel1 = new PokeMaster.SniperPanel();
             this.tpOptions = new System.Windows.Forms.TabPage();
             this.changesPanel1 = new PokeMaster.ChangesPanel();
-            this.loggerPanel1 = new PokemonGo.RocketAPI.Logging.LoggerPanel();
+            this.loggerPanel1 = new PokeMaster.Logic.Utils.Logger();
             this.tpWeb = new System.Windows.Forms.TabPage();
             this.webPanel1 = new PokeMaster.Panels.WebPanel();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
@@ -456,7 +456,7 @@ namespace PokeMaster
         private System.Windows.Forms.Button CreateRoute;
         private PokeMaster.SniperPanel sniperPanel1;
         private PokeMaster.PokemonsPanel pokemonsPanel1;
-        private PokemonGo.RocketAPI.Logging.LoggerPanel loggerPanel1;
+        private PokeMaster.Logic.Utils.Logger loggerPanel1;
         private System.Windows.Forms.TabPage tpWeb;
         private PokeMaster.Panels.WebPanel webPanel1;
         private System.Windows.Forms.SplitContainer splitContainer1;

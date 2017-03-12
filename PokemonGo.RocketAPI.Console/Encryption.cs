@@ -3,6 +3,7 @@
 using System;
 using System.Text;
 using System.Security.Cryptography;
+using PokeMaster.Logic.Utils;
 using PokemonGo.RocketAPI;
 
 namespace PokeMaster

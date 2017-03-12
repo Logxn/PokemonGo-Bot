@@ -87,11 +87,10 @@ namespace PokeMaster
             }
 
             var client = Logic.Logic.objClient;
-            if (client !=null && client.ReadyToUse)
+            if (client !=null && Logic.Logic.ClientReadyToUse)
             {
                 if (refreshData)
                 {
-                    profile = client.Player.GetPlayer();
                     RandomHelper.RandomSleep(300,400);
                     var playerStats = client.Inventory.GetPlayerStats();
                     stats = playerStats.First();
@@ -278,7 +277,7 @@ namespace PokeMaster
                 // Simulate to enter in a gym before select a team.
                 var client = Logic.Logic.objClient;
                 var mapObjects = client.Map.GetMapObjects().Result;
-                var mapCells = mapObjects.Item1.MapCells;
+                var mapCells = mapObjects.MapCells;
 
                 var pokeGyms = mapCells.SelectMany(i => i.Forts)
                     .Where(i => i.Type == FortType.Gym );
@@ -328,7 +327,7 @@ namespace PokeMaster
             try
             {
             	var client = Logic.Logic.objClient;
-            	var resp2 = client.Player.SetPlayerTeam(teamColor);
+            	var resp2 = client.Player.SetPlayerTeam(teamColor).Result;
 
                 if (resp2.Status == SetPlayerTeamResponse.Types.Status.Success)
                 {
@@ -353,7 +352,7 @@ namespace PokeMaster
             try
             {
             	var client = Logic.Logic.objClient;
-            	var resp2 = client.Fort.GetGymDetails( gym,lat,lng);
+            	var resp2 = client.Fort.GetGymDetails( gym,lat,lng).Result;
 
                 if (resp2.Result == GetGymDetailsResponse.Types.Result.Success)
                 {
@@ -377,7 +376,7 @@ namespace PokeMaster
             {
                 try
                 {
-                    if (Logic.Logic.objClient != null && Logic.Logic.objClient.ReadyToUse != false)
+                    if (Logic.Logic.objClient != null && Logic.Logic.ClientReadyToUse != false)
                     {
                         break;
                     }
@@ -391,7 +390,7 @@ namespace PokeMaster
         }
         private  void collectCoins(){
             const string prefix = "(Coin Collection)";
-            var res = Logic.Logic.objClient.Player.CollectDailyDefenderBonus();
+            var res = Logic.Logic.objClient.Player.CollectDailyDefenderBonus().Result;
 
             var result = res.Result.ToString();
             var currentDefenders = res.DefendersCount;

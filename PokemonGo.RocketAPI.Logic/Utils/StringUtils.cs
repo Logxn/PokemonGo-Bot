@@ -486,7 +486,7 @@ namespace PokeMaster.Logic.Utils
             return GerName;
         }
 
-        public static string getPokemonNameByLanguage(ISettings clientSettings, PokemonId b)
+        public static string getPokemonNameByLanguage(PokeMaster.Logic.Shared.ISettings clientSettings, PokemonId b)
         {
             return b.ToString();
         }

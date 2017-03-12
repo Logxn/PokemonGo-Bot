@@ -2786,4 +2786,4 @@ namespace PokemonGo.RocketAPI.Helpers.Shuffle
             vector[63] = tmp[51];
         }
     }
-}
+}  

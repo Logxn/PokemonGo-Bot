@@ -1,105 +1,260 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿#region using directives
+
 using System.Threading.Tasks;
 using POGOProtos.Enums;
 using POGOProtos.Inventory.Item;
 using POGOProtos.Networking.Requests;
 using POGOProtos.Networking.Requests.Messages;
 using POGOProtos.Networking.Responses;
+using Google.Protobuf;
+using PokemonGo.RocketAPI.Helpers;
+using System;
+
+#endregion
 
 namespace PokemonGo.RocketAPI.Rpc
 {
     public class Encounter : BaseRpc
     {
-        public Encounter(Client client) : base(client) { }
-
-        public EncounterResponse EncounterPokemon(ulong encounterId, string spawnPointGuid)
+        public Encounter(Client client) : base(client)
         {
-            var message = new EncounterMessage
-            {
-                EncounterId = encounterId,
-                SpawnPointId = spawnPointGuid,
-                PlayerLatitude = Client.CurrentLatitude,
-                PlayerLongitude = Client.CurrentLongitude
-            };
-            
-            return  PostProtoPayload<Request, EncounterResponse>(RequestType.Encounter, message);
         }
 
-        public UseItemCaptureResponse UseCaptureItem(ulong encounterId, ItemId itemId, string spawnPointId)
+        public async Task<EncounterResponse> EncounterPokemon(ulong encounterId, string spawnPointGuid)
         {
-            var message = new UseItemCaptureMessage
+            var encounterPokemonRequest = new Request
             {
-                EncounterId = encounterId,
-                ItemId = itemId,
-                SpawnPointId = spawnPointId
+                RequestType = RequestType.Encounter,
+                RequestMessage = ((IMessage)new EncounterMessage
+                {
+                    EncounterId = encounterId,
+                    SpawnPointId = spawnPointGuid,
+                    PlayerLatitude = Client.CurrentLatitude,
+                    PlayerLongitude = Client.CurrentLongitude
+                }).ToByteString()
             };
-            
-            return PostProtoPayload<Request, UseItemCaptureResponse>(RequestType.UseItemCapture, message);
+
+            var request = await GetRequestBuilder().GetRequestEnvelope(CommonRequest.FillRequest(encounterPokemonRequest, Client));
+
+            Tuple<EncounterResponse, CheckChallengeResponse, GetHatchedEggsResponse, GetInventoryResponse, CheckAwardedBadgesResponse, DownloadSettingsResponse, GetBuddyWalkedResponse> response =
+                await
+                    PostProtoPayload
+                        <Request, EncounterResponse, CheckChallengeResponse, GetHatchedEggsResponse, GetInventoryResponse,
+                            CheckAwardedBadgesResponse, DownloadSettingsResponse, GetBuddyWalkedResponse>(request);
+
+            CheckChallengeResponse checkChallengeResponse = response.Item2;
+            CommonRequest.ProcessCheckChallengeResponse(Client, checkChallengeResponse);
+
+            GetInventoryResponse getInventoryResponse = response.Item4;
+            CommonRequest.ProcessGetInventoryResponse(Client, getInventoryResponse);
+
+            DownloadSettingsResponse downloadSettingsResponse = response.Item6;
+            CommonRequest.ProcessDownloadSettingsResponse(Client, downloadSettingsResponse);
+
+            return response.Item1;
         }
 
-        public UseItemEncounterResponse UseItemEncounter(ulong encounterId, ItemId item, string spawnPointId)
+        public async Task<UseItemCaptureResponse> UseCaptureItem(ulong encounterId, ItemId itemId, string spawnPointId)
         {
-            var message = new UseItemEncounterMessage()
+            var useCaptureItemRequest = new Request
             {
-                Item = item,
-                EncounterId = encounterId,
-                SpawnPointGuid = spawnPointId,
+                RequestType = RequestType.UseItemCapture,
+                RequestMessage = ((IMessage)new UseItemCaptureMessage
+                {
+                    EncounterId = encounterId,
+                    ItemId = itemId,
+                    SpawnPointId = spawnPointId
+                }).ToByteString()
             };
 
-            return PostProtoPayload<Request, UseItemEncounterResponse>(RequestType.UseItemEncounter, message);
+            var request = await GetRequestBuilder().GetRequestEnvelope(CommonRequest.FillRequest(useCaptureItemRequest, Client));
+
+            Tuple<UseItemCaptureResponse, CheckChallengeResponse, GetHatchedEggsResponse, GetInventoryResponse, CheckAwardedBadgesResponse, DownloadSettingsResponse, GetBuddyWalkedResponse> response =
+                await
+                    PostProtoPayload
+                        <Request, UseItemCaptureResponse, CheckChallengeResponse, GetHatchedEggsResponse, GetInventoryResponse,
+                            CheckAwardedBadgesResponse, DownloadSettingsResponse, GetBuddyWalkedResponse>(request);
+
+            CheckChallengeResponse checkChallengeResponse = response.Item2;
+            CommonRequest.ProcessCheckChallengeResponse(Client, checkChallengeResponse);
+
+            GetInventoryResponse getInventoryResponse = response.Item4;
+            CommonRequest.ProcessGetInventoryResponse(Client, getInventoryResponse);
+
+            DownloadSettingsResponse downloadSettingsResponse = response.Item6;
+            CommonRequest.ProcessDownloadSettingsResponse(Client, downloadSettingsResponse);
+
+            return response.Item1;
         }
 
-        public CatchPokemonResponse CatchPokemon(ulong encounterId, string spawnPointGuid, ItemId pokeballItemId, bool forceHit, double normalizedRecticleSize = 1.950, double spinModifier = 1, double normalizedHitPos = 1)
-        {            
-            var message = new CatchPokemonMessage   // We need to make this here more random, that we sometimes dont hit orso
+
+        public async Task<UseItemEncounterResponse> UseItemEncounter(ulong encounterId, ItemId itemId, string spawnPointId)
+        {
+            var useCaptureItemRequest = new Request
             {
-                EncounterId = encounterId,
-                Pokeball = pokeballItemId,
-                SpawnPointId = spawnPointGuid,
-                HitPokemon = forceHit,
-                NormalizedReticleSize = normalizedRecticleSize,
-                SpinModifier = spinModifier,
-                NormalizedHitPosition = normalizedHitPos
+                RequestType = RequestType.UseItemEncounter,
+                RequestMessage = ((IMessage)new UseItemEncounterMessage
+                {
+                    EncounterId = encounterId,
+                    Item = itemId,
+                    SpawnPointGuid = spawnPointId
+                }).ToByteString()
             };
-            
-            return  PostProtoPayload<Request, CatchPokemonResponse>(RequestType.CatchPokemon, message);
+
+            var request = await GetRequestBuilder().GetRequestEnvelope(CommonRequest.FillRequest(useCaptureItemRequest, Client));
+
+            Tuple<UseItemEncounterResponse, CheckChallengeResponse, GetHatchedEggsResponse, GetInventoryResponse, CheckAwardedBadgesResponse, DownloadSettingsResponse, GetBuddyWalkedResponse> response =
+                await
+                    PostProtoPayload
+                        <Request, UseItemEncounterResponse, CheckChallengeResponse, GetHatchedEggsResponse, GetInventoryResponse,
+                            CheckAwardedBadgesResponse, DownloadSettingsResponse, GetBuddyWalkedResponse>(request);
+
+            CheckChallengeResponse checkChallengeResponse = response.Item2;
+            CommonRequest.ProcessCheckChallengeResponse(Client, checkChallengeResponse);
+
+            GetInventoryResponse getInventoryResponse = response.Item4;
+            CommonRequest.ProcessGetInventoryResponse(Client, getInventoryResponse);
+
+            DownloadSettingsResponse downloadSettingsResponse = response.Item6;
+            CommonRequest.ProcessDownloadSettingsResponse(Client, downloadSettingsResponse);
+
+            return response.Item1;
         }
 
-        public IncenseEncounterResponse EncounterIncensePokemon(ulong encounterId, string encounterLocation)
+        public async Task<CatchPokemonResponse> CatchPokemon(ulong encounterId, string spawnPointGuid,
+            ItemId pokeballItemId, double normalizedRecticleSize = 1.950, double spinModifier = 1,
+            bool hitPokemon = true, double normalizedHitPos = 1)
         {
-            var message = new IncenseEncounterMessage()
+            var catchPokemonRequest = new Request
             {
-                EncounterId = encounterId,
-                EncounterLocation = encounterLocation
+                RequestType = RequestType.CatchPokemon,
+                RequestMessage = ((IMessage)new CatchPokemonMessage
+                {
+                    EncounterId = encounterId,
+                    Pokeball = pokeballItemId,
+                    SpawnPointId = spawnPointGuid,
+                    HitPokemon = hitPokemon,
+                    NormalizedReticleSize = normalizedRecticleSize,
+                    SpinModifier = spinModifier,
+                    NormalizedHitPosition = normalizedHitPos
+                }).ToByteString()
             };
 
-            return PostProtoPayload<Request, IncenseEncounterResponse>(RequestType.IncenseEncounter, message);
+            var request = await GetRequestBuilder().GetRequestEnvelope(CommonRequest.FillRequest(catchPokemonRequest, Client));
+
+            Tuple<CatchPokemonResponse, CheckChallengeResponse, GetHatchedEggsResponse, GetInventoryResponse, CheckAwardedBadgesResponse, DownloadSettingsResponse, GetBuddyWalkedResponse> response =
+                await
+                    PostProtoPayload
+                        <Request, CatchPokemonResponse, CheckChallengeResponse, GetHatchedEggsResponse, GetInventoryResponse,
+                            CheckAwardedBadgesResponse, DownloadSettingsResponse, GetBuddyWalkedResponse>(request);
+
+            CheckChallengeResponse checkChallengeResponse = response.Item2;
+            CommonRequest.ProcessCheckChallengeResponse(Client, checkChallengeResponse);
+
+            GetInventoryResponse getInventoryResponse = response.Item4;
+            CommonRequest.ProcessGetInventoryResponse(Client, getInventoryResponse);
+
+            DownloadSettingsResponse downloadSettingsResponse = response.Item6;
+            CommonRequest.ProcessDownloadSettingsResponse(Client, downloadSettingsResponse);
+
+            return response.Item1;
         }
 
-        public DiskEncounterResponse EncounterLurePokemon(ulong encounterId, string fortId)
+        public async Task<IncenseEncounterResponse> EncounterIncensePokemon(ulong encounterId, string encounterLocation)
         {
-            var message = new DiskEncounterMessage()
+            var encounterIncensePokemonRequest = new Request
             {
-                EncounterId = encounterId,
-                FortId = fortId,
-                PlayerLatitude = Client.CurrentLatitude,
-                PlayerLongitude = Client.CurrentLongitude
+                RequestType = RequestType.IncenseEncounter,
+                RequestMessage = ((IMessage)new IncenseEncounterMessage
+                {
+                    EncounterId = encounterId,
+                    EncounterLocation = encounterLocation
+                }).ToByteString()
             };
 
-            return PostProtoPayload<Request, DiskEncounterResponse>(RequestType.DiskEncounter, message);
+            var request = await GetRequestBuilder().GetRequestEnvelope(CommonRequest.FillRequest(encounterIncensePokemonRequest, Client));
+
+            Tuple<IncenseEncounterResponse, CheckChallengeResponse, GetHatchedEggsResponse, GetInventoryResponse, CheckAwardedBadgesResponse, DownloadSettingsResponse, GetBuddyWalkedResponse> response =
+                await
+                    PostProtoPayload
+                        <Request, IncenseEncounterResponse, CheckChallengeResponse, GetHatchedEggsResponse, GetInventoryResponse,
+                            CheckAwardedBadgesResponse, DownloadSettingsResponse, GetBuddyWalkedResponse>(request);
+
+            CheckChallengeResponse checkChallengeResponse = response.Item2;
+            CommonRequest.ProcessCheckChallengeResponse(Client, checkChallengeResponse);
+
+            GetInventoryResponse getInventoryResponse = response.Item4;
+            CommonRequest.ProcessGetInventoryResponse(Client, getInventoryResponse);
+
+            DownloadSettingsResponse downloadSettingsResponse = response.Item6;
+            CommonRequest.ProcessDownloadSettingsResponse(Client, downloadSettingsResponse);
+
+            return response.Item1;
         }
 
-        public EncounterTutorialCompleteResponse EncounterTutorialComplete(PokemonId pokemonId)
+        public async Task<DiskEncounterResponse> EncounterLurePokemon(ulong encounterId, string fortId)
         {
-            var message = new EncounterTutorialCompleteMessage()
+            var encounterLurePokemonRequest = new Request
             {
-                PokemonId = pokemonId
+                RequestType = RequestType.DiskEncounter,
+                RequestMessage = ((IMessage)new DiskEncounterMessage
+                {
+                    EncounterId = encounterId,
+                    FortId = fortId,
+                    PlayerLatitude = Client.CurrentLatitude,
+                    PlayerLongitude = Client.CurrentLongitude
+                }).ToByteString()
             };
 
-            return PostProtoPayload<Request, EncounterTutorialCompleteResponse>(RequestType.EncounterTutorialComplete, message);
+            var request = await GetRequestBuilder().GetRequestEnvelope(CommonRequest.FillRequest(encounterLurePokemonRequest, Client));
+
+            Tuple<DiskEncounterResponse, CheckChallengeResponse, GetHatchedEggsResponse, GetInventoryResponse, CheckAwardedBadgesResponse, DownloadSettingsResponse, GetBuddyWalkedResponse> response =
+                await
+                    PostProtoPayload
+                        <Request, DiskEncounterResponse, CheckChallengeResponse, GetHatchedEggsResponse, GetInventoryResponse,
+                            CheckAwardedBadgesResponse, DownloadSettingsResponse, GetBuddyWalkedResponse>(request);
+
+            CheckChallengeResponse checkChallengeResponse = response.Item2;
+            CommonRequest.ProcessCheckChallengeResponse(Client, checkChallengeResponse);
+
+            GetInventoryResponse getInventoryResponse = response.Item4;
+            CommonRequest.ProcessGetInventoryResponse(Client, getInventoryResponse);
+
+            DownloadSettingsResponse downloadSettingsResponse = response.Item6;
+            CommonRequest.ProcessDownloadSettingsResponse(Client, downloadSettingsResponse);
+
+            return response.Item1;
+        }
+
+        public async Task<EncounterTutorialCompleteResponse> EncounterTutorialComplete(PokemonId pokemonId)
+        {
+            var encounterTutorialCompleteRequest = new Request
+            {
+                RequestType = RequestType.EncounterTutorialComplete,
+                RequestMessage = ((IMessage)new EncounterTutorialCompleteMessage
+                {
+                    PokemonId = pokemonId
+                }).ToByteString()
+            };
+
+            var request = await GetRequestBuilder().GetRequestEnvelope(CommonRequest.FillRequest(encounterTutorialCompleteRequest, Client));
+
+            Tuple<EncounterTutorialCompleteResponse, CheckChallengeResponse, GetHatchedEggsResponse, GetInventoryResponse, CheckAwardedBadgesResponse, DownloadSettingsResponse, GetBuddyWalkedResponse> response =
+                await
+                    PostProtoPayload
+                        <Request, EncounterTutorialCompleteResponse, CheckChallengeResponse, GetHatchedEggsResponse, GetInventoryResponse,
+                            CheckAwardedBadgesResponse, DownloadSettingsResponse, GetBuddyWalkedResponse>(request);
+
+            CheckChallengeResponse checkChallengeResponse = response.Item2;
+            CommonRequest.ProcessCheckChallengeResponse(Client, checkChallengeResponse);
+
+            GetInventoryResponse getInventoryResponse = response.Item4;
+            CommonRequest.ProcessGetInventoryResponse(Client, getInventoryResponse);
+
+            DownloadSettingsResponse downloadSettingsResponse = response.Item6;
+            CommonRequest.ProcessDownloadSettingsResponse(Client, downloadSettingsResponse);
+
+            return response.Item1;
         }
     }
 }

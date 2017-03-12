@@ -100,7 +100,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Google.Protobuf">
-      <HintPath>..\packages\Google.Protobuf.3.1.0\lib\net45\Google.Protobuf.dll</HintPath>
+      <HintPath>..\packages\Google.Protobuf.3.2.0\lib\net45\Google.Protobuf.dll</HintPath>
     </Reference>
     <Reference Include="GoogleMapsApi, Version=0.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\GoogleMapsApi.0.60.0\lib\net45\GoogleMapsApi.dll</HintPath>
@@ -213,11 +213,14 @@
     <Compile Include="ConfigWindow.Designer.cs">
       <DependentUpon>ConfigWindow.cs</DependentUpon>
     </Compile>
+    <Compile Include="Helper\DeviceInfoHelper.cs" />
+    <Compile Include="Helper\DeviceSetup.cs" />
     <Compile Include="Helper\DownloadHelper.cs" />
     <Compile Include="Helper\LocationHelper.cs" />
     <Compile Include="Helper\PokeImgManager.cs" />
     <Compile Include="Helper\SleepHelper.cs" />
     <Compile Include="Helper\TranslatorHelper.cs" />
+    <Compile Include="Helper\VersionHelper.cs" />
     <Compile Include="Location.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -13,6 +13,7 @@ using System.IO;
 using Google.Protobuf;
 using POGOProtos.Enums;
 using POGOProtos.Inventory.Item;
+using PokeMaster.Logic.Utils;
 using PokemonGo.RocketAPI;
 using PokemonGo.RocketAPI.Enums;
 
@@ -24,7 +25,7 @@ namespace PokeMaster.Logic.Shared
     public static class GlobalVars
     {
         // Bot Info  Globals (not yet implemented in any function)
-        public static Version BotApiSupportedVersion = Resources.BotApiSupportedVersion;
+        public static Version BotApiSupportedVersion = null;//Resources.BotApiSupportedVersion;
 
         // Other Globals
         public static string pFHashKey;

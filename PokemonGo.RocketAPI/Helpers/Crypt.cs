@@ -1,15 +1,17 @@
-﻿using System;
+﻿#region using directives
+
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
+
+#endregion
 
 namespace PokemonGo.RocketAPI.Helpers
 {
-    class Crypt
+    public class Crypt
     {
         private readonly EncryptDelegate _encryptNative;
 
@@ -20,12 +22,12 @@ namespace PokemonGo.RocketAPI.Helpers
             var encryptPath = Path.Combine(Directory.GetCurrentDirectory(), @"Resources\encrypt.dll");
             if (File.Exists(encryptPath))
             {
-                _encryptNative = (EncryptDelegate)LoadFunction<EncryptDelegate>(@"Resources\encrypt.dll", "encrypt");
+                _encryptNative = (EncryptDelegate) LoadFunction<EncryptDelegate>(@"Resources\encrypt.dll", "encrypt");
                 return;
             }
             encryptPath = Path.Combine(Directory.GetCurrentDirectory(), @"encrypt.dll");
             if (File.Exists(encryptPath))
-                _encryptNative = (EncryptDelegate)LoadFunction<EncryptDelegate>(@"encrypt.dll", "encrypt");
+                _encryptNative = (EncryptDelegate) LoadFunction<EncryptDelegate>(@"encrypt.dll", "encrypt");
         }
 
         public byte[] Encrypt(byte[] bytes)
@@ -67,11 +69,11 @@ namespace PokemonGo.RocketAPI.Helpers
 
         public byte[] EncryptNative(byte[] bytes)
         {
-            var outputLength = 32 + bytes.Length + (256 - bytes.Length % 256);
+            var outputLength = 32 + bytes.Length + (256 - bytes.Length%256);
             var ptr = Marshal.AllocHGlobal(outputLength);
             var ptrOutput = Marshal.AllocHGlobal(outputLength);
-            FillMemory(ptr, (uint)outputLength, 0);
-            FillMemory(ptrOutput, (uint)outputLength, 0);
+            FillMemory(ptr, (uint) outputLength, 0);
+            FillMemory(ptrOutput, (uint) outputLength, 0);
             Marshal.Copy(bytes, 0, ptr, bytes.Length);
 
             var iv = GetURandom(32);
@@ -115,14 +117,14 @@ namespace PokemonGo.RocketAPI.Helpers
                 throw new ArgumentException("ivSize must be 32 length");
             }
 
-            roundedSize = inputSize + (256 - inputSize % 256);
+            roundedSize = inputSize + (256 - inputSize%256);
             totalSize = roundedSize + 32;
 
             for (var j = 0; j < 8; j++)
             {
                 for (var i = 0; i < 32; i++)
                 {
-                    arr2[32 * j + i] = rotl8(iv[i], j); //rotate byte left
+                    arr2[32*j + i] = rotl8(iv[i], j); //rotate byte left
                 }
             }
 
@@ -134,7 +136,7 @@ namespace PokemonGo.RocketAPI.Helpers
             // memcpy(output + 32, input, input_size);
             Buffer.BlockCopy(input, 0, output, 32, inputSize);
 
-            output[totalSize - 1] = (byte)(256 - inputSize % 256);
+            output[totalSize - 1] = (byte) (256 - inputSize%256);
 
             for (var offset = 32; offset < totalSize; offset += 256)
             {
@@ -159,13 +161,13 @@ namespace PokemonGo.RocketAPI.Helpers
         //----- (0009E9D8) --------------------------------------------------------
         private static void sub_9E9D8(IList<byte> input, IList<byte> output)
         {
-            var temp = new uint[812 / 4];
-            var temp2 = new uint[256 / 4];
+            var temp = new uint[812/4];
+            var temp2 = new uint[256/4];
             // memcpy(temp2, input, 0x100);
 
             Buffer.BlockCopy(input.ToArray(), 0, temp2, 0, 256);
             sub_87568(temp, temp2);
-            // -> iniatilizes newly created 768bytes 'temp' buffer with formula&input's first 256bytes (temp2) as a 'key' : the first 752 bytes are overwritten
+                // -> iniatilizes newly created 768bytes 'temp' buffer with formula&input's first 256bytes (temp2) as a 'key' : the first 752 bytes are overwritten
             sub_8930C(temp); // -> 'temp' first 744 bytes are modified with a static formula (no key involved)
             sub_8B2F4(temp);
             sub_8D114(temp);
@@ -178,7 +180,7 @@ namespace PokemonGo.RocketAPI.Helpers
             sub_9A490(temp);
             sub_9C42C(temp);
             sub_9E1C4(temp, temp2);
-            // temp2 is entirely overwritten (256 first bytes) by this function (final computation of hash or encryption)
+                // temp2 is entirely overwritten (256 first bytes) by this function (final computation of hash or encryption)
 
             // memcpy(output, temp2, 0x100);
             var outputBuffer = new byte[256];
@@ -192,7 +194,7 @@ namespace PokemonGo.RocketAPI.Helpers
         //----- (rotl8) --------------------------------------------------------
         private static byte rotl8(byte x, int n)
         {
-            return (byte)(((x << n) | (x >> (8 - n))) & byte.MaxValue);
+            return (byte) (((x << n) | (x >> (8 - n))) & byte.MaxValue);
         }
 
         //----- (00087568) --------------------------------------------------------

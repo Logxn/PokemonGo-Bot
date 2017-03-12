@@ -14,6 +14,7 @@ using Newtonsoft.Json;
 using System.IO;
 using System.Globalization;
 using System.Net;
+using PokeMaster.Logic.Utils;
 using PokemonGo.RocketAPI;
 
 namespace PokeMaster.Helper

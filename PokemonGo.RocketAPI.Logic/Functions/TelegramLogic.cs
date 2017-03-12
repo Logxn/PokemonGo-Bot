@@ -7,7 +7,7 @@
  * To change this template use Tools | Options | Coding | Edit Standard Headers.
  */
 using System;
-using PokemonGo.RocketAPI;
+using PokeMaster.Logic.Utils;
 using Telegram.Bot;
 
 namespace PokeMaster.Logic.Functions

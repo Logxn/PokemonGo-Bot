@@ -3,6 +3,7 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using PokeMaster.Logic.Utils;
 using PokemonGo.RocketAPI;
 using PokemonGo.RocketAPI.Enums;
 using PokemonGo.RocketAPI.Exceptions;
@@ -18,12 +19,12 @@ using PokeMaster.Logic.Shared;
 
 namespace PokeMaster.Logic
 {
-    public class ApiFailureStrat : IApiFailureStrategy
+    public class ApiFailureStrat 
     {
         private readonly Client _session;
         private int _retryCount;
         public static Player _player;
-        public static ISettings _settings;
+        public static PokeMaster.Logic.Shared.ISettings _settings;
         
 
         public ApiFailureStrat(Client session)
@@ -47,7 +48,7 @@ namespace PokeMaster.Logic
                     captchaResponseHandler.SetCaptchaToken(token);
                              
                     // We will send a request, passing the long-ass-token and wait for a response.
-                    VerifyChallengeResponse r = _player.VerifyChallenge(token);
+                    VerifyChallengeResponse r = _player.VerifyChallenge(token).Result;
                     if (r.Success) {
                         Logger.ColoredConsoleWrite(ConsoleColor.Green, "TOKEN OK!");
                     } else {

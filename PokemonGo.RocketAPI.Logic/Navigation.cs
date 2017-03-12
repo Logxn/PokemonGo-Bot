@@ -16,7 +16,7 @@ namespace PokeMaster.Logic
 {
     public class Navigation
     {
-        public Navigation(Client client, ISettings settings)
+        public Navigation(Client client, PokeMaster.Logic.Shared.ISettings settings)
         {
             _client = client;
             _botSettings = settings;
@@ -27,14 +27,11 @@ namespace PokeMaster.Logic
 
         private const double SpeedDownTo = 10 / 3.6;
         private readonly Client _client;
-        public readonly ISettings _botSettings;
+        public readonly PokeMaster.Logic.Shared.ISettings _botSettings;
 
         public void SetCoordinates(double lat, double lng, double altitude)
         {
-            _client.CurrentLatitude = lat;
-            _client.CurrentLongitude = lng;
-            _client.CurrentAltitude = altitude;
-            SaveLatLngAlt(lat, lng, altitude);
+            _client.Player.SetCoordinates(lat,lng,altitude);
         }
 
         public void SaveLatLngAlt(double lat, double lng, double alt)

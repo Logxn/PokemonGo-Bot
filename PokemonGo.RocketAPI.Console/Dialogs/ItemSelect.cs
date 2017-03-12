@@ -41,8 +41,8 @@ namespace PokeMaster.Dialogs
         public void Execute()
         {
             var client = Logic.Logic.objClient;
-            if (client.ReadyToUse != false) {
-                var items = client.Inventory.GetItems();
+            if (Logic.Logic.ClientReadyToUse != false) {
+                var items = client.Inventory.GetItemsData();
 
                 ListViewItem listViewItem;
                 ItemsListView.Items.Clear();

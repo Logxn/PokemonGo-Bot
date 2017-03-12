@@ -152,9 +152,7 @@ namespace PokeMaster.Logic.Utils
         }
         public static void updatePlayerLocation(Client client, double latitude, double longitude, double altitude, bool updateFile = true)
         {
-            client.CurrentLatitude = latitude;
-            client.CurrentLongitude = longitude;
-            client.CurrentAltitude = altitude;
+            client.Player.SetCoordinates(latitude, longitude, altitude);
             if (updateFile){
                 string latlngalt = latitude.ToString(CultureInfo.InvariantCulture) + ":" + longitude.ToString(CultureInfo.InvariantCulture) + ":" + altitude.ToString(CultureInfo.InvariantCulture);
                 File.WriteAllText(Directory.GetCurrentDirectory() + "\\Configs\\LastCoords.txt", latlngalt);

@@ -11,6 +11,7 @@ using System.Windows.Forms;
 using System.Collections.ObjectModel;
 using Newtonsoft.Json;
 using POGOProtos.Enums;
+using PokeMaster.Logic.Utils;
 using PokemonGo.RocketAPI;
 using PokemonGo.RocketAPI.Helpers;
 using PokemonGo.RocketAPI.Enums;

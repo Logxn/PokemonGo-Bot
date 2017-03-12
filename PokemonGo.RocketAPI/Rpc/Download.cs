@@ -1,13 +1,17 @@
-﻿using System;
+﻿#region using directives
+
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using PokemonGo.RocketAPI.Helpers;
 using POGOProtos.Enums;
 using POGOProtos.Networking.Requests;
 using POGOProtos.Networking.Requests.Messages;
 using POGOProtos.Networking.Responses;
+using System;
+using PokemonGo.RocketAPI.Helpers;
+using Google.Protobuf;
+using Google.Protobuf.Collections;
+
+#endregion
 
 namespace PokemonGo.RocketAPI.Rpc
 {
@@ -16,52 +20,115 @@ namespace PokemonGo.RocketAPI.Rpc
         public Download(Client client) : base(client)
         {
         }
-        public DownloadSettingsResponse GetSettings()
+
+        public RepeatedField<DownloadItemTemplatesResponse.Types.ItemTemplate> ItemTemplates { get; set; }
+
+        public async Task<DownloadItemTemplatesResponse> GetItemTemplates()
         {
-            var message = new DownloadSettingsMessage
+            IMessage downloadItemTemplatesMessage = new DownloadItemTemplatesMessage();
+            var downloadItemTemplatesRequest = new Request
             {
-                Hash = "b8fa9757195897aae92c53dbcf8a60fb3d86d745"
+                RequestType = RequestType.DownloadItemTemplates,
+                RequestMessage = downloadItemTemplatesMessage.ToByteString()
             };
-            
-            return  PostProtoPayload<Request, DownloadSettingsResponse>(RequestType.DownloadSettings, message);
+
+            var requestEnvelope = await GetRequestBuilder().GetRequestEnvelope(CommonRequest.FillRequest(downloadItemTemplatesRequest, Client));
+
+            Tuple<DownloadItemTemplatesResponse, CheckChallengeResponse, GetHatchedEggsResponse, GetInventoryResponse, CheckAwardedBadgesResponse, DownloadSettingsResponse> response =
+                await
+                    PostProtoPayload
+                        <Request, DownloadItemTemplatesResponse, CheckChallengeResponse, GetHatchedEggsResponse, GetInventoryResponse,
+                            CheckAwardedBadgesResponse, DownloadSettingsResponse>(requestEnvelope);
+
+            DownloadItemTemplatesResponse downloadItemTemplatesResponse = response.Item1;
+            ItemTemplates = downloadItemTemplatesResponse.ItemTemplates;
+            PokemonMeta.Update(downloadItemTemplatesResponse);
+
+            CheckChallengeResponse checkChallengeResponse = response.Item2;
+            CommonRequest.ProcessCheckChallengeResponse(Client, checkChallengeResponse);
+
+            GetInventoryResponse getInventoryResponse = response.Item4;
+            CommonRequest.ProcessGetInventoryResponse(Client, getInventoryResponse);
+
+            DownloadSettingsResponse downloadSettingsResponse = response.Item6;
+            CommonRequest.ProcessDownloadSettingsResponse(Client, downloadSettingsResponse);
+
+            return response.Item1;
         }
 
-        public DownloadItemTemplatesResponse GetItemTemplates()
+        public async Task<DownloadRemoteConfigVersionResponse> GetRemoteConfigVersion()
         {
-            return  PostProtoPayload<Request, DownloadItemTemplatesResponse>(RequestType.DownloadItemTemplates, new DownloadItemTemplatesMessage());
+            var requestEnvelope = await GetRequestBuilder().GetRequestEnvelope(CommonRequest.FillRequest(CommonRequest.GetDownloadRemoteConfigVersionMessageRequest(Client), Client, RequestType.GetBuddyWalked));
+
+            Tuple<DownloadRemoteConfigVersionResponse, CheckChallengeResponse, GetHatchedEggsResponse, GetInventoryResponse, CheckAwardedBadgesResponse, DownloadSettingsResponse> response =
+                await
+                    PostProtoPayload
+                        <Request, DownloadRemoteConfigVersionResponse, CheckChallengeResponse, GetHatchedEggsResponse, GetInventoryResponse,
+                            CheckAwardedBadgesResponse, DownloadSettingsResponse>(requestEnvelope);
+
+            CheckChallengeResponse checkChallengeResponse = response.Item2;
+            CommonRequest.ProcessCheckChallengeResponse(Client, checkChallengeResponse);
+
+            GetInventoryResponse getInventoryResponse = response.Item4;
+            CommonRequest.ProcessGetInventoryResponse(Client, getInventoryResponse);
+
+            DownloadSettingsResponse downloadSettingsResponse = response.Item6;
+            CommonRequest.ProcessDownloadSettingsResponse(Client, downloadSettingsResponse);
+
+            return response.Item1;
         }
 
-        public DownloadRemoteConfigVersionResponse GetRemoteConfigVersion(uint appVersion, string deviceManufacturer, string deviceModel, string locale, Platform platform)
+        public async Task<GetAssetDigestResponse> GetAssetDigest()
         {
-            return  PostProtoPayload<Request, DownloadRemoteConfigVersionResponse>(RequestType.DownloadRemoteConfigVersion, new DownloadRemoteConfigVersionMessage()
+            var requestEnvelope = await GetRequestBuilder().GetRequestEnvelope(CommonRequest.FillRequest(CommonRequest.GetGetAssetDigestMessageRequest(Client), Client, RequestType.GetBuddyWalked));
+
+            Tuple<GetAssetDigestResponse, CheckChallengeResponse, GetHatchedEggsResponse, GetInventoryResponse, CheckAwardedBadgesResponse, DownloadSettingsResponse> response =
+                await
+                    PostProtoPayload
+                        <Request, GetAssetDigestResponse, CheckChallengeResponse, GetHatchedEggsResponse, GetInventoryResponse,
+                            CheckAwardedBadgesResponse, DownloadSettingsResponse>(requestEnvelope);
+
+            CheckChallengeResponse checkChallengeResponse = response.Item2;
+            CommonRequest.ProcessCheckChallengeResponse(Client, checkChallengeResponse);
+
+            GetInventoryResponse getInventoryResponse = response.Item4;
+            CommonRequest.ProcessGetInventoryResponse(Client, getInventoryResponse);
+
+            DownloadSettingsResponse downloadSettingsResponse = response.Item6;
+            CommonRequest.ProcessDownloadSettingsResponse(Client, downloadSettingsResponse);
+
+            return response.Item1;
+        }
+
+        public async Task<GetDownloadUrlsResponse> GetDownloadUrls(IEnumerable<string> assetIds)
+        {
+            var getDownloadUrlsRequest = new Request
             {
-                AppVersion = appVersion,
-                DeviceManufacturer = deviceManufacturer,
-                DeviceModel = deviceModel,
-                Locale = locale,
-                Platform = platform
-            });
-        }
+                RequestType = RequestType.GetDownloadUrls,
+                RequestMessage = new GetDownloadUrlsMessage
+                {
+                    AssetId = { assetIds }
+                }.ToByteString()
+            };
 
-        public GetAssetDigestResponse GetAssetDigest(uint appVersion, string deviceManufacturer, string deviceModel, string locale, Platform platform)
-        {
-            return  PostProtoPayload<Request, GetAssetDigestResponse>(RequestType.GetAssetDigest, new GetAssetDigestMessage()
-            {
-                AppVersion = appVersion,
-                DeviceManufacturer = deviceManufacturer,
-                DeviceModel = deviceModel,
-                Locale = locale,
-                Platform = platform
-            });
-        }
+            var request = await GetRequestBuilder().GetRequestEnvelope(CommonRequest.FillRequest(getDownloadUrlsRequest, Client));
 
-        public GetDownloadUrlsResponse GetDownloadUrls(IEnumerable<string> assetIds)
-        {
-            return  PostProtoPayload<Request, GetDownloadUrlsResponse>(RequestType.GetDownloadUrls, new GetDownloadUrlsMessage()
-            {
-                AssetId = { assetIds }
-            });
-        }
+            Tuple<GetDownloadUrlsResponse, CheckChallengeResponse, GetHatchedEggsResponse, GetInventoryResponse, CheckAwardedBadgesResponse, DownloadSettingsResponse, GetBuddyWalkedResponse> response =
+                await
+                    PostProtoPayload
+                        <Request, GetDownloadUrlsResponse, CheckChallengeResponse, GetHatchedEggsResponse, GetInventoryResponse,
+                            CheckAwardedBadgesResponse, DownloadSettingsResponse, GetBuddyWalkedResponse>(request);
 
+            CheckChallengeResponse checkChallengeResponse = response.Item2;
+            CommonRequest.ProcessCheckChallengeResponse(Client, checkChallengeResponse);
+
+            GetInventoryResponse getInventoryResponse = response.Item4;
+            CommonRequest.ProcessGetInventoryResponse(Client, getInventoryResponse);
+
+            DownloadSettingsResponse downloadSettingsResponse = response.Item6;
+            CommonRequest.ProcessDownloadSettingsResponse(Client, downloadSettingsResponse);
+
+            return response.Item1;
+        }
     }
 }

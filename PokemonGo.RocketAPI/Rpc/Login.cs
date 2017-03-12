@@ -2,14 +2,15 @@
 
 using System;
 using System.Threading.Tasks;
-using Google.Protobuf;
 using PokemonGo.RocketAPI.Enums;
 using PokemonGo.RocketAPI.Exceptions;
 using PokemonGo.RocketAPI.Helpers;
-using PokemonGo.RocketAPI.Login;
-using POGOProtos.Networking.Envelopes;
-using POGOProtos.Networking.Requests;
 using POGOProtos.Networking.Responses;
+using System.IO;
+using Newtonsoft.Json;
+using System.Threading;
+using PokemonGo.RocketAPI.LoginProviders;
+using PokemonGo.RocketAPI.Authentication.Data;
 
 #endregion
 
@@ -19,127 +20,163 @@ namespace PokemonGo.RocketAPI.Rpc
 
     public class Login : BaseRpc
     {
-        //public event GoogleDeviceCodeDelegate GoogleDeviceCodeEvent;
-        private readonly ILoginType _login;
-
+        private static Semaphore ReauthenticateMutex { get; } = new Semaphore(1, 1);
         public Login(Client client) : base(client)
         {
-            _login = SetLoginType(client.AuthType, client.Username,client.Password);
+            Client.LoginProvider = SetLoginType(client.Settings);
             Client.ApiUrl = Resources.RpcUrl;
         }
 
-        private static ILoginType SetLoginType(AuthType type, string username, string password)
+        private static ILoginProvider SetLoginType(ISettings settings)
         {
-            switch (type)
+            switch (settings.AuthType)
             {
                 case AuthType.Google:
-                    return new GoogleLogin(username, password);
+                    return new GoogleLoginProvider(settings.Username, settings.Password);
                 case AuthType.Ptc:
-                    return new PtcLogin(username, password);
+                    return new PtcLoginProvider(settings.Username, settings.Password);
                 default:
-                    throw new ArgumentOutOfRangeException(nameof(type), "Unknown AuthType");
+                    throw new ArgumentOutOfRangeException(nameof(settings.AuthType), "Unknown AuthType");
             }
         }
-
-        public async Task DoLogin()
+        
+        private static bool IsValidAccessToken(AccessToken accessToken)
         {
-            Client.AuthToken = await _login.GetAccessToken().ConfigureAwait(false);
-            
-            if ( Client.AuthToken == null){
-                throw new LoginFailedException("Connection with Server failed. Please, check if niantic servers are up");
-            }
+            if (accessToken == null || string.IsNullOrEmpty(accessToken.Token) || accessToken.IsExpired)
+                return false;
+
+            return true;
+        }
+        
+        public static async Task<AccessToken> GetValidAccessToken(Client client, bool forceRefresh = false, bool isCached = false)
+        {
+            try
+            {
+                ReauthenticateMutex.WaitOne();
+
+                if (forceRefresh)
+                {
+                    client.AccessToken.Expire();
+                    if (isCached)
+                        DeleteSavedAccessToken(client);
+                }
+
+                if (IsValidAccessToken(client.AccessToken))
+                    return client.AccessToken;
                 
-            
-            Client.StartTime = Utils.GetTime(true);
-            
-            await
-                FireRequestBlock(CommonRequest.GetDownloadRemoteConfigVersionMessageRequest(Client))
-                    .ConfigureAwait(false);
+                // If we got here then access token is expired or not loaded into memory.
+                if (isCached)
+                {
+                    var loginProvider = client.LoginProvider;
+                    var cacheDir = Path.Combine(Directory.GetCurrentDirectory(), "Cache");
+                    var fileName = Path.Combine(cacheDir, $"{loginProvider.UserId}-{loginProvider.ProviderId}.json");
 
-            await FireRequestBlockTwo().ConfigureAwait(false);
-            // This is new code for 0.53 below
-            // In Each login we reset GMOFirstTime flag.
-            //RequestBuilder.GMOFirstTime = true;
-        }
+                    if (!Directory.Exists(cacheDir))
+                        Directory.CreateDirectory(cacheDir);
 
-        public async Task FireRequestBlock(Request request)
-        {
-            var requests = CommonRequest.FillRequest(request, Client);
+                    if (File.Exists(fileName))
+                    {
+                        var accessToken = JsonConvert.DeserializeObject<AccessToken>(File.ReadAllText(fileName));
 
-            RequestBuilder ll = new RequestBuilder(Client, Client.AuthToken, Client.AuthType, Client.CurrentLatitude, Client.CurrentLongitude, Client.CurrentAltitude);
+                        if (!accessToken.IsExpired)
+                        {
+                            client.AccessToken = accessToken;
+                            return accessToken;
+                        }
+                    }
+                }
 
-            //var player = Client.Player.GetPlayer();
-
-            var serverRequest = GetRequestBuilder().GetRequestEnvelope(requests, true);
-            var serverResponse = await PostProto<Request>(serverRequest).ConfigureAwait(false);
-
-            if (!string.IsNullOrEmpty(serverResponse.ApiUrl))
-                Client.ApiUrl = "https://" + serverResponse.ApiUrl + "/rpc";
-
-            if (serverResponse.AuthTicket != null)
-                Client.AuthTicket = serverResponse.AuthTicket;
-
-            switch (serverResponse.StatusCode)
-            {
-                case ResponseEnvelope.Types.StatusCode.InvalidAuthToken:
-                    Client.AuthToken = null;
-                    throw new AccessTokenExpiredException();
-                case ResponseEnvelope.Types.StatusCode.Redirect:
-                    // 53 means that the api_endpoint was not correctly set, should be at this point, though, so redo the request
-                    await FireRequestBlock(request).ConfigureAwait(false);
-                    return;
-                case ResponseEnvelope.Types.StatusCode.BadRequest:
-                    // Your account may be banned! please try from the official client.
-                    throw new LoginFailedException("Your account may be banned! please try from the official client.");
-                case ResponseEnvelope.Types.StatusCode.Unknown:
-                    break;
-                case ResponseEnvelope.Types.StatusCode.Ok:
-                    break;
-                case ResponseEnvelope.Types.StatusCode.OkRpcUrlInResponse:
-                    
-                    break;
-                case ResponseEnvelope.Types.StatusCode.InvalidRequest:
-                    break;
-                case ResponseEnvelope.Types.StatusCode.InvalidPlatformRequest:
-                    break;
-                case ResponseEnvelope.Types.StatusCode.SessionInvalidated:
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
+                await Reauthenticate(client, isCached);
+                return client.AccessToken;
             }
-
-            var responses = serverResponse.Returns;
-            if (responses != null)
+            finally
             {
-                var checkChallengeResponse = new CheckChallengeResponse();
-                if (2 <= responses.Count)
-                {
-                    checkChallengeResponse.MergeFrom(responses[1]);
-
-                    CommonRequest.ProcessCheckChallengeResponse(Client, checkChallengeResponse);
-                }
-
-                var getInventoryResponse = new GetInventoryResponse();
-                if (4 <= responses.Count)
-                {
-                    getInventoryResponse.MergeFrom(responses[3]);
-
-                    CommonRequest.ProcessGetInventoryResponse(Client, getInventoryResponse);
-                }
-
-                var downloadSettingsResponse = new DownloadSettingsResponse();
-                if (6 <= responses.Count)
-                {
-                    downloadSettingsResponse.MergeFrom(responses[5]);
-
-                    CommonRequest.ProcessDownloadSettingsResponse(Client, downloadSettingsResponse);
-                }
+                ReauthenticateMutex.Release();
             }
         }
 
-        public async Task FireRequestBlockTwo()
+        private static void SaveAccessToken(AccessToken accessToken)
         {
-            await FireRequestBlock(CommonRequest.GetGetAssetDigestMessageRequest(Client)).ConfigureAwait(false);
+            if (!IsValidAccessToken(accessToken))
+                return;
+
+            var fileName = Path.Combine(Directory.GetCurrentDirectory(), "Cache", $"{accessToken.Uid}.json");
+
+            File.WriteAllText(fileName, JsonConvert.SerializeObject(accessToken, Formatting.Indented));
+        }
+
+        private static void DeleteSavedAccessToken(Client client)
+        {
+            var cacheDir = Path.Combine(Directory.GetCurrentDirectory(), "Cache");
+            var fileName = Path.Combine(cacheDir, $"{client.AccessToken?.Uid}-{client.LoginProvider.ProviderId}.json");
+            if (File.Exists(fileName))
+                File.Delete(fileName);
+        }
+
+        private static async Task Reauthenticate(Client client, bool isCached)
+        {
+            var tries = 0;
+            while (!IsValidAccessToken(client.AccessToken))
+            {
+                // If expired, then we always delete the saved access token if it exists.
+                if (isCached)
+                    DeleteSavedAccessToken(client);
+
+                try
+                {
+                    client.AccessToken = await client.LoginProvider.GetAccessToken();
+                }
+                catch (Exception ex)
+                {
+                    APIConfiguration.Logger.LogError(ex.Message);
+
+                    if (ex.Message.Contains("15 minutes")) throw new PtcLoginException(ex.Message);
+
+                    if (ex.Message.Contains("You have to log into an browser")) throw new GoogleTwoFactorException(ex.Message);
+                    //Logger.Error($"Reauthenticate exception was catched: {exception}");
+                }
+                finally
+                {
+                    if (!IsValidAccessToken(client.AccessToken))
+                    {
+                        var sleepSeconds = Math.Min(60, ++tries * 5);
+                        //Logger.Error($"Reauthentication failed, trying again in {sleepSeconds} seconds.");
+                        await Task.Delay(TimeSpan.FromMilliseconds(sleepSeconds * 1000));
+                    }
+                    else
+                    {
+                        // We have successfully refreshed the token so save it.
+                        if (isCached)
+                            SaveAccessToken(client.AccessToken);
+                    }
+
+                    if (tries == 5)
+                    {
+                        throw new TokenRefreshException("Error refreshing access token.");
+                    }
+                }
+            }
+        }
+
+        public async Task<GetPlayerResponse> DoLogin()
+        {
+            Client.Reset();
+
+            // Don't wait for background start of killswitch.
+            // jjskuld - Ignore CS4014 warning for now.
+#pragma warning disable 4014
+            Client.KillswitchTask.Start();
+#pragma warning restore 4014
+            
+            var player = await Client.Player.GetPlayer(false); // Set false because initial GetPlayer does not use common requests.
+
+            await Client.Download.GetRemoteConfigVersion();
+            await Client.Download.GetAssetDigest();
+            await Client.Download.GetItemTemplates();
+
+            await Client.Player.GetPlayerProfile();
+
+            return player;
         }
     }
 }

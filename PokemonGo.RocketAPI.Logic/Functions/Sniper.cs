@@ -26,12 +26,12 @@ namespace PokeMaster.Logic.Functions
     public class Sniper
     {
         public Client _client;
-        public ISettings _botSettings;
+        public PokeMaster.Logic.Shared.ISettings _botSettings;
         private const string LogPrefix = "(SNIPING)";
         private ConsoleColor LogColor = ConsoleColor.Cyan;
         
 
-        public Sniper(Client client, ISettings ClientSettings)
+        public Sniper(Client client, PokeMaster.Logic.Shared.ISettings ClientSettings)
         {
             _client = client;
             _botSettings = ClientSettings;
@@ -83,7 +83,7 @@ namespace PokeMaster.Logic.Functions
                 SendToLog(LocationUtils.FindAddress(_client.CurrentLatitude, _client.CurrentLongitude));
 
                 if ((catchedID > 0) && GlobalVars.SnipeOpts.TransferIt && pokeid != PokemonId.Missingno) {
-                    var trResult = Logic.objClient.Inventory.TransferPokemon(catchedID);
+                    var trResult = Logic.objClient.Inventory.TransferPokemon(catchedID).Result;
                     if (trResult.Result == ReleasePokemonResponse.Types.Result.Success) {
                         SendToLog("Pokemon was transfered.");
                         SendToLog("Candies awarded: " + trResult.CandyAwarded);
@@ -115,23 +115,23 @@ namespace PokeMaster.Logic.Functions
             
             do {
 
-                var mapObjectsResponse = _client.Map.GetMapObjects(true).Result.Item1;
+                var mapObjectsResponse = _client.Map.GetMapObjects(true).Result;
                 var pokeGyms = mapObjectsResponse.MapCells.SelectMany(i => i.Forts)
                     .Where(i => i.Type == POGOProtos.Map.Fort.FortType.Gym);
                 Logger.Debug("pokeCoords:" + pokeCoords);
                 foreach (var element in pokeGyms) {
                     if (Math.Abs(element.Latitude - pokeCoords.Latitude) < Epsilon && Math.Abs(element.Longitude - pokeCoords.Longitude) < Epsilon) {
                         SendToLog("Found Gym to Snipe");
-                        var profile = _client.Player.GetPlayer();
+                        var profile = _client.Player.GetPlayer(false).Result;
                         var buddyid = 0UL;
                         if (profile.PlayerData.BuddyPokemon != null)
                             buddyid = profile.PlayerData.BuddyPokemon.Id;
-                        var gymDet = _client.Fort.GetGymDetails(element.Id, element.Latitude, element.Longitude);
+                        var gymDet = _client.Fort.GetGymDetails(element.Id, element.Latitude, element.Longitude).Result;
                         if (gymDet.Result == GetGymDetailsResponse.Types.Result.Success) {
                             found = true;
                             var pokeToDeploy = GymsLogic.getPokeToPut(_client, buddyid);
                             if (pokeToDeploy != null) {
-                                var res = _client.Fort.FortDeployPokemon(element.Id, pokeToDeploy.Id);
+                                var res = _client.Fort.FortDeployPokemon(element.Id, pokeToDeploy.Id).Result;
                                 if (res.Result == FortDeployPokemonResponse.Types.Result.Success) {
                                     caught = pokeToDeploy.Id;
                                     SendToLog(GymsLogic.strPokemon(pokeToDeploy) + " Deployed!");
@@ -184,7 +184,7 @@ namespace PokeMaster.Logic.Functions
 
             do {
                 SendToLog($"Try {tries} of {GlobalVars.SnipeOpts.NumTries}");
-                var mapObjectsResponse = _client.Map.GetMapObjects(true).Result.Item1;
+                var mapObjectsResponse = _client.Map.GetMapObjects(true).Result;
                 var pokemons = mapObjectsResponse.MapCells.SelectMany(i => i.CatchablePokemons);
                 if (pokemons.Any()) {
                     SendToLog($"Found {pokemons.Count()} catchable Pokemon(s)");

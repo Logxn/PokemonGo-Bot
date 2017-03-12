@@ -1,343 +1,342 @@
+﻿#region using directives
+
+using System;
+using System.Collections.Generic;
 using Google.Protobuf;
-using POGOProtos.Enums;
+using PokemonGo.RocketAPI.Enums;
 using POGOProtos.Networking.Envelopes;
 using POGOProtos.Networking.Platform;
 using POGOProtos.Networking.Platform.Requests;
 using POGOProtos.Networking.Requests;
-using PokemonGo.RocketAPI.Enums;
-using PokemonGo.RocketAPI.Hash;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using POGOProtos.Enums;
 using Troschuetz.Random;
+using static POGOProtos.Networking.Envelopes.Signature.Types;
+using System.Threading.Tasks;
+using PokemonGo.RocketAPI.Hash;
+using Newtonsoft.Json;
+using System.Device.Location;
+
+#endregion
 
 namespace PokemonGo.RocketAPI.Helpers
 {
     public class RequestBuilder
     {
-        private readonly string _authToken;
-        private readonly AuthType _authType;
-        private readonly double _latitude;
-        private readonly double _longitude;
-        private readonly double _altitude;
-        private readonly AuthTicket _authTicket;
+        private Random RandomDevice;
+        private TRandom TRandomDevice;
+        private LehmerRng _lehmerRng;
         private readonly Client _client;
-        private readonly float _speed;
+        private readonly ISettings _settings;
         private ByteString _sessionHash;
-        public Signature.Types.DeviceInfo _DeviceInfo;
-        private static readonly TRandom TRandomDevice = new TRandom();
-        private int _token2 = TRandomDevice.Next(1, 59);
-        public byte[] sessionhash_array = null;
-        public bool setupdevicedone = false;
+        private int _requestCount;
+        private float _course;
 
-        private RandomRequestID _requestBuilderID = new RandomRequestID();
-        
-        public RequestBuilder(Client client, string authToken, AuthType authType, double latitude, double longitude, double altitude, AuthTicket authTicket = null)
+        public RequestBuilder(Client client, ISettings settings)
         {
-            if (!setupdevicedone) {
-                _DeviceInfo = DeviceSetup.SelectedDevice.DeviceInfo;
-                setupdevicedone = true;
-            }
-
+            RandomDevice = new Random();
+            TRandomDevice = new TRandom();
             _client = client;
-            _authToken = authToken;
-            _authType = authType;
-            _latitude = latitude;
-            _longitude = longitude;
-            _altitude = altitude;
-            _authTicket = authTicket;
+            _settings = settings;
+            _lehmerRng = new LehmerRng();
 
-            // Add small variance to speed.
-            _speed = _speed + ((float)Math.Round(GenRandom(-1, 1), 7));
-
-            if (_sessionHash == null) {
-                _sessionHash = GenerateNewHash();
-            }
+            if (_sessionHash == null)
+                GenerateNewHash();
+            
+            _requestCount = 1;
+            _course = (float)GenRandom(0, 359.9);
         }
         
-        public static ByteString GenerateNewHash()
+        public void GenerateNewHash()
         {
             var hashBytes = new byte[16];
+            RandomDevice.NextBytes(hashBytes);
 
-            TRandomDevice.NextBytes(hashBytes);
-
-            return ByteString.CopyFrom(hashBytes);
+            _sessionHash = ByteString.CopyFrom(hashBytes);
+        }
+        
+        public int GetNextRequestId()
+        {
+            _requestCount += 1;
+            var r = _lehmerRng.Next();
+            var nextRequestId = (r << 32) | _requestCount;
+            return nextRequestId;
         }
 
-
-
-        //private RequestEnvelope.Types.PlatformRequest GenerateSignature(IEnumerable<IMessage> requests)
-        /// <summary>
-        /// EB Check IMessage
-        /// </summary>
-        /// <param name="requestEnvelope"></param>
-        /// <returns></returns>
-        /// Also pogolib does
-        /// internal async Task<PlatformRequest> GenerateSignatureAsync(RequestEnvelope requestEnvelope)
-        private RequestEnvelope.Types.PlatformRequest GenerateSignature(RequestEnvelope requestEnvelope)
+        private float GetCourse()
         {
-            var timestampSinceStart = (long)(Utils.GetTime(true) - _client.StartTime);
-            var locationFixes = BuildLocationFixes(requestEnvelope, timestampSinceStart);
+            _course = (float)TRandomDevice.Triangular(0, 359.9, _course);
+            return _course;
+        }
 
-            requestEnvelope.Accuracy = locationFixes[0].Altitude;
-            requestEnvelope.MsSinceLastLocationfix = (long)locationFixes[0].TimestampSnapshot;
-            var  at = new Signature.Types.ActivityStatus(){
-                Stationary = true
+        private RequestEnvelope.Types.PlatformRequest GenerateSignature(RequestEnvelope requestEnvelope, GeoCoordinate currentLocation)
+        {
+            byte[] ticketBytes = requestEnvelope.AuthTicket != null ? requestEnvelope.AuthTicket.ToByteArray() : requestEnvelope.AuthInfo.ToByteArray();
+
+            // Common device info
+            Signature.Types.DeviceInfo deviceInfo = new Signature.Types.DeviceInfo
+            {
+                DeviceId = _settings.DeviceId,
+                DeviceBrand = _settings.DeviceBrand,
+                DeviceModel = _settings.DeviceModel,
+                DeviceModelBoot = _settings.DeviceModelBoot,
+                HardwareManufacturer = _settings.HardwareManufacturer,
+                HardwareModel = _settings.HardwareModel,
+                FirmwareBrand = _settings.FirmwareBrand,
+                FirmwareType = _settings.FirmwareType
             };
 
+            // Android
+            if (_client.Platform == Platform.Android)
+            {
+                deviceInfo.AndroidBoardName = _settings.AndroidBoardName;
+                deviceInfo.AndroidBootloader = _settings.AndroidBootloader;
+                deviceInfo.DeviceModelIdentifier = _settings.DeviceModelIdentifier;
+                deviceInfo.FirmwareTags = _settings.FirmwareTags;
+                deviceInfo.FirmwareFingerprint = _settings.FirmwareFingerprint;
+            }
+
+            var sig = new Signature
+            {
+                SessionHash = _sessionHash,
+                Unknown25 = _client.Unknown25,
+                Timestamp = (ulong)Utils.GetTime(true),
+                TimestampSinceStart = (ulong)(Utils.GetTime(true) - _client.StartTime),
+                DeviceInfo = deviceInfo
+            };
+
+            sig.SensorInfo.Add(new SensorInfo()
+            {
+                TimestampSnapshot = (ulong)(Utils.GetTime(true) - _client.StartTime - RandomDevice.Next(100, 500)),
+                LinearAccelerationX = TRandomDevice.Triangular(-3, 1, 0),
+                LinearAccelerationY = TRandomDevice.Triangular(-2, 3, 0),
+                LinearAccelerationZ = TRandomDevice.Triangular(-4, 2, 0),
+                MagneticFieldX = TRandomDevice.Triangular(-50, 50, 0),
+                MagneticFieldY = TRandomDevice.Triangular(-60, 50, -5),
+                MagneticFieldZ = TRandomDevice.Triangular(-60, 40, -30),
+                MagneticFieldAccuracy = TRandomDevice.Choice(new List<int>(new int[] { -1, 1, 1, 2, 2, 2, 2 })),
+                AttitudePitch = TRandomDevice.Triangular(-1.5, 1.5, 0.2),
+                AttitudeYaw = GenRandom(-3, 3),
+                AttitudeRoll = TRandomDevice.Triangular(-2.8, 2.5, 0.25),
+                RotationRateX = TRandomDevice.Triangular(-6, 4, 0),
+                RotationRateY = TRandomDevice.Triangular(-5.5, 5, 0),
+                RotationRateZ = TRandomDevice.Triangular(-5, 3, 0),
+                GravityX = TRandomDevice.Triangular(-1, 1, 0.15),
+                GravityY = TRandomDevice.Triangular(-1, 1, -.2),
+                GravityZ = TRandomDevice.Triangular(-1, .7, -0.8),
+                Status = 3
+            });
+
+            Signature.Types.LocationFix locationFix = new Signature.Types.LocationFix
+            {
+                Provider = TRandomDevice.Choice(new List<string>(new string[] { "network", "network", "network", "network", "fused" })),
+                Latitude = (float)currentLocation.Latitude,
+                Longitude = (float)currentLocation.Longitude,
+                Altitude = (float)currentLocation.Altitude,
+                TimestampSnapshot = (ulong)(Utils.GetTime(true) - _client.StartTime - RandomDevice.Next(100, 300)),
+                ProviderStatus = 3,
+                LocationType = 1
+            };
+
+            if (requestEnvelope.Accuracy >= 65)
+            {
+                locationFix.HorizontalAccuracy = TRandomDevice.Choice(new List<float>(new float[] { (float)requestEnvelope.Accuracy, 65, 65, (int)Math.Round(GenRandom(66, 80)), 200 }));
+                if (_client.Platform == Platform.Ios)
+                    locationFix.VerticalAccuracy = (float)TRandomDevice.Triangular(35, 100, 65);
+            }
+            else
+            {
+                locationFix.HorizontalAccuracy = (float)requestEnvelope.Accuracy;
+                if (_client.Platform == Platform.Ios)
+                {
+                    if (requestEnvelope.Accuracy > 10)
+                        locationFix.VerticalAccuracy = (float)TRandomDevice.Choice(new List<double>(new double[] { 24, 32, 48, 48, 64, 64, 96, 128 }));
+                    else
+                        locationFix.VerticalAccuracy = (float)TRandomDevice.Choice(new List<double>(new double[] { 3, 4, 6, 6, 8, 12, 24 }));
+                }
+            }
             
             if (_client.Platform == Platform.Ios)
-                at.Tilting = (TRandomDevice.Next(1,2)==1);
+            {
+                sig.ActivityStatus = new ActivityStatus();
+                sig.ActivityStatus.Stationary = true;
+                if (RandomDevice.NextDouble() > 0.50)
+                {
+                    sig.ActivityStatus.Tilting = true;
+                }
 
-            #region GenerateSignature
-            var signature = new Signature {
-                TimestampSinceStart = (ulong)timestampSinceStart,
-                Timestamp = (ulong)Utils.GetTime(true), // true means in Ms
+                if (RandomDevice.NextDouble() > 0.95)
+                {
+                    // No reading for roughly 1 in 20 updates
+                    locationFix.Course = -1;
+                    locationFix.Speed = -1;
+                }
+                else
+                {
+                    // Course is iOS only.
+                    locationFix.Course = GetCourse();
 
-                SensorInfo = {
-                    new Signature.Types.SensorInfo {
-                        // Values are not the same used in PogoLib
-                        TimestampSnapshot = (ulong)(timestampSinceStart + TRandomDevice.Next(100, 250)),
-                        LinearAccelerationX = GenRandom(0.12271042913198471),
-                        LinearAccelerationY = GenRandom(-0.015570580959320068),
-                        LinearAccelerationZ = GenRandom(0.010850906372070313),
-                        RotationRateX = GenRandom(-0.0120010357350111),
-                        RotationRateY = GenRandom(-0.04214850440621376),
-                        RotationRateZ = GenRandom(0.94571763277053833),
-                        AttitudePitch = GenRandom(-47.149471283, 61.8397789001),
-                        AttitudeYaw = GenRandom(-47.149471283, 61.8397789001),
-                        AttitudeRoll = GenRandom(-47.149471283, 5),                        
-                        GravityZ = GenRandom(9.8),
-                        GravityX = GenRandom(0.02),
-                        GravityY = GenRandom(0.3),
-                        MagneticFieldX = GenRandom(-10,10),
-                        MagneticFieldY = GenRandom(-10,10),
-                        MagneticFieldZ = GenRandom(-40,-20),
-                        MagneticFieldAccuracy = -1,
-                        Status = 3
-                    }
-                },
-                DeviceInfo = _DeviceInfo,// dInfo,
-                LocationFix = { locationFixes },
-                ActivityStatus = at
-            };
-            #endregion
+                    // Speed is iOS only.
+                    locationFix.Speed = (float)TRandomDevice.Triangular(0.2, 4.25, 1);
+                }
+            }
 
-            signature.SessionHash = _sessionHash;
+            sig.LocationFix.Add(locationFix);
             
-            //signature.Unknown25 = Resources.Api.AndroidUnknown25;
-            //if (_client.Platform == Platform.Ios)
-            signature.Unknown25 = Resources.Api.IOSUnknown25;
+            string envelopString = JsonConvert.SerializeObject(requestEnvelope);
 
-            var serializedTicket = requestEnvelope.AuthTicket != null ? requestEnvelope.AuthTicket.ToByteArray() : requestEnvelope.AuthInfo.ToByteArray();
-
-            var locationBytes = BitConverter.GetBytes(_latitude).Reverse()
-                .Concat(BitConverter.GetBytes(_longitude).Reverse())
-                .Concat(BitConverter.GetBytes(locationFixes[0].Altitude).Reverse()).ToArray();
-
-            var requestsBytes = requestEnvelope.Requests.Select(x => x.ToByteArray()).ToArray();
-
-            var hashRequest = new HashRequestContent() {
-                Timestamp = signature.Timestamp,
-                Latitude = requestEnvelope.Latitude,
-                Longitude = requestEnvelope.Longitude,
+            HashRequestContent hashRequest = new HashRequestContent()
+            {
+                Latitude = currentLocation.Latitude,
+                Longitude = currentLocation.Longitude,
                 Altitude = requestEnvelope.Accuracy,
-                AuthTicket = serializedTicket,
-                SessionData = signature.SessionHash.ToByteArray(),
-                Requests = new List<byte[]>(requestsBytes)                
+                AuthTicket = ticketBytes,
+                SessionData = _sessionHash.ToByteArray(),
+                Requests = new List<byte[]>(),
+                Timestamp = sig.Timestamp
             };
 
-            HashResponseContent responseContent;
 
-            responseContent = _client.Hasher.RequestHashes(hashRequest);
+            foreach (var request in requestEnvelope.Requests)
+            {
+                hashRequest.Requests.Add(request.ToByteArray());
+            }
 
-            signature.LocationHash1 = unchecked((int)responseContent.LocationAuthHash);
-            signature.LocationHash2 = unchecked((int)responseContent.LocationHash);
-            signature.RequestHash.AddRange(responseContent.RequestHashes.Select(x => (ulong)x).ToArray());
+            var res = _client.Hasher.RequestHashesAsync(hashRequest).Result;
 
-            var encryptedSignature = new RequestEnvelope.Types.PlatformRequest {
+            foreach (var item in res.RequestHashes)
+            {
+                sig.RequestHash.Add((unchecked((ulong) item)));
+            }
+            sig.LocationHash1 = unchecked((int)res.LocationAuthHash);
+            sig.LocationHash2 = unchecked((int)res.LocationHash);
+
+            var encryptedSignature = new RequestEnvelope.Types.PlatformRequest
+            {
                 Type = PlatformRequestType.SendEncryptedSignature,
-                RequestMessage = new SendEncryptedSignatureRequest {
-                    EncryptedSignature = ByteString.CopyFrom(PCryptPokeHash.Encrypt(signature.ToByteArray(), (uint)timestampSinceStart))
+                RequestMessage = new SendEncryptedSignatureRequest
+                {
+                    EncryptedSignature = ByteString.CopyFrom(_client.Cryptor.Encrypt(sig.ToByteArray(), (uint)_client.StartTime))
                 }.ToByteString()
             };
 
             return encryptedSignature;
         }
 
-        /// <summary>
-        /// Generates a few random <see cref="LocationFix"/>es to act like a real GPS sensor.
-        /// </summary>
-        /// <param name="requestEnvelope">The <see cref="RequestEnvelope"/> these <see cref="LocationFix"/>es are used for.</param>
-        /// <param name="timestampSinceStart">The milliseconds passed since starting the <see cref="Session"/> used by the current <see cref="RequestEnvelope"/>.</param>
-        /// <returns></returns>
-        private List<Signature.Types.LocationFix> BuildLocationFixes(RequestEnvelope requestEnvelope, long timestampSinceStart)
+        public async Task RegenerateRequestEnvelopeWithNewAccessToken(RequestEnvelope requestEnvelope)
         {
-            var locationFixes = new List<Signature.Types.LocationFix>();
+            var accessToken = await Rpc.Login.GetValidAccessToken(_client, true /* force refresh */);
 
-            if (requestEnvelope.Requests.Count == 0 || requestEnvelope.Requests[0] == null)
-                return locationFixes;
-
-            var providerCount = TRandomDevice.Next(4, 10);
-
-            for (var i = 0; i < providerCount; i++) {
-                var timestampSnapshot = timestampSinceStart + (150 * (i + 1) + TRandomDevice.Next(250 * (i + 1) - 150 * (i + 1)));
-                if (timestampSnapshot >= timestampSinceStart) {
-                    if (locationFixes.Count != 0)
-                        break;
-
-                    timestampSnapshot = timestampSinceStart - TRandomDevice.Next(20, 50);
-
-                    if (timestampSnapshot < 0)
-                        timestampSnapshot = 0;
-                }
-                var tmpCourse = -1F;
-                var mpSpeed = 0F;
-
-
-                if (_client.Platform == Platform.Ios){
-                    tmpCourse = (float)TRandomDevice.NextDouble(100,330);
-                    mpSpeed = (float)TRandomDevice.NextDouble(0.9,2.2);
-                }
-
-
-                locationFixes.Insert(0, new Signature.Types.LocationFix {
-                    TimestampSnapshot = (ulong)timestampSnapshot,
-                    Latitude = (float)_client.CurrentLatitude,
-                    Longitude = (float)_client.CurrentLongitude,
-                    HorizontalAccuracy = (float)TRandomDevice.NextDouble(5.0, 25.0),
-                    VerticalAccuracy = (float)TRandomDevice.NextDouble(5.0, 25.0),
-                    Altitude = (float)_client.CurrentAltitude,
-                    Provider = "fused",
-                    ProviderStatus = 3,
-                    LocationType = 1,
-                    Speed = mpSpeed,
-                    Course = tmpCourse,
-                    // Floor = 0
-                });
-            }
-            return locationFixes;
-        }
-
-        internal static class LocationUtil
-        {
-            public static float OffsetLatitudeLongitude(double lat, double ran)
+            requestEnvelope.AuthTicket = null;
+            requestEnvelope.AuthInfo = new RequestEnvelope.Types.AuthInfo
             {
-                const int round = 6378137;
-                var dl = ran / (round * Math.Cos(Math.PI * lat / 180));
-
-                return (float)(lat + dl * 180 / Math.PI);
-            }
-        }
-
-        public RequestEnvelope GetPlatformRequestEnvelope( RequestEnvelope.Types.PlatformRequest platfReq, bool firstRequest = false)
-        {
-            var req  = new Request();
-            req.RequestType = RequestType.Echo;
-
-            var _requestEnvelope = new RequestEnvelope {
-                StatusCode = 2, //1
-                RequestId = _requestBuilderID.Next(), //3
-                Requests = { req }, //4
-                Latitude = _latitude, //7
-                Longitude = _longitude, //8
-                Accuracy = _altitude, //9
-                AuthTicket = _authTicket, //11
-                MsSinceLastLocationfix = (long)TRandomDevice.Triangular(300, 30000, 10000) //12
-
+                Provider = accessToken.ProviderID,
+                Token = new RequestEnvelope.Types.AuthInfo.Types.JWT
+                {
+                    Contents = accessToken.Token,
+                    Unknown2 = (accessToken.ProviderID == "ptc") ? TRandomDevice.Choice(new List<int>(new int[] { 0, 21, 28, 28, 56, 59, 59, 59 })) : 0
+                }
             };
 
-            _requestEnvelope.PlatformRequests.Add( platfReq);
+            requestEnvelope.PlatformRequests.Clear();
 
-            if (_authTicket != null && !firstRequest) {
-                _requestEnvelope.AuthTicket = _authTicket;
-            } else {
-                _requestEnvelope.AuthInfo = new RequestEnvelope.Types.AuthInfo {
-                    Provider = _authType == AuthType.Google ? "google" : "ptc",
-                    Token = new RequestEnvelope.Types.AuthInfo.Types.JWT {
-                        Contents = _authToken,
-                        Unknown2 = _token2
-                    }
+            if (_client.AppVersion > 4500)
+            {
+                // Only add UnknownPtr8Request if not using the legacy API.
+                // Chat with SLxTnT - this is required for all request and needed before the main envelope.
+
+                //if(customRequests.Any(x=>x.RequestType == RequestType.GetMapObjects  || x.RequestType == RequestType.GetPlayer))
+                var plat8Message = new UnknownPtr8Request()
+                {
+                    Message = _client.UnknownPlat8Field
                 };
-            }
-
-            _requestEnvelope.PlatformRequests.Add(GenerateSignature(_requestEnvelope));
-
-            return _requestEnvelope;
-        }
-
-        public RequestEnvelope GetRequestEnvelope(Request[] customRequests, bool firstRequest = false)
-        {
-
-            var _requestEnvelope = new RequestEnvelope {
-                StatusCode = 2, //1
-                RequestId = _requestBuilderID.Next(), //3
-                Requests = { customRequests }, //4
-                Latitude = _latitude, //7
-                Longitude = _longitude, //8
-                Accuracy = _altitude, //9
-                AuthTicket = _authTicket, //11
-                MsSinceLastLocationfix = (long)TRandomDevice.Triangular(300, 30000, 10000) //12
-
-            };
-
-            var  randValue = TRandomDevice.Next(1,100);
-
-            var insertUnknptr8 = (randValue != 1); // insert it 99 times of each 100 times
-
-            if (customRequests.Length > 0)
-                if (customRequests[0].RequestType != RequestType.GetPlayer && customRequests[0].RequestType != RequestType.GetMapObjects)
-                    insertUnknptr8 = (randValue == 1); // insert it 1 time of each 100 times
-
-            if (insertUnknptr8){
-                var plat8Message = new UnknownPtr8Request() {
-                    Message = Resources.Api.UnknownPtr8Message
-                };
-                _requestEnvelope.PlatformRequests.Add(new RequestEnvelope.Types.PlatformRequest() {
+                requestEnvelope.PlatformRequests.Add(new RequestEnvelope.Types.PlatformRequest()
+                {
                     Type = PlatformRequestType.UnknownPtr8,
                     RequestMessage = plat8Message.ToByteString()
                 });
             }
 
-            if (_authTicket != null && !firstRequest) {
-                _requestEnvelope.AuthTicket = _authTicket;
-            } else {
-                _requestEnvelope.AuthInfo = new RequestEnvelope.Types.AuthInfo {
-                    Provider = _authType == AuthType.Google ? "google" : "ptc",
-                    Token = new RequestEnvelope.Types.AuthInfo.Types.JWT {
-                        Contents = _authToken,
-                        Unknown2 = _token2
+            var currentLocation = new GeoCoordinate(requestEnvelope.Latitude, requestEnvelope.Longitude, _client.CurrentAltitude);
+            requestEnvelope.PlatformRequests.Add(GenerateSignature(requestEnvelope, currentLocation));
+        }
+
+        public async Task<RequestEnvelope> GetRequestEnvelope(IEnumerable<Request> customRequests)
+        {
+            // Save the location
+            GeoCoordinate currentLocation = new GeoCoordinate(_client.CurrentLatitude, _client.CurrentLongitude, _client.CurrentAltitude);
+
+            var e = new RequestEnvelope
+            {
+                StatusCode = 2, //1
+                RequestId = (ulong)GetNextRequestId(), //3
+                Latitude = currentLocation.Latitude, //7
+                Longitude = currentLocation.Longitude, //8
+                Accuracy = TRandomDevice.Choice(new List<int>(new int[] { 5, 5, 5, 5, 10, 10, 10, 30, 30, 50, 65, RandomDevice.Next(66, 80) })), //9
+                MsSinceLastLocationfix = (long)TRandomDevice.Triangular(300, 30000, 10000) //12
+            };
+
+            e.Requests.AddRange(customRequests);
+            
+            if (_client.AuthTicket != null)
+            {
+                e.AuthTicket = _client.AuthTicket;
+            }
+            else
+            {
+                var accessToken = await Rpc.Login.GetValidAccessToken(_client);
+                e.AuthInfo = new RequestEnvelope.Types.AuthInfo
+                {
+                    Provider = accessToken.ProviderID,
+                    Token = new RequestEnvelope.Types.AuthInfo.Types.JWT
+                    {
+                        Contents = accessToken.Token,
+                        Unknown2 = (accessToken.ProviderID == "ptc") ? TRandomDevice.Choice(new List<int>(new int[] { 0, 21, 28, 28, 56, 59, 59, 59 })) : 0
                     }
                 };
             }
 
-            _requestEnvelope.PlatformRequests.Add(GenerateSignature(_requestEnvelope));
+            if (_client.AppVersion > 4500)
+            {
+                // Only add UnknownPtr8Request if not using the legacy API.
+                // Chat with SLxTnT - this is required for all request and needed before the main envelope.
 
-            return _requestEnvelope;
+                //if(customRequests.Any(x=>x.RequestType == RequestType.GetMapObjects  || x.RequestType == RequestType.GetPlayer))
+                var plat8Message = new UnknownPtr8Request()
+                {
+                    Message = _client.UnknownPlat8Field
+                };
+                e.PlatformRequests.Add(new RequestEnvelope.Types.PlatformRequest()
+                {
+                    Type = PlatformRequestType.UnknownPtr8,
+                    RequestMessage = plat8Message.ToByteString()
+                });
+            }
+            e.PlatformRequests.Add(GenerateSignature(e, currentLocation));
+
+            return e;
         }
 
-        public RequestEnvelope GetRequestEnvelope(RequestType type, IMessage message)
+        public async Task<RequestEnvelope> GetRequestEnvelope(RequestType type, IMessage message)
         {
-            return  GetRequestEnvelope(new Request[] { new Request {
-                    RequestType = type,
-                    RequestMessage = message.ToByteString()
-                }
-            });
-
+            return await GetRequestEnvelope(new Request[] { new Request
+            {
+                RequestType = type,
+                RequestMessage = message.ToByteString()
+            } });
         }
 
-        public static double GenRandom(double num)
+        public double GenRandom(double num)
         {
             const float randomFactor = 0.3f;
-            var randomMin = (num * (1 - randomFactor));
-            var randomMax = (num * (1 + randomFactor));
-            var randomizedDelay = TRandomDevice.NextDouble() * (randomMax - randomMin) + randomMin;
+            var randomMin = num * (1 - randomFactor);
+            var randomMax = num * (1 + randomFactor);
+            var randomizedDelay = RandomDevice.NextDouble() * (randomMax - randomMin) + randomMin;
             return randomizedDelay;
         }
 
-        public static double GenRandom(double min, double max)
+        public double GenRandom(double min, double max)
         {
-            return TRandomDevice.NextDouble() * (max - min) + min;
+            return RandomDevice.NextDouble() * (max - min) + min;
         }
     }
 }

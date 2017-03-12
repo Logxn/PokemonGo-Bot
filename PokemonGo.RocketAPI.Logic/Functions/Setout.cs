@@ -13,10 +13,12 @@ using System.Device.Location;
 using System.Linq;
 using System.Windows.Forms;
 using Newtonsoft.Json;
+using POGOProtos.Data;
 using POGOProtos.Enums;
 using POGOProtos.Inventory;
 using POGOProtos.Inventory.Item;
 using POGOProtos.Networking.Responses;
+using POGOProtos.Settings.Master;
 using PokemonGo.RocketAPI;
 using PokemonGo.RocketAPI.Rpc;
 using PokemonGo.RocketAPI.Helpers;
@@ -87,6 +89,25 @@ namespace PokeMaster.Logic.Functions
             
         }
 
+        private static DateTime _lastegguse;
+        public static void UseLuckyEgg(Client client)
+        {
+            var luckyEgg = Logic.objClient.Inventory.GetItemData( ItemId.ItemLuckyEgg);
+
+            if (_lastegguse > DateTime.Now.AddSeconds(5))
+            {
+                TimeSpan duration = _lastegguse - DateTime.Now;
+                Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Lucky Egg still running: {duration.Minutes}m{duration.Seconds}s");
+                return;
+            }
+
+            if (luckyEgg == null || luckyEgg.Count <= 0) { return; }
+
+            client.Inventory.UseItemXpBoost();
+            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Used Lucky Egg, remaining: {luckyEgg.Count - 1}");
+            _lastegguse = DateTime.Now.AddMinutes(30);
+            RandomHelper.RandomSleep(3000, 3100);
+        }
         public static void Execute()
         {
             // reset stat counter
@@ -96,7 +117,7 @@ namespace PokeMaster.Logic.Functions
             if (GlobalVars.UseLuckyEggIfNotRunning || GlobalVars.UseLuckyEggGUIClick)
             {
                 GlobalVars.UseLuckyEggGUIClick = false;
-                Logic.objClient.Inventory.UseLuckyEgg(Logic.objClient);
+                UseLuckyEgg(Logic.objClient);
             }
 
             if (GlobalVars.EvolvePokemonsIfEnoughCandy)
@@ -118,7 +139,7 @@ namespace PokeMaster.Logic.Functions
 
             RefreshConsoleTitle(Logic.objClient);
             
-            Logic.objClient.ReadyToUse = true;
+            Logic.ClientReadyToUse = true;
             Logger.Debug("Client is ready to use");
             SetCheckTimeToRun();
         }
@@ -133,8 +154,8 @@ namespace PokeMaster.Logic.Functions
             {
                 Logger.Debug("Use incense selected");
                 GlobalVars.UseIncenseGUIClick = false;
-                var inventory = Logic.objClient.Inventory.GetItems();
-                var incsense = inventory.FirstOrDefault(p => p.ItemId == ItemId.ItemIncenseOrdinary);
+                
+                var incsense = Logic.objClient.Inventory.GetItemData( ItemId.ItemIncenseOrdinary);
                 var loginterval = DateTime.Now - LastIncenselog;
                 Logger.Debug("loginterval: "+ loginterval);
                 Logger.Debug("lastincenseuse: "+ lastincenseuse);
@@ -163,6 +184,100 @@ namespace PokeMaster.Logic.Functions
             }
         }
 
+        public static IEnumerable<PokemonSettings> GetPokemonSettings()
+        {
+            var templates =  Logic.objClient.Download.GetItemTemplates().Result;
+            return
+                templates.ItemTemplates.Select(i => i.PokemonSettings)
+                    .Where(p => p != null && p.FamilyId != PokemonFamilyId.FamilyUnset);
+        }
+
+        public static List<Candy> GetPokemonFamilies()
+        {
+            var inventory = Logic.objClient.Inventory.GetInventory().Result;
+
+            var families = from item in inventory.InventoryDelta.InventoryItems
+                           where item.InventoryItemData?.Candy != null
+                           where item.InventoryItemData?.Candy.FamilyId != PokemonFamilyId.FamilyUnset
+                           group item by item.InventoryItemData?.Candy.FamilyId into family
+                           select new Candy
+                           {
+                               FamilyId = family.FirstOrDefault().InventoryItemData.Candy.FamilyId,
+                               Candy_ = family.FirstOrDefault().InventoryItemData.Candy.Candy_
+                           };
+
+            return families.ToList();
+        }        
+       
+        public static IEnumerable<PokemonData> GetPokemonToEvolve(bool forceRequest = false, IEnumerable<PokemonId> filter = null)
+        {
+            var myPokemons =  Logic.objClient.Inventory.GetPokemons();
+
+            myPokemons = myPokemons.Where(p => p.DeployedFortId == string.Empty).OrderByDescending(p => p.Cp); //Don't evolve pokemon in gyms
+
+            if (filter != null)
+            {
+                myPokemons = myPokemons.Where(p => filter.Contains(p.PokemonId));
+            }
+            var pokemons = myPokemons.ToList();
+
+            var myPokemonSettings =  GetPokemonSettings();
+            var pokemonSettings = myPokemonSettings.ToList();
+
+            var myPokemonFamilies =  GetPokemonFamilies();
+            var pokemonFamilies = myPokemonFamilies.ToArray();
+
+            var pokemonToEvolve = new List<PokemonData>();
+            foreach (var pokemon in pokemons)
+            {
+                var settings = pokemonSettings.SingleOrDefault(x => x.PokemonId == pokemon.PokemonId);
+                var familyCandy = pokemonFamilies.SingleOrDefault(x => settings.FamilyId == x.FamilyId);
+
+                //Don't evolve if we can't evolve it
+                if (settings.EvolutionIds.Count == 0)
+                    continue;
+
+                if (settings == null || familyCandy == null)
+                {
+                    continue;
+                }
+
+                var pokemonCandyNeededAlready = pokemonToEvolve.Count(
+                    p => pokemonSettings.SingleOrDefault(x => x.PokemonId == p.PokemonId).FamilyId == settings.FamilyId)
+                    * settings.CandyToEvolve;
+
+                if (familyCandy.Candy_ - pokemonCandyNeededAlready > settings.CandyToEvolve)
+                    pokemonToEvolve.Add(pokemon);
+            }
+            return pokemonToEvolve;
+        }
+
+        public static ItemId GeteNeededItemToEvolve(PokemonId pokeId)
+        {
+                var item = ItemId.ItemUnknown;
+                switch (pokeId) {
+                    case PokemonId.Seadra:
+                        item = ItemId.ItemDragonScale;
+                        break;
+                    case PokemonId.Poliwhirl:
+                    case PokemonId.Slowpoke:
+                        item = ItemId.ItemKingsRock;
+                        break;
+                    case PokemonId.Scyther:
+                    case PokemonId.Onix:
+                        item = ItemId.ItemMetalCoat;
+                        break;
+                    case PokemonId.Porygon:
+                        item = ItemId.ItemUpGrade;
+                        break;
+                    case PokemonId.Gloom:
+                    case PokemonId.Sunkern:
+                        item = ItemId.ItemSunStone;
+                        break;
+                }
+                return item;
+        }
+
         private static void EvolveAllPokemonWithEnoughCandy(IEnumerable<PokemonId> filter )
         {
             int evolvecount = 0;
@@ -174,18 +289,20 @@ namespace PokeMaster.Logic.Functions
             }
             EvolvePokemonResponse evolvePokemonOutProto;
 
-            var pokemonToEvolve = Logic.objClient.Inventory.GetPokemonToEvolve(true,filter);
+            var pokemonToEvolve = GetPokemonToEvolve(true,filter);
             var toEvolveCount = pokemonToEvolve.Count();
             var startEvolving = (toEvolveCount==0 || toEvolveCount==GlobalVars.EvolveAt );
 
             if (startEvolving && GlobalVars.UseLuckyEgg)
-                    Logic.objClient.Inventory.UseLuckyEgg(Logic.objClient);
+                    UseLuckyEgg(Logic.objClient);
 
             foreach (var pokemon in pokemonToEvolve)
             {
 
-                var item = Inventory.GeteNeededItemToEvolve(pokemon.PokemonId);
-                if (item != ItemId.ItemUnknown && Logic.objClient.Inventory.GetItemAmountByType(item) < 1){
+                var item = GeteNeededItemToEvolve(pokemon.PokemonId);
+                var itemData = Logic.objClient.Inventory.GetItemData( item);
+                
+                if (item != ItemId.ItemUnknown && itemData.Count < 1){
                     if ( pokemon.PokemonId == PokemonId.Poliwhirl
                         || pokemon.PokemonId == PokemonId.Gloom
                         || pokemon.PokemonId == PokemonId.Slowpoke
@@ -194,7 +311,7 @@ namespace PokeMaster.Logic.Functions
                     else
                         continue; // go to next pokemon
                 }
-                evolvePokemonOutProto = Logic.objClient.Inventory.EvolvePokemon(pokemon.Id, item);
+                evolvePokemonOutProto = Logic.objClient.Inventory.EvolvePokemon(pokemon.Id, item).Result;
 
                 if (evolvePokemonOutProto == null)
                     continue;
@@ -281,10 +398,9 @@ namespace PokeMaster.Logic.Functions
                 {
                     return;
                 }
-                var inventory = Logic.objClient.Inventory.GetInventory();
-                var incubators = Logic.objClient.Inventory.GetEggIncubators().ToList();
-                var unusedEggs = (Logic.objClient.Inventory.GetEggs()).Where(x => string.IsNullOrEmpty(x.EggIncubatorId)).OrderBy(x => x.EggKmWalkedTarget - x.EggKmWalkedStart).ToList();
-                var pokemons = (Logic.objClient.Inventory.GetPokemons()).ToList();
+                var incubators = Logic.objClient.Inventory.GetIncubators();
+                var unusedEggs = Logic.objClient.Inventory.GetEggs().Where(x => string.IsNullOrEmpty(x.EggIncubatorId)).OrderBy(x => x.EggKmWalkedTarget - x.EggKmWalkedStart);
+                var pokemons = Logic.objClient.Inventory.GetPokemons();
 
                 var playerStats = Logic.objClient.Inventory.GetPlayerStats();
                 var stats = playerStats.First();
@@ -414,12 +530,20 @@ namespace PokeMaster.Logic.Functions
             return ret;
         }
 
+        public static IEnumerable<ItemData> GetItemsToRecycle(ICollection<KeyValuePair<ItemId, int>> itemRecycleFilter)
+        {
+            var myItems = Logic.objClient.Inventory.GetItemsData();
+            return myItems
+                .Where(x => itemRecycleFilter.Any(f => f.Key == ((ItemId)x.ItemId) && x.Count > f.Value))
+                .Select(x => new ItemData { ItemId = x.ItemId, Count = x.Count - itemRecycleFilter.Single(f => f.Key == (ItemId)x.ItemId).Value, Unseen = x.Unseen });
+        }
+
         private static void RecycleItems(bool forcerefresh = false)
         {
 
             if (GlobalVars.RelocateDefaultLocation)
                 return;
-            var items = Logic.objClient.Inventory.GetItemsToRecycle(GlobalVars.GetItemFilter());
+            var items = GetItemsToRecycle(GlobalVars.GetItemFilter());
 
             foreach (var item in items)
             {
@@ -439,7 +563,6 @@ namespace PokeMaster.Logic.Functions
         private static void StatsLog(Client client)
         {
 
-            var profile = client.Player.GetPlayer();
             var inventory = client.Inventory.GetInventory();
             var playerStats = client.Inventory.GetPlayerStats();
             var stats = playerStats.First();
@@ -452,22 +575,22 @@ namespace PokeMaster.Logic.Functions
             currentxp = stats.Experience;
 
             var numDifferentPokemons = Enum.GetNames(typeof(PokemonId)).Length -1;
-            var pokemonToEvolve = (client.Inventory.GetPokemonToEvolve()).Count();
+            var pokemonToEvolve = (GetPokemonToEvolve()).Count();
             var pokedexpercentraw = Convert.ToDouble(stats.UniquePokedexEntries) / Convert.ToDouble(numDifferentPokemons) * 100;
             var pokedexpercent = Math.Floor(pokedexpercentraw);
 
 
-            var items = client.Inventory.GetItems(); 
+            var items = Logic.objClient.Inventory.GetItemsData();
             var pokemonCount = client.Inventory.GetPokemons().Count();
-            var eggCount = client.Inventory.GetEggsCount();
-            var maxPokemonStorage = profile.PlayerData.MaxPokemonStorage;
-            var maxItemStorage = profile.PlayerData.MaxItemStorage;
-            var stardust = profile.PlayerData.Currencies.ToArray()[1].Amount.ToString("N0");
+            var eggCount = client.Inventory.GetEggs().Count();
+            var maxPokemonStorage = client.Player.PlayerData.MaxPokemonStorage;
+            var maxItemStorage = client.Player.PlayerData.MaxItemStorage;
+            var stardust = client.Player.PlayerData.Currencies.ToArray()[1].Amount.ToString("N0");
             var currEXP = curexp.ToString("N0");
             var neededEXP = expneeded.ToString("N0");
             var expPercent = Math.Round(curexppercent, 2);
 
-            client.ShowingStats = true;
+            Logic.ShowingStats = true;
             Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "-----------------------[PLAYER STATS]-----------------------");
             Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Level/EXP: {stats.Level} | {currEXP}/{neededEXP} ({expPercent}%)");
             Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"EXP to Level up: {(stats.NextLevelXp - stats.Experience)}");
@@ -489,7 +612,7 @@ namespace PokeMaster.Logic.Functions
             Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Items: {totalitems}/{maxItemStorage} ");
             Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "------------------------------------------------------------");
 
-            client.ShowingStats = false;
+            Logic.ShowingStats = false;
 
 
         }
@@ -499,7 +622,7 @@ namespace PokeMaster.Logic.Functions
             var stats = client.Inventory.GetPlayerStats().First();
             
             if (stats.Level == 1 && stats.NextLevelXp == 1000)
-                client.Misc.MarkTutorialComplete();
+                client.Misc.MarkTutorialComplete(new Google.Protobuf.Collections.RepeatedField<TutorialState> {new TutorialState()});
 
 
             if (level == -1) {
@@ -510,7 +633,7 @@ namespace PokeMaster.Logic.Functions
 
                 Logger.ColoredConsoleWrite(ConsoleColor.Magenta, "Got the level up reward from your level up.");
 
-                var lvlup = client.Player.GetLevelUpRewards(stats.Level);
+                var lvlup = client.Player.GetLevelUpRewards(stats.Level).Result;
                 var alreadygot = new List<ItemId>();
 
                 foreach (var i in lvlup.ItemsAwarded)
@@ -526,23 +649,21 @@ namespace PokeMaster.Logic.Functions
 
         public static void RefreshConsoleTitle(Client client)
         {
-            var profile = client.Player.GetPlayer();
-            var inventory = client.Inventory.GetInventory();
             var playerStats = client.Inventory.GetPlayerStats();
             var stats = playerStats.First();
             var expneeded = stats.NextLevelXp - stats.PrevLevelXp - StringUtils.getExpDiff(stats.Level);
             var curexp = stats.Experience - stats.PrevLevelXp - StringUtils.getExpDiff(stats.Level);
             var curexppercent = Convert.ToDouble(curexp) / Convert.ToDouble(expneeded) * 100;
 
-            string TitleText = profile.PlayerData.Username + @" Lvl " + stats.Level + @" (" +
+            string TitleText = client.Player.PlayerData.Username + @" Lvl " + stats.Level + @" (" +
             (stats.Experience - stats.PrevLevelXp - StringUtils.getExpDiff(stats.Level)).ToString("N0") + @"/" +
             (stats.NextLevelXp - stats.PrevLevelXp - StringUtils.getExpDiff(stats.Level)).ToString("N0") + @"|" +
-            Math.Round(curexppercent, 2) + @"%) Stardust: " + profile.PlayerData.Currencies.ToArray()[1].Amount + @" " +
+            Math.Round(curexppercent, 2) + @"%) Stardust: " + client.Player.PlayerData.Currencies.ToArray()[1].Amount + @" " +
             Logic.Instance.BotStats;
 
             if (!GlobalVars.EnableConsoleInTab) System.Console.Title = TitleText;
 
-            if (GlobalVars.EnablePokeList && client.ReadyToUse)
+            if (GlobalVars.EnablePokeList && Logic.ClientReadyToUse)
             {
                 try {
                     Application.OpenForms[0].Invoke(new Action(() => Application.OpenForms[0].Text = TitleText));
@@ -726,7 +847,7 @@ namespace PokeMaster.Logic.Functions
         {
             if (!GlobalVars.pokemonsToAlwaysTransfer.Any())
                 return;
-            var pokemons = Logic.objClient.Inventory.GetPokemons(true);
+            var pokemons = Logic.objClient.Inventory.GetPokemons();
             var toTransfer = pokemons.Where(x => x.DeployedFortId == string.Empty && x.Favorite == 0 && !x.IsEgg && x.Id != buddyid);
             var idsToTransfer = new List<ulong>();
             var logs = Path.Combine(logPath, "TransferLog.txt");
@@ -747,7 +868,7 @@ namespace PokeMaster.Logic.Functions
             if (!idsToTransfer.Any())
                 return;
 
-            var _response = Logic.objClient.Inventory.TransferPokemon(idsToTransfer);
+            var _response = Logic.objClient.Inventory.TransferPokemons(idsToTransfer).Result;
 
             if (_response.Result == ReleasePokemonResponse.Types.Result.Success)
             {
@@ -769,7 +890,6 @@ namespace PokeMaster.Logic.Functions
             }
             if (GlobalVars.TransferDoublePokemons)
             {
-                var profil = Logic.objClient.Player.GetPlayer();
                 RandomHelper.RandomSleep(300, 400);
 
                 if (GlobalVars.pauseAtEvolve2)
@@ -778,10 +898,10 @@ namespace PokeMaster.Logic.Functions
                     GlobalVars.PauseTheWalking = true;
                 }
 
-                var buddyid = (profil.PlayerData.BuddyPokemon !=null)?profil.PlayerData.BuddyPokemon.Id:0;
+                var buddyid = (Logic.objClient.Player.PlayerData.BuddyPokemon !=null)?Logic.objClient.Player.PlayerData.BuddyPokemon.Id:0;
                 TransferUnwantedPokemon(buddyid);
 
-                var duplicatePokemons = Logic.objClient.Inventory.GetDuplicatePokemonToTransfer(GlobalVars.HoldMaxDoublePokemons, keepPokemonsThatCanEvolve, transferFirstLowIv);
+                var duplicatePokemons = GetDuplicatePokemonToTransfer(GlobalVars.HoldMaxDoublePokemons, keepPokemonsThatCanEvolve, transferFirstLowIv);
                 var pokemonsToTransfer = new List<ulong>();
                 foreach (var duplicatePokemon in duplicatePokemons)
                 {
@@ -795,15 +915,15 @@ namespace PokeMaster.Logic.Functions
                             continue; // go to next itearion from foreach
                         }
 
-                        if (profil.PlayerData.BuddyPokemon.Id == duplicatePokemon.Id)
+                        if (Logic.objClient.Player.PlayerData.BuddyPokemon.Id == duplicatePokemon.Id)
                         {
                             Logger.Warning($"Pokemon {Pokename} with {IVPercent}% IV Is your buddy so can not be transfered");
                             continue;// go to next itearion from foreach
                         }
 
-                        var bestPokemonOfType = Logic.objClient.Inventory.GetHighestCPofType(duplicatePokemon);
-                        var bestPokemonsCpOfType = Logic.objClient.Inventory.GetHighestCPofType2(duplicatePokemon);
-                        var bestPokemonsIvOfType = Logic.objClient.Inventory.GetHighestIVofType(duplicatePokemon);
+                        var bestPokemonOfType = GetHighestCPofType(duplicatePokemon);
+                        var bestPokemonsCpOfType = GetHighestCPofType2(duplicatePokemon);
+                        var bestPokemonsIvOfType = GetHighestIVofType(duplicatePokemon);
 
                         pokemonsToTransfer.Add(duplicatePokemon.Id);
 
@@ -836,11 +956,11 @@ namespace PokeMaster.Logic.Functions
                 }
                 if (pokemonsToTransfer.Any())
                 {
-                    var _response = Logic.objClient.Inventory.TransferPokemon(pokemonsToTransfer);
+                    var _response = Logic.objClient.Inventory.TransferPokemons(pokemonsToTransfer).Result;
 
                     if (_response.Result == ReleasePokemonResponse.Types.Result.Success)
                     {
-                        Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "Transfer Successful of " + pokemonsToTransfer.Count + " pokemons => " + _response.CandyAwarded + ((_response.CandyAwarded == 1) ? " candy" : " candies") + " awarded.", LogLevel.Info);
+                        Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "Transfer Successful of " + pokemonsToTransfer.Count + " pokemons => " + _response.CandyAwarded + ((_response.CandyAwarded == 1) ? " candy" : " candies") + " awarded.", Logger.LogLevel.Info);
                         PokemonGo.RocketAPI.Helpers.RandomHelper.RandomSleep(1000, 2000);
                     }
                     else
@@ -874,10 +994,184 @@ namespace PokeMaster.Logic.Functions
                 }
                 lastlog = -10000;
                 timetorunstamp = -10000;
-                Logic.objClient.ReadyToUse = false;
+                Logic.ClientReadyToUse = false;
                 Logic.Instance.Execute();
             }
         }
+        public static IEnumerable<PokemonData> GetDuplicatePokemonToTransfer(int holdMaxDoublePokemons, bool keepPokemonsThatCanEvolve = false, bool orderByIv = false)
+        {
 
+            var pokemonList = Logic.objClient.Inventory.GetPokemons()
+                .Where(p => p.DeployedFortId == string.Empty && p.Favorite == 0);
+
+            if (keepPokemonsThatCanEvolve)
+            {
+                var results = new List<PokemonData>();
+                var pokemonsThatCanBeTransfered = pokemonList.GroupBy(p => p.PokemonId);
+
+                var myPokemonSettings =  GetPokemonSettings();
+                var pokemonSettings = myPokemonSettings as IList<PokemonSettings> ?? myPokemonSettings;
+
+                var myPokemonFamilies =  GetPokemonFamilies();
+                var pokemonFamilies = myPokemonFamilies;
+
+                foreach (var pokemon in pokemonsThatCanBeTransfered)
+                {
+                    var settings = pokemonSettings.SingleOrDefault(x => x.PokemonId == pokemon.Key);
+                    var familyCandy = pokemonFamilies.SingleOrDefault(x => settings.FamilyId == x.FamilyId);
+                    var amountToSkip = 0;
+
+                    if (settings.CandyToEvolve != 0)
+                    {
+                        amountToSkip = familyCandy.Candy_ / settings.CandyToEvolve;
+                    }
+
+                    if (holdMaxDoublePokemons > amountToSkip)
+                    {
+                        amountToSkip = holdMaxDoublePokemons;
+                    }
+                    if (orderByIv)
+                    {
+                        results.AddRange( (IEnumerable<PokemonData>) pokemonList.Where(x => x.PokemonId == pokemon.Key)
+                                                    .OrderByDescending(PokemonInfo.CalculatePokemonPerfection)
+                                                    .ThenBy(n => n.StaminaMax)
+                                                    .Skip(amountToSkip)
+                                                    .ToList());
+                    }
+                    else
+                    {
+                        results.AddRange( (IEnumerable<PokemonData>) pokemonList.Where(x => x.PokemonId == pokemon.Key)
+                            .OrderByDescending(x => x.Cp)
+                            .ThenBy(n => n.StaminaMax)
+                            .Skip(amountToSkip)
+                            .ToList());
+                    }
+
+                }
+
+                return results;
+            }
+
+            if (orderByIv)
+            {
+                return pokemonList
+                    .GroupBy(p => p.PokemonId)
+                    .Where(x => x.Count() > 0)
+                    .SelectMany(p => p.Where(x => x.Favorite == 0)
+                    .OrderByDescending(PokemonInfo.CalculatePokemonPerfection)
+                    .ThenBy(n => n.StaminaMax)
+                    .Skip(holdMaxDoublePokemons)
+                    .ToList());
+
+            }
+            else
+            {
+                return pokemonList
+                    .GroupBy(p => p.PokemonId)
+                    .Where(x => x.Count() > 0)
+                    .SelectMany(p => p.Where(x => x.Favorite == 0)
+                    .OrderByDescending(x => x.Cp)
+                    .ThenBy(n => n.StaminaMax)
+                    .Skip(holdMaxDoublePokemons)
+                    .ToList());
+            }
+        }
+
+        public static IEnumerable<PokemonData> GetHighestsPerfect(int limit = 1000)
+        {
+            var myPokemon = Logic.objClient.Inventory.GetPokemons();
+            return myPokemon.OrderByDescending(PokemonInfo.CalculatePokemonPerfection).Take(limit);
+        }
+
+        public static IEnumerable<PokemonData> GetHighestIVofType(PokemonData pokemon)
+        {
+            var myPokemon = Logic.objClient.Inventory.GetPokemons();
+            return myPokemon.Where(x => x.PokemonId == pokemon.PokemonId)
+                    .OrderByDescending(PokemonInfo.CalculatePokemonPerfection)
+                    .ThenBy(x => x.Cp);
+        }
+
+        public static IEnumerable<PokemonData> GetHighestCPofType2(PokemonData pokemon)
+        {
+            var myPokemon = Logic.objClient.Inventory.GetPokemons();
+            return myPokemon.Where(x => x.PokemonId == pokemon.PokemonId)
+                    .OrderByDescending(x => x.Cp)
+                    .ThenBy(PokemonInfo.CalculatePokemonPerfection);
+        }
+
+        public static int GetHighestCPofType(PokemonData pokemon)
+        {
+            var myPokemon = Logic.objClient.Inventory.GetPokemons();
+            return myPokemon.Where(x => x.PokemonId == pokemon.PokemonId)
+                            .OrderByDescending(x => x.Cp)
+                            .FirstOrDefault().Cp;
+        }        
+        public static void ExportPokemonToCSV(PlayerData player, string filename = "PokemonList.csv")
+        {
+            if (player == null)
+                return;
+            var stats =  Logic.objClient.Inventory.GetPlayerStats();
+            var stat = stats.FirstOrDefault();
+            if (stat == null)
+                return;
+
+            string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Configs");
+
+            if (Directory.Exists(path))
+            {
+                try
+                {
+                    const string header = "PokemonID,Name,NickName,CP / MaxCP,IV Perfection in %,Attack 1,Attack 2,HP,Attk,Def,Stamina,Familie Candies,IsInGym,IsFavorite,previewLink";
+                    string pokelist_file = Path.Combine(path, $"Profile_{player.Username}_{filename}");
+                    if (File.Exists(pokelist_file))
+                        File.Delete(pokelist_file);
+                    string ls = System.Globalization.CultureInfo.CurrentCulture.TextInfo.ListSeparator;
+                    File.WriteAllText(pokelist_file, header.Replace(",", ls));
+
+                    var AllPokemon =  GetHighestsPerfect();
+                    var myPokemonSettings =  GetPokemonSettings();
+                    var pokemonSettings = myPokemonSettings.ToList();
+                    var myPokemonFamilies =  GetPokemonFamilies();
+                    var pokemonFamilies = myPokemonFamilies.ToArray();
+                    int trainerLevel = stat.Level;
+                    int[] exp_req = new[] { 0, 1000, 3000, 6000, 10000, 15000, 21000, 28000, 36000, 45000, 55000, 65000, 75000, 85000, 100000, 120000, 140000, 160000, 185000, 210000, 260000, 335000, 435000, 560000, 710000, 900000, 1100000, 1350000, 1650000, 2000000, 2500000, 3000000, 3750000, 4750000, 6000000, 7500000, 9500000, 12000000, 15000000, 20000000 };
+                    int exp_req_at_level = exp_req[stat.Level - 1];
+
+                    using (var w = File.AppendText(pokelist_file))
+                    {
+                        w.WriteLine("");
+                        foreach (var pokemon in AllPokemon)
+                        {
+                            string toEncode = $"{(int)pokemon.PokemonId}" + "," + trainerLevel + "," + PokemonInfo.GetLevel(pokemon) + "," + pokemon.Cp + "," + pokemon.Stamina;
+                            //Generate base64 code to make it viewable here http://poke.isitin.org/#MTUwLDIzLDE3LDE5MDIsMTE4
+                            var encoded = Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(toEncode));
+
+                            string IsInGym = string.Empty;
+                            string IsFavorite = string.Empty;
+
+                            IsFavorite = pokemon.Favorite != 0 ? "Yes" : "No";
+
+                            var settings = pokemonSettings.SingleOrDefault(x => x.PokemonId == pokemon.PokemonId);
+                            var familiecandies = pokemonFamilies.SingleOrDefault(x => settings.FamilyId == x.FamilyId).Candy_;
+                            string perfection = PokemonInfo.CalculatePokemonPerfection(pokemon).ToString("0.00");
+                            perfection = perfection.Replace(",", ls == "," ? "." : ",");
+                            string content_part1 = $"{(int)pokemon.PokemonId},{pokemon.PokemonId},{pokemon.Nickname},{pokemon.Cp}/{PokemonInfo.CalculateMaxCP(pokemon)},";
+                            string content_part2 = $",{pokemon.Move1},{pokemon.Move2},{pokemon.Stamina},{pokemon.IndividualAttack},{pokemon.IndividualDefense},{pokemon.IndividualStamina},{familiecandies},{IsInGym},{IsFavorite},http://poke.isitin.org/#{encoded}";
+                            var str1 = content_part1.Replace(",", ls);
+                            var str2= content_part2.Replace(",", ls);
+                            string content = $"{str1}\"{perfection}\"{str2}";
+                            w.WriteLine($"{content}");
+
+                        }
+                        w.Close();
+                    }
+                    Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Export Player Infos and all Pokemon to \"\\Config\\{filename}\"");
+                }
+                catch
+                {
+                    Logger.Error("Export Player Infos and all Pokemons to CSV not possible. File seems be in use!"/*, LogLevel.Warning*/);
+                }
+            }
+        }
     }
 }

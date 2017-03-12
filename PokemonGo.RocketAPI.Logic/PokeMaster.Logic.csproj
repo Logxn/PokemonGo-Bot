@@ -39,7 +39,7 @@
       <HintPath>..\packages\GMap.NET.Presentation.1.7.1\lib\net40\GMap.NET.Core.dll</HintPath>
     </Reference>
     <Reference Include="Google.Protobuf">
-      <HintPath>..\packages\Google.Protobuf.3.1.0\lib\net45\Google.Protobuf.dll</HintPath>
+      <HintPath>..\packages\Google.Protobuf.3.2.0\lib\net45\Google.Protobuf.dll</HintPath>
     </Reference>
     <Reference Include="GoogleMapsApi, Version=0.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\GoogleMapsApi.0.60.0\lib\net45\GoogleMapsApi.dll</HintPath>
@@ -95,6 +95,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Shared\AvatarSettings.cs" />
+    <Compile Include="Shared\ClientSettings.cs" />
     <Compile Include="Shared\DebugSettings.cs" />
     <Compile Include="Shared\GlobalVars.cs" />
     <Compile Include="Shared\GymSettings.cs" />
@@ -121,6 +122,11 @@
     </Compile>
     <Compile Include="Utils\GeoUtils.cs" />
     <Compile Include="Utils\LocationUtils.cs" />
+    <Compile Include="Utils\Logger.cs" />
+    <Compile Include="Utils\Logger.Designer.cs">
+      <DependentUpon>Logger.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Utils\PokemonInfo.cs" />
     <Compile Include="Utils\PokemonParser.cs" />
     <Compile Include="Utils\PokeSnipers.cs" />
     <Compile Include="Utils\PokeVisionUtil.cs" />
@@ -141,6 +147,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Utils\CaptchaHelper.resx">
       <DependentUpon>CaptchaHelper.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Utils\Logger.resx">
+      <DependentUpon>Logger.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

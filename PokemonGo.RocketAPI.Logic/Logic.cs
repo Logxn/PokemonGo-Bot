@@ -11,6 +11,7 @@ using GoogleMapsApi.Entities.Directions.Response;
 using POGOProtos.Inventory.Item;
 using POGOProtos.Map.Fort;
 using POGOProtos.Map.Pokemon;
+using POGOProtos.Networking.Envelopes;
 using POGOProtos.Networking.Responses;
 using PokemonGo.RocketAPI;
 using PokemonGo.RocketAPI.Exceptions;
@@ -28,7 +29,7 @@ namespace PokeMaster.Logic
         #region Members and Constructor
 
         public static Client objClient;
-        public readonly ISettings BotSettings;
+        public readonly PokeMaster.Logic.Shared.ISettings BotSettings;
         public TelegramUtil Telegram;
         public BotStats BotStats;
         public readonly Navigation navigation;
@@ -46,24 +47,41 @@ namespace PokeMaster.Logic
         private bool addedlure = false;
         public Sniper sniperLogic;
         public static bool restartLogic =true;
+        public static bool ClientReadyToUse = false;
+        public static bool ShowingStats = false;
         #endregion
 
         #region Constructor
-        public Logic(ISettings botSettings, LogicInfoObservable infoObservable)
+        public Logic(PokeMaster.Logic.Shared.ISettings botSettings, LogicInfoObservable infoObservable, Signature.Types.DeviceInfo device)
         {
             this.BotSettings = botSettings;
-            var clientSettings = new PokemonGo.RocketAPI.Shared.ClientSettings(botSettings.pFHashKey, botSettings.DefaultLatitude , botSettings.DefaultLongitude, botSettings.DefaultAltitude,
-                      botSettings.proxySettings.hostName, botSettings.proxySettings.port, botSettings.proxySettings.username, botSettings.proxySettings.password,
-                      botSettings.AuthType, botSettings.Username, botSettings.Password, GlobalVars.BotApiSupportedVersion);
+            var clientSettings = new ClientSettings();
+            /*deviceinfo*/
+            clientSettings.DeviceId = device.DeviceId;
+            clientSettings.DevicePlatform = "ios";
+            clientSettings.AndroidBootloader = device.AndroidBootloader;
+            clientSettings.DeviceBrand = device.DeviceBrand;
+            clientSettings.DeviceModel = device.DeviceModel;
+            clientSettings.DeviceModelIdentifier = device.DeviceModelIdentifier;
+            clientSettings.DeviceModelBoot = device.DeviceModelBoot;
+            clientSettings.HardwareManufacturer = device.HardwareManufacturer;
+            clientSettings.HardwareModel = device.HardwareModel;
+            clientSettings.FirmwareBrand = device.FirmwareBrand;
+            clientSettings.FirmwareTags = device.FirmwareTags;
+            clientSettings.FirmwareType = device.FirmwareType;
+            clientSettings.FirmwareFingerprint = device.FirmwareFingerprint;
+            
+            clientSettings.UseLegacyAPI = false;
+            clientSettings.UsePogoDevHashServer = true;
             objClient = new Client(clientSettings);
-            objClient.setFailure(new ApiFailureStrat(objClient));
+            //objClient.setFailure(new ApiFailureStrat(objClient));
             BotStats = new BotStats();
             navigation = new Navigation(objClient,botSettings);
             pokevision = new PokeVisionUtil();
             this.infoObservable = infoObservable;
             Instance = this;
             sniperLogic = new  Sniper(objClient, botSettings);
-            PokemonGo.RocketAPI.Shared.KeyCollection.Load();
+            //PokemonGo.RocketAPI.Shared.KeyCollection.Load();
         }
         #endregion
 
@@ -97,11 +115,11 @@ namespace PokeMaster.Logic
 
                     CatchingLogic.Execute();
 
-                    var fortInfo = objClient.Fort.GetFort(pokestop.Id, pokestop.Latitude, pokestop.Longitude);
+                    var fortInfo = objClient.Fort.GetFort(pokestop.Id, pokestop.Latitude, pokestop.Longitude).Result;
 
                     if ( BotSettings.UseLureGUIClick || (BotSettings.UseLureAtBreak && !pokestop.ActiveFortModifier.Any() && !addedlure))
                     {
-                        if (objClient.Inventory.GetItemAmountByType( ItemId.ItemTroyDisk) > 0) {
+                        if (objClient.Inventory.GetItemData( ItemId.ItemTroyDisk).Count > 0) {
                             BotSettings.UseLureGUIClick = false;
     
                             Logger.ColoredConsoleWrite(ConsoleColor.Magenta, "Adding lure and setting resume walking to 30 minutes");
@@ -154,14 +172,14 @@ namespace PokeMaster.Logic
 
         public void Execute()
         {
-            Logger.SelectedLevel = LogLevel.Error;
+            Logger.SelectedLevel = Logger.LogLevel.Error;
             Logger.Warning( "Source code and binary files of this bot are absolutely free and open-source!");
             Logger.Warning( "If you've paid for it. Request a chargeback immediately!");
             Logger.Warning( "You only need pay for a key to access to Hash Service");
 
             if (GlobalVars.Debug.VerboseMode)
             {
-                Logger.SelectedLevel = LogLevel.Debug;
+                Logger.SelectedLevel = Logger.LogLevel.Debug;
                 Logger.ColoredConsoleWrite(ConsoleColor.Red, $"LogLevel set to {Logger.SelectedLevel}. Many logs will be generated.");
             }
 
@@ -201,22 +219,16 @@ namespace PokeMaster.Logic
             if (GlobalVars.ContinueLatestSession)
                 Setout.LoadSession();
 
-            objClient.CurrentAltitude = BotSettings.DefaultAltitude;
-            objClient.CurrentLongitude = BotSettings.DefaultLongitude;
-            objClient.CurrentLatitude = BotSettings.DefaultLatitude;
 
             #endregion
 
             #region Fix Altitude
-
-            if (Math.Abs(objClient.CurrentAltitude) < double.Epsilon) {
-                objClient.CurrentAltitude = LocationUtils.getAltitude(objClient.CurrentLatitude, objClient.CurrentLongitude);
-                BotSettings.DefaultAltitude = objClient.CurrentAltitude;
-
+            if (Math.Abs(BotSettings.DefaultAltitude) < 0.0000001) {
+                BotSettings.DefaultAltitude = LocationUtils.getAltitude(objClient.CurrentLatitude, objClient.CurrentLongitude);
                 Logger.Warning($"Altitude was 0, resolved that. New Altitude is now: {objClient.CurrentAltitude}");
             }
-
             #endregion
+            objClient.Player.SetCoordinates( BotSettings.DefaultAltitude, BotSettings.DefaultLongitude, BotSettings.DefaultLatitude);
 
             #region Use Proxy
 
@@ -295,8 +307,7 @@ namespace PokeMaster.Logic
             {
                 //update user location on map
                 Task.Factory.StartNew(() => Logic.Instance.infoObservable.PushNewGeoLocations(new GeoCoordinate(GlobalVars.latitude, GlobalVars.longitude)));
-                GetPlayerResponse profil = objClient.Player.GetPlayer();
-                objClient.Inventory.ExportPokemonToCSV(profil.PlayerData);
+                Setout.ExportPokemonToCSV(objClient.Player.PlayerData);
                 Setout.Execute();
                 ExecuteFarmingPokestopsAndPokemons(objClient);
             }
@@ -445,7 +456,7 @@ namespace PokeMaster.Logic
 
             //Query nearby objects for mapData
             if (mapObjectsResponse == null)
-                mapObjectsResponse = objClient.Map.GetMapObjects().Result.Item1;
+                mapObjectsResponse = objClient.Map.GetMapObjects().Result;
 
             //narrow map data to pokestops within walking distance
             
@@ -584,7 +595,7 @@ namespace PokeMaster.Logic
                         pokeStop.Latitude,
                         pokeStop.Longitude);
 
-                var fortInfo = objClient.Fort.GetFort(pokeStop.Id, pokeStop.Latitude, pokeStop.Longitude);
+                var fortInfo = objClient.Fort.GetFort(pokeStop.Id, pokeStop.Latitude, pokeStop.Longitude).Result;
 
                 //log error if pokestop not found
                 if (fortInfo == null)
@@ -765,7 +776,7 @@ namespace PokeMaster.Logic
 
                         #endregion
 
-                        var directiontext =  PokemonGo.RocketAPI.Helpers.Utils.HtmlRemoval.StripTagsRegexCompiled(step.HtmlInstructions);
+                        var directiontext =  PokemonGo.RocketAPI.Helpers.HtmlRemoval.StripTagsRegexCompiled(step.HtmlInstructions);
                         Logger.ColoredConsoleWrite(ConsoleColor.Green, directiontext);
                         var lastpoint = new Location(objClient.CurrentLatitude, objClient.CurrentLongitude);
                         foreach (var point in step.PolyLine.Points)
@@ -844,7 +855,7 @@ namespace PokeMaster.Logic
 
             if (pokeStop.CooldownCompleteTimestampMs < (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds && BotSettings.FarmPokestops)
             {
-                var fortSearch = objClient.Fort.SearchFort(pokeStop.Id, pokeStop.Latitude, pokeStop.Longitude);
+                var fortSearch = objClient.Fort.SearchFort(pokeStop.Id, pokeStop.Latitude, pokeStop.Longitude).Result;
                 Logger.Debug("================[VERBOSE LOGGING - Pokestop Search]================");
                 Logger.Debug($"Result: {fortSearch.Result}");
                 Logger.Debug($"ChainHackSequenceNumber: {fortSearch.ChainHackSequenceNumber}");
@@ -1000,7 +1011,7 @@ namespace PokeMaster.Logic
             {
                 lastsearchtimestamp = (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds;
 
-                var mapObjectsResponse = objClient.Map.GetMapObjects().Result.Item1;
+                var mapObjectsResponse = objClient.Map.GetMapObjects().Result;
                 //narrow map data to pokestops within walking distance
                 var pokeStops = GetNearbyPokeStops(false, mapObjectsResponse);
                 var pokestopsWithinRangeStanding = pokeStops.Where(i => LocationUtils.CalculateDistanceInMeters(objClient.CurrentLatitude, objClient.CurrentLongitude, i.Latitude, i.Longitude) < 40);
@@ -1019,7 +1030,7 @@ namespace PokeMaster.Logic
                         if (pokestop.Type == FortType.Gym )
                            Logger.Info("Spinning Gym");
 
-                        var fortInfo = objClient.Fort.GetFort(pokestop.Id, pokestop.Latitude, pokestop.Longitude);
+                        var fortInfo = objClient.Fort.GetFort(pokestop.Id, pokestop.Latitude, pokestop.Longitude).Result;
                         var farmed = CheckAndFarmNearbyPokeStop(pokestop, objClient, fortInfo);
 
                         if (farmed)

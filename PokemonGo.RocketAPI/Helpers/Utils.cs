@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.HashFunction;
-using System.IO;
+﻿#region using directives
+
+using System;
 using System.Linq;
-using System.Net;
-using System.Text.RegularExpressions;
+
+#endregion
 
 namespace PokemonGo.RocketAPI.Helpers
 {
-    public class Utils
+    public static class Utils
     {
         public static ulong FloatAsUlong(double value)
         {
@@ -20,91 +19,34 @@ namespace PokemonGo.RocketAPI.Helpers
         {
             var timeSpan = DateTime.UtcNow - new DateTime(1970, 1, 1);
 
-            if (ms)
-                return (long)Math.Round(timeSpan.TotalMilliseconds);
-            return (long)Math.Round(timeSpan.TotalSeconds);
+            return ms ? (long)Math.Round(timeSpan.TotalMilliseconds) : (long)Math.Round(timeSpan.TotalSeconds);
         }
-
-        public static class HtmlRemoval
+        
+        public static uint GenerateLocation1(byte[] authTicket, double lat, double lng, double alt)
         {
-            /// <summary>
-            /// Remove HTML from string with Regex.
-            /// </summary>
-            public static string StripTagsRegex(string source)
-            {
-                return Regex.Replace(source, "<.*?>", string.Empty);
-            }
+            byte[] locationBytes = BitConverter.GetBytes(lat).Reverse()
+                .Concat(BitConverter.GetBytes(lng).Reverse())
+                .Concat(BitConverter.GetBytes(alt).Reverse()).ToArray();
 
-            /// <summary>
-            /// Compiled regular expression for performance.
-            /// </summary>
-            static Regex _htmlRegex = new Regex("<.*?>", RegexOptions.Compiled);
-
-            /// <summary>
-            /// Remove HTML from string with compiled Regex.
-            /// </summary>
-            public static string StripTagsRegexCompiled(string source)
-            {
-                return _htmlRegex.Replace(source, string.Empty);
-            }
-
-            /// <summary>
-            /// Remove HTML tags from string using char array.
-            /// </summary>
-            public static string StripTagsCharArray(string source)
-            {
-                char[] array = new char[source.Length];
-                int arrayIndex = 0;
-                bool inside = false;
-
-                for (int i = 0; i < source.Length; i++)
-                {
-                    char let = source[i];
-                    if (let == '<')
-                    {
-                        inside = true;
-                        continue;
-                    }
-                    if (let == '>')
-                    {
-                        inside = false;
-                        continue;
-                    }
-                    if (!inside)
-                    {
-                        array[arrayIndex] = let;
-                        arrayIndex++;
-                    }
-                }
-                return new string(array, 0, arrayIndex);
-            }
+            return HashBuilder.Hash32Salt(locationBytes, HashBuilder.Hash32(authTicket));
         }
-
-        public static int GenerateLocation1(byte[] locationBytes, byte[] authTicket)
+        
+        public static uint GenerateLocation2(double lat, double lng, double alt)
         {
-            // Concat done before calls
-            
-            //byte[] locationBytes = BitConverter.GetBytes(lat).Reverse()
-            //     .Concat(BitConverter.GetBytes(lng).Reverse())
-            //     .Concat(BitConverter.GetBytes(alt).Reverse()).ToArray();
-
-            return (int) HashBuilder.Hash32Salt(locationBytes, HashBuilder.Hash32(authTicket));
+            byte[] locationBytes = BitConverter.GetBytes(lat).Reverse()
+                .Concat(BitConverter.GetBytes(lng).Reverse())
+                .Concat(BitConverter.GetBytes(alt).Reverse()).ToArray();
+            return HashBuilder.Hash32(locationBytes);
         }
 
-        public static int GenerateLocation2(byte[] locationBytes)
+        public static ulong GenerateRequestHash(byte[] authTicket, byte[] hashRequest)
         {
-            // Concat done before calls
-            //byte[] locationBytes = BitConverter.GetBytes(lat).Reverse()
-            //     .Concat(BitConverter.GetBytes(lng).Reverse())
-            //     .Concat(BitConverter.GetBytes(alt).Reverse()).ToArray();
-
-            return (int) HashBuilder.Hash32(locationBytes);
+            ulong seed = HashBuilder.Hash64(authTicket);
+            return HashBuilder.Hash64Salt64(hashRequest, seed);
         }
-
-        public static ulong GenerateRequestHash(byte[] requestBytes, byte[] authTicket)
+        public static ulong CastToUnsigned(long number)
         {
-            return HashBuilder.Hash64Salt64(requestBytes, HashBuilder.Hash64(authTicket));
+            return (ulong)number;
         }
-
     }
 }

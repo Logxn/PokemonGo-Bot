@@ -31,9 +31,9 @@ namespace PokeMaster.Dialogs
         }
         public void Execute(){
             var client = Logic.Logic.objClient;
-            if (client.ReadyToUse != false)
+            if (Logic.Logic.ClientReadyToUse != false)
             {
-                var incubators = client.Inventory.GetEggIncubators();
+                var incubators = client.Inventory.GetIncubators();
                   listView.Items.Clear();                  
                 ListViewItem listViewItem;                    
                 foreach (  var item in incubators) {

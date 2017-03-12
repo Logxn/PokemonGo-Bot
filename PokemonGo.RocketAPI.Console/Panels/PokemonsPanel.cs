@@ -8,6 +8,7 @@ using POGOProtos.Enums;
 using POGOProtos.Networking.Responses;
 using PokeMaster.Components;
 using PokeMaster.Dialogs;
+using PokeMaster.Logic.Functions;
 using PokeMaster.PokeData;
 using System.Linq;
 using System.Collections.Generic;
@@ -30,7 +31,6 @@ namespace PokeMaster
         public PlayerPanel playerPanel1;
         private static GetInventoryResponse inventory;
         private static List<AdditionalPokeData> additionalPokeData = new List<AdditionalPokeData>();
-        private static ISettings BotSettings;
         private static Client client;
         private ColumnHeader SortingColumn;
         private DownloadItemTemplatesResponse templates;
@@ -40,7 +40,6 @@ namespace PokeMaster
         {
             InitializeComponent();
             th.Translate(this);
-            BotSettings = new Settings();
             InitialzePokemonListView();
         }
 
@@ -208,20 +207,19 @@ namespace PokeMaster
             catch (Exception e)
             {
                 var strTrace = $"Could not load additional PokeData: {e.Message}{e.StackTrace}";
-                Logger.ColoredConsoleWrite(ConsoleColor.Red, strTrace, LogLevel.Error);
+                Logger.ColoredConsoleWrite(ConsoleColor.Red, strTrace, Logger.LogLevel.Error);
             }
         }
 
         #endregion initialize listview
 
-        public void Execute(GetPlayerResponse profileIn)
+        public void Execute()
         {
-            profile = profileIn;
             EnabledButton(false, th.TS("Reloading Pokemon list."));
             try
             {
                 client = Logic.Logic.objClient;
-                if (client.ReadyToUse != false)
+                if (Logic.Logic.ClientReadyToUse != false)
                 {
                     RandomHelper.RandomSleep(1000, 1200);
                     refreshData();
@@ -378,8 +376,8 @@ namespace PokeMaster
         }
 
         public void refreshData(){
-            inventory =  client.Inventory.GetInventory();
-            templates = client.Download.GetItemTemplates();
+            inventory =  client.Inventory.GetInventory().Result;
+            templates = client.Download.GetItemTemplates().Result;
         }
 
 
@@ -418,7 +416,7 @@ namespace PokeMaster
             var resp = new taskResponse(false, string.Empty);
             try
             {
-                var transferPokemonResponse =  client.Inventory.TransferPokemon(pokemon.Id);
+                var transferPokemonResponse =  client.Inventory.TransferPokemon(pokemon.Id).Result;
 
                 if (transferPokemonResponse.Result == ReleasePokemonResponse.Types.Result.Success)
                 {
@@ -439,7 +437,7 @@ namespace PokeMaster
 
         private void btnReload_Click(object sender, EventArgs e)
         {
-            Execute(profile);
+            Execute();
         }
 
         private void btnEvolve_Click(object sender, EventArgs e)
@@ -469,9 +467,9 @@ namespace PokeMaster
             foreach (ListViewItem selectedItem in selectedItems)
             {
                 var pokemoninfo = (PokemonData)selectedItem.Tag;
-                var item = Inventory.GeteNeededItemToEvolve(pokemoninfo.PokemonId);
+                var item = Setout.GeteNeededItemToEvolve(pokemoninfo.PokemonId);
 
-                if (item != ItemId.ItemUnknown && client.Inventory.GetItemAmountByType(item) < 1){
+                if (item != ItemId.ItemUnknown && client.Inventory.GetItemData(item).Count < 1){
                     if ( pokemoninfo.PokemonId == PokemonId.Poliwhirl
                         || pokemoninfo.PokemonId == PokemonId.Gloom
                         || pokemoninfo.PokemonId == PokemonId.Slowpoke
@@ -485,7 +483,7 @@ namespace PokeMaster
                 evolveDialog.pictureBox2.Image = null;
                 evolveDialog.progressBar1.Value = 0;
                 evolveDialog.Show();
-                resp = client.Inventory.EvolvePokemon(pokemoninfo.Id, item);
+                resp = client.Inventory.EvolvePokemon(pokemoninfo.Id, item).Result;
                 if (resp.Result == EvolvePokemonResponse.Types.Result.Success)
                 {
                     var evolvedImage = PokeImgManager.GetPokemonVeryLargeImage(resp.EvolvedPokemonData.PokemonId);
@@ -530,7 +528,7 @@ namespace PokeMaster
 
             if (failed != string.Empty)
             {
-                if (BotSettings.LogEvolve)
+                if (GlobalVars.LogEvolve)
                 {
                     File.AppendAllText(evolvelog, $"[{date}] - MANUAL - Sucessfully evolved {evolved}/{total} Pokemons. Failed: {failed}" + Environment.NewLine);
                 }
@@ -538,7 +536,7 @@ namespace PokeMaster
             }
             else
             {
-                if (BotSettings.LogEvolve)
+                if (GlobalVars.LogEvolve)
                 {
                     File.AppendAllText(evolvelog, $"[{date}] - MANUAL - Sucessfully evolved {evolved}/{total} Pokemons." + Environment.NewLine);
                 }
@@ -549,7 +547,7 @@ namespace PokeMaster
 
             if (evolved > 0)
             {
-                Execute(profile);
+                Execute();
             }
             else
                 EnabledButton(true);
@@ -602,10 +600,10 @@ namespace PokeMaster
 
                             transfered++;
 
-                            File.AppendAllText(logs, $"[{date}] - MANUAL - Enqueuing to BULK transfer pokemon {transfered}/{total}: {Logic.Utils.StringUtils.getPokemonNameByLanguage(BotSettings, pokemon.PokemonId)}" + Environment.NewLine);
+                            File.AppendAllText(logs, $"[{date}] - MANUAL - Enqueuing to BULK transfer pokemon {transfered}/{total}: { pokemon.PokemonId}" + Environment.NewLine);
                             var strPerfection = PokemonInfo.CalculatePokemonPerfection(pokemon).ToString("0.00");
                             var strTransfer = $"Enqueuing to BULK transfer pokemon {transfered}/{total}: {strPokename} CP {pokemon.Cp} IV {strPerfection}";
-                            Logger.ColoredConsoleWrite(ConsoleColor.Yellow, strTransfer, LogLevel.Info);
+                            Logger.ColoredConsoleWrite(ConsoleColor.Yellow, strTransfer, Logger.LogLevel.Info);
                             
                             PokemonListView.Items.Remove(selectedItem);
                         }
@@ -618,11 +616,11 @@ namespace PokeMaster
                         }
                     }
                     if (pokemonsToTransfer.Any()){
-                        var _response = client.Inventory.TransferPokemon(pokemonsToTransfer);
+                        var _response = client.Inventory.TransferPokemons(pokemonsToTransfer).Result;
                         
                         if (_response.Result == ReleasePokemonResponse.Types.Result.Success)
                         {
-                            if (BotSettings.LogTransfer)
+                            if (GlobalVars.LogTransfer)
                             {
                                 File.AppendAllText(logs, $"[{date}] - MANUAL - Sucessfully Bulk transfered {transfered}/{total} Pokemons. Failed: {failed}" + Environment.NewLine);
                             }
@@ -636,7 +634,7 @@ namespace PokeMaster
                         }
                         
                         RefreshTitle();
-                        client.Inventory.GetInventory(true); // force refresh inventory
+                        client.Inventory.GetInventory().Wait(); // force refresh inventory
                     }
                     
                     if (GlobalVars.pauseAtEvolve)
@@ -661,7 +659,7 @@ namespace PokeMaster
             var ret = false;
             try
             {
-                var evolvePokemonResponse = client.Inventory.UpgradePokemon(pokemon.Id);
+                var evolvePokemonResponse = client.Inventory.UpgradePokemon(pokemon.Id).Result;
 
                 if (evolvePokemonResponse.Result == UpgradePokemonResponse.Types.Result.Success)
                 {
@@ -696,7 +694,7 @@ namespace PokeMaster
                     atLeast1PowerUp = true;
                 }
                 if (atLeast1PowerUp)
-                    Execute(profile);
+                    Execute();
             }
             EnabledButton(true);
         }
@@ -739,7 +737,7 @@ namespace PokeMaster
         }
         private static string IVsToNickname(PokemonData pokemon, bool useShortFormat)
         {
-            string croppedName = Logic.Utils.StringUtils.getPokemonNameByLanguage(BotSettings, (PokemonId)pokemon.PokemonId) + " ";
+            string croppedName = pokemon.PokemonId + " ";
             string nickname;
             if (useShortFormat)
                 nickname = string.Format("{0}{1}{2}{3}", pokemon.IndividualAttack.ToString("X"), pokemon.IndividualDefense.ToString("X"), pokemon.IndividualStamina.ToString("X"),(45 - pokemon.IndividualAttack- pokemon.IndividualDefense- pokemon.IndividualStamina));
@@ -755,7 +753,7 @@ namespace PokeMaster
             var ret = false;
             try
             {
-                var result = client.Inventory.NicknamePokemon(pokemon.Id, pokemon.Nickname);
+                var result = client.Inventory.NicknamePokemon(pokemon.Id, pokemon.Nickname).Result;
 
                 if ( result.Result == NicknamePokemonResponse.Types.Result.Success)
                 {
@@ -791,7 +789,7 @@ namespace PokeMaster
             var pokemon = (PokemonData)PokemonListView.SelectedItems[0].Tag;
             if (MessageBox.Show(this, th.TS( " {0} with {1} CP thats {2} % perfect",pokemon.PokemonId,pokemon.Cp,Math.Round(PokemonInfo.CalculatePokemonPerfection(pokemon))), th.TS("Are you sure you want to power it up?"), MessageBoxButtons.OKCancel) == DialogResult.OK)
                 if ( PowerUp(pokemon))
-                    Execute(profile);
+                    Execute();
         }
 
         private void iVsToNicknameToolStripMenuItem_Click(object sender, EventArgs e)
@@ -839,7 +837,7 @@ namespace PokeMaster
                             specSymbol = "★";
                         if ((profile!=null) && (profile.PlayerData.BuddyPokemon.Id == pokemon.Id))
                             specSymbol = "☉";
-                        PokemonListView.SelectedItems[0].Text = specSymbol + Logic.Utils.StringUtils.getPokemonNameByLanguage(BotSettings, (PokemonId)pokemon.PokemonId);
+                        PokemonListView.SelectedItems[0].Text = specSymbol +  pokemon.PokemonId;
                     }else
                         MessageBox.Show(th.TS("{0} change favourites failed!",poname), th.TS("Change favourites Status"), MessageBoxButtons.OK);
                 }
@@ -851,7 +849,7 @@ namespace PokeMaster
             var resp = false;
             try
             {
-                var response =  client.Inventory.SetFavoritePokemon((long)pokemon.Id, (pokemon.Favorite == 1));
+                var response =  client.Inventory.SetFavoritePokemon( pokemon.Id, (pokemon.Favorite == 1)).Result;
                 resp = (response.Result == SetFavoritePokemonResponse.Types.Result.Success);
             }
             catch (Exception e)
@@ -892,7 +890,7 @@ namespace PokeMaster
             var ret = false;
             try
             {
-                var response = client.Inventory.SetBuddyPokemon(pokemon.Id);
+                var response = client.Player.SelectBuddy(pokemon.Id).Result;
 
                 ret = (response.Result == SetBuddyPokemonResponse.Types.Result.Success);
             }
@@ -919,7 +917,7 @@ namespace PokeMaster
         }
         private void reloadtimer_Tick(object sender, EventArgs e)
         {
-            Execute(profile);
+            Execute();
         }
 
         private void freezedenshit_Tick(object sender, EventArgs e)
@@ -939,21 +937,21 @@ namespace PokeMaster
             var dialog = new Dialogs.ItemSelect();
             if (dialog.ShowDialog() == DialogResult.OK) {
                 var selectedItem = dialog.selected;
-                var itemsCount = client.Inventory.GetItemAmountByType(selectedItem.ItemId);
+                var itemsCount = client.Inventory.GetItemData(selectedItem.ItemId).Count;
                 var index = 0;
                 foreach (ListViewItem element in PokemonListView.SelectedItems) {
                     var selectedPokemon = (PokemonData) element. Tag;
                     if (selectedItem.ItemId == ItemId.ItemRevive || selectedItem.ItemId == ItemId.ItemMaxRevive)
                     {
                         var res = client.Inventory.UseItemRevive(selectedItem.ItemId,selectedPokemon.Id).Result;
-                        if (res == UseItemReviveResponse.Types.Result.Success)
+                        if (res.Result == UseItemReviveResponse.Types.Result.Success)
                             MessageBox.Show(th.TS("{0} Revived sucefully",selectedPokemon.PokemonId.ToString()));
                         else
                             Logger.Error("Error: "+ res);
                     }
                     else{
                         var res = client.Inventory.UseItemPotion(selectedItem.ItemId,selectedPokemon.Id).Result;
-                        if (res == UseItemPotionResponse.Types.Result.Success)
+                        if (res.Result == UseItemPotionResponse.Types.Result.Success)
                             MessageBox.Show(th.TS("{0} Cured sucefully",selectedPokemon.PokemonId.ToString()));
                         else
                             Logger.Error("Error: "+ res);
@@ -975,7 +973,7 @@ namespace PokeMaster
             if (selectedPokemon.DeployedFortId=="")
                 return;
 
-            var forts = client.Map.GetMapObjects().Result.Item1;
+            var forts = client.Map.GetMapObjects().Result;
             var pokeGym = forts.MapCells.SelectMany(i => i.Forts)
                 .FirstOrDefault(i => i.Id == selectedPokemon.DeployedFortId );
 
@@ -983,7 +981,7 @@ namespace PokeMaster
             if (pokeGym == null){
                 message = th.TS("Gym is not in range.\nID: ") + selectedPokemon.DeployedFortId;
             }else{
-                var gymDetails = client.Fort.GetGymDetails(pokeGym.Id, pokeGym.Latitude, pokeGym.Longitude);
+                var gymDetails = client.Fort.GetGymDetails(pokeGym.Id, pokeGym.Latitude, pokeGym.Longitude).Result;
                 message = string.Format("{0}\n{1}, {2}\n{3}\nID: {4}", LocationUtils.FindAddress(pokeGym.Latitude, pokeGym.Longitude), pokeGym.Latitude, pokeGym.Longitude, gymDetails.Name ,  pokeGym.Id);
                 Logic.Logic.Instance.infoObservable.PushUpdatePokeGym(pokeGym);
             }
@@ -1010,10 +1008,10 @@ namespace PokeMaster
             var separator = "";
             if (settings.EvolutionBranch.Count>0)
                 strEvolves = "";
-            var item = Inventory.GeteNeededItemToEvolve(pokemon.PokemonId);
+            var item = Setout.GeteNeededItemToEvolve(pokemon.PokemonId);
             var amountItems =  -1 ;
             if (item != ItemId.ItemUnknown )
-                amountItems = client.Inventory.GetItemAmountByType(item);
+                amountItems = client.Inventory.GetItemData(item).Count;
             var i = 0;
             foreach (var element in settings.EvolutionBranch) {
                 var canEvolve = "N";

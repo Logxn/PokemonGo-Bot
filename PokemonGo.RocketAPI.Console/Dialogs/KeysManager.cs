@@ -13,7 +13,6 @@ using System.IO;
 using System.Net;
 using System.Windows.Forms;
 using Newtonsoft.Json;
-using PokemonGo.RocketAPI.Shared;
 
 namespace PokeMaster.Dialogs
 {

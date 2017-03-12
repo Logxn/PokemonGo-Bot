@@ -21,6 +21,7 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using PokeMaster.Logic.Shared;
+using PokeMaster.Logic.Utils;
 using PokemonGo.RocketAPI;
 namespace PokeMaster
     
@@ -329,9 +330,9 @@ namespace PokeMaster
             if (! enableEvents)
                 return;
             GlobalVars.Debug.VerboseMode = (sender as CheckBox).Checked;
-            Logger.SelectedLevel = LogLevel.Error;
+            Logger.SelectedLevel = Logger.LogLevel.Error;
             if (GlobalVars.Debug.VerboseMode)
-                Logger.SelectedLevel = LogLevel.Debug;
+                Logger.SelectedLevel = Logger.LogLevel.Debug;
         }
         void checkBox_UseGoogleMapsRouting_CheckedChanged(object sender, EventArgs e)
         {

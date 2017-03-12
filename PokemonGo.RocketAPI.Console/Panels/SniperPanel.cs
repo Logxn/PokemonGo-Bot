@@ -21,6 +21,7 @@ using System.Device.Location;
 using Microsoft.Win32;
 using System.Text;
 using PokeMaster.Logic.Shared;
+using PokeMaster.Logic.Utils;
 using PokemonGo.RocketAPI;
 
 namespace PokeMaster

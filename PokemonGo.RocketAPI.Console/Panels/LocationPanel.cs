@@ -105,10 +105,10 @@ namespace PokeMaster
             var button = ((Button)sender);
             button.Enabled = false;
             var client = Logic.Logic.objClient;
-            if (client.ReadyToUse) {
-                Logger.ColoredConsoleWrite(ConsoleColor.DarkRed, "Refreshing Forts", LogLevel.Warning);
-                var mapObjects = await client.Map.GetMapObjects().ConfigureAwait(false);
-                var mapCells = mapObjects.Item1.MapCells;
+            if (Logic.Logic.ClientReadyToUse) {
+                Logger.ColoredConsoleWrite(ConsoleColor.DarkRed, "Refreshing Forts", Logger.LogLevel.Warning);
+                var mapObjects = client.Map.GetMapObjects().Result;
+                var mapCells = mapObjects.MapCells;
                 var pokeStops =
                     mapCells.SelectMany(i => i.Forts)
                 .Where(
@@ -137,7 +137,7 @@ namespace PokeMaster
                 if (!map.Overlays.Contains(_pokeGymsOverlay)) {
                     map.Overlays.Add(_pokeGymsOverlay);
                 }
-                Logger.ColoredConsoleWrite(ConsoleColor.DarkRed, "Refreshing Forts Done.", LogLevel.Warning);
+                Logger.ColoredConsoleWrite(ConsoleColor.DarkRed, "Refreshing Forts Done.", Logger.LogLevel.Warning);
             }
            
 
@@ -685,7 +685,7 @@ namespace PokeMaster
                 if (MessageBox.Show(th.TS("Do you want see gym details?"), th.TS("Gym Details Confirmation"), MessageBoxButtons.YesNo) == DialogResult.No)
                     return;
                 
-                var details = Logic.Logic.objClient.Fort.GetGymDetails(gymID, item.Position.Lat, item.Position.Lng);
+                var details = Logic.Logic.objClient.Fort.GetGymDetails(gymID, item.Position.Lat, item.Position.Lng).Result;
                 if (details.Result == POGOProtos.Networking.Responses.GetGymDetailsResponse.Types.Result.Success){
                     var str = item.ToolTipText + "\n";
                     str += details.Name + "\n";

@@ -1,11 +1,15 @@
 ﻿#region using directives
 
 using Google.Protobuf;
+using POGOProtos.Networking.Envelopes;
+using POGOProtos.Networking.Platform.Responses;
 using POGOProtos.Networking.Requests;
 using POGOProtos.Networking.Requests.Messages;
 using POGOProtos.Networking.Responses;
 using PokemonGo.RocketAPI.Exceptions;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 #endregion
 
@@ -80,60 +84,57 @@ namespace PokemonGo.RocketAPI.Helpers
             };
         }
 
-        public static Request[] FillRequest(Request request, Client client)
+        public static Request GetVerifyChallenge(string token)
         {
-            return new[]
+            return new Request
             {
-                request,
-                new Request
+                RequestType = RequestType.VerifyChallenge,
+                RequestMessage = new VerifyChallengeMessage()
                 {
-                    RequestType = RequestType.CheckChallenge,
-                    RequestMessage = new CheckChallengeMessage().ToByteString()
-                },
-                new Request
-                {
-                    RequestType = RequestType.GetHatchedEggs,
-                    RequestMessage = new GetHatchedEggsMessage().ToByteString()
-                },
-                GetDefaultGetInventoryMessage(client),
-                new Request
-                {
-                    RequestType = RequestType.CheckAwardedBadges,
-                    RequestMessage = new CheckAwardedBadgesMessage().ToByteString()
-                },
-                GetDownloadSettingsMessageRequest(client),
-                new Request
-                {
-                    RequestType = RequestType.GetBuddyWalked,
-                    RequestMessage = new GetBuddyWalkedMessage().ToByteString()
-                }
+                    Token = token,
+
+                }.ToByteString()
             };
         }
 
-        public static Request[] GetCommonRequests(Client client)
+        public static List<Request> FillRequest(Request request, Client client, params RequestType[] excludes)
         {
-            return new[]
-            {
-                new Request
-                {
-                    RequestType = RequestType.CheckChallenge,
-                    RequestMessage = new CheckChallengeMessage().ToByteString()
-                },
-                new Request
-                {
-                    RequestType = RequestType.GetHatchedEggs,
-                    RequestMessage = new GetHatchedEggsMessage().ToByteString()
-                },
-                GetDefaultGetInventoryMessage(client),
-                new Request
-                {
-                    RequestType = RequestType.CheckAwardedBadges,
-                    RequestMessage = new CheckAwardedBadgesMessage().ToByteString()
-                },
-                GetDownloadSettingsMessageRequest(client)
-            };
+            var requests = GetCommonRequests(client, excludes);
+            requests.Insert(0, request);
+
+            return requests;
         }
 
+        public static List<Request> GetCommonRequests(Client client, params RequestType[] excludes)
+        {
+            List<Request> commonRequestsList = new List<Request>();
+            commonRequestsList.Add(new Request
+            {
+                RequestType = RequestType.CheckChallenge,
+                RequestMessage = new CheckChallengeMessage().ToByteString()
+            });
+            commonRequestsList.Add(new Request
+            {
+                RequestType = RequestType.GetHatchedEggs,
+                RequestMessage = new GetHatchedEggsMessage().ToByteString()
+            });
+            commonRequestsList.Add(GetDefaultGetInventoryMessage(client));
+            commonRequestsList.Add(new Request
+            {
+                RequestType = RequestType.CheckAwardedBadges,
+                RequestMessage = new CheckAwardedBadgesMessage().ToByteString()
+            });
+            commonRequestsList.Add(GetDownloadSettingsMessageRequest(client));
+            commonRequestsList.Add(new Request
+            {
+                RequestType = RequestType.GetBuddyWalked,
+                RequestMessage = new GetBuddyWalkedMessage().ToByteString()
+            });
+
+            return commonRequestsList.Where(r => !excludes.Contains(r.RequestType)).ToList();
+        }
+
+        private static object locker = new object();
         public static void ProcessGetInventoryResponse(Client client, GetInventoryResponse getInventoryResponse)
         {
             if (getInventoryResponse == null)
@@ -148,6 +149,8 @@ namespace PokemonGo.RocketAPI.Helpers
                 {
                     client.InventoryLastUpdateTimestamp = getInventoryResponse.InventoryDelta.NewTimestampMs;
                 }
+
+                client.Inventory.MergeWith(getInventoryResponse);
             }
         }
 
@@ -162,12 +165,15 @@ namespace PokemonGo.RocketAPI.Helpers
                     return;
 
                 client.SettingsHash = downloadSettingsResponse.Hash;
-
+                client.GlobalSettings = downloadSettingsResponse.Settings;
                 if (!string.IsNullOrEmpty(downloadSettingsResponse.Settings.MinimumClientVersion))
                 {
                     client.MinimumClientVersion = new Version(downloadSettingsResponse.Settings.MinimumClientVersion);
-                    if (client.CheckCurrentVersionOutdated())
-                        throw new MinimumClientVersionException(client.CurrentApiEmulationVersion, client.MinimumClientVersion);
+                    if (!client.Settings.UseLegacyAPI)
+                    {
+                        if (client.CheckCurrentVersionOutdated())
+                            throw new MinimumClientVersionException(client.CurrentApiEmulationVersion, client.MinimumClientVersion);
+                    }
                 }
             }
         }
@@ -178,57 +184,29 @@ namespace PokemonGo.RocketAPI.Helpers
                 return;
 
             if (checkChallengeResponse.ShowChallenge)
-                client.ApiFailure.HandleCaptcha(checkChallengeResponse.ChallengeUrl, client);
+                throw new CaptchaException(checkChallengeResponse.ChallengeUrl);
         }
 
-        public static void Parse(Client client, RequestType requestType, ByteString data)
+        public static void ProcessGetPlayerResponse(Client client, GetPlayerResponse getPlayerResponse)
         {
-            try
+            if (getPlayerResponse == null)
+                return;
+
+            if (getPlayerResponse.PlayerData != null)
+                client.Player.PlayerData = getPlayerResponse.PlayerData;
+        }
+
+        public static void ProcessPlatform8Response(Client client, ResponseEnvelope responseEnvelope)
+        {
+            foreach (var platformReturn in responseEnvelope.PlatformReturns)
             {
-                switch (requestType)
+                if (platformReturn.Type == POGOProtos.Networking.Platform.PlatformRequestType.UnknownPtr8)
                 {
-                    case RequestType.GetInventory:
-                        //TODO Update inventory
-                        //client..getInventories().updateInventories(GetInventoryResponse.parseFrom(data));
-
-                        //var getInventoryResponse = new GetInventoryResponse();
-                        //getInventoryResponse.MergeFrom(data);
-
-                        // Update inventory timestamp
-                        client.InventoryLastUpdateTimestamp = Utils.GetTime(true);
-
-                        break;
-                    case RequestType.DownloadSettings:
-                        //TODO Update settings
-                        //api.getSettings().updateSettings(DownloadSettingsResponse.parseFrom(data));
-
-                        // Update settings hash
-                        var downloadSettingsResponse = new DownloadSettingsResponse();
-                        downloadSettingsResponse.MergeFrom(data);
-                        client.SettingsHash = downloadSettingsResponse.Hash;
-
-                        break;
-                    default:
-                        break;
+                    var ptr8Response = new UnknownPtr8Response();
+                    ptr8Response.MergeFrom(platformReturn.Response);
+                    client.UnknownPlat8Field = ptr8Response.Message;
                 }
             }
-            catch (InvalidProtocolBufferException e)
-            {
-                throw e;
-            }
         }
-
-        public static Request GetVerifyChallenge(string token)
-        {
-            return new Request
-            {
-                RequestType = RequestType.VerifyChallenge,
-                RequestMessage = new VerifyChallengeMessage()
-                {
-                    Token = token
-                }.ToByteString()
-            };
-        }
-
     }
 }

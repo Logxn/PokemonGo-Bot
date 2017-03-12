@@ -129,7 +129,8 @@ namespace PokeMaster
                     if (arg.ToLower().Contains("-help"))
                     {
                         //Show Help
-                        System.Console.WriteLine($"Pokemon BOT C# v{Resources.BotVersion.ToString()} help" + Environment.NewLine);
+                        
+                        System.Console.WriteLine($"Pokemon BOT C# v{VersionHelper.BotVersion.ToString()} help" + Environment.NewLine);
                         System.Console.WriteLine("Use:");
                         System.Console.WriteLine("  -nogui <lat>,<long>         Console mode only, starting on the indicated Latitude & Longitude");
                         System.Console.WriteLine("  -bypassversioncheck         Do NOT check BOT & API compatibility (be careful with that option!)");
@@ -145,17 +146,16 @@ namespace PokeMaster
             // Checking if current BOT API implementation supports NIANTIC current API (unless there's an override command line switch)
             if (!GlobalVars.BypassCheckCompatibilityVersion)
             {
-                Logger.ColoredConsoleWrite(ConsoleColor.DarkMagenta, $"Bot Current version: {Resources.BotVersion}");
-                Logger.ColoredConsoleWrite(ConsoleColor.DarkMagenta, $"Bot Supported API version: {Resources.BotApiSupportedVersion}");
-                Logger.ColoredConsoleWrite(ConsoleColor.DarkMagenta, $"Current API version: {new CurrentAPIVersion().GetNianticAPIVersion()}");
+                VersionHelper.RequestCurrentNianticAPIVersion();
+                Logger.ColoredConsoleWrite(ConsoleColor.DarkMagenta, $"Bot Current version: {VersionHelper.BotVersion}");
+                Logger.ColoredConsoleWrite(ConsoleColor.DarkMagenta, $"Bot Supported API version: {GlobalVars.BotApiSupportedVersion}");
+                Logger.ColoredConsoleWrite(ConsoleColor.DarkMagenta, $"Current API version: {VersionHelper.CurrentNianticAPIVersion}");
 
-                bool CurrentVersionsOK = new CurrentAPIVersion().CheckAPIVersionCompatibility(GlobalVars.BotApiSupportedVersion);
-                if (!CurrentVersionsOK)
+                if (!VersionHelper.CheckAPIVersionCompatibility())
                 {
                     Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Atention, current API version is new and still not supported by Bot.");
                     Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Bot will now exit to keep your account safe.");
                     Logger.ColoredConsoleWrite(ConsoleColor.Red, $"---------- PRESS ANY KEY TO CLOSE ----------");
-
                     System.Console.ReadKey();
                     Environment.Exit(-1);
                 }
@@ -178,8 +178,6 @@ namespace PokeMaster
                     new Panels.SplashScreen().ShowDialog();
                 });
                 openGUI = GlobalVars.EnablePokeList;
-                if (GlobalVars.EnableConsoleInTab) 
-                    Logger.type = 1;
                 // To open tabbed GUI to test programing 
                 /*
                 TabbedSystem.skipReadyToUse = true;
@@ -200,14 +198,14 @@ namespace PokeMaster
                     try
                     {
                         DeviceSetup.SelectDevice(GlobalVars.DeviceTradeName, GlobalVars.DeviceID, deviceData);
-                        new Logic.Logic(new Settings(), GlobalVars.infoObservable).Execute();
+                        new Logic.Logic(new Settings(), GlobalVars.infoObservable, DeviceSetup.SelectedDevice.DeviceInfo ).Execute();
                     }
                     catch (Exception ex)
                     {
                         Logger.Error( $"Unhandled exception: {ex}");
                     }
                     Logger.Error("Restarting in 20 Seconds.");
-                    Thread.Sleep(20000);
+                    Task.Delay( 20000).Wait();
                }while (Logic.Logic.restartLogic);
             });
 

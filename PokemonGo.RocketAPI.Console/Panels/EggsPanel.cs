@@ -51,9 +51,9 @@ namespace PokeMaster
         {
             try {
                 var client = Logic.Logic.objClient;
-                if (client.ReadyToUse != false) {
+                if (Logic.Logic.ClientReadyToUse != false) {
                     var items = client.Inventory.GetEggs();
-                    var incubators = client.Inventory.GetEggIncubators(); 
+                    var incubators = client.Inventory.GetIncubators(); 
                     var arrStats = client.Inventory.GetPlayerStats();
                     var stats = arrStats.First();
 	              	               	               
@@ -182,7 +182,7 @@ namespace PokeMaster
             var resp1 = new taskResponse(false, string.Empty);
             try {
                 var client = Logic.Logic.objClient;
-                var resp2 =  client.Inventory.UseItemEggIncubator(item.Id, egg.Id);
+                var resp2 =  client.Inventory.UseItemEggIncubator(item.Id, egg.Id).Result;
 
                 if (resp2.Result == UseItemEggIncubatorResponse.Types.Result.Success) {
                     resp1.Status = true;
