@@ -36,7 +36,7 @@ namespace PokeMaster.Panels
             /*
             try {
                 var client = Logic.Logic.objClient;
-                if (Logic.Logic.ClientReadyToUse != false) {
+                if (Logic.Logic.ClientReadyToUse) {
                     Logger.Debug("Before of GetStoreItems");
                     var inventory = client.Store.GetStoreItems().Items;
                     Logger.Debug("After of GetStoreItems");

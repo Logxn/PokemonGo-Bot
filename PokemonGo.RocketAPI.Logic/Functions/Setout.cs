@@ -20,7 +20,6 @@ using POGOProtos.Inventory.Item;
 using POGOProtos.Networking.Responses;
 using POGOProtos.Settings.Master;
 using PokemonGo.RocketAPI;
-using PokemonGo.RocketAPI.Rpc;
 using PokemonGo.RocketAPI.Helpers;
 using PokeMaster.Logic;
 using PokeMaster.Logic.Shared;
@@ -532,11 +531,24 @@ namespace PokeMaster.Logic.Functions
 
         public static IEnumerable<ItemData> GetItemsToRecycle(ICollection<KeyValuePair<ItemId, int>> itemRecycleFilter)
         {
-            var myItems = Logic.objClient.Inventory.GetItemsData();
-            return myItems
-                .Where(x => itemRecycleFilter.Any(f => f.Key == ((ItemId)x.ItemId) && x.Count > f.Value))
-                .Select(x => new ItemData { ItemId = x.ItemId, Count = x.Count - itemRecycleFilter.Single(f => f.Key == (ItemId)x.ItemId).Value, Unseen = x.Unseen });
+            var listToRecycle = new List<ItemData>();
+            foreach (var element in itemRecycleFilter) {
+                var myItem = Logic.objClient.Inventory.GetItemData(element.Key);
+                if (myItem!=null){
+                    if (myItem.Count> element.Value){
+                        myItem.Count = myItem.Count -element.Value;
+                        Logger.Debug("myItem: "+ myItem);
+                        listToRecycle.Add(myItem);
+                    }
+                }
+            }
+            return listToRecycle;
         }
+        /*
+         return myItems
+            .Where(x => itemRecycleFilter.Any(f => f.Key == x.ItemId && x.Count > f.Value))
+            .Select(x => new ItemData { ItemId = x.ItemId, Count = x.Count - itemRecycleFilter.Single(f => f.Key == (ItemId)x.ItemId).Value, Unseen = x.Unseen });
+        */
 
         private static void RecycleItems(bool forcerefresh = false)
         {
@@ -555,10 +567,9 @@ namespace PokeMaster.Logic.Functions
                 }
                 var transfer = Logic.objClient.Inventory.RecycleItem(item.ItemId, item.Count).Result;
                 Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Recycled {item.Count}x {item.ItemId}");
-                RandomHelper.RandomSleep(1000, 5000);
+                RandomHelper.RandomSleep(2000);
             }
         }
-
 
         private static void StatsLog(Client client)
         {

@@ -376,7 +376,7 @@ namespace PokeMaster
             {
                 try
                 {
-                    if (Logic.Logic.objClient != null && Logic.Logic.ClientReadyToUse != false)
+                    if (Logic.Logic.objClient != null && Logic.Logic.ClientReadyToUse)
                     {
                         break;
                     }

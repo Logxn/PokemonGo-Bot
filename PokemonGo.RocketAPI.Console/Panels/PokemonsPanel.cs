@@ -219,7 +219,7 @@ namespace PokeMaster
             try
             {
                 client = Logic.Logic.objClient;
-                if (Logic.Logic.ClientReadyToUse != false)
+                if (Logic.Logic.ClientReadyToUse)
                 {
                     RandomHelper.RandomSleep(1000, 1200);
                     refreshData();

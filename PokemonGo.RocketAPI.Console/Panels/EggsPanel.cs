@@ -51,7 +51,7 @@ namespace PokeMaster
         {
             try {
                 var client = Logic.Logic.objClient;
-                if (Logic.Logic.ClientReadyToUse != false) {
+                if (Logic.Logic.ClientReadyToUse) {
                     var items = client.Inventory.GetEggs();
                     var incubators = client.Inventory.GetIncubators(); 
                     var arrStats = client.Inventory.GetPlayerStats();
