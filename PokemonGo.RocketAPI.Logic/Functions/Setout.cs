@@ -901,7 +901,7 @@ namespace PokeMaster.Logic.Functions
             }
             if (GlobalVars.TransferDoublePokemons)
             {
-                RandomHelper.RandomSleep(300, 400);
+                RandomHelper.RandomSleep(400);
 
                 if (GlobalVars.pauseAtEvolve2)
                 {
@@ -1043,19 +1043,17 @@ namespace PokeMaster.Logic.Functions
                     }
                     if (orderByIv)
                     {
-                        results.AddRange( (IEnumerable<PokemonData>) pokemonList.Where(x => x.PokemonId == pokemon.Key)
+                        results.AddRange( pokemonList.Where(x => x.PokemonId == pokemon.Key)
                                                     .OrderByDescending(PokemonInfo.CalculatePokemonPerfection)
                                                     .ThenBy(n => n.StaminaMax)
-                                                    .Skip(amountToSkip)
-                                                    .ToList());
+                                                    .Skip(amountToSkip));
                     }
                     else
                     {
-                        results.AddRange( (IEnumerable<PokemonData>) pokemonList.Where(x => x.PokemonId == pokemon.Key)
+                        results.AddRange( pokemonList.Where(x => x.PokemonId == pokemon.Key)
                             .OrderByDescending(x => x.Cp)
                             .ThenBy(n => n.StaminaMax)
-                            .Skip(amountToSkip)
-                            .ToList());
+                            .Skip(amountToSkip) );
                     }
 
                 }

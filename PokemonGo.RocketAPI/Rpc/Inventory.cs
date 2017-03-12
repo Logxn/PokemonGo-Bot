@@ -657,12 +657,17 @@ namespace PokemonGo.RocketAPI.Rpc
             return response.Item1;
         }
         public IEnumerable<ItemData> GetItemsData(){
-            return InventoryItems.Values.Select(x => x.InventoryItemData.Item);
+            var items = InventoryItems.Values.Select(x => x.InventoryItemData.Item);
+            if (items ==null){
+                GetInventory().Wait();
+                items = InventoryItems.Values.Select(x => x.InventoryItemData.Item);
+            }
+            return items;
         }
 
         public ItemData GetItemData( ItemId itemId)
         {
-            return GetItemsData().FirstOrDefault(p => p.ItemId == itemId);
+            return GetItemsData()?.FirstOrDefault(p => p.ItemId == itemId);
         }
 
         public int GetItemsCount()
