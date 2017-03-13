@@ -198,7 +198,7 @@ namespace PokeMaster.Logic.Utils
 
         public void HashStatusUpdate(HashInfo info)
         {
-            Info($"(HASH SERVER)  [{info.MaskedAPIKey}] in last 1 minute  {info.Last60MinAPICalles} request/min , AVG: {info.Last60MinAPIAvgTime:0.00} ms/request , Fastest : {info.Fastest}, Slowest: {info.Slowest}");
+            Debug($"(HASH SERVER)  [{info.MaskedAPIKey}] in last 1 minute  {info.Last60MinAPICalles} request/min , AVG: {info.Last60MinAPIAvgTime:0.00} ms/request , Fastest : {info.Fastest}, Slowest: {info.Slowest}");
         }
 
         public void LogCritical(string message, dynamic data)
@@ -218,10 +218,7 @@ namespace PokeMaster.Logic.Utils
 
         public void LogInfo(string message)
         {
-            if (message.Contains("HASH SERVER"))
-                Debug(message);
-            else
-                Info(message);
+            Info(message);
         }
         
     }

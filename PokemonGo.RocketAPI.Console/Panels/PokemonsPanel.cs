@@ -213,11 +213,16 @@ namespace PokeMaster
                     RandomHelper.RandomSleep(1000, 1200);
 
                     var pokemons = client.Inventory.GetPokemons();
+                    Logger.Debug("pokemons: " + pokemons.Count());
 
                     var pokemonSettings = Setout.GetPokemonSettings();
+                    Logger.Debug("pokemonSettings: " + pokemonSettings.Count());
                     
                     var pokemonFamilies = Setout.GetPokemonFamilies();
+                    Logger.Debug("pokemonFamilies: " + pokemonFamilies.Count());
+
                     var profile = client.Player;
+                    Logger.Debug("profile: " + client.Player.PlayerData.Username);
 
                     try{
                         PokemonListView.BeginUpdate();
@@ -321,6 +326,7 @@ namespace PokeMaster
                         listViewItem.SubItems.Add("" + pokemon.Id);
 
                         PokemonListView.Items.Add(listViewItem);
+                        Logger.Debug("pokemon: " + pokemon.Id + "added.");
                     }
                     try{
                         PokemonListView.EndUpdate();
