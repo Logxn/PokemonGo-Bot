@@ -243,6 +243,8 @@ namespace PokeMaster
 
         void loadLocationsList()
         {
+            if (!File.Exists(GlobalVars.SaveLocationsFile))
+                return;
             var lines = File.ReadAllLines(GlobalVars.SaveLocationsFile);
             Logger.Debug("Lines: " + lines);
             if (lines.Length > 0 && listView.Items.Count == lines.Length)

@@ -46,6 +46,7 @@ namespace PokeMaster
             var openGUI = false;
             version = new Version();
             // Review & parse command line arguments
+            
 
             if (args != null && args.Length > 0)
             {
@@ -182,6 +183,7 @@ namespace PokeMaster
                 Environment.Exit(0);
                 */
             }
+            var log = new Logger(); // At create itself assign as current logger
             
             SleepHelper.PreventSleep();
             CreateLogDirectories();

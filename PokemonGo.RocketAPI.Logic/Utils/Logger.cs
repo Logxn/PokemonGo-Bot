@@ -13,6 +13,7 @@ using System.Windows.Forms;
 using System.IO;
 using System.Collections;
 using PokeMaster.Logic.Shared;
+using PokemonGo.RocketAPI;
 using PokemonGo.RocketAPI.Logging;
 
 
@@ -21,7 +22,7 @@ namespace PokeMaster.Logic.Utils
     /// <summary>
     /// Description of LoggerPanel.
     /// </summary>
-    public partial class Logger : UserControl
+    public partial class Logger : UserControl, ILogger
     {
         public enum LogLevel
         {
@@ -52,6 +53,8 @@ namespace PokeMaster.Logic.Utils
             // The InitializeComponent() call is required for Windows Forms designer support.
             //
             InitializeComponent();
+            
+            APIConfiguration.Logger = this;
             
         }
         delegate void addNewLineCallback(ConsoleColor color, string text);
