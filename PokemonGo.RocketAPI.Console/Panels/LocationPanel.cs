@@ -25,7 +25,6 @@ using System.Device.Location;
 using System.Drawing;
 using System.Globalization;
 using System.Linq;
-using System.Threading;
 using System.Windows.Forms;
 using PokemonGo.RocketAPI;
 

@@ -409,8 +409,8 @@ namespace PokeMaster.Logic.Functions
                 var logs = Path.Combine(logPath, "EggLog.txt");
                 var date = DateTime.Now.ToString();
 
-                var unusedEggsBasicInc = eggsHatchingAllowedBasicInc(unusedEggs);
-                var unusedEggsUnlimitInc = eggsHatchingAllowed(unusedEggs);
+                var unusedEggsBasicInc = eggsHatchingAllowedBasicInc(unusedEggs).ToList();
+                var unusedEggsUnlimitInc = eggsHatchingAllowed(unusedEggs).ToList();
                 
                 foreach (var incubator in rememberedIncubators)
                 {
@@ -427,7 +427,7 @@ namespace PokeMaster.Logic.Functions
                     Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, "Egg hatched and we got a " + hatched.PokemonId + " CP: " + hatched.Cp + " MaxCP: " + PokemonInfo.CalculateMaxCP(hatched) + " Level: " + PokemonInfo.GetLevel(hatched) + " IV: " + PokemonInfo.CalculatePokemonPerfection(hatched).ToString("0.00") + "%");
                 }
 
-                if ((unusedEggsUnlimitInc.Count < 1) && (unusedEggsUnlimitInc.Count < 1))
+                if ((!unusedEggsUnlimitInc.Any()) && (!unusedEggsUnlimitInc.Any()))
                 {
                     Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, "There are not Allowed Eggs to hatch");
                     return;
@@ -493,38 +493,38 @@ namespace PokeMaster.Logic.Functions
             }
         }
 
-        private static List<POGOProtos.Data.PokemonData> eggsHatchingAllowedBasicInc( object eggs)
+        private static IEnumerable<POGOProtos.Data.PokemonData> eggsHatchingAllowedBasicInc( IEnumerable<PokemonData> eggs)
         {
-            var ret = new List<POGOProtos.Data.PokemonData> ((List<POGOProtos.Data.PokemonData> ) eggs);
+            var ret =  eggs;
             if(GlobalVars.No2kmEggsBasicInc)
             {
-                ret = ret.Where(x => (int)x.EggKmWalkedTarget !=2).ToList();
+                ret = ret.Where(x => (int)x.EggKmWalkedTarget !=2);
             }
             if(GlobalVars.No5kmEggsBasicInc)
             {
-                ret = ret.Where(x => (int)x.EggKmWalkedTarget !=5).ToList();
+                ret = ret.Where(x => (int)x.EggKmWalkedTarget !=5);
             }
             if(GlobalVars.No10kmEggsBasicInc)
             {
-                ret = ret.Where(x => (int)x.EggKmWalkedTarget !=10).ToList();
+                ret = ret.Where(x => (int)x.EggKmWalkedTarget !=10);
             }
             return ret;
         }
         
-        private static List<POGOProtos.Data.PokemonData> eggsHatchingAllowed(object eggs)
+        private static IEnumerable<POGOProtos.Data.PokemonData> eggsHatchingAllowed(IEnumerable<PokemonData> eggs)
         {
-            var ret = new List<POGOProtos.Data.PokemonData> ((List<POGOProtos.Data.PokemonData> ) eggs);
+            var ret = eggs;
             if(GlobalVars.No2kmEggs)
             {
-                ret = ret.Where(x => (int) x.EggKmWalkedTarget !=2).ToList();
+                ret = ret.Where(x => (int) x.EggKmWalkedTarget !=2);
             }
             if(GlobalVars.No5kmEggs)
             {
-                ret = ret.Where(x => (int) x.EggKmWalkedTarget !=5).ToList();
+                ret = ret.Where(x => (int) x.EggKmWalkedTarget !=5);
             }
             if(GlobalVars.No10kmEggs)
             {
-                ret = ret.Where(x => (int) x.EggKmWalkedTarget !=10).ToList();
+                ret = ret.Where(x => (int) x.EggKmWalkedTarget !=10);
             }
             return ret;
         }

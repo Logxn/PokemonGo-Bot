@@ -29,18 +29,18 @@ namespace PokeMaster.Logic.Utils
                 }
                 else // if google not working
                 {
-                    Random random = new Random();
-                    double maximum = 11.0f;
-                    double minimum = 8.6f;
+                    var random = new Random();
+                    const double maximum = 11.0d;
+                    const double minimum = 8.6d;
                     double return1 = random.NextDouble() * (maximum - minimum) + minimum;
 
                     return return1;
                 }
             } catch (Exception)
             {
-                Random random = new Random();
-                double maximum = 11.0f;
-                double minimum = 8.6f;
+                var random = new Random();
+                const double maximum = 11.0d;
+                const double minimum = 8.6d;
                 double return1 = random.NextDouble() * (maximum - minimum) + minimum;
 
                 return return1;

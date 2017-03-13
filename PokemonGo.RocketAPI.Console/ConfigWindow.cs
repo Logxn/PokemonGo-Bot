@@ -163,7 +163,8 @@ namespace PokeMaster
                     if (File.Exists(filenameProf)) {
                         try {
                             _profile.Settings = ProfileSettings.LoadFromFile(filenameProf);
-                        } catch (Exception) {
+                        } catch (Exception ex1) {
+                            Logger.ExceptionInfo(ex1.ToString());
                             result += filenameProf + "\n";
                         }
                     } else {

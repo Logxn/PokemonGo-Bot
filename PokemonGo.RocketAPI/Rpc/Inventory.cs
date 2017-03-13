@@ -657,11 +657,8 @@ namespace PokemonGo.RocketAPI.Rpc
             return response.Item1;
         }
         public IEnumerable<ItemData> GetItemsData(){
-            var items = InventoryItems.Values.Select(x => x.InventoryItemData.Item);
-            if (items ==null){
-                GetInventory().Wait();
-                items = InventoryItems.Values.Select(x => x.InventoryItemData.Item);
-            }
+            var items = InventoryItems.Values.Select(x => x.InventoryItemData.Item)
+                .Where(x=> x!=null);
             return items;
         }
 
@@ -678,7 +675,7 @@ namespace PokemonGo.RocketAPI.Rpc
         public IEnumerable<PlayerStats> GetPlayerStats()
         {
             return InventoryItems.Values.Select(i => i.InventoryItemData?.PlayerStats)
-                .Where(p => p != null);
+                .Where(i => i != null);
         }
 
         public IEnumerable<EggIncubator> GetIncubators()

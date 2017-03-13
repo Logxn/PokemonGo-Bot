@@ -29,10 +29,6 @@ namespace PokeMaster.Logic
         private readonly Client _client;
         public readonly PokeMaster.Logic.Shared.ISettings _botSettings;
 
-        public void SetCoordinates(double lat, double lng, double altitude)
-        {
-            _client.Player.SetCoordinates(lat,lng,altitude);
-        }
 
         public void SaveLatLngAlt(double lat, double lng, double alt)
         {
@@ -112,26 +108,9 @@ namespace PokeMaster.Logic
                 nextWaypointDistance = Math.Min(currentDistanceToTarget, millisecondsUntilGetUpdatePlayerLocationResponse / 1000 * speedInMetersPerSecond);
                 nextWaypointBearing = LocationUtils.DegreeBearing(sourceLocation, targetLocation);
                 waypoint = LocationUtils.CreateWaypoint(sourceLocation, nextWaypointDistance, nextWaypointBearing);
-                requestSendDateTime = DateTime.Now;                
-                
-                if (_botSettings.PauseTheWalking)
-                {
-                    //result = _client.Player.UpdatePlayerLocation(_client.CurrentLatitude, _client.CurrentLongitude, _client.CurrentAltitude).Result;
-                    SetCoordinates(waypoint.Latitude, waypoint.Longitude, waypoint.Altitude);
-                }
-                else
-                {
-                    try
-                    {
-                        //result = _client.Player.UpdatePlayerLocation(waypoint.Latitude, waypoint.Longitude, waypoint.Altitude).Result;
-                        SetCoordinates(waypoint.Latitude, waypoint.Longitude, waypoint.Altitude);
-                    }
-                    catch (Exception e)
-                    {
-                        Logger.ColoredConsoleWrite(ConsoleColor.DarkRed, "Sending exception info to Logger");
-                        Logger.AddLog("Exception Updating player Location:" + e.ToString());
-                    }
-                }
+                requestSendDateTime = DateTime.Now;
+
+                _client.Player.SetCoordinates(waypoint.Latitude, waypoint.Longitude, waypoint.Altitude);
 
                 if (functionExecutedWhileWalking != null && !_botSettings.PauseTheWalking)
                 {
@@ -140,7 +119,6 @@ namespace PokeMaster.Logic
                 
                 if (GlobalVars.SnipeOpts.Enabled){
                     Logic.Instance.sniperLogic.Execute((PokemonId) GlobalVars.SnipeOpts.ID,GlobalVars.SnipeOpts.Location);
-                    //_botSettings.SnipeOpts.Enabled = false;
                 }
 
                 RandomHelper.RandomSleep(500, 600);

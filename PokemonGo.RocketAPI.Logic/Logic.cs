@@ -228,7 +228,7 @@ namespace PokeMaster.Logic
                 Logger.Warning($"Altitude was 0, resolved that. New Altitude is now: {objClient.CurrentAltitude}");
             }
             #endregion
-            objClient.Player.SetCoordinates( BotSettings.DefaultAltitude, BotSettings.DefaultLongitude, BotSettings.DefaultLatitude);
+            objClient.Player.SetCoordinates(BotSettings.DefaultLatitude , BotSettings.DefaultLongitude, BotSettings.DefaultAltitude);
 
             #region Use Proxy
 

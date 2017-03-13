@@ -8,8 +8,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PokemonGo.RocketAPI", "Poke
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PokeMaster.Logic", "PokemonGo.RocketAPI.Logic\PokeMaster.Logic.csproj", "{0739E40D-C589-4AEB-93E5-EE8CD6773C60}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PokeMaster", "PokemonGo.RocketAPI.Console\PokeMaster.csproj", "{1FEA147E-F704-497B-A538-00B053B5F672}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{0D637212-D12E-428E-9C8D-E8D082D059F3}"
 	ProjectSection(SolutionItems) = preProject
 		.nuget\NuGet.Config = .nuget\NuGet.Config
@@ -27,6 +25,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PokeMaster.Translator", "PokemonGo.RocketAPI.Translator\PokeMaster.Translator.csproj", "{3E589F65-5116-455F-9840-B4F6515AD4D4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PokeMaster", "PokemonGo.RocketAPI.Console\PokeMaster.csproj", "{04CB9F71-0375-4904-ABB6-D28870D752A3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -52,14 +52,6 @@ Global
 		{0739E40D-C589-4AEB-93E5-EE8CD6773C60}.Release|Any CPU.Build.0 = Release|Any CPU
 		{0739E40D-C589-4AEB-93E5-EE8CD6773C60}.Release|x86.ActiveCfg = Release|Any CPU
 		{0739E40D-C589-4AEB-93E5-EE8CD6773C60}.Release|x86.Build.0 = Release|Any CPU
-		{1FEA147E-F704-497B-A538-00B053B5F672}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1FEA147E-F704-497B-A538-00B053B5F672}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1FEA147E-F704-497B-A538-00B053B5F672}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{1FEA147E-F704-497B-A538-00B053B5F672}.Debug|x86.Build.0 = Debug|Any CPU
-		{1FEA147E-F704-497B-A538-00B053B5F672}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1FEA147E-F704-497B-A538-00B053B5F672}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1FEA147E-F704-497B-A538-00B053B5F672}.Release|x86.ActiveCfg = Release|Any CPU
-		{1FEA147E-F704-497B-A538-00B053B5F672}.Release|x86.Build.0 = Release|Any CPU
 		{A03A7BB2-4F0B-467B-84B2-9A76E6AAE6FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A03A7BB2-4F0B-467B-84B2-9A76E6AAE6FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A03A7BB2-4F0B-467B-84B2-9A76E6AAE6FB}.Debug|x86.ActiveCfg = Debug|x86
@@ -77,6 +69,14 @@ Global
 		{3E589F65-5116-455F-9840-B4F6515AD4D4}.Release|Any CPU.Build.0 = Release|Any CPU
 		{3E589F65-5116-455F-9840-B4F6515AD4D4}.Release|x86.ActiveCfg = Release|Any CPU
 		{3E589F65-5116-455F-9840-B4F6515AD4D4}.Release|x86.Build.0 = Release|Any CPU
+		{04CB9F71-0375-4904-ABB6-D28870D752A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{04CB9F71-0375-4904-ABB6-D28870D752A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{04CB9F71-0375-4904-ABB6-D28870D752A3}.Debug|x86.ActiveCfg = Debug|x86
+		{04CB9F71-0375-4904-ABB6-D28870D752A3}.Debug|x86.Build.0 = Debug|x86
+		{04CB9F71-0375-4904-ABB6-D28870D752A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{04CB9F71-0375-4904-ABB6-D28870D752A3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{04CB9F71-0375-4904-ABB6-D28870D752A3}.Release|x86.ActiveCfg = Release|x86
+		{04CB9F71-0375-4904-ABB6-D28870D752A3}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
