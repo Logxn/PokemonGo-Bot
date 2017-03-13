@@ -56,7 +56,6 @@ namespace PokeMaster
             locationPanel1.Init(true, 0, 0, 0);
             Execute();
             sniperPanel1.Execute();
-            pokemonsPanel1.playerPanel1 = playerPanel1;
 
         }
 

@@ -26,16 +26,12 @@ namespace PokeMaster
 {
     public partial class PokemonsPanel : UserControl
     {
-        public  IOrderedEnumerable<PokemonData> pokemons;
-        public GetPlayerResponse profile;
-        public PlayerPanel playerPanel1;
-        private static GetInventoryResponse inventory;
         private static List<AdditionalPokeData> additionalPokeData = new List<AdditionalPokeData>();
         private static Client client;
         private ColumnHeader SortingColumn;
-        private DownloadItemTemplatesResponse templates;
+
         private Helper.TranslatorHelper th = Helper.TranslatorHelper.getInstance();
-        
+
         public PokemonsPanel()
         {
             InitializeComponent();
@@ -162,14 +158,7 @@ namespace PokeMaster
             {
                 if (new_sorting_column == SortingColumn)
                 {
-                    if (SortingColumn.Text.StartsWith("> "))
-                    {
-                        sort_order = SortOrder.Descending;
-                    }
-                    else
-                    {
-                        sort_order = SortOrder.Ascending;
-                    }
+                    sort_order = SortingColumn.Text.StartsWith("> ") ? SortOrder.Descending : SortOrder.Ascending;
                 }
                 else
                 {
@@ -222,25 +211,14 @@ namespace PokeMaster
                 if (Logic.Logic.ClientReadyToUse)
                 {
                     RandomHelper.RandomSleep(1000, 1200);
-                    refreshData();
 
-                    pokemons =
-                        inventory.InventoryDelta.InventoryItems
-                        .Select(i => i.InventoryItemData?.PokemonData)
-                        .Where(p => p != null && p?.PokemonId > 0)
-                        .OrderByDescending(key => key.Cp);
+                    var pokemons = client.Inventory.GetPokemons();
 
-
-                    var families = inventory.InventoryDelta.InventoryItems
-                        .Select(i => i.InventoryItemData?.Candy)
-                        .Where(p => p != null && (int)p?.FamilyId > 0)
-                        .OrderByDescending(p => (int)p.FamilyId);
-
-                    var myPokemonSettings = templates.ItemTemplates.Select(i => i.PokemonSettings).Where(p => p != null && p?.FamilyId != PokemonFamilyId.FamilyUnset);
-                    var pokemonSettings = myPokemonSettings.ToList();
+                    var pokemonSettings = Setout.GetPokemonSettings();
                     
-                    var myPokemonFamilies = inventory.InventoryDelta.InventoryItems.Select(i => i.InventoryItemData?.Candy).Where(p => p != null && p?.FamilyId != PokemonFamilyId.FamilyUnset);
-                    var pokemonFamilies = myPokemonFamilies.ToArray();
+                    var pokemonFamilies = Setout.GetPokemonFamilies();
+                    var profile = client.Player;
+
                     try{
                         PokemonListView.BeginUpdate();
                     }catch(Exception ex1){
@@ -255,7 +233,7 @@ namespace PokeMaster
                         listViewItem.UseItemStyleForSubItems = false;
 
                         listViewItem.Tag = pokemon;
-                        var currentCandy = families
+                        var currentCandy = pokemonFamilies
                             .Where(i => (int)i.FamilyId <= (int)pokemon.PokemonId)
                             .Select(f => f.Candy_)
                             .First();
@@ -269,7 +247,8 @@ namespace PokeMaster
                         var specSymbol ="";
                         if  (pokemon.Favorite == 1)
                             specSymbol = "★";
-                        if ((profile!=null) && (profile.PlayerData.BuddyPokemon.Id == pokemon.Id))
+                        
+                        if ((profile.PlayerData.BuddyPokemon!=null) && (profile.PlayerData.BuddyPokemon.Id == pokemon.Id))
                             specSymbol = "☉";
                         listViewItem.Text = specSymbol + th.TS( pokemon.PokemonId.ToString());
 
@@ -352,9 +331,6 @@ namespace PokeMaster
                     EnabledButton(true);
                     statusTexbox.Text = string.Empty;
                     RefreshTitle();
-                    if (playerPanel1!=null) {
-                        playerPanel1.SetPokemons(pokemons);
-                    }
                 }
             }
             catch (Exception ex1)
@@ -375,21 +351,15 @@ namespace PokeMaster
             btnIVToNick.Enabled = enabled;
         }
 
-        public void refreshData(){
-            inventory =  client.Inventory.GetInventory().Result;
-            templates = client.Download.GetItemTemplates().Result;
-        }
-
 
         public void RefreshTitle()
         {
             var txt =th.TS("Pokemons");
             if (Parent != null) {
                 txt += ": " + PokemonListView.Items.Count;
+                var profile = client.Player;
                 if (profile != null) {
-                    var eggs = inventory.InventoryDelta.InventoryItems
-                                .Select(i => i.InventoryItemData?.PokemonData)
-                       .Where(p => p != null && p.IsEgg);
+                    var eggs = client.Inventory.GetEggs();
                     txt += "/" + (profile.PlayerData.MaxPokemonStorage - eggs.Count());
                 }
             }
@@ -452,8 +422,6 @@ namespace PokeMaster
             string logPath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Logs");
             string evolvelog = System.IO.Path.Combine(logPath, "EvolveLog.txt");
             int gotXP = 0;
-
-            
             
             var resp = new EvolvePokemonResponse();
 
@@ -584,6 +552,8 @@ namespace PokeMaster
                     
                     var pokemonsToTransfer = new List<ulong>();
                     
+                    var profile = client.Player;
+                    
                     foreach (ListViewItem selectedItem in selectedItems)
                     {
                         var pokemon = (PokemonData)selectedItem.Tag;
@@ -592,9 +562,8 @@ namespace PokeMaster
                         if (pokemon.DeployedFortId == "" && pokemon.Favorite == 0  )
                         {
 
-                            if (profile!=null && profile.PlayerData.BuddyPokemon != null)
-                                if ( pokemon.Id == profile.PlayerData.BuddyPokemon.Id)
-                                    continue;
+                            if ( profile.PlayerData.BuddyPokemon != null && pokemon.Id == profile.PlayerData.BuddyPokemon.Id)
+                                continue;
 
                             pokemonsToTransfer.Add(pokemon.Id);
 
@@ -824,6 +793,7 @@ namespace PokeMaster
         {
             if (PokemonListView.SelectedItems.Count < 1)
                 return;
+            var profile = client.Player;
             foreach (ListViewItem element in PokemonListView.SelectedItems) {
                 var pokemon = element.Tag as PokemonData;
                 var resp = false;
@@ -835,7 +805,7 @@ namespace PokeMaster
                         var specSymbol ="";
                         if  (pokemon.Favorite == 1)
                             specSymbol = "★";
-                        if ((profile!=null) && (profile.PlayerData.BuddyPokemon.Id == pokemon.Id))
+                        if ( profile.PlayerData.BuddyPokemon!=null && profile.PlayerData.BuddyPokemon.Id == pokemon.Id)
                             specSymbol = "☉";
                         PokemonListView.SelectedItems[0].Text = specSymbol +  pokemon.PokemonId;
                     }else
@@ -876,8 +846,7 @@ namespace PokeMaster
             {
                 if (changeBuddy(pokemon))
                 {
-                    if ((profile!=null))
-                        profile.PlayerData.BuddyPokemon.Id = pokemon.Id;
+                    client.Player.PlayerData.BuddyPokemon.Id = pokemon.Id;
                     PokemonListView.SelectedItems[0].Text = "☉" + pokemon.PokemonId;
                 }
                 else

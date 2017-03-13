@@ -185,16 +185,20 @@ namespace PokeMaster.Logic.Functions
 
         public static IEnumerable<PokemonSettings> GetPokemonSettings()
         {
-            var templates =  Logic.objClient.Download.GetItemTemplates().Result;
+            var templates =  Logic.objClient.Download.ItemTemplates;
             return
-                templates.ItemTemplates.Select(i => i.PokemonSettings)
+                templates.Select(i => i.PokemonSettings)
                     .Where(p => p != null && p.FamilyId != PokemonFamilyId.FamilyUnset);
         }
 
-        public static List<Candy> GetPokemonFamilies()
+        public static IEnumerable<Candy> GetPokemonFamilies()
         {
-            var inventory = Logic.objClient.Inventory.GetInventory().Result;
+            var inventory = Logic.objClient.Inventory.InventoryItems.Values.Select(x => x.InventoryItemData);
 
+            var itemDatacandies = inventory.Where(x => x.Candy !=null && x.Candy.FamilyId != PokemonFamilyId.FamilyUnset);
+
+            return itemDatacandies.Select(x => x.Candy).Distinct();
+            /*
             var families = from item in inventory.InventoryDelta.InventoryItems
                            where item.InventoryItemData?.Candy != null
                            where item.InventoryItemData?.Candy.FamilyId != PokemonFamilyId.FamilyUnset
@@ -204,10 +208,9 @@ namespace PokeMaster.Logic.Functions
                                FamilyId = family.FirstOrDefault().InventoryItemData.Candy.FamilyId,
                                Candy_ = family.FirstOrDefault().InventoryItemData.Candy.Candy_
                            };
+            */
+        }
 
-            return families.ToList();
-        }        
-       
         public static IEnumerable<PokemonData> GetPokemonToEvolve(bool forceRequest = false, IEnumerable<PokemonId> filter = null)
         {
             var myPokemons =  Logic.objClient.Inventory.GetPokemons();
@@ -1138,12 +1141,10 @@ namespace PokeMaster.Logic.Functions
                     File.WriteAllText(pokelist_file, header.Replace(",", ls));
 
                     var AllPokemon =  GetHighestsPerfect();
-                    var myPokemonSettings =  GetPokemonSettings();
-                    var pokemonSettings = myPokemonSettings.ToList();
-                    var myPokemonFamilies =  GetPokemonFamilies();
-                    var pokemonFamilies = myPokemonFamilies.ToArray();
+                    var pokemonSettings = GetPokemonSettings();
+                    var pokemonFamilies = GetPokemonFamilies();
                     int trainerLevel = stat.Level;
-                    int[] exp_req = new[] { 0, 1000, 3000, 6000, 10000, 15000, 21000, 28000, 36000, 45000, 55000, 65000, 75000, 85000, 100000, 120000, 140000, 160000, 185000, 210000, 260000, 335000, 435000, 560000, 710000, 900000, 1100000, 1350000, 1650000, 2000000, 2500000, 3000000, 3750000, 4750000, 6000000, 7500000, 9500000, 12000000, 15000000, 20000000 };
+                    int[] exp_req = { 0, 1000, 3000, 6000, 10000, 15000, 21000, 28000, 36000, 45000, 55000, 65000, 75000, 85000, 100000, 120000, 140000, 160000, 185000, 210000, 260000, 335000, 435000, 560000, 710000, 900000, 1100000, 1350000, 1650000, 2000000, 2500000, 3000000, 3750000, 4750000, 6000000, 7500000, 9500000, 12000000, 15000000, 20000000 };
                     int exp_req_at_level = exp_req[stat.Level - 1];
 
                     using (var w = File.AppendText(pokelist_file))

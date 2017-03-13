@@ -218,7 +218,10 @@ namespace PokeMaster.Logic.Utils
 
         public void LogInfo(string message)
         {
-            Info(message);
+            if (message.Contains("HASH SERVER"))
+                Debug(message);
+            else
+                Info(message);
         }
         
     }

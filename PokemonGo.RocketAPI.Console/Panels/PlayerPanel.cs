@@ -31,9 +31,6 @@ namespace PokeMaster
     /// </summary>
     public partial class PlayerPanel : UserControl
     {
-        private static GetPlayerResponse profile = null;
-        private static IOrderedEnumerable<PokemonData> pokemons = null;
-        private static POGOProtos.Data.Player.PlayerStats stats;
         private Helper.TranslatorHelper th = Helper.TranslatorHelper.getInstance();
 
         public PlayerPanel()
@@ -50,30 +47,30 @@ namespace PokeMaster
         private void InitializeData()
         {
             this.listView.Items.AddRange(new [] {
-                new ListViewItem(new string[] {"1", th.TS("Username"),""}),
-                new ListViewItem(new string[] {"2", th.TS("Coins"),""}),
-                new ListViewItem(new string[] {"3", th.TS("Stardust"),""}),
-                new ListViewItem(new string[] {"4", th.TS("Max Items"),""}),
-                new ListViewItem(new string[] {"5", th.TS("Max Pokemons"),""}),
-                new ListViewItem(new string[] {"6", th.TS("Battle Lockout End (Ms)"),""}),
-                new ListViewItem(new string[] {"7", th.TS("Level"),""}),
-                new ListViewItem(new string[] {"8", th.TS("Pokedex"),""}),
-                new ListViewItem(new string[] {"9", th.TS("Kms Walked"),""}),
-                new ListViewItem(new string[] {"10", th.TS("Eggs Hatched"),""}),
-                new ListViewItem(new string[] {"11", th.TS("Evolutions"),""}),
-                new ListViewItem(new string[] {"12", th.TS("PokeStop Visits"),""}),
-                new ListViewItem(new string[] {"13", th.TS("Pokeballs Thrown"),""}),
-                new ListViewItem(new string[] {"14", th.TS("Battle Attack"),""}),
-                new ListViewItem(new string[] {"15", th.TS("Battle Defended"),""}),
-                new ListViewItem(new string[] {"16", th.TS("Battle Training"),""}),
-                new ListViewItem(new string[] {"17", th.TS("Pokemon Deployed"),""}),
-                new ListViewItem(new string[] {"18", th.TS("Pokemons Captured"),""}),
-                new ListViewItem(new string[] {"19", th.TS("Pokemons Encountered"),""}),
-                new ListViewItem(new string[] {"20", th.TS("Prestige Dropped"),""}),
-                new ListViewItem(new string[] {"21", th.TS("Prestige Raised"),""}),
-                new ListViewItem(new string[] {"22", th.TS("Small Rattata Caught"),""}),
-                new ListViewItem(new string[] {"23", th.TS("Big Magikarp Caught"),""}),
-                new ListViewItem(new string[] {"24", th.TS("Used Km Pool"),""})
+                new ListViewItem(new [] {"1", th.TS("Username"),""}),
+                new ListViewItem(new [] {"2", th.TS("Coins"),""}),
+                new ListViewItem(new [] {"3", th.TS("Stardust"),""}),
+                new ListViewItem(new [] {"4", th.TS("Max Items"),""}),
+                new ListViewItem(new [] {"5", th.TS("Max Pokemons"),""}),
+                new ListViewItem(new [] {"6", th.TS("Battle Lockout End (Ms)"),""}),
+                new ListViewItem(new [] {"7", th.TS("Level"),""}),
+                new ListViewItem(new [] {"8", th.TS("Pokedex"),""}),
+                new ListViewItem(new [] {"9", th.TS("Kms Walked"),""}),
+                new ListViewItem(new [] {"10", th.TS("Eggs Hatched"),""}),
+                new ListViewItem(new [] {"11", th.TS("Evolutions"),""}),
+                new ListViewItem(new [] {"12", th.TS("PokeStop Visits"),""}),
+                new ListViewItem(new [] {"13", th.TS("Pokeballs Thrown"),""}),
+                new ListViewItem(new [] {"14", th.TS("Battle Attack"),""}),
+                new ListViewItem(new [] {"15", th.TS("Battle Defended"),""}),
+                new ListViewItem(new [] {"16", th.TS("Battle Training"),""}),
+                new ListViewItem(new [] {"17", th.TS("Pokemon Deployed"),""}),
+                new ListViewItem(new [] {"18", th.TS("Pokemons Captured"),""}),
+                new ListViewItem(new [] {"19", th.TS("Pokemons Encountered"),""}),
+                new ListViewItem(new [] {"20", th.TS("Prestige Dropped"),""}),
+                new ListViewItem(new [] {"21", th.TS("Prestige Raised"),""}),
+                new ListViewItem(new [] {"22", th.TS("Small Rattata Caught"),""}),
+                new ListViewItem(new [] {"23", th.TS("Big Magikarp Caught"),""}),
+                new ListViewItem(new [] {"24", th.TS("Used Km Pool"),""})
                         });
         }
 
@@ -89,12 +86,6 @@ namespace PokeMaster
             var client = Logic.Logic.objClient;
             if (client !=null && Logic.Logic.ClientReadyToUse)
             {
-                if (refreshData)
-                {
-                    RandomHelper.RandomSleep(300,400);
-                    var playerStats = client.Inventory.GetPlayerStats();
-                    stats = playerStats.First();
-                }
                 updatePlayerImages();
                 updatePlayerInfoLabels();
             }
@@ -102,14 +93,7 @@ namespace PokeMaster
             labelPokestops.Text = ""+ Logic.Functions.Setout.pokeStopFarmedCount;
         }
         
-        public void setProfile(GetPlayerResponse prof){
-            profile = prof;
-        }
 
-        public void SetPokemons( IOrderedEnumerable<PokemonData> poks)
-        {
-            pokemons = poks;
-        }
         /// <summary>
         /// Gets the image for team.
         /// </summary>
@@ -135,6 +119,8 @@ namespace PokeMaster
         private void updatePlayerImages()
         {
             this.Enabled = false;
+            var profile = Logic.Logic.objClient.Player;
+            
             if (profile == null)
                 return;
 
@@ -149,14 +135,7 @@ namespace PokeMaster
 
             pictureBoxPlayerAvatar.Parent = pictureBoxTeam;
             pictureBoxPlayerAvatar.BackColor = Color.Transparent;
-            if (profile.PlayerData.Avatar != null)
-            {
-                pictureBoxPlayerAvatar.Image = getImageForGender((PlayerAvatarType) profile.PlayerData.Avatar.Avatar);
-            }
-            else
-            {
-                pictureBoxPlayerAvatar.Image = getImageForGender(PlayerAvatarType.PlayerAvatarMale);
-            }
+            pictureBoxPlayerAvatar.Image = profile.PlayerData.Avatar != null ? getImageForGender((PlayerAvatarType)profile.PlayerData.Avatar.Avatar) : getImageForGender(PlayerAvatarType.PlayerAvatarMale);
             pictureBoxPlayerAvatar.Height = (int)(pictureBoxTeam.Height * 0.85);
             pictureBoxPlayerAvatar.Width = pictureBoxTeam.Width;
             var playerLocation = new Point(0, pictureBoxTeam.Height - pictureBoxPlayerAvatar.Height);
@@ -173,6 +152,7 @@ namespace PokeMaster
 
         private void updatePlayerInfoLabels()
         {
+            var profile = Logic.Logic.objClient.Player;
 
             if (profile != null){
                 listView.Items[0].SubItems[2].Text = profile.PlayerData.Username;
@@ -183,6 +163,7 @@ namespace PokeMaster
                 listView.Items[5].SubItems[2].Text = ""+profile.PlayerData.BattleLockoutEndMs;
             }
 
+            var stats = Logic.Logic.objClient.Inventory.GetPlayerStats().FirstOrDefault();
 
             if (stats != null){
                 
@@ -231,25 +212,11 @@ namespace PokeMaster
         /// <returns></returns>
         private Image getImageForBuddy(BuddyPokemon buddyPokemon)
         {
-            if (pokemons == null)
+            if (buddyPokemon == null)
                 return null;
 
-            if (buddyPokemon == null || buddyPokemon.ToString() == "{ }")
-            {
-                return null;
-            }
-            else
-            {
-                var buddyPoke = pokemons.FirstOrDefault(x => x.Id == buddyPokemon.Id);
-                if (buddyPoke != null)
-                {
-                    return PokeImgManager.GetPokemonImagefromResource(buddyPoke.PokemonId, "200");
-                }
-                else
-                {
-                    return null;
-                }
-            }
+            var buddyPoke = Logic.Logic.objClient.Inventory.GetPokemon(buddyPokemon.Id);
+            return buddyPoke != null ? PokeImgManager.GetPokemonImagefromResource(buddyPoke.PokemonId, "200") : null;
         }
 
         /// <summary>

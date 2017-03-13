@@ -28,7 +28,7 @@ namespace PokeMaster
     public partial class ItemsPanel : UserControl
     {
         private static Helper.TranslatorHelper th = Helper.TranslatorHelper.getInstance();
-        public GetPlayerResponse profile;
+        private Client client;
         
         public ItemsPanel()
         {
@@ -63,7 +63,7 @@ namespace PokeMaster
                 }
                 UpdateItemTotalCount();
 
-                var client = Logic.Logic.objClient;
+                client = Logic.Logic.objClient;
                 if (Logic.Logic.ClientReadyToUse) {
                     var items = client.Inventory.GetItemsData();
                     ListViewItem listViewItem;
@@ -93,8 +93,7 @@ namespace PokeMaster
             var txt = th.TS("Items");
             if (Parent != null) {
                 txt += ": " + lblCount.Text;
-                if (profile !=null)
-                    txt += "/" + profile.PlayerData.MaxItemStorage;
+                txt += "/" + client.Player.PlayerData.MaxItemStorage;
             }
             Parent.Text = txt;
         }
@@ -142,7 +141,7 @@ namespace PokeMaster
             var item = (ItemData)ItemsListView.SelectedItems[0].Tag;
             int amount = IntegerInput.ShowDialog(1, "How many?", item.Count);
             if (amount > 0) {
-                var resp = RecycleItems(item, amount);
+                var resp = RecycleItems(client, item, amount);
                 if (resp) {
                     item.Count -= amount;
                     ItemsListView.SelectedItems[0].SubItems[1].Text = "" + item.Count;
@@ -151,11 +150,10 @@ namespace PokeMaster
             }
         }
 
-        private static bool RecycleItems(ItemData item, int amount)
+        private static bool RecycleItems(Client client, ItemData item, int amount)
         {
             var resp1 = false;
             try {
-                var client = Logic.Logic.objClient;
                 var resp2 = client.Inventory.RecycleItem(item.ItemId, amount).Result;
 
                 if (resp2.Result == RecycleInventoryItemResponse.Types.Result.Success) {
@@ -256,7 +254,6 @@ namespace PokeMaster
 
         private void RecycleItems()
         {            
-            var client = Logic.Logic.objClient;
             var items = Setout.GetItemsToRecycle(GlobalVars.GetItemFilter());
             foreach (var item in items) {
                 var transfer = client.Inventory.RecycleItem((ItemId)item.ItemId, item.Count).Result;
