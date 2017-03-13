@@ -494,6 +494,8 @@ namespace PokeMaster
             this.textBoxPokemonsList.Size = new System.Drawing.Size(317, 20);
             this.textBoxPokemonsList.TabIndex = 105;
             this.textBoxPokemonsList.Text = "http://www.mypogosnipers.com/data/cache/free.txt";
+            this.textBoxPokemonsList.DoubleClick += new System.EventHandler(this.textBoxPokemonsList_DoubleClick);
+            this.textBoxPokemonsList.Leave += new System.EventHandler(this.textBoxPokemonsList_Leave);
             // 
             // label7
             // 
