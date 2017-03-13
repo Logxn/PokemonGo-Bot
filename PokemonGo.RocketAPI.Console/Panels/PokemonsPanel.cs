@@ -263,8 +263,8 @@ namespace PokeMaster
                             listViewItem.ToolTipText += th.TS("\n+Nickname: {0}",pokemon.Nickname);
 
                         # region Evolve Column
-                        var settings = pokemonSettings.Single(x => x.PokemonId == pokemon.PokemonId);
-                        var familyCandy = pokemonFamilies.Single(x => settings.FamilyId == x.FamilyId);
+                        var settings = pokemonSettings.FirstOrDefault(x => x.PokemonId == pokemon.PokemonId);
+                        var familyCandy = pokemonFamilies.FirstOrDefault(x => settings.FamilyId == x.FamilyId);
                         listViewItem.SubItems.Add("");
                         var numOfEvolves = 0;
                         String strEvolves = EvolvesToString(pokemon, settings, familyCandy, out numOfEvolves);
@@ -978,11 +978,12 @@ namespace PokeMaster
 
         string EvolvesToString(PokemonData pokemon, POGOProtos.Settings.Master.PokemonSettings settings, POGOProtos.Inventory.Candy familyCandy, out int numOfEvolves)
         {
-            var strEvolves = "N";
             numOfEvolves = 0;
+            if (settings == null || settings.EvolutionBranch.Count<1)
+                return "N";
+
+            var strEvolves = "";
             var separator = "";
-            if (settings.EvolutionBranch.Count>0)
-                strEvolves = "";
             var item = Setout.GeteNeededItemToEvolve(pokemon.PokemonId);
             var amountItems =  -1 ;
             if (item != ItemId.ItemUnknown )
@@ -991,7 +992,7 @@ namespace PokeMaster
             foreach (var element in settings.EvolutionBranch) {
                 var canEvolve = "N";
                 var stone ="";
-                if ( familyCandy.Candy_ >= element.CandyCost){
+                if ( familyCandy!=null && familyCandy.Candy_ >= element.CandyCost){
                     if (amountItems != 0){
                         canEvolve = "Y";
                         numOfEvolves ++;
