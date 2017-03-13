@@ -569,13 +569,13 @@ namespace PokeMaster
         {
             InportRemoteList(textBoxPokemonsList.Text);
         }
-        void textBoxPokemonsList_DoubleClick(object sender, EventArgs e)
-        {
-            textBoxPokemonsList.Enabled |= Control.ModifierKeys == Keys.Shift;
-        }
         void textBoxPokemonsList_Leave(object sender, EventArgs e)
         {
             textBoxPokemonsList.Enabled = false;
+        }
+        void label7_DoubleClick(object sender, EventArgs e)
+        {
+            textBoxPokemonsList.Enabled |= Control.ModifierKeys == Keys.Shift;
         }
 
     }
