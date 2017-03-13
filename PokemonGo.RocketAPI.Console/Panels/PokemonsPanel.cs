@@ -264,9 +264,12 @@ namespace PokeMaster
 
                         # region Evolve Column
                         var settings = pokemonSettings.FirstOrDefault(x => x.PokemonId == pokemon.PokemonId);
-                        var familyCandy = pokemonFamilies.FirstOrDefault(x => settings.FamilyId == x.FamilyId);
+                        var familyCandy = pokemonFamilies.FirstOrDefault(x => x.FamilyId == settings.FamilyId);
                         listViewItem.SubItems.Add("");
                         var numOfEvolves = 0;
+                        Logger.Debug("pokemon: " +pokemon);
+                        Logger.Debug("settings: " +settings);
+                        Logger.Debug("familyCandy: " +familyCandy);
                         String strEvolves = EvolvesToString(pokemon, settings, familyCandy, out numOfEvolves);
                         // Colour Management
                         listViewItem.SubItems[listViewItem.SubItems.Count - 1].ForeColor = Color.DarkRed;
@@ -324,9 +327,7 @@ namespace PokeMaster
                         listViewItem.SubItems.Add("" + pokemon.BuddyCandyAwarded);
                         listViewItem.SubItems.Add("" + pokemon.BuddyTotalKmWalked);
                         listViewItem.SubItems.Add("" + pokemon.Id);
-
                         PokemonListView.Items.Add(listViewItem);
-                        Logger.Debug("pokemon: " + pokemon.Id + "added.");
                     }
                     try{
                         PokemonListView.EndUpdate();
