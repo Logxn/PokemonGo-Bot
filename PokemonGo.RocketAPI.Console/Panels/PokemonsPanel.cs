@@ -8,6 +8,7 @@ using POGOProtos.Enums;
 using POGOProtos.Networking.Responses;
 using PokeMaster.Components;
 using PokeMaster.Dialogs;
+using PokeMaster.Helper;
 using PokeMaster.Logic.Functions;
 using PokeMaster.PokeData;
 using System.Linq;
@@ -37,6 +38,7 @@ namespace PokeMaster
             InitializeComponent();
             th.Translate(this);
             InitialzePokemonListView();
+            loadAdditionalPokeData();
         }
 
         #region initialize listview
@@ -187,16 +189,15 @@ namespace PokeMaster
 
         private void loadAdditionalPokeData()
         {
-            const string path = "PokeData\\AdditionalPokeData.json";
-            try
-            {
-                var jsonData = File.ReadAllText(path);
+            const string remotepath = @"PokemonGo.RocketAPI.Console\PokeData";
+            const string localpath = "Configs";
+            const string filename = "AdditionalPokeData.json";
+            try {
+                DownloadHelper.DownloadFile(remotepath,localpath,filename);
+                var jsonData = File.ReadAllText(Path.Combine(localpath,filename));
                 additionalPokeData = Newtonsoft.Json.JsonConvert.DeserializeObject<List<AdditionalPokeData>>(jsonData);
-            }
-            catch (Exception e)
-            {
-                var strTrace = $"Could not load additional PokeData: {e.Message}{e.StackTrace}";
-                Logger.ColoredConsoleWrite(ConsoleColor.Red, strTrace, Logger.LogLevel.Error);
+            } catch (Exception ex1) {
+                Logger.ExceptionInfo(ex1.ToString());
             }
         }
 
@@ -213,16 +214,9 @@ namespace PokeMaster
                     RandomHelper.RandomSleep(1000, 1200);
 
                     var pokemons = client.Inventory.GetPokemons();
-                    Logger.Debug("pokemons: " + pokemons.Count());
-
                     var pokemonSettings = Setout.GetPokemonSettings();
-                    Logger.Debug("pokemonSettings: " + pokemonSettings.Count());
-                    
                     var pokemonFamilies = Setout.GetPokemonFamilies();
-                    Logger.Debug("pokemonFamilies: " + pokemonFamilies.Count());
-
                     var profile = client.Player;
-                    Logger.Debug("profile: " + client.Player.PlayerData.Username);
 
                     try{
                         PokemonListView.BeginUpdate();
@@ -267,9 +261,6 @@ namespace PokeMaster
                         var familyCandy = pokemonFamilies.FirstOrDefault(x => x.FamilyId == settings.FamilyId);
                         listViewItem.SubItems.Add("");
                         var numOfEvolves = 0;
-                        Logger.Debug("pokemon: " +pokemon);
-                        Logger.Debug("settings: " +settings);
-                        Logger.Debug("familyCandy: " +familyCandy);
                         String strEvolves = EvolvesToString(pokemon, settings, familyCandy, out numOfEvolves);
                         // Colour Management
                         listViewItem.SubItems[listViewItem.SubItems.Count - 1].ForeColor = Color.DarkRed;
@@ -300,19 +291,17 @@ namespace PokeMaster
                             listViewItem.SubItems.Add("");
                         }
                         // NOTE: yyyy/MM/dd is inverted order to can sort correctly as text.
-                        listViewItem.SubItems.Add(Logic.Utils.StringUtils.ConvertTimeMSinString(pokemon.CreationTimeMs, "yyyy/MM/dd HH:mm:ss"));
+                        listViewItem.SubItems.Add(StringUtils.ConvertTimeMSinString(pokemon.CreationTimeMs, "yyyy/MM/dd HH:mm:ss"));
                         listViewItem.SubItems.Add(th.TS(pokemon.Pokeball.ToString().Replace("Item", "")));
                         listViewItem.SubItems.Add("" + pokemon.NumUpgrades);
                         listViewItem.SubItems.Add("" + pokemon.BattlesAttacked);
                         listViewItem.SubItems.Add("" + pokemon.BattlesDefended);
                         listViewItem.SubItems.Add("" + pokemon.DeployedFortId);
                         if (pokemon.DeployedFortId != "")
-                        {
                             listViewItem.SubItems[0].BackColor = Color.Bisque;
-                        }
 
                         var CapturedLatlng = S2Helper.GetLatLng(pokemon.CapturedCellId);
-                        listViewItem.SubItems.Add(Logic.Utils.LocationUtils.FindAddress(CapturedLatlng[0],CapturedLatlng[1]));
+                        listViewItem.SubItems.Add(LocationUtils.FindAddress(CapturedLatlng[0],CapturedLatlng[1]));
                         listViewItem.SubItems.Add("" + pokemon.PokemonDisplay.Gender);
                         //listViewItem.SubItems.Add("" + pokemon.PokemonDisplay.Shiny); // not implemented yet
                         var str ="";
@@ -326,7 +315,7 @@ namespace PokeMaster
                         listViewItem.SubItems.Add("" + str);
                         listViewItem.SubItems.Add("" + pokemon.BuddyCandyAwarded);
                         listViewItem.SubItems.Add("" + pokemon.BuddyTotalKmWalked);
-                        listViewItem.SubItems.Add("" + pokemon.Id);
+                        listViewItem.SubItems.Add("" + pokemon.Id.ToString("X"));
                         PokemonListView.Items.Add(listViewItem);
                     }
                     try{
@@ -987,8 +976,11 @@ namespace PokeMaster
             var separator = "";
             var item = Setout.GeteNeededItemToEvolve(pokemon.PokemonId);
             var amountItems =  -1 ;
-            if (item != ItemId.ItemUnknown )
-                amountItems = client.Inventory.GetItemData(item).Count;
+            if (item != ItemId.ItemUnknown ){
+                var itemData = client.Inventory.GetItemData(item);
+                if (itemData!=null)
+                    amountItems = itemData.Count;
+            }
             var i = 0;
             foreach (var element in settings.EvolutionBranch) {
                 var canEvolve = "N";

@@ -1798,7 +1798,6 @@ namespace PokeMaster
             | System.Windows.Forms.AnchorStyles.Right)));
             this.pFHashKey.Location = new System.Drawing.Point(156, 22);
             this.pFHashKey.Name = "pFHashKey";
-            this.pFHashKey.PasswordChar = '*';
             this.pFHashKey.Size = new System.Drawing.Size(157, 20);
             this.pFHashKey.TabIndex = 3;
             this.pFHashKey.TextChanged += new System.EventHandler(this.TextBoxes_TextChanged);

@@ -4,6 +4,7 @@ using System.Device.Location;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using GoogleMapsApi;
 using GoogleMapsApi.Entities.Common;
 using GoogleMapsApi.Entities.Directions.Request;
@@ -259,23 +260,38 @@ namespace PokeMaster.Logic
                 }
                 catch (PtcOfflineException)
                 {
-                    Logger.Error( "PTC Servers are probably down.");
+                    const string message = "PTC Servers are probably down.";
+                    Logger.Error(message );
+                    ShowMessage(message);
                 }
                 catch (AggregateException ae) {
                    foreach (var e in ae.Flatten().InnerExceptions) {
                       if (e is LoginFailedException) {
-                        Logger.Error(e.Message);
-                        Logger.Error( "Exiting in 10 Seconds.");
+                        var messages = new [] {e.Message, "Exiting in 10 Seconds."};
+                        Logger.Error(messages[0]);
+                        Logger.Error(messages[1]);
+                        ShowMessage(string.Join("\n",messages));
                         RandomHelper.RandomSleep(10000,10001);
                         Environment.Exit(0);
                       } else if (e is GoogleException) {
-                        Logger.Error( "Login Failed. Your credentials are wrong or Google Account is banned.");
-                        Logger.Error( "Exiting in 10 Seconds.");
+                        var messages = new [] {"Login Failed. Your credentials are wrong or Google Account is banned.", "Exiting in 10 Seconds."};
+                        Logger.Error(messages[0]);
+                        Logger.Error(messages[1]);
+                        ShowMessage(string.Join("\n",messages));
                         RandomHelper.RandomSleep(10000,10001);
                         Environment.Exit(0);
                       } else if (e is AccountNotVerifiedException) {
-                        Logger.Error( "Your PTC Account is not activated.");
-                        Logger.Error( "Exiting in 10 Seconds.");
+                        var messages = new [] {"Your PTC Account is not activated.", "Exiting in 10 Seconds."};
+                        Logger.Error(messages[0]);
+                        Logger.Error(messages[1]);
+                        ShowMessage(string.Join("\n",messages));
+                        RandomHelper.RandomSleep(10000,10001);
+                        Environment.Exit(0);
+                      } else if (e is HasherException) {
+                        var messages = new [] {e.Message, "Exiting in 10 Seconds."};
+                        Logger.Error(messages[0]);
+                        Logger.Error(messages[1]);
+                        ShowMessage(string.Join("\n",messages));
                         RandomHelper.RandomSleep(10000,10001);
                         Environment.Exit(0);
                       }else {
@@ -299,6 +315,10 @@ namespace PokeMaster.Logic
                 RandomHelper.RandomSleep(msToWait,msToWait+10000);
             }
             #endregion
+        }
+        private void ShowMessage(string str){
+            if (GlobalVars.EnableConsoleInTab)
+                MessageBox.Show(str);
         }
 
         public void PostLoginExecute()

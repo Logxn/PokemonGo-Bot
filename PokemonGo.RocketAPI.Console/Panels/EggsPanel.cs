@@ -66,7 +66,7 @@ namespace PokeMaster
                         listViewItem.Text = "" + item.EggKmWalkedStart;
                         listViewItem.ImageKey = "" + (item.EggKmWalkedTarget - item.EggKmWalkedStart) + "km";
 	               	
-                        EggIncubator incubator = GetIncubator(incubators, item.EggIncubatorId);
+                        EggIncubator incubator = incubators.FirstOrDefault(x =>x.Id == item.EggIncubatorId);
                         if (incubator != null) {
                             if (incubator.ItemId == ItemId.ItemIncubatorBasic) {
                                 listViewItem.ImageKey = "bincegg";
@@ -75,20 +75,11 @@ namespace PokeMaster
                             }
                             listViewItem.Text = "" + Math.Round(incubator.TargetKmWalked - stats.KmWalked, 2);
                         }
-                        listViewItem.SubItems.Add("" + item.EggKmWalkedTarget);	                	
+                        listViewItem.SubItems.Add("" + item.EggKmWalkedTarget);
                         if (incubator != null) {
-                            if (pokemons != null) {
-                                var eggPoke = pokemons.FirstOrDefault(x => x.Id == incubator.PokemonId);
-                                if (eggPoke != null) {
-                                    listViewItem.SubItems.Add(GetPokemonName(eggPoke.PokemonId));
-                                } else {
-                                    listViewItem.SubItems.Add("" + incubator.PokemonId);
-                                }
-                            } else {
-                                listViewItem.SubItems.Add("" + incubator.PokemonId);
-                            }
+                            listViewItem.SubItems.Add("" + incubator.PokemonId.ToString("X"));
                         } else {
-                            listViewItem.SubItems.Add("" + GetPokemonName(item.PokemonId));	                	
+                            listViewItem.SubItems.Add(th.TS(item.PokemonId.ToString()));
                         }
                         listViewItem.SubItems.Add(string.Format("{0}% {1}-{2}-{3}", PokemonInfo.CalculatePokemonPerfection(item).ToString("0"), item.IndividualAttack, item.IndividualDefense, item.IndividualStamina));
                         listViewItem.SubItems.Add(GetCreationTime(item.CreationTimeMs));
@@ -109,14 +100,7 @@ namespace PokeMaster
                 //Execute();
             }
         }
-        private EggIncubator GetIncubator(IEnumerable incubators, string id)
-        {
-            foreach (EggIncubator incubator in incubators) {
-                if (incubator.Id == id)
-                    return incubator;
-            }
-            return null;
-        }
+
         public void RefreshTitle()
         {
             var txt = th.TS("Eggs");
@@ -125,10 +109,6 @@ namespace PokeMaster
             }
             Parent.Text = txt;
         }		
-        private string GetPokemonName(PokemonId pokemonID)
-        {
-            return  th.TS(pokemonID.ToString());
-        }
 		
         private string GetCreationTime(ulong ms)
         {

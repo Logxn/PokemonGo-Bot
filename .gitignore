@@ -263,3 +263,4 @@ PokemonGo.RocketAPI.Console/Location.cs
 /Builds-Only/Device
 /Builds-Only/Configs
 /Builds-Only/Sprites
+/Builds-Only/*.xml
