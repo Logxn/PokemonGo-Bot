@@ -213,7 +213,9 @@ namespace PokemonGo.RocketAPI.Rpc
         public async Task<ReleasePokemonResponse> TransferPokemons(List<ulong> pokemonIds)
         {
             // Filter out all pokemons that don't exist and duplicates.
+            APIConfiguration.Logger.LogDebug("pokemonIds: " +pokemonIds);
             pokemonIds = GetPokemons().Where(p => pokemonIds.Contains(p.Id)).Select(p => p.Id).Distinct().ToList();
+            APIConfiguration.Logger.LogDebug("Filtered pokemonIds: " +pokemonIds);
 
             var message = new ReleasePokemonMessage();
             message.PokemonIds.AddRange(pokemonIds);
@@ -223,8 +225,11 @@ namespace PokemonGo.RocketAPI.Rpc
                 RequestType = RequestType.ReleasePokemon,
                 RequestMessage = message.ToByteString()
             };
+            APIConfiguration.Logger.LogDebug("message: " +message);
 
             var request = await GetRequestBuilder().GetRequestEnvelope(CommonRequest.FillRequest(transferPokemonRequest, Client));
+
+            APIConfiguration.Logger.LogDebug("request: " +request);
 
             Tuple<ReleasePokemonResponse, CheckChallengeResponse, GetHatchedEggsResponse, GetInventoryResponse, CheckAwardedBadgesResponse, DownloadSettingsResponse, GetBuddyWalkedResponse> response =
                 await
@@ -249,6 +254,7 @@ namespace PokemonGo.RocketAPI.Rpc
                     RemoveInventoryItem(GetPokemonHashKey(pokemonId));
                 }
             }
+            APIConfiguration.Logger.LogDebug("releaseResponse: " +releaseResponse);
 
             return releaseResponse;
         }
