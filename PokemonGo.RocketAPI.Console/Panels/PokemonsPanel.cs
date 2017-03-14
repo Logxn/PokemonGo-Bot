@@ -160,7 +160,7 @@ namespace PokeMaster
             {
                 if (new_sorting_column == SortingColumn)
                 {
-                    sort_order = SortingColumn.Text.StartsWith("> ") ? SortOrder.Descending : SortOrder.Ascending;
+                    sort_order = SortingColumn.Text.StartsWith("> ", StringComparison.Ordinal) ? SortOrder.Descending : SortOrder.Ascending;
                 }
                 else
                 {
@@ -311,7 +311,7 @@ namespace PokeMaster
                         str ="";
                         if (pokemon.PokemonDisplay.Form != POGOProtos.Enums.Form.Unset)
                             str = pokemon.PokemonDisplay.Form.ToString().Replace("Unown","").Replace("ExclamationPoint","!").Replace("QuestionMark","?");
-                            
+                        
                         listViewItem.SubItems.Add("" + str);
                         listViewItem.SubItems.Add("" + pokemon.BuddyCandyAwarded);
                         listViewItem.SubItems.Add("" + pokemon.BuddyTotalKmWalked);
@@ -376,29 +376,6 @@ namespace PokeMaster
         private void transferToolStripMenuItem_Click(object sender, EventArgs e)
         {
             transferSelectedPokemons();
-        }
-        private static async Task<taskResponse> transferPokemon(PokemonData pokemon)
-        {
-            var resp = new taskResponse(false, string.Empty);
-            try
-            {
-                var transferPokemonResponse =  client.Inventory.TransferPokemon(pokemon.Id).Result;
-
-                if (transferPokemonResponse.Result == ReleasePokemonResponse.Types.Result.Success)
-                {
-                    resp.Status = true;
-                }
-                else
-                {
-                    resp.Message = pokemon.PokemonId.ToString();
-                }
-            }
-            catch (Exception e)
-            {
-                Logger.ColoredConsoleWrite(ConsoleColor.Red, "Error transferPokemon: " + e.Message);
-                await transferPokemon(pokemon).ConfigureAwait(false);
-            }
-            return resp;
         }
 
         private void btnReload_Click(object sender, EventArgs e)
@@ -598,8 +575,7 @@ namespace PokeMaster
                             Logger.Error("Something happened while transferring pokemons.");
                         }
                         
-                        RefreshTitle();
-                        client.Inventory.GetInventory().Wait(); // force refresh inventory
+                        Execute();
                     }
                     
                     if (GlobalVars.pauseAtEvolve)
@@ -704,10 +680,9 @@ namespace PokeMaster
         {
             string croppedName = pokemon.PokemonId + " ";
             string nickname;
-            if (useShortFormat)
-                nickname = string.Format("{0}{1}{2}{3}", pokemon.IndividualAttack.ToString("X"), pokemon.IndividualDefense.ToString("X"), pokemon.IndividualStamina.ToString("X"),(45 - pokemon.IndividualAttack- pokemon.IndividualDefense- pokemon.IndividualStamina));
-            else
-                nickname = string.Format("{0}.{1}.{2}.{3}", PokemonInfo.CalculatePokemonPerfection(pokemon).ToString("0"), pokemon.IndividualAttack, pokemon.IndividualDefense, pokemon.IndividualStamina);
+            nickname = useShortFormat ?
+                string.Format("{0}{1}{2}{3}", pokemon.IndividualAttack.ToString("X"), pokemon.IndividualDefense.ToString("X"), pokemon.IndividualStamina.ToString("X"), (45 - pokemon.IndividualAttack - pokemon.IndividualDefense - pokemon.IndividualStamina))
+                : string.Format("{0}.{1}.{2}.{3}", PokemonInfo.CalculatePokemonPerfection(pokemon).ToString("0"), pokemon.IndividualAttack, pokemon.IndividualDefense, pokemon.IndividualStamina);
             int lenDiff = 12 - nickname.Length;
             if (croppedName.Length > lenDiff)
                 croppedName = croppedName.Substring(0, lenDiff);
@@ -738,8 +713,8 @@ namespace PokeMaster
 
         private void contextMenuStrip1_Opening(object sender, CancelEventArgs e)
         {
-            if ((PokemonListView.SelectedItems.Count > 0) && (PokemonListView.SelectedItems[0].Checked))
-                contextMenuStrip1.Items[2].Visible = true;
+            contextMenuStrip1.Items[2].Visible |= (PokemonListView.SelectedItems.Count > 0
+                                                   && PokemonListView.SelectedItems[0].Checked);
         }
 
         private void contextMenuStrip1_Closing(object sender, ToolStripDropDownClosingEventArgs e)
@@ -763,26 +738,20 @@ namespace PokeMaster
                 return;
 
             var pokemon = (PokemonData)PokemonListView.SelectedItems[0].Tag;
-            var resp = false;
 
             string promptValue = Prompt.ShowDialog(IVsToNickname(pokemon ,checkBox_ShortName.Checked), th.TS("Confirm Nickname"));
 
             if (promptValue != "")
             {
                 pokemon.Nickname = promptValue;
-                resp = changePokemonNickname(pokemon);
+                if (changePokemonNickname(pokemon))
+                {
+                    PokemonListView.SelectedItems[0].ToolTipText = StringUtils.ConvertTimeMSinString(pokemon.CreationTimeMs, "dd/MM/yyyy HH:mm:ss");
+                    PokemonListView.SelectedItems[0].ToolTipText += th.TS("\nNickname: {0}",pokemon.Nickname);
+                }
+                else
+                    MessageBox.Show( th.TS("{0} rename failed!",pokemon.Nickname), th.TS("Rename Status"), MessageBoxButtons.OK);
             }
-            else
-            {
-                return;
-            }
-            if (resp)
-            {
-                PokemonListView.SelectedItems[0].ToolTipText = Logic.Utils.StringUtils.ConvertTimeMSinString(pokemon.CreationTimeMs, "dd/MM/yyyy HH:mm:ss");
-                PokemonListView.SelectedItems[0].ToolTipText += th.TS("\nNickname: {0}",pokemon.Nickname);
-            }
-            else
-                MessageBox.Show( th.TS("{0} rename failed!",pokemon.Nickname), th.TS("Rename Status"), MessageBoxButtons.OK);
         }
 
         private void changeFavouritesToolStripMenuItem_Click(object sender, EventArgs e)
@@ -792,7 +761,6 @@ namespace PokeMaster
             var profile = client.Player;
             foreach (ListViewItem element in PokemonListView.SelectedItems) {
                 var pokemon = element.Tag as PokemonData;
-                var resp = false;
                 string poname = th.TS(pokemon.PokemonId.ToString());
                 if (MessageBox.Show(this, th.TS("{0} will be ",poname) + ((pokemon.Favorite == 1) ? th.TS("deleted from") : th.TS("added to")) + th.TS(" your favourites.\nAre you sure you want?"), th.TS("Confirmation Message"), MessageBoxButtons.OKCancel) == DialogResult.OK)
                 {

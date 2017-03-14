@@ -99,7 +99,7 @@ namespace PokeMaster
             close = false;
         }
 
-        private async void buttonRefreshForts_Click(object sender, EventArgs e)
+        private void buttonRefreshForts_Click(object sender, EventArgs e)
         {
             var button = ((Button)sender);
             button.Enabled = false;
