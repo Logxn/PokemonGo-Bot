@@ -504,6 +504,7 @@ namespace PokeMaster
             this.label7.TabIndex = 104;
             this.label7.Text = "Minutes";
             this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.label7.DoubleClick += new System.EventHandler(this.label7_DoubleClick);
             // 
             // checkBox1
             // 

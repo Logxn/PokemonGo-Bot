@@ -116,7 +116,7 @@ namespace PokeMaster.Logic
 
                     CatchingLogic.Execute();
 
-                    var fortInfo = objClient.Fort.GetFort(pokestop.Id, pokestop.Latitude, pokestop.Longitude).Result;
+                    var fortInfo = objClient.Fort.GetFort(pokestop.Id, pokestop.Latitude, pokestop.Longitude);
 
                     if ( BotSettings.UseLureGUIClick || (BotSettings.UseLureAtBreak && !pokestop.ActiveFortModifier.Any() && !addedlure))
                     {
@@ -249,7 +249,7 @@ namespace PokeMaster.Logic
             {
                 try
                 {
-                    objClient.Login.DoLogin().Wait();
+                    objClient.Login.DoLogin();
                     Logger.Debug("login done");
                     
                     TelegramLogic.Instantiante();
@@ -476,7 +476,7 @@ namespace PokeMaster.Logic
 
             //Query nearby objects for mapData
             if (mapObjectsResponse == null)
-                mapObjectsResponse = objClient.Map.GetMapObjects().Result;
+                mapObjectsResponse = objClient.Map.GetMapObjects();
 
             //narrow map data to pokestops within walking distance
             
@@ -615,7 +615,7 @@ namespace PokeMaster.Logic
                         pokeStop.Latitude,
                         pokeStop.Longitude);
 
-                var fortInfo = objClient.Fort.GetFort(pokeStop.Id, pokeStop.Latitude, pokeStop.Longitude).Result;
+                var fortInfo = objClient.Fort.GetFort(pokeStop.Id, pokeStop.Latitude, pokeStop.Longitude);
 
                 //log error if pokestop not found
                 if (fortInfo == null)
@@ -875,7 +875,7 @@ namespace PokeMaster.Logic
 
             if (pokeStop.CooldownCompleteTimestampMs < (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds && BotSettings.FarmPokestops)
             {
-                var fortSearch = objClient.Fort.SearchFort(pokeStop.Id, pokeStop.Latitude, pokeStop.Longitude).Result;
+                var fortSearch = objClient.Fort.SearchFort(pokeStop.Id, pokeStop.Latitude, pokeStop.Longitude);
                 Logger.Debug("================[VERBOSE LOGGING - Pokestop Search]================");
                 Logger.Debug($"Result: {fortSearch.Result}");
                 Logger.Debug($"ChainHackSequenceNumber: {fortSearch.ChainHackSequenceNumber}");
@@ -1031,7 +1031,7 @@ namespace PokeMaster.Logic
             {
                 lastsearchtimestamp = (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds;
 
-                var mapObjectsResponse = objClient.Map.GetMapObjects().Result;
+                var mapObjectsResponse = objClient.Map.GetMapObjects();
                 //narrow map data to pokestops within walking distance
                 var pokeStops = GetNearbyPokeStops(false, mapObjectsResponse);
                 var pokestopsWithinRangeStanding = pokeStops.Where(i => LocationUtils.CalculateDistanceInMeters(objClient.CurrentLatitude, objClient.CurrentLongitude, i.Latitude, i.Longitude) < 40);
@@ -1050,7 +1050,7 @@ namespace PokeMaster.Logic
                         if (pokestop.Type == FortType.Gym )
                            Logger.Info("Spinning Gym");
 
-                        var fortInfo = objClient.Fort.GetFort(pokestop.Id, pokestop.Latitude, pokestop.Longitude).Result;
+                        var fortInfo = objClient.Fort.GetFort(pokestop.Id, pokestop.Latitude, pokestop.Longitude);
                         var farmed = CheckAndFarmNearbyPokeStop(pokestop, objClient, fortInfo);
 
                         if (farmed)

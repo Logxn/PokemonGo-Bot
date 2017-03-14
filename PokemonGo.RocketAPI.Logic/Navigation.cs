@@ -76,7 +76,7 @@ namespace PokeMaster.Logic
             //Initial walking
             var requestSendDateTime = DateTime.Now;
             LocationUtils.updatePlayerLocation(_client, waypoint.Latitude, waypoint.Longitude, waypoint.Altitude);
-            //var result =_client.Player.UpdatePlayerLocation(waypoint.Latitude, waypoint.Longitude, waypoint.Altitude).Result;
+            //var result =_client.Player.UpdatePlayerLocation(waypoint.Latitude, waypoint.Longitude, waypoint.Altitude);
 
             if (functionExecutedWhileWalking != null)
             {

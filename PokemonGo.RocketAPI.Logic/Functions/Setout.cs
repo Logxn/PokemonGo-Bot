@@ -313,7 +313,7 @@ namespace PokeMaster.Logic.Functions
                     else
                         continue; // go to next pokemon
                 }
-                evolvePokemonOutProto = Logic.objClient.Inventory.EvolvePokemon(pokemon.Id, item).Result;
+                evolvePokemonOutProto = Logic.objClient.Inventory.EvolvePokemon(pokemon.Id, item);
 
                 if (evolvePokemonOutProto == null)
                     continue;
@@ -568,7 +568,7 @@ namespace PokeMaster.Logic.Functions
                     CatchingLogic.AllowCatchPokemon = true;
                     Logic.Instance.pokeballoutofstock = false;
                 }
-                var transfer = Logic.objClient.Inventory.RecycleItem(item.ItemId, item.Count).Result;
+                var transfer = Logic.objClient.Inventory.RecycleItem(item.ItemId, item.Count);
                 Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Recycled {item.Count}x {item.ItemId}");
                 RandomHelper.RandomSleep(2000);
             }
@@ -647,7 +647,7 @@ namespace PokeMaster.Logic.Functions
 
                 Logger.ColoredConsoleWrite(ConsoleColor.Magenta, "Got the level up reward from your level up.");
 
-                var lvlup = client.Player.GetLevelUpRewards(stats.Level).Result;
+                var lvlup = client.Player.GetLevelUpRewards(stats.Level);
                 var alreadygot = new List<ItemId>();
 
                 foreach (var i in lvlup.ItemsAwarded)
@@ -882,7 +882,7 @@ namespace PokeMaster.Logic.Functions
             if (!idsToTransfer.Any())
                 return;
 
-            var _response = Logic.objClient.Inventory.TransferPokemons(idsToTransfer).Result;
+            var _response = Logic.objClient.Inventory.TransferPokemons(idsToTransfer);
 
             if (_response.Result == ReleasePokemonResponse.Types.Result.Success)
             {
@@ -970,7 +970,7 @@ namespace PokeMaster.Logic.Functions
                 }
                 if (pokemonsToTransfer.Any())
                 {
-                    var _response = Logic.objClient.Inventory.TransferPokemons(pokemonsToTransfer).Result;
+                    var _response = Logic.objClient.Inventory.TransferPokemons(pokemonsToTransfer);
 
                     if (_response.Result == ReleasePokemonResponse.Types.Result.Success)
                     {

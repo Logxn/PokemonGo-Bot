@@ -243,7 +243,7 @@ namespace PokeMaster
             if (teamSelect.ShowDialog() == DialogResult.OK){
                 // Simulate to enter in a gym before select a team.
                 var client = Logic.Logic.objClient;
-                var mapObjects = client.Map.GetMapObjects().Result;
+                var mapObjects = client.Map.GetMapObjects();
                 var mapCells = mapObjects.MapCells;
 
                 var pokeGyms = mapCells.SelectMany(i => i.Forts)
@@ -294,7 +294,7 @@ namespace PokeMaster
             try
             {
             	var client = Logic.Logic.objClient;
-            	var resp2 = client.Player.SetPlayerTeam(teamColor).Result;
+            	var resp2 = client.Player.SetPlayerTeam(teamColor);
 
                 if (resp2.Status == SetPlayerTeamResponse.Types.Status.Success)
                 {
@@ -319,7 +319,7 @@ namespace PokeMaster
             try
             {
             	var client = Logic.Logic.objClient;
-            	var resp2 = client.Fort.GetGymDetails( gym,lat,lng).Result;
+            	var resp2 = client.Fort.GetGymDetails( gym,lat,lng);
 
                 if (resp2.Result == GetGymDetailsResponse.Types.Result.Success)
                 {
@@ -357,7 +357,7 @@ namespace PokeMaster
         }
         private  void collectCoins(){
             const string prefix = "(Coin Collection)";
-            var res = Logic.Logic.objClient.Player.CollectDailyDefenderBonus().Result;
+            var res = Logic.Logic.objClient.Player.CollectDailyDefenderBonus();
 
             var result = res.Result.ToString();
             var currentDefenders = res.DefendersCount;

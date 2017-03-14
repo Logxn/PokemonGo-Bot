@@ -84,7 +84,7 @@ namespace PokeMaster
                     arrStats.MoveNext();
                     stats = arrStats.Current;
                     locationPanel1.CreateBotMarker((int)client.Player.PlayerData.Team, stats.Level, stats.Experience);
-                    //pokemonsPanel1.profile = profile;
+                    loggerPanel1.timer1.Enabled = true;
                 }
             } catch (Exception e) {
                 Logger.Error("[PokemonList-Error] " + e.StackTrace);

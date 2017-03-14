@@ -424,7 +424,7 @@ namespace PokeMaster
                 evolveDialog.pictureBox2.Image = null;
                 evolveDialog.progressBar1.Value = 0;
                 evolveDialog.Show();
-                resp = client.Inventory.EvolvePokemon(pokemoninfo.Id, item).Result;
+                resp = client.Inventory.EvolvePokemon(pokemoninfo.Id, item);
                 if (resp.Result == EvolvePokemonResponse.Types.Result.Success)
                 {
                     var evolvedImage = PokeImgManager.GetPokemonVeryLargeImage(resp.EvolvedPokemonData.PokemonId);
@@ -558,7 +558,7 @@ namespace PokeMaster
                         }
                     }
                     if (pokemonsToTransfer.Any()){
-                        var _response = client.Inventory.TransferPokemons(pokemonsToTransfer).Result;
+                        var _response = client.Inventory.TransferPokemons(pokemonsToTransfer);
                         
                         if (_response.Result == ReleasePokemonResponse.Types.Result.Success)
                         {
@@ -600,7 +600,7 @@ namespace PokeMaster
             var ret = false;
             try
             {
-                var evolvePokemonResponse = client.Inventory.UpgradePokemon(pokemon.Id).Result;
+                var evolvePokemonResponse = client.Inventory.UpgradePokemon(pokemon.Id);
 
                 if (evolvePokemonResponse.Result == UpgradePokemonResponse.Types.Result.Success)
                 {
@@ -693,7 +693,7 @@ namespace PokeMaster
             var ret = false;
             try
             {
-                var result = client.Inventory.NicknamePokemon(pokemon.Id, pokemon.Nickname).Result;
+                var result = client.Inventory.NicknamePokemon(pokemon.Id, pokemon.Nickname);
 
                 if ( result.Result == NicknamePokemonResponse.Types.Result.Success)
                 {
@@ -783,7 +783,7 @@ namespace PokeMaster
             var resp = false;
             try
             {
-                var response =  client.Inventory.SetFavoritePokemon( pokemon.Id, (pokemon.Favorite == 1)).Result;
+                var response =  client.Inventory.SetFavoritePokemon( pokemon.Id, (pokemon.Favorite == 1));
                 resp = (response.Result == SetFavoritePokemonResponse.Types.Result.Success);
             }
             catch (Exception e)
@@ -823,7 +823,7 @@ namespace PokeMaster
             var ret = false;
             try
             {
-                var response = client.Player.SelectBuddy(pokemon.Id).Result;
+                var response = client.Player.SelectBuddy(pokemon.Id);
 
                 ret = (response.Result == SetBuddyPokemonResponse.Types.Result.Success);
             }
@@ -876,14 +876,14 @@ namespace PokeMaster
                     var selectedPokemon = (PokemonData) element. Tag;
                     if (selectedItem.ItemId == ItemId.ItemRevive || selectedItem.ItemId == ItemId.ItemMaxRevive)
                     {
-                        var res = client.Inventory.UseItemRevive(selectedItem.ItemId,selectedPokemon.Id).Result;
+                        var res = client.Inventory.UseItemRevive(selectedItem.ItemId,selectedPokemon.Id);
                         if (res.Result == UseItemReviveResponse.Types.Result.Success)
                             MessageBox.Show(th.TS("{0} Revived sucefully",selectedPokemon.PokemonId.ToString()));
                         else
                             Logger.Error("Error: "+ res);
                     }
                     else{
-                        var res = client.Inventory.UseItemPotion(selectedItem.ItemId,selectedPokemon.Id).Result;
+                        var res = client.Inventory.UseItemPotion(selectedItem.ItemId,selectedPokemon.Id);
                         if (res.Result == UseItemPotionResponse.Types.Result.Success)
                             MessageBox.Show(th.TS("{0} Cured sucefully",selectedPokemon.PokemonId.ToString()));
                         else
@@ -906,7 +906,7 @@ namespace PokeMaster
             if (selectedPokemon.DeployedFortId=="")
                 return;
 
-            var forts = client.Map.GetMapObjects().Result;
+            var forts = client.Map.GetMapObjects();
             var pokeGym = forts.MapCells.SelectMany(i => i.Forts)
                 .FirstOrDefault(i => i.Id == selectedPokemon.DeployedFortId );
 
@@ -914,7 +914,7 @@ namespace PokeMaster
             if (pokeGym == null){
                 message = th.TS("Gym is not in range.\nID: ") + selectedPokemon.DeployedFortId;
             }else{
-                var gymDetails = client.Fort.GetGymDetails(pokeGym.Id, pokeGym.Latitude, pokeGym.Longitude).Result;
+                var gymDetails = client.Fort.GetGymDetails(pokeGym.Id, pokeGym.Latitude, pokeGym.Longitude);
                 message = string.Format("{0}\n{1}, {2}\n{3}\nID: {4}", LocationUtils.FindAddress(pokeGym.Latitude, pokeGym.Longitude), pokeGym.Latitude, pokeGym.Longitude, gymDetails.Name ,  pokeGym.Id);
                 Logic.Logic.Instance.infoObservable.PushUpdatePokeGym(pokeGym);
             }

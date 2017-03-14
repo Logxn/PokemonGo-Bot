@@ -48,7 +48,7 @@ namespace PokeMaster.Logic
                     captchaResponseHandler.SetCaptchaToken(token);
                              
                     // We will send a request, passing the long-ass-token and wait for a response.
-                    VerifyChallengeResponse r = _player.VerifyChallenge(token).Result;
+                    VerifyChallengeResponse r = _player.VerifyChallenge(token);
                     if (r.Success) {
                         Logger.ColoredConsoleWrite(ConsoleColor.Green, "TOKEN OK!");
                     } else {
@@ -66,12 +66,12 @@ namespace PokeMaster.Logic
         }
                 
 
-        public async Task<ApiOperation> HandleApiFailure()
+        public ApiOperation HandleApiFailure()
         {
             if (_retryCount == 11)
                 return ApiOperation.Abort;
 
-            await Task.Delay(500).ConfigureAwait(false);
+            Task.Delay(500).Wait();
             _retryCount++;
 
             if (_retryCount % 5 == 0)
@@ -93,7 +93,7 @@ namespace PokeMaster.Logic
             {
                 if (_session.AuthType == AuthType.Google || _session.AuthType == AuthType.Ptc)
                 {
-                    await _session.Login.DoLogin().ConfigureAwait(false);
+                    _session.Login.DoLogin();
                 }
                 else
                 {
@@ -161,12 +161,12 @@ namespace PokeMaster.Logic
             
         }
 
-        public async Task<ApiOperation> HandleApiFailure(RequestEnvelope request, ResponseEnvelope response)
+        public ApiOperation HandleApiFailure(RequestEnvelope request, ResponseEnvelope response)
         {
             if (_retryCount == 11)
                 return ApiOperation.Abort;
 
-            await Task.Delay(500).ConfigureAwait(false);
+            Task.Delay(500).Wait();
             _retryCount++;
 
             if (_retryCount % 5 == 0)
@@ -177,15 +177,15 @@ namespace PokeMaster.Logic
                 }
                 catch (PtcOfflineException)
                 {
-                    await Task.Delay(20000).ConfigureAwait(false);
+                    Task.Delay(20000).Wait();
                 }
                 catch (AccessTokenExpiredException)
                 {
-                    await Task.Delay(2000).ConfigureAwait(false);
+                    Task.Delay(2000).Wait();
                 }
                 catch (Exception ex) when (ex is InvalidResponseException || ex is TaskCanceledException)
                 {
-                    await Task.Delay(1000).ConfigureAwait(false);
+                     Task.Delay(1000).Wait();
                 }
             }
 

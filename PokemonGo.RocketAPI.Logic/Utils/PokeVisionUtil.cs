@@ -23,7 +23,7 @@ namespace PokeMaster.Logic.Utils
         }
 
 
-        public async Task<List<spottedPoke>> GetNearPokemons(double lat, double lng)
+        public List<spottedPoke> GetNearPokemons(double lat, double lng)
         {
             _newSpotted.Clear();
             ClearAlreadySpottedByTime();
@@ -31,9 +31,9 @@ namespace PokeMaster.Logic.Utils
             double Lat10 = lat + 0.10;
             double Lon10 = lng + 0.10;
 
-            HttpResponseMessage response = await _httpClient.GetAsync("https://skiplagged.com/api/pokemon.php?bounds=" + lat.ToString().Replace(",", ".") + "," + lng.ToString().Replace(",", ".") + "," + Lat10.ToString().Replace(",", ".") + "," + Lon10.ToString().Replace(",", ".")).ConfigureAwait(false);
+            HttpResponseMessage response = _httpClient.GetAsync("https://skiplagged.com/api/pokemon.php?bounds=" + lat.ToString().Replace(",", ".") + "," + lng.ToString().Replace(",", ".") + "," + Lat10.ToString().Replace(",", ".") + "," + Lon10.ToString().Replace(",", ".")).Result;
             HttpContent content = response.Content;
-            string result = await content.ReadAsStringAsync().ConfigureAwait(false);
+            string result = content.ReadAsStringAsync().Result;
 
             dynamic stuff = JsonConvert.DeserializeObject(result);
             try

@@ -187,8 +187,8 @@ namespace PokeMaster.Logic.Utils
                 if (_chatid != -1 && _livestats)
                 {
                     var usage = "";
-                    var inventory =  _client.Inventory.GetInventory().Result;
-                    var profil =  _client.Player.GetPlayer(false).Result;
+                    var inventory =  _client.Inventory.GetInventory();
+                    var profil =  _client.Player.GetPlayer(false);
                     var stats = inventory.InventoryDelta.InventoryItems.Select(i => i.InventoryItemData.PlayerStats).ToArray();
                     foreach (var c in stats)
                     {
@@ -412,7 +412,7 @@ namespace PokeMaster.Logic.Utils
                         {
                             if (_botSettings.pokemonsToEvolve.Contains(pokemon.PokemonId))
                             {
-                                var evolvePokemonOutProto =  _client.Inventory.EvolvePokemon((ulong)pokemon.Id).Result;
+                                var evolvePokemonOutProto =  _client.Inventory.EvolvePokemon((ulong)pokemon.Id);
                                 if (evolvePokemonOutProto.Result == POGOProtos.Networking.Responses.EvolvePokemonResponse.Types.Result.Success)
                                 {
                                     await _telegram.SendTextMessageAsync(_chatid, $"Evolved {pokemon.PokemonId} successfully for {evolvePokemonOutProto.ExperienceAwarded}xp", replyMarkup: new ReplyKeyboardHide()).ConfigureAwait(false);

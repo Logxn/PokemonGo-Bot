@@ -48,7 +48,7 @@ namespace PokeMaster.Logic.Functions
             {
                 if (mapObjectsResponse == null)
                 {
-                    mapObjectsResponse = client.Map.GetMapObjects().Result;
+                    mapObjectsResponse = client.Map.GetMapObjects();
                 }
 
                 MapPokemon mapIncensePokemon = null;
@@ -56,7 +56,7 @@ namespace PokeMaster.Logic.Functions
                     var duration = Setout.lastincenseuse - DateTime.Now;
                     Logger.Debug("duration: "+ duration);
                     if (duration.TotalMilliseconds >0 ){
-                        var incensePokemon= client.Map.GetIncensePokemons().Result;
+                        var incensePokemon= client.Map.GetIncensePokemons();
                         Logger.Debug("incensePokemon: "+ incensePokemon);
                         if (incensePokemon.Result == GetIncensePokemonResponse.Types.Result.IncenseEncounterAvailable)
                         {
@@ -135,7 +135,7 @@ namespace PokeMaster.Logic.Functions
 
                     
                 }
-                client.Map.GetMapObjects(true).Wait(); //force Map Objects Update
+                client.Map.GetMapObjects(true); //force Map Objects Update
                 return true;
             }
             return false;
@@ -206,9 +206,9 @@ namespace PokeMaster.Logic.Functions
             try
             {
                 if (luredPoke == 0)
-                    encounterPokemonResponse = client.Encounter.EncounterPokemon(encounterId, spawnpointId).Result;
+                    encounterPokemonResponse = client.Encounter.EncounterPokemon(encounterId, spawnpointId);
                 else if (luredPoke == 1){
-                    var DiscEncounterPokemonResponse =  client.Encounter.EncounterLurePokemon(encounterId, spawnpointId).Result;
+                    var DiscEncounterPokemonResponse =  client.Encounter.EncounterLurePokemon(encounterId, spawnpointId);
                     encounterPokemonResponse = new EncounterResponse();
                     encounterPokemonResponse.Status =DiskEncounterResultToEncounterStatus(DiscEncounterPokemonResponse.Result);
                     
@@ -221,7 +221,7 @@ namespace PokeMaster.Logic.Functions
                     }
                     
                 }else{
-                    var IncenseEncounterPokemonResponse =  client.Encounter.EncounterIncensePokemon(encounterId, spawnpointId).Result;
+                    var IncenseEncounterPokemonResponse =  client.Encounter.EncounterIncensePokemon(encounterId, spawnpointId);
                     encounterPokemonResponse = new EncounterResponse();
                     encounterPokemonResponse.Status =IncenseEncounterResultToEncounterStatus(IncenseEncounterPokemonResponse.Result);
                     
@@ -319,7 +319,7 @@ namespace PokeMaster.Logic.Functions
                             if (razz != null && razz.Count > 0)
                             {
                                 //Throw berry
-                                var useRazzberry = client.Encounter.UseItemEncounter(encounterId, ItemId.ItemRazzBerry, spawnpointId).Result;
+                                var useRazzberry = client.Encounter.UseItemEncounter(encounterId, ItemId.ItemRazzBerry, spawnpointId);
                                 if (useRazzberry.Status ==UseItemEncounterResponse.Types.Status.Success){
                                     razz.Count = razz.Count - 1;
                                     Logger.Info($"We used a Razz Berry. Remaining: {razz.Count}.");
@@ -339,7 +339,7 @@ namespace PokeMaster.Logic.Functions
                                 if (pinap != null && pinap.Count > 0)
                                 {
                                     // Use a pinap
-                                    var res = client.Encounter.UseItemEncounter(encounterId, ItemId.ItemPinapBerry, spawnpointId).Result;
+                                    var res = client.Encounter.UseItemEncounter(encounterId, ItemId.ItemPinapBerry, spawnpointId);
                                     if (res.Status ==UseItemEncounterResponse.Types.Status.Success){
                                         pinap.Count = pinap.Count - 1;
                                         Logger.Info($"We used a Pinap Berry. Remaining: {pinap.Count}.");
@@ -364,7 +364,7 @@ namespace PokeMaster.Logic.Functions
 
                                     if (nanab != null && nanab.Count > 0)
                                     {
-                                        var res = client.Encounter.UseItemEncounter(encounterId, ItemId.ItemNanabBerry, spawnpointId).Result;
+                                        var res = client.Encounter.UseItemEncounter(encounterId, ItemId.ItemNanabBerry, spawnpointId);
                                         if (res.Status ==UseItemEncounterResponse.Types.Status.Success){
                                             nanab.Count = nanab.Count - 1;
                                             Logger.Info($"We used a Nabab Berry. Remaining: {nanab.Count}.");
@@ -570,7 +570,7 @@ namespace PokeMaster.Logic.Functions
             {
                 Logger.ColoredConsoleWrite(ConsoleColor.DarkMagenta, $"{hitTxt} throw as {spinTxt} ball.");
             }
-            return client.Encounter.CatchPokemon(encounterId, spawnpointId, bestPokeball, normalizedRecticleSize, spinModifier).Result;
+            return client.Encounter.CatchPokemon(encounterId, spawnpointId, bestPokeball, normalizedRecticleSize, spinModifier);
         }
         private static ItemId GetBestBall(WildPokemon pokemon, bool escaped)
         {

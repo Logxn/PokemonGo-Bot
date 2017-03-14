@@ -125,7 +125,7 @@ namespace PokeMaster
                 var resp = new taskResponse(false, string.Empty);
 
                 //resp = await IncubateEgg(incubator, egg).ConfigureAwait(false);
-                resp = IncubateEgg(incubator, egg).Result;
+                resp = IncubateEgg(incubator, egg);
                 if (resp.Status) {
                     if (incubator.ItemId == ItemId.ItemIncubatorBasic) {
                         listView.SelectedItems[0].ImageKey = "bincegg";
@@ -157,12 +157,12 @@ namespace PokeMaster
                 Message = message;
             }
         }
-        private static async Task<taskResponse> IncubateEgg(EggIncubator item, PokemonData egg)
+        private static taskResponse IncubateEgg(EggIncubator item, PokemonData egg)
         {
             var resp1 = new taskResponse(false, string.Empty);
             try {
                 var client = Logic.Logic.objClient;
-                var resp2 =  client.Inventory.UseItemEggIncubator(item.Id, egg.Id).Result;
+                var resp2 =  client.Inventory.UseItemEggIncubator(item.Id, egg.Id);
 
                 if (resp2.Result == UseItemEggIncubatorResponse.Types.Result.Success) {
                     resp1.Status = true;
@@ -171,7 +171,7 @@ namespace PokeMaster
                 }
             } catch (Exception e) {
                 Logger.ColoredConsoleWrite(ConsoleColor.Red, "Error IncubateEgg: " + e.Message);
-                await IncubateEgg(item, egg).ConfigureAwait(false);
+                 IncubateEgg(item, egg);
             }
             return resp1;
         }

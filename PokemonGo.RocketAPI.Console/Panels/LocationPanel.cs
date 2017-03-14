@@ -106,7 +106,7 @@ namespace PokeMaster
             var client = Logic.Logic.objClient;
             if (Logic.Logic.ClientReadyToUse) {
                 Logger.ColoredConsoleWrite(ConsoleColor.DarkRed, "Refreshing Forts", Logger.LogLevel.Warning);
-                var mapObjects = client.Map.GetMapObjects().Result;
+                var mapObjects = client.Map.GetMapObjects();
                 var mapCells = mapObjects.MapCells;
                 var pokeStops =
                     mapCells.SelectMany(i => i.Forts)
@@ -684,7 +684,7 @@ namespace PokeMaster
                 if (MessageBox.Show(th.TS("Do you want see gym details?"), th.TS("Gym Details Confirmation"), MessageBoxButtons.YesNo) == DialogResult.No)
                     return;
                 
-                var details = Logic.Logic.objClient.Fort.GetGymDetails(gymID, item.Position.Lat, item.Position.Lng).Result;
+                var details = Logic.Logic.objClient.Fort.GetGymDetails(gymID, item.Position.Lat, item.Position.Lng);
                 if (details.Result == POGOProtos.Networking.Responses.GetGymDetailsResponse.Types.Result.Success){
                     var str = item.ToolTipText + "\n";
                     str += details.Name + "\n";

@@ -15,7 +15,7 @@ namespace PokeMaster.Logic.Utils
         /// </summary>
         private System.ComponentModel.IContainer components = null;
         private System.Windows.Forms.RichTextBox rtbLog;
-        private System.Windows.Forms.Timer timer1;
+        public System.Windows.Forms.Timer timer1;
         
         /// <summary>
         /// Disposes resources used by the control.
@@ -58,7 +58,7 @@ namespace PokeMaster.Logic.Utils
             // 
             // timer1
             // 
-            this.timer1.Enabled = true;
+            this.timer1.Enabled = false;
             this.timer1.Interval = 1000;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 

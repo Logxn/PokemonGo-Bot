@@ -34,7 +34,7 @@ namespace PokeMaster.Helper
         {
             CurrentNianticAPIVersion = new Version();
             try {
-                CurrentNianticAPIVersion = new Version(HttpGetCurrentNianticAPIVersion().Result);
+                CurrentNianticAPIVersion = new Version(HttpGetCurrentNianticAPIVersion());
             } catch (Exception ex1) {
                 Logger.ExceptionInfo(ex1.ToString());
             }
@@ -44,7 +44,7 @@ namespace PokeMaster.Helper
         /// Calls NIANTIC end potint that gives current API version
         /// </summary>
         /// <returns>string</returns>
-        static async Task<string> HttpGetCurrentNianticAPIVersion()
+        static string HttpGetCurrentNianticAPIVersion()
         {
             string _returnedVersion = "";
 
@@ -56,11 +56,11 @@ namespace PokeMaster.Helper
                     _httpClient.DefaultRequestHeaders.Accept.Clear();
                     _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-                    HttpResponseMessage _response = await _httpClient.GetAsync(_uri);
+                    HttpResponseMessage _response =  _httpClient.GetAsync(_uri).Result;
 
                     if (_response.IsSuccessStatusCode)
                     {
-                        _returnedVersion = await _response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                        _returnedVersion =  _response.Content.ReadAsStringAsync().Result;
                         _returnedVersion = new string(_returnedVersion.Where(c => !char.IsControl(c)).ToArray());
                         return _returnedVersion;
                     }

@@ -154,7 +154,7 @@ namespace PokeMaster
         {
             var resp1 = false;
             try {
-                var resp2 = client.Inventory.RecycleItem(item.ItemId, amount).Result;
+                var resp2 = client.Inventory.RecycleItem(item.ItemId, amount);
 
                 if (resp2.Result == RecycleInventoryItemResponse.Types.Result.Success) {
                     resp1 = true;

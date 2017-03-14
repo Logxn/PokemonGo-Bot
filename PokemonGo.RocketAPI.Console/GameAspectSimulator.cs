@@ -8,8 +8,11 @@
  */
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Drawing;
+using POGOProtos.Data.Player;
+using PokemonGo.RocketAPI;
 
 namespace PokeMaster
 {
@@ -18,6 +21,7 @@ namespace PokeMaster
     /// </summary>
     public partial class GameAspectSimulator : Form
     {
+        private Client client;
         ChangesPanel changesPanel = null;
         EggsPanel eggsPanel = null;
         ItemsPanel itemsPanel = null;
@@ -27,9 +31,9 @@ namespace PokeMaster
         private Helper.TranslatorHelper th = Helper.TranslatorHelper.getInstance();
 
         UserControl panel  = null;
-        private const AnchorStyles allAnchors = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+        private const AnchorStyles allAnchors = ((AnchorStyles)((((AnchorStyles.Top | AnchorStyles.Bottom) 
+            | AnchorStyles.Left) 
+            | AnchorStyles.Right)));
         public GameAspectSimulator()
         {
             //
@@ -37,13 +41,26 @@ namespace PokeMaster
             //
             InitializeComponent();
             th.Translate(this);
-            locationPanel1.Init(true, 0, 0, 0);
             btnPicPokes.Parent= locationPanel1.map;
             btnPicEggs.Parent= locationPanel1.map;
             btnPicItems.Parent= locationPanel1.map;
             btnPicConfig.Parent = locationPanel1.map;
             btnPicSnipe.Parent = locationPanel1.map;
+            locationPanel1.Init(true,0,0,0);
+            Task.Run(createPlayerAtReady);
         }
+        private async Task createPlayerAtReady(){
+            client = Logic.Logic.objClient;
+            PlayerStats  stats = null;
+            while (stats ==null){
+                stats = client.Inventory.GetPlayerStats().FirstOrDefault();
+                if (stats ==null)
+                    await Task.Delay(10000);
+            }
+            locationPanel1.CreateBotMarker(
+                (int)client.Player.PlayerData.Team, stats.Level, stats.Experience);
+        }
+            
         void btnPicClose_Click(object sender, EventArgs e)
         {
             btnPicClose.Visible =false;
@@ -77,8 +94,8 @@ namespace PokeMaster
             panel  = eggsPanel;
             panel.Anchor = allAnchors;
             panel.Location = new Point (1,1);
-            panel.Size = new Size(this.Size.Width -10, this.Size.Height -55);
-            panel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            panel.Size = new Size(Size.Width -10, Size.Height -55);
+            panel.Margin = new Padding(4, 4, 4, 4);
             Controls.Add(panel);
             panel.Visible = true;
             ((EggsPanel)panel).Execute();
@@ -96,7 +113,7 @@ namespace PokeMaster
             panel.Anchor = allAnchors;
             panel.Location = new Point (1,1);
             panel.Size = new Size(this.Size.Width -10, this.Size.Height -55);
-            panel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            panel.Margin = new Padding(4, 4, 4, 4);
             Controls.Add(panel);
             panel.Visible = true;
             ((ItemsPanel)panel).Execute();
@@ -114,7 +131,7 @@ namespace PokeMaster
             panel.Anchor = allAnchors;
             panel.Location= new Point (1,1);
             panel.Size = new Size(this.Size.Width -10, this.Size.Height -55);
-            panel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            panel.Margin = new Padding(4, 4, 4, 4);
             Controls.Add(panel);
             panel.Visible = true;
             ((ChangesPanel)panel).Execute();
@@ -132,7 +149,7 @@ namespace PokeMaster
             panel.Anchor = allAnchors;
             panel.Location = new Point (1,1);
             panel.Size = new Size(this.Size.Width -10, this.Size.Height -55);
-            panel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            panel.Margin = new Padding(4, 4, 4, 4);
             Controls.Add(panel);
             panel.Visible = true;
             ((PokemonsPanel)panel).Execute();
@@ -151,7 +168,7 @@ namespace PokeMaster
             panel.Anchor = allAnchors;
             panel.Location = new Point (1,1);
             panel.Size = new Size(this.Size.Width -10, this.Size.Height -55);
-            panel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            panel.Margin = new Padding(4, 4, 4, 4);
             Controls.Add(panel);
             panel.Visible = true;
             ((SniperPanel)panel).Execute();
@@ -159,7 +176,7 @@ namespace PokeMaster
             locationPanel1.Visible=false;
           
         }
-        private void This_Close(object sender, FormClosingEventArgs e)
+        private void This_Close(object sender, System.ComponentModel.CancelEventArgs e)
         {
             e.Cancel = true;
             this.WindowState = FormWindowState.Minimized;
@@ -175,7 +192,7 @@ namespace PokeMaster
             panel.Anchor = allAnchors;
             panel.Location = new Point (1,1);
             panel.Size = new Size(this.Size.Width -10, 280);
-            panel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            panel.Margin = new Padding(4, 4, 4, 4);
             Controls.Add(panel);
             panel.Visible = true;
             ((PlayerPanel)panel).Execute();
