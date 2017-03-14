@@ -86,7 +86,7 @@ namespace PokemonGo.RocketAPI.Rpc
                     }
                 }
 
-                await Reauthenticate(client, isCached);
+                await Reauthenticate(client, isCached).ConfigureAwait(false);
                 return client.AccessToken;
             }
             finally

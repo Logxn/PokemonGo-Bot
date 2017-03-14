@@ -12,7 +12,6 @@ namespace PokeMaster.Helper
     public static class VersionHelper
     {
         public static Version CurrentNianticAPIVersion;
-        public const string RpcVersionUrl = @"https://pgorelease.nianticlabs.com/plfe/version";
         public static Version BotVersion = Assembly.GetEntryAssembly().GetName().Version;
         public static Version BotApiSupportedVersion = new Version (Client.API_VERSION);
 
@@ -53,7 +52,7 @@ namespace PokeMaster.Helper
             {
                 try
                 {
-                    var _uri = new Uri(RpcVersionUrl);
+                    var _uri = new Uri(Constants.VersionUrl);
                     _httpClient.DefaultRequestHeaders.Accept.Clear();
                     _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 

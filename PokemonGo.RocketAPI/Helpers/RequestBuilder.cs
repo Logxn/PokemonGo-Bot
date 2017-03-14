@@ -272,7 +272,7 @@ namespace PokemonGo.RocketAPI.Helpers
         public async Task<RequestEnvelope> GetRequestEnvelope(IEnumerable<Request> customRequests)
         {
             // Save the location
-            GeoCoordinate currentLocation = new GeoCoordinate(_client.CurrentLatitude, _client.CurrentLongitude, _client.CurrentAltitude);
+            var currentLocation = new GeoCoordinate(_client.CurrentLatitude, _client.CurrentLongitude, _client.CurrentAltitude);
             currentLocation.Latitude = Math.Round(currentLocation.Latitude, GEOLOCATION_PRECISION);
             currentLocation.Longitude = Math.Round(currentLocation.Longitude, GEOLOCATION_PRECISION);
             currentLocation.Altitude = Math.Round(currentLocation.Altitude, GEOLOCATION_PRECISION);
@@ -295,7 +295,7 @@ namespace PokemonGo.RocketAPI.Helpers
             }
             else
             {
-                var accessToken = await Rpc.Login.GetValidAccessToken(_client);
+                var accessToken = await Rpc.Login.GetValidAccessToken(_client).ConfigureAwait(false);
                 e.AuthInfo = new RequestEnvelope.Types.AuthInfo
                 {
                     Provider = accessToken.ProviderID,
