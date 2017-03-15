@@ -163,9 +163,9 @@ namespace PokemonGo.RocketAPI.Rpc
              Client.Reset();
 
              var player = Client.Player.GetPlayer(false); // Set false because initial GetPlayer does not use common requests.
-             
              RandomHelper.RandomSleep(300);
              Client.Download.GetRemoteConfigVersion();
+             RandomHelper.RandomSleep(300);
              Client.Download.GetAssetDigest();
              Client.Download.GetItemTemplates();
 

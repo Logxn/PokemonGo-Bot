@@ -12,7 +12,9 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Drawing;
 using POGOProtos.Data.Player;
+using PokeMaster.Logic.Utils;
 using PokemonGo.RocketAPI;
+using PokemonGo.RocketAPI.Helpers;
 
 namespace PokeMaster
 {
@@ -51,12 +53,14 @@ namespace PokeMaster
         }
         private async Task createPlayerAtReady(){
             client = Logic.Logic.objClient;
-            PlayerStats  stats = null;
-            while (stats ==null){
-                stats = client.Inventory.GetPlayerStats().FirstOrDefault();
-                if (stats ==null)
-                    await Task.Delay(10000);
+            // Wait to client is ready to use
+            while (client == null || !Logic.Logic.ClientReadyToUse) {
+                Logger.Debug("Client not ready to use. Waiting 2 seconds to retry");
+                RandomHelper.RandomSleep(2000);
+                client = Logic.Logic.objClient;
             }
+            RandomHelper.RandomSleep(300);
+            var stats = client.Inventory.GetPlayerStats().FirstOrDefault();
             locationPanel1.CreateBotMarker(
                 (int)client.Player.PlayerData.Team, stats.Level, stats.Experience);
         }
