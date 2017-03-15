@@ -576,6 +576,5 @@ namespace PokeMaster
         {
           textBoxPokemonsList.Enabled |= Control.ModifierKeys == Keys.Shift;
         }
-
     }
 }
