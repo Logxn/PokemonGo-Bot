@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PokemonGo.RocketAPI.Hash
 {
@@ -29,17 +26,17 @@ namespace PokemonGo.RocketAPI.Hash
         /// The Latitude field from your ClientRpc request envelope. (The one you will be sending to Niantic)
         /// For safety reasons, this should also match your last LocationUpdate entry in the SignalLog
         /// </summary>
-        public double Latitude { get; set; }
+        public Int64 Latitude64 { get; set; }
         /// <summary>
         /// The Longitude field from your ClientRpc request envelope. (The one you will be sending to Niantic)
         /// For safety reasons, this should also match your last LocationUpdate entry in the SignalLog
         /// </summary>
-        public double Longitude { get; set; }
+        public Int64 Longitude64 { get; set; }
         /// <summary>
         /// The Altitude field from your ClientRpc request envelope. (The one you will be sending to Niantic)
         /// For safety reasons, this should also match your last LocationUpdate entry in the SignalLog
         /// </summary>
-        public double Altitude { get; set; }
+        public Int64 Accuracy64 { get; set; }
 
         /// <summary>
         ///     The Niantic-specific auth ticket data.
@@ -50,7 +47,7 @@ namespace PokemonGo.RocketAPI.Hash
         ///     Also known as the "replay check" field. (Field 22 in SignalLog)
         /// </summary>
         public byte[] SessionData { get; set; }
-        
+
         /// <summary>
         ///     A collection of the request data to be hashed.
         /// </summary>

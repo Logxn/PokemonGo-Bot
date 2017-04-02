@@ -140,6 +140,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="APIVars.cs" />
+    <Compile Include="Encryption\Crypt.cs" />
+    <Compile Include="Encryption\Crypto.cs" />
+    <Compile Include="Encryption\ICrypt.cs" />
+    <Compile Include="Encryption\TwoFish.cs" />
     <Compile Include="Exceptions\GoogleException.cs" />
     <Compile Include="Exceptions\GoogleOfflineException.cs" />
     <Compile Include="Exceptions\HasherException.cs" />
@@ -150,12 +154,10 @@
     <Compile Include="Hash\PokeHashHasher.cs" />
     <Compile Include="Helpers\RandomRequestID.cs" />
     <Compile Include="Helpers\CommonRequest.cs" />
-    <Compile Include="Helpers\Crypt.cs" />
     <Compile Include="Helpers\DeviceInfoHelper.cs" />
     <Compile Include="Helpers\DeviceSetup.cs" />
     <Compile Include="Helpers\EncryptionHelper.cs" />
     <Compile Include="Helpers\HashBuilder.cs" />
-    <Compile Include="Helpers\ICrypt.cs" />
     <Compile Include="Helpers\PCryptPokeHash.cs" />
     <Compile Include="Helpers\Shuffle\Shuffles.cs" />
     <Compile Include="Helpers\Shuffle\UnShuffle.cs" />

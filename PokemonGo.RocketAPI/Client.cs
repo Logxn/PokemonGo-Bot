@@ -8,6 +8,7 @@ using PokemonGo.RocketAPI.Hash;
 using PokemonGo.RocketAPI.Extensions;
 using PokemonGo.RocketAPI.Helpers;
 using PokemonGo.RocketAPI.HttpClient;
+using PokemonGo.RocketAPI.Encryption;
 
 namespace PokemonGo.RocketAPI
 {
@@ -15,6 +16,7 @@ namespace PokemonGo.RocketAPI
     {
         public Rpc.Login Login;
         public IHasher Hasher;
+        public ICrypt Crypter;
         public Rpc.Player Player;
         public Rpc.Download Download;
         public Rpc.Inventory Inventory;
@@ -86,6 +88,7 @@ namespace PokemonGo.RocketAPI
             Fort = new Rpc.Fort(this);
             Encounter = new Rpc.Encounter(this);
             Misc = new Rpc.Misc(this);
+            Crypter = new Crypto();
             Hasher = new PokeHashHasher(settings.hashKey);
             Store = new PokemonGo.RocketAPI.Rpc.Store(this);
             
