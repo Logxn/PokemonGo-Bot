@@ -139,9 +139,9 @@ namespace PokemonGo.RocketAPI.Helpers
 
             var hashRequest = new HashRequestContent() {
                 Timestamp = signature.Timestamp,
-                Latitude = requestEnvelope.Latitude,
-                Longitude = requestEnvelope.Longitude,
-                Altitude = requestEnvelope.Accuracy,
+                Latitude64 = BitConverter.DoubleToInt64Bits(requestEnvelope.Latitude),
+                Longitude64 = BitConverter.DoubleToInt64Bits(requestEnvelope.Longitude),
+                Accuracy64 = BitConverter.DoubleToInt64Bits(requestEnvelope.Accuracy),
                 AuthTicket = serializedTicket,
                 SessionData = signature.SessionHash.ToByteArray(),
                 Requests = new List<byte[]>(requestsBytes)                
@@ -158,7 +158,7 @@ namespace PokemonGo.RocketAPI.Helpers
             var encryptedSignature = new RequestEnvelope.Types.PlatformRequest {
                 Type = PlatformRequestType.SendEncryptedSignature,
                 RequestMessage = new SendEncryptedSignatureRequest {
-                    EncryptedSignature = ByteString.CopyFrom(PCryptPokeHash.Encrypt(signature.ToByteArray(), (uint)timestampSinceStart))
+                    EncryptedSignature = ByteString.CopyFrom(_client.Crypter.Encrypt(signature.ToByteArray(), (uint)timestampSinceStart))
                 }.ToByteString()
             };
 

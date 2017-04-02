@@ -544,11 +544,13 @@ namespace PokeMaster.Logic.Functions
 
             if (GlobalVars.EnablePokeList && client.ReadyToUse)
             {
-                try {
+                /*try {
                     Application.OpenForms[0].Invoke(new Action(() => Application.OpenForms[0].Text = TitleText));
                 } catch (Exception ex1) {
                     Logger.ExceptionInfo(ex1.ToString());
-                }
+                }*/
+
+            //Xelwon fix this
             }
         }
 
