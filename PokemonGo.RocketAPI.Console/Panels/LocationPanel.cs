@@ -87,7 +87,6 @@ namespace PokeMaster
         private Dictionary<string, GMarkerGoogle> _pokeGymsMarks = new Dictionary<string, GMarkerGoogle>();
         private GMapOverlay _pokeGymsOverlay = new GMapOverlay("PokeGyms");
 
-        private LocationHelper LocationTools = new LocationHelper();
 
         delegate void SetTextCallback(decimal cord);
 
@@ -95,7 +94,7 @@ namespace PokeMaster
         {
             GlobalVars.latitude = map.Position.Lat;
             GlobalVars.longitude = map.Position.Lng;
-            GlobalVars.altitude = LocationTools.GetElevation(map.Position.Lat, map.Position.Lng, GlobalVars.altitude);
+            GlobalVars.altitude = LocationUtils.GetAltitude(map.Position.Lat, map.Position.Lng);
             GlobalVars.radius = (int)nudRadius.Value;
             close = false;
         }

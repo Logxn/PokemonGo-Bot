@@ -210,7 +210,7 @@ namespace PokeMaster.Logic
             #region Fix Altitude
 
             if (Math.Abs(objClient.CurrentAltitude) < double.Epsilon) {
-                objClient.CurrentAltitude = LocationUtils.getAltitude(objClient.CurrentLatitude, objClient.CurrentLongitude);
+                objClient.CurrentAltitude = LocationUtils.GetAltitude(objClient.CurrentLatitude, objClient.CurrentLongitude);
                 BotSettings.DefaultAltitude = objClient.CurrentAltitude;
 
                 Logger.Warning($"Altitude was 0, resolved that. New Altitude is now: {objClient.CurrentAltitude}");

@@ -84,5 +84,12 @@ namespace PokemonGo.RocketAPI.Rpc
         {
             return  PostProtoPayload<Request, VerifyChallengeResponse>(RequestType.VerifyChallenge, CommonRequest.GetVerifyChallenge(token));
         }
+
+        public void SetCoordinates(double latitude, double longitude, double altitude)
+        {
+            Client.CurrentLatitude = latitude;
+            Client.CurrentLongitude = longitude;
+            Client.CurrentAltitude = altitude;
+        }
     }
 }

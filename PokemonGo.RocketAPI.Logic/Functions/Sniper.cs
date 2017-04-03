@@ -57,7 +57,7 @@ namespace PokeMaster.Logic.Functions
             }
 
             try {
-                remoteCoords.Altitude = LocationUtils.getAltitude(remoteCoords.Latitude, remoteCoords.Longitude);
+                remoteCoords.Altitude = LocationUtils.GetAltitude(remoteCoords.Latitude, remoteCoords.Longitude);
 
                 SendToLog($"Trying to capture {pokeid}  at { remoteCoords.Latitude } / {remoteCoords.Longitude}");
                 SendToLog(LocationUtils.FindAddress(remoteCoords.Latitude, remoteCoords.Longitude));

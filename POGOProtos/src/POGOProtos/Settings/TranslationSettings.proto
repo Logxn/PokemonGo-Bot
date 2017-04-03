@@ -1,6 +1,0 @@
-syntax = "proto3";
-package POGOProtos.Settings;
-
-message TranslationSettings {
-	repeated string translation_bundle_ids = 1;
-}

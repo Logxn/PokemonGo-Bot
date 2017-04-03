@@ -13,9 +13,9 @@ namespace PokemonGo.RocketAPI.Encryption
              0x3B,  0x51,  0x2E,  0xA9,  0x47,  0x38,  0xC4,  0x14
         };
 
-        public byte[] MakeIv(Rand rand)
+        public static byte[] MakeIv(Rand rand)
         {
-            byte[] iv = new byte[TwoFish.BLOCK_SIZE];
+            var iv = new byte[TwoFish.BLOCK_SIZE];
             for (int i = 0; i < iv.Length; i++)
             {
                 iv[i] = rand.Next();
@@ -23,10 +23,9 @@ namespace PokemonGo.RocketAPI.Encryption
             return iv;
         }
 
-        public byte MakeIntegrityByte(Rand rand)
+        public static byte MakeIntegrityByte(Rand rand)
         {
             return 0x21;
-            //return 0x21;
         }
 
         /**
@@ -42,11 +41,11 @@ namespace PokemonGo.RocketAPI.Encryption
             {
                 object[] key = TwoFish.MakeKey(KEY);
 
-                Rand rand = new Rand(msSinceStart);
-                byte[] iv = MakeIv(rand);
-                int blockCount = (input.Length + 256) / 256;
-                int outputSize = (blockCount * 256) + 5;
-                byte[] output = new byte[outputSize];
+                var rand = new Rand(msSinceStart);
+                var iv = MakeIv(rand);
+                var blockCount = (input.Length + 256) / 256;
+                var outputSize = (blockCount * 256) + 5;
+                var output = new byte[outputSize];
 
                 output[0] = (byte)(msSinceStart >> 24);
                 output[1] = (byte)(msSinceStart >> 16);
