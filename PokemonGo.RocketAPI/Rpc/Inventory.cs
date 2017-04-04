@@ -1,3 +1,4 @@
+using Google.Protobuf;
 using POGOProtos.Data;
 using POGOProtos.Data.Player;
 using POGOProtos.Enums;
@@ -97,7 +98,7 @@ namespace PokemonGo.RocketAPI.Rpc
 
         #region --Uses
 
-        public RecycleInventoryItemResponse RecycleItem(ItemId itemId, int amount)
+        public RecycleInventoryItemResponse RecycleItemOnly(ItemId itemId, int amount)
         {
             var message = new RecycleInventoryItemMessage
             {
@@ -107,6 +108,38 @@ namespace PokemonGo.RocketAPI.Rpc
 
             return PostProtoPayload<Request, RecycleInventoryItemResponse>(RequestType.RecycleInventoryItem, message);
         }
+
+        public async Task<RecycleInventoryItemResponse> RecycleItem(ItemId itemId, int amount)
+        {
+            var recycleItemRequest = new Request
+            {
+                RequestType = RequestType.RecycleInventoryItem,
+                RequestMessage = ((IMessage)new RecycleInventoryItemMessage
+                {
+                    ItemId = itemId,
+                    Count = amount
+                }).ToByteString()
+            };
+
+            var request = GetRequestBuilder().GetRequestEnvelope(CommonRequest.FillRequest(recycleItemRequest, Client));
+
+            Tuple<RecycleInventoryItemResponse, CheckChallengeResponse, GetHatchedEggsResponse, GetInventoryResponse, CheckAwardedBadgesResponse, DownloadSettingsResponse, GetBuddyWalkedResponse> response =
+                await
+                    PostProtoPayload
+                        <Request, RecycleInventoryItemResponse, CheckChallengeResponse, GetHatchedEggsResponse, GetInventoryResponse,
+                            CheckAwardedBadgesResponse, DownloadSettingsResponse, GetBuddyWalkedResponse>(request).ConfigureAwait(false);
+
+            CheckChallengeResponse checkChallengeResponse = response.Item2;
+            CommonRequest.ProcessCheckChallengeResponse(Client, checkChallengeResponse);
+
+            GetInventoryResponse getInventoryResponse = response.Item4;
+            CommonRequest.ProcessGetInventoryResponse(Client, getInventoryResponse);
+
+            DownloadSettingsResponse downloadSettingsResponse = response.Item6;
+            CommonRequest.ProcessDownloadSettingsResponse(Client, downloadSettingsResponse);
+
+            return response.Item1;
+        }        
 
         public UseItemXpBoostResponse UseItemXpBoost(ItemId item)
         {

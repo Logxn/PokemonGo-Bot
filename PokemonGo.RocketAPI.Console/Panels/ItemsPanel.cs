@@ -155,7 +155,7 @@ namespace PokeMaster
             var resp1 = false;
             try {
                 var client = Logic.Logic.objClient;
-                var resp2 = client.Inventory.RecycleItem(item.ItemId, amount);
+                var resp2 = client.Inventory.RecycleItem(item.ItemId, amount).Result;
 
                 if (resp2.Result == RecycleInventoryItemResponse.Types.Result.Success) {
                     resp1 = true;

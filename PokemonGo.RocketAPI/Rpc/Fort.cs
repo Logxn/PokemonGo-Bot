@@ -193,7 +193,7 @@ namespace PokemonGo.RocketAPI.Rpc
             return PostProtoPayload<Request, GetGymDetailsResponse>(RequestType.GetGymDetails, message);
         }
 
-        public StartGymBattleResponse StartGymBattle(string gymId, ulong defendingPokemonId,
+        public StartGymBattleResponse StartGymBattleOnly(string gymId, ulong defendingPokemonId,
             IEnumerable<ulong> attackingPokemonIds)
         {
             var message = new StartGymBattleMessage ();
@@ -205,5 +205,41 @@ namespace PokemonGo.RocketAPI.Rpc
 
             return PostProtoPayload<Request, StartGymBattleResponse>(RequestType.StartGymBattle, message);
         }
+        
+        public async Task<StartGymBattleResponse> StartGymBattle(string gymId, ulong defendingPokemonId,
+            IEnumerable<ulong> attackingPokemonIds)
+        {
+            var startGymBattleRequest = new Request
+            {
+                RequestType = RequestType.StartGymBattle,
+                RequestMessage = ((IMessage)new StartGymBattleMessage
+                {
+                    GymId = gymId,
+                    DefendingPokemonId = defendingPokemonId,
+                    AttackingPokemonIds = { attackingPokemonIds },
+                    PlayerLatitude = Client.CurrentLatitude,
+                    PlayerLongitude = Client.CurrentLongitude
+                }).ToByteString()
+            };
+
+            var request = GetRequestBuilder().GetRequestEnvelope(CommonRequest.FillRequest(startGymBattleRequest, Client));
+
+            Tuple<StartGymBattleResponse, CheckChallengeResponse, GetHatchedEggsResponse, GetInventoryResponse, CheckAwardedBadgesResponse, DownloadSettingsResponse, GetBuddyWalkedResponse> response =
+                await
+                    PostProtoPayload
+                        <Request, StartGymBattleResponse, CheckChallengeResponse, GetHatchedEggsResponse, GetInventoryResponse,
+                            CheckAwardedBadgesResponse, DownloadSettingsResponse, GetBuddyWalkedResponse>(request).ConfigureAwait(false);
+
+            CheckChallengeResponse checkChallengeResponse = response.Item2;
+            CommonRequest.ProcessCheckChallengeResponse(Client, checkChallengeResponse);
+
+            GetInventoryResponse getInventoryResponse = response.Item4;
+            CommonRequest.ProcessGetInventoryResponse(Client, getInventoryResponse);
+
+            DownloadSettingsResponse downloadSettingsResponse = response.Item6;
+            CommonRequest.ProcessDownloadSettingsResponse(Client, downloadSettingsResponse);
+
+            return response.Item1;
+        }           
     }
 }

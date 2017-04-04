@@ -573,7 +573,13 @@ namespace PokeMaster.Logic.Functions
             var numTries = 3;
             var startFailed = false;
             do {
-                resp = client.Fort.StartGymBattle(gymId, defendingPokemonId, attackingPokemonIds);
+                try {
+                    resp = client.Fort.StartGymBattle(gymId, defendingPokemonId, attackingPokemonIds).Result;
+                } catch (Exception ex1) {
+                    Logger.ExceptionInfo("StartGymBattle: "+ex1.ToString());
+                    resp = null;
+                }
+                    
                 if (resp == null) {
                     Logger.Debug("(Gym) - Response to start battle was null.");
                     startFailed = true;
@@ -586,36 +592,46 @@ namespace PokeMaster.Logic.Functions
                 
                 if (startFailed) {
                     RandomHelper.RandomSleep(5000);
-                    if (GlobalVars.Gyms.Testing == "Fire Request Block Two"){
-                        client.Login.FireRequestBlockTwo().Wait();
-                        RandomHelper.RandomSleep(2000);
+                    if (GlobalVars.Gyms.Testing == "Relogin"){
+                        client.Login.DoLogin().Wait();
+                    }else if (GlobalVars.Gyms.Testing == "GetPlayer"){
+                        client.Player.GetPlayer();
+                        RandomHelper.RandomSleep(3000);
+                    }else if (GlobalVars.Gyms.Testing == "GetItemTemplates"){
+                        client.Download.GetItemTemplates();
+                        RandomHelper.RandomSleep(3000);
+                    }else if (GlobalVars.Gyms.Testing == "GetPlayerProfile"){
+                        client.Player.GetPlayerProfile(client.Player.GetPlayer().PlayerData.Username);
+                        RandomHelper.RandomSleep(3000);
                     }else if (GlobalVars.Gyms.Testing == "Wait 2 minutes before of next try" && numTries ==3){
                         if (GlobalVars.CatchPokemon)
-                            Logger.Info("While, we will try to catch pokemons");
+                            Logger.Info("Trying to catch pokemons until next attack");
                         // 0.00001 = 1 meters
                         // http://www.um.es/geograf/sigmur/temariohtml/node6_mn.html
                         //http://gizmodo.com/how-precise-is-one-degree-of-longitude-or-latitude-1631241162
                         var gymloc = new GeoCoordinate ( client.CurrentLongitude , client.CurrentLatitude, client.CurrentAltitude);
                         for (var times = 1; times < 5;times++){
-                            var rnd = RandomHelper.RandomNumber(50,90) * 0.00001;
-                            Logger.Debug("going to 50 meters far of gym");
+                            var rnd = RandomHelper.GetLongRandom(8,9) * 0.00001;
+                            Logger.Debug("going to 8 meters far of gym");
                             LocationUtils.updatePlayerLocation(client, gymloc.Longitude + rnd, gymloc.Latitude, gymloc.Altitude);
                             RandomHelper.RandomSleep(10000);
                             CatchingLogic.Execute();
-                            rnd = RandomHelper.RandomNumber(50,90) * 0.00001;
-                            Logger.Debug("going to 50 meters far of gym");
+                            rnd = RandomHelper.GetLongRandom(8,9) * 0.00001;
+                            Logger.Debug("going to 8 meters far of gym");
                             LocationUtils.updatePlayerLocation(client, gymloc.Longitude + rnd, gymloc.Latitude, gymloc.Altitude);
                             RandomHelper.RandomSleep(10000);
                             CatchingLogic.Execute();
                             Logger.Debug("returning to gym location");
                             // go back
-                            LocationUtils.updatePlayerLocation(client, gymloc);
+                            LocationUtils.updatePlayerLocation(client, gymloc.Longitude, gymloc.Latitude, gymloc.Altitude);
                             RandomHelper.RandomSleep(10000);
                             CatchingLogic.Execute();
                         }
                         RandomHelper.RandomSleep(2000);
                     }else{
-                        RandomHelper.RandomSleep(5000);
+                        for (var times = 1; times < 5;times++){
+                            RandomHelper.RandomSleep(10000);
+                        }
                     }
                 } else {
                     Logger.Debug("StartGymBattle Response:" + resp);
