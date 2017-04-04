@@ -142,6 +142,7 @@ namespace PokemonGo.RocketAPI.Helpers
                 Latitude64 = BitConverter.DoubleToInt64Bits(requestEnvelope.Latitude),
                 Longitude64 = BitConverter.DoubleToInt64Bits(requestEnvelope.Longitude),
                 Accuracy64 = BitConverter.DoubleToInt64Bits(requestEnvelope.Accuracy),
+
                 AuthTicket = serializedTicket,
                 SessionData = signature.SessionHash.ToByteArray(),
                 Requests = new List<byte[]>(requestsBytes)                

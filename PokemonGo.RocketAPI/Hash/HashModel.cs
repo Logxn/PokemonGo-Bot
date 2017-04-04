@@ -27,17 +27,19 @@ namespace PokemonGo.RocketAPI.Hash
         /// For safety reasons, this should also match your last LocationUpdate entry in the SignalLog
         /// </summary>
         public Int64 Latitude64 { get; set; }
+        public double Latitude { get; set; }
         /// <summary>
         /// The Longitude field from your ClientRpc request envelope. (The one you will be sending to Niantic)
         /// For safety reasons, this should also match your last LocationUpdate entry in the SignalLog
         /// </summary>
         public Int64 Longitude64 { get; set; }
+        public double Longitude { get; set; }
         /// <summary>
         /// The Altitude field from your ClientRpc request envelope. (The one you will be sending to Niantic)
         /// For safety reasons, this should also match your last LocationUpdate entry in the SignalLog
         /// </summary>
         public Int64 Accuracy64 { get; set; }
-
+        public double Accuracy { get; set; }
         /// <summary>
         ///     The Niantic-specific auth ticket data.
         /// </summary>
