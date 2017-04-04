@@ -1,12 +1,15 @@
 ﻿#region using directives
 
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Google.Protobuf;
 using POGOProtos.Data.Battle;
 using POGOProtos.Inventory.Item;
 using POGOProtos.Networking.Requests;
 using POGOProtos.Networking.Requests.Messages;
 using POGOProtos.Networking.Responses;
+using PokemonGo.RocketAPI.Helpers;
 
 #endregion
 
@@ -18,7 +21,7 @@ namespace PokemonGo.RocketAPI.Rpc
         {
         }
 
-        public FortDetailsResponse GetFort(string fortId, double fortLatitude, double fortLongitude)
+        public FortDetailsResponse GetFortOnly(string fortId, double fortLatitude, double fortLongitude)
         {
             var message = new FortDetailsMessage
             {
@@ -29,6 +32,38 @@ namespace PokemonGo.RocketAPI.Rpc
 
             return PostProtoPayload<Request, FortDetailsResponse>(RequestType.FortDetails, message);
         }
+        
+        public FortDetailsResponse GetFort(string fortId, double fortLatitude, double fortLongitude)
+        {
+            var getFortRequest = new Request
+            {
+                RequestType = RequestType.FortDetails,
+                RequestMessage = ((IMessage)new FortDetailsMessage
+                {
+                    FortId = fortId,
+                    Latitude = fortLatitude,
+                    Longitude = fortLongitude
+                }).ToByteString()
+            };
+
+            var request = GetRequestBuilder().GetRequestEnvelope(CommonRequest.FillRequest(getFortRequest, Client));
+
+            Tuple<FortDetailsResponse, CheckChallengeResponse, GetHatchedEggsResponse, GetInventoryResponse, CheckAwardedBadgesResponse, DownloadSettingsResponse, GetBuddyWalkedResponse> response =
+                    PostProtoPayload
+                        <Request, FortDetailsResponse, CheckChallengeResponse, GetHatchedEggsResponse, GetInventoryResponse,
+            CheckAwardedBadgesResponse, DownloadSettingsResponse, GetBuddyWalkedResponse>(request).Result;
+
+            CheckChallengeResponse checkChallengeResponse = response.Item2;
+            CommonRequest.ProcessCheckChallengeResponse(Client, checkChallengeResponse);
+
+            GetInventoryResponse getInventoryResponse = response.Item4;
+            CommonRequest.ProcessGetInventoryResponse(Client, getInventoryResponse);
+
+            DownloadSettingsResponse downloadSettingsResponse = response.Item6;
+            CommonRequest.ProcessDownloadSettingsResponse(Client, downloadSettingsResponse);
+
+            return response.Item1;
+        }        
 
         public FortSearchResponse SearchFort(string fortId, double fortLat, double fortLng)
         {

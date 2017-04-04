@@ -2,13 +2,14 @@
 
 using System;
 using System.Threading.Tasks;
+using System.Linq;
 using Google.Protobuf;
+using POGOProtos.Map;
 using PokemonGo.RocketAPI.Helpers;
 using POGOProtos.Networking.Requests;
 using POGOProtos.Networking.Requests.Messages;
 using POGOProtos.Networking.Envelopes;
 using POGOProtos.Networking.Responses;
-using POGOProtos.Networking.Platform;
 
 #endregion
 
@@ -38,11 +39,22 @@ namespace PokemonGo.RocketAPI.Rpc
             }
 
             #region Messages
-
+            
+            var cellIds = S2Helper.GetNearbyCellIds(Client.CurrentLongitude, Client.CurrentLatitude).ToArray();
+            var sinceTimeMs = new long[cellIds.Length];
+            for  (var index = 0; index < cellIds.Length; index++)
+            {   
+                /*MapCell cell = null;
+                if (_cachedGetMapResponse!=null)
+                    cell = _cachedGetMapResponse.Item1.MapCells.FirstOrDefault(x => x.S2CellId == cellIds[index]);
+                sinceTimeMs[index] = cell != null ? cell.CurrentTimestampMs : 0;
+                */
+               sinceTimeMs[index] = 0;
+            }
             var getMapObjectsMessage = new GetMapObjectsMessage
             {
-                CellId = { S2Helper.GetNearbyCellIds(Client.CurrentLongitude, Client.CurrentLatitude) },
-                SinceTimestampMs = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                CellId = {cellIds},
+                SinceTimestampMs = {sinceTimeMs},
                 Latitude = Client.CurrentLatitude,
                 Longitude = Client.CurrentLongitude
             };
