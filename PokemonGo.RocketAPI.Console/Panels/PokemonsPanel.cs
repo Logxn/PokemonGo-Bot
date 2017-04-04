@@ -618,7 +618,7 @@ namespace PokeMaster
                         }
                     }
                     if (pokemonsToTransfer.Any()){
-                        var _response = client.Inventory.TransferPokemon(pokemonsToTransfer);
+                        var _response = client.Inventory.TransferPokemons(pokemonsToTransfer);
                         
                         if (_response.Result == ReleasePokemonResponse.Types.Result.Success)
                         {

@@ -22,7 +22,6 @@ namespace PokemonGo.RocketAPI.Rpc
         private GetInventoryResponse _cachedInventory;
         private DateTime _lastInventoryRequest;
         private const int _minSecondsBetweenInventoryCalls = 20;
-        private DateTime _lastegguse;
 
         public Inventory(Client client) : base(client)
         {
@@ -69,6 +68,10 @@ namespace PokemonGo.RocketAPI.Rpc
             return items.Select(i=> i.InventoryItemData.Item);
         }
 
+        public ItemData GetItemData( ItemId itemId)
+        {
+            return GetItems()?.FirstOrDefault(p => p.ItemId == itemId);
+        }
 
         public IEnumerable<ItemData> GetItemsToRecycle(ICollection<KeyValuePair<ItemId, int>> itemRecycleFilter)
         {
@@ -306,7 +309,7 @@ namespace PokemonGo.RocketAPI.Rpc
             return PostProtoPayload<Request, ReleasePokemonResponse>(RequestType.ReleasePokemon, message);
         }
 
-        public ReleasePokemonResponse TransferPokemon(List<ulong> pokemonId) // Transfer a list of pokemon (BULK Transfer)
+        public ReleasePokemonResponse TransferPokemons(List<ulong> pokemonId) // Transfer a list of pokemon (BULK Transfer)
         {
             var message = new ReleasePokemonMessage { };
 
@@ -573,26 +576,6 @@ namespace PokemonGo.RocketAPI.Rpc
             var inventory =  GetInventory(forceRefress);
             return   inventory.InventoryDelta.InventoryItems.Select(i => i.InventoryItemData?.PokemonData)
                .Where(p => p != null && p.IsEgg);
-        }
-
-        public  void UseLuckyEgg(Client client)
-        {
-            var inventory = GetItems();
-            var luckyEgg = inventory.FirstOrDefault(p => (ItemId)p.ItemId == ItemId.ItemLuckyEgg);
-
-            if (_lastegguse > DateTime.Now.AddSeconds(5))
-            {
-                TimeSpan duration = _lastegguse - DateTime.Now;
-                Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Lucky Egg still running: {duration.Minutes}m{duration.Seconds}s");
-                return;
-            }
-
-            if (luckyEgg == null || luckyEgg.Count <= 0) { return; }
-
-            client.Inventory.UseItemXpBoost(ItemId.ItemLuckyEgg);
-            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Used Lucky Egg, remaining: {luckyEgg.Count - 1}");
-            _lastegguse = DateTime.Now.AddMinutes(30);
-            RandomHelper.RandomSleep(3000, 3100);
         }
 
         public UseItemEggIncubatorResponse UseItemEggIncubator(string itemId, ulong pokemonId)

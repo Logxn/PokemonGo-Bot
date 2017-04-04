@@ -211,5 +211,20 @@ namespace PokeMaster.Logic.Functions
             return caught;
         }
 
+        public static void SendToSnipe( PokemonId pokemon, GeoCoordinate location)
+        {
+            if (GlobalVars.SnipeOpts.Enabled){
+                Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "There is a Snipe in process.");
+                return;
+            }
+            Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "Manual Snipe Triggered! We'll stop farming and go catch the pokemon ASAP");
+            GlobalVars.SnipeOpts.ID = pokemon;
+            GlobalVars.SnipeOpts.Location = location;
+            GlobalVars.SnipeOpts.WaitSecond = 7;
+            GlobalVars.SnipeOpts.NumTries = 3;
+            GlobalVars.SnipeOpts.TransferIt = false;
+            //GlobalVars.SnipeOpts.UsePinap = false;
+            GlobalVars.SnipeOpts.Enabled = true;
+        }
     }
 }

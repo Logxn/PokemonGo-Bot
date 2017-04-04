@@ -13,10 +13,12 @@ using System.Device.Location;
 using System.Linq;
 using System.Windows.Forms;
 using Newtonsoft.Json;
+using POGOProtos.Data;
 using POGOProtos.Enums;
 using POGOProtos.Inventory;
 using POGOProtos.Inventory.Item;
 using POGOProtos.Networking.Responses;
+using POGOProtos.Settings.Master;
 using PokemonGo.RocketAPI;
 using PokemonGo.RocketAPI.Rpc;
 using PokemonGo.RocketAPI.Helpers;
@@ -96,7 +98,7 @@ namespace PokeMaster.Logic.Functions
             if (GlobalVars.UseLuckyEggIfNotRunning || GlobalVars.UseLuckyEggGUIClick)
             {
                 GlobalVars.UseLuckyEggGUIClick = false;
-                Logic.objClient.Inventory.UseLuckyEgg(Logic.objClient);
+                UseLuckyEgg(Logic.objClient);
             }
 
             if (GlobalVars.EvolvePokemonsIfEnoughCandy)
@@ -179,7 +181,7 @@ namespace PokeMaster.Logic.Functions
             var startEvolving = (toEvolveCount==0 || toEvolveCount==GlobalVars.EvolveAt );
 
             if (startEvolving && GlobalVars.UseLuckyEgg)
-                    Logic.objClient.Inventory.UseLuckyEgg(Logic.objClient);
+                    UseLuckyEgg(Logic.objClient);
 
             foreach (var pokemon in pokemonToEvolve)
             {
@@ -749,7 +751,7 @@ namespace PokeMaster.Logic.Functions
             if (!idsToTransfer.Any())
                 return;
 
-            var _response = Logic.objClient.Inventory.TransferPokemon(idsToTransfer);
+            var _response = Logic.objClient.Inventory.TransferPokemons(idsToTransfer);
 
             if (_response.Result == ReleasePokemonResponse.Types.Result.Success)
             {
@@ -837,12 +839,12 @@ namespace PokeMaster.Logic.Functions
                 }
                 if (pokemonsToTransfer.Any())
                 {
-                    var _response = Logic.objClient.Inventory.TransferPokemon(pokemonsToTransfer);
+                    var _response = Logic.objClient.Inventory.TransferPokemons(pokemonsToTransfer);
 
                     if (_response.Result == ReleasePokemonResponse.Types.Result.Success)
                     {
                         Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "Transfer Successful of " + pokemonsToTransfer.Count + " pokemons => " + _response.CandyAwarded + ((_response.CandyAwarded == 1) ? " candy" : " candies") + " awarded.", LogLevel.Info);
-                        PokemonGo.RocketAPI.Helpers.RandomHelper.RandomSleep(1000, 2000);
+                        RandomHelper.RandomSleep(1000, 2000);
                     }
                     else
                     {
@@ -879,6 +881,93 @@ namespace PokeMaster.Logic.Functions
                 Logic.Instance.Execute();
             }
         }
+        private static DateTime _lastegguse;
 
+        public static void UseLuckyEgg(Client client)
+        {
+            var luckyEgg = client.Inventory.GetItemData( ItemId.ItemLuckyEgg);
+
+            if (_lastegguse > DateTime.Now.AddSeconds(5))
+            {
+                TimeSpan duration = _lastegguse - DateTime.Now;
+                Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Lucky Egg still running: {duration.Minutes}m{duration.Seconds}s");
+                return;
+            }
+
+            if (luckyEgg == null || luckyEgg.Count <= 0) { return; }
+
+            client.Inventory.UseItemXpBoost(ItemId.ItemLuckyEgg);
+            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Used Lucky Egg, remaining: {luckyEgg.Count - 1}");
+            _lastegguse = DateTime.Now.AddMinutes(30);
+            RandomHelper.RandomSleep(3000, 3100);
+        }
+
+        public static IEnumerable<PokemonSettings> GetPokemonSettings()
+        {
+            var templates =   Logic.objClient.Download.GetItemTemplates();
+            return
+                templates.ItemTemplates.Select(i => i.PokemonSettings)
+                    .Where(p => p != null && p.FamilyId != PokemonFamilyId.FamilyUnset);
+        }
+
+        public static List<Candy> GetPokemonFamilies()
+        {
+            var inventory =  Logic.objClient.Inventory.GetInventory();
+
+            var families = from item in inventory.InventoryDelta.InventoryItems
+                           where item.InventoryItemData?.Candy != null
+                           where item.InventoryItemData?.Candy.FamilyId != PokemonFamilyId.FamilyUnset
+                           group item by item.InventoryItemData?.Candy.FamilyId into family
+                           select new Candy
+                           {
+                               FamilyId = family.FirstOrDefault().InventoryItemData.Candy.FamilyId,
+                               Candy_ = family.FirstOrDefault().InventoryItemData.Candy.Candy_
+                           };
+
+            return families.ToList();
+        }
+        
+        public static IEnumerable<PokemonData> GetPokemonToEvolve(bool forceRequest = false, IEnumerable<PokemonId> filter = null)
+        {
+            var myPokemons =  Logic.objClient.Inventory.GetPokemons();
+
+            myPokemons = myPokemons.Where(p => p.DeployedFortId == string.Empty).OrderByDescending(p => p.Cp); //Don't evolve pokemon in gyms
+
+            if (filter != null)
+            {
+                myPokemons = myPokemons.Where(p => filter.Contains(p.PokemonId));
+            }
+            var pokemons = myPokemons.ToList();
+
+            var myPokemonSettings =  GetPokemonSettings();
+            var pokemonSettings = myPokemonSettings.ToList();
+
+            var myPokemonFamilies =  GetPokemonFamilies();
+            var pokemonFamilies = myPokemonFamilies.ToArray();
+
+            var pokemonToEvolve = new List<PokemonData>();
+            foreach (var pokemon in pokemons)
+            {
+                var settings = pokemonSettings.SingleOrDefault(x => x.PokemonId == pokemon.PokemonId);
+                var familyCandy = pokemonFamilies.SingleOrDefault(x => settings.FamilyId == x.FamilyId);
+
+                //Don't evolve if we can't evolve it
+                if (settings.EvolutionIds.Count == 0)
+                    continue;
+
+                if (settings == null || familyCandy == null)
+                {
+                    continue;
+                }
+
+                var pokemonCandyNeededAlready = pokemonToEvolve.Count(
+                    p => pokemonSettings.SingleOrDefault(x => x.PokemonId == p.PokemonId).FamilyId == settings.FamilyId)
+                    * settings.CandyToEvolve;
+
+                if (familyCandy.Candy_ - pokemonCandyNeededAlready > settings.CandyToEvolve)
+                    pokemonToEvolve.Add(pokemon);
+            }
+            return pokemonToEvolve;
+        }
     }
 }
