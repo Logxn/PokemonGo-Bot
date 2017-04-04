@@ -1,13 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using Google.Protobuf;
 using POGOProtos.Enums;
 using POGOProtos.Inventory.Item;
 using POGOProtos.Networking.Requests;
 using POGOProtos.Networking.Requests.Messages;
 using POGOProtos.Networking.Responses;
+using PokemonGo.RocketAPI.Helpers;
 
 namespace PokemonGo.RocketAPI.Rpc
 {
@@ -15,7 +15,7 @@ namespace PokemonGo.RocketAPI.Rpc
     {
         public Encounter(Client client) : base(client) { }
 
-        public EncounterResponse EncounterPokemon(ulong encounterId, string spawnPointGuid)
+        public EncounterResponse EncounterPokemonOnly(ulong encounterId, string spawnPointGuid)
         {
             var message = new EncounterMessage
             {
@@ -26,6 +26,40 @@ namespace PokemonGo.RocketAPI.Rpc
             };
             
             return  PostProtoPayload<Request, EncounterResponse>(RequestType.Encounter, message);
+        }
+
+        public async Task<EncounterResponse> EncounterPokemon(ulong encounterId, string spawnPointGuid)
+        {
+            var encounterPokemonRequest = new Request
+            {
+                RequestType = RequestType.Encounter,
+                RequestMessage = ((IMessage) new EncounterMessage
+                {
+                    EncounterId = encounterId,
+                    SpawnPointId = spawnPointGuid,
+                    PlayerLatitude = Client.CurrentLatitude,
+                    PlayerLongitude = Client.CurrentLongitude
+                }).ToByteString()
+            };
+
+            var request = GetRequestBuilder().GetRequestEnvelope(CommonRequest.FillRequest(encounterPokemonRequest, Client));
+
+            Tuple<EncounterResponse, CheckChallengeResponse, GetHatchedEggsResponse, GetInventoryResponse, CheckAwardedBadgesResponse, DownloadSettingsResponse, GetBuddyWalkedResponse> response =
+                await
+                    PostProtoPayload
+                        <Request, EncounterResponse, CheckChallengeResponse, GetHatchedEggsResponse, GetInventoryResponse,
+                            CheckAwardedBadgesResponse, DownloadSettingsResponse, GetBuddyWalkedResponse>(request).ConfigureAwait(false);
+
+            CheckChallengeResponse checkChallengeResponse = response.Item2;
+            CommonRequest.ProcessCheckChallengeResponse(Client, checkChallengeResponse);
+
+            GetInventoryResponse getInventoryResponse = response.Item4;
+            CommonRequest.ProcessGetInventoryResponse(Client, getInventoryResponse);
+
+            DownloadSettingsResponse downloadSettingsResponse = response.Item6;
+            CommonRequest.ProcessDownloadSettingsResponse(Client, downloadSettingsResponse);
+
+            return response.Item1;
         }
 
         public UseItemCaptureResponse UseCaptureItem(ulong encounterId, ItemId itemId, string spawnPointId)

@@ -1,6 +1,7 @@
 ﻿#region using directives
 
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Google.Protobuf;
@@ -33,7 +34,7 @@ namespace PokemonGo.RocketAPI.Rpc
             return PostProtoPayload<Request, FortDetailsResponse>(RequestType.FortDetails, message);
         }
         
-        public FortDetailsResponse GetFort(string fortId, double fortLatitude, double fortLongitude)
+        public async Task<FortDetailsResponse> GetFort(string fortId, double fortLatitude, double fortLongitude)
         {
             var getFortRequest = new Request
             {
@@ -49,9 +50,9 @@ namespace PokemonGo.RocketAPI.Rpc
             var request = GetRequestBuilder().GetRequestEnvelope(CommonRequest.FillRequest(getFortRequest, Client));
 
             Tuple<FortDetailsResponse, CheckChallengeResponse, GetHatchedEggsResponse, GetInventoryResponse, CheckAwardedBadgesResponse, DownloadSettingsResponse, GetBuddyWalkedResponse> response =
-                    PostProtoPayload
+                    await PostProtoPayload
                         <Request, FortDetailsResponse, CheckChallengeResponse, GetHatchedEggsResponse, GetInventoryResponse,
-            CheckAwardedBadgesResponse, DownloadSettingsResponse, GetBuddyWalkedResponse>(request).Result;
+            CheckAwardedBadgesResponse, DownloadSettingsResponse, GetBuddyWalkedResponse>(request).ConfigureAwait(false);
 
             CheckChallengeResponse checkChallengeResponse = response.Item2;
             CommonRequest.ProcessCheckChallengeResponse(Client, checkChallengeResponse);
@@ -65,7 +66,7 @@ namespace PokemonGo.RocketAPI.Rpc
             return response.Item1;
         }        
 
-        public FortSearchResponse SearchFort(string fortId, double fortLat, double fortLng)
+        public FortSearchResponse SearchFortOnly(string fortId, double fortLat, double fortLng)
         {
             var message = new FortSearchMessage
             {
@@ -77,6 +78,48 @@ namespace PokemonGo.RocketAPI.Rpc
             };
 
             return PostProtoPayload<Request, FortSearchResponse>(RequestType.FortSearch, message);
+        }
+        
+        public async Task<FortSearchResponse> SearchFort(string fortId, double fortLat, double fortLng)
+        {
+            var searchFortRequest = new Request
+            {
+                RequestType = RequestType.FortSearch,
+                RequestMessage = ((IMessage)new FortSearchMessage
+                {
+                    FortId = fortId,
+                    FortLatitude = fortLat,
+                    FortLongitude = fortLng,
+                    PlayerLatitude = Client.CurrentLatitude,
+                    PlayerLongitude = Client.CurrentLongitude
+                }).ToByteString()
+            };
+
+            var request = GetRequestBuilder().GetRequestEnvelope(CommonRequest.FillRequest(searchFortRequest, Client));
+
+            Tuple<FortSearchResponse, CheckChallengeResponse, GetHatchedEggsResponse, GetInventoryResponse, CheckAwardedBadgesResponse, DownloadSettingsResponse, GetBuddyWalkedResponse> response =
+                await
+                    PostProtoPayload
+                        <Request, FortSearchResponse, CheckChallengeResponse, GetHatchedEggsResponse, GetInventoryResponse,
+                            CheckAwardedBadgesResponse, DownloadSettingsResponse, GetBuddyWalkedResponse>(request).ConfigureAwait(false);
+
+            CheckChallengeResponse checkChallengeResponse = response.Item2;
+            CommonRequest.ProcessCheckChallengeResponse(Client, checkChallengeResponse);
+
+            GetInventoryResponse getInventoryResponse = response.Item4;
+            CommonRequest.ProcessGetInventoryResponse(Client, getInventoryResponse);
+
+            DownloadSettingsResponse downloadSettingsResponse = response.Item6;
+            CommonRequest.ProcessDownloadSettingsResponse(Client, downloadSettingsResponse);
+            
+            if (Client.Map._cachedGetMapResponse!=null){
+                var fort = Client.Map._cachedGetMapResponse.Item1.MapCells.SelectMany(x=> x.Forts).FirstOrDefault(y => y.Id == fortId);
+                if (fort!=null)
+                    fort.CooldownCompleteTimestampMs = Utils.GetTime(true) + 5 * 60 * 1000; // Cooldown is 5 minutes.
+            }
+            
+
+            return response.Item1;
         }
 
         public AddFortModifierResponse AddFortModifier(string fortId, ItemId modifierType)

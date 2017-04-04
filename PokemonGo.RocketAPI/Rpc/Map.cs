@@ -23,7 +23,8 @@ namespace PokemonGo.RocketAPI.Rpc
 
         private DateTime _lastGetMapRequest;
         private const int _minSecondsBetweenMapCalls = 20;
-        Tuple<GetMapObjectsResponse, CheckChallengeResponse, GetHatchedEggsResponse, GetInventoryResponse, CheckAwardedBadgesResponse, DownloadSettingsResponse, GetBuddyWalkedResponse> _cachedGetMapResponse;
+        
+        public Tuple<GetMapObjectsResponse, CheckChallengeResponse, GetHatchedEggsResponse, GetInventoryResponse, CheckAwardedBadgesResponse, DownloadSettingsResponse, GetBuddyWalkedResponse> _cachedGetMapResponse;
 
         public async
             Task
