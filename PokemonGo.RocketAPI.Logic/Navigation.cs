@@ -280,8 +280,7 @@ namespace PokeMaster.Logic
                 return child;
             }
 
-            Random rnd = new Random();
-            int p = rnd.Next(1, child.Count - 2);
+            int p = RandomDevice.Next(1, child.Count - 2);
             for (; p < child.Count - 1; ++p)
             {
                 for (int i = 0; i < _chromosome2.Count; ++i)
@@ -356,8 +355,7 @@ namespace PokeMaster.Logic
 
         private void mutate(ref List<int> _chromosome)
         {
-            Random rnd = new Random();
-            int i1 = rnd.Next(1, _chromosome.Count - 2), i2 = rnd.Next(1, _chromosome.Count - 2);
+            int i1 = RandomDevice.Next(1, _chromosome.Count - 2), i2 = RandomDevice.Next(1, _chromosome.Count - 2);
             int temp = _chromosome[i1];
             _chromosome[i1] = _chromosome[i2];
             _chromosome[i2] = temp;
@@ -365,9 +363,9 @@ namespace PokeMaster.Logic
 
         private List<List<int>> selection(FortData[] pokeStops, List<List<int>> population, double walkingSpeedInKilometersPerHour)
         {
-            List<List<int>> listSelection = new List<List<int>>();
+            var listSelection = new List<List<int>>();
             int sumPop = 0;
-            List<int> fittnes = new List<int>();
+            var fittnes = new List<int>();
 
             for (int c = 0; c < population.Count; ++c)
             {
@@ -375,7 +373,7 @@ namespace PokeMaster.Logic
                 sumPop += temp;
                 fittnes.Add(temp);
             }
-            List<int> fittnesSorted = new List<int>(fittnes);
+            var fittnesSorted = new List<int>(fittnes);
             fittnesSorted.Sort();
 
             if (sumPop < 2)
@@ -383,11 +381,11 @@ namespace PokeMaster.Logic
                 return listSelection;
             }
 
-            Random rnd = new Random();
+            
             int selcetedChr = -1;
             do
             {
-                var tempIndex = rnd.Next(0, sumPop);
+                var tempIndex = RandomDevice.Next(0, sumPop);
                 int tempSumPop = 0;
                 for (int c = fittnesSorted.Count - 1; c > 0; --c)
                 {
@@ -395,7 +393,7 @@ namespace PokeMaster.Logic
                     if (tempSumPop > tempIndex)
                     {
                         var tempSelcetedChr = fittnes.FindIndex(x => x == fittnesSorted[c]);
-                        if (tempSelcetedChr != selcetedChr && !(tempSelcetedChr < 0))
+                        if (tempSelcetedChr != selcetedChr && tempSelcetedChr >= 0)
                         {
                             selcetedChr = tempSelcetedChr;
                             listSelection.Add(population[selcetedChr]);
