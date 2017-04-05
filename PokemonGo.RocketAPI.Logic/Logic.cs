@@ -296,7 +296,7 @@ namespace PokeMaster.Logic
                 //update user location on map
                 Task.Factory.StartNew(() => Logic.Instance.infoObservable.PushNewGeoLocations(new GeoCoordinate(GlobalVars.latitude, GlobalVars.longitude)));
                 GetPlayerResponse profil = objClient.Player.GetPlayer();
-                Setout.ExportPokemonToCSV(profil.PlayerData);
+                objClient.Inventory.ExportPokemonToCSV(profil.PlayerData);
                 Setout.Execute();
                 ExecuteFarmingPokestopsAndPokemons(objClient);
             }

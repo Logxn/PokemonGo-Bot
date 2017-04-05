@@ -14,7 +14,6 @@ using POGOProtos.Inventory.Item;
 using System.Threading.Tasks;
 using POGOProtos.Networking.Responses;
 using PokeMaster.Dialogs;
-using PokeMaster.Logic.Functions;
 using PokeMaster.Logic.Utils;
 using POGOProtos.Enums;
 using POGOProtos.Data;
@@ -55,7 +54,7 @@ namespace PokeMaster
                 if (client.ReadyToUse != false) {
                     var items = client.Inventory.GetEggs();
                     var incubators = client.Inventory.GetEggIncubators(); 
-                    var arrStats = Setout.GetPlayerStats();
+                    var arrStats = client.Inventory.GetPlayerStats();
                     var stats = arrStats.First();
 	              	               	               
                     listView.Items.Clear();

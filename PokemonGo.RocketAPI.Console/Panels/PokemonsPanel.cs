@@ -378,7 +378,7 @@ namespace PokeMaster
         }
 
         public void refreshData(){
-            inventory =  client.Inventory.GetInventory().Result;
+            inventory =  client.Inventory.GetInventory();
             templates = client.Download.GetItemTemplates();
         }
 
