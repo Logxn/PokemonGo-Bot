@@ -19,6 +19,7 @@ using POGOProtos.Enums;
 using POGOProtos.Map.Fort;
 using POGOProtos.Networking.Responses;
 using PokeMaster.Dialogs;
+using PokeMaster.Logic.Functions;
 using PokeMaster.Logic.Utils;
 using PokemonGo.RocketAPI;
 using PokemonGo.RocketAPI.Helpers;
@@ -93,7 +94,7 @@ namespace PokeMaster
                 {
                     profile = client.Player.GetPlayer();
                     RandomHelper.RandomSleep(300,400);
-                    var playerStats = client.Inventory.GetPlayerStats();
+                    var playerStats = Setout.GetPlayerStats();
                     stats = playerStats.First();
                 }
                 updatePlayerImages();
@@ -150,14 +151,7 @@ namespace PokeMaster
 
             pictureBoxPlayerAvatar.Parent = pictureBoxTeam;
             pictureBoxPlayerAvatar.BackColor = Color.Transparent;
-            if (profile.PlayerData.Avatar != null)
-            {
-                pictureBoxPlayerAvatar.Image = getImageForGender((PlayerAvatarType) profile.PlayerData.Avatar.Avatar);
-            }
-            else
-            {
-                pictureBoxPlayerAvatar.Image = getImageForGender(PlayerAvatarType.PlayerAvatarMale);
-            }
+            pictureBoxPlayerAvatar.Image = profile.PlayerData.Avatar != null ? getImageForGender((PlayerAvatarType)profile.PlayerData.Avatar.Avatar) : getImageForGender(PlayerAvatarType.PlayerAvatarMale);
             pictureBoxPlayerAvatar.Height = (int)(pictureBoxTeam.Height * 0.85);
             pictureBoxPlayerAvatar.Width = pictureBoxTeam.Width;
             var playerLocation = new Point(0, pictureBoxTeam.Height - pictureBoxPlayerAvatar.Height);
@@ -242,14 +236,7 @@ namespace PokeMaster
             else
             {
                 var buddyPoke = pokemons.FirstOrDefault(x => x.Id == buddyPokemon.Id);
-                if (buddyPoke != null)
-                {
-                    return PokeImgManager.GetPokemonImagefromResource(buddyPoke.PokemonId, "200");
-                }
-                else
-                {
-                    return null;
-                }
+                return buddyPoke != null ? PokeImgManager.GetPokemonImagefromResource(buddyPoke.PokemonId, "200") : null;
             }
         }
 
@@ -375,14 +362,13 @@ namespace PokeMaster
         {
             while (true)
             {
-                try
-                {
-                    if (Logic.Logic.objClient != null && Logic.Logic.objClient.ReadyToUse != false)
-                    {
+                try {
+                    if (Logic.Logic.objClient != null && Logic.Logic.objClient.ReadyToUse != false) {
                         break;
                     }
+                } catch (Exception e) {
+                    Logger.ExceptionInfo(e.ToString());
                 }
-                catch (Exception) { }
             }
         }
         void btnColect_Click(object sender, EventArgs e)

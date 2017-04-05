@@ -193,7 +193,7 @@ namespace PokeMaster.Logic.Utils
                 if (_chatid != -1 && _livestats)
                 {
                     var usage = "";
-                    var inventory =  _client.Inventory.GetInventory();
+                    var inventory =  _client.Inventory.GetInventory().Result;
                     var profil =  _client.Player.GetPlayer();
                     var stats = inventory.InventoryDelta.InventoryItems.Select(i => i.InventoryItemData.PlayerStats).ToArray();
                     foreach (var c in stats)
@@ -236,7 +236,7 @@ namespace PokeMaster.Logic.Utils
                 if (_chatid != -1 && _informations)
                 {
                     int current = 0;
-                    var stats =  _client.Inventory.GetPlayerStats();
+                    var stats =  Setout.GetPlayerStats();
 
                     current = stats.First().Level;
                     
@@ -301,7 +301,7 @@ namespace PokeMaster.Logic.Utils
                             @"/stopbot - stop running bot");
                         break;
                     case TelegramUtilTask.GET_STATS:
-                        var ps =  _client.Inventory.GetPlayerStats(); 
+                        var ps =  Setout.GetPlayerStats(); 
 
                         int l = ps.First().Level; 
                         long expneeded = ((ps.First().NextLevelXp - ps.First().PrevLevelXp) - StringUtils.getExpDiff(ps.First().Level));
