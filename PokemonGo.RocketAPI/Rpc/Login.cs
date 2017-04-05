@@ -10,6 +10,7 @@ using PokemonGo.RocketAPI.Login;
 using POGOProtos.Networking.Envelopes;
 using POGOProtos.Networking.Requests;
 using POGOProtos.Networking.Responses;
+using POGOProtos.Networking.Requests.Messages;
 
 #endregion
 
@@ -52,21 +53,66 @@ namespace PokemonGo.RocketAPI.Rpc
             
             Client.StartTime = Utils.GetTime(true);
             
+            //await Login2().ConfigureAwait(false);
             await
                 FireRequestBlock(CommonRequest.GetDownloadRemoteConfigVersionMessageRequest(Client))
                     .ConfigureAwait(false);
 
-            await FireRequestBlockTwo().ConfigureAwait(false);
+            //await FireRequestBlockTwo().ConfigureAwait(false);
             // This is new code for 0.53 below
             // In Each login we reset GMOFirstTime flag.
             //RequestBuilder.GMOFirstTime = true;
         }
-
+        public async Task Login2()
+        {
+            Request [] requests  = {
+                    new Request
+                    {
+                        RequestType = RequestType.GetPlayer
+                    },
+                    new Request
+                    {
+                        RequestType = RequestType.CheckChallenge,
+                        RequestMessage = new CheckChallengeMessage
+                        {
+                            DebugRequest = false
+                        }.ToByteString()
+                    }
+            };
+            GetPlayerResponse playerResponse;
+            var tries = 5;
+            do
+            {
+                var request = GetRequestBuilder().GetRequestEnvelope(requests, true);
+                
+                Tuple<GetPlayerResponse, CheckChallengeResponse> response =
+                    await
+                        PostProtoPayload
+                            <Request, GetPlayerResponse, CheckChallengeResponse>(request).ConfigureAwait(false);
+    
+                CheckChallengeResponse checkChallengeResponse = response.Item2;
+                CommonRequest.ProcessCheckChallengeResponse(Client, checkChallengeResponse);
+                playerResponse = response.Item1;
+                if (!playerResponse.Success)
+                {
+                    Logger.Debug("playerResponse: " + playerResponse);
+                    await Task.Delay(1000);
+                }
+                tries --;
+            } while (!playerResponse.Success && tries > 0);
+            if ( playerResponse.Banned)
+                Logger.Error("Error: This account seems be banned");
+            
+            if ( playerResponse.Warn)
+                Logger.Warning("Warning: This account seems be flagged");
+        }
+        
         public async Task FireRequestBlock(Request request)
         {
-            var requests = CommonRequest.FillRequest(request, Client);
+            //var requests = CommonRequest.FillRequest(request, Client);
+            var requests = CommonRequest.AddChallengeRequest(request, Client);
 
-            RequestBuilder ll = new RequestBuilder(Client, Client.AuthToken, Client.AuthType, Client.CurrentLatitude, Client.CurrentLongitude, Client.CurrentAltitude);
+            var ll = new RequestBuilder(Client, Client.AuthToken, Client.AuthType, Client.CurrentLatitude, Client.CurrentLongitude, Client.CurrentAltitude);
 
             //var player = Client.Player.GetPlayer();
 

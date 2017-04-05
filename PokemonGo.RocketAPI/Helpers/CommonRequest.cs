@@ -110,6 +110,19 @@ namespace PokemonGo.RocketAPI.Helpers
             };
         }
 
+        public static Request[] AddChallengeRequest(Request request, Client client)
+        {
+            return new[]
+            {
+                request,
+                new Request
+                {
+                    RequestType = RequestType.CheckChallenge,
+                    RequestMessage = new CheckChallengeMessage().ToByteString()
+                }
+            };
+        }
+
         public static Request[] GetCommonRequests(Client client)
         {
             return new[]
