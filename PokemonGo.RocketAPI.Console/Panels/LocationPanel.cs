@@ -375,7 +375,17 @@ namespace PokeMaster
                     }
                     if (info!="")
                         pokeStopMaker.ToolTipText = info;
-                    pokeStopMaker.ToolTip.Font = new System.Drawing.Font("Arial", 12, System.Drawing.GraphicsUnit.Pixel);
+
+                    try
+                    {
+                        pokeStopMaker.ToolTip.Font = new System.Drawing.Font("Arial", 12, System.Drawing.GraphicsUnit.Pixel);
+                        // @Xelwon this sometimes gives us a NullReference Error. I did not do this system, so I have no idea.
+                    }
+                    catch(Exception e)
+                    {
+                        // Ignore
+                    }
+                    
                     pokeStopMaker.ToolTipMode = MarkerTooltipMode.OnMouseOver;
 
                     _pokeStopsMarks.Add(pokeStop.Id, pokeStopMaker);
