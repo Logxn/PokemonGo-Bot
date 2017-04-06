@@ -782,7 +782,8 @@ namespace PokeMaster.Logic.Functions
                     GlobalVars.PauseTheWalking = true;
                 }
 
-                TransferUnwantedPokemon(profil.PlayerData.BuddyPokemon.Id);
+                    TransferUnwantedPokemon(profil.PlayerData.BuddyPokemon.Id);
+
 
                 var duplicatePokemons = Logic.objClient.Inventory.GetDuplicatePokemonToTransfer(GlobalVars.HoldMaxDoublePokemons, keepPokemonsThatCanEvolve, transferFirstLowIv);
                 var pokemonsToTransfer = new List<ulong>();
