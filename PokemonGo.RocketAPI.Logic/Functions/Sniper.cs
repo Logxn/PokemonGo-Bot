@@ -123,13 +123,11 @@ namespace PokeMaster.Logic.Functions
                     if (Math.Abs(element.Latitude - pokeCoords.Latitude) < Epsilon && Math.Abs(element.Longitude - pokeCoords.Longitude) < Epsilon) {
                         SendToLog("Found Gym to Snipe");
                         var profile = _client.Player.GetPlayer();
-                        var buddyid = 0UL;
-                        if (profile.PlayerData.BuddyPokemon != null)
-                            buddyid = profile.PlayerData.BuddyPokemon.Id;
+                        var buddyId = (profile.PlayerData.BuddyPokemon!=null) ? profile.PlayerData.BuddyPokemon.Id : 0UL;
                         var gymDet = _client.Fort.GetGymDetails(element.Id, element.Latitude, element.Longitude);
                         if (gymDet.Result == GetGymDetailsResponse.Types.Result.Success) {
                             found = true;
-                            var pokeToDeploy = GymsLogic.getPokeToPut(_client, buddyid);
+                            var pokeToDeploy = GymsLogic.getPokeToPut(_client, buddyId);
                             if (pokeToDeploy != null) {
                                 var res = _client.Fort.FortDeployPokemon(element.Id, pokeToDeploy.Id);
                                 if (res.Result == FortDeployPokemonResponse.Types.Result.Success) {

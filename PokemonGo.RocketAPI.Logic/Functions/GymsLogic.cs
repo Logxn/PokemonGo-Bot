@@ -240,7 +240,8 @@ namespace PokeMaster.Logic.Functions
             RandomHelper.RandomSleep(900);
             var profile = client.Player.GetPlayer();
 
-            PokemonData pokemon = getPokeToPut(client, profile.PlayerData.BuddyPokemon.Id);
+            var buddyId = (profile.PlayerData.BuddyPokemon!=null) ? profile.PlayerData.BuddyPokemon.Id : 0UL;
+            PokemonData pokemon = getPokeToPut(client, buddyId);
 
             if (pokemon == null) {
                 Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - There are no pokemons to assign.");
@@ -287,7 +288,8 @@ namespace PokeMaster.Logic.Functions
                     Logger.ColoredConsoleWrite(gymColorLog, "(Gym) Let's go to train");
                     Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - Selected pokemons to train:");
                     ShowPokemons(pokeAttackers);
-                    var attResp = AttackGym(gym, client, pokeAttackers, defender.Id, gymDetails.GymState.Memberships.Count, profile.PlayerData.BuddyPokemon.Id);
+                    buddyId = (profile.PlayerData.BuddyPokemon!=null) ? profile.PlayerData.BuddyPokemon.Id : 0;
+                    var attResp = AttackGym(gym, client, pokeAttackers, defender.Id, gymDetails.GymState.Memberships.Count, buddyId);
                 } else {
                     Logger.Warning( "(Gym) - There is no free space in the gym");
                     AddVisited(gym.Id, 600000);
@@ -315,7 +317,7 @@ namespace PokeMaster.Logic.Functions
                     Logger.ColoredConsoleWrite(gymColorLog, "(Gym) Let's go to fight");
                     Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - Selected Atackers:");
                     ShowPokemons(pokeAttackers);
-                    var attResp = AttackGym(gym, client, pokeAttackers, defender.Id, gymDetails.GymState.Memberships.Count, profile.PlayerData.BuddyPokemon.Id);
+                    var attResp = AttackGym(gym, client, pokeAttackers, defender.Id, gymDetails.GymState.Memberships.Count, buddyId);
                 } else {
                     AddVisited(gym.Id, 600000);
                 }

@@ -781,8 +781,9 @@ namespace PokeMaster.Logic.Functions
                     Logger.ColoredConsoleWrite(ConsoleColor.Green, "Stopping to transfer some Pokemons.");
                     GlobalVars.PauseTheWalking = true;
                 }
+                var buddyId = (profil.PlayerData.BuddyPokemon!=null) ? profil.PlayerData.BuddyPokemon.Id : 0;
 
-                TransferUnwantedPokemon(profil.PlayerData.BuddyPokemon.Id);
+                TransferUnwantedPokemon(buddyId);
 
                 var duplicatePokemons = Logic.objClient.Inventory.GetDuplicatePokemonToTransfer(GlobalVars.HoldMaxDoublePokemons, keepPokemonsThatCanEvolve, transferFirstLowIv);
                 var pokemonsToTransfer = new List<ulong>();
@@ -798,7 +799,7 @@ namespace PokeMaster.Logic.Functions
                             continue; // go to next itearion from foreach
                         }
 
-                        if (profil.PlayerData.BuddyPokemon.Id == duplicatePokemon.Id)
+                        if (buddyId == duplicatePokemon.Id)
                         {
                             Logger.Warning($"Pokemon {Pokename} with {IVPercent}% IV Is your buddy so can not be transfered");
                             continue;// go to next itearion from foreach

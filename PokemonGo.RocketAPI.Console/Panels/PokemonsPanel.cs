@@ -271,7 +271,9 @@ namespace PokeMaster
                         var specSymbol ="";
                         if  (pokemon.Favorite == 1)
                             specSymbol = "★";
-                        if ((profile!=null) && (profile.PlayerData.BuddyPokemon.Id == pokemon.Id))
+                        
+                        var buddyId = (profile!=null  && profile.PlayerData.BuddyPokemon!=null) ? profile.PlayerData.BuddyPokemon.Id : 0UL;
+                        if ( buddyId == pokemon.Id)
                             specSymbol = "☉";
                         listViewItem.Text = specSymbol + th.TS( pokemon.PokemonId.ToString());
 
@@ -594,8 +596,8 @@ namespace PokeMaster
                         if (pokemon.DeployedFortId == "" && pokemon.Favorite == 0  )
                         {
 
-                            if (profile!=null && profile.PlayerData.BuddyPokemon != null)
-                                if ( pokemon.Id == profile.PlayerData.BuddyPokemon.Id)
+                                var buddyId = (profile!=null  && profile.PlayerData.BuddyPokemon!=null) ? profile.PlayerData.BuddyPokemon.Id : 0UL;
+                                if ( buddyId == pokemon.Id)
                                     continue;
 
                             pokemonsToTransfer.Add(pokemon.Id);
@@ -613,7 +615,8 @@ namespace PokeMaster
                         {
                             if (pokemon.DeployedFortId != "") Logger.ColoredConsoleWrite(ConsoleColor.Gray, $"Impossible to transfer {strPokename} because it is deployed in a Gym.");
                             if (pokemon.Favorite == 1) Logger.ColoredConsoleWrite(ConsoleColor.Gray, $"Impossible to transfer {strPokename} because it is a favourite pokemon.");
-                            if (pokemon.Id == profile.PlayerData.BuddyPokemon.Id) Logger.ColoredConsoleWrite(ConsoleColor.Gray, $"Impossible to transfer {strPokename} because it is your Buddy.");
+                            var buddyId = (profile!=null  && profile.PlayerData.BuddyPokemon!=null) ? profile.PlayerData.BuddyPokemon.Id : 0UL;
+                            if (pokemon.Id == buddyId) Logger.ColoredConsoleWrite(ConsoleColor.Gray, $"Impossible to transfer {strPokename} because it is your Buddy.");
                             total--;
                         }
                     }
@@ -837,7 +840,8 @@ namespace PokeMaster
                         var specSymbol ="";
                         if  (pokemon.Favorite == 1)
                             specSymbol = "★";
-                        if ((profile!=null) && (profile.PlayerData.BuddyPokemon.Id == pokemon.Id))
+                        var buddyId = (profile!=null  && profile.PlayerData.BuddyPokemon!=null) ? profile.PlayerData.BuddyPokemon.Id : 0UL;
+                        if ( buddyId == pokemon.Id)
                             specSymbol = "☉";
                         PokemonListView.SelectedItems[0].Text = specSymbol + Logic.Utils.StringUtils.getPokemonNameByLanguage(BotSettings, (PokemonId)pokemon.PokemonId);
                     }else
@@ -878,8 +882,11 @@ namespace PokeMaster
             {
                 if (changeBuddy(pokemon))
                 {
-                    if ((profile!=null))
+                    if ((profile!=null)){
+                        if (profile.PlayerData.BuddyPokemon == null)
+                            profile.PlayerData.BuddyPokemon = new BuddyPokemon();
                         profile.PlayerData.BuddyPokemon.Id = pokemon.Id;
+                    }
                     PokemonListView.SelectedItems[0].Text = "☉" + pokemon.PokemonId;
                 }
                 else

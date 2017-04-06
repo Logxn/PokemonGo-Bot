@@ -87,25 +87,25 @@ namespace PokeMaster.Logic.Functions
 
                 var pokemons = mapObjectsResponse.MapCells.SelectMany(i => i.CatchablePokemons).OrderBy(i => LocationUtils.CalculateDistanceInMeters(client.CurrentLatitude, client.CurrentLongitude, i.Latitude, i.Longitude));
                 Logger.Debug( $"Pokemons Catchable: {pokemons.Count()}");
-                var index = 1;
+                /*var index = 1;
                 foreach (var element in pokemons) {
                     Logger.Debug(string.Format("{0}: {1}, Location: {2},{3}, Encounter ID: {4}",index, element.PokemonId, element.Longitude, element.Latitude,element.EncounterId));
                     index++;
-                }
+                }*/
                 var nearbyPokemons = mapObjectsResponse.MapCells.SelectMany(i => i.NearbyPokemons);
                 Logger.Debug( $"Pokemons Nearby: {nearbyPokemons.Count()}");
-                index = 1;
+                /*index = 1;
                 foreach (var element in nearbyPokemons) {
                     Logger.Debug(string.Format("{0}: {1}, Distance: {2}, Encounter ID: {3}",index, element.PokemonId, element.DistanceInMeters,element.EncounterId));
                     index++;
-                }
+                }*/
                 var wildPokemons = mapObjectsResponse.MapCells.SelectMany(i => i.WildPokemons).OrderBy(i => LocationUtils.CalculateDistanceInMeters(client.CurrentLatitude, client.CurrentLongitude, i.Latitude, i.Longitude));
-                index = 1;
+                Logger.Debug( $"Pokemons Wild: {wildPokemons.Count()}");
+                /*index = 1;
                 foreach (var element in wildPokemons) {
                     Logger.Debug(string.Format("{0}: {1}, Location: {2},{3}, Encounter ID: {4}",index, element.PokemonData.PokemonId, element.Longitude, element.Latitude,element.EncounterId));
                     index++;
-                }
-                Logger.Debug( $"Pokemons Wild: {wildPokemons.Count()}");
+                }*/
                 if (pokemons.Any())
                 {
                     var strNames = pokemons.Aggregate("", (current, pokemon) => current + ( pokemon.PokemonId + ", "));
