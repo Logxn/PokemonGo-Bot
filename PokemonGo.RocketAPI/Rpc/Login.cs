@@ -54,10 +54,18 @@ namespace PokemonGo.RocketAPI.Rpc
             Client.StartTime = Utils.GetTime(true);
             
             //await Login2().ConfigureAwait(false);
+            var deviceInfo = DeviceSetup.SelectedDevice.DeviceInfo;
             await
-                FireRequestBlock(CommonRequest.GetDownloadRemoteConfigVersionMessageRequest(Client))
+                FireRequestBlock(CommonRequest.GetPlayerMessageRequest())
                     .ConfigureAwait(false);
-
+            Client.Download.GetRemoteConfigVersion(Client.AppVersion,deviceInfo.HardwareManufacturer,deviceInfo.DeviceModel, "", Client.Platform);
+            await RandomHelper.RandomDelay(300).ConfigureAwait(false);
+            Client.Download.GetAssetDigest(Client.AppVersion,deviceInfo.HardwareManufacturer,deviceInfo.DeviceModel, "", Client.Platform);
+            await RandomHelper.RandomDelay(300).ConfigureAwait(false);
+            Client.Download.GetItemTemplates();
+            await RandomHelper.RandomDelay(300).ConfigureAwait(false);
+            Client.Player.GetPlayerProfile(Client.Username);
+            await RandomHelper.RandomDelay(300).ConfigureAwait(false);
             //await FireRequestBlockTwo().ConfigureAwait(false);
             // This is new code for 0.53 below
             // In Each login we reset GMOFirstTime flag.
@@ -114,8 +122,6 @@ namespace PokemonGo.RocketAPI.Rpc
 
             var ll = new RequestBuilder(Client, Client.AuthToken, Client.AuthType, Client.CurrentLatitude, Client.CurrentLongitude, Client.CurrentAltitude);
 
-            //var player = Client.Player.GetPlayer();
-
             var serverRequest = GetRequestBuilder().GetRequestEnvelope(requests, true);
             var serverResponse = await PostProto<Request>(serverRequest).ConfigureAwait(false);
 
@@ -132,6 +138,7 @@ namespace PokemonGo.RocketAPI.Rpc
                     throw new AccessTokenExpiredException();
                 case ResponseEnvelope.Types.StatusCode.Redirect:
                     // 53 means that the api_endpoint was not correctly set, should be at this point, though, so redo the request
+                    Logger.Debug("Redirecting");
                     await FireRequestBlock(request).ConfigureAwait(false);
                     return;
                 case ResponseEnvelope.Types.StatusCode.BadRequest:

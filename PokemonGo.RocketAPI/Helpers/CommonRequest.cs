@@ -26,6 +26,14 @@ namespace PokemonGo.RocketAPI.Helpers
                 RequestMessage = downloadRemoteConfigVersionMessage.ToByteString()
             };
         }
+        public static Request GetPlayerMessageRequest()
+        {
+            return new Request
+            {
+                RequestType = RequestType.GetPlayer,
+                RequestMessage = new GetPlayerMessage().ToByteString()
+            };
+        }
 
         public static Request GetGetAssetDigestMessageRequest(Client client)
         {
