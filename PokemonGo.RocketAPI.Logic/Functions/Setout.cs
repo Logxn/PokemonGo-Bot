@@ -7,10 +7,13 @@
  * To change this template use Tools | Options | Coding | Edit Standard Headers.
  */
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Collections.Generic;
 using System.Device.Location;
 using System.Linq;
+using System.Net;
+using System.Reflection;
 using System.Windows.Forms;
 using Newtonsoft.Json;
 using POGOProtos.Data;
@@ -116,7 +119,7 @@ namespace PokeMaster.Logic.Functions
                 StatsLog(Logic.objClient);
 
             if (GlobalVars.CheckWhileRunning)
-                Update.CheckWhileWalking();
+                CheckWhileWalking();
 
             RefreshConsoleTitle(Logic.objClient);
             
@@ -181,7 +184,7 @@ namespace PokeMaster.Logic.Functions
             var startEvolving = (toEvolveCount==0 || toEvolveCount==GlobalVars.EvolveAt );
 
             if (startEvolving && GlobalVars.UseLuckyEgg)
-                    UseLuckyEgg(Logic.objClient);
+                UseLuckyEgg(Logic.objClient);
 
             foreach (var pokemon in pokemonToEvolve)
             {
@@ -218,10 +221,10 @@ namespace PokeMaster.Logic.Functions
 
                     if (evolvecount == 0)
                         if (GlobalVars.pauseAtEvolve2)
-                        {
-                            Logger.Info("Stopping to evolve some Pokemons.");
-                            GlobalVars.PauseTheWalking = true;
-                        }
+                    {
+                        Logger.Info("Stopping to evolve some Pokemons.");
+                        GlobalVars.PauseTheWalking = true;
+                    }
 
                     var experienceAwarded =evolvePokemonOutProto.ExperienceAwarded.ToString("N0");
                     if (GlobalVars.LogEvolve)
@@ -328,14 +331,14 @@ namespace PokeMaster.Logic.Functions
                     {
 
                         // If is basic incubator and user don't want use it, we go to the next incubator
-                        if (    (incubator.ItemId == ItemId.ItemIncubatorBasic) 
-                             && ( ! GlobalVars.UseBasicIncubators) )
+                        if (    (incubator.ItemId == ItemId.ItemIncubatorBasic)
+                            && ( ! GlobalVars.UseBasicIncubators) )
                             continue;
 
                         POGOProtos.Data.PokemonData egg;
-                        if (incubator.ItemId == ItemId.ItemIncubatorBasic) 
+                        if (incubator.ItemId == ItemId.ItemIncubatorBasic)
                             egg = GlobalVars.EggsAscendingSelectionBasicInc ? unusedEggsBasicInc.FirstOrDefault() : unusedEggsBasicInc.LastOrDefault();
-                        else 
+                        else
                             egg = GlobalVars.EggsAscendingSelection ? unusedEggsUnlimitInc.FirstOrDefault() : unusedEggsUnlimitInc.LastOrDefault();
 
                         // If there is not eggs then we finish this function
@@ -360,10 +363,10 @@ namespace PokeMaster.Logic.Functions
                     else
                     {
                         newRememberedIncubators.Add(new IncubatorUsage
-                        {
-                            IncubatorId = incubator.Id,
-                            PokemonId = incubator.PokemonId
-                        });
+                                                    {
+                                                        IncubatorId = incubator.Id,
+                                                        PokemonId = incubator.PokemonId
+                                                    });
 
                         Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, "Egg (" + (incubator.TargetKmWalked - incubator.StartKmWalked) + "km) need to walk " + Math.Round(incubator.TargetKmWalked - kmWalked, 2) + " km.");
                     }
@@ -459,7 +462,7 @@ namespace PokeMaster.Logic.Functions
             var pokedexpercent = Math.Floor(pokedexpercentraw);
 
 
-            var items = client.Inventory.GetItems(); 
+            var items = client.Inventory.GetItems();
             var pokemonCount = client.Inventory.GetPokemons().Count();
             var eggCount = client.Inventory.GetEggsCount();
             var maxPokemonStorage = profile.PlayerData.MaxPokemonStorage;
@@ -537,10 +540,10 @@ namespace PokeMaster.Logic.Functions
             var curexppercent = Convert.ToDouble(curexp) / Convert.ToDouble(expneeded) * 100;
 
             string TitleText = profile.PlayerData.Username + @" Lvl " + stats.Level + @" (" +
-            (stats.Experience - stats.PrevLevelXp - StringUtils.getExpDiff(stats.Level)).ToString("N0") + @"/" +
-            (stats.NextLevelXp - stats.PrevLevelXp - StringUtils.getExpDiff(stats.Level)).ToString("N0") + @"|" +
-            Math.Round(curexppercent, 2) + @"%) Stardust: " + profile.PlayerData.Currencies.ToArray()[1].Amount + @" " +
-            Logic.Instance.BotStats;
+                (stats.Experience - stats.PrevLevelXp - StringUtils.getExpDiff(stats.Level)).ToString("N0") + @"/" +
+                (stats.NextLevelXp - stats.PrevLevelXp - StringUtils.getExpDiff(stats.Level)).ToString("N0") + @"|" +
+                Math.Round(curexppercent, 2) + @"%) Stardust: " + profile.PlayerData.Currencies.ToArray()[1].Amount + @" " +
+                Logic.Instance.BotStats;
 
             if (!GlobalVars.EnableConsoleInTab) System.Console.Title = TitleText;
 
@@ -552,7 +555,7 @@ namespace PokeMaster.Logic.Functions
                     Logger.ExceptionInfo(ex1.ToString());
                 }*/
 
-            //Xelwon fix this
+                //Xelwon fix this
             }
         }
 
@@ -706,7 +709,7 @@ namespace PokeMaster.Logic.Functions
 
                     if (GlobalVars.UseGoogleMapsAPI)
                     {
-                       Logic.Instance.WalkWithRouting(GlobalVars.latitude, GlobalVars.longitude);
+                        Logic.Instance.WalkWithRouting(GlobalVars.latitude, GlobalVars.longitude);
                     }
                     else
                     {
@@ -908,7 +911,7 @@ namespace PokeMaster.Logic.Functions
             var templates =   Logic.objClient.Download.GetItemTemplates();
             return
                 templates.ItemTemplates.Select(i => i.PokemonSettings)
-                    .Where(p => p != null && p.FamilyId != PokemonFamilyId.FamilyUnset);
+                .Where(p => p != null && p.FamilyId != PokemonFamilyId.FamilyUnset);
         }
 
         public static List<Candy> GetPokemonFamilies()
@@ -916,14 +919,14 @@ namespace PokeMaster.Logic.Functions
             var inventory =  Logic.objClient.Inventory.GetInventory();
 
             var families = from item in inventory.InventoryDelta.InventoryItems
-                           where item.InventoryItemData?.Candy != null
-                           where item.InventoryItemData?.Candy.FamilyId != PokemonFamilyId.FamilyUnset
-                           group item by item.InventoryItemData?.Candy.FamilyId into family
-                           select new Candy
-                           {
-                               FamilyId = family.FirstOrDefault().InventoryItemData.Candy.FamilyId,
-                               Candy_ = family.FirstOrDefault().InventoryItemData.Candy.Candy_
-                           };
+                where item.InventoryItemData?.Candy != null
+                where item.InventoryItemData?.Candy.FamilyId != PokemonFamilyId.FamilyUnset
+                group item by item.InventoryItemData?.Candy.FamilyId into family
+                select new Candy
+            {
+                FamilyId = family.FirstOrDefault().InventoryItemData.Candy.FamilyId,
+                Candy_ = family.FirstOrDefault().InventoryItemData.Candy.Candy_
+            };
 
             return families.ToList();
         }
@@ -969,6 +972,52 @@ namespace PokeMaster.Logic.Functions
                     pokemonToEvolve.Add(pokemon);
             }
             return pokemonToEvolve;
+        }
+
+        public static Version GetServerVersion()
+        {
+            try {
+                using (var wC = new WebClient())
+                {
+                    var strVersion = wC.DownloadString("https://raw.githubusercontent.com/Logxn/PokemonGo-Bot/master/ver.md");
+                    return new Version( strVersion);
+                }
+            } catch (Exception) {
+                return Assembly.GetEntryAssembly().GetName().Version;
+            }
+        }
+
+        public static void CheckWhileWalking()
+        {
+            if (GetServerVersion() > Assembly.GetEntryAssembly().GetName().Version)
+            {
+                Logger.Warning("There is an Update on Github");
+                var dialogResult = MessageBox.Show(
+                    "There is an Update on Github. do you want to open it ?", $"Newest Version: {GetServerVersion()}, MessageBoxButtons.YesNo");
+                switch (dialogResult)
+                {
+                    case DialogResult.Yes:
+                        Process.Start("https://github.com/Logxn/PokemonGo-Bot");
+                        break;
+                    case DialogResult.No:
+                        //nothing
+                        break;
+                    case DialogResult.None:
+                        break;
+                    case DialogResult.OK:
+                        break;
+                    case DialogResult.Cancel:
+                        break;
+                    case DialogResult.Abort:
+                        break;
+                    case DialogResult.Retry:
+                        break;
+                    case DialogResult.Ignore:
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+            }
         }
     }
 }
