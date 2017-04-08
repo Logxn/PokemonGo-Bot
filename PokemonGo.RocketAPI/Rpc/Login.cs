@@ -1,8 +1,10 @@
 ﻿#region using directives
 
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Google.Protobuf;
+using POGOProtos.Networking.Platform.Responses;
 using PokemonGo.RocketAPI.Enums;
 using PokemonGo.RocketAPI.Exceptions;
 using PokemonGo.RocketAPI.Helpers;
@@ -10,6 +12,7 @@ using PokemonGo.RocketAPI.Login;
 using POGOProtos.Networking.Envelopes;
 using POGOProtos.Networking.Requests;
 using POGOProtos.Networking.Responses;
+using POGOProtos.Networking.Platform;
 using POGOProtos.Networking.Requests.Messages;
 
 #endregion
@@ -53,11 +56,15 @@ namespace PokemonGo.RocketAPI.Rpc
             
             Client.StartTime = Utils.GetTime(true);
             
-            //await Login2().ConfigureAwait(false);
             var deviceInfo = DeviceSetup.SelectedDevice.DeviceInfo;
+
             await
                 FireRequestBlock(CommonRequest.GetPlayerMessageRequest())
                     .ConfigureAwait(false);
+
+            await RandomHelper.RandomDelay(2000).ConfigureAwait(false);
+            Client.Map.GetMapObjects().Wait();
+            /*
             Client.Download.GetRemoteConfigVersion(Client.AppVersion,deviceInfo.HardwareManufacturer,deviceInfo.DeviceModel, "", Client.Platform);
             await RandomHelper.RandomDelay(300).ConfigureAwait(false);
             Client.Download.GetAssetDigest(Client.AppVersion,deviceInfo.HardwareManufacturer,deviceInfo.DeviceModel, "", Client.Platform);
@@ -66,10 +73,8 @@ namespace PokemonGo.RocketAPI.Rpc
             await RandomHelper.RandomDelay(300).ConfigureAwait(false);
             Client.Player.GetPlayerProfile(Client.Username);
             await RandomHelper.RandomDelay(300).ConfigureAwait(false);
-            //await FireRequestBlockTwo().ConfigureAwait(false);
-            // This is new code for 0.53 below
-            // In Each login we reset GMOFirstTime flag.
-            //RequestBuilder.GMOFirstTime = true;
+            */
+
         }
         public async Task Login2()
         {
@@ -117,6 +122,7 @@ namespace PokemonGo.RocketAPI.Rpc
         
         public async Task FireRequestBlock(Request request)
         {
+            Logger.Debug("Client.ApiUrl: " + Client.ApiUrl);
             //var requests = CommonRequest.FillRequest(request, Client);
             var requests = CommonRequest.AddChallengeRequest(request, Client);
 
@@ -125,19 +131,30 @@ namespace PokemonGo.RocketAPI.Rpc
             var serverRequest = GetRequestBuilder().GetRequestEnvelope(requests, true);
             var serverResponse = await PostProto<Request>(serverRequest).ConfigureAwait(false);
 
-            if (!string.IsNullOrEmpty(serverResponse.ApiUrl))
-                Client.ApiUrl = "https://" + serverResponse.ApiUrl + "/rpc";
-
-            if (serverResponse.AuthTicket != null)
-                Client.AuthTicket = serverResponse.AuthTicket;
+            var platfResponses = serverResponse.PlatformReturns;
+            if (platfResponses != null)
+            {
+                var mapPlatform = platfResponses.FirstOrDefault(x => x.Type == PlatformRequestType.UnknownPtr8);
+                if (mapPlatform != null)
+                {
+                    var unknownPtr8Response = UnknownPtr8Response.Parser.ParseFrom(mapPlatform.Response);
+                    Resources.Api.UnknownPtr8Message = unknownPtr8Response.Message;
+                    Logger.Debug("Receiving unknownPtr8Response: " + unknownPtr8Response.Message);
+                }
+            }
 
             switch (serverResponse.StatusCode)
             {
+                case ResponseEnvelope.Types.StatusCode.SessionInvalidated:
                 case ResponseEnvelope.Types.StatusCode.InvalidAuthToken:
                     Client.AuthToken = null;
                     throw new AccessTokenExpiredException();
                 case ResponseEnvelope.Types.StatusCode.Redirect:
                     // 53 means that the api_endpoint was not correctly set, should be at this point, though, so redo the request
+                    if (!string.IsNullOrEmpty(serverResponse.ApiUrl)){
+                        Client.ApiUrl = "https://" + serverResponse.ApiUrl + "/rpc";
+                        Logger.Debug("New Client.ApiUrl: " + Client.ApiUrl);
+                    }
                     Logger.Debug("Redirecting");
                     await FireRequestBlock(request).ConfigureAwait(false);
                     return;
@@ -149,16 +166,22 @@ namespace PokemonGo.RocketAPI.Rpc
                 case ResponseEnvelope.Types.StatusCode.Ok:
                     break;
                 case ResponseEnvelope.Types.StatusCode.OkRpcUrlInResponse:
-                    
+                    if (!string.IsNullOrEmpty(serverResponse.ApiUrl)){
+                        Client.ApiUrl = "https://" + serverResponse.ApiUrl + "/rpc";
+                        Logger.Debug("New Client.ApiUrl: " + Client.ApiUrl);
+                    }
                     break;
                 case ResponseEnvelope.Types.StatusCode.InvalidRequest:
                     break;
                 case ResponseEnvelope.Types.StatusCode.InvalidPlatformRequest:
                     break;
-                case ResponseEnvelope.Types.StatusCode.SessionInvalidated:
-                    break;
                 default:
                     throw new ArgumentOutOfRangeException();
+            }
+
+            if (serverResponse.AuthTicket != null){
+                Client.AuthTicket = serverResponse.AuthTicket;
+                Logger.Debug("Received AuthTicket: " + Client.AuthTicket);
             }
 
             var responses = serverResponse.Returns;
@@ -188,6 +211,7 @@ namespace PokemonGo.RocketAPI.Rpc
                     CommonRequest.ProcessDownloadSettingsResponse(Client, downloadSettingsResponse);
                 }
             }
+
         }
 
         public async Task FireRequestBlockTwo()
