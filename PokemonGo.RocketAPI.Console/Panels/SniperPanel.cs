@@ -157,7 +157,7 @@ namespace PokeMaster
             }
         }
 
-        void btnInstall_Click(object sender, EventArgs e)
+        void btnInstall_Click(object sender, object e)
         {
             if (timerSnipe.Enabled) {
                 try {
@@ -186,7 +186,7 @@ namespace PokeMaster
 
         void SnipeURI(string txt)
         {
-            if (txt.IndexOf("pokesniper2://") > -1) {
+            if (txt.IndexOf("pokesniper2://", StringComparison.Ordinal) > -1) {
                 txt = txt.Replace("pokesniper2://", "");
                 var splt = txt.Split('/');
                 splLatLngResult = SplitLatLng(splt[1]);
@@ -197,11 +197,12 @@ namespace PokeMaster
                     stw = (int)nudSecondsSnipe.Value;
                     tries = (int)nudTriesSnipe.Value;
                     transferIt = checkBoxSnipeTransfer.Checked;
-                } catch (Exception) {
+                } catch (Exception ex1) {
+                    Logger.ExceptionInfo(ex1.ToString());
                 }
                 var pokeID = ToPokemonID(splt[0]);
                 SnipePoke(pokeID, stw, tries, transferIt);
-            } else if (txt.IndexOf("msniper://") > -1) {
+            } else if (txt.IndexOf("msniper://", StringComparison.Ordinal) > -1) {
                 txt = txt.Replace("msniper://", "");
                 var splt = txt.Split('/');
                 splLatLngResult = SplitLatLng(splt[3]);
@@ -212,7 +213,8 @@ namespace PokeMaster
                     stw = (int)nudSecondsSnipe.Value;
                     tries = (int)nudTriesSnipe.Value;
                     transferIt = checkBoxSnipeTransfer.Checked;
-                } catch (Exception) {
+                } catch (Exception ex1) {
+                    Logger.ExceptionInfo(ex1.ToString());
                 }
                 var pokeID = ToPokemonID(splt[0]);
                 SnipePoke(pokeID, stw, tries, transferIt);
@@ -242,6 +244,8 @@ namespace PokeMaster
 
         void loadLocationsList()
         {
+            if (!File.Exists(GlobalVars.SaveLocationsFile))
+                return;
             var lines = File.ReadAllLines(GlobalVars.SaveLocationsFile);
             Logger.Debug("Lines: " + lines);
             if (lines.Length > 0 && listView.Items.Count == lines.Length)

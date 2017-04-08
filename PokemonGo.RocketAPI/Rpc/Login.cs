@@ -23,7 +23,6 @@ namespace PokemonGo.RocketAPI.Rpc
 
     public class Login : BaseRpc
     {
-        //public event GoogleDeviceCodeDelegate GoogleDeviceCodeEvent;
         private readonly ILoginType _login;
 
         public Login(Client client) : base(client)
@@ -52,81 +51,27 @@ namespace PokemonGo.RocketAPI.Rpc
             if ( Client.AuthToken == null){
                 throw new LoginFailedException("Connection with Server failed. Please, check if niantic servers are up");
             }
-                
-            
+
             Client.StartTime = Utils.GetTime(true);
             
             var deviceInfo = DeviceSetup.SelectedDevice.DeviceInfo;
+
+            await RandomHelper.RandomDelay(1500).ConfigureAwait(false);
 
             await
                 FireRequestBlock(CommonRequest.GetPlayerMessageRequest())
                     .ConfigureAwait(false);
 
             await RandomHelper.RandomDelay(2000).ConfigureAwait(false);
-            Client.Map.GetMapObjects().Wait();
-            /*
-            Client.Download.GetRemoteConfigVersion(Client.AppVersion,deviceInfo.HardwareManufacturer,deviceInfo.DeviceModel, "", Client.Platform);
-            await RandomHelper.RandomDelay(300).ConfigureAwait(false);
-            Client.Download.GetAssetDigest(Client.AppVersion,deviceInfo.HardwareManufacturer,deviceInfo.DeviceModel, "", Client.Platform);
-            await RandomHelper.RandomDelay(300).ConfigureAwait(false);
-            Client.Download.GetItemTemplates();
-            await RandomHelper.RandomDelay(300).ConfigureAwait(false);
-            Client.Player.GetPlayerProfile(Client.Username);
-            await RandomHelper.RandomDelay(300).ConfigureAwait(false);
-            */
+            
+            await Client.Map.GetMapObjects().ConfigureAwait(false);;
 
         }
-        public async Task Login2()
-        {
-            Request [] requests  = {
-                    new Request
-                    {
-                        RequestType = RequestType.GetPlayer
-                    },
-                    new Request
-                    {
-                        RequestType = RequestType.CheckChallenge,
-                        RequestMessage = new CheckChallengeMessage
-                        {
-                            DebugRequest = false
-                        }.ToByteString()
-                    }
-            };
-            GetPlayerResponse playerResponse;
-            var tries = 5;
-            do
-            {
-                var request = GetRequestBuilder().GetRequestEnvelope(requests, true);
-                
-                Tuple<GetPlayerResponse, CheckChallengeResponse> response =
-                    await
-                        PostProtoPayload
-                            <Request, GetPlayerResponse, CheckChallengeResponse>(request).ConfigureAwait(false);
-    
-                CheckChallengeResponse checkChallengeResponse = response.Item2;
-                CommonRequest.ProcessCheckChallengeResponse(Client, checkChallengeResponse);
-                playerResponse = response.Item1;
-                if (!playerResponse.Success)
-                {
-                    Logger.Debug("playerResponse: " + playerResponse);
-                    await Task.Delay(1000);
-                }
-                tries --;
-            } while (!playerResponse.Success && tries > 0);
-            if ( playerResponse.Banned)
-                Logger.Error("Error: This account seems be banned");
-            
-            if ( playerResponse.Warn)
-                Logger.Warning("Warning: This account seems be flagged");
-        }
-        
+
         public async Task FireRequestBlock(Request request)
         {
             Logger.Debug("Client.ApiUrl: " + Client.ApiUrl);
-            //var requests = CommonRequest.FillRequest(request, Client);
             var requests = CommonRequest.AddChallengeRequest(request, Client);
-
-            var ll = new RequestBuilder(Client, Client.AuthToken, Client.AuthType, Client.CurrentLatitude, Client.CurrentLongitude, Client.CurrentAltitude);
 
             var serverRequest = GetRequestBuilder().GetRequestEnvelope(requests, true);
             var serverResponse = await PostProto<Request>(serverRequest).ConfigureAwait(false);
@@ -145,7 +90,9 @@ namespace PokemonGo.RocketAPI.Rpc
 
             switch (serverResponse.StatusCode)
             {
-                case ResponseEnvelope.Types.StatusCode.SessionInvalidated:
+
+                //case ResponseEnvelope.Types.StatusCode.SessionInvalidated: // TODO: Check if is needed or isnot.
+
                 case ResponseEnvelope.Types.StatusCode.InvalidAuthToken:
                     Client.AuthToken = null;
                     throw new AccessTokenExpiredException();
@@ -188,35 +135,14 @@ namespace PokemonGo.RocketAPI.Rpc
             if (responses != null)
             {
                 var checkChallengeResponse = new CheckChallengeResponse();
-                if (2 <= responses.Count)
+                if (3 <= responses.Count)
                 {
-                    checkChallengeResponse.MergeFrom(responses[1]);
-
+                    checkChallengeResponse.MergeFrom(responses[2]);
                     CommonRequest.ProcessCheckChallengeResponse(Client, checkChallengeResponse);
-                }
-
-                var getInventoryResponse = new GetInventoryResponse();
-                if (4 <= responses.Count)
-                {
-                    getInventoryResponse.MergeFrom(responses[3]);
-
-                    CommonRequest.ProcessGetInventoryResponse(Client, getInventoryResponse);
-                }
-
-                var downloadSettingsResponse = new DownloadSettingsResponse();
-                if (6 <= responses.Count)
-                {
-                    downloadSettingsResponse.MergeFrom(responses[5]);
-
-                    CommonRequest.ProcessDownloadSettingsResponse(Client, downloadSettingsResponse);
                 }
             }
 
         }
 
-        public async Task FireRequestBlockTwo()
-        {
-            await FireRequestBlock(CommonRequest.GetGetAssetDigestMessageRequest(Client)).ConfigureAwait(false);
-        }
     }
 }
