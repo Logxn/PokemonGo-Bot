@@ -133,7 +133,10 @@ namespace PokeMaster.Logic
             }
             catch (Exception ex)
             {
-                throw ex.InnerException;
+                Logger.Debug(ex.ToString());
+                if (ex.InnerException!=null)
+                    throw ex.InnerException;
+                throw ex;
             }
         }
         public void HandleApiSuccess(RequestEnvelope request, ResponseEnvelope response)
