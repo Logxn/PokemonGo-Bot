@@ -145,18 +145,19 @@ namespace PokeMaster
             // Checking if current BOT API implementation supports NIANTIC current API (unless there's an override command line switch)
             if (!GlobalVars.BypassCheckCompatibilityVersion)
             {
+                var currentAPIVersion =new CurrentAPIVersion();
                 Logger.ColoredConsoleWrite(ConsoleColor.DarkMagenta, $"Bot Current version: {Resources.BotVersion}");
                 Logger.ColoredConsoleWrite(ConsoleColor.DarkMagenta, $"Bot Supported API version: {Resources.BotApiSupportedVersion}");
-                Logger.ColoredConsoleWrite(ConsoleColor.DarkMagenta, $"Current API version: {new CurrentAPIVersion().GetNianticAPIVersion()}");
+                Logger.ColoredConsoleWrite(ConsoleColor.DarkMagenta, $"Current API version: {currentAPIVersion.GetNianticAPIVersion()}");
 
-                bool CurrentVersionsOK = new CurrentAPIVersion().CheckAPIVersionCompatibility(GlobalVars.BotApiSupportedVersion);
+                bool CurrentVersionsOK = currentAPIVersion.CheckAPIVersionCompatibility(GlobalVars.BotApiSupportedVersion);
                 if (!CurrentVersionsOK)
                 {
                     Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Atention, current API version is new and still not supported by Bot.");
                     Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Bot will now exit to keep your account safe.");
                     Logger.ColoredConsoleWrite(ConsoleColor.Red, $"---------- PRESS ANY KEY TO CLOSE ----------");
 
-                    System.Console.ReadKey();
+                    Console.ReadKey();
                     Environment.Exit(-1);
                 }
             }
