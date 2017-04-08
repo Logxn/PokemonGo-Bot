@@ -28,6 +28,7 @@ namespace PokeMaster
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ConfigWindow));
             this.buttonSaveStart = new System.Windows.Forms.Button();
             this.label30 = new System.Windows.Forms.Label();
@@ -120,6 +121,7 @@ namespace PokeMaster
             this.checkedListBox_PokemonToEvolve = new System.Windows.Forms.CheckedListBox();
             this.tabGeneral = new System.Windows.Forms.TabPage();
             this.groupBoxAccount = new System.Windows.Forms.GroupBox();
+            this.buttonMultiKeys = new System.Windows.Forms.Button();
             this.checkBoxContinue = new System.Windows.Forms.CheckBox();
             this.ButtonGenerateID = new System.Windows.Forms.Button();
             this.label67 = new System.Windows.Forms.Label();
@@ -352,6 +354,7 @@ namespace PokeMaster
             this.comboLanguage = new System.Windows.Forms.ComboBox();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.tabProxies.SuspendLayout();
             this.tabItems.SuspendLayout();
             this.groupBoxItems.SuspendLayout();
@@ -1616,6 +1619,7 @@ namespace PokeMaster
             // 
             // groupBoxAccount
             // 
+            this.groupBoxAccount.Controls.Add(this.buttonMultiKeys);
             this.groupBoxAccount.Controls.Add(this.checkBoxContinue);
             this.groupBoxAccount.Controls.Add(this.ButtonGenerateID);
             this.groupBoxAccount.Controls.Add(this.label67);
@@ -1644,6 +1648,17 @@ namespace PokeMaster
             this.groupBoxAccount.TabStop = false;
             this.groupBoxAccount.Text = "Account Info";
             // 
+            // buttonMultiKeys
+            // 
+            this.buttonMultiKeys.Location = new System.Drawing.Point(293, 21);
+            this.buttonMultiKeys.Name = "buttonMultiKeys";
+            this.buttonMultiKeys.Size = new System.Drawing.Size(20, 23);
+            this.buttonMultiKeys.TabIndex = 70;
+            this.buttonMultiKeys.Text = "M";
+            this.toolTip1.SetToolTip(this.buttonMultiKeys, "Configure Multiple Keys");
+            this.buttonMultiKeys.UseVisualStyleBackColor = true;
+            this.buttonMultiKeys.Click += new System.EventHandler(this.button1_Click);
+            // 
             // checkBoxContinue
             // 
             this.checkBoxContinue.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -1662,6 +1677,7 @@ namespace PokeMaster
             this.ButtonGenerateID.Size = new System.Drawing.Size(20, 23);
             this.ButtonGenerateID.TabIndex = 68;
             this.ButtonGenerateID.Text = "#";
+            this.toolTip1.SetToolTip(this.ButtonGenerateID, "Generate a Random Device ID");
             this.ButtonGenerateID.UseVisualStyleBackColor = true;
             this.ButtonGenerateID.Click += new System.EventHandler(this.ButtonGenerateID_Click);
             // 
@@ -1799,7 +1815,7 @@ namespace PokeMaster
             this.pFHashKey.Location = new System.Drawing.Point(156, 22);
             this.pFHashKey.Name = "pFHashKey";
             this.pFHashKey.PasswordChar = '*';
-            this.pFHashKey.Size = new System.Drawing.Size(157, 20);
+            this.pFHashKey.Size = new System.Drawing.Size(136, 20);
             this.pFHashKey.TabIndex = 3;
             this.pFHashKey.TextChanged += new System.EventHandler(this.TextBoxes_TextChanged);
             // 
@@ -2913,7 +2929,6 @@ namespace PokeMaster
             this.groupBox30.TabIndex = 55;
             this.groupBox30.TabStop = false;
             this.groupBox30.Text = "Items";
-            this.groupBox30.Enter += new System.EventHandler(this.groupBox30_Enter);
             // 
             // groupBoxNanab
             // 
@@ -4828,5 +4843,7 @@ namespace PokeMaster
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.TextBox MinProbToCatch;
         private System.Windows.Forms.Label labelMinProb;
+        private System.Windows.Forms.Button buttonMultiKeys;
+        private System.Windows.Forms.ToolTip toolTip1;
     }
 }

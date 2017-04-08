@@ -1394,16 +1394,16 @@ namespace PokeMaster
                 new KeysManager().ShowDialog();
             }
         }
-        void groupBox30_Enter(object sender, EventArgs e)
-        {
-            
-        }
         void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
             var isChecked = (sender as CheckBox).Checked;
             for (var i = 0; i < checkedListBox_Pinap.Items.Count; i++) {
                 checkedListBox_Pinap.SetItemChecked(i, isChecked);
             }
+        }
+        void button1_Click(object sender, EventArgs e)
+        {
+          new KeysManager().ShowDialog();
         }
     }
 }
