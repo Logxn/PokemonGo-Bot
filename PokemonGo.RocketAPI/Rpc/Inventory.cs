@@ -8,6 +8,7 @@ using POGOProtos.Networking.Requests;
 using POGOProtos.Networking.Requests.Messages;
 using POGOProtos.Networking.Responses;
 using POGOProtos.Settings.Master;
+using PokemonGo.RocketAPI.Exceptions;
 using PokemonGo.RocketAPI.Helpers;
 using System;
 using System.Collections.Generic;
@@ -19,7 +20,7 @@ namespace PokemonGo.RocketAPI.Rpc
 {
     public class Inventory : BaseRpc
     {
-        private GetInventoryResponse _cachedInventory;
+        public GetInventoryResponse CachedInventory;
         private DateTime _lastInventoryRequest;
         private const int _minSecondsBetweenInventoryCalls = 20;
 
@@ -33,25 +34,32 @@ namespace PokemonGo.RocketAPI.Rpc
 
         /// <summary>
         /// Send a parameter TRUE if you want to force real time invetory check
-        /// otherwise it will be checked if _lastInventoryRequest was done more than
-        /// _minSecondsBetweenInventoryCalls
         /// </summary>
         /// <param name="forceRequest"></param>
         /// <returns></returns>
         public GetInventoryResponse GetInventory(bool forceRequest = false)
         {
-            if (_lastInventoryRequest.AddSeconds(_minSecondsBetweenInventoryCalls).Ticks > DateTime.UtcNow.Ticks && _cachedInventory!=null && !forceRequest)
+            if (_lastInventoryRequest.AddSeconds(_minSecondsBetweenInventoryCalls).Ticks > DateTime.UtcNow.Ticks && CachedInventory!=null && !forceRequest)
             {
                 // If forceRequest is default/FALSE and last request made less than _minSecondsBetweenInventoryCalls seconds ago, we return _cachedInventory
-                return _cachedInventory;
+                return CachedInventory;
             }
-            // If forceRequest is default/FALSE and last request made more than _minSecondsBetweenInventoryCalls seconds ago, 
+             // If forceRequest is default/FALSE and last request made more than _minSecondsBetweenInventoryCalls seconds ago, 
             // we make the call and also update _cachedInventory
-            _lastInventoryRequest = DateTime.UtcNow;
-            _cachedInventory =  PostProtoPayload<Request, GetInventoryResponse>(RequestType.GetInventory, new GetInventoryMessage());
-            return _cachedInventory;
+            var tries = 0;
+            while (tries <10){
+                try {
+                    _lastInventoryRequest = DateTime.UtcNow;
+                    CachedInventory =  PostProtoPayload<Request, GetInventoryResponse>(RequestType.GetInventory, new GetInventoryMessage());
+                    return CachedInventory; 
+                } catch (AccessTokenExpiredException) {
+                    Logger.Warning("Invalid Token. Retrying in 1 second");
+                    Task.Delay(1000).Wait();
+                }
+                tries ++;
+            }
+            return CachedInventory;
         }
-
 
         public IEnumerable<ItemData> GetItemsOld(bool forceRequest = false)
         {
@@ -124,25 +132,37 @@ namespace PokemonGo.RocketAPI.Rpc
                 }).ToByteString()
             };
 
-            var request = GetRequestBuilder().GetRequestEnvelope(CommonRequest.FillRequest(recycleItemRequest, Client));
+            var tries = 0;
+            while ( tries <10){
+                try {
+                        var request = GetRequestBuilder().GetRequestEnvelope(CommonRequest.FillRequest(recycleItemRequest, Client));
+            
+                        Tuple<RecycleInventoryItemResponse, CheckChallengeResponse, GetHatchedEggsResponse, GetInventoryResponse, CheckAwardedBadgesResponse, DownloadSettingsResponse, GetBuddyWalkedResponse> response =
+                            await
+                                PostProtoPayload
+                                    <Request, RecycleInventoryItemResponse, CheckChallengeResponse, GetHatchedEggsResponse, GetInventoryResponse,
+                                        CheckAwardedBadgesResponse, DownloadSettingsResponse, GetBuddyWalkedResponse>(request).ConfigureAwait(false);
+            
+                        CheckChallengeResponse checkChallengeResponse = response.Item2;
+                        CommonRequest.ProcessCheckChallengeResponse(Client, checkChallengeResponse);
+            
+                        GetInventoryResponse getInventoryResponse = response.Item4;
+                        CommonRequest.ProcessGetInventoryResponse(Client, getInventoryResponse);
+            
+                        DownloadSettingsResponse downloadSettingsResponse = response.Item6;
+                        CommonRequest.ProcessDownloadSettingsResponse(Client, downloadSettingsResponse);
+            
+                        return response.Item1;
+                } catch (AccessTokenExpiredException) {
+                    Logger.Warning("Invalid Token. Retrying in 1 second");
+                    Task.Delay(1000).Wait();
+                }
+                tries ++;
+            }
+            Logger.Error("Too many tries. Returning");
+            return null;
 
-            Tuple<RecycleInventoryItemResponse, CheckChallengeResponse, GetHatchedEggsResponse, GetInventoryResponse, CheckAwardedBadgesResponse, DownloadSettingsResponse, GetBuddyWalkedResponse> response =
-                await
-                    PostProtoPayload
-                        <Request, RecycleInventoryItemResponse, CheckChallengeResponse, GetHatchedEggsResponse, GetInventoryResponse,
-                            CheckAwardedBadgesResponse, DownloadSettingsResponse, GetBuddyWalkedResponse>(request).ConfigureAwait(false);
-
-            CheckChallengeResponse checkChallengeResponse = response.Item2;
-            CommonRequest.ProcessCheckChallengeResponse(Client, checkChallengeResponse);
-
-            GetInventoryResponse getInventoryResponse = response.Item4;
-            CommonRequest.ProcessGetInventoryResponse(Client, getInventoryResponse);
-
-            DownloadSettingsResponse downloadSettingsResponse = response.Item6;
-            CommonRequest.ProcessDownloadSettingsResponse(Client, downloadSettingsResponse);
-
-            return response.Item1;
-        }        
+        }
 
         public UseItemXpBoostResponse UseItemXpBoost(ItemId item)
         {

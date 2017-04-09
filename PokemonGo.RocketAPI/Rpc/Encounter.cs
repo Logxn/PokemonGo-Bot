@@ -7,6 +7,7 @@ using POGOProtos.Inventory.Item;
 using POGOProtos.Networking.Requests;
 using POGOProtos.Networking.Requests.Messages;
 using POGOProtos.Networking.Responses;
+using PokemonGo.RocketAPI.Exceptions;
 using PokemonGo.RocketAPI.Helpers;
 
 namespace PokemonGo.RocketAPI.Rpc
@@ -42,24 +43,35 @@ namespace PokemonGo.RocketAPI.Rpc
                 }).ToByteString()
             };
 
-            var request = GetRequestBuilder().GetRequestEnvelope(CommonRequest.FillRequest(encounterPokemonRequest, Client));
-
-            Tuple<EncounterResponse, CheckChallengeResponse, GetHatchedEggsResponse, GetInventoryResponse, CheckAwardedBadgesResponse, DownloadSettingsResponse, GetBuddyWalkedResponse> response =
-                await
-                    PostProtoPayload
-                        <Request, EncounterResponse, CheckChallengeResponse, GetHatchedEggsResponse, GetInventoryResponse,
-                            CheckAwardedBadgesResponse, DownloadSettingsResponse, GetBuddyWalkedResponse>(request).ConfigureAwait(false);
-
-            CheckChallengeResponse checkChallengeResponse = response.Item2;
-            CommonRequest.ProcessCheckChallengeResponse(Client, checkChallengeResponse);
-
-            GetInventoryResponse getInventoryResponse = response.Item4;
-            CommonRequest.ProcessGetInventoryResponse(Client, getInventoryResponse);
-
-            DownloadSettingsResponse downloadSettingsResponse = response.Item6;
-            CommonRequest.ProcessDownloadSettingsResponse(Client, downloadSettingsResponse);
-
-            return response.Item1;
+            var tries = 0;
+            while ( tries <10){
+                try {
+                        var request = GetRequestBuilder().GetRequestEnvelope(CommonRequest.FillRequest(encounterPokemonRequest, Client));
+            
+                        Tuple<EncounterResponse, CheckChallengeResponse, GetHatchedEggsResponse, GetInventoryResponse, CheckAwardedBadgesResponse, DownloadSettingsResponse, GetBuddyWalkedResponse> response =
+                            await
+                                PostProtoPayload
+                                    <Request, EncounterResponse, CheckChallengeResponse, GetHatchedEggsResponse, GetInventoryResponse,
+                                        CheckAwardedBadgesResponse, DownloadSettingsResponse, GetBuddyWalkedResponse>(request).ConfigureAwait(false);
+            
+                        CheckChallengeResponse checkChallengeResponse = response.Item2;
+                        CommonRequest.ProcessCheckChallengeResponse(Client, checkChallengeResponse);
+            
+                        GetInventoryResponse getInventoryResponse = response.Item4;
+                        CommonRequest.ProcessGetInventoryResponse(Client, getInventoryResponse);
+            
+                        DownloadSettingsResponse downloadSettingsResponse = response.Item6;
+                        CommonRequest.ProcessDownloadSettingsResponse(Client, downloadSettingsResponse);
+            
+                        return response.Item1;
+                } catch (AccessTokenExpiredException) {
+                    Logger.Warning("Invalid Token. Retrying in 1 second");
+                    Task.Delay(1000).Wait();
+                }
+                tries ++;
+            }
+            Logger.Error("Too many tries. Returning");
+            return null;
         }
 
         public UseItemCaptureResponse UseCaptureItem(ulong encounterId, ItemId itemId, string spawnPointId)

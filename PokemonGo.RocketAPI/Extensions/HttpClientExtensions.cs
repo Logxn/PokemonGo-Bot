@@ -81,6 +81,7 @@ namespace PokemonGo.RocketAPI.Extensions
 
             while (response.Returns.Count == 0)
             {
+                Logger.Debug("Handling Failure");
                 var operation = strategy.HandleApiFailure(requestEnvelope, response).Result;
 
                 if (operation == ApiOperation.Abort)

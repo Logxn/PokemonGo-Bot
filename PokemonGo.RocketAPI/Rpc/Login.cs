@@ -13,7 +13,6 @@ using POGOProtos.Networking.Envelopes;
 using POGOProtos.Networking.Requests;
 using POGOProtos.Networking.Responses;
 using POGOProtos.Networking.Platform;
-using POGOProtos.Networking.Requests.Messages;
 
 #endregion
 
@@ -44,9 +43,25 @@ namespace PokemonGo.RocketAPI.Rpc
             }
         }
 
+        public async Task Reauthenticate()
+        {
+            var tries = 0;
+            Client.AuthToken = null;
+            while (Client.AuthToken == null && tries <10)
+            {
+                Client.AuthToken = await _login.GetAccessToken().ConfigureAwait(false);
+                if (Client.AuthToken == null){
+                    tries++;
+                    Logger.Warning("Access Token is null. Retrying in 1 second. Try " + tries);
+                    await Task.Delay(1000).ConfigureAwait(false);
+                }
+            }
+            Logger.Debug("AuthToken: "+ Client.AuthToken);
+            
+        }
         public async Task DoLogin()
         {
-            Client.AuthToken = await _login.GetAccessToken().ConfigureAwait(false);
+            await Reauthenticate().ConfigureAwait(false);
             
             if ( Client.AuthToken == null){
                 throw new LoginFailedException("Connection with Server failed. Please, check if niantic servers are up");
@@ -63,10 +78,29 @@ namespace PokemonGo.RocketAPI.Rpc
                     .ConfigureAwait(false);
 
             await RandomHelper.RandomDelay(2000).ConfigureAwait(false);
+
+            await Client.Map.GetMapObjects().ConfigureAwait(false);
             
-            await Client.Map.GetMapObjects().ConfigureAwait(false);;
+            MakeTuturial();
+             
+            foreach (var element in Client.Player.PlayerResponse.PlayerData.TutorialState) {
+                Logger.Debug(element.ToString());
+            } 
+        }
+
+        private void MakeTuturial()
+        {
+            
+            var state = Client.Player.PlayerResponse.PlayerData.TutorialState;
+            if (state == null || !state.Any()){
+                var res = Client.Misc.AceptLegalScreen().Result;
+                if (res.Result != EncounterTutorialCompleteResponse.Types.Result.Success)
+                    return;
+            }
 
         }
+
+        
 
         public async Task FireRequestBlock(Request request)
         {
@@ -90,10 +124,12 @@ namespace PokemonGo.RocketAPI.Rpc
 
             switch (serverResponse.StatusCode)
             {
-
-                //case ResponseEnvelope.Types.StatusCode.SessionInvalidated: // TODO: Check if is needed or isnot.
-
+                case ResponseEnvelope.Types.StatusCode.SessionInvalidated:
+                    Logger.Debug("Invalid session.");
+                    Client.AuthToken = null;
+                    throw new AccessTokenExpiredException();
                 case ResponseEnvelope.Types.StatusCode.InvalidAuthToken:
+                    Logger.Debug("Invalid token.");
                     Client.AuthToken = null;
                     throw new AccessTokenExpiredException();
                 case ResponseEnvelope.Types.StatusCode.Redirect:
@@ -134,10 +170,17 @@ namespace PokemonGo.RocketAPI.Rpc
             var responses = serverResponse.Returns;
             if (responses != null)
             {
-                var checkChallengeResponse = new CheckChallengeResponse();
-                if (3 <= responses.Count)
+                Logger.Debug("responses" + responses);
+                var getPlayerResponse = new GetPlayerResponse();
+                if (1 <= responses.Count)
                 {
-                    checkChallengeResponse.MergeFrom(responses[2]);
+                    getPlayerResponse.MergeFrom(responses[0]);
+                    CommonRequest.ProcessGetPlayerResponse( Client, getPlayerResponse);
+                }
+                var checkChallengeResponse = new CheckChallengeResponse();
+                if (2 <= responses.Count)
+                {
+                    checkChallengeResponse.MergeFrom(responses[1]);
                     CommonRequest.ProcessCheckChallengeResponse(Client, checkChallengeResponse);
                 }
             }

@@ -25,7 +25,6 @@ using PokeMaster.Logic;
 using PokeMaster.Logic.Functions;
 using POGOProtos.Data;
 using POGOProtos.Data.Battle;
-using PokemonGo.RocketAPI.Rpc;
 
 namespace PokeMaster.Logic.Functions
 {
@@ -105,20 +104,23 @@ namespace PokeMaster.Logic.Functions
 
         public static void Execute()
         {
-            if (!GlobalVars.Gyms.Farm)
+            if (!GlobalVars.Gyms.Farm){
+                Logger.Debug("Farm gyms is not enabled.");
                 return;
+            }
             //narrow map data to gyms within walking distance
             var gyms = GetNearbyGyms();
-            var gymsWithinRangeStanding = gyms.Where(i => LocationUtils.CalculateDistanceInMeters(Logic.objClient.CurrentLatitude, Logic.objClient.CurrentLongitude, i.Latitude, i.Longitude) < 30);
-            var withinRangeStandingList = gymsWithinRangeStanding as IList<FortData> ?? gymsWithinRangeStanding.ToList();
+            
+            Logger.Debug("gyms: " +gyms.Count());
+            var gymsWithinRangeStanding = gyms.Where(i => LocationUtils.CalculateDistanceInMeters(Logic.objClient.CurrentLatitude, Logic.objClient.CurrentLongitude, i.Latitude, i.Longitude) < 50);
+            var inRange = gymsWithinRangeStanding.Count();
+            Logger.Debug("gymsWithinRangeStanding: " +inRange);
 
-            if (withinRangeStandingList.Any()) {
-                var inRange = withinRangeStandingList.Count;
+            if (gymsWithinRangeStanding.Any()) {
                 Logger.ColoredConsoleWrite(ConsoleColor.DarkGray, $"(Gym) - {inRange} gyms are within range of the user");
 
-                foreach (var element in withinRangeStandingList) {
+                foreach (var element in gymsWithinRangeStanding) {
                     var gym = element;
-                    
                     if (gymsVisited.Contains(gym.Id)) {
                         Logger.ColoredConsoleWrite(ConsoleColor.DarkGray, "(Gym) - This gym was already visited.");
                         continue;
@@ -133,7 +135,7 @@ namespace PokeMaster.Logic.Functions
                             gym = GetNearbyGyms().FirstOrDefault(x => x.Id == gym.Id);
                         }
                         if (attackCount > GlobalVars.Gyms.MaxAttacks) {
-                            Logger.Warning("(Gym) - Maximun number of attacks reached. Will be checked after of one minute.");
+                            Logger.Warning("(Gym) - Maximum number of attacks reached. Will be checked after of one minute.");
                             AddVisited(gym.Id, 60000);
                         }
                     }
@@ -153,21 +155,22 @@ namespace PokeMaster.Logic.Functions
             }
         }
 
-        private static FortData[] GetNearbyGyms(GetMapObjectsResponse mapObjectsResponse = null)
+        private static FortData[] GetNearbyGyms()
         {
-            //Logic.objClient.Player.UpdatePlayerLocation(Logic.objClient.CurrentLatitude, Logic.objClient.CurrentLongitude, Logic.objClient.CurrentAltitude);
             LocationUtils.updatePlayerLocation(Logic.objClient, Logic.objClient.CurrentLatitude, Logic.objClient.CurrentLongitude, Logic.objClient.CurrentAltitude);
-            RandomHelper.RandomSleep(400);
+            var mapObjectsResponse = Logic.objClient.Map.GetMapObjects().Result.Item1;
+            
+            var pokeGyms1 = mapObjectsResponse.MapCells.SelectMany(i => i.Forts)
+                .Where(i => i.Type == FortType.Gym);
 
-            if (mapObjectsResponse == null)
-                mapObjectsResponse = Logic.objClient.Map.GetMapObjects().Result.Item1;
+            var pokeGyms2 = pokeGyms1
+                .OrderBy(i => LocationUtils.CalculateDistanceInMeters(Logic.objClient.CurrentLatitude, Logic.objClient.CurrentLongitude, i.Latitude, i.Longitude));
 
-            var pokeGyms = Logic.Instance.navigation
-                .pathByNearestNeighbour(
-                    mapObjectsResponse.MapCells.SelectMany(i => i.Forts)
-                    .Where(i => i.Type == FortType.Gym)
-                    .OrderBy(i => LocationUtils.CalculateDistanceInMeters(Logic.objClient.CurrentLatitude, Logic.objClient.CurrentLongitude, i.Latitude, i.Longitude))
-                    .ToArray(), GlobalVars.WalkingSpeedInKilometerPerHour);
+            var pokeGyms = pokeGyms2
+                    .ToArray();
+
+            Logger.Debug("pokeGyms: " + pokeGyms.Length);
+
             Task.Factory.StartNew(() => RefreshGymsInMap(pokeGyms));
             return pokeGyms;
         }
@@ -238,10 +241,12 @@ namespace PokeMaster.Logic.Functions
             var pokemons = (client.Inventory.GetPokemons()).ToList();
 
             RandomHelper.RandomSleep(900);
-            var profile = client.Player.GetPlayer();
 
-            var buddyId = (profile.PlayerData.BuddyPokemon!=null) ? profile.PlayerData.BuddyPokemon.Id : 0UL;
-            PokemonData pokemon = getPokeToPut(client, buddyId);
+            var buddyID = 0UL;
+            if (client.Player.PlayerResponse.PlayerData.BuddyPokemon != null)
+                buddyID = client.Player.PlayerResponse.PlayerData.BuddyPokemon.Id;
+
+            PokemonData pokemon = getPokeToPut(client, buddyID, gym.GuardPokemonCp);
 
             if (pokemon == null) {
                 Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - There are no pokemons to assign.");
@@ -263,7 +268,7 @@ namespace PokeMaster.Logic.Functions
             if (gym.OwnedByTeam == TeamColor.Neutral) {
                 RandomHelper.RandomSleep(250);
                 putInGym(client, gym, pokemon, pokemons);
-            } else if ((gym.OwnedByTeam == profile.PlayerData.Team)) {
+            } else if ((gym.OwnedByTeam == client.Player.PlayerResponse.PlayerData.Team)) {
                 RandomHelper.RandomSleep(250);
                 if (gymDetails.GymState.Memberships.Count < GetGymLevel(gym.GymPoints)) {
                     Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - There is a free space");
@@ -288,8 +293,7 @@ namespace PokeMaster.Logic.Functions
                     Logger.ColoredConsoleWrite(gymColorLog, "(Gym) Let's go to train");
                     Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - Selected pokemons to train:");
                     ShowPokemons(pokeAttackers);
-                    buddyId = (profile.PlayerData.BuddyPokemon!=null) ? profile.PlayerData.BuddyPokemon.Id : 0;
-                    var attResp = AttackGym(gym, client, pokeAttackers, defender.Id, gymDetails.GymState.Memberships.Count, buddyId);
+                    var attResp = AttackGym(gym, client, pokeAttackers, defender.Id, gymDetails.GymState.Memberships.Count, buddyID);
                 } else {
                     Logger.Warning( "(Gym) - There is no free space in the gym");
                     AddVisited(gym.Id, 600000);
@@ -317,7 +321,7 @@ namespace PokeMaster.Logic.Functions
                     Logger.ColoredConsoleWrite(gymColorLog, "(Gym) Let's go to fight");
                     Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - Selected Atackers:");
                     ShowPokemons(pokeAttackers);
-                    var attResp = AttackGym(gym, client, pokeAttackers, defender.Id, gymDetails.GymState.Memberships.Count, buddyId);
+                    var attResp = AttackGym(gym, client, pokeAttackers, defender.Id, gymDetails.GymState.Memberships.Count, buddyID);
                 } else {
                     AddVisited(gym.Id, 600000);
                 }
@@ -543,7 +547,7 @@ namespace PokeMaster.Logic.Functions
                                 gymDetails = client.Fort.GetGymDetails(gym.Id, gym.Latitude, gym.Longitude);
                                 Logger.Debug("(Gym) - Gym Details: " + gymDetails);
                                 if (gymDetails.GymState.Memberships.Count < 1) {
-                                    putInGym(client, gym, getPokeToPut(client, buddyPokemonId), pokemons);
+                                    putInGym(client, gym, getPokeToPut(client, buddyPokemonId, gym.GuardPokemonCp), pokemons);
                                 }
                             }
                             break;
@@ -598,12 +602,6 @@ namespace PokeMaster.Logic.Functions
                         client.Login.DoLogin().Wait();
                     }else if (GlobalVars.Gyms.Testing == "GetPlayer"){
                         client.Player.GetPlayer();
-                        RandomHelper.RandomSleep(3000);
-                    }else if (GlobalVars.Gyms.Testing == "GetItemTemplates"){
-                        client.Download.GetItemTemplates();
-                        RandomHelper.RandomSleep(3000);
-                    }else if (GlobalVars.Gyms.Testing == "GetPlayerProfile"){
-                        client.Player.GetPlayerProfile(client.Player.GetPlayer().PlayerData.Username);
                         RandomHelper.RandomSleep(3000);
                     }else if (GlobalVars.Gyms.Testing == "Wait 2 minutes before of next try" && numTries ==3){
                         if (GlobalVars.CatchPokemon)
@@ -678,7 +676,7 @@ namespace PokeMaster.Logic.Functions
             return ret;
         }
 
-        public static PokemonData getPokeToPut(Client client, ulong buddyPokemon)
+        public static PokemonData getPokeToPut(Client client, ulong buddyPokemon, int minCP)
         {
             var pokemons = (client.Inventory.GetPokemons()).ToList();
 
@@ -692,6 +690,13 @@ namespace PokeMaster.Logic.Functions
                 case 3:
                     return pokemons.Where(x => ((!x.IsEgg) && (x.DeployedFortId == "") && (x.Id != buddyPokemon) && (x.Stamina == x.StaminaMax)))
                         .OrderByDescending(x => x.Favorite).ThenByDescending(x => x.Cp).FirstOrDefault();
+                case 4:
+                     var pok = pokemons.Where(x => ((!x.IsEgg) && (x.DeployedFortId == "") && (x.Id != buddyPokemon) && (x.Stamina == x.StaminaMax)&& (x.Cp > minCP)))
+                        .OrderBy(x => x.Cp).FirstOrDefault();
+                     if (pok ==null)
+                         pok = pokemons.Where(x => ((!x.IsEgg) && (x.DeployedFortId == "") && (x.Id != buddyPokemon) && (x.Stamina == x.StaminaMax)))
+                             .OrderBy(x => x.Cp).FirstOrDefault();
+                     return pok;
             }
             var rnd = new Random();
             return pokemons.Where(x => ((!x.IsEgg) && (x.DeployedFortId == "") && (x.Id != buddyPokemon) && (x.Stamina == x.StaminaMax)))
@@ -723,6 +728,7 @@ namespace PokeMaster.Logic.Functions
         
         private static IEnumerable<DownloadItemTemplatesResponse.Types.ItemTemplate> GetMoveSettings(Client client)
         {
+            //var templates = client.Download.GetItemTemplates().Result.ItemTemplates;
             var templates = client.Download.GetItemTemplates().ItemTemplates;
             return templates.Where(x => x.MoveSettings != null);
         }
@@ -732,7 +738,7 @@ namespace PokeMaster.Logic.Functions
             var moreRevives = true;
             try {
                 RandomHelper.RandomSleep(7000); // If we don`t wait, getpokemons return null.
-                var pokemons = client.Inventory.GetPokemons(true).Where(x => x.Stamina < x.StaminaMax);
+                var pokemons = client.Inventory.GetPokemons().Where(x => x.Stamina < x.StaminaMax);
                 foreach (var pokemon in pokemons) {
                     if (pokemon.Stamina <= 0) {
                         if (moreRevives) {
@@ -786,19 +792,19 @@ namespace PokeMaster.Logic.Functions
         private static ItemId GetNextAvailablePotion(Client client)
         {
             RandomHelper.RandomSleep(250);
-            var count = client.Inventory.GetItemAmountByType(ItemId.ItemPotion, true);
+            var count = client.Inventory.GetItemData(ItemId.ItemPotion).Count;
             Logger.Debug("count ItemPotion:" + count);
             if (count > 0)
                 return ItemId.ItemPotion;
-            count = client.Inventory.GetItemAmountByType(ItemId.ItemSuperPotion);
+            count = client.Inventory.GetItemData(ItemId.ItemSuperPotion).Count;
             Logger.Debug("count ItemSuperPotion:" + count);
             if (count > 0)
                 return ItemId.ItemSuperPotion;
-            count = client.Inventory.GetItemAmountByType(ItemId.ItemHyperPotion);
+            count = client.Inventory.GetItemData(ItemId.ItemHyperPotion).Count;
             Logger.Debug("count ItemHyperPotion:" + count);
             if (count > 0)
                 return ItemId.ItemHyperPotion;
-            count = client.Inventory.GetItemAmountByType(ItemId.ItemMaxPotion);
+            count = client.Inventory.GetItemData(ItemId.ItemMaxPotion).Count;
             Logger.Debug("count ItemMaxPotion:" + count);
             return count > 0 ? ItemId.ItemMaxPotion : 0;
         }
@@ -806,19 +812,14 @@ namespace PokeMaster.Logic.Functions
         private static ItemId GetNextAvailableRevive(Client client)
         {
             RandomHelper.RandomSleep(250);
-            var count = client.Inventory.GetItemAmountByType(ItemId.ItemRevive, true);
+            var count = client.Inventory.GetItemData(ItemId.ItemRevive).Count;
             Logger.Debug("count ItemRevive:" + count);
             if (count > 0)
                 return ItemId.ItemRevive;
-            count = client.Inventory.GetItemAmountByType(ItemId.ItemMaxRevive);
+            count = client.Inventory.GetItemData(ItemId.ItemMaxRevive).Count;
             Logger.Debug("count ItemMaxRevive:" + count);
             return count > 0 ? ItemId.ItemMaxRevive : 0;
         }
 
-        public static void putInPokestop(Client client, ulong buddyPokemon, FortData gym, IEnumerable<PokemonData> pokemons)
-        {
-            var poke = getPokeToPut(client, buddyPokemon);
-            putInGym(client, gym, poke, pokemons);
-        }
     }
 }

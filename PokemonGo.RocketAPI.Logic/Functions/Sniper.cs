@@ -26,12 +26,12 @@ namespace PokeMaster.Logic.Functions
     public class Sniper
     {
         public Client _client;
-        public ISettings _botSettings;
+        public PokeMaster.Logic.Shared.ISettings _botSettings;
         private const string LogPrefix = "(SNIPING)";
         private ConsoleColor LogColor = ConsoleColor.Cyan;
         
 
-        public Sniper(Client client, ISettings ClientSettings)
+        public Sniper(Client client, PokeMaster.Logic.Shared.ISettings ClientSettings)
         {
             _client = client;
             _botSettings = ClientSettings;
@@ -62,7 +62,7 @@ namespace PokeMaster.Logic.Functions
                 SendToLog($"Trying to capture {pokeid}  at { remoteCoords.Latitude } / {remoteCoords.Longitude}");
                 SendToLog(LocationUtils.FindAddress(remoteCoords.Latitude, remoteCoords.Longitude));
                 LocationUtils.updatePlayerLocation(_client, remoteCoords.Latitude, remoteCoords.Longitude, remoteCoords.Altitude, false);
-                var gmp = _client.Map.GetMapObjects(true);
+                var gmp = _client.Map.GetMapObjects(true).Result.Item1;
 
                 SendToLog($"We are at sniping location...");
                 SendToLog($"Waiting {GlobalVars.SnipeOpts.WaitSecond} seconds for Pokemon to appear...");
@@ -77,7 +77,7 @@ namespace PokeMaster.Logic.Functions
                 }
 
                 LocationUtils.updatePlayerLocation(_client, returnCoords.Latitude, returnCoords.Longitude, returnCoords.Altitude);
-                gmp = _client.Map.GetMapObjects(true);
+                gmp = _client.Map.GetMapObjects(true).Result.Item1;
 
                 SendToLog($"Location after Snipe : {_client.CurrentLatitude} / {_client.CurrentLongitude} / {_client.CurrentAltitude}");
                 SendToLog(LocationUtils.FindAddress(_client.CurrentLatitude, _client.CurrentLongitude));
@@ -96,7 +96,7 @@ namespace PokeMaster.Logic.Functions
                 Logger.ExceptionInfo(ex.ToString());
                 SendToLog($"Go to {returnCoords.Latitude} / {returnCoords.Longitude} / {returnCoords.Altitude}.");
                 LocationUtils.updatePlayerLocation(_client, returnCoords.Latitude, returnCoords.Longitude, returnCoords.Altitude);
-                var gmp = _client.Map.GetMapObjects();
+                var gmp = _client.Map.GetMapObjects(true).Result;
             }
 
             GlobalVars.SnipeOpts.Enabled = false;
@@ -123,11 +123,13 @@ namespace PokeMaster.Logic.Functions
                     if (Math.Abs(element.Latitude - pokeCoords.Latitude) < Epsilon && Math.Abs(element.Longitude - pokeCoords.Longitude) < Epsilon) {
                         SendToLog("Found Gym to Snipe");
                         var profile = _client.Player.GetPlayer();
-                        var buddyId = (profile.PlayerData.BuddyPokemon!=null) ? profile.PlayerData.BuddyPokemon.Id : 0UL;
+                        var buddyid = 0UL;
+                        if (profile.PlayerData.BuddyPokemon != null)
+                            buddyid = profile.PlayerData.BuddyPokemon.Id;
                         var gymDet = _client.Fort.GetGymDetails(element.Id, element.Latitude, element.Longitude);
                         if (gymDet.Result == GetGymDetailsResponse.Types.Result.Success) {
                             found = true;
-                            var pokeToDeploy = GymsLogic.getPokeToPut(_client, buddyId);
+                            var pokeToDeploy = GymsLogic.getPokeToPut(_client, buddyid, element.GuardPokemonCp);
                             if (pokeToDeploy != null) {
                                 var res = _client.Fort.FortDeployPokemon(element.Id, pokeToDeploy.Id);
                                 if (res.Result == FortDeployPokemonResponse.Types.Result.Success) {
@@ -163,14 +165,19 @@ namespace PokeMaster.Logic.Functions
             pokemonOUT = null;
             foreach (var pokemon in pokemons) {
                 Logger.Debug("pokemon:" + pokemon);
-                if (Math.Abs(pokemon.Latitude - pokeCoords.Latitude) < Epsilon && Math.Abs(pokemon.Longitude - pokeCoords.Longitude) < Epsilon) {
-                    found = true;
-                    pokemonOUT = pokemon;
-                    if (pokemon.PokemonId == pokeid)
+                if (AreEquals(pokemon.Latitude, pokeCoords.Latitude)  && AreEquals(pokemon.Longitude , pokeCoords.Longitude) ) {
+                    if (pokemon.PokemonId == pokeid || pokemon.PokemonId == PokemonId.Ditto){
+                        found = true;
+                        pokemonOUT = pokemon;
                         break;
+                    }
                 }
             }
             return found;
+        }
+
+        private bool AreEquals(double a, double b){
+            return (Math.Abs(Math.Round(a, 5) - Math.Round(b, 5)) < Epsilon);
         }
 
         private ulong TrySnipePokemons(PokemonId pokeid, GeoCoordinate pokeCoords, GeoCoordinate returnCoords)
@@ -221,8 +228,9 @@ namespace PokeMaster.Logic.Functions
             GlobalVars.SnipeOpts.WaitSecond = 7;
             GlobalVars.SnipeOpts.NumTries = 3;
             GlobalVars.SnipeOpts.TransferIt = false;
-            //GlobalVars.SnipeOpts.UsePinap = false;
+            GlobalVars.SnipeOpts.UsePinap = false;
             GlobalVars.SnipeOpts.Enabled = true;
         }
+
     }
 }

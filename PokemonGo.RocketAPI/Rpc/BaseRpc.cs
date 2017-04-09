@@ -3,6 +3,7 @@
 using System;
 using System.Threading.Tasks;
 using Google.Protobuf;
+using PokemonGo.RocketAPI.Exceptions;
 using PokemonGo.RocketAPI.Extensions;
 using PokemonGo.RocketAPI.Helpers;
 using POGOProtos.Networking.Envelopes;
@@ -33,20 +34,40 @@ namespace PokemonGo.RocketAPI.Rpc
             where TRequest : IMessage<TRequest>
             where TResponsePayload : IMessage<TResponsePayload>, new()
         {
-            var requestEnvelops = GetRequestBuilder().GetPlatformRequestEnvelope(platfReq);
-
-            return Client.PokemonHttpClient.PostProtoPayload<TRequest, TResponsePayload>(Client.ApiUrl, requestEnvelops,
-                        Client.ApiFailure);
+            var tries = 0;
+            while ( tries <10){
+                try {
+                    var requestEnvelops = GetRequestBuilder().GetPlatformRequestEnvelope(platfReq);
+                    return Client.PokemonHttpClient.PostProtoPayload<TRequest, TResponsePayload>(Client.ApiUrl, requestEnvelops,
+                                Client.ApiFailure);
+                } catch (AccessTokenExpiredException) {
+                    Logger.Warning("Invalid Token. Retrying in 1 second");
+                    Task.Delay(1000).Wait();
+                }
+                tries ++;
+            }
+            Logger.Error("Too many tries. Returning");
+            return new TResponsePayload();
         }
 
         protected TResponsePayload PostProtoPayload<TRequest, TResponsePayload>(RequestType type,
             IMessage message) where TRequest : IMessage<TRequest>
             where TResponsePayload : IMessage<TResponsePayload>, new()
         {
-            var requestEnvelops = GetRequestBuilder().GetRequestEnvelope(type, message);
-
-            return Client.PokemonHttpClient.PostProtoPayload<TRequest, TResponsePayload>(Client.ApiUrl, requestEnvelops,
-                        Client.ApiFailure);
+            var tries = 0;
+            while ( tries <10){
+                try {
+                    var requestEnvelops = GetRequestBuilder().GetRequestEnvelope(type, message);
+                    return Client.PokemonHttpClient.PostProtoPayload<TRequest, TResponsePayload>(Client.ApiUrl, requestEnvelops,
+                                Client.ApiFailure);
+                } catch (AccessTokenExpiredException) {
+                    Logger.Warning("Invalid Token. Retrying in 1 second");
+                    Task.Delay(1000).Wait();
+                }
+                tries ++;
+            }
+            Logger.Error("Too many tries. Returning");
+            return new TResponsePayload();
         }
 
         protected  TResponsePayload PostProtoPayload<TRequest, TResponsePayload>(

@@ -10,6 +10,7 @@ using POGOProtos.Inventory.Item;
 using POGOProtos.Networking.Requests;
 using POGOProtos.Networking.Requests.Messages;
 using POGOProtos.Networking.Responses;
+using PokemonGo.RocketAPI.Exceptions;
 using PokemonGo.RocketAPI.Helpers;
 
 #endregion
@@ -47,24 +48,35 @@ namespace PokemonGo.RocketAPI.Rpc
                 }).ToByteString()
             };
 
-            var request = GetRequestBuilder().GetRequestEnvelope(CommonRequest.FillRequest(getFortRequest, Client));
-
-            Tuple<FortDetailsResponse, CheckChallengeResponse, GetHatchedEggsResponse, GetInventoryResponse, CheckAwardedBadgesResponse, DownloadSettingsResponse, GetBuddyWalkedResponse> response =
-                    await PostProtoPayload
-                        <Request, FortDetailsResponse, CheckChallengeResponse, GetHatchedEggsResponse, GetInventoryResponse,
-            CheckAwardedBadgesResponse, DownloadSettingsResponse, GetBuddyWalkedResponse>(request).ConfigureAwait(false);
-
-            CheckChallengeResponse checkChallengeResponse = response.Item2;
-            CommonRequest.ProcessCheckChallengeResponse(Client, checkChallengeResponse);
-
-            GetInventoryResponse getInventoryResponse = response.Item4;
-            CommonRequest.ProcessGetInventoryResponse(Client, getInventoryResponse);
-
-            DownloadSettingsResponse downloadSettingsResponse = response.Item6;
-            CommonRequest.ProcessDownloadSettingsResponse(Client, downloadSettingsResponse);
-
-            return response.Item1;
-        }        
+            var tries = 0;
+            while ( tries <10){
+                try {
+                    var request = GetRequestBuilder().GetRequestEnvelope(CommonRequest.FillRequest(getFortRequest, Client));
+        
+                    Tuple<FortDetailsResponse, CheckChallengeResponse, GetHatchedEggsResponse, GetInventoryResponse, CheckAwardedBadgesResponse, DownloadSettingsResponse, GetBuddyWalkedResponse> response =
+                            await PostProtoPayload
+                                <Request, FortDetailsResponse, CheckChallengeResponse, GetHatchedEggsResponse, GetInventoryResponse,
+                    CheckAwardedBadgesResponse, DownloadSettingsResponse, GetBuddyWalkedResponse>(request).ConfigureAwait(false);
+        
+                    CheckChallengeResponse checkChallengeResponse = response.Item2;
+                    CommonRequest.ProcessCheckChallengeResponse(Client, checkChallengeResponse);
+        
+                    GetInventoryResponse getInventoryResponse = response.Item4;
+                    CommonRequest.ProcessGetInventoryResponse(Client, getInventoryResponse);
+        
+                    DownloadSettingsResponse downloadSettingsResponse = response.Item6;
+                    CommonRequest.ProcessDownloadSettingsResponse(Client, downloadSettingsResponse);
+        
+                    return response.Item1;
+                } catch (AccessTokenExpiredException) {
+                    Logger.Warning("Invalid Token. Retrying in 1 second");
+                    Task.Delay(1000).Wait();
+                }
+                tries ++;
+            }
+            Logger.Error("Too many tries. Returning");
+            return null;
+        }
 
         public FortSearchResponse SearchFortOnly(string fortId, double fortLat, double fortLng)
         {
@@ -95,31 +107,42 @@ namespace PokemonGo.RocketAPI.Rpc
                 }).ToByteString()
             };
 
-            var request = GetRequestBuilder().GetRequestEnvelope(CommonRequest.FillRequest(searchFortRequest, Client));
-
-            Tuple<FortSearchResponse, CheckChallengeResponse, GetHatchedEggsResponse, GetInventoryResponse, CheckAwardedBadgesResponse, DownloadSettingsResponse, GetBuddyWalkedResponse> response =
-                await
-                    PostProtoPayload
-                        <Request, FortSearchResponse, CheckChallengeResponse, GetHatchedEggsResponse, GetInventoryResponse,
-                            CheckAwardedBadgesResponse, DownloadSettingsResponse, GetBuddyWalkedResponse>(request).ConfigureAwait(false);
-
-            CheckChallengeResponse checkChallengeResponse = response.Item2;
-            CommonRequest.ProcessCheckChallengeResponse(Client, checkChallengeResponse);
-
-            GetInventoryResponse getInventoryResponse = response.Item4;
-            CommonRequest.ProcessGetInventoryResponse(Client, getInventoryResponse);
-
-            DownloadSettingsResponse downloadSettingsResponse = response.Item6;
-            CommonRequest.ProcessDownloadSettingsResponse(Client, downloadSettingsResponse);
+            var tries = 0;
+            while ( tries <10){
+                try {
+                        var request = GetRequestBuilder().GetRequestEnvelope(CommonRequest.FillRequest(searchFortRequest, Client));
             
-            if (Client.Map._cachedGetMapResponse!=null){
-                var fort = Client.Map._cachedGetMapResponse.Item1.MapCells.SelectMany(x=> x.Forts).FirstOrDefault(y => y.Id == fortId);
-                if (fort!=null)
-                    fort.CooldownCompleteTimestampMs = Utils.GetTime(true) + 5 * 60 * 1000; // Cooldown is 5 minutes.
+                        Tuple<FortSearchResponse, CheckChallengeResponse, GetHatchedEggsResponse, GetInventoryResponse, CheckAwardedBadgesResponse, DownloadSettingsResponse, GetBuddyWalkedResponse> response =
+                            await
+                                PostProtoPayload
+                                    <Request, FortSearchResponse, CheckChallengeResponse, GetHatchedEggsResponse, GetInventoryResponse,
+                                        CheckAwardedBadgesResponse, DownloadSettingsResponse, GetBuddyWalkedResponse>(request).ConfigureAwait(false);
+            
+                        CheckChallengeResponse checkChallengeResponse = response.Item2;
+                        CommonRequest.ProcessCheckChallengeResponse(Client, checkChallengeResponse);
+            
+                        GetInventoryResponse getInventoryResponse = response.Item4;
+                        CommonRequest.ProcessGetInventoryResponse(Client, getInventoryResponse);
+            
+                        DownloadSettingsResponse downloadSettingsResponse = response.Item6;
+                        CommonRequest.ProcessDownloadSettingsResponse(Client, downloadSettingsResponse);
+                        
+                        if (Client.Map._cachedGetMapResponse!=null){
+                            var fort = Client.Map._cachedGetMapResponse.Item1.MapCells.SelectMany(x=> x.Forts).FirstOrDefault(y => y.Id == fortId);
+                            if (fort!=null)
+                                fort.CooldownCompleteTimestampMs = Utils.GetTime(true) + 5 * 60 * 1000; // Cooldown is 5 minutes.
+                        }
+                        
+            
+                        return response.Item1;
+                } catch (AccessTokenExpiredException) {
+                    Logger.Warning("Invalid Token. Retrying in 1 second");
+                    Task.Delay(1000).Wait();
+                }
+                tries ++;
             }
-            
-
-            return response.Item1;
+            Logger.Error("Too many tries. Returning");
+            return null;
         }
 
         public AddFortModifierResponse AddFortModifier(string fortId, ItemId modifierType)
@@ -222,24 +245,36 @@ namespace PokemonGo.RocketAPI.Rpc
                 }).ToByteString()
             };
 
-            var request = GetRequestBuilder().GetRequestEnvelope(CommonRequest.FillRequest(startGymBattleRequest, Client));
+            var tries = 0;
+            while ( tries <10){
+                try {
+                    var request = GetRequestBuilder().GetRequestEnvelope(CommonRequest.FillRequest(startGymBattleRequest, Client));
+        
+                    Tuple<StartGymBattleResponse, CheckChallengeResponse, GetHatchedEggsResponse, GetInventoryResponse, CheckAwardedBadgesResponse, DownloadSettingsResponse, GetBuddyWalkedResponse> response =
+                        await
+                            PostProtoPayload
+                                <Request, StartGymBattleResponse, CheckChallengeResponse, GetHatchedEggsResponse, GetInventoryResponse,
+                                    CheckAwardedBadgesResponse, DownloadSettingsResponse, GetBuddyWalkedResponse>(request).ConfigureAwait(false);
+        
+                    CheckChallengeResponse checkChallengeResponse = response.Item2;
+                    CommonRequest.ProcessCheckChallengeResponse(Client, checkChallengeResponse);
+        
+                    GetInventoryResponse getInventoryResponse = response.Item4;
+                    CommonRequest.ProcessGetInventoryResponse(Client, getInventoryResponse);
+        
+                    DownloadSettingsResponse downloadSettingsResponse = response.Item6;
+                    CommonRequest.ProcessDownloadSettingsResponse(Client, downloadSettingsResponse);
+        
+                    return response.Item1;
+                } catch (AccessTokenExpiredException) {
+                    Logger.Warning("Invalid Token. Retrying in 1 second");
+                    Task.Delay(1000).Wait();
+                }
+                tries ++;
+            }
+            Logger.Error("Too many tries. Returning");
+            return null;
 
-            Tuple<StartGymBattleResponse, CheckChallengeResponse, GetHatchedEggsResponse, GetInventoryResponse, CheckAwardedBadgesResponse, DownloadSettingsResponse, GetBuddyWalkedResponse> response =
-                await
-                    PostProtoPayload
-                        <Request, StartGymBattleResponse, CheckChallengeResponse, GetHatchedEggsResponse, GetInventoryResponse,
-                            CheckAwardedBadgesResponse, DownloadSettingsResponse, GetBuddyWalkedResponse>(request).ConfigureAwait(false);
-
-            CheckChallengeResponse checkChallengeResponse = response.Item2;
-            CommonRequest.ProcessCheckChallengeResponse(Client, checkChallengeResponse);
-
-            GetInventoryResponse getInventoryResponse = response.Item4;
-            CommonRequest.ProcessGetInventoryResponse(Client, getInventoryResponse);
-
-            DownloadSettingsResponse downloadSettingsResponse = response.Item6;
-            CommonRequest.ProcessDownloadSettingsResponse(Client, downloadSettingsResponse);
-
-            return response.Item1;
-        }           
+        }
     }
 }

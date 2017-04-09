@@ -10,6 +10,11 @@ namespace PokemonGo.RocketAPI.Rpc
 {
     public class Player : BaseRpc
     {
+        public GetPlayerResponse PlayerResponse {
+            get;
+            set;
+        }
+
         public Player(Client client) : base(client)
         {
             Client = client;
@@ -17,7 +22,11 @@ namespace PokemonGo.RocketAPI.Rpc
 
         public GetPlayerResponse GetPlayer()
         {
-            return PostProtoPayload<Request, GetPlayerResponse>(RequestType.GetPlayer, new GetPlayerMessage());
+            var ret = PostProtoPayload<Request, GetPlayerResponse>(RequestType.GetPlayer, new GetPlayerMessage());
+            if (ret!=null){
+                CommonRequest.ProcessGetPlayerResponse(Client,ret);
+            }
+            return ret;
         }
 
         public GetPlayerProfileResponse GetPlayerProfile(string playerName)

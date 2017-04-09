@@ -138,5 +138,9 @@ namespace PokemonGo.RocketAPI
             return CurrentApiEmulationVersion < MinimumClientVersion;
         }
 
+        public void SetAuthTicket(AuthTicket authTicket)
+        {
+            AuthTicket = authTicket;
+        }
     }
 }

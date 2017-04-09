@@ -21,6 +21,7 @@ using System.Device.Location;
 using Microsoft.Win32;
 using System.Text;
 using PokeMaster.Logic.Shared;
+using PokeMaster.Logic.Utils;
 using PokemonGo.RocketAPI;
 
 namespace PokeMaster
@@ -122,10 +123,10 @@ namespace PokeMaster
             if (!checkBoxSnipeGym.Checked && comboBox1.SelectedValue != null)
                 pokeid = (PokemonId)comboBox1.SelectedValue;
             
-            SnipePoke(pokeid, (int)nudSecondsSnipe.Value, (int)nudTriesSnipe.Value, checkBoxSnipeTransfer.Checked);
+            SnipePoke(pokeid, (int)nudSecondsSnipe.Value, (int)nudTriesSnipe.Value, checkBoxSnipeTransfer.Checked, checkBoxSnipeWithPinap.Checked );
         }
 
-        void SnipePoke(PokemonId id, int secondsToWait, int numberOfTries, bool transferIt)
+        void SnipePoke(PokemonId id, int secondsToWait, int numberOfTries, bool transferIt, bool usePinap)
         {
             if (GlobalVars.SnipeOpts.Enabled){
                 Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "There is a Snipe in process.");
@@ -139,7 +140,9 @@ namespace PokeMaster
             GlobalVars.SnipeOpts.WaitSecond = secondsToWait;
             GlobalVars.SnipeOpts.NumTries = numberOfTries;
             GlobalVars.SnipeOpts.TransferIt = transferIt;
+            GlobalVars.SnipeOpts.UsePinap = usePinap;
             GlobalVars.SnipeOpts.Enabled = true;
+            
             SnipeInfo.Text = "";
         }
 
@@ -157,7 +160,7 @@ namespace PokeMaster
             }
         }
 
-        void btnInstall_Click(object sender, object e)
+        void btnInstall_Click(object sender, EventArgs e)
         {
             if (timerSnipe.Enabled) {
                 try {
@@ -186,38 +189,40 @@ namespace PokeMaster
 
         void SnipeURI(string txt)
         {
-            if (txt.IndexOf("pokesniper2://", StringComparison.Ordinal) > -1) {
+            if (txt.IndexOf("pokesniper2://") > -1) {
                 txt = txt.Replace("pokesniper2://", "");
                 var splt = txt.Split('/');
                 splLatLngResult = SplitLatLng(splt[1]);
                 int stw = 2;
                 int tries = 3;
                 var transferIt = false;
+                var usePinap = false;
                 try {
                     stw = (int)nudSecondsSnipe.Value;
                     tries = (int)nudTriesSnipe.Value;
                     transferIt = checkBoxSnipeTransfer.Checked;
-                } catch (Exception ex1) {
-                    Logger.ExceptionInfo(ex1.ToString());
+                    usePinap = checkBoxSnipeWithPinap.Checked;
+                } catch (Exception) {
                 }
                 var pokeID = ToPokemonID(splt[0]);
-                SnipePoke(pokeID, stw, tries, transferIt);
-            } else if (txt.IndexOf("msniper://", StringComparison.Ordinal) > -1) {
+                SnipePoke(pokeID, stw, tries, transferIt, usePinap);
+            } else if (txt.IndexOf("msniper://") > -1) {
                 txt = txt.Replace("msniper://", "");
                 var splt = txt.Split('/');
                 splLatLngResult = SplitLatLng(splt[3]);
                 int stw = 2;
                 int tries = 3;
                 var transferIt = false;
+                var usePinap = false;
                 try {
                     stw = (int)nudSecondsSnipe.Value;
                     tries = (int)nudTriesSnipe.Value;
                     transferIt = checkBoxSnipeTransfer.Checked;
-                } catch (Exception ex1) {
-                    Logger.ExceptionInfo(ex1.ToString());
+                    usePinap = checkBoxSnipeWithPinap.Checked;
+                } catch (Exception) {
                 }
                 var pokeID = ToPokemonID(splt[0]);
-                SnipePoke(pokeID, stw, tries, transferIt);
+                SnipePoke(pokeID, stw, tries, transferIt, usePinap);
             }
         }
 
@@ -278,7 +283,7 @@ namespace PokeMaster
         bool isInList(string id)
         {
             foreach (ListViewItem element in listView.Items) {
-                if (element.SubItems[5].Text == id)
+                if (element.SubItems[chId.Index].Text == id)
                     return true;
             }
             return false;
@@ -287,8 +292,8 @@ namespace PokeMaster
         ListViewItem GetNextUnused()
         {
             foreach (ListViewItem element in listView.Items) {
-                if ((element.SubItems[6].Text != GlobalVars.ProfileName)
-                    && (element.SubItems[8].Text == "false")){
+                if ((element.SubItems[chName.Index].Text != GlobalVars.ProfileName)
+                    && (element.SubItems[chUsed.Index].Text == "false")){
                     var txt = element.Text;
                     txt = txt.Replace("pokesniper2://", "");
                     var splt = txt.Split('/');
@@ -298,14 +303,14 @@ namespace PokeMaster
                     }
                     if (checkBoxMinIVSnipe.Checked){
                         var iv = 0.0;
-                        double.TryParse (element.SubItems[1].Text, out iv);
+                        double.TryParse (element.SubItems[chIV.Index].Text, out iv);
                         var minIV =  (int)numMinIVSnipe.Value;
                         if ( iv >= minIV)
                             return element;
                     }
                     if (checkBoxMinProbSnipe.Checked){
                         var prob = 0.0;
-                        double.TryParse (element.SubItems[1].Text, out prob);
+                        double.TryParse (element.SubItems[chProbability.Index].Text, out prob);
                         var minProb =  (int)numMinProbSnipe.Value;
                         if ( prob >= minProb)
                             return element;
@@ -391,7 +396,7 @@ namespace PokeMaster
         private static bool LoadLinks()
         {
             if (!File.Exists(linksFile)) {
-                DownloadHelper.DownloadFile("PokemonGo.RocketAPI.Console/Resources", Program.path, linksFileName);
+                DownloadHelper.DownloadFile("PokeMaster/Resources", Program.path, linksFileName);
             }
             if (File.Exists(linksFile)) {
                 links = JsonConvert.DeserializeObject<Components.HRefLink[]>(File.ReadAllText(linksFile));
@@ -416,7 +421,8 @@ namespace PokeMaster
             if (listView.SelectedItems.Count < 1)
                 return;
             SnipeURI(listView.SelectedItems[0].Text);
-            listView.SelectedItems[0].SubItems[8].Text = "true";
+            listView.SelectedItems[0].SubItems[chUsed.Index].ForeColor = Color.LightGreen;
+            listView.SelectedItems[0].SubItems[chUsed.Index].Text = "true";
         }
 
         public static void SharePokesniperURI(string uri)
@@ -451,7 +457,8 @@ namespace PokeMaster
             var next = GetNextUnused();
             if (next != null) {
                 SnipeURI(next.Text);
-                next.SubItems[8].Text = "true";
+                next.SubItems[chUsed.Index].ForeColor = Color.LightSalmon;
+                next.SubItems[chUsed.Index].Text = "true";
             }
             
         }
@@ -469,7 +476,8 @@ namespace PokeMaster
             if (listView.SelectedItems.Count <1)
                 return;
             foreach (ListViewItem element in listView.SelectedItems) {
-                element.SubItems[8].Text = element.SubItems[8].Text == "true" ? "false" : "true";
+                element.SubItems[chUsed.Index].ForeColor = element.SubItems[chUsed.Index].Text == "true" ?  Color.LightSalmon  :  Color.White;
+                element.SubItems[chUsed.Index].Text = element.SubItems[chUsed.Index].Text == "true" ? "false" : "true";
             }
         }
         void snipeToolStripMenuItem_Click(object sender, EventArgs e)
@@ -573,6 +581,17 @@ namespace PokeMaster
         {
             InportRemoteList(textBoxPokemonsList.Text);
         }
-
+        void label7_DoubleClick(object sender, EventArgs e)
+        {
+          textBoxPokemonsList.Enabled |= Control.ModifierKeys == Keys.Shift;
+        }
+        void textBoxPokemonsList_Leave(object sender, EventArgs e)
+        {
+            textBoxPokemonsList.Enabled  = false;
+        }
+        void SniperPanel_Load(object sender, EventArgs e)
+        {
+          
+        }
     }
 }

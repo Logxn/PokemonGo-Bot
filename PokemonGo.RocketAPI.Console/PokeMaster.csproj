@@ -253,9 +253,7 @@
     <Compile Include="Panels\ShopPanel.Designer.cs">
       <DependentUpon>ShopPanel.cs</DependentUpon>
     </Compile>
-    <Compile Include="Panels\SniperPanel.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
+    <Compile Include="Panels\SniperPanel.cs" />
     <Compile Include="Panels\SniperPanel.Designer.cs">
       <DependentUpon>SniperPanel.cs</DependentUpon>
     </Compile>

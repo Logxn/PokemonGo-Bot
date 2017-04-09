@@ -11,7 +11,7 @@ using System;
 
 namespace PokemonGo.RocketAPI.Helpers
 {
-    public class CommonRequest
+    public static class CommonRequest
     {
         public static Request GetDownloadRemoteConfigVersionMessageRequest(Client client)
         {
@@ -168,6 +168,8 @@ namespace PokemonGo.RocketAPI.Helpers
                 if (getInventoryResponse.InventoryDelta.NewTimestampMs >= client.InventoryLastUpdateTimestamp)
                 {
                     client.InventoryLastUpdateTimestamp = getInventoryResponse.InventoryDelta.NewTimestampMs;
+                    //TODO: update inventory
+                    //client.Inventory.CachedInventory = getInventoryResponse;
                 }
             }
         }
@@ -202,6 +204,21 @@ namespace PokemonGo.RocketAPI.Helpers
                 client.ApiFailure.HandleCaptcha(checkChallengeResponse.ChallengeUrl, client);
         }
 
+        public static void ProcessGetPlayerResponse(Client client, GetPlayerResponse getPlayerResponse)
+        {
+            if (getPlayerResponse == null)
+                return;
+            
+            if (getPlayerResponse.Success){
+                client.Player.PlayerResponse = getPlayerResponse;
+                if (getPlayerResponse.Banned)
+                    Logger.Debug("Your account is banned");
+                if (getPlayerResponse.Warn)
+                    Logger.Debug("Your account is flagged");
+            }
+
+        }
+
         public static void Parse(Client client, RequestType requestType, ByteString data)
         {
             try
@@ -228,8 +245,6 @@ namespace PokemonGo.RocketAPI.Helpers
                         downloadSettingsResponse.MergeFrom(data);
                         client.SettingsHash = downloadSettingsResponse.Hash;
 
-                        break;
-                    default:
                         break;
                 }
             }

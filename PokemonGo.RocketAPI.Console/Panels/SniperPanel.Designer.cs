@@ -72,6 +72,7 @@ namespace PokeMaster
         private System.Windows.Forms.CheckBox checkBoxMinIVSnipe;
         private System.Windows.Forms.CheckBox checkBoxMinProbSnipe;
         private System.Windows.Forms.Label label10;
+        public System.Windows.Forms.CheckBox checkBoxSnipeWithPinap;
         
         /// <summary>
         /// Disposes resources used by the control.
@@ -153,6 +154,7 @@ namespace PokeMaster
             this.checkBoxSelectAll = new System.Windows.Forms.CheckBox();
             this.checkedListBox_ToSnipe = new System.Windows.Forms.CheckedListBox();
             this.timerAutoImport = new System.Windows.Forms.Timer(this.components);
+            this.checkBoxSnipeWithPinap = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PokemonImage)).BeginInit();
             this.groupBox2.SuspendLayout();
@@ -172,7 +174,7 @@ namespace PokeMaster
             this.AvoidRegionLock.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.AvoidRegionLock.AutoSize = true;
             this.AvoidRegionLock.Enabled = false;
-            this.AvoidRegionLock.Location = new System.Drawing.Point(15, 376);
+            this.AvoidRegionLock.Location = new System.Drawing.Point(15, 390);
             this.AvoidRegionLock.Margin = new System.Windows.Forms.Padding(4);
             this.AvoidRegionLock.Name = "AvoidRegionLock";
             this.AvoidRegionLock.Size = new System.Drawing.Size(177, 17);
@@ -459,7 +461,7 @@ namespace PokeMaster
             this.checkBoxSnipeTransfer.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.checkBoxSnipeTransfer.AutoSize = true;
             this.checkBoxSnipeTransfer.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.checkBoxSnipeTransfer.Location = new System.Drawing.Point(15, 351);
+            this.checkBoxSnipeTransfer.Location = new System.Drawing.Point(15, 365);
             this.checkBoxSnipeTransfer.Name = "checkBoxSnipeTransfer";
             this.checkBoxSnipeTransfer.Size = new System.Drawing.Size(192, 17);
             this.checkBoxSnipeTransfer.TabIndex = 97;
@@ -494,6 +496,7 @@ namespace PokeMaster
             this.textBoxPokemonsList.Size = new System.Drawing.Size(317, 20);
             this.textBoxPokemonsList.TabIndex = 105;
             this.textBoxPokemonsList.Text = "http://www.mypogosnipers.com/data/cache/free.txt";
+            this.textBoxPokemonsList.Leave += new System.EventHandler(this.textBoxPokemonsList_Leave);
             // 
             // label7
             // 
@@ -504,6 +507,7 @@ namespace PokeMaster
             this.label7.TabIndex = 104;
             this.label7.Text = "Minutes";
             this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.label7.DoubleClick += new System.EventHandler(this.label7_DoubleClick);
             // 
             // checkBox1
             // 
@@ -808,9 +812,22 @@ namespace PokeMaster
             this.timerAutoImport.Interval = 600000;
             this.timerAutoImport.Tick += new System.EventHandler(this.timerAutoImport_Tick);
             // 
+            // checkBoxSnipeWithPinap
+            // 
+            this.checkBoxSnipeWithPinap.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.checkBoxSnipeWithPinap.AutoSize = true;
+            this.checkBoxSnipeWithPinap.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.checkBoxSnipeWithPinap.Location = new System.Drawing.Point(15, 342);
+            this.checkBoxSnipeWithPinap.Name = "checkBoxSnipeWithPinap";
+            this.checkBoxSnipeWithPinap.Size = new System.Drawing.Size(139, 17);
+            this.checkBoxSnipeWithPinap.TabIndex = 102;
+            this.checkBoxSnipeWithPinap.Text = "Force using pinap berry.";
+            this.checkBoxSnipeWithPinap.UseVisualStyleBackColor = true;
+            // 
             // SniperPanel
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
+            this.Controls.Add(this.checkBoxSnipeWithPinap);
             this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.gbLocations);
             this.Controls.Add(this.checkBoxSnipeTransfer);
@@ -824,6 +841,7 @@ namespace PokeMaster
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "SniperPanel";
             this.Size = new System.Drawing.Size(759, 517);
+            this.Load += new System.EventHandler(this.SniperPanel_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PokemonImage)).EndInit();

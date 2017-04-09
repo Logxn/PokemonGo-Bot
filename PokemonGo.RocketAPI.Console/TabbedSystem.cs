@@ -3,6 +3,7 @@ using System.Windows.Forms;
 using System.Collections.Generic;
 using System.Device.Location;
 using POGOProtos.Networking.Responses;
+using PokeMaster.Logic.Utils;
 using PokemonGo.RocketAPI;
 using PokemonGo.RocketAPI.Helpers;
 using PokeMaster.Logic.Shared;
@@ -11,7 +12,6 @@ namespace PokeMaster
 {
     public partial class TabbedSystem : Form
     {
-        private static GetPlayerResponse profile;
         private static POGOProtos.Data.Player.PlayerStats stats;
         public static bool skipReadyToUse = false;
         private Helper.TranslatorHelper th = Helper.TranslatorHelper.getInstance();
@@ -56,7 +56,6 @@ namespace PokeMaster
             locationPanel1.Init(true, 0, 0, 0);
             Execute();
             sniperPanel1.Execute();
-            pokemonsPanel1.playerPanel1 = playerPanel1;
 
         }
 
@@ -79,15 +78,13 @@ namespace PokeMaster
                         RandomHelper.RandomSleep(5000, 5100);
                         client = Logic.Logic.objClient;
                     }
-                    profile = client.Player.GetPlayer();
                     RandomHelper.RandomSleep(1000, 1100); // Pause to simulate human speed.
-                    Text = "User: " + profile.PlayerData.Username;
+                    Text = "User: " + client.Player.PlayerResponse.PlayerData.Username;
                     var arrStats = client.Inventory.GetPlayerStats().GetEnumerator();
                     arrStats.MoveNext();
                     stats = arrStats.Current;
-                    locationPanel1.CreateBotMarker((int)profile.PlayerData.Team, stats.Level, stats.Experience);
-                    playerPanel1.setProfile(profile);
-                    //pokemonsPanel1.profile = profile;
+                    locationPanel1.CreateBotMarker((int)client.Player.PlayerResponse.PlayerData.Team, stats.Level, stats.Experience);
+                    //loggerPanel1.timer1.Enabled = true;
                 }
             } catch (Exception e) {
                 Logger.Error("[PokemonList-Error] " + e.StackTrace);
@@ -129,10 +126,10 @@ namespace PokeMaster
             TabPage current = (sender as TabControl).SelectedTab;
             switch (current.Name) {
                 case "tpPokemons":
-                    pokemonsPanel1.Execute(profile);
+                    pokemonsPanel1.Execute();
                     break;
                 case "tpItems":
-                    itemsPanel1.Execute(profile);
+                    itemsPanel1.Execute();
                     break;
                 case "tpEggs":
                     eggsPanel1.Execute();
@@ -152,7 +149,7 @@ namespace PokeMaster
         {
             if (TabControl1.Contains(tpWeb)) {
                 TabControl1.Controls.Remove(tpWeb);
-            }        	
+            }            
         }
         public void AddLink(object sender, EventArgs e)
         {

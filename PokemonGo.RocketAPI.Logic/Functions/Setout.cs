@@ -501,10 +501,12 @@ namespace PokeMaster.Logic.Functions
 
         private static void CheckLevelUp(Client client)
         {
-            var stats = client.Inventory.GetPlayerStats().First();
+            var stats = client.Inventory.GetPlayerStats().FirstOrDefault();
+            if (stats == null)
+                return;
             
-            if (stats.Level == 1 && stats.NextLevelXp == 1000)
-                client.Misc.MarkTutorialComplete();
+            //if (stats.Level == 1 && stats.NextLevelXp == 1000)
+            //    client.Misc.MarkTutorialComplete();
 
 
             if (level == -1) {
@@ -534,7 +536,9 @@ namespace PokeMaster.Logic.Functions
             var profile = client.Player.GetPlayer();
             var inventory = client.Inventory.GetInventory();
             var playerStats = client.Inventory.GetPlayerStats();
-            var stats = playerStats.First();
+            var stats = playerStats.FirstOrDefault();
+            if (stats == null)
+                return;
             var expneeded = stats.NextLevelXp - stats.PrevLevelXp - StringUtils.getExpDiff(stats.Level);
             var curexp = stats.Experience - stats.PrevLevelXp - StringUtils.getExpDiff(stats.Level);
             var curexppercent = Convert.ToDouble(curexp) / Convert.ToDouble(expneeded) * 100;

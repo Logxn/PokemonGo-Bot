@@ -25,22 +25,17 @@ namespace PokemonGo.RocketAPI.Login
             this.password = password;
         }
 
-#pragma warning disable 1998
         public async Task<string> GetAccessToken()
-#pragma warning restore 1998
         {
             var client = new GPSOAuthClient(email, password);
             Dictionary<string, string> response = null;
-            try
-            {
+            try{
                 response = client.PerformMasterLogin();
-            } catch (NullReferenceException)
-            {
-                throw new InvalidResponseException();
-            };
+            } catch (NullReferenceException){
+                return null;
+            }
 
-            if (response.ContainsValue("NeedsBrowser"))
-            {
+            if (response.ContainsValue("NeedsBrowser")){
                 Logger.Error("Your Google Account uses 2FA. Create a Password for the Application here:");
                 Logger.Error("https://security.google.com/settings/security/apppasswords");
                 Logger.Error("And use that for Login with Google.");
@@ -51,22 +46,27 @@ namespace PokemonGo.RocketAPI.Login
                 Thread.Sleep(Timeout.Infinite);
             }
 
-            if (response.ContainsKey("Error"))
-                throw new GoogleException(response["Error"]);
+            if (response.ContainsKey("Error")){
+                Logger.Error(response["Error"]);
+                return null;
+            }
 
             //Todo: captcha/2fa implementation
 
-            if (!response.ContainsKey("Auth"))
-                throw new GoogleOfflineException();
+            if (!response.ContainsKey("Auth")){
+                Logger.Error("Auth String not found.");
+                return null;
+            }
 
             var oauthResponse = client.PerformOAuth(response["Token"],
                 "audience:server:client_id:848232511240-7so421jotr2609rmqakceuu1luuq0ptb.apps.googleusercontent.com",
                 "com.nianticlabs.pokemongo",
                 "321187995bc7cdc2b5fc91b11a96e2baa8602c62");
 
-            if (!oauthResponse.ContainsKey("Auth"))
-                throw new GoogleOfflineException();
-
+            if (!oauthResponse.ContainsKey("Auth")){
+                Logger.Error("Auth String not found.");
+                return null;
+            }
             return oauthResponse["Auth"];
         }
     }

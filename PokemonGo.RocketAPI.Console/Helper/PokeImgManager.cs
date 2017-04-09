@@ -31,13 +31,13 @@ namespace PokeMaster
             return GetPokemonImagefromResource(pokemon, "35");
         }
 
-        public static Bitmap GetPokemonLargeImage(PokemonId pokemon)
+        public static Bitmap GetPokemonLargeImage(PokemonId pokemon, string special = "")
         {
             if (PokeMaster.Logic.Shared.GlobalVars.UseSpritesFolder)
             {
                 var bmp = new Bitmap(1,1);
-                DownloadSprite("PokemonGo.RocketAPI.Console/Sprites",path, ""+(int)pokemon);
-                var filename = System.IO.Path.Combine(path, ""+(int)pokemon+".png");
+                DownloadSprite("PokeMaster/Sprites",path, ""+(int)pokemon +special);
+                var filename = System.IO.Path.Combine(path, ""+(int)pokemon+special+".png");
                 if (System.IO.File.Exists(filename) && new System.IO.FileInfo( filename ).Length != 0)
                     bmp = new Bitmap(filename);
                 else{
@@ -51,13 +51,13 @@ namespace PokeMaster
             return GetPokemonImagefromResource(pokemon, "50");
         }
 
-        public static Bitmap GetPokemonVeryLargeImage(PokemonId pokemon)
+        public static Bitmap GetPokemonVeryLargeImage(PokemonId pokemon, string special = "")
         {
             if (PokeMaster.Logic.Shared.GlobalVars.UseSpritesFolder)
             {
                 var bmp = new Bitmap(1,1);
-                DownloadSprite("PokemonGo.RocketAPI.Console/Sprites",path, ""+(int)pokemon);
-                var filename = System.IO.Path.Combine(path, ""+(int)pokemon+".png");
+                DownloadSprite("PokeMaster/Sprites",path, ""+(int)pokemon+special);
+                var filename = System.IO.Path.Combine(path, ""+(int)pokemon+special+".png");
                 if (System.IO.File.Exists(filename) && new System.IO.FileInfo( filename ).Length != 0)
                     bmp = new Bitmap(filename);
                 else{

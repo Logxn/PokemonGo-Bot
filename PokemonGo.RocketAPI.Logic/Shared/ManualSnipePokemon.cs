@@ -27,5 +27,7 @@ namespace PokeMaster.Logic.Shared
         { get; set; }
         public bool TransferIt
         { get; set; }
+        public bool UsePinap 
+        { get; set; }
     }
 }

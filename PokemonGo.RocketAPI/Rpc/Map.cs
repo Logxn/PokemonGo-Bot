@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Linq;
 using Google.Protobuf;
 using POGOProtos.Map;
+using PokemonGo.RocketAPI.Exceptions;
 using PokemonGo.RocketAPI.Helpers;
 using POGOProtos.Networking.Requests;
 using POGOProtos.Networking.Requests.Messages;
@@ -81,29 +82,37 @@ namespace PokemonGo.RocketAPI.Rpc
                 RequestType = RequestType.GetMapObjects,
                 RequestMessage = getMapObjectsMessage.ToByteString()
             };
-
-            var request =  GetRequestBuilder().GetRequestEnvelope(CommonRequest.FillRequest(getMapObjectsRequest, Client));
-           
-            Tuple<GetMapObjectsResponse, CheckChallengeResponse, GetHatchedEggsResponse, GetInventoryResponse, CheckAwardedBadgesResponse, DownloadSettingsResponse, GetBuddyWalkedResponse> _getMapObjectsResponse =
-                await
-                    PostProtoPayload
-                        <Request, GetMapObjectsResponse, CheckChallengeResponse, GetHatchedEggsResponse, GetInventoryResponse,
-                            CheckAwardedBadgesResponse, DownloadSettingsResponse, GetBuddyWalkedResponse>(request).ConfigureAwait(false);
-
-            GetInventoryResponse getInventoryResponse = _getMapObjectsResponse.Item4;
-            CommonRequest.ProcessGetInventoryResponse(Client, getInventoryResponse);
-
-            DownloadSettingsResponse downloadSettingsResponse = _getMapObjectsResponse.Item6;
-            CommonRequest.ProcessDownloadSettingsResponse(Client, downloadSettingsResponse);
-
-            CheckChallengeResponse checkChallengeResponse = _getMapObjectsResponse.Item2;
-            CommonRequest.ProcessCheckChallengeResponse(Client, checkChallengeResponse);
-
-            // Here we refresh last time this request was done and cache
-            _lastGetMapRequest = DateTime.UtcNow;
-            _cachedGetMapResponse = _getMapObjectsResponse;
-
-            return _getMapObjectsResponse;
+            var tries = 0;
+            while ( tries <10){
+                try {
+                    var request =  GetRequestBuilder().GetRequestEnvelope(CommonRequest.FillRequest(getMapObjectsRequest, Client));
+                    var _getMapObjectsResponse =
+                        await
+                            PostProtoPayload
+                                <Request, GetMapObjectsResponse, CheckChallengeResponse, GetHatchedEggsResponse, GetInventoryResponse,
+                                    CheckAwardedBadgesResponse, DownloadSettingsResponse, GetBuddyWalkedResponse>(request).ConfigureAwait(false);
+                    GetInventoryResponse getInventoryResponse = _getMapObjectsResponse.Item4;
+                    CommonRequest.ProcessGetInventoryResponse(Client, getInventoryResponse);
+                    
+                    DownloadSettingsResponse downloadSettingsResponse = _getMapObjectsResponse.Item6;
+                    CommonRequest.ProcessDownloadSettingsResponse(Client, downloadSettingsResponse);
+                    
+                    CheckChallengeResponse checkChallengeResponse = _getMapObjectsResponse.Item2;
+                    CommonRequest.ProcessCheckChallengeResponse(Client, checkChallengeResponse);
+                    
+                    // Here we refresh last time this request was done and cache
+                    _lastGetMapRequest = DateTime.UtcNow;
+                    _cachedGetMapResponse = _getMapObjectsResponse;
+                    
+                    return _getMapObjectsResponse;
+                } catch (AccessTokenExpiredException) {
+                    Logger.Warning("Invalid Token. Retrying in 1 second");
+                    Task.Delay(1000).Wait();
+                }
+                tries ++;
+            }
+            Logger.Error("Too many tries. Returning");
+            return null;
         }
 
         public GetIncensePokemonResponse GetIncensePokemons()

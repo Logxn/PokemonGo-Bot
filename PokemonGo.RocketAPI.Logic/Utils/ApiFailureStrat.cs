@@ -143,6 +143,19 @@ namespace PokeMaster.Logic
         {
             
             _retryCount = 0;
+            
+            switch (response.StatusCode) {
+                case ResponseEnvelope.Types.StatusCode.OkRpcUrlInResponse:
+                    if (!string.IsNullOrEmpty(response.ApiUrl)){
+                        _session.ApiUrl = "https://" + response.ApiUrl + "/rpc";
+                        Logger.Debug("New Client.ApiUrl: " + _session.ApiUrl);
+                    }
+                    break;
+            }
+            if (response.AuthTicket != null){
+                _session.SetAuthTicket (response.AuthTicket);
+                Logger.Debug("Received AuthTicket: " + response.AuthTicket);
+            }
 
                 /*Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Accuracy: {request.Accuracy}");
                 //Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"--------------[AUTH INFO]-------------");
@@ -165,32 +178,26 @@ namespace PokeMaster.Logic
 
         public async Task<ApiOperation> HandleApiFailure(RequestEnvelope request, ResponseEnvelope response)
         {
-            if (_retryCount == 11)
+            if (_retryCount == 11){
+                Logger.Debug("Too many tries. Aborting");
                 return ApiOperation.Abort;
-
-            await Task.Delay(500).ConfigureAwait(false);
-            _retryCount++;
-
-            if (_retryCount % 5 == 0)
-            {
-                try
-                {
-                    DoLogin();
-                }
-                catch (PtcOfflineException)
-                {
-                    await Task.Delay(20000).ConfigureAwait(false);
-                }
-                catch (AccessTokenExpiredException)
-                {
-                    await Task.Delay(2000).ConfigureAwait(false);
-                }
-                catch (Exception ex) when (ex is InvalidResponseException || ex is TaskCanceledException)
-                {
-                    await Task.Delay(1000).ConfigureAwait(false);
-                }
             }
-
+            
+            switch (response.StatusCode) {
+                case ResponseEnvelope.Types.StatusCode.SessionInvalidated:
+                case ResponseEnvelope.Types.StatusCode.InvalidAuthToken:
+                    Logger.Debug("Invalid token");
+                    _session.AuthToken = null;
+                    await _session.Login.Reauthenticate().ConfigureAwait(false);
+                    throw new AccessTokenExpiredException();
+                case ResponseEnvelope.Types.StatusCode.Redirect:
+                    if (!string.IsNullOrEmpty(response.ApiUrl)){
+                        _session.ApiUrl = "https://" + response.ApiUrl + "/rpc";
+                        Logger.Debug("New Client.ApiUrl: " + _session.ApiUrl);
+                    }
+                    throw new AccessTokenExpiredException();
+            }
+            Logger.Debug($"{response.StatusCode}: Retrying. Try {_retryCount}.");
             return ApiOperation.Retry;
         }
     }
