@@ -54,6 +54,9 @@ namespace PokemonGo.RocketAPI.Rpc
                     return CachedInventory; 
                 } catch (AccessTokenExpiredException) {
                     Logger.Warning("Invalid Token. Retrying in 1 second");
+                    Client.Login.Reauthenticate().Wait();
+                    Task.Delay(1000).Wait();
+                } catch (RedirectException) {
                     Task.Delay(1000).Wait();
                 }
                 tries ++;
@@ -155,7 +158,10 @@ namespace PokemonGo.RocketAPI.Rpc
                         return response.Item1;
                 } catch (AccessTokenExpiredException) {
                     Logger.Warning("Invalid Token. Retrying in 1 second");
-                    Task.Delay(1000).Wait();
+                    await Client.Login.Reauthenticate().ConfigureAwait(false);
+                    await Task.Delay(1000).ConfigureAwait(false);;
+                } catch (RedirectException) {
+                    await Task.Delay(1000).ConfigureAwait(false);;
                 }
                 tries ++;
             }

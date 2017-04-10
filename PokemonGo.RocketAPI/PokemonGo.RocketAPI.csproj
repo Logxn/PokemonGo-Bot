@@ -142,6 +142,7 @@
     <Compile Include="Exceptions\HasherException.cs" />
     <Compile Include="Exceptions\LoginFailedException.cs" />
     <Compile Include="Exceptions\MinimumClientVersionException.cs" />
+    <Compile Include="Exceptions\RedirectException.cs" />
     <Compile Include="Hash\HashModel.cs" />
     <Compile Include="Hash\IHasher.cs" />
     <Compile Include="Hash\PokeHashHasher.cs" />

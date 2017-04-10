@@ -1,7 +1,4 @@
-
-
 using System;
-using System.Diagnostics;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Google.Protobuf;
@@ -21,7 +18,8 @@ namespace PokemonGo.RocketAPI.Extensions
 
     public interface IApiFailureStrategy
     {
-        Task<ApiOperation> HandleApiFailure(RequestEnvelope request, ResponseEnvelope response);
+        ApiOperation HandleApiFailure(RequestEnvelope request, ResponseEnvelope response);
+        
         void HandleApiSuccess(RequestEnvelope request, ResponseEnvelope response);
 
         void HandleCaptcha(string challengeUrl, ICaptchaResponseHandler captchaResponseHandler);
@@ -53,7 +51,7 @@ namespace PokemonGo.RocketAPI.Extensions
             while ((response = await PerformThrottledRemoteProcedureCall<TRequest>(client, url, requestEnvelope).ConfigureAwait(false)).Returns.Count !=
                    responseTypes.Length)
             {
-                var operation = await strategy.HandleApiFailure(requestEnvelope, response).ConfigureAwait(false);
+                var operation = strategy.HandleApiFailure(requestEnvelope, response);
                 if (operation == ApiOperation.Abort)
                 {
                     throw new InvalidResponseException(
@@ -82,7 +80,7 @@ namespace PokemonGo.RocketAPI.Extensions
             while (response.Returns.Count == 0)
             {
                 Logger.Debug("Handling Failure");
-                var operation = strategy.HandleApiFailure(requestEnvelope, response).Result;
+                var operation = strategy.HandleApiFailure(requestEnvelope, response);
 
                 if (operation == ApiOperation.Abort)
                     break;
@@ -147,9 +145,9 @@ namespace PokemonGo.RocketAPI.Extensions
         // RPC Calls need to be throttled 
         private static long lastRpc = 0;    // Starting at 0 to allow first RPC call to be done immediately
         private const int minDiff = 1000;   // Derived by trial-and-error. Up to 900 can cause server to complain.
-        private static ConcurrentQueue<RequestEnvelope> rpcQueue = new ConcurrentQueue<RequestEnvelope>();
-        private static ConcurrentDictionary<RequestEnvelope, ResponseEnvelope> responses = new ConcurrentDictionary<RequestEnvelope, ResponseEnvelope>();
-        private static Semaphore mutex = new Semaphore(1, 1);
+        private static readonly ConcurrentQueue<RequestEnvelope> rpcQueue = new ConcurrentQueue<RequestEnvelope>();
+        private static readonly ConcurrentDictionary<RequestEnvelope, ResponseEnvelope> responses = new ConcurrentDictionary<RequestEnvelope, ResponseEnvelope>();
+        private static readonly Semaphore mutex = new Semaphore(1, 1);
 
         public static async Task<ResponseEnvelope> PerformThrottledRemoteProcedureCall<TRequest>(this System.Net.Http.HttpClient client, string url, RequestEnvelope requestEnvelope) where TRequest : IMessage<TRequest>
         {
