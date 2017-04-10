@@ -57,7 +57,9 @@ namespace PokemonGo.RocketAPI.Rpc
                 }
             }
             Logger.Debug("AuthToken: "+ Client.AuthToken);
-            
+            await
+                FireRequestBlock(CommonRequest.GetPlayerMessageRequest())
+                    .ConfigureAwait(false);
         }
         public async Task DoLogin()
         {
@@ -68,8 +70,6 @@ namespace PokemonGo.RocketAPI.Rpc
             }
 
             Client.StartTime = Utils.GetTime(true);
-            
-            var deviceInfo = DeviceSetup.SelectedDevice.DeviceInfo;
 
             await RandomHelper.RandomDelay(1500).ConfigureAwait(false);
 
