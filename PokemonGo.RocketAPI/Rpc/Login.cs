@@ -47,6 +47,7 @@ namespace PokemonGo.RocketAPI.Rpc
         {
             var tries = 0;
             Client.AuthToken = null;
+            Client.AuthTicket = null;
             while (Client.AuthToken == null && tries <10)
             {
                 Client.AuthToken = await _login.GetAccessToken().ConfigureAwait(false);
@@ -57,9 +58,6 @@ namespace PokemonGo.RocketAPI.Rpc
                 }
             }
             Logger.Debug("AuthToken: "+ Client.AuthToken);
-            await
-                FireRequestBlock(CommonRequest.GetPlayerMessageRequest())
-                    .ConfigureAwait(false);
         }
         public async Task DoLogin()
         {

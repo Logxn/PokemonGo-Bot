@@ -50,7 +50,7 @@ namespace PokeMaster.Logic.Utils
             } catch (Exception e) {
                 Logger.ExceptionInfo(e.ToString());
             }
-            Logger.Info("Altitude: "+ altitude);
+            Logger.Debug("Altitude: "+ altitude);
             return altitude;
         }
         private static double GetRandom(double maximum, double minimum)
