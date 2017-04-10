@@ -57,7 +57,6 @@ namespace PokemonGo.RocketAPI.Rpc
                     await Task.Delay(1000).ConfigureAwait(false);
                 }
             }
-            Logger.Debug("AuthToken: "+ Client.AuthToken);
         }
         public async Task DoLogin()
         {
@@ -102,7 +101,6 @@ namespace PokemonGo.RocketAPI.Rpc
 
         public async Task FireRequestBlock(Request request)
         {
-            Logger.Debug("Client.ApiUrl: " + Client.ApiUrl);
             var requests = CommonRequest.AddChallengeRequest(request, Client);
 
             var serverRequest = GetRequestBuilder().GetRequestEnvelope(requests, true);
@@ -116,7 +114,6 @@ namespace PokemonGo.RocketAPI.Rpc
                 {
                     var unknownPtr8Response = UnknownPtr8Response.Parser.ParseFrom(mapPlatform.Response);
                     Resources.Api.UnknownPtr8Message = unknownPtr8Response.Message;
-                    Logger.Debug("Receiving unknownPtr8Response: " + unknownPtr8Response.Message);
                 }
             }
 
@@ -168,7 +165,6 @@ namespace PokemonGo.RocketAPI.Rpc
             var responses = serverResponse.Returns;
             if (responses != null)
             {
-                Logger.Debug("responses" + responses);
                 var getPlayerResponse = new GetPlayerResponse();
                 if (1 <= responses.Count)
                 {

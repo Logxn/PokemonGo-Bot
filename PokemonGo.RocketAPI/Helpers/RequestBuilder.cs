@@ -304,7 +304,6 @@ namespace PokemonGo.RocketAPI.Helpers
                 var plat8Message = new UnknownPtr8Request() {
                     Message = Resources.Api.UnknownPtr8Message
                 };
-                Logger.Debug("UnknownPtr8Message: " +  Resources.Api.UnknownPtr8Message);
     
                 _requestEnvelope.PlatformRequests.Add(new RequestEnvelope.Types.PlatformRequest() {
                     Type = PlatformRequestType.UnknownPtr8,

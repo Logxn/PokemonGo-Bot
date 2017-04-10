@@ -31,9 +31,25 @@ namespace PokeMaster.Logic.Utils
 
         public override string ToString()
         {
-            return "xp/h: " + Math.Round(_totalExperience / _getBottingSessionTime()).ToString("N0") 
+            return "xp/h: " + GetXP_H().ToString("N0") 
                 + " pokemon/h: " + Math.Round(_totalPokemons / _getBottingSessionTime()).ToString("N0") 
                 + " stardust/h: " + Math.Round(_totalStardust / _getBottingSessionTime()).ToString("N0");
+        }
+
+        public string ToString(double expleft)
+        {
+            return "xp/h: " + GetXP_H().ToString("N0") +" (TL:"+ GettimeLeft(expleft).ToString("dd.hh:mm")+")"
+                + " pokemon/h: " + Math.Round(_totalPokemons / _getBottingSessionTime()).ToString("N0") 
+                + " stardust/h: " + Math.Round(_totalStardust / _getBottingSessionTime()).ToString("N0");
+        }
+
+        private double GetXP_H(){
+            return Math.Round(_totalExperience / _getBottingSessionTime());
+        }
+
+        public TimeSpan GettimeLeft(double expleft)
+        {
+            return TimeSpan.FromMinutes(expleft/ GetXP_H() * 60);
         }
     }
 }

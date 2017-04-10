@@ -142,7 +142,7 @@ namespace PokeMaster.Logic.Functions
                 var incsense = inventory.FirstOrDefault(p => p.ItemId == ItemId.ItemIncenseOrdinary);
                 var loginterval = DateTime.Now - LastIncenselog;
                 Logger.Debug("loginterval: "+ loginterval);
-                Logger.Debug("lastincenseuse: "+ lastincenseuse);
+                Logger.Debug("last incense use: "+ lastincenseuse);
                 if (lastincenseuse > DateTime.Now.AddSeconds(5))
                 {
                     var duration = lastincenseuse - DateTime.Now;
@@ -452,7 +452,8 @@ namespace PokeMaster.Logic.Functions
             var curexp = stats.Experience - stats.PrevLevelXp - StringUtils.getExpDiff(stats.Level);
             var curexppercent = Convert.ToDouble(curexp) / Convert.ToDouble(expneeded) * 100;
 
-            if (startingXp == -10000) startingXp = stats.Experience;
+            if (Math.Abs(startingXp - -10000) < 0.001)
+                startingXp = stats.Experience;
 
             currentxp = stats.Experience;
 
@@ -471,11 +472,13 @@ namespace PokeMaster.Logic.Functions
             var currEXP = curexp.ToString("N0");
             var neededEXP = expneeded.ToString("N0");
             var expPercent = Math.Round(curexppercent, 2);
+            var expLeft = stats.NextLevelXp - stats.Experience;
+            var timeLeft = Logic.Instance.BotStats.GettimeLeft(expLeft).ToString("dd.hh:mm");
 
             client.ShowingStats = true;
             Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "-----------------------[PLAYER STATS]-----------------------");
             Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Level/EXP: {stats.Level} | {currEXP}/{neededEXP} ({expPercent}%)");
-            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"EXP to Level up: {(stats.NextLevelXp - stats.Experience)}");
+            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"EXP to Level up: {expLeft} (Time Left: {timeLeft})");
             Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"PokeStops visited: {stats.PokeStopVisits}");
             Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"KM Walked: {Math.Round(stats.KmWalked, 2)}");
             Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Pokemon: {pokemonCount}/{maxPokemonStorage} ({pokemonToEvolve} Evolvable)");
@@ -542,12 +545,13 @@ namespace PokeMaster.Logic.Functions
             var expneeded = stats.NextLevelXp - stats.PrevLevelXp - StringUtils.getExpDiff(stats.Level);
             var curexp = stats.Experience - stats.PrevLevelXp - StringUtils.getExpDiff(stats.Level);
             var curexppercent = Convert.ToDouble(curexp) / Convert.ToDouble(expneeded) * 100;
+            var expleft = expneeded -currentxp;
 
             string TitleText = profile.PlayerData.Username + @" Lvl " + stats.Level + @" (" +
-                (stats.Experience - stats.PrevLevelXp - StringUtils.getExpDiff(stats.Level)).ToString("N0") + @"/" +
-                (stats.NextLevelXp - stats.PrevLevelXp - StringUtils.getExpDiff(stats.Level)).ToString("N0") + @"|" +
+                (curexp).ToString("N0") + @"/" +
+                (expneeded).ToString("N0") + @"|" +
                 Math.Round(curexppercent, 2) + @"%) Stardust: " + profile.PlayerData.Currencies.ToArray()[1].Amount + @" " +
-                Logic.Instance.BotStats;
+                Logic.Instance.BotStats.ToString(expleft);
 
             if (!GlobalVars.EnableConsoleInTab) System.Console.Title = TitleText;
 

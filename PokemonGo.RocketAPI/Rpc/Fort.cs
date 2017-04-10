@@ -51,9 +51,6 @@ namespace PokemonGo.RocketAPI.Rpc
             var tries = 0;
             while ( tries <10){
                 try {
-                    Logger.Debug("Using ApiUrl:" + Client.ApiUrl);
-                    Logger.Debug("Using AuthToken:" + Client.AuthToken);
-                    Logger.Debug("Using AuthTicket:" + Client.AuthTicket);
                     var request = GetRequestBuilder().GetRequestEnvelope(CommonRequest.FillRequest(getFortRequest, Client));
         
                     Tuple<FortDetailsResponse, CheckChallengeResponse, GetHatchedEggsResponse, GetInventoryResponse, CheckAwardedBadgesResponse, DownloadSettingsResponse, GetBuddyWalkedResponse> response =
@@ -261,10 +258,7 @@ namespace PokemonGo.RocketAPI.Rpc
             var tries = 0;
             while ( tries <10){
                 try {
-                    Logger.Debug("Using ApiUrl:" + Client.ApiUrl);
-                    Logger.Debug("Using AuthToken:" + Client.AuthToken);
-                    Logger.Debug("Using AuthTicket:" + Client.AuthTicket);
-                    
+                   
                     var request = GetRequestBuilder().GetRequestEnvelope(CommonRequest.FillRequest(startGymBattleRequest, Client));
         
                     Tuple<StartGymBattleResponse, CheckChallengeResponse, GetHatchedEggsResponse, GetInventoryResponse, CheckAwardedBadgesResponse, DownloadSettingsResponse, GetBuddyWalkedResponse> response =
