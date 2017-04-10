@@ -33,7 +33,6 @@ namespace PokeMaster
         static string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
         static string devicePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Device");
         static string deviceinfo = Path.Combine(devicePath, "DeviceInfo.txt");
-        static string PokeDataPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "PokeData");
         static string logPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Logs");
         static string logs = Path.Combine(logPath, "PokeLog.txt");
         static string logmanualtransfer = Path.Combine(logPath, "TransferLog.txt");
@@ -107,15 +106,6 @@ namespace PokeMaster
                 th.TS("Lower than defenders CP")
             };
             comboBoxAttackers.SelectedIndex = 0;
-
-            var pokeData = new List<string>();
-            pokeData.Add("AdditionalPokeData.json");
-
-            if (!Directory.Exists(Program.path_pokedata))
-                Directory.CreateDirectory(Program.path_pokedata);
-
-            foreach (var extract in pokeData)
-                Extract("PokemonGo.RocketAPI.Console", Program.path_pokedata, "PokeData", extract);
 
             int i = 1;
             int ev = 1;

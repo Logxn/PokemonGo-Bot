@@ -209,7 +209,7 @@ namespace PokeMaster.Logic
 
             #region Fix Altitude
 
-            if (Math.Abs(objClient.CurrentAltitude) < double.Epsilon) {
+            if (Math.Abs(objClient.CurrentAltitude) < 0.001) {
                 objClient.CurrentAltitude = LocationUtils.GetAltitude(objClient.CurrentLatitude, objClient.CurrentLongitude);
                 BotSettings.DefaultAltitude = objClient.CurrentAltitude;
 
@@ -282,7 +282,7 @@ namespace PokeMaster.Logic
                 }
 
                 TelegramLogic.Stop();
-                var msToWait = 50000;
+                const int msToWait = 50000;
                 Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Restarting in over {(msToWait+5000)/1000} Seconds.");
                 RandomHelper.RandomSleep(msToWait,msToWait+10000);
             }
@@ -906,7 +906,7 @@ namespace PokeMaster.Logic
                             if (item.ItemId == ItemId.ItemPokeBall || item.ItemId == ItemId.ItemGreatBall || item.ItemId == ItemId.ItemUltraBall)
                             {
                                 logrestock = true;
-                                
+                                break;
                             }
                         }
 
@@ -1000,7 +1000,9 @@ namespace PokeMaster.Logic
             {
                 lastsearchtimestamp = (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds;
 
-                var mapObjectsResponse = objClient.Map.GetMapObjects().Result.Item1;
+                var mapObjectsResponse = objClient.Map.GetMapObjects().Result?.Item1;
+                if  (mapObjectsResponse == null)
+                    return false;
                 //narrow map data to pokestops within walking distance
                 var pokeStops = GetNearbyPokeStops(false, mapObjectsResponse);
                 var pokestopsWithinRangeStanding = pokeStops.Where(i => LocationUtils.CalculateDistanceInMeters(objClient.CurrentLatitude, objClient.CurrentLongitude, i.Latitude, i.Longitude) < 40);

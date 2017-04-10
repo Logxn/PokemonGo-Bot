@@ -37,6 +37,10 @@ namespace PokemonGo.RocketAPI.Rpc
             var tries = 0;
             while ( tries <10){
                 try {
+                    Logger.Debug("Using ApiUrl:" + Client.ApiUrl);
+                    Logger.Debug("Using AuthToken:" + Client.AuthToken);
+                    Logger.Debug("Using AuthTicket:" + Client.AuthTicket);
+                    
                     var requestEnvelops = GetRequestBuilder().GetPlatformRequestEnvelope(platfReq);
                     return Client.PokemonHttpClient.PostProtoPayload<TRequest, TResponsePayload>(Client.ApiUrl, requestEnvelops,
                                 Client.ApiFailure);
@@ -59,7 +63,11 @@ namespace PokemonGo.RocketAPI.Rpc
         {
             var tries = 0;
             while ( tries <10){
+                
                 try {
+                    Logger.Debug("Using ApiUrl:" + Client.ApiUrl);
+                    Logger.Debug("Using AuthToken:" + Client.AuthToken);
+                    Logger.Debug("Using AuthTicket:" + Client.AuthTicket);
                     var requestEnvelops = GetRequestBuilder().GetRequestEnvelope(type, message);
                     return Client.PokemonHttpClient.PostProtoPayload<TRequest, TResponsePayload>(Client.ApiUrl, requestEnvelops,
                                 Client.ApiFailure);

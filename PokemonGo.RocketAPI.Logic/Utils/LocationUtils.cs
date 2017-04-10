@@ -20,6 +20,7 @@ namespace PokeMaster.Logic.Utils
     {
         public static double GetAltitude(double lat, double lon)
         {
+            var altitude = GetRandom(11.0d, 8.6d);
             try {
                 if (GlobalVars.GoogleMapsAPIKey != "")
                     return GetAltitudeWithKEY(lat, lon, GlobalVars.GoogleMapsAPIKey);
@@ -30,7 +31,7 @@ namespace PokeMaster.Logic.Utils
                 while (tries > 0 && status.ToLower() != "ok") {
                     
                     var request = (HttpWebRequest)WebRequest.Create(
-                        string.Format("https://maps.googleapis.com/maps/api/elevation/json?locations={0},{1}"
+                                      string.Format("https://maps.googleapis.com/maps/api/elevation/json?locations={0},{1}"
                                       , point.Latitude.ToString(CultureInfo.InvariantCulture)
                                       , point.Longitude.ToString(CultureInfo.InvariantCulture)));
                     var response = (HttpWebResponse)request.GetResponse();
@@ -44,15 +45,13 @@ namespace PokeMaster.Logic.Utils
                 }
 
                 if (json.SelectToken("results[0].elevation") != null) {
-                    return (double)json.SelectToken("results[0].elevation");
-                } else { // if google not working
-                    return GetRandom(11.0d, 8.6d);
-                }
-            } catch (Exception) {
-
-                return  GetRandom(11.0d, 8.6d);
-                ;
+                    altitude = (double)json.SelectToken("results[0].elevation");
+                } 
+            } catch (Exception e) {
+                Logger.ExceptionInfo(e.ToString());
             }
+            Logger.Info("Altitude: "+ altitude);
+            return altitude;
         }
         private static double GetRandom(double maximum, double minimum)
         {
