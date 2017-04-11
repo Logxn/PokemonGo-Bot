@@ -473,7 +473,7 @@ namespace PokeMaster.Logic.Functions
             var neededEXP = expneeded.ToString("N0");
             var expPercent = Math.Round(curexppercent, 2);
             var expLeft = stats.NextLevelXp - stats.Experience;
-            var timeLeft = Logic.Instance.BotStats.GettimeLeft(expLeft).ToString("dd.hh:mm");
+            var timeLeft = Logic.Instance.BotStats.GettimeLeft(expLeft).ToString(@"dd\.hh\:mm");
 
             client.ShowingStats = true;
             Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "-----------------------[PLAYER STATS]-----------------------");

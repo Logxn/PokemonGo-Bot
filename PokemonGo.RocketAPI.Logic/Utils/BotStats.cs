@@ -38,7 +38,7 @@ namespace PokeMaster.Logic.Utils
 
         public string ToString(double expleft)
         {
-            return "xp/h: " + GetXP_H().ToString("N0") +" (TL:"+ GettimeLeft(expleft).ToString("dd.hh:mm")+")"
+            return "xp/h: " + GetXP_H().ToString("N0") +" (TL:"+ GettimeLeft(expleft).ToString(@"dd\.hh\:mm")+")"
                 + " pokemon/h: " + Math.Round(_totalPokemons / _getBottingSessionTime()).ToString("N0") 
                 + " stardust/h: " + Math.Round(_totalStardust / _getBottingSessionTime()).ToString("N0");
         }
