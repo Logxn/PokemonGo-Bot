@@ -396,7 +396,7 @@ namespace PokeMaster
         private static bool LoadLinks()
         {
             if (!File.Exists(linksFile)) {
-                DownloadHelper.DownloadFile("PokeMaster/Resources", Program.path, linksFileName);
+                DownloadHelper.DownloadFile("PokemonGo.RocketAPI.Console/Resources", Program.path, linksFileName);
             }
             if (File.Exists(linksFile)) {
                 links = JsonConvert.DeserializeObject<Components.HRefLink[]>(File.ReadAllText(linksFile));

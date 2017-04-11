@@ -195,13 +195,16 @@ namespace PokeMaster
 
         private void loadAdditionalPokeData()
         {
-            const string remotepath = @"PokeMaster\PokeData";
+            const string remotepath = "PokemonGo.RocketAPI.Console/PokeData";
             const string localpath = "Configs";
             const string filename = "AdditionalPokeData.json";
             try {
                 DownloadHelper.DownloadFile(remotepath,localpath,filename);
-                var jsonData = File.ReadAllText(Path.Combine(localpath,filename));
-                additionalPokeData = Newtonsoft.Json.JsonConvert.DeserializeObject<List<AdditionalPokeData>>(jsonData);
+                var localpath_with_filename = Path.Combine(localpath,filename);
+                if (File.Exists(localpath_with_filename)){
+                    var jsonData = File.ReadAllText(localpath_with_filename);
+                    additionalPokeData = Newtonsoft.Json.JsonConvert.DeserializeObject<List<AdditionalPokeData>>(jsonData);
+                }
             } catch (Exception ex1) {
                 Logger.ExceptionInfo(ex1.ToString());
             }

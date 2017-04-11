@@ -36,7 +36,7 @@ namespace PokeMaster
             if (PokeMaster.Logic.Shared.GlobalVars.UseSpritesFolder)
             {
                 var bmp = new Bitmap(1,1);
-                DownloadSprite("PokeMaster/Sprites",path, ""+(int)pokemon +special);
+                DownloadSprite("PokemonGo.RocketAPI.Console/Sprites",path, ""+(int)pokemon +special);
                 var filename = System.IO.Path.Combine(path, ""+(int)pokemon+special+".png");
                 if (System.IO.File.Exists(filename) && new System.IO.FileInfo( filename ).Length != 0)
                     bmp = new Bitmap(filename);
@@ -56,7 +56,7 @@ namespace PokeMaster
             if (PokeMaster.Logic.Shared.GlobalVars.UseSpritesFolder)
             {
                 var bmp = new Bitmap(1,1);
-                DownloadSprite("PokeMaster/Sprites",path, ""+(int)pokemon+special);
+                DownloadSprite("PokemonGo.RocketAPI.Console/Sprites",path, ""+(int)pokemon+special);
                 var filename = System.IO.Path.Combine(path, ""+(int)pokemon+special+".png");
                 if (System.IO.File.Exists(filename) && new System.IO.FileInfo( filename ).Length != 0)
                     bmp = new Bitmap(filename);

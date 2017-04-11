@@ -94,6 +94,7 @@ namespace PokeMaster.Logic
             switch (response.StatusCode) {
                 case ResponseEnvelope.Types.StatusCode.SessionInvalidated:
                 case ResponseEnvelope.Types.StatusCode.InvalidAuthToken:
+                case ResponseEnvelope.Types.StatusCode.InvalidPlatformRequest:
                     throw new AccessTokenExpiredException();
                 case ResponseEnvelope.Types.StatusCode.Redirect:
                     if (!string.IsNullOrEmpty(response.ApiUrl)){
