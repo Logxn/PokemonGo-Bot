@@ -409,7 +409,7 @@ namespace PokemonGo.RocketAPI.Rpc
             {
                 return pokemonList
                     .GroupBy(p => p.PokemonId)
-                    .Where(x => x.Count() > 0)
+                    .Where(x => x.Any())
                     .SelectMany(p => p.Where(x => x.Favorite == 0)
                     .OrderByDescending(PokemonInfo.CalculatePokemonPerfection)
                     .ThenBy(n => n.StaminaMax)
@@ -417,17 +417,14 @@ namespace PokemonGo.RocketAPI.Rpc
                     .ToList());
 
             }
-            else
-            {
-                return pokemonList
-                    .GroupBy(p => p.PokemonId)
-                    .Where(x => x.Count() > 0)
-                    .SelectMany(p => p.Where(x => x.Favorite == 0)
-                    .OrderByDescending(x => x.Cp)
-                    .ThenBy(n => n.StaminaMax)
-                    .Skip(holdMaxDoublePokemons)
-                    .ToList());
-            }
+            return pokemonList
+                .GroupBy(p => p.PokemonId)
+                .Where(x => x.Any())
+                .SelectMany(p => p.Where(x => x.Favorite == 0)
+                .OrderByDescending(x => x.Cp)
+                .ThenBy(n => n.StaminaMax)
+                .Skip(holdMaxDoublePokemons)
+                .ToList());
         }
         #endregion
 
@@ -538,7 +535,7 @@ namespace PokemonGo.RocketAPI.Rpc
                     if (File.Exists(pokelist_file))
                         File.Delete(pokelist_file);
                     string ls = System.Globalization.CultureInfo.CurrentCulture.TextInfo.ListSeparator;
-                    string header = "PokemonID,Name,NickName,CP / MaxCP,IV Perfection in %,Attack 1,Attack 2,HP,Attk,Def,Stamina,Familie Candies,IsInGym,IsFavorite,previewLink";
+                    const string header = "PokemonID,Name,NickName,CP / MaxCP,IV Perfection in %,Attack 1,Attack 2,HP,Attk,Def,Stamina,Familie Candies,IsInGym,IsFavorite,previewLink";
                     File.WriteAllText(pokelist_file, header.Replace(",", ls));
 
                     var AllPokemon =  GetHighestsPerfect();
@@ -562,10 +559,7 @@ namespace PokemonGo.RocketAPI.Rpc
                             string IsInGym = string.Empty;
                             string IsFavorite = string.Empty;
 
-                            if (pokemon.Favorite != 0)
-                                IsFavorite = "Yes";
-                            else
-                                IsFavorite = "No";
+                            IsFavorite = pokemon.Favorite != 0 ? "Yes" : "No";
 
                             var settings = pokemonSettings.SingleOrDefault(x => x.PokemonId == pokemon.PokemonId);
                             var familiecandies = pokemonFamilies.SingleOrDefault(x => settings.FamilyId == x.FamilyId).Candy_;

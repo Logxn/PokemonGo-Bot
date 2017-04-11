@@ -388,15 +388,15 @@ namespace PokeMaster.Logic.Functions
             var ret = new List<POGOProtos.Data.PokemonData> ((List<POGOProtos.Data.PokemonData> ) eggs);
             if(GlobalVars.No2kmEggsBasicInc)
             {
-                ret = ret.Where(x => x.EggKmWalkedTarget !=2).ToList();
+                ret = ret.Where(x => Math.Abs(x.EggKmWalkedTarget - 2) > 0.001).ToList();
             }
             if(GlobalVars.No5kmEggsBasicInc)
             {
-                ret = ret.Where(x => x.EggKmWalkedTarget !=5).ToList();
+                ret = ret.Where(x => Math.Abs(x.EggKmWalkedTarget - 5) > 0.001).ToList();
             }
             if(GlobalVars.No10kmEggsBasicInc)
             {
-                ret = ret.Where(x => x.EggKmWalkedTarget !=10).ToList();
+                ret = ret.Where(x => Math.Abs(x.EggKmWalkedTarget - 10) > 0.001).ToList();
             }
             return ret;
         }
@@ -406,15 +406,15 @@ namespace PokeMaster.Logic.Functions
             var ret = new List<POGOProtos.Data.PokemonData> ((List<POGOProtos.Data.PokemonData> ) eggs);
             if(GlobalVars.No2kmEggs)
             {
-                ret = ret.Where(x => x.EggKmWalkedTarget !=2).ToList();
+                ret = ret.Where(x => Math.Abs(x.EggKmWalkedTarget - 2) > 0.001).ToList();
             }
             if(GlobalVars.No5kmEggs)
             {
-                ret = ret.Where(x => x.EggKmWalkedTarget !=5).ToList();
+                ret = ret.Where(x => Math.Abs(x.EggKmWalkedTarget - 5) > 0.001).ToList();
             }
             if(GlobalVars.No10kmEggs)
             {
-                ret = ret.Where(x => x.EggKmWalkedTarget !=10).ToList();
+                ret = ret.Where(x => Math.Abs(x.EggKmWalkedTarget - 10) > 0.001).ToList();
             }
             return ret;
         }
@@ -581,24 +581,18 @@ namespace PokeMaster.Logic.Functions
 
                 if (GlobalVars.TimeToRun > 0)
                 {
-                    if (timetorunstamp == -10000)
-                    {
+                    if (Math.Abs((timetorunstamp + 10000)) < 0.001) {
                         timetorunstamp = GlobalVars.TimeToRun * 60 * 1000 + (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds;
-                    }
-                    else
-                    {
+                    } else {
                         var runTimeRemaining = timetorunstamp - (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds;
                         var remainingTime = Math.Round(runTimeRemaining / 1000 / 60, 2);
-                        if (runTimeRemaining <= 0)
-                        {
+                        if (runTimeRemaining <= 0) {
                             Logger.ColoredConsoleWrite(ConsoleColor.Red, "Time To Run Reached or Exceeded...Walking back to default location and stopping bot");
 
                             Logic.Instance.WalkWithRouting(GlobalVars.latitude, GlobalVars.longitude);
 
                             LimitReached("Time to Run");
-                        }
-                        else
-                        {
+                        } else {
                             Logger.ColoredConsoleWrite(ConsoleColor.Blue, $"Remaining Time to Run: {remainingTime} minutes");
                         }
                     }
@@ -626,8 +620,7 @@ namespace PokeMaster.Logic.Functions
                             Logger.ColoredConsoleWrite(ConsoleColor.Blue, $"Remaining Time until break: {Math.Round(walkTimeRemaining / 1000 / 60, 2)} minutes");
                         }
                     }
-                    else if (resumetimestamp == -10000)
-                    {
+                    else if (Math.Abs(resumetimestamp + 10000) < 0.001) {
                         pausetimestamp = (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds + GlobalVars.BreakInterval * 60 * 1000;
 
                         Logger.ColoredConsoleWrite(ConsoleColor.Blue, $"Remaining Time until break: {GlobalVars.BreakInterval} minutes");
@@ -711,7 +704,7 @@ namespace PokeMaster.Logic.Functions
 
                 #region XP Check
 
-                if (startingXp != -10000 && currentxp != -10000 && (currentxp = -startingXp) >= GlobalVars.XPFarmedLimit)
+                if (Math.Abs(startingXp + 10000) > 0.001 && Math.Abs(currentxp + 10000) > 0.001 && (currentxp = -startingXp) >= GlobalVars.XPFarmedLimit)
                 {
                     Logger.ColoredConsoleWrite(ConsoleColor.Green, "XP Farmed Limit Reached - Bot will return to default location and stop");
 
