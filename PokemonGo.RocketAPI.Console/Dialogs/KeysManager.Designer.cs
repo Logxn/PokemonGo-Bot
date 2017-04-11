@@ -14,11 +14,13 @@ namespace PokeMaster.Dialogs
         /// Designer variable used to keep track of non-visual components.
         /// </summary>
         private System.ComponentModel.IContainer components = null;
-        private System.Windows.Forms.ListBox listBox1;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Button buttonAdd;
         private System.Windows.Forms.Button buttonAcept;
         private System.Windows.Forms.Button buttonDelete;
+        private System.Windows.Forms.ListView listView;
+        private System.Windows.Forms.ColumnHeader chKey;
+        private System.Windows.Forms.ColumnHeader chExpiration;
         
         /// <summary>
         /// Disposes resources used by the form.
@@ -41,24 +43,14 @@ namespace PokeMaster.Dialogs
         /// </summary>
         private void InitializeComponent()
         {
-            this.listBox1 = new System.Windows.Forms.ListBox();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.buttonAdd = new System.Windows.Forms.Button();
             this.buttonAcept = new System.Windows.Forms.Button();
             this.buttonDelete = new System.Windows.Forms.Button();
+            this.listView = new System.Windows.Forms.ListView();
+            this.chKey = new System.Windows.Forms.ColumnHeader();
+            this.chExpiration = new System.Windows.Forms.ColumnHeader();
             this.SuspendLayout();
-            // 
-            // listBox1
-            // 
-            this.listBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.listBox1.FormattingEnabled = true;
-            this.listBox1.Location = new System.Drawing.Point(12, 12);
-            this.listBox1.Name = "listBox1";
-            this.listBox1.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this.listBox1.Size = new System.Drawing.Size(400, 173);
-            this.listBox1.TabIndex = 0;
             // 
             // textBox1
             // 
@@ -102,16 +94,45 @@ namespace PokeMaster.Dialogs
             this.buttonDelete.UseVisualStyleBackColor = true;
             this.buttonDelete.Click += new System.EventHandler(this.buttonDelete_Click);
             // 
+            // listView
+            // 
+            this.listView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.listView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.chKey,
+            this.chExpiration});
+            this.listView.FullRowSelect = true;
+            this.listView.GridLines = true;
+            this.listView.Location = new System.Drawing.Point(13, 13);
+            this.listView.Margin = new System.Windows.Forms.Padding(4);
+            this.listView.Name = "listView";
+            this.listView.Size = new System.Drawing.Size(398, 167);
+            this.listView.TabIndex = 88;
+            this.listView.UseCompatibleStateImageBehavior = false;
+            this.listView.View = System.Windows.Forms.View.Details;
+            this.listView.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.listView_ColumnClick);
+            // 
+            // chKey
+            // 
+            this.chKey.Text = "Key";
+            this.chKey.Width = 160;
+            // 
+            // chExpiration
+            // 
+            this.chExpiration.Text = "Expires at";
+            this.chExpiration.Width = 160;
+            // 
             // KeysManager
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(424, 248);
+            this.Controls.Add(this.listView);
             this.Controls.Add(this.buttonDelete);
             this.Controls.Add(this.buttonAcept);
             this.Controls.Add(this.buttonAdd);
             this.Controls.Add(this.textBox1);
-            this.Controls.Add(this.listBox1);
             this.Name = "KeysManager";
             this.Text = "KeysManager";
             this.ResumeLayout(false);
