@@ -463,7 +463,7 @@ namespace PokeMaster.Logic
             var both = pokeStops.Concat(pokeGyms)
                 .OrderBy(i => LocationUtils.CalculateDistanceInMeters(objClient.CurrentLatitude, objClient.CurrentLongitude, i.Latitude, i.Longitude));
 
-            var forts = navigation.pathByNearestNeighbour(both.ToArray(), BotSettings.WalkingSpeedInKilometerPerHour);
+            var forts = Navigation.pathByNearestNeighbour(both.ToArray());
 
             if (updateMap) {
                 if (pokeStops.Any())
@@ -520,7 +520,6 @@ namespace PokeMaster.Logic
 
                     if (distance1 > 31 && FailedSoftban < 2)
                     {
-                        //Logger.ColoredConsoleWrite(ConsoleColor.Green, "Pokestop mas: " + distance.ToString());
                         continue; //solo agarrar los pokestop que esten a menos de 30 metros
                     }
                 }

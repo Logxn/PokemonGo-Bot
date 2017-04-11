@@ -49,7 +49,8 @@ namespace PokeMaster.Logic.Utils
 
         public TimeSpan GettimeLeft(double expleft)
         {
-            return TimeSpan.FromMinutes(expleft/ GetXP_H() * 60);
+            var xph = GetXP_H();
+            return xph > 0 ? TimeSpan.FromMinutes(expleft / xph*60) : TimeSpan.FromMinutes( 0);
         }
     }
 }
