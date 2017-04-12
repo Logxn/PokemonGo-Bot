@@ -120,13 +120,14 @@ namespace PokemonGo.RocketAPI.Rpc
             switch (serverResponse.StatusCode)
             {
                 case ResponseEnvelope.Types.StatusCode.SessionInvalidated:
-                    Logger.Debug("Invalid session.");
-                    Client.AuthToken = null;
-                    throw new AccessTokenExpiredException();
                 case ResponseEnvelope.Types.StatusCode.InvalidAuthToken:
                     Logger.Debug("Invalid token.");
                     Client.AuthToken = null;
                     throw new AccessTokenExpiredException();
+                case ResponseEnvelope.Types.StatusCode.InvalidPlatformRequest:
+                    Logger.Debug("Invalid Platform.");
+                    Client.AuthToken = null;
+                    throw new InvalidPlatformException();
                 case ResponseEnvelope.Types.StatusCode.Redirect:
                     // 53 means that the api_endpoint was not correctly set, should be at this point, though, so redo the request
                     if (!string.IsNullOrEmpty(serverResponse.ApiUrl)){
@@ -150,8 +151,6 @@ namespace PokemonGo.RocketAPI.Rpc
                     }
                     break;
                 case ResponseEnvelope.Types.StatusCode.InvalidRequest:
-                    break;
-                case ResponseEnvelope.Types.StatusCode.InvalidPlatformRequest:
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();

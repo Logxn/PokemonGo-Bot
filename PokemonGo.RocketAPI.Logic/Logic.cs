@@ -304,6 +304,10 @@ namespace PokeMaster.Logic
             {
                 throw new AccessTokenExpiredException();
             }
+            catch (InvalidPlatformException)
+            {
+                throw new InvalidPlatformException();
+            }
             catch (Exception ex)
             {
                 Logger.Error($"Exception: {ex}");

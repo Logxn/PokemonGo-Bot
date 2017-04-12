@@ -110,6 +110,10 @@ namespace PokemonGo.RocketAPI.Rpc
                     Logger.Warning("Invalid Token. Retrying in 1 second");
                     await Client.Login.Reauthenticate().ConfigureAwait(false);
                     await Task.Delay(1000).ConfigureAwait(false);
+                } catch (InvalidPlatformException) {
+                    Logger.Warning("Invalid Platform. Retrying in 1 second");
+                    Client.Login.DoLogin().Wait();
+                    Task.Delay(1000).Wait();
                 } catch (RedirectException) {
                     await Task.Delay(1000).ConfigureAwait(false);
                 }
