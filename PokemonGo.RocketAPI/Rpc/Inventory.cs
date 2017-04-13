@@ -46,26 +46,9 @@ namespace PokemonGo.RocketAPI.Rpc
             }
              // If forceRequest is default/FALSE and last request made more than _minSecondsBetweenInventoryCalls seconds ago, 
             // we make the call and also update _cachedInventory
-            var tries = 0;
-            while (tries <10){
-                try {
-                    _lastInventoryRequest = DateTime.UtcNow;
-                    CachedInventory =  PostProtoPayload<Request, GetInventoryResponse>(RequestType.GetInventory, new GetInventoryMessage());
-                    return CachedInventory; 
-                } catch (AccessTokenExpiredException) {
-                    Logger.Warning("Invalid Token. Retrying in 1 second");
-                    Client.Login.Reauthenticate().Wait();
-                    Task.Delay(1000).Wait();
-                } catch (InvalidPlatformException) {
-                    Logger.Warning("Invalid Platform. Retrying in 1 second");
-                    Client.Login.DoLogin().Wait();
-                    Task.Delay(1000).Wait();
-                } catch (RedirectException) {
-                    Task.Delay(1000).Wait();
-                }
-                tries ++;
-            }
-            return CachedInventory;
+            _lastInventoryRequest = DateTime.UtcNow;
+            CachedInventory =  PostProtoPayload<Request, GetInventoryResponse>(RequestType.GetInventory, new GetInventoryMessage());
+            return CachedInventory; 
         }
 
         public IEnumerable<ItemData> GetItemsOld(bool forceRequest = false)
@@ -129,7 +112,7 @@ namespace PokemonGo.RocketAPI.Rpc
 
         public async Task<RecycleInventoryItemResponse> RecycleItem(ItemId itemId, int amount)
         {
-            var recycleItemRequest = new Request
+            var request = new Request
             {
                 RequestType = RequestType.RecycleInventoryItem,
                 RequestMessage = ((IMessage)new RecycleInventoryItemMessage
@@ -138,48 +121,7 @@ namespace PokemonGo.RocketAPI.Rpc
                     Count = amount
                 }).ToByteString()
             };
-
-            var tries = 0;
-            while ( tries <10){
-                try {
-                    Logger.Debug("Using ApiUrl:" + Client.ApiUrl);
-                    Logger.Debug("Using AuthToken:" + Client.AuthToken);
-                    Logger.Debug("Using AuthTicket:" + Client.AuthTicket);
-                    
-                        var request = GetRequestBuilder().GetRequestEnvelope(CommonRequest.FillRequest(recycleItemRequest, Client));
-            
-                        Tuple<RecycleInventoryItemResponse, CheckChallengeResponse, GetHatchedEggsResponse, GetInventoryResponse, CheckAwardedBadgesResponse, DownloadSettingsResponse, GetBuddyWalkedResponse> response =
-                            await
-                                PostProtoPayload
-                                    <Request, RecycleInventoryItemResponse, CheckChallengeResponse, GetHatchedEggsResponse, GetInventoryResponse,
-                                        CheckAwardedBadgesResponse, DownloadSettingsResponse, GetBuddyWalkedResponse>(request).ConfigureAwait(false);
-            
-                        CheckChallengeResponse checkChallengeResponse = response.Item2;
-                        CommonRequest.ProcessCheckChallengeResponse(Client, checkChallengeResponse);
-            
-                        GetInventoryResponse getInventoryResponse = response.Item4;
-                        CommonRequest.ProcessGetInventoryResponse(Client, getInventoryResponse);
-            
-                        DownloadSettingsResponse downloadSettingsResponse = response.Item6;
-                        CommonRequest.ProcessDownloadSettingsResponse(Client, downloadSettingsResponse);
-            
-                        return response.Item1;
-                } catch (AccessTokenExpiredException) {
-                    Logger.Warning("Invalid Token. Retrying in 1 second");
-                    await Client.Login.Reauthenticate().ConfigureAwait(false);
-                    await Task.Delay(1000).ConfigureAwait(false);;
-                } catch (InvalidPlatformException) {
-                    Logger.Warning("Invalid Platform. Retrying in 1 second");
-                    Client.Login.DoLogin().Wait();
-                    Task.Delay(1000).Wait();
-                } catch (RedirectException) {
-                    await Task.Delay(1000).ConfigureAwait(false);;
-                }
-                tries ++;
-            }
-            Logger.Error("Too many tries. Returning");
-            return null;
-
+            return await PostProtoPayloadCommonR<Request, RecycleInventoryItemResponse>(request);
         }
 
         public UseItemXpBoostResponse UseItemXpBoost(ItemId item)

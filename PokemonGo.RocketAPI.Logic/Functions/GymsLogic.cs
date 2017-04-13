@@ -158,7 +158,7 @@ namespace PokeMaster.Logic.Functions
         private static FortData[] GetNearbyGyms()
         {
             LocationUtils.updatePlayerLocation(Logic.objClient, Logic.objClient.CurrentLatitude, Logic.objClient.CurrentLongitude, Logic.objClient.CurrentAltitude);
-            var mapObjectsResponse = Logic.objClient.Map.GetMapObjects().Result.Item1;
+            var mapObjectsResponse = Logic.objClient.Map.GetMapObjects().Result;
             
             var pokeGyms1 = mapObjectsResponse.MapCells.SelectMany(i => i.Forts)
                 .Where(i => i.Type == FortType.Gym);

@@ -929,7 +929,7 @@ namespace PokeMaster
             if (selectedPokemon.DeployedFortId=="")
                 return;
 
-            var forts = client.Map.GetMapObjects().Result.Item1;
+            var forts = client.Map.GetMapObjects().Result;
             var pokeGym = forts.MapCells.SelectMany(i => i.Forts)
                 .FirstOrDefault(i => i.Id == selectedPokemon.DeployedFortId );
 

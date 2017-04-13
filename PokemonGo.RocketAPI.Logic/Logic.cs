@@ -449,20 +449,20 @@ namespace PokeMaster.Logic
 
             //Query nearby objects for mapData
             if (mapObjectsResponse == null)
-                mapObjectsResponse = objClient.Map.GetMapObjects().Result.Item1;
+                mapObjectsResponse = objClient.Map.GetMapObjects().Result;
 
             //narrow map data to pokestops within walking distance
-            
+
             var unixNow = (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds;
-            
+
             var pokeStops = mapObjectsResponse.MapCells.SelectMany(i => i.Forts)
                 .Where(i => i.Type == FortType.Checkpoint && i.CooldownCompleteTimestampMs < unixNow);
 
-            var pokeGyms = mapObjectsResponse.MapCells.SelectMany(i => i.Forts)
-                .Where(i => i.Type == FortType.Gym && i.CooldownCompleteTimestampMs < unixNow);
+            IEnumerable<FortData> pokeGyms = new List<FortData>();
 
-            if (!GlobalVars.Gyms.Farm)
-                pokeGyms = new List<FortData>();
+            if (GlobalVars.Gyms.Farm)
+               pokeGyms = mapObjectsResponse.MapCells.SelectMany(i => i.Forts)
+                .Where(i => i.Type == FortType.Gym && i.CooldownCompleteTimestampMs < unixNow);
 
             var both = pokeStops.Concat(pokeGyms)
                 .OrderBy(i => LocationUtils.CalculateDistanceInMeters(objClient.CurrentLatitude, objClient.CurrentLongitude, i.Latitude, i.Longitude));
@@ -999,11 +999,18 @@ namespace PokeMaster.Logic
             {
                 return false;
             }
+            if ( GlobalVars.ForceReloginClick)
+            {
+                GlobalVars.ForceReloginClick = false;
+                Logger.Info("Forcing Relogin");
+                RandomHelper.RandomDelay(1000).Wait();
+                objClient.Login.DoLogin().Wait();
+            }
             if ((long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds > lastsearchtimestamp + 10000)
             {
                 lastsearchtimestamp = (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds;
 
-                var mapObjectsResponse = objClient.Map.GetMapObjects().Result?.Item1;
+                var mapObjectsResponse = objClient.Map.GetMapObjects().Result;
                 if  (mapObjectsResponse == null)
                     return false;
                 //narrow map data to pokestops within walking distance

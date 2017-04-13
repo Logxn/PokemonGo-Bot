@@ -25,14 +25,11 @@ namespace PokemonGo.RocketAPI.Rpc
         private DateTime _lastGetMapRequest;
         private const int _minSecondsBetweenMapCalls = 20;
         
-        public Tuple<GetMapObjectsResponse, CheckChallengeResponse, GetHatchedEggsResponse, GetInventoryResponse, CheckAwardedBadgesResponse, DownloadSettingsResponse, GetBuddyWalkedResponse> _cachedGetMapResponse;
+        public GetMapObjectsResponse _cachedGetMapResponse;
 
         public async
             Task
-                <
-                    Tuple
-                        <GetMapObjectsResponse, CheckChallengeResponse, GetHatchedEggsResponse, GetInventoryResponse, CheckAwardedBadgesResponse,
-                            DownloadSettingsResponse, GetBuddyWalkedResponse>> GetMapObjects(bool forceRequest = false)
+                <GetMapObjectsResponse> GetMapObjects(bool forceRequest = false)
         {
             // In case we did last _minSecondsBetweenMapCalls before, we return the cached response
             if (_lastGetMapRequest.AddSeconds(_minSecondsBetweenMapCalls).Ticks > DateTime.UtcNow.Ticks && !forceRequest)
@@ -77,50 +74,13 @@ namespace PokemonGo.RocketAPI.Rpc
 
             #endregion
 
-            var getMapObjectsRequest = new Request
+            var request = new Request
             {
                 RequestType = RequestType.GetMapObjects,
                 RequestMessage = getMapObjectsMessage.ToByteString()
             };
-            var tries = 0;
-            while ( tries <10){
-                try {
-                   
-                    var request =  GetRequestBuilder().GetRequestEnvelope(CommonRequest.FillRequest(getMapObjectsRequest, Client));
-                    var _getMapObjectsResponse =
-                        await
-                            PostProtoPayload
-                                <Request, GetMapObjectsResponse, CheckChallengeResponse, GetHatchedEggsResponse, GetInventoryResponse,
-                                    CheckAwardedBadgesResponse, DownloadSettingsResponse, GetBuddyWalkedResponse>(request).ConfigureAwait(false);
-                    GetInventoryResponse getInventoryResponse = _getMapObjectsResponse.Item4;
-                    CommonRequest.ProcessGetInventoryResponse(Client, getInventoryResponse);
-                    
-                    DownloadSettingsResponse downloadSettingsResponse = _getMapObjectsResponse.Item6;
-                    CommonRequest.ProcessDownloadSettingsResponse(Client, downloadSettingsResponse);
-                    
-                    CheckChallengeResponse checkChallengeResponse = _getMapObjectsResponse.Item2;
-                    CommonRequest.ProcessCheckChallengeResponse(Client, checkChallengeResponse);
-                    
-                    // Here we refresh last time this request was done and cache
-                    _lastGetMapRequest = DateTime.UtcNow;
-                    _cachedGetMapResponse = _getMapObjectsResponse;
-                    
-                    return _getMapObjectsResponse;
-                } catch (AccessTokenExpiredException) {
-                    Logger.Warning("Invalid Token. Retrying in 1 second");
-                    await Client.Login.Reauthenticate().ConfigureAwait(false);
-                    await Task.Delay(1000).ConfigureAwait(false);
-                } catch (InvalidPlatformException) {
-                    Logger.Warning("Invalid Platform. Retrying in 1 second");
-                    Client.Login.DoLogin().Wait();
-                    Task.Delay(1000).Wait();
-                } catch (RedirectException) {
-                    await Task.Delay(1000).ConfigureAwait(false);
-                }
-                tries ++;
-            }
-            Logger.Error("Too many tries. Returning");
-            return null;
+            return await PostProtoPayloadCommonR<Request, GetMapObjectsResponse>(request);
+
         }
 
         public GetIncensePokemonResponse GetIncensePokemons()

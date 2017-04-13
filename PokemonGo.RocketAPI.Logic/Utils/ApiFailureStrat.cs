@@ -86,7 +86,7 @@ namespace PokeMaster.Logic
 
         public ApiOperation HandleApiFailure(RequestEnvelope request, ResponseEnvelope response)
         {
-            if (_retryCount == 11){
+            if (_retryCount == 5){
                 Logger.Debug("Too many tries. Aborting");
                 return ApiOperation.Abort;
             }

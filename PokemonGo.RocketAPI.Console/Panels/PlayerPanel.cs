@@ -278,7 +278,7 @@ namespace PokeMaster
                 // Simulate to enter in a gym before select a team.
                 var client = Logic.Logic.objClient;
                 var mapObjects = client.Map.GetMapObjects().Result;
-                var mapCells = mapObjects.Item1.MapCells;
+                var mapCells = mapObjects.MapCells;
 
                 var pokeGyms = mapCells.SelectMany(i => i.Forts)
                     .Where(i => i.Type == FortType.Gym );

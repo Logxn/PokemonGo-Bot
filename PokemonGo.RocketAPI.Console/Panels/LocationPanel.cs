@@ -107,7 +107,7 @@ namespace PokeMaster
             if (client.ReadyToUse) {
                 Logger.ColoredConsoleWrite(ConsoleColor.DarkRed, "Refreshing Forts", LogLevel.Warning);
                 var mapObjects = await client.Map.GetMapObjects().ConfigureAwait(false);
-                var mapCells = mapObjects.Item1.MapCells;
+                var mapCells = mapObjects.MapCells;
                 var pokeStops =
                     mapCells.SelectMany(i => i.Forts)
                 .Where(

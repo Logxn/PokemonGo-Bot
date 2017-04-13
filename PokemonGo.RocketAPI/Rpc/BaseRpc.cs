@@ -3,6 +3,7 @@
 using System;
 using System.Threading.Tasks;
 using Google.Protobuf;
+using POGOProtos.Networking.Responses;
 using PokemonGo.RocketAPI.Exceptions;
 using PokemonGo.RocketAPI.Extensions;
 using PokemonGo.RocketAPI.Helpers;
@@ -35,19 +36,21 @@ namespace PokemonGo.RocketAPI.Rpc
             where TResponsePayload : IMessage<TResponsePayload>, new()
         {
             var tries = 0;
-            while ( tries <10){
+            while ( tries <3){
                 try {
                     var requestEnvelops = GetRequestBuilder().GetPlatformRequestEnvelope(platfReq);
                     return Client.PokemonHttpClient.PostProtoPayload<TRequest, TResponsePayload>(Client.ApiUrl, requestEnvelops,
                                 Client.ApiFailure);
                 } catch (AccessTokenExpiredException) {
                     Logger.Warning("Invalid Token. Retrying in 1 second");
-                    Client.Login.Reauthenticate().Wait();
                     Task.Delay(1000).Wait();
+                    Client.Login.DoLogin().Wait();
+                    //Client.Login.Reauthenticate().Wait();
+                    //Task.Delay(1000).Wait();
                 } catch (InvalidPlatformException) {
                     Logger.Warning("Invalid Platform. Retrying in 1 second");
-                    Client.Login.DoLogin().Wait();
                     Task.Delay(1000).Wait();
+                    Client.Login.DoLogin().Wait();
                 } catch (RedirectException) {
                     Task.Delay(1000).Wait();
                 }
@@ -62,7 +65,7 @@ namespace PokemonGo.RocketAPI.Rpc
             where TResponsePayload : IMessage<TResponsePayload>, new()
         {
             var tries = 0;
-            while ( tries <10){
+            while ( tries <3){
                 
                 try {
                     var requestEnvelops = GetRequestBuilder().GetRequestEnvelope(type, message);
@@ -184,6 +187,42 @@ namespace PokemonGo.RocketAPI.Rpc
                 await
                     Client.PokemonHttpClient.PostProtoPayload<TRequest>(Client.ApiUrl, requestEnvelope,
                         Client.ApiFailure, responseTypes).ConfigureAwait(false);
+        }
+
+        public async Task<T1> PostProtoPayloadCommonR<TRequest,T1>(Request request) 
+            where TRequest : IMessage<TRequest>
+            where T1 : class, IMessage<T1>, new()
+        {
+            var tries = 0;
+            while ( tries <3){
+                try {
+                       var requestEnvelope = GetRequestBuilder().GetRequestEnvelope(CommonRequest.FillRequest(request, Client));
+                        var response =
+                            await
+                            PostProtoPayload<TRequest>(requestEnvelope,typeof(T1)
+                                        , typeof(CheckChallengeResponse), typeof(GetHatchedEggsResponse)
+                                        , typeof(GetInventoryResponse), typeof(CheckAwardedBadgesResponse)
+                                        , typeof(DownloadSettingsResponse), typeof(GetBuddyWalkedResponse)
+                                                      ).ConfigureAwait(false);
+                        CommonRequest.ProcessCheckChallengeResponse(Client, response[1] as  CheckChallengeResponse);
+                        CommonRequest.ProcessGetInventoryResponse(Client, response[3] as  GetInventoryResponse);
+                        CommonRequest.ProcessDownloadSettingsResponse(Client, response[5] as  DownloadSettingsResponse);
+                        return response[0] as T1 ;
+                } catch (AccessTokenExpiredException) {
+                    Logger.Warning("Invalid Token. Retrying in 1 second");
+                    await Client.Login.Reauthenticate().ConfigureAwait(false);
+                    await Task.Delay(1000).ConfigureAwait(false);
+                } catch (InvalidPlatformException) {
+                    Logger.Warning("Invalid Platform. Retrying in 1 second");
+                    Client.Login.DoLogin().Wait();
+                    Task.Delay(1000).Wait();
+                } catch (RedirectException) {
+                    await Task.Delay(1000).ConfigureAwait(false);
+                }
+                tries ++;
+            }
+            Logger.Error("Too many tries. Returning");
+            return null as T1;
         }
 
         protected async Task<ResponseEnvelope> PostProto<TRequest>(RequestEnvelope requestEnvelope)

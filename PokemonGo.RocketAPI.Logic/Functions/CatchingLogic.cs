@@ -48,7 +48,7 @@ namespace PokeMaster.Logic.Functions
             {
                 if (mapObjectsResponse == null)
                 {
-                    mapObjectsResponse = client.Map.GetMapObjects().Result.Item1;
+                    mapObjectsResponse = client.Map.GetMapObjects().Result;
                 }
 
                 MapPokemon mapIncensePokemon = null;

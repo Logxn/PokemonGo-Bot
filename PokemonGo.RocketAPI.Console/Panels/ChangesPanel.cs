@@ -443,6 +443,12 @@ namespace PokeMaster
               GlobalVars.SaveLocationsFile = (sender as TextBox).Text;
           
         }
+        void buttonForceRelogin_Click(object sender, EventArgs e)
+        {
+            if (! enableEvents)
+                return;
+              GlobalVars.ForceReloginClick = true;
+        }
 
     }
 }

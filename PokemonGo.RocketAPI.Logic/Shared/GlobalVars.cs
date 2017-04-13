@@ -126,6 +126,7 @@ namespace PokeMaster.Logic.Shared
         public static bool UseLureGUIClick = false;
         public static bool UseLuckyEggGUIClick = false;
         public static bool UseIncenseGUIClick = false;
+        public static bool ForceReloginClick = false;
         public static bool RelocateDefaultLocation = false;
         public static double RelocateDefaultLocationTravelSpeed = 0;
         public static bool pauseAtEvolve = false;
