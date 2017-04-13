@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Google.Protobuf;
 using POGOProtos.Networking.Platform.Responses;
+using POGOProtos.Settings;
 using PokemonGo.RocketAPI.Enums;
 using PokemonGo.RocketAPI.Exceptions;
 using PokemonGo.RocketAPI.Helpers;
@@ -19,10 +20,12 @@ using POGOProtos.Networking.Platform;
 namespace PokemonGo.RocketAPI.Rpc
 {
     public delegate void GoogleDeviceCodeDelegate(string code, string uri);
+    
 
     public class Login : BaseRpc
     {
         private readonly ILoginType _login;
+        
 
         public Login(Client client) : base(client)
         {
@@ -93,11 +96,9 @@ namespace PokemonGo.RocketAPI.Rpc
                 var res = Client.Misc.AceptLegalScreen().Result;
                 if (res.Result != EncounterTutorialCompleteResponse.Types.Result.Success)
                     return;
+                Client.OnMakeTutorial();
             }
-
         }
-
-        
 
         public async Task FireRequestBlock(Request request)
         {

@@ -355,6 +355,8 @@ namespace PokeMaster
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.groupBox31 = new System.Windows.Forms.GroupBox();
+            this.checkBoxCompleteTutorial = new System.Windows.Forms.CheckBox();
             this.tabProxies.SuspendLayout();
             this.tabItems.SuspendLayout();
             this.groupBoxItems.SuspendLayout();
@@ -456,6 +458,7 @@ namespace PokeMaster
             this.groupBox21.SuspendLayout();
             this.groupBox20.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+            this.groupBox31.SuspendLayout();
             this.SuspendLayout();
             // 
             // buttonSaveStart
@@ -3587,8 +3590,8 @@ namespace PokeMaster
             // 
             // tabMisc
             // 
+            this.tabMisc.Controls.Add(this.groupBox31);
             this.tabMisc.Controls.Add(this.groupBox4);
-            this.tabMisc.Controls.Add(this.buttonTutorial);
             this.tabMisc.Controls.Add(this.groupBox25);
             this.tabMisc.Controls.Add(this.groupBox17);
             this.tabMisc.Controls.Add(this.groupBox14);
@@ -3695,11 +3698,11 @@ namespace PokeMaster
             // 
             // buttonTutorial
             // 
-            this.buttonTutorial.Location = new System.Drawing.Point(361, 354);
+            this.buttonTutorial.Location = new System.Drawing.Point(33, 51);
             this.buttonTutorial.Name = "buttonTutorial";
-            this.buttonTutorial.Size = new System.Drawing.Size(281, 23);
+            this.buttonTutorial.Size = new System.Drawing.Size(145, 23);
             this.buttonTutorial.TabIndex = 72;
-            this.buttonTutorial.Text = "Change Default Vaules for Complete Tutorial";
+            this.buttonTutorial.Text = "Change Default Vaules";
             this.buttonTutorial.UseVisualStyleBackColor = true;
             this.buttonTutorial.Click += new System.EventHandler(this.Button4Click);
             // 
@@ -4355,6 +4358,27 @@ namespace PokeMaster
             this.pictureBox2.TabStop = false;
             this.pictureBox2.Click += new System.EventHandler(this.pictureBox2_Click);
             // 
+            // groupBox31
+            // 
+            this.groupBox31.Controls.Add(this.checkBoxCompleteTutorial);
+            this.groupBox31.Controls.Add(this.buttonTutorial);
+            this.groupBox31.Location = new System.Drawing.Point(24, 258);
+            this.groupBox31.Name = "groupBox31";
+            this.groupBox31.Size = new System.Drawing.Size(225, 88);
+            this.groupBox31.TabIndex = 74;
+            this.groupBox31.TabStop = false;
+            this.groupBox31.Text = "Tutorial";
+            // 
+            // checkBoxCompleteTutorial
+            // 
+            this.checkBoxCompleteTutorial.AutoSize = true;
+            this.checkBoxCompleteTutorial.Location = new System.Drawing.Point(8, 19);
+            this.checkBoxCompleteTutorial.Name = "checkBoxCompleteTutorial";
+            this.checkBoxCompleteTutorial.Size = new System.Drawing.Size(108, 17);
+            this.checkBoxCompleteTutorial.TabIndex = 73;
+            this.checkBoxCompleteTutorial.Text = "Complete Turorial";
+            this.checkBoxCompleteTutorial.UseVisualStyleBackColor = true;
+            // 
             // ConfigWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -4514,6 +4538,8 @@ namespace PokeMaster
             this.groupBox20.ResumeLayout(false);
             this.groupBox20.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+            this.groupBox31.ResumeLayout(false);
+            this.groupBox31.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -4845,5 +4871,7 @@ namespace PokeMaster
         private System.Windows.Forms.Label labelMinProb;
         private System.Windows.Forms.Button buttonMultiKeys;
         private System.Windows.Forms.ToolTip toolTip1;
+        private System.Windows.Forms.GroupBox groupBox31;
+        private System.Windows.Forms.CheckBox checkBoxCompleteTutorial;
     }
 }

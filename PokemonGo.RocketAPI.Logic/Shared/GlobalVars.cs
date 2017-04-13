@@ -188,6 +188,7 @@ namespace PokeMaster.Logic.Shared
         
         public static GymSettings Gyms = new GymSettings();
         public static DebugSettings Debug = new DebugSettings();
+        public static bool CompleteTutorial = false;
 
         public static bool SaveLocations =false;
         public static int MinIVSave = 100;

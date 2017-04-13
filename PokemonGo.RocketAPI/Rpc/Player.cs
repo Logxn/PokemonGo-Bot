@@ -49,7 +49,7 @@ namespace PokemonGo.RocketAPI.Rpc
 
         public CollectDailyDefenderBonusResponse CollectDailyDefenderBonus()
         {
-            return PostProtoPayload<Request, CollectDailyDefenderBonusResponse>(RequestType.CollectDailyDefenderBonus, new CollectDailyDefenderBonusMessage());
+            return PostProtoPayloadCommonR<Request, CollectDailyDefenderBonusResponse>(RequestType.CollectDailyDefenderBonus, new CollectDailyDefenderBonusMessage()).Result;
         }
 
         public EquipBadgeResponse EquipBadge(BadgeType type)
@@ -65,12 +65,12 @@ namespace PokemonGo.RocketAPI.Rpc
             });
         }
 
-        public SetAvatarResponse SetAvatar(PlayerAvatar playerAvatar)
+        public async Task<SetAvatarResponse> SetAvatar(PlayerAvatar playerAvatar)
         {
-            return  PostProtoPayload<Request, SetAvatarResponse>(RequestType.SetAvatar, new SetAvatarMessage()
+            return await PostProtoPayloadCommonR<Request, SetAvatarResponse>(RequestType.SetAvatar, new SetAvatarMessage()
             {
                 PlayerAvatar = playerAvatar
-            });
+            }).ConfigureAwait(false);
         }
 
         public SetContactSettingsResponse SetContactSetting(ContactSettings contactSettings)

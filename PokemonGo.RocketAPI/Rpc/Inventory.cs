@@ -121,7 +121,7 @@ namespace PokemonGo.RocketAPI.Rpc
                     Count = amount
                 }).ToByteString()
             };
-            return await PostProtoPayloadCommonR<Request, RecycleInventoryItemResponse>(request);
+            return await PostProtoPayloadCommonR<Request, RecycleInventoryItemResponse>(request).ConfigureAwait(false);
         }
 
         public UseItemXpBoostResponse UseItemXpBoost(ItemId item)

@@ -150,14 +150,7 @@ namespace PokeMaster
 
             pictureBoxPlayerAvatar.Parent = pictureBoxTeam;
             pictureBoxPlayerAvatar.BackColor = Color.Transparent;
-            if (profile.PlayerData.Avatar != null)
-            {
-                pictureBoxPlayerAvatar.Image = getImageForGender((PlayerAvatarType) profile.PlayerData.Avatar.Avatar);
-            }
-            else
-            {
-                pictureBoxPlayerAvatar.Image = getImageForGender(PlayerAvatarType.PlayerAvatarMale);
-            }
+            pictureBoxPlayerAvatar.Image = profile.PlayerData.Avatar != null ? getImageForGender((PlayerAvatarType)profile.PlayerData.Avatar.Avatar) : getImageForGender(PlayerAvatarType.PlayerAvatarMale);
             pictureBoxPlayerAvatar.Height = (int)(pictureBoxTeam.Height * 0.85);
             pictureBoxPlayerAvatar.Width = pictureBoxTeam.Width;
             var playerLocation = new Point(0, pictureBoxTeam.Height - pictureBoxPlayerAvatar.Height);
@@ -242,14 +235,7 @@ namespace PokeMaster
             else
             {
                 var buddyPoke = pokemons.FirstOrDefault(x => x.Id == buddyPokemon.Id);
-                if (buddyPoke != null)
-                {
-                    return PokeImgManager.GetPokemonImagefromResource(buddyPoke.PokemonId, "200");
-                }
-                else
-                {
-                    return null;
-                }
+                return buddyPoke != null ? PokeImgManager.GetPokemonImagefromResource(buddyPoke.PokemonId, "200") : null;
             }
         }
 
@@ -382,7 +368,9 @@ namespace PokeMaster
                         break;
                     }
                 }
-                catch (Exception) { }
+                catch (Exception ex1) {
+                    Logger.ExceptionInfo(ex1.ToString());
+                }
             }
         }
         void btnColect_Click(object sender, EventArgs e)

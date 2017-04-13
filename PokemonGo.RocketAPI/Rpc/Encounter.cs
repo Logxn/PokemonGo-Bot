@@ -43,7 +43,7 @@ namespace PokemonGo.RocketAPI.Rpc
                 }).ToByteString()
             };
 
-            return await PostProtoPayloadCommonR<Request, EncounterResponse>( message);
+            return await PostProtoPayloadCommonR<Request, EncounterResponse>( message).ConfigureAwait(false);
         }
 
         public UseItemCaptureResponse UseCaptureItem(ulong encounterId, ItemId itemId, string spawnPointId)
@@ -83,7 +83,7 @@ namespace PokemonGo.RocketAPI.Rpc
                 NormalizedHitPosition = normalizedHitPos
             };
             
-            return  PostProtoPayload<Request, CatchPokemonResponse>(RequestType.CatchPokemon, message);
+            return  PostProtoPayloadCommonR<Request, CatchPokemonResponse>(RequestType.CatchPokemon, message).Result;
         }
 
         public IncenseEncounterResponse EncounterIncensePokemon(ulong encounterId, string encounterLocation)

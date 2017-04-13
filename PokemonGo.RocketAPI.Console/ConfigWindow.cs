@@ -432,6 +432,9 @@ namespace PokeMaster
             checkBoxStoreUntranslated.Checked = config.Debug.StoreUntranslatedText;
             TranslatorHelper.ActiveExtractTexts = checkBoxExtractText.Checked;
             TranslatorHelper.StoreUntranslated = checkBoxStoreUntranslated.Checked;
+            
+            checkBoxCompleteTutorial.Checked = config.CompleteTutorial;
+            
             // Gyms
 
             if (config.Gyms == null)
@@ -869,6 +872,7 @@ namespace PokeMaster
             ActiveProfile.Settings.Debug.VerboseMode = checkbox_Verboselogging.Checked;
             ActiveProfile.Settings.Debug.ExtractFormTexts = checkBoxExtractText.Checked;
             ActiveProfile.Settings.Debug.StoreUntranslatedText = checkBoxStoreUntranslated.Checked;
+            ActiveProfile.Settings.CompleteTutorial = checkBoxCompleteTutorial.Checked;
 
             if (comboBox_Device.SelectedIndex < 0) {
                 ret = false;

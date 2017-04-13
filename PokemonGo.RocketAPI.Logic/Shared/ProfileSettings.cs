@@ -915,6 +915,7 @@ namespace PokeMaster.Logic.Shared
 
         public  GymSettings Gyms {get;set;}
         public  DebugSettings Debug {get;set;}
+        public  bool CompleteTutorial {get;set;}
 
         public  bool SaveLocations {get;set;}
         public  int MinIVSave {get;set;}

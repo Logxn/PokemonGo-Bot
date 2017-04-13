@@ -189,6 +189,16 @@ namespace PokemonGo.RocketAPI.Rpc
                         Client.ApiFailure, responseTypes).ConfigureAwait(false);
         }
 
+        public async Task<T1> PostProtoPayloadCommonR<TRequest,T1>(RequestType type, IMessage message) 
+            where TRequest : IMessage<TRequest>
+            where T1 : class, IMessage<T1>, new()
+        {
+            return await PostProtoPayloadCommonR<Request, T1> (new Request {
+                    RequestType = type,
+                    RequestMessage = message.ToByteString()
+            }).ConfigureAwait(false);
+        }
+        
         public async Task<T1> PostProtoPayloadCommonR<TRequest,T1>(Request request) 
             where TRequest : IMessage<TRequest>
             where T1 : class, IMessage<T1>, new()

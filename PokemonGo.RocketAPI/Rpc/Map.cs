@@ -79,7 +79,7 @@ namespace PokemonGo.RocketAPI.Rpc
                 RequestType = RequestType.GetMapObjects,
                 RequestMessage = getMapObjectsMessage.ToByteString()
             };
-            return await PostProtoPayloadCommonR<Request, GetMapObjectsResponse>(request);
+            return await PostProtoPayloadCommonR<Request, GetMapObjectsResponse>(request).ConfigureAwait(false);
 
         }
 

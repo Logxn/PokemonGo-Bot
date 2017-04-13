@@ -43,7 +43,7 @@ namespace PokeMaster.Logic.Shared
         [JsonProperty("nicknamePrefix")]
         static public string nicknamePrefix;
         [JsonProperty("nicknameSufix")]
-        static public string nicknameSufix;        
+        static public string nicknameSufix;
         public static void Save()
         {
             string ProfilesString = JsonConvert.SerializeObject(new AvatarSettings(), Formatting.Indented);

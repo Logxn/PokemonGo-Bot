@@ -48,7 +48,7 @@ namespace PokemonGo.RocketAPI.Rpc
                 }).ToByteString()
             };
 
-            return await PostProtoPayloadCommonR<Request, FortDetailsResponse>(request);
+            return await PostProtoPayloadCommonR<Request, FortDetailsResponse>(request).ConfigureAwait(false);
         }
 
         public FortSearchResponse SearchFortOnly(string fortId, double fortLat, double fortLng)
@@ -80,7 +80,7 @@ namespace PokemonGo.RocketAPI.Rpc
                 }).ToByteString()
             };
 
-            return await PostProtoPayloadCommonR<Request, FortSearchResponse>(request);
+            return await PostProtoPayloadCommonR<Request, FortSearchResponse>(request).ConfigureAwait(false);
         }
 
         public AddFortModifierResponse AddFortModifier(string fortId, ItemId modifierType)
@@ -182,7 +182,7 @@ namespace PokemonGo.RocketAPI.Rpc
                     PlayerLongitude = Client.CurrentLongitude
                 }).ToByteString()
             };
-            return await PostProtoPayloadCommonR<Request, StartGymBattleResponse>(request);
+            return await PostProtoPayloadCommonR<Request, StartGymBattleResponse>(request).ConfigureAwait(false);
 
         }
     }
