@@ -9,7 +9,7 @@
 using System.Globalization;
 using System.Net;
 using POGOProtos.Enums;
-using PokemonGo.RocketAPI.Console.Helper;
+using PokeMaster.Helper;
 using System;
 using System.Drawing;
 using System.IO;
@@ -20,9 +20,11 @@ using Newtonsoft.Json;
 using System.Device.Location;
 using Microsoft.Win32;
 using System.Text;
-using PokemonGo.RocketAPI.Logic.Shared;
+using PokeMaster.Logic.Shared;
+using PokeMaster.Logic.Utils;
+using PokemonGo.RocketAPI;
 
-namespace PokemonGo.RocketAPI.Console
+namespace PokeMaster
 {
     /// <summary>
     /// Description of SniperPanel.
@@ -65,10 +67,10 @@ namespace PokemonGo.RocketAPI.Console
             var pokemonControlSource = new List<PokemonId>();
             checkedListBox_ToSnipe.Items.Clear();
             foreach (PokemonId pokemon in Enum.GetValues(typeof(PokemonId))) {
-                if (pokemon.ToString() != "Missingno"){
-                    pokemonControlSource.Add(pokemon);
-                    checkedListBox_ToSnipe.Items.Add(th.TS(pokemon.ToString()));
-                }
+                if (pokemon == PokemonId.Missingno)
+                    continue;
+                pokemonControlSource.Add(pokemon);
+                checkedListBox_ToSnipe.Items.Add(th.TS(pokemon.ToString()));
             }            
             comboBox1.DataSource = pokemonControlSource;
 
@@ -121,10 +123,10 @@ namespace PokemonGo.RocketAPI.Console
             if (!checkBoxSnipeGym.Checked && comboBox1.SelectedValue != null)
                 pokeid = (PokemonId)comboBox1.SelectedValue;
             
-            SnipePoke(pokeid, (int)nudSecondsSnipe.Value, (int)nudTriesSnipe.Value, checkBoxSnipeTransfer.Checked);
+            SnipePoke(pokeid, (int)nudSecondsSnipe.Value, (int)nudTriesSnipe.Value, checkBoxSnipeTransfer.Checked, checkBoxSnipeWithPinap.Checked );
         }
 
-        void SnipePoke(PokemonId id, int secondsToWait, int numberOfTries, bool transferIt)
+        void SnipePoke(PokemonId id, int secondsToWait, int numberOfTries, bool transferIt, bool usePinap)
         {
             if (GlobalVars.SnipeOpts.Enabled){
                 Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "There is a Snipe in process.");
@@ -138,7 +140,9 @@ namespace PokemonGo.RocketAPI.Console
             GlobalVars.SnipeOpts.WaitSecond = secondsToWait;
             GlobalVars.SnipeOpts.NumTries = numberOfTries;
             GlobalVars.SnipeOpts.TransferIt = transferIt;
+            GlobalVars.SnipeOpts.UsePinap = usePinap;
             GlobalVars.SnipeOpts.Enabled = true;
+            
             SnipeInfo.Text = "";
         }
 
@@ -149,16 +153,11 @@ namespace PokemonGo.RocketAPI.Console
             
             //foreach (PokemonId Id in GlobalVars.ToSnipe)
             foreach (PokemonId pokemon in Enum.GetValues(typeof(PokemonId))) {
-            {
-                }
-                try {
-                    int intID = (int) pokemon;
-                    checkedListBox_ToSnipe.SetItemChecked( intID - 1, GlobalVars.ToSnipe.Contains(pokemon));
-                } catch (Exception ex1) {
-                    Logger.AddLog("ex" + ex1);
-                }
+                if (pokemon == PokemonId.Missingno)
+                    continue;
+                int intID = (int) pokemon;
+                checkedListBox_ToSnipe.SetItemChecked( intID - 1, GlobalVars.ToSnipe.Contains(pokemon));
             }
-
         }
 
         void btnInstall_Click(object sender, EventArgs e)
@@ -197,14 +196,16 @@ namespace PokemonGo.RocketAPI.Console
                 int stw = 2;
                 int tries = 3;
                 var transferIt = false;
+                var usePinap = false;
                 try {
                     stw = (int)nudSecondsSnipe.Value;
                     tries = (int)nudTriesSnipe.Value;
                     transferIt = checkBoxSnipeTransfer.Checked;
+                    usePinap = checkBoxSnipeWithPinap.Checked;
                 } catch (Exception) {
                 }
                 var pokeID = ToPokemonID(splt[0]);
-                SnipePoke(pokeID, stw, tries, transferIt);
+                SnipePoke(pokeID, stw, tries, transferIt, usePinap);
             } else if (txt.IndexOf("msniper://") > -1) {
                 txt = txt.Replace("msniper://", "");
                 var splt = txt.Split('/');
@@ -212,14 +213,16 @@ namespace PokemonGo.RocketAPI.Console
                 int stw = 2;
                 int tries = 3;
                 var transferIt = false;
+                var usePinap = false;
                 try {
                     stw = (int)nudSecondsSnipe.Value;
                     tries = (int)nudTriesSnipe.Value;
                     transferIt = checkBoxSnipeTransfer.Checked;
+                    usePinap = checkBoxSnipeWithPinap.Checked;
                 } catch (Exception) {
                 }
                 var pokeID = ToPokemonID(splt[0]);
-                SnipePoke(pokeID, stw, tries, transferIt);
+                SnipePoke(pokeID, stw, tries, transferIt, usePinap);
             }
         }
 
@@ -246,6 +249,8 @@ namespace PokemonGo.RocketAPI.Console
 
         void loadLocationsList()
         {
+            if (!File.Exists(GlobalVars.SaveLocationsFile))
+                return;
             var lines = File.ReadAllLines(GlobalVars.SaveLocationsFile);
             Logger.Debug("Lines: " + lines);
             if (lines.Length > 0 && listView.Items.Count == lines.Length)
@@ -278,7 +283,7 @@ namespace PokemonGo.RocketAPI.Console
         bool isInList(string id)
         {
             foreach (ListViewItem element in listView.Items) {
-                if (element.SubItems[5].Text == id)
+                if (element.SubItems[chId.Index].Text == id)
                     return true;
             }
             return false;
@@ -287,8 +292,8 @@ namespace PokemonGo.RocketAPI.Console
         ListViewItem GetNextUnused()
         {
             foreach (ListViewItem element in listView.Items) {
-                if ((element.SubItems[6].Text != GlobalVars.ProfileName)
-                    && (element.SubItems[8].Text == "false")){
+                if ((element.SubItems[chName.Index].Text != GlobalVars.ProfileName)
+                    && (element.SubItems[chUsed.Index].Text == "false")){
                     var txt = element.Text;
                     txt = txt.Replace("pokesniper2://", "");
                     var splt = txt.Split('/');
@@ -298,8 +303,16 @@ namespace PokemonGo.RocketAPI.Console
                     }
                     if (checkBoxMinIVSnipe.Checked){
                         var iv = 0.0;
-                        double.TryParse (element.SubItems[1].Text, out iv);
-                        if ( iv >= GlobalVars.MinIVtoSnipe)
+                        double.TryParse (element.SubItems[chIV.Index].Text, out iv);
+                        var minIV =  (int)numMinIVSnipe.Value;
+                        if ( iv >= minIV)
+                            return element;
+                    }
+                    if (checkBoxMinProbSnipe.Checked){
+                        var prob = 0.0;
+                        double.TryParse (element.SubItems[chProbability.Index].Text, out prob);
+                        var minProb =  (int)numMinProbSnipe.Value;
+                        if ( prob >= minProb)
                             return element;
                     }
                     Logger.Debug(pokeID +" not is in to snipe list");
@@ -408,7 +421,8 @@ namespace PokemonGo.RocketAPI.Console
             if (listView.SelectedItems.Count < 1)
                 return;
             SnipeURI(listView.SelectedItems[0].Text);
-            listView.SelectedItems[0].SubItems[8].Text = "true";
+            listView.SelectedItems[0].SubItems[chUsed.Index].ForeColor = Color.LightGreen;
+            listView.SelectedItems[0].SubItems[chUsed.Index].Text = "true";
         }
 
         public static void SharePokesniperURI(string uri)
@@ -443,7 +457,8 @@ namespace PokemonGo.RocketAPI.Console
             var next = GetNextUnused();
             if (next != null) {
                 SnipeURI(next.Text);
-                next.SubItems[8].Text = "true";
+                next.SubItems[chUsed.Index].ForeColor = Color.LightSalmon;
+                next.SubItems[chUsed.Index].Text = "true";
             }
             
         }
@@ -461,7 +476,8 @@ namespace PokemonGo.RocketAPI.Console
             if (listView.SelectedItems.Count <1)
                 return;
             foreach (ListViewItem element in listView.SelectedItems) {
-                element.SubItems[8].Text = element.SubItems[8].Text == "true" ? "false" : "true";
+                element.SubItems[chUsed.Index].ForeColor = element.SubItems[chUsed.Index].Text == "true" ?  Color.LightSalmon  :  Color.White;
+                element.SubItems[chUsed.Index].Text = element.SubItems[chUsed.Index].Text == "true" ? "false" : "true";
             }
         }
         void snipeToolStripMenuItem_Click(object sender, EventArgs e)
@@ -493,11 +509,12 @@ namespace PokemonGo.RocketAPI.Console
             }
             MessageBox.Show(stre);
         }
-        void button1_Click(object sender, EventArgs e)
+        //"http://www.mypogosnipers.com/data/cache/free.txt"
+        void InportRemoteList(string remoteURL)
         {
             var webClient = new WebClient();
             var downloadedFile = Path.GetTempFileName();
-            webClient.DownloadFile("http://www.mypogosnipers.com/data/cache/free.txt", downloadedFile);
+            webClient.DownloadFile(remoteURL, downloadedFile);
             var lines = File.ReadAllLines(downloadedFile);
             // line example:-38.1197678226872,144.331814009056,177,Natu -IV: 98% - PeckFast/NightShade (mypogosnipers.com)
             if (lines.Length>0){
@@ -546,10 +563,35 @@ namespace PokemonGo.RocketAPI.Console
             listView.ListViewItemSorter = new Components.ListViewItemComparer(e.Column, order);
             (sender as ListView).Sorting = order == SortOrder.Ascending ? SortOrder.Descending : SortOrder.Ascending;
         }
-        void numMinIVSnipe_ValueChanged(object sender, EventArgs e)
+        void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
-            GlobalVars.MinIVtoSnipe = (int)(sender as NumericUpDown).Value;
+            timerAutoImport.Enabled = (sender as CheckBox).Checked;
+            if (timerAutoImport.Enabled)
+                timerAutoImport_Tick(sender, e);
         }
 
+        void numAutoImport_ValueChanged(object sender, EventArgs e)
+        {
+            var status = timerAutoImport.Enabled;
+            timerAutoImport.Enabled = false;
+            timerAutoImport.Interval = (int)(sender as NumericUpDown).Value * 60000;
+            timerAutoImport.Enabled = status;
+        }
+        void timerAutoImport_Tick(object sender, EventArgs e)
+        {
+            InportRemoteList(textBoxPokemonsList.Text);
+        }
+        void label7_DoubleClick(object sender, EventArgs e)
+        {
+          textBoxPokemonsList.Enabled |= Control.ModifierKeys == Keys.Shift;
+        }
+        void textBoxPokemonsList_Leave(object sender, EventArgs e)
+        {
+            textBoxPokemonsList.Enabled  = false;
+        }
+        void SniperPanel_Load(object sender, EventArgs e)
+        {
+          
+        }
     }
 }

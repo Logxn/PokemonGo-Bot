@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Device.Location;
 
-namespace PokemonGo.RocketAPI.Logic.Utils
+namespace PokeMaster.Logic.Utils
 {
     internal class GeoUtils
     {

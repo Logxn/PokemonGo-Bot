@@ -13,7 +13,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace PokemonGo.RocketAPI.Console.Dialogs
+namespace PokeMaster.Dialogs
 {
     public partial class Update : Form
     {

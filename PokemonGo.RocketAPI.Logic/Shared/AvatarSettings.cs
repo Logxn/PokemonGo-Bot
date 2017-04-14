@@ -10,7 +10,7 @@ using System;
 using Newtonsoft.Json;
 using System.IO;
 
-namespace PokemonGo.RocketAPI.Logic.Shared
+namespace PokeMaster.Logic.Shared
 {
     /// <summary>
     /// Avatar Settings.
@@ -43,7 +43,7 @@ namespace PokemonGo.RocketAPI.Logic.Shared
         [JsonProperty("nicknamePrefix")]
         static public string nicknamePrefix;
         [JsonProperty("nicknameSufix")]
-        static public string nicknameSufix;        
+        static public string nicknameSufix;
         public static void Save()
         {
             string ProfilesString = JsonConvert.SerializeObject(new AvatarSettings(), Formatting.Indented);

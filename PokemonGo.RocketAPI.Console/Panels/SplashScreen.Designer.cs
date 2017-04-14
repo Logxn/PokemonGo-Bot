@@ -6,7 +6,7 @@
  * 
  * To change this template use Tools | Options | Coding | Edit Standard Headers.
  */
-namespace PokemonGo.RocketAPI.Console.Panels
+namespace PokeMaster.Panels
 {
     partial class SplashScreen
     {
@@ -54,7 +54,7 @@ namespace PokemonGo.RocketAPI.Console.Panels
             // 
             // pictureBox2
             // 
-            this.pictureBox2.BackgroundImage = global::PokemonGo.RocketAPI.Console.Properties.Resources.image;
+            this.pictureBox2.BackgroundImage = global::PokeMaster.Properties.Resources.image;
             this.pictureBox2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.pictureBox2.Location = new System.Drawing.Point(18, 2);
             this.pictureBox2.Name = "pictureBox2";
@@ -64,7 +64,7 @@ namespace PokemonGo.RocketAPI.Console.Panels
             // 
             // pictureBox3
             // 
-            this.pictureBox3.Image = global::PokemonGo.RocketAPI.Console.Properties.Resources.giphy__1_;
+            this.pictureBox3.Image = global::PokeMaster.Properties.Resources.giphy__1_;
             this.pictureBox3.Location = new System.Drawing.Point(2, 33);
             this.pictureBox3.Margin = new System.Windows.Forms.Padding(2);
             this.pictureBox3.Name = "pictureBox3";

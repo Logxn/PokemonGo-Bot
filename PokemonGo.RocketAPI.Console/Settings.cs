@@ -4,9 +4,10 @@ using System;
 using System.Collections.Generic;
 using System.Device.Location;
 using Google.Protobuf;
-using PokemonGo.RocketAPI.Logic.Shared;
+using PokeMaster.Logic.Shared;
+using PokemonGo.RocketAPI.Enums;
 
-namespace PokemonGo.RocketAPI.Console
+namespace PokeMaster
 {
    
     public class SaveLoadStatus
@@ -43,7 +44,7 @@ namespace PokemonGo.RocketAPI.Console
             get { return GlobalVars.IsDefault; }
             set { GlobalVars.IsDefault = value; }
         }
-        public Enums.AuthType AuthType
+        public AuthType AuthType
         {
             get { return GlobalVars.acc; }
             set { GlobalVars.acc = value; }
@@ -662,11 +663,6 @@ namespace PokemonGo.RocketAPI.Console
             set { GlobalVars.proxySettings = value; }
         }
 
-        public bool UsePinapBerry
-        {
-            get { return GlobalVars.UsePinapBerry; }
-            set { GlobalVars.UsePinapBerry = value; }
-        }
 
         public bool UseNanabBerry
         {

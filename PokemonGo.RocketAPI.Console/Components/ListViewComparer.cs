@@ -9,7 +9,7 @@
 using System;
 using System.Windows.Forms;
 
-namespace PokemonGo.RocketAPI.Console.Components
+namespace PokeMaster.Components
 {
 // Compares two ListView items based on a selected column.
     public class ListViewComparer : System.Collections.IComparer

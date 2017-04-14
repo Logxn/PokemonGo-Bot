@@ -1,7 +1,7 @@
 using System;
 using System.Windows.Forms;
 
-namespace PokemonGo.RocketAPI.Console
+namespace PokeMaster
 {
     public partial class LocationSelect : Form
     {

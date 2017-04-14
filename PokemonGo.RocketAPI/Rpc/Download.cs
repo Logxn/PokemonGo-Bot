@@ -38,9 +38,9 @@ namespace PokemonGo.RocketAPI.Rpc
                 AppVersion = appVersion,
                 DeviceManufacturer = deviceManufacturer,
                 DeviceModel = deviceModel,
-                Locale = locale,
                 Platform = platform
             });
+            //TODO: add Locale = locale,
         }
 
         public GetAssetDigestResponse GetAssetDigest(uint appVersion, string deviceManufacturer, string deviceModel, string locale, Platform platform)
@@ -50,9 +50,9 @@ namespace PokemonGo.RocketAPI.Rpc
                 AppVersion = appVersion,
                 DeviceManufacturer = deviceManufacturer,
                 DeviceModel = deviceModel,
-                Locale = locale,
                 Platform = platform
             });
+            //TODO: add Locale = locale,
         }
 
         public GetDownloadUrlsResponse GetDownloadUrls(IEnumerable<string> assetIds)

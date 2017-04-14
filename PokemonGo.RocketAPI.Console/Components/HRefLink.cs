@@ -8,7 +8,7 @@
  */
 using System;
 
-namespace PokemonGo.RocketAPI.Console.Components
+namespace PokeMaster.Components
 {
     /// <summary>
     /// Description of HRefLink.

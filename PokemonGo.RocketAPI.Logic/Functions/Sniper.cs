@@ -12,12 +12,13 @@ using System.Device.Location;
 using POGOProtos.Enums;
 using POGOProtos.Map.Pokemon;
 using POGOProtos.Networking.Responses;
+using PokemonGo.RocketAPI;
 using PokemonGo.RocketAPI.Helpers;
 using System.Linq;
-using PokemonGo.RocketAPI.Logic.Utils;
-using PokemonGo.RocketAPI.Logic.Shared;
+using PokeMaster.Logic.Utils;
+using PokeMaster.Logic.Shared;
 
-namespace PokemonGo.RocketAPI.Logic.Functions
+namespace PokeMaster.Logic.Functions
 {
     /// <summary>
     /// Class to manage logic to snipe pokemons.
@@ -25,12 +26,12 @@ namespace PokemonGo.RocketAPI.Logic.Functions
     public class Sniper
     {
         public Client _client;
-        public ISettings _botSettings;
+        public PokeMaster.Logic.Shared.ISettings _botSettings;
         private const string LogPrefix = "(SNIPING)";
         private ConsoleColor LogColor = ConsoleColor.Cyan;
         
 
-        public Sniper(Client client, ISettings ClientSettings)
+        public Sniper(Client client, PokeMaster.Logic.Shared.ISettings ClientSettings)
         {
             _client = client;
             _botSettings = ClientSettings;
@@ -56,12 +57,12 @@ namespace PokemonGo.RocketAPI.Logic.Functions
             }
 
             try {
-                remoteCoords.Altitude = LocationUtils.getAltitude(remoteCoords.Latitude, remoteCoords.Longitude);
+                remoteCoords.Altitude = LocationUtils.GetAltitude(remoteCoords.Latitude, remoteCoords.Longitude);
 
                 SendToLog($"Trying to capture {pokeid}  at { remoteCoords.Latitude } / {remoteCoords.Longitude}");
                 SendToLog(LocationUtils.FindAddress(remoteCoords.Latitude, remoteCoords.Longitude));
                 LocationUtils.updatePlayerLocation(_client, remoteCoords.Latitude, remoteCoords.Longitude, remoteCoords.Altitude, false);
-                var gmp = _client.Map.GetMapObjects(true);
+                var gmp = _client.Map.GetMapObjects(true).Result;
 
                 SendToLog($"We are at sniping location...");
                 SendToLog($"Waiting {GlobalVars.SnipeOpts.WaitSecond} seconds for Pokemon to appear...");
@@ -76,7 +77,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                 }
 
                 LocationUtils.updatePlayerLocation(_client, returnCoords.Latitude, returnCoords.Longitude, returnCoords.Altitude);
-                gmp = _client.Map.GetMapObjects(true);
+                gmp = _client.Map.GetMapObjects(true).Result;
 
                 SendToLog($"Location after Snipe : {_client.CurrentLatitude} / {_client.CurrentLongitude} / {_client.CurrentAltitude}");
                 SendToLog(LocationUtils.FindAddress(_client.CurrentLatitude, _client.CurrentLongitude));
@@ -95,7 +96,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                 Logger.ExceptionInfo(ex.ToString());
                 SendToLog($"Go to {returnCoords.Latitude} / {returnCoords.Longitude} / {returnCoords.Altitude}.");
                 LocationUtils.updatePlayerLocation(_client, returnCoords.Latitude, returnCoords.Longitude, returnCoords.Altitude);
-                var gmp = _client.Map.GetMapObjects();
+                var gmp = _client.Map.GetMapObjects(true).Result;
             }
 
             GlobalVars.SnipeOpts.Enabled = false;
@@ -104,7 +105,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
             GlobalVars.SnipeOpts.WaitSecond = 6;
             GlobalVars.SnipeOpts.NumTries = 3;
         }
-        const double Epsilon = 0.000005;
+        const double Epsilon = 0.000001;
 
         private ulong TrySnipeGym(GeoCoordinate pokeCoords, GeoCoordinate returnCoords)
         {
@@ -114,7 +115,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
             
             do {
 
-                var mapObjectsResponse = _client.Map.GetMapObjects(true).Result.Item1;
+                var mapObjectsResponse = _client.Map.GetMapObjects(true).Result;
                 var pokeGyms = mapObjectsResponse.MapCells.SelectMany(i => i.Forts)
                     .Where(i => i.Type == POGOProtos.Map.Fort.FortType.Gym);
                 Logger.Debug("pokeCoords:" + pokeCoords);
@@ -128,7 +129,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                         var gymDet = _client.Fort.GetGymDetails(element.Id, element.Latitude, element.Longitude);
                         if (gymDet.Result == GetGymDetailsResponse.Types.Result.Success) {
                             found = true;
-                            var pokeToDeploy = GymsLogic.getPokeToPut(_client, buddyid);
+                            var pokeToDeploy = GymsLogic.getPokeToPut(_client, buddyid, element.GuardPokemonCp);
                             if (pokeToDeploy != null) {
                                 var res = _client.Fort.FortDeployPokemon(element.Id, pokeToDeploy.Id);
                                 if (res.Result == FortDeployPokemonResponse.Types.Result.Success) {
@@ -164,14 +165,19 @@ namespace PokemonGo.RocketAPI.Logic.Functions
             pokemonOUT = null;
             foreach (var pokemon in pokemons) {
                 Logger.Debug("pokemon:" + pokemon);
-                if (Math.Abs(pokemon.Latitude - pokeCoords.Latitude) < Epsilon && Math.Abs(pokemon.Longitude - pokeCoords.Longitude) < Epsilon) {
-                    found = true;
-                    pokemonOUT = pokemon;
-                    if (pokemon.PokemonId == pokeid)
+                if (AreEquals(pokemon.Latitude, pokeCoords.Latitude)  && AreEquals(pokemon.Longitude , pokeCoords.Longitude) ) {
+                    if (pokemon.PokemonId == pokeid || pokemon.PokemonId == PokemonId.Ditto){
+                        found = true;
+                        pokemonOUT = pokemon;
                         break;
+                    }
                 }
             }
             return found;
+        }
+
+        private bool AreEquals(double a, double b){
+            return (Math.Abs(Math.Round(a, 5) - Math.Round(b, 5)) < Epsilon);
         }
 
         private ulong TrySnipePokemons(PokemonId pokeid, GeoCoordinate pokeCoords, GeoCoordinate returnCoords)
@@ -183,7 +189,7 @@ namespace PokemonGo.RocketAPI.Logic.Functions
 
             do {
                 SendToLog($"Try {tries} of {GlobalVars.SnipeOpts.NumTries}");
-                var mapObjectsResponse = _client.Map.GetMapObjects(true).Result.Item1;
+                var mapObjectsResponse = _client.Map.GetMapObjects(true).Result;
                 var pokemons = mapObjectsResponse.MapCells.SelectMany(i => i.CatchablePokemons);
                 if (pokemons.Any()) {
                     SendToLog($"Found {pokemons.Count()} catchable Pokemon(s)");
@@ -208,6 +214,22 @@ namespace PokemonGo.RocketAPI.Logic.Functions
                 SendToLog($"{ pokeid} not caught!");
 
             return caught;
+        }
+
+        public static void SendToSnipe( PokemonId pokemon, GeoCoordinate location)
+        {
+            if (GlobalVars.SnipeOpts.Enabled){
+                Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "There is a Snipe in process.");
+                return;
+            }
+            Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "Manual Snipe Triggered! We'll stop farming and go catch the pokemon ASAP");
+            GlobalVars.SnipeOpts.ID = pokemon;
+            GlobalVars.SnipeOpts.Location = location;
+            GlobalVars.SnipeOpts.WaitSecond = 7;
+            GlobalVars.SnipeOpts.NumTries = 3;
+            GlobalVars.SnipeOpts.TransferIt = false;
+            GlobalVars.SnipeOpts.UsePinap = false;
+            GlobalVars.SnipeOpts.Enabled = true;
         }
 
     }

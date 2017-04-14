@@ -10,6 +10,11 @@ namespace PokemonGo.RocketAPI.Rpc
 {
     public class Player : BaseRpc
     {
+        public GetPlayerResponse PlayerResponse {
+            get;
+            set;
+        }
+
         public Player(Client client) : base(client)
         {
             Client = client;
@@ -17,7 +22,11 @@ namespace PokemonGo.RocketAPI.Rpc
 
         public GetPlayerResponse GetPlayer()
         {
-            return PostProtoPayload<Request, GetPlayerResponse>(RequestType.GetPlayer, new GetPlayerMessage());
+            var ret = PostProtoPayload<Request, GetPlayerResponse>(RequestType.GetPlayer, new GetPlayerMessage());
+            if (ret!=null){
+                CommonRequest.ProcessGetPlayerResponse(Client,ret);
+            }
+            return ret;
         }
 
         public GetPlayerProfileResponse GetPlayerProfile(string playerName)
@@ -40,7 +49,7 @@ namespace PokemonGo.RocketAPI.Rpc
 
         public CollectDailyDefenderBonusResponse CollectDailyDefenderBonus()
         {
-            return PostProtoPayload<Request, CollectDailyDefenderBonusResponse>(RequestType.CollectDailyDefenderBonus, new CollectDailyDefenderBonusMessage());
+            return PostProtoPayloadCommonR<Request, CollectDailyDefenderBonusResponse>(RequestType.CollectDailyDefenderBonus, new CollectDailyDefenderBonusMessage()).Result;
         }
 
         public EquipBadgeResponse EquipBadge(BadgeType type)
@@ -56,12 +65,12 @@ namespace PokemonGo.RocketAPI.Rpc
             });
         }
 
-        public SetAvatarResponse SetAvatar(PlayerAvatar playerAvatar)
+        public async Task<SetAvatarResponse> SetAvatar(PlayerAvatar playerAvatar)
         {
-            return  PostProtoPayload<Request, SetAvatarResponse>(RequestType.SetAvatar, new SetAvatarMessage()
+            return await PostProtoPayloadCommonR<Request, SetAvatarResponse>(RequestType.SetAvatar, new SetAvatarMessage()
             {
                 PlayerAvatar = playerAvatar
-            });
+            }).ConfigureAwait(false);
         }
 
         public SetContactSettingsResponse SetContactSetting(ContactSettings contactSettings)
@@ -83,6 +92,13 @@ namespace PokemonGo.RocketAPI.Rpc
         public VerifyChallengeResponse VerifyChallenge(string token)
         {
             return  PostProtoPayload<Request, VerifyChallengeResponse>(RequestType.VerifyChallenge, CommonRequest.GetVerifyChallenge(token));
+        }
+
+        public void SetCoordinates(double latitude, double longitude, double altitude)
+        {
+            Client.CurrentLatitude = latitude;
+            Client.CurrentLongitude = longitude;
+            Client.CurrentAltitude = altitude;
         }
     }
 }

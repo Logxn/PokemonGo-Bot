@@ -14,7 +14,7 @@ using System.Text;
 using System.Web.Script.Serialization;
 using System.Text.RegularExpressions;
 
-namespace PokemonGo.RocketAPI.Translator
+namespace PokeMaster.Translator
 {
     /// <summary>
     /// Description of GoogleTranslator.

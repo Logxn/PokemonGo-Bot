@@ -15,7 +15,7 @@ using Newtonsoft.Json;
 using System.Globalization;
 
 
-namespace PokemonGo.RocketAPI.Translator
+namespace PokeMaster.Translator
 {
     /// <summary>
     /// Description of MainForm.
@@ -69,12 +69,8 @@ namespace PokemonGo.RocketAPI.Translator
             var dict = new Dictionary<string, string>();
             foreach ( DataGridViewRow  item in dataGridView1.Rows)
             {
-                var key = item.Cells["ColumnKey"].Value;
-                if (key == null)
-                    key = "";
-                var value = item.Cells["ColumnTranslation"].Value;
-                if (value == null)
-                    value = "";
+                var key = item.Cells["ColumnKey"].Value ?? "";
+                var value = item.Cells["ColumnTranslation"].Value ?? "";
                 if (!dict.ContainsKey(key.ToString()))
                     dict.Add(key.ToString(),value.ToString());
             }
@@ -85,9 +81,7 @@ namespace PokemonGo.RocketAPI.Translator
         {
             foreach ( DataGridViewRow  item in dataGridView1.Rows)
             {
-                var value = item.Cells["ColumnValue"].Value;
-                if (value == null)
-                    value = "";
+                var value = item.Cells["ColumnValue"].Value ?? "";
                 item.Cells["ColumnTranslation"].Value = value;
             }
           
@@ -96,10 +90,8 @@ namespace PokemonGo.RocketAPI.Translator
         {
             foreach ( DataGridViewRow  item in dataGridView1.Rows)
             {
-                var value = item.Cells["ColumnValue"].Value;
-                if (value == null)
-                    value = "";
-                if ((item.Cells["ColumnTranslation"].Value == null) || item.Cells["ColumnTranslation"].Value=="")
+                var value = item.Cells["ColumnValue"].Value ?? "";
+                if (item.Cells["ColumnTranslation"].Value == null || item.Cells["ColumnTranslation"].Value.ToString()=="")
                     if (value.ToString() != "")
                     {
                         var translated = TranslateReferenceCom.Translate(value.ToString(),"english",textBox1.Text);

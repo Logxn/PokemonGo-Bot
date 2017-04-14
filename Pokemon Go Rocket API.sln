@@ -6,9 +6,9 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PokemonGo.RocketAPI", "PokemonGo.RocketAPI\PokemonGo.RocketAPI.csproj", "{05D2DA44-1B8E-4CF7-94ED-4D52451CD095}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PokemonGo.RocketAPI.Logic", "PokemonGo.RocketAPI.Logic\PokemonGo.RocketAPI.Logic.csproj", "{0739E40D-C589-4AEB-93E5-EE8CD6773C60}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PokeMaster.Logic", "PokemonGo.RocketAPI.Logic\PokeMaster.Logic.csproj", "{0739E40D-C589-4AEB-93E5-EE8CD6773C60}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PokemonGo.RocketAPI.Console", "PokemonGo.RocketAPI.Console\PokemonGo.RocketAPI.Console.csproj", "{1FEA147E-F704-497B-A538-00B053B5F672}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PokeMaster", "PokemonGo.RocketAPI.Console\PokeMaster.csproj", "{1FEA147E-F704-497B-A538-00B053B5F672}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{0D637212-D12E-428E-9C8D-E8D082D059F3}"
 	ProjectSection(SolutionItems) = preProject
@@ -26,7 +26,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		ver.md = ver.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PokemonGo.RocketAPI.Translator", "PokemonGo.RocketAPI.Translator\PokemonGo.RocketAPI.Translator.csproj", "{3E589F65-5116-455F-9840-B4F6515AD4D4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PokeMaster.Translator", "PokemonGo.RocketAPI.Translator\PokeMaster.Translator.csproj", "{3E589F65-5116-455F-9840-B4F6515AD4D4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

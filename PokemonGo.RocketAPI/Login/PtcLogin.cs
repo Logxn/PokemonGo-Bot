@@ -27,9 +27,9 @@ namespace PokemonGo.RocketAPI.Login
             using (var httpClientHandler = new HttpClientHandler())
             {
                 httpClientHandler.AllowAutoRedirect = false;
-                httpClientHandler.AutomaticDecompression = DecompressionMethods.GZip; // Not in POGO
-                httpClientHandler.UseProxy = Client.proxy != null; // Not in POGO
-                httpClientHandler.Proxy = Client.proxy; // Not in POGO
+                httpClientHandler.AutomaticDecompression = DecompressionMethods.GZip; 
+                httpClientHandler.UseProxy = Client.proxy != null; 
+                httpClientHandler.Proxy = Client.proxy;
 
                 using (var httpClient = new System.Net.Http.HttpClient(httpClientHandler))
                 {
@@ -43,21 +43,6 @@ namespace PokemonGo.RocketAPI.Login
                     return accessToken;
                 }
             }
-
-            //using (var tempHttpClient = new System.Net.Http.HttpClient(handler))
-            //{
-            //    //Get session cookie
-            //    //var sessionData = await GetSessionCookie(tempHttpClient).ConfigureAwait(false);
-
-            //    //Login
-            //    //var ticketId =
-            //    //    await GetLoginTicket(username, password, tempHttpClient, sessionData).ConfigureAwait(false);
-
-            //    //Get tokenvar
-            //    //var authToken = await GetToken(tempHttpClient, ticketId).ConfigureAwait(false);
-            //    if (authToken == null) throw new PtcOfflineException();
-            //    return authToken;
-            //}
         }
 
         /// <summary>

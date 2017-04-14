@@ -1,8 +1,9 @@
-using PokemonGo.RocketAPI.Console.Helper;
+using PokeMaster.Helper;
+using PokemonGo.RocketAPI;
 using PokemonGo.RocketAPI.Helpers;
 using PokemonGo.RocketAPI.HttpClient;
-using PokemonGo.RocketAPI.Logic.Shared;
-using PokemonGo.RocketAPI.Logic.Utils;
+using PokeMaster.Logic.Shared;
+using PokeMaster.Logic.Utils;
 using System;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -15,7 +16,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace PokemonGo.RocketAPI.Console
+namespace PokeMaster
 {
     internal class Program
     {
@@ -31,7 +32,7 @@ namespace PokemonGo.RocketAPI.Console
         public static string deviceData = Path.Combine(path_device, "DeviceData.json");
         public static string cmdCoords = string.Empty;
         public static string accountProfiles = Path.Combine(path, "Profiles.txt");
-        static string logPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Logs");
+        static readonly string logPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Logs");
         public static string pokelog = Path.Combine(logPath, "PokeLog.txt");
         public static string manualTransferLog = Path.Combine(logPath, "TransferLog.txt");
         public static string EvolveLog = Path.Combine(logPath, "EvolveLog.txt");
@@ -120,8 +121,7 @@ namespace PokemonGo.RocketAPI.Console
                     #endregion
 
                     #region Argument -bypassversioncheck
-                    if (arg.ToLower().Contains("-bypassversioncheck"))
-                        GlobalVars.BypassCheckCompatibilityVersion = true;
+                    GlobalVars.BypassCheckCompatibilityVersion |= arg.ToLower().Contains("-bypassversioncheck");
                     #endregion
 
                     #region Argument -help
@@ -144,18 +144,19 @@ namespace PokemonGo.RocketAPI.Console
             // Checking if current BOT API implementation supports NIANTIC current API (unless there's an override command line switch)
             if (!GlobalVars.BypassCheckCompatibilityVersion)
             {
+                var currentAPIVersion =new CurrentAPIVersion();
                 Logger.ColoredConsoleWrite(ConsoleColor.DarkMagenta, $"Bot Current version: {Resources.BotVersion}");
                 Logger.ColoredConsoleWrite(ConsoleColor.DarkMagenta, $"Bot Supported API version: {Resources.BotApiSupportedVersion}");
-                Logger.ColoredConsoleWrite(ConsoleColor.DarkMagenta, $"Current API version: {new CurrentAPIVersion().GetNianticAPIVersion()}");
+                Logger.ColoredConsoleWrite(ConsoleColor.DarkMagenta, $"Current API version: {currentAPIVersion.GetNianticAPIVersion()}");
 
-                bool CurrentVersionsOK = new CurrentAPIVersion().CheckAPIVersionCompatibility(GlobalVars.BotApiSupportedVersion);
+                bool CurrentVersionsOK = currentAPIVersion.CheckAPIVersionCompatibility(GlobalVars.BotApiSupportedVersion);
                 if (!CurrentVersionsOK)
                 {
                     Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Atention, current API version is new and still not supported by Bot.");
                     Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Bot will now exit to keep your account safe.");
                     Logger.ColoredConsoleWrite(ConsoleColor.Red, $"---------- PRESS ANY KEY TO CLOSE ----------");
 
-                    System.Console.ReadKey();
+                    Console.ReadKey();
                     Environment.Exit(-1);
                 }
             }

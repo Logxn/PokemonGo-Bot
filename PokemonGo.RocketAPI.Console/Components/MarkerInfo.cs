@@ -10,7 +10,7 @@ using System;
 using System.Drawing;
 using GMap.NET;
 
-namespace PokemonGo.RocketAPI.Console.Components
+namespace PokeMaster.Components
 {
     /// <summary>
     /// Description of MarkerInfo.

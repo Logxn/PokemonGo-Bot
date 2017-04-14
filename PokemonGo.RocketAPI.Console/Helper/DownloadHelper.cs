@@ -10,7 +10,7 @@ using System;
 using System.IO;
 using System.Net;
 
-namespace PokemonGo.RocketAPI.Console.Helper
+namespace PokeMaster.Helper
 {
     /// <summary>
     /// Description of DownloadHelper.

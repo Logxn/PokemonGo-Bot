@@ -8,7 +8,7 @@ namespace PokemonGo.RocketAPI.HttpClient
 {
     public class CurrentAPIVersion
     {
-        public static Version CurrentNianticAPIVersion;
+        public Version CurrentNianticAPIVersion;
 
         public CurrentAPIVersion()
         {
@@ -26,7 +26,7 @@ namespace PokemonGo.RocketAPI.HttpClient
         /// <param name="_botAPISupportedVersion">Current BOT Supported API Version</param>
         /// <param name="_NianticAPIVersion">Current NIANTIC API Version</param>
         /// <returns></returns>
-        public bool CheckAPIVersionCompatibility( Version _botAPISupportedVersion)
+        public  bool CheckAPIVersionCompatibility( Version _botAPISupportedVersion)
         {
             return (CurrentNianticAPIVersion <= _botAPISupportedVersion);
         }
@@ -47,7 +47,7 @@ namespace PokemonGo.RocketAPI.HttpClient
         }
 
         /// <summary>
-        /// Calls NIANTIC end potint that gives current API version
+        /// Calls NIANTIC end point that gives current API version
         /// </summary>
         /// <returns>string</returns>
         async Task<string> HttpGetCurrentNianticAPIVersion()
@@ -56,31 +56,33 @@ namespace PokemonGo.RocketAPI.HttpClient
 
             using (var _httpClient = new System.Net.Http.HttpClient())
             {
-                try
-                {
-                    Uri _uri = new Uri(Resources.GetRpcVersionUrl);
-                    _httpClient.DefaultRequestHeaders.Accept.Clear();
-                    _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
-                    HttpResponseMessage _response = await _httpClient.GetAsync(_uri);
-
-                    if (_response.IsSuccessStatusCode)
+                var tries =0;
+                while (tries <10){
+                    try
                     {
-                        _returnedVersion = await _response.Content.ReadAsStringAsync().ConfigureAwait(false);
-                        _returnedVersion = new string(_returnedVersion.Where(c => !char.IsControl(c)).ToArray());
-                        return _returnedVersion;
+                        var _uri = new Uri(Resources.GetRpcVersionUrl);
+                        _httpClient.DefaultRequestHeaders.Accept.Clear();
+                        _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+    
+                        HttpResponseMessage _response = await _httpClient.GetAsync(_uri).ConfigureAwait(false);
+    
+                        if (_response.IsSuccessStatusCode)
+                        {
+                            _returnedVersion = await _response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                            _returnedVersion = new string(_returnedVersion.Where(c => !char.IsControl(c)).ToArray());
+                            return _returnedVersion;
+                        }
                     }
-                    else
+                    catch (Exception ex)
                     {
-                        return "Error";
+                        Logger.Debug( "Error: CurrentAPIVersion.cs - getCurrentNianticAPIVersion(): " + ex.Message);
                     }
+                    tries ++;
+                    await Task.Delay(1000).ConfigureAwait(false);
+                    Logger.Debug("Trying Again. Try: "+ tries);
                 }
-                catch (Exception ex)
-                {
-                    Logger.ColoredConsoleWrite(ConsoleColor.Red, "Error: CurrentAPIVersion.cs - getCurrentNianticAPIVersion()");
-                    Logger.ColoredConsoleWrite(ConsoleColor.Red, ex.Message);
-                    throw;
-                }
+                Logger.Debug("Error: Too many tries without sucess.");
+                return "Error";
             }
         }
     }

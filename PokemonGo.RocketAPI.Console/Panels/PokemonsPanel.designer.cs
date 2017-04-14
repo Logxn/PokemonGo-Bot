@@ -1,5 +1,5 @@
 using System.Drawing;
-namespace PokemonGo.RocketAPI.Console
+namespace PokeMaster
 {
     partial class PokemonsPanel
     {
@@ -129,71 +129,70 @@ namespace PokemonGo.RocketAPI.Console
             this.cureToolStripMenuItem,
             this.gymInformationToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(205, 238);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(173, 224);
             this.contextMenuStrip1.Closing += new System.Windows.Forms.ToolStripDropDownClosingEventHandler(this.contextMenuStrip1_Closing);
             this.contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
             // 
             // transferToolStripMenuItem
             // 
             this.transferToolStripMenuItem.Name = "transferToolStripMenuItem";
-            this.transferToolStripMenuItem.Size = new System.Drawing.Size(204, 26);
+            this.transferToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
             this.transferToolStripMenuItem.Text = "Transfer";
             this.transferToolStripMenuItem.Click += new System.EventHandler(this.transferToolStripMenuItem_Click);
             // 
             // powerUpToolStripMenuItem
             // 
             this.powerUpToolStripMenuItem.Name = "powerUpToolStripMenuItem";
-            this.powerUpToolStripMenuItem.Size = new System.Drawing.Size(204, 26);
+            this.powerUpToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
             this.powerUpToolStripMenuItem.Text = "PowerUp";
             this.powerUpToolStripMenuItem.Click += new System.EventHandler(this.powerUpToolStripMenuItem_Click);
             // 
             // evolveToolStripMenuItem
             // 
             this.evolveToolStripMenuItem.Name = "evolveToolStripMenuItem";
-            this.evolveToolStripMenuItem.Size = new System.Drawing.Size(204, 26);
+            this.evolveToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
             this.evolveToolStripMenuItem.Text = "Evolve";
-            this.evolveToolStripMenuItem.Visible = false;
             this.evolveToolStripMenuItem.Click += new System.EventHandler(this.evolveToolStripMenuItem_Click);
             // 
             // iVsToNicknameToolStripMenuItem
             // 
             this.iVsToNicknameToolStripMenuItem.Name = "iVsToNicknameToolStripMenuItem";
-            this.iVsToNicknameToolStripMenuItem.Size = new System.Drawing.Size(204, 26);
+            this.iVsToNicknameToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
             this.iVsToNicknameToolStripMenuItem.Text = "IVs to Nickname";
             this.iVsToNicknameToolStripMenuItem.Click += new System.EventHandler(this.iVsToNicknameToolStripMenuItem_Click);
             // 
             // changeFavouritesToolStripMenuItem
             // 
             this.changeFavouritesToolStripMenuItem.Name = "changeFavouritesToolStripMenuItem";
-            this.changeFavouritesToolStripMenuItem.Size = new System.Drawing.Size(204, 26);
+            this.changeFavouritesToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
             this.changeFavouritesToolStripMenuItem.Text = "Change Favourites";
             this.changeFavouritesToolStripMenuItem.Click += new System.EventHandler(this.changeFavouritesToolStripMenuItem_Click);
             // 
             // changeBuddyToolStripMenuItem
             // 
             this.changeBuddyToolStripMenuItem.Name = "changeBuddyToolStripMenuItem";
-            this.changeBuddyToolStripMenuItem.Size = new System.Drawing.Size(204, 26);
+            this.changeBuddyToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
             this.changeBuddyToolStripMenuItem.Text = "Change Buddy";
             this.changeBuddyToolStripMenuItem.Click += new System.EventHandler(this.changeBuddyToolStripMenuItem_Click);
             // 
             // reloadToolStripMenuItem
             // 
             this.reloadToolStripMenuItem.Name = "reloadToolStripMenuItem";
-            this.reloadToolStripMenuItem.Size = new System.Drawing.Size(204, 26);
+            this.reloadToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
             this.reloadToolStripMenuItem.Text = "Reload";
             this.reloadToolStripMenuItem.Click += new System.EventHandler(this.reloadToolStripMenuItem_Click);
             // 
             // cureToolStripMenuItem
             // 
             this.cureToolStripMenuItem.Name = "cureToolStripMenuItem";
-            this.cureToolStripMenuItem.Size = new System.Drawing.Size(204, 26);
+            this.cureToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
             this.cureToolStripMenuItem.Text = "Cure";
             this.cureToolStripMenuItem.Click += new System.EventHandler(this.cureToolStripMenuItem_Click);
             // 
             // gymInformationToolStripMenuItem
             // 
             this.gymInformationToolStripMenuItem.Name = "gymInformationToolStripMenuItem";
-            this.gymInformationToolStripMenuItem.Size = new System.Drawing.Size(204, 26);
+            this.gymInformationToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
             this.gymInformationToolStripMenuItem.Text = "Gym Information";
             this.gymInformationToolStripMenuItem.Click += new System.EventHandler(this.gymInformationToolStripMenuItem_Click);
             // 
@@ -204,16 +203,16 @@ namespace PokemonGo.RocketAPI.Console
             this.statusTexbox.Enabled = false;
             this.statusTexbox.Location = new System.Drawing.Point(4, 324);
             this.statusTexbox.Name = "statusTexbox";
-            this.statusTexbox.Size = new System.Drawing.Size(565, 22);
+            this.statusTexbox.Size = new System.Drawing.Size(565, 20);
             this.statusTexbox.TabIndex = 5;
             // 
             // checkBoxreload
             // 
             this.checkBoxreload.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.checkBoxreload.AutoSize = true;
-            this.checkBoxreload.Location = new System.Drawing.Point(573, 293);
+            this.checkBoxreload.Location = new System.Drawing.Point(573, 297);
             this.checkBoxreload.Name = "checkBoxreload";
-            this.checkBoxreload.Size = new System.Drawing.Size(114, 21);
+            this.checkBoxreload.Size = new System.Drawing.Size(89, 17);
             this.checkBoxreload.TabIndex = 6;
             this.checkBoxreload.Text = "Reload every";
             this.checkBoxreload.UseVisualStyleBackColor = true;
@@ -234,7 +233,7 @@ namespace PokemonGo.RocketAPI.Console
             0,
             0});
             this.reloadsecondstextbox.Name = "reloadsecondstextbox";
-            this.reloadsecondstextbox.Size = new System.Drawing.Size(40, 22);
+            this.reloadsecondstextbox.Size = new System.Drawing.Size(40, 20);
             this.reloadsecondstextbox.TabIndex = 7;
             this.reloadsecondstextbox.Value = new decimal(new int[] {
             30,
@@ -248,7 +247,7 @@ namespace PokemonGo.RocketAPI.Console
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(273, 270);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(0, 17);
+            this.label2.Size = new System.Drawing.Size(0, 13);
             this.label2.TabIndex = 9;
             // 
             // reloadtimer
@@ -283,7 +282,7 @@ namespace PokemonGo.RocketAPI.Console
             0,
             0});
             this.numPwrUpLimit.Name = "numPwrUpLimit";
-            this.numPwrUpLimit.Size = new System.Drawing.Size(39, 22);
+            this.numPwrUpLimit.Size = new System.Drawing.Size(39, 20);
             this.numPwrUpLimit.TabIndex = 44;
             this.numPwrUpLimit.Value = new decimal(new int[] {
             1,
@@ -297,7 +296,7 @@ namespace PokemonGo.RocketAPI.Console
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(7, 299);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(95, 17);
+            this.label1.Size = new System.Drawing.Size(73, 13);
             this.label1.TabIndex = 9;
             this.label1.Text = "Power Up Qty";
             // 

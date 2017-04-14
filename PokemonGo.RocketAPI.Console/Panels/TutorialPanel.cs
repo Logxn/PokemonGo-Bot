@@ -10,9 +10,9 @@ using System;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
-using PokemonGo.RocketAPI.Logic.Shared;
+using PokeMaster.Logic.Shared;
 
-namespace PokemonGo.RocketAPI.Console.Panels
+namespace PokeMaster.Panels
 {
     /// <summary>
     /// Description of TutorialPanel.

@@ -10,7 +10,7 @@ using System;
 using System.Windows.Forms;
 
 
-namespace PokemonGo.RocketAPI.Console
+namespace PokeMaster
 {
 	/// <summary>
 	/// Description of Prompt.

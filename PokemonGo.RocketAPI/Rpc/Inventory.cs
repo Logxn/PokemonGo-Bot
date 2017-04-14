@@ -1,3 +1,4 @@
+using Google.Protobuf;
 using POGOProtos.Data;
 using POGOProtos.Data.Player;
 using POGOProtos.Enums;
@@ -7,6 +8,7 @@ using POGOProtos.Networking.Requests;
 using POGOProtos.Networking.Requests.Messages;
 using POGOProtos.Networking.Responses;
 using POGOProtos.Settings.Master;
+using PokemonGo.RocketAPI.Exceptions;
 using PokemonGo.RocketAPI.Helpers;
 using System;
 using System.Collections.Generic;
@@ -18,10 +20,9 @@ namespace PokemonGo.RocketAPI.Rpc
 {
     public class Inventory : BaseRpc
     {
-        private GetInventoryResponse _cachedInventory;
+        public GetInventoryResponse CachedInventory;
         private DateTime _lastInventoryRequest;
         private const int _minSecondsBetweenInventoryCalls = 20;
-        private DateTime _lastegguse;
 
         public Inventory(Client client) : base(client)
         {
@@ -33,25 +34,22 @@ namespace PokemonGo.RocketAPI.Rpc
 
         /// <summary>
         /// Send a parameter TRUE if you want to force real time invetory check
-        /// otherwise it will be checked if _lastInventoryRequest was done more than
-        /// _minSecondsBetweenInventoryCalls
         /// </summary>
         /// <param name="forceRequest"></param>
         /// <returns></returns>
         public GetInventoryResponse GetInventory(bool forceRequest = false)
         {
-            if (_lastInventoryRequest.AddSeconds(_minSecondsBetweenInventoryCalls).Ticks > DateTime.UtcNow.Ticks && _cachedInventory!=null && !forceRequest)
+            if (_lastInventoryRequest.AddSeconds(_minSecondsBetweenInventoryCalls).Ticks > DateTime.UtcNow.Ticks && CachedInventory!=null && !forceRequest)
             {
                 // If forceRequest is default/FALSE and last request made less than _minSecondsBetweenInventoryCalls seconds ago, we return _cachedInventory
-                return _cachedInventory;
+                return CachedInventory;
             }
-            // If forceRequest is default/FALSE and last request made more than _minSecondsBetweenInventoryCalls seconds ago, 
+             // If forceRequest is default/FALSE and last request made more than _minSecondsBetweenInventoryCalls seconds ago, 
             // we make the call and also update _cachedInventory
             _lastInventoryRequest = DateTime.UtcNow;
-            _cachedInventory =  PostProtoPayload<Request, GetInventoryResponse>(RequestType.GetInventory, new GetInventoryMessage());
-            return _cachedInventory;
+            CachedInventory =  PostProtoPayload<Request, GetInventoryResponse>(RequestType.GetInventory, new GetInventoryMessage());
+            return CachedInventory; 
         }
-
 
         public IEnumerable<ItemData> GetItemsOld(bool forceRequest = false)
         {
@@ -68,6 +66,10 @@ namespace PokemonGo.RocketAPI.Rpc
             return items.Select(i=> i.InventoryItemData.Item);
         }
 
+        public ItemData GetItemData( ItemId itemId)
+        {
+            return GetItems()?.FirstOrDefault(p => p.ItemId == itemId);
+        }
 
         public IEnumerable<ItemData> GetItemsToRecycle(ICollection<KeyValuePair<ItemId, int>> itemRecycleFilter)
         {
@@ -97,7 +99,7 @@ namespace PokemonGo.RocketAPI.Rpc
 
         #region --Uses
 
-        public RecycleInventoryItemResponse RecycleItem(ItemId itemId, int amount)
+        public RecycleInventoryItemResponse RecycleItemOnly(ItemId itemId, int amount)
         {
             var message = new RecycleInventoryItemMessage
             {
@@ -106,6 +108,20 @@ namespace PokemonGo.RocketAPI.Rpc
             };
 
             return PostProtoPayload<Request, RecycleInventoryItemResponse>(RequestType.RecycleInventoryItem, message);
+        }
+
+        public async Task<RecycleInventoryItemResponse> RecycleItem(ItemId itemId, int amount)
+        {
+            var request = new Request
+            {
+                RequestType = RequestType.RecycleInventoryItem,
+                RequestMessage = ((IMessage)new RecycleInventoryItemMessage
+                {
+                    ItemId = itemId,
+                    Count = amount
+                }).ToByteString()
+            };
+            return await PostProtoPayloadCommonR<Request, RecycleInventoryItemResponse>(request).ConfigureAwait(false);
         }
 
         public UseItemXpBoostResponse UseItemXpBoost(ItemId item)
@@ -273,7 +289,7 @@ namespace PokemonGo.RocketAPI.Rpc
             return PostProtoPayload<Request, ReleasePokemonResponse>(RequestType.ReleasePokemon, message);
         }
 
-        public ReleasePokemonResponse TransferPokemon(List<ulong> pokemonId) // Transfer a list of pokemon (BULK Transfer)
+        public ReleasePokemonResponse TransferPokemons(List<ulong> pokemonId) // Transfer a list of pokemon (BULK Transfer)
         {
             var message = new ReleasePokemonMessage { };
 
@@ -343,7 +359,7 @@ namespace PokemonGo.RocketAPI.Rpc
             {
                 return pokemonList
                     .GroupBy(p => p.PokemonId)
-                    .Where(x => x.Count() > 0)
+                    .Where(x => x.Any())
                     .SelectMany(p => p.Where(x => x.Favorite == 0)
                     .OrderByDescending(PokemonInfo.CalculatePokemonPerfection)
                     .ThenBy(n => n.StaminaMax)
@@ -351,17 +367,14 @@ namespace PokemonGo.RocketAPI.Rpc
                     .ToList());
 
             }
-            else
-            {
-                return pokemonList
-                    .GroupBy(p => p.PokemonId)
-                    .Where(x => x.Count() > 0)
-                    .SelectMany(p => p.Where(x => x.Favorite == 0)
-                    .OrderByDescending(x => x.Cp)
-                    .ThenBy(n => n.StaminaMax)
-                    .Skip(holdMaxDoublePokemons)
-                    .ToList());
-            }
+            return pokemonList
+                .GroupBy(p => p.PokemonId)
+                .Where(x => x.Any())
+                .SelectMany(p => p.Where(x => x.Favorite == 0)
+                .OrderByDescending(x => x.Cp)
+                .ThenBy(n => n.StaminaMax)
+                .Skip(holdMaxDoublePokemons)
+                .ToList());
         }
         #endregion
 
@@ -472,7 +485,7 @@ namespace PokemonGo.RocketAPI.Rpc
                     if (File.Exists(pokelist_file))
                         File.Delete(pokelist_file);
                     string ls = System.Globalization.CultureInfo.CurrentCulture.TextInfo.ListSeparator;
-                    string header = "PokemonID,Name,NickName,CP / MaxCP,IV Perfection in %,Attack 1,Attack 2,HP,Attk,Def,Stamina,Familie Candies,IsInGym,IsFavorite,previewLink";
+                    const string header = "PokemonID,Name,NickName,CP / MaxCP,IV Perfection in %,Attack 1,Attack 2,HP,Attk,Def,Stamina,Familie Candies,IsInGym,IsFavorite,previewLink";
                     File.WriteAllText(pokelist_file, header.Replace(",", ls));
 
                     var AllPokemon =  GetHighestsPerfect();
@@ -496,10 +509,7 @@ namespace PokemonGo.RocketAPI.Rpc
                             string IsInGym = string.Empty;
                             string IsFavorite = string.Empty;
 
-                            if (pokemon.Favorite != 0)
-                                IsFavorite = "Yes";
-                            else
-                                IsFavorite = "No";
+                            IsFavorite = pokemon.Favorite != 0 ? "Yes" : "No";
 
                             var settings = pokemonSettings.SingleOrDefault(x => x.PokemonId == pokemon.PokemonId);
                             var familiecandies = pokemonFamilies.SingleOrDefault(x => settings.FamilyId == x.FamilyId).Candy_;
@@ -540,26 +550,6 @@ namespace PokemonGo.RocketAPI.Rpc
             var inventory =  GetInventory(forceRefress);
             return   inventory.InventoryDelta.InventoryItems.Select(i => i.InventoryItemData?.PokemonData)
                .Where(p => p != null && p.IsEgg);
-        }
-
-        public  void UseLuckyEgg(Client client)
-        {
-            var inventory = GetItems();
-            var luckyEgg = inventory.FirstOrDefault(p => (ItemId)p.ItemId == ItemId.ItemLuckyEgg);
-
-            if (_lastegguse > DateTime.Now.AddSeconds(5))
-            {
-                TimeSpan duration = _lastegguse - DateTime.Now;
-                Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Lucky Egg still running: {duration.Minutes}m{duration.Seconds}s");
-                return;
-            }
-
-            if (luckyEgg == null || luckyEgg.Count <= 0) { return; }
-
-            client.Inventory.UseItemXpBoost(ItemId.ItemLuckyEgg);
-            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Used Lucky Egg, remaining: {luckyEgg.Count - 1}");
-            _lastegguse = DateTime.Now.AddMinutes(30);
-            RandomHelper.RandomSleep(3000, 3100);
         }
 
         public UseItemEggIncubatorResponse UseItemEggIncubator(string itemId, ulong pokemonId)

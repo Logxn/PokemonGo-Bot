@@ -14,10 +14,10 @@ using GMap.NET.WindowsForms;
 using GMap.NET.WindowsForms.Markers;
 using POGOProtos.Map.Fort;
 using POGOProtos.Map.Pokemon;
-using PokemonGo.RocketAPI.Console.Components;
-using PokemonGo.RocketAPI.Console.Helper;
-using PokemonGo.RocketAPI.Logic.Shared;
-using PokemonGo.RocketAPI.Logic.Utils;
+using PokeMaster.Components;
+using PokeMaster.Helper;
+using PokeMaster.Logic.Shared;
+using PokeMaster.Logic.Utils;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -27,8 +27,9 @@ using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
+using PokemonGo.RocketAPI;
 
-namespace PokemonGo.RocketAPI.Console
+namespace PokeMaster
 {
     /// <summary>
     /// Description of LocationPanel.
@@ -86,7 +87,6 @@ namespace PokemonGo.RocketAPI.Console
         private Dictionary<string, GMarkerGoogle> _pokeGymsMarks = new Dictionary<string, GMarkerGoogle>();
         private GMapOverlay _pokeGymsOverlay = new GMapOverlay("PokeGyms");
 
-        private LocationHelper LocationTools = new LocationHelper();
 
         delegate void SetTextCallback(decimal cord);
 
@@ -94,7 +94,7 @@ namespace PokemonGo.RocketAPI.Console
         {
             GlobalVars.latitude = map.Position.Lat;
             GlobalVars.longitude = map.Position.Lng;
-            GlobalVars.altitude = LocationTools.GetElevation(map.Position.Lat, map.Position.Lng, GlobalVars.altitude);
+            GlobalVars.altitude = LocationUtils.GetAltitude(map.Position.Lat, map.Position.Lng);
             GlobalVars.radius = (int)nudRadius.Value;
             close = false;
         }
@@ -107,7 +107,7 @@ namespace PokemonGo.RocketAPI.Console
             if (client.ReadyToUse) {
                 Logger.ColoredConsoleWrite(ConsoleColor.DarkRed, "Refreshing Forts", LogLevel.Warning);
                 var mapObjects = await client.Map.GetMapObjects().ConfigureAwait(false);
-                var mapCells = mapObjects.Item1.MapCells;
+                var mapCells = mapObjects.MapCells;
                 var pokeStops =
                     mapCells.SelectMany(i => i.Forts)
                 .Where(
@@ -375,7 +375,11 @@ namespace PokemonGo.RocketAPI.Console
                     }
                     if (info!="")
                         pokeStopMaker.ToolTipText = info;
+
+                    if (pokeStopMaker.ToolTip==null)
+                        pokeStopMaker.ToolTip = new GMapToolTip(pokeStopMaker);
                     pokeStopMaker.ToolTip.Font = new System.Drawing.Font("Arial", 12, System.Drawing.GraphicsUnit.Pixel);
+                    
                     pokeStopMaker.ToolTipMode = MarkerTooltipMode.OnMouseOver;
 
                     _pokeStopsMarks.Add(pokeStop.Id, pokeStopMaker);
@@ -692,7 +696,7 @@ namespace PokemonGo.RocketAPI.Console
                     str += Logic.Functions.GymsLogic.strPokemons(details.GymState.Memberships.Select(x => x.PokemonData)) +"\n\n";
                     str += th.TS("Do you want copy location?");
                     if (MessageBox.Show(str, th.TS("Gym Details"), MessageBoxButtons.YesNo  ) == DialogResult.Yes){
-                        Clipboard.SetText(item.Position.Lat.ToString(CultureInfo.InvariantCulture)  +","+ item.Position.Lng.ToString(CultureInfo.InvariantCulture));
+                        Clipboard.SetText(details.GymState.FortData.Latitude.ToString(CultureInfo.InvariantCulture)  +","+ details.GymState.FortData.Longitude.ToString(CultureInfo.InvariantCulture));
                     }
                 }
 

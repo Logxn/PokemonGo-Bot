@@ -13,7 +13,7 @@ using System.Windows.Forms;
 using System.Diagnostics;
 using Microsoft.Win32;
 
-namespace PokemonGo.RocketAPI.Console.Panels
+namespace PokeMaster.Panels
 {
     /// <summary>
     /// Description of WebPanel.

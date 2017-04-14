@@ -2,13 +2,15 @@
 
 using System;
 using System.Threading.Tasks;
+using System.Linq;
 using Google.Protobuf;
+using POGOProtos.Map;
+using PokemonGo.RocketAPI.Exceptions;
 using PokemonGo.RocketAPI.Helpers;
 using POGOProtos.Networking.Requests;
 using POGOProtos.Networking.Requests.Messages;
 using POGOProtos.Networking.Envelopes;
 using POGOProtos.Networking.Responses;
-using POGOProtos.Networking.Platform;
 
 #endregion
 
@@ -22,75 +24,42 @@ namespace PokemonGo.RocketAPI.Rpc
 
         private DateTime _lastGetMapRequest;
         private const int _minSecondsBetweenMapCalls = 20;
-        Tuple<GetMapObjectsResponse, CheckChallengeResponse, GetHatchedEggsResponse, GetInventoryResponse, CheckAwardedBadgesResponse, DownloadSettingsResponse, GetBuddyWalkedResponse> _cachedGetMapResponse;
+        
+        public GetMapObjectsResponse _cachedGetMapResponse;
 
         public async
             Task
-                <
-                    Tuple
-                        <GetMapObjectsResponse, CheckChallengeResponse, GetHatchedEggsResponse, GetInventoryResponse, CheckAwardedBadgesResponse,
-                            DownloadSettingsResponse, GetBuddyWalkedResponse>> GetMapObjects(bool forceRequest = false)
+                <GetMapObjectsResponse> GetMapObjects(bool forceRequest = false)
         {
             // In case we did last _minSecondsBetweenMapCalls before, we return the cached response
-            if (_lastGetMapRequest.AddSeconds(_minSecondsBetweenMapCalls).Ticks > DateTime.UtcNow.Ticks && !forceRequest)
-            {
+            if (_lastGetMapRequest.AddSeconds(_minSecondsBetweenMapCalls).Ticks > DateTime.UtcNow.Ticks 
+                && !forceRequest
+                && _cachedGetMapResponse!=null
+               )
                 return _cachedGetMapResponse;
-            }
 
-            #region Messages
+            var cellIds = S2Helper.GetNearbyCellIds(Client.CurrentLongitude, Client.CurrentLatitude).ToArray();
+
+            var sinceTimeMs = new long[cellIds.Length];
+            for  (var index = 0; index < cellIds.Length; index++)
+               sinceTimeMs[index] = 0;
 
             var getMapObjectsMessage = new GetMapObjectsMessage
             {
-                CellId = { S2Helper.GetNearbyCellIds(Client.CurrentLongitude, Client.CurrentLatitude) },
-                SinceTimestampMs = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                CellId = {cellIds},
+                SinceTimestampMs = {sinceTimeMs},
                 Latitude = Client.CurrentLatitude,
                 Longitude = Client.CurrentLongitude
             };
 
-            var getHatchedEggsMessage = new GetHatchedEggsMessage();
-
-            var getInventoryMessage = new GetInventoryMessage
-            {
-                LastTimestampMs = Client.InventoryLastUpdateTimestamp
-            };
-
-            var checkAwardedBadgesMessage = new CheckAwardedBadgesMessage();
-
-            var downloadSettingsMessage = new DownloadSettingsMessage
-            {
-                Hash = Client.SettingsHash
-            };
-
-            #endregion
-
-            var getMapObjectsRequest = new Request
+            var request = new Request
             {
                 RequestType = RequestType.GetMapObjects,
                 RequestMessage = getMapObjectsMessage.ToByteString()
             };
-
-            var request =  GetRequestBuilder().GetRequestEnvelope(CommonRequest.FillRequest(getMapObjectsRequest, Client));
-           
-            Tuple<GetMapObjectsResponse, CheckChallengeResponse, GetHatchedEggsResponse, GetInventoryResponse, CheckAwardedBadgesResponse, DownloadSettingsResponse, GetBuddyWalkedResponse> _getMapObjectsResponse =
-                await
-                    PostProtoPayload
-                        <Request, GetMapObjectsResponse, CheckChallengeResponse, GetHatchedEggsResponse, GetInventoryResponse,
-                            CheckAwardedBadgesResponse, DownloadSettingsResponse, GetBuddyWalkedResponse>(request).ConfigureAwait(false);
-
-            GetInventoryResponse getInventoryResponse = _getMapObjectsResponse.Item4;
-            CommonRequest.ProcessGetInventoryResponse(Client, getInventoryResponse);
-
-            DownloadSettingsResponse downloadSettingsResponse = _getMapObjectsResponse.Item6;
-            CommonRequest.ProcessDownloadSettingsResponse(Client, downloadSettingsResponse);
-
-            CheckChallengeResponse checkChallengeResponse = _getMapObjectsResponse.Item2;
-            CommonRequest.ProcessCheckChallengeResponse(Client, checkChallengeResponse);
-
-            // Here we refresh last time this request was done and cache
+            _cachedGetMapResponse = await PostProtoPayloadCommonR<Request, GetMapObjectsResponse>(request).ConfigureAwait(false);
             _lastGetMapRequest = DateTime.UtcNow;
-            _cachedGetMapResponse = _getMapObjectsResponse;
-
-            return _getMapObjectsResponse;
+            return _cachedGetMapResponse;
         }
 
         public GetIncensePokemonResponse GetIncensePokemons()

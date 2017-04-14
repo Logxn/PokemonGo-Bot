@@ -1,13 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using Google.Protobuf;
 using POGOProtos.Enums;
 using POGOProtos.Inventory.Item;
 using POGOProtos.Networking.Requests;
 using POGOProtos.Networking.Requests.Messages;
 using POGOProtos.Networking.Responses;
+using PokemonGo.RocketAPI.Exceptions;
+using PokemonGo.RocketAPI.Helpers;
 
 namespace PokemonGo.RocketAPI.Rpc
 {
@@ -15,7 +16,7 @@ namespace PokemonGo.RocketAPI.Rpc
     {
         public Encounter(Client client) : base(client) { }
 
-        public EncounterResponse EncounterPokemon(ulong encounterId, string spawnPointGuid)
+        public EncounterResponse EncounterPokemonOnly(ulong encounterId, string spawnPointGuid)
         {
             var message = new EncounterMessage
             {
@@ -26,6 +27,23 @@ namespace PokemonGo.RocketAPI.Rpc
             };
             
             return  PostProtoPayload<Request, EncounterResponse>(RequestType.Encounter, message);
+        }
+
+        public async Task<EncounterResponse> EncounterPokemon(ulong encounterId, string spawnPointGuid)
+        {
+            var message = new Request
+            {
+                RequestType = RequestType.Encounter,
+                RequestMessage = ((IMessage) new EncounterMessage
+                {
+                    EncounterId = encounterId,
+                    SpawnPointId = spawnPointGuid,
+                    PlayerLatitude = Client.CurrentLatitude,
+                    PlayerLongitude = Client.CurrentLongitude
+                }).ToByteString()
+            };
+
+            return await PostProtoPayloadCommonR<Request, EncounterResponse>( message).ConfigureAwait(false);
         }
 
         public UseItemCaptureResponse UseCaptureItem(ulong encounterId, ItemId itemId, string spawnPointId)
@@ -65,7 +83,7 @@ namespace PokemonGo.RocketAPI.Rpc
                 NormalizedHitPosition = normalizedHitPos
             };
             
-            return  PostProtoPayload<Request, CatchPokemonResponse>(RequestType.CatchPokemon, message);
+            return  PostProtoPayloadCommonR<Request, CatchPokemonResponse>(RequestType.CatchPokemon, message).Result;
         }
 
         public IncenseEncounterResponse EncounterIncensePokemon(ulong encounterId, string encounterLocation)

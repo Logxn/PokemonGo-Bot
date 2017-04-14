@@ -6,7 +6,7 @@
  * 
  * To change this template use Tools | Options | Coding | Edit Standard Headers.
  */
-namespace PokemonGo.RocketAPI.Console
+namespace PokeMaster
 {
     partial class ChangesPanel
     {
@@ -93,6 +93,7 @@ namespace PokemonGo.RocketAPI.Console
         private System.Windows.Forms.Button buttonSelectLocationFile;
         private System.Windows.Forms.TextBox textBoxSaveLocationsFile;
         private System.Windows.Forms.CheckBox checkBoxSaveLocations;
+        private System.Windows.Forms.Button buttonForceRelogin;
         
         /// <summary>
         /// Disposes resources used by the control.
@@ -194,6 +195,7 @@ namespace PokemonGo.RocketAPI.Console
             this.buttonSelectLocationFile = new System.Windows.Forms.Button();
             this.textBoxSaveLocationsFile = new System.Windows.Forms.TextBox();
             this.checkBoxSaveLocations = new System.Windows.Forms.CheckBox();
+            this.buttonForceRelogin = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numTravelSpeed)).BeginInit();
             this.groupBox10.SuspendLayout();
@@ -277,7 +279,7 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // buttonSetLocation
             // 
-            this.buttonSetLocation.Image = global::PokemonGo.RocketAPI.Console.Properties.MapData.start_point;
+            this.buttonSetLocation.Image = global::PokeMaster.Properties.MapData.start_point;
             this.buttonSetLocation.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
             this.buttonSetLocation.Location = new System.Drawing.Point(6, 185);
             this.buttonSetLocation.Margin = new System.Windows.Forms.Padding(4);
@@ -1167,6 +1169,7 @@ namespace PokemonGo.RocketAPI.Console
             // 
             // tabPageMisc
             // 
+            this.tabPageMisc.Controls.Add(this.buttonForceRelogin);
             this.tabPageMisc.Controls.Add(this.groupBox4);
             this.tabPageMisc.Location = new System.Drawing.Point(4, 22);
             this.tabPageMisc.Name = "tabPageMisc";
@@ -1243,6 +1246,16 @@ namespace PokemonGo.RocketAPI.Console
             this.checkBoxSaveLocations.Text = "Save Pokemons Location";
             this.checkBoxSaveLocations.UseVisualStyleBackColor = true;
             this.checkBoxSaveLocations.CheckedChanged += new System.EventHandler(this.CheckBoxes_CheckedChanged);
+            // 
+            // buttonForceRelogin
+            // 
+            this.buttonForceRelogin.Location = new System.Drawing.Point(10, 91);
+            this.buttonForceRelogin.Name = "buttonForceRelogin";
+            this.buttonForceRelogin.Size = new System.Drawing.Size(104, 23);
+            this.buttonForceRelogin.TabIndex = 75;
+            this.buttonForceRelogin.Text = "Force Relogin";
+            this.buttonForceRelogin.UseVisualStyleBackColor = true;
+            this.buttonForceRelogin.Click += new System.EventHandler(this.buttonForceRelogin_Click);
             // 
             // ChangesPanel
             // 

@@ -10,10 +10,11 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using PokemonGo.RocketAPI;
 using PokemonGo.RocketAPI.Helpers;
-using PokemonGo.RocketAPI.Logic.Shared;
+using PokeMaster.Logic.Shared;
 
-namespace PokemonGo.RocketAPI.Logic.Utils
+namespace PokeMaster.Logic.Utils
 {
     public static class StringUtils
     {

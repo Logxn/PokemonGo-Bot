@@ -11,8 +11,9 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 using POGOProtos.Networking.Platform.Responses;
+using PokemonGo.RocketAPI;
 
-namespace PokemonGo.RocketAPI.Console.Panels
+namespace PokeMaster.Panels
 {
     /// <summary>
     /// Description of ShopPanel.

@@ -12,7 +12,7 @@ using POGOProtos.Enums;
 using System.Globalization;
 using System.Net;
 
-namespace PokemonGo.RocketAPI.Console
+namespace PokeMaster
 {
     /// <summary>
     /// Description of PokeImgManager.
@@ -31,13 +31,13 @@ namespace PokemonGo.RocketAPI.Console
             return GetPokemonImagefromResource(pokemon, "35");
         }
 
-        public static Bitmap GetPokemonLargeImage(PokemonId pokemon)
+        public static Bitmap GetPokemonLargeImage(PokemonId pokemon, string special = "")
         {
-            if (PokemonGo.RocketAPI.Logic.Shared.GlobalVars.UseSpritesFolder)
+            if (PokeMaster.Logic.Shared.GlobalVars.UseSpritesFolder)
             {
                 var bmp = new Bitmap(1,1);
-                DownloadSprite("PokemonGo.RocketAPI.Console/Sprites",path, ""+(int)pokemon);
-                var filename = System.IO.Path.Combine(path, ""+(int)pokemon+".png");
+                DownloadSprite("PokemonGo.RocketAPI.Console/Sprites",path, ""+(int)pokemon +special);
+                var filename = System.IO.Path.Combine(path, ""+(int)pokemon+special+".png");
                 if (System.IO.File.Exists(filename) && new System.IO.FileInfo( filename ).Length != 0)
                     bmp = new Bitmap(filename);
                 else{
@@ -51,8 +51,23 @@ namespace PokemonGo.RocketAPI.Console
             return GetPokemonImagefromResource(pokemon, "50");
         }
 
-        public static Bitmap GetPokemonVeryLargeImage(PokemonId pokemon)
+        public static Bitmap GetPokemonVeryLargeImage(PokemonId pokemon, string special = "")
         {
+            if (PokeMaster.Logic.Shared.GlobalVars.UseSpritesFolder)
+            {
+                var bmp = new Bitmap(1,1);
+                DownloadSprite("PokemonGo.RocketAPI.Console/Sprites",path, ""+(int)pokemon+special);
+                var filename = System.IO.Path.Combine(path, ""+(int)pokemon+special+".png");
+                if (System.IO.File.Exists(filename) && new System.IO.FileInfo( filename ).Length != 0)
+                    bmp = new Bitmap(filename);
+                else{
+                    filename = System.IO.Path.Combine(path, "0.png");
+                    if (System.IO.File.Exists(filename) && new System.IO.FileInfo( filename ).Length != 0)
+                        bmp = new Bitmap(filename);
+                
+                }
+                return new Bitmap(bmp,200,200);
+            }
             return GetPokemonImagefromResource(pokemon, "200");
         }
 
@@ -64,7 +79,7 @@ namespace PokemonGo.RocketAPI.Console
         /// <returns></returns>
         public static Bitmap GetPokemonImagefromResource(PokemonId pokemon, string size)
         {
-            var resource = PokemonGo.RocketAPI.Console.Properties.PokemonSprites.ResourceManager.GetObject("_" + (int)pokemon + "_" + size, CultureInfo.CurrentCulture);
+            var resource = PokeMaster.Properties.PokemonSprites.ResourceManager.GetObject("_" + (int)pokemon + "_" + size, CultureInfo.CurrentCulture);
             if (resource != null && resource is Bitmap)
             {
                 return new Bitmap(resource as Bitmap);

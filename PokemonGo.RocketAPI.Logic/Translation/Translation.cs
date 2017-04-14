@@ -9,7 +9,7 @@ using Newtonsoft.Json;
     Written by DeltaCore (https://github.com/DeltaCore)
 */
 
-namespace PokemonGo.RocketAPI.Logic.Translation
+namespace PokeMaster.Logic.Translation
 {
     public class Translation
     {

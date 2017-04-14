@@ -6,7 +6,8 @@
  * 
  * To change this template use Tools | Options | Coding | Edit Standard Headers.
  */
-namespace PokemonGo.RocketAPI.Console.Dialogs
+using PokeMaster.Panels;
+namespace PokeMaster.Dialogs
 {
     partial class AvatarSelect
     {
@@ -14,9 +15,9 @@ namespace PokemonGo.RocketAPI.Console.Dialogs
         /// Designer variable used to keep track of non-visual components.
         /// </summary>
         private System.ComponentModel.IContainer components = null;
-        private PokemonGo.RocketAPI.Console.Panels.TutorialPanel tutorialPanel1;
         private System.Windows.Forms.Button buttonCancel;
         private System.Windows.Forms.Button buttonOk;
+        private TutorialPanel tutorialPanel1;
         
         /// <summary>
         /// Disposes resources used by the form.
@@ -39,7 +40,7 @@ namespace PokemonGo.RocketAPI.Console.Dialogs
         /// </summary>
         private void InitializeComponent()
         {
-            this.tutorialPanel1 = new PokemonGo.RocketAPI.Console.Panels.TutorialPanel();
+            this.tutorialPanel1 = new PokeMaster.Panels.TutorialPanel();
             this.buttonCancel = new System.Windows.Forms.Button();
             this.buttonOk = new System.Windows.Forms.Button();
             this.SuspendLayout();

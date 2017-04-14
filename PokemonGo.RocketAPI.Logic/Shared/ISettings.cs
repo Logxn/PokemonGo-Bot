@@ -8,7 +8,7 @@ using System.Device.Location;
 using System.Collections.Generic;
 
 
-namespace PokemonGo.RocketAPI.Logic.Shared
+namespace PokeMaster.Logic.Shared
 {
     public interface ISettings
     {
@@ -170,7 +170,6 @@ namespace PokemonGo.RocketAPI.Logic.Shared
         bool simulatedPGO { get; set; }
         bool pauseAtEvolve { get; set; }
 
-        bool UsePinapBerry { get; set; }
         bool UseNanabBerry { get; set; }
     }
 }

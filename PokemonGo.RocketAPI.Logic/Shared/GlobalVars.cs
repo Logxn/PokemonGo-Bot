@@ -6,16 +6,17 @@
  * 
  * To change this template use Tools | Options | Coding | Edit Standard Headers.
  */
-using Google.Protobuf;
-using POGOProtos.Enums;
-using POGOProtos.Inventory.Item;
 using System;
 using System.Collections.Generic;
 using System.Device.Location;
 using System.IO;
+using Google.Protobuf;
+using POGOProtos.Enums;
+using POGOProtos.Inventory.Item;
+using PokemonGo.RocketAPI;
+using PokemonGo.RocketAPI.Enums;
 
-
-namespace PokemonGo.RocketAPI.Logic.Shared
+namespace PokeMaster.Logic.Shared
 {
     /// <summary>
     /// Description of GlobalVars.
@@ -31,7 +32,7 @@ namespace PokemonGo.RocketAPI.Logic.Shared
         public static bool IsDefault = false;
         public static int RunOrder = 0;
         public static string SettingsJSON = "";
-        public static Enums.AuthType acc = Enums.AuthType.Google;
+        public static AuthType acc = AuthType.Google;
         public static string email = "empty";
         public static string Password = "empty";
         public static bool WalkBackToDefaultLocation = true;
@@ -125,6 +126,7 @@ namespace PokemonGo.RocketAPI.Logic.Shared
         public static bool UseLureGUIClick = false;
         public static bool UseLuckyEggGUIClick = false;
         public static bool UseIncenseGUIClick = false;
+        public static bool ForceReloginClick = false;
         public static bool RelocateDefaultLocation = false;
         public static double RelocateDefaultLocationTravelSpeed = 0;
         public static bool pauseAtEvolve = false;
@@ -137,6 +139,7 @@ namespace PokemonGo.RocketAPI.Logic.Shared
         public static int InventoryBaseUltraball = 10;
         public static int MinCPtoCatch = 0;
         public static int MinIVtoCatch = 0;
+        public static int MinProbToCatch = 0;
         public static bool AvoidRegionLock = true;
         public static bool simulatedPGO = false;
         public static ByteString SessionHash;
@@ -172,8 +175,6 @@ namespace PokemonGo.RocketAPI.Logic.Shared
         public static string FortsFile = "";
         public static bool SaveForts = false;
 
-        public static bool UsePinapBerry = false;
-
         public static bool UseNanabBerry = false;
         
         public static string DeviceTradeName ="";
@@ -187,14 +188,25 @@ namespace PokemonGo.RocketAPI.Logic.Shared
         
         public static GymSettings Gyms = new GymSettings();
         public static DebugSettings Debug = new DebugSettings();
+        public static bool CompleteTutorial = false;
 
         public static bool SaveLocations =false;
         public static int MinIVSave = 100;
         public static string SaveLocationsFile = "";
         public static bool ShowStats = false;
-        public static int MinIVtoSnipe = 90;
 
         public static bool ContinueLatestSession =false;
+        public static bool WalkInLoop = false;
+        public static bool WalkRandomly = false;
+
+        public static List<PokemonId> PokemonPinap;
+
+        public static bool SendToDiscord ;
+        public static string DiscordUser ;
+        public static string DiscordPassword;
+        public static ulong DiscordServerID;
+
+
         /// <summary>
         /// Copy all values from ProfileSettings to GlobalVars.
         /// </summary>

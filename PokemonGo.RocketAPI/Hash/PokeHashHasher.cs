@@ -33,7 +33,8 @@ namespace PokemonGo.RocketAPI.Hash
         bool NoValidKey = false;
         // Will be true if no valid key is found (testing)
 
-        private readonly Uri _baseAddress = new Uri("http://pokehash.buddyauth.com/");
+        private static readonly Uri _baseAddress = new Uri("https://pokehash.buddyauth.com/");
+        private static readonly Uri _baseAddress2 = new Uri("http://pokehash.buddyauth.com/");
         private Uri _availableHashVersionsCheck = new Uri("https://pokehash.buddyauth.com/api/hash/versions");
         private readonly string _endpoint;
         private string apiKey;
@@ -98,7 +99,13 @@ namespace PokemonGo.RocketAPI.Hash
                 var content = new StringContent(JsonConvert.SerializeObject(request), Encoding.UTF8, "application/json");
                 content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
 
-                var response = client.PostAsync(_endpoint, content).Result;
+                HttpResponseMessage response = null;  
+                try {
+                    response = client.PostAsync(_endpoint, content).Result;
+                } catch (Exception) {
+                    client.BaseAddress = _baseAddress2;
+                    response = client.PostAsync(_endpoint, content).Result;
+                }
 
                 switch (response.StatusCode) {
                     case HttpStatusCode.OK: //200
@@ -139,6 +146,43 @@ namespace PokemonGo.RocketAPI.Hash
                         throw new HasherException($"[HashService] Unknown: Pokefamer Hash API ({_baseAddress}{_endpoint}) might down!");
                 }
             }
+        }
+        public static string GetExpirationTime(string key)
+        {
+            var result ="";
+            var client = new System.Net.Http.HttpClient();
+            client.BaseAddress = _baseAddress;
+            client.DefaultRequestHeaders.Accept.Clear();
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            client.DefaultRequestHeaders.Add("X-AuthToken", key);
+            
+            var hashRequest = new HashRequestContent();
+            
+            var content = new StringContent(JsonConvert.SerializeObject( hashRequest), Encoding.UTF8, "application/json");
+            content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+            
+            HttpResponseMessage response = null;  
+            try {
+                response = client.PostAsync(Resources.Api.EndPoint, content).Result;
+            } catch (Exception) {
+                client.BaseAddress = _baseAddress2;
+                response = client.PostAsync(Resources.Api.EndPoint, content).Result;
+            }
+            try {
+                    var AuthTokenExpiration = new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc).AddSeconds(Convert.ToUInt32(((String[])response.Headers.GetValues("X-AuthTokenExpiration"))[0])).ToLocalTime();
+                    var MaxRequestCount = Convert.ToUInt16(((string[])response.Headers.GetValues("X-MaxRequestCount"))[0]);
+                    var RatePeriodEnd = new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc).AddSeconds(Convert.ToUInt32(((String[])response.Headers.GetValues("X-RatePeriodEnd"))[0])).ToLocalTime();
+                    var RateRequestRemaining = Convert.ToUInt16(((string[])response.Headers.GetValues("X-RateRequestsRemaining"))[0]);
+                    var RateLimitSeconds = Convert.ToUInt16(((string[])response.Headers.GetValues("X-RateLimitSeconds"))[0]);
+                    var remainingSeconds = (DateTime.Now - RatePeriodEnd).TotalSeconds * -1;
+                    Logger.Info($"{RateRequestRemaining}/{MaxRequestCount} requests remaining for the next {remainingSeconds} seconds. Key expires on: {AuthTokenExpiration}");
+                    result = AuthTokenExpiration.ToString("dd/MM/yyyy HH:mm:ss");
+                
+            } catch (Exception) {
+                result = response.StatusCode.ToString();
+            }
+
+            return result;
         }
         #endregion
     }

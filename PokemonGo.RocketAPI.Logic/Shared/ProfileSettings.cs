@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Created by SharpDevelop.
  * User: Xelwon
  * Date: 18/01/2017
@@ -10,7 +10,7 @@ using System;
 using Newtonsoft.Json;
 using System.IO;
 
-namespace PokemonGo.RocketAPI.Logic.Shared
+namespace PokeMaster.Logic.Shared
 {
     /// <summary>
     /// Description of ProfileSettings.
@@ -303,7 +303,6 @@ namespace PokemonGo.RocketAPI.Logic.Shared
 
         }
 
-        public bool UsePinapBerry { get; set; }
         public bool UseNanabBerry { get; set; }
         public double razzberry_chance {get;set;}
         public int NanabPercent {get;set;}
@@ -571,15 +570,8 @@ namespace PokemonGo.RocketAPI.Logic.Shared
 
 
         }
-        public int MinIVtoCatch {
-            get;
-            set;
-
-
-
-
-
-        }
+        public int MinIVtoCatch {get;set;}
+        public int MinProbToCatch {get;set;}
         public int Max_Missed_throws {
             get;
             set;
@@ -789,6 +781,11 @@ namespace PokemonGo.RocketAPI.Logic.Shared
         }
         public bool SnipePokemon  {get;set;}
         public System.Collections.Generic.List<POGOProtos.Enums.PokemonId> ToSnipe  {get;set;}
+        
+        public bool SendToDiscord {get;set;}
+        public string DiscordUser {get;set;}
+        public string DiscordPassword {get;set;}
+        public ulong DiscordServerID {get;set;}
 
         public int EvolveAt {get;set;}
 
@@ -923,10 +920,14 @@ namespace PokemonGo.RocketAPI.Logic.Shared
 
         public  GymSettings Gyms {get;set;}
         public  DebugSettings Debug {get;set;}
+        public  bool CompleteTutorial {get;set;}
 
         public  bool SaveLocations {get;set;}
         public  int MinIVSave {get;set;}
         public  string SaveLocationsFile {get;set;}
+        public  bool WalkInLoop {get;set;}
+        public  bool WalkRandomly {get;set;}
+        public System.Collections.Generic.List<POGOProtos.Enums.PokemonId> PokemonPinap {get;set;}
 
         #endregion
     

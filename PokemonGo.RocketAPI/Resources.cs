@@ -28,6 +28,7 @@ namespace PokemonGo.RocketAPI
          ******************************************************************************************************************/
         public static Version BotVersion = new Version(Assembly.GetEntryAssembly().GetName().Version.ToString());
 
+        /* Obsolete APIs
         private static APIVars Apiv53 = new APIVars(-1, "0.55.0",
                                                     -76506539888958491, "1.23.1",
                                                 "e40c3e64817d9c96d99d28f6488a2efc40b11046",
@@ -45,7 +46,17 @@ namespace PokemonGo.RocketAPI
 
         private static APIVars Apiv573 = new APIVars(7472694709694384708, "0.57.3", -816976800928766045, "1.27.3", "90f6a704505bccac73cec99b07794993e6fd5a12", "api/v127_3/hash");
 
-        public static APIVars Api = Apiv573;
+        private static APIVars Apiv574 = new APIVars(7472694709694384708, "0.57.4",
+                                                     -816976800928766045, "1.27.4",
+                                                     "90f6a704505bccac73cec99b07794993e6fd5a12",
+                                                     "api/v127_4/hash");
+        */
+
+        private static APIVars apiv0591 = new APIVars(-3226782243204485589, "0.59.1", -3226782243204485589, "1.29.1", "", "api/v129_1/hash");
+
+        private static APIVars apiv0600 = new APIVars(0x11fdf018c941ef22, "0.61.0", 0x11fdf018c941ef22, "1.31.0", "", "api/v131_0/hash");
+
+        public static APIVars Api = apiv0600;
 
         //BotApiSupportedVersion Must go here to can use Api.ClientVersion value
         public static Version BotApiSupportedVersion = new Version(Api.AndroidClientVersion);

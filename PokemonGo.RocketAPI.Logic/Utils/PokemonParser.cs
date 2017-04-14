@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using POGOProtos.Enums;
 
-namespace PokemonGo.RocketAPI.Logic.Utils
+namespace PokeMaster.Logic.Utils
 {
     public class PokemonParser
     {

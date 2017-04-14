@@ -4,25 +4,25 @@ using System.Device.Location;
 using System.Threading.Tasks;
 using POGOProtos.Map.Fort;
 using POGOProtos.Networking.Responses;
+using PokemonGo.RocketAPI;
 using PokemonGo.RocketAPI.Helpers;
-using PokemonGo.RocketAPI.Logic.Utils;
+using PokeMaster.Logic.Utils;
 using POGOProtos.Enums;
-using PokemonGo.RocketAPI.Logic.Shared;
+using PokeMaster.Logic.Shared;
 using System.Globalization;
 using System.IO;
 
-namespace PokemonGo.RocketAPI.Logic
+namespace PokeMaster.Logic
 {
     public class Navigation
     {
+        private static readonly Random RandomDevice = new Random();
+
         public Navigation(Client client, ISettings settings)
         {
             _client = client;
             _botSettings = settings;
         }
-
-
-        private static readonly Random RandomDevice = new Random();
 
         private const double SpeedDownTo = 10 / 3.6;
         private readonly Client _client;
@@ -36,22 +36,19 @@ namespace PokemonGo.RocketAPI.Logic
             SaveLatLngAlt(lat, lng, altitude);
         }
 
-        public void SaveLatLngAlt(double lat, double lng, double alt)
+        public static void SaveLatLngAlt(double lat, double lng, double alt)
         {
-            try
-            {
+            try{
                 string latlngalt = lat.ToString(CultureInfo.InvariantCulture) + ":" + lng.ToString(CultureInfo.InvariantCulture) + ":" + alt.ToString(CultureInfo.InvariantCulture);
                 File.WriteAllText(Directory.GetCurrentDirectory() + "\\Configs\\LastCoords.txt", latlngalt);
-            }
-            catch (Exception)
-            {
-
+            }catch (Exception ex){
+                Logger.ExceptionInfo(ex.ToString());
             }
         }
 
         public static double DistanceBetween2Coordinates(double Lat1, double Lng1, double Lat2, double Lng2)
         {
-            double r_earth = 6378137;
+            const double r_earth = 6378137;
             double d_lat = (Lat2 - Lat1) * Math.PI / 180;
             double d_lon = (Lng2 - Lng1) * Math.PI / 180;
             double alpha = Math.Sin(d_lat / 2) * Math.Sin(d_lat / 2) +
@@ -61,20 +58,20 @@ namespace PokemonGo.RocketAPI.Logic
             return d;
         }
 
-        //public PlayerUpdateResponse HumanLikeWalking(GeoCoordinate targetLocation, double walkingSpeedInKilometersPerHour, Func<bool> functionExecutedWhileWalking, bool fromgoogle = false, bool log = true)
         public void HumanLikeWalking(GeoCoordinate targetLocation, double walkingSpeedInKilometersPerHour, Func<bool> functionExecutedWhileWalking, bool fromgoogle = false, bool log = true)
         {
-            var randomFactor = 0.5f;
+            
+            /* removing random factors*/
+            /*const float randomFactor = 0.5f;
             var randomMin = (int)(walkingSpeedInKilometersPerHour * (1 - randomFactor));
             var randomMax = (int)(walkingSpeedInKilometersPerHour * (1 + randomFactor));
-            var RandomWalkSpeed = RandomDevice.Next(randomMin, randomMax);
-            walkingSpeedInKilometersPerHour = RandomWalkSpeed + RandomDevice.NextDouble();
+            walkingSpeedInKilometersPerHour = RandomDevice.Next(randomMin, randomMax);*/
+            
             var speedInMetersPerSecond = walkingSpeedInKilometersPerHour / 3.6;
+            Logger.Debug("speed In Meters Per Seconds to use: " + speedInMetersPerSecond);
             var sourceLocation = new GeoCoordinate(_client.CurrentLatitude, _client.CurrentLongitude);
             var distanceToTarget = LocationUtils.CalculateDistanceInMeters(sourceLocation, targetLocation);
-
-            if (log) { Logger.ColoredConsoleWrite(ConsoleColor.DarkCyan, $"Distance to target location: {distanceToTarget:0.##} meters. Will take {distanceToTarget / speedInMetersPerSecond:0.##} seconds!"); }
-            
+            Logger.Debug($"Distance to target location: {distanceToTarget:0.##} meters. Will take {distanceToTarget / speedInMetersPerSecond:0.##} seconds!");
             var nextWaypointBearing = LocationUtils.DegreeBearing(sourceLocation, targetLocation);
             var nextWaypointDistance = speedInMetersPerSecond;
             var waypoint = LocationUtils.CreateWaypoint(sourceLocation, nextWaypointDistance, nextWaypointBearing);
@@ -82,14 +79,10 @@ namespace PokemonGo.RocketAPI.Logic
             //Initial walking
             var requestSendDateTime = DateTime.Now;
             LocationUtils.updatePlayerLocation(_client, waypoint.Latitude, waypoint.Longitude, waypoint.Altitude);
-            //var result =_client.Player.UpdatePlayerLocation(waypoint.Latitude, waypoint.Longitude, waypoint.Altitude).Result;
 
             if (functionExecutedWhileWalking != null)
-            {
                 functionExecutedWhileWalking();
-            }
 
-            var locatePokemonWhileWalkingDateTime = DateTime.Now;
             do
             {
                 //update user location on map
@@ -105,8 +98,7 @@ namespace PokemonGo.RocketAPI.Logic
                 {
                     if (speedInMetersPerSecond > SpeedDownTo)
                     {
-                        if (log) 
-                            Logger.ColoredConsoleWrite(ConsoleColor.DarkCyan, "We are within 40 meters of the target. Slowing down to ~10 km/h to not pass the target.");
+                        Logger.Warning( "We are within 40 meters of the target. Slowing down to ~10 km/h to not pass the target.");
                         speedInMetersPerSecond = SpeedDownTo;
                     }
                 }
@@ -114,140 +106,24 @@ namespace PokemonGo.RocketAPI.Logic
                 nextWaypointDistance = Math.Min(currentDistanceToTarget, millisecondsUntilGetUpdatePlayerLocationResponse / 1000 * speedInMetersPerSecond);
                 nextWaypointBearing = LocationUtils.DegreeBearing(sourceLocation, targetLocation);
                 waypoint = LocationUtils.CreateWaypoint(sourceLocation, nextWaypointDistance, nextWaypointBearing);
-                requestSendDateTime = DateTime.Now;                
+                requestSendDateTime = DateTime.Now;
                 
-                if (_botSettings.PauseTheWalking)
-                {
-                    //result = _client.Player.UpdatePlayerLocation(_client.CurrentLatitude, _client.CurrentLongitude, _client.CurrentAltitude).Result;
-                    SetCoordinates(waypoint.Latitude, waypoint.Longitude, waypoint.Altitude);
-                }
-                else
-                {
-                    try
-                    {
-                        //result = _client.Player.UpdatePlayerLocation(waypoint.Latitude, waypoint.Longitude, waypoint.Altitude).Result;
-                        SetCoordinates(waypoint.Latitude, waypoint.Longitude, waypoint.Altitude);
-                    }
-                    catch (Exception e)
-                    {
-                        Logger.ColoredConsoleWrite(ConsoleColor.DarkRed, "Sending exception info to Logger");
-                        Logger.AddLog("Exception Updating player Location:" + e.ToString());
-                    }
-                }
+                SetCoordinates(waypoint.Latitude, waypoint.Longitude, waypoint.Altitude);
 
                 if (functionExecutedWhileWalking != null && !_botSettings.PauseTheWalking)
-                {
                      functionExecutedWhileWalking();// look for pokemon 
-                }
-                
+
                 if (GlobalVars.SnipeOpts.Enabled){
                     Logic.Instance.sniperLogic.Execute((PokemonId) GlobalVars.SnipeOpts.ID,GlobalVars.SnipeOpts.Location);
-                    //_botSettings.SnipeOpts.Enabled = false;
                 }
 
                 RandomHelper.RandomSleep(500, 600);
             }
             while ((LocationUtils.CalculateDistanceInMeters(sourceLocation, targetLocation) >= 30 && !fromgoogle) || LocationUtils.CalculateDistanceInMeters(sourceLocation, targetLocation) >= 2);
-            //return result;
         }
 
-        public FortData[] pathByNearestNeighbour(FortData[] pokeStops, double walkingSpeedInKilometersPerHour)
+        public static FortData[] pathByNearestNeighbour(FortData[] pokeStops)
         {
-            ////Start Gen. alg.
-            //if (pokeStops.Length > 15)
-            //{
-            //    //Config
-            //    int ITERATIONS = 100000;
-            //    int POPSIZE = pokeStops.Length * 60;
-            //    double CROSSPROP = 99;
-            //    double MUTPROP = 20;
-            //    List<List<int>> population = new List<List<int>>();
-            //    Random rnd = new Random();
-            //    //Create Population
-            //    for (var i = POPSIZE; i > 0; --i)
-            //    {
-            //        List<int> tempChromosome = new List<int>();
-            //        int items = rnd.Next(2, pokeStops.Length * 3 / 4);
-            //        do
-            //        {
-            //            int tempIndex = rnd.Next(0, pokeStops.Length - 1);
-            //            //Add only if new Index
-            //            while (tempChromosome.Exists(x => x == tempIndex))
-            //            {
-            //                tempIndex = rnd.Next(0, pokeStops.Length - 1);
-            //            }
-            //            tempChromosome.Add(tempIndex);
-            //        } while (--items > 0);
-            //        if (calcFitness(ref pokeStops, tempChromosome, walkingSpeedInKilometersPerHour) > 0.0)
-            //        {
-            //            tempChromosome.Add(tempChromosome[0]);
-            //            population.Add(tempChromosome);
-            //        }
-            //    }
-            //    if (population.Count > 10)
-            //    {
-            //        for (int i = 0; i < ITERATIONS; ++i)
-            //        {
-            //            //Selection
-            //            var parents = selection(pokeStops, population, walkingSpeedInKilometersPerHour);
-            //            List<int> child1 = parents[0], child2 = parents[1];
-            //            //Crossing
-            //            if (rnd.Next(0, 100) < CROSSPROP)
-            //            {
-            //                child1 = calcCrossing(parents[0], parents[1]);
-            //                child2 = calcCrossing(parents[1], parents[0]);
-            //            }
-            //            //Mutation
-            //            if (rnd.Next(0, 100) < MUTPROP)
-            //            {
-            //                mutate(ref child1);
-            //            }
-            //            if (rnd.Next(0, 100) < MUTPROP)
-            //            {
-            //                mutate(ref child2);
-            //            }
-            //            //Replace
-            //            List<int> fittnes = new List<int>();
-            //            int sumPop = 0;
-            //            for (int c = 0; c < population.Count; ++c)
-            //            {
-            //                var temp = calcFitness(ref pokeStops, population[c], walkingSpeedInKilometersPerHour);
-            //                sumPop += temp;
-            //                fittnes.Add(temp);
-            //            }
-            //            List<int> fittnesSorted = new List<int>(fittnes);
-            //            fittnesSorted.Sort();
-            //            if (fittnesSorted[0] <= calcFitness(ref pokeStops, child1, walkingSpeedInKilometersPerHour))
-            //            {
-            //                var tempSelcetedChr = fittnes.FindIndex(x => x == fittnesSorted[0]);
-            //                population[tempSelcetedChr] = child1;
-            //            }
-            //            if (fittnesSorted[1] <= calcFitness(ref pokeStops, child2, walkingSpeedInKilometersPerHour))
-            //            {
-            //                var tempSelcetedChr = fittnes.FindIndex(x => x == fittnesSorted[1]);
-            //                population[tempSelcetedChr] = child2;
-            //            }
-            //            //get best Generation
-            //            List<int> fittnes2 = new List<int>();
-            //            for (int c = 0; c < population.Count; ++c)
-            //            {
-            //                var temp = calcFitness(ref pokeStops, population[c], walkingSpeedInKilometersPerHour);
-            //                fittnes2.Add(temp);
-            //            }
-            //            List<int> fittnesSorted2 = new List<int>(fittnes2);
-            //            fittnesSorted2.Sort();
-            //            var tempSelcetedChr2 = fittnes2.FindIndex(x => x == fittnesSorted2[fittnesSorted2.Count - 1]);
-            //            List<FortData> newPokeStops = new List<FortData>();
-            //            foreach (var element in population[tempSelcetedChr2])
-            //            {
-            //                newPokeStops.Add(pokeStops[element]);
-            //            }
-            //            Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"{Math.Round(newPokeStops.Count * 3600 / calcTime(ref pokeStops, population[tempSelcetedChr2], walkingSpeedInKilometersPerHour))} PokeStops per Hour.");
-            //            return newPokeStops.ToArray();
-            //        }
-            //    }
-            //}
-            //End gen. alg
             //Normal calculation
             for (var i = 1; i < pokeStops.Length - 1; i++)
             {
@@ -272,15 +148,14 @@ namespace PokemonGo.RocketAPI.Logic
 
         private List<int> calcCrossing(List<int> _chromosome1, List<int> _chromosome2)
         {
-            List<int> child = new List<int>(_chromosome1);
+            var child = new List<int>(_chromosome1);
 
             if (child.Count <= 3)
             {
                 return child;
             }
 
-            Random rnd = new Random();
-            int p = rnd.Next(1, child.Count - 2);
+            int p = RandomDevice.Next(1, child.Count - 2);
             for (; p < child.Count - 1; ++p)
             {
                 for (int i = 0; i < _chromosome2.Count; ++i)
@@ -325,14 +200,7 @@ namespace PokemonGo.RocketAPI.Logic
                 return 0;
             }
 
-            if (_botSettings.navigation_option == 1)
-            {
-                return Convert.ToInt32((_chromosome.Count * 10000) / time);
-            }
-            else
-            {
-                return Convert.ToInt32(_chromosome.Count * length / time);
-            }
+            return _botSettings.navigation_option == 1 ? Convert.ToInt32((_chromosome.Count * 10000) / time) : Convert.ToInt32(_chromosome.Count * length / time);
         }
 
         private double calcTime(ref FortData[] pokeStops, List<int> _chromosome, double walkingSpeedInKilometersPerHour)
@@ -355,8 +223,7 @@ namespace PokemonGo.RocketAPI.Logic
 
         private void mutate(ref List<int> _chromosome)
         {
-            Random rnd = new Random();
-            int i1 = rnd.Next(1, _chromosome.Count - 2), i2 = rnd.Next(1, _chromosome.Count - 2);
+            int i1 = RandomDevice.Next(1, _chromosome.Count - 2), i2 = RandomDevice.Next(1, _chromosome.Count - 2);
             int temp = _chromosome[i1];
             _chromosome[i1] = _chromosome[i2];
             _chromosome[i2] = temp;
@@ -364,9 +231,9 @@ namespace PokemonGo.RocketAPI.Logic
 
         private List<List<int>> selection(FortData[] pokeStops, List<List<int>> population, double walkingSpeedInKilometersPerHour)
         {
-            List<List<int>> listSelection = new List<List<int>>();
+            var listSelection = new List<List<int>>();
             int sumPop = 0;
-            List<int> fittnes = new List<int>();
+            var fittnes = new List<int>();
 
             for (int c = 0; c < population.Count; ++c)
             {
@@ -374,7 +241,7 @@ namespace PokemonGo.RocketAPI.Logic
                 sumPop += temp;
                 fittnes.Add(temp);
             }
-            List<int> fittnesSorted = new List<int>(fittnes);
+            var fittnesSorted = new List<int>(fittnes);
             fittnesSorted.Sort();
 
             if (sumPop < 2)
@@ -382,11 +249,11 @@ namespace PokemonGo.RocketAPI.Logic
                 return listSelection;
             }
 
-            Random rnd = new Random();
+            
             int selcetedChr = -1;
             do
             {
-                var tempIndex = rnd.Next(0, sumPop);
+                var tempIndex = RandomDevice.Next(0, sumPop);
                 int tempSumPop = 0;
                 for (int c = fittnesSorted.Count - 1; c > 0; --c)
                 {
@@ -394,7 +261,7 @@ namespace PokemonGo.RocketAPI.Logic
                     if (tempSumPop > tempIndex)
                     {
                         var tempSelcetedChr = fittnes.FindIndex(x => x == fittnesSorted[c]);
-                        if (tempSelcetedChr != selcetedChr && !(tempSelcetedChr < 0))
+                        if (tempSelcetedChr != selcetedChr && tempSelcetedChr >= 0)
                         {
                             selcetedChr = tempSelcetedChr;
                             listSelection.Add(population[selcetedChr]);

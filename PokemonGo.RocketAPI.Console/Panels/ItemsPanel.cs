@@ -13,11 +13,14 @@ using System.Windows.Forms;
 using POGOProtos.Inventory.Item;
 using System.Threading.Tasks;
 using POGOProtos.Networking.Responses;
-using PokemonGo.RocketAPI.Console.Dialogs;
+using PokeMaster.Dialogs;
+using PokeMaster.Logic.Functions;
+using PokeMaster.Logic.Utils;
+using PokemonGo.RocketAPI;
 using PokemonGo.RocketAPI.Helpers;
-using PokemonGo.RocketAPI.Logic.Shared;
-	
-namespace PokemonGo.RocketAPI.Console
+using PokeMaster.Logic.Shared;
+    
+namespace PokeMaster
 {
     /// <summary>
     /// Description of ItemsPanel.
@@ -25,7 +28,7 @@ namespace PokemonGo.RocketAPI.Console
     public partial class ItemsPanel : UserControl
     {
         private static Helper.TranslatorHelper th = Helper.TranslatorHelper.getInstance();
-        public GetPlayerResponse profile;
+        private Client client;
         
         public ItemsPanel()
         {
@@ -45,14 +48,13 @@ namespace PokemonGo.RocketAPI.Console
         void BtnRealoadItemsClick(object sender, EventArgs e)
         {
             ItemsListView.Items.Clear();
-            Execute(profile);
+            Execute();
         }
-        public void Execute(GetPlayerResponse profileIn)
+        public void Execute()
         {
-            profile = profileIn;
             try {
                 foreach (Control element in this.groupBoxItems.Controls) {
-                    if (element.Name.IndexOf("num_") == 0){
+                    if (element.Name.IndexOf("num_", StringComparison.Ordinal) == 0){
                         var name = element.Name.Replace("num_","");
                         var property = typeof(GlobalVars).GetField(name);
                         if (property!=null)
@@ -61,8 +63,8 @@ namespace PokemonGo.RocketAPI.Console
                 }
                 UpdateItemTotalCount();
 
-                var client = Logic.Logic.objClient;
-                if (client.ReadyToUse != false) {
+                client = Logic.Logic.objClient;
+                if (client.ReadyToUse) {
                     var items = client.Inventory.GetItems();
                     ListViewItem listViewItem;
                     ItemsListView.Items.Clear();
@@ -91,8 +93,7 @@ namespace PokemonGo.RocketAPI.Console
             var txt = th.TS("Items");
             if (Parent != null) {
                 txt += ": " + lblCount.Text;
-                if (profile !=null)
-                    txt += "/" + profile.PlayerData.MaxItemStorage;
+                txt += "/" + client.Player.PlayerResponse.PlayerData.MaxItemStorage;
             }
             Parent.Text = txt;
         }
@@ -140,7 +141,7 @@ namespace PokemonGo.RocketAPI.Console
             var item = (ItemData)ItemsListView.SelectedItems[0].Tag;
             int amount = IntegerInput.ShowDialog(1, "How many?", item.Count);
             if (amount > 0) {
-                var resp = RecycleItems(item, amount);
+                var resp = RecycleItems(client, item, amount);
                 if (resp) {
                     item.Count -= amount;
                     ItemsListView.SelectedItems[0].SubItems[1].Text = "" + item.Count;
@@ -149,12 +150,11 @@ namespace PokemonGo.RocketAPI.Console
             }
         }
 
-        private static bool RecycleItems(ItemData item, int amount)
+        private static bool RecycleItems(Client client, ItemData item, int amount)
         {
             var resp1 = false;
             try {
-                var client = Logic.Logic.objClient;
-                var resp2 = client.Inventory.RecycleItem(item.ItemId, amount);
+                var resp2 = client.Inventory.RecycleItem(item.ItemId, amount).Result;
 
                 if (resp2.Result == RecycleInventoryItemResponse.Types.Result.Success) {
                     resp1 = true;
@@ -234,7 +234,7 @@ namespace PokemonGo.RocketAPI.Console
         private void UpdateItemTotalCount(){
             int totalCount = 0;
             foreach (Control element in this.groupBoxItems.Controls) 
-                if (element.Name.IndexOf("num_") == 0)
+                if (element.Name.IndexOf("num_", StringComparison.Ordinal) == 0)
                     totalCount += (int)(element as NumericUpDown).Value;
             text_TotalItemCount.Text = ""+ totalCount;
         }
@@ -254,7 +254,6 @@ namespace PokemonGo.RocketAPI.Console
 
         private void RecycleItems()
         {            
-            var client = Logic.Logic.objClient;
             var items = client.Inventory.GetItemsToRecycle(GlobalVars.GetItemFilter());
             foreach (var item in items) {
                 var transfer = client.Inventory.RecycleItem((ItemId)item.ItemId, item.Count).Result;
@@ -266,7 +265,7 @@ namespace PokemonGo.RocketAPI.Console
         void btnDiscard_Click(object sender, EventArgs e)
         {
             RecycleItems();
-            Execute(profile);
+            Execute();
         }
 
         void useToolStripMenuItem_Click(object sender, EventArgs e)

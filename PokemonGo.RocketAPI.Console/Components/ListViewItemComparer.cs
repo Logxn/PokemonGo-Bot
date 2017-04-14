@@ -9,7 +9,7 @@
 using System;
 using System.Windows.Forms;
 
-namespace PokemonGo.RocketAPI.Console.Components
+namespace PokeMaster.Components
 {
     
    public class ListViewItemComparer :  System.Collections.IComparer

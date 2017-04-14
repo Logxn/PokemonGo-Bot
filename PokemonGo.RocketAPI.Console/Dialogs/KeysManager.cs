@@ -8,14 +8,16 @@
  */
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Net;
 using System.Windows.Forms;
 using Newtonsoft.Json;
+using PokemonGo.RocketAPI.Hash;
 using PokemonGo.RocketAPI.Shared;
 
-namespace PokemonGo.RocketAPI.Console.Dialogs
+namespace PokeMaster.Dialogs
 {
     /// <summary>
     /// Description of KeysManager.
@@ -33,27 +35,40 @@ namespace PokemonGo.RocketAPI.Console.Dialogs
             if (File.Exists(filename)){
                 var strJSON = File.ReadAllText(filename);
                 var keys1 = JsonConvert.DeserializeObject<ArrayList>(strJSON);
-                listBox1.Items.Clear();
+                listView.Items.Clear();
                 foreach ( var element in keys1) {
-                    listBox1.Items.Add(element);
+                    var listItem = listView.Items.Add(element.ToString());
+                    listItem.SubItems.Add(PokeHashHasher.GetExpirationTime(element.ToString()));
+
                 }
             }
         }
         void buttonAcept_Click(object sender, EventArgs e)
         {
-          string strJSON = JsonConvert.SerializeObject(listBox1.Items,Formatting.Indented);
+            var strings = new List<string>();
+            foreach (ListViewItem element in listView.Items) {
+                strings.Add(element.Text);
+            }
+          string strJSON = JsonConvert.SerializeObject(strings,Formatting.Indented);
           File.WriteAllText(filename,strJSON);
           Close();
         }
         void buttonDelete_Click(object sender, EventArgs e)
         {
-            for (var i = listBox1.SelectedItems.Count -1;i>=0;i--)
-                listBox1.Items.Remove(listBox1.SelectedItems[i]);
+            for (var i = listView.SelectedItems.Count -1;i>=0;i--)
+                listView.Items.Remove(listView.SelectedItems[i]);
         }
         void buttonAdd_Click(object sender, EventArgs e)
         {
-            listBox1.Items.Add(textBox1.Text);
+            var listItem = listView.Items.Add(textBox1.Text);
+            listItem.SubItems.Add(PokeHashHasher.GetExpirationTime(textBox1.Text));
             textBox1.Text ="";
+        }
+        void listView_ColumnClick(object sender, ColumnClickEventArgs e)
+        {
+            var order = (sender as ListView).Sorting;
+            listView.ListViewItemSorter = new Components.ListViewItemComparer(e.Column, order);
+            (sender as ListView).Sorting = order == SortOrder.Ascending ? SortOrder.Descending : SortOrder.Ascending;
         }
     }
 }

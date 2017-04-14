@@ -10,7 +10,7 @@ using System;
 using POGOProtos.Enums;
 using System.Device.Location;
 
-namespace PokemonGo.RocketAPI.Logic.Shared
+namespace PokeMaster.Logic.Shared
 {
 
     public class ManualSnipePokemon 
@@ -26,6 +26,8 @@ namespace PokemonGo.RocketAPI.Logic.Shared
         public int NumTries
         { get; set; }
         public bool TransferIt
+        { get; set; }
+        public bool UsePinap 
         { get; set; }
     }
 }

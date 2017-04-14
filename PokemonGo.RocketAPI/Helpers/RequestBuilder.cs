@@ -139,9 +139,10 @@ namespace PokemonGo.RocketAPI.Helpers
 
             var hashRequest = new HashRequestContent() {
                 Timestamp = signature.Timestamp,
-                Latitude = requestEnvelope.Latitude,
-                Longitude = requestEnvelope.Longitude,
-                Altitude = requestEnvelope.Accuracy,
+                Latitude64 = BitConverter.DoubleToInt64Bits(requestEnvelope.Latitude),
+                Longitude64 = BitConverter.DoubleToInt64Bits(requestEnvelope.Longitude),
+                Accuracy64 = BitConverter.DoubleToInt64Bits(requestEnvelope.Accuracy),
+
                 AuthTicket = serializedTicket,
                 SessionData = signature.SessionHash.ToByteArray(),
                 Requests = new List<byte[]>(requestsBytes)                
@@ -158,7 +159,7 @@ namespace PokemonGo.RocketAPI.Helpers
             var encryptedSignature = new RequestEnvelope.Types.PlatformRequest {
                 Type = PlatformRequestType.SendEncryptedSignature,
                 RequestMessage = new SendEncryptedSignatureRequest {
-                    EncryptedSignature = ByteString.CopyFrom(PCryptPokeHash.Encrypt(signature.ToByteArray(), (uint)timestampSinceStart))
+                    EncryptedSignature = ByteString.CopyFrom(_client.Crypter.Encrypt(signature.ToByteArray(), (uint)timestampSinceStart))
                 }.ToByteString()
             };
 
@@ -281,24 +282,6 @@ namespace PokemonGo.RocketAPI.Helpers
 
             };
 
-            var  randValue = TRandomDevice.Next(1,100);
-
-            var insertUnknptr8 = (randValue != 1); // insert it 99 times of each 100 times
-
-            if (customRequests.Length > 0)
-                if (customRequests[0].RequestType != RequestType.GetPlayer && customRequests[0].RequestType != RequestType.GetMapObjects)
-                    insertUnknptr8 = (randValue == 1); // insert it 1 time of each 100 times
-
-            if (insertUnknptr8){
-                var plat8Message = new UnknownPtr8Request() {
-                    Message = Resources.Api.UnknownPtr8Message
-                };
-                _requestEnvelope.PlatformRequests.Add(new RequestEnvelope.Types.PlatformRequest() {
-                    Type = PlatformRequestType.UnknownPtr8,
-                    RequestMessage = plat8Message.ToByteString()
-                });
-            }
-
             if (_authTicket != null && !firstRequest) {
                 _requestEnvelope.AuthTicket = _authTicket;
             } else {
@@ -312,6 +295,22 @@ namespace PokemonGo.RocketAPI.Helpers
             }
 
             _requestEnvelope.PlatformRequests.Add(GenerateSignature(_requestEnvelope));
+
+            if (customRequests.Length > 0  &&
+                (customRequests[0].RequestType == RequestType.GetPlayer ||
+                 customRequests[0].RequestType == RequestType.GetMapObjects)
+               )
+            {
+                var plat8Message = new UnknownPtr8Request() {
+                    Message = Resources.Api.UnknownPtr8Message
+                };
+    
+                _requestEnvelope.PlatformRequests.Add(new RequestEnvelope.Types.PlatformRequest() {
+                    Type = PlatformRequestType.UnknownPtr8,
+                    RequestMessage = plat8Message.ToByteString()
+                });
+                
+            }
 
             return _requestEnvelope;
         }

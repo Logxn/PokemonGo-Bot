@@ -1,30 +1,23 @@
 using System;
 using System.Net;
-using System.Net.Http;
-using System.Threading.Tasks;
-using Google.Protobuf;
+using System.Threading;
+using POGOProtos.Enums;
+using POGOProtos.Networking.Envelopes;
 using PokemonGo.RocketAPI.Enums;
 using PokemonGo.RocketAPI.Hash;
-using PokemonGo.RocketAPI.Exceptions;
 using PokemonGo.RocketAPI.Extensions;
 using PokemonGo.RocketAPI.Helpers;
 using PokemonGo.RocketAPI.HttpClient;
-using PokemonGo.RocketAPI.Login;
-using POGOProtos.Inventory;
-using POGOProtos.Inventory.Item;
-using POGOProtos.Networking.Envelopes;
-using POGOProtos.Networking.Requests;
-using POGOProtos.Networking.Requests.Messages;
-using POGOProtos.Networking.Responses;
-using System.Threading;
-using POGOProtos.Enums;
+using PokemonGo.RocketAPI.Encryption;
 
 namespace PokemonGo.RocketAPI
 {
     public class Client : ICaptchaResponseHandler
     {
+        public event EventHandler<EventArgs> EvMakeTutorial;
         public Rpc.Login Login;
         public IHasher Hasher;
+        public ICrypt Crypter;
         public Rpc.Player Player;
         public Rpc.Download Download;
         public Rpc.Inventory Inventory;
@@ -69,8 +62,9 @@ namespace PokemonGo.RocketAPI
 
         public bool ShowingStats { get; set; }
         public bool LoadingPokemons { get; set; }
+        
 
-    public void setFailure(IApiFailureStrategy fail)
+        public void setFailure(IApiFailureStrategy fail)
         {
             ApiFailure = fail;
         }
@@ -96,6 +90,7 @@ namespace PokemonGo.RocketAPI
             Fort = new Rpc.Fort(this);
             Encounter = new Rpc.Encounter(this);
             Misc = new Rpc.Misc(this);
+            Crypter = new Crypto();
             Hasher = new PokeHashHasher(settings.hashKey);
             Store = new PokemonGo.RocketAPI.Rpc.Store(this);
             
@@ -143,6 +138,15 @@ namespace PokemonGo.RocketAPI
         public bool CheckCurrentVersionOutdated()
         {
             return CurrentApiEmulationVersion < MinimumClientVersion;
+        }
+
+        public void SetAuthTicket(AuthTicket authTicket)
+        {
+            AuthTicket = authTicket;
+        }
+        internal void OnMakeTutorial()
+        {
+           EvMakeTutorial?.Invoke(this, EventArgs.Empty);
         }
 
     }

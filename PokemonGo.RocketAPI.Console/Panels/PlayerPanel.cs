@@ -18,12 +18,13 @@ using POGOProtos.Data;
 using POGOProtos.Enums;
 using POGOProtos.Map.Fort;
 using POGOProtos.Networking.Responses;
-using PokemonGo.RocketAPI.Console.Dialogs;
-using PokemonGo.RocketAPI.Logic.Utils;
+using PokeMaster.Dialogs;
+using PokeMaster.Logic.Utils;
+using PokemonGo.RocketAPI;
 using PokemonGo.RocketAPI.Helpers;
 using POGOProtos.Data.Player;
 
-namespace PokemonGo.RocketAPI.Console
+namespace PokeMaster
 {
     /// <summary>
     /// Description of PlayerPanel.
@@ -149,14 +150,7 @@ namespace PokemonGo.RocketAPI.Console
 
             pictureBoxPlayerAvatar.Parent = pictureBoxTeam;
             pictureBoxPlayerAvatar.BackColor = Color.Transparent;
-            if (profile.PlayerData.Avatar != null)
-            {
-                pictureBoxPlayerAvatar.Image = getImageForGender((PlayerAvatarType) profile.PlayerData.Avatar.Avatar);
-            }
-            else
-            {
-                pictureBoxPlayerAvatar.Image = getImageForGender(PlayerAvatarType.PlayerAvatarMale);
-            }
+            pictureBoxPlayerAvatar.Image = profile.PlayerData.Avatar != null ? getImageForGender((PlayerAvatarType)profile.PlayerData.Avatar.Avatar) : getImageForGender(PlayerAvatarType.PlayerAvatarMale);
             pictureBoxPlayerAvatar.Height = (int)(pictureBoxTeam.Height * 0.85);
             pictureBoxPlayerAvatar.Width = pictureBoxTeam.Width;
             var playerLocation = new Point(0, pictureBoxTeam.Height - pictureBoxPlayerAvatar.Height);
@@ -241,14 +235,7 @@ namespace PokemonGo.RocketAPI.Console
             else
             {
                 var buddyPoke = pokemons.FirstOrDefault(x => x.Id == buddyPokemon.Id);
-                if (buddyPoke != null)
-                {
-                    return PokeImgManager.GetPokemonImagefromResource(buddyPoke.PokemonId, "200");
-                }
-                else
-                {
-                    return null;
-                }
+                return buddyPoke != null ? PokeImgManager.GetPokemonImagefromResource(buddyPoke.PokemonId, "200") : null;
             }
         }
 
@@ -277,7 +264,7 @@ namespace PokemonGo.RocketAPI.Console
                 // Simulate to enter in a gym before select a team.
                 var client = Logic.Logic.objClient;
                 var mapObjects = client.Map.GetMapObjects().Result;
-                var mapCells = mapObjects.Item1.MapCells;
+                var mapCells = mapObjects.MapCells;
 
                 var pokeGyms = mapCells.SelectMany(i => i.Forts)
                     .Where(i => i.Type == FortType.Gym );
@@ -381,7 +368,9 @@ namespace PokemonGo.RocketAPI.Console
                         break;
                     }
                 }
-                catch (Exception) { }
+                catch (Exception ex1) {
+                    Logger.ExceptionInfo(ex1.ToString());
+                }
             }
         }
         void btnColect_Click(object sender, EventArgs e)

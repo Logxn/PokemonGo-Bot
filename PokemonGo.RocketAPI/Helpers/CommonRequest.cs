@@ -11,7 +11,7 @@ using System;
 
 namespace PokemonGo.RocketAPI.Helpers
 {
-    public class CommonRequest
+    public static class CommonRequest
     {
         public static Request GetDownloadRemoteConfigVersionMessageRequest(Client client)
         {
@@ -24,6 +24,14 @@ namespace PokemonGo.RocketAPI.Helpers
             {
                 RequestType = RequestType.DownloadRemoteConfigVersion,
                 RequestMessage = downloadRemoteConfigVersionMessage.ToByteString()
+            };
+        }
+        public static Request GetPlayerMessageRequest()
+        {
+            return new Request
+            {
+                RequestType = RequestType.GetPlayer,
+                RequestMessage = new GetPlayerMessage().ToByteString()
             };
         }
 
@@ -110,6 +118,19 @@ namespace PokemonGo.RocketAPI.Helpers
             };
         }
 
+        public static Request[] AddChallengeRequest(Request request, Client client)
+        {
+            return new[]
+            {
+                request,
+                new Request
+                {
+                    RequestType = RequestType.CheckChallenge,
+                    RequestMessage = new CheckChallengeMessage().ToByteString()
+                }
+            };
+        }
+
         public static Request[] GetCommonRequests(Client client)
         {
             return new[]
@@ -147,6 +168,8 @@ namespace PokemonGo.RocketAPI.Helpers
                 if (getInventoryResponse.InventoryDelta.NewTimestampMs >= client.InventoryLastUpdateTimestamp)
                 {
                     client.InventoryLastUpdateTimestamp = getInventoryResponse.InventoryDelta.NewTimestampMs;
+                    //TODO: update inventory
+                    //client.Inventory.CachedInventory = getInventoryResponse;
                 }
             }
         }
@@ -181,6 +204,21 @@ namespace PokemonGo.RocketAPI.Helpers
                 client.ApiFailure.HandleCaptcha(checkChallengeResponse.ChallengeUrl, client);
         }
 
+        public static void ProcessGetPlayerResponse(Client client, GetPlayerResponse getPlayerResponse)
+        {
+            if (getPlayerResponse == null)
+                return;
+            
+            if (getPlayerResponse.Banned)
+                Logger.Debug("Your account is banned");
+            if (getPlayerResponse.Warn)
+                Logger.Debug("Your account is flagged");
+            if (getPlayerResponse.Success){
+                client.Player.PlayerResponse = getPlayerResponse;
+            }
+
+        }
+
         public static void Parse(Client client, RequestType requestType, ByteString data)
         {
             try
@@ -207,8 +245,6 @@ namespace PokemonGo.RocketAPI.Helpers
                         downloadSettingsResponse.MergeFrom(data);
                         client.SettingsHash = downloadSettingsResponse.Hash;
 
-                        break;
-                    default:
                         break;
                 }
             }
