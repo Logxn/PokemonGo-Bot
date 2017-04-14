@@ -287,7 +287,16 @@ namespace PokeMaster
             this.label23 = new System.Windows.Forms.Label();
             this.comboBoxLeaveInGyms = new System.Windows.Forms.ComboBox();
             this.tabMisc = new System.Windows.Forms.TabPage();
+            this.groupBox31 = new System.Windows.Forms.GroupBox();
+            this.checkBoxCompleteTutorial = new System.Windows.Forms.CheckBox();
+            this.buttonTutorial = new System.Windows.Forms.Button();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.textBoxDiscordServerID = new System.Windows.Forms.TextBox();
+            this.textBoxDiscordPassword = new System.Windows.Forms.TextBox();
+            this.label16 = new System.Windows.Forms.Label();
+            this.textBoxDiscordUser = new System.Windows.Forms.TextBox();
+            this.label15 = new System.Windows.Forms.Label();
+            this.checkBoxSendToDiscord = new System.Windows.Forms.CheckBox();
             this.label13 = new System.Windows.Forms.Label();
             this.numMinIVSave = new System.Windows.Forms.NumericUpDown();
             this.buttonSelectLocationFile = new System.Windows.Forms.Button();
@@ -295,7 +304,6 @@ namespace PokeMaster
             this.textBoxSaveLocationsFile = new System.Windows.Forms.TextBox();
             this.SnipePokemonPokeCom = new System.Windows.Forms.CheckBox();
             this.checkBoxSaveLocations = new System.Windows.Forms.CheckBox();
-            this.buttonTutorial = new System.Windows.Forms.Button();
             this.groupBox25 = new System.Windows.Forms.GroupBox();
             this.checkBoxExtractText = new System.Windows.Forms.CheckBox();
             this.checkBoxStoreUntranslated = new System.Windows.Forms.CheckBox();
@@ -355,8 +363,6 @@ namespace PokeMaster
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.groupBox31 = new System.Windows.Forms.GroupBox();
-            this.checkBoxCompleteTutorial = new System.Windows.Forms.CheckBox();
             this.tabProxies.SuspendLayout();
             this.tabItems.SuspendLayout();
             this.groupBoxItems.SuspendLayout();
@@ -442,6 +448,7 @@ namespace PokeMaster
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMaxAttacks)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudNumDefenders)).BeginInit();
             this.tabMisc.SuspendLayout();
+            this.groupBox31.SuspendLayout();
             this.groupBox4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numMinIVSave)).BeginInit();
             this.groupBox25.SuspendLayout();
@@ -458,7 +465,6 @@ namespace PokeMaster
             this.groupBox21.SuspendLayout();
             this.groupBox20.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
-            this.groupBox31.SuspendLayout();
             this.SuspendLayout();
             // 
             // buttonSaveStart
@@ -3604,8 +3610,45 @@ namespace PokeMaster
             this.tabMisc.Text = "Misc";
             this.tabMisc.UseVisualStyleBackColor = true;
             // 
+            // groupBox31
+            // 
+            this.groupBox31.Controls.Add(this.checkBoxCompleteTutorial);
+            this.groupBox31.Controls.Add(this.buttonTutorial);
+            this.groupBox31.Location = new System.Drawing.Point(24, 258);
+            this.groupBox31.Name = "groupBox31";
+            this.groupBox31.Size = new System.Drawing.Size(225, 88);
+            this.groupBox31.TabIndex = 74;
+            this.groupBox31.TabStop = false;
+            this.groupBox31.Text = "Tutorial";
+            // 
+            // checkBoxCompleteTutorial
+            // 
+            this.checkBoxCompleteTutorial.AutoSize = true;
+            this.checkBoxCompleteTutorial.Location = new System.Drawing.Point(8, 19);
+            this.checkBoxCompleteTutorial.Name = "checkBoxCompleteTutorial";
+            this.checkBoxCompleteTutorial.Size = new System.Drawing.Size(108, 17);
+            this.checkBoxCompleteTutorial.TabIndex = 73;
+            this.checkBoxCompleteTutorial.Text = "Complete Turorial";
+            this.checkBoxCompleteTutorial.UseVisualStyleBackColor = true;
+            // 
+            // buttonTutorial
+            // 
+            this.buttonTutorial.Location = new System.Drawing.Point(33, 51);
+            this.buttonTutorial.Name = "buttonTutorial";
+            this.buttonTutorial.Size = new System.Drawing.Size(145, 23);
+            this.buttonTutorial.TabIndex = 72;
+            this.buttonTutorial.Text = "Change Default Vaules";
+            this.buttonTutorial.UseVisualStyleBackColor = true;
+            this.buttonTutorial.Click += new System.EventHandler(this.Button4Click);
+            // 
             // groupBox4
             // 
+            this.groupBox4.Controls.Add(this.textBoxDiscordServerID);
+            this.groupBox4.Controls.Add(this.textBoxDiscordPassword);
+            this.groupBox4.Controls.Add(this.label16);
+            this.groupBox4.Controls.Add(this.textBoxDiscordUser);
+            this.groupBox4.Controls.Add(this.label15);
+            this.groupBox4.Controls.Add(this.checkBoxSendToDiscord);
             this.groupBox4.Controls.Add(this.label13);
             this.groupBox4.Controls.Add(this.numMinIVSave);
             this.groupBox4.Controls.Add(this.buttonSelectLocationFile);
@@ -3615,10 +3658,63 @@ namespace PokeMaster
             this.groupBox4.Controls.Add(this.checkBoxSaveLocations);
             this.groupBox4.Location = new System.Drawing.Point(271, 126);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(371, 126);
+            this.groupBox4.Size = new System.Drawing.Size(371, 220);
             this.groupBox4.TabIndex = 73;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Sniping Settings";
+            // 
+            // textBoxDiscordServerID
+            // 
+            this.textBoxDiscordServerID.Enabled = false;
+            this.textBoxDiscordServerID.Location = new System.Drawing.Point(141, 130);
+            this.textBoxDiscordServerID.Name = "textBoxDiscordServerID";
+            this.textBoxDiscordServerID.Size = new System.Drawing.Size(224, 20);
+            this.textBoxDiscordServerID.TabIndex = 81;
+            this.textBoxDiscordServerID.Text = "223025934435876865";
+            // 
+            // textBoxDiscordPassword
+            // 
+            this.textBoxDiscordPassword.Location = new System.Drawing.Point(141, 183);
+            this.textBoxDiscordPassword.Name = "textBoxDiscordPassword";
+            this.textBoxDiscordPassword.PasswordChar = '*';
+            this.textBoxDiscordPassword.Size = new System.Drawing.Size(224, 20);
+            this.textBoxDiscordPassword.TabIndex = 80;
+            // 
+            // label16
+            // 
+            this.label16.Location = new System.Drawing.Point(15, 186);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(120, 13);
+            this.label16.TabIndex = 79;
+            this.label16.Text = "Discord password:";
+            this.label16.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // textBoxDiscordUser
+            // 
+            this.textBoxDiscordUser.Location = new System.Drawing.Point(141, 157);
+            this.textBoxDiscordUser.Name = "textBoxDiscordUser";
+            this.textBoxDiscordUser.Size = new System.Drawing.Size(224, 20);
+            this.textBoxDiscordUser.TabIndex = 78;
+            // 
+            // label15
+            // 
+            this.label15.Location = new System.Drawing.Point(15, 160);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(120, 13);
+            this.label15.TabIndex = 77;
+            this.label15.Text = "Discord account:";
+            this.label15.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.label15.DoubleClick += new System.EventHandler(this.label15_DoubleClick);
+            // 
+            // checkBoxSendToDiscord
+            // 
+            this.checkBoxSendToDiscord.AutoSize = true;
+            this.checkBoxSendToDiscord.Location = new System.Drawing.Point(15, 132);
+            this.checkBoxSendToDiscord.Name = "checkBoxSendToDiscord";
+            this.checkBoxSendToDiscord.Size = new System.Drawing.Size(102, 17);
+            this.checkBoxSendToDiscord.TabIndex = 76;
+            this.checkBoxSendToDiscord.Text = "Send to Discord";
+            this.checkBoxSendToDiscord.UseVisualStyleBackColor = true;
             // 
             // label13
             // 
@@ -3695,16 +3791,6 @@ namespace PokeMaster
             this.checkBoxSaveLocations.Text = "Save Pokemons Location";
             this.checkBoxSaveLocations.UseVisualStyleBackColor = true;
             this.checkBoxSaveLocations.CheckedChanged += new System.EventHandler(this.checkBoxSaveLocations_CheckedChanged);
-            // 
-            // buttonTutorial
-            // 
-            this.buttonTutorial.Location = new System.Drawing.Point(33, 51);
-            this.buttonTutorial.Name = "buttonTutorial";
-            this.buttonTutorial.Size = new System.Drawing.Size(145, 23);
-            this.buttonTutorial.TabIndex = 72;
-            this.buttonTutorial.Text = "Change Default Vaules";
-            this.buttonTutorial.UseVisualStyleBackColor = true;
-            this.buttonTutorial.Click += new System.EventHandler(this.Button4Click);
             // 
             // groupBox25
             // 
@@ -4358,27 +4444,6 @@ namespace PokeMaster
             this.pictureBox2.TabStop = false;
             this.pictureBox2.Click += new System.EventHandler(this.pictureBox2_Click);
             // 
-            // groupBox31
-            // 
-            this.groupBox31.Controls.Add(this.checkBoxCompleteTutorial);
-            this.groupBox31.Controls.Add(this.buttonTutorial);
-            this.groupBox31.Location = new System.Drawing.Point(24, 258);
-            this.groupBox31.Name = "groupBox31";
-            this.groupBox31.Size = new System.Drawing.Size(225, 88);
-            this.groupBox31.TabIndex = 74;
-            this.groupBox31.TabStop = false;
-            this.groupBox31.Text = "Tutorial";
-            // 
-            // checkBoxCompleteTutorial
-            // 
-            this.checkBoxCompleteTutorial.AutoSize = true;
-            this.checkBoxCompleteTutorial.Location = new System.Drawing.Point(8, 19);
-            this.checkBoxCompleteTutorial.Name = "checkBoxCompleteTutorial";
-            this.checkBoxCompleteTutorial.Size = new System.Drawing.Size(108, 17);
-            this.checkBoxCompleteTutorial.TabIndex = 73;
-            this.checkBoxCompleteTutorial.Text = "Complete Turorial";
-            this.checkBoxCompleteTutorial.UseVisualStyleBackColor = true;
-            // 
             // ConfigWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -4511,6 +4576,8 @@ namespace PokeMaster
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMaxAttacks)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudNumDefenders)).EndInit();
             this.tabMisc.ResumeLayout(false);
+            this.groupBox31.ResumeLayout(false);
+            this.groupBox31.PerformLayout();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numMinIVSave)).EndInit();
@@ -4538,8 +4605,6 @@ namespace PokeMaster
             this.groupBox20.ResumeLayout(false);
             this.groupBox20.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
-            this.groupBox31.ResumeLayout(false);
-            this.groupBox31.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -4873,5 +4938,11 @@ namespace PokeMaster
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.GroupBox groupBox31;
         private System.Windows.Forms.CheckBox checkBoxCompleteTutorial;
+        private System.Windows.Forms.TextBox textBoxDiscordServerID;
+        private System.Windows.Forms.TextBox textBoxDiscordPassword;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.TextBox textBoxDiscordUser;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.CheckBox checkBoxSendToDiscord;
     }
 }

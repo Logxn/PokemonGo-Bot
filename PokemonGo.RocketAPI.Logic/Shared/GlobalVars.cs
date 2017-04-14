@@ -201,6 +201,11 @@ namespace PokeMaster.Logic.Shared
 
         public static List<PokemonId> PokemonPinap;
 
+        public static bool SendToDiscord ;
+        public static string DiscordUser ;
+        public static string DiscordPassword;
+        public static ulong DiscordServerID;
+
 
         /// <summary>
         /// Copy all values from ProfileSettings to GlobalVars.

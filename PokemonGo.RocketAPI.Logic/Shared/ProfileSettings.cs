@@ -781,6 +781,11 @@ namespace PokeMaster.Logic.Shared
         }
         public bool SnipePokemon  {get;set;}
         public System.Collections.Generic.List<POGOProtos.Enums.PokemonId> ToSnipe  {get;set;}
+        
+        public bool SendToDiscord {get;set;}
+        public string DiscordUser {get;set;}
+        public string DiscordPassword {get;set;}
+        public ulong DiscordServerID {get;set;}
 
         public int EvolveAt {get;set;}
 

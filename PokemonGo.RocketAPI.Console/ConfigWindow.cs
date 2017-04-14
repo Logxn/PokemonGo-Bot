@@ -419,6 +419,13 @@ namespace PokeMaster
             AvoidRegionLock.Checked = config.AvoidRegionLock;
             toSnipe = config.ToSnipe;
             
+            checkBoxSendToDiscord.Checked = config.SendToDiscord;
+            textBoxDiscordUser.Text = config.DiscordUser;
+            textBoxDiscordPassword.Text = config.DiscordPassword;
+            textBoxDiscordServerID.Text = ""+config.DiscordServerID;
+            if (config.DiscordServerID == 0UL)
+                textBoxDiscordServerID.Text = "223025934435876865";
+            
             // tab 8 - update
             checkbox_AutoUpdate.Checked = config.AutoUpdate;
             checkbox_checkWhileRunning.Checked = config.CheckWhileRunning;
@@ -860,6 +867,15 @@ namespace PokeMaster
             }
             ActiveProfile.Settings.AvoidRegionLock = AvoidRegionLock.Checked;
             ActiveProfile.Settings.ToSnipe = toSnipe;
+
+            ActiveProfile.Settings.SendToDiscord = checkBoxSendToDiscord.Checked;
+            ActiveProfile.Settings.DiscordUser = textBoxDiscordUser.Text;
+            ActiveProfile.Settings.DiscordPassword = textBoxDiscordPassword.Text;
+
+            var server = 223025934435876865UL;
+            ulong.TryParse(textBoxDiscordServerID.Text,out server);
+            ActiveProfile.Settings.DiscordServerID = server;
+            
             // tab 8 updates
             ActiveProfile.Settings.AutoUpdate = checkbox_AutoUpdate.Checked;
             ActiveProfile.Settings.CheckWhileRunning = checkbox_checkWhileRunning.Checked;
@@ -1399,5 +1415,11 @@ namespace PokeMaster
         {
           new KeysManager().ShowDialog();
         }
+        void label15_DoubleClick(object sender, EventArgs e)
+        {
+            textBoxDiscordServerID.Enabled |= Control.ModifierKeys == Keys.Shift;
+
+        }
+        
     }
 }

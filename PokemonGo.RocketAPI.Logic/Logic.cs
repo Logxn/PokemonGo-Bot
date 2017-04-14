@@ -244,6 +244,7 @@ namespace PokeMaster.Logic
                     Logger.Debug("login done");
                     
                     TelegramLogic.Instantiante();
+                    DiscordLogic.Init();
                     
                     PostLoginExecute();
 
@@ -286,6 +287,7 @@ namespace PokeMaster.Logic
                 }
 
                 TelegramLogic.Stop();
+                DiscordLogic.Finish();
                 const int msToWait = 50000;
                 Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Restarting in over {(msToWait+5000)/1000} Seconds.");
                 RandomHelper.RandomSleep(msToWait,msToWait+10000);

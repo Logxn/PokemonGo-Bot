@@ -751,33 +751,43 @@ namespace PokeMaster.Logic.Functions
         }
         
         public static void SaveLocations(WildPokemon pokemon, double iv, double probability){
+            if (!GlobalVars.SaveLocations && ! GlobalVars.SendToDiscord)
+                return;
             if (GlobalVars.SaveLocations){
-                if (iv >= GlobalVars.MinIVSave){
-                    var strIV = iv.ToString("0.00");
-                    var id = pokemon.EncounterId;
-                    if (!ExistYet(id)){
-                        var date = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss");
-                        var LastModified = StringUtils.TimeMStoString(pokemon.LastModifiedTimestampMs, @"mm\:ss");
-                        var TillHidden = StringUtils.TimeMStoString(pokemon.TimeTillHiddenMs, @"mm\:ss");
-                        var name = GlobalVars.ProfileName;
-                        var Latitude = pokemon.Latitude.ToString(CultureInfo.InvariantCulture);
-                        var Longitude = pokemon.Longitude.ToString(CultureInfo.InvariantCulture);
-                        var line = $"{date}|{LastModified}|{id}|{name}|{TillHidden}|{probability}|{strIV}|pokesniper2://{pokemon.PokemonData.PokemonId}/{Latitude},{Longitude}";
-                        try
-                        {
-                            File.AppendAllLines(GlobalVars.SaveLocationsFile, new string[] { line });
-                        }
-                        catch(Exception)
-                        {
-                            Logger.Info("Hey pssst. If you get this message follow these steps:");
-                            Logger.Info("1. Open your Pokemonlist and go to the Tab 'Options'");
-                            Logger.Info("2. Select Misc");
-                            Logger.Info("3. Either you press the two dots and select a path...");
-                            Logger.Info("4. Or disable the feature...");
-                            Logger.Info("5. Dont forget to press Update Config.");
-                        }
+                if (iv < GlobalVars.MinIVSave)
+                    return;
+                var strIV = iv.ToString("0.00");
+                var id = pokemon.EncounterId;
+                var date = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss");
+                var LastModified = StringUtils.TimeMStoString(pokemon.LastModifiedTimestampMs, @"mm\:ss");
+                var TillHidden = StringUtils.TimeMStoString(pokemon.TimeTillHiddenMs, @"mm\:ss");
+                var name = GlobalVars.ProfileName;
+                var Latitude = pokemon.Latitude.ToString(CultureInfo.InvariantCulture);
+                var Longitude = pokemon.Longitude.ToString(CultureInfo.InvariantCulture);
+                var line = $"{date}|{LastModified}|{id}|{name}|{TillHidden}|{probability}|{strIV}|pokesniper2://{pokemon.PokemonData.PokemonId}/{Latitude},{Longitude}";
+                
+                if (!ExistYet(id)){
+                    try
+                    {
+                        File.AppendAllLines(GlobalVars.SaveLocationsFile, new string[] { line });
+                    }
+                    catch(Exception)
+                    {
+                        Logger.Info("Hey pssst. If you get this message follow these steps:");
+                        Logger.Info("1. Open your Pokemonlist and go to the Tab 'Options'");
+                        Logger.Info("2. Select Misc");
+                        Logger.Info("3. Either you press the two dots and select a path...");
+                        Logger.Info("4. Or disable the feature...");
+                        Logger.Info("5. Dont forget to press Update Config.");
                     }
                 }
+                
+            }
+            if (GlobalVars.SendToDiscord){
+                 if (iv < GlobalVars.MinIVSave)
+                     return;
+                 if (iv >= 90)
+                    DiscordLogic.SendMessage(DiscordLogic.FormatMessage(pokemon,iv,probability));
             }
         }
         public static bool ExistYet(ulong EncounterId)
