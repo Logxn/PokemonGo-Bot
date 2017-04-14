@@ -101,6 +101,7 @@ namespace PokeMaster
             }
             labelPokemons.Text = ""+ Logic.Functions.Setout.pokemonCatchCount;
             labelPokestops.Text = ""+ Logic.Functions.Setout.pokeStopFarmedCount;
+            labelTimeLeft.Text = ""+ Logic.Functions.Setout.timeLeftToNextLevel;
         }
         
         public void setProfile(GetPlayerResponse prof){

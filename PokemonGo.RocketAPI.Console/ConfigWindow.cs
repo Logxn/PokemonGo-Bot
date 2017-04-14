@@ -402,6 +402,8 @@ namespace PokeMaster
             checkBox_RandomlyReduceSpeed.Checked = config.RandomReduceSpeed;
             checkBox_UseBreakIntervalAndLength.Checked = config.UseBreakFields;
             checkBox_WalkInArchimedeanSpiral.Checked = config.Espiral;
+            checkBox_WalkInLoop.Checked = config.WalkInLoop;
+            checkBox_WalkRandomly.Checked = config.WalkRandomly;
             checkBox_StartWalkingFromLastLocation.Checked = config.UseLastCords;
 
 
@@ -849,6 +851,9 @@ namespace PokeMaster
             ActiveProfile.Settings.UseBreakFields = checkBox_UseBreakIntervalAndLength.Checked;
 
             ActiveProfile.Settings.Espiral = checkBox_WalkInArchimedeanSpiral.Checked;
+            ActiveProfile.Settings.WalkInLoop = checkBox_WalkInLoop.Checked;
+            ActiveProfile.Settings.WalkRandomly = checkBox_WalkRandomly.Checked;
+            
             ActiveProfile.Settings.UseLastCords = checkBox_StartWalkingFromLastLocation.Checked;
 
             // tab 7 - Logs and Telegram

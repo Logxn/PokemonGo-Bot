@@ -92,8 +92,15 @@ namespace PokeMaster
         private System.Windows.Forms.NumericUpDown numMinIVSave;
         private System.Windows.Forms.Button buttonSelectLocationFile;
         private System.Windows.Forms.TextBox textBoxSaveLocationsFile;
-        private System.Windows.Forms.CheckBox checkBoxSaveLocations;
+        private System.Windows.Forms.CheckBox CheckBox_SaveLocations;
         private System.Windows.Forms.Button buttonForceRelogin;
+        private System.Windows.Forms.CheckBox CheckBox_ShowStats;
+        private System.Windows.Forms.CheckBox CheckBox_SendToDiscord;
+        private System.Windows.Forms.TextBox textBoxDiscordPassword;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.TextBox textBoxDiscordUser;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.CheckBox CheckBox_CompleteTutorial;
         
         /// <summary>
         /// Disposes resources used by the control.
@@ -132,7 +139,6 @@ namespace PokeMaster
             this.groupBox10 = new System.Windows.Forms.GroupBox();
             this.checkBox_AutoTransferDoublePokemon = new System.Windows.Forms.CheckBox();
             this.checkBox_CollectDailyBonus = new System.Windows.Forms.CheckBox();
-            this.checkbox_Verboselogging = new System.Windows.Forms.CheckBox();
             this.label3 = new System.Windows.Forms.Label();
             this.numRazzPercent = new System.Windows.Forms.NumericUpDown();
             this.checkBoxUseRazzBerry = new System.Windows.Forms.CheckBox();
@@ -144,6 +150,7 @@ namespace PokeMaster
             this.checkBox_UseAnimationTimes = new System.Windows.Forms.CheckBox();
             this.checkBox_useluckyegg = new System.Windows.Forms.CheckBox();
             this.checkBox_evolve = new System.Windows.Forms.CheckBox();
+            this.checkbox_Verboselogging = new System.Windows.Forms.CheckBox();
             this.checkBox_pauseAtEvolve1_2 = new System.Windows.Forms.CheckBox();
             this.checkBox_FarmGyms = new System.Windows.Forms.CheckBox();
             this.checkBox_UseLureAtBreak = new System.Windows.Forms.CheckBox();
@@ -189,13 +196,20 @@ namespace PokeMaster
             this.tpGeneral = new System.Windows.Forms.TabPage();
             this.tpGym = new System.Windows.Forms.TabPage();
             this.tabPageMisc = new System.Windows.Forms.TabPage();
+            this.CheckBox_CompleteTutorial = new System.Windows.Forms.CheckBox();
+            this.CheckBox_ShowStats = new System.Windows.Forms.CheckBox();
+            this.buttonForceRelogin = new System.Windows.Forms.Button();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.textBoxDiscordPassword = new System.Windows.Forms.TextBox();
+            this.label16 = new System.Windows.Forms.Label();
+            this.textBoxDiscordUser = new System.Windows.Forms.TextBox();
+            this.label15 = new System.Windows.Forms.Label();
+            this.CheckBox_SendToDiscord = new System.Windows.Forms.CheckBox();
             this.label13 = new System.Windows.Forms.Label();
             this.numMinIVSave = new System.Windows.Forms.NumericUpDown();
             this.buttonSelectLocationFile = new System.Windows.Forms.Button();
             this.textBoxSaveLocationsFile = new System.Windows.Forms.TextBox();
-            this.checkBoxSaveLocations = new System.Windows.Forms.CheckBox();
-            this.buttonForceRelogin = new System.Windows.Forms.Button();
+            this.CheckBox_SaveLocations = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numTravelSpeed)).BeginInit();
             this.groupBox10.SuspendLayout();
@@ -370,7 +384,6 @@ namespace PokeMaster
             // 
             this.groupBox10.Controls.Add(this.checkBox_AutoTransferDoublePokemon);
             this.groupBox10.Controls.Add(this.checkBox_CollectDailyBonus);
-            this.groupBox10.Controls.Add(this.checkbox_Verboselogging);
             this.groupBox10.Controls.Add(this.label3);
             this.groupBox10.Controls.Add(this.numRazzPercent);
             this.groupBox10.Controls.Add(this.checkBoxUseRazzBerry);
@@ -417,17 +430,6 @@ namespace PokeMaster
             this.checkBox_CollectDailyBonus.Text = "Collect Daily Bonus (Not tested)\r\n";
             this.checkBox_CollectDailyBonus.UseVisualStyleBackColor = true;
             this.checkBox_CollectDailyBonus.CheckedChanged += new System.EventHandler(this.CheckBoxes_CheckedChanged);
-            // 
-            // checkbox_Verboselogging
-            // 
-            this.checkbox_Verboselogging.AutoSize = true;
-            this.checkbox_Verboselogging.Location = new System.Drawing.Point(16, 317);
-            this.checkbox_Verboselogging.Name = "checkbox_Verboselogging";
-            this.checkbox_Verboselogging.Size = new System.Drawing.Size(142, 17);
-            this.checkbox_Verboselogging.TabIndex = 56;
-            this.checkbox_Verboselogging.Text = "Enable Verbose Logging";
-            this.checkbox_Verboselogging.UseVisualStyleBackColor = true;
-            this.checkbox_Verboselogging.CheckedChanged += new System.EventHandler(this.checkbox_Verboselogging_CheckedChanged);
             // 
             // label3
             // 
@@ -579,6 +581,17 @@ namespace PokeMaster
             this.checkBox_evolve.Text = "Evolve Pokemons if enough candy\r\n";
             this.checkBox_evolve.UseVisualStyleBackColor = true;
             this.checkBox_evolve.CheckedChanged += new System.EventHandler(this.CheckBoxes_CheckedChanged);
+            // 
+            // checkbox_Verboselogging
+            // 
+            this.checkbox_Verboselogging.AutoSize = true;
+            this.checkbox_Verboselogging.Location = new System.Drawing.Point(412, 22);
+            this.checkbox_Verboselogging.Name = "checkbox_Verboselogging";
+            this.checkbox_Verboselogging.Size = new System.Drawing.Size(142, 17);
+            this.checkbox_Verboselogging.TabIndex = 56;
+            this.checkbox_Verboselogging.Text = "Enable Verbose Logging";
+            this.checkbox_Verboselogging.UseVisualStyleBackColor = true;
+            this.checkbox_Verboselogging.CheckedChanged += new System.EventHandler(this.checkbox_Verboselogging_CheckedChanged);
             // 
             // checkBox_pauseAtEvolve1_2
             // 
@@ -1169,6 +1182,9 @@ namespace PokeMaster
             // 
             // tabPageMisc
             // 
+            this.tabPageMisc.Controls.Add(this.CheckBox_CompleteTutorial);
+            this.tabPageMisc.Controls.Add(this.CheckBox_ShowStats);
+            this.tabPageMisc.Controls.Add(this.checkbox_Verboselogging);
             this.tabPageMisc.Controls.Add(this.buttonForceRelogin);
             this.tabPageMisc.Controls.Add(this.groupBox4);
             this.tabPageMisc.Location = new System.Drawing.Point(4, 22);
@@ -1179,19 +1195,102 @@ namespace PokeMaster
             this.tabPageMisc.Text = "Misc";
             this.tabPageMisc.UseVisualStyleBackColor = true;
             // 
+            // CheckBox_CompleteTutorial
+            // 
+            this.CheckBox_CompleteTutorial.AutoSize = true;
+            this.CheckBox_CompleteTutorial.Location = new System.Drawing.Point(412, 78);
+            this.CheckBox_CompleteTutorial.Name = "CheckBox_CompleteTutorial";
+            this.CheckBox_CompleteTutorial.Size = new System.Drawing.Size(108, 17);
+            this.CheckBox_CompleteTutorial.TabIndex = 77;
+            this.CheckBox_CompleteTutorial.Tag = "CompleteTutorial";
+            this.CheckBox_CompleteTutorial.Text = "Complete Turorial";
+            this.CheckBox_CompleteTutorial.UseVisualStyleBackColor = true;
+            this.CheckBox_CompleteTutorial.CheckedChanged += new System.EventHandler(this.CheckBoxes_CheckedChanged);
+            // 
+            // CheckBox_ShowStats
+            // 
+            this.CheckBox_ShowStats.AutoSize = true;
+            this.CheckBox_ShowStats.Location = new System.Drawing.Point(412, 50);
+            this.CheckBox_ShowStats.Name = "CheckBox_ShowStats";
+            this.CheckBox_ShowStats.Size = new System.Drawing.Size(132, 17);
+            this.CheckBox_ShowStats.TabIndex = 76;
+            this.CheckBox_ShowStats.Tag = "ShowStats";
+            this.CheckBox_ShowStats.Text = "Show Stats in Console";
+            this.CheckBox_ShowStats.UseVisualStyleBackColor = true;
+            this.CheckBox_ShowStats.CheckedChanged += new System.EventHandler(this.CheckBoxes_CheckedChanged);
+            // 
+            // buttonForceRelogin
+            // 
+            this.buttonForceRelogin.Location = new System.Drawing.Point(9, 173);
+            this.buttonForceRelogin.Name = "buttonForceRelogin";
+            this.buttonForceRelogin.Size = new System.Drawing.Size(119, 23);
+            this.buttonForceRelogin.TabIndex = 75;
+            this.buttonForceRelogin.Text = "Force Relogin";
+            this.buttonForceRelogin.UseVisualStyleBackColor = true;
+            this.buttonForceRelogin.Click += new System.EventHandler(this.buttonForceRelogin_Click);
+            // 
             // groupBox4
             // 
+            this.groupBox4.Controls.Add(this.textBoxDiscordPassword);
+            this.groupBox4.Controls.Add(this.label16);
+            this.groupBox4.Controls.Add(this.textBoxDiscordUser);
+            this.groupBox4.Controls.Add(this.label15);
+            this.groupBox4.Controls.Add(this.CheckBox_SendToDiscord);
             this.groupBox4.Controls.Add(this.label13);
             this.groupBox4.Controls.Add(this.numMinIVSave);
             this.groupBox4.Controls.Add(this.buttonSelectLocationFile);
             this.groupBox4.Controls.Add(this.textBoxSaveLocationsFile);
-            this.groupBox4.Controls.Add(this.checkBoxSaveLocations);
+            this.groupBox4.Controls.Add(this.CheckBox_SaveLocations);
             this.groupBox4.Location = new System.Drawing.Point(10, 6);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(371, 79);
+            this.groupBox4.Size = new System.Drawing.Size(371, 149);
             this.groupBox4.TabIndex = 74;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Sharing Locations";
+            // 
+            // textBoxDiscordPassword
+            // 
+            this.textBoxDiscordPassword.Location = new System.Drawing.Point(139, 117);
+            this.textBoxDiscordPassword.Name = "textBoxDiscordPassword";
+            this.textBoxDiscordPassword.PasswordChar = '*';
+            this.textBoxDiscordPassword.Size = new System.Drawing.Size(224, 20);
+            this.textBoxDiscordPassword.TabIndex = 84;
+            // 
+            // label16
+            // 
+            this.label16.Location = new System.Drawing.Point(13, 120);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(120, 13);
+            this.label16.TabIndex = 83;
+            this.label16.Text = "Discord password:";
+            this.label16.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // textBoxDiscordUser
+            // 
+            this.textBoxDiscordUser.Location = new System.Drawing.Point(139, 91);
+            this.textBoxDiscordUser.Name = "textBoxDiscordUser";
+            this.textBoxDiscordUser.Size = new System.Drawing.Size(224, 20);
+            this.textBoxDiscordUser.TabIndex = 82;
+            // 
+            // label15
+            // 
+            this.label15.Location = new System.Drawing.Point(13, 94);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(120, 13);
+            this.label15.TabIndex = 81;
+            this.label15.Text = "Discord account:";
+            this.label15.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // CheckBox_SendToDiscord
+            // 
+            this.CheckBox_SendToDiscord.AutoSize = true;
+            this.CheckBox_SendToDiscord.Location = new System.Drawing.Point(15, 74);
+            this.CheckBox_SendToDiscord.Name = "CheckBox_SendToDiscord";
+            this.CheckBox_SendToDiscord.Size = new System.Drawing.Size(102, 17);
+            this.CheckBox_SendToDiscord.TabIndex = 77;
+            this.CheckBox_SendToDiscord.Text = "Send to Discord";
+            this.CheckBox_SendToDiscord.UseVisualStyleBackColor = true;
+            this.CheckBox_SendToDiscord.CheckedChanged += new System.EventHandler(this.CheckBox_SendToDiscord_CheckedChanged);
             // 
             // label13
             // 
@@ -1235,27 +1334,17 @@ namespace PokeMaster
             this.textBoxSaveLocationsFile.TabIndex = 65;
             this.textBoxSaveLocationsFile.TextChanged += new System.EventHandler(this.textBoxSaveLocationsFile_TextChanged);
             // 
-            // checkBoxSaveLocations
+            // CheckBox_SaveLocations
             // 
-            this.checkBoxSaveLocations.AutoSize = true;
-            this.checkBoxSaveLocations.Location = new System.Drawing.Point(15, 19);
-            this.checkBoxSaveLocations.Name = "checkBoxSaveLocations";
-            this.checkBoxSaveLocations.Size = new System.Drawing.Size(148, 17);
-            this.checkBoxSaveLocations.TabIndex = 64;
-            this.checkBoxSaveLocations.Tag = "SaveLocations";
-            this.checkBoxSaveLocations.Text = "Save Pokemons Location";
-            this.checkBoxSaveLocations.UseVisualStyleBackColor = true;
-            this.checkBoxSaveLocations.CheckedChanged += new System.EventHandler(this.CheckBoxes_CheckedChanged);
-            // 
-            // buttonForceRelogin
-            // 
-            this.buttonForceRelogin.Location = new System.Drawing.Point(10, 91);
-            this.buttonForceRelogin.Name = "buttonForceRelogin";
-            this.buttonForceRelogin.Size = new System.Drawing.Size(104, 23);
-            this.buttonForceRelogin.TabIndex = 75;
-            this.buttonForceRelogin.Text = "Force Relogin";
-            this.buttonForceRelogin.UseVisualStyleBackColor = true;
-            this.buttonForceRelogin.Click += new System.EventHandler(this.buttonForceRelogin_Click);
+            this.CheckBox_SaveLocations.AutoSize = true;
+            this.CheckBox_SaveLocations.Location = new System.Drawing.Point(15, 19);
+            this.CheckBox_SaveLocations.Name = "CheckBox_SaveLocations";
+            this.CheckBox_SaveLocations.Size = new System.Drawing.Size(148, 17);
+            this.CheckBox_SaveLocations.TabIndex = 64;
+            this.CheckBox_SaveLocations.Tag = "SaveLocations";
+            this.CheckBox_SaveLocations.Text = "Save Pokemons Location";
+            this.CheckBox_SaveLocations.UseVisualStyleBackColor = true;
+            this.CheckBox_SaveLocations.CheckedChanged += new System.EventHandler(this.CheckBoxes_CheckedChanged);
             // 
             // ChangesPanel
             // 
@@ -1289,6 +1378,7 @@ namespace PokeMaster
             this.tpGeneral.ResumeLayout(false);
             this.tpGym.ResumeLayout(false);
             this.tabPageMisc.ResumeLayout(false);
+            this.tabPageMisc.PerformLayout();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numMinIVSave)).EndInit();

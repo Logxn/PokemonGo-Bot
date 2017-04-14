@@ -1043,6 +1043,8 @@ namespace PokeMaster.Logic
                         if (farmed)
                         {
                             pokestop.CooldownCompleteTimestampMs = (long) (DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds + 300500;
+                            Setout.RecycleItems();
+                            MarkFirstExperiencie();
                         }
 
                         Setout.SetCheckTimeToRun();
@@ -1183,6 +1185,21 @@ namespace PokeMaster.Logic
             
 
             RandomHelper.RandomDelay(2000).Wait();
+        }
+        private void MarkFirstExperiencie(){
+
+            if ( !GlobalVars.CompleteTutorial || objClient.Player.PlayerResponse.PlayerData.TutorialState.Contains(TutorialState.FirstTimeExperienceComplete))
+                return;
+
+            var res = objClient.Misc.MarkTutorialComplete(new RepeatedField<TutorialState>()
+                            {
+                                TutorialState.FirstTimeExperienceComplete
+                            }).Result;
+            if (res.Result !=EncounterTutorialCompleteResponse.Types.Result.Success){
+                Logger.Warning("Mark First Experience Failed. Reason: "+ res.Result);
+                return;
+            }
+            Logger.Info("First Experience Marked.");
         }
 
         #endregion

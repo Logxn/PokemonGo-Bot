@@ -292,10 +292,6 @@ namespace PokeMaster
             this.buttonTutorial = new System.Windows.Forms.Button();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.textBoxDiscordServerID = new System.Windows.Forms.TextBox();
-            this.textBoxDiscordPassword = new System.Windows.Forms.TextBox();
-            this.label16 = new System.Windows.Forms.Label();
-            this.textBoxDiscordUser = new System.Windows.Forms.TextBox();
-            this.label15 = new System.Windows.Forms.Label();
             this.checkBoxSendToDiscord = new System.Windows.Forms.CheckBox();
             this.label13 = new System.Windows.Forms.Label();
             this.numMinIVSave = new System.Windows.Forms.NumericUpDown();
@@ -363,6 +359,10 @@ namespace PokeMaster
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.label15 = new System.Windows.Forms.Label();
+            this.textBoxDiscordUser = new System.Windows.Forms.TextBox();
+            this.label16 = new System.Windows.Forms.Label();
+            this.textBoxDiscordPassword = new System.Windows.Forms.TextBox();
             this.tabProxies.SuspendLayout();
             this.tabItems.SuspendLayout();
             this.groupBoxItems.SuspendLayout();
@@ -3672,40 +3672,6 @@ namespace PokeMaster
             this.textBoxDiscordServerID.TabIndex = 81;
             this.textBoxDiscordServerID.Text = "223025934435876865";
             // 
-            // textBoxDiscordPassword
-            // 
-            this.textBoxDiscordPassword.Location = new System.Drawing.Point(141, 183);
-            this.textBoxDiscordPassword.Name = "textBoxDiscordPassword";
-            this.textBoxDiscordPassword.PasswordChar = '*';
-            this.textBoxDiscordPassword.Size = new System.Drawing.Size(224, 20);
-            this.textBoxDiscordPassword.TabIndex = 80;
-            // 
-            // label16
-            // 
-            this.label16.Location = new System.Drawing.Point(15, 186);
-            this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(120, 13);
-            this.label16.TabIndex = 79;
-            this.label16.Text = "Discord password:";
-            this.label16.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // textBoxDiscordUser
-            // 
-            this.textBoxDiscordUser.Location = new System.Drawing.Point(141, 157);
-            this.textBoxDiscordUser.Name = "textBoxDiscordUser";
-            this.textBoxDiscordUser.Size = new System.Drawing.Size(224, 20);
-            this.textBoxDiscordUser.TabIndex = 78;
-            // 
-            // label15
-            // 
-            this.label15.Location = new System.Drawing.Point(15, 160);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(120, 13);
-            this.label15.TabIndex = 77;
-            this.label15.Text = "Discord account:";
-            this.label15.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.label15.DoubleClick += new System.EventHandler(this.label15_DoubleClick);
-            // 
             // checkBoxSendToDiscord
             // 
             this.checkBoxSendToDiscord.AutoSize = true;
@@ -4443,6 +4409,40 @@ namespace PokeMaster
             this.pictureBox2.TabIndex = 49;
             this.pictureBox2.TabStop = false;
             this.pictureBox2.Click += new System.EventHandler(this.pictureBox2_Click);
+            // 
+            // label15
+            // 
+            this.label15.Location = new System.Drawing.Point(15, 160);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(120, 13);
+            this.label15.TabIndex = 77;
+            this.label15.Text = "Discord account:";
+            this.label15.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.label15.DoubleClick += new System.EventHandler(this.label15_DoubleClick);
+            // 
+            // textBoxDiscordUser
+            // 
+            this.textBoxDiscordUser.Location = new System.Drawing.Point(141, 157);
+            this.textBoxDiscordUser.Name = "textBoxDiscordUser";
+            this.textBoxDiscordUser.Size = new System.Drawing.Size(224, 20);
+            this.textBoxDiscordUser.TabIndex = 78;
+            // 
+            // label16
+            // 
+            this.label16.Location = new System.Drawing.Point(15, 186);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(120, 13);
+            this.label16.TabIndex = 79;
+            this.label16.Text = "Discord password:";
+            this.label16.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // textBoxDiscordPassword
+            // 
+            this.textBoxDiscordPassword.Location = new System.Drawing.Point(141, 183);
+            this.textBoxDiscordPassword.Name = "textBoxDiscordPassword";
+            this.textBoxDiscordPassword.PasswordChar = '*';
+            this.textBoxDiscordPassword.Size = new System.Drawing.Size(224, 20);
+            this.textBoxDiscordPassword.TabIndex = 80;
             // 
             // ConfigWindow
             // 

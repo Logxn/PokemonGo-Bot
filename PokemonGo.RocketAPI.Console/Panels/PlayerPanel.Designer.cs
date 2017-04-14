@@ -29,6 +29,8 @@ namespace PokeMaster
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label labelPokestops;
         private System.Windows.Forms.Label labelPokemons;
+        private System.Windows.Forms.Label labelTimeLeft;
+        private System.Windows.Forms.Label label4;
 		
         /// <summary>
         /// Disposes resources used by the control.
@@ -66,6 +68,8 @@ namespace PokeMaster
             this.labelPokemons = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
+            this.labelTimeLeft = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxTeam)).BeginInit();
             this.panelLeftArea.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxBuddyPokemon)).BeginInit();
@@ -179,20 +183,22 @@ namespace PokeMaster
             // groupBoxSession
             // 
             this.groupBoxSession.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.groupBoxSession.Controls.Add(this.labelTimeLeft);
+            this.groupBoxSession.Controls.Add(this.label4);
             this.groupBoxSession.Controls.Add(this.labelPokestops);
             this.groupBoxSession.Controls.Add(this.labelPokemons);
             this.groupBoxSession.Controls.Add(this.label2);
             this.groupBoxSession.Controls.Add(this.label1);
-            this.groupBoxSession.Location = new System.Drawing.Point(4, 332);
+            this.groupBoxSession.Location = new System.Drawing.Point(4, 319);
             this.groupBoxSession.Name = "groupBoxSession";
-            this.groupBoxSession.Size = new System.Drawing.Size(295, 87);
+            this.groupBoxSession.Size = new System.Drawing.Size(295, 100);
             this.groupBoxSession.TabIndex = 107;
             this.groupBoxSession.TabStop = false;
             this.groupBoxSession.Text = "Session Info";
             // 
             // labelPokestops
             // 
-            this.labelPokestops.Location = new System.Drawing.Point(163, 51);
+            this.labelPokestops.Location = new System.Drawing.Point(177, 51);
             this.labelPokestops.Name = "labelPokestops";
             this.labelPokestops.Size = new System.Drawing.Size(105, 18);
             this.labelPokestops.TabIndex = 3;
@@ -200,7 +206,7 @@ namespace PokeMaster
             // 
             // labelPokemons
             // 
-            this.labelPokemons.Location = new System.Drawing.Point(163, 24);
+            this.labelPokemons.Location = new System.Drawing.Point(177, 24);
             this.labelPokemons.Name = "labelPokemons";
             this.labelPokemons.Size = new System.Drawing.Size(105, 18);
             this.labelPokemons.TabIndex = 2;
@@ -211,7 +217,7 @@ namespace PokeMaster
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.Location = new System.Drawing.Point(15, 48);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(142, 18);
+            this.label2.Size = new System.Drawing.Size(148, 18);
             this.label2.TabIndex = 1;
             this.label2.Text = "PokeStops Farmed:";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -221,10 +227,28 @@ namespace PokeMaster
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.Location = new System.Drawing.Point(15, 21);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(142, 18);
+            this.label1.Size = new System.Drawing.Size(148, 18);
             this.label1.TabIndex = 0;
             this.label1.Text = "Pokemons Caught:";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // labelTimeLeft
+            // 
+            this.labelTimeLeft.Location = new System.Drawing.Point(177, 79);
+            this.labelTimeLeft.Name = "labelTimeLeft";
+            this.labelTimeLeft.Size = new System.Drawing.Size(105, 18);
+            this.labelTimeLeft.TabIndex = 5;
+            this.labelTimeLeft.Text = "0";
+            // 
+            // label4
+            // 
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.Location = new System.Drawing.Point(6, 76);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(157, 18);
+            this.label4.TabIndex = 4;
+            this.label4.Text = "Time Left To Next Level:";
+            this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // PlayerPanel
             // 

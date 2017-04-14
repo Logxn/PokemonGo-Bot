@@ -60,6 +60,7 @@ namespace PokeMaster.Logic.Functions
         public static double lastlog = -10000;
         public static int pokemonCatchCount;
         public static int pokeStopFarmedCount;
+        public static String timeLeftToNextLevel;
         public static DateTime sessionStart;
         private static string logPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Logs");
         private static string configPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Configs");
@@ -111,7 +112,6 @@ namespace PokeMaster.Logic.Functions
                 StartIncubation();
 
             TransferDuplicatePokemon(GlobalVars.keepPokemonsThatCanEvolve, GlobalVars.TransferFirstLowIV);
-            RecycleItems();
 
             CheckLevelUp(Logic.objClient);
             
@@ -174,9 +174,8 @@ namespace PokeMaster.Logic.Functions
             int gotXP = 0;
 
             if ( GlobalVars.RelocateDefaultLocation)
-            {
                 return;
-            }
+
             EvolvePokemonResponse evolvePokemonOutProto;
 
             var pokemonToEvolve = Logic.objClient.Inventory.GetPokemonToEvolve(true,filter);
@@ -419,7 +418,7 @@ namespace PokeMaster.Logic.Functions
             return ret;
         }
 
-        private static void RecycleItems(bool forcerefresh = false)
+        public static void RecycleItems(bool forcerefresh = false)
         {
 
             if (GlobalVars.RelocateDefaultLocation)
@@ -473,12 +472,12 @@ namespace PokeMaster.Logic.Functions
             var neededEXP = expneeded.ToString("N0");
             var expPercent = Math.Round(curexppercent, 2);
             var expLeft = stats.NextLevelXp - stats.Experience;
-            var timeLeft = Logic.Instance.BotStats.GettimeLeft(expLeft).ToString(@"dd\.hh\:mm");
+            timeLeftToNextLevel = Logic.Instance.BotStats.GettimeLeft(expLeft).ToString(@"dd\.hh\:mm");
 
             client.ShowingStats = true;
             Logger.ColoredConsoleWrite(ConsoleColor.Cyan, "-----------------------[PLAYER STATS]-----------------------");
             Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Level/EXP: {stats.Level} | {currEXP}/{neededEXP} ({expPercent}%)");
-            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"EXP to Level up: {expLeft} (Time Left: {timeLeft})");
+            Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"EXP to Level up: {expLeft} (Time Left: {timeLeftToNextLevel})");
             Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"PokeStops visited: {stats.PokeStopVisits}");
             Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"KM Walked: {Math.Round(stats.KmWalked, 2)}");
             Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Pokemon: {pokemonCount}/{maxPokemonStorage} ({pokemonToEvolve} Evolvable)");
