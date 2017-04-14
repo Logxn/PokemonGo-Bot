@@ -32,6 +32,7 @@ namespace PokeMaster.Logic.Functions
         private static Client client = null;
         private static LogicInfoObservable infoObservable =null;
 
+        private static int zeroCachablePokemons  = 0;
         public static bool AllowCatchPokemon = true;
         public static List<ulong> SkippedPokemon = new List<ulong>();
 
@@ -87,6 +88,7 @@ namespace PokeMaster.Logic.Functions
 
                 var pokemons = mapObjectsResponse.MapCells.SelectMany(i => i.CatchablePokemons).OrderBy(i => LocationUtils.CalculateDistanceInMeters(client.CurrentLatitude, client.CurrentLongitude, i.Latitude, i.Longitude));
                 Logger.Debug( $"Pokemons Catchable: {pokemons.Count()}");
+                
                 var nearbyPokemons = mapObjectsResponse.MapCells.SelectMany(i => i.NearbyPokemons);
                 Logger.Debug( $"Pokemons Nearby: {nearbyPokemons.Count()}");
                 var wildPokemons = mapObjectsResponse.MapCells.SelectMany(i => i.WildPokemons).OrderBy(i => LocationUtils.CalculateDistanceInMeters(client.CurrentLatitude, client.CurrentLongitude, i.Latitude, i.Longitude));
@@ -100,8 +102,14 @@ namespace PokeMaster.Logic.Functions
                     if (GlobalVars.ShowPokemons){
                         ShowNearbyPokemons(pokemons);
                     }
-                }else
+                }else{
+                    zeroCachablePokemons++;
+                    if (zeroCachablePokemons> 10){
+                        zeroCachablePokemons =0;
+                        client.Login.DoLogin().Wait();
+                    }
                     return false;
+                }
 
 
                 //catch them all!
@@ -427,6 +435,9 @@ namespace PokeMaster.Logic.Functions
                         }
 
                         caughtPokemonResponse = CatchPokemonWithRandomVariables(encounterId, spawnpointId, bestPokeball, forceHit);
+                        if (caughtPokemonResponse==null){
+                            caughtPokemonResponse = new CatchPokemonResponse();
+                        }
 
                         if (caughtPokemonResponse.Status == CatchPokemonResponse.Types.CatchStatus.CatchMissed)
                         {

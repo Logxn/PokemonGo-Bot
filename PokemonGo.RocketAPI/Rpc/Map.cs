@@ -32,24 +32,18 @@ namespace PokemonGo.RocketAPI.Rpc
                 <GetMapObjectsResponse> GetMapObjects(bool forceRequest = false)
         {
             // In case we did last _minSecondsBetweenMapCalls before, we return the cached response
-            if (_lastGetMapRequest.AddSeconds(_minSecondsBetweenMapCalls).Ticks > DateTime.UtcNow.Ticks && !forceRequest)
-            {
+            if (_lastGetMapRequest.AddSeconds(_minSecondsBetweenMapCalls).Ticks > DateTime.UtcNow.Ticks 
+                && !forceRequest
+                && _cachedGetMapResponse!=null
+               )
                 return _cachedGetMapResponse;
-            }
 
-            #region Messages
-            
             var cellIds = S2Helper.GetNearbyCellIds(Client.CurrentLongitude, Client.CurrentLatitude).ToArray();
+
             var sinceTimeMs = new long[cellIds.Length];
             for  (var index = 0; index < cellIds.Length; index++)
-            {   
-                /*MapCell cell = null;
-                if (_cachedGetMapResponse!=null)
-                    cell = _cachedGetMapResponse.Item1.MapCells.FirstOrDefault(x => x.S2CellId == cellIds[index]);
-                sinceTimeMs[index] = cell != null ? cell.CurrentTimestampMs : 0;
-                */
                sinceTimeMs[index] = 0;
-            }
+
             var getMapObjectsMessage = new GetMapObjectsMessage
             {
                 CellId = {cellIds},
@@ -58,29 +52,14 @@ namespace PokemonGo.RocketAPI.Rpc
                 Longitude = Client.CurrentLongitude
             };
 
-            var getHatchedEggsMessage = new GetHatchedEggsMessage();
-
-            var getInventoryMessage = new GetInventoryMessage
-            {
-                LastTimestampMs = Client.InventoryLastUpdateTimestamp
-            };
-
-            var checkAwardedBadgesMessage = new CheckAwardedBadgesMessage();
-
-            var downloadSettingsMessage = new DownloadSettingsMessage
-            {
-                Hash = Client.SettingsHash
-            };
-
-            #endregion
-
             var request = new Request
             {
                 RequestType = RequestType.GetMapObjects,
                 RequestMessage = getMapObjectsMessage.ToByteString()
             };
-            return await PostProtoPayloadCommonR<Request, GetMapObjectsResponse>(request).ConfigureAwait(false);
-
+            _cachedGetMapResponse = await PostProtoPayloadCommonR<Request, GetMapObjectsResponse>(request).ConfigureAwait(false);
+            _lastGetMapRequest = DateTime.UtcNow;
+            return _cachedGetMapResponse;
         }
 
         public GetIncensePokemonResponse GetIncensePokemons()

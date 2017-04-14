@@ -103,7 +103,10 @@ namespace PokeMaster.Logic
                         Logger.Debug("New Client.ApiUrl: " + _session.ApiUrl);
                     }                    
                     throw new RedirectException();
+                case ResponseEnvelope.Types.StatusCode.BadRequest:
+                    return ApiOperation.Abort;
             }
+            _retryCount++;
             Logger.Debug($"{response.StatusCode}: Retrying. Try {_retryCount}.");
             return ApiOperation.Retry;
         }

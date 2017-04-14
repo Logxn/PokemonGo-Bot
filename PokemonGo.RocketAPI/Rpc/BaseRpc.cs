@@ -44,9 +44,7 @@ namespace PokemonGo.RocketAPI.Rpc
                 } catch (AccessTokenExpiredException) {
                     Logger.Warning("Invalid Token. Retrying in 1 second");
                     Task.Delay(1000).Wait();
-                    Client.Login.DoLogin().Wait();
-                    //Client.Login.Reauthenticate().Wait();
-                    //Task.Delay(1000).Wait();
+                    Client.Login.Reauthenticate().Wait();
                 } catch (InvalidPlatformException) {
                     Logger.Warning("Invalid Platform. Retrying in 1 second");
                     Task.Delay(1000).Wait();
@@ -73,8 +71,8 @@ namespace PokemonGo.RocketAPI.Rpc
                                 Client.ApiFailure);
                 } catch (AccessTokenExpiredException) {
                     Logger.Warning("Invalid Token. Retrying in 1 second");
-                    Client.Login.Reauthenticate().Wait();
                     Task.Delay(1000).Wait();
+                    Client.Login.Reauthenticate().Wait();
                 } catch (InvalidPlatformException) {
                     Logger.Warning("Invalid Platform. Retrying in 1 second");
                     Client.Login.DoLogin().Wait();
@@ -220,8 +218,8 @@ namespace PokemonGo.RocketAPI.Rpc
                         return response[0] as T1 ;
                 } catch (AccessTokenExpiredException) {
                     Logger.Warning("Invalid Token. Retrying in 1 second");
-                    await Client.Login.Reauthenticate().ConfigureAwait(false);
                     await Task.Delay(1000).ConfigureAwait(false);
+                    await Client.Login.Reauthenticate().ConfigureAwait(false);
                 } catch (InvalidPlatformException) {
                     Logger.Warning("Invalid Platform. Retrying in 1 second");
                     Client.Login.DoLogin().Wait();
