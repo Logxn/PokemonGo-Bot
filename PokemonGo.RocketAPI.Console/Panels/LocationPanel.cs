@@ -69,6 +69,7 @@ namespace PokeMaster
             buttonZoomIn.Visible = true;
             buttonSavePokestops.Visible = true;
             buttonLoadPokestops.Visible = true;
+            btnPauseWalking.Text = GlobalVars.pauseAtPokeStop? th.TS("Resume Walking"): th.TS("Pause Walking");
         }
         
         public bool close = true;
@@ -839,7 +840,7 @@ namespace PokeMaster
                     }
                     Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "User Defined Route Captured! Beginning Route Momentarily.");
                 }
-                btnPauseWalking.Text = "Pause Walking";
+                btnPauseWalking.Text = th.TS("Pause Walking");
             }
           
         }

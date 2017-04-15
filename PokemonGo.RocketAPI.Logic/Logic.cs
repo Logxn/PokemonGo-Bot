@@ -92,7 +92,7 @@ namespace PokeMaster.Logic
             Logger.ColoredConsoleWrite(ConsoleColor.Green, $"{pokestopCount} Pokestops within range of where you are standing.");
 
             //Begin farming loop while on break
-            do
+            while (BotSettings.pauseAtPokeStop)
             {
                 foreach (var pokestop in pokestopsWithinRangeStanding)
                 {
@@ -136,7 +136,7 @@ namespace PokeMaster.Logic
                 BotSettings.pauseAtPokeStop = false;
 
                 Logger.ColoredConsoleWrite(ConsoleColor.Magenta, "Exit Command detected - Ending break");
-            } while (BotSettings.pauseAtPokeStop);
+            } 
         }
 
         private int GetRandomWalkspeed()
@@ -304,6 +304,9 @@ namespace PokeMaster.Logic
                 GetPlayerResponse profil = objClient.Player.GetPlayer();
                 objClient.Inventory.ExportPokemonToCSV(profil.PlayerData);
                 Setout.Execute();
+                while (GlobalVars.pauseAtPokeStop){
+                    RandomHelper.RandomDelay(2000).Wait();
+                }
                 ExecuteFarmingPokestopsAndPokemons(objClient);
             }
             catch (AccessTokenExpiredException)

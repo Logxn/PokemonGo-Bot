@@ -390,6 +390,7 @@ namespace PokeMaster
             text_BreakLength.Text = config.BreakLength.ToString();
             
             checkBox_StopWalkingWhenEvolving.Checked = config.pauseAtEvolve;
+            checkBox_Paused.Checked = config.pauseAtPokeStop;
             
             checkBox_UseGoogleMapsRouting.Checked = config.UseGoogleMapsAPI;
             text_GoogleMapsAPIKey.Text = config.GoogleMapsAPIKey;
@@ -837,6 +838,7 @@ namespace PokeMaster
 
             ActiveProfile.Settings.pauseAtEvolve = checkBox_StopWalkingWhenEvolving.Checked;
             ActiveProfile.Settings.pauseAtEvolve2 = checkBox_StopWalkingWhenEvolving.Checked;
+            ActiveProfile.Settings.pauseAtPokeStop = checkBox_Paused.Checked;
 
             ActiveProfile.Settings.UseGoogleMapsAPI = checkBox_UseGoogleMapsRouting.Checked;
             ActiveProfile.Settings.GoogleMapsAPIKey = text_GoogleMapsAPIKey.Text;

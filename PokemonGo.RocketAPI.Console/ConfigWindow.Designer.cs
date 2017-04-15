@@ -292,6 +292,10 @@ namespace PokeMaster
             this.buttonTutorial = new System.Windows.Forms.Button();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.textBoxDiscordServerID = new System.Windows.Forms.TextBox();
+            this.textBoxDiscordPassword = new System.Windows.Forms.TextBox();
+            this.label16 = new System.Windows.Forms.Label();
+            this.textBoxDiscordUser = new System.Windows.Forms.TextBox();
+            this.label15 = new System.Windows.Forms.Label();
             this.checkBoxSendToDiscord = new System.Windows.Forms.CheckBox();
             this.label13 = new System.Windows.Forms.Label();
             this.numMinIVSave = new System.Windows.Forms.NumericUpDown();
@@ -359,10 +363,7 @@ namespace PokeMaster
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.label15 = new System.Windows.Forms.Label();
-            this.textBoxDiscordUser = new System.Windows.Forms.TextBox();
-            this.label16 = new System.Windows.Forms.Label();
-            this.textBoxDiscordPassword = new System.Windows.Forms.TextBox();
+            this.checkBox_Paused = new System.Windows.Forms.CheckBox();
             this.tabProxies.SuspendLayout();
             this.tabItems.SuspendLayout();
             this.groupBoxItems.SuspendLayout();
@@ -2311,7 +2312,7 @@ namespace PokeMaster
             this.groupBox13.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox13.Name = "groupBox13";
             this.groupBox13.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBox13.Size = new System.Drawing.Size(278, 96);
+            this.groupBox13.Size = new System.Drawing.Size(280, 96);
             this.groupBox13.TabIndex = 60;
             this.groupBox13.TabStop = false;
             this.groupBox13.Text = "Routing Settings";
@@ -2359,6 +2360,7 @@ namespace PokeMaster
             // 
             // groupBox11
             // 
+            this.groupBox11.Controls.Add(this.checkBox_Paused);
             this.groupBox11.Controls.Add(this.checkBox_WalkInLoop);
             this.groupBox11.Controls.Add(this.checkBox_WalkRandomly);
             this.groupBox11.Controls.Add(this.checkBox_StopWalkingWhenEvolving);
@@ -2378,7 +2380,7 @@ namespace PokeMaster
             this.groupBox11.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox11.Name = "groupBox11";
             this.groupBox11.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBox11.Size = new System.Drawing.Size(278, 277);
+            this.groupBox11.Size = new System.Drawing.Size(282, 277);
             this.groupBox11.TabIndex = 59;
             this.groupBox11.TabStop = false;
             this.groupBox11.Text = "Walk Options";
@@ -2386,7 +2388,7 @@ namespace PokeMaster
             // checkBox_WalkInLoop
             // 
             this.checkBox_WalkInLoop.AutoSize = true;
-            this.checkBox_WalkInLoop.Location = new System.Drawing.Point(8, 186);
+            this.checkBox_WalkInLoop.Location = new System.Drawing.Point(8, 184);
             this.checkBox_WalkInLoop.Name = "checkBox_WalkInLoop";
             this.checkBox_WalkInLoop.Size = new System.Drawing.Size(89, 17);
             this.checkBox_WalkInLoop.TabIndex = 72;
@@ -2408,7 +2410,7 @@ namespace PokeMaster
             this.checkBox_StopWalkingWhenEvolving.AutoSize = true;
             this.checkBox_StopWalkingWhenEvolving.Checked = true;
             this.checkBox_StopWalkingWhenEvolving.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox_StopWalkingWhenEvolving.Location = new System.Drawing.Point(8, 243);
+            this.checkBox_StopWalkingWhenEvolving.Location = new System.Drawing.Point(8, 228);
             this.checkBox_StopWalkingWhenEvolving.Margin = new System.Windows.Forms.Padding(2);
             this.checkBox_StopWalkingWhenEvolving.Name = "checkBox_StopWalkingWhenEvolving";
             this.checkBox_StopWalkingWhenEvolving.Size = new System.Drawing.Size(182, 17);
@@ -2474,11 +2476,12 @@ namespace PokeMaster
             // pictureBox1
             // 
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(222, 213);
+            this.pictureBox1.Location = new System.Drawing.Point(215, 203);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(17, 17);
             this.pictureBox1.TabIndex = 66;
             this.pictureBox1.TabStop = false;
+            this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
             // 
             // label43
             // 
@@ -2501,7 +2504,7 @@ namespace PokeMaster
             // button_ArchimedeanSpiralHelp
             // 
             this.button_ArchimedeanSpiralHelp.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button_ArchimedeanSpiralHelp.Location = new System.Drawing.Point(245, 210);
+            this.button_ArchimedeanSpiralHelp.Location = new System.Drawing.Point(238, 200);
             this.button_ArchimedeanSpiralHelp.Name = "button_ArchimedeanSpiralHelp";
             this.button_ArchimedeanSpiralHelp.Size = new System.Drawing.Size(21, 22);
             this.button_ArchimedeanSpiralHelp.TabIndex = 65;
@@ -2522,7 +2525,7 @@ namespace PokeMaster
             // checkBox_WalkInArchimedeanSpiral
             // 
             this.checkBox_WalkInArchimedeanSpiral.AutoSize = true;
-            this.checkBox_WalkInArchimedeanSpiral.Location = new System.Drawing.Point(8, 214);
+            this.checkBox_WalkInArchimedeanSpiral.Location = new System.Drawing.Point(8, 206);
             this.checkBox_WalkInArchimedeanSpiral.Name = "checkBox_WalkInArchimedeanSpiral";
             this.checkBox_WalkInArchimedeanSpiral.Size = new System.Drawing.Size(156, 17);
             this.checkBox_WalkInArchimedeanSpiral.TabIndex = 64;
@@ -3672,6 +3675,40 @@ namespace PokeMaster
             this.textBoxDiscordServerID.TabIndex = 81;
             this.textBoxDiscordServerID.Text = "223025934435876865";
             // 
+            // textBoxDiscordPassword
+            // 
+            this.textBoxDiscordPassword.Location = new System.Drawing.Point(141, 183);
+            this.textBoxDiscordPassword.Name = "textBoxDiscordPassword";
+            this.textBoxDiscordPassword.PasswordChar = '*';
+            this.textBoxDiscordPassword.Size = new System.Drawing.Size(224, 20);
+            this.textBoxDiscordPassword.TabIndex = 80;
+            // 
+            // label16
+            // 
+            this.label16.Location = new System.Drawing.Point(15, 186);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(120, 13);
+            this.label16.TabIndex = 79;
+            this.label16.Text = "Discord password:";
+            this.label16.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // textBoxDiscordUser
+            // 
+            this.textBoxDiscordUser.Location = new System.Drawing.Point(141, 157);
+            this.textBoxDiscordUser.Name = "textBoxDiscordUser";
+            this.textBoxDiscordUser.Size = new System.Drawing.Size(224, 20);
+            this.textBoxDiscordUser.TabIndex = 78;
+            // 
+            // label15
+            // 
+            this.label15.Location = new System.Drawing.Point(15, 160);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(120, 13);
+            this.label15.TabIndex = 77;
+            this.label15.Text = "Discord account:";
+            this.label15.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.label15.DoubleClick += new System.EventHandler(this.label15_DoubleClick);
+            // 
             // checkBoxSendToDiscord
             // 
             this.checkBoxSendToDiscord.AutoSize = true;
@@ -4410,39 +4447,18 @@ namespace PokeMaster
             this.pictureBox2.TabStop = false;
             this.pictureBox2.Click += new System.EventHandler(this.pictureBox2_Click);
             // 
-            // label15
+            // checkBox_Paused
             // 
-            this.label15.Location = new System.Drawing.Point(15, 160);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(120, 13);
-            this.label15.TabIndex = 77;
-            this.label15.Text = "Discord account:";
-            this.label15.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.label15.DoubleClick += new System.EventHandler(this.label15_DoubleClick);
-            // 
-            // textBoxDiscordUser
-            // 
-            this.textBoxDiscordUser.Location = new System.Drawing.Point(141, 157);
-            this.textBoxDiscordUser.Name = "textBoxDiscordUser";
-            this.textBoxDiscordUser.Size = new System.Drawing.Size(224, 20);
-            this.textBoxDiscordUser.TabIndex = 78;
-            // 
-            // label16
-            // 
-            this.label16.Location = new System.Drawing.Point(15, 186);
-            this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(120, 13);
-            this.label16.TabIndex = 79;
-            this.label16.Text = "Discord password:";
-            this.label16.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // textBoxDiscordPassword
-            // 
-            this.textBoxDiscordPassword.Location = new System.Drawing.Point(141, 183);
-            this.textBoxDiscordPassword.Name = "textBoxDiscordPassword";
-            this.textBoxDiscordPassword.PasswordChar = '*';
-            this.textBoxDiscordPassword.Size = new System.Drawing.Size(224, 20);
-            this.textBoxDiscordPassword.TabIndex = 80;
+            this.checkBox_Paused.AutoSize = true;
+            this.checkBox_Paused.Checked = true;
+            this.checkBox_Paused.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox_Paused.Location = new System.Drawing.Point(8, 249);
+            this.checkBox_Paused.Margin = new System.Windows.Forms.Padding(2);
+            this.checkBox_Paused.Name = "checkBox_Paused";
+            this.checkBox_Paused.Size = new System.Drawing.Size(272, 17);
+            this.checkBox_Paused.TabIndex = 73;
+            this.checkBox_Paused.Text = "Start Paused (You\'ll have to press Resume Walking)";
+            this.checkBox_Paused.UseVisualStyleBackColor = true;
             // 
             // ConfigWindow
             // 
@@ -4944,5 +4960,6 @@ namespace PokeMaster
         private System.Windows.Forms.TextBox textBoxDiscordUser;
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.CheckBox checkBoxSendToDiscord;
+        private System.Windows.Forms.CheckBox checkBox_Paused;
     }
 }
