@@ -135,7 +135,10 @@ namespace PokeMaster.Logic.Functions
         private static void OnMessageReceived(object s, MessageEventArgs e)
         {
             // Ignore target channels messages
-            if (e.Channel!= channel || e.Message.IsAuthor){
+            if (e.Channel!= channel ){
+                return;
+            }
+            if (e.Message.IsAuthor ){
                 return;
             }
             var args = new DiscordLogic.DiscordReceivedDataEventArgs();

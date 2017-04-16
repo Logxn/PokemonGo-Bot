@@ -618,8 +618,9 @@ namespace PokeMaster
                     Logger.Info("Already in List");
                     return;
                 }
-                message = split1[1].Replace(" :100: ","")
-                    .Replace(" :ok_hand: ","").Replace("♀","").Replace("♂","").Trim();
+                message = split1[1].Replace(" :100: ","").Replace(" 💯 ","")
+                    .Replace(" :ok_hand: ","").Replace(" 👌 ","")
+                    .Replace("♀","").Replace("♂","").Trim();
                 Logger.Debug("message: "+ message);
                 var split2 = message.Split(' ');
                 var pokeID = split2[0];
