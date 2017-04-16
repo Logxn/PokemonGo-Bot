@@ -20,6 +20,7 @@ using Newtonsoft.Json;
 using System.Device.Location;
 using Microsoft.Win32;
 using System.Text;
+using PokeMaster.Logic.Functions;
 using PokeMaster.Logic.Shared;
 using PokeMaster.Logic.Utils;
 using PokemonGo.RocketAPI;
@@ -592,6 +593,57 @@ namespace PokeMaster
         void SniperPanel_Load(object sender, EventArgs e)
         {
           
+        }
+        void checkBox2_CheckedChanged(object sender, EventArgs e)
+        {
+            try {
+            if (checkBox2.Checked)
+                DiscordLogic.MessageReceived += InterceptedDiscortMessage;
+            else
+                DiscordLogic.MessageReceived -= InterceptedDiscortMessage;
+            } catch (Exception ex1) {
+                Logger.ExceptionInfo(ex1.ToString());
+            }
+        }
+        private void InterceptedDiscortMessage(object s, DiscordLogic.DiscordReceivedDataEventArgs args)
+        {
+            try {
+                var message = args.Message;
+                var split1 = message.Split('=');
+                var id = split1[0];
+                if (isInList(id)){
+                    Logger.Info("Already in List");
+                    return;
+                }
+                message = split1[0].Replace(":100: ","").Replace(":ok_hand: ","");
+                var split2 = message.Split(' ');
+                var pokeID = split2[0];
+                var Latitude = split2[1].Replace(",","");
+                var Longitude = split2[2];
+                var split3 = message.Split(':');
+                var iv100 = split3[0].Trim().Split('%')[0];
+                var prob = split3[4].Trim().Split('%')[0];
+                var date = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss");
+    
+                var listViewItem = new ListViewItem();
+                listViewItem.Text= $"pokesniper2://{pokeID}/{Latitude},{Longitude}";
+                listViewItem.SubItems.Add(iv100);
+                listViewItem.SubItems.Add(prob);
+                listViewItem.SubItems.Add(date);
+                listViewItem.SubItems.Add("");
+                listViewItem.SubItems.Add(id);
+                listViewItem.SubItems.Add(args.Username);
+                listViewItem.SubItems.Add("");
+                listViewItem.SubItems.Add("false");
+                
+                listView.Items.Add(listViewItem);
+
+            } catch (Exception ex1) {
+                Logger.Error("Message Interception Failed");
+                Logger.ExceptionInfo(ex1.ToString());
+            }
+            
+            // :ok_hand: Ekans♀ 36,7200710463537, -4,41656113389649 (Travesia Pintor Nogales, 2, 29015 Málaga, Spain) IV: 91% LV: 16 CP: 348 Female AcidFast/PoisonFang Costume: Unset Prob: 56% 59:00 Unknown
         }
     }
 }

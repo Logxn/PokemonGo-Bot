@@ -73,6 +73,7 @@ namespace PokeMaster
         private System.Windows.Forms.CheckBox checkBoxMinProbSnipe;
         private System.Windows.Forms.Label label10;
         public System.Windows.Forms.CheckBox checkBoxSnipeWithPinap;
+        private System.Windows.Forms.CheckBox checkBox2;
         
         /// <summary>
         /// Disposes resources used by the control.
@@ -155,6 +156,7 @@ namespace PokeMaster
             this.checkedListBox_ToSnipe = new System.Windows.Forms.CheckedListBox();
             this.timerAutoImport = new System.Windows.Forms.Timer(this.components);
             this.checkBoxSnipeWithPinap = new System.Windows.Forms.CheckBox();
+            this.checkBox2 = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PokemonImage)).BeginInit();
             this.groupBox2.SuspendLayout();
@@ -187,12 +189,12 @@ namespace PokeMaster
             // 
             this.label4.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.ForeColor = System.Drawing.Color.DarkRed;
-            this.label4.Location = new System.Drawing.Point(13, 159);
+            this.label4.Location = new System.Drawing.Point(13, 160);
             this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(182, 21);
             this.label4.TabIndex = 81;
-            this.label4.Text = "(ex: 30.123456, -97.123456 )";
+            this.label4.Text = "ex: 30.123456, -97.123456 ";
             // 
             // SnipePokemonPokeCom
             // 
@@ -473,6 +475,7 @@ namespace PokeMaster
             this.gbLocations.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.gbLocations.Controls.Add(this.checkBox2);
             this.gbLocations.Controls.Add(this.textBoxPokemonsList);
             this.gbLocations.Controls.Add(this.label7);
             this.gbLocations.Controls.Add(this.checkBox1);
@@ -551,10 +554,10 @@ namespace PokeMaster
             this.listView.ContextMenuStrip = this.contextMenuStrip1;
             this.listView.FullRowSelect = true;
             this.listView.GridLines = true;
-            this.listView.Location = new System.Drawing.Point(8, 73);
+            this.listView.Location = new System.Drawing.Point(8, 93);
             this.listView.Margin = new System.Windows.Forms.Padding(4);
             this.listView.Name = "listView";
-            this.listView.Size = new System.Drawing.Size(318, 312);
+            this.listView.Size = new System.Drawing.Size(318, 291);
             this.listView.TabIndex = 81;
             this.listView.UseCompatibleStateImageBehavior = false;
             this.listView.View = System.Windows.Forms.View.Details;
@@ -823,6 +826,18 @@ namespace PokeMaster
             this.checkBoxSnipeWithPinap.TabIndex = 102;
             this.checkBoxSnipeWithPinap.Text = "Force using pinap berry.";
             this.checkBoxSnipeWithPinap.UseVisualStyleBackColor = true;
+            // 
+            // checkBox2
+            // 
+            this.checkBox2.AutoSize = true;
+            this.checkBox2.Location = new System.Drawing.Point(9, 72);
+            this.checkBox2.Margin = new System.Windows.Forms.Padding(4);
+            this.checkBox2.Name = "checkBox2";
+            this.checkBox2.Size = new System.Drawing.Size(158, 17);
+            this.checkBox2.TabIndex = 106;
+            this.checkBox2.Text = "Intercept Discord Messages";
+            this.checkBox2.UseVisualStyleBackColor = true;
+            this.checkBox2.CheckedChanged += new System.EventHandler(this.checkBox2_CheckedChanged);
             // 
             // SniperPanel
             // 

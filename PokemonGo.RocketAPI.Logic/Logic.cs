@@ -1040,13 +1040,13 @@ namespace PokeMaster.Logic
                         if (pokestop.Type == FortType.Gym )
                            Logger.Info("Spinning Gym");
 
+                        Setout.RecycleItems();
                         var fortInfo = objClient.Fort.GetFort(pokestop.Id, pokestop.Latitude, pokestop.Longitude).Result;
                         var farmed = CheckAndFarmNearbyPokeStop(pokestop, objClient, fortInfo);
 
                         if (farmed)
                         {
                             pokestop.CooldownCompleteTimestampMs = (long) (DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds + 300500;
-                            Setout.RecycleItems();
                             MarkFirstExperiencie();
                         }
 

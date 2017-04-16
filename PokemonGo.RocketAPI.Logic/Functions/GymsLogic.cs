@@ -112,7 +112,7 @@ namespace PokeMaster.Logic.Functions
             var gyms = GetNearbyGyms();
             
             Logger.Debug("gyms: " +gyms.Count());
-            var gymsWithinRangeStanding = gyms.Where(i => LocationUtils.CalculateDistanceInMeters(Logic.objClient.CurrentLatitude, Logic.objClient.CurrentLongitude, i.Latitude, i.Longitude) < 50);
+            var gymsWithinRangeStanding = gyms.Where(i => LocationUtils.CalculateDistanceInMeters(Logic.objClient.CurrentLatitude, Logic.objClient.CurrentLongitude, i.Latitude, i.Longitude) <= 40);
             var inRange = gymsWithinRangeStanding.Count();
             Logger.Debug("gymsWithinRangeStanding: " +inRange);
 
@@ -603,7 +603,7 @@ namespace PokeMaster.Logic.Functions
                     }else if (GlobalVars.Gyms.Testing == "GetPlayer"){
                         client.Player.GetPlayer();
                         RandomHelper.RandomSleep(3000);
-                    }else if (GlobalVars.Gyms.Testing == "Wait 2 minutes before of next try" && numTries ==3){
+                    }else if (GlobalVars.Gyms.Testing == "Wait 2 minutes catching pokemons" && numTries ==3){
                         if (GlobalVars.CatchPokemon)
                             Logger.Info("Trying to catch pokemons until next attack");
                         // 0.00001 = 1 meters
@@ -629,9 +629,8 @@ namespace PokeMaster.Logic.Functions
                         }
                         RandomHelper.RandomSleep(2000);
                     }else{
-                        for (var times = 1; times < 5;times++){
-                            RandomHelper.RandomSleep(10000);
-                        }
+                        RandomHelper.RandomSleep(115000);
+                        client.Login.DoLogin().Wait();
                     }
                 } else {
                     Logger.Debug("StartGymBattle Response:" + resp);

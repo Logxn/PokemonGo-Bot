@@ -1006,13 +1006,9 @@ namespace PokeMaster
             // comboBoxTesting
             // 
             this.comboBoxTesting.Items.AddRange(new object[] {
-            "Start Gym Battle",
-            "Fire Request Block Two",
-            "Get Map Objects",
-            "GMO,SGB,GMO",
-            "Empty Action",
-            "First Action",
-            "Wait 2 minutes before of next try"});
+            "Relogin",
+            "GetPlayer",
+            "Wait 2 minutes catching pokemons"});
             this.comboBoxTesting.Location = new System.Drawing.Point(415, 145);
             this.comboBoxTesting.Name = "comboBoxTesting";
             this.comboBoxTesting.Size = new System.Drawing.Size(228, 21);

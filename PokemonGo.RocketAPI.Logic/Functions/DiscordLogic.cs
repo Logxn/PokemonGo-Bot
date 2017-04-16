@@ -7,6 +7,7 @@
  * To change this template use Tools | Options | Coding | Edit Standard Headers.
  */
 using System;
+using System.Globalization;
 using System.Linq;
 using Discord;
 using POGOProtos.Data;
@@ -51,6 +52,7 @@ namespace PokeMaster.Logic.Functions
                 Logger.Info("Channel not found");
                 return;
             }
+            client.MessageReceived += OnMessageReceived;
         }
 
         public static void SendMessage(string mesage)
@@ -101,8 +103,9 @@ namespace PokeMaster.Logic.Functions
            var shinyIcon = (shiny=="")?"":"✵";
           
            
-           var message = "{ivIcon} {shinyIcon}**{name}**{genderIcon}{form} {lat}, {lon} ({address}) IV: {iv}% LV: {level} **CP: {cp}**{gender} {move1}/{move2} Costume: {costume} Prob: {prob}% {despawn} {tillhidden} {shiny}";
+           var message = "{EncounterId}= {ivIcon} {shinyIcon}**{name}**{genderIcon}{form} {lat}, {lon} ({address}) IV: {iv}% LV: {level} **CP: {cp}**{gender} {move1}/{move2} Costume: {costume} Prob: {prob}% {despawn} {tillhidden} {shiny}";
            
+           message = message.Replace("{EncounterId}", "" + wildPokemon.EncounterId);
            message = message.Replace("{name}", "" + pokemonData.PokemonId);
            message = message.Replace("{iv}", "" + iv);
            message = message.Replace("{ivIcon}", "" + ivIcon);
@@ -115,8 +118,8 @@ namespace PokeMaster.Logic.Functions
            message = message.Replace("{form}", "" + form);
            message = message.Replace("{costume}", "" + costume);
 
-           message = message.Replace("{lat}", "" + wildPokemon.Latitude);
-           message = message.Replace("{lon}", "" + wildPokemon.Longitude);
+           message = message.Replace("{lat}", "" + wildPokemon.Latitude.ToString(CultureInfo.InvariantCulture));
+           message = message.Replace("{lon}", "" + wildPokemon.Longitude.ToString(CultureInfo.InvariantCulture));
            message = message.Replace("{address}", "" + address);
 
            message = message.Replace("{despawn}", "" + despawn);
@@ -126,6 +129,26 @@ namespace PokeMaster.Logic.Functions
            message = message.Replace("{shiny}", "" + shiny);
            message = message.Replace("{shinyIcon}", "" + shinyIcon);
            return message;
+        }
+        public static event EventHandler<DiscordLogic.DiscordReceivedDataEventArgs> MessageReceived;
+        
+        private static void OnMessageReceived(object s, MessageEventArgs e)
+        {
+            // Ignore target channels messages
+            if (e.Channel!= channel || e.Message.IsAuthor){
+                return;
+            }
+            var args = new DiscordLogic.DiscordReceivedDataEventArgs();
+            args.Message = e.Message.Text;
+            args.Username = e.User.Nickname;
+            if (string.IsNullOrEmpty(args.Username))
+                args.Username = e.User.Name;
+            MessageReceived?.Invoke(null, args);
+        }
+        public class DiscordReceivedDataEventArgs : EventArgs
+        {
+            public string Message {get;set;}
+            public string Username {get;set;}
         }
     }
     
