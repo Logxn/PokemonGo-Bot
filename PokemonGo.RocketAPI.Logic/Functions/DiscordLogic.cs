@@ -60,7 +60,12 @@ namespace PokeMaster.Logic.Functions
             if (!GlobalVars.SendToDiscord){
                 return ;
             }
-            channel.SendMessage(mesage);
+            var user = channel.GetUser(client.CurrentUser.Id);
+            if (user == null)
+                return;
+            var rules = channel.GetPermissionsRule(user);
+            if (rules.SendMessages == PermValue.Allow)
+                channel.SendMessage(mesage);
         }
 
         public static void Finish()
