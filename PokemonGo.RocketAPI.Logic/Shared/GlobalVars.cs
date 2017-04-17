@@ -169,6 +169,7 @@ namespace PokeMaster.Logic.Shared
         public static string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Configs");
         public static string accountProfiles = Path.Combine(path, "Profiles.txt");
         public static bool UseLastCords = false;
+        public static bool BlockAltitude = false;
         public static bool UseSpritesFolder = false;
         public static bool ShowPokemons = false;
         public static int EvolveAt = 0;

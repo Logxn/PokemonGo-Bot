@@ -58,6 +58,10 @@ namespace PokeMaster.Logic.Shared
             get;
             set;
         }
+        public bool BlockAltitude {
+            get;
+            set;
+        }
         public bool WalkBackToDefaultLocation {
             get;
             set;

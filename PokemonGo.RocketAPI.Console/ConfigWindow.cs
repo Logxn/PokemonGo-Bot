@@ -406,6 +406,7 @@ namespace PokeMaster
             checkBox_WalkInLoop.Checked = config.WalkInLoop;
             checkBox_WalkRandomly.Checked = config.WalkRandomly;
             checkBox_StartWalkingFromLastLocation.Checked = config.UseLastCords;
+            checkBox_BlockAltitude.Checked = config.BlockAltitude;
 
 
             // tab 7 - telegram and logs
@@ -857,6 +858,8 @@ namespace PokeMaster
             ActiveProfile.Settings.WalkRandomly = checkBox_WalkRandomly.Checked;
             
             ActiveProfile.Settings.UseLastCords = checkBox_StartWalkingFromLastLocation.Checked;
+            ActiveProfile.Settings.BlockAltitude = checkBox_BlockAltitude.Checked;
+            
 
             // tab 7 - Logs and Telegram
             ActiveProfile.Settings.LogPokemons = cbLogPokemon.Checked;

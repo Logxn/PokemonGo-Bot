@@ -184,6 +184,7 @@ namespace PokeMaster
             this.checkBox_UseGoogleMapsRouting = new System.Windows.Forms.CheckBox();
             this.label45 = new System.Windows.Forms.Label();
             this.groupBox11 = new System.Windows.Forms.GroupBox();
+            this.checkBox_Paused = new System.Windows.Forms.CheckBox();
             this.checkBox_WalkInLoop = new System.Windows.Forms.CheckBox();
             this.checkBox_WalkRandomly = new System.Windows.Forms.CheckBox();
             this.checkBox_StopWalkingWhenEvolving = new System.Windows.Forms.CheckBox();
@@ -363,7 +364,7 @@ namespace PokeMaster
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.checkBox_Paused = new System.Windows.Forms.CheckBox();
+            this.checkBox_BlockAltitude = new System.Windows.Forms.CheckBox();
             this.tabProxies.SuspendLayout();
             this.tabItems.SuspendLayout();
             this.groupBoxItems.SuspendLayout();
@@ -1916,6 +1917,7 @@ namespace PokeMaster
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.checkBox_BlockAltitude);
             this.groupBox2.Controls.Add(this.button_SetLocation);
             this.groupBox2.Controls.Add(this.label6);
             this.groupBox2.Controls.Add(this.checkBox_StartWalkingFromLastLocation);
@@ -1936,7 +1938,7 @@ namespace PokeMaster
             this.button_SetLocation.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
             this.button_SetLocation.Location = new System.Drawing.Point(217, 19);
             this.button_SetLocation.Name = "button_SetLocation";
-            this.button_SetLocation.Size = new System.Drawing.Size(80, 74);
+            this.button_SetLocation.Size = new System.Drawing.Size(80, 50);
             this.button_SetLocation.TabIndex = 4;
             this.button_SetLocation.Text = "Set Location";
             this.button_SetLocation.UseVisualStyleBackColor = false;
@@ -1966,7 +1968,7 @@ namespace PokeMaster
             this.text_Altitude.Enabled = false;
             this.text_Altitude.Location = new System.Drawing.Point(101, 75);
             this.text_Altitude.Name = "text_Altitude";
-            this.text_Altitude.Size = new System.Drawing.Size(100, 20);
+            this.text_Altitude.Size = new System.Drawing.Size(56, 20);
             this.text_Altitude.TabIndex = 4;
             this.text_Altitude.Text = "0";
             this.text_Altitude.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox5_KeyPress);
@@ -2384,6 +2386,19 @@ namespace PokeMaster
             this.groupBox11.TabIndex = 59;
             this.groupBox11.TabStop = false;
             this.groupBox11.Text = "Walk Options";
+            // 
+            // checkBox_Paused
+            // 
+            this.checkBox_Paused.AutoSize = true;
+            this.checkBox_Paused.Checked = true;
+            this.checkBox_Paused.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox_Paused.Location = new System.Drawing.Point(8, 249);
+            this.checkBox_Paused.Margin = new System.Windows.Forms.Padding(2);
+            this.checkBox_Paused.Name = "checkBox_Paused";
+            this.checkBox_Paused.Size = new System.Drawing.Size(272, 17);
+            this.checkBox_Paused.TabIndex = 73;
+            this.checkBox_Paused.Text = "Start Paused (You\'ll have to press Resume Walking)";
+            this.checkBox_Paused.UseVisualStyleBackColor = true;
             // 
             // checkBox_WalkInLoop
             // 
@@ -4447,18 +4462,16 @@ namespace PokeMaster
             this.pictureBox2.TabStop = false;
             this.pictureBox2.Click += new System.EventHandler(this.pictureBox2_Click);
             // 
-            // checkBox_Paused
+            // checkBox_BlockAltitude
             // 
-            this.checkBox_Paused.AutoSize = true;
-            this.checkBox_Paused.Checked = true;
-            this.checkBox_Paused.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox_Paused.Location = new System.Drawing.Point(8, 249);
-            this.checkBox_Paused.Margin = new System.Windows.Forms.Padding(2);
-            this.checkBox_Paused.Name = "checkBox_Paused";
-            this.checkBox_Paused.Size = new System.Drawing.Size(272, 17);
-            this.checkBox_Paused.TabIndex = 73;
-            this.checkBox_Paused.Text = "Start Paused (You\'ll have to press Resume Walking)";
-            this.checkBox_Paused.UseVisualStyleBackColor = true;
+            this.checkBox_BlockAltitude.AutoSize = true;
+            this.checkBox_BlockAltitude.Location = new System.Drawing.Point(163, 77);
+            this.checkBox_BlockAltitude.Name = "checkBox_BlockAltitude";
+            this.checkBox_BlockAltitude.Size = new System.Drawing.Size(91, 17);
+            this.checkBox_BlockAltitude.TabIndex = 69;
+            this.checkBox_BlockAltitude.Text = "Block Altitude";
+            this.toolTip1.SetToolTip(this.checkBox_BlockAltitude, "Use Always this altitude value.");
+            this.checkBox_BlockAltitude.UseVisualStyleBackColor = true;
             // 
             // ConfigWindow
             // 
@@ -4961,5 +4974,6 @@ namespace PokeMaster
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.CheckBox checkBoxSendToDiscord;
         private System.Windows.Forms.CheckBox checkBox_Paused;
+        private System.Windows.Forms.CheckBox checkBox_BlockAltitude;
     }
 }

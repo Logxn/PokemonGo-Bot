@@ -38,6 +38,7 @@ namespace PokemonGo.RocketAPI.Rpc
             var tries = 0;
             while ( tries <3){
                 try {
+                    Logger.Debug("Before of GetPlatformRequestEnvelope: platfReq :"+ platfReq);
                     var requestEnvelops = GetRequestBuilder().GetPlatformRequestEnvelope(platfReq);
                     return Client.PokemonHttpClient.PostProtoPayload<TRequest, TResponsePayload>(Client.ApiUrl, requestEnvelops,
                                 Client.ApiFailure);
@@ -64,8 +65,9 @@ namespace PokemonGo.RocketAPI.Rpc
         {
             var tries = 0;
             while ( tries <3){
-                
                 try {
+                    Logger.Debug("Before of GetRequestEnvelope: type :"+ type);
+
                     var requestEnvelops = GetRequestBuilder().GetRequestEnvelope(type, message);
                     return Client.PokemonHttpClient.PostProtoPayload<TRequest, TResponsePayload>(Client.ApiUrl, requestEnvelops,
                                 Client.ApiFailure);
@@ -204,6 +206,7 @@ namespace PokemonGo.RocketAPI.Rpc
             var tries = 0;
             while ( tries <3){
                 try {
+                    Logger.Debug("Before of GetRequestEnvelope: request :"+ request);
                        var requestEnvelope = GetRequestBuilder().GetRequestEnvelope(CommonRequest.FillRequest(request, Client));
                         var response =
                             await
@@ -222,8 +225,8 @@ namespace PokemonGo.RocketAPI.Rpc
                     await Client.Login.Reauthenticate().ConfigureAwait(false);
                 } catch (InvalidPlatformException) {
                     Logger.Warning("Invalid Platform. Retrying in 1 second");
-                    Client.Login.DoLogin().Wait();
-                    Task.Delay(1000).Wait();
+                    await Client.Login.DoLogin().ConfigureAwait(false);
+                    await Task.Delay(1000).ConfigureAwait(false);
                 } catch (RedirectException) {
                     await Task.Delay(1000).ConfigureAwait(false);
                 }
