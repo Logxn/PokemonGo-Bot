@@ -466,11 +466,11 @@ namespace PokeMaster
             
         }
 
-        void numSnipeMinutes_ValueChanged(object sender, EventArgs e)
+        void numSnipeSeconds_ValueChanged(object sender, EventArgs e)
         {
             var status = timerAutosnipe.Enabled;
             timerAutosnipe.Enabled = false;
-            timerAutosnipe.Interval = (int)(sender as NumericUpDown).Value * 60000;
+            timerAutosnipe.Interval = (int)(sender as NumericUpDown).Value * 1000;
             timerAutosnipe.Enabled = status;
         }
 

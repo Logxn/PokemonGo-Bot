@@ -50,7 +50,7 @@ namespace PokeMaster
         private System.Windows.Forms.Timer timerLocations;
         private System.Windows.Forms.ColumnHeader chId;
         private System.Windows.Forms.ColumnHeader chName;
-        private System.Windows.Forms.NumericUpDown numSnipeMinutes;
+        private System.Windows.Forms.NumericUpDown numSnipeSeconds;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Timer timerAutosnipe;
         private System.Windows.Forms.ColumnHeader chUsed;
@@ -122,6 +122,7 @@ namespace PokeMaster
             this.nudTriesSnipe = new System.Windows.Forms.NumericUpDown();
             this.checkBoxSnipeTransfer = new System.Windows.Forms.CheckBox();
             this.gbLocations = new System.Windows.Forms.GroupBox();
+            this.checkBox2 = new System.Windows.Forms.CheckBox();
             this.textBoxPokemonsList = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
@@ -143,7 +144,7 @@ namespace PokeMaster
             this.deleteAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.numAutoImport = new System.Windows.Forms.NumericUpDown();
             this.timerLocations = new System.Windows.Forms.Timer(this.components);
-            this.numSnipeMinutes = new System.Windows.Forms.NumericUpDown();
+            this.numSnipeSeconds = new System.Windows.Forms.NumericUpDown();
             this.label5 = new System.Windows.Forms.Label();
             this.timerAutosnipe = new System.Windows.Forms.Timer(this.components);
             this.groupBox5 = new System.Windows.Forms.GroupBox();
@@ -156,7 +157,6 @@ namespace PokeMaster
             this.checkedListBox_ToSnipe = new System.Windows.Forms.CheckedListBox();
             this.timerAutoImport = new System.Windows.Forms.Timer(this.components);
             this.checkBoxSnipeWithPinap = new System.Windows.Forms.CheckBox();
-            this.checkBox2 = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PokemonImage)).BeginInit();
             this.groupBox2.SuspendLayout();
@@ -165,7 +165,7 @@ namespace PokeMaster
             this.gbLocations.SuspendLayout();
             this.contextMenuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numAutoImport)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numSnipeMinutes)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numSnipeSeconds)).BeginInit();
             this.groupBox5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numMinProbSnipe)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numMinIVSnipe)).BeginInit();
@@ -489,6 +489,18 @@ namespace PokeMaster
             this.gbLocations.TabStop = false;
             this.gbLocations.Text = "Locations";
             // 
+            // checkBox2
+            // 
+            this.checkBox2.AutoSize = true;
+            this.checkBox2.Location = new System.Drawing.Point(9, 72);
+            this.checkBox2.Margin = new System.Windows.Forms.Padding(4);
+            this.checkBox2.Name = "checkBox2";
+            this.checkBox2.Size = new System.Drawing.Size(158, 17);
+            this.checkBox2.TabIndex = 106;
+            this.checkBox2.Text = "Intercept Discord Messages";
+            this.checkBox2.UseVisualStyleBackColor = true;
+            this.checkBox2.CheckedChanged += new System.EventHandler(this.checkBox2_CheckedChanged);
+            // 
             // textBoxPokemonsList
             // 
             this.textBoxPokemonsList.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
@@ -669,28 +681,28 @@ namespace PokeMaster
             this.timerLocations.Interval = 10000;
             this.timerLocations.Tick += new System.EventHandler(this.timerLocations_Tick);
             // 
-            // numSnipeMinutes
+            // numSnipeSeconds
             // 
-            this.numSnipeMinutes.Location = new System.Drawing.Point(32, 44);
-            this.numSnipeMinutes.Maximum = new decimal(new int[] {
-            300,
+            this.numSnipeSeconds.Location = new System.Drawing.Point(32, 44);
+            this.numSnipeSeconds.Maximum = new decimal(new int[] {
+            30000,
             0,
             0,
             0});
-            this.numSnipeMinutes.Minimum = new decimal(new int[] {
-            1,
+            this.numSnipeSeconds.Minimum = new decimal(new int[] {
+            14,
             0,
             0,
             0});
-            this.numSnipeMinutes.Name = "numSnipeMinutes";
-            this.numSnipeMinutes.Size = new System.Drawing.Size(46, 20);
-            this.numSnipeMinutes.TabIndex = 99;
-            this.numSnipeMinutes.Value = new decimal(new int[] {
-            3,
+            this.numSnipeSeconds.Name = "numSnipeSeconds";
+            this.numSnipeSeconds.Size = new System.Drawing.Size(46, 20);
+            this.numSnipeSeconds.TabIndex = 99;
+            this.numSnipeSeconds.Value = new decimal(new int[] {
+            180,
             0,
             0,
             0});
-            this.numSnipeMinutes.ValueChanged += new System.EventHandler(this.numSnipeMinutes_ValueChanged);
+            this.numSnipeSeconds.ValueChanged += new System.EventHandler(this.numSnipeSeconds_ValueChanged);
             // 
             // label5
             // 
@@ -698,7 +710,7 @@ namespace PokeMaster
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(52, 18);
             this.label5.TabIndex = 100;
-            this.label5.Text = "Minutes";
+            this.label5.Text = "Seconds";
             this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // timerAutosnipe
@@ -718,7 +730,7 @@ namespace PokeMaster
             this.groupBox5.Controls.Add(this.checkBoxSelectAll);
             this.groupBox5.Controls.Add(this.label5);
             this.groupBox5.Controls.Add(this.checkedListBox_ToSnipe);
-            this.groupBox5.Controls.Add(this.numSnipeMinutes);
+            this.groupBox5.Controls.Add(this.numSnipeSeconds);
             this.groupBox5.Controls.Add(this.SnipePokemonPokeCom);
             this.groupBox5.Location = new System.Drawing.Point(231, 3);
             this.groupBox5.Name = "groupBox5";
@@ -827,18 +839,6 @@ namespace PokeMaster
             this.checkBoxSnipeWithPinap.Text = "Force using pinap berry.";
             this.checkBoxSnipeWithPinap.UseVisualStyleBackColor = true;
             // 
-            // checkBox2
-            // 
-            this.checkBox2.AutoSize = true;
-            this.checkBox2.Location = new System.Drawing.Point(9, 72);
-            this.checkBox2.Margin = new System.Windows.Forms.Padding(4);
-            this.checkBox2.Name = "checkBox2";
-            this.checkBox2.Size = new System.Drawing.Size(158, 17);
-            this.checkBox2.TabIndex = 106;
-            this.checkBox2.Text = "Intercept Discord Messages";
-            this.checkBox2.UseVisualStyleBackColor = true;
-            this.checkBox2.CheckedChanged += new System.EventHandler(this.checkBox2_CheckedChanged);
-            // 
             // SniperPanel
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
@@ -868,7 +868,7 @@ namespace PokeMaster
             this.gbLocations.PerformLayout();
             this.contextMenuStrip1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.numAutoImport)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numSnipeMinutes)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numSnipeSeconds)).EndInit();
             this.groupBox5.ResumeLayout(false);
             this.groupBox5.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numMinProbSnipe)).EndInit();

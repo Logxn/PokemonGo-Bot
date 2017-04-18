@@ -144,6 +144,7 @@ namespace PokeMaster
             this.text_EMail = new System.Windows.Forms.TextBox();
             this.checkbox_PWDEncryption = new System.Windows.Forms.CheckBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.checkBox_BlockAltitude = new System.Windows.Forms.CheckBox();
             this.button_SetLocation = new System.Windows.Forms.Button();
             this.label6 = new System.Windows.Forms.Label();
             this.checkBox_StartWalkingFromLastLocation = new System.Windows.Forms.CheckBox();
@@ -364,7 +365,6 @@ namespace PokeMaster
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.checkBox_BlockAltitude = new System.Windows.Forms.CheckBox();
             this.tabProxies.SuspendLayout();
             this.tabItems.SuspendLayout();
             this.groupBoxItems.SuspendLayout();
@@ -1741,7 +1741,7 @@ namespace PokeMaster
             this.label66.Name = "label66";
             this.label66.Size = new System.Drawing.Size(148, 13);
             this.label66.TabIndex = 54;
-            this.label66.Text = "Hash Service Key:";
+            this.label66.Text = "Hash Service Main Key:";
             this.label66.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.label66.DoubleClick += new System.EventHandler(this.label66_DoubleClick);
             // 
@@ -1825,7 +1825,6 @@ namespace PokeMaster
             | System.Windows.Forms.AnchorStyles.Right)));
             this.pFHashKey.Location = new System.Drawing.Point(156, 22);
             this.pFHashKey.Name = "pFHashKey";
-            this.pFHashKey.PasswordChar = '*';
             this.pFHashKey.Size = new System.Drawing.Size(136, 20);
             this.pFHashKey.TabIndex = 3;
             this.pFHashKey.TextChanged += new System.EventHandler(this.TextBoxes_TextChanged);
@@ -1932,6 +1931,17 @@ namespace PokeMaster
             this.groupBox2.TabIndex = 2;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Location Settings";
+            // 
+            // checkBox_BlockAltitude
+            // 
+            this.checkBox_BlockAltitude.AutoSize = true;
+            this.checkBox_BlockAltitude.Location = new System.Drawing.Point(163, 77);
+            this.checkBox_BlockAltitude.Name = "checkBox_BlockAltitude";
+            this.checkBox_BlockAltitude.Size = new System.Drawing.Size(91, 17);
+            this.checkBox_BlockAltitude.TabIndex = 69;
+            this.checkBox_BlockAltitude.Text = "Block Altitude";
+            this.toolTip1.SetToolTip(this.checkBox_BlockAltitude, "Use Always this altitude value.");
+            this.checkBox_BlockAltitude.UseVisualStyleBackColor = true;
             // 
             // button_SetLocation
             // 
@@ -4461,17 +4471,6 @@ namespace PokeMaster
             this.pictureBox2.TabIndex = 49;
             this.pictureBox2.TabStop = false;
             this.pictureBox2.Click += new System.EventHandler(this.pictureBox2_Click);
-            // 
-            // checkBox_BlockAltitude
-            // 
-            this.checkBox_BlockAltitude.AutoSize = true;
-            this.checkBox_BlockAltitude.Location = new System.Drawing.Point(163, 77);
-            this.checkBox_BlockAltitude.Name = "checkBox_BlockAltitude";
-            this.checkBox_BlockAltitude.Size = new System.Drawing.Size(91, 17);
-            this.checkBox_BlockAltitude.TabIndex = 69;
-            this.checkBox_BlockAltitude.Text = "Block Altitude";
-            this.toolTip1.SetToolTip(this.checkBox_BlockAltitude, "Use Always this altitude value.");
-            this.checkBox_BlockAltitude.UseVisualStyleBackColor = true;
             // 
             // ConfigWindow
             // 
