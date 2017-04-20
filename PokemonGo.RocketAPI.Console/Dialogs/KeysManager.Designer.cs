@@ -21,6 +21,7 @@ namespace PokeMaster.Dialogs
         private System.Windows.Forms.ListView listView;
         private System.Windows.Forms.ColumnHeader chKey;
         private System.Windows.Forms.ColumnHeader chExpiration;
+        private System.Windows.Forms.ColumnHeader chRPM;
         
         /// <summary>
         /// Disposes resources used by the form.
@@ -50,6 +51,7 @@ namespace PokeMaster.Dialogs
             this.listView = new System.Windows.Forms.ListView();
             this.chKey = new System.Windows.Forms.ColumnHeader();
             this.chExpiration = new System.Windows.Forms.ColumnHeader();
+            this.chRPM = new System.Windows.Forms.ColumnHeader();
             this.SuspendLayout();
             // 
             // textBox1
@@ -101,6 +103,7 @@ namespace PokeMaster.Dialogs
             | System.Windows.Forms.AnchorStyles.Right)));
             this.listView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.chKey,
+            this.chRPM,
             this.chExpiration});
             this.listView.FullRowSelect = true;
             this.listView.GridLines = true;
@@ -122,6 +125,10 @@ namespace PokeMaster.Dialogs
             // 
             this.chExpiration.Text = "Expires at";
             this.chExpiration.Width = 160;
+            // 
+            // chRPM
+            // 
+            this.chRPM.Text = "RPM";
             // 
             // KeysManager
             // 

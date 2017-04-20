@@ -38,8 +38,9 @@ namespace PokeMaster.Dialogs
                 listView.Items.Clear();
                 foreach ( var element in keys1) {
                     var listItem = listView.Items.Add(element.ToString());
-                    listItem.SubItems.Add(PokeHashHasher.GetExpirationTime(element.ToString()));
-
+                    var hashInfo = PokeHashHasher.GetInformation(textBox1.Text);
+                    listItem.SubItems.Add( hashInfo[0]);
+                    listItem.SubItems.Add( hashInfo[1]);
                 }
             }
         }
@@ -61,7 +62,9 @@ namespace PokeMaster.Dialogs
         void buttonAdd_Click(object sender, EventArgs e)
         {
             var listItem = listView.Items.Add(textBox1.Text);
-            listItem.SubItems.Add(PokeHashHasher.GetExpirationTime(textBox1.Text));
+            var hashInfo = PokeHashHasher.GetInformation(textBox1.Text);
+            listItem.SubItems.Add( hashInfo[0]);
+            listItem.SubItems.Add( hashInfo[1]);
             textBox1.Text ="";
         }
         void listView_ColumnClick(object sender, ColumnClickEventArgs e)

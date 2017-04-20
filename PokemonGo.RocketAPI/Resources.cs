@@ -50,9 +50,8 @@ namespace PokemonGo.RocketAPI
                                                      -816976800928766045, "1.27.4",
                                                      "90f6a704505bccac73cec99b07794993e6fd5a12",
                                                      "api/v127_4/hash");
-        */
-
         private static APIVars apiv0591 = new APIVars(-3226782243204485589, "0.59.1", -3226782243204485589, "1.29.1", "", "api/v129_1/hash");
+        */
 
         private static APIVars apiv0600 = new APIVars(0x11fdf018c941ef22, "0.61.0", 0x11fdf018c941ef22, "1.31.0", "", "api/v131_0/hash");
 

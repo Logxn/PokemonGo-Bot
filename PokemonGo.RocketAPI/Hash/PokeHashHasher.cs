@@ -148,9 +148,9 @@ namespace PokemonGo.RocketAPI.Hash
                 }
             }
         }
-        public static string GetExpirationTime(string key)
+        public static string[] GetInformation(string key)
         {
-            var result ="";
+            var result = new []{"",""};
             var client = new System.Net.Http.HttpClient();
             client.BaseAddress = _baseAddress;
             client.DefaultRequestHeaders.Accept.Clear();
@@ -177,10 +177,11 @@ namespace PokemonGo.RocketAPI.Hash
                     var RateLimitSeconds = Convert.ToUInt16(((string[])response.Headers.GetValues("X-RateLimitSeconds"))[0]);
                     var remainingSeconds = (DateTime.Now - RatePeriodEnd).TotalSeconds * -1;
                     Logger.Info($"{RateRequestRemaining}/{MaxRequestCount} requests remaining for the next {remainingSeconds} seconds. Key expires on: {AuthTokenExpiration}");
-                    result = AuthTokenExpiration.ToString("dd/MM/yyyy HH:mm:ss");
+                    result[0] = MaxRequestCount.ToString();
+                    result[1] = AuthTokenExpiration.ToString("dd/MM/yyyy HH:mm:ss");
                 
             } catch (Exception) {
-                result = response.StatusCode.ToString();
+                result[1] = response.StatusCode.ToString();
             }
 
             return result;
