@@ -37,7 +37,7 @@ namespace PokeMaster.Dialogs
             pictureBox1.Image = sourceImage;
             pictureBox2.Visible =false;
             progressBar1.Value = 0;
-            pictureBox1.Location = new Point(96, 222);
+            pictureBox1.Location = new Point(26, 222);
             for (var i = 0; i < 44;i++){
                 progressBar1.Value += progressBar1.Maximum/(48);
                 Refresh();

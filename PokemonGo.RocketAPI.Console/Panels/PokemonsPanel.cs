@@ -142,6 +142,10 @@ namespace PokeMaster
             foreach (var element in "abcdefghijklmnopqrstuvwxyz") {
                 imageList.Images.Add(PokemonId.Unown.ToString()+element,PokeImgManager.GetPokemonLargeImage(PokemonId.Unown,""+element));
             }
+            imageList.Images.Add(PokemonId.Pikachu+ Costume.Anniversary.ToString().ToLower(),PokeImgManager.GetPokemonLargeImage(PokemonId.Pikachu,Costume.Anniversary.ToString().ToLower()));
+            imageList.Images.Add(PokemonId.Pikachu+ Costume.Holiday2016.ToString().ToLower(),PokeImgManager.GetPokemonLargeImage(PokemonId.Pikachu,Costume.Holiday2016.ToString().ToLower()));
+            imageList.Images.Add(PokemonId.Raichu+ Costume.Anniversary.ToString().ToLower(),PokeImgManager.GetPokemonLargeImage(PokemonId.Raichu,Costume.Anniversary.ToString().ToLower()));
+            imageList.Images.Add(PokemonId.Raichu+ Costume.Holiday2016.ToString().ToLower(),PokeImgManager.GetPokemonLargeImage(PokemonId.Raichu,Costume.Holiday2016.ToString().ToLower()));
             PokemonListView.SmallImageList = imageList;
             PokemonListView.LargeImageList = imageList;
         }
@@ -328,11 +332,15 @@ namespace PokeMaster
                         listViewItem.SubItems.Add("" + pokemon.Id.ToString("X"));
                         
                         var special ="";
-                        if (GlobalVars.UseSpritesFolder)
+                        if (GlobalVars.UseSpritesFolder){
                             if (pokemon.PokemonId == PokemonId.Unown)
                                 special = form.ToLower();
                             else if (shiny=="Yes") 
                                 special = "s";
+                            else if (pokemon.PokemonDisplay.Costume != Costume.Unset){
+                                special = pokemon.PokemonDisplay.Costume.ToString().ToLower();
+                            }
+                        }
                         
                         listViewItem.ImageKey = pokemon.PokemonId + special;
 
