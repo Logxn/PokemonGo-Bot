@@ -8,6 +8,8 @@ using GoogleMapsApi;
 using GoogleMapsApi.Entities.Common;
 using GoogleMapsApi.Entities.Directions.Request;
 using GoogleMapsApi.Entities.Directions.Response;
+using POGOProtos.Data.Player;
+using POGOProtos.Enums;
 using POGOProtos.Inventory.Item;
 using POGOProtos.Map.Fort;
 using POGOProtos.Map.Pokemon;
@@ -19,6 +21,7 @@ using PokeMaster.Logic;
 using PokeMaster.Logic.Functions;
 using PokeMaster.Logic.Shared;
 using PokeMaster.Logic.Utils;
+using Google.Protobuf.Collections;
 
 namespace PokeMaster.Logic
 {
@@ -57,6 +60,7 @@ namespace PokeMaster.Logic
                       botSettings.AuthType, botSettings.Username, botSettings.Password, GlobalVars.BotApiSupportedVersion);
             objClient = new Client(clientSettings);
             objClient.setFailure(new ApiFailureStrat(objClient));
+            objClient.EvMakeTutorial += MakeTutorial;
             BotStats = new BotStats();
             navigation = new Navigation(objClient,botSettings);
             pokevision = new PokeVisionUtil();
@@ -67,8 +71,8 @@ namespace PokeMaster.Logic
         }
         #endregion
 
-
         #region Workflow
+
 
         private void FarmPokestopOnBreak(FortData[] pokeStops, Client client)
         {
@@ -88,7 +92,7 @@ namespace PokeMaster.Logic
             Logger.ColoredConsoleWrite(ConsoleColor.Green, $"{pokestopCount} Pokestops within range of where you are standing.");
 
             //Begin farming loop while on break
-            do
+            while (BotSettings.pauseAtPokeStop)
             {
                 foreach (var pokestop in pokestopsWithinRangeStanding)
                 {
@@ -132,7 +136,7 @@ namespace PokeMaster.Logic
                 BotSettings.pauseAtPokeStop = false;
 
                 Logger.ColoredConsoleWrite(ConsoleColor.Magenta, "Exit Command detected - Ending break");
-            } while (BotSettings.pauseAtPokeStop);
+            } 
         }
 
         private int GetRandomWalkspeed()
@@ -240,6 +244,7 @@ namespace PokeMaster.Logic
                     Logger.Debug("login done");
                     
                     TelegramLogic.Instantiante();
+                    DiscordLogic.Init();
                     
                     PostLoginExecute();
 
@@ -282,6 +287,7 @@ namespace PokeMaster.Logic
                 }
 
                 TelegramLogic.Stop();
+                DiscordLogic.Finish();
                 const int msToWait = 50000;
                 Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Restarting in over {(msToWait+5000)/1000} Seconds.");
                 RandomHelper.RandomSleep(msToWait,msToWait+10000);
@@ -298,11 +304,18 @@ namespace PokeMaster.Logic
                 GetPlayerResponse profil = objClient.Player.GetPlayer();
                 objClient.Inventory.ExportPokemonToCSV(profil.PlayerData);
                 Setout.Execute();
+                while (GlobalVars.pauseAtPokeStop){
+                    RandomHelper.RandomDelay(2000).Wait();
+                }
                 ExecuteFarmingPokestopsAndPokemons(objClient);
             }
             catch (AccessTokenExpiredException)
             {
                 throw new AccessTokenExpiredException();
+            }
+            catch (InvalidPlatformException)
+            {
+                throw new InvalidPlatformException();
             }
             catch (Exception ex)
             {
@@ -445,20 +458,20 @@ namespace PokeMaster.Logic
 
             //Query nearby objects for mapData
             if (mapObjectsResponse == null)
-                mapObjectsResponse = objClient.Map.GetMapObjects().Result.Item1;
+                mapObjectsResponse = objClient.Map.GetMapObjects().Result;
 
             //narrow map data to pokestops within walking distance
-            
+
             var unixNow = (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds;
-            
+
             var pokeStops = mapObjectsResponse.MapCells.SelectMany(i => i.Forts)
                 .Where(i => i.Type == FortType.Checkpoint && i.CooldownCompleteTimestampMs < unixNow);
 
-            var pokeGyms = mapObjectsResponse.MapCells.SelectMany(i => i.Forts)
-                .Where(i => i.Type == FortType.Gym && i.CooldownCompleteTimestampMs < unixNow);
+            IEnumerable<FortData> pokeGyms = new List<FortData>();
 
-            if (!GlobalVars.Gyms.Farm)
-                pokeGyms = new List<FortData>();
+            if (GlobalVars.Gyms.Farm)
+               pokeGyms = mapObjectsResponse.MapCells.SelectMany(i => i.Forts)
+                .Where(i => i.Type == FortType.Gym && i.CooldownCompleteTimestampMs < unixNow);
 
             var both = pokeStops.Concat(pokeGyms)
                 .OrderBy(i => LocationUtils.CalculateDistanceInMeters(objClient.CurrentLatitude, objClient.CurrentLongitude, i.Latitude, i.Longitude));
@@ -995,11 +1008,18 @@ namespace PokeMaster.Logic
             {
                 return false;
             }
+            if ( GlobalVars.ForceReloginClick)
+            {
+                GlobalVars.ForceReloginClick = false;
+                Logger.Info("Forcing Relogin");
+                RandomHelper.RandomDelay(1000).Wait();
+                objClient.Login.DoLogin().Wait();
+            }
             if ((long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds > lastsearchtimestamp + 10000)
             {
                 lastsearchtimestamp = (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds;
 
-                var mapObjectsResponse = objClient.Map.GetMapObjects().Result?.Item1;
+                var mapObjectsResponse = objClient.Map.GetMapObjects().Result;
                 if  (mapObjectsResponse == null)
                     return false;
                 //narrow map data to pokestops within walking distance
@@ -1020,12 +1040,14 @@ namespace PokeMaster.Logic
                         if (pokestop.Type == FortType.Gym )
                            Logger.Info("Spinning Gym");
 
+                        Setout.RecycleItems();
                         var fortInfo = objClient.Fort.GetFort(pokestop.Id, pokestop.Latitude, pokestop.Longitude).Result;
                         var farmed = CheckAndFarmNearbyPokeStop(pokestop, objClient, fortInfo);
 
                         if (farmed)
                         {
                             pokestop.CooldownCompleteTimestampMs = (long) (DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds + 300500;
+                            MarkFirstExperiencie();
                         }
 
                         Setout.SetCheckTimeToRun();
@@ -1100,6 +1122,87 @@ namespace PokeMaster.Logic
             var alpha = Math.Sin(dLat / 2) * Math.Sin(dLat / 2) + Math.Cos(lat1 * Math.PI / 180) * Math.Cos(lat2 * Math.PI / 180) * Math.Sin(dLon / 2) * Math.Sin(dLon / 2);
             var d = 2 * rEarth * Math.Atan2(Math.Sqrt(alpha), Math.Sqrt(1 - alpha));
             return d;
+        }
+        private void MakeTutorial(object sender, EventArgs eventArgs)
+        {
+            if (! GlobalVars.CompleteTutorial)
+                return;
+            var playerAvatar = new PlayerAvatar();
+            playerAvatar.Avatar = AvatarSettings.Gender == 2 ? RandomHelper.RandomNumber(0,2):AvatarSettings.Gender;
+            playerAvatar.Backpack = AvatarSettings.backpack == 3 ? RandomHelper.RandomNumber(0,3):AvatarSettings.backpack;
+            playerAvatar.Eyes = AvatarSettings.eyes== 4 ? RandomHelper.RandomNumber(0,4):AvatarSettings.eyes;
+            playerAvatar.Hair = AvatarSettings.hair== 6 ? RandomHelper.RandomNumber(0,6):AvatarSettings.hair;
+            playerAvatar.Hat = AvatarSettings.hat== 3 ? RandomHelper.RandomNumber(0,3):AvatarSettings.hat;
+            playerAvatar.Pants = AvatarSettings.pants== 3 ? RandomHelper.RandomNumber(0,3):AvatarSettings.pants;
+            playerAvatar.Shirt = AvatarSettings.shirt== 3 ? RandomHelper.RandomNumber(0,3):AvatarSettings.shirt;
+            playerAvatar.Shoes = AvatarSettings.shoes== 3 ? RandomHelper.RandomNumber(0,3):AvatarSettings.shoes;
+            playerAvatar.Skin = AvatarSettings.skin== 4 ? RandomHelper.RandomNumber(0,4):AvatarSettings.skin;
+            
+            var res = objClient.Player.SetAvatar(playerAvatar).Result;
+            if (res.Status !=  SetAvatarResponse.Types.Status.Success){
+                Logger.Warning("Avatar not set. Reason: "+ res.Status);
+                return;
+            }
+            var res1 = objClient.Misc
+                .MarkTutorialComplete(new RepeatedField<TutorialState>()
+                {
+                    TutorialState.AvatarSelection
+                }).Result;
+            RandomHelper.RandomDelay(2000).Wait();
+            if (res1.Result !=EncounterTutorialCompleteResponse.Types.Result.Success){
+                Logger.Warning("Mark Tutorial Failed. Reason: "+ res1.Result);
+                return;
+            }
+            
+            var res2 = objClient.Encounter.EncounterTutorialComplete(AvatarSettings.starter);
+            if (res2.Result !=EncounterTutorialCompleteResponse.Types.Result.Success){
+                Logger.Warning("First Pokemon Catch Failed. Reason: "+ res2.Result);
+                return;
+            }
+            var index = 0;
+            var status = ClaimCodenameResponse.Types.Status.CodenameNotValid;
+            do{
+                var name = AvatarSettings.nicknamePrefix + (index==0?"":index.ToString()) + AvatarSettings.nicknameSufix;
+                var res3 = objClient.Misc.ClaimCodename( name );
+                status = res3.Status;
+                index ++;
+                RandomHelper.RandomDelay(2000).Wait();
+                if (status == ClaimCodenameResponse.Types.Status.CurrentOwner || 
+                   status == ClaimCodenameResponse.Types.Status.CodenameChangeNotAllowed )
+                    break;
+            }while (index < 100 && status != ClaimCodenameResponse.Types.Status.Success);
+
+            if (status != ClaimCodenameResponse.Types.Status.Success){
+                Logger.Warning("Setting Name Failed. Reason: "+ status);
+                return;
+            }
+            
+             var res4 = objClient.Misc.MarkTutorialComplete(new RepeatedField<TutorialState>()
+                            {
+                                TutorialState.NameSelection
+                            }).Result;
+            if (res4.Result !=EncounterTutorialCompleteResponse.Types.Result.Success){
+                Logger.Warning("Mark Tutorial Failed. Reason: "+ res4.Result);
+                return;
+            }
+            
+
+            RandomHelper.RandomDelay(2000).Wait();
+        }
+        private void MarkFirstExperiencie(){
+
+            if ( !GlobalVars.CompleteTutorial || objClient.Player.PlayerResponse.PlayerData.TutorialState.Contains(TutorialState.FirstTimeExperienceComplete))
+                return;
+
+            var res = objClient.Misc.MarkTutorialComplete(new RepeatedField<TutorialState>()
+                            {
+                                TutorialState.FirstTimeExperienceComplete
+                            }).Result;
+            if (res.Result !=EncounterTutorialCompleteResponse.Types.Result.Success){
+                Logger.Warning("Mark First Experience Failed. Reason: "+ res.Result);
+                return;
+            }
+            Logger.Info("First Experience Marked.");
         }
 
         #endregion

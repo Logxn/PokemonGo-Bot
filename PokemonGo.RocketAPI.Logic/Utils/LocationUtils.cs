@@ -20,6 +20,8 @@ namespace PokeMaster.Logic.Utils
     {
         public static double GetAltitude(double lat, double lon)
         {
+            if (GlobalVars.BlockAltitude)
+                return GlobalVars.altitude;
             var altitude = GetRandom(11.0d, 8.6d);
             try {
                 if (GlobalVars.GoogleMapsAPIKey != "")

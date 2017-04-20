@@ -390,6 +390,7 @@ namespace PokeMaster
             text_BreakLength.Text = config.BreakLength.ToString();
             
             checkBox_StopWalkingWhenEvolving.Checked = config.pauseAtEvolve;
+            checkBox_Paused.Checked = config.pauseAtPokeStop;
             
             checkBox_UseGoogleMapsRouting.Checked = config.UseGoogleMapsAPI;
             text_GoogleMapsAPIKey.Text = config.GoogleMapsAPIKey;
@@ -402,7 +403,10 @@ namespace PokeMaster
             checkBox_RandomlyReduceSpeed.Checked = config.RandomReduceSpeed;
             checkBox_UseBreakIntervalAndLength.Checked = config.UseBreakFields;
             checkBox_WalkInArchimedeanSpiral.Checked = config.Espiral;
+            checkBox_WalkInLoop.Checked = config.WalkInLoop;
+            checkBox_WalkRandomly.Checked = config.WalkRandomly;
             checkBox_StartWalkingFromLastLocation.Checked = config.UseLastCords;
+            checkBox_BlockAltitude.Checked = config.BlockAltitude;
 
 
             // tab 7 - telegram and logs
@@ -419,6 +423,13 @@ namespace PokeMaster
             AvoidRegionLock.Checked = config.AvoidRegionLock;
             toSnipe = config.ToSnipe;
             
+            checkBoxSendToDiscord.Checked = config.SendToDiscord;
+            textBoxDiscordUser.Text = config.DiscordUser;
+            textBoxDiscordPassword.Text = config.DiscordPassword;
+            textBoxDiscordServerID.Text = ""+config.DiscordServerID;
+            if (config.DiscordServerID == 0UL)
+                textBoxDiscordServerID.Text = "223025934435876865";
+            
             // tab 8 - update
             checkbox_AutoUpdate.Checked = config.AutoUpdate;
             checkbox_checkWhileRunning.Checked = config.CheckWhileRunning;
@@ -432,6 +443,9 @@ namespace PokeMaster
             checkBoxStoreUntranslated.Checked = config.Debug.StoreUntranslatedText;
             TranslatorHelper.ActiveExtractTexts = checkBoxExtractText.Checked;
             TranslatorHelper.StoreUntranslated = checkBoxStoreUntranslated.Checked;
+            
+            checkBoxCompleteTutorial.Checked = config.CompleteTutorial;
+            
             // Gyms
 
             if (config.Gyms == null)
@@ -825,6 +839,7 @@ namespace PokeMaster
 
             ActiveProfile.Settings.pauseAtEvolve = checkBox_StopWalkingWhenEvolving.Checked;
             ActiveProfile.Settings.pauseAtEvolve2 = checkBox_StopWalkingWhenEvolving.Checked;
+            ActiveProfile.Settings.pauseAtPokeStop = checkBox_Paused.Checked;
 
             ActiveProfile.Settings.UseGoogleMapsAPI = checkBox_UseGoogleMapsRouting.Checked;
             ActiveProfile.Settings.GoogleMapsAPIKey = text_GoogleMapsAPIKey.Text;
@@ -839,7 +854,12 @@ namespace PokeMaster
             ActiveProfile.Settings.UseBreakFields = checkBox_UseBreakIntervalAndLength.Checked;
 
             ActiveProfile.Settings.Espiral = checkBox_WalkInArchimedeanSpiral.Checked;
+            ActiveProfile.Settings.WalkInLoop = checkBox_WalkInLoop.Checked;
+            ActiveProfile.Settings.WalkRandomly = checkBox_WalkRandomly.Checked;
+            
             ActiveProfile.Settings.UseLastCords = checkBox_StartWalkingFromLastLocation.Checked;
+            ActiveProfile.Settings.BlockAltitude = checkBox_BlockAltitude.Checked;
+            
 
             // tab 7 - Logs and Telegram
             ActiveProfile.Settings.LogPokemons = cbLogPokemon.Checked;
@@ -857,6 +877,15 @@ namespace PokeMaster
             }
             ActiveProfile.Settings.AvoidRegionLock = AvoidRegionLock.Checked;
             ActiveProfile.Settings.ToSnipe = toSnipe;
+
+            ActiveProfile.Settings.SendToDiscord = checkBoxSendToDiscord.Checked;
+            ActiveProfile.Settings.DiscordUser = textBoxDiscordUser.Text;
+            ActiveProfile.Settings.DiscordPassword = textBoxDiscordPassword.Text;
+
+            var server = 223025934435876865UL;
+            ulong.TryParse(textBoxDiscordServerID.Text,out server);
+            ActiveProfile.Settings.DiscordServerID = server;
+            
             // tab 8 updates
             ActiveProfile.Settings.AutoUpdate = checkbox_AutoUpdate.Checked;
             ActiveProfile.Settings.CheckWhileRunning = checkbox_checkWhileRunning.Checked;
@@ -869,6 +898,7 @@ namespace PokeMaster
             ActiveProfile.Settings.Debug.VerboseMode = checkbox_Verboselogging.Checked;
             ActiveProfile.Settings.Debug.ExtractFormTexts = checkBoxExtractText.Checked;
             ActiveProfile.Settings.Debug.StoreUntranslatedText = checkBoxStoreUntranslated.Checked;
+            ActiveProfile.Settings.CompleteTutorial = checkBoxCompleteTutorial.Checked;
 
             if (comboBox_Device.SelectedIndex < 0) {
                 ret = false;
@@ -1395,5 +1425,11 @@ namespace PokeMaster
         {
           new KeysManager().ShowDialog();
         }
+        void label15_DoubleClick(object sender, EventArgs e)
+        {
+            textBoxDiscordServerID.Enabled |= Control.ModifierKeys == Keys.Shift;
+
+        }
+        
     }
 }

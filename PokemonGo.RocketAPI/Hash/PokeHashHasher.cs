@@ -106,7 +106,6 @@ namespace PokemonGo.RocketAPI.Hash
                     client.BaseAddress = _baseAddress2;
                     response = client.PostAsync(_endpoint, content).Result;
                 }
-                    
 
                 switch (response.StatusCode) {
                     case HttpStatusCode.OK: //200

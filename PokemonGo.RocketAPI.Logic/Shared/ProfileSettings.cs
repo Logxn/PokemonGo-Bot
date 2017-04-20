@@ -58,6 +58,10 @@ namespace PokeMaster.Logic.Shared
             get;
             set;
         }
+        public bool BlockAltitude {
+            get;
+            set;
+        }
         public bool WalkBackToDefaultLocation {
             get;
             set;
@@ -781,6 +785,11 @@ namespace PokeMaster.Logic.Shared
         }
         public bool SnipePokemon  {get;set;}
         public System.Collections.Generic.List<POGOProtos.Enums.PokemonId> ToSnipe  {get;set;}
+        
+        public bool SendToDiscord {get;set;}
+        public string DiscordUser {get;set;}
+        public string DiscordPassword {get;set;}
+        public ulong DiscordServerID {get;set;}
 
         public int EvolveAt {get;set;}
 
@@ -915,6 +924,7 @@ namespace PokeMaster.Logic.Shared
 
         public  GymSettings Gyms {get;set;}
         public  DebugSettings Debug {get;set;}
+        public  bool CompleteTutorial {get;set;}
 
         public  bool SaveLocations {get;set;}
         public  int MinIVSave {get;set;}

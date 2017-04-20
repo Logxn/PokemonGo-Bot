@@ -209,12 +209,12 @@ namespace PokemonGo.RocketAPI.Helpers
             if (getPlayerResponse == null)
                 return;
             
+            if (getPlayerResponse.Banned)
+                Logger.Debug("Your account is banned");
+            if (getPlayerResponse.Warn)
+                Logger.Debug("Your account is flagged");
             if (getPlayerResponse.Success){
                 client.Player.PlayerResponse = getPlayerResponse;
-                if (getPlayerResponse.Banned)
-                    Logger.Debug("Your account is banned");
-                if (getPlayerResponse.Warn)
-                    Logger.Debug("Your account is flagged");
             }
 
         }

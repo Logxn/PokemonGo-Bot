@@ -77,18 +77,9 @@ namespace PokeMaster
                         }
                         listViewItem.SubItems.Add("" + item.EggKmWalkedTarget);	                	
                         if (incubator != null) {
-                            if (pokemons != null) {
-                                var eggPoke = pokemons.FirstOrDefault(x => x.Id == incubator.PokemonId);
-                                if (eggPoke != null) {
-                                    listViewItem.SubItems.Add(GetPokemonName(eggPoke.PokemonId));
-                                } else {
-                                    listViewItem.SubItems.Add("" + incubator.PokemonId);
-                                }
-                            } else {
-                                listViewItem.SubItems.Add("" + incubator.PokemonId);
-                            }
+                            listViewItem.SubItems.Add("" + incubator.PokemonId.ToString("X"));
                         } else {
-                            listViewItem.SubItems.Add("" + GetPokemonName(item.PokemonId));	                	
+                            listViewItem.SubItems.Add(th.TS(item.PokemonId.ToString()));
                         }
                         listViewItem.SubItems.Add(string.Format("{0}% {1}-{2}-{3}", PokemonInfo.CalculatePokemonPerfection(item).ToString("0"), item.IndividualAttack, item.IndividualDefense, item.IndividualStamina));
                         listViewItem.SubItems.Add(GetCreationTime(item.CreationTimeMs));

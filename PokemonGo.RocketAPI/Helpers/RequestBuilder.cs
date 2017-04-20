@@ -261,6 +261,8 @@ namespace PokemonGo.RocketAPI.Helpers
                     }
                 };
             }
+            Logger.Debug("GetPlatformRequestEnvelope");
+            Logger.Debug("_requestEnvelope"+ _requestEnvelope);
 
             _requestEnvelope.PlatformRequests.Add(GenerateSignature(_requestEnvelope));
 
@@ -294,6 +296,8 @@ namespace PokemonGo.RocketAPI.Helpers
                 };
             }
 
+            Logger.Debug("GetRequestEnvelope");
+            Logger.Debug("_requestEnvelope"+ _requestEnvelope);
             _requestEnvelope.PlatformRequests.Add(GenerateSignature(_requestEnvelope));
 
             if (customRequests.Length > 0  &&

@@ -72,16 +72,72 @@ namespace PokeMaster
             comboBoxAttackers.SelectedIndex = 0;
         }
 
+        public void Execute(){
+            enableEvents = false;
+            //Walk Options
+            checkBox_RandomlyReduceSpeed.Checked = GlobalVars.sleepatpokemons;
+            checkBox_FarmPokestops.Checked = GlobalVars.FarmPokestops;
+            checkBox_CatchPokemon.Checked = GlobalVars.CatchPokemon;
+            checkBox_BreakAtLure.Checked = GlobalVars.BreakAtLure;
+            checkBox_UseLureAtBreak.Checked = GlobalVars.UseLureAtBreak;
+            checkBox_RandomlyReduceSpeed.Checked = GlobalVars.RandomReduceSpeed;
+            checkBox_UseBreakIntervalAndLength.Checked = GlobalVars.UseBreakFields;
+            checkBox_WalkInArchimedeanSpiral.Checked = GlobalVars.Espiral;
+            numericUpDownSpeed.Value = decimal.Parse(GlobalVars.WalkingSpeedInKilometerPerHour.ToString());
+            numericUpDownMinWalkSpeed.Value = decimal.Parse(GlobalVars.MinWalkSpeed.ToString());
+            //Other
+            checkBox_useluckyegg.Checked = GlobalVars.UseLuckyEgg;
+            checkBox_UseAnimationTimes.Checked = GlobalVars.UseAnimationTimes;
+            checkBox_evolve.Checked = GlobalVars.EvolvePokemonsIfEnoughCandy;
+            checkBox_pauseAtEvolve1_2.Checked = GlobalVars.pauseAtEvolve;
+            checkBox_UseIncense.Checked = GlobalVars.UseIncense;
+            checkBox_keepPokemonsThatCanEvolve.Checked = GlobalVars.keepPokemonsThatCanEvolve;
+            checkBoxUseLuckyEggIfNotRunning.Checked = GlobalVars.UseLuckyEggIfNotRunning;
+            checkBoxUseRazzBerry.Checked = GlobalVars.UseRazzBerry;
+            numRazzPercent.Value = (int)(GlobalVars.razzberry_chance * 100);
+            checkBoxAutoIncubate.Checked = GlobalVars.AutoIncubate;
+            checkBoxUseBasicIncubators.Checked = GlobalVars.UseBasicIncubators;
+            checkBox_CollectDailyBonus.Checked = GlobalVars.CollectDailyBonus;
+            checkBox_AutoTransferDoublePokemon.Checked = GlobalVars.TransferDoublePokemons;
+            checkbox_Verboselogging.Checked = GlobalVars.Debug.VerboseMode;
+            //Routing
+            checkBox_UseGoogleMapsRouting.CheckedChanged -= checkBox_UseGoogleMapsRouting_CheckedChanged;
+            checkBox_UseGoogleMapsRouting.Checked = GlobalVars.UseGoogleMapsAPI;
+            checkBox_UseGoogleMapsRouting.CheckedChanged += checkBox_UseGoogleMapsRouting_CheckedChanged;
+            
+            text_GoogleMapsAPIKey.Text = GlobalVars.GoogleMapsAPIKey;
+            numTravelSpeed.Value = (int)GlobalVars.RelocateDefaultLocationTravelSpeed;
+
+            nudNumDefenders.Value = GlobalVars.Gyms.NumDefenders;
+            numericUpDownMaxAttacks.Value = GlobalVars.Gyms.MaxAttacks;
+
+            comboBoxLeaveInGyms.SelectedIndex = GlobalVars.Gyms.DeployPokemons;
+            comboBoxAttackers.SelectedIndex = GlobalVars.Gyms.Attackers;
+            checkBox_FarmGyms.Checked = GlobalVars.Gyms.Farm;
+            checkBox_AttackGyms.Checked = GlobalVars.Gyms.Attack;
+            checkBoxSpinGyms.Checked = GlobalVars.Gyms.Spin;
+            numMaxTrainingXP.Value = GlobalVars.Gyms.MaxTrainingXP;
+            
+            CheckBox_SaveLocations.Checked = GlobalVars.SaveLocations;
+            textBoxSaveLocationsFile.Text = GlobalVars.SaveLocationsFile;
+            numMinIVSave.Value = GlobalVars.MinIVSave;
+            
+            CheckBox_ShowStats.Checked = GlobalVars.ShowStats;
+            
+            CheckBox_SendToDiscord.Checked = GlobalVars.SendToDiscord;
+            
+            textBoxDiscordUser.Text = GlobalVars.DiscordUser;
+            textBoxDiscordPassword.Text = GlobalVars.DiscordPassword;
+
+            enableEvents = true;
+        }
+        
         void CheckBoxes_CheckedChanged(object sender, EventArgs e)
         {
             if (! enableEvents)
                 return;
             var castedSender = (CheckBox) sender;
-            var globalName = castedSender.Tag.ToString();
-            if (globalName == "")
-            {
-                globalName = castedSender.Name.ToLower().Replace("CheckBox_","");
-            }
+            var globalName = castedSender.Tag != null ? castedSender.Tag.ToString() : castedSender.Name.ToLower().Replace("CheckBox_", "");
             try
             {
                 typeof(GlobalVars).GetField(globalName).SetValue(null, castedSender.Checked);
@@ -233,7 +289,7 @@ namespace PokeMaster
 
         void buttonUpdateClick(object sender, EventArgs e)
         {
-            if(checkBoxSaveLocations.Checked && ( textBoxSaveLocationsFile.Text == "" || textBoxSaveLocationsFile.Text == null || string.IsNullOrWhiteSpace(textBoxSaveLocationsFile.Text)))
+            if(CheckBox_SaveLocations.Checked && ( textBoxSaveLocationsFile.Text == "" || textBoxSaveLocationsFile.Text == null || string.IsNullOrWhiteSpace(textBoxSaveLocationsFile.Text)))
             {
                 MessageBox.Show(th.TS("Attention: You did not select a path for 'SavePokemonsLocation'"), th.TS("Oh snap!"), MessageBoxButtons.OK, MessageBoxIcon.Hand);
                 textBoxSaveLocationsFile.BackColor = System.Drawing.Color.Red;
@@ -271,58 +327,7 @@ namespace PokeMaster
             textBoxLongitude.Text = GlobalVars.longitude.ToString(CultureInfo.InvariantCulture);
         }
 
-        public void Execute(){
-            enableEvents = false;
-            //Walk Options
-            checkBox_RandomlyReduceSpeed.Checked = GlobalVars.sleepatpokemons;
-            checkBox_FarmPokestops.Checked = GlobalVars.FarmPokestops;
-            checkBox_CatchPokemon.Checked = GlobalVars.CatchPokemon;
-            checkBox_BreakAtLure.Checked = GlobalVars.BreakAtLure;
-            checkBox_UseLureAtBreak.Checked = GlobalVars.UseLureAtBreak;
-            checkBox_RandomlyReduceSpeed.Checked = GlobalVars.RandomReduceSpeed;
-            checkBox_UseBreakIntervalAndLength.Checked = GlobalVars.UseBreakFields;
-            checkBox_WalkInArchimedeanSpiral.Checked = GlobalVars.Espiral;
-            numericUpDownSpeed.Value = decimal.Parse(GlobalVars.WalkingSpeedInKilometerPerHour.ToString());
-            numericUpDownMinWalkSpeed.Value = decimal.Parse(GlobalVars.MinWalkSpeed.ToString());
-            //Other
-            checkBox_useluckyegg.Checked = GlobalVars.UseLuckyEgg;
-            checkBox_UseAnimationTimes.Checked = GlobalVars.UseAnimationTimes;
-            checkBox_evolve.Checked = GlobalVars.EvolvePokemonsIfEnoughCandy;
-            checkBox_pauseAtEvolve1_2.Checked = GlobalVars.pauseAtEvolve;
-            checkBox_UseIncense.Checked = GlobalVars.UseIncense;
-            checkBox_keepPokemonsThatCanEvolve.Checked = GlobalVars.keepPokemonsThatCanEvolve;
-            checkBoxUseLuckyEggIfNotRunning.Checked = GlobalVars.UseLuckyEggIfNotRunning;
-            checkBoxUseRazzBerry.Checked = GlobalVars.UseRazzBerry;
-            numRazzPercent.Value = (int)(GlobalVars.razzberry_chance * 100);
-            checkBoxAutoIncubate.Checked = GlobalVars.AutoIncubate;
-            checkBoxUseBasicIncubators.Checked = GlobalVars.UseBasicIncubators;
-            checkBox_CollectDailyBonus.Checked = GlobalVars.CollectDailyBonus;
-            checkBox_AutoTransferDoublePokemon.Checked = GlobalVars.TransferDoublePokemons;
-            checkbox_Verboselogging.Checked = GlobalVars.Debug.VerboseMode;
-            //Routing
-            checkBox_UseGoogleMapsRouting.CheckedChanged -= checkBox_UseGoogleMapsRouting_CheckedChanged;
-            checkBox_UseGoogleMapsRouting.Checked = GlobalVars.UseGoogleMapsAPI;
-            checkBox_UseGoogleMapsRouting.CheckedChanged += checkBox_UseGoogleMapsRouting_CheckedChanged;
-            
-            text_GoogleMapsAPIKey.Text = GlobalVars.GoogleMapsAPIKey;
-            numTravelSpeed.Value = (int)GlobalVars.RelocateDefaultLocationTravelSpeed;
 
-            nudNumDefenders.Value = GlobalVars.Gyms.NumDefenders;
-            numericUpDownMaxAttacks.Value = GlobalVars.Gyms.MaxAttacks;
-
-            comboBoxLeaveInGyms.SelectedIndex = GlobalVars.Gyms.DeployPokemons;
-            comboBoxAttackers.SelectedIndex = GlobalVars.Gyms.Attackers;
-            checkBox_FarmGyms.Checked = GlobalVars.Gyms.Farm;
-            checkBox_AttackGyms.Checked = GlobalVars.Gyms.Attack;
-            checkBoxSpinGyms.Checked = GlobalVars.Gyms.Spin;
-            numMaxTrainingXP.Value = GlobalVars.Gyms.MaxTrainingXP;
-            
-            checkBoxSaveLocations.Checked = GlobalVars.SaveLocations;
-            textBoxSaveLocationsFile.Text = GlobalVars.SaveLocationsFile;
-            numMinIVSave.Value = GlobalVars.MinIVSave;
-            
-            enableEvents = true;
-        }
 
         void checkbox_Verboselogging_CheckedChanged(object sender, EventArgs e)
         {
@@ -443,6 +448,23 @@ namespace PokeMaster
               GlobalVars.SaveLocationsFile = (sender as TextBox).Text;
           
         }
+        void buttonForceRelogin_Click(object sender, EventArgs e)
+        {
+            if (! enableEvents)
+                return;
+              GlobalVars.ForceReloginClick = true;
+        }
+        void CheckBox_SendToDiscord_CheckedChanged(object sender, EventArgs e)
+        {
+            if (! enableEvents)
+                return;
+            GlobalVars.SendToDiscord =CheckBox_SendToDiscord.Checked;
+            if (GlobalVars.SendToDiscord){
+                GlobalVars.DiscordUser = textBoxDiscordUser.Text;
+                GlobalVars.DiscordPassword = textBoxDiscordPassword.Text;
+            }
+        }
+
 
     }
 }

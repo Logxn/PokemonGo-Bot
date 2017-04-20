@@ -126,6 +126,7 @@ namespace PokeMaster.Logic.Shared
         public static bool UseLureGUIClick = false;
         public static bool UseLuckyEggGUIClick = false;
         public static bool UseIncenseGUIClick = false;
+        public static bool ForceReloginClick = false;
         public static bool RelocateDefaultLocation = false;
         public static double RelocateDefaultLocationTravelSpeed = 0;
         public static bool pauseAtEvolve = false;
@@ -168,6 +169,7 @@ namespace PokeMaster.Logic.Shared
         public static string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Configs");
         public static string accountProfiles = Path.Combine(path, "Profiles.txt");
         public static bool UseLastCords = false;
+        public static bool BlockAltitude = false;
         public static bool UseSpritesFolder = false;
         public static bool ShowPokemons = false;
         public static int EvolveAt = 0;
@@ -187,6 +189,7 @@ namespace PokeMaster.Logic.Shared
         
         public static GymSettings Gyms = new GymSettings();
         public static DebugSettings Debug = new DebugSettings();
+        public static bool CompleteTutorial = false;
 
         public static bool SaveLocations =false;
         public static int MinIVSave = 100;
@@ -198,6 +201,11 @@ namespace PokeMaster.Logic.Shared
         public static bool WalkRandomly = false;
 
         public static List<PokemonId> PokemonPinap;
+
+        public static bool SendToDiscord ;
+        public static string DiscordUser ;
+        public static string DiscordPassword;
+        public static ulong DiscordServerID;
 
 
         /// <summary>

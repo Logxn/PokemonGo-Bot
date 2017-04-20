@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Google.Protobuf;
 using POGOProtos.Networking.Platform.Responses;
+using POGOProtos.Settings;
 using PokemonGo.RocketAPI.Enums;
 using PokemonGo.RocketAPI.Exceptions;
 using PokemonGo.RocketAPI.Helpers;
@@ -19,10 +20,12 @@ using POGOProtos.Networking.Platform;
 namespace PokemonGo.RocketAPI.Rpc
 {
     public delegate void GoogleDeviceCodeDelegate(string code, string uri);
+    
 
     public class Login : BaseRpc
     {
         private readonly ILoginType _login;
+        
 
         public Login(Client client) : base(client)
         {
@@ -93,11 +96,9 @@ namespace PokemonGo.RocketAPI.Rpc
                 var res = Client.Misc.AceptLegalScreen().Result;
                 if (res.Result != EncounterTutorialCompleteResponse.Types.Result.Success)
                     return;
+                Client.OnMakeTutorial();
             }
-
         }
-
-        
 
         public async Task FireRequestBlock(Request request)
         {
@@ -120,13 +121,14 @@ namespace PokemonGo.RocketAPI.Rpc
             switch (serverResponse.StatusCode)
             {
                 case ResponseEnvelope.Types.StatusCode.SessionInvalidated:
-                    Logger.Debug("Invalid session.");
-                    Client.AuthToken = null;
-                    throw new AccessTokenExpiredException();
                 case ResponseEnvelope.Types.StatusCode.InvalidAuthToken:
                     Logger.Debug("Invalid token.");
                     Client.AuthToken = null;
                     throw new AccessTokenExpiredException();
+                case ResponseEnvelope.Types.StatusCode.InvalidPlatformRequest:
+                    Logger.Debug("Invalid Platform.");
+                    Client.AuthToken = null;
+                    throw new InvalidPlatformException();
                 case ResponseEnvelope.Types.StatusCode.Redirect:
                     // 53 means that the api_endpoint was not correctly set, should be at this point, though, so redo the request
                     if (!string.IsNullOrEmpty(serverResponse.ApiUrl)){
@@ -150,8 +152,6 @@ namespace PokemonGo.RocketAPI.Rpc
                     }
                     break;
                 case ResponseEnvelope.Types.StatusCode.InvalidRequest:
-                    break;
-                case ResponseEnvelope.Types.StatusCode.InvalidPlatformRequest:
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();

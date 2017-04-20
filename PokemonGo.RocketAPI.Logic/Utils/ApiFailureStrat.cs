@@ -86,7 +86,7 @@ namespace PokeMaster.Logic
 
         public ApiOperation HandleApiFailure(RequestEnvelope request, ResponseEnvelope response)
         {
-            if (_retryCount == 11){
+            if (_retryCount == 5){
                 Logger.Debug("Too many tries. Aborting");
                 return ApiOperation.Abort;
             }
@@ -94,15 +94,19 @@ namespace PokeMaster.Logic
             switch (response.StatusCode) {
                 case ResponseEnvelope.Types.StatusCode.SessionInvalidated:
                 case ResponseEnvelope.Types.StatusCode.InvalidAuthToken:
-                case ResponseEnvelope.Types.StatusCode.InvalidPlatformRequest:
                     throw new AccessTokenExpiredException();
+                case ResponseEnvelope.Types.StatusCode.InvalidPlatformRequest:
+                    throw new InvalidPlatformException();
                 case ResponseEnvelope.Types.StatusCode.Redirect:
                     if (!string.IsNullOrEmpty(response.ApiUrl)){
                         _session.ApiUrl = "https://" + response.ApiUrl + "/rpc";
                         Logger.Debug("New Client.ApiUrl: " + _session.ApiUrl);
                     }                    
                     throw new RedirectException();
+                case ResponseEnvelope.Types.StatusCode.BadRequest:
+                    return ApiOperation.Abort;
             }
+            _retryCount++;
             Logger.Debug($"{response.StatusCode}: Retrying. Try {_retryCount}.");
             return ApiOperation.Retry;
         }

@@ -144,6 +144,7 @@ namespace PokeMaster
             this.text_EMail = new System.Windows.Forms.TextBox();
             this.checkbox_PWDEncryption = new System.Windows.Forms.CheckBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.checkBox_BlockAltitude = new System.Windows.Forms.CheckBox();
             this.button_SetLocation = new System.Windows.Forms.Button();
             this.label6 = new System.Windows.Forms.Label();
             this.checkBox_StartWalkingFromLastLocation = new System.Windows.Forms.CheckBox();
@@ -184,6 +185,7 @@ namespace PokeMaster
             this.checkBox_UseGoogleMapsRouting = new System.Windows.Forms.CheckBox();
             this.label45 = new System.Windows.Forms.Label();
             this.groupBox11 = new System.Windows.Forms.GroupBox();
+            this.checkBox_Paused = new System.Windows.Forms.CheckBox();
             this.checkBox_WalkInLoop = new System.Windows.Forms.CheckBox();
             this.checkBox_WalkRandomly = new System.Windows.Forms.CheckBox();
             this.checkBox_StopWalkingWhenEvolving = new System.Windows.Forms.CheckBox();
@@ -287,7 +289,16 @@ namespace PokeMaster
             this.label23 = new System.Windows.Forms.Label();
             this.comboBoxLeaveInGyms = new System.Windows.Forms.ComboBox();
             this.tabMisc = new System.Windows.Forms.TabPage();
+            this.groupBox31 = new System.Windows.Forms.GroupBox();
+            this.checkBoxCompleteTutorial = new System.Windows.Forms.CheckBox();
+            this.buttonTutorial = new System.Windows.Forms.Button();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.textBoxDiscordServerID = new System.Windows.Forms.TextBox();
+            this.textBoxDiscordPassword = new System.Windows.Forms.TextBox();
+            this.label16 = new System.Windows.Forms.Label();
+            this.textBoxDiscordUser = new System.Windows.Forms.TextBox();
+            this.label15 = new System.Windows.Forms.Label();
+            this.checkBoxSendToDiscord = new System.Windows.Forms.CheckBox();
             this.label13 = new System.Windows.Forms.Label();
             this.numMinIVSave = new System.Windows.Forms.NumericUpDown();
             this.buttonSelectLocationFile = new System.Windows.Forms.Button();
@@ -295,7 +306,6 @@ namespace PokeMaster
             this.textBoxSaveLocationsFile = new System.Windows.Forms.TextBox();
             this.SnipePokemonPokeCom = new System.Windows.Forms.CheckBox();
             this.checkBoxSaveLocations = new System.Windows.Forms.CheckBox();
-            this.buttonTutorial = new System.Windows.Forms.Button();
             this.groupBox25 = new System.Windows.Forms.GroupBox();
             this.checkBoxExtractText = new System.Windows.Forms.CheckBox();
             this.checkBoxStoreUntranslated = new System.Windows.Forms.CheckBox();
@@ -440,6 +450,7 @@ namespace PokeMaster
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMaxAttacks)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudNumDefenders)).BeginInit();
             this.tabMisc.SuspendLayout();
+            this.groupBox31.SuspendLayout();
             this.groupBox4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numMinIVSave)).BeginInit();
             this.groupBox25.SuspendLayout();
@@ -1730,7 +1741,7 @@ namespace PokeMaster
             this.label66.Name = "label66";
             this.label66.Size = new System.Drawing.Size(148, 13);
             this.label66.TabIndex = 54;
-            this.label66.Text = "Hash Service Key:";
+            this.label66.Text = "Hash Service Main Key:";
             this.label66.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.label66.DoubleClick += new System.EventHandler(this.label66_DoubleClick);
             // 
@@ -1814,7 +1825,6 @@ namespace PokeMaster
             | System.Windows.Forms.AnchorStyles.Right)));
             this.pFHashKey.Location = new System.Drawing.Point(156, 22);
             this.pFHashKey.Name = "pFHashKey";
-            this.pFHashKey.PasswordChar = '*';
             this.pFHashKey.Size = new System.Drawing.Size(136, 20);
             this.pFHashKey.TabIndex = 3;
             this.pFHashKey.TextChanged += new System.EventHandler(this.TextBoxes_TextChanged);
@@ -1906,6 +1916,7 @@ namespace PokeMaster
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.checkBox_BlockAltitude);
             this.groupBox2.Controls.Add(this.button_SetLocation);
             this.groupBox2.Controls.Add(this.label6);
             this.groupBox2.Controls.Add(this.checkBox_StartWalkingFromLastLocation);
@@ -1921,12 +1932,23 @@ namespace PokeMaster
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Location Settings";
             // 
+            // checkBox_BlockAltitude
+            // 
+            this.checkBox_BlockAltitude.AutoSize = true;
+            this.checkBox_BlockAltitude.Location = new System.Drawing.Point(163, 77);
+            this.checkBox_BlockAltitude.Name = "checkBox_BlockAltitude";
+            this.checkBox_BlockAltitude.Size = new System.Drawing.Size(91, 17);
+            this.checkBox_BlockAltitude.TabIndex = 69;
+            this.checkBox_BlockAltitude.Text = "Block Altitude";
+            this.toolTip1.SetToolTip(this.checkBox_BlockAltitude, "Use Always this altitude value.");
+            this.checkBox_BlockAltitude.UseVisualStyleBackColor = true;
+            // 
             // button_SetLocation
             // 
             this.button_SetLocation.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
             this.button_SetLocation.Location = new System.Drawing.Point(217, 19);
             this.button_SetLocation.Name = "button_SetLocation";
-            this.button_SetLocation.Size = new System.Drawing.Size(80, 74);
+            this.button_SetLocation.Size = new System.Drawing.Size(80, 50);
             this.button_SetLocation.TabIndex = 4;
             this.button_SetLocation.Text = "Set Location";
             this.button_SetLocation.UseVisualStyleBackColor = false;
@@ -1956,7 +1978,7 @@ namespace PokeMaster
             this.text_Altitude.Enabled = false;
             this.text_Altitude.Location = new System.Drawing.Point(101, 75);
             this.text_Altitude.Name = "text_Altitude";
-            this.text_Altitude.Size = new System.Drawing.Size(100, 20);
+            this.text_Altitude.Size = new System.Drawing.Size(56, 20);
             this.text_Altitude.TabIndex = 4;
             this.text_Altitude.Text = "0";
             this.text_Altitude.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox5_KeyPress);
@@ -2302,7 +2324,7 @@ namespace PokeMaster
             this.groupBox13.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox13.Name = "groupBox13";
             this.groupBox13.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBox13.Size = new System.Drawing.Size(278, 96);
+            this.groupBox13.Size = new System.Drawing.Size(280, 96);
             this.groupBox13.TabIndex = 60;
             this.groupBox13.TabStop = false;
             this.groupBox13.Text = "Routing Settings";
@@ -2350,6 +2372,7 @@ namespace PokeMaster
             // 
             // groupBox11
             // 
+            this.groupBox11.Controls.Add(this.checkBox_Paused);
             this.groupBox11.Controls.Add(this.checkBox_WalkInLoop);
             this.groupBox11.Controls.Add(this.checkBox_WalkRandomly);
             this.groupBox11.Controls.Add(this.checkBox_StopWalkingWhenEvolving);
@@ -2369,15 +2392,28 @@ namespace PokeMaster
             this.groupBox11.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox11.Name = "groupBox11";
             this.groupBox11.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBox11.Size = new System.Drawing.Size(278, 277);
+            this.groupBox11.Size = new System.Drawing.Size(282, 277);
             this.groupBox11.TabIndex = 59;
             this.groupBox11.TabStop = false;
             this.groupBox11.Text = "Walk Options";
             // 
+            // checkBox_Paused
+            // 
+            this.checkBox_Paused.AutoSize = true;
+            this.checkBox_Paused.Checked = true;
+            this.checkBox_Paused.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox_Paused.Location = new System.Drawing.Point(8, 249);
+            this.checkBox_Paused.Margin = new System.Windows.Forms.Padding(2);
+            this.checkBox_Paused.Name = "checkBox_Paused";
+            this.checkBox_Paused.Size = new System.Drawing.Size(272, 17);
+            this.checkBox_Paused.TabIndex = 73;
+            this.checkBox_Paused.Text = "Start Paused (You\'ll have to press Resume Walking)";
+            this.checkBox_Paused.UseVisualStyleBackColor = true;
+            // 
             // checkBox_WalkInLoop
             // 
             this.checkBox_WalkInLoop.AutoSize = true;
-            this.checkBox_WalkInLoop.Location = new System.Drawing.Point(8, 186);
+            this.checkBox_WalkInLoop.Location = new System.Drawing.Point(8, 184);
             this.checkBox_WalkInLoop.Name = "checkBox_WalkInLoop";
             this.checkBox_WalkInLoop.Size = new System.Drawing.Size(89, 17);
             this.checkBox_WalkInLoop.TabIndex = 72;
@@ -2399,7 +2435,7 @@ namespace PokeMaster
             this.checkBox_StopWalkingWhenEvolving.AutoSize = true;
             this.checkBox_StopWalkingWhenEvolving.Checked = true;
             this.checkBox_StopWalkingWhenEvolving.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox_StopWalkingWhenEvolving.Location = new System.Drawing.Point(8, 243);
+            this.checkBox_StopWalkingWhenEvolving.Location = new System.Drawing.Point(8, 228);
             this.checkBox_StopWalkingWhenEvolving.Margin = new System.Windows.Forms.Padding(2);
             this.checkBox_StopWalkingWhenEvolving.Name = "checkBox_StopWalkingWhenEvolving";
             this.checkBox_StopWalkingWhenEvolving.Size = new System.Drawing.Size(182, 17);
@@ -2465,11 +2501,12 @@ namespace PokeMaster
             // pictureBox1
             // 
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(222, 213);
+            this.pictureBox1.Location = new System.Drawing.Point(215, 203);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(17, 17);
             this.pictureBox1.TabIndex = 66;
             this.pictureBox1.TabStop = false;
+            this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
             // 
             // label43
             // 
@@ -2492,7 +2529,7 @@ namespace PokeMaster
             // button_ArchimedeanSpiralHelp
             // 
             this.button_ArchimedeanSpiralHelp.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button_ArchimedeanSpiralHelp.Location = new System.Drawing.Point(245, 210);
+            this.button_ArchimedeanSpiralHelp.Location = new System.Drawing.Point(238, 200);
             this.button_ArchimedeanSpiralHelp.Name = "button_ArchimedeanSpiralHelp";
             this.button_ArchimedeanSpiralHelp.Size = new System.Drawing.Size(21, 22);
             this.button_ArchimedeanSpiralHelp.TabIndex = 65;
@@ -2513,7 +2550,7 @@ namespace PokeMaster
             // checkBox_WalkInArchimedeanSpiral
             // 
             this.checkBox_WalkInArchimedeanSpiral.AutoSize = true;
-            this.checkBox_WalkInArchimedeanSpiral.Location = new System.Drawing.Point(8, 214);
+            this.checkBox_WalkInArchimedeanSpiral.Location = new System.Drawing.Point(8, 206);
             this.checkBox_WalkInArchimedeanSpiral.Name = "checkBox_WalkInArchimedeanSpiral";
             this.checkBox_WalkInArchimedeanSpiral.Size = new System.Drawing.Size(156, 17);
             this.checkBox_WalkInArchimedeanSpiral.TabIndex = 64;
@@ -3587,8 +3624,8 @@ namespace PokeMaster
             // 
             // tabMisc
             // 
+            this.tabMisc.Controls.Add(this.groupBox31);
             this.tabMisc.Controls.Add(this.groupBox4);
-            this.tabMisc.Controls.Add(this.buttonTutorial);
             this.tabMisc.Controls.Add(this.groupBox25);
             this.tabMisc.Controls.Add(this.groupBox17);
             this.tabMisc.Controls.Add(this.groupBox14);
@@ -3601,8 +3638,45 @@ namespace PokeMaster
             this.tabMisc.Text = "Misc";
             this.tabMisc.UseVisualStyleBackColor = true;
             // 
+            // groupBox31
+            // 
+            this.groupBox31.Controls.Add(this.checkBoxCompleteTutorial);
+            this.groupBox31.Controls.Add(this.buttonTutorial);
+            this.groupBox31.Location = new System.Drawing.Point(24, 258);
+            this.groupBox31.Name = "groupBox31";
+            this.groupBox31.Size = new System.Drawing.Size(225, 88);
+            this.groupBox31.TabIndex = 74;
+            this.groupBox31.TabStop = false;
+            this.groupBox31.Text = "Tutorial";
+            // 
+            // checkBoxCompleteTutorial
+            // 
+            this.checkBoxCompleteTutorial.AutoSize = true;
+            this.checkBoxCompleteTutorial.Location = new System.Drawing.Point(8, 19);
+            this.checkBoxCompleteTutorial.Name = "checkBoxCompleteTutorial";
+            this.checkBoxCompleteTutorial.Size = new System.Drawing.Size(108, 17);
+            this.checkBoxCompleteTutorial.TabIndex = 73;
+            this.checkBoxCompleteTutorial.Text = "Complete Turorial";
+            this.checkBoxCompleteTutorial.UseVisualStyleBackColor = true;
+            // 
+            // buttonTutorial
+            // 
+            this.buttonTutorial.Location = new System.Drawing.Point(33, 51);
+            this.buttonTutorial.Name = "buttonTutorial";
+            this.buttonTutorial.Size = new System.Drawing.Size(145, 23);
+            this.buttonTutorial.TabIndex = 72;
+            this.buttonTutorial.Text = "Change Default Vaules";
+            this.buttonTutorial.UseVisualStyleBackColor = true;
+            this.buttonTutorial.Click += new System.EventHandler(this.Button4Click);
+            // 
             // groupBox4
             // 
+            this.groupBox4.Controls.Add(this.textBoxDiscordServerID);
+            this.groupBox4.Controls.Add(this.textBoxDiscordPassword);
+            this.groupBox4.Controls.Add(this.label16);
+            this.groupBox4.Controls.Add(this.textBoxDiscordUser);
+            this.groupBox4.Controls.Add(this.label15);
+            this.groupBox4.Controls.Add(this.checkBoxSendToDiscord);
             this.groupBox4.Controls.Add(this.label13);
             this.groupBox4.Controls.Add(this.numMinIVSave);
             this.groupBox4.Controls.Add(this.buttonSelectLocationFile);
@@ -3612,10 +3686,63 @@ namespace PokeMaster
             this.groupBox4.Controls.Add(this.checkBoxSaveLocations);
             this.groupBox4.Location = new System.Drawing.Point(271, 126);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(371, 126);
+            this.groupBox4.Size = new System.Drawing.Size(371, 220);
             this.groupBox4.TabIndex = 73;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Sniping Settings";
+            // 
+            // textBoxDiscordServerID
+            // 
+            this.textBoxDiscordServerID.Enabled = false;
+            this.textBoxDiscordServerID.Location = new System.Drawing.Point(141, 130);
+            this.textBoxDiscordServerID.Name = "textBoxDiscordServerID";
+            this.textBoxDiscordServerID.Size = new System.Drawing.Size(224, 20);
+            this.textBoxDiscordServerID.TabIndex = 81;
+            this.textBoxDiscordServerID.Text = "223025934435876865";
+            // 
+            // textBoxDiscordPassword
+            // 
+            this.textBoxDiscordPassword.Location = new System.Drawing.Point(141, 183);
+            this.textBoxDiscordPassword.Name = "textBoxDiscordPassword";
+            this.textBoxDiscordPassword.PasswordChar = '*';
+            this.textBoxDiscordPassword.Size = new System.Drawing.Size(224, 20);
+            this.textBoxDiscordPassword.TabIndex = 80;
+            // 
+            // label16
+            // 
+            this.label16.Location = new System.Drawing.Point(15, 186);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(120, 13);
+            this.label16.TabIndex = 79;
+            this.label16.Text = "Discord password:";
+            this.label16.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // textBoxDiscordUser
+            // 
+            this.textBoxDiscordUser.Location = new System.Drawing.Point(141, 157);
+            this.textBoxDiscordUser.Name = "textBoxDiscordUser";
+            this.textBoxDiscordUser.Size = new System.Drawing.Size(224, 20);
+            this.textBoxDiscordUser.TabIndex = 78;
+            // 
+            // label15
+            // 
+            this.label15.Location = new System.Drawing.Point(15, 160);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(120, 13);
+            this.label15.TabIndex = 77;
+            this.label15.Text = "Discord account:";
+            this.label15.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.label15.DoubleClick += new System.EventHandler(this.label15_DoubleClick);
+            // 
+            // checkBoxSendToDiscord
+            // 
+            this.checkBoxSendToDiscord.AutoSize = true;
+            this.checkBoxSendToDiscord.Location = new System.Drawing.Point(15, 132);
+            this.checkBoxSendToDiscord.Name = "checkBoxSendToDiscord";
+            this.checkBoxSendToDiscord.Size = new System.Drawing.Size(102, 17);
+            this.checkBoxSendToDiscord.TabIndex = 76;
+            this.checkBoxSendToDiscord.Text = "Send to Discord";
+            this.checkBoxSendToDiscord.UseVisualStyleBackColor = true;
             // 
             // label13
             // 
@@ -3692,16 +3819,6 @@ namespace PokeMaster
             this.checkBoxSaveLocations.Text = "Save Pokemons Location";
             this.checkBoxSaveLocations.UseVisualStyleBackColor = true;
             this.checkBoxSaveLocations.CheckedChanged += new System.EventHandler(this.checkBoxSaveLocations_CheckedChanged);
-            // 
-            // buttonTutorial
-            // 
-            this.buttonTutorial.Location = new System.Drawing.Point(361, 354);
-            this.buttonTutorial.Name = "buttonTutorial";
-            this.buttonTutorial.Size = new System.Drawing.Size(281, 23);
-            this.buttonTutorial.TabIndex = 72;
-            this.buttonTutorial.Text = "Change Default Vaules for Complete Tutorial";
-            this.buttonTutorial.UseVisualStyleBackColor = true;
-            this.buttonTutorial.Click += new System.EventHandler(this.Button4Click);
             // 
             // groupBox25
             // 
@@ -4487,6 +4604,8 @@ namespace PokeMaster
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMaxAttacks)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudNumDefenders)).EndInit();
             this.tabMisc.ResumeLayout(false);
+            this.groupBox31.ResumeLayout(false);
+            this.groupBox31.PerformLayout();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numMinIVSave)).EndInit();
@@ -4845,5 +4964,15 @@ namespace PokeMaster
         private System.Windows.Forms.Label labelMinProb;
         private System.Windows.Forms.Button buttonMultiKeys;
         private System.Windows.Forms.ToolTip toolTip1;
+        private System.Windows.Forms.GroupBox groupBox31;
+        private System.Windows.Forms.CheckBox checkBoxCompleteTutorial;
+        private System.Windows.Forms.TextBox textBoxDiscordServerID;
+        private System.Windows.Forms.TextBox textBoxDiscordPassword;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.TextBox textBoxDiscordUser;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.CheckBox checkBoxSendToDiscord;
+        private System.Windows.Forms.CheckBox checkBox_Paused;
+        private System.Windows.Forms.CheckBox checkBox_BlockAltitude;
     }
 }

@@ -32,6 +32,7 @@ namespace PokeMaster.Logic.Functions
         private static Client client = null;
         private static LogicInfoObservable infoObservable =null;
 
+        private static int zeroCachablePokemons  = 0;
         public static bool AllowCatchPokemon = true;
         public static List<ulong> SkippedPokemon = new List<ulong>();
 
@@ -48,7 +49,7 @@ namespace PokeMaster.Logic.Functions
             {
                 if (mapObjectsResponse == null)
                 {
-                    mapObjectsResponse = client.Map.GetMapObjects().Result.Item1;
+                    mapObjectsResponse = client.Map.GetMapObjects().Result;
                 }
 
                 MapPokemon mapIncensePokemon = null;
@@ -87,6 +88,7 @@ namespace PokeMaster.Logic.Functions
 
                 var pokemons = mapObjectsResponse.MapCells.SelectMany(i => i.CatchablePokemons).OrderBy(i => LocationUtils.CalculateDistanceInMeters(client.CurrentLatitude, client.CurrentLongitude, i.Latitude, i.Longitude));
                 Logger.Debug( $"Pokemons Catchable: {pokemons.Count()}");
+                
                 var nearbyPokemons = mapObjectsResponse.MapCells.SelectMany(i => i.NearbyPokemons);
                 Logger.Debug( $"Pokemons Nearby: {nearbyPokemons.Count()}");
                 var wildPokemons = mapObjectsResponse.MapCells.SelectMany(i => i.WildPokemons).OrderBy(i => LocationUtils.CalculateDistanceInMeters(client.CurrentLatitude, client.CurrentLongitude, i.Latitude, i.Longitude));
@@ -100,8 +102,14 @@ namespace PokeMaster.Logic.Functions
                     if (GlobalVars.ShowPokemons){
                         ShowNearbyPokemons(pokemons);
                     }
-                }else
+                }else{
+                    zeroCachablePokemons++;
+                    if (zeroCachablePokemons> 10){
+                        zeroCachablePokemons =0;
+                        client.Login.DoLogin().Wait();
+                    }
                     return false;
+                }
 
 
                 //catch them all!
@@ -427,6 +435,9 @@ namespace PokeMaster.Logic.Functions
                         }
 
                         caughtPokemonResponse = CatchPokemonWithRandomVariables(encounterId, spawnpointId, bestPokeball, forceHit);
+                        if (caughtPokemonResponse==null){
+                            caughtPokemonResponse = new CatchPokemonResponse();
+                        }
 
                         if (caughtPokemonResponse.Status == CatchPokemonResponse.Types.CatchStatus.CatchMissed)
                         {
@@ -740,33 +751,43 @@ namespace PokeMaster.Logic.Functions
         }
         
         public static void SaveLocations(WildPokemon pokemon, double iv, double probability){
+            if (!GlobalVars.SaveLocations && ! GlobalVars.SendToDiscord)
+                return;
             if (GlobalVars.SaveLocations){
-                if (iv >= GlobalVars.MinIVSave){
-                    var strIV = iv.ToString("0.00");
-                    var id = pokemon.EncounterId;
-                    if (!ExistYet(id)){
-                        var date = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss");
-                        var LastModified = StringUtils.TimeMStoString(pokemon.LastModifiedTimestampMs, @"mm\:ss");
-                        var TillHidden = StringUtils.TimeMStoString(pokemon.TimeTillHiddenMs, @"mm\:ss");
-                        var name = GlobalVars.ProfileName;
-                        var Latitude = pokemon.Latitude.ToString(CultureInfo.InvariantCulture);
-                        var Longitude = pokemon.Longitude.ToString(CultureInfo.InvariantCulture);
-                        var line = $"{date}|{LastModified}|{id}|{name}|{TillHidden}|{probability}|{strIV}|pokesniper2://{pokemon.PokemonData.PokemonId}/{Latitude},{Longitude}";
-                        try
-                        {
-                            File.AppendAllLines(GlobalVars.SaveLocationsFile, new string[] { line });
-                        }
-                        catch(Exception)
-                        {
-                            Logger.Info("Hey pssst. If you get this message follow these steps:");
-                            Logger.Info("1. Open your Pokemonlist and go to the Tab 'Options'");
-                            Logger.Info("2. Select Misc");
-                            Logger.Info("3. Either you press the two dots and select a path...");
-                            Logger.Info("4. Or disable the feature...");
-                            Logger.Info("5. Dont forget to press Update Config.");
-                        }
+                if (iv < GlobalVars.MinIVSave)
+                    return;
+                var strIV = iv.ToString("0.00");
+                var id = pokemon.EncounterId;
+                var date = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss");
+                var LastModified = StringUtils.TimeMStoString(pokemon.LastModifiedTimestampMs, @"mm\:ss");
+                var TillHidden = StringUtils.TimeMStoString(pokemon.TimeTillHiddenMs, @"mm\:ss");
+                var name = GlobalVars.ProfileName;
+                var Latitude = pokemon.Latitude.ToString(CultureInfo.InvariantCulture);
+                var Longitude = pokemon.Longitude.ToString(CultureInfo.InvariantCulture);
+                var line = $"{date}|{LastModified}|{id}|{name}|{TillHidden}|{probability}|{strIV}|pokesniper2://{pokemon.PokemonData.PokemonId}/{Latitude},{Longitude}";
+                
+                if (!ExistYet(id)){
+                    try
+                    {
+                        File.AppendAllLines(GlobalVars.SaveLocationsFile, new string[] { line });
+                    }
+                    catch(Exception)
+                    {
+                        Logger.Info("Hey pssst. If you get this message follow these steps:");
+                        Logger.Info("1. Open your Pokemonlist and go to the Tab 'Options'");
+                        Logger.Info("2. Select Misc");
+                        Logger.Info("3. Either you press the two dots and select a path...");
+                        Logger.Info("4. Or disable the feature...");
+                        Logger.Info("5. Dont forget to press Update Config.");
                     }
                 }
+                
+            }
+            if (GlobalVars.SendToDiscord){
+                 if (iv < GlobalVars.MinIVSave)
+                     return;
+                 if (iv >= 90)
+                    DiscordLogic.SendMessage(DiscordLogic.FormatMessage(pokemon,iv,probability));
             }
         }
         public static bool ExistYet(ulong EncounterId)

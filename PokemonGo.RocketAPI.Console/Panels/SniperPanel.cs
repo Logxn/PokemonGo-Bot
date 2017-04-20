@@ -20,6 +20,7 @@ using Newtonsoft.Json;
 using System.Device.Location;
 using Microsoft.Win32;
 using System.Text;
+using PokeMaster.Logic.Functions;
 using PokeMaster.Logic.Shared;
 using PokeMaster.Logic.Utils;
 using PokemonGo.RocketAPI;
@@ -189,7 +190,7 @@ namespace PokeMaster
 
         void SnipeURI(string txt)
         {
-            if (txt.IndexOf("pokesniper2://") > -1) {
+            if (txt.IndexOf("pokesniper2://", StringComparison.Ordinal) > -1) {
                 txt = txt.Replace("pokesniper2://", "");
                 var splt = txt.Split('/');
                 splLatLngResult = SplitLatLng(splt[1]);
@@ -202,11 +203,12 @@ namespace PokeMaster
                     tries = (int)nudTriesSnipe.Value;
                     transferIt = checkBoxSnipeTransfer.Checked;
                     usePinap = checkBoxSnipeWithPinap.Checked;
-                } catch (Exception) {
+                } catch (Exception ex1) {
+                    Logger.ExceptionInfo(ex1.ToString());
                 }
                 var pokeID = ToPokemonID(splt[0]);
                 SnipePoke(pokeID, stw, tries, transferIt, usePinap);
-            } else if (txt.IndexOf("msniper://") > -1) {
+            } else if (txt.IndexOf("msniper://", StringComparison.Ordinal) > -1) {
                 txt = txt.Replace("msniper://", "");
                 var splt = txt.Split('/');
                 splLatLngResult = SplitLatLng(splt[3]);
@@ -219,7 +221,8 @@ namespace PokeMaster
                     tries = (int)nudTriesSnipe.Value;
                     transferIt = checkBoxSnipeTransfer.Checked;
                     usePinap = checkBoxSnipeWithPinap.Checked;
-                } catch (Exception) {
+                } catch (Exception ex1) {
+                    Logger.ExceptionInfo(ex1.ToString());
                 }
                 var pokeID = ToPokemonID(splt[0]);
                 SnipePoke(pokeID, stw, tries, transferIt, usePinap);
@@ -463,11 +466,11 @@ namespace PokeMaster
             
         }
 
-        void numSnipeMinutes_ValueChanged(object sender, EventArgs e)
+        void numSnipeSeconds_ValueChanged(object sender, EventArgs e)
         {
             var status = timerAutosnipe.Enabled;
             timerAutosnipe.Enabled = false;
-            timerAutosnipe.Interval = (int)(sender as NumericUpDown).Value * 60000;
+            timerAutosnipe.Interval = (int)(sender as NumericUpDown).Value * 1000;
             timerAutosnipe.Enabled = status;
         }
 
@@ -592,6 +595,63 @@ namespace PokeMaster
         void SniperPanel_Load(object sender, EventArgs e)
         {
           
+        }
+        void checkBox2_CheckedChanged(object sender, EventArgs e)
+        {
+            try {
+            if (checkBox2.Checked)
+                DiscordLogic.MessageReceived += InterceptedDiscortMessage;
+            else
+                DiscordLogic.MessageReceived -= InterceptedDiscortMessage;
+            } catch (Exception ex1) {
+                Logger.ExceptionInfo(ex1.ToString());
+            }
+        }
+        private void InterceptedDiscortMessage(object s, DiscordLogic.DiscordReceivedDataEventArgs args)
+        {
+            try {
+                var message = args.Message;
+                var split1 = message.Split('=');
+                var EncounterId = split1[0];
+                Logger.Debug("EncounterId: "+ EncounterId);
+                if (isInList(EncounterId)){
+                    Logger.Info("Already in List");
+                    return;
+                }
+                message = split1[1].Replace(" :100: ","").Replace(" 💯 ","")
+                    .Replace(" :ok_hand: ","").Replace(" 👌 ","")
+                    .Replace("♀","").Replace("♂","").Trim();
+                Logger.Debug("message: "+ message);
+                var split2 = message.Split(' ');
+                var pokeID = split2[0];
+                Logger.Debug("pokeID: "+ pokeID);
+                var Latitude = split2[1].Replace(",","");
+                Logger.Debug("Latitude: "+ Latitude);
+                var Longitude = split2[2];
+                Logger.Debug("Longitude: "+ Longitude);
+                var split3 = message.Split(':');
+                var iv100 = split3[1].Trim().Split('%')[0];
+                Logger.Debug("iv100: "+ iv100);
+                var prob = split3[5].Trim().Split('%')[0];
+                Logger.Debug("prob: "+ prob);
+                var date = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss");
+                var listViewItem = new ListViewItem();
+                listViewItem.Text= $"pokesniper2://{pokeID}/{Latitude},{Longitude}";
+                listViewItem.SubItems.Add(iv100);
+                listViewItem.SubItems.Add(prob);
+                listViewItem.SubItems.Add(date);
+                listViewItem.SubItems.Add("");
+                listViewItem.SubItems.Add(EncounterId);
+                listViewItem.SubItems.Add(args.Username);
+                listViewItem.SubItems.Add("");
+                listViewItem.SubItems.Add("false");
+                
+                listView.Items.Add(listViewItem);
+
+            } catch (Exception ex1) {
+                Logger.Error("Message Interception Failed");
+                Logger.ExceptionInfo(ex1.ToString());
+            }
         }
     }
 }

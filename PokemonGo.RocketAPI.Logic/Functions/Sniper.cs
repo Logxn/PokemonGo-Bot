@@ -57,12 +57,13 @@ namespace PokeMaster.Logic.Functions
             }
 
             try {
+                
                 remoteCoords.Altitude = LocationUtils.GetAltitude(remoteCoords.Latitude, remoteCoords.Longitude);
 
                 SendToLog($"Trying to capture {pokeid}  at { remoteCoords.Latitude } / {remoteCoords.Longitude}");
                 SendToLog(LocationUtils.FindAddress(remoteCoords.Latitude, remoteCoords.Longitude));
                 LocationUtils.updatePlayerLocation(_client, remoteCoords.Latitude, remoteCoords.Longitude, remoteCoords.Altitude, false);
-                var gmp = _client.Map.GetMapObjects(true).Result.Item1;
+                var gmp = _client.Map.GetMapObjects(true).Result;
 
                 SendToLog($"We are at sniping location...");
                 SendToLog($"Waiting {GlobalVars.SnipeOpts.WaitSecond} seconds for Pokemon to appear...");
@@ -77,7 +78,7 @@ namespace PokeMaster.Logic.Functions
                 }
 
                 LocationUtils.updatePlayerLocation(_client, returnCoords.Latitude, returnCoords.Longitude, returnCoords.Altitude);
-                gmp = _client.Map.GetMapObjects(true).Result.Item1;
+                gmp = _client.Map.GetMapObjects(true).Result;
 
                 SendToLog($"Location after Snipe : {_client.CurrentLatitude} / {_client.CurrentLongitude} / {_client.CurrentAltitude}");
                 SendToLog(LocationUtils.FindAddress(_client.CurrentLatitude, _client.CurrentLongitude));
@@ -115,7 +116,7 @@ namespace PokeMaster.Logic.Functions
             
             do {
 
-                var mapObjectsResponse = _client.Map.GetMapObjects(true).Result.Item1;
+                var mapObjectsResponse = _client.Map.GetMapObjects(true).Result;
                 var pokeGyms = mapObjectsResponse.MapCells.SelectMany(i => i.Forts)
                     .Where(i => i.Type == POGOProtos.Map.Fort.FortType.Gym);
                 Logger.Debug("pokeCoords:" + pokeCoords);
@@ -189,7 +190,7 @@ namespace PokeMaster.Logic.Functions
 
             do {
                 SendToLog($"Try {tries} of {GlobalVars.SnipeOpts.NumTries}");
-                var mapObjectsResponse = _client.Map.GetMapObjects(true).Result.Item1;
+                var mapObjectsResponse = _client.Map.GetMapObjects(true).Result;
                 var pokemons = mapObjectsResponse.MapCells.SelectMany(i => i.CatchablePokemons);
                 if (pokemons.Any()) {
                     SendToLog($"Found {pokemons.Count()} catchable Pokemon(s)");

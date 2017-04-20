@@ -69,6 +69,7 @@ namespace PokeMaster
             buttonZoomIn.Visible = true;
             buttonSavePokestops.Visible = true;
             buttonLoadPokestops.Visible = true;
+            btnPauseWalking.Text = GlobalVars.pauseAtPokeStop? th.TS("Resume Walking"): th.TS("Pause Walking");
         }
         
         public bool close = true;
@@ -107,7 +108,7 @@ namespace PokeMaster
             if (client.ReadyToUse) {
                 Logger.ColoredConsoleWrite(ConsoleColor.DarkRed, "Refreshing Forts", LogLevel.Warning);
                 var mapObjects = await client.Map.GetMapObjects().ConfigureAwait(false);
-                var mapCells = mapObjects.Item1.MapCells;
+                var mapCells = mapObjects.MapCells;
                 var pokeStops =
                     mapCells.SelectMany(i => i.Forts)
                 .Where(
@@ -839,7 +840,7 @@ namespace PokeMaster
                     }
                     Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "User Defined Route Captured! Beginning Route Momentarily.");
                 }
-                btnPauseWalking.Text = "Pause Walking";
+                btnPauseWalking.Text = th.TS("Pause Walking");
             }
           
         }

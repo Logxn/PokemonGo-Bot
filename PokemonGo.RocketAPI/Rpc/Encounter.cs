@@ -31,7 +31,7 @@ namespace PokemonGo.RocketAPI.Rpc
 
         public async Task<EncounterResponse> EncounterPokemon(ulong encounterId, string spawnPointGuid)
         {
-            var encounterPokemonRequest = new Request
+            var message = new Request
             {
                 RequestType = RequestType.Encounter,
                 RequestMessage = ((IMessage) new EncounterMessage
@@ -43,38 +43,7 @@ namespace PokemonGo.RocketAPI.Rpc
                 }).ToByteString()
             };
 
-            var tries = 0;
-            while ( tries <10){
-                try {
-                        var request = GetRequestBuilder().GetRequestEnvelope(CommonRequest.FillRequest(encounterPokemonRequest, Client));
-            
-                        Tuple<EncounterResponse, CheckChallengeResponse, GetHatchedEggsResponse, GetInventoryResponse, CheckAwardedBadgesResponse, DownloadSettingsResponse, GetBuddyWalkedResponse> response =
-                            await
-                                PostProtoPayload
-                                    <Request, EncounterResponse, CheckChallengeResponse, GetHatchedEggsResponse, GetInventoryResponse,
-                                        CheckAwardedBadgesResponse, DownloadSettingsResponse, GetBuddyWalkedResponse>(request).ConfigureAwait(false);
-            
-                        CheckChallengeResponse checkChallengeResponse = response.Item2;
-                        CommonRequest.ProcessCheckChallengeResponse(Client, checkChallengeResponse);
-            
-                        GetInventoryResponse getInventoryResponse = response.Item4;
-                        CommonRequest.ProcessGetInventoryResponse(Client, getInventoryResponse);
-            
-                        DownloadSettingsResponse downloadSettingsResponse = response.Item6;
-                        CommonRequest.ProcessDownloadSettingsResponse(Client, downloadSettingsResponse);
-            
-                        return response.Item1;
-                } catch (AccessTokenExpiredException) {
-                    Logger.Warning("Invalid Token. Retrying in 1 second");
-                    await Client.Login.Reauthenticate().ConfigureAwait(false);
-                    await Task.Delay(1000).ConfigureAwait(false);
-                } catch (RedirectException) {
-                    await Task.Delay(1000).ConfigureAwait(false);
-                }
-                tries ++;
-            }
-            Logger.Error("Too many tries. Returning");
-            return null;
+            return await PostProtoPayloadCommonR<Request, EncounterResponse>( message).ConfigureAwait(false);
         }
 
         public UseItemCaptureResponse UseCaptureItem(ulong encounterId, ItemId itemId, string spawnPointId)
@@ -114,7 +83,7 @@ namespace PokemonGo.RocketAPI.Rpc
                 NormalizedHitPosition = normalizedHitPos
             };
             
-            return  PostProtoPayload<Request, CatchPokemonResponse>(RequestType.CatchPokemon, message);
+            return  PostProtoPayloadCommonR<Request, CatchPokemonResponse>(RequestType.CatchPokemon, message).Result;
         }
 
         public IncenseEncounterResponse EncounterIncensePokemon(ulong encounterId, string encounterLocation)

@@ -14,6 +14,7 @@ namespace PokemonGo.RocketAPI
 {
     public class Client : ICaptchaResponseHandler
     {
+        public event EventHandler<EventArgs> EvMakeTutorial;
         public Rpc.Login Login;
         public IHasher Hasher;
         public ICrypt Crypter;
@@ -61,8 +62,9 @@ namespace PokemonGo.RocketAPI
 
         public bool ShowingStats { get; set; }
         public bool LoadingPokemons { get; set; }
+        
 
-    public void setFailure(IApiFailureStrategy fail)
+        public void setFailure(IApiFailureStrategy fail)
         {
             ApiFailure = fail;
         }
@@ -142,5 +144,10 @@ namespace PokemonGo.RocketAPI
         {
             AuthTicket = authTicket;
         }
+        internal void OnMakeTutorial()
+        {
+           EvMakeTutorial?.Invoke(this, EventArgs.Empty);
+        }
+
     }
 }

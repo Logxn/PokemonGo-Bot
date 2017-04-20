@@ -37,7 +37,7 @@ namespace PokemonGo.RocketAPI.Rpc
         
         public async Task<FortDetailsResponse> GetFort(string fortId, double fortLatitude, double fortLongitude)
         {
-            var getFortRequest = new Request
+            var request = new Request
             {
                 RequestType = RequestType.FortDetails,
                 RequestMessage = ((IMessage)new FortDetailsMessage
@@ -48,37 +48,7 @@ namespace PokemonGo.RocketAPI.Rpc
                 }).ToByteString()
             };
 
-            var tries = 0;
-            while ( tries <10){
-                try {
-                    var request = GetRequestBuilder().GetRequestEnvelope(CommonRequest.FillRequest(getFortRequest, Client));
-        
-                    Tuple<FortDetailsResponse, CheckChallengeResponse, GetHatchedEggsResponse, GetInventoryResponse, CheckAwardedBadgesResponse, DownloadSettingsResponse, GetBuddyWalkedResponse> response =
-                            await PostProtoPayload
-                                <Request, FortDetailsResponse, CheckChallengeResponse, GetHatchedEggsResponse, GetInventoryResponse,
-                    CheckAwardedBadgesResponse, DownloadSettingsResponse, GetBuddyWalkedResponse>(request).ConfigureAwait(false);
-        
-                    CheckChallengeResponse checkChallengeResponse = response.Item2;
-                    CommonRequest.ProcessCheckChallengeResponse(Client, checkChallengeResponse);
-        
-                    GetInventoryResponse getInventoryResponse = response.Item4;
-                    CommonRequest.ProcessGetInventoryResponse(Client, getInventoryResponse);
-        
-                    DownloadSettingsResponse downloadSettingsResponse = response.Item6;
-                    CommonRequest.ProcessDownloadSettingsResponse(Client, downloadSettingsResponse);
-        
-                    return response.Item1;
-                } catch (AccessTokenExpiredException) {
-                    Logger.Warning("Invalid Token. Retrying in 1 second");
-                    await Client.Login.Reauthenticate().ConfigureAwait(false);;
-                    await Task.Delay(1000).ConfigureAwait(false);;
-                } catch (RedirectException) {
-                    await Task.Delay(1000).ConfigureAwait(false);;
-                }
-                tries ++;
-            }
-            Logger.Error("Too many tries. Returning");
-            return null;
+            return await PostProtoPayloadCommonR<Request, FortDetailsResponse>(request).ConfigureAwait(false);
         }
 
         public FortSearchResponse SearchFortOnly(string fortId, double fortLat, double fortLng)
@@ -97,7 +67,7 @@ namespace PokemonGo.RocketAPI.Rpc
         
         public async Task<FortSearchResponse> SearchFort(string fortId, double fortLat, double fortLng)
         {
-            var searchFortRequest = new Request
+            var request = new Request
             {
                 RequestType = RequestType.FortSearch,
                 RequestMessage = ((IMessage)new FortSearchMessage
@@ -110,49 +80,7 @@ namespace PokemonGo.RocketAPI.Rpc
                 }).ToByteString()
             };
 
-            var tries = 0;
-            while ( tries <10){
-                try {
-                    Logger.Debug("Using ApiUrl:" + Client.ApiUrl);
-                    Logger.Debug("Using AuthToken:" + Client.AuthToken);
-                    Logger.Debug("Using AuthTicket:" + Client.AuthTicket);
-                    
-                        var request = GetRequestBuilder().GetRequestEnvelope(CommonRequest.FillRequest(searchFortRequest, Client));
-            
-                        Tuple<FortSearchResponse, CheckChallengeResponse, GetHatchedEggsResponse, GetInventoryResponse, CheckAwardedBadgesResponse, DownloadSettingsResponse, GetBuddyWalkedResponse> response =
-                            await
-                                PostProtoPayload
-                                    <Request, FortSearchResponse, CheckChallengeResponse, GetHatchedEggsResponse, GetInventoryResponse,
-                                        CheckAwardedBadgesResponse, DownloadSettingsResponse, GetBuddyWalkedResponse>(request).ConfigureAwait(false);
-            
-                        CheckChallengeResponse checkChallengeResponse = response.Item2;
-                        CommonRequest.ProcessCheckChallengeResponse(Client, checkChallengeResponse);
-            
-                        GetInventoryResponse getInventoryResponse = response.Item4;
-                        CommonRequest.ProcessGetInventoryResponse(Client, getInventoryResponse);
-            
-                        DownloadSettingsResponse downloadSettingsResponse = response.Item6;
-                        CommonRequest.ProcessDownloadSettingsResponse(Client, downloadSettingsResponse);
-                        
-                        if (Client.Map._cachedGetMapResponse!=null){
-                            var fort = Client.Map._cachedGetMapResponse.Item1.MapCells.SelectMany(x=> x.Forts).FirstOrDefault(y => y.Id == fortId);
-                            if (fort!=null)
-                                fort.CooldownCompleteTimestampMs = Utils.GetTime(true) + 5 * 60 * 1000; // Cooldown is 5 minutes.
-                        }
-                        
-            
-                        return response.Item1;
-                } catch (AccessTokenExpiredException) {
-                    Logger.Warning("Invalid Token. Retrying in 1 second");
-                    await Client.Login.Reauthenticate().ConfigureAwait(false);;
-                    await Task.Delay(1000).ConfigureAwait(false);;
-                } catch (RedirectException) {
-                    await Task.Delay(1000).ConfigureAwait(false);;
-                }
-                tries ++;
-            }
-            Logger.Error("Too many tries. Returning");
-            return null;
+            return await PostProtoPayloadCommonR<Request, FortSearchResponse>(request).ConfigureAwait(false);
         }
 
         public AddFortModifierResponse AddFortModifier(string fortId, ItemId modifierType)
@@ -242,7 +170,7 @@ namespace PokemonGo.RocketAPI.Rpc
         public async Task<StartGymBattleResponse> StartGymBattle(string gymId, ulong defendingPokemonId,
             IEnumerable<ulong> attackingPokemonIds)
         {
-            var startGymBattleRequest = new Request
+            var request = new Request
             {
                 RequestType = RequestType.StartGymBattle,
                 RequestMessage = ((IMessage)new StartGymBattleMessage
@@ -254,40 +182,7 @@ namespace PokemonGo.RocketAPI.Rpc
                     PlayerLongitude = Client.CurrentLongitude
                 }).ToByteString()
             };
-
-            var tries = 0;
-            while ( tries <10){
-                try {
-                   
-                    var request = GetRequestBuilder().GetRequestEnvelope(CommonRequest.FillRequest(startGymBattleRequest, Client));
-        
-                    Tuple<StartGymBattleResponse, CheckChallengeResponse, GetHatchedEggsResponse, GetInventoryResponse, CheckAwardedBadgesResponse, DownloadSettingsResponse, GetBuddyWalkedResponse> response =
-                        await
-                            PostProtoPayload
-                                <Request, StartGymBattleResponse, CheckChallengeResponse, GetHatchedEggsResponse, GetInventoryResponse,
-                                    CheckAwardedBadgesResponse, DownloadSettingsResponse, GetBuddyWalkedResponse>(request).ConfigureAwait(false);
-        
-                    CheckChallengeResponse checkChallengeResponse = response.Item2;
-                    CommonRequest.ProcessCheckChallengeResponse(Client, checkChallengeResponse);
-        
-                    GetInventoryResponse getInventoryResponse = response.Item4;
-                    CommonRequest.ProcessGetInventoryResponse(Client, getInventoryResponse);
-        
-                    DownloadSettingsResponse downloadSettingsResponse = response.Item6;
-                    CommonRequest.ProcessDownloadSettingsResponse(Client, downloadSettingsResponse);
-        
-                    return response.Item1;
-                } catch (AccessTokenExpiredException) {
-                    Logger.Warning("Invalid Token. Retrying in 1 second");
-                    await Client.Login.Reauthenticate().ConfigureAwait(false);;
-                    await Task.Delay(1000).ConfigureAwait(false);;
-                } catch (RedirectException) {
-                    await Task.Delay(1000).ConfigureAwait(false);;
-                }
-                tries ++;
-            }
-            Logger.Error("Too many tries. Returning");
-            return null;
+            return await PostProtoPayloadCommonR<Request, StartGymBattleResponse>(request).ConfigureAwait(false);
 
         }
     }

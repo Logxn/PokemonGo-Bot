@@ -140,6 +140,7 @@
     <Compile Include="Exceptions\GoogleException.cs" />
     <Compile Include="Exceptions\GoogleOfflineException.cs" />
     <Compile Include="Exceptions\HasherException.cs" />
+    <Compile Include="Exceptions\InvalidPlatformException.cs" />
     <Compile Include="Exceptions\LoginFailedException.cs" />
     <Compile Include="Exceptions\MinimumClientVersionException.cs" />
     <Compile Include="Exceptions\RedirectException.cs" />

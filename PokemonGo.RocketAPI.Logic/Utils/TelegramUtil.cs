@@ -570,7 +570,7 @@ namespace PokeMaster.Logic.Utils
             int.TryParse(splt1[1].Trim(),out amount);
             if (amount == 0)
                 return "amount cannot be read";
-            _client.Inventory.RecycleItem(item,amount);
+            _client.Inventory.RecycleItem(item,amount).Wait();
             return "Command sent succefully to the bot.";
         }
 
