@@ -439,49 +439,34 @@ namespace PokeMaster
                     else
                         continue; // go to next pokemon
                 }
-                var normalImage = PokeImgManager.GetPokemonVeryLargeImage(pokemoninfo.PokemonId);
-                evolveDialog.pictureBox1.Image = normalImage;
-                evolveDialog.pictureBox2.Image = null;
-                evolveDialog.progressBar1.Value = 0;
-                evolveDialog.Show();
                 resp = client.Inventory.EvolvePokemon(pokemoninfo.Id, item);
                 if (resp.Result == EvolvePokemonResponse.Types.Result.Success)
                 {
-                    var evolvedImage = PokeImgManager.GetPokemonVeryLargeImage(resp.EvolvedPokemonData.PokemonId);
-                    evolveDialog.pictureBox2.Image = evolvedImage;
-                    evolveDialog.Refresh();
                     evolved++;
                     statusTexbox.Text = "Evolving..." + evolved;
-                    var name = pokemoninfo.PokemonId;
+                    if (GlobalVars.UseAnimationTimes)
+                    {
+                        evolveDialog.Show();
+                        evolveDialog.RunAnimation(pokemoninfo.PokemonId,resp.EvolvedPokemonData.PokemonId);
+                        evolveDialog.Hide();
+                    }
 
+                    var name = pokemoninfo.PokemonId;
                     var getPokemonName = StringUtils.getPokemonNameByLanguage(pokemoninfo.PokemonId);
                     var cp = pokemoninfo.Cp;
                     var calcPerf = PokemonInfo.CalculatePokemonPerfection(pokemoninfo).ToString("0.00");
                     var getEvolvedName = th.TS((resp.EvolvedPokemonData.PokemonId).ToString());
-
                     var getEvolvedCP = resp.EvolvedPokemonData.Cp;
                     gotXP = gotXP + resp.ExperienceAwarded;
                     var xpreward = resp.ExperienceAwarded.ToString("N0");
                     Logger.Info($"Evolved Pokemon: {getPokemonName} | CP {cp} | Perfection {calcPerf}% | => to {getEvolvedName} | CP: {getEvolvedCP} | XP Reward: {xpreward} XP");
                     Logger.Info($"Waiting a few seconds... dont worry!");
-                    if (GlobalVars.UseAnimationTimes)
-                    {
-                        const int times = 12;
-                        for (var i = 0; i < times;i++){
-                            evolveDialog.progressBar1.Value += evolveDialog.progressBar1.Maximum/times;
-                            evolveDialog.pictureBox1.Image =  (i % 2 == 0)?normalImage:null;
-                            evolveDialog.pictureBox2.Image =  (i % 2 == 1)?evolvedImage:null;
-                            evolveDialog.Refresh();
-                            RandomHelper.RandomSleep(2400);
-                        }
-                    }
                 }
                 else
                 {
                     Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Failed to evolve {pokemoninfo.PokemonId}. EvolvePokemonOutProto.Result was {resp.Result}");
                     failed += " {pokemoninfo.PokemonId} ";
                 }
-                evolveDialog.Hide();
 
             }
 

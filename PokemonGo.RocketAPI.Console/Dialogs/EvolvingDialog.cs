@@ -9,13 +9,15 @@
 using System;
 using System.Drawing;
 using System.Windows.Forms;
+using POGOProtos.Enums;
+using PokemonGo.RocketAPI.Helpers;
 
 namespace PokeMaster.Dialogs
 {
     /// <summary>
     /// Description of EvolvingDialog.
     /// </summary>
-    public partial class EvolvingDialog : Form
+    public partial class EvolvingDialog : System.Windows.Forms.Form
     {
         public EvolvingDialog()
         {
@@ -27,6 +29,52 @@ namespace PokeMaster.Dialogs
             //
             // TODO: Add constructor code after the InitializeComponent() call.
             //
+        }
+        public void RunAnimation( PokemonId source, PokemonId target)
+        {
+            var sourceImage = PokeImgManager.GetPokemonVeryLargeImage(source);
+            var targetImage = PokeImgManager.GetPokemonVeryLargeImage(target);
+            pictureBox1.Image = sourceImage;
+            pictureBox2.Visible =false;
+            progressBar1.Value = 0;
+            pictureBox1.Location = new Point(96, 222);
+            for (var i = 0; i < 44;i++){
+                progressBar1.Value += progressBar1.Maximum/(48);
+                Refresh();
+                RandomHelper.RandomSleep(550);
+                var x = pictureBox1.Location.X;
+                var y = pictureBox1.Location.Y - 5;
+                pictureBox1.Location = new Point(x,y);
+            }
+            pictureBox1.Image =  targetImage;
+            for (var i = 0; i < 8;i++){
+                progressBar1.Value += progressBar1.Maximum/(48)/2;
+                Refresh();
+                RandomHelper.RandomSleep(275);
+                var x = pictureBox1.Location.X;
+                var y = pictureBox1.Location.Y + 27;
+                pictureBox1.Location = new Point(x,y);
+            }
+            progressBar1.Value = progressBar1.Maximum;
+            Refresh();
+            RandomHelper.RandomSleep(2400);
+        }
+        public void RunAnimationOld( PokemonId source, PokemonId target)
+        {
+            var sourceImage = PokeImgManager.GetPokemonVeryLargeImage(source);
+            var targetImage = PokeImgManager.GetPokemonVeryLargeImage(target);
+            pictureBox1.Image = sourceImage;
+            pictureBox2.Image = null;
+            pictureBox2.Visible =true;
+            progressBar1.Value = 0;
+            const int times = 12;
+            for (var i = 0; i < times;i++){
+                progressBar1.Value += progressBar1.Maximum/times;
+                pictureBox1.Image =  (i % 2 == 0)?sourceImage:null;
+                pictureBox2.Image =  (i % 2 == 1)?targetImage:null;
+                Refresh();
+                RandomHelper.RandomSleep(2400);
+            }
         }
     }
 }

@@ -48,7 +48,7 @@ namespace PokeMaster.Dialogs
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Location = new System.Drawing.Point(12, 12);
+            this.pictureBox1.Location = new System.Drawing.Point(26, 222);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(200, 200);
             this.pictureBox1.TabIndex = 0;
@@ -56,7 +56,7 @@ namespace PokeMaster.Dialogs
             // 
             // pictureBox2
             // 
-            this.pictureBox2.Location = new System.Drawing.Point(218, 12);
+            this.pictureBox2.Location = new System.Drawing.Point(26, 9);
             this.pictureBox2.Name = "pictureBox2";
             this.pictureBox2.Size = new System.Drawing.Size(200, 200);
             this.pictureBox2.TabIndex = 1;
@@ -64,19 +64,19 @@ namespace PokeMaster.Dialogs
             // 
             // progressBar1
             // 
-            this.progressBar1.Location = new System.Drawing.Point(12, 218);
+            this.progressBar1.Location = new System.Drawing.Point(11, 428);
             this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(406, 23);
+            this.progressBar1.Size = new System.Drawing.Size(233, 23);
             this.progressBar1.TabIndex = 2;
             // 
             // EvolvingDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(429, 248);
+            this.ClientSize = new System.Drawing.Size(254, 455);
+            this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.progressBar1);
             this.Controls.Add(this.pictureBox2);
-            this.Controls.Add(this.pictureBox1);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "EvolvingDialog";

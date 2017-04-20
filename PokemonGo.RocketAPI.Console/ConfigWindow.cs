@@ -265,26 +265,26 @@ namespace PokeMaster
             // tab 2 - Pokemons
             if (config.pokemonsToHold != null)
                 foreach (PokemonId Id in config.pokemonsToHold) {
-                    string _id = Id.ToString();
-                    checkedListBox_PokemonNotToTransfer.SetItemChecked(pokeIDS[_id] - 1, true);
-                }
+                string _id = Id.ToString();
+                checkedListBox_PokemonNotToTransfer.SetItemChecked(pokeIDS[_id] - 1, true);
+            }
             if (config.pokemonsToAlwaysTransfer != null)
                 foreach (PokemonId Id in config.pokemonsToAlwaysTransfer) {
-                    string _id = Id.ToString();
-                    checkedListBox_AlwaysTransfer.SetItemChecked(pokeIDS[_id] - 1, true);
-                }
+                string _id = Id.ToString();
+                checkedListBox_AlwaysTransfer.SetItemChecked(pokeIDS[_id] - 1, true);
+            }
 
             
             if (config.catchPokemonSkipList != null)
                 foreach (PokemonId Id in config.catchPokemonSkipList) {
-                    string _id = Id.ToString();
-                    checkedListBox_PokemonNotToCatch.SetItemChecked(pokeIDS[_id] - 1, true);
-                }
+                string _id = Id.ToString();
+                checkedListBox_PokemonNotToCatch.SetItemChecked(pokeIDS[_id] - 1, true);
+            }
             if (config.pokemonsToEvolve != null)
                 foreach (PokemonId Id in config.pokemonsToEvolve) {
-                    string _id = Id.ToString();
-                    checkedListBox_PokemonToEvolve.SetItemChecked(evolveIDS[_id] - 1, true);
-                }
+                string _id = Id.ToString();
+                checkedListBox_PokemonToEvolve.SetItemChecked(evolveIDS[_id] - 1, true);
+            }
             
             
             checkBox_AutoTransferDoublePokemon.Checked = config.TransferDoublePokemons;
@@ -1102,9 +1102,9 @@ namespace PokeMaster
             decimal throwsChanceSum = 0;
 
             throwsChanceSum = text_Pb_Excellent.Value +
-            text_Pb_Great.Value +
-            text_Pb_Nice.Value +
-            text_Pb_Ordinary.Value;
+                text_Pb_Great.Value +
+                text_Pb_Nice.Value +
+                text_Pb_Ordinary.Value;
             if (throwsChanceSum > 100) {
                 MessageBox.Show(th.TS("You can not have a total throw chance greater than 100%.\nResetting throw chance to 0%!"));
                 (sender as NumericUpDown).Value = 0;
@@ -1132,9 +1132,9 @@ namespace PokeMaster
             using (var s = ass.GetManifestResourceStream(nameSpace + "." + (internalFilePath == string.Empty ? string.Empty : internalFilePath + ".") + resourceName)) {
                 if (s != null) {
                     using (var r = new BinaryReader(s))
-                    using (var fs = new FileStream(outDir + "\\" + resourceName, FileMode.OpenOrCreate))
-                    using (var w = new BinaryWriter(fs))
-                        w.Write(r.ReadBytes((int)s.Length));
+                        using (var fs = new FileStream(outDir + "\\" + resourceName, FileMode.OpenOrCreate))
+                            using (var w = new BinaryWriter(fs))
+                                w.Write(r.ReadBytes((int)s.Length));
                 }
             }
             
@@ -1423,7 +1423,7 @@ namespace PokeMaster
         }
         void button1_Click(object sender, EventArgs e)
         {
-          new KeysManager().ShowDialog();
+            new KeysManager().ShowDialog();
         }
         void label15_DoubleClick(object sender, EventArgs e)
         {
