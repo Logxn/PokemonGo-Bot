@@ -494,10 +494,29 @@
     }
   },
   {
+    "Tradename": "iPhone 5C",
+    "OSType": "iOS",
+    "DeviceInfo": {
+      "DeviceId": "d9ec71a7bb96a35bd9ec71a7bb96a35b",
+      "AndroidBoardName": "",
+      "AndroidBootloader": "",
+      "DeviceBrand": "Apple",
+      "DeviceModel": "iPhone",
+      "DeviceModelIdentifier": "",
+      "DeviceModelBoot": "iPhone5,4",
+      "HardwareManufacturer": "Apple",
+      "HardwareModel": "N49AP",
+      "FirmwareBrand": "iPhone OS",
+      "FirmwareTags": "",
+      "FirmwareType": "10.3.1",
+      "FirmwareFingerprint": ""
+    }
+  },
+  {
     "Tradename": "iPhone 7",
     "OSType": "iOS",
     "DeviceInfo": {
-      "DeviceId": "d9ec71a7bb96a35b",
+      "DeviceId": "d9ec71a7bb96a35bd9ec71a7bb96a35b",
       "AndroidBoardName": "",
       "AndroidBootloader": "",
       "DeviceBrand": "Apple",
@@ -508,7 +527,7 @@
       "HardwareModel": "N61AP",
       "FirmwareBrand": "iPhone OS",
       "FirmwareTags": "",
-      "FirmwareType": "9.3.3",
+      "FirmwareType": "10.3.1",
       "FirmwareFingerprint": ""
     }
   }
