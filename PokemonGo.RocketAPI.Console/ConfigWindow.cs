@@ -73,6 +73,9 @@ namespace PokeMaster
             if (!Directory.Exists(Program.path_device))
                 Directory.CreateDirectory(Program.path_device);
             
+            // some information about ios devices
+            // http://stackoverflow.com/questions/448162/determine-device-iphone-ipod-touch-with-iphone-sdk/3950748#3950748
+            // https://www.theiphonewiki.com/wiki/Models
             if (!File.Exists(Program.deviceData))
                 DownloadHelper.DownloadFile("PokemonGo.RocketAPI.Console/Resources", Program.path_device, "DeviceData.json");
 

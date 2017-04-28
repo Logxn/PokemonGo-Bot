@@ -418,6 +418,7 @@
     <EmbeddedResource Include="PokeData\AdditionalPokeData.json" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\DeviceData.json" />
     <None Include="Resources\images_system_x_click_but04 %281%29.jpg" />
   </ItemGroup>
   <ItemGroup>

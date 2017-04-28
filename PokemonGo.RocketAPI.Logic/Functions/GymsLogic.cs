@@ -348,31 +348,31 @@ namespace PokeMaster.Logic.Functions
             StartGymBattleResponse resp = null;
 
             // Sometimes we get a null from startgymBattle so we try to start battle 3 times
-            var numTries = 3;
+            var numTries = 1;
             var startFailed = true;
             const int secondsToWait = 2;
 
-            while (startFailed && numTries > 0) {
-                RandomHelper.RandomSleep(800);
+            
+            while (startFailed && numTries < 4) {
                 gymDetails = client.Fort.GetGymDetails(gym.Id, gym.Latitude, gym.Longitude);
-                RandomHelper.RandomSleep(800);
-                var player = client.Player.GetPlayer();
-                RandomHelper.RandomSleep(secondsToWait * 1000);
+                RandomHelper.RandomSleep(secondsToWait *1000);
                 resp = StartGymBattle(client, gym.Id, defenderId, pokeAttackersIds);
                 startFailed = false;
                 if (resp == null) {
+                    Logger.Warning($"(Gym) - Try to Attack number {numTries} failed.");
                     Logger.Debug("(Gym) - Response to start battle was null.");
                     startFailed = true;
                 } else {
                     if (resp.BattleLog == null) {
+                        Logger.Warning($"(Gym) - Try to Attack number {numTries} failed.");
                         Logger.Debug("(Gym) - BatlleLog to start battle was null");
                         startFailed = true;
                     }
                 }
-                if (startFailed)
+                if (startFailed){
                     Logger.Debug($"(Gym) - Trying again after {secondsToWait} seconds");
-                
-                numTries--;
+                }
+                numTries++;
             }
 
             if (startFailed)
@@ -577,33 +577,29 @@ namespace PokeMaster.Logic.Functions
         {
             StartGymBattleResponse resp = null;
             var numTries = 3;
-            var startFailed = false;
+            var startOk = false;
             do {
                 try {
                     resp = client.Fort.StartGymBattle(gymId, defendingPokemonId, attackingPokemonIds).Result;
-                } catch (Exception ex1) {
-                    Logger.ExceptionInfo("StartGymBattle: "+ex1.ToString());
-                    resp = null;
-                }
-                    
-                if (resp == null) {
-                    Logger.Debug("(Gym) - Response to start battle was null.");
-                    startFailed = true;
-                } else {
-                    if (resp.BattleLog == null) {
-                        Logger.Debug("(Gym) - BatlleLog to start battle was null");
-                        startFailed = true;
+                    if (resp == null) {
+                        Logger.Debug("(Gym) - Response to start battle was null.");
+                    } else {
+                        if (resp.BattleLog == null) {
+                            Logger.Debug("(Gym) - BatlleLog to start battle was null");
+                        }else{
+                            startOk = true;
+                            Logger.Debug("StartGymBattle Response:" + resp);
+                        }
                     }
-                }
-                
-                if (startFailed) {
+                } catch (Exception ex1) {
+                    Logger.ExceptionInfo("StartGymBattle: "+ex1);
                     RandomHelper.RandomSleep(5000);
                     if (GlobalVars.Gyms.Testing == "Relogin"){
                         client.Login.DoLogin().Wait();
                     }else if (GlobalVars.Gyms.Testing == "GetPlayer"){
                         client.Player.GetPlayer();
                         RandomHelper.RandomSleep(3000);
-                    }else if (GlobalVars.Gyms.Testing == "Wait 2 minutes catching pokemons" && numTries ==3){
+                    }else if (GlobalVars.Gyms.Testing == "Wait 2 minutes catching pokemons"){
                         if (GlobalVars.CatchPokemon)
                             Logger.Info("Trying to catch pokemons until next attack");
                         // 0.00001 = 1 meters
@@ -632,11 +628,9 @@ namespace PokeMaster.Logic.Functions
                         RandomHelper.RandomSleep(115000);
                         client.Login.DoLogin().Wait();
                     }
-                } else {
-                    Logger.Debug("StartGymBattle Response:" + resp);
                 }
                 numTries--;
-            } while (startFailed && numTries > 0);
+            } while (!startOk && numTries > 0);
             return resp;
         }
 
