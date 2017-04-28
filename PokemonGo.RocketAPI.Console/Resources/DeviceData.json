@@ -513,6 +513,44 @@
     }
   },
   {
+    "Tradename": "iPhone 5S",
+    "OSType": "iOS",
+    "DeviceInfo": {
+      "DeviceId": "d9ec71a7bb96a35bd9ec71a7bb96a35b",
+      "AndroidBoardName": "",
+      "AndroidBootloader": "",
+      "DeviceBrand": "Apple",
+      "DeviceModel": "iPhone",
+      "DeviceModelIdentifier": "",
+      "DeviceModelBoot": "iPhone6,2",
+      "HardwareManufacturer": "Apple",
+      "HardwareModel": "N53AP",
+      "FirmwareBrand": "iPhone OS",
+      "FirmwareTags": "",
+      "FirmwareType": "10.3.1",
+      "FirmwareFingerprint": ""
+    }
+  },
+  {
+    "Tradename": "iPhone SE",
+    "OSType": "iOS",
+    "DeviceInfo": {
+      "DeviceId": "d9ec71a7bb96a35bd9ec71a7bb96a35b",
+      "AndroidBoardName": "",
+      "AndroidBootloader": "",
+      "DeviceBrand": "Apple",
+      "DeviceModel": "iPhone",
+      "DeviceModelIdentifier": "",
+      "DeviceModelBoot": "iPhone8,4",
+      "HardwareManufacturer": "Apple",
+      "HardwareModel": "N69uAP",
+      "FirmwareBrand": "iPhone OS",
+      "FirmwareTags": "",
+      "FirmwareType": "10.3.1",
+      "FirmwareFingerprint": ""
+    }
+  },
+  {
     "Tradename": "iPhone 7",
     "OSType": "iOS",
     "DeviceInfo": {
