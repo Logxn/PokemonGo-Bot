@@ -133,9 +133,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="APIVars.cs" />
+    <Compile Include="Encryption\Cipher.cs" />
     <Compile Include="Encryption\Crypt.cs" />
     <Compile Include="Encryption\Crypto.cs" />
     <Compile Include="Encryption\ICrypt.cs" />
+    <Compile Include="Encryption\Rand.cs" />
     <Compile Include="Encryption\TwoFish.cs" />
     <Compile Include="Exceptions\GoogleException.cs" />
     <Compile Include="Exceptions\GoogleOfflineException.cs" />
