@@ -694,7 +694,7 @@ namespace PokeMaster
                     var str = item.ToolTipText + "\n";
                     str += details.Name + "\n";
                     str +=  details.GymState.Memberships.Count+" Defenders: \n";
-                    str += Logic.Functions.GymsLogic.strPokemons(details.GymState.Memberships.Select(x => x.PokemonData)) +"\n\n";
+                    str += Logic.Functions.GymsLogic.strPokemons(details.GymState.Memberships) +"\n\n";
                     str += th.TS("Do you want copy location?");
                     if (MessageBox.Show(str, th.TS("Gym Details"), MessageBoxButtons.YesNo  ) == DialogResult.Yes){
                         Clipboard.SetText(details.GymState.FortData.Latitude.ToString(CultureInfo.InvariantCulture)  +","+ details.GymState.FortData.Longitude.ToString(CultureInfo.InvariantCulture));
