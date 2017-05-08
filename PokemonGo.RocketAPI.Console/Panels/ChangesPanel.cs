@@ -20,6 +20,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using PokeMaster.Logic;
 using PokeMaster.Logic.Shared;
 using PokemonGo.RocketAPI;
 namespace PokeMaster
@@ -463,6 +464,14 @@ namespace PokeMaster
                 GlobalVars.DiscordUser = textBoxDiscordUser.Text;
                 GlobalVars.DiscordPassword = textBoxDiscordPassword.Text;
             }
+        }
+        void button1_Click(object sender, EventArgs e)
+        {
+            Logic.Functions.GymsLogic.StopAttack = true;
+        }
+        void button2_Click(object sender, EventArgs e)
+        {
+            Logic.Functions.GymsLogic.ResetVisitedMarks();
         }
 
 

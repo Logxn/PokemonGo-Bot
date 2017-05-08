@@ -37,7 +37,12 @@ namespace PokeMaster.Logic.Functions
         private static bool restoreWalkingAfterLogic = false;
         private static ConsoleColor gymColorLog = ConsoleColor.DarkGray;
         private static Random RandomNumbers = new Random();
+        public static bool StopAttack = false;
 
+        public static void ResetVisitedMarks(){
+            gymsVisited.Clear();
+        }
+            
         public static int  GetGymLevel(long value)
         {
             if (value >= 50000)
@@ -59,7 +64,7 @@ namespace PokeMaster.Logic.Functions
             return value >= 2000 ? 2 : 1;
         }
 
-        public static long  GetLevelPoints( int value)
+        public static long  GetLevelPoints(int value)
         {
             if (value >= 10)
                 return 50000;
@@ -98,23 +103,26 @@ namespace PokeMaster.Logic.Functions
             if (!gymsVisited.Contains(id)) {
                 gymsVisited.Add(id);
                 Task.Delay(milliseconds)
-                    .ContinueWith(t => gymsVisited.Remove(id));
+                    .ContinueWith(t => {
+                    if (gymsVisited.Contains(id))
+                        gymsVisited.Remove(id);
+                });
             }
         }
 
         public static void Execute()
         {
-            if (!GlobalVars.Gyms.Farm){
+            if (!GlobalVars.Gyms.Farm) {
                 Logger.Debug("Farm gyms is not enabled.");
                 return;
             }
             //narrow map data to gyms within walking distance
             var gyms = GetNearbyGyms();
             
-            Logger.Debug("gyms: " +gyms.Count());
+            Logger.Debug("gyms: " + gyms.Count());
             var gymsWithinRangeStanding = gyms.Where(i => LocationUtils.CalculateDistanceInMeters(Logic.objClient.CurrentLatitude, Logic.objClient.CurrentLongitude, i.Latitude, i.Longitude) <= 40);
             var inRange = gymsWithinRangeStanding.Count();
-            Logger.Debug("gymsWithinRangeStanding: " +inRange);
+            Logger.Debug("gymsWithinRangeStanding: " + inRange);
 
             if (gymsWithinRangeStanding.Any()) {
                 Logger.ColoredConsoleWrite(ConsoleColor.DarkGray, $"(Gym) - {inRange} gyms are within range of the user");
@@ -208,21 +216,21 @@ namespace PokeMaster.Logic.Functions
             Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - " + str);
         }
 
-        private static IEnumerable<PokemonData>  getPokeAttackers(IEnumerable<PokemonData> pokemons, PokemonData defender, int attackers =4)
+        private static IEnumerable<PokemonData>  getPokeAttackers(IEnumerable<PokemonData> pokemons, PokemonData defender, int attackers = 4)
         {
             var filter1 = pokemons.Where(x => ((!x.IsEgg) && (x.DeployedFortId == "") && (x.Stamina > 0)));
             
-            if (attackers == 0){
+            if (attackers == 0) {
                 var rnd = new Random();
                 return filter1.OrderBy(x => rnd.Next()).Take(6);
             }
-            if (attackers == 1){
+            if (attackers == 1) {
                 return  filter1.OrderByDescending(x => x.Cp).Take(6);
             }
-            if (attackers == 2){
+            if (attackers == 2) {
                 return filter1.OrderByDescending(x => x.Favorite).ThenByDescending(x => x.Cp).Take(6);
             }
-            if (attackers == 3){
+            if (attackers == 3) {
                 var filteratt = filter1.Where(x => x.Cp < defender.Cp).OrderByDescending(x => x.Cp).Take(6);
                 if (filteratt.Count() < 6) {
                     var left = 6 - filteratt.Count();
@@ -231,21 +239,21 @@ namespace PokeMaster.Logic.Functions
                 return filteratt;
             }
             var filter2 = filter1.OrderByDescending(x => x.Cp);
-            if (attackers == 5){
+            if (attackers == 5) {
                 filter2 = filter1.Where(x => x.Cp < defender.Cp).OrderByDescending(x => x.Cp);
             }
 
-            if (defender.PokemonId ==  PokemonId.Blissey)
-               filter2 =  filter2.Where( x=> AttackersToNormalTypes.Contains(x.PokemonId)).OrderByDescending(x => x.Cp);
+            if (defender.PokemonId == PokemonId.Blissey)
+                filter2 = filter2.Where(x => AttackersToNormalTypes.Contains(x.PokemonId)).OrderByDescending(x => x.Cp);
 
-            if (defender.PokemonId ==  PokemonId.Snorlax)
-               filter2 =  filter2.Where( x=> AttackersToNormalTypes.Contains(x.PokemonId)).OrderByDescending(x => x.Cp);
+            if (defender.PokemonId == PokemonId.Snorlax)
+                filter2 = filter2.Where(x => AttackersToNormalTypes.Contains(x.PokemonId)).OrderByDescending(x => x.Cp);
 
             if (defender.PokemonId == PokemonId.Gyarados)
-                filter2 = filter2.Where( x=> Electric.Contains(x.PokemonId)).OrderByDescending(x => x.Cp);
+                filter2 = filter2.Where(x => Electric.Contains(x.PokemonId)).OrderByDescending(x => x.Cp);
 
             if (defender.PokemonId == PokemonId.Rhydon)
-                filter2 = filter2.Where( x=> Grass.Contains(x.PokemonId)).OrderByDescending(x => x.Cp);
+                filter2 = filter2.Where(x => Grass.Contains(x.PokemonId)).OrderByDescending(x => x.Cp);
 
             var filter3 = filter2.Take(6);
             if (filter3.Count() < 6) {
@@ -288,10 +296,10 @@ namespace PokeMaster.Logic.Functions
 
             var gymDetails = client.Fort.GetGymDetails(gym.Id, gym.Latitude, gym.Longitude);
             Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - Team: " + GetTeamName(gym.OwnedByTeam) + ".");
-            if (gymDetails.GymState.Memberships != null && gymDetails.GymState.Memberships.Count > 0){
+            if (gymDetails.GymState.Memberships != null && gymDetails.GymState.Memberships.Count > 0) {
                 var level = GetGymLevel(gym.GymPoints);
-                var nextLevel = GetLevelPoints(level+1);
-                Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - Members: " + gymDetails.GymState.Memberships.Count + $". Level: {level} ( {gym.GymPoints }/{nextLevel})");
+                var nextLevel = GetLevelPoints(level + 1);
+                Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - Members: " + gymDetails.GymState.Memberships.Count +$". Level: {level} ( {gym.GymPoints }/{nextLevel})");
             }
             Logger.Info("(Gym) - Name: " + gymDetails.Name);
 
@@ -313,10 +321,10 @@ namespace PokeMaster.Logic.Functions
                     GlobalVars.PauseTheWalking = true;
                     Logger.Debug("(Gym) - Stop walking ");
                     var defender = gymDetails.GymState.Memberships.FirstOrDefault();
-                    Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - Defender: " + strPokemon(defender.PokemonData) + $"[{defender.TrainerPublicProfile.Name} ({defender.TrainerPublicProfile.Level})]");
+                    Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - Defender: " + strPokemon(defender.PokemonData) +$"[{defender.TrainerPublicProfile.Name} ({defender.TrainerPublicProfile.Level})]");
                     var pokeAttackers = getPokeAttackers(pokemons, defender.PokemonData, GlobalVars.Gyms.Attackers);
                     if (pokeAttackers.Count() < 6) {
-                        Logger.Warning( "(Gym) - There are not enouth pokemons to train");
+                        Logger.Warning("(Gym) - There are not enouth pokemons to train");
                         return false;
                     }
                     Logger.ColoredConsoleWrite(gymColorLog, "(Gym) Let's go to train");
@@ -324,7 +332,7 @@ namespace PokeMaster.Logic.Functions
                     ShowPokemons(pokeAttackers);
                     var attResp = AttackGym(gym, client, pokeAttackers, defender.PokemonData.Id, gymDetails.GymState.Memberships.Count, buddyID);
                 } else {
-                    Logger.Warning( "(Gym) - There is no free space in the gym");
+                    Logger.Warning("(Gym) - There is no free space in the gym");
                     AddVisited(gym.Id, 600000);
                 }
 
@@ -340,8 +348,8 @@ namespace PokeMaster.Logic.Functions
                     GlobalVars.PauseTheWalking = true;
                     Logger.Debug("(Gym) - Stop walking ");
                     var defender = gymDetails.GymState.Memberships.FirstOrDefault();
-                    Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - Defender: " + strPokemon(defender.PokemonData) + $"[{defender.TrainerPublicProfile.Name} ({defender.TrainerPublicProfile.Level})]");
-                    var pokeAttackers = getPokeAttackers(pokemons, defender.PokemonData,  GlobalVars.Gyms.Attackers);
+                    Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - Defender: " + strPokemon(defender.PokemonData) +$"[{defender.TrainerPublicProfile.Name} ({defender.TrainerPublicProfile.Level})]");
+                    var pokeAttackers = getPokeAttackers(pokemons, defender.PokemonData, GlobalVars.Gyms.Attackers);
                     if (pokeAttackers.Count() < 6) {
                         Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - There are not enouth pokemons to fight");
                         return false;
@@ -361,15 +369,15 @@ namespace PokeMaster.Logic.Functions
         {
             foreach (var element in battleActions)
                 if (element.BattleResults != null)
-                    if (element.BattleResults.NextDefenderPokemonId != -1)
-                        return element.BattleResults.NextDefenderPokemonId;
+                if (element.BattleResults.NextDefenderPokemonId != -1)
+                    return element.BattleResults.NextDefenderPokemonId;
             return -1L;
         }
 
         private static AttackGymResponse AttackGym(FortData gym, Client client,
-                                                   IEnumerable<PokemonData> pokeAttackers, ulong defenderId, int numDefenders, ulong buddyPokemonId)
+            IEnumerable<PokemonData> pokeAttackers, ulong defenderId, int numDefenders, ulong buddyPokemonId)
         {
-            
+            StopAttack = false;
             var pokeAttackersIds = pokeAttackers.Select(x => x.Id);
             var moveSettings = GetMoveSettings(client);
             GetGymDetailsResponse gymDetails = null;
@@ -393,7 +401,7 @@ namespace PokeMaster.Logic.Functions
                     Logger.Info("(Gym) - Start Gym Failed. Reason:" + ex1);
                 }
                 numTries--;
-            }while (!startOk && numTries > 0);
+            } while (!startOk && numTries > 0 && !StopAttack);
 
             if (!startOk) {
                 Logger.Info("(Gym) - Start Gym Failed. After of 3 tries");
@@ -413,7 +421,7 @@ namespace PokeMaster.Logic.Functions
                 var energy = 0;
                 var numVictories = 0;
                 Logger.Debug("attResp: " + attResp);
-                while (inBattle) {
+                while (inBattle && !StopAttack) {
                     var timeMs = attResp.BattleLog.ServerMs;
                     var move1Settings = moveSettings.FirstOrDefault(x => x.MoveSettings.MovementId == attResp.ActiveAttacker.PokemonData.Move1).MoveSettings;
                     var move2Settings = moveSettings.FirstOrDefault(x => x.MoveSettings.MovementId == attResp.ActiveAttacker.PokemonData.Move2).MoveSettings;
@@ -537,11 +545,15 @@ namespace PokeMaster.Logic.Functions
                                     attResp = LeaveBattle(gym, client, resp, attResp, lastRetrievedAction, nextDefenderID);
                                     times--;
                                 } while (attResp.Result != AttackGymResponse.Types.Result.Success && times > 0);
-                                const int secondsBetweenAttacks = 290;
+                                const int secondsBetweenAttacks = 300;
                                 Logger.Info($"Waiting {secondsBetweenAttacks} seconds before of a new battle.");
-                                for (var i = 0; i < secondsBetweenAttacks +1 ; i++) {
+                                for (var i = 0; i < secondsBetweenAttacks + 1; i++) {
+                                    if (StopAttack) {
+                                        AddVisited(gym.Id, 3600000);
+                                        break;
+                                    }
                                     if ((i != 0) && (i % 10 == 0))
-                                        Logger.Debug($"Seconds Left {secondsBetweenAttacks-i}");
+                                        Logger.Info($"Seconds Left {secondsBetweenAttacks-i}");
                                     if (i % 30 == 0)
                                         Logic.objClient.Map.GetMapObjects().Wait();
                                     Task.Delay(1000).Wait();
@@ -569,8 +581,9 @@ namespace PokeMaster.Logic.Functions
             }
             return null;
         }
-        private static void ShowBattleActions (IEnumerable<BattleAction> actions){
-            Logger.Debug("Actions: "+actions.Count());
+        private static void ShowBattleActions(IEnumerable<BattleAction> actions)
+        {
+            Logger.Debug("Actions: " + actions.Count());
             var i = 1;
             foreach (var element in actions) {
                 Logger.Debug($"Action {i}: {element}");
@@ -579,7 +592,7 @@ namespace PokeMaster.Logic.Functions
         }
 
         public static StartGymBattleResponse StartGymBattle(Client client, string gymId, ulong defendingPokemonId,
-                                                            IEnumerable<ulong> attackingPokemonIds)
+            IEnumerable<ulong> attackingPokemonIds)
         {
             StartGymBattleResponse resp = null;
             var numTries = 3;
@@ -593,33 +606,33 @@ namespace PokeMaster.Logic.Functions
                     } else {
                         if (resp.BattleLog == null) {
                             Logger.Debug("(Gym) - BatlleLog to start battle was null");
-                        }else{
+                        } else {
                             startOk = true;
                             Logger.Debug("StartGymBattle Response:" + resp);
                         }
                     }
                 } catch (Exception ex1) {
-                    Logger.ExceptionInfo("StartGymBattle: "+ex1);
+                    Logger.ExceptionInfo("StartGymBattle: " + ex1);
                     RandomHelper.RandomSleep(5000);
-                    if (GlobalVars.Gyms.Testing == "Relogin"){
+                    if (GlobalVars.Gyms.Testing == "Relogin") {
                         client.Login.DoLogin().Wait();
-                    }else if (GlobalVars.Gyms.Testing == "GetPlayer"){
+                    } else if (GlobalVars.Gyms.Testing == "GetPlayer") {
                         client.Player.GetPlayer();
                         RandomHelper.RandomSleep(3000);
-                    }else if (GlobalVars.Gyms.Testing == "Wait 2 minutes catching pokemons"){
+                    } else if (GlobalVars.Gyms.Testing == "Wait 2 minutes catching pokemons") {
                         if (GlobalVars.CatchPokemon)
                             Logger.Info("Trying to catch pokemons until next attack");
                         // 0.00001 = 1 meters
                         // http://www.um.es/geograf/sigmur/temariohtml/node6_mn.html
                         //http://gizmodo.com/how-precise-is-one-degree-of-longitude-or-latitude-1631241162
-                        var gymloc = new GeoCoordinate ( client.CurrentLongitude , client.CurrentLatitude, client.CurrentAltitude);
-                        for (var times = 1; times < 5;times++){
-                            var rnd = RandomHelper.GetLongRandom(8,9) * 0.00001;
+                        var gymloc = new GeoCoordinate(client.CurrentLongitude, client.CurrentLatitude, client.CurrentAltitude);
+                        for (var times = 1; times < 5; times++) {
+                            var rnd = RandomHelper.GetLongRandom(8, 9) * 0.00001;
                             Logger.Debug("going to 8 meters far of gym");
                             LocationUtils.updatePlayerLocation(client, gymloc.Longitude + rnd, gymloc.Latitude, gymloc.Altitude);
                             RandomHelper.RandomSleep(10000);
                             CatchingLogic.Execute();
-                            rnd = RandomHelper.GetLongRandom(8,9) * 0.00001;
+                            rnd = RandomHelper.GetLongRandom(8, 9) * 0.00001;
                             Logger.Debug("going to 8 meters far of gym");
                             LocationUtils.updatePlayerLocation(client, gymloc.Longitude + rnd, gymloc.Latitude, gymloc.Altitude);
                             RandomHelper.RandomSleep(10000);
@@ -631,7 +644,7 @@ namespace PokeMaster.Logic.Functions
                             CatchingLogic.Execute();
                         }
                         RandomHelper.RandomSleep(2000);
-                    }else{
+                    } else {
                         RandomHelper.RandomSleep(115000);
                         client.Login.DoLogin().Wait();
                     }
@@ -650,7 +663,7 @@ namespace PokeMaster.Logic.Functions
                 var timeMs = ret.BattleLog.ServerMs;
                 var attack = new BattleAction();
                 attack.Type = BattleActionType.ActionPlayerQuit;
-                attack.TargetPokemonId = (ulong) nextDefenderID;
+                attack.TargetPokemonId = (ulong)nextDefenderID;
                 if (attResp.ActiveAttacker != null)
                     attack.ActivePokemonId = attResp.ActiveAttacker.PokemonData.Id;
                 var battleActions = new List<BattleAction>();
@@ -691,12 +704,12 @@ namespace PokeMaster.Logic.Functions
                     return pokemons.Where(x => ((!x.IsEgg) && (x.DeployedFortId == "") && (x.Id != buddyPokemon) && (x.Stamina == x.StaminaMax)))
                         .OrderByDescending(x => x.Favorite).ThenByDescending(x => x.Cp).FirstOrDefault();
                 case 4:
-                     var pok = pokemons.Where(x => ((!x.IsEgg) && (x.DeployedFortId == "") && (x.Id != buddyPokemon) && (x.Stamina == x.StaminaMax)&& (x.Cp > minCP)))
+                    var pok = pokemons.Where(x => ((!x.IsEgg) && (x.DeployedFortId == "") && (x.Id != buddyPokemon) && (x.Stamina == x.StaminaMax) && (x.Cp > minCP)))
                         .OrderBy(x => x.Cp).FirstOrDefault();
-                     if (pok ==null)
-                         pok = pokemons.Where(x => ((!x.IsEgg) && (x.DeployedFortId == "") && (x.Id != buddyPokemon) && (x.Stamina == x.StaminaMax)))
+                    if (pok == null)
+                        pok = pokemons.Where(x => ((!x.IsEgg) && (x.DeployedFortId == "") && (x.Id != buddyPokemon) && (x.Stamina == x.StaminaMax)))
                              .OrderBy(x => x.Cp).FirstOrDefault();
-                     return pok;
+                    return pok;
             }
             var rnd = new Random();
             return pokemons.Where(x => ((!x.IsEgg) && (x.DeployedFortId == "") && (x.Id != buddyPokemon) && (x.Stamina == x.StaminaMax)))
@@ -822,13 +835,13 @@ namespace PokeMaster.Logic.Functions
         }
         
         private static PokemonId[] AttackersToNormalTypes = {
-           PokemonId.Machamp,
-           PokemonId.Tyranitar ,
-           PokemonId.Dragonite ,
-           PokemonId.Heracross ,
-           PokemonId.Flareon ,
-           PokemonId.Exeggutor  ,
-           PokemonId.Gyarados 
+            PokemonId.Machamp,
+            PokemonId.Tyranitar,
+            PokemonId.Dragonite,
+            PokemonId.Heracross,
+            PokemonId.Flareon,
+            PokemonId.Exeggutor,
+            PokemonId.Gyarados 
         };
         private static PokemonId[] Electric = {
             PokemonId.Magneton, PokemonId.Electabuzz, PokemonId.Lanturn,

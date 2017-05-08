@@ -101,6 +101,9 @@ namespace PokeMaster
         private System.Windows.Forms.TextBox textBoxDiscordUser;
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.CheckBox CheckBox_CompleteTutorial;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button button1;
         
         /// <summary>
         /// Disposes resources used by the control.
@@ -179,6 +182,9 @@ namespace PokeMaster
             this.comboLanguage = new System.Windows.Forms.ComboBox();
             this.labelLanguage = new System.Windows.Forms.Label();
             this.groupBoxGym = new System.Windows.Forms.GroupBox();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.button2 = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.comboBoxTesting = new System.Windows.Forms.ComboBox();
             this.labelTraining = new System.Windows.Forms.Label();
@@ -220,6 +226,7 @@ namespace PokeMaster
             ((System.ComponentModel.ISupportInitialize)(this.nudNumDefenders)).BeginInit();
             this.groupBox13.SuspendLayout();
             this.groupBoxGym.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numMaxTrainingXP)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMaxAttacks)).BeginInit();
             this.tabControl1.SuspendLayout();
@@ -973,6 +980,7 @@ namespace PokeMaster
             // 
             // groupBoxGym
             // 
+            this.groupBoxGym.Controls.Add(this.groupBox2);
             this.groupBoxGym.Controls.Add(this.label1);
             this.groupBoxGym.Controls.Add(this.comboBoxTesting);
             this.groupBoxGym.Controls.Add(this.labelTraining);
@@ -994,6 +1002,41 @@ namespace PokeMaster
             this.groupBoxGym.Size = new System.Drawing.Size(757, 383);
             this.groupBoxGym.TabIndex = 98;
             this.groupBoxGym.TabStop = false;
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.button2);
+            this.groupBox2.Controls.Add(this.button1);
+            this.groupBox2.Location = new System.Drawing.Point(12, 253);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(572, 66);
+            this.groupBox2.TabIndex = 106;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Actions";
+            // 
+            // button2
+            // 
+            this.button2.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.button2.Location = new System.Drawing.Point(160, 21);
+            this.button2.Margin = new System.Windows.Forms.Padding(5);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(124, 28);
+            this.button2.TabIndex = 96;
+            this.button2.Text = "Reset all visited marks";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
+            // button1
+            // 
+            this.button1.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.button1.Location = new System.Drawing.Point(17, 21);
+            this.button1.Margin = new System.Windows.Forms.Padding(5);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(124, 28);
+            this.button1.TabIndex = 95;
+            this.button1.Text = "Stop Current Attack";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // label1
             // 
@@ -1368,6 +1411,7 @@ namespace PokeMaster
             this.groupBox13.PerformLayout();
             this.groupBoxGym.ResumeLayout(false);
             this.groupBoxGym.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.numMaxTrainingXP)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMaxAttacks)).EndInit();
             this.tabControl1.ResumeLayout(false);
