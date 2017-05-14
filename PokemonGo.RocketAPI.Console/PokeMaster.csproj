@@ -102,6 +102,18 @@
       <HintPath>..\packages\GPSOAuthSharp.0.0.5\lib\GPSOAuthSharp.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Mono.Cecil">
+      <HintPath>..\packages\Mono.Cecil.0.9.6.4\lib\net45\Mono.Cecil.dll</HintPath>
+    </Reference>
+    <Reference Include="Mono.Cecil.Mdb">
+      <HintPath>..\packages\Mono.Cecil.0.9.6.4\lib\net45\Mono.Cecil.Mdb.dll</HintPath>
+    </Reference>
+    <Reference Include="Mono.Cecil.Pdb">
+      <HintPath>..\packages\Mono.Cecil.0.9.6.4\lib\net45\Mono.Cecil.Pdb.dll</HintPath>
+    </Reference>
+    <Reference Include="Mono.Cecil.Rocks">
+      <HintPath>..\packages\Mono.Cecil.0.9.6.4\lib\net45\Mono.Cecil.Rocks.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.10.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -1556,5 +1568,6 @@ foreach (var item in filesToCleanup)
   <Target Name="AfterBuild">
     <Copy SourceFiles="$(OutputPath)$(AssemblyName).exe" DestinationFolder="$(SolutionDir)/Builds-Only" ContinueOnError="true" />
   </Target>
-  <Import Project="..\packages\Fody.2.0.8\build\dotnet\Fody.targets" Condition="Exists('..\packages\Fody.2.0.8\build\dotnet\Fody.targets')" />
+  <Import Project="..\packages\Fody.2.0.4\build\dotnet\Fody.targets" Condition="Exists('..\packages\Fody.2.0.4\build\dotnet\Fody.targets')" />
+  <Import Project="..\packages\Costura.Fody.1.4.0\build\Costura.Fody.targets" Condition="Exists('..\packages\Costura.Fody.1.4.0\build\Costura.Fody.targets')" />
 </Project>
