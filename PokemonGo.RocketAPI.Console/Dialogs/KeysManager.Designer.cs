@@ -22,6 +22,10 @@ namespace PokeMaster.Dialogs
         private System.Windows.Forms.ColumnHeader chKey;
         private System.Windows.Forms.ColumnHeader chExpiration;
         private System.Windows.Forms.ColumnHeader chRPM;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem deleteToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem setAsDefaultToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem refreshInfoToolStripMenuItem;
         
         /// <summary>
         /// Disposes resources used by the form.
@@ -44,14 +48,21 @@ namespace PokeMaster.Dialogs
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(KeysManager));
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.buttonAdd = new System.Windows.Forms.Button();
             this.buttonAcept = new System.Windows.Forms.Button();
             this.buttonDelete = new System.Windows.Forms.Button();
             this.listView = new System.Windows.Forms.ListView();
             this.chKey = new System.Windows.Forms.ColumnHeader();
-            this.chExpiration = new System.Windows.Forms.ColumnHeader();
             this.chRPM = new System.Windows.Forms.ColumnHeader();
+            this.chExpiration = new System.Windows.Forms.ColumnHeader();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.setAsDefaultToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.refreshInfoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // textBox1
@@ -105,6 +116,7 @@ namespace PokeMaster.Dialogs
             this.chKey,
             this.chRPM,
             this.chExpiration});
+            this.listView.ContextMenuStrip = this.contextMenuStrip1;
             this.listView.FullRowSelect = true;
             this.listView.GridLines = true;
             this.listView.Location = new System.Drawing.Point(13, 13);
@@ -115,20 +127,51 @@ namespace PokeMaster.Dialogs
             this.listView.UseCompatibleStateImageBehavior = false;
             this.listView.View = System.Windows.Forms.View.Details;
             this.listView.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.listView_ColumnClick);
+            this.listView.DoubleClick += new System.EventHandler(this.listView_DoubleClick);
             // 
             // chKey
             // 
             this.chKey.Text = "Key";
             this.chKey.Width = 160;
             // 
+            // chRPM
+            // 
+            this.chRPM.Text = "RPM";
+            // 
             // chExpiration
             // 
             this.chExpiration.Text = "Expires at";
             this.chExpiration.Width = 160;
             // 
-            // chRPM
+            // contextMenuStrip1
             // 
-            this.chRPM.Text = "RPM";
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.deleteToolStripMenuItem,
+            this.setAsDefaultToolStripMenuItem,
+            this.refreshInfoToolStripMenuItem});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(148, 70);
+            // 
+            // deleteToolStripMenuItem
+            // 
+            this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
+            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
+            this.deleteToolStripMenuItem.Text = "Delete";
+            this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
+            // 
+            // setAsDefaultToolStripMenuItem
+            // 
+            this.setAsDefaultToolStripMenuItem.Name = "setAsDefaultToolStripMenuItem";
+            this.setAsDefaultToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
+            this.setAsDefaultToolStripMenuItem.Text = "Set As Default";
+            this.setAsDefaultToolStripMenuItem.Click += new System.EventHandler(this.setAsDefaultToolStripMenuItem_Click);
+            // 
+            // refreshInfoToolStripMenuItem
+            // 
+            this.refreshInfoToolStripMenuItem.Name = "refreshInfoToolStripMenuItem";
+            this.refreshInfoToolStripMenuItem.Size = new System.Drawing.Size(147, 22);
+            this.refreshInfoToolStripMenuItem.Text = "Refresh info";
+            this.refreshInfoToolStripMenuItem.Click += new System.EventHandler(this.refreshInfoToolStripMenuItem_Click);
             // 
             // KeysManager
             // 
@@ -140,8 +183,10 @@ namespace PokeMaster.Dialogs
             this.Controls.Add(this.buttonAcept);
             this.Controls.Add(this.buttonAdd);
             this.Controls.Add(this.textBox1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "KeysManager";
-            this.Text = "KeysManager";
+            this.Text = "Keys Manager";
+            this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 

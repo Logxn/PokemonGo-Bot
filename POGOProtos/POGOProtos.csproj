@@ -50,7 +50,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Google.Protobuf">
-      <HintPath>..\packages\Google.Protobuf.3.2.0\lib\net45\Google.Protobuf.dll</HintPath>
+      <HintPath>..\packages\Google.Protobuf.3.3.0\lib\net45\Google.Protobuf.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -113,6 +113,7 @@
     <Compile Include="Enums\IapItemCategory.g.cs" />
     <Compile Include="Enums\ItemCategory.g.cs" />
     <Compile Include="Enums\ItemEffect.g.cs" />
+    <Compile Include="Enums\NotificationState.g.cs" />
     <Compile Include="Enums\Platform.g.cs" />
     <Compile Include="Enums\PokemonFamilyId.g.cs" />
     <Compile Include="Enums\PokemonId.g.cs" />
@@ -194,6 +195,7 @@
     <Compile Include="Networking\Requests\Messages\GetDownloadUrlsMessage.g.cs" />
     <Compile Include="Networking\Requests\Messages\GetGymDetailsMessage.g.cs" />
     <Compile Include="Networking\Requests\Messages\GetHatchedEggsMessage.g.cs" />
+    <Compile Include="Networking\Requests\Messages\GetInboxMessage.g.cs" />
     <Compile Include="Networking\Requests\Messages\GetIncensePokemonMessage.g.cs" />
     <Compile Include="Networking\Requests\Messages\GetInventoryMessage.g.cs" />
     <Compile Include="Networking\Requests\Messages\GetMapObjectsMessage.g.cs" />
@@ -204,6 +206,7 @@
     <Compile Include="Networking\Requests\Messages\ListAvatarCustomizationsMessage.g.cs" />
     <Compile Include="Networking\Requests\Messages\MarkTutorialCompleteMessage.g.cs" />
     <Compile Include="Networking\Requests\Messages\NicknamePokemonMessage.g.cs" />
+    <Compile Include="Networking\Requests\Messages\PushNotificationRegistryMessage.g.cs" />
     <Compile Include="Networking\Requests\Messages\RecycleInventoryItemMessage.g.cs" />
     <Compile Include="Networking\Requests\Messages\RegisterBackgroundDeviceMessage.g.cs" />
     <Compile Include="Networking\Requests\Messages\ReleasePokemonMessage.g.cs" />
@@ -215,6 +218,7 @@
     <Compile Include="Networking\Requests\Messages\SetPlayerTeamMessage.g.cs" />
     <Compile Include="Networking\Requests\Messages\SfidaActionLogMessage.g.cs" />
     <Compile Include="Networking\Requests\Messages\StartGymBattleMessage.g.cs" />
+    <Compile Include="Networking\Requests\Messages\UpdateNotificationMessage.g.cs" />
     <Compile Include="Networking\Requests\Messages\UpgradePokemonMessage.g.cs" />
     <Compile Include="Networking\Requests\Messages\UseIncenseMessage.g.cs" />
     <Compile Include="Networking\Requests\Messages\UseItemCaptureMessage.g.cs" />
@@ -254,6 +258,7 @@
     <Compile Include="Networking\Responses\GetDownloadUrlsResponse.g.cs" />
     <Compile Include="Networking\Responses\GetGymDetailsResponse.g.cs" />
     <Compile Include="Networking\Responses\GetHatchedEggsResponse.g.cs" />
+    <Compile Include="Networking\Responses\GetInboxResponse.g.cs" />
     <Compile Include="Networking\Responses\GetIncensePokemonResponse.g.cs" />
     <Compile Include="Networking\Responses\GetInventoryResponse.g.cs" />
     <Compile Include="Networking\Responses\GetMapObjectsResponse.g.cs" />
@@ -264,6 +269,7 @@
     <Compile Include="Networking\Responses\ListAvatarCustomizationsResponse.g.cs" />
     <Compile Include="Networking\Responses\MarkTutorialCompleteResponse.g.cs" />
     <Compile Include="Networking\Responses\NicknamePokemonResponse.g.cs" />
+    <Compile Include="Networking\Responses\PushNotificationRegistryResponse.g.cs" />
     <Compile Include="Networking\Responses\RecycleInventoryItemResponse.g.cs" />
     <Compile Include="Networking\Responses\RegisterBackgroundDeviceResponse.g.cs" />
     <Compile Include="Networking\Responses\ReleasePokemonResponse.g.cs" />
@@ -275,6 +281,7 @@
     <Compile Include="Networking\Responses\SetPlayerTeamResponse.g.cs" />
     <Compile Include="Networking\Responses\SfidaActionLogResponse.g.cs" />
     <Compile Include="Networking\Responses\StartGymBattleResponse.g.cs" />
+    <Compile Include="Networking\Responses\UpdateNotificationResponse.g.cs" />
     <Compile Include="Networking\Responses\UpgradePokemonResponse.g.cs" />
     <Compile Include="Networking\Responses\UseIncenseResponse.g.cs" />
     <Compile Include="Networking\Responses\UseItemCaptureResponse.g.cs" />
@@ -331,12 +338,10 @@
     <Compile Include="Settings\Master\Quest\DailyQuestSettings.g.cs" />
     <Compile Include="Settings\Master\TypeEffectiveSettings.g.cs" />
     <Compile Include="Settings\NewsSettings.g.cs" />
+    <Compile Include="Settings\NotificationSettings.g.cs" />
     <Compile Include="Settings\PasscodeSettings.g.cs" />
     <Compile Include="Settings\SfidaSettings.g.cs" />
     <Compile Include="Settings\TranslationSettings.g.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Data" />
@@ -368,6 +373,9 @@
     <Folder Include="Settings\Master\Item" />
     <Folder Include="Settings\Master\Pokemon" />
     <Folder Include="Settings\Master\Quest" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

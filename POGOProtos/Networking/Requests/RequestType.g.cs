@@ -23,7 +23,7 @@ namespace POGOProtos.Networking.Requests {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "CjBQT0dPUHJvdG9zL05ldHdvcmtpbmcvUmVxdWVzdHMvUmVxdWVzdFR5cGUu",
-            "cHJvdG8SHlBPR09Qcm90b3MuTmV0d29ya2luZy5SZXF1ZXN0cyrpCwoLUmVx",
+            "cHJvdG8SHlBPR09Qcm90b3MuTmV0d29ya2luZy5SZXF1ZXN0cyr5CwoLUmVx",
             "dWVzdFR5cGUSEAoMTUVUSE9EX1VOU0VUEAASDgoKR0VUX1BMQVlFUhACEhEK",
             "DUdFVF9JTlZFTlRPUlkQBBIVChFET1dOTE9BRF9TRVRUSU5HUxAFEhsKF0RP",
             "V05MT0FEX0lURU1fVEVNUExBVEVTEAYSIgoeRE9XTkxPQURfUkVNT1RFX0NP",
@@ -57,7 +57,8 @@ namespace POGOProtos.Networking.Requests {
             "Q0VSVElGSUNBVElPThCiBhIRCgxTRklEQV9VUERBVEUQowYSEQoMU0ZJREFf",
             "QUNUSU9OEKQGEhEKDFNGSURBX0RPV1NFUhClBhISCg1TRklEQV9DQVBUVVJF",
             "EKYGEh8KGkxJU1RfQVZBVEFSX0NVU1RPTUlaQVRJT05TEKcGEh4KGVNFVF9B",
-            "VkFUQVJfSVRFTV9BU19WSUVXRUQQqAZiBnByb3RvMw=="));
+            "VkFUQVJfSVRFTV9BU19WSUVXRUQQqAYSDgoJR0VUX0lOQk9YEKkGYgZwcm90",
+            "bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::POGOProtos.Networking.Requests.RequestType), }, null));
@@ -327,6 +328,10 @@ namespace POGOProtos.Networking.Requests {
     ///  Implemented [R &amp; M]
     /// </summary>
     [pbr::OriginalName("SET_AVATAR_ITEM_AS_VIEWED")] SetAvatarItemAsViewed = 808,
+    /// <summary>
+    ///  Implemented [R &amp; M]
+    /// </summary>
+    [pbr::OriginalName("GET_INBOX")] GetInbox = 809,
   }
 
   #endregion

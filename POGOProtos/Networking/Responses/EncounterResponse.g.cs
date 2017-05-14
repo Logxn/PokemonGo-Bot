@@ -26,7 +26,7 @@ namespace POGOProtos.Networking.Responses {
             "c3BvbnNlLnByb3RvEh9QT0dPUHJvdG9zLk5ldHdvcmtpbmcuUmVzcG9uc2Vz",
             "GjBQT0dPUHJvdG9zL0RhdGEvQ2FwdHVyZS9DYXB0dXJlUHJvYmFiaWxpdHku",
             "cHJvdG8aJlBPR09Qcm90b3MvSW52ZW50b3J5L0l0ZW0vSXRlbUlkLnByb3Rv",
-            "GihQT0dPUHJvdG9zL01hcC9Qb2tlbW9uL1dpbGRQb2tlbW9uLnByb3RvIuwE",
+            "GihQT0dPUHJvdG9zL01hcC9Qb2tlbW9uL1dpbGRQb2tlbW9uLnByb3RvIpAF",
             "ChFFbmNvdW50ZXJSZXNwb25zZRI5Cgx3aWxkX3Bva2Vtb24YASABKAsyIy5Q",
             "T0dPUHJvdG9zLk1hcC5Qb2tlbW9uLldpbGRQb2tlbW9uElEKCmJhY2tncm91",
             "bmQYAiABKA4yPS5QT0dPUHJvdG9zLk5ldHdvcmtpbmcuUmVzcG9uc2VzLkVu",
@@ -35,12 +35,13 @@ namespace POGOProtos.Networking.Responses {
             "b25zZS5TdGF0dXMSSAoTY2FwdHVyZV9wcm9iYWJpbGl0eRgEIAEoCzIrLlBP",
             "R09Qcm90b3MuRGF0YS5DYXB0dXJlLkNhcHR1cmVQcm9iYWJpbGl0eRI2Cgth",
             "Y3RpdmVfaXRlbRgFIAEoDjIhLlBPR09Qcm90b3MuSW52ZW50b3J5Lkl0ZW0u",
-            "SXRlbUlkIiIKCkJhY2tncm91bmQSCAoEUEFSSxAAEgoKBkRFU0VSVBABItcB",
+            "SXRlbUlkIiIKCkJhY2tncm91bmQSCAoEUEFSSxAAEgoKBkRFU0VSVBABIvsB",
             "CgZTdGF0dXMSEwoPRU5DT1VOVEVSX0VSUk9SEAASFQoRRU5DT1VOVEVSX1NV",
             "Q0NFU1MQARIXChNFTkNPVU5URVJfTk9UX0ZPVU5EEAISFAoQRU5DT1VOVEVS",
             "X0NMT1NFRBADEhoKFkVOQ09VTlRFUl9QT0tFTU9OX0ZMRUQQBBIaChZFTkNP",
             "VU5URVJfTk9UX0lOX1JBTkdFEAUSHgoaRU5DT1VOVEVSX0FMUkVBRFlfSEFQ",
-            "UEVORUQQBhIaChZQT0tFTU9OX0lOVkVOVE9SWV9GVUxMEAdiBnByb3RvMw=="));
+            "UEVORUQQBhIaChZQT0tFTU9OX0lOVkVOVE9SWV9GVUxMEAcSIgoeRU5DT1VO",
+            "VEVSX0JMT0NLRURfQllfQU5USUNIRUFUEAhiBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::POGOProtos.Data.Capture.CaptureProbabilityReflection.Descriptor, global::POGOProtos.Inventory.Item.ItemIdReflection.Descriptor, global::POGOProtos.Map.Pokemon.WildPokemonReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
@@ -308,6 +309,7 @@ namespace POGOProtos.Networking.Responses {
         [pbr::OriginalName("ENCOUNTER_NOT_IN_RANGE")] EncounterNotInRange = 5,
         [pbr::OriginalName("ENCOUNTER_ALREADY_HAPPENED")] EncounterAlreadyHappened = 6,
         [pbr::OriginalName("POKEMON_INVENTORY_FULL")] PokemonInventoryFull = 7,
+        [pbr::OriginalName("ENCOUNTER_BLOCKED_BY_ANTICHEAT")] EncounterBlockedByAnticheat = 8,
       }
 
     }

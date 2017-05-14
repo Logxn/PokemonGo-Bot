@@ -24,14 +24,15 @@ namespace POGOProtos.Data.Player {
           string.Concat(
             "CjBQT0dPUHJvdG9zL0RhdGEvUGxheWVyL1BsYXllclB1YmxpY1Byb2ZpbGUu",
             "cHJvdG8SFlBPR09Qcm90b3MuRGF0YS5QbGF5ZXIaKVBPR09Qcm90b3MvRGF0",
-            "YS9QbGF5ZXIvUGxheWVyQXZhdGFyLnByb3RvImgKE1BsYXllclB1YmxpY1By",
-            "b2ZpbGUSDAoEbmFtZRgBIAEoCRINCgVsZXZlbBgCIAEoBRI0CgZhdmF0YXIY",
-            "AyABKAsyJC5QT0dPUHJvdG9zLkRhdGEuUGxheWVyLlBsYXllckF2YXRhcmIG",
-            "cHJvdG8z"));
+            "YS9QbGF5ZXIvUGxheWVyQXZhdGFyLnByb3RvGiBQT0dPUHJvdG9zL0VudW1z",
+            "L1RlYW1Db2xvci5wcm90byKZAQoTUGxheWVyUHVibGljUHJvZmlsZRIMCgRu",
+            "YW1lGAEgASgJEg0KBWxldmVsGAIgASgFEjQKBmF2YXRhchgDIAEoCzIkLlBP",
+            "R09Qcm90b3MuRGF0YS5QbGF5ZXIuUGxheWVyQXZhdGFyEi8KCnRlYW1fY29s",
+            "b3IYBCABKA4yGy5QT0dPUHJvdG9zLkVudW1zLlRlYW1Db2xvcmIGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::POGOProtos.Data.Player.PlayerAvatarReflection.Descriptor, },
+          new pbr::FileDescriptor[] { global::POGOProtos.Data.Player.PlayerAvatarReflection.Descriptor, global::POGOProtos.Enums.TeamColorReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::POGOProtos.Data.Player.PlayerPublicProfile), global::POGOProtos.Data.Player.PlayerPublicProfile.Parser, new[]{ "Name", "Level", "Avatar" }, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::POGOProtos.Data.Player.PlayerPublicProfile), global::POGOProtos.Data.Player.PlayerPublicProfile.Parser, new[]{ "Name", "Level", "Avatar", "TeamColor" }, null, null, null)
           }));
     }
     #endregion
@@ -65,6 +66,7 @@ namespace POGOProtos.Data.Player {
       name_ = other.name_;
       level_ = other.level_;
       Avatar = other.avatar_ != null ? other.Avatar.Clone() : null;
+      teamColor_ = other.teamColor_;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -105,6 +107,17 @@ namespace POGOProtos.Data.Player {
       }
     }
 
+    /// <summary>Field number for the "team_color" field.</summary>
+    public const int TeamColorFieldNumber = 4;
+    private global::POGOProtos.Enums.TeamColor teamColor_ = 0;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public global::POGOProtos.Enums.TeamColor TeamColor {
+      get { return teamColor_; }
+      set {
+        teamColor_ = value;
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
       return Equals(other as PlayerPublicProfile);
@@ -121,6 +134,7 @@ namespace POGOProtos.Data.Player {
       if (Name != other.Name) return false;
       if (Level != other.Level) return false;
       if (!object.Equals(Avatar, other.Avatar)) return false;
+      if (TeamColor != other.TeamColor) return false;
       return true;
     }
 
@@ -130,6 +144,7 @@ namespace POGOProtos.Data.Player {
       if (Name.Length != 0) hash ^= Name.GetHashCode();
       if (Level != 0) hash ^= Level.GetHashCode();
       if (avatar_ != null) hash ^= Avatar.GetHashCode();
+      if (TeamColor != 0) hash ^= TeamColor.GetHashCode();
       return hash;
     }
 
@@ -152,6 +167,10 @@ namespace POGOProtos.Data.Player {
         output.WriteRawTag(26);
         output.WriteMessage(Avatar);
       }
+      if (TeamColor != 0) {
+        output.WriteRawTag(32);
+        output.WriteEnum((int) TeamColor);
+      }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -165,6 +184,9 @@ namespace POGOProtos.Data.Player {
       }
       if (avatar_ != null) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(Avatar);
+      }
+      if (TeamColor != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) TeamColor);
       }
       return size;
     }
@@ -185,6 +207,9 @@ namespace POGOProtos.Data.Player {
           avatar_ = new global::POGOProtos.Data.Player.PlayerAvatar();
         }
         Avatar.MergeFrom(other.Avatar);
+      }
+      if (other.TeamColor != 0) {
+        TeamColor = other.TeamColor;
       }
     }
 
@@ -209,6 +234,10 @@ namespace POGOProtos.Data.Player {
               avatar_ = new global::POGOProtos.Data.Player.PlayerAvatar();
             }
             input.ReadMessage(avatar_);
+            break;
+          }
+          case 32: {
+            teamColor_ = (global::POGOProtos.Enums.TeamColor) input.ReadEnum();
             break;
           }
         }

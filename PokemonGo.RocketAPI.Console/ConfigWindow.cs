@@ -1427,6 +1427,7 @@ namespace PokeMaster
         void button1_Click(object sender, EventArgs e)
         {
             new KeysManager().ShowDialog();
+            pFHashKey.Text = GlobalVars.pFHashKey;
         }
         void label15_DoubleClick(object sender, EventArgs e)
         {

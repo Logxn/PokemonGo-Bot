@@ -25,14 +25,16 @@ namespace POGOProtos.Networking.Requests.Messages {
             "CkNQT0dPUHJvdG9zL05ldHdvcmtpbmcvUmVxdWVzdHMvTWVzc2FnZXMvR2V0",
             "QXNzZXREaWdlc3RNZXNzYWdlLnByb3RvEidQT0dPUHJvdG9zLk5ldHdvcmtp",
             "bmcuUmVxdWVzdHMuTWVzc2FnZXMaH1BPR09Qcm90b3MvRW51bXMvUGxhdGZv",
-            "cm0ucHJvdG8inQEKFUdldEFzc2V0RGlnZXN0TWVzc2FnZRIsCghwbGF0Zm9y",
+            "cm0ucHJvdG8i3AEKFUdldEFzc2V0RGlnZXN0TWVzc2FnZRIsCghwbGF0Zm9y",
             "bRgBIAEoDjIaLlBPR09Qcm90b3MuRW51bXMuUGxhdGZvcm0SGwoTZGV2aWNl",
             "X21hbnVmYWN0dXJlchgCIAEoCRIUCgxkZXZpY2VfbW9kZWwYAyABKAkSDgoG",
-            "bG9jYWxlGAQgASgJEhMKC2FwcF92ZXJzaW9uGAUgASgNYgZwcm90bzM="));
+            "bG9jYWxlGAQgASgJEhMKC2FwcF92ZXJzaW9uGAUgASgNEhAKCHBhZ2luYXRl",
+            "GAYgASgIEhMKC3BhZ2Vfb2Zmc2V0GAcgASgFEhYKDnBhZ2VfdGltZXN0YW1w",
+            "GAggASgEYgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::POGOProtos.Enums.PlatformReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::POGOProtos.Networking.Requests.Messages.GetAssetDigestMessage), global::POGOProtos.Networking.Requests.Messages.GetAssetDigestMessage.Parser, new[]{ "Platform", "DeviceManufacturer", "DeviceModel", "Locale", "AppVersion" }, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::POGOProtos.Networking.Requests.Messages.GetAssetDigestMessage), global::POGOProtos.Networking.Requests.Messages.GetAssetDigestMessage.Parser, new[]{ "Platform", "DeviceManufacturer", "DeviceModel", "Locale", "AppVersion", "Paginate", "PageOffset", "PageTimestamp" }, null, null, null)
           }));
     }
     #endregion
@@ -68,6 +70,9 @@ namespace POGOProtos.Networking.Requests.Messages {
       deviceModel_ = other.deviceModel_;
       locale_ = other.locale_;
       appVersion_ = other.appVersion_;
+      paginate_ = other.paginate_;
+      pageOffset_ = other.pageOffset_;
+      pageTimestamp_ = other.pageTimestamp_;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -130,6 +135,39 @@ namespace POGOProtos.Networking.Requests.Messages {
       }
     }
 
+    /// <summary>Field number for the "paginate" field.</summary>
+    public const int PaginateFieldNumber = 6;
+    private bool paginate_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Paginate {
+      get { return paginate_; }
+      set {
+        paginate_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "page_offset" field.</summary>
+    public const int PageOffsetFieldNumber = 7;
+    private int pageOffset_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int PageOffset {
+      get { return pageOffset_; }
+      set {
+        pageOffset_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "page_timestamp" field.</summary>
+    public const int PageTimestampFieldNumber = 8;
+    private ulong pageTimestamp_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public ulong PageTimestamp {
+      get { return pageTimestamp_; }
+      set {
+        pageTimestamp_ = value;
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
       return Equals(other as GetAssetDigestMessage);
@@ -148,6 +186,9 @@ namespace POGOProtos.Networking.Requests.Messages {
       if (DeviceModel != other.DeviceModel) return false;
       if (Locale != other.Locale) return false;
       if (AppVersion != other.AppVersion) return false;
+      if (Paginate != other.Paginate) return false;
+      if (PageOffset != other.PageOffset) return false;
+      if (PageTimestamp != other.PageTimestamp) return false;
       return true;
     }
 
@@ -159,6 +200,9 @@ namespace POGOProtos.Networking.Requests.Messages {
       if (DeviceModel.Length != 0) hash ^= DeviceModel.GetHashCode();
       if (Locale.Length != 0) hash ^= Locale.GetHashCode();
       if (AppVersion != 0) hash ^= AppVersion.GetHashCode();
+      if (Paginate != false) hash ^= Paginate.GetHashCode();
+      if (PageOffset != 0) hash ^= PageOffset.GetHashCode();
+      if (PageTimestamp != 0UL) hash ^= PageTimestamp.GetHashCode();
       return hash;
     }
 
@@ -189,6 +233,18 @@ namespace POGOProtos.Networking.Requests.Messages {
         output.WriteRawTag(40);
         output.WriteUInt32(AppVersion);
       }
+      if (Paginate != false) {
+        output.WriteRawTag(48);
+        output.WriteBool(Paginate);
+      }
+      if (PageOffset != 0) {
+        output.WriteRawTag(56);
+        output.WriteInt32(PageOffset);
+      }
+      if (PageTimestamp != 0UL) {
+        output.WriteRawTag(64);
+        output.WriteUInt64(PageTimestamp);
+      }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -208,6 +264,15 @@ namespace POGOProtos.Networking.Requests.Messages {
       }
       if (AppVersion != 0) {
         size += 1 + pb::CodedOutputStream.ComputeUInt32Size(AppVersion);
+      }
+      if (Paginate != false) {
+        size += 1 + 1;
+      }
+      if (PageOffset != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(PageOffset);
+      }
+      if (PageTimestamp != 0UL) {
+        size += 1 + pb::CodedOutputStream.ComputeUInt64Size(PageTimestamp);
       }
       return size;
     }
@@ -231,6 +296,15 @@ namespace POGOProtos.Networking.Requests.Messages {
       }
       if (other.AppVersion != 0) {
         AppVersion = other.AppVersion;
+      }
+      if (other.Paginate != false) {
+        Paginate = other.Paginate;
+      }
+      if (other.PageOffset != 0) {
+        PageOffset = other.PageOffset;
+      }
+      if (other.PageTimestamp != 0UL) {
+        PageTimestamp = other.PageTimestamp;
       }
     }
 
@@ -260,6 +334,18 @@ namespace POGOProtos.Networking.Requests.Messages {
           }
           case 40: {
             AppVersion = input.ReadUInt32();
+            break;
+          }
+          case 48: {
+            Paginate = input.ReadBool();
+            break;
+          }
+          case 56: {
+            PageOffset = input.ReadInt32();
+            break;
+          }
+          case 64: {
+            PageTimestamp = input.ReadUInt64();
             break;
           }
         }
