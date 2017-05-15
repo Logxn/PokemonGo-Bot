@@ -303,6 +303,7 @@ namespace PokemonGo.RocketAPI.Helpers
             if (customRequests.Length > 0  &&
                 (customRequests[0].RequestType == RequestType.GetPlayer ||
                  customRequests[0].RequestType == RequestType.GetMapObjects)
+                && ! string.IsNullOrEmpty(Resources.Api.UnknownPtr8Message)
                )
             {
                 var plat8Message = new UnknownPtr8Request() {
