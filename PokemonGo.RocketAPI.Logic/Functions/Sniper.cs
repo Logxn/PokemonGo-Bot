@@ -49,7 +49,15 @@ namespace PokeMaster.Logic.Functions
             returnCoords.Latitude = _client.CurrentLatitude;
             returnCoords.Longitude = _client.CurrentLongitude;
             returnCoords.Altitude = _client.CurrentAltitude;
-            LocationUtils.updatePlayerLocation(_client, returnCoords.Latitude, returnCoords.Longitude, returnCoords.Altitude);
+            
+            var distanceToTarget = LocationUtils.CalculateDistanceInMeters(returnCoords, remoteCoords);
+            if (distanceToTarget > 100000){
+                Logger.Warning("Distance greater than 100 kms. Skipping Snipe.");
+                return;
+            }
+
+            
+            //LocationUtils.updatePlayerLocation(_client, returnCoords.Latitude, returnCoords.Longitude, returnCoords.Altitude);
 
             if (_botSettings == null && _client == null) {
                 SendToLog($" client or settings are not set");
