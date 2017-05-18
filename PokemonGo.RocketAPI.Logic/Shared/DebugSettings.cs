@@ -18,5 +18,6 @@ namespace PokeMaster.Logic.Shared
        public bool VerboseMode { get; set; }
        public bool StoreUntranslatedText { get; set; }
        public bool ExtractFormTexts { get; set; }
+       public bool NewLog { get; set; }
     }
 }

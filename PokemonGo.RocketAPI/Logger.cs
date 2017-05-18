@@ -12,6 +12,7 @@
         public static void Write( string text, LogLevel level = LogLevel.Info){}
         public static void AddLog(string str){}*/ 
 using System;
+using System.IO;
 using PokemonGo.RocketAPI.Logging;
 
 namespace PokemonGo.RocketAPI
@@ -107,6 +108,19 @@ namespace PokemonGo.RocketAPI
                 LoggerC.AddLog(line);
             if (type == 1)
                 LoggerPanel.AddLog(line);
+        }
+
+        public static void Rename()
+        {
+             string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Configs");
+             string log = Path.Combine(path, "log.txt");
+             string newlog = Path.Combine(path, "log0.txt");
+             int i = 0;
+             while (File.Exists(newlog)) {
+                 i++;
+                 newlog = Path.Combine(path, $"log{i}.txt");
+             }
+             File.Move(log, newlog);
         }
     }
 }

@@ -92,12 +92,14 @@ namespace PokemonGo.RocketAPI.Rpc
         {
             
             var state = Client.Player.PlayerResponse.PlayerData.TutorialState;
-            if (state == null || !state.Any()){
+            if (state == null )
+                state = new Google.Protobuf.Collections.RepeatedField<POGOProtos.Enums.TutorialState>();
+            if (!state.Contains(POGOProtos.Enums.TutorialState.LegalScreen)){
                 var res = Client.Misc.AceptLegalScreen().Result;
                 if (res.Result != EncounterTutorialCompleteResponse.Types.Result.Success)
                     return;
-                Client.OnMakeTutorial();
             }
+            Client.OnMakeTutorial();
         }
 
         public async Task FireRequestBlock(Request request)

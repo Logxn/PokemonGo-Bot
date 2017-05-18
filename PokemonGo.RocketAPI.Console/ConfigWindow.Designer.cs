@@ -365,6 +365,7 @@ namespace PokeMaster
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.checkBoxNewLog = new System.Windows.Forms.CheckBox();
             this.tabProxies.SuspendLayout();
             this.tabItems.SuspendLayout();
             this.groupBoxItems.SuspendLayout();
@@ -3822,6 +3823,7 @@ namespace PokeMaster
             // 
             // groupBox25
             // 
+            this.groupBox25.Controls.Add(this.checkBoxNewLog);
             this.groupBox25.Controls.Add(this.checkBoxExtractText);
             this.groupBox25.Controls.Add(this.checkBoxStoreUntranslated);
             this.groupBox25.Controls.Add(this.checkbox_Verboselogging);
@@ -4472,6 +4474,16 @@ namespace PokeMaster
             this.pictureBox2.TabStop = false;
             this.pictureBox2.Click += new System.EventHandler(this.pictureBox2_Click);
             // 
+            // checkBoxNewLog
+            // 
+            this.checkBoxNewLog.AutoSize = true;
+            this.checkBoxNewLog.Location = new System.Drawing.Point(8, 88);
+            this.checkBoxNewLog.Name = "checkBoxNewLog";
+            this.checkBoxNewLog.Size = new System.Drawing.Size(123, 17);
+            this.checkBoxNewLog.TabIndex = 3;
+            this.checkBoxNewLog.Text = "Make new log.txt file";
+            this.checkBoxNewLog.UseVisualStyleBackColor = true;
+            // 
             // ConfigWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -4974,5 +4986,6 @@ namespace PokeMaster
         private System.Windows.Forms.CheckBox checkBoxSendToDiscord;
         private System.Windows.Forms.CheckBox checkBox_Paused;
         private System.Windows.Forms.CheckBox checkBox_BlockAltitude;
+        private System.Windows.Forms.CheckBox checkBoxNewLog;
     }
 }

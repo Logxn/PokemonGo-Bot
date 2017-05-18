@@ -191,7 +191,7 @@ namespace PokeMaster.Logic.Functions
 
         private ulong TrySnipePokemons(PokemonId pokeid, GeoCoordinate pokeCoords, GeoCoordinate returnCoords)
         {
-            const bool goBack = true;
+            const bool goBack = false; // since new changes in server before of api 0.63 it must be "false".
             var tries = 1;
             var found = false;
             ulong caught = 0;

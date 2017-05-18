@@ -443,6 +443,7 @@ namespace PokeMaster
                 config.Debug = new DebugSettings();
             checkbox_Verboselogging.Checked = config.Debug.VerboseMode;
             checkBoxExtractText.Checked = config.Debug.ExtractFormTexts;
+            checkBoxNewLog.Checked = config.Debug.NewLog;
             checkBoxStoreUntranslated.Checked = config.Debug.StoreUntranslatedText;
             TranslatorHelper.ActiveExtractTexts = checkBoxExtractText.Checked;
             TranslatorHelper.StoreUntranslated = checkBoxStoreUntranslated.Checked;
@@ -900,6 +901,7 @@ namespace PokeMaster
                 ActiveProfile.Settings.Debug = new DebugSettings();
             ActiveProfile.Settings.Debug.VerboseMode = checkbox_Verboselogging.Checked;
             ActiveProfile.Settings.Debug.ExtractFormTexts = checkBoxExtractText.Checked;
+            ActiveProfile.Settings.Debug.NewLog = checkBoxNewLog.Checked;
             ActiveProfile.Settings.Debug.StoreUntranslatedText = checkBoxStoreUntranslated.Checked;
             ActiveProfile.Settings.CompleteTutorial = checkBoxCompleteTutorial.Checked;
 

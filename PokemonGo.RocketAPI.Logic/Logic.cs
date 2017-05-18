@@ -66,8 +66,28 @@ namespace PokeMaster.Logic
             pokevision = new PokeVisionUtil();
             this.infoObservable = infoObservable;
             Instance = this;
+            if (GlobalVars.Debug.NewLog)
+                Logger.Rename();
             sniperLogic = new  Sniper(objClient, botSettings);
             PokemonGo.RocketAPI.Shared.KeyCollection.Load();
+
+            #region Set Session values
+            Setout.sessionStart = DateTime.UtcNow;
+            Setout.pokemonCatchCount = 0;
+            Setout.pokeStopFarmedCount = 0;
+            if (GlobalVars.ContinueLatestSession){
+                Setout.LoadSession();
+                Logger.Info( "Last Session Loaded");
+                Logger.Info( $"Session Start: {Setout.sessionStart}");
+                Logger.Info( $"Pokemon Catch Count: {Setout.pokemonCatchCount}");
+                Logger.Info( $"Pokestop Farmed Count: {Setout.pokeStopFarmedCount}");
+            }else{
+                Logger.Info( $"Session Started");
+            }
+            Logger.Info( $"Session Start: {Setout.sessionStart}");
+            Logger.Info( $"Pokemon Catch Count: {Setout.pokemonCatchCount}");
+            Logger.Info( $"Pokestop Farmed Count: {Setout.pokeStopFarmedCount}");
+            #endregion
         }
         #endregion
 
@@ -187,29 +207,12 @@ namespace PokeMaster.Logic
             {
                 Logger.Info( "You enabled Evolution Logging. It will be saved to \"\\Logs\\EvolutionLog.txt\"");
             }
-
             #endregion
-
-            #region Set Counters and Location
-
-            Setout.sessionStart = DateTime.UtcNow;
-                
-            Logger.Info( "Setting Pokemon Catch Count: to 0 for this session");
-
-            Setout.pokemonCatchCount = 0;
-
-            Logger.Info( "Setting Pokestop Farmed Count to 0 for this session");
-
-            Setout.pokeStopFarmedCount = 0;
-            
-            if (GlobalVars.ContinueLatestSession)
-                Setout.LoadSession();
 
             objClient.CurrentAltitude = BotSettings.DefaultAltitude;
             objClient.CurrentLongitude = BotSettings.DefaultLongitude;
             objClient.CurrentLatitude = BotSettings.DefaultLatitude;
 
-            #endregion
 
             #region Fix Altitude
 
@@ -1127,65 +1130,72 @@ namespace PokeMaster.Logic
         {
             if (! GlobalVars.CompleteTutorial)
                 return;
-            var playerAvatar = new PlayerAvatar();
-            playerAvatar.Avatar = AvatarSettings.Gender == 2 ? RandomHelper.RandomNumber(0,2):AvatarSettings.Gender;
-            playerAvatar.Backpack = AvatarSettings.backpack == 3 ? RandomHelper.RandomNumber(0,3):AvatarSettings.backpack;
-            playerAvatar.Eyes = AvatarSettings.eyes== 4 ? RandomHelper.RandomNumber(0,4):AvatarSettings.eyes;
-            playerAvatar.Hair = AvatarSettings.hair== 6 ? RandomHelper.RandomNumber(0,6):AvatarSettings.hair;
-            playerAvatar.Hat = AvatarSettings.hat== 3 ? RandomHelper.RandomNumber(0,3):AvatarSettings.hat;
-            playerAvatar.Pants = AvatarSettings.pants== 3 ? RandomHelper.RandomNumber(0,3):AvatarSettings.pants;
-            playerAvatar.Shirt = AvatarSettings.shirt== 3 ? RandomHelper.RandomNumber(0,3):AvatarSettings.shirt;
-            playerAvatar.Shoes = AvatarSettings.shoes== 3 ? RandomHelper.RandomNumber(0,3):AvatarSettings.shoes;
-            playerAvatar.Skin = AvatarSettings.skin== 4 ? RandomHelper.RandomNumber(0,4):AvatarSettings.skin;
-            
-            var res = objClient.Player.SetAvatar(playerAvatar).Result;
-            if (res.Status !=  SetAvatarResponse.Types.Status.Success){
-                Logger.Warning("Avatar not set. Reason: "+ res.Status);
-                return;
-            }
-            var res1 = objClient.Misc
-                .MarkTutorialComplete(new RepeatedField<TutorialState>()
-                {
-                    TutorialState.AvatarSelection
-                }).Result;
-            RandomHelper.RandomDelay(2000).Wait();
-            if (res1.Result !=EncounterTutorialCompleteResponse.Types.Result.Success){
-                Logger.Warning("Mark Tutorial Failed. Reason: "+ res1.Result);
-                return;
-            }
-            
-            var res2 = objClient.Encounter.EncounterTutorialComplete(AvatarSettings.starter);
-            if (res2.Result !=EncounterTutorialCompleteResponse.Types.Result.Success){
-                Logger.Warning("First Pokemon Catch Failed. Reason: "+ res2.Result);
-                return;
-            }
-            var index = 0;
-            var status = ClaimCodenameResponse.Types.Status.CodenameNotValid;
-            do{
-                var name = AvatarSettings.nicknamePrefix + (index==0?"":index.ToString()) + AvatarSettings.nicknameSufix;
-                var res3 = objClient.Misc.ClaimCodename( name );
-                status = res3.Status;
-                index ++;
+            var state = objClient.Player.PlayerResponse.PlayerData.TutorialState;
+            AvatarSettings.Load();
+            if (!state.Contains(TutorialState.AvatarSelection)){
+                var playerAvatar = new PlayerAvatar();
+                playerAvatar.Avatar = AvatarSettings.Gender == 2 ? RandomHelper.RandomNumber(0,2):AvatarSettings.Gender;
+                playerAvatar.Backpack = AvatarSettings.backpack == 3 ? RandomHelper.RandomNumber(0,3):AvatarSettings.backpack;
+                playerAvatar.Eyes = AvatarSettings.eyes== 4 ? RandomHelper.RandomNumber(0,4):AvatarSettings.eyes;
+                playerAvatar.Hair = AvatarSettings.hair== 6 ? RandomHelper.RandomNumber(0,6):AvatarSettings.hair;
+                playerAvatar.Hat = AvatarSettings.hat== 3 ? RandomHelper.RandomNumber(0,3):AvatarSettings.hat;
+                playerAvatar.Pants = AvatarSettings.pants== 3 ? RandomHelper.RandomNumber(0,3):AvatarSettings.pants;
+                playerAvatar.Shirt = AvatarSettings.shirt== 3 ? RandomHelper.RandomNumber(0,3):AvatarSettings.shirt;
+                playerAvatar.Shoes = AvatarSettings.shoes== 3 ? RandomHelper.RandomNumber(0,3):AvatarSettings.shoes;
+                playerAvatar.Skin = AvatarSettings.skin== 4 ? RandomHelper.RandomNumber(0,4):AvatarSettings.skin;
+                
+                var res = objClient.Player.SetAvatar(playerAvatar).Result;
+                if (res.Status !=  SetAvatarResponse.Types.Status.Success){
+                    Logger.Warning("Avatar not set. Reason: "+ res.Status);
+                    return;
+                }
+                var res1 = objClient.Misc
+                    .MarkTutorialComplete(new RepeatedField<TutorialState>()
+                    {
+                        TutorialState.AvatarSelection
+                    }).Result;
+                if (res1.Result !=EncounterTutorialCompleteResponse.Types.Result.Success){
+                    Logger.Warning("Mark Tutorial Failed. Reason: "+ res1.Result);
+                    return;
+                }
                 RandomHelper.RandomDelay(2000).Wait();
-                if (status == ClaimCodenameResponse.Types.Status.CurrentOwner || 
-                   status == ClaimCodenameResponse.Types.Status.CodenameChangeNotAllowed )
-                    break;
-            }while (index < 100 && status != ClaimCodenameResponse.Types.Status.Success);
+            }
+            if (!state.Contains(TutorialState.PokemonCapture)){
+                Logger.Debug("AvatarSettings.starter: " + AvatarSettings.starter);
+                var res2 = objClient.Encounter.EncounterTutorialComplete(AvatarSettings.starter);
+                if (res2.Result !=EncounterTutorialCompleteResponse.Types.Result.Success){
+                    Logger.Warning("First Pokemon Catch Failed. Reason: "+ res2.Result);
+                    return;
+                }
+            }
 
-            if (status != ClaimCodenameResponse.Types.Status.Success){
-                Logger.Warning("Setting Name Failed. Reason: "+ status);
-                return;
+            if (!state.Contains(TutorialState.NameSelection)){
+                var index = 0;
+                var status = ClaimCodenameResponse.Types.Status.CodenameNotValid;
+                do{
+                    var name = AvatarSettings.nicknamePrefix + (index==0?"":index.ToString()) + AvatarSettings.nicknameSufix;
+                    var res3 = objClient.Misc.ClaimCodename( name );
+                    status = res3.Status;
+                    index ++;
+                    RandomHelper.RandomDelay(2000).Wait();
+                    if (status == ClaimCodenameResponse.Types.Status.CurrentOwner || 
+                       status == ClaimCodenameResponse.Types.Status.CodenameChangeNotAllowed )
+                        break;
+                }while (index < 100 && status != ClaimCodenameResponse.Types.Status.Success);
+    
+                if (status != ClaimCodenameResponse.Types.Status.Success){
+                    Logger.Warning("Setting Name Failed. Reason: "+ status);
+                    return;
+                }
+                 var res4 = objClient.Misc.MarkTutorialComplete(new RepeatedField<TutorialState>()
+                                {
+                                    TutorialState.NameSelection
+                                }).Result;
+                if (res4.Result !=EncounterTutorialCompleteResponse.Types.Result.Success){
+                    Logger.Warning("Mark Tutorial Failed. Reason: "+ res4.Result);
+                    return;
+                }
             }
-            
-             var res4 = objClient.Misc.MarkTutorialComplete(new RepeatedField<TutorialState>()
-                            {
-                                TutorialState.NameSelection
-                            }).Result;
-            if (res4.Result !=EncounterTutorialCompleteResponse.Types.Result.Success){
-                Logger.Warning("Mark Tutorial Failed. Reason: "+ res4.Result);
-                return;
-            }
-            
 
             RandomHelper.RandomDelay(2000).Wait();
         }
