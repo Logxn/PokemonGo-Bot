@@ -1436,6 +1436,5 @@ namespace PokeMaster
             textBoxDiscordServerID.Enabled |= Control.ModifierKeys == Keys.Shift;
 
         }
-        
     }
 }

@@ -202,6 +202,9 @@ namespace PokeMaster
             this.checkBox_WalkInArchimedeanSpiral = new System.Windows.Forms.CheckBox();
             this.text_PokemonCatchLimit = new System.Windows.Forms.TextBox();
             this.groupBox12 = new System.Windows.Forms.GroupBox();
+            this.label18 = new System.Windows.Forms.Label();
+            this.label19 = new System.Windows.Forms.Label();
+            this.label17 = new System.Windows.Forms.Label();
             this.labelRestart = new System.Windows.Forms.Label();
             this.checkBox_UseBreakIntervalAndLength = new System.Windows.Forms.CheckBox();
             this.text_RestartAfterRun = new System.Windows.Forms.TextBox();
@@ -307,6 +310,7 @@ namespace PokeMaster
             this.SnipePokemonPokeCom = new System.Windows.Forms.CheckBox();
             this.checkBoxSaveLocations = new System.Windows.Forms.CheckBox();
             this.groupBox25 = new System.Windows.Forms.GroupBox();
+            this.checkBoxNewLog = new System.Windows.Forms.CheckBox();
             this.checkBoxExtractText = new System.Windows.Forms.CheckBox();
             this.checkBoxStoreUntranslated = new System.Windows.Forms.CheckBox();
             this.checkbox_Verboselogging = new System.Windows.Forms.CheckBox();
@@ -365,7 +369,6 @@ namespace PokeMaster
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.checkBoxNewLog = new System.Windows.Forms.CheckBox();
             this.tabProxies.SuspendLayout();
             this.tabItems.SuspendLayout();
             this.groupBoxItems.SuspendLayout();
@@ -2568,6 +2571,9 @@ namespace PokeMaster
             // 
             // groupBox12
             // 
+            this.groupBox12.Controls.Add(this.label18);
+            this.groupBox12.Controls.Add(this.label19);
+            this.groupBox12.Controls.Add(this.label17);
             this.groupBox12.Controls.Add(this.labelRestart);
             this.groupBox12.Controls.Add(this.checkBox_UseBreakIntervalAndLength);
             this.groupBox12.Controls.Add(this.text_RestartAfterRun);
@@ -2588,30 +2594,63 @@ namespace PokeMaster
             this.groupBox12.TabStop = false;
             this.groupBox12.Text = "Break Variables";
             // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Location = new System.Drawing.Point(258, 162);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(44, 13);
+            this.label18.TabIndex = 74;
+            this.label18.Text = "Minutes";
+            this.label18.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.label18.UseMnemonic = false;
+            // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Location = new System.Drawing.Point(258, 139);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(44, 13);
+            this.label19.TabIndex = 73;
+            this.label19.Text = "Minutes";
+            this.label19.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.label19.UseMnemonic = false;
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(257, 91);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(44, 13);
+            this.label17.TabIndex = 72;
+            this.label17.Text = "Minutes";
+            this.label17.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.label17.UseMnemonic = false;
+            // 
             // labelRestart
             // 
-            this.labelRestart.Location = new System.Drawing.Point(16, 160);
+            this.labelRestart.Location = new System.Drawing.Point(16, 162);
             this.labelRestart.Name = "labelRestart";
-            this.labelRestart.Size = new System.Drawing.Size(225, 13);
+            this.labelRestart.Size = new System.Drawing.Size(179, 13);
             this.labelRestart.TabIndex = 69;
-            this.labelRestart.Text = "Restart after run (in minutes) at:";
+            this.labelRestart.Text = "Restart after run at:";
             this.labelRestart.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.labelRestart.UseMnemonic = false;
             // 
             // checkBox_UseBreakIntervalAndLength
             // 
             this.checkBox_UseBreakIntervalAndLength.AutoSize = true;
-            this.checkBox_UseBreakIntervalAndLength.Location = new System.Drawing.Point(16, 50);
+            this.checkBox_UseBreakIntervalAndLength.Location = new System.Drawing.Point(15, 64);
             this.checkBox_UseBreakIntervalAndLength.Name = "checkBox_UseBreakIntervalAndLength";
-            this.checkBox_UseBreakIntervalAndLength.Size = new System.Drawing.Size(227, 17);
+            this.checkBox_UseBreakIntervalAndLength.Size = new System.Drawing.Size(124, 17);
             this.checkBox_UseBreakIntervalAndLength.TabIndex = 71;
-            this.checkBox_UseBreakIntervalAndLength.Text = "Use Break Interval and Length (in minutes)";
+            this.checkBox_UseBreakIntervalAndLength.Text = "Make a break every ";
             this.checkBox_UseBreakIntervalAndLength.UseVisualStyleBackColor = true;
             this.checkBox_UseBreakIntervalAndLength.CheckedChanged += new System.EventHandler(this.checkBox_UseBreakIntervalAndLength_CheckedChanged);
             // 
             // text_RestartAfterRun
             // 
-            this.text_RestartAfterRun.Location = new System.Drawing.Point(257, 159);
+            this.text_RestartAfterRun.Location = new System.Drawing.Point(201, 159);
             this.text_RestartAfterRun.Name = "text_RestartAfterRun";
             this.text_RestartAfterRun.Size = new System.Drawing.Size(51, 20);
             this.text_RestartAfterRun.TabIndex = 68;
@@ -2619,18 +2658,18 @@ namespace PokeMaster
             // 
             // label41
             // 
-            this.label41.Location = new System.Drawing.Point(32, 99);
+            this.label41.Location = new System.Drawing.Point(39, 89);
             this.label41.Name = "label41";
-            this.label41.Size = new System.Drawing.Size(211, 13);
+            this.label41.Size = new System.Drawing.Size(156, 16);
             this.label41.TabIndex = 67;
-            this.label41.Text = "Length:";
+            this.label41.Text = "Length of each break:";
             this.label41.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.label41.UseMnemonic = false;
             // 
             // text_BreakInterval
             // 
             this.text_BreakInterval.Enabled = false;
-            this.text_BreakInterval.Location = new System.Drawing.Point(257, 72);
+            this.text_BreakInterval.Location = new System.Drawing.Point(201, 62);
             this.text_BreakInterval.Name = "text_BreakInterval";
             this.text_BreakInterval.Size = new System.Drawing.Size(51, 20);
             this.text_BreakInterval.TabIndex = 64;
@@ -2638,7 +2677,7 @@ namespace PokeMaster
             // text_BreakLength
             // 
             this.text_BreakLength.Enabled = false;
-            this.text_BreakLength.Location = new System.Drawing.Point(257, 96);
+            this.text_BreakLength.Location = new System.Drawing.Point(201, 87);
             this.text_BreakLength.Name = "text_BreakLength";
             this.text_BreakLength.Size = new System.Drawing.Size(51, 20);
             this.text_BreakLength.TabIndex = 66;
@@ -2655,12 +2694,13 @@ namespace PokeMaster
             // 
             // label32
             // 
-            this.label32.Location = new System.Drawing.Point(30, 75);
+            this.label32.AutoSize = true;
+            this.label32.Location = new System.Drawing.Point(257, 65);
             this.label32.Name = "label32";
-            this.label32.Size = new System.Drawing.Size(213, 13);
+            this.label32.Size = new System.Drawing.Size(44, 13);
             this.label32.TabIndex = 65;
-            this.label32.Text = "Interval:";
-            this.label32.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.label32.Text = "Minutes";
+            this.label32.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.label32.UseMnemonic = false;
             // 
             // checkBox_BreakAtLure
@@ -2677,15 +2717,15 @@ namespace PokeMaster
             // 
             this.label40.Location = new System.Drawing.Point(16, 139);
             this.label40.Name = "label40";
-            this.label40.Size = new System.Drawing.Size(225, 13);
+            this.label40.Size = new System.Drawing.Size(179, 13);
             this.label40.TabIndex = 43;
-            this.label40.Text = "Time to Run (in minutes):";
+            this.label40.Text = "Time to Run:";
             this.label40.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.label40.UseMnemonic = false;
             // 
             // text_TimeToRun
             // 
-            this.text_TimeToRun.Location = new System.Drawing.Point(257, 136);
+            this.text_TimeToRun.Location = new System.Drawing.Point(201, 136);
             this.text_TimeToRun.Name = "text_TimeToRun";
             this.text_TimeToRun.Size = new System.Drawing.Size(51, 20);
             this.text_TimeToRun.TabIndex = 42;
@@ -3834,6 +3874,16 @@ namespace PokeMaster
             this.groupBox25.TabStop = false;
             this.groupBox25.Text = "Dev Options";
             // 
+            // checkBoxNewLog
+            // 
+            this.checkBoxNewLog.AutoSize = true;
+            this.checkBoxNewLog.Location = new System.Drawing.Point(8, 88);
+            this.checkBoxNewLog.Name = "checkBoxNewLog";
+            this.checkBoxNewLog.Size = new System.Drawing.Size(123, 17);
+            this.checkBoxNewLog.TabIndex = 3;
+            this.checkBoxNewLog.Text = "Make new log.txt file";
+            this.checkBoxNewLog.UseVisualStyleBackColor = true;
+            // 
             // checkBoxExtractText
             // 
             this.checkBoxExtractText.AutoSize = true;
@@ -4474,16 +4524,6 @@ namespace PokeMaster
             this.pictureBox2.TabStop = false;
             this.pictureBox2.Click += new System.EventHandler(this.pictureBox2_Click);
             // 
-            // checkBoxNewLog
-            // 
-            this.checkBoxNewLog.AutoSize = true;
-            this.checkBoxNewLog.Location = new System.Drawing.Point(8, 88);
-            this.checkBoxNewLog.Name = "checkBoxNewLog";
-            this.checkBoxNewLog.Size = new System.Drawing.Size(123, 17);
-            this.checkBoxNewLog.TabIndex = 3;
-            this.checkBoxNewLog.Text = "Make new log.txt file";
-            this.checkBoxNewLog.UseVisualStyleBackColor = true;
-            // 
             // ConfigWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -4987,5 +5027,8 @@ namespace PokeMaster
         private System.Windows.Forms.CheckBox checkBox_Paused;
         private System.Windows.Forms.CheckBox checkBox_BlockAltitude;
         private System.Windows.Forms.CheckBox checkBoxNewLog;
+        private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.Label label19;
     }
 }
