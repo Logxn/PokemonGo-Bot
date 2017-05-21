@@ -601,7 +601,7 @@ namespace PokeMaster.Logic.Functions
 
                 #region Breaks
 
-                if (GlobalVars.UseBreakFields)
+                if (GlobalVars.UseBreakFields && GlobalVars. BreakLength >0 && GlobalVars. BreakInterval > 0)
                 {
                     if (pausetimestamp > -10000)
                     {

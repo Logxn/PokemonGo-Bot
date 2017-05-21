@@ -480,13 +480,13 @@ namespace PokeMaster
 
             PokemonListView.Refresh();
 
-            if (failed != string.Empty)
+            if (!string.IsNullOrEmpty(failed) )
             {
                 if (GlobalVars.LogEvolve)
                 {
                     File.AppendAllText(evolvelog, $"[{date}] - MANUAL - Sucessfully evolved {evolved}/{total} Pokemons. Failed: {failed}" + Environment.NewLine);
                 }
-                MessageBox.Show(th.TS("Succesfully evolved {0}/{1} Pokemons. Failed: {2}",evolved,total,failed), th.TS("Evolve status"), MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show(th.TS("Succesfully evolved {0}/{1} Pokemons. Failed: {2}",evolved,total,failed), th.TS("Evolve status"), MessageBoxButtons.OK, MessageBoxIcon.Information,MessageBoxDefaultButton.Button1, (MessageBoxOptions)0x40000);
             }
             else
             {
@@ -494,7 +494,7 @@ namespace PokeMaster
                 {
                     File.AppendAllText(evolvelog, $"[{date}] - MANUAL - Sucessfully evolved {evolved}/{total} Pokemons." + Environment.NewLine);
                 }
-                MessageBox.Show(th.TS("Succesfully evolved {0}/{1} Pokemons.",evolved,total), th.TS("Evolve status"), MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show(th.TS("Succesfully evolved {0}/{1} Pokemons.",evolved,total), th.TS("Evolve status"), MessageBoxButtons.OK, MessageBoxIcon.Information,MessageBoxDefaultButton.Button1, (MessageBoxOptions)0x40000);
             }
             var gotxpno=gotXP.ToString("N0");
             Logger.Info($"Evolved {evolved} Pokemons. We have got {gotxpno} XP.");

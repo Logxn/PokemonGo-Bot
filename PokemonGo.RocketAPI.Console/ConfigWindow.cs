@@ -422,8 +422,6 @@ namespace PokeMaster
             text_Telegram_Name.Text = config.TelegramName;
             text_Telegram_LiveStatsDelay.Text = config.TelegramLiveStatsDelay.ToString();
             
-            SnipePokemonPokeCom.Checked = config.SnipePokemon;
-            AvoidRegionLock.Checked = config.AvoidRegionLock;
             toSnipe = config.ToSnipe;
             
             checkBoxSendToDiscord.Checked = config.SendToDiscord;
@@ -833,6 +831,9 @@ namespace PokeMaster
             if (value != String.Empty)
                 ActiveProfile.Settings.XPFarmedLimit = int.Parse(value);
 
+            ActiveProfile.Settings.UseBreakFields = checkBox_UseBreakIntervalAndLength.Checked;
+            
+            
             value = text_BreakInterval.Text;
             if (value != String.Empty)
                 ActiveProfile.Settings.BreakInterval = int.Parse(value);
@@ -840,6 +841,17 @@ namespace PokeMaster
             value = text_BreakLength.Text;
             if (value != String.Empty)
                 ActiveProfile.Settings.BreakLength = int.Parse(value);
+            
+            if (ActiveProfile.Settings.UseBreakFields){
+                if (ActiveProfile.Settings.BreakInterval <= 0){
+                    text_BreakInterval.BackColor = Color.Red;
+                    ret = false;
+                }
+                if (ActiveProfile.Settings.BreakLength <= 0){
+                    text_BreakLength.BackColor = Color.Red;
+                    ret = false;
+                }
+            }
 
             ActiveProfile.Settings.pauseAtEvolve = checkBox_StopWalkingWhenEvolving.Checked;
             ActiveProfile.Settings.pauseAtEvolve2 = checkBox_StopWalkingWhenEvolving.Checked;
@@ -855,7 +867,6 @@ namespace PokeMaster
             ActiveProfile.Settings.BreakAtLure = checkBox_BreakAtLure.Checked;
             ActiveProfile.Settings.UseLureAtBreak = checkBox_UseLureAtBreak.Checked;
             ActiveProfile.Settings.RandomReduceSpeed = checkBox_RandomlyReduceSpeed.Checked;
-            ActiveProfile.Settings.UseBreakFields = checkBox_UseBreakIntervalAndLength.Checked;
 
             ActiveProfile.Settings.Espiral = checkBox_WalkInArchimedeanSpiral.Checked;
             ActiveProfile.Settings.WalkInLoop = checkBox_WalkInLoop.Checked;
@@ -874,12 +885,12 @@ namespace PokeMaster
             ActiveProfile.Settings.TelegramAPIToken = text_Telegram_Token.Text;
             ActiveProfile.Settings.TelegramName = text_Telegram_Name.Text;
             ret &= textBoxToActiveProfInt(text_Telegram_LiveStatsDelay, "TelegramLiveStatsDelay");
-            ActiveProfile.Settings.SnipePokemon = SnipePokemonPokeCom.Checked;
+            ActiveProfile.Settings.SnipePokemon = false;
+            ActiveProfile.Settings.AvoidRegionLock = true;
             if ((makePrompts) && (ActiveProfile.Settings.SnipePokemon)) {
                 DialogResult result = MessageBox.Show(th.TS("Sniping has not been tested yet. It could get you banned. Do you want to continue?"), th.TS("Info"), MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
                 ActiveProfile.Settings.SnipePokemon = result == DialogResult.OK ? true : false;
             }
-            ActiveProfile.Settings.AvoidRegionLock = AvoidRegionLock.Checked;
             ActiveProfile.Settings.ToSnipe = toSnipe;
 
             ActiveProfile.Settings.SendToDiscord = checkBoxSendToDiscord.Checked;
@@ -1429,7 +1440,8 @@ namespace PokeMaster
         void button1_Click(object sender, EventArgs e)
         {
             new KeysManager().ShowDialog();
-            pFHashKey.Text = GlobalVars.pFHashKey;
+            if (!string.IsNullOrEmpty(GlobalVars.pFHashKey))
+                pFHashKey.Text = GlobalVars.pFHashKey;
         }
         void label15_DoubleClick(object sender, EventArgs e)
         {

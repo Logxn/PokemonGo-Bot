@@ -39,8 +39,8 @@ namespace PokeMaster.Dialogs
             progressBar1.Value = 0;
             pictureBox1.Location = new Point(26, 222);
             for (var i = 0; i < 44;i++){
+                Application.DoEvents();
                 progressBar1.Value += progressBar1.Maximum/(48);
-                Refresh();
                 RandomHelper.RandomSleep(550);
                 var x = pictureBox1.Location.X;
                 var y = pictureBox1.Location.Y - 5;
@@ -48,16 +48,18 @@ namespace PokeMaster.Dialogs
             }
             pictureBox1.Image =  targetImage;
             for (var i = 0; i < 8;i++){
+                Application.DoEvents();
                 progressBar1.Value += progressBar1.Maximum/(48)/2;
-                Refresh();
                 RandomHelper.RandomSleep(275);
                 var x = pictureBox1.Location.X;
                 var y = pictureBox1.Location.Y + 27;
                 pictureBox1.Location = new Point(x,y);
             }
             progressBar1.Value = progressBar1.Maximum;
-            Refresh();
-            RandomHelper.RandomSleep(2400);
+            for (var i = 0; i < 8;i++){
+                Application.DoEvents();
+                RandomHelper.RandomSleep(275);
+            }
         }
         public void RunAnimationOld( PokemonId source, PokemonId target)
         {

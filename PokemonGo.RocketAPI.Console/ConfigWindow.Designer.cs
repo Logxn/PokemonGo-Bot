@@ -305,9 +305,7 @@ namespace PokeMaster
             this.label13 = new System.Windows.Forms.Label();
             this.numMinIVSave = new System.Windows.Forms.NumericUpDown();
             this.buttonSelectLocationFile = new System.Windows.Forms.Button();
-            this.AvoidRegionLock = new System.Windows.Forms.CheckBox();
             this.textBoxSaveLocationsFile = new System.Windows.Forms.TextBox();
-            this.SnipePokemonPokeCom = new System.Windows.Forms.CheckBox();
             this.checkBoxSaveLocations = new System.Windows.Forms.CheckBox();
             this.groupBox25 = new System.Windows.Forms.GroupBox();
             this.checkBoxNewLog = new System.Windows.Forms.CheckBox();
@@ -2642,9 +2640,9 @@ namespace PokeMaster
             this.checkBox_UseBreakIntervalAndLength.AutoSize = true;
             this.checkBox_UseBreakIntervalAndLength.Location = new System.Drawing.Point(15, 64);
             this.checkBox_UseBreakIntervalAndLength.Name = "checkBox_UseBreakIntervalAndLength";
-            this.checkBox_UseBreakIntervalAndLength.Size = new System.Drawing.Size(124, 17);
+            this.checkBox_UseBreakIntervalAndLength.Size = new System.Drawing.Size(111, 17);
             this.checkBox_UseBreakIntervalAndLength.TabIndex = 71;
-            this.checkBox_UseBreakIntervalAndLength.Text = "Make a break every ";
+            this.checkBox_UseBreakIntervalAndLength.Text = "Do a break every ";
             this.checkBox_UseBreakIntervalAndLength.UseVisualStyleBackColor = true;
             this.checkBox_UseBreakIntervalAndLength.CheckedChanged += new System.EventHandler(this.checkBox_UseBreakIntervalAndLength_CheckedChanged);
             // 
@@ -3721,9 +3719,7 @@ namespace PokeMaster
             this.groupBox4.Controls.Add(this.label13);
             this.groupBox4.Controls.Add(this.numMinIVSave);
             this.groupBox4.Controls.Add(this.buttonSelectLocationFile);
-            this.groupBox4.Controls.Add(this.AvoidRegionLock);
             this.groupBox4.Controls.Add(this.textBoxSaveLocationsFile);
-            this.groupBox4.Controls.Add(this.SnipePokemonPokeCom);
             this.groupBox4.Controls.Add(this.checkBoxSaveLocations);
             this.groupBox4.Location = new System.Drawing.Point(271, 126);
             this.groupBox4.Name = "groupBox4";
@@ -3735,7 +3731,7 @@ namespace PokeMaster
             // textBoxDiscordServerID
             // 
             this.textBoxDiscordServerID.Enabled = false;
-            this.textBoxDiscordServerID.Location = new System.Drawing.Point(141, 130);
+            this.textBoxDiscordServerID.Location = new System.Drawing.Point(141, 123);
             this.textBoxDiscordServerID.Name = "textBoxDiscordServerID";
             this.textBoxDiscordServerID.Size = new System.Drawing.Size(224, 20);
             this.textBoxDiscordServerID.TabIndex = 81;
@@ -3743,7 +3739,7 @@ namespace PokeMaster
             // 
             // textBoxDiscordPassword
             // 
-            this.textBoxDiscordPassword.Location = new System.Drawing.Point(141, 183);
+            this.textBoxDiscordPassword.Location = new System.Drawing.Point(141, 176);
             this.textBoxDiscordPassword.Name = "textBoxDiscordPassword";
             this.textBoxDiscordPassword.PasswordChar = '*';
             this.textBoxDiscordPassword.Size = new System.Drawing.Size(224, 20);
@@ -3751,7 +3747,7 @@ namespace PokeMaster
             // 
             // label16
             // 
-            this.label16.Location = new System.Drawing.Point(15, 186);
+            this.label16.Location = new System.Drawing.Point(15, 179);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(120, 13);
             this.label16.TabIndex = 79;
@@ -3760,14 +3756,14 @@ namespace PokeMaster
             // 
             // textBoxDiscordUser
             // 
-            this.textBoxDiscordUser.Location = new System.Drawing.Point(141, 157);
+            this.textBoxDiscordUser.Location = new System.Drawing.Point(141, 150);
             this.textBoxDiscordUser.Name = "textBoxDiscordUser";
             this.textBoxDiscordUser.Size = new System.Drawing.Size(224, 20);
             this.textBoxDiscordUser.TabIndex = 78;
             // 
             // label15
             // 
-            this.label15.Location = new System.Drawing.Point(15, 160);
+            this.label15.Location = new System.Drawing.Point(15, 153);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(120, 13);
             this.label15.TabIndex = 77;
@@ -3778,7 +3774,7 @@ namespace PokeMaster
             // checkBoxSendToDiscord
             // 
             this.checkBoxSendToDiscord.AutoSize = true;
-            this.checkBoxSendToDiscord.Location = new System.Drawing.Point(15, 132);
+            this.checkBoxSendToDiscord.Location = new System.Drawing.Point(15, 125);
             this.checkBoxSendToDiscord.Name = "checkBoxSendToDiscord";
             this.checkBoxSendToDiscord.Size = new System.Drawing.Size(102, 17);
             this.checkBoxSendToDiscord.TabIndex = 76;
@@ -3787,7 +3783,7 @@ namespace PokeMaster
             // 
             // label13
             // 
-            this.label13.Location = new System.Drawing.Point(236, 20);
+            this.label13.Location = new System.Drawing.Point(236, 31);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(82, 13);
             this.label13.TabIndex = 15;
@@ -3797,7 +3793,7 @@ namespace PokeMaster
             // numMinIVSave
             // 
             this.numMinIVSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.numMinIVSave.Location = new System.Drawing.Point(328, 18);
+            this.numMinIVSave.Location = new System.Drawing.Point(328, 29);
             this.numMinIVSave.Margin = new System.Windows.Forms.Padding(2);
             this.numMinIVSave.Name = "numMinIVSave";
             this.numMinIVSave.Size = new System.Drawing.Size(37, 20);
@@ -3811,7 +3807,7 @@ namespace PokeMaster
             // buttonSelectLocationFile
             // 
             this.buttonSelectLocationFile.Enabled = false;
-            this.buttonSelectLocationFile.Location = new System.Drawing.Point(341, 44);
+            this.buttonSelectLocationFile.Location = new System.Drawing.Point(341, 55);
             this.buttonSelectLocationFile.Name = "buttonSelectLocationFile";
             this.buttonSelectLocationFile.Size = new System.Drawing.Size(24, 24);
             this.buttonSelectLocationFile.TabIndex = 66;
@@ -3819,41 +3815,18 @@ namespace PokeMaster
             this.buttonSelectLocationFile.UseVisualStyleBackColor = true;
             this.buttonSelectLocationFile.Click += new System.EventHandler(this.buttonSelectLocationFile_Click);
             // 
-            // AvoidRegionLock
-            // 
-            this.AvoidRegionLock.AutoSize = true;
-            this.AvoidRegionLock.Checked = true;
-            this.AvoidRegionLock.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.AvoidRegionLock.Location = new System.Drawing.Point(15, 102);
-            this.AvoidRegionLock.Name = "AvoidRegionLock";
-            this.AvoidRegionLock.Size = new System.Drawing.Size(177, 17);
-            this.AvoidRegionLock.TabIndex = 69;
-            this.AvoidRegionLock.Text = "Avoid Region Locked Pokemon";
-            this.AvoidRegionLock.UseVisualStyleBackColor = true;
-            // 
             // textBoxSaveLocationsFile
             // 
             this.textBoxSaveLocationsFile.Enabled = false;
-            this.textBoxSaveLocationsFile.Location = new System.Drawing.Point(15, 48);
+            this.textBoxSaveLocationsFile.Location = new System.Drawing.Point(15, 59);
             this.textBoxSaveLocationsFile.Name = "textBoxSaveLocationsFile";
             this.textBoxSaveLocationsFile.Size = new System.Drawing.Size(320, 20);
             this.textBoxSaveLocationsFile.TabIndex = 65;
             // 
-            // SnipePokemonPokeCom
-            // 
-            this.SnipePokemonPokeCom.AutoSize = true;
-            this.SnipePokemonPokeCom.Enabled = false;
-            this.SnipePokemonPokeCom.Location = new System.Drawing.Point(15, 79);
-            this.SnipePokemonPokeCom.Name = "SnipePokemonPokeCom";
-            this.SnipePokemonPokeCom.Size = new System.Drawing.Size(145, 17);
-            this.SnipePokemonPokeCom.TabIndex = 69;
-            this.SnipePokemonPokeCom.Text = "Enable Pokemon Sniping";
-            this.SnipePokemonPokeCom.UseVisualStyleBackColor = true;
-            // 
             // checkBoxSaveLocations
             // 
             this.checkBoxSaveLocations.AutoSize = true;
-            this.checkBoxSaveLocations.Location = new System.Drawing.Point(15, 19);
+            this.checkBoxSaveLocations.Location = new System.Drawing.Point(15, 30);
             this.checkBoxSaveLocations.Name = "checkBoxSaveLocations";
             this.checkBoxSaveLocations.Size = new System.Drawing.Size(148, 17);
             this.checkBoxSaveLocations.TabIndex = 64;
@@ -4851,7 +4824,6 @@ namespace PokeMaster
         private System.Windows.Forms.TextBox GreatBallMinCP;
         private System.Windows.Forms.Label label56;
         private System.Windows.Forms.Label label65;
-        private System.Windows.Forms.CheckBox SnipePokemonPokeCom;
         private System.Windows.Forms.TextBox MinCPtoCatch;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.TabPage tabCredits;
@@ -4876,7 +4848,6 @@ namespace PokeMaster
         private System.Windows.Forms.LinkLabel linkLabel11;
         private System.Windows.Forms.TextBox MinIVtoCatch;
         private System.Windows.Forms.Label label54;
-        private System.Windows.Forms.CheckBox AvoidRegionLock;
         private System.Windows.Forms.Label label55;
         private System.Windows.Forms.CheckBox CB_SimulatePGO;
         private System.Windows.Forms.CheckBox NextBestBallOnEscape;
