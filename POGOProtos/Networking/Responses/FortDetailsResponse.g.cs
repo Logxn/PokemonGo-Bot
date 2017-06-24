@@ -27,7 +27,7 @@ namespace POGOProtos.Networking.Responses {
             "ZXMaIVBPR09Qcm90b3MvRGF0YS9Qb2tlbW9uRGF0YS5wcm90bxogUE9HT1By",
             "b3Rvcy9FbnVtcy9UZWFtQ29sb3IucHJvdG8aIlBPR09Qcm90b3MvTWFwL0Zv",
             "cnQvRm9ydFR5cGUucHJvdG8aJlBPR09Qcm90b3MvTWFwL0ZvcnQvRm9ydE1v",
-            "ZGlmaWVyLnByb3RvIvwCChNGb3J0RGV0YWlsc1Jlc3BvbnNlEg8KB2ZvcnRf",
+            "ZGlmaWVyLnByb3RvIqsDChNGb3J0RGV0YWlsc1Jlc3BvbnNlEg8KB2ZvcnRf",
             "aWQYASABKAkSLwoKdGVhbV9jb2xvchgCIAEoDjIbLlBPR09Qcm90b3MuRW51",
             "bXMuVGVhbUNvbG9yEjIKDHBva2Vtb25fZGF0YRgDIAEoCzIcLlBPR09Qcm90",
             "b3MuRGF0YS5Qb2tlbW9uRGF0YRIMCgRuYW1lGAQgASgJEhIKCmltYWdlX3Vy",
@@ -35,11 +35,12 @@ namespace POGOProtos.Networking.Responses {
             "c3RhbWluYRgIIAEoBRIrCgR0eXBlGAkgASgOMh0uUE9HT1Byb3Rvcy5NYXAu",
             "Rm9ydC5Gb3J0VHlwZRIQCghsYXRpdHVkZRgKIAEoARIRCglsb25naXR1ZGUY",
             "CyABKAESEwoLZGVzY3JpcHRpb24YDCABKAkSNAoJbW9kaWZpZXJzGA0gAygL",
-            "MiEuUE9HT1Byb3Rvcy5NYXAuRm9ydC5Gb3J0TW9kaWZpZXJiBnByb3RvMw=="));
+            "MiEuUE9HT1Byb3Rvcy5NYXAuRm9ydC5Gb3J0TW9kaWZpZXISEgoKY2xvc2Vf",
+            "c29vbhgOIAEoCBIZChFjaGVja2luX2ltYWdlX3VybBgPIAEoCWIGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::POGOProtos.Data.PokemonDataReflection.Descriptor, global::POGOProtos.Enums.TeamColorReflection.Descriptor, global::POGOProtos.Map.Fort.FortTypeReflection.Descriptor, global::POGOProtos.Map.Fort.FortModifierReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::POGOProtos.Networking.Responses.FortDetailsResponse), global::POGOProtos.Networking.Responses.FortDetailsResponse.Parser, new[]{ "FortId", "TeamColor", "PokemonData", "Name", "ImageUrls", "Fp", "Stamina", "MaxStamina", "Type", "Latitude", "Longitude", "Description", "Modifiers" }, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::POGOProtos.Networking.Responses.FortDetailsResponse), global::POGOProtos.Networking.Responses.FortDetailsResponse.Parser, new[]{ "FortId", "TeamColor", "PokemonData", "Name", "ImageUrls", "Fp", "Stamina", "MaxStamina", "Type", "Latitude", "Longitude", "Description", "Modifiers", "CloseSoon", "CheckinImageUrl" }, null, null, null)
           }));
     }
     #endregion
@@ -83,6 +84,8 @@ namespace POGOProtos.Networking.Responses {
       longitude_ = other.longitude_;
       description_ = other.description_;
       modifiers_ = other.modifiers_.Clone();
+      closeSoon_ = other.closeSoon_;
+      checkinImageUrl_ = other.checkinImageUrl_;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -231,6 +234,28 @@ namespace POGOProtos.Networking.Responses {
       get { return modifiers_; }
     }
 
+    /// <summary>Field number for the "close_soon" field.</summary>
+    public const int CloseSoonFieldNumber = 14;
+    private bool closeSoon_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool CloseSoon {
+      get { return closeSoon_; }
+      set {
+        closeSoon_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "checkin_image_url" field.</summary>
+    public const int CheckinImageUrlFieldNumber = 15;
+    private string checkinImageUrl_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string CheckinImageUrl {
+      get { return checkinImageUrl_; }
+      set {
+        checkinImageUrl_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
       return Equals(other as FortDetailsResponse);
@@ -257,6 +282,8 @@ namespace POGOProtos.Networking.Responses {
       if (Longitude != other.Longitude) return false;
       if (Description != other.Description) return false;
       if(!modifiers_.Equals(other.modifiers_)) return false;
+      if (CloseSoon != other.CloseSoon) return false;
+      if (CheckinImageUrl != other.CheckinImageUrl) return false;
       return true;
     }
 
@@ -276,6 +303,8 @@ namespace POGOProtos.Networking.Responses {
       if (Longitude != 0D) hash ^= Longitude.GetHashCode();
       if (Description.Length != 0) hash ^= Description.GetHashCode();
       hash ^= modifiers_.GetHashCode();
+      if (CloseSoon != false) hash ^= CloseSoon.GetHashCode();
+      if (CheckinImageUrl.Length != 0) hash ^= CheckinImageUrl.GetHashCode();
       return hash;
     }
 
@@ -332,6 +361,14 @@ namespace POGOProtos.Networking.Responses {
         output.WriteString(Description);
       }
       modifiers_.WriteTo(output, _repeated_modifiers_codec);
+      if (CloseSoon != false) {
+        output.WriteRawTag(112);
+        output.WriteBool(CloseSoon);
+      }
+      if (CheckinImageUrl.Length != 0) {
+        output.WriteRawTag(122);
+        output.WriteString(CheckinImageUrl);
+      }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -372,6 +409,12 @@ namespace POGOProtos.Networking.Responses {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(Description);
       }
       size += modifiers_.CalculateSize(_repeated_modifiers_codec);
+      if (CloseSoon != false) {
+        size += 1 + 1;
+      }
+      if (CheckinImageUrl.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(CheckinImageUrl);
+      }
       return size;
     }
 
@@ -418,6 +461,12 @@ namespace POGOProtos.Networking.Responses {
         Description = other.Description;
       }
       modifiers_.Add(other.modifiers_);
+      if (other.CloseSoon != false) {
+        CloseSoon = other.CloseSoon;
+      }
+      if (other.CheckinImageUrl.Length != 0) {
+        CheckinImageUrl = other.CheckinImageUrl;
+      }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -481,6 +530,14 @@ namespace POGOProtos.Networking.Responses {
           }
           case 106: {
             modifiers_.AddEntriesFrom(input, _repeated_modifiers_codec);
+            break;
+          }
+          case 112: {
+            CloseSoon = input.ReadBool();
+            break;
+          }
+          case 122: {
+            CheckinImageUrl = input.ReadString();
             break;
           }
         }

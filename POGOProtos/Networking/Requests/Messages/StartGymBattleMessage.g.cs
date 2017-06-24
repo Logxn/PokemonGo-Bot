@@ -100,7 +100,7 @@ namespace POGOProtos.Networking.Requests.Messages {
     public const int DefendingPokemonIdFieldNumber = 3;
     private ulong defendingPokemonId_;
     /// <summary>
-    ///  needs to be fixed64, tested by Grover
+    /// needs to be fixed64, tested by Grover
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public ulong DefendingPokemonId {

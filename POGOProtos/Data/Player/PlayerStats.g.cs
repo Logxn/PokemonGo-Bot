@@ -23,26 +23,32 @@ namespace POGOProtos.Data.Player {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "CihQT0dPUHJvdG9zL0RhdGEvUGxheWVyL1BsYXllclN0YXRzLnByb3RvEhZQ",
-            "T0dPUHJvdG9zLkRhdGEuUGxheWVyIp4FCgtQbGF5ZXJTdGF0cxINCgVsZXZl",
-            "bBgBIAEoBRISCgpleHBlcmllbmNlGAIgASgDEhUKDXByZXZfbGV2ZWxfeHAY",
-            "AyABKAMSFQoNbmV4dF9sZXZlbF94cBgEIAEoAxIRCglrbV93YWxrZWQYBSAB",
-            "KAISHAoUcG9rZW1vbnNfZW5jb3VudGVyZWQYBiABKAUSHgoWdW5pcXVlX3Bv",
-            "a2VkZXhfZW50cmllcxgHIAEoBRIZChFwb2tlbW9uc19jYXB0dXJlZBgIIAEo",
-            "BRISCgpldm9sdXRpb25zGAkgASgFEhgKEHBva2Vfc3RvcF92aXNpdHMYCiAB",
-            "KAUSGAoQcG9rZWJhbGxzX3Rocm93bhgLIAEoBRIUCgxlZ2dzX2hhdGNoZWQY",
-            "DCABKAUSGwoTYmlnX21hZ2lrYXJwX2NhdWdodBgNIAEoBRIZChFiYXR0bGVf",
-            "YXR0YWNrX3dvbhgOIAEoBRIbChNiYXR0bGVfYXR0YWNrX3RvdGFsGA8gASgF",
-            "EhsKE2JhdHRsZV9kZWZlbmRlZF93b24YECABKAUSGwoTYmF0dGxlX3RyYWlu",
-            "aW5nX3dvbhgRIAEoBRIdChViYXR0bGVfdHJhaW5pbmdfdG90YWwYEiABKAUS",
-            "HQoVcHJlc3RpZ2VfcmFpc2VkX3RvdGFsGBMgASgFEh4KFnByZXN0aWdlX2Ry",
-            "b3BwZWRfdG90YWwYFCABKAUSGAoQcG9rZW1vbl9kZXBsb3llZBgVIAEoBRIe",
-            "ChZwb2tlbW9uX2NhdWdodF9ieV90eXBlGBYgAygFEhwKFHNtYWxsX3JhdHRh",
-            "dGFfY2F1Z2h0GBcgASgFEhQKDHVzZWRfa21fcG9vbBgYIAEoARIZChFsYXN0",
-            "X2ttX3JlZmlsbF9tcxgZIAEoA2IGcHJvdG8z"));
+            "T0dPUHJvdG9zLkRhdGEuUGxheWVyGiNQT0dPUHJvdG9zL0VudW1zL0d5bUJh",
+            "ZGdlVHlwZS5wcm90byKKBwoLUGxheWVyU3RhdHMSDQoFbGV2ZWwYASABKAUS",
+            "EgoKZXhwZXJpZW5jZRgCIAEoAxIVCg1wcmV2X2xldmVsX3hwGAMgASgDEhUK",
+            "DW5leHRfbGV2ZWxfeHAYBCABKAMSEQoJa21fd2Fsa2VkGAUgASgCEhwKFHBv",
+            "a2Vtb25zX2VuY291bnRlcmVkGAYgASgFEh4KFnVuaXF1ZV9wb2tlZGV4X2Vu",
+            "dHJpZXMYByABKAUSGQoRcG9rZW1vbnNfY2FwdHVyZWQYCCABKAUSEgoKZXZv",
+            "bHV0aW9ucxgJIAEoBRIYChBwb2tlX3N0b3BfdmlzaXRzGAogASgFEhgKEHBv",
+            "a2ViYWxsc190aHJvd24YCyABKAUSFAoMZWdnc19oYXRjaGVkGAwgASgFEhsK",
+            "E2JpZ19tYWdpa2FycF9jYXVnaHQYDSABKAUSGQoRYmF0dGxlX2F0dGFja193",
+            "b24YDiABKAUSGwoTYmF0dGxlX2F0dGFja190b3RhbBgPIAEoBRIbChNiYXR0",
+            "bGVfZGVmZW5kZWRfd29uGBAgASgFEhsKE2JhdHRsZV90cmFpbmluZ193b24Y",
+            "ESABKAUSHQoVYmF0dGxlX3RyYWluaW5nX3RvdGFsGBIgASgFEh0KFXByZXN0",
+            "aWdlX3JhaXNlZF90b3RhbBgTIAEoBRIeChZwcmVzdGlnZV9kcm9wcGVkX3Rv",
+            "dGFsGBQgASgFEhgKEHBva2Vtb25fZGVwbG95ZWQYFSABKAUSHgoWcG9rZW1v",
+            "bl9jYXVnaHRfYnlfdHlwZRgWIAMoBRIcChRzbWFsbF9yYXR0YXRhX2NhdWdo",
+            "dBgXIAEoBRIUCgx1c2VkX2ttX3Bvb2wYGCABKAESGQoRbGFzdF9rbV9yZWZp",
+            "bGxfbXMYGSABKAMSGwoTbnVtX3JhaWRfYmF0dGxlX3dvbhgaIAEoBRIdChVu",
+            "dW1fcmFpZF9iYXR0bGVfdG90YWwYGyABKAUSIAoYbnVtX2xlZ2VuZGFyeV9i",
+            "YXR0bGVfd29uGBwgASgFEiIKGm51bV9sZWdlbmRhcnlfYmF0dGxlX3RvdGFs",
+            "GB0gASgFEhcKD251bV9iZXJyaWVzX2ZlZBgeIAEoBRIZChF0b3RhbF9kZWZl",
+            "bmRlZF9tcxgfIAEoAxI0CgxldmVudF9iYWRnZXMYICADKA4yHi5QT0dPUHJv",
+            "dG9zLkVudW1zLkd5bUJhZGdlVHlwZWIGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { },
+          new pbr::FileDescriptor[] { global::POGOProtos.Enums.GymBadgeTypeReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::POGOProtos.Data.Player.PlayerStats), global::POGOProtos.Data.Player.PlayerStats.Parser, new[]{ "Level", "Experience", "PrevLevelXp", "NextLevelXp", "KmWalked", "PokemonsEncountered", "UniquePokedexEntries", "PokemonsCaptured", "Evolutions", "PokeStopVisits", "PokeballsThrown", "EggsHatched", "BigMagikarpCaught", "BattleAttackWon", "BattleAttackTotal", "BattleDefendedWon", "BattleTrainingWon", "BattleTrainingTotal", "PrestigeRaisedTotal", "PrestigeDroppedTotal", "PokemonDeployed", "PokemonCaughtByType", "SmallRattataCaught", "UsedKmPool", "LastKmRefillMs" }, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::POGOProtos.Data.Player.PlayerStats), global::POGOProtos.Data.Player.PlayerStats.Parser, new[]{ "Level", "Experience", "PrevLevelXp", "NextLevelXp", "KmWalked", "PokemonsEncountered", "UniquePokedexEntries", "PokemonsCaptured", "Evolutions", "PokeStopVisits", "PokeballsThrown", "EggsHatched", "BigMagikarpCaught", "BattleAttackWon", "BattleAttackTotal", "BattleDefendedWon", "BattleTrainingWon", "BattleTrainingTotal", "PrestigeRaisedTotal", "PrestigeDroppedTotal", "PokemonDeployed", "PokemonCaughtByType", "SmallRattataCaught", "UsedKmPool", "LastKmRefillMs", "NumRaidBattleWon", "NumRaidBattleTotal", "NumLegendaryBattleWon", "NumLegendaryBattleTotal", "NumBerriesFed", "TotalDefendedMs", "EventBadges" }, null, null, null)
           }));
     }
     #endregion
@@ -98,6 +104,13 @@ namespace POGOProtos.Data.Player {
       smallRattataCaught_ = other.smallRattataCaught_;
       usedKmPool_ = other.usedKmPool_;
       lastKmRefillMs_ = other.lastKmRefillMs_;
+      numRaidBattleWon_ = other.numRaidBattleWon_;
+      numRaidBattleTotal_ = other.numRaidBattleTotal_;
+      numLegendaryBattleWon_ = other.numLegendaryBattleWon_;
+      numLegendaryBattleTotal_ = other.numLegendaryBattleTotal_;
+      numBerriesFed_ = other.numBerriesFed_;
+      totalDefendedMs_ = other.totalDefendedMs_;
+      eventBadges_ = other.eventBadges_.Clone();
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -379,6 +392,82 @@ namespace POGOProtos.Data.Player {
       }
     }
 
+    /// <summary>Field number for the "num_raid_battle_won" field.</summary>
+    public const int NumRaidBattleWonFieldNumber = 26;
+    private int numRaidBattleWon_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int NumRaidBattleWon {
+      get { return numRaidBattleWon_; }
+      set {
+        numRaidBattleWon_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "num_raid_battle_total" field.</summary>
+    public const int NumRaidBattleTotalFieldNumber = 27;
+    private int numRaidBattleTotal_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int NumRaidBattleTotal {
+      get { return numRaidBattleTotal_; }
+      set {
+        numRaidBattleTotal_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "num_legendary_battle_won" field.</summary>
+    public const int NumLegendaryBattleWonFieldNumber = 28;
+    private int numLegendaryBattleWon_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int NumLegendaryBattleWon {
+      get { return numLegendaryBattleWon_; }
+      set {
+        numLegendaryBattleWon_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "num_legendary_battle_total" field.</summary>
+    public const int NumLegendaryBattleTotalFieldNumber = 29;
+    private int numLegendaryBattleTotal_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int NumLegendaryBattleTotal {
+      get { return numLegendaryBattleTotal_; }
+      set {
+        numLegendaryBattleTotal_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "num_berries_fed" field.</summary>
+    public const int NumBerriesFedFieldNumber = 30;
+    private int numBerriesFed_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int NumBerriesFed {
+      get { return numBerriesFed_; }
+      set {
+        numBerriesFed_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "total_defended_ms" field.</summary>
+    public const int TotalDefendedMsFieldNumber = 31;
+    private long totalDefendedMs_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public long TotalDefendedMs {
+      get { return totalDefendedMs_; }
+      set {
+        totalDefendedMs_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "event_badges" field.</summary>
+    public const int EventBadgesFieldNumber = 32;
+    private static readonly pb::FieldCodec<global::POGOProtos.Enums.GymBadgeType> _repeated_eventBadges_codec
+        = pb::FieldCodec.ForEnum(258, x => (int) x, x => (global::POGOProtos.Enums.GymBadgeType) x);
+    private readonly pbc::RepeatedField<global::POGOProtos.Enums.GymBadgeType> eventBadges_ = new pbc::RepeatedField<global::POGOProtos.Enums.GymBadgeType>();
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public pbc::RepeatedField<global::POGOProtos.Enums.GymBadgeType> EventBadges {
+      get { return eventBadges_; }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
       return Equals(other as PlayerStats);
@@ -417,6 +506,13 @@ namespace POGOProtos.Data.Player {
       if (SmallRattataCaught != other.SmallRattataCaught) return false;
       if (UsedKmPool != other.UsedKmPool) return false;
       if (LastKmRefillMs != other.LastKmRefillMs) return false;
+      if (NumRaidBattleWon != other.NumRaidBattleWon) return false;
+      if (NumRaidBattleTotal != other.NumRaidBattleTotal) return false;
+      if (NumLegendaryBattleWon != other.NumLegendaryBattleWon) return false;
+      if (NumLegendaryBattleTotal != other.NumLegendaryBattleTotal) return false;
+      if (NumBerriesFed != other.NumBerriesFed) return false;
+      if (TotalDefendedMs != other.TotalDefendedMs) return false;
+      if(!eventBadges_.Equals(other.eventBadges_)) return false;
       return true;
     }
 
@@ -448,6 +544,13 @@ namespace POGOProtos.Data.Player {
       if (SmallRattataCaught != 0) hash ^= SmallRattataCaught.GetHashCode();
       if (UsedKmPool != 0D) hash ^= UsedKmPool.GetHashCode();
       if (LastKmRefillMs != 0L) hash ^= LastKmRefillMs.GetHashCode();
+      if (NumRaidBattleWon != 0) hash ^= NumRaidBattleWon.GetHashCode();
+      if (NumRaidBattleTotal != 0) hash ^= NumRaidBattleTotal.GetHashCode();
+      if (NumLegendaryBattleWon != 0) hash ^= NumLegendaryBattleWon.GetHashCode();
+      if (NumLegendaryBattleTotal != 0) hash ^= NumLegendaryBattleTotal.GetHashCode();
+      if (NumBerriesFed != 0) hash ^= NumBerriesFed.GetHashCode();
+      if (TotalDefendedMs != 0L) hash ^= TotalDefendedMs.GetHashCode();
+      hash ^= eventBadges_.GetHashCode();
       return hash;
     }
 
@@ -555,6 +658,31 @@ namespace POGOProtos.Data.Player {
         output.WriteRawTag(200, 1);
         output.WriteInt64(LastKmRefillMs);
       }
+      if (NumRaidBattleWon != 0) {
+        output.WriteRawTag(208, 1);
+        output.WriteInt32(NumRaidBattleWon);
+      }
+      if (NumRaidBattleTotal != 0) {
+        output.WriteRawTag(216, 1);
+        output.WriteInt32(NumRaidBattleTotal);
+      }
+      if (NumLegendaryBattleWon != 0) {
+        output.WriteRawTag(224, 1);
+        output.WriteInt32(NumLegendaryBattleWon);
+      }
+      if (NumLegendaryBattleTotal != 0) {
+        output.WriteRawTag(232, 1);
+        output.WriteInt32(NumLegendaryBattleTotal);
+      }
+      if (NumBerriesFed != 0) {
+        output.WriteRawTag(240, 1);
+        output.WriteInt32(NumBerriesFed);
+      }
+      if (TotalDefendedMs != 0L) {
+        output.WriteRawTag(248, 1);
+        output.WriteInt64(TotalDefendedMs);
+      }
+      eventBadges_.WriteTo(output, _repeated_eventBadges_codec);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -633,6 +761,25 @@ namespace POGOProtos.Data.Player {
       if (LastKmRefillMs != 0L) {
         size += 2 + pb::CodedOutputStream.ComputeInt64Size(LastKmRefillMs);
       }
+      if (NumRaidBattleWon != 0) {
+        size += 2 + pb::CodedOutputStream.ComputeInt32Size(NumRaidBattleWon);
+      }
+      if (NumRaidBattleTotal != 0) {
+        size += 2 + pb::CodedOutputStream.ComputeInt32Size(NumRaidBattleTotal);
+      }
+      if (NumLegendaryBattleWon != 0) {
+        size += 2 + pb::CodedOutputStream.ComputeInt32Size(NumLegendaryBattleWon);
+      }
+      if (NumLegendaryBattleTotal != 0) {
+        size += 2 + pb::CodedOutputStream.ComputeInt32Size(NumLegendaryBattleTotal);
+      }
+      if (NumBerriesFed != 0) {
+        size += 2 + pb::CodedOutputStream.ComputeInt32Size(NumBerriesFed);
+      }
+      if (TotalDefendedMs != 0L) {
+        size += 2 + pb::CodedOutputStream.ComputeInt64Size(TotalDefendedMs);
+      }
+      size += eventBadges_.CalculateSize(_repeated_eventBadges_codec);
       return size;
     }
 
@@ -714,6 +861,25 @@ namespace POGOProtos.Data.Player {
       if (other.LastKmRefillMs != 0L) {
         LastKmRefillMs = other.LastKmRefillMs;
       }
+      if (other.NumRaidBattleWon != 0) {
+        NumRaidBattleWon = other.NumRaidBattleWon;
+      }
+      if (other.NumRaidBattleTotal != 0) {
+        NumRaidBattleTotal = other.NumRaidBattleTotal;
+      }
+      if (other.NumLegendaryBattleWon != 0) {
+        NumLegendaryBattleWon = other.NumLegendaryBattleWon;
+      }
+      if (other.NumLegendaryBattleTotal != 0) {
+        NumLegendaryBattleTotal = other.NumLegendaryBattleTotal;
+      }
+      if (other.NumBerriesFed != 0) {
+        NumBerriesFed = other.NumBerriesFed;
+      }
+      if (other.TotalDefendedMs != 0L) {
+        TotalDefendedMs = other.TotalDefendedMs;
+      }
+      eventBadges_.Add(other.eventBadges_);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -823,6 +989,35 @@ namespace POGOProtos.Data.Player {
           }
           case 200: {
             LastKmRefillMs = input.ReadInt64();
+            break;
+          }
+          case 208: {
+            NumRaidBattleWon = input.ReadInt32();
+            break;
+          }
+          case 216: {
+            NumRaidBattleTotal = input.ReadInt32();
+            break;
+          }
+          case 224: {
+            NumLegendaryBattleWon = input.ReadInt32();
+            break;
+          }
+          case 232: {
+            NumLegendaryBattleTotal = input.ReadInt32();
+            break;
+          }
+          case 240: {
+            NumBerriesFed = input.ReadInt32();
+            break;
+          }
+          case 248: {
+            TotalDefendedMs = input.ReadInt64();
+            break;
+          }
+          case 258:
+          case 256: {
+            eventBadges_.AddEntriesFrom(input, _repeated_eventBadges_codec);
             break;
           }
         }

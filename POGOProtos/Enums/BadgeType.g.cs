@@ -23,7 +23,7 @@ namespace POGOProtos.Enums {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "CiBQT0dPUHJvdG9zL0VudW1zL0JhZGdlVHlwZS5wcm90bxIQUE9HT1Byb3Rv",
-            "cy5FbnVtcyrSBwoJQmFkZ2VUeXBlEg8KC0JBREdFX1VOU0VUEAASEwoPQkFE",
+            "cy5FbnVtcyrsCAoJQmFkZ2VUeXBlEg8KC0JBREdFX1VOU0VUEAASEwoPQkFE",
             "R0VfVFJBVkVMX0tNEAESGQoVQkFER0VfUE9LRURFWF9FTlRSSUVTEAISFwoT",
             "QkFER0VfQ0FQVFVSRV9UT1RBTBADEhcKE0JBREdFX0RFRkVBVEVEX0ZPUlQQ",
             "BBIXChNCQURHRV9FVk9MVkVEX1RPVEFMEAUSFwoTQkFER0VfSEFUQ0hFRF9U",
@@ -44,8 +44,11 @@ namespace POGOProtos.Enums {
             "EgoOQkFER0VfVFlQRV9JQ0UQIBIVChFCQURHRV9UWVBFX0RSQUdPThAhEhMK",
             "D0JBREdFX1RZUEVfREFSSxAiEhQKEEJBREdFX1RZUEVfRkFJUlkQIxIXChNC",
             "QURHRV9TTUFMTF9SQVRUQVRBECQSEQoNQkFER0VfUElLQUNIVRAlEg8KC0JB",
-            "REdFX1VOT1dOECYSHgoaQkFER0VfUE9LRURFWF9FTlRSSUVTX0dFTjIQJ2IG",
-            "cHJvdG8z"));
+            "REdFX1VOT1dOECYSHgoaQkFER0VfUE9LRURFWF9FTlRSSUVTX0dFTjIQJxIZ",
+            "ChVCQURHRV9SQUlEX0JBVFRMRV9XT04QKBIeChpCQURHRV9MRUdFTkRBUllf",
+            "QkFUVExFX1dPThApEhUKEUJBREdFX0JFUlJJRVNfRkVEECoSGAoUQkFER0Vf",
+            "SE9VUlNfREVGRU5ERUQQKxIWChJCQURHRV9QTEFDRV9IT0xERVIQLBIUCg9C",
+            "QURHRV9FVkVOVF9NSU4Q0A9iBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::POGOProtos.Enums.BadgeType), }, null));
@@ -95,6 +98,12 @@ namespace POGOProtos.Enums {
     [pbr::OriginalName("BADGE_PIKACHU")] BadgePikachu = 37,
     [pbr::OriginalName("BADGE_UNOWN")] BadgeUnown = 38,
     [pbr::OriginalName("BADGE_POKEDEX_ENTRIES_GEN2")] BadgePokedexEntriesGen2 = 39,
+    [pbr::OriginalName("BADGE_RAID_BATTLE_WON")] BadgeRaidBattleWon = 40,
+    [pbr::OriginalName("BADGE_LEGENDARY_BATTLE_WON")] BadgeLegendaryBattleWon = 41,
+    [pbr::OriginalName("BADGE_BERRIES_FED")] BadgeBerriesFed = 42,
+    [pbr::OriginalName("BADGE_HOURS_DEFENDED")] BadgeHoursDefended = 43,
+    [pbr::OriginalName("BADGE_PLACE_HOLDER")] BadgePlaceHolder = 44,
+    [pbr::OriginalName("BADGE_EVENT_MIN")] BadgeEventMin = 2000,
   }
 
   #endregion

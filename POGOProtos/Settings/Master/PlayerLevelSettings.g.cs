@@ -23,15 +23,16 @@ namespace POGOProtos.Settings.Master {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "CjRQT0dPUHJvdG9zL1NldHRpbmdzL01hc3Rlci9QbGF5ZXJMZXZlbFNldHRp",
-            "bmdzLnByb3RvEhpQT0dPUHJvdG9zLlNldHRpbmdzLk1hc3RlciKdAQoTUGxh",
+            "bmdzLnByb3RvEhpQT0dPUHJvdG9zLlNldHRpbmdzLk1hc3RlciLGAQoTUGxh",
             "eWVyTGV2ZWxTZXR0aW5ncxIQCghyYW5rX251bRgBIAMoBRIbChNyZXF1aXJl",
             "ZF9leHBlcmllbmNlGAIgAygFEhUKDWNwX211bHRpcGxpZXIYAyADKAISHAoU",
             "bWF4X2VnZ19wbGF5ZXJfbGV2ZWwYBCABKAUSIgoabWF4X2VuY291bnRlcl9w",
-            "bGF5ZXJfbGV2ZWwYBSABKAViBnByb3RvMw=="));
+            "bGF5ZXJfbGV2ZWwYBSABKAUSJwofbWF4X3JhaWRfZW5jb3VudGVyX3BsYXll",
+            "cl9sZXZlbBgGIAEoBWIGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::POGOProtos.Settings.Master.PlayerLevelSettings), global::POGOProtos.Settings.Master.PlayerLevelSettings.Parser, new[]{ "RankNum", "RequiredExperience", "CpMultiplier", "MaxEggPlayerLevel", "MaxEncounterPlayerLevel" }, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::POGOProtos.Settings.Master.PlayerLevelSettings), global::POGOProtos.Settings.Master.PlayerLevelSettings.Parser, new[]{ "RankNum", "RequiredExperience", "CpMultiplier", "MaxEggPlayerLevel", "MaxEncounterPlayerLevel", "MaxRaidEncounterPlayerLevel" }, null, null, null)
           }));
     }
     #endregion
@@ -67,6 +68,7 @@ namespace POGOProtos.Settings.Master {
       cpMultiplier_ = other.cpMultiplier_.Clone();
       maxEggPlayerLevel_ = other.maxEggPlayerLevel_;
       maxEncounterPlayerLevel_ = other.maxEncounterPlayerLevel_;
+      maxRaidEncounterPlayerLevel_ = other.maxRaidEncounterPlayerLevel_;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -126,6 +128,17 @@ namespace POGOProtos.Settings.Master {
       }
     }
 
+    /// <summary>Field number for the "max_raid_encounter_player_level" field.</summary>
+    public const int MaxRaidEncounterPlayerLevelFieldNumber = 6;
+    private int maxRaidEncounterPlayerLevel_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int MaxRaidEncounterPlayerLevel {
+      get { return maxRaidEncounterPlayerLevel_; }
+      set {
+        maxRaidEncounterPlayerLevel_ = value;
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
       return Equals(other as PlayerLevelSettings);
@@ -144,6 +157,7 @@ namespace POGOProtos.Settings.Master {
       if(!cpMultiplier_.Equals(other.cpMultiplier_)) return false;
       if (MaxEggPlayerLevel != other.MaxEggPlayerLevel) return false;
       if (MaxEncounterPlayerLevel != other.MaxEncounterPlayerLevel) return false;
+      if (MaxRaidEncounterPlayerLevel != other.MaxRaidEncounterPlayerLevel) return false;
       return true;
     }
 
@@ -155,6 +169,7 @@ namespace POGOProtos.Settings.Master {
       hash ^= cpMultiplier_.GetHashCode();
       if (MaxEggPlayerLevel != 0) hash ^= MaxEggPlayerLevel.GetHashCode();
       if (MaxEncounterPlayerLevel != 0) hash ^= MaxEncounterPlayerLevel.GetHashCode();
+      if (MaxRaidEncounterPlayerLevel != 0) hash ^= MaxRaidEncounterPlayerLevel.GetHashCode();
       return hash;
     }
 
@@ -176,6 +191,10 @@ namespace POGOProtos.Settings.Master {
         output.WriteRawTag(40);
         output.WriteInt32(MaxEncounterPlayerLevel);
       }
+      if (MaxRaidEncounterPlayerLevel != 0) {
+        output.WriteRawTag(48);
+        output.WriteInt32(MaxRaidEncounterPlayerLevel);
+      }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -189,6 +208,9 @@ namespace POGOProtos.Settings.Master {
       }
       if (MaxEncounterPlayerLevel != 0) {
         size += 1 + pb::CodedOutputStream.ComputeInt32Size(MaxEncounterPlayerLevel);
+      }
+      if (MaxRaidEncounterPlayerLevel != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(MaxRaidEncounterPlayerLevel);
       }
       return size;
     }
@@ -206,6 +228,9 @@ namespace POGOProtos.Settings.Master {
       }
       if (other.MaxEncounterPlayerLevel != 0) {
         MaxEncounterPlayerLevel = other.MaxEncounterPlayerLevel;
+      }
+      if (other.MaxRaidEncounterPlayerLevel != 0) {
+        MaxRaidEncounterPlayerLevel = other.MaxRaidEncounterPlayerLevel;
       }
     }
 
@@ -238,6 +263,10 @@ namespace POGOProtos.Settings.Master {
           }
           case 40: {
             MaxEncounterPlayerLevel = input.ReadInt32();
+            break;
+          }
+          case 48: {
+            MaxRaidEncounterPlayerLevel = input.ReadInt32();
             break;
           }
         }

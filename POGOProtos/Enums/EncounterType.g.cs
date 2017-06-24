@@ -23,8 +23,9 @@ namespace POGOProtos.Enums {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "CiRQT0dPUHJvdG9zL0VudW1zL0VuY291bnRlclR5cGUucHJvdG8SEFBPR09Q",
-            "cm90b3MuRW51bXMqNwoNRW5jb3VudGVyVHlwZRIPCgtTUEFXTl9QT0lOVBAA",
-            "EgsKB0lOQ0VOU0UQARIICgRESVNLEAJiBnByb3RvMw=="));
+            "cm90b3MuRW51bXMqRgoNRW5jb3VudGVyVHlwZRIPCgtTUEFXTl9QT0lOVBAA",
+            "EgsKB0lOQ0VOU0UQARIICgRESVNLEAISDQoJUE9TVF9SQUlEEANiBnByb3Rv",
+            "Mw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::POGOProtos.Enums.EncounterType), }, null));
@@ -37,6 +38,7 @@ namespace POGOProtos.Enums {
     [pbr::OriginalName("SPAWN_POINT")] SpawnPoint = 0,
     [pbr::OriginalName("INCENSE")] Incense = 1,
     [pbr::OriginalName("DISK")] Disk = 2,
+    [pbr::OriginalName("POST_RAID")] PostRaid = 3,
   }
 
   #endregion

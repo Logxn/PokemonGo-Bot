@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>POGOProtos</RootNamespace>
     <AssemblyName>POGOProtos</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -23,7 +23,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
+    <DebugType>none</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
@@ -43,24 +43,51 @@
     <OutputPath>bin\x86\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
+    <DebugType>none</DebugType>
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>none</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Google.Protobuf">
+    <Reference Include="Google.Protobuf, Version=3.3.0.0, Culture=neutral, PublicKeyToken=a7d26565bac4d604, processorArchitecture=MSIL">
       <HintPath>..\packages\Google.Protobuf.3.3.0\lib\net45\Google.Protobuf.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Data\AssetDigestEntry.g.cs" />
     <Compile Include="Data\Avatar\AvatarCustomization.g.cs" />
     <Compile Include="Data\Avatar\AvatarItem.g.cs" />
     <Compile Include="Data\BackgroundToken.g.cs" />
+    <Compile Include="Data\Badge\AwardedGymBadge.g.cs" />
     <Compile Include="Data\Badge\BadgeCaptureReward.g.cs" />
+    <Compile Include="Data\Badge\GymBadgeStats.g.cs" />
+    <Compile Include="Data\Battle\Battle.g.cs" />
     <Compile Include="Data\Battle\BattleAction.g.cs" />
     <Compile Include="Data\Battle\BattleActionType.g.cs" />
     <Compile Include="Data\Battle\BattleLog.g.cs" />
@@ -69,13 +96,17 @@
     <Compile Include="Data\Battle\BattleResults.g.cs" />
     <Compile Include="Data\Battle\BattleState.g.cs" />
     <Compile Include="Data\Battle\BattleType.g.cs" />
+    <Compile Include="Data\Battle\BattleUpdate.g.cs" />
     <Compile Include="Data\BuddyPokemon.g.cs" />
     <Compile Include="Data\Capture\CaptureAward.g.cs" />
     <Compile Include="Data\Capture\CaptureProbability.g.cs" />
     <Compile Include="Data\ClientVersion.g.cs" />
     <Compile Include="Data\DownloadUrlEntry.g.cs" />
+    <Compile Include="Data\FoodValue.g.cs" />
+    <Compile Include="Data\Gym\GymDefender.g.cs" />
     <Compile Include="Data\Gym\GymMembership.g.cs" />
     <Compile Include="Data\Gym\GymState.g.cs" />
+    <Compile Include="Data\Gym\GymStatusAndDefenders.g.cs" />
     <Compile Include="Data\Logs\ActionLogEntry.g.cs" />
     <Compile Include="Data\Logs\BuddyPokemonLogEntry.g.cs" />
     <Compile Include="Data\Logs\CatchPokemonLogEntry.g.cs" />
@@ -97,6 +128,9 @@
     <Compile Include="Data\PokemonDisplay.g.cs" />
     <Compile Include="Data\Quests\DailyQuest.g.cs" />
     <Compile Include="Data\Quests\Quest.g.cs" />
+    <Compile Include="Data\Raid\PlayerRaidInfo.g.cs" />
+    <Compile Include="Data\Raid\Raid.g.cs" />
+    <Compile Include="Data\Raid\RaidInfo.g.cs" />
     <Compile Include="Data\RedeemPasscodeReward.g.cs" />
     <Compile Include="Data\Redeem\PokeCandy.g.cs" />
     <Compile Include="Data\Redeem\RedeemedAvatarItem.g.cs" />
@@ -110,9 +144,11 @@
     <Compile Include="Enums\Filter.g.cs" />
     <Compile Include="Enums\Form.g.cs" />
     <Compile Include="Enums\Gender.g.cs" />
+    <Compile Include="Enums\GymBadgeType.g.cs" />
     <Compile Include="Enums\IapItemCategory.g.cs" />
     <Compile Include="Enums\ItemCategory.g.cs" />
     <Compile Include="Enums\ItemEffect.g.cs" />
+    <Compile Include="Enums\NotificationCategory.g.cs" />
     <Compile Include="Enums\NotificationState.g.cs" />
     <Compile Include="Enums\Platform.g.cs" />
     <Compile Include="Enums\PokemonFamilyId.g.cs" />
@@ -122,15 +158,18 @@
     <Compile Include="Enums\PokemonRarity.g.cs" />
     <Compile Include="Enums\PokemonType.g.cs" />
     <Compile Include="Enums\QuestType.g.cs" />
+    <Compile Include="Enums\RaidLevel.g.cs" />
     <Compile Include="Enums\Slot.g.cs" />
     <Compile Include="Enums\TeamColor.g.cs" />
     <Compile Include="Enums\TutorialState.g.cs" />
+    <Compile Include="Enums\VariableName.g.cs" />
     <Compile Include="Inventory\AppliedItem.g.cs" />
     <Compile Include="Inventory\AppliedItems.g.cs" />
     <Compile Include="Inventory\Candy.g.cs" />
     <Compile Include="Inventory\EggIncubator.g.cs" />
     <Compile Include="Inventory\EggIncubators.g.cs" />
     <Compile Include="Inventory\EggIncubatorType.g.cs" />
+    <Compile Include="Inventory\ExclusiveTicketInfo.g.cs" />
     <Compile Include="Inventory\InventoryDelta.g.cs" />
     <Compile Include="Inventory\InventoryItem.g.cs" />
     <Compile Include="Inventory\InventoryItemData.g.cs" />
@@ -142,6 +181,10 @@
     <Compile Include="Inventory\Item\ItemData.g.cs" />
     <Compile Include="Inventory\Item\ItemId.g.cs" />
     <Compile Include="Inventory\Item\ItemType.g.cs" />
+    <Compile Include="Inventory\Loot.g.cs" />
+    <Compile Include="Inventory\LootItem.g.cs" />
+    <Compile Include="Inventory\RaidTicket.g.cs" />
+    <Compile Include="Inventory\RaidTickets.g.cs" />
     <Compile Include="Map\Fort\FortData.g.cs" />
     <Compile Include="Map\Fort\FortLureInfo.g.cs" />
     <Compile Include="Map\Fort\FortModifier.g.cs" />
@@ -149,9 +192,13 @@
     <Compile Include="Map\Fort\FortSponsor.g.cs" />
     <Compile Include="Map\Fort\FortSummary.g.cs" />
     <Compile Include="Map\Fort\FortType.g.cs" />
+    <Compile Include="Map\Fort\GymDisplay.g.cs" />
+    <Compile Include="Map\Fort\GymEvent.g.cs" />
     <Compile Include="Map\MapCell.g.cs" />
     <Compile Include="Map\MapObjectsStatus.g.cs" />
+    <Compile Include="Map\Pokemon\LobbyPokemon.g.cs" />
     <Compile Include="Map\Pokemon\MapPokemon.g.cs" />
+    <Compile Include="Map\Pokemon\MotivatedPokemon.g.cs" />
     <Compile Include="Map\Pokemon\NearbyPokemon.g.cs" />
     <Compile Include="Map\Pokemon\WildPokemon.g.cs" />
     <Compile Include="Map\SpawnPoint.g.cs" />
@@ -162,6 +209,7 @@
     <Compile Include="Networking\Platform\PlatformRequestType.g.cs" />
     <Compile Include="Networking\Platform\Requests\BuyItemAndroidRequest.g.cs" />
     <Compile Include="Networking\Platform\Requests\BuyItemPokeCoinsRequest.g.cs" />
+    <Compile Include="Networking\Platform\Requests\GetStoreItemsRequest.g.cs" />
     <Compile Include="Networking\Platform\Requests\SendEncryptedSignatureRequest.g.cs" />
     <Compile Include="Networking\Platform\Requests\UnknownPtr8Request.g.cs" />
     <Compile Include="Networking\Platform\Responses\BuyItemAndroidResponse.g.cs" />
@@ -193,6 +241,7 @@
     <Compile Include="Networking\Requests\Messages\GetAssetDigestMessage.g.cs" />
     <Compile Include="Networking\Requests\Messages\GetBuddyWalkedMessage.g.cs" />
     <Compile Include="Networking\Requests\Messages\GetDownloadUrlsMessage.g.cs" />
+    <Compile Include="Networking\Requests\Messages\GetGymBadgeDetailsMessage.g.cs" />
     <Compile Include="Networking\Requests\Messages\GetGymDetailsMessage.g.cs" />
     <Compile Include="Networking\Requests\Messages\GetHatchedEggsMessage.g.cs" />
     <Compile Include="Networking\Requests\Messages\GetInboxMessage.g.cs" />
@@ -201,9 +250,11 @@
     <Compile Include="Networking\Requests\Messages\GetMapObjectsMessage.g.cs" />
     <Compile Include="Networking\Requests\Messages\GetPlayerMessage.g.cs" />
     <Compile Include="Networking\Requests\Messages\GetPlayerProfileMessage.g.cs" />
+    <Compile Include="Networking\Requests\Messages\GymGetInfoMessage.g.cs" />
     <Compile Include="Networking\Requests\Messages\IncenseEncounterMessage.g.cs" />
     <Compile Include="Networking\Requests\Messages\LevelUpRewardsMessage.g.cs" />
     <Compile Include="Networking\Requests\Messages\ListAvatarCustomizationsMessage.g.cs" />
+    <Compile Include="Networking\Requests\Messages\ListGymBadgesMessage.g.cs" />
     <Compile Include="Networking\Requests\Messages\MarkTutorialCompleteMessage.g.cs" />
     <Compile Include="Networking\Requests\Messages\NicknamePokemonMessage.g.cs" />
     <Compile Include="Networking\Requests\Messages\PushNotificationRegistryMessage.g.cs" />
@@ -217,6 +268,7 @@
     <Compile Include="Networking\Requests\Messages\SetFavoritePokemonMessage.g.cs" />
     <Compile Include="Networking\Requests\Messages\SetPlayerTeamMessage.g.cs" />
     <Compile Include="Networking\Requests\Messages\SfidaActionLogMessage.g.cs" />
+    <Compile Include="Networking\Requests\Messages\SfidaRegistrationMessage.g.cs" />
     <Compile Include="Networking\Requests\Messages\StartGymBattleMessage.g.cs" />
     <Compile Include="Networking\Requests\Messages\UpdateNotificationMessage.g.cs" />
     <Compile Include="Networking\Requests\Messages\UpgradePokemonMessage.g.cs" />
@@ -256,6 +308,7 @@
     <Compile Include="Networking\Responses\GetAssetDigestResponse.g.cs" />
     <Compile Include="Networking\Responses\GetBuddyWalkedResponse.g.cs" />
     <Compile Include="Networking\Responses\GetDownloadUrlsResponse.g.cs" />
+    <Compile Include="Networking\Responses\GetGymBadgeDetailsResponse.g.cs" />
     <Compile Include="Networking\Responses\GetGymDetailsResponse.g.cs" />
     <Compile Include="Networking\Responses\GetHatchedEggsResponse.g.cs" />
     <Compile Include="Networking\Responses\GetInboxResponse.g.cs" />
@@ -264,9 +317,11 @@
     <Compile Include="Networking\Responses\GetMapObjectsResponse.g.cs" />
     <Compile Include="Networking\Responses\GetPlayerProfileResponse.g.cs" />
     <Compile Include="Networking\Responses\GetPlayerResponse.g.cs" />
+    <Compile Include="Networking\Responses\GymGetInfoResponse.g.cs" />
     <Compile Include="Networking\Responses\IncenseEncounterResponse.g.cs" />
     <Compile Include="Networking\Responses\LevelUpRewardsResponse.g.cs" />
     <Compile Include="Networking\Responses\ListAvatarCustomizationsResponse.g.cs" />
+    <Compile Include="Networking\Responses\ListGymBadgesResponse.g.cs" />
     <Compile Include="Networking\Responses\MarkTutorialCompleteResponse.g.cs" />
     <Compile Include="Networking\Responses\NicknamePokemonResponse.g.cs" />
     <Compile Include="Networking\Responses\PushNotificationRegistryResponse.g.cs" />
@@ -280,6 +335,7 @@
     <Compile Include="Networking\Responses\SetFavoritePokemonResponse.g.cs" />
     <Compile Include="Networking\Responses\SetPlayerTeamResponse.g.cs" />
     <Compile Include="Networking\Responses\SfidaActionLogResponse.g.cs" />
+    <Compile Include="Networking\Responses\SfidaRegistrationResponse.g.cs" />
     <Compile Include="Networking\Responses\StartGymBattleResponse.g.cs" />
     <Compile Include="Networking\Responses\UpdateNotificationResponse.g.cs" />
     <Compile Include="Networking\Responses\UpgradePokemonResponse.g.cs" />
@@ -309,6 +365,7 @@
     <Compile Include="Settings\Master\EquippedBadgeSettings.g.cs" />
     <Compile Include="Settings\Master\FormSettings.g.cs" />
     <Compile Include="Settings\Master\GenderSettings.g.cs" />
+    <Compile Include="Settings\Master\GymBadgeGmtSettings.g.cs" />
     <Compile Include="Settings\Master\GymBattleSettings.g.cs" />
     <Compile Include="Settings\Master\GymLevelSettings.g.cs" />
     <Compile Include="Settings\Master\IapItemDisplay.g.cs" />
@@ -342,37 +399,6 @@
     <Compile Include="Settings\PasscodeSettings.g.cs" />
     <Compile Include="Settings\SfidaSettings.g.cs" />
     <Compile Include="Settings\TranslationSettings.g.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Data" />
-    <Folder Include="Data\Avatar" />
-    <Folder Include="Data\Badge" />
-    <Folder Include="Data\Battle" />
-    <Folder Include="Data\Capture" />
-    <Folder Include="Data\Gym" />
-    <Folder Include="Data\Logs" />
-    <Folder Include="Data\Player" />
-    <Folder Include="Data\Quests" />
-    <Folder Include="Data\Redeem" />
-    <Folder Include="Enums" />
-    <Folder Include="Inventory" />
-    <Folder Include="Inventory\Item" />
-    <Folder Include="Map" />
-    <Folder Include="Map\Fort" />
-    <Folder Include="Map\Pokemon" />
-    <Folder Include="Networking" />
-    <Folder Include="Networking\Envelopes" />
-    <Folder Include="Networking\Platform" />
-    <Folder Include="Networking\Platform\Requests" />
-    <Folder Include="Networking\Platform\Responses" />
-    <Folder Include="Networking\Requests" />
-    <Folder Include="Networking\Requests\Messages" />
-    <Folder Include="Networking\Responses" />
-    <Folder Include="Settings" />
-    <Folder Include="Settings\Master" />
-    <Folder Include="Settings\Master\Item" />
-    <Folder Include="Settings\Master\Pokemon" />
-    <Folder Include="Settings\Master\Quest" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -37,7 +37,7 @@ namespace POGOProtos.Networking.Requests.Messages {
   }
   #region Messages
   /// <summary>
-  ///  No message needed.
+  /// No message needed.
   /// </summary>
   public sealed partial class CollectDailyDefenderBonusMessage : pb::IMessage<CollectDailyDefenderBonusMessage> {
     private static readonly pb::MessageParser<CollectDailyDefenderBonusMessage> _parser = new pb::MessageParser<CollectDailyDefenderBonusMessage>(() => new CollectDailyDefenderBonusMessage());

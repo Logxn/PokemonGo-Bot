@@ -23,17 +23,18 @@ namespace POGOProtos.Settings {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "CiZQT0dPUHJvdG9zL1NldHRpbmdzL0ZvcnRTZXR0aW5ncy5wcm90bxITUE9H",
-            "T1Byb3Rvcy5TZXR0aW5ncyKcAgoMRm9ydFNldHRpbmdzEiAKGGludGVyYWN0",
+            "T1Byb3Rvcy5TZXR0aW5ncyLHAgoMRm9ydFNldHRpbmdzEiAKGGludGVyYWN0",
             "aW9uX3JhbmdlX21ldGVycxgBIAEoARIiChptYXhfdG90YWxfZGVwbG95ZWRf",
             "cG9rZW1vbhgCIAEoBRIjChttYXhfcGxheWVyX2RlcGxveWVkX3Bva2Vtb24Y",
             "AyABKAUSIQoZZGVwbG95X3N0YW1pbmFfbXVsdGlwbGllchgEIAEoARIgChhk",
             "ZXBsb3lfYXR0YWNrX211bHRpcGxpZXIYBSABKAESJAocZmFyX2ludGVyYWN0",
             "aW9uX3JhbmdlX21ldGVycxgGIAEoARIUCgxkaXNhYmxlX2d5bXMYByABKAgS",
-            "IAoYbWF4X3NhbWVfcG9rZW1vbl9hdF9mb3J0GAggASgFYgZwcm90bzM="));
+            "IAoYbWF4X3NhbWVfcG9rZW1vbl9hdF9mb3J0GAggASgFEikKIW1heF9wbGF5",
+            "ZXJfdG90YWxfZGVwbG95ZWRfcG9rZW1vbhgJIAEoBWIGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::POGOProtos.Settings.FortSettings), global::POGOProtos.Settings.FortSettings.Parser, new[]{ "InteractionRangeMeters", "MaxTotalDeployedPokemon", "MaxPlayerDeployedPokemon", "DeployStaminaMultiplier", "DeployAttackMultiplier", "FarInteractionRangeMeters", "DisableGyms", "MaxSamePokemonAtFort" }, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::POGOProtos.Settings.FortSettings), global::POGOProtos.Settings.FortSettings.Parser, new[]{ "InteractionRangeMeters", "MaxTotalDeployedPokemon", "MaxPlayerDeployedPokemon", "DeployStaminaMultiplier", "DeployAttackMultiplier", "FarInteractionRangeMeters", "DisableGyms", "MaxSamePokemonAtFort", "MaxPlayerTotalDeployedPokemon" }, null, null, null)
           }));
     }
     #endregion
@@ -72,6 +73,7 @@ namespace POGOProtos.Settings {
       farInteractionRangeMeters_ = other.farInteractionRangeMeters_;
       disableGyms_ = other.disableGyms_;
       maxSamePokemonAtFort_ = other.maxSamePokemonAtFort_;
+      maxPlayerTotalDeployedPokemon_ = other.maxPlayerTotalDeployedPokemon_;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -167,6 +169,17 @@ namespace POGOProtos.Settings {
       }
     }
 
+    /// <summary>Field number for the "max_player_total_deployed_pokemon" field.</summary>
+    public const int MaxPlayerTotalDeployedPokemonFieldNumber = 9;
+    private int maxPlayerTotalDeployedPokemon_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int MaxPlayerTotalDeployedPokemon {
+      get { return maxPlayerTotalDeployedPokemon_; }
+      set {
+        maxPlayerTotalDeployedPokemon_ = value;
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
       return Equals(other as FortSettings);
@@ -188,6 +201,7 @@ namespace POGOProtos.Settings {
       if (FarInteractionRangeMeters != other.FarInteractionRangeMeters) return false;
       if (DisableGyms != other.DisableGyms) return false;
       if (MaxSamePokemonAtFort != other.MaxSamePokemonAtFort) return false;
+      if (MaxPlayerTotalDeployedPokemon != other.MaxPlayerTotalDeployedPokemon) return false;
       return true;
     }
 
@@ -202,6 +216,7 @@ namespace POGOProtos.Settings {
       if (FarInteractionRangeMeters != 0D) hash ^= FarInteractionRangeMeters.GetHashCode();
       if (DisableGyms != false) hash ^= DisableGyms.GetHashCode();
       if (MaxSamePokemonAtFort != 0) hash ^= MaxSamePokemonAtFort.GetHashCode();
+      if (MaxPlayerTotalDeployedPokemon != 0) hash ^= MaxPlayerTotalDeployedPokemon.GetHashCode();
       return hash;
     }
 
@@ -244,6 +259,10 @@ namespace POGOProtos.Settings {
         output.WriteRawTag(64);
         output.WriteInt32(MaxSamePokemonAtFort);
       }
+      if (MaxPlayerTotalDeployedPokemon != 0) {
+        output.WriteRawTag(72);
+        output.WriteInt32(MaxPlayerTotalDeployedPokemon);
+      }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -272,6 +291,9 @@ namespace POGOProtos.Settings {
       }
       if (MaxSamePokemonAtFort != 0) {
         size += 1 + pb::CodedOutputStream.ComputeInt32Size(MaxSamePokemonAtFort);
+      }
+      if (MaxPlayerTotalDeployedPokemon != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(MaxPlayerTotalDeployedPokemon);
       }
       return size;
     }
@@ -304,6 +326,9 @@ namespace POGOProtos.Settings {
       }
       if (other.MaxSamePokemonAtFort != 0) {
         MaxSamePokemonAtFort = other.MaxSamePokemonAtFort;
+      }
+      if (other.MaxPlayerTotalDeployedPokemon != 0) {
+        MaxPlayerTotalDeployedPokemon = other.MaxPlayerTotalDeployedPokemon;
       }
     }
 
@@ -345,6 +370,10 @@ namespace POGOProtos.Settings {
           }
           case 64: {
             MaxSamePokemonAtFort = input.ReadInt32();
+            break;
+          }
+          case 72: {
+            MaxPlayerTotalDeployedPokemon = input.ReadInt32();
             break;
           }
         }

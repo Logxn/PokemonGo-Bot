@@ -4,6 +4,7 @@ using POGOProtos.Networking.Envelopes;
 using POGOProtos.Networking.Platform;
 using POGOProtos.Networking.Platform.Requests;
 using POGOProtos.Networking.Requests;
+using POGOProtos.Networking.Requests.Messages;
 using PokemonGo.RocketAPI.Enums;
 using PokemonGo.RocketAPI.Hash;
 using System;
@@ -313,6 +314,12 @@ namespace PokemonGo.RocketAPI.Helpers
                 _requestEnvelope.PlatformRequests.Add(new RequestEnvelope.Types.PlatformRequest() {
                     Type = PlatformRequestType.UnknownPtr8,
                     RequestMessage = plat8Message.ToByteString()
+                });
+
+                _requestEnvelope.Requests.Add(new Request
+                {
+                   RequestType = RequestType.GetInbox,
+                   RequestMessage = new GetInboxMessage { }.ToByteString()
                 });
                 
             }

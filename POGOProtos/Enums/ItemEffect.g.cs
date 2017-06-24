@@ -23,7 +23,7 @@ namespace POGOProtos.Enums {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "CiFQT0dPUHJvdG9zL0VudW1zL0l0ZW1FZmZlY3QucHJvdG8SEFBPR09Qcm90",
-            "b3MuRW51bXMqtgQKCkl0ZW1FZmZlY3QSFAoQSVRFTV9FRkZFQ1RfTk9ORRAA",
+            "b3MuRW51bXMq2AQKCkl0ZW1FZmZlY3QSFAoQSVRFTV9FRkZFQ1RfTk9ORRAA",
             "EhwKF0lURU1fRUZGRUNUX0NBUF9OT19GTEVFEOgHEiAKG0lURU1fRUZGRUNU",
             "X0NBUF9OT19NT1ZFTUVOVBDqBxIeChlJVEVNX0VGRkVDVF9DQVBfTk9fVEhS",
             "RUFUEOsHEh8KGklURU1fRUZGRUNUX0NBUF9UQVJHRVRfTUFYEOwHEiAKG0lU",
@@ -35,7 +35,8 @@ namespace POGOProtos.Enums {
             "Q1RfQ0FQX0NIQU5DRV9SRVBFQVQQ8wcSJwoiSVRFTV9FRkZFQ1RfQ0FQX0NI",
             "QU5DRV9NVUxUSV9USFJPVxD0BxIiCh1JVEVNX0VGRkVDVF9DQVBfQ0hBTkNF",
             "X0FMV0FZUxD1BxIoCiNJVEVNX0VGRkVDVF9DQVBfQ0hBTkNFX1NJTkdMRV9U",
-            "SFJPVxD2BxIcChdJVEVNX0VGRkVDVF9DQU5EWV9BV0FSRBD3B2IGcHJvdG8z"));
+            "SFJPVxD2BxIcChdJVEVNX0VGRkVDVF9DQU5EWV9BV0FSRBD3BxIgChtJVEVN",
+            "X0VGRkVDVF9GVUxMX01PVElWQVRJT04Q+AdiBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::POGOProtos.Enums.ItemEffect), }, null));
@@ -61,6 +62,7 @@ namespace POGOProtos.Enums {
     [pbr::OriginalName("ITEM_EFFECT_CAP_CHANCE_ALWAYS")] CapChanceAlways = 1013,
     [pbr::OriginalName("ITEM_EFFECT_CAP_CHANCE_SINGLE_THROW")] CapChanceSingleThrow = 1014,
     [pbr::OriginalName("ITEM_EFFECT_CANDY_AWARD")] CandyAward = 1015,
+    [pbr::OriginalName("ITEM_EFFECT_FULL_MOTIVATION")] FullMotivation = 1016,
   }
 
   #endregion

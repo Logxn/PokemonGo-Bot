@@ -24,14 +24,15 @@ namespace POGOProtos.Settings.Master.Item {
           string.Concat(
             "CjRQT0dPUHJvdG9zL1NldHRpbmdzL01hc3Rlci9JdGVtL0Zvb2RBdHRyaWJ1",
             "dGVzLnByb3RvEh9QT0dPUHJvdG9zLlNldHRpbmdzLk1hc3Rlci5JdGVtGiFQ",
-            "T0dPUHJvdG9zL0VudW1zL0l0ZW1FZmZlY3QucHJvdG8ieAoORm9vZEF0dHJp",
-            "YnV0ZXMSMQoLaXRlbV9lZmZlY3QYASADKA4yHC5QT0dPUHJvdG9zLkVudW1z",
-            "Lkl0ZW1FZmZlY3QSGwoTaXRlbV9lZmZlY3RfcGVyY2VudBgCIAMoAhIWCg5n",
-            "cm93dGhfcGVyY2VudBgDIAEoAmIGcHJvdG8z"));
+            "T0dPUHJvdG9zL0VudW1zL0l0ZW1FZmZlY3QucHJvdG8ikgEKDkZvb2RBdHRy",
+            "aWJ1dGVzEjEKC2l0ZW1fZWZmZWN0GAEgAygOMhwuUE9HT1Byb3Rvcy5FbnVt",
+            "cy5JdGVtRWZmZWN0EhsKE2l0ZW1fZWZmZWN0X3BlcmNlbnQYAiADKAISFgoO",
+            "Z3Jvd3RoX3BlcmNlbnQYAyABKAISGAoQYmVycnlfbXVsdGlwbGllchgEIAEo",
+            "AmIGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::POGOProtos.Enums.ItemEffectReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::POGOProtos.Settings.Master.Item.FoodAttributes), global::POGOProtos.Settings.Master.Item.FoodAttributes.Parser, new[]{ "ItemEffect", "ItemEffectPercent", "GrowthPercent" }, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::POGOProtos.Settings.Master.Item.FoodAttributes), global::POGOProtos.Settings.Master.Item.FoodAttributes.Parser, new[]{ "ItemEffect", "ItemEffectPercent", "GrowthPercent", "BerryMultiplier" }, null, null, null)
           }));
     }
     #endregion
@@ -65,6 +66,7 @@ namespace POGOProtos.Settings.Master.Item {
       itemEffect_ = other.itemEffect_.Clone();
       itemEffectPercent_ = other.itemEffectPercent_.Clone();
       growthPercent_ = other.growthPercent_;
+      berryMultiplier_ = other.berryMultiplier_;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -103,6 +105,17 @@ namespace POGOProtos.Settings.Master.Item {
       }
     }
 
+    /// <summary>Field number for the "berry_multiplier" field.</summary>
+    public const int BerryMultiplierFieldNumber = 4;
+    private float berryMultiplier_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public float BerryMultiplier {
+      get { return berryMultiplier_; }
+      set {
+        berryMultiplier_ = value;
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
       return Equals(other as FoodAttributes);
@@ -119,6 +132,7 @@ namespace POGOProtos.Settings.Master.Item {
       if(!itemEffect_.Equals(other.itemEffect_)) return false;
       if(!itemEffectPercent_.Equals(other.itemEffectPercent_)) return false;
       if (GrowthPercent != other.GrowthPercent) return false;
+      if (BerryMultiplier != other.BerryMultiplier) return false;
       return true;
     }
 
@@ -128,6 +142,7 @@ namespace POGOProtos.Settings.Master.Item {
       hash ^= itemEffect_.GetHashCode();
       hash ^= itemEffectPercent_.GetHashCode();
       if (GrowthPercent != 0F) hash ^= GrowthPercent.GetHashCode();
+      if (BerryMultiplier != 0F) hash ^= BerryMultiplier.GetHashCode();
       return hash;
     }
 
@@ -144,6 +159,10 @@ namespace POGOProtos.Settings.Master.Item {
         output.WriteRawTag(29);
         output.WriteFloat(GrowthPercent);
       }
+      if (BerryMultiplier != 0F) {
+        output.WriteRawTag(37);
+        output.WriteFloat(BerryMultiplier);
+      }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -152,6 +171,9 @@ namespace POGOProtos.Settings.Master.Item {
       size += itemEffect_.CalculateSize(_repeated_itemEffect_codec);
       size += itemEffectPercent_.CalculateSize(_repeated_itemEffectPercent_codec);
       if (GrowthPercent != 0F) {
+        size += 1 + 4;
+      }
+      if (BerryMultiplier != 0F) {
         size += 1 + 4;
       }
       return size;
@@ -166,6 +188,9 @@ namespace POGOProtos.Settings.Master.Item {
       itemEffectPercent_.Add(other.itemEffectPercent_);
       if (other.GrowthPercent != 0F) {
         GrowthPercent = other.GrowthPercent;
+      }
+      if (other.BerryMultiplier != 0F) {
+        BerryMultiplier = other.BerryMultiplier;
       }
     }
 
@@ -189,6 +214,10 @@ namespace POGOProtos.Settings.Master.Item {
           }
           case 29: {
             GrowthPercent = input.ReadFloat();
+            break;
+          }
+          case 37: {
+            BerryMultiplier = input.ReadFloat();
             break;
           }
         }

@@ -87,7 +87,7 @@ namespace POGOProtos.Networking.Responses {
     public const int UpdatedGpFieldNumber = 2;
     private long updatedGp_;
     /// <summary>
-    ///  Gym Points (?)
+    /// Gym Points (?)
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public long UpdatedGp {
