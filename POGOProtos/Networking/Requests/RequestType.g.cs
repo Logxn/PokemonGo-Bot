@@ -23,7 +23,7 @@ namespace POGOProtos.Networking.Requests {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "CjBQT0dPUHJvdG9zL05ldHdvcmtpbmcvUmVxdWVzdHMvUmVxdWVzdFR5cGUu",
-            "cHJvdG8SHlBPR09Qcm90b3MuTmV0d29ya2luZy5SZXF1ZXN0cyriDgoLUmVx",
+            "cHJvdG8SHlBPR09Qcm90b3MuTmV0d29ya2luZy5SZXF1ZXN0cyrwDwoLUmVx",
             "dWVzdFR5cGUSEAoMTUVUSE9EX1VOU0VUEAASDgoKR0VUX1BMQVlFUhACEhEK",
             "DUdFVF9JTlZFTlRPUlkQBBIVChFET1dOTE9BRF9TRVRUSU5HUxAFEhsKF0RP",
             "V05MT0FEX0lURU1fVEVNUExBVEVTEAYSIgoeRE9XTkxPQURfUkVNT1RFX0NP",
@@ -65,8 +65,11 @@ namespace POGOProtos.Networking.Requests {
             "QVZBVEFSX0NVU1RPTUlaQVRJT05TEKcGEh4KGVNFVF9BVkFUQVJfSVRFTV9B",
             "U19WSUVXRUQQqAYSDgoJR0VUX0lOQk9YEKkGEhQKD0xJU1RfR1lNX0JBREdF",
             "UxCrBhIaChVHRVRfR1lNX0JBREdFX0RFVEFJTFMQrAYSGQoUVVNFX0lURU1f",
-            "TU9WRV9SRVJPTEwQrQYSGAoTVVNFX0lURU1fUkFSRV9DQU5EWRCuBmIGcHJv",
-            "dG8z"));
+            "TU9WRV9SRVJPTEwQrQYSGAoTVVNFX0lURU1fUkFSRV9DQU5EWRCuBhIfChpS",
+            "RUdJU1RFUl9QVVNIX05PVElGSUNBVElPThCIJxIhChxVTlJFR0lTVEVSX1BV",
+            "U0hfTk9USUZJQ0FUSU9OEIknEh8KGlVQREFURV9OT1RJRklDQVRJT05fU1RB",
+            "VFVTEIonEicKIk9QVF9PVVRfUFVTSF9OT1RJRklDQVRJT05fQ0FURUdPUlkQ",
+            "iydiBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::POGOProtos.Networking.Requests.RequestType), }, null));
@@ -404,6 +407,10 @@ namespace POGOProtos.Networking.Requests {
     /// Not yet released.
     /// </summary>
     [pbr::OriginalName("USE_ITEM_RARE_CANDY")] UseItemRareCandy = 814,
+    [pbr::OriginalName("REGISTER_PUSH_NOTIFICATION")] RegisterPushNotification = 5000,
+    [pbr::OriginalName("UNREGISTER_PUSH_NOTIFICATION")] UnregisterPushNotification = 5001,
+    [pbr::OriginalName("UPDATE_NOTIFICATION_STATUS")] UpdateNotificationStatus = 5002,
+    [pbr::OriginalName("OPT_OUT_PUSH_NOTIFICATION_CATEGORY")] OptOutPushNotificationCategory = 5003,
   }
 
   #endregion
