@@ -72,7 +72,7 @@ namespace POGOProtos.Networking.Platform.Requests {
     public const int BuyItemIntentFieldNumber = 1;
     private string buyItemIntent_ = "";
     /// <summary>
-    /// see https://developer.android.com/google/play/billing/billing_reference.html table 4
+    ///  see https://developer.android.com/google/play/billing/billing_reference.html table 4
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public string BuyItemIntent {

@@ -75,7 +75,7 @@ namespace POGOProtos.Networking.Platform.Responses {
     public const int ResultFieldNumber = 1;
     private global::POGOProtos.Networking.Platform.Responses.BuyItemPokeCoinsResponse.Types.Status result_ = 0;
     /// <summary>
-    /// result
+    ///  result
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public global::POGOProtos.Networking.Platform.Responses.BuyItemPokeCoinsResponse.Types.Status Result {
@@ -162,7 +162,7 @@ namespace POGOProtos.Networking.Platform.Responses {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static partial class Types {
       /// <summary>
-      /// THESE ARE SOMEWHAT SPECULATED, should be a NOT ENOUGH ROOM status too for bag being full somewhere.
+      ///  THESE ARE SOMEWHAT SPECULATED, should be a NOT ENOUGH ROOM status too for bag being full somewhere.
       /// </summary>
       public enum Status {
         [pbr::OriginalName("UNKNOWN")] Unknown = 0,

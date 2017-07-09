@@ -46,14 +46,19 @@ namespace PokeMaster
         {
             PokemonListView.Columns.Clear();
             ColumnHeader columnheader;
+
             columnheader = new ColumnHeader();
             columnheader.Name = th.TS("Name");
             columnheader.Text = columnheader.Name;
             PokemonListView.Columns.Add(columnheader);
+            
+            PokemonListView.Columns.Add(CreateColumn(th.TS("Bad")));
+
             columnheader = new ColumnHeader();
             columnheader.Name = th.TS("CP");
             columnheader.Text = columnheader.Name;
             PokemonListView.Columns.Add(columnheader);
+            
             columnheader = new ColumnHeader();
             columnheader.Name = th.TS("IV A-D-S");
             columnheader.Text = columnheader.Name;
@@ -249,12 +254,7 @@ namespace PokeMaster
                             .Where(i => (int)i.FamilyId <= (int)pokemon.PokemonId)
                             .Select(f => f.Candy_)
                             .First();
-                        listViewItem.SubItems.Add(string.Format("{0}", pokemon.Cp));
-                        if (checkBox_ShortName.Checked)
-                            listViewItem.SubItems.Add(string.Format("{0}% {1}{2}{3} ({4})", PokemonInfo.CalculatePokemonPerfection(pokemon).ToString("0"), pokemon.IndividualAttack.ToString("X"), pokemon.IndividualDefense.ToString("X"), pokemon.IndividualStamina.ToString("X"), (45 - pokemon.IndividualAttack- pokemon.IndividualDefense- pokemon.IndividualStamina) ));
-                        else
-                            listViewItem.SubItems.Add(string.Format("{0}% {1}-{2}-{3}", PokemonInfo.CalculatePokemonPerfection(pokemon).ToString("0"), pokemon.IndividualAttack, pokemon.IndividualDefense, pokemon.IndividualStamina));
-                        listViewItem.SubItems.Add(string.Format("{0}", PokemonInfo.GetLevel(pokemon)));
+
                         var specSymbol ="";
                         if  (pokemon.Favorite == 1)
                             specSymbol = "★";
@@ -267,6 +267,17 @@ namespace PokeMaster
                         listViewItem.ToolTipText = StringUtils.ConvertTimeMSinString(pokemon.CreationTimeMs,"dd/MM/yyyy HH:mm:ss");
                         if (pokemon.Nickname != "")
                             listViewItem.ToolTipText += th.TS("\n+Nickname: {0}",pokemon.Nickname);
+
+                        var isbad =(pokemon.IsBad)?"Yes":"No";
+                        listViewItem.SubItems.Add("" + isbad);
+
+                        listViewItem.SubItems.Add(string.Format("{0}", pokemon.Cp));
+
+                        if (checkBox_ShortName.Checked)
+                            listViewItem.SubItems.Add(string.Format("{0}% {1}{2}{3} ({4})", PokemonInfo.CalculatePokemonPerfection(pokemon).ToString("0"), pokemon.IndividualAttack.ToString("X"), pokemon.IndividualDefense.ToString("X"), pokemon.IndividualStamina.ToString("X"), (45 - pokemon.IndividualAttack- pokemon.IndividualDefense- pokemon.IndividualStamina) ));
+                        else
+                            listViewItem.SubItems.Add(string.Format("{0}% {1}-{2}-{3}", PokemonInfo.CalculatePokemonPerfection(pokemon).ToString("0"), pokemon.IndividualAttack, pokemon.IndividualDefense, pokemon.IndividualStamina));
+                        listViewItem.SubItems.Add(string.Format("{0}", PokemonInfo.GetLevel(pokemon)));
 
                         # region Evolve Column
                         var settings = pokemonSettings.FirstOrDefault(x => x.PokemonId == pokemon.PokemonId);

@@ -35,13 +35,13 @@ namespace PokeMaster.Components
 
             var string_y = item_y.SubItems.Count <= ColumnNumber ? "" : item_y.SubItems[ColumnNumber].Text;
 
-            if (ColumnNumber == 2) //IV
+            if (ColumnNumber == 3) //IV
             {
                 string_x = string_x.Substring(0, string_x.IndexOf("%"));
                 string_y = string_y.Substring(0, string_y.IndexOf("%"));
 
             }
-            else if (ColumnNumber == 7) //HP
+            else if (ColumnNumber == 8) //HP
             {
                 string_x = string_x.Substring(0, string_x.IndexOf("/"));
                 string_y = string_y.Substring(0, string_y.IndexOf("/"));

@@ -461,7 +461,6 @@ namespace PokeMaster
             comboBoxLeaveInGyms.SelectedIndex = config.Gyms.DeployPokemons;
             comboBoxAttackers.SelectedIndex = config.Gyms.Attackers;
             checkBoxSpinGyms.Checked = config.Gyms.Spin;
-            numMaxTrainingXP.Value = config.Gyms.MaxTrainingXP;
             // Save Location
             checkBoxSaveLocations.Checked = config.SaveLocations;
             numMinIVSave.Value = config.MinIVSave;
@@ -935,7 +934,6 @@ namespace PokeMaster
             ActiveProfile.Settings.Gyms.Attack = checkBoxAttackGyms.Checked;
             ActiveProfile.Settings.Gyms.NumDefenders = (int)nudNumDefenders.Value;
             ActiveProfile.Settings.Gyms.MaxAttacks = (int)numericUpDownMaxAttacks.Value;
-            ActiveProfile.Settings.Gyms.MaxTrainingXP = (int)numMaxTrainingXP.Value;
 
             ActiveProfile.Settings.UseNanabBerry = checkBox_UseNanabBerry.Checked;
             // Save Locations

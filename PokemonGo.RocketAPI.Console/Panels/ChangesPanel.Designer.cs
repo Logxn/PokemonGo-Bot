@@ -80,10 +80,7 @@ namespace PokeMaster
         private System.Windows.Forms.TabPage tpGym;
         private System.Windows.Forms.Label label23;
         private System.Windows.Forms.ComboBox comboBoxLeaveInGyms;
-        private System.Windows.Forms.Label label34;
         private System.Windows.Forms.CheckBox checkBoxSpinGyms;
-        private System.Windows.Forms.Label labelTraining;
-        private System.Windows.Forms.NumericUpDown numMaxTrainingXP;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ComboBox comboBoxTesting;
         private System.Windows.Forms.TabPage tabPageMisc;
@@ -187,9 +184,6 @@ namespace PokeMaster
             this.button1 = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.comboBoxTesting = new System.Windows.Forms.ComboBox();
-            this.labelTraining = new System.Windows.Forms.Label();
-            this.numMaxTrainingXP = new System.Windows.Forms.NumericUpDown();
-            this.label34 = new System.Windows.Forms.Label();
             this.checkBoxSpinGyms = new System.Windows.Forms.CheckBox();
             this.label23 = new System.Windows.Forms.Label();
             this.comboBoxLeaveInGyms = new System.Windows.Forms.ComboBox();
@@ -227,7 +221,6 @@ namespace PokeMaster
             this.groupBox13.SuspendLayout();
             this.groupBoxGym.SuspendLayout();
             this.groupBox2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numMaxTrainingXP)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMaxAttacks)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.tpGeneral.SuspendLayout();
@@ -983,9 +976,6 @@ namespace PokeMaster
             this.groupBoxGym.Controls.Add(this.groupBox2);
             this.groupBoxGym.Controls.Add(this.label1);
             this.groupBoxGym.Controls.Add(this.comboBoxTesting);
-            this.groupBoxGym.Controls.Add(this.labelTraining);
-            this.groupBoxGym.Controls.Add(this.numMaxTrainingXP);
-            this.groupBoxGym.Controls.Add(this.label34);
             this.groupBoxGym.Controls.Add(this.checkBoxSpinGyms);
             this.groupBoxGym.Controls.Add(this.label23);
             this.groupBoxGym.Controls.Add(this.comboBoxLeaveInGyms);
@@ -1040,7 +1030,7 @@ namespace PokeMaster
             // 
             // label1
             // 
-            this.label1.Location = new System.Drawing.Point(424, 115);
+            this.label1.Location = new System.Drawing.Point(415, 90);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(219, 18);
             this.label1.TabIndex = 105;
@@ -1052,58 +1042,21 @@ namespace PokeMaster
             "Relogin",
             "GetPlayer",
             "Wait 2 minutes catching pokemons"});
-            this.comboBoxTesting.Location = new System.Drawing.Point(415, 145);
+            this.comboBoxTesting.Location = new System.Drawing.Point(415, 126);
             this.comboBoxTesting.Name = "comboBoxTesting";
             this.comboBoxTesting.Size = new System.Drawing.Size(228, 21);
             this.comboBoxTesting.TabIndex = 104;
             this.comboBoxTesting.TextChanged += new System.EventHandler(this.comboBoxTesting_TextChanged);
-            // 
-            // labelTraining
-            // 
-            this.labelTraining.Location = new System.Drawing.Point(31, 129);
-            this.labelTraining.Name = "labelTraining";
-            this.labelTraining.Size = new System.Drawing.Size(192, 16);
-            this.labelTraining.TabIndex = 103;
-            this.labelTraining.Text = "Not train if points are >=";
-            this.labelTraining.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // numMaxTrainingXP
-            // 
-            this.numMaxTrainingXP.Location = new System.Drawing.Point(230, 129);
-            this.numMaxTrainingXP.Maximum = new decimal(new int[] {
-            52000,
-            0,
-            0,
-            0});
-            this.numMaxTrainingXP.Name = "numMaxTrainingXP";
-            this.numMaxTrainingXP.Size = new System.Drawing.Size(121, 20);
-            this.numMaxTrainingXP.TabIndex = 102;
-            this.numMaxTrainingXP.Value = new decimal(new int[] {
-            50000,
-            0,
-            0,
-            0});
-            this.numMaxTrainingXP.ValueChanged += new System.EventHandler(this.numMaxTrainingXP_ValueChanged);
-            // 
-            // label34
-            // 
-            this.label34.AutoSize = true;
-            this.label34.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label34.Location = new System.Drawing.Point(415, 42);
-            this.label34.Name = "label34";
-            this.label34.Size = new System.Drawing.Size(228, 13);
-            this.label34.TabIndex = 101;
-            this.label34.Text = "NOTE: be carefull. App cannot do this.";
             // 
             // checkBoxSpinGyms
             // 
             this.checkBoxSpinGyms.AutoSize = true;
             this.checkBoxSpinGyms.Location = new System.Drawing.Point(415, 19);
             this.checkBoxSpinGyms.Name = "checkBoxSpinGyms";
-            this.checkBoxSpinGyms.Size = new System.Drawing.Size(169, 17);
+            this.checkBoxSpinGyms.Size = new System.Drawing.Size(76, 17);
             this.checkBoxSpinGyms.TabIndex = 100;
             this.checkBoxSpinGyms.Tag = "SpinGyms";
-            this.checkBoxSpinGyms.Text = "Spin Gyms as were Pokestops";
+            this.checkBoxSpinGyms.Text = "Spin Gyms";
             this.checkBoxSpinGyms.UseVisualStyleBackColor = true;
             this.checkBoxSpinGyms.CheckedChanged += new System.EventHandler(this.checkBoxSpinGyms_CheckedChanged);
             // 
@@ -1128,7 +1081,7 @@ namespace PokeMaster
             // 
             // label24
             // 
-            this.label24.Location = new System.Drawing.Point(32, 177);
+            this.label24.Location = new System.Drawing.Point(32, 131);
             this.label24.Name = "label24";
             this.label24.Size = new System.Drawing.Size(192, 16);
             this.label24.TabIndex = 97;
@@ -1139,7 +1092,7 @@ namespace PokeMaster
             // 
             this.comboBoxAttackers.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxAttackers.FormattingEnabled = true;
-            this.comboBoxAttackers.Location = new System.Drawing.Point(230, 172);
+            this.comboBoxAttackers.Location = new System.Drawing.Point(230, 126);
             this.comboBoxAttackers.Name = "comboBoxAttackers";
             this.comboBoxAttackers.Size = new System.Drawing.Size(121, 21);
             this.comboBoxAttackers.TabIndex = 96;
@@ -1147,7 +1100,7 @@ namespace PokeMaster
             // 
             // labelMaxAttacks
             // 
-            this.labelMaxAttacks.Location = new System.Drawing.Point(12, 221);
+            this.labelMaxAttacks.Location = new System.Drawing.Point(12, 175);
             this.labelMaxAttacks.Name = "labelMaxAttacks";
             this.labelMaxAttacks.Size = new System.Drawing.Size(212, 16);
             this.labelMaxAttacks.TabIndex = 95;
@@ -1156,7 +1109,7 @@ namespace PokeMaster
             // 
             // numericUpDownMaxAttacks
             // 
-            this.numericUpDownMaxAttacks.Location = new System.Drawing.Point(230, 217);
+            this.numericUpDownMaxAttacks.Location = new System.Drawing.Point(230, 171);
             this.numericUpDownMaxAttacks.Minimum = new decimal(new int[] {
             1,
             0,
@@ -1412,7 +1365,6 @@ namespace PokeMaster
             this.groupBoxGym.ResumeLayout(false);
             this.groupBoxGym.PerformLayout();
             this.groupBox2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.numMaxTrainingXP)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownMaxAttacks)).EndInit();
             this.tabControl1.ResumeLayout(false);
             this.tpGeneral.ResumeLayout(false);
