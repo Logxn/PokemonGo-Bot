@@ -149,8 +149,10 @@ namespace PokeMaster
             }
             imageList.Images.Add(PokemonId.Pikachu+ Costume.Anniversary.ToString().ToLower(),PokeImgManager.GetPokemonLargeImage(PokemonId.Pikachu,Costume.Anniversary.ToString().ToLower()));
             imageList.Images.Add(PokemonId.Pikachu+ Costume.Holiday2016.ToString().ToLower(),PokeImgManager.GetPokemonLargeImage(PokemonId.Pikachu,Costume.Holiday2016.ToString().ToLower()));
+            imageList.Images.Add(PokemonId.Pikachu+ Costume.OneYearAnniversary.ToString().ToLower(),PokeImgManager.GetPokemonLargeImage(PokemonId.Pikachu,Costume.OneYearAnniversary.ToString().ToLower()));
             imageList.Images.Add(PokemonId.Raichu+ Costume.Anniversary.ToString().ToLower(),PokeImgManager.GetPokemonLargeImage(PokemonId.Raichu,Costume.Anniversary.ToString().ToLower()));
             imageList.Images.Add(PokemonId.Raichu+ Costume.Holiday2016.ToString().ToLower(),PokeImgManager.GetPokemonLargeImage(PokemonId.Raichu,Costume.Holiday2016.ToString().ToLower()));
+            imageList.Images.Add(PokemonId.Raichu+ Costume.OneYearAnniversary.ToString().ToLower(),PokeImgManager.GetPokemonLargeImage(PokemonId.Raichu,Costume.OneYearAnniversary.ToString().ToLower()));
             PokemonListView.SmallImageList = imageList;
             PokemonListView.LargeImageList = imageList;
         }
