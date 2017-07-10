@@ -148,6 +148,7 @@ namespace PokemonGo.RocketAPI
         {
            EvMakeTutorial?.Invoke(this, EventArgs.Empty);
         }
+        public int PageOffset { get; set; }
 
     }
 }

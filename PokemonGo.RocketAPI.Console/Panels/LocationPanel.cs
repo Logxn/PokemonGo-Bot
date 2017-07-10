@@ -458,10 +458,8 @@ namespace PokeMaster
                     color = Color.Yellow;
                     break;
             }
-            var level = Logic.Functions.GymsLogic.GetGymLevel(pokeGym.GymPoints);
-            var nextLevel =  Logic.Functions.GymsLogic.GetLevelPoints(level+1);
 
-            var str = string.Format("Level:{0} ({1}/{2})",level, pokeGym.GymPoints,nextLevel);
+            var str = "";
             var pokeGymMaker = new GMarkerGoogle(new PointLatLng(pokeGym.Latitude, pokeGym.Longitude), bitmap);
             pokeGymMaker.ToolTipText = string.Format("{0}\n{1}, {2}\n{3}\nID: {4}", LocationUtils.FindAddress(pokeGym.Latitude, pokeGym.Longitude), pokeGym.Latitude, pokeGym.Longitude, str, pokeGym.Id);
             pokeGymMaker.ToolTip.Font = new System.Drawing.Font("Arial", 12, System.Drawing.GraphicsUnit.Pixel);

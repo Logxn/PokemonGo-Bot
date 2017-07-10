@@ -1,6 +1,8 @@
 ﻿#region using directives
 
+using System.Collections.Generic;
 using Google.Protobuf;
+using Google.Protobuf.Collections;
 using POGOProtos.Networking.Requests;
 using POGOProtos.Networking.Requests.Messages;
 using POGOProtos.Networking.Responses;
@@ -26,21 +28,31 @@ namespace PokemonGo.RocketAPI.Helpers
                 RequestMessage = downloadRemoteConfigVersionMessage.ToByteString()
             };
         }
-        public static Request GetPlayerMessageRequest()
+
+        public static Request GetPlayerMessageRequest( string country ="", string language="", string zone="")
         {
-            return new Request
+            var locale = new GetPlayerMessage.Types.PlayerLocale();
+            locale.Country =  country;
+            locale.Language =  language;
+            locale.Timezone =  zone;
+            var req = new Request
             {
                 RequestType = RequestType.GetPlayer,
-                RequestMessage = new GetPlayerMessage().ToByteString()
+                RequestMessage = new GetPlayerMessage {
+                    PlayerLocale = locale
+                }.ToByteString()
             };
+            return req;
         }
 
+        
         public static Request GetGetAssetDigestMessageRequest(Client client)
         {
             var getAssetDigestMessage = new GetAssetDigestMessage
             {
                 Platform = client.Platform,
-                AppVersion = client.AppVersion
+                AppVersion = client.AppVersion,
+                PageOffset = client.PageOffset
             };
             return new Request
             {
@@ -88,9 +100,9 @@ namespace PokemonGo.RocketAPI.Helpers
             };
         }
 
-        public static Request[] FillRequest(Request request, Client client)
+        public static Request[] FillRequest(Request request, Client client, bool appendBuddyWalked = true, bool appendInBox = true)
         {
-            return new[]
+            var requests = new List<Request>
             {
                 request,
                 new Request
@@ -110,12 +122,24 @@ namespace PokemonGo.RocketAPI.Helpers
                     RequestMessage = new CheckAwardedBadgesMessage().ToByteString()
                 },
                 GetDownloadSettingsMessageRequest(client),
-                new Request
+            };
+            if (appendBuddyWalked){
+                var reqBuddy = new Request
                 {
                     RequestType = RequestType.GetBuddyWalked,
                     RequestMessage = new GetBuddyWalkedMessage().ToByteString()
-                }
-            };
+                };
+                requests.Add(reqBuddy);
+            }
+            if (appendInBox){
+                var reqInbox = new Request
+                {
+                    RequestType = RequestType.GetInbox,
+                    RequestMessage = new GetInboxMessage().ToByteString()
+                };
+                requests.Add(reqInbox);
+            }
+            return requests.ToArray();
         }
 
         public static Request[] AddChallengeRequest(Request request, Client client)
@@ -168,8 +192,34 @@ namespace PokemonGo.RocketAPI.Helpers
                 if (getInventoryResponse.InventoryDelta.NewTimestampMs >= client.InventoryLastUpdateTimestamp)
                 {
                     client.InventoryLastUpdateTimestamp = getInventoryResponse.InventoryDelta.NewTimestampMs;
-                    //TODO: update inventory
-                    //client.Inventory.CachedInventory = getInventoryResponse;
+                    //TODO: update inventory 
+                    // client.Inventory.CachedInventory = getInventoryResponse;
+                }
+            }
+        }
+
+        public static void ProcessCheckAwardedBadgesResponse(Client client, CheckAwardedBadgesResponse response)
+        {
+            if (response == null)
+                return;
+
+            if (response.Success)
+            {
+                //TODO: do something valid with the information
+                var i = 0;
+                foreach (var element in response.AvatarTemplateIds) {
+                    Logger.Debug($"AvatarTemplateId {i}: {element}");
+                    i++;
+                }
+                i = 0;
+                foreach (var element in response.AwardedBadgeLevels) {
+                    Logger.Debug($"AwardedBadgeLevel {i}: {element}");
+                    i++;
+                }
+                i = 0;
+                foreach (var element in response.AwardedBadges) {
+                    Logger.Debug($"AwardedBadge {i}: {element}");
+                    i++;
                 }
             }
         }
@@ -204,11 +254,95 @@ namespace PokemonGo.RocketAPI.Helpers
                 client.ApiFailure.HandleCaptcha(checkChallengeResponse.ChallengeUrl, client);
         }
 
+        public static void ProcessCommonResponses(Client client, RepeatedField<ByteString> responses , bool processBuddyWalked = true, bool processInBox = true) 
+        {
+            if (responses != null)
+            {
+                var checkChallengeResponse = new CheckChallengeResponse();
+                if ( responses.Count > 1)
+                {
+                    checkChallengeResponse.MergeFrom(responses[1]);
+                }
+
+                var getHatchedEggsResponse = new GetHatchedEggsResponse();
+                if ( responses.Count > 2)
+                {
+                    getHatchedEggsResponse.MergeFrom(responses[2]);
+                }
+
+                var getInventoryResponse = new GetInventoryResponse();
+                if ( responses.Count > 3)
+                {
+                    getInventoryResponse.MergeFrom(responses[3]);
+                }
+
+                var checkAwardedBadgesResponse = new CheckAwardedBadgesResponse();
+                if ( responses.Count > 4)
+                {
+                    checkAwardedBadgesResponse.MergeFrom(responses[4]);
+                }
+
+                var downloadSettingsResponse = new DownloadSettingsResponse();
+                if ( responses.Count > 5)
+                {
+                    downloadSettingsResponse.MergeFrom(responses[5]);
+                }
+                var index = 5;
+                if (processBuddyWalked)
+                {
+                    index ++;
+                    var getBuddyWalkedResponse = new GetBuddyWalkedResponse();
+                    if ( responses.Count > index)
+                    {
+                        getBuddyWalkedResponse.MergeFrom(responses[index]);
+                    }
+                }
+                if (processInBox)
+                {
+                    index ++;
+                    var getInboxResponse = new GetInboxResponse();
+                    if ( responses.Count > index)
+                    {
+                        getInboxResponse.MergeFrom(responses[index]);
+                    }
+                }
+            }
+        }
+
+        public static void ProcessDownloadRemoteConfigVersionResponse(Client client, DownloadRemoteConfigVersionResponse response)
+        {
+            if (response == null)
+                return;
+             // TODO: 
+             // response.ItemTemplatesTimestampMs
+             Logger.Debug("ItemTemplatesTimestampMs:" +response.ItemTemplatesTimestampMs);
+        }
+        public static void ProcessGetHatchedEggsResponse(Client client, GetHatchedEggsResponse response)
+        {
+            if (response == null)
+                return;
+            // TODO: 
+            /*
+            response.CandyAwarded;
+            response.EggKmWalked;
+            response.ExperienceAwarded;
+            response.HatchedPokemon;
+            response.PokemonId;
+            response.StardustAwarded;
+            */
+             Logger.Debug("CandyAwarded:" +response.CandyAwarded);
+             Logger.Debug("EggKmWalked:" +response.EggKmWalked);
+             Logger.Debug("ExperienceAwarded:" +response.ExperienceAwarded);
+             Logger.Debug("HatchedPokemon:" +response.HatchedPokemon);
+             Logger.Debug("PokemonId:" +response.PokemonId);
+             Logger.Debug("StardustAwarded:" +response.StardustAwarded);
+        }
+
         public static void ProcessGetPlayerResponse(Client client, GetPlayerResponse getPlayerResponse)
         {
             if (getPlayerResponse == null)
                 return;
-            
+
             if (getPlayerResponse.Banned)
                 Logger.Debug("Your account is banned");
             if (getPlayerResponse.Warn)
@@ -265,6 +399,100 @@ namespace PokemonGo.RocketAPI.Helpers
                 }.ToByteString()
             };
         }
+
+        public static void ProcessGetAssetDigestResponse(Client client, GetAssetDigestResponse response)
+        {
+            if (response == null)
+                return;
+            var i = 0;
+            foreach (var element in response.Digest) {
+                Logger.Debug($"Digest {i}: {element}");
+                i++;
+            }
+            Logger.Debug("PageOffset:" +response.PageOffset);
+            client.PageOffset = response.PageOffset;
+            Logger.Debug("TimestampMs:" +response.TimestampMs);
+        }
+
+        
+        public static void ProcessDownloadItemTemplatesResponse(Client client, DownloadItemTemplatesResponse response)
+        {
+            if (response == null)
+                return;
+            var i = 0;
+            foreach (var element in response.ItemTemplates) {
+                Logger.Debug($"ItemTemplate {i}: {element}");
+                i++;
+            }
+            Logger.Debug("PageOffset:" +response.PageOffset);
+            client.PageOffset = response.PageOffset;
+            Logger.Debug("TimestampMs:" +response.TimestampMs);
+        }
+
+        public static void ProcessGetDownloadUrlsResponse(Client client, GetDownloadUrlsResponse response)
+        {
+            if (response == null)
+                return;
+            var i = 0;
+            foreach (var element in response.DownloadUrls) {
+                Logger.Debug($"DownloadUrl {i}: {element}");
+                i++;
+            }
+        }
+
+        public static void ProcessGetBuddyWalkedResponse(Client client, GetBuddyWalkedResponse response)
+        {
+            if (response == null)
+                return;
+            Logger.Debug("Success:" + response.Success);
+            Logger.Debug("CandyEarnedCount:" +response.CandyEarnedCount);
+            Logger.Debug("FamilyCandyId:" +response.FamilyCandyId);
+        }
+
+        public static void ProcessGetInboxResponse(Client client, GetInboxResponse response)
+        {
+            if (response == null)
+                return;
+            Logger.Debug("Result:" + response.Result);
+            var i = 0;
+            foreach (var element in response.Inbox.BuiltinVariables) {
+                Logger.Debug($"BuiltinVariable {i}: {element}");
+                i++;
+            }
+            i = 0;
+            foreach (var element in response.Inbox.Notifications) {
+                Logger.Debug($"Notification {i}: {element}");
+                i++;
+            }
+        }
+                
+        public static Request DownloadItemTemplatesRequest(Client client)
+        {
+            var downloadItemTemplatesMessage = new DownloadItemTemplatesMessage
+            {
+                PageOffset = client.PageOffset
+                
+            };
+            return new Request
+            {
+                RequestType = RequestType.DownloadItemTemplates,
+                RequestMessage = downloadItemTemplatesMessage.ToByteString()
+            };
+        }
+        
+        public static Request GetDownloadUrlsRequest(Client client)
+        {
+            var getDownloadUrlsMessage = new GetDownloadUrlsMessage();
+            // TODO: get asset ids from digest;
+            // d.bundle_name == 'i18n_general, i18n_moves, i18n_items
+            return new Request
+            {
+                RequestType = RequestType.GetDownloadUrls,
+                RequestMessage = getDownloadUrlsMessage.ToByteString()
+            };
+        
+        }
+
 
     }
 }

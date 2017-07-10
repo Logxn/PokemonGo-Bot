@@ -42,48 +42,6 @@ namespace PokeMaster.Logic.Functions
         public static void ResetVisitedMarks(){
             gymsVisited.Clear();
         }
-            
-        public static int  GetGymLevel(long value)
-        {
-            if (value >= 50000)
-                return 10;
-            if (value >= 40000)
-                return 9;
-            if (value >= 30000)
-                return 8;
-            if (value >= 20000)
-                return 7;
-            if (value >= 16000)
-                return 6;
-            if (value >= 12000)
-                return 5;
-            if (value >= 8000)
-                return 4;
-            if (value >= 4000)
-                return 3;
-            return value >= 2000 ? 2 : 1;
-        }
-
-        public static long  GetLevelPoints(int value)
-        {
-            if (value >= 10)
-                return 50000;
-            if (value >= 9)
-                return 40000;
-            if (value >= 8)
-                return 30000;
-            if (value >= 7)
-                return 20000;
-            if (value >= 6)
-                return 16000;
-            if (value >= 5)
-                return 12000;
-            if (value >= 4)
-                return 8000;
-            if (value >= 3)
-                return 4000;
-            return value >= 2 ? 2000 : 1;
-        }
 
         private static string GetTeamName(TeamColor team)
         {
@@ -297,9 +255,7 @@ namespace PokeMaster.Logic.Functions
             var gymDetails = client.Fort.GetGymDetails(gym.Id, gym.Latitude, gym.Longitude);
             Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - Team: " + GetTeamName(gym.OwnedByTeam) + ".");
             if (gymDetails.GymState.Memberships != null && gymDetails.GymState.Memberships.Count > 0) {
-                var level = GetGymLevel(gym.GymPoints);
-                var nextLevel = GetLevelPoints(level + 1);
-                Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - Members: " + gymDetails.GymState.Memberships.Count +$". Level: {level} ( {gym.GymPoints }/{nextLevel})");
+                Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - Members: " + gymDetails.GymState.Memberships.Count +$".");
             }
             Logger.Info("(Gym) - Name: " + gymDetails.Name);
 
@@ -308,7 +264,7 @@ namespace PokeMaster.Logic.Functions
                 putInGym(client, gym, pokemon, pokemons);
             } else if ((gym.OwnedByTeam == client.Player.PlayerResponse.PlayerData.Team)) {
                 RandomHelper.RandomSleep(250);
-                if (gymDetails.GymState.Memberships.Count < GetGymLevel(gym.GymPoints)) {
+                if (gymDetails.GymState.Memberships.Count < 6 ) {
                     Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - There is a free space");
                     putInGym(client, gym, pokemon, pokemons);
                 } else {
