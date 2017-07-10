@@ -262,30 +262,35 @@ namespace PokemonGo.RocketAPI.Helpers
                 if ( responses.Count > 1)
                 {
                     checkChallengeResponse.MergeFrom(responses[1]);
+                    CommonRequest.ProcessCheckChallengeResponse( client, checkChallengeResponse);
                 }
 
                 var getHatchedEggsResponse = new GetHatchedEggsResponse();
                 if ( responses.Count > 2)
                 {
                     getHatchedEggsResponse.MergeFrom(responses[2]);
+                    CommonRequest.ProcessGetHatchedEggsResponse( client, getHatchedEggsResponse);
                 }
 
                 var getInventoryResponse = new GetInventoryResponse();
                 if ( responses.Count > 3)
                 {
                     getInventoryResponse.MergeFrom(responses[3]);
+                    CommonRequest.ProcessGetInventoryResponse( client, getInventoryResponse);
                 }
 
                 var checkAwardedBadgesResponse = new CheckAwardedBadgesResponse();
                 if ( responses.Count > 4)
                 {
                     checkAwardedBadgesResponse.MergeFrom(responses[4]);
+                    CommonRequest.ProcessCheckAwardedBadgesResponse( client, checkAwardedBadgesResponse);
                 }
 
                 var downloadSettingsResponse = new DownloadSettingsResponse();
                 if ( responses.Count > 5)
                 {
                     downloadSettingsResponse.MergeFrom(responses[5]);
+                    CommonRequest.ProcessDownloadSettingsResponse( client, downloadSettingsResponse);
                 }
                 var index = 5;
                 if (processBuddyWalked)
@@ -295,6 +300,7 @@ namespace PokemonGo.RocketAPI.Helpers
                     if ( responses.Count > index)
                     {
                         getBuddyWalkedResponse.MergeFrom(responses[index]);
+                        CommonRequest.ProcessGetBuddyWalkedResponse( client, getBuddyWalkedResponse);
                     }
                 }
                 if (processInBox)
@@ -304,6 +310,7 @@ namespace PokemonGo.RocketAPI.Helpers
                     if ( responses.Count > index)
                     {
                         getInboxResponse.MergeFrom(responses[index]);
+                        CommonRequest.ProcessGetInboxResponse( client, getInboxResponse);
                     }
                 }
             }
@@ -485,6 +492,7 @@ namespace PokemonGo.RocketAPI.Helpers
             var getDownloadUrlsMessage = new GetDownloadUrlsMessage();
             // TODO: get asset ids from digest;
             // d.bundle_name == 'i18n_general, i18n_moves, i18n_items
+            // getDownloadUrlsMessage.AssetId = new RepeatedField<string>();
             return new Request
             {
                 RequestType = RequestType.GetDownloadUrls,
