@@ -161,11 +161,11 @@ namespace PokeMaster
                 }
             }
 
-            // Check if Bot is deactivated at server level
-            StringUtils.CheckKillSwitch();
-
             // Check if a new version of BOT is available
             CheckVersion(); 
+
+            // Check if Bot is deactivated at server level
+            StringUtils.CheckKillSwitch();
 
             if (openGUI)
             {

@@ -8,6 +8,7 @@
  */
 using System;
 using System.Windows.Forms;
+using PokemonGo.RocketAPI;
 
 namespace PokeMaster.Components
 {
@@ -34,6 +35,11 @@ namespace PokeMaster.Components
             var string_x = item_x.SubItems.Count <= ColumnNumber ? "" : item_x.SubItems[ColumnNumber].Text;
 
             var string_y = item_y.SubItems.Count <= ColumnNumber ? "" : item_y.SubItems[ColumnNumber].Text;
+
+            var columnXName = item_x.ListView.Columns[ColumnNumber].Text;
+            Logger.Debug("Column X Name:" + columnXName);
+            var columnYName = item_y.ListView.Columns[ColumnNumber].Text;
+            Logger.Debug("Column Y Name:" + columnYName);
 
             if (ColumnNumber == 3) //IV
             {

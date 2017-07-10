@@ -125,8 +125,8 @@ namespace PokeMaster
             PokemonListView.Columns.Add(CreateColumn(th.TS("ID")));
 
             PokemonListView.Columns["#"].DisplayIndex = 0;
-            
-            PokemonListView.ColumnClick += new ColumnClickEventHandler(PokemonListView_ColumnClick);
+            PokemonListView.ColumnClick += PokemonListView_ColumnClick;
+
             PokemonListView.ShowItemToolTips = true;
             PokemonListView.DoubleBuffered(true);
             PokemonListView.View = View.Details;
@@ -196,6 +196,8 @@ namespace PokeMaster
             }
 
             // Create a comparer.
+            Logger.Debug("Column Index:" + e.Column);
+            Logger.Debug("Sort order:" + sort_order);
             PokemonListView.ListViewItemSorter = new ListViewComparer(e.Column, sort_order);
 
             // Sort
