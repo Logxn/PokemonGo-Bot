@@ -28,7 +28,7 @@ namespace PokemonGo.RocketAPI.Helpers
                 RequestMessage = downloadRemoteConfigVersionMessage.ToByteString()
             };
         }
-
+        
         public static Request GetPlayerMessageRequest( string country ="", string language="", string zone="")
         {
             var locale = new GetPlayerMessage.Types.PlayerLocale();
@@ -45,14 +45,12 @@ namespace PokemonGo.RocketAPI.Helpers
             return req;
         }
 
-        
         public static Request GetGetAssetDigestMessageRequest(Client client)
         {
             var getAssetDigestMessage = new GetAssetDigestMessage
             {
                 Platform = client.Platform,
-                AppVersion = client.AppVersion,
-                PageOffset = client.PageOffset
+                AppVersion = client.AppVersion
             };
             return new Request
             {
@@ -99,8 +97,7 @@ namespace PokemonGo.RocketAPI.Helpers
                 }
             };
         }
-
-        public static Request[] FillRequest(Request request, Client client, bool appendBuddyWalked = true, bool appendInBox = true)
+        public static Request[] FillRequest(Request request, Client client, bool appendBuddyWalked = true, bool appendInBox = false)
         {
             var requests = new List<Request>
             {
@@ -141,7 +138,7 @@ namespace PokemonGo.RocketAPI.Helpers
             }
             return requests.ToArray();
         }
-
+        
         public static Request[] AddChallengeRequest(Request request, Client client)
         {
             return new[]
@@ -192,34 +189,8 @@ namespace PokemonGo.RocketAPI.Helpers
                 if (getInventoryResponse.InventoryDelta.NewTimestampMs >= client.InventoryLastUpdateTimestamp)
                 {
                     client.InventoryLastUpdateTimestamp = getInventoryResponse.InventoryDelta.NewTimestampMs;
-                    //TODO: update inventory 
-                    // client.Inventory.CachedInventory = getInventoryResponse;
-                }
-            }
-        }
-
-        public static void ProcessCheckAwardedBadgesResponse(Client client, CheckAwardedBadgesResponse response)
-        {
-            if (response == null)
-                return;
-
-            if (response.Success)
-            {
-                //TODO: do something valid with the information
-                var i = 0;
-                foreach (var element in response.AvatarTemplateIds) {
-                    Logger.Debug($"AvatarTemplateId {i}: {element}");
-                    i++;
-                }
-                i = 0;
-                foreach (var element in response.AwardedBadgeLevels) {
-                    Logger.Debug($"AwardedBadgeLevel {i}: {element}");
-                    i++;
-                }
-                i = 0;
-                foreach (var element in response.AwardedBadges) {
-                    Logger.Debug($"AwardedBadge {i}: {element}");
-                    i++;
+                    //TODO: update inventory
+                    //client.Inventory.CachedInventory = getInventoryResponse;
                 }
             }
         }
@@ -254,7 +225,139 @@ namespace PokemonGo.RocketAPI.Helpers
                 client.ApiFailure.HandleCaptcha(checkChallengeResponse.ChallengeUrl, client);
         }
 
-        public static void ProcessCommonResponses(Client client, RepeatedField<ByteString> responses , bool processBuddyWalked = true, bool processInBox = true) 
+        public static void ProcessGetPlayerResponse(Client client, GetPlayerResponse getPlayerResponse)
+        {
+            if (getPlayerResponse == null)
+                return;
+            
+            if (getPlayerResponse.Banned)
+                Logger.Debug("Your account is banned");
+            if (getPlayerResponse.Warn)
+                Logger.Debug("Your account is flagged");
+            if (getPlayerResponse.Success){
+                client.Player.PlayerResponse = getPlayerResponse;
+            }
+
+        }
+
+        public static void Parse(Client client, RequestType requestType, ByteString data)
+        {
+            try
+            {
+                switch (requestType)
+                {
+                    case RequestType.GetInventory:
+                        //TODO Update inventory
+                        //client..getInventories().updateInventories(GetInventoryResponse.parseFrom(data));
+
+                        //var getInventoryResponse = new GetInventoryResponse();
+                        //getInventoryResponse.MergeFrom(data);
+
+                        // Update inventory timestamp
+                        client.InventoryLastUpdateTimestamp = Utils.GetTime(true);
+
+                        break;
+                    case RequestType.DownloadSettings:
+                        //TODO Update settings
+                        //api.getSettings().updateSettings(DownloadSettingsResponse.parseFrom(data));
+
+                        // Update settings hash
+                        var downloadSettingsResponse = new DownloadSettingsResponse();
+                        downloadSettingsResponse.MergeFrom(data);
+                        client.SettingsHash = downloadSettingsResponse.Hash;
+
+                        break;
+                }
+            }
+            catch (InvalidProtocolBufferException e)
+            {
+                throw e;
+            }
+        }
+
+        public static Request GetVerifyChallenge(string token)
+        {
+            return new Request
+            {
+                RequestType = RequestType.VerifyChallenge,
+                RequestMessage = new VerifyChallengeMessage()
+                {
+                    Token = token
+                }.ToByteString()
+            };
+        }
+        
+        public static void ProcessCheckAwardedBadgesResponse(Client client, CheckAwardedBadgesResponse response)
+        {
+            if (response == null)
+                return;
+
+            if (response.Success)
+            {
+                //TODO: do something valid with the information
+                var i = 0;
+                foreach (var element in response.AvatarTemplateIds) {
+                    Logger.Debug($"AvatarTemplateId {i}: {element}");
+                    i++;
+                }
+                i = 0;
+                foreach (var element in response.AwardedBadgeLevels) {
+                    Logger.Debug($"AwardedBadgeLevel {i}: {element}");
+                    i++;
+                }
+                i = 0;
+                foreach (var element in response.AwardedBadges) {
+                    Logger.Debug($"AwardedBadge {i}: {element}");
+                    i++;
+                }
+            }
+        }
+        public static void ProcessGetHatchedEggsResponse(Client client, GetHatchedEggsResponse response)
+        {
+            if (response == null)
+                return;
+            // TODO: 
+            /*
+            response.CandyAwarded;
+            response.EggKmWalked;
+            response.ExperienceAwarded;
+            response.HatchedPokemon;
+            response.PokemonId;
+            response.StardustAwarded;
+            */
+             Logger.Debug("CandyAwarded:" +response.CandyAwarded);
+             Logger.Debug("EggKmWalked:" +response.EggKmWalked);
+             Logger.Debug("ExperienceAwarded:" +response.ExperienceAwarded);
+             Logger.Debug("HatchedPokemon:" +response.HatchedPokemon);
+             Logger.Debug("PokemonId:" +response.PokemonId);
+             Logger.Debug("StardustAwarded:" +response.StardustAwarded);
+        }
+        public static void ProcessGetBuddyWalkedResponse(Client client, GetBuddyWalkedResponse response)
+        {
+            if (response == null)
+                return;
+            Logger.Debug("Success:" + response.Success);
+            Logger.Debug("CandyEarnedCount:" +response.CandyEarnedCount);
+            Logger.Debug("FamilyCandyId:" +response.FamilyCandyId);
+        }
+        
+        public static void ProcessGetInboxResponse(Client client, GetInboxResponse response)
+        {
+            if (response == null)
+                return;
+            Logger.Debug("Result:" + response.Result);
+            var i = 0;
+            foreach (var element in response.Inbox.BuiltinVariables) {
+                Logger.Debug($"BuiltinVariable {i}: {element}");
+                i++;
+            }
+            i = 0;
+            foreach (var element in response.Inbox.Notifications) {
+                Logger.Debug($"Notification {i}: {element}");
+                i++;
+            }
+        }
+        public static void ProcessCommonResponses(Client client, RepeatedField <ByteString> responses , bool processBuddyWalked = true, bool processInBox = true) 
         {
             if (responses != null)
             {
@@ -314,193 +417,6 @@ namespace PokemonGo.RocketAPI.Helpers
                     }
                 }
             }
-        }
-
-        public static void ProcessDownloadRemoteConfigVersionResponse(Client client, DownloadRemoteConfigVersionResponse response)
-        {
-            if (response == null)
-                return;
-             // TODO: 
-             // response.ItemTemplatesTimestampMs
-             Logger.Debug("ItemTemplatesTimestampMs:" +response.ItemTemplatesTimestampMs);
-        }
-        public static void ProcessGetHatchedEggsResponse(Client client, GetHatchedEggsResponse response)
-        {
-            if (response == null)
-                return;
-            // TODO: 
-            /*
-            response.CandyAwarded;
-            response.EggKmWalked;
-            response.ExperienceAwarded;
-            response.HatchedPokemon;
-            response.PokemonId;
-            response.StardustAwarded;
-            */
-             Logger.Debug("CandyAwarded:" +response.CandyAwarded);
-             Logger.Debug("EggKmWalked:" +response.EggKmWalked);
-             Logger.Debug("ExperienceAwarded:" +response.ExperienceAwarded);
-             Logger.Debug("HatchedPokemon:" +response.HatchedPokemon);
-             Logger.Debug("PokemonId:" +response.PokemonId);
-             Logger.Debug("StardustAwarded:" +response.StardustAwarded);
-        }
-
-        public static void ProcessGetPlayerResponse(Client client, GetPlayerResponse getPlayerResponse)
-        {
-            if (getPlayerResponse == null)
-                return;
-
-            if (getPlayerResponse.Banned)
-                Logger.Debug("Your account is banned");
-            if (getPlayerResponse.Warn)
-                Logger.Debug("Your account is flagged");
-            if (getPlayerResponse.Success){
-                client.Player.PlayerResponse = getPlayerResponse;
-            }
-
-        }
-
-        public static void Parse(Client client, RequestType requestType, ByteString data)
-        {
-            try
-            {
-                switch (requestType)
-                {
-                    case RequestType.GetInventory:
-                        //TODO Update inventory
-                        //client..getInventories().updateInventories(GetInventoryResponse.parseFrom(data));
-
-                        //var getInventoryResponse = new GetInventoryResponse();
-                        //getInventoryResponse.MergeFrom(data);
-
-                        // Update inventory timestamp
-                        client.InventoryLastUpdateTimestamp = Utils.GetTime(true);
-
-                        break;
-                    case RequestType.DownloadSettings:
-                        //TODO Update settings
-                        //api.getSettings().updateSettings(DownloadSettingsResponse.parseFrom(data));
-
-                        // Update settings hash
-                        var downloadSettingsResponse = new DownloadSettingsResponse();
-                        downloadSettingsResponse.MergeFrom(data);
-                        client.SettingsHash = downloadSettingsResponse.Hash;
-
-                        break;
-                }
-            }
-            catch (InvalidProtocolBufferException e)
-            {
-                throw e;
-            }
-        }
-
-        public static Request GetVerifyChallenge(string token)
-        {
-            return new Request
-            {
-                RequestType = RequestType.VerifyChallenge,
-                RequestMessage = new VerifyChallengeMessage()
-                {
-                    Token = token
-                }.ToByteString()
-            };
-        }
-
-        public static void ProcessGetAssetDigestResponse(Client client, GetAssetDigestResponse response)
-        {
-            if (response == null)
-                return;
-            var i = 0;
-            foreach (var element in response.Digest) {
-                Logger.Debug($"Digest {i}: {element}");
-                i++;
-            }
-            Logger.Debug("PageOffset:" +response.PageOffset);
-            client.PageOffset = response.PageOffset;
-            Logger.Debug("TimestampMs:" +response.TimestampMs);
-        }
-
-        
-        public static void ProcessDownloadItemTemplatesResponse(Client client, DownloadItemTemplatesResponse response)
-        {
-            if (response == null)
-                return;
-            var i = 0;
-            foreach (var element in response.ItemTemplates) {
-                Logger.Debug($"ItemTemplate {i}: {element}");
-                i++;
-            }
-            Logger.Debug("PageOffset:" +response.PageOffset);
-            client.PageOffset = response.PageOffset;
-            Logger.Debug("TimestampMs:" +response.TimestampMs);
-        }
-
-        public static void ProcessGetDownloadUrlsResponse(Client client, GetDownloadUrlsResponse response)
-        {
-            if (response == null)
-                return;
-            var i = 0;
-            foreach (var element in response.DownloadUrls) {
-                Logger.Debug($"DownloadUrl {i}: {element}");
-                i++;
-            }
-        }
-
-        public static void ProcessGetBuddyWalkedResponse(Client client, GetBuddyWalkedResponse response)
-        {
-            if (response == null)
-                return;
-            Logger.Debug("Success:" + response.Success);
-            Logger.Debug("CandyEarnedCount:" +response.CandyEarnedCount);
-            Logger.Debug("FamilyCandyId:" +response.FamilyCandyId);
-        }
-
-        public static void ProcessGetInboxResponse(Client client, GetInboxResponse response)
-        {
-            if (response == null)
-                return;
-            Logger.Debug("Result:" + response.Result);
-            var i = 0;
-            foreach (var element in response.Inbox.BuiltinVariables) {
-                Logger.Debug($"BuiltinVariable {i}: {element}");
-                i++;
-            }
-            i = 0;
-            foreach (var element in response.Inbox.Notifications) {
-                Logger.Debug($"Notification {i}: {element}");
-                i++;
-            }
-        }
-                
-        public static Request DownloadItemTemplatesRequest(Client client)
-        {
-            var downloadItemTemplatesMessage = new DownloadItemTemplatesMessage
-            {
-                PageOffset = client.PageOffset
-                
-            };
-            return new Request
-            {
-                RequestType = RequestType.DownloadItemTemplates,
-                RequestMessage = downloadItemTemplatesMessage.ToByteString()
-            };
-        }
-        
-        public static Request GetDownloadUrlsRequest(Client client)
-        {
-            var getDownloadUrlsMessage = new GetDownloadUrlsMessage();
-            // TODO: get asset ids from digest;
-            // d.bundle_name == 'i18n_general, i18n_moves, i18n_items
-            // getDownloadUrlsMessage.AssetId = new RepeatedField<string>();
-            return new Request
-            {
-                RequestType = RequestType.GetDownloadUrls,
-                RequestMessage = getDownloadUrlsMessage.ToByteString()
-            };
-        
-        }
-
-
+        } 
     }
 }
