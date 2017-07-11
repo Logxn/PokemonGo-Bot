@@ -80,8 +80,10 @@ namespace PokemonGo.RocketAPI.Helpers
             var timestampSinceStart = (long)(Utils.GetTime(true) - _client.StartTime);
             var locationFixes = BuildLocationFixes(requestEnvelope, timestampSinceStart);
 
-            requestEnvelope.Accuracy = locationFixes[0].Altitude;
-            requestEnvelope.MsSinceLastLocationfix = (long)locationFixes[0].TimestampSnapshot;
+            if (requestEnvelope.Requests.Count > 0){
+                requestEnvelope.Accuracy = locationFixes[0].Altitude;
+                requestEnvelope.MsSinceLastLocationfix = (long)locationFixes[0].TimestampSnapshot;
+            }
             var  at = new Signature.Types.ActivityStatus(){
                 Stationary = true
             };
@@ -132,9 +134,10 @@ namespace PokemonGo.RocketAPI.Helpers
 
             var serializedTicket = requestEnvelope.AuthTicket != null ? requestEnvelope.AuthTicket.ToByteArray() : requestEnvelope.AuthInfo.ToByteArray();
 
-            var locationBytes = BitConverter.GetBytes(_latitude).Reverse()
+            /*var locationBytes = BitConverter.GetBytes(_latitude).Reverse()
                 .Concat(BitConverter.GetBytes(_longitude).Reverse())
                 .Concat(BitConverter.GetBytes(locationFixes[0].Altitude).Reverse()).ToArray();
+            */
 
             var requestsBytes = requestEnvelope.Requests.Select(x => x.ToByteArray()).ToArray();
 

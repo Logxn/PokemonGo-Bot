@@ -71,8 +71,10 @@ namespace PokemonGo.RocketAPI.Rpc
 
             Client.StartTime = Utils.GetTime(true);
 
+
             await RandomHelper.RandomDelay(500).ConfigureAwait(false);
 
+            await DoEmptyRequest().ConfigureAwait(false);
             await
                 FireRequestBlock(CommonRequest.GetPlayerMessageRequest())
                     .ConfigureAwait(false);
@@ -101,7 +103,60 @@ namespace PokemonGo.RocketAPI.Rpc
             }
             Client.OnMakeTutorial();
         }
-        
+
+        public async Task DoEmptyRequest()
+        {
+
+            var serverRequest = GetRequestBuilder().GetRequestEnvelope( new Request[]{}, true);
+            var serverResponse = await PostProto<Request>(serverRequest).ConfigureAwait(false);
+
+            ParseServerResponse( serverResponse);
+            if (serverResponse.StatusCode == ResponseEnvelope.Types.StatusCode.Redirect){
+                await DoEmptyRequest().ConfigureAwait(false);
+                return;
+            }
+
+            var responses = serverResponse.Returns;
+            if (responses != null)
+            {
+                for (int i = 0; i < responses.Count; i++) {
+                    Logger.Debug($"Response {i}: responses[i]");
+                }
+            }
+        }
+
+        public async Task FireRequestBlock(Request request)
+        {
+            var requests = CommonRequest.AddChallengeRequest(request, Client);
+
+            var serverRequest = GetRequestBuilder().GetRequestEnvelope(requests);
+            var serverResponse = await PostProto<Request>(serverRequest).ConfigureAwait(false);
+
+            ParseServerResponse( serverResponse);
+
+            if (serverResponse.StatusCode == ResponseEnvelope.Types.StatusCode.Redirect){
+                await FireRequestBlock(request).ConfigureAwait(false);
+                return;
+            }
+
+            var responses = serverResponse.Returns;
+            if (responses != null)
+            {
+                var getPlayerResponse = new GetPlayerResponse();
+                if (responses.Count > 0)
+                {
+                    getPlayerResponse.MergeFrom(responses[0]);
+                    CommonRequest.ProcessGetPlayerResponse( Client, getPlayerResponse);
+                }
+                var checkChallengeResponse = new CheckChallengeResponse();
+                if (responses.Count > 1)
+                {
+                    checkChallengeResponse.MergeFrom(responses[1]);
+                    CommonRequest.ProcessCheckChallengeResponse(Client, checkChallengeResponse);
+                }
+            }
+        }
+
         public void ParseServerResponse ( ResponseEnvelope serverResponse)
         {
             var platfResponses = serverResponse.PlatformReturns;
@@ -159,219 +214,5 @@ namespace PokemonGo.RocketAPI.Rpc
 
         }
 
-        public async Task FireRequestBlock(Request request)
-        {
-            var requests = CommonRequest.AddChallengeRequest(request, Client);
-
-            var serverRequest = GetRequestBuilder().GetRequestEnvelope(requests, true);
-            var serverResponse = await PostProto<Request>(serverRequest).ConfigureAwait(false);
-
-            ParseServerResponse( serverResponse);
-            if (serverResponse.StatusCode == ResponseEnvelope.Types.StatusCode.Redirect){
-                await FireRequestBlock(request).ConfigureAwait(false);
-                return;
-            }
-
-            var responses = serverResponse.Returns;
-            if (responses != null)
-            {
-                var getPlayerResponse = new GetPlayerResponse();
-                if (1 <= responses.Count)
-                {
-                    getPlayerResponse.MergeFrom(responses[0]);
-                    CommonRequest.ProcessGetPlayerResponse( Client, getPlayerResponse);
-                }
-                var checkChallengeResponse = new CheckChallengeResponse();
-                if (2 <= responses.Count)
-                {
-                    checkChallengeResponse.MergeFrom(responses[1]);
-                    CommonRequest.ProcessCheckChallengeResponse(Client, checkChallengeResponse);
-                }
-            }
-
-        }
-
-        public async Task DoEmptyRequest()
-        {
-
-            var serverRequest = GetRequestBuilder().GetRequestEnvelope( new Request[]{}, true);
-            var serverResponse = await PostProto<Request>(serverRequest).ConfigureAwait(false);
-
-            ParseServerResponse( serverResponse);
-            if (serverResponse.StatusCode == ResponseEnvelope.Types.StatusCode.Redirect){
-                await DoEmptyRequest().ConfigureAwait(false);
-                return;
-            }
-
-            var responses = serverResponse.Returns;
-            if (responses != null)
-            {
-                for (int i = 0; i < responses.Count; i++) {
-                    Logger.Debug($"Response {i}: responses[i]");
-                }
-            }
-        }
-
-        public async Task DoGetPlayerAlone()
-        {
-            var requests = new [] {CommonRequest.GetPlayerMessageRequest()};
-
-            var serverRequest = GetRequestBuilder().GetRequestEnvelope(requests);
-            var serverResponse = await PostProto<Request>(serverRequest).ConfigureAwait(false);
-
-            ParseServerResponse( serverResponse);
-            if (serverResponse.StatusCode == ResponseEnvelope.Types.StatusCode.Redirect){
-                await DoGetPlayerAlone().ConfigureAwait(false);
-                return;
-            }
-
-            var responses = serverResponse.Returns;
-            if (responses != null)
-                if ( responses.Count > 0)
-                {
-                    var getPlayerResponse = new GetPlayerResponse();
-                    getPlayerResponse.MergeFrom(responses[0]);
-                    CommonRequest.ProcessGetPlayerResponse( Client, getPlayerResponse);
-                    for (int i = 1; i < responses.Count; i++) {
-                        Logger.Debug($"Response {i}: responses[i]");
-                    }
-                }
-        }
-
-        public async Task DownloadRemoteConfig()
-        {
-            var request = CommonRequest.GetDownloadRemoteConfigVersionMessageRequest(Client);
-            
-            var requests = CommonRequest.FillRequest(request, Client, false, false);
-
-            var serverRequest = GetRequestBuilder().GetRequestEnvelope(requests);
-            var serverResponse = await PostProto<Request>(serverRequest).ConfigureAwait(false);
-
-            ParseServerResponse( serverResponse);
-            if (serverResponse.StatusCode == ResponseEnvelope.Types.StatusCode.Redirect){
-                await DownloadRemoteConfig().ConfigureAwait(false);
-                return;
-            }
-
-            var responses = serverResponse.Returns;
-
-            if (responses != null)
-                if ( responses.Count > 0 )
-                {
-                    var downloadRemoteConfigVersionResponse = new DownloadRemoteConfigVersionResponse();
-                    downloadRemoteConfigVersionResponse.MergeFrom(responses[0]);
-                    CommonRequest.ProcessDownloadRemoteConfigVersionResponse( Client, downloadRemoteConfigVersionResponse);
-                    CommonRequest.ProcessCommonResponses( Client, responses, false, false);
-                }
-
-        }
-
-
-        public async Task GetAssetDigest()
-        {
-            var request = CommonRequest.GetGetAssetDigestMessageRequest(Client);
-            
-            var requests = CommonRequest.FillRequest(request, Client, false, false);
-
-            var serverRequest = GetRequestBuilder().GetRequestEnvelope(requests);
-            var serverResponse = await PostProto<Request>(serverRequest).ConfigureAwait(false);
-
-            ParseServerResponse( serverResponse);
-
-            if (serverResponse.StatusCode == ResponseEnvelope.Types.StatusCode.Redirect){
-                await GetAssetDigest().ConfigureAwait(false);
-                return;
-            }
-
-            var responses = serverResponse.Returns;
-
-            if (responses != null)
-                if ( responses.Count > 0 )
-                {
-                    var getAssetDigestResponse = new GetAssetDigestResponse();
-                    getAssetDigestResponse.MergeFrom(responses[0]);
-                    CommonRequest.ProcessGetAssetDigestResponse( Client, getAssetDigestResponse);
-                    CommonRequest.ProcessCommonResponses( Client, responses, false, false);
-                }
-
-        }
-
-        
-        public async Task DownloadItemTemplates()
-        {
-            var request = CommonRequest.DownloadItemTemplatesRequest(Client);
-            
-            var requests = CommonRequest.FillRequest(request, Client, false, false);
-
-            var serverRequest = GetRequestBuilder().GetRequestEnvelope(requests);
-            var serverResponse = await PostProto<Request>(serverRequest).ConfigureAwait(false);
-
-            ParseServerResponse( serverResponse);
-
-            if (serverResponse.StatusCode == ResponseEnvelope.Types.StatusCode.Redirect){
-                await DownloadItemTemplates().ConfigureAwait(false);
-                return;
-            }
-
-            var responses = serverResponse.Returns;
-
-            if (responses != null)
-                if ( responses.Count > 0 )
-                {
-                    var downloadItemTemplatesResponse = new DownloadItemTemplatesResponse();
-                    downloadItemTemplatesResponse.MergeFrom(responses[0]);
-                    CommonRequest.ProcessDownloadItemTemplatesResponse( Client, downloadItemTemplatesResponse);
-                    CommonRequest.ProcessCommonResponses( Client, responses, false, false);
-                }
-
-        }
-
-        public async Task GetDownloadUrls()
-        {
-            var request = CommonRequest.GetDownloadUrlsRequest(Client);
-            
-            var requests = CommonRequest.FillRequest(request, Client, false, true);
-
-            var serverRequest = GetRequestBuilder().GetRequestEnvelope(requests);
-            var serverResponse = await PostProto<Request>(serverRequest).ConfigureAwait(false);
-
-            ParseServerResponse( serverResponse);
-
-            if (serverResponse.StatusCode == ResponseEnvelope.Types.StatusCode.Redirect){
-                await GetDownloadUrls().ConfigureAwait(false);
-                return;
-            }
-
-            var responses = serverResponse.Returns;
-
-            if (responses != null)
-                if ( responses.Count > 0 )
-                {
-                    var getDownloadUrlsResponse = new GetDownloadUrlsResponse();
-                    getDownloadUrlsResponse.MergeFrom(responses[0]);
-                    CommonRequest.ProcessGetDownloadUrlsResponse( Client, getDownloadUrlsResponse);
-                    CommonRequest.ProcessCommonResponses( Client, responses, false, true);
-                }
-        }
-
-        public async Task LoginFlow()
-        {
-            await DoEmptyRequest().ConfigureAwait(false);
-            await RandomHelper.RandomDelay(500).ConfigureAwait(false);
-            await DoGetPlayerAlone().ConfigureAwait(false);
-            await DownloadRemoteConfig().ConfigureAwait(false);
-            await RandomHelper.RandomDelay(500).ConfigureAwait(false);
-            Client.PageOffset = 0;
-            do {
-                await GetAssetDigest().ConfigureAwait(false);
-            }while (Client.PageOffset != 0);
-            Client.PageOffset = 0;
-            do {
-                await DownloadItemTemplates().ConfigureAwait(false);
-            }while (Client.PageOffset != 0);
-            
-            await GetDownloadUrls().ConfigureAwait(false);
-
-        }
     }
 }
