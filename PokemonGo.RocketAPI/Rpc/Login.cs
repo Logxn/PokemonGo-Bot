@@ -75,15 +75,23 @@ namespace PokemonGo.RocketAPI.Rpc
             await RandomHelper.RandomDelay(500).ConfigureAwait(false);
 
             await DoEmptyRequest().ConfigureAwait(false);
-            await
-                FireRequestBlock(CommonRequest.GetPlayerMessageRequest())
-                    .ConfigureAwait(false);
+            await GetPlayer().ConfigureAwait(false);
+            await DownloadRemoteConfig().ConfigureAwait(false);
+            // await GetAssetDigest().ConfigureAwait(false);
+            // await DownloadItemTemplates().ConfigureAwait(false);
+            // await GetDownloadUrls().ConfigureAwait(false);
+            MakeTuturial();
+            
+            // This call (GetPlayerProfile) is only needed if the tutorial is done.
+            // TODO: Check if tutorial is done to do not do GetPlayerProfile.
+            await GetPlayerProfile().ConfigureAwait(false);
+
+            await LevelUpRewards().ConfigureAwait(false);
 
             await RandomHelper.RandomDelay(2000).ConfigureAwait(false);
 
             await Client.Map.GetMapObjects().ConfigureAwait(false);
             
-            MakeTuturial();
              
             foreach (var element in Client.Player.PlayerResponse.PlayerData.TutorialState) {
                 Logger.Debug(element.ToString());
@@ -121,38 +129,6 @@ namespace PokemonGo.RocketAPI.Rpc
             {
                 for (int i = 0; i < responses.Count; i++) {
                     Logger.Debug($"Response {i}: responses[i]");
-                }
-            }
-        }
-
-        public async Task FireRequestBlock(Request request)
-        {
-            var requests = CommonRequest.AddChallengeRequest(request, Client);
-
-            var serverRequest = GetRequestBuilder().GetRequestEnvelope(requests);
-            var serverResponse = await PostProto<Request>(serverRequest).ConfigureAwait(false);
-
-            ParseServerResponse( serverResponse);
-
-            if (serverResponse.StatusCode == ResponseEnvelope.Types.StatusCode.Redirect){
-                await FireRequestBlock(request).ConfigureAwait(false);
-                return;
-            }
-
-            var responses = serverResponse.Returns;
-            if (responses != null)
-            {
-                var getPlayerResponse = new GetPlayerResponse();
-                if (responses.Count > 0)
-                {
-                    getPlayerResponse.MergeFrom(responses[0]);
-                    CommonRequest.ProcessGetPlayerResponse( Client, getPlayerResponse);
-                }
-                var checkChallengeResponse = new CheckChallengeResponse();
-                if (responses.Count > 1)
-                {
-                    checkChallengeResponse.MergeFrom(responses[1]);
-                    CommonRequest.ProcessCheckChallengeResponse(Client, checkChallengeResponse);
                 }
             }
         }
@@ -211,7 +187,113 @@ namespace PokemonGo.RocketAPI.Rpc
                 Client.AuthTicket = serverResponse.AuthTicket;
                 Logger.Debug("Received AuthTicket: " + Client.AuthTicket);
             }
+        }
 
+        public async Task GetPlayer()
+        {
+            var request = CommonRequest.GetPlayerMessageRequest();
+
+            var serverRequest = GetRequestBuilder().GetRequestEnvelope(new[]{request});
+
+            var serverResponse = await PostProto<Request>(serverRequest).ConfigureAwait(false);
+
+            ParseServerResponse( serverResponse);
+
+            if (serverResponse.StatusCode == ResponseEnvelope.Types.StatusCode.Redirect){
+                await GetPlayer().ConfigureAwait(false);
+                return;
+            }
+
+            var responses = serverResponse.Returns;
+            if (responses != null)
+            {
+                var getPlayerResponse = new GetPlayerResponse();
+                if (responses.Count > 0)
+                {
+                    getPlayerResponse.MergeFrom(responses[0]);
+                    CommonRequest.ProcessGetPlayerResponse( Client, getPlayerResponse);
+                }
+            }
+        }
+
+        public async Task DownloadRemoteConfig()
+        {
+            var request = CommonRequest.GetDownloadRemoteConfigVersionMessageRequest(Client);
+            
+            var requests = CommonRequest.FillRequest(request, Client, false, false);
+
+            var serverRequest = GetRequestBuilder().GetRequestEnvelope(requests);
+            var serverResponse = await PostProto<Request>(serverRequest).ConfigureAwait(false);
+
+            ParseServerResponse( serverResponse);
+            if (serverResponse.StatusCode == ResponseEnvelope.Types.StatusCode.Redirect){
+                await DownloadRemoteConfig().ConfigureAwait(false);
+                return;
+            }
+
+            var responses = serverResponse.Returns;
+
+            if ( (responses != null) && ( responses.Count > 0 ) )
+            {
+                var downloadRemoteConfigVersionResponse = new DownloadRemoteConfigVersionResponse();
+                downloadRemoteConfigVersionResponse.MergeFrom(responses[0]);
+                CommonRequest.ProcessDownloadRemoteConfigVersionResponse( Client, downloadRemoteConfigVersionResponse);
+                
+                CommonRequest.ProcessCommonResponses( Client, responses, false, false);
+            }
+        }
+
+        public async Task GetPlayerProfile()
+        {
+            var request = CommonRequest.GetPlayerProfileMessageRequest(Client.Player.PlayerResponse.PlayerData.Username);
+            
+            var requests = CommonRequest.FillRequest(request, Client, false, false);
+
+            var serverRequest = GetRequestBuilder().GetRequestEnvelope(requests);
+            var serverResponse = await PostProto<Request>(serverRequest).ConfigureAwait(false);
+
+            ParseServerResponse( serverResponse);
+            if (serverResponse.StatusCode == ResponseEnvelope.Types.StatusCode.Redirect){
+                await GetPlayerProfile().ConfigureAwait(false);
+                return;
+            }
+
+            var responses = serverResponse.Returns;
+
+            if ( (responses != null) && ( responses.Count > 0 ) )
+            {
+                var getPlayerProfileResponse = new GetPlayerProfileResponse();
+                getPlayerProfileResponse.MergeFrom(responses[0]);
+                CommonRequest.ProcessGetPlayerProfileResponse( Client, getPlayerProfileResponse);
+                CommonRequest.ProcessCommonResponses( Client, responses, false, false);
+            }
+        }
+
+        public async Task LevelUpRewards()
+        {
+            var stat = Client.Inventory.GetPlayerStats( Client.Inventory.CachedInventory).FirstOrDefault();
+            var request = CommonRequest.LevelUpRewardsMessageRequest(stat.Level);
+            
+            var requests = CommonRequest.FillRequest(request, Client, false, false);
+
+            var serverRequest = GetRequestBuilder().GetRequestEnvelope(requests);
+            var serverResponse = await PostProto<Request>(serverRequest).ConfigureAwait(false);
+
+            ParseServerResponse( serverResponse);
+            if (serverResponse.StatusCode == ResponseEnvelope.Types.StatusCode.Redirect){
+                await LevelUpRewards().ConfigureAwait(false);
+                return;
+            }
+
+            var responses = serverResponse.Returns;
+
+            if ( (responses != null) && ( responses.Count > 0 ) )
+            {
+                var levelUpRewardsResponse = new LevelUpRewardsResponse();
+                levelUpRewardsResponse.MergeFrom(responses[0]);
+                CommonRequest.ProcessLevelUpRewardsResponse( Client, levelUpRewardsResponse);
+                CommonRequest.ProcessCommonResponses( Client, responses, false, false);
+            }
         }
 
     }

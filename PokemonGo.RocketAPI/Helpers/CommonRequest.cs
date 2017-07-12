@@ -7,6 +7,7 @@ using POGOProtos.Networking.Requests;
 using POGOProtos.Networking.Requests.Messages;
 using POGOProtos.Networking.Responses;
 using PokemonGo.RocketAPI.Exceptions;
+using System.Linq;
 using System;
 
 #endregion
@@ -97,7 +98,7 @@ namespace PokemonGo.RocketAPI.Helpers
                 }
             };
         }
-        public static Request[] FillRequest(Request request, Client client, bool appendBuddyWalked = true, bool appendInBox = false)
+        public static Request[] FillRequest(Request request, Client client, bool appendBuddyWalked = true, bool appendInBox = true)
         {
             var requests = new List<Request>
             {
@@ -132,7 +133,11 @@ namespace PokemonGo.RocketAPI.Helpers
                 var reqInbox = new Request
                 {
                     RequestType = RequestType.GetInbox,
-                    RequestMessage = new GetInboxMessage().ToByteString()
+                    RequestMessage = new GetInboxMessage{
+                        IsHistory = true,
+                        IsReverse = false,
+                        NotBeforeMs = 0
+                    }.ToByteString()
                 };
                 requests.Add(reqInbox);
             }
@@ -185,12 +190,24 @@ namespace PokemonGo.RocketAPI.Helpers
             {
                 if (getInventoryResponse.InventoryDelta == null)
                     return;
-
-                if (getInventoryResponse.InventoryDelta.NewTimestampMs >= client.InventoryLastUpdateTimestamp)
-                {
-                    client.InventoryLastUpdateTimestamp = getInventoryResponse.InventoryDelta.NewTimestampMs;
-                    //TODO: update inventory
-                    //client.Inventory.CachedInventory = getInventoryResponse;
+                if (client.Inventory.CachedInventory == null)
+                    client.Inventory.CachedInventory = getInventoryResponse;
+                else{
+                    //TODO: polish update inventory
+                    /*
+                    var deletedPokemons = getInventoryResponse.InventoryDelta.InventoryItems.Select(i => i.DeletedItem).Where(x => x !=null );
+                    foreach (var element in deletedPokemons) {
+                        var cachedElement = client.Inventory.CachedInventory.InventoryDelta.InventoryItems.FirstOrDefault(x => x.InventoryItemData.PokemonData !=null && x.InventoryItemData.PokemonData.Id == element.PokemonId);
+                        if (cachedElement !=null)
+                            client.Inventory.CachedInventory.InventoryDelta.InventoryItems.Remove(cachedElement);
+                    }
+                    var newPokemons = getInventoryResponse.InventoryDelta.InventoryItems.Select(i => i.InventoryItemData.PokemonData).Where(x => x !=null );
+                    foreach (var element in deletedPokemons) {
+                        var cachedElement = client.Inventory.CachedInventory.InventoryDelta.InventoryItems.FirstOrDefault(x => x.InventoryItemData.PokemonData !=null && x.InventoryItemData.PokemonData.Id == element.PokemonId);
+                        if (cachedElement !=null)
+                            client.Inventory.CachedInventory.InventoryDelta.InventoryItems.Remove(cachedElement);
+                    }
+                    */
                 }
             }
         }
@@ -357,6 +374,19 @@ namespace PokemonGo.RocketAPI.Helpers
                 i++;
             }
         }
+
+        public static void ProcessDownloadRemoteConfigVersionResponse(Client client, DownloadRemoteConfigVersionResponse response)
+        {
+            if (response == null)
+                return;
+             // TODO: do something with this information 
+             Logger.Debug("Result:" +response.Result);
+             if ( response.Result ==DownloadRemoteConfigVersionResponse.Types.Result.Success){
+                 Logger.Debug("AssetDigestTimestampMs:" +response.AssetDigestTimestampMs);
+                 Logger.Debug("ItemTemplatesTimestampMs:" +response.ItemTemplatesTimestampMs);
+             }
+        }
+
         public static void ProcessCommonResponses(Client client, RepeatedField <ByteString> responses , bool processBuddyWalked = true, bool processInBox = true) 
         {
             if (responses != null)
@@ -410,6 +440,7 @@ namespace PokemonGo.RocketAPI.Helpers
                 {
                     index ++;
                     var getInboxResponse = new GetInboxResponse();
+
                     if ( responses.Count > index)
                     {
                         getInboxResponse.MergeFrom(responses[index]);
@@ -417,6 +448,72 @@ namespace PokemonGo.RocketAPI.Helpers
                     }
                 }
             }
-        } 
+        }
+
+        public static Request GetPlayerProfileMessageRequest( string playername ="")
+        {
+            var req = new Request
+            {
+                RequestType = RequestType.GetPlayerProfile,
+                RequestMessage = new GetPlayerProfileMessage {
+                    PlayerName = playername
+                }.ToByteString()
+            };
+            return req;
+        }
+
+        public static void ProcessGetPlayerProfileResponse(Client client, GetPlayerProfileResponse response)
+        {
+            if (response == null)
+                return;
+             // TODO: do something with this information 
+             Logger.Debug("Result:" +response.Result);
+             if ( response.Result == GetPlayerProfileResponse.Types.Result.Success){
+                var i = 0;
+                foreach (var element in response.Badges) {
+                    Logger.Debug($"Badges {i}: {element}");
+                    i++;
+                }
+                Logger.Debug("GymBadges: " +response.GymBadges);
+                Logger.Debug("StartTime: " +response.StartTime);
+             }
+        }
+
+        public static Request LevelUpRewardsMessageRequest( int level = 0)
+        {
+            var req = new Request
+            {
+                RequestType = RequestType.LevelUpRewards,
+                RequestMessage = new LevelUpRewardsMessage {
+                   Level = level
+                }.ToByteString()
+            };
+            return req;
+        }
+
+        public static void ProcessLevelUpRewardsResponse(Client client, LevelUpRewardsResponse response)
+        {
+            if (response == null)
+                return;
+             // TODO: do something with this information 
+             Logger.Debug("Result:" +response.Result);
+             if ( response.Result == LevelUpRewardsResponse.Types.Result.Success){
+                var i = 0;
+                foreach (var element in response.AvatarTemplateIds) {
+                    Logger.Debug($"AvatarTemplateIds {i}: {element}");
+                    i++;
+                }
+                i = 0;
+                foreach (var element in response.ItemsAwarded) {
+                    Logger.Debug($"ItemsAwarded {i}: {element}");
+                    i++;
+                }
+                i = 0;
+                foreach (var element in response.ItemsUnlocked) {
+                    Logger.Debug($"ItemsUnlocked {i}: {element}");
+                    i++;
+                }
+             }
+        }
     }
 }

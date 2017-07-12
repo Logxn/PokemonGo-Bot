@@ -86,14 +86,14 @@ namespace PokemonGo.RocketAPI.Rpc
             return items.FirstOrDefault(i => (ItemId)i.ItemId == type)?.Count ?? 0;
         }
 
-        public IEnumerable<PlayerStats> GetPlayerStats()
+        public IEnumerable<PlayerStats> GetPlayerStats(GetInventoryResponse inventory = null)
         {
-            var inv =  GetInventory();
-            return inv.InventoryDelta.InventoryItems
+            if (inventory == null)
+                inventory = GetInventory();
+            return inventory.InventoryDelta.InventoryItems
                 .Select(i => i.InventoryItemData?.PlayerStats)
                 .Where(p => p != null);
         }
-
 
         #endregion
 
