@@ -46,20 +46,6 @@ namespace PokemonGo.RocketAPI.Helpers
             return req;
         }
 
-        public static Request GetGetAssetDigestMessageRequest(Client client)
-        {
-            var getAssetDigestMessage = new GetAssetDigestMessage
-            {
-                Platform = client.Platform,
-                AppVersion = client.AppVersion
-            };
-            return new Request
-            {
-                RequestType = RequestType.GetAssetDigest,
-                RequestMessage = getAssetDigestMessage.ToByteString()
-            };
-        }
-
         public static Request GetDownloadSettingsMessageRequest(Client client)
         {
             var downloadSettingsMessage = new DownloadSettingsMessage
@@ -514,6 +500,85 @@ namespace PokemonGo.RocketAPI.Helpers
                     i++;
                 }
              }
+        }
+
+        public static Request GetGetAssetDigestMessageRequest(Client client)
+        {
+            var getAssetDigestMessage = new GetAssetDigestMessage
+            {
+                Platform = client.Platform,
+                AppVersion = client.AppVersion
+            };
+            return new Request
+            {
+                RequestType = RequestType.GetAssetDigest,
+                RequestMessage = getAssetDigestMessage.ToByteString()
+            };
+        }
+
+        public static void ProcessGetAssetDigestResponse(Client client, GetAssetDigestResponse response)
+        {
+            if (response == null)
+                return;
+            var i = 0;
+            foreach (var element in response.Digest) {
+                Logger.Debug($"Digest {i}: {element}");
+                i++;
+            }
+            Logger.Debug("PageOffset:" +response.PageOffset);
+            client.PageOffset = response.PageOffset;
+            Logger.Debug("TimestampMs:" +response.TimestampMs);
+        }
+        
+        public static Request DownloadItemTemplatesRequest(Client client)
+        {
+            var downloadItemTemplatesMessage = new DownloadItemTemplatesMessage
+            {
+                PageOffset = client.PageOffset
+                
+            };
+            return new Request
+            {
+                RequestType = RequestType.DownloadItemTemplates,
+                RequestMessage = downloadItemTemplatesMessage.ToByteString()
+            };
+        }
+        public static void ProcessDownloadItemTemplatesResponse(Client client, DownloadItemTemplatesResponse response)
+        {
+            if (response == null)
+                return;
+            var i = 0;
+            foreach (var element in response.ItemTemplates) {
+                Logger.Debug($"ItemTemplate {i}: {element}");
+                i++;
+            }
+            Logger.Debug("PageOffset:" +response.PageOffset);
+            client.PageOffset = response.PageOffset;
+            Logger.Debug("TimestampMs:" +response.TimestampMs);
+        }
+        
+        public static Request GetDownloadUrlsRequest(Client client)
+        {
+            var getDownloadUrlsMessage = new GetDownloadUrlsMessage();
+            // TODO: get asset ids from digest;
+            // d.bundle_name == 'i18n_general, i18n_moves, i18n_items
+            // getDownloadUrlsMessage.AssetId = new RepeatedField<string>();
+            return new Request
+            {
+                RequestType = RequestType.GetDownloadUrls,
+                RequestMessage = getDownloadUrlsMessage.ToByteString()
+            };
+        
+        }
+        public static void ProcessGetDownloadUrlsResponse(Client client, GetDownloadUrlsResponse response)
+        {
+            if (response == null)
+                return;
+            var i = 0;
+            foreach (var element in response.DownloadUrls) {
+                Logger.Debug($"DownloadUrl {i}: {element}");
+                i++;
+            }
         }
     }
 }

@@ -295,6 +295,86 @@ namespace PokemonGo.RocketAPI.Rpc
                 CommonRequest.ProcessCommonResponses( Client, responses, false, false);
             }
         }
+        public async Task GetAssetDigest()
+        {
+            var request = CommonRequest.GetGetAssetDigestMessageRequest(Client);
+            
+            var requests = CommonRequest.FillRequest(request, Client, false, false);
 
+            var serverRequest = GetRequestBuilder().GetRequestEnvelope(requests);
+            var serverResponse = await PostProto<Request>(serverRequest).ConfigureAwait(false);
+
+            ParseServerResponse( serverResponse);
+
+            if (serverResponse.StatusCode == ResponseEnvelope.Types.StatusCode.Redirect){
+                await GetAssetDigest().ConfigureAwait(false);
+                return;
+            }
+
+            var responses = serverResponse.Returns;
+
+            if (responses != null)
+                if ( responses.Count > 0 )
+                {
+                    var getAssetDigestResponse = new GetAssetDigestResponse();
+                    getAssetDigestResponse.MergeFrom(responses[0]);
+                    CommonRequest.ProcessGetAssetDigestResponse( Client, getAssetDigestResponse);
+                    CommonRequest.ProcessCommonResponses( Client, responses, false, false);
+                }
+        }
+        public async Task DownloadItemTemplates()
+        {
+            var request = CommonRequest.DownloadItemTemplatesRequest(Client);
+            
+            var requests = CommonRequest.FillRequest(request, Client, false, false);
+
+            var serverRequest = GetRequestBuilder().GetRequestEnvelope(requests);
+            var serverResponse = await PostProto<Request>(serverRequest).ConfigureAwait(false);
+
+            ParseServerResponse( serverResponse);
+
+            if (serverResponse.StatusCode == ResponseEnvelope.Types.StatusCode.Redirect){
+                await DownloadItemTemplates().ConfigureAwait(false);
+                return;
+            }
+
+            var responses = serverResponse.Returns;
+
+            if (responses != null)
+                if ( responses.Count > 0 )
+                {
+                    var downloadItemTemplatesResponse = new DownloadItemTemplatesResponse();
+                    downloadItemTemplatesResponse.MergeFrom(responses[0]);
+                    CommonRequest.ProcessDownloadItemTemplatesResponse( Client, downloadItemTemplatesResponse);
+                    CommonRequest.ProcessCommonResponses( Client, responses, false, false);
+                }
+        }
+        public async Task GetDownloadUrls()
+        {
+            var request = CommonRequest.GetDownloadUrlsRequest(Client);
+            
+            var requests = CommonRequest.FillRequest(request, Client, false, true);
+
+            var serverRequest = GetRequestBuilder().GetRequestEnvelope(requests);
+            var serverResponse = await PostProto<Request>(serverRequest).ConfigureAwait(false);
+
+            ParseServerResponse( serverResponse);
+
+            if (serverResponse.StatusCode == ResponseEnvelope.Types.StatusCode.Redirect){
+                await GetDownloadUrls().ConfigureAwait(false);
+                return;
+            }
+
+            var responses = serverResponse.Returns;
+
+            if (responses != null)
+                if ( responses.Count > 0 )
+                {
+                    var getDownloadUrlsResponse = new GetDownloadUrlsResponse();
+                    getDownloadUrlsResponse.MergeFrom(responses[0]);
+                    CommonRequest.ProcessGetDownloadUrlsResponse( Client, getDownloadUrlsResponse);
+                    CommonRequest.ProcessCommonResponses( Client, responses, false, true);
+                }
+        }
     }
 }

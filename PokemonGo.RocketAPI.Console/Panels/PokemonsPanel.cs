@@ -52,7 +52,7 @@ namespace PokeMaster
             columnheader.Text = columnheader.Name;
             PokemonListView.Columns.Add(columnheader);
             
-            PokemonListView.Columns.Add(CreateColumn(th.TS("Bad")));
+            PokemonListView.Columns.Add(CreateColumn(th.TS("Slash")));
 
             columnheader = new ColumnHeader();
             columnheader.Name = th.TS("CP");
