@@ -254,7 +254,7 @@ namespace PokeMaster.Logic.Functions
 
             var gymDetails = client.Fort.GetGymDetails(gym.Id, gym.Latitude, gym.Longitude);
             Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - Team: " + GetTeamName(gym.OwnedByTeam) + ".");
-            if (gymDetails.GymState.Memberships != null && gymDetails.GymState.Memberships.Count > 0) {
+            if (gymDetails.GymState!=null && gymDetails.GymState.Memberships != null && gymDetails.GymState.Memberships.Count > 0) {
                 Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - Members: " + gymDetails.GymState.Memberships.Count +$".");
             }
             Logger.Info("(Gym) - Name: " + gymDetails.Name);

@@ -37,17 +37,18 @@ namespace PokeMaster.Components
             var string_y = item_y.SubItems.Count <= ColumnNumber ? "" : item_y.SubItems[ColumnNumber].Text;
 
             var columnXName = item_x.ListView.Columns[ColumnNumber].Text;
-            Logger.Debug("Column X Name:" + columnXName);
+            /*Logger.Debug("Column X Name:" + columnXName);
             var columnYName = item_y.ListView.Columns[ColumnNumber].Text;
             Logger.Debug("Column Y Name:" + columnYName);
+            */
 
-            if (ColumnNumber == 3) //IV
+            if (columnXName.Contains("IV")) //IV
             {
                 string_x = string_x.Substring(0, string_x.IndexOf("%"));
                 string_y = string_y.Substring(0, string_y.IndexOf("%"));
 
             }
-            else if (ColumnNumber == 8) //HP
+            else if (columnXName.Contains("HP")) //HP
             {
                 string_x = string_x.Substring(0, string_x.IndexOf("/"));
                 string_y = string_y.Substring(0, string_y.IndexOf("/"));
