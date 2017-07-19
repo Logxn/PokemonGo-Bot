@@ -687,15 +687,15 @@ namespace PokeMaster
                 if (MessageBox.Show(th.TS("Do you want see gym details?"), th.TS("Gym Details Confirmation"), MessageBoxButtons.YesNo) == DialogResult.No)
                     return;
                 
-                var details = Logic.Logic.objClient.Fort.GetGymDetails(gymID, item.Position.Lat, item.Position.Lng);
-                if (details.Result == POGOProtos.Networking.Responses.GetGymDetailsResponse.Types.Result.Success){
+                var details = Logic.Logic.objClient.Fort.GymGetInfo(gymID, item.Position.Lat, item.Position.Lng);
+                if (details.Result == POGOProtos.Networking.Responses.GymGetInfoResponse.Types.Result.Success){
                     var str = item.ToolTipText + "\n";
                     str += details.Name + "\n";
-                    str +=  details.GymState.Memberships.Count+" Defenders: \n";
-                    str += Logic.Functions.GymsLogic.strPokemons(details.GymState.Memberships) +"\n\n";
+                    str +=  details.GymStatusAndDefenders.GymDefender.Count+" Defenders: \n";
+                    str += Logic.Functions.GymsLogic.strPokemons(details.GymStatusAndDefenders.GymDefender) +"\n\n";
                     str += th.TS("Do you want copy location?");
                     if (MessageBox.Show(str, th.TS("Gym Details"), MessageBoxButtons.YesNo  ) == DialogResult.Yes){
-                        Clipboard.SetText(details.GymState.FortData.Latitude.ToString(CultureInfo.InvariantCulture)  +","+ details.GymState.FortData.Longitude.ToString(CultureInfo.InvariantCulture));
+                        Clipboard.SetText(item.Position.Lat.ToString(CultureInfo.InvariantCulture)  +","+ item.Position.Lng.ToString(CultureInfo.InvariantCulture));
                     }
                 }
 

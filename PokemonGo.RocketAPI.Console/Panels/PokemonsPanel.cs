@@ -945,7 +945,7 @@ namespace PokeMaster
             if (pokeGym == null){
                 message = th.TS("Gym is not in range.\nID: ") + selectedPokemon.DeployedFortId;
             }else{
-                var gymDetails = client.Fort.GetGymDetails(pokeGym.Id, pokeGym.Latitude, pokeGym.Longitude);
+                var gymDetails = client.Fort.GymGetInfo(pokeGym.Id, pokeGym.Latitude, pokeGym.Longitude);
                 message = string.Format("{0}\n{1}, {2}\n{3}\nID: {4}", LocationUtils.FindAddress(pokeGym.Latitude, pokeGym.Longitude), pokeGym.Latitude, pokeGym.Longitude, gymDetails.Name ,  pokeGym.Id);
                 Logic.Logic.Instance.infoObservable.PushUpdatePokeGym(pokeGym);
             }

@@ -135,8 +135,8 @@ namespace PokeMaster.Logic.Functions
                         var buddyid = 0UL;
                         if (profile.PlayerData.BuddyPokemon != null)
                             buddyid = profile.PlayerData.BuddyPokemon.Id;
-                        var gymDet = _client.Fort.GetGymDetails(element.Id, element.Latitude, element.Longitude);
-                        if (gymDet.Result == GetGymDetailsResponse.Types.Result.Success) {
+                        var gymDet = _client.Fort.GymGetInfo(element.Id, element.Latitude, element.Longitude);
+                        if (gymDet.Result == GymGetInfoResponse.Types.Result.Success) {
                             found = true;
                             var pokeToDeploy = GymsLogic.getPokeToPut(_client, buddyid, element.GuardPokemonCp);
                             if (pokeToDeploy != null) {

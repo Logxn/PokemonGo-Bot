@@ -340,9 +340,9 @@ namespace PokeMaster
             try
             {
             	var client = Logic.Logic.objClient;
-            	var resp2 = client.Fort.GetGymDetails( gym,lat,lng);
+            	var resp2 = client.Fort.GymGetInfo( gym,lat,lng);
 
-                if (resp2.Result == GetGymDetailsResponse.Types.Result.Success)
+                if (resp2.Result == GymGetInfoResponse.Types.Result.Success)
                 {
                     resp1.Status = true;
                 }

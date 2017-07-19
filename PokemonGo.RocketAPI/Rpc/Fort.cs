@@ -114,6 +114,7 @@ namespace PokemonGo.RocketAPI.Rpc
             return PostProtoPayload<Request, AttackGymResponse>(RequestType.AttackGym, message);
         }
 
+        /* Obsoleted call ? */
         public FortDeployPokemonResponse FortDeployPokemon(string fortId, ulong pokemonId)
         {
             var message = new FortDeployPokemonMessage
@@ -125,6 +126,19 @@ namespace PokemonGo.RocketAPI.Rpc
             };
 
             return PostProtoPayload<Request, FortDeployPokemonResponse>(RequestType.FortDeployPokemon, message);
+        }
+        
+        public GymFeedPokemonResponse GymFeedPokemon(string fortId, ulong pokemonId)
+        {
+            var message = new GymFeedPokemonMessage
+            {
+                PokemonId = pokemonId,
+                GymId = fortId,
+                PlayerLatDegrees = Client.CurrentLatitude,
+                PlayerLngDegrees = Client.CurrentLongitude
+            };
+
+            return PostProtoPayload<Request, GymFeedPokemonResponse>(RequestType.GymFeedPokemon, message);
         }
 
         public FortRecallPokemonResponse FortRecallPokemon(string fortId, ulong pokemonId)
@@ -140,6 +154,8 @@ namespace PokemonGo.RocketAPI.Rpc
             return PostProtoPayload<Request, FortRecallPokemonResponse>(RequestType.FortRecallPokemon, message);
         }
 
+
+        /* Obosoleted call
         public GetGymDetailsResponse GetGymDetails(string gymId, double gymLat, double gymLng)
         {
             var message = new GetGymDetailsMessage
@@ -152,6 +168,21 @@ namespace PokemonGo.RocketAPI.Rpc
             };
 
             return PostProtoPayload<Request, GetGymDetailsResponse>(RequestType.GetGymDetails, message);
+        }
+        */
+
+        public GymGetInfoResponse GymGetInfo(string gymId, double gymLat, double gymLng)
+        {
+            var message = new GymGetInfoMessage
+            {
+                GymId = gymId,
+                GymLatDegrees = gymLat,
+                GymLngDegrees = gymLng,
+                PlayerLatDegrees = Client.CurrentLatitude,
+                PlayerLngDegrees = Client.CurrentLongitude
+            };
+
+            return PostProtoPayload<Request, GymGetInfoResponse>(RequestType.GymGetInfo, message);
         }
 
         public StartGymBattleResponse StartGymBattleOnly(string gymId, ulong defendingPokemonId,
