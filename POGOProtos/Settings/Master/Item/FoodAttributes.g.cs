@@ -24,15 +24,15 @@ namespace POGOProtos.Settings.Master.Item {
           string.Concat(
             "CjRQT0dPUHJvdG9zL1NldHRpbmdzL01hc3Rlci9JdGVtL0Zvb2RBdHRyaWJ1",
             "dGVzLnByb3RvEh9QT0dPUHJvdG9zLlNldHRpbmdzLk1hc3Rlci5JdGVtGiFQ",
-            "T0dPUHJvdG9zL0VudW1zL0l0ZW1FZmZlY3QucHJvdG8ikgEKDkZvb2RBdHRy",
+            "T0dPUHJvdG9zL0VudW1zL0l0ZW1FZmZlY3QucHJvdG8iswEKDkZvb2RBdHRy",
             "aWJ1dGVzEjEKC2l0ZW1fZWZmZWN0GAEgAygOMhwuUE9HT1Byb3Rvcy5FbnVt",
             "cy5JdGVtRWZmZWN0EhsKE2l0ZW1fZWZmZWN0X3BlcmNlbnQYAiADKAISFgoO",
             "Z3Jvd3RoX3BlcmNlbnQYAyABKAISGAoQYmVycnlfbXVsdGlwbGllchgEIAEo",
-            "AmIGcHJvdG8z"));
+            "AhIfChdyZW1vdGVfYmVycnlfbXVsdGlwbGllchgFIAEoAmIGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::POGOProtos.Enums.ItemEffectReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::POGOProtos.Settings.Master.Item.FoodAttributes), global::POGOProtos.Settings.Master.Item.FoodAttributes.Parser, new[]{ "ItemEffect", "ItemEffectPercent", "GrowthPercent", "BerryMultiplier" }, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::POGOProtos.Settings.Master.Item.FoodAttributes), global::POGOProtos.Settings.Master.Item.FoodAttributes.Parser, new[]{ "ItemEffect", "ItemEffectPercent", "GrowthPercent", "BerryMultiplier", "RemoteBerryMultiplier" }, null, null, null)
           }));
     }
     #endregion
@@ -67,6 +67,7 @@ namespace POGOProtos.Settings.Master.Item {
       itemEffectPercent_ = other.itemEffectPercent_.Clone();
       growthPercent_ = other.growthPercent_;
       berryMultiplier_ = other.berryMultiplier_;
+      remoteBerryMultiplier_ = other.remoteBerryMultiplier_;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -116,6 +117,17 @@ namespace POGOProtos.Settings.Master.Item {
       }
     }
 
+    /// <summary>Field number for the "remote_berry_multiplier" field.</summary>
+    public const int RemoteBerryMultiplierFieldNumber = 5;
+    private float remoteBerryMultiplier_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public float RemoteBerryMultiplier {
+      get { return remoteBerryMultiplier_; }
+      set {
+        remoteBerryMultiplier_ = value;
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
       return Equals(other as FoodAttributes);
@@ -133,6 +145,7 @@ namespace POGOProtos.Settings.Master.Item {
       if(!itemEffectPercent_.Equals(other.itemEffectPercent_)) return false;
       if (GrowthPercent != other.GrowthPercent) return false;
       if (BerryMultiplier != other.BerryMultiplier) return false;
+      if (RemoteBerryMultiplier != other.RemoteBerryMultiplier) return false;
       return true;
     }
 
@@ -143,6 +156,7 @@ namespace POGOProtos.Settings.Master.Item {
       hash ^= itemEffectPercent_.GetHashCode();
       if (GrowthPercent != 0F) hash ^= GrowthPercent.GetHashCode();
       if (BerryMultiplier != 0F) hash ^= BerryMultiplier.GetHashCode();
+      if (RemoteBerryMultiplier != 0F) hash ^= RemoteBerryMultiplier.GetHashCode();
       return hash;
     }
 
@@ -163,6 +177,10 @@ namespace POGOProtos.Settings.Master.Item {
         output.WriteRawTag(37);
         output.WriteFloat(BerryMultiplier);
       }
+      if (RemoteBerryMultiplier != 0F) {
+        output.WriteRawTag(45);
+        output.WriteFloat(RemoteBerryMultiplier);
+      }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -174,6 +192,9 @@ namespace POGOProtos.Settings.Master.Item {
         size += 1 + 4;
       }
       if (BerryMultiplier != 0F) {
+        size += 1 + 4;
+      }
+      if (RemoteBerryMultiplier != 0F) {
         size += 1 + 4;
       }
       return size;
@@ -191,6 +212,9 @@ namespace POGOProtos.Settings.Master.Item {
       }
       if (other.BerryMultiplier != 0F) {
         BerryMultiplier = other.BerryMultiplier;
+      }
+      if (other.RemoteBerryMultiplier != 0F) {
+        RemoteBerryMultiplier = other.RemoteBerryMultiplier;
       }
     }
 
@@ -218,6 +242,10 @@ namespace POGOProtos.Settings.Master.Item {
           }
           case 37: {
             BerryMultiplier = input.ReadFloat();
+            break;
+          }
+          case 45: {
+            RemoteBerryMultiplier = input.ReadFloat();
             break;
           }
         }

@@ -26,20 +26,22 @@ namespace POGOProtos.Networking.Responses {
             "ZXNwb25zZS5wcm90bxIfUE9HT1Byb3Rvcy5OZXR3b3JraW5nLlJlc3BvbnNl",
             "cxovUE9HT1Byb3Rvcy9EYXRhL0d5bS9HeW1TdGF0dXNBbmREZWZlbmRlcnMu",
             "cHJvdG8aK1BPR09Qcm90b3MvRGF0YS9CYWRnZS9Bd2FyZGVkR3ltQmFkZ2Uu",
-            "cHJvdG8ipQMKEkd5bUdldEluZm9SZXNwb25zZRJMChhneW1fc3RhdHVzX2Fu",
-            "ZF9kZWZlbmRlcnMYASABKAsyKi5QT0dPUHJvdG9zLkRhdGEuR3ltLkd5bVN0",
-            "YXR1c0FuZERlZmVuZGVycxIMCgRuYW1lGAIgASgJEgsKA3VybBgDIAEoCRJK",
-            "CgZyZXN1bHQYBCABKA4yOi5QT0dPUHJvdG9zLk5ldHdvcmtpbmcuUmVzcG9u",
-            "c2VzLkd5bUdldEluZm9SZXNwb25zZS5SZXN1bHQSEwoLZGVzY3JpcHRpb24Y",
-            "BSABKAkSFQoNc2Vjb25kYXJ5X3VybBgGIAEoCRJBChFhd2FyZGVkX2d5bV9i",
-            "YWRnZRgHIAEoCzImLlBPR09Qcm90b3MuRGF0YS5CYWRnZS5Bd2FyZGVkR3lt",
-            "QmFkZ2USGQoRY2hlY2tpbl9pbWFnZV91cmwYCCABKAkiUAoGUmVzdWx0EgkK",
-            "BVVOU0VUEAASCwoHU1VDQ0VTUxABEhYKEkVSUk9SX05PVF9JTl9SQU5HRRAC",
-            "EhYKEkVSUk9SX0dZTV9ESVNBQkxFRBADYgZwcm90bzM="));
+            "cHJvdG8aJFBPR09Qcm90b3MvRGF0YS9SYWlkL0V2ZW50SW5mby5wcm90byLa",
+            "AwoSR3ltR2V0SW5mb1Jlc3BvbnNlEkwKGGd5bV9zdGF0dXNfYW5kX2RlZmVu",
+            "ZGVycxgBIAEoCzIqLlBPR09Qcm90b3MuRGF0YS5HeW0uR3ltU3RhdHVzQW5k",
+            "RGVmZW5kZXJzEgwKBG5hbWUYAiABKAkSCwoDdXJsGAMgASgJEkoKBnJlc3Vs",
+            "dBgEIAEoDjI6LlBPR09Qcm90b3MuTmV0d29ya2luZy5SZXNwb25zZXMuR3lt",
+            "R2V0SW5mb1Jlc3BvbnNlLlJlc3VsdBITCgtkZXNjcmlwdGlvbhgFIAEoCRIV",
+            "Cg1zZWNvbmRhcnlfdXJsGAYgASgJEkEKEWF3YXJkZWRfZ3ltX2JhZGdlGAcg",
+            "ASgLMiYuUE9HT1Byb3Rvcy5EYXRhLkJhZGdlLkF3YXJkZWRHeW1CYWRnZRIZ",
+            "ChFjaGVja2luX2ltYWdlX3VybBgIIAEoCRIzCgpldmVudF9pbmZvGAkgASgL",
+            "Mh8uUE9HT1Byb3Rvcy5EYXRhLlJhaWQuRXZlbnRJbmZvIlAKBlJlc3VsdBIJ",
+            "CgVVTlNFVBAAEgsKB1NVQ0NFU1MQARIWChJFUlJPUl9OT1RfSU5fUkFOR0UQ",
+            "AhIWChJFUlJPUl9HWU1fRElTQUJMRUQQA2IGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::POGOProtos.Data.Gym.GymStatusAndDefendersReflection.Descriptor, global::POGOProtos.Data.Badge.AwardedGymBadgeReflection.Descriptor, },
+          new pbr::FileDescriptor[] { global::POGOProtos.Data.Gym.GymStatusAndDefendersReflection.Descriptor, global::POGOProtos.Data.Badge.AwardedGymBadgeReflection.Descriptor, global::POGOProtos.Data.Raid.EventInfoReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::POGOProtos.Networking.Responses.GymGetInfoResponse), global::POGOProtos.Networking.Responses.GymGetInfoResponse.Parser, new[]{ "GymStatusAndDefenders", "Name", "Url", "Result", "Description", "SecondaryUrl", "AwardedGymBadge", "CheckinImageUrl" }, null, new[]{ typeof(global::POGOProtos.Networking.Responses.GymGetInfoResponse.Types.Result) }, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::POGOProtos.Networking.Responses.GymGetInfoResponse), global::POGOProtos.Networking.Responses.GymGetInfoResponse.Parser, new[]{ "GymStatusAndDefenders", "Name", "Url", "Result", "Description", "SecondaryUrl", "AwardedGymBadge", "CheckinImageUrl", "EventInfo" }, null, new[]{ typeof(global::POGOProtos.Networking.Responses.GymGetInfoResponse.Types.Result) }, null)
           }));
     }
     #endregion
@@ -78,6 +80,7 @@ namespace POGOProtos.Networking.Responses {
       secondaryUrl_ = other.secondaryUrl_;
       AwardedGymBadge = other.awardedGymBadge_ != null ? other.AwardedGymBadge.Clone() : null;
       checkinImageUrl_ = other.checkinImageUrl_;
+      EventInfo = other.eventInfo_ != null ? other.EventInfo.Clone() : null;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -173,6 +176,17 @@ namespace POGOProtos.Networking.Responses {
       }
     }
 
+    /// <summary>Field number for the "event_info" field.</summary>
+    public const int EventInfoFieldNumber = 9;
+    private global::POGOProtos.Data.Raid.EventInfo eventInfo_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public global::POGOProtos.Data.Raid.EventInfo EventInfo {
+      get { return eventInfo_; }
+      set {
+        eventInfo_ = value;
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
       return Equals(other as GymGetInfoResponse);
@@ -194,6 +208,7 @@ namespace POGOProtos.Networking.Responses {
       if (SecondaryUrl != other.SecondaryUrl) return false;
       if (!object.Equals(AwardedGymBadge, other.AwardedGymBadge)) return false;
       if (CheckinImageUrl != other.CheckinImageUrl) return false;
+      if (!object.Equals(EventInfo, other.EventInfo)) return false;
       return true;
     }
 
@@ -208,6 +223,7 @@ namespace POGOProtos.Networking.Responses {
       if (SecondaryUrl.Length != 0) hash ^= SecondaryUrl.GetHashCode();
       if (awardedGymBadge_ != null) hash ^= AwardedGymBadge.GetHashCode();
       if (CheckinImageUrl.Length != 0) hash ^= CheckinImageUrl.GetHashCode();
+      if (eventInfo_ != null) hash ^= EventInfo.GetHashCode();
       return hash;
     }
 
@@ -250,6 +266,10 @@ namespace POGOProtos.Networking.Responses {
         output.WriteRawTag(66);
         output.WriteString(CheckinImageUrl);
       }
+      if (eventInfo_ != null) {
+        output.WriteRawTag(74);
+        output.WriteMessage(EventInfo);
+      }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -278,6 +298,9 @@ namespace POGOProtos.Networking.Responses {
       }
       if (CheckinImageUrl.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(CheckinImageUrl);
+      }
+      if (eventInfo_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(EventInfo);
       }
       return size;
     }
@@ -316,6 +339,12 @@ namespace POGOProtos.Networking.Responses {
       }
       if (other.CheckinImageUrl.Length != 0) {
         CheckinImageUrl = other.CheckinImageUrl;
+      }
+      if (other.eventInfo_ != null) {
+        if (eventInfo_ == null) {
+          eventInfo_ = new global::POGOProtos.Data.Raid.EventInfo();
+        }
+        EventInfo.MergeFrom(other.EventInfo);
       }
     }
 
@@ -363,6 +392,13 @@ namespace POGOProtos.Networking.Responses {
           }
           case 66: {
             CheckinImageUrl = input.ReadString();
+            break;
+          }
+          case 74: {
+            if (eventInfo_ == null) {
+              eventInfo_ = new global::POGOProtos.Data.Raid.EventInfo();
+            }
+            input.ReadMessage(eventInfo_);
             break;
           }
         }

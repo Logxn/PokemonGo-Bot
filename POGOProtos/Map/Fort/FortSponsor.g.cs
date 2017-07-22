@@ -23,14 +23,14 @@ namespace POGOProtos.Map.Fort {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "CiVQT0dPUHJvdG9zL01hcC9Gb3J0L0ZvcnRTcG9uc29yLnByb3RvEhNQT0dP",
-            "UHJvdG9zLk1hcC5Gb3J0KroCCgtGb3J0U3BvbnNvchIRCg1VTlNFVF9TUE9O",
+            "UHJvdG9zLk1hcC5Gb3J0KsUCCgtGb3J0U3BvbnNvchIRCg1VTlNFVF9TUE9O",
             "U09SEAASDQoJTUNET05BTERTEAESEQoNUE9LRU1PTl9TVE9SRRACEggKBFRP",
             "SE8QAxIMCghTT0ZUQkFOSxAEEgkKBUdMT0JFEAUSCwoHU1BBVFVMQRAGEg8K",
             "C1RIRVJNT01FVEVSEAcSCQoFS05JRkUQCBIJCgVHUklMTBAJEgoKBlNNT0tF",
             "UhAKEgcKA1BBThALEgcKA0JCURAMEgkKBUZSWUVSEA0SCwoHU1RFQU1FUhAO",
             "EggKBEhPT0QQDxIOCgpTTE9XQ09PS0VSEBASCQoFTUlYRVIQERILCgdTQ09P",
             "UEVSEBISDQoJTVVGRklOVElOEBMSDgoKU0FMQU1BTkRFUhAUEgsKB1BMQU5D",
-            "SEEQFRILCgdOSUFfT1BTEBZiBnByb3RvMw=="));
+            "SEEQFRILCgdOSUFfT1BTEBYSCQoFV0hJU0sQF2IGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::POGOProtos.Map.Fort.FortSponsor), }, null));
@@ -63,6 +63,7 @@ namespace POGOProtos.Map.Fort {
     [pbr::OriginalName("SALAMANDER")] Salamander = 20,
     [pbr::OriginalName("PLANCHA")] Plancha = 21,
     [pbr::OriginalName("NIA_OPS")] NiaOps = 22,
+    [pbr::OriginalName("WHISK")] Whisk = 23,
   }
 
   #endregion

@@ -23,7 +23,7 @@ namespace POGOProtos.Enums {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "CiNQT0dPUHJvdG9zL0VudW1zL1ZhcmlhYmxlTmFtZS5wcm90bxIQUE9HT1By",
-            "b3Rvcy5FbnVtcyqfBAoMVmFyaWFibGVOYW1lEhYKElVOU0VUX1ZhcmlhYmxl",
+            "b3Rvcy5FbnVtcyqvBAoMVmFyaWFibGVOYW1lEhYKElVOU0VUX1ZhcmlhYmxl",
             "TmFtZRAAEg0KCUNPREVfTkFNRRABEggKBFRFQU0QAhIJCgVMRVZFTBADEg4K",
             "CkVYUEVSSUVOQ0UQBBIUChBQT0tFQ09JTl9CQUxBTkNFEAUSFAoQU1RBUkRV",
             "U1RfQkFMQU5DRRAGEgkKBUVNQUlMEAcSEAoMTE9HSU5fTUVUSE9EEAgSCwoG",
@@ -35,7 +35,7 @@ namespace POGOProtos.Enums {
             "REdFX0xFVkVMX1VQEPIHEhUKEFBPS0VDT0lOX0FXQVJERUQQ8wcSGwoWUE9L",
             "RUNPSU5fQVdBUkRFRF9UT0RBWRD0BxIXChJNQVhfREFJTFlfUE9LRUNPSU4Q",
             "9QcSEAoLQkFUVExFU19XT04Q9gcSEQoMQkFUVExFU19MT1NUEPcHEhQKD0RF",
-            "UExPWUVEX01JTExJUxD4B2IGcHJvdG8z"));
+            "UExPWUVEX01JTExJUxD4BxIOCglSQUlEX1NFRUQQ+QdiBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::POGOProtos.Enums.VariableName), }, null));
@@ -71,6 +71,7 @@ namespace POGOProtos.Enums {
     [pbr::OriginalName("BATTLES_WON")] BattlesWon = 1014,
     [pbr::OriginalName("BATTLES_LOST")] BattlesLost = 1015,
     [pbr::OriginalName("DEPLOYED_MILLIS")] DeployedMillis = 1016,
+    [pbr::OriginalName("RAID_SEED")] RaidSeed = 1017,
   }
 
   #endregion

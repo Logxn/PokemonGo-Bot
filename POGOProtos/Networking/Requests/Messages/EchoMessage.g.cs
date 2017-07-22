@@ -36,7 +36,7 @@ namespace POGOProtos.Networking.Requests.Messages {
   }
   #region Messages
   /// <summary>
-  ///  No message needed.
+  /// No message needed.
   /// </summary>
   public sealed partial class EchoMessage : pb::IMessage<EchoMessage> {
     private static readonly pb::MessageParser<EchoMessage> _parser = new pb::MessageParser<EchoMessage>(() => new EchoMessage());

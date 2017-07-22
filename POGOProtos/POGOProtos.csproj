@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>POGOProtos</RootNamespace>
     <AssemblyName>POGOProtos</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -128,6 +128,7 @@
     <Compile Include="Data\PokemonDisplay.g.cs" />
     <Compile Include="Data\Quests\DailyQuest.g.cs" />
     <Compile Include="Data\Quests\Quest.g.cs" />
+    <Compile Include="Data\Raid\EventInfo.g.cs" />
     <Compile Include="Data\Raid\PlayerRaidInfo.g.cs" />
     <Compile Include="Data\Raid\Raid.g.cs" />
     <Compile Include="Data\Raid\RaidInfo.g.cs" />
@@ -408,38 +409,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Data" />
-    <Folder Include="Data\Avatar" />
-    <Folder Include="Data\Badge" />
-    <Folder Include="Data\Battle" />
-    <Folder Include="Data\Capture" />
-    <Folder Include="Data\Gym" />
-    <Folder Include="Data\Logs" />
-    <Folder Include="Data\Player" />
-    <Folder Include="Data\Quests" />
-    <Folder Include="Data\Raid" />
-    <Folder Include="Data\Redeem" />
-    <Folder Include="Enums" />
-    <Folder Include="Inventory" />
-    <Folder Include="Inventory\Item" />
-    <Folder Include="Map" />
-    <Folder Include="Map\Fort" />
-    <Folder Include="Map\Pokemon" />
-    <Folder Include="Networking" />
-    <Folder Include="Networking\Envelopes" />
-    <Folder Include="Networking\Platform" />
-    <Folder Include="Networking\Platform\Requests" />
-    <Folder Include="Networking\Platform\Responses" />
-    <Folder Include="Networking\Requests" />
-    <Folder Include="Networking\Requests\Messages" />
-    <Folder Include="Networking\Responses" />
-    <Folder Include="Settings" />
-    <Folder Include="Settings\Master" />
-    <Folder Include="Settings\Master\Item" />
-    <Folder Include="Settings\Master\Pokemon" />
-    <Folder Include="Settings\Master\Quest" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

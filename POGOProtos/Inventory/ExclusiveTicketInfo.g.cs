@@ -23,14 +23,15 @@ namespace POGOProtos.Inventory {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "Ci5QT0dPUHJvdG9zL0ludmVudG9yeS9FeGNsdXNpdmVUaWNrZXRJbmZvLnBy",
-            "b3RvEhRQT0dPUHJvdG9zLkludmVudG9yeSJ6ChNFeGNsdXNpdmVUaWNrZXRJ",
-            "bmZvEhEKCXJhaWRfc2VlZBgBIAEoAxIPCgdmb3J0X2lkGAIgASgJEhMKC2Rl",
-            "c2NyaXB0aW9uGAMgASgJEhUKDXN0YXJ0X3RpbWVfbXMYBCABKAMSEwoLZW5k",
-            "X3RpbWVfbXMYBSABKANiBnByb3RvMw=="));
+            "b3RvEhRQT0dPUHJvdG9zLkludmVudG9yeSKvAQoTRXhjbHVzaXZlVGlja2V0",
+            "SW5mbxIRCglyYWlkX3NlZWQYASABKAMSDwoHZm9ydF9pZBgCIAEoCRIVCg1z",
+            "dGFydF90aW1lX21zGAQgASgDEhMKC2VuZF90aW1lX21zGAUgASgDEhEKCWlt",
+            "YWdlX3VybBgGIAEoCRIQCghsYXRpdHVkZRgHIAEoARIRCglsb25naXR1ZGUY",
+            "CCABKAESEAoIZ3ltX25hbWUYCSABKAliBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::POGOProtos.Inventory.ExclusiveTicketInfo), global::POGOProtos.Inventory.ExclusiveTicketInfo.Parser, new[]{ "RaidSeed", "FortId", "Description", "StartTimeMs", "EndTimeMs" }, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::POGOProtos.Inventory.ExclusiveTicketInfo), global::POGOProtos.Inventory.ExclusiveTicketInfo.Parser, new[]{ "RaidSeed", "FortId", "StartTimeMs", "EndTimeMs", "ImageUrl", "Latitude", "Longitude", "GymName" }, null, null, null)
           }));
     }
     #endregion
@@ -63,9 +64,12 @@ namespace POGOProtos.Inventory {
     public ExclusiveTicketInfo(ExclusiveTicketInfo other) : this() {
       raidSeed_ = other.raidSeed_;
       fortId_ = other.fortId_;
-      description_ = other.description_;
       startTimeMs_ = other.startTimeMs_;
       endTimeMs_ = other.endTimeMs_;
+      imageUrl_ = other.imageUrl_;
+      latitude_ = other.latitude_;
+      longitude_ = other.longitude_;
+      gymName_ = other.gymName_;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -95,17 +99,6 @@ namespace POGOProtos.Inventory {
       }
     }
 
-    /// <summary>Field number for the "description" field.</summary>
-    public const int DescriptionFieldNumber = 3;
-    private string description_ = "";
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public string Description {
-      get { return description_; }
-      set {
-        description_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
-      }
-    }
-
     /// <summary>Field number for the "start_time_ms" field.</summary>
     public const int StartTimeMsFieldNumber = 4;
     private long startTimeMs_;
@@ -128,6 +121,50 @@ namespace POGOProtos.Inventory {
       }
     }
 
+    /// <summary>Field number for the "image_url" field.</summary>
+    public const int ImageUrlFieldNumber = 6;
+    private string imageUrl_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string ImageUrl {
+      get { return imageUrl_; }
+      set {
+        imageUrl_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "latitude" field.</summary>
+    public const int LatitudeFieldNumber = 7;
+    private double latitude_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public double Latitude {
+      get { return latitude_; }
+      set {
+        latitude_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "longitude" field.</summary>
+    public const int LongitudeFieldNumber = 8;
+    private double longitude_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public double Longitude {
+      get { return longitude_; }
+      set {
+        longitude_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "gym_name" field.</summary>
+    public const int GymNameFieldNumber = 9;
+    private string gymName_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string GymName {
+      get { return gymName_; }
+      set {
+        gymName_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
       return Equals(other as ExclusiveTicketInfo);
@@ -143,9 +180,12 @@ namespace POGOProtos.Inventory {
       }
       if (RaidSeed != other.RaidSeed) return false;
       if (FortId != other.FortId) return false;
-      if (Description != other.Description) return false;
       if (StartTimeMs != other.StartTimeMs) return false;
       if (EndTimeMs != other.EndTimeMs) return false;
+      if (ImageUrl != other.ImageUrl) return false;
+      if (Latitude != other.Latitude) return false;
+      if (Longitude != other.Longitude) return false;
+      if (GymName != other.GymName) return false;
       return true;
     }
 
@@ -154,9 +194,12 @@ namespace POGOProtos.Inventory {
       int hash = 1;
       if (RaidSeed != 0L) hash ^= RaidSeed.GetHashCode();
       if (FortId.Length != 0) hash ^= FortId.GetHashCode();
-      if (Description.Length != 0) hash ^= Description.GetHashCode();
       if (StartTimeMs != 0L) hash ^= StartTimeMs.GetHashCode();
       if (EndTimeMs != 0L) hash ^= EndTimeMs.GetHashCode();
+      if (ImageUrl.Length != 0) hash ^= ImageUrl.GetHashCode();
+      if (Latitude != 0D) hash ^= Latitude.GetHashCode();
+      if (Longitude != 0D) hash ^= Longitude.GetHashCode();
+      if (GymName.Length != 0) hash ^= GymName.GetHashCode();
       return hash;
     }
 
@@ -175,10 +218,6 @@ namespace POGOProtos.Inventory {
         output.WriteRawTag(18);
         output.WriteString(FortId);
       }
-      if (Description.Length != 0) {
-        output.WriteRawTag(26);
-        output.WriteString(Description);
-      }
       if (StartTimeMs != 0L) {
         output.WriteRawTag(32);
         output.WriteInt64(StartTimeMs);
@@ -186,6 +225,22 @@ namespace POGOProtos.Inventory {
       if (EndTimeMs != 0L) {
         output.WriteRawTag(40);
         output.WriteInt64(EndTimeMs);
+      }
+      if (ImageUrl.Length != 0) {
+        output.WriteRawTag(50);
+        output.WriteString(ImageUrl);
+      }
+      if (Latitude != 0D) {
+        output.WriteRawTag(57);
+        output.WriteDouble(Latitude);
+      }
+      if (Longitude != 0D) {
+        output.WriteRawTag(65);
+        output.WriteDouble(Longitude);
+      }
+      if (GymName.Length != 0) {
+        output.WriteRawTag(74);
+        output.WriteString(GymName);
       }
     }
 
@@ -198,14 +253,23 @@ namespace POGOProtos.Inventory {
       if (FortId.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(FortId);
       }
-      if (Description.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeStringSize(Description);
-      }
       if (StartTimeMs != 0L) {
         size += 1 + pb::CodedOutputStream.ComputeInt64Size(StartTimeMs);
       }
       if (EndTimeMs != 0L) {
         size += 1 + pb::CodedOutputStream.ComputeInt64Size(EndTimeMs);
+      }
+      if (ImageUrl.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(ImageUrl);
+      }
+      if (Latitude != 0D) {
+        size += 1 + 8;
+      }
+      if (Longitude != 0D) {
+        size += 1 + 8;
+      }
+      if (GymName.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(GymName);
       }
       return size;
     }
@@ -221,14 +285,23 @@ namespace POGOProtos.Inventory {
       if (other.FortId.Length != 0) {
         FortId = other.FortId;
       }
-      if (other.Description.Length != 0) {
-        Description = other.Description;
-      }
       if (other.StartTimeMs != 0L) {
         StartTimeMs = other.StartTimeMs;
       }
       if (other.EndTimeMs != 0L) {
         EndTimeMs = other.EndTimeMs;
+      }
+      if (other.ImageUrl.Length != 0) {
+        ImageUrl = other.ImageUrl;
+      }
+      if (other.Latitude != 0D) {
+        Latitude = other.Latitude;
+      }
+      if (other.Longitude != 0D) {
+        Longitude = other.Longitude;
+      }
+      if (other.GymName.Length != 0) {
+        GymName = other.GymName;
       }
     }
 
@@ -248,16 +321,28 @@ namespace POGOProtos.Inventory {
             FortId = input.ReadString();
             break;
           }
-          case 26: {
-            Description = input.ReadString();
-            break;
-          }
           case 32: {
             StartTimeMs = input.ReadInt64();
             break;
           }
           case 40: {
             EndTimeMs = input.ReadInt64();
+            break;
+          }
+          case 50: {
+            ImageUrl = input.ReadString();
+            break;
+          }
+          case 57: {
+            Latitude = input.ReadDouble();
+            break;
+          }
+          case 65: {
+            Longitude = input.ReadDouble();
+            break;
+          }
+          case 74: {
+            GymName = input.ReadString();
             break;
           }
         }

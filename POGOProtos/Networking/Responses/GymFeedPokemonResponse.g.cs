@@ -27,7 +27,7 @@ namespace POGOProtos.Networking.Responses {
             "b25zZXMaK1BPR09Qcm90b3MvRGF0YS9CYWRnZS9Bd2FyZGVkR3ltQmFkZ2Uu",
             "cHJvdG8aJlBPR09Qcm90b3MvRW51bXMvUG9rZW1vbkZhbWlseUlkLnByb3Rv",
             "Gi9QT0dPUHJvdG9zL0RhdGEvR3ltL0d5bVN0YXR1c0FuZERlZmVuZGVycy5w",
-            "cm90byK+BQoWR3ltRmVlZFBva2Vtb25SZXNwb25zZRJOCgZyZXN1bHQYASAB",
+            "cm90byLUBQoWR3ltRmVlZFBva2Vtb25SZXNwb25zZRJOCgZyZXN1bHQYASAB",
             "KA4yPi5QT0dPUHJvdG9zLk5ldHdvcmtpbmcuUmVzcG9uc2VzLkd5bUZlZWRQ",
             "b2tlbW9uUmVzcG9uc2UuUmVzdWx0EkwKGGd5bV9zdGF0dXNfYW5kX2RlZmVu",
             "ZGVycxgCIAEoCzIqLlBPR09Qcm90b3MuRGF0YS5HeW0uR3ltU3RhdHVzQW5k",
@@ -36,13 +36,14 @@ namespace POGOProtos.Networking.Responses {
             "d2FyZGVkGAQgASgFEhIKCnhwX2F3YXJkZWQYBSABKAUSGQoRbnVtX2NhbmR5",
             "X2F3YXJkZWQYBiABKAUSOgoPZmFtaWx5X2NhbmR5X2lkGAcgASgOMiEuUE9H",
             "T1Byb3Rvcy5FbnVtcy5Qb2tlbW9uRmFtaWx5SWQSGQoRY29vbGRvd25fY29t",
-            "cGxldGUYCCABKAMiogIKBlJlc3VsdBIJCgVVTlNFVBAAEgsKB1NVQ0NFU1MQ",
+            "cGxldGUYCCABKAMiuAIKBlJlc3VsdBIJCgVVTlNFVBAAEgsKB1NVQ0NFU1MQ",
             "ARIUChBFUlJPUl9DQU5OT1RfVVNFEAISFgoSRVJST1JfTk9UX0lOX1JBTkdF",
             "EAMSGwoXRVJST1JfUE9LRU1PTl9OT1RfVEhFUkUQBBIWChJFUlJPUl9QT0tF",
             "TU9OX0ZVTEwQBRIZChVFUlJPUl9OT19CRVJSSUVTX0xFRlQQBhIUChBFUlJP",
             "Ul9XUk9OR19URUFNEAcSFQoRRVJST1JfV1JPTkdfQ09VTlQQCBISCg5FUlJP",
             "Ul9UT09fRkFTVBAJEhYKEkVSUk9SX1RPT19GUkVRVUVOVBAKEhIKDkVSUk9S",
-            "X0dZTV9CVVNZEAsSFQoRRVJST1JfUkFJRF9BQ1RJVkUQDGIGcHJvdG8z"));
+            "X0dZTV9CVVNZEAsSFQoRRVJST1JfUkFJRF9BQ1RJVkUQDBIUChBFUlJPUl9H",
+            "WU1fQ0xPU0VEEA1iBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::POGOProtos.Data.Badge.AwardedGymBadgeReflection.Descriptor, global::POGOProtos.Enums.PokemonFamilyIdReflection.Descriptor, global::POGOProtos.Data.Gym.GymStatusAndDefendersReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
@@ -394,6 +395,7 @@ namespace POGOProtos.Networking.Responses {
         [pbr::OriginalName("ERROR_TOO_FREQUENT")] ErrorTooFrequent = 10,
         [pbr::OriginalName("ERROR_GYM_BUSY")] ErrorGymBusy = 11,
         [pbr::OriginalName("ERROR_RAID_ACTIVE")] ErrorRaidActive = 12,
+        [pbr::OriginalName("ERROR_GYM_CLOSED")] ErrorGymClosed = 13,
       }
 
     }

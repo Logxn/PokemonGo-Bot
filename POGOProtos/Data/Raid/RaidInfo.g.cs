@@ -24,17 +24,17 @@ namespace POGOProtos.Data.Raid {
           string.Concat(
             "CiNQT0dPUHJvdG9zL0RhdGEvUmFpZC9SYWlkSW5mby5wcm90bxIUUE9HT1By",
             "b3Rvcy5EYXRhLlJhaWQaIVBPR09Qcm90b3MvRGF0YS9Qb2tlbW9uRGF0YS5w",
-            "cm90bxogUE9HT1Byb3Rvcy9FbnVtcy9SYWlkTGV2ZWwucHJvdG8i7gEKCFJh",
+            "cm90bxogUE9HT1Byb3Rvcy9FbnVtcy9SYWlkTGV2ZWwucHJvdG8ihgIKCFJh",
             "aWRJbmZvEhEKCXJhaWRfc2VlZBgBIAEoAxIVCg1yYWlkX3NwYXduX21zGAIg",
             "ASgDEhYKDnJhaWRfYmF0dGxlX21zGAMgASgDEhMKC3JhaWRfZW5kX21zGAQg",
             "ASgDEjIKDHJhaWRfcG9rZW1vbhgFIAEoCzIcLlBPR09Qcm90b3MuRGF0YS5Q",
             "b2tlbW9uRGF0YRIvCgpyYWlkX2xldmVsGAYgASgOMhsuUE9HT1Byb3Rvcy5F",
             "bnVtcy5SYWlkTGV2ZWwSEAoIY29tcGxldGUYByABKAgSFAoMaXNfZXhjbHVz",
-            "aXZlGAggASgIYgZwcm90bzM="));
+            "aXZlGAggASgIEhYKDmlzX3JhaWRfaGlkZGVuGAkgASgIYgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::POGOProtos.Data.PokemonDataReflection.Descriptor, global::POGOProtos.Enums.RaidLevelReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::POGOProtos.Data.Raid.RaidInfo), global::POGOProtos.Data.Raid.RaidInfo.Parser, new[]{ "RaidSeed", "RaidSpawnMs", "RaidBattleMs", "RaidEndMs", "RaidPokemon", "RaidLevel", "Complete", "IsExclusive" }, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::POGOProtos.Data.Raid.RaidInfo), global::POGOProtos.Data.Raid.RaidInfo.Parser, new[]{ "RaidSeed", "RaidSpawnMs", "RaidBattleMs", "RaidEndMs", "RaidPokemon", "RaidLevel", "Complete", "IsExclusive", "IsRaidHidden" }, null, null, null)
           }));
     }
     #endregion
@@ -73,6 +73,7 @@ namespace POGOProtos.Data.Raid {
       raidLevel_ = other.raidLevel_;
       complete_ = other.complete_;
       isExclusive_ = other.isExclusive_;
+      isRaidHidden_ = other.isRaidHidden_;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -168,6 +169,17 @@ namespace POGOProtos.Data.Raid {
       }
     }
 
+    /// <summary>Field number for the "is_raid_hidden" field.</summary>
+    public const int IsRaidHiddenFieldNumber = 9;
+    private bool isRaidHidden_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool IsRaidHidden {
+      get { return isRaidHidden_; }
+      set {
+        isRaidHidden_ = value;
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
       return Equals(other as RaidInfo);
@@ -189,6 +201,7 @@ namespace POGOProtos.Data.Raid {
       if (RaidLevel != other.RaidLevel) return false;
       if (Complete != other.Complete) return false;
       if (IsExclusive != other.IsExclusive) return false;
+      if (IsRaidHidden != other.IsRaidHidden) return false;
       return true;
     }
 
@@ -203,6 +216,7 @@ namespace POGOProtos.Data.Raid {
       if (RaidLevel != 0) hash ^= RaidLevel.GetHashCode();
       if (Complete != false) hash ^= Complete.GetHashCode();
       if (IsExclusive != false) hash ^= IsExclusive.GetHashCode();
+      if (IsRaidHidden != false) hash ^= IsRaidHidden.GetHashCode();
       return hash;
     }
 
@@ -245,6 +259,10 @@ namespace POGOProtos.Data.Raid {
         output.WriteRawTag(64);
         output.WriteBool(IsExclusive);
       }
+      if (IsRaidHidden != false) {
+        output.WriteRawTag(72);
+        output.WriteBool(IsRaidHidden);
+      }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -272,6 +290,9 @@ namespace POGOProtos.Data.Raid {
         size += 1 + 1;
       }
       if (IsExclusive != false) {
+        size += 1 + 1;
+      }
+      if (IsRaidHidden != false) {
         size += 1 + 1;
       }
       return size;
@@ -308,6 +329,9 @@ namespace POGOProtos.Data.Raid {
       }
       if (other.IsExclusive != false) {
         IsExclusive = other.IsExclusive;
+      }
+      if (other.IsRaidHidden != false) {
+        IsRaidHidden = other.IsRaidHidden;
       }
     }
 
@@ -352,6 +376,10 @@ namespace POGOProtos.Data.Raid {
           }
           case 64: {
             IsExclusive = input.ReadBool();
+            break;
+          }
+          case 72: {
+            IsRaidHidden = input.ReadBool();
             break;
           }
         }

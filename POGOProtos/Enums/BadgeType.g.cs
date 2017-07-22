@@ -23,7 +23,7 @@ namespace POGOProtos.Enums {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "CiBQT0dPUHJvdG9zL0VudW1zL0JhZGdlVHlwZS5wcm90bxIQUE9HT1Byb3Rv",
-            "cy5FbnVtcyrsCAoJQmFkZ2VUeXBlEg8KC0JBREdFX1VOU0VUEAASEwoPQkFE",
+            "cy5FbnVtcyqPCQoJQmFkZ2VUeXBlEg8KC0JBREdFX1VOU0VUEAASEwoPQkFE",
             "R0VfVFJBVkVMX0tNEAESGQoVQkFER0VfUE9LRURFWF9FTlRSSUVTEAISFwoT",
             "QkFER0VfQ0FQVFVSRV9UT1RBTBADEhcKE0JBREdFX0RFRkVBVEVEX0ZPUlQQ",
             "BBIXChNCQURHRV9FVk9MVkVEX1RPVEFMEAUSFwoTQkFER0VfSEFUQ0hFRF9U",
@@ -48,7 +48,8 @@ namespace POGOProtos.Enums {
             "ChVCQURHRV9SQUlEX0JBVFRMRV9XT04QKBIeChpCQURHRV9MRUdFTkRBUllf",
             "QkFUVExFX1dPThApEhUKEUJBREdFX0JFUlJJRVNfRkVEECoSGAoUQkFER0Vf",
             "SE9VUlNfREVGRU5ERUQQKxIWChJCQURHRV9QTEFDRV9IT0xERVIQLBIUCg9C",
-            "QURHRV9FVkVOVF9NSU4Q0A9iBnByb3RvMw=="));
+            "QURHRV9FVkVOVF9NSU4Q0A8SIQocQkFER0VfQ0hJQ0FHT19GRVNUX0pVTFlf",
+            "MjAxNxDRD2IGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::POGOProtos.Enums.BadgeType), }, null));
@@ -104,6 +105,7 @@ namespace POGOProtos.Enums {
     [pbr::OriginalName("BADGE_HOURS_DEFENDED")] BadgeHoursDefended = 43,
     [pbr::OriginalName("BADGE_PLACE_HOLDER")] BadgePlaceHolder = 44,
     [pbr::OriginalName("BADGE_EVENT_MIN")] BadgeEventMin = 2000,
+    [pbr::OriginalName("BADGE_CHICAGO_FEST_JULY_2017")] BadgeChicagoFestJuly2017 = 2001,
   }
 
   #endregion
