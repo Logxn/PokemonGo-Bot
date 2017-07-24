@@ -175,7 +175,7 @@ namespace PokemonGo.RocketAPI.Hash
                     var RateRequestRemaining = Convert.ToUInt16(((string[])response.Headers.GetValues("X-RateRequestsRemaining"))[0]);
                     var RateLimitSeconds = Convert.ToUInt16(((string[])response.Headers.GetValues("X-RateLimitSeconds"))[0]);
                     var remainingSeconds = (DateTime.Now - RatePeriodEnd).TotalSeconds * -1;
-                    Logger.Info($"{RateRequestRemaining}/{MaxRequestCount} requests remaining for the next {remainingSeconds} seconds. Key expires on: {AuthTokenExpiration}");
+                    Logger.Info($"{key} : {RateRequestRemaining}/{MaxRequestCount} requests remaining for the next {remainingSeconds} seconds. Key expires on: {AuthTokenExpiration}");
                     result[0] = MaxRequestCount.ToString();
                     result[1] = AuthTokenExpiration.ToString("dd/MM/yyyy HH:mm:ss");
                 
