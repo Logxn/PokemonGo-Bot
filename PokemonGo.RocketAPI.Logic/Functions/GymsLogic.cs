@@ -357,7 +357,6 @@ namespace PokeMaster.Logic.Functions
                 inBattle = inBattle && (attResp.BattleLog.State == BattleState.Active);
                 var count = 1;
                 var energy = 0;
-                var numVictories = 0;
                 Logger.Debug("attResp: " + attResp);
                 while (inBattle && !StopAttack) {
                     var timeMs = attResp.BattleLog.ServerMs;
@@ -535,7 +534,6 @@ namespace PokeMaster.Logic.Functions
             StartGymBattleResponse resp = null;
             var numTries = 3;
             var startOk = false;
-            var firstTime = true;
             do {
                 try {
                     resp = client.Fort.StartGymBattle(gymId, defendingPokemonId, attackingPokemonIds).Result;
