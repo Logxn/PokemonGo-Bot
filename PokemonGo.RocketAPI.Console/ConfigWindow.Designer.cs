@@ -3507,6 +3507,8 @@ namespace PokeMaster
             // checkBoxSpinGyms
             // 
             this.checkBoxSpinGyms.AutoSize = true;
+            this.checkBoxSpinGyms.Checked = true;
+            this.checkBoxSpinGyms.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBoxSpinGyms.Location = new System.Drawing.Point(374, 17);
             this.checkBoxSpinGyms.Name = "checkBoxSpinGyms";
             this.checkBoxSpinGyms.Size = new System.Drawing.Size(76, 17);

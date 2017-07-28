@@ -472,7 +472,7 @@ namespace PokeMaster.Logic
 
             IEnumerable<FortData> pokeGyms = new List<FortData>();
 
-            if (GlobalVars.Gyms.Farm)
+            if (GlobalVars.Gyms.Farm || GlobalVars.Gyms.Spin)
                pokeGyms = mapObjectsResponse.MapCells.SelectMany(i => i.Forts)
                 .Where(i => i.Type == FortType.Gym && i.CooldownCompleteTimestampMs < unixNow);
 
@@ -1040,8 +1040,11 @@ namespace PokeMaster.Logic
                             if (pokestop.Type != FortType.Checkpoint )
                                 continue;
 
-                        if (pokestop.Type == FortType.Gym )
-                           Logger.Info("Spinning Gym");
+                        if (pokestop.Type == FortType.Gym ){
+                           //Simulate entering into the gym.
+                           var gymdet = objClient.Fort.GymGetInfo(pokestop.Id,pokestop.Latitude,pokestop.Longitude);
+                           Logger.Info("Spinning Gym: " + gymdet.Name);
+                        }
 
                         Setout.RecycleItems();
                         var fortInfo = objClient.Fort.GetFort(pokestop.Id, pokestop.Latitude, pokestop.Longitude).Result;
