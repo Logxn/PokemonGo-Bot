@@ -17,15 +17,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{0D6372
 		.nuget\packages.config = .nuget\packages.config
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "POGOProtos", "POGOProtos\POGOProtos.csproj", "{A03A7BB2-4F0B-467B-84B2-9A76E6AAE6FB}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{0D72B70F-3A56-49FA-A284-55C422794689}"
 	ProjectSection(SolutionItems) = preProject
 		README.md = README.md
 		ver.md = ver.md
 	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PokeMaster.Translator", "PokemonGo.RocketAPI.Translator\PokeMaster.Translator.csproj", "{3E589F65-5116-455F-9840-B4F6515AD4D4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -61,6 +57,7 @@ Global
 		{1FEA147E-F704-497B-A538-00B053B5F672}.Release|Any CPU.Deploy.0 = Release|Any CPU
 		{1FEA147E-F704-497B-A538-00B053B5F672}.Release|x86.ActiveCfg = Release|Any CPU
 		{1FEA147E-F704-497B-A538-00B053B5F672}.Release|x86.Build.0 = Release|Any CPU
+<<<<<<< HEAD
 		{A03A7BB2-4F0B-467B-84B2-9A76E6AAE6FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A03A7BB2-4F0B-467B-84B2-9A76E6AAE6FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A03A7BB2-4F0B-467B-84B2-9A76E6AAE6FB}.Debug|x86.ActiveCfg = Debug|x86
@@ -77,6 +74,8 @@ Global
 		{3E589F65-5116-455F-9840-B4F6515AD4D4}.Release|Any CPU.Build.0 = Release|Any CPU
 		{3E589F65-5116-455F-9840-B4F6515AD4D4}.Release|x86.ActiveCfg = Release|Any CPU
 		{3E589F65-5116-455F-9840-B4F6515AD4D4}.Release|x86.Build.0 = Release|Any CPU
+=======
+>>>>>>> upstream/master
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

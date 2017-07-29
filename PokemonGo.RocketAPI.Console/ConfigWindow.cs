@@ -564,7 +564,13 @@ namespace PokeMaster
                 var selectedCoords = ActiveProfile.Settings.DefaultLatitude.ToString("0.000000") + ";" + ActiveProfile.Settings.DefaultLongitude.ToString("0.000000");
                 selectedCoords = selectedCoords.Replace(",", ".");
                 if (selectedCoords.Equals(NEW_YORK_COORS)) {
-                    var ret = MessageBox.Show(th.TS("Have you set correctly your location? (It seems like you are using default coords. This can lead to an auto-ban from niantic)"), th.TS("Warning"), MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                    var ret = MessageBox.Show(th.TS("Have you set correctly your location? (It seems like you are using default coords. This can lead to an auto-ban)"), th.TS("Warning"), MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                    if (ret == DialogResult.No) {
+                        return;
+                    }
+                }
+                if (!isIOS()) {
+                    var ret = MessageBox.Show(th.TS("Selected device is not an iOS device.\nCurrent Hash Service only simulates iOS hash\nAre you sure to continue with this values?"), th.TS("Warning"), MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                     if (ret == DialogResult.No) {
                         return;
                     }
@@ -1350,7 +1356,13 @@ namespace PokeMaster
         }
         void ButtonGenerateID_Click(object sender, EventArgs e)
         {
-            textBoxDeviceID.Text = DeviceSetup.RandomDeviceId();
+            textBoxDeviceID.Text = DeviceSetup.RandomDeviceId(isIOS()?32:16);
+        }
+
+        bool isIOS()
+        {
+            var devicename = comboBox_Device.Text.ToLower();
+            return (devicename.Contains("iphone") || devicename.Contains("ipad")|| devicename.Contains("ipod"));
         }
 
         void checkBox_UseBreakIntervalAndLength_CheckedChanged(object sender, EventArgs e)
