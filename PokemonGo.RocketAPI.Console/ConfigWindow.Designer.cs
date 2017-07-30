@@ -202,6 +202,7 @@ namespace PokeMaster
             this.checkBox_WalkInArchimedeanSpiral = new System.Windows.Forms.CheckBox();
             this.text_PokemonCatchLimit = new System.Windows.Forms.TextBox();
             this.groupBox12 = new System.Windows.Forms.GroupBox();
+            this.BreakGridView = new System.Windows.Forms.DataGridView();
             this.label18 = new System.Windows.Forms.Label();
             this.label19 = new System.Windows.Forms.Label();
             this.label17 = new System.Windows.Forms.Label();
@@ -364,6 +365,10 @@ namespace PokeMaster
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.BreakSequenceId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.BreakWalkTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.BreakIdleTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.BreakEnabled = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.tabProxies.SuspendLayout();
             this.tabItems.SuspendLayout();
             this.groupBoxItems.SuspendLayout();
@@ -420,6 +425,7 @@ namespace PokeMaster
             this.groupBox11.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.groupBox12.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.BreakGridView)).BeginInit();
             this.tabEggs.SuspendLayout();
             this.groupBox26.SuspendLayout();
             this.groupBox27.SuspendLayout();
@@ -2199,9 +2205,9 @@ namespace PokeMaster
             this.groupBoxForts.Controls.Add(this.buttonSelectFile);
             this.groupBoxForts.Controls.Add(this.textBoxFortsFile);
             this.groupBoxForts.Controls.Add(this.checkBoxSaveFortsInfo);
-            this.groupBoxForts.Location = new System.Drawing.Point(28, 302);
+            this.groupBoxForts.Location = new System.Drawing.Point(27, 316);
             this.groupBoxForts.Name = "groupBoxForts";
-            this.groupBoxForts.Size = new System.Drawing.Size(324, 83);
+            this.groupBoxForts.Size = new System.Drawing.Size(324, 69);
             this.groupBoxForts.TabIndex = 70;
             this.groupBoxForts.TabStop = false;
             this.groupBoxForts.Text = "Forts";
@@ -2209,7 +2215,7 @@ namespace PokeMaster
             // buttonSelectFile
             // 
             this.buttonSelectFile.Enabled = false;
-            this.buttonSelectFile.Location = new System.Drawing.Point(294, 38);
+            this.buttonSelectFile.Location = new System.Drawing.Point(294, 33);
             this.buttonSelectFile.Name = "buttonSelectFile";
             this.buttonSelectFile.Size = new System.Drawing.Size(24, 24);
             this.buttonSelectFile.TabIndex = 66;
@@ -2220,7 +2226,7 @@ namespace PokeMaster
             // textBoxFortsFile
             // 
             this.textBoxFortsFile.Enabled = false;
-            this.textBoxFortsFile.Location = new System.Drawing.Point(15, 42);
+            this.textBoxFortsFile.Location = new System.Drawing.Point(6, 37);
             this.textBoxFortsFile.Name = "textBoxFortsFile";
             this.textBoxFortsFile.Size = new System.Drawing.Size(271, 20);
             this.textBoxFortsFile.TabIndex = 65;
@@ -2228,7 +2234,7 @@ namespace PokeMaster
             // checkBoxSaveFortsInfo
             // 
             this.checkBoxSaveFortsInfo.AutoSize = true;
-            this.checkBoxSaveFortsInfo.Location = new System.Drawing.Point(15, 19);
+            this.checkBoxSaveFortsInfo.Location = new System.Drawing.Point(6, 14);
             this.checkBoxSaveFortsInfo.Name = "checkBoxSaveFortsInfo";
             this.checkBoxSaveFortsInfo.Size = new System.Drawing.Size(205, 17);
             this.checkBoxSaveFortsInfo.TabIndex = 64;
@@ -2248,25 +2254,25 @@ namespace PokeMaster
             this.groupBox18.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox18.Name = "groupBox18";
             this.groupBox18.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBox18.Size = new System.Drawing.Size(326, 96);
+            this.groupBox18.Size = new System.Drawing.Size(326, 73);
             this.groupBox18.TabIndex = 69;
             this.groupBox18.TabStop = false;
             this.groupBox18.Text = "Walking Speed and Range";
             // 
             // text_MoveRadius
             // 
-            this.text_MoveRadius.Location = new System.Drawing.Point(258, 71);
+            this.text_MoveRadius.Location = new System.Drawing.Point(82, 17);
             this.text_MoveRadius.Name = "text_MoveRadius";
-            this.text_MoveRadius.Size = new System.Drawing.Size(52, 20);
+            this.text_MoveRadius.Size = new System.Drawing.Size(55, 20);
             this.text_MoveRadius.TabIndex = 72;
             this.text_MoveRadius.Text = "5000";
             this.text_MoveRadius.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox7_KeyPress);
             // 
             // label9
             // 
-            this.label9.Location = new System.Drawing.Point(31, 74);
+            this.label9.Location = new System.Drawing.Point(14, 19);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(211, 13);
+            this.label9.Size = new System.Drawing.Size(71, 19);
             this.label9.TabIndex = 73;
             this.label9.Text = "Move radius:";
             this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -2565,6 +2571,7 @@ namespace PokeMaster
             // 
             // groupBox12
             // 
+            this.groupBox12.Controls.Add(this.BreakGridView);
             this.groupBox12.Controls.Add(this.label18);
             this.groupBox12.Controls.Add(this.label19);
             this.groupBox12.Controls.Add(this.label17);
@@ -2579,19 +2586,32 @@ namespace PokeMaster
             this.groupBox12.Controls.Add(this.checkBox_BreakAtLure);
             this.groupBox12.Controls.Add(this.label40);
             this.groupBox12.Controls.Add(this.text_TimeToRun);
-            this.groupBox12.Location = new System.Drawing.Point(28, 108);
+            this.groupBox12.Location = new System.Drawing.Point(28, 85);
             this.groupBox12.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox12.Name = "groupBox12";
             this.groupBox12.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBox12.Size = new System.Drawing.Size(326, 192);
+            this.groupBox12.Size = new System.Drawing.Size(326, 226);
             this.groupBox12.TabIndex = 60;
             this.groupBox12.TabStop = false;
             this.groupBox12.Text = "Break Variables";
             // 
+            // BreakGridView
+            // 
+            this.BreakGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.BreakGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.BreakSequenceId,
+            this.BreakWalkTime,
+            this.BreakIdleTime,
+            this.BreakEnabled});
+            this.BreakGridView.Location = new System.Drawing.Point(33, 134);
+            this.BreakGridView.Name = "BreakGridView";
+            this.BreakGridView.Size = new System.Drawing.Size(255, 87);
+            this.BreakGridView.TabIndex = 75;
+            // 
             // label18
             // 
             this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(258, 162);
+            this.label18.Location = new System.Drawing.Point(258, 113);
             this.label18.Name = "label18";
             this.label18.Size = new System.Drawing.Size(44, 13);
             this.label18.TabIndex = 74;
@@ -2602,7 +2622,7 @@ namespace PokeMaster
             // label19
             // 
             this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(258, 139);
+            this.label19.Location = new System.Drawing.Point(258, 90);
             this.label19.Name = "label19";
             this.label19.Size = new System.Drawing.Size(44, 13);
             this.label19.TabIndex = 73;
@@ -2613,7 +2633,7 @@ namespace PokeMaster
             // label17
             // 
             this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(257, 91);
+            this.label17.Location = new System.Drawing.Point(253, 67);
             this.label17.Name = "label17";
             this.label17.Size = new System.Drawing.Size(44, 13);
             this.label17.TabIndex = 72;
@@ -2623,7 +2643,7 @@ namespace PokeMaster
             // 
             // labelRestart
             // 
-            this.labelRestart.Location = new System.Drawing.Point(16, 162);
+            this.labelRestart.Location = new System.Drawing.Point(16, 113);
             this.labelRestart.Name = "labelRestart";
             this.labelRestart.Size = new System.Drawing.Size(179, 13);
             this.labelRestart.TabIndex = 69;
@@ -2634,7 +2654,7 @@ namespace PokeMaster
             // checkBox_UseBreakIntervalAndLength
             // 
             this.checkBox_UseBreakIntervalAndLength.AutoSize = true;
-            this.checkBox_UseBreakIntervalAndLength.Location = new System.Drawing.Point(15, 64);
+            this.checkBox_UseBreakIntervalAndLength.Location = new System.Drawing.Point(16, 44);
             this.checkBox_UseBreakIntervalAndLength.Name = "checkBox_UseBreakIntervalAndLength";
             this.checkBox_UseBreakIntervalAndLength.Size = new System.Drawing.Size(111, 17);
             this.checkBox_UseBreakIntervalAndLength.TabIndex = 71;
@@ -2644,7 +2664,7 @@ namespace PokeMaster
             // 
             // text_RestartAfterRun
             // 
-            this.text_RestartAfterRun.Location = new System.Drawing.Point(201, 159);
+            this.text_RestartAfterRun.Location = new System.Drawing.Point(201, 110);
             this.text_RestartAfterRun.Name = "text_RestartAfterRun";
             this.text_RestartAfterRun.Size = new System.Drawing.Size(51, 20);
             this.text_RestartAfterRun.TabIndex = 68;
@@ -2652,7 +2672,7 @@ namespace PokeMaster
             // 
             // label41
             // 
-            this.label41.Location = new System.Drawing.Point(39, 89);
+            this.label41.Location = new System.Drawing.Point(39, 64);
             this.label41.Name = "label41";
             this.label41.Size = new System.Drawing.Size(156, 16);
             this.label41.TabIndex = 67;
@@ -2663,15 +2683,15 @@ namespace PokeMaster
             // text_BreakInterval
             // 
             this.text_BreakInterval.Enabled = false;
-            this.text_BreakInterval.Location = new System.Drawing.Point(201, 62);
+            this.text_BreakInterval.Location = new System.Drawing.Point(133, 41);
             this.text_BreakInterval.Name = "text_BreakInterval";
-            this.text_BreakInterval.Size = new System.Drawing.Size(51, 20);
+            this.text_BreakInterval.Size = new System.Drawing.Size(41, 20);
             this.text_BreakInterval.TabIndex = 64;
             // 
             // text_BreakLength
             // 
             this.text_BreakLength.Enabled = false;
-            this.text_BreakLength.Location = new System.Drawing.Point(201, 87);
+            this.text_BreakLength.Location = new System.Drawing.Point(201, 64);
             this.text_BreakLength.Name = "text_BreakLength";
             this.text_BreakLength.Size = new System.Drawing.Size(51, 20);
             this.text_BreakLength.TabIndex = 66;
@@ -2689,7 +2709,7 @@ namespace PokeMaster
             // label32
             // 
             this.label32.AutoSize = true;
-            this.label32.Location = new System.Drawing.Point(257, 65);
+            this.label32.Location = new System.Drawing.Point(176, 44);
             this.label32.Name = "label32";
             this.label32.Size = new System.Drawing.Size(44, 13);
             this.label32.TabIndex = 65;
@@ -2709,7 +2729,7 @@ namespace PokeMaster
             // 
             // label40
             // 
-            this.label40.Location = new System.Drawing.Point(16, 139);
+            this.label40.Location = new System.Drawing.Point(16, 90);
             this.label40.Name = "label40";
             this.label40.Size = new System.Drawing.Size(179, 13);
             this.label40.TabIndex = 43;
@@ -2719,7 +2739,7 @@ namespace PokeMaster
             // 
             // text_TimeToRun
             // 
-            this.text_TimeToRun.Location = new System.Drawing.Point(201, 136);
+            this.text_TimeToRun.Location = new System.Drawing.Point(201, 87);
             this.text_TimeToRun.Name = "text_TimeToRun";
             this.text_TimeToRun.Size = new System.Drawing.Size(51, 20);
             this.text_TimeToRun.TabIndex = 42;
@@ -4456,6 +4476,41 @@ namespace PokeMaster
             this.pictureBox2.TabStop = false;
             this.pictureBox2.Click += new System.EventHandler(this.pictureBox2_Click);
             // 
+            // BreakSequenceId
+            // 
+            this.BreakSequenceId.FillWeight = 10F;
+            this.BreakSequenceId.Frozen = true;
+            this.BreakSequenceId.HeaderText = "Seq";
+            this.BreakSequenceId.MaxInputLength = 2;
+            this.BreakSequenceId.Name = "BreakSequenceId";
+            this.BreakSequenceId.ReadOnly = true;
+            this.BreakSequenceId.Width = 30;
+            // 
+            // BreakWalkTime
+            // 
+            this.BreakWalkTime.FillWeight = 40F;
+            this.BreakWalkTime.HeaderText = "Walk";
+            this.BreakWalkTime.MaxInputLength = 4;
+            this.BreakWalkTime.Name = "BreakWalkTime";
+            this.BreakWalkTime.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.BreakWalkTime.Width = 60;
+            // 
+            // BreakIdleTime
+            // 
+            this.BreakIdleTime.FillWeight = 40F;
+            this.BreakIdleTime.HeaderText = "Break";
+            this.BreakIdleTime.MaxInputLength = 4;
+            this.BreakIdleTime.Name = "BreakIdleTime";
+            this.BreakIdleTime.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.BreakIdleTime.Width = 60;
+            // 
+            // BreakEnabled
+            // 
+            this.BreakEnabled.FillWeight = 10F;
+            this.BreakEnabled.HeaderText = "On/Off";
+            this.BreakEnabled.Name = "BreakEnabled";
+            this.BreakEnabled.Width = 60;
+            // 
             // ConfigWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -4548,6 +4603,7 @@ namespace PokeMaster
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.groupBox12.ResumeLayout(false);
             this.groupBox12.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.BreakGridView)).EndInit();
             this.tabEggs.ResumeLayout(false);
             this.groupBox26.ResumeLayout(false);
             this.groupBox26.PerformLayout();
@@ -4956,5 +5012,10 @@ namespace PokeMaster
         private System.Windows.Forms.Label label17;
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.Label label19;
+        private System.Windows.Forms.DataGridView BreakGridView;
+        private System.Windows.Forms.DataGridViewTextBoxColumn BreakSequenceId;
+        private System.Windows.Forms.DataGridViewTextBoxColumn BreakWalkTime;
+        private System.Windows.Forms.DataGridViewTextBoxColumn BreakIdleTime;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn BreakEnabled;
     }
 }

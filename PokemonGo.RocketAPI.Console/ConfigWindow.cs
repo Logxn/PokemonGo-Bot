@@ -17,6 +17,7 @@ using PokemonGo.RocketAPI.Enums;
 using PokeMaster.Logic.Shared;
 using PokeMaster.Dialogs;
 using PokeMaster.Helper;
+using System.ComponentModel;
 
 namespace PokeMaster
 {
@@ -129,7 +130,6 @@ namespace PokeMaster
                 }
             }
 
-
             #region Loading Everything into GUI
 
             Profiles = new Collection<Profile>();
@@ -220,7 +220,6 @@ namespace PokeMaster
                 newVer.ForeColor = Color.Green;
             }
             #endregion
-
         }
 
         private void LoadData(ProfileSettings config)
@@ -411,6 +410,14 @@ namespace PokeMaster
             checkBox_StartWalkingFromLastLocation.Checked = config.UseLastCords;
             checkBox_BlockAltitude.Checked = config.BlockAltitude;
 
+            if (config.Breaks == null) config.Breaks = new BreakSettings();
+
+            //BindingList<BreakSettings> _breaks;
+
+            //_breaks = new BindingList<BreakSettings>(config.Breaks);
+            //BreakGridView.DataSource = _breaks;
+            //BreakGridView.BeginEdit(true);
+             
 
             // tab 7 - telegram and logs
             cbLogPokemon.Checked = config.LogPokemons;
@@ -477,7 +484,7 @@ namespace PokeMaster
                 index = 2;
             if (lang == "Español")
                 index = 3;
-            if (lang == "Catalá")
+            if (lang == "Catalá") // Catalunya triomfant...:D 1-O no tinc por!
                 index = 4;
             comboLanguage.SelectedIndex = index;
         }
