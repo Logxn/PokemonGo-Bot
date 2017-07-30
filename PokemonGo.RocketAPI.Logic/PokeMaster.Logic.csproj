@@ -66,8 +66,8 @@
     <Reference Include="Nito.AsyncEx.Enlightenment, Version=3.0.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Nito.AsyncEx.3.0.1\lib\net45\Nito.AsyncEx.Enlightenment.dll</HintPath>
     </Reference>
-    <Reference Include="POGOProtos.NetStandard1">
-      <HintPath>..\packages\POGOProtos.NetStandard1.2.12.0\lib\net45\POGOProtos.NetStandard1.dll</HintPath>
+    <Reference Include="POGOProtos.NetStandard1, Version=2.13.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\POGOProtos.NetStandard1.2.13.0\lib\net45\POGOProtos.NetStandard1.dll</HintPath>
     </Reference>
     <Reference Include="RestSharp, Version=105.2.3.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\RestSharp.105.2.3\lib\net46\RestSharp.dll</HintPath>

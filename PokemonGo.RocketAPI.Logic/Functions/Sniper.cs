@@ -140,8 +140,8 @@ namespace PokeMaster.Logic.Functions
                             found = true;
                             var pokeToDeploy = GymsLogic.getPokeToPut(_client, buddyid, element.GuardPokemonCp);
                             if (pokeToDeploy != null) {
-                                var res = _client.Fort.FortDeployPokemon(element.Id, pokeToDeploy.Id);
-                                if (res.Result == FortDeployPokemonResponse.Types.Result.Success) {
+                                var res = _client.Fort.GymDeployPokemon(element.Id, pokeToDeploy.Id);
+                                if (res.Result == GymDeployResponse.Types.Result.Success) {
                                     caught = pokeToDeploy.Id;
                                     SendToLog(GymsLogic.strPokemon(pokeToDeploy) + " Deployed!");
                                 }else{

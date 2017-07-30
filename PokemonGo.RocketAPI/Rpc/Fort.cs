@@ -127,7 +127,20 @@ namespace PokemonGo.RocketAPI.Rpc
 
             return PostProtoPayload<Request, FortDeployPokemonResponse>(RequestType.FortDeployPokemon, message);
         }
-        
+
+        public GymDeployResponse GymDeployPokemon(string fortId, ulong pokemonId)
+        {
+            var message = new GymDeployMessage
+            {
+                PokemonId = pokemonId,
+                FortId = fortId,
+                PlayerLatitude = Client.CurrentLatitude,
+                PlayerLongitude = Client.CurrentLongitude
+            };
+
+            return PostProtoPayload<Request, GymDeployResponse>(RequestType.GymDeploy, message);
+        }
+
         public GymFeedPokemonResponse GymFeedPokemon(string fortId, ulong pokemonId)
         {
             var message = new GymFeedPokemonMessage
