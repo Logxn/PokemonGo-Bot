@@ -410,14 +410,25 @@ namespace PokeMaster
             checkBox_StartWalkingFromLastLocation.Checked = config.UseLastCords;
             checkBox_BlockAltitude.Checked = config.BlockAltitude;
 
-            if (config.Breaks == null) config.Breaks = new BreakSettings();
+            if (config.Breaks == null) config.Breaks = new List<BreakSettings>();
+
+            List<BreakSettings> breaks = new List<BreakSettings>(config.Breaks);
+            var bs = new BindingSource();
+            bs.DataSource = breaks;
+            BreakGridView.DataSource = bs;
 
             //BindingList<BreakSettings> _breaks;
 
             //_breaks = new BindingList<BreakSettings>(config.Breaks);
-            //BreakGridView.DataSource = _breaks;
+            //breakSettingsBindingSource.AllowNew = true;
+            //breakSettingsBindingSource.AddNew();
+            //breakSettingsBindingSource.DataSource = config.Breaks;
+
+            //BreakGridView.DataSource = breakSettingsBindingSource;
+            //if (BreakGridView.Rows.Count == 0) BreakGridView.Rows.Add();
+            //BreakGridView.CurrentCell = BreakGridView[0, 0];
             //BreakGridView.BeginEdit(true);
-             
+
 
             // tab 7 - telegram and logs
             cbLogPokemon.Checked = config.LogPokemons;

@@ -365,10 +365,6 @@ namespace PokeMaster
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.BreakSequenceId = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.BreakWalkTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.BreakIdleTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.BreakEnabled = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.tabProxies.SuspendLayout();
             this.tabItems.SuspendLayout();
             this.groupBoxItems.SuspendLayout();
@@ -2598,11 +2594,6 @@ namespace PokeMaster
             // BreakGridView
             // 
             this.BreakGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.BreakGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.BreakSequenceId,
-            this.BreakWalkTime,
-            this.BreakIdleTime,
-            this.BreakEnabled});
             this.BreakGridView.Location = new System.Drawing.Point(33, 134);
             this.BreakGridView.Name = "BreakGridView";
             this.BreakGridView.Size = new System.Drawing.Size(255, 87);
@@ -4476,41 +4467,6 @@ namespace PokeMaster
             this.pictureBox2.TabStop = false;
             this.pictureBox2.Click += new System.EventHandler(this.pictureBox2_Click);
             // 
-            // BreakSequenceId
-            // 
-            this.BreakSequenceId.FillWeight = 10F;
-            this.BreakSequenceId.Frozen = true;
-            this.BreakSequenceId.HeaderText = "Seq";
-            this.BreakSequenceId.MaxInputLength = 2;
-            this.BreakSequenceId.Name = "BreakSequenceId";
-            this.BreakSequenceId.ReadOnly = true;
-            this.BreakSequenceId.Width = 30;
-            // 
-            // BreakWalkTime
-            // 
-            this.BreakWalkTime.FillWeight = 40F;
-            this.BreakWalkTime.HeaderText = "Walk";
-            this.BreakWalkTime.MaxInputLength = 4;
-            this.BreakWalkTime.Name = "BreakWalkTime";
-            this.BreakWalkTime.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.BreakWalkTime.Width = 60;
-            // 
-            // BreakIdleTime
-            // 
-            this.BreakIdleTime.FillWeight = 40F;
-            this.BreakIdleTime.HeaderText = "Break";
-            this.BreakIdleTime.MaxInputLength = 4;
-            this.BreakIdleTime.Name = "BreakIdleTime";
-            this.BreakIdleTime.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.BreakIdleTime.Width = 60;
-            // 
-            // BreakEnabled
-            // 
-            this.BreakEnabled.FillWeight = 10F;
-            this.BreakEnabled.HeaderText = "On/Off";
-            this.BreakEnabled.Name = "BreakEnabled";
-            this.BreakEnabled.Width = 60;
-            // 
             // ConfigWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -5013,9 +4969,5 @@ namespace PokeMaster
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.Label label19;
         private System.Windows.Forms.DataGridView BreakGridView;
-        private System.Windows.Forms.DataGridViewTextBoxColumn BreakSequenceId;
-        private System.Windows.Forms.DataGridViewTextBoxColumn BreakWalkTime;
-        private System.Windows.Forms.DataGridViewTextBoxColumn BreakIdleTime;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn BreakEnabled;
     }
 }

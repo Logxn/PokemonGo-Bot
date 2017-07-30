@@ -9,6 +9,7 @@
 using System;
 using Newtonsoft.Json;
 using System.IO;
+using System.Collections.Generic;
 
 namespace PokeMaster.Logic.Shared
 {
@@ -58,7 +59,7 @@ namespace PokeMaster.Logic.Shared
         public int RestartAfterRun { get; set; }
         public bool WalkInLoop { get; set; }
         public bool WalkRandomly { get; set; }
-        public BreakSettings Breaks { get; set; }
+        public List<BreakSettings> Breaks { get; set; }
         #endregion
 
         #region Player Behaviour Options
@@ -256,7 +257,7 @@ namespace PokeMaster.Logic.Shared
             ToSnipe = new System.Collections.Generic.List<POGOProtos.Enums.PokemonId>();
             proxySettings = new ProxySettings();
             Gyms = new GymSettings();
-            Breaks = new BreakSettings();
+            Breaks = new List<BreakSettings>();
         }
 
         public void Assign(ProfileSettings settings)

@@ -495,7 +495,9 @@
   <ItemGroup>
     <None Include="Resources\ru.gif" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Properties\DataSources\" />
+  </ItemGroup>
   <ItemGroup>
     <None Include="Resources\error-sprite.png" />
   </ItemGroup>
