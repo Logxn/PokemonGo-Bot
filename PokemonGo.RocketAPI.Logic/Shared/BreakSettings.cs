@@ -8,9 +8,9 @@ namespace PokeMaster.Logic.Shared
 {
     public class BreakSettings
     {
-        int BreakSequenceId { get; set; }
-        int BreakWalkTime { get; set; }
-        int BreakIdleTime { get; set; }
-        int BreakEnabled { get; set; }
+        public int BreakSequenceId { get; set; }
+        public int BreakWalkTime { get; set; }
+        public int BreakIdleTime { get; set; }
+        public bool BreakEnabled { get; set; }
     }
 }
