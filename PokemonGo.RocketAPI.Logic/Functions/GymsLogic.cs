@@ -671,7 +671,6 @@ namespace PokeMaster.Logic.Functions
                 }
 
                 AddVisited(gym.Id, 3600000);
-
             }
             else
             {
@@ -681,14 +680,16 @@ namespace PokeMaster.Logic.Functions
                 } else
                     Logger.Debug("error: " + fortSearch.Result);
 
-                if (fortSearch.Result == GymDeployResponse.Types.Result.ErrorTooManyOfSameKind)
+                if (fortSearch.Result == GymDeployResponse.Types.Result.ErrorTooManyOfSameKind && GlobalVars.Gyms.DeployPokemons >=0)
                 {
                     Logger.Warning("Too many Pokemons of the same kind deployed in the Gym. Deploying a random Pokemon...");
-                    var rnd = new Random();
-                    putInGym(client, gym, getPokeToPut(client, pokemons.Where(x => ((!x.IsEgg) && (x.DeployedFortId == "") && (x.Stamina == x.StaminaMax) && (x.IsBad == false)))
-                        .OrderBy(x => rnd.Next()).FirstOrDefault().Id, gym.GuardPokemonCp), pokemons);
-
-                    //AddVisited(gym.Id, 3600000);
+                    var TempDeployPokemonsBackupVar = GlobalVars.Gyms.DeployPokemons;
+                    GlobalVars.Gyms.DeployPokemons = -1; // -1 indicated we hava already tried to do so
+                    var buddyID = 0UL;
+                    if (client.Player.PlayerResponse.PlayerData.BuddyPokemon != null)
+                        buddyID = client.Player.PlayerResponse.PlayerData.BuddyPokemon.Id;
+                    putInGym(client, gym, getPokeToPut(client, buddyID, gym.GuardPokemonCp), pokemons);
+                    GlobalVars.Gyms.DeployPokemons = TempDeployPokemonsBackupVar; // return to original setting
                 }
                 else
                     Logger.Debug("error: " + fortSearch.Result);
