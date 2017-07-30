@@ -631,24 +631,24 @@ namespace PokeMaster.Logic.Functions
 
             switch (GlobalVars.Gyms.DeployPokemons) {
                 case 1:
-                    return pokemons.Where(x => ((!x.IsEgg) && (x.DeployedFortId == "") && (x.Id != buddyPokemon) && (x.Stamina == x.StaminaMax)))
+                    return pokemons.Where(x => ((!x.IsEgg) && (x.DeployedFortId == "") && (x.Id != buddyPokemon) && (x.Stamina == x.StaminaMax) && (x.IsBad == false)))
                         .OrderByDescending(x => x.Cp).FirstOrDefault();
                 case 2:
-                    return pokemons.Where(x => ((!x.IsEgg) && (x.DeployedFortId == "") && (x.Id != buddyPokemon) && (x.Stamina == x.StaminaMax)))
+                    return pokemons.Where(x => ((!x.IsEgg) && (x.DeployedFortId == "") && (x.Id != buddyPokemon) && (x.Stamina == x.StaminaMax) && (x.IsBad == false)))
                         .OrderBy(x => x.Cp).FirstOrDefault();
                 case 3:
-                    return pokemons.Where(x => ((!x.IsEgg) && (x.DeployedFortId == "") && (x.Id != buddyPokemon) && (x.Stamina == x.StaminaMax)))
+                    return pokemons.Where(x => ((!x.IsEgg) && (x.DeployedFortId == "") && (x.Id != buddyPokemon) && (x.Stamina == x.StaminaMax) && (x.IsBad == false)))
                         .OrderByDescending(x => x.Favorite).ThenByDescending(x => x.Cp).FirstOrDefault();
                 case 4:
-                    var pok = pokemons.Where(x => ((!x.IsEgg) && (x.DeployedFortId == "") && (x.Id != buddyPokemon) && (x.Stamina == x.StaminaMax) && (x.Cp > minCP)))
+                    var pok = pokemons.Where(x => ((!x.IsEgg) && (x.DeployedFortId == "") && (x.Id != buddyPokemon) && (x.Stamina == x.StaminaMax) && (x.Cp > minCP) && (x.IsBad == false)))
                         .OrderBy(x => x.Cp).FirstOrDefault();
                     if (pok == null)
-                        pok = pokemons.Where(x => ((!x.IsEgg) && (x.DeployedFortId == "") && (x.Id != buddyPokemon) && (x.Stamina == x.StaminaMax)))
+                        pok = pokemons.Where(x => ((!x.IsEgg) && (x.DeployedFortId == "") && (x.Id != buddyPokemon) && (x.Stamina == x.StaminaMax) && (x.IsBad == false)))
                              .OrderBy(x => x.Cp).FirstOrDefault();
                     return pok;
             }
             var rnd = new Random();
-            return pokemons.Where(x => ((!x.IsEgg) && (x.DeployedFortId == "") && (x.Id != buddyPokemon) && (x.Stamina == x.StaminaMax)))
+            return pokemons.Where(x => ((!x.IsEgg) && (x.DeployedFortId == "") && (x.Id != buddyPokemon) && (x.Stamina == x.StaminaMax) && (x.IsBad == false)))
                 .OrderBy(x => rnd.Next()).FirstOrDefault();
 
         }
@@ -656,21 +656,42 @@ namespace PokeMaster.Logic.Functions
         private static void putInGym(Client client, FortData gym, PokemonData pokemon, IEnumerable<PokemonData> pokemons)
         {
             RandomHelper.RandomSleep(400);
-            var fortSearch = client.Fort.FortDeployPokemon(gym.Id, pokemon.Id);
-            if (fortSearch.Result == FortDeployPokemonResponse.Types.Result.Success) {
+            var fortSearch = client.Fort.GymDeployPokemon(gym.Id, pokemon.Id);
+            if (fortSearch.Result == GymDeployResponse.Types.Result.Success)
+            {
                 Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - " + pokemon.PokemonId + " deployed into the gym");
+
                 var pokesInGym = pokemons.Count(x => ((!x.IsEgg) && (x.DeployedFortId != ""))) + 1;
+
                 Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - Pokemons in gyms: " + pokesInGym);
+
                 if (pokesInGym > 9) {
                     var res = client.Player.CollectDailyDefenderBonus();
                     Logger.ColoredConsoleWrite(gymColorLog, $"(Gym) - Collected: {res.CurrencyAwarded} Coins.");
                 }
+
                 AddVisited(gym.Id, 3600000);
-            } else {
-                if (fortSearch.Result == FortDeployPokemonResponse.Types.Result.ErrorAlreadyHasPokemonOnFort) {
-                    Logger.Warning("Already have a pokemon on the Gym");
+            }
+            else
+            {
+                if (fortSearch.Result == GymDeployResponse.Types.Result.ErrorAlreadyHasPokemonOnFort) {
+                    Logger.Warning("You already have a pokemon deployed in the Gym");
                     AddVisited(gym.Id, 3600000);
                 } else
+                    Logger.Debug("error: " + fortSearch.Result);
+
+                if (fortSearch.Result == GymDeployResponse.Types.Result.ErrorTooManyOfSameKind && GlobalVars.Gyms.DeployPokemons >=0)
+                {
+                    Logger.Warning("Too many Pokemons of the same kind deployed in the Gym. Deploying a random Pokemon...");
+                    var TempDeployPokemonsBackupVar = GlobalVars.Gyms.DeployPokemons;
+                    GlobalVars.Gyms.DeployPokemons = -1; // -1 indicated we hava already tried to do so
+                    var buddyID = 0UL;
+                    if (client.Player.PlayerResponse.PlayerData.BuddyPokemon != null)
+                        buddyID = client.Player.PlayerResponse.PlayerData.BuddyPokemon.Id;
+                    putInGym(client, gym, getPokeToPut(client, buddyID, gym.GuardPokemonCp), pokemons);
+                    GlobalVars.Gyms.DeployPokemons = TempDeployPokemonsBackupVar; // return to original setting
+                }
+                else
                     Logger.Debug("error: " + fortSearch.Result);
             }
         }
