@@ -59,6 +59,7 @@ namespace PokeMaster.Logic.Shared
         public int RestartAfterRun { get; set; }
         public bool WalkInLoop { get; set; }
         public bool WalkRandomly { get; set; }
+        public bool AdvancedBreaks { get; set; }
         public List<BreakSettings> Breaks { get; set; }
         #endregion
 
