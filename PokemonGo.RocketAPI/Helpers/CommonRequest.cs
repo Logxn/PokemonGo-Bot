@@ -176,6 +176,8 @@ namespace PokemonGo.RocketAPI.Helpers
             {
                 if (getInventoryResponse.InventoryDelta == null)
                     return;
+                if (getInventoryResponse.InventoryDelta.NewTimestampMs == client.Inventory.CachedInventory.InventoryDelta.OriginalTimestampMs )
+                    return;
                 if (client.Inventory.CachedInventory == null)
                     client.Inventory.CachedInventory = getInventoryResponse;
                 else{
@@ -187,13 +189,16 @@ namespace PokemonGo.RocketAPI.Helpers
                         if (cachedElement !=null)
                             client.Inventory.CachedInventory.InventoryDelta.InventoryItems.Remove(cachedElement);
                     }
-                    var newPokemons = getInventoryResponse.InventoryDelta.InventoryItems.Select(i => i.InventoryItemData.PokemonData).Where(x => x !=null );
-                    foreach (var element in deletedPokemons) {
-                        var cachedElement = client.Inventory.CachedInventory.InventoryDelta.InventoryItems.FirstOrDefault(x => x.InventoryItemData.PokemonData !=null && x.InventoryItemData.PokemonData.Id == element.PokemonId);
+
+                    var newPokemons = getInventoryResponse.InventoryDelta.InventoryItems.Where(x => x.InventoryItemData.PokemonData !=null );
+                    foreach (var element in newPokemons) {
+                        var cachedElement = client.Inventory.CachedInventory.InventoryDelta.InventoryItems.FirstOrDefault(x => x.InventoryItemData.PokemonData !=null && x.InventoryItemData.PokemonData.Id == element.InventoryItemData.PokemonData.Id);
                         if (cachedElement !=null)
                             client.Inventory.CachedInventory.InventoryDelta.InventoryItems.Remove(cachedElement);
+                        client.Inventory.CachedInventory.InventoryDelta.InventoryItems.Add(element);
                     }
                     */
+
                 }
             }
         }
