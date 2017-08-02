@@ -9,6 +9,7 @@ using System.Net;
 using System.Reflection;
 using System.Windows.Forms;
 using System.Collections.ObjectModel;
+using System.Runtime.InteropServices;
 using Newtonsoft.Json;
 using POGOProtos.Enums;
 using PokemonGo.RocketAPI;
@@ -23,6 +24,15 @@ namespace PokeMaster
 {
     public partial class ConfigWindow : System.Windows.Forms.Form
     {
+        public const int WM_NCLBUTTONDOWN = 0xA1;
+        public const int HT_CAPTION = 0x2;
+
+        [DllImportAttribute("user32.dll")]
+        public static extern int SendMessage(IntPtr hWnd,
+                         int Msg, int wParam, int lParam);
+        [DllImportAttribute("user32.dll")]
+        public static extern bool ReleaseCapture();
+
         public static Collection<Profile> Profiles = new Collection<Profile>();
         
         public static NumberStyles cords = NumberStyles.AllowDecimalPoint | NumberStyles.AllowLeadingSign;
@@ -905,7 +915,10 @@ namespace PokeMaster
 
             // Save BreakSettings
             ActiveProfile.Settings.AdvancedBreaks = AdvancedBreaks.Checked;
-            if (BreakGridView.DataSource != null) ActiveProfile.Settings.Breaks = ((System.Windows.Forms.BindingSource)BreakGridView.DataSource).List.Cast<BreakSettings>().ToList();
+            if (BreakGridView.DataSource != null)
+            {
+                ActiveProfile.Settings.Breaks = ((System.Windows.Forms.BindingSource)BreakGridView.DataSource).List.Cast<BreakSettings>().ToList();
+            }
 
             // tab 7 - Logs and Telegram
             ActiveProfile.Settings.LogPokemons = cbLogPokemon.Checked;
@@ -1495,14 +1508,46 @@ namespace PokeMaster
         {
             if (AdvancedBreaks.Checked)
             {
+                // Disable Basic Breaks
+                checkBox_UseBreakIntervalAndLength.Checked = false;
+                checkBox_UseBreakIntervalAndLength.Enabled = false;
+                text_BreakInterval.Enabled = false;
+                text_BreakLength.Enabled = false;
+
+                // Enable BreakGrid
                 BreakGridView.Visible = true;
                 BreakGridView.Enabled = true;
             }
             else
             {
+                // Disable Basic Breaks
+                checkBox_UseBreakIntervalAndLength.Enabled = true;
+                text_BreakInterval.Enabled = true;
+                text_BreakLength.Enabled = true;
+
+                // Disable BreakGrid
                 BreakGridView.Visible = false;
                 BreakGridView.Enabled = false;
             }
+        }
+
+        private void ConfigWindow_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                ReleaseCapture();
+                SendMessage(Handle, WM_NCLBUTTONDOWN, HT_CAPTION, 0);
+            }
+        }
+
+        private void MinimizeButton_Click(object sender, EventArgs e)
+        {
+            this.WindowState = FormWindowState.Minimized;
+        }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            Environment.Exit(0);
         }
     }
 }

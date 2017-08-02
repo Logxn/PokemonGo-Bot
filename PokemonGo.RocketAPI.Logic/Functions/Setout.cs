@@ -57,6 +57,7 @@ namespace PokeMaster.Logic.Functions
         public static double timetorunstamp = -10000;
         public static double pausetimestamp = -10000;
         public static double resumetimestamp = -10000;
+        public static int AdvancedBreakSequenceId = -1;
         public static double lastlog = -10000;
         public static int pokemonCatchCount;
         public static int pokeStopFarmedCount;
@@ -599,7 +600,7 @@ namespace PokeMaster.Logic.Functions
 
                 #endregion
 
-                #region Breaks
+                #region Basic Breaks
 
                 if (GlobalVars.UseBreakFields && GlobalVars.BreakLength > 0 && GlobalVars.BreakInterval > 0)
                 {
@@ -644,6 +645,29 @@ namespace PokeMaster.Logic.Functions
                 }
 
                 #endregion
+
+                #region Advanced Breaks
+
+                if (GlobalVars.AdvancedBreaks)
+                {
+                    BreakSettings ThisBreak = new BreakSettings();
+
+                    if (GlobalVars.Breaks.Select(BreakEnabled => BreakEnabled.BreakEnabled).Count() == 0)
+                        Logger.ColoredConsoleWrite(ConsoleColor.Red, "No Advanced Break is enabled or defined. We will never break.");
+                    else
+                    {
+                        GlobalVars.Breaks = GlobalVars.Breaks.Where(BreakEnabled => BreakEnabled.BreakEnabled == true).OrderBy(BreakSequenceId => BreakSequenceId.BreakSequenceId).Cast<BreakSettings>().ToList();
+                        if (AdvancedBreakSequenceId == -1) ThisBreak = GlobalVars.Breaks.OrderBy(BreakSequenceId => BreakSequenceId.BreakSequenceId).FirstOrDefault();
+                        else ThisBreak = GlobalVars.Breaks.ElementAt(AdvancedBreakSequenceId + 1);
+
+                        if (GlobalVars.Breaks.Select(BreakEnabled => BreakEnabled.BreakEnabled).Count() == AdvancedBreakSequenceId++) AdvancedBreakSequenceId = -1;
+
+                        //TODO Aquí debemos hacer el break.
+                    }
+                }
+
+                #endregion
+
 
                 #region Log Catch Disabled
 

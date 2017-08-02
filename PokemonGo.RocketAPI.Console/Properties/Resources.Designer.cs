@@ -133,6 +133,46 @@ namespace PokeMaster.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap icons8_Close_Window_32 {
+            get {
+                object obj = ResourceManager.GetObject("icons8-Close Window-32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap icons8_Close_Window_64 {
+            get {
+                object obj = ResourceManager.GetObject("icons8-Close Window-64", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap icons8_Minimize_Window_32 {
+            get {
+                object obj = ResourceManager.GetObject("icons8-Minimize Window-32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap icons8_Minimize_Window_64 {
+            get {
+                object obj = ResourceManager.GetObject("icons8-Minimize Window-64", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap image {
             get {
                 object obj = ResourceManager.GetObject("image", resourceCulture);
