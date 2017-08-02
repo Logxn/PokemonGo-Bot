@@ -139,7 +139,7 @@ namespace PokeMaster.Logic.Functions
                 Logger.Debug("Use incense selected");
                 GlobalVars.UseIncenseGUIClick = false;
                 var inventory = Logic.objClient.Inventory.GetItems();
-                var incsense = inventory.FirstOrDefault(p => p.ItemId == ItemId.ItemIncenseOrdinary);
+                var incense = inventory.FirstOrDefault(p => p.ItemId == ItemId.ItemIncenseOrdinary);
                 var loginterval = DateTime.Now - LastIncenselog;
                 Logger.Debug("loginterval: "+ loginterval);
                 Logger.Debug("last incense use: "+ lastincenseuse);
@@ -156,13 +156,13 @@ namespace PokeMaster.Logic.Functions
                     return;
                 }
 
-                if (incsense == null || incsense.Count <= 0)
+                if (incense == null || incense.Count <= 0)
                 {
                     return;
                 }
 
                 Logic.objClient.Inventory.UseIncense(ItemId.ItemIncenseOrdinary);
-                Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Used Incsense, remaining: {incsense.Count - 1}");
+                Logger.ColoredConsoleWrite(ConsoleColor.Cyan, $"Used Incsense, remaining: {incense.Count - 1}");
                 lastincenseuse = DateTime.Now.AddMinutes(30);
                 RandomHelper.RandomSleep(1100);
             }
@@ -601,7 +601,7 @@ namespace PokeMaster.Logic.Functions
 
                 #region Breaks
 
-                if (GlobalVars.UseBreakFields && GlobalVars. BreakLength >0 && GlobalVars. BreakInterval > 0)
+                if (GlobalVars.UseBreakFields && GlobalVars.BreakLength > 0 && GlobalVars.BreakInterval > 0)
                 {
                     if (pausetimestamp > -10000)
                     {

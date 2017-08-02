@@ -905,7 +905,7 @@ namespace PokeMaster
 
             // Save BreakSettings
             ActiveProfile.Settings.AdvancedBreaks = AdvancedBreaks.Checked;
-            ActiveProfile.Settings.Breaks = ((System.Windows.Forms.BindingSource)BreakGridView.DataSource).List.Cast<BreakSettings>().ToList();
+            if (BreakGridView.DataSource != null) ActiveProfile.Settings.Breaks = ((System.Windows.Forms.BindingSource)BreakGridView.DataSource).List.Cast<BreakSettings>().ToList();
 
             // tab 7 - Logs and Telegram
             ActiveProfile.Settings.LogPokemons = cbLogPokemon.Checked;
