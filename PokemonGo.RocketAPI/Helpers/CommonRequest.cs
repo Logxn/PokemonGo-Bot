@@ -171,36 +171,20 @@ namespace PokemonGo.RocketAPI.Helpers
         {
             if (getInventoryResponse == null)
                 return;
-
-            if (getInventoryResponse.Success)
-            {
-                if (getInventoryResponse.InventoryDelta == null)
-                    return;
-                if (getInventoryResponse.InventoryDelta.NewTimestampMs == client.Inventory.CachedInventory.InventoryDelta.OriginalTimestampMs )
-                    return;
-                if (client.Inventory.CachedInventory == null)
-                    client.Inventory.CachedInventory = getInventoryResponse;
-                else{
-                    //TODO: polish update inventory
-                    /*
-                    var deletedPokemons = getInventoryResponse.InventoryDelta.InventoryItems.Select(i => i.DeletedItem).Where(x => x !=null );
-                    foreach (var element in deletedPokemons) {
-                        var cachedElement = client.Inventory.CachedInventory.InventoryDelta.InventoryItems.FirstOrDefault(x => x.InventoryItemData.PokemonData !=null && x.InventoryItemData.PokemonData.Id == element.PokemonId);
-                        if (cachedElement !=null)
-                            client.Inventory.CachedInventory.InventoryDelta.InventoryItems.Remove(cachedElement);
-                    }
-
-                    var newPokemons = getInventoryResponse.InventoryDelta.InventoryItems.Where(x => x.InventoryItemData.PokemonData !=null );
-                    foreach (var element in newPokemons) {
-                        var cachedElement = client.Inventory.CachedInventory.InventoryDelta.InventoryItems.FirstOrDefault(x => x.InventoryItemData.PokemonData !=null && x.InventoryItemData.PokemonData.Id == element.InventoryItemData.PokemonData.Id);
-                        if (cachedElement !=null)
-                            client.Inventory.CachedInventory.InventoryDelta.InventoryItems.Remove(cachedElement);
-                        client.Inventory.CachedInventory.InventoryDelta.InventoryItems.Add(element);
-                    }
-                    */
-
-                }
+            if (!getInventoryResponse.Success)
+                return;
+            // If there is not inventory delta
+            if (getInventoryResponse.InventoryDelta == null)
+                return;
+            if (client.Inventory.CachedInventory == null){
+                client.Inventory.CachedInventory = getInventoryResponse;
+                return;
             }
+            // If was updated yet.
+            if (getInventoryResponse.InventoryDelta.NewTimestampMs <= client.Inventory.CachedInventory.InventoryDelta.NewTimestampMs )
+                return;
+            client.Inventory.CachedInventory.InventoryDelta.NewTimestampMs = getInventoryResponse.InventoryDelta.NewTimestampMs;
+            client.Inventory.UpdateInventoryItems(getInventoryResponse.InventoryDelta);
         }
 
         public static void ProcessDownloadSettingsResponse(Client client, DownloadSettingsResponse downloadSettingsResponse)
@@ -255,20 +239,13 @@ namespace PokemonGo.RocketAPI.Helpers
                 switch (requestType)
                 {
                     case RequestType.GetInventory:
-                        //TODO Update inventory
-                        //client..getInventories().updateInventories(GetInventoryResponse.parseFrom(data));
-
-                        //var getInventoryResponse = new GetInventoryResponse();
-                        //getInventoryResponse.MergeFrom(data);
-
-                        // Update inventory timestamp
-                        client.InventoryLastUpdateTimestamp = Utils.GetTime(true);
-
+                        var getInventoryResponse = new GetInventoryResponse();
+                        getInventoryResponse.MergeFrom(data);
+                        ProcessGetInventoryResponse(client,getInventoryResponse);
                         break;
                     case RequestType.DownloadSettings:
                         //TODO Update settings
                         //api.getSettings().updateSettings(DownloadSettingsResponse.parseFrom(data));
-
                         // Update settings hash
                         var downloadSettingsResponse = new DownloadSettingsResponse();
                         downloadSettingsResponse.MergeFrom(data);
