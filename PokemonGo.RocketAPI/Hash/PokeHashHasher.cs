@@ -59,14 +59,14 @@ namespace PokemonGo.RocketAPI.Hash
                 } catch (HasherException hashEx) {
                     changeKey = Shared.KeyCollection.ExistsFile();
                     cyclingRetrys--;
-                    Logger.Write(hashEx.Message);
+                    Logger.Error(hashEx.Message);
                     if (cyclingRetrys < 0)
                         throw hashEx;
-
                 } catch (Exception ex) {
-                    Logger.ColoredConsoleWrite(ConsoleColor.Red, "Error: PokeHashHasher.cs - RequestHashes()");
-                    Logger.ColoredConsoleWrite(ConsoleColor.Red, ex.Message);
+                    Logger.Debug("Error: PokeHashHasher.cs - RequestHashes()");
+                    Logger.Debug( ex.Message);
                 }
+
                 if (changeKey) {
                     var nextKey = Shared.KeyCollection.nextKey();
                     if (nextKey != "") {
