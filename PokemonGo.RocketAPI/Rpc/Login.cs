@@ -271,7 +271,7 @@ namespace PokemonGo.RocketAPI.Rpc
 
         public async Task LevelUpRewards()
         {
-            var stat = Client.Inventory.GetPlayerStats( Client.Inventory.CachedInventory).FirstOrDefault();
+            var stat = Client.Inventory.GetPlayerStats().FirstOrDefault();
             var request = CommonRequest.LevelUpRewardsMessageRequest(stat.Level);
             
             var requests = CommonRequest.FillRequest(request, Client, false, false);

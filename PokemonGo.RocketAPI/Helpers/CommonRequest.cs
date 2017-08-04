@@ -176,14 +176,14 @@ namespace PokemonGo.RocketAPI.Helpers
             // If there is not inventory delta
             if (getInventoryResponse.InventoryDelta == null)
                 return;
-            if (client.Inventory.CachedInventory == null){
-                client.Inventory.CachedInventory = getInventoryResponse;
+            if (client.Inventory.GetInventory() == null){
+                client.Inventory.SetInventory( getInventoryResponse);
                 return;
             }
             // If was updated yet.
-            if (getInventoryResponse.InventoryDelta.NewTimestampMs <= client.Inventory.CachedInventory.InventoryDelta.NewTimestampMs )
+            if (getInventoryResponse.InventoryDelta.NewTimestampMs <= client.Inventory.GetInventory().InventoryDelta.NewTimestampMs )
                 return;
-            client.Inventory.CachedInventory.InventoryDelta.NewTimestampMs = getInventoryResponse.InventoryDelta.NewTimestampMs;
+            client.Inventory.GetInventory().InventoryDelta.NewTimestampMs = getInventoryResponse.InventoryDelta.NewTimestampMs;
             client.Inventory.UpdateInventoryItems(getInventoryResponse.InventoryDelta);
         }
 
