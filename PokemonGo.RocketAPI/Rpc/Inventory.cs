@@ -8,8 +8,6 @@ using POGOProtos.Networking.Requests;
 using POGOProtos.Networking.Requests.Messages;
 using POGOProtos.Networking.Responses;
 using POGOProtos.Settings.Master;
-using PokemonGo.RocketAPI.Exceptions;
-using PokemonGo.RocketAPI.Helpers;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -37,9 +35,9 @@ namespace PokemonGo.RocketAPI.Rpc
         /// <returns></returns>
         public GetInventoryResponse GetInventory(bool forceRequest = false)
         {
-            if (!forceRequest)
-                return CachedInventory;
-            CachedInventory =  PostProtoPayload<Request, GetInventoryResponse>(RequestType.GetInventory, new GetInventoryMessage());
+            // forceRequest should be used never ()
+            if (forceRequest)
+                CachedInventory =  PostProtoPayload<Request, GetInventoryResponse>(RequestType.GetInventory, new GetInventoryMessage());
             return CachedInventory; 
         }
 
@@ -86,17 +84,6 @@ namespace PokemonGo.RocketAPI.Rpc
 
         #region --Uses
 
-        public RecycleInventoryItemResponse RecycleItemOnly(ItemId itemId, int amount)
-        {
-            var message = new RecycleInventoryItemMessage
-            {
-                ItemId = itemId,
-                Count = amount
-            };
-
-            return PostProtoPayload<Request, RecycleInventoryItemResponse>(RequestType.RecycleInventoryItem, message);
-        }
-
         public async Task<RecycleInventoryItemResponse> RecycleItem(ItemId itemId, int amount)
         {
             var request = new Request
@@ -118,7 +105,7 @@ namespace PokemonGo.RocketAPI.Rpc
                 ItemId = item
             };
 
-            return PostProtoPayload<Request, UseItemXpBoostResponse>(RequestType.UseItemXpBoost, message);
+            return PostProtoPayloadCommonR<Request, UseItemXpBoostResponse>(RequestType.UseItemXpBoost, message).Result;
         }
 
 
@@ -130,7 +117,7 @@ namespace PokemonGo.RocketAPI.Rpc
                 PokemonId = pokemonId
             };
 
-            return PostProtoPayload<Request, UseItemPotionResponse>(RequestType.UseItemPotion, message);
+            return PostProtoPayloadCommonR<Request, UseItemPotionResponse>(RequestType.UseItemPotion, message).Result;
         }
 
         public UseItemReviveResponse UseItemRevive(ItemId itemId, ulong pokemonId)
@@ -141,7 +128,7 @@ namespace PokemonGo.RocketAPI.Rpc
                 PokemonId = pokemonId
             };
 
-            return PostProtoPayload<Request, UseItemReviveResponse>(RequestType.UseItemRevive, message);
+            return PostProtoPayloadCommonR<Request, UseItemReviveResponse>(RequestType.UseItemRevive, message).Result;
         }
 
         public UseIncenseResponse UseIncense(ItemId incenseType)
@@ -151,7 +138,7 @@ namespace PokemonGo.RocketAPI.Rpc
                 IncenseType = incenseType
             };
 
-            return PostProtoPayload<Request, UseIncenseResponse>(RequestType.UseIncense, message);
+            return PostProtoPayloadCommonR<Request, UseIncenseResponse>(RequestType.UseIncense, message).Result;
         }
 
         public  UseItemGymResponse UseItemInGym(string gymId, ItemId itemId)
@@ -164,7 +151,7 @@ namespace PokemonGo.RocketAPI.Rpc
                 PlayerLongitude = Client.CurrentLongitude
             };
 
-            return  PostProtoPayload<Request, UseItemGymResponse>(RequestType.UseItemGym, message);
+            return  PostProtoPayloadCommonR<Request, UseItemGymResponse>(RequestType.UseItemGym, message).Result;
         } // Quarthy - Still not implemented in BOT
 
         #endregion
@@ -260,7 +247,11 @@ namespace PokemonGo.RocketAPI.Rpc
             if (item != ItemId.ItemUnknown)
                 message.EvolutionItemRequirement = item ;
 
-            return PostProtoPayload<Request, EvolvePokemonResponse>(RequestType.EvolvePokemon, message);
+            var result = PostProtoPayloadCommonR<Request, EvolvePokemonResponse>(RequestType.EvolvePokemon, message).Result;
+            
+            if (result.Result ==EvolvePokemonResponse.Types.Result.Success)
+                DeletePokemons(new List<ulong>{pokemonId});
+            return result;
         }
         #endregion
 
@@ -272,7 +263,10 @@ namespace PokemonGo.RocketAPI.Rpc
                 PokemonId = pokemonId
             };
 
-            return PostProtoPayload<Request, ReleasePokemonResponse>(RequestType.ReleasePokemon, message);
+            var result =  PostProtoPayloadCommonR<Request, ReleasePokemonResponse>(RequestType.ReleasePokemon, message).Result;
+            if (result.Result ==ReleasePokemonResponse.Types.Result.Success)
+                DeletePokemons(new List<ulong>{pokemonId});
+            return result;
         }
 
         public ReleasePokemonResponse TransferPokemons(List<ulong> pokemonId) // Transfer a list of pokemon (BULK Transfer)
@@ -281,7 +275,10 @@ namespace PokemonGo.RocketAPI.Rpc
 
             message.PokemonIds.AddRange(pokemonId);
 
-            return  PostProtoPayload<Request, ReleasePokemonResponse>(RequestType.ReleasePokemon, message);
+            var result =  PostProtoPayloadCommonR<Request, ReleasePokemonResponse>(RequestType.ReleasePokemon, message).Result;
+            if (result.Result ==ReleasePokemonResponse.Types.Result.Success)
+                DeletePokemons(pokemonId);
+            return result;
         }
 
         public IEnumerable<PokemonData> GetDuplicatePokemonToTransfer(int holdMaxDoublePokemons, bool keepPokemonsThatCanEvolve = false, bool orderByIv = false)
@@ -372,7 +369,7 @@ namespace PokemonGo.RocketAPI.Rpc
                 PokemonId = pokemonId
             };
 
-            return  PostProtoPayload<Request, UpgradePokemonResponse>(RequestType.UpgradePokemon, message);
+            return  PostProtoPayloadCommonR<Request, UpgradePokemonResponse>(RequestType.UpgradePokemon, message).Result;
         }
         #endregion
 
@@ -385,7 +382,7 @@ namespace PokemonGo.RocketAPI.Rpc
                 Nickname = nickName
             };
 
-            return  PostProtoPayload<Request, NicknamePokemonResponse>(RequestType.NicknamePokemon, message);
+            return  PostProtoPayloadCommonR<Request, NicknamePokemonResponse>(RequestType.NicknamePokemon, message).Result;
         }
         #endregion
 
@@ -398,7 +395,7 @@ namespace PokemonGo.RocketAPI.Rpc
                 IsFavorite = isFavorite
             };
 
-            return  PostProtoPayload<Request, SetFavoritePokemonResponse>(RequestType.SetFavoritePokemon, message);
+            return  PostProtoPayloadCommonR<Request, SetFavoritePokemonResponse>(RequestType.SetFavoritePokemon, message).Result;
         }
         #endregion
 
@@ -410,7 +407,7 @@ namespace PokemonGo.RocketAPI.Rpc
                 PokemonId = pokemonId
             };
 
-            return  PostProtoPayload<Request, SetBuddyPokemonResponse>(RequestType.SetBuddyPokemon, message);
+            return  PostProtoPayloadCommonR<Request, SetBuddyPokemonResponse>(RequestType.SetBuddyPokemon, message).Result;
         }
         #endregion
 
@@ -546,12 +543,7 @@ namespace PokemonGo.RocketAPI.Rpc
                 PokemonId = pokemonId
             };
 
-            return PostProtoPayload<Request, UseItemEggIncubatorResponse>(RequestType.UseItemEggIncubator, message);
-        }
-
-        public GetHatchedEggsResponse GetHatchedEgg()
-        {
-            return  PostProtoPayload<Request, GetHatchedEggsResponse>(RequestType.GetHatchedEggs, new GetHatchedEggsMessage());
+            return PostProtoPayloadCommonR<Request, UseItemEggIncubatorResponse>(RequestType.UseItemEggIncubator, message).Result;
         }
 
         public IEnumerable<EggIncubator> GetEggIncubators()
@@ -691,8 +683,23 @@ namespace PokemonGo.RocketAPI.Rpc
                 {
                     InventoryItems.Remove(oldItem);
                 }
+                var deletedPokemons = delta.InventoryItems.Select(i => i.DeletedItem).Where(x => x !=null );
+                foreach (var element in deletedPokemons) {
+                        var cachedElement = InventoryItems.FirstOrDefault(x => x.InventoryItemData.PokemonData !=null && x.InventoryItemData.PokemonData.Id == element.PokemonId);
+                        if (cachedElement !=null)
+                            InventoryItems.Remove(cachedElement);
+                }
             }
         }
         #endregion
+
+        void DeletePokemons(List<ulong> pokemons)
+        {
+            foreach (var element in pokemons) {
+                var cachedElement = GetInventory().InventoryDelta.InventoryItems.FirstOrDefault(x => x.InventoryItemData.PokemonData !=null && x.InventoryItemData.PokemonData.Id == element);
+                        if (cachedElement !=null)
+                            GetInventory().InventoryDelta.InventoryItems.Remove(cachedElement);
+                };
+        }
     }
 }

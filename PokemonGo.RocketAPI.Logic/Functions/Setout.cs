@@ -763,7 +763,7 @@ namespace PokeMaster.Logic.Functions
             }
             else
             {
-                Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Something happened while transferring pokemons.");
+                Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Something happened while transferring pokemons: {_response.Result}");
             }
 
         }
@@ -852,7 +852,7 @@ namespace PokeMaster.Logic.Functions
                     }
                     else
                     {
-                        Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Something happened while transferring pokemons.");
+                        Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Something happened while transferring pokemons: {_response.Result}");
                     }
 
                     if (GlobalVars.pauseAtEvolve2)

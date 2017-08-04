@@ -19,7 +19,6 @@ namespace PokeMaster
         private System.Windows.Forms.PictureBox pictureBoxBuddyPokemon;
         private System.Windows.Forms.PictureBox pictureBoxPlayerAvatar;
         private System.Windows.Forms.Button btnTeam;
-        private System.Windows.Forms.Button btnCollect;
         private System.Windows.Forms.ListView listView;
         private System.Windows.Forms.ColumnHeader Title;
         private System.Windows.Forms.ColumnHeader Value;
@@ -58,18 +57,17 @@ namespace PokeMaster
             this.pictureBoxBuddyPokemon = new System.Windows.Forms.PictureBox();
             this.pictureBoxPlayerAvatar = new System.Windows.Forms.PictureBox();
             this.btnTeam = new System.Windows.Forms.Button();
-            this.btnCollect = new System.Windows.Forms.Button();
             this.listView = new System.Windows.Forms.ListView();
             this.ID = new System.Windows.Forms.ColumnHeader();
             this.Title = new System.Windows.Forms.ColumnHeader();
             this.Value = new System.Windows.Forms.ColumnHeader();
             this.groupBoxSession = new System.Windows.Forms.GroupBox();
+            this.labelTimeLeft = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
             this.labelPokestops = new System.Windows.Forms.Label();
             this.labelPokemons = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.labelTimeLeft = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxTeam)).BeginInit();
             this.panelLeftArea.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxBuddyPokemon)).BeginInit();
@@ -133,18 +131,6 @@ namespace PokeMaster
             this.btnTeam.UseVisualStyleBackColor = true;
             this.btnTeam.Click += new System.EventHandler(this.BtnTeamClick);
             // 
-            // btnCollect
-            // 
-            this.btnCollect.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnCollect.Location = new System.Drawing.Point(598, 426);
-            this.btnCollect.Margin = new System.Windows.Forms.Padding(4);
-            this.btnCollect.Name = "btnCollect";
-            this.btnCollect.Size = new System.Drawing.Size(106, 29);
-            this.btnCollect.TabIndex = 105;
-            this.btnCollect.Text = "Collect Coins";
-            this.btnCollect.UseVisualStyleBackColor = true;
-            this.btnCollect.Click += new System.EventHandler(this.btnColect_Click);
-            // 
             // listView
             // 
             this.listView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -196,6 +182,24 @@ namespace PokeMaster
             this.groupBoxSession.TabStop = false;
             this.groupBoxSession.Text = "Session Info";
             // 
+            // labelTimeLeft
+            // 
+            this.labelTimeLeft.Location = new System.Drawing.Point(177, 79);
+            this.labelTimeLeft.Name = "labelTimeLeft";
+            this.labelTimeLeft.Size = new System.Drawing.Size(105, 18);
+            this.labelTimeLeft.TabIndex = 5;
+            this.labelTimeLeft.Text = "0";
+            // 
+            // label4
+            // 
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.Location = new System.Drawing.Point(6, 76);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(157, 18);
+            this.label4.TabIndex = 4;
+            this.label4.Text = "Time Left To Next Level:";
+            this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
             // labelPokestops
             // 
             this.labelPokestops.Location = new System.Drawing.Point(177, 51);
@@ -232,30 +236,11 @@ namespace PokeMaster
             this.label1.Text = "Pokemons Caught:";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // labelTimeLeft
-            // 
-            this.labelTimeLeft.Location = new System.Drawing.Point(177, 79);
-            this.labelTimeLeft.Name = "labelTimeLeft";
-            this.labelTimeLeft.Size = new System.Drawing.Size(105, 18);
-            this.labelTimeLeft.TabIndex = 5;
-            this.labelTimeLeft.Text = "0";
-            // 
-            // label4
-            // 
-            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(6, 76);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(157, 18);
-            this.label4.TabIndex = 4;
-            this.label4.Text = "Time Left To Next Level:";
-            this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
             // PlayerPanel
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             this.Controls.Add(this.groupBoxSession);
             this.Controls.Add(this.listView);
-            this.Controls.Add(this.btnCollect);
             this.Controls.Add(this.btnTeam);
             this.Controls.Add(this.panelLeftArea);
             this.Margin = new System.Windows.Forms.Padding(4);

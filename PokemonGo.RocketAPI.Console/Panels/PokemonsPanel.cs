@@ -600,7 +600,7 @@ namespace PokeMaster
                         }
                         else
                         {
-                            Logger.Error("Something happened while transferring pokemons.");
+                            Logger.Error("Something happened while transferring pokemons: "+_response.Result);
                         }
                         
                         Execute();

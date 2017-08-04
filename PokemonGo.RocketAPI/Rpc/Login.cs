@@ -84,7 +84,7 @@ namespace PokemonGo.RocketAPI.Rpc
             
             // This call (GetPlayerProfile) is only needed if the tutorial is done.
             // TODO: Check if tutorial is done to do not do GetPlayerProfile.
-            await GetPlayerProfile().ConfigureAwait(false);
+            Client.Player.GetPlayerProfile();
 
             await LevelUpRewards().ConfigureAwait(false);
 
@@ -239,32 +239,6 @@ namespace PokemonGo.RocketAPI.Rpc
                 downloadRemoteConfigVersionResponse.MergeFrom(responses[0]);
                 CommonRequest.ProcessDownloadRemoteConfigVersionResponse( Client, downloadRemoteConfigVersionResponse);
                 
-                CommonRequest.ProcessCommonResponses( Client, responses, false, false);
-            }
-        }
-
-        public async Task GetPlayerProfile()
-        {
-            var request = CommonRequest.GetPlayerProfileMessageRequest(Client.Player.PlayerResponse.PlayerData.Username);
-            
-            var requests = CommonRequest.FillRequest(request, Client, false, false);
-
-            var serverRequest = GetRequestBuilder().GetRequestEnvelope(requests);
-            var serverResponse = await PostProto<Request>(serverRequest).ConfigureAwait(false);
-
-            ParseServerResponse( serverResponse);
-            if (serverResponse.StatusCode == ResponseEnvelope.Types.StatusCode.Redirect){
-                await GetPlayerProfile().ConfigureAwait(false);
-                return;
-            }
-
-            var responses = serverResponse.Returns;
-
-            if ( (responses != null) && ( responses.Count > 0 ) )
-            {
-                var getPlayerProfileResponse = new GetPlayerProfileResponse();
-                getPlayerProfileResponse.MergeFrom(responses[0]);
-                CommonRequest.ProcessGetPlayerProfileResponse( Client, getPlayerProfileResponse);
                 CommonRequest.ProcessCommonResponses( Client, responses, false, false);
             }
         }

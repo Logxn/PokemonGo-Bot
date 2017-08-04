@@ -332,10 +332,10 @@ namespace PokemonGo.RocketAPI.Helpers
                 return;
             Logger.Debug("Result:" + response.Result);
             var i = 0;
-            foreach (var element in response.Inbox.BuiltinVariables) {
+            /*foreach (var element in response.Inbox.BuiltinVariables) {
                 Logger.Debug($"BuiltinVariable {i}: {element}");
                 i++;
-            }
+            }*/
             i = 0;
             foreach (var element in response.Inbox.Notifications) {
                 Logger.Debug($"Notification {i}: {element}");
@@ -418,34 +418,6 @@ namespace PokemonGo.RocketAPI.Helpers
             }
         }
 
-        public static Request GetPlayerProfileMessageRequest( string playername ="")
-        {
-            var req = new Request
-            {
-                RequestType = RequestType.GetPlayerProfile,
-                RequestMessage = new GetPlayerProfileMessage {
-                    PlayerName = playername
-                }.ToByteString()
-            };
-            return req;
-        }
-
-        public static void ProcessGetPlayerProfileResponse(Client client, GetPlayerProfileResponse response)
-        {
-            if (response == null)
-                return;
-             // TODO: do something with this information 
-             Logger.Debug("Result:" +response.Result);
-             if ( response.Result == GetPlayerProfileResponse.Types.Result.Success){
-                var i = 0;
-                foreach (var element in response.Badges) {
-                    Logger.Debug($"Badges {i}: {element}");
-                    i++;
-                }
-                Logger.Debug("GymBadges: " +response.GymBadges);
-                Logger.Debug("StartTime: " +response.StartTime);
-             }
-        }
 
         public static Request LevelUpRewardsMessageRequest( int level = 0)
         {

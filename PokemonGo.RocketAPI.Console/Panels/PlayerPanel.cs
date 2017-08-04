@@ -374,69 +374,7 @@ namespace PokeMaster
                 }
             }
         }
-        void btnColect_Click(object sender, EventArgs e)
-        {
-            collectCoins();
-        }
-        private  void collectCoins(){
-            const string prefix = "(Coin Collection)";
-            var res = Logic.Logic.objClient.Player.CollectDailyDefenderBonus();
 
-            var result = res.Result.ToString();
-            var currentDefenders = res.DefendersCount;
-            var currency = res.CurrencyType;
-            var awardedCurrency = res.CurrencyAwarded;
-
-            switch(res.Result.ToString())
-            {
-                
-                case "NoDefenders":
-                    Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, $"{prefix} - Result: You dont have any pokemons in a gym.");
-                    break;
-                case "Success": // May need to change this
-                    Logger.ColoredConsoleWrite(ConsoleColor.Green, $"{prefix} - Current Pokemons In Gyms: {currentDefenders} | Currency Type: {currency} | Awarded: {awardedCurrency} Coins");
-                    break;
-                case "Failure": // May need to change this
-                    Logger.ColoredConsoleWrite(ConsoleColor.Red, $"{prefix} - Failed!");
-                    break;
-                case "TooSoon": // May need to change this
-                    Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"{prefix} - Its not time yet to collect your coins!");
-                    break;
-                case "Unset": // May need to change this
-                    Logger.ColoredConsoleWrite(ConsoleColor.Red, prefix +"- Result Unset? => "+ result+" | Please screenshot this error and send it to us on Discord or GitHub"); //<-- This string is longer than "$" command supports.
-                    break;
-                default:
-                    Logger.ColoredConsoleWrite(ConsoleColor.Red, $"{prefix} - Result: {result} | Please screenshot this error and send it to us on Discord or GitHub");
-                    break;
-            }
-
-
-            /*// TO-DO Save the last they in config and check if there were 24h between the last check
-
-            var resultx = Logic.Logic.objClient.Player.CollectDailyBonus().Result;
-            var resultString = resultx.Result.ToString();
-
-            Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Result: {resultx}");
-            Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Result string: {resultString}");
-            switch (resultString)
-            {
-                case "Unset":
-                    Logger.ColoredConsoleWrite(ConsoleColor.Red, $"(Daily Bonus) - The result was unset!");
-                    break;
-                case "Success":
-                    Logger.ColoredConsoleWrite(ConsoleColor.Green, $"(Daily Bonus) - We've collected your daily bonus for you!");
-                    break;
-                case "Failure":
-                    Logger.ColoredConsoleWrite(ConsoleColor.Red, $"(Daily Bonus) - Failure!");
-                    break;
-                case "TooSoon":
-                    Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, $"(Daily Bonus) - It's to soon to collect your daily bonus!");
-                    break;
-                default:
-                    Logger.ColoredConsoleWrite(ConsoleColor.Red, $"(Daily Bonus) - Default switch statement reached! => {resultString} | Please screenshot this error and send it to us on Discord or GitHub");
-                    break;
-            }*/
-        }
         void listView_ColumnClick(object sender, ColumnClickEventArgs e)
         {
             var order = (sender as ListView).Sorting;
