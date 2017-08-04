@@ -244,6 +244,10 @@
     <Compile Include="Location.designer.cs">
       <DependentUpon>Location.cs</DependentUpon>
     </Compile>
+    <Compile Include="Panels\BadgesPanel.cs" />
+    <Compile Include="Panels\BadgesPanel.Designer.cs">
+      <DependentUpon>BadgesPanel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Panels\ChangesPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -375,6 +379,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GameAspectSimulator.resx">
       <DependentUpon>GameAspectSimulator.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Panels\BadgesPanel.resx">
+      <DependentUpon>BadgesPanel.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Panels\ChangesPanel.resx">
       <DependentUpon>ChangesPanel.cs</DependentUpon>

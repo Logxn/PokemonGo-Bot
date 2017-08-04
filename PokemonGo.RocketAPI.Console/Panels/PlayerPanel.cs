@@ -82,6 +82,7 @@ namespace PokeMaster
             pictureBoxTeam.Image = null;
             pictureBoxPlayerAvatar.Image = null;
             pictureBoxBuddyPokemon.Image = null;
+            lblWarning.Text ="";
             foreach (ListViewItem element in listView.Items) {
                 element.SubItems[2].Text= "";
             }
@@ -98,6 +99,10 @@ namespace PokeMaster
                 }
                 updatePlayerImages();
                 updatePlayerInfoLabels();
+                if (profile.Warn)
+                    lblWarning.Text = th.TS("This account is flagged.");
+                if (profile.Banned)
+                    lblWarning.Text = th.TS("This account is banned.");
             }
             labelPokemons.Text = ""+ Logic.Functions.Setout.pokemonCatchCount;
             labelPokestops.Text = ""+ Logic.Functions.Setout.pokeStopFarmedCount;

@@ -30,6 +30,7 @@ namespace PokeMaster
         private System.Windows.Forms.Label labelPokemons;
         private System.Windows.Forms.Label labelTimeLeft;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label lblWarning;
 		
         /// <summary>
         /// Disposes resources used by the control.
@@ -68,6 +69,7 @@ namespace PokeMaster
             this.labelPokemons = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
+            this.lblWarning = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxTeam)).BeginInit();
             this.panelLeftArea.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxBuddyPokemon)).BeginInit();
@@ -236,9 +238,22 @@ namespace PokeMaster
             this.label1.Text = "Pokemons Caught:";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
+            // lblWarning
+            // 
+            this.lblWarning.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.lblWarning.AutoSize = true;
+            this.lblWarning.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblWarning.ForeColor = System.Drawing.Color.Red;
+            this.lblWarning.Location = new System.Drawing.Point(10, 426);
+            this.lblWarning.Name = "lblWarning";
+            this.lblWarning.Size = new System.Drawing.Size(75, 20);
+            this.lblWarning.TabIndex = 108;
+            this.lblWarning.Text = "Warning";
+            // 
             // PlayerPanel
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
+            this.Controls.Add(this.lblWarning);
             this.Controls.Add(this.groupBoxSession);
             this.Controls.Add(this.listView);
             this.Controls.Add(this.btnTeam);
@@ -252,6 +267,7 @@ namespace PokeMaster
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPlayerAvatar)).EndInit();
             this.groupBoxSession.ResumeLayout(false);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
     }

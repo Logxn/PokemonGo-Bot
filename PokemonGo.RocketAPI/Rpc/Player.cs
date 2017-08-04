@@ -20,12 +20,11 @@ namespace PokemonGo.RocketAPI.Rpc
             Client = client;
         }
 
-        public GetPlayerResponse GetPlayer(bool forceRequest = false)
+        public GetPlayerResponse GetPlayer(bool forceRequest = true)
         {
-            if (forceRequest){
-              var pr = PostProtoPayloadCommonR<Request, GetPlayerResponse>(RequestType.GetPlayer, new GetPlayerMessage()).Result;
-              CommonRequest.ProcessGetPlayerResponse(Client,pr);
-            }
+            if (forceRequest)
+              PlayerResponse = PostProtoPayloadCommonR<Request, GetPlayerResponse>(RequestType.GetPlayer, new GetPlayerMessage()).Result;
+
             return PlayerResponse;
         }
 

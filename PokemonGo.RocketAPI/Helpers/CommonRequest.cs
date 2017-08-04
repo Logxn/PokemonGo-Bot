@@ -217,21 +217,6 @@ namespace PokemonGo.RocketAPI.Helpers
                 client.ApiFailure.HandleCaptcha(checkChallengeResponse.ChallengeUrl, client);
         }
 
-        public static void ProcessGetPlayerResponse(Client client, GetPlayerResponse getPlayerResponse)
-        {
-            if (getPlayerResponse == null)
-                return;
-            
-            if (getPlayerResponse.Banned)
-                Logger.Debug("Your account is banned");
-            if (getPlayerResponse.Warn)
-                Logger.Debug("Your account is flagged");
-            if (getPlayerResponse.Success){
-                client.Player.PlayerResponse = getPlayerResponse;
-            }
-
-        }
-
         public static void Parse(Client client, RequestType requestType, ByteString data)
         {
             try

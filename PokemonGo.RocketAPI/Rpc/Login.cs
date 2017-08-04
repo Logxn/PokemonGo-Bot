@@ -211,7 +211,11 @@ namespace PokemonGo.RocketAPI.Rpc
                 if (responses.Count > 0)
                 {
                     getPlayerResponse.MergeFrom(responses[0]);
-                    CommonRequest.ProcessGetPlayerResponse( Client, getPlayerResponse);
+                    Client.Player.PlayerResponse = getPlayerResponse;
+                if (getPlayerResponse.Warn)
+                    Logger.Warning("This account is flagged.");
+                if (getPlayerResponse.Banned)
+                    Logger.Warning("This account is banned.");
                 }
             }
         }
