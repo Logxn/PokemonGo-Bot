@@ -24,15 +24,10 @@ namespace PokemonGo.RocketAPI.Rpc
         public ClaimCodenameResponse ClaimCodename(string codename)
         {
             return
-                PostProtoPayload<Request, ClaimCodenameResponse>(RequestType.ClaimCodename,
+                PostProtoPayloadCommonR<Request, ClaimCodenameResponse>(RequestType.ClaimCodename,
                 new ClaimCodenameMessage() {
                     Codename = codename
-                });
-        }
-
-        public EchoResponse SendEcho()
-        {
-            return PostProtoPayload<Request, EchoResponse>(RequestType.Echo, new EchoMessage());
+                }).Result;
         }
 
         public async Task<EncounterTutorialCompleteResponse> MarkTutorialComplete(

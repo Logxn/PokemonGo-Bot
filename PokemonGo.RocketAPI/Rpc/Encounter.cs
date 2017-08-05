@@ -16,19 +16,6 @@ namespace PokemonGo.RocketAPI.Rpc
     {
         public Encounter(Client client) : base(client) { }
 
-        public EncounterResponse EncounterPokemonOnly(ulong encounterId, string spawnPointGuid)
-        {
-            var message = new EncounterMessage
-            {
-                EncounterId = encounterId,
-                SpawnPointId = spawnPointGuid,
-                PlayerLatitude = Client.CurrentLatitude,
-                PlayerLongitude = Client.CurrentLongitude
-            };
-            
-            return  PostProtoPayload<Request, EncounterResponse>(RequestType.Encounter, message);
-        }
-
         public async Task<EncounterResponse> EncounterPokemon(ulong encounterId, string spawnPointGuid)
         {
             var message = new Request
@@ -55,7 +42,7 @@ namespace PokemonGo.RocketAPI.Rpc
                 SpawnPointId = spawnPointId
             };
             
-            return PostProtoPayload<Request, UseItemCaptureResponse>(RequestType.UseItemCapture, message);
+            return PostProtoPayloadCommonR<Request, UseItemCaptureResponse>(RequestType.UseItemCapture, message).Result;
         }
 
         public UseItemEncounterResponse UseItemEncounter(ulong encounterId, ItemId item, string spawnPointId)
@@ -67,7 +54,7 @@ namespace PokemonGo.RocketAPI.Rpc
                 SpawnPointGuid = spawnPointId,
             };
 
-            return PostProtoPayload<Request, UseItemEncounterResponse>(RequestType.UseItemEncounter, message);
+            return PostProtoPayloadCommonR<Request, UseItemEncounterResponse>(RequestType.UseItemEncounter, message).Result;
         }
 
         public CatchPokemonResponse CatchPokemon(ulong encounterId, string spawnPointGuid, ItemId pokeballItemId, bool forceHit, double normalizedRecticleSize = 1.950, double spinModifier = 1, double normalizedHitPos = 1)
@@ -94,7 +81,7 @@ namespace PokemonGo.RocketAPI.Rpc
                 EncounterLocation = encounterLocation
             };
 
-            return PostProtoPayload<Request, IncenseEncounterResponse>(RequestType.IncenseEncounter, message);
+            return PostProtoPayloadCommonR<Request, IncenseEncounterResponse>(RequestType.IncenseEncounter, message).Result;
         }
 
         public DiskEncounterResponse EncounterLurePokemon(ulong encounterId, string fortId)
@@ -107,7 +94,7 @@ namespace PokemonGo.RocketAPI.Rpc
                 PlayerLongitude = Client.CurrentLongitude
             };
 
-            return PostProtoPayload<Request, DiskEncounterResponse>(RequestType.DiskEncounter, message);
+            return PostProtoPayloadCommonR<Request, DiskEncounterResponse>(RequestType.DiskEncounter, message).Result;
         }
 
         public EncounterTutorialCompleteResponse EncounterTutorialComplete(PokemonId pokemonId)
@@ -116,8 +103,8 @@ namespace PokemonGo.RocketAPI.Rpc
             {
                 PokemonId = pokemonId
             };
-
-            return PostProtoPayload<Request, EncounterTutorialCompleteResponse>(RequestType.EncounterTutorialComplete, message);
+            return PostProtoPayloadCommonR<Request, EncounterTutorialCompleteResponse>(RequestType.EncounterTutorialComplete, message).Result;
         }
+
     }
 }

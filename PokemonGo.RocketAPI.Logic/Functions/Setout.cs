@@ -180,7 +180,7 @@ namespace PokeMaster.Logic.Functions
 
             EvolvePokemonResponse evolvePokemonOutProto;
 
-            var pokemonToEvolve = Logic.objClient.Inventory.GetPokemonToEvolve(true,filter);
+            var pokemonToEvolve = Logic.objClient.Inventory.GetPokemonToEvolve(filter);
             var toEvolveCount = pokemonToEvolve.Count();
             var startEvolving = (toEvolveCount==0 || toEvolveCount==GlobalVars.EvolveAt );
 
@@ -769,7 +769,7 @@ namespace PokeMaster.Logic.Functions
         {
             if (!GlobalVars.pokemonsToAlwaysTransfer.Any())
                 return;
-            var pokemons = Logic.objClient.Inventory.GetPokemons(true);
+            var pokemons = Logic.objClient.Inventory.GetPokemons();
             var toTransfer = pokemons.Where(x => x.DeployedFortId == string.Empty && x.Favorite == 0 && !x.IsEgg && x.Id != buddyid);
             var idsToTransfer = new List<ulong>();
             var logs = Path.Combine(logPath, "TransferLog.txt");
@@ -799,7 +799,7 @@ namespace PokeMaster.Logic.Functions
             }
             else
             {
-                Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Something happened while transferring pokemons.");
+                Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Something happened while transferring pokemons: {_response.Result}");
             }
 
         }
@@ -888,7 +888,7 @@ namespace PokeMaster.Logic.Functions
                     }
                     else
                     {
-                        Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Something happened while transferring pokemons.");
+                        Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Something happened while transferring pokemons: {_response.Result}");
                     }
 
                     if (GlobalVars.pauseAtEvolve2)
