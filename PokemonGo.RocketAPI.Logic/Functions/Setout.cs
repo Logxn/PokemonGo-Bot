@@ -58,6 +58,7 @@ namespace PokeMaster.Logic.Functions
         public static double pausetimestamp = -10000;
         public static double resumetimestamp = -10000;
         public static int AdvancedBreakSequenceId = -1;
+        public static double AdvancedBreakRemainingTimeToNextBreak = 0;
         public static double lastlog = -10000;
         public static int pokemonCatchCount;
         public static int pokeStopFarmedCount;
@@ -657,12 +658,23 @@ namespace PokeMaster.Logic.Functions
                     else
                     {
                         GlobalVars.Breaks = GlobalVars.Breaks.Where(BreakEnabled => BreakEnabled.BreakEnabled == true).OrderBy(BreakSequenceId => BreakSequenceId.BreakSequenceId).Cast<BreakSettings>().ToList();
-                        if (AdvancedBreakSequenceId == -1) ThisBreak = GlobalVars.Breaks.OrderBy(BreakSequenceId => BreakSequenceId.BreakSequenceId).FirstOrDefault();
+                        if (AdvancedBreakSequenceId == -1)
+                        {
+                            ThisBreak = GlobalVars.Breaks.OrderBy(BreakSequenceId => BreakSequenceId.BreakSequenceId).FirstOrDefault();
+                            AdvancedBreakSequenceId++;
+                        }
                         else ThisBreak = GlobalVars.Breaks.ElementAt(AdvancedBreakSequenceId + 1);
 
+                        //TODO Aquí debemos comprobar que toca hacer el break y si lo hace, cuando acaba incrementamos la secuencia.
+                        AdvancedBreakRemainingTimeToNextBreak = ThisBreak.BreakWalkTime;
+                        var st = (sessionStart - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds;
+                        var kk = (DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds;
+
+
+                        //
                         if (GlobalVars.Breaks.Select(BreakEnabled => BreakEnabled.BreakEnabled).Count() == AdvancedBreakSequenceId++) AdvancedBreakSequenceId = -1;
 
-                        //TODO Aquí debemos hacer el break.
+
                     }
                 }
 
