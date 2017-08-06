@@ -9,6 +9,7 @@ using System.Net;
 using System.Reflection;
 using System.Windows.Forms;
 using System.Collections.ObjectModel;
+using System.Runtime.InteropServices;
 using Newtonsoft.Json;
 using POGOProtos.Enums;
 using PokemonGo.RocketAPI;
@@ -17,11 +18,21 @@ using PokemonGo.RocketAPI.Enums;
 using PokeMaster.Logic.Shared;
 using PokeMaster.Dialogs;
 using PokeMaster.Helper;
+using System.ComponentModel;
 
 namespace PokeMaster
 {
     public partial class ConfigWindow : System.Windows.Forms.Form
     {
+        public const int WM_NCLBUTTONDOWN = 0xA1;
+        public const int HT_CAPTION = 0x2;
+
+        [DllImportAttribute("user32.dll")]
+        public static extern int SendMessage(IntPtr hWnd,
+                         int Msg, int wParam, int lParam);
+        [DllImportAttribute("user32.dll")]
+        public static extern bool ReleaseCapture();
+
         public static Collection<Profile> Profiles = new Collection<Profile>();
         
         public static NumberStyles cords = NumberStyles.AllowDecimalPoint | NumberStyles.AllowLeadingSign;
@@ -129,7 +140,6 @@ namespace PokeMaster
                 }
             }
 
-
             #region Loading Everything into GUI
 
             Profiles = new Collection<Profile>();
@@ -220,15 +230,14 @@ namespace PokeMaster
                 newVer.ForeColor = Color.Green;
             }
             #endregion
-
         }
 
         private void LoadData(ProfileSettings config)
         {
             if (config == null)
                 return;
-            
-            // tab 1
+
+            #region Tab 1 - General
             pFHashKey.Text = config.pFHashKey;
             
             comboBox_AccountType.SelectedIndex = 1;
@@ -264,8 +273,9 @@ namespace PokeMaster
             checkBox_CollectDailyBonus.Checked = config.CollectDailyBonus;
             checkBox_ShowStats.Checked = config.ShowStats;
             checkBox_UseNanabBerry.Checked = config.UseNanabBerry;
-            
-            // tab 2 - Pokemons
+            #endregion
+
+            #region Tab 2 - Pokemons
             if (config.pokemonsToHold != null)
                 foreach (PokemonId Id in config.pokemonsToHold) {
                 string _id = Id.ToString();
@@ -289,7 +299,6 @@ namespace PokeMaster
                 checkedListBox_PokemonToEvolve.SetItemChecked(evolveIDS[_id] - 1, true);
             }
             
-            
             checkBox_AutoTransferDoublePokemon.Checked = config.TransferDoublePokemons;
             checkBox_TransferFirstLowIV.Checked = config.TransferFirstLowIV;
             text_MaxDuplicatePokemon.Text = config.HoldMaxDoublePokemons.ToString();
@@ -301,8 +310,9 @@ namespace PokeMaster
             checkBox_UseSpritesFolder.Checked = config.UseSpritesFolder;
             checkBox_ShowPokemons.Checked = config.ShowPokemons;
             nud_EvolveAt.Value = config.EvolveAt;
+            #endregion
 
-            // tab 3 - throws
+            #region Tab 3 - Throws
             checkBox2.Checked = config.LimitPokeballUse;
             checkBox3.Checked = config.LimitGreatballUse;
             checkBox7.Checked = config.LimitUltraballUse;
@@ -339,8 +349,9 @@ namespace PokeMaster
 
             GreatBallMinCP.Text = config.MinCPforGreatBall.ToString();
             UltraBallMinCP.Text = config.MinCPforUltraBall.ToString();
+            #endregion
 
-            // Tab 4 - Items
+            #region Tab 4 - Items
             foreach (Control element in this.groupBoxItems.Controls) {
                 if (element.Name.IndexOf("num_") == 0) {
                     var name = element.Name.Replace("num_", "");
@@ -368,8 +379,9 @@ namespace PokeMaster
                 rbSOEggsAscendingBasicInc.Checked = true;
             else
                 rbSOEggsDescendingBasicInc.Checked = true;
+            #endregion
 
-            // tab 5 proxy
+            #region Tab 5 - Proxy
             if (config.proxySettings == null)
                 config.proxySettings = new ProxySettings();
             checkBox_UseProxy.Checked = config.proxySettings.enabled;
@@ -378,8 +390,9 @@ namespace PokeMaster
             prxyPort.Text = "" + config.proxySettings.port;
             prxyUser.Text = config.proxySettings.username;
             prxyPass.Text = config.proxySettings.password;
+            #endregion
 
-            // tab 6 walk
+            #region Tab 6 - Walk
             text_Speed.Text = config.WalkingSpeedInKilometerPerHour.ToString();
             text_MinWalkSpeed.Text = config.MinWalkSpeed.ToString();
             text_MoveRadius.Text = config.MaxWalkingRadiusInMeters.ToString();
@@ -411,8 +424,20 @@ namespace PokeMaster
             checkBox_StartWalkingFromLastLocation.Checked = config.UseLastCords;
             checkBox_BlockAltitude.Checked = config.BlockAltitude;
 
+            AdvancedBreaks.Checked = config.AdvancedBreaks;
+            if (AdvancedBreaks.Checked)
+            {
+                BreakGridView.Visible = true;
+                BreakGridView.Enabled = true;
+            }
+            if (config.Breaks == null) config.Breaks = new List<BreakSettings>();
 
-            // tab 7 - telegram and logs
+            var BreakSettingsBindingSource = new BindingSource();
+            BreakSettingsBindingSource.DataSource = config.Breaks;
+            BreakGridView.DataSource = BreakSettingsBindingSource;
+            #endregion
+
+            #region Tab 7 - Telegram and Logs
             cbLogPokemon.Checked = config.LogPokemons;
             cbLogManuelTransfer.Checked = config.LogTransfer;
             cbLogEvolution.Checked = config.LogEvolve;
@@ -430,13 +455,15 @@ namespace PokeMaster
             textBoxDiscordServerID.Text = ""+config.DiscordServerID;
             if (config.DiscordServerID == 0UL)
                 textBoxDiscordServerID.Text = "223025934435876865";
-            
-            // tab 8 - update
+            #endregion
+
+            #region Tab 8 - Update
             checkbox_AutoUpdate.Checked = config.AutoUpdate;
             checkbox_checkWhileRunning.Checked = config.CheckWhileRunning;
             ChangeSelectedLanguage(config.SelectedLanguage);
-            
-            // Dev Options
+            #endregion
+
+            #region Dev Options
             if (config.Debug == null)
                 config.Debug = new DebugSettings();
             checkbox_Verboselogging.Checked = config.Debug.VerboseMode;
@@ -447,9 +474,9 @@ namespace PokeMaster
             TranslatorHelper.StoreUntranslated = checkBoxStoreUntranslated.Checked;
             
             checkBoxCompleteTutorial.Checked = config.CompleteTutorial;
-            
-            // Gyms
+            #endregion
 
+            #region Gym Options
             if (config.Gyms == null)
                 config.Gyms = new GymSettings();
             checkBox_FarmGyms.Checked = config.Gyms.Farm;
@@ -461,6 +488,8 @@ namespace PokeMaster
             comboBoxLeaveInGyms.SelectedIndex = config.Gyms.DeployPokemons;
             comboBoxAttackers.SelectedIndex = config.Gyms.Attackers;
             checkBoxSpinGyms.Checked = config.Gyms.Spin;
+            #endregion
+            
             // Save Location
             checkBoxSaveLocations.Checked = config.SaveLocations;
             numMinIVSave.Value = config.MinIVSave;
@@ -477,7 +506,7 @@ namespace PokeMaster
                 index = 2;
             if (lang == "Español")
                 index = 3;
-            if (lang == "Catalá")
+            if (lang == "Catalá") // Catalunya triomfant...:D 1-O no tinc por!
                 index = 4;
             comboLanguage.SelectedIndex = index;
         }
@@ -550,6 +579,7 @@ namespace PokeMaster
         }
 
         private const string NEW_YORK_COORS = "40.764883;-73.972967";
+
         private void buttonSaveStart_Click(object sender, EventArgs e)
         {
             if (Save()) {
@@ -608,6 +638,7 @@ namespace PokeMaster
             }
             return ret;
         }
+
         private bool textBoxToActiveProfDouble(Control textBox, string fieldName = "")
         {
             textBox.BackColor = SystemColors.Window;
@@ -858,6 +889,8 @@ namespace PokeMaster
                 }
             }
 
+
+
             ActiveProfile.Settings.pauseAtEvolve = checkBox_StopWalkingWhenEvolving.Checked;
             ActiveProfile.Settings.pauseAtEvolve2 = checkBox_StopWalkingWhenEvolving.Checked;
             ActiveProfile.Settings.pauseAtPokeStop = checkBox_Paused.Checked;
@@ -879,7 +912,13 @@ namespace PokeMaster
             
             ActiveProfile.Settings.UseLastCords = checkBox_StartWalkingFromLastLocation.Checked;
             ActiveProfile.Settings.BlockAltitude = checkBox_BlockAltitude.Checked;
-            
+
+            // Save BreakSettings
+            ActiveProfile.Settings.AdvancedBreaks = AdvancedBreaks.Checked;
+            if (BreakGridView.DataSource != null)
+            {
+                ActiveProfile.Settings.Breaks = ((System.Windows.Forms.BindingSource)BreakGridView.DataSource).List.Cast<BreakSettings>().ToList();
+            }
 
             // tab 7 - Logs and Telegram
             ActiveProfile.Settings.LogPokemons = cbLogPokemon.Checked;
@@ -1014,6 +1053,7 @@ namespace PokeMaster
             return false;
             
         }
+
         Profile getProfileByName(string name)
         {
             foreach (var element in Profiles) {
@@ -1159,7 +1199,9 @@ namespace PokeMaster
             }
             
         }
+
         // Code cleanup we can do later
+
         public class ExtendedWebClient : WebClient
         {
 
@@ -1212,13 +1254,12 @@ namespace PokeMaster
             MessageBox.Show(th.TS("This will capture pokemons while walking spiral, and will use pokestops which are within 30 meters of the path projected."));
         }
 
-        private void button2_Click_1(object sender, EventArgs e)
-        {
-            System.Windows.Forms.Form update = new Update();
-            this.Hide();
-            update.Show();
-        }
-
+        //private void button2_Click_1(object sender, EventArgs e)
+        //{
+        //    System.Windows.Forms.Form update = new Update();
+        //    this.Hide();
+        //    update.Show();
+        //}
 
         private void buttonSvProf_Click_2(object sender, EventArgs e)
         {
@@ -1270,10 +1311,12 @@ namespace PokeMaster
             var title = th.TS("Hashing Information");
             MessageBox.Show(message, title, MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
+
         void Button4Click(object sender, EventArgs e)
         {
             new AvatarSelect().ShowDialog();
         }
+
         void checkBox_UseProxy_CheckedChanged(object sender, EventArgs e)
         {
             if (checkBox_UseProxy.Checked) {
@@ -1295,6 +1338,7 @@ namespace PokeMaster
             }
 
         }
+
         void ComboLanguageSelectedIndexChanged(object sender, EventArgs e)
         {
             var lang = "";
@@ -1328,6 +1372,7 @@ namespace PokeMaster
                 th.Translate(this);
             }
         }
+
         void checkBox_AlwaysTransfer_CheckedChanged(object sender, EventArgs e)
         {
             var i = 0;
@@ -1457,6 +1502,52 @@ namespace PokeMaster
         {
             textBoxDiscordServerID.Enabled |= Control.ModifierKeys == Keys.Shift;
 
+        }
+
+        private void AdvancedBreaks_CheckedChanged(object sender, EventArgs e)
+        {
+            if (AdvancedBreaks.Checked)
+            {
+                // Disable Basic Breaks
+                checkBox_UseBreakIntervalAndLength.Checked = false;
+                checkBox_UseBreakIntervalAndLength.Enabled = false;
+                text_BreakInterval.Enabled = false;
+                text_BreakLength.Enabled = false;
+
+                // Enable BreakGrid
+                BreakGridView.Visible = true;
+                BreakGridView.Enabled = true;
+            }
+            else
+            {
+                // Disable Basic Breaks
+                checkBox_UseBreakIntervalAndLength.Enabled = true;
+                text_BreakInterval.Enabled = true;
+                text_BreakLength.Enabled = true;
+
+                // Disable BreakGrid
+                BreakGridView.Visible = false;
+                BreakGridView.Enabled = false;
+            }
+        }
+
+        private void ConfigWindow_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                ReleaseCapture();
+                SendMessage(Handle, WM_NCLBUTTONDOWN, HT_CAPTION, 0);
+            }
+        }
+
+        private void MinimizeButton_Click(object sender, EventArgs e)
+        {
+            this.WindowState = FormWindowState.Minimized;
+        }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            Environment.Exit(0);
         }
     }
 }

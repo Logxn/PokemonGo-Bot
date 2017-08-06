@@ -90,13 +90,15 @@ namespace PokeMaster.Logic.Shared
         public static string GoogleMapsAPIKey;
         public static bool RandomReduceSpeed = false;
         public static bool UseBreakFields = false;
+        public static int BreakInterval = 0;
+        public static int BreakLength = 0;
+        public static bool AdvancedBreaks = false;
+        public static List<BreakSettings> Breaks;
         public static double TimeToRun;
         public static int RestartAfterRun;
         public static int PokemonCatchLimit = 1000;
         public static int PokestopFarmLimit = 2000;
         public static int XPFarmedLimit = 150000;
-        public static int BreakInterval = 0;
-        public static int BreakLength = 0;
         public static int navigation_option = 1;
         public static bool UseLuckyEgg = true;
         public static bool UseIncense = true;

@@ -602,7 +602,7 @@ namespace PokeMaster.Logic.Utils
             using (var wc = new WebClient()) {
                 try {
                     string strResponse = wc.DownloadString("https://raw.githubusercontent.com/Logxn/PokemonGo-Bot/master/switch.txt");
-
+                    
                     if (strResponse == null)
                         return false;
 
