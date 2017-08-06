@@ -552,7 +552,8 @@ namespace PokeMaster.Logic.Functions
                 (curexp).ToString("N0") + @"/" +
                 (expneeded).ToString("N0") + @"|" +
                 Math.Round(curexppercent, 2) + @"%) Stardust: " + profile.PlayerData.Currencies.ToArray()[1].Amount + @" " +
-                Logic.Instance.BotStats.ToString(expleft);
+                Logic.Instance.BotStats.ToString(expleft) +
+                (profile.Banned ? "[BANNED]": profile.Warn ? "[FLAGGED]": "");
 
             if (!GlobalVars.EnableConsoleInTab) System.Console.Title = TitleText;
 

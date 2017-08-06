@@ -1131,10 +1131,38 @@ namespace PokeMaster.Logic
         }
         private void MakeTutorial(object sender, EventArgs eventArgs)
         {
+            //LegalScreen = 0,
+            //AvatarSelection = 1,
+            //AccountCreation = 2,
+            //PokemonCapture = 3,
+            //NameSelection = 4,
+            
+            //PokemonBerry = 5,
+            //UseItem = 6,
+            
+            //FirstTimeExperienceComplete = 7,
+            //PokestopTutorial = 8,
+            
+            //GymTutorial = 9
+
             if (! GlobalVars.CompleteTutorial)
                 return;
+
             var state = objClient.Player.PlayerResponse.PlayerData.TutorialState;
+
             AvatarSettings.Load();
+
+            if (!state.Contains(TutorialState.LegalScreen))
+            {
+                var res = objClient.Misc.AceptLegalScreen().Result;
+                if (res.Result != EncounterTutorialCompleteResponse.Types.Result.Success)
+                {
+                    Logger.Warning("[TUTORIAL] 1-Initial Legal Screen acceptance FAILED. Reason: " + res.Result);
+                    return;
+                }
+                else Logger.Debug("[TUTORIAL] 1-Initial Legal Screen acceptance DONE");
+            }
+
             if (!state.Contains(TutorialState.AvatarSelection)){
                 var playerAvatar = new PlayerAvatar();
                 playerAvatar.Avatar = AvatarSettings.Gender == 2 ? RandomHelper.RandomNumber(0,2):AvatarSettings.Gender;
@@ -1149,55 +1177,63 @@ namespace PokeMaster.Logic
                 
                 var res = objClient.Player.SetAvatar(playerAvatar).Result;
                 if (res.Status !=  SetAvatarResponse.Types.Status.Success){
-                    Logger.Warning("Avatar not set. Reason: "+ res.Status);
+                    Logger.Warning("[TUTORIAL] 2-Avatar not set. Reason: "+ res.Status);
                     return;
                 }
+
                 var res1 = objClient.Misc
                     .MarkTutorialComplete(new RepeatedField<TutorialState>()
                     {
                         TutorialState.AvatarSelection
                     }).Result;
                 if (res1.Result !=EncounterTutorialCompleteResponse.Types.Result.Success){
-                    Logger.Warning("Mark Tutorial Failed. Reason: "+ res1.Result);
+                    Logger.Warning("[TUTORIAL] 2-Avatar set in tutorial FAILED. Reason: "+ res1.Result);
                     return;
                 }
+                else Logger.Debug("[TUTORIAL] 2-Avatar Set DONE");
+
                 RandomHelper.RandomDelay(2000).Wait();
             }
+
             if (!state.Contains(TutorialState.PokemonCapture)){
-                Logger.Debug("AvatarSettings.starter: " + AvatarSettings.starter);
+                Logger.Debug("[TUTORIAL] AvatarSettings.starter: " + AvatarSettings.starter);
                 var res2 = objClient.Encounter.EncounterTutorialComplete(AvatarSettings.starter);
                 if (res2.Result !=EncounterTutorialCompleteResponse.Types.Result.Success){
-                    Logger.Warning("First Pokemon Catch Failed. Reason: "+ res2.Result);
+                    Logger.Warning("[TUTORIAL] 3-First Pokemon Catch Failed. Reason: "+ res2.Result);
                     return;
                 }
+                else Logger.Debug("[TUTORIAL] 3-First Pokemon Catch DONE");
             }
 
             if (!state.Contains(TutorialState.NameSelection)){
                 var index = 0;
                 var status = ClaimCodenameResponse.Types.Status.CodenameNotValid;
-                do{
+                do
+                {
                     var name = AvatarSettings.nicknamePrefix + (index==0?"":index.ToString()) + AvatarSettings.nicknameSufix;
                     var res3 = objClient.Misc.ClaimCodename( name );
                     status = res3.Status;
                     index ++;
                     RandomHelper.RandomDelay(2000).Wait();
-                    if (status == ClaimCodenameResponse.Types.Status.CurrentOwner || 
-                       status == ClaimCodenameResponse.Types.Status.CodenameChangeNotAllowed )
+                    if (status == ClaimCodenameResponse.Types.Status.CurrentOwner || status == ClaimCodenameResponse.Types.Status.CodenameChangeNotAllowed)
                         break;
-                }while (index < 100 && status != ClaimCodenameResponse.Types.Status.Success);
+                } while (index < 100 && status != ClaimCodenameResponse.Types.Status.Success);
     
-                if (status != ClaimCodenameResponse.Types.Status.Success){
-                    Logger.Warning("Setting Name Failed. Reason: "+ status);
+                if (status != ClaimCodenameResponse.Types.Status.Success)
+                {
+                    Logger.Warning("[TUTORIAL] 4-Setting Name FAILED. Reason: "+ status);
                     return;
                 }
-                 var res4 = objClient.Misc.MarkTutorialComplete(new RepeatedField<TutorialState>()
+                var res4 = objClient.Misc.MarkTutorialComplete(new RepeatedField<TutorialState>()
                                 {
                                     TutorialState.NameSelection
                                 }).Result;
-                if (res4.Result !=EncounterTutorialCompleteResponse.Types.Result.Success){
-                    Logger.Warning("Mark Tutorial Failed. Reason: "+ res4.Result);
+                if (res4.Result !=EncounterTutorialCompleteResponse.Types.Result.Success)
+                {
+                    Logger.Warning("[TUTORIAL] 4-Setting Name in tutorial FAILED. Reason: " + res4.Result);
                     return;
                 }
+                else Logger.Debug("[TUTORIAL] 4-Setting Name in tutorial DONE");
             }
 
             RandomHelper.RandomDelay(2000).Wait();

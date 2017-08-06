@@ -61,6 +61,7 @@ namespace PokemonGo.RocketAPI.Rpc
                 }
             }
         }
+
         public async Task DoLogin()
         {
             await Reauthenticate().ConfigureAwait(false);
@@ -81,10 +82,11 @@ namespace PokemonGo.RocketAPI.Rpc
             // await DownloadItemTemplates().ConfigureAwait(false);
             // await GetDownloadUrls().ConfigureAwait(false);
             MakeTuturial();
-            
+
             // This call (GetPlayerProfile) is only needed if the tutorial is done.
             // TODO: Check if tutorial is done to do not do GetPlayerProfile.
-            Client.Player.GetPlayerProfile();
+
+            if (Client.Player.PlayerResponse.PlayerData.TutorialState.Count() >= 5) Client.Player.GetPlayerProfile();
 
             await LevelUpRewards().ConfigureAwait(false);
 
@@ -191,13 +193,13 @@ namespace PokemonGo.RocketAPI.Rpc
 
         public async Task GetPlayer()
         {
-            var request = CommonRequest.GetPlayerMessageRequest();
+            var _getPlayerRequest = CommonRequest.GetPlayerMessageRequest("US", "en", "America/Los_Angeles"); // Q Needs to be in the config
 
-            var serverRequest = GetRequestBuilder().GetRequestEnvelope(new[]{request});
+            var serverRequest = GetRequestBuilder().GetRequestEnvelope(new[] { _getPlayerRequest });
 
             var serverResponse = await PostProto<Request>(serverRequest).ConfigureAwait(false);
 
-            ParseServerResponse( serverResponse);
+            ParseServerResponse(serverResponse);
 
             if (serverResponse.StatusCode == ResponseEnvelope.Types.StatusCode.Redirect){
                 await GetPlayer().ConfigureAwait(false);
