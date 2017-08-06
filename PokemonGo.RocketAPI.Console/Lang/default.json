@@ -208,7 +208,7 @@
   "ConfigWindow.tabControl1.tabCredits.groupBox20.linkLabel11": "Xelwon",
   "ConfigWindow.tabControl1.tabCredits.groupBox20.linkLabel7": "Twitter MTK4355",
   "ConfigWindow.tabControl1.tabCredits.groupBox20.linkLabel4": "Twitter Logxn",
-  "ConfigWindow.buttonSaveStart": "Save Configuration / Start Bot",
+  "ConfigWindow.buttonSaveStart": "Save and\r\n Start Bot",
   "TutorialPanel": "",
   "TutorialPanel.lcGender": "Gender",
   "TutorialPanel.groupBox1": "Nicname",

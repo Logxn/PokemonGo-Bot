@@ -651,6 +651,7 @@ namespace PokeMaster.Logic.Functions
 
                 if (GlobalVars.AdvancedBreaks)
                 {
+                    /*
                     BreakSettings ThisBreak = new BreakSettings();
 
                     if (GlobalVars.Breaks.Select(BreakEnabled => BreakEnabled.BreakEnabled).Count() == 0)
@@ -675,7 +676,7 @@ namespace PokeMaster.Logic.Functions
                         if (GlobalVars.Breaks.Select(BreakEnabled => BreakEnabled.BreakEnabled).Count() == AdvancedBreakSequenceId++) AdvancedBreakSequenceId = -1;
 
 
-                    }
+                    }*/
                 }
 
                 #endregion

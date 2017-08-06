@@ -35,6 +35,7 @@ namespace PokemonGo.RocketAPI.Hash
 
         private static readonly Uri _baseAddress = new Uri("https://pokehash.buddyauth.com/");
         private static readonly Uri _baseAddress2 = new Uri("http://pokehash.buddyauth.com/");
+
         private Uri _availableHashVersionsCheck = new Uri("https://pokehash.buddyauth.com/api/hash/versions");
         private readonly string _endpoint;
         private string apiKey;
