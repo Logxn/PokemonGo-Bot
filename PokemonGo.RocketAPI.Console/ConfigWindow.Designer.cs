@@ -142,6 +142,12 @@ namespace PokeMaster
             this.checkbox_PWDEncryption = new System.Windows.Forms.CheckBox();
             this.checkBoxContinue = new System.Windows.Forms.CheckBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.textBox_TimeZone = new System.Windows.Forms.TextBox();
+            this.label20 = new System.Windows.Forms.Label();
+            this.textBox_Language2 = new System.Windows.Forms.TextBox();
+            this.labelanguage = new System.Windows.Forms.Label();
+            this.textBox_Country = new System.Windows.Forms.TextBox();
+            this.labelCountry = new System.Windows.Forms.Label();
             this.checkBox_BlockAltitude = new System.Windows.Forms.CheckBox();
             this.button_SetLocation = new System.Windows.Forms.Button();
             this.label6 = new System.Windows.Forms.Label();
@@ -1306,7 +1312,7 @@ namespace PokeMaster
             // label14
             // 
             this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(745, 96);
+            this.label14.Location = new System.Drawing.Point(890, 98);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(17, 16);
             this.label14.TabIndex = 20;
@@ -1314,7 +1320,7 @@ namespace PokeMaster
             // 
             // MinProbToCatch
             // 
-            this.MinProbToCatch.Location = new System.Drawing.Point(724, 92);
+            this.MinProbToCatch.Location = new System.Drawing.Point(869, 94);
             this.MinProbToCatch.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.MinProbToCatch.Name = "MinProbToCatch";
             this.MinProbToCatch.Size = new System.Drawing.Size(41, 21);
@@ -1323,9 +1329,9 @@ namespace PokeMaster
             // 
             // labelMinProb
             // 
-            this.labelMinProb.Location = new System.Drawing.Point(562, 96);
+            this.labelMinProb.Location = new System.Drawing.Point(624, 97);
             this.labelMinProb.Name = "labelMinProb";
-            this.labelMinProb.Size = new System.Drawing.Size(161, 16);
+            this.labelMinProb.Size = new System.Drawing.Size(239, 16);
             this.labelMinProb.TabIndex = 18;
             this.labelMinProb.Text = "Min. Probabiltity to Catch:";
             this.labelMinProb.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -1359,7 +1365,7 @@ namespace PokeMaster
             // label55
             // 
             this.label55.AutoSize = true;
-            this.label55.Location = new System.Drawing.Point(562, 65);
+            this.label55.Location = new System.Drawing.Point(605, 65);
             this.label55.Name = "label55";
             this.label55.Size = new System.Drawing.Size(17, 16);
             this.label55.TabIndex = 15;
@@ -1376,7 +1382,7 @@ namespace PokeMaster
             // 
             // MinIVtoCatch
             // 
-            this.MinIVtoCatch.Location = new System.Drawing.Point(541, 62);
+            this.MinIVtoCatch.Location = new System.Drawing.Point(584, 62);
             this.MinIVtoCatch.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.MinIVtoCatch.Name = "MinIVtoCatch";
             this.MinIVtoCatch.Size = new System.Drawing.Size(41, 21);
@@ -1386,7 +1392,7 @@ namespace PokeMaster
             // 
             // MinCPtoCatch
             // 
-            this.MinCPtoCatch.Location = new System.Drawing.Point(724, 60);
+            this.MinCPtoCatch.Location = new System.Drawing.Point(869, 62);
             this.MinCPtoCatch.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.MinCPtoCatch.Name = "MinCPtoCatch";
             this.MinCPtoCatch.Size = new System.Drawing.Size(41, 21);
@@ -1427,7 +1433,7 @@ namespace PokeMaster
             // 
             // text_MaxCPToTransfer
             // 
-            this.text_MaxCPToTransfer.Location = new System.Drawing.Point(346, 62);
+            this.text_MaxCPToTransfer.Location = new System.Drawing.Point(350, 62);
             this.text_MaxCPToTransfer.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.text_MaxCPToTransfer.Name = "text_MaxCPToTransfer";
             this.text_MaxCPToTransfer.Size = new System.Drawing.Size(41, 21);
@@ -1437,9 +1443,9 @@ namespace PokeMaster
             // 
             // label12
             // 
-            this.label12.Location = new System.Drawing.Point(205, 65);
+            this.label12.Location = new System.Drawing.Point(203, 65);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(140, 16);
+            this.label12.Size = new System.Drawing.Size(146, 16);
             this.label12.TabIndex = 4;
             this.label12.Text = "Max. CP to transfer:";
             this.label12.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -1478,18 +1484,18 @@ namespace PokeMaster
             // 
             // label8
             // 
-            this.label8.Location = new System.Drawing.Point(607, 64);
+            this.label8.Location = new System.Drawing.Point(624, 65);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(122, 16);
+            this.label8.Size = new System.Drawing.Size(239, 16);
             this.label8.TabIndex = 13;
             this.label8.Text = "Min. CP to Catch:";
             this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // label54
             // 
-            this.label54.Location = new System.Drawing.Point(421, 65);
+            this.label54.Location = new System.Drawing.Point(405, 65);
             this.label54.Name = "label54";
-            this.label54.Size = new System.Drawing.Size(125, 16);
+            this.label54.Size = new System.Drawing.Size(173, 16);
             this.label54.TabIndex = 13;
             this.label54.Text = "Min. IV to Catch:";
             this.label54.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -1960,6 +1966,12 @@ namespace PokeMaster
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.textBox_TimeZone);
+            this.groupBox2.Controls.Add(this.label20);
+            this.groupBox2.Controls.Add(this.textBox_Language2);
+            this.groupBox2.Controls.Add(this.labelanguage);
+            this.groupBox2.Controls.Add(this.textBox_Country);
+            this.groupBox2.Controls.Add(this.labelCountry);
             this.groupBox2.Controls.Add(this.checkBox_BlockAltitude);
             this.groupBox2.Controls.Add(this.button_SetLocation);
             this.groupBox2.Controls.Add(this.label6);
@@ -1973,10 +1985,70 @@ namespace PokeMaster
             this.groupBox2.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.groupBox2.Size = new System.Drawing.Size(358, 155);
+            this.groupBox2.Size = new System.Drawing.Size(358, 300);
             this.groupBox2.TabIndex = 2;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Location Settings";
+            // 
+            // textBox_TimeZone
+            // 
+            this.textBox_TimeZone.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBox_TimeZone.Location = new System.Drawing.Point(171, 244);
+            this.textBox_TimeZone.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.textBox_TimeZone.Name = "textBox_TimeZone";
+            this.textBox_TimeZone.Size = new System.Drawing.Size(181, 21);
+            this.textBox_TimeZone.TabIndex = 74;
+            this.textBox_TimeZone.Text = "America/Los Angeles";
+            // 
+            // label20
+            // 
+            this.label20.Location = new System.Drawing.Point(8, 244);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(156, 16);
+            this.label20.TabIndex = 75;
+            this.label20.Text = "Time Zone:";
+            this.label20.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // textBox_Language2
+            // 
+            this.textBox_Language2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBox_Language2.Location = new System.Drawing.Point(171, 212);
+            this.textBox_Language2.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.textBox_Language2.Name = "textBox_Language2";
+            this.textBox_Language2.Size = new System.Drawing.Size(181, 21);
+            this.textBox_Language2.TabIndex = 72;
+            this.textBox_Language2.Text = "en";
+            // 
+            // labelanguage
+            // 
+            this.labelanguage.Location = new System.Drawing.Point(8, 212);
+            this.labelanguage.Name = "labelanguage";
+            this.labelanguage.Size = new System.Drawing.Size(156, 16);
+            this.labelanguage.TabIndex = 73;
+            this.labelanguage.Text = "Language:";
+            this.labelanguage.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // textBox_Country
+            // 
+            this.textBox_Country.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBox_Country.Location = new System.Drawing.Point(171, 183);
+            this.textBox_Country.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.textBox_Country.Name = "textBox_Country";
+            this.textBox_Country.Size = new System.Drawing.Size(181, 21);
+            this.textBox_Country.TabIndex = 70;
+            this.textBox_Country.Text = "US";
+            // 
+            // labelCountry
+            // 
+            this.labelCountry.Location = new System.Drawing.Point(8, 183);
+            this.labelCountry.Name = "labelCountry";
+            this.labelCountry.Size = new System.Drawing.Size(156, 16);
+            this.labelCountry.TabIndex = 71;
+            this.labelCountry.Text = "Country:";
+            this.labelCountry.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // checkBox_BlockAltitude
             // 
@@ -2317,10 +2389,13 @@ namespace PokeMaster
             this.textBoxFortsFile.Name = "textBoxFortsFile";
             this.textBoxFortsFile.Size = new System.Drawing.Size(315, 21);
             this.textBoxFortsFile.TabIndex = 65;
+            this.textBoxFortsFile.Text = "forts.json";
             // 
             // checkBoxSaveFortsInfo
             // 
             this.checkBoxSaveFortsInfo.AutoSize = true;
+            this.checkBoxSaveFortsInfo.Checked = true;
+            this.checkBoxSaveFortsInfo.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBoxSaveFortsInfo.Location = new System.Drawing.Point(7, 17);
             this.checkBoxSaveFortsInfo.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.checkBoxSaveFortsInfo.Name = "checkBoxSaveFortsInfo";
@@ -2397,7 +2472,7 @@ namespace PokeMaster
             this.text_Speed.Name = "text_Speed";
             this.text_Speed.Size = new System.Drawing.Size(59, 21);
             this.text_Speed.TabIndex = 70;
-            this.text_Speed.Text = "11";
+            this.text_Speed.Text = "15";
             this.text_Speed.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox7_KeyPress);
             // 
             // text_MinWalkSpeed
@@ -2407,7 +2482,7 @@ namespace PokeMaster
             this.text_MinWalkSpeed.Name = "text_MinWalkSpeed";
             this.text_MinWalkSpeed.Size = new System.Drawing.Size(59, 21);
             this.text_MinWalkSpeed.TabIndex = 68;
-            this.text_MinWalkSpeed.Text = "2";
+            this.text_MinWalkSpeed.Text = "11";
             this.text_MinWalkSpeed.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox7_KeyPress);
             // 
             // groupBox13
@@ -2498,8 +2573,6 @@ namespace PokeMaster
             // checkBox_Paused
             // 
             this.checkBox_Paused.AutoSize = true;
-            this.checkBox_Paused.Checked = true;
-            this.checkBox_Paused.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBox_Paused.Location = new System.Drawing.Point(9, 306);
             this.checkBox_Paused.Margin = new System.Windows.Forms.Padding(2);
             this.checkBox_Paused.Name = "checkBox_Paused";
@@ -2630,7 +2703,7 @@ namespace PokeMaster
             this.text_PokestopFarmLimit.Name = "text_PokestopFarmLimit";
             this.text_PokestopFarmLimit.Size = new System.Drawing.Size(59, 21);
             this.text_PokestopFarmLimit.TabIndex = 52;
-            this.text_PokestopFarmLimit.Text = "1000";
+            this.text_PokestopFarmLimit.Text = "500";
             // 
             // button_ArchimedeanSpiralHelp
             // 
@@ -2672,7 +2745,7 @@ namespace PokeMaster
             this.text_PokemonCatchLimit.Name = "text_PokemonCatchLimit";
             this.text_PokemonCatchLimit.Size = new System.Drawing.Size(59, 21);
             this.text_PokemonCatchLimit.TabIndex = 50;
-            this.text_PokemonCatchLimit.Text = "1000";
+            this.text_PokemonCatchLimit.Text = "750";
             // 
             // groupBox12
             // 
@@ -2960,6 +3033,8 @@ namespace PokeMaster
             // checkBox_5kmEggsBasicInc
             // 
             this.checkBox_5kmEggsBasicInc.AutoSize = true;
+            this.checkBox_5kmEggsBasicInc.Checked = true;
+            this.checkBox_5kmEggsBasicInc.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBox_5kmEggsBasicInc.Location = new System.Drawing.Point(34, 47);
             this.checkBox_5kmEggsBasicInc.Margin = new System.Windows.Forms.Padding(5, 2, 5, 2);
             this.checkBox_5kmEggsBasicInc.Name = "checkBox_5kmEggsBasicInc";
@@ -2971,6 +3046,8 @@ namespace PokeMaster
             // checkBox_2kmEggsBasicInc
             // 
             this.checkBox_2kmEggsBasicInc.AutoSize = true;
+            this.checkBox_2kmEggsBasicInc.Checked = true;
+            this.checkBox_2kmEggsBasicInc.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBox_2kmEggsBasicInc.Location = new System.Drawing.Point(34, 21);
             this.checkBox_2kmEggsBasicInc.Margin = new System.Windows.Forms.Padding(5, 2, 5, 2);
             this.checkBox_2kmEggsBasicInc.Name = "checkBox_2kmEggsBasicInc";
@@ -3046,6 +3123,8 @@ namespace PokeMaster
             // checkBox_10kmEggs
             // 
             this.checkBox_10kmEggs.AutoSize = true;
+            this.checkBox_10kmEggs.Checked = true;
+            this.checkBox_10kmEggs.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBox_10kmEggs.Location = new System.Drawing.Point(34, 74);
             this.checkBox_10kmEggs.Margin = new System.Windows.Forms.Padding(5, 2, 5, 2);
             this.checkBox_10kmEggs.Name = "checkBox_10kmEggs";
@@ -3197,7 +3276,7 @@ namespace PokeMaster
             this.num_NanabPercent.Size = new System.Drawing.Size(43, 21);
             this.num_NanabPercent.TabIndex = 59;
             this.num_NanabPercent.Value = new decimal(new int[] {
-            10,
+            90,
             0,
             0,
             0});
@@ -3205,7 +3284,7 @@ namespace PokeMaster
             // label33
             // 
             this.label33.AutoSize = true;
-            this.label33.Location = new System.Drawing.Point(281, 18);
+            this.label33.Location = new System.Drawing.Point(335, 18);
             this.label33.Name = "label33";
             this.label33.Size = new System.Drawing.Size(17, 16);
             this.label33.TabIndex = 57;
@@ -3214,6 +3293,8 @@ namespace PokeMaster
             // checkBox_UseNanabBerry
             // 
             this.checkBox_UseNanabBerry.AutoSize = true;
+            this.checkBox_UseNanabBerry.Checked = true;
+            this.checkBox_UseNanabBerry.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBox_UseNanabBerry.Location = new System.Drawing.Point(22, 84);
             this.checkBox_UseNanabBerry.Margin = new System.Windows.Forms.Padding(2);
             this.checkBox_UseNanabBerry.Name = "checkBox_UseNanabBerry";
@@ -3250,12 +3331,12 @@ namespace PokeMaster
             // 
             // text_UseRazzberryChance
             // 
-            this.text_UseRazzberryChance.Location = new System.Drawing.Point(255, 15);
+            this.text_UseRazzberryChance.Location = new System.Drawing.Point(309, 15);
             this.text_UseRazzberryChance.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.text_UseRazzberryChance.Name = "text_UseRazzberryChance";
             this.text_UseRazzberryChance.Size = new System.Drawing.Size(47, 21);
             this.text_UseRazzberryChance.TabIndex = 56;
-            this.text_UseRazzberryChance.Text = "35";
+            this.text_UseRazzberryChance.Text = "45";
             // 
             // groupBox19
             // 
@@ -3393,7 +3474,7 @@ namespace PokeMaster
             this.numericUpDown1.Size = new System.Drawing.Size(54, 21);
             this.numericUpDown1.TabIndex = 6;
             this.numericUpDown1.Value = new decimal(new int[] {
-            3,
+            2,
             0,
             0,
             0});
@@ -3979,6 +4060,8 @@ namespace PokeMaster
             // checkBoxNewLog
             // 
             this.checkBoxNewLog.AutoSize = true;
+            this.checkBoxNewLog.Checked = true;
+            this.checkBoxNewLog.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBoxNewLog.Location = new System.Drawing.Point(9, 108);
             this.checkBoxNewLog.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.checkBoxNewLog.Name = "checkBoxNewLog";
@@ -4379,7 +4462,7 @@ namespace PokeMaster
             this.linkLabel15.AutoSize = true;
             this.linkLabel15.Location = new System.Drawing.Point(6, 78);
             this.linkLabel15.Name = "linkLabel15";
-            this.linkLabel15.Size = new System.Drawing.Size(91, 16);
+            this.linkLabel15.Size = new System.Drawing.Size(92, 16);
             this.linkLabel15.TabIndex = 37;
             this.linkLabel15.TabStop = true;
             this.linkLabel15.Text = "150 RPM - 3,95€";
@@ -4583,7 +4666,6 @@ namespace PokeMaster
             // 
             // buttonSvProf
             // 
-            this.buttonSvProf.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.buttonSvProf.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(53)))), ((int)(((byte)(65)))));
             this.buttonSvProf.FlatAppearance.BorderSize = 0;
             this.buttonSvProf.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -4600,7 +4682,6 @@ namespace PokeMaster
             // 
             // labelLanguage
             // 
-            this.labelLanguage.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.labelLanguage.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(53)))), ((int)(((byte)(65)))));
             this.labelLanguage.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.labelLanguage.Font = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -4616,7 +4697,6 @@ namespace PokeMaster
             // 
             // comboLanguage
             // 
-            this.comboLanguage.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.comboLanguage.BackColor = System.Drawing.SystemColors.ControlLight;
             this.comboLanguage.DisplayMember = "1";
             this.comboLanguage.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
@@ -4694,8 +4774,6 @@ namespace PokeMaster
             // 
             // buttonSaveStart
             // 
-            this.buttonSaveStart.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonSaveStart.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
             this.buttonSaveStart.BackgroundImage = global::PokeMaster.Properties.Resources.play_button;
             this.buttonSaveStart.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
@@ -4715,7 +4793,6 @@ namespace PokeMaster
             // 
             // pictureBox2
             // 
-            this.pictureBox2.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.pictureBox2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
             this.pictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox2.Image")));
             this.pictureBox2.Location = new System.Drawing.Point(15, 49);
@@ -4734,12 +4811,12 @@ namespace PokeMaster
             this.AutoScroll = true;
             this.BackColor = System.Drawing.Color.Maroon;
             this.ClientSize = new System.Drawing.Size(1176, 897);
+            this.Controls.Add(this.buttonSaveStart);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.MinimizeButton);
             this.Controls.Add(this.comboLanguage);
             this.Controls.Add(this.labelLanguage);
             this.Controls.Add(this.buttonSvProf);
-            this.Controls.Add(this.buttonSaveStart);
             this.Controls.Add(this.DoNothingButton2);
             this.Controls.Add(this.pictureBox2);
             this.Controls.Add(this.tabControl1);
@@ -5240,5 +5317,11 @@ namespace PokeMaster
         private System.Windows.Forms.Button DoNothingButton2;
         private System.Windows.Forms.Button MinimizeButton;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.TextBox textBox_TimeZone;
+        private System.Windows.Forms.Label label20;
+        private System.Windows.Forms.TextBox textBox_Language2;
+        private System.Windows.Forms.Label labelanguage;
+        private System.Windows.Forms.TextBox textBox_Country;
+        private System.Windows.Forms.Label labelCountry;
     }
 }

@@ -40,6 +40,9 @@ namespace PokeMaster.Logic.Shared
         public double DefaultLatitude { get; set; }
         public double DefaultLongitude { get; set; }
         public double DefaultAltitude { get; set; }
+        public string LocaleCountry { get; set; }
+        public string LocaleLanguage { get; set; }
+        public string LocaleTimeZone { get; set; }
         public bool UseLastCords { get; set; }
         public bool BlockAltitude { get; set; }
         public bool WalkBackToDefaultLocation { get; set; }

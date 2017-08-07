@@ -14,6 +14,7 @@ using POGOProtos.Networking.Envelopes;
 using POGOProtos.Networking.Requests;
 using POGOProtos.Networking.Responses;
 using POGOProtos.Networking.Platform;
+using PokemonGo.RocketAPI.Shared;
 
 #endregion
 
@@ -193,7 +194,7 @@ namespace PokemonGo.RocketAPI.Rpc
 
         public async Task GetPlayer()
         {
-            var _getPlayerRequest = CommonRequest.GetPlayerMessageRequest("US", "en", "America/Los_Angeles"); // Q Needs to be in the config
+            var _getPlayerRequest = CommonRequest.GetPlayerMessageRequest( LocaleInfo.Country,LocaleInfo.Language,LocaleInfo.TimeZone); 
 
             var serverRequest = GetRequestBuilder().GetRequestEnvelope(new[] { _getPlayerRequest });
 

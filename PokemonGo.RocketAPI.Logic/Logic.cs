@@ -22,6 +22,7 @@ using PokeMaster.Logic.Functions;
 using PokeMaster.Logic.Shared;
 using PokeMaster.Logic.Utils;
 using Google.Protobuf.Collections;
+using PokemonGo.RocketAPI.Shared;
 
 namespace PokeMaster.Logic
 {
@@ -64,6 +65,7 @@ namespace PokeMaster.Logic
             BotStats = new BotStats();
             navigation = new Navigation(objClient,botSettings);
             pokevision = new PokeVisionUtil();
+            LocaleInfo.SetValues( GlobalVars.LocaleCountry, GlobalVars.LocaleLanguage,GlobalVars.LocaleTimeZone);
             this.infoObservable = infoObservable;
             Instance = this;
             if (GlobalVars.Debug.NewLog)

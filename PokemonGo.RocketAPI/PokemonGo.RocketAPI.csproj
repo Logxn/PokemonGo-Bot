@@ -261,6 +261,7 @@
     <Compile Include="Rpc\Store.cs" />
     <Compile Include="Shared\ClientSettings.cs" />
     <Compile Include="Shared\KeyCollection.cs" />
+    <Compile Include="Shared\LocaleInfo.cs" />
     <None Include="app.config" />
     <Compile Include="Client.cs" />
     <Compile Include="Extensions\HttpClientExtensions.cs" />

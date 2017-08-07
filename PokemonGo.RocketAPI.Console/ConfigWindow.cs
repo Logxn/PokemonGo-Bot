@@ -93,7 +93,10 @@ namespace PokeMaster
             var devData = new DeviceSetup(Program.deviceData);
             comboBox_Device.DisplayMember = "Tradename";
             comboBox_Device.DataSource = devData.data;
-
+            comboBox_Device.Text = "iPhone 7";
+            ButtonGenerateID_Click(sender, new EventArgs());
+            
+                
             #region new translation
             if (!Directory.Exists(Program.path_translation))
                 Directory.CreateDirectory(Program.path_translation);
@@ -103,6 +106,8 @@ namespace PokeMaster
             Helper.TranslatorHelper.DownloadTranslationFile("PokemonGo.RocketAPI.Console/Lang", Program.path_translation, CultureInfo.CurrentCulture.Name);
             // Translate using Current Culture Info
             th.Translate(this);
+            tabControl1.SizeMode = TabSizeMode.Normal;
+            tabControl1.SizeMode = TabSizeMode.Fixed;
             #endregion
 
             comboBoxLeaveInGyms.DataSource = new[] {
@@ -260,6 +265,11 @@ namespace PokeMaster
             text_Latidude.Text = config.DefaultLatitude.ToString(CultureInfo.InvariantCulture);
             text_Longitude.Text = config.DefaultLongitude.ToString(CultureInfo.InvariantCulture);
             text_Altitude.Text = config.DefaultAltitude.ToString(CultureInfo.InvariantCulture);
+            
+            textBox_Country.Text = config.LocaleCountry;
+            textBox_Language2.Text = config.LocaleLanguage;
+            textBox_TimeZone.Text = config.LocaleTimeZone;
+            
             
             checkBox_UseLuckyEggAtEvolve.Checked = config.UseLuckyEgg;
             checkBox_SimulateAnimationTimeAtEvolve.Checked = config.UseAnimationTimes;
@@ -707,6 +717,10 @@ namespace PokeMaster
             ret &= textBoxToActiveProfDouble(text_Latidude, "DefaultLatitude");
             ret &= textBoxToActiveProfDouble(text_Longitude, "DefaultLongitude");
             ret &= textBoxToActiveProfDouble(text_Altitude, "DefaultAltitude");
+            
+            ActiveProfile.Settings.LocaleCountry = textBox_Country.Text;
+            ActiveProfile.Settings.LocaleLanguage = textBox_Language2.Text;
+            ActiveProfile.Settings.LocaleTimeZone = textBox_TimeZone.Text;
 
             // Other
             ActiveProfile.Settings.UseLuckyEgg = checkBox_UseLuckyEggAtEvolve.Checked;
@@ -1370,6 +1384,9 @@ namespace PokeMaster
                 Helper.TranslatorHelper.DownloadTranslationFile("PokemonGo.RocketAPI.Console/Lang", Program.path_translation, lang);
                 th.SelectLanguage(lang);
                 th.Translate(this);
+                tabControl1.SizeMode = TabSizeMode.Normal;
+                tabControl1.SizeMode = TabSizeMode.Fixed;
+                
             }
         }
 
