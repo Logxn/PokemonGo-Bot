@@ -1063,8 +1063,11 @@ namespace PokeMaster.Logic
                 CatchingLogic.Execute(mapObjectsResponse);
                 
                 if (runGymLogic)
+                {
                     GymsLogic.Execute();
-                    
+                    GymTutorial();
+                }
+
                 return true;
             }
             else
@@ -1129,21 +1132,22 @@ namespace PokeMaster.Logic
             var d = 2 * rEarth * Math.Atan2(Math.Sqrt(alpha), Math.Sqrt(1 - alpha));
             return d;
         }
+
         private void MakeTutorial(object sender, EventArgs eventArgs)
         {
-            //LegalScreen = 0,
-            //AvatarSelection = 1,
-            //AccountCreation = 2,
-            //PokemonCapture = 3,
-            //NameSelection = 4,
-            
+            //LegalScreen = 0, --> Implemented
+            //AvatarSelection = 1, --> Implemented
+            //AccountCreation = 2, --> Implemented
+            //PokemonCapture = 3, --> Implemented
+            //NameSelection = 4, --> Implemented
+
             //PokemonBerry = 5,
             //UseItem = 6,
-            
-            //FirstTimeExperienceComplete = 7,
-            //PokestopTutorial = 8,
-            
-            //GymTutorial = 9
+
+            //FirstTimeExperienceComplete = 7, --> Implemented
+            //PokestopTutorial = 8, --> Implemented
+
+            //GymTutorial = 9 --> Implemented
 
             if (! GlobalVars.CompleteTutorial)
                 return;
@@ -1238,20 +1242,58 @@ namespace PokeMaster.Logic
 
             RandomHelper.RandomDelay(2000).Wait();
         }
+
         private void MarkFirstExperiencie(){
 
-            if ( !GlobalVars.CompleteTutorial || objClient.Player.PlayerResponse.PlayerData.TutorialState.Contains(TutorialState.FirstTimeExperienceComplete))
+            if ( !GlobalVars.CompleteTutorial)
+                return;
+
+            if (!objClient.Player.PlayerResponse.PlayerData.TutorialState.Contains(TutorialState.FirstTimeExperienceComplete))
+            {
+                var res = objClient.Misc.MarkTutorialComplete(new RepeatedField<TutorialState>()
+                            {
+                                TutorialState.FirstTimeExperienceComplete
+                            }).Result;
+                if (res.Result != EncounterTutorialCompleteResponse.Types.Result.Success)
+                {
+                    Logger.Warning("[TUTORIAL] 7-Mark First Experience FAILED. Reason: " + res.Result);
+                    return;
+                }
+                else Logger.Debug("[TUTORIAL] 7-Mark First Experience DONE");
+            }
+
+            if (!objClient.Player.PlayerResponse.PlayerData.TutorialState.Contains(TutorialState.PokestopTutorial))
+            {
+                var res = objClient.Misc.MarkTutorialComplete(new RepeatedField<TutorialState>()
+                            {
+                                TutorialState.PokestopTutorial
+                            }).Result;
+                if (res.Result != EncounterTutorialCompleteResponse.Types.Result.Success)
+                {
+                    Logger.Warning("[TUTORIAL] 8-Pokestop Tutorial FAILED. Reason: " + res.Result);
+                    return;
+                }
+                else Logger.Debug("[TUTORIAL] 8-Pokestop Tutorial DONE");
+            }
+
+        }
+
+        private void GymTutorial()
+        {
+
+            if (!GlobalVars.CompleteTutorial || objClient.Player.PlayerResponse.PlayerData.TutorialState.Contains(TutorialState.GymTutorial))
                 return;
 
             var res = objClient.Misc.MarkTutorialComplete(new RepeatedField<TutorialState>()
                             {
-                                TutorialState.FirstTimeExperienceComplete
+                                TutorialState.GymTutorial
                             }).Result;
-            if (res.Result !=EncounterTutorialCompleteResponse.Types.Result.Success){
-                Logger.Warning("Mark First Experience Failed. Reason: "+ res.Result);
+            if (res.Result != EncounterTutorialCompleteResponse.Types.Result.Success)
+            {
+                Logger.Warning("[TUTORIAL] 9-Gym Tutorial FAILED. Reason: " + res.Result);
                 return;
             }
-            Logger.Info("First Experience Marked.");
+            else Logger.Debug("[TUTORIAL] 9-Gym tutorial DONE");
         }
 
         #endregion
