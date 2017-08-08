@@ -1,4 +1,4 @@
-﻿using DankMemes.GPSOAuthSharp;
+﻿using GPSOAuthSharp;
 using PokemonGo.RocketAPI.Exceptions;
 using PokemonGo.RocketAPI.Helpers;
 using System;
@@ -30,7 +30,7 @@ namespace PokemonGo.RocketAPI.Login
             var client = new GPSOAuthClient(email, password);
             Dictionary<string, string> response = null;
             try{
-                response = client.PerformMasterLogin();
+                response = await client.PerformMasterLogin().ConfigureAwait(false);
             } catch (NullReferenceException){
                 return null;
             }
@@ -58,10 +58,10 @@ namespace PokemonGo.RocketAPI.Login
                 return null;
             }
 
-            var oauthResponse = client.PerformOAuth(response["Token"],
+            var oauthResponse = await client.PerformOAuth(response["Token"],
                 "audience:server:client_id:848232511240-7so421jotr2609rmqakceuu1luuq0ptb.apps.googleusercontent.com",
                 "com.nianticlabs.pokemongo",
-                "321187995bc7cdc2b5fc91b11a96e2baa8602c62");
+                "321187995bc7cdc2b5fc91b11a96e2baa8602c62").ConfigureAwait(false);
 
             if (!oauthResponse.ContainsKey("Auth")){
                 Logger.Error("Auth String not found.");
