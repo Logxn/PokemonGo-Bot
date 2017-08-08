@@ -40,6 +40,10 @@ namespace PokeMaster.Logic.Shared
         public static double latitude = 40.764883;
         public static double longitude = -73.972967;
         public static double altitude = 15.173855;
+        public static string LocaleCountry ="";
+        public static string LocaleLanguage ="";
+        public static string LocaleTimeZone ="";
+
         public static double WalkingSpeedInKilometerPerHour = 5;
         public static int MinWalkSpeed = 3;
         public static int radius = 5000;
