@@ -49,6 +49,9 @@ namespace PokeMaster.Logic
         private bool addedlure = false;
         public Sniper sniperLogic;
         public static bool restartLogic = true;
+
+        public TutorialFunctions Tutorial;
+
         #endregion
 
         #region Constructor
@@ -1169,55 +1172,11 @@ namespace PokeMaster.Logic
             if (!GlobalVars.CompleteTutorial)
                 return;
 
+
             var state = objClient.Player.PlayerResponse.PlayerData.TutorialState;
 
-            AvatarSettings.Load();
-
-            if (!state.Contains(TutorialState.LegalScreen))
-            {
-                var res = objClient.Misc.AceptLegalScreen().Result;
-                if (res.Result != EncounterTutorialCompleteResponse.Types.Result.Success)
-                {
-                    Logger.Warning("[TUTORIAL] 1-Initial Legal Screen acceptance FAILED. Reason: " + res.Result);
-                    return;
-                }
-                else Logger.Debug("[TUTORIAL] 1-Initial Legal Screen acceptance DONE");
-            }
-
-            if (!state.Contains(TutorialState.AvatarSelection))
-            {
-                var playerAvatar = new PlayerAvatar();
-                playerAvatar.Avatar = AvatarSettings.Gender == 2 ? RandomHelper.RandomNumber(0, 2) : AvatarSettings.Gender;
-                playerAvatar.Backpack = AvatarSettings.backpack == 3 ? RandomHelper.RandomNumber(0, 3) : AvatarSettings.backpack;
-                playerAvatar.Eyes = AvatarSettings.eyes == 4 ? RandomHelper.RandomNumber(0, 4) : AvatarSettings.eyes;
-                playerAvatar.Hair = AvatarSettings.hair == 6 ? RandomHelper.RandomNumber(0, 6) : AvatarSettings.hair;
-                playerAvatar.Hat = AvatarSettings.hat == 3 ? RandomHelper.RandomNumber(0, 3) : AvatarSettings.hat;
-                playerAvatar.Pants = AvatarSettings.pants == 3 ? RandomHelper.RandomNumber(0, 3) : AvatarSettings.pants;
-                playerAvatar.Shirt = AvatarSettings.shirt == 3 ? RandomHelper.RandomNumber(0, 3) : AvatarSettings.shirt;
-                playerAvatar.Shoes = AvatarSettings.shoes == 3 ? RandomHelper.RandomNumber(0, 3) : AvatarSettings.shoes;
-                playerAvatar.Skin = AvatarSettings.skin == 4 ? RandomHelper.RandomNumber(0, 4) : AvatarSettings.skin;
-
-                var res = objClient.Player.SetAvatar(playerAvatar).Result;
-                if (res.Status != SetAvatarResponse.Types.Status.Success)
-                {
-                    Logger.Warning("[TUTORIAL] 2-Avatar not set. Reason: " + res.Status);
-                    return;
-                }
-
-                var res1 = objClient.Misc
-                    .MarkTutorialComplete(new RepeatedField<TutorialState>()
-                    {
-                        TutorialState.AvatarSelection
-                    }).Result;
-                if (res1.Result != EncounterTutorialCompleteResponse.Types.Result.Success)
-                {
-                    Logger.Warning("[TUTORIAL] 2-Avatar set in tutorial FAILED. Reason: " + res1.Result);
-                    return;
-                }
-                else Logger.Debug("[TUTORIAL] 2-Avatar Set DONE");
-
-                RandomHelper.RandomDelay(2000).Wait();
-            }
+            if (!state.Contains(TutorialState.LegalScreen)) Tutorial.MarkTutorialAsDone(TutorialState.LegalScreen, objClient);
+            if (!state.Contains(TutorialState.AvatarSelection)) Tutorial.MarkTutorialAsDone(TutorialState.AvatarSelection, objClient);
 
             if (!state.Contains(TutorialState.PokemonCapture))
             {
@@ -1299,7 +1258,6 @@ namespace PokeMaster.Logic
                 }
                 else Logger.Debug("[TUTORIAL] 8-Pokestop Tutorial DONE");
             }
-
         }
 
         private void GymTutorial()
