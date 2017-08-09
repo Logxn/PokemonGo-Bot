@@ -286,3 +286,6 @@ PokemonGo.RocketAPI.Console/Location.cs
 /POGOProtos/Settings/NotificationSettings.g.cs
 /TODO.txt
 /TODO.txt
+/Builds-Only/Configs_/DefaultProfile.json
+/Builds-Only/Configs_/Profiles.txt
+/Builds-Only/Configs_/log.txt
