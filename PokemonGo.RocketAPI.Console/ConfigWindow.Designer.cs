@@ -2776,6 +2776,7 @@ namespace PokeMaster
             // AdvancedBreaks
             // 
             this.AdvancedBreaks.AutoSize = true;
+            this.AdvancedBreaks.Enabled = false;
             this.AdvancedBreaks.Location = new System.Drawing.Point(19, 212);
             this.AdvancedBreaks.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.AdvancedBreaks.Name = "AdvancedBreaks";
@@ -2783,6 +2784,7 @@ namespace PokeMaster
             this.AdvancedBreaks.TabIndex = 75;
             this.AdvancedBreaks.Text = "Enable Advanced Breaks";
             this.AdvancedBreaks.UseVisualStyleBackColor = true;
+            this.AdvancedBreaks.Visible = false;
             this.AdvancedBreaks.CheckedChanged += new System.EventHandler(this.AdvancedBreaks_CheckedChanged);
             // 
             // label18
@@ -4462,7 +4464,7 @@ namespace PokeMaster
             this.linkLabel15.AutoSize = true;
             this.linkLabel15.Location = new System.Drawing.Point(6, 78);
             this.linkLabel15.Name = "linkLabel15";
-            this.linkLabel15.Size = new System.Drawing.Size(92, 16);
+            this.linkLabel15.Size = new System.Drawing.Size(91, 16);
             this.linkLabel15.TabIndex = 37;
             this.linkLabel15.TabStop = true;
             this.linkLabel15.Text = "150 RPM - 3,95€";

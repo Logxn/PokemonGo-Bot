@@ -434,7 +434,7 @@ namespace PokeMaster
             checkBox_StartWalkingFromLastLocation.Checked = config.UseLastCords;
             checkBox_BlockAltitude.Checked = config.BlockAltitude;
 
-            AdvancedBreaks.Checked = config.AdvancedBreaks;
+            //AdvancedBreaks.Checked = config.AdvancedBreaks;
             if (AdvancedBreaks.Checked)
             {
                 BreakGridView.Visible = true;
