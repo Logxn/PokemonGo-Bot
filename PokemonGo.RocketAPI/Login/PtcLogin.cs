@@ -96,7 +96,7 @@ namespace PokemonGo.RocketAPI.Login
             var loginResponseErrors = (JArray)loginResponseData["errors"];
             
             var joinedResponseErrors = string.Join(",", loginResponseErrors);
-            throw new Exception($"Pokemon Trainer Club gave error(s): '{joinedResponseErrors}'");
+            throw new Exception($"Pokemon Trainer Club gave error(s): '{string.Join(",", loginResponseErrors)}'");
         }
 
         /// <summary>

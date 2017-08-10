@@ -22,7 +22,7 @@ namespace PokeMaster
     {
         [DllImport("kernel32.dll")]
         public static extern Boolean FreeConsole();
-        
+
         public static string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Configs");
         public static string path_translation = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Translations");
         public static string path_device = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Device");

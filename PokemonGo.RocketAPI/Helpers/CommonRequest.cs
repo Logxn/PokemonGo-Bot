@@ -176,14 +176,14 @@ namespace PokemonGo.RocketAPI.Helpers
             // If there is not inventory delta
             if (getInventoryResponse.InventoryDelta == null)
                 return;
-            if (client.Inventory.CachedInventory == null){
-                client.Inventory.CachedInventory = getInventoryResponse;
+            if (client.Inventory.GetInventory() == null){
+                client.Inventory.SetInventory( getInventoryResponse);
                 return;
             }
             // If was updated yet.
-            if (getInventoryResponse.InventoryDelta.NewTimestampMs <= client.Inventory.CachedInventory.InventoryDelta.NewTimestampMs )
+            if (getInventoryResponse.InventoryDelta.NewTimestampMs <= client.Inventory.GetInventory().InventoryDelta.NewTimestampMs )
                 return;
-            client.Inventory.CachedInventory.InventoryDelta.NewTimestampMs = getInventoryResponse.InventoryDelta.NewTimestampMs;
+            client.Inventory.GetInventory().InventoryDelta.NewTimestampMs = getInventoryResponse.InventoryDelta.NewTimestampMs;
             client.Inventory.UpdateInventoryItems(getInventoryResponse.InventoryDelta);
         }
 
@@ -217,21 +217,6 @@ namespace PokemonGo.RocketAPI.Helpers
                 client.ApiFailure.HandleCaptcha(checkChallengeResponse.ChallengeUrl, client);
         }
 
-        public static void ProcessGetPlayerResponse(Client client, GetPlayerResponse getPlayerResponse)
-        {
-            if (getPlayerResponse == null)
-                return;
-            
-            if (getPlayerResponse.Banned)
-                Logger.Debug("Your account is banned");
-            if (getPlayerResponse.Warn)
-                Logger.Debug("Your account is flagged");
-            if (getPlayerResponse.Success){
-                client.Player.PlayerResponse = getPlayerResponse;
-            }
-
-        }
-
         public static void Parse(Client client, RequestType requestType, ByteString data)
         {
             try
@@ -258,6 +243,18 @@ namespace PokemonGo.RocketAPI.Helpers
             {
                 throw e;
             }
+        }
+
+        public static Request CheckChallenge()
+        {
+            return new Request
+            {
+                RequestType = RequestType.CheckChallenge,
+                RequestMessage = new CheckChallengeMessage()
+                {
+                    DebugRequest = false
+                }.ToByteString()
+            };
         }
 
         public static Request GetVerifyChallenge(string token)
@@ -332,10 +329,10 @@ namespace PokemonGo.RocketAPI.Helpers
                 return;
             Logger.Debug("Result:" + response.Result);
             var i = 0;
-            foreach (var element in response.Inbox.BuiltinVariables) {
+            /*foreach (var element in response.Inbox.BuiltinVariables) {
                 Logger.Debug($"BuiltinVariable {i}: {element}");
                 i++;
-            }
+            }*/
             i = 0;
             foreach (var element in response.Inbox.Notifications) {
                 Logger.Debug($"Notification {i}: {element}");
@@ -418,34 +415,6 @@ namespace PokemonGo.RocketAPI.Helpers
             }
         }
 
-        public static Request GetPlayerProfileMessageRequest( string playername ="")
-        {
-            var req = new Request
-            {
-                RequestType = RequestType.GetPlayerProfile,
-                RequestMessage = new GetPlayerProfileMessage {
-                    PlayerName = playername
-                }.ToByteString()
-            };
-            return req;
-        }
-
-        public static void ProcessGetPlayerProfileResponse(Client client, GetPlayerProfileResponse response)
-        {
-            if (response == null)
-                return;
-             // TODO: do something with this information 
-             Logger.Debug("Result:" +response.Result);
-             if ( response.Result == GetPlayerProfileResponse.Types.Result.Success){
-                var i = 0;
-                foreach (var element in response.Badges) {
-                    Logger.Debug($"Badges {i}: {element}");
-                    i++;
-                }
-                Logger.Debug("GymBadges: " +response.GymBadges);
-                Logger.Debug("StartTime: " +response.StartTime);
-             }
-        }
 
         public static Request LevelUpRewardsMessageRequest( int level = 0)
         {

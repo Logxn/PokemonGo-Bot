@@ -665,11 +665,6 @@ namespace PokeMaster.Logic.Functions
 
                 Logger.ColoredConsoleWrite(gymColorLog, "(Gym) - Pokemons in gyms: " + pokesInGym);
 
-                if (pokesInGym > 9) {
-                    var res = client.Player.CollectDailyDefenderBonus();
-                    Logger.ColoredConsoleWrite(gymColorLog, $"(Gym) - Collected: {res.CurrencyAwarded} Coins.");
-                }
-
                 AddVisited(gym.Id, 3600000);
             }
             else

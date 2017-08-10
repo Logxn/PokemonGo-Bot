@@ -14,6 +14,7 @@ using POGOProtos.Networking.Envelopes;
 using POGOProtos.Networking.Requests;
 using POGOProtos.Networking.Responses;
 using POGOProtos.Networking.Platform;
+using PokemonGo.RocketAPI.Shared;
 
 #endregion
 
@@ -61,6 +62,7 @@ namespace PokemonGo.RocketAPI.Rpc
                 }
             }
         }
+
         public async Task DoLogin()
         {
             await Reauthenticate().ConfigureAwait(false);
@@ -81,10 +83,11 @@ namespace PokemonGo.RocketAPI.Rpc
             // await DownloadItemTemplates().ConfigureAwait(false);
             // await GetDownloadUrls().ConfigureAwait(false);
             MakeTuturial();
-            
+
             // This call (GetPlayerProfile) is only needed if the tutorial is done.
             // TODO: Check if tutorial is done to do not do GetPlayerProfile.
-            await GetPlayerProfile().ConfigureAwait(false);
+
+            if (Client.Player.PlayerResponse.PlayerData.TutorialState.Count() >= 5) Client.Player.GetPlayerProfile();
 
             await LevelUpRewards().ConfigureAwait(false);
 
@@ -191,13 +194,13 @@ namespace PokemonGo.RocketAPI.Rpc
 
         public async Task GetPlayer()
         {
-            var request = CommonRequest.GetPlayerMessageRequest();
+            var _getPlayerRequest = CommonRequest.GetPlayerMessageRequest( LocaleInfo.Country,LocaleInfo.Language,LocaleInfo.TimeZone); 
 
-            var serverRequest = GetRequestBuilder().GetRequestEnvelope(new[]{request});
+            var serverRequest = GetRequestBuilder().GetRequestEnvelope(new[] { _getPlayerRequest });
 
             var serverResponse = await PostProto<Request>(serverRequest).ConfigureAwait(false);
 
-            ParseServerResponse( serverResponse);
+            ParseServerResponse(serverResponse);
 
             if (serverResponse.StatusCode == ResponseEnvelope.Types.StatusCode.Redirect){
                 await GetPlayer().ConfigureAwait(false);
@@ -211,7 +214,11 @@ namespace PokemonGo.RocketAPI.Rpc
                 if (responses.Count > 0)
                 {
                     getPlayerResponse.MergeFrom(responses[0]);
-                    CommonRequest.ProcessGetPlayerResponse( Client, getPlayerResponse);
+                    Client.Player.PlayerResponse = getPlayerResponse;
+                if (getPlayerResponse.Warn)
+                    Logger.Warning("This account is flagged.");
+                if (getPlayerResponse.Banned)
+                    Logger.Warning("This account is banned.");
                 }
             }
         }
@@ -243,35 +250,9 @@ namespace PokemonGo.RocketAPI.Rpc
             }
         }
 
-        public async Task GetPlayerProfile()
-        {
-            var request = CommonRequest.GetPlayerProfileMessageRequest(Client.Player.PlayerResponse.PlayerData.Username);
-            
-            var requests = CommonRequest.FillRequest(request, Client, false, false);
-
-            var serverRequest = GetRequestBuilder().GetRequestEnvelope(requests);
-            var serverResponse = await PostProto<Request>(serverRequest).ConfigureAwait(false);
-
-            ParseServerResponse( serverResponse);
-            if (serverResponse.StatusCode == ResponseEnvelope.Types.StatusCode.Redirect){
-                await GetPlayerProfile().ConfigureAwait(false);
-                return;
-            }
-
-            var responses = serverResponse.Returns;
-
-            if ( (responses != null) && ( responses.Count > 0 ) )
-            {
-                var getPlayerProfileResponse = new GetPlayerProfileResponse();
-                getPlayerProfileResponse.MergeFrom(responses[0]);
-                CommonRequest.ProcessGetPlayerProfileResponse( Client, getPlayerProfileResponse);
-                CommonRequest.ProcessCommonResponses( Client, responses, false, false);
-            }
-        }
-
         public async Task LevelUpRewards()
         {
-            var stat = Client.Inventory.GetPlayerStats( Client.Inventory.CachedInventory).FirstOrDefault();
+            var stat = Client.Inventory.GetPlayerStats().FirstOrDefault();
             var request = CommonRequest.LevelUpRewardsMessageRequest(stat.Level);
             
             var requests = CommonRequest.FillRequest(request, Client, false, false);
