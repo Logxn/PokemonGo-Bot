@@ -1136,6 +1136,8 @@
     <None Include="Resources\251-35.png" />
     <None Include="Resources\251-50.png" />
     <None Include="Resources\251-200.png" />
+    <EmbeddedResource Include="Costura32\SQLite.Interop.dll" />
+    <EmbeddedResource Include="Costura64\SQLite.Interop.dll" />
     <Content Include="Resources\boy.png" />
     <None Include="Resources\giphy %281%29.gif" />
     <Content Include="Resources\girl.png" />

@@ -6,5 +6,11 @@
             Pokemon.Go.Rocket.API
             POGOProtos.NetStandard1
         </ExcludeAssemblies-->
+      <Unmanaged32Assemblies>
+        SQLite.Interop
+      </Unmanaged32Assemblies>
+      <Unmanaged64Assemblies>
+        SQLite.Interop
+      </Unmanaged64Assemblies>
     </Costura>
 </Weavers>

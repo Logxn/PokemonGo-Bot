@@ -883,7 +883,6 @@ namespace PokeMaster
 
             ActiveProfile.Settings.UseBreakFields = checkBox_UseBreakIntervalAndLength.Checked;
             
-            
             value = text_BreakInterval.Text;
             if (value != String.Empty)
                 ActiveProfile.Settings.BreakInterval = int.Parse(value);
@@ -902,8 +901,6 @@ namespace PokeMaster
                     ret = false;
                 }
             }
-
-
 
             ActiveProfile.Settings.pauseAtEvolve = checkBox_StopWalkingWhenEvolving.Checked;
             ActiveProfile.Settings.pauseAtEvolve2 = checkBox_StopWalkingWhenEvolving.Checked;
