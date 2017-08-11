@@ -54,43 +54,58 @@ namespace PokeMaster
                 {
                     // First of all.
                     // We check if bot have called clicking in a pokesnimer URI: pokesniper2://PokemonName/latitude,longitude
-                    if (args[0].Contains("pokesniper2") || args[0].Contains("msniper"))
-                    {
+                    //if (args[0].Contains("pokesniper2") || args[0].Contains("msniper"))
+                    //{
                         // If yes, We create a temporary file to share with main process, and close.
-                        SniperPanel.SharePokesniperURI(args[0]);
-                        return;
-                    }
+                    //    SniperPanel.SharePokesniperURI(args[0]);
+                    //    return;
+                    //}
 
                     #region Argument -nogui
                     if (arg.Contains("-nogui"))
                     {
                         Logger.ColoredConsoleWrite(ConsoleColor.Red, "You added -nogui!");
-
-                        #region Read bot settings
-                        if (File.Exists(Program.accountProfiles))
-                        {
-                            string JSONstring = File.ReadAllText(accountProfiles);
-                            var Profiles = Newtonsoft.Json.JsonConvert.DeserializeObject<Collection<Profile>>(JSONstring);
-                            Profile selectedProfile = null;
-                            foreach (Profile _profile in Profiles)
+                        if (!arg.Contains(":")){
+                            #region Read bot settings
+                            if (File.Exists(Program.accountProfiles))
                             {
-                                if (_profile.IsDefault)
+                                string JSONstring = File.ReadAllText(accountProfiles);
+                                var Profiles = Newtonsoft.Json.JsonConvert.DeserializeObject<Collection<Profile>>(JSONstring);
+                                Profile selectedProfile = null;
+                                foreach (Profile _profile in Profiles)
                                 {
-                                    selectedProfile = _profile;
-                                    break;
+                                    if (_profile.IsDefault)
+                                    {
+                                        selectedProfile = _profile;
+                                        break;
+                                    }
                                 }
-                            }
-                            if (selectedProfile != null)
-                            {
-                                GlobalVars.ProfileName =selectedProfile.ProfileName;
-                                var filenameProf = Path.Combine(path, $"{selectedProfile.ProfileName}.json");
-                                selectedProfile.Settings = ProfileSettings.LoadFromFile(filenameProf);
-                                selectedProfile.Settings.SaveToGlobals();
-                            }
-                            else
-                            {
-                                Logger.ColoredConsoleWrite(ConsoleColor.Red, "Default Profile not found! You didn't setup the bot correctly by running it with -nogui.");
-                                Environment.Exit(-1);
+                                if (selectedProfile != null)
+                                {
+                                    GlobalVars.ProfileName =selectedProfile.ProfileName;
+                                    var filenameProf = Path.Combine(path, $"{selectedProfile.ProfileName}.json");
+                                    selectedProfile.Settings = ProfileSettings.LoadFromFile(filenameProf);
+                                    selectedProfile.Settings.SaveToGlobals();
+                                }
+                                else
+                                {
+                                    Logger.ColoredConsoleWrite(ConsoleColor.Red, "Default Profile not found! You didn't setup the bot correctly by running it with -nogui.");
+                                    Environment.Exit(-1);
+                                }
+                            }else{
+                                var splitted = arg.Split(':');
+                                var profileFile = Path.Combine(path,splitted[1]+".json");
+                                if (File.Exists(profileFile))
+                                {
+                                    var selectedProfile = new Profile();
+                                    GlobalVars.ProfileName = splitted[1];
+                                    selectedProfile.ProfileName = splitted[1];
+                                    selectedProfile.Settings = ProfileSettings.LoadFromFile(profileFile);
+                                    selectedProfile.Settings.SaveToGlobals();
+                                }else{
+                                    Logger.ColoredConsoleWrite(ConsoleColor.Red, "Profile not found! You didn't setup the bot correctly by running it with -nogui.");
+                                    Environment.Exit(-1);
+                                }
                             }
                         }
                         else
@@ -130,7 +145,7 @@ namespace PokeMaster
                         //Show Help
                         System.Console.WriteLine($"Pokemon BOT C# v{Resources.BotVersion.ToString()} help" + Environment.NewLine);
                         System.Console.WriteLine("Use:");
-                        System.Console.WriteLine("  -nogui <lat>,<long>         Console mode only, starting on the indicated Latitude & Longitude");
+                        System.Console.WriteLine("  -nogui<:profile_name> <lat>,<long>         Console mode only, starting on the indicated Profile , Latitude & Longitude ");
                         System.Console.WriteLine("  -bypassversioncheck         Do NOT check BOT & API compatibility (be careful with that option!)");
                         System.Console.WriteLine("  -help                       This help" + Environment.NewLine);
                         Environment.Exit(0);
