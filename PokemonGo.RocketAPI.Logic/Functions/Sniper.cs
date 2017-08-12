@@ -49,7 +49,15 @@ namespace PokeMaster.Logic.Functions
             returnCoords.Latitude = _client.CurrentLatitude;
             returnCoords.Longitude = _client.CurrentLongitude;
             returnCoords.Altitude = _client.CurrentAltitude;
-            LocationUtils.updatePlayerLocation(_client, returnCoords.Latitude, returnCoords.Longitude, returnCoords.Altitude);
+            
+            var distanceToTarget = LocationUtils.CalculateDistanceInMeters(returnCoords, remoteCoords);
+            if (distanceToTarget > 100000){
+                Logger.Warning("Distance greater than 100 kms. Skipping Snipe.");
+                return;
+            }
+
+            
+            //LocationUtils.updatePlayerLocation(_client, returnCoords.Latitude, returnCoords.Longitude, returnCoords.Altitude);
 
             if (_botSettings == null && _client == null) {
                 SendToLog($" client or settings are not set");
@@ -57,6 +65,7 @@ namespace PokeMaster.Logic.Functions
             }
 
             try {
+                
                 remoteCoords.Altitude = LocationUtils.GetAltitude(remoteCoords.Latitude, remoteCoords.Longitude);
 
                 SendToLog($"Trying to capture {pokeid}  at { remoteCoords.Latitude } / {remoteCoords.Longitude}");
@@ -126,13 +135,13 @@ namespace PokeMaster.Logic.Functions
                         var buddyid = 0UL;
                         if (profile.PlayerData.BuddyPokemon != null)
                             buddyid = profile.PlayerData.BuddyPokemon.Id;
-                        var gymDet = _client.Fort.GetGymDetails(element.Id, element.Latitude, element.Longitude);
-                        if (gymDet.Result == GetGymDetailsResponse.Types.Result.Success) {
+                        var gymDet = _client.Fort.GymGetInfo(element.Id, element.Latitude, element.Longitude);
+                        if (gymDet.Result == GymGetInfoResponse.Types.Result.Success) {
                             found = true;
                             var pokeToDeploy = GymsLogic.getPokeToPut(_client, buddyid, element.GuardPokemonCp);
                             if (pokeToDeploy != null) {
-                                var res = _client.Fort.FortDeployPokemon(element.Id, pokeToDeploy.Id);
-                                if (res.Result == FortDeployPokemonResponse.Types.Result.Success) {
+                                var res = _client.Fort.GymDeployPokemon(element.Id, pokeToDeploy.Id);
+                                if (res.Result == GymDeployResponse.Types.Result.Success) {
                                     caught = pokeToDeploy.Id;
                                     SendToLog(GymsLogic.strPokemon(pokeToDeploy) + " Deployed!");
                                 }else{
@@ -182,7 +191,7 @@ namespace PokeMaster.Logic.Functions
 
         private ulong TrySnipePokemons(PokemonId pokeid, GeoCoordinate pokeCoords, GeoCoordinate returnCoords)
         {
-            const bool goBack = true;
+            const bool goBack = false; // since new changes in server before of api 0.63 it must be "false".
             var tries = 1;
             var found = false;
             ulong caught = 0;

@@ -74,7 +74,7 @@ namespace POGOProtos.Networking.Requests.Messages {
     public const int PokemonIdFieldNumber = 1;
     private long pokemonId_;
     /// <summary>
-    ///  Do not change https://github.com/AeonLucid/POGOProtos.pull/126
+    /// Do not change https://github.com/AeonLucid/POGOProtos.pull/126
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public long PokemonId {

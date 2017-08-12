@@ -63,6 +63,7 @@ namespace PokemonGo.RocketAPI.HttpClient
                         var _uri = new Uri(Resources.GetRpcVersionUrl);
                         _httpClient.DefaultRequestHeaders.Accept.Clear();
                         _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                        _httpClient.DefaultRequestHeaders.UserAgent.TryParseAdd(Resources.LoginUserAgent);
     
                         HttpResponseMessage _response = await _httpClient.GetAsync(_uri).ConfigureAwait(false);
     

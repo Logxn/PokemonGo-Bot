@@ -294,7 +294,7 @@ namespace PokeMaster.Logic.Functions
                     return 0;
                 }
 
-                var inventoryBerries = client.Inventory.GetItems(true);
+                var inventoryBerries = client.Inventory.GetItems();
                 var probability = encounterPokemonResponse?.CaptureProbability?.CaptureProbability_?.FirstOrDefault();
                 var probability100 =  Math.Round(probability.Value * 100);
 

@@ -35,6 +35,7 @@ namespace PokemonGo.RocketAPI.Hash
 
         private static readonly Uri _baseAddress = new Uri("https://pokehash.buddyauth.com/");
         private static readonly Uri _baseAddress2 = new Uri("http://pokehash.buddyauth.com/");
+
         private Uri _availableHashVersionsCheck = new Uri("https://pokehash.buddyauth.com/api/hash/versions");
         private readonly string _endpoint;
         private string apiKey;
@@ -59,14 +60,14 @@ namespace PokemonGo.RocketAPI.Hash
                 } catch (HasherException hashEx) {
                     changeKey = Shared.KeyCollection.ExistsFile();
                     cyclingRetrys--;
-                    Logger.Write(hashEx.Message);
+                    Logger.Error(hashEx.Message);
                     if (cyclingRetrys < 0)
                         throw hashEx;
-
                 } catch (Exception ex) {
-                    Logger.ColoredConsoleWrite(ConsoleColor.Red, "Error: PokeHashHasher.cs - RequestHashes()");
-                    Logger.ColoredConsoleWrite(ConsoleColor.Red, ex.Message);
+                    Logger.Debug("Error: PokeHashHasher.cs - RequestHashes()");
+                    Logger.Debug( ex.Message);
                 }
+
                 if (changeKey) {
                     var nextKey = Shared.KeyCollection.nextKey();
                     if (nextKey != "") {
@@ -147,9 +148,9 @@ namespace PokemonGo.RocketAPI.Hash
                 }
             }
         }
-        public static string GetExpirationTime(string key)
+        public static string[] GetInformation(string key)
         {
-            var result ="";
+            var result = new []{"",""};
             var client = new System.Net.Http.HttpClient();
             client.BaseAddress = _baseAddress;
             client.DefaultRequestHeaders.Accept.Clear();
@@ -175,11 +176,12 @@ namespace PokemonGo.RocketAPI.Hash
                     var RateRequestRemaining = Convert.ToUInt16(((string[])response.Headers.GetValues("X-RateRequestsRemaining"))[0]);
                     var RateLimitSeconds = Convert.ToUInt16(((string[])response.Headers.GetValues("X-RateLimitSeconds"))[0]);
                     var remainingSeconds = (DateTime.Now - RatePeriodEnd).TotalSeconds * -1;
-                    Logger.Info($"{RateRequestRemaining}/{MaxRequestCount} requests remaining for the next {remainingSeconds} seconds. Key expires on: {AuthTokenExpiration}");
-                    result = AuthTokenExpiration.ToString("dd/MM/yyyy HH:mm:ss");
+                    Logger.Info($"{key} : {RateRequestRemaining}/{MaxRequestCount} requests remaining for the next {remainingSeconds} seconds. Key expires on: {AuthTokenExpiration}");
+                    result[0] = MaxRequestCount.ToString();
+                    result[1] = AuthTokenExpiration.ToString("dd/MM/yyyy HH:mm:ss");
                 
             } catch (Exception) {
-                result = response.StatusCode.ToString();
+                result[1] = response.StatusCode.ToString();
             }
 
             return result;

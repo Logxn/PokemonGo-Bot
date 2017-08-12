@@ -25,15 +25,15 @@ namespace POGOProtos.Settings.Master {
             "Ci5QT0dPUHJvdG9zL1NldHRpbmdzL01hc3Rlci9CYWRnZVNldHRpbmdzLnBy",
             "b3RvEhpQT0dPUHJvdG9zLlNldHRpbmdzLk1hc3RlchogUE9HT1Byb3Rvcy9F",
             "bnVtcy9CYWRnZVR5cGUucHJvdG8aLlBPR09Qcm90b3MvRGF0YS9CYWRnZS9C",
-            "YWRnZUNhcHR1cmVSZXdhcmQucHJvdG8iqAEKDUJhZGdlU2V0dGluZ3MSLwoK",
+            "YWRnZUNhcHR1cmVSZXdhcmQucHJvdG8ivQEKDUJhZGdlU2V0dGluZ3MSLwoK",
             "YmFkZ2VfdHlwZRgBIAEoDjIbLlBPR09Qcm90b3MuRW51bXMuQmFkZ2VUeXBl",
             "EhIKCmJhZGdlX3JhbmsYAiABKAUSDwoHdGFyZ2V0cxgDIAMoBRJBCg5jYXB0",
             "dXJlX3Jld2FyZBgEIAMoCzIpLlBPR09Qcm90b3MuRGF0YS5CYWRnZS5CYWRn",
-            "ZUNhcHR1cmVSZXdhcmRiBnByb3RvMw=="));
+            "ZUNhcHR1cmVSZXdhcmQSEwoLZXZlbnRfYmFkZ2UYBSABKAhiBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::POGOProtos.Enums.BadgeTypeReflection.Descriptor, global::POGOProtos.Data.Badge.BadgeCaptureRewardReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::POGOProtos.Settings.Master.BadgeSettings), global::POGOProtos.Settings.Master.BadgeSettings.Parser, new[]{ "BadgeType", "BadgeRank", "Targets", "CaptureReward" }, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::POGOProtos.Settings.Master.BadgeSettings), global::POGOProtos.Settings.Master.BadgeSettings.Parser, new[]{ "BadgeType", "BadgeRank", "Targets", "CaptureReward", "EventBadge" }, null, null, null)
           }));
     }
     #endregion
@@ -68,6 +68,7 @@ namespace POGOProtos.Settings.Master {
       badgeRank_ = other.badgeRank_;
       targets_ = other.targets_.Clone();
       captureReward_ = other.captureReward_.Clone();
+      eventBadge_ = other.eventBadge_;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -117,6 +118,17 @@ namespace POGOProtos.Settings.Master {
       get { return captureReward_; }
     }
 
+    /// <summary>Field number for the "event_badge" field.</summary>
+    public const int EventBadgeFieldNumber = 5;
+    private bool eventBadge_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool EventBadge {
+      get { return eventBadge_; }
+      set {
+        eventBadge_ = value;
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
       return Equals(other as BadgeSettings);
@@ -134,6 +146,7 @@ namespace POGOProtos.Settings.Master {
       if (BadgeRank != other.BadgeRank) return false;
       if(!targets_.Equals(other.targets_)) return false;
       if(!captureReward_.Equals(other.captureReward_)) return false;
+      if (EventBadge != other.EventBadge) return false;
       return true;
     }
 
@@ -144,6 +157,7 @@ namespace POGOProtos.Settings.Master {
       if (BadgeRank != 0) hash ^= BadgeRank.GetHashCode();
       hash ^= targets_.GetHashCode();
       hash ^= captureReward_.GetHashCode();
+      if (EventBadge != false) hash ^= EventBadge.GetHashCode();
       return hash;
     }
 
@@ -164,6 +178,10 @@ namespace POGOProtos.Settings.Master {
       }
       targets_.WriteTo(output, _repeated_targets_codec);
       captureReward_.WriteTo(output, _repeated_captureReward_codec);
+      if (EventBadge != false) {
+        output.WriteRawTag(40);
+        output.WriteBool(EventBadge);
+      }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -177,6 +195,9 @@ namespace POGOProtos.Settings.Master {
       }
       size += targets_.CalculateSize(_repeated_targets_codec);
       size += captureReward_.CalculateSize(_repeated_captureReward_codec);
+      if (EventBadge != false) {
+        size += 1 + 1;
+      }
       return size;
     }
 
@@ -193,6 +214,9 @@ namespace POGOProtos.Settings.Master {
       }
       targets_.Add(other.targets_);
       captureReward_.Add(other.captureReward_);
+      if (other.EventBadge != false) {
+        EventBadge = other.EventBadge;
+      }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -218,6 +242,10 @@ namespace POGOProtos.Settings.Master {
           }
           case 34: {
             captureReward_.AddEntriesFrom(input, _repeated_captureReward_codec);
+            break;
+          }
+          case 40: {
+            EventBadge = input.ReadBool();
             break;
           }
         }

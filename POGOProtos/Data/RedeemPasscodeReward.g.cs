@@ -23,22 +23,24 @@ namespace POGOProtos.Data {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "CipQT0dPUHJvdG9zL0RhdGEvUmVkZWVtUGFzc2NvZGVSZXdhcmQucHJvdG8S",
-            "D1BPR09Qcm90b3MuRGF0YRohUE9HT1Byb3Rvcy9EYXRhL1Bva2Vtb25EYXRh",
-            "LnByb3RvGiZQT0dPUHJvdG9zL0RhdGEvUmVkZWVtL1Bva2VDYW5keS5wcm90",
-            "bxovUE9HT1Byb3Rvcy9EYXRhL1JlZGVlbS9SZWRlZW1lZEF2YXRhckl0ZW0u",
-            "cHJvdG8aKVBPR09Qcm90b3MvRGF0YS9SZWRlZW0vUmVkZWVtZWRJdGVtLnBy",
-            "b3RvIssCChRSZWRlZW1QYXNzY29kZVJld2FyZBIzCgVpdGVtcxgBIAMoCzIk",
-            "LlBPR09Qcm90b3MuRGF0YS5SZWRlZW0uUmVkZWVtZWRJdGVtEkAKDGF2YXRh",
-            "cl9pdGVtcxgCIAMoCzIqLlBPR09Qcm90b3MuRGF0YS5SZWRlZW0uUmVkZWVt",
-            "ZWRBdmF0YXJJdGVtEjEKC2VnZ19wb2tlbW9uGAMgAygLMhwuUE9HT1Byb3Rv",
-            "cy5EYXRhLlBva2Vtb25EYXRhEi0KB3Bva2Vtb24YBCADKAsyHC5QT0dPUHJv",
-            "dG9zLkRhdGEuUG9rZW1vbkRhdGESNQoKcG9rZV9jYW5keRgFIAMoCzIhLlBP",
-            "R09Qcm90b3MuRGF0YS5SZWRlZW0uUG9rZUNhbmR5EhAKCHN0YXJkdXN0GAYg",
-            "ASgFEhEKCXBva2Vjb2lucxgHIAEoBWIGcHJvdG8z"));
+            "D1BPR09Qcm90b3MuRGF0YRojUE9HT1Byb3Rvcy9FbnVtcy9HeW1CYWRnZVR5",
+            "cGUucHJvdG8aIVBPR09Qcm90b3MvRGF0YS9Qb2tlbW9uRGF0YS5wcm90bxom",
+            "UE9HT1Byb3Rvcy9EYXRhL1JlZGVlbS9Qb2tlQ2FuZHkucHJvdG8aL1BPR09Q",
+            "cm90b3MvRGF0YS9SZWRlZW0vUmVkZWVtZWRBdmF0YXJJdGVtLnByb3RvGilQ",
+            "T0dPUHJvdG9zL0RhdGEvUmVkZWVtL1JlZGVlbWVkSXRlbS5wcm90byL7AgoU",
+            "UmVkZWVtUGFzc2NvZGVSZXdhcmQSMwoFaXRlbXMYASADKAsyJC5QT0dPUHJv",
+            "dG9zLkRhdGEuUmVkZWVtLlJlZGVlbWVkSXRlbRJACgxhdmF0YXJfaXRlbXMY",
+            "AiADKAsyKi5QT0dPUHJvdG9zLkRhdGEuUmVkZWVtLlJlZGVlbWVkQXZhdGFy",
+            "SXRlbRIxCgtlZ2dfcG9rZW1vbhgDIAMoCzIcLlBPR09Qcm90b3MuRGF0YS5Q",
+            "b2tlbW9uRGF0YRItCgdwb2tlbW9uGAQgAygLMhwuUE9HT1Byb3Rvcy5EYXRh",
+            "LlBva2Vtb25EYXRhEjUKCnBva2VfY2FuZHkYBSADKAsyIS5QT0dPUHJvdG9z",
+            "LkRhdGEuUmVkZWVtLlBva2VDYW5keRIQCghzdGFyZHVzdBgGIAEoBRIRCglw",
+            "b2tlY29pbnMYByABKAUSLgoGYmFkZ2VzGAggAygOMh4uUE9HT1Byb3Rvcy5F",
+            "bnVtcy5HeW1CYWRnZVR5cGViBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::POGOProtos.Data.PokemonDataReflection.Descriptor, global::POGOProtos.Data.Redeem.PokeCandyReflection.Descriptor, global::POGOProtos.Data.Redeem.RedeemedAvatarItemReflection.Descriptor, global::POGOProtos.Data.Redeem.RedeemedItemReflection.Descriptor, },
+          new pbr::FileDescriptor[] { global::POGOProtos.Enums.GymBadgeTypeReflection.Descriptor, global::POGOProtos.Data.PokemonDataReflection.Descriptor, global::POGOProtos.Data.Redeem.PokeCandyReflection.Descriptor, global::POGOProtos.Data.Redeem.RedeemedAvatarItemReflection.Descriptor, global::POGOProtos.Data.Redeem.RedeemedItemReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::POGOProtos.Data.RedeemPasscodeReward), global::POGOProtos.Data.RedeemPasscodeReward.Parser, new[]{ "Items", "AvatarItems", "EggPokemon", "Pokemon", "PokeCandy", "Stardust", "Pokecoins" }, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::POGOProtos.Data.RedeemPasscodeReward), global::POGOProtos.Data.RedeemPasscodeReward.Parser, new[]{ "Items", "AvatarItems", "EggPokemon", "Pokemon", "PokeCandy", "Stardust", "Pokecoins", "Badges" }, null, null, null)
           }));
     }
     #endregion
@@ -76,6 +78,7 @@ namespace POGOProtos.Data {
       pokeCandy_ = other.pokeCandy_.Clone();
       stardust_ = other.stardust_;
       pokecoins_ = other.pokecoins_;
+      badges_ = other.badges_.Clone();
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -155,6 +158,16 @@ namespace POGOProtos.Data {
       }
     }
 
+    /// <summary>Field number for the "badges" field.</summary>
+    public const int BadgesFieldNumber = 8;
+    private static readonly pb::FieldCodec<global::POGOProtos.Enums.GymBadgeType> _repeated_badges_codec
+        = pb::FieldCodec.ForEnum(66, x => (int) x, x => (global::POGOProtos.Enums.GymBadgeType) x);
+    private readonly pbc::RepeatedField<global::POGOProtos.Enums.GymBadgeType> badges_ = new pbc::RepeatedField<global::POGOProtos.Enums.GymBadgeType>();
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public pbc::RepeatedField<global::POGOProtos.Enums.GymBadgeType> Badges {
+      get { return badges_; }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
       return Equals(other as RedeemPasscodeReward);
@@ -175,6 +188,7 @@ namespace POGOProtos.Data {
       if(!pokeCandy_.Equals(other.pokeCandy_)) return false;
       if (Stardust != other.Stardust) return false;
       if (Pokecoins != other.Pokecoins) return false;
+      if(!badges_.Equals(other.badges_)) return false;
       return true;
     }
 
@@ -188,6 +202,7 @@ namespace POGOProtos.Data {
       hash ^= pokeCandy_.GetHashCode();
       if (Stardust != 0) hash ^= Stardust.GetHashCode();
       if (Pokecoins != 0) hash ^= Pokecoins.GetHashCode();
+      hash ^= badges_.GetHashCode();
       return hash;
     }
 
@@ -211,6 +226,7 @@ namespace POGOProtos.Data {
         output.WriteRawTag(56);
         output.WriteInt32(Pokecoins);
       }
+      badges_.WriteTo(output, _repeated_badges_codec);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -227,6 +243,7 @@ namespace POGOProtos.Data {
       if (Pokecoins != 0) {
         size += 1 + pb::CodedOutputStream.ComputeInt32Size(Pokecoins);
       }
+      size += badges_.CalculateSize(_repeated_badges_codec);
       return size;
     }
 
@@ -246,6 +263,7 @@ namespace POGOProtos.Data {
       if (other.Pokecoins != 0) {
         Pokecoins = other.Pokecoins;
       }
+      badges_.Add(other.badges_);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -282,6 +300,11 @@ namespace POGOProtos.Data {
           }
           case 56: {
             Pokecoins = input.ReadInt32();
+            break;
+          }
+          case 66:
+          case 64: {
+            badges_.AddEntriesFrom(input, _repeated_badges_codec);
             break;
           }
         }

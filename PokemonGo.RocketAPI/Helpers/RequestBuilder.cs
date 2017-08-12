@@ -4,6 +4,7 @@ using POGOProtos.Networking.Envelopes;
 using POGOProtos.Networking.Platform;
 using POGOProtos.Networking.Platform.Requests;
 using POGOProtos.Networking.Requests;
+using POGOProtos.Networking.Requests.Messages;
 using PokemonGo.RocketAPI.Enums;
 using PokemonGo.RocketAPI.Hash;
 using System;
@@ -79,8 +80,10 @@ namespace PokemonGo.RocketAPI.Helpers
             var timestampSinceStart = (long)(Utils.GetTime(true) - _client.StartTime);
             var locationFixes = BuildLocationFixes(requestEnvelope, timestampSinceStart);
 
-            requestEnvelope.Accuracy = locationFixes[0].Altitude;
-            requestEnvelope.MsSinceLastLocationfix = (long)locationFixes[0].TimestampSnapshot;
+            if (requestEnvelope.Requests.Count > 0){
+                requestEnvelope.Accuracy = locationFixes[0].Altitude;
+                requestEnvelope.MsSinceLastLocationfix = (long)locationFixes[0].TimestampSnapshot;
+            }
             var  at = new Signature.Types.ActivityStatus(){
                 Stationary = true
             };
@@ -131,9 +134,10 @@ namespace PokemonGo.RocketAPI.Helpers
 
             var serializedTicket = requestEnvelope.AuthTicket != null ? requestEnvelope.AuthTicket.ToByteArray() : requestEnvelope.AuthInfo.ToByteArray();
 
-            var locationBytes = BitConverter.GetBytes(_latitude).Reverse()
+            /*var locationBytes = BitConverter.GetBytes(_latitude).Reverse()
                 .Concat(BitConverter.GetBytes(_longitude).Reverse())
                 .Concat(BitConverter.GetBytes(locationFixes[0].Altitude).Reverse()).ToArray();
+            */
 
             var requestsBytes = requestEnvelope.Requests.Select(x => x.ToByteArray()).ToArray();
 
@@ -261,6 +265,8 @@ namespace PokemonGo.RocketAPI.Helpers
                     }
                 };
             }
+            //Logger.Debug("GetPlatformRequestEnvelope");
+            //Logger.Debug("_requestEnvelope"+ _requestEnvelope);
 
             _requestEnvelope.PlatformRequests.Add(GenerateSignature(_requestEnvelope));
 
@@ -294,11 +300,14 @@ namespace PokemonGo.RocketAPI.Helpers
                 };
             }
 
+            //Logger.Debug("GetRequestEnvelope");
+            //Logger.Debug("_requestEnvelope"+ _requestEnvelope);
             _requestEnvelope.PlatformRequests.Add(GenerateSignature(_requestEnvelope));
 
             if (customRequests.Length > 0  &&
                 (customRequests[0].RequestType == RequestType.GetPlayer ||
                  customRequests[0].RequestType == RequestType.GetMapObjects)
+                && ! string.IsNullOrEmpty(Resources.Api.UnknownPtr8Message)
                )
             {
                 var plat8Message = new UnknownPtr8Request() {
@@ -309,6 +318,12 @@ namespace PokemonGo.RocketAPI.Helpers
                     Type = PlatformRequestType.UnknownPtr8,
                     RequestMessage = plat8Message.ToByteString()
                 });
+
+                /*_requestEnvelope.Requests.Add(new Request
+                {
+                   RequestType = RequestType.GetInbox,
+                   RequestMessage = new GetInboxMessage { }.ToByteString()
+                });*/
                 
             }
 

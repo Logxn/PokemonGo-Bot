@@ -9,6 +9,7 @@ using System.Net;
 using System.Reflection;
 using System.Windows.Forms;
 using System.Collections.ObjectModel;
+using System.Runtime.InteropServices;
 using Newtonsoft.Json;
 using POGOProtos.Enums;
 using PokemonGo.RocketAPI;
@@ -17,11 +18,21 @@ using PokemonGo.RocketAPI.Enums;
 using PokeMaster.Logic.Shared;
 using PokeMaster.Dialogs;
 using PokeMaster.Helper;
+using System.ComponentModel;
 
 namespace PokeMaster
 {
     public partial class ConfigWindow : System.Windows.Forms.Form
     {
+        public const int WM_NCLBUTTONDOWN = 0xA1;
+        public const int HT_CAPTION = 0x2;
+
+        [DllImportAttribute("user32.dll")]
+        public static extern int SendMessage(IntPtr hWnd,
+                         int Msg, int wParam, int lParam);
+        [DllImportAttribute("user32.dll")]
+        public static extern bool ReleaseCapture();
+
         public static Collection<Profile> Profiles = new Collection<Profile>();
         
         public static NumberStyles cords = NumberStyles.AllowDecimalPoint | NumberStyles.AllowLeadingSign;
@@ -73,13 +84,19 @@ namespace PokeMaster
             if (!Directory.Exists(Program.path_device))
                 Directory.CreateDirectory(Program.path_device);
             
+            // some information about ios devices
+            // http://stackoverflow.com/questions/448162/determine-device-iphone-ipod-touch-with-iphone-sdk/3950748#3950748
+            // https://www.theiphonewiki.com/wiki/Models
             if (!File.Exists(Program.deviceData))
                 DownloadHelper.DownloadFile("PokemonGo.RocketAPI.Console/Resources", Program.path_device, "DeviceData.json");
 
             var devData = new DeviceSetup(Program.deviceData);
             comboBox_Device.DisplayMember = "Tradename";
             comboBox_Device.DataSource = devData.data;
-
+            comboBox_Device.Text = "iPhone 7";
+            ButtonGenerateID_Click(sender, new EventArgs());
+            
+                
             #region new translation
             if (!Directory.Exists(Program.path_translation))
                 Directory.CreateDirectory(Program.path_translation);
@@ -89,6 +106,8 @@ namespace PokeMaster
             Helper.TranslatorHelper.DownloadTranslationFile("PokemonGo.RocketAPI.Console/Lang", Program.path_translation, CultureInfo.CurrentCulture.Name);
             // Translate using Current Culture Info
             th.Translate(this);
+            tabControl1.SizeMode = TabSizeMode.Normal;
+            tabControl1.SizeMode = TabSizeMode.Fixed;
             #endregion
 
             comboBoxLeaveInGyms.DataSource = new[] {
@@ -125,7 +144,6 @@ namespace PokeMaster
                     i++;
                 }
             }
-
 
             #region Loading Everything into GUI
 
@@ -217,15 +235,14 @@ namespace PokeMaster
                 newVer.ForeColor = Color.Green;
             }
             #endregion
-
         }
 
         private void LoadData(ProfileSettings config)
         {
             if (config == null)
                 return;
-            
-            // tab 1
+
+            #region Tab 1 - General
             pFHashKey.Text = config.pFHashKey;
             
             comboBox_AccountType.SelectedIndex = 1;
@@ -249,6 +266,11 @@ namespace PokeMaster
             text_Longitude.Text = config.DefaultLongitude.ToString(CultureInfo.InvariantCulture);
             text_Altitude.Text = config.DefaultAltitude.ToString(CultureInfo.InvariantCulture);
             
+            textBox_Country.Text = config.LocaleCountry;
+            textBox_Language2.Text = config.LocaleLanguage;
+            textBox_TimeZone.Text = config.LocaleTimeZone;
+            
+            
             checkBox_UseLuckyEggAtEvolve.Checked = config.UseLuckyEgg;
             checkBox_SimulateAnimationTimeAtEvolve.Checked = config.UseAnimationTimes;
             checkBox_EvolvePokemonIfEnoughCandy.Checked = config.EvolvePokemonsIfEnoughCandy;
@@ -261,31 +283,31 @@ namespace PokeMaster
             checkBox_CollectDailyBonus.Checked = config.CollectDailyBonus;
             checkBox_ShowStats.Checked = config.ShowStats;
             checkBox_UseNanabBerry.Checked = config.UseNanabBerry;
-            
-            // tab 2 - Pokemons
+            #endregion
+
+            #region Tab 2 - Pokemons
             if (config.pokemonsToHold != null)
                 foreach (PokemonId Id in config.pokemonsToHold) {
-                    string _id = Id.ToString();
-                    checkedListBox_PokemonNotToTransfer.SetItemChecked(pokeIDS[_id] - 1, true);
-                }
+                string _id = Id.ToString();
+                checkedListBox_PokemonNotToTransfer.SetItemChecked(pokeIDS[_id] - 1, true);
+            }
             if (config.pokemonsToAlwaysTransfer != null)
                 foreach (PokemonId Id in config.pokemonsToAlwaysTransfer) {
-                    string _id = Id.ToString();
-                    checkedListBox_AlwaysTransfer.SetItemChecked(pokeIDS[_id] - 1, true);
-                }
+                string _id = Id.ToString();
+                checkedListBox_AlwaysTransfer.SetItemChecked(pokeIDS[_id] - 1, true);
+            }
 
             
             if (config.catchPokemonSkipList != null)
                 foreach (PokemonId Id in config.catchPokemonSkipList) {
-                    string _id = Id.ToString();
-                    checkedListBox_PokemonNotToCatch.SetItemChecked(pokeIDS[_id] - 1, true);
-                }
+                string _id = Id.ToString();
+                checkedListBox_PokemonNotToCatch.SetItemChecked(pokeIDS[_id] - 1, true);
+            }
             if (config.pokemonsToEvolve != null)
                 foreach (PokemonId Id in config.pokemonsToEvolve) {
-                    string _id = Id.ToString();
-                    checkedListBox_PokemonToEvolve.SetItemChecked(evolveIDS[_id] - 1, true);
-                }
-            
+                string _id = Id.ToString();
+                checkedListBox_PokemonToEvolve.SetItemChecked(evolveIDS[_id] - 1, true);
+            }
             
             checkBox_AutoTransferDoublePokemon.Checked = config.TransferDoublePokemons;
             checkBox_TransferFirstLowIV.Checked = config.TransferFirstLowIV;
@@ -298,8 +320,9 @@ namespace PokeMaster
             checkBox_UseSpritesFolder.Checked = config.UseSpritesFolder;
             checkBox_ShowPokemons.Checked = config.ShowPokemons;
             nud_EvolveAt.Value = config.EvolveAt;
+            #endregion
 
-            // tab 3 - throws
+            #region Tab 3 - Throws
             checkBox2.Checked = config.LimitPokeballUse;
             checkBox3.Checked = config.LimitGreatballUse;
             checkBox7.Checked = config.LimitUltraballUse;
@@ -336,8 +359,9 @@ namespace PokeMaster
 
             GreatBallMinCP.Text = config.MinCPforGreatBall.ToString();
             UltraBallMinCP.Text = config.MinCPforUltraBall.ToString();
+            #endregion
 
-            // Tab 4 - Items
+            #region Tab 4 - Items
             foreach (Control element in this.groupBoxItems.Controls) {
                 if (element.Name.IndexOf("num_") == 0) {
                     var name = element.Name.Replace("num_", "");
@@ -365,8 +389,9 @@ namespace PokeMaster
                 rbSOEggsAscendingBasicInc.Checked = true;
             else
                 rbSOEggsDescendingBasicInc.Checked = true;
+            #endregion
 
-            // tab 5 proxy
+            #region Tab 5 - Proxy
             if (config.proxySettings == null)
                 config.proxySettings = new ProxySettings();
             checkBox_UseProxy.Checked = config.proxySettings.enabled;
@@ -375,8 +400,9 @@ namespace PokeMaster
             prxyPort.Text = "" + config.proxySettings.port;
             prxyUser.Text = config.proxySettings.username;
             prxyPass.Text = config.proxySettings.password;
+            #endregion
 
-            // tab 6 walk
+            #region Tab 6 - Walk
             text_Speed.Text = config.WalkingSpeedInKilometerPerHour.ToString();
             text_MinWalkSpeed.Text = config.MinWalkSpeed.ToString();
             text_MoveRadius.Text = config.MaxWalkingRadiusInMeters.ToString();
@@ -390,6 +416,7 @@ namespace PokeMaster
             text_BreakLength.Text = config.BreakLength.ToString();
             
             checkBox_StopWalkingWhenEvolving.Checked = config.pauseAtEvolve;
+            checkBox_Paused.Checked = config.pauseAtPokeStop;
             
             checkBox_UseGoogleMapsRouting.Checked = config.UseGoogleMapsAPI;
             text_GoogleMapsAPIKey.Text = config.GoogleMapsAPIKey;
@@ -402,10 +429,25 @@ namespace PokeMaster
             checkBox_RandomlyReduceSpeed.Checked = config.RandomReduceSpeed;
             checkBox_UseBreakIntervalAndLength.Checked = config.UseBreakFields;
             checkBox_WalkInArchimedeanSpiral.Checked = config.Espiral;
+            checkBox_WalkInLoop.Checked = config.WalkInLoop;
+            checkBox_WalkRandomly.Checked = config.WalkRandomly;
             checkBox_StartWalkingFromLastLocation.Checked = config.UseLastCords;
+            checkBox_BlockAltitude.Checked = config.BlockAltitude;
 
+            //AdvancedBreaks.Checked = config.AdvancedBreaks;
+            if (AdvancedBreaks.Checked)
+            {
+                BreakGridView.Visible = true;
+                BreakGridView.Enabled = true;
+            }
+            if (config.Breaks == null) config.Breaks = new List<BreakSettings>();
 
-            // tab 7 - telegram and logs
+            var BreakSettingsBindingSource = new BindingSource();
+            BreakSettingsBindingSource.DataSource = config.Breaks;
+            BreakGridView.DataSource = BreakSettingsBindingSource;
+            #endregion
+
+            #region Tab 7 - Telegram and Logs
             cbLogPokemon.Checked = config.LogPokemons;
             cbLogManuelTransfer.Checked = config.LogTransfer;
             cbLogEvolution.Checked = config.LogEvolve;
@@ -415,8 +457,6 @@ namespace PokeMaster
             text_Telegram_Name.Text = config.TelegramName;
             text_Telegram_LiveStatsDelay.Text = config.TelegramLiveStatsDelay.ToString();
             
-            SnipePokemonPokeCom.Checked = config.SnipePokemon;
-            AvoidRegionLock.Checked = config.AvoidRegionLock;
             toSnipe = config.ToSnipe;
             
             checkBoxSendToDiscord.Checked = config.SendToDiscord;
@@ -425,25 +465,28 @@ namespace PokeMaster
             textBoxDiscordServerID.Text = ""+config.DiscordServerID;
             if (config.DiscordServerID == 0UL)
                 textBoxDiscordServerID.Text = "223025934435876865";
-            
-            // tab 8 - update
+            #endregion
+
+            #region Tab 8 - Update
             checkbox_AutoUpdate.Checked = config.AutoUpdate;
             checkbox_checkWhileRunning.Checked = config.CheckWhileRunning;
             ChangeSelectedLanguage(config.SelectedLanguage);
-            
-            // Dev Options
+            #endregion
+
+            #region Dev Options
             if (config.Debug == null)
                 config.Debug = new DebugSettings();
             checkbox_Verboselogging.Checked = config.Debug.VerboseMode;
             checkBoxExtractText.Checked = config.Debug.ExtractFormTexts;
+            checkBoxNewLog.Checked = config.Debug.NewLog;
             checkBoxStoreUntranslated.Checked = config.Debug.StoreUntranslatedText;
             TranslatorHelper.ActiveExtractTexts = checkBoxExtractText.Checked;
             TranslatorHelper.StoreUntranslated = checkBoxStoreUntranslated.Checked;
             
             checkBoxCompleteTutorial.Checked = config.CompleteTutorial;
-            
-            // Gyms
+            #endregion
 
+            #region Gym Options
             if (config.Gyms == null)
                 config.Gyms = new GymSettings();
             checkBox_FarmGyms.Checked = config.Gyms.Farm;
@@ -455,7 +498,8 @@ namespace PokeMaster
             comboBoxLeaveInGyms.SelectedIndex = config.Gyms.DeployPokemons;
             comboBoxAttackers.SelectedIndex = config.Gyms.Attackers;
             checkBoxSpinGyms.Checked = config.Gyms.Spin;
-            numMaxTrainingXP.Value = config.Gyms.MaxTrainingXP;
+            #endregion
+            
             // Save Location
             checkBoxSaveLocations.Checked = config.SaveLocations;
             numMinIVSave.Value = config.MinIVSave;
@@ -472,7 +516,7 @@ namespace PokeMaster
                 index = 2;
             if (lang == "Español")
                 index = 3;
-            if (lang == "Catalá")
+            if (lang == "Catalá") // Catalunya triomfant...:D 1-O no tinc por!
                 index = 4;
             comboLanguage.SelectedIndex = index;
         }
@@ -545,6 +589,7 @@ namespace PokeMaster
         }
 
         private const string NEW_YORK_COORS = "40.764883;-73.972967";
+
         private void buttonSaveStart_Click(object sender, EventArgs e)
         {
             if (Save()) {
@@ -559,7 +604,13 @@ namespace PokeMaster
                 var selectedCoords = ActiveProfile.Settings.DefaultLatitude.ToString("0.000000") + ";" + ActiveProfile.Settings.DefaultLongitude.ToString("0.000000");
                 selectedCoords = selectedCoords.Replace(",", ".");
                 if (selectedCoords.Equals(NEW_YORK_COORS)) {
-                    var ret = MessageBox.Show(th.TS("Have you set correctly your location? (It seems like you are using default coords. This can lead to an auto-ban from niantic)"), th.TS("Warning"), MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                    var ret = MessageBox.Show(th.TS("Have you set correctly your location? (It seems like you are using default coords. This can lead to an auto-ban)"), th.TS("Warning"), MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                    if (ret == DialogResult.No) {
+                        return;
+                    }
+                }
+                if (!isIOS()) {
+                    var ret = MessageBox.Show(th.TS("Selected device is not an iOS device.\nCurrent Hash Service only simulates iOS hash\nAre you sure to continue with this values?"), th.TS("Warning"), MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                     if (ret == DialogResult.No) {
                         return;
                     }
@@ -597,6 +648,7 @@ namespace PokeMaster
             }
             return ret;
         }
+
         private bool textBoxToActiveProfDouble(Control textBox, string fieldName = "")
         {
             textBox.BackColor = SystemColors.Window;
@@ -665,6 +717,10 @@ namespace PokeMaster
             ret &= textBoxToActiveProfDouble(text_Latidude, "DefaultLatitude");
             ret &= textBoxToActiveProfDouble(text_Longitude, "DefaultLongitude");
             ret &= textBoxToActiveProfDouble(text_Altitude, "DefaultAltitude");
+            
+            ActiveProfile.Settings.LocaleCountry = textBox_Country.Text;
+            ActiveProfile.Settings.LocaleLanguage = textBox_Language2.Text;
+            ActiveProfile.Settings.LocaleTimeZone = textBox_TimeZone.Text;
 
             // Other
             ActiveProfile.Settings.UseLuckyEgg = checkBox_UseLuckyEggAtEvolve.Checked;
@@ -825,6 +881,8 @@ namespace PokeMaster
             if (value != String.Empty)
                 ActiveProfile.Settings.XPFarmedLimit = int.Parse(value);
 
+            ActiveProfile.Settings.UseBreakFields = checkBox_UseBreakIntervalAndLength.Checked;
+            
             value = text_BreakInterval.Text;
             if (value != String.Empty)
                 ActiveProfile.Settings.BreakInterval = int.Parse(value);
@@ -832,9 +890,21 @@ namespace PokeMaster
             value = text_BreakLength.Text;
             if (value != String.Empty)
                 ActiveProfile.Settings.BreakLength = int.Parse(value);
+            
+            if (ActiveProfile.Settings.UseBreakFields){
+                if (ActiveProfile.Settings.BreakInterval <= 0){
+                    text_BreakInterval.BackColor = Color.Red;
+                    ret = false;
+                }
+                if (ActiveProfile.Settings.BreakLength <= 0){
+                    text_BreakLength.BackColor = Color.Red;
+                    ret = false;
+                }
+            }
 
             ActiveProfile.Settings.pauseAtEvolve = checkBox_StopWalkingWhenEvolving.Checked;
             ActiveProfile.Settings.pauseAtEvolve2 = checkBox_StopWalkingWhenEvolving.Checked;
+            ActiveProfile.Settings.pauseAtPokeStop = checkBox_Paused.Checked;
 
             ActiveProfile.Settings.UseGoogleMapsAPI = checkBox_UseGoogleMapsRouting.Checked;
             ActiveProfile.Settings.GoogleMapsAPIKey = text_GoogleMapsAPIKey.Text;
@@ -846,10 +916,20 @@ namespace PokeMaster
             ActiveProfile.Settings.BreakAtLure = checkBox_BreakAtLure.Checked;
             ActiveProfile.Settings.UseLureAtBreak = checkBox_UseLureAtBreak.Checked;
             ActiveProfile.Settings.RandomReduceSpeed = checkBox_RandomlyReduceSpeed.Checked;
-            ActiveProfile.Settings.UseBreakFields = checkBox_UseBreakIntervalAndLength.Checked;
 
             ActiveProfile.Settings.Espiral = checkBox_WalkInArchimedeanSpiral.Checked;
+            ActiveProfile.Settings.WalkInLoop = checkBox_WalkInLoop.Checked;
+            ActiveProfile.Settings.WalkRandomly = checkBox_WalkRandomly.Checked;
+            
             ActiveProfile.Settings.UseLastCords = checkBox_StartWalkingFromLastLocation.Checked;
+            ActiveProfile.Settings.BlockAltitude = checkBox_BlockAltitude.Checked;
+
+            // Save BreakSettings
+            ActiveProfile.Settings.AdvancedBreaks = AdvancedBreaks.Checked;
+            if (BreakGridView.DataSource != null)
+            {
+                ActiveProfile.Settings.Breaks = ((System.Windows.Forms.BindingSource)BreakGridView.DataSource).List.Cast<BreakSettings>().ToList();
+            }
 
             // tab 7 - Logs and Telegram
             ActiveProfile.Settings.LogPokemons = cbLogPokemon.Checked;
@@ -860,12 +940,12 @@ namespace PokeMaster
             ActiveProfile.Settings.TelegramAPIToken = text_Telegram_Token.Text;
             ActiveProfile.Settings.TelegramName = text_Telegram_Name.Text;
             ret &= textBoxToActiveProfInt(text_Telegram_LiveStatsDelay, "TelegramLiveStatsDelay");
-            ActiveProfile.Settings.SnipePokemon = SnipePokemonPokeCom.Checked;
+            ActiveProfile.Settings.SnipePokemon = false;
+            ActiveProfile.Settings.AvoidRegionLock = true;
             if ((makePrompts) && (ActiveProfile.Settings.SnipePokemon)) {
                 DialogResult result = MessageBox.Show(th.TS("Sniping has not been tested yet. It could get you banned. Do you want to continue?"), th.TS("Info"), MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
                 ActiveProfile.Settings.SnipePokemon = result == DialogResult.OK ? true : false;
             }
-            ActiveProfile.Settings.AvoidRegionLock = AvoidRegionLock.Checked;
             ActiveProfile.Settings.ToSnipe = toSnipe;
 
             ActiveProfile.Settings.SendToDiscord = checkBoxSendToDiscord.Checked;
@@ -887,6 +967,7 @@ namespace PokeMaster
                 ActiveProfile.Settings.Debug = new DebugSettings();
             ActiveProfile.Settings.Debug.VerboseMode = checkbox_Verboselogging.Checked;
             ActiveProfile.Settings.Debug.ExtractFormTexts = checkBoxExtractText.Checked;
+            ActiveProfile.Settings.Debug.NewLog = checkBoxNewLog.Checked;
             ActiveProfile.Settings.Debug.StoreUntranslatedText = checkBoxStoreUntranslated.Checked;
             ActiveProfile.Settings.CompleteTutorial = checkBoxCompleteTutorial.Checked;
 
@@ -909,7 +990,6 @@ namespace PokeMaster
             ActiveProfile.Settings.Gyms.Attack = checkBoxAttackGyms.Checked;
             ActiveProfile.Settings.Gyms.NumDefenders = (int)nudNumDefenders.Value;
             ActiveProfile.Settings.Gyms.MaxAttacks = (int)numericUpDownMaxAttacks.Value;
-            ActiveProfile.Settings.Gyms.MaxTrainingXP = (int)numMaxTrainingXP.Value;
 
             ActiveProfile.Settings.UseNanabBerry = checkBox_UseNanabBerry.Checked;
             // Save Locations
@@ -984,6 +1064,7 @@ namespace PokeMaster
             return false;
             
         }
+
         Profile getProfileByName(string name)
         {
             foreach (var element in Profiles) {
@@ -1092,9 +1173,9 @@ namespace PokeMaster
             decimal throwsChanceSum = 0;
 
             throwsChanceSum = text_Pb_Excellent.Value +
-            text_Pb_Great.Value +
-            text_Pb_Nice.Value +
-            text_Pb_Ordinary.Value;
+                text_Pb_Great.Value +
+                text_Pb_Nice.Value +
+                text_Pb_Ordinary.Value;
             if (throwsChanceSum > 100) {
                 MessageBox.Show(th.TS("You can not have a total throw chance greater than 100%.\nResetting throw chance to 0%!"));
                 (sender as NumericUpDown).Value = 0;
@@ -1122,14 +1203,16 @@ namespace PokeMaster
             using (var s = ass.GetManifestResourceStream(nameSpace + "." + (internalFilePath == string.Empty ? string.Empty : internalFilePath + ".") + resourceName)) {
                 if (s != null) {
                     using (var r = new BinaryReader(s))
-                    using (var fs = new FileStream(outDir + "\\" + resourceName, FileMode.OpenOrCreate))
-                    using (var w = new BinaryWriter(fs))
-                        w.Write(r.ReadBytes((int)s.Length));
+                        using (var fs = new FileStream(outDir + "\\" + resourceName, FileMode.OpenOrCreate))
+                            using (var w = new BinaryWriter(fs))
+                                w.Write(r.ReadBytes((int)s.Length));
                 }
             }
             
         }
+
         // Code cleanup we can do later
+
         public class ExtendedWebClient : WebClient
         {
 
@@ -1182,13 +1265,12 @@ namespace PokeMaster
             MessageBox.Show(th.TS("This will capture pokemons while walking spiral, and will use pokestops which are within 30 meters of the path projected."));
         }
 
-        private void button2_Click_1(object sender, EventArgs e)
-        {
-            System.Windows.Forms.Form update = new Update();
-            this.Hide();
-            update.Show();
-        }
-
+        //private void button2_Click_1(object sender, EventArgs e)
+        //{
+        //    System.Windows.Forms.Form update = new Update();
+        //    this.Hide();
+        //    update.Show();
+        //}
 
         private void buttonSvProf_Click_2(object sender, EventArgs e)
         {
@@ -1240,10 +1322,12 @@ namespace PokeMaster
             var title = th.TS("Hashing Information");
             MessageBox.Show(message, title, MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
+
         void Button4Click(object sender, EventArgs e)
         {
             new AvatarSelect().ShowDialog();
         }
+
         void checkBox_UseProxy_CheckedChanged(object sender, EventArgs e)
         {
             if (checkBox_UseProxy.Checked) {
@@ -1265,6 +1349,7 @@ namespace PokeMaster
             }
 
         }
+
         void ComboLanguageSelectedIndexChanged(object sender, EventArgs e)
         {
             var lang = "";
@@ -1296,8 +1381,12 @@ namespace PokeMaster
                 Helper.TranslatorHelper.DownloadTranslationFile("PokemonGo.RocketAPI.Console/Lang", Program.path_translation, lang);
                 th.SelectLanguage(lang);
                 th.Translate(this);
+                tabControl1.SizeMode = TabSizeMode.Normal;
+                tabControl1.SizeMode = TabSizeMode.Fixed;
+                
             }
         }
+
         void checkBox_AlwaysTransfer_CheckedChanged(object sender, EventArgs e)
         {
             var i = 0;
@@ -1326,7 +1415,13 @@ namespace PokeMaster
         }
         void ButtonGenerateID_Click(object sender, EventArgs e)
         {
-            textBoxDeviceID.Text = DeviceSetup.RandomDeviceId();
+            textBoxDeviceID.Text = DeviceSetup.RandomDeviceId(isIOS()?32:16);
+        }
+
+        bool isIOS()
+        {
+            var devicename = comboBox_Device.Text.ToLower();
+            return (devicename.Contains("iphone") || devicename.Contains("ipad")|| devicename.Contains("ipod"));
         }
 
         void checkBox_UseBreakIntervalAndLength_CheckedChanged(object sender, EventArgs e)
@@ -1413,13 +1508,60 @@ namespace PokeMaster
         }
         void button1_Click(object sender, EventArgs e)
         {
-          new KeysManager().ShowDialog();
+            new KeysManager().ShowDialog();
+            if (!string.IsNullOrEmpty(GlobalVars.pFHashKey))
+                pFHashKey.Text = GlobalVars.pFHashKey;
         }
         void label15_DoubleClick(object sender, EventArgs e)
         {
             textBoxDiscordServerID.Enabled |= Control.ModifierKeys == Keys.Shift;
 
         }
-        
+
+        private void AdvancedBreaks_CheckedChanged(object sender, EventArgs e)
+        {
+            if (AdvancedBreaks.Checked)
+            {
+                // Disable Basic Breaks
+                checkBox_UseBreakIntervalAndLength.Checked = false;
+                checkBox_UseBreakIntervalAndLength.Enabled = false;
+                text_BreakInterval.Enabled = false;
+                text_BreakLength.Enabled = false;
+
+                // Enable BreakGrid
+                BreakGridView.Visible = true;
+                BreakGridView.Enabled = true;
+            }
+            else
+            {
+                // Disable Basic Breaks
+                checkBox_UseBreakIntervalAndLength.Enabled = true;
+                text_BreakInterval.Enabled = true;
+                text_BreakLength.Enabled = true;
+
+                // Disable BreakGrid
+                BreakGridView.Visible = false;
+                BreakGridView.Enabled = false;
+            }
+        }
+
+        private void ConfigWindow_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                ReleaseCapture();
+                SendMessage(Handle, WM_NCLBUTTONDOWN, HT_CAPTION, 0);
+            }
+        }
+
+        private void MinimizeButton_Click(object sender, EventArgs e)
+        {
+            this.WindowState = FormWindowState.Minimized;
+        }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            Environment.Exit(0);
+        }
     }
 }

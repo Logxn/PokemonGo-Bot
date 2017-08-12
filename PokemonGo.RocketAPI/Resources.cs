@@ -9,7 +9,8 @@ namespace PokemonGo.RocketAPI
          * URLs
          * ****************************************************************************************************************/
 
-        public const string LoginUserAgent = "Niactic App";
+        //public const string LoginUserAgent = "Niactic App";
+        public const string LoginUserAgent = "pokemongo/1 CFNetwork/808.3 Darwin/16.3.0";
         public const string RpcUrl = @"https://pgorelease.nianticlabs.com/plfe/rpc";
         public const string NumberedRpcUrl = @"https://pgorelease.nianticlabs.com/plfe/{0}/rpc";
         public const string GetRpcVersionUrl = @"https://pgorelease.nianticlabs.com/plfe/version";
@@ -50,13 +51,17 @@ namespace PokemonGo.RocketAPI
                                                      -816976800928766045, "1.27.4",
                                                      "90f6a704505bccac73cec99b07794993e6fd5a12",
                                                      "api/v127_4/hash");
+        private static APIVars apiv0591 = new APIVars(-3226782243204485589, "0.59.1", -3226782243204485589, "1.29.1", "api/v129_1/hash");
+
+        private static APIVars apiv0600 = new APIVars(0x11fdf018c941ef22, "0.61.0", 0x11fdf018c941ef22, "1.31.0",  "api/v131_0/hash");
+
+        private static APIVars api063_1 = new APIVars(0x11fdf018c941ef22, "0.63.1", 0x4A3889A251CCAD52, "1.33.1", "api/v133_1/hash");
         */
 
-        private static APIVars apiv0591 = new APIVars(-3226782243204485589, "0.59.1", -3226782243204485589, "1.29.1", "", "api/v129_1/hash");
 
-        private static APIVars apiv0600 = new APIVars(0x11fdf018c941ef22, "0.61.0", 0x11fdf018c941ef22, "1.31.0", "", "api/v131_0/hash");
+        private static APIVars apiv0690 = new APIVars(0x4AE22D4661C83701, "0.69.0", 0x4AE22D4661C83701, "1.39.0", "api/v137_1/hash");
 
-        public static APIVars Api = apiv0600;
+        public static APIVars Api = apiv0690;
 
         //BotApiSupportedVersion Must go here to can use Api.ClientVersion value
         public static Version BotApiSupportedVersion = new Version(Api.AndroidClientVersion);

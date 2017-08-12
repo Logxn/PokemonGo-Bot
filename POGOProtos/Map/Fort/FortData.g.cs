@@ -24,32 +24,39 @@ namespace POGOProtos.Map.Fort {
           string.Concat(
             "CiJQT0dPUHJvdG9zL01hcC9Gb3J0L0ZvcnREYXRhLnByb3RvEhNQT0dPUHJv",
             "dG9zLk1hcC5Gb3J0GiRQT0dPUHJvdG9zL0RhdGEvUG9rZW1vbkRpc3BsYXku",
-            "cHJvdG8aIFBPR09Qcm90b3MvRW51bXMvUG9rZW1vbklkLnByb3RvGiBQT0dP",
-            "UHJvdG9zL0VudW1zL1RlYW1Db2xvci5wcm90bxomUE9HT1Byb3Rvcy9JbnZl",
-            "bnRvcnkvSXRlbS9JdGVtSWQucHJvdG8aIlBPR09Qcm90b3MvTWFwL0ZvcnQv",
-            "Rm9ydFR5cGUucHJvdG8aJVBPR09Qcm90b3MvTWFwL0ZvcnQvRm9ydFNwb25z",
-            "b3IucHJvdG8aK1BPR09Qcm90b3MvTWFwL0ZvcnQvRm9ydFJlbmRlcmluZ1R5",
-            "cGUucHJvdG8aJlBPR09Qcm90b3MvTWFwL0ZvcnQvRm9ydEx1cmVJbmZvLnBy",
-            "b3RvIr0FCghGb3J0RGF0YRIKCgJpZBgBIAEoCRIiChpsYXN0X21vZGlmaWVk",
-            "X3RpbWVzdGFtcF9tcxgCIAEoAxIQCghsYXRpdHVkZRgDIAEoARIRCglsb25n",
-            "aXR1ZGUYBCABKAESMgoNb3duZWRfYnlfdGVhbRgFIAEoDjIbLlBPR09Qcm90",
-            "b3MuRW51bXMuVGVhbUNvbG9yEjUKEGd1YXJkX3Bva2Vtb25faWQYBiABKA4y",
-            "Gy5QT0dPUHJvdG9zLkVudW1zLlBva2Vtb25JZBIYChBndWFyZF9wb2tlbW9u",
-            "X2NwGAcgASgFEg8KB2VuYWJsZWQYCCABKAgSKwoEdHlwZRgJIAEoDjIdLlBP",
-            "R09Qcm90b3MuTWFwLkZvcnQuRm9ydFR5cGUSEgoKZ3ltX3BvaW50cxgKIAEo",
-            "AxIUCgxpc19pbl9iYXR0bGUYCyABKAgSPwoUYWN0aXZlX2ZvcnRfbW9kaWZp",
-            "ZXIYDCADKA4yIS5QT0dPUHJvdG9zLkludmVudG9yeS5JdGVtLkl0ZW1JZBI0",
-            "CglsdXJlX2luZm8YDSABKAsyIS5QT0dPUHJvdG9zLk1hcC5Gb3J0LkZvcnRM",
-            "dXJlSW5mbxImCh5jb29sZG93bl9jb21wbGV0ZV90aW1lc3RhbXBfbXMYDiAB",
-            "KAMSMQoHc3BvbnNvchgPIAEoDjIgLlBPR09Qcm90b3MuTWFwLkZvcnQuRm9y",
-            "dFNwb25zb3ISPgoOcmVuZGVyaW5nX3R5cGUYECABKA4yJi5QT0dPUHJvdG9z",
-            "Lk1hcC5Gb3J0LkZvcnRSZW5kZXJpbmdUeXBlEh0KFWRlcGxveV9sb2Nrb3V0",
-            "X2VuZF9tcxgRIAEoAxI+ChVndWFyZF9wb2tlbW9uX2Rpc3BsYXkYEiABKAsy",
-            "Hy5QT0dPUHJvdG9zLkRhdGEuUG9rZW1vbkRpc3BsYXliBnByb3RvMw=="));
+            "cHJvdG8aI1BPR09Qcm90b3MvRGF0YS9SYWlkL1JhaWRJbmZvLnByb3RvGiBQ",
+            "T0dPUHJvdG9zL0VudW1zL1Bva2Vtb25JZC5wcm90bxogUE9HT1Byb3Rvcy9F",
+            "bnVtcy9UZWFtQ29sb3IucHJvdG8aJlBPR09Qcm90b3MvSW52ZW50b3J5L0l0",
+            "ZW0vSXRlbUlkLnByb3RvGiRQT0dPUHJvdG9zL01hcC9Gb3J0L0d5bURpc3Bs",
+            "YXkucHJvdG8aIlBPR09Qcm90b3MvTWFwL0ZvcnQvRm9ydFR5cGUucHJvdG8a",
+            "JVBPR09Qcm90b3MvTWFwL0ZvcnQvRm9ydFNwb25zb3IucHJvdG8aK1BPR09Q",
+            "cm90b3MvTWFwL0ZvcnQvRm9ydFJlbmRlcmluZ1R5cGUucHJvdG8aJlBPR09Q",
+            "cm90b3MvTWFwL0ZvcnQvRm9ydEx1cmVJbmZvLnByb3RvIqwHCghGb3J0RGF0",
+            "YRIKCgJpZBgBIAEoCRIiChpsYXN0X21vZGlmaWVkX3RpbWVzdGFtcF9tcxgC",
+            "IAEoAxIQCghsYXRpdHVkZRgDIAEoARIRCglsb25naXR1ZGUYBCABKAESMgoN",
+            "b3duZWRfYnlfdGVhbRgFIAEoDjIbLlBPR09Qcm90b3MuRW51bXMuVGVhbUNv",
+            "bG9yEjUKEGd1YXJkX3Bva2Vtb25faWQYBiABKA4yGy5QT0dPUHJvdG9zLkVu",
+            "dW1zLlBva2Vtb25JZBIYChBndWFyZF9wb2tlbW9uX2NwGAcgASgFEg8KB2Vu",
+            "YWJsZWQYCCABKAgSKwoEdHlwZRgJIAEoDjIdLlBPR09Qcm90b3MuTWFwLkZv",
+            "cnQuRm9ydFR5cGUSEgoKZ3ltX3BvaW50cxgKIAEoAxIUCgxpc19pbl9iYXR0",
+            "bGUYCyABKAgSPwoUYWN0aXZlX2ZvcnRfbW9kaWZpZXIYDCADKA4yIS5QT0dP",
+            "UHJvdG9zLkludmVudG9yeS5JdGVtLkl0ZW1JZBI0CglsdXJlX2luZm8YDSAB",
+            "KAsyIS5QT0dPUHJvdG9zLk1hcC5Gb3J0LkZvcnRMdXJlSW5mbxImCh5jb29s",
+            "ZG93bl9jb21wbGV0ZV90aW1lc3RhbXBfbXMYDiABKAMSMQoHc3BvbnNvchgP",
+            "IAEoDjIgLlBPR09Qcm90b3MuTWFwLkZvcnQuRm9ydFNwb25zb3ISPgoOcmVu",
+            "ZGVyaW5nX3R5cGUYECABKA4yJi5QT0dPUHJvdG9zLk1hcC5Gb3J0LkZvcnRS",
+            "ZW5kZXJpbmdUeXBlEh0KFWRlcGxveV9sb2Nrb3V0X2VuZF9tcxgRIAEoAxI+",
+            "ChVndWFyZF9wb2tlbW9uX2Rpc3BsYXkYEiABKAsyHy5QT0dPUHJvdG9zLkRh",
+            "dGEuUG9rZW1vbkRpc3BsYXkSDgoGY2xvc2VkGBMgASgIEjEKCXJhaWRfaW5m",
+            "bxgUIAEoCzIeLlBPR09Qcm90b3MuRGF0YS5SYWlkLlJhaWRJbmZvEjQKC2d5",
+            "bV9kaXNwbGF5GBUgASgLMh8uUE9HT1Byb3Rvcy5NYXAuRm9ydC5HeW1EaXNw",
+            "bGF5Eg8KB3Zpc2l0ZWQYFiABKAgSJwofc2FtZV90ZWFtX2RlcGxveV9sb2Nr",
+            "b3V0X2VuZF9tcxgXIAEoAxIVCg1hbGxvd19jaGVja2luGBggASgIEhEKCWlt",
+            "YWdlX3VybBgZIAEoCRIQCghpbl9ldmVudBgaIAEoCGIGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::POGOProtos.Data.PokemonDisplayReflection.Descriptor, global::POGOProtos.Enums.PokemonIdReflection.Descriptor, global::POGOProtos.Enums.TeamColorReflection.Descriptor, global::POGOProtos.Inventory.Item.ItemIdReflection.Descriptor, global::POGOProtos.Map.Fort.FortTypeReflection.Descriptor, global::POGOProtos.Map.Fort.FortSponsorReflection.Descriptor, global::POGOProtos.Map.Fort.FortRenderingTypeReflection.Descriptor, global::POGOProtos.Map.Fort.FortLureInfoReflection.Descriptor, },
+          new pbr::FileDescriptor[] { global::POGOProtos.Data.PokemonDisplayReflection.Descriptor, global::POGOProtos.Data.Raid.RaidInfoReflection.Descriptor, global::POGOProtos.Enums.PokemonIdReflection.Descriptor, global::POGOProtos.Enums.TeamColorReflection.Descriptor, global::POGOProtos.Inventory.Item.ItemIdReflection.Descriptor, global::POGOProtos.Map.Fort.GymDisplayReflection.Descriptor, global::POGOProtos.Map.Fort.FortTypeReflection.Descriptor, global::POGOProtos.Map.Fort.FortSponsorReflection.Descriptor, global::POGOProtos.Map.Fort.FortRenderingTypeReflection.Descriptor, global::POGOProtos.Map.Fort.FortLureInfoReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::POGOProtos.Map.Fort.FortData), global::POGOProtos.Map.Fort.FortData.Parser, new[]{ "Id", "LastModifiedTimestampMs", "Latitude", "Longitude", "OwnedByTeam", "GuardPokemonId", "GuardPokemonCp", "Enabled", "Type", "GymPoints", "IsInBattle", "ActiveFortModifier", "LureInfo", "CooldownCompleteTimestampMs", "Sponsor", "RenderingType", "DeployLockoutEndMs", "GuardPokemonDisplay" }, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::POGOProtos.Map.Fort.FortData), global::POGOProtos.Map.Fort.FortData.Parser, new[]{ "Id", "LastModifiedTimestampMs", "Latitude", "Longitude", "OwnedByTeam", "GuardPokemonId", "GuardPokemonCp", "Enabled", "Type", "GymPoints", "IsInBattle", "ActiveFortModifier", "LureInfo", "CooldownCompleteTimestampMs", "Sponsor", "RenderingType", "DeployLockoutEndMs", "GuardPokemonDisplay", "Closed", "RaidInfo", "GymDisplay", "Visited", "SameTeamDeployLockoutEndMs", "AllowCheckin", "ImageUrl", "InEvent" }, null, null, null)
           }));
     }
     #endregion
@@ -98,6 +105,14 @@ namespace POGOProtos.Map.Fort {
       renderingType_ = other.renderingType_;
       deployLockoutEndMs_ = other.deployLockoutEndMs_;
       GuardPokemonDisplay = other.guardPokemonDisplay_ != null ? other.GuardPokemonDisplay.Clone() : null;
+      closed_ = other.closed_;
+      RaidInfo = other.raidInfo_ != null ? other.RaidInfo.Clone() : null;
+      GymDisplay = other.gymDisplay_ != null ? other.GymDisplay.Clone() : null;
+      visited_ = other.visited_;
+      sameTeamDeployLockoutEndMs_ = other.sameTeamDeployLockoutEndMs_;
+      allowCheckin_ = other.allowCheckin_;
+      imageUrl_ = other.imageUrl_;
+      inEvent_ = other.inEvent_;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -153,7 +168,7 @@ namespace POGOProtos.Map.Fort {
     public const int OwnedByTeamFieldNumber = 5;
     private global::POGOProtos.Enums.TeamColor ownedByTeam_ = 0;
     /// <summary>
-    ///  (Gym only) Team that owns the gym.
+    /// (Gym only) Team that owns the gym.
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public global::POGOProtos.Enums.TeamColor OwnedByTeam {
@@ -167,7 +182,7 @@ namespace POGOProtos.Map.Fort {
     public const int GuardPokemonIdFieldNumber = 6;
     private global::POGOProtos.Enums.PokemonId guardPokemonId_ = 0;
     /// <summary>
-    ///  (Gym only) Highest CP Pokemon ID at the gym.
+    /// (Gym only) Highest CP Pokemon ID at the gym.
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public global::POGOProtos.Enums.PokemonId GuardPokemonId {
@@ -181,7 +196,7 @@ namespace POGOProtos.Map.Fort {
     public const int GuardPokemonCpFieldNumber = 7;
     private int guardPokemonCp_;
     /// <summary>
-    ///  (Gym only) Highest CP Pokemon at the gym.
+    /// (Gym only) Highest CP Pokemon at the gym.
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int GuardPokemonCp {
@@ -217,7 +232,7 @@ namespace POGOProtos.Map.Fort {
     public const int GymPointsFieldNumber = 10;
     private long gymPoints_;
     /// <summary>
-    ///  (Gym only) Prestigate / experience of the gym.
+    /// (Gym only) Prestigate / experience of the gym.
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public long GymPoints {
@@ -231,7 +246,7 @@ namespace POGOProtos.Map.Fort {
     public const int IsInBattleFieldNumber = 11;
     private bool isInBattle_;
     /// <summary>
-    ///  (Gym only) Whether someone is battling at the gym currently.
+    /// (Gym only) Whether someone is battling at the gym currently.
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public bool IsInBattle {
@@ -247,7 +262,7 @@ namespace POGOProtos.Map.Fort {
         = pb::FieldCodec.ForEnum(98, x => (int) x, x => (global::POGOProtos.Inventory.Item.ItemId) x);
     private readonly pbc::RepeatedField<global::POGOProtos.Inventory.Item.ItemId> activeFortModifier_ = new pbc::RepeatedField<global::POGOProtos.Inventory.Item.ItemId>();
     /// <summary>
-    ///  (Pokestop only)
+    /// (Pokestop only)
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public pbc::RepeatedField<global::POGOProtos.Inventory.Item.ItemId> ActiveFortModifier {
@@ -258,7 +273,7 @@ namespace POGOProtos.Map.Fort {
     public const int LureInfoFieldNumber = 13;
     private global::POGOProtos.Map.Fort.FortLureInfo lureInfo_;
     /// <summary>
-    ///  (Pokestop only)
+    /// (Pokestop only)
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public global::POGOProtos.Map.Fort.FortLureInfo LureInfo {
@@ -272,7 +287,7 @@ namespace POGOProtos.Map.Fort {
     public const int CooldownCompleteTimestampMsFieldNumber = 14;
     private long cooldownCompleteTimestampMs_;
     /// <summary>
-    ///  (Pokestop only) Timestamp when the pokestop can be activated again to get items / xp.
+    /// (Pokestop only) Timestamp when the pokestop can be activated again to get items / xp.
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public long CooldownCompleteTimestampMs {
@@ -326,6 +341,94 @@ namespace POGOProtos.Map.Fort {
       }
     }
 
+    /// <summary>Field number for the "closed" field.</summary>
+    public const int ClosedFieldNumber = 19;
+    private bool closed_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Closed {
+      get { return closed_; }
+      set {
+        closed_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "raid_info" field.</summary>
+    public const int RaidInfoFieldNumber = 20;
+    private global::POGOProtos.Data.Raid.RaidInfo raidInfo_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public global::POGOProtos.Data.Raid.RaidInfo RaidInfo {
+      get { return raidInfo_; }
+      set {
+        raidInfo_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "gym_display" field.</summary>
+    public const int GymDisplayFieldNumber = 21;
+    private global::POGOProtos.Map.Fort.GymDisplay gymDisplay_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public global::POGOProtos.Map.Fort.GymDisplay GymDisplay {
+      get { return gymDisplay_; }
+      set {
+        gymDisplay_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "visited" field.</summary>
+    public const int VisitedFieldNumber = 22;
+    private bool visited_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Visited {
+      get { return visited_; }
+      set {
+        visited_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "same_team_deploy_lockout_end_ms" field.</summary>
+    public const int SameTeamDeployLockoutEndMsFieldNumber = 23;
+    private long sameTeamDeployLockoutEndMs_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public long SameTeamDeployLockoutEndMs {
+      get { return sameTeamDeployLockoutEndMs_; }
+      set {
+        sameTeamDeployLockoutEndMs_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "allow_checkin" field.</summary>
+    public const int AllowCheckinFieldNumber = 24;
+    private bool allowCheckin_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool AllowCheckin {
+      get { return allowCheckin_; }
+      set {
+        allowCheckin_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "image_url" field.</summary>
+    public const int ImageUrlFieldNumber = 25;
+    private string imageUrl_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string ImageUrl {
+      get { return imageUrl_; }
+      set {
+        imageUrl_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "in_event" field.</summary>
+    public const int InEventFieldNumber = 26;
+    private bool inEvent_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool InEvent {
+      get { return inEvent_; }
+      set {
+        inEvent_ = value;
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
       return Equals(other as FortData);
@@ -357,6 +460,14 @@ namespace POGOProtos.Map.Fort {
       if (RenderingType != other.RenderingType) return false;
       if (DeployLockoutEndMs != other.DeployLockoutEndMs) return false;
       if (!object.Equals(GuardPokemonDisplay, other.GuardPokemonDisplay)) return false;
+      if (Closed != other.Closed) return false;
+      if (!object.Equals(RaidInfo, other.RaidInfo)) return false;
+      if (!object.Equals(GymDisplay, other.GymDisplay)) return false;
+      if (Visited != other.Visited) return false;
+      if (SameTeamDeployLockoutEndMs != other.SameTeamDeployLockoutEndMs) return false;
+      if (AllowCheckin != other.AllowCheckin) return false;
+      if (ImageUrl != other.ImageUrl) return false;
+      if (InEvent != other.InEvent) return false;
       return true;
     }
 
@@ -381,6 +492,14 @@ namespace POGOProtos.Map.Fort {
       if (RenderingType != 0) hash ^= RenderingType.GetHashCode();
       if (DeployLockoutEndMs != 0L) hash ^= DeployLockoutEndMs.GetHashCode();
       if (guardPokemonDisplay_ != null) hash ^= GuardPokemonDisplay.GetHashCode();
+      if (Closed != false) hash ^= Closed.GetHashCode();
+      if (raidInfo_ != null) hash ^= RaidInfo.GetHashCode();
+      if (gymDisplay_ != null) hash ^= GymDisplay.GetHashCode();
+      if (Visited != false) hash ^= Visited.GetHashCode();
+      if (SameTeamDeployLockoutEndMs != 0L) hash ^= SameTeamDeployLockoutEndMs.GetHashCode();
+      if (AllowCheckin != false) hash ^= AllowCheckin.GetHashCode();
+      if (ImageUrl.Length != 0) hash ^= ImageUrl.GetHashCode();
+      if (InEvent != false) hash ^= InEvent.GetHashCode();
       return hash;
     }
 
@@ -460,6 +579,38 @@ namespace POGOProtos.Map.Fort {
         output.WriteRawTag(146, 1);
         output.WriteMessage(GuardPokemonDisplay);
       }
+      if (Closed != false) {
+        output.WriteRawTag(152, 1);
+        output.WriteBool(Closed);
+      }
+      if (raidInfo_ != null) {
+        output.WriteRawTag(162, 1);
+        output.WriteMessage(RaidInfo);
+      }
+      if (gymDisplay_ != null) {
+        output.WriteRawTag(170, 1);
+        output.WriteMessage(GymDisplay);
+      }
+      if (Visited != false) {
+        output.WriteRawTag(176, 1);
+        output.WriteBool(Visited);
+      }
+      if (SameTeamDeployLockoutEndMs != 0L) {
+        output.WriteRawTag(184, 1);
+        output.WriteInt64(SameTeamDeployLockoutEndMs);
+      }
+      if (AllowCheckin != false) {
+        output.WriteRawTag(192, 1);
+        output.WriteBool(AllowCheckin);
+      }
+      if (ImageUrl.Length != 0) {
+        output.WriteRawTag(202, 1);
+        output.WriteString(ImageUrl);
+      }
+      if (InEvent != false) {
+        output.WriteRawTag(208, 1);
+        output.WriteBool(InEvent);
+      }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -516,6 +667,30 @@ namespace POGOProtos.Map.Fort {
       }
       if (guardPokemonDisplay_ != null) {
         size += 2 + pb::CodedOutputStream.ComputeMessageSize(GuardPokemonDisplay);
+      }
+      if (Closed != false) {
+        size += 2 + 1;
+      }
+      if (raidInfo_ != null) {
+        size += 2 + pb::CodedOutputStream.ComputeMessageSize(RaidInfo);
+      }
+      if (gymDisplay_ != null) {
+        size += 2 + pb::CodedOutputStream.ComputeMessageSize(GymDisplay);
+      }
+      if (Visited != false) {
+        size += 2 + 1;
+      }
+      if (SameTeamDeployLockoutEndMs != 0L) {
+        size += 2 + pb::CodedOutputStream.ComputeInt64Size(SameTeamDeployLockoutEndMs);
+      }
+      if (AllowCheckin != false) {
+        size += 2 + 1;
+      }
+      if (ImageUrl.Length != 0) {
+        size += 2 + pb::CodedOutputStream.ComputeStringSize(ImageUrl);
+      }
+      if (InEvent != false) {
+        size += 2 + 1;
       }
       return size;
     }
@@ -582,6 +757,36 @@ namespace POGOProtos.Map.Fort {
           guardPokemonDisplay_ = new global::POGOProtos.Data.PokemonDisplay();
         }
         GuardPokemonDisplay.MergeFrom(other.GuardPokemonDisplay);
+      }
+      if (other.Closed != false) {
+        Closed = other.Closed;
+      }
+      if (other.raidInfo_ != null) {
+        if (raidInfo_ == null) {
+          raidInfo_ = new global::POGOProtos.Data.Raid.RaidInfo();
+        }
+        RaidInfo.MergeFrom(other.RaidInfo);
+      }
+      if (other.gymDisplay_ != null) {
+        if (gymDisplay_ == null) {
+          gymDisplay_ = new global::POGOProtos.Map.Fort.GymDisplay();
+        }
+        GymDisplay.MergeFrom(other.GymDisplay);
+      }
+      if (other.Visited != false) {
+        Visited = other.Visited;
+      }
+      if (other.SameTeamDeployLockoutEndMs != 0L) {
+        SameTeamDeployLockoutEndMs = other.SameTeamDeployLockoutEndMs;
+      }
+      if (other.AllowCheckin != false) {
+        AllowCheckin = other.AllowCheckin;
+      }
+      if (other.ImageUrl.Length != 0) {
+        ImageUrl = other.ImageUrl;
+      }
+      if (other.InEvent != false) {
+        InEvent = other.InEvent;
       }
     }
 
@@ -670,6 +875,44 @@ namespace POGOProtos.Map.Fort {
               guardPokemonDisplay_ = new global::POGOProtos.Data.PokemonDisplay();
             }
             input.ReadMessage(guardPokemonDisplay_);
+            break;
+          }
+          case 152: {
+            Closed = input.ReadBool();
+            break;
+          }
+          case 162: {
+            if (raidInfo_ == null) {
+              raidInfo_ = new global::POGOProtos.Data.Raid.RaidInfo();
+            }
+            input.ReadMessage(raidInfo_);
+            break;
+          }
+          case 170: {
+            if (gymDisplay_ == null) {
+              gymDisplay_ = new global::POGOProtos.Map.Fort.GymDisplay();
+            }
+            input.ReadMessage(gymDisplay_);
+            break;
+          }
+          case 176: {
+            Visited = input.ReadBool();
+            break;
+          }
+          case 184: {
+            SameTeamDeployLockoutEndMs = input.ReadInt64();
+            break;
+          }
+          case 192: {
+            AllowCheckin = input.ReadBool();
+            break;
+          }
+          case 202: {
+            ImageUrl = input.ReadString();
+            break;
+          }
+          case 208: {
+            InEvent = input.ReadBool();
             break;
           }
         }

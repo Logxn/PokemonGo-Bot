@@ -7,15 +7,13 @@
  * To change this template use Tools | Options | Coding | Edit Standard Headers.
  */
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Drawing;
 using System.IO;
-using System.Net;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using Newtonsoft.Json;
+using PokeMaster.Logic.Shared;
 using PokemonGo.RocketAPI.Hash;
-using PokemonGo.RocketAPI.Shared;
 
 namespace PokeMaster.Dialogs
 {
@@ -34,12 +32,10 @@ namespace PokeMaster.Dialogs
             InitializeComponent();
             if (File.Exists(filename)){
                 var strJSON = File.ReadAllText(filename);
-                var keys1 = JsonConvert.DeserializeObject<ArrayList>(strJSON);
+                var keys1 = JsonConvert.DeserializeObject<List<string>>(strJSON);
                 listView.Items.Clear();
                 foreach ( var element in keys1) {
-                    var listItem = listView.Items.Add(element.ToString());
-                    listItem.SubItems.Add(PokeHashHasher.GetExpirationTime(element.ToString()));
-
+                   AddKey(element);
                 }
             }
         }
@@ -58,10 +54,16 @@ namespace PokeMaster.Dialogs
             for (var i = listView.SelectedItems.Count -1;i>=0;i--)
                 listView.Items.Remove(listView.SelectedItems[i]);
         }
+        void AddKey(string key){
+            var listItem = listView.Items.Add(key);
+            var hashInfo = PokeHashHasher.GetInformation(key);
+            listItem.SubItems.Add( hashInfo[0]);
+            listItem.SubItems.Add( hashInfo[1]);
+            Task.Delay(300).Wait();
+        }
         void buttonAdd_Click(object sender, EventArgs e)
         {
-            var listItem = listView.Items.Add(textBox1.Text);
-            listItem.SubItems.Add(PokeHashHasher.GetExpirationTime(textBox1.Text));
+            AddKey(textBox1.Text);
             textBox1.Text ="";
         }
         void listView_ColumnClick(object sender, ColumnClickEventArgs e)
@@ -69,6 +71,32 @@ namespace PokeMaster.Dialogs
             var order = (sender as ListView).Sorting;
             listView.ListViewItemSorter = new Components.ListViewItemComparer(e.Column, order);
             (sender as ListView).Sorting = order == SortOrder.Ascending ? SortOrder.Descending : SortOrder.Ascending;
+        }
+        void deleteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            buttonDelete_Click(sender,e);
+        }
+        void setAsDefaultToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (listView.SelectedItems.Count > 0){
+                GlobalVars.pFHashKey = listView.SelectedItems[0].Text;
+            }
+        }
+        void listView_DoubleClick(object sender, EventArgs e)
+        {
+                textBox1.Text = listView.SelectedItems[0].Text;
+        }
+        void refreshInfoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var i = 0;
+            foreach (ListViewItem element in listView.SelectedItems) {
+                var hashInfo = PokeHashHasher.GetInformation(element.Text);
+                element.SubItems[1].Text = hashInfo[0];
+                element.SubItems[2].Text = hashInfo[1];
+                if (i>0)
+                    Task.Delay(300).Wait();
+                i++;
+            }
         }
     }
 }

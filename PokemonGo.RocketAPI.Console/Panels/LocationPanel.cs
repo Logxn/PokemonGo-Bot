@@ -69,6 +69,7 @@ namespace PokeMaster
             buttonZoomIn.Visible = true;
             buttonSavePokestops.Visible = true;
             buttonLoadPokestops.Visible = true;
+            btnPauseWalking.Text = GlobalVars.pauseAtPokeStop? th.TS("Resume Walking"): th.TS("Pause Walking");
         }
         
         public bool close = true;
@@ -457,14 +458,17 @@ namespace PokeMaster
                     color = Color.Yellow;
                     break;
             }
-            var level = Logic.Functions.GymsLogic.GetGymLevel(pokeGym.GymPoints);
-            var nextLevel =  Logic.Functions.GymsLogic.GetLevelPoints(level+1);
 
-            var str = string.Format("Level:{0} ({1}/{2})",level, pokeGym.GymPoints,nextLevel);
+            var str = "";
             var pokeGymMaker = new GMarkerGoogle(new PointLatLng(pokeGym.Latitude, pokeGym.Longitude), bitmap);
+            if (pokeGym.RaidInfo!=null)
+                str = string.Format("Raid Info: {0}, level: {1}, starts: {2}, ends: {3}",pokeGym.RaidInfo.RaidPokemon.PokemonId,pokeGym.RaidInfo.RaidLevel,
+                                         StringUtils.TimeMStoString(pokeGym.RaidInfo.RaidBattleMs, @"mm\:ss"),
+                                         StringUtils.TimeMStoString(pokeGym.RaidInfo.RaidEndMs, @"mm\:ss"));
             pokeGymMaker.ToolTipText = string.Format("{0}\n{1}, {2}\n{3}\nID: {4}", LocationUtils.FindAddress(pokeGym.Latitude, pokeGym.Longitude), pokeGym.Latitude, pokeGym.Longitude, str, pokeGym.Id);
             pokeGymMaker.ToolTip.Font = new System.Drawing.Font("Arial", 12, System.Drawing.GraphicsUnit.Pixel);
             pokeGymMaker.ToolTipMode = MarkerTooltipMode.OnMouseOver;
+            
 
             if (_pokeGymsMarks.ContainsKey(pokeGym.Id)){
                 var markerToDel = _pokeGymsMarks[pokeGym.Id];
@@ -688,15 +692,15 @@ namespace PokeMaster
                 if (MessageBox.Show(th.TS("Do you want see gym details?"), th.TS("Gym Details Confirmation"), MessageBoxButtons.YesNo) == DialogResult.No)
                     return;
                 
-                var details = Logic.Logic.objClient.Fort.GetGymDetails(gymID, item.Position.Lat, item.Position.Lng);
-                if (details.Result == POGOProtos.Networking.Responses.GetGymDetailsResponse.Types.Result.Success){
+                var details = Logic.Logic.objClient.Fort.GymGetInfo(gymID, item.Position.Lat, item.Position.Lng);
+                if (details.Result == POGOProtos.Networking.Responses.GymGetInfoResponse.Types.Result.Success){
                     var str = item.ToolTipText + "\n";
                     str += details.Name + "\n";
-                    str +=  details.GymState.Memberships.Count+" Defenders: \n";
-                    str += Logic.Functions.GymsLogic.strPokemons(details.GymState.Memberships.Select(x => x.PokemonData)) +"\n\n";
+                    str +=  details.GymStatusAndDefenders.GymDefender.Count+" Defenders: \n";
+                    str += Logic.Functions.GymsLogic.strPokemons(details.GymStatusAndDefenders.GymDefender) +"\n\n";
                     str += th.TS("Do you want copy location?");
                     if (MessageBox.Show(str, th.TS("Gym Details"), MessageBoxButtons.YesNo  ) == DialogResult.Yes){
-                        Clipboard.SetText(details.GymState.FortData.Latitude.ToString(CultureInfo.InvariantCulture)  +","+ details.GymState.FortData.Longitude.ToString(CultureInfo.InvariantCulture));
+                        Clipboard.SetText(item.Position.Lat.ToString(CultureInfo.InvariantCulture)  +","+ item.Position.Lng.ToString(CultureInfo.InvariantCulture));
                     }
                 }
 
@@ -839,7 +843,7 @@ namespace PokeMaster
                     }
                     Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "User Defined Route Captured! Beginning Route Momentarily.");
                 }
-                btnPauseWalking.Text = "Pause Walking";
+                btnPauseWalking.Text = th.TS("Pause Walking");
             }
           
         }

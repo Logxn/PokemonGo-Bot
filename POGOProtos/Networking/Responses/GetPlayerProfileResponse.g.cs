@@ -24,16 +24,21 @@ namespace POGOProtos.Networking.Responses {
           string.Concat(
             "Cj5QT0dPUHJvdG9zL05ldHdvcmtpbmcvUmVzcG9uc2VzL0dldFBsYXllclBy",
             "b2ZpbGVSZXNwb25zZS5wcm90bxIfUE9HT1Byb3Rvcy5OZXR3b3JraW5nLlJl",
-            "c3BvbnNlcxohUE9HT1Byb3Rvcy9EYXRhL1BsYXllckJhZGdlLnByb3RvItAB",
+            "c3BvbnNlcxohUE9HT1Byb3Rvcy9EYXRhL1BsYXllckJhZGdlLnByb3RvGitQ",
+            "T0dPUHJvdG9zL0RhdGEvQmFkZ2UvQXdhcmRlZEd5bUJhZGdlLnByb3RvIoAD",
             "ChhHZXRQbGF5ZXJQcm9maWxlUmVzcG9uc2USUAoGcmVzdWx0GAEgASgOMkAu",
             "UE9HT1Byb3Rvcy5OZXR3b3JraW5nLlJlc3BvbnNlcy5HZXRQbGF5ZXJQcm9m",
             "aWxlUmVzcG9uc2UuUmVzdWx0EhIKCnN0YXJ0X3RpbWUYAiABKAMSLAoGYmFk",
-            "Z2VzGAMgAygLMhwuUE9HT1Byb3Rvcy5EYXRhLlBsYXllckJhZGdlIiAKBlJl",
-            "c3VsdBIJCgVVTlNFVBAAEgsKB1NVQ0NFU1MQAWIGcHJvdG8z"));
+            "Z2VzGAMgAygLMhwuUE9HT1Byb3Rvcy5EYXRhLlBsYXllckJhZGdlElcKCmd5",
+            "bV9iYWRnZXMYBCABKAsyQy5QT0dPUHJvdG9zLk5ldHdvcmtpbmcuUmVzcG9u",
+            "c2VzLkdldFBsYXllclByb2ZpbGVSZXNwb25zZS5HeW1CYWRnZXMaVQoJR3lt",
+            "QmFkZ2VzEjkKCWd5bV9iYWRnZRgBIAMoCzImLlBPR09Qcm90b3MuRGF0YS5C",
+            "YWRnZS5Bd2FyZGVkR3ltQmFkZ2USDQoFdG90YWwYAiABKAUiIAoGUmVzdWx0",
+            "EgkKBVVOU0VUEAASCwoHU1VDQ0VTUxABYgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::POGOProtos.Data.PlayerBadgeReflection.Descriptor, },
+          new pbr::FileDescriptor[] { global::POGOProtos.Data.PlayerBadgeReflection.Descriptor, global::POGOProtos.Data.Badge.AwardedGymBadgeReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::POGOProtos.Networking.Responses.GetPlayerProfileResponse), global::POGOProtos.Networking.Responses.GetPlayerProfileResponse.Parser, new[]{ "Result", "StartTime", "Badges" }, null, new[]{ typeof(global::POGOProtos.Networking.Responses.GetPlayerProfileResponse.Types.Result) }, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::POGOProtos.Networking.Responses.GetPlayerProfileResponse), global::POGOProtos.Networking.Responses.GetPlayerProfileResponse.Parser, new[]{ "Result", "StartTime", "Badges", "GymBadges" }, null, new[]{ typeof(global::POGOProtos.Networking.Responses.GetPlayerProfileResponse.Types.Result) }, new pbr::GeneratedClrTypeInfo[] { new pbr::GeneratedClrTypeInfo(typeof(global::POGOProtos.Networking.Responses.GetPlayerProfileResponse.Types.GymBadges), global::POGOProtos.Networking.Responses.GetPlayerProfileResponse.Types.GymBadges.Parser, new[]{ "GymBadge", "Total" }, null, null, null)})
           }));
     }
     #endregion
@@ -67,6 +72,7 @@ namespace POGOProtos.Networking.Responses {
       result_ = other.result_;
       startTime_ = other.startTime_;
       badges_ = other.badges_.Clone();
+      GymBadges = other.gymBadges_ != null ? other.GymBadges.Clone() : null;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -106,6 +112,17 @@ namespace POGOProtos.Networking.Responses {
       get { return badges_; }
     }
 
+    /// <summary>Field number for the "gym_badges" field.</summary>
+    public const int GymBadgesFieldNumber = 4;
+    private global::POGOProtos.Networking.Responses.GetPlayerProfileResponse.Types.GymBadges gymBadges_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public global::POGOProtos.Networking.Responses.GetPlayerProfileResponse.Types.GymBadges GymBadges {
+      get { return gymBadges_; }
+      set {
+        gymBadges_ = value;
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
       return Equals(other as GetPlayerProfileResponse);
@@ -122,6 +139,7 @@ namespace POGOProtos.Networking.Responses {
       if (Result != other.Result) return false;
       if (StartTime != other.StartTime) return false;
       if(!badges_.Equals(other.badges_)) return false;
+      if (!object.Equals(GymBadges, other.GymBadges)) return false;
       return true;
     }
 
@@ -131,6 +149,7 @@ namespace POGOProtos.Networking.Responses {
       if (Result != 0) hash ^= Result.GetHashCode();
       if (StartTime != 0L) hash ^= StartTime.GetHashCode();
       hash ^= badges_.GetHashCode();
+      if (gymBadges_ != null) hash ^= GymBadges.GetHashCode();
       return hash;
     }
 
@@ -150,6 +169,10 @@ namespace POGOProtos.Networking.Responses {
         output.WriteInt64(StartTime);
       }
       badges_.WriteTo(output, _repeated_badges_codec);
+      if (gymBadges_ != null) {
+        output.WriteRawTag(34);
+        output.WriteMessage(GymBadges);
+      }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -162,6 +185,9 @@ namespace POGOProtos.Networking.Responses {
         size += 1 + pb::CodedOutputStream.ComputeInt64Size(StartTime);
       }
       size += badges_.CalculateSize(_repeated_badges_codec);
+      if (gymBadges_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(GymBadges);
+      }
       return size;
     }
 
@@ -177,6 +203,12 @@ namespace POGOProtos.Networking.Responses {
         StartTime = other.StartTime;
       }
       badges_.Add(other.badges_);
+      if (other.gymBadges_ != null) {
+        if (gymBadges_ == null) {
+          gymBadges_ = new global::POGOProtos.Networking.Responses.GetPlayerProfileResponse.Types.GymBadges();
+        }
+        GymBadges.MergeFrom(other.GymBadges);
+      }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -199,6 +231,13 @@ namespace POGOProtos.Networking.Responses {
             badges_.AddEntriesFrom(input, _repeated_badges_codec);
             break;
           }
+          case 34: {
+            if (gymBadges_ == null) {
+              gymBadges_ = new global::POGOProtos.Networking.Responses.GetPlayerProfileResponse.Types.GymBadges();
+            }
+            input.ReadMessage(gymBadges_);
+            break;
+          }
         }
       }
     }
@@ -210,6 +249,143 @@ namespace POGOProtos.Networking.Responses {
       public enum Result {
         [pbr::OriginalName("UNSET")] Unset = 0,
         [pbr::OriginalName("SUCCESS")] Success = 1,
+      }
+
+      public sealed partial class GymBadges : pb::IMessage<GymBadges> {
+        private static readonly pb::MessageParser<GymBadges> _parser = new pb::MessageParser<GymBadges>(() => new GymBadges());
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public static pb::MessageParser<GymBadges> Parser { get { return _parser; } }
+
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public static pbr::MessageDescriptor Descriptor {
+          get { return global::POGOProtos.Networking.Responses.GetPlayerProfileResponse.Descriptor.NestedTypes[0]; }
+        }
+
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        pbr::MessageDescriptor pb::IMessage.Descriptor {
+          get { return Descriptor; }
+        }
+
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public GymBadges() {
+          OnConstruction();
+        }
+
+        partial void OnConstruction();
+
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public GymBadges(GymBadges other) : this() {
+          gymBadge_ = other.gymBadge_.Clone();
+          total_ = other.total_;
+        }
+
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public GymBadges Clone() {
+          return new GymBadges(this);
+        }
+
+        /// <summary>Field number for the "gym_badge" field.</summary>
+        public const int GymBadgeFieldNumber = 1;
+        private static readonly pb::FieldCodec<global::POGOProtos.Data.Badge.AwardedGymBadge> _repeated_gymBadge_codec
+            = pb::FieldCodec.ForMessage(10, global::POGOProtos.Data.Badge.AwardedGymBadge.Parser);
+        private readonly pbc::RepeatedField<global::POGOProtos.Data.Badge.AwardedGymBadge> gymBadge_ = new pbc::RepeatedField<global::POGOProtos.Data.Badge.AwardedGymBadge>();
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public pbc::RepeatedField<global::POGOProtos.Data.Badge.AwardedGymBadge> GymBadge {
+          get { return gymBadge_; }
+        }
+
+        /// <summary>Field number for the "total" field.</summary>
+        public const int TotalFieldNumber = 2;
+        private int total_;
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public int Total {
+          get { return total_; }
+          set {
+            total_ = value;
+          }
+        }
+
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public override bool Equals(object other) {
+          return Equals(other as GymBadges);
+        }
+
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public bool Equals(GymBadges other) {
+          if (ReferenceEquals(other, null)) {
+            return false;
+          }
+          if (ReferenceEquals(other, this)) {
+            return true;
+          }
+          if(!gymBadge_.Equals(other.gymBadge_)) return false;
+          if (Total != other.Total) return false;
+          return true;
+        }
+
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public override int GetHashCode() {
+          int hash = 1;
+          hash ^= gymBadge_.GetHashCode();
+          if (Total != 0) hash ^= Total.GetHashCode();
+          return hash;
+        }
+
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public override string ToString() {
+          return pb::JsonFormatter.ToDiagnosticString(this);
+        }
+
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public void WriteTo(pb::CodedOutputStream output) {
+          gymBadge_.WriteTo(output, _repeated_gymBadge_codec);
+          if (Total != 0) {
+            output.WriteRawTag(16);
+            output.WriteInt32(Total);
+          }
+        }
+
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public int CalculateSize() {
+          int size = 0;
+          size += gymBadge_.CalculateSize(_repeated_gymBadge_codec);
+          if (Total != 0) {
+            size += 1 + pb::CodedOutputStream.ComputeInt32Size(Total);
+          }
+          return size;
+        }
+
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public void MergeFrom(GymBadges other) {
+          if (other == null) {
+            return;
+          }
+          gymBadge_.Add(other.gymBadge_);
+          if (other.Total != 0) {
+            Total = other.Total;
+          }
+        }
+
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+        public void MergeFrom(pb::CodedInputStream input) {
+          uint tag;
+          while ((tag = input.ReadTag()) != 0) {
+            switch(tag) {
+              default:
+                input.SkipLastField();
+                break;
+              case 10: {
+                gymBadge_.AddEntriesFrom(input, _repeated_gymBadge_codec);
+                break;
+              }
+              case 16: {
+                Total = input.ReadInt32();
+                break;
+              }
+            }
+          }
+        }
+
       }
 
     }

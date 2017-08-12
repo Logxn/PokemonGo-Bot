@@ -897,7 +897,7 @@
   <data name="pictureBox2.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAAUMAAAAuCAIAAAA9TOxgAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
-        vQAADr0BR/uQrQAANMNJREFUeF7tnQeUFMXWx2t2ck493T3TM7MzG1hglywYEBWzqAiiSFZAjJgzT0UU
+        vAAADrwBlbxySQAANMNJREFUeF7tnQeUFMXWx2t2ck493T3TM7MzG1hglywYEBWzqAiiSFZAjJgzT0UU
         jCgGREQU9anPiFnRTwEzIFmCBMlBEAElqATn+1dVT29P3JXge55Dnbtzeqqqe6qr76/uvdXVvSSklB6S
         Q3JI6i9+pdSjJDyRhC9S6lUSWaX/LTlE8iE5JHWLwKB1RhJlYrSTLzjQ4b7Vah9tMp/pDTqVZFbl/4oc
         InkfBMMwLh6X+uSXikpSzMw5JP8U8UdKnUqiRgh39/iHWG3/IeRjQj4h5ANCPiRkMiFne/zu/wHLfIjk
@@ -1125,6 +1125,9 @@
         pwPkZJUekr9TDpF8SA7JP1+U0v8Hf5HgMkwNcOQAAAAASUVORK5CYII=
 </value>
   </data>
+  <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>68</value>
+  </metadata>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         AAABAAYAEBAAAAAAIABoBAAAZgAAACAgAAAAACAAqBAAAM4EAAAwMAAAAAAgAKglAAB2FQAAQEAAAAAA

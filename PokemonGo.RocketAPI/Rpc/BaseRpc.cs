@@ -38,6 +38,7 @@ namespace PokemonGo.RocketAPI.Rpc
             var tries = 0;
             while ( tries <3){
                 try {
+                    Logger.Debug("Before of GetPlatformRequestEnvelope: platfReq :"+ platfReq);
                     var requestEnvelops = GetRequestBuilder().GetPlatformRequestEnvelope(platfReq);
                     return Client.PokemonHttpClient.PostProtoPayload<TRequest, TResponsePayload>(Client.ApiUrl, requestEnvelops,
                                 Client.ApiFailure);
@@ -64,8 +65,9 @@ namespace PokemonGo.RocketAPI.Rpc
         {
             var tries = 0;
             while ( tries <3){
-                
                 try {
+                    Logger.Debug("Before of GetRequestEnvelope: type :"+ type);
+
                     var requestEnvelops = GetRequestBuilder().GetRequestEnvelope(type, message);
                     return Client.PokemonHttpClient.PostProtoPayload<TRequest, TResponsePayload>(Client.ApiUrl, requestEnvelops,
                                 Client.ApiFailure);
@@ -204,17 +206,22 @@ namespace PokemonGo.RocketAPI.Rpc
             var tries = 0;
             while ( tries <3){
                 try {
+                    Logger.Debug("Before of GetRequestEnvelope: request :"+ request);
                        var requestEnvelope = GetRequestBuilder().GetRequestEnvelope(CommonRequest.FillRequest(request, Client));
                         var response =
                             await
                             PostProtoPayload<TRequest>(requestEnvelope,typeof(T1)
                                         , typeof(CheckChallengeResponse), typeof(GetHatchedEggsResponse)
                                         , typeof(GetInventoryResponse), typeof(CheckAwardedBadgesResponse)
-                                        , typeof(DownloadSettingsResponse), typeof(GetBuddyWalkedResponse)
+                                        , typeof(DownloadSettingsResponse), typeof(GetBuddyWalkedResponse), typeof(GetInboxResponse)
                                                       ).ConfigureAwait(false);
                         CommonRequest.ProcessCheckChallengeResponse(Client, response[1] as  CheckChallengeResponse);
+                        CommonRequest.ProcessGetHatchedEggsResponse(Client, response[2] as  GetHatchedEggsResponse);
                         CommonRequest.ProcessGetInventoryResponse(Client, response[3] as  GetInventoryResponse);
+                        CommonRequest.ProcessCheckAwardedBadgesResponse(Client, response[4] as  CheckAwardedBadgesResponse);
                         CommonRequest.ProcessDownloadSettingsResponse(Client, response[5] as  DownloadSettingsResponse);
+                        CommonRequest.ProcessGetBuddyWalkedResponse(Client, response[6] as  GetBuddyWalkedResponse);
+                        CommonRequest.ProcessGetInboxResponse(Client, response[7] as  GetInboxResponse);
                         return response[0] as T1 ;
                 } catch (AccessTokenExpiredException) {
                     Logger.Warning("Invalid Token. Retrying in 1 second");
@@ -222,8 +229,8 @@ namespace PokemonGo.RocketAPI.Rpc
                     await Client.Login.Reauthenticate().ConfigureAwait(false);
                 } catch (InvalidPlatformException) {
                     Logger.Warning("Invalid Platform. Retrying in 1 second");
-                    Client.Login.DoLogin().Wait();
-                    Task.Delay(1000).Wait();
+                    await Client.Login.DoLogin().ConfigureAwait(false);
+                    await Task.Delay(1000).ConfigureAwait(false);
                 } catch (RedirectException) {
                     await Task.Delay(1000).ConfigureAwait(false);
                 }

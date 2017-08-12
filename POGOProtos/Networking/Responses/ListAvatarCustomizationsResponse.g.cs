@@ -28,7 +28,7 @@ namespace POGOProtos.Networking.Responses {
             "ckN1c3RvbWl6YXRpb24ucHJvdG8i9wEKIExpc3RBdmF0YXJDdXN0b21pemF0",
             "aW9uc1Jlc3BvbnNlElgKBnJlc3VsdBgBIAEoDjJILlBPR09Qcm90b3MuTmV0",
             "d29ya2luZy5SZXNwb25zZXMuTGlzdEF2YXRhckN1c3RvbWl6YXRpb25zUmVz",
-            "cG9uc2UuUmVzdWx0EkoKFWF2YXRhcl9jdXN0b21pemF0aW9ucxgCIAEoCzIr",
+            "cG9uc2UuUmVzdWx0EkoKFWF2YXRhcl9jdXN0b21pemF0aW9ucxgCIAMoCzIr",
             "LlBPR09Qcm90b3MuRGF0YS5BdmF0YXIuQXZhdGFyQ3VzdG9taXphdGlvbiIt",
             "CgZSZXN1bHQSCQoFVU5TRVQQABILCgdTVUNDRVNTEAESCwoHRkFJTFVSRRAC",
             "YgZwcm90bzM="));
@@ -67,7 +67,7 @@ namespace POGOProtos.Networking.Responses {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public ListAvatarCustomizationsResponse(ListAvatarCustomizationsResponse other) : this() {
       result_ = other.result_;
-      AvatarCustomizations = other.avatarCustomizations_ != null ? other.AvatarCustomizations.Clone() : null;
+      avatarCustomizations_ = other.avatarCustomizations_.Clone();
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -88,13 +88,12 @@ namespace POGOProtos.Networking.Responses {
 
     /// <summary>Field number for the "avatar_customizations" field.</summary>
     public const int AvatarCustomizationsFieldNumber = 2;
-    private global::POGOProtos.Data.Avatar.AvatarCustomization avatarCustomizations_;
+    private static readonly pb::FieldCodec<global::POGOProtos.Data.Avatar.AvatarCustomization> _repeated_avatarCustomizations_codec
+        = pb::FieldCodec.ForMessage(18, global::POGOProtos.Data.Avatar.AvatarCustomization.Parser);
+    private readonly pbc::RepeatedField<global::POGOProtos.Data.Avatar.AvatarCustomization> avatarCustomizations_ = new pbc::RepeatedField<global::POGOProtos.Data.Avatar.AvatarCustomization>();
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::POGOProtos.Data.Avatar.AvatarCustomization AvatarCustomizations {
+    public pbc::RepeatedField<global::POGOProtos.Data.Avatar.AvatarCustomization> AvatarCustomizations {
       get { return avatarCustomizations_; }
-      set {
-        avatarCustomizations_ = value;
-      }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -111,7 +110,7 @@ namespace POGOProtos.Networking.Responses {
         return true;
       }
       if (Result != other.Result) return false;
-      if (!object.Equals(AvatarCustomizations, other.AvatarCustomizations)) return false;
+      if(!avatarCustomizations_.Equals(other.avatarCustomizations_)) return false;
       return true;
     }
 
@@ -119,7 +118,7 @@ namespace POGOProtos.Networking.Responses {
     public override int GetHashCode() {
       int hash = 1;
       if (Result != 0) hash ^= Result.GetHashCode();
-      if (avatarCustomizations_ != null) hash ^= AvatarCustomizations.GetHashCode();
+      hash ^= avatarCustomizations_.GetHashCode();
       return hash;
     }
 
@@ -134,10 +133,7 @@ namespace POGOProtos.Networking.Responses {
         output.WriteRawTag(8);
         output.WriteEnum((int) Result);
       }
-      if (avatarCustomizations_ != null) {
-        output.WriteRawTag(18);
-        output.WriteMessage(AvatarCustomizations);
-      }
+      avatarCustomizations_.WriteTo(output, _repeated_avatarCustomizations_codec);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -146,9 +142,7 @@ namespace POGOProtos.Networking.Responses {
       if (Result != 0) {
         size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) Result);
       }
-      if (avatarCustomizations_ != null) {
-        size += 1 + pb::CodedOutputStream.ComputeMessageSize(AvatarCustomizations);
-      }
+      size += avatarCustomizations_.CalculateSize(_repeated_avatarCustomizations_codec);
       return size;
     }
 
@@ -160,12 +154,7 @@ namespace POGOProtos.Networking.Responses {
       if (other.Result != 0) {
         Result = other.Result;
       }
-      if (other.avatarCustomizations_ != null) {
-        if (avatarCustomizations_ == null) {
-          avatarCustomizations_ = new global::POGOProtos.Data.Avatar.AvatarCustomization();
-        }
-        AvatarCustomizations.MergeFrom(other.AvatarCustomizations);
-      }
+      avatarCustomizations_.Add(other.avatarCustomizations_);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -181,10 +170,7 @@ namespace POGOProtos.Networking.Responses {
             break;
           }
           case 18: {
-            if (avatarCustomizations_ == null) {
-              avatarCustomizations_ = new global::POGOProtos.Data.Avatar.AvatarCustomization();
-            }
-            input.ReadMessage(avatarCustomizations_);
+            avatarCustomizations_.AddEntriesFrom(input, _repeated_avatarCustomizations_codec);
             break;
           }
         }

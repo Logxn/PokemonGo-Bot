@@ -25,18 +25,21 @@ namespace POGOProtos.Data.Battle {
             "Ci5QT0dPUHJvdG9zL0RhdGEvQmF0dGxlL0JhdHRsZVBhcnRpY2lwYW50LnBy",
             "b3RvEhZQT0dPUHJvdG9zLkRhdGEuQmF0dGxlGi5QT0dPUHJvdG9zL0RhdGEv",
             "QmF0dGxlL0JhdHRsZVBva2Vtb25JbmZvLnByb3RvGjBQT0dPUHJvdG9zL0Rh",
-            "dGEvUGxheWVyL1BsYXllclB1YmxpY1Byb2ZpbGUucHJvdG8irAIKEUJhdHRs",
-            "ZVBhcnRpY2lwYW50EkEKDmFjdGl2ZV9wb2tlbW9uGAEgASgLMikuUE9HT1By",
-            "b3Rvcy5EYXRhLkJhdHRsZS5CYXR0bGVQb2tlbW9uSW5mbxJLChZ0cmFpbmVy",
-            "X3B1YmxpY19wcm9maWxlGAIgASgLMisuUE9HT1Byb3Rvcy5EYXRhLlBsYXll",
-            "ci5QbGF5ZXJQdWJsaWNQcm9maWxlEkIKD3JldmVyc2VfcG9rZW1vbhgDIAMo",
-            "CzIpLlBPR09Qcm90b3MuRGF0YS5CYXR0bGUuQmF0dGxlUG9rZW1vbkluZm8S",
-            "QwoQZGVmZWF0ZWRfcG9rZW1vbhgEIAMoCzIpLlBPR09Qcm90b3MuRGF0YS5C",
-            "YXR0bGUuQmF0dGxlUG9rZW1vbkluZm9iBnByb3RvMw=="));
+            "dGEvUGxheWVyL1BsYXllclB1YmxpY1Byb2ZpbGUucHJvdG8aKVBPR09Qcm90",
+            "b3MvTWFwL1Bva2Vtb24vTG9iYnlQb2tlbW9uLnByb3RvIv8CChFCYXR0bGVQ",
+            "YXJ0aWNpcGFudBJBCg5hY3RpdmVfcG9rZW1vbhgBIAEoCzIpLlBPR09Qcm90",
+            "b3MuRGF0YS5CYXR0bGUuQmF0dGxlUG9rZW1vbkluZm8SSwoWdHJhaW5lcl9w",
+            "dWJsaWNfcHJvZmlsZRgCIAEoCzIrLlBPR09Qcm90b3MuRGF0YS5QbGF5ZXIu",
+            "UGxheWVyUHVibGljUHJvZmlsZRJCCg9yZXZlcnNlX3Bva2Vtb24YAyADKAsy",
+            "KS5QT0dPUHJvdG9zLkRhdGEuQmF0dGxlLkJhdHRsZVBva2Vtb25JbmZvEkMK",
+            "EGRlZmVhdGVkX3Bva2Vtb24YBCADKAsyKS5QT0dPUHJvdG9zLkRhdGEuQmF0",
+            "dGxlLkJhdHRsZVBva2Vtb25JbmZvEjsKDWxvYmJ5X3Bva2Vtb24YBSADKAsy",
+            "JC5QT0dPUHJvdG9zLk1hcC5Qb2tlbW9uLkxvYmJ5UG9rZW1vbhIUCgxkYW1h",
+            "Z2VfZGVhbHQYBiABKAViBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::POGOProtos.Data.Battle.BattlePokemonInfoReflection.Descriptor, global::POGOProtos.Data.Player.PlayerPublicProfileReflection.Descriptor, },
+          new pbr::FileDescriptor[] { global::POGOProtos.Data.Battle.BattlePokemonInfoReflection.Descriptor, global::POGOProtos.Data.Player.PlayerPublicProfileReflection.Descriptor, global::POGOProtos.Map.Pokemon.LobbyPokemonReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::POGOProtos.Data.Battle.BattleParticipant), global::POGOProtos.Data.Battle.BattleParticipant.Parser, new[]{ "ActivePokemon", "TrainerPublicProfile", "ReversePokemon", "DefeatedPokemon" }, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::POGOProtos.Data.Battle.BattleParticipant), global::POGOProtos.Data.Battle.BattleParticipant.Parser, new[]{ "ActivePokemon", "TrainerPublicProfile", "ReversePokemon", "DefeatedPokemon", "LobbyPokemon", "DamageDealt" }, null, null, null)
           }));
     }
     #endregion
@@ -71,6 +74,8 @@ namespace POGOProtos.Data.Battle {
       TrainerPublicProfile = other.trainerPublicProfile_ != null ? other.TrainerPublicProfile.Clone() : null;
       reversePokemon_ = other.reversePokemon_.Clone();
       defeatedPokemon_ = other.defeatedPokemon_.Clone();
+      lobbyPokemon_ = other.lobbyPokemon_.Clone();
+      damageDealt_ = other.damageDealt_;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -120,6 +125,27 @@ namespace POGOProtos.Data.Battle {
       get { return defeatedPokemon_; }
     }
 
+    /// <summary>Field number for the "lobby_pokemon" field.</summary>
+    public const int LobbyPokemonFieldNumber = 5;
+    private static readonly pb::FieldCodec<global::POGOProtos.Map.Pokemon.LobbyPokemon> _repeated_lobbyPokemon_codec
+        = pb::FieldCodec.ForMessage(42, global::POGOProtos.Map.Pokemon.LobbyPokemon.Parser);
+    private readonly pbc::RepeatedField<global::POGOProtos.Map.Pokemon.LobbyPokemon> lobbyPokemon_ = new pbc::RepeatedField<global::POGOProtos.Map.Pokemon.LobbyPokemon>();
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public pbc::RepeatedField<global::POGOProtos.Map.Pokemon.LobbyPokemon> LobbyPokemon {
+      get { return lobbyPokemon_; }
+    }
+
+    /// <summary>Field number for the "damage_dealt" field.</summary>
+    public const int DamageDealtFieldNumber = 6;
+    private int damageDealt_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int DamageDealt {
+      get { return damageDealt_; }
+      set {
+        damageDealt_ = value;
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
       return Equals(other as BattleParticipant);
@@ -137,6 +163,8 @@ namespace POGOProtos.Data.Battle {
       if (!object.Equals(TrainerPublicProfile, other.TrainerPublicProfile)) return false;
       if(!reversePokemon_.Equals(other.reversePokemon_)) return false;
       if(!defeatedPokemon_.Equals(other.defeatedPokemon_)) return false;
+      if(!lobbyPokemon_.Equals(other.lobbyPokemon_)) return false;
+      if (DamageDealt != other.DamageDealt) return false;
       return true;
     }
 
@@ -147,6 +175,8 @@ namespace POGOProtos.Data.Battle {
       if (trainerPublicProfile_ != null) hash ^= TrainerPublicProfile.GetHashCode();
       hash ^= reversePokemon_.GetHashCode();
       hash ^= defeatedPokemon_.GetHashCode();
+      hash ^= lobbyPokemon_.GetHashCode();
+      if (DamageDealt != 0) hash ^= DamageDealt.GetHashCode();
       return hash;
     }
 
@@ -167,6 +197,11 @@ namespace POGOProtos.Data.Battle {
       }
       reversePokemon_.WriteTo(output, _repeated_reversePokemon_codec);
       defeatedPokemon_.WriteTo(output, _repeated_defeatedPokemon_codec);
+      lobbyPokemon_.WriteTo(output, _repeated_lobbyPokemon_codec);
+      if (DamageDealt != 0) {
+        output.WriteRawTag(48);
+        output.WriteInt32(DamageDealt);
+      }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -180,6 +215,10 @@ namespace POGOProtos.Data.Battle {
       }
       size += reversePokemon_.CalculateSize(_repeated_reversePokemon_codec);
       size += defeatedPokemon_.CalculateSize(_repeated_defeatedPokemon_codec);
+      size += lobbyPokemon_.CalculateSize(_repeated_lobbyPokemon_codec);
+      if (DamageDealt != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(DamageDealt);
+      }
       return size;
     }
 
@@ -202,6 +241,10 @@ namespace POGOProtos.Data.Battle {
       }
       reversePokemon_.Add(other.reversePokemon_);
       defeatedPokemon_.Add(other.defeatedPokemon_);
+      lobbyPokemon_.Add(other.lobbyPokemon_);
+      if (other.DamageDealt != 0) {
+        DamageDealt = other.DamageDealt;
+      }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -232,6 +275,14 @@ namespace POGOProtos.Data.Battle {
           }
           case 34: {
             defeatedPokemon_.AddEntriesFrom(input, _repeated_defeatedPokemon_codec);
+            break;
+          }
+          case 42: {
+            lobbyPokemon_.AddEntriesFrom(input, _repeated_lobbyPokemon_codec);
+            break;
+          }
+          case 48: {
+            DamageDealt = input.ReadInt32();
             break;
           }
         }

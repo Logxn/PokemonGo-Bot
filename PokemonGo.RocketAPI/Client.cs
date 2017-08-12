@@ -90,7 +90,7 @@ namespace PokemonGo.RocketAPI
             Fort = new Rpc.Fort(this);
             Encounter = new Rpc.Encounter(this);
             Misc = new Rpc.Misc(this);
-            Crypter = new Crypto();
+            Crypter = new Cipher();
             Hasher = new PokeHashHasher(settings.hashKey);
             Store = new PokemonGo.RocketAPI.Rpc.Store(this);
             
@@ -148,6 +148,7 @@ namespace PokemonGo.RocketAPI
         {
            EvMakeTutorial?.Invoke(this, EventArgs.Empty);
         }
+        public int PageOffset { get; set; }
 
     }
 }

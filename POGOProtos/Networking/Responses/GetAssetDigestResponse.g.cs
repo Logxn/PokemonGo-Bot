@@ -25,13 +25,16 @@ namespace POGOProtos.Networking.Responses {
             "CjxQT0dPUHJvdG9zL05ldHdvcmtpbmcvUmVzcG9uc2VzL0dldEFzc2V0RGln",
             "ZXN0UmVzcG9uc2UucHJvdG8SH1BPR09Qcm90b3MuTmV0d29ya2luZy5SZXNw",
             "b25zZXMaJlBPR09Qcm90b3MvRGF0YS9Bc3NldERpZ2VzdEVudHJ5LnByb3Rv",
-            "ImEKFkdldEFzc2V0RGlnZXN0UmVzcG9uc2USMQoGZGlnZXN0GAEgAygLMiEu",
-            "UE9HT1Byb3Rvcy5EYXRhLkFzc2V0RGlnZXN0RW50cnkSFAoMdGltZXN0YW1w",
-            "X21zGAIgASgEYgZwcm90bzM="));
+            "Iv0BChZHZXRBc3NldERpZ2VzdFJlc3BvbnNlEjEKBmRpZ2VzdBgBIAMoCzIh",
+            "LlBPR09Qcm90b3MuRGF0YS5Bc3NldERpZ2VzdEVudHJ5EhQKDHRpbWVzdGFt",
+            "cF9tcxgCIAEoBBJOCgZyZXN1bHQYAyABKA4yPi5QT0dPUHJvdG9zLk5ldHdv",
+            "cmtpbmcuUmVzcG9uc2VzLkdldEFzc2V0RGlnZXN0UmVzcG9uc2UuUmVzdWx0",
+            "EhMKC3BhZ2Vfb2Zmc2V0GAQgASgFIjUKBlJlc3VsdBIJCgVVTlNFVBAAEgsK",
+            "B1NVQ0NFU1MQARIICgRQQUdFEAISCQoFUkVUUlkQA2IGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::POGOProtos.Data.AssetDigestEntryReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::POGOProtos.Networking.Responses.GetAssetDigestResponse), global::POGOProtos.Networking.Responses.GetAssetDigestResponse.Parser, new[]{ "Digest", "TimestampMs" }, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::POGOProtos.Networking.Responses.GetAssetDigestResponse), global::POGOProtos.Networking.Responses.GetAssetDigestResponse.Parser, new[]{ "Digest", "TimestampMs", "Result", "PageOffset" }, null, new[]{ typeof(global::POGOProtos.Networking.Responses.GetAssetDigestResponse.Types.Result) }, null)
           }));
     }
     #endregion
@@ -64,6 +67,8 @@ namespace POGOProtos.Networking.Responses {
     public GetAssetDigestResponse(GetAssetDigestResponse other) : this() {
       digest_ = other.digest_.Clone();
       timestampMs_ = other.timestampMs_;
+      result_ = other.result_;
+      pageOffset_ = other.pageOffset_;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -92,6 +97,28 @@ namespace POGOProtos.Networking.Responses {
       }
     }
 
+    /// <summary>Field number for the "result" field.</summary>
+    public const int ResultFieldNumber = 3;
+    private global::POGOProtos.Networking.Responses.GetAssetDigestResponse.Types.Result result_ = 0;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public global::POGOProtos.Networking.Responses.GetAssetDigestResponse.Types.Result Result {
+      get { return result_; }
+      set {
+        result_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "page_offset" field.</summary>
+    public const int PageOffsetFieldNumber = 4;
+    private int pageOffset_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int PageOffset {
+      get { return pageOffset_; }
+      set {
+        pageOffset_ = value;
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
       return Equals(other as GetAssetDigestResponse);
@@ -107,6 +134,8 @@ namespace POGOProtos.Networking.Responses {
       }
       if(!digest_.Equals(other.digest_)) return false;
       if (TimestampMs != other.TimestampMs) return false;
+      if (Result != other.Result) return false;
+      if (PageOffset != other.PageOffset) return false;
       return true;
     }
 
@@ -115,6 +144,8 @@ namespace POGOProtos.Networking.Responses {
       int hash = 1;
       hash ^= digest_.GetHashCode();
       if (TimestampMs != 0UL) hash ^= TimestampMs.GetHashCode();
+      if (Result != 0) hash ^= Result.GetHashCode();
+      if (PageOffset != 0) hash ^= PageOffset.GetHashCode();
       return hash;
     }
 
@@ -130,6 +161,14 @@ namespace POGOProtos.Networking.Responses {
         output.WriteRawTag(16);
         output.WriteUInt64(TimestampMs);
       }
+      if (Result != 0) {
+        output.WriteRawTag(24);
+        output.WriteEnum((int) Result);
+      }
+      if (PageOffset != 0) {
+        output.WriteRawTag(32);
+        output.WriteInt32(PageOffset);
+      }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -138,6 +177,12 @@ namespace POGOProtos.Networking.Responses {
       size += digest_.CalculateSize(_repeated_digest_codec);
       if (TimestampMs != 0UL) {
         size += 1 + pb::CodedOutputStream.ComputeUInt64Size(TimestampMs);
+      }
+      if (Result != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) Result);
+      }
+      if (PageOffset != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(PageOffset);
       }
       return size;
     }
@@ -150,6 +195,12 @@ namespace POGOProtos.Networking.Responses {
       digest_.Add(other.digest_);
       if (other.TimestampMs != 0UL) {
         TimestampMs = other.TimestampMs;
+      }
+      if (other.Result != 0) {
+        Result = other.Result;
+      }
+      if (other.PageOffset != 0) {
+        PageOffset = other.PageOffset;
       }
     }
 
@@ -169,9 +220,31 @@ namespace POGOProtos.Networking.Responses {
             TimestampMs = input.ReadUInt64();
             break;
           }
+          case 24: {
+            result_ = (global::POGOProtos.Networking.Responses.GetAssetDigestResponse.Types.Result) input.ReadEnum();
+            break;
+          }
+          case 32: {
+            PageOffset = input.ReadInt32();
+            break;
+          }
         }
       }
     }
+
+    #region Nested types
+    /// <summary>Container for nested types declared in the GetAssetDigestResponse message type.</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static partial class Types {
+      public enum Result {
+        [pbr::OriginalName("UNSET")] Unset = 0,
+        [pbr::OriginalName("SUCCESS")] Success = 1,
+        [pbr::OriginalName("PAGE")] Page = 2,
+        [pbr::OriginalName("RETRY")] Retry = 3,
+      }
+
+    }
+    #endregion
 
   }
 

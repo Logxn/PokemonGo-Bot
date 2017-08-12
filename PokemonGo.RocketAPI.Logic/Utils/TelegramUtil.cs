@@ -274,7 +274,7 @@ namespace PokeMaster.Logic.Utils
                 {
                     using (System.IO.Stream stream = new System.IO.MemoryStream())
                     {
-                        Properties.Resources.norights.Save(stream, System.Drawing.Imaging.ImageFormat.Jpeg);
+                        PokemonGo.RocketAPI.Logic.Properties.Resources.norights.Save(stream, System.Drawing.Imaging.ImageFormat.Jpeg);
                         stream.Position = 0;
                         await _telegram.SendPhotoAsync(_chatid, new FileToSend("norights.jpg", stream), replyMarkup: new ReplyKeyboardHide()).ConfigureAwait(false);
                     }

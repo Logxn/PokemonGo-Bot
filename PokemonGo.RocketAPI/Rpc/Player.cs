@@ -20,49 +20,46 @@ namespace PokemonGo.RocketAPI.Rpc
             Client = client;
         }
 
-        public GetPlayerResponse GetPlayer()
+        public GetPlayerResponse GetPlayer(bool forceRequest = true)
         {
-            var ret = PostProtoPayload<Request, GetPlayerResponse>(RequestType.GetPlayer, new GetPlayerMessage());
-            if (ret!=null){
-                CommonRequest.ProcessGetPlayerResponse(Client,ret);
-            }
-            return ret;
+            if (forceRequest)
+              PlayerResponse = PostProtoPayloadCommonR<Request, GetPlayerResponse>(RequestType.GetPlayer, new GetPlayerMessage()).Result;
+
+            return PlayerResponse;
         }
 
-        public GetPlayerProfileResponse GetPlayerProfile(string playerName)
+        public GetPlayerProfileResponse GetPlayerProfile(string playerName = "")
         {
-            return  PostProtoPayload<Request, GetPlayerProfileResponse>(RequestType.GetPlayerProfile, new GetPlayerProfileMessage()
+            if (string.IsNullOrEmpty( playerName) && PlayerResponse !=null &&  PlayerResponse.PlayerData!= null)
+                playerName = PlayerResponse.PlayerData.Username;
+            return PostProtoPayloadCommonR<Request, GetPlayerProfileResponse>(RequestType.GetPlayerProfile, new GetPlayerProfileMessage()
             {
                 PlayerName = playerName
-            });
+            }).Result;
         }
 
         public CheckAwardedBadgesResponse GetNewlyAwardedBadges()
         {
-            return  PostProtoPayload<Request, CheckAwardedBadgesResponse>(RequestType.CheckAwardedBadges, new CheckAwardedBadgesMessage());
+            return  PostProtoPayloadCommonR<Request, CheckAwardedBadgesResponse>(RequestType.CheckAwardedBadges, new CheckAwardedBadgesMessage()).Result;
         }
 
         public CollectDailyBonusResponse CollectDailyBonus()
         {
-            return  PostProtoPayload<Request, CollectDailyBonusResponse>(RequestType.CollectDailyBonus, new CollectDailyBonusMessage());
+            return  PostProtoPayloadCommonR<Request, CollectDailyBonusResponse>(RequestType.CollectDailyBonus, new CollectDailyBonusMessage()).Result;
         }
 
-        public CollectDailyDefenderBonusResponse CollectDailyDefenderBonus()
-        {
-            return PostProtoPayloadCommonR<Request, CollectDailyDefenderBonusResponse>(RequestType.CollectDailyDefenderBonus, new CollectDailyDefenderBonusMessage()).Result;
-        }
 
         public EquipBadgeResponse EquipBadge(BadgeType type)
         {
-            return PostProtoPayload<Request, EquipBadgeResponse>(RequestType.EquipBadge, new EquipBadgeMessage() { BadgeType = type });
+            return PostProtoPayloadCommonR<Request, EquipBadgeResponse>(RequestType.EquipBadge, new EquipBadgeMessage() { BadgeType = type }).Result;
         }
 
         public LevelUpRewardsResponse GetLevelUpRewards(int level)
         {
-            return  PostProtoPayload<Request, LevelUpRewardsResponse>(RequestType.LevelUpRewards, new LevelUpRewardsMessage()
+            return  PostProtoPayloadCommonR<Request, LevelUpRewardsResponse>(RequestType.LevelUpRewards, new LevelUpRewardsMessage()
             {
                 Level = level
-            });
+            }).Result;
         }
 
         public async Task<SetAvatarResponse> SetAvatar(PlayerAvatar playerAvatar)
@@ -75,23 +72,23 @@ namespace PokemonGo.RocketAPI.Rpc
 
         public SetContactSettingsResponse SetContactSetting(ContactSettings contactSettings)
         {
-            return  PostProtoPayload<Request, SetContactSettingsResponse>(RequestType.SetContactSettings, new SetContactSettingsMessage()
+            return  PostProtoPayloadCommonR<Request, SetContactSettingsResponse>(RequestType.SetContactSettings, new SetContactSettingsMessage()
             {
                 ContactSettings = contactSettings
-            });
+            }).Result;
         }
 
         public SetPlayerTeamResponse SetPlayerTeam(TeamColor teamColor)
         {
-            return  PostProtoPayload<Request, SetPlayerTeamResponse>(RequestType.SetPlayerTeam, new SetPlayerTeamMessage()
+            return  PostProtoPayloadCommonR<Request, SetPlayerTeamResponse>(RequestType.SetPlayerTeam, new SetPlayerTeamMessage()
             {
                 Team = teamColor
-            });
+            }).Result;
         }
 
         public VerifyChallengeResponse VerifyChallenge(string token)
         {
-            return  PostProtoPayload<Request, VerifyChallengeResponse>(RequestType.VerifyChallenge, CommonRequest.GetVerifyChallenge(token));
+            return  PostProtoPayloadCommonR<Request, VerifyChallengeResponse>(RequestType.VerifyChallenge, CommonRequest.GetVerifyChallenge(token)).Result;
         }
 
         public void SetCoordinates(double latitude, double longitude, double altitude)

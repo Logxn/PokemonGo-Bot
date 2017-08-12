@@ -22,6 +22,8 @@ namespace PokeMaster.Logic.Utils
         {
             var altitude = GetRandom(11.0d, 8.6d);
             try {
+                if (GlobalVars.BlockAltitude)
+                    return GlobalVars.altitude;
                 if (GlobalVars.GoogleMapsAPIKey != "")
                     return GetAltitudeWithKEY(lat, lon, GlobalVars.GoogleMapsAPIKey);
                 var point = new GeoCoordinate(lat, lon);

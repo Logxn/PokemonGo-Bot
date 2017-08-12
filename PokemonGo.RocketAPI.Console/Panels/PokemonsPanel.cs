@@ -46,14 +46,19 @@ namespace PokeMaster
         {
             PokemonListView.Columns.Clear();
             ColumnHeader columnheader;
+
             columnheader = new ColumnHeader();
             columnheader.Name = th.TS("Name");
             columnheader.Text = columnheader.Name;
             PokemonListView.Columns.Add(columnheader);
+            
+            PokemonListView.Columns.Add(CreateColumn(th.TS("Slash")));
+
             columnheader = new ColumnHeader();
             columnheader.Name = th.TS("CP");
             columnheader.Text = columnheader.Name;
             PokemonListView.Columns.Add(columnheader);
+            
             columnheader = new ColumnHeader();
             columnheader.Name = th.TS("IV A-D-S");
             columnheader.Text = columnheader.Name;
@@ -120,8 +125,8 @@ namespace PokeMaster
             PokemonListView.Columns.Add(CreateColumn(th.TS("ID")));
 
             PokemonListView.Columns["#"].DisplayIndex = 0;
-            
-            PokemonListView.ColumnClick += new ColumnClickEventHandler(PokemonListView_ColumnClick);
+            PokemonListView.ColumnClick += PokemonListView_ColumnClick;
+
             PokemonListView.ShowItemToolTips = true;
             PokemonListView.DoubleBuffered(true);
             PokemonListView.View = View.Details;
@@ -142,6 +147,12 @@ namespace PokeMaster
             foreach (var element in "abcdefghijklmnopqrstuvwxyz") {
                 imageList.Images.Add(PokemonId.Unown.ToString()+element,PokeImgManager.GetPokemonLargeImage(PokemonId.Unown,""+element));
             }
+            imageList.Images.Add(PokemonId.Pikachu+ Costume.Anniversary.ToString().ToLower(),PokeImgManager.GetPokemonLargeImage(PokemonId.Pikachu,Costume.Anniversary.ToString().ToLower()));
+            imageList.Images.Add(PokemonId.Pikachu+ Costume.Holiday2016.ToString().ToLower(),PokeImgManager.GetPokemonLargeImage(PokemonId.Pikachu,Costume.Holiday2016.ToString().ToLower()));
+            imageList.Images.Add(PokemonId.Pikachu+ Costume.OneYearAnniversary.ToString().ToLower(),PokeImgManager.GetPokemonLargeImage(PokemonId.Pikachu,Costume.OneYearAnniversary.ToString().ToLower()));
+            imageList.Images.Add(PokemonId.Raichu+ Costume.Anniversary.ToString().ToLower(),PokeImgManager.GetPokemonLargeImage(PokemonId.Raichu,Costume.Anniversary.ToString().ToLower()));
+            imageList.Images.Add(PokemonId.Raichu+ Costume.Holiday2016.ToString().ToLower(),PokeImgManager.GetPokemonLargeImage(PokemonId.Raichu,Costume.Holiday2016.ToString().ToLower()));
+            imageList.Images.Add(PokemonId.Raichu+ Costume.OneYearAnniversary.ToString().ToLower(),PokeImgManager.GetPokemonLargeImage(PokemonId.Raichu,Costume.OneYearAnniversary.ToString().ToLower()));
             PokemonListView.SmallImageList = imageList;
             PokemonListView.LargeImageList = imageList;
         }
@@ -187,6 +198,8 @@ namespace PokeMaster
             }
 
             // Create a comparer.
+            Logger.Debug("Column Index:" + e.Column);
+            Logger.Debug("Sort order:" + sort_order);
             PokemonListView.ListViewItemSorter = new ListViewComparer(e.Column, sort_order);
 
             // Sort
@@ -245,12 +258,7 @@ namespace PokeMaster
                             .Where(i => (int)i.FamilyId <= (int)pokemon.PokemonId)
                             .Select(f => f.Candy_)
                             .First();
-                        listViewItem.SubItems.Add(string.Format("{0}", pokemon.Cp));
-                        if (checkBox_ShortName.Checked)
-                            listViewItem.SubItems.Add(string.Format("{0}% {1}{2}{3} ({4})", PokemonInfo.CalculatePokemonPerfection(pokemon).ToString("0"), pokemon.IndividualAttack.ToString("X"), pokemon.IndividualDefense.ToString("X"), pokemon.IndividualStamina.ToString("X"), (45 - pokemon.IndividualAttack- pokemon.IndividualDefense- pokemon.IndividualStamina) ));
-                        else
-                            listViewItem.SubItems.Add(string.Format("{0}% {1}-{2}-{3}", PokemonInfo.CalculatePokemonPerfection(pokemon).ToString("0"), pokemon.IndividualAttack, pokemon.IndividualDefense, pokemon.IndividualStamina));
-                        listViewItem.SubItems.Add(string.Format("{0}", PokemonInfo.GetLevel(pokemon)));
+
                         var specSymbol ="";
                         if  (pokemon.Favorite == 1)
                             specSymbol = "★";
@@ -263,6 +271,17 @@ namespace PokeMaster
                         listViewItem.ToolTipText = StringUtils.ConvertTimeMSinString(pokemon.CreationTimeMs,"dd/MM/yyyy HH:mm:ss");
                         if (pokemon.Nickname != "")
                             listViewItem.ToolTipText += th.TS("\n+Nickname: {0}",pokemon.Nickname);
+
+                        var isbad =(pokemon.IsBad)?"Yes":"No";
+                        listViewItem.SubItems.Add("" + isbad);
+
+                        listViewItem.SubItems.Add(string.Format("{0}", pokemon.Cp));
+
+                        if (checkBox_ShortName.Checked)
+                            listViewItem.SubItems.Add(string.Format("{0}% {1}{2}{3} ({4})", PokemonInfo.CalculatePokemonPerfection(pokemon).ToString("0"), pokemon.IndividualAttack.ToString("X"), pokemon.IndividualDefense.ToString("X"), pokemon.IndividualStamina.ToString("X"), (45 - pokemon.IndividualAttack- pokemon.IndividualDefense- pokemon.IndividualStamina) ));
+                        else
+                            listViewItem.SubItems.Add(string.Format("{0}% {1}-{2}-{3}", PokemonInfo.CalculatePokemonPerfection(pokemon).ToString("0"), pokemon.IndividualAttack, pokemon.IndividualDefense, pokemon.IndividualStamina));
+                        listViewItem.SubItems.Add(string.Format("{0}", PokemonInfo.GetLevel(pokemon)));
 
                         # region Evolve Column
                         var settings = pokemonSettings.FirstOrDefault(x => x.PokemonId == pokemon.PokemonId);
@@ -328,11 +347,15 @@ namespace PokeMaster
                         listViewItem.SubItems.Add("" + pokemon.Id.ToString("X"));
                         
                         var special ="";
-                        if (GlobalVars.UseSpritesFolder)
+                        if (GlobalVars.UseSpritesFolder){
                             if (pokemon.PokemonId == PokemonId.Unown)
                                 special = form.ToLower();
                             else if (shiny=="Yes") 
                                 special = "s";
+                            else if (pokemon.PokemonDisplay.Costume != Costume.Unset){
+                                special = pokemon.PokemonDisplay.Costume.ToString().ToLower();
+                            }
+                        }
                         
                         listViewItem.ImageKey = pokemon.PokemonId + special;
 
@@ -439,61 +462,46 @@ namespace PokeMaster
                     else
                         continue; // go to next pokemon
                 }
-                var normalImage = PokeImgManager.GetPokemonVeryLargeImage(pokemoninfo.PokemonId);
-                evolveDialog.pictureBox1.Image = normalImage;
-                evolveDialog.pictureBox2.Image = null;
-                evolveDialog.progressBar1.Value = 0;
-                evolveDialog.Show();
                 resp = client.Inventory.EvolvePokemon(pokemoninfo.Id, item);
                 if (resp.Result == EvolvePokemonResponse.Types.Result.Success)
                 {
-                    var evolvedImage = PokeImgManager.GetPokemonVeryLargeImage(resp.EvolvedPokemonData.PokemonId);
-                    evolveDialog.pictureBox2.Image = evolvedImage;
-                    evolveDialog.Refresh();
                     evolved++;
                     statusTexbox.Text = "Evolving..." + evolved;
-                    var name = pokemoninfo.PokemonId;
+                    if (GlobalVars.UseAnimationTimes)
+                    {
+                        evolveDialog.Show();
+                        evolveDialog.RunAnimation(pokemoninfo.PokemonId,resp.EvolvedPokemonData.PokemonId);
+                        evolveDialog.Hide();
+                    }
 
+                    var name = pokemoninfo.PokemonId;
                     var getPokemonName = StringUtils.getPokemonNameByLanguage(pokemoninfo.PokemonId);
                     var cp = pokemoninfo.Cp;
                     var calcPerf = PokemonInfo.CalculatePokemonPerfection(pokemoninfo).ToString("0.00");
                     var getEvolvedName = th.TS((resp.EvolvedPokemonData.PokemonId).ToString());
-
                     var getEvolvedCP = resp.EvolvedPokemonData.Cp;
                     gotXP = gotXP + resp.ExperienceAwarded;
                     var xpreward = resp.ExperienceAwarded.ToString("N0");
                     Logger.Info($"Evolved Pokemon: {getPokemonName} | CP {cp} | Perfection {calcPerf}% | => to {getEvolvedName} | CP: {getEvolvedCP} | XP Reward: {xpreward} XP");
                     Logger.Info($"Waiting a few seconds... dont worry!");
-                    if (GlobalVars.UseAnimationTimes)
-                    {
-                        const int times = 12;
-                        for (var i = 0; i < times;i++){
-                            evolveDialog.progressBar1.Value += evolveDialog.progressBar1.Maximum/times;
-                            evolveDialog.pictureBox1.Image =  (i % 2 == 0)?normalImage:null;
-                            evolveDialog.pictureBox2.Image =  (i % 2 == 1)?evolvedImage:null;
-                            evolveDialog.Refresh();
-                            RandomHelper.RandomSleep(2400);
-                        }
-                    }
                 }
                 else
                 {
                     Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Failed to evolve {pokemoninfo.PokemonId}. EvolvePokemonOutProto.Result was {resp.Result}");
                     failed += " {pokemoninfo.PokemonId} ";
                 }
-                evolveDialog.Hide();
 
             }
 
             PokemonListView.Refresh();
 
-            if (failed != string.Empty)
+            if (!string.IsNullOrEmpty(failed) )
             {
                 if (GlobalVars.LogEvolve)
                 {
                     File.AppendAllText(evolvelog, $"[{date}] - MANUAL - Sucessfully evolved {evolved}/{total} Pokemons. Failed: {failed}" + Environment.NewLine);
                 }
-                MessageBox.Show(th.TS("Succesfully evolved {0}/{1} Pokemons. Failed: {2}",evolved,total,failed), th.TS("Evolve status"), MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show(th.TS("Succesfully evolved {0}/{1} Pokemons. Failed: {2}",evolved,total,failed), th.TS("Evolve status"), MessageBoxButtons.OK, MessageBoxIcon.Information,MessageBoxDefaultButton.Button1, (MessageBoxOptions)0x40000);
             }
             else
             {
@@ -501,7 +509,7 @@ namespace PokeMaster
                 {
                     File.AppendAllText(evolvelog, $"[{date}] - MANUAL - Sucessfully evolved {evolved}/{total} Pokemons." + Environment.NewLine);
                 }
-                MessageBox.Show(th.TS("Succesfully evolved {0}/{1} Pokemons.",evolved,total), th.TS("Evolve status"), MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show(th.TS("Succesfully evolved {0}/{1} Pokemons.",evolved,total), th.TS("Evolve status"), MessageBoxButtons.OK, MessageBoxIcon.Information,MessageBoxDefaultButton.Button1, (MessageBoxOptions)0x40000);
             }
             var gotxpno=gotXP.ToString("N0");
             Logger.Info($"Evolved {evolved} Pokemons. We have got {gotxpno} XP.");
@@ -592,7 +600,7 @@ namespace PokeMaster
                         }
                         else
                         {
-                            Logger.Error("Something happened while transferring pokemons.");
+                            Logger.Error("Something happened while transferring pokemons: "+_response.Result);
                         }
                         
                         Execute();
@@ -937,7 +945,7 @@ namespace PokeMaster
             if (pokeGym == null){
                 message = th.TS("Gym is not in range.\nID: ") + selectedPokemon.DeployedFortId;
             }else{
-                var gymDetails = client.Fort.GetGymDetails(pokeGym.Id, pokeGym.Latitude, pokeGym.Longitude);
+                var gymDetails = client.Fort.GymGetInfo(pokeGym.Id, pokeGym.Latitude, pokeGym.Longitude);
                 message = string.Format("{0}\n{1}, {2}\n{3}\nID: {4}", LocationUtils.FindAddress(pokeGym.Latitude, pokeGym.Longitude), pokeGym.Latitude, pokeGym.Longitude, gymDetails.Name ,  pokeGym.Id);
                 Logic.Logic.Instance.infoObservable.PushUpdatePokeGym(pokeGym);
             }

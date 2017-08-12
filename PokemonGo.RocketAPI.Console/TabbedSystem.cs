@@ -137,6 +137,9 @@ namespace PokeMaster
                 case "tpPlayerInfo":
                     playerPanel1.Execute();
                     break;
+                case "tpBadges":
+                    badgesPanel1.Execute();
+                    break;
             }
         }
         public void ShowWebPanel()
@@ -166,6 +169,7 @@ namespace PokeMaster
             th.Translate(itemsPanel1);
             th.Translate(eggsPanel1);
             th.Translate(playerPanel1);
+            th.Translate(badgesPanel1);
             th.Translate(sniperPanel1);
             th.Translate(webPanel1);
         }

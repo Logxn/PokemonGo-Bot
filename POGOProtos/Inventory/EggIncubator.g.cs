@@ -127,7 +127,7 @@ namespace POGOProtos.Inventory {
     public const int PokemonIdFieldNumber = 5;
     private ulong pokemonId_;
     /// <summary>
-    ///  TODO: Check if is PokemonType
+    /// TODO: Check if is PokemonType
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public ulong PokemonId {

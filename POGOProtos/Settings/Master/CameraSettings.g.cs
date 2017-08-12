@@ -29,7 +29,7 @@ namespace POGOProtos.Settings.Master {
             "C25leHRfY2FtZXJhGAEgASgJEjwKDWludGVycG9sYXRpb24YAiADKA4yJS5Q",
             "T0dPUHJvdG9zLkVudW1zLkNhbWVyYUludGVycG9sYXRpb24SMwoLdGFyZ2V0",
             "X3R5cGUYAyADKA4yHi5QT0dPUHJvdG9zLkVudW1zLkNhbWVyYVRhcmdldBIV",
-            "Cg1lYXNlX2luX3NwZWVkGAQgAygCEhYKDmVhc3Rfb3V0X3NwZWVkGAUgAygC",
+            "Cg1lYXNlX2luX3NwZWVkGAQgAygCEhYKDmVhc2Vfb3V0X3NwZWVkGAUgAygC",
             "EhgKEGR1cmF0aW9uX3NlY29uZHMYBiADKAISFAoMd2FpdF9zZWNvbmRzGAcg",
             "AygCEhoKEnRyYW5zaXRpb25fc2Vjb25kcxgIIAMoAhIUCgxhbmdsZV9kZWdy",
             "ZWUYCSADKAISGwoTYW5nbGVfb2Zmc2V0X2RlZ3JlZRgKIAMoAhIUCgxwaXRj",
@@ -40,7 +40,7 @@ namespace POGOProtos.Settings.Master {
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::POGOProtos.Enums.CameraTargetReflection.Descriptor, global::POGOProtos.Enums.CameraInterpolationReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::POGOProtos.Settings.Master.CameraSettings), global::POGOProtos.Settings.Master.CameraSettings.Parser, new[]{ "NextCamera", "Interpolation", "TargetType", "EaseInSpeed", "EastOutSpeed", "DurationSeconds", "WaitSeconds", "TransitionSeconds", "AngleDegree", "AngleOffsetDegree", "PitchDegree", "PitchOffsetDegree", "RollDegree", "DistanceMeters", "HeightPercent", "VertCtrRatio" }, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::POGOProtos.Settings.Master.CameraSettings), global::POGOProtos.Settings.Master.CameraSettings.Parser, new[]{ "NextCamera", "Interpolation", "TargetType", "EaseInSpeed", "EaseOutSpeed", "DurationSeconds", "WaitSeconds", "TransitionSeconds", "AngleDegree", "AngleOffsetDegree", "PitchDegree", "PitchOffsetDegree", "RollDegree", "DistanceMeters", "HeightPercent", "VertCtrRatio" }, null, null, null)
           }));
     }
     #endregion
@@ -75,7 +75,7 @@ namespace POGOProtos.Settings.Master {
       interpolation_ = other.interpolation_.Clone();
       targetType_ = other.targetType_.Clone();
       easeInSpeed_ = other.easeInSpeed_.Clone();
-      eastOutSpeed_ = other.eastOutSpeed_.Clone();
+      easeOutSpeed_ = other.easeOutSpeed_.Clone();
       durationSeconds_ = other.durationSeconds_.Clone();
       waitSeconds_ = other.waitSeconds_.Clone();
       transitionSeconds_ = other.transitionSeconds_.Clone();
@@ -135,14 +135,14 @@ namespace POGOProtos.Settings.Master {
       get { return easeInSpeed_; }
     }
 
-    /// <summary>Field number for the "east_out_speed" field.</summary>
-    public const int EastOutSpeedFieldNumber = 5;
-    private static readonly pb::FieldCodec<float> _repeated_eastOutSpeed_codec
+    /// <summary>Field number for the "ease_out_speed" field.</summary>
+    public const int EaseOutSpeedFieldNumber = 5;
+    private static readonly pb::FieldCodec<float> _repeated_easeOutSpeed_codec
         = pb::FieldCodec.ForFloat(42);
-    private readonly pbc::RepeatedField<float> eastOutSpeed_ = new pbc::RepeatedField<float>();
+    private readonly pbc::RepeatedField<float> easeOutSpeed_ = new pbc::RepeatedField<float>();
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public pbc::RepeatedField<float> EastOutSpeed {
-      get { return eastOutSpeed_; }
+    public pbc::RepeatedField<float> EaseOutSpeed {
+      get { return easeOutSpeed_; }
     }
 
     /// <summary>Field number for the "duration_seconds" field.</summary>
@@ -272,7 +272,7 @@ namespace POGOProtos.Settings.Master {
       if(!interpolation_.Equals(other.interpolation_)) return false;
       if(!targetType_.Equals(other.targetType_)) return false;
       if(!easeInSpeed_.Equals(other.easeInSpeed_)) return false;
-      if(!eastOutSpeed_.Equals(other.eastOutSpeed_)) return false;
+      if(!easeOutSpeed_.Equals(other.easeOutSpeed_)) return false;
       if(!durationSeconds_.Equals(other.durationSeconds_)) return false;
       if(!waitSeconds_.Equals(other.waitSeconds_)) return false;
       if(!transitionSeconds_.Equals(other.transitionSeconds_)) return false;
@@ -294,7 +294,7 @@ namespace POGOProtos.Settings.Master {
       hash ^= interpolation_.GetHashCode();
       hash ^= targetType_.GetHashCode();
       hash ^= easeInSpeed_.GetHashCode();
-      hash ^= eastOutSpeed_.GetHashCode();
+      hash ^= easeOutSpeed_.GetHashCode();
       hash ^= durationSeconds_.GetHashCode();
       hash ^= waitSeconds_.GetHashCode();
       hash ^= transitionSeconds_.GetHashCode();
@@ -323,7 +323,7 @@ namespace POGOProtos.Settings.Master {
       interpolation_.WriteTo(output, _repeated_interpolation_codec);
       targetType_.WriteTo(output, _repeated_targetType_codec);
       easeInSpeed_.WriteTo(output, _repeated_easeInSpeed_codec);
-      eastOutSpeed_.WriteTo(output, _repeated_eastOutSpeed_codec);
+      easeOutSpeed_.WriteTo(output, _repeated_easeOutSpeed_codec);
       durationSeconds_.WriteTo(output, _repeated_durationSeconds_codec);
       waitSeconds_.WriteTo(output, _repeated_waitSeconds_codec);
       transitionSeconds_.WriteTo(output, _repeated_transitionSeconds_codec);
@@ -346,7 +346,7 @@ namespace POGOProtos.Settings.Master {
       size += interpolation_.CalculateSize(_repeated_interpolation_codec);
       size += targetType_.CalculateSize(_repeated_targetType_codec);
       size += easeInSpeed_.CalculateSize(_repeated_easeInSpeed_codec);
-      size += eastOutSpeed_.CalculateSize(_repeated_eastOutSpeed_codec);
+      size += easeOutSpeed_.CalculateSize(_repeated_easeOutSpeed_codec);
       size += durationSeconds_.CalculateSize(_repeated_durationSeconds_codec);
       size += waitSeconds_.CalculateSize(_repeated_waitSeconds_codec);
       size += transitionSeconds_.CalculateSize(_repeated_transitionSeconds_codec);
@@ -372,7 +372,7 @@ namespace POGOProtos.Settings.Master {
       interpolation_.Add(other.interpolation_);
       targetType_.Add(other.targetType_);
       easeInSpeed_.Add(other.easeInSpeed_);
-      eastOutSpeed_.Add(other.eastOutSpeed_);
+      easeOutSpeed_.Add(other.easeOutSpeed_);
       durationSeconds_.Add(other.durationSeconds_);
       waitSeconds_.Add(other.waitSeconds_);
       transitionSeconds_.Add(other.transitionSeconds_);
@@ -415,7 +415,7 @@ namespace POGOProtos.Settings.Master {
           }
           case 42:
           case 45: {
-            eastOutSpeed_.AddEntriesFrom(input, _repeated_eastOutSpeed_codec);
+            easeOutSpeed_.AddEntriesFrom(input, _repeated_easeOutSpeed_codec);
             break;
           }
           case 50:
