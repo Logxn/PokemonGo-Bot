@@ -52,6 +52,8 @@ namespace PokeMaster
             this.eggsPanel1 = new PokeMaster.EggsPanel();
             this.tpPlayerInfo = new System.Windows.Forms.TabPage();
             this.playerPanel1 = new PokeMaster.PlayerPanel();
+            this.tpBadges = new System.Windows.Forms.TabPage();
+            this.badgesPanel1 = new PokeMaster.Panels.BadgesPanel();
             this.tpSnipers = new System.Windows.Forms.TabPage();
             this.sniperPanel1 = new PokeMaster.SniperPanel();
             this.tpOptions = new System.Windows.Forms.TabPage();
@@ -60,8 +62,6 @@ namespace PokeMaster
             this.webPanel1 = new PokeMaster.Panels.WebPanel();
             this.loggerPanel1 = new PokemonGo.RocketAPI.Logging.LoggerPanel();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.tpBadges = new System.Windows.Forms.TabPage();
-            this.badgesPanel1 = new PokeMaster.Panels.BadgesPanel();
             this.contextMenuStrip1.SuspendLayout();
             this.TabControl1.SuspendLayout();
             this.tpLocation.SuspendLayout();
@@ -69,6 +69,7 @@ namespace PokeMaster
             this.tpItems.SuspendLayout();
             this.tpEggs.SuspendLayout();
             this.tpPlayerInfo.SuspendLayout();
+            this.tpBadges.SuspendLayout();
             this.tpSnipers.SuspendLayout();
             this.tpOptions.SuspendLayout();
             this.tpWeb.SuspendLayout();
@@ -76,7 +77,6 @@ namespace PokeMaster
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
-            this.tpBadges.SuspendLayout();
             this.SuspendLayout();
             // 
             // contextMenuStrip1
@@ -300,6 +300,27 @@ namespace PokeMaster
             this.playerPanel1.Size = new System.Drawing.Size(784, 412);
             this.playerPanel1.TabIndex = 0;
             // 
+            // tpBadges
+            // 
+            this.tpBadges.Controls.Add(this.badgesPanel1);
+            this.tpBadges.Location = new System.Drawing.Point(4, 22);
+            this.tpBadges.Name = "tpBadges";
+            this.tpBadges.Padding = new System.Windows.Forms.Padding(3);
+            this.tpBadges.Size = new System.Drawing.Size(782, 418);
+            this.tpBadges.TabIndex = 8;
+            this.tpBadges.Text = "Badges";
+            this.tpBadges.UseVisualStyleBackColor = true;
+            // 
+            // badgesPanel1
+            // 
+            this.badgesPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.badgesPanel1.Location = new System.Drawing.Point(3, 6);
+            this.badgesPanel1.Name = "badgesPanel1";
+            this.badgesPanel1.Size = new System.Drawing.Size(773, 406);
+            this.badgesPanel1.TabIndex = 0;
+            // 
             // tpSnipers
             // 
             this.tpSnipers.Controls.Add(this.sniperPanel1);
@@ -322,7 +343,6 @@ namespace PokeMaster
             this.sniperPanel1.Name = "sniperPanel1";
             this.sniperPanel1.Size = new System.Drawing.Size(772, 407);
             this.sniperPanel1.TabIndex = 0;
-            this.sniperPanel1.Visible = false;
             // 
             // tpOptions
             // 
@@ -398,27 +418,6 @@ namespace PokeMaster
             this.splitContainer1.SplitterDistance = 450;
             this.splitContainer1.TabIndex = 10;
             // 
-            // tpBadges
-            // 
-            this.tpBadges.Controls.Add(this.badgesPanel1);
-            this.tpBadges.Location = new System.Drawing.Point(4, 22);
-            this.tpBadges.Name = "tpBadges";
-            this.tpBadges.Padding = new System.Windows.Forms.Padding(3);
-            this.tpBadges.Size = new System.Drawing.Size(782, 418);
-            this.tpBadges.TabIndex = 8;
-            this.tpBadges.Text = "Badges";
-            this.tpBadges.UseVisualStyleBackColor = true;
-            // 
-            // badgesPanel1
-            // 
-            this.badgesPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.badgesPanel1.Location = new System.Drawing.Point(3, 6);
-            this.badgesPanel1.Name = "badgesPanel1";
-            this.badgesPanel1.Size = new System.Drawing.Size(773, 406);
-            this.badgesPanel1.TabIndex = 0;
-            // 
             // TabbedSystem
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
@@ -441,6 +440,7 @@ namespace PokeMaster
             this.tpItems.ResumeLayout(false);
             this.tpEggs.ResumeLayout(false);
             this.tpPlayerInfo.ResumeLayout(false);
+            this.tpBadges.ResumeLayout(false);
             this.tpSnipers.ResumeLayout(false);
             this.tpOptions.ResumeLayout(false);
             this.tpWeb.ResumeLayout(false);
@@ -448,7 +448,6 @@ namespace PokeMaster
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
-            this.tpBadges.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
