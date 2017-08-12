@@ -9,6 +9,7 @@ using POGOProtos.Networking.Responses;
 using PokeMaster.Logic.Shared;
 using POGOProtos.Data.Player;
 using PokemonGo.RocketAPI.Helpers;
+using Google.Protobuf.Collections;
 
 namespace PokeMaster.Logic.Functions
 {
@@ -55,26 +56,51 @@ namespace PokeMaster.Logic.Functions
                     SuccessFlag = Convert.ToBoolean(TutorialResponse.Result);
                     break;
                 case TutorialState.AccountCreation:
-                    TutorialResponse = client.Misc.AceptLegalScreen().Result;
+                    // Need to check how to implement, meanwhile...
+                    TutorialResponse = client.Misc.MarkTutorialComplete(new RepeatedField<TutorialState>() { TutorialState.AccountCreation }).Result;
+                    SuccessFlag = Convert.ToBoolean(TutorialResponse.Result);
                     break;
-
+                case TutorialState.PokemonCapture:
+                    TutorialResponse = client.Encounter.EncounterTutorialComplete(AvatarSettings.starter);
+                    SuccessFlag = Convert.ToBoolean(TutorialResponse.Result);
+                    break;
                 case TutorialState.NameSelection:
-                    TutorialResponse = client.Misc.AceptLegalScreen().Result;
+                    SuccessFlag = false;
+                    ClaimCodenameResponse.Types.Status status = ClaimCodenameResponse.Types.Status.CodenameNotValid;
+                    for (int i = 0; i < 100; i++)
+                    {
+                        string suggestedName = AvatarSettings.nicknamePrefix + (i == 0 ? "" : i.ToString()) + AvatarSettings.nicknameSufix;
+                        status = client.Misc.ClaimCodename(suggestedName).Status;
+                        if (status == ClaimCodenameResponse.Types.Status.Success)
+                        {
+                            TutorialResponse = client.Misc.MarkTutorialComplete(new RepeatedField<TutorialState>() { TutorialState.NameSelection }).Result;
+                            SuccessFlag = Convert.ToBoolean(TutorialResponse.Result);
+                            break;
+                        }
+                        else if (status == ClaimCodenameResponse.Types.Status.CurrentOwner || status == ClaimCodenameResponse.Types.Status.CodenameChangeNotAllowed) break;
+                    }
                     break;
                 case TutorialState.PokemonBerry:
-                    TutorialResponse = client.Misc.AceptLegalScreen().Result;
+                    // Need to check how to implement, meanwhile...
+                    TutorialResponse = client.Misc.MarkTutorialComplete(new RepeatedField<TutorialState>() { TutorialState.PokemonBerry }).Result;
+                    SuccessFlag = Convert.ToBoolean(TutorialResponse.Result);
                     break;
                 case TutorialState.UseItem:
-                    TutorialResponse = client.Misc.AceptLegalScreen().Result;
+                    // Need to check how to implement, meanwhile...
+                    TutorialResponse = client.Misc.MarkTutorialComplete(new RepeatedField<TutorialState>() { TutorialState.UseItem }).Result;
+                    SuccessFlag = Convert.ToBoolean(TutorialResponse.Result);
                     break;
                 case TutorialState.FirstTimeExperienceComplete:
-                    TutorialResponse = client.Misc.AceptLegalScreen().Result;
+                    TutorialResponse = client.Misc.MarkTutorialComplete(new RepeatedField<TutorialState>() { TutorialState.FirstTimeExperienceComplete }).Result;
+                    SuccessFlag = Convert.ToBoolean(TutorialResponse.Result);
                     break;
                 case TutorialState.PokestopTutorial:
-                    TutorialResponse = client.Misc.AceptLegalScreen().Result;
+                    TutorialResponse = client.Misc.MarkTutorialComplete(new RepeatedField<TutorialState>() { TutorialState.PokestopTutorial }).Result;
+                    SuccessFlag = Convert.ToBoolean(TutorialResponse.Result);
                     break;
                 case TutorialState.GymTutorial:
-                    TutorialResponse = client.Misc.AceptLegalScreen().Result;
+                    TutorialResponse = client.Misc.MarkTutorialComplete(new RepeatedField<TutorialState>() { TutorialState.GymTutorial }).Result;
+                    SuccessFlag = Convert.ToBoolean(TutorialResponse.Result);
                     break;
             }
 

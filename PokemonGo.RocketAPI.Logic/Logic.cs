@@ -99,90 +99,7 @@ namespace PokeMaster.Logic
 
         #region Workflow
 
-
-        private void FarmPokestopOnBreak(FortData[] pokeStops, Client client)
-        {
-            //check for overlapping pokestops where we are taking a break
-            Logger.ColoredConsoleWrite(ConsoleColor.Green, "Reached break location. Using Lures Enabled");
-
-            var pokestopsWithinRangeStanding = pokeStops
-                .Where(i => LocationUtils
-                   .CalculateDistanceInMeters(
-                       objClient.CurrentLatitude,
-                       objClient.CurrentLongitude,
-                       i.Latitude,
-                       i.Longitude) < 40);
-
-            var pokestopCount = pokestopsWithinRangeStanding.Count();
-
-            Logger.ColoredConsoleWrite(ConsoleColor.Green, $"{pokestopCount} Pokestops within range of where you are standing.");
-
-            //Begin farming loop while on break
-            while (BotSettings.pauseAtPokeStop)
-            {
-                foreach (var pokestop in pokestopsWithinRangeStanding)
-                {
-
-                    if (BotSettings.RelocateDefaultLocation) break;
-
-                    CatchingLogic.Execute();
-
-                    var fortInfo = objClient.Fort.GetFort(pokestop.Id, pokestop.Latitude, pokestop.Longitude).Result;
-
-                    if (BotSettings.UseLureGUIClick || (BotSettings.UseLureAtBreak && !pokestop.ActiveFortModifier.Any() && !addedlure))
-                    {
-                        if (objClient.Inventory.GetItemAmountByType(ItemId.ItemTroyDisk) > 0)
-                        {
-                            BotSettings.UseLureGUIClick = false;
-
-                            Logger.ColoredConsoleWrite(ConsoleColor.Magenta, "Adding lure and setting resume walking to 30 minutes");
-
-                            objClient.Fort.AddFortModifier(fortInfo.FortId, ItemId.ItemTroyDisk);
-
-                            Setout.resumetimestamp = (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds + 30000;
-                            addedlure = true;
-                        }
-                    }
-
-                    var farmed = CheckAndFarmNearbyPokeStop(pokestop, objClient, fortInfo);
-                    if (farmed)
-                    {
-                        pokestop.CooldownCompleteTimestampMs = (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds + 300500;
-                    }
-
-                    Setout.SetCheckTimeToRun();
-
-                    RandomHelper.RandomSleep(30000, 40000);
-
-                    // wait for a bit before repeating farm cycle to avoid spamming 
-                }
-
-                if (!BotSettings.RelocateDefaultLocation) continue;
-
-                Setout.resumetimestamp = -10000;
-                BotSettings.pauseAtPokeStop = false;
-
-                Logger.ColoredConsoleWrite(ConsoleColor.Magenta, "Exit Command detected - Ending break");
-            }
-        }
-
-        private int GetRandomWalkspeed()
-        {
-            var walkspeed = (int)BotSettings.WalkingSpeedInKilometerPerHour;
-            if (!BotSettings.RandomReduceSpeed) return walkspeed;
-
-            var randomWalkSpeed = new Random();
-            if ((int)BotSettings.WalkingSpeedInKilometerPerHour - BotSettings.MinWalkSpeed > 1)
-            {
-                walkspeed = randomWalkSpeed.Next(BotSettings.MinWalkSpeed,
-                    (int)BotSettings.WalkingSpeedInKilometerPerHour);
-            }
-            Logger.Debug($"WalkingSpeedInKilometerPerHour: {BotSettings.WalkingSpeedInKilometerPerHour}, MinWalkSpeed: {BotSettings.MinWalkSpeed}, walkspeed: {walkspeed}");
-            return walkspeed;
-        }
-
-        #region Execute Functions
-
+        #region Start and run the Bot
         public void Execute()
         {
             Logger.SelectedLevel = LogLevel.Error;
@@ -314,7 +231,91 @@ namespace PokeMaster.Logic
             }
             #endregion
         }
+        #endregion
 
+        private void FarmPokestopOnBreak(FortData[] pokeStops, Client client)
+        {
+            //check for overlapping pokestops where we are taking a break
+            Logger.ColoredConsoleWrite(ConsoleColor.Green, "Reached break location. Using Lures Enabled");
+
+            var pokestopsWithinRangeStanding = pokeStops
+                .Where(i => LocationUtils
+                   .CalculateDistanceInMeters(
+                       objClient.CurrentLatitude,
+                       objClient.CurrentLongitude,
+                       i.Latitude,
+                       i.Longitude) < 40);
+
+            var pokestopCount = pokestopsWithinRangeStanding.Count();
+
+            Logger.ColoredConsoleWrite(ConsoleColor.Green, $"{pokestopCount} Pokestops within range of where you are standing.");
+
+            //Begin farming loop while on break
+            while (BotSettings.pauseAtPokeStop)
+            {
+                foreach (var pokestop in pokestopsWithinRangeStanding)
+                {
+
+                    if (BotSettings.RelocateDefaultLocation) break;
+
+                    CatchingLogic.Execute();
+
+                    var fortInfo = objClient.Fort.GetFort(pokestop.Id, pokestop.Latitude, pokestop.Longitude).Result;
+
+                    if (BotSettings.UseLureGUIClick || (BotSettings.UseLureAtBreak && !pokestop.ActiveFortModifier.Any() && !addedlure))
+                    {
+                        if (objClient.Inventory.GetItemAmountByType(ItemId.ItemTroyDisk) > 0)
+                        {
+                            BotSettings.UseLureGUIClick = false;
+
+                            Logger.ColoredConsoleWrite(ConsoleColor.Magenta, "Adding lure and setting resume walking to 30 minutes");
+
+                            objClient.Fort.AddFortModifier(fortInfo.FortId, ItemId.ItemTroyDisk);
+
+                            Setout.resumetimestamp = (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds + 30000;
+                            addedlure = true;
+                        }
+                    }
+
+                    var farmed = CheckAndFarmNearbyPokeStop(pokestop, objClient, fortInfo);
+                    if (farmed)
+                    {
+                        pokestop.CooldownCompleteTimestampMs = (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds + 300500;
+                    }
+
+                    Setout.SetCheckTimeToRun();
+
+                    RandomHelper.RandomSleep(30000, 40000);
+
+                    // wait for a bit before repeating farm cycle to avoid spamming 
+                }
+
+                if (!BotSettings.RelocateDefaultLocation) continue;
+
+                Setout.resumetimestamp = -10000;
+                BotSettings.pauseAtPokeStop = false;
+
+                Logger.ColoredConsoleWrite(ConsoleColor.Magenta, "Exit Command detected - Ending break");
+            }
+        }
+
+        private int GetRandomWalkspeed()
+        {
+            var walkspeed = (int)BotSettings.WalkingSpeedInKilometerPerHour;
+            if (!BotSettings.RandomReduceSpeed) return walkspeed;
+
+            var randomWalkSpeed = new Random();
+            if ((int)BotSettings.WalkingSpeedInKilometerPerHour - BotSettings.MinWalkSpeed > 1)
+            {
+                walkspeed = randomWalkSpeed.Next(BotSettings.MinWalkSpeed,
+                    (int)BotSettings.WalkingSpeedInKilometerPerHour);
+            }
+            Logger.Debug($"WalkingSpeedInKilometerPerHour: {BotSettings.WalkingSpeedInKilometerPerHour}, MinWalkSpeed: {BotSettings.MinWalkSpeed}, walkspeed: {walkspeed}");
+            return walkspeed;
+        }
+
+        #region Execute Functions
+        
         public void PostLoginExecute()
         {
             try
@@ -350,7 +351,6 @@ namespace PokeMaster.Logic
         }
 
         #endregion
-
 
         #region Catch, Farm and Walk Logic
 
@@ -671,7 +671,6 @@ namespace PokeMaster.Logic
             do
             {
                 #region Check for Exit Command
-
 
                 if (BotSettings.RelocateDefaultLocation)
                 {
@@ -1001,8 +1000,6 @@ namespace PokeMaster.Logic
                         }
 
                         Telegram?.sendInformationText(TelegramUtil.TelegramUtilInformationTopics.Pokestop, fortInfo.Name, fortSearch.ExperienceAwarded, eggs, fortSearch.GemsAwarded, StringUtils.GetSummedFriendlyNameOfItemAwardList(fortSearch.ItemsAwarded));
-
-
                     }
                 }
 
@@ -1024,6 +1021,7 @@ namespace PokeMaster.Logic
         }
 
         public bool runGymLogic = true;
+
         public bool ExecuteCatchandFarm()
         {
             if (BotSettings.RelocateDefaultLocation)
@@ -1096,7 +1094,6 @@ namespace PokeMaster.Logic
             }
         }
 
-
         private bool VerifyLocation()
         {
             #region Stay within defined radius
@@ -1153,130 +1150,47 @@ namespace PokeMaster.Logic
             return d;
         }
 
+        #region Handle Tutorial Calls
+        // This happens when starting a new player
         private void MakeTutorial(object sender, EventArgs eventArgs)
         {
-            //LegalScreen = 0, --> Implemented
-            //AvatarSelection = 1, --> Implemented
-            //AccountCreation = 2, --> Implemented
-            //PokemonCapture = 3, --> Implemented
-            //NameSelection = 4, --> Implemented
-
-            //PokemonBerry = 5,
-            //UseItem = 6,
-
-            //FirstTimeExperienceComplete = 7, --> Implemented
-            //PokestopTutorial = 8, --> Implemented
-
-            //GymTutorial = 9 --> Implemented
-
             if (!GlobalVars.CompleteTutorial)
                 return;
-
 
             var state = objClient.Player.PlayerResponse.PlayerData.TutorialState;
 
             if (!state.Contains(TutorialState.LegalScreen)) Tutorial.MarkTutorialAsDone(TutorialState.LegalScreen, objClient);
             if (!state.Contains(TutorialState.AvatarSelection)) Tutorial.MarkTutorialAsDone(TutorialState.AvatarSelection, objClient);
-
-            if (!state.Contains(TutorialState.PokemonCapture))
-            {
-                Logger.Debug("[TUTORIAL] AvatarSettings.starter: " + AvatarSettings.starter);
-                var res2 = objClient.Encounter.EncounterTutorialComplete(AvatarSettings.starter);
-                if (res2.Result != EncounterTutorialCompleteResponse.Types.Result.Success)
-                {
-                    Logger.Warning("[TUTORIAL] 3-First Pokemon Catch Failed. Reason: " + res2.Result);
-                    return;
-                }
-                else Logger.Debug("[TUTORIAL] 3-First Pokemon Catch DONE");
-            }
-
-            if (!state.Contains(TutorialState.NameSelection))
-            {
-                var index = 0;
-                var status = ClaimCodenameResponse.Types.Status.CodenameNotValid;
-                do
-                {
-                    var name = AvatarSettings.nicknamePrefix + (index == 0 ? "" : index.ToString()) + AvatarSettings.nicknameSufix;
-                    var res3 = objClient.Misc.ClaimCodename(name);
-                    status = res3.Status;
-                    index++;
-                    RandomHelper.RandomDelay(2000).Wait();
-                    if (status == ClaimCodenameResponse.Types.Status.CurrentOwner || status == ClaimCodenameResponse.Types.Status.CodenameChangeNotAllowed)
-                        break;
-                } while (index < 100 && status != ClaimCodenameResponse.Types.Status.Success);
-
-                if (status != ClaimCodenameResponse.Types.Status.Success)
-                {
-                    Logger.Warning("[TUTORIAL] 4-Setting Name FAILED. Reason: " + status);
-                    return;
-                }
-                var res4 = objClient.Misc.MarkTutorialComplete(new RepeatedField<TutorialState>()
-                                {
-                                    TutorialState.NameSelection
-                                }).Result;
-                if (res4.Result != EncounterTutorialCompleteResponse.Types.Result.Success)
-                {
-                    Logger.Warning("[TUTORIAL] 4-Setting Name in tutorial FAILED. Reason: " + res4.Result);
-                    return;
-                }
-                else Logger.Debug("[TUTORIAL] 4-Setting Name in tutorial DONE");
-            }
-
+            if (!state.Contains(TutorialState.PokemonCapture)) Tutorial.MarkTutorialAsDone(TutorialState.PokemonCapture, objClient);
+            if (!state.Contains(TutorialState.NameSelection)) Tutorial.MarkTutorialAsDone(TutorialState.NameSelection, objClient);
+            if (!state.Contains(TutorialState.PokemonBerry)) Tutorial.MarkTutorialAsDone(TutorialState.PokemonBerry, objClient);
+            if (!state.Contains(TutorialState.UseItem)) Tutorial.MarkTutorialAsDone(TutorialState.UseItem, objClient);
             RandomHelper.RandomDelay(2000).Wait();
         }
 
+        // This happens after first pokestop
         private void MarkFirstExperiencie()
         {
-
             if (!GlobalVars.CompleteTutorial)
                 return;
 
-            if (!objClient.Player.PlayerResponse.PlayerData.TutorialState.Contains(TutorialState.FirstTimeExperienceComplete))
-            {
-                var res = objClient.Misc.MarkTutorialComplete(new RepeatedField<TutorialState>()
-                            {
-                                TutorialState.FirstTimeExperienceComplete
-                            }).Result;
-                if (res.Result != EncounterTutorialCompleteResponse.Types.Result.Success)
-                {
-                    Logger.Warning("[TUTORIAL] 7-Mark First Experience FAILED. Reason: " + res.Result);
-                    return;
-                }
-                else Logger.Debug("[TUTORIAL] 7-Mark First Experience DONE");
-            }
+            var state = objClient.Player.PlayerResponse.PlayerData.TutorialState;
 
-            if (!objClient.Player.PlayerResponse.PlayerData.TutorialState.Contains(TutorialState.PokestopTutorial))
-            {
-                var res = objClient.Misc.MarkTutorialComplete(new RepeatedField<TutorialState>()
-                            {
-                                TutorialState.PokestopTutorial
-                            }).Result;
-                if (res.Result != EncounterTutorialCompleteResponse.Types.Result.Success)
-                {
-                    Logger.Warning("[TUTORIAL] 8-Pokestop Tutorial FAILED. Reason: " + res.Result);
-                    return;
-                }
-                else Logger.Debug("[TUTORIAL] 8-Pokestop Tutorial DONE");
-            }
+            if (!state.Contains(TutorialState.FirstTimeExperienceComplete)) Tutorial.MarkTutorialAsDone(TutorialState.FirstTimeExperienceComplete, objClient);
+            if (!state.Contains(TutorialState.PokestopTutorial)) Tutorial.MarkTutorialAsDone(TutorialState.PokestopTutorial, objClient);
         }
 
+        // This happens after first gym
         private void GymTutorial()
         {
-
-            if (!GlobalVars.CompleteTutorial || objClient.Player.PlayerResponse.PlayerData.TutorialState.Contains(TutorialState.GymTutorial))
+            if (!GlobalVars.CompleteTutorial)
                 return;
 
-            var res = objClient.Misc.MarkTutorialComplete(new RepeatedField<TutorialState>()
-                            {
-                                TutorialState.GymTutorial
-                            }).Result;
-            if (res.Result != EncounterTutorialCompleteResponse.Types.Result.Success)
-            {
-                Logger.Warning("[TUTORIAL] 9-Gym Tutorial FAILED. Reason: " + res.Result);
-                return;
-            }
-            else Logger.Debug("[TUTORIAL] 9-Gym tutorial DONE");
+            var state = objClient.Player.PlayerResponse.PlayerData.TutorialState;
+
+            if (!state.Contains(TutorialState.GymTutorial)) Tutorial.MarkTutorialAsDone(TutorialState.GymTutorial, objClient);
         }
+        #endregion
 
         #endregion
     }
