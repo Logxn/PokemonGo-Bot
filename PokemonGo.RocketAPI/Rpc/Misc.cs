@@ -43,7 +43,7 @@ namespace PokemonGo.RocketAPI.Rpc
                     TutorialsCompleted = { toComplete }
                 }).ToByteString()
             };
-            return await PostProtoPayloadCommonR<Request, MarkTutorialCompleteResponse>(request).ConfigureAwait(false);
+            return await PostProtoPayloadCommonR<Request, MarkTutorialCompleteResponse> (request).ConfigureAwait(false);
         }
         
         public async Task<MarkTutorialCompleteResponse> AceptLegalScreen()
