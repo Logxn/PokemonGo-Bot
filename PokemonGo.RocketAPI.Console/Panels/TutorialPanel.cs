@@ -142,7 +142,8 @@ namespace PokeMaster.Panels
             AvatarSettings.nicknameSufix = ltNickSufix.Value;
             AvatarSettings.Gender = lcGender.SelectedIndex;
 
-            AvatarSettings.starter = POGOProtos.Enums.PokemonId.Missingno;
+            AvatarSettings.starter = POGOProtos.Enums.PokemonId.Missingno;  // Value used to select a random pokemon
+            
             switch (lcPokemon.SelectedIndex) {
                 case 0: 
                     AvatarSettings.starter = POGOProtos.Enums.PokemonId.Bulbasaur;

@@ -481,8 +481,8 @@ namespace PokeMaster.Logic.Functions
                             Logger.ColoredConsoleWrite(ConsoleColor.Gray, $"Caught {pokeid} CP {encounterPokemonResponse?.WildPokemon?.PokemonData?.Cp} IV {strIVPerfection}% got {caughtPokemonResponse.CaptureAward.Xp.Sum()} XP | {caughtPokemonResponse.CaptureAward.Candy.Sum()} Candies | {caughtPokemonResponse.CaptureAward.Stardust.Sum()} Stardust");
                             Setout.pokemonCatchCount++;
                             Setout.SaveSession();
-                            // May be is the first pokemon, so we must mark it in the Tutorial
-                            if (!client.Player.PlayerResponse.PlayerData.TutorialState.Contains(TutorialState.PokemonCapture)) Logic.Instance.Tutorial.MarkTutorialAsDone(TutorialState.PokemonCapture, client, (int)pokeid);
+                            // Wrong: TutorialState.PokemonCapture is not for the first wild pokemon caught.
+                            // if (!client.Player.PlayerResponse.PlayerData.TutorialState.Contains(TutorialState.PokemonCapture)) Logic.Instance.Tutorial.MarkTutorialAsDone(TutorialState.PokemonCapture, client, pokeid);
                         }
                         else
                         {
