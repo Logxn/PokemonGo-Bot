@@ -17,8 +17,8 @@ namespace PokemonGo.RocketAPI.Helpers
         ulong PrimeRoot = 0x41A7;                  // A = 16807 (a primitive root modulo M31)
         ulong Quotient = 0x1F31D;                  // Q = 127773 = M / A (to avoid overflow on A * seed)
         ulong Rest = 0xB14;                        // R = 2836 = M % A (to avoid overflow on A * seed)
-        ulong Hi = 1;
-        ulong Lo = 2;
+        public static ulong Hi = 1;
+        public static ulong Lo = 2;
 
         public RandomRequestID()
         {
@@ -44,7 +44,7 @@ namespace PokemonGo.RocketAPI.Helpers
             if (NewRequestID <= 0)
                 NewRequestID = NewRequestID + MersenePrime;
 
-            //Logger.Debug($"{NewRequestID.ToString("X")} [{Hi.ToString("X")},{Lo.ToString("X")}]");
+            Logger.Debug($"[OLD LEHMER] {NewRequestID.ToString("X")} [{Hi.ToString("X")},{Lo.ToString("X")}]");
 
             NewRequestID = NewRequestID % 0x80000000;
             LastRequestID = NewRequestID;
@@ -59,16 +59,16 @@ namespace PokemonGo.RocketAPI.Helpers
         public ulong NextSinceAPI0691()
         {
             Hi = PrimeRoot * Hi % MersenePrime;
-            var NewRequestID = Lo++ | (Hi << 32);
+            ulong NewRequestID = Lo++ | (Hi << 32);
             LastRequestID = NewRequestID;
+            Logger.Debug($"[NEW METHOD] {NewRequestID.ToString("X")} [{Hi.ToString("X")},{Lo.ToString("X")}]");
+
             return NewRequestID;
         }
 
         public ulong Next()
         {
-             return NextLehmerRandom();
-            // return NextSinceAPI0691();
+            return NextSinceAPI0691();
         }
-
     }
 }

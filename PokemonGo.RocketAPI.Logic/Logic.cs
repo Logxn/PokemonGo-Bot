@@ -50,7 +50,7 @@ namespace PokeMaster.Logic
         public Sniper sniperLogic;
         public static bool restartLogic = true;
 
-        public TutorialFunctions Tutorial;
+        public TutorialFunctions Tutorial = new TutorialFunctions();
 
         #endregion
 
@@ -1161,9 +1161,8 @@ namespace PokeMaster.Logic
 
             if (!state.Contains(TutorialState.LegalScreen)) Tutorial.MarkTutorialAsDone(TutorialState.LegalScreen, objClient);
             if (!state.Contains(TutorialState.AvatarSelection)) Tutorial.MarkTutorialAsDone(TutorialState.AvatarSelection, objClient);
-            if (!state.Contains(TutorialState.PokemonCapture)) Tutorial.MarkTutorialAsDone(TutorialState.PokemonCapture, objClient);
             if (!state.Contains(TutorialState.NameSelection)) Tutorial.MarkTutorialAsDone(TutorialState.NameSelection, objClient);
-            if (!state.Contains(TutorialState.PokemonBerry)) Tutorial.MarkTutorialAsDone(TutorialState.PokemonBerry, objClient);
+            //if (!state.Contains(TutorialState.PokemonBerry)) Tutorial.MarkTutorialAsDone(TutorialState.PokemonBerry, objClient);
             if (!state.Contains(TutorialState.UseItem)) Tutorial.MarkTutorialAsDone(TutorialState.UseItem, objClient);
             RandomHelper.RandomDelay(2000).Wait();
         }
@@ -1176,6 +1175,7 @@ namespace PokeMaster.Logic
 
             var state = objClient.Player.PlayerResponse.PlayerData.TutorialState;
 
+            //if (!state.Contains(TutorialState.PokemonCapture)) Tutorial.MarkTutorialAsDone(TutorialState.PokemonCapture, objClient);
             if (!state.Contains(TutorialState.FirstTimeExperienceComplete)) Tutorial.MarkTutorialAsDone(TutorialState.FirstTimeExperienceComplete, objClient);
             if (!state.Contains(TutorialState.PokestopTutorial)) Tutorial.MarkTutorialAsDone(TutorialState.PokestopTutorial, objClient);
         }

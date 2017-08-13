@@ -82,6 +82,7 @@ namespace PokemonGo.RocketAPI.Rpc
             // await GetAssetDigest().ConfigureAwait(false);
             // await DownloadItemTemplates().ConfigureAwait(false);
             // await GetDownloadUrls().ConfigureAwait(false);
+            // Call Tutorial Checks
             Client.OnMakeTutorial();
 
             // This call (GetPlayerProfile) is only needed if the tutorial is done.
