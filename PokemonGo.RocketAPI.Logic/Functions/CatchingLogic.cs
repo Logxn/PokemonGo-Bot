@@ -376,7 +376,7 @@ namespace PokeMaster.Logic.Functions
                         if(GlobalVars.UseNanabBerry && !usedBerry )
                         {
                             try {
-                                var reallyUseIt =  (r.Next(0,GlobalVars.NanabPercent)!=0);
+                                var reallyUseIt =  (r.Next(0,100) <= GlobalVars.NanabPercent);
                                 if (GlobalVars.NanabPercent == 100 || reallyUseIt){
 
                                     if (nanab != null && nanab.Count > 0)

@@ -1158,7 +1158,7 @@ namespace PokeMaster.Logic
                 return;
 
             var state = objClient.Player.PlayerResponse.PlayerData.TutorialState;
-
+            AvatarSettings.Load(); // we need it to AvatarSelection, NameSelection and PokemonCapture
             if (!state.Contains(TutorialState.LegalScreen)) Tutorial.MarkTutorialAsDone(TutorialState.LegalScreen, objClient);
             if (!state.Contains(TutorialState.AvatarSelection)) Tutorial.MarkTutorialAsDone(TutorialState.AvatarSelection, objClient);
             if (!state.Contains(TutorialState.NameSelection)) Tutorial.MarkTutorialAsDone(TutorialState.NameSelection, objClient);

@@ -32,7 +32,6 @@ namespace PokeMaster.Logic.Functions
         public bool MarkTutorialAsDone(TutorialState State, PokemonGo.RocketAPI.Client client, PokemonId firstPokemon = PokemonId.Charmander) // A Charmander
         {
             MarkTutorialCompleteResponse TutorialResponse = null;
-            EncounterTutorialCompleteResponse EncounterResponse = null;
             SetAvatarResponse AvatarResponse = null;
             bool SuccessFlag = false;
 
@@ -44,7 +43,6 @@ namespace PokeMaster.Logic.Functions
                 case TutorialState.AvatarSelection:
                     // All MAX values will be used to get a random value 
                     // RandormNumber never returns max value.
-                    AvatarSettings.Load();
                     var playerAvatar = new PlayerAvatar();
                     playerAvatar.Skin = AvatarSettings.skin == 4 ? RandomHelper.RandomNumber(0, 4) : AvatarSettings.skin;
                     playerAvatar.Backpack = AvatarSettings.backpack == 3 ? RandomHelper.RandomNumber(0, 3) : AvatarSettings.backpack;
