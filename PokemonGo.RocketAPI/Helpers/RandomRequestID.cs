@@ -17,6 +17,8 @@ namespace PokemonGo.RocketAPI.Helpers
         ulong PrimeRoot = 0x41A7;                  // A = 16807 (a primitive root modulo M31)
         ulong Quotient = 0x1F31D;                  // Q = 127773 = M / A (to avoid overflow on A * seed)
         ulong Rest = 0xB14;                        // R = 2836 = M % A (to avoid overflow on A * seed)
+        ulong Hi = 1;
+        ulong Lo = 2;
 
         public RandomRequestID()
         {
@@ -28,10 +30,11 @@ namespace PokemonGo.RocketAPI.Helpers
             return LastRequestID;
         }
 
-        public ulong Next()
+        // Old method to obtain the request ID
+        public ulong NextLehmerRandom()
         {
-            ulong Hi = 0;
-            ulong Lo = 0;
+            Hi = 0;
+            Lo = 0;
             ulong NewRequestID;
 
             Hi = LastRequestID / Quotient;
@@ -48,5 +51,24 @@ namespace PokemonGo.RocketAPI.Helpers
 
             return NewRequestID;
         }
+
+        // New method to obtain the request ID (extracted from pgoapi)
+        // TODO: Check this with pgoapi. This has  not sense for me (Xelwon) .
+        // https://github.com/pogodevorg/pgoapi/blob/develop/pgoapi/rpc_api.py
+        // Line 82
+        public ulong NextSinceAPI0691()
+        {
+            Hi = PrimeRoot * Hi % MersenePrime;
+            var NewRequestID = Lo++ | (Hi << 32);
+            LastRequestID = NewRequestID;
+            return NewRequestID;
+        }
+
+        public ulong Next()
+        {
+             return NextLehmerRandom();
+            // return NextSinceAPI0691();
+        }
+
     }
 }
