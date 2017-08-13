@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using PokemonGo.RocketAPI.Exceptions;
+using PokemonGo.RocketAPI.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Net;
@@ -38,6 +39,7 @@ namespace PokemonGo.RocketAPI.Login
                     if (loginData == null)
                         return null;
                     var ticket = await PostLogin(httpClient, this.username, this.password, loginData);
+                    if (ticket == "Error on Login") Environment.Exit(-1);
                     var accessToken = await PostLoginOauth(httpClient, ticket);
                     Logger.Debug("Authenticated through PTC.");
                     return accessToken;
@@ -91,12 +93,18 @@ namespace PokemonGo.RocketAPI.Login
                 var ticketStartPosition = locationQuery.IndexOf("=", StringComparison.Ordinal) + 1;
                 return locationQuery.Substring(ticketStartPosition, locationQuery.Length - ticketStartPosition);
             }
+            else
+            {
+                var loginResponseData = JObject.Parse(loginResponseDataRaw);
+                var loginResponseErrors = (JArray)loginResponseData["errors"];
 
-            var loginResponseData = JObject.Parse(loginResponseDataRaw);
-            var loginResponseErrors = (JArray)loginResponseData["errors"];
-            
-            var joinedResponseErrors = string.Join(",", loginResponseErrors);
-            throw new Exception($"Pokemon Trainer Club gave error(s): '{string.Join(",", loginResponseErrors)}'");
+                var joinedResponseErrors = string.Join(",", loginResponseErrors);
+                Logger.Error("Pokemon Trainer Club gave error(s): " + string.Join(",", loginResponseErrors));
+                Logger.Error("Closing...");
+                await RandomHelper.RandomDelay(5000).ConfigureAwait(false);
+                return "Error on Login";
+            }
+            //throw new Exception($"Pokemon Trainer Club gave error(s): '{string.Join(",", loginResponseErrors)}'");
         }
 
         /// <summary>

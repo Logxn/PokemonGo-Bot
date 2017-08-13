@@ -21,7 +21,7 @@ namespace PokeMaster.Logic.Functions
         //PokemonCapture = 3, --> Implemented
         //NameSelection = 4, --> Implemented
 
-        //PokemonBerry = 5,
+        //PokemonBerry = 5, --> Implemented
         //UseItem = 6,
 
         //FirstTimeExperienceComplete = 7, --> Implemented
@@ -29,7 +29,7 @@ namespace PokeMaster.Logic.Functions
 
         //GymTutorial = 9 --> Implemented
 
-        public bool MarkTutorialAsDone(TutorialState State, PokemonGo.RocketAPI.Client client)
+        public bool MarkTutorialAsDone(TutorialState State, PokemonGo.RocketAPI.Client client, int firstPokemon = 4) // A Charmander
         {
             EncounterTutorialCompleteResponse TutorialResponse = null;
             SetAvatarResponse AvatarResponse = null;
@@ -41,19 +41,27 @@ namespace PokeMaster.Logic.Functions
                     SuccessFlag = Convert.ToBoolean(TutorialResponse.Result);
                     break;
                 case TutorialState.AvatarSelection:
+                    /* TODO THIS NEEDS MORE WORK
                     //AvatarSettings.Load();
                     var playerAvatar = new PlayerAvatar();
-                    playerAvatar.Avatar = AvatarSettings.Gender == 2 ? RandomHelper.RandomNumber(0, 2) : AvatarSettings.Gender;
-                    playerAvatar.Backpack = AvatarSettings.backpack == 3 ? RandomHelper.RandomNumber(0, 3) : AvatarSettings.backpack;
-                    playerAvatar.Eyes = AvatarSettings.eyes == 4 ? RandomHelper.RandomNumber(0, 4) : AvatarSettings.eyes;
-                    playerAvatar.Hair = AvatarSettings.hair == 6 ? RandomHelper.RandomNumber(0, 6) : AvatarSettings.hair;
-                    playerAvatar.Hat = AvatarSettings.hat == 3 ? RandomHelper.RandomNumber(0, 3) : AvatarSettings.hat;
-                    playerAvatar.Pants = AvatarSettings.pants == 3 ? RandomHelper.RandomNumber(0, 3) : AvatarSettings.pants;
-                    playerAvatar.Shirt = AvatarSettings.shirt == 3 ? RandomHelper.RandomNumber(0, 3) : AvatarSettings.shirt;
-                    playerAvatar.Shoes = AvatarSettings.shoes == 3 ? RandomHelper.RandomNumber(0, 3) : AvatarSettings.shoes;
-                    playerAvatar.Skin = AvatarSettings.skin == 4 ? RandomHelper.RandomNumber(0, 4) : AvatarSettings.skin;
+                    playerAvatar.Skin = AvatarSettings.skin == 0 ? RandomHelper.RandomNumber(0, 4) : AvatarSettings.skin;
+                    //playerAvatar.AvatarNecklace = AvatarSettings.necklace = ...
+                    //playerAvatar.AvatarBelt = AvatarSettings.belt == ...
+                    //playerAvatar.AvatarSocks = AvatarSettings.socks == ...
+                    //playerAvatar.AvatarGloves = AvatarSettings.gloves == ...
+                    playerAvatar.Backpack = AvatarSettings.backpack == 0 ? RandomHelper.RandomNumber(0, 3) : AvatarSettings.backpack;
+                    playerAvatar.Eyes = AvatarSettings.eyes == 0 ? RandomHelper.RandomNumber(0, 4) : AvatarSettings.eyes;
+                    playerAvatar.Shoes = AvatarSettings.shoes == 0 ? RandomHelper.RandomNumber(0, 3) : AvatarSettings.shoes;
+                    playerAvatar.Hat = AvatarSettings.hat == 0 ? RandomHelper.RandomNumber(0, 3) : AvatarSettings.hat;
+                    playerAvatar.Pants = AvatarSettings.pants == 0 ? RandomHelper.RandomNumber(0, 3) : AvatarSettings.pants;
+                    //playerAvatar.AvatarGlasses = AvatarSettings.glasses == ...
+                    playerAvatar.Hair = AvatarSettings.hair == 0 ? RandomHelper.RandomNumber(0, 6) : AvatarSettings.hair;
+                    playerAvatar.Shirt = AvatarSettings.shirt == 0 ? RandomHelper.RandomNumber(0, 3) : AvatarSettings.shirt;
+                    playerAvatar.Avatar = AvatarSettings.Gender == 0 ? RandomHelper.RandomNumber(1, 3) : AvatarSettings.Gender;
+
                     AvatarResponse = client.Player.SetAvatar(playerAvatar).Result;
-                    SuccessFlag = Convert.ToBoolean(TutorialResponse.Result);
+                    SuccessFlag = Convert.ToBoolean(AvatarResponse.Status.ToString() == "Success" ? 1:0);
+                    */
                     break;
                 case TutorialState.AccountCreation:
                     // Need to check how to implement, meanwhile...
@@ -61,15 +69,18 @@ namespace PokeMaster.Logic.Functions
                     SuccessFlag = Convert.ToBoolean(TutorialResponse.Result);
                     break;
                 case TutorialState.PokemonCapture:
+                    if (AvatarSettings.starter == (POGOProtos.Enums.PokemonId)0) AvatarSettings.starter = (POGOProtos.Enums.PokemonId)firstPokemon;
                     TutorialResponse = client.Encounter.EncounterTutorialComplete(AvatarSettings.starter);
+                    if (TutorialResponse.Result == EncounterTutorialCompleteResponse.Types.Result.ErrorInvalidPokemon) TutorialResponse = client.Encounter.EncounterTutorialComplete(POGOProtos.Enums.PokemonId.Charmander);
                     SuccessFlag = Convert.ToBoolean(TutorialResponse.Result);
                     break;
                 case TutorialState.NameSelection:
                     SuccessFlag = false;
+                    string suggestedName = client.Username;
                     ClaimCodenameResponse.Types.Status status = ClaimCodenameResponse.Types.Status.CodenameNotValid;
                     for (int i = 0; i < 100; i++)
                     {
-                        string suggestedName = AvatarSettings.nicknamePrefix + (i == 0 ? "" : i.ToString()) + AvatarSettings.nicknameSufix;
+                        suggestedName = AvatarSettings.nicknamePrefix + suggestedName + (i == 0 ? "" : i.ToString()) + AvatarSettings.nicknameSufix;
                         status = client.Misc.ClaimCodename(suggestedName).Status;
                         if (status == ClaimCodenameResponse.Types.Status.Success)
                         {
@@ -81,7 +92,6 @@ namespace PokeMaster.Logic.Functions
                     }
                     break;
                 case TutorialState.PokemonBerry:
-                    // Need to check how to implement, meanwhile...
                     TutorialResponse = client.Misc.MarkTutorialComplete(new RepeatedField<TutorialState>() { TutorialState.PokemonBerry }).Result;
                     SuccessFlag = Convert.ToBoolean(TutorialResponse.Result);
                     break;
@@ -104,7 +114,7 @@ namespace PokeMaster.Logic.Functions
                     break;
             }
 
-            if (SuccessFlag) Logger.Debug("[TUTORIAL] " + (int)State + "- " + State + " set DONE");
+            if (SuccessFlag) Logger.Info("[TUTORIAL] " + (int)State + "- " + State + " set DONE");
             else Logger.Warning("[TUTORIAL] " + (int)State + "- " + Enum.GetName(typeof(EncounterTutorialCompleteResponse.Types), State) + " set FAILED. Reason: " + TutorialResponse.Result);
 
             RandomHelper.RandomDelay(5000).Wait();

@@ -82,7 +82,8 @@ namespace PokemonGo.RocketAPI.Rpc
             // await GetAssetDigest().ConfigureAwait(false);
             // await DownloadItemTemplates().ConfigureAwait(false);
             // await GetDownloadUrls().ConfigureAwait(false);
-            MakeTuturial();
+            // Call Tutorial Checks
+            Client.OnMakeTutorial();
 
             // This call (GetPlayerProfile) is only needed if the tutorial is done.
             // TODO: Check if tutorial is done to do not do GetPlayerProfile.
@@ -94,25 +95,10 @@ namespace PokemonGo.RocketAPI.Rpc
             await RandomHelper.RandomDelay(2000).ConfigureAwait(false);
 
             await Client.Map.GetMapObjects().ConfigureAwait(false);
-            
-             
+                       
             foreach (var element in Client.Player.PlayerResponse.PlayerData.TutorialState) {
                 Logger.Debug(element.ToString());
             } 
-        }
-
-        private void MakeTuturial()
-        {
-            
-            var state = Client.Player.PlayerResponse.PlayerData.TutorialState;
-            if (state == null )
-                state = new Google.Protobuf.Collections.RepeatedField<POGOProtos.Enums.TutorialState>();
-            if (!state.Contains(POGOProtos.Enums.TutorialState.LegalScreen)){
-                var res = Client.Misc.AceptLegalScreen().Result;
-                if (res.Result != EncounterTutorialCompleteResponse.Types.Result.Success)
-                    return;
-            }
-            Client.OnMakeTutorial();
         }
 
         public async Task DoEmptyRequest()
