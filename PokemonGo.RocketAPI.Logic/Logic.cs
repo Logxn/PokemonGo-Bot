@@ -1162,6 +1162,7 @@ namespace PokeMaster.Logic
             if (!state.Contains(TutorialState.LegalScreen)) Tutorial.MarkTutorialAsDone(TutorialState.LegalScreen, objClient);
             if (!state.Contains(TutorialState.AvatarSelection)) Tutorial.MarkTutorialAsDone(TutorialState.AvatarSelection, objClient);
             if (!state.Contains(TutorialState.NameSelection)) Tutorial.MarkTutorialAsDone(TutorialState.NameSelection, objClient);
+            if (!state.Contains(TutorialState.PokemonCapture)) Tutorial.MarkTutorialAsDone(TutorialState.PokemonCapture, objClient);
             //if (!state.Contains(TutorialState.PokemonBerry)) Tutorial.MarkTutorialAsDone(TutorialState.PokemonBerry, objClient);
             if (!state.Contains(TutorialState.UseItem)) Tutorial.MarkTutorialAsDone(TutorialState.UseItem, objClient);
             RandomHelper.RandomDelay(2000).Wait();

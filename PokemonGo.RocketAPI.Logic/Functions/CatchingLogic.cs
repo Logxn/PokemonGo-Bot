@@ -482,7 +482,7 @@ namespace PokeMaster.Logic.Functions
                             Setout.pokemonCatchCount++;
                             Setout.SaveSession();
                             // May be is the first pokemon, so we must mark it in the Tutorial
-                            if (!client.Player.PlayerResponse.PlayerData.TutorialState.Contains(TutorialState.PokemonCapture)) Logic.Instance.Tutorial.MarkTutorialAsDone(TutorialState.PokemonCapture, client, (int)pokeid);
+                            //if (!client.Player.PlayerResponse.PlayerData.TutorialState.Contains(TutorialState.PokemonCapture)) Logic.Instance.Tutorial.MarkTutorialAsDone(TutorialState.PokemonCapture, client, (int)pokeid);
                         }
                         else
                         {

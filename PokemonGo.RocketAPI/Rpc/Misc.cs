@@ -30,7 +30,7 @@ namespace PokemonGo.RocketAPI.Rpc
                 }).Result;
         }
 
-        public async Task<EncounterTutorialCompleteResponse> MarkTutorialComplete(
+        public async Task<MarkTutorialCompleteResponse> MarkTutorialComplete(
             RepeatedField<TutorialState> toComplete)
         {
             var request = new Request
@@ -43,12 +43,12 @@ namespace PokemonGo.RocketAPI.Rpc
                     TutorialsCompleted = { toComplete }
                 }).ToByteString()
             };
-            return await PostProtoPayloadCommonR<Request, EncounterTutorialCompleteResponse>(request).ConfigureAwait(false);
+            return await PostProtoPayloadCommonR<Request, MarkTutorialCompleteResponse>(request).ConfigureAwait(false);
         }
         
-        public async Task<EncounterTutorialCompleteResponse> AceptLegalScreen()
+        public async Task<MarkTutorialCompleteResponse> AceptLegalScreen()
         {
-            EncounterTutorialCompleteResponse res = await MarkTutorialComplete(new RepeatedField<TutorialState>() {
+            MarkTutorialCompleteResponse res = await MarkTutorialComplete(new RepeatedField<TutorialState>() {
                 TutorialState.LegalScreen
             }).ConfigureAwait(false);
 

@@ -31,14 +31,15 @@ namespace PokeMaster.Logic.Functions
 
         public bool MarkTutorialAsDone(TutorialState State, PokemonGo.RocketAPI.Client client, int firstPokemon = 4) // A Charmander
         {
-            EncounterTutorialCompleteResponse TutorialResponse = null;
+            MarkTutorialCompleteResponse TutorialResponse = null;
+            EncounterTutorialCompleteResponse EncounterResponse = null;
             SetAvatarResponse AvatarResponse = null;
             bool SuccessFlag = false;
 
             switch (State) {
                 case TutorialState.LegalScreen:
                     TutorialResponse = client.Misc.AceptLegalScreen().Result;
-                    SuccessFlag = Convert.ToBoolean(TutorialResponse.Result);
+                    SuccessFlag = TutorialResponse.Success;
                     break;
                 case TutorialState.AvatarSelection:
                     /* TODO THIS NEEDS MORE WORK
@@ -62,17 +63,18 @@ namespace PokeMaster.Logic.Functions
                     AvatarResponse = client.Player.SetAvatar(playerAvatar).Result;
                     SuccessFlag = Convert.ToBoolean(AvatarResponse.Status.ToString() == "Success" ? 1:0);
                     */
+                    SuccessFlag = true;
                     break;
                 case TutorialState.AccountCreation:
                     // Need to check how to implement, meanwhile...
                     TutorialResponse = client.Misc.MarkTutorialComplete(new RepeatedField<TutorialState>() { TutorialState.AccountCreation }).Result;
-                    SuccessFlag = Convert.ToBoolean(TutorialResponse.Result);
+                    SuccessFlag = TutorialResponse.Success;
                     break;
                 case TutorialState.PokemonCapture:
                     if (AvatarSettings.starter == (POGOProtos.Enums.PokemonId)0) AvatarSettings.starter = (POGOProtos.Enums.PokemonId)firstPokemon;
-                    TutorialResponse = client.Encounter.EncounterTutorialComplete(AvatarSettings.starter);
-                    if (TutorialResponse.Result == EncounterTutorialCompleteResponse.Types.Result.ErrorInvalidPokemon) TutorialResponse = client.Encounter.EncounterTutorialComplete(POGOProtos.Enums.PokemonId.Charmander);
-                    SuccessFlag = Convert.ToBoolean(TutorialResponse.Result);
+                    EncounterResponse = client.Encounter.EncounterTutorialComplete(AvatarSettings.starter);
+                    if (EncounterResponse.Result == EncounterTutorialCompleteResponse.Types.Result.ErrorInvalidPokemon) EncounterResponse = client.Encounter.EncounterTutorialComplete(POGOProtos.Enums.PokemonId.Charmander);
+                    SuccessFlag = Convert.ToBoolean(EncounterResponse.Result);
                     break;
                 case TutorialState.NameSelection:
                     SuccessFlag = false;
@@ -85,7 +87,7 @@ namespace PokeMaster.Logic.Functions
                         if (status == ClaimCodenameResponse.Types.Status.Success)
                         {
                             TutorialResponse = client.Misc.MarkTutorialComplete(new RepeatedField<TutorialState>() { TutorialState.NameSelection }).Result;
-                            SuccessFlag = Convert.ToBoolean(TutorialResponse.Result);
+                            SuccessFlag = TutorialResponse.Success;
                             break;
                         }
                         else if (status == ClaimCodenameResponse.Types.Status.CurrentOwner || status == ClaimCodenameResponse.Types.Status.CodenameChangeNotAllowed) break;
@@ -93,29 +95,29 @@ namespace PokeMaster.Logic.Functions
                     break;
                 case TutorialState.PokemonBerry:
                     TutorialResponse = client.Misc.MarkTutorialComplete(new RepeatedField<TutorialState>() { TutorialState.PokemonBerry }).Result;
-                    SuccessFlag = Convert.ToBoolean(TutorialResponse.Result);
+                    SuccessFlag = TutorialResponse.Success;
                     break;
                 case TutorialState.UseItem:
                     // Need to check how to implement, meanwhile...
                     TutorialResponse = client.Misc.MarkTutorialComplete(new RepeatedField<TutorialState>() { TutorialState.UseItem }).Result;
-                    SuccessFlag = Convert.ToBoolean(TutorialResponse.Result);
+                    SuccessFlag = TutorialResponse.Success;
                     break;
                 case TutorialState.FirstTimeExperienceComplete:
                     TutorialResponse = client.Misc.MarkTutorialComplete(new RepeatedField<TutorialState>() { TutorialState.FirstTimeExperienceComplete }).Result;
-                    SuccessFlag = Convert.ToBoolean(TutorialResponse.Result);
+                    SuccessFlag = TutorialResponse.Success;
                     break;
                 case TutorialState.PokestopTutorial:
                     TutorialResponse = client.Misc.MarkTutorialComplete(new RepeatedField<TutorialState>() { TutorialState.PokestopTutorial }).Result;
-                    SuccessFlag = Convert.ToBoolean(TutorialResponse.Result);
+                    SuccessFlag = TutorialResponse.Success;
                     break;
                 case TutorialState.GymTutorial:
                     TutorialResponse = client.Misc.MarkTutorialComplete(new RepeatedField<TutorialState>() { TutorialState.GymTutorial }).Result;
-                    SuccessFlag = Convert.ToBoolean(TutorialResponse.Result);
+                    SuccessFlag = TutorialResponse.Success;
                     break;
             }
 
             if (SuccessFlag) Logger.Info("[TUTORIAL] " + (int)State + "- " + State + " set DONE");
-            else Logger.Warning("[TUTORIAL] " + (int)State + "- " + Enum.GetName(typeof(EncounterTutorialCompleteResponse.Types), State) + " set FAILED. Reason: " + TutorialResponse.Result);
+            else Logger.Warning("[TUTORIAL] " + (int)State + "- " + Enum.GetName(typeof(EncounterTutorialCompleteResponse.Types), State) + " set FAILED. Reason: " + TutorialResponse.Success);
 
             RandomHelper.RandomDelay(5000).Wait();
             return SuccessFlag;
