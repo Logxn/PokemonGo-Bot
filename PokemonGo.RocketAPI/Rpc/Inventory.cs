@@ -584,6 +584,11 @@ namespace PokemonGo.RocketAPI.Rpc
 
         internal void UpdateInventoryItems(InventoryDelta delta)
         {
+            if (CachedInventory == null){
+                CachedInventory = new GetInventoryResponse();
+                CachedInventory.InventoryDelta = delta;
+                return;
+            }
             var InventoryItems = CachedInventory.InventoryDelta.InventoryItems;
 
             if (delta?.InventoryItems == null || delta.InventoryItems.All(i => i == null))
@@ -597,87 +602,105 @@ namespace PokemonGo.RocketAPI.Rpc
                 var oldItems = new List<InventoryItem>();
                 if (deltaItem.InventoryItemData.PlayerStats != null)
                 {
-                    oldItems.AddRange(
+                    var oldValues = 
                         InventoryItems.Where(i => i.InventoryItemData?.PlayerStats != null)
                             .OrderByDescending(i => i.ModifiedTimestampMs)
-                            .Skip(1));
+                        .Skip(1);
+                    if (oldValues!=null)
+                        oldItems.AddRange(oldValues);
                 }
                 if (deltaItem.InventoryItemData.PlayerCurrency != null)
                 {
-                    oldItems.AddRange(
+                    var oldValues =
                         InventoryItems.Where(i => i.InventoryItemData?.PlayerCurrency != null)
                             .OrderByDescending(i => i.ModifiedTimestampMs)
-                            .Skip(1));
+                        .Skip(1);
+                    if (oldValues!=null)
+                        oldItems.AddRange(oldValues);
                 }
                 if (deltaItem.InventoryItemData.PlayerCamera != null)
                 {
-                    oldItems.AddRange(
+                    var oldValues =
                         InventoryItems.Where(i => i.InventoryItemData?.PlayerCamera != null)
                             .OrderByDescending(i => i.ModifiedTimestampMs)
-                            .Skip(1));
+                        .Skip(1);
+                    if (oldValues!=null)
+                        oldItems.AddRange(oldValues);
                 }
                 if (deltaItem.InventoryItemData.InventoryUpgrades != null)
                 {
-                    oldItems.AddRange(
+                    var oldValues=
                         InventoryItems.Where(i => i.InventoryItemData?.InventoryUpgrades != null)
                             .OrderByDescending(i => i.ModifiedTimestampMs)
-                            .Skip(1));
+                            .Skip(1);
+                    if (oldValues!=null)
+                        oldItems.AddRange(oldValues);
                 }
                 if (deltaItem.InventoryItemData.PokedexEntry != null)
                 {
-                    oldItems.AddRange(
-                        InventoryItems.Where(
+                    var oldValues =InventoryItems.Where(
                             i =>
                                 i.InventoryItemData?.PokedexEntry != null &&
                                 i.InventoryItemData.PokedexEntry.PokemonId ==
                                 deltaItem.InventoryItemData.PokedexEntry.PokemonId)
                             .OrderByDescending(i => i.ModifiedTimestampMs)
-                            .Skip(1));
+                        .Skip(1);
+                    if (oldValues!=null)
+                        oldItems.AddRange(oldValues);
                 }
                 if (deltaItem.InventoryItemData.Candy != null)
                 {
-                    oldItems.AddRange(
-                        InventoryItems.Where(
+                    var oldValues = InventoryItems.Where(
                             i =>
                                 i.InventoryItemData?.Candy != null &&
                                 i.InventoryItemData.Candy.FamilyId ==
                                 deltaItem.InventoryItemData.Candy.FamilyId)
                             .OrderByDescending(i => i.ModifiedTimestampMs)
-                            .Skip(1));
+                        .Skip(1);
+                    if (oldValues!=null)
+                        oldItems.AddRange(oldValues);
                 }
                 if (deltaItem.InventoryItemData.Item != null)
                 {
-                    oldItems.AddRange(
+                    var oldValues=
                         InventoryItems.Where(
                             i =>
                                 i.InventoryItemData?.Item != null &&
                                 i.InventoryItemData.Item.ItemId == deltaItem.InventoryItemData.Item.ItemId)
                             .OrderByDescending(i => i.ModifiedTimestampMs)
-                            .Skip(1));
+                            .Skip(1);
+                    if (oldValues!=null)
+                        oldItems.AddRange(oldValues);
                 }
                 if (deltaItem.InventoryItemData.PokemonData != null)
                 {
-                    oldItems.AddRange(
+                    var oldValues=
                         InventoryItems.Where(
                             i =>
                                 i.InventoryItemData?.PokemonData != null &&
                                 i.InventoryItemData.PokemonData.Id == deltaItem.InventoryItemData.PokemonData.Id)
                             .OrderByDescending(i => i.ModifiedTimestampMs)
-                            .Skip(1));
+                            .Skip(1);
+                    if (oldValues!=null)
+                        oldItems.AddRange(oldValues);
                 }
                 if (deltaItem.InventoryItemData.AppliedItems != null)
                 {
-                    oldItems.AddRange(
+                    var oldValues=
                         InventoryItems.Where(i => i.InventoryItemData?.AppliedItems != null)
                             .OrderByDescending(i => i.ModifiedTimestampMs)
-                            .Skip(1));
+                            .Skip(1);
+                    if (oldValues!=null)
+                        oldItems.AddRange(oldValues);
                 }
                 if (deltaItem.InventoryItemData.EggIncubators != null)
                 {
-                    oldItems.AddRange(
+                    var oldValues=
                         InventoryItems.Where(i => i.InventoryItemData?.EggIncubators != null)
                             .OrderByDescending(i => i.ModifiedTimestampMs)
-                            .Skip(1));
+                            .Skip(1);
+                    if (oldValues!=null)
+                        oldItems.AddRange(oldValues);
                 }
                 foreach (var oldItem in oldItems)
                 {
