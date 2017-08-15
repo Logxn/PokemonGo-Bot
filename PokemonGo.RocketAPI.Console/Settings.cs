@@ -441,6 +441,17 @@ namespace PokeMaster
             get { return GlobalVars.UseBreakFields; }
             set { GlobalVars.UseBreakFields = value; }
         }
+        public bool AdvancedBreaks
+        {
+            get { return GlobalVars.AdvancedBreaks; }
+            set { GlobalVars.AdvancedBreaks = value; }
+        }
+        public List<BreakSettings> Breaks
+        {
+            get { return GlobalVars.Breaks; }
+            set { GlobalVars.Breaks = value; }
+        }
+
         bool ISettings.pauseAtEvolve2
         {
             get { return GlobalVars.pauseAtEvolve2; }

@@ -434,7 +434,7 @@ namespace PokeMaster
             checkBox_StartWalkingFromLastLocation.Checked = config.UseLastCords;
             checkBox_BlockAltitude.Checked = config.BlockAltitude;
 
-            //AdvancedBreaks.Checked = config.AdvancedBreaks;
+            AdvancedBreaks.Checked = config.AdvancedBreaks;
             if (AdvancedBreaks.Checked)
             {
                 BreakGridView.Visible = true;
@@ -1562,6 +1562,16 @@ namespace PokeMaster
         private void button1_Click_1(object sender, EventArgs e)
         {
             Environment.Exit(0);
+        }
+
+        private void text_Speed_TextChanged(object sender, EventArgs e)
+        {
+            if (text_Speed.Text.Length >= 1 && text_Speed.Text.All(char.IsDigit)) this.toolTip1.SetToolTip(this.text_Speed, Convert.ToInt32(text_Speed.Text) * 1000 / 3600 + " m/s");
+        }
+
+        private void text_MinWalkSpeed_TextChanged(object sender, EventArgs e)
+        {
+            if (text_MinWalkSpeed.Text.Length >= 1 && text_MinWalkSpeed.Text.All(char.IsDigit)) this.toolTip1.SetToolTip(this.text_MinWalkSpeed, Convert.ToInt32(text_MinWalkSpeed.Text) * 1000 / 3600 + " m/s");
         }
     }
 }

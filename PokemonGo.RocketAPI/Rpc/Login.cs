@@ -155,7 +155,7 @@ namespace PokemonGo.RocketAPI.Rpc
                     return;
                 case ResponseEnvelope.Types.StatusCode.BadRequest:
                     // Your account may be banned! please try from the official client.
-                    throw new LoginFailedException("Your account may be banned! please try from the official client.");
+                    throw new LoginFailedException("Your account may be temp banned! please try from the official client.");
                 case ResponseEnvelope.Types.StatusCode.Unknown:
                     break;
                 case ResponseEnvelope.Types.StatusCode.Ok:
@@ -180,7 +180,7 @@ namespace PokemonGo.RocketAPI.Rpc
 
         public async Task GetPlayer()
         {
-            var _getPlayerRequest = CommonRequest.GetPlayerMessageRequest( LocaleInfo.Country,LocaleInfo.Language,LocaleInfo.TimeZone); 
+            var _getPlayerRequest = CommonRequest.GetPlayerMessageRequest(LocaleInfo.Country,LocaleInfo.Language,LocaleInfo.TimeZone); 
 
             var serverRequest = GetRequestBuilder().GetRequestEnvelope(new[] { _getPlayerRequest });
 

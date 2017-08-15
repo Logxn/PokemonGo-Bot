@@ -57,8 +57,6 @@ namespace PokeMaster.Logic.Functions
         public static double timetorunstamp = -10000;
         public static double pausetimestamp = -10000;
         public static double resumetimestamp = -10000;
-        public static int AdvancedBreakSequenceId = -1;
-        public static double AdvancedBreakRemainingTimeToNextBreak = 0;
         public static double lastlog = -10000;
         public static int pokemonCatchCount;
         public static int pokeStopFarmedCount;
@@ -650,34 +648,12 @@ namespace PokeMaster.Logic.Functions
 
                 #region Advanced Breaks
 
-                if (GlobalVars.AdvancedBreaks)
+                if (GlobalVars.AdvancedBreaks && GlobalVars.ForceAdvancedBreakNow)
                 {
-                    /*
-                    BreakSettings ThisBreak = new BreakSettings();
+                    GlobalVars.latitude = Logic.objClient.CurrentLatitude;
+                    GlobalVars.longitude = Logic.objClient.CurrentLongitude;
 
-                    if (GlobalVars.Breaks.Select(BreakEnabled => BreakEnabled.BreakEnabled).Count() == 0)
-                        Logger.ColoredConsoleWrite(ConsoleColor.Red, "No Advanced Break is enabled or defined. We will never break.");
-                    else
-                    {
-                        GlobalVars.Breaks = GlobalVars.Breaks.Where(BreakEnabled => BreakEnabled.BreakEnabled == true).OrderBy(BreakSequenceId => BreakSequenceId.BreakSequenceId).Cast<BreakSettings>().ToList();
-                        if (AdvancedBreakSequenceId == -1)
-                        {
-                            ThisBreak = GlobalVars.Breaks.OrderBy(BreakSequenceId => BreakSequenceId.BreakSequenceId).FirstOrDefault();
-                            AdvancedBreakSequenceId++;
-                        }
-                        else ThisBreak = GlobalVars.Breaks.ElementAt(AdvancedBreakSequenceId + 1);
-
-                        //TODO Aquí debemos comprobar que toca hacer el break y si lo hace, cuando acaba incrementamos la secuencia.
-                        AdvancedBreakRemainingTimeToNextBreak = ThisBreak.BreakWalkTime;
-                        var st = (sessionStart - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds;
-                        var kk = (DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds;
-
-
-                        //
-                        if (GlobalVars.Breaks.Select(BreakEnabled => BreakEnabled.BreakEnabled).Count() == AdvancedBreakSequenceId++) AdvancedBreakSequenceId = -1;
-
-
-                    }*/
+                    LimitReached("AdvancedBreak");
                 }
 
                 #endregion
@@ -904,8 +880,26 @@ namespace PokeMaster.Logic.Functions
 
         public static void LimitReached(string limit)
         {
-            if (limit != "")
-                Logger.Info($"You have reached {limit} limit");
+            if (limit != "") Logger.Info($"You have reached {limit} limit");
+
+            if (limit == "AdvancedBreak")
+            {
+                // we save current position to restart from here
+                
+                BreakSettings _currentBreak = new BreakSettings().GetCurrentBreak();
+
+
+                for (var i = _currentBreak.BreakIdleTime; i > 0; i--)
+                {
+                    Logger.Info($"{i} minutes left to start walking again");
+                    RandomHelper.RandomSleep(60000, 60000);
+                }
+                lastlog = -10000;
+                timetorunstamp = -10000;
+                Logic.objClient.ReadyToUse = false;
+                Logic.Instance.Execute();
+            }
+
             if ((GlobalVars.RestartAfterRun < 1) || (limit == "")){
                 Logger.Info("We are closing the Bot for you! Wait 10 seconds");
                 RandomHelper.RandomSleep(10000,10001);

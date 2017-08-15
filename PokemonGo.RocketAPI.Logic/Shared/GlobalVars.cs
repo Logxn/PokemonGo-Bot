@@ -98,6 +98,7 @@ namespace PokeMaster.Logic.Shared
         public static int BreakLength = 0;
         public static bool AdvancedBreaks = false;
         public static List<BreakSettings> Breaks;
+        public static bool ForceAdvancedBreakNow = false;
         public static double TimeToRun;
         public static int RestartAfterRun;
         public static int PokemonCatchLimit = 1000;

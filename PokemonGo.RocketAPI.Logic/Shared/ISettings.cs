@@ -53,6 +53,8 @@ namespace PokeMaster.Logic.Shared
         int PokestopFarmLimit { get; set; }
         int navigation_option { get; set; }
         double WalkingSpeedInKilometerPerHour { get; set; }
+        bool AdvancedBreaks { get; set; }
+        List<BreakSettings> Breaks { get; set; }
 
 
 
