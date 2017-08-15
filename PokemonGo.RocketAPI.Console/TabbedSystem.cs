@@ -49,7 +49,6 @@ namespace PokeMaster
 
 
        }
-        
 
         private void Pokemons_Load(object sender, EventArgs e)
         {
@@ -140,6 +139,9 @@ namespace PokeMaster
                 case "tpBadges":
                     badgesPanel1.Execute();
                     break;
+                case "tpPokedex":
+                    pokemonsPanel1.Execute();
+                    break;
             }
         }
         public void ShowWebPanel()
@@ -170,6 +172,7 @@ namespace PokeMaster
             th.Translate(eggsPanel1);
             th.Translate(playerPanel1);
             th.Translate(badgesPanel1);
+            th.Translate(pokedexPanel1);
             th.Translate(sniperPanel1);
             th.Translate(webPanel1);
         }

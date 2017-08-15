@@ -616,10 +616,10 @@ namespace PokeMaster
         {
             try {
                 var splitted = textBoxLocation.Text.Split(',');
-                var distance = LocationUtils.CalculateDistanceInMeters(Logic.Logic.objClient.CurrentLatitude, Logic.Logic.objClient.CurrentLongitude, double.Parse(splitted[0],CultureInfo.InvariantCulture), double.Parse(splitted[1],CultureInfo.InvariantCulture));
+                var distance = LocationUtils.CalculateDistanceInMeters(Logic.Logic.objClient.CurrentLatitude, Logic.Logic.objClient.CurrentLongitude, double.Parse(splitted[0].Trim(),CultureInfo.InvariantCulture), double.Parse(splitted[1].Trim(),CultureInfo.InvariantCulture));
                 labelTime.Text = GetMinimalTimeToWait(distance /1000).ToString();
-            } catch (Exception) {
-                labelTime.Text = "120";
+            } catch (Exception ex) {
+                labelTime.Text = ex.Message;
             }
           
         }

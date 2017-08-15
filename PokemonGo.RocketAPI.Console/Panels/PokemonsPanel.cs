@@ -130,10 +130,13 @@ namespace PokeMaster
             PokemonListView.ShowItemToolTips = true;
             PokemonListView.DoubleBuffered(true);
             PokemonListView.View = View.Details;
-            createImageList();
+            var imageList = createImageList();
+            PokemonListView.SmallImageList = imageList;
+            PokemonListView.LargeImageList = imageList;
+            
         }
 
-        private void createImageList(){
+        public static ImageList createImageList(){
             const int imageSize = 50;
             var imageList = new ImageList { ImageSize = new Size(imageSize, imageSize) };
             foreach (PokemonId pokemon in Enum.GetValues(typeof(PokemonId)))
@@ -153,11 +156,10 @@ namespace PokeMaster
             imageList.Images.Add(PokemonId.Raichu+ Costume.Anniversary.ToString().ToLower(),PokeImgManager.GetPokemonLargeImage(PokemonId.Raichu,Costume.Anniversary.ToString().ToLower()));
             imageList.Images.Add(PokemonId.Raichu+ Costume.Holiday2016.ToString().ToLower(),PokeImgManager.GetPokemonLargeImage(PokemonId.Raichu,Costume.Holiday2016.ToString().ToLower()));
             imageList.Images.Add(PokemonId.Raichu+ Costume.OneYearAnniversary.ToString().ToLower(),PokeImgManager.GetPokemonLargeImage(PokemonId.Raichu,Costume.OneYearAnniversary.ToString().ToLower()));
-            PokemonListView.SmallImageList = imageList;
-            PokemonListView.LargeImageList = imageList;
+            return imageList;
         }
 
-        private ColumnHeader CreateColumn(string name)
+        public static ColumnHeader CreateColumn(string name)
         {
             var columnheader = new ColumnHeader();
             columnheader.Name = name;
