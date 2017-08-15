@@ -1,9 +1,11 @@
-﻿using POGOProtos.Data.Player;
+﻿using Google.Protobuf.Collections;
+using POGOProtos.Data.Player;
 using POGOProtos.Enums;
 using POGOProtos.Networking.Requests;
 using POGOProtos.Networking.Requests.Messages;
 using POGOProtos.Networking.Responses;
 using PokemonGo.RocketAPI.Helpers;
+using PokemonGo.RocketAPI.Shared;
 using System.Threading.Tasks;
 
 namespace PokemonGo.RocketAPI.Rpc
@@ -23,8 +25,7 @@ namespace PokemonGo.RocketAPI.Rpc
         public GetPlayerResponse GetPlayer(bool forceRequest = true)
         {
             if (forceRequest)
-              PlayerResponse = PostProtoPayloadCommonR<Request, GetPlayerResponse>(RequestType.GetPlayer, new GetPlayerMessage()).Result;
-
+                PlayerResponse = PostProtoPayloadCommonR<Request, GetPlayerResponse>(RequestType.GetPlayer, CommonRequest.GetPlayerMessageRequest(LocaleInfo.Country, LocaleInfo.Language, LocaleInfo.TimeZone)).Result;
             return PlayerResponse;
         }
 
@@ -59,6 +60,18 @@ namespace PokemonGo.RocketAPI.Rpc
             return  PostProtoPayloadCommonR<Request, LevelUpRewardsResponse>(RequestType.LevelUpRewards, new LevelUpRewardsMessage()
             {
                 Level = level
+            }).Result;
+        }
+
+        public ListAvatarCustomizationsResponse ListAvatarCustomizations(PlayerAvatarType _avatarType, RepeatedField<Filter> _filters, RepeatedField<Slot> _slot, int _limit, int _start)
+        {
+            return PostProtoPayloadCommonR<Request, ListAvatarCustomizationsResponse>(RequestType.ListAvatarCustomizations, new ListAvatarCustomizationsMessage()
+            {
+                AvatarType = _avatarType,
+                //Filters = _filters,
+                //Slot = _slot,
+                Start = _start,
+                Limit = _limit
             }).Result;
         }
 

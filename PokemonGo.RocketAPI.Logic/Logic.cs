@@ -22,6 +22,7 @@ using PokeMaster.Logic.Functions;
 using PokeMaster.Logic.Shared;
 using PokeMaster.Logic.Utils;
 using Google.Protobuf.Collections;
+using PokemonGo.RocketAPI.Shared;
 
 namespace PokeMaster.Logic
 {
@@ -64,6 +65,7 @@ namespace PokeMaster.Logic
             objClient = new Client(clientSettings);
             objClient.setFailure(new ApiFailureStrat(objClient));
             objClient.EvMakeTutorial += MakeTutorial;
+            LocaleInfo.SetValues(GlobalVars.LocaleCountry, GlobalVars.LocaleLanguage, GlobalVars.LocaleTimeZone);
             BotStats = new BotStats();
             navigation = new Navigation(objClient, botSettings);
             pokevision = new PokeVisionUtil();
@@ -174,6 +176,11 @@ namespace PokeMaster.Logic
                     TelegramLogic.Instantiante();
                     DiscordLogic.Init();
 
+                    /*********************************************************/
+                    // BreakSettings Timer
+                    BreakSettings AdvancedBreaks = new BreakSettings();
+                    AdvancedBreaks.CheckEnabled(BotSettings);
+                    /********************************************************/
                     PostLoginExecute();
 
                     Logger.Info("All Pokestops in range was already visited.");
@@ -1154,17 +1161,33 @@ namespace PokeMaster.Logic
         // This happens when starting a new player
         private void MakeTutorial(object sender, EventArgs eventArgs)
         {
+            //LegalScreen = 0,
+            //AvatarSelection = 1,
+            //AccountCreation = 2,
+            //PokemonCapture = 3,
+            //NameSelection = 4,
+            //PokemonBerry = 5,
+            //UseItem = 6,
+            //FirstTimeExperienceComplete = 7,
+            //PokestopTutorial = 8,
+            //GymTutorial = 9
+            /*
+             * On first connection before any move you must do 0,1,3,4 & 7
+             *
+             */
+
             if (!GlobalVars.CompleteTutorial)
                 return;
 
             var state = objClient.Player.PlayerResponse.PlayerData.TutorialState;
             AvatarSettings.Load(); // we need it to AvatarSelection, NameSelection and PokemonCapture
-            if (!state.Contains(TutorialState.LegalScreen)) Tutorial.MarkTutorialAsDone(TutorialState.LegalScreen, objClient);
-            if (!state.Contains(TutorialState.AvatarSelection)) Tutorial.MarkTutorialAsDone(TutorialState.AvatarSelection, objClient);
-            if (!state.Contains(TutorialState.NameSelection)) Tutorial.MarkTutorialAsDone(TutorialState.NameSelection, objClient);
-            if (!state.Contains(TutorialState.PokemonCapture)) Tutorial.MarkTutorialAsDone(TutorialState.PokemonCapture, objClient);
-            //if (!state.Contains(TutorialState.PokemonBerry)) Tutorial.MarkTutorialAsDone(TutorialState.PokemonBerry, objClient);
-            if (!state.Contains(TutorialState.UseItem)) Tutorial.MarkTutorialAsDone(TutorialState.UseItem, objClient);
+            /* 0 */ if (!state.Contains(TutorialState.LegalScreen)) Tutorial.MarkTutorialAsDone(TutorialState.LegalScreen, objClient);
+            /* 1 */ if (!state.Contains(TutorialState.AvatarSelection)) Tutorial.MarkTutorialAsDone(TutorialState.AvatarSelection, objClient);
+            /* 3 */ if (!state.Contains(TutorialState.PokemonCapture)) Tutorial.MarkTutorialAsDone(TutorialState.PokemonCapture, objClient);
+            /* 4 */ if (!state.Contains(TutorialState.NameSelection)) Tutorial.MarkTutorialAsDone(TutorialState.NameSelection, objClient);
+            /* 5 */ //if (!state.Contains(TutorialState.PokemonBerry)) Tutorial.MarkTutorialAsDone(TutorialState.PokemonBerry, objClient);
+            /* 6 */ //if (!state.Contains(TutorialState.UseItem)) Tutorial.MarkTutorialAsDone(TutorialState.UseItem, objClient);
+            /* 7 */ if (!state.Contains(TutorialState.FirstTimeExperienceComplete)) Tutorial.MarkTutorialAsDone(TutorialState.FirstTimeExperienceComplete, objClient);
             RandomHelper.RandomDelay(2000).Wait();
         }
 
@@ -1176,9 +1199,7 @@ namespace PokeMaster.Logic
 
             var state = objClient.Player.PlayerResponse.PlayerData.TutorialState;
 
-            //if (!state.Contains(TutorialState.PokemonCapture)) Tutorial.MarkTutorialAsDone(TutorialState.PokemonCapture, objClient);
-            if (!state.Contains(TutorialState.FirstTimeExperienceComplete)) Tutorial.MarkTutorialAsDone(TutorialState.FirstTimeExperienceComplete, objClient);
-            if (!state.Contains(TutorialState.PokestopTutorial)) Tutorial.MarkTutorialAsDone(TutorialState.PokestopTutorial, objClient);
+            /* 8 */ if (!state.Contains(TutorialState.PokestopTutorial)) Tutorial.MarkTutorialAsDone(TutorialState.PokestopTutorial, objClient);
         }
 
         // This happens after first gym
@@ -1189,7 +1210,7 @@ namespace PokeMaster.Logic
 
             var state = objClient.Player.PlayerResponse.PlayerData.TutorialState;
 
-            if (!state.Contains(TutorialState.GymTutorial)) Tutorial.MarkTutorialAsDone(TutorialState.GymTutorial, objClient);
+            /* 9 */ if (!state.Contains(TutorialState.GymTutorial)) Tutorial.MarkTutorialAsDone(TutorialState.GymTutorial, objClient);
         }
         #endregion
 
