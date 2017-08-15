@@ -351,6 +351,10 @@
     <Compile Include="Panels\PlayerPanel.Designer.cs">
       <DependentUpon>PlayerPanel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Panels\PokedexPanel.cs" />
+    <Compile Include="Panels\PokedexPanel.Designer.cs">
+      <DependentUpon>PokedexPanel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Panels\PokemonsPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -470,6 +474,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Panels\PlayerPanel.resx">
       <DependentUpon>PlayerPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Panels\PokedexPanel.resx">
+      <DependentUpon>PokedexPanel.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Panels\PokemonsPanel.resx">
       <DependentUpon>PokemonsPanel.cs</DependentUpon>

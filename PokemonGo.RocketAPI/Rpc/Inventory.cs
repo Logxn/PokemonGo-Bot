@@ -169,6 +169,14 @@ namespace PokemonGo.RocketAPI.Rpc
         }
         #endregion
 
+        public  IEnumerable<PokedexEntry> GetPokedexEntries()
+        {
+            var inventory = GetInventory();
+            return
+                inventory.InventoryDelta.InventoryItems.Select(i => i.InventoryItemData?.PokedexEntry)
+                    .Where(p => p != null && p?.PokemonId > 0);
+        }
+
         #region --Evolve
         public IEnumerable<PokemonData> GetPokemonToEvolve( IEnumerable<PokemonId> filter = null)
         {
