@@ -16,5 +16,10 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyCulture ("")]
 [assembly: ComVisible (false)]
 [assembly: Guid ("1fea147e-f705-467b-3872-00d053b5f818")]
+<<<<<<< HEAD
 [assembly: AssemblyVersion("1.3.6.5")]
 [assembly: AssemblyFileVersion("1.3.6.5")]
+=======
+[assembly: AssemblyVersion("1.3.6.4")]
+[assembly: AssemblyFileVersion("1.3.6.4")]
+>>>>>>> upstream/master

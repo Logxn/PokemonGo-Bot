@@ -52,15 +52,24 @@ namespace PokeMaster.Logic.Functions
                     // RandormNumber never returns max value.
                     AvatarSettings.Load();
                     var playerAvatar = new PlayerAvatar();
-                    playerAvatar.Skin = AvatarSettings.skin == 4 ? RandomHelper.RandomNumber(0, 4) : AvatarSettings.skin;
-                    playerAvatar.Backpack = AvatarSettings.backpack == 3 ? RandomHelper.RandomNumber(0, 3) : AvatarSettings.backpack;
+                    playerAvatar.Skin = AvatarSettings.skin == 4 ? RandomHelper.RandomNumber(0, 3) : AvatarSettings.skin;
+                    playerAvatar.Backpack = AvatarSettings.backpack == 3 ? RandomHelper.RandomNumber(0, 2) : AvatarSettings.backpack;
                     playerAvatar.Eyes = AvatarSettings.eyes == 4 ? RandomHelper.RandomNumber(0, 4) : AvatarSettings.eyes;
+<<<<<<< HEAD
                     playerAvatar.Shoes = AvatarSettings.shoes == 3 ? RandomHelper.RandomNumber(0, 3) : AvatarSettings.shoes;
                     playerAvatar.Hat = AvatarSettings.hat == 3 ? RandomHelper.RandomNumber(0, 3) : AvatarSettings.hat;
                     playerAvatar.Pants = AvatarSettings.pants == 3 ? RandomHelper.RandomNumber(0, 3) : AvatarSettings.pants;
                     playerAvatar.Hair = AvatarSettings.hair == 6 ? RandomHelper.RandomNumber(0, 6) : AvatarSettings.hair;
                     playerAvatar.Shirt = AvatarSettings.shirt == 3 ? RandomHelper.RandomNumber(0, 3) : AvatarSettings.shirt;
                     playerAvatar.Avatar = AvatarSettings.Gender == 2 ? RandomHelper.RandomNumber(0, 2) : AvatarSettings.Gender;
+=======
+                    playerAvatar.Shoes = AvatarSettings.shoes == 3 ? RandomHelper.RandomNumber(0, 2) : AvatarSettings.shoes;
+                    playerAvatar.Hat = AvatarSettings.hat == 3 ? RandomHelper.RandomNumber(0, 2) : AvatarSettings.hat;
+                    playerAvatar.Pants = AvatarSettings.pants == 3 ? RandomHelper.RandomNumber(0, 2) : AvatarSettings.pants;
+                    playerAvatar.Hair = AvatarSettings.hair == 6 ? RandomHelper.RandomNumber(0, 5) : AvatarSettings.hair;
+                    playerAvatar.Shirt = AvatarSettings.shirt == 3 ? RandomHelper.RandomNumber(0, 2) : AvatarSettings.shirt;
+                    playerAvatar.Avatar = AvatarSettings.Gender == 2 ? RandomHelper.RandomNumber(0, 1) : AvatarSettings.Gender;
+>>>>>>> upstream/master
 
                     // TODO Add this new configurable avatar options to tutorial configuration window
                     // currently will use 0 for all value not loaded

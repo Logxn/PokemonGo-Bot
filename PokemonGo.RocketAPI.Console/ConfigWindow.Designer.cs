@@ -495,7 +495,11 @@ namespace PokeMaster
             this.tabProxies.Location = new System.Drawing.Point(4, 54);
             this.tabProxies.Margin = new System.Windows.Forms.Padding(2);
             this.tabProxies.Name = "tabProxies";
+<<<<<<< HEAD
             this.tabProxies.Size = new System.Drawing.Size(1148, 598);
+=======
+            this.tabProxies.Size = new System.Drawing.Size(1148, 534);
+>>>>>>> upstream/master
             this.tabProxies.TabIndex = 3;
             this.tabProxies.Text = "Proxies";
             this.tabProxies.UseVisualStyleBackColor = true;
@@ -636,7 +640,11 @@ namespace PokeMaster
             this.tabItems.Location = new System.Drawing.Point(4, 54);
             this.tabItems.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tabItems.Name = "tabItems";
+<<<<<<< HEAD
             this.tabItems.Size = new System.Drawing.Size(1148, 598);
+=======
+            this.tabItems.Size = new System.Drawing.Size(1148, 534);
+>>>>>>> upstream/master
             this.tabItems.TabIndex = 2;
             this.tabItems.Text = "Items";
             this.tabItems.UseVisualStyleBackColor = true;
@@ -1231,7 +1239,12 @@ namespace PokeMaster
             this.tabPokemon.Location = new System.Drawing.Point(4, 54);
             this.tabPokemon.Margin = new System.Windows.Forms.Padding(0, 0, 0, 0);
             this.tabPokemon.Name = "tabPokemon";
+<<<<<<< HEAD
             this.tabPokemon.Size = new System.Drawing.Size(1148, 598);
+=======
+            this.tabPokemon.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.tabPokemon.Size = new System.Drawing.Size(1148, 534);
+>>>>>>> upstream/master
             this.tabPokemon.TabIndex = 1;
             this.tabPokemon.Text = "Pokemon";
             // 
@@ -2345,7 +2358,11 @@ namespace PokeMaster
             this.tabWalkSettings.Margin = new System.Windows.Forms.Padding(2);
             this.tabWalkSettings.Name = "tabWalkSettings";
             this.tabWalkSettings.Padding = new System.Windows.Forms.Padding(2);
+<<<<<<< HEAD
             this.tabWalkSettings.Size = new System.Drawing.Size(1148, 598);
+=======
+            this.tabWalkSettings.Size = new System.Drawing.Size(1148, 534);
+>>>>>>> upstream/master
             this.tabWalkSettings.TabIndex = 4;
             this.tabWalkSettings.Text = "Walk Settings";
             this.tabWalkSettings.UseVisualStyleBackColor = true;
@@ -2361,7 +2378,6 @@ namespace PokeMaster
             this.BreakGridView.Name = "BreakGridView";
             this.BreakGridView.Size = new System.Drawing.Size(509, 166);
             this.BreakGridView.TabIndex = 75;
-            this.BreakGridView.Visible = false;
             // 
             // groupBoxForts
             // 
@@ -2481,6 +2497,10 @@ namespace PokeMaster
             this.text_Speed.Size = new System.Drawing.Size(46, 21);
             this.text_Speed.TabIndex = 70;
             this.text_Speed.Text = "5";
+<<<<<<< HEAD
+=======
+            this.text_Speed.TextChanged += new System.EventHandler(this.text_Speed_TextChanged);
+>>>>>>> upstream/master
             this.text_Speed.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox7_KeyPress);
             // 
             // text_MinWalkSpeed
@@ -2491,6 +2511,10 @@ namespace PokeMaster
             this.text_MinWalkSpeed.Size = new System.Drawing.Size(46, 21);
             this.text_MinWalkSpeed.TabIndex = 68;
             this.text_MinWalkSpeed.Text = "3";
+<<<<<<< HEAD
+=======
+            this.text_MinWalkSpeed.TextChanged += new System.EventHandler(this.text_MinWalkSpeed_TextChanged);
+>>>>>>> upstream/master
             this.text_MinWalkSpeed.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox7_KeyPress);
             // 
             // groupBox13
@@ -2949,7 +2973,11 @@ namespace PokeMaster
             this.tabEggs.Margin = new System.Windows.Forms.Padding(5, 2, 5, 2);
             this.tabEggs.Name = "tabEggs";
             this.tabEggs.Padding = new System.Windows.Forms.Padding(5, 2, 5, 2);
+<<<<<<< HEAD
             this.tabEggs.Size = new System.Drawing.Size(1148, 598);
+=======
+            this.tabEggs.Size = new System.Drawing.Size(1148, 534);
+>>>>>>> upstream/master
             this.tabEggs.TabIndex = 9;
             this.tabEggs.Text = "Eggs";
             this.tabEggs.UseVisualStyleBackColor = true;
@@ -3200,7 +3228,11 @@ namespace PokeMaster
             this.tabThrows.Location = new System.Drawing.Point(4, 54);
             this.tabThrows.Margin = new System.Windows.Forms.Padding(2);
             this.tabThrows.Name = "tabThrows";
+<<<<<<< HEAD
             this.tabThrows.Size = new System.Drawing.Size(1148, 598);
+=======
+            this.tabThrows.Size = new System.Drawing.Size(1148, 534);
+>>>>>>> upstream/master
             this.tabThrows.TabIndex = 7;
             this.tabThrows.Text = "Throws";
             this.tabThrows.UseVisualStyleBackColor = true;
@@ -3715,7 +3747,11 @@ namespace PokeMaster
             this.tabPageGym.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tabPageGym.Name = "tabPageGym";
             this.tabPageGym.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
+<<<<<<< HEAD
             this.tabPageGym.Size = new System.Drawing.Size(1148, 598);
+=======
+            this.tabPageGym.Size = new System.Drawing.Size(1148, 534);
+>>>>>>> upstream/master
             this.tabPageGym.TabIndex = 10;
             this.tabPageGym.Text = "Gyms";
             this.tabPageGym.UseVisualStyleBackColor = true;
@@ -3879,7 +3915,11 @@ namespace PokeMaster
             this.tabMisc.Margin = new System.Windows.Forms.Padding(2);
             this.tabMisc.Name = "tabMisc";
             this.tabMisc.Padding = new System.Windows.Forms.Padding(2);
+<<<<<<< HEAD
             this.tabMisc.Size = new System.Drawing.Size(1148, 598);
+=======
+            this.tabMisc.Size = new System.Drawing.Size(1148, 534);
+>>>>>>> upstream/master
             this.tabMisc.TabIndex = 5;
             this.tabMisc.Text = "Misc";
             this.tabMisc.UseVisualStyleBackColor = true;
@@ -4262,7 +4302,11 @@ namespace PokeMaster
             this.tabUpdates.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.tabUpdates.Name = "tabUpdates";
             this.tabUpdates.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
+<<<<<<< HEAD
             this.tabUpdates.Size = new System.Drawing.Size(1148, 598);
+=======
+            this.tabUpdates.Size = new System.Drawing.Size(1148, 534);
+>>>>>>> upstream/master
             this.tabUpdates.TabIndex = 6;
             this.tabUpdates.Text = "Updates";
             this.tabUpdates.UseVisualStyleBackColor = true;
@@ -4370,7 +4414,11 @@ namespace PokeMaster
             this.tabCredits.Margin = new System.Windows.Forms.Padding(2);
             this.tabCredits.Name = "tabCredits";
             this.tabCredits.Padding = new System.Windows.Forms.Padding(2);
+<<<<<<< HEAD
             this.tabCredits.Size = new System.Drawing.Size(1148, 598);
+=======
+            this.tabCredits.Size = new System.Drawing.Size(1148, 534);
+>>>>>>> upstream/master
             this.tabCredits.TabIndex = 8;
             this.tabCredits.Text = "Credits";
             this.tabCredits.UseVisualStyleBackColor = true;
