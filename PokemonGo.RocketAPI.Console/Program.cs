@@ -139,6 +139,10 @@ namespace PokeMaster
                     GlobalVars.BypassCheckCompatibilityVersion |= arg.ToLower().Contains("-bypassversioncheck");
                     #endregion
 
+                    #region Argument -bypasskillswitch
+                    GlobalVars.BypassKillSwitch |= arg.ToLower().Contains("-bypasskillswitch");
+                    #endregion
+
                     #region Argument -help
                     if (arg.ToLower().Contains("-help"))
                     {
@@ -147,6 +151,7 @@ namespace PokeMaster
                         System.Console.WriteLine("Use:");
                         System.Console.WriteLine("  -nogui<:profile_name> <lat>,<long>         Console mode only, starting on the indicated Profile , Latitude & Longitude ");
                         System.Console.WriteLine("  -bypassversioncheck         Do NOT check BOT & API compatibility (be careful with that option!)");
+                        System.Console.WriteLine("  -bypasskillswitch           Do NOT check the forced bot stop (this assures a more than probable ban of your account)");
                         System.Console.WriteLine("  -help                       This help" + Environment.NewLine);
                         Environment.Exit(0);
                     }
@@ -180,7 +185,7 @@ namespace PokeMaster
             CheckVersion(); 
 
             // Check if Bot is deactivated at server level
-            StringUtils.CheckKillSwitch();
+            if (!GlobalVars.BypassKillSwitch) StringUtils.CheckKillSwitch();
 
             if (openGUI)
             {
