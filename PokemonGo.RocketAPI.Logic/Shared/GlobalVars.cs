@@ -26,6 +26,10 @@ namespace PokeMaster.Logic.Shared
         // Bot Info  Globals (not yet implemented in any function)
         public static Version BotApiSupportedVersion = Resources.BotApiSupportedVersion;
 
+        // Command line vars
+        public static bool BypassCheckCompatibilityVersion = false;
+        public static bool BypassKillSwitch = false;
+
         // Other Globals
         public static string pFHashKey;
         public static string ProfileName = "DefaultProfile";
@@ -170,9 +174,7 @@ namespace PokeMaster.Logic.Shared
         
         public static ManualSnipePokemon SnipeOpts = new ManualSnipePokemon();
         public static ProxySettings proxySettings = new ProxySettings();
-        
-        public static bool BypassCheckCompatibilityVersion = false;
-        
+      
         public static string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Configs");
         public static string accountProfiles = Path.Combine(path, "Profiles.txt");
         public static bool UseLastCords = false;
