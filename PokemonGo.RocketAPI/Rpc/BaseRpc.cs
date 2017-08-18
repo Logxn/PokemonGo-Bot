@@ -43,13 +43,17 @@ namespace PokemonGo.RocketAPI.Rpc
                     return Client.PokemonHttpClient.PostProtoPayload<TRequest, TResponsePayload>(Client.ApiUrl, requestEnvelops,
                                 Client.ApiFailure);
                 } catch (AccessTokenExpiredException) {
-                    Logger.Warning("Invalid Token. Retrying in 1 second");
-                    Task.Delay(1000).Wait();
-                    Client.Login.Reauthenticate().Wait();
-                } catch (InvalidPlatformException) {
-                    Logger.Warning("Invalid Platform. Retrying in 1 second");
-                    Task.Delay(1000).Wait();
+                    Logger.Warning("Invalid Token. Waiting 11 minutes before of reopen");
+                    Client.ReadyToUse = false;
+                    verboseWait(11*60000);
                     Client.Login.DoLogin().Wait();
+                    Client.ReadyToUse = true;
+                } catch (InvalidPlatformException) {
+                    Logger.Warning("Invalid Platform. Waiting 11 minutes before of reopen");
+                    Client.ReadyToUse = false;
+                    verboseWait(11*60000);
+                    Client.Login.DoLogin().Wait();
+                    Client.ReadyToUse = true;
                 } catch (RedirectException) {
                     Task.Delay(1000).Wait();
                 }
@@ -57,6 +61,22 @@ namespace PokemonGo.RocketAPI.Rpc
             }
             Logger.Error("Too many tries. Returning");
             return new TResponsePayload();
+        }
+
+        public static void verboseWait(int ms)
+        {
+            var waitTimes = ms / 1000;
+            if (waitTimes > 0) {
+                Logger.Info("Waiting for " + waitTimes + " seconds");
+                Logger.Info("Seconds Left: ");
+                for (var i = 0; i < waitTimes; i++) {
+                    if (i != 0)
+                        Logger.Info((waitTimes - i) + ",");
+                    Task.Delay(1000).Wait();
+                }
+            } else {
+                Task.Delay(ms).Wait();
+            }
         }
 
         protected TResponsePayload PostProtoPayload<TRequest, TResponsePayload>(RequestType type,
