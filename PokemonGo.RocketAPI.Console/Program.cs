@@ -43,7 +43,7 @@ namespace PokeMaster
         [STAThread]
         static void Main(string[] args)
         {
-            var openGUI = false;
+            var openGUI = true;
             version = new Version();
             // Review & parse command line arguments
 
@@ -64,14 +64,15 @@ namespace PokeMaster
                     #region Argument -nogui
                     if (arg.Contains("-nogui"))
                     {
+                        openGUI = false;
+                        Profile selectedProfile = null;
                         Logger.ColoredConsoleWrite(ConsoleColor.Red, "You added -nogui!");
-                        if (!arg.Contains(":")){
+                        if (!arg.Contains(":")) // Load Default Profile
+                        {
                             #region Read bot settings
                             if (File.Exists(Program.accountProfiles))
                             {
-                                string JSONstring = File.ReadAllText(accountProfiles);
-                                var Profiles = Newtonsoft.Json.JsonConvert.DeserializeObject<Collection<Profile>>(JSONstring);
-                                Profile selectedProfile = null;
+                                var Profiles = Newtonsoft.Json.JsonConvert.DeserializeObject<Collection<Profile>>(File.ReadAllText(accountProfiles));
                                 foreach (Profile _profile in Profiles)
                                 {
                                     if (_profile.IsDefault)
@@ -82,9 +83,8 @@ namespace PokeMaster
                                 }
                                 if (selectedProfile != null)
                                 {
-                                    GlobalVars.ProfileName =selectedProfile.ProfileName;
-                                    var filenameProf = Path.Combine(path, $"{selectedProfile.ProfileName}.json");
-                                    selectedProfile.Settings = ProfileSettings.LoadFromFile(filenameProf);
+                                    GlobalVars.ProfileName = selectedProfile.ProfileName;
+                                    selectedProfile.Settings = ProfileSettings.LoadFromFile(Path.Combine(path, $"{selectedProfile.ProfileName}.json"));
                                     selectedProfile.Settings.SaveToGlobals();
                                 }
                                 else
@@ -92,26 +92,28 @@ namespace PokeMaster
                                     Logger.ColoredConsoleWrite(ConsoleColor.Red, "Default Profile not found! You didn't setup the bot correctly by running it with -nogui.");
                                     Environment.Exit(-1);
                                 }
-                            }else{
-                                var splitted = arg.Split(':');
-                                var profileFile = Path.Combine(path,splitted[1]+".json");
-                                if (File.Exists(profileFile))
-                                {
-                                    var selectedProfile = new Profile();
-                                    GlobalVars.ProfileName = splitted[1];
-                                    selectedProfile.ProfileName = splitted[1];
-                                    selectedProfile.Settings = ProfileSettings.LoadFromFile(profileFile);
-                                    selectedProfile.Settings.SaveToGlobals();
-                                }else{
-                                    Logger.ColoredConsoleWrite(ConsoleColor.Red, "Profile not found! You didn't setup the bot correctly by running it with -nogui.");
-                                    Environment.Exit(-1);
-                                }
+                            }
+                            else
+                            {
+                                Logger.ColoredConsoleWrite(ConsoleColor.Red, "You have not setup the bot yet. Run it without -nogui to Configure.");
+                                Environment.Exit(-1);
                             }
                         }
-                        else
+                        else // Load selected profile
                         {
-                            Logger.ColoredConsoleWrite(ConsoleColor.Red, "You have not setup the bot yet. Run it without -nogui to Configure.");
-                            Environment.Exit(-1);
+                            var givenProfile = arg.Split(':');
+                            if (File.Exists(Path.Combine(path, givenProfile[1] + ".json")))
+                            {
+                                selectedProfile.ProfileName = givenProfile[1];
+                                GlobalVars.ProfileName = selectedProfile.ProfileName;
+                                selectedProfile.Settings = ProfileSettings.LoadFromFile(Path.Combine(path, givenProfile[1] + ".json"));
+                                selectedProfile.Settings.SaveToGlobals();
+                            }
+                            else
+                            {
+                                Logger.ColoredConsoleWrite(ConsoleColor.Red, "Profile not found! You didn't setup the bot correctly by running it with -nogui.");
+                                Environment.Exit(-1);
+                            }
                         }
 
                         if (GlobalVars.UsePwdEncryption) GlobalVars.Password = Encryption.Decrypt(GlobalVars.Password);
@@ -132,6 +134,8 @@ namespace PokeMaster
                         GlobalVars.latitude = double.Parse(crdParts[0].Replace(',', '.'), ConfigWindow.cords, System.Globalization.NumberFormatInfo.InvariantInfo);
                         GlobalVars.longitude = double.Parse(crdParts[1].Replace(',', '.'), ConfigWindow.cords, System.Globalization.NumberFormatInfo.InvariantInfo);
                         Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Found coordinates in command line. Starting at: {GlobalVars.latitude},{GlobalVars.longitude},{GlobalVars.altitude}");
+                        //we assume -noguie
+                        openGUI = false;
                     }
                     #endregion
 
@@ -158,7 +162,6 @@ namespace PokeMaster
                     #endregion
                 }
             }
-            else openGUI = true;
             #endregion
 
             // Checking if current BOT API implementation supports NIANTIC current API (unless there's an override command line switch)
