@@ -24,13 +24,14 @@ namespace PokemonGo.RocketAPI
         public uint AndroidClientVersionInt { 
             get { return uint.Parse(AndroidClientVersion.Replace(".", "")); } 
         }
-        public APIVars(long uk25, string cv, long ios_uk25, string ios_cv, string endPoint)
+        public APIVars(long uk25, string cv, long ios_uk25, string ios_cv, string endPoint, string initialPTR8)
         {
             AndroidUnknown25 = uk25;
             AndroidClientVersion = cv;
             IOSUnknown25 = ios_uk25;
             IOSClientVersion = ios_cv;
             EndPoint = endPoint;
+            UnknownPtr8Message = initialPTR8;
         }
     }
 }

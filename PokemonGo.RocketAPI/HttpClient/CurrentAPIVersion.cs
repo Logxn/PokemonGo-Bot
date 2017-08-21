@@ -55,18 +55,17 @@ namespace PokemonGo.RocketAPI.HttpClient
             string _returnedVersion = "";
 
             using (var _httpClient = new System.Net.Http.HttpClient())
+            //using (var _httpClient = new HttpClient.LoginHttpClient())
             {
-                var tries =0;
-                while (tries <10){
+                var tries = 0;
+                while (tries < 10)
+                {
                     try
                     {
                         var _uri = new Uri(Resources.GetRpcVersionUrl);
-                        _httpClient.DefaultRequestHeaders.Accept.Clear();
-                        _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                        _httpClient.DefaultRequestHeaders.UserAgent.TryParseAdd(Resources.LoginUserAgent);
-    
+
                         HttpResponseMessage _response = await _httpClient.GetAsync(_uri).ConfigureAwait(false);
-    
+
                         if (_response.IsSuccessStatusCode)
                         {
                             _returnedVersion = await _response.Content.ReadAsStringAsync().ConfigureAwait(false);
@@ -76,11 +75,11 @@ namespace PokemonGo.RocketAPI.HttpClient
                     }
                     catch (Exception ex)
                     {
-                        Logger.Debug( "Error: CurrentAPIVersion.cs - getCurrentNianticAPIVersion(): " + ex.Message);
+                        Logger.Debug("Error: CurrentAPIVersion.cs - getCurrentNianticAPIVersion(): " + ex.Message);
                     }
-                    tries ++;
+                    tries++;
                     await Task.Delay(1000).ConfigureAwait(false);
-                    Logger.Debug("Trying Again. Try: "+ tries);
+                    Logger.Debug("Trying Again. Try: " + tries);
                 }
                 Logger.Debug("Error: Too many tries without sucess.");
                 return "Error";

@@ -2,6 +2,7 @@
 using Newtonsoft.Json.Linq;
 using PokemonGo.RocketAPI.Exceptions;
 using PokemonGo.RocketAPI.Helpers;
+using PokemonGo.RocketAPI.Shared;
 using System;
 using System.Collections.Generic;
 using System.Net;
@@ -14,116 +15,158 @@ namespace PokemonGo.RocketAPI.Login
 {
     class PtcLogin : ILoginType
     {
-        readonly string password;
-        readonly string username;
+        private readonly string _password;
+        private readonly string _username;
+
+        private class SessionData
+        {
+            public string Lt { get; set; }
+            public string Execution { get; set; }
+        }
 
         public PtcLogin(string username, string password)
         {
-            this.username = username;
-            this.password = password;
+            _username = username;
+            _password = password;
         }
+
+        public string ProviderId => "ptc";
+        public string UserId => _username;
+
+        private static readonly HttpClientHandler Handler = new HttpClientHandler
+        {
+            AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate,
+            AllowAutoRedirect = true,
+            UseProxy = Client.proxy != null,
+            Proxy = Client.proxy,
+            UseCookies = true,
+            CookieContainer = new CookieContainer()
+        };
 
         public async Task<string> GetAccessToken()
         {
-            using (var httpClientHandler = new HttpClientHandler())
-            {
-                httpClientHandler.AllowAutoRedirect = false;
-                httpClientHandler.AutomaticDecompression = DecompressionMethods.GZip; 
-                httpClientHandler.UseProxy = Client.proxy != null; 
-                httpClientHandler.Proxy = Client.proxy;
+            //using (var httpClientHandler = new HttpClientHandler())
+            //{
+            //    httpClientHandler.AllowAutoRedirect = true;
+            //    httpClientHandler.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
+            //    httpClientHandler.UseProxy = Client.proxy != null;
+            //    httpClientHandler.Proxy = Client.proxy;
+            //    CookieContainer CookieContainer = new CookieContainer();
 
-                using (var httpClient = new System.Net.Http.HttpClient(httpClientHandler))
-                {
-                    httpClient.DefaultRequestHeaders.UserAgent.TryParseAdd(Resources.LoginUserAgent);
-                    var loginData = await GetLoginData(httpClient);
-                    if (loginData == null)
-                        return null;
-                    var ticket = await PostLogin(httpClient, this.username, this.password, loginData);
-                    if (ticket == "Error on Login") Environment.Exit(-1);
-                    var accessToken = await PostLoginOauth(httpClient, ticket);
+            System.Net.Http.HttpClient httpClient = new System.Net.Http.HttpClient(Handler, true); //(new RetryHandler(Handler));
+            //System.Net.Http.HttpClient httpClient = new System.Net.Http.HttpClient();
+            //using (var httpClient = new HttpClient.LoginHttpClient()) 
+            //using (var httpClient = new System.Net.Http.HttpClient(new RetryHandler(Handler)))
+            //{
+                    httpClient.DefaultRequestHeaders.Accept.TryParseAdd(Resources.Header_Login_Accept);
+                    httpClient.DefaultRequestHeaders.Host = Resources.Header_Login_Host;
+                    httpClient.DefaultRequestHeaders.Connection.TryParseAdd(Resources.Header_Login_Connection);
+                    httpClient.DefaultRequestHeaders.UserAgent.TryParseAdd(Resources.Header_Login_UserAgent);
+                    httpClient.DefaultRequestHeaders.AcceptLanguage.TryParseAdd(LocaleInfo.Language);
+                    httpClient.DefaultRequestHeaders.AcceptEncoding.TryParseAdd(Resources.Header_Login_AcceptEncoding);
+                    httpClient.DefaultRequestHeaders.TryAddWithoutValidation(Resources.Header_Login_Manufactor, Resources.Header_Login_XUnityVersion);
+                    httpClient.Timeout = Resources.TimeOut;
+
+                    SessionData sessionData = await GetSession(httpClient).ConfigureAwait(false);
+                    string ticket = await getTicket(httpClient, _username, _password, sessionData).ConfigureAwait(false);
+                    var accessToken = await PostLoginOauth(httpClient, ticket).ConfigureAwait(false);
+
                     Logger.Debug("Authenticated through PTC.");
+
                     return accessToken;
-                }
-            }
+                //}
+            //}
         }
 
-        /// <summary>
-        /// Responsible for retrieving login parameters for <see cref="PostLogin" />.
-        /// </summary>
-        /// <param name="httpClient">An initialized <see cref="HttpClient" />.</param>
-        /// <returns><see cref="LoginData" /> for <see cref="PostLogin" />.</returns>
-        private async Task<SessionData> GetLoginData(System.Net.Http.HttpClient httpClient)
+        // Get SessionData to start the login process (Lt and Execution)
+        private async Task<SessionData> GetSession(System.Net.Http.HttpClient httpClient)
         {
-            var loginDataResponse = await httpClient.GetAsync(Resources.PtcLoginUrl);
-            if (loginDataResponse.StatusCode == HttpStatusCode.OK){
-                try {
-                    var loginData = JsonConvert.DeserializeObject<SessionData>(await loginDataResponse.Content.ReadAsStringAsync());
-                    return loginData;
-                } catch (Exception ex1) {
-                    Logger.ExceptionInfo(ex1.ToString());
-                }
+            SessionData sessionResponse = new SessionData();
+            UriBuilder builder = new UriBuilder(Resources.PtcLoginAuthorizeUrl);
+            //UriBuilder builder = new UriBuilder(Resources.PtcLoginUrl);
+
+            FormUrlEncodedContent query_content = new FormUrlEncodedContent(new Dictionary<string, string>
+                {
+                    //{"service", Resources.UrlVar_Service }
+                    {"client_id", Resources.UrlVar_ClientId },
+                    {"redirect_uri", Resources.UrlVar_RedirectUri}//,
+                    //{"locale", LocaleInfo.Language }
+                });
+            builder.Port = -1; // Removes :443 on builder URI
+            builder.Query = query_content.ReadAsStringAsync().Result;
+
+            try
+            {
+                HttpResponseMessage response = await httpClient.GetAsync(builder.ToString()).ConfigureAwait(false);
+
+                if (!response.IsSuccessStatusCode) throw new LoginFailedException("Error while trying PTC login: " + response.StatusCode);
+                sessionResponse = JsonConvert.DeserializeObject<SessionData>(await response.Content.ReadAsStringAsync().ConfigureAwait(false));
             }
-            return null;
+            catch (Exception ex)
+            {
+                throw new LoginFailedException(ex);
+            }
+            
+            return sessionResponse;
         }
 
-        /// <summary>
-        /// Responsible for submitting the login request.
-        /// </summary>
-        /// <param name="httpClient"></param>
-        /// <param name="username">The user's PTC username.</param>
-        /// <param name="password">The user's PTC password.</param>
-        /// <param name="loginData"><see cref="LoginData" /> taken from PTC website using <see cref="GetLoginData" />.</param>
-        /// <returns></returns>
-        private async Task<string> PostLogin(System.Net.Http.HttpClient httpClient, string username, string password, SessionData loginData)
+        // Uses SessionData to obtain a Ticket from the server
+        private async Task<string> getTicket(System.Net.Http.HttpClient httpClient, string username, string password, SessionData sessionData)
         {
-            var loginResponse =
+            HttpResponseMessage loginResponse =
                 await httpClient.PostAsync(Resources.PtcLoginUrl, new FormUrlEncodedContent(new Dictionary<string, string>
                 {
-                    {"lt", loginData.Lt},
-                    {"execution", loginData.Execution},
-                    {"_eventId", "submit"},
-                    {"username", username},
-                    {"password", password}
-                }));
+                    { "lt", sessionData.Lt },
+                    { "execution", sessionData.Execution },
+                    { "_eventId", Resources.UrlVar_EventId },
+                    { "username", username },
+                    { "password", password }
+                    //{ "locale", LocaleInfo.Language }
+                })).ConfigureAwait(false);
 
-            var loginResponseDataRaw = await loginResponse.Content.ReadAsStringAsync();
-            if (!loginResponseDataRaw.Contains("{"))
+            var loginResponseDataRaw = await loginResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
+
+            //var kk = httpClient.Cookies.Count; // Ticket es una cookie
+            //CASTGC TGT-16587 - WKK4watKBJdmCbwYRHsfLZzHbmdwhXfkf0ScZCuOopFpF7rEaY - sso.pokemon.com.sso.pokemon.com / sso / Session 82      ✓		
+            //JSESSIONID  1CF2C27198F81706A210A62DA7F06D92 - n1 sso.pokemon.com / sso / Session 45  ✓
+
+            if (loginResponse.RequestMessage.RequestUri.Query.Length > 0 && loginResponse.RequestMessage.RequestUri.Query.Contains("ticket="))
             {
-                var locationQuery = loginResponse.Headers.Location.Query;
-                var ticketStartPosition = locationQuery.IndexOf("=", StringComparison.Ordinal) + 1;
-                return locationQuery.Substring(ticketStartPosition, locationQuery.Length - ticketStartPosition);
+                string ticket = loginResponse.RequestMessage.RequestUri.Query.Split('=')[1];
+                return ticket;
             }
+
+            //if (!loginResponseDataRaw.Contains("{"))
+            //{
+            //    var locationQuery = loginResponse.Headers.Location.Query;
+            //    var ticketStartPosition = locationQuery.IndexOf("=", StringComparison.Ordinal) + 1;
+            //    return locationQuery.Substring(ticketStartPosition, locationQuery.Length - ticketStartPosition);
+            //}
             else
             {
-                var loginResponseData = JObject.Parse(loginResponseDataRaw);
-                var loginResponseErrors = (JArray)loginResponseData["errors"];
-
-                var joinedResponseErrors = string.Join(",", loginResponseErrors);
-                Logger.Error("Pokemon Trainer Club gave error(s): " + string.Join(",", loginResponseErrors));
-                Logger.Error("Closing...");
-                await RandomHelper.RandomDelay(5000).ConfigureAwait(false);
-                return "Error on Login";
+                var joinedResponseErrors = string.Join(",", (JArray)JObject.Parse(loginResponseDataRaw)["Errors"]);
+                throw new LoginFailedException(joinedResponseErrors);
             }
-            //throw new Exception($"Pokemon Trainer Club gave error(s): '{string.Join(",", loginResponseErrors)}'");
         }
 
-        /// <summary>
-        /// Responsible for finishing the oauth login request.
-        /// </summary>
-        /// <param name="httpClient"></param>
-        /// <param name="ticket"></param>
-        /// <returns></returns>
+        // Uses Ticket to obtain the AccessToken necessary for the App
         private async Task<string> PostLoginOauth(System.Net.Http.HttpClient httpClient, string ticket)
         {
-            var loginResponse =
-                await httpClient.PostAsync(Resources.PtcLoginOauth, new FormUrlEncodedContent(new Dictionary<string, string>
+            HttpResponseMessage loginResponse =
+                await httpClient.PostAsync(Resources.PtcLoginOauthUrl, new FormUrlEncodedContent(new Dictionary<string, string>
                 {
-                    {"client_id", "mobile-app_pokemon-go"},
-                    {"redirect_uri", "https://www.nianticlabs.com/pokemongo/error"},
-                    {"client_secret", "w8ScCUXJQc6kXKw8FiOhd8Fixzht18Dq3PEVkUCP5ZPxtgyWsbTvWHFLm2wNY0JR"},
-                    {"grant_type", "refresh_token"},
-                    {"code", ticket}
+                    { "client_id", Resources.UrlVar_ClientId },
+                    { "redirect_uri", Resources.UrlVar_RedirectUri },
+                    { "client_secret", Resources.UrlVar_ClientSecret },
+                    { "grant_type", Resources.UrlVar_GrantType },
+                    { "code", ticket },
+                    { "locale", LocaleInfo.Language }
                 }));
+
+            if (loginResponse.StatusCode == HttpStatusCode.BadRequest)
+            {
+                throw new LoginFailedException(loginResponse.StatusCode);
+            }
 
             var loginResponseDataRaw = await loginResponse.Content.ReadAsStringAsync();
 
@@ -140,82 +183,6 @@ namespace PokemonGo.RocketAPI.Login
             return oAuthData.Groups["accessToken"].Value;
         }
 
-        //private static string ExtractTicketFromResponse(HttpResponseMessage loginResp)
-        //{
-        //    var location = loginResp.Headers.Location;
-        //    if (location == null)
-        //        throw new LoginFailedException();
 
-        //    var ticketId = HttpUtility.ParseQueryString(location.Query)["ticket"];
-
-        //    if (ticketId == null)
-        //        throw new PtcOfflineException();
-
-        //    return ticketId;
-        //}
-
-        //private static IDictionary<string, string> GenerateLoginRequest(SessionData sessionData, string user,
-        //    string pass)
-        //    => new Dictionary<string, string>
-        //    {
-        //        {"lt", sessionData.Lt},
-        //        {"execution", sessionData.Execution},
-        //        {"_eventId", "submit"},
-        //        {"username", user},
-        //        {"password", pass}
-        //    };
-
-        //private static IDictionary<string, string> GenerateTokenVarRequest(string ticketId)
-        //    => new Dictionary<string, string>
-        //    {
-        //        {"client_id", "mobile-app_pokemon-go"},
-        //        {"redirect_uri", "https://www.nianticlabs.com/pokemongo/error"},
-        //        {"client_secret", "w8ScCUXJQc6kXKw8FiOhd8Fixzht18Dq3PEVkUCP5ZPxtgyWsbTvWHFLm2wNY0JR"},
-        //        {"grant_type", "refresh_token"},
-        //        {"code", ticketId}
-        //    };
-
-        //private static async Task<string> GetLoginTicket(string username, string password,
-        //    System.Net.Http.HttpClient tempHttpClient, SessionData sessionData)
-        //{
-        //    HttpResponseMessage loginResp;
-        //    var loginRequest = GenerateLoginRequest(sessionData, username, password);
-        //    using (var formUrlEncodedContent = new FormUrlEncodedContent(loginRequest))
-        //    {
-        //        loginResp =
-        //            await tempHttpClient.PostAsync(Resources.PtcLoginUrl, formUrlEncodedContent).ConfigureAwait(false);
-        //    }
-
-        //    var ticketId = ExtractTicketFromResponse(loginResp);
-        //    return ticketId;
-        //}
-
-        //private static async Task<SessionData> GetSessionCookie(System.Net.Http.HttpClient tempHttpClient)
-        //{
-        //    var sessionResp = await tempHttpClient.GetAsync(Resources.PtcLoginUrl).ConfigureAwait(false);
-        //    var data = await sessionResp.Content.ReadAsStringAsync().ConfigureAwait(false);
-        //    var sessionData = JsonConvert.DeserializeObject<SessionData>(data);
-        //    return sessionData;
-        //}
-
-        //private static async Task<string> GetToken(System.Net.Http.HttpClient tempHttpClient, string ticketId)
-        //{
-        //    HttpResponseMessage tokenResp;
-        //    var tokenRequest = GenerateTokenVarRequest(ticketId);
-        //    using (var formUrlEncodedContent = new FormUrlEncodedContent(tokenRequest))
-        //    {
-        //        tokenResp =
-        //            await tempHttpClient.PostAsync(Resources.PtcLoginOauth, formUrlEncodedContent).ConfigureAwait(false);
-        //    }
-
-        //    var tokenData = await tokenResp.Content.ReadAsStringAsync().ConfigureAwait(false);
-        //    return HttpUtility.ParseQueryString(tokenData)["access_token"];
-        //}
-
-        private class SessionData
-        {
-            public string Lt { get; set; }
-            public string Execution { get; set; }
-        }
     }
 }

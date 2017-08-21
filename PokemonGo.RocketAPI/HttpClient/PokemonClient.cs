@@ -16,16 +16,24 @@ namespace PokemonGo.RocketAPI.HttpClient
             AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate,
             AllowAutoRedirect = false,
             UseProxy = Client.proxy != null,
-            Proxy = Client.proxy
+            Proxy = Client.proxy,
+            UseCookies = true,
+            CookieContainer = new CookieContainer()
         };
+
+        public CookieContainer Cookies
+        {
+            get { return Handler.CookieContainer; }
+            set { Handler.CookieContainer = value; }
+        }
 
         public PokemonHttpClient() : base(new RetryHandler(Handler))
         {
-            DefaultRequestHeaders.TryAddWithoutValidation("User-Agent", "Niantic App");
+            DefaultRequestHeaders.TryAddWithoutValidation("Content-Type", Resources.Header_Requests_ContentType);
+            DefaultRequestHeaders.Host = Resources.Header_Requests_Host;
+            DefaultRequestHeaders.UserAgent.TryParseAdd(Resources.Header_Requests_UserAgent);
+            DefaultRequestHeaders.AcceptEncoding.TryParseAdd(Resources.Header_Requests_AcceptEncoding);
             DefaultRequestHeaders.ExpectContinue = false;
-            DefaultRequestHeaders.TryAddWithoutValidation("Connection", "keep-alive");
-            DefaultRequestHeaders.TryAddWithoutValidation("Accept", "*/*");
-            DefaultRequestHeaders.TryAddWithoutValidation("Content-Type", "application/x-www-form-urlencoded");
         }
     }
 }
