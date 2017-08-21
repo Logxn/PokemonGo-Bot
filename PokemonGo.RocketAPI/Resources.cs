@@ -47,6 +47,7 @@ namespace PokemonGo.RocketAPI
 
         // Login PTC Vars
         public const string UrlVar_Service = "https://sso.pokemon.com/sso/oauth2.0/callbackAuthorize";
+        public const string UrlVar_TicketUrl = "https://sso.pokemon.com/sso/login";
         public const string UrlVar_ClientId = "mobile-app_pokemon-go";
         public const string UrlVar_RedirectUri = "https://www.nianticlabs.com/pokemongo/error";
         public const string UrlVar_EventId = "submit";

@@ -113,39 +113,56 @@ namespace PokemonGo.RocketAPI.Login
         // Uses SessionData to obtain a Ticket from the server
         private async Task<string> getTicket(System.Net.Http.HttpClient httpClient, string username, string password, SessionData sessionData)
         {
-            HttpResponseMessage loginResponse =
-                await httpClient.PostAsync(Resources.PtcLoginUrl, new FormUrlEncodedContent(new Dictionary<string, string>
+            UriBuilder builder = new UriBuilder(Resources.UrlVar_TicketUrl);
+            //UriBuilder builder = new UriBuilder(Resources.PtcLoginUrl);
+
+            FormUrlEncodedContent query_content = new FormUrlEncodedContent(new Dictionary<string, string>
                 {
+                    {"service", Resources.UrlVar_Service }
+                });
+            builder.Port = -1; // Removes :443 on builder URI
+            builder.Query = query_content.ReadAsStringAsync().Result;
+            try
+            {
+                HttpResponseMessage loginResponse =
+                    await httpClient.PostAsync(builder.ToString(), new FormUrlEncodedContent(new Dictionary<string, string>
+                    {
                     { "lt", sessionData.Lt },
                     { "execution", sessionData.Execution },
                     { "_eventId", Resources.UrlVar_EventId },
                     { "username", username },
                     { "password", password }
-                    //{ "locale", LocaleInfo.Language }
-                })).ConfigureAwait(false);
+                        //{ "locale", LocaleInfo.Language }
+                    })).ConfigureAwait(false);
 
-            var loginResponseDataRaw = await loginResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
+                var loginResponseDataRaw = await loginResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
 
-            //var kk = httpClient.Cookies.Count; // Ticket es una cookie
-            //CASTGC TGT-16587 - WKK4watKBJdmCbwYRHsfLZzHbmdwhXfkf0ScZCuOopFpF7rEaY - sso.pokemon.com.sso.pokemon.com / sso / Session 82      ✓		
-            //JSESSIONID  1CF2C27198F81706A210A62DA7F06D92 - n1 sso.pokemon.com / sso / Session 45  ✓
+                //var kk = httpClient.Cookies.Count; // Ticket es una cookie
+                //CASTGC TGT-16587 - WKK4watKBJdmCbwYRHsfLZzHbmdwhXfkf0ScZCuOopFpF7rEaY - sso.pokemon.com.sso.pokemon.com / sso / Session 82      ✓		
+                //JSESSIONID  1CF2C27198F81706A210A62DA7F06D92 - n1 sso.pokemon.com / sso / Session 45  ✓
 
-            if (loginResponse.RequestMessage.RequestUri.Query.Length > 0 && loginResponse.RequestMessage.RequestUri.Query.Contains("ticket="))
-            {
-                string ticket = loginResponse.RequestMessage.RequestUri.Query.Split('=')[1];
-                return ticket;
+                if (loginResponse.RequestMessage.RequestUri.Query.Length > 0 && loginResponse.RequestMessage.RequestUri.Query.Contains("ticket="))
+                {
+                    string ticket = loginResponse.RequestMessage.RequestUri.Query.Split('=')[1];
+                    return ticket;
+                }
+
+                if (!loginResponseDataRaw.Contains("{"))
+                {
+                    var locationQuery = loginResponse.Headers.Location.Query;
+                    var ticketStartPosition = locationQuery.IndexOf("=", StringComparison.Ordinal) + 1;
+                    return locationQuery.Substring(ticketStartPosition, locationQuery.Length - ticketStartPosition);
+                }
+
+                else
+                {
+                    var joinedResponseErrors = string.Join(",", (JArray)JObject.Parse(loginResponseDataRaw)["Errors"]);
+                    throw new LoginFailedException(joinedResponseErrors);
+                }
             }
-
-            //if (!loginResponseDataRaw.Contains("{"))
-            //{
-            //    var locationQuery = loginResponse.Headers.Location.Query;
-            //    var ticketStartPosition = locationQuery.IndexOf("=", StringComparison.Ordinal) + 1;
-            //    return locationQuery.Substring(ticketStartPosition, locationQuery.Length - ticketStartPosition);
-            //}
-            else
+            catch (Exception ex)
             {
-                var joinedResponseErrors = string.Join(",", (JArray)JObject.Parse(loginResponseDataRaw)["Errors"]);
-                throw new LoginFailedException(joinedResponseErrors);
+                throw new LoginFailedException(ex);
             }
         }
 
