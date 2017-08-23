@@ -114,7 +114,14 @@ namespace PokeMaster.Logic.Functions
             TransferDuplicatePokemon(GlobalVars.keepPokemonsThatCanEvolve, GlobalVars.TransferFirstLowIV);
 
             CheckLevelUp(Logic.objClient);
-            
+
+            /*
+             *
+             * It seems still buggy...does nothing...
+             * 
+            Logic.objClient.Misc.UpdateNotificationMessage();
+            */
+
             if (GlobalVars.ShowStats)
                 StatsLog(Logic.objClient);
 

@@ -348,7 +348,6 @@ namespace PokemonGo.RocketAPI.Helpers
             }
 
             // Explain about notifications received and so.
-            var kk = await client.Misc.UpdateNotificationMessage().ConfigureAwait(false);
         }
 
         public static void ProcessDownloadRemoteConfigVersionResponse(Client client, DownloadRemoteConfigVersionResponse response)

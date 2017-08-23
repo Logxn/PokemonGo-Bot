@@ -55,7 +55,7 @@ namespace PokemonGo.RocketAPI.Rpc
             return res;
         }
 
-        public async Task<UpdateNotificationResponse> UpdateNotificationMessage() // IEnumerable<string> Notification_Ids, IEnumerable<Int64> TimeStampsMS)
+        public UpdateNotificationResponse UpdateNotificationMessage() // IEnumerable<string> Notification_Ids, IEnumerable<Int64> TimeStampsMS)
         {
             var request = new Request
             {
@@ -67,7 +67,7 @@ namespace PokemonGo.RocketAPI.Rpc
                     State = NotificationState.Viewed
                 }).ToByteString()
             };
-            var response = await PostProtoPayloadCommonR<Request, UpdateNotificationResponse>(request).ConfigureAwait(false);
+            var response = PostProtoPayloadCommonR<Request, UpdateNotificationResponse>(request).Result;
             return response;
         }
     }
