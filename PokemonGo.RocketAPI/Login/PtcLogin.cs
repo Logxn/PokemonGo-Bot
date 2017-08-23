@@ -29,6 +29,8 @@ namespace PokemonGo.RocketAPI.Login
             public string Execution { get; set; }
         }
 
+        private SessionData CurrentSessionData;
+
         public PtcLogin(string username, string password)
         {
             _username = username;
@@ -62,16 +64,16 @@ namespace PokemonGo.RocketAPI.Login
 
         public async Task<string> GetAccessToken(bool ReAuthentification = true)    // true means we do not allow URL redirection. Only false when is 1st authentication at login
         {
-            if (ReAuthentification)
-            {
-                _handler = HandleNoRedirect;
-                //_handler.CookieContainer.Add(jSessionId);
-                //_handler.CookieContainer.Add(CASTGC);
-            }
-            else
-            {
+            //if (ReAuthentification)
+            //{
+            //    _handler = HandleNoRedirect;
+            //    //_handler.CookieContainer.Add(jSessionId);
+            //    //_handler.CookieContainer.Add(CASTGC);
+            //}
+            //else
+            //{
                 _handler = HandleRedirect;
-            }
+            //}
 
             System.Net.Http.HttpClient httpClient = new System.Net.Http.HttpClient(_handler, true); //(new RetryHandler(Handler));
 
@@ -84,8 +86,12 @@ namespace PokemonGo.RocketAPI.Login
             httpClient.DefaultRequestHeaders.TryAddWithoutValidation(Resources.Header_Login_Manufactor, Resources.Header_Login_XUnityVersion);
             httpClient.Timeout = Resources.TimeOut;
 
-            SessionData sessionData = await GetSession(httpClient).ConfigureAwait(false);
-            string ticket = await getTicket(httpClient, _username, _password, sessionData).ConfigureAwait(false);
+            if (!ReAuthentification)
+            {
+                CurrentSessionData = await GetSession(httpClient).ConfigureAwait(false);
+            }
+
+            string ticket = await getTicket(httpClient, _username, _password, CurrentSessionData).ConfigureAwait(false);
             //var accessToken = await PostLoginOauth(httpClient, ticket).ConfigureAwait(false);
 
             Logger.Debug("Authenticated through PTC.");
