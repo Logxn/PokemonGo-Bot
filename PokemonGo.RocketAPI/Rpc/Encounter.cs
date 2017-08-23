@@ -33,7 +33,7 @@ namespace PokemonGo.RocketAPI.Rpc
             return await PostProtoPayloadCommonR<Request, EncounterResponse>( message).ConfigureAwait(false);
         }
 
-        public UseItemCaptureResponse UseCaptureItem(ulong encounterId, ItemId itemId, string spawnPointId)
+        public UseItemCaptureResponse UseItemCapture(ulong encounterId, ItemId itemId, string spawnPointId)
         {
             var message = new UseItemCaptureMessage
             {

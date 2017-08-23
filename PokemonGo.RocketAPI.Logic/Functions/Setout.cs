@@ -231,7 +231,7 @@ namespace PokeMaster.Logic.Functions
                         File.AppendAllText(evolvelog, $"[{date}] - Evolved Pokemon: {getPokemonName} | CP {cp} | Perfection {calcPerf}% | => to {getEvolvedName} | CP: {getEvolvedCP} | XP Reward: {experienceAwarded} XP" + Environment.NewLine);
                     }
                     Logger.Info( $"Evolved Pokemon: {getPokemonName} | CP {cp} | Perfection {calcPerf}% | => to {getEvolvedName} | CP: {getEvolvedCP} | XP Reward: {experienceAwarded} XP");
-                    Logger.Info($"Waiting a few seconds... dont worry!");
+                    Logger.Info($"Waiting between 30 and 35 seconds to simulate the evolution...!");
                     Logic.Instance.BotStats.AddExperience(evolvePokemonOutProto.ExperienceAwarded);
 
                     if (Logic.Instance.Telegram != null)
@@ -439,6 +439,7 @@ namespace PokeMaster.Logic.Functions
             }
         }
 
+        // @TODO - Timer the stats to 5~10 minutes
 
         private static void StatsLog(Client client)
         {
@@ -768,7 +769,7 @@ namespace PokeMaster.Logic.Functions
             if (!idsToTransfer.Any())
                 return;
 
-            var _response = Logic.objClient.Inventory.TransferPokemons(idsToTransfer);
+            var _response = Logic.objClient.Inventory.ReleasePokemon(idsToTransfer);
 
             if (_response.Result == ReleasePokemonResponse.Types.Result.Success)
             {
@@ -857,7 +858,7 @@ namespace PokeMaster.Logic.Functions
                 }
                 if (pokemonsToTransfer.Any())
                 {
-                    var _response = Logic.objClient.Inventory.TransferPokemons(pokemonsToTransfer);
+                    var _response = Logic.objClient.Inventory.ReleasePokemon(pokemonsToTransfer);
 
                     if (_response.Result == ReleasePokemonResponse.Types.Result.Success)
                     {

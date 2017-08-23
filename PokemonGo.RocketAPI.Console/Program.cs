@@ -183,9 +183,9 @@ namespace PokeMaster
             }
 
             // Check if a new version of BOT is available
-            CheckVersion(); 
+            CheckVersion();
 
-            // Check if Bot is deactivated at server level
+             // Check if Bot is deactivated at server level
             if (!GlobalVars.BypassKillSwitch) StringUtils.CheckKillSwitch();
 
             if (openGUI)
@@ -211,7 +211,8 @@ namespace PokeMaster
             
             SleepHelper.PreventSleep();
 
-            CreateLogDirectories(Path.Combine(logPath, GlobalVars.ProfileName));
+            // Ensure all log paths exists
+            CheckLogDirectories(logPath = Path.Combine(logPath, GlobalVars.ProfileName));
 
             GlobalVars.infoObservable.HandleNewHuntStats += SaveHuntStats;
 
@@ -248,7 +249,8 @@ namespace PokeMaster
             }
             else
             {
-                   System.Console.ReadLine();
+                Console.WriteLine("Press any key to continue.");
+                Console.ReadKey();
             }
             SleepHelper.AllowSleep();
         }
@@ -311,8 +313,11 @@ namespace PokeMaster
                         "https://raw.githubusercontent.com/Logxn/PokemonGo-Bot/master/ver.md");
         }
 
-        private static void CreateLogDirectories(string logPath)
+        private static void CheckLogDirectories(string logPath)
         {
+            Logger.SwitchToProfileLog(logPath); // Here we change from General Log to profile log, stored inside Logs\<profile_name>\
+            Logger.Rename(logPath); // Rotate logs if checked
+
             string pokelog = Path.Combine(logPath, "PokeLog.txt");
             string manualTransferLog = Path.Combine(logPath, "TransferLog.txt");
             string EvolveLog = Path.Combine(logPath, "EvolveLog.txt");

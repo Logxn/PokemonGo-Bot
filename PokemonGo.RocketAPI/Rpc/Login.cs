@@ -54,7 +54,7 @@ namespace PokemonGo.RocketAPI.Rpc
             Client.AuthTicket = null;
             while (Client.AuthToken == null && tries <10)
             {
-                Client.AuthToken = await _login.GetAccessToken().ConfigureAwait(false);
+                Client.AuthToken = await _login.GetAccessToken(true).ConfigureAwait(false); 
                 if (Client.AuthToken == null){
                     tries++;
                     Logger.Warning("Access Token is null. Retrying in 1 second. Try " + tries);
@@ -65,14 +65,15 @@ namespace PokemonGo.RocketAPI.Rpc
 
         public async Task DoLogin()
         {
-            await Reauthenticate().ConfigureAwait(false);
-            
+            Client.AuthToken = null;
+            Client.AuthTicket = null;
+            Client.AuthToken = await _login.GetAccessToken(false).ConfigureAwait(false);
+
             if ( Client.AuthToken == null){
-                throw new LoginFailedException("Connection with Server failed. Please, check if niantic servers are up");
+                throw new LoginFailedException("Connection with Server failed. Please, check if niantic servers are up.");
             }
 
             Client.StartTime = Utils.GetTime(true);
-
 
             await RandomHelper.RandomDelay(500).ConfigureAwait(false);
 
@@ -174,7 +175,7 @@ namespace PokemonGo.RocketAPI.Rpc
 
             if (serverResponse.AuthTicket != null){
                 Client.AuthTicket = serverResponse.AuthTicket;
-                Logger.Debug("Received AuthTicket: " + Client.AuthTicket);
+                Logger.Debug("===================> Received AuthTicket: " + Client.AuthTicket + " Expire: " + Utils.TimeMStoString((long)Client.AuthTicket.ExpireTimestampMs, @"mm\:ss"));
             }
         }
 
@@ -262,6 +263,7 @@ namespace PokemonGo.RocketAPI.Rpc
                 CommonRequest.ProcessCommonResponses( Client, responses, false, false);
             }
         }
+
         public async Task GetAssetDigest()
         {
             var request = CommonRequest.GetGetAssetDigestMessageRequest(Client);
@@ -289,6 +291,7 @@ namespace PokemonGo.RocketAPI.Rpc
                     CommonRequest.ProcessCommonResponses( Client, responses, false, false);
                 }
         }
+
         public async Task DownloadItemTemplates()
         {
             var request = CommonRequest.DownloadItemTemplatesRequest(Client);
@@ -316,6 +319,7 @@ namespace PokemonGo.RocketAPI.Rpc
                     CommonRequest.ProcessCommonResponses( Client, responses, false, false);
                 }
         }
+
         public async Task GetDownloadUrls()
         {
             var request = CommonRequest.GetDownloadUrlsRequest(Client);

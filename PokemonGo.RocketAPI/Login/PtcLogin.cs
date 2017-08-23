@@ -4,9 +4,11 @@ using PokemonGo.RocketAPI.Exceptions;
 using PokemonGo.RocketAPI.Helpers;
 using PokemonGo.RocketAPI.Shared;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
+using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web;
@@ -17,6 +19,9 @@ namespace PokemonGo.RocketAPI.Login
     {
         private readonly string _password;
         private readonly string _username;
+        private static Cookie jSessionId;
+        private static Cookie CASTGC;
+        private static string header_ticket;
 
         private class SessionData
         {
@@ -33,7 +38,9 @@ namespace PokemonGo.RocketAPI.Login
         public string ProviderId => "ptc";
         public string UserId => _username;
 
-        private static readonly HttpClientHandler Handler = new HttpClientHandler
+        private HttpClientHandler _handler;
+
+        private static HttpClientHandler HandleRedirect = new HttpClientHandler
         {
             AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate,
             AllowAutoRedirect = true,
@@ -43,39 +50,53 @@ namespace PokemonGo.RocketAPI.Login
             CookieContainer = new CookieContainer()
         };
 
-        public async Task<string> GetAccessToken()
+        private static HttpClientHandler HandleNoRedirect = new HttpClientHandler
         {
-            //using (var httpClientHandler = new HttpClientHandler())
-            //{
-            //    httpClientHandler.AllowAutoRedirect = true;
-            //    httpClientHandler.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
-            //    httpClientHandler.UseProxy = Client.proxy != null;
-            //    httpClientHandler.Proxy = Client.proxy;
-            //    CookieContainer CookieContainer = new CookieContainer();
+            AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate,
+            AllowAutoRedirect = true,
+            UseProxy = Client.proxy != null,
+            Proxy = Client.proxy,
+            UseCookies = true,
+            CookieContainer = new CookieContainer()
+        };
 
-            System.Net.Http.HttpClient httpClient = new System.Net.Http.HttpClient(Handler, true); //(new RetryHandler(Handler));
-            //System.Net.Http.HttpClient httpClient = new System.Net.Http.HttpClient();
-            //using (var httpClient = new HttpClient.LoginHttpClient()) 
-            //using (var httpClient = new System.Net.Http.HttpClient(new RetryHandler(Handler)))
-            //{
-                    httpClient.DefaultRequestHeaders.Accept.TryParseAdd(Resources.Header_Login_Accept);
-                    httpClient.DefaultRequestHeaders.Host = Resources.Header_Login_Host;
-                    httpClient.DefaultRequestHeaders.Connection.TryParseAdd(Resources.Header_Login_Connection);
-                    httpClient.DefaultRequestHeaders.UserAgent.TryParseAdd(Resources.Header_Login_UserAgent);
-                    httpClient.DefaultRequestHeaders.AcceptLanguage.TryParseAdd(LocaleInfo.Language);
-                    httpClient.DefaultRequestHeaders.AcceptEncoding.TryParseAdd(Resources.Header_Login_AcceptEncoding);
-                    httpClient.DefaultRequestHeaders.TryAddWithoutValidation(Resources.Header_Login_Manufactor, Resources.Header_Login_XUnityVersion);
-                    httpClient.Timeout = Resources.TimeOut;
+        public async Task<string> GetAccessToken(bool ReAuthentification = true)    // true means we do not allow URL redirection. Only false when is 1st authentication at login
+        {
+            if (ReAuthentification)
+            {
+                _handler = HandleNoRedirect;
+                //_handler.CookieContainer.Add(jSessionId);
+                //_handler.CookieContainer.Add(CASTGC);
+            }
+            else
+            {
+                _handler = HandleRedirect;
+            }
 
-                    SessionData sessionData = await GetSession(httpClient).ConfigureAwait(false);
-                    string ticket = await getTicket(httpClient, _username, _password, sessionData).ConfigureAwait(false);
-                    var accessToken = await PostLoginOauth(httpClient, ticket).ConfigureAwait(false);
+            System.Net.Http.HttpClient httpClient = new System.Net.Http.HttpClient(_handler, true); //(new RetryHandler(Handler));
 
-                    Logger.Debug("Authenticated through PTC.");
+            httpClient.DefaultRequestHeaders.Accept.TryParseAdd(Resources.Header_Login_Accept);
+            httpClient.DefaultRequestHeaders.Host = Resources.Header_Login_Host;
+            httpClient.DefaultRequestHeaders.Connection.TryParseAdd(Resources.Header_Login_Connection);
+            httpClient.DefaultRequestHeaders.UserAgent.TryParseAdd(Resources.Header_Login_UserAgent);
+            httpClient.DefaultRequestHeaders.AcceptLanguage.TryParseAdd(LocaleInfo.Language);
+            httpClient.DefaultRequestHeaders.AcceptEncoding.TryParseAdd(Resources.Header_Login_AcceptEncoding);
+            httpClient.DefaultRequestHeaders.TryAddWithoutValidation(Resources.Header_Login_Manufactor, Resources.Header_Login_XUnityVersion);
+            httpClient.Timeout = Resources.TimeOut;
 
-                    return accessToken;
-                //}
-            //}
+            SessionData sessionData = await GetSession(httpClient).ConfigureAwait(false);
+            string ticket = await getTicket(httpClient, _username, _password, sessionData).ConfigureAwait(false);
+            //var accessToken = await PostLoginOauth(httpClient, ticket).ConfigureAwait(false);
+
+            Logger.Debug("Authenticated through PTC.");
+            Logger.Debug("CASTGC Data");
+            Logger.Debug("     Value: " + CASTGC.Value);
+            Logger.Debug("   Expired: " + CASTGC.Expired);
+            Logger.Debug("Expiration: " + CASTGC.Expires.ToString());
+            Logger.Debug("  Creation: " + CASTGC.TimeStamp.ToString());
+            Logger.Debug("   Discard: " + CASTGC.Discard);
+
+            return ticket; // accessToken;
         }
 
         // Get SessionData to start the login process (Lt and Execution)
@@ -89,8 +110,8 @@ namespace PokemonGo.RocketAPI.Login
                 {
                     //{"service", Resources.UrlVar_Service }
                     {"client_id", Resources.UrlVar_ClientId },
-                    {"redirect_uri", Resources.UrlVar_RedirectUri}//,
-                    //{"locale", LocaleInfo.Language }
+                    {"redirect_uri", Resources.UrlVar_RedirectUri},
+                    {"locale", LocaleInfo.Language }
                 });
             builder.Port = -1; // Removes :443 on builder URI
             builder.Query = query_content.ReadAsStringAsync().Result;
@@ -98,6 +119,8 @@ namespace PokemonGo.RocketAPI.Login
             try
             {
                 HttpResponseMessage response = await httpClient.GetAsync(builder.ToString()).ConfigureAwait(false);
+
+                Logger.Debug("SessionData: " + response.ToString());
 
                 if (!response.IsSuccessStatusCode) throw new LoginFailedException("Error while trying PTC login: " + response.StatusCode);
                 sessionResponse = JsonConvert.DeserializeObject<SessionData>(await response.Content.ReadAsStringAsync().ConfigureAwait(false));
@@ -115,6 +138,7 @@ namespace PokemonGo.RocketAPI.Login
         {
             UriBuilder builder = new UriBuilder(Resources.UrlVar_TicketUrl);
             //UriBuilder builder = new UriBuilder(Resources.PtcLoginUrl);
+            CookieCollection Cookies = new CookieCollection();
 
             FormUrlEncodedContent query_content = new FormUrlEncodedContent(new Dictionary<string, string>
                 {
@@ -131,34 +155,40 @@ namespace PokemonGo.RocketAPI.Login
                     { "execution", sessionData.Execution },
                     { "_eventId", Resources.UrlVar_EventId },
                     { "username", username },
-                    { "password", password }
-                        //{ "locale", LocaleInfo.Language }
+                    { "password", password },
+                    { "locale", LocaleInfo.Language }
                     })).ConfigureAwait(false);
 
-                var loginResponseDataRaw = await loginResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
+                Logger.Debug("SessionData: " + loginResponse.ToString());
 
-                //var kk = httpClient.Cookies.Count; // Ticket es una cookie
-                //CASTGC TGT-16587 - WKK4watKBJdmCbwYRHsfLZzHbmdwhXfkf0ScZCuOopFpF7rEaY - sso.pokemon.com.sso.pokemon.com / sso / Session 82      ✓		
-                //JSESSIONID  1CF2C27198F81706A210A62DA7F06D92 - n1 sso.pokemon.com / sso / Session 45  ✓
+                //var loginResponseDataRaw = await loginResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
 
-                if (loginResponse.RequestMessage.RequestUri.Query.Length > 0 && loginResponse.RequestMessage.RequestUri.Query.Contains("ticket="))
+                Cookies = CookieHelper.GetAllCookies(_handler.CookieContainer);
+
+                foreach (Cookie cookie in Cookies)
                 {
-                    string ticket = loginResponse.RequestMessage.RequestUri.Query.Split('=')[1];
-                    return ticket;
+                    if (cookie.Name == "JSESSIONID") jSessionId = cookie;
+                    if (cookie.Name == "CASTGC") CASTGC = cookie;
                 }
 
-                if (!loginResponseDataRaw.Contains("{"))
-                {
-                    var locationQuery = loginResponse.Headers.Location.Query;
-                    var ticketStartPosition = locationQuery.IndexOf("=", StringComparison.Ordinal) + 1;
-                    return locationQuery.Substring(ticketStartPosition, locationQuery.Length - ticketStartPosition);
-                }
+                HandleNoRedirect.CookieContainer = HandleRedirect.CookieContainer;
 
+                header_ticket = loginResponse.RequestMessage.RequestUri.Query;
+
+                //if (!loginResponseDataRaw.Contains("{"))
+                //{
+                //    var locationQuery = loginResponse.Headers.Location.Query;
+                //    var ticketStartPosition = locationQuery.IndexOf("=", StringComparison.Ordinal) + 1;
+                //    return locationQuery.Substring(ticketStartPosition, locationQuery.Length - ticketStartPosition);
+                //}
+                /*
                 else
                 {
                     var joinedResponseErrors = string.Join(",", (JArray)JObject.Parse(loginResponseDataRaw)["Errors"]);
                     throw new LoginFailedException(joinedResponseErrors);
                 }
+                */
+                return CASTGC.Value;
             }
             catch (Exception ex)
             {
@@ -169,6 +199,16 @@ namespace PokemonGo.RocketAPI.Login
         // Uses Ticket to obtain the AccessToken necessary for the App
         private async Task<string> PostLoginOauth(System.Net.Http.HttpClient httpClient, string ticket)
         {
+            FormUrlEncodedContent query = new FormUrlEncodedContent(new Dictionary<string, string>
+                {
+                    { "client_id", Resources.UrlVar_ClientId },
+                    { "redirect_uri", Resources.UrlVar_RedirectUri },
+                    { "client_secret", Resources.UrlVar_ClientSecret },
+                    { "grant_type", Resources.UrlVar_GrantType },
+                    { "code", header_ticket.Split('=')[1] },// ticket },
+                    { "locale", LocaleInfo.Language }
+                });
+
             HttpResponseMessage loginResponse =
                 await httpClient.PostAsync(Resources.PtcLoginOauthUrl, new FormUrlEncodedContent(new Dictionary<string, string>
                 {
@@ -176,7 +216,7 @@ namespace PokemonGo.RocketAPI.Login
                     { "redirect_uri", Resources.UrlVar_RedirectUri },
                     { "client_secret", Resources.UrlVar_ClientSecret },
                     { "grant_type", Resources.UrlVar_GrantType },
-                    { "code", ticket },
+                    { "code", header_ticket.Split('=')[1] },// ticket },
                     { "locale", LocaleInfo.Language }
                 }));
 

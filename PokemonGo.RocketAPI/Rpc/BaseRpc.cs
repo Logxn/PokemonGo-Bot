@@ -43,18 +43,21 @@ namespace PokemonGo.RocketAPI.Rpc
                     return Client.PokemonHttpClient.PostProtoPayload<TRequest, TResponsePayload>(Client.ApiUrl, requestEnvelops,
                                 Client.ApiFailure);
                 } catch (AccessTokenExpiredException) {
-                    Logger.Warning("Invalid Token. Waiting 11 minutes before of reopen");
+                    //Logger.Warning("Invalid Token. Waiting 11 minutes before of reopen");
+                    Logger.Warning("Invalid Token, Re-Authenticating...");
                     Client.ReadyToUse = false;
-                    verboseWait(11*60000);
-                    Client.Login.DoLogin().Wait();
+                    //verboseWait(11*60000);
+                    //Client.Login.DoLogin().Wait();
+                    Client.Login.Reauthenticate().Wait();
                     Client.ReadyToUse = true;
                 } catch (InvalidPlatformException) {
-                    Logger.Warning("Invalid Platform. Waiting 11 minutes before of reopen");
+                    Logger.Warning("Invalid Platform, Re-Login...");
                     Client.ReadyToUse = false;
-                    verboseWait(11*60000);
+                    //verboseWait(11*60000);
                     Client.Login.DoLogin().Wait();
                     Client.ReadyToUse = true;
                 } catch (RedirectException) {
+                    Logger.Warning("Redirect Exception");
                     Task.Delay(1000).Wait();
                 }
                 tries ++;
@@ -63,21 +66,21 @@ namespace PokemonGo.RocketAPI.Rpc
             return new TResponsePayload();
         }
 
-        public static void verboseWait(int ms)
-        {
-            var waitTimes = ms / 1000;
-            if (waitTimes > 0) {
-                Logger.Info("Waiting for " + waitTimes + " seconds");
-                Logger.Info("Seconds Left: ");
-                for (var i = 0; i < waitTimes; i++) {
-                    if (i != 0)
-                        Logger.Info((waitTimes - i) + ",");
-                    Task.Delay(1000).Wait();
-                }
-            } else {
-                Task.Delay(ms).Wait();
-            }
-        }
+        //public static void verboseWait(int ms)
+        //{
+        //    var waitTimes = ms / 1000;
+        //    if (waitTimes > 0) {
+        //        Logger.Info("Waiting for " + waitTimes + " seconds");
+        //        Logger.Info("Seconds Left: ");
+        //        for (var i = 0; i < waitTimes; i++) {
+        //            if (i != 0)
+        //                Logger.Info((waitTimes - i) + ",");
+        //            Task.Delay(1000).Wait();
+        //        }
+        //    } else {
+        //        Task.Delay(ms).Wait();
+        //    }
+        //}
 
         protected TResponsePayload PostProtoPayload<TRequest, TResponsePayload>(RequestType type,
             IMessage message) where TRequest : IMessage<TRequest>
@@ -241,7 +244,7 @@ namespace PokemonGo.RocketAPI.Rpc
                         CommonRequest.ProcessCheckAwardedBadgesResponse(Client, response[4] as  CheckAwardedBadgesResponse);
                         CommonRequest.ProcessDownloadSettingsResponse(Client, response[5] as  DownloadSettingsResponse);
                         CommonRequest.ProcessGetBuddyWalkedResponse(Client, response[6] as  GetBuddyWalkedResponse);
-                        CommonRequest.ProcessGetInboxResponse(Client, response[7] as  GetInboxResponse);
+                        CommonRequest.ProcessGetInboxResponseAsync(Client, response[7] as  GetInboxResponse);
                         return response[0] as T1 ;
                 } catch (AccessTokenExpiredException) {
                     Logger.Warning("Invalid Token. Retrying in 1 second");

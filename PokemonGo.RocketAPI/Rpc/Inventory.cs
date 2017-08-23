@@ -141,7 +141,7 @@ namespace PokemonGo.RocketAPI.Rpc
             return PostProtoPayloadCommonR<Request, UseIncenseResponse>(RequestType.UseIncense, message).Result;
         }
 
-        public  UseItemGymResponse UseItemInGym(string gymId, ItemId itemId)
+        public  UseItemGymResponse UseItemGym(string gymId, ItemId itemId)
         {
             var message = new UseItemGymMessage()
             {
@@ -264,7 +264,7 @@ namespace PokemonGo.RocketAPI.Rpc
         #endregion
 
         #region --Transfer
-        public ReleasePokemonResponse TransferPokemon(ulong pokemonId) // Transfer one pokemon
+        public ReleasePokemonResponse ReleasePokemon(ulong pokemonId) // Transfer one pokemon
         {
             var message = new ReleasePokemonMessage
             {
@@ -277,7 +277,7 @@ namespace PokemonGo.RocketAPI.Rpc
             return result;
         }
 
-        public ReleasePokemonResponse TransferPokemons(List<ulong> pokemonId) // Transfer a list of pokemon (BULK Transfer)
+        public ReleasePokemonResponse ReleasePokemon(List<ulong> pokemonId) // Transfer a list of pokemon (BULK Transfer)
         {
             var message = new ReleasePokemonMessage { };
 

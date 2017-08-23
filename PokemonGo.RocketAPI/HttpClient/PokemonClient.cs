@@ -14,7 +14,7 @@ namespace PokemonGo.RocketAPI.HttpClient
         private static readonly HttpClientHandler Handler = new HttpClientHandler
         {
             AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate,
-            AllowAutoRedirect = false,
+            AllowAutoRedirect = true,
             UseProxy = Client.proxy != null,
             Proxy = Client.proxy,
             UseCookies = true,

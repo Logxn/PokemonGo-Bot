@@ -9,6 +9,7 @@ using POGOProtos.Networking.Responses;
 using PokemonGo.RocketAPI.Exceptions;
 using System.Linq;
 using System;
+using PokemonGo.RocketAPI.Shared;
 
 #endregion
 
@@ -21,6 +22,9 @@ namespace PokemonGo.RocketAPI.Helpers
             var downloadRemoteConfigVersionMessage = new DownloadRemoteConfigVersionMessage
             {
                 Platform = client.Platform,
+                DeviceManufacturer = DeviceSetup.SelectedDevice.DeviceInfo.HardwareManufacturer,
+                DeviceModel = DeviceSetup.SelectedDevice.DeviceInfo.DeviceModel,
+                Locale = LocaleInfo.Language, // Locale is a string, just adding Language (it's a guess)
                 AppVersion = client.AppVersion
             };
             return new Request
@@ -120,7 +124,7 @@ namespace PokemonGo.RocketAPI.Helpers
                 {
                     RequestType = RequestType.GetInbox,
                     RequestMessage = new GetInboxMessage{
-                        IsHistory = true,
+                        IsHistory = false,
                         IsReverse = false,
                         NotBeforeMs = 0
                     }.ToByteString()
@@ -307,12 +311,14 @@ namespace PokemonGo.RocketAPI.Helpers
             response.PokemonId;
             response.StardustAwarded;
             */
+            /*
              Logger.Debug("CandyAwarded:" +response.CandyAwarded);
              Logger.Debug("EggKmWalked:" +response.EggKmWalked);
              Logger.Debug("ExperienceAwarded:" +response.ExperienceAwarded);
              Logger.Debug("HatchedPokemon:" +response.HatchedPokemon);
              Logger.Debug("PokemonId:" +response.PokemonId);
              Logger.Debug("StardustAwarded:" +response.StardustAwarded);
+             */
         }
         public static void ProcessGetBuddyWalkedResponse(Client client, GetBuddyWalkedResponse response)
         {
@@ -322,22 +328,27 @@ namespace PokemonGo.RocketAPI.Helpers
             Logger.Debug("CandyEarnedCount:" +response.CandyEarnedCount);
             Logger.Debug("FamilyCandyId:" +response.FamilyCandyId);
         }
-        
-        public static void ProcessGetInboxResponse(Client client, GetInboxResponse response)
+
+        public static async void ProcessGetInboxResponseAsync(Client client, GetInboxResponse response)
         {
             if (response == null)
                 return;
             Logger.Debug("Result:" + response.Result);
+            Logger.Debug("Inbox => " + response.Inbox.BuiltinVariables.Count + " BuiltIn Variables and " + response.Inbox.Notifications.Count + " Notifications.");
             var i = 0;
             /*foreach (var element in response.Inbox.BuiltinVariables) {
                 Logger.Debug($"BuiltinVariable {i}: {element}");
                 i++;
             }*/
             i = 0;
-            foreach (var element in response.Inbox.Notifications) {
+            foreach (var element in response.Inbox.Notifications)
+            {
                 Logger.Debug($"Notification {i}: {element}");
                 i++;
             }
+
+            // Explain about notifications received and so.
+            var kk = await client.Misc.UpdateNotificationMessage().ConfigureAwait(false);
         }
 
         public static void ProcessDownloadRemoteConfigVersionResponse(Client client, DownloadRemoteConfigVersionResponse response)
@@ -409,7 +420,7 @@ namespace PokemonGo.RocketAPI.Helpers
                     if ( responses.Count > index)
                     {
                         getInboxResponse.MergeFrom(responses[index]);
-                        CommonRequest.ProcessGetInboxResponse( client, getInboxResponse);
+                        CommonRequest.ProcessGetInboxResponseAsync( client, getInboxResponse);
                     }
                 }
             }
@@ -485,8 +496,10 @@ namespace PokemonGo.RocketAPI.Helpers
         {
             var downloadItemTemplatesMessage = new DownloadItemTemplatesMessage
             {
+                // To be implemented
+                //Paginate =
                 PageOffset = client.PageOffset
-                
+                //page_timestamp =
             };
             return new Request
             {

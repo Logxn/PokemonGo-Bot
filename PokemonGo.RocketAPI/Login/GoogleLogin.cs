@@ -18,7 +18,7 @@ namespace PokemonGo.RocketAPI.Login
             this.password = password;
         }
 
-        public async Task<string> GetAccessToken()
+        public async Task<string> GetAccessToken(bool ReAuthentification = true)
         {
             var client = new GPSOAuthClient(email, password);
             Dictionary<string, string> response = null;
