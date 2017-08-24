@@ -173,9 +173,9 @@ namespace PokemonGo.RocketAPI.Rpc
                     throw new ArgumentOutOfRangeException();
             }
 
-            if (serverResponse.AuthTicket != null){
-                Client.AuthTicket = serverResponse.AuthTicket;
-                Logger.Debug("===================> Received AuthTicket: " + Client.AuthTicket + " Expire: " + Utils.TimeMStoString((long)Client.AuthTicket.ExpireTimestampMs, @"mm\:ss"));
+            if (serverResponse.AuthTicket != null)
+            {
+                Client.SetAuthTicket(serverResponse.AuthTicket);
             }
         }
 

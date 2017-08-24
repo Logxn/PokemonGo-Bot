@@ -905,25 +905,28 @@ namespace PokeMaster.Logic.Functions
                 lastlog = -10000;
                 timetorunstamp = -10000;
                 Logic.objClient.ReadyToUse = false;
-                Logic.Instance.Execute();
+                //Logic.Instance.Execute();
+                Logic.objClient.Login.DoLogin().Wait();
+                Logic.objClient.ReadyToUse = true;
+                Logger.Debug("Client is ready to use");
             }
 
-            if ((GlobalVars.RestartAfterRun < 1) || (limit == "")){
-                Logger.Info("We are closing the Bot for you! Wait 10 seconds");
-                RandomHelper.RandomSleep(10000,10001);
-                Environment.Exit(-1);
-            }else{
-                Logger.Info($"Waiting {GlobalVars.RestartAfterRun} minutes");
-                for (var i= GlobalVars.RestartAfterRun; i>0; i--)
-                {
-                    Logger.Info($"{i} minutes left");
-                    RandomHelper.RandomSleep(60000,61000);
-                }
-                lastlog = -10000;
-                timetorunstamp = -10000;
-                Logic.objClient.ReadyToUse = false;
-                Logic.Instance.Execute();
-            }
+            //if ((GlobalVars.RestartAfterRun < 1) || (limit == "")){
+            //    Logger.Info("We are closing the Bot for you! Wait 10 seconds");
+            //    RandomHelper.RandomSleep(10000,10001);
+            //    Environment.Exit(-1);
+            //}else{
+            //    Logger.Info($"Waiting {GlobalVars.RestartAfterRun} minutes");
+            //    for (var i= GlobalVars.RestartAfterRun; i>0; i--)
+            //    {
+            //        Logger.Info($"{i} minutes left");
+            //        RandomHelper.RandomSleep(60000,61000);
+            //    }
+            //    lastlog = -10000;
+            //    timetorunstamp = -10000;
+            //    Logic.objClient.ReadyToUse = false;
+            //    Logic.Instance.Execute();
+            //}
         }
         private static DateTime _lastegguse;
 

@@ -23,13 +23,13 @@ namespace PokemonGo.RocketAPI.Login
         private static Cookie CASTGC;
         private static string header_ticket;
 
-        private class SessionData
+        public class SessionData
         {
             public string Lt { get; set; }
             public string Execution { get; set; }
         }
 
-        private SessionData CurrentSessionData;
+        public static SessionData CurrentSessionData;
 
         public PtcLogin(string username, string password)
         {
@@ -74,8 +74,28 @@ namespace PokemonGo.RocketAPI.Login
             //{
                 _handler = HandleRedirect;
             //}
+            /*
+             * If ReAuthentication is true, we continue with the current session using the stored Cookies
+             * If ReAuthentication is false, we want a completelly new session, so clean Cookies and log in again
+             */
 
-            System.Net.Http.HttpClient httpClient = new System.Net.Http.HttpClient(_handler, true); //(new RetryHandler(Handler));
+            if (!ReAuthentification)
+            {
+                if (CookieHelper.GetAllCookies(_handler.CookieContainer).Count > 0)
+                {
+                    _handler = new HttpClientHandler
+                    {
+                        AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate,
+                        AllowAutoRedirect = true,
+                        UseProxy = Client.proxy != null,
+                        Proxy = Client.proxy,
+                        UseCookies = true,
+                        CookieContainer = new CookieContainer()
+                    };
+                }
+            }
+
+            System.Net.Http.HttpClient httpClient = new System.Net.Http.HttpClient(_handler, true);
 
             httpClient.DefaultRequestHeaders.Accept.TryParseAdd(Resources.Header_Login_Accept);
             httpClient.DefaultRequestHeaders.Host = Resources.Header_Login_Host;
@@ -86,10 +106,7 @@ namespace PokemonGo.RocketAPI.Login
             httpClient.DefaultRequestHeaders.TryAddWithoutValidation(Resources.Header_Login_Manufactor, Resources.Header_Login_XUnityVersion);
             httpClient.Timeout = Resources.TimeOut;
 
-            if (!ReAuthentification)
-            {
-                CurrentSessionData = await GetSession(httpClient).ConfigureAwait(false);
-            }
+            if (!ReAuthentification) CurrentSessionData = await GetSession(httpClient).ConfigureAwait(false);
 
             string ticket = await getTicket(httpClient, _username, _password, CurrentSessionData).ConfigureAwait(false);
             //var accessToken = await PostLoginOauth(httpClient, ticket).ConfigureAwait(false);
