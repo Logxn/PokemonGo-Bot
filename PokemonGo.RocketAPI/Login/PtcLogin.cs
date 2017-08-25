@@ -9,6 +9,7 @@ using System.Net.Http;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web;
+using PokemonGo.RocketAPI.Shared;
 
 namespace PokemonGo.RocketAPI.Login
 {
@@ -23,6 +24,14 @@ namespace PokemonGo.RocketAPI.Login
             this.password = password;
         }
 
+        public const string Header_Login_UserAgent = "pokemongo/1 CFNetwork/811.5.4 Darwin/16.7.0";
+        public const string Header_Login_Accept = "/";
+        public const string Header_Login_AcceptEncoding = "gzip, deflate";
+        public const string Header_Login_Connection = "keep-alive";
+        public const string Header_Login_Manufactor = "X-Unity-Version";
+        public const string Header_Login_XUnityVersion = "5.6.1f1";
+        public const string Header_Login_Host = "sso.pokemon.com";
+        
         public async Task<string> GetAccessToken()
         {
             using (var httpClientHandler = new HttpClientHandler())
@@ -34,7 +43,14 @@ namespace PokemonGo.RocketAPI.Login
 
                 using (var httpClient = new System.Net.Http.HttpClient(httpClientHandler))
                 {
-                    httpClient.DefaultRequestHeaders.UserAgent.TryParseAdd(Resources.LoginUserAgent);
+                    //httpClient.DefaultRequestHeaders.UserAgent.TryParseAdd(Resources.LoginUserAgent);
+                    httpClient.DefaultRequestHeaders.Accept.TryParseAdd(Header_Login_Accept);
+                    httpClient.DefaultRequestHeaders.Host = Header_Login_Host;
+                    httpClient.DefaultRequestHeaders.Connection.TryParseAdd(Header_Login_Connection);
+                    httpClient.DefaultRequestHeaders.UserAgent.TryParseAdd(Header_Login_UserAgent);
+                    httpClient.DefaultRequestHeaders.AcceptLanguage.TryParseAdd(LocaleInfo.Language);
+                    httpClient.DefaultRequestHeaders.AcceptEncoding.TryParseAdd(Header_Login_AcceptEncoding);
+                    httpClient.DefaultRequestHeaders.TryAddWithoutValidation(Header_Login_Manufactor, Header_Login_XUnityVersion);
                     var loginData = await GetLoginData(httpClient);
                     if (loginData == null)
                         return null;
@@ -74,6 +90,8 @@ namespace PokemonGo.RocketAPI.Login
         /// <param name="password">The user's PTC password.</param>
         /// <param name="loginData"><see cref="LoginData" /> taken from PTC website using <see cref="GetLoginData" />.</param>
         /// <returns></returns>
+        public const string UrlVar_EventId = "submit";
+
         private async Task<string> PostLogin(System.Net.Http.HttpClient httpClient, string username, string password, SessionData loginData)
         {
             var loginResponse =
@@ -81,7 +99,7 @@ namespace PokemonGo.RocketAPI.Login
                 {
                     {"lt", loginData.Lt},
                     {"execution", loginData.Execution},
-                    {"_eventId", "submit"},
+                    {"_eventId", UrlVar_EventId},
                     {"username", username},
                     {"password", password}
                 }));
@@ -113,15 +131,22 @@ namespace PokemonGo.RocketAPI.Login
         /// <param name="httpClient"></param>
         /// <param name="ticket"></param>
         /// <returns></returns>
+
+        public const string UrlVar_Service = "https://sso.pokemon.com/sso/oauth2.0/callbackAuthorize";
+        public const string UrlVar_ClientId = "mobile-app_pokemon-go";
+        public const string UrlVar_RedirectUri = "https://www.nianticlabs.com/pokemongo/error";
+        public const string UrlVar_ClientSecret = "w8ScCUXJQc6kXKw8FiOhd8Fixzht18Dq3PEVkUCP5ZPxtgyWsbTvWHFLm2wNY0JR";
+        public const string UrlVar_GrantType = "refresh_token";
+
         private async Task<string> PostLoginOauth(System.Net.Http.HttpClient httpClient, string ticket)
         {
             var loginResponse =
                 await httpClient.PostAsync(Resources.PtcLoginOauth, new FormUrlEncodedContent(new Dictionary<string, string>
                 {
-                    {"client_id", "mobile-app_pokemon-go"},
-                    {"redirect_uri", "https://www.nianticlabs.com/pokemongo/error"},
-                    {"client_secret", "w8ScCUXJQc6kXKw8FiOhd8Fixzht18Dq3PEVkUCP5ZPxtgyWsbTvWHFLm2wNY0JR"},
-                    {"grant_type", "refresh_token"},
+                    {"client_id", UrlVar_ClientId},
+                    {"redirect_uri", UrlVar_RedirectUri},
+                    {"client_secret", UrlVar_ClientSecret},
+                    {"grant_type", UrlVar_GrantType},
                     {"code", ticket}
                 }));
 
