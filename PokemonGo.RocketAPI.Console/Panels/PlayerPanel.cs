@@ -175,7 +175,7 @@ namespace PokeMaster
         {
 
             if (profile != null){
-                listView.Items[0].SubItems[2].Text = profile.PlayerData.Username;
+                listView.Items[0].SubItems[2].Text = profile.PlayerData.Username + "(Created: " + (DateTime.UtcNow + Utils.TimeMStoTimeSpan(profile.PlayerData.CreationTimestampMs)) + ")";
                 listView.Items[1].SubItems[2].Text = profile.PlayerData.Currencies[0].Amount.ToString("N0");
                 listView.Items[2].SubItems[2].Text = profile.PlayerData.Currencies[1].Amount.ToString("N0");
                 listView.Items[3].SubItems[2].Text = ""+profile.PlayerData.MaxItemStorage;

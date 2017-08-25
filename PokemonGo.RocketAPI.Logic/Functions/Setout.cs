@@ -896,12 +896,14 @@ namespace PokeMaster.Logic.Functions
                 
                 BreakSettings _currentBreak = new BreakSettings().GetCurrentBreak();
 
-
+                // Change to realtimediff
                 for (var i = _currentBreak.BreakIdleTime; i > 0; i--)
                 {
                     Logger.Info($"{i} minutes left to start walking again");
                     RandomHelper.RandomSleep(60000, 60000);
+                    if (GlobalVars.ForceAdvancedBreakNow == false) break;
                 }
+
                 lastlog = -10000;
                 timetorunstamp = -10000;
                 Logic.objClient.ReadyToUse = false;

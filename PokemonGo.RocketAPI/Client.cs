@@ -146,6 +146,11 @@ namespace PokemonGo.RocketAPI
             Logger.Debug("===================> Received AuthTicket: " + AuthTicket + " Expire: " + Utils.TimeMStoString((long)AuthTicket.ExpireTimestampMs, @"mm\:ss"));
         }
 
+        public AuthTicket GetAuthTicket()
+        {
+            return AuthTicket;
+        }
+
         internal void OnMakeTutorial()
         {
            EvMakeTutorial?.Invoke(this, EventArgs.Empty);
