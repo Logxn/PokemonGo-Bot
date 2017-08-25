@@ -14,29 +14,25 @@ namespace PokemonGo.RocketAPI.HttpClient
         private static readonly HttpClientHandler Handler = new HttpClientHandler
         {
             AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate,
-            AllowAutoRedirect = false,
+            AllowAutoRedirect = true,
             UseProxy = Client.proxy != null,
-            Proxy = Client.proxy
+            Proxy = Client.proxy,
+            UseCookies = true,
+            CookieContainer = new CookieContainer()
         };
 
-        public const string Header_Requests_UserAgent = "Niantic App";
-        public const string Header_Requests_Accept = "/";
-        public const string Header_Requests_AcceptEncoding = "identity, gzip";
-        public const string Header_Requests_Connection = "keep-alive";
-        public const string Header_Requests_Host = "pgorelease.nianticlabs.com";
-        public const string Header_Requests_ContentType = "application/binary";
-        
+        public CookieContainer Cookies
+        {
+            get { return Handler.CookieContainer; }
+            set { Handler.CookieContainer = value; }
+        }
+
         public PokemonHttpClient() : base(new RetryHandler(Handler))
         {
-            //DefaultRequestHeaders.TryAddWithoutValidation("User-Agent", "Niantic App");
-            //DefaultRequestHeaders.ExpectContinue = false;
-            //DefaultRequestHeaders.TryAddWithoutValidation("Connection", "keep-alive");
-            //DefaultRequestHeaders.TryAddWithoutValidation("Accept", "*/*");
-            //DefaultRequestHeaders.TryAddWithoutValidation("Content-Type", "application/x-www-form-urlencoded");
-            DefaultRequestHeaders.TryAddWithoutValidation("Content-Type", Header_Requests_ContentType);
-            DefaultRequestHeaders.Host = Header_Requests_Host;
-            DefaultRequestHeaders.UserAgent.TryParseAdd(Header_Requests_UserAgent);
-            DefaultRequestHeaders.AcceptEncoding.TryParseAdd(Header_Requests_AcceptEncoding);
+            DefaultRequestHeaders.TryAddWithoutValidation("Content-Type", Resources.Header_Requests_ContentType);
+            DefaultRequestHeaders.Host = Resources.Header_Requests_Host;
+            DefaultRequestHeaders.UserAgent.TryParseAdd(Resources.Header_Requests_UserAgent);
+            DefaultRequestHeaders.AcceptEncoding.TryParseAdd(Resources.Header_Requests_AcceptEncoding);
             DefaultRequestHeaders.ExpectContinue = false;
         }
     }

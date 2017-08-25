@@ -32,10 +32,7 @@ namespace PokeMaster
         public static string deviceData = Path.Combine(path_device, "DeviceData.json");
         public static string cmdCoords = string.Empty;
         public static string accountProfiles = Path.Combine(path, "Profiles.txt");
-        static readonly string logPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Logs");
-        public static string pokelog = Path.Combine(logPath, "PokeLog.txt");
-        public static string manualTransferLog = Path.Combine(logPath, "TransferLog.txt");
-        public static string EvolveLog = Path.Combine(logPath, "EvolveLog.txt");
+        public static string logPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Logs");
         public static string path_pokedata = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "PokeData");
 
         static Version version;       
@@ -116,6 +113,7 @@ namespace PokeMaster
                             }
                         }
 
+                        Logger.ColoredConsoleWrite(ConsoleColor.Red, "Using Profile: " + GlobalVars.ProfileName);
                         if (GlobalVars.UsePwdEncryption) GlobalVars.Password = Encryption.Decrypt(GlobalVars.Password);
                         #endregion
                     }
@@ -185,9 +183,9 @@ namespace PokeMaster
             }
 
             // Check if a new version of BOT is available
-            CheckVersion(); 
+            CheckVersion();
 
-            // Check if Bot is deactivated at server level
+             // Check if Bot is deactivated at server level
             if (!GlobalVars.BypassKillSwitch) StringUtils.CheckKillSwitch();
 
             if (openGUI)
@@ -212,7 +210,9 @@ namespace PokeMaster
             }
             
             SleepHelper.PreventSleep();
-            CreateLogDirectories();
+
+            // Ensure all log paths exists
+            CheckLogDirectories(logPath = Path.Combine(logPath, GlobalVars.ProfileName));
 
             GlobalVars.infoObservable.HandleNewHuntStats += SaveHuntStats;
 
@@ -249,7 +249,8 @@ namespace PokeMaster
             }
             else
             {
-                   System.Console.ReadLine();
+                Console.WriteLine("Press any key to continue.");
+                Console.ReadKey();
             }
             SleepHelper.AllowSleep();
         }
@@ -312,24 +313,20 @@ namespace PokeMaster
                         "https://raw.githubusercontent.com/Logxn/PokemonGo-Bot/master/ver.md");
         }
 
-        private static void CreateLogDirectories()
+        private static void CheckLogDirectories(string logPath)
         {
-            if (!Directory.Exists(logPath))
-            {
-                Directory.CreateDirectory(logPath);
-            }
-            if (!File.Exists(pokelog))
-            {
-                File.Create(pokelog).Close();
-            }
-            if (!File.Exists(manualTransferLog))
-            {
-                File.Create(manualTransferLog).Close();
-            }
-            if (!File.Exists(EvolveLog))
-            {
-                File.Create(EvolveLog).Close();
-            }
+            Logger.SwitchToProfileLog(logPath); // Here we change from General Log to profile log, stored inside Logs\<profile_name>\
+
+            string pokelog = Path.Combine(logPath, "PokeLog.txt");
+            string manualTransferLog = Path.Combine(logPath, "TransferLog.txt");
+            string EvolveLog = Path.Combine(logPath, "EvolveLog.txt");
+
+            if (!Directory.Exists(logPath)) Directory.CreateDirectory(logPath);
+            if (!File.Exists(pokelog)) File.Create(pokelog).Close();
+            if (!File.Exists(manualTransferLog)) File.Create(manualTransferLog).Close();
+            if (!File.Exists(EvolveLog)) File.Create(EvolveLog).Close();
+
+            Logger.Rename(logPath); // Rotate logs if checked
         }
     }
 }

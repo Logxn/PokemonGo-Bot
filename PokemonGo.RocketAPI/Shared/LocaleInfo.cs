@@ -16,7 +16,7 @@ namespace PokemonGo.RocketAPI.Shared
     public static class LocaleInfo
     {
         public static string Country = "US";
-        public static string Language = "en";
+        public static string Language = "en_US";
         public static string TimeZone = "America/Los Angeles";
         public static void SetValues(string c, string l, string t){
             Country = c;

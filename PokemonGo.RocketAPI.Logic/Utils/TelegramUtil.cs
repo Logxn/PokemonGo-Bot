@@ -544,7 +544,7 @@ namespace PokeMaster.Logic.Utils
                 resp = $"{pokemon} with cp={cp} not found";
                 return resp;
             }
-            _client.Inventory.TransferPokemons(pokemons.Select(x => x.Id).ToList());
+            _client.Inventory.ReleasePokemon(pokemons.Select(x => x.Id).ToList());
             return "Command sent succefully to the bot.";
         }
 

@@ -276,7 +276,7 @@ namespace PokeMaster
         private void SavePokestopsInfo()
         {
             var file = GlobalVars.FortsFile;
-            if (file == "")
+            if (file == "" || !System.IO.File.Exists(file))
                 file = System.IO.Path.Combine(Program.path, "forts.json");
             var array = new List<MarkerInfo>();
             var infoJSON = "";

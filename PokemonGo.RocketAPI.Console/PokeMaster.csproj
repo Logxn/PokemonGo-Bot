@@ -65,6 +65,7 @@
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>true</Prefer32Bit>
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationManifest>app.manifest</ApplicationManifest>
@@ -79,7 +80,6 @@
     <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
     <BaseIntermediateOutputPath>obj\</BaseIntermediateOutputPath>
     <StartAction>Project</StartAction>
-    <StartArguments>-bypasskillswitch</StartArguments>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Platform)' == 'AnyCPU' ">
     <BaseAddress>4194304</BaseAddress>
@@ -306,7 +306,6 @@
       <DependentUpon>ConfigWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="Helper\DownloadHelper.cs" />
-    <Compile Include="Helper\LocaleHelper.cs" />
     <Compile Include="Helper\PokeImgManager.cs" />
     <Compile Include="Helper\SleepHelper.cs" />
     <Compile Include="Helper\TranslatorHelper.cs" />
@@ -352,7 +351,9 @@
     <Compile Include="Panels\PlayerPanel.Designer.cs">
       <DependentUpon>PlayerPanel.cs</DependentUpon>
     </Compile>
-    <Compile Include="Panels\PokedexPanel.cs" />
+    <Compile Include="Panels\PokedexPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Panels\PokedexPanel.Designer.cs">
       <DependentUpon>PokedexPanel.cs</DependentUpon>
     </Compile>

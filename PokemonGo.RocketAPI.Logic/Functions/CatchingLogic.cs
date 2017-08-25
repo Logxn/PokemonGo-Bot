@@ -106,7 +106,8 @@ namespace PokeMaster.Logic.Functions
                     zeroCachablePokemons++;
                     if (zeroCachablePokemons> 10){
                         zeroCachablePokemons =0;
-                        client.Login.DoLogin().Wait();
+                        //client.Login.DoLogin().Wait();
+                        client.Login.Reauthenticate().Wait();
                     }
                     return false;
                 }

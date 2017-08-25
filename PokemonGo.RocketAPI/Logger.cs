@@ -50,11 +50,13 @@ namespace PokemonGo.RocketAPI
         public static void ExceptionInfo(string line)
         {
             if (type == 0) {
-                LoggerC.ColoredConsoleWrite(ConsoleColor.Red, "Ignore this: sending exception information to log file.");
+                //LoggerC.ColoredConsoleWrite(ConsoleColor.Red, "Ignore this: sending exception information to log file.");
+                LoggerC.ColoredConsoleWrite(ConsoleColor.Red, line);
                 LoggerC.AddLog(line);
             }
             if (type == 1) {
-                LoggerPanel.ColoredConsoleWrite(ConsoleColor.Red, "Ignore this: sending exception information to log file.");
+                //LoggerPanel.ColoredConsoleWrite(ConsoleColor.Red, "Ignore this: sending exception information to log file.");
+                LoggerC.ColoredConsoleWrite(ConsoleColor.Red, line);
                 LoggerPanel.AddLog(line);
             }
                 
@@ -110,17 +112,23 @@ namespace PokemonGo.RocketAPI
                 LoggerPanel.AddLog(line);
         }
 
-        public static void Rename()
+        public static void Rename(string logPath)
         {
-             string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Configs");
-             string log = Path.Combine(path, "log.txt");
-             string newlog = Path.Combine(path, "log0.txt");
+             //string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Logs");
+             string log = Path.Combine(logPath, "log.txt");
+             string newlog = Path.Combine(logPath, "log0.txt");
              int i = 0;
              while (File.Exists(newlog)) {
                  i++;
-                 newlog = Path.Combine(path, $"log{i}.txt");
+                 newlog = Path.Combine(logPath, $"log{i}.txt");
              }
-             File.Move(log, newlog);
+            if (File.Exists(log)) File.Move(log, newlog);
+            else File.Create(log);
+        }
+
+        public static void SwitchToProfileLog(string logPath)
+        {
+            LoggerC.log = Path.Combine(logPath, "log.txt");
         }
     }
 }

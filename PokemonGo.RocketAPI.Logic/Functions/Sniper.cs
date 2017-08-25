@@ -92,7 +92,7 @@ namespace PokeMaster.Logic.Functions
                 SendToLog(LocationUtils.FindAddress(_client.CurrentLatitude, _client.CurrentLongitude));
 
                 if ((catchedID > 0) && GlobalVars.SnipeOpts.TransferIt && pokeid != PokemonId.Missingno) {
-                    var trResult = Logic.objClient.Inventory.TransferPokemon(catchedID);
+                    var trResult = Logic.objClient.Inventory.ReleasePokemon(catchedID);
                     if (trResult.Result == ReleasePokemonResponse.Types.Result.Success) {
                         SendToLog("Pokemon was transfered.");
                         SendToLog("Candies awarded: " + trResult.CandyAwarded);

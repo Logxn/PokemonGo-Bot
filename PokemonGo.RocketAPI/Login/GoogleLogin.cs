@@ -1,14 +1,7 @@
 ﻿using GPSOAuthSharp;
-using PokemonGo.RocketAPI.Exceptions;
-using PokemonGo.RocketAPI.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Security.Cryptography;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -25,7 +18,7 @@ namespace PokemonGo.RocketAPI.Login
             this.password = password;
         }
 
-        public async Task<string> GetAccessToken()
+        public async Task<string> GetAccessToken(bool ReAuthentification = true)
         {
             var client = new GPSOAuthClient(email, password);
             Dictionary<string, string> response = null;
@@ -59,9 +52,9 @@ namespace PokemonGo.RocketAPI.Login
             }
 
             var oauthResponse = await client.PerformOAuth(response["Token"],
-                "audience:server:client_id:848232511240-7so421jotr2609rmqakceuu1luuq0ptb.apps.googleusercontent.com",
-                "com.nianticlabs.pokemongo",
-                "321187995bc7cdc2b5fc91b11a96e2baa8602c62").ConfigureAwait(false);
+                Resources.GoogleAuth_AuthService,
+                Resources.GoogleAuth_App,
+                Resources.GoogleAuth_ClientSig).ConfigureAwait(false);
 
             if (!oauthResponse.ContainsKey("Auth")){
                 Logger.Error("Auth String not found.");

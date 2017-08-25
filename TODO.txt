@@ -1,0 +1,23 @@
+22/8	@Suljo					Stop when account is flagged
+20/8				Tutorial	Fix random pokemon exception (Charmander was seleced, so no random)
+22/8	@Zederia				Reduce number of times PlayerStats shows -> @TODO - Timer the stats to 5~10 minutes
+22/8				Login.cs	" Expire: " + Utils.TimeMStoString((long)Client.AuthTicket.ExpireTimestampMs, @"mm\:ss"));
+22/8	@Xelwon					Coordinates.txt per profile
+24/8	@Zederia				Manual evolve do not pause the player
+
+=========== NOTES =============
+CatchingLogic.cs	L109	Disabled DoLogin => May be we do not refresh pokemons, atttention
+
+v1.3.6.6 Changes
+----------------
++ Logs are now stored inside a profile folder \Logs\<profile_name>\*.txt
++ There's a General Log inside \Logs\GeneralLog.txt. Please note that other files are still stored in Configs dir (pokemons.txt, HuntStats...)
+= Reduce log check disk requests
++ PTC Login process totally reviewed
++ ReAuthenticate process reviewed
++ Added new HEADER values on Authentication
++ In player tab you can see account creation date
+= Fixed an exception when fort file to load does not exists
+= Fixed some exception handles
+= Minor fixes on Advance Breaks
+= Some text fixes from spangish (Thanks Zederia)

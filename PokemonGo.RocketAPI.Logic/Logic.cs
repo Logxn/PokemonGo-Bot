@@ -71,8 +71,6 @@ namespace PokeMaster.Logic
             pokevision = new PokeVisionUtil();
             this.infoObservable = infoObservable;
             Instance = this;
-            if (GlobalVars.Debug.NewLog)
-                Logger.Rename();
             sniperLogic = new Sniper(objClient, botSettings);
             PokemonGo.RocketAPI.Shared.KeyCollection.Load();
 

@@ -25,6 +25,44 @@ namespace PokemonGo.RocketAPI.Helpers
             return (long)Math.Round(timeSpan.TotalSeconds);
         }
 
+        public static string TimeMStoString(long timeMS, String format)
+        {
+            try
+            {
+                if (timeMS > 0)
+                {
+                    var tstamp = TimeSpan.FromMilliseconds(timeMS);
+                    var UnixNow = DateTime.UtcNow.AddYears(-1969).AddDays(1);
+                    var tsUnixNow = TimeSpan.FromTicks(UnixNow.Ticks);
+                    return tstamp.Subtract(tsUnixNow).ToString(format);
+                }
+            }
+            catch (Exception e)
+            {
+                Logger.Debug("" + e);
+            }
+            return "Unknown";
+        }
+
+        public static TimeSpan TimeMStoTimeSpan (long timeMS)
+        {
+            try
+            {
+                if (timeMS > 0)
+                {
+                    var tstamp = TimeSpan.FromMilliseconds(timeMS);
+                    var UnixNow = DateTime.UtcNow.AddYears(-1969).AddDays(1);
+                    var tsUnixNow = TimeSpan.FromTicks(UnixNow.Ticks);
+                    return tstamp.Subtract(tsUnixNow);
+                }
+            }
+            catch (Exception e)
+            {
+                Logger.Debug("" + e);
+            }
+            return TimeSpan.Zero;
+        }
+
         public static class HtmlRemoval
         {
             /// <summary>

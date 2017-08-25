@@ -13,6 +13,7 @@ namespace PokemonGo.RocketAPI.Extensions
     public enum ApiOperation
     {
         Retry,
+        RetryRequest,
         Abort
     }
 
@@ -32,7 +33,7 @@ namespace PokemonGo.RocketAPI.Extensions
 
     public static class HttpClientExtensions
     {
-        public static async Task<IMessage[]> PostProtoPayload<TRequest>(this System.Net.Http.HttpClient client,
+        public static async Task<IMessage[]> PostProtoPayload<TRequest>(this System.Net.Http.HttpClient httpClient,
             string url, RequestEnvelope requestEnvelope,
             IApiFailureStrategy strategy,
             params Type[] responseTypes) where TRequest : IMessage<TRequest>
@@ -48,7 +49,7 @@ namespace PokemonGo.RocketAPI.Extensions
             }
 
             ResponseEnvelope response;
-            while ((response = await PerformThrottledRemoteProcedureCall<TRequest>(client, url, requestEnvelope).ConfigureAwait(false)).Returns.Count !=
+            while ((response = await PerformThrottledRemoteProcedureCall<TRequest>(httpClient, url, requestEnvelope).ConfigureAwait(false)).Returns.Count !=
                    responseTypes.Length)
             {
                 var operation = strategy.HandleApiFailure(requestEnvelope, response);
@@ -70,12 +71,12 @@ namespace PokemonGo.RocketAPI.Extensions
         }
 
         public static TResponsePayload PostProtoPayload<TRequest, TResponsePayload>(
-            this System.Net.Http.HttpClient client,
+            this System.Net.Http.HttpClient httpClient,
             string url, RequestEnvelope requestEnvelope, IApiFailureStrategy strategy)
             where TRequest : IMessage<TRequest>
             where TResponsePayload : IMessage<TResponsePayload>, new()
         {
-            var response = PerformThrottledRemoteProcedureCall<TRequest>(client, url, requestEnvelope).Result;
+            var response = PerformThrottledRemoteProcedureCall<TRequest>(httpClient, url, requestEnvelope).Result;
 
             while (response.Returns.Count == 0)
             {
@@ -85,7 +86,7 @@ namespace PokemonGo.RocketAPI.Extensions
                 if (operation == ApiOperation.Abort)
                     break;
 
-                response = PerformThrottledRemoteProcedureCall<TRequest>(client, url, requestEnvelope).Result;
+                response = PerformThrottledRemoteProcedureCall<TRequest>(httpClient, url, requestEnvelope).Result;
             }
 
             if (response.Returns.Count == 0)
@@ -102,13 +103,13 @@ namespace PokemonGo.RocketAPI.Extensions
             return parsedPayload;
         }
 
-        private static async Task<ResponseEnvelope> PerformRemoteProcedureCall<TRequest>(this System.Net.Http.HttpClient client,
+        private static async Task<ResponseEnvelope> PerformRemoteProcedureCall<TRequest>(this System.Net.Http.HttpClient httpClient,
             string url,
             RequestEnvelope requestEnvelope) where TRequest : IMessage<TRequest>
         {
             //Encode payload and put in envelope, then send
             var data = requestEnvelope.ToByteString();
-            var result = await client.PostAsync(url, new ByteArrayContent(data.ToByteArray())).ConfigureAwait(false);
+            var result = await httpClient.PostAsync(url, new ByteArrayContent(data.ToByteArray())).ConfigureAwait(false);
 
             //Decode message
             var responseData = await result.Content.ReadAsByteArrayAsync().ConfigureAwait(false);
@@ -148,7 +149,7 @@ namespace PokemonGo.RocketAPI.Extensions
         private static readonly ConcurrentDictionary<RequestEnvelope, ResponseEnvelope> responses = new ConcurrentDictionary<RequestEnvelope, ResponseEnvelope>();
         private static readonly Semaphore mutex = new Semaphore(1, 1);
 
-        public static async Task<ResponseEnvelope> PerformThrottledRemoteProcedureCall<TRequest>(this System.Net.Http.HttpClient client, string url, RequestEnvelope requestEnvelope) where TRequest : IMessage<TRequest>
+        public static async Task<ResponseEnvelope> PerformThrottledRemoteProcedureCall<TRequest>(this System.Net.Http.HttpClient httpClient, string url, RequestEnvelope requestEnvelope) where TRequest : IMessage<TRequest>
         {
             rpcQueue.Enqueue(requestEnvelope);
             var count = rpcQueue.Count;
@@ -163,7 +164,7 @@ namespace PokemonGo.RocketAPI.Extensions
                     RandomHelper.RandomSleep(delay, delay + 100);
                 }
                 lastRpc = (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds;
-                ResponseEnvelope response = await PerformRemoteProcedureCall<TRequest>(client, url, r).ConfigureAwait(false);
+                ResponseEnvelope response = await PerformRemoteProcedureCall<TRequest>(httpClient, url, r).ConfigureAwait(false);
                 responses.GetOrAdd(r, response);
             }
             ResponseEnvelope ret;

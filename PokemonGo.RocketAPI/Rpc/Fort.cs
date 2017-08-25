@@ -141,8 +141,7 @@ namespace PokemonGo.RocketAPI.Rpc
             return PostProtoPayloadCommonR<Request, GymGetInfoResponse>(RequestType.GymGetInfo, message).Result;
         }
 
-        public async Task<StartGymBattleResponse> StartGymBattle(string gymId, ulong defendingPokemonId,
-            IEnumerable<ulong> attackingPokemonIds)
+        public async Task<StartGymBattleResponse> StartGymBattle(string gymId, ulong defendingPokemonId, IEnumerable<ulong> attackingPokemonIds)
         {
             var request = new Request
             {

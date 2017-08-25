@@ -276,16 +276,7 @@ PokemonGo.RocketAPI.Console/Location.cs
 /Builds-Only/System.Net.Http.Formatting.xml
 /Builds-Only/Telegram.Bot.xml
 /Builds-Only/Troschuetz.Random.xml
-/POGOProtos/Enums/NotificationState.g.cs
-/POGOProtos/Networking/Requests/Messages/GetInboxMessage.g.cs
-/POGOProtos/Networking/Requests/Messages/PushNotificationRegistryMessage.g.cs
-/POGOProtos/Networking/Requests/Messages/UpdateNotificationMessage.g.cs
-/POGOProtos/Networking/Responses/GetInboxResponse.g.cs
-/POGOProtos/Networking/Responses/PushNotificationRegistryResponse.g.cs
-/POGOProtos/Networking/Responses/UpdateNotificationResponse.g.cs
-/POGOProtos/Settings/NotificationSettings.g.cs
-/TODO.txt
-/TODO.txt
+
 /Builds-Only/Configs_/DefaultProfile.json
 /Builds-Only/Configs_/Profiles.txt
 /Builds-Only/Configs_/log.txt
