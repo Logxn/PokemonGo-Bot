@@ -12,6 +12,7 @@ using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web;
+using PokemonGo.RocketAPI.Shared;
 
 namespace PokemonGo.RocketAPI.Login
 {
