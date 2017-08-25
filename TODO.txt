@@ -1,5 +1,5 @@
 22/8	@Suljo					Stop when account is flagged
-20/8				Tutorial	Fix random pokemon exception
+20/8				Tutorial	Fix random pokemon exception (Charmander was seleced, so no random)
 22/8	@Zederia				Reduce number of times PlayerStats shows -> @TODO - Timer the stats to 5~10 minutes
 22/8				Login.cs	" Expire: " + Utils.TimeMStoString((long)Client.AuthTicket.ExpireTimestampMs, @"mm\:ss"));
 22/8	@Xelwon					Coordinates.txt per profile
