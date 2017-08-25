@@ -318,14 +318,14 @@ namespace PokeMaster.Logic.Functions
                         var MaxCP = PokemonInfo.CalculateMaxCP(hatched);
                         var Level = PokemonInfo.GetLevel(hatched);
                         var IVPercent = PokemonInfo.CalculatePokemonPerfection(hatched).ToString("0.00");
-                        File.AppendAllText(logs, $"[{date}] - Egg hatched and we got a {hatched.PokemonId} (CP: {hatched.Cp} | MaxCP: {MaxCP} | Level: {Level} | IV: {IVPercent}% )" + Environment.NewLine);
+                        File.AppendAllText(logs, $"[{date}] - Hatched a {hatched.EggKmWalkedTarget} Km egg, and we got a {hatched.PokemonId} (CP: {hatched.Cp} | MaxCP: {MaxCP} | Level: {Level} | IV: {IVPercent}% )" + Environment.NewLine);
                     }
-                    Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, "Egg hatched and we got a " + hatched.PokemonId + " CP: " + hatched.Cp + " MaxCP: " + PokemonInfo.CalculateMaxCP(hatched) + " Level: " + PokemonInfo.GetLevel(hatched) + " IV: " + PokemonInfo.CalculatePokemonPerfection(hatched).ToString("0.00") + "%");
+                    Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, "Hatched a {hatched.EggKmWalkedTarget} Km egg, and we got a" + hatched.PokemonId + " CP: " + hatched.Cp + " MaxCP: " + PokemonInfo.CalculateMaxCP(hatched) + " Level: " + PokemonInfo.GetLevel(hatched) + " IV: " + PokemonInfo.CalculatePokemonPerfection(hatched).ToString("0.00") + "%");
                 }
 
                 if ((unusedEggsUnlimitInc.Count < 1) && (unusedEggsUnlimitInc.Count < 1))
                 {
-                    Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, "There are not Allowed Eggs to hatch");
+                    Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, "There's no egg to hatch");
                     return;
                 }
 
@@ -362,7 +362,7 @@ namespace PokeMaster.Logic.Functions
                             Logger.ColoredConsoleWrite(ConsoleColor.Red, ex.Message);
                         }
                         newRememberedIncubators.Add(new IncubatorUsage { IncubatorId = incubator.Id, PokemonId = egg.Id });
-                        Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, "Added Egg which needs " + egg.EggKmWalkedTarget + "km");
+                        Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, "Added " + egg.EggKmWalkedTarget + " Km egg");
                         // We need some sleep here or this shit explodes
                         RandomHelper.RandomSleep(100, 200);
                     }
@@ -374,7 +374,7 @@ namespace PokeMaster.Logic.Functions
                                                         PokemonId = incubator.PokemonId
                                                     });
 
-                        Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, "Egg (" + (incubator.TargetKmWalked - incubator.StartKmWalked) + "km) need to walk " + Math.Round(incubator.TargetKmWalked - kmWalked, 2) + " km.");
+                        Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, "Egg (" + (incubator.TargetKmWalked - incubator.StartKmWalked) + " Km) needs to walk " + Math.Round(incubator.TargetKmWalked - kmWalked, 2) + " Km.");
                     }
                 }
                 if (!newRememberedIncubators.SequenceEqual(rememberedIncubators))
@@ -384,7 +384,7 @@ namespace PokeMaster.Logic.Functions
             catch (Exception ex)
             {
                 // Leave this here: Logger.Error(e.StackTrace);
-                Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, "Egg: We dont have any eggs we could incubate.");
+                Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, "Egg: no egg to incubate");
                 Logger.ColoredConsoleWrite(ConsoleColor.Red, ex.Message);
             }
         }
@@ -525,7 +525,7 @@ namespace PokeMaster.Logic.Functions
             else if (stats.Level > level) {
                 level = stats.Level;
 
-                Logger.ColoredConsoleWrite(ConsoleColor.Magenta, "Got the level up reward from your level up.");
+                Logger.ColoredConsoleWrite(ConsoleColor.Magenta, "Got reward from your level up.");
 
                 var lvlup = client.Player.GetLevelUpRewards(stats.Level);
                 var alreadygot = new List<ItemId>();
@@ -780,12 +780,12 @@ namespace PokeMaster.Logic.Functions
 
             if (_response.Result == ReleasePokemonResponse.Types.Result.Success)
             {
-                Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Transfer Successful of {idsToTransfer.Count} pokemons => {_response.CandyAwarded.ToString()} candy/ies awarded.");
+                Logger.ColoredConsoleWrite(ConsoleColor.Yellow, $"Transfer Successful of {idsToTransfer.Count} pokemon => {_response.CandyAwarded.ToString()} candy/ies awarded.");
                 RandomHelper.RandomSleep(1000, 2000);
             }
             else
             {
-                Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Something happened while transferring pokemons: {_response.Result}");
+                Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Something happened while transferring pokemon: {_response.Result}");
             }
 
         }
@@ -803,7 +803,7 @@ namespace PokeMaster.Logic.Functions
 
                 if (GlobalVars.pauseAtEvolve2)
                 {
-                    Logger.ColoredConsoleWrite(ConsoleColor.Green, "Stopping to transfer some Pokemons.");
+                    Logger.ColoredConsoleWrite(ConsoleColor.Green, "Stopping to transfer some Pokemon.");
                     GlobalVars.PauseTheWalking = true;
                 }
                 var buddyId = (profil.PlayerData.BuddyPokemon!=null) ? profil.PlayerData.BuddyPokemon.Id : 0;
@@ -869,17 +869,17 @@ namespace PokeMaster.Logic.Functions
 
                     if (_response.Result == ReleasePokemonResponse.Types.Result.Success)
                     {
-                        Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "Transfer Successful of " + pokemonsToTransfer.Count + " pokemons => " + _response.CandyAwarded + ((_response.CandyAwarded == 1) ? " candy" : " candies") + " awarded.", LogLevel.Info);
+                        Logger.ColoredConsoleWrite(ConsoleColor.Yellow, "Transfer Successful of " + pokemonsToTransfer.Count + " pokemon => " + _response.CandyAwarded + ((_response.CandyAwarded == 1) ? " candy" : " candies") + " awarded.", LogLevel.Info);
                         RandomHelper.RandomSleep(1000, 2000);
                     }
                     else
                     {
-                        Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Something happened while transferring pokemons: {_response.Result}");
+                        Logger.ColoredConsoleWrite(ConsoleColor.Red, $"Something happened while transferring pokemon: {_response.Result}");
                     }
 
                     if (GlobalVars.pauseAtEvolve2)
                     {
-                        Logger.ColoredConsoleWrite(ConsoleColor.Green, "Pokemons transfered. Time to continue our journey!");
+                        Logger.ColoredConsoleWrite(ConsoleColor.Green, "Pokemon transfered. Time to continue our journey!");
                         GlobalVars.PauseTheWalking = false;
                     }
                 }
