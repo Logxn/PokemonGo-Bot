@@ -16,7 +16,8 @@ v1.3.6.6 Changes
 + PTC Login process totally reviewed
 + ReAuthenticate process reviewed
 + Added new HEADER values on Authentication
++ In player tab you can see account creation date
 = Fixed an exception when fort file to load does not exists
 = Fixed some exception handles
 = Minor fixes on Advance Breaks
-+ In player tab you can see account creation date
+= Some text fixes from spangish (Thanks Zederia)
