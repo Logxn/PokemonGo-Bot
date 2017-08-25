@@ -316,7 +316,6 @@ namespace PokeMaster
         private static void CheckLogDirectories(string logPath)
         {
             Logger.SwitchToProfileLog(logPath); // Here we change from General Log to profile log, stored inside Logs\<profile_name>\
-            Logger.Rename(logPath); // Rotate logs if checked
 
             string pokelog = Path.Combine(logPath, "PokeLog.txt");
             string manualTransferLog = Path.Combine(logPath, "TransferLog.txt");
@@ -326,6 +325,8 @@ namespace PokeMaster
             if (!File.Exists(pokelog)) File.Create(pokelog).Close();
             if (!File.Exists(manualTransferLog)) File.Create(manualTransferLog).Close();
             if (!File.Exists(EvolveLog)) File.Create(EvolveLog).Close();
+
+            Logger.Rename(logPath); // Rotate logs if checked
         }
     }
 }
