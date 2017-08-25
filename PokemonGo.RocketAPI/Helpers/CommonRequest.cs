@@ -24,7 +24,7 @@ namespace PokemonGo.RocketAPI.Helpers
                 Platform = client.Platform,
                 DeviceManufacturer = DeviceSetup.SelectedDevice.DeviceInfo.HardwareManufacturer,
                 DeviceModel = DeviceSetup.SelectedDevice.DeviceInfo.DeviceModel,
-                Locale = LocaleInfo.Language, // Locale is a string, just adding Language (it's a guess)
+                Locale = LocaleInfo.Language + "_" + LocaleInfo.Country,
                 AppVersion = client.AppVersion
             };
             return new Request

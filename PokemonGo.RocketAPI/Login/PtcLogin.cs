@@ -135,7 +135,7 @@ namespace PokemonGo.RocketAPI.Login
                     //{"service", Resources.UrlVar_Service }
                     {"client_id", Resources.UrlVar_ClientId },
                     {"redirect_uri", Resources.UrlVar_RedirectUri},
-                    {"locale", LocaleInfo.Language }
+                    {"locale", LocaleInfo.Language + "_" + LocaleInfo.Country }
                 });
             builder.Port = -1; // Removes :443 on builder URI
             builder.Query = query_content.ReadAsStringAsync().Result;
@@ -180,7 +180,7 @@ namespace PokemonGo.RocketAPI.Login
                     { "_eventId", Resources.UrlVar_EventId },
                     { "username", username },
                     { "password", password },
-                    { "locale", LocaleInfo.Language }
+                    { "locale", LocaleInfo.Language + "_" + LocaleInfo.Country }
                     })).ConfigureAwait(false);
 
                 Logger.Debug("SessionData: " + loginResponse.ToString());
@@ -230,7 +230,7 @@ namespace PokemonGo.RocketAPI.Login
                     { "client_secret", Resources.UrlVar_ClientSecret },
                     { "grant_type", Resources.UrlVar_GrantType },
                     { "code", header_ticket.Split('=')[1] },// ticket },
-                    { "locale", LocaleInfo.Language }
+                    { "locale", LocaleInfo.Language + "_" + LocaleInfo.Country }
                 });
 
             HttpResponseMessage loginResponse =
@@ -241,7 +241,7 @@ namespace PokemonGo.RocketAPI.Login
                     { "client_secret", Resources.UrlVar_ClientSecret },
                     { "grant_type", Resources.UrlVar_GrantType },
                     { "code", header_ticket.Split('=')[1] },// ticket },
-                    { "locale", LocaleInfo.Language }
+                    { "locale", LocaleInfo.Language + "_" + LocaleInfo.Country }
                 }));
 
             if (loginResponse.StatusCode == HttpStatusCode.BadRequest)
