@@ -110,6 +110,9 @@ namespace PokeMaster
             tabControl1.SizeMode = TabSizeMode.Fixed;
             #endregion
 
+            comboLocale.DataSource = LocaleHelper.locales;
+            comboLocale.Text = "en-US";
+
             comboBoxLeaveInGyms.DataSource = new[] {
                 th.TS("Random"),
                 th.TS("Best CP"),
@@ -266,8 +269,7 @@ namespace PokeMaster
             text_Longitude.Text = config.DefaultLongitude.ToString(CultureInfo.InvariantCulture);
             text_Altitude.Text = config.DefaultAltitude.ToString(CultureInfo.InvariantCulture);
             
-            textBox_Country.Text = config.LocaleCountry;
-            textBox_Language2.Text = config.LocaleLanguage;
+            comboLocale.Text = config.LocaleCountry +"-"+ config.LocaleLanguage;
             textBox_TimeZone.Text = config.LocaleTimeZone;
             
             
@@ -718,8 +720,15 @@ namespace PokeMaster
             ret &= textBoxToActiveProfDouble(text_Longitude, "DefaultLongitude");
             ret &= textBoxToActiveProfDouble(text_Altitude, "DefaultAltitude");
             
-            ActiveProfile.Settings.LocaleCountry = textBox_Country.Text;
-            ActiveProfile.Settings.LocaleLanguage = textBox_Language2.Text;
+            var country = "US";
+            var language = "en";
+            var splitted = comboLocale.Text.Split('-');
+            if (splitted.Length > 1){
+                country = splitted[0];
+                language = splitted[1];
+            }
+            ActiveProfile.Settings.LocaleCountry = country;
+            ActiveProfile.Settings.LocaleLanguage = language;
             ActiveProfile.Settings.LocaleTimeZone = textBox_TimeZone.Text;
 
             // Other
