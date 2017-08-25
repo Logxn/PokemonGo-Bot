@@ -8,16 +8,6 @@
 =========== NOTES =============
 CatchingLogic.cs	L109	Disabled DoLogin => May be we do not refresh pokemons, atttention
 
-v1.3.6.6 Changes
+v1.3.6.7 Changes
 ----------------
-+ Logs are now stored inside a profile folder \Logs\<profile_name>\*.txt
-+ There's a General Log inside \Logs\GeneralLog.txt. Please note that other files are still stored in Configs dir (pokemons.txt, HuntStats...)
-= Reduce log check disk requests
-+ PTC Login process totally reviewed
-+ ReAuthenticate process reviewed
-+ Added new HEADER values on Authentication
-+ In player tab you can see account creation date
-= Fixed an exception when fort file to load does not exists
-= Fixed some exception handles
-= Minor fixes on Advance Breaks
-= Some text fixes from spangish (Thanks Zederia)
+= Adding some debug info on Tutorial #3
