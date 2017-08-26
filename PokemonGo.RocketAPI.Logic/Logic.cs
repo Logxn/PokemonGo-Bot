@@ -65,7 +65,7 @@ namespace PokeMaster.Logic
             objClient = new Client(clientSettings);
             objClient.setFailure(new ApiFailureStrat(objClient));
             objClient.EvMakeTutorial += MakeTutorial;
-            LocaleInfo.SetValues(GlobalVars.LocaleCountry, GlobalVars.LocaleLanguage, GlobalVars.LocaleTimeZone);
+            LocaleInfo.SetValues(GlobalVars.LocaleCountry, GlobalVars.LocaleLanguage, GlobalVars.LocaleTimeZone, GlobalVars.LocaleLanguage + "-" + GlobalVars.LocaleCountry);
             BotStats = new BotStats();
             navigation = new Navigation(objClient, botSettings);
             pokevision = new PokeVisionUtil();

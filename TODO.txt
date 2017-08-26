@@ -8,16 +8,62 @@
 =========== NOTES =============
 CatchingLogic.cs	L109	Disabled DoLogin => May be we do not refresh pokemons, atttention
 
-v1.3.6.6 Changes
+v1.3.6.7 Changes
 ----------------
-+ Logs are now stored inside a profile folder \Logs\<profile_name>\*.txt
-+ There's a General Log inside \Logs\GeneralLog.txt. Please note that other files are still stored in Configs dir (pokemons.txt, HuntStats...)
-= Reduce log check disk requests
-+ PTC Login process totally reviewed
-+ ReAuthenticate process reviewed
-+ Added new HEADER values on Authentication
-+ In player tab you can see account creation date
-= Fixed an exception when fort file to load does not exists
-= Fixed some exception handles
-= Minor fixes on Advance Breaks
-= Some text fixes from spangish (Thanks Zederia)
+= Adding some debug info on Tutorial #3
+
+=========== ISSUES ============
+
+26/8	@Mad Martian			Mad Martian: I am playing with the latest and having an issue - it stopped farming pokestops and catching pokemon. 
+								Pokestop farm count this session is only 82 and pokemon catch count 80  and XP farmed about 35k, so it did not hit
+								the max on any of those. Items are 313/350, so I am not maxed out on items either. It has passed by 17 pokestops
+								without farming so far. It stopped farming back when "The current Pokestop is in the cooldown period" and then never
+								started farming again. It also has not caught any pokemon since that same warning. It has been walking around and
+								doing nothing but noting pokestops (without farming) for 50 minutes. I stopped the bot and checked manually and the
+								account is fine. No warnings, I can farm and catch, and there are advanced pokemon.
+
+								[8:52 AM] Mad Martian: Other things I see in the log - could have something to do with breaks or lures. I am not using advanced breaking - just one minute every 18 minutes. I have break for lures enabled, but not use lures at breaks, yet I see this in the log at the start of the problem: "Reached break location. Using Lures Enabled"
+								[8:56 AM] Mad Martian: Here's a log sample from the last caught pokemon:
+								[21:58:15] Caught Eevee CP 273 IV 68.89% got 210 XP | 3 Candies | 100 Stardust
+								[21:58:20] Reached break location. Using Lures Enabled
+								[21:58:20] 2 Pokestops within range of where you are standing.
+								[21:58:23] Pokestop Warning: The current Pokestop is in the cooldown period.
+								[21:59:03] Pokestop Warning: The current Pokestop is in the cooldown period.
+								[21:59:03] Remaining Time to Run: 170.85 minutes
+								[21:59:03] Remaining Time until resume walking: 4.4 minutes
+								[21:59:40] Pokestop not ready to farm again, skipping and only looking for pokemon
+								[22:00:16] Pokestop not ready to farm again, skipping and only looking for pokemon
+								[22:00:16] Remaining Time to Run: 169.63 minutes
+								[22:00:16] Remaining Time until resume walking: 3.19 minutes
+								[22:00:56] Pokestop not ready to farm again, skipping and only looking for pokemon
+								[22:01:32] Pokestop not ready to farm again, skipping and only looking for pokemon
+								[22:01:32] Remaining Time to Run: 168.36 minutes
+								[22:01:32] Remaining Time until resume walking: 1.91 minutes
+								[22:02:09] Pokestop not ready to farm again, skipping and only looking for pokemon
+								[22:02:45] Pokestop not ready to farm again, skipping and only looking for pokemon
+								[22:02:45] Remaining Time to Run: 167.15 minutes
+								[22:02:45] Remaining Time until resume walking: 0.71 minutes
+								[22:03:21] Pokestop not ready to farm again, skipping and only looking for pokemon
+								[22:03:59] Pokestop not ready to farm again, skipping and only looking for pokemon
+								[22:03:59] Remaining Time to Run: 165.92 minutes
+								[22:03:59] Break over, back to walking!
+								[22:04:37] Next Pokestop: Simon Benson Memorial in 38.38m distance.
+								[22:04:56] Next Pokestop: Roosevelt Hotel in 32.05m distance.
+								[22:05:16] Remaining Time to Run: 164.64 minutes
+								[22:05:16] Remaining Time until break: 18 minutes
+								[22:05:16] Next Pokestop: Admiral Apartments in 89.54m distance.
+								[8:59 AM] Mad Martian: Those last three steps repeated for 15 more pokestops without catching or farming.
+								[9:00 AM] Mad Martian: Possibly more clues amongst the pokestop passovers further down the log:
+								[22:21:38] Next Pokestop: Eagle Flag Pole in 39.23m distance.
+								[22:23:43] Remaining Time to Run: 146.19 minutes
+								[22:23:43] Break Time! Pause walking for 1 minutes
+								[22:23:43] Remaining Time until resume walking: 1 minutes
+								[22:23:43] Next Pokestop: Scottrade Fountain in 82.66m distance.
+								[22:25:50] Recycled 1x ItemSuperPotion
+								[22:28:09] Reached break location. Using Lures Enabled
+								[22:28:09] 1 Pokestops within range of where you are standing.
+								[22:28:10] Pokestop Error: The pokestop is out of range!
+								[22:28:10] Remaining Time to Run: 141.72 minutes
+								[22:28:10] Break over, back to walking!
+								[22:28:48] Next Pokestop: Marble Doorway in 98.74m distance.
+								[9:02 AM] Mad Martian: The "pokestop is out of range" error is a bit weird since it isn't even trying to farm. Only happened once.
