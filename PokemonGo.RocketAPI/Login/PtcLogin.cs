@@ -102,7 +102,7 @@ namespace PokemonGo.RocketAPI.Login
             httpClient.DefaultRequestHeaders.Host = Resources.Header_Login_Host;
             httpClient.DefaultRequestHeaders.Connection.TryParseAdd(Resources.Header_Login_Connection);
             httpClient.DefaultRequestHeaders.UserAgent.TryParseAdd(Resources.Header_Login_UserAgent);
-            httpClient.DefaultRequestHeaders.AcceptLanguage.TryParseAdd(LocaleInfo.Language);
+            httpClient.DefaultRequestHeaders.AcceptLanguage.TryParseAdd(LocaleInfo.POSIX);
             httpClient.DefaultRequestHeaders.AcceptEncoding.TryParseAdd(Resources.Header_Login_AcceptEncoding);
             httpClient.DefaultRequestHeaders.TryAddWithoutValidation(Resources.Header_Login_Manufactor, Resources.Header_Login_XUnityVersion);
             httpClient.Timeout = Resources.TimeOut;

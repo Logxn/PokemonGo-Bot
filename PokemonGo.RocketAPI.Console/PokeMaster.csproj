@@ -306,6 +306,7 @@
       <DependentUpon>ConfigWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="Helper\DownloadHelper.cs" />
+    <Compile Include="Helper\LocaleHelper.cs" />
     <Compile Include="Helper\PokeImgManager.cs" />
     <Compile Include="Helper\SleepHelper.cs" />
     <Compile Include="Helper\TranslatorHelper.cs" />

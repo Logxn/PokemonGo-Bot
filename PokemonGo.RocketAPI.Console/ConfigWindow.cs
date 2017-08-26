@@ -110,8 +110,10 @@ namespace PokeMaster
             tabControl1.SizeMode = TabSizeMode.Fixed;
             #endregion
 
-            comboLocale.DataSource = LocaleHelper.locales;
+            comboLocale.DataSource = new LocaleHelper().getLocales();
             comboLocale.Text = "en-US";
+
+            comboTimeZone.DataSource = new LocaleHelper().getTimezones();
 
             comboBoxLeaveInGyms.DataSource = new[] {
                 th.TS("Random"),
@@ -270,7 +272,7 @@ namespace PokeMaster
             text_Altitude.Text = config.DefaultAltitude.ToString(CultureInfo.InvariantCulture);
             
             comboLocale.Text = config.LocaleCountry +"-"+ config.LocaleLanguage;
-            textBox_TimeZone.Text = config.LocaleTimeZone;
+            comboTimeZone.Text = config.LocaleTimeZone;
             
             
             checkBox_UseLuckyEggAtEvolve.Checked = config.UseLuckyEgg;
@@ -724,12 +726,12 @@ namespace PokeMaster
             var language = "en";
             var splitted = comboLocale.Text.Split('-');
             if (splitted.Length > 1){
-                country = splitted[0];
-                language = splitted[1];
+                language = splitted[0];
+                country = splitted[1];
             }
             ActiveProfile.Settings.LocaleCountry = country;
             ActiveProfile.Settings.LocaleLanguage = language;
-            ActiveProfile.Settings.LocaleTimeZone = textBox_TimeZone.Text;
+            ActiveProfile.Settings.LocaleTimeZone = comboTimeZone.Text;
 
             // Other
             ActiveProfile.Settings.UseLuckyEgg = checkBox_UseLuckyEggAtEvolve.Checked;
