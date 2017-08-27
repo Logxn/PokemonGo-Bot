@@ -44,7 +44,7 @@ namespace PokemonGo.RocketAPI.Helpers
             if (NewRequestID <= 0)
                 NewRequestID = NewRequestID + MersenePrime;
 
-            Logger.Debug($"[OLD LEHMER] {NewRequestID.ToString("X")} [{Hi.ToString("X")},{Lo.ToString("X")}]");
+            //Logger.Debug($"[OLD LEHMER] {NewRequestID.ToString("X")} [{Hi.ToString("X")},{Lo.ToString("X")}]");
 
             NewRequestID = NewRequestID % 0x80000000;
             LastRequestID = NewRequestID;
@@ -61,7 +61,7 @@ namespace PokemonGo.RocketAPI.Helpers
             Hi = PrimeRoot * Hi % MersenePrime;
             ulong NewRequestID = Lo++ | (Hi << 32);
             LastRequestID = NewRequestID;
-            Logger.Debug($"[NEW METHOD] {NewRequestID.ToString("X")} [{Hi.ToString("X")},{Lo.ToString("X")}]");
+            //Logger.Debug($"[NEW METHOD] {NewRequestID.ToString("X")} [{Hi.ToString("X")},{Lo.ToString("X")}]");
 
             return NewRequestID;
         }

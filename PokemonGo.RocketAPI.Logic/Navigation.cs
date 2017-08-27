@@ -71,7 +71,8 @@ namespace PokeMaster.Logic
             Logger.Debug("speed In Meters Per Seconds to use: " + speedInMetersPerSecond);
             var sourceLocation = new GeoCoordinate(_client.CurrentLatitude, _client.CurrentLongitude);
             var distanceToTarget = LocationUtils.CalculateDistanceInMeters(sourceLocation, targetLocation);
-            Logger.Debug($"Distance to target location: {distanceToTarget:0.##} meters. Will take {distanceToTarget / speedInMetersPerSecond:0.##} seconds!");
+            //Logger.Debug($"Distance to target location: {distanceToTarget:0.##} meters. Will take {distanceToTarget / speedInMetersPerSecond:0.##} seconds!");
+            //Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Distance to target location at {distanceToTarget:0.##} meters will take {distanceToTarget / speedInMetersPerSecond:0.##} seconds at {speedInMetersPerSecond} m/s ({walkingSpeedInKilometersPerHour} Km/h).");
             var nextWaypointBearing = LocationUtils.DegreeBearing(sourceLocation, targetLocation);
             var nextWaypointDistance = speedInMetersPerSecond;
             var waypoint = LocationUtils.CreateWaypoint(sourceLocation, nextWaypointDistance, nextWaypointBearing);
@@ -88,11 +89,11 @@ namespace PokeMaster.Logic
                 //update user location on map
                 Task.Factory.StartNew(() => Logic.Instance.infoObservable.PushNewGeoLocations(new GeoCoordinate(waypoint.Latitude, waypoint.Longitude)));
 
-                var millisecondsUntilGetUpdatePlayerLocationResponse =
-                    (DateTime.Now - requestSendDateTime).TotalMilliseconds;
-
                 sourceLocation = new GeoCoordinate(_client.CurrentLatitude, _client.CurrentLongitude);
                 var currentDistanceToTarget = LocationUtils.CalculateDistanceInMeters(sourceLocation, targetLocation);
+                Logger.ColoredConsoleWrite(ConsoleColor.DarkGreen, $"Distance to destination: {currentDistanceToTarget.ToString("F", CultureInfo.InvariantCulture)}m " +
+                    $"({speedInMetersPerSecond.ToString("F", CultureInfo.InvariantCulture)}m/s) " +
+                    $"=> {(currentDistanceToTarget/speedInMetersPerSecond).ToString("F", CultureInfo.InvariantCulture)}s");
 
                 if (currentDistanceToTarget < 40)
                 {
@@ -103,23 +104,25 @@ namespace PokeMaster.Logic
                     }
                 }
 
+                var millisecondsUntilGetUpdatePlayerLocationResponse = (DateTime.Now - requestSendDateTime).TotalMilliseconds;
                 nextWaypointDistance = Math.Min(currentDistanceToTarget, millisecondsUntilGetUpdatePlayerLocationResponse / 1000 * speedInMetersPerSecond);
+                requestSendDateTime = DateTime.Now;
+
                 nextWaypointBearing = LocationUtils.DegreeBearing(sourceLocation, targetLocation);
                 waypoint = LocationUtils.CreateWaypoint(sourceLocation, nextWaypointDistance, nextWaypointBearing);
-                requestSendDateTime = DateTime.Now;
-                
+
                 SetCoordinates(waypoint.Latitude, waypoint.Longitude, waypoint.Altitude);
 
                 if (functionExecutedWhileWalking != null && !_botSettings.PauseTheWalking)
-                     functionExecutedWhileWalking();// look for pokemon 
+                     functionExecutedWhileWalking(); 
 
                 if (GlobalVars.SnipeOpts.Enabled){
                     Logic.Instance.sniperLogic.Execute((PokemonId) GlobalVars.SnipeOpts.ID,GlobalVars.SnipeOpts.Location);
                 }
 
-                RandomHelper.RandomSleep(500, 600);
+                //RandomHelper.RandomSleep(500, 600);
             }
-            while ((LocationUtils.CalculateDistanceInMeters(sourceLocation, targetLocation) >= 30 && !fromgoogle) || LocationUtils.CalculateDistanceInMeters(sourceLocation, targetLocation) >= 2);
+            while ((LocationUtils.CalculateDistanceInMeters(sourceLocation, targetLocation) >= 30 && !fromgoogle) || LocationUtils.CalculateDistanceInMeters(sourceLocation, targetLocation) >= 10);
         }
 
         public static FortData[] pathByNearestNeighbour(FortData[] pokeStops)

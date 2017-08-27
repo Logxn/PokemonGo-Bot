@@ -135,7 +135,7 @@ namespace PokemonGo.RocketAPI.Login
                     //{"service", Resources.UrlVar_Service }
                     {"client_id", Resources.UrlVar_ClientId },
                     {"redirect_uri", Resources.UrlVar_RedirectUri},
-                    {"locale", LocaleInfo.Language }
+                    {"locale", LocaleInfo.Language + "_" + LocaleInfo.Country }
                 });
             builder.Port = -1; // Removes :443 on builder URI
             builder.Query = query_content.ReadAsStringAsync().Result;
@@ -144,7 +144,7 @@ namespace PokemonGo.RocketAPI.Login
             {
                 HttpResponseMessage response = await httpClient.GetAsync(builder.ToString()).ConfigureAwait(false);
 
-                Logger.Debug("SessionData: " + response.ToString());
+                // Logger.Debug("SessionData: " + response.ToString());
 
                 if (!response.IsSuccessStatusCode) throw new LoginFailedException("Error while trying PTC login: " + response.StatusCode);
                 sessionResponse = JsonConvert.DeserializeObject<SessionData>(await response.Content.ReadAsStringAsync().ConfigureAwait(false));
