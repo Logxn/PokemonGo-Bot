@@ -135,7 +135,7 @@ namespace PokemonGo.RocketAPI.Login
                     //{"service", Resources.UrlVar_Service }
                     {"client_id", Resources.UrlVar_ClientId },
                     {"redirect_uri", Resources.UrlVar_RedirectUri},
-                    {"locale", LocaleInfo.Language }
+                    {"locale", LocaleInfo.Language + "_" + LocaleInfo.Country }
                 });
             builder.Port = -1; // Removes :443 on builder URI
             builder.Query = query_content.ReadAsStringAsync().Result;
