@@ -21,4 +21,8 @@ v1.3.6.7 Changes (by @Xelwon & @Quarthy)
 = Fixed some egg log entries (@Zederia)
 = Fixed "Time to Run" break event (@Mad Martian)
 
+v1.3.6.8 Changes (by @Xelwon & @Quarthy)
+----------------------------------------
+= Fixed some excessive logs between Pokestops
+
 =========== ISSUES ============
