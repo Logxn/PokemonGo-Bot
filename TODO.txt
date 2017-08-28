@@ -23,6 +23,6 @@ v1.3.6.7 Changes (by @Xelwon & @Quarthy)
 
 v1.3.6.8 Changes (by @Xelwon & @Quarthy)
 ----------------------------------------
-= Fixed some excessive logs between Pokestops
+= Fixed some excessive logs between Pokestops (@Zederia)
 
 =========== ISSUES ============
