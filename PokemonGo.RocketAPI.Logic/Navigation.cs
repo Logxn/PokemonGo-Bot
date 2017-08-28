@@ -72,7 +72,7 @@ namespace PokeMaster.Logic
             var sourceLocation = new GeoCoordinate(_client.CurrentLatitude, _client.CurrentLongitude);
             var distanceToTarget = LocationUtils.CalculateDistanceInMeters(sourceLocation, targetLocation);
             //Logger.Debug($"Distance to target location: {distanceToTarget:0.##} meters. Will take {distanceToTarget / speedInMetersPerSecond:0.##} seconds!");
-            Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Target at {distanceToTarget:0.##}m will take {distanceToTarget / speedInMetersPerSecond:0.##}s at {speedInMetersPerSecond}m/s ({walkingSpeedInKilometersPerHour}Km/h).");
+            //Logger.ColoredConsoleWrite(ConsoleColor.Green, $"Distance to target location at {distanceToTarget:0.##} meters will take {distanceToTarget / speedInMetersPerSecond:0.##} seconds at {speedInMetersPerSecond} m/s ({walkingSpeedInKilometersPerHour} Km/h).");
             var nextWaypointBearing = LocationUtils.DegreeBearing(sourceLocation, targetLocation);
             var nextWaypointDistance = speedInMetersPerSecond;
             var waypoint = LocationUtils.CreateWaypoint(sourceLocation, nextWaypointDistance, nextWaypointBearing);
