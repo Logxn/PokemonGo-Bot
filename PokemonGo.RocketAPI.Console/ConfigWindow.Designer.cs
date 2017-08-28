@@ -4617,11 +4617,15 @@ namespace PokeMaster
             // 
             // comboTimeZone
             // 
+            this.comboTimeZone.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.comboTimeZone.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboTimeZone.FormattingEnabled = true;
             this.comboTimeZone.Location = new System.Drawing.Point(145, 193);
             this.comboTimeZone.Name = "comboTimeZone";
             this.comboTimeZone.Size = new System.Drawing.Size(152, 21);
             this.comboTimeZone.TabIndex = 78;
+            
             // 
             // ConfigWindow
             // 

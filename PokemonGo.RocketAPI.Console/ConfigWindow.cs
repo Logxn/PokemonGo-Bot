@@ -114,6 +114,7 @@ namespace PokeMaster
             comboLocale.Text = "en-US";
 
             comboTimeZone.DataSource = new LocaleHelper().getTimezones();
+            comboTimeZone.Text = "America/Los_Angeles";
 
             comboBoxLeaveInGyms.DataSource = new[] {
                 th.TS("Random"),
