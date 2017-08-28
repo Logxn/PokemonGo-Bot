@@ -68,7 +68,7 @@ namespace PokeMaster.Logic
             walkingSpeedInKilometersPerHour = RandomDevice.Next(randomMin, randomMax);*/
             
             var speedInMetersPerSecond = walkingSpeedInKilometersPerHour / 3.6;
-            Logger.Debug("speed In Meters Per Seconds to use: " + speedInMetersPerSecond);
+            //Logger.Debug("speed In Meters Per Seconds to use: " + speedInMetersPerSecond);
             var sourceLocation = new GeoCoordinate(_client.CurrentLatitude, _client.CurrentLongitude);
             var distanceToTarget = LocationUtils.CalculateDistanceInMeters(sourceLocation, targetLocation);
             //Logger.Debug($"Distance to target location: {distanceToTarget:0.##} meters. Will take {distanceToTarget / speedInMetersPerSecond:0.##} seconds!");
@@ -91,9 +91,9 @@ namespace PokeMaster.Logic
 
                 sourceLocation = new GeoCoordinate(_client.CurrentLatitude, _client.CurrentLongitude);
                 var currentDistanceToTarget = LocationUtils.CalculateDistanceInMeters(sourceLocation, targetLocation);
-                Logger.ColoredConsoleWrite(ConsoleColor.DarkGreen, $"Distance to destination: {currentDistanceToTarget.ToString("F", CultureInfo.InvariantCulture)}m " +
-                    $"({speedInMetersPerSecond.ToString("F", CultureInfo.InvariantCulture)}m/s) " +
-                    $"=> {(currentDistanceToTarget/speedInMetersPerSecond).ToString("F", CultureInfo.InvariantCulture)}s");
+                //Logger.ColoredConsoleWrite(ConsoleColor.DarkGreen, $"Distance to destination: {currentDistanceToTarget.ToString("F", CultureInfo.InvariantCulture)}m " +
+                //    $"({speedInMetersPerSecond.ToString("F", CultureInfo.InvariantCulture)}m/s) " +
+                //    $"=> {(currentDistanceToTarget/speedInMetersPerSecond).ToString("F", CultureInfo.InvariantCulture)}s");
 
                 if (currentDistanceToTarget < 40)
                 {
