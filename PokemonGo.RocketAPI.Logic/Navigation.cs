@@ -120,7 +120,7 @@ namespace PokeMaster.Logic
                     Logic.Instance.sniperLogic.Execute((PokemonId) GlobalVars.SnipeOpts.ID,GlobalVars.SnipeOpts.Location);
                 }
 
-                //RandomHelper.RandomSleep(500, 600);
+                RandomHelper.RandomSleep(500, 600);
             }
             while ((LocationUtils.CalculateDistanceInMeters(sourceLocation, targetLocation) >= 30 && !fromgoogle) || LocationUtils.CalculateDistanceInMeters(sourceLocation, targetLocation) >= 10);
         }
