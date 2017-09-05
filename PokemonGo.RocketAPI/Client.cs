@@ -93,14 +93,10 @@ namespace PokemonGo.RocketAPI
             Crypter = new Cipher();
             Hasher = new PokeHashHasher(settings.hashKey);
             Store = new PokemonGo.RocketAPI.Rpc.Store(this);
-            
-            if (DeviceSetup.SelectedDevice.OSType == "iOS")
-                Platform = POGOProtos.Enums.Platform.Ios;
-            else
-                Platform = POGOProtos.Enums.Platform.Android;
-            
-            Logger.Info("Platform:" +Platform);
 
+            Platform = POGOProtos.Enums.Platform.Ios;
+            if (DeviceSetup.SelectedDevice.OSType != "iOS") Platform = POGOProtos.Enums.Platform.Android;
+            Logger.Info("Platform:" +Platform);
 
             InventoryLastUpdateTimestamp = 0;
 

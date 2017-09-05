@@ -313,14 +313,20 @@ namespace PokeMaster.Logic.Functions
                     var hatched = pokemons.FirstOrDefault(x => !x.IsEgg && x.Id == incubator.PokemonId);
                     if (hatched == null) continue;
 
+                    var kmsEgg = (hatched.EggKmWalkedTarget - hatched.EggKmWalkedStart);
+                    Logger.Debug("***");
+                    Logger.Debug("EggKmWalkedTarget: " + hatched.EggKmWalkedTarget);
+                    Logger.Debug("EggKmWalkedStart: " + hatched.EggKmWalkedStart);
+                    Logger.Debug("kmsEgg: " + kmsEgg);
+                    Logger.Debug("***");
                     if (GlobalVars.LogEggs)
                     {
                         var MaxCP = PokemonInfo.CalculateMaxCP(hatched);
                         var Level = PokemonInfo.GetLevel(hatched);
                         var IVPercent = PokemonInfo.CalculatePokemonPerfection(hatched).ToString("0.00");
-                        File.AppendAllText(logs, $"[{date}] - Hatched a {hatched.EggKmWalkedTarget} Km egg, and we got a {hatched.PokemonId} (CP: {hatched.Cp} | MaxCP: {MaxCP} | Level: {Level} | IV: {IVPercent}% )" + Environment.NewLine);
+                        File.AppendAllText(logs, $"[{date}] - Hatched a {kmsEgg} Km egg, and we got a {hatched.PokemonId} (CP: {hatched.Cp} | MaxCP: {MaxCP} | Level: {Level} | IV: {IVPercent}% )" + Environment.NewLine);
                     }
-                    Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, "Hatched a {hatched.EggKmWalkedTarget} Km egg, and we got a" + hatched.PokemonId + " CP: " + hatched.Cp + " MaxCP: " + PokemonInfo.CalculateMaxCP(hatched) + " Level: " + PokemonInfo.GetLevel(hatched) + " IV: " + PokemonInfo.CalculatePokemonPerfection(hatched).ToString("0.00") + "%");
+                    Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, "Hatched a " + kmsEgg + "Km egg, and we got a" + hatched.PokemonId + " CP: " + hatched.Cp + " MaxCP: " + PokemonInfo.CalculateMaxCP(hatched) + " Level: " + PokemonInfo.GetLevel(hatched) + " IV: " + PokemonInfo.CalculatePokemonPerfection(hatched).ToString("0.00") + "%");
                 }
 
                 if ((unusedEggsUnlimitInc.Count < 1) && (unusedEggsUnlimitInc.Count < 1))
@@ -362,7 +368,14 @@ namespace PokeMaster.Logic.Functions
                             Logger.ColoredConsoleWrite(ConsoleColor.Red, ex.Message);
                         }
                         newRememberedIncubators.Add(new IncubatorUsage { IncubatorId = incubator.Id, PokemonId = egg.Id });
-                        Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, "Added " + egg.EggKmWalkedTarget + " Km egg");
+                        var kmsEgg = (egg.EggKmWalkedTarget - egg.EggKmWalkedStart);
+                        Logger.Debug("***");
+                        Logger.Debug("EggKmWalkedTarget: " + egg.EggKmWalkedTarget);
+                        Logger.Debug("EggKmWalkedStart: " + egg.EggKmWalkedStart);
+                        Logger.Debug("kmsEgg: " + kmsEgg);
+                        Logger.Debug("***");
+                        
+                        Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, "Added " + kmsEgg + " Km egg");
                         // We need some sleep here or this shit explodes
                         RandomHelper.RandomSleep(100, 200);
                     }
@@ -890,14 +903,17 @@ namespace PokeMaster.Logic.Functions
         {
             if (limit != "") Logger.Info($"You have reached {limit} limit");
 
-            if (limit == "AdvancedBreak")
+            if (limit == "AdvancedBreak" || limit == "Time to Break")
             {
-                // we save current position to restart from here
-                
+                var _breakTime = 0;
+
                 BreakSettings _currentBreak = new BreakSettings().GetCurrentBreak();
 
+                if (limit == "AdvancedBreak") _breakTime = _currentBreak.BreakIdleTime;
+                if (limit == "Time to Break") _breakTime = GlobalVars.RestartAfterRun;
+
                 // Change to realtimediff
-                for (var i = _currentBreak.BreakIdleTime; i > 0; i--)
+                for (var i = _breakTime; i > 0; i--)
                 {
                     Logger.Info($"{i} minutes left to start walking again");
                     RandomHelper.RandomSleep(60000, 60000);
@@ -913,21 +929,21 @@ namespace PokeMaster.Logic.Functions
                 Logger.Debug("Client is ready to use");
             }
 
-            //if ((GlobalVars.RestartAfterRun < 1) || (limit == "")){
-            //    Logger.Info("We are closing the Bot for you! Wait 10 seconds");
-            //    RandomHelper.RandomSleep(10000,10001);
-            //    Environment.Exit(-1);
-            //}else{
+            //if (limit == "Time to Run")
+            //{
             //    Logger.Info($"Waiting {GlobalVars.RestartAfterRun} minutes");
-            //    for (var i= GlobalVars.RestartAfterRun; i>0; i--)
+            //    for (var i = GlobalVars.RestartAfterRun; i > 0; i--)
             //    {
-            //        Logger.Info($"{i} minutes left");
-            //        RandomHelper.RandomSleep(60000,61000);
+            //        Logger.Info($"{i} minutes left to restart.");
+            //        RandomHelper.RandomSleep(60000, 61000);
             //    }
             //    lastlog = -10000;
             //    timetorunstamp = -10000;
             //    Logic.objClient.ReadyToUse = false;
-            //    Logic.Instance.Execute();
+            //    //Logic.Instance.Execute();
+            //    Logic.objClient.Login.DoLogin().Wait();
+            //    Logic.objClient.ReadyToUse = true;
+            //    Logger.Debug("Client is ready to use");
             //}
         }
         private static DateTime _lastegguse;

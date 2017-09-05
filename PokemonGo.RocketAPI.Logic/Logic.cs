@@ -43,7 +43,7 @@ namespace PokeMaster.Logic
         public static Logic Instance;
         private readonly List<string> lureEncounters = new List<string>();
         public static int FailedSoftban = 0;
-        public double lastsearchtimestamp;
+        public double lastsearchtimestamp = 0;
 
 
         public string Lure = "lureId";
@@ -65,7 +65,7 @@ namespace PokeMaster.Logic
             objClient = new Client(clientSettings);
             objClient.setFailure(new ApiFailureStrat(objClient));
             objClient.EvMakeTutorial += MakeTutorial;
-            LocaleInfo.SetValues(GlobalVars.LocaleCountry, GlobalVars.LocaleLanguage, GlobalVars.LocaleTimeZone);
+            LocaleInfo.SetValues(GlobalVars.LocaleCountry, GlobalVars.LocaleLanguage, GlobalVars.LocaleTimeZone, GlobalVars.LocaleLanguage + "-" + GlobalVars.LocaleCountry);
             BotStats = new BotStats();
             navigation = new Navigation(objClient, botSettings);
             pokevision = new PokeVisionUtil();
@@ -313,7 +313,7 @@ namespace PokeMaster.Logic
             if ((int)BotSettings.WalkingSpeedInKilometerPerHour - BotSettings.MinWalkSpeed > 1)
             {
                 walkspeed = randomWalkSpeed.Next(BotSettings.MinWalkSpeed,
-                    (int)BotSettings.WalkingSpeedInKilometerPerHour);
+                    (int)BotSettings.WalkingSpeedInKilometerPerHour + 1);
             }
             Logger.Debug($"WalkingSpeedInKilometerPerHour: {BotSettings.WalkingSpeedInKilometerPerHour}, MinWalkSpeed: {BotSettings.MinWalkSpeed}, walkspeed: {walkspeed}");
             return walkspeed;
@@ -1033,6 +1033,7 @@ namespace PokeMaster.Logic
             {
                 return false;
             }
+
             if (GlobalVars.ForceReloginClick)
             {
                 GlobalVars.ForceReloginClick = false;
@@ -1040,6 +1041,8 @@ namespace PokeMaster.Logic
                 RandomHelper.RandomDelay(1000).Wait();
                 objClient.Login.DoLogin().Wait();
             }
+
+            // Do NOT update GMO unless 10 seconds have passed
             if ((long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds > lastsearchtimestamp + 10000)
             {
                 lastsearchtimestamp = (long)(DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalMilliseconds;

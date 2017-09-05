@@ -4,20 +4,28 @@
 22/8				Login.cs	" Expire: " + Utils.TimeMStoString((long)Client.AuthTicket.ExpireTimestampMs, @"mm\:ss"));
 22/8	@Xelwon					Coordinates.txt per profile
 24/8	@Zederia				Manual evolve do not pause the player
+26/8							Remove notifications
+27/8							Add a 20% random speed up/down when walking
+27/8							Detect shadowban
+05/9							Fix extra log paths
 
 =========== NOTES =============
 CatchingLogic.cs	L109	Disabled DoLogin => May be we do not refresh pokemons, atttention
 
-v1.3.6.6 Changes
-----------------
-+ Logs are now stored inside a profile folder \Logs\<profile_name>\*.txt
-+ There's a General Log inside \Logs\GeneralLog.txt. Please note that other files are still stored in Configs dir (pokemons.txt, HuntStats...)
-= Reduce log check disk requests
-+ PTC Login process totally reviewed
-+ ReAuthenticate process reviewed
-+ Added new HEADER values on Authentication
-+ In player tab you can see account creation date
-= Fixed an exception when fort file to load does not exists
-= Fixed some exception handles
-= Minor fixes on Advance Breaks
-= Some text fixes from spangish (Thanks Zederia)
+v1.3.6.7 Changes (by @Xelwon & @Quarthy)
+----------------------------------------
+= Adding some debug info on Tutorial #3
++ Combobox for TimeZones and Locales (Language + Country)
+= Optimized the speed calc and movement between Pokestations
+= Fixed the GetRandomSpeed as to reach MaxSpeed
+= Fixed some egg log entries (@Zederia)
+= Fixed "Time to Run" break event (@Mad Martian)
+
+v1.3.6.8 Changes (by @Xelwon & @Quarthy)
+----------------------------------------
+= Fixed some excessive logs between Pokestops (@Zederia)
+= Fixed Egg Km bug (@Zederia)
++ Ready for v0.73.1
++ Now changes navigation before arriving to exact pokestation and after farming it, saving few meters
+
+=========== ISSUES ============

@@ -146,7 +146,6 @@ namespace PokeMaster
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.label25 = new System.Windows.Forms.Label();
             this.comboLocale = new System.Windows.Forms.ComboBox();
-            this.textBox_TimeZone = new System.Windows.Forms.TextBox();
             this.label20 = new System.Windows.Forms.Label();
             this.checkBox_BlockAltitude = new System.Windows.Forms.CheckBox();
             this.button_SetLocation = new System.Windows.Forms.Button();
@@ -373,6 +372,7 @@ namespace PokeMaster
             this.MinimizeButton = new System.Windows.Forms.Button();
             this.buttonSaveStart = new System.Windows.Forms.Button();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.comboTimeZone = new System.Windows.Forms.ComboBox();
             this.tabProxies.SuspendLayout();
             this.tabItems.SuspendLayout();
             this.groupBoxItems.SuspendLayout();
@@ -495,7 +495,7 @@ namespace PokeMaster
             this.tabProxies.Location = new System.Drawing.Point(4, 54);
             this.tabProxies.Margin = new System.Windows.Forms.Padding(2);
             this.tabProxies.Name = "tabProxies";
-            this.tabProxies.Size = new System.Drawing.Size(1182, 475);
+            this.tabProxies.Size = new System.Drawing.Size(985, 537);
             this.tabProxies.TabIndex = 3;
             this.tabProxies.Text = "Proxies";
             this.tabProxies.UseVisualStyleBackColor = true;
@@ -634,7 +634,7 @@ namespace PokeMaster
             this.tabItems.Controls.Add(this.groupBoxItems);
             this.tabItems.Location = new System.Drawing.Point(4, 54);
             this.tabItems.Name = "tabItems";
-            this.tabItems.Size = new System.Drawing.Size(1182, 475);
+            this.tabItems.Size = new System.Drawing.Size(985, 537);
             this.tabItems.TabIndex = 2;
             this.tabItems.Text = "Items";
             this.tabItems.UseVisualStyleBackColor = true;
@@ -1210,7 +1210,7 @@ namespace PokeMaster
             this.tabPokemon.Margin = new System.Windows.Forms.Padding(0);
             this.tabPokemon.Name = "tabPokemon";
             this.tabPokemon.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPokemon.Size = new System.Drawing.Size(1182, 475);
+            this.tabPokemon.Size = new System.Drawing.Size(985, 537);
             this.tabPokemon.TabIndex = 1;
             this.tabPokemon.Text = "Pokemon";
             // 
@@ -1227,7 +1227,7 @@ namespace PokeMaster
             this.groupBox_AlwaysTransfer.Margin = new System.Windows.Forms.Padding(0);
             this.groupBox_AlwaysTransfer.Name = "groupBox_AlwaysTransfer";
             this.groupBox_AlwaysTransfer.Padding = new System.Windows.Forms.Padding(0);
-            this.groupBox_AlwaysTransfer.Size = new System.Drawing.Size(223, 433);
+            this.groupBox_AlwaysTransfer.Size = new System.Drawing.Size(223, 417);
             this.groupBox_AlwaysTransfer.TabIndex = 10;
             this.groupBox_AlwaysTransfer.TabStop = false;
             this.groupBox_AlwaysTransfer.Text = "Always Transfer";
@@ -1236,7 +1236,7 @@ namespace PokeMaster
             // 
             this.checkBox_AlwaysTransfer.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.checkBox_AlwaysTransfer.AutoSize = true;
-            this.checkBox_AlwaysTransfer.Location = new System.Drawing.Point(9, 414);
+            this.checkBox_AlwaysTransfer.Location = new System.Drawing.Point(9, 398);
             this.checkBox_AlwaysTransfer.Name = "checkBox_AlwaysTransfer";
             this.checkBox_AlwaysTransfer.Size = new System.Drawing.Size(69, 17);
             this.checkBox_AlwaysTransfer.TabIndex = 34;
@@ -1254,7 +1254,7 @@ namespace PokeMaster
             this.checkedListBox_AlwaysTransfer.Location = new System.Drawing.Point(6, 14);
             this.checkedListBox_AlwaysTransfer.Name = "checkedListBox_AlwaysTransfer";
             this.checkedListBox_AlwaysTransfer.ScrollAlwaysVisible = true;
-            this.checkedListBox_AlwaysTransfer.Size = new System.Drawing.Size(211, 364);
+            this.checkedListBox_AlwaysTransfer.Size = new System.Drawing.Size(211, 334);
             this.checkedListBox_AlwaysTransfer.TabIndex = 0;
             // 
             // groupBox3
@@ -1279,9 +1279,9 @@ namespace PokeMaster
             this.groupBox3.Controls.Add(this.checkBox_AutoTransferDoublePokemon);
             this.groupBox3.Controls.Add(this.label8);
             this.groupBox3.Controls.Add(this.label54);
-            this.groupBox3.Location = new System.Drawing.Point(9, 437);
+            this.groupBox3.Location = new System.Drawing.Point(9, 427);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(959, 104);
+            this.groupBox3.Size = new System.Drawing.Size(959, 110);
             this.groupBox3.TabIndex = 3;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Bot Settings";
@@ -1479,7 +1479,7 @@ namespace PokeMaster
             this.groupBox5.Margin = new System.Windows.Forms.Padding(0);
             this.groupBox5.Name = "groupBox5";
             this.groupBox5.Padding = new System.Windows.Forms.Padding(0);
-            this.groupBox5.Size = new System.Drawing.Size(223, 433);
+            this.groupBox5.Size = new System.Drawing.Size(223, 417);
             this.groupBox5.TabIndex = 7;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Never Transfer";
@@ -1488,7 +1488,7 @@ namespace PokeMaster
             // 
             this.checkBox4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.checkBox4.AutoSize = true;
-            this.checkBox4.Location = new System.Drawing.Point(8, 414);
+            this.checkBox4.Location = new System.Drawing.Point(8, 398);
             this.checkBox4.Name = "checkBox4";
             this.checkBox4.Size = new System.Drawing.Size(69, 17);
             this.checkBox4.TabIndex = 32;
@@ -1506,7 +1506,7 @@ namespace PokeMaster
             this.checkedListBox_PokemonNotToTransfer.Location = new System.Drawing.Point(6, 13);
             this.checkedListBox_PokemonNotToTransfer.Name = "checkedListBox_PokemonNotToTransfer";
             this.checkedListBox_PokemonNotToTransfer.ScrollAlwaysVisible = true;
-            this.checkedListBox_PokemonNotToTransfer.Size = new System.Drawing.Size(211, 364);
+            this.checkedListBox_PokemonNotToTransfer.Size = new System.Drawing.Size(211, 334);
             this.checkedListBox_PokemonNotToTransfer.TabIndex = 0;
             // 
             // groupBox6
@@ -1521,7 +1521,7 @@ namespace PokeMaster
             this.groupBox6.Margin = new System.Windows.Forms.Padding(0);
             this.groupBox6.Name = "groupBox6";
             this.groupBox6.Padding = new System.Windows.Forms.Padding(0);
-            this.groupBox6.Size = new System.Drawing.Size(223, 433);
+            this.groupBox6.Size = new System.Drawing.Size(223, 417);
             this.groupBox6.TabIndex = 8;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "Not to catch";
@@ -1530,7 +1530,7 @@ namespace PokeMaster
             // 
             this.checkBox5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.checkBox5.AutoSize = true;
-            this.checkBox5.Location = new System.Drawing.Point(9, 414);
+            this.checkBox5.Location = new System.Drawing.Point(9, 398);
             this.checkBox5.Name = "checkBox5";
             this.checkBox5.Size = new System.Drawing.Size(69, 17);
             this.checkBox5.TabIndex = 33;
@@ -1549,7 +1549,7 @@ namespace PokeMaster
             this.checkedListBox_PokemonNotToCatch.Location = new System.Drawing.Point(8, 15);
             this.checkedListBox_PokemonNotToCatch.Name = "checkedListBox_PokemonNotToCatch";
             this.checkedListBox_PokemonNotToCatch.ScrollAlwaysVisible = true;
-            this.checkedListBox_PokemonNotToCatch.Size = new System.Drawing.Size(211, 364);
+            this.checkedListBox_PokemonNotToCatch.Size = new System.Drawing.Size(211, 334);
             this.checkedListBox_PokemonNotToCatch.TabIndex = 0;
             // 
             // groupBox7
@@ -1566,7 +1566,7 @@ namespace PokeMaster
             this.groupBox7.Margin = new System.Windows.Forms.Padding(0);
             this.groupBox7.Name = "groupBox7";
             this.groupBox7.Padding = new System.Windows.Forms.Padding(0);
-            this.groupBox7.Size = new System.Drawing.Size(223, 433);
+            this.groupBox7.Size = new System.Drawing.Size(223, 417);
             this.groupBox7.TabIndex = 9;
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "To evolve";
@@ -1574,7 +1574,7 @@ namespace PokeMaster
             // label_EvolveAt
             // 
             this.label_EvolveAt.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.label_EvolveAt.Location = new System.Drawing.Point(131, 415);
+            this.label_EvolveAt.Location = new System.Drawing.Point(131, 399);
             this.label_EvolveAt.Name = "label_EvolveAt";
             this.label_EvolveAt.Size = new System.Drawing.Size(83, 18);
             this.label_EvolveAt.TabIndex = 36;
@@ -1583,7 +1583,7 @@ namespace PokeMaster
             // nud_EvolveAt
             // 
             this.nud_EvolveAt.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.nud_EvolveAt.Location = new System.Drawing.Point(84, 414);
+            this.nud_EvolveAt.Location = new System.Drawing.Point(84, 398);
             this.nud_EvolveAt.Maximum = new decimal(new int[] {
             1000,
             0,
@@ -1597,7 +1597,7 @@ namespace PokeMaster
             // 
             this.checkBox6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.checkBox6.AutoSize = true;
-            this.checkBox6.Location = new System.Drawing.Point(6, 414);
+            this.checkBox6.Location = new System.Drawing.Point(6, 398);
             this.checkBox6.Name = "checkBox6";
             this.checkBox6.Size = new System.Drawing.Size(69, 17);
             this.checkBox6.TabIndex = 34;
@@ -1615,7 +1615,7 @@ namespace PokeMaster
             this.checkedListBox_PokemonToEvolve.Location = new System.Drawing.Point(6, 15);
             this.checkedListBox_PokemonToEvolve.Name = "checkedListBox_PokemonToEvolve";
             this.checkedListBox_PokemonToEvolve.ScrollAlwaysVisible = true;
-            this.checkedListBox_PokemonToEvolve.Size = new System.Drawing.Size(211, 364);
+            this.checkedListBox_PokemonToEvolve.Size = new System.Drawing.Size(211, 334);
             this.checkedListBox_PokemonToEvolve.TabIndex = 0;
             // 
             // tabGeneral
@@ -1627,7 +1627,7 @@ namespace PokeMaster
             this.tabGeneral.Location = new System.Drawing.Point(4, 54);
             this.tabGeneral.Margin = new System.Windows.Forms.Padding(0);
             this.tabGeneral.Name = "tabGeneral";
-            this.tabGeneral.Size = new System.Drawing.Size(1182, 475);
+            this.tabGeneral.Size = new System.Drawing.Size(985, 537);
             this.tabGeneral.TabIndex = 0;
             this.tabGeneral.Text = "General";
             this.tabGeneral.UseVisualStyleBackColor = true;
@@ -1919,9 +1919,9 @@ namespace PokeMaster
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.comboTimeZone);
             this.groupBox2.Controls.Add(this.label25);
             this.groupBox2.Controls.Add(this.comboLocale);
-            this.groupBox2.Controls.Add(this.textBox_TimeZone);
             this.groupBox2.Controls.Add(this.label20);
             this.groupBox2.Controls.Add(this.checkBox_BlockAltitude);
             this.groupBox2.Controls.Add(this.button_SetLocation);
@@ -1956,18 +1956,8 @@ namespace PokeMaster
             this.comboLocale.FormattingEnabled = true;
             this.comboLocale.Location = new System.Drawing.Point(145, 159);
             this.comboLocale.Name = "comboLocale";
-            this.comboLocale.Size = new System.Drawing.Size(156, 21);
+            this.comboLocale.Size = new System.Drawing.Size(152, 21);
             this.comboLocale.TabIndex = 77;
-            // 
-            // textBox_TimeZone
-            // 
-            this.textBox_TimeZone.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox_TimeZone.Location = new System.Drawing.Point(147, 191);
-            this.textBox_TimeZone.Name = "textBox_TimeZone";
-            this.textBox_TimeZone.Size = new System.Drawing.Size(154, 20);
-            this.textBox_TimeZone.TabIndex = 74;
-            this.textBox_TimeZone.Text = "America/Los Angeles";
             // 
             // label20
             // 
@@ -2228,7 +2218,7 @@ namespace PokeMaster
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.Padding = new System.Drawing.Point(0, 0);
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1190, 533);
+            this.tabControl1.Size = new System.Drawing.Size(993, 595);
             this.tabControl1.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
             this.tabControl1.TabIndex = 1;
             // 
@@ -2244,7 +2234,7 @@ namespace PokeMaster
             this.tabWalkSettings.Margin = new System.Windows.Forms.Padding(2);
             this.tabWalkSettings.Name = "tabWalkSettings";
             this.tabWalkSettings.Padding = new System.Windows.Forms.Padding(2);
-            this.tabWalkSettings.Size = new System.Drawing.Size(1182, 475);
+            this.tabWalkSettings.Size = new System.Drawing.Size(985, 537);
             this.tabWalkSettings.TabIndex = 4;
             this.tabWalkSettings.Text = "Walk Settings";
             this.tabWalkSettings.UseVisualStyleBackColor = true;
@@ -2834,7 +2824,7 @@ namespace PokeMaster
             this.tabEggs.Margin = new System.Windows.Forms.Padding(4, 2, 4, 2);
             this.tabEggs.Name = "tabEggs";
             this.tabEggs.Padding = new System.Windows.Forms.Padding(4, 2, 4, 2);
-            this.tabEggs.Size = new System.Drawing.Size(1182, 475);
+            this.tabEggs.Size = new System.Drawing.Size(985, 537);
             this.tabEggs.TabIndex = 9;
             this.tabEggs.Text = "Eggs";
             this.tabEggs.UseVisualStyleBackColor = true;
@@ -3081,7 +3071,7 @@ namespace PokeMaster
             this.tabThrows.Location = new System.Drawing.Point(4, 54);
             this.tabThrows.Margin = new System.Windows.Forms.Padding(2);
             this.tabThrows.Name = "tabThrows";
-            this.tabThrows.Size = new System.Drawing.Size(1182, 475);
+            this.tabThrows.Size = new System.Drawing.Size(985, 537);
             this.tabThrows.TabIndex = 7;
             this.tabThrows.Text = "Throws";
             this.tabThrows.UseVisualStyleBackColor = true;
@@ -3588,7 +3578,7 @@ namespace PokeMaster
             this.tabPageGym.Location = new System.Drawing.Point(4, 54);
             this.tabPageGym.Name = "tabPageGym";
             this.tabPageGym.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageGym.Size = new System.Drawing.Size(1182, 475);
+            this.tabPageGym.Size = new System.Drawing.Size(985, 537);
             this.tabPageGym.TabIndex = 10;
             this.tabPageGym.Text = "Gyms";
             this.tabPageGym.UseVisualStyleBackColor = true;
@@ -3744,7 +3734,7 @@ namespace PokeMaster
             this.tabMisc.Margin = new System.Windows.Forms.Padding(2);
             this.tabMisc.Name = "tabMisc";
             this.tabMisc.Padding = new System.Windows.Forms.Padding(2);
-            this.tabMisc.Size = new System.Drawing.Size(1182, 475);
+            this.tabMisc.Size = new System.Drawing.Size(985, 537);
             this.tabMisc.TabIndex = 5;
             this.tabMisc.Text = "Misc";
             this.tabMisc.UseVisualStyleBackColor = true;
@@ -4101,7 +4091,7 @@ namespace PokeMaster
             this.tabUpdates.Location = new System.Drawing.Point(4, 54);
             this.tabUpdates.Name = "tabUpdates";
             this.tabUpdates.Padding = new System.Windows.Forms.Padding(3);
-            this.tabUpdates.Size = new System.Drawing.Size(1182, 475);
+            this.tabUpdates.Size = new System.Drawing.Size(985, 537);
             this.tabUpdates.TabIndex = 6;
             this.tabUpdates.Text = "Updates";
             this.tabUpdates.UseVisualStyleBackColor = true;
@@ -4203,7 +4193,7 @@ namespace PokeMaster
             this.tabCredits.Margin = new System.Windows.Forms.Padding(2);
             this.tabCredits.Name = "tabCredits";
             this.tabCredits.Padding = new System.Windows.Forms.Padding(2);
-            this.tabCredits.Size = new System.Drawing.Size(1182, 475);
+            this.tabCredits.Size = new System.Drawing.Size(985, 537);
             this.tabCredits.TabIndex = 8;
             this.tabCredits.Text = "Credits";
             this.tabCredits.UseVisualStyleBackColor = true;
@@ -4625,13 +4615,25 @@ namespace PokeMaster
             this.pictureBox2.TabStop = false;
             this.pictureBox2.Click += new System.EventHandler(this.pictureBox2_Click);
             // 
+            // comboTimeZone
+            // 
+            this.comboTimeZone.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.comboTimeZone.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboTimeZone.FormattingEnabled = true;
+            this.comboTimeZone.Location = new System.Drawing.Point(145, 193);
+            this.comboTimeZone.Name = "comboTimeZone";
+            this.comboTimeZone.Size = new System.Drawing.Size(152, 21);
+            this.comboTimeZone.TabIndex = 78;
+            
+            // 
             // ConfigWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(53)))), ((int)(((byte)(65)))));
-            this.ClientSize = new System.Drawing.Size(993, 626);
+            this.ClientSize = new System.Drawing.Size(993, 673);
             this.Controls.Add(this.buttonSaveStart);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.MinimizeButton);
@@ -5133,9 +5135,9 @@ namespace PokeMaster
         private System.Windows.Forms.CheckBox AdvancedBreaks;
         private System.Windows.Forms.Button MinimizeButton;
         private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.TextBox textBox_TimeZone;
         private System.Windows.Forms.Label label20;
         private System.Windows.Forms.Label label25;
         private System.Windows.Forms.ComboBox comboLocale;
+        private System.Windows.Forms.ComboBox comboTimeZone;
     }
 }
