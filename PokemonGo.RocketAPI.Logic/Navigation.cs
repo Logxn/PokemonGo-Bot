@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Device.Location;
 using System.Threading.Tasks;
 using POGOProtos.Map.Fort;
-using POGOProtos.Networking.Responses;
 using PokemonGo.RocketAPI;
 using PokemonGo.RocketAPI.Helpers;
 using PokeMaster.Logic.Utils;
@@ -91,9 +90,9 @@ namespace PokeMaster.Logic
 
                 sourceLocation = new GeoCoordinate(_client.CurrentLatitude, _client.CurrentLongitude);
                 var currentDistanceToTarget = LocationUtils.CalculateDistanceInMeters(sourceLocation, targetLocation);
-                Logger.ColoredConsoleWrite(ConsoleColor.DarkGreen, $"Distance to destination: {currentDistanceToTarget.ToString("F", CultureInfo.InvariantCulture)}m " +
-                    $"({speedInMetersPerSecond.ToString("F", CultureInfo.InvariantCulture)}m/s) " +
-                    $"=> {(currentDistanceToTarget / speedInMetersPerSecond).ToString("F", CultureInfo.InvariantCulture)}s");
+                //Logger.ColoredConsoleWrite(ConsoleColor.DarkGreen, $"Distance to destination: {currentDistanceToTarget.ToString("F", CultureInfo.InvariantCulture)}m " +
+                //    $"({speedInMetersPerSecond.ToString("F", CultureInfo.InvariantCulture)}m/s) " +
+                //    $"=> {(currentDistanceToTarget / speedInMetersPerSecond).ToString("F", CultureInfo.InvariantCulture)}s");
 
                 if (currentDistanceToTarget < 40)
                 {

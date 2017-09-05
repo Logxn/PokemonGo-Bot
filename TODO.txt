@@ -4,10 +4,10 @@
 22/8				Login.cs	" Expire: " + Utils.TimeMStoString((long)Client.AuthTicket.ExpireTimestampMs, @"mm\:ss"));
 22/8	@Xelwon					Coordinates.txt per profile
 24/8	@Zederia				Manual evolve do not pause the player
-26/8							Once pokestop farmed, go to next without need to arrive at the exact coords
 26/8							Remove notifications
 27/8							Add a 20% random speed up/down when walking
 27/8							Detect shadowban
+05/9							Fix extra log paths
 
 =========== NOTES =============
 CatchingLogic.cs	L109	Disabled DoLogin => May be we do not refresh pokemons, atttention
@@ -24,5 +24,8 @@ v1.3.6.7 Changes (by @Xelwon & @Quarthy)
 v1.3.6.8 Changes (by @Xelwon & @Quarthy)
 ----------------------------------------
 = Fixed some excessive logs between Pokestops (@Zederia)
+= Fixed Egg Km bug (@Zederia)
++ Ready for v0.73.1
++ Now changes navigation before arriving to exact pokestation and after farming it, saving few meters
 
 =========== ISSUES ============
