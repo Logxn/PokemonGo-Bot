@@ -75,7 +75,7 @@ namespace PokeMaster
                             }
                             listViewItem.Text = "" + Math.Round(incubator.TargetKmWalked - stats.KmWalked, 2);
                         }
-                        listViewItem.SubItems.Add("" + item.EggKmWalkedTarget);	                	
+                        listViewItem.SubItems.Add("" + item.EggKmWalkedTarget);
                         if (incubator != null) {
                             listViewItem.SubItems.Add("" + incubator.PokemonId.ToString("X"));
                         } else {

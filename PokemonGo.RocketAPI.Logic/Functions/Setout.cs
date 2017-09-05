@@ -313,14 +313,20 @@ namespace PokeMaster.Logic.Functions
                     var hatched = pokemons.FirstOrDefault(x => !x.IsEgg && x.Id == incubator.PokemonId);
                     if (hatched == null) continue;
 
+                    var kmsEgg = (hatched.EggKmWalkedTarget - hatched.EggKmWalkedStart);
+                    Logger.Debug("***");
+                    Logger.Debug("EggKmWalkedTarget: " + hatched.EggKmWalkedTarget);
+                    Logger.Debug("EggKmWalkedStart: " + hatched.EggKmWalkedStart);
+                    Logger.Debug("kmsEgg: " + kmsEgg);
+                    Logger.Debug("***");
                     if (GlobalVars.LogEggs)
                     {
                         var MaxCP = PokemonInfo.CalculateMaxCP(hatched);
                         var Level = PokemonInfo.GetLevel(hatched);
                         var IVPercent = PokemonInfo.CalculatePokemonPerfection(hatched).ToString("0.00");
-                        File.AppendAllText(logs, $"[{date}] - Hatched a {hatched.EggKmWalkedTarget} Km egg, and we got a {hatched.PokemonId} (CP: {hatched.Cp} | MaxCP: {MaxCP} | Level: {Level} | IV: {IVPercent}% )" + Environment.NewLine);
+                        File.AppendAllText(logs, $"[{date}] - Hatched a {kmsEgg} Km egg, and we got a {hatched.PokemonId} (CP: {hatched.Cp} | MaxCP: {MaxCP} | Level: {Level} | IV: {IVPercent}% )" + Environment.NewLine);
                     }
-                    Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, "Hatched a " + hatched.EggKmWalkedTarget + "Km egg, and we got a" + hatched.PokemonId + " CP: " + hatched.Cp + " MaxCP: " + PokemonInfo.CalculateMaxCP(hatched) + " Level: " + PokemonInfo.GetLevel(hatched) + " IV: " + PokemonInfo.CalculatePokemonPerfection(hatched).ToString("0.00") + "%");
+                    Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, "Hatched a " + kmsEgg + "Km egg, and we got a" + hatched.PokemonId + " CP: " + hatched.Cp + " MaxCP: " + PokemonInfo.CalculateMaxCP(hatched) + " Level: " + PokemonInfo.GetLevel(hatched) + " IV: " + PokemonInfo.CalculatePokemonPerfection(hatched).ToString("0.00") + "%");
                 }
 
                 if ((unusedEggsUnlimitInc.Count < 1) && (unusedEggsUnlimitInc.Count < 1))
@@ -362,7 +368,14 @@ namespace PokeMaster.Logic.Functions
                             Logger.ColoredConsoleWrite(ConsoleColor.Red, ex.Message);
                         }
                         newRememberedIncubators.Add(new IncubatorUsage { IncubatorId = incubator.Id, PokemonId = egg.Id });
-                        Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, "Added " + egg.EggKmWalkedTarget + " Km egg");
+                        var kmsEgg = (egg.EggKmWalkedTarget - egg.EggKmWalkedStart);
+                        Logger.Debug("***");
+                        Logger.Debug("EggKmWalkedTarget: " + egg.EggKmWalkedTarget);
+                        Logger.Debug("EggKmWalkedStart: " + egg.EggKmWalkedStart);
+                        Logger.Debug("kmsEgg: " + kmsEgg);
+                        Logger.Debug("***");
+                        
+                        Logger.ColoredConsoleWrite(ConsoleColor.DarkYellow, "Added " + kmsEgg + " Km egg");
                         // We need some sleep here or this shit explodes
                         RandomHelper.RandomSleep(100, 200);
                     }
