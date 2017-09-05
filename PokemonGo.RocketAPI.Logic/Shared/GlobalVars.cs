@@ -30,6 +30,10 @@ namespace PokeMaster.Logic.Shared
         public static bool BypassCheckCompatibilityVersion = false;
         public static bool BypassKillSwitch = false;
 
+        // Path Vars
+        public static string ConfigsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Configs");
+        public static string ProfilesFilePath = Path.Combine(ConfigsPath, "Profiles.txt");
+
         // Other Globals
         public static string pFHashKey;
         public static string ProfileName = "DefaultProfile";
@@ -175,8 +179,6 @@ namespace PokeMaster.Logic.Shared
         public static ManualSnipePokemon SnipeOpts = new ManualSnipePokemon();
         public static ProxySettings proxySettings = new ProxySettings();
       
-        public static string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Configs");
-        public static string accountProfiles = Path.Combine(path, "Profiles.txt");
         public static bool UseLastCords = false;
         public static bool BlockAltitude = false;
         public static bool UseSpritesFolder = false;
