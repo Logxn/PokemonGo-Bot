@@ -23,15 +23,13 @@ namespace PokeMaster
         [DllImport("kernel32.dll")]
         public static extern Boolean FreeConsole();
 
-        public static string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Configs");
-        public static string path_translation = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Translations");
         public static string path_device = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Device");
-        public static string LastCoordsTXTFileName = Path.Combine(path, "LastCoords.txt");
-        public static string huntstats = Path.Combine(path, "HuntStats.txt");
+        public static string LastCoordsTXTFileName = Path.Combine(GlobalVars.ConfigsPath, "LastCoords.txt");
+        public static string huntstats = Path.Combine(GlobalVars.ConfigsPath, "HuntStats.txt");
         public static string deviceSettings = Path.Combine(path_device, "DeviceInfo.txt");
         public static string deviceData = Path.Combine(path_device, "DeviceData.json");
         public static string cmdCoords = string.Empty;
-        public static string accountProfiles = Path.Combine(path, "Profiles.txt");
+        public static string accountProfiles = Path.Combine(GlobalVars.ConfigsPath, "Profiles.txt");
         public static string logPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Logs");
         public static string path_pokedata = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "PokeData");
 
@@ -49,15 +47,6 @@ namespace PokeMaster
                 #region Parse Arguments
                 foreach (string arg in args)
                 {
-                    // First of all.
-                    // We check if bot have called clicking in a pokesnimer URI: pokesniper2://PokemonName/latitude,longitude
-                    //if (args[0].Contains("pokesniper2") || args[0].Contains("msniper"))
-                    //{
-                        // If yes, We create a temporary file to share with main process, and close.
-                    //    SniperPanel.SharePokesniperURI(args[0]);
-                    //    return;
-                    //}
-
                     #region Argument -nogui
                     if (arg.Contains("-nogui"))
                     {
@@ -81,7 +70,7 @@ namespace PokeMaster
                                 if (selectedProfile != null)
                                 {
                                     GlobalVars.ProfileName = selectedProfile.ProfileName;
-                                    selectedProfile.Settings = ProfileSettings.LoadFromFile(Path.Combine(path, $"{selectedProfile.ProfileName}.json"));
+                                    selectedProfile.Settings = ProfileSettings.LoadFromFile(Path.Combine(GlobalVars.ConfigsPath, $"{selectedProfile.ProfileName}.json"));
                                     selectedProfile.Settings.SaveToGlobals();
                                 }
                                 else
@@ -99,11 +88,11 @@ namespace PokeMaster
                         else // Load selected profile
                         {
                             var givenProfile = arg.Split(':');
-                            if (File.Exists(Path.Combine(path, givenProfile[1] + ".json")))
+                            if (File.Exists(Path.Combine(GlobalVars.ConfigsPath, givenProfile[1] + ".json")))
                             {
                                 selectedProfile.ProfileName = givenProfile[1];
                                 GlobalVars.ProfileName = selectedProfile.ProfileName;
-                                selectedProfile.Settings = ProfileSettings.LoadFromFile(Path.Combine(path, givenProfile[1] + ".json"));
+                                selectedProfile.Settings = ProfileSettings.LoadFromFile(Path.Combine(GlobalVars.ConfigsPath, givenProfile[1] + ".json"));
                                 selectedProfile.Settings.SaveToGlobals();
                             }
                             else

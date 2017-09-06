@@ -1,12 +1,4 @@
-﻿/*
- * Created by SharpDevelop.
- * User: usuarioIEDC
- * Date: 18/01/2017
- * Time: 14:59
- * 
- * To change this template use Tools | Options | Coding | Edit Standard Headers.
- */
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Device.Location;
 using System.IO;
@@ -32,6 +24,9 @@ namespace PokeMaster.Logic.Shared
 
         // Path Vars
         public static string ConfigsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Configs");
+        public static string TranslationsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Translations");
+        public static string LogsBasePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Logs");
+
         public static string ProfilesFilePath = Path.Combine(ConfigsPath, "Profiles.txt");
 
         // Other Globals
