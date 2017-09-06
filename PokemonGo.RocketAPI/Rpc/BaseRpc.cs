@@ -66,22 +66,6 @@ namespace PokemonGo.RocketAPI.Rpc
             return new TResponsePayload();
         }
 
-        //public static void verboseWait(int ms)
-        //{
-        //    var waitTimes = ms / 1000;
-        //    if (waitTimes > 0) {
-        //        Logger.Info("Waiting for " + waitTimes + " seconds");
-        //        Logger.Info("Seconds Left: ");
-        //        for (var i = 0; i < waitTimes; i++) {
-        //            if (i != 0)
-        //                Logger.Info((waitTimes - i) + ",");
-        //            Task.Delay(1000).Wait();
-        //        }
-        //    } else {
-        //        Task.Delay(ms).Wait();
-        //    }
-        //}
-
         protected TResponsePayload PostProtoPayload<TRequest, TResponsePayload>(RequestType type,
             IMessage message) where TRequest : IMessage<TRequest>
             where TResponsePayload : IMessage<TResponsePayload>, new()

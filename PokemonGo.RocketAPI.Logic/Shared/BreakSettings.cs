@@ -48,8 +48,6 @@ namespace PokeMaster.Logic.Shared
             NextInterval();
             // Ojo con el useprevioussettings !! -> inicia desde el principio
             GlobalVars.ForceAdvancedBreakNow = false;
-            //Logic.objClient.ReadyToUse = false;
-            //Logic.Instance.Execute();
         }
 
         private void WalkTimer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
@@ -57,7 +55,6 @@ namespace PokeMaster.Logic.Shared
             Console.WriteLine("[" + invokeCount + "] ===== MUST PAUSE WALKING NOW =====");
             walkTimer.Stop();
             SetIdleTimer(OrderedBreaks[invokeCount % OrderedBreaks.Count()]);
-            //Setout.SetCheckTimeToRun();
             GlobalVars.ForceAdvancedBreakNow = true;
         }
 

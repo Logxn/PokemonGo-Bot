@@ -374,7 +374,7 @@ namespace PokeMaster
 
             if (lang !="")
             {
-                Helper.TranslatorHelper.DownloadTranslationFile("PokemonGo.RocketAPI.Console/Lang", Program.path_translation, lang);
+                Helper.TranslatorHelper.DownloadTranslationFile("PokemonGo.RocketAPI.Console/Lang", GlobalVars.TranslationsPath, lang);
                 th.SelectLanguage(lang);
                 th.Translate(this);
                 if (OnChangeLanguage != null)

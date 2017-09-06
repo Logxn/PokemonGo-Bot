@@ -98,12 +98,12 @@ namespace PokeMaster
             
                 
             #region new translation
-            if (!Directory.Exists(Program.path_translation))
-                Directory.CreateDirectory(Program.path_translation);
+            if (!Directory.Exists(GlobalVars.TranslationsPath))
+                Directory.CreateDirectory(GlobalVars.TranslationsPath);
 
             comboLanguage.SelectedIndex = 0;
             // Download json file of current Culture Info if exists
-            Helper.TranslatorHelper.DownloadTranslationFile("PokemonGo.RocketAPI.Console/Lang", Program.path_translation, CultureInfo.CurrentCulture.Name);
+            TranslatorHelper.DownloadTranslationFile("PokemonGo.RocketAPI.Console/Lang", GlobalVars.TranslationsPath, CultureInfo.CurrentCulture.Name);
             // Translate using Current Culture Info
             th.Translate(this);
             tabControl1.SizeMode = TabSizeMode.Normal;
@@ -1390,7 +1390,7 @@ namespace PokeMaster
             }
 
             if (lang != "") {
-                Helper.TranslatorHelper.DownloadTranslationFile("PokemonGo.RocketAPI.Console/Lang", Program.path_translation, lang);
+                TranslatorHelper.DownloadTranslationFile("PokemonGo.RocketAPI.Console/Lang", GlobalVars.TranslationsPath, lang);
                 th.SelectLanguage(lang);
                 th.Translate(this);
                 tabControl1.SizeMode = TabSizeMode.Normal;
@@ -1418,7 +1418,7 @@ namespace PokeMaster
         void buttonSelectFile_Click(object sender, EventArgs e)
         {
             if (textBoxFortsFile.Text == "")
-                textBoxFortsFile.Text = Program.path + "\\forts.json";
+                textBoxFortsFile.Text = GlobalVars.ConfigsPath + "\\forts.json";
             saveFileDialog1.FileName = textBoxFortsFile.Text;
             saveFileDialog1.FilterIndex = 1;
             if (saveFileDialog1.ShowDialog() == DialogResult.OK) {
@@ -1463,7 +1463,7 @@ namespace PokeMaster
         void buttonSelectLocationFile_Click(object sender, EventArgs e)
         {
             if (textBoxSaveLocationsFile.Text == "")
-                textBoxSaveLocationsFile.Text = Program.path + "\\pokemons.txt";
+                textBoxSaveLocationsFile.Text = GlobalVars.ConfigsPath + "\\pokemons.txt";
             saveFileDialog1.FileName = textBoxSaveLocationsFile.Text;
             saveFileDialog1.FilterIndex = 2;
             if (saveFileDialog1.ShowDialog() == DialogResult.OK) {
