@@ -25,16 +25,29 @@ namespace POGOProtos.Data.Battle {
             "CipQT0dPUHJvdG9zL0RhdGEvQmF0dGxlL0JhdHRsZVJlc3VsdHMucHJvdG8S",
             "FlBPR09Qcm90b3MuRGF0YS5CYXR0bGUaIlBPR09Qcm90b3MvRGF0YS9HeW0v",
             "R3ltU3RhdGUucHJvdG8aLlBPR09Qcm90b3MvRGF0YS9CYXR0bGUvQmF0dGxl",
-            "UGFydGljaXBhbnQucHJvdG8i3gEKDUJhdHRsZVJlc3VsdHMSMAoJZ3ltX3N0",
-            "YXRlGAEgASgLMh0uUE9HT1Byb3Rvcy5EYXRhLkd5bS5HeW1TdGF0ZRI8Cglh",
-            "dHRhY2tlcnMYAiADKAsyKS5QT0dPUHJvdG9zLkRhdGEuQmF0dGxlLkJhdHRs",
-            "ZVBhcnRpY2lwYW50EiEKGXBsYXllcl9leHBlcmllbmNlX2F3YXJkZWQYAyAD",
-            "KAUSIAoYbmV4dF9kZWZlbmRlcl9wb2tlbW9uX2lkGAQgASgDEhgKEGd5bV9w",
-            "b2ludHNfZGVsdGEYBSABKAViBnByb3RvMw=="));
+            "UGFydGljaXBhbnQucHJvdG8aL1BPR09Qcm90b3MvRGF0YS9HeW0vR3ltU3Rh",
+            "dHVzQW5kRGVmZW5kZXJzLnByb3RvGihQT0dPUHJvdG9zL0RhdGEvUmFpZC9Q",
+            "YXJ0aWNpcGF0aW9uLnByb3RvGh9QT0dPUHJvdG9zL0ludmVudG9yeS9Mb290",
+            "LnByb3RvGihQT0dPUHJvdG9zL0RhdGEvUmFpZC9SYWlkRW5jb3VudGVyLnBy",
+            "b3RvGitQT0dPUHJvdG9zL0RhdGEvQmFkZ2UvQXdhcmRlZEd5bUJhZGdlLnBy",
+            "b3RvIsUECg1CYXR0bGVSZXN1bHRzEjAKCWd5bV9zdGF0ZRgBIAEoCzIdLlBP",
+            "R09Qcm90b3MuRGF0YS5HeW0uR3ltU3RhdGUSPAoJYXR0YWNrZXJzGAIgAygL",
+            "MikuUE9HT1Byb3Rvcy5EYXRhLkJhdHRsZS5CYXR0bGVQYXJ0aWNpcGFudBIZ",
+            "ChFwbGF5ZXJfeHBfYXdhcmRlZBgDIAMoBRIgChhuZXh0X2RlZmVuZGVyX3Bv",
+            "a2Vtb25faWQYBCABKAMSGAoQZ3ltX3BvaW50c19kZWx0YRgFIAEoBRI+Cgpn",
+            "eW1fc3RhdHVzGAYgASgLMiouUE9HT1Byb3Rvcy5EYXRhLkd5bS5HeW1TdGF0",
+            "dXNBbmREZWZlbmRlcnMSOgoNcGFydGljaXBhdGlvbhgHIAMoCzIjLlBPR09Q",
+            "cm90b3MuRGF0YS5SYWlkLlBhcnRpY2lwYXRpb24SNQoRcmFpZF9pdGVtX3Jl",
+            "d2FyZHMYCCADKAsyGi5QT0dPUHJvdG9zLkludmVudG9yeS5Mb290EkAKE3Bv",
+            "c3RfcmFpZF9lbmNvdW50ZXIYCSADKAsyIy5QT0dPUHJvdG9zLkRhdGEuUmFp",
+            "ZC5SYWlkRW5jb3VudGVyEjkKCWd5bV9iYWRnZRgKIAMoCzImLlBPR09Qcm90",
+            "b3MuRGF0YS5CYWRnZS5Bd2FyZGVkR3ltQmFkZ2USPQoZZGVmYXVsdF9yYWlk",
+            "X2l0ZW1fcmV3YXJkcxgLIAMoCzIaLlBPR09Qcm90b3MuSW52ZW50b3J5Lkxv",
+            "b3RiBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::POGOProtos.Data.Gym.GymStateReflection.Descriptor, global::POGOProtos.Data.Battle.BattleParticipantReflection.Descriptor, },
+          new pbr::FileDescriptor[] { global::POGOProtos.Data.Gym.GymStateReflection.Descriptor, global::POGOProtos.Data.Battle.BattleParticipantReflection.Descriptor, global::POGOProtos.Data.Gym.GymStatusAndDefendersReflection.Descriptor, global::POGOProtos.Data.Raid.ParticipationReflection.Descriptor, global::POGOProtos.Inventory.LootReflection.Descriptor, global::POGOProtos.Data.Raid.RaidEncounterReflection.Descriptor, global::POGOProtos.Data.Badge.AwardedGymBadgeReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::POGOProtos.Data.Battle.BattleResults), global::POGOProtos.Data.Battle.BattleResults.Parser, new[]{ "GymState", "Attackers", "PlayerExperienceAwarded", "NextDefenderPokemonId", "GymPointsDelta" }, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::POGOProtos.Data.Battle.BattleResults), global::POGOProtos.Data.Battle.BattleResults.Parser, new[]{ "GymState", "Attackers", "PlayerXpAwarded", "NextDefenderPokemonId", "GymPointsDelta", "GymStatus", "Participation", "RaidItemRewards", "PostRaidEncounter", "GymBadge", "DefaultRaidItemRewards" }, null, null, null)
           }));
     }
     #endregion
@@ -67,9 +80,15 @@ namespace POGOProtos.Data.Battle {
     public BattleResults(BattleResults other) : this() {
       GymState = other.gymState_ != null ? other.GymState.Clone() : null;
       attackers_ = other.attackers_.Clone();
-      playerExperienceAwarded_ = other.playerExperienceAwarded_.Clone();
+      playerXpAwarded_ = other.playerXpAwarded_.Clone();
       nextDefenderPokemonId_ = other.nextDefenderPokemonId_;
       gymPointsDelta_ = other.gymPointsDelta_;
+      GymStatus = other.gymStatus_ != null ? other.GymStatus.Clone() : null;
+      participation_ = other.participation_.Clone();
+      raidItemRewards_ = other.raidItemRewards_.Clone();
+      postRaidEncounter_ = other.postRaidEncounter_.Clone();
+      gymBadge_ = other.gymBadge_.Clone();
+      defaultRaidItemRewards_ = other.defaultRaidItemRewards_.Clone();
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -98,14 +117,14 @@ namespace POGOProtos.Data.Battle {
       get { return attackers_; }
     }
 
-    /// <summary>Field number for the "player_experience_awarded" field.</summary>
-    public const int PlayerExperienceAwardedFieldNumber = 3;
-    private static readonly pb::FieldCodec<int> _repeated_playerExperienceAwarded_codec
+    /// <summary>Field number for the "player_xp_awarded" field.</summary>
+    public const int PlayerXpAwardedFieldNumber = 3;
+    private static readonly pb::FieldCodec<int> _repeated_playerXpAwarded_codec
         = pb::FieldCodec.ForInt32(26);
-    private readonly pbc::RepeatedField<int> playerExperienceAwarded_ = new pbc::RepeatedField<int>();
+    private readonly pbc::RepeatedField<int> playerXpAwarded_ = new pbc::RepeatedField<int>();
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public pbc::RepeatedField<int> PlayerExperienceAwarded {
-      get { return playerExperienceAwarded_; }
+    public pbc::RepeatedField<int> PlayerXpAwarded {
+      get { return playerXpAwarded_; }
     }
 
     /// <summary>Field number for the "next_defender_pokemon_id" field.</summary>
@@ -130,6 +149,67 @@ namespace POGOProtos.Data.Battle {
       }
     }
 
+    /// <summary>Field number for the "gym_status" field.</summary>
+    public const int GymStatusFieldNumber = 6;
+    private global::POGOProtos.Data.Gym.GymStatusAndDefenders gymStatus_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public global::POGOProtos.Data.Gym.GymStatusAndDefenders GymStatus {
+      get { return gymStatus_; }
+      set {
+        gymStatus_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "participation" field.</summary>
+    public const int ParticipationFieldNumber = 7;
+    private static readonly pb::FieldCodec<global::POGOProtos.Data.Raid.Participation> _repeated_participation_codec
+        = pb::FieldCodec.ForMessage(58, global::POGOProtos.Data.Raid.Participation.Parser);
+    private readonly pbc::RepeatedField<global::POGOProtos.Data.Raid.Participation> participation_ = new pbc::RepeatedField<global::POGOProtos.Data.Raid.Participation>();
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public pbc::RepeatedField<global::POGOProtos.Data.Raid.Participation> Participation {
+      get { return participation_; }
+    }
+
+    /// <summary>Field number for the "raid_item_rewards" field.</summary>
+    public const int RaidItemRewardsFieldNumber = 8;
+    private static readonly pb::FieldCodec<global::POGOProtos.Inventory.Loot> _repeated_raidItemRewards_codec
+        = pb::FieldCodec.ForMessage(66, global::POGOProtos.Inventory.Loot.Parser);
+    private readonly pbc::RepeatedField<global::POGOProtos.Inventory.Loot> raidItemRewards_ = new pbc::RepeatedField<global::POGOProtos.Inventory.Loot>();
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public pbc::RepeatedField<global::POGOProtos.Inventory.Loot> RaidItemRewards {
+      get { return raidItemRewards_; }
+    }
+
+    /// <summary>Field number for the "post_raid_encounter" field.</summary>
+    public const int PostRaidEncounterFieldNumber = 9;
+    private static readonly pb::FieldCodec<global::POGOProtos.Data.Raid.RaidEncounter> _repeated_postRaidEncounter_codec
+        = pb::FieldCodec.ForMessage(74, global::POGOProtos.Data.Raid.RaidEncounter.Parser);
+    private readonly pbc::RepeatedField<global::POGOProtos.Data.Raid.RaidEncounter> postRaidEncounter_ = new pbc::RepeatedField<global::POGOProtos.Data.Raid.RaidEncounter>();
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public pbc::RepeatedField<global::POGOProtos.Data.Raid.RaidEncounter> PostRaidEncounter {
+      get { return postRaidEncounter_; }
+    }
+
+    /// <summary>Field number for the "gym_badge" field.</summary>
+    public const int GymBadgeFieldNumber = 10;
+    private static readonly pb::FieldCodec<global::POGOProtos.Data.Badge.AwardedGymBadge> _repeated_gymBadge_codec
+        = pb::FieldCodec.ForMessage(82, global::POGOProtos.Data.Badge.AwardedGymBadge.Parser);
+    private readonly pbc::RepeatedField<global::POGOProtos.Data.Badge.AwardedGymBadge> gymBadge_ = new pbc::RepeatedField<global::POGOProtos.Data.Badge.AwardedGymBadge>();
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public pbc::RepeatedField<global::POGOProtos.Data.Badge.AwardedGymBadge> GymBadge {
+      get { return gymBadge_; }
+    }
+
+    /// <summary>Field number for the "default_raid_item_rewards" field.</summary>
+    public const int DefaultRaidItemRewardsFieldNumber = 11;
+    private static readonly pb::FieldCodec<global::POGOProtos.Inventory.Loot> _repeated_defaultRaidItemRewards_codec
+        = pb::FieldCodec.ForMessage(90, global::POGOProtos.Inventory.Loot.Parser);
+    private readonly pbc::RepeatedField<global::POGOProtos.Inventory.Loot> defaultRaidItemRewards_ = new pbc::RepeatedField<global::POGOProtos.Inventory.Loot>();
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public pbc::RepeatedField<global::POGOProtos.Inventory.Loot> DefaultRaidItemRewards {
+      get { return defaultRaidItemRewards_; }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
       return Equals(other as BattleResults);
@@ -145,9 +225,15 @@ namespace POGOProtos.Data.Battle {
       }
       if (!object.Equals(GymState, other.GymState)) return false;
       if(!attackers_.Equals(other.attackers_)) return false;
-      if(!playerExperienceAwarded_.Equals(other.playerExperienceAwarded_)) return false;
+      if(!playerXpAwarded_.Equals(other.playerXpAwarded_)) return false;
       if (NextDefenderPokemonId != other.NextDefenderPokemonId) return false;
       if (GymPointsDelta != other.GymPointsDelta) return false;
+      if (!object.Equals(GymStatus, other.GymStatus)) return false;
+      if(!participation_.Equals(other.participation_)) return false;
+      if(!raidItemRewards_.Equals(other.raidItemRewards_)) return false;
+      if(!postRaidEncounter_.Equals(other.postRaidEncounter_)) return false;
+      if(!gymBadge_.Equals(other.gymBadge_)) return false;
+      if(!defaultRaidItemRewards_.Equals(other.defaultRaidItemRewards_)) return false;
       return true;
     }
 
@@ -156,9 +242,15 @@ namespace POGOProtos.Data.Battle {
       int hash = 1;
       if (gymState_ != null) hash ^= GymState.GetHashCode();
       hash ^= attackers_.GetHashCode();
-      hash ^= playerExperienceAwarded_.GetHashCode();
+      hash ^= playerXpAwarded_.GetHashCode();
       if (NextDefenderPokemonId != 0L) hash ^= NextDefenderPokemonId.GetHashCode();
       if (GymPointsDelta != 0) hash ^= GymPointsDelta.GetHashCode();
+      if (gymStatus_ != null) hash ^= GymStatus.GetHashCode();
+      hash ^= participation_.GetHashCode();
+      hash ^= raidItemRewards_.GetHashCode();
+      hash ^= postRaidEncounter_.GetHashCode();
+      hash ^= gymBadge_.GetHashCode();
+      hash ^= defaultRaidItemRewards_.GetHashCode();
       return hash;
     }
 
@@ -174,7 +266,7 @@ namespace POGOProtos.Data.Battle {
         output.WriteMessage(GymState);
       }
       attackers_.WriteTo(output, _repeated_attackers_codec);
-      playerExperienceAwarded_.WriteTo(output, _repeated_playerExperienceAwarded_codec);
+      playerXpAwarded_.WriteTo(output, _repeated_playerXpAwarded_codec);
       if (NextDefenderPokemonId != 0L) {
         output.WriteRawTag(32);
         output.WriteInt64(NextDefenderPokemonId);
@@ -183,6 +275,15 @@ namespace POGOProtos.Data.Battle {
         output.WriteRawTag(40);
         output.WriteInt32(GymPointsDelta);
       }
+      if (gymStatus_ != null) {
+        output.WriteRawTag(50);
+        output.WriteMessage(GymStatus);
+      }
+      participation_.WriteTo(output, _repeated_participation_codec);
+      raidItemRewards_.WriteTo(output, _repeated_raidItemRewards_codec);
+      postRaidEncounter_.WriteTo(output, _repeated_postRaidEncounter_codec);
+      gymBadge_.WriteTo(output, _repeated_gymBadge_codec);
+      defaultRaidItemRewards_.WriteTo(output, _repeated_defaultRaidItemRewards_codec);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -192,13 +293,21 @@ namespace POGOProtos.Data.Battle {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(GymState);
       }
       size += attackers_.CalculateSize(_repeated_attackers_codec);
-      size += playerExperienceAwarded_.CalculateSize(_repeated_playerExperienceAwarded_codec);
+      size += playerXpAwarded_.CalculateSize(_repeated_playerXpAwarded_codec);
       if (NextDefenderPokemonId != 0L) {
         size += 1 + pb::CodedOutputStream.ComputeInt64Size(NextDefenderPokemonId);
       }
       if (GymPointsDelta != 0) {
         size += 1 + pb::CodedOutputStream.ComputeInt32Size(GymPointsDelta);
       }
+      if (gymStatus_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(GymStatus);
+      }
+      size += participation_.CalculateSize(_repeated_participation_codec);
+      size += raidItemRewards_.CalculateSize(_repeated_raidItemRewards_codec);
+      size += postRaidEncounter_.CalculateSize(_repeated_postRaidEncounter_codec);
+      size += gymBadge_.CalculateSize(_repeated_gymBadge_codec);
+      size += defaultRaidItemRewards_.CalculateSize(_repeated_defaultRaidItemRewards_codec);
       return size;
     }
 
@@ -214,13 +323,24 @@ namespace POGOProtos.Data.Battle {
         GymState.MergeFrom(other.GymState);
       }
       attackers_.Add(other.attackers_);
-      playerExperienceAwarded_.Add(other.playerExperienceAwarded_);
+      playerXpAwarded_.Add(other.playerXpAwarded_);
       if (other.NextDefenderPokemonId != 0L) {
         NextDefenderPokemonId = other.NextDefenderPokemonId;
       }
       if (other.GymPointsDelta != 0) {
         GymPointsDelta = other.GymPointsDelta;
       }
+      if (other.gymStatus_ != null) {
+        if (gymStatus_ == null) {
+          gymStatus_ = new global::POGOProtos.Data.Gym.GymStatusAndDefenders();
+        }
+        GymStatus.MergeFrom(other.GymStatus);
+      }
+      participation_.Add(other.participation_);
+      raidItemRewards_.Add(other.raidItemRewards_);
+      postRaidEncounter_.Add(other.postRaidEncounter_);
+      gymBadge_.Add(other.gymBadge_);
+      defaultRaidItemRewards_.Add(other.defaultRaidItemRewards_);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -244,7 +364,7 @@ namespace POGOProtos.Data.Battle {
           }
           case 26:
           case 24: {
-            playerExperienceAwarded_.AddEntriesFrom(input, _repeated_playerExperienceAwarded_codec);
+            playerXpAwarded_.AddEntriesFrom(input, _repeated_playerXpAwarded_codec);
             break;
           }
           case 32: {
@@ -253,6 +373,33 @@ namespace POGOProtos.Data.Battle {
           }
           case 40: {
             GymPointsDelta = input.ReadInt32();
+            break;
+          }
+          case 50: {
+            if (gymStatus_ == null) {
+              gymStatus_ = new global::POGOProtos.Data.Gym.GymStatusAndDefenders();
+            }
+            input.ReadMessage(gymStatus_);
+            break;
+          }
+          case 58: {
+            participation_.AddEntriesFrom(input, _repeated_participation_codec);
+            break;
+          }
+          case 66: {
+            raidItemRewards_.AddEntriesFrom(input, _repeated_raidItemRewards_codec);
+            break;
+          }
+          case 74: {
+            postRaidEncounter_.AddEntriesFrom(input, _repeated_postRaidEncounter_codec);
+            break;
+          }
+          case 82: {
+            gymBadge_.AddEntriesFrom(input, _repeated_gymBadge_codec);
+            break;
+          }
+          case 90: {
+            defaultRaidItemRewards_.AddEntriesFrom(input, _repeated_defaultRaidItemRewards_codec);
             break;
           }
         }

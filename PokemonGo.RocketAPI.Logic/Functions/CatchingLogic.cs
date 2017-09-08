@@ -150,7 +150,7 @@ namespace PokeMaster.Logic.Functions
                     
                 }
                 client.Map.GetMapObjects(true).Wait(); //force Map Objects Update
-                client.Inventory.GetInventory(true); //force Inventory Update
+                client.Inventory.GetHoloInventory(true); //force Inventory Update
                 return true;
             }
             return false;

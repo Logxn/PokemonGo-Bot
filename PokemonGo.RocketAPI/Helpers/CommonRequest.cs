@@ -63,16 +63,16 @@ namespace PokemonGo.RocketAPI.Helpers
             };
         }
 
-        public static Request GetDefaultGetInventoryMessage(Client client)
+        public static Request GetDefaultGetHoloInventoryMessage(Client client)
         {
-            var getInventoryMessage = new GetInventoryMessage
+            var getHoloInventoryMessage = new GetHoloInventoryMessage
             {
                 LastTimestampMs = client.InventoryLastUpdateTimestamp
             };
             return new Request
             {
-                RequestType = RequestType.GetInventory,
-                RequestMessage = getInventoryMessage.ToByteString()
+                RequestType = RequestType.GetHoloInventory,
+                RequestMessage = getHoloInventoryMessage.ToByteString()
             };
         }
 
@@ -103,7 +103,7 @@ namespace PokemonGo.RocketAPI.Helpers
                     RequestType = RequestType.GetHatchedEggs,
                     RequestMessage = new GetHatchedEggsMessage().ToByteString()
                 },
-                GetDefaultGetInventoryMessage(client),
+                GetDefaultGetHoloInventoryMessage(client),
                 new Request
                 {
                     RequestType = RequestType.CheckAwardedBadges,
@@ -161,7 +161,7 @@ namespace PokemonGo.RocketAPI.Helpers
                     RequestType = RequestType.GetHatchedEggs,
                     RequestMessage = new GetHatchedEggsMessage().ToByteString()
                 },
-                GetDefaultGetInventoryMessage(client),
+                GetDefaultGetHoloInventoryMessage(client),
                 new Request
                 {
                     RequestType = RequestType.CheckAwardedBadges,
@@ -171,24 +171,24 @@ namespace PokemonGo.RocketAPI.Helpers
             };
         }
 
-        public static void ProcessGetInventoryResponse(Client client, GetInventoryResponse getInventoryResponse)
+        public static void ProcessGetHoloInventoryResponse(Client client, GetHoloInventoryResponse getHoloInventoryResponse)
         {
-            if (getInventoryResponse == null)
+            if (getHoloInventoryResponse == null)
                 return;
-            if (!getInventoryResponse.Success)
+            if (!getHoloInventoryResponse.Success)
                 return;
             // If there is not inventory delta
-            if (getInventoryResponse.InventoryDelta == null)
+            if (getHoloInventoryResponse.InventoryDelta == null)
                 return;
-            if (client.Inventory.GetInventory() == null){
-                client.Inventory.SetInventory( getInventoryResponse);
+            if (client.Inventory.GetHoloInventory() == null){
+                client.Inventory.SetHoloInventory( getHoloInventoryResponse);
                 return;
             }
             // If was updated yet.
-            if (getInventoryResponse.InventoryDelta.NewTimestampMs <= client.Inventory.GetInventory().InventoryDelta.NewTimestampMs )
+            if (getHoloInventoryResponse.InventoryDelta.NewTimestampMs <= client.Inventory.GetHoloInventory().InventoryDelta.NewTimestampMs )
                 return;
-            client.Inventory.GetInventory().InventoryDelta.NewTimestampMs = getInventoryResponse.InventoryDelta.NewTimestampMs;
-            client.Inventory.UpdateInventoryItems(getInventoryResponse.InventoryDelta);
+            client.Inventory.GetHoloInventory().InventoryDelta.NewTimestampMs = getHoloInventoryResponse.InventoryDelta.NewTimestampMs;
+            client.Inventory.UpdateInventoryItems(getHoloInventoryResponse.InventoryDelta);
         }
 
         public static void ProcessDownloadSettingsResponse(Client client, DownloadSettingsResponse downloadSettingsResponse)
@@ -227,10 +227,10 @@ namespace PokemonGo.RocketAPI.Helpers
             {
                 switch (requestType)
                 {
-                    case RequestType.GetInventory:
-                        var getInventoryResponse = new GetInventoryResponse();
-                        getInventoryResponse.MergeFrom(data);
-                        ProcessGetInventoryResponse(client,getInventoryResponse);
+                    case RequestType.GetHoloInventory:
+                        var getHoloInventoryResponse = new GetHoloInventoryResponse();
+                        getHoloInventoryResponse.MergeFrom(data);
+                        ProcessGetHoloInventoryResponse(client,getHoloInventoryResponse);
                         break;
                     case RequestType.DownloadSettings:
                         //TODO Update settings
@@ -380,11 +380,11 @@ namespace PokemonGo.RocketAPI.Helpers
                     CommonRequest.ProcessGetHatchedEggsResponse( client, getHatchedEggsResponse);
                 }
 
-                var getInventoryResponse = new GetInventoryResponse();
+                var getHoloInventoryResponse = new GetHoloInventoryResponse();
                 if ( responses.Count > 3)
                 {
-                    getInventoryResponse.MergeFrom(responses[3]);
-                    CommonRequest.ProcessGetInventoryResponse( client, getInventoryResponse);
+                    getHoloInventoryResponse.MergeFrom(responses[3]);
+                    CommonRequest.ProcessGetHoloInventoryResponse( client, getHoloInventoryResponse);
                 }
 
                 var checkAwardedBadgesResponse = new CheckAwardedBadgesResponse();

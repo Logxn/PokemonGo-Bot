@@ -292,7 +292,7 @@ namespace PokeMaster.Logic.Functions
                 {
                     return;
                 }
-                var inventory = Logic.objClient.Inventory.GetInventory();
+                var inventory = Logic.objClient.Inventory.GetHoloInventory();
                 var incubators = Logic.objClient.Inventory.GetEggIncubators().ToList();
                 var unusedEggs = (Logic.objClient.Inventory.GetEggs()).Where(x => string.IsNullOrEmpty(x.EggIncubatorId)).OrderBy(x => x.EggKmWalkedTarget - x.EggKmWalkedStart).ToList();
                 var pokemons = (Logic.objClient.Inventory.GetPokemons()).ToList();
@@ -465,7 +465,7 @@ namespace PokeMaster.Logic.Functions
         {
 
             var profile = client.Player.GetPlayer();
-            var inventory = client.Inventory.GetInventory();
+            var inventory = client.Inventory.GetHoloInventory();
             var playerStats = client.Inventory.GetPlayerStats();
             var stats = playerStats.First();
             var expneeded = stats.NextLevelXp - stats.PrevLevelXp - StringUtils.getExpDiff(stats.Level);
@@ -557,7 +557,7 @@ namespace PokeMaster.Logic.Functions
         public static void RefreshConsoleTitle(Client client)
         {
             var profile = client.Player.GetPlayer();
-            var inventory = client.Inventory.GetInventory();
+            var inventory = client.Inventory.GetHoloInventory();
             var playerStats = client.Inventory.GetPlayerStats();
             var stats = playerStats.FirstOrDefault();
             if (stats == null)
@@ -977,7 +977,7 @@ namespace PokeMaster.Logic.Functions
 
         public static List<Candy> GetPokemonFamilies()
         {
-            var inventory =  Logic.objClient.Inventory.GetInventory();
+            var inventory =  Logic.objClient.Inventory.GetHoloInventory();
 
             var families = from item in inventory.InventoryDelta.InventoryItems
                 where item.InventoryItemData?.Candy != null

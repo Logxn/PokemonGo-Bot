@@ -24,13 +24,12 @@ namespace POGOProtos.Networking.Requests.Messages {
           string.Concat(
             "CkFQT0dPUHJvdG9zL05ldHdvcmtpbmcvUmVxdWVzdHMvTWVzc2FnZXMvR2V0",
             "SW52ZW50b3J5TWVzc2FnZS5wcm90bxInUE9HT1Byb3Rvcy5OZXR3b3JraW5n",
-            "LlJlcXVlc3RzLk1lc3NhZ2VzIkgKE0dldEludmVudG9yeU1lc3NhZ2USGQoR",
-            "bGFzdF90aW1lc3RhbXBfbXMYASABKAMSFgoOaXRlbV9iZWVuX3NlZW4YAiAB",
-            "KAViBnByb3RvMw=="));
+            "LlJlcXVlc3RzLk1lc3NhZ2VzIjAKE0dldEludmVudG9yeU1lc3NhZ2USGQoR",
+            "bGFzdF90aW1lc3RhbXBfbXMYASABKANiBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::POGOProtos.Networking.Requests.Messages.GetInventoryMessage), global::POGOProtos.Networking.Requests.Messages.GetInventoryMessage.Parser, new[]{ "LastTimestampMs", "ItemBeenSeen" }, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::POGOProtos.Networking.Requests.Messages.GetInventoryMessage), global::POGOProtos.Networking.Requests.Messages.GetInventoryMessage.Parser, new[]{ "LastTimestampMs" }, null, null, null)
           }));
     }
     #endregion
@@ -62,7 +61,6 @@ namespace POGOProtos.Networking.Requests.Messages {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public GetInventoryMessage(GetInventoryMessage other) : this() {
       lastTimestampMs_ = other.lastTimestampMs_;
-      itemBeenSeen_ = other.itemBeenSeen_;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -81,20 +79,6 @@ namespace POGOProtos.Networking.Requests.Messages {
       }
     }
 
-    /// <summary>Field number for the "item_been_seen" field.</summary>
-    public const int ItemBeenSeenFieldNumber = 2;
-    private int itemBeenSeen_;
-    /// <summary>
-    /// TODO: Find out what this is.
-    /// </summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public int ItemBeenSeen {
-      get { return itemBeenSeen_; }
-      set {
-        itemBeenSeen_ = value;
-      }
-    }
-
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
       return Equals(other as GetInventoryMessage);
@@ -109,7 +93,6 @@ namespace POGOProtos.Networking.Requests.Messages {
         return true;
       }
       if (LastTimestampMs != other.LastTimestampMs) return false;
-      if (ItemBeenSeen != other.ItemBeenSeen) return false;
       return true;
     }
 
@@ -117,7 +100,6 @@ namespace POGOProtos.Networking.Requests.Messages {
     public override int GetHashCode() {
       int hash = 1;
       if (LastTimestampMs != 0L) hash ^= LastTimestampMs.GetHashCode();
-      if (ItemBeenSeen != 0) hash ^= ItemBeenSeen.GetHashCode();
       return hash;
     }
 
@@ -132,10 +114,6 @@ namespace POGOProtos.Networking.Requests.Messages {
         output.WriteRawTag(8);
         output.WriteInt64(LastTimestampMs);
       }
-      if (ItemBeenSeen != 0) {
-        output.WriteRawTag(16);
-        output.WriteInt32(ItemBeenSeen);
-      }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -143,9 +121,6 @@ namespace POGOProtos.Networking.Requests.Messages {
       int size = 0;
       if (LastTimestampMs != 0L) {
         size += 1 + pb::CodedOutputStream.ComputeInt64Size(LastTimestampMs);
-      }
-      if (ItemBeenSeen != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeInt32Size(ItemBeenSeen);
       }
       return size;
     }
@@ -157,9 +132,6 @@ namespace POGOProtos.Networking.Requests.Messages {
       }
       if (other.LastTimestampMs != 0L) {
         LastTimestampMs = other.LastTimestampMs;
-      }
-      if (other.ItemBeenSeen != 0) {
-        ItemBeenSeen = other.ItemBeenSeen;
       }
     }
 
@@ -173,10 +145,6 @@ namespace POGOProtos.Networking.Requests.Messages {
             break;
           case 8: {
             LastTimestampMs = input.ReadInt64();
-            break;
-          }
-          case 16: {
-            ItemBeenSeen = input.ReadInt32();
             break;
           }
         }

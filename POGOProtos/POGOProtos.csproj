@@ -129,8 +129,11 @@
     <Compile Include="Data\Quests\DailyQuest.g.cs" />
     <Compile Include="Data\Quests\Quest.g.cs" />
     <Compile Include="Data\Raid\EventInfo.g.cs" />
+    <Compile Include="Data\Raid\Lobby.g.cs" />
+    <Compile Include="Data\Raid\Participation.g.cs" />
     <Compile Include="Data\Raid\PlayerRaidInfo.g.cs" />
     <Compile Include="Data\Raid\Raid.g.cs" />
+    <Compile Include="Data\Raid\RaidEncounter.g.cs" />
     <Compile Include="Data\Raid\RaidInfo.g.cs" />
     <Compile Include="Data\RedeemPasscodeReward.g.cs" />
     <Compile Include="Data\Redeem\PokeCandy.g.cs" />
@@ -227,6 +230,7 @@
     <Compile Include="Networking\Requests\Messages\CollectDailyBonusMessage.g.cs" />
     <Compile Include="Networking\Requests\Messages\CollectDailyDefenderBonusMessage.g.cs" />
     <Compile Include="Networking\Requests\Messages\DiskEncounterMessage.g.cs" />
+    <Compile Include="Networking\Requests\Messages\DownloadGmTemplatesMessage.g.cs" />
     <Compile Include="Networking\Requests\Messages\DownloadItemTemplatesMessage.g.cs" />
     <Compile Include="Networking\Requests\Messages\DownloadRemoteConfigVersionMessage.g.cs" />
     <Compile Include="Networking\Requests\Messages\DownloadSettingsMessage.g.cs" />
@@ -245,12 +249,14 @@
     <Compile Include="Networking\Requests\Messages\GetGymBadgeDetailsMessage.g.cs" />
     <Compile Include="Networking\Requests\Messages\GetGymDetailsMessage.g.cs" />
     <Compile Include="Networking\Requests\Messages\GetHatchedEggsMessage.g.cs" />
+    <Compile Include="Networking\Requests\Messages\GetHoloInventoryMessage.g.cs" />
     <Compile Include="Networking\Requests\Messages\GetInboxMessage.g.cs" />
     <Compile Include="Networking\Requests\Messages\GetIncensePokemonMessage.g.cs" />
     <Compile Include="Networking\Requests\Messages\GetInventoryMessage.g.cs" />
     <Compile Include="Networking\Requests\Messages\GetMapObjectsMessage.g.cs" />
     <Compile Include="Networking\Requests\Messages\GetPlayerMessage.g.cs" />
     <Compile Include="Networking\Requests\Messages\GetPlayerProfileMessage.g.cs" />
+    <Compile Include="Networking\Requests\Messages\GetRaidDetailsMessage.g.cs" />
     <Compile Include="Networking\Requests\Messages\GymDeployMessage.g.cs" />
     <Compile Include="Networking\Requests\Messages\GymFeedPokemonMessage.g.cs" />
     <Compile Include="Networking\Requests\Messages\GymGetInfoMessage.g.cs" />
@@ -281,7 +287,9 @@
     <Compile Include="Networking\Requests\Messages\UseItemEggIncubatorMessage.g.cs" />
     <Compile Include="Networking\Requests\Messages\UseItemEncounterMessage.g.cs" />
     <Compile Include="Networking\Requests\Messages\UseItemGymMessage.g.cs" />
+    <Compile Include="Networking\Requests\Messages\UseItemMoveRerollMessage.g.cs" />
     <Compile Include="Networking\Requests\Messages\UseItemPotionMessage.g.cs" />
+    <Compile Include="Networking\Requests\Messages\UseItemRareCandyMessage.g.cs" />
     <Compile Include="Networking\Requests\Messages\UseItemReviveMessage.g.cs" />
     <Compile Include="Networking\Requests\Messages\UseItemXpBoostMessage.g.cs" />
     <Compile Include="Networking\Requests\Messages\VerifyChallengeMessage.g.cs" />
@@ -297,6 +305,7 @@
     <Compile Include="Networking\Responses\CollectDailyBonusResponse.g.cs" />
     <Compile Include="Networking\Responses\CollectDailyDefenderBonusResponse.g.cs" />
     <Compile Include="Networking\Responses\DiskEncounterResponse.g.cs" />
+    <Compile Include="Networking\Responses\DownloadGmTemplatesResponse.g.cs" />
     <Compile Include="Networking\Responses\DownloadItemTemplatesResponse.g.cs" />
     <Compile Include="Networking\Responses\DownloadRemoteConfigVersionResponse.g.cs" />
     <Compile Include="Networking\Responses\DownloadSettingsResponse.g.cs" />
@@ -315,12 +324,14 @@
     <Compile Include="Networking\Responses\GetGymBadgeDetailsResponse.g.cs" />
     <Compile Include="Networking\Responses\GetGymDetailsResponse.g.cs" />
     <Compile Include="Networking\Responses\GetHatchedEggsResponse.g.cs" />
+    <Compile Include="Networking\Responses\GetHoloInventoryResponse.g.cs" />
     <Compile Include="Networking\Responses\GetInboxResponse.g.cs" />
     <Compile Include="Networking\Responses\GetIncensePokemonResponse.g.cs" />
     <Compile Include="Networking\Responses\GetInventoryResponse.g.cs" />
     <Compile Include="Networking\Responses\GetMapObjectsResponse.g.cs" />
     <Compile Include="Networking\Responses\GetPlayerProfileResponse.g.cs" />
     <Compile Include="Networking\Responses\GetPlayerResponse.g.cs" />
+    <Compile Include="Networking\Responses\GetRaidDetailsResponse.g.cs" />
     <Compile Include="Networking\Responses\GymDeployResponse.g.cs" />
     <Compile Include="Networking\Responses\GymFeedPokemonResponse.g.cs" />
     <Compile Include="Networking\Responses\GymGetInfoResponse.g.cs" />
@@ -351,7 +362,9 @@
     <Compile Include="Networking\Responses\UseItemEggIncubatorResponse.g.cs" />
     <Compile Include="Networking\Responses\UseItemEncounterResponse.g.cs" />
     <Compile Include="Networking\Responses\UseItemGymResponse.g.cs" />
+    <Compile Include="Networking\Responses\UseItemMoveRerollResponse.g.cs" />
     <Compile Include="Networking\Responses\UseItemPotionResponse.g.cs" />
+    <Compile Include="Networking\Responses\UseItemRareCandyResponse.g.cs" />
     <Compile Include="Networking\Responses\UseItemReviveResponse.g.cs" />
     <Compile Include="Networking\Responses\UseItemXpBoostResponse.g.cs" />
     <Compile Include="Networking\Responses\VerifyChallengeResponse.g.cs" />
@@ -409,6 +422,38 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Data" />
+    <Folder Include="Data\Avatar" />
+    <Folder Include="Data\Badge" />
+    <Folder Include="Data\Battle" />
+    <Folder Include="Data\Capture" />
+    <Folder Include="Data\Gym" />
+    <Folder Include="Data\Logs" />
+    <Folder Include="Data\Player" />
+    <Folder Include="Data\Quests" />
+    <Folder Include="Data\Raid" />
+    <Folder Include="Data\Redeem" />
+    <Folder Include="Enums" />
+    <Folder Include="Inventory" />
+    <Folder Include="Inventory\Item" />
+    <Folder Include="Map" />
+    <Folder Include="Map\Fort" />
+    <Folder Include="Map\Pokemon" />
+    <Folder Include="Networking" />
+    <Folder Include="Networking\Envelopes" />
+    <Folder Include="Networking\Platform" />
+    <Folder Include="Networking\Platform\Requests" />
+    <Folder Include="Networking\Platform\Responses" />
+    <Folder Include="Networking\Requests" />
+    <Folder Include="Networking\Requests\Messages" />
+    <Folder Include="Networking\Responses" />
+    <Folder Include="Settings" />
+    <Folder Include="Settings\Master" />
+    <Folder Include="Settings\Master\Item" />
+    <Folder Include="Settings\Master\Pokemon" />
+    <Folder Include="Settings\Master\Quest" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

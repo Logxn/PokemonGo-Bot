@@ -23,15 +23,16 @@ namespace POGOProtos.Inventory {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "Ci5QT0dPUHJvdG9zL0ludmVudG9yeS9FeGNsdXNpdmVUaWNrZXRJbmZvLnBy",
-            "b3RvEhRQT0dPUHJvdG9zLkludmVudG9yeSKvAQoTRXhjbHVzaXZlVGlja2V0",
+            "b3RvEhRQT0dPUHJvdG9zLkludmVudG9yeSLGAQoTRXhjbHVzaXZlVGlja2V0",
             "SW5mbxIRCglyYWlkX3NlZWQYASABKAMSDwoHZm9ydF9pZBgCIAEoCRIVCg1z",
             "dGFydF90aW1lX21zGAQgASgDEhMKC2VuZF90aW1lX21zGAUgASgDEhEKCWlt",
             "YWdlX3VybBgGIAEoCRIQCghsYXRpdHVkZRgHIAEoARIRCglsb25naXR1ZGUY",
-            "CCABKAESEAoIZ3ltX25hbWUYCSABKAliBnByb3RvMw=="));
+            "CCABKAESEAoIZ3ltX25hbWUYCSABKAkSFQoNc3Bhd25fdGltZV9tcxgKIAEo",
+            "A2IGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::POGOProtos.Inventory.ExclusiveTicketInfo), global::POGOProtos.Inventory.ExclusiveTicketInfo.Parser, new[]{ "RaidSeed", "FortId", "StartTimeMs", "EndTimeMs", "ImageUrl", "Latitude", "Longitude", "GymName" }, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::POGOProtos.Inventory.ExclusiveTicketInfo), global::POGOProtos.Inventory.ExclusiveTicketInfo.Parser, new[]{ "RaidSeed", "FortId", "StartTimeMs", "EndTimeMs", "ImageUrl", "Latitude", "Longitude", "GymName", "SpawnTimeMs" }, null, null, null)
           }));
     }
     #endregion
@@ -70,6 +71,7 @@ namespace POGOProtos.Inventory {
       latitude_ = other.latitude_;
       longitude_ = other.longitude_;
       gymName_ = other.gymName_;
+      spawnTimeMs_ = other.spawnTimeMs_;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -165,6 +167,17 @@ namespace POGOProtos.Inventory {
       }
     }
 
+    /// <summary>Field number for the "spawn_time_ms" field.</summary>
+    public const int SpawnTimeMsFieldNumber = 10;
+    private long spawnTimeMs_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public long SpawnTimeMs {
+      get { return spawnTimeMs_; }
+      set {
+        spawnTimeMs_ = value;
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
       return Equals(other as ExclusiveTicketInfo);
@@ -186,6 +199,7 @@ namespace POGOProtos.Inventory {
       if (Latitude != other.Latitude) return false;
       if (Longitude != other.Longitude) return false;
       if (GymName != other.GymName) return false;
+      if (SpawnTimeMs != other.SpawnTimeMs) return false;
       return true;
     }
 
@@ -200,6 +214,7 @@ namespace POGOProtos.Inventory {
       if (Latitude != 0D) hash ^= Latitude.GetHashCode();
       if (Longitude != 0D) hash ^= Longitude.GetHashCode();
       if (GymName.Length != 0) hash ^= GymName.GetHashCode();
+      if (SpawnTimeMs != 0L) hash ^= SpawnTimeMs.GetHashCode();
       return hash;
     }
 
@@ -242,6 +257,10 @@ namespace POGOProtos.Inventory {
         output.WriteRawTag(74);
         output.WriteString(GymName);
       }
+      if (SpawnTimeMs != 0L) {
+        output.WriteRawTag(80);
+        output.WriteInt64(SpawnTimeMs);
+      }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -270,6 +289,9 @@ namespace POGOProtos.Inventory {
       }
       if (GymName.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(GymName);
+      }
+      if (SpawnTimeMs != 0L) {
+        size += 1 + pb::CodedOutputStream.ComputeInt64Size(SpawnTimeMs);
       }
       return size;
     }
@@ -302,6 +324,9 @@ namespace POGOProtos.Inventory {
       }
       if (other.GymName.Length != 0) {
         GymName = other.GymName;
+      }
+      if (other.SpawnTimeMs != 0L) {
+        SpawnTimeMs = other.SpawnTimeMs;
       }
     }
 
@@ -343,6 +368,10 @@ namespace POGOProtos.Inventory {
           }
           case 74: {
             GymName = input.ReadString();
+            break;
+          }
+          case 80: {
+            SpawnTimeMs = input.ReadInt64();
             break;
           }
         }

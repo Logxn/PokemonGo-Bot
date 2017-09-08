@@ -37,7 +37,7 @@ namespace POGOProtos.Networking.Requests.Messages {
   }
   #region Messages
   /// <summary>
-  /// No message needed.
+  ///  No message needed.
   /// </summary>
   public sealed partial class CheckAwardedBadgesMessage : pb::IMessage<CheckAwardedBadgesMessage> {
     private static readonly pb::MessageParser<CheckAwardedBadgesMessage> _parser = new pb::MessageParser<CheckAwardedBadgesMessage>(() => new CheckAwardedBadgesMessage());

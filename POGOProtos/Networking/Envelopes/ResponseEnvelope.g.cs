@@ -331,35 +331,35 @@ namespace POGOProtos.Networking.Envelopes {
       public enum StatusCode {
         [pbr::OriginalName("UNKNOWN")] Unknown = 0,
         /// <summary>
-        /// valid response with no api url
+        ///  valid response with no api url
         /// </summary>
         [pbr::OriginalName("OK")] Ok = 1,
         /// <summary>
-        /// the response envelope has api_url set and this response is valid
+        ///  the response envelope has api_url set and this response is valid
         /// </summary>
         [pbr::OriginalName("OK_RPC_URL_IN_RESPONSE")] OkRpcUrlInResponse = 2,
         /// <summary>
-        /// bad request
+        ///  bad request
         /// </summary>
         [pbr::OriginalName("BAD_REQUEST")] BadRequest = 3,
         /// <summary>
-        /// using unimplemented request or corrupt request
+        ///  using unimplemented request or corrupt request
         /// </summary>
         [pbr::OriginalName("INVALID_REQUEST")] InvalidRequest = 51,
         /// <summary>
-        /// invalid platform request or corrupt platform request
+        ///  invalid platform request or corrupt platform request
         /// </summary>
         [pbr::OriginalName("INVALID_PLATFORM_REQUEST")] InvalidPlatformRequest = 52,
         /// <summary>
-        /// a new rpc endpoint is available and you should redirect to there
+        ///  a new rpc endpoint is available and you should redirect to there
         /// </summary>
         [pbr::OriginalName("REDIRECT")] Redirect = 53,
         /// <summary>
-        /// occurs when you send blank authinfo, or sending nonsense timings (ie LocationFix.timestampSnapshot == Signature.timestampSinceStart)
+        ///  occurs when you send blank authinfo, or sending nonsense timings (ie LocationFix.timestampSnapshot == Signature.timestampSinceStart)
         /// </summary>
         [pbr::OriginalName("SESSION_INVALIDATED")] SessionInvalidated = 100,
         /// <summary>
-        /// occurs when the login token is invalid
+        ///  occurs when the login token is invalid
         /// </summary>
         [pbr::OriginalName("INVALID_AUTH_TOKEN")] InvalidAuthToken = 102,
       }

@@ -73,7 +73,7 @@ namespace POGOProtos.Networking.Platform.Responses {
     public const int ReceivedFieldNumber = 1;
     private bool received_;
     /// <summary>
-    /// speculated, could be an enum
+    ///  speculated, could be an enum
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public bool Received {

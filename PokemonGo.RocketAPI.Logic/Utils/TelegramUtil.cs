@@ -193,7 +193,7 @@ namespace PokeMaster.Logic.Utils
                 if (_chatid != -1 && _livestats)
                 {
                     var usage = "";
-                    var inventory =  _client.Inventory.GetInventory();
+                    var inventory =  _client.Inventory.GetHoloInventory();
                     var profil =  _client.Player.GetPlayer();
                     var stats = inventory.InventoryDelta.InventoryItems.Select(i => i.InventoryItemData.PlayerStats).ToArray();
                     foreach (var c in stats)

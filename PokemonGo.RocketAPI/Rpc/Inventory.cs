@@ -18,7 +18,7 @@ namespace PokemonGo.RocketAPI.Rpc
 {
     public class Inventory : BaseRpc
     {
-        private GetInventoryResponse CachedInventory;
+        private GetHoloInventoryResponse CachedInventory;
 
         public Inventory(Client client) : base(client)
         {
@@ -33,22 +33,22 @@ namespace PokemonGo.RocketAPI.Rpc
         /// </summary>
         /// <param name="forceRequest"></param>
         /// <returns></returns>
-        public GetInventoryResponse GetInventory(bool forceRequest = false)
+        public GetHoloInventoryResponse GetHoloInventory(bool forceRequest = false)
         {
             // forceRequest should be used never ()
             if (forceRequest)
-                CachedInventory =  PostProtoPayload<Request, GetInventoryResponse>(RequestType.GetInventory, new GetInventoryMessage());
+                CachedInventory =  PostProtoPayload<Request, GetHoloInventoryResponse>(RequestType.GetHoloInventory, new GetHoloInventoryMessage());
             return CachedInventory; 
         }
 
-        public void SetInventory( GetInventoryResponse inventory)
+        public void SetHoloInventory( GetHoloInventoryResponse inventory)
         {
             CachedInventory = inventory;
         }
 
         public IEnumerable<ItemData> GetItems()
         {
-            var items = GetInventory().InventoryDelta.InventoryItems
+            var items = GetHoloInventory().InventoryDelta.InventoryItems
                 .Where(i => i.InventoryItemData.Item !=null);
             return items.Select(i=> i.InventoryItemData.Item);
         }
@@ -162,7 +162,7 @@ namespace PokemonGo.RocketAPI.Rpc
         #region --Get
         public  IEnumerable<PokemonData> GetPokemons()
         {
-            var inventory = GetInventory();
+            var inventory = GetHoloInventory();
             return
                 inventory.InventoryDelta.InventoryItems.Select(i => i.InventoryItemData?.PokemonData)
                     .Where(p => p != null && p?.PokemonId > 0);
@@ -171,7 +171,7 @@ namespace PokemonGo.RocketAPI.Rpc
 
         public  IEnumerable<PokedexEntry> GetPokedexEntries()
         {
-            var inventory = GetInventory();
+            var inventory = GetHoloInventory();
             return
                 inventory.InventoryDelta.InventoryItems.Select(i => i.InventoryItemData?.PokedexEntry)
                     .Where(p => p != null && p?.PokemonId > 0);
@@ -231,7 +231,7 @@ namespace PokemonGo.RocketAPI.Rpc
 
         public  List<Candy> GetPokemonFamilies()
         {
-            var inventory = GetInventory();
+            var inventory = GetHoloInventory();
 
             var families = from item in inventory.InventoryDelta.InventoryItems
                            where item.InventoryItemData?.Candy != null
@@ -538,7 +538,7 @@ namespace PokemonGo.RocketAPI.Rpc
 
         public IEnumerable<PokemonData> GetEggs()
         {
-            var inventory =  GetInventory();
+            var inventory =  GetHoloInventory();
             return   inventory.InventoryDelta.InventoryItems.Select(i => i.InventoryItemData?.PokemonData)
                .Where(p => p != null && p.IsEgg);
         }
@@ -556,7 +556,7 @@ namespace PokemonGo.RocketAPI.Rpc
 
         public IEnumerable<EggIncubator> GetEggIncubators()
         {
-            var inventory = GetInventory();
+            var inventory = GetHoloInventory();
             return
                 inventory.InventoryDelta.InventoryItems
                     .Where(x => x.InventoryItemData.EggIncubators != null)
@@ -593,7 +593,7 @@ namespace PokemonGo.RocketAPI.Rpc
         internal void UpdateInventoryItems(InventoryDelta delta)
         {
             if (CachedInventory == null){
-                CachedInventory = new GetInventoryResponse();
+                CachedInventory = new GetHoloInventoryResponse();
                 CachedInventory.InventoryDelta = delta;
                 return;
             }
@@ -727,9 +727,9 @@ namespace PokemonGo.RocketAPI.Rpc
         void DeletePokemons(List<ulong> pokemons)
         {
             foreach (var element in pokemons) {
-                var cachedElement = GetInventory().InventoryDelta.InventoryItems.FirstOrDefault(x => x.InventoryItemData.PokemonData !=null && x.InventoryItemData.PokemonData.Id == element);
+                var cachedElement = GetHoloInventory().InventoryDelta.InventoryItems.FirstOrDefault(x => x.InventoryItemData.PokemonData !=null && x.InventoryItemData.PokemonData.Id == element);
                         if (cachedElement !=null)
-                            GetInventory().InventoryDelta.InventoryItems.Remove(cachedElement);
+                            GetHoloInventory().InventoryDelta.InventoryItems.Remove(cachedElement);
                 };
         }
     }

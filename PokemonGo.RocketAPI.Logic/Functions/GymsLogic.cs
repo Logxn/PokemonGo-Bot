@@ -469,7 +469,7 @@ namespace PokeMaster.Logic.Functions
                             foreach (var element in attResp.BattleLog.BattleActions) {
                                 if (element.BattleResults != null) {
                                     Logger.Info("(Gym) - Gym points: " + element.BattleResults.GymPointsDelta);
-                                    Logger.Info("(Gym) - Experience Awarded: " + element.BattleResults.PlayerExperienceAwarded);
+                                    Logger.Info("(Gym) - Experience Awarded: " + element.BattleResults.PlayerXpAwarded);
                                     Logger.Debug("(Gym) - Next Pokemon: " + element.BattleResults.NextDefenderPokemonId);
                                     if (element.BattleResults.NextDefenderPokemonId != -1)
                                         nextDefenderID = element.BattleResults.NextDefenderPokemonId;
@@ -614,7 +614,7 @@ namespace PokeMaster.Logic.Functions
                     foreach (var element in  ret.BattleLog.BattleActions) {
                         if (element.Type == BattleActionType.ActionPlayerQuit) {
                             Logger.Info("(Gym) - Gym points: " + element.BattleResults.GymPointsDelta);
-                            Logger.Info("(Gym) - Experience Awarded: " + element.BattleResults.PlayerExperienceAwarded);
+                            Logger.Info("(Gym) - Experience Awarded: " + element.BattleResults.PlayerXpAwarded);
                             Logger.Debug("(Gym) - Next Pokemon: " + element.BattleResults.NextDefenderPokemonId);
                             exit = true;
                         }

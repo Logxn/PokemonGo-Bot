@@ -24,15 +24,16 @@ namespace POGOProtos.Data.Raid {
           string.Concat(
             "Ch9QT0dPUHJvdG9zL0RhdGEvUmFpZC9SYWlkLnByb3RvEhRQT0dPUHJvdG9z",
             "LkRhdGEuUmFpZBogUE9HT1Byb3Rvcy9FbnVtcy9Qb2tlbW9uSWQucHJvdG8i",
-            "zgEKBFJhaWQSEQoJcmFpZF9zZWVkGAEgASgDEhIKCnN0YXJ0ZWRfbXMYAiAB",
+            "8AEKBFJhaWQSEQoJcmFpZF9zZWVkGAEgASgDEhIKCnN0YXJ0ZWRfbXMYAiAB",
             "KAMSFAoMY29tcGxldGVkX21zGAMgASgDEjkKFGVuY291bnRlcl9wb2tlbW9u",
             "X2lkGAQgASgOMhsuUE9HT1Byb3Rvcy5FbnVtcy5Qb2tlbW9uSWQSGAoQY29t",
             "cGxldGVkX2JhdHRsZRgFIAEoCBIYChByZWNlaXZlZF9yZXdhcmRzGAYgASgI",
-            "EhoKEmZpbmlzaGVkX2VuY291bnRlchgHIAEoCGIGcHJvdG8z"));
+            "EhoKEmZpbmlzaGVkX2VuY291bnRlchgHIAEoCBIgChhyZWNlaXZlZF9kZWZh",
+            "dWx0X3Jld2FyZHMYCCABKAhiBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::POGOProtos.Enums.PokemonIdReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::POGOProtos.Data.Raid.Raid), global::POGOProtos.Data.Raid.Raid.Parser, new[]{ "RaidSeed", "StartedMs", "CompletedMs", "EncounterPokemonId", "CompletedBattle", "ReceivedRewards", "FinishedEncounter" }, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::POGOProtos.Data.Raid.Raid), global::POGOProtos.Data.Raid.Raid.Parser, new[]{ "RaidSeed", "StartedMs", "CompletedMs", "EncounterPokemonId", "CompletedBattle", "ReceivedRewards", "FinishedEncounter", "ReceivedDefaultRewards" }, null, null, null)
           }));
     }
     #endregion
@@ -70,6 +71,7 @@ namespace POGOProtos.Data.Raid {
       completedBattle_ = other.completedBattle_;
       receivedRewards_ = other.receivedRewards_;
       finishedEncounter_ = other.finishedEncounter_;
+      receivedDefaultRewards_ = other.receivedDefaultRewards_;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -154,6 +156,17 @@ namespace POGOProtos.Data.Raid {
       }
     }
 
+    /// <summary>Field number for the "received_default_rewards" field.</summary>
+    public const int ReceivedDefaultRewardsFieldNumber = 8;
+    private bool receivedDefaultRewards_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool ReceivedDefaultRewards {
+      get { return receivedDefaultRewards_; }
+      set {
+        receivedDefaultRewards_ = value;
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
       return Equals(other as Raid);
@@ -174,6 +187,7 @@ namespace POGOProtos.Data.Raid {
       if (CompletedBattle != other.CompletedBattle) return false;
       if (ReceivedRewards != other.ReceivedRewards) return false;
       if (FinishedEncounter != other.FinishedEncounter) return false;
+      if (ReceivedDefaultRewards != other.ReceivedDefaultRewards) return false;
       return true;
     }
 
@@ -187,6 +201,7 @@ namespace POGOProtos.Data.Raid {
       if (CompletedBattle != false) hash ^= CompletedBattle.GetHashCode();
       if (ReceivedRewards != false) hash ^= ReceivedRewards.GetHashCode();
       if (FinishedEncounter != false) hash ^= FinishedEncounter.GetHashCode();
+      if (ReceivedDefaultRewards != false) hash ^= ReceivedDefaultRewards.GetHashCode();
       return hash;
     }
 
@@ -225,6 +240,10 @@ namespace POGOProtos.Data.Raid {
         output.WriteRawTag(56);
         output.WriteBool(FinishedEncounter);
       }
+      if (ReceivedDefaultRewards != false) {
+        output.WriteRawTag(64);
+        output.WriteBool(ReceivedDefaultRewards);
+      }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -249,6 +268,9 @@ namespace POGOProtos.Data.Raid {
         size += 1 + 1;
       }
       if (FinishedEncounter != false) {
+        size += 1 + 1;
+      }
+      if (ReceivedDefaultRewards != false) {
         size += 1 + 1;
       }
       return size;
@@ -279,6 +301,9 @@ namespace POGOProtos.Data.Raid {
       }
       if (other.FinishedEncounter != false) {
         FinishedEncounter = other.FinishedEncounter;
+      }
+      if (other.ReceivedDefaultRewards != false) {
+        ReceivedDefaultRewards = other.ReceivedDefaultRewards;
       }
     }
 
@@ -316,6 +341,10 @@ namespace POGOProtos.Data.Raid {
           }
           case 56: {
             FinishedEncounter = input.ReadBool();
+            break;
+          }
+          case 64: {
+            ReceivedDefaultRewards = input.ReadBool();
             break;
           }
         }

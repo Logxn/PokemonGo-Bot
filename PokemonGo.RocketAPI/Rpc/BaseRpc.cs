@@ -219,12 +219,12 @@ namespace PokemonGo.RocketAPI.Rpc
                             await
                             PostProtoPayload<TRequest>(requestEnvelope,typeof(T1)
                                         , typeof(CheckChallengeResponse), typeof(GetHatchedEggsResponse)
-                                        , typeof(GetInventoryResponse), typeof(CheckAwardedBadgesResponse)
+                                        , typeof(GetHoloInventoryResponse), typeof(CheckAwardedBadgesResponse)
                                         , typeof(DownloadSettingsResponse), typeof(GetBuddyWalkedResponse), typeof(GetInboxResponse)
                                                       ).ConfigureAwait(false);
                         CommonRequest.ProcessCheckChallengeResponse(Client, response[1] as  CheckChallengeResponse);
                         CommonRequest.ProcessGetHatchedEggsResponse(Client, response[2] as  GetHatchedEggsResponse);
-                        CommonRequest.ProcessGetInventoryResponse(Client, response[3] as  GetInventoryResponse);
+                        CommonRequest.ProcessGetHoloInventoryResponse(Client, response[3] as  GetHoloInventoryResponse);
                         CommonRequest.ProcessCheckAwardedBadgesResponse(Client, response[4] as  CheckAwardedBadgesResponse);
                         CommonRequest.ProcessDownloadSettingsResponse(Client, response[5] as  DownloadSettingsResponse);
                         CommonRequest.ProcessGetBuddyWalkedResponse(Client, response[6] as  GetBuddyWalkedResponse);

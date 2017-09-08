@@ -135,9 +135,6 @@
     <Reference Include="ObjectListView, Version=2.9.1.1072, Culture=neutral, PublicKeyToken=b1c5bf581481bcd4, processorArchitecture=MSIL">
       <HintPath>..\packages\ObjectListView.Official.2.9.1\lib\net20\ObjectListView.dll</HintPath>
     </Reference>
-    <Reference Include="POGOProtos.NetStandard1, Version=2.13.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\POGOProtos.NetStandard1.2.13.0\lib\net45\POGOProtos.NetStandard1.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.AppContext">
       <HintPath>..\packages\System.AppContext.4.3.0\lib\net46\System.AppContext.dll</HintPath>
@@ -1616,6 +1613,10 @@
     <None Include="Resources\arabic.png" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\POGOProtos\POGOProtos.csproj">
+      <Project>{a03a7bb2-4f0b-467b-84b2-9a76e6aae6fb}</Project>
+      <Name>POGOProtos</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PokemonGo.RocketAPI.Logic\PokeMaster.Logic.csproj">
       <Project>{0739e40d-c589-4aeb-93e5-ee8cd6773c60}</Project>
       <Name>PokeMaster.Logic</Name>

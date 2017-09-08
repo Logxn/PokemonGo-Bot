@@ -162,7 +162,7 @@ namespace POGOProtos.Networking.Envelopes {
     public const int TimestampSinceStartFieldNumber = 2;
     private ulong timestampSinceStart_;
     /// <summary>
-    /// in ms
+    ///  in ms
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public ulong TimestampSinceStart {
@@ -381,7 +381,7 @@ namespace POGOProtos.Networking.Envelopes {
     public const int SessionHashFieldNumber = 22;
     private pb::ByteString sessionHash_ = pb::ByteString.Empty;
     /// <summary>
-    /// 32 random bytes, unique per session.
+    ///  32 random bytes, unique per session.
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public pb::ByteString SessionHash {
@@ -395,7 +395,7 @@ namespace POGOProtos.Networking.Envelopes {
     public const int TimestampFieldNumber = 23;
     private ulong timestamp_;
     /// <summary>
-    /// epoch timestamp in ms
+    ///  epoch timestamp in ms
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public ulong Timestamp {
@@ -411,7 +411,7 @@ namespace POGOProtos.Networking.Envelopes {
         = pb::FieldCodec.ForUInt64(194);
     private readonly pbc::RepeatedField<ulong> requestHash_ = new pbc::RepeatedField<ulong>();
     /// <summary>
-    /// hashes of each request message in a hashArray signed based on the auth_token or auth_info - xxhash64
+    ///  hashes of each request message in a hashArray signed based on the auth_token or auth_info - xxhash64
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public pbc::RepeatedField<ulong> RequestHash {
@@ -907,7 +907,7 @@ namespace POGOProtos.Networking.Envelopes {
         public const int ProviderFieldNumber = 1;
         private string provider_ = "";
         /// <summary>
-        /// "network", "gps", "fused", possibly others
+        ///  "network", "gps", "fused", possibly others
         /// </summary>
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         public string Provider {
@@ -921,7 +921,7 @@ namespace POGOProtos.Networking.Envelopes {
         public const int TimestampSnapshotFieldNumber = 2;
         private ulong timestampSnapshot_;
         /// <summary>
-        /// in ms since start
+        ///  in ms since start
         /// </summary>
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         public ulong TimestampSnapshot {
@@ -935,7 +935,7 @@ namespace POGOProtos.Networking.Envelopes {
         public const int AltitudeFieldNumber = 4;
         private float altitude_;
         /// <summary>
-        /// Confirmed on android/ios
+        ///  Confirmed on android/ios
         /// </summary>
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         public float Altitude {
@@ -971,7 +971,7 @@ namespace POGOProtos.Networking.Envelopes {
         public const int SpeedFieldNumber = 18;
         private float speed_;
         /// <summary>
-        /// iOS only (-1 for no reading available, speed in m/s)
+        ///  iOS only (-1 for no reading available, speed in m/s)
         /// </summary>
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         public float Speed {
@@ -985,7 +985,7 @@ namespace POGOProtos.Networking.Envelopes {
         public const int CourseFieldNumber = 20;
         private float course_;
         /// <summary>
-        /// iOS only (range seems to be -1 for not reading, and 0 to 360 for reading) confirmed by @marcel
+        ///  iOS only (range seems to be -1 for not reading, and 0 to 360 for reading) confirmed by @marcel
         /// </summary>
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         public float Course {
@@ -999,7 +999,7 @@ namespace POGOProtos.Networking.Envelopes {
         public const int HorizontalAccuracyFieldNumber = 21;
         private float horizontalAccuracy_;
         /// <summary>
-        /// in meters, both on Android and iOS
+        ///  in meters, both on Android and iOS
         /// </summary>
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         public float HorizontalAccuracy {
@@ -1013,7 +1013,7 @@ namespace POGOProtos.Networking.Envelopes {
         public const int VerticalAccuracyFieldNumber = 22;
         private float verticalAccuracy_;
         /// <summary>
-        /// iOS only
+        ///  iOS only
         /// </summary>
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         public float VerticalAccuracy {
@@ -1027,7 +1027,7 @@ namespace POGOProtos.Networking.Envelopes {
         public const int ProviderStatusFieldNumber = 26;
         private ulong providerStatus_;
         /// <summary>
-        /// Usually 3 (possibly GPS status: 1 = no fix, 2 = acquiring/inaccurate, 3 = fix acquired)
+        ///  Usually 3 (possibly GPS status: 1 = no fix, 2 = acquiring/inaccurate, 3 = fix acquired)
         /// </summary>
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         public ulong ProviderStatus {
@@ -1041,7 +1041,7 @@ namespace POGOProtos.Networking.Envelopes {
         public const int FloorFieldNumber = 27;
         private uint floor_;
         /// <summary>
-        /// On iOS there are some LocationFixes with unk26=1 and everything else empty
+        ///  On iOS there are some LocationFixes with unk26=1 and everything else empty
         /// </summary>
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         public uint Floor {
@@ -1055,7 +1055,7 @@ namespace POGOProtos.Networking.Envelopes {
         public const int LocationTypeFieldNumber = 28;
         private ulong locationType_;
         /// <summary>
-        /// Always 1 (if there is data at all)
+        ///  Always 1 (if there is data at all)
         /// </summary>
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         public ulong LocationType {
@@ -1316,7 +1316,7 @@ namespace POGOProtos.Networking.Envelopes {
       }
 
       /// <summary>
-      /// don't really care about this since we're not using it
+      ///  don't really care about this since we're not using it
       /// </summary>
       public sealed partial class AndroidGpsInfo : pb::IMessage<AndroidGpsInfo> {
         private static readonly pb::MessageParser<AndroidGpsInfo> _parser = new pb::MessageParser<AndroidGpsInfo>(() => new AndroidGpsInfo());
@@ -1635,7 +1635,7 @@ namespace POGOProtos.Networking.Envelopes {
         public const int TimestampSnapshotFieldNumber = 1;
         private ulong timestampSnapshot_;
         /// <summary>
-        /// in ms since start
+        ///  in ms since start
         /// </summary>
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         public ulong TimestampSnapshot {
@@ -2226,7 +2226,7 @@ namespace POGOProtos.Networking.Envelopes {
         public const int DeviceIdFieldNumber = 1;
         private string deviceId_ = "";
         /// <summary>
-        /// Hex string
+        ///  Hex string
         /// </summary>
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         public string DeviceId {
@@ -2262,7 +2262,7 @@ namespace POGOProtos.Networking.Envelopes {
         public const int DeviceBrandFieldNumber = 4;
         private string deviceBrand_ = "";
         /// <summary>
-        /// On Android: product.brand
+        ///  On Android: product.brand
         /// </summary>
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         public string DeviceBrand {
@@ -2276,7 +2276,7 @@ namespace POGOProtos.Networking.Envelopes {
         public const int DeviceModelFieldNumber = 5;
         private string deviceModel_ = "";
         /// <summary>
-        /// On Android: product.device
+        ///  On Android: product.device
         /// </summary>
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         public string DeviceModel {
@@ -2290,7 +2290,7 @@ namespace POGOProtos.Networking.Envelopes {
         public const int DeviceModelIdentifierFieldNumber = 6;
         private string deviceModelIdentifier_ = "";
         /// <summary>
-        /// Android only, build.display.id
+        ///  Android only, build.display.id
         /// </summary>
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         public string DeviceModelIdentifier {
@@ -2304,7 +2304,7 @@ namespace POGOProtos.Networking.Envelopes {
         public const int DeviceModelBootFieldNumber = 7;
         private string deviceModelBoot_ = "";
         /// <summary>
-        /// On Android: boot.hardware
+        ///  On Android: boot.hardware
         /// </summary>
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         public string DeviceModelBoot {
@@ -2318,7 +2318,7 @@ namespace POGOProtos.Networking.Envelopes {
         public const int HardwareManufacturerFieldNumber = 8;
         private string hardwareManufacturer_ = "";
         /// <summary>
-        /// On Android: product.manufacturer
+        ///  On Android: product.manufacturer
         /// </summary>
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         public string HardwareManufacturer {
@@ -2332,7 +2332,7 @@ namespace POGOProtos.Networking.Envelopes {
         public const int HardwareModelFieldNumber = 9;
         private string hardwareModel_ = "";
         /// <summary>
-        /// On Android: product.model
+        ///  On Android: product.model
         /// </summary>
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         public string HardwareModel {
@@ -2346,7 +2346,7 @@ namespace POGOProtos.Networking.Envelopes {
         public const int FirmwareBrandFieldNumber = 10;
         private string firmwareBrand_ = "";
         /// <summary>
-        /// On Android: product.name, on iOS: "iPhone OS"
+        ///  On Android: product.name, on iOS: "iPhone OS"
         /// </summary>
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         public string FirmwareBrand {
@@ -2360,7 +2360,7 @@ namespace POGOProtos.Networking.Envelopes {
         public const int FirmwareTagsFieldNumber = 12;
         private string firmwareTags_ = "";
         /// <summary>
-        /// Android only, build.tags
+        ///  Android only, build.tags
         /// </summary>
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         public string FirmwareTags {
@@ -2374,7 +2374,7 @@ namespace POGOProtos.Networking.Envelopes {
         public const int FirmwareTypeFieldNumber = 13;
         private string firmwareType_ = "";
         /// <summary>
-        /// On Android: build.type, on iOS instead: iOS version
+        ///  On Android: build.type, on iOS instead: iOS version
         /// </summary>
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         public string FirmwareType {
@@ -2388,7 +2388,7 @@ namespace POGOProtos.Networking.Envelopes {
         public const int FirmwareFingerprintFieldNumber = 14;
         private string firmwareFingerprint_ = "";
         /// <summary>
-        /// Android only, build.fingerprint
+        ///  Android only, build.fingerprint
         /// </summary>
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         public string FirmwareFingerprint {
@@ -2665,7 +2665,7 @@ namespace POGOProtos.Networking.Envelopes {
       }
 
       /// <summary>
-      /// Only used in iOS - Android just sends an empty version
+      ///  Only used in iOS - Android just sends an empty version
       /// </summary>
       public sealed partial class ActivityStatus : pb::IMessage<ActivityStatus> {
         private static readonly pb::MessageParser<ActivityStatus> _parser = new pb::MessageParser<ActivityStatus>(() => new ActivityStatus());
@@ -2711,7 +2711,7 @@ namespace POGOProtos.Networking.Envelopes {
         public const int StartTimeMsFieldNumber = 1;
         private ulong startTimeMs_;
         /// <summary>
-        /// all of these had 1 as their value
+        ///  all of these had 1 as their value
         /// </summary>
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
         public ulong StartTimeMs {
@@ -3017,7 +3017,7 @@ namespace POGOProtos.Networking.Envelopes {
   }
 
   /// <summary>
-  /// Just a junk message to denote that we don't currently know what message something is.
+  ///  Just a junk message to denote that we don't currently know what message something is.
   /// </summary>
   public sealed partial class UnknownMessage : pb::IMessage<UnknownMessage> {
     private static readonly pb::MessageParser<UnknownMessage> _parser = new pb::MessageParser<UnknownMessage>(() => new UnknownMessage());

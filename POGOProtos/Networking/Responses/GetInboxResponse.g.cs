@@ -24,31 +24,32 @@ namespace POGOProtos.Networking.Responses {
           string.Concat(
             "CjZQT0dPUHJvdG9zL05ldHdvcmtpbmcvUmVzcG9uc2VzL0dldEluYm94UmVz",
             "cG9uc2UucHJvdG8SH1BPR09Qcm90b3MuTmV0d29ya2luZy5SZXNwb25zZXMi",
-            "kAcKEEdldEluYm94UmVzcG9uc2USSAoGcmVzdWx0GAEgASgOMjguUE9HT1By",
+            "qAcKEEdldEluYm94UmVzcG9uc2USSAoGcmVzdWx0GAEgASgOMjguUE9HT1By",
             "b3Rvcy5OZXR3b3JraW5nLlJlc3BvbnNlcy5HZXRJbmJveFJlc3BvbnNlLlJl",
             "c3VsdBJMCgVpbmJveBgCIAEoCzI9LlBPR09Qcm90b3MuTmV0d29ya2luZy5S",
-            "ZXNwb25zZXMuR2V0SW5ib3hSZXNwb25zZS5DbGllbnRJbmJveBq0BQoLQ2xp",
+            "ZXNwb25zZXMuR2V0SW5ib3hSZXNwb25zZS5DbGllbnRJbmJveBrMBQoLQ2xp",
             "ZW50SW5ib3gSYQoNbm90aWZpY2F0aW9ucxgBIAMoCzJKLlBPR09Qcm90b3Mu",
             "TmV0d29ya2luZy5SZXNwb25zZXMuR2V0SW5ib3hSZXNwb25zZS5DbGllbnRJ",
             "bmJveC5Ob3RpZmljYXRpb24SaQoRYnVpbHRpbl92YXJpYWJsZXMYAiADKAsy",
             "Ti5QT0dPUHJvdG9zLk5ldHdvcmtpbmcuUmVzcG9uc2VzLkdldEluYm94UmVz",
-            "cG9uc2UuQ2xpZW50SW5ib3guVGVtcGxhdGVWYXJpYWJsZRrsAgoMTm90aWZp",
+            "cG9uc2UuQ2xpZW50SW5ib3guVGVtcGxhdGVWYXJpYWJsZRqEAwoMTm90aWZp",
             "Y2F0aW9uEhcKD25vdGlmaWNhdGlvbl9pZBgBIAEoCRIRCgl0aXRsZV9rZXkY",
             "AiABKAkSEAoIY2F0ZWdvcnkYAyABKAkSGwoTY3JlYXRlX3RpbWVzdGFtcF9t",
             "cxgEIAEoAxJhCgl2YXJpYWJsZXMYBSADKAsyTi5QT0dPUHJvdG9zLk5ldHdv",
             "cmtpbmcuUmVzcG9uc2VzLkdldEluYm94UmVzcG9uc2UuQ2xpZW50SW5ib3gu",
             "VGVtcGxhdGVWYXJpYWJsZRJgCgZsYWJlbHMYBiADKA4yUC5QT0dPUHJvdG9z",
             "Lk5ldHdvcmtpbmcuUmVzcG9uc2VzLkdldEluYm94UmVzcG9uc2UuQ2xpZW50",
-            "SW5ib3guTm90aWZpY2F0aW9uLkxhYmVsIjwKBUxhYmVsEg8KC1VOU0VUX0xB",
-            "QkVMEAASCgoGVU5SRUFEEAESBwoDTkVXEAISDQoJSU1NRURJQVRFEAMaaAoQ",
-            "VGVtcGxhdGVWYXJpYWJsZRIMCgRuYW1lGAEgASgJEg8KB2xpdGVyYWwYAiAB",
-            "KAkSCwoDa2V5GAMgASgJEhQKDGxvb2t1cF90YWJsZRgEIAEoCRISCgpieXRl",
-            "X3ZhbHVlGAUgASgMIi0KBlJlc3VsdBIJCgVVTlNFVBAAEgsKB1NVQ0NFU1MQ",
-            "ARILCgdGQUlMVVJFEAJiBnByb3RvMw=="));
+            "SW5ib3guTm90aWZpY2F0aW9uLkxhYmVsEhYKDmV4cGlyZV90aW1lX21zGAcg",
+            "ASgDIjwKBUxhYmVsEg8KC1VOU0VUX0xBQkVMEAASCgoGVU5SRUFEEAESBwoD",
+            "TkVXEAISDQoJSU1NRURJQVRFEAMaaAoQVGVtcGxhdGVWYXJpYWJsZRIMCgRu",
+            "YW1lGAEgASgJEg8KB2xpdGVyYWwYAiABKAkSCwoDa2V5GAMgASgJEhQKDGxv",
+            "b2t1cF90YWJsZRgEIAEoCRISCgpieXRlX3ZhbHVlGAUgASgMIi0KBlJlc3Vs",
+            "dBIJCgVVTlNFVBAAEgsKB1NVQ0NFU1MQARILCgdGQUlMVVJFEAJiBnByb3Rv",
+            "Mw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::POGOProtos.Networking.Responses.GetInboxResponse), global::POGOProtos.Networking.Responses.GetInboxResponse.Parser, new[]{ "Result", "Inbox" }, null, new[]{ typeof(global::POGOProtos.Networking.Responses.GetInboxResponse.Types.Result) }, new pbr::GeneratedClrTypeInfo[] { new pbr::GeneratedClrTypeInfo(typeof(global::POGOProtos.Networking.Responses.GetInboxResponse.Types.ClientInbox), global::POGOProtos.Networking.Responses.GetInboxResponse.Types.ClientInbox.Parser, new[]{ "Notifications", "BuiltinVariables" }, null, null, new pbr::GeneratedClrTypeInfo[] { new pbr::GeneratedClrTypeInfo(typeof(global::POGOProtos.Networking.Responses.GetInboxResponse.Types.ClientInbox.Types.Notification), global::POGOProtos.Networking.Responses.GetInboxResponse.Types.ClientInbox.Types.Notification.Parser, new[]{ "NotificationId", "TitleKey", "Category", "CreateTimestampMs", "Variables", "Labels" }, null, new[]{ typeof(global::POGOProtos.Networking.Responses.GetInboxResponse.Types.ClientInbox.Types.Notification.Types.Label) }, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::POGOProtos.Networking.Responses.GetInboxResponse), global::POGOProtos.Networking.Responses.GetInboxResponse.Parser, new[]{ "Result", "Inbox" }, null, new[]{ typeof(global::POGOProtos.Networking.Responses.GetInboxResponse.Types.Result) }, new pbr::GeneratedClrTypeInfo[] { new pbr::GeneratedClrTypeInfo(typeof(global::POGOProtos.Networking.Responses.GetInboxResponse.Types.ClientInbox), global::POGOProtos.Networking.Responses.GetInboxResponse.Types.ClientInbox.Parser, new[]{ "Notifications", "BuiltinVariables" }, null, null, new pbr::GeneratedClrTypeInfo[] { new pbr::GeneratedClrTypeInfo(typeof(global::POGOProtos.Networking.Responses.GetInboxResponse.Types.ClientInbox.Types.Notification), global::POGOProtos.Networking.Responses.GetInboxResponse.Types.ClientInbox.Types.Notification.Parser, new[]{ "NotificationId", "TitleKey", "Category", "CreateTimestampMs", "Variables", "Labels", "ExpireTimeMs" }, null, new[]{ typeof(global::POGOProtos.Networking.Responses.GetInboxResponse.Types.ClientInbox.Types.Notification.Types.Label) }, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::POGOProtos.Networking.Responses.GetInboxResponse.Types.ClientInbox.Types.TemplateVariable), global::POGOProtos.Networking.Responses.GetInboxResponse.Types.ClientInbox.Types.TemplateVariable.Parser, new[]{ "Name", "Literal", "Key", "LookupTable", "ByteValue" }, null, null, null)})})
           }));
     }
@@ -376,6 +377,7 @@ namespace POGOProtos.Networking.Responses {
               createTimestampMs_ = other.createTimestampMs_;
               variables_ = other.variables_.Clone();
               labels_ = other.labels_.Clone();
+              expireTimeMs_ = other.expireTimeMs_;
             }
 
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -447,6 +449,17 @@ namespace POGOProtos.Networking.Responses {
               get { return labels_; }
             }
 
+            /// <summary>Field number for the "expire_time_ms" field.</summary>
+            public const int ExpireTimeMsFieldNumber = 7;
+            private long expireTimeMs_;
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+            public long ExpireTimeMs {
+              get { return expireTimeMs_; }
+              set {
+                expireTimeMs_ = value;
+              }
+            }
+
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
             public override bool Equals(object other) {
               return Equals(other as Notification);
@@ -466,6 +479,7 @@ namespace POGOProtos.Networking.Responses {
               if (CreateTimestampMs != other.CreateTimestampMs) return false;
               if(!variables_.Equals(other.variables_)) return false;
               if(!labels_.Equals(other.labels_)) return false;
+              if (ExpireTimeMs != other.ExpireTimeMs) return false;
               return true;
             }
 
@@ -478,6 +492,7 @@ namespace POGOProtos.Networking.Responses {
               if (CreateTimestampMs != 0L) hash ^= CreateTimestampMs.GetHashCode();
               hash ^= variables_.GetHashCode();
               hash ^= labels_.GetHashCode();
+              if (ExpireTimeMs != 0L) hash ^= ExpireTimeMs.GetHashCode();
               return hash;
             }
 
@@ -506,6 +521,10 @@ namespace POGOProtos.Networking.Responses {
               }
               variables_.WriteTo(output, _repeated_variables_codec);
               labels_.WriteTo(output, _repeated_labels_codec);
+              if (ExpireTimeMs != 0L) {
+                output.WriteRawTag(56);
+                output.WriteInt64(ExpireTimeMs);
+              }
             }
 
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -525,6 +544,9 @@ namespace POGOProtos.Networking.Responses {
               }
               size += variables_.CalculateSize(_repeated_variables_codec);
               size += labels_.CalculateSize(_repeated_labels_codec);
+              if (ExpireTimeMs != 0L) {
+                size += 1 + pb::CodedOutputStream.ComputeInt64Size(ExpireTimeMs);
+              }
               return size;
             }
 
@@ -547,6 +569,9 @@ namespace POGOProtos.Networking.Responses {
               }
               variables_.Add(other.variables_);
               labels_.Add(other.labels_);
+              if (other.ExpireTimeMs != 0L) {
+                ExpireTimeMs = other.ExpireTimeMs;
+              }
             }
 
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -580,6 +605,10 @@ namespace POGOProtos.Networking.Responses {
                   case 50:
                   case 48: {
                     labels_.AddEntriesFrom(input, _repeated_labels_codec);
+                    break;
+                  }
+                  case 56: {
+                    ExpireTimeMs = input.ReadInt64();
                     break;
                   }
                 }
