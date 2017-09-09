@@ -223,6 +223,7 @@
     <Compile Include="Networking\Platform\Responses\UnknownPtr8Response.g.cs" />
     <Compile Include="Networking\Requests\Messages\AddFortModifierMessage.g.cs" />
     <Compile Include="Networking\Requests\Messages\AttackGymMessage.g.cs" />
+    <Compile Include="Networking\Requests\Messages\AwardFreeRaidTicketMessage.g.cs" />
     <Compile Include="Networking\Requests\Messages\CatchPokemonMessage.g.cs" />
     <Compile Include="Networking\Requests\Messages\CheckAwardedBadgesMessage.g.cs" />
     <Compile Include="Networking\Requests\Messages\CheckChallengeMessage.g.cs" />
@@ -297,6 +298,7 @@
     <Compile Include="Networking\Requests\RequestType.g.cs" />
     <Compile Include="Networking\Responses\AddFortModifierResponse.g.cs" />
     <Compile Include="Networking\Responses\AttackGymResponse.g.cs" />
+    <Compile Include="Networking\Responses\AwardFreeRaidTicketResponse.g.cs" />
     <Compile Include="Networking\Responses\CatchPokemonResponse.g.cs" />
     <Compile Include="Networking\Responses\CheckAwardedBadgesResponse.g.cs" />
     <Compile Include="Networking\Responses\CheckChallengeResponse.g.cs" />

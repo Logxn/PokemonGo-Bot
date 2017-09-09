@@ -24,11 +24,11 @@ namespace POGOProtos.Networking.Platform {
           string.Concat(
             "CjhQT0dPUHJvdG9zL05ldHdvcmtpbmcvUGxhdGZvcm0vUGxhdGZvcm1SZXF1",
             "ZXN0VHlwZS5wcm90bxIeUE9HT1Byb3Rvcy5OZXR3b3JraW5nLlBsYXRmb3Jt",
-            "Kq0BChNQbGF0Zm9ybVJlcXVlc3RUeXBlEhAKDE1FVEhPRF9VTlNFVBAAEhYK",
+            "Kr0BChNQbGF0Zm9ybVJlcXVlc3RUeXBlEhAKDE1FVEhPRF9VTlNFVBAAEhYK",
             "EkJVWV9JVEVNX1BPS0VDT0lOUxACEhQKEEJVWV9JVEVNX0FORFJPSUQQAxIQ",
             "CgxCVVlfSVRFTV9JT1MQBBITCg9HRVRfU1RPUkVfSVRFTVMQBRIcChhTRU5E",
-            "X0VOQ1JZUFRFRF9TSUdOQVRVUkUQBhIRCg1VTktOT1dOX1BUUl84EAhiBnBy",
-            "b3RvMw=="));
+            "X0VOQ1JZUFRFRF9TSUdOQVRVUkUQBhIRCg1VTktOT1dOX1BUUl84EAgSDgoK",
+            "Sk9JTl9FVkVOVBAJYgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::POGOProtos.Networking.Platform.PlatformRequestType), }, null));
@@ -45,6 +45,7 @@ namespace POGOProtos.Networking.Platform {
     [pbr::OriginalName("GET_STORE_ITEMS")] GetStoreItems = 5,
     [pbr::OriginalName("SEND_ENCRYPTED_SIGNATURE")] SendEncryptedSignature = 6,
     [pbr::OriginalName("UNKNOWN_PTR_8")] UnknownPtr8 = 8,
+    [pbr::OriginalName("JOIN_EVENT")] JoinEvent = 9,
   }
 
   #endregion

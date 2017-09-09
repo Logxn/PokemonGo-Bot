@@ -122,7 +122,8 @@ namespace PokemonGo.RocketAPI.Helpers
                 },
                 DeviceInfo = _DeviceInfo,// dInfo,
                 LocationFix = { locationFixes },
-                ActivityStatus = at
+                ActivityStatus = at,
+                Unknown27 = (int) GenRandom(1000,60000)
             };
             #endregion
 

@@ -23,7 +23,7 @@ namespace POGOProtos.Networking.Envelopes {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "Ci9QT0dPUHJvdG9zL05ldHdvcmtpbmcvRW52ZWxvcGVzL1NpZ25hdHVyZS5w",
-            "cm90bxIfUE9HT1Byb3Rvcy5OZXR3b3JraW5nLkVudmVsb3BlcyKXEgoJU2ln",
+            "cm90bxIfUE9HT1Byb3Rvcy5OZXR3b3JraW5nLkVudmVsb3BlcyKqEgoJU2ln",
             "bmF0dXJlEj8KBmZpZWxkMRgBIAMoCzIvLlBPR09Qcm90b3MuTmV0d29ya2lu",
             "Zy5FbnZlbG9wZXMuVW5rbm93bk1lc3NhZ2USHQoVdGltZXN0YW1wX3NpbmNl",
             "X3N0YXJ0GAIgASgEEg4KBmZpZWxkMxgDIAEoCRJMCgxsb2NhdGlvbl9maXgY",
@@ -43,44 +43,44 @@ namespace POGOProtos.Networking.Envelopes {
             "B2ZpZWxkMTgYEiABKAkSDwoHZmllbGQxORgTIAEoCBIWCg5sb2NhdGlvbl9o",
             "YXNoMhgUIAEoBRIPCgdmaWVsZDIxGBUgASgIEhQKDHNlc3Npb25faGFzaBgW",
             "IAEoDBIRCgl0aW1lc3RhbXAYFyABKAQSFAoMcmVxdWVzdF9oYXNoGBggAygE",
-            "EhEKCXVua25vd24yNRgZIAEoAxqIAgoLTG9jYXRpb25GaXgSEAoIcHJvdmlk",
-            "ZXIYASABKAkSGgoSdGltZXN0YW1wX3NuYXBzaG90GAIgASgEEhAKCGFsdGl0",
-            "dWRlGAQgASgCEhAKCGxhdGl0dWRlGA0gASgCEhEKCWxvbmdpdHVkZRgOIAEo",
-            "AhINCgVzcGVlZBgSIAEoAhIOCgZjb3Vyc2UYFCABKAISGwoTaG9yaXpvbnRh",
-            "bF9hY2N1cmFjeRgVIAEoAhIZChF2ZXJ0aWNhbF9hY2N1cmFjeRgWIAEoAhIX",
-            "Cg9wcm92aWRlcl9zdGF0dXMYGiABKAQSDQoFZmxvb3IYGyABKA0SFQoNbG9j",
-            "YXRpb25fdHlwZRgcIAEoBBqvAQoOQW5kcm9pZEdwc0luZm8SEwoLdGltZV90",
-            "b19maXgYASABKAQSFgoOc2F0ZWxsaXRlc19wcm4YAiADKAUSDwoHYXppbXV0",
-            "aBgDIAMoAhIRCgllbGV2YXRpb24YBCADKAISCwoDc25yGAUgAygCEhMKC2hh",
-            "c19hbG1hbmFjGAYgAygIEhUKDWhhc19lcGhlbWVyaXMYByADKAgSEwoLdXNl",
-            "ZF9pbl9maXgYCCADKAgazQMKClNlbnNvckluZm8SGgoSdGltZXN0YW1wX3Nu",
-            "YXBzaG90GAEgASgEEh0KFWxpbmVhcl9hY2NlbGVyYXRpb25feBgDIAEoARId",
-            "ChVsaW5lYXJfYWNjZWxlcmF0aW9uX3kYBCABKAESHQoVbGluZWFyX2FjY2Vs",
-            "ZXJhdGlvbl96GAUgASgBEhgKEG1hZ25ldGljX2ZpZWxkX3gYBiABKAESGAoQ",
-            "bWFnbmV0aWNfZmllbGRfeRgHIAEoARIYChBtYWduZXRpY19maWVsZF96GAgg",
-            "ASgBEh8KF21hZ25ldGljX2ZpZWxkX2FjY3VyYWN5GAkgASgFEhYKDmF0dGl0",
-            "dWRlX3BpdGNoGAogASgBEhQKDGF0dGl0dWRlX3lhdxgLIAEoARIVCg1hdHRp",
-            "dHVkZV9yb2xsGAwgASgBEhcKD3JvdGF0aW9uX3JhdGVfeBgNIAEoARIXCg9y",
-            "b3RhdGlvbl9yYXRlX3kYDiABKAESFwoPcm90YXRpb25fcmF0ZV96GA8gASgB",
-            "EhEKCWdyYXZpdHlfeBgQIAEoARIRCglncmF2aXR5X3kYESABKAESEQoJZ3Jh",
-            "dml0eV96GBIgASgBEg4KBnN0YXR1cxgTIAEoBRraAgoKRGV2aWNlSW5mbxIR",
-            "CglkZXZpY2VfaWQYASABKAkSGgoSYW5kcm9pZF9ib2FyZF9uYW1lGAIgASgJ",
-            "EhoKEmFuZHJvaWRfYm9vdGxvYWRlchgDIAEoCRIUCgxkZXZpY2VfYnJhbmQY",
-            "BCABKAkSFAoMZGV2aWNlX21vZGVsGAUgASgJEh8KF2RldmljZV9tb2RlbF9p",
-            "ZGVudGlmaWVyGAYgASgJEhkKEWRldmljZV9tb2RlbF9ib290GAcgASgJEh0K",
-            "FWhhcmR3YXJlX21hbnVmYWN0dXJlchgIIAEoCRIWCg5oYXJkd2FyZV9tb2Rl",
-            "bBgJIAEoCRIWCg5maXJtd2FyZV9icmFuZBgKIAEoCRIVCg1maXJtd2FyZV90",
-            "YWdzGAwgASgJEhUKDWZpcm13YXJlX3R5cGUYDSABKAkSHAoUZmlybXdhcmVf",
-            "ZmluZ2VycHJpbnQYDiABKAkauwEKDkFjdGl2aXR5U3RhdHVzEhUKDXN0YXJ0",
-            "X3RpbWVfbXMYASABKAQSFgoOdW5rbm93bl9zdGF0dXMYAiABKAgSDwoHd2Fs",
-            "a2luZxgDIAEoCBIPCgdydW5uaW5nGAQgASgIEhIKCnN0YXRpb25hcnkYBSAB",
-            "KAgSEgoKYXV0b21vdGl2ZRgGIAEoCBIPCgd0aWx0aW5nGAcgASgIEg8KB2N5",
-            "Y2xpbmcYCCABKAgSDgoGc3RhdHVzGAkgASgMIhAKDlVua25vd25NZXNzYWdl",
-            "YgZwcm90bzM="));
+            "EhEKCXVua25vd24yNRgZIAEoAxIRCgl1bmtub3duMjcYGyABKAUaiAIKC0xv",
+            "Y2F0aW9uRml4EhAKCHByb3ZpZGVyGAEgASgJEhoKEnRpbWVzdGFtcF9zbmFw",
+            "c2hvdBgCIAEoBBIQCghhbHRpdHVkZRgEIAEoAhIQCghsYXRpdHVkZRgNIAEo",
+            "AhIRCglsb25naXR1ZGUYDiABKAISDQoFc3BlZWQYEiABKAISDgoGY291cnNl",
+            "GBQgASgCEhsKE2hvcml6b250YWxfYWNjdXJhY3kYFSABKAISGQoRdmVydGlj",
+            "YWxfYWNjdXJhY3kYFiABKAISFwoPcHJvdmlkZXJfc3RhdHVzGBogASgEEg0K",
+            "BWZsb29yGBsgASgNEhUKDWxvY2F0aW9uX3R5cGUYHCABKAQarwEKDkFuZHJv",
+            "aWRHcHNJbmZvEhMKC3RpbWVfdG9fZml4GAEgASgEEhYKDnNhdGVsbGl0ZXNf",
+            "cHJuGAIgAygFEg8KB2F6aW11dGgYAyADKAISEQoJZWxldmF0aW9uGAQgAygC",
+            "EgsKA3NuchgFIAMoAhITCgtoYXNfYWxtYW5hYxgGIAMoCBIVCg1oYXNfZXBo",
+            "ZW1lcmlzGAcgAygIEhMKC3VzZWRfaW5fZml4GAggAygIGs0DCgpTZW5zb3JJ",
+            "bmZvEhoKEnRpbWVzdGFtcF9zbmFwc2hvdBgBIAEoBBIdChVsaW5lYXJfYWNj",
+            "ZWxlcmF0aW9uX3gYAyABKAESHQoVbGluZWFyX2FjY2VsZXJhdGlvbl95GAQg",
+            "ASgBEh0KFWxpbmVhcl9hY2NlbGVyYXRpb25fehgFIAEoARIYChBtYWduZXRp",
+            "Y19maWVsZF94GAYgASgBEhgKEG1hZ25ldGljX2ZpZWxkX3kYByABKAESGAoQ",
+            "bWFnbmV0aWNfZmllbGRfehgIIAEoARIfChdtYWduZXRpY19maWVsZF9hY2N1",
+            "cmFjeRgJIAEoBRIWCg5hdHRpdHVkZV9waXRjaBgKIAEoARIUCgxhdHRpdHVk",
+            "ZV95YXcYCyABKAESFQoNYXR0aXR1ZGVfcm9sbBgMIAEoARIXCg9yb3RhdGlv",
+            "bl9yYXRlX3gYDSABKAESFwoPcm90YXRpb25fcmF0ZV95GA4gASgBEhcKD3Jv",
+            "dGF0aW9uX3JhdGVfehgPIAEoARIRCglncmF2aXR5X3gYECABKAESEQoJZ3Jh",
+            "dml0eV95GBEgASgBEhEKCWdyYXZpdHlfehgSIAEoARIOCgZzdGF0dXMYEyAB",
+            "KAUa2gIKCkRldmljZUluZm8SEQoJZGV2aWNlX2lkGAEgASgJEhoKEmFuZHJv",
+            "aWRfYm9hcmRfbmFtZRgCIAEoCRIaChJhbmRyb2lkX2Jvb3Rsb2FkZXIYAyAB",
+            "KAkSFAoMZGV2aWNlX2JyYW5kGAQgASgJEhQKDGRldmljZV9tb2RlbBgFIAEo",
+            "CRIfChdkZXZpY2VfbW9kZWxfaWRlbnRpZmllchgGIAEoCRIZChFkZXZpY2Vf",
+            "bW9kZWxfYm9vdBgHIAEoCRIdChVoYXJkd2FyZV9tYW51ZmFjdHVyZXIYCCAB",
+            "KAkSFgoOaGFyZHdhcmVfbW9kZWwYCSABKAkSFgoOZmlybXdhcmVfYnJhbmQY",
+            "CiABKAkSFQoNZmlybXdhcmVfdGFncxgMIAEoCRIVCg1maXJtd2FyZV90eXBl",
+            "GA0gASgJEhwKFGZpcm13YXJlX2ZpbmdlcnByaW50GA4gASgJGrsBCg5BY3Rp",
+            "dml0eVN0YXR1cxIVCg1zdGFydF90aW1lX21zGAEgASgEEhYKDnVua25vd25f",
+            "c3RhdHVzGAIgASgIEg8KB3dhbGtpbmcYAyABKAgSDwoHcnVubmluZxgEIAEo",
+            "CBISCgpzdGF0aW9uYXJ5GAUgASgIEhIKCmF1dG9tb3RpdmUYBiABKAgSDwoH",
+            "dGlsdGluZxgHIAEoCBIPCgdjeWNsaW5nGAggASgIEg4KBnN0YXR1cxgJIAEo",
+            "DCIQCg5Vbmtub3duTWVzc2FnZWIGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::POGOProtos.Networking.Envelopes.Signature), global::POGOProtos.Networking.Envelopes.Signature.Parser, new[]{ "Field1", "TimestampSinceStart", "Field3", "LocationFix", "GpsInfo", "Field6", "SensorInfo", "DeviceInfo", "ActivityStatus", "LocationHash1", "Field11", "Field12", "Field13", "Field14", "Field15", "Field16", "Field17", "Field18", "Field19", "LocationHash2", "Field21", "SessionHash", "Timestamp", "RequestHash", "Unknown25" }, null, null, new pbr::GeneratedClrTypeInfo[] { new pbr::GeneratedClrTypeInfo(typeof(global::POGOProtos.Networking.Envelopes.Signature.Types.LocationFix), global::POGOProtos.Networking.Envelopes.Signature.Types.LocationFix.Parser, new[]{ "Provider", "TimestampSnapshot", "Altitude", "Latitude", "Longitude", "Speed", "Course", "HorizontalAccuracy", "VerticalAccuracy", "ProviderStatus", "Floor", "LocationType" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::POGOProtos.Networking.Envelopes.Signature), global::POGOProtos.Networking.Envelopes.Signature.Parser, new[]{ "Field1", "TimestampSinceStart", "Field3", "LocationFix", "GpsInfo", "Field6", "SensorInfo", "DeviceInfo", "ActivityStatus", "LocationHash1", "Field11", "Field12", "Field13", "Field14", "Field15", "Field16", "Field17", "Field18", "Field19", "LocationHash2", "Field21", "SessionHash", "Timestamp", "RequestHash", "Unknown25", "Unknown27" }, null, null, new pbr::GeneratedClrTypeInfo[] { new pbr::GeneratedClrTypeInfo(typeof(global::POGOProtos.Networking.Envelopes.Signature.Types.LocationFix), global::POGOProtos.Networking.Envelopes.Signature.Types.LocationFix.Parser, new[]{ "Provider", "TimestampSnapshot", "Altitude", "Latitude", "Longitude", "Speed", "Course", "HorizontalAccuracy", "VerticalAccuracy", "ProviderStatus", "Floor", "LocationType" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::POGOProtos.Networking.Envelopes.Signature.Types.AndroidGpsInfo), global::POGOProtos.Networking.Envelopes.Signature.Types.AndroidGpsInfo.Parser, new[]{ "TimeToFix", "SatellitesPrn", "Azimuth", "Elevation", "Snr", "HasAlmanac", "HasEphemeris", "UsedInFix" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::POGOProtos.Networking.Envelopes.Signature.Types.SensorInfo), global::POGOProtos.Networking.Envelopes.Signature.Types.SensorInfo.Parser, new[]{ "TimestampSnapshot", "LinearAccelerationX", "LinearAccelerationY", "LinearAccelerationZ", "MagneticFieldX", "MagneticFieldY", "MagneticFieldZ", "MagneticFieldAccuracy", "AttitudePitch", "AttitudeYaw", "AttitudeRoll", "RotationRateX", "RotationRateY", "RotationRateZ", "GravityX", "GravityY", "GravityZ", "Status" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::POGOProtos.Networking.Envelopes.Signature.Types.DeviceInfo), global::POGOProtos.Networking.Envelopes.Signature.Types.DeviceInfo.Parser, new[]{ "DeviceId", "AndroidBoardName", "AndroidBootloader", "DeviceBrand", "DeviceModel", "DeviceModelIdentifier", "DeviceModelBoot", "HardwareManufacturer", "HardwareModel", "FirmwareBrand", "FirmwareTags", "FirmwareType", "FirmwareFingerprint" }, null, null, null),
@@ -141,6 +141,7 @@ namespace POGOProtos.Networking.Envelopes {
       timestamp_ = other.timestamp_;
       requestHash_ = other.requestHash_.Clone();
       unknown25_ = other.unknown25_;
+      unknown27_ = other.unknown27_;
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -429,6 +430,17 @@ namespace POGOProtos.Networking.Envelopes {
       }
     }
 
+    /// <summary>Field number for the "unknown27" field.</summary>
+    public const int Unknown27FieldNumber = 27;
+    private int unknown27_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int Unknown27 {
+      get { return unknown27_; }
+      set {
+        unknown27_ = value;
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
       return Equals(other as Signature);
@@ -467,6 +479,7 @@ namespace POGOProtos.Networking.Envelopes {
       if (Timestamp != other.Timestamp) return false;
       if(!requestHash_.Equals(other.requestHash_)) return false;
       if (Unknown25 != other.Unknown25) return false;
+      if (Unknown27 != other.Unknown27) return false;
       return true;
     }
 
@@ -498,6 +511,7 @@ namespace POGOProtos.Networking.Envelopes {
       if (Timestamp != 0UL) hash ^= Timestamp.GetHashCode();
       hash ^= requestHash_.GetHashCode();
       if (Unknown25 != 0L) hash ^= Unknown25.GetHashCode();
+      if (Unknown27 != 0) hash ^= Unknown27.GetHashCode();
       return hash;
     }
 
@@ -590,6 +604,10 @@ namespace POGOProtos.Networking.Envelopes {
         output.WriteRawTag(200, 1);
         output.WriteInt64(Unknown25);
       }
+      if (Unknown27 != 0) {
+        output.WriteRawTag(216, 1);
+        output.WriteInt32(Unknown27);
+      }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -657,6 +675,9 @@ namespace POGOProtos.Networking.Envelopes {
       size += requestHash_.CalculateSize(_repeated_requestHash_codec);
       if (Unknown25 != 0L) {
         size += 2 + pb::CodedOutputStream.ComputeInt64Size(Unknown25);
+      }
+      if (Unknown27 != 0) {
+        size += 2 + pb::CodedOutputStream.ComputeInt32Size(Unknown27);
       }
       return size;
     }
@@ -734,6 +755,9 @@ namespace POGOProtos.Networking.Envelopes {
       requestHash_.Add(other.requestHash_);
       if (other.Unknown25 != 0L) {
         Unknown25 = other.Unknown25;
+      }
+      if (other.Unknown27 != 0) {
+        Unknown27 = other.Unknown27;
       }
     }
 
@@ -850,6 +874,10 @@ namespace POGOProtos.Networking.Envelopes {
           }
           case 200: {
             Unknown25 = input.ReadInt64();
+            break;
+          }
+          case 216: {
+            Unknown27 = input.ReadInt32();
             break;
           }
         }
